@@ -1,22 +1,22 @@
 # Track-B Literature Ledger V2 — primary-source depth pass (issue #377 GMI-D0)
 
-Coverage terminal (computed by `build_parent_ledger_v2.py`, never asserted): `PARENT_COVERAGE_PARTIAL__NO_FULL_TEXT_FOR_P2_P3_P5_P8`
+Coverage terminal (computed by `build_parent_ledger_v2.py`, never asserted): `PARENT_COVERAGE_PARTIAL__NO_FULL_TEXT_FOR_P2_P5`
 
-Depth histogram over entries (best source per entry): {"FULL_TEXT_READ": 26, "NOT_ACCESSIBLE": 1, "PARTIAL_TEXT_READ": 19}
+Depth histogram over entries (best source per entry): {"ABSTRACT_ONLY": 1, "FULL_TEXT_READ": 46, "NOT_ACCESSIBLE": 1, "PARTIAL_TEXT_READ": 44}
 
 Rule: `FULL_TEXT_READ` means the worker read the full text and every quote is verbatim from it; `PARTIAL_TEXT_READ` means sections were read; `ABSTRACT_ONLY`/`NOT_ACCESSIBLE`/`FROM_MEMORY_UNVERIFIED` entries carry no load-bearing claim in Track B until upgraded. V1 (Codex) abstract-depth records are preserved in `PARENT_LEDGER_V2.json:v1_records` and are not re-rendered here.
 
 | #377 family | entries | full-text entries |
 |---|---|---|
-| P0 | 8 | 7 |
+| P0 | 11 | 10 |
 | P1 | 9 | 3 |
 | P2 | 0 | 0 |
-| P3 | 0 | 0 |
-| P4 | 9 | 4 |
-| P5 | 0 | 0 |
-| P6 | 9 | 5 |
-| P7 | 11 | 7 |
-| P8 | 0 | 0 |
+| P3 | 1 | 1 |
+| P4 | 10 | 5 |
+| P5 | 2 | 0 |
+| P6 | 12 | 6 |
+| P7 | 21 | 13 |
+| P8 | 4 | 1 |
 
 
 ## P0 — universal computation / induction / search / limits
@@ -728,6 +728,57 @@ Load-bearing quotes (verbatim from sources actually read):
 Verification notes: Full text read. Orseau / Orseau-Lattimore-Hutter knowledge-seeking agents were not fetched; they are cited in Leike-Hutter §1 and §6.3 as exploration fixes and are listed under missing parents.
 
 
+## P3 — neural architecture / learning-algorithm discovery
+
+### P3.AUTOML_ZERO — AutoML-Zero: evolving whole ML algorithms (Setup/Predict/Learn programs) from 65 arithmetic-level ops
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] AutoML-Zero: Evolving Machine Learning Algorithms From Scratch — Esteban Real, Chen Liang, David R. So, Quoc V. Le (2020), ICML 2020, PMLR 119 (arXiv v2, 30 Jun 2020). https://arxiv.org/abs/2003.03384 arXiv:2003.03384 — `FULL_TEXT_READ`
+- [1] AutoML-Zero (PMLR abstract page) — Real, Liang, So, Le (2020), PMLR v119. https://proceedings.mlr.press/v119/real20a.html arXiv:2003.03384 — `NOT_ACCESSIBLE`
+- [2] Open-source code: google-research/automl_zero — Real et al. (2020), GitHub. https://github.com/google-research/google-research/tree/master/automl_zero — `NOT_ACCESSIBLE`
+
+**What it already explains.** Owns D2-level developmental acquisition of a supervised neural learner from a numeric instruction set: starting from EMPTY programs, regularized evolution over a memory of scalar/vector/matrix registers with 58 allowed arithmetic ops discovers (i) linear models, (ii) SGD-like error-times-input updates, (iii) learning-rate hacks, (iv) ReLU, (v) random weight init, (vi) gradient normalization, (vii) multiplicative (bilinear) interactions, (viii) weight accumulation/averaging, and, in a deliberately restricted op set with teacher-network tasks, the exact two-layer ReLU network with backprop-by-gradient-descent (Fig. 5). It also owns a weak task-conditioned adaptation signal: noisy-ReLU emerges under few examples (8/30 vs 0/30), learning-rate decay under short training (30/30 vs 3/30), weight-mean learning rate under 10-class tasks (24/30 vs 0/30). It owns the search-method engineering: regularized evolution (tournament T=10, P=100-1000, mutation prob U=0.9), functional equivalence checking by prediction fingerprints (4x speedup), hurdles (75th-percentile early stopping, 5x), random migration across W=100-10,000 CPU workers, and dataset diversity (50% MNIST workers).
+
+**Formal object.** An algorithm a in A is a triple of instruction sequences (Setup, Predict, Learn) over a zero-initialized, globally shared, persistent virtual memory with typed address spaces: scalars sX, vectors vX, matrices mX, all float and of the task feature dimension F (8 <= F <= 256 in proxy tasks). Evaluate(a, Dtrain, Dvalid): initialize_memory(); Setup(); for (x,y) in Dtrain: v0 = x; Predict(); s1 = Normalize(s1); s0 = y; Learn(); then for (x,y) in Dvalid: v0 = x; Predict(); s1 = Normalize(s1); accumulate Loss(y, s1); return mean loss. Quality of a = median over D tasks of the per-task accuracy (or RMS for regression). Each instruction = (op, input addresses, output address, optional constants). Op vocabulary (Table S1): OP0 no_op; OP1-OP6 scalar arithmetic (+,-,*,/,abs,1/x); OP7-OP12 trig (sin,cos,tan,arcsin,arccos,arctan); OP13-OP17 pre-calculus (exp, log, heaviside on scalar/vector/matrix); OP18-OP43 linear algebra (scalar*vector, bcast, elementwise 1/v, norm, abs, v+v, v-v, v*v, v/v, dot(v,v), outer(v,v), scalar*matrix, elementwise 1/M, dot(M,v), bcast to matrix axis 0/1, norm(M), row/col norms, transpose, abs(M), M+M, M-M, M*M elementwise, M/M elementwise, matmul); OP44-OP55 probability/statistics (min, max on s/v/M, mean(v), mean(M), row mean, row std, std(v), std(M)); OP56-OP64 constants and random init (set scalar/vector-entry/matrix-entry to constant, uniform(alpha,beta) and gaussian(mu,sigma) fills for s/v/M). 65 ops total (OP0..OP64). Search = regularized evolution: population P of programs (initially all empty), tournament of size T selects parent, child = copy + one mutation of type (i) insert/remove instruction (removal 2x as likely), (ii) randomize a whole component function, (iii) modify one argument (constants scaled by U[0.5,2], sign flipped w.p. 0.1); oldest program removed.
+
+**Strongest result.** Empirical (no theorems). (1) Difficulty scaling (Fig. 4): random-search density of acceptable algorithms is 1 in 10^7 for linear regression; evolution/RS success ratio grows 2.9x, 5.6x, 150x, 23000x as task difficulty grows 10^6, 10^7, 10^9, 10^12. (2) Fig. 5: with ops restricted to those of a 2-layer NN with GD (Setup {OP56,OP63,OP64}, Predict {OP27,OP31,OP48}, Learn {OP2,OP3,OP16,OP18,OP23,OP25,OP28,OP40}), fixed lengths 21/3/9, teacher tasks L(x)=u.ReLU(Mx), D=100 tasks, W=1k workers: evolution discovers forward pass + backprop-by-GD code (heaviside used as ReLU gradient, outer product as first-layer weight delta). (3) Sec. 4.2 (58 ops, empty start, W=10k CPU workers, 5 days): best evolved algorithm = noisy-input bilinear model o = a^T W b with a = x+u, b = x-u, u ~ U(alpha,beta), gradient g = delta a b^T normalized to unit norm, inference weights W' = sum_t W_t; CIFAR-10 binary test accuracy 84.06 +/- 0.10% vs logistic 77.65 +/- 0.22% vs 2-layer FC net 82.22 +/- 0.17%; transfers to SVHN 88.12/59.58/85.14, downsampled ImageNet 80.78/76.44/78.44, Fashion-MNIST 98.60/97.90/98.21; candidates beat the hand-designed 2-layer net on held-out class pairs in 13 of 20 experiments; ablations: noise -0.16%, bilinear -1.46%, normalized gradients -1.20%, weight averaging -4.11%. (4) Sec. 4.3 task-adaptation statistics as above. (5) Table S2-S5: each search upgrade (migration, FEC, 50% MNIST, hurdles) raises best accuracy 0.703->0.738 and NN-beating success fraction 0.00->0.53 at 1k processes; at 10 processes no run beats the plain NN.
+
+**Assumptions.** Supervised, online, one-example-at-a-time protocol is fixed by the evaluator: Predict sees x in v0, Learn sees label y in s0 and the sigmoid/softmax-normalized prediction in s1 (Normalize is hard-wired for classification).; Memory is a fixed bank of typed float registers (e.g. 8/14/3 scalar/vector/matrix addresses in Sec 4.2, 10/16/4 in 4.3) whose dimension equals the feature dimension F; no data-dependent addressing, no growth.; No control flow: no branching, loops, function calls, recursion; component functions are straight-line instruction lists with max lengths 21/21/45.; No derivative op; heaviside/min/max are the only discontinuous ops; no batch or higher-order tensors.; Tasks are random-projected (8<=F<=256) binary class pairs from CIFAR-10 (36 search pairs / 9 select pairs; 4500 proxy tasks) and MNIST; final evaluation at F=3072 requires manual hyperparameter decoupling and random-search tuning of constants.; Search is regularized evolution with tournament selection; RS baseline only in Sec 4.1; no crossover (preliminary crossover and geographic structure 'did not help').; Fitness = median accuracy across D tasks with early termination on NaN/Inf, error>100, or runtime > 4x a plain NN.
+
+**Resource model.** Accounts for: search compute in evaluations (throughput 2k-10k algorithms/s/core; W=10k commodity CPU cores x 5 days for Sec 4.2 ~ 5x10^4 CPU-days; W=1k for Fig. 5 and Sec 4.3; baselines run to 100B training steps per process ~12 h), population size, number of tasks per evaluation D, feature dimension F; program description length only via max instruction counts; per-algorithm runtime only as a 4x-of-NN termination threshold. NOT accounted: learning-update work vs prediction work separately, verification cost, memory beyond the fixed register bank, the human cost of hyperparameter decoupling and interpretation (Sec S7, S8).
+
+**Failure boundary.** Cannot produce non-numeric morphologies: no ops for symbol tables, data-dependent addressing, conditionals, loops or calls, so rules, DFAs, lookup/retrieval memories, and programs with control flow are inexpressible except by numeric emulation; batch methods and multi-layer nets beyond independently discovered layers are out of reach (Sec 5, authors' own statement). The reported phase-like adaptations (noisy ReLU, LR decay) are within-neural variants, not morphology changes, and were obtained by initializing the population with the Fig. 5 network. No prospective prediction: which motif emerges is observed post hoc via convergent evolution across 30 runs, not predicted. Discovery is search-method dependent (Table S5: 'Basic' vs 'Full' method changes NN-beating success 0.00 vs 0.11 at 100 processes). Hyperparameter coupling (learning rate computed as norm(v1)) breaks transfer and needs manual repair. No theory of why gradient-like updates dominate; no comparison against non-neural strong parents at matched compute.
+
+**Implementation.** https://github.com/google-research/google-research/tree/master/automl_zero (open source, C++; cited in paper)
+
+**Track-B residual.** Under the SAME instruction basis but with (a) the supervised Predict/Learn slot replaced by a neutral interaction protocol, (b) registers extended with discrete/addressable memory and control flow at charged cost, and (c) ecology coordinates (verification contract, data volume, noise, drift, task diversity) varied prospectively, does the winning program family leave the numeric-vector-update morphology, and is the transition predictable before search? AutoML-Zero answers only: within a vector/matrix register machine on projected image class pairs, evolution converges on bilinear/SGD-like learners.
+
+**Upward question.** The basis is not neutral: the memory types (vector, matrix), the ops (dot, outer, matmul, heaviside) and the Predict/Learn supervised slot pre-encode the neural morphology's data structures and its update-law shape, leaving only the wiring to be discovered. The upward question is therefore what a genuinely cross-paradigm basis is, i.e. one in which vectors/matrices, rules and addressable memories are all compiled at charged cost from the same primitives, and whether ecology coordinates then predict which is acquired.
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "We purposefully exclude machine learning concepts, matrix decompositions, and derivatives." — [0] Sec. 3.1 Search Space
+> "In particular, there are no derivatives so any gradient computation used for training must be evolved." — [0] Suppl. S2
+> "Unlike these three studies, we do not even assume the existence of a neural network or of gradients." — [0] Sec. 2 Related Work
+> "The virtual memory is zero-initialized and persistent, and shared globally throughout the whole evaluation." — [0] Sec. 3.1
+> "Suppl. Section S2 contains the full list of 65 ops." — [0] Sec. 3.1
+> "Teacher datasets and carefully chosen ops bias the results in favor of known algorithms, so in this section we replace them with more generic options." — [0] Sec. 4.2, first sentence
+> "In this figure, we only allow as ops those that appear in a two-layer neural network with gradient descent" — [0] Suppl. S5, 'Experiment in Section 4.1, Figure 5'
+> "Even in this trivial task type, we found only 1 acceptable algorithm every 10^7, so we define 10^7 to be the difficulty of the linear regression task." — [0] Sec. 4.1
+> "Number of possible ops: 7/ 58/ 58 for Setup/ Predict/ Learn, resp." — [0] Sec. 4.2 Experiment Details
+> "We find that the noisy ReLU is reproducible and arises preferentially in the case of little data (expt: 8/30, control: 0/30, p < 0.0005)." — [0] Sec. 4.3
+> "to keep our search space simple, we process one example at a time, so discovering techniques that work on batches of examples (like batch-norm) would require adding loops or higher-order tensors." — [0] Sec. 5 Conclusion and Discussion
+> "in the current search space, a multi-layer neural network can only be found by discovering each layer independently; the addition of loops or function calls could make it easier to unlock such deeper structures." — [0] Sec. 5
+> "even though they produce the same accuracy now, they may behave differently upon further mutation." — [0] Suppl. S3 Functional Equivalence Checking
+> "W =10k processes (commodity CPU cores). We initialize the population with empty programs." — [0] Suppl. S5, Experiments in Section 4.2
+> "Run time: 5 days." — [0] Sec. 3.2 Details paragraph
+
+Verification notes: Full text read, including the op table. Two internal inconsistencies noticed: (a) Sec. 4.2 says 7 Setup ops but S5 lists 9 Setup ops {OP56..OP64}; (b) S9/S10 refer to 'OP65' and to Predict ops {OP28,OP32,OP49} although Table S1 stops at OP64 and the dot/matvec/max ops are OP27/OP31/OP48 in the table (an apparent 1-indexed vs 0-indexed op numbering shift in the supplement). Codex ledger entry P-AUTOML-ZERO verified only the PMLR abstract; this entry supplies the search-space facts. Compute (~5x10^4 CPU-days for Sec 4.2) is inferred from W=10k and 'Run time: 5 days'; the paper does not state a CPU-day total.
+
+
 ## P4 — meta-learning / learned learning rules / continual learning
 
 ### P4.BAXTER — Baxter 2000 'A model of inductive bias learning' (JAIR 12)
@@ -853,6 +904,56 @@ Load-bearing quotes (verbatim from sources actually read):
 > "A current limitation is the applicability of the discovered learning algorithms to arbitrary input and output sizes beyond random projections." — [1] Kirsch et al. 2022 (GPICL), Section 6
 
 Verification notes: Both papers read in full. Numbers quoted (2^13 tasks, ~6000-task transition, \|V_M\| ~ 2,400, O(W N^2), Table 2 accuracies) are verified against the text. No prior reconstruction in the repo ledgers listed in the brief; the substrate-theory THEORY_MAP mentions 'amortisation crossing' (M1C #360/#361) which is conceptually adjacent to the memorize->learn transition but does not cite Kirsch et al.
+
+### P4.EMERGENT_LEARNING_ALGORITHMS — Meta-learned substrates that host a learning algorithm in their forward dynamics: VSML (Kirsch & Schmidhuber) and GPICL (Kirsch, Harrison, Sohl-Dickstein, Metz)
+
+Disposition: `ADAPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Meta Learning Backpropagation And Improving It — Louis Kirsch, Jürgen Schmidhuber (2021), NeurIPS 2021 (arXiv 2012.14905v4, 13 Mar 2022). https://arxiv.org/abs/2012.14905 arXiv:2012.14905 — `FULL_TEXT_READ`
+- [1] General-Purpose In-Context Learning by Meta-Learning Transformers — Louis Kirsch, James Harrison, Jascha Sohl-Dickstein, Luke Metz (2022), arXiv 2212.04458v2 (9 Jan 2024). https://arxiv.org/abs/2212.04458 arXiv:2212.04458 — `FULL_TEXT_READ`
+- [2] VSML source code — Louis Kirsch (2021), author site. http://louiskirsch.com/code/vsml — `NOT_ACCESSIBLE`
+
+**What it already explains.** VSML: replacing every weight of a feed-forward net by a tiny LSTM with SHARED parameters V_M (~2,400) and DISTINCT states V_L (~257,200) yields a substrate whose forward recurrence can (i) be cloned to implement backprop exactly ('learning algorithm cloning': regress y-hat, delta-w, delta-b, e-hat toward a shadow network's targets; 87-90% MNIST, 76-80% Fashion-MNIST test accuracy learning purely by unrolling), and (ii) be meta-trained from scratch with evolution strategies to a learning algorithm that uses no gradient at meta-test time, learns faster than online SGD/Adam on the first ~2k examples, and transfers MNIST -> Fashion-MNIST, EMNIST, KMNIST, random data and 'sum sign' (no shared structure), where Meta-RNN, Hebbian fast weights and external fast-weight memory overfit. Introspection (Fig. 9, 17) shows the meta-learned law is fast one-shot association, qualitatively unlike SGD, with a 'short horizon bias' (SGD overtakes after ~12k examples). GPICL: a vanilla Transformer (4 layers, model size 256, 8 heads, kv=32) meta-trained by backprop+Adam on Eq. 2 (sum of query losses over all dataset prefixes) across K tasks generated by random input projections A~N(0,1/Nx) and label permutations of MNIST/Fashion-MNIST/KMNIST/CIFAR10 exhibits THREE regimes as K grows: task memorization (no within-sequence improvement), task identification (improvement only on seen tasks), general learning-to-learn (improvement on unseen tasks and unseen base datasets); the last transition needs >= 2^13 = 8192 tasks and is bimodal (~6000 tasks: runs settle in either a memorization or a generalization cluster). A second axis: model size (2..512); a third: accessible STATE size (2^5..2^14) predicts learning-to-learn across LSTM / Transformer / outer-product LSTM / VSML-without-symmetries better than parameter count. A fourth: meta-optimization (task batch size 8..4096) with a phase diagram plateau / overfit / generalize; plateau length falls as a power law in batch size and rises with number of tasks; biasing the label-permutation distribution (curriculum) removes the plateau; Adam epsilon or sign-normalized updates halve it.
+
+**Formal object.** VSML: RNN state s in R^{A x B x N}; per sub-RNN update s_{ab} <- f_RNN(s_{ab}, m->_a, m<-_b) with forward message m->^{(k+1)}_b = sum_{a'} f_{m->}(s^{(k)}_{a'b}) and backward message m<-^{(k-1)}_a = sum_{b'} f_{m<-}(s^{(k)}_{ab'}) (Eq. 3, 7); f_RNN is an LSTM (N=16 for meta-learning from scratch, 64 for cloning; message sizes N'=N''=8); Theorem 1 (Appendix A): the message-passing system equals one standard RNN with a sparse shared weight tensor W~_{cdiabj} = (d==a) C_ij + (d==b)(c==a) W_ij. Meta-training (Alg. 1): V_M <- V_M - alpha grad_{V_M} sum_{t=1..T} L(y-hat(t), y(t)), gradient by BPTT or ES (population 1024, noise sigma 0.05, Adam lr 0.025, 10k outer steps, 500 online examples per trajectory, 128 GPUs). Meta-testing (Alg. 2) = unrolling only; error e = grad_{y-hat} L(y-hat,y) is fed as m<-^{(K)}_{b1} = e_b. GPICL: f_theta: (D_{1:j-1}, x_j) -> y'_j, vanilla Transformer with learned positional embeddings; task D^{(k)} = {A^{(k)} x-bar_i, rho^{(k)}(y-bar_i)}, p(D) = Uniform over K such tasks; meta-objective J(theta) = E_{D~p(D)} sum_{j=1}^{N_D} l(f_theta(D_{1:j-1}, x_j), y_j) with cross-entropy l, N_D = 100 (sequence length); classification of the learned algorithm by two binary axes (Table 1): learns? (within-sequence improvement) x generalizes? (unseen tasks). State size N_S in O(N_K N_L N_T) for Transformers vs O(N_H) for RNNs.
+
+**Strongest result.** VSML: only Theorem 1 (sparse-shared-RNN equivalence, an algebraic identity). Empirical: Fig. 6/8 VSML beats Meta-RNN, HebbianFW, FWMemory on all unseen datasets and matches or beats SGD/Adam over the first 2k examples; Fig. 7 invariance to unseen class counts (5, 10), input sizes (21x21, 48x48), random projection and shuffling. GPICL: Table 2 (99 examples, predict 100th, meta-trained on augmented MNIST): SGD 70.31% MNIST / 50.78% Fashion / 37.89% KMNIST / 14.84% CIFAR10; MAML 53.71/48.44/36.33/17.38; VSML 79.04/68.49/54.69/24.09; LSTM 25.39/28.12/18.10/12.11; GPICL 73.70/62.24/53.39/19.40. Fig. 4 three phases vs number of tasks; Fig. 2b/c transition in (model size, number of tasks) plane; Fig. 5 state size predicts unseen-MNIST accuracy across four architectures; Fig. 7 phase diagram in (task batch size, number of tasks); Fig. 10 bimodal final training loss at the transition; Fig. 6 meta-loss plateau ~35k of 50k steps with rising generalization loss on the plateau.
+
+**Assumptions.** Single substrate family per paper (LSTM sub-RNNs with parameter sharing; vanilla Transformer / LSTM variants); the hypothesis space is fixed neural weights, so every 'discovered learning algorithm' is a point in weight space of a fixed architecture.; Outer loop is gradient-based (backprop through the inner loop, or ES-estimated gradient with Adam) on a supervised loss; the learning signal at meta-test time is a label or an output-error vector injected as input.; Task diversity is manufactured by random linear projections and label permutations of a small set of image datasets; 'unseen dataset' generalization is measured within this augmentation family (VSML additionally trains across class counts and resolutions).; Sequence length / lifetime is short (VSML 500 online examples during meta-training, 12k at most in tests; GPICL 100 examples), so the emergent law is a short-horizon law.; Inputs/outputs fixed-size (GPICL) or handled by permutation-invariant message passing (VSML); classification only.; The 'algorithm' is identified behaviorally (learning curves, introspection of output probabilities), not extracted mechanistically.
+
+**Resource model.** VSML: meta-variables \|V_M\| ~ 2,400 vs learned variables \|V_L\| ~ 257,200; inner cost O(W N^2) for W weights and state size N; meta-training 128 GPUs x 10k ES steps x population 1024 (no GPU-hours stated); sample efficiency measured as cumulative online accuracy over first 100/2k examples. GPICL: state size N_S, parameter count, number of tasks K (2^0..2^25), task batch size (2^3..2^12), meta-training steps (50k; plateau ~35k), sequence length (50..400); hardware 'single GPU, some require 16 GPUs (16 GB each)', up to 1000 runs per heat-map. Neither paper charges meta-training cost against the sample efficiency gained at meta-test; neither reports verification or memory costs beyond state size.
+
+**Failure boundary.** Cannot produce non-neural morphologies: the substrate is a fixed differentiable network; only the learning LAW (weights encoding in-context dynamics) is discovered, never a data structure or update-law family outside recurrent activations. The phase axes are task diversity, model/state size and meta-optimizer batch size; nothing about verification contract, drift, resource prices or feedback type. No prospective prediction of where the transition sits for a new task family (the 8192-task threshold is empirical, dataset-specific: 'significantly smoother' on FashionMNIST). Discovered laws have a short-horizon bias, premature convergence, and VSML deeper stacks are hard to meta-optimize (loss plateaus, Fig. 23). VSML cost O(W N^2) exceeds backprop. GPICL transformer cost quadratic in sequence length; no path to millions of examples. The gradient outer loop is itself a hidden neural/backprop macro at the meta level.
+
+**Implementation.** http://louiskirsch.com/code/vsml (VSML, cited in paper); GPICL: none stated in the paper
+
+**Track-B residual.** Is there a cross-paradigm phase law: the SAME (task diversity, state size, feedback precision, verification strength) coordinates predicting, before meta-training/search, whether the acquired learner is a gradient-like, associative-memory-like, rule-like, or program-like law, in substrates that can host all of them at charged cost? Kirsch et al. supply one substrate, one outer loop (gradient), behavioral identification only, and an unpriced meta-training bill; they show a within-neural memorize -> identify -> learn transition, not a morphology transition.
+
+**Upward question.** Kirsch et al. show the learning law is a phase of the (task-diversity, state, optimizer) ecology inside one substrate. The upward question is whether the substrate morphology itself (weights-in-activations vs explicit memory table vs symbolic rule store) is a phase of a richer ecology, with meta-training cost charged and both substrate families compiled from one basis.
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "It can even meta learn new LAs that differ from online backpropagation and generalize to datasets outside of the meta training distribution without explicit gradient calculation." — [0] VSML abstract
+> "Introspection reveals that our meta learned LAs learn through fast association in a way that is qualitatively different from gradient descent." — [0] VSML abstract
+> "Such generalization is enabled by extensive variable sharing where we have very few meta variables \|V_M\| ≈ 2, 400 and many learned variables \|V_L\| ≈ 257, 200." — [0] VSML Sec. 4
+> "Meta training is done across 128 GPUs using ES as proposed by OpenAI [38] for a total of 10k steps. We use a population size of 1024" — [0] VSML Appendix C.2
+> "If we run a sub-RNN for each weight in a standard NN with W weights, the cost is in O(W N^2), where N is the state size of a sub-RNN." — [0] VSML Sec. 7
+> "We call this phenomenon the short horizon bias, where meta test training is fast in the beginning but flattens out at some horizon." — [0] VSML Appendix B.2
+> "In VSML we demonstrate that a symbolic programming language is not required and general-purpose LAs can be discovered and encoded in variable-shared RNNs." — [0] VSML Sec. 6 Discrete program search
+> "We characterize transitions between algorithms that generalize, algorithms that memorize, and algorithms that fail to meta-train at all, induced by changes in model size, number of tasks, and meta-optimization." — [1] GPICL abstract
+> "To transition to the learning-to-learn regime, we needed at least 2^13 = 8192 tasks." — [1] GPICL Insight 1
+> "When increasing the number of tasks, the meta-learned behavior transitions from task memorization, to task identification, to general learning-to-learn." — [1] GPICL Insight 3
+> "the capabilities of meta-trained algorithms are bottlenecked by the accessible state size (memory) determining the next prediction, unlike standard models which are thought to be bottlenecked by parameter count." — [1] GPICL abstract
+> "Generalization only occurs with large enough batch sizes and sufficient, but not too many, tasks." — [1] GPICL Fig. 7 caption
+> "At a certain number of tasks (here 6000), a transition point is reached where optimization sometimes discovers a lower training loss that corresponds to a generalizing learning to learn solution." — [1] GPICL Appendix A.3
+> "During meta-training, we take gradient steps in J(θ) by backpropagation and Adam (Kingma & Ba, 2014)." — [1] GPICL Sec. 3.2
+> "As an in-context learner, meta-testing does not involve any gradient updates but only running the model in forward mode." — [1] GPICL Sec. 4
+> "Most experiments can be run on a single GPU, some require 16 GPUs due to sequence length and large batch sizes, with sufficient GPU memory (around 16 GB each)." — [1] GPICL Appendix A.5
+> "Because VSML has permutation invariance and parameter sharing built into the architecture as an inductive bias, changing the number of tasks has only a small effect." — [1] GPICL Appendix A.6
+
+Verification notes: Both arXiv full texts read. Codex PARENT_EXPANSION_V3 covers RL^2 / Wang et al. / PEARL at abstract depth and LITERATURE_LEDGER covers MAML / learned optimizers; neither covers Kirsch et al. The sibling scratchpad family P4.json (Meta-learning) also has an entry id P4.EMERGENT_LEARNING_ALGORITHMS; this entry is the full-depth phase-axis reconstruction requested by the brief and should be merged by the parent agent (same parent_id).
 
 ### P4.HISTORICAL_LEARNING_TO_LEARN — Historical learning-to-learn: Bengio, Bengio, Cloutier 1991; Schmidhuber 1987/1992/1993 self-referential and fast-weight nets; Thrun & Pratt 1998
 
@@ -1094,6 +1195,99 @@ Load-bearing quotes (verbatim from sources actually read):
 Verification notes: Duan read in full; Wang read except the Harlow and navigation experiments (Sections 3.2.2-3.2.3). Table 1/2/3 numbers verified. No prior reconstruction in the repo ledgers listed in the brief.
 
 
+## P5 — programmatic / library-learning intelligence
+
+### P5.DREAMCODER_OBJECTIVE — DreamCoder (Ellis et al. 2021): wake / abstraction / dreaming as coordinate ascent on a description-length posterior over a library, with a neural recognition model
+
+Disposition: `ADAPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] DreamCoder: Growing generalizable, interpretable knowledge with wake-sleep Bayesian program learning — Kevin Ellis, Catherine Wong, Maxwell Nye, Mathias Sable-Meyer, Luc Cary, Lucas Morales, Luke Hewitt, Armando Solar-Lezama, Joshua B. Tenenbaum (2021), PLDI 2021 (as 'DreamCoder: Bootstrapping inductive program synthesis with wake-sleep library learning'); arXiv:2006.08381v1. https://arxiv.org/abs/2006.08381 arXiv:2006.08381 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Three-part object: (1) a library L of polymorphically typed lambda-calculus primitives, (2) a set of programs rho_x solving tasks x in X, (3) a neural recognition model Q(rho \| x). Objective (Eq. 1): Wake finds rho_x = argmax over programs with large Q(rho\|x) of P[rho \| x, L] proportional to P[x \| rho] P[rho \| L]; Abstraction sleep sets L = argmax_L P[L] prod_x max over refactorings rho of rho_x of P[x\|rho]P[rho\|L], with P[L] a description-length prior; Dreaming sleep trains Q(rho\|x) ~ P[rho\|x, L] on replays (x ~ X) and fantasies (x ~ L). The three updates maximise a lower bound on the posterior over L given X. Neural vs symbolic roles: the symbolic part is the library + programs (interpretable, transferable), the neural part is the amortised proposal that reduces search entropy; domain knowledge enters through the recognition architecture (CNN for images). Ablations: removing the recognition model or removing abstraction both degrade held-out solve rate; deeper libraries correlate with solving more tasks (r = 0.79). Compute: about a day on 20-100 CPUs per domain; baselines include 24h enumeration over ~400M programs, EC, RobustFill, memorisation.
+
+**Formal object.** L: typed lambda-calculus library with description-length prior P[L]; rho: programs; P[rho \| L]: PCFG-style generative model over programs given L; P[x \| rho]: task likelihood (exact match for list/text tasks, BIC-penalised least squares for symbolic regression with real parameters fit by inner-loop gradient descent); Q(rho \| x): neural recognition model (domain-specific encoder + bigram-over-primitives decoder); refactoring set bounded by a version-space algebra with a bound on lambda-calculus evaluation steps (bound 3, beam k = 5 in ablations). Eq. 1 is coordinate ascent on log P[L] + sum_x log max_rho P[x\|rho]P[rho\|L].
+
+**Strongest result.** No theorem. The structural result is Eq. 1 as a lower bound on the library posterior, plus the empirical claims: DreamCoder 'always solves the most held-out tasks' across domains (mean 54.1s, median 15.0s per solve), 'no alternative model ever solves more than 60% of held-out tasks while DreamCoder learns to solve nearly 100%', and the footnote analysis that library learning decreases search depth at the expense of breadth while the recognition model decreases breadth by cutting per-decision entropy.
+
+**Assumptions.** tasks are given as input-output examples (5-10 examples per task; 100-200 tasks per domain) - supervised at the task level; a fixed base DSL and a fixed type system; programs are typed lambda terms; description-length prior over libraries is the selection principle; the exact prior form is in supplement S4.5 (not read); recognition model architecture is hand-chosen per domain; refactoring search is bounded (version spaces, evaluation-step bound), so abstraction is approximate; compute budget of CPU-days is available; search timeouts define failure
+
+**Resource model.** partial and explicit: (i) description length through P[L] and the BIC penalty in symbolic regression, (ii) compute through per-task timeouts and reported CPU-days, (iii) samples through task/example counts, (iv) search entropy (bits per decision) as the quantity the recognition model reduces. Not charged: the recognition model's own size, the cost of dreaming, or verification of programs beyond examples.
+
+**Failure boundary.** Fails when tasks require primitives absent from the closure of the base DSL under refactoring, when likelihoods are not example-checkable, and when the refactoring bound excludes the useful abstraction. Morphology is pre-fixed: the neural part can only be a proposal over the symbolic grammar; it never becomes the solution, and the symbolic part never becomes a proposal. No online/continual learning law; no cost-driven decision about whether to grow the library or the network.
+
+**Implementation.** open-source (OCaml enumerator + Python/PyTorch recognition model; repository ellisk42/ec, not read); experiments on list processing, text editing, LOGO graphics, towers, symbolic regression, recursive programming, physics laws.
+
+**Track-B residual.** DreamCoder is the closest existing instance of a description-length-priced acquisition of program morphology, but (i) it is supervised at the task level (labels = examples), (ii) the neural/symbolic partition is fixed a priori, (iii) the description-length prior is over the symbolic library only. Track B residual: an ecology-driven, label-free version in which the recognition model, the library and the choice of law are all candidates under one cost functor.
+
+**Upward question.** Can Eq. 1 be extended so that the recognition model's description length and the library's description length are priced in the same units, making 'grow the network' versus 'grow the library' a derived decision under the ecology's task distribution rather than a fixed architectural commitment?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "rho_x = arg max_{rho: Q(rho\|x) is large} P[rho\|x, L] proportional to P[x\|rho]P[rho\|L], for each task x in X   Wake" — [0] Ellis et al. 2021, Eq. 1 (Wake line)
+> "L = arg max_L P[L] prod_{x in X} max_{rho a refactoring of rho_x} P[x\|rho]P[rho\|L]   Sleep: Abstraction" — [0] Ellis et al. 2021, Eq. 1 (Abstraction line)
+> "Train Q(rho\|x) approx P[rho\|x, L], where x ~ X ('replay') or x ~ L ('fantasy')   Sleep: Dreaming" — [0] Ellis et al. 2021, Eq. 1 (Dreaming line)
+> "where P[L] is a description-length prior over libraries (S4.5) and P[x\|rho] is the likelihood of a task x in X given program rho." — [0] Ellis et al. 2021, Section 3
+> "these updates serve to maximize a lower bound on the posterior over L given X (S4.1)." — [0] Ellis et al. 2021, Section 3
+> "We represent programs as polymorphically typed lambda-calculus expressions, an expressive formalism including conditionals, variables, higher-order functions, and the ability to define new functions." — [0] Ellis et al. 2021, Section 3
+> "We implement recognition models as neural networks, injecting domain knowledge through the network architecture: for instance, when inducing graphics programs from images, we use a convolutional network" — [0] Ellis et al. 2021, Section 3
+> "Across domains, our model always solves the most held-out tasks (Fig. 6A; see Fig. S13 for memorization baselines) and generally solves them in the least time (mean 54.1s; median 15.0s; Fig. S11)." — [0] Ellis et al. 2021, Section 4 (ablations)
+> "no alternative model ever solves more than 60% of held-out tasks while DreamCoder learns to solve nearly 100% of them." — [0] Ellis et al. 2021, Section 4
+> "Across domains, deeper libraries correlate well with solving more tasks (r = 0.79), and the presence of a learned recognition model leads to better performance at all depths." — [0] Ellis et al. 2021, Section 4
+> "typically takes around a day using moderate compute resources (20-100 CPUs)." — [0] Ellis et al. 2021, Section 4
+> "Library learning decreases depth at the expense of breadth, while training a neural recognition model effectively decreases breadth by decreasing the number of bits of entropy consumed by each decision (function call) made when constructing a program solving a task." — [0] Ellis et al. 2021, footnote (Section 4)
+> "we bound the number of lambda-calculus evaluation steps separating a program from its refactoring" — [0] Ellis et al. 2021, Section 3 (abstraction)
+> "we initialize DreamCoder with addition, multiplication, division, and, critically, arbitrary real-valued parameters, which we optimize over via inner-loop gradient descent." — [0] Ellis et al. 2021, symbolic regression domain
+
+Verification notes: Partial read via alphaXiv page extraction (pages 1, 3-8, 10, 13, 17). Equation 1 transcribed with rho/lambda/approx/proportional spelled out. Supplement sections (S4.1, S4.5) are cited by the paper but were not read; the exact form of P[L] is therefore not verified. Codex has no DreamCoder entry at this depth.
+
+### P5.NEUROSYMBOLIC_SAME_SEARCH — Neurosymbolic program search with neural relaxations as heuristics (NEAR, Shah et al. 2020) and typed neural-functional program synthesis (HOUDINI, Valkov et al. 2018): does one search choose neural on one task and symbolic on another?
+
+Disposition: `OPEN` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Learning Differentiable Programs with Admissible Neural Heuristics — Ameesh Shah, Eric Zhan, Jennifer J. Sun, Abhinav Verma, Yisong Yue, Swarat Chaudhuri (2020), NeurIPS 2020; arXiv:2007.12101v5. https://arxiv.org/abs/2007.12101 arXiv:2007.12101 — `PARTIAL_TEXT_READ`
+- [1] HOUDINI: Lifelong Learning as Program Synthesis — Lazar Valkov, Dipak Chaudhari, Akash Srivastava, Charles Sutton, Swarat Chaudhuri (2018), NeurIPS 2018; arXiv:1804.00218v2. https://arxiv.org/abs/1804.00218 arXiv:1804.00218 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** NEAR: programs are derived from a DSL grammar (map, fold, mapprefix, if-then-else, selectors sel_S, affine/parameterised leaves plus_theta); synthesis minimises structural cost s(alpha) plus trained loss zeta(alpha, theta) (eq. 1) by informed search (A*, IDS-BB) over partial programs; the heuristic for a partial program is obtained by filling holes with neural networks ('continuous relaxations over the space of programs'), which is epsilon-admissible (eq. 6) because a neural completion lower-bounds the best symbolic completion. The learned library 'only contains affine transformations' (motivated by interpretability). Results: symbolic programs reach 0.87 vs 0.89 (RNN) and 0.905 vs 0.945 on the extracted figures, and 0.22 vs 0.48 (lambda = 8) or 0.46 vs 0.48 (lambda = 1) F1 on the harder task - the structural-cost weight lambda controls how much accuracy is traded for a shorter program. HOUDINI: neural networks are 'strongly typed, differentiable functional programs' e ::= plus_w : tau_0 \| e_0 o e_1 \| map e \| fold e \| conv e; a symbolic synthesizer enumerates typed programs (types prune 8182 to 2 candidates at size 4 in Table 1) and a gradient learner trains each; lifelong transfer by reusing trained neural library functions with 'fresh networks' always available; discovers a Bellman-Ford-shaped program with a neural relaxation step; evolutionary baseline has high variance and often times out. ANSWER TO THE FAMILY QUESTION: NO. In both systems the neural components are leaves (typed neural library functions in HOUDINI; affine or relaxation fillers in NEAR) and the symbolic components are combinators fixed by the grammar; the search never decides 'this task is best solved by an unstructured network and that one by a symbolic program' - the morphology partition is pre-chosen by the DSL, and NEAR's lambda is a hand-set price on symbolic structure.
+
+**Formal object.** NEAR: DSL grammar G over typed programs alpha with holes; parameters theta; objective (alpha*, theta*) = argmin_{(alpha,theta)} s(alpha) + zeta(alpha, theta) (eq. 1) with s a structural cost (weighted by lambda) and zeta the training loss; heuristic h(alpha) = loss of the relaxed program obtained by replacing holes with neural networks; epsilon-admissibility h(alpha) <= (cost-to-go) + epsilon (eq. 6). HOUDINI: typed lambda-calculus of neural functions with combinators map_alpha, fold_alpha, conv_alpha and composition; synthesizer = typed enumeration / evolutionary search over program sketches; learner = gradient descent on the differentiable program; library = previously trained functions plus fresh networks.
+
+**Strongest result.** NEAR: epsilon-admissibility of the neural heuristic (eq. 6; Theorem in Section 4, as extracted) guaranteeing near-optimal programs under A*/IDS-BB. HOUDINI: no theorem; the result is empirical transfer across task sequences plus type-driven pruning (Table 1). Neither paper contains a result in which the same search discovers a neural morphology for one task and a symbolic morphology for another.
+
+**Assumptions.** a hand-written DSL/grammar fixes which components can be neural (leaves) and which are symbolic (combinators); supervised task losses with labelled data (classification/regression of trajectories, counting, shortest paths); NEAR: neural relaxation loss lower-bounds symbolic completion loss (epsilon-admissibility) - assumes networks are at least as expressive as the DSL fragment they replace; NEAR: interpretability motivates an affine-only library; structural cost weight lambda is user-chosen; HOUDINI: type system is expressive enough to prune and the library is reused via transfer; fresh networks always allowed
+
+**Resource model.** partial: NEAR prices program structure explicitly (s(alpha), weight lambda) and trades it against loss; search cost is reported (nodes expanded, time) but not derived. HOUDINI prices nothing beyond program size (enumeration by size) and reports type-pruning counts. Neither prices the neural leaves' parameters or the total compute against the ecology.
+
+**Failure boundary.** NEAR's programs lose accuracy to RNN baselines on the harder tasks (0.22 or 0.46 vs 0.48 F1) precisely because the symbolic space is restricted; HOUDINI's evolutionary search 'times out' in many runs; both fail on tasks outside the DSL's closure. Fundamental boundary for Track B: the morphology partition is not searched.
+
+**Implementation.** NEAR: open-source (PyTorch; repository trishullab/near, not read). HOUDINI: open-source (PyTorch; repository capergroup/houdini, not read).
+
+**Track-B residual.** The residual is the entire morphology-unlabelled search: a single search over a space in which 'neural', 'symbolic', and hybrid are outcomes rather than grammar roles, with the choice derived from the ecology and a cost functor. No parent in this family supplies it. NEAR shows the shape of a partial answer (a price lambda on symbolic structure) but within a pre-fixed symbolic space.
+
+**Upward question.** Is there a formal space (e.g., Para(Optic) with a cost functor) in which a symbolic combinator and a neural block are both morphisms of the same type and the search's choice between them is forced by ecology statistics and cost, so that 'neural on task A, symbolic on task B' is a theorem-level prediction rather than a grammar decision?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Our key innovation is to view various classes of neural networks as continuous relaxations over the space of programs, which can then be used to complete any partial program." — [0] Shah et al. 2020, Section 1
+> "Because we are motivated by interpretability, the library used in our current implementation only contains affine transformations." — [0] Shah et al. 2020, Section 3
+> "(alpha*, theta*) = arg min_{(alpha,theta)} (s(alpha) + zeta(alpha, theta))." — [0] Shah et al. 2020, Eq. 1
+> "This program achieves an accuracy of 0.87 (vs. 0.89 for RNN baseline)" — [0] Shah et al. 2020, Appendix Figure 2 caption
+> "On a set of learned parameters (not shown), this program achieves an accuracy of 0.905 (vs. 0.945 for an RNN baseline)." — [0] Shah et al. 2020, Appendix Figure 3 caption
+> "The program achieves F1 score of 0.22 (vs. 0.48 for RNN baseline). This program is synthesized using lambda = 8." — [0] Shah et al. 2020, Appendix Figure 7 caption
+> "The program achieves F1 score of 0.46 (vs. 0.48 for RNN baseline). This program is synthesized using lambda = 1." — [0] Shah et al. 2020, Appendix Figure 8 caption
+> "represents neural networks as strongly typed, differentiable functional programs that use symbolic higher-order combinators to compose a library of neural functions." — [1] Valkov et al. 2018, Abstract
+> "HOUDINI discovers an algorithm that has the structure of the Bellman-Ford shortest path algorithm [7], but uses a learned neural function that approximates the algorithm's 'relaxation' step." — [1] Valkov et al. 2018, Section 1
+> "e ::= plus_w : tau_0 \| e_0 o e_1 \| map_alpha e \| fold_alpha e \| conv_alpha e." — [1] Valkov et al. 2018, Section 3 (grammar)
+> "Importantly, it is always possible for the synthesizer to introduce 'fresh networks' whose parameters have not been pretrained." — [1] Valkov et al. 2018, Section 3
+> "the evolutionary strategy has high variance; indeed, in many runs of the task sequences, it times out without finding a solution." — [1] Valkov et al. 2018, Section 5
+> "For reference, neural architecture search often considers thousands of potential architectures for a single task [24]." — [1] Valkov et al. 2018, Section 5
+
+Verification notes: Both papers read partially via alphaXiv page extraction. Greek symbols in quotes transliterated (alpha, theta, zeta, lambda, tau, plus_w for the circled-plus neural-leaf symbol, 'o' for composition). The NEAR admissibility theorem's exact numbering was not captured in the extraction and is not asserted. Table 1 pruning counts (8182 to 2 at size 4) are as extracted. Neither paper is in the Codex capsule. The 'same search' negative answer is a reading of both grammars, not a quotation.
+
+
 ## P6 — probabilistic / generative-program intelligence
 
 ### P6.AMORTIZED_INFERENCE_HYBRID — Amortized inference as neural-probabilistic hybrid: inference compilation (Le-Baydin-Wood) and the variational autoencoder (Kingma-Welling)
@@ -1137,6 +1331,43 @@ Load-bearing quotes (verbatim from sources actually read):
 > "An advantage of wake-sleep is that it also applies to models with discrete latent variables. Wake-Sleep has the same computational complexity as AEVB per datapoint." — [1] Kingma & Welling, sec. 4
 
 Verification notes: Both papers read in full from arXiv (Le et al. v2; Kingma-Welling v11). Equation numbers cited are from those versions. The related taxonomy of hybrid designs was cross-checked against van de Meent et al. ch. 8 (P6.PPL_INTRO). No prior reconstruction in the repo ledgers consulted (the functional-neural-absorption ledger does not mention VAEs).
+
+### P6.AMORTIZED_INFERENCE_HYBRID — Inference compilation (Le, Baydin, Wood 2017): universal probabilistic program + LSTM proposal network trained by amortised KL objective
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Inference Compilation and Universal Probabilistic Programming — Tuan Anh Le, Atilim Gunes Baydin, Frank Wood (2017), AISTATS 2017 (PMLR 54); arXiv:1610.09900v2. https://arxiv.org/abs/1610.09900 arXiv:1610.09900 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** A hybrid morphology in which a probabilistic program (the generative model, written in a universal language) is paired with a neural network that proposes values at each sample address, trained offline on synthetic (x, y) ~ p(x, y) drawn from the program itself. The objective is the expected KL from the true posterior to the proposal, which reduces (up to a constant) to the expected negative log proposal density on joint samples (equations 6-7). The network is an LSTM core with per-address embedding and proposal layers created on-the-fly when a new (address, instance) pair is first encountered, so the network is 'reconfigured for each encountered trace'. At test time the trained proposals drive sequential importance sampling (weights, equation 5). Results: Captcha recognition at 81%/42% on Wikipedia/Facebook and mixture-model inference; inference latency < 100 ms per Captcha versus 0.5-8 s for segment-and-classify baselines. The authors name the risk of 'overfitting to the model' (proposals trained only on model samples).
+
+**Formal object.** Generative model p(x, y) given by a probabilistic program with sample addresses a and instance counters i; proposal family q(x \| y; phi) = prod_t q(x_t \| eta_t) where eta_t are output by an LSTM core fed the observation embedding f^obs(y), previous sample x_{t-1}, and one-hot (a_t, i_t, distribution type); training objective L(phi) = E_{p(y)}[ D_KL(p(x\|y) \|\| q(x\|y; phi)) ] = E_{p(x,y)}[ -log q(x\|y; phi) ] + const (eqs 6-7); test-time sequential importance sampling with weights w = p(x, y)/q(x \| y; phi) (eq 5). Architecture: non-domain-specific RNN core + domain-specific observation embedding and proposal layers 'specified by the given program'.
+
+**Strongest result.** No theorem. The load-bearing derivation is that the amortised KL objective is minimised by regression on joint samples from the model (eqs 6-7), making training label-free w.r.t. real data (labels come from the model). Empirical: Captcha 81% (Wikipedia) / 42% (Facebook) real-data recognition; < 100 ms inference; training on ~16M synthetic traces with ~20M parameters (Section 5, as extracted).
+
+**Assumptions.** the generative program is fixed and correct (proposals are trained on model samples only; overfitting to the model is admitted); sample addresses and instance counters identify random choices stably across traces; SIS with learned proposals is asymptotically exact; no finite-sample guarantee; observation embedding must be domain-specified (CNN for images, etc.); large synthetic training budget (millions of traces) is available
+
+**Resource model.** implicit amortisation trade: an expensive offline compile (millions of traces, days of GPU training - stated qualitatively) purchases cheap online inference (< 100 ms). No description length, no accounting of how the compile budget should be set, no comparison of amortised versus non-amortised total cost.
+
+**Failure boundary.** Model misspecification (proposals trained on p(x,y) do not cover real data - the 42% Facebook result), open-universe programs whose address structure changes unboundedly, and any setting where the model itself must be learned (the program is hand-written). The neural component is never a candidate for the model and the program is never a candidate for the proposal: the morphology partition is fixed.
+
+**Implementation.** Anglican (Clojure) probabilistic programming system plus a PyTorch/Torch neural component communicating over ZeroMQ (Section 4, as extracted); successor: pyprob (not read here).
+
+**Track-B residual.** Owns an existing hybrid morphology (neural proposal x probabilistic program) and its label-free training law. Track B residual: (i) no selection law for when amortisation pays (the compile/inference cost split is a design choice, not derived from the ecology's query rate), (ii) the model is fixed rather than acquired, (iii) no cost functor relating the neural proposal's size to the program's trace complexity.
+
+**Upward question.** Is there an ecology-indexed law that decides between amortised and non-amortised inference (expected query count x per-query cost versus compile cost), and does it extend to deciding when the model itself, rather than the proposal, should be neural?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "We call what we do 'compilation of inference' because our method transforms a denotational specification of an inference problem in the form of a probabilistic program written in a universal programming language into a trained neural network" — [0] Le, Baydin, Wood 2017, Section 1
+> "the neural network architecture comprises a non-domain-specific recurrent neural network (RNN) core and domain-specific observation embedding and proposal layers specified by the given program." — [0] Le, Baydin, Wood 2017, Section 3.2
+> "we define an adaptive neural network architecture that is reconfigured for each encountered trace by attaching the corresponding embedding and proposal layers to the LSTM core, creating new layers on-the-fly on the first encounter with each (a, i) pair." — [0] Le, Baydin, Wood 2017, Section 3.2
+> "With the resulting artifacts, running inference on a test Captcha takes < 100 ms, whereas durations ranging from 500 ms (Starostenko et al., 2015) to 7.95 s (Bursztein et al., 2014) have been reported with segment-and-classify approaches." — [0] Le, Baydin, Wood 2017, Section 5.1
+> "we were able to achieve 81% and 42% recognition rates with real Wikipedia and Facebook datasets" — [0] Le, Baydin, Wood 2017, Section 5.1
+> "we do have a risk of overfitting to the model." — [0] Le, Baydin, Wood 2017, Section 5.1
+
+Verification notes: Partial read via alphaXiv page extraction (pages 1-8). Equations 5-7 transcribed from the extracted text; implementation details (Anglican/Torch/ZeroMQ, trace and parameter counts) are as extracted and not independently checked. Not in the Codex capsule; the Codex P-CHURCH entry does not mention amortised inference.
 
 ### P6.BAYES_UPDATE_LAW — Bayesian updating as a law: Cox's theorem, Jaynes's desiderata, de Finetti coherence (Dutch book)
 
@@ -1266,6 +1497,51 @@ Load-bearing quotes (verbatim from sources actually read):
 
 Verification notes: Full text read from arXiv 1206.3255v2 (authors' corrected version of the UAI 2008 paper). Theorem/lemma numbers are as in that version. No prior reconstruction in the repo ledgers consulted.
 
+### P6.CHURCH_SEMANTICS — Church query semantics (Goodman et al. 2008) and measurable/higher-order semantics for probabilistic programs with score and normalisation (Staton, Yang, Wood, Heunen, Kammar 2016)
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Church: a language for generative models — Noah D. Goodman, Vikash K. Mansinghka, Daniel M. Roy, Keith Bonawitz, Joshua B. Tenenbaum (2008), UAI 2008; arXiv:1206.3255v2. https://arxiv.org/abs/1206.3255 arXiv:1206.3255 — `PARTIAL_TEXT_READ`
+- [1] Semantics for probabilistic programming: higher-order functions, continuous distributions, and soft constraints — Sam Staton, Hongseok Yang, Frank Wood, Chris Heunen, Ohad Kammar (2016), LICS 2016; arXiv:1601.04943v3. https://arxiv.org/abs/1601.04943 ; doi:10.1145/2933575.2935313 arXiv:1601.04943 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Goodman et al. define a universal probabilistic language (a stochastic Scheme) whose semantics is a distribution over evaluation histories: eval maps an expression and environment to a random value, and query is 'a procedure which samples a value from mu(e, env) conditioned on the predicate procedure p returning True'. Conditioning is defined on histories, not on values, so the language is 'fundamentally sampling-based'. Admissibility (evaluation halts with probability one, Section 2) and Theorem 2.3 (non-zero probability of the predicate) are the exact preconditions under which query denotes a well-defined conditional distribution. Reals are discretised ('all primitive types are countable; real numbers are approximated by either fixed- or floating-precision arithmetic'), which sidesteps the Ackerman-Freer-Roy continuous-conditioning barrier by construction. Memoization (mem) gives exchangeable stochastic memoized procedures (DP-mem); the exchangeability notion is proposed as the stochastic analogue of purity. Two query implementations: rejection (exact but 'often intractable') and a Metropolis-Hastings kernel over computation traces. Staton et al. give the first denotational semantics of a higher-order probabilistic language with continuous distributions and soft constraints (score) and an explicit normalisation construct: because Meas is not cartesian closed, first-order terms are interpreted in Meas via s-finite kernels and higher-order terms in a functor category over Meas; norm has type (R x P(A)) + 1 + 1, where the two extra summands track model evidence 0 or infinity. Proposition 8.3: every first-order term equals one without lambda-abstraction/application.
+
+**Formal object.** Church: expressions e of a Scheme-like language with primitive random procedures (flip, etc.); eval(e, env) induces a distribution mu(e, env) over values via distributions over evaluation histories; query(e, p, env) is sampling from mu(e, env) conditioned on eval((p v), env) = True; admissibility = halting with probability one; mem: stochastic memoizer; DPmem: Dirichlet-process memoizer giving exchangeable random procedures. Staton et al.: types A ::= R \| P(A) \| 1 \| A x A \| sum_i A_i \| A -> A; deterministic judgement Gamma \|-d t : A interpreted as measurable functions (first order) or morphisms in the functor category [Meas^op-ish presheaf setting] (higher order); probabilistic judgement Gamma \|-p t : A interpreted as s-finite kernels; constructs sample(t), score(t), norm(t) with Gamma \|-d norm(t) : (R x P(A)) + 1 + 1; Assumption 7.1 restricts P(A) to measurable A in the operational treatment.
+
+**Strongest result.** Goodman et al. Theorem 2.3: if there exists a value v in the support of mu(e, env) and True has non-zero probability under mu((p v), env), then the conditional probability P(V = val \| eval((p V), env) = True) is well defined. Staton et al.: a sound denotational semantics for sample/score/norm with continuous distributions, matching the operational (sampling-based) semantics; normalisation typed as (R x P(A)) + 1 + 1 so that evidence 0 and infinity are total outcomes; Proposition 8.3 (first-order terms are lambda-free, hence measurable functions). Neither source gives resource bounds or approximation guarantees for query/inference.
+
+**Assumptions.** Church: primitive types countable; reals approximated by fixed/floating precision (discrete semantics); Church: admissibility (halting w.p. 1) and non-zero predicate probability for query to be well defined; Church: exact query is rejection sampling; the MCMC query is asymptotic with no mixing-time guarantee; Staton et al.: distributions over functions excluded operationally (Assumption 7.1: P(A) only for measurable A); Staton et al.: Meas is not cartesian closed, so higher-order semantics lives in a functor category, not in Meas; Staton et al.: norm may fail with evidence 0 or infinity; infinite evidence can arise from infinite distributions
+
+**Resource model.** none. Church names intractability of exact query qualitatively ('exact sampling using this algorithm will often be intractable') and offers MCMC without rates; Staton et al. model no cost at all. Neither charges description length, samples, compute, memory or verification.
+
+**Failure boundary.** Church: conditioning on measure-zero events is undefined at the language level (predicate must have positive probability; continuous observation is handled only by discretisation or by later score/noise constructs); non-admissible programs; no inference-cost semantics. Staton et al.: no semantics for distributions over higher-order functions operationally; evidence 0/infinity failure; no learning law (no parameters, no update, no gradient) - the semantics describes inference targets, not the process that chooses a model or its parameters.
+
+**Implementation.** Church: metacircular Scheme interpreter with rejection query and MCMC-over-traces query (Section 4); successor systems WebPPL/Anglican/Venture (not read here). Staton et al.: the paper is theory; Anglican is the named reference implementation for the language fragment.
+
+**Track-B residual.** The probabilistic morphology's D0 (representability of conditional-inference programs) is owned here, in discrete (Church) and continuous (Staton) settings. Track B must supply (i) a resource-charged D1 for query/norm (what inference compiler, at what cost, under what ecology), (ii) the law by which a developing system moves between rejection, MCMC, amortised and gradient inference (a selection over inference morphologies), and (iii) how model structure itself is acquired without labels. None of these is present.
+
+**Upward question.** Does the choice among query implementations (rejection, trace-MCMC, amortised network, gradient/variational) follow a resource-charged selection law indexed by the ecology's observation structure, and can that law be stated as a functor on the semantics rather than as an engineering choice?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "The semantics of Church is defined in terms of evaluation histories and conditional distributions on such histories." — [0] Goodman et al. 2008, Abstract
+> "The procedure (query 'e p env) is defined to be a procedure which samples a value from mu(e, env) conditioned on the predicate procedure p returning True when applied to the value of (eval 'e env)." — [0] Goodman et al. 2008, Section 2
+> "Thus admissibility can be thought of as the requirement that evaluation of an expression halts with probability one." — [0] Goodman et al. 2008, Section 2
+> "If there exists a value v in the support of mu(e, env) and True has non-zero probability under mu((p v), env), then the conditional probability P(V = val \| (eval '(p V) env) = True) is well defined." — [0] Goodman et al. 2008, Theorem 2.3
+> "However, exact sampling using this algorithm will often be intractable." — [0] Goodman et al. 2008, Section 4
+> "all primitive types are countable; real numbers are approximated by either fixed- or floating-precision arithmetic." — [0] Goodman et al. 2008, Section 2
+> "the semantics of Church is fundamentally sampling-based: the denotation of admissible expressions as distributions follows from the semantics of evaluation rather than defining it." — [0] Goodman et al. 2008, Section 5
+> "We believe the right notion of purity in a stochastic language is exchangeability" — [0] Goodman et al. 2008, Section 2.1
+> "Denotational semantics for higher-order programs poses a problem, because measurable spaces do not support the usual beta/eta theory of functions: they do not form a Cartesian closed category (indeed, R^R does not exist as a measurable space [3])." — [1] Staton et al. 2016, Section 1
+> "If the model evidence is 0 or infinity, the conversion fails, and this is tracked by the '+1+1'." — [1] Staton et al. 2016, Section 3
+> "Assumption 7.1. From the operational perspective it is unclear how to deal with sampling from a distribution over functions. For this reason, in this section, we only allow the type P(A) when A is a measurable type." — [1] Staton et al. 2016, Section 7
+> "The third equation shows how infinite model evidence errors can arise when working with infinite distributions." — [1] Staton et al. 2016, Section 4
+> "we show that every term of first-order type is equal to one without lambda-abstractions or application, and hence is interpreted as a measurable function (Proposition 8.3)." — [1] Staton et al. 2016, Section 8
+
+Verification notes: Both papers accessed through alphaXiv page-level extraction (partial). Quotes are verbatim from extracted pages, with Greek letters and the mu/lambda symbols transliterated. Codex P-CHURCH (LITERATURE_LEDGER / PARENT_LEDGER_V1) records Church at abstract depth only; this entry adds the query semantics (rejection/metacircular + MCMC over traces), the admissibility and Theorem 2.3 preconditions, the discretised-reals design decision, and the Staton score/norm typing. Section 6 of Goodman et al. and Sections 5-6 of Staton et al. were not read.
+
 ### P6.CONDITIONING_LIMIT — Noncomputability of conditioning (Ackerman-Freer-Roy) and QUERY as conditional simulation (Freer-Roy-Tenenbaum)
 
 Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
@@ -1311,6 +1587,48 @@ Load-bearing quotes (verbatim from sources actually read):
 > "Of course, this raises the questions: how do we obtain such models? In particular, how can or should we build them when they are not handed to us?" — [1] FRT, sec. 8
 
 Verification notes: Theorem numbers are those of arXiv 1005.3014v4 (the JACM-style journal version). FRT cite the LICS 2011 numbering ('[AFR11, Thm. 29]', '[AFR11, Cor. 36]'), which corresponds to Thm. 7.6 and Cor. 9.7 here; the LICS version itself was not read. Full text of both papers is on disk; the constructions (ACR sec. 7-8) were not verified line by line. No prior reconstruction in the repo ledgers consulted.
+
+### P6.CONDITIONING_LIMIT — On the computability of conditional probability (Ackerman, Freer, Roy 2011/2019): noncomputable conditional distributions and the positive cases - the computability boundary of the probabilistic morphology
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] On the Computability of Conditional Probability — Nathanael L. Ackerman, Cameron E. Freer, Daniel M. Roy (2019), Journal of the ACM 66(3):23 (2019); preliminary version LICS 2011 'Noncomputable conditional distributions'; arXiv:1005.3014v4. https://arxiv.org/abs/1005.3014 ; doi:10.1145/3321699 arXiv:1005.3014 — `FULL_TEXT_READ`
+
+**What it already explains.** Within Type-2 effectivity on computable Polish spaces: computable probability measures = distributions of P-almost computable random variables (Props 2.18-2.19). NEGATIVE: (i) Prop 5.1: a computable pair (X, C) whose conditional map P[C=1\|X=.] is discontinuous everywhere (the Dirichlet function), hence not almost computable, though L1-computable (Prop 5.2); (ii) Prop 6.4: on any class of joint distributions containing the finitely supported ones, every conditioning operator is discontinuous everywhere, hence noncomputable - 'a finite approximation to the joint distribution determines nothing about the result of conditioning on a particular point'; Theorem 6.7 (via Kleene's recursion theorem): any purported conditioning program can be fed a representation of the same distribution on which it outputs no nontrivial fact; (iii) CENTRAL Theorem 7.6: P-almost computable W, Y on [0,1] such that P[Y\|W=.] is P_W-almost continuous but not P_W-almost computable - the construction encodes halting times h(N) of all Turing machines into the bits of X = X_{h(N)}, so that P[N\|X=.] computes the halting set (Cor 7.7: any oracle computing it on a set of measure > 5/6 computes 0'; Lemma 7.4: it IS 0'-computable, so the bound is sharp); Prop 7.8: not even L1-computable; (iv) Section 8 / Cor 8.5: the same with an EVERYWHERE continuous, infinitely differentiable conditional density (smoothing with a C-infinity bump), so continuity does not rescue computability. POSITIVE: Prop 9.2: conditioning on a computably discrete variable with positive atoms is computable (also by rejection sampling, Lemma 9.3); Prop 9.4 / Cor 9.6: Bayes' rule is computable when a positive, bounded, computable conditional density exists; Cor 9.7: conditioning on U + E with E independent noise having a bounded computable density is computable even when conditioning on U is not; but one cannot computably choose the noise level for a target accuracy; Section 9.4: exchangeable settings via computable de Finetti (Freer-Roy).
+
+**Formal object.** Computable Polish space (S, delta, D); P-almost computable random variable X: {0,1}^inf -> S computable on a P-measure-one set; conditional distribution P[Y\|X=.] as a regular version kappa: S x B_T -> [0,1], computable when the map s \|-> kappa(s,.) is computable on a P_X-measure-one set (Section 4). Construction: N ~ geometric(1/5), C ~ Bernoulli(1/3), U, V uniform; X_k = (2 floor(2^k V) + C + U)/2^{k+1}; X = X_{h(N)}; densities p_{X_k} = 4/3 or 2/3 by parity of floor(2^{k+1} x); tau(x) = sum_n a_n(x) 5^{-n} with digits in {2,3,4} encoding halting. Conditioning operator Phi: M_1([0,1]^2) x [0,1] -> M_1([0,1]) (Def 6.1).
+
+**Strongest result.** Theorem 7.6 (noncomputable almost-continuous conditional distribution; conditioning encodes the halting problem) with Corollary 7.7 (sharp: exactly 0'); Corollary 8.5 (noncomputable even restricted to everywhere-continuous versions); Proposition 6.4 (every conditioning operator is discontinuous everywhere) and Theorem 6.7 (nonapproximability). Positive: Prop 9.2 (discrete), Prop 9.4 / Cor 9.6 (dominated, computable bounded positive density), Cor 9.7 (independent smooth noise), Section 9.4 (exchangeable).
+
+**Assumptions.** Type-2 Theory of Effectivity; computable Polish spaces; random variables computable on measure-one sets; conditioning defined via regular versions; noncomputability results concern conditioning at points and on measure-one sets, and (Prop 7.8) L1; positive results need discreteness with positive atoms, or a computable bounded positive conditional density, or independent noise with such a density, or exchangeability
+
+**Resource model.** computability only. Explicitly separates computability from efficiency: 'Conditional probabilities for computable distributions on finite, discrete sets are clearly computable, but may not be efficiently so' (1.4.1, citing average-case complexity and Bayesian-network hardness results as related work). No description length, samples or verification.
+
+**Failure boundary.** Says nothing about efficiency, samples, or which approximate inference to use; nothing about learning the model; the halting-encoding construction is an existence proof, and the positive cases are sufficient conditions, not a characterisation. It concerns exact conditioning of computable joint distributions - not the resource cost of approximate inference, and not the morphology question of when explicit stochastic structure is worth its cost.
+
+**Implementation.** none (theory)
+
+**Track-B residual.** This is a P5-class boundary for the brief's GMI-T6 (probabilistic-program/Bayes specialisation) and the registry's GMI-T8: any D1 claim 'the probabilistic morphology compiles from the basis with bounded overhead' must be restricted to AFR's positive classes (discrete observations, computable bounded densities, smooth noise, exchangeable) - outside them there is NO compiler, bounded or not. What AFR leaves open is the RESOURCE obstruction inside the computable classes: where, under E, explicit stochastic structure is cheaper than a deterministic emulation - AFR's obstruction is about computability, not cost.
+
+**Upward question.** AFR separates computable-conditioning classes from noncomputable ones; is there an analogous RESOURCE-graded separation (e.g. polynomial vs exponential conditioning within the dominated class) that a morphology theory could use as the phase boundary between explicit-probabilistic and deterministic-approximate morphologies under a verification contract?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "We show that there are computable joint distributions with noncomputable conditional distributions, ruling out the prospect of general inference algorithms, even inefficient ones." — [0] Abstract
+> "Specifically, we construct a pair of computable random variables in the unit interval such that the conditional distribution of the first variable given the second encodes the halting problem." — [0] Abstract
+> "In particular, conditional distributions become computable when measurements are corrupted by independent computable noise with a sufficiently smooth bounded density." — [0] Abstract
+> "There are P-almost computable random variables W and Y on [0, 1] such that the conditional distribution map P[Y\|W = · ] is P_W-almost continuous but not P_W-almost computable." — [0] Theorem 7.6
+> "Every conditioning operator on F is discontinuous everywhere, hence noncomputable." — [0] Proposition 6.4
+> "a finite approximation to the joint distribution determines nothing about the result of conditioning on a particular point." — [0] Section 6, after Proposition 6.4
+> "such that there exists an everywhere continuous version of the conditional distribution map P[Y\|X = · ]. Then Φ is noncomputable." — [0] Corollary 8.5
+> "Under suitable computability hypotheses, conditioning is computable in the discrete setting (Proposition 9.2) and where there is a conditional density (Corollary 9.6)." — [0] Section 1.5
+> "one cannot computably tell how little noise must be present to obtain a given accuracy." — [0] Section 9.3
+> "Conditional probabilities for computable distributions on finite, discrete sets are clearly computable, but may not be efficiently so." — [0] Section 1.4.1
+> "Despite recent progress towards a general such algorithm, support for conditioning with respect to continuous random variables has remained incomplete. Our results explain why this is necessarily the case." — [0] Section 1.1
+
+Verification notes: arXiv v4 (JACM version) read as recorded; theorem numbers verified in the text. Not in the Codex ledgers (LITERATURE_LEDGER E has Church and BPL only). A sibling build script (_build_P6.py) planned a P6.CONDITIONING_LIMIT entry but no P6.json was produced; this entry is independent.
 
 ### P6.PPL_INTRO — An Introduction to Probabilistic Programming: FOPPL/HOPPL semantics and the inference-algorithm families
 
@@ -1519,6 +1837,47 @@ Load-bearing quotes (verbatim from sources actually read):
 
 Verification notes: Full text of arXiv v3 read (17 pages). Theorem numbering (II.4, III.2, IV.2, V.1, VII.1, A.1) verified against text. Not previously reconstructed in any repo ledger (grep of the seven listed ledgers found no Fong/Spivak/Tuyeras entry). Cruttwell et al. 2022 Section 6 reports that the functor of Theorem III.2 does not respect the equivalence relation on learners; recorded here as a known defect, not re-derived.
 
+### P7.BACKPROP_AS_FUNCTOR — Backprop as Functor (Fong, Spivak, Tuyeras 2019): the category Learn and the functor L_{eps,e}: Para -> Learn
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Backprop as Functor: A compositional perspective on supervised learning — Brendan Fong, David I. Spivak, Remy Tuyeras (2019), LICS 2019; extended version arXiv:1711.10455v3 (1 May 2019). https://arxiv.org/abs/1711.10455 ; doi:10.1109/LICS.2019.8785665 arXiv:1711.10455 — `FULL_TEXT_READ`
+- [1] Categorical Foundations of Gradient-Based Learning — G. S. H. Cruttwell, Bruno Gavranovic, Neil Ghani, Paul Wilson, Fabio Zanasi (2022), ESOP 2022, LNCS 13240; arXiv:2103.01931. https://arxiv.org/abs/2103.01931 arXiv:2103.01931 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Defines a symmetric monoidal category Learn whose morphisms A -> B are equivalence classes of learners (P, I, U, r): parameter set P, implementation I: P x A -> B, update U: P x A x B -> P, request r: P x A x B -> A. The request function is the identified missing ingredient that makes update rules composable ('there is no composite update rule without the request function'). Main theorem: for fixed step size eps > 0 and an error e(x,y) whose partial derivative in x is invertible, gradient descent + backprop is a faithful, injective-on-objects strong symmetric monoidal functor L_{eps,e}: Para -> Learn; functoriality IS the chain rule, i.e. locality of backprop = 'train the composite' equals 'compose the trained parts'. Neural nets enter through a second functor I_sigma: NNet -> Para (Prop IV.2). With quadratic error, each R^n in Learn is a bimonoid (Prop V.1) and every backprop-trained net is generated by five primitive learners: scalar multiplication, bias, activation, monoid multiplication, comultiplication (Ex V.3); weight tying is the comonoid (Ex V.4). Learn embeds between lenses and open games (VII.D).
+
+**Formal object.** Learn: objects = sets; morphism A->B = equivalence class of (P, I, U, r) under bijections f: P->P' with I'(f(p),a)=I(p,a), U'(f(p),a,b)=f(U(p,a,b)), r'(f(p),a,b)=r(p,a,b). Composition of (P,I,U,r): A->B with (Q,J,V,s): B->C is (P x Q, I*J, U*V, r*s): (I*J)(p,q,a)=J(q,I(p,a)); (U*V)(p,q,a,c)=(U(p,a,s(q,I(p,a),c)), V(q,I(p,a),c)); (r*s)(p,q,a,c)=r(p,a,s(q,I(p,a),c)). Identity (R^0, id, !, pi_2). Monoidal product = cartesian product with (I\|\|J)(p,q,a,c)=(I(p,a),J(q,c)) etc. Para: objects R^n, morphisms equivalence classes (P,I) of differentiable I: P x R^n -> R^m with P = R^p, composition (P x Q, J(q, I(p,a))). L_{eps,e}(P,I) = (P, I, U_I, r_I) with U_I(p,a,b) = p - eps grad_p E_I(p,a,b), r_I(p,a,b) = f_a(grad_a E_I(p,a,b)), E_I(p,a,b) = sum_j e(I_j(p,a), b_j), f_a = componentwise inverse of (de/dx)(a_i, -). Appendix B proves the alpha-weighted generalisation (Theorem A.1) needed for averaged cross-entropy.
+
+**Strongest result.** Theorem III.2 (proved as Theorem A.1, Appendix B): fix eps > 0 and differentiable e: R x R -> R with (de/dx)(x0, -) invertible for every x0; then L_{eps,e}: Para -> Learn is a faithful, injective-on-objects, strong symmetric monoidal functor. Proof: chain rule applied to grad_p E and grad_a E (equations (1),(2) in Appendix B). Proposition II.4: Learn is a symmetric monoidal category (associativity holds only on equivalence classes because P x Q is associative only up to isomorphism). Proposition IV.2: I_sigma: NNet -> Para is a functor. Proposition V.1: quadratic-error gradient descent gives a symmetric monoidal functor FVect -> Learn, hence bimonoids. Section VII.D: Lens -> Learn -> Game embeddings. KNOWN DEFECT (verified in Cruttwell et al. 2022, Section 6): the functor of Theorem III.2 does not respect the equivalence relation on learners, and the invertibility condition on de/dx 'is not a constraint that appears in machine learning practice'; the repaired statement is Para(R): Para(C) -> Para(Lens(C)) for any Cartesian reverse differential category C.
+
+**Assumptions.** Euclidean objects and Euclidean parameter spaces; differentiable I; error function e with (de/dx)(x0,-) invertible for each x0 (cross-entropy at 0,1 excluded; handled informally in VII.A); fixed step size eps; total error = sum (or alpha-weighted sum) of per-coordinate errors; learners modulo bijective reparametrisation (defective: the functor does not respect it); no convergence, generalisation, sample or statistical assumptions of any kind
+
+**Resource model.** none. The only cost remark is qualitative: composition 'along with the fact that gradients are quicker to compute for lower dimensional spaces, expresses the speed up in learning provided by backpropagation' (VII). No description length, compute, samples, memory or verification are modelled.
+
+**Failure boundary.** Learn contains every set-theoretic update/request rule ('Learn does not require us to define our update and request functions using derivatives at all'), so Learn alone is universal-computation-sized and carries no selection principle: 'the category Learn sees none of this structure; it lies in the functors'. No convergence requirement ('we have placed no requirements that an algorithm converge'). No stateful optimisers (momentum/Adam), no probabilistic or non-gradient learners, no architecture search (only a remark that a bicategory of learners could host 'structured expansion of networks'). Theorem III.2 is defective as stated (see above).
+
+**Implementation.** none known for this paper (purely mathematical); the successor framework has a Python proof-of-concept (Cruttwell et al. 2022, Section 5)
+
+**Track-B residual.** The parent fixes the TYPE of the gradient learning law (a functor from parametrised maps to update+request pairs, chosen by (eps, e)). Track B must ask what process, under an ecology E and a resource budget, selects (eps, e) and the primitive learner basis, at what description-length and update-work cost, and whether a NON-differentiable basis can compile to this functor with bounded overhead. Nothing in Learn ranks or prices its morphisms.
+
+**Upward question.** Is there a functor from a category of ecologies (task distribution x resource prices x verification contract) to the category of functors Para -> Learn that picks the learning law, i.e. can selection of the law itself be made functorial in the ecology, and what cost functor on Learn would make that selection non-trivial?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "gradient descent—with respect to a fixed step size and an error function satisfying a certain property—defines a monoidal functor from a category of parametrised functions to this category of update rules." — [0] Abstract
+> "Then we can define a faithful, injective-on-objects, strong symmetric monoidal functor" — [0] Theorem III.2, Section III
+> "Indeed, Learn does not require us to define our update and request functions using derivatives at all." — [0] Section VII.B
+> "Note, however, that the category Learn sees none of this structure; it lies in the functors" — [0] Section VII.B (the sentence continues with the functor symbol L_{eps,e})
+> "So far, in the case of learners, we have placed no requirements that an algorithm converge towards a function f when given enough training pairs (a, f (a))." — [0] Section VII.D
+> "Composition of learners, along with the fact that gradients are quicker to compute for lower dimensional spaces, expresses the speed up in learning provided by backpropagation." — [0] Section VII, summary bullets
+> "The associativity axiom is what requires that our morphisms in Learn be equivalence classes of learners, and not simply learners themselves" — [0] Appendix A, proof of Proposition II.4
+> "unfortunately, the functor defined in Theorem III.2 does not respect this equivalence relation." — [1] Cruttwell et al. 2022, Section 6
+> "This constraint was not justified in [Fong et al. 2017], nor is it a constraint that appears in machine learning practice." — [1] Cruttwell et al. 2022, Section 6
+
+Verification notes: Full arXiv v3 text read; theorem/proposition numbers (II.4, III.2, IV.2, V.1, VII.1, A.1) checked against the text. Codex ledger entry P-CATEGORICAL-LEARNING (LITERATURE_LEDGER.md Section G) has this at abstract depth; added here: exact objects, composition law, the invertibility hypothesis, the five-learner basis, and the Cruttwell Section-6 defect. A sibling ledger P7.json (same scratchpad) reconstructs this paper independently; findings agree.
+
 ### P7.BAYESIAN_LENSES — Bayesian updates compose optically (Bayesian lenses; statistical games; compositional Bayesian brain)
 
 Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
@@ -1559,6 +1918,48 @@ Load-bearing quotes (verbatim from sources actually read):
 
 Verification notes: 2020 paper read in full (arXiv v2, 40 pp). Thesis read partially via page queries (chapters 1, 4.3, 5.1-5.3, 7.3.10-7.3.11, bibliography); theorem numbers 4.3.14, 5.2.19, 7.3.11 verified on the pages returned; other thesis chapters not read. Neither work is in the listed repo ledgers. The MFCS 2023 follow-up (Braithwaite, Hedges, Smithe, 'The compositional structure of Bayesian inference') was not read and is listed as a missing parent.
 
+### P7.BAYESIAN_LENSES — Bayesian updates compose optically (Smithe 2020), statistical games / approximate inference doctrines (Smithe thesis 2023), dependent Bayesian lenses (Braithwaite, Hedges, Smithe 2023)
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Bayesian Updates Compose Optically — Toby St Clere Smithe (2020), arXiv:2006.01631v2 (28 Jul 2020); ACT 2020. https://arxiv.org/abs/2006.01631 arXiv:2006.01631 — `FULL_TEXT_READ`
+- [1] Mathematical Foundations for a Compositional Account of the Bayesian Brain — Toby St Clere Smithe (2023), DPhil thesis, University of Oxford; arXiv:2212.12538v3. https://arxiv.org/abs/2212.12538 arXiv:2212.12538 — `PARTIAL_TEXT_READ`
+- [2] The Compositional Structure of Bayesian Inference — Dylan Braithwaite, Jules Hedges, Toby St Clere Smithe (2023), MFCS 2023, LIPIcs; arXiv:2305.06112v2. https://arxiv.org/abs/2305.06112 ; doi:10.4230/LIPIcs.MFCS.2023.24 arXiv:2305.06112 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Exact Bayesian inversion of a channel c: X -> Y is not a morphism of the channel category but a STATE-DEPENDENT channel c^dagger_(.): C(I,X) -> C(Y,X). Organising these into fibres Stat(X) and taking the Grothendieck construction (Stat-lenses = Bayesian lenses, Def 4.3 via optics Optic_{x,⊙} on presheaf/copresheaf categories) yields the main theorem: the Bayesian inverse of a composite d•c equals the LENS composite of the inverses, (d•c)^dagger_pi ~ c^dagger_pi • d^dagger_{c•pi}, up to (d•c•pi)-almost-equality (Theorem 5.2), proved in Kl(D), abstractly in any copy-delete category with inversion, and in sfKrn with densities. Corollary 5.3: channels admitting inversion embed functorially into BayesLens. Exact lenses satisfy GetPut w.r.t. states (Prop 6.2) but not PutGet/PutPut because 'updates mix old and new beliefs'. Approximate inference = the non-exact lenses (Def 5.1). The thesis attaches loss functions to lenses (statistical games) and shows relative entropy is a STRICT section (chain rule of KL = horizontal composition; Prop 5.3.22), maximum likelihood and free energy (KL + MLE, Def 5.3.26) are LAX sections; the Laplace doctrine L_lambda = Euler_lambda o grad o LFE turns Gaussian statistical models into predictive-coding dynamical systems (Cor 7.3.11), i.e. approximate Bayes = gradient flow on a free-energy loss. Braithwaite-Hedges-Smithe 2023 (a) restates BUCO as 'a chain rule for Bayesian updating' with the same shape as J^T_{g o f} = J^T_g J^T_f, (b) shows inversion is functorial only 'up to almost-sure equality' (Prop 11), (c) repairs this with support objects and dependent Bayesian lenses giving a strict section T: C -> DBLens(C) (Theorem 20, Prop 21).
+
+**Formal object.** Stat: C^op -> V-Cat, Stat(X)(A,B) = V(C(I,X), C(A,B)), reindexing f*alpha = alpha(f•-). GrLens_Stat((X,A),(Y,B)) = C(X,Y) x V(C(I,X), C(B,A)); composite of (c,c^dagger),(d,d^dagger) is (d•c, c^dagger o c* d^dagger) sending pi to c^dagger_pi • d^dagger_{c•pi}. BayesLens := Optic_{x,⊙} with (M ⊙ P) = V(M(I), P) on copresheaves. Exact lens: <c \| c^dagger> with (id ⊗ c) • copy • pi = (c^dagger_pi ⊗ id) • copy • c • pi (eq. 8). Density form: c^dagger_pi(A\|y) = p^{-1}(y) integral_{x in A} p(y\|x) pi(dx), p^{-1} a mu-almost-inverse. Thesis: loss model = (lax) section of the 2-fibration of statistical games pi_Loss; FE = KL + MLE. BHS: BLens(C) = coprod_X Stat(X)^op; DBLens(C) = Grothendieck of StFam; T: C -> DBLens(C) strict section when support objects exist.
+
+**Strongest result.** Smithe Theorem 5.2 / Corollary 5.3 (above). Smithe Prop 6.2 (GetPut w.r.t. states). Thesis Prop 5.3.22 (KL is a strict loss model), Prop 5.3.25 (MLE lax), Cor 7.3.11 (Laplace doctrine: Laplacian predictive coding is the image of Euler_lambda o nabla o LFE). BHS Prop 11 (inversion functorial up to almost-sure equality), Theorem 20 (unique inverse-with-support), Prop 21 (strict section into DBLens). Together: the Bayes learning law has the SAME algebraic type as the gradient learning law (a lens/optic backward map composed contravariantly), and approximate Bayes reduces to gradient descent on a lax-monoidal loss.
+
+**Assumptions.** copy-delete (Markov) category with channels admitting Bayesian inversion; inverses defined only up to almost-equality (or support objects / ProbStoch quotient for strictness); for densities: s-finite kernels, effects representing channels, almost-inverses exist (non-zero marginal); thesis: 'bilinear effects', Gaussian channels for the Laplace doctrine, mean-field; doctrines non-unital; no computability, no convergence-rate, no sample statements
+
+**Resource model.** none. The thesis notes that 'computing exact inversions is usually intractable' and that choosing an approximation 'creates a new problem', but attaches a LOSS (relative entropy / free energy), not a compute, memory or description-length cost. Nothing in the three papers charges resources.
+
+**Failure boundary.** Inversion is not unique (almost-equality), so the embedding C^dagger -> BayesLens requires a choice; strict functoriality needs support objects (BHS Remark 23: 'quite a strong assumption in general'). Lens laws PutGet/PutPut fail. No statement about which approximate lens (which loss model, which section) to use; the Laplace doctrine is 'agnostic about how predictions are actually generated' and, without the Hebb-Laplace extension, produces systems that 'do not learn'. Remark 7.3.10: the gradient-descent semantics 'can alternatively be obtained more abstractly... We leave this to future work'. Nothing about non-Gaussian or discrete-symbolic cases, program spaces, or resource bounds.
+
+**Implementation.** none known for the 2020 paper; thesis Chapter 7 gives explicit dynamical systems but no released code; BHS 2023 none
+
+**Track-B residual.** The categorical bridge between the gradient law and the Bayes law is parent-owned at the level of TYPE (both are lens backward maps; approximate Bayes is gradient flow on a lax loss). Track B must ask which loss model / which section of the statistical-games fibration a resource-bounded process selects under E (verification contract, sample budget), at what compute and description cost, and whether a discrete/symbolic hypothesis space can carry a cheap Bayesian lens - the parent has neither a cost functor nor a selection rule.
+
+**Upward question.** Given that exact and approximate Bayes are sections of one fibration and gradient learning is a lens over a CRDC, is there a single fibration over ecologies whose sections are 'learning laws', with a cost 2-cell structure making the choice of section (exact Bayes vs. Laplace vs. plain gradient) a resource-priced optimisation rather than a designer's choice?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "As a slogan, our main result is that Bayesian updates compose optically (Theorem 5.2)." — [0] Section 1
+> "That is to say, Bayesian updates compose optically: (d • c)†_π ∼ c†_π • d†_{c•π}." — [0] Theorem 5.2
+> "Then C† embeds functorially into BayesLens." — [0] Corollary 5.3
+> "Because Bayesian inversion is only determined up to almost-equality, the embedding C† ֒→ BayesLens is not unique, requiring a choice of inversion for each channel." — [0] Section 5, after Corollary 5.3
+> "PutPut fails to hold for exact Bayesian lenses for the same reason that PutGet fails to hold in general: updates mix old and new beliefs, rather than entirely replace the old with the new." — [0] Section 6
+> "computing exact inversions is usually intractable, but this creates a new problem: choosing an approximation, and measuring its performance." — [1] Thesis, Section 5.1
+> "we expect that it can alternatively be obtained more abstractly, from a proper treatment of stochastic gradient descent applied to statistical games. We leave this to future work." — [1] Thesis, Remark 7.3.10
+> "As such we think of the composition rule as a chain rule for Bayesian updating." — [2] BHS 2023, Section 1
+> "If C has Bayesian inverses for ever kernel at every prior, then Bayesian inversion defines a functor T : C → BLens(C) up to almost-sure equality." — [2] BHS 2023, Proposition 11 (sic 'ever')
+
+Verification notes: Smithe 2020 read in full (theorem, definition and proposition numbers verified). Thesis and BHS 2023 read partially via targeted page queries; their theorem numbers are as printed on the pages returned. Not in the Codex ledgers (Codex has Fritz's Markov categories in PARENT_EXPANSION_V2 §B but no Bayesian-lens entry). Sibling P7.json entry P7.BAYESIAN_LENSES agrees; BHS 2023's 'almost functorial' caveat and support-object repair are added here.
+
 ### P7.CATEGORICAL_CYBERNETICS — Towards foundations of categorical cybernetics (parametrised optics; open learners and open games as one pattern)
 
 Disposition: `GENERALIZE` · best verification: `FULL_TEXT_READ`
@@ -1596,6 +1997,44 @@ Load-bearing quotes (verbatim from sources actually read):
 > "and can also be carried out for Bayesian open games and other more general formulations of open games." — [0] Section 6
 
 Verification notes: Full text read (EPTCS 372 version). Definition/Proposition numbers verified. IMPORTANT honesty note: the brief describes this paper as unifying 'learners, games, Bayesian updates'; the paper itself presents only learners and games and mentions Bayesian open games in one sentence — the Bayesian leg of the unification rests on Smithe 2020 (Bayesian lenses are Optic_{x,.}) and the companion literature, not on this text. Not present in any listed repo ledger.
+
+### P7.CATEGORICAL_CYBERNETICS — Towards foundations of categorical cybernetics (Capucci, Gavranovic, Hedges, Rischel 2022): parametrised optics as the common pattern of learners and games
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Towards Foundations of Categorical Cybernetics — Matteo Capucci, Bruno Gavranovic, Jules Hedges, Eigil Fjeldgren Rischel (2022), ACT 2021, EPTCS 372, pp. 235-248; arXiv:2105.06332. https://arxiv.org/abs/2105.06332 ; doi:10.4204/EPTCS.372.17 arXiv:2105.06332 — `FULL_TEXT_READ`
+
+**What it already explains.** Proposes ONE construction for 'processes which interact bidirectionally with both an environment and a controller': the bicategory of parametrised optics Para_⊛(Optic_{•,•}(C,D)), obtained by letting Optic_⊙(M) act on Optic(C,D) (Prop 10). A parametrised optic has forward part v: P•X -> M•Y and backward part u: M•Y' -> Q•X'; parameters/coparameters are 'agency', residuals are private state. Two instantiations are worked out: (i) neural networks = Para(R): Para(Smooth) -> Para(Optic(Smooth)) with gradient descent as the reparametrising lens gd_alpha (Construction 11), GANs as opposing reparametrisations gd/ga, weight tying as reparametrisation along copy; (ii) open games = parametrised optics whose parameter objects carry selection relations eps ⊆ M(I,X) x M(X,I) (Def 12), with the Nash product as laxator (Prop 14) and a strong monoidal functor Para^S(Lens(Set)) -> OG recovering Ghani et al.'s open games (Section 6), Prisoner's Dilemma solution {(D,D)} vs Hicks-optimal {(C,C)}. The abstract pattern: 'control on the forward direction and an objective on the backwards direction'. Bayesian open games are ASSERTED to fit ('can also be carried out'), not constructed.
+
+**Formal object.** Para_•(C): objects of C; 1-cells phi: M•X -> Y; 2-cells r: M' -> M (reparametrisation, r*phi); Prop 5: Para(-) is a monad on M-Mod. Optic_{•,•}(C,D)((X,X'),(Y,Y')) = coend_M C(X, M•Y) x D(M•Y', X'). Prop 10: Optic_⊙(M) acts on Optic_{•,•}(C,D) by (M,M') ⊛ (X,X') = (M•X, M'•X'), giving Para_⊛(Optic(C,D)). Construction 11: gd_alpha: (R,R) -> (R,R), forward id, backward (p, grad p) \|-> p - alpha grad p. Selection relations S_M(X) = P(M(I,X) x M(X,I)), Nash product eps ⊠ delta = {(x ⊗ y, k) \| eps(x,k_y) and delta(y,k_x)}; M^S = Grothendieck of S.
+
+**Strongest result.** Prop 5 (Para is a monad), Prop 10 (action of Optic(M) on Optic(C,D) - the existence of parametrised optics), Prop 14 (Nash product is a laxator; naturality 'boils down to the fact that existential quantifiers commute'), Section 6 strong monoidal functor Para^S_⊛(Lens(Set)) -> OG. Interpretive claim (Section 4): 'Parametrised optics model cybernetic systems, namely dynamical systems steered by one or more agents.' Explicit gap (Section 4): 'What is missing in the mathematical structure of Para(Optic(−)) is a feedback mechanism, central in cybernetics' - the closing of the parameter loop (gradient descent, or equilibrium selection) is added per-instance, not by the algebra.
+
+**Assumptions.** M commutative monoidal (assumed 'for presentation purposes') so that Para(C) is monoidal on the nose; C, D symmetric monoidal M-actegories; for games, semicartesian C=D=M=Set; learners: base Smooth and gradient-descent lens fixed by hand; games: agents are perfect optimisers via argmax selection relations; Bayesian open games only claimed, not constructed
+
+**Resource model.** none. No cost of any kind is attached to optics, parameters, residuals or reparametrisations; the only 'resource-like' remark is the footnote that residuals play the role of 'memory' ferrying information between passes.
+
+**Failure boundary.** Only two example classes are presented (neural nets; open games). Bayesian and RL instances are asserted or deferred. The parameter-update loop ('feedback') is outside the structure. No cost, no convergence, no selection of controller. The 'lax optics' refinement needed to track residuals is left to future work (footnote 3). Nothing prefers gradient descent over argmax over Bayesian inversion as the controller.
+
+**Implementation.** none known (the paper links animations of optic composition; no library)
+
+**Track-B residual.** The parent states the pattern 'one parametrised optic, many controllers' and works out gradient learners and game agents; with Smithe/BHS it extends to Bayesian updaters. Track B must (i) add a cost functor on Para(Optic) (none exists), (ii) supply the missing 'feedback mechanism' as an ecology-indexed selection among controllers (gradient lens, selection relation, Bayesian inversion, enumerative search), and (iii) show that program-search and rewrite learners are (or are not) parametrised optics at all.
+
+**Upward question.** The algebra is controller-agnostic by design ('the same construction works if selection functions are replaced with any suitable lax monoidal pseudofunctor'). What ecology-indexed, resource-priced principle chooses the pseudofunctor - and is that choice itself a parametrised optic one level up (meta-morphogenesis)?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "A parametrised optic describes open systems that have bidirectional information flow, with a control on the forward direction and an objective on the backwards direction. This pattern is ubiquitous in cybernetics" — [0] Section 1
+> "For reasons of space we only present two classes of examples: neural networks which can be presented entirely using the structure of parametrised optics, and open games which have selection functions as an additional ingredient." — [0] Section 1
+> "abstractly the same construction works if selection functions are replaced with any suitable lax monoidal pseudofunctor on a category of optics." — [0] Section 1
+> "Parametrised optics model cybernetic systems, namely dynamical systems steered by one or more agents." — [0] Section 4
+> "What is missing in the mathematical structure of Para(Optic(−)) is a feedback mechanism, central in cybernetics." — [0] Section 4
+> "In machine learning, parameter updating is explicitly modelled (Construction 11), but in game theory we directly seek the equilibrium." — [0] Section 5
+> "This construction defines a strong monoidal functor Para^S_⊛(Lens(Set)) → OG, and can also be carried out for Bayesian open games and other more general formulations of open games." — [0] Section 6
+
+Verification notes: Full EPTCS text read; proposition/construction/definition numbers verified. Not in the Codex ledgers (PARENT_EXPANSION_V2 §B has Ghani et al. open games only). Sibling P7.json entry agrees. Verdict on Track-B B3 (see family synthesis): PARENT_SUFFICIENT at the algebraic-interface level for {gradient (any CRDC), Bayesian, game-theoretic} laws; OPEN for program-search / rewrite laws and for any resource-priced selection.
 
 ### P7.CATEGORICAL_GRADIENT_LEARNING — Categorical foundations of gradient-based learning (parametric lenses over Cartesian reverse differential categories)
 
@@ -1635,6 +2074,46 @@ Load-bearing quotes (verbatim from sources actually read):
 
 Verification notes: Full text read (arXiv v2). Definition/Example/Proposition numbers verified. Not present in any of the seven listed repo ledgers. Implementation URL taken verbatim from footnote 2 / Section 5.
 
+### P7.CATEGORICAL_GRADIENT_LEARNING — Categorical foundations of gradient-based learning (Cruttwell, Gavranovic, Ghani, Wilson, Zanasi 2022) with reverse derivative categories (Cockett et al. 2020)
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Categorical Foundations of Gradient-Based Learning — G. S. H. Cruttwell, Bruno Gavranovic, Neil Ghani, Paul Wilson, Fabio Zanasi (2022), ESOP 2022, LNCS 13240, pp. 1-28; arXiv:2103.01931. https://arxiv.org/abs/2103.01931 ; doi:10.1007/978-3-030-99336-8_1 arXiv:2103.01931 — `PARTIAL_TEXT_READ`
+- [1] Reverse derivative categories — Robin Cockett, Geoffrey Cruttwell, Jonathan Gallagher, Jean-Simon Pacaud Lemay, Benjamin MacAdam, Gordon Plotkin, Dorette Pronk (2020), CSL 2020; arXiv:1910.07065. https://arxiv.org/abs/1910.07065 arXiv:1910.07065 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Every component of gradient-based supervised learning is a parametric lens in Para(Lens(C)) for a Cartesian reverse differential category (CRDC) C: the model is the image of a Para(C)-map under Para(R): Para(C) -> Para(Lens(C)), where R: C -> Lens(C), f \|-> (f, R[f]) is the functor of Cockett et al. Prop. 31 (reverse chain rule RD.5 = functoriality); the loss is a Para(C) map (loss, B): B -> L; the learning rate is a lens (L,L') -> (1,1); the optimiser is a reparametrisation 2-cell (P,P) -> (P,P') (gradient update G*(p,p') = p + p') or a stateful lens (S x P, S x P) -> (P,P') (momentum, Nesterov - whose non-trivial get map is the 'lookahead' - Adagrad, Adam). Closing all ports yields put(a,s,p,b_t) = U*(s,p,p') with (p',a') = R[f](p,a,b'_p), (b'_t,b'_p) = R[loss](b_t,b_p,alpha(loss(b_t,b_p))). Deep dreaming = the same lens with the optimiser attached to the input port. Boolean circuits (POLY_Z2, XOR loss, identity learning rate) are the same construction in a different CRDC (Example 4.4). Cockett et al.: a CRDC is exactly a Cartesian differential category with a contextual linear dagger (Theorem 42); POLY_R over any commutative rig R is a CRDC (Example 14).
+
+**Formal object.** Para(Lens(C)): objects (A, A'); morphism (A,A') -> (B,B') = parameter pair (P,P') and a lens (f, f*) with f: P x A -> B, f*: P x A x B' -> P' x A'. Reparametrisation = lens on the (P,P') wires. R[f]: A x B' -> A' the reverse derivative; in Smooth R[f](x,v) = J[f]^T(x) v; in POLY_Z2 R[P] = <sum_i (dp_i/dx_1) y_i, ..., sum_i (dp_i/dx_n) y_i> with Boolean partial derivatives. Closed learning system = map (1,1) -> (1,1) in Para(Lens(C)) with parameter space (A x S x P x B, S x P). Learning iteration = the put map viewed as an endomorphism (A x B, put): Para(C)(P,P) composed with itself.
+
+**Strongest result.** Proposition 2.7 (= Cockett et al. Prop. 31): for a CRDC C, R: C -> Lens(C) is a functor; applying Para gives eq. (8) Para(R): Para(C) -> Para(Lens(C)), which IS backpropagation. Examples 4.1-4.4 recover, by unpacking one composite put map: quadratic loss + GD (regression), softmax cross-entropy + GD (logistic regression), MSE + Nesterov, Boolean-circuit learning (put(a,p,b_t) = p + p' with (p',a') = R[f](p,a,f(p,a)+b_t)). Section 6 corrects Fong et al. Theorem III.2 (functor does not respect the equivalence relation; invertibility of de/dx unjustified) by using Para 2-cells. Cockett et al. Theorem 42: CRDC = Cartesian differential category + contextual linear dagger; Theorem 16: every CRDC is a CDC via D[f] = (<1,0> x 1) R[R[f]] pi_1.
+
+**Assumptions.** base category is a Cartesian reverse differential category (Smooth, POLY_R for commutative rigs R); optimiser fixed in advance ('In all our settings we have fixed an optimiser beforehand'); loss map and learning rate supplied by the designer; only supervised learning of parameters or of inputs; no convergence or sample statements; RD.6-RD.7 (higher-order derivative axioms) not used
+
+**Resource model.** none built in. One incidental cost remark: reverse derivatives are 'much more computationally efficient' than forward ones for f: R^n -> R^m when m << n (Example 2.8, citing Griewank-Walther). No description length, memory, samples or verification accounting; the Section 7 remark that the construction works for ANY functor F: C -> Lens(C) makes explicit that nothing in the algebra prefers one backward functor over another.
+
+**Failure boundary.** Does not cover unsupervised, probabilistic, non-gradient, genetic or reinforcement learning (all listed as future work); GANs, RNNs, SVMs also future work. No statement of convergence, rate, or generalisation. The optimiser is a designer-chosen 2-cell; the framework offers no principle for choosing it. Nothing is said about which base category (Smooth vs POLY_Z2) a process should use.
+
+**Implementation.** Python proof-of-concept library announced in Section 5 (footnote link in paper; Gavranovic's 'numeric-optics-python' on GitHub - not fetched here)
+
+**Track-B residual.** Given that 'gradient learning = parametric lens over a CRDC + optimiser reparametrisation', and that any functor C -> Lens(C) would do, Track B must supply (i) a cost functor on Para(Lens(C)) (description length of P, work of R[f], memory of residuals) and (ii) the rule by which a resource-bounded developmental process selects the base category, the backward functor and the reparametrisation under ecology E. The parent supplies the type of the answer, not the answer.
+
+**Upward question.** Which functor C -> Lens(C) (reverse derivative, Bayesian inversion, selection relation, enumerative search) does a bounded developmental process converge to under E, and is there a 2-categorical (oplax) refinement of Para(Lens(C)) in which resource cost is visible so that this selection is non-trivial?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Proposition 2.7. [Cockett et al. 2019, Prop. 31] If C is a CRDC, there is a functor R : C → Lens(C)" — [0] Section 2.4
+> "Note that gradient descent is not typically seen as a lens - but it precisely fits this way into the picture we are creating!" — [0] Section 3.4
+> "In all our settings we have fixed an optimiser beforehand." — [0] Section 7
+> "in future work we plan to consider further modifications and additions to encompass non-supervised, probabilistic and non-gradient based learning. This includes genetic algorithms and reinforcement learning." — [0] Section 7
+> "much of our work can be applied to any functor of the form F : C → Lens(C) - F does not necessarily have to be of the form f ↦→ (f, R[f]) for a CRDC R." — [0] Section 7
+> "Using the reverse derivative (as opposed to the forward derivative) is well-known to be much more computationally efficient for functions f : R^n → R^m when m ≪ n" — [0] Example 2.8
+> "A Cartesian reverse differential category is precisely a Cartesian differential category with a contextual linear dagger." — [1] Cockett et al., Theorem 42
+> "Let R be a commutative rig. POLY_R is a reverse differential category whose reverse differential combinator R is again defined using partial derivatives of polynomials." — [1] Cockett et al., Example 14(1)
+
+Verification notes: Sections read as listed; equation and example numbers verified in text. Not in the Codex ledgers (LITERATURE_LEDGER.md lists only Fong et al. and CDL). Sibling P7.json entry P7.CATEGORICAL_GRADIENT_LEARNING agrees on content.
+
 ### P7.CDL — Categorical deep learning is an algebraic theory of all architectures (monad algebras / lax algebras in the 2-category Para)
 
 Disposition: `ADAPT` · best verification: `FULL_TEXT_READ`
@@ -1672,6 +2151,45 @@ Load-bearing quotes (verbatim from sources actually read):
 > "message passing and self-attention as instances of permutation equivariant learning over graphs" — [0] Section 1.1 (on GDL)
 
 Verification notes: Full text of arXiv v2 (32 pages) read, including all appendices A-J. Theorem/Example numbers (2.6, 2.12-2.15, B.16, G.6, G.10, G.12, I.1-I.5, J.1-J.5) verified. Not present in any listed repo ledger. Transformers: searched the text; the only mention is the GDL-intro sentence quoted above.
+
+### P7.CDL — Categorical Deep Learning is an Algebraic Theory of All Architectures (Gavranovic, Lessard, Dudzik, von Glehn, Araujo, Velickovic 2024)
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Position: Categorical Deep Learning is an Algebraic Theory of All Architectures — Bruno Gavranovic, Paul Lessard, Andrew Dudzik, Tamara von Glehn, Joao G. M. Araujo, Petar Velickovic (2024), ICML 2024, PMLR 235; arXiv:2402.15332v2. https://arxiv.org/abs/2402.15332 ; https://proceedings.mlr.press/v235/gavranovic24a.html arXiv:2402.15332 — `FULL_TEXT_READ`
+
+**What it already explains.** Position: neural-network architectures are (lax) algebra homomorphisms for monads/endofunctors valued in the 2-category Para. Level 1: monad algebras for the group-action monad G x - recover geometric deep learning; equivariant layers f(g.x) = g.f(x) are algebra homomorphisms (Ex 2.6; GNN, spherical CNN, G-CNN in App C). Level 2: (co)algebras of endofunctors recover lists (1 + A x -), trees (A + (-)^2), streams (O x -), Mealy (I -> O x -) and Moore (O x (I -> -)) machines; folds/unfolds are (co)algebra homomorphisms - 'generalised equivariance' with non-invertible operations. Level 3: in Para, folding/unfolding/recursive RNN cells and Mealy/Moore cells are algebras of the parametric 2-endofunctor Para(F) (Figure 1, App I); unrolled networks are lax homomorphisms with weight tying supplied by the copy map (App J); recurrent/recursive networks 'are lax algebras for free parametric monads generated by parametric endofunctors'. Theorem G.10: the lax 2-cells of a lax Para(T)-algebra make the parameter object a comonoid - weight tying is forced by lax coherence. Lawvere theories connect monads to syntax (App D; commutative semirings = finite polynomials, the Dudzik-Velickovic GNN-DP link).
+
+**Formal object.** Para_{>}(C) for an M-actegory C: objects of C; 1-cells (P, f: P > X -> Y); 2-cells r: P' -> P with f' = f o (r > X); composition (Q ⊗ P, g o (Q > f) o mu). A strong actegorical monad T lifts to a 2-monad Para(T) (Example G.8). Lax algebra (A, (P,a), eps_A, delta_A) for Para(T) with eps_A: P ⊗ I -> I, delta_A: I ⊗ P -> P ⊗ P. Architecture = lax algebra homomorphism square with 2-cell kappa. Free monad on F: F^kappa = colim(F^0 -> F^1 -> ...) (Def B.14, Theorem B.16 = Kelly); Conjecture G.12: Lax-Alg_Endo(Para(F)) equivalent to Lax-Alg_Mnd(F^kappa).
+
+**Strongest result.** Theorem G.10 (proved): for a strong actegorical monad T on an M-actegory C and a lax algebra (A,(P,a),eps_A,delta_A) of Para(T), P is a comonoid in M with counit !_P and comultiplication Delta_P determined by eps_A, delta_A, comonoid laws following from lax-algebra coherence; dually for lax coalgebras. Corollary G.11: Lax-Alg_Mnd(Para(T)) -> CoMon(C) x Lax(->,C) is fully faithful. Theorem G.6: the embedding C -> Para(C) preserves connected colimits. Theorem B.16 (Kelly): Alg_Pendo(F) equivalent to Alg_Mnd(F^kappa). Conjecture G.12 is unproved. Everything else in the paper is a position statement with worked examples (H.1 pixel-pair weight tying, H.5 stream weight sharing, I.1-I.5 cells, J.1-J.5 unrollings).
+
+**Assumptions.** designer chooses the base category, the monad/endofunctor and the actegory ('rely on choosing the right category to operate in'); weight sharing analysed by placing homomorphisms in Vect (linear layers); nonlinearities enter only through Para; strict monoidal M and strict actegory assumed for coherence proofs; no learning law is part of the theory: the backward pass is inherited from Cruttwell et al. by citation only
+
+**Resource model.** none. No description length, compute, memory, sample or verification accounting anywhere in the paper; alignment-to-algorithm is inherited informally from Xu et al. / Dudzik-Velickovic.
+
+**Failure boundary.** Non-neural coverage is limited to the SHAPE of computation: automata (streams, Mealy, Moore) and datatypes (lists, trees) appear as endofunctor (co)algebras whose cells are still parametric (neural) maps - 'recurrent neural networks can be thought of as learnable Mealy machines'. No production/rewrite system, program-synthesis, probabilistic or evolutionary learner is covered; 'verifiably correct logical argument, or code' is a hypothesis in Section 4. Transformers/attention are not derived. No update law, no convergence, no cost. Conjecture G.12 open.
+
+**Implementation.** none known (position paper; no code released)
+
+**Track-B residual.** CDL supplies the D0/D1 template 'architecture = choice of (base category, (2-)monad T, lax Para(T)-algebra)'. Track B must supply what CDL explicitly leaves to the designer: a rule mapping ecology E to the monad T and base category (why a sequential ecology yields the list/Mealy endofunctor, a grid ecology the translation monad), at what description-length and compute cost each lax algebra is compiled, and whether a non-neural cell (rewrite rule, program) can occupy the same algebra with a native learning law.
+
+**Upward question.** Can the monad T (the architectural constraint) itself be the object that a developmental process acquires under E - i.e. is there a functor Ecology -> Mnd(Para(C)) - and what is the cost of a lax algebra relative to a strict one (weight tying as a description-length saving that CDL never quantifies)?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "It is our position that the 2-category Para and 2-categorical algebra valued in it provide a formal theory of neural network architectures, establish formal criteria for weight tying correctness and inform design of new architectures." — [0] Section 3.1 (boxed position)
+> "they are lax algebras for free parametric monads generated by parametric endofunctors!" — [0] Section 3.2
+> "any results of categorical deep learning as presented here rely on choosing the right category to operate in; much like results in geometric deep learning relied on the choice of symmetry group." — [0] Section 4
+> "This suggests that recurrent neural networks can be thought of as learnable Mealy machines, a perspective seldom advocated for in the literature." — [0] Example I.4
+> "We also illustrate how the theory naturally encodes many standard constructs in computer science and automata theory." — [0] Abstract
+> "we hypothesise neural networks that can learn not merely conservation laws (as in Alet et al. (2021)), but verifiably correct logical argument, or code." — [0] Section 4
+> "Then P is a comonoid in M where ǫ_A is the data of its counit, and δ_A the data of its comultiplication, and the comonoid laws follow from lax algebra coherence conditions." — [0] Theorem G.10
+> "we have just successfully derived the key aim of geometric deep learning: finding neural network layers that are monad algebra homomorphisms of monads associated with group actions!" — [0] Section 2.1, after Example 2.6
+
+Verification notes: Full text read including all appendices; theorem/example labels checked. Codex ledger (LITERATURE_LEDGER.md G; PARENT_LEDGER_V1 P-CATEGORICAL-LEARNING) records it as 'recovers diverse NN and some automata constructs' at abstract depth; added here: the exact algebraic template, Theorem G.10, the precise (and limited) sense of automata coverage, and the absence of any learning law or cost.
 
 ### P7.CT_ML_SURVEY — Category theory in machine learning (survey; coverage map of gradient-based, probabilistic and equivariant learning)
 
@@ -1743,6 +2261,81 @@ Load-bearing quotes (verbatim from sources actually read):
 > "That work, which also uses biproducts (in monoidal but not cartesian form), does not appear to be separable from the application to machine learning" — [0] Section 16 (on Fong et al.)
 
 Verification notes: Read partially via targeted page queries (about 11 of 29 pages: introduction, cartesian instances, generalisation, matrices, reverse mode, related work, conclusions, proof of Theorem 4). Sections 9-10, 13-15 (dual category, indexed instances) not read directly. Not in the listed repo ledgers.
+
+### P7.ESSENCE_OF_AD — The simple essence of automatic differentiation (Elliott 2018): AD as a homomorphic (functorial) reinterpretation of a program; programmatic <-> neural bridge
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] The Simple Essence of Automatic Differentiation (extended version) — Conal Elliott (2018), ICFP 2018, Proc. ACM Program. Lang. 2(ICFP):70; arXiv:1804.00746v4. https://arxiv.org/abs/1804.00746 ; doi:10.1145/3236765 arXiv:1804.00746 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** AD is specified, not implemented: a derivative-augmented function type D_k a b = a -> b x (a `k` b) is required to be a homomorphism (functor) with respect to Category, Monoidal, Cartesian, Cocartesian and NumCat classes, and the implementation is CALCULATED from that specification (Figure 6). Sequential composition rule = chain rule (Theorem 1), parallel composition rule (Theorem 2), linear-map rule (Theorem 3). Generalising the derivative representation k over any biproduct category yields a family of algorithms: fully right-associated composition = forward mode, fully left-associated = reverse mode (Section 12); the continuation transformer Cont^r_k (Theorem 4: cont is a homomorphism) and the dual Dual_k (Theorem 5) give reverse-mode AD and gradients with 'no graphs, tapes, variables, partial derivatives, or mutation'. Conclusion: 'automatic differentiation is symbolic differentiation performed by a compiler'. Programs in an ordinary functional language become differentiable functions via an AD-agnostic compiler plugin (Elliott 2017) - the programmatic <-> neural bridge is a change of interpreting category, not a change of program.
+
+**Formal object.** newtype D_k a b = D (a -> b x (a `k` b)); linearD f f' = D (\a -> (f a, f')); Category instance: D g o D f = D (\a -> let (b,f') = f a; (c,g') = g b in (c, g' o f')); Cont^r_k a b = Cont ((b `k` r) -> (a `k` r)), cont f = Cont (o f); Dual_k a b = Dual (b `k` a) via onDot f = dot^{-1} o f o dot; indexed biproducts (Section 15) for n-ary products.
+
+**Strongest result.** Theorem 4 (proved in Appendix C.3): with the Figure 7 definitions, cont: (a `k` b) -> Cont^r_k a b is a homomorphism w.r.t. each instantiated class - this IS reverse-mode AD, correct by construction. Theorem 5 (App C.4): asDual is a homomorphism; Corollary 5.1: (M) and (O) mutually dualise (transposition). Theorem 6: indexed biproduct instances. Section 11: choosing the association is the optimal Jacobian accumulation problem, NP-complete (Naumann 2008).
+
+**Assumptions.** purely functional programs with precise denotation; differentiation is a partial higher-order operator (not all computable functions are differentiable); derivatives as linear maps in a biproduct category; scalar field for gradients; first-order derivatives only (higher-order and subdifferentials are future work)
+
+**Resource model.** compute and memory, incidentally: reverse mode 'is much more efficient than forward-mode AD (by a factor proportional to the domain dimension)' for scalar-codomain functions; optimal association of the composition chain is NP-complete (Section 11); mutation-free implementations 'can easily free (reuse) memory as they run, keeping memory use low' (Section 16). No description-length, sample or verification accounting; no cost enters the specification itself.
+
+**Failure boundary.** Owns the FORWARD/BACKWARD computation of derivatives for programs, not learning: 'learning algorithms aren't studied' (as Cruttwell et al. note). Says nothing about which programs to write, how program structure is searched, or the cost of the program space; the NP-complete accumulation problem is left to a compile-time heuristic. Relation to Fong et al. explicitly 'complement[ary]'.
+
+**Implementation.** Haskell, via the 'concat' compiler plugin (Elliott 2017); the paper's code appears as Haskell figures - repository not fetched
+
+**Track-B residual.** Elliott owns 'differentiable programming = homomorphic reinterpretation of an ordinary program in D_k'. Track B must ask what selects, under E, between (a) interpreting a program in D_k and learning real parameters by gradient and (b) searching the program space directly (enumeration/rewrite), how the NP-complete accumulation cost and the memory profile enter that selection, and whether the compiler-plugin picture (same source, different interpreting category) is the right formalisation of a 'morphology as interpretation' rather than 'morphology as source'.
+
+**Upward question.** If morphologies differ by interpreting category rather than by source, is 'morphogenesis' a change of functor Source -> Semantics chosen by the ecology (verification contract, cost), and can the NP-complete association problem serve as an exact resource coordinate for a neural-vs-programmatic phase boundary?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "specify AD simply and precisely by requiring this augmentation (relative to regular functions) to be homomorphic with respect to a collection of standard categorical abstractions and primitive mathematical operations." — [0] Section 1 (contributions)
+> "For fully right-associated compositions, it becomes forward mode AD; for fully left-associated compositions, reverse-mode AD; and for all other associations, various mixed modes." — [0] Section 12
+> "A more sophisticated version of this question is known as the “optimal Jacobian accumulation” problem and is NP-complete [Naumann, 2008]." — [0] Section 11
+> "Given the definitions in Figure 7, cont is a homomorphism with respect to each instantiated class." — [0] Theorem 4
+> "automatic differentiation is symbolic differentiation performed by a compiler." — [0] Section 17 (Conclusions)
+> "That work, which also uses biproducts (in monoidal but not cartesian form), does not appear to be separable from the application to machine learning, and so would seem to complement this paper." — [0] Section 16 (on Fong et al.)
+> "the implementations in this paper (Sections 12 and 13) are free of mutation and can easily free (reuse) memory as they run, keeping memory use low." — [0] Section 16
+
+Verification notes: Read via targeted page queries covering the specification, Theorems 4-6, and Sections 11-17; Sections 5-10 (linear-map representations) not read. Not in the Codex ledgers. Sibling P7.json entry agrees.
+
+### P7.GNN_DP — Graph Neural Networks are Dynamic Programmers (Dudzik & Velickovic 2022): the neural <-> dynamic-programming correspondence as one integral transform over a polynomial span
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Graph Neural Networks are Dynamic Programmers — Andrew Dudzik, Petar Velickovic (2022), NeurIPS 2022; arXiv:2203.15544v3. https://arxiv.org/abs/2203.15544 arXiv:2203.15544 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Makes precise the 'algorithmic alignment' claim (Xu et al. 2019) that GNNs align with dynamic programming. Both a DP step dp[x] <- recombine(score(dp[y], dp[x]) for y in expand(x)) and a message-passing GNN step h_u = phi(x_u, ⊕_{v in N_u} psi(x_u, x_v)) are instances of one INTEGRAL TRANSFORM over a polynomial span W <-i- X -p-> Y -o-> Z of finite sets: pullback i* (f \|-> f o i), argument pushforward p_⊗ (fold over list(R)), message pushforward o_⊕ (aggregate over bag(R)). The two differ only in the value semiring R: (R, x, +) for GNNs, the tropical (N ∪ {∞}, +, min) for Bellman-Ford. Aggregators are algebras of the bag monad (commutative monoids); argument-combiners are algebras of the list monad; a compatible pair is a semiring (App B-C); Tambara: FinPoly is the Lawvere theory for commutative semirings (App D). Bellman-Ford is derived exactly from Diagram 6 (Section 5). The view predicts a V^3 edge-update architecture (Diagram 10) that matches or beats V^2 on all edge-centric CLRS tasks (Tables 1-2; e.g. Dijkstra 59.58% -> 68.53%, Insertion sort 15.39% -> 24.67%).
+
+**Formal object.** Polynomial span (W, X, Y, Z; i: X -> W, p: X -> Y, o: Y -> Z) over FinSet; transform [W,R] -i*-> [X,R] -p_⊗-> [Y,R] -o_⊕-> [Z,R] with p_⊗ = ⊗ o (list pushforward) and o_⊕ = ⊕ o (bag pushforward); R a commutative semiring. Bellman-Ford span: W = V + (V + E), X = (V+E)+(V+E), Y = V + E, Z = V with R = (N ∪ {∞}, +, min); MPNN span: W = 1 + V + E, X = E + (E + E) + E, Y = E, Z = V with an MLP inserted on messages.
+
+**Strongest result.** No numbered theorem. Load-bearing derivation (Section 5): the Bellman-Ford update d_u <- min(d_u, min_{v->u} d_v + w_{v->u}) is exactly the transform of Diagram 6; (Section 6) the MPNN update is exactly the transform of the MPNN span with an MLP on messages: 'with a single abstract template (the polynomial span), we have successfully explained both'. App B: commutative monoids are the algebras of the bag monad (well known). Empirical: V^3-PGN improves edge-centric CLRS tasks by 4.44 +/- 1.06 points on average (Table 2).
+
+**Assumptions.** finite sets as carriers; value space R must be a commutative semiring for the aggregators to be well behaved; DP subproblem graph precomputed (outputs of eta known upfront); Bellman-Ford needs an explicit bias/self-edge; the GNN instance is trained by ordinary gradient descent; the DP instance has fixed semiring operations - learning is not part of the transform; sample-complexity advantage of alignment is cited from Xu et al. (NTK regime), not proved here
+
+**Resource model.** samples, indirectly: algorithmic alignment is motivated by sample complexity ('architectures with higher algorithmic alignment will have lower sample complexity in the NTK regime'), and out-of-distribution accuracy is measured. No compute, memory, description-length or verification accounting; the V^3 messages cost O(\|V\|^3) but this is not charged.
+
+**Failure boundary.** Bridges neural and programmatic (DP) morphologies at the level of FORWARD computation only: same span, different semiring. There is no DP-native learning law (the tropical instance is not learned; the real instance is learned by gradient). Nothing selects the semiring. Only DP algorithms expressible as one-step message passing are covered (path-finding style); the paper's own conjecture that the transform is a polynomial functor is left open.
+
+**Implementation.** experiments reuse the public CLRS benchmark code (cited); no separate library
+
+**Track-B residual.** The parent gives the neural <-> programmatic bridge for forward computation. Track B's residual is (i) the LEARNING side: is there a lens whose backward map is DP-like (tropical reverse derivative) so that the same learning algebra spans both semirings, and (ii) the SELECTION side: which semiring/span a bounded process acquires under E and at what sample/compute price - the parent only inherits an alignment -> sample-complexity heuristic.
+
+**Upward question.** Since POLY_R is a CRDC for every commutative rig R (Cockett et al.), does the tropical semiring admit a reverse derivative that makes DP LEARNABLE by the same lens algebra - and if so, what ecology coordinate (exact-verification contract vs noisy feedback) selects the tropical over the real rig?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "with a single abstract template (the polynomial span), we have successfully explained both a dynamic programming algorithm, and a GNN update rule—merely by choosing the correct support sets and latent space." — [0] Section 6
+> "Neural networks are built from linear algebra over the familiar real numbers, while DP, which is often a generalisation of path-finding problems, typically takes place over “tropical” objects" — [0] Section 3
+> "It can be proved that architectures with higher algorithmic alignment will have lower sample complexity in the NTK regime [20]." — [0] Section 1
+> "we conjecture that this transform can be described as a polynomial functor, where p⊗ and o⊕ correspond to the dependent product and dependent sum from type theory" — [0] Section 4
+> "We found that the V^3 architecture was equivalent to, or outperformed, the non-polynomial (V^2) one in all edge-centric algorithms (up to standard error)." — [0] Section 7
+> "It is well-known that the algebras for the monad bag are the commutative monoids, sets equipped with a commutative and associative binary operation and a unit element." — [0] Appendix B
+
+Verification notes: Pages 1-9 and 12-13 read; Tables 1-2 numbers transcribed from the text. Appendices C-F not read. Not in the Codex ledgers. Sibling P7.json entry P7.GNN_DP_CORRESPONDENCE agrees.
 
 ### P7.GNN_DP_CORRESPONDENCE — Graph neural networks are dynamic programmers (polynomial spans / integral transforms over semirings)
 
@@ -1817,6 +2410,42 @@ Load-bearing quotes (verbatim from sources actually read):
 
 Verification notes: Original 1965 paper NOT read; its bibliographic data (Trans. AMS 116:450-464, April 1965) is verified verbatim from reference [15] of the Egri-Nagy-Nehaniv preprint, whose statement of the theorem (Section 6) and holonomy version (Cor 5.10) were read. The doi given is from memory and marked UNVERIFIED. Prior repo ownership: heritable-search-geometry-v1 attributes transformation-semigroup closure to project issue #145 ('statement from lane charter; not re-verified against HST files'); this entry adds only the prime-decomposition/basis-minimality and PSPACE-hardness content, which is absent from those rows.
 
+### P7.POLY_DYNAMICAL — Polynomial functors: a mathematical theory of interaction (Niu & Spivak) - what it does and does not say about learning, update laws and mode-dependence
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Polynomial Functors: A Mathematical Theory of Interaction — Nelson Niu, David I. Spivak (2024), book (Cambridge University Press 2025 version; arXiv:2312.00990v2, 16 Aug 2024). https://arxiv.org/abs/2312.00990 ; doi:10.1017/9781009576734 arXiv:2312.00990 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** The automata morphology's canonical algebra. A Moore machine with states S, outputs I, inputs A is a lens Sy^S -> Iy^A (Def 4.1/4.4); a dependent dynamical system is a lens phi: Sy^S -> p for any polynomial interface p (Def 4.18), so the set of available inputs may depend on the current output (halting automata, Ex 4.21). Time evolution is the composition product: every state system Sy^S is a polynomial comonoid (eraser = do-nothing section, duplicator = transition lens, Ex 7.19), giving canonical lenses s -> s^{⊳n} to run n steps. Interaction = wrapper lenses p1 ⊗ ... ⊗ pn -> q; wiring diagrams are interaction patterns (4.4.3); cellular automata are graphs-as-wiring-diagrams (Ex 4.66). MODE-DEPENDENCE: Section 4.4.4 gives interaction patterns 'that cannot be captured by such a static diagram' - vertices vote on who their neighbours are (Ex 4.68), connections that snap under force (4.70), a company changing supplier (4.72), units attaching/detaching (4.73) - and the closure [q1 ⊗...⊗ qk, r] shows that 'a dynamical system with interface [q1 ⊗···⊗ qk, r] is simply selecting interaction patterns'. Every dynamical system can be obtained by wiring memoryless ones together (citing [BPS19]).
+
+**Formal object.** Poly: functors Set -> Set of the form p = sum_{i in p(1)} y^{p[i]}; lenses = natural transformations (on-positions p(1) -> q(1), on-directions q[f_1 i] -> p[i]). Dynamical system phi: Sy^S -> p with return phi_1: S -> p(1), update phi^#: p[phi_1(-)] -> S. Parallel product ⊗, closure [q,r] = prod_{j in q(1)} r o (q[j] y) with Poly(p ⊗ q, r) = Poly(p, [q,r]). Composition product ⊳ (substitution); comonoid (c, eps: c -> y, delta: c -> c ⊳ c); Cat# = comonoids in (Poly, y, ⊳).
+
+**Strongest result.** For Track B the load-bearing facts are structural: (i) Def 4.18 + Ex 7.19 (dynamical systems = lenses out of comonoids; time = ⊳); (ii) closure isomorphism (4.74) making mode-dependent wiring a first-class dynamical system; (iii) the [BPS19] result that all dynamical systems are wirings of memoryless ones. NEGATIVE finding (this pass): no passage returned mentions learning, adaptation, or updating the update map itself; the index pages inspected (356-358: 'lens', 'limit', 'monoid', 'Moore machine', 'interaction'...) contain no 'learning' or 'cost' entry. Update in Poly means state transition, not parameter adaptation.
+
+**Assumptions.** single-variable polynomial functors on Set (stated as a deliberate scope choice); deterministic, discrete-time systems in the chapters read (stochastic/continuous extensions are in Smithe's thesis Ch. 6, not here); no notion of parameter, loss, or objective
+
+**Resource model.** none: state-set cardinality, memory, time complexity and description length are never charged; no index entry for cost or complexity was found.
+
+**Failure boundary.** Models state transition and interconnection, including interconnection that changes with state (mode-dependence), but NOT adaptation of the transition map: there is no learner, no update law of the update law, no optimisation. Poly therefore covers Track-B's B0 (typed stateful composition) and the automata morphology's structure, not its acquisition. Learning enters only when Poly is combined with lenses over CRDCs (Cruttwell) or Bayesian lenses (Smithe) - i.e. through the other parents in this family.
+
+**Implementation.** none (mathematics); source at https://github.com/ToposInstitute/poly (book source, per title page)
+
+**Track-B residual.** Codex PARENT_EXPANSION_V2 §A already records Niu-Spivak as owning typed stateful composition. What it does NOT own, and Track B must still supply: an update law for the update map (development), a cost on state systems (memory/time), and an ecology-indexed reason why a particular state system S and interface p are acquired. Mode-dependent wiring is a candidate formal home for 'morphology change during a lifetime', but Poly gives no law for which mode is selected.
+
+**Upward question.** Can a learning law be expressed as a lens Sy^S -> [q, r] that selects interaction patterns (i.e. is 'development' a dynamical system over the space of wirings), and what would a cost on Poly's residual/state objects look like so that mode selection is resource-priced?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "A dependent dynamical system (or a dependent Moore machine, or simply a dynamical system) is a lens φ : Sy^S → p for some S ∈ Set and p ∈ Poly." — [0] Definition 4.18
+> "While wiring diagrams are a handy visualization tool for certain simple interaction patterns, there are more general interaction patterns that cannot be captured by such a static diagram." — [0] Section 4.4.4
+> "What it also means is that a dynamical system with interface [q1 ⊗ · · · ⊗ qk, r] is simply selecting interaction patterns q1 ⊗ · · · ⊗ qk → r." — [0] Section 4.4.4 / 4.5
+> "every state system is a polynomial comonoid, whose eraser is the do-nothing section and whose duplicator is the transition lens." — [0] Example 7.19
+> "In fact, it was shown in [BPS19] that every dynamical system can be obtained by wiring together memoryless ones." — [0] Section 4.6
+
+Verification notes: Read via targeted page queries only (pages listed); the claim 'no learning law' rests on the returned pages and index pages, not on a full read - recorded as a negative finding at PARTIAL depth. Codex PARENT_EXPANSION_V2 §A cites the CUP edition (doi 10.1017/9781009576734.006) as STRONG_PARENT_FOR_B0_LOCAL_ADAPTIVE_TRANSDUCERS; correction: it is a parent for B0 composition, not for anything adaptive. Sibling P7.json entry P7.POLY_DYNAMICAL_SYSTEMS agrees on structure; mode-dependence added here.
+
 ### P7.POLY_DYNAMICAL_SYSTEMS — Polynomial functors and compositional dynamical systems (Moore/Mealy machines as lenses Sy^S -> p; wiring-diagram algebras; interval sheaves)
 
 Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
@@ -1854,6 +2483,43 @@ Load-bearing quotes (verbatim from sources actually read):
 > "continuous dynamical systems do not generally correspond to total and deterministic continuous machines." — [1] Remark 5.1.3 (SSV)
 
 Verification notes: Both read partially via targeted page queries; definitions and example numbers quoted are verified on the returned pages; large parts of both texts (Niu-Spivak Ch.1-3, 5, 8-9; SSV Sections 3.2-3.3, 4.2-4.5 proofs) were not read. Not in the listed repo ledgers (the HSG ledger row R7 cites Baez-Fong open Markov processes, a different parent).
+
+### P7.RESOURCE_SILENCE — Synthesis: do any of the categorical learning works charge resources (description length, compute, samples, memory, verification)? Evidence census across the family, including the one categorical work that does price space-time (Gavranovic 2022)
+
+Disposition: `OPEN` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Space-time tradeoffs of lenses and optics via higher category theory — Bruno Gavranovic (2022), arXiv:2209.09351v1. https://arxiv.org/abs/2209.09351 arXiv:2209.09351 — `PARTIAL_TEXT_READ`
+- [1] Backprop as Functor; Categorical foundations of gradient-based learning; CDL; Bayesian updates compose optically + thesis; Categorical cybernetics; Reverse derivative categories + RDA; GNNs are dynamic programmers; Polynomial functors; Simple essence of AD — see entries 1-9 of this ledger (2018), as in entries 1-9. as in entries 1-9 — `FULL_TEXT_READ`
+
+**What it already explains.** CENSUS. (1) Fong-Spivak-Tuyeras: no resource; one qualitative remark that lower-dimensional gradients are quicker. (2) Cruttwell et al.: no resource; one remark that reverse derivatives are cheaper when m << n; explicitly says ANY functor C -> Lens(C) fits. (3) CDL: none. (4) Smithe 2020 / thesis / BHS: none; 'intractable' acknowledged, then a LOSS (KL/free energy) attached, not a cost. (5) Capucci et al.: none; residuals informally called 'memory'. (6) Cockett et al.: 'cheap gradient principle' cited as motivation, not formalised; Wilson-Zanasi: exponential brute-force vs constant-factor compositional reverse derivative - the only explicit overhead statement, and it is an implementation fact. (7) Dudzik-Velickovic: sample complexity via NTK alignment, cited from Xu et al.; O(\|V\|^3) messages not charged. (8) Niu-Spivak: none. (9) Elliott: NP-complete optimal Jacobian accumulation and low memory of mutation-free RAD, as side remarks. EXCEPTION FOUND: Gavranovic 2022 shows that denotationally isomorphic categories of cartesian lenses and optics implement different SPACE-TIME tradeoffs - lens composition recomputes intermediates from the input (gradient checkpointing: memory constant in depth n, node evaluations scaling as n^2), optic composition stores residuals M1 ⊗ M2 (more memory, no recomputation) - and lifts optics to a 2-category 2-Optic(C) (oplax coend) whose 2-cells track internal state so that the distinction becomes visible; Theorem 1: a local adjunction (residual reifier R left adjoint to residual eraser E) between Lens_Cart(C) and 2-Optic(C). This prices IMPLEMENTATION of a fixed computation, not the choice of architecture or learning law.
+
+**Formal object.** Gavranovic 2022: 2-Optic(C)((A,A'),(B,B')) = oplax coend over M of C(A, M ⊗ B) x C(M ⊗ B', A'); objects (M, fw, bw), 2-cells omega_r for r: M1 -> M2 with commuting squares; pi_0 * (2-Optic(C)) = Optic(C) (Prop 6); Theorem 1 adjunction R ⊣ E with R(f,f') = (A, graph(f), f'), E(M,fw,bw) = (fw # pi_2, (fw # pi_1) x B' # bw); the embedding Lens -> 2-Optic is oplax with oplaxator detecting the composition rule (space-time) difference.
+
+**Strongest result.** Negative census result (this family): NO categorical parent attaches a description-length, sample, verification or compute COST to the objects that are compared (learners, lenses, algebras, controllers); costs appear only as motivating remarks or as properties of one implementation. Positive exception: Gavranovic 2022 Theorem 1 + Remark 1 + footnote 8 formalise a memory-versus-recomputation tradeoff inside the optic algebra ('the memory required to compute gradients ... is constant in the number of layers n, but the number of node evaluations scales with n^2'), establishing that 1-categorical (denotational) equivalence ERASES resource distinctions and that a 2-categorical refinement is needed to see them.
+
+**Assumptions.** census covers only the works read in this family (nine primary works plus Gavranovic 2022); later categorical work such as Wilson-Zanasi 2023 'Data-parallel algorithms for string diagrams' was not read and may charge parallel cost
+
+**Resource model.** the entry's subject: the family as a whole models none of {description length, samples, verification}; compute/memory appear only in Gavranovic 2022 (space vs time of optic composition), Wilson-Zanasi (exponential vs constant-factor reverse derivative), Elliott (NP-complete accumulation; mutation-free memory), Dudzik-Velickovic (sample complexity by citation).
+
+**Failure boundary.** Because no cost functor exists on Learn / Para(Lens(C)) / Para(Optic) / BayesLens / Lax-Alg(Para(T)), the family cannot rank two morphologies or two learning laws; every parent leaves the choice to the designer (Cruttwell: 'fixed an optimiser beforehand'; CDL: 'rely on choosing the right category'; Capucci: feedback 'is missing'; Smithe: choosing an approximation is 'a new problem'). Gavranovic 2022 prices only how a fixed optic is executed, and only along one axis (memory vs recomputation).
+
+**Implementation.** none
+
+**Track-B residual.** This is the Track-B D1 residual at the algebraic level: define a cost structure on the family's common algebra (a lax/oplax 2-cell or enrichment over a resource monoid on Para(Optic(C))) under which (a) the compilation of a morphology into the algebra has a stated overhead in description length / update work / verification work, and (b) the choice of backward functor (reverse derivative, Bayesian inversion, selection relation, search) becomes a priced optimisation indexed by the ecology. Gavranovic 2022 shows the 2-categorical direction is the right one for at least the memory/time axis.
+
+**Upward question.** Is the correct home for resource-charged morphogenesis a 2-category (or double category) of optics enriched in a cost monoid, in which denotational equivalence is refined so that 'same behaviour, different cost' becomes a 2-cell - and does Gavranovic's R ⊣ E adjunction generalise to an adjunction between 'cheap-memory' and 'cheap-time' presentations of any learning law?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "This means that lens composition picks a particular space-time tradeoff when solving the issue of backpropagating information." — [0] Gavranovic 2022, Section 2
+> "The memory required to compute gradients is in our graph is constant in the number of layers n, but the number of node evaluations scales with n^2." — [0] Gavranovic 2022, footnote 8 (sic)
+> "to the best of our knowledge this is the first time the connection between lenses and gradient checkpointing has been established." — [0] Gavranovic 2022, Remark 1
+> "As the current categorical framework doesn’t have a high-enough resolution to formally capture these distinctions, we seek to provide one." — [0] Gavranovic 2022, Section 1
+> "This allows optics to break down the problem of saving intermediate state into smaller pieces: each optics takes care of storing their own data. In turn, this removes the need to recompute any information, at the expense of needing more memory." — [0] Gavranovic 2022, Section 3 (sic)
+
+Verification notes: Census statements for entries 1-9 are traceable to the quotes recorded in those entries. Gavranovic 2022 read partially via page queries (pages listed). Codex ledgers have no resource census of the categorical family; Codex PARENT_EXPANSION_V2 §D lists information-theoretic resource parents (Tishby, Sims, Lieder-Griffiths) which are NOT categorical and do not price learning laws.
 
 ### P7.REVERSE_DERIVATIVE_BOOLEAN — Reverse derivative categories and Reverse Derivative Ascent on Boolean circuits (gradient-like learning on a symbolic morphology)
 
@@ -1895,6 +2561,1233 @@ Load-bearing quotes (verbatim from sources actually read):
 
 Verification notes: Wilson-Zanasi read in full; Cockett et al. read on the pages returned by targeted queries (definition of CRDC with all seven axioms, Examples 2/5/14, Theorems 16/41/42, Prop 24, Section 5); Section 4.1-4.2 on fibrations and Prop 31 not read directly (cited via Cruttwell et al.). Neither is in the listed repo ledgers.
 
+### P7.REVERSE_DERIVATIVE_BOOLEAN — Reverse derivative categories (Cockett et al. 2020) and Reverse Derivative Ascent on Boolean circuits (Wilson & Zanasi 2021): the gradient law on a symbolic morphology
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Reverse derivative categories — Robin Cockett, Geoffrey Cruttwell, Jonathan Gallagher, Jean-Simon Pacaud Lemay, Benjamin MacAdam, Gordon Plotkin, Dorette Pronk (2020), CSL 2020; arXiv:1910.07065. https://arxiv.org/abs/1910.07065 arXiv:1910.07065 — `PARTIAL_TEXT_READ`
+- [1] Reverse Derivative Ascent: A Categorical Approach to Learning Boolean Circuits — Paul Wilson, Fabio Zanasi (2021), ACT 2020, EPTCS 333, pp. 247-260. https://arxiv.org/abs/2101.10488 ; doi:10.4204/EPTCS.333.17 arXiv:2101.10488 — `FULL_TEXT_READ`
+
+**What it already explains.** Cockett et al. axiomatise the reverse derivative: a Cartesian left-additive category with a combinator R[f]: A x B -> A satisfying RD.1-RD.7; POLY_R for any commutative rig R is a CRDC (Example 14), so Z2-polynomials (Boolean functions) carry a reverse derivative; Prop 31: f \|-> (f, R[f]) is a product-preserving functor into the dual of the linear fibration; Theorem 42: CRDC = Cartesian differential category + contextual linear dagger. Wilson-Zanasi define Reverse Derivative Ascent (RDA) 'at the level of so-called reverse differential categories': rdaStep_f computes the model error delta_y = f(theta,x) + y (XOR) and the parameter change delta_theta = R[f](theta, x, delta_y) pi_0, iterated as a scanl (Def 23-24). For Boolean circuits they give a syntactic operator R~ defined inductively on the generators of PolyCirc (Def 15), prove it well defined modulo the polynomial-circuit axioms (Lemma 16), show every Boolean circuit has a 'safe' equivalent (Lemma 19; safety = no AND gate with both inputs reachable from one input) on which R~ respects the Boolean axiom x^2 = x (Lemma 20, Prop 21), hence a reverse-derivative operator on BoolCirc (Def 22) - explicitly NOT making BoolCirc a CRDC, because safety is not compositional (RD.5 fails). Empirically: Iris 2-class 98.0%, Iris 3-class 73.3%, binarised MNIST 2-class 99.2% (Table 1).
+
+**Formal object.** CRDC: (X, x, +, 0, R) with R[f]: A x B -> A. POLY_Z2: objects n, morphisms b-tuples of polynomials in Z2[x1..xa]; R[P] = <sum_i (dp_i/dx_1) y_i, ..., sum_i (dp_i/dx_n) y_i>. BoolCirc = string diagrams over generators (XOR, AND, copy, ...) modulo equations (2); PolyCirc = same minus the idempotence axiom, isomorphic to POLY_Z2 (Prop 9). Brute-force reverse derivative on black-box f: <sum D_1[f](x).delta_y, ..., sum D_a[f](x).delta_y> with Boolean partial derivatives D_i[f](x) = f(x) + f(x + e_i) (Example 14). rdaStep_f: P x A x B -> P; rda_f = iterated rdaStep over examples (x_i, y_i).
+
+**Strongest result.** Cockett et al. Theorem 42 (characterisation) and Example 14 (POLY_R is a CRDC). Wilson-Zanasi Lemma 19 + Lemma 20 + Prop 21 + Def 22: a well-defined reverse-derivative operator on BoolCirc via safe representatives, with the honest caveat that this does not make BoolCirc a reverse derivative category. Section 4.2.1: the compositional R[eval] 'is a circuit whose size is within a constant factor of eval' whereas brute-force rdiffB requires i+1 evaluations (exponential in input dimension for the eval model with 2^a parameters). Section 5: RDA in Smooth 'is similar to stochastic gradient descent' except no learning rate and no explicit loss function; convergence conditions unknown; the authors believe RDA is a special case of Fong et al.
+
+**Assumptions.** model class is a morphism of a reverse differential category (Boolean circuits via POLY_Z2); features binarised by normalise-and-round ('throwing away as much of the information of the dataset as possible'); no learning rate, no explicit loss; error = XOR; safe circuit extraction not implemented in the prototype (brute-force rdiffB used for MNIST); toy benchmarks only (Iris; 2-class MNIST)
+
+**Resource model.** compute only, informally: brute-force reverse derivative needs i+1 evaluations of f (exponential for eval with 2^a parameters) versus the compositional R[eval] within a constant factor of eval and computed once (Section 4.2.1); motivation cites 'expensive and power-hungry GPGPU hardware' versus efficient binarised training. Cockett et al.: reverse mode is preferred by the 'cheap gradient principle' (Section 1). No description-length, sample or verification accounting.
+
+**Failure boundary.** Learns PARAMETERS of a fixed Boolean circuit; does not synthesise circuit structure ('The first task is to discover principles for building effective parametrised circuit models'). BoolCirc is not a CRDC (RD.5 fails), so the categorical guarantees hold only for POLY_Z2 representatives. No convergence theory ('we have no explicit loss function, which is important to discover the conditions under which guarantees of convergence exist'). No production/rewrite/program-search learning; Boolean circuits are a symbolic REPRESENTATION but the learning law is still gradient-like, i.e. this crosses the neural/symbolic boundary in the representation, not in the learning law.
+
+**Implementation.** Haskell library: http://catgrad.com/p/reverse-derivative-ascent and https://github.com/statusfailed/act-2020-experiments (cited in the paper; not fetched)
+
+**Track-B residual.** This parent proves the gradient learning law transports to a symbolic (Boolean-circuit) morphology whenever the base is a CRDC. Track B's residual: (i) which rig / base category a resource-bounded developmental process selects under E and at what cost (the parent gives one data point: compositional vs brute-force reverse derivative differ exponentially); (ii) production/rewrite systems and program search are NOT CRDCs, so the cross-morphology learning law for those morphologies remains unowned; (iii) structure (circuit topology) learning is explicitly open.
+
+**Upward question.** Is there a rig-indexed family of morphologies (R = reals: neural; Z2: circuits; tropical: DP per Dudzik-Velickovic) such that the ecology's verification contract and resource prices select the rig - and is the exponential brute-force/compositional gap the first coordinate of a resource phase boundary?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "We introduce Reverse Derivative Ascent: a categorical analogue of gradient based methods for machine learning." — [1] Wilson-Zanasi, Abstract
+> "Note our methodology allows us to learn the parameters of boolean circuits directly, in contrast to existing binarised neural network approaches." — [1] Wilson-Zanasi, Abstract
+> "Note that this definition is a minor abuse of notation, because R does not make BoolCirc a reverse derivative category. This is because the safety condition is not compositional, and thus cannot satisfy axiom RD.5." — [1] Wilson-Zanasi, after Definition 22
+> "Computing it requires i + 1 evaluations of f, and in models with just a moderate number of parameters and/or where f is expensive to compute, this quickly becomes intractable." — [1] Wilson-Zanasi, Example 14
+> "R[eval] (as computed by rdiff eval) is a circuit whose size is within a constant factor of eval, and whose result needs to be computed just once." — [1] Wilson-Zanasi, Section 4.2.1
+> "Thirdly, we have no explicit loss function, which is important to discover the conditions under which guarantees of convergence exist." — [1] Wilson-Zanasi, Section 5
+> "The first task is to discover principles for building effective parametrised circuit models." — [1] Wilson-Zanasi, Section 5
+> "A Cartesian reverse differential category is precisely a Cartesian differential category with a contextual linear dagger." — [0] Cockett et al., Theorem 42
+> "it is much more common for the reverse derivative to play the central role due to its increased efficiency and improved accuracy when computing with functions from R^n to R (due to the so called cheap gradient principle)." — [0] Cockett et al., Section 1
+
+Verification notes: Wilson-Zanasi read in full including Appendix A (canonical form, Lemma 34). Cockett et al. read in the parts listed; RD.5-RD.7 statements not read verbatim (Definition 13 output was truncated after RD.4). Not in the Codex ledgers. Sibling P7.json entry agrees.
+
+
+## P8 — cognitive architectures / symbolic systems
+
+### P8.CA_SURVEY — 40 years of cognitive architectures (Kotseruba & Tsotsos 2020): the symbolic / emergent / hybrid taxonomy over 84 architectures - syntactic, not behavioural; the stated trend toward hybrids
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] A Review of 40 Years in Cognitive Architecture Research: Core Cognitive Abilities and Practical Applications — Iuliia Kotseruba, John K. Tsotsos (2020), Artificial Intelligence Review 53(1):17-94 (2020); arXiv:1610.08602v3 (13 Jan 2018). https://arxiv.org/abs/1610.08602 ; doi:10.1007/s10462-018-9646-y arXiv:1610.08602 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** A census of 84 cognitive architectures (49 active) and 900+ applications, grouped by 'the type of representation and information processing they implement' into symbolic (cognitivist), emergent (connectionist; subdivided into neuronal models and connectionist logic systems) and hybrid (subdivided into symbolic sub-processing - a symbolic architecture with a self-contained sub-symbolic sensory module - and fully integrated). The classification is explicitly SYNTACTIC: the authors reject self-assigned labels and literature classifications as inconsistent (Soar vs ACT-R disagreements; probabilistic action selection called symbolic in some systems and sub-symbolic in others), and fix a convention: explicit symbols combinable into meaningful expressions and syntactic manipulation are symbolic; 'anything that is not an explicit symbol and processing other than syntactic manipulation is sub-symbolic (e.g. numeric data, pixels, probabilities, spreading activations, reinforcement learning, etc.)'. Trend statement (Figure 2 caption): 'after 2000s most of the newly developed architectures are hybrid'; conclusion: hybrids are 'the most numerous and diverse group, showing the tendency to grow even more, thus confirming a prediction made almost a decade ago [128]', forming 'a continuum between emergent and symbolic systems' for which 'quantitative analysis of this space is not feasible'. CogPrime and Sigma are placed 'conceptually closer to emergent systems'.
+
+**Formal object.** Taxonomy tree: {symbolic, emergent = {neuronal modeling, connectionist logic}, hybrid = {symbolic sub-processing, fully integrated}} applied by a fixed convention on representation and processing; timeline of 84 architectures (Fig 2) coloured by paradigm; mapping of architectures to perception modalities, attention, memory types, learning types, reasoning, and application counts.
+
+**Strongest result.** No theorem. Empirical findings: (i) hybrids dominate and are increasing since the 2000s; (ii) labels in the literature are inconsistent (only 34 of 84 self-label); (iii) the hybrid space is a continuum not amenable to quantitative analysis. For Track B the decisive fact is methodological: the taxonomy is by representation/processing SYNTAX, not by behaviour, developmental signature or ecology, so it cannot serve as a morphology-equivalence relation (Track-B T3) nor as evidence of a phase law.
+
+**Assumptions.** representation-and-processing labels are the right level for grouping architectures; the 84 architectures are a representative sample of the field; the hybrid trend reflects the field's design choices (sociological), not an outcome of selection under stated ecologies
+
+**Resource model.** none; no architecture is compared on compute, description length, samples or verification.
+
+**Failure boundary.** Syntactic classification; explicitly not behavioural; no ecology coordinates; no developmental data; the hybrid 'trend' is a count of human design decisions over time and cannot be read as evidence that hybrids are selected by task ecologies. The survey itself says quantitative analysis of the hybrid continuum is not feasible.
+
+**Implementation.** none (survey); supplementary data of 900 projects referenced
+
+**Track-B residual.** The survey fixes the labels Track B must NOT reuse as a morphology relation. Track B's residual: a behavioural/developmental equivalence (Codex GMI-T4/T5A already show current-behaviour classes are coarser than developmental classes) and an ecology-conditioned account of why the field drifted to hybrids - i.e. is the trend a phase phenomenon of the tasks the field chose, or fashion?
+
+**Upward question.** Can the 84-architecture census be re-scored on Track-B's structural coordinates (local vs global credit, explicit vs distributed competence, revision locality, etc., LEARNING_LAW_ATLAS_V1) so that the 'hybrid continuum' the authors declare non-quantifiable becomes a measurable space with ecology labels?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "A more general grouping of architectures is based on the type of representation and information processing they implement. Three major paradigms are currently recognized: symbolic (also referred to as cognitivist), emergent (connectionist) and hybrid." — [0] Section 3
+> "To avoid inconsistent grouping, we did not rely on self-assigned labels or conflicting classification of elements found in the literature." — [0] Section 3
+> "For our classification, we assume that anything that is not an explicit symbol and processing other than syntactic manipulation is sub-symbolic (e.g. numeric data, pixels, probabilities, spreading activations, reinforcement learning, etc.)." — [0] Section 3
+> "According to this data there was a particular interest in symbolic architectures since mid-1980s until early 1990s, however after 2000s most of the newly developed architectures are hybrid." — [0] Figure 2 caption
+> "In conclusion, as can be seen in Figure 3, hybrid architectures are the most numerous and diverse group, showing the tendency to grow even more, thus confirming a prediction made almost a decade ago [128]." — [0] Section 3, conclusion
+> "Hybrid architectures form a continuum between emergent and symbolic systems depending on the proportions and roles played by symbolic and sub-symbolic components. Although quantitative analysis of this space is not feasible, it is possible to crudely subdivide it." — [0] Section 3, conclusion
+> "some architectures such as CogPrime and Sigma are conceptually closer to emergent systems as they share many properties with the neural networks." — [0] Section 3, conclusion
+
+Verification notes: Section 3 read in full from the cached extraction; other sections not read. Not in the Codex ledgers.
+
+### P8.HYPERON — OpenCog Hyperon (Goertzel et al. 2023) and 'Toward a formal model of cognitive synergy' (Goertzel 2017): the exact cognitive-synergy claim and its evidential status
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] OpenCog Hyperon: A Framework for AGI at the Human Level and Beyond — Ben Goertzel, Vitaly Bogdanov, Michael Duncan, Deborah Duong, Zarathustra Goertzel, Jan Horlings, Matthew Ikle, Lucius Greg Meredith, Alexey Potapov, Andre Luiz de Senna, Hedra Seid, Andres Suarez, Adam Vandervorst, Robert Werko (2023), arXiv:2310.18318v1. https://arxiv.org/abs/2310.18318 arXiv:2310.18318 — `PARTIAL_TEXT_READ`
+- [1] Toward a Formal Model of Cognitive Synergy — Ben Goertzel (2017), arXiv:1703.04361v1. https://arxiv.org/abs/1703.04361 arXiv:1703.04361 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** The Codex atlas (T4) already records Hyperon as owning 'one shared substrate hosting heterogeneous cognitive algorithms' (MeTTa over a typed metagraph Atomspace). Added here, the EXACT synergy claim and its status. Hyperon 2023: cognitive synergy 'stemmed from an understanding of how different types of memory and learning mechanisms in the human brain interact' and 'highlighted how the brain translates a problem from one kind of memory to another kind when it gets stuck'; 'we need all these processes occurring concurrently in the same large Atomspace metagraph – this is how you get the cognitive synergy that leads to emergence of large-scale mind-structure patterns'; the efficiency advantage is stated CONDITIONALLY: 'If s multi-paradigmatic integrative approach is more efficient than mono-paradigmatic, then Hyperon has chances to become a leading AGI platform.' Goertzel 2017 formalises the notion: a hierarchy of agent models (RL agents -> cognit agents -> hypergraph agents -> PGMC agents); 'stuckness' of a cognitive process C in situation S as 1 - conf_{C,S}; synergy between A and B as the probability that exactly one is stuck; Conjecture 1 (cognitive operations are mostly hypergraph homomorphisms or their inverses), Conjecture 2 (synergetic processes have many low-cost homomorphisms but few isomorphisms between their transition graphs), Conjecture 3 (natural transformations eta_{A,B} between functors F_A, F_B with a COST INEQUALITY: the indirect route A -> B -> B -> A is often cheaper than the direct A-route, eq. (3)). Evidential status: no theorem is proved, no experiment reported; the author's own words: 'Our intuition is that a variety of interesting rigorous theorems likely exist in the vicinity of this informal conjecture. However, much more investigation is required'; 'this has yet to be studied empirically in a systematic way'; the PrimeAGI arguments 'have obviously been somewhat hand-wavy'.
+
+**Formal object.** Goertzel 2017: cognitive process A as a functor F_A on the metasystem's state-transition hypergraph category G_S mapping any transition subgraph X to the closest match F_A(X) realised by A alone; synergy = natural transformations eta_{A,B}: F_A => F_B and eta_{B,A} with cost(eta^{A,B}_X) + cost(F_B(f)) + cost(eta^{B,A}_Y) << cost(F_A(f)) (inequality (3)); stuck_{C,S,I_S,I} = 1 - max_P g(P) c(P) e(P) c(P); cog-syn_{A,B,P} = weighted probability over stuckness intervals of 'exactly one stuck'. Hyperon: Atomspace metagraph, MeTTa language, PLN, MOSES, ECAN as concurrent processes on one graph.
+
+**Strongest result.** None. Three conjectures (Goertzel 2017) and one conditional sentence (Hyperon 2023). The strongest concrete content is the DEFINITION of synergy as a cost inequality across commutation diagrams - i.e. the claim is intrinsically about resource cost of translating between paradigms, which is exactly the kind of quantity no other parent in this family formalises.
+
+**Assumptions.** human-like cognition requires multiple memory types and learning mechanisms interacting (assumed, from brain analogy); cognitive processes as hypergraph rewrite rules, mostly homomorphisms (Conjecture 1); cost weightings on arrows exist but are never specified; efficiency advantage of multi-paradigm integration is a hypothesis ('If ...')
+
+**Resource model.** cost is CENTRAL to the definition of synergy (inequality (3) compares total costs of paths through commutation diagrams) but is left unspecified - no unit, no measurement, no theorem. Hyperon 2023 reports engineering efficiency concerns (old OpenCog 'considerably slower than modern neural network frameworks') as motivation only.
+
+**Failure boundary.** No theorem, no controlled experiment, no benchmark showing that multi-paradigm integration is more efficient than a mono-paradigm system. The formal model has no theorem relating synergy to general intelligence; the conjectures are explicitly labelled as needing 'much more investigation'. The substrate hosts paradigms because engineers implement them (PLN, MOSES, ECAN); no acquisition and no selection law.
+
+**Implementation.** OpenCog Hyperon / MeTTa (open source; github.com/trueagi-io per the paper; not fetched)
+
+**Track-B residual.** Hyperon/CogPrime owns the HYPOTHESIS that cross-paradigm translation-at-stuckness is cost-saving, formalised as a cost inequality on natural transformations. Track B's residual is to turn that into a measured, charged quantity under a registered ecology: when (in E) is the hybrid route cheaper than the mono-paradigm route, and can that be predicted before search? Hyperon gives the shape of the inequality, not its evaluation.
+
+**Upward question.** Goertzel's inequality (3) is a cost statement about natural transformations between paradigm-functors. If Track B measures those costs under registered ecologies, does the sign of the inequality flip predictably with ecology coordinates - i.e. is 'cognitive synergy' a phase phenomenon rather than a universal principle?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "and Hyperon is a platform precisely for AGI R&D with the focus on cognitive synergy between different paradigms, approaches, techniques." — [0] Hyperon 2023, Section 4 (quoting Potapov)
+> "If s multi-paradigmatic integrative approach is more efficient than mono-paradigmatic, then Hyperon has chances to become a leading AGI platform." — [0] Hyperon 2023, Section 4 (sic)
+> "For human-like cognition to happen, we need all these processes occurring concurrently in the same large Atomspace metagraph – this is how you get the cognitive synergy that leads to emergence of large-scale mind-structure patterns" — [0] Hyperon 2023, Section 4.1
+> "when one of them gets stuck in carrying something out, it can translate its intermediate state into the native languages of other cognitive processes and ask them for help." — [0] Hyperon 2023, Section 4.1
+> "Cognitive synergy is proposed to correspond to a certain inequality regarding the relative costs of different paths through certain commutation diagrams." — [1] Goertzel 2017, Abstract
+> "Our intuition is that a variety of interesting rigorous theorems likely exist in the vicinity of this informal conjecture. However, much more investigation is required." — [1] Goertzel 2017, Section 6.1
+> "Conceptually, it seems clear that there is significant synergy between clustering and blending; though this has yet to be studied empirically in a systematic way." — [1] Goertzel 2017, Section 8
+> "The above arguments regarding cognitive synergy in PrimeAGI have obviously been somewhat "hand-wavy"." — [1] Goertzel 2017, Section 8
+
+Verification notes: Hyperon 2023 read only in the passages containing 'cognitive synergy' plus the abstract (the Codex atlas T4 already covers the substrate description). Goertzel 2017 read via page queries covering the abstract, definitions and all three conjectures. Correction to Codex atlas T4: 'cognitive synergy' should be marked as CONJECTURE-LEVEL (no theorem, no experiment) rather than as an owned mechanism.
+
+### P8.RATIONAL_ANALYSIS — Rational analysis of memory (Anderson 1990; Anderson & Schooler 1991): memory's retention function as an adaptation to environmental need statistics - a proto phase-law argument (ecology -> form)
+
+Disposition: `ADAPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] The Adaptive Character of Thought — John R. Anderson (1990), Lawrence Erlbaum. ISBN 0-8058-0419-6 — `NOT_ACCESSIBLE`
+- [1] Reflections of the Environment in Memory — John R. Anderson, Lael J. Schooler (1991), Psychological Science 2(6):396-408. https://doi.org/10.1111/j.1467-9280.1991.tb00174.x — `NOT_ACCESSIBLE`
+- [2] Learning What to Remember: A Cognitively Grounded Multi-Factor Value Model for Agentic Memory (secondary restatement) — Zhibao Chen, Qian Cheng (2026), arXiv:2606.12945v2. https://arxiv.org/abs/2606.12945 arXiv:2606.12945 — `PARTIAL_TEXT_READ`
+- [3] Hybrid Personalization Using Declarative and Procedural Memory Modules of the Cognitive Architecture ACT-R (secondary restatement) — Kevin Innerebner, Dominik Kowald, Markus Schedl, Elisabeth Lex (2025), UMAP Adjunct 2025; arXiv:2505.05083. https://arxiv.org/abs/2505.05083 arXiv:2505.05083 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** VERIFIED ONLY AT SECONDARY DEPTH. The rational-analysis programme explains a cognitive form (the shape of the memory retention/retrieval function) as the optimal adaptation to statistics of the environment: 'the retention function mirrors the environmental need-probability of information' and forgetting is 'an adaptive rather than passive decay' (Chen & Cheng 2026, attributing to Anderson & Schooler 1991). The search-engine paraphrase of the 1991 abstract (UNVERIFIED wording): availability of memories shows reliable relationships to frequency, recency and pattern of prior exposures, and environmental sources - New York Times, parental speech, electronic mail - show the same statistical patterns; memory has the form it does because it is adapted to these relationships. The ACT-R base-level activation B_i = ln(sum_j t_j^{-d}) is presented by Innerebner et al. as 'computed according to the power law of forgetting' with citation to Anderson & Schooler 1991. FROM_MEMORY_UNVERIFIED details (recorded, not relied on): the 1991 paper fits need odds as power functions of recency and of frequency in all three corpora, reports a spacing interaction, and matches these to the classic retention and practice curves; Anderson 1990 frames memory retrieval as a cost-benefit decision (retrieve if need probability times gain exceeds retrieval cost).
+
+**Formal object.** (as restated by secondary sources) need probability / odds of a memory being needed as a function of its history of use in the environment; retention (activation) as a log-sum of power-law decays B_i = ln(sum_{j=1}^{n} t_j^{-d}) with d the decay parameter, n the frequency, t_j time since the j-th occurrence; the claim: the form of the human retention function equals the form of the environmental need-odds function.
+
+**Strongest result.** No theorem (the work is a statistical-fit argument): environmental need-odds curves and human retention curves share functional form (power laws in recency and frequency), interpreted as memory being optimally adapted to the environment. This is the earliest well-known instance of an 'ecology -> form' explanatory law for a cognitive mechanism. Its logical structure: (i) measure environment statistics, (ii) derive the retention function that would be optimal for them, (iii) show human data match. Strength: quantitative and cross-domain (three corpora). Weakness for Track B: post hoc (form was known before the environmental analysis), one parametric family, one mechanism, no competing morphologies, no resource cost of implementing the retention function.
+
+**Assumptions.** memory is optimised for retrieving what is likely to be needed; environment statistics are stationary enough to estimate need odds from usage histories; the three corpora are representative of 'the environment' of memory demands; the fitted functional form (power law) is the relevant description of both environment and memory
+
+**Resource model.** (unverified for the 1991 paper) rational analysis in Anderson 1990 includes retrieval cost and gain in the decision rule; the 1991 paper as restated is about need-probability statistics, not compute or description length.
+
+**Failure boundary.** Explains the parametric FORM of one retention function inside one fixed architecture (declarative memory); it does not predict which memory MORPHOLOGY (e.g. explicit retrieval store vs. distributed weights vs. episodic index) an ecology favours, nor development, nor cost of the mechanism. It is confirmatory/post hoc rather than prospective. Depth of verification here is secondary only.
+
+**Implementation.** ACT-R declarative memory implements the resulting activation equation (act-r.psy.cmu.edu; not fetched)
+
+**Track-B residual.** Adopt the argument SCHEMA (environment statistics -> optimal functional form -> observed form) as the template for a Track-B phase law, but Track B must lift it from 'one function's parameters' to 'which morphology class', from post hoc fit to prospective prediction (D3), and must add the resource price of the mechanism, none of which rational analysis supplies.
+
+**Upward question.** Can the rational-analysis schema be run PROSPECTIVELY over morphology classes: register the ecology's need/verification/drift statistics, derive which retention-and-revision organisation is optimal under a resource budget, then observe blind search - and does the answer change class (not just parameters) across ecologies?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "The rational analysis of memory [1] reframes forgetting itself as adaptive: the retention function mirrors the environmental need-probability of information." — [2] Chen & Cheng 2026, Section 2 (attributing to Anderson & Schooler 1991)
+> "the very shape of forgetting tracks the need-probability of information in the environment, an adaptive rather than passive decay [1, 6]." — [2] Chen & Cheng 2026, Section 1
+> "computed according to the power law of forgetting, which models how the activation of memory traces decay over time [3]" — [3] Innerebner et al. 2025, Section 2 (attributing to Anderson & Schooler 1991)
+
+Verification notes: Primary sources NOT accessible; all statements about the 1991 paper's content beyond the two secondary restatements and the search-engine abstract paraphrase are FROM_MEMORY_UNVERIFIED and flagged as such in the text. No Codex ledger entry exists for Anderson; PARENT_EXPANSION_V2 §D has Lieder-Griffiths (resource-rational analysis), the descendant programme.
+
+### P8.SIGMA — Sigma cognitive architecture (Rosenbloom, Demski, Ustun 2016; Ustun et al. 2018): one graphical substrate (factor graphs + summary product + gradient descent) hosting rules, probabilistic networks, neural nets, RL, memory and Theory of Mind
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] The Sigma Cognitive Architecture and System: Towards Functionally Elegant Grand Unification — Paul S. Rosenbloom, Abram Demski, Volkan Ustun (2016), Journal of Artificial General Intelligence 7(1):1-103. https://doi.org/10.1515/jagi-2016-0001 — `NOT_ACCESSIBLE`
+- [1] Controlling Synthetic Characters in Simulations: A Case for Cognitive Architectures and Sigma — Volkan Ustun, Paul S. Rosenbloom, Seyed Sajjadi, Jeremy Nuttall (2018), I/ITSEC 2018, Paper 18205; arXiv:2101.02231. https://arxiv.org/abs/2101.02231 arXiv:2101.02231 — `FULL_TEXT_READ`
+
+**What it already explains.** Sigma is the strongest existing instance of 'one substrate -> many paradigms' by ENGINEERING. Basis (graphical architecture hypothesis): everything compiles to factor graphs - 'undirected graphical models ... with variable and factor nodes, and functions that are stored in the factor nodes' - over 'hybrid mixed piecewise-linear functions'; one inference algorithm, the summary product algorithm (message product at each node, summarisation by integration or max); one learning mechanism, gradient descent on the factor-node functions ('Messages into FFNs provide the gradients for learning the nodes' functions'). A cognitive language of predicates (typed relations, working-memory sub-graphs, perceptual buffers, long-term-memory function factor nodes) and conditionals (conditions/actions = rule parts pushing information one way; condacts = bidirectional patterns for probabilistic reasoning, partial matching, constraint satisfaction, signal processing) compiles to the graph: 'conditionals provide a deep blend of rule systems and probabilistic networks'. Cognitive cycle: input, graph solution, decisions (Selected predicate, argmax utility), learning, output; reactive/deliberative/reflective processing with Soar-style impasses. Paradigms demonstrated (per the 2018 conclusions and its citations): learning (gradient descent 2013; episodic 2014), procedural + declarative memory, decision making/problem solving, perception, speech (isolated word / continuous phone recognition), Theory of Mind, emotion/appraisal (surprise, desirability, familiarity), and neural networks (2016b, 2017). Proof-of-concepts read here: RL (Frozen Lake) with Q-values learned by gradient descent through Compute-Backup-Value conditionals augmented by learned rules; SLAM as a DBN in two conditionals with map learned by gradient descent; ToM by multi-agent RL yielding a posterior over intruder models; knowledge-free appraisal-driven exploration. Desiderata: grand unification, generic cognition, functional elegance, sufficient efficiency.
+
+**Formal object.** Factor graph G = (variable nodes, factor nodes with functions f_i over subsets of variables); joint = product of factors; summary product: outgoing message at node = product of incoming messages (and node function) summarised over unneeded variables by integral or max; functions represented as hybrid mixed piecewise-linear functions over discrete and continuous dimensions. Learning: gradient of the local objective delivered as messages into function factor nodes, with a designated child variable (%) defining a conditional distribution to normalise. Predicates P(arg:type ...), conditionals with Conditions / Condacts / Actions and optional function over pattern variables; Selected(state operator!) for decisions.
+
+**Strongest result.** No theorem. The load-bearing claims are demonstrations: (i) 'probabilistic, neural, and reinforcement learning all emerge from a local gradient-descent-based learning mechanism operating at the core of the architecture' (with citations to Rosenbloom 2012a, 2013, 2014, 2017); (ii) in the physical-security model 'the agents learn both the probability distributions in a Bayesian network and Q functions for an RL algorithm using the same basic set of architectural mechanisms'; (iii) RL 'is not a separate architectural learning algorithm, but occurs through a combination of gradient-descent learning and the appropriate knowledge expressed in predicates and conditionals'; (iv) factor graphs provide 'a single general representation and inference algorithm for processing symbols, probabilities, distributed neural vectors, and signals'. Quantitative: augmented Frozen Lake reaches 79% goal-reaching in testing; knowledge-free exploration always finds the item but 'may take significantly longer'.
+
+**Assumptions.** the designer writes the predicates and conditionals (the KNOWLEDGE that instantiates each paradigm); the architecture supplies representation, inference and parameter learning only; piecewise-linear function representation; discrete or discretised continuous dimensions; the neural-network extension (2016b, 2017) is cited, not read here; efficiency is a design desideratum ('sufficiently efficient ... real-time applications'), not a measured or charged quantity
+
+**Resource model.** none charged. 'Sufficient efficiency' is one of four desiderata but no cost of compiling a paradigm into the graph, no description length of conditionals, no sample or verification accounting is given; the only quantitative resource remark is that knowledge-free exploration 'may take significantly longer than it would if behavior were driven by knowledge-intensive algorithms'.
+
+**Failure boundary.** For Track B: (1) D0 is engineered - each paradigm appears because a human writes the conditionals that shape the graph (RL needs its 'template', SLAM its two conditionals); (2) D1 is partial and uncharged - the compile to factor graphs preserves the intended semantics but no overhead in description length / execution / update / verification is stated; (3) no D2 - 'additional forms of learning - particularly structure learning' are listed as under development, so Sigma does not acquire a paradigm from experience without the architecture-specific structure being supplied; (4) no D3 - no prospective law says which paradigm the ecology will favour; 'functional elegance' asserts that many capabilities come from one base, not which capability will emerge when. The 2016 monograph could not be read; deeper formal content (piecewise-linear function algebra, exact gradient derivations) is unverified here.
+
+**Implementation.** Sigma system (Lisp), maintained at USC ICT; described as actively developed - no URL in the text read
+
+**Track-B residual.** Sigma owns 'one representation + one inference algorithm + one parameter-learning mechanism can host rule-based, probabilistic, neural-like, RL, memory, perceptual and ToM behaviour'. It does not own: a charged compilation overhead per paradigm; a selection law mapping ecology to paradigm; acquisition of the conditional structure itself (structure learning) from experience without labels; any equivalence or non-equivalence statement between the graph-compiled paradigm and its native form. Those are exactly Track B's D1-cost, D3 and D2 residuals.
+
+**Upward question.** Sigma's 'functional elegance' is the claim that one base yields all capabilities; the Track-B question is whether a base can PREDICT and DEVELOP which capability organisation emerges under an ecology - can Sigma's structure-learning gap be formalised as an ecology-to-conditional-structure law with charged cost?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "is a cognitive architecture and system that starts from a theoretically elegant yet broadly applicable and efficient hybrid (discrete + continuous) mixed (symbolic + probabilistic) base, grounded in probabilistic graphical models" — [1] Ustun et al. 2018, 'Why Sigma?'
+> "(3) functionally elegant, yielding broad cognitive and sub-cognitive functionality – ultimately all that is necessary for human-like intelligence – from a simple and theoretically elegant base; and (4) sufficiently efficient" — [1] Ustun et al. 2018, 'Why Sigma?' (restating the 2016 desiderata)
+> "Sigma has quite general parameter-learning capabilities, in that probabilistic, neural, and reinforcement learning all emerge from a local gradient-descent-based learning mechanism operating at the core of the architecture" — [1] Ustun et al. 2018, 'Why Sigma?'
+> "they are not limited to just probabilistic reasoning, instead providing a single general representation and inference algorithm for processing symbols, probabilities, distributed neural vectors, and signals." — [1] Ustun et al. 2018, 'The Sigma cognitive language'
+> "Overall, conditionals provide a deep blend of rule systems and probabilistic networks." — [1] Ustun et al. 2018, 'The Sigma cognitive language'
+> "In Sigma, RL is not a separate architectural learning algorithm, but occurs through a combination of gradient-descent learning and the appropriate knowledge expressed in predicates and conditionals." — [1] Ustun et al. 2018, physical security model
+> "the agents learn both the probability distributions in a Bayesian network and Q functions for an RL algorithm using the same basic set of architectural mechanisms" — [1] Ustun et al. 2018, physical security model
+> "Capabilities currently under development include enhanced neural processing, a motivational system, language processing, and additional forms of learning – particularly structure learning." — [1] Ustun et al. 2018, Conclusions
+> "this may take significantly longer than it would if behavior were driven by knowledge-intensive algorithms specifically designed for this task." — [1] Ustun et al. 2018, appraisal-based exploration
+
+Verification notes: The 2016 J.AGI monograph (103 pp.) is NOT_ACCESSIBLE from this session; all content above is verified against the 2018 I/ITSEC paper (= arXiv 2101.02231) by the same group, which restates the graphical architecture, the four desiderata and the demonstrated capabilities with citations. Claims about the 2016 paper's internal theorems or exact gradient derivations are therefore not made. Sigma is absent from the Codex ledgers (GENERAL_INTELLIGENCE_THEORY_PARENT_ATLAS_V1 has Soar and Hyperon only) - recorded as a missing parent now filled. Kotseruba-Tsotsos place Sigma 'conceptually closer to emergent systems'.
+
+
+## P9A — existing cross-morphology equivalence / simulation / compilation results (not in #377 §4)
+
+### P9A.BLUM_SPEEDUP — Blum 1967 speed-up theorem: for some computable functions every program can be sped up - no fastest solver, hence no terminal revision
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] A Machine-Independent Theory of the Complexity of Recursive Functions — M. Blum (1967), Journal of the ACM 14(2):322-336. https://doi.org/10.1145/321386.321395 — `NOT_ACCESSIBLE`
+- [1] On effective procedures for speeding up algorithms — M. Blum (1971), Journal of the ACM 18(2):290-305. https://doi.org/10.1145/321637.321648 — `FROM_MEMORY_UNVERIFIED`
+- [2] The Fastest and Shortest Algorithm for All Well-Defined Problems — M. Hutter (2002), IJFCS 13(3):431-443. https://arxiv.org/abs/cs/0206022 arXiv:cs/0206022 — `FULL_TEXT_READ`
+
+**What it already explains.** In any Blum complexity measure Phi (axioms: Phi_i(x) is defined iff phi_i(x) is; the predicate Phi_i(x) = y is decidable) there exist total computable functions f such that for every total computable speed-up function r, every program i for f is beaten almost everywhere by another program j for f with r(Phi_j(x)) <= Phi_i(x) - so f has no fastest program, only an infinite descending chain of ever-faster (and, Hutter notes, ever-longer) programs; moreover (Blum 1971, from memory) the speed-up cannot in general be obtained effectively from the index i. Hutter shows the phenomenon disappears when attention is restricted to programs with a PROOF of correctness and a provable time bound: then a fastest (up to 5x) and shortest (up to O(1)) program exists (Theorems 1-2). Consequence recorded by Codex (heritable-search-transformation-v1 ledger row 'Blum 1967 speedup ... OWNS T16'): no unique globally best implementation; this family adds that the obstruction is tied to unverifiable programs.
+
+**Formal object.** Acceptable numbering {phi_i} of partial recursive functions; Blum measure Phi = {Phi_i} with (i) dom Phi_i = dom phi_i, (ii) {(i, x, y): Phi_i(x) = y} recursive; speed-up: for total recursive r, f is r-speedable if for all i with phi_i = f there is j with phi_j = f and r(Phi_j(x)) <= Phi_i(x) for almost all x. (Quantifier structure as remembered; NOT verified against the primary in this or the sibling session.)
+
+**Strongest result.** Speed-up theorem (as characterised in Hutter 2002 Sec. 1, verbatim): 'Blum's Speed-up Theorem [2, 3] shows that there are problems for which an (incomputable) sequence of speed-improving algorithms (of increasing size) exists, but no fastest algorithm.' Complement (Hutter Sec. 7, verbatim): 'Inventing complex (long) programs is not necessary to construct asymptotically fast algorithms, under the stated provability assumptions, in contrast to Blum's Theorem [2, 3].' and (Sec. 9): 'Blum's Theorem shows that the provability constraints are essential.' Exact theorem statement with quantifiers and the 'almost everywhere' clause: FROM_MEMORY_UNVERIFIED.
+
+**Assumptions.** Any Blum complexity measure (time, space, ...) satisfying the two axioms; The speedable functions are constructed by diagonalisation ('unnatural', per Monroe as quoted in P0.BLUM_SPEEDUP); it is not claimed that natural problems are speedable; Speed-up is almost-everywhere; the improving programs are longer and the sequence is not effectively obtainable
+
+**Resource model.** abstract complexity measure (time or space) only; description length enters implicitly (improving programs grow); no verification cost - which is exactly what Hutter shows is the missing coordinate
+
+**Failure boundary.** Says nothing about which functions arising in an ecology are speedable; nothing about learning; nothing about the constants; and its negative is defeated by any verification contract strong enough to require proofs (Hutter), so its Track-B force depends on the ecology's verification coordinate.
+
+**Implementation.** none (pure recursion theory)
+
+**Track-B residual.** Inherited from P0.BLUM_SPEEDUP: under a fixed verification contract does the admissible morphology set have a fastest element, and does a developmental revision loop converge to it or descend an infinite chain? This family sharpens it: the dichotomy 'verifiable => fastest exists (Hutter); unverifiable => no fastest (Blum)' makes the REVISION coordinate a function of the VERIFICATION coordinate - a candidate T9 statement (no universal morphology) that is theorem-grade only at the two extremes.
+
+**Upward question.** Is there an intermediate verification contract (statistical, PAC-style, or execution-tested) under which a Hutter-type fastest-and-shortest result holds with polynomially rather than exponentially large constants, and does the revision coordinate of a developmental system then have a terminal morphology?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Blum's Speed-up Theorem [2, 3] shows that there are problems for which an (incomputable) sequence of speed-improving algorithms (of increasing size) exists, but no fastest algorithm." — [2] Hutter 2002, Sec. 1
+> "M avoids Blum's speed-up theorem by ignoring programs without correctness proof." — [2] Hutter 2002, abstract
+> "Inventing complex (long) programs is not necessary to construct asymptotically fast algorithms, under the stated provability assumptions, in contrast to Blum's Theorem [2, 3]." — [2] Hutter 2002, Sec. 7
+> "Blum's Theorem shows that the provability constraints are essential." — [2] Hutter 2002, Sec. 9
+
+Verification notes: Primary not readable in this or the sibling session; the Codex gap 'proof-level Blum speedup implications' therefore remains OPEN at the primary level. What is verified is Hutter's characterisation and the provability escape. The sibling P0.BLUM_SPEEDUP entry contains the Blum-measure axioms quoted from a modern secondary (Monroe); not duplicated here.
+
+### P9A.CHEAP_GRADIENT — Baur-Strassen 1983 + Griewank-Walther cheap gradient principle: reverse-mode adjoint computes all d partials at a small constant times the forward cost; basis-dependence of update cost
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] The complexity of partial derivatives — W. Baur, V. Strassen (1983), Theoretical Computer Science 22(3):317-330. https://doi.org/10.1016/0304-3975(83)90110-X — `NOT_ACCESSIBLE`
+- [1] Evaluating Derivatives: Principles and Techniques of Algorithmic Differentiation (2nd ed.), chs. 3-4 — A. Griewank, A. Walther (2008), SIAM. https://doi.org/10.1137/1.9780898717761 — `NOT_ACCESSIBLE`
+- [2] Deterministic Sparse Pattern Matching via the Baur-Strassen Theorem — N. Fischer (2023), arXiv cs.DS (SODA 2024). https://arxiv.org/abs/2310.11913 arXiv:2310.11913 — `PARTIAL_TEXT_READ`
+- [3] Lower Bounds for Planar Arithmetic Circuits — C. Ramya, P. Shastri (2025), arXiv cs.CC. https://arxiv.org/abs/2509.11322 arXiv:2509.11322 — `PARTIAL_TEXT_READ`
+- [4] Automatic Differentiation in Machine Learning: a Survey — A. G. Baydin, B. A. Pearlmutter, A. A. Radul, J. M. Siskind (2018), JMLR 18(153):1-43. https://arxiv.org/abs/1502.05767 arXiv:1502.05767 — `PARTIAL_TEXT_READ`
+- [5] A Review of Automatic Differentiation and its Efficient Implementation — C. C. Margossian (2019), WIREs Data Mining and Knowledge Discovery 9(4). https://arxiv.org/abs/1811.05031 arXiv:1811.05031 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** That in the arithmetic-circuit (straight-line program / DAG with shared subexpressions) basis, the gradient of a scalar function of d inputs is never more than a small constant times as expensive as the function: Baur-Strassen (1983) - if f has a fan-in-2 arithmetic circuit of size s over a field then f together with ALL its first-order partial derivatives has a circuit of size O(s) (the constant is small; the classical statement counts nonscalar operations with constant 3 - UNVERIFIED this session; Morgenstern 1985 gives a simplified constructive proof), constructible in time O(s) by traversing the circuit in reverse (the adjoint / backpropagation pass). Griewank-Walther 'cheap gradient principle' (via Baydin/Margossian): OPS(f, J^T u) <= 4 OPS(f) (reverse sweep), OPS(f, J u) <= 2.5 OPS(f) (forward sweep), and for f: R^n -> R^m the full Jacobian costs n c OPS(f) forward or m c OPS(f) reverse with c < 6, typically 2-3; hence a d-dimensional gradient costs O(1) evaluations by reverse mode but Theta(d) evaluations by forward mode or by finite differences (Baydin Table 4: numerical differentiation ~28x and forward AD ~7.7x the function cost at n=50 vs ~2x for reverse). The price is memory: reverse mode must store the tape (trace of intermediate values), growing in the worst case with the number of operations, mitigated by checkpointing (log growth in time and space). Crucially the principle is MODEL-DEPENDENT: Ramya-Shastri 2025 show it fails for formulas (trees, no shared subexpressions) and planar circuits - there are f_n with formula size n^{1+o(1)} whose n partials need multi-output formulas of size Omega(n^2/log n) - while it survives for read-once planar circuits.
+
+**Formal object.** Arithmetic circuit C over a field F on variables x_1..x_n: DAG whose gates are inputs/constants (in-degree 0) or +, -, x, / (in-degree 2); \|C\| = number of gates (+ edges in Fischer's convention); C computes rational functions; formal partial derivatives via the usual rules. AD (Griewank-Walther three-part notation): inputs v_{i-n} = x_i, intermediates v_i = phi_i(v_{j<i}), outputs; forward tangent trace v_i-dot = sum_j (d phi_i / d v_j) v_j-dot; reverse adjoint trace v_j-bar += v_i-bar (d phi_i / d v_j) processed in reverse order from y-bar = 1; OPS = count of fused multiply-adds (Griewank-Walther) or elementary operations (Baydin).
+
+**Strongest result.** Baur-Strassen theorem (as stated verbatim in Fischer 2023, Theorem 1.10): 'For any arithmetic circuit C computing f(x_1, ..., x_n), there is a circuit C' that simultaneously computes the partial derivatives df/dx_i (x_1, ..., x_n) for all 1 <= i <= n. The circuit C' has size \|C'\| <= O(\|C\|) and can be constructed in time O(\|C\|).' Equivalent (Ramya-Shastri): C(d_{x_1} f, ..., d_{x_n} f) = O(C(f)). Cheap gradient principle (Griewank-Walther ch. 4, via Margossian): OPS(f(x), J^T u-bar(x)) <= 4 x OPS(f(x)); via Baydin: reverse-mode Jacobian in m c ops(f), c < 6, typically in [2,3]. Negative counterpart (Ramya-Shastri Corollary 45, verified): over any infinite field there are f_n with L(f_n) = n^{1+o(1)} but L(d_{x_1} f_n, ..., d_{x_n} f_n) = Omega(n^2/log n) for multi-output formulas; Corollary 46: planar circuits C_p(f_n) = n^{1+o(1)} but C_p(all partials) = Omega(n^{4/3}); Corollary 47: read-once planar circuits keep C_p^r(all partials) = O(C_p^r(f)).
+
+**Assumptions.** Circuit/straight-line-program model with SHARED intermediates (fan-out > 1 allowed) and reverse traversal; fails for formulas and planar circuits (Ramya-Shastri); Elementary operations with known local derivatives (field operations; in AD also transcendental primitives); Scalar or few outputs (m << n) for reverse mode to win; forward mode wins for n <= m; Memory: reverse mode stores the evaluation trace (tape); time-memory trade-off via checkpointing; Exact arithmetic (algebraic statement) or floating point with AD's constant-factor guarantee; numerical stability separate
+
+**Resource model.** operation count / circuit size (time), memory (tape length), construction time of the derivative circuit; no samples, no verification; explicitly relative to a computational basis (circuit vs formula vs planar)
+
+**Failure boundary.** Applies to a single evaluation of the gradient, not to optimisation convergence (number of steps); gives no bound on second derivatives beyond repeated AD (Hessian-vector products linear in OPS(f), full Hessian n times); says nothing about non-differentiable or discrete update laws (rule induction, program edits) except by exclusion; the constant hides tape memory; the theorem is basis-relative, so 'gradient is cheap' is a statement about the DAG-with-adjoint basis, not about learning in general.
+
+**Implementation.** every reverse-mode AD system (ADOL-C, Tapenade, PyTorch autograd, JAX); Fischer 2023 applies the theorem constructively in an algorithm; no code for the 1983 paper
+
+**Track-B residual.** The parents own: cheap gradient in the shared-DAG/adjoint basis (upper bound) and NOT-cheap gradient in the formula/planar basis (lower bound). Track B's residual is the ecology-facing consequence: a theorem-grade update-cost (upd coordinate) separation between adaptive bases - a basis whose combinators carry the adjoint pass pays O(1) forward-equivalents per parameter update, a basis restricted to black-box evaluation pays >= d+1 (finite differences) and a formula/tree basis pays super-linear even with white-box access - and whether, under a registered price for memory (tape) and precision, this separation predicts where the gradient-trained neural morphology dominates (GMI-T5/T10). No parent states the separation as a morphology-selection law.
+
+**Upward question.** State and prove the Track-B version: for bases B_1 (DAG + adjoint combinator), B_2 (DAG without adjoint, black-box evaluation), B_3 (formula/tree), the minimal update work per gradient step on d parameters is Theta(1), Theta(d) and n^{1+Omega(1)} forward-evaluation equivalents respectively; then ask which ecology prices (memory for the tape, precision, verification of the loss) reverse the ordering - the first P1 theorem candidate for the upd coordinate.
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "there is a circuit C' that simultaneously computes the partial derivatives df/dx_i (x_1, ..., x_n) for all 1 <= i <= n. The circuit C' has size \|C'\| <= O(\|C\|) and can be constructed in time O(\|C\|)." — [2] Fischer 2023, Theorem 1.10 (Baur-Strassen [11, 49])
+> "Under the name back-propagation this usage of the Baur-Strassen theorem is omni-present in machine learning [65, 59, 66]." — [2] Fischer 2023, Sec. 1.4
+> "Baur and Strassen[3] proved that if a polynomial f has a (fan-in 2) circuit of size s then there is a (fan-in 2) circuit of size O(s) computing all first order partial derivatives of f." — [3] Ramya & Shastri 2025, Sec. 1
+> "This shows that a statement analogous to that of Baur, Strassen [3] does not hold in the case of planar circuits and formulas." — [3] Ramya & Shastri 2025, abstract
+> "Over any infinite field F there exists a family {f_n} of polynomials where f_n in F[x_1, ..., x_n] such that L(f_n) = n^{1+o(1)} but L(d_{x_1}(f_n), ..., d_{x_n}(f_n)) = Omega(n^2/ log n)." — [3] Ramya & Shastri 2025, Corollary 45
+> "the same computation can be done via reverse mode in m c ops(f), where c is a constant guaranteed to be c < 6 and typically c ~ [2, 3] (Griewank and Walther, 2008)." — [4] Baydin et al. 2018, Sec. 3.2
+> "The advantages of reverse mode AD, however, come with the cost of increased storage requirements growing (in the worst case) in proportion to the number of operations in the evaluated function." — [4] Baydin et al. 2018, Sec. 3.2
+> "one reverse mode sweep computes J^T u-bar, with complexity OPS(f(x), J^T u-bar(x)) <= 4 x OPS(f(x)) (see again chapter 4 of (Griewank & Walther, 2008))." — [5] Margossian 2019, 'Reverse mode'
+> "OPS(f(x), J . u(x)) <= 2.5 x OPS(f(x)) (see chapter 4 of (Griewank & Walther, 2008))." — [5] Margossian 2019, 'Forward mode'
+
+Verification notes: The 1983 theorem statement is verified through two independent arXiv restatements (Fischer; Ramya-Shastri), both giving O(s); the exact constant in Baur-Strassen's own nonscalar-operation count (remembered as 3) and Morgenstern's variant are UNVERIFIED. Griewank-Walther's constants (4 for reverse, 2.5 for forward, in fused-multiply-add OPS) are verified only through Margossian's citation of their chapter 4; Baydin's c<6 also secondary. The P7 sibling ledger covers the categorical view (P7.ESSENCE_OF_AD, P7.CATEGORICAL_GRADIENT_LEARNING) with 1 mention of 'cheap gradient' but not the Baur-Strassen theorem or the formula/planar lower bounds; this entry is complementary.
+
+### P9A.GROKKING_PHASE — Grokking: Power et al. 2022 + Nanda et al. 2023 progress measures (+ Liu et al. 2022 phase diagram) - a within-training memorisation -> algorithmic phenotype transition with named axes
+
+Disposition: `ADAPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets — A. Power, Y. Burda, H. Edwards, I. Babuschkin, V. Misra (2022), arXiv (ICLR 2022 MATH-AI workshop). https://arxiv.org/abs/2201.02177 arXiv:2201.02177 — `PARTIAL_TEXT_READ`
+- [1] Progress measures for grokking via mechanistic interpretability — N. Nanda, L. Chan, T. Lieberum, J. Smith, J. Steinhardt (2023), ICLR 2023. https://arxiv.org/abs/2301.05217 arXiv:2301.05217 — `FULL_TEXT_READ`
+- [2] Towards Understanding Grokking: An Effective Theory of Representation Learning — Z. Liu, O. Kitouni, N. Nolte, E. J. Michaud, M. Tegmark, M. Williams (2022), NeurIPS 2022. https://arxiv.org/abs/2205.10343 arXiv:2205.10343 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** That within one architecture and one training run, the phenotype changes qualitatively from a memorising lookup to an algorithmic circuit, and that the transition has measurable axes. Power: on binary-operation tables mod p=97 (and S5) with a 2-layer, width-128, 4-head decoder-only transformer (~4e5 non-embedding parameters), AdamW lr 1e-3, weight decay 1, batch 512, budget 1e5 steps: train accuracy ~100% by <1e3 steps, validation jumps to ~100% only near 1e6 steps (modular division, 50% data); time-to-generalise grows rapidly as training fraction shrinks (a 1% decrease of data near 25-30% raises median time by 40-50%); weight decay is the most effective intervention (halves the data needed), noise helps, learning rate must lie within one order of magnitude; symmetric operations need less data; x^3+xy^2+y never generalised up to 95% data. Nanda: on a+b mod 113 with a 1-layer ReLU transformer (d=128, 4 heads of 32, MLP 512, no LayerNorm), full-batch AdamW lr 1e-3, weight decay lambda=1, 30% of the 113^2 pairs, 40k epochs: the network implements Fourier multiplication (embed a,b as sin/cos at ~5 key frequencies w_k = 2 pi k/113, attention+MLP compute cos/sin(w_k(a+b)) via trig identities, unembedding reads cos(w_k(a+b-c)) and sums frequencies for constructive interference); progress measures restricted loss (keep only key frequencies) and excluded loss (remove only key frequencies) plus Gini coefficient of Fourier norms and total squared weight norm split training into memorisation (0-1.4k epochs), circuit formation (1.4k-9.4k; excluded loss rises, weight norm falls, train/test flat) and cleanup (9.4k-14k; test loss drops, weights sharply sparsify); no grokking without weight decay or other regularisation (dropout groks, L1 never); data fraction 30-50% groks, >=60% generalises immediately, <=20% never within 40k epochs; P=53 needs lambda=5, P=401 never groks (generalises immediately); grokking recurs in 5-digit addition (700 points), repeated-subsequence (512 points) and skip-trigram (limited data) tasks. Liu: four phases - comprehension, grokking, memorisation, confusion - over (decoder learning rate, weight decay) and (representation lr, decoder lr), (lr, batch size), (lr, initialisation scale); grokking is sandwiched between comprehension and memorisation; a critical training fraction r_c ~ 0.4 (addition) / 0.5 (S3) below which no linear representation is determined; time to grok ~ 1/lambda_3 of an effective quadratic loss on embeddings.
+
+**Formal object.** Task: (a, b) -> a o b, a,b in Z_p (or S_5), tokens '<a> <op> <b> = <c>'; training set D = random fraction r of all p^2 equations; model f_theta = decoder-only transformer; optimiser AdamW(theta, lr, lambda); observables: train/test accuracy and loss vs epoch; Nanda progress measures: restricted loss L_R = loss after projecting logits onto the constant term and the 20 Fourier terms cos/sin(w_k(a+b)) at key frequencies; excluded loss L_E = train loss after removing only those terms; Gini(\|F(W_E)\|), Gini(\|F(W_L)\|) with W_L = W_U W_out; sum of squared weights. Liu: representation quality index RQI(R) = \|P(R)\|/\|P_0\| (fraction of permissible parallelograms E_i + E_j = E_m + E_n realised) and phase labels from (steps to 90% train acc, steps to 90% val acc).
+
+**Strongest result.** No theorem; the load-bearing empirical results are: (Power Fig. 1) grokking with ~1000x delay between train and validation saturation on modular division; (Power Sec. 3.1.1) exponential growth of time-to-generalise as data fraction decreases; (Power Sec. 3.3) weight decay 'more than halving the amount of samples needed'; (Nanda Sec. 4.2-4.4) full reverse-engineering with ablation checks: restricting to 5 key frequencies improves loss (2.4e-7 -> 7.2e-8), ablating any key frequency reduces accuracy to chance, W_L rank-10 approximation residual <0.55%, 433/512 neurons >85% explained by degree-2 polynomials of one frequency; (Nanda Sec. 5.2) three-phase decomposition with the generalising circuit formed BEFORE the test-loss drop; (Nanda App. D.1) necessity of regularisation and limited data; (Liu Fig. 4) predicted and measured phase transition in linear-representation probability at r_c ~ 0.4; (Liu Fig. 6) four-phase diagrams on (lr, weight decay).
+
+**Assumptions.** Small algorithmic datasets with abstract symbols (no internal structure exposed), full enumeration of the table possible; Tiny transformers (1-2 layers); AdamW; the phenomenon depends on regularisation (weight decay/dropout) and on data fraction; Nanda's mechanism is for one task family; progress measures are task-specific and hand-derived ('significant amounts of manual effort'); Liu's effective theory assumes an ideal injective decoder achieving zero training loss; the four phases are defined by accuracy-time thresholds
+
+**Resource model.** training steps/epochs (optimisation time), training-data fraction (samples), weight decay and learning rate (regulariser prices), model width/depth, prime modulus (task size); verification is exact (full table) - no verification cost accounting; no description-length accounting of the learned circuit
+
+**Failure boundary.** No ex-ante prediction of WHEN the transition occurs ('we lack a general notion of criticality'); progress measures are post-hoc, discovered after reverse engineering; the setting has a perfect exact verifier and complete enumerable data, which is the opposite of most ecologies; the Nanda weight-decay-vs-epochs numbers in App. D.1 are internally inconsistent as printed (text says smaller decay is slower, numbers listed are 3k for 0.3, 5-10k for 1.0, 20k for 3.0); Liu's phases are defined on toy models and only 'preliminary evidence' extends to transformers; no result varies the feedback/verification contract or drift.
+
+**Implementation.** Nanda: https://neelnanda.io/grokking-paper (Colab + checkpoints); Liu: https://github.com/ejmichaud/grokking-squared; Power: none known
+
+**Track-B residual.** The grokking family supplies candidate ECOLOGY coordinates with measured critical values (data fraction r with r_c ~ 0.3-0.5; regulariser strength lambda; optimisation budget; task size p; noise/batch) and candidate morphology-phase OBSERVABLES (Fourier sparsity/Gini, restricted/excluded loss, RQI) inside the neural morphology; Track B's residual is to lift these to CROSS-morphology phase laws: does the same (r, lambda, budget) diagram predict when a programmatic/table (memorising) description versus a compact algorithmic description dominates for other bases, and can the boundary be predicted before training (T10) rather than measured after (which no parent does).
+
+**Upward question.** Are (data fraction, regulariser price, budget) the same coordinates that decide between morphologies across bases (lookup-table vs algorithmic program vs Fourier circuit), and is there a T10 theorem giving the critical surface from description-length and update-cost accounting alone (Liu's r_c as 'least data determining the representation' is the seed)?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Training accuracy becomes close to perfect at < 10^3 optimization steps, but it takes close to 10^6 steps for validation accuracy to reach that level" — [0] Power et al. 2022, Fig. 1 caption
+> "In the vicinity of 25-30% of data, a decrease of 1% of training data leads to an increase of 40-50% in median time to generalization." — [0] Power et al. 2022, Sec. 3.1.1
+> "We find that adding weight decay has a very large effect on data efficiency, more than halving the amount of samples needed compared to most other interventions." — [0] Power et al. 2022, Sec. 3.3
+> "For all experiments we used a transformer with 2 layers, width 128, and 4 attention heads, with a total of about 4 * 10^5 non-embedding parameters." — [0] Power et al. 2022, App. A.1.2
+> "grokking, rather than being a sudden shift, arises from the gradual amplification of structured mechanisms encoded in the weights, followed by the later removal of memorizing components." — [1] Nanda et al. 2023, abstract
+> "Circuit formation (Epochs 1.4k-9.4k). In this phase, excluded loss rises, sum of squared weights falls, restricted loss starts to fall, and test and train loss stay flat." — [1] Nanda et al. 2023, Sec. 5.2
+> "our networks do not grok on the modular arithmetic task without weight decay or some other form of regularization." — [1] Nanda et al. 2023, Sec. 5.3
+> "Grokking occurs when between 30 - 50% of the dataset is used during training and lower fractions of data lead to slower grokking. Using >= 60% data leads to immediate generalization" — [1] Nanda et al. 2023, Fig. 20 caption
+> "we lack a general notion of criticality that would allow us to predict when the phase transition will happen ex ante." — [1] Nanda et al. 2023, Sec. 6
+> "We observe empirically the presence of four learning phases: comprehension, grokking, memorization, and confusion." — [2] Liu et al. 2022, abstract
+> "grokking is sandwiched between comprehension and memorization, which seems to imply that it is an undesirable phase that stems from improperly tuned hyperparameters." — [2] Liu et al. 2022, Sec. 4.1
+> "The critical training set size corresponds to the least amount of training data that can determine such a representation (which, in some cases, is unique up to linear transformations)." — [2] Liu et al. 2022, Sec. 1 (A2)
+
+Verification notes: Nanda read in full; Power read essentially in full (all main text and appendix pages returned); Liu read at section level. Liu et al. was not on the family list but is the parent that turns grokking into an explicit phase diagram, so it is included. No prior repo ledger covers grokking (grepped: no hits).
+
+### P9A.HARDWARE_LOTTERY — Hooker 2020/2021 'The Hardware Lottery': hardware and software select which morphology wins, with lock-in economics
+
+Disposition: `ADAPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] The Hardware Lottery — S. Hooker (2021), Communications of the ACM 64(12):58-65 (arXiv 2009.06489, 2020). https://arxiv.org/abs/2009.06489 arXiv:2009.06489 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** That a research idea (morphology) can win 'because it is suited to the available software and hardware and not because the idea is superior to alternative research directions'; historically: Babbage's analytical engine unbuildable for lack of precision parts; deep networks (backprop 1963/1976/1988, CNNs 1982/1989) stalled for decades because CPUs and the von Neumann bottleneck were ill-suited to matrix multiplies, while symbolic AI fit LISP/Prolog; GPUs (built for graphics) unblocked deep nets (16,000 CPU cores in 2012 vs 2 CPU cores + 4 GPUs a year later); domain-specialised accelerators (TPUs etc.) now lock in dense matrix multiply so that ideas off the beaten path (capsule networks: fine on CPUs, 'performance falls off a cliff' on GPUs/TPUs; unstructured sparsity; weight-specific quantisation) pay a price; chips cost $30-80M and 2-3 years, fabs ~$7B, and hardware is economically viable only if the use case lasts > 3 years, so co-design targets known commercial workloads and biases against new directions; proposed remedies are domain-specific languages, auto-tuning, profiling tools that quantify the opportunity cost of the current hardware.
+
+**Formal object.** Informal. Track-B rendering: a morphology M's realised cost is cost_H(M) = price vector R_H (per-operation latency/energy on hardware H) applied to M's operation profile; the hardware lottery is the statement that argmin_M cost_H(M) depends on H, that H is chosen by past winners (lock-in: H_{t+1} is optimised for argmin_M cost_{H_t}(M)), and that the cost of changing H (capital, time) is large relative to the cost of changing M.
+
+**Strongest result.** No theorem. Load-bearing empirical claims (verified in text): definition of the hardware lottery (Sec. 1); the 'lost decades' account of deep learning (Sec. 3.1) with the 16,000-CPU-core vs 4-GPU comparison; the capsule-network case (Sec. 4) from Barham & Isard 2019 'Machine learning is stuck in a rut'; the economics (Sec. 2, 5: $30-80M and 2-3 years per chip; > 3-year use-case lifetime for viability); the software-lottery counterpart (LISP/Prolog favoured symbolic AI until Matlab 1992 / LUSH / Torch in the 2000s).
+
+**Assumptions.** Costs measured on deployed hardware, not in an abstract machine model - i.e. the opposite of the invariance thesis's polynomial tolerance; Hardware development is slow and capital-intensive relative to algorithm development, producing hysteresis; Historical counterfactuals are not measurable ('it is hard to model the counterfactual of would this idea succeed given different hardware')
+
+**Resource model.** hardware-relative time/energy per operation (price vector), capital cost and lead time of changing hardware; no formal accounting
+
+**Failure boundary.** Explains hysteresis and selection pressure but predicts nothing quantitative; cannot separate 'won the lottery' from 'was better'; provides no test that distinguishes an uncharged hardware advantage from a genuine morphology advantage - it names the confound that Codex hostile 'tensor implementation gives neural forms uncharged hardware advantage' (#377) points at, without resolving it.
+
+**Implementation.** none (essay)
+
+**Track-B residual.** Hooker owns the claim that resource prices R are hardware-relative, path-dependent and lock in; Track B must therefore (i) register the price vector R_H before comparison (Codex H-POSTHOC-PRICE) and (ii) report morphology frontiers as functions of R_H with hysteresis, never as absolute; the residual question is whether a morphology phase law can be stated for a FAMILY of price vectors (e.g. dense-matmul-cheap vs pointer-chasing-cheap) such that the predicted winner flips at a computable price ratio - the hardware axis of GMI-T9/T10, which no parent formalises.
+
+**Upward question.** Define the price vector R_H as an ecology coordinate with its own dynamics (lock-in), and ask for the phase law over (task ecology, R_H): does the same generating basis produce the symbolic morphology under a LISP-machine price vector and the neural one under a TPU price vector, and is the boundary predictable from operation profiles alone?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "This essay introduces the term hardware lottery to describe when a research idea wins because it is suited to the available software and hardware and not because the idea is superior to alternative research directions." — [0] Hooker 2020, abstract
+> "while capsule networks operations can be implemented reasonably well on CPUs, performance falls off a cliff on accelerators like GPUs and TPUs which have been overly optimized for matrix multiplies." — [0] Hooker 2020, Sec. 4
+> "Producing a next generation chip typically costs $30-80 million dollars and 2-3 years to develop (Feldman, 2019)." — [0] Hooker 2020, Sec. 2
+> "Hardware is only economically viable if the lifetime of the use case lasts more than three years (Dean, 2020)." — [0] Hooker 2020, Sec. 4
+> "The widespread and sustained popularity of symbolic approaches to AI cannot easily be seen as independent of how readily it fit into existing programming and hardware frameworks." — [0] Hooker 2020, Sec. 3.2
+
+Verification notes: Read essentially in full from the arXiv v2. Codex PARENT_EXPANSION_V2 cites Jouppi et al. (TPU) for the same point; Hooker adds the lock-in/hysteresis mechanism and the symbolic-AI software-lottery counterpart.
+
+### P9A.INVARIANCE_THESIS — van Emde Boas 1990 'Machine models and simulations': invariance thesis - the resolution floor for any morphology theory at the execution coordinate
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Machine Models and Simulations — P. van Emde Boas (1990), Handbook of Theoretical Computer Science, vol. A (van Leeuwen ed.), Elsevier/MIT Press, pp. 1-66; report version ILLC CT-88-05. https://doi.org/10.1016/B978-0-444-88071-0.50006-0 — `NOT_ACCESSIBLE`
+- [1] The Fastest and Shortest Algorithm for All Well-Defined Problems — M. Hutter (2002), IJFCS 13(3):431-443. https://arxiv.org/abs/cs/0206022 arXiv:cs/0206022 — `FULL_TEXT_READ`
+- [2] Lower Bounds for Planar Arithmetic Circuits — C. Ramya, P. Shastri (2025), arXiv cs.CC. https://arxiv.org/abs/2509.11322 arXiv:2509.11322 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** That 'reasonable' sequential machine models (multi-tape Turing machines, RAMs with logarithmic cost or unit cost without multiplication, pointer machines, Kolmogorov-Uspenskii machines, standard cellular automata, ... the first machine class) simulate each other with polynomially bounded time overhead and constant-factor space overhead (Invariance Thesis, Slot-van Emde Boas form), so that P, PSPACE, etc. are model-independent; that models with unbounded parallelism or unit-cost multiplication (MRAM, PRAM, alternating machines, ... the second machine class) satisfy instead the Parallel Computation Thesis (polynomial time = PSPACE); that the catalogue of concrete overheads (k tapes -> 1 tape quadratic; -> 2 tapes O(t log t) Hennie-Stearns; RAM <-> TM polynomial; unit-cost multiplication breaks the thesis) is known; and that 'reasonable' is not a formal predicate but a criterion validated by the catalogue. Consequence for Track B: below polynomial-time / constant-space resolution, execution-coordinate 'morphology' differences are definitionally invisible; a morphology theory must either live above that resolution (constant factors, which the thesis deliberately ignores and which Hutter's Sec. 6 shows must be pinned to one fixed reference machine) or at other coordinates.
+
+**Formal object.** Models M_1, M_2 with time_M(p, x), space_M(p, x); M_2 simulates M_1 with overhead (f, g) if for every M_1-program p there is an M_2-program p' with time_{M_2}(p', x) <= f(time_{M_1}(p, x)) and space_{M_2}(p', x) <= g(space_{M_1}(p, x)); Invariance Thesis: reasonable models simulate each other with f polynomial and g linear (constant factor); first machine class = models polynomially time-equivalent and constant-factor space-equivalent to the TM; second machine class = models with polynomial time = PSPACE. (Formal object as reconstructed in the sibling P0.INVARIANCE_THESIS entry; not re-verified against the primary here.)
+
+**Strongest result.** The thesis is a thesis; its content is the simulation catalogue (see P0.INVARIANCE_THESIS for the verified modern restatements: Accattoli-Dal Lago Thm 15.2 for the lambda-calculus; Dershowitz-Falkovich Thm 16 giving an n + nT(n) + T(n)^2 RAM simulation of any effective implementation; Porreca's first/second-class lists). Added here: Hutter 2002 Sec. 6 makes explicit that constant-factor statements (his factor 5) require fixing ONE universal machine U with a fixed tape model for all programs, 'This prevents us from applying the linear speedup theorem (which is cheating somewhat anyway)', and asserts the result 'should also hold for Kolmogorov-Uspenskii and Pointer machines' - i.e. invariance across the first class at the level of leading constants is exactly what a morphology-resolution theory cannot assume. Ramya-Shastri 2025 give a concrete sub-model pair (general circuits vs formulas/planar circuits) that are polynomially equivalent at the evaluation coordinate (formula -> circuit trivial; circuit -> formula at most exponential, planarisation quadratic) yet NOT constant-factor equivalent at the derivative coordinate (Corollaries 45-46).
+
+**Assumptions.** Sequential, deterministic models; time and space as the only resources; input size as the parameter; 'Reasonable' is validated by mutual simulation, not defined intrinsically; unit-cost RAM with multiplication and models with exponential parallelism are excluded from the first class; Constant factors are ignored by design (linear speed-up); a theory that wants constants must fix the reference machine (Hutter Sec. 6)
+
+**Resource model.** time and space only; polynomial time / constant-factor space overhead as the equivalence tolerance
+
+**Failure boundary.** Says nothing about learning/update work, verification work, revision work, description length under a price vector, energy, or hardware-specific constants; the second machine class shows the thesis is already false for parallel/unit-cost-multiplication models, so hardware regimes (Hooker) can move a model across classes; the thesis quotients away exactly the constant factors on which realistic morphology selection often turns.
+
+**Implementation.** none
+
+**Track-B residual.** Track B's execution-coordinate claims must be stated at a resolution finer than polynomial-time/constant-space (else the invariance thesis makes all first-class morphologies one class) or at other coordinates; the open question - is there an invariance-type theorem, or a provable non-invariance, for the update/verification/revision components of the overhead vector - is inherited verbatim from P0.INVARIANCE_THESIS, and this family supplies the first concrete NON-invariance at the update coordinate (formula vs circuit gradient cost, Ramya-Shastri).
+
+**Upward question.** Which overhead tolerance (alpha, beta) in Codex's EQUIVALENCE_CONTRACT_V1 is fine enough to separate morphologies at the execution coordinate without being so fine that the leading-constant dependence on the reference machine (Hutter Sec. 6) makes the quotient ill-defined; and is the update-coordinate non-invariance (formula vs DAG gradient cost) the right template for a 'developmental invariance thesis' with its own first and second classes?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "This prevents us from applying the linear speedup theorem (which is cheating somewhat anyway), but allows the possibility of designing a U which allows real-time simulation with abort possibility." — [1] Hutter 2002, Sec. 6
+> "Theorem 1 should also hold for Kolmogorov-Uspenskii and Pointer machines." — [1] Hutter 2002, Sec. 6
+> "This will increase the computation time of A and B (but not of C!) by, at most, a factor of 4." — [1] Hutter 2002, Sec. 6
+> "We observe that an analogous result cannot hold for formulas and planar circuits, while it does hold for read-once planar circuits." — [2] Ramya & Shastri 2025, Sec. 4.2
+
+Verification notes: The van Emde Boas chapter could not be read (six hosts blocked); the thesis statement is taken from the sibling P0.INVARIANCE_THESIS entry, which verified it through Accattoli-Dal Lago's verbatim quotation of the Slot-van Emde Boas form. This entry does not restate that reconstruction; it adds only the Track-B-specific resolution argument (Hutter Sec. 6, read) and the update-coordinate non-invariance example (Ramya-Shastri, read).
+
+### P9A.LEVIN_HUTTER_SEARCH — Levin 1973 universal search + Hutter 2002 fastest-and-shortest algorithm: the exact 5 t_p + d_p time_{t_p} + c_p bound and the role of the huge constants
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Universal sequential search problems — L. A. Levin (1973), Problems of Information Transmission 9(3):265-266 (Probl. Peredachi Inf. 9(3):115-116). https://www.mathnet.ru/eng/ppi914 — `NOT_ACCESSIBLE`
+- [1] The Fastest and Shortest Algorithm for All Well-Defined Problems — M. Hutter (2002), International Journal of Foundations of Computer Science 13(3):431-443. https://arxiv.org/abs/cs/0206022 arXiv:cs/0206022 — `FULL_TEXT_READ`
+
+**What it already explains.** Levin search: for an inversion problem g(y) = x with a fast evaluator for g, run all programs p in parallel with time fraction 2^{-l(p)}, verify each output, halt on the first verified witness; total time <= 2^{l(p)} time^+_p(x) where time^+ includes verification; Li-Vitanyi's 'simple' runs p_k every 2^k-th step giving 2^k time^+_{p_k}(x) + 2^{k-1}, and 'search' gives 2^{K(k)+O(1)} time^+_{p_k}(x); the two are asymptotically equivalent because 'search' is itself a program of constant index. The multiplicative constant 2^{l(p)} is the price of not knowing p. Hutter's M_{p*} removes the multiplicative constant at the price of provability: it runs (A) a proof enumerator that adds (p, t_p) to a list when a proof shows p provably equals p* with provable time bound t_p; (B) Levin search over the time-bound programs t with time fraction 2^{-l(p)-l(t)}; (C) the currently fastest p for k = 1, 2, 4, ... steps; with 10%/10%/80% time shares the total time is <= 5 t_p(x) + d_p time_{t_p}(x) + c_p with d_p = 40 * 2^{l(p)+l(t_p)} and c_p = 40 * 2^{l(proof(p))+1} O(l(proof(p))^2); the factor 5 can be 4+eps with constants proportional to 1/eps; Theorem 2: the fastest program is also among the shortest provably-equivalent programs (l(p~) <= K''(p*) + O(1)). Blum's speed-up is avoided by ignoring programs without correctness proofs; for poorly specified problems 'Theorem 1 does not help at all'; neither M_{p*} nor p~ is provably equivalent to p* inside the proof system (van Emde Boas' Godel remark).
+
+**Formal object.** Universal reference TM U; programs p as binary strings, l(p) length; time_p(x) = steps of U on (p, x); time_{t_p}(x) = time to compute the time bound t_p(x); formal proof system with terms u (functional equivalence [forall y: u(p,y) = u(p*,y)]) and tm ([tm(p,x) = n] iff time_p(x) = n); list L of proven (p, t) pairs; shared variables t_fast, p_fast; K'(f) = min{l(p): U(p,x) = f(x) forall x} (not approximable); K''(p*) = min{l(p): a proof of equivalence to p* exists} (approximable from above). Levin search: programs run with relative computation time 2^{-l(p)} subject to Kraft's inequality via prefix-free codes.
+
+**Strongest result.** Hutter Theorem 1 (verbatim): 'Let p* be a given algorithm computing p*(x) from x, or, more generally, a specification of a function. Let p be any algorithm, computing provably the same function as p* with computation time provably bounded by the function t_p(x) for all x. time_{t_p}(x) is the time needed to compute the time bound t_p(x). Then the algorithm M_{p*} constructed in Section 4 computes p*(x) in time time_{M_{p*}}(x) <= 5 * t_p(x) + d_p * time_{t_p}(x) + c_p with constants c_p and d_p depending on p but not on x. Neither p, t_p, nor the proofs need to be known in advance for the construction of M_{p*}(x).' Constants (Sec. 5, verbatim): 'd_p = 40 * 2^{l(p)+l(t_p)}, c_p = 40 * 2^{l(proof(p))+1} * O(l(proof(p)^2)'. Theorem 2: there is p~ equivalent to p* with l(p~) <= K''(p*) + O(1) and the same time bound. Levin search bound (Sec. 2): 'The total computation time to find a solution (if one exists) is bounded by 2^{l(p)} * time^+_p(x).'
+
+**Assumptions.** Levin: inversion (or time-limited optimisation) problems with a fast implementation of the verifier g; halting on first verified witness; Hutter: a formal proof system in which functional equivalence and step counts are expressible; programs must have PROVABLE correctness and provable, quickly computable time bounds; one fixed reference machine (no linear speed-up); Constants c_p (exponential in proof length) and d_p (exponential in program + time-bound length) are ignored in the asymptotic statement; Well-specified problems only
+
+**Resource model.** time (steps on U), description length (l(p), l(t_p), l(proof)), verification time (time^+ includes verifying g(p(x)) = x; proof checking O(l(proof)^2)); no samples, no memory accounting beyond U
+
+**Failure boundary.** Both algorithms are optimal only up to constants that are astronomically large (2^{l(p)} multiplicative for Levin; 2^{l(proof)} additive for Hutter), so they predict nothing about which program is found within realistic budgets; both REQUIRE an exact verifier (g fast to evaluate, or a formal proof), so they do not apply to ecologies with noisy, statistical or delayed feedback; Hutter's optimality is over provably-correct programs only (Blum's phenomenon survives outside that set); neither models learning from data, drift, or revision - the search restarts from scratch per problem (Sec. 8 allows caching of A across invocations).
+
+**Implementation.** none known (Schmidhuber's OOPS/HSEARCH implement Levin-search variants; not verified here)
+
+**Track-B residual.** Same as P0.LEVIN_SEARCH (verification contract weaker than an exact fast verifier) plus, for this family: the verification coordinate is where the programmatic morphology's optimality theorems live (2^{l(p)} time-sharing needs a verifier; 5 t_p needs proofs) while the neural morphology's optimality (cheap gradient) lives at the update coordinate with NO verifier - so the two morphologies are optimal along orthogonal coordinates and the ecology's verification contract decides which coordinate is priced; is there a theorem that with verification cost v per candidate and gradient cost c per step, the crossover between Levin-type program search and gradient descent is at a computable v/c ratio?
+
+**Upward question.** Replace the exact verifier by a registered verification contract with cost v and error epsilon; does the Levin/Hutter time-sharing argument survive as a bound with 2^{l(p)} replaced by a function of (v, epsilon), and does that bound, compared to the cheap-gradient bound, yield a prospective morphology phase boundary (T10) in the (verification price, gradient price) plane?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Levin search just runs and verifies the result of all algorithms p in parallel with relative computation time 2^{-l(p)}; i.e. a time fraction 2^{-l(p)} is devoted to execute p, where l(p) is the length of program p (coded in binary)." — [1] Hutter 2002, Sec. 2
+> "The total computation time to find a solution (if one exists) is bounded by 2^{l(p)} * time^+_p(x)." — [1] Hutter 2002, Sec. 2
+> "d_p = 40 * 2^{l(p)+l(t_p)}, c_p = 40 * 2^{l(proof(p))+1} * O(l(proof(p)^2)" — [1] Hutter 2002, Sec. 5 (end of time analysis)
+> "The factor of 5 may be reduced to 4 + eps by assigning a larger fraction of time to algorithm C. The constants c_p and d_p will then be proportional to 1/eps." — [1] Hutter 2002, Sec. 5
+> "What somewhat spoils the practical applicability of M_p* is the large additive constant c_p, which will be estimated in Section 5." — [1] Hutter 2002, Sec. 1
+> "For poorly specified problems, Theorem 1 does not help at all." — [1] Hutter 2002, Sec. 3
+> "Looking for larger programs saves at most a finite number of computation steps, but cannot improve the time order." — [1] Hutter 2002, Sec. 1
+> "Neither M_p*, nor p~ is provably equivalent to p*. The construction of M_p* in section 4 shows equivalence of M_p* (and of p~) to p*, but it is a meta-proof which cannot be formalized within the considered proof system." — [1] Hutter 2002, Sec. 7
+
+Verification notes: Hutter 2002 read in full and quoted verbatim; Levin 1973 not accessible (its statement is taken from Hutter's Sec. 2 and is consistent with the sibling P0.LEVIN_SEARCH entry, which also could not read Levin). heritable-search-transformation-v1/LITERATURE_LEDGER.md row 'Levin universal search; Schmidhuber OOPS/PowerPlay ... OWNS T04' records ownership without the constants; this entry supplies them.
+
+### P9A.MARKOV_LOGIC — Richardson & Domingos 2006 Markov logic networks: logic + probability by grounding, with c^k blow-up per formula
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Markov logic networks — M. Richardson, P. Domingos (2006), Machine Learning 62(1-2):107-136. https://doi.org/10.1007/s10994-006-5833-1 — `NOT_ACCESSIBLE`
+- [1] Markov Logic in Infinite Domains — P. Singla, P. Domingos (2007), UAI 2007 (arXiv 1206.5292). https://arxiv.org/abs/1206.5292 arXiv:1206.5292 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** How a first-order knowledge base becomes a probabilistic model: an MLN L is a finite set of pairs (F_i, w_i) of first-order formulas and real weights; given a finite set of constants C it defines a ground Markov network M_{L,C} with one binary node per ground atom and one feature per ground formula (weight w_i), and P(X = x) = (1/Z) exp(sum_i w_i n_i(x)) where n_i(x) counts true groundings of F_i; the size of the ground network is the number of groundings - a formula with k distinct variables over \|C\| constants has \|C\|^k groundings (elementary from the definition) - so compilation logic -> probabilistic is polynomial in \|C\| with degree equal to the maximal number of variables per formula, and exponential in that degree; every discrete distribution / Markov network is representable, and first-order logic is recovered as the limit of all weights -> infinity (Singla-Domingos corollary: K entails alpha iff L^alpha_infinity has no satisfying measure, for locally finite KBs). The 2006 paper (from memory) uses MCMC/Gibbs (later MC-SAT) for inference and pseudo-likelihood gradient for weights, CLAUDIEN-style ILP for structure; the infinite-domain extension shows the construction requires local finiteness (each ground atom has finitely many neighbours), guarantees existence of a Gibbs measure, and gives a uniqueness condition sup_i sum_{C_j containing X_i} (\|C_j\| - 1)\|w_j\| < 2.
+
+**Formal object.** L = {(F_i, w_i)}; Herbrand base B(L) of ground atoms/clauses; S = one binary variable per ground atom; potential Phi^L_X(x) = sum_j w_j f_j(x) over ground clauses C_j with argument set exactly X, w_j = w_i/n if F_i yields n CNF clauses, f_j(x) = 1 iff C_j true in x; finite case: P(X = x) = (1/Z) exp(sum_j w_j f_j(x)); infinite case: Gibbsian specification gamma^L_X(X = x \| S_X = y) = exp(sum_j w_j f_j(x, y)) / sum_{x'} exp(sum_j w_j f_j(x', y)) over clauses touching X.
+
+**Strongest result.** (2006, from memory, UNVERIFIED numbering) Proposition: every probability distribution over discrete or finite-precision numeric variables is representable by an MLN; Proposition: MLNs with infinite weights recover the first-order KB's possible worlds. (2007, verified) Theorem 1: a locally finite MLN admits at least one Gibbs measure; Theorem 2: if sup_{X_i} sum_{C_j in C(X_i)} (\|C_j\| - 1)\|w_j\| < 2 the measure is unique; Corollary: for locally finite K, K \|= alpha iff the MLN with all weights -> infinity on K u {not alpha} has no satisfying measure - 'first-order logic can be viewed as the limiting case of Markov logic when all weights tend to infinity.'
+
+**Assumptions.** Finite domain of constants (2006); unique names, domain closure, known functions (2006, from memory); locally finite / sigma-determinate clauses for the infinite extension; Formulas converted to CNF; weight of a formula split equally among its clauses; Inference is #P-hard in general; practical inference is approximate (MCMC, MC-SAT, lifted) - from memory
+
+**Resource model.** description length (number of weighted formulas, small) vs ground-network size (\|C\|^k per formula, large); inference/verification time (exponential in treewidth, approximate in practice); learning via (pseudo-)likelihood gradients; no ecology accounting
+
+**Failure boundary.** The compilation direction is symbolic -> probabilistic only (grounding); the reverse (extracting a first-order theory from a learned Markov network) is structure learning, not owned; the blow-up \|C\|^k is a hard description-length overhead at D1; semantics collapses to plain logic only in the infinite-weight limit and can be non-unique (phase transitions) for strong interactions; no statement about when the MLN morphology beats a pure-logic or pure-neural one.
+
+**Implementation.** Alchemy (http://alchemy.cs.washington.edu), per Singla-Domingos ref (Kok et al. 2006); not verified live
+
+**Track-B residual.** MLNs give the D1 overhead for the symbolic -> probabilistic compilation (\|C\|^k grounding; exact inference exponential) with logic recovered as a limit; Track B's GMI-T6/T7 residual is the reverse and the ecology: under which (domain size \|C\|, noise, verification) prices does a learner acquire the compact weighted-formula description rather than the ground table, and is the non-uniqueness regime (Theorem 2 violated, 'phase transitions') a morphology phase boundary?
+
+**Upward question.** Treat \|C\| (domain size) and the weight scale as ecology coordinates: is there a prospective phase boundary at which grounding cost \|C\|^k makes the compiled probabilistic morphology dominated by a lifted/symbolic one, and does it coincide with the Gibbs-measure uniqueness threshold?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Markov logic is a simple combination of Markov networks and first-order logic: each first-order formula has an associated weight, and each grounding of a formula becomes a feature in a Markov network, with the corresponding weight." — [1] Singla & Domingos 2007, Sec. 1
+> "A Markov logic network (MLN) L is a (finite) set of pairs (F_i, w_i), where F_i is a formula in first-order logic and w_i is a real number." — [1] Singla & Domingos 2007, Definition 3
+> "If the MLN contains no function symbols, Definition 3 reduces to the one in Richardson and Domingos (2006), with C being the constants appearing in the MLN." — [1] Singla & Domingos 2007, Sec. 3.1
+> "Thus, for locally finite knowledge bases with Herbrand interpretations, first-order logic can be viewed as the limiting case of Markov logic when all weights tend to infinity." — [1] Singla & Domingos 2007, Sec. 4
+> "One limitation of Markov logic is that it is only defined for finite domains." — [1] Singla & Domingos 2007, Sec. 1
+
+Verification notes: The 2006 MLJ paper not accessible; its Definition 4.1 / Propositions 4.2-4.3 numbering and the \|C\|^k grounding count are FROM_MEMORY (the count is an immediate consequence of the verified Definition 3). The 2007 arXiv extension by the same group was read and quoted. No prior repo ledger covers this parent.
+
+### P9A.MCCULLOCH_PITTS_KLEENE — McCulloch & Pitts 1943 logical calculus + Kleene 1956 regular events + Minsky 1967: threshold nets are finite automata at finite scope
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] A logical calculus of the ideas immanent in nervous activity — W. S. McCulloch, W. Pitts (1943), Bulletin of Mathematical Biophysics 5:115-133. https://doi.org/10.1007/BF02478259 — `NOT_ACCESSIBLE`
+- [1] Representation of events in nerve nets and finite automata — S. C. Kleene (1956), Automata Studies (Shannon & McCarthy eds.), Princeton UP, pp. 3-41; RAND RM-704 (1951). https://doi.org/10.1515/9781400882618-002 — `NOT_ACCESSIBLE`
+- [2] Computation: Finite and Infinite Machines (ch. 3) — M. Minsky (1967), Prentice-Hall. none — `FROM_MEMORY_UNVERIFIED`
+- [3] Neural Logic, Invariance, and the Retina - McCulloch and Pitts (NeuroAI book ch. 2) — N. Dehghani (2026), arXiv q-bio.NC. https://arxiv.org/abs/2609.02183 arXiv:2609.02183 — `PARTIAL_TEXT_READ`
+- [4] From Finite Automata to Regular Expressions and Back - A Summary on Descriptional Complexity — H. Gruber, M. Holzer (2014), AFL 2014, EPTCS 151:25-48. https://doi.org/10.4204/EPTCS.151.2 arXiv:1405.5594 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** That a fixed, finite, synchronous network of threshold units with unit delays (excitation summed to threshold, absolute inhibitory veto) is exactly a finite-state machine: any net with N binary units has at most 2^N states, every autonomous trajectory is eventually periodic with transient+period <= 2^N, nets without circles realise exactly the (temporal) propositional expressions, and (Kleene) the events representable by nerve nets or finite automata are exactly the regular events (closure of finite events under union, concatenation and iterate). Minsky's textbook gives the standard constructive FA -> threshold-net compilation. So at the execution coordinate, 'a neural network forward pass' and 'a finite automaton step' are the SAME object up to a bounded change of description; McCulloch-Pitts also already remarked that alterable nets (facilitation/extinction) are behaviourally equivalent to fixed nets, and that a net with a tape computes exactly what a Turing machine computes.
+
+**Formal object.** Units i in {1..N}, state x_i(t) in {0,1}; excitatory set E_i, inhibitory set I_i, threshold theta_i; update x_i(t+1) = I[ sum_{j in E_i} x_j(t) >= theta_i ] * prod_{k in I_i} (1 - x_k(t)) (original veto form), later generalised to x_i(t+1) = I[ sum_j w_ij x_j(t) - theta_i >= 0 ]. Proposition P_i(t) = 'unit i fires at t'. Global map x(t+1) = F(x(t), u(t)) on {0,1}^N. Kleene: an event is a set of input tables; regular events are generated from finite events by E v F, EF, E*F; a finite automaton is a finite set of internal states with a next-state function of (state, input); nerve nets and finite automata represent exactly the regular events.
+
+**Strongest result.** (As reconstructed from secondaries; theorem numbers of the primaries NOT verified this session.) (i) McCulloch-Pitts: every net without circles realises a temporal propositional expression and every such expression is realised by some net; nets with circles realise a strictly larger class involving reference to indefinitely remote past; single threshold unit computes only linearly separable functions (XOR needs two stages) while networks of threshold units realise every finite Boolean function (DNF construction, exponential in inputs in the worst case). (ii) Kleene's analysis and synthesis theorems: the events representable in a finite automaton (equivalently in a McCulloch-Pitts net) are exactly the regular events; conversion overheads (Gruber-Holzer): regular expression of alphabetic width n -> epsilon-NFA of size 22n/5 (tight), -> DFA with 2^n+1 states (upper) and >= (5/4)2^{n/2} (lower, binary alphabet); n-state DFA/NFA -> regular expression of size \|Sigma\| * 2^Theta(n), necessary and sufficient in the worst case even for binary alphabets. (iii) Finite-precision collapse (Sima): bounding the precision of analog states reduces any recurrent net to a finite automaton.
+
+**Assumptions.** Discrete synchronous time; unit delay per synapse; all-or-none firing; Absolute inhibition (veto) in the 1943 idealisation; weighted-sum form is a later generalisation valid only when negative weights reproduce the veto; Fixed structure over time (no plasticity) for the equivalence theorems; alterable nets treated by reduction to fixed nets; Finite number of units and finite (binary) state -> finite automaton; unbounded computation needs a growing family or external tape; Kleene equivalence is extensional (which events), not descriptional: automaton <-> expression conversions can cost 2^Theta(n)
+
+**Resource model.** description length only implicitly (number of units/states, expression size); time as unit delays (logical depth = latency); no learning, sample, verification or memory accounting
+
+**Failure boundary.** Says nothing about which finite automaton a learner acquires, at what cost, or under which ecology; no learning rule; equivalence is at the finite-state execution coordinate only; descriptional overhead between the two morphologies (net vs regular expression) can be exponential, so 'equivalence' hides a description-length coordinate that is NOT bounded by a constant.
+
+**Implementation.** none known (textbook constructions; modern re-implementations e.g. arXiv 2505.11694 'Neural networks as universal finite-state machines')
+
+**Track-B residual.** Given that neural forward computation at finite precision IS finite-automaton execution, the residual is entirely at the other coordinates: (a) description length (2^Theta(n) automaton<->expression gap shows description cost is morphology-relative even at D1), (b) which update law acquires which automaton from experience (D2), (c) ecology selection between a threshold-net description and a table/expression description of the same regular event (D3).
+
+**Upward question.** Since the execution coordinate is quotiented away by Kleene, what distinguishes the neural and automaton morphologies must live in description/update/revision cost and in which ecology prices those costs; is there a theorem that the threshold-net description is the resource-optimal one for regular events under some registered price vector and NOT under another?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "A fixed recurrent network of N binary units has at most 2^N states; it is not thereby an unbounded Turing machine." — [3] Dehghani 2026, Chapter orientation (p.1)
+> "It studied fixed nets, logical realizability, and memory through circles or possible alteration; it did not provide a general data-driven weight-learning algorithm." — [3] Dehghani 2026, Table II
+> "One weighted threshold element computes a linearly separable Boolean function. Networks built from thresholded excitation and inhibition can realize every finite Boolean function." — [3] Dehghani 2026, Table II
+> "The equivalence of finite automata and regular expressions dates back to the seminal paper of Kleene on events in nerve nets and finite automata from 1956." — [4] Gruber & Holzer 2014, abstract
+> "Let n >= 1 and A be an n-state DFA or NFA over alphabet Sigma. Then size \|Sigma\| * 2^Theta(n) is sufficient and necessary in the worst case for a regular expression describing L(A)." — [4] Gruber & Holzer 2014, Theorem 24
+
+Verification notes: Primaries not readable in this session (all mirrors blocked). The 1943 theorem statements (Theorems I-III) and the exact Kleene theorem numbering are therefore FROM_MEMORY_UNVERIFIED; the reconstruction relies on Dehghani 2026 (arXiv) and Gruber-Holzer 2014 (arXiv), both read. The neuron-count bounds for simulating an m-state automaton (Alon-Dewdney-Ott 1991; Horne-Hush 1996; Indyk 1995 - remembered as Theta(sqrt m) neurons) are cited by Sima 2021 refs [8-10] but the bounds themselves were NOT verified this session. No prior repo ledger reconstructs this parent.
+
+### P9A.NEUROSYMBOLIC_TAXONOMY — Chaudhuri et al. 2021 'Neurosymbolic Programming' + Garcez & Lamb 2020 'Neurosymbolic AI: the 3rd wave' (Kautz's six types): the hybrid field's own taxonomy
+
+Disposition: `ADAPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Neurosymbolic Programming — S. Chaudhuri, K. Ellis, O. Polozov, R. Singh, A. Solar-Lezama, Y. Yue (2021), Foundations and Trends in Programming Languages 7(3):158-243. https://doi.org/10.1561/2500000049 — `NOT_ACCESSIBLE`
+- [1] Learning Differentiable Programs with Admissible Neural Heuristics — A. Shah, E. Zhan, J. J. Sun, A. Verma, Y. Yue, S. Chaudhuri (2020), NeurIPS 2020. https://arxiv.org/abs/2007.12101 arXiv:2007.12101 — `PARTIAL_TEXT_READ`
+- [2] Neurosymbolic AI: The 3rd Wave — A. d'Avila Garcez, L. C. Lamb (2020), arXiv cs.AI (Artificial Intelligence Review 2023). https://arxiv.org/abs/2012.05876 arXiv:2012.05876 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** The hybrid field's self-description. Chaudhuri et al. (via Shah et al.): a neurosymbolic program is a pair (alpha, theta) - a discrete program architecture alpha generated by a context-free DSL grammar (with structural cost s(alpha) = sum of rule costs) and real parameters theta of differentiable library modules - with semantics [[alpha]](x, theta) differentiable in theta; learning is the joint problem (alpha*, theta*) = argmin (s(alpha) + zeta(alpha, theta)) over a combinatorial architecture space and a continuous parameter space; search over alpha is top-down derivation in a graph (A*, iterative-deepening branch-and-bound) with neural networks used as continuous RELAXATIONS of partial programs whose trained loss is an eps-admissible heuristic; conditionals are smoothed (sigmoid gate with temperature). Garcez-Lamb: Kautz's six types - 1 standard deep learning with symbolic I/O; 2 loosely coupled neural core + symbolic solver (AlphaGo); 3 neural module and symbolic module interacting via I/O on complementary tasks (NS-CL, DeepProbLog); 4 symbolic knowledge compiled into the training set or into the initial architecture/weights (localist, with correctness guarantees); 5 symbolic rules mapped to embeddings acting as soft constraints/regularisers on the loss (Logic Tensor Networks, tensor product representations); 6 fully integrated symbolic reasoning inside a neural engine (does not yet exist for combinatorial reasoning); plus the localist-vs-distributed representation axis, the observation that current networks are 'essentially a propositional system' (propositional, nonmonotonic, modal and fragments of FOL, not full FOL), the learning-continuous / reasoning-discrete split, and three challenges (sound efficient knowledge extraction, goal-directed commonsense and combinatorial reasoning, human-network communication).
+
+**Formal object.** DSL grammar with rules X -> sigma_1 ... sigma_k and costs s(r) >= 0; program (alpha, theta); semantics [[alpha]](x, theta), differentiable in theta; prediction error zeta(alpha, theta) = E_{(x,y)~D} 1[[[alpha]](x, theta) != y]; objective (1): (alpha*, theta*) = argmin_{(alpha, theta)} (s(alpha) + zeta(alpha, theta)) (with trade-off lambda in Eq. 9); search graph G with nodes = partial architectures, goal edges (u, alpha) of cost s(r) + zeta(alpha, theta*); heuristic h(u) = min_{omega, theta} zeta(u, (theta_u, omega)) obtained by filling nonterminals with type-correct neural networks; eps-admissibility h(u) <= J(u) + eps. Kautz types 1-6 as an informal partial order of integration tightness.
+
+**Strongest result.** Shah et al. (verified): eps-admissibility of the neural-relaxation heuristic (Eq. 6, assuming universal approximation and near-optimal training) and eps-optimality of A*/IDS-BB under it (Eq. 7: g(alpha_G) <= C* + eps); empirical: NEAR-guided search finds programs within ~10% F1 of RNN baselines with natural interpretations. Garcez-Lamb: no theorem; the load-bearing claims are the taxonomy and the propositional-fixation limit (with proofs of neural/logic correspondence for propositional, nonmonotonic, modal, epistemic and temporal logics cited to Garcez et al. 2002/2009).
+
+**Assumptions.** Chaudhuri/Shah: purely functional DSL; differentiable library modules; smoothed conditionals; structural cost as interpretability proxy; empirical validation loss stands in for zeta; Neural relaxation is an (approximate) proper relaxation of the program space and training reaches a near-optimum (for eps-admissibility); Garcez-Lamb: taxonomy is by coupling topology and representation type (localist vs distributed), not by ecology or resource accounting
+
+**Resource model.** Chaudhuri/Shah: structural cost s(alpha) (description length), search cost (nodes expanded; each node costs a neural training run), parameter learning by gradient; Garcez-Lamb: none formal
+
+**Failure boundary.** The taxonomy classifies systems by how modules are wired, not by when each wiring wins; it contains no ecology coordinates and no prediction of which type dominates under which task/feedback/verification regime; the learning formulation (Eq. 1) fixes the DSL by hand (the morphology is baked in - Codex H-ARCHITECTURE-MACRO); combinatorial search cost is exponential in program size and each heuristic evaluation is itself a training run; Type-6 systems are aspirational.
+
+**Implementation.** NEAR: https://github.com/trishullab/near (Shah et al. ref [39]); Garcez-Lamb: none
+
+**Track-B residual.** The field already owns the two-coordinate update law of hybrids (discrete search on alpha guided by relaxations + gradient on theta) - which is exactly the cheap-gradient/verification split of this family expressed as an architecture; Track B's residual is the missing D3 content: a law predicting which Kautz type (or which (alpha, theta) split) an ecology selects, and a resource accounting in which s(alpha) and the per-node training cost are priced, so that 'neurosymbolic' becomes a region of a phase diagram rather than a taxonomy cell.
+
+**Upward question.** Can the six Kautz types be re-derived as the phases of ONE generating basis under (verification price, gradient price, description price), so that e.g. Type 5 (rules as loss regularisers) is predicted where verification is cheap and gradients cheap, and Type 3 where symbolic verification is exact but expensive - turning the taxonomy into a T10 phase diagram?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "We view a program in our domain-specific language (DSL) as a pair (alpha, theta), where alpha is a discrete (program) architecture and theta is a vector of real-valued parameters." — [1] Shah et al. 2020, Sec. 2
+> "Our key innovation is to view various classes of neural networks as continuous relaxations over the space of programs, which can then be used to complete any partial program." — [1] Shah et al. 2020, abstract
+> "In a nutshell, current neural networks are capable of representing propositional logic, nonmonotonic logic programming, propositional modal logic and fragments of first-order logic, but not full first-order or higher-order logic." — [2] Garcez & Lamb 2020, Sec. 2
+> "It is now accepted that learning takes place on a continuous search space of (sub)differentiable functions; reasoning takes place in general on a discrete space as in the case of goal-directed theorem proving." — [2] Garcez & Lamb 2020, Sec. 5
+> "although a fully-fledged Type 6 system for combinatorial reasoning does not exist yet." — [2] Garcez & Lamb 2020, Sec. 3
+> "As the saying goes, "all vectors are symbols, but not all symbols are vectors"." — [2] Garcez & Lamb 2020, Sec. 6
+
+Verification notes: The FnT monograph itself not accessible; its formalisation is verified through Shah et al. 2020 (same senior authors, same (alpha, theta) formulation). Garcez-Lamb read. No prior repo ledger covers these parents.
+
+### P9A.RASP_TRACR — Perez-Barcelo-Marinkovic (attention is Turing complete) + Weiss-Goldberg-Yahav RASP + Lindner et al. Tracr: an actual programmatic -> neural compiler with reported overhead
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] On the Turing Completeness of Modern Neural Network Architectures — J. Perez, J. Marinkovic, P. Barcelo (2019), ICLR 2019 (precursor of 'Attention is Turing-complete', JMLR 22(75), 2021). https://arxiv.org/abs/1901.03429 arXiv:1901.03429 — `PARTIAL_TEXT_READ`
+- [1] Attention is Turing-Complete — J. Perez, P. Barcelo, J. Marinkovic (2021), Journal of Machine Learning Research 22(75):1-35. https://jmlr.org/papers/v22/20-302.html — `NOT_ACCESSIBLE`
+- [2] Thinking Like Transformers — G. Weiss, Y. Goldberg, E. Yahav (2021), ICML 2021, PMLR 139. https://arxiv.org/abs/2106.06981 arXiv:2106.06981 — `PARTIAL_TEXT_READ`
+- [3] Tracr: Compiled Transformers as a Laboratory for Interpretability — D. Lindner, J. Kramar, S. Farquhar, M. Rahtz, T. McGrath, V. Mikulik (2023), NeurIPS 2023. https://arxiv.org/abs/2301.05062 arXiv:2301.05062 — `FULL_TEXT_READ`
+
+**What it already explains.** A complete, executable compilation chain programmatic -> neural: (1) Perez et al.: the transformer (encoder-decoder, hard attention, rational arbitrary-precision arithmetic, positional encoding pos(i) = (1, i, 1/i, 1/i^2)) simulates any Turing machine with one encoder layer, three decoder layers, vectors of dimension d = 2\|Q\| + 4\|Sigma\| + 11, and one decoder step per TM step; without positional encodings it is order- and even proportion-invariant (cannot recognise 'even number of a's'); with FIXED precision it is not Turing complete (positional encodings become a finite alphabet extension). (2) RASP: a language of s-ops and selectors whose primitives (elementwise map ~ MLP; select/aggregate ~ attention head; selector_width) map to transformer blocks, so that program length in select-aggregate depth gives the minimal number of layers and the number of distinct selectors per layer gives the heads; empirical Table 2 shows trained transformers at the RASP-predicted (layers, heads) reach 99+% and degrade when a layer or head is removed. (3) Tracr: an open-source compiler RASP -> Craft (labelled vector spaces) -> weights of a standard decoder-only transformer (no layer norm), in six steps; reported overheads: residual stream = direct sum of one orthogonal subspace per s-op (categorical one-hot or one numerical dimension), layers = longest-path allocation (upper bound, heuristic), attention selectors realised via low-rank W_QK with BOS default and inverse temperature 100, numerical MLPs via discretisation lookup; e.g. frac_prevs compiles to a 14-dimensional residual stream (12 for embeddings, 2 for variables) and 4 layers with two no-ops. What is lost: compiled weights are not trained weights (axis-aligned, sparse, orthogonal, unrealistically wide), no learning law is compiled, boolean selector combinations are not compilable in general (Lemma F.1: 'or' of two generic selectors needs product s-ops of multiplicative dimension), and gradient-descent compression of a compiled model can change the encoding (target_pos categorical -> numerical) so the compiled semantics is not preserved under the update law.
+
+**Formal object.** Transformer: A_i = softmax(x W_QK^i x^T), MHA(x) = sum_i A_i x W_OV^i, MLP(x) = sigma(x W_1) W_2, residual stream x in R^{N x d}. RASP: s-ops (sequence-to-sequence functions of equal length), selectors select(k, q, p) -> {0,1}^{n x n} with S[i][j] = p(k_i, q_j), aggregate(S, v)_i = mean of v over selected j, selector_width(S)_i = row sum; tokens, indices built-in. Tracr: computational graph of RASP ops with inferred finite value sets; residual space R = (+)_{s-ops} V_s (categorical: one-hot basis labelled 'name:value'; numerical: one dimension); attention W_QK = T^{-1}(W~_QK + beta_BOS x_one x_{tokens:bos}^T), T^{-1} = 100; layer index = longest path from input. Perez TM simulation: decoder output y_i encodes (q^{(i)}, s^{(i)}, m^{(i-1)}); layer 1 applies delta via 2-layer FFN; layer 2 computes head positions c^{(i)}, c^{(i+1)} by self-attention over m^{(0..i)}; layer 3 attends (hard attention with score -\|<q,k>\|) to the last time the current cell was written to fetch the symbol.
+
+**Strongest result.** Perez et al. Theorem 3.4 (verified): 'The class of Transformer networks with positional encodings is Turing complete.' with construction size 'one encoder layer, three decoder layers and vectors of dimension d = 2\|Q\| + 4\|Sigma\| + 11'; Proposition 3.1 (proportion invariance without positional encodings) and Corollary 3.2 (the order-invariant regular language 'even number of a's' is not recognisable); and the fixed-precision negative: 'the Transformer with positional encodings and fixed precision is not Turing complete'. Tracr Lemma F.1 (verified): an attention matrix realising the OR of two selectors stored in orthogonal subspaces forces both predicates to be rank-1, so generic boolean selector combinations are not compilable into a single head. RASP Table 2 (verified): compiled (layers, heads) = Reverse (2,1), Hist (1,2), 2-Hist (2,2), Sort (2,1), Most-Freq (3,2), Dyck-1 (2,1), Dyck-2 (3,1 with select_best); trained transformers at these sizes reach 93.9-99.9% and drop (e.g. Reverse to 23.1% at L-1) when reduced.
+
+**Assumptions.** Perez: hard attention (argmin \|<q,k>\| with averaging on ties), rational functions only (no softmax/sin/cos), arbitrary precision rationals, positional encoding computable in linear time, seq2seq with decoder loop of r steps; RASP: uniform (binary) selection patterns realised by strongly negative unselected scores; MLP blocks assumed able to compute any elementwise function (Hornik); no input-dependent loops; non-causal attention by default; Tracr: finite input vocabulary and context size (so every s-op has a finite value set); BOS token mandatory; categorical/numerical encoding annotations; selectors restricted to two input s-ops; no layer norm; layer allocation heuristic (longest path) may be suboptimal; All three: weights are constructed, not learned; no claim that gradient descent finds these circuits
+
+**Resource model.** description length (layers, heads, residual dimension, MLP hidden size), execution time (one decoder step per TM step; attention is O(n^2) per layer), precision (arbitrary vs fixed); no learning/sample/verification accounting; Tracr Appendix E reports compression training cost (3e5 AdamW steps, 1-4 h on 2 CPU cores)
+
+**Failure boundary.** The compiler goes one way (program -> weights) and preserves only forward semantics; it does not compile the update law (there is no 'gradient of a RASP program'), and Tracr Sec. 5.3 documents that applying gradient descent to compiled models can silently change the implemented encoding (average per-layer cosine similarity ~0.8 at near-perfect accuracy), i.e. behavioural compilation without developmental equivalence - exactly Codex hostile H-STATIC-EQUIVALENCE; expressivity limits: binary attention patterns only (Merrill et al.: saturated transformers are constant-depth threshold circuits), no probabilistic next-token computation, no general boolean selector combination; residual width grows as the sum of all s-op value-set sizes (categorical) - compiled models 'can be sparse and inefficient'; Perez's TM result needs unbounded precision, and Tracr's frac_prevs numerical values are only approximated by discretising MLPs.
+
+**Implementation.** https://github.com/google-deepmind/tracr (Tracr, Haiku/JAX); http://github.com/tech-srl/RASP (RASP REPL); Perez et al.: none
+
+**Track-B residual.** Tracr is the existence proof that D1 at the EXECUTION coordinate (programmatic -> neural) is engineering, with overhead reported as (layers = dependency depth, heads = selectors per layer, width = sum of value-set sizes). The residual is (a) the UPDATE coordinate: a learning law that, applied to the compiled weights, preserves the program (Sec. 5.3 shows SGD does not), (b) the reverse compiler neural -> program with bounded overhead (mechanistic interpretability, which Tracr exists to evaluate - Nanda et al. do one case by hand), and (c) whether any ecology selects the compiled (axis-aligned, orthogonal) description over the trained (superposed) one - Tracr's compression study is a first ecology axis (residual width price d) with a measured threshold (frac_prevs solved at d >= 6 of 14).
+
+**Upward question.** What is the compiler at the update coordinate - a map from (program, program-edit law) to (weights, weight-update law) such that the registered experience -> update -> behaviour trajectory is preserved with bounded overhead - and does it exist at all for gradient descent, given that SGD on compiled weights changes encodings?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "The complete construction uses one encoder layer, three decoder layers and vectors of dimension d = 2\|Q\| + 4\|Sigma\| + 11 to store one-hot representations of states, symbols and some additional working space." — [0] Perez et al. 2019, proof sketch of Theorem 3.4
+> "Then from Proposition 3.1 we obtain that the Transformer with positional encodings and fixed precision is not Turing complete." — [0] Perez et al. 2019, Sec. 3.3
+> "We can analyze any RASP program to infer the minimum number of layers and maximum number of heads required to realise it in a transformer." — [2] Weiss et al. 2021, Sec. 6
+> "We note that RASP does not suggest the embedding width needed to encode this solution in an actual transformer." — [2] Weiss et al. 2021, footnote 7
+> "In other words, we embed each s-op in its own orthogonal subspace, which is reserved for its sole use throughout the entire network." — [3] Tracr 2023, Sec. 3 step 5
+> "First, we compute the longest path from the input to a given node. This path length is an upper bound for the layer number to which we can allocate the node." — [3] Tracr 2023, Sec. 3 step 4
+> "The compiled frac_prevs model has a 14-dimensional residual stream, but it uses 12 out of these for the input embeddings." — [3] Tracr 2023, Sec. 4.1
+> "This difference in encodings shows that even with a fairly restrictive compression setup, compressed models may not stay faithful to the original RASP programs." — [3] Tracr 2023, Sec. 5.3
+> "the encodings occupy dimensionality multiplicative in the sizes of the constituent s-op output types, which is an impediment to scaling these circuits very far." — [3] Tracr 2023, Appendix F
+> "Tracr constructs layers from hand-coded parameter matrices. This is both unrealistic and inefficient" — [3] Tracr 2023, Appendix A.2 Realism
+
+Verification notes: Tracr read in full; RASP and the ICLR Perez paper read at theorem/table level; the JMLR 2021 'Attention is Turing-complete' text itself not accessible (its Theorem numbering may differ from the ICLR version quoted here). No prior repo ledger covers these parents (functional-neural-absorption-v1 cards were grepped: no hits).
+
+### P9A.SIEGELMANN_SONTAG — Siegelmann & Sontag 1995: rational-weight saturated-linear recurrent nets are Turing universal in real time with 886 units
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] On the computational power of neural nets — H. T. Siegelmann, E. D. Sontag (1995), Journal of Computer and System Sciences 50(1):132-150. https://doi.org/10.1006/jcss.1995.1013 — `ABSTRACT_ONLY`
+- [1] Turing Computation with Recurrent Artificial Neural Networks — G. S. Carmantini, P. beim Graben, M. Desroches, S. Rodrigues (2015), arXiv cs.NE (NIPS 2015 workshop). https://arxiv.org/abs/1511.01427 arXiv:1511.01427 — `PARTIAL_TEXT_READ`
+- [2] On the Turing Completeness of Modern Neural Network Architectures — J. Perez, J. Marinkovic, P. Barcelo (2019), ICLR 2019. https://arxiv.org/abs/1901.03429 arXiv:1901.03429 — `PARTIAL_TEXT_READ`
+- [3] Stronger Separation of Analog Neuron Hierarchy by Deterministic Context-Free Languages — J. Sima (2021), arXiv cs.NE (Neurocomputing). https://arxiv.org/abs/2102.01633 arXiv:2102.01633 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** That a FIXED-SIZE recurrent network of first-order units with the saturated-linear activation sigma(x)=0 (x<0), x (0<=x<=1), 1 (x>1) and RATIONAL weights can simulate any Turing machine, in real time (linear-time overhead), by encoding stack/tape contents as rationals in [0,1] (Cantor-set style base encoding); one universal net of 886 units computes a universal partial-recursive function. Precision is the hidden unbounded resource: the number of digits of the analog activations grows linearly with the computation, and bounding it collapses the model to a finite automaton (Kleene regime). With arbitrary real weights the same model is super-Turing (P/poly in polynomial time). Codex ledger entry P-NEURAL-UNIVERSALITY records only the headline.
+
+**Formal object.** x_i(t+1) = sigma( sum_j a_ij x_j(t) + sum_j b_ij u_j(t) + c_i ), i=1..N, sigma = saturated-linear (ramp), a_ij, b_ij, c_i in Q (the 1995 theorem) or R (super-Turing regime). Tape/stack encoding: a one-sided infinite symbol sequence s = d_1 d_2 ... is Godelised as psi(s) = sum_k gamma(d_k) g^{-k} in [0,1]; push/pop/substitute are affine maps on psi(s) (Carmantini Sec. 2.3.1). Sima's alpha-ANN refinement: binary-state network + alpha analog units with rational weights; 0ANN = FA, 2ANN >= DCFL, 3ANN = TM.
+
+**Strongest result.** Main theorem (from the abstract, verbatim-level): one may simulate all Turing machines by such nets, and in particular any multi-stack Turing machine in real time, with a net of 886 processors computing a universal partial-recursive function. Quantitative refinements (verified in secondaries): Carmantini et al. give an explicit first-order R-ANN with n_units = 2 + n_s + n_s n_q + 2 n_s^2 n_q + 1 units (n_q states, n_s tape symbols) simulating a TM in real time via a nonlinear dynamical automaton, e.g. 259 units for Minsky's 7-state 4-symbol UTM versus 886 for Siegelmann-Sontag; Sima proves any TM is simulated by a 3ANN (three analog rational-weight neurons plus a binary net) with linear-time overhead, and that the analog neuron hierarchy collapses at 3: FA = 0ANN < 1ANN < 2ANN <= 3ANN = TM. Precision: analog values are rationals whose representation length grows linearly along a computation; with bounded precision the power collapses to finite automata.
+
+**Assumptions.** Saturated-linear (piecewise-linear ramp) activation; NOT the logistic sigmoid (the logistic case is a separate later result, Kilian & Siegelmann 1996, cited in Sima 2021 fn. 1); Rational weights and exact rational arithmetic with unbounded precision of activations (unbounded precision is the memory resource); Synchronous discrete time; first-order (affine-then-activation) units; Turing universality is at the execution coordinate: weights are constructed, not learned; Real-time simulation assumes the same step model for TM and net (one net step per TM step up to constant)
+
+**Resource model.** network size (constant, 886 or 2+n_s+n_s n_q+2n_s^2 n_q+1), time (linear overhead), precision/memory (unbounded, grows linearly); no learning, sample or verification accounting
+
+**Failure boundary.** Provides no learning law and no statement about which functions are learnable or at what cost; the construction depends on unbounded precision, which physical hardware and every trained network lack (so the theorem never applies to a deployed model as such); says nothing about description-length or update cost relative to a symbolic TM description; the 886-unit universal net is a compiled object, exactly like a Tracr model.
+
+**Implementation.** none known for the 1995 construction; Carmantini et al. describe a programmable NDA->R-ANN mapping (no public code URL verified)
+
+**Track-B residual.** Under a registered finite precision p (a resource price), the neural morphology is a finite automaton and the TM-equivalence is void; the Track-B question is how the compilation overhead of programmatic -> neural scales in p and in the update coordinate (a gradient step on the 886 compiled weights does not preserve TM semantics), i.e. whether 'neural TM' is a stable point of any learning law rather than a compiled fixed point.
+
+**Upward question.** Which precision/price regime makes the analog-state neural description cheaper than the explicit tape description for the same computation, and does any learning law ever reach the Siegelmann-Sontag encoding from experience (D2), or is it developmentally unreachable (a compiled-only fixed point)?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "their work establishes that recurrent neural networks (RNNs) are Turing complete even if only a bounded number of resources (i.e., neurons and weights) is allowed." — [2] Perez et al. 2019, Sec. 1
+> "Rational weights make the analog-state (shortly analog) NNs (with real-valued outputs in the interval [0, 1]) computationally equivalent to Turing machines (TMs) [10, 14]" — [3] Sima 2021, Sec. 1
+> "Nevertheless, by bounding the precision of analog states, we would reduce the computational power of NNs to that of finite automata which could be implemented by binary states." — [3] Sima 2021, Sec. 1
+> "the number of digits in the representation of analog values may increase (linearly) along a computation." — [3] Sima 2021, Sec. 1
+> "a R-ANN that can simulate Minsky's 7-states 4-symbols UTM [15] in real-time with 259 units (as per Equation 21), approximately 1/3 of the 886 units needed in the solution proposed by Siegelmann and Sontag [1]" — [1] Carmantini et al. 2015, Sec. 4
+> "we have proven that any TM can be simulated by a 3ANN having rational weights with a linear-time overhead [24]." — [3] Sima 2021, Sec. 1
+
+Verification notes: Primary JCSS text not accessible; abstract-level claims (886 processors; real-time multi-stack simulation) verified via the publisher abstract as rendered by the search engine; the base-4 / Cantor-set stack encoding detail is FROM_MEMORY and consistent with Carmantini's Godelisation. Codex's P-NEURAL-UNIVERSALITY entry (PARENT_LEDGER_V1.json) verified only the abstract; this entry adds the activation type, precision requirement, size formulas and the fixed-precision collapse. The LITERATURE_LEDGER.md DOI 'https://doi.org/10.1006/j.jcss.1995.1013' contains a typo (extra 'j.').
+
+### P9A.SIMA_ORPONEN — Sima & Orponen 2003: complexity-theoretic taxonomy of neural network models - the existing bounded-compilation table for the neural morphology
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] General-purpose computation with neural networks: a survey of complexity theoretic results — J. Sima, P. Orponen (2003), Neural Computation 15(12):2727-2778. https://doi.org/10.1162/089976603322518731 — `ABSTRACT_ONLY`
+- [1] Stronger Separation of Analog Neuron Hierarchy by Deterministic Context-Free Languages — J. Sima (2021), arXiv cs.NE. https://arxiv.org/abs/2102.01633 arXiv:2102.01633 — `PARTIAL_TEXT_READ`
+- [2] Super-Linear Gate and Super-Quadratic Wire Lower Bounds for Depth-Two and Depth-Three Threshold Circuits — D. M. Kane, R. Williams (2015), arXiv cs.CC (STOC 2016). https://arxiv.org/abs/1511.07860 arXiv:1511.07860 — `PARTIAL_TEXT_READ`
+- [3] On the Turing Completeness of Modern Neural Network Architectures — J. Perez, J. Marinkovic, P. Barcelo (2019), ICLR 2019. https://arxiv.org/abs/1901.03429 arXiv:1901.03429 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** The survey classifies neural models by architecture (feedforward vs recurrent), time (discrete vs continuous), state (binary vs analog), weights (symmetric vs asymmetric, integer/rational/real), size (finite net vs infinite family) and computation type (deterministic vs probabilistic), and for each cell records the equivalent classical model WITH resource bounds. Reconstructed table (each row verified in the named secondary unless flagged): [R1] binary-state finite recurrent nets with integer weights = finite automata (Kleene/Minsky; polynomial, sublinear-in-states neuron counts by Alon-Dewdney-Ott, Horne-Hush, Indyk - exact bounds UNVERIFIED). [R2] analog saturated-linear recurrent nets, rational weights = Turing machines, real/linear time, constant size (Siegelmann-Sontag); polynomial-time nets = P; three analog units suffice (Sima 2020). [R3] real weights = P/poly in polynomial time, arbitrary I/O maps in exponential time (Siegelmann-Sontag 1994); a proper infinite hierarchy between P and P/poly indexed by Kolmogorov complexity of the weights (Balcazar-Gavalda-Siegelmann 1997). [R4] bounded precision analog nets = finite automata. [R5] polynomial-size constant-depth threshold circuit families = TC0, strictly above AC0 (parity), with the depth-2 small-weight vs depth-3 separation (Hajnal et al.; Kane-Williams restatement). [R6] symmetric (Hopfield) nets: convergence/energy results and PSPACE/P-completeness-type results (from memory, UNVERIFIED). [R7] transformers with hard attention + arbitrary precision = Turing complete with 1 encoder + 3 decoder layers and d = 2\|Q\|+4\|Sigma\|+11; fixed precision -> not Turing complete (Perez et al., post-survey row).
+
+**Formal object.** A family of discrete-time recurrent networks N = (V, W, sigma) with states y^{(t)} in {0,1}^{s-1} x I (binary units with Heaviside H, analog units with saturated-linear sigma), excitation xi_j^{(t)} = sum_i w_ji y_i^{(t)}, synchronous update y_j^{(t+1)} = sigma_j(xi_j^{(t)}); language acceptance via input/output protocol with online (constant delay) or offline variants; classes indexed by weight domain (Z, Q, R), analogicity alpha (number of analog units) and time bound.
+
+**Strongest result.** The survey's content is the map itself; its load-bearing theorem rows for Track B are: integer weights <=> regular languages (Chomsky 3); rational weights <=> recursively enumerable (Chomsky 0) with linear-time simulation; real weights <=> P/poly (polynomial time); bounded precision <=> regular; and (Sima 2020/2021 refinement) FA = 0ANN < 1ANN < 2ANN <= 3ANN = TM with (DCFL \ REG) subset of (2ANN \ 1ANN), i.e. one extra analog neuron with real weights cannot recognise any non-regular deterministic context-free language online, while two rational-weight analog neurons accept every DCFL and three give Turing completeness.
+
+**Assumptions.** Discrete synchronous time; first-order units; saturated-linear or Heaviside activations (results 'partially valid' for other activations incl. logistic); Weight domain is the classifying parameter (Z/Q/R); analog precision unbounded unless stated; Language-acceptor input/output protocols (online: bounded delay between symbols; offline: unbounded); Uniform (single finite net) vs nonuniform (families) distinction is essential: threshold-circuit rows are nonuniform families
+
+**Resource model.** size (units/gates), time (steps; polynomial vs real-time), precision (digits of analog state), weight descriptive complexity (Kolmogorov complexity of real weights), depth (for circuits); no learning/sample/verification accounting
+
+**Failure boundary.** The table is entirely at the execution coordinate and for hand-constructed (compiled) weights; it does not say which row a learning process lands in, nor the cost of converting a trained network into its automaton/TM equivalent (extraction), nor anything about the update law; the alpha-ANN hierarchy is 'only partially comparable' to Chomsky's (cut languages have no Chomsky counterpart), so morphology classes are not nested in the classical ones.
+
+**Implementation.** none known
+
+**Track-B residual.** Track B's GMI-T2/T4 execution-coordinate content is this table; what remains is a second table with the same rows but columns 'update work', 'verification work', 'revision work' and 'description length under a registered price vector' - none of which the survey family fills - plus the ecology-selection question of which row a developmental process occupies as a function of precision price.
+
+**Upward question.** Can the same taxonomy axes (state type, weight domain, precision, analogicity alpha) be re-read as ECOLOGY prices (precision price, memory price) so that the row a developmental system occupies becomes a prediction (GMI-T10) rather than a design choice?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "NNs with integer weights, corresponding to binary-state (shortly binary) networks which employ the Heaviside activation function (with Boolean outputs 0 or 1), coincide with finite automata (FAs) recognizing regular languages" — [1] Sima 2021, Sec. 1
+> "In addition, NNs with arbitrary real weights can even derive "super-Turing" computational capabilities [6]. Namely, their polynomial-time computations correspond to the nonuniform complexity class P/poly" — [1] Sima 2021, Sec. 1
+> "FAs = 0ANNs < 1ANNs < 2ANNs <= 3ANNs = 4ANNs = ... = TMs" — [1] Sima 2021, Sec. 1 (hierarchy display, inequality symbols transliterated)
+> "It appears that the analog neuron hierarchy which is schematically depicted in Figure 1, is only partially comparable to that of Chomsky." — [1] Sima 2021, Sec. 1
+> "any learning algorithm has to employ a sufficient number of analog units to be able to infer more complex grammars." — [1] Sima 2021, Sec. 5
+
+Verification notes: The 2003 survey itself could not be read (five hosts blocked). Its taxonomy criteria are verified from the abstract; the hierarchy rows R1-R4 are verified from Sima's 2021 restatement (which cites the survey as ref [7]); R5 from Kane-Williams; R7 from Perez et al.; R6 and the exact neuron-count bounds for automaton simulation are FROM_MEMORY_UNVERIFIED. No prior repo ledger covers this parent.
+
+### P9A.THRESHOLD_CIRCUITS — Threshold circuits: Parberry 1994 + Hajnal-Maass-Pudlak-Szegedy-Turan 1993 - TC0, depth/weight trade-offs, Boolean vs threshold overhead
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Threshold circuits of bounded depth — A. Hajnal, W. Maass, P. Pudlak, M. Szegedy, G. Turan (1993), Journal of Computer and System Sciences 46(2):129-154. https://doi.org/10.1016/0022-0000(93)90001-D — `NOT_ACCESSIBLE`
+- [1] Circuit Complexity and Neural Networks — I. Parberry (1994), MIT Press. none — `FROM_MEMORY_UNVERIFIED`
+- [2] Super-Linear Gate and Super-Quadratic Wire Lower Bounds for Depth-Two and Depth-Three Threshold Circuits — D. M. Kane, R. Williams (2015), arXiv cs.CC (STOC 2016). https://arxiv.org/abs/1511.07860 arXiv:1511.07860 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** The resource-bounded relationship between the Boolean-gate morphology (AC0: constant depth, polynomial size, unbounded fan-in AND/OR/NOT) and the threshold-gate morphology (TC0: constant depth, polynomial size, linear threshold / majority gates): TC0 strictly contains AC0 (parity and majority are in TC0 but not AC0 - Furst-Saxe-Sipser, Hastad); every Boolean function has a depth-2 threshold circuit of 2^O(n) gates (Minsky-Papert); polynomial-weight threshold gates are simulable by majority circuits, and arbitrary-weight depth-2 threshold circuits are efficiently simulable by depth-3 majority circuits (Goldmann-Hastad-Razborov 1992) - a bounded compilation between weight classes at the cost of one layer; and the first exponential lower bound: inner product mod 2 needs 2^Omega(n) gates in depth-2 small-weight threshold circuits (HMPST 1993), while it has O(n)-gate depth-3 majority circuits - a depth-2 vs depth-3 separation. Also: separating TC0 from NC1 reduces to an n^{1.1}-gate lower bound at every constant depth (Allender-Koucky).
+
+**Formal object.** Linear threshold function f(a) = 1 iff sum_i w_i a_i >= t, w in R^n, t in R; LTF o LTF = depth-2 circuits of LTF gates; TC0_d = depth-d circuits of MAJORITY gates (equivalently polynomially-bounded integer weights) with negations; size measured in gates or wires; AC0 = constant-depth polynomial-size unbounded-fan-in AND/OR/NOT circuits.
+
+**Strongest result.** HMPST 1993 (as restated by Kane-Williams): inner product modulo 2 requires 2^Omega(n) size depth-2 threshold circuits when weights are polynomially bounded; hence polynomial-size depth-2 (small-weight) threshold circuits are strictly weaker than depth-3. Extensions: Nisan 1994 (MAJ o LTF), Forster et al. 2001 (LTF o MAJ). Best general depth-2 results before 2015: Omega(n/log n) gates for IP2 in LTF o LTF (GHR92), Theta(n) gates for IP2 in unbounded-depth LTF circuits (Groger-Turan; Roychowdhury et al.), PARITY needs Omega(n^{3/2}) wires / Omega(n^{1/2}) gates in LTF o LTF (Impagliazzo-Paturi-Saks 1993, shown tight on average by Kane-Williams Thm 1.4). Kane-Williams Thm 1.1: Andreev's function cannot be (1/2+eps)-approximated by LTF o LTF circuits with fewer than Omega(eps^3 n^{3/2}/log^3 n) gates or Omega(eps^3 n^{5/2}/log^{7/2} n) wires, while it has O(n)-gate depth-3 majority circuits (Thm 1.2).
+
+**Assumptions.** Nonuniform circuit families (one circuit per input length); size counted in gates or wires; Weight regime matters: polynomial (majority-simulable) vs arbitrary real weights change the achievable lower bounds; Lower bounds are for explicit functions in P (or NC1); no learning is modelled
+
+**Resource model.** size (gates, wires), depth, weight magnitude (description length of weights); no time-of-learning, sample or verification accounting
+
+**Failure boundary.** Says nothing about learnability of the circuits or about training dynamics; the separations are worst-case over explicit functions, not over ecologies; the depth-hierarchy frontier for threshold circuits is 'surprisingly intractable' - no super-polynomial lower bound for depth-3 majority circuits is known, so TC0 vs NC1 is open; therefore the Boolean-vs-threshold overhead table has exact entries only at depth 2.
+
+**Implementation.** none known
+
+**Track-B residual.** Threshold-circuit theory gives the DESCRIPTION-coordinate overhead between Boolean and threshold morphologies at fixed depth; Track B needs the corresponding overhead at the UPDATE coordinate (does the exponential depth-2 blow-up for IP2 translate into an exponential learning-time or sample gap between a Boolean-basis learner and a threshold-basis learner under a registered ecology?), which no parent here states.
+
+**Upward question.** Is there an ecology (task distribution + depth price) under which the exponential description gap between depth-2 small-weight threshold circuits and depth-3 majority circuits becomes a predicted morphology phase boundary, and does a learning process cross it?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Hajnal et al. [HMP+93] proved the first size lower bounds for LTF o LTF circuits, showing that the inner product modulo 2 (a.k.a. IP2) requires 2^Omega(n) size when the weights of each LTF are small (polynomial in the input length)." — [2] Kane & Williams 2015, Sec. 2 history paragraph
+> "Note that IP2 has MAJ o MAJ o MAJ circuits with O(n) gates, so we cannot use IP2 in our depth-three lower bounds." — [2] Kane & Williams 2015, Sec. 2
+> "Minsky and Papert [MP69] proved that LTF o LTF of 2^O(n) gates can compute any Boolean function, but failed to prove a strong impossibility result for these circuits." — [2] Kane & Williams 2015, Sec. 1
+> "Goldmann, Hastad, and Razborov [GHR92] showed that every LTF o LTF circuit can be efficiently simulated by a MAJ o MAJ o MAJ circuit, and computing IP2 with LTF o LTF requires Omega(n/ log n) gates." — [2] Kane & Williams 2015, Sec. 2
+> "In order to formally understand the power of neural computing, we first need to crack the frontier of threshold circuits with two and three layers, a regime that has been surprisingly intractable to analyze." — [2] Kane & Williams 2015, abstract
+
+Verification notes: HMPST 1993 and Parberry 1994 not readable; all statements attributed to them are as restated in Kane-Williams 2015 (read). The AC0 vs TC0 separation via parity (Furst-Saxe-Sipser 1984; Hastad 1986) is cited by Kane-Williams but its statement is FROM_MEMORY. No prior repo ledger covers this parent.
+
+### P9A.UNIVERSAL_APPROXIMATION — Universal approximation (Cybenko 1989, Hornik 1991) as D0-only, plus Telgarsky 2016 depth separation as a D1 description-overhead lower bound
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Approximation by superpositions of a sigmoidal function — G. Cybenko (1989), Mathematics of Control, Signals and Systems 2:303-314. https://doi.org/10.1007/BF02551274 — `NOT_ACCESSIBLE`
+- [1] Approximation capabilities of multilayer feedforward networks — K. Hornik (1991), Neural Networks 4(2):251-257. https://doi.org/10.1016/0893-6080(91)90009-T — `FROM_MEMORY_UNVERIFIED`
+- [2] Benefits of depth in neural networks — M. Telgarsky (2016), COLT 2016, JMLR W&CP 49:1-23. https://arxiv.org/abs/1602.04485 arXiv:1602.04485 — `PARTIAL_TEXT_READ`
+- [3] Thinking Like Transformers — G. Weiss, Y. Goldberg, E. Yahav (2021), ICML 2021. https://arxiv.org/abs/2106.06981 arXiv:2106.06981 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** D0 for the neural morphology over continuous functions: finite sums sum_j alpha_j sigma(y_j^T x + theta_j) with any continuous sigmoidal (Cybenko) or any bounded non-constant activation (Hornik) are dense in C(I_n) (uniform norm on compacta) and in L^p; no bound on the number of terms N is given - the theorems are existence results. Telgarsky then supplies a D1-type lower bound at the DESCRIPTION coordinate: depth is a resource that cannot be traded for width at polynomial cost: there are functions computed by ReLU networks with Theta(k^3) layers and Theta(1) nodes per layer that no network of O(k) layers and o(2^k) nodes (or boosted decision trees with o(2^{k^3}) nodes) can approximate in L1 to within 1/64.
+
+**Formal object.** Cybenko: sigma sigmoidal iff sigma(t) -> 1 (t -> +inf), -> 0 (t -> -inf); sums S = {sum_{j=1}^N alpha_j sigma(y_j^T x + theta_j)}; density in C(I_n), I_n = [0,1]^n. Telgarsky: networks of (t, alpha, beta)-semi-algebraic gates (gate polynomial within regions cut out by t predicate polynomials of degree alpha, piece degree beta; ReLU is (1,1,1)-sa); N_d(m, l, t, alpha, beta) = networks of <= l layers, <= m nodes per layer; crossing number Cr(f) = number of intervals on which the classifier 1[f >= 1/2] is constant; (t,[a,b])-triangle functions; f^k = k-fold composition of the ReLU triangle f(z) = sigma_R(2 sigma_R(z) - 4 sigma_R(z - 1/2)).
+
+**Strongest result.** Telgarsky Theorem 1.1 (verbatim, verified): 'Let any integer k >= 1 and any dimension d >= 1 be given. There exists f : R^d -> R computed by a neural network with standard ReLU gates in 2k^3 + 8 layers, 3k^3 + 12 total nodes, and 4 + d distinct parameters so that inf_{g in C} int_{[0,1]^d} \|f(x) - g(x)\| dx >= 1/64, where C is the union of' functions computed by networks of (t, alpha, beta)-semi-algebraic gates in <= k layers and <= 2^k/(t alpha beta) nodes, and functions computed by linear combinations of <= t decision trees each with <= 2^{k^3}/t nodes. Mechanism: Lemma 3.2 (few layers -> few oscillations: Cr(g o h) <= 2(2tm alpha/l)^l beta^{l^2}), Corollary 3.9 (many layers -> many oscillations: Cr(f^k) = (2t)^k + 1), Lemma 3.1 (low-crossing functions poorly approximate high-crossing ones). Cybenko Theorem 1/2 (FROM_MEMORY): for any continuous sigmoidal sigma the sums S are dense in C(I_n); no rate or width bound.
+
+**Assumptions.** Cybenko/Hornik: target continuous (or Borel measurable) on a compact set; approximation in sup or L^p norm; arbitrary width; existence only; Telgarsky: semi-algebraic gates (ReLU, max, piecewise polynomial, decision trees); L1 distance on [0,1]^d; the hard function is univariate in x_1 (embedding into d dimensions is trivial); Telgarsky's separation is Theta(k^3) vs O(k) layers, not k vs k+1; large-d separations of 2 vs 3 layers are Eldan-Shamir (not read)
+
+**Resource model.** description length (number of nodes, layers, distinct parameters); no time, sample, learning or verification accounting; Cybenko/Hornik account for nothing (existence)
+
+**Failure boundary.** Universal approximation gives no width, no rate, no learnability, so it is non-evidence for anything at D1+ (Codex GMI-T2 already says this); Telgarsky's bound is a worst-case existence of ONE hard function per k (Sec. 1.2 shows such functions are rare: shallow nets fit most random labellings of O(k^9) points); it does not say depth is beneficial for a given ecology, nor that gradient descent finds the deep representation.
+
+**Implementation.** none known
+
+**Track-B residual.** The depth-separation theorem shows that description overhead between 'depth-k' and 'depth-k^3' neural sub-morphologies is exponential, so 'neural' is not one morphology at D1; Track B needs the ecology (task distribution with high oscillation / compositional structure) under which this description gap is PAID by a learner (samples, updates), i.e. a T10 phase boundary in depth rather than a worst-case separation.
+
+**Upward question.** Which ecologies make the Telgarsky-type high-oscillation (compositional) structure typical rather than rare, so that a depth price in the resource vector predicts a phase boundary between shallow-wide and deep-narrow neural morphologies (GMI-T10), and is there an analogous separation in the update coordinate (gradient steps) rather than only in size?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "there exist neural networks with Theta(k^3) layers, Theta(1) nodes per layer, and Theta(1) distinct parameters which can not be approximated by networks with O(k) layers unless they are exponentially large - they must possess Omega(2^k) nodes." — [2] Telgarsky 2016, abstract
+> "The key idea is that just a few function compositions (layers) suffice to construct a highly oscillatory function, whereas function addition (adding nodes but keeping depth fixed) gives a function with few oscillations." — [2] Telgarsky 2016, Sec. 1.1
+> "It is natural to wonder if there are many such special functions. The following bound indicates their population is in fact quite modest." — [2] Telgarsky 2016, Sec. 1.2
+> "as famously shown by Hornik et al. (1989), MLPs such as those present in the feed-forward transformer sub-layers can approximate with arbitrary accuracy any borel-measurable function, provided sufficiently large input and hidden dimensions." — [3] Weiss et al. 2021, Sec. 3.1
+
+Verification notes: Cybenko and Hornik primaries not accessible this session; their theorem statements are FROM_MEMORY and consistent with the Codex publisher-abstract verification (P-NEURAL-UNIVERSALITY). Telgarsky read at theorem/lemma level. The Codex GMI-T2 row cites Cybenko for universal approximation; this entry adds Telgarsky as the D1 counterweight.
+
+
+## P9B — learnability / evolvability limits that separate learning morphologies (not in #377 §4)
+
+### P9B.ABBE_DIFFERENTIABLE_VS_PAC — Abbe, Kamath, Malach, Sandon, Srebro 2021: mini-batch SGD / full-batch GD equal PAC when bρ < 1/8 (resp. mρ < 1/8), collapse to SQ when bρ² = ω(log n); a learning-law phase boundary with named axes (batch size b, gradient precision ρ)
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] On the Power of Differentiable Learning versus PAC and SQ Learning — Emmanuel Abbe, Pritish Kamath, Eran Malach, Colin Sandon, Nathan Srebro (2021), NeurIPS 2021 (arXiv 2108.04190v2, 6 Feb 2022). https://arxiv.org/abs/2108.04190 arXiv:2108.04190 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Owns the precise learning-law phase boundary between 'gradient learning = arbitrary sample-based (PAC) learning' and 'gradient learning = aggregate-statistics (SQ) learning'. With gradients clipped to [−1,1], rounded to multiples of ρ (d = −log ρ bits) with error ≤ 3ρ/4, and mini-batches of b fresh samples per step: (1a) if ρ < 1/(8b), bSGD simulates any PAC(m, r) method with T' = O(mn/δ) steps and p' = r + O(T'(n + log b)) parameters, and as a neural net with the five-piece 'two-stage ramp' activation when ρ < min{1/(8b), 1/12}; (1b) PAC(m' = Tb) always simulates bSGD; (1c) if bρ² > C log(Tp/δ), SQ(k' = Tp, τ' = ρ/8) simulates bSGD, so bSGD ⊆ SQ ⊊ PAC when bρ² = ω(log n) at polynomial T, p; (1d) for any b, bSGD with ρ = τ/16 and T' = k⌈C log(k/δ)/(bτ²)⌉ simulates SQ(k, τ). Corollary 2: bρ < 1/8 ⇒ bSGD[b,ρ] = PAC (and NN version = PAC_TM); bρ² ≥ ω(log n) ⇒ bSGD[b,ρ] ⊆ SQ ⊊ PAC. Full-batch GD on m samples: PAC if ρ < 1/(8m) (Thm 3a, Corollary 3: fbGD = PAC), SQ if mρ² > C(Tp log(1/ρ) + log(1/δ)) (Thm 3c). Mechanism: a 'sample extraction' procedure that recovers one raw sample from polynomially many mini-batch statistical queries when precision is fine relative to b, and the observation that with coarse precision empirical and population statistics are indistinguishable. Also owns the computational version (poly-size nets simulate poly-time PAC/SQ via circuit-to-subnet compilation).
+
+**Formal object.** Differentiable model f_w: R^p × X → R, X = {0,1}^n, Y = {0,1}, square loss. bSGD(T, ρ, b, p, r): w^(0) ~ W (r random bits), w^(t+1) = w^(t) − γ g_t where g_t ∈ ρZ^p, ‖g_t − [∇L_{S_t}(f_{w^(t)})]_1‖_∞ ≤ 3ρ/4, S_t ~ D^b independent per step, [·]_1 = entrywise clipping to [−1,1]; error = E[sup L_D(f_{w^(T)})] over all valid roundings. fbGD(T, ρ, m, p, r): same with S_t = S ~ D^m fixed. PAC(m, r): any map from m samples and r random bits to a predictor; SQ(k, τ, r): k adaptive queries Φ_t: X×Y → [−1,1] answered within τ. Simulation preorder: C' ⪰_δ C iff for every A ∈ C there is A' ∈ C' with err(A', D) ≤ err(A, D) + δ for all D (Definition 1). Intermediate model bSQ(k, τ, b, p, r): p-dimensional vector queries answered by empirical averages over a fresh b-sample within τ (Eq. 8); Thm 2a: bSQ ⪰_δ PAC when τ < 1/(2b).
+
+**Strongest result.** Theorem 1a: 'For all b and ρ < 1/(8b), and for all m, r, δ, it holds that bSGD(T′ = O(mn/δ), ρ, b, p′ = r + O(T′(n + log b)), r′) ⪰_δ PAC(m, r)'. Theorem 1c: 'for all T, ρ, b, p, r, such that bρ² > C log(T p/δ), it holds that SQ(k′ = T p, τ′ = ρ/8, r′ = r) ⪰_δ bSGD(T, ρ, b, p, r)'. Corollary 2: 'If ∀_n bρ < 1/8 then bSGD[b, ρ] = PAC and bSGD^σ_NN[b, ρ] = PAC_TM. If bρ² ≥ ω(log n) then bSGD[b, ρ] ⊆ SQ ⊊ PAC'. Corollary 3: 'fbGD = PAC and fbGD_NN = PAC_TM'. Open gap: 1/ρ < b < log(n)/ρ².
+
+**Assumptions.** Gradient computation is exact up to clipping and ρ-rounding; the adversary may choose any valid rounding (worst case, E sup).; Fresh independent mini-batches at each step (bSGD); fixed sample (fbGD); square loss; binary inputs/outputs.; Model size p, iterations T, and precision 1/ρ may be polynomial in n for the class statements; the PAC-simulating networks use a specific five-piece piecewise-linear activation with a flat central segment (ReLU would need fixed, untrainable weights).; Step size fixed (γ = 1 or 2) and irrelevant to the results; initialization may be sampled in poly(n) time for the NN version.
+
+**Resource model.** samples (T·b or m), iterations T, parameters p, random bits r, precision bits d = −log ρ, mini-batch size b, SQ query count k and tolerance τ, runtime TIME for the computational versions; no memory or verification accounting
+
+**Failure boundary.** Simulation results, not natural-emergence results: the PAC-simulating network is a hand-built gadget that decodes samples from gradients; nothing says that ordinary training on ordinary architectures exploits the bρ < 1/8 regime. The intermediate regime 1/ρ < b < log(n)/ρ² is open. Only gradient-based laws are placed on the (b, ρ) plane; evolution (CSQ), query learning and Bayesian inference are not positioned there. Says nothing about which morphology is favoured, only what the gradient CHANNEL can transmit.
+
+**Implementation.** none known
+
+**Track-B residual.** Track B needs (i) the (b, ρ) plane merged with Valiant's (t, s) fitness channel and Angluin's (MQ, EQ) channel into one feedback-precision coordinate of the ecology, (ii) the cost of realizing precision ρ charged (bits per gradient, hardware), and (iii) a statement that the morphology acquired under a low-precision large-batch regime is aggregate-statistics-shaped (SQ-implementable) while under a fine-precision regime it may be sample-memorizing/algebraic — none of which Abbe et al. claim.
+
+**Upward question.** Is there a single charged 'feedback channel capacity' coordinate (bits of target-dependent information per interaction, combining ρ, b, τ, t, query type) such that PAC-, SQ-, CSQ- and EQ-acquirable morphology classes are its level sets?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "With fine enough precision relative to minibatch size, namely when bρ is small enough, SGD can go beyond SQ learning and simulate any sample-based learning algorithm and thus its learning power is equivalent to that of PAC learning" — [0] abstract
+> "On the other hand, when bρ^2 is large enough, the power of SGD is equivalent to that of SQ learning." — [0] abstract
+> "Theorem 1a (PAC to bSGD). For all b and ρ < 1/(8b), and for all m, r, δ, it holds that bSGD(T′ = O(mn/δ), ρ, b, p′ = r + O(T′(n + log b)), r′) ⪰_δ PAC(m, r)." — [0] Sec. 3, Theorem 1a
+> "for all T, ρ, b, p, r, such that bρ^2 > C log(T p/δ), it holds that SQ(k′ = T p, τ′ = ρ/8, r′ = r) ⪰_δ bSGD(T, ρ, b, p, r)." — [0] Sec. 3, Theorem 1c
+> "If ∀_n bρ < 1/8 then bSGD[b, ρ] = PAC and bSGD^σ_NN[b, ρ] = PAC_TM. If bρ^2 ≥ ω(log n) then bSGD[b, ρ] ⊆ SQ ⊊ PAC" — [0] Corollary 2
+> "Corollary 3. fbGD = PAC and fbGD_NN = PAC_TM." — [0] Sec. 6
+> "Overall, except for an intermediate regime between 1/ρ and log(n)/ρ^2, we can precisely capture the power of bSGD." — [0] Sec. 1
+> "The clipping and rounding we use captures using d = − log ρ bits of precision, and indeed we generally consider ρ = 2^{−d} where d ∈ N." — [0] Sec. 2 Precision, Rounding and Clipping
+> "for all T, ρ, m, p, r, such that mρ^2 > C(T p log(1/ρ) + log(1/δ)), it holds that SQ(k′ = T p, τ′ = ρ/8, r′ = r) ⪰_δ fbGD(T, ρ, m, p, r)." — [0] Sec. 6, Theorem 3c
+> "pretending that bSGD or fbGD do find the global minimizer would mean we can learn all poly-time computable functions, which is known to be impossible [e.g. Kearns and Valiant, 1994, Klivans and Sherstov, 2009]." — [0] Sec. 1
+
+Verification notes: Theorem and corollary statements transcribed from the arXiv full text; proofs (Appendix D, E) not checked. Abbe & Sandon 2020 (b = 1 result) is a missing parent. Not previously in any ORION ledger.
+
+### P9B.ANGLUIN_LSTAR — Angluin 1987 L*: polynomial-time exact learning of regular sets from a minimally adequate teacher (membership + equivalence queries with counterexamples) — the tractable side of the verification-contract flip
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Learning Regular Sets from Queries and Counterexamples — Dana Angluin (1987), Information and Computation 75(2):87-106. https://doi.org/10.1016/0890-5401(87)90052-6 — `NOT_ACCESSIBLE`
+- [1] Query Learning Bounds for Advice and Nominal Automata — Kevin Zhou (2024), arXiv 2409.10822. https://arxiv.org/abs/2409.10822 arXiv:2409.10822 — `PARTIAL_TEXT_READ`
+- [2] On the Hardness of Learning Regular Expressions — Attias, Reyzin, Srebro, Vardi (2025), arXiv 2510.04834. https://arxiv.org/abs/2510.04834 arXiv:2510.04834 — `PARTIAL_TEXT_READ`
+- [3] Counterexample Guided Learning in the Large using Reasoning Agents — Hongyi Liu, Frederic Sala, Thomas Reps, Adithya Murali (2026), arXiv 2606.11521. https://arxiv.org/abs/2606.11521 arXiv:2606.11521 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Owns the tractable side: with a minimally adequate teacher answering membership queries (is w ∈ L?) and equivalence queries (is the conjectured DFA correct? if not, return a counterexample), the minimum DFA for any regular language is identified exactly in time polynomial in the number of states n of the minimal DFA and the length m of the longest counterexample, using an observation table (S, E, T) kept closed and consistent; at most n equivalence queries are needed because each counterexample forces at least one new state. This is the canonical instance of a class flipping from intractable (passive: NP-hard proper, cryptographically hard improper) to tractable purely by changing the verification contract. Later work (Chase & Freitag 2020, as restated by Zhou 2024) bounds (EQ+MQ) query complexity by O(Ldim · Cdim) via Myhill-Nerode, with no dependence on counterexample length but worse dependence on n.
+
+**Formal object.** Concept class C = regular languages over Σ, target L*; oracle O_mem(x) = 1[x ∈ L*]; equivalence oracle: given hypothesis h, answers yes if L(h) = L*, else returns counterexample(s) C ⊆ L(h) △ L*. L*: maintain observation table (S, E, T) with S prefix-closed, E suffix-closed, T: (S ∪ SΣ)·E → {0,1} filled by membership queries; table closed (every row of SΣ equals some row of S) and consistent (rows equal in S stay equal after any one-letter extension) ⇒ conjecture the DFA whose states are distinct rows of S; on counterexample t, add all prefixes of t to S and refill; repeat. Learner succeeds when it submits the target as an equivalence query (Zhou 2024 Def. 1). By Myhill-Nerode, distinct rows ≤ n, so at most n conjectures.
+
+**Strongest result.** Verified qualitative statement: 'the L∗ algorithm that learns deterministic finite automata (DFAs) using a polynomially bounded number of equivalence and membership queries' (Zhou 2024), and that L*'s bound depends on the length of the longest counterexample (Zhou 2024 Discussion). Exact bounds as I recall them from Angluin 1987 — at most n equivalence queries, O(m n²) membership queries (O(\|Σ\| m n²) for alphabet size \|Σ\|), total time polynomial in n and m — are FROM_MEMORY_UNVERIFIED in this session and should be checked against Angluin's Theorem in Sec. 3 before being quoted as theorem-grade.
+
+**Assumptions.** A teacher that answers equivalence queries exactly (decidable for regular languages via symmetric-difference automata) and membership queries at unit cost; counterexamples of bounded length m.; Target is a regular language (finite Myhill-Nerode index); exact identification, not PAC approximation (Angluin also shows equivalence queries can be simulated by PAC sampling, giving PAC+MQ learnability).; Hypotheses are DFAs (proper); the observation-table invariants (closed, consistent) are maintained by membership queries.
+
+**Resource model.** number of equivalence queries (≤ n), number of membership queries (poly in n, m), time poly(n, m); the cost of the teacher itself (constructing counterexamples) is NOT charged
+
+**Failure boundary.** Requires an equivalence oracle; with membership queries alone (no equivalence queries) exact learning of DFAs needs exponentially many queries in general, and Angluin-Kharitonov 1995 show membership queries do not help for DNF under cryptographic assumptions (as cited by Attias et al.); for regular EXPRESSIONS the MQ setting stays hard (Attias et al. 2025) because description length differs exponentially between DFAs and REs. Does not say anything about which morphology should host the learner; the observation table IS a discrete data structure, so the tractable regime is naturally symbolic/automaton-shaped, but nothing forbids a neural implementation of the same query strategy.
+
+**Implementation.** many open implementations exist (e.g. LearnLib, AALpy) — not verified in this session
+
+**Track-B residual.** State the verification-contract phase boundary as a charged ecology coordinate: passive labelled sample (cost per example c_s, no counterexample oracle) ⇒ automaton acquisition super-polynomial (Gold / Pitt-Warmuth proper; Kearns-Valiant improper); MQ+EQ oracle at cost c_q per query ⇒ acquisition in poly(n, m) queries (Angluin). Track B must (i) price the oracle, (ii) show the same flip for non-automaton morphologies compiled from a common basis, and (iii) predict where along c_q/c_s the frontier changes membership — none of which Angluin or Gold address.
+
+**Upward question.** Is 'verification strength' a single scalar ecology coordinate (e.g. counterexample-oracle availability x query price) that induces the same tractability flip for programmatic and rule morphologies as for DFAs, and can its critical value be predicted before search from the Myhill-Nerode/consistency dimension of the task?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "The field was initiated by Angluin in 1987 with the introduction of the L∗ algorithm that learns deterministic finite automata (DFAs) using a polynomially bounded number of equivalence and membership queries [1]." — [1] Zhou 2024, Sec. 1
+> "their results have no dependence on the length of the longest counterexample returned by the oracle (while the L∗ algorithm does), but a worse dependence on the number of states." — [1] Zhou 2024, Discussion & Related Work
+> "An equivalence query (EQ) consists of a hypothesis H ∈ H, to which the oracle answers yes if H = C, or with a counterexample x ∈ X for which H(x) ≠ C(x)." — [1] Zhou 2024, Sec. 2.1
+> "Let C ⊆ H be two concept classes on a set X, c = Cdim(C, H), and d = Ldim(C). Then (EQ+MQ)-query complexity of C with queries from H is O(cd)." — [1] Zhou 2024, Theorem 1 (= Chase & Freitag 2020, Thm 2.24)
+> "Moreover, ≡_L has exactly n classes if and only if the minimal DFA recognizing L has exactly n states." — [1] Zhou 2024, Theorem 2 (Myhill-Nerode)
+> "In contrast, DFAs are tractably learnable with membership queries via the L⋆ algorithm of Angluin [1987]." — [2] Attias et al. 2025, Table 1 notes
+> "Angluin’s L∗ algorithm Angluin [1987], which learns regular sets through membership and equivalence queries with counterexamples; this oracle setting closely matches ours." — [3] Liu et al. 2026, Sec. 2
+
+Verification notes: Original blocked. The paired flip (this entry vs P9B.DFA_HARDNESS) is verified at the level 'passive PAC: hard; PAC+MQ: tractable' from Attias et al. 2025 Table 1, which cites both sides. Exact L* query counts are flagged FROM_MEMORY_UNVERIFIED.
+
+### P9B.COMP_STAT_TRADEOFF — Computational sample complexity (Decatur, Goldreich, Ron 1999; Servedio 2000) and 'Using More Data to Speed-up Training Time' (Shalev-Shwartz, Shamir, Tromer 2012): the data-volume axis changes which learner is efficient
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Using More Data to Speed-up Training Time — Shai Shalev-Shwartz, Ohad Shamir, Eran Tromer (2012), AISTATS 2012 (arXiv 1106.1216v2). https://arxiv.org/abs/1106.1216 arXiv:1106.1216 — `FULL_TEXT_READ`
+- [1] Computational Sample Complexity — Scott E. Decatur, Oded Goldreich, Dana Ron (1999), SIAM Journal on Computing 29(3):854-879. https://doi.org/10.1137/S0097539797325648 — `NOT_ACCESSIBLE`
+- [2] Computational sample complexity and attribute-efficient learning — Rocco A. Servedio (2000), J. Comput. Syst. Sci. 60(1):161-178. https://doi.org/10.1006/jcss.1999.1666 — `NOT_ACCESSIBLE`
+
+**What it already explains.** Owns the DATA-VOLUME × COMPUTE axis: the runtime needed to learn a class to excess error ε is a decreasing function T_{H,ε}(m) of the number of available examples m; its finite-ness threshold is the information-theoretic sample complexity, its limit T_{H,ε}(∞) is the data-laden regime. DGR 1999 first separated information-theoretic from computational sample complexity (examples needed to learn in polynomial time) and exhibited a class not efficiently learnable from few examples but efficiently learnable from polynomially more; Servedio 2000: a subclass of 1-decision lists learnable inefficiently from O(1) examples, not efficiently from o(n), efficiently from Ω(n). SST 2012 Theorem 1 (agnostic, cryptographic): a problem over X = {0,1}^{2n} that is inefficiently learnable with m = O(1/ε) samples in time O(2^n + m), not polynomial-time learnable from O(log n) samples if one-way permutations exist, and efficiently learnable (time O(m), improper predictor of runtime O(m³)) from m = O(n/ε²) samples via Gaussian elimination over GF(2). Natural (upper-bound-only) examples: 3-DNF (ERM over 3-DNF: d/ε samples but not poly(d); ERM over conjunctions of triples: d³/ε samples, poly time); agnostic preferences (d/ε² not poly(d) vs d²/ε² in time O(m)); kernel halfspaces (L²/ε² samples, time exp(L²/ε² log(L/ε)) vs exp(L log(L/ε)) both); Banditron; sparse PCA thresholding vs SDP.
+
+**Formal object.** Agnostic PAC: instances X, targets Y, loss ℓ, unknown D over Z ⊆ X×Y, err(h) = E_{(x,y)~D} ℓ(h(x), y); hypothesis class H; learner A with time(A, m) = worst-case expected runtime on m examples (also bounding the returned predictor's per-instance runtime). Main object: T_{H,ε}(m) = min{t : ∃A s.t. ∀D, time(A, m) ≤ t ∧ err(A(m)) ≤ inf_{h∈H} err(h) + ε}, = ∞ if no t qualifies. Theorem 1 construction: Z = {((r, s), b) : ⟨P^{-1}(s), r⟩ = b} for a one-way permutation P; H = {h_x(r, s) = ⟨x, r⟩ if s = P(x), else random bit}; hard distributions D_x uniform over ((r, P(x)), ⟨x, r⟩); efficient learner: find most common s', collect examples with s = s', predict ⟨x', r⟩ for r in their GF(2) span (Lemma 2: unspanned mass ≤ n/m'), random bit otherwise; Goldreich-Levin inverts P from any O(log n)-sample learner.
+
+**Strongest result.** SST 2012 Theorem 1 (three bullets: inefficient O(1/ε) samples & O(2^n + m) time; no poly-time algorithm from O(log n) samples under one-way permutations; efficient from m = O(n/ε²) samples in O(m) training time with an O(m³) improper predictor). DGR 1999 and Servedio 2000 results as restated in SST Sec. 1.1 (originals not read).
+
+**Assumptions.** Cryptographic assumption (one-way permutations, e.g. RSA) for the formal gap; the 'natural' gaps rest on current best upper bounds without matching lower bounds (explicitly flagged as open by the authors).; Agnostic, improper learning: the efficient predictor is not in H (Sec. 1.1: 'our efficient learning procedure computes and returns an improper predictor').; Runtime measured as worst-case expected runtime including the predictor's evaluation cost; the model captures the full curve T(m), not just polynomial vs not.; DGR/Servedio constructions are realizable and rely on the labels being produced by a hypothesis in the class.
+
+**Resource model.** samples m and training time t jointly (the curve T_{H,ε}(m)); predictor runtime; excess error ε; no memory/verification accounting
+
+**Failure boundary.** Curves are known at two points (information-theoretic and data-laden) but 'we do not know how the rest of the curve looks like'. The mechanism of the speed-up — enlarge the hypothesis class to make ERM convex/greedy at the price of more samples (Figure 1) — is a change of REPRESENTATION with the same morphology family, so it is not itself a morphology law. No prospective way to compute the crossover m* for a new problem without solving it.
+
+**Implementation.** none known
+
+**Track-B residual.** Track B's data-volume phase claim must be stated as a T_{H,ε}(m)-type curve per morphology family with matched capability, and the phase boundary as the m at which the nondominated family changes; SST/DGR give the object and the existence of crossovers within one family, not across morphology classes with charged construction/verification cost.
+
+**Upward question.** Across morphology families compiled from one basis, does the family that is nondominated at the information-theoretic sample complexity differ from the family nondominated in the data-laden limit, and can the crossover m* be predicted from the ecology's structure (e.g. SQ-dimension, algebraic closure) before search?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "T_{H,ǫ}(m) = min{t : ∃ A s.t. ∀ D, time(A, m) ≤ t ∧ err(A(m)) ≤ inf_{h∈H} err(h) + ǫ}" — [0] Sec. 2, Eq. (1)
+> "It is inefficiently learnable with sample size m = O(1/ǫ), and running time O(2^n + m)." — [0] Theorem 1, bullet 1
+> "Assuming one-way permutations exist, there exist no polynomial-time algorithm based on a sample of size O(log(n))." — [0] Theorem 1, bullet 2
+> "It is efficiently learnable with a sample of size m = O(n/ǫ^2). Specifically, the training time is O(m), resulting in an improper predictor whose runtime is O(m^3)." — [0] Theorem 1, bullet 3
+> "[6] were the first to jointly study the computational and sample complexity, and to show that a tradeoff between runtime and sample size exists." — [0] Sec. 1.1 (on Decatur, Goldreich, Ron)
+> "they distinguish between the information theoretic sample complexity of a class and its computational sample complexity, the latter being the number of examples needed for learning the class in polynomial time." — [0] Sec. 1.1
+> "[11] showed that for a concept class composed of 1-decision-lists over {0, 1}^n, which can be learned inefficiently using O(1) examples, no algorithm can learn it efficiently using o(n) examples, and there is an efficient algorithm using Ω(n) examples." — [0] Sec. 1.1 (on Servedio 2000)
+> "Still, we do not know how the rest of the curve looks like." — [0] Sec. 2.1
+
+Verification notes: SST 2012 read in full. DGR 1999 and Servedio 2000 verified only through SST's restatement. Not previously in any ORION ledger.
+
+### P9B.DFA_HARDNESS — Passive learning of DFAs is hard: Gold 1978 (minimum consistent DFA NP-hard), Pitt-Warmuth 1993 (no polynomial-ratio approximation), Kearns-Valiant 1994 (cryptographic, representation-independent PAC hardness)
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Complexity of automaton identification from given data — E. Mark Gold (1978), Information and Control 37(3):302-320. https://doi.org/10.1016/S0019-9958(78)90562-4 — `NOT_ACCESSIBLE`
+- [1] The minimum consistent DFA problem cannot be approximated within any polynomial — Leonard Pitt, Manfred K. Warmuth (1993), Journal of the ACM 40(1):95-142. https://doi.org/10.1145/138027.138042 — `NOT_ACCESSIBLE`
+- [2] Cryptographic limitations on learning Boolean formulae and finite automata — Michael Kearns, Leslie Valiant (1994), Journal of the ACM 41(1):67-95. https://doi.org/10.1145/174644.174647 — `NOT_ACCESSIBLE`
+- [3] Learning deterministic finite-state machines from the prefixes of a single string is NP-complete — Radu Cosmin Dumitru, Ryo Yoshinaka, Ayumi Shinohara (2026), arXiv 2601.12621. https://arxiv.org/abs/2601.12621 arXiv:2601.12621 — `PARTIAL_TEXT_READ`
+- [4] On the Hardness of Learning Regular Expressions — Idan Attias, Lev Reyzin, Nathan Srebro, Gal Vardi (2025), arXiv 2510.04834. https://arxiv.org/abs/2510.04834 arXiv:2510.04834 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Owns the passive-verification side of the automaton phase boundary. Proper side: given a finite sample (D+, D-) of accepted/rejected strings, deciding whether a DFA with ≤ m states is consistent is NP-complete (Gold 1978; Angluin 1978), and, assuming P ≠ NP, for any constant c no polynomial-time algorithm can output a consistent DFA with ≤ m*^c states where m* is the minimum (Pitt-Warmuth 1993); sharpened by Chalermsook et al. 2014 to n^{1-ε}-inapproximability in the sample size n, tight against the trivial prefix-tree acceptor. Improper side: under RSA / factoring Blum integers / quadratic residuosity, poly(n)-state DFAs (and Boolean formulae, constant-depth threshold circuits) are not even weakly PAC-learnable distribution-free by ANY polynomial-time learner outputting ANY polynomial-time hypothesis (Kearns-Valiant 1994); later extended to the uniform distribution under local-PRG assumptions (Daniely-Vardi 2021) and to other assumptions (random k-SAT, sparse LPN).
+
+**Formal object.** MinConDFA / ConDFA: input a DFA sample (D+, D-) ⊂ Σ* × Σ* disjoint finite, integer m; decide existence of a DFA M = (Q, Σ, δ, F, q_0) with \|Q\| ≤ m and M(s) = + ∀ s ∈ D+, M(s) = - ∀ s ∈ D-. Reduction from graph K-colouring (Zhang 2020 variant): sample Z+ = {ε} ∪ {v_i e_ij : i<j}, Z- = V ∪ {v_j e_ij : i<j}; G is K-colourable iff a consistent DFA with K+1 states exists. Kearns-Valiant: weak PAC learning of C_n = {c representable by a DFA with ≤ n^ε states} is as hard as inverting RSA / factoring Blum integers / deciding quadratic residues; the hardness is representation-independent (improper learning) because the reduction produces a distinguisher from any accurate hypothesis.
+
+**Strongest result.** Verified restatements: 'It was shown to be NP-hard by Gold (1978) and Angluin (1978)' and 'Assuming P ≠ NP, they proved that for any constant c, no polynomial-time algorithm can guarantee a consistent DFA of size at most m*^c' (Dumitru et al. 2026, Sec. 1, on Pitt-Warmuth 1993); Attias et al. 2025 Table 1: poly(n)-size DFA is Hard in PAC distribution-free (Kearns-Valiant 1994 under Assumption A: RSA, factoring Blum integers, or quadratic residues) and Hard under the uniform distribution (Daniely-Vardi 2021), but Tractable with membership queries. Exact theorem numbers in the three originals not verified.
+
+**Assumptions.** Gold/Pitt-Warmuth: proper learning (hypothesis must be a DFA), worst-case finite samples; Gold's original model is a Mealy-machine variant (Dumitru et al. footnote 1; Lingg et al. 2024 give the DFA adaptation).; Kearns-Valiant: cryptographic assumptions; distribution-free (a specific hard distribution is constructed); polynomial-size DFAs; representation-independent.; Passive access only: i.i.d. labelled examples (PAC) or a given finite sample; no membership or equivalence queries.; Complexity measured in number of states; description length differs polynomially for DFAs but exponentially versus REs (Attias et al. Table 2), so 'hard to learn DFAs' is a statement about a complexity measure, not about regular languages per se.
+
+**Resource model.** time (polynomial vs super-polynomial), sample size n, number of states m; no memory/verification accounting
+
+**Failure boundary.** Hardness is relative to the access protocol and the complexity measure: the same regular languages become tractable with membership+equivalence queries (Angluin) and can be tractable when the sample is characteristic / structurally complete (Oncina-García 1992, de la Higuera 1997, Trakhtenbrot-Barzdin 1973 as cited by Dumitru et al.). Cryptographic results are conditional. Nothing is said about which learner morphology fails: the obstruction is representation-independent, so neural, symbolic and programmatic learners are all blocked equally under passive access.
+
+**Implementation.** none known
+
+**Track-B residual.** Track B needs the CHARGED cost of realizing the query interface (a verifier that answers equivalence queries with counterexamples) as an ecology resource, so that 'automaton morphology becomes acquirable' is a prediction about the verification-contract coordinate rather than a restatement of Angluin vs Gold.
+
+**Upward question.** Is there an architecture-free coordinate (e.g. availability and price of counterexample-producing verification) whose value predicts the tractable/intractable flip for every class with a Myhill-Nerode-style characterization, not only DFAs?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "It was shown to be NP-hard by Gold (1978) and Angluin (1978)." — [3] Dumitru, Yoshinaka, Shinohara 2026, Sec. 1
+> "Assuming P̸ = NP, they proved that for any constant c, no polynomial-time algorithm can guarantee a consistent DFA of size at most m_*^c, where m_* denotes the size of a smallest consistent DFA." — [3] Dumitru et al. 2026, Sec. 1 (on Pitt and Warmuth 1993)
+> "Chalermsook et al. (2014) proved that MinConDFA is NP-hard to approximate within a factor of n^{1−ϵ} for any constant ϵ > 0, where n is the sample size" — [3] Dumitru et al. 2026, Sec. 1
+> "Kearns and Valiant [1994] showed distribution-free PAC hardness under Assumption A" — [4] Attias et al. 2025, Table 1 notes (Assumption A: RSA, factoring Blum integers, or quadratic residues)
+> "In contrast, DFAs are tractably learnable with membership queries via the L⋆ algorithm of Angluin [1987]." — [4] Attias et al. 2025, Table 1 notes
+> "A key takeaway is that what truly matters is the complexity measure (or description length, or equivalently ‘prior’) induced by the model, rather than the concept class itself." — [4] Attias et al. 2025, Sec. 6
+
+Verification notes: All three originals blocked. Restatements come from two 2025-2026 arXiv papers whose authors include Srebro/Vardi (learning theory) and Yoshinaka/Shinohara (grammatical inference); both cite the originals by DOI. Abbe et al. 2021 (read in full for entry 9) also cites Kearns-Valiant 1994 for 'we can learn all poly-time computable functions, which is known to be impossible'.
+
+### P9B.GRADIENT_FAILURES — Shalev-Shwartz, Shamir, Shammah 2017: non-informative gradients on parity-like (orthogonal) target families; decomposition vs end-to-end; conditioning; flat activations and the forward-only rule
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Failures of Gradient-Based Deep Learning — Shai Shalev-Shwartz, Ohad Shamir, Shaked Shammah (2017), ICML 2017 (arXiv 1703.07950v2). https://arxiv.org/abs/1703.07950 arXiv:1703.07950 — `FULL_TEXT_READ`
+- [1] Code: failures_of_DL — Shaked Shammah (2017), GitHub. https://github.com/shakedshammah/failures_of_DL — `NOT_ACCESSIBLE`
+
+**What it already explains.** Owns the GRADIENT-INFORMATION axis at the level of the learning law: for a family H of pairwise-orthogonal target functions (E_x[h h'] = 0, E_x[h²] ≤ 1) and ANY differentiable predictor p_w with E_x‖∂p_w/∂w‖² ≤ G(w)², the variance of the population gradient across targets is Var(H, F, w) ≤ G(w)²/\|H\| (Theorem 1), so for random parities over d bits the gradient at any w is exponentially (2^{-d}) concentrated around a target-independent vector; empirically no progress beyond chance at d ≈ 30. Extends to linear-periodic targets under smooth input distributions (Shamir 2016, Theorem 2), to end-to-end training of a k-fold parity of image sub-labels (Theorem 3: Var ≤ G(w)² · O(√(k log d / d))^k; end-to-end fails already at k = 3 while decomposition with intermediate supervision succeeds), to conditioning (Theorem 4: Ω(n^{3.5}) condition number for a fully connected encoder vs Θ(n³) for a convolution vs O(1) after explicit whitening), and to flat activations where the true gradient is identically zero but a non-gradient 'forward-only' local rule ∇̃F(w) = E_x[(u(wᵀx) − y(x)) x] converges in O(L²/ε²) (Kalai-Sastry / Kakade et al., as cited). Explicitly links the parity failure to SQ theory and to the result that approximate-gradient methods are SQ algorithms (Feldman, Guzmán, Vempala 2015).
+
+**Formal object.** Stochastic optimization F_h(w) = E_x[ℓ(p_w(x), h(x))]; target-variance of the gradient Var(H, F, w) = E_h‖∇F_h(w) − E_{h'}∇F_{h'}(w)‖² (Eq. 2). Theorem 1: under (i) E_x[h²] ≤ 1 and pairwise orthogonality of H, (ii) E_x‖∂p_w(x)/∂w‖² ≤ G(w)², (iii) square loss or ℓ(ŷ,y) = r(ŷ·y) with r 1-Lipschitz and h ∈ {±1}: Var(H, F, w) ≤ G(w)²/\|H\|. Parity family H = {x ↦ (−1)^{⟨x,v*⟩}: v* ∈ {0,1}^d}, x uniform on {0,1}^d, \|H\| = 2^d. Signal-to-noise proxy Sig_u/Noi_u with Sig_u = ‖E[h_u g]‖², Noi_u = E‖h_u g − E[h_u g]‖², g = ∂p_w/∂w. Forward-only rule for y(x) = u(v*ᵀx), u monotone step: ∇̃F(w) = E_x[(u(wᵀx) − y(x)) x] (Eq. 4), i.e. identity backprop message through u.
+
+**Strongest result.** Theorem 1 (variance bound G(w)²/\|H\|); its parity corollary Var ≤ G(w)²/2^d; Theorem 3 (k-fold composition, Var ≤ G(w)²·O(√(k log d/d))^k); Theorem 4 (condition number Ω(n^{3.5}) and GD needs ≥ S²_{1,1}/(2 S²_{n,n}) iterations to get within 0.5 of U); Sec. 5.5 convergence O(L²/ε²) of the forward-only rule under L-Lipschitz u and bounded ‖w‖. Empirical: Fig. 1 parity accuracy vs iterations for d = 5, 10, 30; Fig. 3 end-to-end fails for k ≥ 3 with 20,000 SGD iterations vs decomposition succeeding in 2,500; Fig. 4 log-SNR ≈ −15 for end-to-end at k = 4.
+
+**Assumptions.** Population (exact) gradients in the theorems; the oracle model (Shamir 2016 Thm 4) needs gradients accurate to below machine precision for the formal iteration lower bound.; Targets drawn uniformly from an orthogonal family; the difficulty is in the random choice of v*, a fixed known parity is easy (LSTM can learn full parity).; Losses: square loss or margin-type classification losses; predictors differentiable with bounded gradient norm.; Results are architecture-independent (any predictor class), which is precisely why they are learning-law rather than morphology statements.
+
+**Resource model.** number of gradient iterations, gradient precision (implicitly), SNR of stochastic gradients, condition number; no samples/memory/verification accounting
+
+**Failure boundary.** Explains failure of gradient-based laws on orthogonal families; does not identify which non-gradient law succeeds in general (parity is solved by Gaussian elimination, i.e. an algebraic/programmatic morphology, but the paper only mentions this via SQ theory). The forward-only rule is one-layer only ('We leave further study of deeper networks to future work'). The decomposition result requires extra supervision (intermediate labels), i.e. a richer feedback contract, so it is an ecology change, not a morphology change. No prospective prediction of where gradient laws stop working in natural task families.
+
+**Implementation.** https://github.com/shakedshammah/failures_of_DL (cited in paper)
+
+**Track-B residual.** Given a task family with measurable orthogonality (SQ-dimension) and a feedback contract (labels only vs decomposed intermediate labels vs exact-verification), predict before training whether the dominant acquired learning law is gradient-like, algebraic (elimination), or associative, with all three compiled from one basis and the training/verification cost charged. SSS17 supply the negative half for gradients only.
+
+**Upward question.** Can gradient-target variance Var(H, F, w) — measurable without an architecture label — serve as a preregistered ecology coordinate whose small values predict a phase where non-gradient (algebraic/associative/query-driven) update laws occupy the frontier?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Var(H, F, w) ≤ G(w)^2 / \|H\|." — [0] Theorem 1
+> "by Theorem 1, we get that Var(H, F, w) ≤ G(w)^2/2^d – that is, exponentially small in the dimension d." — [0] Sec. 2.2
+> "We emphasize that these results hold regardless of which class of predictors we use (e.g. they can be arbitrarily complex neural networks) – the problem lies in using a gradient-based method to train them." — [0] Sec. 2.2
+> "Recently, [8] have formally shown that gradient-based methods with an approximate gradient oracle can be implemented as a statistical query algorithm" — [0] Sec. 2.2
+> "to the point where around d = 30, no advance beyond random performance is observed after reasonable time." — [0] Sec. 2.1
+> "However, using the end-to-end approach works only for k = 1, 2, and completely fails already when k = 3 (or larger)." — [0] Sec. 3.1
+> "this kind of update can be interpreted as replacing the backpropagation message for the activation function u with an identity message." — [0] Sec. 5.5 The 'Forward-Only' Update Rule
+> "its reliance on local properties of the loss function, with the objective being of a global nature." — [0] Sec. 1
+
+Verification notes: Full main text read; appendix proofs not checked. Not previously in any ORION ledger.
+
+### P9B.LEARNABILITY_UNDECIDABLE — Ben-David, Hrubeš, Moran, Shpilka, Yehudayoff: EMX learnability of finite subsets of [0,1] is independent of ZFC (equivalent to 2^ℵ0 < ℵω); no finite-character dimension exists — a P5-class limit on learnability characterizations
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Learnability can be undecidable — Shai Ben-David, Pavel Hrubeš, Shay Moran, Amir Shpilka, Amir Yehudayoff (2019), Nature Machine Intelligence 1:44-48. https://doi.org/10.1038/s42256-018-0002-3 — `NOT_ACCESSIBLE`
+- [1] On a learning problem that is independent of the set theory ZFC axioms — Shai Ben-David, Pavel Hrubeš, Shay Moran, Amir Shpilka, Amir Yehudayoff (2017), arXiv 1711.05195v1 (precursor of the Nature MI paper). https://arxiv.org/abs/1711.05195 arXiv:1711.05195 — `FULL_TEXT_READ`
+
+**What it already explains.** Owns an absolute limit on 'learnability characterization' programmes: for the Expectation Maximization (EMX) problem — given a family F of {0,1}-valued functions on X and i.i.d. samples from an unknown countably supported P, output h ∈ F (proper) with E_P(h) ≥ sup_{h'∈F} E_P(h') − ε w.p. ≥ 1−δ — the class F^R_fin of finite subsets of the unit interval is EMX-learnable iff 2^{ℵ0} < ℵ_ω, a statement independent of ZFC (Gödel/Cohen). The tool is monotone compression: F^X_fin has a (k+1)-size monotone compression scheme iff \|X\| ≤ ℵ_k (Theorems 4, 5); for union-bounded classes EMX learnability ⇔ weak learnability ⇔ existence of an (m+1)→m monotone compression ⇔ strong uniform compression with f^{-1}(m) side bits (Corollary 4), with sample complexity O(k log(k/ε) + log(1/δ))/ε² (Theorem 1) improving to expected excess d/(m+1) i.e. O(1/(εδ)) (Theorem 2). Consequence (Theorem 8): no finite-character property (bounded first-order formula over the domain and class) can characterize EMX learnability the way VC dimension characterizes PAC; the independence already holds for weak learnability (ε = δ = 1/3).
+
+**Formal object.** Definition 2 (EMX): G: ∪_i X^i → F is an (ε, δ)-EMX-learner for F if for some m = m(ε, δ), Pr_{S~P^m}[Opt_P(F) − E_P(G(S)) ≥ ε] ≤ δ for every countably supported P over X, Opt_P(F) = sup_{h∈F} E_P(h). Definition 3: an m → d monotone compression scheme is η: X^{≤d} → F such that for every m' ≤ m, h ∈ F, x_1..x_{m'} ∈ h there exist i_1..i_k, k ≤ d, with x_i ∈ η[(x_{i_1}..x_{i_k})] for all i ≤ m'. Definition 4: F union bounded if ∀ h_1, h_2 ∈ F ∃ h_3 ∈ F with h_1 ∪ h_2 ⊆ h_3. Finite superset reconstruction game (Definition 1): Alice sends S' ⊆ S of bounded size, Bob outputs finite η(S') ⊇ S; possible with \|S'\| ≤ k iff \|X\| < ℵ_k. Definition 6: finite-character property = ZFC-provably equivalent to a bounded formula φ(X, Y).
+
+**Strongest result.** Theorem 4 + Theorem 5: F^X_fin has a (k+1)-size monotone compression scheme iff \|X\| ≤ ℵ_k. Corollary 6: 'The EMX-learnability of (and learning rates when it is learnable) of F^R_fin with respect to the class of all probability distributions over the real line that have countable support is independent of ZFC set theory.' Theorem 8: no finite-character property can sandwich the (1/3,1/3)-EMX sample complexity of all classes. Theorem 3: (1/3,1/3)-EMX learnability with d_0 samples ⇒ m → 3d_0/2 monotone compression for every m (union-bounded F).
+
+**Assumptions.** Countably supported distributions over the full power-set σ-algebra (needed for measurability; authors say it 'does not harm the main message').; Proper learning (must output an element of F; otherwise the all-ones function trivializes EMX).; Union-boundedness of F for the learnability ⇔ compression equivalence (Theorems 2, 3); F^R_fin is closed under finite unions.; Consistency of ZFC; existence of models with CH and with 2^ℵ0 > ℵ_ω (Easton/Cohen).
+
+**Resource model.** samples (m(ε, δ)); compression size d; no time, memory or verification accounting
+
+**Failure boundary.** The undecidable class (finite subsets of the reals under countably supported distributions) 'may not arise in practical ML applications'; the result is about the robustness of the DEFINITION of learnability to the set-theoretic model, not about any computable learner. Whether monotone compression and EMX learnability coincide without union-boundedness is open (Question 1). It constrains only characterization programmes that seek a single finitary dimension for a general setting; PAC binary classification is unaffected (Theorem 7: VC dimension is finite-character and PAC learnability is model-independent).
+
+**Implementation.** none known (set-theoretic result)
+
+**Track-B residual.** Track B's morphology-acquirability predicate must be stated for finite, computable ecologies with finite-character coordinates (VC-like, SQ-like, consistency-dimension-like); Ben-David et al. prove that a general 'is this class acquirable?' predicate over uncountable domains can be non-finitary and even undecidable, so any Track-B phase law claiming generality beyond finite-character coordinates is illegitimate. What remains open for Track B: whether a finite-character coordinate vector suffices to predict morphology frontier membership in registered finite ecologies.
+
+**Upward question.** Which Track-B ecology coordinates are finite-character (decidable from finite witnesses of domain points and morphologies), and can the phase law be restricted to them without losing the morphologies of interest?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "the class of finite subsets of the real unit interval is EMX learnable if and only if 2^{ℵ_0} < ℵ_ω." — [1] Sec. 1.1
+> "This result implies that there exist no combinatorial parameter of a finite character that characterizes EMX learnability the way the VC dimension and its variants characterize learnability" — [1] Sec. 1
+> "Furthermore, our independence result applies already to “weak learnability” — the ability to find a function in the class that approximates the maximum possible expectation up to some additive constant, say 1/3." — [1] Sec. 1
+> "We show that there is a strategy in which Alice sends a subset of size at most k if and only if \|X\| < ℵ_k." — [1] Sec. 1.1
+> "Corollary 6. The EMX-learnability of (and learning rates when it is learnable) of F^R_fin with respect to the class of all probability distributions over the real line that have countable support is independent of ZFC set theory." — [1] Sec. 5
+> "Theorem 8. There is some constant c > 0 so that the following holds. Assuming ZFC is consistent, there is no finite character property A so that for some integers m, M > c" — [1] Sec. 6
+> "It is important to restrict the learning algorithm to being proper (i.e. outputting an element of F), since the all-ones functions is always a maximizer of this expectation." — [1] Sec. 2
+
+Verification notes: Nature MI version not accessible; the arXiv 2017 precursor by the same five authors was read in full and contains the same theorems (numbering may differ in the Nature version). Not previously in any ORION ledger.
+
+### P9B.NFL_LEARNING — Wolpert 1996: supervised-learning no-free-lunch — off-training-set error is algorithm-independent when averaged uniformly over targets (short entry; cross-reference family P0)
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] The Lack of A Priori Distinctions Between Learning Algorithms — David H. Wolpert (1996), Neural Computation 8(7):1341-1390. https://doi.org/10.1162/neco.1996.8.7.1341 — `NOT_ACCESSIBLE`
+- [1] What is important about the No Free Lunch theorems? — David H. Wolpert (2020), arXiv 2007.10928 (book chapter). https://arxiv.org/abs/2007.10928 arXiv:2007.10928 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Owns the zero-order ecology-relativity theorem for learners: in the extended Bayesian framework with off-training-set (OTS) cost C(f, h, d) ∝ Σ_{q ∉ d_X} P(q) L(y_f, y_h) f(y_f\|q) h(y_h\|q), the posterior expected OTS loss satisfies E(Φ \| d, A) = E(Φ \| d, B) and E(Φ \| m, A) = E(Φ \| m, B) for any two learning algorithms A, B when the prior over targets is uniform (and for symmetric losses under the stated conditions); performance is an inner product between the algorithm vector and the target posterior, so 'anti-cross-validation beats cross-validation as often as the reverse' and non-uniformity of P(f) by itself licenses nothing about which algorithm to use.
+
+**Formal object.** Finite X, Y; target distribution f(y_f \| x); training set d of m pairs generated by P(d \| f); hypothesis h(y_h \| x) produced by the learning algorithm P(h \| d); loss L(y_h, y_f); OTS cost C(f, h, d) as above with P(q) supported on X \ d_X. Inner-product formula: P(c \| d) = ∫ df dh P(h \| d) P(f \| d) M_{c,d}(f, h) with M symmetric for symmetric L. NFL: for any two algorithms E(Φ \| d, A) = E(Φ \| d, B) (uniform P(f)); search version Σ_{f∈B} E(Φ \| f, m, A) = constant − Σ_{f ∉ B} E(Φ \| f, m, A).
+
+**Strongest result.** E(Φ \| d, A) = E(Φ \| d, B) for any two algorithms A and B (Wolpert 2020 Eq. 2, restating Wolpert 1996); theorem numbers in the 1996 paper not verified.
+
+**Assumptions.** Uniform (or symmetric-averaged) prior over target functions; OTS error; symmetric loss; finite X, Y; the conditioning event is the data d (posterior form), not the target f.
+
+**Resource model.** none (pure generalization-error statement)
+
+**Failure boundary.** Averaging over all targets; says nothing under any structured P(f), which is exactly where Track B lives; the theorem is about algorithms as maps d ↦ h, so two morphologies implementing the same map are indistinguishable.
+
+**Implementation.** none
+
+**Track-B residual.** Already absorbed by Codex as GMI-T1 (P-NFL) and by family P0; residual for this family: every phase claim must name the structured ecology (P(f)) restriction under which it holds — the flips in this family (SQ-dimension, VC dimension, verification contract, precision) are exactly such restrictions.
+
+**Upward question.** Cross-ref P0 (family P0.json in the scratchpad; note: that file failed json.load in this session — line 47 col 124 — and should be repaired by its owner).
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "E(Φ \| d, A) = E(Φ \| d, B) for any two algorithms A and B." — [1] Wolpert 2020, Sec. 5, Eq. (2)
+> "The No Free Lunch theorems prove that under a uniform distribution over induction problems (search problems or learning problems), all induction algorithms perform equally." — [1] Wolpert 2020, abstract
+> "In other words, anti-cross-validation beats cross-validation as often as the reverse." — [1] Wolpert 2020, Sec. 4
+> "Arguments that P( f ) is non-uniform in the real world do not, by themselves, establish anything whatsoever about what search algorithm to use in the real world." — [1] Wolpert 2020, Sec. 3
+
+Verification notes: 1996 original blocked; statements taken from Wolpert's own 2020 restatement, which cites [1] = Neural Computation 8:1341-1390, 1391-1421. Prior Codex ledger covers Wolpert-Macready 1997 (optimization NFL) at abstract depth.
+
+### P9B.NOVELTY_SEARCH — Lehman & Stanley 2011, Novelty Search — added here only as the 'search algorithm determines the phase' hostile
+
+Disposition: `ADOPT` · best verification: `ABSTRACT_ONLY`
+
+Sources:
+
+- [0] Abandoning Objectives: Evolution Through the Search for Novelty Alone — Joel Lehman, Kenneth O. Stanley (2011), Evolutionary Computation 19(2):189-223. https://doi.org/10.1162/EVCO_a_00025 — `ABSTRACT_ONLY`
+
+**What it already explains.** Owns (at abstract depth, per prior ledgers) that replacing the objective by behavioural novelty (k-nearest-neighbour sparseness in behaviour space with an archive) finds solutions in deceptive domains (maze, biped) where objective-driven search stalls: the found behaviours depend on the search process, not only on the fitness landscape.
+
+**Formal object.** Novelty metric ρ(x) = (1/k) Σ_{i=1..k} dist(x, μ_i) over the k nearest neighbours in behaviour space (population ∪ archive) — FROM_MEMORY_UNVERIFIED in this session.
+
+**Strongest result.** Empirical only; not re-verified here.
+
+**Assumptions.** A behaviour characterization and distance are supplied by the experimenter (a morphology-label-free but domain-specific choice).
+
+**Resource model.** evaluations; none beyond
+
+**Failure boundary.** Not a theory of which morphology emerges; a search backend. Already dispositioned SEARCH_BACKEND_PARENT_ONLY by Codex.
+
+**Implementation.** NEAT-based; not verified
+
+**Track-B residual.** Hostile H-SEARCH-ALGORITHM (hostile registry) made concrete with verified evidence from this family: (i) AutoML-Zero Fig. 4 — evolution/random-search success ratio 2.9x → 23000x as difficulty rises, and Table S5 — the 'Full' vs 'Basic' evolutionary method changes the NN-beating success fraction from 0.00 to 0.11 at 100 processes; (ii) GPICL Fig. 7 — whether the generalizing learning algorithm emerges at all depends on the meta-optimizer's task batch size (plateau/overfit/generalize phase diagram), and Intervention 2 — changing Adam's ε 'results in more than halving the plateau length'; (iii) Kirsch-Schmidhuber — ES vs backprop meta-training changes stability and horizon. Therefore any Track-B phase boundary must be shown invariant under at least two search families (objective-driven and novelty/quality-diversity) on the same frozen basis and ecology, otherwise the terminal is SEARCH_ALGORITHM_DETERMINES_FRONTIER.
+
+**Upward question.** Is the morphology frontier a property of (basis, ecology) alone, or of (basis, ecology, search measure)? The parents in this family provide theorem-grade flips that are search-independent (they hold for every polynomial-time learner), which is the standard a Track-B phase law must meet.
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "As the task type becomes more difficult, evolution vastly outperforms RS, illustrating the complexity of AutoML-Zero when compared to more traditional AutoML spaces." — [0] AutoML-Zero Fig. 4 caption (verified in entry P3.AUTOML_ZERO source 0)
+> "Using smaller ϵ results in more than halving the plateau length." — [0] GPICL Sec. 4.3 Intervention 2 (verified in entry P4 source 1)
+
+Verification notes: Quotes above are from AutoML-Zero and GPICL full texts (entries 1-2), not from Lehman & Stanley, whose paper was not accessible; source_index 0 here refers to those verified texts via the cited entries. Lehman & Stanley itself is ABSTRACT_ONLY via prior ledgers.
+
+### P9B.PAC_VC — PAC learnability (Valiant 1984) and its VC-dimension characterization (Blumer, Ehrenfeucht, Haussler, Warmuth 1989): sample complexity as an ecology coordinate
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] A Theory of the Learnable — Leslie G. Valiant (1984), Communications of the ACM 27(11):1134-1142. https://doi.org/10.1145/1968.1972 — `NOT_ACCESSIBLE`
+- [1] Learnability and the Vapnik-Chervonenkis Dimension — Anselm Blumer, Andrzej Ehrenfeucht, David Haussler, Manfred K. Warmuth (1989), Journal of the ACM 36(4):929-965. https://doi.org/10.1145/76359.76371 — `NOT_ACCESSIBLE`
+- [2] On the Hardness of Learning Regular Expressions — Idan Attias, Lev Reyzin, Nathan Srebro, Gal Vardi (2025), arXiv 2510.04834. https://arxiv.org/abs/2510.04834 arXiv:2510.04834 — `PARTIAL_TEXT_READ`
+- [3] On a learning problem that is independent of the set theory ZFC axioms — Ben-David, Hrubeš, Moran, Shpilka, Yehudayoff (2017), arXiv 1711.05195. https://arxiv.org/abs/1711.05195 arXiv:1711.05195 — `FULL_TEXT_READ`
+- [4] Samplability makes learning easier — Guy Blanc, Caleb Koch, Jane Lange, Carmen Strassle, Li-Yang Tan (2025), arXiv 2512.01276. https://arxiv.org/abs/2512.01276 arXiv:2512.01276 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Owns the distribution-free, worst-case statistical coordinate of an ecology: for binary classification the number of i.i.d. labelled examples needed to reach error ε with confidence 1-δ is Θ((d + log(1/δ))/ε) where d = VC dimension of the target class, independent of the learner's representation; finite VC dimension characterizes learnability (with consistent-hypothesis learners) and infinite VC dimension forbids it. It also fixes the two-resource split that every later separation in this family exploits: information-theoretic sample complexity vs polynomial-time computability (Valiant's definition demands both: success for all distributions with time and samples polynomial in n, 1/ε, 1/δ, and hypothesis evaluable in polynomial time; improper = representation-independent learning allowed).
+
+**Formal object.** Concept class C_n ⊆ {0,1}^{X_n}, X_n = {0,1}^n. A (possibly randomized) algorithm A PAC-learns C_n if for all ε, δ ∈ (0,1), all n, all c* ∈ C_n and all distributions D_n over X_n, given i.i.d. examples (x, c*(x)), x ~ D_n, A outputs h with Pr_{x~D_n}[h(x) ≠ c*(x)] ≤ ε with probability ≥ 1-δ; tractable if running time ≤ p(n, 1/ε, 1/δ). VC dimension: size of the largest set S ⊆ X shattered by C (every labelling of S realized by some f ∈ C). Fundamental theorem: sample complexity m(ε, δ) = Θ((d + log(1/δ))/ε) (upper bound via uniform convergence / ε-nets, lower bound Ω(d/ε) via the hard distribution D(x^(1)) = 1-8ε, D(x^(i)) = 8ε/(d-1) on a shattered set).
+
+**Strongest result.** BEHW89 (as restated by Ben-David et al. 2017 and Blanc et al. 2025): a class of binary functions is PAC learnable iff its VC dimension is finite, with sample complexity Θ((d+log(1/δ))/ε); any learner over the shattering-set hard distribution needs Ω(d/ε) samples (Fact 5.8 in Blanc et al., citing BEHW89 and EHKV89). Exact theorem numbers in the JACM paper not verified in this session.
+
+**Assumptions.** i.i.d. examples from a fixed but arbitrary (adversarial, possibly non-samplable) distribution; realizable labels in the basic model.; Binary labels; the characterization does not extend to multiclass with infinitely many labels or to the EMX setting (see P9B.LEARNABILITY_UNDECIDABLE).; Learner is computationally unbounded for the sample-complexity statement; polynomial-time learnability additionally requires an efficient consistent-hypothesis finder.; Passive learning from random examples only (no membership queries).
+
+**Resource model.** samples (exact, worst case over distributions), confidence; time only as 'polynomial'; no memory, verification or update-work accounting
+
+**Failure boundary.** Says nothing about which morphology realizes the learner; two morphologies with the same hypothesis class have identical PAC sample complexity, so VC dimension cannot separate morphologies at all. It is representation-independent by design: the resource it measures is the ecology's, not the morphology's. Worst-case over distributions can be exponentially pessimistic for samplable distributions (Blanc et al. 2025 Theorem 1: exponential VC dimension yet polynomial-sample learnable under samplable distributions). Does not couple samples to compute (that coupling is the content of P9B.COMP_STAT_TRADEOFF).
+
+**Implementation.** none known (mathematical characterization)
+
+**Track-B residual.** Given a registered ecology (D, C, ε, δ) with fixed PAC sample complexity, which morphology attains that sample complexity at the lowest charged compute/verification/revision cost, and does the answer change with distribution complexity (samplable vs arbitrary)? PAC/VC fixes the sample axis; it does not rank morphologies on it.
+
+**Upward question.** Which ecology coordinates other than VC dimension (distribution complexity, noise, query access, feedback precision) make the same class flip between learnable and unlearnable, and do those flips align with morphology families?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "A (possibly randomized) algorithm A is said to PAC learn C_n if, for all ϵ, δ ∈ (0, 1), for all n ∈ N, for all c⋆ ∈ C_n, and for all distributions D_n over X_n" — [2] Attias et al. 2025, Sec. 3 'PAC learning [Valiant, 1984]'
+> "The learner may output an arbitrary hypothesis h : X_n → {0, 1} (not necessarily in C_n), provided that h can be evaluated in polynomial time in (n, 1/ϵ, 1/δ)." — [2] Attias et al. 2025, Sec. 3
+> "in binary classification the PAC-learning sample complexity is Θ((d+log(1/δ))/ǫ) where d is the VC-dimension of the class [4,16]." — [3] Ben-David et al. 2017, Sec. 6
+> "A fundamental result of statistical learning theory is the characterization of PAC learnability in terms of the Vapnik-Chervonenkis dimension of a class [26,4]." — [3] Ben-David et al. 2017, Sec. 1
+> "then, any algorithm which learns C over D must use at least Ω(d/ε) samples." — [4] Blanc et al. 2025, Fact 5.8
+> "There is a concept class with exponential VC dimension—and hence requires exponential sample complexity in standard PAC—but is learnable with polynomial sample complexity, and in fact even in polynomial time, in samplable PAC." — [4] Blanc et al. 2025, Theorem 1
+
+Verification notes: Originals not fetchable (ACM DL, MIT mirror blocked). All quoted statements come from arXiv full texts read in this session that restate Valiant 1984 / BEHW89 with citations. Blanc et al. 2025 is noted as a missing parent (distribution-complexity axis).
+
+### P9B.SQ_MODEL — Statistical query learning (Kearns 1998): noise-tolerant learning through an expectation oracle; parity lower bound; SQ ⊊ noisy-PAC (Blum-Kalai-Wasserman)
+
+Disposition: `ADOPT` · best verification: `FULL_TEXT_READ`
+
+Sources:
+
+- [0] Efficient Noise-Tolerant Learning from Statistical Queries — Michael Kearns (1998), Journal of the ACM 45(6):983-1006 (STOC 1993). https://doi.org/10.1145/293347.293351 — `NOT_ACCESSIBLE`
+- [1] Noise-Tolerant Learning, the Parity Problem, and the Statistical Query Model — Avrim Blum, Adam Kalai, Hal Wasserman (2003), Journal of the ACM 50(4):506-519 (arXiv cs/0010022, 2000). https://arxiv.org/abs/cs/0010022 arXiv:cs/0010022 — `FULL_TEXT_READ`
+- [2] A Complete Characterization of Statistical Query Learning with Applications to Evolvability — Vitaly Feldman (2013), arXiv 1002.3183. https://arxiv.org/abs/1002.3183 arXiv:1002.3183 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Owns the NOISE axis of learnability: an SQ algorithm never sees examples, only answers v with \|E_{x~D}[ψ(x, f(x))] - v\| ≤ τ to polynomially many queries ψ of inverse-polynomial tolerance τ; every SQ algorithm converts automatically to a PAC algorithm tolerant to random classification noise of any rate η < 1/2 (Kearns), so SQ-learnability is a sufficient condition for noise-robust learnability. Owns the information-theoretic obstruction: a class with d nearly pairwise-uncorrelated concepts (SQ-DIM = d) cannot be learned to error < 1/2 - 1/d³ unless the number of queries or 1/τ is at least (1/2) d^{1/3} (Blum, Furst, Jackson, Kearns, Mansour, Rudich 1994, Thm 12), hence parity over n bits (2^n mutually orthogonal functions under uniform) is not even weakly SQ-learnable although it is PAC-learnable by Gaussian elimination. Owns the strict separation SQ ⊊ noisy-PAC: parities on the first O(log n log log n) bits are PAC-learnable with random classification noise in poly(n) time but need n^{O(log log n)} SQ queries (BKW Thm 2: length-k parity with constant noise solvable in 2^{O(k/log k)} time and samples), and O(log n)-wise SQ queries add no weak-learning power (BKW Thm 5).
+
+**Formal object.** Oracle STAT(f, D): on query (ψ, τ), ψ: X × {-1,1} → [-1,1] (or {0,1}-valued predicate in Kearns' original), τ ∈ (0,1], returns any v with \|E_{x~D}[ψ(x, f(x))] - v\| ≤ τ. A learns C in time t from statistical queries of tolerance τ if A PAC-learns C using STAT(f, D) instead of EX(f, D), each ψ evaluable in time t; efficient SQ learning: t = poly(n, 1/ε) and τ ≥ 1/poly(n, 1/ε). SQ-DIM(C, D) = largest d with f_1..f_d ∈ C, \|⟨f_i, f_j⟩_D\| ≤ 1/d for i ≠ j (Def. 2.3 in Feldman 2013 = Def. 2 in BFJKMR). Random classification noise model: each label flipped independently with probability η < 1/2; learner must run in time polynomial in n, 1/ε, 1/δ (and, for SQ-derived algorithms, 1/(1-2η)).
+
+**Strongest result.** Kearns (as restated by BKW Sec. 1, 2.1): SQ-learnable ⇒ PAC-learnable under random classification noise (theorem number in JACM paper unverified). BFJKMR Thm 12 (quoted by BKW as Theorem 1): learning C to error < 1/2 - 1/d³ in SQ requires queries or 1/τ ≥ (1/2) d^{1/3}, d = SQ-DIM(C, D). BKW Theorem 2: 'The length-k parity problem, for noise rate η equal to any constant less than 1/2, can be solved with number of samples and total computation-time 2^{O(k/log k)}', giving the first class learnable with noise but not by SQ. BKW Theorem 5: k = O(log n)-wise SQ queries reduce to unary queries for weak learning.
+
+**Assumptions.** Distribution D fixed (known-distribution setting, or unlabelled samples available in the unknown-distribution setting).; Queries polynomially evaluable; tolerance inverse-polynomial (each query simulable from O(1/τ²) noisy samples).; Noise is random classification noise (label flips independent of x); malicious or attribute noise are separate models.; Lower bounds are information-theoretic (no complexity assumptions) but relative to the SQ interface.
+
+**Resource model.** number of queries, tolerance 1/τ, evaluation time per query, noise rate via 1/(1-2η); samples only implicitly (O(1/τ²) per query); no memory/verification accounting
+
+**Failure boundary.** SQ characterizes what is learnable through AGGREGATE statistics; it does not describe morphologies, and the same class is learnable or not depending purely on the access channel (parity: PAC yes, SQ no, noisy-PAC yes for small support). The separation SQ ⊊ noisy-PAC is 'rather small' (poly(n) vs n^{O(log log n)}); full-length noisy parity remains open (LPN). No statement about compute-vs-samples beyond query count. SQ-DIM characterizes weak learning only; strong learning needs Feldman's SQ-SDIM.
+
+**Implementation.** none known
+
+**Track-B residual.** Which morphologies are, at charged cost, implementable ONLY through aggregate statistics (hence noise-robust but parity-blind) versus through individual examples (hence parity-capable but noise-fragile)? SQ separates function classes by access channel; Track B must attach channel access to morphology resource vectors and predict the flip.
+
+**Upward question.** Can the SQ-dimension of the ecology's task family be measured without architecture labels and used as a preregistered coordinate predicting when aggregate-statistic morphologies (gradient, evolutionary, Bayesian-averaging) lose to example-memorizing/algebraic morphologies (retrieval, Gaussian-elimination-like programs)?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "any algorithm for learning in the SQ model can automatically be converted to an algorithm for learning in the presence of random classification noise in the standard PAC model." — [1] BKW 2003, Sec. 1
+> "the class of parity functions, which can be learned efficiently from non-noisy data in the PAC model, provably cannot be learned efficiently in the SQ model under the uniform distribution." — [1] BKW 2003, Sec. 1
+> "we demonstrate that the set of problems learnable in the statistical query model is a strict subset of those problems learnable in the presence of noise in the PAC model." — [1] BKW 2003, abstract
+> "In order to learn C to error less than 1/2 − 1/d^3 in the SQ model, where d = SQ-DIM(C, D), either the number of queries or 1/τ must be at least (1/2) d^{1/3}" — [1] BKW 2003, Theorem 1 (= Thm. 12 of BFJKMR 1994)
+> "The length-k parity problem, for noise rate η equal to any constant less than 1/2, can be solved with number of samples and total computation-time 2^{O(k/log k)}." — [1] BKW 2003, Theorem 2
+> "The oracle may respond to the query with any value v satisfying \|E_D[ψ(x, f (x))] − v\| ≤ τ where τ is referred to as the tolerance of the query." — [2] Feldman 2013, Sec. 2.3
+> "The algorithm is said to (efficiently) SQ learn C if t is polynomial in n and 1/ǫ, and τ is lower-bounded by the inverse of a polynomial in n and 1/ǫ." — [2] Feldman 2013, Sec. 2.3
+
+Verification notes: Kearns 1998 original blocked; definitions and results verified from BKW 2003 (full text) and Feldman 2013 (Sec. 2.3), both of which restate Kearns' model with citation. BKW 2003 and BFJKMR 1994 are noted as missing parents in the synthesis.
+
+### P9B.VALIANT_EVOLVABILITY — Valiant's evolvability model: evolvable ⊆ SQ; monotone conjunctions evolvable under uniform; parity not evolvable; Feldman: evolvability = CSQ (Boolean loss) / = SQ (quadratic loss)
+
+Disposition: `ADOPT` · best verification: `PARTIAL_TEXT_READ`
+
+Sources:
+
+- [0] Evolvability — Leslie G. Valiant (2009), Journal of the ACM 56(1), Article 3, pp. 3.1-3.21. https://doi.org/10.1145/1462153.1462156 — `NOT_ACCESSIBLE`
+- [1] Evolvability from learning algorithms — Vitaly Feldman (2008), STOC 2008, pp. 619-628. https://doi.org/10.1145/1374376.1374465 — `NOT_ACCESSIBLE`
+- [2] A Complete Characterization of Statistical Query Learning with Applications to Evolvability — Vitaly Feldman (2013), arXiv 1002.3183v3 (FOCS 2009 earlier version). https://arxiv.org/abs/1002.3183 arXiv:1002.3183 — `PARTIAL_TEXT_READ`
+- [3] Evolution with Drifting Targets — Varun Kanade, Leslie G. Valiant, Jennifer Wortman Vaughan (2010), COLT 2010 (arXiv 1005.3566). https://arxiv.org/abs/1005.3566 arXiv:1005.3566 — `PARTIAL_TEXT_READ`
+
+**What it already explains.** Owns a formal D2 acquisition model in which the ONLY feedback is empirical performance of a polynomial neighbourhood of the current representation (no examples seen): Perf_f(r, D) = E_{x~D}[f(x) r(x)] = 1 - 2 err_D(f, r); evolution algorithm E = (R, Neigh, μ, t, s) with polynomial-size neighbourhoods Neigh(r, ε) ∋ r, mutation probabilities μ ≥ 1/p(n,1/ε), tolerance t bounded by inverse polynomials, sample size s polynomial; selection: beneficial set Bene = {r': v(r') ≥ v(r) + t}, neutral Neut = {r': \|v(r') - v(r)\| < t}; pick from Bene if nonempty else from Neut. C is evolvable over D if from ANY r_0, after g(n, 1/ε) generations, Perf ≥ 1 - ε w.p. ≥ 1-ε. Results owned: (a) every evolvable class is SQ-learnable (Valiant; the model is a restriction of learning from examples); (b) monotone conjunctions are evolvable over the uniform distribution via add/remove/swap-one-variable neighbourhoods (Valiant; re-derived by Kanade et al. Theorem 17 with explicit tolerance ε²/18, g ≥ 144/ε², s = Õ(1/ε²), drift ≤ ε²/144); (c) parity is not evolvable (evolvable ⊆ SQ and parity ∉ SQ over uniform); (d) Feldman 2008: evolvability in Valiant's model is EQUIVALENT to learning by correlational statistical queries (CSQ: queries of the form ψ(x, l) = φ(x)·l); with quadratic loss over real-valued hypotheses it equals full SQ learnability (Feldman 2009 'Robustness of evolvability'); (e) Feldman 2013 Thm 5.5: every efficiently SQ-learnable class is MONOTONICALLY evolvable over any fixed distribution with quadratic loss; Thm 5.7: disjunctions are monotonically, distribution-independently evolvable with quadratic loss; conjunctions are NOT distribution-independently evolvable with Boolean loss (Feldman 2011).
+
+**Formal object.** See Kanade-Valiant-Vaughan Sec. 2.2-2.3 (verbatim restatement of Valiant's model): mutator M(f, D, E, ε, r_{i-1}) evaluates empirical performance v(r) = (1/s) Σ_{i=1..s} f(x_i) r(x_i) for every r ∈ Neigh(r_{i-1}, ε) on a sample of size s, forms Bene and Neut with tolerance t(r_{i-1}, ε), and outputs a survivor with probability proportional to μ. Definition 1 (Evolvability [Valiant]): C evolvable over D by E iff ∃ polynomial g(n, 1/ε) such that ∀ n, f ∈ C_n, r_0 ∈ R_n, ε > 0, with probability ≥ 1-ε the sequence r_i = M(f, D, E, ε, r_{i-1}) satisfies Perf_f(r_{g(n,1/ε)}, D) ≥ 1-ε. Feldman's generalization (Def. 5.1-5.3): hypotheses in F^∞_1 (range [-1,1]), loss L, LPerf_f(φ, D) = 1 - 2 E_D[L(f(x), φ(x))]/L(-1,1), selection rule SelNB[L, t, p, s] with candidate pool p; monotone if LPerf never drops below its initial value. CSQ: statistical query restricted to ψ(x, l) ≡ φ(x)·l; every SQ decomposes as φ_1(x)·l + φ_2(x) (Lemma 2.2).
+
+**Strongest result.** Verified statements: (i) 'Feldman [9] proved that the original model of evolvability is equivalent to a restriction of the statistical query model of learning [15] known as learning by correlational statistical queries (CSQ)' (KVV 2010 Sec. 5); (ii) Feldman 2013 Thm 5.5 (monotone distribution-specific evolvability of every SQ-learnable class, quadratic loss) and Thm 5.7 (disjunctions monotonically, distribution-independently evolvable); (iii) KVV Theorem 8 (strictly beneficial neighbourhood ⇒ evolvable with drifting targets, drift Δ ≤ 1/(16 b(n,1/ε))) and Theorem 17 (monotone conjunctions, uniform distribution, explicit polynomials). Valiant's own theorem numbers for 'evolvable ⇒ SQ' and 'monotone conjunctions evolvable under uniform' were not verified (paper not accessible); the parity non-evolvability follows from (i) plus the SQ parity lower bound (P9B.SQ_MODEL).
+
+**Assumptions.** Fixed target f (KVV relax to Δ-drifting sequences with err_D(f_{i-1}, f_i) ≤ Δ); fixed distribution D over conditions; performance = correlation (0/1 loss) for Boolean hypotheses, or admissible loss over [-1,1]-valued hypotheses in Feldman's extension.; Neighbourhood size, mutation probabilities, tolerance, sample size and generation count all polynomial in n and 1/ε; the mutator is an explicit polynomial-time algorithm on representations.; Selection sees only empirical performance (fitness), never examples: 'the learner observes only the empirical performance of a set of functions that are feasible variants of the current function'.; Distribution-specific results (Thm 5.5) need access to D (samplable or a fixed sample) — the algorithm may be non-uniform otherwise.; Robustness translations (fixed tolerance, best-of-neighbourhood selection, quasi-monotone) are proved equivalent to the basic model (Feldman 2009; KVV 2010).
+
+**Resource model.** generations g(n,1/ε), population/candidate pool p(n,1/ε), sample size per fitness evaluation s(n,1/ε), tolerance t, neighbourhood size; circuit size of hypotheses grows additively polynomially per step (Thm 5.4 item 3); time polynomial; no memory or verification accounting
+
+**Failure boundary.** Says which FUNCTION classes are acquirable by fitness-only bounded search, not which morphology; the representation class R is chosen by the algorithm designer (R can be 'all circuits', Thm 5.5), so evolvability is not a statement about program shape. Parity is representable by a 2-layer net or a linear GF(2) rule yet unacquirable by ANY evolution algorithm — the obstruction is the feedback channel (correlation-only, polynomial tolerance), not expressivity. Distribution dependence is severe: conjunctions evolvable under uniform but not distribution-independently with Boolean loss; loss choice changes the class (CSQ vs SQ). No statement about drift beyond inverse-polynomial Δ; no accounting of what the neighbourhood generator itself costs; no result on which of two evolvable classes is reached first.
+
+**Implementation.** none known (Feldman 2013 Sec. 5.4 gives an explicit mutation algorithm for disjunctions; no code)
+
+**Track-B residual.** Track B must state morphology classes as behaviour/resource equivalence classes and ask which are acquirable under a fitness-only (CSQ-like) feedback channel versus an example-access (PAC) channel versus a query (L*) channel at bounded cost from a common basis; Valiant/Feldman give the function-class version of exactly this question (evolvable = CSQ ⊊ SQ ⊊ PAC) but never quotient by morphology and never charge the mutator.
+
+**Upward question.** Is there a bounded compilation that maps Valiant's (R, Neigh, μ, t, s) mutator and Abbe's (b, ρ) gradient oracle and Angluin's (MQ, EQ) teacher onto ONE feedback-channel coordinate of the ecology contract, so that morphology acquirability is a function of that coordinate?
+
+Load-bearing quotes (verbatim from sources actually read):
+
+> "Evolution is then modeled as a restricted form of learning from examples, in which the learner observes only the empirical performance of a set of functions that are feasible variants of the current function." — [3] KVV 2010, Sec. 1 Overview
+> "Perf_f (r, D) = E_{x∼D}[f (x)r(x)] = 1 − 2err_D(f, r)" — [3] KVV 2010, Sec. 2.1
+> "It is required that for all r and ǫ, for all r′ ∈ Neigh(r, ǫ), μ(r, r′, ǫ) ≥ 1/p(n, 1/ǫ) for a polynomial p." — [3] KVV 2010, Sec. 2.2
+> "we say that C is evolvable over D by E if there exists a polynomial g(n, 1/ǫ) such that for every n ∈ N, f ∈ C_n, r_0 ∈ R_n, and ǫ > 0," — [3] KVV 2010, Definition 1 (Evolvability [19])
+> "Feldman [9] proved that the original model of evolvability is equivalent to a restriction of the statistical query model of learning [15] known as learning by correlational statistical queries (CSQ) [5]." — [3] KVV 2010, Sec. 5
+> "tolerance function t(r, ǫ) = ǫ^2/18 for all r ∈ R_n, any generation polynomial g(n, 1/ǫ) ≥ 144/ǫ^2, a sample size s(n, 1/ǫ) = Õ(1/ǫ^2)" — [3] KVV 2010, Theorem 17 (monotone conjunctions, uniform distribution)
+> "There we showed that, depending on how the performance of hypotheses is measured, evolvability is equivalent to either the SQ learnability or the learnability by restricted SQs referred to as correlational SQs" — [2] Feldman 2013, Sec. 1.3
+> "A correlational statistical query is a statistical query for a correlation of a function over X with the target [11]. Namely the query function ψ(x, ℓ) ≡ φ(x) · ℓ" — [2] Feldman 2013, Sec. 2.3
+> "Prior to this work monotone evolvability was only known for several very restricted classes of functions and distributions, namely, conjunctions over the uniform distribution [40], decision lists over the uniform distribution [35], and the singletons" — [2] Feldman 2013, Sec. 1.3
+> "In addition we prove in [20] that conjunctions are not evolvable distribution-independently with the Boolean loss." — [2] Feldman 2013, Sec. 6
+> "Let D be a distribution and C be a concept class efficiently SQ learnable over D. There exist polynomials p(n, 1/ǫ) and s(n, 1/ǫ), an inverse polynomial t(n, 1/ǫ) and an evolution algorithm" — [2] Feldman 2013, Theorem 5.5
+
+Verification notes: Valiant 2009 and Feldman 2008 originals blocked; the model definition is taken verbatim from Kanade-Valiant-Vaughan 2010 (co-authored by Valiant, explicitly '[19]' = Valiant's model) and the CSQ equivalence from Feldman's own 2013 paper. The evolvability-theory-v0 collision matrix in the repo covers biological evolvability (Hansen, modularity), not Valiant's model; no prior ORION ledger reconstructs this parent.
+
+
+## Corrections to the V1 (Codex) ledger reported by the depth pass
+
+| family | prior entry | defect | correction | evidence |
+|---|---|---|---|---|
+| P7P8P6P5 | P-CATEGORICAL-LEARNING (PARENT_LEDGER_V1.json / LITERATURE_LEDGER.md) - Fong-Spivak-Tuyeras recorded as establishing 'backprop is a functor' at abstract depth | The Codex entry treats Theorem III.2 as sound and does not record that the functor L_{eps,e} is defective as stated, nor that its invertibility hypothesis on the error function excludes standard losses. | Record Theorem III.2 as corrected by Cruttwell et al. 2022 Section 6: the functor does not respect the equivalence relation on learners and the invertibility condition 'is not a constraint that appears in machine learning practice'; the sound statement is Para(R): Para(C) -> Para(Lens(C)) for any CRDC C, with optimisers as reparametrisation 2-cells. | P7.BACKPROP_AS_FUNCTOR and P7.CATEGORICAL_GRADIENT_LEARNING entries; Cruttwell et al. 2022 Section 6 (FULL/PARTIAL_TEXT_READ). |
+| P7P8P6P5 | P-CATEGORICAL-LEARNING (CDL 2024 component) - recorded as covering 'some automata constructs' | Overstates CDL's automata coverage as if it supplied learning laws for automata; CDL only encodes Mealy/Moore/stream SHAPES as (co)algebras with neural cells and hypothesises (not derives) learnable code/logic. | CDL owns weight tying as lax 2-cell/comonoid (Theorem G.10) and architecture shapes as (co)algebra homomorphisms; it owns no non-gradient learning law. Quote: 'we hypothesise neural networks that can learn not merely conservation laws ..., but verifiably correct logical argument, or code.' | P7.CDL entry; cdl2024.txt read fully. |
+| P7P8P6P5 | GENERAL_INTELLIGENCE_THEORY_PARENT_ATLAS_V1.md, atlas row T4 (Hyperon / cognitive synergy) | Presents cognitive synergy as a mechanism with evidential standing. | Cognitive synergy is conjecture-level: the Hyperon paper's claim is conditional ('If s multi-paradigmatic integrative approach is more efficient than mono-paradigmatic, then Hyperon has chances'); Goertzel 2017 states conjectures 1-3 and calls the arguments 'hand-wavy'; no theorem, no experiment. Mark as engineered D0 with an unproved efficiency conjecture. | P8.HYPERON entry; hyperon.txt Section 4/4.1 and Goertzel 2017 Section 8 quotes. |
+| P7P8P6P5 | PARENT_EXPANSION_V2.md Section A - Niu & Spivak Poly recorded as STRONG_PARENT_FOR_B0_LOCAL_ADAPTIVE_TRANSDUCERS | The word 'adaptive' is not supported: Poly's dynamical systems (lenses Sy^S -> p) and mode-dependent interaction (Section 4.4.4) contain no update, learning, or adaptation law and no cost. | Re-label as STRONG_PARENT_FOR_B0 (representability of interacting/mode-dependent dynamical systems); adaptation must be imported from the Para(Optic) family or from CDL's Mealy-machine reading. | P7.POLY_DYNAMICAL entry; Niu-Spivak Definition 4.18, Example 7.19, Section 4.4.4. |
+| P7P8P6P5 | DERIVATION_MATRIX_V1.md and THEOREM_REGISTRY_V2.json probabilistic row (registry T8 / brief T6) | No computability boundary is recorded; the matrix implies a probabilistic-program morphology can compile arbitrary conditioning. | Insert the Ackerman-Freer-Roy boundary: conditioning is noncomputable in general (Theorem 7.6, Prop 6.4, Cor 8.5) and computable in the discrete / density / smooth-noise classes (Prop 9.2, Cor 9.6, Section 9.4); any D1 claim must name the observation class. | P6.CONDITIONING_LIMIT entry; afr2011.txt Sections 1, 5-9 read. |
+| P7P8P6P5 | P-CHURCH (PARENT_LEDGER_V1.json) | Abstract-depth: does not record the query semantics, the admissibility/positive-probability preconditions, or the discretised-reals design. | Add: query = sampling conditioned on a predicate with rejection (exact, 'often intractable') and MCMC-over-traces implementations; Theorem 2.3 preconditions; 'all primitive types are countable; real numbers are approximated'; Staton et al. score/norm typing (R x P(A)) + 1 + 1 for the continuous case. | P6.CHURCH_SEMANTICS entry (PARTIAL_TEXT_READ of both papers). |
+| P7P8P6P5 | LEARNING_LAW_ATLAS_V1.md Sections 1-2 (gradient and Bayesian law rows) | Omits the three parents that already unify the laws: Cruttwell et al. (optimisers as 2-cells, any C -> Lens(C)), Smithe/BHS (Bayesian lenses, almost-sure functoriality), Capucci et al. (parametrised optics, selection functions as lax monoidal pseudofunctors). Also omits Reverse Derivative Ascent (gradient law on Boolean circuits). | Add rows for Para(Lens(C)) with CRDC R, BayesLens/BLens(C) with Bayesian inversion, Para(Optic) with selection functions, and RDA; mark the B3 rung PARENT_SUFFICIENT at the algebraic-interface level for these three laws. | Entries P7.CATEGORICAL_GRADIENT_LEARNING, P7.BAYESIAN_LENSES, P7.CATEGORICAL_CYBERNETICS, P7.REVERSE_DERIVATIVE_BOOLEAN. |
+| P7P8P6P5 | Codex capsule as a whole (LITERATURE_LEDGER.md, PARENT_LEDGER_V1.json) | Missing parents that this family found load-bearing: Sigma (Rosenbloom et al.), Ackerman-Freer-Roy, Cruttwell et al., Smithe, Capucci et al., Anderson's rational analysis, Le-Baydin-Wood inference compilation, DreamCoder, NEAR, HOUDINI, Gavranovic 2022 space-time tradeoffs. | Absorb the 19 entries of this ledger; in particular record Gavranovic 2022 as the only categorical parent that charges a resource. | This ledger; P7.RESOURCE_SILENCE census. |
+| P7P8P6P5 | Any prior implicit claim that Track B could supply 'a unified algebra of learning laws' as a novel result | Already owned. | B3 is PARENT_SUFFICIENT at the algebraic level for gradient/Bayesian/selection laws; Track B's contribution must be the cost functor, the ecology-indexed selection law (the missing 'feedback mechanism'), and label-free developmental acquisition. | Family synthesis (a) with quotes. |
+| P9A_P0 | LITERATURE_LEDGER.md, Section A, Siegelmann & Sontag row, URL | DOI typed as https://doi.org/10.1006/j.jcss.1995.1013 (spurious 'j.') | https://doi.org/10.1006/jcss.1995.1013 (as in PARENT_LEDGER_V1.json) | publisher DOI as listed in Sima 2021 ref [14] and in the search-engine record |
+| P9A_P0 | LITERATURE_LEDGER.md Siegelmann-Sontag row ('finite recurrent sigmoidal rational nets') and NEURAL_MORPHOLOGY_PARENT_ANALYSIS_V1 ('recurrent sigmoidal nets under their construction') | The 1995 theorem is for the saturated-linear (ramp) activation, not the logistic sigmoid; the logistic case is Kilian & Siegelmann 1996; the entries also omit the unbounded-precision requirement and the fixed-precision collapse to finite automata, which is what makes the result execution-coordinate-only | State: saturated-linear activation, rational weights, unbounded precision (digits grow linearly), 886 units, real-time; at bounded precision the model is a finite automaton (Kleene regime) | Sima 2021 Sec. 1 (quoted in P9A.SIEGELMANN_SONTAG); Perez et al. 2019 Sec. 2 (piecewise-linear sigmoid); Carmantini 2015 |
+| P9A_P0 | PARENT_LEDGER_V1.json P-NEURAL-UNIVERSALITY | Conflates two different D0 results under one entry: Cybenko (approximation of continuous functions on compacta, width unbounded, static) and Siegelmann-Sontag (exact computation, fixed size, unbounded precision, dynamic); their kill scopes and residuals differ (approximation vs simulation) | Split into P-NEURAL-APPROXIMATION (Cybenko/Hornik + Telgarsky as D1 counterweight) and P-NEURAL-SIMULATION (Kleene/Siegelmann-Sontag/Perez/Sima-Orponen table) | This family's entries 2, 3, 5 |
+| P9A_P0 | THEOREM_REGISTRY_V2.json GMI-T2 (parent: Cybenko 1989; Siegelmann-Sontag 1995; status ADOPTED_LIMIT) | Stated only as a limit ('representability does not establish ...'); its positive content at the execution coordinate is a theorem-grade bounded-compilation table (constant-size/linear-time neural <-> TM/FA, 1+3-layer transformer TM simulation, Tracr compiler with reported overhead) that the registry does not record, and its parent list omits Sima-Orponen 2003, Perez et al. 2019/2021, Weiss et al. 2021 and Lindner et al. 2023 | Split GMI-T2 into T2a (exec/desc coordinates: PARENT_THEOREM, table in P9A synthesis) and T2b (upd/ver/rev coordinates: FORMAL_TARGET); extend the parent list | P9A entries 3, 6 and the sufficiency table |
+| P9A_P0 | GAP_REGISTER_V2.json B0-PARENTS remaining: 'proof-level Levin search reconstruction', 'proof-level Blum speedup implications' | The Hutter half of Levin/Hutter is now reconstructed at theorem level with constants (Theorem 1: 5 t_p + d_p time_{t_p} + c_p, d_p = 40*2^{l(p)+l(t_p)}, c_p = 40*2^{l(proof)+1} O(l(proof)^2); Theorem 2); Levin 1973 and Blum 1967 primaries remain unread in both P0 and P9A | Mark Levin/Hutter as RECONSTRUCTED_VIA_HUTTER_2002_FULL_TEXT; keep Blum as OPEN_PRIMARY_UNREAD with the provability escape recorded | P9A entries 10, 11; sibling P0.LEVIN_SEARCH |
+| P9A_P0 | GAP_REGISTER_V2.json B3-NEURAL-DOMINANCE candidate factor 'differentiable credit' and NEURAL_MORPHOLOGY_PARENT_ANALYSIS_V1 N-section on backprop ('can make adaptation of very large parameter sets feasible when a useful loss/gradient exists') | Stated as an empirical/heuristic factor; it is a theorem (Baur-Strassen / cheap gradient principle, <= ~4x forward cost) and it is basis-dependent (fails for formulas and planar circuits), which the analysis does not record | Replace 'differentiable credit' by 'cheap gradient in a DAG+adjoint basis (Baur-Strassen 1983; Griewank-Walther), provably not available in tree/planar bases (Ramya-Shastri 2025)' | P9A entry 8 |
+| P9A_P0 | EQUIVALENCE_CONTRACT_V1.md examples 'neural network compiled to an explicit program with huge overhead; program compiled to a neural emulator with huge training cost' | Program -> neural compilation has NO training cost (Tracr constructs weights directly with modest, reported overhead); the 'huge cost' example conflates compilation with training, and the actually-huge direction is the reverse (neural -> program), which is manual reverse engineering (Nanda) | Example should read: 'program compiled to a neural emulator with bounded overhead but no preserved update law (Tracr); neural network compiled to an explicit program only by manual mechanistic interpretation (Nanda), overhead unbounded' | P9A entries 6, 7 |
+| P9A_P0 | HOSTILE_REGISTRY_V1.json (no hostile for hardware-price hysteresis; #377 hostile 'tensor implementation gives neural forms uncharged hardware advantage') | The hostile has a named parent (Hooker 2020) and a mechanism (lock-in: hardware optimised for past winners), which the registry's H-POSTHOC-PRICE test (preregister the price vector) does not capture - a preregistered price vector can itself be lottery-selected | Add H-HARDWARE-LOTTERY: required test = report frontiers under at least two registered price vectors (dense-matmul-cheap and pointer/branch-cheap) and state hysteresis | P9A entry 13 |
+| P9B_P3P4 | LITERATURE_LEDGER.md Sec. C row 'Real et al., AutoML-Zero (2020)' and PARENT_LEDGER_V1.json P-AUTOML-ZERO | States that from basic mathematical operations evolutionary search rediscovered two-layer neural nets trained by backprop, without recording that this result (Fig. 5) used an op set restricted to exactly the ops of a two-layer net with gradient descent, fixed component lengths 21/3/9, and teacher-network tasks; the unrestricted 58-op from-empty run (Sec. 4.2) produced a bilinear (multiplicative-interaction) model with normalized gradients and weight accumulation, not a two-layer ReLU network. | Split the owned claim: (a) restricted-op rediscovery of two-layer backprop (Fig. 5); (b) open-op discovery of a bilinear SGD-like learner surpassing a two-layer FC net on binary CIFAR-10 (84.06 vs 82.22). Record the pre-encoded structure (typed vector/matrix memory, dot/outer/matvec/heaviside, supervised Predict/Learn slot, no control flow, no derivatives). | arXiv 2003.03384 Suppl. S5 ('we only allow as ops those that appear in a two-layer neural network with gradient descent'; 'Fixed num. instructions for Setup/Predict/Learn: 21/3/9'); Sec. 4.2 first sentence; Fig. 6 bottom-right code and flow diagram. |
+| P9B_P3P4 | PARENT_LEDGER_V1.json P-AUTOML-ZERO 'owns': task_conditioned_algorithm_features | Not wrong, but under-specified: the task-conditioned adaptations were obtained by initializing the population with the Fig. 5 network, i.e. they are within-neural refinements, and the statistics are 8/30, 30/30, 24/30 vs controls 0/30, 3/30, 0/30. | Record as a within-morphology phase signal only, with the initialization caveat. | arXiv 2003.03384 Sec. 4.3 and Suppl. S5 ('we initialize the population with the simple two-layer neural network with gradient descent of Figure 5'). |
+| P9B_P3P4 | THEOREM_REGISTRY_V2.json GMI-T10 (status OPEN_NOT_CONFIRMATORY, no parent listed) | The registry lists no parent theorems although theorem-grade phase boundaries along ecology coordinates already exist at the function-class level. | Add parent anchors: Angluin 1987 vs Gold 1978 / Pitt-Warmuth 1993 / Kearns-Valiant 1994 (verification_strength); Abbe et al. 2021 Cor. 2 (feedback precision x batch); Kearns 1998 + BKW 2003 (noise); SST 2012 Thm 1 + DGR 1999 (data_volume); Valiant/Feldman (distribution class x loss). Mark T10 'PARENT_ANCHORED_FOR_FUNCTION_CLASSES; OPEN_FOR_MORPHOLOGY_CLASSES'. | Entries P9B.* of this ledger. |
+| P9B_P3P4 | Brief's theorem-hook list (T9 = ecology relativity, T10 = phase boundary) vs THEOREM_REGISTRY_V2.json (GMI-T1 = NFL/ecology relativity, GMI-T9 = programmatic compilation, GMI-T10 = phase boundary) | Numbering mismatch between the brief and the registry for T9. | Synthesis above uses the brief's numbering but flags the registry mapping (T9_brief -> GMI-T1_registry). | THEOREM_REGISTRY_V2.json rows GMI-T1, GMI-T9, GMI-T10 read in this session. |
+| P9B_P3P4 | ECOLOGY_CONTRACT_V1.json candidate_structural_coordinates | Lacks a coordinate for feedback-channel precision / access type (gradient precision rho x batch b; SQ tolerance; fitness-only vs example vs query access) and for task diversity (number of tasks), both of which carry proven or reproducible flips in this family. | Add 'feedback_channel_type_and_precision' and 'task_diversity' as candidate coordinates. | Abbe et al. 2021 Cor. 2; Feldman 2013 Sec. 1.3; Kirsch et al. 2022 Insight 1/3. |
+| P9B_P3P4 | Scratchpad sibling ledger P0.json | Fails json.load (Expecting ',' delimiter: line 47 column 124). | Owner of family P0 should repair before merge; P9B.NFL_LEARNING cross-references it. | python3 json.load in this session. |
 
 ## Missing parents reported (must be absorbed before any saturation claim)
 
@@ -1968,3 +3861,47 @@ Verification notes: Wilson-Zanasi read in full; Cockett et al. read on the pages
 - (P7) Bolt, Hedges, Zahn 2019 'Bayesian open games' (arXiv:1910.03656)
 - (P7) Egri-Nagy & Nehaniv 2013 'Cascade product of permutation groups' (arXiv:1303.0091); Maler 2010 'On the Krohn-Rhodes cascaded decomposition theorem'; Diekert, Kufleitner, Steinberg 2012 'The Krohn-Rhodes theorem and local divisors' — for a verified statement of the prime decomposition and complexity
 - (P7) Cho & Jacobs 2019 'Disintegration and Bayesian inversion via string diagrams'; Fritz 2020 'A synthetic approach to Markov kernels' — the Markov-category base that Bayesian lenses presuppose
+- (P7P8P6P5) Hedges & Sakamoto 2022, 'Value iteration is optic composition' (arXiv:2206.04547) - would extend B3 to the dynamic-programming/RL law within the same optic algebra
+- (P7P8P6P5) Bolt, Hedges, Zahn 2019, 'Bayesian open games' (arXiv:1910.03656) - the asserted-but-not-proved Bayesian branch of Capucci et al. Section 6
+- (P7P8P6P5) Gavranovic 2024 PhD thesis 'Fundamental Components of Deep Learning: A category-theoretic approach' (arXiv:2403.13001) - consolidates Para, optics, weight tying and the space-time remark
+- (P7P8P6P5) Gavranovic 2022 'Space-time tradeoffs of lenses and optics via higher category theory' (arXiv:2209.09351) - read here only as the exception in P7.RESOURCE_SILENCE; deserves its own entry as the only categorical parent that charges a resource
+- (P7P8P6P5) Wilson & Zanasi 2023, 'Data-parallel algorithms for string diagrams' - implementation-level cost of categorical backprop
+- (P7P8P6P5) Kamiya & Welliaveetil 2021, 'A category theory framework for Bayesian learning' (arXiv:2111.14293)
+- (P7P8P6P5) Shiebler, Gavranovic, Wilson 2021, 'Category theory in machine learning' survey (arXiv:2106.07032)
+- (P7P8P6P5) Sprunger & Katsumata 2019, 'Differentiable causal computations via delayed trace' (LICS) - recurrent/stateful backprop as a categorical construction
+- (P7P8P6P5) Fong & Johnson 2019, 'Lenses and learners' (arXiv:1903.03671) - the precise relation between Learn and lenses that Fong-Spivak-Tuyeras Section VII.D only sketches
+- (P7P8P6P5) Dalrymple 2019 'Dioptics' - a generalisation covering nondeterministic/probabilistic backward passes
+- (P7P8P6P5) Laird 2012 'The Soar Cognitive Architecture' and Laird, Lebiere, Rosenbloom 2017 'A Standard Model of the Mind' (Common Model of Cognition) - the rule/production side that GMI-T7 lacks
+- (P7P8P6P5) Rosenbloom, Demski, Ustun 2016 'The Sigma cognitive architecture and system: towards functionally elegant grand unification' (J. AGI 7(1)) - the primary Sigma source, NOT_ACCESSIBLE here (proxy blocks sciendo/degruyter); the 2018 I/ITSEC paper (arXiv:2101.02231) was used instead
+- (P7P8P6P5) Anderson & Schooler 1991 'Reflections of the environment in memory' (Psychological Science) - NOT_ACCESSIBLE; only secondary restatements verified
+- (P7P8P6P5) Freer & Roy 2012 'Computable de Finetti measures' and Hoyrup & Rojas on computable measure theory - the positive side of the AFR boundary
+- (P7P8P6P5) Gaunt et al. 2016/2017 TerpreT and Neural TerpreT - the only work that compares gradient, SMT, ILP and Sketch backends on the SAME program-induction problems; closest existing witness to a 'same problem, different law' comparison (though morphology is still fixed)
+- (P7P8P6P5) Cho & Jacobs 2019 'Disintegration and Bayesian inversion via string diagrams' - the categorical origin of the Bayesian inversion used by Smithe/BHS
+- (P7P8P6P5) Real et al. 2020 AutoML-Zero and Kirsch et al. meta-learning of learning rules - the only search-over-update-rules results; belong to sibling family but are the natural test of the B3 algebra's closure under search
+- (P9A_P0) Merrill, Sabharwal & Smith 2022 'Saturated transformers are constant-depth threshold circuits' (TACL) and Merrill & Sabharwal 2023 on log-precision transformers in TC0 - the fixed-precision row of the transformer table (cited by Tracr, not read)
+- (P9A_P0) Giannou et al. 2023 'Looped transformers as programmable computers' and Wei, Chen & Ma 2022 'Statistically meaningful approximation' - alternative programmatic -> transformer compilers with sample-complexity accounting (cited by Tracr)
+- (P9A_P0) Kilian & Siegelmann 1996 (logistic-sigmoid universality) and Balcazar-Gavalda-Siegelmann 1997 (Kolmogorov-complexity hierarchy of real-weight nets) - the missing precision-price rows
+- (P9A_P0) Indyk 1995 / Alon-Dewdney-Ott 1991 / Horne-Hush 1996 - exact neuron counts for automaton simulation (the FA row's constants)
+- (P9A_P0) Morgenstern 1985 'How to compute fast a function and all its derivatives' - the constructive Baur-Strassen constant
+- (P9A_P0) Griewank 1992 checkpointing (log time/space) - the memory price of the cheap gradient
+- (P9A_P0) Barak et al. 2022 'Hidden progress in deep learning: SGD learns parities near the computational limit' - progress measures with a theorem
+- (P9A_P0) Thilak et al. 2022 slingshot mechanism; Varma et al. 2023 'Explaining grokking through circuit efficiency' (grokking without weight decay; efficiency-based explanation) - not read
+- (P9A_P0) Barham & Isard 2019 'Machine learning is stuck in a rut' - the quantitative capsule-network hardware case behind Hooker
+- (P9A_P0) Kautz 2020 'The third AI summer' (AAAI Engelmore lecture) - primary for the six types
+- (P9A_P0) Domingos & Lowd 2009 'Markov Logic' (book) and Poon & Domingos 2006 MC-SAT - inference cost rows for MLNs
+- (P9A_P0) Slot & van Emde Boas 1984 (STOC) 'On tape versus core' - the original invariance-thesis statement (P0 cites it via Accattoli-Dal Lago)
+- (P9A_P0) Linnainmaa 1970/1976, Speelpenning 1980, Werbos 1974 - priority for reverse mode (cited in Baydin)
+- (P9B_P3P4) Blum, Furst, Jackson, Kearns, Mansour, Rudich 1994 (SQ-dimension characterization, Thm 12) - the actual source of the parity SQ lower bound.
+- (P9B_P3P4) Blum, Kalai, Wasserman 2003 JACM (SQ strictly inside noisy-PAC; 2^{O(n/log n)} noisy parity) - read in full here; deserves its own entry as the noise-axis flip.
+- (P9B_P3P4) Abbe & Sandon 2020 (single-example SGD simulates any poly-time learner) - the b = 1 origin of entry 9.
+- (P9B_P3P4) Feldman 2009 COLT 'Robustness of evolvability' and Feldman 2011 COLT 'Distribution-independent evolvability of linear threshold functions' (loss-function axis of the evolvability phase).
+- (P9B_P3P4) Kanade, Valiant, Vaughan 2010 'Evolution with drifting targets' - drift-rate axis (Delta <= 1/(16 b(n,1/eps))) matching ECOLOGY_CONTRACT_V1's drift_process; read here, should be its own entry.
+- (P9B_P3P4) Chase & Freitag 2020 (query learning bounds via Littlestone and consistency dimension) - architecture-free coordinates for the query-learning regime.
+- (P9B_P3P4) Chalermsook, Laekhanukit, Nanongkai 2014 (n^{1-eps} inapproximability of MinConDFA) and Daniely-Vardi 2021 (uniform-distribution DFA hardness from local PRGs).
+- (P9B_P3P4) Angluin & Kharitonov 1995 'When won't membership queries help?' - the other side of the verification-contract axis (queries do not help for DNF).
+- (P9B_P3P4) Blum & Rivest 1992 (training a 3-node network is NP-complete) - cited by Abbe et al.; the neural-side analogue of Gold.
+- (P9B_P3P4) Feldman, Guzman, Vempala 2015 (approximate-gradient methods are SQ algorithms) - the bridge used by SSS17.
+- (P9B_P3P4) Blanc, Koch, Lange, Strassle, Tan 2025 'Samplability makes learning easier' - distribution-complexity axis (exponential VC yet poly-sample learnable under samplable D).
+- (P9B_P3P4) Collins, Sohl-Dickstein, Sussillo 2016 (constant bits per parameter) - used by GPICL to explain the memorization regime; a capacity-axis parent.
+- (P9B_P3P4) Chan et al. 2022 'Data distributional properties drive emergent in-context learning in transformers' - independent evidence for the task-distribution axis.
+- (P9B_P3P4) Attias, Reyzin, Srebro, Vardi 2025 - description-length dependence of learnability across equivalent representations (DFA vs NFA vs RE), directly relevant to defining morphology classes by resource rather than by language.
