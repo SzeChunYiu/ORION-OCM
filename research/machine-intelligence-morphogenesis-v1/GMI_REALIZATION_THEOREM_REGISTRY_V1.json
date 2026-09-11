@@ -112,6 +112,16 @@
       "parent_owner": "counting/source coding plus minimal-state theory",
       "ocm_residual": "prevents false exponential current-state compression claims and separates state information from model/update complexity",
       "status": "SPECIFIED_AND_FINITE_CALIBRATED"
+    },
+    {
+      "id": "GMI-RP12",
+      "name": "Exact realization-signature capacity bound",
+      "class": "PARENT_COUNTING_BOUND",
+      "statement": "For a finite registered obligation set with K distinct realization-ranking equivalence classes, any exact sufficient demand signature must take at least K distinct values. A fixed b-bit exact signature therefore requires b >= ceil(log2 K).",
+      "assumptions": ["finite registered obligation set", "fixed candidate realization set and comparison semantics", "exact ranking sufficiency", "fixed-length b-bit signature for the bit corollary"],
+      "parent_owner": "pigeonhole / information-counting argument",
+      "ocm_residual": "prevents treating one tiny feature vector as a universally complete morphology-demand coordinate system",
+      "status": "SPECIFIED"
     }
   ],
   "required_finite_calibrations": [
@@ -121,7 +131,8 @@
     "discovery_cost_reversal",
     "semantic_inadmissibility_exclusion",
     "bounded_search_misses_normative_optimum",
-    "semantic_state_bits_vs_global_model_enumeration"
+    "semantic_state_bits_vs_global_model_enumeration",
+    "coarse_signature_collision_with_different_realization_ranking"
   ],
   "forbidden_inference": [
     "new theorem from Python calibration",
@@ -129,7 +140,8 @@
     "phase law from post-hoc architecture labels",
     "morphogenesis claim from normative optimum alone",
     "efficiency win from weakened verifier/capability semantics",
-    "exponential current-state information cost inferred from exponentially many global configurations"
+    "exponential current-state information cost inferred from exponentially many global configurations",
+    "universal exact morphology prediction from a fixed tiny signature whose value capacity is smaller than the ranking-class count"
   ],
   "terminal": "GMI_REALIZATION_THEOREM_REGISTRY_V1_FROZEN"
 }
