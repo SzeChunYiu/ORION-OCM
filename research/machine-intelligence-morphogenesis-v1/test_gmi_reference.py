@@ -78,4 +78,5 @@ def test_lifecycle_phase_boundary():
 
 
 def test_history_rank_shift_is_pre_solution_information_gain_proxy():
-    assert median_rank_information_shift([64, 32, 16], [8, 16, 8]) == 2.0
+    # log2 shifts are [3, 1, 1], so the median is exactly 1 bit.
+    assert median_rank_information_shift([64, 32, 16], [8, 16, 8]) == 1.0
