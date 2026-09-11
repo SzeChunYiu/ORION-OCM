@@ -104,10 +104,17 @@ small-horizon ecology built to test distance, not economics.
 
 | ecology | composition depth | probe depth 3 | probe depth = history | task-statement rule |
 |---|---|---|---|---|
-| FOREIGN_M1 | ≤ 3 | **−26 % vs parent** | running | lost |
+| FOREIGN_M1 | ≤ 3 | **−26 % vs parent** | coverage-depth: +22 % vs RESET ✗ → cost-depth running | lost |
+| E7 (43 targets) | ≤ 3 | **−37 % vs parent** (served 49 %) | — | lost (−7 %) |
 | life_3001 / 3003 | ≤ 3 | **−49 % vs parent** | — | (oracle-feature ceiling only) |
 | D2 (pure d = 2) | 4 | −7 % vs RESET (overhead) | **−46 % vs parent** | −7.6 % vs parent |
 | FV8 | 4 | −15 % vs RESET (overhead) | running | −1 % vs RESET |
 
+E7 adds a fourth ecology where the depth-3 probe wins (RESET 62 935 · parent 58 636 ·
+**probe 36 970** · oracle 32 731), recovering 86 % of the oracle gap by serving on
+half the targets. The composed gate (probe → rule on a miss) was uninformative at
+coverage depth 4 on FOREIGN_M1 — with 92.5 % probe hits the rule almost never engaged —
+and is re-evaluated under the cost-depth rule.
+
 The probe with history-learned depth is the strongest deployable form everywhere it has
-been run. The composed gate (probe → rule on miss) is running where the probe misses.
+been run *when the depth is chosen by expected cost*; the coverage rule is retired. The composed gate (probe → rule on miss) is running where the probe misses.
