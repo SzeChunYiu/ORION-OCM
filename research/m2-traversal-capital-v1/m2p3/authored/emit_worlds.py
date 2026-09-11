@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""
+Deterministic emitter for hidden-chunk arithmetic puzzle worlds.
+
+Each world hides a set of 4-8 chunks (operation sequences of length 2-3).
+Members of a world are polynomials whose canonical builder both:
+  1. Decomposes exactly into the world's chunks
+  2. Has length >= min_builder_length
+
+This emitter produces worlds.jsonl in the current working directory.
+"""
+
+import json
+
+
+def emit_worlds():
+    """Generate all puzzle worlds deterministically."""
+
+    worlds = [
+        {
+            "world_id": "linear_doubling",
+            "chunks": [
+                ["add1", "add1"],
+                ["dbl", "add1"],
+                ["sub1", "dbl"],
+                ["add1", "dbl"]
+            ],
+            "min_builder_length": 4,
+            "part_fractions": {"initial": 0.50, "tuning": 0.25, "future": 0.25},
+            "surface": {
+                "name": "Linear Doubling",
+                "theme": "Linear transformations with doubling emphasis"
+            },
+            "intent": {
+                "intent_role": "audit_only",
+                "expected_chunk_patterns": "Doubling pairs with shifts; linear polynomials",
+                "expected_diversity": "Moderate, focused on coefficients 1-8"
+            }
+        },
+        {
+            "world_id": "quadratic_entry",
+            "chunks": [
+                ["sqr", "add1"],
+                ["sqr", "sub1"],
+                ["add1", "sqr"],
+                ["sub1", "sqr"]
+            ],
+            "min_builder_length": 4,
+            "part_fractions": {"initial": 0.55, "tuning": 0.20, "future": 0.25},
+            "surface": {
+                "name": "Quadratic Entry",
+                "theme": "Squaring with unit shifts in both orders"
+            },
+            "intent": {
+                "intent_role": "audit_only",
+                "expected_chunk_patterns": "Squaring dominates all members",
+                "expected_diversity": "Compact quadratic family"
+            }
+        },
+        {
+            "world_id": "three_op_builders",
+            "chunks": [
+                ["add1", "add1", "add1"],
+                ["dbl", "dbl", "add1"],
+                ["sqr", "add1", "sub1"],
+                ["sub1", "sub1", "dbl"]
+            ],
+            "min_builder_length": 6,
+            "part_fractions": {"initial": 0.50, "tuning": 0.25, "future": 0.25},
+            "surface": {
+                "name": "Three-Op Builders",
+                "theme": "All chunks are 3-operation sequences"
+            },
+            "intent": {
+                "intent_role": "audit_only",
+                "expected_chunk_patterns": "Forced to use exactly 2+ chunks (min length 6)",
+                "expected_diversity": "Smallest valid decompositions only"
+            }
+        },
+        {
+            "world_id": "mixed_lengths",
+            "chunks": [
+                ["add1", "add1"],
+                ["dbl", "add1"],
+                ["add1", "add1", "add1"],
+                ["dbl", "dbl", "sub1"]
+            ],
+            "min_builder_length": 5,
+            "part_fractions": {"initial": 0.55, "tuning": 0.20, "future": 0.25},
+            "surface": {
+                "name": "Mixed Lengths",
+                "theme": "Balanced 2-op and 3-op chunks"
+            },
+            "intent": {
+                "intent_role": "audit_only",
+                "expected_chunk_patterns": "Flexible interleaving of 2 and 3-op chunks",
+                "expected_diversity": "High, multiple builder lengths enabled"
+            }
+        },
+        {
+            "world_id": "expansive_set",
+            "chunks": [
+                ["add1", "add1"],
+                ["sub1", "sub1"],
+                ["dbl", "add1"],
+                ["add1", "dbl"],
+                ["dbl", "sub1"],
+                ["sub1", "dbl"],
+                ["sqr", "add1"],
+                ["add1", "sqr"]
+            ],
+            "min_builder_length": 4,
+            "part_fractions": {"initial": 0.50, "tuning": 0.25, "future": 0.25},
+            "surface": {
+                "name": "Expansive Set",
+                "theme": "Largest allowed chunk set with all 2-op chunks"
+            },
+            "intent": {
+                "intent_role": "audit_only",
+                "expected_chunk_patterns": "Symmetric pairing (e.g., [dbl,add1] vs [add1,dbl])",
+                "expected_diversity": "Very high, unrestricted combinations"
+            }
+        },
+        {
+            "world_id": "hybrid_composition",
+            "chunks": [
+                ["add1", "add1"],
+                ["dbl", "dbl"],
+                ["sqr", "sub1"],
+                ["add1", "dbl", "add1"],
+                ["sqr", "add1", "dbl"],
+                ["dbl", "sub1", "add1"]
+            ],
+            "min_builder_length": 5,
+            "part_fractions": {"initial": 0.55, "tuning": 0.20, "future": 0.25},
+            "surface": {
+                "name": "Hybrid Composition",
+                "theme": "Strategic 3-3 split of 2-op and 3-op chunks"
+            },
+            "intent": {
+                "intent_role": "audit_only",
+                "expected_chunk_patterns": "Balanced mix enables many compositions",
+                "expected_diversity": "Moderate to high"
+            }
+        },
+        {
+            "world_id": "escalating_complexity",
+            "chunks": [
+                ["add1", "sub1"],
+                ["dbl", "add1"],
+                ["dbl", "sub1"],
+                ["add1", "add1", "dbl"],
+                ["sqr", "add1", "add1"],
+                ["add1", "sqr", "sub1"],
+                ["dbl", "dbl", "add1"]
+            ],
+            "min_builder_length": 4,
+            "part_fractions": {"initial": 0.50, "tuning": 0.25, "future": 0.25},
+            "surface": {
+                "name": "Escalating Complexity",
+                "theme": "3-4 split with more 3-op chunks than 2-op"
+            },
+            "intent": {
+                "intent_role": "audit_only",
+                "expected_chunk_patterns": "Simple 2-op chunks pair with complex 3-op",
+                "expected_diversity": "High, wide range of builder lengths"
+            }
+        }
+    ]
+
+    # Write one JSON object per line to worlds.jsonl in current directory
+    with open("worlds.jsonl", "w") as f:
+        for world in worlds:
+            f.write(json.dumps(world) + "\n")
+
+    print(f"Wrote {len(worlds)} worlds to worlds.jsonl")
+
+
+if __name__ == "__main__":
+    emit_worlds()
