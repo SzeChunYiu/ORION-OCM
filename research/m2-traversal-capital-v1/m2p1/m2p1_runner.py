@@ -22,7 +22,7 @@ LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
 ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "CONTINUED_MDL",
         "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT",
-        "PARENT_WITH_MDL", "CONTINUED_OCM", "CONTINUAL_OCM")
+        "PARENT_WITH_MDL", "CONTINUED_OCM", "CONTINUAL_OCM", "CONTINUAL_OCM_NOREC")
 CALIBRATION_ONLY = ("ORACLE_FAMILY",)
 
 
@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.5"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "version": "continual_v6"}
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -100,6 +100,11 @@ CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdo
 # v4: min_corpus 8 -> 12. On SHIFT45 the v3 attempt on an 8-program corpus failed validation and
 # charged 9 556 slots; the 13- and 24-program attempts (v2, v3) both deployed. Registered on
 # SHIFT45 and on a fresh shift world before the run.
+
+
+def _occurs(f, p):
+    n = len(f)
+    return any(tuple(p[i:i + n]) == tuple(f) for i in range(len(p) - n + 1))
 
 
 def _fit_controller(M, lib, val_rows):
@@ -166,31 +171,42 @@ def _fit_controller(M, lib, val_rows):
             "val_better": better, "val_n": len(deltas)}, charged
 
 
-def _remine(M, solved):
+def _remine(M, solved, pool=None):
     """Mine candidate libraries from the organism's own verified acquisitions and validate
     them on the most recent held-out slice. solved = [(task, SearchResult, B)] in order,
     RESTRICTED by the caller to the current regime (solutions since the last stand-down):
     continual_v1 mined a window that straddled the shift, so its first attempt learned
     the old regime and its second came too late to pay. Returns
     (controller_record or None, charged_slots, event)."""
-    if len(solved) < CONTINUAL["val_n"] + CONTINUAL["min_corpus"]:
+    # v6: a RECOMBINATION candidate built from retained capital only needs to be selected, not
+    # discovered, so it may be attempted with recomb_corpus corpus programs; full mining still
+    # needs min_corpus. pool = fragments of every retained library (None in the ablation arm).
+    full = len(solved) >= CONTINUAL["val_n"] + CONTINUAL["min_corpus"]
+    rec_ok = bool(pool) and len(solved) >= CONTINUAL["val_n"] + CONTINUAL["recomb_corpus"]
+    if not (full or rec_ok):
         return None, 0, {"skipped": "too few solutions in this regime", "regime_solved": len(solved)}
     val = solved[-CONTINUAL["val_n"]:]
     corpus = solved[-(CONTINUAL["mine_n"] + CONTINUAL["val_n"]):-CONTINUAL["val_n"]]
-    if len(corpus) < CONTINUAL["min_corpus"]:
-        return None, 0, {"skipped": "corpus too small", "corpus": len(corpus)}
+    full = full and len(corpus) >= CONTINUAL["min_corpus"]
     val_rows = [(t, r.program, b) for t, r, b in val]
     cands = {}
-    try:
-        cands["frequency"] = tuple(M.learn_generator([(t, r) for t, r, _ in corpus]).fragments)
-    except Exception:
-        cands["frequency"] = ()
-    try:
-        import m2_mdl_selection as _mdl
-        picked = [f for f in _mdl.mdl_select([r.program for _, r, _ in corpus], cap=16) if 2 <= len(f) <= 8][:16]
-        cands["mdl"] = tuple(tuple(f) for f in picked)
-    except Exception:
-        cands["mdl"] = ()
+    if full:
+        try:
+            cands["frequency"] = tuple(M.learn_generator([(t, r) for t, r, _ in corpus]).fragments)
+        except Exception:
+            cands["frequency"] = ()
+        try:
+            import m2_mdl_selection as _mdl
+            picked = [f for f in _mdl.mdl_select([r.program for _, r, _ in corpus], cap=16) if 2 <= len(f) <= 8][:16]
+            cands["mdl"] = tuple(tuple(f) for f in picked)
+        except Exception:
+            cands["mdl"] = ()
+    if rec_ok:
+        progs = [tuple(r.program) for _, r, _ in corpus if r.program]
+        cnt = {tuple(f): sum(1 for p in progs if _occurs(f, p)) for f in pool}
+        ranked = sorted((f for f in cnt if cnt[f] >= 2), key=lambda f: (-cnt[f], -len(f), f))[:CONTINUAL["recomb_size"]]
+        if ranked:
+            cands["recombined"] = tuple(ranked)
     # v5.5: a COMPACT-FREQUENCY candidate. s613: the 16-fragment frequency library is
     # complete but too fat for the probe (T = 20, depth 3 never pays), and greedy MDL from
     # 32 programs spends its slots on recurring motif pairs and stays incomplete (5/8
@@ -426,7 +442,7 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not dev["admission"]:
             return M.GeneratorMethod(), "learner refused deployment; refusal is first-class"
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), "admitted generator"
-    if arm in ("CONTINUED_OCM", "CONTINUAL_OCM"):
+    if arm in ("CONTINUED_OCM", "CONTINUAL_OCM", "CONTINUAL_OCM_NOREC"):
         # INTEGRATED DEVELOPMENTAL CONTROLLER: MDL selection -> probe with history-learned
         # depth -> task-statement rule on a miss -> liveness on the probe hit-rate.
         # Reads only the task statement, solved history and charged-action outcomes.
@@ -441,7 +457,8 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
                 ctl["probe_depth"], ctl["beta"], len(ctl["rule"]))
              + ("; CONTINUAL: re-mines from its own verified acquisitions while stood down "
                 "(corpus %d, held-out %d, min new %d), retains every library"
-                % (CONTINUAL["mine_n"], CONTINUAL["val_n"], CONTINUAL["min_new"]) if arm == "CONTINUAL_OCM" else ""))
+                % (CONTINUAL["mine_n"], CONTINUAL["val_n"], CONTINUAL["min_new"]) if arm.startswith("CONTINUAL") else "")
+             + ("; recombination of retained capital" if arm == "CONTINUAL_OCM" else (" (ablation: no recombination)" if arm == "CONTINUAL_OCM_NOREC" else "")))
     if arm == "PARENT_WITH_MDL":
         # FAIRNESS CONTROL. CONTINUED_MDL beating ORDINARY_ADAPTIVE_PARENT conflates two
         # things: the selection RULE (MDL vs frequency) and the OCM/parent distinction.
@@ -548,7 +565,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
         task = task_of(M, row, 20_000 + i)
         first_ok = None
         for q in ladder:
-            if arm == "CONTINUAL_OCM" and method.fragments:
+            if arm in ("CONTINUAL_OCM", "CONTINUAL_OCM_NOREC") and method.fragments:
                 # CONTINUAL DEVELOPMENT: the v3 controller, plus re-mining from the organism's
                 # own verified acquisitions while stood down. Reads only the task statement,
                 # its own solved history and charged-action outcomes; every probe, every
@@ -562,6 +579,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                       "library": "dev:" + c0.get("library", "mdl")}],
                             "active": None, "hits": [], "vals": [], "solved": [], "since_mine": 0, "events": [], "regime_start": 0}
                 C = P._c
+                use_pool = arm == "CONTINUAL_OCM"                # v6: the ablation never recombines
                 prog, used = None, 0
                 if C["active"] is not None:
                     L = C["libs"][C["active"]]
@@ -609,8 +627,10 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 prog, C["active"] = pr, k
                                 C["hits"] = [True]; C["vals"] = []   # v2: a fresh window for the reactivated library
                                 break
-                        if prog is None and C["since_mine"] >= CONTINUAL["min_new"]:
-                            rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):])
+                        pool = sorted({tuple(f) for Lp in C["libs"] for f in Lp["lib"]}) if use_pool else None
+                        need = (CONTINUAL["val_n"] + CONTINUAL["recomb_corpus"]) if pool else CONTINUAL["min_new"]
+                        if prog is None and C["since_mine"] >= need:
+                            rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):], pool)
                             used += charged
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
@@ -715,7 +735,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
            "successes_by_budget": {str(q): sum(1 for r in rows if r["budget_slots"] == q and r["verified"])
                                    for q in ladder},
            "rows": rows, "wall_seconds": round(time.perf_counter() - t0, 2)}
-    if arm == "CONTINUAL_OCM" and hasattr(phase_acquire, "_c"):
+    if arm in ("CONTINUAL_OCM", "CONTINUAL_OCM_NOREC") and hasattr(phase_acquire, "_c"):
         C = phase_acquire._c
         rep["continual"] = {"libraries_retained": len(C["libs"]),
                             "libraries": [{k: v for k, v in L.items() if k != "rule"} for L in C["libs"]],
