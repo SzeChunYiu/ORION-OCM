@@ -1,0 +1,107 @@
+{
+  "schema": "GMIE3CodeH0AdapterV1",
+  "status": "INSTRUMENTATION_CONTRACT_ONLY__NO_H0_OUTCOME_IN_THIS_TRANCHE",
+  "owner_issue": 208,
+  "target_episode_schema": "GMIRealCognitionEpisodeV1",
+  "source_trace_fields_from_issue_208": [
+    "TaskIdentity",
+    "RunIdentity",
+    "ModelIdentity",
+    "HarnessIdentity",
+    "OCMStateIdentity",
+    "initial_observations",
+    "hypotheses_plans",
+    "files_inspected",
+    "commands_tool_calls",
+    "patch_candidates",
+    "checker_test_outcomes",
+    "failed_attempts",
+    "accepted_rejected_evidence",
+    "methods_operators_retrieved",
+    "methods_operators_consumed",
+    "new_learned_objects",
+    "resource_vector",
+    "final_terminal"
+  ],
+  "mapping": {
+    "episode_identity": {
+      "task_id": "TaskIdentity",
+      "run_id": "RunIdentity",
+      "arm_id": "HarnessIdentity + OCM treatment identity",
+      "domain": "constant EXECUTION_VERIFIED_CODE"
+    },
+    "starting_developmental_situation": {
+      "machine_configuration_digest": "ModelIdentity + HarnessIdentity + OCMStateIdentity + tool/environment bindings",
+      "registered_history_digest": "digest of persistent history made legally available before target",
+      "public_ecology_authority_context_digest": "task/repository/environment/tool/verifier policy digest"
+    },
+    "morphology_realization": {
+      "F_factorization_identity": "harness/module/memory/skill organization identity",
+      "Theta_mutable_state_digest": "OCMStateIdentity or matched parent persistent-state digest",
+      "K_execution_kernel_identity": "model+harness proposal/planning/tool dynamics",
+      "U_update_law_identity": "registered memory/skill/OCM update law",
+      "Gamma_morphogenesis_identity_or_none": "none unless separately registered",
+      "kappa_semantic_adapter_identity": "repository/task adapter identity",
+      "rho_resource_semantics_id": "GMI_E3_RAW_RESOURCES_V1"
+    },
+    "pre_solution_trace": {
+      "proposal_events": "hypotheses_plans + patch_candidates",
+      "retrieval_events": "methods_operators_retrieved",
+      "tool_calls": "commands_tool_calls",
+      "verification_calls": "checker_test_outcomes",
+      "failure_events": "failed_attempts + rejected evidence",
+      "retrieved_assets": "methods_operators_retrieved",
+      "consumed_assets": "methods_operators_consumed"
+    },
+    "outcome": {
+      "terminal": "final_terminal mapped through GMI E3 verification semantics",
+      "capability_vector": "build/test/regression/requirement/false-completion coordinates",
+      "partial_certificate_or_none": "registered executable partial progress if any"
+    },
+    "ending_developmental_situation": {
+      "new_persistent_objects": "new_learned_objects",
+      "post_task_update_receipts": "governed update/admission/revision receipts"
+    }
+  },
+  "required_additional_h0_receipts": [
+    "repository_commit_digest",
+    "environment_image_or_dependency_digest",
+    "public_test_digest",
+    "protected_test_digest_or_external_evaluator_identity",
+    "model_checkpoint_or_service_identity",
+    "system_prompt_family_digest",
+    "tool_permission_digest",
+    "starting_persistent_state_digest",
+    "ending_persistent_state_digest",
+    "all_targets_or_required_checks_accounted_for",
+    "raw GMI_E3 resource vector"
+  ],
+  "k1_instrumentation": {
+    "record_now_even_before_claim": [
+      "ordered localization hypotheses where available",
+      "ordered repair/method proposals where available",
+      "patch candidate order",
+      "failed hypothesis signature",
+      "whether retrieved/learned object was actually consumed before decisive step"
+    ],
+    "rule": "Instrumentation may be recorded in H0; no K1 claim from H0 mechanics. A future K1 study must freeze the mediator before protected outcome access."
+  },
+  "parent_matching_obligation": [
+    "same foundation model identity",
+    "same repository/task information",
+    "same shell/git/search/edit/test tools",
+    "same protected verifier feedback bandwidth",
+    "same context/resource ceilings unless explicitly modeled",
+    "ordinary parent may use persistent memory/reflection/skill library powers not uniquely OCM-specific"
+  ],
+  "forbidden_adapter_behavior": [
+    "adapter contains gold patch or target-specific route",
+    "adapter sees protected test details unavailable to matched arms",
+    "adapter performs hidden model calls not charged",
+    "adapter silently drops failed/censored tasks",
+    "adapter converts public memorized patch into K1 evidence",
+    "adapter grants OCM a verifier feedback channel denied to parents"
+  ],
+  "h0_exit": "GMI_E3_CODE_H0_INSTRUMENTATION_GREEN",
+  "h0_negative": "GMI_E3_CODE_H0_ADAPTER_DEFECT_<reason>"
+}
