@@ -32,8 +32,22 @@ def test_generality_is_partial_order_across_registered_ecologies():
         "smooth": [FrontierPoint((1.0,), (7.0,))],
         "exact": [FrontierPoint((1.0,), (3.0,))],
     }
-    assert profile_dominance(a, b) == (False, True)
-    assert profile_dominance(b, a) == (False, True)
+    # Each wins one ecology; neither dominates the registered family.
+    assert profile_dominance(a, b) == (False, False)
+    assert profile_dominance(b, a) == (False, False)
+
+
+def test_family_wide_strict_dominance_requires_no_losses():
+    a = {
+        "e1": [FrontierPoint((1.0,), (2.0,))],
+        "e2": [FrontierPoint((1.0,), (3.0,))],
+    }
+    b = {
+        "e1": [FrontierPoint((1.0,), (4.0,))],
+        "e2": [FrontierPoint((1.0,), (3.0,))],
+    }
+    assert profile_dominance(a, b) == (True, True)
+    assert profile_dominance(b, a) == (False, False)
 
 
 def test_declared_scalarization_can_reverse_rankings():
