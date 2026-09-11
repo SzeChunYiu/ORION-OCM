@@ -1296,3 +1296,36 @@ where v6.10hi reached 9 / 12 and K1-L's own replication 9 / 12. The regime-C bar
 missed once (8 / 12), is the remaining obstacle; it is the recombination regime already recorded as C3
 NOT_ESTABLISHED, and the revived-library losses attributed above land in the same window.
 
+## CORRECTED: the v6.11 replication's regime-C failure is not the revived-library defect
+
+The replication outcome above says the revived-library losses "land in the same window". Checked per run
+(every v6.11 lifetime, 38 runs): a library that had already failed in deployment failed **again** on only
+**three** runs — diagnostic seeds s626, s629 and s672. The four replication seeds that missed the regime-C bar
+(s695, s699, s702, s705) had **no** repeat failures (s695 and s699 no failed deployment at all). The revived-library
+defect is real but explains three diagnostic seeds, not the replication failure. Regime C above RESET on seeds
+without it (also s636, s662, s679, s689) is the recombination negative already recorded as C3 NOT_ESTABLISHED.
+
+## controller_v5 — hc10 (records on LUNARC `runs/…hc10…_ocm5`)
+
+hc10 under controller_v5: integrated **8 521** against the strongest parent (PARENT_WITH_MDL) **13 760**,
+**−38.1 %**, meeting the registered bar (≤ 13 760); every arm verifies 163 / 163. With hc01 −14.4 %, hc03 −50.0 %,
+hc05 −30.2 %, hc06 −50.0 %, hc08 −20.3 %, hc09 −15.8 %, controller_v5 beats the strongest parent on **7 / 7**
+authored worlds finished so far; hc02 is still running, and the 8 / 8 prediction stays open until it reports.
+
+## v6.12 diagnostics (registered 2026-09-11, before any run; neither is a K1 test)
+
+**Stop-rule note.** The v6.11 stop rule reads: "the next attempt must change the evidence bar itself (the lock-out
+criterion), not add a further trigger." Its premise was a lifetime or lock-out failure; the observed failure is
+regime C, with the lock-out on one seed in twelve. Neither diagnostic below is a K1 attempt: they target two
+attributed defects, and a later K1 test would need its own registration on seeds ≥ 706.
+
+- **v6.12(p) — failed libraries stay retired** (`M2_V612P`, on the v6.11 base). A library that lost value in
+  deployment is not un-retired by any regime change. Falsifiers: on s626, s629 and s672 **zero repeat failures** of an
+  already-failed library, and lifetime at or below v6.11 on each; on the six v6.11 runs with **no** failed deployment
+  (s623, s628, s647, s634, s658, s670) the liveness log is **identical** to v6.11. Inertness baseline is v6.11
+  itself (s603's +2.5 % is already recorded against v6.10hi and is not re-counted).
+- **v6.12(s) — spacing bounds spending** (`M2_V612S`, one variable, on the v6.11 base). A failed re-mining attempt that
+  charged nothing retries at the v4.2 spacing; a charged failure keeps v6.8(d)'s. Target: the standing v6.9
+  E7 → E8m7 falsification (20 511 vs ≤ 14 732; ledger row 41). Falsifier: E7 → E8m7 ≤ 14 732 with its first deployment
+  at target 24; the other two cross-world pairs, E5, FV6 and FV8 within + 2 % of v6.11.
+
