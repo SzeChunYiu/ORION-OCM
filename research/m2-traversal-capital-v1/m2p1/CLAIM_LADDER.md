@@ -67,3 +67,8 @@ failure-evidence lock-out. A narrower lifetime claim (K1-L) is registered under 
 own stop rule. The rung remains **C2**; the standing K1 positives are regime shifts (12/12) and
 cross-world acquisition (3/3), both under the unchanged v6.6 defaults.
 
+**Update (2026-09-11, late).** **K1-L — lifetime advantage on mixed regimes — PASSED** on fresh seeds under
+continual_v6.10hi (lifetime below the fixed controller 11/11 and below RESET 11/11 gated seeds, all targets
+verified), attributed to a decision-invariant futility repair of a failure-evidence lock-out. Full K1 stays
+NOT_ESTABLISHED; a fresh full-K1 test under v6.10hi is registered as a new claim. Rung remains **C2**.
+
