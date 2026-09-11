@@ -40,6 +40,13 @@ COEFFS_V1 = (0.25, 0.5, -0.25, 0.5)  # frozen E_smooth target coefficients
 COEFFS_V2 = (0.5, -0.5, 0.25, 0.75)  # RV-377-009 fresh ecology E_smooth2 (0.75 not in the S2 grammar)
 COEFFS_V3 = (0.5, 0.25, -0.5, 0.375)  # RV-377-017 fresh ecology E_smooth3 (0.375 not in the grammar); generalization criterion
 UNSEEN = [x for x in ALL_X if x not in TRAIN]
+TRAIN_MIXED = [0, 3, 5, 6, 7, 11, 13, 14]  # RV-377-022: 4 even-parity + 4 odd-parity seen inputs (unseen: 9, 10, 12, 15 even; 1, 2, 4, 8 odd); no linear program of the grammar fits the seen labels (x=3,5,6 force c0=c1=c2=0, then x=7 fails)
+
+
+def set_train(train):
+    """Module-level switch of the seen set (frozen default TRAIN is the even-parity coset; see RV-377-020/022)."""
+    global TRAIN, UNSEEN
+    TRAIN = list(train); UNSEEN = [x for x in ALL_X if x not in TRAIN]
 
 
 def make_parity_target():
@@ -200,6 +207,38 @@ class S5Memory:
         M.op("S_DELETE", "mem", x)
 
 
+class S5KNN:
+    """RV-377-021 declared third class: exemplar memory with Hamming-nearest-neighbour averaging (a GENERALIZING memory
+    form). query(x): scan stored (k, v); d = popcount(k XOR x) charged bit by bit; keep the minimum-distance entries and
+    return their average (sum SHR log2(count), count in {1, 2, 4} on this input set). Update = insert/delete (local)."""
+    row = "S5k"; ladder = (2, 4)
+
+    def __init__(self, n): self.n = n
+
+    def init(self, M):
+        M.declare_store("mem"); M.declare_program(14)
+        for i in range(self.n - 1): M.op("S_INSERT", "mem", 100 + i, 0)
+
+    def query(self, M, x):
+        best_d, acc, cnt = 5, 0, 0
+        for k, v in M.op("S_SCAN", "mem"):
+            if k >= 100: M.op("GT", k, 99); continue
+            z = M.op("XOR", k, x); d = 0
+            for i in range(4):
+                d = M.op("ADD", d, M.op("AND", M.op("SHR", z, i) if i else z, 1))
+            if M.op("GT", best_d, d): best_d, acc, cnt = d, v, 1
+            elif M.op("EQ", d, best_d): acc = M.op("ADD", acc, v); cnt = M.op("INC", cnt)
+        if cnt == 0: return 0
+        while cnt > 1: acc = M.op("SHR", acc, 1); cnt = M.op("SHR", cnt, 1)
+        return acc
+
+    def feedback(self, M, x, y):
+        M.op("S_DELETE", "mem", x); M.op("S_INSERT", "mem", x, y)
+
+    def revoke(self, M, x):
+        M.op("S_DELETE", "mem", x)
+
+
 class S3Particles:
     row = "S3"; ladder = (4, 8)
 
@@ -247,8 +286,9 @@ class S3Particles:
 
 ROWS = {"S4": S4Net, "S2": S2Search, "S5": S5Memory, "S3": S3Particles}
 ROWS_V3 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S5": S5Memory, "S3": S3Particles}
+ROWS_V4 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5k": S5KNN, "S5": S5Memory, "S3": S3Particles}
 DENSE = {"S4", "S3"}
-LOCAL = {"S2", "S2a", "S5"}
+LOCAL = {"S2", "S2a", "S5", "S5k"}
 
 
 def run(row, basis, size, seed=0, target=None, n_events=None, rows=None, criterion="all"):
@@ -355,7 +395,7 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
                "claim_ceiling": "P2 exact at a 16-input, 8-bit scope; one target; frozen cost model; the S2 grammar contains the target by construction (declared), which is the exact-search advantage the Abbe/Shalev-Shwartz reading predicts."}
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
     json.dump(receipt, open(os.path.join(RES, f"STAGE_DE_SMOOTH_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
-    L = [f"# Stage D'/E' — smooth-generalization ecology: report {tag}\n", f"Target coefficients {list(coeffs)}. Receipt `STAGE_DE_SMOOTH_{tag}.json` (sha256 `{receipt['receipt_sha256'][:16]}…`). 16 inputs, 8 seen; θ = {THETA}; rows S4 (gradient net), S2 (exact linear search, grammar of {len(GRAMMAR)}), S5 (exemplar memory), S3 (particles over the grammar).\n",
+    L = [f"# Stage D'/E' — smooth-generalization ecology: report {tag}\n", f"Target coefficients {list(coeffs) if coeffs is not None else '(none: parity target, PH-5 control)'}. Receipt `STAGE_DE_SMOOTH_{tag}.json` (sha256 `{receipt['receipt_sha256'][:16]}…`). 16 inputs, 8 seen; θ = {THETA}; rows S4 (gradient net), S2 (exact linear search, grammar of {len(GRAMMAR)}), S5 (exemplar memory), S3 (particles over the grammar).\n",
          "## Capability after the protocol (largest ladder size, by column)\n", "| row | " + " | ".join(c.split('_')[0] for c in cols) + " |", "|---|" + "---|" * len(cols)]
     for row, cls in rows.items():
         L.append(f"| {row}@{cls.ladder[-1]} | " + " | ".join(str(caps[f"{row}|{c}|{cls.ladder[-1]}"]) for c in cols) + " |")
@@ -378,7 +418,18 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "parity":
+    if len(sys.argv) > 1 and sys.argv[1] == "parity_mixed":
+        # RV-377-022: PH-5 on a balanced seen/unseen parity split (both labels seen and unseen)
+        set_train(TRAIN_MIXED)
+        main(coeffs=None, tag="V5B_PARITY_PH5_MIXED", n_events=16, rows=ROWS_V3, criterion="unseen", target=make_parity_target())
+    elif len(sys.argv) > 1 and sys.argv[1] == "sym":
+        # RV-377-021: symmetric-coefficient ecology E_sym(a), a = k/16 given as the integer k; rows ROWS_V4 (S5k = kNN memory)
+        k = int(sys.argv[2]); a = k / 16
+        main(coeffs=(a, a, a, a), tag=f"V6_SYM{k}", n_events=16, rows=ROWS_V4, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "smooth3_calib":
+        # RV-377-021 calibration: ROWS_V4 (adds S5k) on the already-adjudicated E_smooth3; used only for S5k's per-event costs
+        main(coeffs=COEFFS_V3, tag="V4B_SMOOTH3_ROWS_V4_CALIB", n_events=16, rows=ROWS_V4, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "parity":
         main(coeffs=None, tag="V5_PARITY_PH5", n_events=16, rows=ROWS_V3, criterion="unseen", target=make_parity_target())
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth3":
         main(coeffs=COEFFS_V3, tag="V4_SMOOTH3_GEN", n_events=16, rows=ROWS_V3, criterion="unseen")

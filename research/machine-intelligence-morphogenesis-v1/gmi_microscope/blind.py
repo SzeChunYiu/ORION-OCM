@@ -264,9 +264,39 @@ def ecologies(run3=False, run4=False):
     return {"E_bind": e_bind, "E_smooth": e_smooth}
 
 
+DIVERSITY_SIGNS = ((1, 1, 1, 1), (-1, -1, -1, -1), (1, -1, 1, -1), (-1, 1, -1, 1))  # RV-377-023: four fixed sign patterns on the four MAJOR coefficients
+
+
+def ecology_div():
+    """RV-377-023 task-DIVERSITY ecology E_smooth8_div: the same train set and protocol as E_smooth8, but the candidate is
+    scored on FOUR fixed targets (the E_smooth8 coefficients with the major-coefficient signs flipped per DIVERSITY_SIGNS,
+    minor coefficients unchanged); fitness = mean score. A fixed program cannot fit all four; a learner fits each."""
+    targets = []
+    for signs in DIVERSITY_SIGNS:
+        coeffs = [c * (signs[i] if i < 4 else 1) for i, c in enumerate(SMOOTH8_COEFFS)]
+        targets.append({x: clamp(fx(sum(c * ((x >> i) & 1) for i, c in enumerate(coeffs)))) for x in range(256)})
+    return {"kind": "smooth_div", "train": SMOOTH8_TRAIN, "all_x": list(range(256)), "targets": targets, "target": targets[0], "events": 32, "signs": DIVERSITY_SIGNS}
+
+
+def run_candidate_div(cand, eco, seed=0):
+    """Mean over the diversity targets of run_candidate; writes/store flags aggregated by max/any; cost summed."""
+    rs = [run_candidate(cand, dict(eco, kind="smooth", target=t), seed) for t in eco["targets"]]
+    cost = {}
+    for r in rs:
+        for k, v in r["cost"].items(): cost[k] = cost.get(k, 0) + v
+    return {"score": round(sum(r["score"] for r in rs) / len(rs), 4), "per_target_scores": [r["score"] for r in rs], "cost": cost,
+            "max_writes": max(r["max_writes"] for r in rs), "used_store": any(r["used_store"] for r in rs), "n_fx_cells_written": max(r["n_fx_cells_written"] for r in rs)}
+
+
 PLANTED_LEARNER_SMOOTH8 = {  # hand-written 4-coefficient gradient learner inside the SAME grammar (depth 3, 4 writes): existence check for RV-377-015
     "f": ["ADD", ["ADD", ["MUL", "c0", "x0"], ["MUL", "c1", "x1"]], ["ADD", ["MUL", "c2", "x2"], ["MUL", "c3", "x3"]]],
     "g": [["c0", ["SUB", "c0", ["MUL", "e", "x0"]]], ["c1", ["SUB", "c1", ["MUL", "e", "x1"]]], ["c2", ["SUB", "c2", ["MUL", "e", "x2"]]], ["c3", ["SUB", "c3", ["MUL", "e", "x3"]]]],
+}
+
+
+PLANTED_LEARNER_SMOOTH8_LR4 = {  # the RV-377-015 diagnosis learner (learning rate 1/4 via the kq leaf, update depth 3): scores 0.9258 on E_smooth8 (the existence certificate cited by RUN6/RUN7)
+    "f": ["ADD", ["ADD", ["MUL", "c0", "x0"], ["MUL", "c1", "x1"]], ["ADD", ["MUL", "c2", "x2"], ["MUL", "c3", "x3"]]],
+    "g": [[f"c{i}", ["SUB", f"c{i}", ["MUL", ["MUL", "e", "kq"], f"x{i}"]]] for i in range(4)],
 }
 
 
@@ -311,15 +341,16 @@ def mutate_gp(rng, cand, depth_f=3):
     return c
 
 
-def evolve(ecology, rng, seed, P=100, S=25, evaluations=100000, log_every=10000):
+def evolve(ecology, rng, seed, P=100, S=25, evaluations=100000, log_every=10000, evaluate=None):
     """Regularized (aging) evolution, Real et al. 2019 Alg. 1, with genotype caching; fitness = (score, -charged cost)."""
     from collections import deque
+    evaluate = evaluate or run_candidate
     cache = {}; n_eval = 0; hits = 0
     def ev_c(c):
         nonlocal n_eval, hits
         k = json.dumps(c, sort_keys=True)
         if k in cache: hits += 1; return cache[k]
-        r = run_candidate(c, ecology, seed); cache[k] = r; n_eval += 1; return r
+        r = evaluate(c, ecology, seed); cache[k] = r; n_eval += 1; return r
     key = lambda cr: (cr[1]["score"], -sum(cr[1]["cost"].values()))
     pop = deque()
     while len(pop) < P:
@@ -337,17 +368,19 @@ def evolve(ecology, rng, seed, P=100, S=25, evaluations=100000, log_every=10000)
     return best, list(pop), traj, n_eval, hits
 
 
-def main_evolve(seed, evaluations=100000, tag="RUN7_SMOOTH8_REGEVO", P=100, S=25):
+def main_evolve(seed, evaluations=100000, tag="RUN7_SMOOTH8_REGEVO", P=100, S=25, diversity=False):
     """RV-377-018: regularized evolution on E_smooth8 with the RV-016 grammar (G_DEPTH 3), dead-write elimination and the
-    INERT-aware classifier. Existence certified (planted learner 0.9258). Writes STAGE_F_BLIND_RECOVERY_<tag>_S<seed>.json."""
+    INERT-aware classifier. Existence certified (planted learner 0.9258). Writes STAGE_F_BLIND_RECOVERY_<tag>_S<seed>.json.
+    diversity=True (RV-377-023): the same search on E_smooth8_div (four sign-flipped targets, mean score)."""
     global G_DEPTH
     G_DEPTH = 3; set_bits(8)
     rng = random.Random(seed)
-    e = ecologies(run4=True)["E_smooth8"]
-    best, pop, traj, n_eval, hits = evolve(e, rng, seed, P=P, S=S, evaluations=evaluations)
+    e = ecology_div() if diversity else ecologies(run4=True)["E_smooth8"]
+    evaluate = run_candidate_div if diversity else run_candidate
+    best, pop, traj, n_eval, hits = evolve(e, rng, seed, P=P, S=S, evaluations=evaluations, evaluate=evaluate)
     theta = THETA_SMOOTH
     def canon(c, r):
-        c2, dropped = eliminate_dead_writes(c); r2 = run_candidate(c2, e, seed)
+        c2, dropped = eliminate_dead_writes(c); r2 = evaluate(c2, e, seed)
         assert r2["score"] == r["score"]
         return c2, r2, dropped
     winners = []
@@ -365,10 +398,12 @@ def main_evolve(seed, evaluations=100000, tag="RUN7_SMOOTH8_REGEVO", P=100, S=25
         top.append({"score": r["score"], "class": classify_locality_v2(r2, c2), "max_writes": r2["max_writes"], "used_store": r2["used_store"], "n_fx_cells_written": r2["n_fx_cells_written"], "f": json.dumps(c2["f"]), "g": json.dumps(c2["g"])})
     classes = [w["class"] for w in winners]
     frac_dense = (sum(1 for c in classes if c.startswith("NUMERIC_DENSE")) / len(classes)) if classes else None
-    receipt = {"schema": "StageFBlindRecoveryRegEvoV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "revival_record": "RV-377-018", "seed": seed, "run_tag": tag,
+    planted = evaluate(eliminate_dead_writes(PLANTED_LEARNER_SMOOTH8_LR4)[0], e, seed)  # existence certificate recomputed in the run's own ecology
+    receipt = {"schema": "StageFBlindRecoveryRegEvoV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "revival_record": "RV-377-023" if diversity else "RV-377-018", "seed": seed, "run_tag": tag,
                "search_family": f"regularized (aging) evolution, Real et al. 2019 Alg. 1: P={P}, S={S}, Koza subtree mutation on f and g, genotype cache; fitness (score, -charged cost)",
-               "grammar": {"n_bits": 8, "n_cells": N_CELLS, "f_depth": 3, "g_depth": G_DEPTH, "leaves_f": LEAVES_F, "leaves_g": LEAVES_G}, "existence_certificate": "planted 4-coefficient learner 0.9258 (RV-377-015 diagnosis)",
-               "ecology": {"kind": "smooth", "inputs": 256, "train": e["train"], "events": e["events"], "coeffs": list(SMOOTH8_COEFFS), "theta": theta},
+               "grammar": {"n_bits": 8, "n_cells": N_CELLS, "f_depth": 3, "g_depth": G_DEPTH, "leaves_f": LEAVES_F, "leaves_g": LEAVES_G}, "existence_certificate": "planted 4-coefficient learning-rate-1/4 learner PLANTED_LEARNER_SMOOTH8_LR4 (RV-377-015 diagnosis): 0.9258 on E_smooth8; see planted_learner_score_in_this_ecology",
+               "ecology": {"kind": e["kind"], "inputs": 256, "train": e["train"], "events": e["events"], "coeffs": list(SMOOTH8_COEFFS), "theta": theta, "diversity_signs": list(e["signs"]) if diversity else None},
+               "planted_learner_score_in_this_ecology": planted["score"], "planted_learner_per_target": planted.get("per_target_scores"),
                "n_evaluations": n_eval, "cache_hits": hits, "best_score": best[1]["score"], "best_score_trajectory": traj,
                "n_winners_at_theta": len(winners), "winner_classes": classes, "fraction_numeric_dense_among_winners": frac_dense, "winners": winners[:10], "top_elites_canonicalized": top,
                "claim_ceiling": "E2 blind recovery at tiny scope with a declared population search family; one grammar; classification post hoc after dead-write elimination"}
@@ -482,6 +517,9 @@ if __name__ == "__main__":
         main(seed=4, n_random=6000, hill_steps=80, tag="RUN3B_BIND16_SEED4", run3=True, dwe=True)
     elif len(sys.argv) > 1 and sys.argv[1] == "run7":
         main_evolve(seed=int(sys.argv[2]), evaluations=int(sys.argv[3]) if len(sys.argv) > 3 else 100000)
+    elif len(sys.argv) > 1 and sys.argv[1] == "run8":
+        # RV-377-023: regularized evolution under task diversity (E_smooth8_div)
+        main_evolve(seed=int(sys.argv[2]), evaluations=int(sys.argv[3]) if len(sys.argv) > 3 else 100000, tag="RUN8_SMOOTH8_DIV_REGEVO", diversity=True)
     elif len(sys.argv) > 1 and sys.argv[1] == "run5":
         main(seed=4, n_random=120000, hill_steps=1600, tag="RUN5_SMOOTH8_10X", run4=True, dwe=True)
     else:
