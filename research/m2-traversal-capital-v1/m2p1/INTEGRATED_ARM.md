@@ -443,3 +443,36 @@ The frozen M2-P2 family stays `CANNOT_CHECK_NO_ADMITTING_WORLD` (m2p2/STAGE3.md)
 own arm set and admission rule, and this controller is not in that set. The exploratory result does not replace the
 frozen terminal. Replicating it **prospectively** on a fresh authoring, with controller_v5 as the frozen primary
 arm, is what would turn it into a replication claim.
+
+## Scope check on the 8 / 8: the −50 % rows are guided-first serving (registered before the parent run)
+
+Per target, the integrated arm costs **0.500–0.501×** `PARENT_WITH_MDL` on almost every target of every world
+(median 0.5001 on seven of eight; minimum exactly 0.5 everywhere). This is the `g`-versus-`2g` signature documented in
+the smoke test above: both registered parents *interleave* the library 50 / 50 with the baseline, and the controller
+probes it *first*. On hc02, hc03 and hc06 every target sits at that ratio (maxima 0.51–0.65). The −50 % there is
+therefore a serving-mode identity against an interleaving parent. It is not evidence for the controller's
+history-learned parts.
+
+**The missing parent is absorbed now.** Library-first enumeration (DreamCoder / Stitch serving) is the standard way to
+use a learned library. `PARENT_GF_D{1..4}` and `PARENT_GFQ_D{1..4}` serve the same MDL library and the same
+frequency-mined library guided-first, at a fixed depth. They are always live, have no task-statement rule and no
+liveness, and a miss falls back to the plain baseline. They run on the **same dev state** as LUNARC 3597797 (the
+`dev_state.json` and `checkpoint.json` are copied, so the libraries are identical), with runner `m2p2_gf/m2p1_runner.py`.
+That runner is the controller_v5 runner bb9f219e plus these arms only. **GF_best**, the cheapest of the eight per world,
+is an oracle-tuned parent: its depth and library are chosen in hindsight on the scored stream. That makes it an upper
+bound on any fixed-depth guided-first parent, and the conservative comparison for the controller.
+
+**Registered before the run:**
+- *Identity.* `CONTINUED_OCM` re-run on the new runner reproduces 3597797 exactly on every world (the added arms do
+  not touch existing code paths). Any difference is an ASSAY_DEFECT of this test.
+- *Serving-mode prediction.* On hc02, hc03 and hc06, GF_best lands within ± 5 % of `CONTINUED_OCM`. There, the
+  "beats the strongest parent" margin belongs to guided-first serving, not to OCM.
+- *Controller residual.* The per-world measurement is `CONTINUED_OCM` vs GF_best. **OCM-specific superiority is
+  claimed only on worlds where the controller is more than 5 % below GF_best.** No sign is predicted for hc01, hc05,
+  hc08, hc09 or hc10; the miss rule and liveness act on those worlds' misses, and whether they pay against a
+  hindsight-best parent is the open question.
+- *Consequence.* Until this lands, the 8 / 8 above is stated as **"beats the registered interleaving parents"**, not
+  "beats the strongest parent". If GF_best matches or beats the controller on most worlds, target (3) (OCM-specific
+  superiority over the strongest parent) is restated at that scope and entered in the revival ledger as a negative
+  to diagnose.
+
