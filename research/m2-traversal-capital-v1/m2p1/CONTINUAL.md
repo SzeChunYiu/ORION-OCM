@@ -887,3 +887,53 @@ same seeds also run v6.6 so the comparison is paired.
 limitation is recorded as a **boundary** — within a regime assembled from two earlier ones the
 continual arm can cost more than RESET, while its lifetime stays below RESET — and this chain ends.
 
+## v6.7 — outcome: FALSIFIED; stop rule applied (records/v67/)
+
+s604 diagnostic: the ablation arm's regime-C cost **7 472** (v6.6: 6 039; RESET 3 808) — **failed**, and
+worse. Regression: ABC s605 ablation 2 978.7 vs v6.6 2 761.5 (+7.9 %) — **failed**. Fresh K1 bar
+(both continual arms' regime-C ≤ RESET on ≥ 7 / 8): failed (s613, s615, s619, s620, s621 each fail an
+arm). Everywhere no oscillation occurred, v6.7 is byte-identical to v6.6 (four shift lifetimes, s613,
+s614, s615, 618–621, the three cross-world pairs).
+
+**Boundary, by the registered stop rule.** Within a regime assembled from motifs of two earlier
+regimes, none of the controller variants tested (v6.3 → v6.7) keeps the continual *ablation* arm's
+regime cost at or below RESET on every seed: the old libraries partly fit, oscillate between live and
+stood-down, and the new regime's corpus is either starved (reset) or polluted (no reset). Its
+*lifetime* stays below RESET on every fresh seed. This chain ends here. **v6.6 remains the current
+controller.**
+
+## What v6.6 does on the eight fresh A → B → C seeds (descriptive — suggested these seeds, confirms nothing)
+
+| seed | RESET C | RESET life | fixed life | ablation C | ablation life | **full arm C** | **full arm life** |
+|---|---|---|---|---|---|---|---|
+| 613 | 3,766 | 3,543 | 2,727 | 3,868 | 2,612 | **3,575** | **2,414** |
+| 614 | 3,886 | 3,700 | 2,735 | 3,045 | 2,002 | **3,404** | **2,228** |
+| 615 | 2,647 | 3,194 | 2,408 | 5,012 | 3,093 | **2,450** | **2,204** |
+| 617 | 3,146 | 3,326 | 2,457 | 2,522 | 2,184 | **2,522** | **2,184** |
+| 618 | 3,582 | 3,670 | 2,758 | 3,115 | 2,252 | **2,800** | **2,146** |
+| 619 | 3,550 | 3,486 | 2,785 | 2,852 | 1,936 | **3,720** | **2,226** |
+| 620 | 3,741 | 3,509 | 2,461 | 5,506 | 2,764 | **3,386** | **2,005** |
+| 621 | 3,916 | 3,609 | 2,929 | 4,330 | 2,718 | **2,835** | **2,220** |
+
+The **full arm** (with the recombination candidate) is at or below RESET's regime-C cost on
+**7 / 8**, below the fixed controller's lifetime on **8 / 8** and below RESET's lifetime on
+**8 / 8**; the ablation arm on 4 / 8, 6 / 8, 8 / 8. Recombination ≤ 0.85 × the ablation's
+regime-C cost on 3 / 8 — below the C3 bar; **C3 stays NOT_ESTABLISHED** and this is not C3
+evidence. It is a K1 hypothesis about the current full controller, so it is registered for
+confirmation on **new** seeds below instead of being promoted from the seeds that produced it.
+
+**FV8 under the current controller (records/v67/runOCM_FV8_v66.json, _v67.json):** 59 741 = **+6.6 % vs
+RESET**, all 120 targets verified, identical under v6.6 and v6.7 (no oscillation occurred) — the
+failure-evidence rule's figure from v6.4, reproduced. FV8 remains a priced negative: the first validated
+deep library still loses before the rule can act.
+
+## K1-v6.6 confirmation (registered 2026-09-11, before any run)
+
+Fresh A → B → C seeds 622–633 on LUNARC (12; any that fail the ecology gate are reported, not
+replaced), five arms each, the v6.6 controller (`scripts_v66`, `M2_V67` unset). **Predictions for the
+full continual arm:** lifetime below the fixed controller's on ≥ 10 / 12 of the seeds that pass the gate;
+lifetime below RESET's on every such seed; regime-C cost at or below RESET's on ≥ 9 / 12; every arm
+verifies every target. **Falsifier:** fewer than 10 / 12 below the fixed controller, or any lifetime
+above RESET. Claim ceiling if it holds: in-life acquisition of a mixed regime by the current
+controller beats the fixed-library controller over a lifetime, on fresh seeds, in this grammar.
+
