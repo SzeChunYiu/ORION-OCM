@@ -139,3 +139,25 @@ charging them as overhead is the maximally hostile view; its *candidate* solves 
 admission check's own cost. The conservative verdict therefore turns on that one
 attribution and is reported as **borderline, sign depending on the charging rule**.
 Marginal (break-even 403) and incremental (215) pay under both ledgers.
+
+### `controller_v2` on FOREIGN_M1 — the negative turns
+
+Both registered choices fired: the controller selected **frequency** (validated 18 vs
+MDL 16 of 40) and **depth 3** (`β = 8 420`).
+
+| arm | mean `B` |
+|---|---|
+| RESET | 29 387 |
+| ordinary parent (frequency library, interleave) | 19 992 |
+| **`CONTINUED_OCM` v2** | **17 739** |
+
+**−39.6 % vs RESET, −11.3 % vs the strongest parent** on the unstructured foreign
+ecology where v1 was +23 % worse than RESET. The magnitude prediction (≈ 14.8 k, the
+standalone probe) was ~20 % optimistic: on a miss the controller lets the task-statement
+rule choose the interleave where the standalone probe fell straight back to RESET, and on
+this ecology that choice costs more than it saves. The sign flipped as predicted;
+recorded with the shortfall.
+
+With this, the integrated arm is better than the strongest parent on **six of six**
+ecologies (three structured, one unstructured, two built from the M1 lane's own
+vocabulary) and at 670-target scale.

@@ -155,8 +155,21 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
 
     ocm_ctl = None
     try:
-        if mdl_frags and isinstance(mdl_report, dict) and "held_out" in mdl_report:
-            _lib = [tuple(f) for f in mdl_frags]
+        # controller_v2: (a) LIBRARY CHOSEN BY VALIDATION -- frequency vs MDL, whichever
+        # has the better held-out strictly-better count (both already computed above);
+        # (b) miss rate for the depth rule estimated on the VALIDATION stream, not on
+        # training, because the library was mined FROM training and tiles it optimistically.
+        _freq_better = sum(1 for r in report["held_out"]
+                           if r["candidate"]["slots"] < r["baseline"]["slots"])
+        _mdl_better = (sum(1 for r in mdl_report["held_out"]
+                           if r["candidate"]["slots"] < r["baseline"]["slots"])
+                       if isinstance(mdl_report, dict) and "held_out" in mdl_report else -1)
+        _use_mdl = bool(mdl_frags) and _mdl_better >= _freq_better
+        _chosen_report = mdl_report if _use_mdl else report
+        _chosen_frags = mdl_frags if _use_mdl else [list(f) for f in method.fragments]
+        if _chosen_frags and isinstance(_chosen_report, dict) and "held_out" in _chosen_report:
+            _lib = [tuple(f) for f in _chosen_frags]
+            mdl_report = _chosen_report          # the rule below is fitted on the chosen library
             _rule = {}
             for _r, _h in zip(mdl_report["held_out"], held):
                 _z = str(_obs_feats(_h.coefficients, _lib))
@@ -167,8 +180,15 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
             _T = len(_lib) + len(M.PRIMITIVES)
             # expected-cost depth on solved history: hits cost their guided position,
             # misses cost beta_D plus the baseline index the organism actually paid (r_.slots)
-            _hist = [(_tile_tokens(tuple(r_.program), _lib), r_.slots) for _, r_ in training if r_.program]
-            _hist = [(d_, b_) for d_, b_ in _hist if d_ is not None and b_ > 0]
+            # depth rule on HELD-OUT validation: tiling of each validation task's canonical
+            # (baseline) solution against the chosen library; a None tiling is a miss at
+            # every depth and costs beta_D + its baseline index
+            _hist = []
+            for _r in mdl_report["held_out"]:
+                _bp = _r["baseline"].get("program")
+                _bs = _r["baseline"]["slots"]
+                _d = _tile_tokens(tuple(_bp), _lib) if _bp else None
+                _hist.append((_d if _d is not None else 99, _bs))
             _depth, _bc = 3, float("inf")
             for _D in range(1, 5):
                 _bD = sum(_T ** i for i in range(1, _D + 1))
@@ -179,7 +199,9 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
             ocm_ctl = {"rule": _rule, "fallback": _fallback, "probe_depth": _depth,
                        "beta": sum(_T ** i for i in range(1, _depth + 1)),
                        "liveness_window": 8, "liveness_min_hit_rate": 0.25,
-                       "depth_rule": "expected-cost on solved history"}
+                       "depth_rule": "expected-cost on held-out validation (controller_v2)",
+                       "library": "mdl" if _use_mdl else "frequency",
+                       "validated_better": {"frequency": _freq_better, "mdl": _mdl_better}}
     except Exception as _e:
         ocm_ctl = {"error": str(_e)[:200]}
 
@@ -235,9 +257,12 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         # INTEGRATED DEVELOPMENTAL CONTROLLER: MDL selection -> probe with history-learned
         # depth -> task-statement rule on a miss -> liveness on the probe hit-rate.
         # Reads only the task statement, solved history and charged-action outcomes.
-        ctl, mdl = dev.get("ocm_controller"), dev.get("mdl_fragments")
-        if not mdl or not ctl or "error" in ctl:
-            return M.GeneratorMethod(), "no controller (%s)" % ((ctl or {}).get("error", "no mdl"))
+        ctl = dev.get("ocm_controller")
+        if not ctl or "error" in ctl:
+            return M.GeneratorMethod(), "no controller (%s)" % ((ctl or {}).get("error", "none"))
+        mdl = dev.get("mdl_fragments") if ctl.get("library", "mdl") == "mdl" else dev.get("fragments")
+        if not mdl:
+            return M.GeneratorMethod(), "no library"
         return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
             "integrated controller: probe depth %d beta %d, rule cells %d" % (
                 ctl["probe_depth"], ctl["beta"], len(ctl["rule"]))
