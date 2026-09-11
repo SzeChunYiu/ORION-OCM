@@ -299,3 +299,15 @@ changes. Predictions: SHIFT45 / s602 / s603 within ± 3 % of v4.1 / v4.2 (1 506 
 1 667); s604 within ± 3 % of v5 (1 813), A′ ≤ 1 150; E5 414.1 ± 5 %. Falsifiers: any lifetime
 above its bound; any B ≥ RESET on SHIFT45 / s603 / s604.
 
+**continual_v5 on FV8: 57 167 = +1.98 % vs RESET (v4: +0.03 %) — a regression, recorded
+(records/continual/FV8_v5_*).** The event log rules out liveness: no learned library was ever
+deployed (13 attempts, 0 deployed). Two attempts (targets 40 and 72) charged **64 492 and
+65 801 slots** of *validation probes*: a 16-fragment frequency candidate whose expected-cost
+rule chose depth 3 (some validation programs tile at ≤ 3 tokens) and whose probes then missed
+on all eight tasks at the full β = 8 420. The other eleven attempts cost 264–288 each. A
+program that tiles in ≤ D tokens must be reachable by a ≤ D-word probe, so either the depth
+rule and the probe disagree about the library (an assay defect) or the tilings are counted on
+programs the probe cannot reproduce. The fit is now instrumented (per-task tiling depth vs
+probe outcome, `tiling_probe_violations` asserted in every event) and FV8 re-runs under v5.1
+to catch the case; the cause will be attributed from that record, not guessed.
+
