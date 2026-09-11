@@ -189,3 +189,32 @@ def test_transformer_microfeature_exact_receipt_reproduces(tmp_path):
     assert r["status"] == "GREEN" and r["n_passed"] == 13
     ref = json.load(open(HERE / "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json"))
     assert ref["receipt_sha256"] == r["receipt_sha256"]
+
+
+def test_morphology_ir_canonical_form_and_typecheck():
+    """R0: canonical form is remint-invariant, distinguishes real edits, resolves automorphic ties; H1 typecheck rejects macros and type errors."""
+    from gmi_microscope import morph, zoo
+    for name, fn in zoo.ZOO.items():
+        g = fn(); assert morph.typecheck(g)
+        for s in (1, 2, 3): assert morph.canonical(morph.remint(g, s)) == morph.canonical(g), name
+    assert len({morph.fingerprint(fn()) for fn in zoo.ZOO.values()}) == len(zoo.ZOO)
+    g3 = morph.make({0: ("INPUT", {"width": 4}), 1: ("DENSE", {"width": 4}), 2: ("DENSE", {"width": 4}), 3: ("LINEAR", {}), 4: ("LINEAR", {}), 5: ("SUM", {}), 6: ("OUTPUT", {})}, [(1, 3, 0), (0, 3, 1), (2, 4, 0), (0, 4, 1), (3, 5, 0), (4, 5, 1), (5, 6, 0)])
+    g3s = morph.make({0: ("INPUT", {"width": 4}), 1: ("DENSE", {"width": 4}), 2: ("DENSE", {"width": 4}), 3: ("LINEAR", {}), 4: ("LINEAR", {}), 5: ("SUM", {}), 6: ("OUTPUT", {})}, [(2, 3, 0), (0, 3, 1), (1, 4, 0), (0, 4, 1), (4, 5, 0), (3, 5, 1), (5, 6, 0)])
+    assert morph.canonical(g3) == morph.canonical(g3s)
+    import pytest
+    with pytest.raises(morph.MorphError): morph.typecheck(morph.make({0: ("ATTENTION", {})}, []))
+    with pytest.raises(morph.MorphError): morph.typecheck(morph.make({0: ("INPUT", {"width": 4}), 1: ("OUTPUT", {})}, [(0, 1, 0)]))
+
+
+def test_vm_zoo_deterministic_and_remint_invariant_response():
+    """R1/R4: every zoo genotype runs under the smooth ecology deterministically, and a reminted genotype has the identical charged response (H5)."""
+    from gmi_microscope import smooth, morph, zoo
+    from gmi_microscope.vm import VMRow
+    B0 = bases.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"]; target = smooth.make_target(smooth.COEFFS_V3)
+    def runit(g):
+        rows = {"IR": (lambda gg: (lambda size: VMRow(gg, size)))(g)}
+        return smooth.run("IR", B0, 1, seed=0, target=target, n_events=16, rows=rows, criterion="unseen")
+    expect = {"gradient_net_h4": 0.8073, "hamming_knn_k3": 0.8698, "exemplar_table": 0.7083, "particles_p4": 0.8958, "soft_retrieval": 0.8542}
+    for name, cap in expect.items():
+        g = zoo.ZOO[name](); r = runit(g); assert r["capability"] == cap, (name, r["capability"])
+        r2 = runit(morph.remint(g, 5)); assert r2["R"] == r["R"] and r2["capability"] == cap, name
