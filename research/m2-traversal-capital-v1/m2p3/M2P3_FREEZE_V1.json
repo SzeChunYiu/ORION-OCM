@@ -1,0 +1,81 @@
+{
+ "schema": "OCM_M2P3_SECOND_AUTHORING_FREEZE",
+ "version": "V1",
+ "owner_issue": 165,
+ "hardening_parent": 323,
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_AUTHOR_SESSION_AND_ANY_SCORED_RUN (effective on merge)",
+ "problem": "M2-P2's frozen terminal is CANNOT_CHECK_NO_ADMITTING_WORLD, and the C2 benefit that survived #411 (the history-mined library, served guided-first, beats RESET) has been measured on one author model's worlds only (claude-fable-5-1 model proxy). This study asks whether it holds on worlds from a second author model, with the spec, gates and grammar unchanged.",
+ "bound_to": {
+  "neutral_author_spec": {
+   "file": "research/m2-traversal-capital-v1/m2p2/m2p2_author_spec.md",
+   "sha256": "6a25c7f37c30dfece5875298d66f6d82955442fcfdd6c69d971dca4d10b439bd",
+   "changed": false
+  },
+  "entry_gate_orchestrator": "research/m2-traversal-capital-v1/m2p2/m2p2_check.py (unchanged; taxonomy hostile, determinism, floors, compile, G1/G2/G3, viability floor, G-SURF)",
+  "runner": {
+   "file": "research/m2-traversal-capital-v1/m2p1/m2p2_gf/m2p1_runner.py",
+   "sha256_prefix": "7d790905ada3ad76",
+   "note": "the controller_v5 runner bb9f219e plus the PARENT_GF/GFQ arms only (#408 registration, #411 records)"
+  },
+  "methods_sha256_prefix": "e0a0565466dc6778",
+  "lifecycle": "exactly m2p2_ocm5.sbatch: fresh dev phase per world (slots 200000), checkpoint, OS-process restart, one arm per process, ladder [200000], every success externally verified by checker C"
+ },
+ "author_unit": {
+  "definition": "a FRESH model session (nested agent, general-purpose, no inherited conversation context) running claude-haiku-4-5, given ONLY the frozen spec verbatim plus instructions to write into a scratch studio directory outside this repository",
+  "differs_from_m2p2_author": "model (claude-haiku-4-5 vs claude-fable-5-1); spec, isolation, must_not_receive, floors and determinism rule identical to M2P2_FREEZE_V1.author_unit",
+  "must_not_receive": "M2P2_FREEZE_V1.author_unit.must_not_receive, plus: any M2-P2 world, chunk set, author note or result",
+  "human_gate_label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+  "independence_limit": "same model family (Anthropic Claude), same host and harness; independence is model- and session-level, not family-level. Recorded in not_claimed."
+ },
+ "arms": {
+  "RESET": "no generator; the anchor",
+  "PARENT_GF_D4": "PRIMARY ARM. The MDL library mined in the dev phase, served guided-first at fixed depth 4, always live, no rule, no liveness, plain-baseline fallback on a miss. Fixed before any M2-P3 world exists (#411: the non-oracle parent). If the dev phase records no MDL library the arm equals RESET by mechanism",
+  "SHUFFLED_HISTORY": "control, hardened as m2p1_runner.arm_method (true chunks excluded)",
+  "CONTINUED_OCM": "descriptive (controller_v5, M2_LIB_RULE=interleave); never primary",
+  "PARENT_WITH_MDL": "descriptive (interleaving parent)",
+  "PARENT_GFQ_D3, PARENT_GFQ_D4": "descriptive (frequency library guided-first)"
+ },
+ "statistics": {
+  "per_world_primary": "EFFECT-SIZE TEST. Per viable world, H0: mean(PARENT_GF_D4) >= 0.5 x mean(RESET) on the same protected targets; one-sided paired sign-flip permutation on d_t = GF_t - 0.5 x RESET_t, 10000 permutations, seed 20260912. A world passes iff its Holm-adjusted p < 0.05, i.e. PARENT_GF_D4 is significantly at least 50 % below RESET",
+  "multiplicity": "Holm-Bonferroni across viable worlds, family-wise alpha 0.05",
+  "precondition": "PARENT_GF_D4 < RESET (same test with d_t = GF_t - RESET_t) is reported per world. On hidden-chunk worlds it cannot fail by construction, so it is NOT the terminal; a failure is investigated as an ASSAY_DEFECT signal",
+  "graded_report": "k / n viable worlds passing the 50 % bar, always reported whatever the terminal",
+  "why_the_fraction_bar_alone_does_no_work": "with significance as the per-world criterion every hidden-chunk world clears it; the falsifier is the 50 % effect-size threshold, and the 80 % fraction only aggregates it"
+ },
+ "terminals": {
+  "precedence": "ASSAY_DEFECT > AUTHORSHIP_CONTAMINATED > CANNOT_CHECK_TOO_FEW_VIABLE_WORLDS (< 4 viable) > C2_REPLICATED_SECOND_AUTHOR_MODEL | C2_NOT_REPLICATED",
+  "C2_REPLICATED_SECOND_AUTHOR_MODEL": "at least 4 viable worlds, and PARENT_GF_D4 passes the 50 % effect-size test (Holm) on at least 80 % of them",
+  "C2_NOT_REPLICATED": "at least 4 viable worlds, and PARENT_GF_D4 passes the 50 % effect-size test on fewer than 80 % of them (the falsifier)",
+  "ASSAY_DEFECT": "pid_changed false anywhere, checker C disagreement, dev-state tamper, non-deterministic emit, any arm failing to verify a target it reports",
+  "AUTHORSHIP_CONTAMINATED": "any taxonomy-disjointness alarm, or any change to the spec, this freeze, the gates, the arms or the statistics after the author session begins"
+ },
+ "secondary": {
+  "frozen_m2p2_terminal": "M2-P2's frozen arm family and terminal precedence applied unchanged to the M2-P3 worlds via m2p2/stage3/m2p2_stage3.py; expected CANNOT_CHECK_NO_ADMITTING_WORLD; reported, never primary",
+  "target_3_descriptive": "CONTINUED_OCM vs PARENT_GF_D4 per world; target (3) stays FALSIFIED unless a separate prospective registration says otherwise"
+ },
+ "why_not_tuned": "PARENT_GF_D4 (MDL, depth 4) was fixed as the single non-oracle parent on M2-P2's eight worlds in #411. The 50 % bar is the level at which the M2-P2 worlds separate from a no-structure outcome with room to fail: M2-P2's point estimates run −59.9 … −94.7 %, one world (hc08) within 10 points of the bar. Calibrated before freezing on M2-P2's existing records under this exact test (LUNARC 3599978, records/m2p3_calibration.log): 7 / 8 worlds pass (87.5 %); hc08 (−59.9 % point estimate) fails the 50 % bar at Holm p = 0.157; every world passes the precondition (p = 0.0001). One more failing world in eight would fall under the 80 % bar, so the falsifier can fire on a comparable authoring. The bar and the ±8-point band are fixed before any M2-P3 world exists; the primary is prospective.",
+ "claim_ceiling": "C2 replication (history-induced search capital) on worlds from a second author model of the same family",
+ "not_claimed": [
+  "OCM-specific superiority over the strongest parent (target (3) stays FALSIFIED)",
+  "an author of a different model family, or human authorship",
+  "general developmental intelligence or open-endedness",
+  "any change to #323, #277 or #165, which stay open"
+ ],
+ "forbidden": [
+  "any post-freeze revision of spec, freeze, gates, arms, statistics or terminals (recorded as AUTHORSHIP_CONTAMINATED, never amended)",
+  "editing authored artifacts after the author session",
+  "using author intent or surface fields in compilation, gating or scoring",
+  "touching src/ocm",
+  "scored execution on the Mac mini"
+ ],
+ "independence_report": {
+  "placement": "reported NEXT TO the primary terminal, not as a secondary",
+  "content": "reported, never gating: number of M2-P3 world shapes (chunk count, chunk-length multiset, min builder length, part fractions) equal to an M2-P2 shape; number of identical chunk sets; per-world Jaccard of chunk sets against the nearest M2-P2 world",
+  "reading": "the study can conclude only that the C2 benefit is not an artifact of one model's authoring habits; if M2-P3 shapes or chunk sets collide heavily with M2-P2's, that conclusion is correspondingly weak, and the terminal line says so"
+ },
+ "co_registered_prediction": {
+  "clause": "POINT PREDICTION: the median over viable worlds of (PARENT_GF_D4 / RESET − 1) is −88 % ± 8 percentage points (M2-P2 median −87.7 %). A median outside [−96 %, −80 %] is recorded as a missed prediction.",
+  "placement": "reported beside the primary terminal; it does not change the terminal, but a miss is recorded as a missed prediction, not absorbed",
+  "why": "the median is the sharper instrument: 80 % of worlds can clear the 50 % bar while the median lands far from −88 %, and that outcome must be visible"
+ }
+}
