@@ -922,6 +922,11 @@ regime-C cost on 3 / 8 — below the C3 bar; **C3 stays NOT_ESTABLISHED** and th
 evidence. It is a K1 hypothesis about the current full controller, so it is registered for
 confirmation on **new** seeds below instead of being promoted from the seeds that produced it.
 
+**FV8 under the current controller (records/v67/runOCM_FV8_v66.json, _v67.json):** 59 741 = **+6.6 % vs
+RESET**, all 120 targets verified, identical under v6.6 and v6.7 (no oscillation occurred) — the
+failure-evidence rule's figure from v6.4, reproduced. FV8 remains a priced negative: the first validated
+deep library still loses before the rule can act.
+
 ## K1-v6.6 confirmation (registered 2026-09-11, before any run)
 
 Fresh A → B → C seeds 622–633 on LUNARC (12; any that fail the ecology gate are reported, not
