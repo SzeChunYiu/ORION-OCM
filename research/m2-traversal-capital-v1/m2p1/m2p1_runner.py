@@ -88,7 +88,10 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": "continual_v6.4"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6",
+             # v6.5 = v6.3 behaviour + the liveness log; v6.4's two changes sit behind recorded flags for attribution
+             "no_regime_reset": os.environ.get("M2_V64A") == "1", "failure_evidence": os.environ.get("M2_V64C", "1") == "1",
+             "incumbent_reset": os.environ.get("M2_V67") == "1"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.
@@ -640,7 +643,17 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         C["standdown_at"] = len(C["solved"])      # v6.1: start of the recent window
                         if str(L.get("library", "")).startswith("dev:") or L.get("regime") != C.get("regime_start"):
                             # a developmental or foreign-regime library standing down: a new regime begins
-                            C["since_mine"] = 0   # v6.4: the regime window is no longer reset -- two windows + validation decide
+                            # v6.7 (flag): only the INCUMBENT's stand-down -- a library that was live when the
+                            # current regime window began -- signals a regime change. A library re-probed back
+                            # to life inside the window and failing again is an oscillation (s604: the old
+                            # libraries' sporadic hits on a mixed regime kept resetting the corpus).
+                            osc = CONTINUAL["incumbent_reset"] and C.get("active_since", 0) > C.get("regime_start", 0)
+                            if osc:
+                                C["live_log"].append((i, "oscillation_no_reset", prev))
+                            else:
+                                C["since_mine"] = 0
+                                if not CONTINUAL["no_regime_reset"]:
+                                    C["regime_start"] = len(C["solved"])   # v6.3 behaviour; v6.4(a) removes it (flag)
                         else:
                             # v5.4: a library LEARNED IN THIS REGIME standing down is not evidence of a
                             # regime change (E7 -> E8m7: the first learned library covered the easy
@@ -653,7 +666,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L2["lib"]], L2["probe_depth"], min(L2["beta"], q))
                             used += u
                             if pr is not None:
-                                prog, C["active"] = pr, kk; C.setdefault("live_log", []).append((i, "reactivate", kk))
+                                prog, C["active"] = pr, kk; C.setdefault("live_log", []).append((i, "reactivate", kk)); C["active_since"] = len(C["solved"])
                                 C["hits"] = [True]; C["vals"] = []
                                 break
                 else:
@@ -668,7 +681,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                             used += u
                             if pr is not None:
-                                prog, C["active"] = pr, k; C.setdefault("live_log", []).append((i, "reactivate", k))
+                                prog, C["active"] = pr, k; C.setdefault("live_log", []).append((i, "reactivate", k)); C["active_since"] = len(C["solved"])
                                 C["hits"] = [True]; C["vals"] = []   # v2: a fresh window for the reactivated library
                                 break
                         pool = sorted({tuple(f) for Lp in C["libs"] for f in Lp["lib"]}) if use_pool else None
@@ -676,7 +689,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         if prog is None and C["since_mine"] >= need:
                             rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):], pool,
                                                        recent=C["solved"][C.get("standdown_at", 0):],
-                                                       min_tilable=C.get("failed_evidence", 0))
+                                                       min_tilable=(C.get("failed_evidence", 0) if CONTINUAL["failure_evidence"] else 0))
                             learn_charge += charged     # v6.3: never deducted from the search budget
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
@@ -685,7 +698,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             ev["target_index"] = i; C["events"].append(ev)
                             if rec is not None:
                                 rec["regime"] = C.get("regime_start", 0)
-                                C["libs"].append(rec); C["active"] = len(C["libs"]) - 1; C.setdefault("live_log", []).append((i, "deploy", len(C["libs"]) - 1))
+                                C["libs"].append(rec); C["active"] = len(C["libs"]) - 1; C.setdefault("live_log", []).append((i, "deploy", len(C["libs"]) - 1)); C["active_since"] = len(C["solved"])
                                 pr, u = _probe(M, task.coefficients, [tuple(f) for f in rec["lib"]], rec["probe_depth"], min(rec["beta"], q))
                                 used += u
                                 C["hits"] = [pr is not None]; C["vals"] = []   # v2: a fresh window for the new library

@@ -1,0 +1,53 @@
+{
+  "schema": "GMISemanticProposalGeometryExactReceiptV1",
+  "pushforward_refinement": {
+    "coarse_native_count": 3,
+    "refined_native_count": 4,
+    "coarse_semantic_distribution": {
+      "ALTERNATIVE": "1/4",
+      "FAIL": "1/2",
+      "TARGET": "1/4"
+    },
+    "refined_semantic_distribution": {
+      "ALTERNATIVE": "1/4",
+      "FAIL": "1/2",
+      "TARGET": "1/4"
+    },
+    "invariant": true,
+    "interpretation": "splitting one TARGET-native candidate into two variants while preserving total mass does not change pushed-forward semantic proposal mass"
+  },
+  "cross_native_space_target_mass": {
+    "coarse_three_candidate_space": "1/4",
+    "bayes_like_four_hypothesis_space": "1/4",
+    "interpretation": "different native candidate multiplicities can induce the same semantic target mass"
+  },
+  "probabilistic_k1_calibration": {
+    "reset_target_mass": "1/8",
+    "continued_target_mass": "1/4",
+    "reset_surprisal_bits": 3.0,
+    "continued_surprisal_bits": 2.0,
+    "surprisal_reduction_bits": 1.0
+  },
+  "deterministic_k1_calibration": {
+    "reset_first_hit_rank": 7,
+    "continued_first_hit_rank": 3,
+    "reset_first_hit_cost": 7,
+    "continued_first_hit_cost": 3,
+    "rank_information_shift_bits": 1.0
+  },
+  "semantic_duplication_resource_hostile": {
+    "compact_first_hit_rank": 2,
+    "compact_first_hit_cost": 2,
+    "duplicated_first_hit_rank": 3,
+    "duplicated_first_hit_cost": 3,
+    "interpretation": "semantic probability aggregation removes irrelevant native identity multiplicity, but deterministic duplicated proposals remain real paid search work"
+  },
+  "parent_ownership": [
+    "pushforward measures / probability aggregation",
+    "search rank / hitting time",
+    "information/surprisal",
+    "proposal distributions / Bayesian priors / search bias"
+  ],
+  "terminal": "GMI_SEMANTIC_PROPOSAL_GEOMETRY_FINITE_EXACT_GREEN_V1",
+  "claim_ceiling": "finite proposal/search arithmetic only; architecture-neutral SPG semantics calibrated, real cross-paradigm developmental prediction still unestablished"
+}

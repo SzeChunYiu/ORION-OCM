@@ -1,0 +1,86 @@
+{
+  "schema": "GMIE3RawResourceVectorV1",
+  "status": "FROZEN_COMMON_ACCOUNTING_SCHEMA",
+  "principle": "Record raw resources first. Do not invent a universal scalar conversion between tokens, proof search, tests, CPU/GPU, memory and human work. Scalarization is experiment-specific and must be frozen prospectively.",
+  "coordinates": {
+    "information_input": {
+      "foundation_model_input_tokens": "integer_or_null",
+      "foundation_model_output_tokens": "integer_or_null",
+      "demonstrations_or_examples_supplied": "integer_or_null",
+      "retrieved_items_exposed_to_agent": "integer_or_null",
+      "human_intervention_count": "integer",
+      "human_intervention_seconds": "number_or_null"
+    },
+    "cognition_search": {
+      "foundation_model_calls": "integer_or_null",
+      "candidate_generation_count": "integer_or_null",
+      "search_expansions": "integer_or_null",
+      "retrieval_queries": "integer_or_null",
+      "planner_or_controller_steps": "integer_or_null",
+      "failed_attempts": "integer",
+      "repeated_failure_events": "integer_or_null"
+    },
+    "verification": {
+      "verifier_calls": "integer",
+      "kernel_or_formal_checker_calls": "integer_or_null",
+      "compile_or_build_calls": "integer_or_null",
+      "public_test_runs": "integer_or_null",
+      "protected_test_runs": "integer_or_null",
+      "statement_or_spec_correspondence_checks": "integer_or_null"
+    },
+    "tools": {
+      "tool_calls_total": "integer",
+      "shell_or_command_calls": "integer_or_null",
+      "file_or_repository_search_calls": "integer_or_null",
+      "external_api_calls": "integer_or_null"
+    },
+    "compute": {
+      "cpu_seconds": "number_or_null",
+      "gpu_seconds": "number_or_null",
+      "wall_seconds": "number",
+      "peak_memory_bytes": "integer_or_null",
+      "io_bytes_read": "integer_or_null",
+      "io_bytes_written": "integer_or_null"
+    },
+    "persistent_state": {
+      "persistent_bytes_read": "integer_or_null",
+      "persistent_bytes_written": "integer_or_null",
+      "persistent_objects_created": "integer_or_null",
+      "persistent_objects_retired_or_revoked": "integer_or_null",
+      "index_or_library_maintenance_work": "number_or_null",
+      "revalidation_or_rebuild_work": "number_or_null"
+    },
+    "development": {
+      "development_update_work": "number_or_null",
+      "training_or_finetuning_compute": "number_or_null",
+      "skill_or_method_acquisition_attempts": "integer_or_null",
+      "development_verifier_calls": "integer_or_null",
+      "morphogenesis_or_architecture_search_work": "number_or_null"
+    },
+    "domain_native": {
+      "math_proof_state_steps": "integer_or_null",
+      "math_premise_candidates_scored": "integer_or_null",
+      "math_tactic_candidates_scored": "integer_or_null",
+      "code_patch_candidates": "integer_or_null",
+      "code_repository_files_inspected": "integer_or_null",
+      "other_receipts": "mapping"
+    }
+  },
+  "accounting_rules": [
+    "zero means measured zero; null means unavailable/not-applicable and must not be silently treated as zero",
+    "every failed/censored target retains resource receipts up to termination",
+    "development/acquisition/maintenance work is separate from target-serving work but included in lifetime accounting",
+    "external verifier work is charged even though verifier authority remains external",
+    "foundation-model/tool work performed for OCM preprocessing or learning is charged",
+    "parent and treatment arms use identical coordinate definitions",
+    "public benchmark infrastructure may be excluded only if genuinely identical/free to every compared arm and the exclusion is stated",
+    "no post-outcome price vector may be chosen to flip a Pareto comparison"
+  ],
+  "aggregation": {
+    "per_episode": "retain full raw vector",
+    "per_arm": "report solved/admissible coverage plus coordinate distributions; never average only successful targets without explicit censoring treatment",
+    "lifetime": "sum development + serving + maintenance + revision according to frozen attribution rules",
+    "scalarization": "optional; requires named price_or_utility_contract frozen before protected outcome access"
+  },
+  "terminal": "GMI_E3_COMMON_RAW_RESOURCE_SCHEMA_FROZEN"
+}

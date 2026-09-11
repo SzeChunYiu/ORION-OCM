@@ -1,0 +1,378 @@
+{
+ "amortisation_ledger": {
+  "acquisition_slots_total": 5766668,
+  "breakeven_targets": 276.0,
+  "developmental_solve_slots": 5766668,
+  "net_slots": -2716085.6,
+  "note": "acquisition is charged in full and in the same currency as the benefit; developmental solving would have been paid anyway to acquire those objects, so this ledger is conservative against the history arm",
+  "protected_targets": 146,
+  "saved_slots_per_target": 20894.4,
+  "total_saved_on_protected": 3050582.4,
+  "validation_slots": null
+ },
+ "arms": {
+  "CONTINUED": {
+   "arm": "CONTINUED",
+   "attempts": 730,
+   "calibration_only": false,
+   "external_verifications": 146,
+   "fragments_served": 0,
+   "ladder": [
+    1000,
+    4000,
+    16000,
+    64000,
+    200000
+   ],
+   "ladder_total": 291,
+   "mean_B_slots": 31803.2,
+   "note": "learner refused deployment; refusal is first-class",
+   "process": {
+    "pid": 647158,
+    "pid_changed": true,
+    "pre_restart_pid": 643531
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 291,
+   "successes_by_budget": {
+    "1000": 8,
+    "16000": 38,
+    "200000": 146,
+    "4000": 17,
+    "64000": 82
+   },
+   "targets": 146,
+   "wall_seconds": 544.49
+  },
+  "LIBRARY_ONLY": {
+   "arm": "LIBRARY_ONLY",
+   "attempts": 730,
+   "calibration_only": false,
+   "external_verifications": 146,
+   "fragments_served": 0,
+   "ladder": [
+    1000,
+    4000,
+    16000,
+    64000,
+    200000
+   ],
+   "ladder_total": 291,
+   "mean_B_slots": 31803.2,
+   "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+   "process": {
+    "pid": 645139,
+    "pid_changed": true,
+    "pre_restart_pid": 643531
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 291,
+   "successes_by_budget": {
+    "1000": 8,
+    "16000": 38,
+    "200000": 146,
+    "4000": 17,
+    "64000": 82
+   },
+   "targets": 146,
+   "wall_seconds": 539.28
+  },
+  "ORACLE_FAMILY": {
+   "arm": "ORACLE_FAMILY",
+   "attempts": 730,
+   "calibration_only": true,
+   "external_verifications": 146,
+   "fragments_served": 7,
+   "ladder": [
+    1000,
+    4000,
+    16000,
+    64000,
+    200000
+   ],
+   "ladder_total": 490,
+   "mean_B_slots": 6688.9,
+   "note": "CALIBRATION ONLY: the true hidden motif set",
+   "process": {
+    "pid": 648747,
+    "pid_changed": true,
+    "pre_restart_pid": 643531
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 490,
+   "successes_by_budget": {
+    "1000": 20,
+    "16000": 129,
+    "200000": 146,
+    "4000": 49,
+    "64000": 146
+   },
+   "targets": 146,
+   "wall_seconds": 111.26
+  },
+  "ORDINARY_ADAPTIVE_PARENT": {
+   "arm": "ORDINARY_ADAPTIVE_PARENT",
+   "attempts": 730,
+   "calibration_only": false,
+   "external_verifications": 146,
+   "fragments_served": 16,
+   "ladder": [
+    1000,
+    4000,
+    16000,
+    64000,
+    200000
+   ],
+   "ladder_total": 461,
+   "mean_B_slots": 10908.8,
+   "note": "same mined fragments served WITHOUT the admission gate",
+   "process": {
+    "pid": 649020,
+    "pid_changed": true,
+    "pre_restart_pid": 643531
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 461,
+   "successes_by_budget": {
+    "1000": 27,
+    "16000": 96,
+    "200000": 146,
+    "4000": 70,
+    "64000": 122
+   },
+   "targets": 146,
+   "wall_seconds": 161.33
+  },
+  "RESET": {
+   "arm": "RESET",
+   "attempts": 730,
+   "calibration_only": false,
+   "external_verifications": 146,
+   "fragments_served": 0,
+   "ladder": [
+    1000,
+    4000,
+    16000,
+    64000,
+    200000
+   ],
+   "ladder_total": 291,
+   "mean_B_slots": 31803.2,
+   "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+   "process": {
+    "pid": 643533,
+    "pid_changed": true,
+    "pre_restart_pid": 643531
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 291,
+   "successes_by_budget": {
+    "1000": 8,
+    "16000": 38,
+    "200000": 146,
+    "4000": 17,
+    "64000": 82
+   },
+   "targets": 146,
+   "wall_seconds": 545.49
+  },
+  "SHUFFLED_HISTORY": {
+   "arm": "SHUFFLED_HISTORY",
+   "attempts": 730,
+   "calibration_only": false,
+   "external_verifications": 146,
+   "fragments_served": 14,
+   "ladder": [
+    1000,
+    4000,
+    16000,
+    64000,
+    200000
+   ],
+   "ladder_total": 244,
+   "mean_B_slots": 57804.3,
+   "note": "random fragments matching the mined count and length profile, with the true hidden motifs excluded so the control cannot rediscover them by chance",
+   "process": {
+    "pid": 648108,
+    "pid_changed": true,
+    "pre_restart_pid": 643531
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 244,
+   "successes_by_budget": {
+    "1000": 10,
+    "16000": 39,
+    "200000": 146,
+    "4000": 10,
+    "64000": 39
+   },
+   "targets": 146,
+   "wall_seconds": 474.7
+  }
+ },
+ "comparison": {
+  "CONTINUED_vs_LIBRARY_ONLY": 0,
+  "CONTINUED_vs_RESET": 0,
+  "CONTINUED_vs_SHUFFLED": 47,
+  "CONTINUED_vs_best_surface": 0,
+  "ORACLE_vs_CONTINUED": 199,
+  "PARENT_vs_CONTINUED": 170
+ },
+ "dev_phase": {
+  "admission": false,
+  "fragments": [
+   [
+    "double",
+    "square"
+   ],
+   [
+    "square",
+    "double"
+   ],
+   [
+    "inc",
+    "square"
+   ],
+   [
+    "square",
+    "dec"
+   ],
+   [
+    "square",
+    "square"
+   ],
+   [
+    "square",
+    "double",
+    "square"
+   ],
+   [
+    "double",
+    "inc"
+   ],
+   [
+    "double",
+    "square",
+    "double"
+   ],
+   [
+    "square",
+    "double",
+    "inc"
+   ],
+   [
+    "double",
+    "inc",
+    "square"
+   ],
+   [
+    "inc",
+    "square",
+    "double"
+   ],
+   [
+    "double",
+    "square",
+    "square"
+   ],
+   [
+    "square",
+    "square",
+    "double"
+   ],
+   [
+    "square",
+    "double",
+    "inc",
+    "square"
+   ],
+   [
+    "square",
+    "double",
+    "square",
+    "double"
+   ],
+   [
+    "square",
+    "inc",
+    "square"
+   ]
+  ],
+  "fragments_mined": 16,
+  "held_out_mean_baseline": 48364.6,
+  "held_out_mean_candidate": 18419.0,
+  "held_out_never_worse": false,
+  "held_out_strictly_better": 48,
+  "pid": 642682,
+  "schema": "M2P1_DEV_STATE",
+  "terminal": "KEEP_PRIMITIVE_BASELINE",
+  "train_solved": 127,
+  "train_unsolved": 0,
+  "validated_on": 63,
+  "wall_seconds": 324.72
+ },
+ "entry_gates": {
+  "G1_length_parity_max_deviation": 0.01,
+  "G1_verdict": "PASS",
+  "G2_shared_normal_forms": 0,
+  "G2_verdict": "PASS",
+  "G3_non_decomposable": 0,
+  "G3_verdict": "PASS",
+  "G4_best_surface_ladder": 291,
+  "G4_counterfactual_parent_vs_surface": "PASS_COUNTERFACTUAL",
+  "G4_parent_ladder": 461,
+  "G4_surface_predictor_null": "CANNOT_CHECK_NO_DEPLOYED_HISTORY_ARM"
+ },
+ "hardening_parent": 323,
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "novelty_guarantee": {
+  "external_verifications": {
+   "CONTINUED": 146,
+   "LIBRARY_ONLY": 146,
+   "ORACLE_FAMILY": 146,
+   "ORDINARY_ADAPTIVE_PARENT": 146,
+   "RESET": 146,
+   "SHUFFLED_HISTORY": 146
+  },
+  "protected_targets": 146,
+  "shared_normal_forms_with_history": 0
+ },
+ "owner_issue": 165,
+ "schema": "OCM_M2P1_SUMMARY_V1",
+ "surface_orderings_history_free": {
+  "ASC_baseline": {
+   "ladder_total": 291,
+   "mean_B": 47767.1,
+   "successes_by_budget": {
+    "1000": 8,
+    "16000": 38,
+    "200000": 146,
+    "4000": 17,
+    "64000": 82
+   }
+  },
+  "CONST8_first": {
+   "ladder_total": 278,
+   "mean_B": 48665.1,
+   "successes_by_budget": {
+    "1000": 0,
+    "16000": 24,
+    "200000": 146,
+    "4000": 0,
+    "64000": 108
+   }
+  },
+  "DESC_history_free": {
+   "ladder_total": 278,
+   "mean_B": 52924.8,
+   "successes_by_budget": {
+    "1000": 0,
+    "16000": 24,
+    "200000": 146,
+    "4000": 0,
+    "64000": 108
+   }
+  }
+ },
+ "terminal": "PARENT_SUFFICIENT__LEARNER_REFUSED_DEPLOYMENT"
+}

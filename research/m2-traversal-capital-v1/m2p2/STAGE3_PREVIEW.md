@@ -1,3 +1,5 @@
+> **Superseded by [STAGE3.md](STAGE3.md)** (all eight worlds scored; terminal of record `CANNOT_CHECK_NO_ADMITTING_WORLD`).
+
 # M2-P2 stage 3 — preview on 7 / 8 scored worlds (not the terminal of record)
 
 The frozen arm set (CONTINUED, RESET, LIBRARY_ONLY, SHUFFLED_HISTORY, ORACLE_FAMILY,

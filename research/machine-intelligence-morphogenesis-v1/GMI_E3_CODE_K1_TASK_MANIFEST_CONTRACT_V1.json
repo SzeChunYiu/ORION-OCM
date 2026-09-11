@@ -1,0 +1,63 @@
+{
+  "schema": "GMIE3CodeK1TaskManifestContractV1",
+  "status": "PRIVATE_CUSTODY_MANIFEST_SCHEMA__NO_TASK_CONTENT_INCLUDED",
+  "purpose": "Machine-checkable custody contract for H1a/H1b procedural-transfer task sets. Actual protected manifests remain evaluator custody until disclosure is scientifically safe.",
+  "manifest_schema": "ocm.gmi-e3.code-k1-task-manifest.v1",
+  "top_level": [
+    "schema",
+    "protocol_version",
+    "model_identity_digest",
+    "harness_identity_digest",
+    "verifier_environment_digest",
+    "generic_identifier_allowlist",
+    "tasks"
+  ],
+  "task_fields": [
+    "task_id",
+    "family_id",
+    "role",
+    "author_or_generator_id",
+    "base_repo_digest",
+    "mutated_repo_digest",
+    "task_statement_digest",
+    "public_test_digest",
+    "protected_test_digest",
+    "mutation_receipt_digest",
+    "fault_operator_id",
+    "fault_files",
+    "fault_regions_digest",
+    "mutation_patch_digest",
+    "reference_repair_digest",
+    "exposed_identifiers",
+    "exposed_artifact_digests",
+    "base_full_suite_passed",
+    "mutated_full_suite_failed",
+    "solver_visible_family_label",
+    "solver_visible_mutation_receipt",
+    "solver_visible_protected_tests",
+    "solver_visible_reference_repair"
+  ],
+  "roles": ["DEVELOPMENT", "PROTECTED"],
+  "families_v1": ["F1_INTERFACE_SCHEMA_MIGRATION", "F2_STALE_DERIVED_STATE", "F3_FAILURE_CLEANUP_LIFECYCLE"],
+  "h1a_minimum": {
+    "development_tasks_per_family": 4,
+    "protected_tasks_per_family": 4,
+    "protected_tasks_total": 12
+  },
+  "custody_invariants": [
+    "base_repo_digest != mutated_repo_digest for every task",
+    "base repository passes full frozen evaluator before mutation",
+    "mutated repository fails at least one full frozen evaluator obligation",
+    "fault_files nonempty and repository-relative",
+    "family label, mutation receipt, protected tests and reference repair are solver-hidden",
+    "task_id, mutated_repo_digest and task_statement_digest are globally unique",
+    "DEVELOPMENT and PROTECTED exact repository/task digests are disjoint",
+    "PROTECTED exposed identifiers do not appear in DEVELOPMENT exposed identifiers except frozen generic allowlist",
+    "PROTECTED mutation/reference repair digests never appear in DEVELOPMENT exposed_artifact_digests",
+    "all protected tests and mutation/reference receipts are bound by digest before solving arms run"
+  ],
+  "scoring_boundary": "fault_files/fault_regions are used evaluator-side only for frozen localization scoring after traces exist; they are never solver context",
+  "validate_with": "validate_code_k1_task_manifest.py",
+  "positive_terminal": "GMI_E3_CODE_K1_TASK_CUSTODY_GREEN",
+  "negative_terminal_prefix": "GMI_E3_CODE_K1_TASK_CUSTODY_FAIL_"
+}

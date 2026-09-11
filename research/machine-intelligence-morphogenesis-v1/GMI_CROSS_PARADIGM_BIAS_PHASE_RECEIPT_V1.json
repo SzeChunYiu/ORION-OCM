@@ -1,0 +1,63 @@
+{
+  "schema": "GMICrossParadigmBiasPhaseReceiptV1",
+  "obligation": "held-out prediction on five ordered inputs after m observed labels",
+  "concept_universe": {
+    "all_boolean_concepts": 32,
+    "monotone_threshold_concepts": 6,
+    "nonthreshold_concepts": 26,
+    "uniform_ecology_threshold_probability": "3/16"
+  },
+  "realizations": {
+    "EXEMPLAR_MEMORY": "stores observed examples; unseen prediction 1/2",
+    "SYMBOLIC_THRESHOLD": "uniform version space over six threshold hypotheses",
+    "BAYES_THRESHOLD_MIX": "fixed 1/2 threshold-class + 1/2 universal-concept mixture prior",
+    "PARAMETRIC_PERCEPTRON": "one-neuron linear-threshold model; deterministic eight-epoch online perceptron update"
+  },
+  "exact_rows": {
+    "m1": {
+      "EXEMPLAR_MEMORY": {"threshold": "1/2", "nonthreshold": "1/2", "uniform": "1/2"},
+      "SYMBOLIC_THRESHOLD": {"threshold": "13/18", "nonthreshold": "35/78", "uniform": "1/2"},
+      "BAYES_THRESHOLD_MIX": {"threshold": "15259/25200", "nonthreshold": "51941/109200", "uniform": "1/2"},
+      "PARAMETRIC_PERCEPTRON": {"threshold": "41/60", "nonthreshold": "119/260", "uniform": "1/2"}
+    },
+    "m2": {
+      "EXEMPLAR_MEMORY": {"threshold": "1/2", "nonthreshold": "1/2", "uniform": "1/2"},
+      "SYMBOLIC_THRESHOLD": {"threshold": "7/9", "nonthreshold": "17/39", "uniform": "1/2"},
+      "BAYES_THRESHOLD_MIX": {"threshold": "33784/51975", "nonthreshold": "104816/225225", "uniform": "1/2"},
+      "PARAMETRIC_PERCEPTRON": {"threshold": "53/72", "nonthreshold": "139/312", "uniform": "1/2"}
+    },
+    "m3": {
+      "EXEMPLAR_MEMORY": {"threshold": "1/2", "nonthreshold": "1/2", "uniform": "1/2"},
+      "SYMBOLIC_THRESHOLD": {"threshold": "73/90", "nonthreshold": "167/390", "uniform": "1/2"},
+      "BAYES_THRESHOLD_MIX": {"threshold": "24113/34650", "nonthreshold": "68287/150150", "uniform": "1/2"},
+      "PARAMETRIC_PERCEPTRON": {"threshold": "187/240", "nonthreshold": "453/1040", "uniform": "1/2"}
+    },
+    "m4": {
+      "EXEMPLAR_MEMORY": {"threshold": "1/2", "nonthreshold": "1/2", "uniform": "1/2"},
+      "SYMBOLIC_THRESHOLD": {"threshold": "5/6", "nonthreshold": "11/26", "uniform": "1/2"},
+      "BAYES_THRESHOLD_MIX": {"threshold": "49/66", "nonthreshold": "127/286", "uniform": "1/2"},
+      "PARAMETRIC_PERCEPTRON": {"threshold": "49/60", "nonthreshold": "111/260", "uniform": "1/2"}
+    }
+  },
+  "exact_phase": {
+    "crossover_probability_for_each_threshold_biased_realization": "3/16",
+    "p_less_than_3_16": "threshold-directed bias is harmful in expected held-out accuracy versus the unbiased 1/2 exemplar baseline",
+    "p_equal_3_16": "all four registered learners average exactly 1/2",
+    "p_greater_than_3_16": "threshold-directed bias improves expected held-out accuracy versus the unbiased 1/2 exemplar baseline"
+  },
+  "interpretation": [
+    "The three biased learners are materially different realization/update forms but share threshold-directed inductive bias.",
+    "The phase sign is explained by ecology-bias alignment rather than by the architecture family label alone.",
+    "Performance magnitudes differ, and no resource/hardware superiority is inferred from this receipt.",
+    "The exact uniform-concept point is a finite No-Free-Lunch-style calibration and is parent-owned."
+  ],
+  "strongest_parent_families": [
+    "No Free Lunch / inductive bias",
+    "version-space / concept learning",
+    "Bayesian learning",
+    "perceptron / linear threshold learning",
+    "PAC/PAC-Bayes / meta-learning for broader generalization statements"
+  ],
+  "terminal": "GMI_CROSS_PARADIGM_BIAS_PHASE_FINITE_EXACT_GREEN_V1",
+  "claim_ceiling": "finite exact concept-learning ecology phase; candidate bias-resource synthesis evidence only; no universal GMI law, no modern neural-network equivalence, no resource-superiority claim"
+}
