@@ -51,7 +51,11 @@ def main() -> int:
     ap.add_argument("--train-n", type=int, default=45)
     ap.add_argument("--prot-n", type=int, default=25)
     ap.add_argument("--val-n", type=int, default=15)
-    ap.add_argument("--slots", type=int, default=200000)
+    ap.add_argument("--slots", type=int, default=2100000,
+                    help="must cover the FULL grammar at this P: sum_{L<=8} P^L = 2,015,539 "
+                         "at P=6. The P=4 default of 200k leaves length-8 targets unreachable, "
+                         "which silently produced an empty library in the first run.")
+    ap.add_argument("--seed-start", type=int, default=0)
     a = ap.parse_args()
 
     prims = PRIMS6
@@ -71,7 +75,7 @@ def main() -> int:
     print("canonical normal forms:", len(canonical), flush=True)
 
     results = []
-    for s in range(a.seeds):
+    for s in range(a.seed_start, a.seed_start + a.seeds):
         rng = random.Random(1000 + s)
         pool = [p for p in product(prims, repeat=2)]
         motifs = tuple(sorted(rng.sample(pool, a.motifs)))
@@ -109,6 +113,14 @@ def main() -> int:
             r = solve(nf, prims, slots=a.slots)
             if r["status"] == "VERIFIED":
                 solved.append(r["program"])
+        if len(solved) < len(train) // 2:
+            # GUARD: a mostly-unsolved training set means the budget does not reach the
+            # targets. Reporting 0% here would be CONTINUED == RESET with nothing served,
+            # which is not a distance result. Fail loudly instead.
+            print(f"seed {1000+s}: BUDGET_INSUFFICIENT solved={len(solved)}/{len(train)}", flush=True)
+            results.append({"seed": 1000 + s, "status": "BUDGET_INSUFFICIENT",
+                            "solved": len(solved), "train": len(train)})
+            continue
         lib = tuple(f for f in mdl_select(solved, cap=16) if 2 <= len(f) <= 8)[:16]
         rec = len([f for f in lib if f in motifs])
 
@@ -140,8 +152,9 @@ def main() -> int:
             100 * row["d2"]["reduction_vs_reset"], row["d2"]["strictly_better"], a.prot_n), flush=True)
         results.append(row)
 
-    d1 = [r["d1"]["reduction_vs_reset"] for r in results]
-    d2 = [r["d2"]["reduction_vs_reset"] for r in results]
+    ok = [r for r in results if "d1" in r]
+    d1 = [r["d1"]["reduction_vs_reset"] for r in ok]
+    d2 = [r["d2"]["reduction_vs_reset"] for r in ok]
     out = {"schema": "OCM_M2_EXT_DISTANCE_V1", "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
            "substrate": {"primitives": list(prims), "P": len(prims), "max_length": 8,
                          "note": "RESEARCH ANALOGUE, not the registered grammar; the "

@@ -89,3 +89,19 @@ cannot exhibit generalisation over novel arrangements, however much compute is a
 
 All three are already on the roadmap for other reasons, which is corroboration rather
 than coincidence.
+
+## Instrument defect in the first P = 6 run — recorded, guarded
+
+The first extended-grammar distance run reported `seed 1000: rec=0/10 lib=0 | d1 0.0% |
+d2 0.0%`. That was **not** a distance result. The 200 000-slot budget is sized for the
+registered grammar (87 381 programs); at `P = 6` the space is 2 015 539 programs and
+length-8 targets begin at slot 335 928, so **no training target was solvable**, the
+library was empty, and 0 % / 0 % is `CONTINUED ≡ RESET` with nothing served.
+
+A silent zero from an unserved arm is the same defect class as the [G4 null-arm
+false-FAIL](RESULT.md) earlier in this lane. Repair: budget default raised to cover the
+full grammar at the chosen `P`, and a hard `BUDGET_INSUFFICIENT` terminal whenever fewer
+than half the training targets solve — so the run fails loudly instead of reporting a
+result it did not measure. Log preserved as `records/EXT_DISTANCE_200k_INVALID.log`.
+
+The re-run (4 seeds, 2.1 M slots, parallel) is the one whose result counts.
