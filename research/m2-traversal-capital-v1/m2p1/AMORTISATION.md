@@ -93,3 +93,29 @@ the mechanism, and it is the one place where a bigger grammar would change the a
 ```text
 amortisation: 311 targets (E1, conservative)  ->  3.4 targets (E8, incremental)
 ```
+
+## LUNARC lifetime batch — two instrument defects, both predicted, and the revival
+
+The six-world lifetime array (12 length-2 motifs, `k = 3`, 670 future targets per world)
+finished its developmental phase with two defects that the record must carry.
+
+**Six copies of one world.** Five of six worlds are numerically identical (34/103 held-out
+better, −14.0 %, MDL 47/103). The generator selects the *argmax-members* motif set over
+3 000 trials, and with 12 of 16 length-2 strings there are only 1 820 subsets — every seed
+converges to the same set. Effective replication is **n = 2 distinct worlds** (3001 and
+3003), not 6. Seed-varying worlds need `--trials 1` (one seeded sample; length-2 motifs
+are always substring-disjoint), which is now the documented rule.
+
+**Depth-infeasible by the corrected bound, launched before the correction.** Recovery is
+**12/12 in every world**, yet both selection rules refuse and the library is harmful.
+Full recovery plus refusal is the admission law's C2 signature, and the `b_min` form of
+the depth bound says exactly why: 12 motifs → `T = 16`, `k = 3` → `2g ≈ 8 192 > b_min(6)
+= 1 366`. The array was submitted using the earlier `b_max` map, which marked this
+configuration feasible. The corrected map does not.
+
+**The revival is the applicability gate**, not a re-tuned ecology. A fully recovered
+library on a depth-heterogeneous target stream is precisely the case per-target
+deployment exists for — MDL already helps on 47 of 103 held-out. The gate now runs over
+all 670 protected targets on the two distinct worlds, with the three-ledger accounting
+computed inside the run (fit cost charged as the gate's own acquisition). If it pays, it
+does so over an **observed** horizon 15× larger than E7's.
