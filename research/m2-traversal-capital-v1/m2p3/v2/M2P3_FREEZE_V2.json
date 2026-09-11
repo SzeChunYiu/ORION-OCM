@@ -1,0 +1,23 @@
+{
+ "schema": "OCM_M2P3_SECOND_AUTHORING_FREEZE",
+ "version": "V2",
+ "supersedes": "M2P3_FREEZE_V1.json for every author session that starts after this freeze is merged; V1 stays the record for package A",
+ "owner_issue": 165,
+ "hardening_parent": 323,
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_THE_NEXT_AUTHOR_SESSION (effective on merge)",
+ "why_v2": "Under V1 the frozen static guard rejected package A (STAGE2.md, ledger row 59). The guard's stated rule is correct; its implementation was not: the regex forbade any open() with a literal-string path in a write mode, so it rejected the spec-mandated write when spelled literally, and accepted a write to any path held in a variable. V2 corrects the implementation only.",
+ "what_changes": {
+  "static_guard": "guard_v2.py (sha256 prefix d7b3c480c7cfb7c0): permits exactly one open() in a write mode whose target resolves to worlds.jsonl (a string literal, or a module-level name bound once to that literal) and forbids every other open(); V1's forbidden modules and all other forbidden calls are unchanged",
+  "orchestrator": "m2p3_check_v2.py (sha256 prefix 1b8c5c5c07dccbce): the M2-P2 orchestrator m2p2_check.py with static_guard delegating to guard_v2 and nothing else changed (verified: 17 changed lines against main's m2p2_check.py, the docstring line and the body of static_guard only)",
+  "rule": "UNCHANGED: no filesystem access beyond the one required write; no network, environment reads, threads or subprocesses"
+ },
+ "what_does_not_change": "the neutral spec (sha256 6a25c7f3…), the author unit (claude-haiku-4-5, fresh session, identical wrapper), the taxonomy hostile and token list, the determinism rule, the floors, compilation, the viability floor, G-SURF, the arms, the statistics, the 50 % effect-size primary, the 80 % terminal and the co-registered −88 % ± 8 point prediction: all exactly as M2P3_FREEZE_V1.json",
+ "calibration": {
+  "guard": "guard_v2_calibration.log (sha256 prefix b65d6781e8d8ebc3; script guard_v2_calib.py 96df535ec2652412), expectations fixed in the script before the run: CALIBRATION PASS 8 cases. The real M2-P2 emitter ACCEPT and package A's emitter ACCEPT (its write is legitimate); six tamper controls REJECT (a second write, a write to another path, M2-P2's filename variable rebound to '../worlds.jsonl', an extra read, an os.environ read, a subprocess import). V1's pattern accepted the rebound-variable tamper, a false negative, and rejected package A, a false positive.",
+  "orchestrator_identity": "IDENTITY PASS: the V2 orchestrator run on M2-P2's authored package (its three author files only) reproduces M2-P2's committed stage-2 receipt in all 16 compared scientific fields (verdict ENTRY_GATES_PASS, 8 viable worlds, G-SURF, compiled worlds, determinism, floors, taxonomy); only the static_guard block differs, and it is ACCEPT under both versions. Log identity_compare.log (sha256 prefix 72d4abb431336728), comparator identity_compare.py (30ab3c8106b1f403), receipt M2P3_V2_IDENTITY_RECEIPT_ON_M2P2.json (7fd94e97a0adc75a). The comparator's first run reported the taxonomy block as differing because it normalised paths in values but not in dict keys; with keys normalised the blocks are identical, and the recorded log is the corrected run. Package A was never run through the V2 orchestrator."
+ },
+ "package_a": "stays CANNOT_CHECK_EMITTER_REJECTED under V1; it is never run through the V2 orchestrator and never re-scored. Its independence result (0/7 shapes, 0/7 chunk sets shared with M2-P2; median Jaccard 0.300) stands",
+ "m2p2_unaffected": "M2-P2's emitter passed the V1 guard, its worlds compiled, and its terminal (CANNOT_CHECK_NO_ADMITTING_WORLD) and every table stand as recorded; V2 does not reopen M2-P2",
+ "next_author_session": "a fresh session after this freeze is merged: same model, same spec (sha re-verified at prompt-build time), same wrapper, and no hint about how the write is spelled. It is package B. Only package B's result is scored; no session is repeated to obtain a different outcome",
+ "forbidden": ["running package A through the V2 orchestrator or re-scoring it", "adding any hint about the guard to the author prompt", "any post-freeze change to the spec, freeze, gates, arms, statistics or terminals (AUTHORSHIP_CONTAMINATED, never amended)", "repeating an author session to obtain a different gate outcome", "editing authored artifacts after the session", "touching src/ocm", "scored execution on the Mac mini"]
+}
