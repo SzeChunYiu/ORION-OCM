@@ -36,7 +36,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(os.path.dirname(HERE), "microscopes", "results")
 ALL_X = list(range(16))
 TRAIN = [0, 3, 5, 6, 9, 10, 12, 15]
-TARGET = {x: clamp(fx(0.25 * (x & 1) + 0.5 * ((x >> 1) & 1) - 0.25 * ((x >> 2) & 1) + 0.5 * ((x >> 3) & 1))) for x in ALL_X}
+COEFFS_V1 = (0.25, 0.5, -0.25, 0.5)  # frozen E_smooth target coefficients
+COEFFS_V2 = (0.5, -0.5, 0.25, 0.75)  # RV-377-009 fresh ecology E_smooth2 (0.75 not in the S2 grammar)
+
+
+def make_target(coeffs):
+    return {x: clamp(fx(sum(c * ((x >> i) & 1) for i, c in enumerate(coeffs)))) for x in ALL_X}
+
+
+TARGET = make_target(COEFFS_V1)
 H = 16
 REVOKE_AT = 9
 THETA = 0.85
@@ -148,6 +156,24 @@ class S2Search:
         M.op("S_DELETE", "examples", x); M.op("S_DELETE", "library", 0); self._synth(M)
 
 
+class S2ApproxSearch(S2Search):
+    """RV-377-014 declared row: argmin squared-error enumeration over the same grammar (scoring verifier), ties -> first."""
+    row = "S2a"
+
+    def _synth(self, M):
+        exs = list(M.stores["examples"])
+        best, best_err = None, None
+        for k, coeffs in enumerate(GRAMMAR):
+            err = 0
+            for ex, ey in exs:
+                d = M.op("SUB", linear_eval(M, coeffs, ex), ey)
+                err += M.op("MUL", d, d)
+            if best_err is None or err < best_err:
+                best, best_err = k, err
+        if best is not None:
+            self.idx = best; M.write("current", best % 4); M.op("S_INSERT", "library", 0, best)
+
+
 class S5Memory:
     row = "S5"; ladder = (2, 4)
 
@@ -213,46 +239,59 @@ class S3Particles:
 
 
 ROWS = {"S4": S4Net, "S2": S2Search, "S5": S5Memory, "S3": S3Particles}
+ROWS_V3 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S5": S5Memory, "S3": S3Particles}
 DENSE = {"S4", "S3"}
-LOCAL = {"S2", "S5"}
+LOCAL = {"S2", "S2a", "S5"}
 
 
-def run(row, basis, size, seed=0):
-    ref = ROWS[row](size)
+def run(row, basis, size, seed=0, target=None, n_events=None, rows=None):
+    target = TARGET if target is None else target
+    n_events = H if n_events is None else n_events
+    revoke_at = REVOKE_AT if n_events == H else (n_events // 2 + 1)
+    ref = (rows or ROWS)[row](size)
     M = Machine(basis, seed=seed)
     M.phase("exec"); ref.init(M)
     D = []; max_writes = 0
-    for t in range(1, H + 1):
-        x = TRAIN[(t - 1) % len(TRAIN)]; y = TARGET[x]
+    for t in range(1, n_events + 1):
+        x = TRAIN[(t - 1) % len(TRAIN)]; y = target[x]
         M.phase("exec"); D.append({xx: ref.query(M, xx) for xx in ALL_X})
         M.phase("upd"); ref.feedback(M, x, y); max_writes = max(max_writes, len(M.L.writes_in_event)); M.end_event()
         M.phase("ver")
-        for xx in ALL_X: M.op("EQ", ref.query(M, xx), TARGET[xx])
-        if t == REVOKE_AT:
+        for xx in ALL_X: M.op("EQ", ref.query(M, xx), target[xx])
+        if t == revoke_at:
             M.phase("rev"); ref.revoke(M, TRAIN[1]); M.end_event()
     M.phase("exec"); final = {xx: ref.query(M, xx) for xx in ALL_X}; D.append(final)
-    err = sum(abs(final[xx] - TARGET[xx]) for xx in ALL_X) / FX_ONE / len(ALL_X)
+    err = sum(abs(final[xx] - target[xx]) for xx in ALL_X) / FX_ONE / len(ALL_X)
     cap = max(0.0, 1 - err / 1.5)
     n_cells = len(M.cells) + sum(len(s) for s in M.stores.values())
-    return {"row": row, "basis": basis.name, "size": size, "D": D, "R": dict(M.L.c), "capability": round(cap, 4), "max_writes": max_writes, "n_cells": n_cells}
+    return {"row": row, "basis": basis.name, "size": size, "D": D, "R": dict(M.L.c), "capability": round(cap, 4), "max_writes": max_writes, "n_cells": n_cells, "n_events": n_events}
 
 
-def per_event(R):
-    return {"desc": R["desc"], "exec_q": R["exec"] / (16 * (H + 1)), "upd_e": R["upd"] / H, "ver_e": R["ver"] / H, "rev_e": R["rev"]}
+def per_event(R, n_events=H):
+    return {"desc": R["desc"], "exec_q": R["exec"] / (16 * (n_events + 1)), "upd_e": R["upd"] / n_events, "ver_e": R["ver"] / n_events, "rev_e": R["rev"]}
 
 
 def cost(pe, Hh, r):
     return pe["desc"] + Hh * pe["exec_q"] + r * pe["upd_e"] + r * pe["ver_e"] + (r / 4) * pe["rev_e"]
 
 
-def main(seed=0):
+def analytic_rstar(pe_i, pe_j, Hh):
+    """r at which C_i(H,r) = C_j(H,r) under cost(); None if the slopes do not cross for r >= 0."""
+    a = (pe_j["desc"] + Hh * pe_j["exec_q"]) - (pe_i["desc"] + Hh * pe_i["exec_q"])
+    b = (pe_i["upd_e"] + pe_i["ver_e"] + pe_i["rev_e"] / 4) - (pe_j["upd_e"] + pe_j["ver_e"] + pe_j["rev_e"] / 4)
+    return round(a / b, 3) if b > 0 and a > 0 else None
+
+
+def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None):
+    rows = rows or ROWS
+    target = make_target(coeffs)
     cols = list(bases.ALL)
     cells = {}
-    for row, cls in ROWS.items():
+    for row, cls in rows.items():
         for col in cols:
             for size in cls.ladder:
-                cells[(row, col, size)] = run(row, bases.ALL[col], size, seed)
-    c2 = {f"{row}@{size}": all(cells[(row, col, size)]["D"] == cells[(row, cols[0], size)]["D"] for col in cols) for row, cls in ROWS.items() for size in cls.ladder}
+                cells[(row, col, size)] = run(row, bases.ALL[col], size, seed, target, n_events, rows)
+    c2 = {f"{row}@{size}": all(cells[(row, col, size)]["D"] == cells[(row, cols[0], size)]["D"] for col in cols) for row, cls in rows.items() for size in cls.ladder}
     caps = {f"{row}|{col}|{size}": cells[(row, col, size)]["capability"] for (row, col, size) in cells}
     H_GRID = [1, 2, 4, 8, 16, 32, 64, 128]; R_GRID = [0, 1, 2, 4, 8, 16, 32]
     frontier = {}; ph = {}
@@ -260,11 +299,11 @@ def main(seed=0):
         for Hh in H_GRID:
             for r in R_GRID:
                 adm = []
-                for row, cls in ROWS.items():
+                for row, cls in rows.items():
                     size = cls.ladder[-1]
                     c = cells[(row, col, size)]
                     if c["capability"] >= THETA:
-                        adm.append((row, cost(per_event(c["R"]), Hh, r)))
+                        adm.append((row, cost(per_event(c["R"], n_events), Hh, r)))
                 if not adm:
                     frontier[f"{col}|H={Hh}|r={r}"] = []; continue
                 cmin = min(v for _, v in adm)
@@ -280,29 +319,60 @@ def main(seed=0):
         else:
             v = "REFUTED_OR_NONMONOTONE"
         ph[col] = {"winners_by_r_H16": dict(zip(map(str, R_GRID), seq)), "verdict": v}
-    receipt = {"schema": "StageDESmoothV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "ecology": {"inputs": 16, "train": TRAIN, "H": H, "revoke_at": REVOKE_AT, "theta": THETA},
+        # RV-377-009 clause (iv): analytic r* from the REFERENCE ecology's per-event costs (E_smooth) vs the observed crossing here
+    rstar = {}
+    if reference_receipt:
+        ref = json.load(open(os.path.join(RES, reference_receipt)))
+        for col in cols:
+            pe2 = per_event(ref["R_by_cell"][f"S2|{col}|4"]); pe4 = per_event(ref["R_by_cell"][f"S4|{col}|4"])
+            pred = analytic_rstar(pe2, pe4, 16)
+            seq = [frontier[f"{col}|H=16|r={r}"] for r in R_GRID]
+            adm = {row: cells[(row, col, rows[row].ladder[-1])]["capability"] >= THETA for row in rows}
+            obs = None
+            for i in range(1, len(R_GRID)):
+                if "S2" in seq[i - 1] and "S4" in seq[i] and "S2" not in seq[i]:
+                    obs = (R_GRID[i - 1], R_GRID[i]); break
+            within = None
+            if adm["S2"] and adm["S4"]:
+                if pred is None:
+                    within = obs is None
+                else:
+                    within = obs is not None and obs[0] <= pred <= obs[1] * 1.0 + 1e-9 or (obs is not None and (pred < obs[0] and obs[0] == 0)) or (obs is not None and R_GRID.index(obs[1]) - R_GRID.index(obs[0]) == 1 and obs[0] <= pred <= obs[1])
+            rstar[col] = {"predicted_rstar_from_E_smooth": pred, "observed_crossing_interval": obs, "both_admissible": adm, "within_one_grid_step": within}
+    receipt = {"schema": "StageDESmoothV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "run_tag": tag, "target_coeffs": list(coeffs), "analytic_rstar_test": rstar,
+               "ecology": {"inputs": 16, "train": TRAIN, "H": n_events, "revoke_at": REVOKE_AT if n_events == H else n_events // 2 + 1, "theta": THETA, "rows": list(rows)},
                "C2": c2, "capability_by_cell": caps, "R_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["R"] for (row, col, size) in cells},
                "writes_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["max_writes"] for (row, col, size) in cells},
                "frontier_H_r": frontier, "PH_REV": ph, "grammar_size": len(GRAMMAR),
                "claim_ceiling": "P2 exact at a 16-input, 8-bit scope; one target; frozen cost model; the S2 grammar contains the target by construction (declared), which is the exact-search advantage the Abbe/Shalev-Shwartz reading predicts."}
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
-    json.dump(receipt, open(os.path.join(RES, "STAGE_DE_SMOOTH_V1.json"), "w"), indent=1, sort_keys=True, default=str)
-    L = ["# Stage D'/E' — smooth-generalization ecology: report V1\n", f"Receipt `STAGE_DE_SMOOTH_V1.json` (sha256 `{receipt['receipt_sha256'][:16]}…`). 16 inputs, 8 seen; θ = {THETA}; rows S4 (gradient net), S2 (exact linear search, grammar of {len(GRAMMAR)}), S5 (exemplar memory), S3 (particles over the grammar).\n",
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_DE_SMOOTH_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
+    L = [f"# Stage D'/E' — smooth-generalization ecology: report {tag}\n", f"Target coefficients {list(coeffs)}. Receipt `STAGE_DE_SMOOTH_{tag}.json` (sha256 `{receipt['receipt_sha256'][:16]}…`). 16 inputs, 8 seen; θ = {THETA}; rows S4 (gradient net), S2 (exact linear search, grammar of {len(GRAMMAR)}), S5 (exemplar memory), S3 (particles over the grammar).\n",
          "## Capability after the protocol (largest ladder size, by column)\n", "| row | " + " | ".join(c.split('_')[0] for c in cols) + " |", "|---|" + "---|" * len(cols)]
-    for row, cls in ROWS.items():
+    for row, cls in rows.items():
         L.append(f"| {row}@{cls.ladder[-1]} | " + " | ".join(str(caps[f"{row}|{c}|{cls.ladder[-1]}"]) for c in cols) + " |")
     L.append("\nC2 (Dev tables identical across columns): " + str(all(c2.values())) + "\n")
     L.append("## PH-REV on E_smooth (frozen prediction E' in CLAIM_LADDER_V2)\n")
     for col, p in ph.items():
         L.append(f"- **{col.split('_')[0]}**: {p['verdict']} — winners by r at H=16: {p['winners_by_r_H16']}")
     L.append("\n" + receipt["claim_ceiling"] + "\n")
-    open(os.path.join(RES, "STAGE_DE_SMOOTH_REPORT_V1.md"), "w").write("\n".join(L) + "\n")
+    if rstar:
+        L.append("## RV-377-009 clause (iv): analytic r* from E_smooth vs observed crossing here\n")
+        for col, v in rstar.items():
+            L.append(f"- **{col.split('_')[0]}**: predicted r* {v['predicted_rstar_from_E_smooth']}, observed crossing {v['observed_crossing_interval']}, both admissible {v['both_admissible']}, within one grid step: {v['within_one_grid_step']}")
+    open(os.path.join(RES, f"STAGE_DE_SMOOTH_REPORT_{tag}.md"), "w").write("\n".join(L) + "\n")
     print("C2 all:", all(c2.values()))
-    for row, cls in ROWS.items():
+    for row, cls in rows.items():
         print(row, {c.split('_')[0]: caps[f"{row}|{c}|{cls.ladder[-1]}"] for c in cols})
     for col, p in ph.items():
         print(col.split('_')[0], p["verdict"], p["winners_by_r_H16"])
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "smooth2_d48":
+        main(coeffs=COEFFS_V2, tag="V3_SMOOTH2_D48", reference_receipt="STAGE_DE_SMOOTH_V1.json", n_events=48, rows=ROWS_V3)
+    elif len(sys.argv) > 1 and sys.argv[1] == "smooth2":
+        main(coeffs=COEFFS_V2, tag="V2_SMOOTH2", reference_receipt="STAGE_DE_SMOOTH_V1.json")
+    else:
+        main()

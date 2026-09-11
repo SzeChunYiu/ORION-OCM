@@ -52,8 +52,16 @@ N_CELLS = 4
 THETA_BIND = 1.0
 THETA_SMOOTH = 0.85
 
+N_BITS = 4
 LEAVES_F = ["x0", "x1", "x2", "x3", "c0", "c1", "c2", "c3", "L", "k0", "k1", "kh", "kq"]
 LEAVES_G = LEAVES_F + ["y", "e", "out"]
+
+
+def set_bits(n):
+    global N_BITS, LEAVES_F, LEAVES_G
+    N_BITS = n
+    LEAVES_F = [f"x{i}" for i in range(n)] + ["c0", "c1", "c2", "c3", "L", "k0", "k1", "kh", "kq"]
+    LEAVES_G = LEAVES_F + ["y", "e", "out"]
 BIN = ["ADD", "SUB", "MUL", "GT", "AND", "OR", "XOR"]
 UN = ["THRESH", "NOT", "NEG"]
 
@@ -128,7 +136,7 @@ def run_candidate(cand, ecology, seed=0):
     M.declare_store("st")
     M.declare_program(8)
     train, all_x, target, events, kind = ecology["train"], ecology["all_x"], ecology["target"], ecology["events"], ecology["kind"]
-    bits = lambda x: [(x >> i) & 1 for i in range(4)]
+    bits = lambda x: [(x >> i) & 1 for i in range(N_BITS)]
     max_writes = 0
     used_store = False
     fx_writes = set()
@@ -169,6 +177,31 @@ def run_candidate(cand, ecology, seed=0):
     return {"score": round(score, 4), "cost": cost, "max_writes": max_writes, "used_store": used_store, "n_fx_cells_written": len(fx_writes)}
 
 
+def _reads(t, acc):
+    if isinstance(t, str):
+        if t.startswith("c") and t[1:].isdigit(): acc.add(t)
+        if t == "L": acc.add("L")
+        return acc
+    for sub in t[1:]: _reads(sub, acc)
+    return acc
+
+
+def eliminate_dead_writes(cand):
+    """RV-377-008 instrument: drop g-writes whose target is never read (transitively) on any path to f's output.
+    Live set = cells/store read by f, closed under 'a live target's expression reads'. Returns (pruned candidate, n_dropped)."""
+    live = _reads(cand["f"], set())
+    changed = True
+    while changed:
+        changed = False
+        for target, expr in cand["g"]:
+            key = "L" if target == "INSERT" else target
+            if key in live:
+                before = len(live); _reads(expr, live)
+                if len(live) != before: changed = True
+    kept = [w for w in cand["g"] if (("L" if w[0] == "INSERT" else w[0]) in live)]
+    return {"f": cand["f"], "g": kept}, len(cand["g"]) - len(kept)
+
+
 def classify_locality(res):
     """RUN3 classifier (declared in CLAIM_LADDER_V2 F'): keyed on write locality and numeric-vs-store use, not on store-primitive use alone."""
     if res["max_writes"] <= 2 and (res["used_store"] or res["n_fx_cells_written"] <= 2):
@@ -193,7 +226,14 @@ def classify(res):
     return "INERT/OTHER"
 
 
-def ecologies(run3=False):
+SMOOTH8_COEFFS = (0.375, -0.625, 0.875, -0.375, 0.125, -0.125, 0.125, 0.125)  # declared before RUN4: the four major coefficients are not expressible from the constant leaves inside a 4-term depth-3 tree
+SMOOTH8_TRAIN = sorted({(37 * i + 11) % 256 for i in range(16)})  # 16 seen inputs (deterministic)
+
+
+def ecologies(run3=False, run4=False):
+    if run4:
+        tgt = {x: clamp(fx(sum(c * ((x >> i) & 1) for i, c in enumerate(SMOOTH8_COEFFS)))) for x in range(256)}
+        return {"E_smooth8": {"kind": "smooth", "train": SMOOTH8_TRAIN, "all_x": list(range(256)), "target": tgt, "events": 32}}
     if run3:
         tgt16 = {x: int(((x * 7) >> 2) & 1) for x in range(16)}  # a 16-input binding target with no simple bit rule
         return {"E_bind16": {"kind": "bind", "train": list(range(16)), "all_x": list(range(16)), "target": tgt16, "events": 32}}
@@ -201,6 +241,21 @@ def ecologies(run3=False):
     tgt = {x: clamp(fx(0.25 * (x & 1) + 0.5 * ((x >> 1) & 1) - 0.25 * ((x >> 2) & 1) + 0.5 * ((x >> 3) & 1))) for x in range(16)}
     e_smooth = {"kind": "smooth", "train": [0, 3, 5, 6, 9, 10, 12, 15], "all_x": list(range(16)), "target": tgt, "events": 16}
     return {"E_bind": e_bind, "E_smooth": e_smooth}
+
+
+PLANTED_LEARNER_SMOOTH8 = {  # hand-written 4-coefficient gradient learner inside the SAME grammar (depth 3, 4 writes): existence check for RV-377-015
+    "f": ["ADD", ["ADD", ["MUL", "c0", "x0"], ["MUL", "c1", "x1"]], ["ADD", ["MUL", "c2", "x2"], ["MUL", "c3", "x3"]]],
+    "g": [["c0", ["SUB", "c0", ["MUL", "e", "x0"]]], ["c1", ["SUB", "c1", ["MUL", "e", "x1"]]], ["c2", ["SUB", "c2", ["MUL", "e", "x2"]]], ["c3", ["SUB", "c3", ["MUL", "e", "x3"]]]],
+}
+
+
+def planted_check(seed=3):
+    """Evaluate the planted learner on E_smooth8 (no search). Returns its run_candidate result and class after dead-write elimination."""
+    set_bits(8)
+    e = ecologies(run4=True)["E_smooth8"]
+    c, dropped = eliminate_dead_writes(PLANTED_LEARNER_SMOOTH8)
+    r = run_candidate(c, e, seed)
+    return {"score": r["score"], "class": classify_locality(r), "max_writes": r["max_writes"], "used_store": r["used_store"], "n_fx_cells_written": r["n_fx_cells_written"], "cost": r["cost"], "dropped_writes": dropped}
 
 
 def search(ecology, rng, seed):
@@ -222,27 +277,41 @@ def search(ecology, rng, seed):
     return elites, scored
 
 
-def main(seed=0, n_random=None, hill_steps=None, tag="V1", run3=False):
+def main(seed=0, n_random=None, hill_steps=None, tag="V1", run3=False, run4=False, dwe=False):
     global N_RANDOM, HILL_STEPS
     if n_random: N_RANDOM = n_random
     if hill_steps: HILL_STEPS = hill_steps
+    set_bits(8 if run4 else 4)
     rng = random.Random(seed)
-    eco = ecologies(run3=run3)
-    cls_fn = classify_locality if run3 else classify
+    eco = ecologies(run3=run3, run4=run4)
+    cls_fn = classify_locality if (run3 or run4) else classify
     out = {}
     for name, e in eco.items():
         elites, scored = search(e, rng, seed)
         theta = THETA_BIND if e["kind"] == "bind" else THETA_SMOOTH
         winners = [(s, c, r) for s, _, c, r in elites if s >= theta]
+        dwe_log = []
+        if dwe:  # RV-377-011: canonicalize (dead-write elimination) BEFORE classification; score must be unchanged
+            pruned = []
+            for s, c, r in winners:
+                c2, dropped = eliminate_dead_writes(c)
+                r2 = run_candidate(c2, e, seed)
+                assert r2["score"] == s, (s, r2["score"])
+                dwe_log.append({"dropped_writes": dropped, "writes_before": r["max_writes"], "writes_after": r2["max_writes"], "class_before": cls_fn(r), "class_after": cls_fn(r2)})
+                pruned.append((s, c2, r2))
+            winners = pruned
         classes = [cls_fn(r) for _, _, r in winners]
         out[name] = {"n_random": N_RANDOM, "hill_steps": HILL_STEPS, "topk": TOPK, "theta": theta, "best_score": elites[0][0],
+                     "top_elites": [{"score": s_, "class": cls_fn(r_), "max_writes": r_["max_writes"], "used_store": r_["used_store"], "n_fx_cells_written": r_["n_fx_cells_written"], "f": json.dumps(c_["f"]), "g": json.dumps(c_["g"])} for s_, _, c_, r_ in elites[:3]],
                      "n_winners_at_theta": len(winners), "winner_classes": classes,
                      "winner_details": [{"score": s, "class": cls_fn(r), "max_writes": r["max_writes"], "used_store": r["used_store"], "n_fx_cells_written": r["n_fx_cells_written"], "cost": r["cost"], "f": json.dumps(c["f"]), "g": json.dumps(c["g"])} for s, c, r in winners[:6]],
-                     "random_baseline_fraction_at_theta": sum(1 for s, _, _, _ in scored if s >= theta) / N_RANDOM}
+                     "random_baseline_fraction_at_theta": sum(1 for s, _, _, _ in scored if s >= theta) / N_RANDOM, "dead_write_elimination": dwe_log}
     def frac(name, cls_prefix):
         cl = out[name]["winner_classes"]
         return (sum(1 for c in cl if c.startswith(cls_prefix)) / len(cl)) if cl else None
-    if run3:
+    if run4:
+        f1 = None; f1_dense = None; f2 = frac("E_smooth8", "NUMERIC_DENSE"); f2_store = frac("E_smooth8", "LOCAL_MEMORY")
+    elif run3:
         f1 = frac("E_bind16", "LOCAL_MEMORY"); f1_dense = frac("E_bind16", "NUMERIC_DENSE"); f2 = None; f2_store = None
     else:
         f1 = frac("E_bind", "STORE_LOCAL"); f1_dense = frac("E_bind", "NUMERIC_DENSE")
@@ -252,7 +321,7 @@ def main(seed=0, n_random=None, hill_steps=None, tag="V1", run3=False):
         "F2_smooth_winners_numeric_dense": {"fraction_numeric_dense": f2, "fraction_store_local": f2_store, "holds": (f2 is not None and f2 >= 0.5 and (f2_store or 0) < 0.5)},
         "F3_handover": "NOT_OBSERVABLE__NO_STORE_LOCAL_CANDIDATE_REACHED_THETA_IN_E_SMOOTH" if (f2_store in (None, 0.0)) else "STORE_LOCAL_CANDIDATES_REACHED_THETA_IN_E_SMOOTH (see winner_details; handover computable)",
     }
-    receipt = {"schema": "StageFBlindRecoveryV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "seed": seed, "run_tag": tag, "declared": "V1 = frozen budget (3000/40); RUN2 = declared exploratory re-run at 4x budget after V1 returned no E_smooth winner; V1 is preserved and remains the frozen result", "ecologies": {k: {kk: vv for kk, vv in v.items() if kk != "target"} for k, v in eco.items()},
+    receipt = {"schema": "StageFBlindRecoveryV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "seed": seed, "run_tag": tag, "declared": "V1 = frozen budget (3000/40); RUN2 = declared exploratory re-run at 4x budget after V1 returned no E_smooth winner; V1 is preserved and remains the frozen result; RECLASS_RUN3 = identical replay of RUN3 (seed 2, 6000/80) with dead-write elimination before classification (RV-377-011/008); RUN4_SMOOTH8 = E_smooth8 (256 inputs, 16 seen, 8-bit leaves, declared coefficients) at 12000/160 with dead-write elimination (RV-377-011/007)", "dead_write_elimination": dwe, "n_bits": N_BITS, "smooth8_coeffs": list(SMOOTH8_COEFFS) if run4 else None, "ecologies": {k: {kk: vv for kk, vv in v.items() if kk != "target"} for k, v in eco.items()},
                "search": "random N + hill-climb from top-k by single-node mutation; label-free; scored by (score, -charged cost)", "results": out, "verdict": verdict,
                "claim_ceiling": "E2 exploratory at tiny scope, single search family, one basis column (B0), one seed; post-hoc label-free classification; not a confirmatory blind-recovery result (#377 §13 requires matched generic search parents, multiple encodings and seeds)."}
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
@@ -278,5 +347,13 @@ if __name__ == "__main__":
         main(seed=1, n_random=12000, hill_steps=160, tag="RUN2")
     elif len(sys.argv) > 1 and sys.argv[1] == "run3":
         main(seed=2, n_random=6000, hill_steps=80, tag="RUN3_BIND16", run3=True)
+    elif len(sys.argv) > 1 and sys.argv[1] == "reclass3":
+        main(seed=2, n_random=6000, hill_steps=80, tag="RECLASS_RUN3", run3=True, dwe=True)
+    elif len(sys.argv) > 1 and sys.argv[1] == "run4":
+        main(seed=3, n_random=12000, hill_steps=160, tag="RUN4_SMOOTH8", run4=True, dwe=True)
+    elif len(sys.argv) > 1 and sys.argv[1] == "planted":
+        print(json.dumps(planted_check(), indent=1))
+    elif len(sys.argv) > 1 and sys.argv[1] == "run5":
+        main(seed=4, n_random=120000, hill_steps=1600, tag="RUN5_SMOOTH8_10X", run4=True, dwe=True)
     else:
         main()

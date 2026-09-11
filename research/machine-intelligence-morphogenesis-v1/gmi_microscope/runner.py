@@ -49,6 +49,7 @@ def run(row_name: str, basis, size: int, seed: int = 0) -> dict:
     if hasattr(ref, "snapshot_initial"):
         ref.snapshot_initial(M)
     desc_after_init = M.L.c["desc"]
+    exec_after_init = M.L.c["exec"]
     Q = {}
     D = []
     per_phase = []
@@ -120,7 +121,7 @@ def run(row_name: str, basis, size: int, seed: int = 0) -> dict:
         "row": row_name, "basis": basis.name, "size": size,
         "Q": Q, "D": D, "R": R, "S": S, "capability": capability,
         "parent_cost_model": pc, "parent_total": parent_total, "kappa": kappa,
-        "per_event": per_phase, "desc_after_init": desc_after_init,
+        "per_event": per_phase, "desc_after_init": desc_after_init, "exec_after_init": exec_after_init,
         "native_ops": M.L.native_ops, "emulated_ops": M.L.emulated_ops,
         "flat_table_entries_log2": round(math.log2(ref.flat_table_entries()), 2),
     }
