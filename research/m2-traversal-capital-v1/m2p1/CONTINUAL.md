@@ -238,3 +238,36 @@ s602 unchanged within ± 2 % (its first attempt deployed); fresh s604: lifetime 
 and ≥ 10 % below the fixed-library controller, B < RESET, A′ ≤ the fixed-library A′.
 Falsifiers: s603 B ≥ RESET; s604 lifetime ≥ the fixed-library controller.
 
+## Outcome, continual_v4.2 (records/continual/SHIFT45_s60{2,3}_v4.2_*, SHIFT45_s604_*)
+
+| world | RESET | fixed-library controller | continual_v4.2 | B (v4.2) | A′ (v4.2) | events |
+|---|---|---|---|---|---|---|
+| s602 | 3 538 | 2 156 | 1 785 (−49.5 %) | 3 672 (−0.7 %) | 911 | deploy 72 (corpus 17, 5 944) |
+| s603 | 3 804 | 2 128 | **1 667 (−56.2 %)** | **3 369 (−2.0 %)** | 897 | fail 72 (240); deploy 80 (corpus 25, 3 361) |
+| **s604** (fresh, train 50) | 3 673 | 2 292 | **2 729 (−25.7 %)** | 3 858 (−6.9 %) | **3 625** | deploy 72 (corpus 17, **frequency** library, 16 164) |
+
+Held: s603 B ≤ 0.98 × RESET (3 369 vs 3 369.2 — at the line), s603 lifetime, s604 B < RESET.
+**Missed:** s602 "unchanged ± 2 %" (+4.5 % — the earlier attempt mined a thinner corpus and
+learned a slightly weaker library); **s604's lifetime is 19 % *above* the fixed-library
+controller** — the registered falsifier fired.
+
+**Attribution (s604 rows 90–106).** The library learned at 72 was the *frequency* candidate
+(16 fragments, validated 7/8 on the slice, β = 8 420 at depth 3; the MDL candidate had 5
+fragments, 5/8). In B it served well (−6.9 %). At the B → A′ boundary it was not stood down for
+17 targets: its long fragments tile an occasional A′ target (hits at 92, 95, 100, 103, 107),
+each hit resetting the three-consecutive-miss streak, while every miss cost β + baseline
+(10–12 k per target against a RESET of 2–4 k). At 104–106 three misses finally lined up, A's
+library was re-probed and A′ ran at the fixed controller's cost from 107 on (rows identical).
+
+**Invariant.** Liveness must be judged on *value*, not on hits: a library that hits one target
+in three while its misses cost β each is a net loss and must stand down. The consecutive-miss
+rule is a special case that fails exactly for expensive libraries with sporadic hits.
+
+**continual_v5 (registered before its run).** Value-based liveness: on each live target record
+the realised delta (hit → the library's expected baseline, taken from its own validation slice,
+minus the position; miss → −probe cost); stand down when the sum over the last 8 targets is
+negative (after ≥ 3 targets). Everything else unchanged (stand-down still re-probes the other
+retained libraries at once). Predictions: s604 A′ ≤ 1 100 and lifetime ≤ 1 950 (≥ 15 % below
+the fixed controller); SHIFT45 / s602 / s603 within ± 3 % of v4.1 / v4.2; E5 414.1 ± 5 %;
+FV8 ≤ +0.05 %. Falsifiers: s604 lifetime ≥ 2 292; any B ≥ RESET; E5 > 434.8.
+
