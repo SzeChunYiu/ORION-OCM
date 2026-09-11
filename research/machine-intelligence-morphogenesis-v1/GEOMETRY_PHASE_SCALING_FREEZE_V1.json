@@ -1,0 +1,37 @@
+{
+  "schema": "GeometryPhaseScalingFreezeV1",
+  "frozen_before_outcomes": true,
+  "development_calibration_m": 2,
+  "protected_m_values": [7,8,9,10],
+  "state_space": "2m bits grouped into m aligned pairs",
+  "start": "all zeros",
+  "target": "all ones",
+  "shared_legal_moves": [
+    "flip any one bit",
+    "flip any aligned pair"
+  ],
+  "local_geometry": {
+    "total_single_flip_mass": 0.9,
+    "total_pair_flip_mass": 0.1,
+    "within_family_uniform": true
+  },
+  "chunk_geometry": {
+    "total_single_flip_mass": 0.1,
+    "total_pair_flip_mass": 0.9,
+    "within_family_uniform": true
+  },
+  "acceptance": "strictly accept proposal iff registered ecology quality improves; rejected proposal leaves state unchanged",
+  "ecologies": {
+    "ADDITIVE": "quality = number of target-correct bits",
+    "CHUNK": "quality = number of fully target-correct aligned pairs"
+  },
+  "primary_predictions": [
+    "For every protected m in {7,8,9,10}, LOCAL has strictly lower expected first-hit proposal count than CHUNK under ADDITIVE feedback.",
+    "For every protected m in {7,8,9,10}, CHUNK has strictly lower expected first-hit proposal count than LOCAL under CHUNK feedback.",
+    "Under CHUNK feedback, expected first-hit count equals m*H_m/p_pair, hence LOCAL/CHUNK expected-cost ratio is exactly 9 for every protected m."
+  ],
+  "analysis": "exact dynamic programming / rational formula where tractable; no stochastic sampling required",
+  "negative_terminal": "GEOMETRY_PHASE_SCALING_PREDICTION_FALSIFIED",
+  "positive_terminal": "GEOMETRY_PHASE_SCALING_PREDICTION_HELD_AT_REGISTERED_SIZES",
+  "claim_boundary": "calibration of a parent-owned inductive-bias/credit-assignment principle; not evidence of new GMI morphology law"
+}
