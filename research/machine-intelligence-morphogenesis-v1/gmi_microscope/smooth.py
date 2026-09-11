@@ -188,6 +188,32 @@ class S2ApproxSearch(S2Search):
             self.idx = best; M.write("current", best % 4); M.op("S_INSERT", "library", 0, best)
 
 
+XOR_GRAMMAR = [(mask, b) for b in (0, 1) for mask in range(16)]  # 32 XOR-linear programs y = b XOR (XOR of the bits selected by mask); constant 0 first
+
+
+class S6XorSearch(S2Search):
+    """RV-377-024 declared occupant of the parity hole (property predicted first: closure under the target's algebra, XOR-linear
+    identification). Exact-consistency search over XOR_GRAMMAR with the S2 protocol (insert only on error; first consistent program;
+    output fx(1.0)/0). Predicted admissible ONLY where the seen inputs span GF(2)^4 (balanced split), not on the even-parity coset
+    (constant 0 is consistent with every seen label), and never on a smooth target (two-valued output)."""
+    row = "S6"; ladder = (2, 4)
+
+    def query(self, M, x):
+        mask, b = XOR_GRAMMAR[self.idx]
+        acc = b
+        for i in range(4):
+            acc = M.op("XOR", acc, M.op("AND", (mask >> i) & 1, (x >> i) & 1))
+        return fx(1.0) if acc else 0
+
+    def _synth(self, M):
+        exs = list(M.stores["examples"])
+        for k in range(len(XOR_GRAMMAR)):
+            self.idx = k
+            if all(self.query(M, ex) == ey for ex, ey in exs):
+                M.write("current", k % 4); M.op("S_INSERT", "library", 0, k); return
+        self.idx = 0
+
+
 class S5Memory:
     row = "S5"; ladder = (2, 4)
 
@@ -239,6 +265,27 @@ class S5KNN:
         M.op("S_DELETE", "mem", x)
 
 
+class S5Hamming(S5KNN):
+    """RV-377-025: the S5k row with the distance computed as the docstring states. RV-377-021 exposed an instrument defect in
+    S5KNN.query: XOR in this primitive universe is BOOLEAN (bool(k) != bool(x)), so every nonzero key sat at distance 0 and the
+    row averaged the whole store. Here the Hamming distance is charged bit by bit: d = sum_i XOR(bit_i(k), bit_i(x)). S5KNN is
+    kept unchanged so the V6_SYM receipts stay reproducible."""
+    row = "S5h"
+
+    def query(self, M, x):
+        best_d, acc, cnt = 5, 0, 0
+        for k, v in M.op("S_SCAN", "mem"):
+            if k >= 100: M.op("GT", k, 99); continue
+            d = 0
+            for i in range(4):
+                d = M.op("ADD", d, M.op("XOR", (k >> i) & 1, (x >> i) & 1))
+            if M.op("GT", best_d, d): best_d, acc, cnt = d, v, 1
+            elif M.op("EQ", d, best_d): acc = M.op("ADD", acc, v); cnt = M.op("INC", cnt)
+        if cnt == 0: return 0
+        while cnt > 1: acc = M.op("SHR", acc, 1); cnt = M.op("SHR", cnt, 1)
+        return acc
+
+
 class S3Particles:
     row = "S3"; ladder = (4, 8)
 
@@ -287,8 +334,10 @@ class S3Particles:
 ROWS = {"S4": S4Net, "S2": S2Search, "S5": S5Memory, "S3": S3Particles}
 ROWS_V3 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S5": S5Memory, "S3": S3Particles}
 ROWS_V4 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5k": S5KNN, "S5": S5Memory, "S3": S3Particles}
+ROWS_V6 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5h": S5Hamming, "S5": S5Memory, "S3": S3Particles}  # RV-377-025: corrected kNN row
+ROWS_V5 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S6": S6XorSearch, "S5": S5Memory, "S3": S3Particles}  # RV-377-024: parity-hole occupant added
 DENSE = {"S4", "S3"}
-LOCAL = {"S2", "S2a", "S5", "S5k"}
+LOCAL = {"S2", "S2a", "S5", "S5k", "S5h", "S6"}
 
 
 def run(row, basis, size, seed=0, target=None, n_events=None, rows=None, criterion="all"):
@@ -418,7 +467,17 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "parity_mixed":
+    if len(sys.argv) > 1 and sys.argv[1] == "xor_mixed":
+        # RV-377-024 (ii): the declared XOR-linear row on the balanced parity split
+        set_train(TRAIN_MIXED)
+        main(coeffs=None, tag="V7_PARITY_MIXED_XOR", n_events=16, rows=ROWS_V5, criterion="unseen", target=make_parity_target())
+    elif len(sys.argv) > 1 and sys.argv[1] == "xor_coset":
+        # RV-377-024 (i): the same row on the even-parity coset split (identifiability failure predicted)
+        main(coeffs=None, tag="V7_PARITY_COSET_XOR", n_events=16, rows=ROWS_V5, criterion="unseen", target=make_parity_target())
+    elif len(sys.argv) > 1 and sys.argv[1] == "xor_smooth3":
+        # RV-377-024 (iii): the same row on E_smooth3 (inadmissible predicted: 0.7083)
+        main(coeffs=COEFFS_V3, tag="V7_SMOOTH3_XOR", n_events=16, rows=ROWS_V5, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "parity_mixed":
         # RV-377-022: PH-5 on a balanced seen/unseen parity split (both labels seen and unseen)
         set_train(TRAIN_MIXED)
         main(coeffs=None, tag="V5B_PARITY_PH5_MIXED", n_events=16, rows=ROWS_V3, criterion="unseen", target=make_parity_target())
@@ -426,6 +485,16 @@ if __name__ == "__main__":
         # RV-377-021: symmetric-coefficient ecology E_sym(a), a = k/16 given as the integer k; rows ROWS_V4 (S5k = kNN memory)
         k = int(sys.argv[2]); a = k / 16
         main(coeffs=(a, a, a, a), tag=f"V6_SYM{k}", n_events=16, rows=ROWS_V4, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "symh":
+        # RV-377-025: E_sym(k/16) with the corrected Hamming kNN row (ROWS_V6)
+        k = int(sys.argv[2]); a = k / 16
+        main(coeffs=(a, a, a, a), tag=f"V8_SYM{k}_H", n_events=16, rows=ROWS_V6, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "smooth1_calib_v6":
+        # RV-377-025 calibration: ROWS_V6 on the original E_smooth (V1 coefficients); used only for per-column per-event costs
+        main(coeffs=COEFFS_V1, tag="V4C_SMOOTH1_ROWS_V6_CALIB", n_events=16, rows=ROWS_V6, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "smooth3_h":
+        # RV-377-025: E_smooth3 with the corrected kNN row (three admissible classes predicted on the RV-017 ecology)
+        main(coeffs=COEFFS_V3, tag="V8_SMOOTH3_H", n_events=16, rows=ROWS_V6, criterion="unseen")
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth3_calib":
         # RV-377-021 calibration: ROWS_V4 (adds S5k) on the already-adjudicated E_smooth3; used only for S5k's per-event costs
         main(coeffs=COEFFS_V3, tag="V4B_SMOOTH3_ROWS_V4_CALIB", n_events=16, rows=ROWS_V4, criterion="unseen")
