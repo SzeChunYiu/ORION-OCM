@@ -18,8 +18,8 @@ def trace_fixture():
             "arm_id": "BASE_HARNESS_H0",
         },
         "ModelIdentity": {
-            "provider": "fixture",
-            "model": "fixture-model",
+            "provider_or_runtime": "fixture",
+            "model_or_agent_identity": "fixture-model",
             "checkpoint_or_service_digest": "model-digest",
         },
         "HarnessIdentity": {
