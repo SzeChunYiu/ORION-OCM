@@ -8,6 +8,8 @@ LOCAL_STATES = (0, 1, 2)
 # 1: stubborn-unlearned, query->0, teach1->1
 # 2: learned, query->1, teach1->2
 
+LOCAL_EVENT_TYPES = ("query", "teach1")
+
 
 def local_query_output(state):
     return 1 if state == 2 else 0
@@ -44,13 +46,22 @@ def census(max_n=5):
     for n in range(1, max_n + 1):
         states, events, transition = product_machine(n)
         quotient = minimize_mealy(states, events, transition)
+        global_state_count = len(states)
+        event_count = len(events)
         rows.append(
             {
                 "n_units": n,
-                "explicit_global_states": len(states),
+                "explicit_global_states": global_state_count,
                 "minimal_developmental_quotient_states": len(quotient),
                 "expected_3_pow_n": 3 ** n,
-                "factorized_local_state_symbols": 3 * n,
+                "global_event_symbols": event_count,
+                "flat_transition_entries": global_state_count * event_count,
+                # A shared local rule table needs one entry for each local-state x
+                # local-event-type combination; the index/address and current local
+                # states still scale with n, but the rule itself does not.
+                "shared_local_rule_entries": len(LOCAL_STATES) * len(LOCAL_EVENT_TYPES),
+                "factorized_state_cells": n,
+                "factorized_local_state_alphabet": len(LOCAL_STATES),
                 "one_teaching_event_touches_units": 1,
             }
         )
