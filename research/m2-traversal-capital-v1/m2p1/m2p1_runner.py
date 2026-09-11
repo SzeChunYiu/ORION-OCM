@@ -88,12 +88,14 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": ("continual_v6.9" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" and os.environ.get("M2_V69F") == "1" else "continual_v6.8" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" else "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6"),
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": ("continual_v6.10" + ("h" if os.environ.get("M2_V610H") == "1" else "") + ("i" if os.environ.get("M2_V610I") == "1" else "")
+             if (os.environ.get("M2_V610H") == "1" or os.environ.get("M2_V610I") == "1") else "continual_v6.9" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" and os.environ.get("M2_V69F") == "1" else "continual_v6.8" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" else "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6"),
              # v6.5 = v6.3 behaviour + the liveness log; v6.4's two changes sit behind recorded flags for attribution
              "no_regime_reset": os.environ.get("M2_V64A") == "1", "failure_evidence": os.environ.get("M2_V64C", "1") == "1",
              "incumbent_reset": os.environ.get("M2_V67") == "1",
              "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1",
-             "retire_in_regime": os.environ.get("M2_V69F") == "1"}
+             "retire_in_regime": os.environ.get("M2_V69F") == "1",
+             "futility_bar": os.environ.get("M2_V610H") == "1", "regime_evidence": os.environ.get("M2_V610I") == "1"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.
@@ -115,7 +117,7 @@ def _occurs(f, p):
     return any(tuple(p[i:i + n]) == tuple(f) for i in range(len(p) - n + 1))
 
 
-def _fit_controller(M, lib, val_rows):
+def _fit_controller(M, lib, val_rows, min_tilable=0):
     """Fit depth / rule / fallback for `lib` on a held-out slice of the organism's OWN
     solved history: val_rows = [(task, program, baseline_B)]. Same rules as the dev-phase
     controller_v2 (expected-cost depth, per-cell rule), but the candidate cost of each
@@ -140,12 +142,16 @@ def _fit_controller(M, lib, val_rows):
     # rejected before any probe is charged, and (b) probing stops as soon as the majority is
     # out of reach. FV8: two attempts charged 65 k each on candidates with 1/8 tilable tasks.
     n_val = len(val_rows); tilable = sum(1 for d_t, _ in hist if d_t <= depth)
-    if tilable * 2 <= n_val:
+    # v6.10(h): the failure-evidence bar is part of the deployment criterion and is known before
+    # any probe; a candidate that cannot clear it buys no decision-relevant information (s623 /
+    # s626 / s628 / s629: 95-254 k charged on candidates that tiled 8 / 8 against a bar of 8).
+    if tilable * 2 <= n_val or (CONTINUAL["futility_bar"] and tilable <= min_tilable):
         return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": {},
                 "expected_baseline": round(statistics.fmean(bs for _, _, bs in val_rows), 1) if val_rows else None,
                 "fallback": False, "val_mean_delta": 0.0, "val_better": 0, "val_n": n_val,
                 "fit_detail": [], "tiling_probe_violations": 0, "tilable_at_depth": tilable,
-                "skipped_probes": "cannot reach majority (%d/%d tilable)" % (tilable, n_val)}, 0
+                "skipped_probes": ("cannot reach majority (%d/%d tilable)" % (tilable, n_val)) if tilable * 2 <= n_val
+                                  else "cannot clear the failure-evidence bar (%d <= %d)" % (tilable, min_tilable)}, 0
     order = sorted(range(n_val), key=lambda i: hist[i][0])          # tilable tasks first
     hits_so_far, remaining_tilable = 0, tilable
     for i in order:
@@ -246,7 +252,7 @@ def _remine(M, solved, pool=None, recent=None, min_tilable=0):
     for name, lib in cands.items():
         if not lib:
             continue
-        rec, c = _fit_controller(M, list(lib), val_rows)
+        rec, c = _fit_controller(M, list(lib), val_rows, min_tilable=min_tilable)
         charged += c; rec["library"] = name; fitted[name] = rec
     if not fitted:
         return None, charged, {"skipped": "no candidate library", "charged": charged}
@@ -662,6 +668,12 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 if not CONTINUAL["no_regime_reset"]:
                                     C["regime_start"] = len(C["solved"])   # v6.3 behaviour; v6.4(a) removes it (flag)
                                     C["retired"] = set()                   # v6.8(e): a new regime lifts retirements
+                                    if CONTINUAL["regime_evidence"]:
+                                        # v6.10(i): failure evidence is evidence ABOUT A REGIME -- a library that lost
+                                        # in B says nothing about how much tiling evidence C needs; a bar that only
+                                        # ever rises locks learning out for the rest of life once it reaches val_n.
+                                        C["failed_evidence"] = 0
+                                        C["live_log"].append((i, "evidence_reset", prev))
                         else:
                             # v5.4: a library LEARNED IN THIS REGIME standing down is not evidence of a
                             # regime change (E7 -> E8m7: the first learned library covered the easy
