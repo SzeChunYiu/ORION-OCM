@@ -92,8 +92,10 @@ components. Rung remains **C2**.
 shift worlds; K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of regime C (C3). Rung **C2**.
 
 **Update (2026-09-12).** controller_v5's registered prediction held: **8 / 8 independently authored worlds**
-beat the strongest parent under one uniform deployable controller (−14.4 … −50.0 %; hc10 8 521 vs 13 760),
-correcting the 7 / 8 of the previous update upward by a prospective test, not a re-read
-(INTEGRATED_ARM.md, records/m2p2_exploratory_v5/). It is exploratory relative to the frozen M2-P2 family,
+beat the registered interleaving parents under one uniform deployable controller (−14.4 … −50.0 %; hc10 8 521 vs
+13 760), by a prospective test (INTEGRATED_ARM.md, records/m2p2_exploratory_v5/). **Scope, stated the same day:**
+per target the arm costs 0.500–0.501× the MDL interleave parent. That is the guided-first-versus-interleave serving
+identity, so "beats the strongest parent" is not claimed until the absorbed guided-first parent (library-first
+enumeration at hindsight-best fixed depth, registered before its run) is measured. Target (3) is open at that scope. It is exploratory relative to the frozen M2-P2 family,
 whose terminal stays `CANNOT_CHECK_NO_ADMITTING_WORLD`; the rung stays C2. The next step that would move
 target (1) is a prospective M2-P3 registration: a fresh authoring with controller_v5 frozen as the primary arm.
