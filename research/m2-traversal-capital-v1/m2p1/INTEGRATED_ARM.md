@@ -286,4 +286,10 @@ rows: 83 / 90 identical; the 7 that differ are exactly the re-probe cadence targ
 the A′ re-activation one target later, 292 → 4 190). Segments: A 507.0 = 507.0, B
 5 207.7 = 5 207.7, A′ 730.9 → 860.9. So v3 changes nothing but the phase of the periodic
 re-probe, and the missed prediction is the price of one delayed re-activation; the
-lifetime stays −38 % vs RESET and −34 % vs the parent (3 314). FV8_v3 pending.
+lifetime stays −38 % vs RESET and −34 % vs the parent (3 314).
+
+**FV8_v3: 56 057.9 vs RESET 56 055.7 — +2.2 slots per target (+0.004 %)**, the registered
+floor exactly (15 re-probes × β = 18 over 120 targets = 2.25). The −0.56 % was the
+cold-start defect in full; what remains is the price of asking the library every eight
+targets whether the world has changed, and it is bounded by β / window regardless of the
+world. Record: `records/OCM_FV8_v3_SUMMARY.json`.
