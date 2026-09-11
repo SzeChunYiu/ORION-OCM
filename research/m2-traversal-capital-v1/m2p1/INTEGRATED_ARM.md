@@ -405,3 +405,41 @@ v4's miss-conditional rule kept; all eight authored worlds re-run uniformly from
 **8 / 8** — hc10 ≤ 13 760 (the v4 rule should also cheapen its nine MDL misses), hc01 ≤ 2 914, the rest
 within ± 5 % of the v4 table. Falsifier: any world at or above its strongest parent.
 
+## controller_v5 — the registered prediction held on 8 / 8 (records/m2p2_exploratory_v5/)
+
+LUNARC 3597797, uniform controller_v5 on every authored world, fresh dev phase, `M2_LIB_RULE=interleave`;
+runner sha `bb9f219e`, `methods.py` sha `e0a05654` (unchanged). Every arm verified every target. Mean slots
+per target; the strongest parent is the cheaper of the ungated MDL-library parent and the ordinary adaptive
+parent on that world.
+
+| world | targets | RESET | integrated (v5) | strongest parent | vs RESET | vs strongest | v4 table (v5 vs v4) |
+|---|---|---|---|---|---|---|---|
+| hc01-binary-ladder | 46 | 34 514 | **2 495** | 2 914 (adaptive) | -92.8 % | **-14.4 %** | 1 632 (+52.9 %) |
+| hc02-square-shift | 447 | 53 668 | **9 745** | 19 488 (MDL) | -81.8 % | **-50.0 %** | 9 745 (-0.0 %) |
+| hc03-shift-runs | 303 | 37 173 | **3 593** | 7 185 (MDL) | -90.3 % | **-50.0 %** | 3 593 (+0.0 %) |
+| hc05-long-form | 55 | 51 408 | **7 644** | 10 958 (MDL) | -85.1 % | **-30.2 %** | 7 644 (-0.0 %) |
+| hc06-decoy-pair | 146 | 47 767 | **2 546** | 5 092 (MDL) | -94.7 % | **-50.0 %** | 2 546 (+0.0 %) |
+| hc08-drawn-lot-b | 55 | 32 127 | **15 509** | 19 449 (MDL) | -51.7 % | **-20.3 %** | 15 509 (-0.0 %) |
+| hc09-negative-ladder | 58 | 40 803 | **5 628** | 6 687 (adaptive) | -86.2 % | **-15.8 %** | 5 628 (-0.0 %) |
+| hc10-quartic-climb | 163 | 47 488 | **8 521** | 13 760 (MDL) | -82.1 % | **-38.1 %** | 17 620 (-51.6 %) |
+
+**Against the registration, clause by clause.**
+- *Beats the strongest parent on 8 / 8*: **held (8 / 8)**, −14.4 … −50.0 %; the falsifier (any world at or above
+  its strongest parent) did not fire.
+- *hc10 ≤ 13 760*: **held, 8 521 (−38.1 %)**. The loss that made the v4 table 7 / 8 is gone. At 8 521 it is cheaper
+  than v2's 11 274 as well, so v5 combines both rules without inheriting either loss.
+- *hc01 ≤ 2 914*: **held, 2 495**. This is v2's figure, and it is worse than v3/v4's 1 632. Restoring the interleave
+  rule gives back hc01's gain from the probe-cost rule. That trade was expected when the prediction was registered,
+  and the number is reported as it came.
+- *The other six within ± 5 % of the v4 table*: **held (6 / 6)**, all within 0.01 %. The controller made the
+  same choices there.
+
+hc02's SHUFFLED_HISTORY control was still running when this was recorded (3597797_2). It is a control and cannot
+change any clause above. Its row is appended when it lands.
+
+**What this is and is not.** It is the lane's strongest exploratory result on someone else's ecology: one
+deployable controller, fixed before its run, beats the strongest parent on every independently authored world.
+The frozen M2-P2 family stays `CANNOT_CHECK_NO_ADMITTING_WORLD` (m2p2/STAGE3.md), because the freeze prescribes its
+own arm set and admission rule, and this controller is not in that set. The exploratory result does not replace the
+frozen terminal. Replicating it **prospectively** on a fresh authoring, with controller_v5 as the frozen primary
+arm, is what would turn it into a replication claim.

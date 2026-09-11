@@ -91,3 +91,9 @@ components. Rung remains **C2**.
 **Update (2026-09-11, v6.12ps).** K1 under v6.12ps failed (lifetime below fixed 9/11, regime-C 6/11) and regressed two
 shift worlds; K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of regime C (C3). Rung **C2**.
 
+**Update (2026-09-12).** controller_v5's registered prediction held: **8 / 8 independently authored worlds**
+beat the strongest parent under one uniform deployable controller (−14.4 … −50.0 %; hc10 8 521 vs 13 760),
+correcting the 7 / 8 of the previous update upward by a prospective test, not a re-read
+(INTEGRATED_ARM.md, records/m2p2_exploratory_v5/). It is exploratory relative to the frozen M2-P2 family,
+whose terminal stays `CANNOT_CHECK_NO_ADMITTING_WORLD`; the rung stays C2. The next step that would move
+target (1) is a prospective M2-P3 registration: a fresh authoring with controller_v5 frozen as the primary arm.
