@@ -1,0 +1,175 @@
+{
+ "author_min_builder_length": 4,
+ "author_part_fractions": {
+  "future": 0.3,
+  "initial": 0.45,
+  "tuning": 0.25
+ },
+ "bound_sources": {
+  "git_head": "",
+  "methods.py": "e0a0565466dc67787b2162831e363b232960d0d864c15af62bc9e7e865f8b4d3",
+  "worlds_jsonl": "8fccc960943bf8f83dc540b873d09994f32e4aa4344db848c3039361c5859fb0"
+ },
+ "ecology": {
+  "canonical_length_distribution": {
+   "4": 2,
+   "6": 1
+  },
+  "members": 3
+ },
+ "entry_gates": {
+  "G1_length_parity_max_deviation": 1.0,
+  "G1_verdict": "FAIL",
+  "G2_shared_normal_forms": 0,
+  "G2_verdict": "PASS",
+  "G3_non_decomposable": 0,
+  "G3_verdict": "PASS",
+  "G4_surface_predictor_null": "DEFERRED_TO_GSURF"
+ },
+ "frozen_seed": 20260912,
+ "grammar": {
+  "max_length": 8,
+  "primitives": [
+   "inc",
+   "dec",
+   "double",
+   "square"
+  ]
+ },
+ "hardening_parent": 323,
+ "hidden_motifs": [
+  [
+   "dec",
+   "inc"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "inc",
+   "dec"
+  ],
+  [
+   "inc",
+   "double"
+  ]
+ ],
+ "hidden_motifs_sha256": "a86f45d80f19956e4c270560e6d1c6a106eb520c661c2c1ace3e980938bb7852",
+ "host": {
+  "hostname": "billy",
+  "python": "3.11.14"
+ },
+ "intent_stripped": "compilation read ONLY the frozen interface keys ('world_id', 'chunks', 'min_builder_length', 'part_fractions'); surface/intent fields were never opened by this compiler",
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "length_distributions_by_stream": {
+  "protected": {
+   "4": 1.0
+  },
+  "train": {
+   "4": 0.5,
+   "6": 0.5
+  },
+  "validation": {}
+ },
+ "op_map": {
+  "add1": "inc",
+  "dbl": "double",
+  "sqr": "square",
+  "sub1": "dec"
+ },
+ "owner_issue": 165,
+ "schema": "OCM_M2P2_COMPILED_WORLD_V1",
+ "shape": {
+  "chunk_count": 4,
+  "chunk_lengths": [
+   2,
+   2,
+   2,
+   2
+  ],
+  "min_builder_length": 4,
+  "part_fractions": {
+   "future": 0.3,
+   "initial": 0.45,
+   "tuning": 0.25
+  }
+ },
+ "status": "WORLD_COMPILATION_NOT_A_SCORED_RUN",
+ "stream_sizes": {
+  "protected": 1,
+  "train": 2,
+  "validation": 0
+ },
+ "streams": {
+  "protected": [
+   {
+    "baseline_first_index": 120,
+    "canonical_length": 4,
+    "canonical_program": [
+     "inc",
+     "double",
+     "inc",
+     "double"
+    ],
+    "coefficients": [
+     "6",
+     "4"
+    ],
+    "normal_form_digest": "bb2570b923ba8fa90121d2b9fb7cfb18f1d7040f10246870cd6082f526b5857a"
+   }
+  ],
+  "train": [
+   {
+    "baseline_first_index": 127,
+    "canonical_length": 4,
+    "canonical_program": [
+     "inc",
+     "double",
+     "double",
+     "dec"
+    ],
+    "coefficients": [
+     "3",
+     "4"
+    ],
+    "normal_form_digest": "6d8be89c49af77e5a14a0579cd021225c3fd5eefdc4ea5fca6a8ec2556adac2d"
+   },
+   {
+    "baseline_first_index": 1919,
+    "canonical_length": 6,
+    "canonical_program": [
+     "inc",
+     "double",
+     "inc",
+     "double",
+     "double",
+     "dec"
+    ],
+    "coefficients": [
+     "11",
+     "8"
+    ],
+    "normal_form_digest": "2d22fe241451acbde67d6e0ab3786546db8097a1585e2c1ed8a8ff19d692c748"
+   }
+  ],
+  "validation": []
+ },
+ "viability": {
+  "counts": {
+   "members": 3,
+   "protected": 1,
+   "train": 2,
+   "validation": 0
+  },
+  "floors": {
+   "future_min": 20,
+   "initial_min": 15,
+   "members_min": 90,
+   "tuning_min": 6
+  },
+  "verdict": "CANNOT_CHECK_WORLD",
+  "viable": false
+ },
+ "world_id": "world_2_mixed_cross"
+}
