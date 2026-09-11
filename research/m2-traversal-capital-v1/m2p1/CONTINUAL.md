@@ -1113,3 +1113,56 @@ and it tests a **narrower, separately named claim**, stated here before its run.
 Defaults remain continual_v6.6 throughout, so the standing positives — regime-shift lifetimes (12 / 12) and
 cross-world acquisition (3 / 3 pairs) — are unaffected by any of the above.
 
+## Outcomes of the continual_v6.10 registration (2026-09-11; every arm verifies every target)
+
+**(h) is decision-invariant — confirmed.** The deploy / stand-down / retirement / reactivation log is
+identical to v6.9 on **10 / 10** diagnostic seeds (s634 / s636 / s640 / s642 against v6.9 reference runs
+added for this check, records/k1diag610/), on the four shift worlds, four A → B → C seeds, E5 and FV6.
+Lifetime is never higher and falls where futile validation was being paid: s623 3 686 → 2 913, s626
+3 370 → 3 040, s628 3 314 → 2 461, s629 3 388 → 2 892, s642 3 400 → 2 646, s647 3 417 → 2 677, s640 2 630
+→ 2 537, A → B → C s615 2 108 → 2 021; regime-C cost falls by up to 40 %.
+
+**Host regressions (14 runs each for h and h+i; laptop billy, billy-old):** (h) is identical to v6.9 in
+both cost and log on all of them — SHIFT45 / s602 / s603 / s604, A → B → C s604 / s613 / s614 (s615 is
+cheaper, as above), E5, FV6, FV8 58 325 and the three cross-world pairs (E7 → E8m7 stays 20 511, so v6.9's
+E7 → E8m7 falsification is untouched by (h)).
+
+**(i) had no effect anywhere it was run.** h+i equals h in cost on all ten diagnostic seeds and on every
+host run; its log differs from h only by `evidence_reset` entries in the shift and A → B → C worlds, and
+is identical on the cross-world pairs, E5, FV6 and FV8 as predicted. Mechanism: no regime reset follows a lock-out in these lifetimes — once the
+developmental library is gone the organism has no regime-change signal, so a regime-scoped reset never
+fires. (i) is reported as having no demonstrated effect, not carried as a live mechanism.
+
+**Diagnostic prediction for h+i — FALSIFIED.** Lifetime below the fixed controller on **2 / 7** lock-out
+seeds (s628 2 461 vs 2 506, s647 2 677 vs 2 772; s642 misses by 0.3 %), against the registered ≥ 5 / 7.
+The lock-out itself persists; (h) only stops paying for it.
+
+**K1-L confirmation (fresh seeds 658–669; s665 failed the ecology gate and is reported, not replaced;
+records/k1l610/) — PASSED.** Full-arm lifetime below the fixed controller **11 / 11** gated seeds and below
+RESET **11 / 11**, every arm verifying every target. Reported alongside, not predicted: regime-C cost at or
+below RESET on **10 / 11**. The one lock-out seed (s662) also beat the fixed controller (2 533 vs 2 675).
+**K1-L — lifetime advantage on mixed regimes — is established at C2 scope, under continual_v6.10hi.** K1
+itself stays NOT_ESTABLISHED: its verdict (v6.6 / v6.8 / v6.9) is not amended by this result.
+
+## Registered next (2026-09-11, before any of these runs)
+
+- **Bar arithmetic, fixed once.** A count bar "≥ k / 12" means a proportion of **gated** seeds:
+  pass iff (passing seeds) / (gated seeds) ≥ k / 12, with at least 10 gated seeds; otherwise CANNOT_CHECK.
+  (Earlier reports applied ≥ 10 / 12 as 10 of 11; under this rule that is ≥ 0.833, i.e. 10 of 11 passes and
+  9 of 11 fails — unchanged outcomes.)
+- **K1-L attribution (LUNARC, h-only on the eleven K1-L dev states).** Prediction: identical to h+i on every
+  seed. If it holds, the K1-L pass is attributed to (h) alone.
+- **K1 under v6.10hi — a new claim with its own lineage**, registered after the lock-out repair: fresh
+  seeds 670–681, all three original bars unchanged (lifetime below the fixed controller ≥ 10 / 12 and below
+  RESET on every gated seed, regime-C at or below RESET ≥ 9 / 12, every arm verifying every target). Stated
+  mechanism: validation charges land in the regime-C window, so removing futile ones moves that number
+  directly; a pass would show the regime-C cost was largely an artefact of futile validation, **not** that
+  recombination improved — C3 stays NOT_ESTABLISHED on its own terms. The v6.6 / v6.8 / v6.9 K1 verdict
+  stands. Stop rule: if it fails, K1 on mixed regimes stays NOT_ESTABLISHED and the next attempt must
+  address regime-change detection.
+- **Adopt (h) into the defaults — identity check on the v6.6 base** (`continual_v6.6+h`, hosts): identical
+  liveness logs and cost never higher than v6.6 on SHIFT45 / s602 / s603 / s604, A → B → C s604 / s613 /
+  s614 / s615, E5, FV6, FV8 and the three cross-world pairs. The cross-world pairs have no v6.6 baseline run,
+  so each gets both a v6.6 and a v6.6+h run and is compared pairwise. If identity holds everywhere, (h)
+  becomes part of the default controller.
+
