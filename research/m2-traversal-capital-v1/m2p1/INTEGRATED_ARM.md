@@ -293,3 +293,37 @@ floor exactly (15 re-probes × β = 18 over 120 targets = 2.25). The −0.56 % w
 cold-start defect in full; what remains is the price of asking the library every eight
 targets whether the world has changed, and it is bounded by β / window regardless of the
 world. Record: `records/OCM_FV8_v3_SUMMARY.json`.
+
+## Authored worlds (M2-P2, exploratory arm): the first loss to a same-library parent, and its cause
+
+Five of the eight independently authored worlds have run the integrated controller
+(LUNARC 3593126, fresh controller-aware dev phase, `records/m2p2_exploratory/`):
+
+| world | targets | RESET | integrated | parent + MDL | ordinary parent | vs RESET | vs strongest parent | library |
+|---|---|---|---|---|---|---|---|---|
+| hc01-binary-ladder | 46 | 34 514 | **2 495** | 4 987 | 2 914 | −92.8 % | −14.4 % | mdl |
+| hc05-long-form | 55 | 51 408 | **7 644** | 10 958 | 28 168 | −85.1 % | −30.2 % | mdl |
+| hc06-decoy-pair | 146 | 47 767 | **2 546** | 5 092 | 22 995 | −94.7 % | −50.0 % | mdl |
+| **hc08-drawn-lot-b** | 55 | 32 127 | **20 346** | 19 449 | 20 631 | −36.7 % | **+4.6 %** | **frequency** |
+| hc09-negative-ladder | 58 | 40 803 | **5 628** | 6 977 | 6 687 | −86.2 % | −15.8 % | mdl |
+
+hc08 is the first world on which the controller loses to the strongest parent. The cause is
+in the dev state: library-by-validation chose the **frequency** library (its *interleave*
+validation was at least as good as MDL's), and the controller then deployed it through the
+**probe**, whose cost scales with (16 + 4)^depth — β = 8 420 at depth 3 — while the
+parent-with-MDL interleaves the compact MDL library. The selection criterion measured one
+deployment mode and the controller used another.
+
+**controller_v3 (registered before the re-run; LUNARC 3593171 on hc08 with hc01 / hc06 as
+regressions).** Select the library the way it is deployed: each candidate is costed by the
+expected *probe* cost on the held-out validation tilings — the same expected-cost rule that
+sets the depth — from rows already recorded (no extra search); the interleave choice is kept
+in the record as `validated_better_interleave`. Predictions: hc08 picks MDL and the integrated
+arm lands at ≤ 0.55 × the parent-with-MDL (≤ 10 700, ≤ −66 % vs RESET); hc01 and hc06 are
+unchanged (MDL already chosen, ± 2 %). Falsifier: hc08 integrated ≥ 19 449 (the strongest
+parent) after the change.
+
+Ledgers on these short-horizon worlds (46–146 targets): the conservative ledger pays on
+none (break-evens 158–400), the marginal on hc05 / hc06, the incremental on 4 / 5 — the
+horizon property measured in LONG_HORIZON_LIFETIME.md, not a new negative.
+

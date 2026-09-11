@@ -1,0 +1,360 @@
+{
+ "amortisation_ledger": {
+  "acquisition_slots_total": 5042617,
+  "breakeven_targets": 217.0,
+  "developmental_solve_slots": 5042617,
+  "net_slots": -3764450.0,
+  "note": "acquisition is charged in full and in the same currency as the benefit; developmental solving would have been paid anyway to acquire those objects, so this ledger is conservative against the history arm",
+  "protected_targets": 55,
+  "saved_slots_per_target": 23239.4,
+  "total_saved_on_protected": 1278167.0,
+  "validation_slots": null
+ },
+ "arms": {
+  "CONTINUED_OCM": {
+   "arm": "CONTINUED_OCM",
+   "attempts": 55,
+   "calibration_only": false,
+   "external_verifications": 55,
+   "fragments_served": 6,
+   "ladder": [
+    200000
+   ],
+   "ladder_total": 55,
+   "mean_B_slots": 7643.7,
+   "note": "integrated controller: probe depth 4 beta 11110, rule cells 11",
+   "process": {
+    "pid": 729586,
+    "pid_changed": true,
+    "pre_restart_pid": 729435
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 55,
+   "successes_by_budget": {
+    "200000": 55
+   },
+   "targets": 55,
+   "wall_seconds": 13.65
+  },
+  "ORDINARY_ADAPTIVE_PARENT": {
+   "arm": "ORDINARY_ADAPTIVE_PARENT",
+   "attempts": 55,
+   "calibration_only": false,
+   "external_verifications": 55,
+   "fragments_served": 16,
+   "ladder": [
+    200000
+   ],
+   "ladder_total": 55,
+   "mean_B_slots": 28168.5,
+   "note": "same mined fragments served WITHOUT the admission gate",
+   "process": {
+    "pid": 729747,
+    "pid_changed": true,
+    "pre_restart_pid": 729435
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 55,
+   "successes_by_budget": {
+    "200000": 55
+   },
+   "targets": 55,
+   "wall_seconds": 23.75
+  },
+  "PARENT_WITH_MDL": {
+   "arm": "PARENT_WITH_MDL",
+   "attempts": 55,
+   "calibration_only": false,
+   "external_verifications": 55,
+   "fragments_served": 6,
+   "ladder": [
+    200000
+   ],
+   "ladder_total": 55,
+   "mean_B_slots": 10958.2,
+   "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+   "process": {
+    "pid": 729650,
+    "pid_changed": true,
+    "pre_restart_pid": 729435
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 55,
+   "successes_by_budget": {
+    "200000": 55
+   },
+   "targets": 55,
+   "wall_seconds": 12.65
+  },
+  "RESET": {
+   "arm": "RESET",
+   "attempts": 55,
+   "calibration_only": false,
+   "external_verifications": 55,
+   "fragments_served": 0,
+   "ladder": [
+    200000
+   ],
+   "ladder_total": 55,
+   "mean_B_slots": 51407.9,
+   "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+   "process": {
+    "pid": 729437,
+    "pid_changed": true,
+    "pre_restart_pid": 729435
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 55,
+   "successes_by_budget": {
+    "200000": 55
+   },
+   "targets": 55,
+   "wall_seconds": 69.59
+  },
+  "SHUFFLED_HISTORY": {
+   "arm": "SHUFFLED_HISTORY",
+   "attempts": 55,
+   "calibration_only": false,
+   "external_verifications": 55,
+   "fragments_served": 14,
+   "ladder": [
+    200000
+   ],
+   "ladder_total": 55,
+   "mean_B_slots": 101606.8,
+   "note": "random fragments matching the mined count and length profile, with the true hidden motifs excluded so the control cannot rediscover them by chance",
+   "process": {
+    "pid": 729813,
+    "pid_changed": true,
+    "pre_restart_pid": 729435
+   },
+   "schema": "M2P1_ARM_REPORT",
+   "successes": 55,
+   "successes_by_budget": {
+    "200000": 55
+   },
+   "targets": 55,
+   "wall_seconds": 76.95
+  }
+ },
+ "comparison": {
+  "CONTINUED_vs_LIBRARY_ONLY": null,
+  "CONTINUED_vs_RESET": null,
+  "CONTINUED_vs_SHUFFLED": null,
+  "CONTINUED_vs_best_surface": null,
+  "ORACLE_vs_CONTINUED": null,
+  "PARENT_vs_CONTINUED": null
+ },
+ "dev_phase": {
+  "admission": false,
+  "eu_admission": {
+   "admitted": true,
+   "all_verified": true,
+   "ci95_low": 986.9,
+   "mean_delta": 19861.5,
+   "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+   "reason": "admitted",
+   "rho_max": 2.0,
+   "worst_ratio": 2.0
+  },
+  "fragments": [
+   [
+    "square",
+    "inc"
+   ],
+   [
+    "inc",
+    "square"
+   ],
+   [
+    "inc",
+    "double"
+   ],
+   [
+    "inc",
+    "square",
+    "inc"
+   ],
+   [
+    "double",
+    "inc"
+   ],
+   [
+    "square",
+    "inc",
+    "inc"
+   ],
+   [
+    "inc",
+    "inc"
+   ],
+   [
+    "double",
+    "square"
+   ],
+   [
+    "square",
+    "inc",
+    "double"
+   ],
+   [
+    "double",
+    "inc",
+    "square"
+   ],
+   [
+    "double",
+    "square",
+    "inc"
+   ],
+   [
+    "inc",
+    "double",
+    "inc"
+   ],
+   [
+    "square",
+    "inc",
+    "square"
+   ],
+   [
+    "inc",
+    "double",
+    "square"
+   ],
+   [
+    "double",
+    "inc",
+    "square",
+    "inc"
+   ],
+   [
+    "inc",
+    "double",
+    "square",
+    "inc"
+   ]
+  ],
+  "fragments_mined": 16,
+  "held_out_mean_baseline": 52423.0,
+  "held_out_mean_candidate": 32561.5,
+  "held_out_never_worse": false,
+  "held_out_strictly_better": 17,
+  "mdl_admission": true,
+  "mdl_fragments": [
+   [
+    "square",
+    "inc"
+   ],
+   [
+    "double",
+    "inc"
+   ],
+   [
+    "square",
+    "dec",
+    "double"
+   ],
+   [
+    "inc",
+    "double"
+   ],
+   [
+    "inc",
+    "square"
+   ],
+   [
+    "dec",
+    "double",
+    "dec"
+   ]
+  ],
+  "mdl_strictly_better": 22,
+  "mdl_terminal": "HELD_OUT_SEARCH_IMPROVEMENT",
+  "ocm_controller": {
+   "beta": 11110,
+   "depth_rule": "expected-cost on held-out validation (controller_v2)",
+   "fallback": true,
+   "library": "mdl",
+   "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+   "liveness_min_hit_rate": 0.25,
+   "liveness_window": 8,
+   "probe_depth": 4,
+   "rule": {
+    "[2, 3, 1, 1]": true,
+    "[4, 3, 1, 1]": true,
+    "[4, 5, 1, 1]": true,
+    "[4, 5, 2, 1]": true,
+    "[4, 5, 3, 1]": true,
+    "[8, 4, 1, 1]": true,
+    "[8, 5, 1, 1]": true,
+    "[8, 5, 2, 1]": true,
+    "[8, 6, 2, 1]": true,
+    "[8, 6, 3, 1]": true,
+    "[8, 6, 4, 1]": true
+   },
+   "validated_better": {
+    "frequency": 17,
+    "mdl": 22
+   }
+  },
+  "pid": 728988,
+  "schema": "M2P1_DEV_STATE",
+  "terminal": "KEEP_PRIMITIVE_BASELINE",
+  "train_solved": 99,
+  "train_unsolved": 0,
+  "validated_on": 22,
+  "wall_seconds": 179.41
+ },
+ "entry_gates": {
+  "G1_length_parity_max_deviation": 0.0,
+  "G1_verdict": "PASS",
+  "G2_shared_normal_forms": 0,
+  "G2_verdict": "PASS",
+  "G3_non_decomposable": 0,
+  "G3_verdict": "PASS",
+  "G4_best_surface_ladder": 55,
+  "G4_counterfactual_parent_vs_surface": "FAIL_COUNTERFACTUAL_SURFACE_ORDERING_EXPLAINS_ADVANTAGE",
+  "G4_parent_ladder": 55,
+  "G4_surface_predictor_null": "CANNOT_CHECK_NO_DEPLOYED_HISTORY_ARM"
+ },
+ "hardening_parent": 323,
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "novelty_guarantee": {
+  "external_verifications": {
+   "CONTINUED_OCM": 55,
+   "ORDINARY_ADAPTIVE_PARENT": 55,
+   "PARENT_WITH_MDL": 55,
+   "RESET": 55,
+   "SHUFFLED_HISTORY": 55
+  },
+  "protected_targets": 55,
+  "shared_normal_forms_with_history": 0
+ },
+ "owner_issue": 165,
+ "schema": "OCM_M2P1_SUMMARY_V1",
+ "surface_orderings_history_free": {
+  "ASC_baseline": {
+   "ladder_total": 55,
+   "mean_B": 51407.9,
+   "successes_by_budget": {
+    "200000": 55
+   }
+  },
+  "CONST8_first": {
+   "ladder_total": 55,
+   "mean_B": 29562.9,
+   "successes_by_budget": {
+    "200000": 55
+   }
+  },
+  "DESC_history_free": {
+   "ladder_total": 55,
+   "mean_B": 29562.9,
+   "successes_by_budget": {
+    "200000": 55
+   }
+  }
+ },
+ "terminal": "PARENT_SUFFICIENT__LEARNER_REFUSED_DEPLOYMENT"
+}
