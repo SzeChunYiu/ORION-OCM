@@ -1,0 +1,137 @@
+=== host cn090 world=M2P2_WORLD_hc05-long-form main-runner reproduction of controller_v5; runner_sha=5bf2f8c2e2b19a8f methods_sha=e0a0565466dc6778
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": 19861.5,
+  "ci95_low": 986.9,
+  "worst_ratio": 2.0,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": true,
+  "reason": "admitted"
+ },
+ "ocm_controller": {
+  "rule": {
+   "[4, 5, 2, 1]": true,
+   "[4, 5, 3, 1]": true
+  },
+  "fallback": true,
+  "probe_depth": 4,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 2 of 22 rows",
+  "beta": 11110,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "mdl",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 30613.6,
+   "mdl": 10866.2
+  },
+  "validated_better_interleave": {
+   "frequency": 17,
+   "mdl": 22
+  }
+ },
+ "mdl_fragments": [
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "double",
+   "inc"
+  ],
+  [
+   "square",
+   "dec",
+   "double"
+  ],
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "dec",
+   "double",
+   "dec"
+  ]
+ ],
+ "mdl_admission": true,
+ "mdl_terminal": "HELD_OUT_SEARCH_IMPROVEMENT",
+ "mdl_strictly_better": 22,
+ "train_solved": 99,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 22,
+ "held_out_strictly_better": 17,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 52423.0,
+ "held_out_mean_candidate": 32561.5,
+ "wall_seconds": 191.81,
+ "pid": 2452768
+}
+checkpoint written, pid 2454110
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 4 beta 11110, rule cells 2",
+ "fragments_served": 6,
+ "process": {
+  "pid": 2454114,
+  "pre_restart_pid": 2454110,
+  "pid_changed": true
+ },
+ "targets": 55,
+ "ladder": [
+  200000
+ ],
+ "successes": 55,
+ "attempts": 55,
+ "all_targets_verified": true,
+ "ladder_total": 55,
+ "mean_B_slots": 7643.7,
+ "external_verifications": 55,
+ "successes_by_budget": {
+  "200000": 55
+ },
+ "wall_seconds": 13.85
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 6,
+ "process": {
+  "pid": 2454335,
+  "pre_restart_pid": 2454110,
+  "pid_changed": true
+ },
+ "targets": 55,
+ "ladder": [
+  200000
+ ],
+ "successes": 55,
+ "attempts": 55,
+ "all_targets_verified": true,
+ "ladder_total": 55,
+ "mean_B_slots": 10958.2,
+ "external_verifications": 55,
+ "successes_by_budget": {
+  "200000": 55
+ },
+ "wall_seconds": 13.87
+}
+
+=== DONE M2P2_WORLD_hc05-long-form 2026-09-11T17:34:05Z

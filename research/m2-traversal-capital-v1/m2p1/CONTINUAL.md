@@ -1411,3 +1411,40 @@ deployment from an old-regime corpus explains two failing seeds (s705, s707), no
 pattern is a recombined or regime-C candidate that fails to validate (s695, s699, s702) or validates and then fails in
 deployment (s690, s694, s706, s709, s712, s717): the C3 negative proper. Neither mode is registered as a revision.
 
+## C3 — two boundary hypotheses tested and falsified (records/k1instr/)
+
+**Hypothesis 1: validation straddles a stand-down.** For every regime-C deployment (44 across 34 lifetimes), the number of
+its 8 validation tasks that predate the most recent stand-down was computed from the liveness logs. Only four
+deployments had any (split 2 failed, 2 held); the other forty had none, including eight of the ten failures.
+**Falsified** — the organism-observable stand-down does not mark the failing deployments.
+
+**Hypothesis 2: the detector already suspected the change.** All five deployments at targets 90–93 failed (s690, s694, s705,
+s707, s712), and each came before the detector confirmed the change at about target 95. Thirteen lifetimes were rerun
+under their own recorded configurations with the detector's pending state logged on every re-mining attempt —
+decision-invariant instrumentation: **all 13 reruns reproduce their original liveness logs and costs exactly**. At every
+one of the five failed boundary deployments the pending count was **0**, with the statistic at 0.17–0.32 against
+τ = 0.4: the six-program window had not yet absorbed enough regime-C programs. **Falsified.**
+
+**Conclusion.** With the organism's current signals, a candidate mined and validated on pre-change solves in the few
+targets after a regime change is not distinguishable from a good one when it is deployed; the loss is bounded because
+such a library stands down within two or three targets. The remaining regime-C negative is the recombination problem
+proper: regime-C candidates with weak validation evidence (lower bound ≤ ≈ 0) fail in deployment about half the time
+(7 of 14), while those with strong evidence hold (27 of 30). No revision is registered on this evidence.
+
+## The mixed-regime controller line is closed
+
+Three registered stop rules have fired (v6.8, v6.9, v6.11 / v6.12ps), both observable boundary hypotheses are falsified,
+and what remains is C3, which carries its own NOT_ESTABLISHED verdict. No v6.13 is opened. **K1 on mixed regimes:
+NOT_ESTABLISHED at this grammar.** The standing continual-development positives are unchanged: regime-shift lifetimes
+and cross-world acquisition under the default controller continual_v6.6+h.
+
+**Terminal status of the v6.12 mechanisms.**
+- **(p), failed-library retention — not adopted.** It passed every falsifier it was given on the v6.11 lineage and was
+  identical to v6.11 wherever it could not act. It only changes how v6.8(e) retirements are lifted; the default base
+  continual_v6.6+h has no v6.8(e), so adopting (p) there would change behaviour (failed libraries would become retired
+  at a regime reset) and would need its own test. None is scheduled, because the lineage (p) belongs to is not the default.
+- **(s), spend-bounded retry spacing — a finding, not a fix.** It repaired E7 → E8m7 (20 511 → 14 443) and regressed SHIFT45
+  (+21.0 %) and s602 (+7.1 %) by the same mechanism: an earlier deployment from a thinner corpus. **The retry schedule
+  trades corpus size against delay, and no single spacing constant wins across world types.** This is the terminal
+  statement for ledger row 41.
+

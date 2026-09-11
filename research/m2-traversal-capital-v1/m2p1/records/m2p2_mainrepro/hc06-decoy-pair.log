@@ -1,0 +1,132 @@
+=== host cn090 world=M2P2_WORLD_hc06-decoy-pair main-runner reproduction of controller_v5; runner_sha=5bf2f8c2e2b19a8f methods_sha=e0a0565466dc6778
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": 29945.7,
+  "ci95_low": 21384.3,
+  "worst_ratio": 1.9595,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": true,
+  "reason": "admitted"
+ },
+ "ocm_controller": {
+  "rule": {},
+  "fallback": false,
+  "probe_depth": 4,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 0 of 63 rows",
+  "beta": 11110,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "mdl",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 28581.2,
+   "mdl": 4591.0
+  },
+  "validated_better_interleave": {
+   "frequency": 48,
+   "mdl": 63
+  }
+ },
+ "mdl_fragments": [
+  [
+   "square",
+   "double"
+  ],
+  [
+   "square",
+   "dec"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "double",
+   "square"
+  ],
+  [
+   "double",
+   "inc"
+  ],
+  [
+   "square",
+   "inc"
+  ]
+ ],
+ "mdl_admission": true,
+ "mdl_terminal": "HELD_OUT_SEARCH_IMPROVEMENT",
+ "mdl_strictly_better": 63,
+ "train_solved": 127,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 63,
+ "held_out_strictly_better": 48,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 48364.6,
+ "held_out_mean_candidate": 18419.0,
+ "wall_seconds": 474.73,
+ "pid": 2452767
+}
+checkpoint written, pid 2456414
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 4 beta 11110, rule cells 0",
+ "fragments_served": 6,
+ "process": {
+  "pid": 2456416,
+  "pre_restart_pid": 2456414,
+  "pid_changed": true
+ },
+ "targets": 146,
+ "ladder": [
+  200000
+ ],
+ "successes": 146,
+ "attempts": 146,
+ "all_targets_verified": true,
+ "ladder_total": 146,
+ "mean_B_slots": 2546.5,
+ "external_verifications": 146,
+ "successes_by_budget": {
+  "200000": 146
+ },
+ "wall_seconds": 42.73
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 6,
+ "process": {
+  "pid": 2456674,
+  "pre_restart_pid": 2456414,
+  "pid_changed": true
+ },
+ "targets": 146,
+ "ladder": [
+  200000
+ ],
+ "successes": 146,
+ "attempts": 146,
+ "all_targets_verified": true,
+ "ladder_total": 146,
+ "mean_B_slots": 5092.0,
+ "external_verifications": 146,
+ "successes_by_budget": {
+  "200000": 146
+ },
+ "wall_seconds": 31.17
+}
+
+=== DONE M2P2_WORLD_hc06-decoy-pair 2026-09-11T17:39:34Z

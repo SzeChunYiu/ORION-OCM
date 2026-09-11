@@ -1,0 +1,53 @@
+=== host cn094 world=M2P2_WORLD_hc10-quartic-climb DIAGNOSTIC mining coverage: union and oracle-chunk guided-first; runner_sha=4bb7a173c018f2b0 methods_sha=e0a0565466dc6778 dev_state_sha=0c386f74e22d91f6
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GF_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, MDL library, fixed depth 4",
+ "fragments_served": 8,
+ "process": {
+  "pid": 98145,
+  "pre_restart_pid": 3767359,
+  "pid_changed": true
+ },
+ "targets": 163,
+ "ladder": [
+  200000
+ ],
+ "successes": 163,
+ "attempts": 163,
+ "all_targets_verified": true,
+ "ladder_total": 163,
+ "mean_B_slots": 8576.0,
+ "external_verifications": 163,
+ "successes_by_budget": {
+  "200000": 163
+ },
+ "wall_seconds": 261.58
+}
+
+Traceback (most recent call last):
+  File "/projects/hep/fs12/scratch/scyiu-m2trav/scripts_v5gfu/m2p1_runner.py", line 896, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/projects/hep/fs12/scratch/scyiu-m2trav/scripts_v5gfu/m2p1_runner.py", line 887, in main
+    phase_acquire(M, repo, eco, run, a.arm, ladder, a.targets)
+  File "/projects/hep/fs12/scratch/scyiu-m2trav/scripts_v5gfu/m2p1_runner.py", line 622, in phase_acquire
+    method, note = arm_method(M, arm, eco, dev)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/projects/hep/fs12/scratch/scyiu-m2trav/scripts_v5gfu/m2p1_runner.py", line 523, in arm_method
+    return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 5, in __init__
+  File "/projects/hep/fs12/scratch/scyiu-m2trav/src/ocm/learning/methods.py", line 108, in __post_init__
+    raise ValueError("invalid fragment library")
+ValueError: invalid fragment library
+
+ARM_FAILED PARENT_GFU_D3: p/fs12/scratch/scyiu-m2trav/scripts_v5gfu/m2p1_runner.py", line 523, in arm_method
+    return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 5, in __init__
+  File "/projects/hep/fs12/scratch/scyiu-m2trav/src/ocm/learning/methods.py", line 108, in __post_init__
+    raise ValueError("invalid fragment library")
+ValueError: invalid fragment library
+

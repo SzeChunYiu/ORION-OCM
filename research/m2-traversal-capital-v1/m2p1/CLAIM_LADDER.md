@@ -91,3 +91,24 @@ components. Rung remains **C2**.
 **Update (2026-09-11, v6.12ps).** K1 under v6.12ps failed (lifetime below fixed 9/11, regime-C 6/11) and regressed two
 shift worlds; K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of regime C (C3). Rung **C2**.
 
+**Update (2026-09-12).** controller_v5's registered prediction held: **8 / 8 independently authored worlds**
+beat the registered interleaving parents under one uniform deployable controller (−14.4 … −50.0 %; hc10 8 521 vs
+13 760), by a prospective test (INTEGRATED_ARM.md, records/m2p2_exploratory_v5/). **Scope, stated the same day:**
+per target the arm costs 0.500–0.501× the MDL interleave parent. That is the guided-first-versus-interleave serving
+identity, so "beats the strongest parent" is not claimed until the absorbed guided-first parent (library-first
+enumeration at hindsight-best fixed depth, registered before its run) is measured. Target (3) is open at that scope. It is exploratory relative to the frozen M2-P2 family,
+whose terminal stays `CANNOT_CHECK_NO_ADMITTING_WORLD`; the rung stays C2. The next step that would move
+target (1) is a prospective M2-P3 registration: a fresh authoring with controller_v5 frozen as the primary arm.
+
+**Update (2026-09-12, later): target (3) is FALSIFIED at authored-world scope.** The absorbed guided-first parent
+has landed (LUNARC 3598971; INTEGRATED_ARM.md, records/m2p2_gf/). A single fixed, non-oracle parent,
+`PARENT_GF_D4` (MDL library, depth 4, always live, no rule, plain-baseline fallback), **ties controller_v5 on
+hc01, hc02, hc03, hc06 and hc10, and beats it on hc05, hc08 and hc09 (−11 … −17 %)**. On the ties the controller
+reduced to that parent. The controller's learned components (library selection, the task-statement miss rule,
+liveness) are net-negative or neutral against it on every authored world. **No OCM-specific residual beyond
+guided-first serving is claimed anywhere in this lane.** The failure is attributed to two stages, recorded
+separately in the revival ledger: library selection, where the validation cost model tiles only canonical programs
+while the probe hits equivalent ones; and miss routing to the interleave. The tuning stream does carry selection
+signal (ρ 0.64–1.0), but on hc08 and hc09 it robustly ranks the contested libraries the wrong way (validation
+bootstrap P = 0.018 and 0.001), so selection from the tuning stream is unavailable there, and measuring the probe
+directly does not help. The lever moves upstream to mining coverage (ledger row 58). The rung stays C2.

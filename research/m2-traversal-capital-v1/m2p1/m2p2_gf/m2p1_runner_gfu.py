@@ -22,8 +22,11 @@ LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
 ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "CONTINUED_MDL",
         "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT",
-        "PARENT_WITH_MDL", "CONTINUED_OCM", "CONTINUAL_OCM", "CONTINUAL_OCM_NOREC")
-CALIBRATION_ONLY = ("ORACLE_FAMILY",)
+        "PARENT_WITH_MDL", "CONTINUED_OCM", "CONTINUAL_OCM", "CONTINUAL_OCM_NOREC",
+        "PARENT_GF_D1", "PARENT_GF_D2", "PARENT_GF_D3", "PARENT_GF_D4",
+        "PARENT_GFQ_D1", "PARENT_GFQ_D2", "PARENT_GFQ_D3", "PARENT_GFQ_D4",
+        "PARENT_GFU_D3", "PARENT_GFU_D4", "PARENT_GFO_D3", "PARENT_GFO_D4")
+CALIBRATION_ONLY = ("ORACLE_FAMILY", "PARENT_GFO_D3", "PARENT_GFO_D4")
 
 
 class AssayDefect(Exception):
@@ -88,42 +91,11 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-def _cont_version():
-    """Label a continual run by its flags. (h) / (i) on the v6.9 base keep the registered 'continual_v6.10h/hi'
-    labels; on any other base (e.g. the v6.6 defaults) they are appended as '+h' / '+i'."""
-    e = lambda k: os.environ.get(k) == "1"
-    base = ("continual_v6.9" if e("M2_V68D") and e("M2_V68E") and e("M2_V69F") else "continual_v6.8" if e("M2_V68D") and e("M2_V68E")
-            else "continual_v6.7" if e("M2_V67") else "continual_v6.6")
-    h, i = e("M2_V610H") or os.environ.get("M2_H_OFF") != "1", e("M2_V610I")
-    if e("M2_V612S") and not e("M2_V612P"):
-        return base + ("+h" if h else "") + ("+i" if i else "") + ("+r" if e("M2_V611R") else "") + "+s"
-    if e("M2_V612P"):
-        # v6.12 (candidate, unregistered): libraries that lost value in deployment stay retired across regime changes
-        return (("continual_v6.12" + ("ps" if e("M2_V612S") else "")) if (base == "continual_v6.9" and h and i and e("M2_V611R"))
-                else base + ("+h" if h else "") + ("+i" if i else "") + ("+r" if e("M2_V611R") else "") + "+p" + ("+s" if e("M2_V612S") else ""))
-    if e("M2_V611R"):
-        # v6.11: the regime-change detector on the registered v6.10hi base; on any other base it stays attached
-        return "continual_v6.11" if (base == "continual_v6.9" and h and i) else base + ("+h" if h else "") + ("+i" if i else "") + "+r"
-    if not (h or i):
-        return base
-    if base == "continual_v6.9":
-        return "continual_v6.10" + ("h" if h else "") + ("i" if i else "")
-    return base + ("+h" if h else "") + ("+i" if i else "")
-
-
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": _cont_version(),
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": ("continual_v6.8" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" else "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6"),
              # v6.5 = v6.3 behaviour + the liveness log; v6.4's two changes sit behind recorded flags for attribution
              "no_regime_reset": os.environ.get("M2_V64A") == "1", "failure_evidence": os.environ.get("M2_V64C", "1") == "1",
              "incumbent_reset": os.environ.get("M2_V67") == "1",
-             "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1",
-             "retire_in_regime": os.environ.get("M2_V69F") == "1",
-             # v6.10(h) is part of the DEFAULT controller since the registered identity check on the v6.6 base
-             # (14 / 14 runs: identical liveness logs, cost never higher). M2_H_OFF=1 reproduces pre-adoption runs.
-             "futility_bar": os.environ.get("M2_V610H") == "1" or os.environ.get("M2_H_OFF") != "1",
-             "regime_evidence": os.environ.get("M2_V610I") == "1",
-             "regime_detector": os.environ.get("M2_V611R") == "1",
-             "persist_failed": os.environ.get("M2_V612P") == "1",
-             "spend_spacing": os.environ.get("M2_V612S") == "1"}
+             "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.
@@ -145,7 +117,7 @@ def _occurs(f, p):
     return any(tuple(p[i:i + n]) == tuple(f) for i in range(len(p) - n + 1))
 
 
-def _fit_controller(M, lib, val_rows, min_tilable=0):
+def _fit_controller(M, lib, val_rows):
     """Fit depth / rule / fallback for `lib` on a held-out slice of the organism's OWN
     solved history: val_rows = [(task, program, baseline_B)]. Same rules as the dev-phase
     controller_v2 (expected-cost depth, per-cell rule), but the candidate cost of each
@@ -170,16 +142,12 @@ def _fit_controller(M, lib, val_rows, min_tilable=0):
     # rejected before any probe is charged, and (b) probing stops as soon as the majority is
     # out of reach. FV8: two attempts charged 65 k each on candidates with 1/8 tilable tasks.
     n_val = len(val_rows); tilable = sum(1 for d_t, _ in hist if d_t <= depth)
-    # v6.10(h): the failure-evidence bar is part of the deployment criterion and is known before
-    # any probe; a candidate that cannot clear it buys no decision-relevant information (s623 /
-    # s626 / s628 / s629: 95-254 k charged on candidates that tiled 8 / 8 against a bar of 8).
-    if tilable * 2 <= n_val or (CONTINUAL["futility_bar"] and tilable <= min_tilable):
+    if tilable * 2 <= n_val:
         return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": {},
                 "expected_baseline": round(statistics.fmean(bs for _, _, bs in val_rows), 1) if val_rows else None,
                 "fallback": False, "val_mean_delta": 0.0, "val_better": 0, "val_n": n_val,
                 "fit_detail": [], "tiling_probe_violations": 0, "tilable_at_depth": tilable,
-                "skipped_probes": ("cannot reach majority (%d/%d tilable)" % (tilable, n_val)) if tilable * 2 <= n_val
-                                  else "cannot clear the failure-evidence bar (%d <= %d)" % (tilable, min_tilable)}, 0
+                "skipped_probes": "cannot reach majority (%d/%d tilable)" % (tilable, n_val)}, 0
     order = sorted(range(n_val), key=lambda i: hist[i][0])          # tilable tasks first
     hits_so_far, remaining_tilable = 0, tilable
     for i in order:
@@ -219,50 +187,6 @@ def _fit_controller(M, lib, val_rows, min_tilable=0):
             "fallback": (statistics.fmean(deltas) > 0) if deltas else False,
             "val_mean_delta": round(statistics.fmean(deltas), 1) if deltas else 0.0,
             "val_better": better, "val_n": len(deltas)}, charged
-
-
-# v6.11 regime-change detector. Registered values, selected offline on the eleven K1-v6.6 ecologies by a rule
-# fixed in m2_detector_tv.py (held-out: 89 / 94 boundaries, median delay 5, 0.34 false alarms per lifetime);
-# never tuned afterwards. Parent: windowed two-sample distribution tests (cf. ADWIN, Bifet & Gavalda 2007).
-DETECTOR = {"W": 6, "tau": 0.4, "k": 3, "warm": 12}
-
-
-def _bigram_counts(rows):
-    from collections import Counter
-    c = Counter()
-    for _t, r, _b in rows:
-        p = tuple(r.program or ())
-        c.update(tuple(p[j:j + 2]) for j in range(len(p) - 1))
-    return c
-
-
-def _detect_regime(C, i):
-    """Total-variation distance between the bigram distribution of the organism's last W verified programs and
-    that of the programs in the current detector window before them; a change is signalled after k consecutive
-    exceedances of tau. On a signal the organism does what a developmental library's stand-down already does:
-    a new regime begins at the change point, retirements are lifted and (v6.10(i)) the failure evidence is reset.
-    Uses only the organism's own verified programs -- never ecology labels."""
-    W, tau, k, warm = DETECTOR["W"], DETECTOR["tau"], DETECTOR["k"], DETECTOR["warm"]
-    t = len(C["solved"]) - 1
-    start = C.get("det_start", 0)
-    if t - start < warm + W:
-        return
-    rec, ref = _bigram_counts(C["solved"][t - W + 1:t + 1]), _bigram_counts(C["solved"][start:t - W + 1])
-    na, nb = sum(rec.values()), sum(ref.values())
-    d = 0.5 * sum(abs(rec[g] / na - ref[g] / nb) for g in set(rec) | set(ref)) if na and nb else 0.0
-    C["det_run"] = C.get("det_run", 0) + 1 if d > tau else 0
-    C["det_last"] = round(d, 3)   # instrumentation only: the latest TV statistic (never read by any decision)
-    if C["det_run"] >= k:
-        cp = t - W + 1
-        C["det_start"], C["det_run"] = cp, 0
-        C.setdefault("live_log", []).append((i, "regime_detected", cp, round(d, 3)))
-        C["since_mine"] = 0
-        C["regime_start"] = cp
-        C["retired"] = set(C.get("failed_libs", ())) if CONTINUAL["persist_failed"] else set()   # v6.12: failed libraries stay retired
-        if CONTINUAL["regime_evidence"]:
-            C["failed_evidence"] = 0
-            C["live_log"].append((i, "evidence_reset", "detector"))
-
 
 
 def _remine(M, solved, pool=None, recent=None, min_tilable=0):
@@ -324,7 +248,7 @@ def _remine(M, solved, pool=None, recent=None, min_tilable=0):
     for name, lib in cands.items():
         if not lib:
             continue
-        rec, c = _fit_controller(M, list(lib), val_rows, min_tilable=min_tilable)
+        rec, c = _fit_controller(M, list(lib), val_rows)
         charged += c; rec["library"] = name; fitted[name] = rec
     if not fitted:
         return None, charged, {"skipped": "no candidate library", "charged": charged}
@@ -579,6 +503,27 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
                 "(corpus %d, held-out %d, min new %d), retains every library"
                 % (CONTINUAL["mine_n"], CONTINUAL["val_n"], CONTINUAL["min_new"]) if arm.startswith("CONTINUAL") else "")
              + ("; recombination of retained capital" if arm == "CONTINUAL_OCM" else (" (ablation: no recombination)" if arm == "CONTINUAL_OCM_NOREC" else "")))
+    if arm.startswith("PARENT_GF"):
+        # ABSORBED PARENT (library-first enumeration, DreamCoder / Stitch serving): the SAME MDL
+        # library served guided-first at a FIXED depth, always live, no task-statement rule, no
+        # liveness; a miss falls back to the plain baseline. It isolates what the integrated
+        # controller adds beyond guided-first serving (its history-learned depth, miss rule and
+        # liveness). Reported per depth; the hindsight-best depth is an oracle-tuned parent.
+        # PARENT_GF_D* serves the MDL library, PARENT_GFQ_D* the frequency-mined library,
+        # PARENT_GFU_D* their union (mining-coverage diagnostic), PARENT_GFO_D* the true hidden
+        # chunk set (CALIBRATION ONLY: the coverage ceiling, never a deployable arm).
+        if arm.startswith("PARENT_GFO"):
+            mdl = [list(m) for m in eco["hidden_motifs"]]
+        elif arm.startswith("PARENT_GFU"):
+            mdl = sorted({tuple(f) for f in (dev.get("fragments") or []) + (dev.get("mdl_fragments") or [])})
+        else:
+            mdl = dev.get("fragments") if arm.startswith("PARENT_GFQ") else dev.get("mdl_fragments")
+        if not mdl:
+            return M.GeneratorMethod(), "no library recorded"
+        return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
+            "ungated guided-first parent, %s library, fixed depth %s" % (
+                {"PARENT_GFQ": "frequency", "PARENT_GFU": "MDL+frequency union",
+                 "PARENT_GFO": "CALIBRATION ONLY true hidden chunk"}.get(arm[:10], "MDL"), arm[-1])
     if arm == "PARENT_WITH_MDL":
         # FAIRNESS CONTROL. CONTINUED_MDL beating ORDINARY_ADAPTIVE_PARENT conflates two
         # things: the selection RULE (MDL vs frequency) and the OCM/parent distinction.
@@ -723,7 +668,6 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         if not str(L.get("library", "")).startswith("dev:") and C["vals"] and sum(C["vals"]) < 0:
                             C["failed_evidence"] = max(C.get("failed_evidence", 0), L.get("tilable_at_depth", 0))
                             C["live_log"].append((i, "failed_deployment", prev, round(sum(C["vals"]), 1), L.get("tilable_at_depth", 0)))
-                            C.setdefault("failed_libs", set()).add(prev)   # v6.12: remembered for life (recorded always; used only under M2_V612P)
                             if CONTINUAL["retire_failed"]:
                                 C.setdefault("retired", set()).add(prev)   # v6.8(e): not re-probed until the regime changes
                         C["standdown_at"] = len(C["solved"])      # v6.1: start of the recent window
@@ -740,26 +684,13 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 C["since_mine"] = 0
                                 if not CONTINUAL["no_regime_reset"]:
                                     C["regime_start"] = len(C["solved"])   # v6.3 behaviour; v6.4(a) removes it (flag)
-                                    C["retired"] = set(C.get("failed_libs", ())) if CONTINUAL["persist_failed"] else set()   # v6.8(e) / v6.12
-                                    if CONTINUAL["regime_evidence"]:
-                                        # v6.10(i): failure evidence is evidence ABOUT A REGIME -- a library that lost
-                                        # in B says nothing about how much tiling evidence C needs; a bar that only
-                                        # ever rises locks learning out for the rest of life once it reaches val_n.
-                                        C["failed_evidence"] = 0
-                                        C["live_log"].append((i, "evidence_reset", prev))
+                                    C["retired"] = set()                   # v6.8(e): a new regime lifts retirements
                         else:
                             # v5.4: a library LEARNED IN THIS REGIME standing down is not evidence of a
                             # regime change (E7 -> E8m7: the first learned library covered the easy
                             # half, was stood down, and the corpus reset cost the lifetime its second
                             # attempt). Keep the corpus; retry after min_new_after_fail new solutions.
                             C["since_mine"] = max(C["since_mine"], CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"])
-                            if CONTINUAL["retire_in_regime"]:
-                                # v6.9(f): a library that stood down INSIDE the regime it serves has been measured
-                                # there; a later cadence hit is a sporadic hit, not coverage (E7 -> E8m7 under v6.8:
-                                # the stood-down library revived at 44 on one hit and pre-empted the due re-mine
-                                # until 62; s626 / s629: the same oscillation). Retired until the regime changes.
-                                C.setdefault("retired", set()).add(prev)
-                                C["live_log"].append((i, "retired_in_regime", prev))
                         for kk, L2 in enumerate(C["libs"]):
                             if kk == prev or kk in C.get("retired", ()):
                                 continue
@@ -796,16 +727,11 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
                                 # consume the counter; v4.2: a FAILED attempt retries after min_new_after_fail
-                                C["since_mine"] = 0 if rec is not None else ((need - CONTINUAL["min_new_after_fail"])
-                                                               if (CONTINUAL["retry_fix"] and not (CONTINUAL["spend_spacing"] and charged == 0))
+                                C["since_mine"] = 0 if rec is not None else ((need - CONTINUAL["min_new_after_fail"]) if CONTINUAL["retry_fix"]
                                                                else CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"])
-                                # v6.12(s) (candidate): retry spacing exists to bound validation SPENDING; a failed attempt that
-                                # charged nothing keeps the v4.2 spacing (E7 -> E8m7: d delayed a free retry and the first deploy)
                                 # v6.8(d): the retry comes after min_new_after_fail NEW solutions whatever `need` is;
                                 # v4.2 x v6.2 composed to a retry every 4 targets (s623/s628: 35-60 k per failed validation)
                             ev["target_index"] = i; C["events"].append(ev)
-                            # instrumentation only (decision-invariant): the detector's pending state at this attempt
-                            ev["det_run"] = C.get("det_run", 0); ev["det_last"] = C.get("det_last")
                             if rec is not None:
                                 rec["regime"] = C.get("regime_start", 0)
                                 C["libs"].append(rec); C["active"] = len(C["libs"]) - 1; C.setdefault("live_log", []).append((i, "deploy", len(C["libs"]) - 1)); C["active_since"] = len(C["solved"])
@@ -831,8 +757,6 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                          used + r2.slots + learn_charge, r2.candidates_checked, r2.counterexamples, 8)
                 if M.verify_solution(task, res):
                     C["solved"].append((task, res, res.slots)); C["since_mine"] += 1
-                    if CONTINUAL["regime_detector"]:
-                        _detect_regime(C, i)
             elif arm == "CONTINUED_OCM" and method.fragments:
                 ctl = dev["ocm_controller"]; lib = list(method.fragments)
                 if not hasattr(phase_acquire, "_live"):
@@ -872,6 +796,17 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                  ctl["rule"].get(str(_obs_feats(task.coefficients, lib)), ctl["fallback"]))
                     rest = M.SearchBudget(slots=max(1, q - used), max_length=8)
                     r2 = M.solve(task, rest, method) if use_inter else M.solve(task, rest)
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
+                                         used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
+            elif arm.startswith("PARENT_GF") and method.fragments:
+                lib = list(method.fragments); D = int(arm[-1])
+                T = len(lib) + len(M.PRIMITIVES)
+                prog, used = _probe(M, task.coefficients, lib, D, min(sum(T ** j for j in range(1, D + 1)), q))
+                if prog is not None:
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
+                                         prog, used, used, (0,), 8)
+                else:
+                    r2 = M.solve(task, M.SearchBudget(slots=max(1, q - used), max_length=8))
                     res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
                                          used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
             else:

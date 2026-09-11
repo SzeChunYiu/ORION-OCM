@@ -405,3 +405,235 @@ v4's miss-conditional rule kept; all eight authored worlds re-run uniformly from
 **8 / 8** — hc10 ≤ 13 760 (the v4 rule should also cheapen its nine MDL misses), hc01 ≤ 2 914, the rest
 within ± 5 % of the v4 table. Falsifier: any world at or above its strongest parent.
 
+## controller_v5 — the registered prediction held on 8 / 8 (records/m2p2_exploratory_v5/)
+
+LUNARC 3597797, uniform controller_v5 on every authored world, fresh dev phase, `M2_LIB_RULE=interleave`;
+runner sha `bb9f219e`, `methods.py` sha `e0a05654` (unchanged). Every arm verified every target. Mean slots
+per target; the strongest parent is the cheaper of the ungated MDL-library parent and the ordinary adaptive
+parent on that world.
+
+| world | targets | RESET | integrated (v5) | strongest parent | vs RESET | vs strongest | v4 table (v5 vs v4) |
+|---|---|---|---|---|---|---|---|
+| hc01-binary-ladder | 46 | 34 514 | **2 495** | 2 914 (adaptive) | -92.8 % | **-14.4 %** | 1 632 (+52.9 %) |
+| hc02-square-shift | 447 | 53 668 | **9 745** | 19 488 (MDL) | -81.8 % | **-50.0 %** | 9 745 (-0.0 %) |
+| hc03-shift-runs | 303 | 37 173 | **3 593** | 7 185 (MDL) | -90.3 % | **-50.0 %** | 3 593 (+0.0 %) |
+| hc05-long-form | 55 | 51 408 | **7 644** | 10 958 (MDL) | -85.1 % | **-30.2 %** | 7 644 (-0.0 %) |
+| hc06-decoy-pair | 146 | 47 767 | **2 546** | 5 092 (MDL) | -94.7 % | **-50.0 %** | 2 546 (+0.0 %) |
+| hc08-drawn-lot-b | 55 | 32 127 | **15 509** | 19 449 (MDL) | -51.7 % | **-20.3 %** | 15 509 (-0.0 %) |
+| hc09-negative-ladder | 58 | 40 803 | **5 628** | 6 687 (adaptive) | -86.2 % | **-15.8 %** | 5 628 (-0.0 %) |
+| hc10-quartic-climb | 163 | 47 488 | **8 521** | 13 760 (MDL) | -82.1 % | **-38.1 %** | 17 620 (-51.6 %) |
+
+**Against the registration, clause by clause.**
+- *Beats the strongest parent on 8 / 8*: **held (8 / 8)**, −14.4 … −50.0 %; the falsifier (any world at or above
+  its strongest parent) did not fire.
+- *hc10 ≤ 13 760*: **held, 8 521 (−38.1 %)**. The loss that made the v4 table 7 / 8 is gone. At 8 521 it is cheaper
+  than v2's 11 274 as well, so v5 combines both rules without inheriting either loss.
+- *hc01 ≤ 2 914*: **held, 2 495**. This is v2's figure, and it is worse than v3/v4's 1 632. Restoring the interleave
+  rule gives back hc01's gain from the probe-cost rule. That trade was expected when the prediction was registered,
+  and the number is reported as it came.
+- *The other six within ± 5 % of the v4 table*: **held (6 / 6)**, all within 0.01 %. The controller made the
+  same choices there.
+
+hc02's SHUFFLED_HISTORY control was still running when this was recorded (3597797_2). It is a control and cannot
+change any clause above. Its row is appended when it lands.
+
+**What this is and is not.** It is the lane's strongest exploratory result on someone else's ecology: one
+deployable controller, fixed before its run, beats the strongest parent on every independently authored world.
+The frozen M2-P2 family stays `CANNOT_CHECK_NO_ADMITTING_WORLD` (m2p2/STAGE3.md), because the freeze prescribes its
+own arm set and admission rule, and this controller is not in that set. The exploratory result does not replace the
+frozen terminal. Replicating it **prospectively** on a fresh authoring, with controller_v5 as the frozen primary
+arm, is what would turn it into a replication claim.
+
+## Scope check on the 8 / 8: the −50 % rows are guided-first serving (registered before the parent run)
+
+Per target, the integrated arm costs **0.500–0.501×** `PARENT_WITH_MDL` on almost every target of every world
+(median 0.5001 on seven of eight; minimum exactly 0.5 everywhere). This is the `g`-versus-`2g` signature documented in
+the smoke test above: both registered parents *interleave* the library 50 / 50 with the baseline, and the controller
+probes it *first*. On hc02, hc03 and hc06 every target sits at that ratio (maxima 0.51–0.65). The −50 % there is
+therefore a serving-mode identity against an interleaving parent. It is not evidence for the controller's
+history-learned parts.
+
+**The missing parent is absorbed now.** Library-first enumeration (DreamCoder / Stitch serving) is the standard way to
+use a learned library. `PARENT_GF_D{1..4}` and `PARENT_GFQ_D{1..4}` serve the same MDL library and the same
+frequency-mined library guided-first, at a fixed depth. They are always live, have no task-statement rule and no
+liveness, and a miss falls back to the plain baseline. They run on the **same dev state** as LUNARC 3597797 (the
+`dev_state.json` and `checkpoint.json` are copied, so the libraries are identical), with runner `m2p2_gf/m2p1_runner.py`.
+That runner is the controller_v5 runner bb9f219e plus these arms only. **GF_best**, the cheapest of the eight per world,
+is an oracle-tuned parent: its depth and library are chosen in hindsight on the scored stream. That makes it an upper
+bound on any fixed-depth guided-first parent, and the conservative comparison for the controller.
+
+**Registered before the run:**
+- *Identity.* `CONTINUED_OCM` re-run on the new runner reproduces 3597797 exactly on every world (the added arms do
+  not touch existing code paths). Any difference is an ASSAY_DEFECT of this test.
+- *Serving-mode prediction.* On hc02, hc03 and hc06, GF_best lands within ± 5 % of `CONTINUED_OCM`. There, the
+  "beats the strongest parent" margin belongs to guided-first serving, not to OCM.
+- *Controller residual.* The per-world measurement is `CONTINUED_OCM` vs GF_best. **OCM-specific superiority is
+  claimed only on worlds where the controller is more than 5 % below GF_best.** No sign is predicted for hc01, hc05,
+  hc08, hc09 or hc10; the miss rule and liveness act on those worlds' misses, and whether they pay against a
+  hindsight-best parent is the open question.
+- *Consequence.* Until this lands, the 8 / 8 above is stated as **"beats the registered interleaving parents"**, not
+  "beats the strongest parent". If GF_best matches or beats the controller on most worlds, target (3) (OCM-specific
+  superiority over the strongest parent) is restated at that scope and entered in the revival ledger as a negative
+  to diagnose.
+
+## The guided-first parent: target (3) falsified at authored-world scope (records/m2p2_gf/)
+
+LUNARC 3598971; runner `m2p2_gf/m2p1_runner.py` (sha `7d790905`), the controller_v5 runner with the new parent arms
+added. Same dev state as 3597797, so every arm serves the identical libraries. Mean slots per target; every arm
+verified every target except the two marked, which are excluded from every comparison.
+
+| world | controller_v5 | registered strongest parent (interleave) | `PARENT_GF_D4` (controller vs it) | GF_best (controller vs it) | excluded (unverified targets) |
+|---|---|---|---|---|---|
+| hc01-binary-ladder | **2 495** | 2 914 | 2 495 (+0.0 %) | 1 632 `GFQ_D3` (+52.9 %) | — |
+| hc02-square-shift | **9 745** | 19 488 | 9 745 (+0.0 %) | 9 745 `GF_D4` (+0.0 %) | — |
+| hc03-shift-runs | **3 593** | 7 185 | 3 593 (+0.0 %) | 3 593 `GF_D4` (+0.0 %) | — |
+| hc05-long-form | **7 644** | 10 958 | 6 398 (+19.5 %) | 6 398 `GF_D4` (+19.5 %) | GFQ_D4 |
+| hc06-decoy-pair | **2 546** | 5 092 | 2 546 (+0.0 %) | 2 546 `GF_D4` (+0.0 %) | — |
+| hc08-drawn-lot-b | **15 509** | 19 449 | 12 891 (+20.3 %) | 12 891 `GF_D4` (+20.3 %) | GFQ_D4 |
+| hc09-negative-ladder | **5 628** | 6 687 | 4 986 (+12.9 %) | 3 344 `GFQ_D4` (+68.3 %) | — |
+| hc10-quartic-climb | **8 521** | 13 760 | 8 576 (-0.6 %) | 8 576 `GF_D4` (-0.6 %) | GFQ_D4 |
+
+hc02's last two arms have landed (LUNARC 3598971_2, 2 h 51 min; its log in records/m2p2_gf/ is now the complete one):
+`PARENT_GFQ_D3` 60 178 and `PARENT_GFQ_D4` 24 669, both verifying every target. hc02's GF_best stays `PARENT_GF_D4` at 9 745,
+so its row and every conclusion below are unchanged.
+
+**Against the registration.**
+- *Identity* — **held, 8 / 8.** `CONTINUED_OCM` on the new runner reproduces 3597797 to the slot on every world.
+- *Serving-mode prediction* (hc02, hc03, hc06 within ± 5 % of GF_best) — **held, 3 / 3, at 0.0 %.**
+- *Controller residual* (OCM-specific superiority only where the controller is more than 5 % below GF_best) —
+  **0 / 8.** On no world is the controller below GF_best. It is worse on hc01 (+52.9 %), hc05 (+19.5 %), hc08 (+20.3 %)
+  and hc09 (+68.3 %).
+
+**The decisive comparison is against the non-oracle parent, not GF_best.** `PARENT_GF_D4` makes one choice for every
+world: the MDL library, depth 4, always live, no rule, plain-baseline fallback on a miss. It ties the controller on
+hc01, hc02, hc03, hc06 and hc10, and beats it on hc05, hc08 and hc09, where the parent is 16.3 %, 16.9 % and 11.4 %
+cheaper than the controller (the controller is +19.5 %, +20.3 % and +12.9 % against the parent in the table). No
+hindsight tuning is needed to beat controller_v5.
+
+**Four ties are aliasing, not coincidence.** On hc01, hc02, hc03 and hc06 the controller's mean equals `PARENT_GF_D4`
+to the slot (hc10 differs by one target). On those worlds the controller chose MDL at depth 4, fitted 0–1 rule cells
+(hc02 0, hc06 0, hc01 1), and liveness never stood it down. **The controller reduced to the fixed parent.**
+
+**The three losses, attributed to two separate stages.**
+- **Library selection (hc08; hc01 against GF_best).** v5's interleave-validation rule chose the frequency library at
+  depth 3 on hc08 (= `PARENT_GFQ_D3` to the slot); MDL at depth 4 is 16.9 % cheaper. On hc01 it chose MDL where the
+  frequency library at depth 3 is 34.6 % cheaper.
+- **Miss routing (hc05, hc09).** The task-statement rule routes probe misses to the 50 / 50 interleave, which costs about
+  twice the plain baseline. Two targets carry hc05's entire excess (146 338 vs 78 724; 69 491 vs 68 584).
+
+**Does the tuning stream carry selection signal at all?** Checked before any revision was registered: for each world,
+the rank correlation between the controller's own expected-cost formula on the validation stream and the deployed
+cost, over the (library, depth) pairs.
+
+| world | pairs | validation tasks | ρ(formula on validation, deployed) | formula argmax | scored best | formula regret |
+|---|---|---|---|---|---|---|
+| hc01-binary-ladder | 8 | 49 | 0.83 | `GFQ_D3` | `GFQ_D3` | +0.0 % |
+| hc02-square-shift | 6 (GFQ_D3/D4 pending) | 224 | 1.00 | `GF_D4` | `GF_D4` | +0.0 % |
+| hc03-shift-runs | 8 | 203 | 0.98 | `GF_D4` | `GF_D4` | +0.0 % |
+| hc05-long-form | 7 | 22 | 0.64 | `GF_D4` | `GF_D4` | +0.0 % |
+| hc06-decoy-pair | 8 | 63 | 0.95 | `GF_D4` | `GF_D4` | +0.0 % |
+| hc08-drawn-lot-b | 7 | 46 | 0.75 | `GFQ_D3` | `GF_D4` | **+20.3 %** |
+| hc09-negative-ladder | 8 | 59 | 0.93 | `GF_D4` | `GFQ_D4` | **+49.1 %** |
+| hc10-quartic-climb | 7 | 108 | 0.96 | `GFQ_D3` | `GF_D4` | **+91.8 %** |
+
+The signal is present (ρ 0.64–1.0), but the joint-argmax formula picks the scored-stream best on only 5 / 8 worlds
+(wrong on hc08, hc09 and hc10). On hc08 and hc10 the same formula also picks wrong when applied to the scored stream
+itself, so part of the error is the cost model. Per target:
+- **Equivalent programs.** The model tiles only each task's canonical program. The probe matches by normal form, so it
+  hits equivalent programs the model scores as misses (hc08 `PARENT_GF_D4`: 24 targets, predicted 10 968 vs actual
+  1 574 per target).
+- **Hit position.** The half-level position `T^d/2` is pessimistic when frequent fragments lead the enumeration
+  (hc09 `PARENT_GFQ_D4`: predicted 7 668 vs actual 3 344).
+
+Adding primitives to the tiling was tested and falsified: it leaves hc08 and hc09 unchanged and breaks hc01 (+52.9 %).
+
+**hc09 is a library-coverage failure that validation cannot see.** The world hides six chunks; MDL compression kept
+five fragments and dropped both 3-chunks (`dec,dec,double` and `double,double,dec`), which the 2-grams partly cover.
+The frequency library holds all six. All 7 protected targets the MDL library misses at depth 4 use `dec,dec,double`,
+inside 7–8-operation compositions that need more than four tokens without it. The validation stream has 7 / 59 tasks
+using that chunk (the protected stream 10 / 58), and all of them still hit at depth 4. So even measuring the probe
+directly on validation ranks MDL first on hc09. The failing stage is mining (the compression criterion drops chunks
+the deployed probe needs). The selection signal is limited by what the tuning stream samples.
+
+**Measuring instead of estimating does not repair selection.** The lever for row 56 was to cost each (library, depth)
+pair by running the deployed probe on every validation task (LUNARC 3599408; diagnostic only, since these eight worlds
+designed it). It repairs the formula's hc10 error and picks the scored-stream best on 6 / 8 worlds, but still picks
+wrong on hc08 (frequency D3, 9 412 on validation, against MDL D4, 19 188; on the scored stream MDL D4 is cheaper, 12 891
+against 15 509) and on hc09.
+
+| world | validation argmax (mean cost on validation) | scored-stream best | same? | scored regret of the pick |
+|---|---|---|---|---|
+| hc01-binary-ladder | `GFQ_D3` (1 722) | `GFQ_D3` | yes | +0.0 % |
+| hc02-square-shift | `GF_D4` (9 444) | `GF_D4` | yes | +0.0 % |
+| hc03-shift-runs | `GF_D4` (3 367) | `GF_D4` | yes | +0.0 % |
+| hc05-long-form | `GF_D4` (3 207) | `GF_D4` | yes | +0.0 % |
+| hc06-decoy-pair | `GF_D4` (2 258) | `GF_D4` | yes | +0.0 % |
+| hc08-drawn-lot-b | `GFQ_D3` (9 412) | `GF_D4` | **no** | +20.3 % |
+| hc09-negative-ladder | `GF_D4` (1 545) | `GFQ_D4` | **no** | +49.1 % |
+| hc10-quartic-climb | `GF_D4` (9 467) | `GF_D4` | yes | +0.0 % |
+
+**hc08 has the same cause as hc09, on both libraries.** The world hides eight chunks: the MDL library lacks four
+of them and the frequency library three. All eight protected targets the MDL library misses at depth 4 need a missing
+3-chunk inside an 8-operation composition. When both libraries are incomplete, which one is cheaper depends on which
+rare long compositions a stream happens to contain. Per-target costs are heavy-tailed (a miss costs 30–80 k slots, a
+hit about 1 k).
+
+**It is not noise in the validation estimate.** A bootstrap over the validation tasks (LUNARC 3599426, 10 000
+resamples) gives the probability that a validation stream of this size picks the scored-stream best:
+
+| world | contested pair | validation means | scored means | P(validation picks scored best) |
+|---|---|---|---|---|
+| hc01 | MDL D4 / freq D3 | 2 249 / 1 722 | 2 495 / 1 632 | **0.912** |
+| hc08 | MDL D4 / freq D3 | 19 188 / 9 412 | 12 891 / 15 509 | **0.018** |
+| hc09 | MDL D4 / freq D4 | 1 545 / 4 032 | 4 986 / 3 344 | **0.001** |
+
+On hc08 and hc09 the validation stream ranks the pair the other way **robustly**. The validation and scored parts are
+two different finite samples of one small world (46–59 tasks each), and on these two worlds they disagree about which
+incomplete library is cheaper. Resampling within the tuning stream cannot correct that. **Selection from the tuning
+stream is unavailable on hc08 and hc09 at this authoring, not merely unreliable.** Where the libraries differ by a
+wide margin (hc01, hc05) it works.
+
+**Where the lever moves.** Neither better costing nor direct measurement recovers selection on the worlds where it
+matters, and the bootstrap shows the tuning stream itself points the wrong way there. What decides those worlds is **mining coverage**: MDL compression drops 3-chunks that the deployed probe
+needs, and frequency mining drops others. The next registered attempt belongs at mining (a library that keeps the
+chunks the probe cannot reconstruct within its depth), not at the controller, and it must be tested on fresh worlds.
+
+## Mining coverage: how much a better library could buy (diagnostic, records/m2p2_gf_coverage/)
+
+This diagnostic sizes the lever that ledger row 58 points to. It is **not** a registered result: it runs on the eight worlds that
+falsified target (3), on the same dev state (LUNARC 3599534 and 3599667; runner `m2p2_gf/m2p1_runner_gfu.py`, sha
+`4bb7a173`, which is the guided-first runner plus two arm families). `PARENT_GF_D4` was re-run as an identity check and
+reproduces 3598971 on all eight worlds.
+
+- `PARENT_GFU_D*` serves the union of the MDL and frequency libraries. **It is not constructible on six worlds:** the
+  registered `GeneratorMethod` caps a library at 16 fragments, and the frequency library alone is already 16, so the union
+  is 17–19. Those six worlds are CANNOT_CHECK by the frozen unit, not by choice. On hc03 and hc09, where the union is exactly
+  16, it is worse than either library alone (hc03 9 426 vs 3 593; hc09 5 884 vs 3 344). Every added fragment widens each
+  enumeration level, so a bigger library does not fix coverage.
+- `PARENT_GFO_D*` serves the author's true hidden chunk set. It is **calibration only**, since no learner can know the
+  chunks, and it measures what perfect chunk recovery would buy.
+
+| world | true chunks, depth 4 | best real parent | oracle vs best real parent |
+|---|---|---|---|
+| hc01-binary-ladder | 2 164 | 1 632 `GFQ_D3` | +32.6 % |
+| hc02-square-shift | 3 113 | 9 745 `GF_D4` | **−68.1 %** |
+| hc03-shift-runs | 6 560 | 3 593 `GF_D4` | +82.6 % |
+| hc05-long-form | 5 905 | 6 398 `GF_D4` | −7.7 % |
+| hc06-decoy-pair | 3 989 | 2 546 `GF_D4` | +56.7 % |
+| hc08-drawn-lot-b | 1 681 | 12 891 `GF_D4` | **−87.0 %** |
+| hc09-negative-ladder | 2 487 | 3 344 `GFQ_D4` | −25.6 % |
+| hc10-quartic-climb | 2 311 | 8 576 `GF_D4` | **−73.1 %** |
+
+(Depth 3 with the true chunks is far worse everywhere: most targets need four tokens.)
+
+**Reading.**
+- **The headroom is real, and it is at mining.** On five worlds a better library would cut cost by 8–87 %, and by more
+  than two-thirds on hc02, hc08 and hc10. None of it is reachable by the controller, whose parts ledger rows 55–57
+  showed to be neutral or negative.
+- **"Recover the hidden chunks" is the wrong target.** On hc01, hc03 and hc06 the mined libraries beat the true chunk
+  set by 33–83 %. Compression finds longer, composite fragments that serve the scored stream better than the author's
+  own chunks. The objective a miner should optimise is the deployed probe cost on the stream, not chunk recovery.
+- **What this does and does not license.** A learned library is a parent's object (DreamCoder / Stitch). Mining the
+  deployed-cost-optimal library from history would be a gain in history-induced search capital (target (2) / C2).
+  It would not be an OCM-specific residual (target (3)) unless it beats the strongest library-learning parent on fresh
+  worlds. Any such attempt is registered before its run and tested prospectively, never on these eight worlds.
