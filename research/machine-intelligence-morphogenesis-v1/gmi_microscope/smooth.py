@@ -214,6 +214,57 @@ class S6XorSearch(S2Search):
         self.idx = 0
 
 
+class S7Bayes(S2Search):
+    """RV-377-029 declared probabilistic row: approximate Bayesian model averaging over the K best-scoring grammar programs.
+    At 8-bit precision a posterior over more than 16 hypotheses cannot be represented (the uniform weight 1/K underflows below
+    1/16), so K is the ladder (4, 16). Update (every example conditions the posterior): enumerate the grammar's quantized
+    squared errors on the stored examples (as S2a), keep the K lowest, weight them by a graded likelihood chain
+    like = max(0.1, 1 - |d|) charged as SCORE, then NORMALIZE. Query: posterior mean = sum_k SCORE(w_k, pred_k(x))."""
+    row = "S7"; ladder = (4, 16)
+
+    def __init__(self, K): self.K = K
+
+    def init(self, M):
+        M.declare_store("examples"); M.declare_store("library")
+        for i in range(self.K):
+            M.declare(f"p{i}", "fin", 0); M.declare(f"w{i}", "fx", fx(1.0 / self.K))
+        M.declare_program(12); self.idx = 0
+
+    def query(self, M, x):
+        acc = 0
+        for i in range(self.K):
+            acc = M.op("ADD", acc, M.op("SCORE", M.read(f"w{i}"), linear_eval(M, GRAMMAR[M.read(f"p{i}")], x)))
+        return acc
+
+    def _synth(self, M):
+        exs = list(M.stores["examples"])
+        scored = []
+        for k, coeffs in enumerate(GRAMMAR):
+            err = 0
+            for ex, ey in exs:
+                d = M.op("SUB", linear_eval(M, coeffs, ex), ey); err += M.op("MUL", d, d)
+            scored.append((err, k))
+        scored.sort()
+        ws = []
+        for i, (err, k) in enumerate(scored[:self.K]):
+            M.write(f"p{i}", k)
+            w = fx(1.0)
+            for ex, ey in exs:
+                d = M.op("SUB", linear_eval(M, GRAMMAR[k], ex), ey)
+                like = M.op("SUB", fx(1.0), d if d >= 0 else M.op("NEG", d))
+                if M.op("GT", fx(0.1), like): like = fx(0.1)
+                w = M.op("SCORE", w, like)
+            ws.append(w)
+        ws = M.op("NORMALIZE", ws)
+        for i in range(self.K): M.write(f"w{i}", ws[i])
+
+    def feedback(self, M, x, y):
+        M.op("S_DELETE", "examples", x); M.op("S_INSERT", "examples", x, y); self._synth(M)
+
+    def revoke(self, M, x):
+        M.op("S_DELETE", "examples", x); self._synth(M)
+
+
 class S5Memory:
     row = "S5"; ladder = (2, 4)
 
@@ -335,12 +386,16 @@ ROWS = {"S4": S4Net, "S2": S2Search, "S5": S5Memory, "S3": S3Particles}
 ROWS_V3 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S5": S5Memory, "S3": S3Particles}
 ROWS_V4 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5k": S5KNN, "S5": S5Memory, "S3": S3Particles}
 ROWS_V6 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5h": S5Hamming, "S5": S5Memory, "S3": S3Particles}  # RV-377-025: corrected kNN row
+ROWS_V7 = {"S4": S4Net, "S2a": S2ApproxSearch, "S7": S7Bayes, "S5h": S5Hamming, "S5": S5Memory}  # RV-377-029: probabilistic (posterior-averaging) row
 ROWS_V5 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S6": S6XorSearch, "S5": S5Memory, "S3": S3Particles}  # RV-377-024: parity-hole occupant added
 DENSE = {"S4", "S3"}
-LOCAL = {"S2", "S2a", "S5", "S5k", "S5h", "S6"}
+LOCAL = {"S2", "S2a", "S5", "S5k", "S5h", "S6", "S7"}
 
 
-def run(row, basis, size, seed=0, target=None, n_events=None, rows=None, criterion="all"):
+NOISE_PATTERN = (1, -1, 0, 2, -2, 0, 1, -1)  # RV-377-029 declared label-noise axis: fed label = target + NOISE_PATTERN[(t-1) % 8] fx units (zero mean); capability is always against the clean target
+
+
+def run(row, basis, size, seed=0, target=None, n_events=None, rows=None, criterion="all", noise=False):
     target = TARGET if target is None else target
     n_events = H if n_events is None else n_events
     revoke_at = REVOKE_AT if n_events == H else (n_events // 2 + 1)
@@ -349,7 +404,7 @@ def run(row, basis, size, seed=0, target=None, n_events=None, rows=None, criteri
     M.phase("exec"); ref.init(M)
     D = []; max_writes = 0
     for t in range(1, n_events + 1):
-        x = TRAIN[(t - 1) % len(TRAIN)]; y = target[x]
+        x = TRAIN[(t - 1) % len(TRAIN)]; y = clamp(target[x] + NOISE_PATTERN[(t - 1) % len(NOISE_PATTERN)]) if noise else target[x]
         M.phase("exec"); D.append({xx: ref.query(M, xx) for xx in ALL_X})
         M.phase("upd"); ref.feedback(M, x, y); max_writes = max(max_writes, len(M.L.writes_in_event)); M.end_event()
         M.phase("ver")
@@ -379,7 +434,7 @@ def analytic_rstar(pe_i, pe_j, Hh):
     return round(a / b, 3) if b > 0 and a > 0 else None
 
 
-def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None, criterion="all", target=None):
+def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None, criterion="all", target=None, noise=False):
     rows = rows or ROWS
     target = make_target(coeffs) if target is None else target
     cols = list(bases.ALL)
@@ -387,7 +442,7 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
     for row, cls in rows.items():
         for col in cols:
             for size in cls.ladder:
-                cells[(row, col, size)] = run(row, bases.ALL[col], size, seed, target, n_events, rows, criterion)
+                cells[(row, col, size)] = run(row, bases.ALL[col], size, seed, target, n_events, rows, criterion, noise)
     c2 = {f"{row}@{size}": all(cells[(row, col, size)]["D"] == cells[(row, cols[0], size)]["D"] for col in cols) for row, cls in rows.items() for size in cls.ladder}
     caps = {f"{row}|{col}|{size}": cells[(row, col, size)]["capability"] for (row, col, size) in cells}
     H_GRID = [1, 2, 4, 8, 16, 32, 64, 128]; R_GRID = [0, 1, 2, 4, 8, 16, 32]
@@ -437,7 +492,7 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
                     within = obs is not None and obs[0] <= pred <= obs[1] * 1.0 + 1e-9 or (obs is not None and (pred < obs[0] and obs[0] == 0)) or (obs is not None and R_GRID.index(obs[1]) - R_GRID.index(obs[0]) == 1 and obs[0] <= pred <= obs[1])
             rstar[col] = {"predicted_rstar_from_E_smooth": pred, "observed_crossing_interval": obs, "both_admissible": adm, "within_one_grid_step": within}
     receipt = {"schema": "StageDESmoothV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "run_tag": tag, "target_coeffs": list(coeffs) if target is None or coeffs is not None else None, "target_table": {str(k): v for k, v in target.items()}, "analytic_rstar_test": rstar,
-               "ecology": {"inputs": 16, "train": TRAIN, "H": n_events, "revoke_at": REVOKE_AT if n_events == H else n_events // 2 + 1, "theta": THETA, "rows": list(rows), "capability_criterion": criterion},
+               "ecology": {"inputs": 16, "train": TRAIN, "H": n_events, "revoke_at": REVOKE_AT if n_events == H else n_events // 2 + 1, "theta": THETA, "rows": list(rows), "capability_criterion": criterion, "label_noise": list(NOISE_PATTERN) if noise else None},
                "C2": c2, "capability_by_cell": caps, "R_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["R"] for (row, col, size) in cells},
                "writes_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["max_writes"] for (row, col, size) in cells},
                "frontier_H_r": frontier, "PH_REV": ph, "grammar_size": len(GRAMMAR),
@@ -492,6 +547,15 @@ if __name__ == "__main__":
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth1_calib_v6":
         # RV-377-025 calibration: ROWS_V6 on the original E_smooth (V1 coefficients); used only for per-column per-event costs
         main(coeffs=COEFFS_V1, tag="V4C_SMOOTH1_ROWS_V6_CALIB", n_events=16, rows=ROWS_V6, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "bayes_few":
+        # RV-377-029 (i): few observations (6 events) on E_smooth3, rows ROWS_V7
+        main(coeffs=COEFFS_V3, tag="V10_SMOOTH3_BAYES_E6", n_events=6, rows=ROWS_V7, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "bayes_noise":
+        # RV-377-029 (ii): label noise on E_smooth3 at 16 events, rows ROWS_V7
+        main(coeffs=COEFFS_V3, tag="V10_SMOOTH3_BAYES_NOISE", n_events=16, rows=ROWS_V7, criterion="unseen", noise=True)
+    elif len(sys.argv) > 1 and sys.argv[1] == "bayes_ref":
+        # RV-377-029 (iii): reference E_smooth3 at 16 events without noise, rows ROWS_V7 (S7 vs S2a at full observation)
+        main(coeffs=COEFFS_V3, tag="V10_SMOOTH3_BAYES_REF", n_events=16, rows=ROWS_V7, criterion="unseen")
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth3_h_shrfix":
         # RV-377-026: E_smooth3 with ROWS_V6 after the B2 SHR macro correction (C2 predicted restored)
         main(coeffs=COEFFS_V3, tag="V9_SMOOTH3_H_SHRFIX", n_events=16, rows=ROWS_V6, criterion="unseen")

@@ -91,7 +91,7 @@ The third is a legitimate success of the theory's predictive power, not a failur
 | next | RV-027 hole census over axes (§3.2) | laptop minutes per cell | the hole map; predicted occupant property vectors |
 | next | D1 rows for in-context adaptation, attention, temporal credit; a partial-observability ecology for the stochastic form | laptop | S1 rows 8–10; a D3 region for M3/S3 |
 | next | blind recovery of the search form (needs a grammar leaf for enumeration) | laptop | D2 for symbolic forms |
-| then | neutral search at 10^6–10^7 evaluations under diversity, in predicted holes | laptop-days or #221 | U4 attempts |
+| now (authorized 2026-09-11, running) | RV-028: 10^6 evaluations × 3 seeds under diversity with a fast exact evaluator (8×, 0 mismatches) and functional-equivalence caching; RV-029 at 10^7 if the plateau moves | 3 cores × 0.5 h (10^6) / × 5 h (10^7) | D2 for the dense form; U4 attempts afterwards in predicted holes |
 | Track A (outside this lane) | E1/E2 cross-paradigm semantic-proposal-geometry predictions on real families; E3 math/code episodes (#46, #208); E4 lifelong machine | real domains | "empirically supported general developmental theory" |
 | last | E7 meta-morphogenesis (burden-to-improve declining across generations) | #221-class | RSI rung; not before E5/E6 |
 
