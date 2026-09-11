@@ -42,6 +42,7 @@ the target's position in the declared enumeration.
 | E7 | v1 surface | 62 935 | **58 636** | 62 788 | 32 731 | +7.1 % ✗ |
 | **E7** | **v2 mechanism** | 62 935 | 58 636 | **39 296** | 32 731 | **−33.0 %** ✓ |
 | **FV6** (foreign vocabulary) | v1 surface | 3 725 | 4 553 | **3 205** | 2 857 | **−29.6 %** ✓ |
+| **FV8** (foreign vocabulary, length 8, 120 targets) | **v2 mechanism** | 56 056 | 81 800 | **50 261** | 47 669 | **−38.6 %** ✓ |
 
 On `FOREIGN_M1` the v2 gate recovers **86 %** of the oracle's advantage (13 596 against an
 oracle floor of 11 965) and serves on 60 % of targets.
@@ -49,7 +50,10 @@ oracle floor of 11 965) and serves on 60 % of targets.
 ## Two things this establishes
 
 **Applicability control is a genuine OCM-specific advantage.** It beats the ungated
-adaptive parent by 29–33 % on three ecologies. The parent serves unconditionally and is
+adaptive parent by 29–39 % on four ecologies, two of them built from the M1 lane's own
+vocabulary. On FV8 the library is **harmful** when always served (+46 % over RESET) and
+the gate still beats RESET by 10 % — recovering 69 % of the oracle gap by serving on only
+26.7 % of targets. The parent serves unconditionally and is
 structurally unable to do otherwise, so this is not a configuration artifact — it is the
 second win of this kind after [deployment liveness](PLASTICITY.md), and both come from the
 same source: separating *is this true* from *is this useful here*.
