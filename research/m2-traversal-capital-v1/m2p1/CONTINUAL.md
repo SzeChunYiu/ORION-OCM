@@ -127,3 +127,34 @@ events and recover on the next re-probe); **B ≤ 3 590 (≤ −5 % vs RESET)**;
 (instant reactivation, ≈ 600 expected); lifetime ≤ 1 650 (≤ −52 % vs RESET), below v3 by
 ≥ 15 %. Falsifiers: B ≥ RESET; A′ > 919; A > 563.
 
+## Outcome, continual_v3 on the 45-segment lifetime (records/continual/SHIFT45_v3_*)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| RESET | 3 476 | 3 407 | 3 776 | 3 245 |
+| CONTINUED_OCM (v3 controller) | 2 038 | 536 | 4 703 (+24.5 %) | 875 |
+| continual_v2 | 1 964 | 536 | 4 115 (+9.0 %) | 1 241 |
+| **continual_v3** | **1 720 (−50.5 %)** | 536 | **3 888 (+3.0 %)** | **735** |
+
+Held: A (536), A′ (735 ≤ 875; the B library stood down after three misses and A's was
+re-probed at once), lifetime ≤ 1 650 missed by 4 % but the ≥ 15 % margin over the v3
+controller held (−15.6 %). **B falsified a third time** (≤ 3 590 registered), and the
+sequence is +24.5 % → +9.0 % → +3.0 %. Excess by window (exact): transition 45–47 **+14 025**
+(was +34 376 under the 8-window rule), re-probes +4 389, **the failed re-mine at target 64
++11 019** (an 8-program corpus; both candidates failed validation, 9 556 slots of probes
+charged), the successful re-mine at 80 +5 648, **targets 81–89 −30 029** (nine hits at
+400–900 slots against a RESET of 2 100–5 200; no misses now that a learned library never
+interleaves). Total +5 052.
+
+One cause: the first attempt fires as soon as 16 solutions exist in the regime, and an
+8-program corpus is too thin for MDL to recover a regime (the 13- and 24-program attempts
+both deployed). **continual_v4: `min_corpus` 8 → 12** (first attempt needs 20 in-regime
+solutions). Registered before the run, on SHIFT45 **and on two fresh shift worlds
+(A seeds 602, 603; train 28 / 49)** so the constant is tested out of sample; plus E5 / FV8
+regressions of the v3 liveness rule.
+
+Predictions: SHIFT45 B ≤ 3 400 (≤ −10 % vs RESET), A 536 ± 5 %, A′ ≤ 875, lifetime ≤ 1 600;
+fresh worlds: B ≤ 0.95 × RESET, lifetime ≤ −45 % vs RESET and below the v3 controller by
+≥ 10 %; E5 ≤ 414.1 × 1.05; FV8 ≤ +0.05 % vs RESET. Falsifiers: B ≥ RESET on any world;
+E5 > 434.8; FV8 > +0.05 %.
+
