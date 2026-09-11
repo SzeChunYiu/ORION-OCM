@@ -86,3 +86,12 @@ def test_smooth_v1_receipt_payload_frozen():
     new = json.loads(rc_path.read_text())
     for k in ("R_by_cell", "capability_by_cell", "frontier_H_r", "PH_REV", "C2"):
         assert committed[k] == new[k], k
+
+
+def test_smooth3_prediction_receipt_is_reproducible_and_was_frozen_before_the_run():
+    from gmi_microscope import predict_smooth3
+    committed = json.loads((RES / "STAGE_DE_SMOOTH3_PREDICTION.json").read_text())
+    rc = predict_smooth3.main()
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert committed["n_called"] == 336 and committed["n_abstained"] == 0
+    assert committed["certification_capabilities_B0"]["S5"] < 0.85 < committed["certification_capabilities_B0"]["S4"]
