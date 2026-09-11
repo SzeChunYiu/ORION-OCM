@@ -87,6 +87,29 @@ the frozen source with exactly three substitutions applied — chunk-count bound
 `OCM_M2P4_B34_COMPILED_WORLD_V1` so a variant-compiled world can never be mistaken for a
 frozen one. The generator aborts on any other drift.
 
+## One provenance field is degraded, and it is not hidden
+
+Every G-SURF record emitted here carries `bound_sources.git_head = ""`, where the
+originals in `m2p2/stage2/` carry a real commit SHA (e.g. `87d08478…`). The cause is
+mechanical: the instrument shells out to `git` for repo state, and the tree it ran
+against on billy was unpacked from a `git archive` tarball with no `.git` directory —
+which is also why every run log opens with `fatal: not a git repository`.
+
+What this does and does not cost:
+
+- **Unaffected:** every verdict. All 16 runs (6 band 3–4 + 10 control) produced complete
+  records, and the 8 comparable controls reproduced the recorded numbers exactly.
+- **Unaffected:** the binding that matters for the registered units —
+  `bound_sources["methods.py"]` is `e0a0565466dc6778…` in my runs, byte-identical to the
+  originals, and each record still hashes its own `world_json`.
+- **Absent:** the repo-state binding. These records cannot self-certify which commit of
+  the lane they were produced from; that link is carried by this document and the commit
+  that adds it, not by the JSON.
+
+Stated here rather than repaired after the fact, because re-running to populate the
+field would change files whose hashes are already quoted above.
+
+
 ## Raw records
 
 `gsurf_b34/` (six band 3–4 verdicts), `gsurf_repro/` (ten control re-runs — all ten
