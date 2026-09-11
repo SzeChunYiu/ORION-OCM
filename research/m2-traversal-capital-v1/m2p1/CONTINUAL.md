@@ -1280,3 +1280,19 @@ The same registered configuration (`m2_abc611.sbatch`, runner unchanged) on fres
 If it passes, K1 on mixed regimes is recorded as replicated at C2 scope under continual_v6.11. If it fails,
 K1 under v6.11 is recorded FRAGILE, like K1-L, and K1 on mixed regimes stays NOT_ESTABLISHED.
 
+## Outcome of the K1 under v6.11 replication (fresh seeds 694–705, all 12 gated; records/k1r611/)
+
+**FAILED on the regime-C bar.** Lifetime below the fixed controller **12 / 12 = 1.000** (bar ≥ 0.833); below
+RESET **12 / 12**; regime-C at or below RESET **8 / 12 = 0.667** (bar ≥ 0.750). Every arm verifies every target.
+Per the registered rule, **K1 under v6.11 is recorded FRAGILE** (passed 11 / 11, 11 / 11, 10 / 11 on seeds 682–692;
+failed regime-C on 694–705), and **K1 on mixed regimes stays NOT_ESTABLISHED**.
+
+Regime-C seeds above RESET: s695 3 568 vs 3 225, s699 3 655 vs 3 568, s702 4 459 vs 4 026, s705 3 635 vs 3 483
+(three of the four are within 5 %; s702 had a failed redeployment). Only one seed (s694) entered the lock-out.
+
+*What did replicate, reported as components and not as a new claim:* the lifetime bars were met on **both**
+registered v6.11 samples — below the fixed controller **23 / 23** and below RESET **23 / 23** gated seeds —
+where v6.10hi reached 9 / 12 and K1-L's own replication 9 / 12. The regime-C bar, met once (10 / 11) and
+missed once (8 / 12), is the remaining obstacle; it is the recombination regime already recorded as C3
+NOT_ESTABLISHED, and the revived-library losses attributed above land in the same window.
+

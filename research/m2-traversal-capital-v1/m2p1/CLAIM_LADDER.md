@@ -83,3 +83,8 @@ on its registered fresh sample** (lifetime below fixed 11/11, below RESET 11/11,
 lock-outs). Recorded as passed once, replication pending on seeds 694–705; two of its diagnostic falsifiers
 failed (mechanism 6/11, one inertness world +2.5 %). Rung remains **C2** until the replication reports.
 
+**Update (2026-09-11, replication).** K1 under v6.11 failed its replication on the regime-C bar (8/12 against
+0.750) and is recorded FRAGILE; K1 on mixed regimes stays NOT_ESTABLISHED. The lifetime bars were met on both
+registered v6.11 samples (below the fixed controller and below RESET on 23/23 gated seeds), reported as
+components. Rung remains **C2**.
+
