@@ -10,7 +10,7 @@ Universe:
 - projections `x,y` are free variables, not counted as primitives;
 - primitive catalogue: `NOT, AND, OR, XOR, NAND, NOR`;
 - legal construction: functional composition only;
-- cost coordinate: minimum expression depth in this first calibration.
+- cost coordinate: minimum expression depth.
 
 Executed result:
 
@@ -24,7 +24,7 @@ Inclusion-minimal complete bases:
   {NOT, OR}    max minimum depth 4
 ```
 
-This is **not new mathematics**. Post/clone theory and classical functional-completeness results own the underlying Boolean structure. This stage calibrates compensation-aware census machinery only.
+This is not new mathematics. Post/clone theory and classical functional-completeness results own the underlying Boolean structure.
 
 Terminal:
 
@@ -34,29 +34,13 @@ Terminal:
 
 ## Stage B — developmental-equivalence counterexample (executed)
 
-Fixture:
-
-```text
-registered input universe = {0,1}
-initial current behavior for both machines = [0,0]
-shared experience = supervised event (x=1, label=1)
-
-M_static:
-  update rule = NO_OP
-  post-experience behavior = [0,0]
-
-M_adaptive:
-  update rule = SUPERVISED_MEMORIZE
-  post-experience behavior = [0,1]
-```
-
-Before the event the machines are extensionally identical on **every input in the complete registered universe**. After the same event they diverge because their update laws differ.
+Two machines are exactly identical on every input in the complete registered universe before experience, but after the same supervised event one updates and one does not.
 
 Terminal:
 
 `CURRENT_BEHAVIOR_EQUIVALENCE_DOES_NOT_IMPLY_DEVELOPMENTAL_EQUIVALENCE_EXACT`
 
-Scientific consequence: morphology equivalence cannot be current I/O behavior alone; registered update/development behavior must be part of the relation.
+Consequence: Track-B morphology equivalence must preserve registered experience -> update -> later behavior, not merely present I/O.
 
 Artifacts:
 
@@ -66,35 +50,11 @@ test_developmental_equivalence_witness.py
 EXACT_DEVELOPMENTAL_EQUIVALENCE_V1.json
 ```
 
-Claim boundary: finite exact counterexample only.
-
 ---
 
 ## Stage C-v0 — one-bit adaptive Boolean basis census (executed)
 
-This stage extends the calibration from static Boolean functions to tiny adaptive transducers while deliberately remaining exact.
-
-A morphology is:
-
-```text
-one-bit state s
-one-bit input x
-one-bit supervised label l
-
-output  f(s,x)   -> y
-update  g(s,x,l) -> s'
-initial state s=0
-```
-
-Both `f` and `g` are composed from subsets of:
-
-```text
-NOT, AND, OR, XOR, NAND, NOR
-```
-
-No `LEARN`, `NEURON`, `BACKPROP`, `BAYES_UPDATE`, `PRODUCTION_RULE`, `PROGRAM_INTERPRETER` or other architecture-labelled primitive exists.
-
-Developmental signatures are computed exactly over every supervised history of length `<=2`, followed by both probe inputs.
+A morphology is one-bit state `s`, one-bit input `x`, supervised label `l`, output `f(s,x)` and update `g(s,x,l)`, with `f/g` composed from the six-gate catalogue.
 
 Executed exact result:
 
@@ -106,40 +66,7 @@ current-behavior classes at s=0            4
 developmental classes (history <=2)     2884
 ```
 
-Inclusion-minimal complete bases remain:
-
-```text
-{NAND}
-{NOR}
-{NOT, AND}
-{NOT, OR}
-```
-
-Registered compilation-depth results over the complete adaptive universe:
-
-```text
-{NAND}       mean depth(f)+depth(g) = 5.47265625   max = 8
-{NOR}        mean depth(f)+depth(g) = 5.47265625   max = 8
-{NOT,AND}    mean depth(f)+depth(g) = 6.14062500   max = 10
-{NOT,OR}     mean depth(f)+depth(g) = 6.14062500   max = 10
-```
-
-Within the registered six-gate catalogue the lowest mean complete-basis compilation depth is achieved by a richer basis including `{AND, OR, XOR, NAND, NOR}`:
-
-```text
-mean depth sum = 3.43359375
-max depth sum  = 5
-```
-
-### What Stage C-v0 establishes
-
-1. **Developmental equivalence is much finer than current behavior** in this finite fixture: `2884` developmental classes versus only `4` current behavior classes.
-2. **Primitive cardinality is not resource optimality**: a minimal-cardinality complete basis can require deeper compilation than a richer basis.
-3. Exact developmental/resource census is tractable enough to calibrate before heuristic architecture search.
-
-### What it does NOT establish
-
-The functional-completeness core is still ordinary Boolean clone/Post mathematics. The adaptive result composes two Boolean maps; therefore this is not evidence that Boolean connectives are a machine-intelligence atom.
+This establishes that developmental identity can be dramatically finer than present behavior, but the basis structure is still ordinary Boolean clone/Post mathematics.
 
 Terminal:
 
@@ -153,75 +80,170 @@ test_adaptive_boolean_basis_census.py
 EXACT_ADAPTIVE_BOOLEAN_CENSUS_V1.json
 ```
 
-This is a scientifically useful negative/subtraction result: **the naive adaptive-Boolean route is too close to mature functional-completeness mathematics to carry the general-intelligence novelty. Move upward.**
+---
+
+## Stage C-v1 — structured local state + topology adaptation (executed)
+
+The next grammar stops using arbitrary Boolean truth tables as the morphology itself. It uses two explicit binary local units, one explicit binary edge, restricted local compute operations, restricted state-update operations, and restricted edge-update modes.
+
+Registered components:
+
+```text
+compute ops:
+  INPUT
+  STATE
+  NEIGHBOR
+  NOT_INPUT
+  XOR_INPUT_STATE
+  XOR_INPUT_NEIGHBOR
+  AND_INPUT_STATE
+  AND_INPUT_NEIGHBOR
+
+state update ops:
+  HOLD
+  WRITE_LABEL
+  WRITE_ERROR
+  XOR_ERROR
+  COPY_OUTPUT
+  COPY_NEIGHBOR
+
+edge modes:
+  FIXED_OFF
+  FIXED_ON
+  TOGGLE_ON_ERROR
+  SET_ON_ERROR
+```
+
+Registered developmental evaluation:
+
+- two initial local-state seeds: `(0,0)` and `(0,1)`;
+- every supervised history of length `0..2` over binary `(input,label)` events (`21` histories);
+- after each history, probe both binary inputs;
+- developmental phenotype = complete concatenated output vector.
+
+Exact enumeration:
+
+```text
+family               morphologies   developmental classes
+STATIC                    128                 6
+STATE_ADAPTIVE           4608                96
+TOPOLOGY_ADAPTIVE         256                12
+FULL_ADAPTIVE            9216               184
+```
+
+Exact reach differences:
+
+```text
+state-adaptive unique beyond static                         90
+topology-adaptive unique beyond static                       6
+topology-adaptive unique beyond state-adaptive               6
+state-adaptive unique beyond topology-adaptive              90
+full-adaptive unique beyond union(single-channel families)  82
+```
+
+So, **under the frozen tiny architecture/grammar budget**, state adaptation and topology adaptation are not interchangeable, and their interaction produces additional developmental phenotypes.
+
+However, the stronger formal result is subtraction rather than novelty:
+
+### Finite flattening theorem
+
+Any finite deterministic graph of finite local states plus finite topology/configuration state can be flattened exactly into one deterministic finite-state transducer by defining global state
+
+\[
+S=(\prod_i S_i)\times T.
+\]
+
+Feedback/teaching symbols simply augment the transducer input alphabet. Therefore topology change is algebraically just state change at finite scope.
+
+Terminal:
+
+`STRUCTURED_ADAPTATION_INTERACTION_EXACT__FINITE_STATE_PARENT_SUFFICIENT_FOR_EXPRESSIVITY`
+
+Interpretation:
+
+```text
+structured factorization matters at a fixed architecture/resource bound
+!=
+new fundamental computational class
+```
+
+The residual is now explicitly about description length, locality, communication, learnability, update/revision cost and scaling—not finite expressivity.
+
+Artifacts:
+
+```text
+FINITE_FLATTENING_THEOREM_V1.md
+BASIS_CANDIDATE_DISPOSITION_V2.json
+structured_adaptive_grammar_census.py
+test_structured_adaptive_grammar_census.py
+EXACT_STRUCTURED_ADAPTIVE_CENSUS_V1.json
+```
 
 ---
 
-## Stage C-v1 — structured adaptive basis beyond clone-theory calibration (next)
+## Stage C-v2 — next exact question: resource-bounded factorization
 
-The next exact grammar must introduce structure that is not exhausted by simply choosing two arbitrary Boolean functions.
+Stage C-v1 kills the weak claim that local adaptive units define a new computational class. The next exact question is stronger:
 
-Candidate low-level components, frozen before outcome:
+> Can a structured adaptive factorization represent/develop some registered phenotype with provably or exactly smaller **description / local update / communication / search** burden than every matched flat-state/program parent under the same finite scope?
 
-```text
-typed local state
-explicit read/write state operation
-message/pass value
-conditional composition
-bounded local update of a parameter/state coordinate
-explicit topology add/remove in a separate arm
-explicit stochastic choice in a separate arm
-resource meter
-```
-
-Do **not** include architecture labels:
+Required comparison:
 
 ```text
-NEURON
-PRODUCTION_RULE
-BAYES_UPDATE
-PROGRAM_INTERPRETER
-ATTENTION
-BACKPROP
+structured local grammar
+vs
+flat finite-state table
+vs
+compressed/symbolic finite-state parent
+vs
+small explicit program parent
 ```
 
-### Required attacks
+Do not compare only against a deliberately uncompressed transition table.
 
-- compare against a plain Moore/coalgebraic-state-machine parent;
-- compare against program/universal-interpreter encodings;
-- quotient exact current behavior;
-- quotient exact developmental behavior;
-- compensation-aware primitive removal;
-- vary resource prices so primitive rank and resource rank can disagree;
-- separate on-unit adaptation from externally applied update laws;
-- deterministic and explicit-stochastic arms;
-- no-learning/static control;
-- exhaustive enumeration before heuristic search wherever feasible.
+Required resource coordinates:
+
+```text
+description bits / AST size
+states actually touched per update
+communication edges/messages
+update steps
+compiler/search work to acquire the morphology
+maintenance/revision work
+```
 
 Possible terminals:
 
 ```text
-STRUCTURED_ADAPTIVE_BASIS_RESIDUAL_AT_SCOPE
-MULTIPLE_EQUIVALENT_ADAPTIVE_BASES_AT_SCOPE
-PARENT_FORMALISM_SUFFICIENT
-UNIVERSAL_COMPUTATION_ONLY
-NO_SMALL_CROSS_PARADIGM_BASIS
-NON_IDENTIFIABLE_AT_CURRENT_RESOLUTION
+STRUCTURED_FACTORIZATION_RESOURCE_RESIDUAL_AT_SCOPE
+PROGRAM_PARENT_SUFFICIENT
+STATE_MACHINE_PARENT_SUFFICIENT
+NO_RESOURCE_RESIDUAL
+REPRESENTATION_PRICE_REGIME_ONLY
+CANNOT_CHECK_<reason>
 ```
 
 ---
 
 ## Stage D — known-form micro-derivations
 
-Only after Stage C-v1 is frozen and interpretable, construct tiny targets from different paradigms:
+Only after Stage C-v2 has a nontrivial resource question, attempt tiny targets from multiple paradigms using the same frozen basis/grammar family:
 
-1. 2–3 unit neural/threshold computation plus one update step;
+1. tiny threshold/neural computation plus one update step;
 2. finite production/rewrite learner;
 3. tiny stochastic/Bayesian update fixture;
 4. tiny explicit program/library learner;
 5. one simple hybrid statistical + exact-check fixture.
 
-The same frozen basis should reproduce **behavior + registered update law** without architecture-labelled macros. Record D0 representability, D1 compilation resources and eventually D2 acquisition.
+The same basis must reproduce **behavior + registered update law** without architecture-labelled macros. Record separately:
+
+```text
+D0 representability
+D1 bounded developmental compilation
+D2 developmental acquisition
+```
+
+If a morphology requires adding a named architecture-specific primitive, report the obstruction rather than quietly expanding the basis.
 
 ---
 
@@ -238,22 +260,21 @@ noise / stochasticity
 exact-verification requirement
 ```
 
-Freeze phase-crossing predictions on development worlds, then test them on disjoint tiny worlds.
-
-This is the first exact test of `DEVELOPMENTAL_FRONTIER_V1.md` rather than a post-hoc explanation.
+Freeze phase-crossing predictions on development worlds, then test on disjoint tiny worlds.
 
 ---
 
 ## Adoption/kill rules
 
 - Universal interpreter success alone -> `UNIVERSAL_COMPUTATION_ONLY`.
-- Generic local state-machine success already captured by coalgebra/dynamical parents with no residual -> `PARENT_FORMALISM_SUFFICIENT`.
-- Boolean functional-completeness/minimal-basis results -> parent mathematics/calibration, not GMI novelty.
-- Different bases equivalent but resource-ranked differently -> preserve Pareto/equivalence result; do not force a metaphysical winner.
-- Stochastic fixture needs irreducible stochastic primitive at registered bound -> report obstruction, do not hide randomness in opaque code.
+- Generic finite local adaptive system with no resource residual -> `PARENT_FORMALISM_SUFFICIENT`.
+- Boolean functional-completeness/minimal-basis results -> parent mathematics/calibration.
+- Structured factorization that only beats an intentionally uncompressed flat table -> non-evidence.
+- Different bases equivalent but resource-ranked differently -> preserve Pareto/price-regime result; do not force a metaphysical winner.
+- Stochastic fixture needs irreducible stochastic primitive at the registered bound -> report obstruction.
 - Basis chosen after target results -> exploratory only; re-freeze.
 - Phase regions explained after outcome -> no phase-law credit.
 
 ## No-HPC rule
 
-GMI-D2 remains finite/exact and runs on ordinary hardware. #221/#220 search machinery is not authorized until the structured grammar, equivalence test and nontrivial residual survive these microscopes.
+GMI-D2 remains finite/exact and runs on ordinary hardware. #221/#220 search machinery is not authorized until the structured grammar, resource comparison and cross-paradigm micro-derivations survive these microscopes.
