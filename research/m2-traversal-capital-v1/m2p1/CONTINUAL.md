@@ -1394,15 +1394,20 @@ The largest term is **missing savings**: failing seeds win on less than half as 
 second and learning charges third, with twice the library churn. The organism mostly **fails to acquire a library that
 covers the recombined regime**, rather than overpaying for one.
 
-**Event level (the ten failing seeds against four passing ones).** On every passing seed the same thing happens: about
-15–18 targets into regime C a *recombined* library is mined from ≈ 10 regime-C programs, deploys, and stays live to
-the end (s683 at 110, s700 at 109, s708 at 106, s714 at 108). The failing seeds break this in two ways:
-- **boundary deployment from the old regime:** a library mined at targets 90–93 from a corpus of 32 old-regime
-  programs with **no** recent-window programs (`corpus_recent` 0), before the detector has signalled the change,
-  deploys and fails in C — s705 (92), s707 (93), s712 (90), and late on s689 (134);
-- **the recombined candidate fails:** it never validates (s695, s699, s702) or deploys and then fails in deployment
-  (s706, s709, s717).
-Both are acquisition failures in the recombination regime. The first is a timing defect with a named observable (a
-candidate whose recent window is empty at a stand-down is mined entirely from the regime that just ended); the second
-is the C3 negative proper. Neither is registered as a revision yet.
+**Event level (CORRECTED before merge).** On every passing seed inspected the same thing happens: about 15–18 targets
+into regime C a *recombined* library is mined from ≈ 10 regime-C programs, deploys, and stays live to the end (s683 at
+110, s700 at 109, s708 at 106, s714 at 108). Tabulating **every** deployment in the 34 lifetimes by whether its recent
+window was empty:
+
+| deployment | count | later failed in deployment |
+|---|---|---|
+| recent window empty (mined only from the regime that just ended) | 4 | 2 (s705 at 92, s707 at 93) |
+| recent window non-empty, regime C | 40 | 8 (s690 ×2, s694, s702, s706, s709, s712, s717) |
+| recent window non-empty, regime B | 30 | 6 |
+
+A first draft of this paragraph named s712 (at 90) and s689 (at 134) as empty-window boundary deployments that failed; both
+claims were wrong — s712's corpus included 12 recent-window programs, and s689's library at 134 held. **Boundary
+deployment from an old-regime corpus explains two failing seeds (s705, s707), not the regime-C failure.** The dominant
+pattern is a recombined or regime-C candidate that fails to validate (s695, s699, s702) or validates and then fails in
+deployment (s690, s694, s706, s709, s712, s717): the C3 negative proper. Neither mode is registered as a revision.
 
