@@ -66,10 +66,14 @@ by a shift in this arm — the plasticity result stands separately.
 |---|---|---|---|---|---|
 | E5 | 44 738 | 7 167 | 827 | **414** | **−50 %** |
 | FV6 (foreign vocabulary) | 3 725 | 4 553 | 4 053 | **2 103** | **−48 %** |
+| E7 | 62 935 | 58 636 | 1 014 | **508** | **−50 %** |
+| E8 | 40 850 | 4 961 | 1 192 | **596** | **−50 %** |
 | FOREIGN_M1 (unstructured) | 29 387 | **19 992** | 31 494 | 36 118 | **+15 %** ✗ (+23 % vs RESET) |
 
-E5 and FV6 replicate the smoke test: the integrated arm halves the cost of the parent
-holding the identical library. FOREIGN_M1 is the unstructured ecology (RSI class C3), and
+E5, FV6, E7 and E8 all replicate the smoke test: the integrated arm costs almost exactly
+**half** of the parent holding the identical library — the `g` versus `2g` signature of
+guided-first search over the 50/50 interleave, now seen on five ecologies at scales from
+16 to 670 targets. FOREIGN_M1 is the unstructured ecology (RSI class C3), and
 the arm is worse than RESET there.
 
 ### Diagnosis, from the controller's own state
