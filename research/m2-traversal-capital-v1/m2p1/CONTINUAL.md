@@ -632,3 +632,45 @@ earlier +0.05 % bound was set when validation was cheap and is kept as a **recor
 re-tuned. Regressions: SHIFT45 / s602 / s603 / s604 / E5 / FV6 / three cross-world pairs within
 ± 2 %. Falsifiers: recombination C ≥ ablation C on 2 / 3 seeds; any regression > 2 %.
 
+## C3 test, continual_v6.1 — outcome (records/abc/*_v6.1_*, records/continual/*_v6.1_*)
+
+| seed | segment | RESET | fixed controller | v6 ablation | **v6.1 ablation** | **v6.1 + recombination** |
+|---|---|---|---|---|---|---|
+| 601 | C | 4 080 | 4 243 | 3 459 | **2 700** | 2 751 |
+|  | lifetime | 3 755 | 2 982 | 2 416 | **2 147** | 2 164 |
+| 602 | C | 3 554 | 3 763 | 3 494 | **2 842** | 2 842 |
+|  | lifetime | 3 560 | 2 912 | 2 575 | **2 334** | 2 334 |
+| 603 | C | 3 619 | 3 800 | 4 654 | **4 424** | 4 424 |
+|  | lifetime | 3 620 | 2 825 | 2 815 | **2 818** | 2 818 |
+
+**C3 falsified a second time** (recombination C ≥ ablation C on 3 / 3). What v6.1 did do is
+make *both* continual arms acquire the new regime much sooner: the regime C segment fell
+22 % / 19 % / 5 % from v6, and on s601 / s602 it is now 36 % / 24 % below the fixed controller
+— the "two windows, validation chooses" change deployed `mdl_recent` from the post-stand-down
+corpus at target 112. That is better in-life acquisition by a designed procedure, not K2.
+
+**Why recombination still adds nothing (s601, records).** At 104 the recombination candidate
+built on the 6 post-stand-down programs held 5 of C's 8 motifs and tiled 3 / 8 validation
+tasks — refused. By 112 the mined `mdl_recent` tiled 8 / 8 (lower bound +3 374) and beat the
+recombined candidate (7 / 8, +1 822). Recombination inherited learn_generator's
+support ≥ 2 rule, which drops three of C's motifs from a six-program corpus; that rule guards
+*new* fragments against one-off substrings, whereas retained fragments already carry support
+from earlier regimes.
+
+**Regressions (± 2 % registered).** SHIFT45 1 488.0 (−1.1 %), s602 1 759.5 (−1.4 %), s604
+1 877.2 (−1.0 %), E5 and FV6 byte-identical — held. **s603 1 701.8 (+5.4 %) — falsifier
+fired**: the confidence bound blocked a compact library at target 72 (5 / 8, mean +1 165,
+lower bound −228) that would have paid, and deployment waited until 80. The bound's
+justification is FV8 (still running); it is kept or retired on that record.
+
+## continual_v6.2 (registered before its run)
+
+One change: a retained fragment enters the recombination candidate on **one** sighting in the
+current corpus (`recomb_support` = 1). Predictions (thresholds unchanged from the v6
+registration): recombination C ≤ 0.85 × ablation C on ≥ 2 / 3 seeds, with a C library deployed
+at the 104 attempt; shift / E5 / FV6 within ± 2 % of v6.1. Falsifier: recombination C ≥ ablation
+C on 2 / 3 seeds. If it fires, this chain terminates at **NO_TRANSFERABLE_HEADROOM** for
+recombination at this grammar and cadence: the 8-solution validation slice needs the new
+regime's own solutions, and once it has them, mining the same corpus already recovers the
+regime — retained capital has no window in which it is both admissible and better.
+

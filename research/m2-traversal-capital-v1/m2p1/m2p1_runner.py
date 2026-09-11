@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "version": "continual_v6.1"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "version": "continual_v6.2"}
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -221,7 +221,10 @@ def _remine(M, solved, pool=None, recent=None):
             # v6: recombination of retained capital, ranked by occurrence in this corpus
             tp = [tuple(q) for q in progs]
             cnt = {tuple(f): sum(1 for q in tp if _occurs(f, q)) for f in pool}
-            ranked = sorted((f for f in cnt if cnt[f] >= 2), key=lambda f: (-cnt[f], -len(f), f))[:CONTINUAL["recomb_size"]]
+            # v6.2: retained fragments already carry support from earlier regimes (each was mined
+            # with support >= 2 and validated there); one sighting in this regime corroborates it.
+            # learn_generator's >= 2 rule guards NEW fragments against one-off substrings.
+            ranked = sorted((f for f in cnt if cnt[f] >= CONTINUAL["recomb_support"]), key=lambda f: (-cnt[f], -len(f), f))[:CONTINUAL["recomb_size"]]
             if ranked:
                 cands["recombined" + sfx] = tuple(ranked)
 
