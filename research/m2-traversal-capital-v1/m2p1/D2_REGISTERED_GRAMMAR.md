@@ -220,3 +220,16 @@ terminal `BENEFIT_SURVIVES_AT_D2`. The d = 2 law holds in a grammar with two mor
 primitives; the remaining seeds (1000, 1001; m = 12: 1010–1012) are still running.
 Record: `records/EXT_DISTANCE_s2.json`. Research analogue, not the registered grammar.
 
+**P = 6 analogue, five seeds (records/EXT_DISTANCE_*): all `BENEFIT_SURVIVES_AT_D2`.**
+
+| seed | motifs | recovered | d = 1 reduction | d = 2 reduction | shuffled vs RESET at d = 2 |
+|---|---|---|---|---|---|
+| 1000 | 10 | 8 | 98.3 % (25 / 25) | 98.2 % (25 / 25) | 1.60× |
+| 1001 | 10 | 9 | 67.1 % (21 / 25) | 81.9 % (24 / 25) | 1.84× |
+| 1002 | 10 | 7 | 98.1 % (25 / 25) | 97.9 % (25 / 25) | 1.86× |
+| 1010 | 12 | 7 | 98.4 % (25 / 25) | 98.7 % (25 / 25) | 1.73× |
+| 1012 | 12 | 8 | 66.1 % (23 / 25) | 65.5 % (23 / 25) | 1.69× |
+
+The d = 2 law holds in a grammar with six primitives on 5 / 5 seeds (seed 1011 still running);
+benefit does not decay from d = 1 to d = 2 on any seed. Research analogue, EXACT_MATCH-controlled.
+

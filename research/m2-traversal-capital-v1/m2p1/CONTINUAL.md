@@ -539,3 +539,41 @@ unchanged (MDL still preferred). The candidate is kept only if the remaining reg
 this segment length — its learning horizon (≈ 32 in-regime programs for a complete compact
 library) is longer than the 45-target segment allows, the invariant already stated.
 
+**continual_v5.5 regressions (records/continual/*_v5.5_*): held.** SHIFT45 1 504.5, s602
+1 784.2, s604 1 895.4, s610 1 640.4 — byte-identical; **s603 improved 1 663.7 → 1 614.5**
+(the compact-frequency candidate won the validation at target 72 and deployed eight targets
+earlier). v5.5 is kept. s613 remains a recorded negative at 45-target segments (learning horizon).
+
+## Developmental capital — recombining retained capital (C3 test; registered 2026-09-11 before any run)
+
+**Question (#373 §6, K2).** Does history make the *acquisition of new search capital* cheaper,
+not just the search? Every continual result so far learns a new regime from scratch: ≈ 20
+in-regime solutions, then mining, then validation. A developmental organism should acquire a
+regime built from parts it has already met in other company faster than one it has never met.
+
+**World (A → B → C).** A from a seed; B = the complement of A's motifs (disjoint); **C = four
+of A's motifs + four of B's**, with every normal form that is a member of A or B removed from
+C's stream, so each C target mixes the two earlier regimes. 45 targets per segment, 135 per
+lifetime, development on A only (`m2_abc_ecology.py`). A seeds 601, 602, 603.
+
+**Mechanism (continual_v6).** One extra candidate at each re-mining attempt: the fragments of
+every library the organism has retained (developmental and learned), ranked by how many of the
+current regime's solved programs contain them, truncated to eight — a *recombination* of
+retained capital, validated by the same charged probes as the other candidates. Because it
+only has to be *selected*, not discovered, it may be attempted with 4 corpus programs
+(+ 8 held out) instead of 12. **Ablation:** `CONTINUAL_OCM_NOREC` — identical, without the
+recombination candidate. Controls: RESET, the same-library parent, the fixed controller.
+
+**Predictions (per seed).** (1) In C, the recombination arm deploys a library covering ≥ 6 of
+C's 8 motifs having consumed ≤ 14 in-regime solutions; the ablation needs ≥ 20. (2) C-segment
+mean: recombination ≤ 0.85 × ablation on ≥ 2 / 3 seeds. (3) Lifetime: recombination ≤ ablation
+on 3 / 3. (4) Regressions: SHIFT45 / s602 / s603 / s604 and E5 / FV8 and the three cross-world
+pairs within ± 2 % of v5.5 / v5.4. **Falsifiers:** recombination ≥ ablation on the C segment on
+2 / 3 seeds (history does not speed acquisition), or any regression > 2 %.
+
+**Claim ceiling if positive.** A first measured K2 effect in this lane: retained capital from
+earlier regimes cuts the in-life cost of acquiring a new regime's library, isolated by an
+ablation. The parent is library persistence in DreamCoder-style learners; the residual tested
+here is that the organism *decides by charged validation on its own acquisitions* which
+retained fragments to recombine and when. One grammar; not yet K3.
+

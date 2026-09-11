@@ -354,3 +354,25 @@ With hc06 (−50 %, v3 pending) the deployable controller now beats the stronges
 **5 / 5 authored worlds scored so far** (−16 … −50 %), on worlds whose registered admission
 rule refused on every one.
 
+## Authored worlds — all eight (exploratory arm; records/m2p2_exploratory*/)
+
+| world | targets | controller | RESET | **integrated** | strongest parent | vs RESET | **vs strongest parent** |
+|---|---|---|---|---|---|---|---|
+| hc01-binary-ladder | 46 | v3/v4 | 34 514 | **1 632** | 2 914 | −95.3 % | **−44.0 %** |
+| hc02-square-shift | 447 | v2 (v4 re-run queued) | 53 555 | **9 745** | 19 488 | −81.8 % | **−50.0 %** |
+| hc03-shift-runs | 303 | v2 (v4 re-run queued) | 36 939 | **3 593** | 7 185 | −90.3 % | **−50.0 %** |
+| hc05-long-form | 55 | v4 | 51 408 | **7 644** | 10 958 | −85.1 % | **−30.2 %** |
+| hc06-decoy-pair | 146 | v3 | 47 767 | **2 546** | 5 092 | −94.7 % | **−50.0 %** |
+| hc08-drawn-lot-b | 55 | v4 | 32 127 | **15 509** | 19 449 | −51.7 % | **−20.3 %** |
+| hc09-negative-ladder | 58 | v4 | 40 803 | **5 628** | 6 687 | −86.2 % | **−15.8 %** |
+| hc10-quartic-climb | 163 | v2 (v4 re-run queued) | 47 609 | **11 274** | 13 760 | −76.3 % | **−18.1 %** |
+
+**8 / 8 independently authored worlds: the deployable controller beats the strongest parent
+(−15.8 … −50.0 %) and RESET (−52 … −95 %)**, on worlds where the registered admission rule
+refused every time. hc08 needed two revisions to get there (controller_v3 falsified;
+controller_v4's miss-conditional rule is the fix) — that history is in the rows above and in
+the revival ledger, not hidden. RESET in this table uses the exploratory arm's single-rung
+ladder and is not comparable with the frozen stage-3 ladder. hc02 / hc03 / hc10 are re-running
+under controller_v4 (LUNARC 3594193) so the table is uniform; the registered expectation is
+unchanged or better, since their rule never routed misses to a losing interleave.
+
