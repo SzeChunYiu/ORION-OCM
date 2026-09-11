@@ -8,6 +8,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--repo", required=True); ap.add_argument("--out", required=True)
 ap.add_argument("--gen", required=True, help="path to m2p1_ecology_e4.py")
 ap.add_argument("--n", type=int, default=40)
+ap.add_argument("--seed-a", type=int, default=601)
 ap.add_argument("--split", default="0.4,0.15,0.45", help="A and B stream split; a leaner train share leaves more protected members for longer segments")
 a = ap.parse_args()
 py = sys.executable
@@ -17,7 +18,7 @@ def gen(seed, out):
                     "--max-canonical-len", "6", "--max-tokens", "3", "--split", a.split,
                     "--min-targets", "900", "--trials", "1"], check=True, capture_output=True)
     return json.loads(Path(out).read_text())
-A = gen(601, "/tmp/shiftA.json")
+A = gen(a.seed_a, "/tmp/shiftA_%d.json" % a.seed_a)
 mA = {tuple(m) for m in A["hidden_motifs"]}
 # Only 16 length-2 strings exist, so two 8-motif samples are disjoint only if they are
 # exact complements. Build B as the COMPLEMENT of A explicitly -- deterministic, disjoint.
@@ -40,7 +41,7 @@ for i, r in enumerate(prot[:n]): r["segment"] = "A"
 for r in protB[:n]: r["segment"] = "B"
 for r in prot[n:2 * n]: r["segment"] = "A_prime"
 E = dict(A)
-E["ecology_variant"] = {"label": "SHIFT_ABA", "n_per_segment": n, "seed_A": 601, "seed_B": s, "split": a.split}
+E["ecology_variant"] = {"label": "SHIFT_ABA", "n_per_segment": n, "seed_A": a.seed_a, "seed_B": s, "split": a.split}
 E["hidden_motifs_B"] = B["hidden_motifs"]
 E["streams"] = {"train": A["streams"]["train"], "validation": A["streams"]["validation"],
                 "protected": prot[:n] + protB[:n] + prot[n:2 * n]}

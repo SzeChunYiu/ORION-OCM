@@ -197,3 +197,17 @@ min(RESET, parent)** on every seed — the same quantity in both regimes. Record
 | 502 | +27.1 % | 0.397 | 0.545 |
 | 503 | +0.5 % | 0.571 | 0.574 |
 
+**Seeds 504–506 (registered bound: integrated ≤ 0.65 × min(RESET, parent)):**
+| seed | library vs RESET | integrated / RESET | integrated / parent | bound |
+|---|---|---|---|---|
+| 504 | −25.8 % | **0.705** | 0.560 | **missed** (0.705 > 0.65) |
+| 505 | −0.7 % | 0.568 | 0.564 | held |
+| 506 | +11.6 % | 0.476 | 0.538 | held |
+At m = 14 the library-by-interleave benefit is unreliable (negative on 3 of 6 seeds, down to
+−26 %): with train_n = 90 the per-motif support is too thin for a 16-fragment library to
+hold every motif, and an incomplete library makes the interleave pay for guided misses. The
+integrated arm beats RESET on every seed (−29 … −52 %) and the same-library parent on every
+seed (0.54–0.56×), but the 0.65 bound was missed once — on the seed where the library is
+worst, the probe's hit rate is lowest and the miss overhead (β + baseline) is what remains.
+Recorded as a miss; the bound is not re-tuned. Records `records/DIST_SPLIT_M14_50{4,5,6}.json`.
+

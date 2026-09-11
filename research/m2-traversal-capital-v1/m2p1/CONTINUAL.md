@@ -84,3 +84,120 @@ Predictions for the 45-segment lifetime: v3's B segment **+10…+40 % vs RESET**
 ≈ B + 24, live for ≈ 21 targets at guided cost), lifetime below v3 by ≥ 10 %. Falsifiers:
 B ≥ RESET under v2; v2 lifetime ≥ v3 lifetime. FV8 under v1 is still running; its record
 is reported when it lands.
+
+## Outcome, continual_v2 on the 45-segment lifetime (records/continual/SHIFT45_*, ECO_SHIFT45.json)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| RESET | 3 476 | 3 407 | 3 776 | 3 245 |
+| PARENT_WITH_MDL | 3 198 | 1 071 | 7 552 | 969 |
+| CONTINUED_OCM (v3) | 2 038 | 536 | 4 703 (+24.5 %) | 875 |
+| **CONTINUAL_OCM (v2)** | **1 964** | 536 | **4 115 (+9.0 %)** | **1 241** |
+
+v3's B landed inside its registered band (+10…+40 %). continual_v2's B **falsified** (≤ −5 %
+registered; +9.0 % measured) and A′ **falsified** (unchanged registered; +42 %). One re-mine
+event at target 72 (B + 27): corpus 13 in-regime solutions, MDL candidate 6/8 better on the
+held-out slice, mean delta +2 306, deployed, 5 231 slots charged. The library it learned is
+six of B's eight motifs.
+
+**Attribution from the rows (exact, B total excess +15 233 over RESET):**
+- targets 45–51, the *old* library's stand-down latency under the 8-window hit-rate rule:
+  probe + rule-routed interleave at ≈ 2.3× RESET — **+34 376**;
+- stood-down targets 52–71: two re-probes — +2 926;
+- the re-mine target 72: +2 173;
+- **targets 73–89 after deployment: −24 242** (eleven probe hits at 211–541 slots against a
+  RESET of ≈ 2 200–5 200; six misses at β + 2× baseline because the learned library's rule —
+  fitted on probe deltas — routed misses to the interleave).
+- A′: the B library was live at the boundary and paid the same latency again before A's
+  library was re-probed on the cadence; v3 had nothing live and reactivated on its first
+  re-probe.
+
+So the learning works — the post-deployment window runs at −38 % vs RESET — and what
+fails is the **liveness rule at a regime change**, twice per lifetime.
+
+**Revival, continual_v3 (registered before its run; runner `standdown_misses` = 3).**
+(i) Stand down after 3 consecutive misses instead of a hit-rate < 0.25 over 8 (which needs
+7 misses). (ii) At the moment of stand-down, probe every other retained library at once
+(one β each) — a return to a known regime costs one probe, not a cadence wait. (iii) Under a
+continually-learned library, a probe miss pays β + baseline, never the interleave: its rule
+was fitted on probe deltas and says where the probe hits, not where the interleave pays.
+
+Predictions (SHIFT45, same dev state): A 536 ± 5 % (false stand-downs in A are ≤ 3-miss
+events and recover on the next re-probe); **B ≤ 3 590 (≤ −5 % vs RESET)**; **A′ ≤ 875**
+(instant reactivation, ≈ 600 expected); lifetime ≤ 1 650 (≤ −52 % vs RESET), below v3 by
+≥ 15 %. Falsifiers: B ≥ RESET; A′ > 919; A > 563.
+
+## Outcome, continual_v3 on the 45-segment lifetime (records/continual/SHIFT45_v3_*)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| RESET | 3 476 | 3 407 | 3 776 | 3 245 |
+| CONTINUED_OCM (v3 controller) | 2 038 | 536 | 4 703 (+24.5 %) | 875 |
+| continual_v2 | 1 964 | 536 | 4 115 (+9.0 %) | 1 241 |
+| **continual_v3** | **1 720 (−50.5 %)** | 536 | **3 888 (+3.0 %)** | **735** |
+
+Held: A (536), A′ (735 ≤ 875; the B library stood down after three misses and A's was
+re-probed at once), lifetime ≤ 1 650 missed by 4 % but the ≥ 15 % margin over the v3
+controller held (−15.6 %). **B falsified a third time** (≤ 3 590 registered), and the
+sequence is +24.5 % → +9.0 % → +3.0 %. Excess by window (exact): transition 45–47 **+14 025**
+(was +34 376 under the 8-window rule), re-probes +4 389, **the failed re-mine at target 64
++11 019** (an 8-program corpus; both candidates failed validation, 9 556 slots of probes
+charged), the successful re-mine at 80 +5 648, **targets 81–89 −30 029** (nine hits at
+400–900 slots against a RESET of 2 100–5 200; no misses now that a learned library never
+interleaves). Total +5 052.
+
+One cause: the first attempt fires as soon as 16 solutions exist in the regime, and an
+8-program corpus is too thin for MDL to recover a regime (the 13- and 24-program attempts
+both deployed). **continual_v4: `min_corpus` 8 → 12** (first attempt needs 20 in-regime
+solutions). Registered before the run, on SHIFT45 **and on two fresh shift worlds
+(A seeds 602, 603; train 28 / 49)** so the constant is tested out of sample; plus E5 / FV8
+regressions of the v3 liveness rule.
+
+Predictions: SHIFT45 B ≤ 3 400 (≤ −10 % vs RESET), A 536 ± 5 %, A′ ≤ 875, lifetime ≤ 1 600;
+fresh worlds: B ≤ 0.95 × RESET, lifetime ≤ −45 % vs RESET and below the v3 controller by
+≥ 10 %; E5 ≤ 414.1 × 1.05; FV8 ≤ +0.05 % vs RESET. Falsifiers: B ≥ RESET on any world;
+E5 > 434.8; FV8 > +0.05 %.
+
+## Outcome, continual_v4 on SHIFT45 (records/continual/SHIFT45_v4_*)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| continual_v3 | 1 720 | 536 | 3 888 (+3.0 %) | 735 |
+| **continual_v4** | **1 649 (−52.6 %)** | 536 | **3 676 (−2.6 %)** | 735 |
+
+**B is below RESET for the first time** (the falsifier "B ≥ RESET" is silent); E5 unchanged
+(414.1, so the 3-miss stand-down causes no false stand-downs there). The ≤ 3 400 target
+**missed**: the target-64 attempt was correctly skipped (8-program corpus < 12, nothing
+charged) — but the implementation reset the new-solution counter on the skip, so the real
+attempt still waited until target 80 and served nine targets. A skipped attempt mines
+nothing and must not consume the counter: **continual_v4.1** (bug fix, no constant
+changed; version stamped in every arm record). Registered before its run: the attempt
+fires at the first re-probe cadence with ≥ 20 in-regime solutions (≈ target 72), B ≤ 3 400,
+A / A′ unchanged, lifetime ≤ 1 580. The fresh worlds s602 / s603 run their continual arm
+last in their chains and therefore under v4.1; their predictions stand as registered.
+
+## Outcome, continual_v4.1 on SHIFT45 (records/continual/SHIFT45_v4.1_*)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| RESET | 3 476 | 3 407 | 3 776 | 3 245 |
+| CONTINUED_OCM (fixed library, v3 controller) | 2 038 | 536 | 4 703 (+24.5 %) | 875 |
+| **continual_v4.1** | **1 506 (−56.7 %)** | 536 | **3 471 (−8.1 %)** | **510** |
+
+The attempt fired at target 72 as registered (16-program corpus, deployed, 5 321 charged)
+and served 17 targets. B ≤ 3 400 **missed by 2 points** (−8.1 % vs the registered −10 %);
+B < RESET, A unchanged and lifetime ≤ 1 580 held; A′ came out *better* than registered
+(510 vs "unchanged 735"): the B library stood down after three misses at the boundary, A's
+library was re-probed at once, and A′ now costs less than A itself (no cold-start cadence).
+Against the fixed-library controller the continual arm is −26 % over the lifetime.
+
+```text
+B segment, five registered rounds:  +24.5 %  →  +9.0 %  →  +3.0 %  →  −2.6 %  →  −8.1 %
+(fixed library) (v1 corpus)  (v2 regime corpus + window)  (v3 3-miss stand-down, no interleave)  (v4.1 corpus ≥ 12, counter fix)
+```
+
+What remains of B's cost is mechanical and priced: the old library's three-miss transition
+(≈ 14 k), the validation probes (5.3 k) and the 27 targets before enough in-regime solutions
+exist to learn from. The out-of-sample test is the two fresh shift worlds (A seeds 602 /
+603), registered above; their outcome decides whether any of this is tuned to SHIFT45.
+
