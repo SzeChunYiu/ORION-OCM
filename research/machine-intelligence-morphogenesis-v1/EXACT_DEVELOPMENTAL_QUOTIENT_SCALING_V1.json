@@ -1,0 +1,27 @@
+{
+  "schema": "ExactDevelopmentalQuotientScalingV1",
+  "fixture": "n independent local developmental units, each with three distinguishable local states: teachable-unlearned, stubborn-unlearned, learned; legal events query_i and teach1_i",
+  "rows": [
+    {"n":1,"global_states":3,"minimal_developmental_quotient_states":3,"event_symbols":2,"flat_transition_entries":6,"shared_local_rule_entries":6,"factorized_state_cells":1,"one_teaching_event_touches_units":1},
+    {"n":2,"global_states":9,"minimal_developmental_quotient_states":9,"event_symbols":4,"flat_transition_entries":36,"shared_local_rule_entries":6,"factorized_state_cells":2,"one_teaching_event_touches_units":1},
+    {"n":3,"global_states":27,"minimal_developmental_quotient_states":27,"event_symbols":6,"flat_transition_entries":162,"shared_local_rule_entries":6,"factorized_state_cells":3,"one_teaching_event_touches_units":1},
+    {"n":4,"global_states":81,"minimal_developmental_quotient_states":81,"event_symbols":8,"flat_transition_entries":648,"shared_local_rule_entries":6,"factorized_state_cells":4,"one_teaching_event_touches_units":1},
+    {"n":5,"global_states":243,"minimal_developmental_quotient_states":243,"event_symbols":10,"flat_transition_entries":2430,"shared_local_rule_entries":6,"factorized_state_cells":5,"one_teaching_event_touches_units":1}
+  ],
+  "exact_law": {
+    "minimal_global_developmental_states": "3^n",
+    "flat_transition_entries": "2*n*3^n",
+    "shared_local_rule_entries": 6,
+    "factorized_mutable_state_cells": "n",
+    "single_teaching_update_locality": "1/n of units touched"
+  },
+  "interpretation": [
+    "Every Cartesian combination of local developmental status is future-trace distinguishable, so exact global developmental minimization cannot quotient below 3^n states.",
+    "The same machine has a compact factorized description: n local state cells plus one shared six-entry local rule table; one teaching event updates one cell.",
+    "Thus minimal global predictive/developmental state complexity can be exponential while implementation/factorization remains compact and locally updatable.",
+    "This does not establish fundamental cognitive atoms: ordinary factored state models, DBNs, programs and factored MDPs already exploit such compact structure."
+  ],
+  "strongest_parent_families": ["factored MDPs", "dynamic Bayesian networks", "factored state-space models", "compact programs/circuits"],
+  "terminal": "DEVELOPMENTAL_QUOTIENT_EXPONENTIAL__FACTORIZATION_COMPACT__PARENT_FACTOR_MODEL_SUFFICIENT",
+  "claim_ceiling": "exact resource-factorization calibration only; no unique cognitive unit or GMI law"
+}
