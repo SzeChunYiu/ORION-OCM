@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 8, "version": "continual_v2"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 8, "standdown_misses": 3, "version": "continual_v3"}
 
 
 def _fit_controller(M, lib, val_rows):
@@ -473,10 +473,23 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     L = C["libs"][C["active"]]
                     prog, used = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                     C["hits"].append(prog is not None)
-                    if len(C["hits"]) >= 8 and sum(C["hits"][-8:]) / 8 < 0.25:
-                        C["active"] = None                      # stand down
-                        C["regime_start"] = len(C["solved"])     # v2: a new regime begins here
-                        C["since_mine"] = 0
+                    k = CONTINUAL["standdown_misses"]
+                    if len(C["hits"]) >= k and not any(C["hits"][-k:]):
+                        # v3: stand down after k consecutive misses (v2's 8-window hit-rate rule
+                        # paid ~7 targets of probe + interleave at every regime change), and
+                        # try the OTHER retained libraries at once -- a return to a known
+                        # regime should cost one probe each, not a cadence wait.
+                        prev = C["active"]; C["active"] = None
+                        C["regime_start"] = len(C["solved"]); C["since_mine"] = 0
+                        for kk, L2 in enumerate(C["libs"]):
+                            if kk == prev:
+                                continue
+                            pr, u = _probe(M, task.coefficients, [tuple(f) for f in L2["lib"]], L2["probe_depth"], min(L2["beta"], q))
+                            used += u
+                            if pr is not None:
+                                prog, C["active"] = pr, kk
+                                C["hits"] = [True]
+                                break
                 else:
                     C["hits"].append(False)
                     if (len(C["hits"]) - 1) % 8 == 0:           # re-probe every retained library
@@ -503,7 +516,11 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                          prog, used, used, (0,), 8)
                 else:
                     L = C["libs"][C["active"]] if C["active"] is not None else None
-                    use_inter = bool(L) and L["rule"].get(str(_obs_feats(task.coefficients, [tuple(f) for f in L["lib"]])), L["fallback"])
+                    # v3: only the dev-fitted rule (fitted on interleave-vs-baseline deltas) may
+                    # route to the interleave; a learned library's rule was fitted on probe
+                    # deltas, which say where the probe hits, not where the interleave pays.
+                    use_inter = bool(L) and str(L.get("library", "")).startswith("dev:") and \
+                        L["rule"].get(str(_obs_feats(task.coefficients, [tuple(f) for f in L["lib"]])), L["fallback"])
                     rest = M.SearchBudget(slots=max(1, q - used), max_length=8)
                     meth = M.GeneratorMethod(tuple(tuple(f) for f in L["lib"]), method.training_tasks) if use_inter else None
                     r2 = M.solve(task, rest, meth) if meth else M.solve(task, rest)

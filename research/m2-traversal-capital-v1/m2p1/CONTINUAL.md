@@ -84,3 +84,46 @@ Predictions for the 45-segment lifetime: v3's B segment **+10…+40 % vs RESET**
 ≈ B + 24, live for ≈ 21 targets at guided cost), lifetime below v3 by ≥ 10 %. Falsifiers:
 B ≥ RESET under v2; v2 lifetime ≥ v3 lifetime. FV8 under v1 is still running; its record
 is reported when it lands.
+
+## Outcome, continual_v2 on the 45-segment lifetime (records/continual/SHIFT45_*, ECO_SHIFT45.json)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| RESET | 3 476 | 3 407 | 3 776 | 3 245 |
+| PARENT_WITH_MDL | 3 198 | 1 071 | 7 552 | 969 |
+| CONTINUED_OCM (v3) | 2 038 | 536 | 4 703 (+24.5 %) | 875 |
+| **CONTINUAL_OCM (v2)** | **1 964** | 536 | **4 115 (+9.0 %)** | **1 241** |
+
+v3's B landed inside its registered band (+10…+40 %). continual_v2's B **falsified** (≤ −5 %
+registered; +9.0 % measured) and A′ **falsified** (unchanged registered; +42 %). One re-mine
+event at target 72 (B + 27): corpus 13 in-regime solutions, MDL candidate 6/8 better on the
+held-out slice, mean delta +2 306, deployed, 5 231 slots charged. The library it learned is
+six of B's eight motifs.
+
+**Attribution from the rows (exact, B total excess +15 233 over RESET):**
+- targets 45–51, the *old* library's stand-down latency under the 8-window hit-rate rule:
+  probe + rule-routed interleave at ≈ 2.3× RESET — **+34 376**;
+- stood-down targets 52–71: two re-probes — +2 926;
+- the re-mine target 72: +2 173;
+- **targets 73–89 after deployment: −24 242** (eleven probe hits at 211–541 slots against a
+  RESET of ≈ 2 200–5 200; six misses at β + 2× baseline because the learned library's rule —
+  fitted on probe deltas — routed misses to the interleave).
+- A′: the B library was live at the boundary and paid the same latency again before A's
+  library was re-probed on the cadence; v3 had nothing live and reactivated on its first
+  re-probe.
+
+So the learning works — the post-deployment window runs at −38 % vs RESET — and what
+fails is the **liveness rule at a regime change**, twice per lifetime.
+
+**Revival, continual_v3 (registered before its run; runner `standdown_misses` = 3).**
+(i) Stand down after 3 consecutive misses instead of a hit-rate < 0.25 over 8 (which needs
+7 misses). (ii) At the moment of stand-down, probe every other retained library at once
+(one β each) — a return to a known regime costs one probe, not a cadence wait. (iii) Under a
+continually-learned library, a probe miss pays β + baseline, never the interleave: its rule
+was fitted on probe deltas and says where the probe hits, not where the interleave pays.
+
+Predictions (SHIFT45, same dev state): A 536 ± 5 % (false stand-downs in A are ≤ 3-miss
+events and recover on the next re-probe); **B ≤ 3 590 (≤ −5 % vs RESET)**; **A′ ≤ 875**
+(instant reactivation, ≈ 600 expected); lifetime ≤ 1 650 (≤ −52 % vs RESET), below v3 by
+≥ 15 %. Falsifiers: B ≥ RESET; A′ > 919; A > 563.
+
