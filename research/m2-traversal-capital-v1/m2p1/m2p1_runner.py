@@ -94,7 +94,16 @@ def _cont_version():
     e = lambda k: os.environ.get(k) == "1"
     base = ("continual_v6.9" if e("M2_V68D") and e("M2_V68E") and e("M2_V69F") else "continual_v6.8" if e("M2_V68D") and e("M2_V68E")
             else "continual_v6.7" if e("M2_V67") else "continual_v6.6")
-    h, i = e("M2_V610H"), e("M2_V610I")
+    h, i = e("M2_V610H") or os.environ.get("M2_H_OFF") != "1", e("M2_V610I")
+    if e("M2_V612S") and not e("M2_V612P"):
+        return base + ("+h" if h else "") + ("+i" if i else "") + ("+r" if e("M2_V611R") else "") + "+s"
+    if e("M2_V612P"):
+        # v6.12 (candidate, unregistered): libraries that lost value in deployment stay retired across regime changes
+        return (("continual_v6.12" + ("ps" if e("M2_V612S") else "")) if (base == "continual_v6.9" and h and i and e("M2_V611R"))
+                else base + ("+h" if h else "") + ("+i" if i else "") + ("+r" if e("M2_V611R") else "") + "+p" + ("+s" if e("M2_V612S") else ""))
+    if e("M2_V611R"):
+        # v6.11: the regime-change detector on the registered v6.10hi base; on any other base it stays attached
+        return "continual_v6.11" if (base == "continual_v6.9" and h and i) else base + ("+h" if h else "") + ("+i" if i else "") + "+r"
     if not (h or i):
         return base
     if base == "continual_v6.9":
@@ -108,7 +117,13 @@ CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdo
              "incumbent_reset": os.environ.get("M2_V67") == "1",
              "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1",
              "retire_in_regime": os.environ.get("M2_V69F") == "1",
-             "futility_bar": os.environ.get("M2_V610H") == "1", "regime_evidence": os.environ.get("M2_V610I") == "1"}
+             # v6.10(h) is part of the DEFAULT controller since the registered identity check on the v6.6 base
+             # (14 / 14 runs: identical liveness logs, cost never higher). M2_H_OFF=1 reproduces pre-adoption runs.
+             "futility_bar": os.environ.get("M2_V610H") == "1" or os.environ.get("M2_H_OFF") != "1",
+             "regime_evidence": os.environ.get("M2_V610I") == "1",
+             "regime_detector": os.environ.get("M2_V611R") == "1",
+             "persist_failed": os.environ.get("M2_V612P") == "1",
+             "spend_spacing": os.environ.get("M2_V612S") == "1"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.
@@ -204,6 +219,49 @@ def _fit_controller(M, lib, val_rows, min_tilable=0):
             "fallback": (statistics.fmean(deltas) > 0) if deltas else False,
             "val_mean_delta": round(statistics.fmean(deltas), 1) if deltas else 0.0,
             "val_better": better, "val_n": len(deltas)}, charged
+
+
+# v6.11 regime-change detector. Registered values, selected offline on the eleven K1-v6.6 ecologies by a rule
+# fixed in m2_detector_tv.py (held-out: 89 / 94 boundaries, median delay 5, 0.34 false alarms per lifetime);
+# never tuned afterwards. Parent: windowed two-sample distribution tests (cf. ADWIN, Bifet & Gavalda 2007).
+DETECTOR = {"W": 6, "tau": 0.4, "k": 3, "warm": 12}
+
+
+def _bigram_counts(rows):
+    from collections import Counter
+    c = Counter()
+    for _t, r, _b in rows:
+        p = tuple(r.program or ())
+        c.update(tuple(p[j:j + 2]) for j in range(len(p) - 1))
+    return c
+
+
+def _detect_regime(C, i):
+    """Total-variation distance between the bigram distribution of the organism's last W verified programs and
+    that of the programs in the current detector window before them; a change is signalled after k consecutive
+    exceedances of tau. On a signal the organism does what a developmental library's stand-down already does:
+    a new regime begins at the change point, retirements are lifted and (v6.10(i)) the failure evidence is reset.
+    Uses only the organism's own verified programs -- never ecology labels."""
+    W, tau, k, warm = DETECTOR["W"], DETECTOR["tau"], DETECTOR["k"], DETECTOR["warm"]
+    t = len(C["solved"]) - 1
+    start = C.get("det_start", 0)
+    if t - start < warm + W:
+        return
+    rec, ref = _bigram_counts(C["solved"][t - W + 1:t + 1]), _bigram_counts(C["solved"][start:t - W + 1])
+    na, nb = sum(rec.values()), sum(ref.values())
+    d = 0.5 * sum(abs(rec[g] / na - ref[g] / nb) for g in set(rec) | set(ref)) if na and nb else 0.0
+    C["det_run"] = C.get("det_run", 0) + 1 if d > tau else 0
+    if C["det_run"] >= k:
+        cp = t - W + 1
+        C["det_start"], C["det_run"] = cp, 0
+        C.setdefault("live_log", []).append((i, "regime_detected", cp, round(d, 3)))
+        C["since_mine"] = 0
+        C["regime_start"] = cp
+        C["retired"] = set(C.get("failed_libs", ())) if CONTINUAL["persist_failed"] else set()   # v6.12: failed libraries stay retired
+        if CONTINUAL["regime_evidence"]:
+            C["failed_evidence"] = 0
+            C["live_log"].append((i, "evidence_reset", "detector"))
+
 
 
 def _remine(M, solved, pool=None, recent=None, min_tilable=0):
@@ -664,6 +722,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         if not str(L.get("library", "")).startswith("dev:") and C["vals"] and sum(C["vals"]) < 0:
                             C["failed_evidence"] = max(C.get("failed_evidence", 0), L.get("tilable_at_depth", 0))
                             C["live_log"].append((i, "failed_deployment", prev, round(sum(C["vals"]), 1), L.get("tilable_at_depth", 0)))
+                            C.setdefault("failed_libs", set()).add(prev)   # v6.12: remembered for life (recorded always; used only under M2_V612P)
                             if CONTINUAL["retire_failed"]:
                                 C.setdefault("retired", set()).add(prev)   # v6.8(e): not re-probed until the regime changes
                         C["standdown_at"] = len(C["solved"])      # v6.1: start of the recent window
@@ -680,7 +739,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 C["since_mine"] = 0
                                 if not CONTINUAL["no_regime_reset"]:
                                     C["regime_start"] = len(C["solved"])   # v6.3 behaviour; v6.4(a) removes it (flag)
-                                    C["retired"] = set()                   # v6.8(e): a new regime lifts retirements
+                                    C["retired"] = set(C.get("failed_libs", ())) if CONTINUAL["persist_failed"] else set()   # v6.8(e) / v6.12
                                     if CONTINUAL["regime_evidence"]:
                                         # v6.10(i): failure evidence is evidence ABOUT A REGIME -- a library that lost
                                         # in B says nothing about how much tiling evidence C needs; a bar that only
@@ -736,8 +795,11 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
                                 # consume the counter; v4.2: a FAILED attempt retries after min_new_after_fail
-                                C["since_mine"] = 0 if rec is not None else ((need - CONTINUAL["min_new_after_fail"]) if CONTINUAL["retry_fix"]
+                                C["since_mine"] = 0 if rec is not None else ((need - CONTINUAL["min_new_after_fail"])
+                                                               if (CONTINUAL["retry_fix"] and not (CONTINUAL["spend_spacing"] and charged == 0))
                                                                else CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"])
+                                # v6.12(s) (candidate): retry spacing exists to bound validation SPENDING; a failed attempt that
+                                # charged nothing keeps the v4.2 spacing (E7 -> E8m7: d delayed a free retry and the first deploy)
                                 # v6.8(d): the retry comes after min_new_after_fail NEW solutions whatever `need` is;
                                 # v4.2 x v6.2 composed to a retry every 4 targets (s623/s628: 35-60 k per failed validation)
                             ev["target_index"] = i; C["events"].append(ev)
@@ -766,6 +828,8 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                          used + r2.slots + learn_charge, r2.candidates_checked, r2.counterexamples, 8)
                 if M.verify_solution(task, res):
                     C["solved"].append((task, res, res.slots)); C["since_mine"] += 1
+                    if CONTINUAL["regime_detector"]:
+                        _detect_regime(C, i)
             elif arm == "CONTINUED_OCM" and method.fragments:
                 ctl = dev["ocm_controller"]; lib = list(method.fragments)
                 if not hasattr(phase_acquire, "_live"):

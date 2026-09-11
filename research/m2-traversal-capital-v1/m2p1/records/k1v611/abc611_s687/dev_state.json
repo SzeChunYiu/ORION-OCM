@@ -1,0 +1,189 @@
+{
+ "admission": false,
+ "eu_admission": {
+  "admitted": false,
+  "all_verified": true,
+  "ci95_low": -429.8,
+  "mean_delta": 531.8,
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "reason": "ci95_low<=0",
+  "rho_max": 2.0,
+  "worst_ratio": 2.0
+ },
+ "fragments": [
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "dec",
+   "square"
+  ],
+  [
+   "square",
+   "dec"
+  ],
+  [
+   "double",
+   "double"
+  ],
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "inc",
+   "inc"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "dec",
+   "square",
+   "inc"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "double",
+   "square"
+  ],
+  [
+   "inc",
+   "double",
+   "double"
+  ],
+  [
+   "double",
+   "dec",
+   "square"
+  ],
+  [
+   "square",
+   "inc",
+   "inc"
+  ],
+  [
+   "dec",
+   "square",
+   "inc",
+   "inc"
+  ],
+  [
+   "inc",
+   "inc",
+   "square"
+  ],
+  [
+   "inc",
+   "square",
+   "dec"
+  ]
+ ],
+ "fragments_mined": 16,
+ "held_out_mean_baseline": 3447.7,
+ "held_out_mean_candidate": 2915.9,
+ "held_out_never_worse": false,
+ "held_out_strictly_better": 12,
+ "mdl_admission": true,
+ "mdl_fragments": [
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "square",
+   "dec"
+  ],
+  [
+   "double",
+   "double"
+  ],
+  [
+   "inc",
+   "inc"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "dec",
+   "square"
+  ]
+ ],
+ "mdl_strictly_better": 17,
+ "mdl_terminal": "HELD_OUT_SEARCH_IMPROVEMENT",
+ "ocm_controller": {
+  "beta": 1463,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "expected_probe_cost": {
+   "frequency": 3462.9,
+   "mdl": 797.5
+  },
+  "fallback": false,
+  "library": "mdl",
+  "library_rule": "controller_v3: expected probe cost on held-out validation tilings",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "liveness_min_hit_rate": 0.25,
+  "liveness_window": 8,
+  "probe_depth": 3,
+  "rule": {},
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 0 of 17 rows",
+  "validated_better_interleave": {
+   "frequency": 12,
+   "mdl": 17
+  }
+ },
+ "pid": 591749,
+ "schema": "M2P1_DEV_STATE",
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "train_solved": 34,
+ "train_unsolved": 0,
+ "training_task_ids": [
+  "040296edce756257946b600c4af27a14599446f98ac192bd38b15f6801e86768",
+  "0a43b44a7640846a18ca994dc70bda1d9c87c0794a94a80a16d5c35b2d1e9394",
+  "0d071a21155e185dd3392c634a5bc4d3efcb346c687f8c1b0ad89a7fd6bd8c5f",
+  "109d03e760d97b61bccbd88a7bebf027f3928dd8b9d68dd3659aac2949e3d38f",
+  "17ffc04fac1ba1503f3d8ad5763defc468dd720ca7716a69bdaa531d8ae6d5af",
+  "189114a4ca08a6122b7b6f0ce5315e80691eabeb8e9994949b898870dc625c0b",
+  "2ec66a0d988449ed10dbe56a054d9d6de2fb67a1c1394f2a1f06b3593dd94e7a",
+  "4977283837ed1208d167bd5399ce8409c903a480c82bbafcc389980eff6710f2",
+  "4ccdc4e7326b5ea6f1d67057d48d68feedba5f444e7ce7a76e2abd5340ecf4c9",
+  "4cd8bb88aec7615ef22c1c6b0f10b15f988ab3153a78b4ff8100e95f86944deb",
+  "5959e5acb991c476a35a73d59d121e7d2e2fee6d59d205c03eac1de88f8f842f",
+  "605a773b861d5b80d65be073ac1f9756192d8b9ed6c39e3706743841c88b6a88",
+  "65a41939a820410995402aba65b710d2583ab0baf80fefd88462d483d5a9548a",
+  "8437be0ba1d99f3ddbf1d50f06c290c86f840c9dd66af66df599b667ae849601",
+  "88ba40a7ba68f27d933f25ba1ad0867436eed455f388f9d68f29e5736d6078be",
+  "88bf32e9c0fdebbc08fbd98cf2c58d4217788d7817c4f036f67975ed14f68023",
+  "94519fa935f379969a92df5853736c8890eb67e20ffc2a062e3ac2fb1d163b38",
+  "956daf58b37cf966fc7f69fd0097b23a0430b73cf46d41ff2c8b57018323eb8f",
+  "97cff3904fb4da280f6406fa85d05c0c8f5213f3afa46e7f3fed34ca3b7addb7",
+  "99f7870cf503a65e0e61a3f1ce4654e467821c15c32c4b25499dcaa916df78c1",
+  "9ff134c743e66dd647fe653bed686c6903610772404c57ab36dadae737f6bd17",
+  "b200b86be279137b0a214377b8d674e7966fd86d7a9656229695733a065136ec",
+  "b2c1ada0b3549e76d74341926ceed7b0078ad14004b50d32d00da428a821cfd7",
+  "b6bc1cc14b6789b488a5c57ec02e6a38296109127e97f1f7564d84bff2afc629",
+  "b73d387db3ddd478ec94ac5b3723832fb907735fadecae622f0cc2530d9ab01b",
+  "bf1fa802d5b3f6e028182cdd426f16f3d05fe5ff80f4600dfe8a6b6d4c33cf3c",
+  "c6148df474896ce73217fe77e7128f6e5502c6ed6e89b67d75582d3f7900e5c5",
+  "c9fc46ab779939e45c51c12d8870be42ee8aee0f47809a2a6fb30633132a49fa",
+  "d01c319904fda3b6e7a208c254d19d01be0974dff02b613170017f0f5e0e0c52",
+  "d026e5d54a01039ba457c0a208d16b474d09eeef29e8229d840e2af1ae4bdb41",
+  "d3d80139a05aa277b3cd5d7b3de014628de381c27a87a4fb7ef90ac0853a6a06",
+  "d4c06077c3ffcb63dacbf42ab9b8f836cf0544c73ea79cef37ae67cdb4e010d2",
+  "e68dbacb4b7bbcf0fe7df86ee646cab6034330bb407862c6b9ec886414f1e8ed",
+  "f43f7cc57d9b3436ea9ddd625f8130e6eebd103ce566d36a01a3af2a98d0f2b5"
+ ],
+ "validated_on": 17,
+ "wall_seconds": 4.31
+}

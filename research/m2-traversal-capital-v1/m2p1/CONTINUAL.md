@@ -1166,3 +1166,201 @@ itself stays NOT_ESTABLISHED: its verdict (v6.6 / v6.8 / v6.9) is not amended by
   so each gets both a v6.6 and a v6.6+h run and is compared pairwise. If identity holds everywhere, (h)
   becomes part of the default controller.
 
+## Outcomes of the v6.10 follow-up registrations (2026-09-11; every arm verifies every target)
+
+**K1-L attribution (records/k1abl610/) — prediction held.** h-only is identical to h+i, target by target,
+on **11 / 11** K1-L dev states. The K1-L pass is attributed to (h) alone; (i) has no demonstrated effect.
+
+**(h) adopted into the defaults.** The registered identity check on the v6.6 base held on **14 / 14** runs:
+identical liveness logs, cost never higher. SHIFT45 / s602 / s603 / s604, A → B → C s613, E5, FV6 and the
+three cross-world pairs are unchanged; A → B → C s604 3 498 → 3 478, s614 2 228 → 2 190, s615 2 204 → 2 089,
+FV8 59 741 → 58 885. The default controller is now **continual_v6.6+h** (`M2_H_OFF=1` reproduces
+pre-adoption runs). The standing positives — regime-shift lifetimes and cross-world acquisition — are
+unchanged by construction.
+
+**K1 under v6.10hi (fresh seeds 670–681, all 12 gated; records/k1n610/) — FAILED.** Under the fixed bar
+arithmetic: lifetime below the fixed controller **9 / 12 = 0.750** (bar ≥ 0.833); below RESET 12 / 12;
+regime-C at or below RESET 9 / 12 = 0.750 (bar ≥ 0.750, met). **K1 on mixed regimes stays NOT_ESTABLISHED**;
+per its stop rule the next attempt must address regime-change detection. The three seeds that lose to the
+fixed controller are **exactly the three that entered the lock-out** (s672 3 194 vs 3 078, s674 2 940 vs
+2 804, s679 2 345 vs 2 336): (h) stops paying for the lock-out but cannot lift it.
+
+**K1-L did not replicate on the next fresh sample.** The same lifetime bar on seeds 670–681 is 9 / 12,
+below 0.833. K1-L stands as passed on its registered sample (11 / 11) and **not replicated** on the next
+(9 / 12); it is recorded as FRAGILE, not as a robust C2 result.
+
+*Observational separation, pooled over five fresh-seed sets (v6.6, v6.8, v6.9, v6.10 × 2; 58 seeds):*
+seeds that entered the lock-out lost to the fixed controller on **10 / 11**; seeds that never entered it
+beat the fixed controller on **44 / 47**. The remaining mixed-regime lifetime negative is the lock-out itself.
+
+## Regime-change detection — exploratory offline study (not a registered claim)
+
+The organism's only regime signal is a developmental or foreign-regime library standing down; after a
+lock-out none is active, so no regime change is ever detected and the failure-evidence bar is never
+reset. Ground truth for a detector is in every A → B → C ecology (per-target segment labels). Parent
+absorbed: ADWIN (Bifet & Gavaldà 2007, `river` 0.22) and windowed two-sample distribution tests.
+
+- **Pass 1 (`m2_detector_offline.py`) — negative, explained.** ADWIN on per-target fragment novelty
+  detected nothing on any seed. The detector works (a must-flag step-stream control fires); the feature
+  does not: with four primitives the fragment vocabulary saturates and novelty only decays
+  (≈ 0.24 in A, 0.09 in B, 0.00 in C). The regimes differ in *which* motifs recur, not in new tokens.
+- **Pass 2 (`m2_detector_tv.py`).** Total-variation distance between the bigram distribution of the last W
+  verified programs and the current regime window; signal when TV > τ on k consecutive targets. Selected
+  on the 11 K1-v6.6 ecologies by a rule fixed in the script (W = 6, τ = 0.4, k = 3): 21 / 22 boundaries.
+  On 47 held-out ecologies: **89 / 94 boundaries detected, median delay 5 targets (max 18), 0.34 false
+  alarms per lifetime**; the must-flag control fires 5 and 4 targets after its two switches. The
+  held-out set includes the ecologies of seeds 658–681, so a registered detector test must use seeds
+  ≥ 682 whose ecologies have not been inspected.
+
+## continual_v6.11 — regime-change detector (registered 2026-09-11, before any v6.11 run)
+
+**Mechanism.** After every verified solve, the continual arm computes the total-variation distance between the
+bigram distribution of its **own** last W verified programs and that of the programs in its current detector
+window before them; after k consecutive exceedances of τ it signals a change at the start of the recent window
+and does exactly what a developmental library's stand-down already does: a new regime begins there
+(`regime_start`), retirements are lifted, and with (i) the failure-evidence bar is reset. It reads only the
+organism's verified programs, never ecology labels. Flag `M2_V611R`, off by default; run on the v6.10hi base.
+**Registered values, frozen: W = 6, τ = 0.4, k = 3** (warm-up 12), selected on the eleven K1-v6.6 ecologies by
+the rule in `m2_detector_tv.py`; no other values will be reported. The offline study used the ecologies'
+canonical programs; in life the organism's verified programs may differ in tokens, so the offline 89 / 94 is an
+upper bound and **the in-life detection log is what counts**. In-runner controls: a synthetic step stream is
+flagged at both switches (targets 50 and 94 for changes at 45 and 90); a stationary stream is never flagged.
+
+**Falsifiers, stated now.**
+- **The mechanism fires.** On the eleven pooled lock-out seeds (623, 626, 628, 629, 636, 642, 647, 662, 672,
+  674, 679), a `regime_detected` event followed by an `evidence_reset` occurs after the first lock-out attempt
+  on **≥ 8 / 11**. If it does not fire, the mechanism is dead whatever the cost.
+- **Lifetime.** Those eleven seeds beat the fixed controller on **≥ 6 / 11** (v6.10hi: 3 / 11).
+- **Inertness.** No regression beyond **+ 2 %** of v6.10hi on SHIFT45 / s602 / s603 / s604, the three cross-world
+  pairs, E5, FV6 and FV8 — worlds where a detection is mostly a false alarm, and a false alarm resets the corpus.
+  Clean A → B → C controls (634, 646, 658, 670) are reported without a bar.
+- **K1 under v6.11** (new claim, own lineage; the earlier K1 verdicts stand): freshly generated seeds
+  **682–693**, whose ecologies no study has inspected; all three original bars unchanged under the fixed
+  proportion rule (lifetime below the fixed controller ≥ 0.833 and below RESET on every gated seed, regime-C at
+  or below RESET ≥ 0.750, at least 10 gated seeds, every arm verifying every target).
+- **Stop rule.** If K1 under v6.11 fails, K1 on mixed regimes stays NOT_ESTABLISHED and the regime-detection
+  route is recorded as tried; the next attempt must change the evidence bar itself (the lock-out criterion),
+  not add a further trigger.
+
+controller_v5 is still running on hc02 and hc10 (the hc10 prediction, ≤ 13 760, is open); six of eight authored
+worlds beat their strongest parent so far.
+
+## Outcomes of the continual_v6.11 registration (2026-09-11; every arm verifies every target)
+
+**K1 under v6.11 (freshly generated seeds 682–693; s693 failed the ecology gate and is reported, not replaced;
+records/k1v611/) — PASSED on its registered sample.** Lifetime below the fixed controller **11 / 11 = 1.000**
+(bar ≥ 0.833); below RESET **11 / 11**; regime-C at or below RESET **10 / 11 = 0.909** (bar ≥ 0.750). No seed
+entered the failure-evidence lock-out. This is the first registered pass of all three K1 bars. Because K1-L
+passed once and then failed to replicate, it is recorded as **passed once, replication pending** — not as a
+robust result, and the rung is not raised on it.
+
+**Diagnostic falsifiers (records/k1diag611/).**
+- *Mechanism, as registered — FAILED:* a detection followed by an evidence reset after the reference lock-out
+  began on **6 / 11** lock-out seeds (bar ≥ 8). Observation, not registered: on four more seeds (628, 636, 642,
+  647) an earlier detection meant the lock-out never formed (zero impossible attempts), and none of the
+  eleven fresh K1 seeds entered it.
+- *Lifetime — PASSED:* the eleven lock-out seeds beat the fixed controller on **7 / 11** (bar ≥ 6; v6.10hi 3 / 11).
+  Per seed against v6.10hi: s623 −35 %, s628 −18 %, s642 −19 %, s674 −19 %, s636 −4 %, s679 −3.5 %, s647 −1 %;
+  s662 +3 %, s626 +13 %, s629 +15 %, s672 +36 %.
+- *Inertness — FAILED on one world:* SHIFT45 s603 +2.5 % (1 538 → 1 577), over the + 2 % bar; SHIFT45 −3.2 %,
+  s602 0, s604 −11.8 %; the three cross-world pairs, E5, FV6 and FV8 had no detections and are identical.
+  Clean A → B → C controls (no bar): s634 −10.6 %, s658 −7.6 %, s670 −7.4 %, s646 +20.3 %; laptop A → B → C
+  s604 −30.7 %, s613 −16.9 %, s614 −2.3 %, s615 +3.7 %.
+
+**Attribution of the losses.** The detector fires at the true boundaries (within ≈ 5 targets) and occasionally
+inside a regime. Every detection lifts *all* retirements, so libraries that already **lost value in
+deployment** are revived by a sporadic hit and fail again — the s626 / s629 oscillation that v6.8(e) removed,
+reintroduced by the reset (s672: three failed redeployments of 5–25 k each after the detection at 95).
+s603's +2.5 % is a correct detection that changed which candidate library was mined first.
+
+## K1 under v6.11 — replication (registered 2026-09-11, before the run)
+
+The same registered configuration (`m2_abc611.sbatch`, runner unchanged) on freshly generated seeds
+**694–705**, whose ecologies no study has inspected; the same three bars under the fixed proportion rule.
+If it passes, K1 on mixed regimes is recorded as replicated at C2 scope under continual_v6.11. If it fails,
+K1 under v6.11 is recorded FRAGILE, like K1-L, and K1 on mixed regimes stays NOT_ESTABLISHED.
+
+## Outcome of the K1 under v6.11 replication (fresh seeds 694–705, all 12 gated; records/k1r611/)
+
+**FAILED on the regime-C bar.** Lifetime below the fixed controller **12 / 12 = 1.000** (bar ≥ 0.833); below
+RESET **12 / 12**; regime-C at or below RESET **8 / 12 = 0.667** (bar ≥ 0.750). Every arm verifies every target.
+Per the registered rule, **K1 under v6.11 is recorded FRAGILE** (passed 11 / 11, 11 / 11, 10 / 11 on seeds 682–692;
+failed regime-C on 694–705), and **K1 on mixed regimes stays NOT_ESTABLISHED**.
+
+Regime-C seeds above RESET: s695 3 568 vs 3 225, s699 3 655 vs 3 568, s702 4 459 vs 4 026, s705 3 635 vs 3 483
+(three of the four are within 5 %; s702 had a failed redeployment). Only one seed (s694) entered the lock-out.
+
+*What did replicate, reported as components and not as a new claim:* the lifetime bars were met on **both**
+registered v6.11 samples — below the fixed controller **23 / 23** and below RESET **23 / 23** gated seeds —
+where v6.10hi reached 9 / 12 and K1-L's own replication 9 / 12. The regime-C bar, met once (10 / 11) and
+missed once (8 / 12), is the remaining obstacle; it is the recombination regime already recorded as C3
+NOT_ESTABLISHED, and the revived-library losses attributed above land in the same window.
+
+## CORRECTED: the v6.11 replication's regime-C failure is not the revived-library defect
+
+The replication outcome above says the revived-library losses "land in the same window". Checked per run
+(every v6.11 lifetime, 38 runs): a library that had already failed in deployment failed **again** on only
+**three** runs — diagnostic seeds s626, s629 and s672. The four replication seeds that missed the regime-C bar
+(s695, s699, s702, s705) had **no** repeat failures (s695 and s699 no failed deployment at all). The revived-library
+defect is real but explains three diagnostic seeds, not the replication failure. Regime C above RESET on seeds
+without it (also s636, s662, s679, s689) is the recombination negative already recorded as C3 NOT_ESTABLISHED.
+
+## controller_v5 — hc10 (records on LUNARC `runs/…hc10…_ocm5`)
+
+hc10 under controller_v5: integrated **8 521** against the strongest parent (PARENT_WITH_MDL) **13 760**,
+**−38.1 %**, meeting the registered bar (≤ 13 760); every arm verifies 163 / 163. With hc01 −14.4 %, hc03 −50.0 %,
+hc05 −30.2 %, hc06 −50.0 %, hc08 −20.3 %, hc09 −15.8 %, controller_v5 beats the strongest parent on **7 / 7**
+authored worlds finished so far; hc02 is still running, and the 8 / 8 prediction stays open until it reports.
+
+## v6.12 diagnostics (registered 2026-09-11, before any run; neither is a K1 test)
+
+**Stop-rule note.** The v6.11 stop rule reads: "the next attempt must change the evidence bar itself (the lock-out
+criterion), not add a further trigger." Its premise was a lifetime or lock-out failure; the observed failure is
+regime C, with the lock-out on one seed in twelve. Neither diagnostic below is a K1 attempt: they target two
+attributed defects, and a later K1 test would need its own registration on seeds ≥ 706.
+
+- **v6.12(p) — failed libraries stay retired** (`M2_V612P`, on the v6.11 base). A library that lost value in
+  deployment is not un-retired by any regime change. Falsifiers: on s626, s629 and s672 **zero repeat failures** of an
+  already-failed library, and lifetime at or below v6.11 on each; on the six v6.11 runs with **no** failed deployment
+  (s623, s628, s647, s634, s658, s670) the liveness log is **identical** to v6.11. Inertness baseline is v6.11
+  itself (s603's +2.5 % is already recorded against v6.10hi and is not re-counted).
+- **v6.12(s) — spacing bounds spending** (`M2_V612S`, one variable, on the v6.11 base). A failed re-mining attempt that
+  charged nothing retries at the v4.2 spacing; a charged failure keeps v6.8(d)'s. Target: the standing v6.9
+  E7 → E8m7 falsification (20 511 vs ≤ 14 732; ledger row 41). Falsifier: E7 → E8m7 ≤ 14 732 with its first deployment
+  at target 24; the other two cross-world pairs, E5, FV6 and FV8 within + 2 % of v6.11.
+
+## Outcomes of the v6.12 diagnostics (2026-09-11; every run verifies every target)
+
+**v6.12(p) — failed libraries stay retired (records/k1diag612p/) — PASSED every falsifier.** Zero repeat failures on
+s626, s629 and s672, each cheaper than v6.11 (3 446 → 3 093, −10.2 %; 3 322 → 3 026, −8.9 %; 4 353 → 3 303, −24.1 %);
+liveness logs **identical** to v6.11 on all six runs with no failed deployment (s623, s628, s647, s634, s658, s670).
+
+**v6.12(s) — spacing bounds spending (billy-old) — PASSED.** E7 → E8m7 **14 443** (v6.11: 20 511; registered ≤ 14 732),
+first deployment back at target 24; E5 → E7, E8m7 → E7, E5, FV6 and FV8 identical to v6.11. **The v6.9 E7 → E8m7
+falsification (ledger row 41) is revived.**
+
+## K1 under v6.12ps (registered 2026-09-11, before the run)
+
+continual_v6.12ps = v6.11 + (p) + (s), label `continual_v6.12ps` (the p-only diagnostic runs keep their recorded label
+`continual_v6.12`; the runner change is the label only). Freshly generated seeds **706–717**, whose ecologies no study has
+inspected; all three original bars unchanged under the fixed proportion rule. Stated expectations: the lifetime bars
+are expected to hold (they held on 23 / 23 under v6.11, and (p) and (s) only remove costs where they act). The
+regime-C bar is **not predicted either way**: neither (p) nor (s) targets the recombination regime on seeds without
+repeat failures, which is where v6.11's replication missed. Inertness on hosts: SHIFT45 / s602 / s603 / s604 and
+laptop A → B → C s604 / s613 / s614 / s615 reported against v6.11, with the + 2 % bar on the four shift worlds.
+Stop rule: if it fails on regime C, K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of the
+recombination regime itself (C3), not a further controller flag.
+
+## Outcome of K1 under v6.12ps (fresh seeds 706–717; s711 failed the ecology gate and is reported, not replaced; records/k1v612/)
+
+**FAILED on two bars.** Lifetime below the fixed controller **9 / 11 = 0.818** (bar ≥ 0.833; s707 2 921 vs 2 873,
+s712 2 783 vs 2 765); below RESET **11 / 11**; regime-C at or below RESET **6 / 11 = 0.545** (bar ≥ 0.750). Every arm
+verifies every target. **K1 on mixed regimes stays NOT_ESTABLISHED.** Per the registered stop rule, the next step is a
+diagnosis of the recombination regime itself (C3), not a further controller flag.
+
+**Inertness — FAILED.** On the laptop against v6.11: **SHIFT45 +21.0 %** (1 449 → 1 753) and **s602 +7.1 %** (1 642 → 1 758),
+both over the + 2 % bar; s603 0.0 %, s604 +0.3 %; A → B → C (no bar) s604 −7.5 %, s613 0.0 %, s614 +1.4 %, s615 −4.3 %.
+Neither (p) nor (s) had been run on the shift worlds; a one-variable attribution (v6.11 + p, v6.11 + s on SHIFT45 and
+s602) is running, and **neither v6.12 mechanism is adopted anywhere until it reports.** Defaults remain
+continual_v6.6+h.
+

@@ -72,3 +72,22 @@ continual_v6.10hi (lifetime below the fixed controller 11/11 and below RESET 11/
 verified), attributed to a decision-invariant futility repair of a failure-evidence lock-out. Full K1 stays
 NOT_ESTABLISHED; a fresh full-K1 test under v6.10hi is registered as a new claim. Rung remains **C2**.
 
+**Update (2026-09-11, latest).** K1 under v6.10hi failed on fresh seeds (lifetime below fixed 9/12);
+K1 stays NOT_ESTABLISHED. K1-L passed on its registered sample but did not replicate (9/12) and is
+recorded as FRAGILE. The decision-invariant futility repair (h) is now part of the default controller
+(identity 14/14). Rung remains **C2**; the robust K1 positives are regime shifts and cross-world
+acquisition.
+
+**Update (2026-09-11, evening).** K1 under continual_v6.11 (regime-change detector) **passed all three bars
+on its registered fresh sample** (lifetime below fixed 11/11, below RESET 11/11, regime-C 10/11; no
+lock-outs). Recorded as passed once, replication pending on seeds 694–705; two of its diagnostic falsifiers
+failed (mechanism 6/11, one inertness world +2.5 %). Rung remains **C2** until the replication reports.
+
+**Update (2026-09-11, replication).** K1 under v6.11 failed its replication on the regime-C bar (8/12 against
+0.750) and is recorded FRAGILE; K1 on mixed regimes stays NOT_ESTABLISHED. The lifetime bars were met on both
+registered v6.11 samples (below the fixed controller and below RESET on 23/23 gated seeds), reported as
+components. Rung remains **C2**.
+
+**Update (2026-09-11, v6.12ps).** K1 under v6.12ps failed (lifetime below fixed 9/11, regime-C 6/11) and regressed two
+shift worlds; K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of regime C (C3). Rung **C2**.
+
