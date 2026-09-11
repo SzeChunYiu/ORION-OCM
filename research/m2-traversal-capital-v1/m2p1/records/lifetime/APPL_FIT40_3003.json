@@ -1,0 +1,65 @@
+{
+ "applicability_vs_always": 0.0585,
+ "applicability_vs_reset": 0.1632,
+ "arms": {
+  "ALWAYS_SERVE": {
+   "mean_B": 3241.5,
+   "total_B": 2168570
+  },
+  "APPLICABILITY": {
+   "mean_B": 3052.0,
+   "total_B": 2041777
+  },
+  "ORACLE_APPL": {
+   "mean_B": 2624.8,
+   "total_B": 1756024
+  },
+  "RESET": {
+   "mean_B": 3647.2,
+   "total_B": 2439957
+  }
+ },
+ "beats_always_serve": true,
+ "beats_reset": true,
+ "dev_solve_slots": 937922,
+ "fallback_serve": true,
+ "features": "mechanism-derived: tiling-token-count and baseline-index band",
+ "fit_cost_slots": 274826,
+ "fit_n": 40,
+ "fit_rows": 40,
+ "label": "life_3003_fit40",
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "ledger": {
+  "conservative": {
+   "breakeven": 2037.6,
+   "cost": 1212748,
+   "net": -814568,
+   "pays": false
+  },
+  "definitions": "conservative = dev solving + full fit; marginal = full fit; incremental = the fit's candidate half only",
+  "future_targets": 669,
+  "incremental": {
+   "breakeven": 221.4,
+   "cost": 131760,
+   "net": 266420,
+   "pays": true
+  },
+  "marginal": {
+   "breakeven": 461.7,
+   "cost": 274826,
+   "net": 123354,
+   "pays": true
+  },
+  "saved_slots_per_target": 595.2,
+  "total_saved": 398180
+ },
+ "library_size": 12,
+ "library_source": "mdl_fragments",
+ "note": "rule fitted on the VALIDATION stream only; protected targets untouched during fitting. Explicit decision list, no learned router (#71 rung 1).",
+ "oracle_vs_reset": 0.2803,
+ "rule_cells": 11,
+ "schema": "OCM_M2_APPLICABILITY_V1",
+ "served_fraction": 0.481,
+ "targets": 669,
+ "terminal": "APPLICABILITY_CONTROL_POSITIVE"
+}

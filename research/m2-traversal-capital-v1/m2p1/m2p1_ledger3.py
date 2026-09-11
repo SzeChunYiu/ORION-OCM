@@ -35,6 +35,10 @@ def main() -> int:
     ap.add_argument("--summary", required=True)
     ap.add_argument("--attribution", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--deployed-arm", default="CONTINUED",
+                    help="which arm actually deployed a library. The registered rule may "
+                         "refuse while a successor policy admits; scoring the refused arm "
+                         "reports zero benefit and hides the successor's economics.")
     a = ap.parse_args()
 
     eco = json.loads(Path(a.ecology).read_text())
@@ -42,9 +46,9 @@ def main() -> int:
     att = json.loads(Path(a.attribution).read_text())
     arms = summ["arms"]
 
-    if not (arms.get("CONTINUED", {}).get("mean_B_slots") and arms.get("RESET", {}).get("mean_B_slots")):
+    if not (arms.get(a.deployed_arm, {}).get("mean_B_slots") and arms.get("RESET", {}).get("mean_B_slots")):
         raise SystemExit("missing arms")
-    cont, reset = arms["CONTINUED"]["mean_B_slots"], arms["RESET"]["mean_B_slots"]
+    cont, reset = arms[a.deployed_arm]["mean_B_slots"], arms["RESET"]["mean_B_slots"]
     saved_per_target = reset - cont
     n_future = len(eco["streams"]["protected"])
 
@@ -67,8 +71,8 @@ def main() -> int:
         }
 
     out = {"schema": "OCM_M2P1_THREE_LEDGER_V1", "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
-           "owner_issue": 165, "hardening_parent": 323, "ecology": a.label,
-           "admitted": summ["arms"]["CONTINUED"]["fragments_served"] > 0,
+           "owner_issue": 165, "hardening_parent": 323, "ecology": a.label, "deployed_arm": a.deployed_arm,
+           "admitted": summ["arms"][a.deployed_arm]["fragments_served"] > 0,
            "terminal": summ["terminal"],
            "benefit": {"mean_B_RESET": reset, "mean_B_CONTINUED": cont,
                        "saved_slots_per_target": round(saved_per_target, 1),

@@ -1,0 +1,920 @@
+{
+ "applicability_vs_always": 0.2587,
+ "applicability_vs_reset": -0.0003,
+ "arms": {
+  "ALWAYS_SERVE": {
+   "mean_B": 75645.6,
+   "total_B": 9077476
+  },
+  "APPLICABILITY": {
+   "mean_B": 56073.7,
+   "total_B": 6728843
+  },
+  "ORACLE_APPL": {
+   "mean_B": 48041.6,
+   "total_B": 5764986
+  },
+  "RESET": {
+   "mean_B": 56055.7,
+   "total_B": 6726683
+  }
+ },
+ "beats_always_serve": true,
+ "beats_reset": false,
+ "deployable": true,
+ "dev_solve_slots": 17584592,
+ "fallback_serve": false,
+ "feature_mode": "probe",
+ "features": "mechanism-derived: tiling-token-count and baseline-index band",
+ "fit_cost_slots": 8548995,
+ "fit_n": 60,
+ "fit_rows": 60,
+ "label": "FV8_mdl",
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "leak_note": "features/actions computable from the task statement or charged probes",
+ "ledger": {
+  "conservative": {
+   "breakeven": null,
+   "cost": 17584592,
+   "net": -17586752,
+   "pays": false
+  },
+  "definitions": "conservative = dev solving + full fit; marginal = full fit; incremental = the fit's candidate half only",
+  "future_targets": 120,
+  "incremental": {
+   "breakeven": 0.0,
+   "cost": 0,
+   "net": -2160,
+   "pays": false
+  },
+  "marginal": {
+   "breakeven": 0.0,
+   "cost": 0,
+   "net": -2160,
+   "pays": false
+  },
+  "note": "probe gate fits nothing; beta is charged inside B; fit cost from the rule path removed",
+  "saved_slots_per_target": -18.0,
+  "total_saved": -2160
+ },
+ "library_size": 14,
+ "library_source": "mdl_fragments",
+ "note": "rule fitted on the VALIDATION stream only; protected targets untouched during fitting. Explicit decision list, no learned router (#71 rung 1).",
+ "oracle_vs_reset": 0.143,
+ "per_target": [
+  {
+   "ALWAYS": 95673,
+   "APPL": 64837,
+   "RESET": 64819,
+   "i": 0,
+   "served": false
+  },
+  {
+   "ALWAYS": 82521,
+   "APPL": 45271,
+   "RESET": 45253,
+   "i": 1,
+   "served": false
+  },
+  {
+   "ALWAYS": 117146,
+   "APPL": 58591,
+   "RESET": 58573,
+   "i": 2,
+   "served": false
+  },
+  {
+   "ALWAYS": 61613,
+   "APPL": 87320,
+   "RESET": 87302,
+   "i": 3,
+   "served": false
+  },
+  {
+   "ALWAYS": 116258,
+   "APPL": 58147,
+   "RESET": 58129,
+   "i": 4,
+   "served": false
+  },
+  {
+   "ALWAYS": 14313,
+   "APPL": 67621,
+   "RESET": 67603,
+   "i": 5,
+   "served": false
+  },
+  {
+   "ALWAYS": 13049,
+   "APPL": 67736,
+   "RESET": 67718,
+   "i": 6,
+   "served": false
+  },
+  {
+   "ALWAYS": 117188,
+   "APPL": 58612,
+   "RESET": 58594,
+   "i": 7,
+   "served": false
+  },
+  {
+   "ALWAYS": 115696,
+   "APPL": 57866,
+   "RESET": 57848,
+   "i": 8,
+   "served": false
+  },
+  {
+   "ALWAYS": 130689,
+   "APPL": 77047,
+   "RESET": 77029,
+   "i": 9,
+   "served": false
+  },
+  {
+   "ALWAYS": 125210,
+   "APPL": 62623,
+   "RESET": 62605,
+   "i": 10,
+   "served": false
+  },
+  {
+   "ALWAYS": 100749,
+   "APPL": 66325,
+   "RESET": 66307,
+   "i": 11,
+   "served": false
+  },
+  {
+   "ALWAYS": 62989,
+   "APPL": 84708,
+   "RESET": 84690,
+   "i": 12,
+   "served": false
+  },
+  {
+   "ALWAYS": 83655,
+   "APPL": 44321,
+   "RESET": 44303,
+   "i": 13,
+   "served": false
+  },
+  {
+   "ALWAYS": 125354,
+   "APPL": 62695,
+   "RESET": 62677,
+   "i": 14,
+   "served": false
+  },
+  {
+   "ALWAYS": 116108,
+   "APPL": 58072,
+   "RESET": 58054,
+   "i": 15,
+   "served": false
+  },
+  {
+   "ALWAYS": 51596,
+   "APPL": 25816,
+   "RESET": 25798,
+   "i": 16,
+   "served": false
+  },
+  {
+   "ALWAYS": 94865,
+   "APPL": 63679,
+   "RESET": 63661,
+   "i": 17,
+   "served": false
+  },
+  {
+   "ALWAYS": 125170,
+   "APPL": 62603,
+   "RESET": 62585,
+   "i": 18,
+   "served": false
+  },
+  {
+   "ALWAYS": 129229,
+   "APPL": 78020,
+   "RESET": 78002,
+   "i": 19,
+   "served": false
+  },
+  {
+   "ALWAYS": 95331,
+   "APPL": 64667,
+   "RESET": 64649,
+   "i": 20,
+   "served": false
+  },
+  {
+   "ALWAYS": 37065,
+   "APPL": 52453,
+   "RESET": 52435,
+   "i": 21,
+   "served": false
+  },
+  {
+   "ALWAYS": 135721,
+   "APPL": 78611,
+   "RESET": 78593,
+   "i": 22,
+   "served": false
+  },
+  {
+   "ALWAYS": 49864,
+   "APPL": 24950,
+   "RESET": 24932,
+   "i": 23,
+   "served": false
+  },
+  {
+   "ALWAYS": 30733,
+   "APPL": 37572,
+   "RESET": 37554,
+   "i": 24,
+   "served": false
+  },
+  {
+   "ALWAYS": 85835,
+   "APPL": 44046,
+   "RESET": 44028,
+   "i": 25,
+   "served": false
+  },
+  {
+   "ALWAYS": 31293,
+   "APPL": 36455,
+   "RESET": 36437,
+   "i": 26,
+   "served": false
+  },
+  {
+   "ALWAYS": 120369,
+   "APPL": 83253,
+   "RESET": 83235,
+   "i": 27,
+   "served": false
+  },
+  {
+   "ALWAYS": 96733,
+   "APPL": 66915,
+   "RESET": 66897,
+   "i": 28,
+   "served": false
+  },
+  {
+   "ALWAYS": 25381,
+   "APPL": 36067,
+   "RESET": 36049,
+   "i": 29,
+   "served": false
+  },
+  {
+   "ALWAYS": 115746,
+   "APPL": 57891,
+   "RESET": 57873,
+   "i": 30,
+   "served": false
+  },
+  {
+   "ALWAYS": 135741,
+   "APPL": 78613,
+   "RESET": 78595,
+   "i": 31,
+   "served": false
+  },
+  {
+   "ALWAYS": 50726,
+   "APPL": 25381,
+   "RESET": 25363,
+   "i": 32,
+   "served": false
+  },
+  {
+   "ALWAYS": 90559,
+   "APPL": 45622,
+   "RESET": 45604,
+   "i": 33,
+   "served": false
+  },
+  {
+   "ALWAYS": 94291,
+   "APPL": 65642,
+   "RESET": 65624,
+   "i": 34,
+   "served": false
+  },
+  {
+   "ALWAYS": 41203,
+   "APPL": 50774,
+   "RESET": 50756,
+   "i": 35,
+   "served": false
+  },
+  {
+   "ALWAYS": 60381,
+   "APPL": 85223,
+   "RESET": 85205,
+   "i": 36,
+   "served": false
+  },
+  {
+   "ALWAYS": 49064,
+   "APPL": 24550,
+   "RESET": 24532,
+   "i": 37,
+   "served": false
+  },
+  {
+   "ALWAYS": 124446,
+   "APPL": 62241,
+   "RESET": 62223,
+   "i": 38,
+   "served": false
+  },
+  {
+   "ALWAYS": 42607,
+   "APPL": 54070,
+   "RESET": 54052,
+   "i": 39,
+   "served": false
+  },
+  {
+   "ALWAYS": 95487,
+   "APPL": 64722,
+   "RESET": 64704,
+   "i": 40,
+   "served": false
+  },
+  {
+   "ALWAYS": 51464,
+   "APPL": 25750,
+   "RESET": 25732,
+   "i": 41,
+   "served": false
+  },
+  {
+   "ALWAYS": 12373,
+   "APPL": 69924,
+   "RESET": 69906,
+   "i": 42,
+   "served": false
+  },
+  {
+   "ALWAYS": 14569,
+   "APPL": 67604,
+   "RESET": 67586,
+   "i": 43,
+   "served": false
+  },
+  {
+   "ALWAYS": 25321,
+   "APPL": 36125,
+   "RESET": 36107,
+   "i": 44,
+   "served": false
+  },
+  {
+   "ALWAYS": 49981,
+   "APPL": 33949,
+   "RESET": 33931,
+   "i": 45,
+   "served": false
+  },
+  {
+   "ALWAYS": 101559,
+   "APPL": 65067,
+   "RESET": 65049,
+   "i": 46,
+   "served": false
+  },
+  {
+   "ALWAYS": 116262,
+   "APPL": 58149,
+   "RESET": 58131,
+   "i": 47,
+   "served": false
+  },
+  {
+   "ALWAYS": 147224,
+   "APPL": 73630,
+   "RESET": 73612,
+   "i": 48,
+   "served": false
+  },
+  {
+   "ALWAYS": 72417,
+   "APPL": 48437,
+   "RESET": 48419,
+   "i": 49,
+   "served": false
+  },
+  {
+   "ALWAYS": 70689,
+   "APPL": 49445,
+   "RESET": 49427,
+   "i": 50,
+   "served": false
+  },
+  {
+   "ALWAYS": 45212,
+   "APPL": 22624,
+   "RESET": 22606,
+   "i": 51,
+   "served": false
+  },
+  {
+   "ALWAYS": 15373,
+   "APPL": 70963,
+   "RESET": 70945,
+   "i": 52,
+   "served": false
+  },
+  {
+   "ALWAYS": 49941,
+   "APPL": 34087,
+   "RESET": 34069,
+   "i": 53,
+   "served": false
+  },
+  {
+   "ALWAYS": 60543,
+   "APPL": 85185,
+   "RESET": 85167,
+   "i": 54,
+   "served": false
+  },
+  {
+   "ALWAYS": 90473,
+   "APPL": 45631,
+   "RESET": 45613,
+   "i": 55,
+   "served": false
+  },
+  {
+   "ALWAYS": 132391,
+   "APPL": 76902,
+   "RESET": 76884,
+   "i": 56,
+   "served": false
+  },
+  {
+   "ALWAYS": 115454,
+   "APPL": 57745,
+   "RESET": 57727,
+   "i": 57,
+   "served": false
+  },
+  {
+   "ALWAYS": 65665,
+   "APPL": 86739,
+   "RESET": 86721,
+   "i": 58,
+   "served": false
+  },
+  {
+   "ALWAYS": 72411,
+   "APPL": 48434,
+   "RESET": 48416,
+   "i": 59,
+   "served": false
+  },
+  {
+   "ALWAYS": 60989,
+   "APPL": 83871,
+   "RESET": 83853,
+   "i": 60,
+   "served": false
+  },
+  {
+   "ALWAYS": 41209,
+   "APPL": 50772,
+   "RESET": 50754,
+   "i": 61,
+   "served": false
+  },
+  {
+   "ALWAYS": 49942,
+   "APPL": 24989,
+   "RESET": 24971,
+   "i": 62,
+   "served": false
+  },
+  {
+   "ALWAYS": 123148,
+   "APPL": 61592,
+   "RESET": 61574,
+   "i": 63,
+   "served": false
+  },
+  {
+   "ALWAYS": 123002,
+   "APPL": 61519,
+   "RESET": 61501,
+   "i": 64,
+   "served": false
+  },
+  {
+   "ALWAYS": 48045,
+   "APPL": 30885,
+   "RESET": 30867,
+   "i": 65,
+   "served": false
+  },
+  {
+   "ALWAYS": 130521,
+   "APPL": 76997,
+   "RESET": 76979,
+   "i": 66,
+   "served": false
+  },
+  {
+   "ALWAYS": 60633,
+   "APPL": 85335,
+   "RESET": 85317,
+   "i": 67,
+   "served": false
+  },
+  {
+   "ALWAYS": 94055,
+   "APPL": 65696,
+   "RESET": 65678,
+   "i": 68,
+   "served": false
+  },
+  {
+   "ALWAYS": 29331,
+   "APPL": 34193,
+   "RESET": 34175,
+   "i": 69,
+   "served": false
+  },
+  {
+   "ALWAYS": 137181,
+   "APPL": 78325,
+   "RESET": 78307,
+   "i": 70,
+   "served": false
+  },
+  {
+   "ALWAYS": 15131,
+   "APPL": 70862,
+   "RESET": 70844,
+   "i": 71,
+   "served": false
+  },
+  {
+   "ALWAYS": 147530,
+   "APPL": 73783,
+   "RESET": 73765,
+   "i": 72,
+   "served": false
+  },
+  {
+   "ALWAYS": 29503,
+   "APPL": 34166,
+   "RESET": 34148,
+   "i": 73,
+   "served": false
+  },
+  {
+   "ALWAYS": 45320,
+   "APPL": 22678,
+   "RESET": 22660,
+   "i": 74,
+   "served": false
+  },
+  {
+   "ALWAYS": 60037,
+   "APPL": 84292,
+   "RESET": 84274,
+   "i": 75,
+   "served": false
+  },
+  {
+   "ALWAYS": 48477,
+   "APPL": 30981,
+   "RESET": 30963,
+   "i": 76,
+   "served": false
+  },
+  {
+   "ALWAYS": 83669,
+   "APPL": 44191,
+   "RESET": 44173,
+   "i": 77,
+   "served": false
+  },
+  {
+   "ALWAYS": 130373,
+   "APPL": 77016,
+   "RESET": 76998,
+   "i": 78,
+   "served": false
+  },
+  {
+   "ALWAYS": 85757,
+   "APPL": 43787,
+   "RESET": 43769,
+   "i": 79,
+   "served": false
+  },
+  {
+   "ALWAYS": 38453,
+   "APPL": 54479,
+   "RESET": 54461,
+   "i": 80,
+   "served": false
+  },
+  {
+   "ALWAYS": 83777,
+   "APPL": 44383,
+   "RESET": 44365,
+   "i": 81,
+   "served": false
+  },
+  {
+   "ALWAYS": 15023,
+   "APPL": 70878,
+   "RESET": 70860,
+   "i": 82,
+   "served": false
+  },
+  {
+   "ALWAYS": 13361,
+   "APPL": 67903,
+   "RESET": 67885,
+   "i": 83,
+   "served": false
+  },
+  {
+   "ALWAYS": 40021,
+   "APPL": 52020,
+   "RESET": 52002,
+   "i": 84,
+   "served": false
+  },
+  {
+   "ALWAYS": 85303,
+   "APPL": 46406,
+   "RESET": 46388,
+   "i": 85,
+   "served": false
+  },
+  {
+   "ALWAYS": 95455,
+   "APPL": 64870,
+   "RESET": 64852,
+   "i": 86,
+   "served": false
+  },
+  {
+   "ALWAYS": 51752,
+   "APPL": 25894,
+   "RESET": 25876,
+   "i": 87,
+   "served": false
+  },
+  {
+   "ALWAYS": 41893,
+   "APPL": 54340,
+   "RESET": 54322,
+   "i": 88,
+   "served": false
+  },
+  {
+   "ALWAYS": 82643,
+   "APPL": 45168,
+   "RESET": 45150,
+   "i": 89,
+   "served": false
+  },
+  {
+   "ALWAYS": 18631,
+   "APPL": 70710,
+   "RESET": 70692,
+   "i": 90,
+   "served": false
+  },
+  {
+   "ALWAYS": 25031,
+   "APPL": 35134,
+   "RESET": 35116,
+   "i": 91,
+   "served": false
+  },
+  {
+   "ALWAYS": 82825,
+   "APPL": 45316,
+   "RESET": 45298,
+   "i": 92,
+   "served": false
+  },
+  {
+   "ALWAYS": 129033,
+   "APPL": 77991,
+   "RESET": 77973,
+   "i": 93,
+   "served": false
+  },
+  {
+   "ALWAYS": 27399,
+   "APPL": 35931,
+   "RESET": 35913,
+   "i": 94,
+   "served": false
+  },
+  {
+   "ALWAYS": 89672,
+   "APPL": 44854,
+   "RESET": 44836,
+   "i": 95,
+   "served": false
+  },
+  {
+   "ALWAYS": 26623,
+   "APPL": 38182,
+   "RESET": 38164,
+   "i": 96,
+   "served": false
+  },
+  {
+   "ALWAYS": 43873,
+   "APPL": 53748,
+   "RESET": 53730,
+   "i": 97,
+   "served": false
+  },
+  {
+   "ALWAYS": 94707,
+   "APPL": 63649,
+   "RESET": 63631,
+   "i": 98,
+   "served": false
+  },
+  {
+   "ALWAYS": 66391,
+   "APPL": 82314,
+   "RESET": 82296,
+   "i": 99,
+   "served": false
+  },
+  {
+   "ALWAYS": 14761,
+   "APPL": 65907,
+   "RESET": 65889,
+   "i": 100,
+   "served": false
+  },
+  {
+   "ALWAYS": 66935,
+   "APPL": 86622,
+   "RESET": 86604,
+   "i": 101,
+   "served": false
+  },
+  {
+   "ALWAYS": 123172,
+   "APPL": 61604,
+   "RESET": 61586,
+   "i": 102,
+   "served": false
+  },
+  {
+   "ALWAYS": 129439,
+   "APPL": 78134,
+   "RESET": 78116,
+   "i": 103,
+   "served": false
+  },
+  {
+   "ALWAYS": 48151,
+   "APPL": 31078,
+   "RESET": 31060,
+   "i": 104,
+   "served": false
+  },
+  {
+   "ALWAYS": 99977,
+   "APPL": 66655,
+   "RESET": 66637,
+   "i": 105,
+   "served": false
+  },
+  {
+   "ALWAYS": 49735,
+   "APPL": 30774,
+   "RESET": 30756,
+   "i": 106,
+   "served": false
+  },
+  {
+   "ALWAYS": 51364,
+   "APPL": 25700,
+   "RESET": 25682,
+   "i": 107,
+   "served": false
+  },
+  {
+   "ALWAYS": 123294,
+   "APPL": 61665,
+   "RESET": 61647,
+   "i": 108,
+   "served": false
+  },
+  {
+   "ALWAYS": 99001,
+   "APPL": 65539,
+   "RESET": 65521,
+   "i": 109,
+   "served": false
+  },
+  {
+   "ALWAYS": 30213,
+   "APPL": 37959,
+   "RESET": 37941,
+   "i": 110,
+   "served": false
+  },
+  {
+   "ALWAYS": 82455,
+   "APPL": 45202,
+   "RESET": 45184,
+   "i": 111,
+   "served": false
+  },
+  {
+   "ALWAYS": 52273,
+   "APPL": 32755,
+   "RESET": 32737,
+   "i": 112,
+   "served": false
+  },
+  {
+   "ALWAYS": 101493,
+   "APPL": 65095,
+   "RESET": 65077,
+   "i": 113,
+   "served": false
+  },
+  {
+   "ALWAYS": 89750,
+   "APPL": 44893,
+   "RESET": 44875,
+   "i": 114,
+   "served": false
+  },
+  {
+   "ALWAYS": 147474,
+   "APPL": 73755,
+   "RESET": 73737,
+   "i": 115,
+   "served": false
+  },
+  {
+   "ALWAYS": 29341,
+   "APPL": 34403,
+   "RESET": 34385,
+   "i": 116,
+   "served": false
+  },
+  {
+   "ALWAYS": 26893,
+   "APPL": 38003,
+   "RESET": 37985,
+   "i": 117,
+   "served": false
+  },
+  {
+   "ALWAYS": 122782,
+   "APPL": 61409,
+   "RESET": 61391,
+   "i": 118,
+   "served": false
+  },
+  {
+   "ALWAYS": 96285,
+   "APPL": 63573,
+   "RESET": 63555,
+   "i": 119,
+   "served": false
+  }
+ ],
+ "probe_beta_slots": 18,
+ "probe_bound": {
+  "beta": 18,
+  "claim": "APPL <= RESET + beta on every target",
+  "max_excess": 18,
+  "verdict": "DISCHARGED_EMPIRICALLY",
+  "violations": 0
+ },
+ "probe_depth": 1,
+ "rule_cells": 24,
+ "schema": "OCM_M2_APPLICABILITY_V2",
+ "served_fraction": 0.0,
+ "targets": 120,
+ "terminal": "NO_APPLICABILITY_ADVANTAGE"
+}

@@ -123,6 +123,10 @@ def main() -> int:
                     help="train,validation,protected fractions. A protected-heavy split "
                          "gives the agent a LONGER FUTURE HORIZON on LESS developmental "
                          "data -- harder for the history arm, not easier.")
+    ap.add_argument("--motif-file",
+                    help="JSON with a 'fragments' list: use this EXTERNALLY AUTHORED "
+                         "vocabulary instead of sampling one. The motif set is then not "
+                         "a choice of this lane.")
     ap.add_argument("--min-targets", type=int, default=90)
     ap.add_argument("--trials", type=int, default=600)
     a = ap.parse_args()
@@ -143,13 +147,22 @@ def main() -> int:
     rng = random.Random(a.seed)
     pool = [p for L in range(a.motif_min_len, a.motif_max_len + 1)
             for p in product(M.PRIMITIVES, repeat=L)]
+    foreign = None
+    if a.motif_file:
+        _src = json.loads(Path(a.motif_file).read_text())
+        foreign = tuple(sorted(tuple(f) for f in _src["fragments"]))
+        if not substring_disjoint(foreign):
+            raise SystemExit("FOREIGN_VOCABULARY_NOT_SUBSTRING_DISJOINT")
     best = None
     rejected_non_disjoint = 0
     for _ in range(a.trials):
-        motifs = tuple(sorted(rng.sample(pool, a.motifs)))
-        if not substring_disjoint(motifs):          # LEARNABILITY condition (E4)
-            rejected_non_disjoint += 1
-            continue
+        if foreign is not None:
+            motifs = foreign            # fixed, externally authored: no search, no choice
+        else:
+            motifs = tuple(sorted(rng.sample(pool, a.motifs)))
+            if not substring_disjoint(motifs):      # LEARNABILITY condition (E4)
+                rejected_non_disjoint += 1
+                continue
         members = []
         for nf, prog in canonical.items():
             if not (a.min_canonical_len <= len(prog) <= a.max_canonical_len):
@@ -217,7 +230,8 @@ def main() -> int:
     out = {
         "schema": SCHEMA, "lane": LANE, "status": "ECOLOGY_EMISSION_NOT_A_SCORED_RUN",
         "owner_issue": 165, "hardening_parent": 323,
-        "ecology_variant": {"label": "E3", "split": a.split, "min_canonical_length": a.min_canonical_len,
+        "ecology_variant": {"label": ("FOREIGN_VOCAB" if a.motif_file else "E3"), "split": a.split,
+                            "motif_vocabulary_source": (a.motif_file or "sampled by this lane"), "min_canonical_length": a.min_canonical_len,
                             "max_motif_tokens": a.max_tokens,
                             "motif_lengths": [a.motif_min_len, a.motif_max_len],
                             "derivation": "2*g <= b admission condition measured in M2-P1b"},

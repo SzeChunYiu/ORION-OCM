@@ -20,8 +20,9 @@ from pathlib import Path
 
 LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
-ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "SHUFFLED_HISTORY",
-        "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT")
+ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "CONTINUED_MDL",
+        "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT",
+        "PARENT_WITH_MDL", "CONTINUED_OCM")
 CALIBRATION_ONLY = ("ORACLE_FAMILY",)
 
 
@@ -46,6 +47,44 @@ def load_methods(repo: Path):
 def task_of(M, row, idx):
     return M.PolynomialTask(f"m2p1:{idx}:{row['normal_form_digest'][:16]}",
                             tuple(Fraction(c) for c in row["coefficients"]))
+
+
+# ------------------------------------------------ integrated developmental controller
+def _tile_tokens(prog, lib):
+    n = len(prog); best = [None] * (n + 1); best[0] = 0
+    for i in range(n):
+        if best[i] is None:
+            continue
+        for f in lib:
+            j = i + len(f)
+            if j <= n and tuple(prog[i:j]) == tuple(f) and (best[j] is None or best[i] + 1 < best[j]):
+                best[j] = best[i] + 1
+    return best[n]
+
+
+def _obs_feats(nf, lib):
+    deg = len(nf) - 1
+    sup = sum(1 for c in nf if c != 0)
+    mag = max(max(abs(c.numerator).bit_length(), abs(c.denominator).bit_length()) for c in nf)
+    return [min(deg, 8), min(sup, 6), min(mag // 4, 6), min(len(lib), 16) // 4]
+
+
+def _probe(M, nf, lib, depth, beta):
+    """guided stream ALONE, words of <= depth tokens, every word one charged slot"""
+    from itertools import product as _prod
+    tokens = tuple(lib) + tuple((op,) for op in M.PRIMITIVES)
+    used = 0
+    for L in range(1, depth + 1):
+        for word in _prod(tokens, repeat=L):
+            used += 1
+            if used > beta:
+                return None, beta
+            prog = tuple(op for tok in word for op in tok)
+            if len(prog) > 8:
+                continue
+            if M.normal_form(prog) == nf:
+                return prog, used
+    return None, used
 
 
 # ---------------------------------------------------------------- checker C
@@ -82,8 +121,100 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
     method = M.learn_generator(training)
     held = [task_of(M, r, 10_000 + i) for i, r in enumerate(eco["streams"]["validation"])]
     report = M.validate_generator(method, held, budget)
+    # Proposed expected-utility admission, computed from the SAME registered
+    # validate_generator rows -- no extra search, no new information.
+    _d = [r["baseline"]["slots"] - r["candidate"]["slots"] for r in report["held_out"]]
+    _ratios = [r["candidate"]["slots"] / r["baseline"]["slots"]
+               for r in report["held_out"] if r["baseline"]["slots"]]
+    _mean = statistics.fmean(_d) if _d else 0.0
+    _worst = max(_ratios) if _ratios else 0.0
+    _sd = statistics.pstdev(_d) if len(_d) > 1 else 0.0
+    _se = (_sd / (len(_d) ** 0.5)) if _d else 0.0
+    _lo = _mean - 1.96 * _se
+    eu = {"policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+          "mean_delta": round(_mean, 1), "ci95_low": round(_lo, 1),
+          "worst_ratio": round(_worst, 4), "rho_max": 2.0,
+          "all_verified": all(r["both_verified"] for r in report["held_out"]),
+          "admitted": bool(_lo > 0 and _worst <= 2.0 + 1e-9 and bool(method.fragments)
+                           and all(r["both_verified"] for r in report["held_out"])),
+          "reason": ("ci95_low<=0" if _lo <= 0 else
+                     "worst_ratio>rho_max" if _worst > 2.0 + 1e-9 else
+                     "no fragments" if not method.fragments else "admitted")}
+
+    mdl_frags, mdl_report = [], None
+    try:
+        import m2_mdl_selection as _mdl
+        progs = [r.program for _, r in training if r.program]
+        picked = [f for f in _mdl.mdl_select(progs, cap=16) if 2 <= len(f) <= 8][:16]
+        if picked:
+            mdl_method = M.GeneratorMethod(tuple(picked), tuple(sorted(t_.fingerprint for t_, _ in training)))
+            mdl_report = M.validate_generator(mdl_method, held, budget)
+            mdl_frags = [list(f) for f in picked]
+    except Exception as _e:                       # never let the successor arm break dev
+        mdl_report = {"error": str(_e)[:200]}
+
+    ocm_ctl = None
+    try:
+        # controller_v2: (a) LIBRARY CHOSEN BY VALIDATION -- frequency vs MDL, whichever
+        # has the better held-out strictly-better count (both already computed above);
+        # (b) miss rate for the depth rule estimated on the VALIDATION stream, not on
+        # training, because the library was mined FROM training and tiles it optimistically.
+        _freq_better = sum(1 for r in report["held_out"]
+                           if r["candidate"]["slots"] < r["baseline"]["slots"])
+        _mdl_better = (sum(1 for r in mdl_report["held_out"]
+                           if r["candidate"]["slots"] < r["baseline"]["slots"])
+                       if isinstance(mdl_report, dict) and "held_out" in mdl_report else -1)
+        _use_mdl = bool(mdl_frags) and _mdl_better >= _freq_better
+        _chosen_report = mdl_report if _use_mdl else report
+        _chosen_frags = mdl_frags if _use_mdl else [list(f) for f in method.fragments]
+        if _chosen_frags and isinstance(_chosen_report, dict) and "held_out" in _chosen_report:
+            _lib = [tuple(f) for f in _chosen_frags]
+            mdl_report = _chosen_report          # the rule below is fitted on the chosen library
+            _rule = {}
+            for _r, _h in zip(mdl_report["held_out"], held):
+                _z = str(_obs_feats(_h.coefficients, _lib))
+                _rule.setdefault(_z, []).append(_r["baseline"]["slots"] - _r["candidate"]["slots"])
+            _rule = {z: (statistics.fmean(v) > 0) for z, v in _rule.items()}
+            _fallback = statistics.fmean(_r["baseline"]["slots"] - _r["candidate"]["slots"]
+                                         for _r in mdl_report["held_out"]) > 0
+            _T = len(_lib) + len(M.PRIMITIVES)
+            # expected-cost depth on solved history: hits cost their guided position,
+            # misses cost beta_D plus the baseline index the organism actually paid (r_.slots)
+            # depth rule on HELD-OUT validation: tiling of each validation task's canonical
+            # (baseline) solution against the chosen library; a None tiling is a miss at
+            # every depth and costs beta_D + its baseline index
+            _hist = []
+            for _r in mdl_report["held_out"]:
+                _bp = _r["baseline"].get("program")
+                _bs = _r["baseline"]["slots"]
+                _d = _tile_tokens(tuple(_bp), _lib) if _bp else None
+                _hist.append((_d if _d is not None else 99, _bs))
+            _depth, _bc = 3, float("inf")
+            for _D in range(1, 5):
+                _bD = sum(_T ** i for i in range(1, _D + 1))
+                _c = statistics.fmean((sum(_T ** j for j in range(1, d_)) + _T ** d_ / 2) if d_ <= _D else _bD + b_
+                                      for d_, b_ in _hist) if _hist else float("inf")
+                if _c < _bc:
+                    _depth, _bc = _D, _c
+            ocm_ctl = {"rule": _rule, "fallback": _fallback, "probe_depth": _depth,
+                       "beta": sum(_T ** i for i in range(1, _depth + 1)),
+                       "liveness_window": 8, "liveness_min_hit_rate": 0.25,
+                       "depth_rule": "expected-cost on held-out validation (controller_v2)",
+                       "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+                       "library": "mdl" if _use_mdl else "frequency",
+                       "validated_better": {"frequency": _freq_better, "mdl": _mdl_better}}
+    except Exception as _e:
+        ocm_ctl = {"error": str(_e)[:200]}
+
     state = {
-        "schema": "M2P1_DEV_STATE", "train_solved": len(training),
+        "schema": "M2P1_DEV_STATE", "eu_admission": eu,
+        "ocm_controller": ocm_ctl,
+        "mdl_fragments": mdl_frags,
+        "mdl_admission": (mdl_report.get("accepted") if isinstance(mdl_report, dict) else None),
+        "mdl_terminal": (mdl_report.get("terminal") if isinstance(mdl_report, dict) else None),
+        "mdl_strictly_better": (sum(1 for r in mdl_report["held_out"]
+                                    if r["candidate"]["slots"] < r["baseline"]["slots"])
+                                if isinstance(mdl_report, dict) and "held_out" in mdl_report else None), "train_solved": len(training),
         "train_unsolved": unsolved, "fragments_mined": len(method.fragments),
         "fragments": [list(f) for f in method.fragments],
         "admission": bool(report["accepted"]), "terminal": report["terminal"],
@@ -123,12 +254,81 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not dev["admission"]:
             return M.GeneratorMethod(), "learner refused deployment; refusal is first-class"
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), "admitted generator"
+    if arm == "CONTINUED_OCM":
+        # INTEGRATED DEVELOPMENTAL CONTROLLER: MDL selection -> probe with history-learned
+        # depth -> task-statement rule on a miss -> liveness on the probe hit-rate.
+        # Reads only the task statement, solved history and charged-action outcomes.
+        ctl = dev.get("ocm_controller")
+        if not ctl or "error" in ctl:
+            return M.GeneratorMethod(), "no controller (%s)" % ((ctl or {}).get("error", "none"))
+        mdl = dev.get("mdl_fragments") if ctl.get("library", "mdl") == "mdl" else dev.get("fragments")
+        if not mdl:
+            return M.GeneratorMethod(), "no library"
+        return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
+            "integrated controller: probe depth %d beta %d, rule cells %d" % (
+                ctl["probe_depth"], ctl["beta"], len(ctl["rule"]))
+    if arm == "PARENT_WITH_MDL":
+        # FAIRNESS CONTROL. CONTINUED_MDL beating ORDINARY_ADAPTIVE_PARENT conflates two
+        # things: the selection RULE (MDL vs frequency) and the OCM/parent distinction.
+        # This arm gives the ungated parent the SAME MDL library, isolating the rule. If
+        # it matches CONTINUED_MDL, the win belongs to compression, not to OCM.
+        mdl = dev.get("mdl_fragments")
+        if not mdl:
+            return M.GeneratorMethod(), "no mdl library recorded"
+        return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
+            "ungated parent serving the MDL library: isolates selection rule from OCM"
+    if arm == "CONTINUED_MDL":
+        # PROPOSED SUCCESSOR SELECTION RULE, reported only under that label.
+        # learn_generator ranks by (support count DESC, length DESC); a substring shared by
+        # two motifs outranks both and displaces them from the fixed top-16. This arm keeps
+        # everything else identical and swaps the SELECTION rule for greedy MDL --
+        # compression of the solved corpus, which prices length and re-parses after each
+        # pick so a taken motif's substrings stop earning credit for its occurrences.
+        # Parent: corpus-guided library learning (Stitch / DreamCoder).
+        mdl = dev.get("mdl_fragments")
+        if not mdl:
+            return M.GeneratorMethod(), "no mdl library recorded"
+        frg = tuple(tuple(f) for f in mdl)
+        return M.GeneratorMethod(frg, tuple(dev["training_task_ids"])), \
+            ("MDL-selected library (%d fragments) served through the registered solver; "
+             "src/ocm/learning/methods.py unmodified" % len(frg))
+    if arm == "CONTINUED_EU":
+        # PROPOSED SUCCESSOR ADMISSION POLICY -- not the registered rule, and reported
+        # only under that label. src/ocm/learning/methods.py is NOT modified.
+        #
+        # The registered rule admits on universal non-inferiority. Obligation P1 is
+        # discharged empirically (410 measurements, 5 adversarial libraries, max ratio
+        # exactly 2.0, zero violations, zero correctness violations): the interleaved
+        # solver bounds deployment regret at rho_max = 2 and can never make a target
+        # unsolvable or incorrect. So the downside the universal rule guards against does
+        # not exist in this integration mode, and the admissible quantifier is EXPECTED
+        # utility with the bound asserted:
+        #
+        #     admit iff  mean(baseline - candidate) > 0 over held-out
+        #           and  max(candidate/baseline) <= rho_max
+        #
+        # verify_solution and the independent checker are untouched; every reported
+        # success is still externally verified.
+        eu = dev.get("eu_admission")
+        if not eu or not eu.get("admitted"):
+            return M.GeneratorMethod(), ("EU policy refused: %s" %
+                                         (eu.get("reason") if eu else "no eu record"))
+        return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), \
+            ("admitted under the PROPOSED expected-utility policy "
+             "(mean dB=%.1f, worst ratio=%.3f <= 2); registered rule said %s"
+             % (eu["mean_delta"], eu["worst_ratio"], dev["admission"]))
     if arm == "ORDINARY_ADAPTIVE_PARENT":
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), \
             "same mined fragments served WITHOUT the admission gate"
     if arm == "SHUFFLED_HISTORY":
         import random
-        rng = random.Random(int(eco["frozen_seed"]) + 7)
+        # Seeds are ecology-authored and need not be integers: a foreign ecology may
+        # carry a string seed (the M1 lane uses "orion-ocm-m1-semantic-partition-v1").
+        # Derive a stable integer without assuming the author's type.
+        _s = eco.get("frozen_seed", 0)
+        _seed = (int(_s) if isinstance(_s, int) or (isinstance(_s, str) and _s.lstrip("-").isdigit())
+                 else int(hashlib.sha256(str(_s).encode()).hexdigest()[:8], 16))
+        rng = random.Random(_seed + 7)
         pool = [p for L in (2, 3) for p in __import__("itertools").product(M.PRIMITIVES, repeat=L)]
         # The control must destroy STRUCTURE while preserving count and length profile.
         # It must therefore EXCLUDE the true hidden motifs: over a small grammar a
@@ -173,7 +373,42 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
         task = task_of(M, row, 20_000 + i)
         first_ok = None
         for q in ladder:
-            res = M.solve(task, M.SearchBudget(slots=q, max_length=8), method)
+            if arm == "CONTINUED_OCM" and method.fragments:
+                ctl = dev["ocm_controller"]; lib = list(method.fragments)
+                if not hasattr(phase_acquire, "_live"):
+                    phase_acquire._live, phase_acquire._hits = True, []
+                if phase_acquire._live:
+                    prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
+                    phase_acquire._hits.append(prog is not None)
+                    if len(phase_acquire._hits) >= ctl["liveness_window"]:
+                        recent = phase_acquire._hits[-ctl["liveness_window"]:]
+                        if sum(recent) / len(recent) < ctl["liveness_min_hit_rate"]:
+                            phase_acquire._live = False          # stand the probe down
+                else:
+                    # stood down: the counter must ADVANCE every target (liveness_v2 -- the
+                    # first port only appended on a re-probe, so reactivation could fire
+                    # once and never again), and a periodic re-probe restores the library.
+                    prog, used = (None, 0)
+                    phase_acquire._hits.append(False)
+                    if len(phase_acquire._hits) % ctl["liveness_window"] == 0:   # periodic re-probe
+                        prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
+                        phase_acquire._hits[-1] = prog is not None
+                        if prog is not None:
+                            phase_acquire._live = True           # reactivate
+                if prog is not None:
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
+                                         prog, used, used, (0,), 8)
+                else:
+                    # liveness_v2: while stood down the LIBRARY is presumed stale, so the
+                    # rule (fitted on the old ecology) may not route to the interleave
+                    use_inter = (phase_acquire._live and
+                                 ctl["rule"].get(str(_obs_feats(task.coefficients, lib)), ctl["fallback"]))
+                    rest = M.SearchBudget(slots=max(1, q - used), max_length=8)
+                    r2 = M.solve(task, rest, method) if use_inter else M.solve(task, rest)
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
+                                         used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
+            else:
+                res = M.solve(task, M.SearchBudget(slots=q, max_length=8), method)
             ok = M.verify_solution(task, res)
             ext = None
             if ok and first_ok is None:

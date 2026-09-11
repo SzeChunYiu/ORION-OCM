@@ -1,48 +1,57 @@
-# M2-P1 hidden-family developmental study — CORE (read first)
+# M2 developmental study — CORE (read first)
 
-Lane `LANE_M2_TRAVERSAL_CAPITAL_OPUS`. Owner #165, hardening parent #323.
-Successor to the M2 negatives ([../RESULT.md](../RESULT.md)), under the design
-registered in [../HIDDEN_FAMILY_DESIGN.md](../HIDDEN_FAMILY_DESIGN.md) **before** any
-scored result was read.
+Lane `LANE_M2_TRAVERSAL_CAPITAL_OPUS`. Owner #165, hardening parent #323. Executed on
+laptop billy, billy-old and LUNARC; never the Mac. `src/ocm` untouched throughout: the
+registered `learn_generator`, `validate_generator`, `solve`, `verify_solution` are driven
+as-is; every success is externally verified after a real OS-process restart.
 
-## The question
+## One line
 
-Does developmental history make **new** verified cognition cheaper to acquire — as
-opposed to replaying stored answers?
+An **integrated developmental controller** — library by validation → probe with
+history-learned depth → task-statement rule → liveness — costs about **half** of the
+strongest parent holding the identical library on 6/6 ecologies and at 670-target scale,
+and the history-induced benefit **replicates on novel arrangements (d = 2) in the
+registered grammar on 9/9 seeds**. Every part of the controller was earned by a recorded
+negative, under one invariant: *never read the solution.*
 
-## What was changed: nothing in OCM
+## Where to read, in order
 
-`src/ocm/learning/methods.py` is imported and driven **AS-IS**. `learn_generator`,
-`validate_generator`, `solve` and `verify_solution` are the registered units. No new
-cognitive core, no learned router (#71), no admission loosening, no threshold tuning
-(#323 §11). **The ecology changed, not the machine.**
+| question | file |
+|---|---|
+| status per target, next experiments, falsifiers | [NEXT_STEPS.md](NEXT_STEPS.md) |
+| the controller, its lineage of negatives, scale, shift | [INTEGRATED_ARM.md](INTEGRATED_ARM.md) |
+| deployable applicability: the probe gate, regime map, ledgers | [PROBE_GATE.md](PROBE_GATE.md) |
+| the retraction of the answer-derived gate | [APPLICABILITY.md](APPLICABILITY.md) |
+| benefit at d = 2, decay curve, 9-seed replication | [D2_REGISTERED_GRAMMAR.md](D2_REGISTERED_GRAMMAR.md) |
+| why d ≥ 2 looked untestable, and the correction | [ARRANGEMENT_OBSTRUCTION.md](ARRANGEMENT_OBSTRUCTION.md), [ARRANGEMENT_FEASIBILITY.md](ARRANGEMENT_FEASIBILITY.md) |
+| compression vs frequency selection | [MDL_SELECTION.md](MDL_SELECTION.md), [MDL_NOT_OCM.md](MDL_NOT_OCM.md) |
+| economics: three ledgers, depth, fit size | [AMORTISATION.md](AMORTISATION.md) |
+| deployment liveness vs the static parent | [PLASTICITY.md](PLASTICITY.md), [PARENT_REGRET.md](PARENT_REGRET.md) |
+| formal gaps, proof obligations, P1 discharge | [THEORY_GAPS.md](THEORY_GAPS.md), [P1_BOUNDED_REGRET.md](P1_BOUNDED_REGRET.md) |
+| the gap-audit law applied to this lane | [GAP_AUDIT_V1.md](GAP_AUDIT_V1.md) |
+| hostile review of the earlier positive | [HOSTILE_REVIEW_356.md](HOSTILE_REVIEW_356.md) |
+| RSI spine, RSI-1 … RSI-7 | [rsi/](rsi/) |
 
-## Result in one line
+## Standing claims and their ceilings
 
-History-mined structure cuts the work to acquire new externally verified targets by
-**20–62 %** across six independent worlds on two hosts — and the registered admission
-gate refuses it in **6 of 6**, for a reason that is provably structural.
-
-## Findings
-
-| # | terminal | where |
+| claim | evidence | ceiling |
 |---|---|---|
-| M2-P1a | `DEVELOPMENTAL_SEARCH_PRIOR_DEMONSTRATED` | [RESULT.md](RESULT.md#m2-p1a) |
-| M2-P1b | `ADMISSION_VETO_IS_STRUCTURAL` | [RESULT.md](RESULT.md#m2-p1b) |
-| M2-P1c | development-depth dose-response | [RESULT.md](RESULT.md#m2-p1c) |
+| OCM-specific superiority over the strongest parent | 6/6 ecologies ≈ ½ the same-library parent; 670 targets on the registered prediction to 0.5 %; −35 % lifetime under shift | authored ecologies; 18 fresh worlds aggregating |
+| history helps on novel arrangements | d=2 replicated 9/9, mean −26.7 % (library), −65 % (arm); shuffled ≈ 2× RESET every seed | d ≥ 3 empty by counting at this (m, k) |
+| lifetime economics | marginal 403 / incremental 215 pay at 670; conservative 475 ✓ or 878 ✗ by charging rule | attribution of validation's baseline solves |
+| independent ecology | positive on the M1 lane's partitions and vocabulary | M2-P2 fresh-author worlds are the authoritative test |
+| L5 self-diagnosis | 0.818 active / 0.758 exhaustive on a 33-case sealed packet | one taxonomy, one repair catalogue |
+| L6 | largest single cost fall (13.68 → 2.93) at G7; no monotone slope over G0 → G7 | the strict terminal is not met |
 
-## Claim ceiling (registered before the run)
+## Retracted, corrected, or falsified in this lane
 
-> history-induced search-prior transfer, on an authored ecology whose family structure
-> is measured not to be surface-derivable.
+Answer-derived applicability gate (retracted as deployable) · "d ≥ 2 untestable" (an
+admission bound, not a benefit bound) · chunks-of-chunks (did not occur) · first P=6 run
+(budget defect) · RSI-2 attribution (tables, not the probe) · E3, E6, P1 predictions ·
+B-segment shift prediction (−27 %) · coverage depth rule · six-copies-of-one-world.
 
-**Not** general developmental intelligence. Fresh-*host* replication is met (billy-old
-+ LUNARC); fresh-world replication is met across six independently seeded worlds with
-different hidden motif sets; **replication on an ecology authored by someone else
-remains unmet**, so #323's success certificate is not claimed closed.
+## Not established
 
-## Raw records
-
-`records/` — per-world `dev_state.json`, `ATTRIBUTION.json`, `ECOLOGY_HEADER.json`,
-and `M2P1_GATE_V1.json`. Emitters are the `m2p1_*.py` scripts beside this file;
-`m2p1_world.sbatch` is the LUNARC array.
+General developmental intelligence · open-endedness · d ≥ 3 · replication on an ecology
+authored by someone else · the conservative ledger under full-validation charging · an
+improving L6 slope over all generations.
