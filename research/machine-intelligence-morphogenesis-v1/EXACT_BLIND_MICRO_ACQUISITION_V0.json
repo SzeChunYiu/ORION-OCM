@@ -1,0 +1,58 @@
+{
+  "schema": "BlindMicroAcquisitionV0",
+  "basis": "same frozen common microbasis as EXACT_MICRO_DERIVATIONS_V0",
+  "selection": "exact version-space elimination over size<=6 semantic classes",
+  "targets": {
+    "NEURAL_LIKE_DISCRETE_THRESHOLD_LEARNER": {
+      "architecture_label_visible_to_learner": false,
+      "prediction_teaching_examples": 5,
+      "prediction_total_rows": 12,
+      "prediction_consistent_semantic_classes": 1,
+      "prediction_recovered_expression": "is2(add(s,add(x0,x1)))",
+      "update_teaching_examples": 4,
+      "update_total_rows": 24,
+      "update_consistent_semantic_classes": 1,
+      "update_recovered_expression": "add(l,is2(add(s,l)))",
+      "exact_target_semantics_recovered": true
+    },
+    "SYMBOLIC_RULE_MICRO": {
+      "architecture_label_visible_to_learner": false,
+      "prediction_teaching_examples": 7,
+      "prediction_total_rows": 12,
+      "prediction_consistent_semantic_classes": 1,
+      "prediction_recovered_expression": "min(s,x0)",
+      "update_teaching_examples": 5,
+      "update_total_rows": 24,
+      "update_consistent_semantic_classes": 1,
+      "update_recovered_expression": "ite(min(x0,l),x0,s)",
+      "exact_target_semantics_recovered": true
+    },
+    "EVIDENCE_ACCUMULATOR_MICRO": {
+      "architecture_label_visible_to_learner": false,
+      "prediction_teaching_examples": 6,
+      "prediction_total_rows": 12,
+      "prediction_consistent_semantic_classes": 1,
+      "prediction_recovered_expression": "is0(is0(s))",
+      "update_teaching_examples": 6,
+      "update_total_rows": 24,
+      "update_consistent_semantic_classes": 1,
+      "update_recovered_expression": "add(s,l)",
+      "exact_target_semantics_recovered": true
+    },
+    "PROGRAMMATIC_REGISTER_MICRO": {
+      "architecture_label_visible_to_learner": false,
+      "prediction_teaching_examples": 6,
+      "prediction_total_rows": 12,
+      "prediction_consistent_semantic_classes": 1,
+      "prediction_recovered_expression": "ite(x0,s,x1)",
+      "update_teaching_examples": 6,
+      "update_total_rows": 24,
+      "update_consistent_semantic_classes": 1,
+      "update_recovered_expression": "ite(x0,l,s)",
+      "exact_target_semantics_recovered": true
+    }
+  },
+  "all_targets_exactly_identified": true,
+  "terminal": "LABEL_FREE_MICRO_D2_ACQUISITION_EXACT__ENUMERATIVE_SYNTHESIS_PARENT_SUFFICIENT",
+  "claim_boundary": "Architecture labels are absent from acquisition, but teaching rows were selected with exact target knowledge to uniquely identify target semantics within the bounded hypothesis class. This is teaching-dimension/version-space/program-synthesis calibration, not natural morphogenesis and not a general D2 result."
+}
