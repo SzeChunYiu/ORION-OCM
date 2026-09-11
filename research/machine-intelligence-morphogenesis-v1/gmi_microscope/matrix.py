@@ -20,7 +20,10 @@ from collections import defaultdict
 
 from . import bases
 from .core import COORDS, sha256_of
-from .references import ROWS
+from .references import ROWS as _ALL_ROWS
+
+# V1 receipt scope is frozen to the six original rows; M5L (declared amendment R2) lives in matrix_r2.py
+ROWS = {k: v for k, v in _ALL_ROWS.items() if k in ("M0", "M1", "M2", "M3", "M4", "M5")}
 from .runner import BINDING_TARGET, H, run
 
 HERE = os.path.dirname(os.path.abspath(__file__))
