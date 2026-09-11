@@ -53,3 +53,36 @@ def test_committed_receipts_match_code():
     assert committed["receipt_sha256"] == rc["receipt_sha256"]
     assert all(rc["C2_dev_table_identical_across_columns"].values())
     assert rc["matrix_flat_within_K_FLAT_on_all_coords"] is False
+
+
+def test_r2_r3_r4_receipts_match_code():
+    from gmi_microscope import matrix_r2, matrix_r3, matrix_r4
+    for mod, name in ((matrix_r2, "STAGE_D_MATRIX_R2.json"), (matrix_r3, "STAGE_D_MATRIX_R3.json"), (matrix_r4, "STAGE_D_MATRIX_R4.json")):
+        rc = mod.main()
+        committed = json.loads((RES / name).read_text())
+        assert committed["receipt_sha256"] == rc["receipt_sha256"], name
+    r4 = json.loads((RES / "STAGE_D_MATRIX_R4.json").read_text())
+    assert r4["all_hold"] is True
+    # per-query exec of the indexed exemplar memory is exactly 36 x (bit_length(n_store+1)+1) in every indexed column
+    for col in ("B2", "U", "P3", "B0i", "B1i", "B3i"):
+        assert [r4["per_phase_table"][f"M5|{col}"][str(n)]["query"] for n in (16, 32, 64, 128, 256)] == [216, 252, 288, 324, 360], col
+
+
+def test_dead_write_elimination_preserves_score_and_prunes_only_dead_writes():
+    from gmi_microscope import blind
+    blind.set_bits(4)
+    e = blind.ecologies()["E_bind"]
+    cand = {"f": ["ADD", "c0", ["MUL", "x1", "c2"]], "g": [["c0", ["ADD", "c0", "e"]], ["c1", ["SUB", "y", "out"]], ["c2", ["MUL", "c3", "kh"]], ["c3", "e"], ["INSERT", "y"]]}
+    pruned, dropped = blind.eliminate_dead_writes(cand)
+    assert dropped == 2 and [w[0] for w in pruned["g"]] == ["c0", "c2", "c3"]
+    assert blind.run_candidate(cand, e)["score"] == blind.run_candidate(pruned, e)["score"]
+
+
+def test_smooth_v1_receipt_payload_frozen():
+    from gmi_microscope import smooth
+    committed = json.loads((RES / "STAGE_DE_SMOOTH_V1.json").read_text())
+    rc_path = RES / "STAGE_DE_SMOOTH_V1.json"
+    smooth.main()
+    new = json.loads(rc_path.read_text())
+    for k in ("R_by_cell", "capability_by_cell", "frontier_H_r", "PH_REV", "C2"):
+        assert committed[k] == new[k], k

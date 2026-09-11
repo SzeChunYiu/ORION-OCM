@@ -49,6 +49,7 @@ N_RANDOM = 3000
 TOPK = 12
 HILL_STEPS = 40
 N_CELLS = 4
+G_DEPTH = 2  # frozen V1..RUN4 update-expression depth; RV-377-016 declares G_DEPTH = 3 (learning-rate scaling becomes expressible)
 THETA_BIND = 1.0
 THETA_SMOOTH = 0.85
 
@@ -83,9 +84,9 @@ def rand_candidate(rng):
     writes = []
     for _ in range(n_writes):
         if rng.random() < 0.3:
-            writes.append(["INSERT", rand_tree(rng, 2, LEAVES_G)])
+            writes.append(["INSERT", rand_tree(rng, G_DEPTH, LEAVES_G)])
         else:
-            writes.append([f"c{rng.randrange(N_CELLS)}", rand_tree(rng, 2, LEAVES_G)])
+            writes.append([f"c{rng.randrange(N_CELLS)}", rand_tree(rng, G_DEPTH, LEAVES_G)])
     return {"f": f, "g": writes}
 
 
@@ -96,9 +97,9 @@ def mutate(rng, cand):
     else:
         i = rng.randrange(len(c["g"]))
         if rng.random() < 0.3:
-            c["g"][i] = ["INSERT", rand_tree(rng, 2, LEAVES_G)]
+            c["g"][i] = ["INSERT", rand_tree(rng, G_DEPTH, LEAVES_G)]
         else:
-            c["g"][i] = [f"c{rng.randrange(N_CELLS)}", rand_tree(rng, 2, LEAVES_G)]
+            c["g"][i] = [f"c{rng.randrange(N_CELLS)}", rand_tree(rng, G_DEPTH, LEAVES_G)]
     return c
 
 
@@ -277,8 +278,9 @@ def search(ecology, rng, seed):
     return elites, scored
 
 
-def main(seed=0, n_random=None, hill_steps=None, tag="V1", run3=False, run4=False, dwe=False):
-    global N_RANDOM, HILL_STEPS
+def main(seed=0, n_random=None, hill_steps=None, tag="V1", run3=False, run4=False, dwe=False, g_depth=2):
+    global N_RANDOM, HILL_STEPS, G_DEPTH
+    G_DEPTH = g_depth
     if n_random: N_RANDOM = n_random
     if hill_steps: HILL_STEPS = hill_steps
     set_bits(8 if run4 else 4)
@@ -321,7 +323,7 @@ def main(seed=0, n_random=None, hill_steps=None, tag="V1", run3=False, run4=Fals
         "F2_smooth_winners_numeric_dense": {"fraction_numeric_dense": f2, "fraction_store_local": f2_store, "holds": (f2 is not None and f2 >= 0.5 and (f2_store or 0) < 0.5)},
         "F3_handover": "NOT_OBSERVABLE__NO_STORE_LOCAL_CANDIDATE_REACHED_THETA_IN_E_SMOOTH" if (f2_store in (None, 0.0)) else "STORE_LOCAL_CANDIDATES_REACHED_THETA_IN_E_SMOOTH (see winner_details; handover computable)",
     }
-    receipt = {"schema": "StageFBlindRecoveryV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "seed": seed, "run_tag": tag, "declared": "V1 = frozen budget (3000/40); RUN2 = declared exploratory re-run at 4x budget after V1 returned no E_smooth winner; V1 is preserved and remains the frozen result; RECLASS_RUN3 = identical replay of RUN3 (seed 2, 6000/80) with dead-write elimination before classification (RV-377-011/008); RUN4_SMOOTH8 = E_smooth8 (256 inputs, 16 seen, 8-bit leaves, declared coefficients) at 12000/160 with dead-write elimination (RV-377-011/007)", "dead_write_elimination": dwe, "n_bits": N_BITS, "smooth8_coeffs": list(SMOOTH8_COEFFS) if run4 else None, "ecologies": {k: {kk: vv for kk, vv in v.items() if kk != "target"} for k, v in eco.items()},
+    receipt = {"schema": "StageFBlindRecoveryV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "seed": seed, "run_tag": tag, "declared": "V1 = frozen budget (3000/40); RUN2 = declared exploratory re-run at 4x budget after V1 returned no E_smooth winner; V1 is preserved and remains the frozen result; RECLASS_RUN3 = identical replay of RUN3 (seed 2, 6000/80) with dead-write elimination before classification (RV-377-011/008); RUN4_SMOOTH8 = E_smooth8 (256 inputs, 16 seen, 8-bit leaves, declared coefficients) at 12000/160 with dead-write elimination (RV-377-011/007)", "dead_write_elimination": dwe, "n_bits": N_BITS, "g_depth": G_DEPTH, "smooth8_coeffs": list(SMOOTH8_COEFFS) if run4 else None, "ecologies": {k: {kk: vv for kk, vv in v.items() if kk != "target"} for k, v in eco.items()},
                "search": "random N + hill-climb from top-k by single-node mutation; label-free; scored by (score, -charged cost)", "results": out, "verdict": verdict,
                "claim_ceiling": "E2 exploratory at tiny scope, single search family, one basis column (B0), one seed; post-hoc label-free classification; not a confirmatory blind-recovery result (#377 §13 requires matched generic search parents, multiple encodings and seeds)."}
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
@@ -353,6 +355,8 @@ if __name__ == "__main__":
         main(seed=3, n_random=12000, hill_steps=160, tag="RUN4_SMOOTH8", run4=True, dwe=True)
     elif len(sys.argv) > 1 and sys.argv[1] == "planted":
         print(json.dumps(planted_check(), indent=1))
+    elif len(sys.argv) > 1 and sys.argv[1] == "run6":
+        main(seed=5, n_random=12000, hill_steps=160, tag="RUN6_SMOOTH8_GDEPTH3", run4=True, dwe=True, g_depth=3)
     elif len(sys.argv) > 1 and sys.argv[1] == "run5":
         main(seed=4, n_random=120000, hill_steps=1600, tag="RUN5_SMOOTH8_10X", run4=True, dwe=True)
     else:
