@@ -311,3 +311,30 @@ programs the probe cannot reproduce. The fit is now instrumented (per-task tilin
 probe outcome, `tiling_probe_violations` asserted in every event) and FV8 re-runs under v5.1
 to catch the case; the cause will be attributed from that record, not guessed.
 
+## Outcome, continual_v5.1 — positive on all four shift lifetimes (records/continual/SHIFT45*_v5.1_*)
+
+| world | RESET | fixed-library controller | **continual_v5.1** | vs RESET | vs fixed | B (v5.1) | A′ (v5.1) |
+|---|---|---|---|---|---|---|---|
+| SHIFT45 (in-sample) | 3 476 | 2 038 | **1 506** | −56.7 % | −26 % | 3 471 (−8.1 %) | 510 |
+| s602 | 3 538 | 2 156 | **1 785** | −49.5 % | −17 % | 3 672 (−0.7 %) | 911 |
+| s603 | 3 804 | 2 128 | **1 667** | −56.2 % | −22 % | 3 369 (−2.0 %) | 897 |
+| s604 | 3 673 | 2 292 | **1 895** | −48.4 % | −17 % | 3 858 (−6.9 %) | 1 124 |
+| E5 | 44 738 | 414.1 | 414.1 | | | | |
+
+Held: SHIFT45 / s602 / s603 byte-identical to v4.1 / v4.2 (the three-miss signal fires first
+there); s604 A′ ≤ 1 150 (1 124) and its lifetime falsifier silent; E5 unchanged. Missed: s604
+"within ± 3 % of v5" (+4.5 %: the union rule stood the sporadic-hit library down a few targets
+later than the value rule alone). FV8 under v5.1 pending.
+
+```text
+continual_v5.1 vs RESET            −48…−57 % on four shift lifetimes (three out of sample)
+continual_v5.1 vs fixed controller −17…−26 % on all four
+B segment (the regime never seen in development) below RESET on all four: −0.7 … −8.1 %
+A′ (return to the first regime) recovered on all four by re-probing the retained library
+```
+
+Every B segment is still within ten points of RESET: a 45-target regime is at the edge of what
+the learner needs (≈ 25 in-regime solutions) before it can pay, and the transition costs of
+the old library are priced. What the chain has established is the mechanism; the size of the
+in-segment benefit is a property of segment length relative to the learning horizon.
+
