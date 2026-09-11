@@ -337,6 +337,29 @@ class S5Hamming(S5KNN):
         return acc
 
 
+class S5Attention(S5Hamming):
+    """RV-377-034 declared attention row (the minimal soft-attention ancestor): similarity-weighted retrieval over the context
+    store. Weights w_i = NORMALIZE([4 - d_i]) over all stored keys (d_i = Hamming distance, charged bit by bit as in S5h), output
+    = sum_i SCORE(w_i, v_i). NORMALIZE and SCORE are native only in the stochastic-kernel basis B3 (emulated elsewhere), so the
+    row's cost is predicted to be basis-favoured there. Closed form on the even-parity seen coset for a symmetric target a = k/16:
+    every unseen input has four stored keys at distance 1 (weight 3) and four at distance 3 (weight 1)."""
+    row = "S5a"
+
+    def query(self, M, x):
+        ws, vs = [], []
+        for k, v in M.op("S_SCAN", "mem"):
+            if k >= 100: M.op("GT", k, 99); continue
+            d = 0
+            for i in range(4):
+                d = M.op("ADD", d, M.op("XOR", (k >> i) & 1, (x >> i) & 1))
+            ws.append(M.op("SUB", fx(0.25), d)); vs.append(v)  # 4 - d in fx units: fx(0.25) = 4
+        if not ws: return 0
+        ws = M.op("NORMALIZE", ws)
+        acc = 0
+        for w, v in zip(ws, vs): acc = M.op("ADD", acc, M.op("SCORE", w, v))
+        return acc
+
+
 class S3Particles:
     row = "S3"; ladder = (4, 8)
 
@@ -386,10 +409,11 @@ ROWS = {"S4": S4Net, "S2": S2Search, "S5": S5Memory, "S3": S3Particles}
 ROWS_V3 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S5": S5Memory, "S3": S3Particles}
 ROWS_V4 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5k": S5KNN, "S5": S5Memory, "S3": S3Particles}
 ROWS_V6 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5h": S5Hamming, "S5": S5Memory, "S3": S3Particles}  # RV-377-025: corrected kNN row
+ROWS_V8 = {"S4": S4Net, "S2a": S2ApproxSearch, "S5h": S5Hamming, "S5a": S5Attention, "S5": S5Memory}  # RV-377-034: attention row
 ROWS_V7 = {"S4": S4Net, "S2a": S2ApproxSearch, "S7": S7Bayes, "S5h": S5Hamming, "S5": S5Memory}  # RV-377-029: probabilistic (posterior-averaging) row
 ROWS_V5 = {"S4": S4Net, "S2": S2Search, "S2a": S2ApproxSearch, "S6": S6XorSearch, "S5": S5Memory, "S3": S3Particles}  # RV-377-024: parity-hole occupant added
 DENSE = {"S4", "S3"}
-LOCAL = {"S2", "S2a", "S5", "S5k", "S5h", "S6", "S7"}
+LOCAL = {"S2", "S2a", "S5", "S5k", "S5h", "S5a", "S6", "S7"}
 
 
 NOISE_PATTERN = (1, -1, 0, 2, -2, 0, 1, -1)  # RV-377-029 declared label-noise axis: fed label = target + NOISE_PATTERN[(t-1) % 8] fx units (zero mean); capability is always against the clean target
@@ -540,6 +564,10 @@ if __name__ == "__main__":
         # RV-377-021: symmetric-coefficient ecology E_sym(a), a = k/16 given as the integer k; rows ROWS_V4 (S5k = kNN memory)
         k = int(sys.argv[2]); a = k / 16
         main(coeffs=(a, a, a, a), tag=f"V6_SYM{k}", n_events=16, rows=ROWS_V4, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "syma":
+        # RV-377-034: E_sym(k/16) with the attention row (ROWS_V8)
+        k = int(sys.argv[2]); a = k / 16
+        main(coeffs=(a, a, a, a), tag=f"V15_SYM{k}_ATT", n_events=16, rows=ROWS_V8, criterion="unseen")
     elif len(sys.argv) > 1 and sys.argv[1] == "symh":
         # RV-377-025: E_sym(k/16) with the corrected Hamming kNN row (ROWS_V6)
         k = int(sys.argv[2]); a = k / 16
