@@ -577,3 +577,161 @@ ablation. The parent is library persistence in DreamCoder-style learners; the re
 here is that the organism *decides by charged validation on its own acquisitions* which
 retained fragments to recombine and when. One grammar; not yet K3.
 
+## C3 test, continual_v6 — outcome: NEGATIVE (records/abc/ABC_s60{1,2,3}_v6_*)
+
+| seed | segment | RESET | same-library parent | fixed controller | continual, no recombination | **continual + recombination** |
+|---|---|---|---|---|---|---|
+| 601 | C | 4 080 | 7 415 | 4 243 | 3 459 | **3 459** |
+|  | lifetime | 3 755 | 5 346 | 2 982 | 2 416 | **2 416** |
+| 602 | C | 3 554 | 6 441 | 3 763 | 3 494 | **3 494** |
+|  | lifetime | 3 560 | 4 888 | 2 912 | 2 575 | **2 575** |
+| 603 | C | 3 619 | 6 670 | 3 800 | 4 654 | **4 840** |
+|  | lifetime | 3 620 | 5 004 | 2 825 | 2 815 | **2 877** |
+
+**Falsified on all three seeds.** Recombination equals the ablation on s601 / s602 and is worse
+on s603 (C +4 %, and its lifetime is 1.8 % *above* the fixed controller). Prediction (1) — a C
+library covering ≥ 6 / 8 motifs from ≤ 14 in-regime solutions — did not happen on any seed.
+Regressions held on SHIFT45 / s602 / s603 / s604, E5, FV6 and the three cross-world pairs
+(byte-identical); **FV8 regressed** (+4.96 % vs RESET; attributed below).
+
+**Attribution (records, not conjecture).** Both learned B libraries carry `regime 47`: the
+B → C change was never registered as a new regime, because v5.4 treats the stand-down of a
+library learned in the current regime as *not* a regime change and keeps the corpus. At C the
+kept corpus was ≈ three-quarters B, so the recombination candidate was ranked on B programs:
+on s601 it held B's motifs and one of C's four A-motifs and tiled 4 / 8 validation tasks
+(refused, correctly); at 104 and 112 the same; the deployment finally came from full mining at
+112. On s603 the recombined candidate tied MDL at 104 (5 / 8) and its validation probes were
+charged (16 530 vs 8 173) — the 4 % loss. The v5.4 invariant is right on E7 → E8_m7 (the
+same regime, an incomplete library) and wrong on A → B → C (a new regime): **the organism
+cannot tell the two apart at stand-down time**, so deciding there is the defect.
+
+**FV8 attribution (records/continual/FV8_v6_*).** Not the recombination candidate (refused at
+zero cost). At target 88 v5.5's compact-frequency candidate — first exercised on FV8 in this
+run — validated 7 / 8 at depth 4 (β 54 240 ≈ the expected baseline 53 338; mean delta
++19 500), was deployed, and then hit ≈ 54 % of targets: seven hits saved 201 k, six misses cost
+β each (325 k), and the validation itself charged 244 827. An eight-task validation slice
+overestimated the hit rate of a library whose single miss costs a whole baseline.
+
+## continual_v6.1 (registered 2026-09-11 before any run)
+
+Three mechanism changes, each derived from a recorded failure and none a tuned constant:
+
+1. **Two windows, validation chooses** (C3 attribution). Candidates are built both on the regime
+   window and on the window since the last stand-down of *any* library; the charged
+   validation on the organism's most recent acquisitions decides which corpus was right.
+2. **Deploy on a positive lower confidence bound** of the validation delta (FV8 attribution) —
+   the lane's own EU-admission rule (mean − 1.96 · s.e. > 0) applied to in-life validation.
+3. **Non-tilable validation tasks are not probed** (the probe cannot reach them at the chosen
+   depth; their outcome is recorded as a miss at −β and nothing is charged).
+
+**Predictions.** C3 (unchanged thresholds from the v6 registration): on ≥ 2 / 3 seeds the
+recombination arm's C segment ≤ 0.85 × the ablation's, and it deploys a C library from ≤ 14
+post-stand-down solutions; lifetime ≤ ablation on 3 / 3. FV8: the depth-4 deployment is
+blocked by the confidence bound (`blocked_by_ci` recorded) and FV8 ends ≤ +3.0 % vs RESET — the
+earlier +0.05 % bound was set when validation was cheap and is kept as a **recorded miss**, not
+re-tuned. Regressions: SHIFT45 / s602 / s603 / s604 / E5 / FV6 / three cross-world pairs within
+± 2 %. Falsifiers: recombination C ≥ ablation C on 2 / 3 seeds; any regression > 2 %.
+
+## C3 test, continual_v6.1 — outcome (records/abc/*_v6.1_*, records/continual/*_v6.1_*)
+
+| seed | segment | RESET | fixed controller | v6 ablation | **v6.1 ablation** | **v6.1 + recombination** |
+|---|---|---|---|---|---|---|
+| 601 | C | 4 080 | 4 243 | 3 459 | **2 700** | 2 751 |
+|  | lifetime | 3 755 | 2 982 | 2 416 | **2 147** | 2 164 |
+| 602 | C | 3 554 | 3 763 | 3 494 | **2 842** | 2 842 |
+|  | lifetime | 3 560 | 2 912 | 2 575 | **2 334** | 2 334 |
+| 603 | C | 3 619 | 3 800 | 4 654 | **4 424** | 4 424 |
+|  | lifetime | 3 620 | 2 825 | 2 815 | **2 818** | 2 818 |
+
+**C3 falsified a second time** (recombination C ≥ ablation C on 3 / 3). What v6.1 did do is
+make *both* continual arms acquire the new regime much sooner: the regime C segment fell
+22 % / 19 % / 5 % from v6, and on s601 / s602 it is now 36 % / 24 % below the fixed controller
+— the "two windows, validation chooses" change deployed `mdl_recent` from the post-stand-down
+corpus at target 112. That is better in-life acquisition by a designed procedure, not K2.
+
+**Why recombination still adds nothing (s601, records).** At 104 the recombination candidate
+built on the 6 post-stand-down programs held 5 of C's 8 motifs and tiled 3 / 8 validation
+tasks — refused. By 112 the mined `mdl_recent` tiled 8 / 8 (lower bound +3 374) and beat the
+recombined candidate (7 / 8, +1 822). Recombination inherited learn_generator's
+support ≥ 2 rule, which drops three of C's motifs from a six-program corpus; that rule guards
+*new* fragments against one-off substrings, whereas retained fragments already carry support
+from earlier regimes.
+
+**Regressions (± 2 % registered).** SHIFT45 1 488.0 (−1.1 %), s602 1 759.5 (−1.4 %), s604
+1 877.2 (−1.0 %), E5 and FV6 byte-identical — held. **s603 1 701.8 (+5.4 %) — falsifier
+fired**: the confidence bound blocked a compact library at target 72 (5 / 8, mean +1 165,
+lower bound −228) that would have paid, and deployment waited until 80. The bound's
+justification is FV8 (still running); it is kept or retired on that record.
+
+## continual_v6.2 (registered before its run)
+
+One change: a retained fragment enters the recombination candidate on **one** sighting in the
+current corpus (`recomb_support` = 1). Predictions (thresholds unchanged from the v6
+registration): recombination C ≤ 0.85 × ablation C on ≥ 2 / 3 seeds, with a C library deployed
+at the 104 attempt; shift / E5 / FV6 within ± 2 % of v6.1. Falsifier: recombination C ≥ ablation
+C on 2 / 3 seeds. If it fires, this chain terminates at **NO_TRANSFERABLE_HEADROOM** for
+recombination at this grammar and cadence: the 8-solution validation slice needs the new
+regime's own solutions, and once it has them, mining the same corpus already recovers the
+regime — retained capital has no window in which it is both admissible and better.
+
+## C3 test, continual_v6.2 — outcome: registered claim NOT MET (records/abc/*_v6.2_*)
+
+| seed | recombination C | ablation C (v6.1) | ratio | recombination lifetime | ablation lifetime |
+|---|---|---|---|---|---|
+| 601 | **1 918** | 2 700 | **0.710** | 1 886 | 2 147 |
+| 602 | 2 842 | 2 842 | 1.000 | 2 334 | 2 334 |
+| 603 | 4 424 | 4 424 | 1.000 | 2 818 | 2 818 |
+
+The registered claim (≤ 0.85 × on ≥ 2 / 3 seeds) is **not met** (1 / 3) and the falsifier fires.
+The registration said the chain would then terminate at NO_TRANSFERABLE_HEADROOM *because
+retained capital has no window in which it is both admissible and better* — **s601 contradicts
+that premise**: there the recombination candidate built from six post-stand-down programs
+tiled 8 / 8 (lower bound +3 052), deployed at target 104, and cut regime C's cost 29 % while the
+ablation waited until 112. So the terminal is recorded as *registered claim not met*, not as a
+proven absence of headroom.
+
+**What separates the seeds (records).** Not coverage: the retained libraries cover 7 / 8, 7 / 8
+and 8 / 8 of C's motifs. The number of post-stand-down C programs available at the 104 attempt
+was **6 / 4 / 3** — set by where the stand-down happened to fall relative to the 8-target
+re-mining cadence. With 4 programs, support-1 admitted boundary artefacts that crowded out true
+motifs (0 / 8 tiled); with 3, no candidate could be formed. The cadence exists to limit *charged*
+re-probes of stood-down libraries; re-mining costs nothing unless a candidate validates.
+
+## Assay defect found and closed: survivorship in one record
+
+v6.1's FV8 figure (56 072, "+0.03 %") is **withdrawn**. The confidence-bound-blocked attempt at
+target 88 charged 190 587 slots against that target's 200 000 search budget, the solve then ran
+out of budget, and `mean_B_slots` — which averages verified rows — silently dropped the target
+(119 / 120 verified). Counted, FV8 under v6.1 is ≈ +4 %, no better than v6. A scan of **all 814
+arm records** on the three hosts (173 billy-old, 277 laptop, 364 LUNARC; per-target criterion,
+any rung, with a must-flag control) finds this to be the **only** failed target in the lane —
+every other reported mean is over the full target set. (A first LUNARC scan flagged 153 files: a
+false-positive class — the frozen multi-rung ladder records one row per target per rung, so
+unsolved low rungs are normal; the checker was corrected and re-run before anything was reported.)
+
+Fix in the runner (v6.3): learning charges are added to a target's cost but are **never deducted
+from its search budget**, and every arm report now carries `all_targets_verified`.
+
+**The in-life confidence bound is retired.** Its only claimed benefit was the survivorship figure
+above; it cost s603 +5.4 % and E7 → E8_m7 +43 % (23 159 vs 16 229 — it blocked the second
+deployment). It stays in the code behind `deploy_ci = False`, on the record.
+
+## C3b — new registration (2026-09-11, before any run; fresh seeds only)
+
+Because the fix below was suggested by seeds 601–603, those seeds are **regressions, not
+confirmation**. The test is on fresh A → B → C lifetimes, A seeds 604–612 (604–606 on laptop
+billy, 607–612 on LUNARC), five arms each.
+
+**Mechanism (continual_v6.3).** Re-probing retained libraries stays on the 8-target cadence
+(charged); **re-mining may be attempted on any stood-down target** (free unless a candidate
+validates). Plus the two corrections above (budget-independent learning charges; bound retired).
+
+**Predictions.** On ≥ 2 / 3 of the fresh seeds that pass the ecology gate, the recombination arm's
+regime-C cost ≤ 0.85 × the ablation's; its lifetime ≤ the ablation's on every fresh seed; every
+arm verifies every target. Regressions: s601–603, the four shift lifetimes, E5 and FV6 within
+± 2 % of v6.2, except that retiring the bound should return s603 to ≤ 1 701.8 and E7 → E8_m7 to
+≤ 16 229 × 1.02; FV8 verifies all 120 targets and its cost is recorded as the priced boundary it
+is (validating a depth-4 library there costs ≈ three baselines). **Falsifier:** fewer than 2 / 3
+of fresh seeds meet the 0.85 bar — then C3 is recorded **NOT_ESTABLISHED at this grammar** and
+this chain stops.
+
