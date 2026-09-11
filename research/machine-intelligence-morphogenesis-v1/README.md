@@ -187,3 +187,40 @@ This means the programme has parent-hardened formal objects and exact calibratio
 Freeze GMI-D2 Stage C-v1: a small **structured** low-level adaptive grammar that does not reduce immediately to choosing arbitrary Boolean functions or supplying a universal interpreter. Exhaustively compare behavioral/developmental equivalence, compensation-aware minimality, deterministic/stochastic arms, adaptation placement, and resource-price regimes against coalgebra/state-machine/program parents.
 
 Then Stage D attempts tiny neural, symbolic, probabilistic and programmatic derivations from the **same frozen basis**.
+
+---
+
+## V2 exact-checkable layer (lane `claude/gmi-d0-d1-research-dnbp8i`, additive to everything above)
+
+Nothing above is rewritten. The V2 layer makes the V1 objects consumable by an exhaustive checker,
+proves the definitional P1 rows, pre-registers the next decisive experiment, and adds the first
+instrument aimed at the "undesigned form" question. Read in this order:
+
+1. `DEFINITIONS_V2_EXACT.md` — combinators/cost algebra, compositional update family (no smuggled
+   update law), five label-free observables, **resolution rule** `K_sim` (Prop 5.3: above the
+   self-simulation band every basis is one class — the quantitative twin of `FINITE_FLATTENING_THEOREM_V1.md`).
+2. `MORPHOLOGY_SIGNATURES_V2.json` / `ECOLOGY_AXES_V2.json` — decidable signatures `M0…M6`; ecology
+   axes each anchored to a parent theorem that already proves a tractability flip (Angluin vs
+   Gold/Pitt–Warmuth; SQ/parity; comp–stat; Valiant evolvability; Kirsch transition), with `PH-5`
+   (parity under scalar loss) as the mandatory negative control.
+3. `proofs/GMI_PROOFS_V1.md` + `THEOREM_REGISTRY_V4.json` — canonical #377 §11 rows GMI-T0…T12 in the
+   #233 schema (statuses: T0 PROVED; T2 PROVED relation-type; T3 PROVED band lemma; T10-A PROVED
+   direction-of-boundary under the frozen cost model; T11 PROVED impossibility part; T4/T5/T6/T7/T8/T9
+   PARENT_ANCHORED; T1/T12 OPEN/BLOCKED), with Codex's V3 rows T13–T20 preserved and reconciled.
+4. `CLAIM_LADDER_V1.json` — #377 §17 B0…B8 with the required report fields; current rung B0 earned as
+   boundary, B1 attempted and parent-dominated at expressivity.
+5. `BASIS_CANDIDATES_V2_UNIVERSALITY_TESTS.json` — per-candidate `UNIVERSAL_COMPUTATION_ONLY_<basis>`
+   tests (Def 5.5), each a sub-band prediction that differs from the uniform-cost universal basis.
+6. `microscopes/STAGE_D_CROSS_BASIS_COMPILATION_DESIGN_V1.md` — **next decisive experiment** (frozen
+   predictions P1–P5; absorbs Stage C-v2's finding that representation comparisons are vacuous).
+7. `signature_hole_census.py` → `SIGNATURE_HOLE_CENSUS_V1.{json,md}` — E0 instrument: 2 987 coherent
+   signature cells, 41 occupied by 43 designed forms; first-pass holes were atlas registration gaps;
+   three non-degenerate regions pre-registered (HOLE-A/B/C).
+8. `ULTIMATE_QUESTION_STATUS_V2_ADDENDUM.md` — what changes for Q1–Q5.
+9. `PARENT_LEDGER_V2.json` / `LITERATURE_LEDGER_V2.md` — primary-source depth pass over the gap
+   families (`build_parent_ledger_v2.py` computes the coverage terminal; it is never asserted by hand).
+
+Claim ceiling after V2: unchanged in kind — no basis, no phase law, no new form established. What is
+new is *where content can live* (sub-band), *how encoding artefacts are bounded* (band lemma), *one
+direction-only phase prediction from observables* (conditional P1), and *pre-registered regions* for
+an undesigned form. No HPC, no search, no new architecture.

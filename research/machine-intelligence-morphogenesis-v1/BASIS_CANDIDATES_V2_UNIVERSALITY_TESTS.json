@@ -1,0 +1,45 @@
+{
+  "schema": "BasisCandidatesUniversalityTestsV2",
+  "issue": 377,
+  "status": "FROZEN_TEST_DEFINITIONS__NOT_YET_RUN",
+  "relation_to_prior": "Instantiates DEFINITIONS_V2_EXACT.md Def 5.5 for the four candidates of BASIS_CANDIDATES_V1.json, after BASIS_CANDIDATE_DISPOSITION_V2.json (Codex) recorded that all four are parent-dominated at EXPRESSIVITY. The tests below ask the only remaining question: does the candidate make a sub-band (K ≺ K_sim) prediction that differs from the uniform-cost universal basis U and is decidable in Stage D? No winner is chosen; each test has its own UNIVERSAL_COMPUTATION_ONLY_<basis> terminal.",
+  "reference_universal_basis_U": "bounded-cell memory + finite instruction set + interpreter loop + uniform per-instruction costs (D2-§5.1); at finite scope U is also the flat transition-table parent P2 of STAGE_C1_STRUCTURED_BASIS_PROTOCOL_V1.md and the compressed-program parent P3 (Codex Stage C-v2)",
+  "shared_scope_S": "n_max = 12 primitive occurrences; types Bool, Fin(4), fixed-point numeric at b = 4 bits; input domain = full finite domain; horizon H = 8 feedback events; size ladder |Theta| in {2, 4, 8}",
+  "shared_reference_morphologies": ["M0 3-state Mealy machine", "M1 4-rule production system over a 3-slot store (with one chunking event)", "M2 5-node program over {seq, case, loop_2, const} with one library-append event", "M3 3-variable finite Bayes net with one conditioning event", "M4 2-2-1 threshold/affine net at b=4 with one gradient step", "M5 4-exemplar indexed memory with one insert"],
+  "candidates": [
+    {
+      "id": "B0_LOCAL_ADAPTIVE_TRANSDUCERS",
+      "sub_band_prediction": "For the size ladder |Theta| in {2,4,8}: R_desc(Compile_B0(M4)) grows linearly in |Theta| while R_desc(Compile_U(M4)) grows as the full transition table (exponential in |Theta| at fixed b); and R_upd(Compile_B0(M1)) = O(1) per chunking event while R_upd(Compile_U(M1)) rewrites a table row block.",
+      "differs_from_U_because": "U charges uniformly per instruction and stores tables; B0 charges per local activation and factorizes state (Codex FINITE_FLATTENING_THEOREM_V1 is exactly the statement that the difference is factorization, not expressivity).",
+      "decidable_by": "Stage D matrix, desc and upd columns, size ladder",
+      "terminal_if_fails": "UNIVERSAL_COMPUTATION_ONLY_B0 (if desc/upd overheads track U's within the band at every ladder point)",
+      "codex_disposition_v2": "PARENT_FORMALISM_SUFFICIENT_FOR_FINITE_EXPRESSIVITY__RESOURCE_RESIDUAL_OPEN"
+    },
+    {
+      "id": "B1_COMPOSITIONAL_LEARNER",
+      "sub_band_prediction": "R_upd(Compile_B1(M4 gradient step)) <= c_cheap * R_exec(forward) with c_cheap the cheap-gradient constant (parent: Baur–Strassen; pending P9A ledger), while Compile_B1(M1 chunking) and Compile_B1(M2 library append) require an update path that is not a request-map composition and therefore pays either a smuggled operation (SMUGGLED_<op>, C4 fails) or an overhead >= the M1/M2 store size on upd.",
+      "differs_from_U_because": "U has no request/backward combinator; its gradient step is either finite differences (Ω(|Theta|) forward evaluations) or a hand-written adjoint program — both charged; B1's request structure makes the cheap-gradient constant explicit and makes the non-differentiable laws expensive or impossible.",
+      "decidable_by": "Stage D matrix, upd column, M4 vs M1/M2 rows; C4 audit",
+      "terminal_if_fails": "UNIVERSAL_COMPUTATION_ONLY_B1 (if M1/M2 compile as cheaply as M4 on upd without C4 violations) or NEURAL_BIASED_PARENT_ALGEBRA_B1 (if M1/M2 need smuggled ops — the Codex kill rule)",
+      "codex_disposition_v2": "STRONG_PARENT_COVERAGE__CROSS_PARADIGM_RESOURCE_RESIDUAL_OPEN"
+    },
+    {
+      "id": "B2_REWRITABLE_TYPED_PROGRAM_GRAPH",
+      "sub_band_prediction": "R_rev(Compile_B2(M1 revocation under drift)) = O(rules touched) (provenance-local) while R_rev(Compile_B2(M4)) = full retrain of the numeric emulation; and R_upd(Compile_B2(M4 gradient step)) >= mult(b) * R_upd(Compile_B1(M4)) with mult(b) the b-bit multiplier cost in Boolean/rewrite primitives.",
+      "differs_from_U_because": "U's uniform instruction cost hides the arithmetic-emulation factor and has no provenance structure; B2's typed rewrite store carries dependency cones (HST-T06) that make rev local.",
+      "decidable_by": "Stage D matrix, rev and upd columns; drift probe",
+      "terminal_if_fails": "UNIVERSAL_COMPUTATION_ONLY_B2 (if rev is not local for M1 or the emulation factor does not appear on upd for M4)",
+      "codex_disposition_v2": "UNIVERSAL_COMPUTATION_ONLY_RISK_HIGH__DEMOTED_AS_FUNDAMENTAL"
+    },
+    {
+      "id": "B3_STOCHASTIC_GENERATIVE_KERNEL",
+      "sub_band_prediction": "R_upd(Compile_B3(M3 conditioning event)) = O(#traces touched) with native sample/score primitives, while Compile_B0/B1/B2(M3) must implement a charged PRNG and explicit normalization, paying >= c_prng + |traces| on upd; conversely Compile_B3(M0/M1) pays a determinization overhead on exec (delta-distribution encoding is not free once precision is charged: the Codex H-STOCHASTIC-DEGENERACY hostile becomes a number).",
+      "differs_from_U_because": "U has no sampling primitive; sampling under U is a charged PRNG program; the asymmetry is measurable.",
+      "decidable_by": "Stage D matrix, upd and exec columns, M3 row vs M0/M1 rows",
+      "terminal_if_fails": "UNIVERSAL_COMPUTATION_ONLY_B3 (if the PRNG/normalization overhead is inside the band) or PROBABILISTIC_REENCODING_ONLY_B3 (if deterministic forms compile into B3 with no exec overhead)",
+      "codex_disposition_v2": "STRONG_PROBABILISTIC_PARENT__FUNDAMENTAL_STATUS_OPEN_BUT_UNEARNED"
+    }
+  ],
+  "cross_candidate_prediction": "The four sub-band predictions are pairwise asymmetric by coordinate (B0: desc/upd factorization; B1: upd for gradient laws; B2: rev locality and arithmetic emulation; B3: upd for conditioning). If Stage D confirms all four asymmetries the correct terminal is MULTIPLE_EQUIVALENT_MINIMAL_BASES at poly-K with COORDINATE_SPECIALIZED_CONSTANTS — no single fundamental basis, but a non-trivial sub-band structure that a phase law can use (GMI-T3 band lemma bounds how much of that structure is encoding). If none is confirmed: UNIVERSAL_COMPUTATION_ONLY at scope for the whole candidate set.",
+  "explicit_non_candidate": "CURRENT_OCM_U2 (per BASIS_CANDIDATES_V1.json); OCM enters only as the reference morphology 'method library with applicability matching' in SIGNATURE_HOLE_CENSUS_V1 and as a Stage D row if registered later."
+}
