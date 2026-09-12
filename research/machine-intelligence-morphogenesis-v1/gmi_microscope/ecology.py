@@ -41,7 +41,17 @@ def spec_table(table, name, n_events=16, criterion="unseen"):
 # standard-intervention-only witness (E_smooth1, E_parity), or a non-discriminating threshold (E_sym3).
 WITNESS_COEFFS_V1 = (-0.5, -0.5, -0.5, -0.25)
 
-REGISTRY = {"E_wit1": spec_smooth(WITNESS_COEFFS_V1, "E_wit1"), "E_smooth3": spec_smooth(smooth.COEFFS_V3, "E_smooth3"), "E_sym3": spec_smooth((3 / 16,) * 4, "E_sym3"), "E_sym5": spec_smooth((5 / 16,) * 4, "E_sym5"),
+# RV-377-140: the four FRESH ecologies of the class-rate morphology law, chosen by the deterministic coverage walk of
+# gmi_microscope/class_rate.select_fresh over RV-377-102's discriminating enumeration (receipt
+# STAGE_CLASSRATE_SELECTION_V43_CLASSRATE_SELECT.json, sha 0156dc16...). Registered BEFORE any search on them. Their
+# closed forms (from that receipt): E_cr1 best constant 0.6667, memory closed form 0.8333 (< theta), witness-free;
+# E_cr2 0.7292 / 0.8646 (within one fx unit of theta), witness-bearing; E_cr3 0.7917 / 0.8958, witness-bearing;
+# E_cr4 0.8125 / 0.9062, witness-free. None of these had ever been B1-searched.
+CLASS_RATE_COEFFS_V1 = {"E_cr1": (-0.5, -0.5, -0.5, -0.5), "E_cr2": (-0.5, -0.5, -0.5, -0.125),
+                        "E_cr3": (-0.5, -0.5, -0.5, 0.25), "E_cr4": (-0.5, -0.5, -0.5, 0.375)}
+
+REGISTRY = {"E_wit1": spec_smooth(WITNESS_COEFFS_V1, "E_wit1"),
+            **{n: spec_smooth(c, n) for n, c in CLASS_RATE_COEFFS_V1.items()}, "E_smooth3": spec_smooth(smooth.COEFFS_V3, "E_smooth3"), "E_sym3": spec_smooth((3 / 16,) * 4, "E_sym3"), "E_sym5": spec_smooth((5 / 16,) * 4, "E_sym5"),
             "E_parity": spec_table(smooth.make_parity_target(), "E_parity"), "E_smooth1": spec_smooth(smooth.COEFFS_V1, "E_smooth1")}
 
 
