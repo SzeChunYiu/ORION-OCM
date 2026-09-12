@@ -1,0 +1,35 @@
+{
+  "schema": "GMIK5BHScoringFreezeV1",
+  "status": "FROZEN_BEFORE_RUNNER_AND_RESULTS",
+  "parent": "GMI_K5_BH_PHASE_FREEZE_V1.json",
+  "replicates": 8,
+  "exact_lanes": ["B_ROUTING", "B_RESIDUAL", "B_COMPILE_SEARCH", "D_GENERATIVE"],
+  "stochastic_lanes": ["B_SPECIALIZATION", "C_FEATURE_LEARNING", "E_CONTROL", "F_CONTINUAL"],
+  "rules": {
+    "exact": "Each of 8 replicate worlds must agree with the winner implied by the preregistered measured-cost inequality. One contradiction makes the cell THEORY_RED unless the task is structurally invalid/inadmissible, in which case it is INCONCLUSIVE with the failure preserved.",
+    "stochastic_green": "At least 6/8 replicate-level observed winners equal the preregistered prediction AND the sign of the mean protected objective margin agrees with that prediction.",
+    "stochastic_red": "At least 6/8 replicate-level winners oppose the preregistered prediction AND the mean protected objective margin sign opposes it.",
+    "stochastic_inconclusive": "All other mixtures, including exact 4/4 ties, become INCONCLUSIVE rather than being rounded toward the theory."
+  },
+  "feature_learning_grid_predictions": {
+    "0.0": "FIXED_FEATURE",
+    "0.25": "FIXED_FEATURE",
+    "0.6": "TRAINABLE_FEATURE",
+    "1.0": "TRAINABLE_FEATURE"
+  },
+  "continual_grid_predictions": {
+    "0.0": "EXPANSION",
+    "0.25": "EXPANSION",
+    "0.6": "REPLAY",
+    "0.9": "REPLAY"
+  },
+  "quality_thresholds": {
+    "B_SPECIALIZATION_max_test_mse": 0.50,
+    "C_FEATURE_LEARNING_max_test_error": 0.18,
+    "E_CONTROL_min_normalized_return": 0.80,
+    "F_CONTINUAL_min_old_accuracy": 0.95,
+    "F_CONTINUAL_min_new_accuracy": 0.90
+  },
+  "aggregate": "A lane is GREEN only if all four grid cells are GREEN. Any RED cell makes the lane RED. Otherwise the lane is INCONCLUSIVE. Overall synthetic K5 tournament is GREEN only if all eight lanes are GREEN and no task receipt is missing/failed.",
+  "claim_ceiling": "Even an all-green synthetic K5 tournament does not close real transfer, independent authorship, large-model scaling or physical/hardware evidence."
+}
