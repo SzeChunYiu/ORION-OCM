@@ -1,0 +1,91 @@
+{
+ "schema": "OCM_M2P4_STAGE3_SCORED_RUN_FREEZE",
+ "version": "V1",
+ "owner_issue": 165,
+ "hardening_parent": 323,
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_THE_SCORED_RUN (effective on merge)",
+ "why_separate_from_M2P4_FREEZE_V1": "M2P4_FREEZE_V1 is frozen BEFORE THE AUTHOR SESSION and its forbidden list bars any post-hoc revision of the statistics or terminals after that session. The scorer defines the terminal and the statistics, so it cannot be added to that freeze now. This is the lane's own structure: M2P3_FREEZE_V1/V2 covered authoring and stage 2, while m2p3/STAGE3.md separately registered the scored test, its parameters and the runner sha.",
+ "correction_to_the_freeze_prose": {
+  "what": "M2P4_FREEZE_V1.statistics.per_world_primary reads 'paired per-target B_slots, CONTINUED vs RESET ... shuffle-equal-n null ... \u2014 unchanged', which is M2-P2's test, while effect_size_primary in the SAME block reads 'the registered 50% effect-size bar, unchanged from M2-P3'. Those name two different tests.",
+  "resolution": "the M2-P3 effect-size form is the registered primary, and the scorer implements it. Three reasons, all from this lane's own artifacts: (1) effect_size_primary names M2-P3 as the source; (2) the '\u2014 unchanged' suffix marks every field copied verbatim from M2P2_FREEZE_V1 when the freeze was generated, so it is a provenance marker on a copied string, not a choice; (3) a CONTINUED-vs-RESET primary would re-run the comparison this lane RETIRED \u2014 target (3) is FALSIFIED and the freeze's own strongest_parent_note says the controller reduces to PARENT_GF_D4 with no OCM-specific residual claimed.",
+  "changes_no_rule": "the 50% bar, Holm multiplicity, alpha, the >=4-world / >=80% terminal shape and the ban on carrying a point prediction are all untouched. This corrects prose, not a registered rule, and it is recorded here in the open rather than edited into the merged freeze."
+ },
+ "registered_primary": {
+  "H0": "per viable world, mean(PARENT_GF_D4) >= 0.5 * mean(RESET) on the SAME protected targets",
+  "test": "one-sided paired sign-flip permutation on d_t = GF_t - 0.5 * RESET_t",
+  "permutations": 10000,
+  "seed": 20260912,
+  "multiplicity": "Holm-Bonferroni across viable worlds, family-wise alpha 0.05",
+  "terminal": "C2_REPLICATED_SECOND_GRAMMAR iff >= 4 viable worlds AND >= 80% of them pass",
+  "negative_terminal": "C2_NOT_REPLICATED_IN_SECOND_GRAMMAR \u2014 a REAL negative about generality, reported as one, never re-tuned",
+  "precondition_reported_not_gating": "PARENT_GF_D4 < RESET (same test with d_t = GF_t - RESET_t), per world",
+  "point_prediction": "NONE. M2-P3's was fitted to the band-2-3 tiling and M2P4_FREEZE_V1 forbids carrying it forward. median_ratio_minus_1 is emitted as a DESCRIPTIVE only.",
+  "median_not_comparable_across_tilings": "M2-P3's median of -92.0% is on main and a reader will be tempted to compare. The two medians are NOT comparable: the tilings differ (length 5 is unreachable under a 3-4 band), so the library/baseline economics are not a monotone rescaling. Any cross-study median comparison is descriptive and must be labelled as such."
+ },
+ "bound_to": {
+  "runner": {
+   "file": "research/m2-traversal-capital-v1/m2p1/m2p2_gf/m2p1_runner.py",
+   "sha256": "7d790905ada3ad76e9a59a09da777f4e0c5921715fed096fd8b68ec72be7b0de"
+  },
+  "scorer": {
+   "file": "research/m2-traversal-capital-v1/m2p4/m2p4_score.py",
+   "sha256": "e09c02d4050791767dc72323ef3bb1d3e50cc402352761ca0e3211666e647261",
+   "source": "origin/main (merged as #429)"
+  },
+  "registered_units": {
+   "file": "src/ocm/learning/methods.py",
+   "sha256": "e0a0565466dc67787b2162831e363b232960d0d864c15af62bc9e7e865f8b4d3"
+  },
+  "stage2_receipt": {
+   "file": "research/m2-traversal-capital-v1/m2p4/stage2/M2P2_STAGE2_RECEIPT.json",
+   "sha256": "44d3dc4ee9c2a7790ed7d17614eedb6d12b2bfdc09514a45e4ff8c96369069f3"
+  }
+ },
+ "the_run": {
+  "host": "LUNARC (never the Mac); -A lu2026-2-51 -p lu48; Python 3.11.5",
+  "per_world": "fresh dev phase at slots 200000 -> checkpoint -> OS-process restart -> one arm per process on the world's protected stream, exactly the M2-P3 recipe",
+  "env": "M2_LIB_RULE=interleave",
+  "arms": [
+   "RESET",
+   "PARENT_GF_D4 (primary)",
+   "SHUFFLED_HISTORY",
+   "CONTINUED_OCM",
+   "PARENT_WITH_MDL",
+   "PARENT_GFQ_D3",
+   "PARENT_GFQ_D4"
+  ],
+  "external_verification": "every reported success confirmed by checker C after the restart",
+  "worlds": 8,
+  "protected_targets_per_world": {
+   "brass_lantern": 38,
+   "deep_well": 37,
+   "leaky_seam": 36,
+   "long_and_short": 49,
+   "narrow_gauge": 84,
+   "shallow_shelf": 33,
+   "tin_orchard": 38,
+   "twin_roots": 50
+  },
+  "protected_targets_total": 365
+ },
+ "precondition_scorer_validation": {
+  "required_before_any_scored_arm": true,
+  "procedure": "run THIS scorer on M2-P2's eight worlds \u2014 PARENT_GF_D4 from the _gf runs, RESET from the _ocm5 runs \u2014 staged into m2p4_*_scored directories in a NEW temporary tree; M2-P3's tmp_scoredry is never reused or renamed",
+  "expected": {
+   "k_passing": 7,
+   "worlds_scored": 8,
+   "failing_world": "hc08-drawn-lot-b",
+   "median_ratio_minus_1": -0.8766,
+   "source": "the independent pre-freeze calibration (LUNARC 3599978), reproduced by M2-P3 (LUNARC 3600816)"
+  },
+  "on_mismatch": "the scorer is wrong and the study stops there; no scored arm runs"
+ },
+ "forbidden": [
+  "running any scored arm before the scorer validation reproduces k=7/8 with hc08 failing",
+  "editing M2P4_FREEZE_V1.json (the author session has run; its statistics and terminals are closed)",
+  "re-running the author session or altering any authored byte",
+  "carrying M2-P3's point prediction into this study, or comparing medians across tilings as if registered",
+  "re-tuning the 50% bar, the 80% fraction, alpha or the seed after seeing any result",
+  "scored execution on the Mac mini"
+ ]
+}
