@@ -1036,6 +1036,50 @@ def test_b2_04_heads_receipt_replays_exactly(tmp_path):
         assert cell["rule21_charged_serve_audit"]["passed"] is True
 
 
+def test_b2_05_kvsharing_receipt_replays_exactly(tmp_path):
+    """RV-377-093 (B2.5 MHA -> GQA -> MQA): the committed receipt reproduces byte for byte; TM-7's adequacy loss is a
+    STORED WIDTH property, and the cache is NOT proportional to H_kv once per-group widths are measured."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_kvshare
+    rc = b2_kvshare.main(str(tmp_path / "kv.json"))
+    committed = json.loads((RES / "STAGE_B2_05_KVSHARING_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 13 and rc["n_claims"] == 13
+
+    cells = committed["cells"]
+    # C1: at the tightest caps the minimal exact H_kv IS the measured KV relation heterogeneity
+    for pf, het in (("HET1_homogeneous", 1), ("HET2_two_kinds", 2), ("HET3_three_kinds", 3), ("HET4_four_kinds", 4)):
+        c = cells[f"{pf}|n=16|dk=1|dv=1"]
+        assert c["kv_relation_heterogeneity_key_payload_pairs"] == het
+        assert c["minimal_exact_H_kv"] == het
+    # C5: MQA quality at the tightest caps
+    assert [cells[f"{pf}|n=16|dk=1|dv=1"]["rows"]["Hkv1"]["quality"] for pf in
+            ("HET1_homogeneous", "HET2_two_kinds", "HET3_three_kinds", "HET4_four_kinds")] == ["1", "1/2", "1/2", "1/4"]
+    # C6: widening the stored key alone makes MQA exact on a heterogeneous portfolio
+    assert cells["HET3_three_kinds|n=16|dk=1|dv=1"]["minimal_exact_H_kv"] == 3
+    assert cells["HET3_three_kinds|n=16|dk=3|dv=2"]["minimal_exact_H_kv"] == 1
+    # C2: sequence length moves the minimal exact ratio nowhere
+    for pf in b2_kvshare.HEADS_BY_PORTFOLIO:
+        for dk in b2_kvshare.D_K:
+            for dv in b2_kvshare.D_V:
+                assert len({cells[f"{pf}|n={n}|dk={dk}|dv={dv}"]["minimal_exact_H_kv"]
+                            for n in b2_kvshare.LENGTHS}) == 1, (pf, dk, dv)
+    # the measured cache is NOT proportional to H_kv: 192, 448, 448, 512 elements at (d_k, d_v) = (2, 2), n = 16
+    r = cells["HET4_four_kinds|n=16|dk=2|dv=2"]["rows"]
+    assert [r[f"Hkv{h}"]["cache_elements"] for h in (1, 2, 3, 4)] == [192, 448, 448, 512]
+    assert [r[f"Hkv{h}"]["quality"] for h in (1, 2, 3, 4)] == ["1/2", "1", "1", "1"]
+    # C13: one head requiring two key features denies the whole portfolio an exact ratio at width cap 1
+    assert all(cells[f"HET2_wide_head|n={n}|dk=1|dv={dv}"]["minimal_exact_H_kv"] is None
+               for n in b2_kvshare.LENGTHS for dv in b2_kvshare.D_V)
+    assert cells["HET2_wide_head|n=16|dk=2|dv=1"]["minimal_exact_H_kv"] == 1
+    # the rule 24 gate record moves monotonically with the stored width, which is the quantity it names
+    assert committed["rule24_gate_record"]["capability_by_representation"] == {"d_k=1": "1/4", "d_k=2": "1/2", "d_k=3": "3/4"}
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""
