@@ -297,3 +297,105 @@ def b4_pretest(tag="V1", eco_name="E_smooth3", catalogue_tag="V1", atrophy_tag="
     print(f"novel at STRUCTURAL resolution: {n_struct_novel}/{len(cands)} | novel at RESPONSE resolution: {n_resp_novel}/{len(cands)}")
     print("terminal:", receipt["terminal"])
     return receipt
+
+
+# ----------------------------------------------------- protocol rule 32: atrophy under the FULL intervention set
+def prune_all_interventions(g, spec, basis=None, theta=None, max_rounds=24, interventions=None):
+    """RV-377-085 — greedy node deletion accepted only if capability stays at or above theta under EVERY registered
+    intervention.
+
+    Protocol rule 32, added by RV-377-082 after atrophy under a single intervention RAISED a witness's capability by
+    deleting the EVIDENCE buffer, whose only purpose is revocation replay, on a harness that never revokes. Rule 23 says
+    compute a carrier descriptor on the atrophied genotype; it did not say under which intervention set, and every
+    atrophy receipt committed before this function existed was produced under the standard intervention alone.
+
+    Deterministic in the canonical node order of the committed genotype, exactly as `prune`. Every candidate deletion is
+    charged once PER INTERVENTION, so a run here costs |INTERVENTIONS| times a single-intervention run.
+    """
+    from . import bases, ecology
+    basis = basis or bases.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"]
+    th = spec["theta"] if theta is None else theta
+    js = list(interventions or ecology.INTERVENTIONS)
+
+    def caps(gg):
+        out = {}
+        for j in js:
+            try:
+                out[j] = ecology.run_genotype(spec, gg, basis, j)["capability"]
+            except Exception:
+                return None
+        return out
+
+    cur = morph.from_json(morph.to_json(g))
+    base = caps(cur)
+    if base is None or min(base.values()) < th:
+        return cur, {"prunable": False, "reason": "not admissible under every registered intervention at entry",
+                     "capabilities": base, "interventions": js}
+    evals = len(js); removed = []
+    lab = morph.canonical_labels(cur)
+    for rnd in range(max_rounds):
+        order = sorted((i for i, (k, _) in cur["nodes"].items() if k not in PROTECTED), key=lambda i: lab.get(i, 0))
+        hit = False
+        for nid in order:
+            if nid not in cur["nodes"]: continue
+            trial = morph.from_json(morph.to_json(cur))
+            kind = trial["nodes"][nid][0]
+            del trial["nodes"][nid]
+            trial["edges"] = [e for e in trial["edges"] if e[0] != nid and e[1] != nid]
+            try:
+                morph.typecheck(trial)
+            except Exception:
+                continue
+            c = caps(trial); evals += len(js)
+            if c is not None and min(c.values()) >= th:
+                removed.append({"round": rnd, "kind": kind, "capabilities_after": c, "n_nodes_after": len(trial["nodes"])})
+                cur, base, hit = trial, c, True
+                break
+        if not hit: break
+    return cur, {"prunable": True, "capabilities": base, "min_capability": min(base.values()),
+                 "n_nodes": len(cur["nodes"]), "evaluations_charged": evals, "n_removed": len(removed),
+                 "interventions": js, "removed_kinds": [d["kind"] for d in removed]}
+
+
+def rule32_recheck(tag="V1", eco_name="E_smooth1", rows=None):
+    """re-atrophy the registered zoo rows under the full intervention set and report what a single-intervention pruner
+    would have deleted that the full set refuses. This is the direct measurement rule 32 demands of every committed
+    atrophy receipt."""
+    import time as _t
+    from . import bases, ecology, zoo, smooth as _s
+    t0 = _t.time()
+    spec = ecology.REGISTRY[eco_name]
+    target = _s.make_target({"E_smooth3": _s.COEFFS_V3, "E_sym5": (5 / 16,) * 4, "E_smooth1": _s.COEFFS_V1}[eco_name])
+    names = rows or list(zoo.ZOO)
+    out = {}
+    for n in names:
+        g = zoo.ZOO[n]()
+        r1 = b1.evaluate(g, target)
+        if r1 is None or r1[0] < THETA:
+            out[n] = {"admissible_single": False, "capability_single": None if r1 is None else r1[0]}
+            continue
+        small1, i1 = prune(g, target, THETA)
+        smallA, iA = prune_all_interventions(g, spec)
+        out[n] = {
+            "capability_single": r1[0],
+            "single_intervention": {"n_nodes": i1.get("n_nodes"), "capability": i1.get("capability"),
+                                    "carrier": b1.carrier_of(small1), "removed_kinds": [d["kind"] for d in i1.get("removed", [])]},
+            "all_interventions": {"n_nodes": iA.get("n_nodes"), "min_capability": iA.get("min_capability"),
+                                  "carrier": b1.carrier_of(smallA) if iA.get("prunable") else None,
+                                  "removed_kinds": iA.get("removed_kinds"), "prunable": iA.get("prunable"),
+                                  "reason": iA.get("reason")},
+            "kinds_the_full_set_refuses_to_delete": sorted(set([d["kind"] for d in i1.get("removed", [])]) - set(iA.get("removed_kinds") or [])),
+            "size_difference": (iA.get("n_nodes") or 0) - (i1.get("n_nodes") or 0)}
+        print(json.dumps({"row": n, **{k: v for k, v in out[n].items() if k != "capability_single"}}), flush=True)
+    diffs = [n for n, v in out.items() if v.get("kinds_the_full_set_refuses_to_delete")]
+    receipt = {"schema": "StageRule32AtrophyRecheckV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
+               "revival_record": "RV-377-085", "run_tag": tag, "ecology": eco_name, "theta": THETA,
+               "rule": "protocol rule 32: a deletion is accepted only if capability stays at or above theta under EVERY registered intervention",
+               "interventions": list(ecology.INTERVENTIONS), "rows": out,
+               "n_rows_where_the_full_set_refuses_a_deletion": len(diffs),
+               "rows_affected": diffs, "seconds": round(_t.time() - t0, 1),
+               "claim_ceiling": "one ecology and the registered zoo rows; it measures how much a single-intervention pruner over-deletes on machines whose purpose is known, which is the cheapest available proxy for the same question about evolved genotypes"}
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_RULE32_ATROPHY_RECHECK_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
+    print("rows where the full intervention set refuses a deletion the single one accepted:", len(diffs), diffs)
+    return receipt
