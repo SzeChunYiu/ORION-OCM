@@ -40,3 +40,15 @@ point checks passes, so the theorem's exact claim holds and is in fact stronger 
 Disposition: instrument/receipt defect, not a theory defect; fixed additively in a separate PR (assert
 corrected to 276, receipt regenerated on billy-old), recorded here so that the tranche's
 `ALL_GREEN` is read as "green after correction of a mis-pinned constant".
+
+## Addendum — fourth pass (main@cf7c76e5, after the count correction and seven further layers)
+
+26 checkers under `gmi-grand-unification-v1/` and `gmi-prior-free-derivation/` executed from a fresh
+checkout on billy-old: 26 of 26 exit 0, 25 distinct `…ALL_GREEN` terminals reproduced (the prior-free
+hostile checks report `all_green: true` in JSON rather than a terminal string), `git status` clean after
+the runs — no committed receipt changed. The realization-compiler layer now reproduces after PR #480.
+Layers covered by this pass and not by the earlier ones: physical resource bridge, quantum process
+instantiation, measurable continuous GMI, realization compilation, morphology selection, neural /
+non-neural family selection, phenomenology reduction, end-to-end derivation traces, epistemic
+acquisition, continuous realization bridge, non-neural constructive derivation, active closed-loop,
+compositional language morphology, NN/non-NN derivation certificate, planning semantic resolution.
