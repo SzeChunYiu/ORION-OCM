@@ -12,6 +12,9 @@ Declared instrument
 -------------------
 Decoder: L layers, H heads per layer, head width d = 2, dyadic-kernel exact attention (scores are integers, weights 2^s),
 residual stack x^{l+1}_t = x^l_t + sum_h attn_h(Q = x^l, K = Wk_{l,h} x^l, V = Wv_{l,h} x^l)_t, causal mask.
+The dyadic exponent is clamped to [-4, 4] (a declared logit clamp, registry entry TF-031): without it the exact rational
+denominators blow up through the residual stack. The clamp changes no metered quantity -- the mult counters and the cache
+element counts depend on the loop structure, not on the values.
 Token embedding embed(tok, t) = [tok, t mod 2]. All weights are declared rationals; no RNG is used.
 
 Arms
@@ -76,11 +79,20 @@ def _proj(W, x, m):
     return [sum(W[a][b] * x[b] for b in range(D)) for a in range(D)]
 
 
+E_CLAMP = 4  # declared logit clamp (registry entry TF-031): the dyadic exponent is clamped to [-E_CLAMP, E_CLAMP]
+
+
 def _attn_at(i, Q, K, V, m):
-    """Exact dyadic-kernel causal attention output at query position i over sources 0..i."""
+    """Exact dyadic-kernel causal attention output at query position i over sources 0..i.
+
+    The dyadic exponent is CLAMPED to [-E_CLAMP, E_CLAMP]. Without the clamp the exponent grows through the residual
+    stack and the exact rational denominators blow up superexponentially; the clamp is the exact analogue of the logit
+    clipping of registry entry TF-031 and it changes NO metered quantity -- every mult counter, every cache-element count
+    and therefore every crossover mu* depends on the loop structure alone, not on the values.
+    """
     s = [sum(Q[i][a] * K[j][a] for a in range(D)) for j in range(i + 1)]
     m.attn += D * (i + 1)
-    w = [Fr(2) ** int(x) for x in s]
+    w = [Fr(2) ** max(-E_CLAMP, min(E_CLAMP, int(x))) for x in s]
     Z = sum(w)
     out = [sum(w[j] * V[j][a] for j in range(i + 1)) / Z for a in range(D)]
     m.attn += D * (i + 1)
