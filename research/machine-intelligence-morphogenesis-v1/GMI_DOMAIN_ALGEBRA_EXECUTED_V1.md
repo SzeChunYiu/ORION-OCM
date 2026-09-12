@@ -171,10 +171,13 @@ draws* of a stochastic carrier as search cost, although the biosphere burden vec
 | DC9 oscillatory / phase | phases | expected **DC1 in a different code** | `REGISTERED_FOR_EXPERIMENT` (same branch) |
 | DC5 molecular, DC6 analog | molecule counts, continuous physical state | **substrate variants** (price vectors, GMI-DA5) | `REGISTERED_FOR_EXPERIMENT` |
 | DC8 stigmergic | environment-written field | **D2 + D6 with a priced world step** | `REGISTERED_FOR_EXPERIMENT` |
-| N3 relational-constraint / sheaf | constraint system with gluing | under test | worker branch `claude/gmi-domain-n3-n10` |
-| N10 event-causal / partial order | partial order of events | under test | same branch |
-| N8 constructive / autocatalytic | closure of a construction set | under test | worker branch `claude/gmi-domain-n8-n11` |
-| N11 invariant / obstruction | an invariant certifying impossibility | under test — **the most promising**: an obstruction certificate answers "no solution" in constant work where a search parent must exhaust, which is the one shape of qualitative asymptotic separation the criterion asks for | same branch |
+| N3 relational-constraint / sheaf | constraint system with gluing | **reduced**: answers bit-identical to BOTH a constraint/table parent and a program-search parent; its serve law falsified out of sample (28 of 32 checks) | `REDUCED_TO_PARENT(D2 × D4/D5)`, `RV-377-050` |
+| N10 event-causal / partial order | partial order of events | **reduced**: identical to both relational parents under the wide instrument; interleaving-invariant where the sequence parent is not; 8-bit instrument gates it at chain length 12 | `REDUCED_TO_PARENT(D2 × D4/D5)`, `RV-377-051/052` |
+| N8 constructive / autocatalytic | closure of a construction set | **reduced**: exact serve-time equality with the memory parent in 6 of 6 cells at overhead factor 1.0; closure growth 1.7549^L; native-price crossover 45–1 499 | `REDUCED_TO_PARENT(D2 × D5)` |
+| N11 invariant / obstruction | an invariant certifying impossibility | **reduced — the decisive one.** Against a naive exhaustive search the separation is real (serve `d(2m+2)`, constant in k, against `2m + 3m(2^k − 1)`, ×4.00 per 2 bits over five sizes), but against the STRONGEST parent — a dense-coefficient row computing the same annihilator by row reduction — the answers are identical in 10 of 10 cells and the advantage collapses to the constant factor `(m − d)/d` = 4, 7, 11, 15, 23 | `REDUCED_TO_PARENT(D1, annihilator/dual presentation)` |
+| DC2 self-organizing field | lattice with a shared local rule | **reduced**: identical answers in exactly the 60 of 144 cells where the weight-sharing-ablated parent is capable | `REDUCED_TO_PARENT(D6 + translation-equivariant weight sharing)` |
+| DC7 quantum cognition | real amplitude vector, Lüders projectors, Born readout | **reduced**: both parents reproduce the whole registered obligation exactly (capability 1.0, zero error); the carrier's value is description parsimony below `H = 32Q − 12` | `REDUCED_TO_PARENT(D3 with an amplitude state)`, `SUBSTRATE_VARIANT` |
+| DC9 oscillatory / phase coding | phases in `Z_Q` | **reduced, and unified with DC1**: identical to a phase-coded exemplar store in 66 of 66 (cell, instrument) pairs, and bit-identical to DC1's hyperdimensional row in every `Q = 2` cell — **DC1 is the `Q = 2` special case of DC9** | `REDUCED_TO_PARENT(D2)`, same parent as DC1 |
 
 ---
 
@@ -194,5 +197,23 @@ parent's exhaustion cost against the candidate's certificate cost over instance 
 survives remint, neutral recovery and parent-team reduction, the programme has a kingdom; if it is polynomial, it is one
 more crossover law of the L4 family. Either outcome is recorded.
 
+### 9b. The programme-level prediction, adjudicated
+
+Section 4 of `GMI_DOMAIN_CANDIDATES_DC1_DC9_V1.md` froze the prediction that **no candidate survives criterion 3 at the
+exact layer**. Nine candidates have now been executed against matched strongest parents — DC1, DC3, DC9, DC2, DC7 by this
+lane and its workers, N3, N10, N8, N11 from the parallel lane's theory-generated hypotheses — and **all nine reduce**.
+Seven of the nine exhibit *exact developmental equality* with a parent (identical answers on every registered cell), and
+the two that do not (DC3, DC2) are dominated rather than distinct. The prediction held, and it held even for the case it
+was least likely to survive: N11, the impossibility-certificate carrier, where the separation against a naive search
+parent is genuinely exponential and collapses to a constant factor against the *strongest* parent.
+
+Two things were learned that the prediction did not anticipate:
+
+* **A unification.** DC9 and DC1 are the same carrier at different code radix — the hyperdimensional carrier is the
+  `Q = 2` case of the phase carrier — so what looked like two candidate kingdoms is one phase of D2.
+* **A criterion defect.** N11 shows that "no bounded reduction to an existing domain" is only meaningful against the
+  *parent-maximal* member of that domain. Measured against a weak parent almost any carrier looks new. The
+  parent-maximality clause is now `PROVED_AT_SCOPE` as a statement about this programme's own criterion.
+
 **Current honest terminal for the domain programme:**
-`NO_NEW_KINGDOM_ESTABLISHED__TWO_CANDIDATES_REDUCED_TO_D2_AS_LAZY_AND_EAGER_PHASES__FOUR_UNDER_TEST__CRITERION_3_SHOWN_TO_REQUIRE_A_DECLARED_DEPTH_BOUND`
+`NO_NEW_KINGDOM_ESTABLISHED__NINE_CANDIDATES_EXECUTED_AND_ALL_NINE_REDUCED_TO_D1_D2_D3_OR_D6__SEVEN_BY_EXACT_DEVELOPMENTAL_EQUALITY__CRITERION_3_REQUIRES_A_DECLARED_DEPTH_BOUND_AND_A_PARENT_MAXIMAL_OPPONENT`
