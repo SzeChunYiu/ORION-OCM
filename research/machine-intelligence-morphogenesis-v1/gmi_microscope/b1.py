@@ -22,7 +22,7 @@ import random
 import sys
 import time
 
-from . import bases, morph, morphgen, smooth
+from . import bases, ecology, morph, morphgen, smooth
 from .core import sha256_of
 from .vm import VM, VMRow
 
@@ -107,8 +107,12 @@ def search(target, seed=0, evaluations=20000, n_init=400, log_every=5000, log=No
 
 
 def main(seed=0, evaluations=20000, tag="V33_B1_IR_RECOVERY", eco_name="E_smooth3", log=None):
-    coeffs = {"E_smooth3": smooth.COEFFS_V3, "E_sym5": (5 / 16,) * 4, "E_smooth1": smooth.COEFFS_V1}[eco_name]
-    target = smooth.make_target(coeffs)
+    # RV-377-089b / protocol rule 39: this was a hardcoded dict naming THREE of the five registered ecologies, so a
+    # recovery run could not be asked for E_sym3 or E_parity at all. That truncation is the same defect rule 39 names,
+    # sitting in the harness rather than in a claim: the two ecologies it omitted are exactly where the coefficient
+    # carrier's only intervention-robust witnesses live. The registry is now the single source of truth, and
+    # ecology.target_of handles the table family (E_parity) as well as the smooth one.
+    target = ecology.target_of(ecology.REGISTRY[eco_name])
     archive, n, failed, tries, hist = search(target, seed, evaluations, log=log)
     by_carrier = {}
     for k, (cap, g, R, sz) in archive.items():

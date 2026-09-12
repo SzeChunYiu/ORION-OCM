@@ -102,8 +102,9 @@ def search(target, seed=0, evaluations=20000, n_init=400, log_every=5000, log=No
 
 
 def main(seed=0, evaluations=20000, tag="V37_B1X_MECHANISM", eco_name="E_smooth1", log=None):
-    coeffs = {"E_smooth3": smooth.COEFFS_V3, "E_sym5": (5 / 16,) * 4, "E_smooth1": smooth.COEFFS_V1}[eco_name]
-    target = smooth.make_target(coeffs)
+    # RV-377-089b / protocol rule 39: the registry is the single source of truth, so every registered ecology can be
+    # asked for. The hardcoded three-entry dict this replaces omitted E_sym3 and E_parity.
+    target = b1.ecology.target_of(b1.ecology.REGISTRY[eco_name])
     archive, n, failed, tries, hist = search(target, seed, evaluations, log=log)
     by = {}
     for k, (cap, g, R, sz) in archive.items():
