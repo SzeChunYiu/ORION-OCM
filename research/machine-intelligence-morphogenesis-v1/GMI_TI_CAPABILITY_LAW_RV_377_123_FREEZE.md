@@ -83,3 +83,93 @@ It would **not** rescue the K4 property-vector programme (`RV-377-121`: cross-se
 not extend beyond the exact-identification obligation used here. The law is narrow. Its virtue
 is that it is *true, tight, and about machines that do not yet exist* — which is what the K4
 claim was supposed to be and was not.
+
+---
+
+# RV-377-123 — ADJUDICATION: the law holds, is tight, and one of my predicates was mis-specified
+
+## First pass — 425 cells, `L=64`, 17 values of `r`, 5 seeds, 4000 queries
+
+| id | outcome |
+|----|---------|
+| Q1 | **FALSIFIED as written** — 80 cells above `bound + 3σ` |
+| Q2 | **CONFIRMED** — the `table` machine meets the bound at every `r`, 0 shortfalls |
+| Q3 | **FALSIFIED as written** — 111 ablated cells above `½ + 3σ` |
+| Q4 | **CONFIRMED** — slope **0.5016**, intercept **0.5003**, **R² = 0.999815** |
+| Q5 | **CONFIRMED** — wrong-structure machines fall below `table` on 9 cells |
+
+## The Q1/Q3 failures are my error, not the theorem's — diagnosed, not assumed
+
+Every Q1 violation is a constant or near-constant machine at small `r`. `always_zero` scores,
+on a **fixed** `W`, exactly the fraction of 0-bits in that `W`:
+
+```
+seed 5: fraction of 0-bits = 0.5625  -> always_zero scores 0.5625
+seed 1: fraction of 0-bits = 0.4688
+seed 2: fraction of 0-bits = 0.3594
+sd of that fraction over L=64 bits = 0.0625
+```
+
+The observed 0.5693 is **1.1 standard deviations of the draw of `W` itself**. It is not
+information about `W`; it is `W` happening to contain more zeros than ones.
+
+**TI-1 bounds `E_W[accuracy]`** — the expectation over the protected draw. I tested it
+**pointwise against a single draw**, with a σ computed from query sampling only, ignoring the
+much larger variance contributed by `W`. The predicate was wrong. The same applies to Q3.
+
+## Corrected test — 40 independent `W` draws per cell
+
+| `r` | bound | table | always_zero | majority | extrapolate | parity |
+|---|---|---|---|---|---|---|
+| 0 | 0.5000 | 0.5005 | 0.5007 | 0.5007 | 0.5005 | 0.5007 |
+| 16 | 0.6250 | 0.6236 | 0.5007 | 0.6263 | 0.6344 | 0.6102 |
+| 32 | 0.7500 | 0.7487 | 0.5007 | 0.7464 | 0.7564 | 0.7508 |
+| 48 | 0.8750 | 0.8763 | 0.5007 | 0.8719 | 0.8824 | 0.8768 |
+| 64 | 1.0000 | 1.0000 | 0.5007 | 1.0000 | 1.0000 | 1.0000 |
+
+```
+Q1'  E_W[acc] <= bound + 3 s.e.  : violations = 0  -> CONFIRMED
+Q3'  E_W[ablated] <= 0.5 + 3 s.e.: violations = 0  -> CONFIRMED
+```
+
+**Zero violations across all machines and all `r`.** And `always_zero` sits at **0.5007 at
+every `r`** — flat across the entire development range. A machine that ignores the channel
+extracts nothing from it no matter how much is offered, which is the law's content made visible.
+
+## What is established
+
+> **`TI_1_EXPERIMENTALLY_VERIFIED_ON_REAL_MACHINES` = TRUE at registered scope.**
+>
+> For the channel class *"machines whose only access to a post-freeze protected `W` is
+> development `D` and query `Q`"*, the capability ceiling `accuracy ≤ ½ + r/(2L)` is
+> **correct** (0 violations over 40 draws × 5 machines × 9 values of `r`), **tight** (the
+> `table` machine attains it at every `r`), and **linear to R² = 0.999815** with the predicted
+> slope 0.5 and intercept 0.5.
+
+This is a capability prediction **about machines that do not exist**. The class is defined by
+its information channels, not by any architecture; the bound applies to every member including
+ones never built or described; it was derived before measurement; and it is met, not merely
+respected.
+
+Three of the five machines were deliberately wrong about the world's structure. None beat the
+bound. `extrapolate`, `majority` and `parity` differ from `table` only in how they guess where
+they have no information — and guessing differently never buys accuracy beyond `½ + r/(2L)`.
+
+## Flagged rather than dismissed
+
+`extrapolate` sits consistently *above* the bound in the point estimate (0.5738 vs 0.5625 at
+`r=8`; 0.6344 vs 0.6250 at `r=16`) while staying inside 3 s.e. The excess is small and the test
+passes, but it is **consistent in sign across `r`**, which random error need not be. It is
+recorded here rather than waved through, and a larger-draw re-test is registered. If the bias
+survives more draws, either `extrapolate` exploits an index-adjacency regularity this world
+does not intend to contain, or the world leaks through query-index locality.
+
+## Scope — what this does NOT do
+
+It does **not** rescue the K4 property-vector programme; `RV-377-121` stands at 0.0 %
+cross-seed agreement. It does **not** extend beyond this channel class, beyond
+exact-identification obligations, or to `L ≠ 64`. It says nothing about *which* architecture a
+search will find — only about what any architecture in the class can achieve.
+
+The law is narrow. Its virtue is that it is **true, tight, quantitative, verified, and about
+machines that do not yet exist** — which is what the K4 claim was supposed to be and was not.
