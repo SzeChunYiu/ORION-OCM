@@ -310,3 +310,71 @@ The `F` axis is the one the programme has been least honest about, because eight
 exact developmental equality — identical answers on every registered `(e, j)`. Under part 3 that is not evidence that the
 carriers are the same machine. It is evidence that **`F` never asked them to differ**. The test is stated and executed in
 `GMI_ECOLOGY_REFINEMENT_KINGDOM_V1.md`.
+
+---
+
+## 11. GMI-DA8 — the register theorem, and the correction it forces on GMI-DA1
+
+`GMI-DA1` asserts that the nine taxonomy domains are **exactly** the `≼_B`-classes the primitive alphabet admits. The A
+axis of `GMI-DA7` was executed against that assertion (`RV-377-072`, receipt `STAGE_AXIS_A_V1.json`) and it is **false in
+its enumeration half**.
+
+**Statement (GMI-DA8).** Let `C` be any carrier whose state is a single finite-precision value updated by an input-driven
+transition `z ← g(z, x)` reading no target. Then `C` is exactly emulated, answer for answer, by a **one-entry store used
+as a register** over the registered alphabet:
+
+```
+INSERT( tab, key, g( LOOKUP(tab, key), f(INPUT) ) )
+```
+
+Every port of that expression is a registered kind, the graph is acyclic — the feedback runs through the state-update
+convention, not through an edge — and no `TARGET` is read. The emulation overhead is a **constant**: `desc_store_header +
+desc_store_entry` against one declared cell, and an execution ratio that is exactly affine in `1/T`.
+
+**Executed decision.** 3 obligations × 6 stream lengths × 6 rows × 6 price columns = 648 exact charged replays, 9 828
+frontier cells.
+
+| quantity | executed |
+|---|---|
+| iterated map vs register parent, bit-identical answers | **108 of 108 cells** |
+| declared description, iterated map | exactly 8 bits at every `T`, every column |
+| declared description, register parent | exactly 12 bits at every `T`, every column |
+| description overhead | **exactly 4 bits, constant in `T`** |
+| execution overhead ratio | exactly `c + k/T` per column (e.g. `6 + 0.5/T`, `1.0618 + 0.006/T`) |
+| replay parent description | exactly `2 + 10·T` bits — the only row whose state grows with the horizon |
+| frontier cells taken by the register parent | **0 of 9 828** |
+| C2 column invariance | 108 groups, 0 violations |
+
+**Status:** `PROVED_AT_SCOPE` at 8-bit fixed point. **Consequence for `GMI-DA1`:** its enumeration half is
+`FALSIFIED_AND_REPLACED`. The alphabet admits **eight** carrier classes, not nine. D6 is not a class of its own; it is the
+**read-modify-write phase of D2**, and it appeared in the taxonomy because the taxonomy was read off the literature rather
+than off the type system. Gap `DG-1` is therefore closed — not by adding the primitive, but by showing the primitive adds
+no class.
+
+**A second, sharper fact the same run produced.** The *coefficient* carrier genuinely cannot express an input-driven
+transition: `GRAD` is the only update kind producing a `VEC` and it requires a target. So in this alphabet "recurrent" is
+a property of the **memory** carrier, not of the continuous one — which is the opposite of how the neural literature
+assigns it.
+
+### 11a. Two defects this run found in the programme's own instrument
+
+Both were found by **failed clauses**, and neither touches the headline, which compares only the two rows above.
+
+* **Charging defect.** The exemplar row's serve path executed a native lookup with **no charged operation**, giving it an
+  execution cost of exactly `0.0000` per event while every other row paid 3 to 65. An unmetered serve path silently wins
+  every frontier cell at large reuse: at `H = 4 096` it costs 802 against the iterated map's 12 296. That is the whole of
+  its 175-cell occupancy. → **protocol rule 21**: every row's serve path must be charged, and a receipt must assert that
+  no admissible row has zero execution cost per query.
+* **Ecology defect.** The running-maximum obligation **degenerates**: a maximum saturates, so the correct answer becomes a
+  constant and the obligation stops being history-dependent. A memoryless row passes it (0.9062 at `T = 64`). → **protocol
+  rule 22**: an obligation is history-dependent only where the best *constant* answer is below `θ`; every temporal ecology
+  must carry a constant-answer control row, and clauses may be evaluated only on cells where that control fails.
+
+### 11b. Scoreboard of the four axes
+
+| axis | status | result |
+|---|---|---|
+| `A` alphabet | **EXECUTED** (`RV-377-072`) | no new kingdom; D6 reduces to D2 at a constant 4-bit overhead |
+| `d` depth | running (`RV-377-065`) | — |
+| `p` precision | running (`RV-377-066`) | — |
+| `F` ecology family | running (`RV-377-070`) | — |
