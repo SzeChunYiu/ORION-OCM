@@ -124,6 +124,16 @@ def main(seed=0, evaluations=20000, tag="V33_B1_IR_RECOVERY", eco_name="E_smooth
     receipt = {"schema": "StageB1NeutralRecoveryV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422], "revival_record": "RV-377-058", "run_tag": tag, "seed": seed, "ecology": eco_name,
                "search_family": "MAP-Elites over the typed morphology IR with the R5 operator grammar (add/remove node, rewire, add edge, change parameter, change state family, change update law, insert verifier, materialize, add lineage, clone/specialize) plus 20% graft recombination; descriptors (carrier, size, output drift); no architecture macro exists in the alphabet",
                "theta": THETA, "n_evaluations": n, "failed_phenotypes": failed, "proposal_tries_charged": tries, "archive_cells_filled": len(archive), "archive_cells_total": len(CARRIERS) * 6 * 6,
+               # RV-377-103: the receipt used to record only the BEST genotype per carrier, which makes
+               # "the search did not find X" indistinguishable from "the search never visited X's cell". That is
+               # rule 38's unswept-index defect sitting inside the instrument. The full cell map is now recorded:
+               # every occupied archive cell with its capability and size, so an absent cell is visibly absent.
+               "archive_cell_map": {f"{CARRIERS[k[0]]}|size{k[1]}|drift{k[2]}":
+                                    {"capability": v[0], "n_nodes": v[3], "admissible": v[0] >= THETA}
+                                    for k, v in sorted(archive.items())},
+               "archive_cells_empty": sorted(
+                   f"{c}|size{si}|drift{d}" for c in CARRIERS for si in range(6) for d in range(6)
+                   if (CARRIERS.index(c), si, d) not in archive),
                "best_by_carrier": by_carrier, "mechanism_classes_recovered": recovered, "history": hist,
                "terminal": "NEUTRAL_GRAMMAR_REDISCOVERS_KNOWN_FORMS_AT_SCOPE" if len(recovered) >= 2 else "SEARCH_GRAMMAR_INADEQUATE__UNKNOWN_FORM_TESTS_BLOCKED",
                "claim_ceiling": "one ecology, one seed, exact charged replay; recovery means an admissible genotype whose served answer reads that carrier, not that the recovered machine equals any registered row"}
