@@ -245,3 +245,122 @@ That is the outcome this sweep is designed to expose rather than avoid.
 Q2 is the prediction that can save something: if some families resist, those are
 the cells where the obligation genuinely demands development, and they are the only
 K4 cells whose verdicts mean anything.
+
+---
+
+# RV-377-107 — ADJUDICATION (appended; nothing frozen above was edited)
+
+Sweep executed: 22 families × 3 grammars × 4 cells = **264 cells**, budget 20 000,
+development seed `0x4B345035`, 4-way parallel, all 264 completed with status `OK`,
+zero errors.
+
+## The headline is not any of my four predictions
+
+```
+verdicts
+  THEORY_RED                   159   (60.2%)
+  THEORY_RED_NULL_DOMINATES     69   (26.1%)
+  INCONCLUSIVE_GRAMMAR          36   (13.6%)
+
+GREEN cells: 0 of 264
+target_vector_match: False on 228, None on 36  -- True on ZERO
+```
+
+> **Not one cell in the entire K4 grid recovered its frozen target vector.**
+
+The three failure modes, each with its single verbatim reason string:
+
+| n | verdict | reason |
+|---|---|---|
+| 159 | `THEORY_RED` | "concrete admissible non-target frontier is cheaper than frozen target witness" |
+| 69 | `THEORY_RED_NULL_DOMINATES` | "an inert hard-coded null is admissible and strictly cheaper than the frozen target witness; registered obligation does not require development" |
+| 36 | `INCONCLUSIVE_GRAMMAR` | "frozen target vector lacks an admissible measured-resource witness" |
+
+The 159 matter most. K4's core claim is that the frozen family's property vector is
+what a cost-minimising search *converges on* under the obligation. On 159 cells the
+search found an **admissible candidate that is cheaper and is not the target**. That
+is a found object: more budget cannot un-find it.
+
+## Predictions, scored
+
+| id | prediction | outcome |
+|----|-----------|---------|
+| Q1 | ≥ 60% of cells `THEORY_RED_NULL_DOMINATES` | **FALSIFIED** — 26.1% (69/264) |
+| Q2 | not 100% — at least one family resists | **CONFIRMED** |
+| Q3 | `NULL_FIXED_NUMERIC` or `NULL_FIXED_TABLE` dominates in a majority of RED cells | **CONFIRMED, marginally** — 36/69 = 52.2% on the disjunctive reading I wrote; on a single-null reading the top is `NULL_FIXED_NUMERIC` at 34.8%, which would **fail**. Recorded both ways; the margin is one cell wide and I do not claim this as a real confirmation. |
+| Q4 | protected beacon run reproduces these verdicts | **PENDING** |
+
+**Q1 was wrong, and wrong in the direction that matters.** I predicted null dominance
+would be the dominant failure. It is not — it is the *minority* failure at 26.1%. The
+dominant failure is worse than null dominance: on 60.2% of cells a **developed,
+non-target** candidate beats the target. Null dominance says the obligation is too
+weak to require development; the 159 say that even when development is required, the
+frozen answer is not the one development finds. My prediction underestimated how badly
+K4 does.
+
+The full null breakdown among the 69, which I did not predict:
+
+```
+NULL_FIXED_NUMERIC            24  (34.8%)
+NULL_FIXED_VERIFIED_PROGRAM   24  (34.8%)
+NULL_FIXED_TABLE              12  (17.4%)
+NULL_FIXED_WORLD_MODEL         9  (13.0%)
+```
+
+`NULL_FIXED_VERIFIED_PROGRAM` tying for first was not anticipated by anyone: a
+hard-coded program that passes its own verifier beats the developed witness as often
+as a fixed number does.
+
+## The grammar axis is verdict-inert
+
+| | |
+|---|---|
+| family × cell combos where all three grammars agree on the verdict | **88 / 88** |
+| combos where any grammar disagrees | **0** |
+| combos where the *target cost* is identical across grammars | 12 / 88 |
+| combos where the *null cost* is identical across grammars | 64 / 88 |
+
+The three grammars — typed tensor dataflow, register machine, FSM message passing —
+produce **different numbers and identical verdicts, every time**. They do real work
+arithmetically and none adjudicatively.
+
+Consequence: the 3× grammar replication supplies no independent evidence. **The
+effective sample is 88 family × cell combos, not 264 cells**, and every count above
+should be read at one third its nominal weight for purposes of independence. The
+freeze's `grammar_independence_note` claims more than this data supports and is
+recorded as overstated. This is registered as a new gap:
+
+> **DG-11 — the grammar axis has never been shown to change an adjudication.** Until
+> a cell is exhibited whose verdict differs between two grammars, grammar is a
+> presentation variable, not an independent probe, and any claim resting on
+> cross-grammar agreement is circular.
+
+## Scope and budget — what this does and does not establish
+
+This is a **development-scope result and is not protected evidence**, by the lane's
+own frozen rule. Budget was 20 000 against the frozen `green_rule`'s requirement of
+≥ 10⁶ scored candidates — **50× under-resourced**. Honest accounting of what survives
+that gap:
+
+| finding | budget-robust? |
+|---|---|
+| 0 of 264 target vectors recovered | **No.** More search could recover some. |
+| 159 cells have a cheaper admissible non-target | **Partly.** The cheaper non-target is found and cannot be un-found, so the target is not *uniquely* cost-minimal at this scope. But more budget could also find a cheaper target witness and flip the comparison. |
+| 69 cells lose to an inert null | **Partly.** The null's cost is hard-coded and budget-independent — it is a fixed bar. The target witness's cost is search-dependent, so more budget could clear it. |
+| 36 cells have no admissible witness at all | **No.** Most budget-sensitive of the three. |
+| grammar is verdict-inert on 88/88 | **No**, but it is the cleanest signal here, and divergence at higher budget would itself be a reportable surprise. |
+
+None of these is claimed as a protected result. Q4 stands frozen: the protected beacon
+run is predicted to reproduce these verdicts on these cells, and if it does not, that
+falsification is recorded against me.
+
+## What this costs GMI
+
+At development scope the K4 engine — the lane's strongest instrument for showing that
+GMI's property axes are what cost-minimisation discovers — recovers **none** of its 22
+frozen families under **any** of its 3 grammars at **any** of its 4 cells. The
+predominant reason is not that the obligation is too weak (that is only 26.1%) but
+that the frozen answer is not what the search converges on.
+
+`K4_PROPERTY_PREDICTION_GREEN_AT_REGISTERED_SCOPE` is **FALSE at development scope**,
+with the protected verdict pending and predicted by Q4 to be the same.
