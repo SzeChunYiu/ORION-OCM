@@ -154,3 +154,57 @@ def measure2(machine, L, r, p, n_queries, seed):
     rng = random.Random(seed ^ 0x5EED)
     hit = sum(1 for q in qs if MACHINES2[machine](w["development"], q, rng) == w["W"][q[0]])
     return hit / len(qs)
+
+
+# ============= RV-377-125: substrate neutrality -- NN and non-NN under one law =============
+"""The capability laws bound F(P,D,Q,A,R) without ever naming a mechanism.  If that is real
+rather than rhetorical, a GRADIENT-TRAINED NEURAL machine and a LOOKUP TABLE must sit on the
+SAME ceiling given the same channels -- and neither may exceed it.
+
+That is a derivation covering neural and non-neural intelligence in one statement: at equal
+channel access they have equal capability, so whatever distinguishes them is COST, not
+capability.
+"""
+
+def m_perceptron(dev, q, rng, epochs=60, lr=0.5):
+    """A real gradient learner: one-hot index -> sigmoid, trained by SGD on the revealed pairs.
+
+    No weight sharing across indices, which is the honest encoding for a world whose bits are
+    independent: there is no structure to share.  It can memorize what it saw and has nothing
+    to generalize from elsewhere.
+    """
+    if not dev: return rng.randrange(2)
+    idx = {it["index"]: it["bit"] for it in dev}
+    w = {}
+    b = 0.0
+    for _ in range(epochs):
+        for i, y in idx.items():
+            z = w.get(i, 0.0) + b
+            pred = 1.0 / (1.0 + pow(2.718281828459045, -z))
+            g = pred - y
+            w[i] = w.get(i, 0.0) - lr * g
+            b -= lr * g * 0.01
+    z = w.get(q, 0.0) + b
+    p = 1.0 / (1.0 + pow(2.718281828459045, -z))
+    if abs(p - 0.5) < 1e-9: return rng.randrange(2)
+    return 1 if p >= 0.5 else 0
+
+
+def m_program(dev, q, rng):
+    """A non-neural symbolic machine: explicit conditional lookup, no numeric parameters."""
+    for it in dev:
+        if it["index"] == q:
+            return it["bit"]
+    return rng.randrange(2)
+
+
+SUBSTRATE = {"neural_perceptron": m_perceptron, "symbolic_program": m_program,
+             "exemplar_table": m_table}
+
+
+def measure_substrate(machine, L, r, n_queries, seed):
+    w = make_world(L, r, seed)
+    qs = queries(L, n_queries, seed)
+    rng = random.Random(seed ^ 0x5EED)
+    hit = sum(1 for q in qs if SUBSTRATE[machine](w["development"], q, rng) == w["W"][q])
+    return hit / len(qs)
