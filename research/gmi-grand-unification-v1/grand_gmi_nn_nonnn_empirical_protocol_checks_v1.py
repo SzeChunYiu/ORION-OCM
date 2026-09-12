@@ -46,20 +46,26 @@ def adjudicate_scalar(candidates, prerequisites_complete=True):
     if not feasible:
         return "INFEASIBLE_AT_REGISTERED_SCOPE"
 
+    # A family-comparison packet containing only one feasible/represented family cannot
+    # prove that family necessary against an unrepresented competitor. A separate
+    # candidate-completeness/exclusion theorem would be needed to override this guard.
+    registered_families = {c["family"] for c in candidates}
+    if len(registered_families) < 2:
+        return "UNDECIDED_FROM_CURRENT_EVIDENCE"
+
     winners = []
-    for c in feasible:
-        if all(c["hi"] < d["lo"] for d in feasible if d["candidate_id"] != c["candidate_id"]):
-            winners.append(c)
+    for candidate in feasible:
+        if all(
+            candidate["hi"] < other["lo"]
+            for other in feasible
+            if other["candidate_id"] != candidate["candidate_id"]
+        ):
+            winners.append(candidate)
 
     if len(winners) == 1:
         fam = winners[0]["family"]
         return DERIVED.get(fam, "FAMILY_COEXISTENCE_AT_REGISTERED_SCOPE")
 
-    families = {c["family"] for c in feasible}
-    if len(feasible) == 1 and len(families) == 1:
-        # One feasible candidate does not prove its family necessary against a missing
-        # registered competitor; the packet is candidate-scope underidentified.
-        return "UNDECIDED_FROM_CURRENT_EVIDENCE"
     return "UNDECIDED_FROM_CURRENT_EVIDENCE"
 
 
