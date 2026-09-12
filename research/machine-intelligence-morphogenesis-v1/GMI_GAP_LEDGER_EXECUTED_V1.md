@@ -50,6 +50,12 @@ admissibility model; for any niche containing an optimization carrier it is not 
 obtained by replay. The residual is therefore reclassified `OPEN_NONBLOCKING`, and its closure experiment becomes a bound
 on how far replay can be truncated, not a search for a formula.
 
+## 2c. G15 — no registered minimum discoverability, so no saturation claim
+
+| id | gap | why it blocks | concrete closure experiment |
+|---|---|---|---|
+| **G15** | **no registered `p_min`.** DSAT-1/2/3 (parallel lane) bound the chance of a missed domain only if every material domain has a minimum discoverability `p_min > 0`; DSAT-2 is explicit that consecutive no-new-domain runs justify no stopping rule without it | it blocks every statement of the form "the domain list is complete". The executed data gives no positive lower bound: read on **atrophied** carriers the coefficient carrier D1 is recovered in **0 of 6** B1 runs, and zero successes give no lower bound at all | recover D1 by neutral search over the typed IR, verified on the atrophied genotype, at least once; estimate `p_min` from that rate; then `n ≥ ln(⌊1/p_min⌋/δ)/p_min` independent **cross-encoding** units (9 executed so far; 29 needed at `p_min = 1/6`, 53 at 0.10, 120 at 0.05) |
+
 ## 3. Open, non-blocking
 
 | id | gap | concrete closure experiment |

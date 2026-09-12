@@ -446,3 +446,66 @@ everything except the one thing that mattered. It held the charged operation seq
 is the right control for comparing instruments, and it verified that the answer is representable at 8 bits, which is the
 right control for representability. Neither control reaches the choice of state encoding, and that is where the gate
 lived.
+
+---
+
+## 12. Structural closure and statistical closure are different theorems, and only one of them is proved
+
+The parallel lane's `GMI_DOMAIN_DISCOVERY_SATURATION_THEOREMS_V1.md` (DSAT-1/2/3, merged 2026-09-12) supplies exactly the
+half this lane does not have, and reading the two together corrects an over-reach in §11d.
+
+| | statement | status here |
+|---|---|---|
+| **structural closure** | `GMI-DA7`: a kingdom can be gained only by enlarging `A`, raising `d`, raising `p`, or refining `F`. There is no fifth place to look. | `PROVED_AT_SCOPE` |
+| **statistical closure** | DSAT-1/2/3: *having looked and found nothing* bounds the chance of a missed domain only if a minimum discoverability `p_min > 0` is registered. `K ≤ ⌊1/p_min⌋`, and missing any of `K` domains has probability at most `K·e^{−Λ}` for cumulative cross-encoding exposure `Λ`, so `Λ ≥ ln(K/δ)` suffices. | **NOT ESTABLISHED** |
+
+DSAT-2 is explicit that consecutive no-new-domain runs justify no stopping rule without `p_min`, because arbitrarily many
+domains can hide in arbitrarily small probability mass. **That applies directly to this lane's own negatives.** The
+four-axis result of §11d is a *structural* statement and stands; the stage-B4 result of `RV-377-077` — "0 of 7 recovered
+machines is novel by response" — is exactly the kind of evidence DSAT-2 forbids as a stopping claim.
+
+### 12a. What `p_min` would have to be, and what the executed data says
+
+`Λ ≥ ln(K/δ)` with `K ≤ ⌊1/p_min⌋` and `δ = 0.05` gives the number of independent search units required:
+
+| `p_min` | `K ≤` | `Λ ≥` | independent units `n ≥` |
+|---|---|---|---|
+| 0.50 | 2 | 3.689 | **8** |
+| 0.33 | 3 | 4.094 | **13** |
+| 0.25 | 4 | 4.382 | **18** |
+| 0.167 | 6 | 4.787 | **29** |
+| 0.10 | 10 | 5.298 | **53** |
+| 0.05 | 20 | 5.991 | **120** |
+
+This lane has executed **9** neutral search units (6 B1 runs over the typed IR, 2 quality-diversity runs and 1
+regularized-evolution control over the expression-tree grammar). That would support a saturation claim only at
+`p_min ≥ 0.5` — every material domain recovered by half of all independent search units.
+
+**The executed data refutes that assumption outright.** Read on *atrophied* carriers (protocol rule 23), the coefficient
+carrier D1 is recovered in **0 of 6** B1 runs: every genotype the raw descriptor labelled `DENSE` loses its `DENSE` node
+at no capability cost. Zero successes in six trials gives **no positive lower bound on `p_min` at all** — by the rule of
+three only `p_min ≤ 0.5` at 95 %, which is an upper bound, not the lower one DSAT-1 needs.
+
+So the honest position is sharper than "no new kingdom found":
+
+> **The structural closure is proved and the statistical closure is not even parameterized.** We know there are exactly
+> four places a kingdom can hide and have looked in all four. We do not know, and cannot yet bound, how hard we looked.
+
+### 12b. The closure experiment this forces
+
+`p_min` cannot be estimated from zero successes. The registered closure experiment is therefore not "run more search" but
+**observe the least-recoverable registered domain at least once**, then estimate `p_min` from that rate and read `n` off
+the table above:
+
+1. Recover the coefficient carrier D1 by neutral search over the typed IR, verified on the **atrophied** genotype, at
+   least once. Until then `p_min` is unbounded below and no saturation arithmetic applies.
+2. Diversify the encoding, not the seed. DSAT-3 is a statement about cumulative **cross-encoding** exposure `Σ_e n_e p_{i,e}`,
+   and a domain hard for one grammar may be easy for another — which this lane has already measured: the expression-tree
+   grammar plateaus at 0.7441 where the typed IR reaches admissibility in 6 000 evaluations. Repeated copies of one biased
+   search buy far less exposure than their count suggests.
+3. Register the materiality threshold explicitly, per the DSAT discipline: `p_min`, the independence definition for
+   search units, `n`, `δ`, the grammar scope and the parent-reduction scope, in every saturation claim.
+
+Gap **G15** is opened for this: *no registered `p_min`, so no saturation claim is available at any confidence.*
+`OPEN_BLOCKING` for any statement of the form "the domain list is complete", and `OPEN_NONBLOCKING` for everything this
+lane has actually claimed, which is structural.
