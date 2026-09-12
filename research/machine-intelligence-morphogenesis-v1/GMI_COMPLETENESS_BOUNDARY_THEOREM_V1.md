@@ -313,3 +313,56 @@ Four protocol rules were opened by the work behind this document: **44** (contro
 retrospectively), **45** (obligations must be shown non-degenerate before use), **46**
 (instruments must be validated against their own declared semantics), **47** (no class claim
 without a sound *and* complete quotient).
+
+---
+
+## Addendum V1.3 (2026-09-12) — protected K4/K5 V7 folded in; F7 reclassified; K5 revival
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/k4_v7/K4_V7_AGGREGATE.json` (job
+3605505, beacon 32138309, 264/264) and `microscopes/results/k5_bh_v7/K5_BH_AGGREGATE_V7.json` (job 3605249, beacon
+32138625, 256/256), both under execution freezes with unique no-reroll drand rounds (PR #455).
+
+**F1 now holds at PROTECTED tier.** `K4_RECOVERY_GREEN` = **0 of 264** at budget 10^6 on every task (max wall
+127.6 s), beacon 32138309: THEORY_RED 150, THEORY_RED_NULL_DOMINATES 76, INCONCLUSIVE_GRAMMAR 38. The §3 F1
+statement, previously same-author development-tier, is reproduced under public-beacon seeding.
+`K4_PROPERTY_PREDICTION_GREEN_AT_PROTECTED_TIER = FALSE`.
+
+**F7 / DG-11 closes as `GRAMMAR_AXIS_NOT_VERDICT_INERT`.** The §3 F7 clause ("88 of 88") was a development-tier
+reading. At protected tier the three grammars agree on **78 of 88** (family, cell) pairs; the five families whose
+verdict splits across grammars are **K4-A09** (THEORY_RED 5 / INCONCLUSIVE_GRAMMAR 7), **K4-A11** (10 / 2),
+**K4-A18** (NULL_DOMINATES 3 / INCONCLUSIVE_GRAMMAR 9), **K4-A19** (THEORY_RED 3 / NULL_DOMINATES 9) and
+**K4-A20** (NULL_DOMINATES 4 / INCONCLUSIVE_GRAMMAR 8). DG-11 asked for one cell whose verdict differs between
+two grammars; ten now exist. The effective K4 sample is therefore larger than 88 and smaller than 264, and the
+grammar axis is a real (if minor) source of evidence rather than pure replication. F7 as written is **withdrawn
+at protected tier**; F1 is unaffected because no split reaches GREEN.
+
+**K5 terminal at protected tier:** `K5_HELD_FAMILY_RESPONSE_LAWS_GREEN_ON_6_OF_8_LANES_AT_PROTECTED_TIER`.
+GREEN on all four grid values: B_ROUTING, B_SPECIALIZATION, B_RESIDUAL, B_COMPILE_SEARCH, D_GENERATIVE,
+F_CONTINUAL. Non-green: **C_FEATURE_LEARNING** THEORY_RED (nonlinear_signal 0.6: 0/8 agree, mean margin -1.07;
+1.0 INCONCLUSIVE) → revival **RV-377-170**; **E_CONTROL** INCONCLUSIVE (goal_reuse 1/2/8 carry
+predicted-inadmissible replicates; 26/26 admissible replicates agree) → revival **RV-377-171**. Both revivals
+attribute to the prediction stage (`GMI_K5_V7_REVIVAL_RV_377_170_FREEZE.md`): the feature-learning crossover was
+placed by residual magnitude without the reachability clause the theory carries (the developed trainable
+realization's training error at 0.6, 0.0910, equals the analytic linear-Bayes floor 0.0911); the control
+predictor omitted the admissibility term for its stochastic DIRECT route (per-goal return mean 0.859, sd 0.161).
+The corrected predictions on fresh grids ({0.40, 0.50, 0.75, 0.85} and {48, 64, 96, 128}) are GREEN on both lanes
+at development tier (billy-old, 80/80, all six probe predictions holding) **and at protected tier** (LUNARC job
+3605817, beacon round 32144246, 80/80, terminal `K5_BH_V8_PROTECTED_GREEN`, all fourteen numbered predictions
+holding; that document's §4.2). The V7 verdicts are not reopened. Ledger rows RV-377-170 and RV-377-171.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `K4_PROPERTY_PREDICTION_GREEN_AT_PROTECTED_TIER` | **FALSE**, 0/264, beacon 32138309 |
+| `GRAMMAR_AXIS_VERDICT_INERT` | **FALSE** at protected tier (78/88); DG-11 closed as `GRAMMAR_AXIS_NOT_VERDICT_INERT` |
+| `K5_HELD_FAMILY_RESPONSE_LAWS_GREEN_ON_6_OF_8_LANES_AT_PROTECTED_TIER` | **TRUE**; non-green C (RV-377-170), E (RV-377-171) |
+
+**Boundary clause (vii), appended to §7.** At protected tier the theorem's shape is unchanged: the predictive
+claim about *which* machine cost-minimising search builds fails on 264/264 (ii); the held-family response laws,
+which are claims about *what a realization can achieve at a given lifecycle price*, hold on six of eight synthetic
+lanes, and the two that failed did so because the prediction omitted a clause the theory itself states
+(reachability; admissibility). The grammar axis carries a small amount of independent evidence rather than none.
+Bookkeeping: `GMI_CLOSURE_GAP_LEDGER_V7.md` reclassifies the LEARNING-SCALE EMPIRICAL residual accordingly;
+`GMI_WORK_MANIFEST_V1.json` unit U-A001 is marked done against the K4 V7 receipt with a note that the V7
+submitter, not the stale V5 command, was executed.
