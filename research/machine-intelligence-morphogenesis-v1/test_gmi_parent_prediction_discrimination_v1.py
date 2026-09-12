@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 
 import json
+import sys
 import unittest
 from pathlib import Path
 
-from run_gmi_parent_prediction_discrimination_v1 import (
+
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+from run_gmi_parent_prediction_discrimination_v1 import (  # noqa: E402
     EXPECTED_FREEZE_SHA256,
     canonical_sha256,
     run_exact,
 )
 
 
-HERE = Path(__file__).resolve().parent
 FREEZE = HERE / "GMI_PARENT_PREDICTION_DISCRIMINATION_FREEZE_V1.json"
 
 
