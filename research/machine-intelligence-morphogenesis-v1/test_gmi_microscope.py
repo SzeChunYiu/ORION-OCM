@@ -227,3 +227,56 @@ def test_b0_equivalence_receipt_reproduces(tmp_path):
     ref = json.load(open(RES / "STAGE_B0_EQUIVALENCE_METERING_V1.json"))
     (RES / "STAGE_B0_EQUIVALENCE_METERING_TEST_TMP.json").unlink()
     assert o["terminal"] == "BIOSPHERE_B0_EQUIVALENCE_AND_METERING_GREEN" and o["receipt_sha256"] == ref["receipt_sha256"]
+
+
+def test_dn_sheaf_receipt_cell_reproduces():
+    """N3 (RV-377-050): the candidate cell of the committed receipt replays exactly, and the sheaf row's answers are
+    bit-identical to BOTH matched existing-domain parents' -- the bounded-reduction attack that decides criterion 3."""
+    from gmi_microscope import dn_sheaf
+    committed = json.loads((RES / "STAGE_DN_V26_N3_SHEAF.json").read_text())
+    col = "B0_LOCAL_ADAPTIVE_TRANSDUCERS"
+    spec = dn_sheaf.CELLS["n8_d3_late"]
+    eco = dn_sheaf.ecology(spec["n"], spec["d"], spec["rho_num"], spec["rho_den"], tail=spec.get("tail", False))
+    out = {r: dn_sheaf.run(r, dn_sheaf._basis(col), eco) for r in ("SHEAF", "TABLE_MAT", "PROG_SEARCH")}
+    for r, got in out.items():
+        cell = committed["cells"][f"n8_d3_late|{r}|{col}"]
+        for k in ("capability", "admissible", "R", "compile_ops", "exec_per_query", "desc_bits",
+                  "native_ops", "native_compile_ops", "answer_signature"):
+            assert got[k] == cell[k], (r, k, got[k], cell[k])
+    assert out["SHEAF"]["answer_signature"] == out["TABLE_MAT"]["answer_signature"] == out["PROG_SEARCH"]["answer_signature"]
+    assert committed["cells_spec"]["n8_d3_late"]["n"] == 8
+    # the table parent's construction is exactly d^n (n-1) + d^2 charged ops
+    assert out["TABLE_MAT"]["compile_ops"] == 3 ** 8 * 7 + 9
+
+
+def test_dn_partialorder_receipt_cell_reproduces():
+    """N10 (RV-377-051/052): the candidate cell of the committed receipt replays exactly under both precision
+    instruments; the poset row equals both relational parents under the wide instrument, is interleaving-invariant
+    while the sequence parent is not, and the registered 8-bit instrument gates it at chain length 12."""
+    from gmi_microscope import dn_partialorder as dnp
+    committed = json.loads((RES / "STAGE_DN_V27_N10_PARTIALORDER.json").read_text())
+    col = "B0_LOCAL_ADAPTIVE_TRANSDUCERS"
+    eco = dnp.ecology(dnp.CELLS["w4_L12"]["w"], dnp.CELLS["w4_L12"]["L"])
+    for prec in ("fx8", "wide"):
+        for r in ("POSET", "PAIRTABLE", "SEQ_MEM", "PROG_SEARCH", "POSET_NOJOIN"):
+            got = dnp.run(r, dnp._basis(col), eco, 0, prec, 0)
+            cell = committed["cells"][f"w4_L12|{r}|{col}|{prec}|il0"]
+            for k in ("capability", "admissible", "R", "learn_ops", "exec_per_query", "desc_bits",
+                      "native_ops", "native_compile_ops", "answer_signature"):
+                assert got[k] == cell[k], (prec, r, k, got[k], cell[k])
+    wide = {r: dnp.run(r, dnp._basis(col), eco, 0, "wide", 0) for r in dnp.ROWS}
+    il1 = {r: dnp.run(r, dnp._basis(col), eco, 0, "wide", 1) for r in dnp.ROWS}
+    # exact developmental equality with both relational parents; the sequence parent and the twin differ
+    assert wide["POSET"]["answer_signature"] == wide["PAIRTABLE"]["answer_signature"] == wide["PROG_SEARCH"]["answer_signature"]
+    assert wide["POSET"]["answer_signature"] not in (wide["SEQ_MEM"]["answer_signature"], wide["POSET_NOJOIN"]["answer_signature"])
+    # the domain discriminator: invariance under the observed interleaving
+    for r in ("POSET", "PAIRTABLE", "PROG_SEARCH"):
+        assert wide[r]["answer_signature"] == il1[r]["answer_signature"], r
+    assert wide["SEQ_MEM"]["answer_signature"] != il1["SEQ_MEM"]["answer_signature"]
+    # the precision gate: the registered 8-bit universe cannot hold a causal counter of range 12
+    assert dnp.run("POSET", dnp._basis(col), eco, 0, "fx8", 0)["capability"] < wide["POSET"]["capability"]
+    # the two laws proved out of sample by RV-377-052, checked on this cell
+    assert abs(wide["SEQ_MEM"]["capability"] - eco["seq_mem_capability_upper_bound"]) <= 1e-4
+    w, L = dnp.CELLS["w4_L12"]["w"], dnp.CELLS["w4_L12"]["L"]
+    twin = round((eco["n_concurrent_pairs"] + w * L * (L - 1)) / eco["n_queries"], 4)
+    assert abs(wide["POSET_NOJOIN"]["capability"] - twin) <= 1e-4
