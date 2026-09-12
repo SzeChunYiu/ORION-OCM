@@ -173,6 +173,27 @@ The Codex lane added a conditional derivation of neural machine intelligence (`G
 | F6 SCDI self-compiling developmental intelligence | authoritative development state recompiled into serving forms as prices change | price vector switches mid-lifecycle (B0 ↔ HW): the recompiling row beats every fixed-form row once the number of price switches exceeds compiler cost / per-switch saving (a crossover of the RV-033 H* family) | RV-045 |
 | F2 VRQM | F1 + A1/A3/A4 on the residual layer | composite of RV-042 and RV-032/037; only after RV-042 | after RV-043 |
 
+## 5e. Domain algebra: the theory derives the kingdoms rather than listing them
+
+`GMI_DOMAIN_ALGEBRA_EXECUTED_V1.md` states six theorems that generate the domain taxonomy from this normal form and decide
+the first candidates with executed receipts:
+
+| theorem | statement | status |
+|---|---|---|
+| GMI-DA1 domain generation | the domains are the bounded-reduction classes of the carrier/law pairs the primitive alphabet admits; enlarging the alphabet is the only way to add a kingdom | PROVED_AT_SCOPE (`STAGE_B0_EQUIVALENCE_METERING_V1`) |
+| GMI-DA2 lazy/eager duality | a composite carrier's lazy realization (bind on demand) and eager realization (materialize every composite) are exactly developmentally equivalent and separated only by H* = (Δdesc + materialization)/Δserve | PROVED_AT_SCOPE at the executed instance (`RV-377-044`: identical answers in 7/7 cells, five predicted crossovers hit to two decimals) |
+| GMI-DA3 depth relativization | H*(d) ~ R^d/d is unbounded in structure depth, so novelty criterion 3 is only meaningful with a declared depth bound | PROVED_AT_SCOPE (`RV-377-044` clause 7); forces theory correction, gap DG-3 |
+| GMI-DA4 capacity/compression gates | a compressed carrier earns its place only if its compression gate precedes its capacity gate; for Hebbian couplings the gates are separated by a factor of 31 | PROVED_AT_SCOPE (`RV-377-045`: capacity in (0.125N, 0.25N], compression at 3.9N) |
+| GMI-DA5 precision as a gate | admissibility depends on the arithmetic instrument; two instruments with identical charged op sequences differ in admissibility | PROVED_AT_SCOPE (`RV-377-045` clause 1); **closes gap G5** |
+| GMI-DA6 reliability index | a stochastic carrier's admissibility is a distribution over seeds and the frontier is a step function of the declared reliability q | PROVED_AT_SCOPE (`RV-377-040`, `RV-377-041b`); opens gap G14 (charge failed draws) |
+
+Consequences for this core: **L4 (compile amortization) is the domain-forming law** — DC1 is the lazy phase of D2 and DC3 its
+lossy eager phase, so two of the candidate kingdoms are phases of one domain under a law this lane had already executed on
+three other axes (RV-033 H*, RV-038 H*(depth), RV-044 H*(depth)). **L3 (admissibility before cost) gains two sub-gates**,
+capacity and precision. **Every frontier statement now carries a reliability index q.** The only candidate mechanism not yet
+ruled out as a phase of an existing domain is certification of impossibility (the parallel lane's N11), where the decisive
+measurement is the growth of a search parent's exhaustion cost against a certificate's cost over instance size.
+
 ## 6. E-series status across the three lanes
 
 | lane | level | status |

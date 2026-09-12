@@ -180,3 +180,9 @@ primitive alphabet, and that new domains can only enter through carriers not exp
 alphabet — which is what the unexplored region of §15 of the kingdoms document (developmental state distributed across
 representation domains, morphology as cognition) would require: an IR whose *genotype* is part of the served state (D8 with
 D9 composition), the object of the biosphere's B4 stage.
+
+---
+
+## 5. Executed status (updated after RV-377-044 and RV-377-045)
+
+The programme-level prediction of section 4 is **upheld for the two executed candidates and narrowed**: DC1 and DC3 both reduce exactly to the exemplar domain D2 (identical developmental responses against a materializing parent for DC1; a strictly dominated position for DC3), but DC1's reduction cost grows as `R^depth`, so criterion 3 must be stated with a declared structure-depth bound (gap DG-3). The six theorems that generalize these findings are in `GMI_DOMAIN_ALGEBRA_EXECUTED_V1.md`; the placement table there is the current status of every candidate.
