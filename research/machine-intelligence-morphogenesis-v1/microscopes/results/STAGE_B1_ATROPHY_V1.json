@@ -7,13 +7,17 @@
   422
  ],
  "n_elites": 7,
- "receipt_sha256": "9f8e8cb07065b21da88c12b3d1a68e7e803573a2339694d227bf136e5f76a931",
+ "receipt_sha256": "0f44b356bd0cfbb287aba0cf7814691115b769419864c13fca456357d2905b3c",
  "receipts_examined": [
+  "STAGE_B1_ATROPHY_V1.json",
   "STAGE_B1_V33_B1_IR_RECOVERY_S0.json",
   "STAGE_B1_V33_B1_IR_RECOVERY_S1.json"
  ],
  "revival_record": "RV-377-074",
  "rows": {
+  "STAGE_B1_ATROPHY_V1.json": {
+   "error": "KeyError: 'best_by_carrier'"
+  },
   "STAGE_B1_V33_B1_IR_RECOVERY_S0.json": {
    "KVSTORE": {
     "atrophied_genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 4}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
@@ -174,7 +178,7 @@
     "carrier_after": "PROGRAM",
     "carrier_before": "DENSE",
     "carrier_survives_atrophy": false,
-    "evaluations_charged": 44,
+    "evaluations_charged": 50,
     "fingerprint_after": "379e55d8302aeea5c6f05e0b33f9ec7ef8d790890fc2f3bc0a1d970d9f1cad09",
     "fingerprint_before": "6ed2313cfe3b1f74f412869ead426c6e552f787e878ee6fd8a91c96ac5980234",
     "intron_fraction": 0.55,
@@ -212,13 +216,13 @@
      "LOOKUP",
      "LOOKUP",
      "LOOKUP",
-     "PROGEXEC",
      "LOOKUP",
      "MATERIALIZE",
      "MATERIALIZE",
      "MATERIALIZE",
      "MATERIALIZE",
-     "NONLIN1"
+     "NONLIN1",
+     "PROGEXEC"
     ],
     "replay_matches_receipt": true
    },
@@ -230,7 +234,7 @@
     "carrier_after": "KVSTORE",
     "carrier_before": "KVSTORE",
     "carrier_survives_atrophy": true,
-    "evaluations_charged": 34,
+    "evaluations_charged": 29,
     "fingerprint_after": "c9df46565020e87047f99dddafad9949094d7305de66ae137687cc9e5a5636da",
     "fingerprint_before": "04df2ab0f4ca90de7ed9156ab8549f13b0bbc53e8363b13f412252e75c35d255",
     "intron_fraction": 0.6667,
@@ -266,16 +270,16 @@
     "removed_kinds": [
      "ABSTAIN",
      "ABSTAIN",
-     "CLOSEDFORM",
-     "DENSE",
-     "DENSE",
-     "LINEAR",
-     "MATERIALIZE",
      "MORPH_RULE",
      "NEAREST",
      "PROGEXEC",
      "VERIFY",
-     "VERSIONED"
+     "VERSIONED",
+     "CLOSEDFORM",
+     "DENSE",
+     "DENSE",
+     "LINEAR",
+     "MATERIALIZE"
     ],
     "replay_matches_receipt": true
    },
@@ -287,7 +291,7 @@
     "carrier_after": "PROGRAM",
     "carrier_before": "PROGRAM",
     "carrier_survives_atrophy": true,
-    "evaluations_charged": 24,
+    "evaluations_charged": 34,
     "fingerprint_after": "e2ab9e5db0a26c0f41285c859c95bb145c9165ac9d045606142aca1be25d8187",
     "fingerprint_before": "14ee164046fe0e166d97a19fa5236130d907733b19cec8c713466dbcc2440ee1",
     "intron_fraction": 0.5333,
@@ -322,13 +326,13 @@
     "prunable": true,
     "removed_kinds": [
      "MATERIALIZE",
+     "MATERIALIZE",
+     "NONLIN1",
      "PROGEXEC",
      "LOOKUP",
      "LOOKUP",
      "LOOKUP",
-     "MATERIALIZE",
-     "MATERIALIZE",
-     "NONLIN1"
+     "MATERIALIZE"
     ],
     "replay_matches_receipt": true
    },
@@ -340,7 +344,7 @@
     "carrier_after": "TABLE",
     "carrier_before": "TABLE",
     "carrier_survives_atrophy": true,
-    "evaluations_charged": 29,
+    "evaluations_charged": 37,
     "fingerprint_after": "5bc0b9596364c8f09b124536d89131ea4243174621ea7fd18222027e7a57bcda",
     "fingerprint_before": "7f0ce10cec38dcd46a04263b4cad3c7537c41dd20bd94e4a8ed8577d43a06820",
     "intron_fraction": 0.6667,
@@ -376,16 +380,16 @@
     "removed_kinds": [
      "ABSTAIN",
      "ABSTAIN",
+     "PROGEXEC",
+     "SCORESELECT",
+     "VERIFY",
+     "VERSIONED",
      "CLOSEDFORM",
      "DENSE",
      "DENSE",
      "LINEAR",
      "MATERIALIZE",
-     "MORPH_RULE",
-     "PROGEXEC",
-     "SCORESELECT",
-     "VERIFY",
-     "VERSIONED"
+     "MORPH_RULE"
     ],
     "replay_matches_receipt": true
    }
@@ -393,7 +397,7 @@
  },
  "run_tag": "V1",
  "schema": "StageB1AtrophyReclassificationV1",
- "seconds": 238.9,
+ "seconds": 298.9,
  "status": "EXECUTED_EXACT_AT_SCOPE",
  "summary": {
   "carrier_transitions": [
