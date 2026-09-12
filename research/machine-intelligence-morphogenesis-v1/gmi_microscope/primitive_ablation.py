@@ -50,12 +50,12 @@ def _fresh(drop=None):
     return morph, morphgen, b1
 
 
-def run_one(drop, eco, seed, evaluations):
+def run_one(drop, eco, seed, evaluations, tag_prefix="ABL"):
     t = time.perf_counter()
     try:
         _, _, b1 = _fresh(drop)
         r = b1.main(seed=seed, evaluations=evaluations, eco_name=eco,
-                    tag=f"ABL_{drop or 'FULL'}")
+                    tag=f"{tag_prefix}_{drop or 'FULL'}")
         best = max((v["capability"] for v in r["best_by_carrier"].values()), default=0.0)
         return {"drop": drop, "ecology": eco, "seed": seed, "status": "OK",
                 "best_capability": best,
@@ -72,7 +72,7 @@ def run_one(drop, eco, seed, evaluations):
         # RV-377-110 left no receipt for exactly this reason).  Repairing the generator is a
         # separate frozen revival, never a silent edit of this instrument.
         if e.args and e.args[0] == drop:
-            rec = {"drop": drop, "ecology": eco, "seed": seed, "status": "STRUCTURAL_TO_GENERATOR",
+            rec = {"drop": drop, "ecology": eco, "seed": seed, "status": "STRUCTURAL_TO_GENERATOR", "tag_prefix": tag_prefix,
                    "error": repr(e)[:300],
                    "reason": "morphgen constructs this kind by name; ablation is a generator crash, not a derivability test",
                    "wall": round(time.perf_counter() - t, 2)}
@@ -88,7 +88,7 @@ def run_one(drop, eco, seed, evaluations):
 def _write_structural_receipt(rec):
     res = os.path.join(os.path.dirname(HERE), "microscopes", "results")
     os.makedirs(res, exist_ok=True)
-    path = os.path.join(res, f"STAGE_B1_ABL_{rec['drop']}_{rec['ecology']}_S{rec['seed']}.json")
+    path = os.path.join(res, f"STAGE_B1_{rec.get('tag_prefix', 'ABL')}_{rec['drop']}_{rec['ecology']}_S{rec['seed']}.json")
     with open(path, "w") as f:
         json.dump({"schema": "GMIPrimitiveAblationStructuralReceiptV1", "revival_id": "RV-377-118",
                    "lane": "RV118-C", **rec}, f, indent=1, sort_keys=True)

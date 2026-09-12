@@ -45,15 +45,21 @@ def _sources_of_type(g, t, exclude=()):
 def seed_genotype(rng):
     """a minimal valid machine: INPUT + TARGET + a state node + one execution node + OUTPUT."""
     g = morph.make({"in0": ("INPUT", {"width": 4}), "tgt0": ("TARGET", {}), "out0": ("OUTPUT", {})}, [])
-    st = rng.choice(SEEDS)
+    # RV-377-202: every kind this constructor names is looked up in the LIVE alphabet, so that a
+    # leave-one-out ablation of that kind is a genuine test rather than a generator crash
+    # (RV-377-118 Lane C: 19 of 33 kinds were STRUCTURAL_TO_GENERATOR for exactly this reason).
+    # With the full alphabet every list below is unchanged, so the draw sequence is byte-identical.
+    st = rng.choice([k for k in SEEDS if k in morph.KINDS] or [k for k in morph.KINDS if morph.CLASS_OF[k] == "S"])
     g["nodes"][st.lower() + "0"] = (st, _params(rng, st))
     sid = st.lower() + "0"
-    if st == "DENSE":
+    if st == "DENSE" and "LINEAR" in morph.KINDS:
         g["nodes"]["linear0"] = ("LINEAR", {}); g["edges"] += [(sid, "linear0", 0), ("in0", "linear0", 1), ("linear0", "out0", 0)]
-    elif st == "PROGRAM":
+    elif st == "PROGRAM" and "PROGEXEC" in morph.KINDS:
         g["nodes"]["progexec0"] = ("PROGEXEC", {}); g["edges"] += [(sid, "progexec0", 0), ("in0", "progexec0", 1), ("progexec0", "out0", 0)]
     else:
-        kind = rng.choice(("LOOKUP", "NEAREST", "SCORESELECT")); nid = kind.lower() + "0"
+        choices = [k for k in ("LOOKUP", "NEAREST", "SCORESELECT") if k in morph.KINDS] or \
+                  [k for k in morph.KINDS if morph.CLASS_OF[k] == "R" and morph.KINDS[k][2] == morph.SCA]
+        kind = rng.choice(choices); nid = kind.lower() + "0"
         g["nodes"][nid] = (kind, _params(rng, kind)); g["edges"] += [(sid, nid, 0), ("in0", nid, 1), (nid, "out0", 0)]
     return g
 
@@ -130,10 +136,12 @@ def op_insert_verifier(rng, g):
     out = [i for i, (k, _) in g["nodes"].items() if k == "OUTPUT"][0]
     fe = [e for e in g["edges"] if e[1] == out]
     if not fe: return g
+    if "ABSTAIN" not in morph.KINDS: return g          # RV-377-202: kind-agnostic
     src = fe[0][0]; g["edges"].remove(fe[0])
     aid = _new_id(g, "ABSTAIN"); g["nodes"][aid] = ("ABSTAIN", {})
     flags = _sources_of_type(g, morph.FLAG)
     if not flags:
+        if "VERIFY" not in morph.KINDS: return g       # RV-377-202
         vid = _new_id(g, "VERIFY"); g["nodes"][vid] = ("VERIFY", {})
         for pt, t in enumerate(morph.KINDS["VERIFY"][1]):
             s = _sources_of_type(g, t, exclude=(vid,))
@@ -146,7 +154,7 @@ def op_insert_verifier(rng, g):
 def op_materialize(rng, g):
     """compile / materialize: insert MATERIALIZE + LOOKUP in front of a PROGRAM-fed path."""
     progs = [i for i, (k, _) in g["nodes"].items() if k == "PROGRAM"]
-    if not progs: return g
+    if not progs or "MATERIALIZE" not in morph.KINDS or "LOOKUP" not in morph.KINDS: return g   # RV-377-202
     mid = _new_id(g, "MATERIALIZE"); lid = _new_id(g, "LOOKUP")
     g["nodes"][mid] = ("MATERIALIZE", _params(rng, "MATERIALIZE")); g["nodes"][lid] = ("LOOKUP", {})
     inp = [i for i, (k, _) in g["nodes"].items() if k == "INPUT"][0]
@@ -158,7 +166,7 @@ def op_materialize(rng, g):
 
 def op_add_lineage(rng, g):
     tabs = [i for i, (k, _) in g["nodes"].items() if morph.KINDS[k][2] == morph.TAB and morph.CLASS_OF[k] == "S"]
-    if not tabs: return g
+    if not tabs or "VERSIONED" not in morph.KINDS: return g   # RV-377-202
     vid = _new_id(g, "VERSIONED"); g["nodes"][vid] = ("VERSIONED", _params(rng, "VERSIONED"))
     g["edges"].append((rng.choice(tabs), vid, 0))
     return g
@@ -197,8 +205,8 @@ def mutate(rng, g, tries=12, record=None):
     unrecorded run with the same seed produce the same genotype (R7 lineage replay depends on this)."""
     for _ in range(tries):
         f = OPS[rng.randrange(len(OPS))]
-        cand = f(rng, json.loads(json.dumps(g)))
         try:
+            cand = f(rng, json.loads(json.dumps(g)))   # RV-377-202: an operator that trips on an absent kind is a failed draw, not a crash
             morph.typecheck(cand); _check_servable(cand)
             if record is not None: record.append((f.__name__, True))
             return cand, tries
