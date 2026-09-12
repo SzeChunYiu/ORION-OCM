@@ -73,29 +73,48 @@ def evaluate(g, target, n_events=16, criterion="unseen", seed=0):
     return r["capability"], desc, r["R"]
 
 
-def search(target, seed=0, evaluations=20000, n_init=400, log_every=5000, log=None):
+def search(target, seed=0, evaluations=20000, n_init=400, log_every=5000, log=None, seed_population=None, trace=None):
+    """RV-377-180 (B6): two ADDITIVE keyword parameters, both default None, on which the default path is byte-identical
+    to the committed search (pinned by test_b6_development.test_default_search_path_is_byte_identical).
+      seed_population  a list of genotypes placed INSTEAD of the n_init random initial population (the developmental /
+                       twin warm start); every placement is charged exactly like a random one. The mutation loop is
+                       unchanged: parents are drawn uniformly from the archive as before.
+      trace            a list that receives one record per charged placement whose standard capability reaches THETA,
+                       in evaluation order, with the genotype and its lineage root (which seed it descends from), so a
+                       post-hoc verifier can find the FIRST placement admissible under the full control set without
+                       touching the search. Appending to it draws nothing from the rng."""
     rng = random.Random(seed); archive = {}; cache = {}; n = 0; failed = 0; tries = 0; t0 = time.time(); hist = []; last_log = 0
-    def place(g):
+    origin_by_id = {}; keep = []   # lineage roots keyed by object identity; `keep` pins archived genotypes so ids are never reused
+    def place(g, origin=None):
         nonlocal n, failed, tries
         key = morph.canonical(g)
         if key in cache: return
         res = evaluate(g, target); n += 1; cache[key] = True
         if res is None: failed += 1; return
         cap, desc, R = res
+        if trace is not None:
+            origin_by_id[id(g)] = origin; keep.append(g)
+            if cap >= THETA: trace.append({"n_eval": n, "capability": cap, "desc": list(desc), "n_nodes": len(g["nodes"]),
+                                           "genotype": morph.to_json(g), "origin": origin})
         cur = archive.get(desc)
         if cur is None or cap > cur[0]: archive[desc] = (cap, g, R, len(g["nodes"]))
-    for _ in range(n_init):
-        place(morphgen.random_genotype(rng, steps=rng.randrange(3, 12)))
-        if n >= evaluations: break
+    if seed_population is None:
+        for _ in range(n_init):
+            place(morphgen.random_genotype(rng, steps=rng.randrange(3, 12)))
+            if n >= evaluations: break
+    else:
+        for i, g in enumerate(seed_population):
+            place(morph.from_json(morph.to_json(g)), origin=["seed", i])
+            if n >= evaluations: break
     while n < evaluations:
         vals = list(archive.values())
-        if not vals: place(morphgen.random_genotype(rng, steps=6)); continue
+        if not vals: place(morphgen.random_genotype(rng, steps=6), origin=["fresh", n]); continue
         _, parent, _, _ = rng.choice(vals)
         if rng.random() < 0.2 and len(vals) > 1:
             _, other, _, _ = rng.choice(vals); child, tr = morphgen.crossover(rng, parent, other)
         else:
             child, tr = morphgen.mutate(rng, parent)
-        tries += tr; place(child)
+        tries += tr; place(child, origin=origin_by_id.get(id(parent)) if trace is not None else None)
         if n - last_log >= log_every:
             last_log = n
             best = max(archive.values(), key=lambda v: v[0])
