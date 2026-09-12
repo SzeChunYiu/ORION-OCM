@@ -1,0 +1,33 @@
+{
+  "artifact": "GMI_REAL_TRANSFER_PILOT_FREEZE_V2",
+  "candidates": [
+    "linear_logistic",
+    "rbf_kernel",
+    "exemplar_knn",
+    "random_forest_partition_ensemble"
+  ],
+  "claim_ceiling": "fresh-split finite-portfolio statistical calibration only; same-author; no independent K5 closure",
+  "confidence": {
+    "M": 4,
+    "delta_test": 0.025,
+    "delta_validation": 0.025,
+    "gate": "for every dataset, observed test-objective regret <= 2*epsilon_validation + 2*epsilon_test"
+  },
+  "datasets": [
+    "sklearn_iris",
+    "sklearn_wine",
+    "sklearn_breast_cancer",
+    "sklearn_digits"
+  ],
+  "evaluation_objective": "test_error + the development-side resource penalty frozen at selection time",
+  "no_repair": "do not modify V2 after protected execution",
+  "predecessor": "GMI_REAL_TRANSFER_PILOT_RECEIPT_V1.json",
+  "seed_rule": "integer(first 8 hex digits of this V2 freeze commit SHA) modulo 2^31",
+  "selector": "same V1 objective: validation_error + 0.002*log10(1+development_fit_time_ns) + 0.0001*development_state_kib",
+  "split": {
+    "stratified": true,
+    "test_fraction": 0.2,
+    "validation_fraction_of_remaining": 0.25
+  },
+  "status": "SUCCESSOR_FROZEN_AFTER_V1_RED__V1_SPLIT_RETIRED"
+}

@@ -1,0 +1,22 @@
+{
+  "artifact": "GMI_REAL_TRANSFER_PILOT_RECEIPT_V2",
+  "claim_ceiling": "uncertainty-aware finite-portfolio calibration; same-author; not sharp K5 held-family prediction",
+  "datasets": 4,
+  "datasets_passed": 4,
+  "environment": {
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "python": "3.13.5",
+    "sklearn": "1.8.0"
+  },
+  "freeze_commit": "57ff64844a3ff11daf8c2ac400bdf294fe1e8eef",
+  "gate_pass": true,
+  "interpretation": "All four fresh splits satisfy the preregistered simultaneous Hoeffding test-objective regret bound. The bound is loose on the smaller datasets and is not evidence that the selector is near-optimal. V1 RED remains preserved.",
+  "rows": [
+    {"dataset":"sklearn_iris","selected":"linear_logistic","retrospective_test_best":"exemplar_knn","observed_test_objective_regret":0.000551324783776808,"registered_bound":1.2402495443303627,"pass":true},
+    {"dataset":"sklearn_wine","selected":"rbf_kernel","retrospective_test_best":"linear_logistic","observed_test_objective_regret":0.02772164132198425,"registered_bound":1.132187753942072,"pass":true},
+    {"dataset":"sklearn_breast_cancer","selected":"linear_logistic","retrospective_test_best":"rbf_kernel","observed_test_objective_regret":0.015608609347670097,"registered_bound":0.6362345918332144,"pass":true},
+    {"dataset":"sklearn_digits","selected":"linear_logistic","retrospective_test_best":"linear_logistic","observed_test_objective_regret":0.0,"registered_bound":0.3580292041407228,"pass":true}
+  ],
+  "seed": 1476355204,
+  "terminal": "REAL_TRANSFER_FINITE_PORTFOLIO_BOUND_GREEN"
+}
