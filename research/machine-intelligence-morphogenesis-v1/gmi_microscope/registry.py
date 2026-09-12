@@ -482,10 +482,13 @@ F("TF-010", "Q/K/V factorization",
    cv(V_ELHAGE, "the QK/OV circuit decomposition, which is precisely the statement that only the products are identified"),
    cv(V_BASED, "linear-attention feature maps as an alternative realization of the same selection mechanism")],
   TH("TMT-3", "X-TMT3"),
-  "B2.3 fixed vs dynamic routing (dynamic-score-select arm) and MLX-07 dependency variability x attention/dynamic routing",
+  "B2.3 fixed vs dynamic routing (dynamic-score-select arm) -- EXECUTED as RV-377-056 (REVIVAL_LEDGER_TF.jsonl, receipt "
+  "microscopes/results/STAGE_B2_03_ROUTING_V1.json, 8/8 clauses); and MLX-07 dependency variability x attention/dynamic routing",
   "An obligation whose required edge sets E(x) vary strongly with x is served as cheaply by ONE fixed sparse graph as by score-based "
-  "selection, at matched primitives. X-TMT3 fixes the union lower bound that makes this a decidable comparison.",
-  "REGISTERED_FOR_EXPERIMENT",
+  "selection, at matched primitives. X-TMT3 fixes the union lower bound that makes this a decidable comparison. RV-377-056 measured "
+  "the comparison and NARROWED the claim: score-based selection is on the frontier only where discovery is cheaper than "
+  "materialization by (|union E(x)| - j)/k, and at unit price it never is.",
+  "EMPIRICALLY_SUPPORTED_AT_TIER_S",
   "Score-based selection is not free: charge the n^2 d_h score computation to ΔB_serve and the discovery/search cost of the routing "
   "criterion to ΔB_search, separately from the payload transport.",
   "5. Feature atlas - attention and routing / Q/K/V factorization (R,T)")
@@ -688,10 +691,13 @@ F("TF-017", "Multi-head attention (the composed mechanism)",
    cv(V_OLSSON, "induction heads as an instance of learned content-addressed routing"),
    cv(V_MERRILL_PAR, "the expressivity ceiling of log-precision transformers, which bounds what this mechanism can compute at fixed depth")],
   TH("TMT-3", "X-TMT3"),
-  "B2.3 fixed vs dynamic routing (all four arms) and MLX-07 dependency variability x attention/dynamic routing",
+  "B2.3 fixed vs dynamic routing (all four arms plus a query-blind negative twin) -- EXECUTED as RV-377-056, 14792 enumerated "
+  "inputs, 8/8 clauses; and MLX-07 dependency variability x attention/dynamic routing",
   "On an obligation family with a LARGE union-minus-mean edge gap, a fixed sparse graph matches dynamic attention at matched "
-  "primitives and matched budget. That is the measurable content of TMT-3 and is the target of RV-377-056.",
-  "REGISTERED_FOR_EXPERIMENT",
+  "primitives and matched budget. RV-377-056 found exactly this at unit discovery price in all nine cells, so the claim now stands "
+  "NARROWED at tier S: the opportunity equals TMT-3's bound exactly, and dynamic selection realizes it only below the measured "
+  "crossover c_s* = (|union E(x)| - j)/k. The remaining kill is a cell where dynamic loses BELOW that crossover.",
+  "EMPIRICALLY_SUPPORTED_AT_TIER_S",
   "The n^2 score matrix is the cost. Meter it at ΔB_serve and ΔB_mem even when a tiled implementation never materializes it "
   "(TF-073 changes the IO, not the arithmetic), and meter routing DISCOVERY separately at ΔB_search.",
   "5. Feature atlas - attention and routing / Multi-head attention (R,A1)")
@@ -750,10 +756,13 @@ F("TF-019", "Sparse / local / sliding-window attention",
    tv("Zaheer, Guruganesh, Dubey, Ainslie, Alberti, Ontanon, Pham, Ravula, Wang, Yang, Ahmed (2020). Big Bird: Transformers for Longer Sequences, NeurIPS 2020", "the window+global+random construction and its coverage argument"),
    cv(V_JELASSI, "the measured failure of compressed/limited-state models on copying, the clearest case of a required edge the prior omits")],
   TH("TMT-3", "X-TMT3"),
-  "B2.3 fixed vs dynamic routing (fixed-sparse arm) and B2.11 context vs recurrence vs retrieval",
+  "B2.3 fixed vs dynamic routing (fixed-sparse arm, budget swept over all 17 values) -- EXECUTED as RV-377-056; and B2.11 context "
+  "vs recurrence vs retrieval",
   "A fixed window matches dense attention on an obligation family constructed to have high dependency variability and a large "
-  "union-minus-mean gap, at matched cost. RV-377-056 measures exactly this gap.",
-  "REGISTERED_FOR_EXPERIMENT",
+  "union-minus-mean gap, at matched cost. RV-377-056 measured the fixed-sparse budget curve: exactness at budget B is exactly "
+  "C(min(B,q),j)/C(q,j), so an under-budgeted fixed pattern degrades on a computable binomial curve rather than gracefully, and the "
+  "minimal safe budget equals |union E(x)| in every cell. The kill is a cell where a below-union budget is nonetheless exact.",
+  "EMPIRICALLY_SUPPORTED_AT_TIER_S",
   "The compute saving is visible and the coverage loss is not. Meter the fraction of required edges OUTSIDE the pattern per input, "
   "not just the FLOP reduction; a long context served by a narrow window is not the same object as a long context served densely.",
   "5. Feature atlas - attention and routing / Sparse/sliding-window attention (R,P)")
@@ -1603,7 +1612,10 @@ F("TF-047", "KV cache",
    cv(V_SNOOPY, "the competitive-caching frame for when materialization pays"),
    cv(V_VASWANI, "the decoder whose prefix computation is being cached")],
   TH("TMT-6", "X-TMT6"),
-  "B2.12 KV cache (vary prefix reuse and continuation length; confirm exact equality and the predicted compute-memory crossover) - EXECUTED as RV-377-055",
+  "B2.12 KV cache (vary prefix reuse and continuation length; confirm exact equality and the predicted compute-memory crossover) -- "
+  "EXECUTED as RV-377-055 (REVIVAL_LEDGER_TF.jsonl, receipt microscopes/results/STAGE_B2_12_KV_CACHE_V1.json): outputs bit-identical "
+  "in all 9 cells, peak cache elements exactly 2 L d H_kv (P+C), and the memory-price crossover mu* independent of L and H_kv and "
+  "EXACTLY ZERO for a single one-token continuation -- the cache's entire value is prefix reuse and continuation length",
   "A cached and an uncached run of the same deterministic decoder produce different outputs, which would mean the implementation is "
   "not referentially transparent (a bug, not a mechanism). X-TMT6 and RV-377-055 check exactly this equality.",
   "PROVED_AT_SCOPE",
@@ -2890,6 +2902,26 @@ def render_md(reg):
     A("")
     A("Every row above is `MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE`. Section 17 of "
       "`GMI_TRANSFORMER_MICROFEATURE_THEOREMS_V1.md` lists what remains empirical, and none of it is touched by these rows.")
+    A("")
+    A("---")
+    A("")
+    A("## 3b. Executed B2 rows (tier S: synthetic exact, NOT neural)")
+    A("")
+    A("Two B2 rows of `GMI_BIOSPHERE_EXPERIMENT_PROTOCOL_V1.md` have been executed at the exact layer under the "
+      "freeze-before-run protocol. Their frozen predictions and clause-by-clause outcomes are in `REVIVAL_LEDGER_TF.jsonl`:")
+    A("")
+    A("| record | row | receipt | clauses | terminal |")
+    A("|---|---|---|---|---|")
+    A("| `RV-377-055` | B2.12 KV cache | `microscopes/results/STAGE_B2_12_KV_CACHE_V1.json` | 7 of 8 as written (clause 8 partial) | "
+      "cache exact everywhere; mu* independent of L and H_kv; mu* = 0 for a single one-token continuation |")
+    A("| `RV-377-056` | B2.3 fixed vs dynamic routing | `microscopes/results/STAGE_B2_03_ROUTING_V1.json` | 8 of 8 | "
+      "minimal safe fixed budget = the union in every cell; dynamic never on the frontier at unit discovery price; the dense "
+      "baseline overstates TMT-3's bound by exactly k - |union| |")
+    A("")
+    A("Both are SYNTHETIC EXACT MICROSCOPES at laptop scope with no randomness. **Neither is evidence about a trained neural "
+      "network.** Tier S means: a measured quantity in a declared synthetic ecology, frozen before the run. The entries these "
+      "rows moved are `TF-010`, `TF-017`, `TF-019` (to `EMPIRICALLY_SUPPORTED_AT_TIER_S`, with the claim NARROWED rather than "
+      "confirmed) and `TF-047` (which keeps `PROVED_AT_SCOPE` from X-TMT6 and now records the executed row).")
     A("")
     A("---")
     A("")

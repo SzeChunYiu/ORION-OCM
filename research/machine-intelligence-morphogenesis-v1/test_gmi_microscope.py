@@ -246,3 +246,26 @@ def test_transformer_microfeature_registry_valid():
         if f["evidence_status"] == "PROVED_AT_SCOPE":
             assert f["formal_theorem"]["receipt_check"] in green, f["id"]
     assert reg["counts_by_evidence_status"]["PROVED_AT_SCOPE"] >= 10
+
+
+def test_executed_b2_rows_reproduce_and_are_green(tmp_path):
+    """RV-377-056 (B2.3 routing) reproduces byte for byte; RV-377-055 (B2.12 KV cache) reproduces on its small cells.
+    Both are synthetic exact microscopes: they are NOT evidence about a trained neural network."""
+    from gmi_microscope import b2_kv, b2_route
+    rc = b2_route.main(str(tmp_path / "route.json"))
+    committed = json.loads((HERE / "microscopes" / "results" / "STAGE_B2_03_ROUTING_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 8
+    # the measured minimal safe fixed budget is exactly |union E(x)| in every cell (TMT-3 realized as a measurement)
+    for cell in rc["cells"].values():
+        assert cell["minimal_safe_fixed_budget_measured"] == cell["union_edges"]
+        assert cell["frontier_by_discovery_price"]["1"]["winner_excluding_oracle"] != "DYNAMIC"
+    kv = json.loads((HERE / "microscopes" / "results" / "STAGE_B2_12_KV_CACHE_V1.json").read_text())
+    assert kv["status"] == "GREEN" and kv["n_claims_hold"] == 7
+    for name, P, C, R, L, H in b2_kv.CELLS[:4]:          # the large cells are exercised by the committed receipt
+        cell = b2_kv.run_cell(P, C, R, L, H)
+        for k in ("outputs_identical_recompute_vs_cache", "mults_recompute", "mults_cache", "cache_elems_peak", "mu_star_measured"):
+            assert cell[k] == kv["cells"][name][k], (name, k)
+    # the cache is worth exactly nothing without reuse or continuation length
+    assert kv["cells"]["P4_C1_R1"]["mu_star_measured"] == "0"
+    assert kv["cells"]["P16_C8_R4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L2H4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L8H1"]["mu_star_measured"]
