@@ -194,6 +194,39 @@ capacity and precision. **Every frontier statement now carries a reliability ind
 ruled out as a phase of an existing domain is certification of impossibility (the parallel lane's N11), where the decisive
 measurement is the growth of a search parent's exhaustion cost against a certificate's cost over instance size.
 
+## 5f. L8v2 — the domain selection law (the theory's first domain-level PREDICTIVE law)
+
+Induced from 11 592 executed frontier cells across 34 receipts and then tested prospectively on ecologies never run.
+
+**Statement.** Given an ecology's parameter, a price-vector class and the admissible set:
+
+1. **r = 0** (no revision): the deliberative program/search domain **D4/D5** occupies every reuse horizon H ≥ 2. The
+   H = 1 description corner is **abstained**: the search row's description is ecology-dependent (154–334 bits across the
+   executed ecologies) while every other coordinate is not.
+2. **r ≥ 1** under scan-store or native-store prices: the occupant is the admissible row minimising the **fixed**
+   lifecycle line. Because the memory row's per-event coordinates are *exactly* ecology-independent and the gradient
+   row's are constant to within 0.2 %, that line — and therefore the whole (H, r) phase boundary — is a property of the
+   **price vector and the admissible set, not of the ecology**. In practice: **D2** below the boundary, **D1** above it
+   (long reuse, few revisions).
+3. **r ≥ 1** under uniform or compressed-program prices: **D1** wherever admissible, else D2, else D4/D5.
+4. **D3** (probabilistic) occupies no cell at 8-bit precision and **D7** (stochastic population) none at reliability
+   q = 0.5.
+
+Admissibility itself is closed-form on the symmetric family: `cap_S5h(k) = (48 − |k|)/48` (exact on fourteen executed
+ecologies), `cap_S5(k) = 1 − |k|/12`, gradient row admissible iff `|k| ≤ 4`, search row always.
+
+**Executed status.** The first version predicted 1 552 of 1 680 cells of five never-executed ecologies a priori
+(0.9238; `RV-377-059`), with the closed-form capability exact on all five. Two clauses failed and both were located: a
+threshold fitted on too few points, and the reuse-amortization boundary visible in the induction data but omitted from
+the rule. The corrected law is frozen as `RV-377-060` over eight further unrun ecologies (2 640 cells) together with a
+new sign-symmetry claim.
+
+**Why this matters for the domain programme.** It is the first law in this core that predicts *which kingdom occupies a
+niche* before the niche is measured, which is what "the theory explains the domains" has to mean operationally. It also
+says something sharp about what a kingdom is: since the phase boundary is a property of prices and admissibility, an
+ecology parameter cannot create a new domain — it can only change which domains are admissible. A genuinely new kingdom
+must therefore change the *coordinates*, not the ecology (which is exactly the bounded-reduction criterion of GMI-DA1).
+
 ## 6. E-series status across the three lanes
 
 | lane | level | status |
