@@ -23,3 +23,20 @@ Scope note carried from the tranches themselves: every terminal above is at *fin
 / registered scope; none lifts the protected K4 negative (0/264 at 10^6), the undecidability of
 observational equivalence over the full IR, or the external empirical gates in
 `GMI_CLOSURE_GAP_LEDGER_V10.md` §6.
+
+## Addendum — second and third replication passes (main@fa5a754f, main@9e592bdd)
+
+Re-executed every `*checks*.py` under `gmi-grand-unification-v1/` and `gmi-prior-free-derivation/` on
+billy-old from a fresh checkout at each head. All reproduce their committed terminals with zero receipt
+drift **except one**:
+
+`grand_gmi_realization_compiler_checks_v1.py` (Grand GMI realization-compilation layer, receipt committed
+at 33d35d5e) fails on every run with `AssertionError` at `assert functions == 274`. The exhaustive family
+of Boolean functions on n = 1, 2, 3 inputs has 2² + 2⁴ + 2⁸ = **276** members, which is what the
+script counts on billy-old under four different `PYTHONHASHSEED` values (deterministic). The committed
+receipt is internally inconsistent: its `by_n` block records 4 + 16 + 256 functions while its aggregate
+says 274, so the receipt was not produced by the committed script as written. Every one of the 2,120
+point checks passes, so the theorem's exact claim holds and is in fact stronger than the receipt states.
+Disposition: instrument/receipt defect, not a theory defect; fixed additively in a separate PR (assert
+corrected to 276, receipt regenerated on billy-old), recorded here so that the tranche's
+`ALL_GREEN` is read as "green after correction of a mis-pinned constant".
