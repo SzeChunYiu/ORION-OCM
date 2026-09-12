@@ -418,6 +418,7 @@ def test_executed_b2_rows_reproduce_and_are_green(tmp_path):
 
 
 
+
 def test_e1_iql_receipt_cell_reproduces():
     """F4 (RV-377-063): committed cells replay exactly, the negative twin collapses, and the decisive negative-twin
     ecology ALIAS_NORESID ties target-ambiguity scoring against BOTH parent criteria to the charged op."""
@@ -562,3 +563,71 @@ def test_dk_precision_gated_kingdom_decision_replays():
     assert ref["noisy"]["smallest_admissible_total_bits_any_d3_row"] == 8
     assert committed["threshold_bits"] == 12
     assert committed["terminal"] == "PRECISION_GATED_KINGDOM_ESTABLISHED_AT_SCOPE__THRESHOLD_12_BITS"
+def test_dk_depth_gated_receipt_cells_replay_exactly():
+    """RV-377-065: two committed cells of STAGE_DK_V1_DEPTH_GATED replay op for op -- the depth-1 XOR cell, whose
+    charged sequence is dc_vsa's own (it reproduces RV-377-044's desc 864/2304, compile 2048 and exec 1095/1031), and a
+    depth-4 PERM cell, where the path code is injective. In both, the binding carrier and ALL THREE materializing
+    parents answer bit-identically: the bounded reduction that decides criterion 3."""
+    from gmi_microscope import dk_depth as dk
+    committed = json.loads((RES / "STAGE_DK_V1_DEPTH_GATED.json").read_text())
+    for cname in ("XOR_d1_D64_s7", "PERM_d4_D64_s7"):
+        spec = committed["cells_spec"][cname]
+        eco = dk.ecology(spec["D"], spec["depth"], spec["k"], spec["law"], seed=spec["rec_seed"])
+        assert eco["n_distinct_path_vectors"] == committed["ecology_facts"][cname]["n_distinct_path_vectors"]
+        sigs = {}
+        for row in dk.ROWS:
+            got = dk.run(row, bases.B0, eco)
+            cell = committed["cells"][f"{cname}|{row}"]
+            for k in ("capability", "correct", "admissible", "R", "compile_ops", "exec_ops_total",
+                      "exec_per_query", "desc_bits", "hv_ops", "hv_compile_ops", "answer_signature"):
+                assert got[k] == cell[k], (cname, row, k, got[k], cell[k])
+            sigs[row] = got["answer_signature"]
+        assert sigs["VSA"] == sigs["STORE_MAT"] == sigs["STORE_PATH"] == sigs["STORE_DEDUP"], cname
+        assert sigs["VSA_NOBIND"] != sigs["VSA"], cname
+    # the depth-1 XOR cell IS RV-377-044's D64_d1_k3 cell, op for op
+    vsa = committed["cells"]["XOR_d1_D64_s7|VSA"]; mat = committed["cells"]["XOR_d1_D64_s7|STORE_MAT"]
+    assert (vsa["desc_bits"], vsa["exec_per_query"]) == (864, 1095.0)
+    assert (mat["desc_bits"], mat["compile_ops"], mat["exec_per_query"]) == (2304, 2048, 1031.0)
+    # the XOR path code collapses with depth and the permutation-protected one does not
+    assert committed["clause_scores"]["1"]["distinct_path_vectors_by_law_and_depth"] == {
+        "XOR": [4, 7, 8, 8, 8, 8], "PERM": [4, 16, 64, 256, 1024, 4096]}
+
+
+def test_dk_depth_gated_frontier_crossovers_and_kingdom_verdict():
+    """RV-377-065: the committed frontier decisions replay from the committed cost coordinates alone -- the
+    parent-maximal crossovers are the exact rationals reported, every reuse grid spans at least twice the largest
+    crossover it reports (gap DG-2), and no cell is occupied by the binding carrier while no parent occupies any."""
+    from fractions import Fraction
+    from gmi_microscope import dk_depth as dk
+    committed = json.loads((RES / "STAGE_DK_V1_DEPTH_GATED.json").read_text())
+    # DG-2 holds in every decision, and the verdict is the negative one
+    assert all(d["dg2_grid_covers_twice_every_crossover"] for d in committed["decisions"].values())
+    assert len(committed["decisions"]) == 96 and committed["d_star"] is None and committed["kingdom_cells"] == []
+    assert committed["terminal"].startswith("NO_DEPTH_GATED_KINGDOM_AT_EXECUTED_DEPTHS")
+    for key, dec in committed["decisions"].items():
+        if dec["admissible_rows"]:
+            assert dec["parent_occupies_some_cell"], key           # 62 of 62
+        assert not dec["kingdom_at_this_cell"], key
+        assert max(dec["grid"]) >= 2 * max([Fraction(v) for v in dec["crossovers"].values()] or [0])
+    # the frontier of one committed cell recomputed from its committed cost coordinates only
+    cname = "PERM_d3_D64_s7"
+    adm = {r: committed["cells"][f"{cname}|{r}"] for r in dk.ROWS if committed["cells"][f"{cname}|{r}"]["admissible"]}
+    cross = dk.crossovers(adm, "reduced")
+    assert {k: str(v) for k, v in cross.items()} == committed["decisions"][f"{cname}|reduced"]["crossovers"]
+    grid = dk.grid_for(cross)
+    assert grid == committed["decisions"][f"{cname}|reduced"]["grid"] and dk.check_dg2(cross, grid)
+    front = dk.frontier_of(adm, "reduced", grid)
+    assert {str(H): front[H] for H in grid} == committed["decisions"][f"{cname}|reduced"]["frontier"]
+    # the depth law: unbounded under PERM, bounded by its depth-1 value under XOR
+    perm = committed["depth_law_of_the_parent_maximal_opponent"]["PERM|D64|s7|reduced"]
+    assert [perm["by_depth"][str(d)]["parent_maximal_crossover_H_star"] for d in range(1, 7)] == \
+           ["109/2", "91/4", "647/8", "1213/4", "18679/16", "91127/20"]
+    ratios = [perm["growth_ratio"][k] for k in ("2->3", "3->4", "4->5", "5->6")]
+    assert ratios == sorted(ratios) and max(ratios) < 4.0        # rising strictly towards R = 4, never reaching it
+    assert committed["clause_scores"]["7"]["xor_parent_maximal_crossover_never_exceeds_depth_1_value"] == \
+           {"64": True, "128": True}
+    # every frozen clause is scored verbatim against the committed ledger record, and the failures are preserved
+    clauses, _ = dk.load_clauses()
+    assert {str(n): clauses[n] for n in clauses} == committed["frozen_clauses_verbatim"]
+    assert committed["clauses_held"] == 7 and committed["clauses_failed"] == [6, 7, 8, 9, 12]
+    assert all(committed["clause_scores"][str(n)]["verdict"] in ("HOLDS", "FAILS") for n in range(1, 13))
