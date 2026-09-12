@@ -227,6 +227,10 @@ search "could have found". (`RV-377-115`.)
 | `CARRIER_IDENTIFIABLE_FROM_BEHAVIOUR_ON_NON_TRIVIAL_MACHINES` | **TRUE**, 12/12 |
 | `FINE_STRUCTURE_IDENTIFIABLE_FROM_BEHAVIOUR` | **FALSE** |
 | `CP5_REALIZATION_ADDRESSED` | **FALSE** — not started |
+| `K4_SELECTION_PRINCIPLE_CAN_BE_PREDICTIVE` | **FALSE** — cross-seed agreement 0.0 % at 3 budgets |
+| `TI_1_EXPERIMENTALLY_VERIFIED_ON_REAL_MACHINES` | **TRUE** at registered scope |
+| `GMI_PREDICTS_CAPABILITY_OF_AN_UNSEEN_FORM` | **TRUE** — TI-1, verified and tight |
+| `K4D_WORLDS_NON_DEGENERATE` | **FALSE** — 4 of 22 have M = 1 |
 
 ---
 
@@ -273,10 +277,24 @@ Same-author evaluator, meter and primitives remain the standing limitation on ev
 > observational quotient is far too coarse to recover a genotype and just fine enough to
 > recover which of five mechanism classes it belongs to.
 >
-> **(iv)** Therefore GMI is, at registered scope, an **existence theory and not a
-> predictive one**: it can say that such machines arise from primitives, and that the class
-> they belong to is measurable from outside; it cannot say which ones will arise, nor lift
-> what it learns from one to any other.
+> **(iv)** Therefore GMI is, at registered scope, an **existence theory** as regards *which*
+> architecture arises: it can say that such machines arise from primitives, and that the class
+> they belong to is measurable from outside; it cannot say which ones will arise, nor lift what
+> it learns from one to any other. `RV-377-121` sharpens this — the K4 selection principle is
+> not merely unpredictive but **not well-posed**, since cross-seed agreement is 0.0 % at
+> 20 000, 100 000 and 500 000 evaluations.
+>
+> **(v)** But GMI **is predictive about capability**, and verifiably so. For the channel class
+> *"machines whose only access to a post-freeze protected `W` is development `D` and query
+> `Q`"*, theorem TI-1 gives `accuracy ≤ ½ + r/(2L)`. `RV-377-123` verified this against real
+> machines: **0 violations** over 40 draws × 5 machines × 9 values of `r`, **tight** (attained
+> at every `r`), **linear to R² = 0.999815** with the predicted slope and intercept, and a
+> registered hostile re-test at 200 draws found no leak. This is a quantitative capability
+> prediction, derived in advance, about **machines that do not exist** — the class is defined
+> by its information channels, not by any architecture.
+>
+> The distinction is the theory's real shape: **GMI predicts what a machine can achieve given
+> its channels, and does not predict which machine a cost-minimising search will build.**
 
 The distance between (i) and (ii) is the theory. Closing it requires exactly the four things
 §6 names as not started — and the undecidability obstruction in (iii) means one of them,

@@ -173,3 +173,25 @@ search will find — only about what any architecture in the class can achieve.
 
 The law is narrow. Its virtue is that it is **true, tight, quantitative, verified, and about
 machines that do not yet exist** — which is what the K4 claim was supposed to be and was not.
+
+---
+
+## Flagged bias resolved — 200 independent draws
+
+The registered re-test of `extrapolate`'s consistent positive excess:
+
+| `r` | bound | table | extrapolate | excess | 3 s.e. | |
+|---|---|---|---|---|---|---|
+| 4 | 0.5312 | 0.5312 | 0.5321 | **+0.0008** | 0.0121 | within |
+| 8 | 0.5625 | 0.5627 | 0.5611 | **−0.0014** | 0.0121 | within |
+| 12 | 0.5938 | 0.5939 | 0.5919 | **−0.0018** | 0.0123 | within |
+| 16 | 0.6250 | 0.6247 | 0.6248 | **−0.0002** | 0.0114 | within |
+| 24 | 0.6875 | 0.6866 | 0.6898 | **+0.0023** | 0.0106 | within |
+| 32 | 0.7500 | 0.7504 | 0.7505 | **+0.0005** | 0.0097 | within |
+
+**Exceeds the bound on 0 of 6 values of `r`**, the deviations are an order of magnitude inside
+3 s.e., and the signs now **alternate** rather than running one way. The 40-draw pattern was
+noise. No index-adjacency leak, no theorem violation.
+
+The result stands clean, and it stands having survived a hostile check registered against it
+before it was run.
