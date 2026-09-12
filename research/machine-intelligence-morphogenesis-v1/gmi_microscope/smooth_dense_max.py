@@ -83,6 +83,45 @@ def sweep(coeffs, col="B0_LOCAL_ADAPTIVE_TRANSDUCERS"):
     return out
 
 
+
+def supplementary():
+    """Measurements taken AFTER the five frozen clauses were adjudicated, recorded separately and never used to
+    decide any of them. Two questions the frozen clauses did not ask:
+      (a) does the sweep also overturn RV-377-009's terminal, which was taken at 16 events rather than 48;
+      (b) does the win survive the stricter `unseen` generalization criterion that the later ecologies use.
+    """
+    target = smooth.make_target(smooth.COEFFS_V2)
+    b0 = bases.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"]
+    g16 = {}
+    for lr in LR_GRID:
+        rows = {"S4": _row_class(lr)}
+        for h in H_GRID:
+            g16[f"h{h}_lr{lr}"] = smooth.run("S4", b0, h, 0, target, 16, rows, CRITERION)["capability"]
+    best16 = max(g16, key=g16.get)
+    hb = int(best16.split("_")[0][1:]); lrb = float(best16.split("lr")[1])
+    rows = {"S4": _row_class(lrb)}
+    cols16 = {c: smooth.run("S4", bases.ALL[c], hb, 0, target, 16, rows, CRITERION)["capability"] for c in bases.ALL}
+    unseen48 = {}
+    for name in ("h3_lr0.25", "h4_lr0.125", "h6_lr0.125", "h16_lr0.0625", "h4_lr0.25"):
+        h = int(name.split("_")[0][1:]); lr = float(name.split("lr")[1])
+        unseen48[name] = smooth.run("S4", b0, h, 0, target, N_EVENTS, {"S4": _row_class(lr)}, "unseen")["capability"]
+    return {
+        "note": "taken after the frozen clauses were adjudicated; used for none of them",
+        "sweep_at_16_events": {
+            "grid": g16, "best_cell": best16, "best_capability": g16[best16],
+            "n_admissible": sum(1 for v in g16.values() if v >= THETA),
+            "registered_member": g16[f"h{REGISTERED[0]}_lr{REGISTERED[1]}"],
+            "capability_by_column": cols16, "column_identical": len(set(cols16.values())) == 1,
+            "unseen_criterion": smooth.run("S4", b0, hb, 0, target, 16, rows, "unseen")["capability"],
+            "overturns_RV_377_009": g16[best16] >= THETA},
+        "unseen_criterion_at_48_events": unseen48,
+        "admissible_under_unseen_at_48": sorted(k for k, v in unseen48.items() if v >= THETA),
+        "development_length_is_not_monotone":
+            "the member admissible at BOTH lengths, h16_lr0.0625, scores 0.9271 at 16 events and 0.8646 at 48: "
+            "more development makes it worse, which the oscillation around the quantization floor predicts and "
+            "which no monotone reading of development length allows"}
+
+
 def main(tag="V30_DENSE_PARENT_MAXIMAL", revival="RV-377-088"):
     t0 = time.time()
     eco_out, summary = {}, {}
@@ -151,6 +190,7 @@ def main(tag="V30_DENSE_PARENT_MAXIMAL", revival="RV-377-088"):
                     "C3_which_parameter_carries_it": c3,
                     "C4_controls_on_two_other_ecologies": c4,
                     "C5_ph_rev_2_testability": c5},
+        "supplementary_after_adjudication": supplementary(),
         "claim_ceiling": "exact charged replay at scope; one seed (the row is deterministic given its declared "
                          "initial constants), one column for the sweep with the winner verified on all six; the "
                          "sweep is over declared row parameters within the registered alphabet at fixed depth, "
