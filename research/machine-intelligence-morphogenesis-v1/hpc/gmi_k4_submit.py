@@ -3,7 +3,8 @@
 
 The renderer refuses guessed cluster sizing. Account and partition are explicit operator inputs but
 must appear in `LUNARC_ENV_PROBE_V1.json`. Wall time and memory come only from the measured pilot and
-the safety factors frozen by `gmi_k4_probe.py`. Default is render-only; `--submit` is an explicit action.
+the safety factors frozen by `gmi_k4_probe.py`. Both the family freeze and generator freeze must match
+the measured probe. Default is render-only; `--submit` is an explicit action.
 """
 from __future__ import annotations
 
@@ -20,6 +21,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROBE = os.path.join(ROOT, "LUNARC_ENV_PROBE_V1.json")
 TEMPLATE = os.path.join(ROOT, "hpc", "gmi_k4_array.sbatch")
 FREEZE = os.path.join(ROOT, "GMI_K4_LOFO_FREEZE_V1.json")
+GEN_FREEZE = os.path.join(ROOT, "GMI_K4_GENERATOR_FREEZE_V1.json")
 RENDERED = os.path.join(ROOT, "hpc", "gmi_k4_array.rendered.sbatch")
 RECEIPT = os.path.join(ROOT, "hpc", "GMI_K4_SUBMISSION_RECEIPT_V1.json")
 
@@ -51,8 +53,11 @@ def main():
         raise SystemExit(f"account {a.account!r} not present in measured association output")
 
     freeze_raw = open(FREEZE).read(); freeze_sha = hashlib.sha256(freeze_raw.encode()).hexdigest()
+    gen_raw = open(GEN_FREEZE).read(); gen_sha = hashlib.sha256(gen_raw.encode()).hexdigest()
     if probe.get("freeze_sha256") != freeze_sha:
-        raise SystemExit("probe freeze SHA does not match current freeze; reprobe after code/freeze change")
+        raise SystemExit("probe family-freeze SHA does not match current freeze; reprobe after code/freeze change")
+    if probe.get("generator_freeze_sha256") != gen_sha:
+        raise SystemExit("probe generator-freeze SHA does not match current freeze; reprobe after generator change")
 
     pilot = probe["pilot"]; sizing = probe["sizing_rule_frozen_here"]
     wall = max(float(sizing["minimum_wall_seconds"]), float(pilot["wall_seconds"]) * float(sizing["time_safety_factor"]))
@@ -77,9 +82,10 @@ def main():
     open(RENDERED, "w").write(src)
 
     rec = {
-        "schema": "GMIK4SubmissionReceiptV1",
+        "schema": "GMIK4SubmissionReceiptV2",
         "status": "RENDERED_NOT_SUBMITTED",
         "freeze_sha256": freeze_sha,
+        "generator_freeze_sha256": gen_sha,
         "probe_path": os.path.relpath(PROBE, ROOT),
         "probe_host": probe.get("host"),
         "pilot": pilot,
