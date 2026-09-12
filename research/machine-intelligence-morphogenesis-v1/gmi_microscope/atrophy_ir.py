@@ -139,3 +139,158 @@ def theta_of():
 if __name__ == "__main__":
     main(sys.argv[1] if len(sys.argv) > 1 else "V1", sys.argv[2] if len(sys.argv) > 2 else "E_smooth3",
          sys.argv[3:] or None)
+
+
+# ------------------------------------------------------------------------------- the reference catalogue for stage B4
+def zoo_signatures(eco_name="E_smooth3", theta=THETA):
+    """RV-377-077 — the ATROPHIED signature of every known parent, which is the reference catalogue a B4 unknown-form
+    claim must be compared against.
+
+    Protocol rule 23 says a carrier descriptor is computed on the atrophied genotype. That applies to the PARENTS as
+    well as to the discoveries: comparing an atrophied candidate against a RAW parent would let intron differences count
+    as novelty. Both sides of the comparison must be atrophied by the same charged instrument.
+
+    Returns, per zoo parent: its capability, its atrophied size, its atrophied carrier, its atrophied mechanism vector,
+    and the canonical fingerprint of the atrophied graph. Two machines with the same atrophied fingerprint are the same
+    machine; two with the same (carrier, mechanism vector) are in the same class at this resolution.
+    """
+    from . import zoo
+    coeffs = {"E_smooth3": smooth.COEFFS_V3, "E_sym5": (5 / 16,) * 4, "E_smooth1": smooth.COEFFS_V1}[eco_name]
+    target = smooth.make_target(coeffs)
+    out = {}
+    for name, mk in zoo.ZOO.items():
+        g = mk()
+        cap0 = _cap(g, target)
+        if cap0 is None:
+            out[name] = {"error": "phenotype did not evaluate"}
+            continue
+        if cap0 < theta:
+            out[name] = {"capability": cap0, "admissible": False, "n_nodes": len(g["nodes"]),
+                         "carrier_raw": b1.carrier_of(g), "mechanism_vector_raw": morph.mechanism_vector(g),
+                         "note": "inadmissible on this ecology, so it has no atrophied signature here"}
+            continue
+        small, info = prune(g, target, theta)
+        out[name] = {"capability": cap0, "admissible": True,
+                     "n_nodes_raw": len(g["nodes"]), "n_nodes_atrophied": info["n_nodes"],
+                     "intron_fraction": round(1 - info["n_nodes"] / len(g["nodes"]), 4),
+                     "carrier_raw": b1.carrier_of(g), "carrier_atrophied": b1.carrier_of(small),
+                     "carrier_survives": b1.carrier_of(small) == b1.carrier_of(g),
+                     "mechanism_vector_raw": morph.mechanism_vector(g),
+                     "mechanism_vector_atrophied": morph.mechanism_vector(small),
+                     "fingerprint_atrophied": morph.fingerprint(small),
+                     "capability_atrophied": info["capability"],
+                     "evaluations_charged": info["evaluations_charged"],
+                     "atrophied_genotype": morph.to_json(small)}
+    return out
+
+
+def catalogue(tag="V1", eco_name="E_smooth3"):
+    import time as _t
+    t0 = _t.time(); sig = zoo_signatures(eco_name)
+    adm = {k: v for k, v in sig.items() if v.get("admissible")}
+    fps = {}
+    for k, v in adm.items(): fps.setdefault(v["fingerprint_atrophied"], []).append(k)
+    classes = {}
+    for k, v in adm.items():
+        key = f"{v['carrier_atrophied']}|" + ",".join(f"{c}{n}" for c, n in sorted(v["mechanism_vector_atrophied"].items()) if n)
+        classes.setdefault(key, []).append(k)
+    receipt = {"schema": "StageB4ReferenceCatalogueV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
+               "revival_record": "RV-377-077", "run_tag": tag, "ecology": eco_name, "theta": THETA,
+               "purpose": "the atrophied signature of every known parent, which is what a stage-B4 unknown-form claim must be compared against; protocol rule 23 applies to the PARENTS as well as to the discoveries, or intron differences would count as novelty",
+               "parents": sig, "n_parents": len(sig), "n_admissible": len(adm),
+               "distinct_atrophied_fingerprints": {k: v for k, v in fps.items()},
+               "n_distinct_atrophied_machines": len(fps),
+               "classes_at_carrier_plus_mechanism_resolution": classes,
+               "n_distinct_classes": len(classes),
+               "collisions": {k: v for k, v in fps.items() if len(v) > 1},
+               "seconds": round(_t.time() - t0, 1),
+               "claim_ceiling": "one ecology; greedy atrophy bounds each parent's smallest admissible form from above, so two parents sharing an atrophied fingerprint are the same machine at this bound, and two that differ may still share a smaller common form"}
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_B4_CATALOGUE_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
+    for k, v in sorted(sig.items()):
+        print(f"  {k:22s} cap {v.get('capability')} adm {v.get('admissible')} nodes {v.get('n_nodes_raw', v.get('n_nodes'))}->{v.get('n_nodes_atrophied')} carrier {v.get('carrier_raw')}->{v.get('carrier_atrophied')}")
+    print("distinct atrophied machines:", receipt["n_distinct_atrophied_machines"], "| distinct classes:", receipt["n_distinct_classes"])
+    if receipt["collisions"]: print("COLLISIONS (parents that atrophy to the SAME machine):", receipt["collisions"])
+    return receipt
+
+
+# ---------------------------------------------------------------- stage B4 pre-test: is any recovered form UNKNOWN?
+def _response(g, target, n_events=16, seed=0):
+    """the exact final served answer vector — the developmental response the novelty criterion is decided on."""
+    from . import bases
+    from .vm import VMRow
+    rows = {"IR": (lambda gg: (lambda size: VMRow(gg, size, seed)))(g)}
+    r = smooth.run("IR", bases.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"], 1, seed=seed, target=target,
+                   n_events=n_events, rows=rows, criterion="unseen")
+    return tuple(sorted(r["D"][-1].items())), r["capability"]
+
+
+def b4_pretest(tag="V1", eco_name="E_smooth3", catalogue_tag="V1", atrophy_tag="V1"):
+    """RV-377-077 — does neutral search over the IR produce any form that is NOT a known parent?
+
+    Two resolutions are computed and they disagree, which is the result:
+
+      STRUCTURAL   the (carrier, mechanism-vector) key of the ATROPHIED genotype, compared against the atrophied
+                   parents' keys (the catalogue above).
+      RESPONSE     the exact final served answer vector, compared against the atrophied parents' vectors.
+
+    A novelty claim is only valid at the RESPONSE resolution: the domain criterion is stated on the developmental
+    response, and two machines with the same response are the same machine however differently they are wired.
+    """
+    import time as _t
+    t0 = _t.time()
+    coeffs = {"E_smooth3": smooth.COEFFS_V3, "E_sym5": (5 / 16,) * 4, "E_smooth1": smooth.COEFFS_V1}[eco_name]
+    target = smooth.make_target(coeffs)
+    cat = json.load(open(os.path.join(RES, f"STAGE_B4_CATALOGUE_{catalogue_tag}.json")))
+    at = json.load(open(os.path.join(RES, f"STAGE_B1_ATROPHY_{atrophy_tag}.json")))
+    known_classes = set(cat["classes_at_carrier_plus_mechanism_resolution"])
+    known_fps = set(cat["distinct_atrophied_fingerprints"])
+    parents = {}
+    for name, v in cat["parents"].items():
+        if v.get("admissible"):
+            resp, cap = _response(morph.from_json(v["atrophied_genotype"]), target)
+            parents[name] = {"response": resp, "capability": cap, "signature": sha256_of([str(resp)])}
+    pgroups = {}
+    for n, v in parents.items(): pgroups.setdefault(v["signature"], []).append(n)
+
+    def _key(carrier, mv): return f"{carrier}|" + ",".join(f"{c}{n}" for c, n in sorted(mv.items()) if n)
+
+    cands = {}
+    for f, d in at["rows"].items():
+        for c, v in d.items():
+            if not isinstance(v, dict) or "atrophied_genotype" not in v: continue
+            g = morph.from_json(v["atrophied_genotype"])
+            resp, cap = _response(g, target)
+            sig = sha256_of([str(resp)])
+            k = _key(v["carrier_after"], v["mechanism_vector_after"])
+            cands[f"{f}|{c}"] = {
+                "carrier_raw": v["carrier_before"], "carrier_atrophied": v["carrier_after"],
+                "n_nodes_atrophied": v["n_nodes_after"], "capability": cap,
+                "structural_key": k, "structural_key_is_known": k in known_classes,
+                "atrophied_fingerprint": v["fingerprint_after"], "fingerprint_is_known": v["fingerprint_after"] in known_fps,
+                "response_signature": sig, "exact_developmental_equality_with": sorted(pgroups.get(sig, [])),
+                "is_unknown_form_at_response_resolution": sig not in pgroups}
+    n_struct_novel = sum(1 for v in cands.values() if not v["structural_key_is_known"])
+    n_resp_novel = sum(1 for v in cands.values() if v["is_unknown_form_at_response_resolution"])
+    receipt = {"schema": "StageB4PretestV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
+               "revival_record": "RV-377-077", "run_tag": tag, "ecology": eco_name, "theta": THETA,
+               "question": "does neutral search over the typed IR produce any admissible form that is NOT a known parent, once BOTH sides are atrophied (protocol rule 23)?",
+               "parents_admissible": {n: {"capability": v["capability"], "response_signature": v["signature"]} for n, v in parents.items()},
+               "parent_response_groups": pgroups, "n_parents_admissible": len(parents),
+               "n_distinct_parent_responses": len(pgroups),
+               "candidates": cands, "n_candidates": len(cands),
+               "n_novel_at_structural_resolution": n_struct_novel,
+               "n_novel_at_response_resolution": n_resp_novel,
+               "terminal": ("NO_UNKNOWN_FORM__EVERY_RECOVERED_MACHINE_IS_EXACTLY_DEVELOPMENTALLY_EQUAL_TO_A_KNOWN_PARENT"
+                            if n_resp_novel == 0 else
+                            f"UNKNOWN_FORM_CANDIDATES_AT_RESPONSE_RESOLUTION__{n_resp_novel}_OF_{len(cands)}"),
+               "seconds": round(_t.time() - t0, 1),
+               "claim_ceiling": "one ecology, one criterion, the final served answer vector only; exact developmental equality here is equality of the FINAL response, not of the whole trace under every registered intervention, which is the stronger test the R2 equivalence harness applies"}
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_B4_PRETEST_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
+    for k, v in sorted(cands.items()):
+        print(f"  {k.split('|')[0][-7:-5]} {k.split('|')[1]:8s}->{v['carrier_atrophied']:8s} cap {v['capability']} "
+              f"struct_known={v['structural_key_is_known']} equal_to={v['exact_developmental_equality_with'] or 'NONE'}")
+    print(f"novel at STRUCTURAL resolution: {n_struct_novel}/{len(cands)} | novel at RESPONSE resolution: {n_resp_novel}/{len(cands)}")
+    print("terminal:", receipt["terminal"])
+    return receipt
