@@ -1,0 +1,16 @@
+{
+  "schema":"GMIK5BHExecutionFreezeV7",
+  "status":"FROZEN_BEFORE_K5_V7_BEACON_AND_PROTECTED_EXECUTION",
+  "design_contracts":["GMI_K5_BH_PHASE_FREEZE_V1.json","GMI_K5_BH_SCORING_FREEZE_V1.json","GMI_K5_BH_DESIGN_CORRIGENDUM_V2.json","GMI_K5_BH_CONTINUAL_CORRIGENDUM_V3.json","GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json"],
+  "experiment_core":{"path":"gmi_k5_bh_experiments.py","commit":"efbaddb9a9edd527051d9a2ef178f519deb7e3f0","status":"UNCHANGED"},
+  "beacon_verifier":{"path":"hpc/gmi_beacon_verify.py","commit":"11b011f686071ec6129ce76040490dff6bfc86ac"},
+  "execution":{"task":{"path":"hpc/gmi_k5_bh_task_v7.py","commit":"07756fe9fc9a319196c2cd6db33a9b55fdb65a46"},"aggregate":{"path":"hpc/gmi_k5_bh_aggregate_v7.py","commit":"e19ed11eb5f02683b6846a0fe412f61b60b5f98f"},"array":{"path":"hpc/gmi_k5_bh_array_v7.sbatch","commit":"8af06632aa70aa5bac000058ed37ad361e6ec47f"},"probe":{"path":"hpc/gmi_k5_bh_probe_v7.py","commit":"4c7494d870ba969a37e16561971673354beb78db"},"submit":{"path":"hpc/gmi_k5_bh_submit_v7.py","commit":"0e7a6863709e2ecd7dbca561f6e79820983a534e"}},
+  "final_task_plan":{"B_ROUTING":{"parameter":"dependence_density","values":[0.10,0.30,0.60,0.90]},"B_SPECIALIZATION":{"parameter":"heterogeneity_tau","values":[0.0,0.08,0.25,0.70]},"B_RESIDUAL":{"parameter":"residual_fraction","values":[0.0,0.02,0.10,0.50]},"B_COMPILE_SEARCH":{"parameter":"query_reuse","values":[1,4,16,64]},"C_FEATURE_LEARNING":{"parameter":"nonlinear_signal","values":[0.0,0.25,0.60,1.0]},"D_GENERATIVE":{"parameter":"prefix_sharing","values":[0.0,0.25,0.60,0.90]},"E_CONTROL":{"parameter":"goal_reuse","values":[1,2,8,32]},"F_CONTINUAL":{"parameter":"task_overlap","values":[0.0,0.60,0.90,0.98]}},
+  "replicates_per_value":8,
+  "expected_tasks":256,
+  "scoring":{"parent":"GMI_K5_BH_SCORING_FREEZE_V1.json","admissibility":"GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json","numerical_thresholds_unchanged":true},
+  "public_beacon_rule":{"network":"League of Entropy drand quicknet mainnet","chain_hash":"52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971","genesis_time":1692803367,"period_seconds":3,"delay_seconds":900,"selection":"Use exactly the first quicknet round at or after this execution-freeze commit timestamp + 900 seconds.","no_reroll":true,"receipt":"GMI_K5_BH_PUBLIC_BEACON_V7.json","verification":"Task, aggregate and submitter independently retrieve this exact freeze blob from the beacon-declared commit and recompute the unique round."},
+  "task_seed_rule":"int(SHA256('GMI-K5-BH-V7'||task_hash||verified_unique_drand_randomness)[:16],16) mod 2^32",
+  "receipt_rule":"Every task writes a receipt; stale/mixed/missing/duplicate/wrong-seed/wrong-round/inadmissible-output failures invalidate the aggregate.",
+  "claim_ceiling":"Synthetic held-regime phase-law evidence only. Real transfer, large-model scaling, independent authorship and physical frontiers remain separate."
+}

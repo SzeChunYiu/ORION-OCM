@@ -1,9 +1,10 @@
 {
  "branch": "claude/gmi-d0-d1-research-dnbp8i",
- "collision_defence": "every receipt path carries {HOST}; claims prevent duplicated work, host-keying prevents corruption. Do not rely on the claim alone -- a receipt collision has already destroyed two committed receipts in this programme (recorded alongside RV-377-078).",
+ "collision_defence": "every receipt path carries {HOST}; claims prevent duplicated work, host-keying prevents corruption. A receipt collision has already destroyed two committed receipts in this programme (RV-377-078).",
+ "freeze_record": "RV-377-118",
  "freeze_rule": "gmi_work.py run REFUSES any unit with frozen=false. The revival record must be committed before the run, per the #373 protocol.",
  "machines_declared": [
-  "container (this remote session, 4 cores, currently saturated)",
+  "container (this remote session, 4 cores, saturated)",
   "laptop billy",
   "laptop old",
   "lunarc (SLURM, account lu2026-2-51, partition lu48)"
@@ -12,171 +13,27 @@
  "units": [
   {
    "claim": null,
-   "class": "medium",
+   "class": "hpc",
    "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "0",
-    "20000",
-    "E_smooth1",
-    "logs/b1_E_smooth1_s0_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
+    "bash",
+    "hpc/gmi_k4_submit.py",
+    "--render",
+    "--account",
+    "lu2026-2-51",
+    "--partition",
+    "lu48",
+    "--array",
+    "0-263"
    ],
    "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_smooth1_S0.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_smooth1, seed 0 (full-family exposure census)",
-   "unit_id": "U-R001"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "1",
-    "20000",
-    "E_smooth1",
-    "logs/b1_E_smooth1_s1_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_smooth1_S1.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_smooth1, seed 1 (full-family exposure census)",
-   "unit_id": "U-R002"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "2",
-    "20000",
-    "E_smooth1",
-    "logs/b1_E_smooth1_s2_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_smooth1_S2.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_smooth1, seed 2 (full-family exposure census)",
-   "unit_id": "U-R003"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "0",
-    "20000",
-    "E_smooth3",
-    "logs/b1_E_smooth3_s0_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_smooth3_S0.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_smooth3, seed 0 (full-family exposure census)",
-   "unit_id": "U-R004"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "1",
-    "20000",
-    "E_smooth3",
-    "logs/b1_E_smooth3_s1_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_smooth3_S1.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_smooth3, seed 1 (full-family exposure census)",
-   "unit_id": "U-R005"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "2",
-    "20000",
-    "E_smooth3",
-    "logs/b1_E_smooth3_s2_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_smooth3_S2.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_smooth3, seed 2 (full-family exposure census)",
-   "unit_id": "U-R006"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "0",
-    "20000",
-    "E_sym5",
-    "logs/b1_E_sym5_s0_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_sym5_S0.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_sym5, seed 0 (full-family exposure census)",
-   "unit_id": "U-R007"
+   "est_core_seconds": 25080000,
+   "frozen": true,
+   "lane": "RV118-A",
+   "note": "Beacon FIRST: python3 hpc/gmi_k4_beacon_v5.py. No protected task may execute before GMI_K4_PUBLIC_BEACON_V5.json exists. Discharges RV-377-107 Q4.",
+   "receipt": "microscopes/results/K4V5_{HOST}_*.json",
+   "revival_id": "RV-377-118",
+   "title": "protected K4 V5: 264-task array at budget 1e6, beacon-gated",
+   "unit_id": "U-A001"
   },
   {
    "claim": null,
@@ -190,17 +47,17 @@
     "20000",
     "E_sym5",
     "logs/b1_E_sym5_s1_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
+    "V41_G15_REPLICATE_{HOST}"
    ],
    "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_sym5_S1.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_sym5, seed 1 (full-family exposure census)",
-   "unit_id": "U-R008"
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S1.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 1 (G15 step ii replication)",
+   "unit_id": "U-B001"
   },
   {
    "claim": null,
@@ -214,261 +71,2294 @@
     "20000",
     "E_sym5",
     "logs/b1_E_sym5_s2_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
+    "V41_G15_REPLICATE_{HOST}"
    ],
    "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_sym5_S2.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_sym5, seed 2 (full-family exposure census)",
-   "unit_id": "U-R009"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "0",
-    "20000",
-    "E_parity",
-    "logs/b1_E_parity_s0_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_parity_S0.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_parity, seed 0 (full-family exposure census)",
-   "unit_id": "U-R010"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "1",
-    "20000",
-    "E_parity",
-    "logs/b1_E_parity_s1_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_parity_S1.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_parity, seed 1 (full-family exposure census)",
-   "unit_id": "U-R011"
-  },
-  {
-   "claim": null,
-   "class": "medium",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "2",
-    "20000",
-    "E_parity",
-    "logs/b1_E_parity_s2_{HOST}.log",
-    "V40_B1_CENSUS_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 1500,
-   "frozen": false,
-   "lane": "RV100x",
-   "note": "NEEDS FREEZE: extends RV-377-100's exposure question to every registered ecology. Freeze before running.",
-   "receipt": "microscopes/results/STAGE_B1_V40_B1_CENSUS_{HOST}_E_parity_S2.json",
-   "revival_id": null,
-   "title": "B1 recovery 20k, E_parity, seed 2 (full-family exposure census)",
-   "unit_id": "U-R012"
-  },
-  {
-   "claim": null,
-   "class": "tiny",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.witness_dg7"
-   ],
-   "done": null,
-   "est_core_seconds": 90,
+   "est_core_seconds": 1900,
    "frozen": true,
-   "lane": "DG7",
-   "note": "already executed on the container; queued so any machine can reproduce it bit-identically as a cross-host check",
-   "receipt": "microscopes/results/STAGE_B1_V31b_DG7_COEFFICIENT_WITNESS_ALL5.json",
-   "revival_id": "RV-377-089b",
-   "title": "Coefficient-witness sweep, all 5 ecologies, full intervention family (re-run)",
-   "unit_id": "U-D001"
-  },
-  {
-   "claim": null,
-   "class": "tiny",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.smooth_dense_max"
-   ],
-   "done": null,
-   "est_core_seconds": 50,
-   "frozen": true,
-   "lane": "DG7",
-   "note": "reproduction check; deterministic, so a differing receipt sha is itself a finding",
-   "receipt": "microscopes/results/STAGE_DE_SMOOTH_V30_DENSE_PARENT_MAXIMAL.json",
-   "revival_id": "RV-377-088",
-   "title": "Parent-maximal dense sweep on E_smooth2/E_smooth/E_smooth3 (re-run)",
-   "unit_id": "U-D002"
-  },
-  {
-   "claim": null,
-   "class": "tiny",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.dn_serve_law"
-   ],
-   "done": null,
-   "est_core_seconds": 10,
-   "frozen": true,
-   "lane": "DG7",
-   "note": "reproduction check",
-   "receipt": "microscopes/results/STAGE_DN_V29_N10_SERVE_LAW.json",
-   "revival_id": "RV-377-053",
-   "title": "N10 serve law exact graph predictors (re-run)",
-   "unit_id": "U-D003"
-  },
-  {
-   "claim": null,
-   "class": "hpc",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.dg8_offdiagonal"
-   ],
-   "done": null,
-   "est_core_seconds": 0,
-   "frozen": false,
-   "lane": "DG8",
-   "note": "NEEDS DESIGN AND FREEZE FIRST. DG-8's own closure criterion requires a declared low-discrepancy sample and a stated hit probability registered BEFORE the run. The module does not exist yet. This unit is a placeholder so the lane is visible in status; it must not be claimed until frozen=true.",
-   "receipt": "microscopes/results/STAGE_DG8_OFFDIAGONAL_{HOST}.json",
-   "revival_id": null,
-   "title": "Off-diagonal sample of A x d x p x F (design + freeze, then array)",
-   "unit_id": "U-G001"
-  },
-  {
-   "claim": null,
-   "class": "large",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "0",
-    "200000",
-    "E_sym3",
-    "logs/b1_big_E_sym3_s0_{HOST}.log",
-    "V41_B1_BIG_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 15000,
-   "frozen": false,
-   "lane": "BUDGET",
-   "note": "NEEDS FREEZE. E_smooth1 at 200k duplicates RV-377-084, already running on the container -- queue the E_sym3 pair first, since that is the ecology with exposure and therefore the one where budget can matter.",
-   "receipt": "microscopes/results/STAGE_B1_V41_B1_BIG_{HOST}_E_sym3_S0.json",
-   "revival_id": null,
-   "title": "B1 recovery 200k, E_sym3, seed 0 (budget axis)",
-   "unit_id": "U-B001"
-  },
-  {
-   "claim": null,
-   "class": "large",
-   "cmd": [
-    "python3",
-    "-u",
-    "-m",
-    "gmi_microscope.b1",
-    "1",
-    "200000",
-    "E_sym3",
-    "logs/b1_big_E_sym3_s1_{HOST}.log",
-    "V41_B1_BIG_{HOST}"
-   ],
-   "done": null,
-   "est_core_seconds": 15000,
-   "frozen": false,
-   "lane": "BUDGET",
-   "note": "NEEDS FREEZE. E_smooth1 at 200k duplicates RV-377-084, already running on the container -- queue the E_sym3 pair first, since that is the ecology with exposure and therefore the one where budget can matter.",
-   "receipt": "microscopes/results/STAGE_B1_V41_B1_BIG_{HOST}_E_sym3_S1.json",
-   "revival_id": null,
-   "title": "B1 recovery 200k, E_sym3, seed 1 (budget axis)",
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S2.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 2 (G15 step ii replication)",
    "unit_id": "U-B002"
   },
   {
    "claim": null,
-   "class": "large",
+   "class": "medium",
    "cmd": [
     "python3",
     "-u",
     "-m",
     "gmi_microscope.b1",
-    "0",
-    "200000",
-    "E_smooth1",
-    "logs/b1_big_E_smooth1_s0_{HOST}.log",
-    "V41_B1_BIG_{HOST}"
+    "3",
+    "20000",
+    "E_sym5",
+    "logs/b1_E_sym5_s3_{HOST}.log",
+    "V41_G15_REPLICATE_{HOST}"
    ],
    "done": null,
-   "est_core_seconds": 15000,
-   "frozen": false,
-   "lane": "BUDGET",
-   "note": "NEEDS FREEZE. E_smooth1 at 200k duplicates RV-377-084, already running on the container -- queue the E_sym3 pair first, since that is the ecology with exposure and therefore the one where budget can matter.",
-   "receipt": "microscopes/results/STAGE_B1_V41_B1_BIG_{HOST}_E_smooth1_S0.json",
-   "revival_id": null,
-   "title": "B1 recovery 200k, E_smooth1, seed 0 (budget axis)",
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S3.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 3 (G15 step ii replication)",
    "unit_id": "U-B003"
   },
   {
    "claim": null,
-   "class": "large",
+   "class": "medium",
    "cmd": [
     "python3",
     "-u",
     "-m",
     "gmi_microscope.b1",
-    "1",
-    "200000",
-    "E_smooth1",
-    "logs/b1_big_E_smooth1_s1_{HOST}.log",
-    "V41_B1_BIG_{HOST}"
+    "4",
+    "20000",
+    "E_sym5",
+    "logs/b1_E_sym5_s4_{HOST}.log",
+    "V41_G15_REPLICATE_{HOST}"
    ],
    "done": null,
-   "est_core_seconds": 15000,
-   "frozen": false,
-   "lane": "BUDGET",
-   "note": "NEEDS FREEZE. E_smooth1 at 200k duplicates RV-377-084, already running on the container -- queue the E_sym3 pair first, since that is the ecology with exposure and therefore the one where budget can matter.",
-   "receipt": "microscopes/results/STAGE_B1_V41_B1_BIG_{HOST}_E_smooth1_S1.json",
-   "revival_id": null,
-   "title": "B1 recovery 200k, E_smooth1, seed 1 (budget axis)",
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S4.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 4 (G15 step ii replication)",
    "unit_id": "U-B004"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-m",
+    "gmi_microscope.b1",
+    "5",
+    "20000",
+    "E_sym5",
+    "logs/b1_E_sym5_s5_{HOST}.log",
+    "V41_G15_REPLICATE_{HOST}"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S5.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 5 (G15 step ii replication)",
+   "unit_id": "U-B005"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-m",
+    "gmi_microscope.b1",
+    "6",
+    "20000",
+    "E_sym5",
+    "logs/b1_E_sym5_s6_{HOST}.log",
+    "V41_G15_REPLICATE_{HOST}"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S6.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 6 (G15 step ii replication)",
+   "unit_id": "U-B006"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-m",
+    "gmi_microscope.b1",
+    "7",
+    "20000",
+    "E_sym5",
+    "logs/b1_E_sym5_s7_{HOST}.log",
+    "V41_G15_REPLICATE_{HOST}"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S7.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 7 (G15 step ii replication)",
+   "unit_id": "U-B007"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-m",
+    "gmi_microscope.b1",
+    "8",
+    "20000",
+    "E_sym5",
+    "logs/b1_E_sym5_s8_{HOST}.log",
+    "V41_G15_REPLICATE_{HOST}"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S8.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 8 (G15 step ii replication)",
+   "unit_id": "U-B008"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-m",
+    "gmi_microscope.b1",
+    "9",
+    "20000",
+    "E_sym5",
+    "logs/b1_E_sym5_s9_{HOST}.log",
+    "V41_G15_REPLICATE_{HOST}"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-B",
+   "note": "Score the recovered DENSE carrier under ALL SIX interventions and against the best constant 0.7917 in fx units. Single-intervention numbers are not verdicts.",
+   "receipt": "microscopes/results/STAGE_B1_V41_G15_REPLICATE_{HOST}_E_sym5_S9.json",
+   "revival_id": "RV-377-118",
+   "title": "B1 neutral search, E_sym5, seed 9 (G15 step ii replication)",
+   "unit_id": "U-B009"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('ABSTAIN','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_ABSTAIN_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop ABSTAIN, ecology E_smooth1",
+   "unit_id": "U-C001"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('AFFINE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_AFFINE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop AFFINE, ecology E_smooth1",
+   "unit_id": "U-C002"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('CLOSEDFORM','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_CLOSEDFORM_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop CLOSEDFORM, ecology E_smooth1",
+   "unit_id": "U-C003"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('CONST','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_CONST_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop CONST, ecology E_smooth1",
+   "unit_id": "U-C004"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('DENSE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_DENSE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop DENSE, ecology E_smooth1",
+   "unit_id": "U-C005"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('EDGE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_EDGE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop EDGE, ecology E_smooth1",
+   "unit_id": "U-C006"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('EVIDENCE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_EVIDENCE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop EVIDENCE, ecology E_smooth1",
+   "unit_id": "U-C007"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('GATE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_GATE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop GATE, ecology E_smooth1",
+   "unit_id": "U-C008"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('GRAD','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_GRAD_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop GRAD, ecology E_smooth1",
+   "unit_id": "U-C009"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('INSERT','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_INSERT_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop INSERT, ecology E_smooth1",
+   "unit_id": "U-C010"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('KVSTORE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_KVSTORE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop KVSTORE, ecology E_smooth1",
+   "unit_id": "U-C011"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('LINEAR','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_LINEAR_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop LINEAR, ecology E_smooth1",
+   "unit_id": "U-C012"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('LOOKUP','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_LOOKUP_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop LOOKUP, ecology E_smooth1",
+   "unit_id": "U-C013"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('MATERIALIZE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_MATERIALIZE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop MATERIALIZE, ecology E_smooth1",
+   "unit_id": "U-C014"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('MORPH_RULE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_MORPH_RULE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop MORPH_RULE, ecology E_smooth1",
+   "unit_id": "U-C015"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NEAREST','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NEAREST_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NEAREST, ecology E_smooth1",
+   "unit_id": "U-C016"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NONLIN','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NONLIN_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NONLIN, ecology E_smooth1",
+   "unit_id": "U-C017"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NONLIN1','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NONLIN1_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NONLIN1, ecology E_smooth1",
+   "unit_id": "U-C018"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NOUPDATE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NOUPDATE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NOUPDATE, ecology E_smooth1",
+   "unit_id": "U-C019"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PLACE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PLACE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PLACE, ecology E_smooth1",
+   "unit_id": "U-C020"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PMUTATE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PMUTATE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PMUTATE, ecology E_smooth1",
+   "unit_id": "U-C021"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PROGEXEC','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PROGEXEC_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PROGEXEC, ecology E_smooth1",
+   "unit_id": "U-C022"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PROGRAM','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PROGRAM_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PROGRAM, ecology E_smooth1",
+   "unit_id": "U-C023"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('ROLLBACK','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_ROLLBACK_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop ROLLBACK, ecology E_smooth1",
+   "unit_id": "U-C024"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SCORESELECT','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SCORESELECT_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SCORESELECT, ecology E_smooth1",
+   "unit_id": "U-C025"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SEARCH','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SEARCH_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SEARCH, ecology E_smooth1",
+   "unit_id": "U-C026"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SELECT','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SELECT_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SELECT, ecology E_smooth1",
+   "unit_id": "U-C027"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SHADOW','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SHADOW_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SHADOW, ecology E_smooth1",
+   "unit_id": "U-C028"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SUM','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SUM_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SUM, ecology E_smooth1",
+   "unit_id": "U-C029"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('TABLE','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_TABLE_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop TABLE, ecology E_smooth1",
+   "unit_id": "U-C030"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERIFY','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERIFY_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERIFY, ecology E_smooth1",
+   "unit_id": "U-C031"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERIFYTAB','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERIFYTAB_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERIFYTAB, ecology E_smooth1",
+   "unit_id": "U-C032"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERSIONED','E_smooth1',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERSIONED_E_smooth1_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERSIONED, ecology E_smooth1",
+   "unit_id": "U-C033"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('ABSTAIN','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_ABSTAIN_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop ABSTAIN, ecology E_smooth3",
+   "unit_id": "U-C034"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('AFFINE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_AFFINE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop AFFINE, ecology E_smooth3",
+   "unit_id": "U-C035"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('CLOSEDFORM','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_CLOSEDFORM_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop CLOSEDFORM, ecology E_smooth3",
+   "unit_id": "U-C036"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('CONST','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_CONST_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop CONST, ecology E_smooth3",
+   "unit_id": "U-C037"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('DENSE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_DENSE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop DENSE, ecology E_smooth3",
+   "unit_id": "U-C038"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('EDGE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_EDGE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop EDGE, ecology E_smooth3",
+   "unit_id": "U-C039"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('EVIDENCE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_EVIDENCE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop EVIDENCE, ecology E_smooth3",
+   "unit_id": "U-C040"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('GATE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_GATE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop GATE, ecology E_smooth3",
+   "unit_id": "U-C041"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('GRAD','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_GRAD_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop GRAD, ecology E_smooth3",
+   "unit_id": "U-C042"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('INSERT','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_INSERT_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop INSERT, ecology E_smooth3",
+   "unit_id": "U-C043"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('KVSTORE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_KVSTORE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop KVSTORE, ecology E_smooth3",
+   "unit_id": "U-C044"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('LINEAR','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_LINEAR_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop LINEAR, ecology E_smooth3",
+   "unit_id": "U-C045"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('LOOKUP','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_LOOKUP_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop LOOKUP, ecology E_smooth3",
+   "unit_id": "U-C046"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('MATERIALIZE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_MATERIALIZE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop MATERIALIZE, ecology E_smooth3",
+   "unit_id": "U-C047"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('MORPH_RULE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_MORPH_RULE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop MORPH_RULE, ecology E_smooth3",
+   "unit_id": "U-C048"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NEAREST','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NEAREST_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NEAREST, ecology E_smooth3",
+   "unit_id": "U-C049"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NONLIN','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NONLIN_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NONLIN, ecology E_smooth3",
+   "unit_id": "U-C050"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NONLIN1','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NONLIN1_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NONLIN1, ecology E_smooth3",
+   "unit_id": "U-C051"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NOUPDATE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NOUPDATE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NOUPDATE, ecology E_smooth3",
+   "unit_id": "U-C052"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PLACE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PLACE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PLACE, ecology E_smooth3",
+   "unit_id": "U-C053"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PMUTATE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PMUTATE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PMUTATE, ecology E_smooth3",
+   "unit_id": "U-C054"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PROGEXEC','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PROGEXEC_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PROGEXEC, ecology E_smooth3",
+   "unit_id": "U-C055"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PROGRAM','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PROGRAM_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PROGRAM, ecology E_smooth3",
+   "unit_id": "U-C056"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('ROLLBACK','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_ROLLBACK_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop ROLLBACK, ecology E_smooth3",
+   "unit_id": "U-C057"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SCORESELECT','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SCORESELECT_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SCORESELECT, ecology E_smooth3",
+   "unit_id": "U-C058"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SEARCH','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SEARCH_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SEARCH, ecology E_smooth3",
+   "unit_id": "U-C059"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SELECT','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SELECT_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SELECT, ecology E_smooth3",
+   "unit_id": "U-C060"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SHADOW','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SHADOW_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SHADOW, ecology E_smooth3",
+   "unit_id": "U-C061"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SUM','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SUM_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SUM, ecology E_smooth3",
+   "unit_id": "U-C062"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('TABLE','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_TABLE_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop TABLE, ecology E_smooth3",
+   "unit_id": "U-C063"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERIFY','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERIFY_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERIFY, ecology E_smooth3",
+   "unit_id": "U-C064"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERIFYTAB','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERIFYTAB_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERIFYTAB, ecology E_smooth3",
+   "unit_id": "U-C065"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERSIONED','E_smooth3',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERSIONED_E_smooth3_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERSIONED, ecology E_smooth3",
+   "unit_id": "U-C066"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('ABSTAIN','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_ABSTAIN_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop ABSTAIN, ecology E_sym5",
+   "unit_id": "U-C067"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('AFFINE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_AFFINE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop AFFINE, ecology E_sym5",
+   "unit_id": "U-C068"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('CLOSEDFORM','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_CLOSEDFORM_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop CLOSEDFORM, ecology E_sym5",
+   "unit_id": "U-C069"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('CONST','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_CONST_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop CONST, ecology E_sym5",
+   "unit_id": "U-C070"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('DENSE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_DENSE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop DENSE, ecology E_sym5",
+   "unit_id": "U-C071"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('EDGE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_EDGE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop EDGE, ecology E_sym5",
+   "unit_id": "U-C072"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('EVIDENCE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_EVIDENCE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop EVIDENCE, ecology E_sym5",
+   "unit_id": "U-C073"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('GATE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_GATE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop GATE, ecology E_sym5",
+   "unit_id": "U-C074"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('GRAD','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_GRAD_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop GRAD, ecology E_sym5",
+   "unit_id": "U-C075"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('INSERT','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_INSERT_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop INSERT, ecology E_sym5",
+   "unit_id": "U-C076"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('KVSTORE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_KVSTORE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop KVSTORE, ecology E_sym5",
+   "unit_id": "U-C077"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('LINEAR','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_LINEAR_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop LINEAR, ecology E_sym5",
+   "unit_id": "U-C078"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('LOOKUP','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_LOOKUP_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop LOOKUP, ecology E_sym5",
+   "unit_id": "U-C079"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('MATERIALIZE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_MATERIALIZE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop MATERIALIZE, ecology E_sym5",
+   "unit_id": "U-C080"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('MORPH_RULE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_MORPH_RULE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop MORPH_RULE, ecology E_sym5",
+   "unit_id": "U-C081"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NEAREST','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NEAREST_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NEAREST, ecology E_sym5",
+   "unit_id": "U-C082"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NONLIN','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NONLIN_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NONLIN, ecology E_sym5",
+   "unit_id": "U-C083"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NONLIN1','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NONLIN1_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NONLIN1, ecology E_sym5",
+   "unit_id": "U-C084"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('NOUPDATE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_NOUPDATE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop NOUPDATE, ecology E_sym5",
+   "unit_id": "U-C085"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PLACE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PLACE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PLACE, ecology E_sym5",
+   "unit_id": "U-C086"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PMUTATE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PMUTATE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PMUTATE, ecology E_sym5",
+   "unit_id": "U-C087"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PROGEXEC','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PROGEXEC_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PROGEXEC, ecology E_sym5",
+   "unit_id": "U-C088"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('PROGRAM','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_PROGRAM_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop PROGRAM, ecology E_sym5",
+   "unit_id": "U-C089"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('ROLLBACK','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_ROLLBACK_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop ROLLBACK, ecology E_sym5",
+   "unit_id": "U-C090"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SCORESELECT','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SCORESELECT_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SCORESELECT, ecology E_sym5",
+   "unit_id": "U-C091"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SEARCH','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SEARCH_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SEARCH, ecology E_sym5",
+   "unit_id": "U-C092"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SELECT','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SELECT_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SELECT, ecology E_sym5",
+   "unit_id": "U-C093"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SHADOW','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SHADOW_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SHADOW, ecology E_sym5",
+   "unit_id": "U-C094"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('SUM','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_SUM_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop SUM, ecology E_sym5",
+   "unit_id": "U-C095"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('TABLE','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_TABLE_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop TABLE, ecology E_sym5",
+   "unit_id": "U-C096"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERIFY','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERIFY_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERIFY, ecology E_sym5",
+   "unit_id": "U-C097"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERIFYTAB','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERIFYTAB_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERIFYTAB, ecology E_sym5",
+   "unit_id": "U-C098"
+  },
+  {
+   "claim": null,
+   "class": "medium",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import primitive_ablation as pa;import json;r=pa.run_one('VERSIONED','E_sym5',0,20000);print(json.dumps(r))"
+   ],
+   "done": null,
+   "est_core_seconds": 1900,
+   "frozen": true,
+   "lane": "RV118-C",
+   "note": "Extends RV-377-110 past the E_wit1-only scope reduction recorded in RV-377-113.",
+   "receipt": "microscopes/results/STAGE_B1_ABL_VERSIONED_E_sym5_S0.json",
+   "revival_id": "RV-377-118",
+   "title": "CP1 ablation: drop VERSIONED, ecology E_sym5",
+   "unit_id": "U-C099"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('axis_a'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_axis_a_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of axis_a",
+   "unit_id": "U-D-axis_a"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('b1x'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_b1x_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of b1x",
+   "unit_id": "U-D-b1x"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('b2_common'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_b2_common_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of b2_common",
+   "unit_id": "U-D-b2_common"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('b2_depth'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_b2_depth_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of b2_depth",
+   "unit_id": "U-D-b2_depth"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('b2_norm'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_b2_norm_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of b2_norm",
+   "unit_id": "U-D-b2_norm"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('b2_prenorm'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_b2_prenorm_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of b2_prenorm",
+   "unit_id": "U-D-b2_prenorm"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('e1_cp'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_e1_cp_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of e1_cp",
+   "unit_id": "U-D-e1_cp"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('e1_iql'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_e1_iql_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of e1_iql",
+   "unit_id": "U-D-e1_iql"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('e1_lmhm'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_e1_lmhm_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of e1_lmhm",
+   "unit_id": "U-D-e1_lmhm"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('e1_vgsc'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_e1_vgsc_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of e1_vgsc",
+   "unit_id": "U-D-e1_vgsc"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('e1_vlc'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_e1_vlc_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of e1_vlc",
+   "unit_id": "U-D-e1_vlc"
+  },
+  {
+   "claim": null,
+   "class": "tiny",
+   "cmd": [
+    "python3",
+    "-u",
+    "-c",
+    "from gmi_microscope import degeneracy_audit as da;print(da.audit_module('refine_f'))"
+   ],
+   "done": null,
+   "est_core_seconds": 120,
+   "frozen": false,
+   "lane": "RV118-D",
+   "note": "audit_module() must be written first; the module list is from RV-377-112's declared uncovered set.",
+   "receipt": "microscopes/results/STAGE_DG12_refine_f_{HOST}.json",
+   "revival_id": "RV-377-118",
+   "title": "DG-12 degeneracy audit of refine_f",
+   "unit_id": "U-D-refine_f"
   }
  ]
 }
