@@ -1,0 +1,92 @@
+{
+  "artifact": "GMI_ZERO_PRIOR_EXACT_REDISCOVERY_RECEIPT_V1",
+  "status": "EXECUTED_EXACT_MICROSCOPE",
+  "runner": "run_gmi_zero_prior_exact_rediscovery_v1.py",
+  "cases": {
+    "shared_state_vs_indexed_cells": {
+      "positive": {
+        "degree": 1,
+        "coefficients": [1, 2],
+        "candidate_coefficients_checked": 13,
+        "coefficient_cost": 60,
+        "indexed_cell_cost": 70,
+        "winner": "coefficient_program"
+      },
+      "negative_twin": {
+        "degree": 4,
+        "coefficients": [0, 1, 4, 1, 4],
+        "candidate_coefficients_checked": 1015,
+        "coefficient_cost": 150,
+        "indexed_cell_cost": 70,
+        "winner": "indexed_cells"
+      }
+    },
+    "recurrent_state": {
+      "positive": {
+        "states": 2,
+        "transition": [0, 1, 1, 0],
+        "output": [0, 1, 1, 0],
+        "candidates_checked": 107
+      },
+      "negative_twin": {
+        "states": 1,
+        "transition": [0, 0],
+        "output": [0, 1],
+        "candidates_checked": 2
+      }
+    },
+    "dependency_routing": {
+      "positive": {
+        "union_size": 3,
+        "average_required_edges": 1.0,
+        "static_cost": 3.0,
+        "dynamic_cost": 1.5,
+        "winner": "input_conditioned_edges"
+      },
+      "negative_twin": {
+        "union_size": 1,
+        "average_required_edges": 1.0,
+        "static_cost": 1.0,
+        "dynamic_cost": 1.5,
+        "winner": "fixed_edges"
+      }
+    },
+    "symmetry_tying": {
+      "positive": {
+        "circulant": true,
+        "tied_parameter_cost": 4,
+        "free_parameter_cost": 16,
+        "winner": "cyclic_orbit_tying"
+      },
+      "negative_twin": {
+        "circulant": false,
+        "tied_parameter_cost": null,
+        "free_parameter_cost": 16,
+        "winner": "free_matrix"
+      }
+    },
+    "rank_residual": {
+      "positive": {
+        "rank": 1,
+        "factor_symbol_cost": 8,
+        "full_symbol_cost": 16,
+        "winner": "rank_factorization"
+      },
+      "negative_twin": {
+        "rank": 4,
+        "factor_symbol_cost": 32,
+        "full_symbol_cost": 16,
+        "winner": "full_matrix"
+      }
+    }
+  },
+  "checks": {
+    "coefficient_property_recovers_and_flips": true,
+    "recurrent_state_count_recovers_and_flips": true,
+    "dynamic_routing_recovers_and_flips": true,
+    "symmetry_tying_recovers_and_flips": true,
+    "low_rank_state_recovers_and_flips": true
+  },
+  "claim_ceiling": "Exact toy zero-prior property rediscovery only. The primitive grammar is small and hand-registered; real family names/architectures are not claimed K4-closed.",
+  "terminal": "ZERO_PRIOR_EXACT_PROPERTY_REDISCOVERY_GREEN"
+}

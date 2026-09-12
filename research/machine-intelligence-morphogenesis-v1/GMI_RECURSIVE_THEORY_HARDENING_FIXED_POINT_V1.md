@@ -1,0 +1,525 @@
+# GMI Recursive Theory Hardening Fixed Point v1
+
+Status: **META-THEORY / CLAIM-CLOSURE PROTOCOL**
+
+Status date: 2026-09-12.
+
+Purpose:
+
+> Make “keep recursively strengthening and hardening every part of GMI” into an explicit procedure that cannot silently hide logical gaps.
+
+This protocol does not assert that all mathematical questions have finite answers. It defines when a registered scope has no *unclassified* explanatory dependency.
+
+---
+
+# 1. Claim object
+
+Every scientific claim `c` in GMI must have a record
+
+\[
+\mathcal R(c)=
+(T,A,S,X,P,M,I,V,R,H,E,F,D,C),
+\]
+
+where:
+
+```text
+T  scientific types/domains
+A  assumptions
+S  semantic obligation / exact target
+X  pre-outcome explanatory variables
+P  exogenous context/resource variables
+M  mechanism statement
+I  intervention/counterfactual prediction
+V  invariance/remint requirements
+R  resource semantics
+H  developmental/history dependence
+E  evidence tier / experiment receipt
+F  falsifier / kill terminal
+D  dependencies on other claims
+C  claim ceiling / allowed wording
+```
+
+A claim without a complete record is provisional.
+
+---
+
+# 2. Hardening operator
+
+Define a hardening operator `H` on theory set `Theta`.
+
+For each claim `c in Theta`, `H` generates the following obligations.
+
+## H1 type check
+
+Ask:
+
+```text
+What mathematical objects are involved?
+Which are obligation-side, machine-side, context-side or outcome-side?
+Are any variables mixing types?
+```
+
+## H2 semantic adequacy
+
+Ask:
+
+```text
+What distinctions must any exact realization preserve?
+What is the target quotient/equivalence relation?
+Can the claim merge states that legal future continuations distinguish?
+```
+
+## H3 identifiability
+
+Ask:
+
+```text
+Can the proposed variable/mechanism be inferred from legal observations/interventions?
+Could two latent worlds produce the same measured signature but different outcomes?
+```
+
+If yes, construct the collision.
+
+## H4 non-vacuity / information bound
+
+Ask:
+
+```text
+Can a supposedly compact descriptor secretly encode world identity?
+Can an unconstrained response function memorize the protected set?
+Are precision, description length and query budget bounded?
+```
+
+## H5 invariance/remint
+
+Ask:
+
+```text
+Does the claim survive renaming, permutation, reparameterization and implementation remint that preserve semantics?
+```
+
+## H6 causal intervention
+
+Ask:
+
+```text
+What changes if the claimed cause changes while confounds are held fixed?
+What matched negative twin reverses/removes the mechanism?
+```
+
+## H7 mechanism factorization
+
+Ask:
+
+```text
+Is a named feature actually a bundle of independently variable mechanisms?
+Can the mechanisms occur separately?
+```
+
+## H8 resource completeness
+
+Ask:
+
+```text
+What training/search/serve/memory/communication/update/verification/human costs move?
+Can any cost be hidden in precomputation, compiler, cache or external service?
+```
+
+## H9 history/dynamics
+
+Ask:
+
+```text
+Can equal present signatures have different future responses because of developmental history/internal state?
+Does a static response law need a state/history argument?
+```
+
+## H10 stochastic/approximate extension
+
+Ask:
+
+```text
+Does the exact theorem survive noise/approximation?
+What metric/tolerance replaces exact equality?
+Is approximate equivalence actually transitive at the declared scope?
+```
+
+## H11 scaling/phase language
+
+Ask:
+
+```text
+Is the result only a finite crossover?
+What size/order parameter is required for asymptotic or critical language?
+```
+
+## H12 implementation equivalence
+
+Ask:
+
+```text
+Can another encoding implement the same behavior/mechanism?
+Does the witness score behavior or source labels?
+```
+
+## H13 parent reduction
+
+Ask:
+
+```text
+Does a known theorem/architecture already imply the claim?
+Can the proposed new form compile into a known parent at bounded cost?
+```
+
+## H14 adaptive-search protection
+
+Ask:
+
+```text
+Was the hypothesis/search grammar tuned on the final protected worlds?
+Are D/V/P separated?
+Is search cost/encoding dependence charged?
+```
+
+## H15 cross-family transfer
+
+Ask:
+
+```text
+Does the law survive a held-out realization family?
+Or is it a family-specific empirical regularity?
+```
+
+## H16 real-regime transfer
+
+Ask:
+
+```text
+Does the claim survive code/math/science/control/multimodal tasks where applicable?
+```
+
+## H17 higher-order/meta recursion
+
+Ask:
+
+```text
+What happens when the update law, verifier, compiler, ecology or morphogenesis rule itself changes/learns?
+Does the current theory require a higher-order state?
+```
+
+---
+
+# 3. Closure states
+
+Each generated obligation receives exactly one state:
+
+```text
+PROVED_AT_SCOPE
+PARENT_THEOREM_UNDER_ASSUMPTIONS
+EMPIRICALLY_SUPPORTED_AT_TIER_X
+REGISTERED_FOR_EXPERIMENT
+REDUCED_TO_PARENT
+FALSIFIED_AND_REPLACED
+OPEN_BLOCKING
+OPEN_NONBLOCKING
+OUT_OF_SCOPE
+```
+
+No obligation may be silently omitted.
+
+---
+
+# 4. Scope-hardened fixed point
+
+Let `Reach(Theta,S)` be all obligations recursively generated by `H` within registered scope `S`.
+
+Theory `Theta` is **scope-hardened** when:
+
+\[
+\forall q\in Reach(\Theta,S),
+\quad status(q)\ \text{is explicitly assigned},
+\]
+
+and applying `H` again introduces no new *untyped/unregistered* obligation.
+
+Symbolically:
+
+\[
+H^*(\Theta;S)=\Theta^*_S
+\]
+
+means a bookkeeping/scientific fixed point, not omniscience.
+
+Open questions may remain. Hidden questions may not.
+
+---
+
+# 5. Recursive expansion algorithm
+
+```text
+queue <- all active claims
+seen  <- empty
+
+while queue not empty:
+    c <- pop(queue)
+    if c in seen: continue
+    seen.add(c)
+
+    obligations <- H1..H17(c)
+
+    for q in obligations:
+        if q is resolved:
+            attach proof/parent/receipt
+        elif q reduces claim:
+            narrow c and re-enqueue c
+        elif q falsifies c:
+            preserve old claim historically
+            create corrected successor
+            enqueue successor
+        else:
+            create explicit gap record
+
+        for dependency d introduced by q:
+            if d not in seen:
+                enqueue(d)
+```
+
+Every correction is additive/versioned. Failed predictions remain in the scientific record.
+
+---
+
+# 6. Anti-circularity constraints
+
+Reject explanations of the form:
+
+```text
+“feature f helps because systems with f perform better”
+“morphology M is selected because it is on the frontier”
+“Xi predicts Y because Xi was fit using Y”
+“mechanism A is present because architecture label M is present”
+“new species is novel because search called it novel”
+```
+
+Require explanatory variables/witnesses to be defined independently of the protected endpoint they are supposed to explain.
+
+---
+
+# 7. Claim dependency graph discipline
+
+Every strong claim must expose its dependency DAG.
+
+Example:
+
+```text
+semantic obligation
+-> quotient/distinguishability
+-> measurable pre-outcome demand
+-> mechanism witness
+-> matched intervention response
+-> family-held-out prediction
+-> neutral recovery
+-> implementation-equivalence replication
+-> parent reduction
+-> real transfer
+-> new-form claim
+```
+
+If an upstream dependency is open/falsified, downstream claim ceiling automatically lowers.
+
+---
+
+# 8. Hardening depth
+
+Assign recursive depth:
+
+```text
+D0 definitions/types
+D1 exact semantic/no-go results
+D2 mechanism/causal laws
+D3 statistical/stochastic response laws
+D4 cross-family morphology laws
+D5 neutral morphogenesis laws
+D6 open-world biosphere/species laws
+D7 meta-morphogenesis / learned theory-building laws
+```
+
+A higher-depth claim may not erase unresolved lower-depth dependencies.
+
+---
+
+# 9. Micro-to-macro recursion
+
+The same protocol applies at every scale:
+
+```text
+neuron activation
+attention head
+Transformer block
+LLM
+RAG/tool system
+continual-learning system
+hybrid architecture
+machine-intelligence species
+biosphere search process
+meta-morphogenesis process
+```
+
+Therefore the theory does not need a separate epistemology for “small features” and “new species.”
+
+Both are mechanism claims under different composition scales.
+
+---
+
+# 10. Composition hardening
+
+If mechanisms `a` and `b` are individually understood, their composition is not automatically understood.
+
+For every important pair/triple, ask:
+
+```text
+additive effect?
+substitution?
+synergy?
+antagonism?
+order dependence?
+shared hidden resource?
+new emergent state?
+new identifiability failure?
+```
+
+This creates an interaction tensor/program rather than assuming component-wise additivity.
+
+For mechanism witnesses `a_1..a_K`, model response may require
+
+\[
+Y=
+ f(X,P,a)
++\sum_{i<j} f_{ij}(a_i,a_j,X,P)
++\cdots
+\]
+
+with complexity controlled to avoid lookup-table vacuity.
+
+---
+
+# 11. Boundary hardening
+
+Every claimed phase/frontier boundary gets its own recursive tests:
+
+```text
+threshold uncertainty
+finite-size drift
+hysteresis/path dependence
+multiple competing mechanisms
+substrate repricing
+measurement error
+search incompleteness
+```
+
+A boundary is never stronger than the weakest unresolved term.
+
+---
+
+# 12. Theory-to-experiment compilation
+
+Every unresolved empirical claim must compile into:
+
+\[
+\mathcal X(c)=
+(manipulation,
+ controls,
+ negative\ twins,
+ endpoints,
+ meter,
+ split,
+ statistics,
+ kill).
+\]
+
+If this compilation is impossible because the claim has no measurable intervention/falsifier, the claim is demoted from scientific explanatory law to heuristic/metaphor.
+
+---
+
+# 13. Experiment-to-theory update
+
+After an experiment:
+
+```text
+positive result -> raise evidence tier only at tested scope
+negative result -> identify which claim atom failed
+mixed result -> split context/mechanism variables
+unexpected result -> create residual gap before explanation
+resource reversal -> update P dependence, not semantic O
+search failure -> distinguish theory falsification from search incompleteness
+```
+
+Never silently rewrite preregistered predictions.
+
+---
+
+# 14. Literature recursion
+
+For each claim:
+
+```text
+find strongest parent theorem
+find strongest conflicting/no-go result
+find closest empirical analogue
+find implementation-equivalent engineering parent
+find alternative causal explanation
+```
+
+GMI novelty is the residual after those parents receive first refusal.
+
+---
+
+# 15. Open-world gap ledger requirements
+
+The gap ledger must be generated at several scales:
+
+```text
+foundational semantics
+measurement/identifiability
+neural microfeatures
+optimization/generalization
+LLM/Transformer mechanisms
+memory/continual learning
+verification/authority
+morphology prediction
+biosphere/open-ended search
+real-regime transfer
+meta-morphogenesis
+```
+
+Each gap stores priority, blocking scope, owner experiment and evidence needed for closure.
+
+---
+
+# 16. Stopping rule
+
+There is no final universal “all knowledge complete” terminal.
+
+A scientific workstream may stop when:
+
+1. the registered scope reaches a hardening fixed point;
+2. remaining gaps are explicitly typed and prioritized;
+3. no stronger claim is made than evidence permits;
+4. the next experiment has lower expected information value than another research lane.
+
+This prevents both premature closure and infinite polishing without discriminating experiments.
+
+---
+
+# 17. Strong terminal
+
+The strongest legitimate meta-theory terminal is:
+
+```text
+GMI_SCOPE_HARDENED_FIXED_POINT_REACHED__
+ALL_REACHABLE_CLAIM_DEPENDENCIES_TYPED_PROVED_TESTED_OR_EXPLICITLY_OPEN
+```
+
+It must always include the registered scope/version.
+
+It never means “all of machine intelligence is solved.”
