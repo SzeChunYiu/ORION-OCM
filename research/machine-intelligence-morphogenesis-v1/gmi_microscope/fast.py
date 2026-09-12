@@ -115,9 +115,15 @@ def cand_size(cand):
     return size(cand["f"]) + sum(1 + size(ex) for _, ex in cand["g"])
 
 
-def evolve_fast(eco, rng, seed, P=100, S=25, evaluations=1000000, log_every=10000, ckpt_path=None, ckpt_every=50000, n_bits=8, resume=None):
-    """Regularized evolution (Real et al. 2019 Alg. 1) with the fast evaluator, genotype cache, FEC and checkpoints.
-    fitness key = (score, -size). Returns (best, pop, traj, n_eval, hits, fec_hits)."""
+def evolve_fast(eco, rng, seed, P=100, S=25, evaluations=1000000, log_every=10000, ckpt_path=None, ckpt_every=50000, n_bits=8, resume=None, use_fec=False):
+    """Regularized evolution (Real et al. 2019 Alg. 1) with the fast evaluator, genotype cache and checkpoints.
+    fitness key = (score, -size). Returns (best, pop, traj, n_eval, hits, fec_hits).
+
+    use_fec is OFF by default since RV-377-061: the functional-equivalence cache keyed on a 10-event single-target probe
+    is UNSOUND at this scope. Measured on 4 000 random candidates of the registered grammar: 1 735 distinct probe
+    signatures, 271 shared by more than one candidate, 69 of those (25.5 percent) shared by candidates with DIFFERENT
+    true scores, spreads up to 0.4844, and 1 386 of 4 000 candidates (34.7 percent) would inherit a wrong cached score.
+    The RUN9 receipts (RV-377-028) recorded fast_vs_charged_fidelity_all_equal = False for exactly this reason."""
     from collections import deque
     probe_target = eco["targets"][0] if eco.get("kind") == "smooth_div" else eco["target"]
     probe_eco = dict(eco, kind="smooth") if eco.get("kind") == "smooth_div" else eco
@@ -127,15 +133,18 @@ def evolve_fast(eco, rng, seed, P=100, S=25, evaluations=1000000, log_every=1000
         k = json.dumps(c, sort_keys=True)
         if k in geno: hits += 1; return geno[k]
         fc = compile_candidate(c)
-        _, sig = fast_score(fc, probe_eco, probe_target, n_bits, probe=10)
-        if sig in fec:
-            fec_hits += 1; s = fec[sig]; geno[k] = s; return s
+        if use_fec:
+            _, sig = fast_score(fc, probe_eco, probe_target, n_bits, probe=10)
+            if sig in fec:
+                fec_hits += 1; s = fec[sig]; geno[k] = s; return s
         if eco.get("kind") == "smooth_div":
             scores = [fast_score(fc, dict(eco, kind="smooth"), t, n_bits)[0] for t in eco["targets"]]
             s = round(sum(scores) / len(scores), 4)
         else:
             s = fast_score(fc, eco, eco["target"], n_bits)[0]
-        n_eval += 1; geno[k] = s; fec[sig] = s; return s
+        n_eval += 1; geno[k] = s
+        if use_fec: fec[sig] = s
+        return s
     key = lambda cr: (cr[1], -cand_size(cr[0]))
     pop = deque(); traj = []; next_log = log_every; next_ckpt = ckpt_every; t0 = time.time()
     if resume:
@@ -171,7 +180,7 @@ def _rng_from(s):
     return (s[0], tuple(s[1]), s[2])
 
 
-def main_evolve_fast(seed, evaluations=1000000, tag="RUN9_SMOOTH8_DIV_REGEVO_FEC", P=100, S=25, diversity=True, resume=False):
+def main_evolve_fast(seed, evaluations=1000000, tag="RUN9_SMOOTH8_DIV_REGEVO_FEC", P=100, S=25, diversity=True, resume=False, use_fec=False):
     """RV-377-028: the RV-023 search at 10^6 evaluations with FEC, fast evaluator and checkpoints (authorized compute)."""
     blind.G_DEPTH = 3; blind.set_bits(8)
     rng = random.Random(seed)
@@ -179,7 +188,7 @@ def main_evolve_fast(seed, evaluations=1000000, tag="RUN9_SMOOTH8_DIV_REGEVO_FEC
     ckpt = os.path.join(RES, f"CKPT_{tag}_S{seed}.json")
     res = json.load(open(ckpt)) if resume and os.path.exists(ckpt) else None
     t0 = time.time()
-    best, pop, traj, n_eval, hits, fec_hits = evolve_fast(e, rng, seed, P=P, S=S, evaluations=evaluations, ckpt_path=ckpt, resume=res)
+    best, pop, traj, n_eval, hits, fec_hits = evolve_fast(e, rng, seed, P=P, S=S, evaluations=evaluations, ckpt_path=ckpt, resume=res, use_fec=use_fec)
     wall = time.time() - t0
     evaluate = blind.run_candidate_div if diversity else blind.run_candidate
     theta = blind.THETA_SMOOTH
@@ -202,7 +211,7 @@ def main_evolve_fast(seed, evaluations=1000000, tag="RUN9_SMOOTH8_DIV_REGEVO_FEC
     frac_dense = (sum(1 for c in classes if c.startswith("NUMERIC_DENSE")) / len(classes)) if classes else None
     planted = evaluate(blind.eliminate_dead_writes(blind.PLANTED_LEARNER_SMOOTH8_LR4)[0], e, seed)
     receipt = {"schema": "StageFBlindRecoveryRegEvoFECV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "revival_record": "RV-377-028", "seed": seed, "run_tag": tag,
-               "search_family": f"regularized (aging) evolution, Real et al. 2019 Alg. 1: P={P}, S={S}, Koza subtree mutation on f and g, genotype cache + functional-equivalence cache (probe: 10 events on target 0, outputs on the seen inputs after events 5 and 10, final cells); fast exact evaluator; tie-break by program size",
+               "search_family": f"regularized (aging) evolution, Real et al. 2019 Alg. 1: P={P}, S={S}, Koza subtree mutation on f and g, genotype cache{' + functional-equivalence cache (UNSOUND, see RV-377-061)' if use_fec else ' (functional-equivalence cache DISABLED: unsound at this scope, RV-377-061)'}; fast exact evaluator; tie-break by program size", "functional_equivalence_cache_used": use_fec,
                "grammar": {"n_bits": 8, "n_cells": blind.N_CELLS, "f_depth": 3, "g_depth": blind.G_DEPTH, "leaves_f": blind.LEAVES_F, "leaves_g": blind.LEAVES_G},
                "existence_certificate": "PLANTED_LEARNER_SMOOTH8_LR4 recomputed in this ecology (see planted_learner_score_in_this_ecology)",
                "ecology": {"kind": e["kind"], "inputs": 256, "train": e["train"], "events": e["events"], "coeffs": list(blind.SMOOTH8_COEFFS), "theta": theta, "diversity_signs": list(e["signs"]) if diversity else None},
@@ -221,4 +230,5 @@ def main_evolve_fast(seed, evaluations=1000000, tag="RUN9_SMOOTH8_DIV_REGEVO_FEC
 if __name__ == "__main__":
     import sys
     seed = int(sys.argv[1]); evals = int(sys.argv[2]) if len(sys.argv) > 2 else 1000000
-    main_evolve_fast(seed, evals, resume=("--resume" in sys.argv))
+    tag = sys.argv[3] if len(sys.argv) > 3 and not sys.argv[3].startswith("--") else "RUN11_SMOOTH8_DIV_REGEVO_NOFEC"
+    main_evolve_fast(seed, evals, tag=tag, resume=("--resume" in sys.argv), use_fec=("--fec" in sys.argv))
