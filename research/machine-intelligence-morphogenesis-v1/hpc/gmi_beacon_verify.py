@@ -30,7 +30,7 @@ def verify_beacon(*,repo_root:str,freeze_path:str,beacon:dict,expected_schema:st
     # repo_root here is the study directory (a subdirectory), so the path must be toplevel-relative.
     try:top=_git(repo_root,"rev-parse","--show-toplevel").decode().strip()
     except Exception as e:raise RuntimeError(f"cannot locate git toplevel from {repo_root}: {e}")
-    rel=os.path.relpath(os.path.abspath(freeze_path),top).replace(os.sep,"/")
+    rel=os.path.relpath(os.path.realpath(freeze_path),os.path.realpath(top)).replace(os.sep,"/")
     current=open(freeze_path,"rb").read()
     try:committed=_git(repo_root,"show",f"{commit}:{rel}")
     except Exception as e:raise RuntimeError(f"cannot retrieve execution freeze from declared commit: {e}")
