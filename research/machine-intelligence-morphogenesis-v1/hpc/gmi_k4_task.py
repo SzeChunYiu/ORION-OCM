@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """One K4 array task, with the brief's part-J execution discipline enforced rather than described.
 
-Every task persists, in its own receipt: git commit SHA, freeze artifact SHA, SLURM job/array id, interpreter and
-platform versions, the task hash, the seed and how it was derived, the resource request, actual wall time, CPU time,
-peak memory, exit code, the complete raw result and the scored verdict.
+Every task persists, in its own receipt: git commit SHA, both freeze artifact SHAs, SLURM job/array id,
+interpreter and platform versions, the task hash, the seed and how it was derived, the resource request,
+actual wall time, CPU time, peak memory, exit code, the complete raw result and the scored verdict.
 
 TWO RULES THAT ARE ENFORCED IN CODE, NOT LEFT TO THE OPERATOR:
 
@@ -30,6 +30,7 @@ import traceback
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FREEZE = os.path.join(ROOT, "GMI_K4_LOFO_FREEZE_V1.json")
+GEN_FREEZE = os.path.join(ROOT, "GMI_K4_GENERATOR_FREEZE_V1.json")
 RES = os.path.join(ROOT, "microscopes", "results", "k4")
 
 
@@ -38,6 +39,15 @@ def load_freeze():
         raw = f.read()
     body = json.loads(raw)
     body.pop("name_key", None)          # the name barrier, enforced here
+    return body, hashlib.sha256(raw.encode()).hexdigest()
+
+
+def load_generator_freeze():
+    with open(GEN_FREEZE) as f:
+        raw = f.read()
+    body = json.loads(raw)
+    if body.get("status") != "FROZEN_BEFORE_ANY_K4_SEARCH_RESULT":
+        raise RuntimeError(f"unexpected generator freeze status: {body.get('status')}")
     return body, hashlib.sha256(raw.encode()).hexdigest()
 
 
@@ -71,12 +81,15 @@ def main():
     os.makedirs(RES, exist_ok=True)
     t0 = time.time()
     freeze, freeze_sha = load_freeze()
+    gen_freeze, gen_freeze_sha = load_generator_freeze()
     plan = task_plan(freeze)
     rec = {
-        "schema": "GMIK4TaskReceiptV1",
+        "schema": "GMIK4TaskReceiptV2",
         "task_index": a.task_index, "slurm_job_id": a.job_id, "host": a.host,
         "git_commit_sha": git_sha(), "freeze_artifact_sha256": freeze_sha,
+        "generator_freeze_sha256": gen_freeze_sha,
         "freeze_declared_sha256": freeze.get("freeze_sha256"),
+        "generator_freeze_schema": gen_freeze.get("schema"),
         "python_version": sys.version.split()[0], "platform": platform.platform(),
         "resource_request": {"cpus": 1, "budget_scored_candidates": a.budget},
         "n_tasks_in_plan": len(plan),
@@ -87,10 +100,10 @@ def main():
         unit = plan[a.task_index]
         rec.update(unit)
         rec["task_hash"] = hashlib.sha256(
-            json.dumps({**unit, "freeze": freeze_sha}, sort_keys=True).encode()).hexdigest()
+            json.dumps({**unit, "freeze": freeze_sha, "generator_freeze": gen_freeze_sha}, sort_keys=True).encode()).hexdigest()
         # seed derivation is recorded, not improvised (sub-gate IG-2)
         rec["seed"] = int(rec["task_hash"][:8], 16)
-        rec["seed_derivation"] = "sha256(task_spec || freeze_sha)[:8]; deterministic given the frozen plan"
+        rec["seed_derivation"] = "sha256(task_spec || family_freeze_sha || generator_freeze_sha)[:8]; deterministic given both frozen contracts"
 
         from gmi_k4_search import run_cell        # imported late so an import error is still receipted
         out = run_cell(unit["family"], unit["grammar"], unit["cell"],
