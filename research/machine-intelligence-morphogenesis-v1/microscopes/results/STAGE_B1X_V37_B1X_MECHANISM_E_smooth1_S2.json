@@ -1,0 +1,242 @@
+{
+ "archive_cells_filled": 256,
+ "archive_cells_total": 720,
+ "best_by_carrier": {
+  "DENSE": {
+   "R": {
+    "desc": 20,
+    "exec": 1088,
+    "rev": 2,
+    "upd": 64,
+    "ver": 1280
+   },
+   "admissible": false,
+   "capability": 0.8333,
+   "fingerprint": "b053b56380ed51c5c63408273bfcfa9b8e2b2dc3854e5bfc1df0f3259004eb99",
+   "genotype": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"dense0\", \"linear1\", 0], [\"in0\", \"linear1\", 1], [\"linear0\", \"out0\", 0], [\"dense1\", \"linear0\", 1]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 1}], \"dense1\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear0\": [\"LINEAR\", {}], \"linear1\": [\"LINEAR\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "mechanism": "D1 coefficient / function field (gradient-style)",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 0,
+    "S": 2,
+    "T": 2,
+    "U": 0,
+    "V": 0
+   },
+   "n_nodes": 7,
+   "target_fed_updates": 0
+  },
+  "KVSTORE": {
+   "R": {
+    "desc": 336,
+    "exec": 21136,
+    "rev": 14,
+    "upd": 1247,
+    "ver": 21568
+   },
+   "admissible": true,
+   "capability": 0.875,
+   "fingerprint": "295bd12ec5d6cf997e1c45b619d1a560faa47b3745dae7b7b4db081f4ab014c6",
+   "genotype": "{\"edges\": [[\"in0\", \"scoreselect0\", 1], [\"scoreselect0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"out0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"insert0\", 2], [\"table1\", \"scoreselect0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table1\", \"closedform0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 2}], \"table0\": [\"KVSTORE\", {\"cap\": 16}], \"table1\": [\"KVSTORE\", {\"cap\": 4}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D2 exemplar / retrieval memory",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 1,
+    "S": 2,
+    "T": 0,
+    "U": 2,
+    "V": 3
+   },
+   "n_nodes": 11,
+   "target_fed_updates": 1
+  },
+  "NONE": {
+   "R": {
+    "desc": 54,
+    "exec": 0,
+    "rev": 4,
+    "upd": 0,
+    "ver": 256
+   },
+   "admissible": false,
+   "capability": 0.8333,
+   "fingerprint": "f22713772825eddda7f999dc3fb61c94b4f486475000f791a0f5e3a40799591e",
+   "genotype": "{\"edges\": [[\"const1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"const0\": [\"CONST\", {\"value\": 4}], \"const1\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore1\": [\"KVSTORE\", {\"cap\": 16}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 1}]}}",
+   "mechanism": "stateless transducer",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 1,
+    "P": 0,
+    "R": 0,
+    "S": 4,
+    "T": 0,
+    "U": 0,
+    "V": 0
+   },
+   "n_nodes": 8,
+   "target_fed_updates": 0
+  },
+  "PROGRAM": {
+   "R": {
+    "desc": 7363,
+    "exec": 36280,
+    "rev": 1716667,
+    "upd": 3509537,
+    "ver": 36712
+   },
+   "admissible": true,
+   "capability": 1.0,
+   "fingerprint": "a927f361f27438b75d46dc6e471d88cf27a0b7c4f6d007b8b9f99a96a01a26c5",
+   "genotype": "{\"edges\": [[\"in0\", \"scoreselect0\", 1], [\"scoreselect0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"insert0\", 1], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"insert0\", 2], [\"table1\", \"scoreselect0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table1\", \"closedform0\", 0], [\"abstain0\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"table1\", \"insert1\", 0], [\"in0\", \"insert1\", 1], [\"abstain1\", \"insert1\", 2], [\"insert1\", \"insert0\", 0], [\"program0\", \"verify0\", 0], [\"table1\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"abstain1\", 0], [\"in0\", \"evidence0\", 0], [\"scoreselect0\", \"evidence0\", 1], [\"program0\", \"materialize0\", 0], [\"materialize0\", \"lookup1\", 0], [\"in0\", \"lookup1\", 1], [\"program0\", \"materialize1\", 0], [\"in0\", \"lookup2\", 1], [\"program0\", \"closedform1\", 0], [\"evidence0\", \"closedform1\", 1], [\"program0\", \"materialize2\", 0], [\"materialize2\", \"lookup3\", 0], [\"in0\", \"lookup3\", 1], [\"program0\", \"materialize3\", 0], [\"materialize3\", \"lookup4\", 0], [\"in0\", \"lookup4\", 1], [\"lookup4\", \"out0\", 0], [\"table0\", \"closedform2\", 0], [\"in0\", \"closedform2\", 1], [\"tgt0\", \"closedform2\", 2], [\"closedform2\", \"lookup2\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"SEARCH\", {\"budget\": 2401}], \"closedform2\": [\"CLOSEDFORM\", {}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"insert1\": [\"INSERT\", {}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"lookup2\": [\"LOOKUP\", {}], \"lookup3\": [\"LOOKUP\", {}], \"lookup4\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 4}], \"materialize1\": [\"MATERIALIZE\", {\"keybits\": 1}], \"materialize2\": [\"MATERIALIZE\", {\"keybits\": 2}], \"materialize3\": [\"MATERIALIZE\", {\"keybits\": 4}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 2}], \"table0\": [\"KVSTORE\", {\"cap\": 16}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D4-D5 symbolic program / search",
+   "mechanism_vector": {
+    "C": 6,
+    "D": 1,
+    "G": 0,
+    "H": 1,
+    "P": 0,
+    "R": 6,
+    "S": 3,
+    "T": 0,
+    "U": 5,
+    "V": 4
+   },
+   "n_nodes": 26,
+   "target_fed_updates": 2
+  },
+  "TABLE": {
+   "R": {
+    "desc": 178,
+    "exec": 21136,
+    "rev": 7,
+    "upd": 1231,
+    "ver": 21568
+   },
+   "admissible": true,
+   "capability": 0.875,
+   "fingerprint": "9899f1965ed9189c59664727b20ab3b20079dbc3dfeb97ba15d497f4f70450ca",
+   "genotype": "{\"edges\": [[\"in0\", \"scoreselect0\", 1], [\"scoreselect0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"out0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"table1\", \"scoreselect0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table1\", \"closedform0\", 0], [\"insert0\", \"closedform1\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"PMUTATE\", {\"pop\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"SEARCH\", {\"budget\": 16}], \"out0\": [\"OUTPUT\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 2}], \"table0\": [\"KVSTORE\", {\"cap\": 16}], \"table1\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D2 exemplar / indexed memory",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 1,
+    "S": 2,
+    "T": 0,
+    "U": 3,
+    "V": 3
+   },
+   "n_nodes": 12,
+   "target_fed_updates": 1
+  }
+ },
+ "claim_ceiling": "one ecology, one seed per receipt, exact charged replay under the standard intervention; carriers here are RAW descriptors and must be re-read after atrophy per protocol rule 23 before any recovery claim",
+ "ecology": "E_smooth1",
+ "failed_phenotypes": 33,
+ "history": [
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    1,
+    2,
+    3
+   ],
+   "best": 0.875,
+   "cells": 76,
+   "failed_phenotypes": 10,
+   "n_eval": 5000,
+   "sec": 141.9
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "best": 1.0,
+   "cells": 178,
+   "failed_phenotypes": 15,
+   "n_eval": 10000,
+   "sec": 3151.7
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "best": 1.0,
+   "cells": 226,
+   "failed_phenotypes": 21,
+   "n_eval": 15000,
+   "sec": 7031.9
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "best": 1.0,
+   "cells": 256,
+   "failed_phenotypes": 33,
+   "n_eval": 20000,
+   "sec": 12984.4
+  }
+ ],
+ "issue": [
+  377,
+  422
+ ],
+ "mechanism_classes_recovered": [
+  "KVSTORE",
+  "PROGRAM",
+  "TABLE"
+ ],
+ "n_evaluations": 20000,
+ "proposal_tries_charged": 404592,
+ "receipt_sha256": "c9482944f464660b752c10534e208d8993295ed5bcfbe78e383efdfd1845ec70",
+ "revival_record": "RV-377-087",
+ "run_tag": "V37_B1X_MECHANISM",
+ "schema": "StageB1XMechanismDescriptorV1",
+ "seed": 2,
+ "status": "EXECUTED_EXACT_AT_SCOPE",
+ "terminal": "NEUTRAL_GRAMMAR_REDISCOVERS_KNOWN_FORMS_AT_SCOPE",
+ "the_only_change_from_b1": "one added archive coordinate: the number of UPDATE-class nodes reachable from TARGET, bucketed at 0/1/2/3+. Same operator grammar, same charged VM, same ecology, same theta, same budget, same seeds.",
+ "theta": 0.85
+}
