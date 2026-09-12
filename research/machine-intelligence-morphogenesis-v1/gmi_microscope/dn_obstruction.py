@@ -72,6 +72,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(os.path.dirname(HERE), "microscopes", "results")
 THETA = 0.85
 SEARCH_BUDGET = 1 << 16  # declared node budget for SEARCH_ENUM; exceeding it yields -1 (no decision)
+# RV-377-054 (the one minimal justified change after RV-377-053): the evaluation set was 8 instances
+# (5 unsatisfiable), at which a negative twin carrying d = 2 UNDERIVED functionals is correct with
+# probability 3/4 on an unsatisfiable instance and 1/4 on a satisfiable one, so it clears theta = 0.85
+# by chance with probability 0.0433 per cell - 0.357 over a ten-cell grid, and it happened once
+# (m32_d2_k32 at 0.875), displacing the candidate on that cell's frontier (gap DG-3). Raising the
+# evaluation set to 16 instances (10 unsatisfiable) drops that to 0.00306 per cell and 0.0302 over the
+# grid. Nothing else about the ecology, the rows, the prices or the charging changes.
+N_EVAL = 16
+N_UNSAT_EVAL = 10
 
 
 def lcg_bits(seed, m):
@@ -164,7 +173,7 @@ def _nullspace(M, basis, pivots, m):
 
 
 # ------------------------------------------------------------------ ecology
-def ecology(m, k, d=2, n_dev=6, n_eval=8, n_unsat_eval=5, seed=17):
+def ecology(m, k, d=2, n_dev=6, n_eval=N_EVAL, n_unsat_eval=N_UNSAT_EVAL, seed=17):
     """A declared move set of k moves whose span has EXACTLY corank d, independently of k.
 
     Construction: d hidden check functionals are declared; m - d independent moves are drawn inside
@@ -518,7 +527,8 @@ def main(tag="V29_N11_OBSTRUCTION", seed=0, cells_subset=None):
         "revival_record": "RV-377-053", "run_tag": tag,
         "domain_candidate": "N11 invariant / obstruction intelligence",
         "hypothesis_source": "reconstructed from the Track B brief; GMI_NOVEL_DOMAIN_HYPOTHESES_V1.md is absent from this branch (see GMI_DOMAIN_N8_N11_EXECUTED_V1.md section 0)",
-        "column": col, "theta": THETA, "search_budget": SEARCH_BUDGET,
+        "column": col, "theta": THETA, "search_budget": SEARCH_BUDGET, "n_eval": N_EVAL, "n_unsat_eval": N_UNSAT_EVAL,
+        "twin_chance_admissibility": {"per_cell": 0.00306, "over_the_ten_cell_grid": 0.0302, "at_the_superseded_n_eval_8": {"per_cell": 0.04326, "over_the_grid": 0.3574}},
         "cells_spec": specs, "rows": list(ROWS),
         "ecology_facts": {c: {"m": ecos[c]["m"], "k": ecos[c]["k"], "declared_corank": ecos[c]["d"], "measured_rank": ecos[c]["rank"],
                               "measured_corank": ecos[c]["corank"], "n_independent_moves": ecos[c]["n_independent_moves"],
