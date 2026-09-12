@@ -17,20 +17,41 @@ real workload distribution
 manufacturing/maintenance burden
 ```
 
-Suppose two admissible worlds `w1,w2` have the same `X` but different `theta`, and the optimal realization flips:
+Suppose two admissible worlds `w1,w2` have the same observable descriptor `X` but different hidden quantities `theta`. Let the nonempty sets of optimal admissible realizations be
 
 \[
-A\in\arg\min_R C(R;X,\theta_1),
-\qquad
-B\in\arg\min_R C(R;X,\theta_2),
-\quad A\ne B.
+\mathcal A_i = \arg\min_R C(R;X,\theta_i), \qquad i\in\{1,2\}.
 \]
 
-## EF-1 — unmeasured-frontier collision theorem
+The collision condition is
 
-Any deterministic predictor using only `X` must issue the same prediction in both worlds and is therefore wrong in at least one.
+\[
+\boxed{\mathcal A_1\cap\mathcal A_2=\varnothing.}
+\]
 
-A randomized predictor cannot guarantee zero error on both either.
+Different named minimizers alone are insufficient. For example, cost rows `(A=0,B=0)` and `(A=0,B=1)` admit different named minimizers but share the optimal predictor `A`. This correction preserves the intended no-go result while excluding a tied-optimum counterexample.
+
+## EF-1 — unmeasured-frontier collision theorem, tie-corrected
+
+A deterministic **single-realization selector** using only `X` must select the same realization in both worlds. Under the disjoint-optimal-set condition, it is therefore suboptimal in at least one world.
+
+For a randomized selector over a finite or countable registered realization set, zero suboptimality probability in each world requires probability one on each optimal set, hence probability one on their intersection. Disjointness makes this impossible.
+
+More generally, for finitely many compatible worlds `W(X)` and tolerance `epsilon >= 0`, define
+
+\[
+\mathcal A_\epsilon(w)=\{R:C(R;w)\leq\min_Q C(Q;w)+\epsilon\}.
+\]
+
+A single realization with regret at most `epsilon` in every compatible world exists **if and only if**
+
+\[
+\boxed{\bigcap_{w\in W(X)}\mathcal A_\epsilon(w)\ne\varnothing.}
+\]
+
+The deterministic selector chooses an element of this intersection. Conversely, any uniformly acceptable selector lies in it. A randomized selector has almost-sure regret at most `epsilon` in every world exactly when its distribution assigns probability one to this intersection. The finite-world restriction avoids an invalid inference from uncountably many separate probability-one events to their joint intersection.
+
+For more than two worlds, pairwise intersections alone are insufficient: the sets `{A,B}`, `{B,C}`, `{A,C}` overlap pairwise but have empty total intersection. A set-valued prediction can contain an acceptable realization for every world without identifying a single implementable winner; it must be reported as unresolved selection rather than point-prediction success.
 
 Therefore a universal sign claim requires at least one of:
 
