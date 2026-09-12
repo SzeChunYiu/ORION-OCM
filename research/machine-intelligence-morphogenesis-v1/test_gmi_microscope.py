@@ -417,6 +417,7 @@ def test_executed_b2_rows_reproduce_and_are_green(tmp_path):
     assert kv["cells"]["P16_C8_R4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L2H4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L8H1"]["mu_star_measured"]
 
 
+
 def test_e1_iql_receipt_cell_reproduces():
     """F4 (RV-377-063): committed cells replay exactly, the negative twin collapses, and the decisive negative-twin
     ecology ALIAS_NORESID ties target-ambiguity scoring against BOTH parent criteria to the charged op."""
@@ -493,3 +494,71 @@ def test_e1_scdi_receipt_cell_reproduces_and_crossover_is_analytic():
     for key, cross in committed["analytic_crossovers"].items():
         if cross:
             assert max(committed["frontier_grids"][key]) > max(cross.values()), key
+def test_dk_fx8_instrument_is_the_registered_universe():
+    """RV-377-066 clause 1: the microscope's `fx8` column IS the registered 8-bit universe. If this fails, the
+    whole precision comparison is between two instruments neither of which the programme registered."""
+    from gmi_microscope import dk_precision
+    chk = dk_precision.fx8_identity_check()
+    assert chk["bit_identical_to_registered_universe"] and chk["pairs_checked"] == 256 * 256
+    committed = json.loads((RES / "STAGE_DK_V2_PRECISION_GATED.json").read_text())
+    assert committed["fx8_identity_check"] == chk
+
+
+def test_dk_precision_receipt_cells_replay_exactly():
+    """RV-377-066: committed cells of both ecologies replay bit for bit under both the registered 8-bit
+    instrument and the wide one, and the charged operation sequences are IDENTICAL between them -- which is
+    what makes the capability difference attributable to precision alone (GMI-DA5, deliverable 2)."""
+    from gmi_microscope import bases as B, dk_precision as dk
+    committed = json.loads((RES / "STAGE_DK_V2_PRECISION_GATED.json").read_text())
+    col = B.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"]
+    for ek in ("noisy", "ambig"):
+        eco = dk.ecology(ek)
+        assert committed["ecologies"][ek]["events"] == [list(e) for e in eco["events"]]
+        for row in ("BAYES", "BAYESM", "QCOUNT", "MAP", "GEN"):
+            prev = None
+            for prec in ("fx8", "wide"):
+                r = dk.run(row, col, eco, prec)
+                cell = committed["cells"][f"{ek}|{row}|{prec}"]
+                for k in ("capability", "capability_exact", "admissible", "desc_bits", "desc_bits_scaled",
+                          "charged_ops_total", "native_R", "R", "answer_signature", "brier_excess_exact"):
+                    assert r[k] == cell[k], (ek, row, prec, k, r[k], cell[k])
+                if prev is not None:                      # identical charged operation sequence
+                    assert r["R"] == prev["R"] and r["charged_ops_total"] == prev["charged_ops_total"]
+                    assert r["native_R"] == prev["native_R"]
+                prev = r
+    assert committed["charged_op_identity"]["all_rows_all_cells_identical"] is True
+
+
+def test_dk_precision_gated_kingdom_decision_replays():
+    """RV-377-066 clauses 4, 5, 8, 9 and 10: the executed decision, replayed from the committed receipt.
+    E_ambig admits NOTHING at 8 bits while an 8-bit-representable answer would score 0.910880; E_noisy admits a
+    quantized-count posterior at 8 bits and is therefore NOT gated; and the occupant above the threshold is the
+    pruned posterior, not the exact one."""
+    from fractions import Fraction
+    from gmi_microscope import dk_precision as dk
+    committed = json.loads((RES / "STAGE_DK_V2_PRECISION_GATED.json").read_text())
+    eco = dk.ecology("ambig")
+    grid = {x: Fraction(round(float(v) * 16), 16) for x, v in eco["qstar"].items()}   # closest fx8-grid answer
+    assert round(float(dk.capability(eco, grid)[0]), 6) == 0.910880 >= float(dk.THETA)
+    assert committed["admissible_sets"]["ambig|fx8"] == []
+    assert committed["admissible_sets"]["noisy|fx8"] == ["QCOUNT"]
+    assert committed["capability"]["noisy|QCOUNT|fx8"] == 0.863997
+    gated = committed["precision_gated_cells"]
+    for key, v in gated.items():
+        eck, prec = key.split("|")[0], key.split("|")[1]
+        if eck == "ambig" and prec != "fx8":
+            assert v["n_gated_d3"] == v["n_cells"] >= 36, key      # every cell held by a carrier absent at 8 bits
+        if eck == "ambig" and prec == "fx8":
+            assert v["n_gated_d3"] == 0, key
+        if eck == "noisy" and prec == "fx8":
+            assert v["occupants_over_grid"] == ["QCOUNT"], key
+    for p in ("fx16", "fx24", "fx32", "wide"):
+        assert gated[f"ambig|{p}|reduced|flat"]["n_gated_carrier"] == 0                 # exact posterior: no cell
+        assert gated[f"ambig|{p}|native|flat"]["n_gated_carrier"] == 1                  # ... except H = 1, r = 0
+    assert committed["analytic_crossovers"]["ambig|wide|reduced|flat"]["H|BAYES|QCOUNT"] == 52 / 84
+    ref = committed["threshold_refinement"]
+    assert ref["ambig"]["smallest_admissible_total_bits_any_d3_row"] == 10
+    assert ref["ambig"]["BAYES"]["smallest_admissible_total_bits"] == 16
+    assert ref["noisy"]["smallest_admissible_total_bits_any_d3_row"] == 8
+    assert committed["threshold_bits"] == 12
+    assert committed["terminal"] == "PRECISION_GATED_KINGDOM_ESTABLISHED_AT_SCOPE__THRESHOLD_12_BITS"
