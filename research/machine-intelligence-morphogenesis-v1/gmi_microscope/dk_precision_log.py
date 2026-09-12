@@ -26,6 +26,7 @@ A row here is only a threat to RV-377-066 if it is admissible AT fx8 ON E_ambig.
 from __future__ import annotations
 
 import json
+import math
 import os
 import sys
 from fractions import Fraction as F
@@ -41,18 +42,12 @@ EXP_TABLE_ENTRIES = 256
 
 
 def _log2(fr):
-    """exact-enough log2 of a positive rational, to 24 fractional bits, computed by integer bisection (no float)."""
+    """log2 of a positive rational, computed in double precision and then ROUNDED TO THE INSTRUMENT GRID by the
+    caller. Declared: these are DESCRIPTION constants, not charged computation, and the coarsest grid in this
+    microscope is 1/16, which double precision resolves by more than forty orders of magnitude. Exact rational
+    squaring was tried first and is unusable: the numerator doubles in length each iteration."""
     if fr <= 0: return None
-    n, d = fr.numerator, fr.denominator
-    e = 0
-    while n < d: n <<= 1; e -= 1
-    while n >= 2 * d: d <<= 1; e += 1
-    acc = F(e); half = F(1, 2); x = F(n, d)          # x in [1, 2)
-    for _ in range(24):
-        x = x * x
-        if x >= 2: acc += half; x /= 2
-        half /= 2
-    return acc
+    return F(math.log2(fr.numerator) - math.log2(fr.denominator)).limit_denominator(1 << 20)
 
 
 class _LogMixture(Row):
@@ -69,11 +64,15 @@ class _LogMixture(Row):
         tot = sum(h["prior"] for h in e["hyps"])
         self.lpri = [A.const(_log2(F(h["prior"], tot))) for h in e["hyps"]]
         self.lw = list(self.lpri); self.hist = []
-        # the exponent table: 2^v on the instrument grid, one entry per representable log value in [-8, 0]
-        self.exp_tab = {}
-        for u in range(-(1 << (A.Fb + 3)), 1):
-            self.exp_tab[u] = A.const(F(2) ** F(u, A.S)) if F(u, A.S) >= -24 else 0
-        self.w_scalars = 3 * K + EXP_TABLE_ENTRIES
+        # the exponent table: 2^v on the instrument grid, DECLARED with at most EXP_TABLE_ENTRIES entries covering
+        # log2 values in [-16, 0]. Bounding it keeps the row's description finite at every instrument; an unbounded
+        # table would be an unbounded description, which the cost model would rightly refuse. Entries are computed in
+        # double precision and rounded to the instrument grid, like the log constants above and for the same reason.
+        self.exp_lo = -min(16 * A.S, EXP_TABLE_ENTRIES - 1)
+        self.exp_step = max(1, (0 - self.exp_lo) // (EXP_TABLE_ENTRIES - 1))
+        self.exp_tab = {u: A.const(F(math.pow(2.0, u / A.S)).limit_denominator(1 << 20))
+                        for u in range(self.exp_lo, 1, self.exp_step)}
+        self.w_scalars = 3 * K + len(self.exp_tab)
         self.struct_bits = CLASS_STRUCT_BITS
 
     def _condition(self, M, x, y):
@@ -109,7 +108,9 @@ class _LogMixture(Row):
         A = self.A; ws = []
         for j in range(self.K):
             v = self.lw[j]
-            ws.append(self.exp_tab.get(v, 0) if v <= 0 else A.one())
+            if v > 0: ws.append(A.one())
+            elif v < self.exp_lo: ws.append(0)
+            else: ws.append(self.exp_tab.get(v - (v - self.exp_lo) % self.exp_step, 0))
             M.op("S_LOOKUP", "__exp__", 0) if False else M.op("SEL", 1, 0, 0)   # one charged table activation
         self._n(M, self.K)
         return ws
@@ -180,14 +181,17 @@ def main(tag="V1", seed=0):
     b = bases.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"]
     cells = {}
     for kind in ("ambig", "noisy"):
-        eco = ecology(kind)
-        for p in ("fx8", "fx10", "fx12", "fx16", "wide"):
-            for r in ROWS:
-                try:
-                    cells[f"{kind}|{p}|{r}"] = run(r, b, eco, p, seed)
-                except Exception as ex:
-                    cells[f"{kind}|{p}|{r}"] = {"error": f"{type(ex).__name__}: {ex}", "admissible": False}
-    threat = sorted(k for k, v in cells.items() if k.startswith("ambig|fx8") and v.get("admissible"))
+        for variant in ("A", "B", "C"):
+            eco = ecology(kind, variant)
+            for p in ("fx8", "fx10", "fx12", "fx16"):
+                for r in ROWS:
+                    for sd in ((0, 1) if (p == "fx8" and variant == "A") else (0,)):
+                        key = f"{kind}|{variant}|{p}|{r}|s{sd}"
+                        try:
+                            cells[key] = run(r, b, eco, p, sd)
+                        except Exception as ex:
+                            cells[key] = {"error": f"{type(ex).__name__}: {ex}", "admissible": False}
+    threat = sorted(k for k, v in cells.items() if k.startswith("ambig|") and "|fx8|" in k and v.get("admissible"))
     receipt = {"schema": "StageDKPrecisionLogDomainParentV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
                "revival_record": "RV-377-075", "run_tag": tag, "theta": str(THETA),
                "question": "does an 8-bit LOG-DOMAIN Bayesian row - the textbook fix for the underflow that RV-377-066's gate rests on, built only from registered kinds - collapse the precision-gated kingdom?",

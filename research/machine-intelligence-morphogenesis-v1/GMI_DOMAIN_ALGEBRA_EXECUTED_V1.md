@@ -376,7 +376,39 @@ Both were found by **failed clauses**, and neither touches the headline, which c
 
 | axis | status | result |
 |---|---|---|
-| `A` alphabet | **EXECUTED** (`RV-377-072`) | no new kingdom; D6 reduces to D2 at a constant 4-bit overhead |
+| `A` alphabet | **EXECUTED** (`RV-377-072`, `RV-377-073`) | **no new kingdom**; D6 reduces to D2 at a constant 4-bit overhead (GMI-DA8) |
+| `p` precision | **EXECUTED then REFUTED** (`RV-377-066`, refuted by `RV-377-075`) | **no new kingdom**; the gate was a property of the *linear representation*, not of the word width — an 8-bit **log-domain** posterior built only from registered kinds scores 0.874265 where ten linear rows scored exactly 0.0 |
 | `d` depth | running (`RV-377-065`) | — |
-| `p` precision | running (`RV-377-066`) | — |
 | `F` ecology family | running (`RV-377-070`) | — |
+
+### 11c. The precision axis, and the rule its refutation forced
+
+`RV-377-066` was this programme's first positive: 13 of 13 clauses, a carefully controlled instrument (262 144 assertions
+of bit-identity against the registered universe; identical charged operation sequences across all six instruments; a
+representability control showing an admissible answer *is* expressible at 8 bits), and a threshold bisected to 10 total
+bits. It was refuted within the hour by a single missing row.
+
+The gate rested on the linear mixture's inability to concentrate 32 weights at four fractional bits. Log-domain Bayesian
+updating is the textbook fix for exactly that underflow; it needs only `ADD`, `SUB`, `GT`, `SEL` and a table, all
+registered kinds; and it is **more** expensive, not less — 3 104 description bits against 544–596, since the exponent
+table and the log constants are both charged to `desc`.
+
+| ecology, sequence | ten linear rows at fx8 | log-domain row at fx8 |
+|---|---|---|
+| ambiguous, A (the terminal's own sequence) | all exactly 0.0 | **0.874265, admissible** |
+| ambiguous, B | all exactly 0.0 | 0.400545, inadmissible |
+| ambiguous, C | all exactly 0.0 | **0.874265, admissible** |
+| noisy, A | best 0.863997 (quantized counts) | **0.979053** |
+| negative twin: log domain, no renormalization | — | exactly 0.0 everywhere |
+
+**Protocol rule 24, from this failure.** A gate claim — precision, capacity, reliability or depth — must enumerate the
+**representations of the carrier's state** that the alphabet admits, and test the strongest at the gated setting. Rule
+19's parent-maximality now explicitly covers the opponent's *state encoding*, not only its carrier family. `GMI-DA5`
+survives as stated — admissibility is a function of the instrument — but every executed instance must name the encoding.
+
+The general lesson is worth more than the lost result: **a gate is a claim about a representation, not about a word
+width, until every representation the alphabet admits has been tried at that width.** `RV-377-066` controlled for
+everything except the one thing that mattered. It held the charged operation sequence identical across instruments, which
+is the right control for comparing instruments, and it verified that the answer is representable at 8 bits, which is the
+right control for representability. Neither control reaches the choice of state encoding, and that is where the gate
+lived.
