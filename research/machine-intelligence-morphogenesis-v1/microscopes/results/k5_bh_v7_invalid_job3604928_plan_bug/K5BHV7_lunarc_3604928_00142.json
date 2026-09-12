@@ -1,0 +1,13 @@
+{
+ "cpu_seconds": 0.05,
+ "exit_code": 1,
+ "host": "lunarc",
+ "peak_rss_kb": 16320,
+ "schema": "GMIK5BHTaskReceiptV7",
+ "slurm_job_id": "3604928",
+ "status": "FAILED",
+ "task_index": 142,
+ "task_verdict": "TASK_FAILED",
+ "traceback": "Traceback (most recent call last):\n  File \"/projects/hep/fs9/users/scyiu/ORION-OCM-gmi/research/machine-intelligence-morphogenesis-v1/hpc/gmi_k5_bh_task_v7.py\", line 21, in main\n    ex,verified,hs=contracts();p=plan(ex);rec.update({\"git_commit_sha\":git_sha(),\"freeze_hashes\":hs,\"public_beacon_round\":verified[\"target_round\"],\"public_beacon_randomness\":verified[\"randomness\"],\"beacon_verification\":verified,\"python_version\":sys.version.split()[0],\"platform\":platform.platform(),\"n_tasks_in_plan\":len(p),\"resource_request\":{\"cpus\":1}})\n  File \"/projects/hep/fs9/users/scyiu/ORION-OCM-gmi/research/machine-intelligence-morphogenesis-v1/hpc/gmi_k5_bh_task_v7.py\", line 17, in plan\n    def plan(ex):return [{\"lane\":l,\"parameter\":s[\"parameter\"],\"value\":v,\"replicate\":r} for l in sorted(ex[\"final_task_plan\"]) for v in ex[\"final_task_plan\"][l][\"values\"] for r in range(int(ex[\"replicates_per_value\"]))]\n  File \"/projects/hep/fs9/users/scyiu/ORION-OCM-gmi/research/machine-intelligence-morphogenesis-v1/hpc/gmi_k5_bh_task_v7.py\", line 17, in <listcomp>\n    def plan(ex):return [{\"lane\":l,\"parameter\":s[\"parameter\"],\"value\":v,\"replicate\":r} for l in sorted(ex[\"final_task_plan\"]) for v in ex[\"final_task_plan\"][l][\"values\"] for r in range(int(ex[\"replicates_per_value\"]))]\nNameError: name 's' is not defined\n",
+ "wall_seconds": 0.027
+}
