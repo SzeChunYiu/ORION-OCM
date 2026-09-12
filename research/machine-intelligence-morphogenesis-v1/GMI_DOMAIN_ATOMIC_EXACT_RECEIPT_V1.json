@@ -1,0 +1,54 @@
+{
+  "artifact": "GMI_DOMAIN_ATOMIC_EXACT_RECEIPT_V1",
+  "status": "EXACT_FINITE_CALIBRATION",
+  "runner": "run_gmi_domain_atomic_exact_v1.py",
+  "relational_graph_xor": {
+    "n_min": 1,
+    "n_max": 5,
+    "topologies": 1099,
+    "labeled_instances": 59809,
+    "assignment_checks": 1901462,
+    "consistent_instances": 14149,
+    "inconsistent_instances": 45660,
+    "max_beta1": 6,
+    "mismatches": 0,
+    "per_n": {
+      "1": {"topologies": 1, "labeled_instances": 1, "assignment_checks": 2, "consistent": 1, "inconsistent": 0},
+      "2": {"topologies": 2, "labeled_instances": 3, "assignment_checks": 12, "consistent": 3, "inconsistent": 0},
+      "3": {"topologies": 8, "labeled_instances": 27, "assignment_checks": 216, "consistent": 23, "inconsistent": 4},
+      "4": {"topologies": 64, "labeled_instances": 729, "assignment_checks": 11664, "consistent": 393, "inconsistent": 336},
+      "5": {"topologies": 1024, "labeled_instances": 59049, "assignment_checks": 1889568, "consistent": 13729, "inconsistent": 45320}
+    }
+  },
+  "constructive_edge_rule_dags": {
+    "n_min": 1,
+    "n_max": 6,
+    "dag_systems": 33867,
+    "largest_closure": 6,
+    "largest_earliest_round": 5,
+    "mismatches": 0,
+    "per_n": {
+      "1": 1,
+      "2": 2,
+      "3": 8,
+      "4": 64,
+      "5": 1024,
+      "6": 32768
+    }
+  },
+  "checks": {
+    "cycle_syndrome_zero_iff_consistent": true,
+    "consistent_solution_count_is_2_pow_components": true,
+    "syndrome_count_is_2_pow_beta1": true,
+    "constructor_closure_equals_reachability": true,
+    "earliest_round_equals_shortest_rule_depth": true
+  },
+  "domain_novelty_update": {
+    "relational_local_global": "mechanism and beta1-dimensional obstruction law GREEN; H2/H3 novelty reduced on registered family by linear symbolic graph algorithm",
+    "constructive_closure": "future-state and deadline laws GREEN; H3 novelty reduced for explicit monotone systems by linear forward chaining; H0-H2 physical/lifecycle separation remains open",
+    "event_partial_order": "previous W0/W1 result retained; domain novelty reduced to symbolic parent at registered scope",
+    "quotient_invariant": "previous W0/W1 result retained; reduced to GMI semantic quotient theory"
+  },
+  "claim_ceiling": "Exact finite theorem calibration only. Confirms generalized state, obstruction and deadline laws on registered finite families. It does not establish a new domain because matching symbolic reductions exist on these families.",
+  "terminal": "DOMAIN_ATOMIC_EXACT_FINITE_GREEN"
+}
