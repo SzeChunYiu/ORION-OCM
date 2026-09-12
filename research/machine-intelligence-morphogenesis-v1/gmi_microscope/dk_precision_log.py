@@ -22,6 +22,23 @@ Rows added (all charged on the same Machine, same events, same scoring, same the
               attributed to the renormalization and not to the log representation alone.
 
 A row here is only a threat to RV-377-066 if it is admissible AT fx8 ON E_ambig. Anything else leaves that record intact.
+
+TWO DEFECTS IN THIS MODULE, found by the independent hostile audit of RV-377-076 and repaired in place:
+
+  (i)  the readout division was charged only when the denominator was non-zero, making the charged operation sequence
+       DATA-DEPENDENT (3 290 043 activations at fx8/fx10/fx12 against 3 289 787 at fx16). That is exactly the control
+       the instrument comparison rests on. It is now charged unconditionally; all four instruments execute 66 235
+       activations and the fx8 capability is unchanged at 0.874265.
+  (ii) the exponent-table reads were executed and charged on the Machine but never counted in this row's own
+       `charged_ops_total`, understating it by 12 544 on the ambiguous ecology and 25 088 on the noisy one.
+
+A KNOWN LIMITATION OF THIS ROW, diagnosed and NOT repaired, because repairing it changes the description cost and so
+needs its own frozen prediction: the exponent table is a fixed EXP_TABLE_ENTRIES = 256 entries, so the log2 range it
+covers HALVES with every two extra fractional bits — down to -15.94 at fx8, -3.98 at fx12 and only -0.996 at fx16. At
+fx16 almost every renormalized log-weight falls below the table floor, exponentiates to zero, and the served answer is
+zero. The row is therefore admissible at fx8, fx10 and fx12 and inadmissible at fx16, for a reason that has nothing to do
+with precision and everything to do with a table sized in the wrong units. None of this touches the fx8 result, which is
+the whole of the claim against RV-377-066.
 """
 from __future__ import annotations
 
@@ -111,7 +128,10 @@ class _LogMixture(Row):
             if v > 0: ws.append(A.one())
             elif v < self.exp_lo: ws.append(0)
             else: ws.append(self.exp_tab.get(v - (v - self.exp_lo) % self.exp_step, 0))
-            M.op("S_LOOKUP", "__exp__", 0) if False else M.op("SEL", 1, 0, 0)   # one charged table activation
+            M.op("SEL", 1, 0, 0)          # one charged table activation, executed AND counted
+            A.n_ops += 1                  # DEFECT (ii) REPAIRED (RV-377-076 audit): the Machine's phase ledger
+                                          # recorded these reads but the row's own charged_ops_total did not, under-
+                                          # stating it by 12 544 on the ambiguous ecology and 25 088 on the noisy one.
         self._n(M, self.K)
         return ws
 
@@ -126,7 +146,12 @@ class LogBayes8(_LogMixture):
             num = A.add(num, A.mul(ws[j], A.const(F(self.e["hyps"][j]["p"][x]))))
             den = A.add(den, ws[j])
         self._n(M, 2 * self.K)
-        return A.div(num, den) if den else 0
+        # DEFECT (i) REPAIRED, found by the RV-377-076 hostile audit: this division was charged only when the
+        # denominator was non-zero, which made the charged operation sequence DATA-DEPENDENT (3 290 043 activations at
+        # fx8/fx10/fx12 against 3 289 787 at fx16) and so broke the very control the instrument comparison rests on.
+        # It is now charged unconditionally and the result selected afterwards.
+        q = A.div(num, den if den else 1)
+        return q if den else 0
 
 
 class LogMap8(_LogMixture):
