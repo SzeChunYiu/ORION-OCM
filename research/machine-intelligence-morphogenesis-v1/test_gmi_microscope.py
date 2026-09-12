@@ -374,3 +374,81 @@ def test_dc_phase_receipt_cell_reproduces():
         sigs[row] = r["answer_signature"]
     assert sigs["PHASE"] == sigs["PHASE_STORE_MAT"] == sigs["VSA"]
     assert all(v["phase_equals_phase_store_mat"] for v in committed["cross_carrier_equality"].values())
+
+
+def test_e1_iql_receipt_cell_reproduces():
+    """F4 (RV-377-063): committed cells replay exactly, the negative twin collapses, and the decisive negative-twin
+    ecology ALIAS_NORESID ties target-ambiguity scoring against BOTH parent criteria to the charged op."""
+    from gmi_microscope import e1_iql
+    committed = json.loads((RES / "STAGE_E1_V35_F4_IQL.json").read_text())
+    for cell, price, budget, d in (("ALIAS_RESID", "UNIT", 3, "0000"), ("ALIAS_NORESID", "SKEW", 2, "1010")):
+        for row in e1_iql.ROWS:
+            r = e1_iql.run(row, bases.B0, cell, price, budget, tuple(int(c) for c in d))
+            key = f"{cell}|{price}|{budget}|{d}|{row}|{bases.B0.name}"
+            for k in ("capability", "interventions", "intervention_burden", "charged_total",
+                      "interventions_on_nuisance_layer", "answer_signature", "R"):
+                assert r[k] == committed["cells"][key][k], (cell, price, budget, d, row, k)
+    assert all(committed["C2_column_invariance"].values())
+    S = committed["summary_over_orientation_sweep"]
+    for col in committed["columns"]:
+        # the registered F4 regime: target-ambiguity scoring beats both parent criteria outright
+        assert S[f"ALIAS_RESID|UNIT|B=3|{col}|IQL"]["admissible_count"] == 16, col
+        assert S[f"ALIAS_RESID|UNIT|B=3|{col}|PRED_UNCERTAINTY"]["admissible_count"] == 4, col
+        assert S[f"ALIAS_RESID|UNIT|B=3|{col}|ENTROPY"]["admissible_count"] == 4, col
+        # it never spends an intervention on the causally isolated nuisance layer; the parents always do
+        assert S[f"ALIAS_RESID|UNIT|B=3|{col}|IQL"]["mean_interventions_on_nuisance_layer"] == 0.0, col
+        assert S[f"ALIAS_RESID|UNIT|B=3|{col}|PRED_UNCERTAINTY"]["mean_interventions_on_nuisance_layer"] > 0.0, col
+        # the negative twin: the identical machine with a constant ambiguity measure loses 4 of 16 orientations
+        assert S[f"ALIAS_RESID|UNIT|B=3|{col}|IQL_NOAMBIG"]["admissible_count"] == 12, col
+        # RV-377-063 clause 5: remove the prediction-target residual, KEEP the 16-fold aliasing, and the three
+        # criteria become exactly equal -- the result that relocated the F4 discriminator
+        for budget in (2, 3, 4, 7):
+            for price in ("UNIT", "SKEW"):
+                got = {tuple(S[f"ALIAS_NORESID|{price}|B={budget}|{col}|{row}"][k] for k in
+                             ("admissible_count", "mean_interventions", "mean_intervention_burden", "mean_charged_total"))
+                       for row in ("IQL", "PRED_UNCERTAINTY", "ENTROPY")}
+                assert len(got) == 1, (col, budget, price, got)
+    # DG-2: no frontier statement is checked on a grid that fails to reach the crossovers it reports
+    for key, cross in committed["analytic_crossovers"].items():
+        if cross:
+            assert max(committed["frontier_grids"][key]) > max(cross.values()), key
+
+
+def test_e1_scdi_receipt_cell_reproduces_and_crossover_is_analytic():
+    """F6 (RV-377-064): committed cells replay exactly, every serving organization that keeps the authority state
+    emits bit-identical answers, and the price-switch crossover K* is the analytic one."""
+    from gmi_microscope import e1_scdi
+    committed = json.loads((RES / "STAGE_E1_V36_F6_SCDI.json").read_text())
+    pin = committed["cells_spec"]["twin_pinned_family_by_regime"]
+    for G, col in ((2, "HW_TENSOR_PRICED"), (4, "B2_REWRITABLE_TYPED_PROGRAM_GRAPH")):
+        for row in e1_scdi.ROWS:
+            r = e1_scdi.run(row, bases.ALL_HW[col], G, pin)
+            cell = committed["cells"][f"G={G}|{col}|{row}"]
+            for k in ("min_capability", "desc_state", "compile_ops", "probe_ops", "exec_per_query",
+                      "answer_signature", "families", "R"):
+                assert r[k] == cell[k], (G, col, row, k)
+    assert all(committed["C2_column_invariance"].values())
+    # exact developmental equality: compiling a serving realization changes no answer, anywhere
+    for key, eq in committed["developmental_equality"].items():
+        if key.split("|")[2] != "RETRAIN":
+            assert eq["equals_AUTH_INTERP"] and eq["equals_UNIVERSAL"], key
+            assert eq["capability"] == 1.0, key
+    # independently retrained models lose the transfer and are inadmissible from two regimes on
+    for G in (2, 3, 4):
+        assert committed["cells"][f"G={G}|HW_TENSOR_PRICED|RETRAIN"]["admissible"] is False, G
+    # the charged price probe compiles in the native-store column alone, at every G
+    for G in (1, 2, 3, 4):
+        fam = {c: committed["cells"][f"G={G}|{c}|SCDI"]["families"]["A"] for c in committed["columns"]}
+        assert fam == {"HW_TENSOR_PRICED": "INTERP", "B0_LOCAL_ADAPTIVE_TRANSDUCERS": "INTERP",
+                       "B2_REWRITABLE_TYPED_PROGRAM_GRAPH": "TABLE", "U_UNIFORM_UNIVERSAL": "INTERP"}, G
+    # K* against the universal parent is finite, strictly decreasing in G, and matches the frozen analytic values
+    ks = [committed["analytic_crossovers"][f"G={G}|H=64"]["SCDI|UNIVERSAL"] for G in (1, 2, 3, 4)]
+    assert ks == sorted(ks, reverse=True), ks
+    for got, want in zip(ks, (51.66, 24.96, 11.41, 10.02)):
+        assert abs(got - want) / want < 0.05, (got, want)
+    # shared authority plus a FIXED compiled serving form never occupies the frontier: the universal table dominates it
+    for G in (1, 2, 3, 4):
+        assert "AUTH_TABLE" not in committed["frontier_occupants_over_extended_grid"][f"G={G}|H=64"], G
+    for key, cross in committed["analytic_crossovers"].items():
+        if cross:
+            assert max(committed["frontier_grids"][key]) > max(cross.values()), key
