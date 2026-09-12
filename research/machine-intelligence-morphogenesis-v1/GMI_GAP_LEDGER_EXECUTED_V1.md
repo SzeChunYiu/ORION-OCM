@@ -26,8 +26,27 @@ Claim levels: `PROVED_AT_SCOPE`, `PARENT_THEOREM_UNDER_ASSUMPTIONS`, `EMPIRICALL
 
 | id | gap | why it blocks | concrete closure experiment |
 |---|---|---|---|
-| **DG-4** | **L8-ADMISSIBILITY.** The occupancy half of the domain selection law is `PROVED_AT_SCOPE` (1 980/1 980 cells given the true admissible set), but predicting *which* carriers are admissible in an unseen ecology is unsolved. | Every domain-level prediction of an unseen niche runs through it; it is the whole error term of `RV-377-060` (0.3932 against 0.99). | A closed form per carrier on the symmetric family. Executed so far: `cap_S5h = (48 − |k|)/48` for \|k\| ≤ 12 (breaks at 13), `cap_S5 = 1 − |k|/12`. Needed: an **initialization-relative** form for the coefficient carrier (its admissibility is not sign-symmetric: 0.9167 at k = 2 against 0.8490 at k = −2) and a **grammar-distance** form for the search carrier (admissibility falls to 0.8333 at \|k\| ≥ 12, where no registered carrier is admissible at all). |
+| **DG-4** *(now partially closed — see §2b)* | **L8-ADMISSIBILITY.** The occupancy half of the domain selection law is `PROVED_AT_SCOPE` (1 980/1 980 cells given the true admissible set), but predicting *which* carriers are admissible in an unseen ecology is unsolved. | Every domain-level prediction of an unseen niche runs through it; it is the whole error term of `RV-377-060` (0.3932 against 0.99). | A closed form per carrier on the symmetric family. Executed so far: `cap_S5h = (48 − |k|)/48` for \|k\| ≤ 12 (breaks at 13), `cap_S5 = 1 − |k|/12`. Needed: an **initialization-relative** form for the coefficient carrier (its admissibility is not sign-symmetric: 0.9167 at k = 2 against 0.8490 at k = −2) and a **grammar-distance** form for the search carrier (admissibility falls to 0.8333 at \|k\| ≥ 12, where no registered carrier is admissible at all). |
 | **G6** | the coefficient carrier was not recovered by neutral search | the biosphere protocol makes known-form recovery a gate on every unknown-form claim | Superseded in part: over the **typed IR alphabet** neutral search recovers retrieval memory, indexed memory and symbolic search to admissibility in 6 000 evaluations, and one seed recovers the coefficient carrier as well (`RV-377-058`, running). In the **expression-tree** grammar the quality-diversity revival reaches 0.8689 against a sound baseline of 0.7346 (`RV-377-057`, running). Closure = both records adjudicated with their ablations. |
+
+### 2b. DG-4 after `RV-377-062`: closed for retrieval carriers, restated for optimization carriers
+
+Adjudicating seventeen executed symmetric ecologies against candidate closed forms splits the four registered carriers
+two and two:
+
+| carrier | closed form | exact on | fails at |
+|---|---|---|---|
+| exemplar memory | `cap = 1 − |k|/12` | 17 of 17 | — |
+| generalizing memory | `cap = (48 − |k|)/48` | 16 of 16 with \|k\| ≤ 12 | k = 13 (0.7083 against 0.7292) |
+| program search | `cap = f(distance to the nearest grammar coefficient)`: 1.0 / 0.9375 / 0.9167 at distance 0 / 1 / 2 | 12 of 12 with \|k\| ≤ 8 | \|k\| > 8, as target values approach the fixed-point range |
+| coefficient / gradient | **none** | — | polynomial fits err 0.064 / 0.037 / 0.034 (degrees 1/2/3) on held-out k = 4, 7, 11; and it is initialization-asymmetric by 0.07–0.15 between +k and −k |
+
+So the gap is not a missing formula. Capability is **combinatorial** for retrieval-type carriers — a counting argument over
+what the ecology exposes — and **dynamical** for optimization-type carriers, where it is the endpoint of a trajectory from
+a fixed initialization. A domain-level prediction of an unseen niche is exactly as a-priori as its weakest carrier's
+admissibility model; for any niche containing an optimization carrier it is not a-priori at all, and admissibility must be
+obtained by replay. The residual is therefore reclassified `OPEN_NONBLOCKING`, and its closure experiment becomes a bound
+on how far replay can be truncated, not a search for a formula.
 
 ## 3. Open, non-blocking
 
