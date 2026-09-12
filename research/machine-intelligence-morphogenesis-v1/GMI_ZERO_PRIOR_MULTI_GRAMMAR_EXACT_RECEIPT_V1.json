@@ -1,0 +1,45 @@
+{
+  "artifact": "GMI_ZERO_PRIOR_MULTI_GRAMMAR_EXACT_RECEIPT_V1",
+  "status": "EXECUTED_EXACT_ENUMERATION",
+  "runner": "run_gmi_zero_prior_multi_grammar_exact_v1.py",
+  "target_space": {
+    "domain": "F_5 -> F_5",
+    "functions": 3125
+  },
+  "grammars": {
+    "table": "2-bit tag + five 3-bit output symbols",
+    "polynomial": "2-bit tag + 3-bit coefficient count + 3 bits per F_5 coefficient",
+    "expression": "2-bit tag + 4 bits per prefix AST token over x, constants, add, multiply, equality"
+  },
+  "minimum_cost_histogram_bits": {
+    "6": 6,
+    "11": 19,
+    "14": 105,
+    "17": 2995
+  },
+  "compressed_below_table_count": 130,
+  "compressed_below_table_fraction": 0.0416,
+  "no_saving_count": 2995,
+  "no_saving_fraction": 0.9584,
+  "strict_winners": {
+    "expression": 11,
+    "polynomial": 119,
+    "table": 2495
+  },
+  "winner_sets": {
+    "table|polynomial": 500,
+    "expression": 11,
+    "polynomial": 119,
+    "table": 2495
+  },
+  "checks": {
+    "all_3125_functions_exhausted": true,
+    "minimum_cost_histogram_matches_theorem": true,
+    "130_functions_compress_below_table": true,
+    "2995_functions_have_no_registered_saving": true,
+    "500_degree3_targets_tie_table_and_polynomial": true,
+    "2495_targets_are_strict_table_winners": true
+  },
+  "claim_ceiling": "Exact finite comparison across three frozen grammars only. Does not establish language-independent incompressibility or broad learning-scale K4 closure.",
+  "terminal": "ZERO_PRIOR_COMPRESSION_MULTI_GRAMMAR_EXACT_GREEN"
+}

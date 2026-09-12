@@ -1,0 +1,32 @@
+{
+  "artifact": "GMI_SHARED_VS_SPECIALIZED_LEARNING_RECEIPT_V1",
+  "status": "EXECUTED_SYNTHETIC_MONTE_CARLO_CALIBRATION",
+  "runner": "run_gmi_shared_vs_specialized_learning_v1.py",
+  "seed": 20260912,
+  "replicates_per_cell": 3000,
+  "grid": {
+    "m": [2, 4, 8],
+    "N": [2, 4, 8, 16, 32],
+    "sigma": [0.1, 0.5, 1.0],
+    "tau": [0.0, 0.05, 0.1, 0.25, 0.5, 1.0]
+  },
+  "cells": 270,
+  "theoretical_tie_cells": 4,
+  "non_tie_cells": 266,
+  "non_tie_winner_matches": 266,
+  "max_absolute_monte_carlo_error": {
+    "shared": 0.008543715935942442,
+    "separate": 0.01633989319788387
+  },
+  "mean_absolute_monte_carlo_error": {
+    "shared": 0.0004965964088351869,
+    "separate": 0.0008178496344128529
+  },
+  "checks": {
+    "all_non_tie_cells_match_exact_phase_prediction": true,
+    "shared_error_matches_tau2_plus_sigma2_over_mN": true,
+    "separate_error_matches_sigma2_over_N": true
+  },
+  "claim_ceiling": "Synthetic scalar-context finite-data calibration only. Does not establish nonlinear neural MoE superiority or real-world K5 closure.",
+  "terminal": "SHARED_SPECIALIZED_FINITE_DATA_PHASE_GREEN"
+}
