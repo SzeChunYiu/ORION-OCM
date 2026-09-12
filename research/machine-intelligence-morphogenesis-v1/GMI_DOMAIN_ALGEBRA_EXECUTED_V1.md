@@ -461,7 +461,7 @@ Both were found by **failed clauses**, and neither touches the headline, which c
 |---|---|---|
 | `A` alphabet | **EXECUTED** (`RV-377-072`, `RV-377-073`) | **no new kingdom**; D6 reduces to D2 at a constant 4-bit overhead (GMI-DA8) |
 
-| `p` precision | **EXECUTED then REFUTED** (`RV-377-066`, refuted by `RV-377-075`) | **no new kingdom**; the gate was a property of the *linear representation*, not of the word width — an 8-bit **log-domain** posterior built only from registered kinds scores 0.874265 where ten linear rows scored exactly 0.0 |
+| `p` precision | **EXECUTED, REFUTED, then the refutation AUDITED and upheld** (`RV-377-066` → `RV-377-075` → `RV-377-076`, 9 of 11 clauses) | **no new kingdom**; the gate was a property of the *linear representation*, not of the word width. Seven independent attacks on the refuting row leave capability bit-identical. The residual is answered: **precision buys description and execution cost, not capability** — two extra bits buy back 2 508 description bits and 196 charged activations per query, and on the noisy ecology precision buys nothing at all |
 | `d` structure depth | **EXECUTED** (`RV-377-065`, 7 of 12 clauses) | **no new kingdom** to depth 6; the parent-maximal opponent occupies every cell. And `GMI-DA3` itself is **falsified for the XOR code**: one bounded reduction with overhead ≤ 5.3449 covers the whole unbounded-depth family. It survives only for a *permutation-protected* code, so the theorem must name its binding operator |
 | `F` ecology family | **EXECUTED** (`RV-377-070`) | **no new kingdom**; the refined family **splits 10 of 14** exact-equality certificates and 3 survive the known gates, but every reduction survives *qualified by a declared capacity bound* rather than overturned. Two candidates (DC7, and F6 against the universal parent) gain a `CANDIDATE_CLASS_SEPARATION` no known gate explains — and still fail criterion 3, the reduction existing at polynomial cost (8Q² or 6Q² against 2Q), which by §9 is one more crossover law of the L4 family |
 
@@ -517,6 +517,29 @@ everything except the one thing that mattered. It held the charged operation seq
 is the right control for comparing instruments, and it verified that the answer is representable at 8 bits, which is the
 right control for representability. Neither control reaches the choice of state encoding, and that is where the gate
 lived.
+
+### 11c-audit. The refutation was itself attacked, and it survived — but its accounting did not
+
+`RV-377-076` was commissioned to break the refuting row rather than accept it. Seven attacks; **none reverses the
+verdict**, because capability is bit-identical under every attack and every re-charging regime: the log constants
+recomputed by exact integer comparison with no floating point (0 wrong over 1 056 constants and 256 table entries across
+8 cells), 137 326 traced values at fx8 lying in exactly `[-128, 127]` with 0 outside, the renormalization charged within
+1 activation per event of the theoretical minimum, and a nonsense-ecology control leaving every answer signature
+identical while the positive control moves.
+
+It found **three things against the refuting row**, all recorded rather than absorbed:
+
+| finding | effect |
+|---|---|
+| the readout division was charged only when the denominator was non-zero | the charged op sequence was **data-dependent** (3 290 043 at fx8/10/12 against 3 289 787 at fx16) — the very control the comparison rests on. Repaired: all instruments now execute 66 235 activations, capability unchanged |
+| the exponent-table reads were charged on the Machine but not counted in the row's own total | understated by 12 544 and 25 088 activations, in 48 of 72 cells. Repaired |
+| no table kind is native in the registered column, which realizes a store lookup as a **linear scan** | re-charged honestly, execution cost per query rises from 208 to **8 432**, a factor of 40.54. The claim ceiling said the charging was generous to this row; it was more generous than stated |
+
+And one limitation diagnosed and deliberately **not** repaired, because repairing it changes the description cost and so
+needs its own frozen prediction: the exponent table is a fixed 256 entries, so the log₂ range it covers **halves with
+every two extra fractional bits** — down to −15.94 at fx8, −3.98 at fx12, only −0.996 at fx16. The row is admissible at
+8, 10 and 12 bits and fails at 16 for a reason that has nothing to do with precision. None of it touches the fx8 result,
+which is the whole of the claim.
 
 
 ---
