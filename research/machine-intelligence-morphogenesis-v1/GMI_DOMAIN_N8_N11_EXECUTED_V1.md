@@ -8,7 +8,7 @@ Companions: `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` (domain criterion §2, domai
 `microscopes/results/STAGE_DN_V28_N8_AUTOCATALYTIC.json`,
 `microscopes/results/STAGE_DN_V29_N11_OBSTRUCTION.json`,
 `microscopes/results/STAGE_DN_V30_N11_OBSTRUCTION_R2.json`,
-`REVIVAL_LEDGER_N8_N11.jsonl` (RV-377-052, RV-377-053, RV-377-054).
+`REVIVAL_LEDGER_N8_N11.jsonl` (RV-377-078, RV-377-079, RV-377-080 — **renumbered 2026-09-12** from RV-377-052/053/054, which three parallel lanes had drawn from a shared counter without coordinating).
 
 ---
 
@@ -108,7 +108,7 @@ reduced-price frontier in **no cell at no horizon** (0 of 58 frontier entries).
 > factor 1.0) with a D5 derivation search as the compile step. Criterion 3 fails outright at serve;
 > criterion 4 is satisfied **only in the development coordinate**. A carrier whose separation lives
 > entirely in development is a compiler, not a domain. Criteria 5 and 6 (neutral recovery, remint
-> recurrence) remain untested. Record RV-377-052, **5 of 7 clauses**: the compile ratio is not monotone
+> recurrence) remain untested. Record RV-377-078, **5 of 7 clauses**: the compile ratio is not monotone
 > in `L` (it dips at `L = 16`), and `TABLE_FULL` takes the `H = 1` frontier from `L = 12` onward — both
 > prediction-writing errors, no instrument defect.
 
@@ -220,7 +220,7 @@ ratio `(m−d)/d` of the two dual presentations and vanishes precisely where the
 > against the search parent. Criterion 3 **fails** against D1 with exact answer equality in 10 of 10
 > cells. The executed exponential separation is recorded as a separation against a parent that the
 > dense row beats by four to six orders of magnitude on the same instances. Criteria 5 and 6 remain
-> untested. Records RV-377-053 (**5 of 8 clauses**) and RV-377-054 (**7 of 10 clauses**).
+> untested. Records RV-377-079 (**5 of 8 clauses**) and RV-377-080 (**7 of 10 clauses**).
 
 ---
 
@@ -247,7 +247,7 @@ ratio `(m−d)/d` of the two dual presentations and vanishes precisely where the
    10 unsatisfiable at p = 3/4, 4 of 6 satisfiable at p = 1/4 — joint ≈ 0.2 % per cell), and since it
    carries the candidate's exact description and serve cost with **none of its derivation cost**, it
    displaces the candidate on that cell's frontier. The one minimal justified change permitted by the
-   directive (enlarging the evaluation set from 8 to 16 instances, RV-377-054) was executed and
+   directive (enlarging the evaluation set from 8 to 16 instances, RV-377-080) was executed and
    **failed for a diagnosable reason**: twin admissibility is a property of the twin's own fixed declared
    draw, not instance-sampling noise, and a nested instance stream cannot resample it. The correct
    remedy — a declared **twin ensemble** with the capability reported as an ensemble mean and spread —
