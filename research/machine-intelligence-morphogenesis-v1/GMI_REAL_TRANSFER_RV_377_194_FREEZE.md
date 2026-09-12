@@ -172,4 +172,94 @@ md5-verified on both sides. 96 tasks. The C lane is not re-run (GREEN and parent
 
 ## 8. Adjudication (append-only)
 
-(empty before the run)
+Freeze `03a2fea81a79848f5132368fbc992aa695349efd` (this file + `gmi_real_transfer_rv194.py`, one commit; nothing changed after
+it). billy-laptop (Python 3.11.14, scikit-learn 1.9.1, numpy 2.4.6, load 6.9 at launch), 3 niced processes, 96/96
+tasks, receipts `microscopes/results/real_transfer_rv194/`, aggregate `REAL_TRANSFER_RV194_AGGREGATE.json` (md5
+`bd570509…` identical on both hosts). A one-replicate mechanics smoke (`--freeze-sha SMOKE`, `smoke_rv194/` on the
+laptop only, not synced, not evidence) preceded the run and changed nothing. Prediction hashes re-checked at write on
+96/96.
+
+### 8.1 B_SPECIALIZATION_REAL (mass-weighted term, band, off-band grid at n_test = 8000)
+
+| τ | class | predicted | observed | agree | oppose | band-in | verdict | law right / CV right | gap pred − obs (mean |·|) | se_Δ |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.0 | BAND | SHARED 7, SPEC 1 | SHARED 8 | 7/8 | 1 | 0 | INSIDE_BAND_BY_CONSTRUCTION | 7 / 8 | 0.019 | 0.0045 |
+| 0.1 | BAND | SHARED 5, SPEC 3 | SHARED 8 | 5/8 | 3 | 1 | INSIDE_BAND_BY_CONSTRUCTION | 5 / 6 | 0.022 | 0.0043 |
+| 0.3 | BAND | SHARED 4, SPEC 4 | SPEC 6, SHARED 2 | 4/8 | 4 | 2 | INSIDE_BAND_BY_CONSTRUCTION | 4 / 4 | 0.015 | 0.0037 |
+| 0.5 | OFF | SPEC 8 | SPEC 8 | 8/8 | 0 | 0 | **GREEN** (+0.049) | 8 / 7 | 0.009 | 0.0049 |
+| 0.65 | OFF | SPEC 8 | SPEC 8 | 8/8 | 0 | 0 | **GREEN** (+0.222) | 8 / 8 | 0.027 | 0.0065 |
+| 0.8 | OFF | SPEC 8 | SPEC 8 | 8/8 | 0 | 0 | **GREEN** (+0.559) | 8 / 7 | 0.035 | 0.0077 |
+| 1.0 | OFF | SPEC 8 | SPEC 8 | 8/8 | 0 | 0 | **GREEN** (+0.795) | 8 / 8 | 0.041 | 0.0103 |
+
+- **P-1 holds** (four off-band cells GREEN, 32/32 agreement, 0 opposing, 0 band-inside). **P-2 holds** in verdict class;
+  the tally at τ = 0 (SPECIALIZED named 1/8) is below the predicted 2–6/8 — the mass-weighted crossover sits slightly
+  above the real slope heterogeneity, so SHARED is named 7/8 and observed 8/8. **P-4 holds** (SHARED test MSE > 0.50 on
+  6/8 at τ = 1.0; the law predicted 8/8, the two extra within 1.5 se of the bar). **P-8 holds**: the law names CV's winner
+  on 30/32 off-band replicates at 0 vs 15 extra fits (mean 14.9); on the two differing replicates (0.5 r4: CV SHARED;
+  0.8 r3: CV NONE) the law was right and CV wrong.
+- **P-3 fails**: |Δ_pred − Δ_obs| ≤ 0.05 on 25/32 off-band replicates (8, 7, 6, 4 by cell), not ≥ 28; the calibration
+  residual grows with τ (mean |·| 0.009 → 0.041, extremes ±0.09 at τ = 1.0) while the direction never fails. The
+  Chow-form τ̂² is a noisier estimator of the realised gap at large offsets than at small ones; a quantitative-gap claim
+  is not made.
+- **Band as measured vs planned.** `se_Δ` = 0.0024–0.013 at n_test = 8000 against the planning 0.010: the paired test
+  error is 2× smaller than the conservative unpaired figure, so the three declared BAND cells were band-inside on only
+  0, 1, 2 replicates. Their misses are descriptor-side (e.g. τ = 0 r3: τ̂² = 0.054 from a 9-row mode, predicted
+  SPECIALIZED, observed SHARED at 5.5 se), not test-side: at the crossover the obstruction is now the descriptor's
+  finite-sample noise, not the test's. No kill fires (K1 no cell RED; K2 no off-band cell with n_in ≥ 4; K5 30/32).
+- **Terminal (frozen logic):**
+  `B_SPECIALIZATION_REAL_GREEN_OFF_BAND_UNDER_MASS_WEIGHTED_TERM__FREE_LAW_EQUALS_CV_OFF_BAND__CROSSOVER_CELLS_INSIDE_BAND_BY_CONSTRUCTION`.
+  At the crossovers CV is right 18/24 vs the law 16/24 (the honest residual: CV still wins there, by two replicates).
+
+### 8.2 F_CONTINUAL_REAL (within-train probe, admissibility band; 0.95 at the frozen 450 queries)
+
+| a | class | predicted | observed | agree | oppose | band-in | verdict | law / CV / holdout right | ρ̂_REPLAY | ρ̂_REWRITE | REPLAY-old pred − obs |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0.6 | OFF | EXPANSION 8 | EXPANSION 7, NONE 1 | 7/8 | 0 | 1 | **GREEN** (+1.00) | 7 / 5 / 6 | 0.50 | 0.97 | −3.1 pp |
+| 0.8 | OFF | EXPANSION 8 | EXPANSION 8 | 8/8 | 0 | 0 | **GREEN** (+1.00) | 8 / 5 / 8 | 0.51 | 0.96 | −1.0 pp |
+| 0.9 | OFF | EXPANSION 8 | EXPANSION 8 | 8/8 | 0 | 0 | **GREEN** (+1.00) | 8 / 5 / 7 | 0.44 | 0.95 | −0.1 pp |
+| 0.95 | BAND | REPLAY 5, EXPANSION 3 | REPLAY 6, EXPANSION 2 | 5/8 | 2 | 3 | INSIDE_BAND_BY_CONSTRUCTION | 5 / 2 / 6 | 0.38 | 0.75 | −0.8 pp (mean |·| 1.0) |
+| 1.0 | OFF | REWRITE 8 | REWRITE 8 | 8/8 | 0 | 0 | **GREEN** (+34.4) | 8 / 8 / 8 | — | — | −1.6 pp |
+
+- **P-5 holds** (7, 8, 8, 8 of 8; one band-inside replicate lane-wide off the crossover, 0.6 r7, EXPANSION old 0.933 =
+  1.6 sd below the bar, observed NONE). **P-6 holds**: the corrected law names REPLAY 5/8 (the corrigendum-V3 rule named
+  it 0/8 in RV-377-191); REPLAY observed admissible 6/8; mean |predicted − observed REPLAY old accuracy| 0.98 pp, signed
+  −0.83 pp (still pessimistic by under one test sd). The three band-inside replicates are the two opposing ones (REPLAY
+  observed 0.962/0.964, predicted 0.940/0.941; z 1.19, 1.41) and the one predicted-inadmissible (REPLAY 0.9467, z 0.32);
+  the five band-outside replicates all agree. The cell keeps its by-construction class; no GREEN is claimed for it.
+  **P-7 holds** (ρ̂_REPLAY 0.38–0.51, ρ̂_REWRITE 0.95–0.97 at a ≤ 0.9 and 0.75 at 0.95): the probe measures retention.
+- **P-9 first clause fails; K5 fires by its letter.** The law names CV's winner on 24/32 off-crossover replicates (< 29).
+  All eight differing replicates are the same event: 3-fold CV named **NONE** (EXPANSION old accuracy below 0.95 on
+  2/3-size folds, ≈ 360 old rows) where the law named EXPANSION and EXPANSION won on the protected test. Off the
+  crossover the law is right 31/32 and CV 23/32; **P-9 second clause also fails, in the law's favour**: at 0.95 the law
+  is right 5/8 and CV 2/8 (CV named NONE 3/8 and EXPANSION 3/8). K5 as frozen measures *agreement with* CV, not
+  *correctness against* CV; on these receipts it is triggered entirely by CV's own errors. This is a specification
+  defect of §5 K5, recorded here and not repaired by re-scoring (never retune after outcome); the frozen terminal
+  label stands and the substantive reading is stated beside it.
+- **P-10 holds; K6 fires**: the law names the free holdout parent's winner on 37/40 (holdout right 35/40, the law 36/40).
+  The free predictor that equals (here: beats) 3-fold CV off-crossover is holdout selection on the 20 % probe; the law is
+  holdout selection with the structural decomposition `ê + ρ̂ (1 − â)` and the same cost (0 extra fits, deployed models
+  on 80 % of the training split; CV: 12 extra fits, 4.1–4.6 s vs 0.01–0.02 s per replicate).
+- **Terminal (frozen logic):** `F_CONTINUAL_REAL_GREEN_OFF_CROSSOVER__PARENT_SUFFICIENT_CV__PARENT_SUFFICIENT_HOLDOUT`.
+  Substantive reading from the same receipts: direction GREEN on all four off-crossover cells under the probe law;
+  the law is a free predictor that is *more* accurate than 3-fold CV in this lane (31/32 vs 23/32 off-crossover;
+  5/8 vs 2/8 at the crossover) and *equal* to free holdout selection (37/40 same winner) — `PARENT_SUFFICIENT_HOLDOUT`
+  is the honest parent terminal; `PARENT_SUFFICIENT_CV` is the label of a mis-specified kill.
+
+### 8.3 Cost-charged comparison and aggregate
+
+| lane | off-band replicates | law right | CV right | law = CV | law extra fits | CV extra fits | crossover: law / CV right |
+|---|---|---|---|---|---|---|---|
+| B | 32 | 32 | 30 | 30 | 0 | 15 | 16 / 18 (of 24) |
+| F | 32 | 31 | 23 | 24 | 0 (+ 20 % probe) | 12 | 5 / 2 (of 8); holdout 6 |
+| both | 64 | **63** | **53** | 54 | 0 | 12–15 | 21 / 20 (of 32) |
+
+Aggregate terminal by the frozen logic: **`REAL_TRANSFER_PHASE_LAWS_PARENT_SUFFICIENT_CV`** (K5 on F). What the receipts
+show: off-band the transferred laws are a free, pre-outcome predictor right on 63/64 replicates where 3-fold CV is right
+on 53/64 at 12–15 extra fits per replicate; at the crossovers neither is reliable (law 21/32, CV 20/32, free holdout
+6/8 on F) and the obstruction has moved from the test (bands now 2–4× narrower than the crossover gaps) to the
+descriptors' own finite-sample noise (τ̂² from 7–17-row modes; ρ̂ from 8–17 disputed probe rows). The RV-377-191 finding
+"CV wins at the crossover 5 vs 1" is reversed under the corrected law (5 vs 2), and the RV-377-193 finding "CV right
+21/32 vs law 19/32" is reversed off-band (32 vs 30). One iteration; no further run from this freeze. Successors named,
+not run: (i) a corrected K5 (law-right vs CV-right) is a scoring-rule change only and needs no run; (ii) descriptor
+precision at the crossover (mode-mass floor for τ̂², larger probe for ρ̂) is the next single stage; (iii) a larger digit
+world for an off-band 0.95 cell is a new world.

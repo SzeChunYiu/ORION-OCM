@@ -408,3 +408,46 @@ grid sits inside the finite-sample band of the frozen constitution they are unde
 laws as stated lack the learner-class terms that would move the crossover. The physical frontier, evaluated from
 external measurements rather than derived, points at the classical parent for every registered obligation, and its
 identifiability boundary is now a pair of named, bounded, unmeasured workload variables rather than an open set.
+
+## Addendum V1.3 (2026-09-12, RV-377-194) — real-transfer crossover cells re-tested off-band; cost-charged parent
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/real_transfer_rv194/` (RV-377-194, freeze
+`03a2fea8`, billy-laptop, 96/96, prediction records hashed before test access). Bookkeeping: `GMI_CLOSURE_GAP_LEDGER_V9.md`,
+`GMI_REAL_TRANSFER_RV_377_194_FREEZE.md` §8.
+
+**What changed in the laws (pre-registered, learner-class terms named in the previous addendum).** The specialization
+law's variance term is the mass-weighted `σ² p m / n`; the continual law's retention fraction is a within-train probe
+quantity `ρ̂_s` (fraction of the disputed mass the deployed strategy loses on the old task, measured on a 20 % probe of
+the training split, never on the test), with the K5 midpoint rule as the special case `ρ̂ = 1/2`. Both lanes carry the
+K5 B lane's finite-sample band explicitly (z = 2 on the paired per-query test errors, or on the accuracy bar), and the
+B grid was placed off the band by a frozen power calculation (n_test = 8000, τ ∈ {0.5, 0.65, 0.8, 1.0}). The F crossover
+cell cannot be placed off the band on digits (≈ 7 600 queries needed, 1 797 rows exist) and was declared inside-band
+by construction before the run.
+
+**Result.** Off the band the transferred laws name the protected winner on 63/64 replicates (B 32/32 across four cells,
+0 opposing; F 31/32 across four cells, 0 opposing) at zero extra training runs, where 3-fold cross-validation names it
+on 53/64 at 12–15 extra fits per replicate; the eight F differences are all CV naming NONE for a baseline that passes
+the bar when trained on the full development data. At the crossovers neither predictor is reliable (law 21/32, CV
+20/32; free holdout selection 6/8 on F), and the obstruction has moved: the measured test bands (se 0.002–0.013 at
+8 000 queries) are narrower than the crossover gaps, so the residual misses are the descriptors' own finite-sample
+noise (τ̂² from 7–17-row modes, ρ̂ from 8–17 disputed probe rows). The corrected continual law names REPLAY at the
+crossover on 5/8 where the K5 rule named it 0/8. The frozen aggregate terminal is
+`REAL_TRANSFER_PHASE_LAWS_PARENT_SUFFICIENT_CV`, produced by a kill condition that scored agreement with CV rather
+than correctness against it and fired on CV's errors; the label is carried unchanged and its defect recorded.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `REAL_TRANSFER_PHASE_LAWS_ADD_NOTHING_OVER_CV_WHERE_DECIDABLE` | **FALSE** (superseded by RV-377-194: same winner at zero cost in B; more accurate than CV in F) |
+| `REAL_TRANSFER_PHASE_LAWS_FREE_PREDICTOR_RIGHT_ON_63_OF_64_OFF_BAND_REPLICATES__CV_53_OF_64_AT_12_TO_15_EXTRA_FITS` | **TRUE** |
+| `REAL_TRANSFER_CROSSOVER_CELLS_INSIDE_BAND_BY_CONSTRUCTION__UNDECIDED_BY_LAW_21_OF_32_OR_CV_20_OF_32` | **TRUE** |
+| `F_CONTINUAL_REAL_LAW_EQUALS_FREE_HOLDOUT_SELECTION` | **TRUE** (37/40) |
+| `REAL_TRANSFER_RV_377_194_FROZEN_TERMINAL` | `REAL_TRANSFER_PHASE_LAWS_PARENT_SUFFICIENT_CV` (mis-specified kill; not re-scored) |
+
+**Boundary clause (viii), amended by appending.** Where the held-family laws carry their learner-class terms and the
+grid is off the finite-sample band, they are a free, pre-outcome substitute for cross-validation on real learners
+(same-author data); where the grid sits at the crossover the limit is no longer the protected test but the descriptors'
+sample sizes, and no free predictor tested here resolves it. The boundary is unchanged in kind — independent
+authorship, modern scale, fresh episodes rather than datasets — and narrower in extent by one class of claim: the laws
+are no longer "equal to CV where decidable", they are cheaper than CV where decidable and at least as accurate.
