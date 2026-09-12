@@ -1,0 +1,34 @@
+{
+  "schema": "GMIK4ExecutionFreezeV6",
+  "status": "FROZEN_BEFORE_K4_V6_BEACON_AND_PROTECTED_EXECUTION",
+  "prediction_contract": "GMI_K4_LOFO_FREEZE_V1.json",
+  "science_contract": "GMI_K4_NULL_AWARE_SUCCESSOR_FREEZE_V5.json",
+  "predecessor_execution": "K4 V4/V5 wrappers superseded before public beacon; no protected evidence existed",
+  "engine": {
+    "search": {"path": "gmi_k4_search_v5.py", "commit": "23159846cdff04f3c9c6bc16615d1aeefdc9d54d"},
+    "resource_measurement": {"path": "gmi_k4_resource_native_v4.py", "commit": "d36579bbf4745d9c2bf391d89836b95d74f09ac7"},
+    "null_frontier": {"path": "gmi_k4_null_frontier_v5.py", "commit": "12a46ca88bf1e57cd5ba11eb7a8c1bf1833e8613"}
+  },
+  "execution": {
+    "task": {"path": "hpc/gmi_k4_task.py", "commit": "9f2c7ccbfa1ec7cfab2dc95689e120cfac273f42"},
+    "aggregate": {"path": "hpc/gmi_k4_aggregate_v6.py", "commit": "8af5585806c85ad3f47aa0a3ba65aad0db57e6f6"},
+    "probe": {"path": "hpc/gmi_k4_probe.py", "commit": "87d87cd14c6f5568ec7858f02107171e79f045f6"},
+    "submit": {"path": "hpc/gmi_k4_submit.py", "commit": "53a9af2634b4d397e6c5804459b64c3907a92982"},
+    "array_template": "hpc/gmi_k4_array.sbatch"
+  },
+  "task_plan": {"families":22,"grammars":3,"cells":["w1","w2","w4","w8"],"expected_tasks":264,"budget_per_task":1000000},
+  "task_hash_rule": "SHA256(canonical JSON of family, grammar, cell, prediction-freeze hash, science-freeze hash, execution-freeze hash)",
+  "task_seed_rule": "int(SHA256('GMI-K4-V6' || task_hash || public_beacon_randomness_hex)[:16],16) mod 2^32",
+  "public_beacon_rule": {
+    "network":"League of Entropy drand quicknet mainnet",
+    "chain_hash":"52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "genesis_time":1692803367,
+    "period_seconds":3,
+    "selection":"Use exactly the first quicknet round whose canonical timestamp is at least 900 seconds after the GitHub committed_at timestamp of THIS V6 execution-freeze commit.",
+    "no_reroll":true,
+    "receipt":"GMI_K4_PUBLIC_BEACON_V6.json"
+  },
+  "receipt_rule":"Every task writes a receipt on success/failure. V6 aggregate rejects mixed schemas, stale hashes, missing/duplicate indices, wrong seeds, sub-million GREEN, missing null frontier, or wrong raw result schema.",
+  "protected_execution":"No K4 V6 protected task may execute until GMI_K4_PUBLIC_BEACON_V6.json exists and matches this execution freeze. Development sizing results are excluded.",
+  "claim_ceiling":"Execution provenance closure only. Protected K4 evidence still pending; IG-4 meter bucketing, IG-5 primitive selection, K5, real transfer and physical frontier evidence remain independent gates."
+}
