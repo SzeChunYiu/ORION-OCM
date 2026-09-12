@@ -684,6 +684,20 @@ memory, coefficient, stochastic and attention-like alike.
 **Status:** `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY` over 5 ecologies × 6 interventions × the registered zoo.
 **Receipt:** `STAGE_RULE36_INTERVENTION_ADMISSIBILITY_V1.json` (`RV-377-085`).
 
+> **SECOND SCOPE CORRECTION (`RV-377-101`, gap `DG-9`).** The table's `E_sym3` row is taken on an ecology where the
+> **best constant scores 0.8750 and is therefore admissible at θ = 0.85** — a machine that reads neither its input nor
+> its feedback passes. Re-measured directly, the entry **survives**: all four rows admissible under all six
+> interventions on `E_sym3` (`hamming_knn_k3` 0.9167, `program_search` 0.9375, `compiled_search` 0.9375,
+> `soft_retrieval` 0.8854) strictly beat the constant, **4 of 4**. But margins must now be read in the instrument's
+> own units — one fx unit of mean absolute error is `1/(1.5·16) = 0.041667` of capability — and two of them are
+> **within one quantization step**: `soft_retrieval` at **0.250 fx units** and, outside the zoo,
+> `RV-377-089b`'s `grad_h3_lr3` at **0.375 fx units**. `hamming_knn_k3` (1.000) and `program_search` (1.500) are
+> clear. Under protocol rule 40 a margin below one fx unit is `WITHIN_QUANTIZATION` and may not separate mechanisms.
+>
+> The non-discriminating region is exactly `E_sym(k)` for `k ≤ 3` (both criteria) and `k = 4` under `all`, which
+> follows in closed form: the target `(k/16)·popcount(x)` has spread growing in `k` while a constant's best error
+> does not.
+
 > **SCOPE CORRECTION (`RV-377-089b`).** The table above is a fact about the **zoo's default-parameter rows**,
 > not about the carrier **classes**. The zoo contains exactly two coefficient members, `gradient_net_h2` and
 > `gradient_net_h4`, both at the default `lr = 4`, and those are the two `RV-377-085` evaluated. Sweeping the

@@ -52,5 +52,23 @@ def compiled_search(budget=2401, keybits=4):
                       [(1, 2, 0), (2, 3, 0), (0, 3, 1), (3, 4, 0), (0, 6, 0), (5, 6, 1), (1, 7, 0), (6, 7, 1)], meta={"zoo": "compiled_search"})
 
 
-ZOO = {"gradient_net_h2": lambda: gradient_net(2), "gradient_net_h4": lambda: gradient_net(4), "hamming_knn_k3": lambda: hamming_knn(3), "exemplar_table": exemplar_table,
+def constant_emitter():
+    """the NULL ROW (protocol rule 40, gap DG-9). A DENSE cell of width 1 feeding a LINEAR readout, with the INPUT
+    node present but WIRED TO NOTHING and no TARGET path: it reads neither the query nor the feedback and emits one
+    number for every input, forever.
+
+    It exists because its absence was itself a defect. RV-377-100's B1 search recovered exactly this machine on
+    E_sym3, where the best constant scores 0.8750 against theta = 0.85 and is therefore admissible; the B4
+    developmental-equality check then reported that NO registered parent reproduced its response, which would read as
+    an unknown form. It was not an unknown form. The zoo simply had no constant in it. Every future novelty claim is
+    checked against this row first.
+
+    Its flat capability under every intervention is not robustness. It is the absence of anything to perturb."""
+    return morph.make({0: ("INPUT", {"width": 4}), 1: ("DENSE", {"width": 1}), 5: ("LINEAR", {}),
+                       8: ("OUTPUT", {}), 9: ("TARGET", {})},
+                      [(1, 5, 0), (1, 5, 1), (5, 8, 0)],
+                      meta={"zoo": "constant_emitter", "role": "null control"})
+
+
+ZOO = {"constant_emitter": constant_emitter, "gradient_net_h2": lambda: gradient_net(2), "gradient_net_h4": lambda: gradient_net(4), "hamming_knn_k3": lambda: hamming_knn(3), "exemplar_table": exemplar_table,
        "program_search": program_search, "particles_p4": lambda: particles(4), "soft_retrieval": soft_retrieval, "compiled_search": compiled_search}
