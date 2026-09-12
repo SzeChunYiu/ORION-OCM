@@ -136,3 +136,95 @@ scalar state — description-level references, not behavioural ones, and recorde
 ## 7. Adjudication (filled after the run; §1–6 unedited)
 
 _Empty at freeze._
+
+### 7.1 Execution record
+
+Host billy-old (`billy-laptop-old`, Python 3.11.16, one `nice -n 10` process); tree rsynced from commit
+`a387559d` and md5-verified (5/5 files identical) before the run; receipts rsynced back and sha256-verified
+(3/3 identical, compared by reading both digest files). Receipts: `microscopes/results/IG4_INDEPENDENT_METER_AGREEMENT_old.json`
+(sha256 `a9912afd…`) and `microscopes/results/IG5_INDEPENDENT_ALPHABET_COVERAGE_old.json` (sha256 `557cf892…`);
+the blind meter's own output `independence/ig4_independent_buckets_v1_old.json` (sha256 `ab87728a…`). Both
+blind authors asserted `served_model: claude-fable-5-1` and recorded the label `HUMAN_GATE_BYPASSED__MODEL_PROXY`.
+
+**Checker validation before reading any result.** The re-aggregator re-derived all 264 native verdicts from the
+native buckets (264/264; it aborts otherwise). A shuffle control (independent buckets permuted across the 2334
+candidates, seed 1) drops agreement to 0.179 (`state_scales_with`), 0.181 (`serve_scales_with`), 0.713
+(`update_locality`), 0.851 (`routing`), so the agreement below is not a property of the comparison code.
+
+### 7.2 P1 (IG-4) — HELD
+
+| axis | agreement, all 2334 | agreement, 226 winners |
+|---|---|---|
+| `state_scales_with` | 2334/2334 = **100 %** | 226/226 |
+| `serve_scales_with` | 2334/2334 = **100 %** | 226/226 |
+| `update_locality` | 2315/2334 = **99.19 %** | 215/226 = 95.13 % |
+| `routing` | 100 % | 100 % |
+| `verifier_gated` | 100 % | 100 % |
+| `external_authority` | 100 % | 100 % |
+| `sharing`, `retrieval`, `serve_iterations`, `stochastic_serve` (declared) | 100 % | 100 % |
+
+10 of 10 axes ≥ 80 % (P1 requires ≥ 8); 6 of 6 measured axes ≥ 80 % with both scaling axes at 100 % (P1b).
+Re-aggregated verdicts: `THEORY_RED` 150 → 150, `THEORY_RED_NULL_DOMINATES` 76 → 76, `INCONCLUSIVE_GRAMMAR`
+38 → 38; **0 cells move, 0 flip to GREEN**. The K4 V7 negative (F1 at protected tier, 0/264) does not depend
+on the author's bucketing.
+
+**The one disagreement, preserved.** All 19 `update_locality` misses are `native = global`, `independent =
+local`; all 19 candidates (11 winners, 8 negative twins) have `retrieval = exact_key`. Diagnosis: the native
+meter labels `update_locality` from the candidate's declared locality factor; the independent meter buckets
+the *measured* rewritten fraction (rule: `global` iff rewritten/retained ≥ 1/2). Under the exact-key volatility
+discount charged by the lifecycle constitution, a declared-global update on those candidates rewrites 0.095–0.462
+of the retained state, which any majority rule calls `local`. This is a genuine modelling difference between
+"declared" and "charged" locality, not a brief ambiguity: the brief left the local/global boundary to the
+author and the author fixed a majority rule before seeing data. No RV-377-161 revival is opened. The finding
+is recorded as `NATIVE_UPDATE_LOCALITY_IS_DECLARED_NOT_CHARGED_ON_19_OF_2334_ROWS`; it moves no verdict
+because none of the 19 rows' remaining nine axes match a frozen target.
+
+Independent rules as frozen by the blind author (from the receipt): law match = exact integer proportionality
+to the literal law on all 24 worlds (no additive offset, no nearest label; constant or multiply-matching traces
+unclassified); `log_n_records` inferred as ceil(log2 records); `search_tree` inferred as `search_branch^3`;
+`routing` = any difference in per-query work between content dependence 0 and 1; `verifier_gated` /
+`external_authority` = any positive charge; the four declared axes mapped by vocabulary and stated as such.
+
+**IG-4 status: `CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY__DECLARED_AXES_EXCLUDED_P1B_HELD`.**
+
+### 7.3 P2 (IG-5) — GREEN, all five classes covered
+
+Independent alphabet: 32 kinds over 9 types (state 5: `TABLE`, `STORE`, `BLOCK`, `VEC_STATE`, `POPULATION`;
+routing 4; transform 11; update 6; verification 2; interface 4), served-output kind `SERVE`. No forbidden
+macro name; no required class missing; type closure clean (no dead output, no unproducible input, no
+undeclared type). All nine parents `EXPRESSED`, 0 typecheck errors against the author's own signatures.
+
+| parent | class | independent nodes | native reference nodes | overhead |
+|---|---|---|---|---|
+| `m1_exact_table` | memory | 7 | 6 (`zoo.exemplar_table`) | 1.17 |
+| `m2_nearest_exemplar` | memory | 8 | 6 (`zoo.hamming_knn(3)`) | 1.33 |
+| `m3_soft_retrieval` | memory | 10 | 6 (`zoo.soft_retrieval`) | 1.67 |
+| `c1_threshold_net` | coefficient | 14 | 11 (`zoo.gradient_net(2)`) | 1.27 |
+| `p1_program_search` | program/search | 9 | 7 (`zoo.program_search`) | 1.29 |
+| `p2_population_search` | program/search | 9 | 7 (`zoo.particles(4)`) | 1.29 |
+| `p3_compile_then_serve` | program/search | 11 | 8 (`zoo.compiled_search`) | 1.38 |
+| `b1_finite_belief` | belief | 10 | 11 (native reference in script) | 0.91 |
+| `d1_linear_recurrence` | dynamical | 13 | 10 (native reference in script) | 1.30 |
+
+Every overhead ≤ 2×; maximum 1.67 (soft retrieval), minimum 0.91 (belief, where the independent alphabet
+carries a distribution-like state kind and a multiplicative reweighting update and is *smaller* than the
+native coefficient realization). Two conceptual differences from the native alphabet are visible and are
+recorded as evidence that the selection was not a rename: the independent author keeps an explicit
+`VEC_STATE` + `MULT_REWEIGHT` pair (a belief carrier as a first-class state family) and a `LINEAR_SCAN`
+transform for the dynamical parent, where the native alphabet realizes belief through the coefficient
+carrier and dynamical state through a read-modify-write memory phase. Coverage is description-level
+(typecheck + occurrence count), as frozen in §6.5.
+
+**IG-5 status: `CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY`.**
+
+### 7.4 What moves and what does not
+
+* `GMI_INDEPENDENCE_GATE_DECOMPOSITION_V1.md` §4 register: `IG-4 METER` and `IG-5 ENCODING` move from
+  `PENDING_INDEPENDENT_*` to `CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY` (addendum appended there).
+* `GMI_COMPLETENESS_BOUNDARY_THEOREM_V1.md` §6 "Independence" gap: addendum appended; the standing limitation
+  is narrowed from "same-author evaluator, meter and primitives" to "same-author *evaluator and cost-channel
+  allocation*; meter bucketing and primitive selection reproduced by a fresh-context model proxy".
+* `K4_PROPERTY_PREDICTION_GREEN_AT_PROTECTED_TIER` stays **FALSE** (0/264, now invariant under an
+  independently bucketed meter). `KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE` and
+  `NO_KNOWN_UNTYPED_OR_UNTESTED_BLOCKING_GAP_AT_REGISTERED_SCOPE` stay **FALSE**.
+* Residues §6.1–6.5 stand unchanged. Nothing is labelled externally obtained.
