@@ -100,12 +100,13 @@ def reclassify(receipt_path, eco_name="E_smooth3", theta=THETA):
     return out
 
 
-def main(tag="V1", eco_name="E_smooth3", receipts=None):
+def main(tag="V1", eco_name="E_smooth3", receipts=None, prefix="STAGE_B1_V33"):
     """receipt files are selected by ECOLOGY, because the same seed is run on more than one and a B1 elite must be
-    atrophied on the ecology it was recovered on."""
+    atrophied on the ecology it was recovered on. `prefix` selects the harness whose receipts are read - "STAGE_B1_V33"
+    for the plain-descriptor runs, "STAGE_B1X_" for the mechanism-descriptor runs of RV-377-087."""
     t0 = time.time()
     files = receipts or sorted(f for f in os.listdir(RES)
-                               if f.startswith("STAGE_B1_V33") and f.endswith(".json") and eco_name in f)
+                               if f.startswith(prefix) and f.endswith(".json") and eco_name in f)
     rows = {}
     for f in files:
         try:
@@ -140,8 +141,12 @@ def theta_of():
 
 
 if __name__ == "__main__":
+    _args = sys.argv[3:]
+    _prefix = "STAGE_B1_V33"
+    if _args and _args[0].startswith("--prefix="):
+        _prefix = _args[0].split("=", 1)[1]; _args = _args[1:]
     main(sys.argv[1] if len(sys.argv) > 1 else "V1", sys.argv[2] if len(sys.argv) > 2 else "E_smooth3",
-         sys.argv[3:] or None)
+         _args or None, prefix=_prefix)
 
 
 # ------------------------------------------------------------------------------- the reference catalogue for stage B4
