@@ -467,6 +467,24 @@ CELLS = {
     "w2_L12": {"w": 2, "L": 12},
     "w4_L12": {"w": 4, "L": 12},
 }
+# DECLARED EXTENSION (RV-377-052): an OUT-OF-SAMPLE grid for the three exact laws that the failed clauses of
+# RV-377-051 uncovered -- the SERVE law (the candidate's serve scales with WIDTH, the search parent's with DEPTH, so
+# the candidate wins iff L > w), the PRECISION-GATE law (a counter-based row is gated exactly when the range of the
+# counter it actually uses exceeds 8: L for the vector clock, n = wL for the sequence position) and the NEGATIVE-TWIN
+# ATTRIBUTION law (removing the JOIN costs exactly the cross-chain ordered pairs). The widths 3, 6, 12 and the chain
+# length L = 6 appear in no CELLS cell; five cells satisfy L > w and three do not, so the serve law is tested in both
+# directions, and exactly one cell has L > 8 while all eight have n > 8, so the precision law's two thresholds are
+# separated by the grid rather than confounded.
+CELLS_R2 = {
+    "w2_L6":  {"w": 2, "L": 6},
+    "w3_L6":  {"w": 3, "L": 6},
+    "w4_L6":  {"w": 4, "L": 6},
+    "w6_L4":  {"w": 6, "L": 4},
+    "w6_L6":  {"w": 6, "L": 6},
+    "w3_L12": {"w": 3, "L": 12},
+    "w6_L8":  {"w": 6, "L": 8},
+    "w12_L4": {"w": 12, "L": 4},
+}
 COLUMNS = ("B0_LOCAL_ADAPTIVE_TRANSDUCERS", "B0i_LOCAL_ADAPTIVE_TRANSDUCERS")
 PRECISIONS = ("fx8", "wide")
 
@@ -498,7 +516,9 @@ def crossover(r1, r2, price):
 BASE_GRID = (1, 16, 128, 1024)
 
 
-def main(tag="V27_N10_PARTIALORDER", seed=0, columns=COLUMNS):
+def main(tag="V27_N10_PARTIALORDER", seed=0, columns=COLUMNS, cell_grid=None,
+         schema="StageDNN10PartialOrderV1", revival="RV-377-051", laws_under_test=False):
+    CELLS = cell_grid or globals()["CELLS"]
     cells, ecos = {}, {}
     for cname, spec in CELLS.items():
         eco = ecology(spec["w"], spec["L"])
@@ -559,8 +579,8 @@ def main(tag="V27_N10_PARTIALORDER", seed=0, columns=COLUMNS):
                             sorted(r for r, c in costs.items() if c <= min(costs.values()) + 1e-9) if costs else [])
 
     receipt = {
-        "schema": "StageDNN10PartialOrderV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
-        "revival_record": "RV-377-051", "run_tag": tag,
+        "schema": schema, "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
+        "revival_record": revival, "run_tag": tag,
         "domain_candidate": "N10 event-causal / partial-order intelligence",
         "hypothesis_source_status": (
             "GMI_NOVEL_DOMAIN_HYPOTHESES_V1.md is NOT PRESENT on branch claude/gmi-d0-d1-research-dnbp8i "
@@ -625,8 +645,54 @@ def main(tag="V27_N10_PARTIALORDER", seed=0, columns=COLUMNS):
                          "reduction attack is an exact answer-signature equality test against three matched "
                          "existing-domain parents; native prices are declared, not measured; no new domain is claimed",
     }
+    # --- the three EXACT LAWS under test (RV-377-052); each is a per-cell predicate reported cell by cell
+    if laws_under_test:
+        laws = {}
+        for cname, spec in CELLS.items():
+            w, L = spec["w"], spec["L"]
+            e = ecos[cname]
+            for col in columns:
+                for p in PRECISIONS:
+                    po = cells[(cname, "POSET", col, p, 0)]
+                    ps = cells[(cname, "PROG_SEARCH", col, p, 0)]
+                    laws[f"serve_law|{cname}|{col}|{p}"] = {
+                        "L_gt_w": L > w, "poset_serve": po["exec_per_query"], "search_serve": ps["exec_per_query"],
+                        "poset_cheaper": po["exec_per_query"] < ps["exec_per_query"],
+                        "law_holds": (po["exec_per_query"] < ps["exec_per_query"]) == (L > w)}
+                tw = cells[(cname, "POSET_NOJOIN", col, "wide", 0)]
+                want = round((e["n_concurrent_pairs"] + w * L * (L - 1)) / e["n_queries"], 4)
+                laws[f"twin_law|{cname}|{col}"] = {
+                    "predicted": want, "observed": tw["capability"],
+                    "admissible_predicted": want >= THETA, "admissible_observed": tw["admissible"],
+                    "law_holds": abs(tw["capability"] - want) <= 0.0001 and (want >= THETA) == tw["admissible"]}
+                for r, rng in (("POSET", L), ("POSET_NOJOIN", L), ("SEQ_MEM", w * L)):
+                    a = cells[(cname, r, col, "fx8", 0)]["capability"]
+                    b = cells[(cname, r, col, "wide", 0)]["capability"]
+                    laws[f"precision_law|{cname}|{col}|{r}"] = {
+                        "counter_range": rng, "gated_predicted": rng > 8, "fx8": a, "wide": b,
+                        "law_holds": (a < b) == (rng > 8)}
+                for r in ("PAIRTABLE", "PROG_SEARCH"):
+                    a = cells[(cname, r, col, "fx8", 0)]
+                    b = cells[(cname, r, col, "wide", 0)]
+                    laws[f"precision_law|{cname}|{col}|{r}"] = {
+                        "counter_range": 0, "gated_predicted": False,
+                        "law_holds": a["capability"] == b["capability"] and a["R"] == b["R"]
+                                     and a["answer_signature"] == b["answer_signature"]}
+        receipt["exact_laws_under_test"] = laws
+        receipt["exact_laws_summary"] = {k: sum(1 for kk, v in laws.items() if kk.startswith(k) and v["law_holds"])
+                                         for k in ("serve_law", "twin_law", "precision_law")}
+        receipt["exact_laws_total"] = {k: sum(1 for kk in laws if kk.startswith(k))
+                                       for k in ("serve_law", "twin_law", "precision_law")}
+        receipt["exact_laws_declared"] = {
+            "serve_law": "exec_per_query(POSET) < exec_per_query(PROG_SEARCH) iff L > w",
+            "precision_law": "a row's fx8 capability is strictly below its wide capability iff the range of the "
+                             "counter it uses exceeds 8 (range L for POSET and POSET_NOJOIN, n = wL for SEQ_MEM, "
+                             "no counter for PAIRTABLE and PROG_SEARCH)",
+            "twin_law": "capability(POSET_NOJOIN, wide) = (n_concurrent_pairs + w*L*(L-1)) / n_queries"}
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
     json.dump(receipt, open(os.path.join(RES, f"STAGE_DN_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
+    if laws_under_test:
+        print("EXACT LAWS", receipt["exact_laws_summary"], "of", receipt["exact_laws_total"])
     c0, p0 = columns[0], "wide"
     for cname in CELLS:
         e = ecos[cname]
