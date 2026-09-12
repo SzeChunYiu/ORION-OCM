@@ -14,7 +14,7 @@ def contracts():
     from hpc.gmi_beacon_verify import verify_beacon
     verified=verify_beacon(repo_root=ROOT,freeze_path=EXEC,beacon=b,expected_schema="GMIK5BHPublicBeaconV7")
     return ex,verified,{"phase":ph,"score":sc,"corr2":c2h,"corr3":c3h,"admissibility":ah,"execution":eh,"beacon":bh}
-def plan(ex):return [{"lane":l,"parameter":s["parameter"],"value":v,"replicate":r} for l in sorted(ex["final_task_plan"]) for v in ex["final_task_plan"][l]["values"] for r in range(int(ex["replicates_per_value"]))]
+def plan(ex):return [{"lane":l,"parameter":s["parameter"],"value":v,"replicate":r} for l,s in sorted(ex["final_task_plan"].items()) for v in s["values"] for r in range(int(ex["replicates_per_value"]))]
 def main():
     ap=argparse.ArgumentParser();ap.add_argument("--task-index",type=int,required=True);ap.add_argument("--job-id",default="local");ap.add_argument("--host",default="unknown");a=ap.parse_args();os.makedirs(RES,exist_ok=True);t0=time.time();rec={"schema":"GMIK5BHTaskReceiptV7","task_index":a.task_index,"slurm_job_id":a.job_id,"host":a.host}
     try:
