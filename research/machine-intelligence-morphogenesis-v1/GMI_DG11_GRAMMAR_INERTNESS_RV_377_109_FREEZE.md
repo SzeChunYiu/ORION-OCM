@@ -45,3 +45,89 @@ result. If S3 and S4 both fail — if the counts do not move — then the `RV-37
 verdicts were not an artefact of an under-resourced search, and the K4 failure is
 structural. That is the outcome most damaging to GMI and it is the one being tested
 for, not around.
+
+---
+
+# RV-377-109 — ADJUDICATION (appended; nothing frozen above was edited)
+
+264 cells at budget 200 000, all `OK`, zero errors. Wall 6 797 s against the
+development sweep's 443 s.
+
+## Every verdict is identical. Not one cell moved.
+
+| verdict | 20 000 | 200 000 | Δ |
+|---|---|---|---|
+| `THEORY_RED` | 159 | 159 | **+0** |
+| `THEORY_RED_NULL_DOMINATES` | 69 | 69 | **+0** |
+| `INCONCLUSIVE_GRAMMAR` | 36 | 36 | **+0** |
+| cells whose verdict changed | — | — | **0 of 264** |
+
+| id | prediction | outcome |
+|----|-----------|---------|
+| S1 | grammars still agree 88/88 | **CONFIRMED** |
+| S2 | GREEN stays 0 of 264 | **CONFIRMED** — 0 |
+| S3 | null dominance falls below 69 | **FALSIFIED** — exactly 69 |
+| S4 | `INCONCLUSIVE_GRAMMAR` falls below 36 | **FALSIFIED** — exactly 36 |
+
+The freeze named the consequence in advance: *"If S3 and S4 both fail — if the counts do
+not move — then the `RV-377-107` verdicts were not an artefact of an under-resourced
+search, and the K4 failure is structural. That is the outcome most damaging to GMI and it
+is the one being tested for, not around."*
+
+**Both failed. Neither count moved by a single cell.**
+
+## The budget was honoured — checked before concluding anything
+
+Identical verdicts could mean the budget parameter was never plumbed through, which would
+void the conclusion. It was not:
+
+| quantity | cells differing between 20 000 and 200 000 |
+|---|---|
+| wall time | ratio **15.34×** against a 10× budget ratio |
+| **search winner cost** | **194 of 264** |
+| `null_cost` | 0 of 264 |
+| `null_vs_target_witness_margin` | **0 of 264** |
+| verdict, reason | 0 of 264 |
+
+The search genuinely did ten times the work and genuinely found better candidates —
+e.g. `K4-A01 | G1 | w1`, winner cost **45.92 → 37.42**.
+
+## The mechanism, which is worse than "nothing changed"
+
+`null_cost` is unchanged because nulls are hard-coded and budget-independent — expected.
+But `margin` is `witness_cost − null_cost`, and **margin is unchanged on all 264 cells**,
+so the **frozen-target witness cost did not improve on a single cell** either.
+
+Put together:
+
+> **Ten times the search budget made the non-target frontier materially cheaper on 194 of
+> 264 cells, and moved the frozen-target witness on none of them.**
+
+The gap between what cost-minimising search converges on and what GMI predicts it should
+converge on does not close with budget. It **widens**. Extra compute is evidence against
+K4, not for it — which is the opposite of the direction a budget-starvation defence needs.
+
+This also settles the scope caveat carried by `RV-377-107`. That record listed "0 of 264
+target vectors recovered" as **not** budget-robust, because more search might recover
+some. At 10× it recovers none, and the witness cost does not move at all. The caveat is
+discharged in the direction that hurts.
+
+## DG-11: the grammar axis is verdict-inert, and it is not a budget artefact
+
+88 of 88 family × cell combos agree across all three grammars at 200 000, exactly as at
+20 000, while the grammars continue to produce different numbers. The budget explanation
+for DG-11 is eliminated.
+
+DG-11 stands as opened: until a cell is exhibited whose verdict differs between two
+grammars, grammar is a presentation variable and not an independent probe, and the
+effective K4 sample is **88**, not 264.
+
+## Standing scope
+
+Still development scope: 200 000 against the frozen `green_rule`'s ≥ 10⁶, and explicitly
+not protected evidence. `RV-377-107`'s Q4 — that the protected beacon run reproduces
+these verdicts — remains frozen and pending, and is now better supported: the verdicts
+were invariant under the one order-of-magnitude change already tested.
+
+`K4_PROPERTY_PREDICTION_GREEN_AT_REGISTERED_SCOPE` is **FALSE at development scope, and
+the failure is structural rather than budgetary.**
