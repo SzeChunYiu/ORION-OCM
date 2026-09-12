@@ -184,3 +184,50 @@ scoped to a decidable fragment, and that fragment must be declared before the li
 > unless the quotient carrying it has been shown **sound** (the reduction preserves the
 > observable) and **complete** (the observable determines the representative) on the domain
 > where it is used. Absent both, a known-form result is a point claim about that form.
+
+---
+
+## RV-377-115 — diagnosis of the six soundness counterexamples
+
+The six genotypes whose observable response changes under `prune`, with the kinds dropped:
+
+| genotype | nodes | dropped kinds |
+|---|---|---|
+| 212 | 6 → 3 | `DENSE`, `MATERIALIZE`, `NONLIN` |
+| 218 | 10 → 7 | `INSERT`, `LINEAR`, `VERSIONED` |
+| 278 | 10 → 7 | `GATE`, `LINEAR`, `PROGEXEC` |
+| 348 | 6 → 5 | `INSERT` |
+| 370 | 8 → 5 | `INSERT`, `LINEAR`, `SUM` |
+| 591 | 7 → 6 | `DENSE` |
+
+Kinds implicated across the six: `INSERT` ×3, `DENSE` ×2, `LINEAR` ×3, `MATERIALIZE`,
+`VERSIONED`, `PROGEXEC`, `GATE`, `NONLIN`, `SUM` ×1 each.
+
+**Five of the six are directly explained by the shared-state hypothesis.** Each of 212,
+218, 348, 370 and 591 drops at least one kind that writes to shared machine state —
+`INSERT` (writes a table entry), `DENSE` (state cells), `MATERIALIZE` (builds a table),
+`VERSIONED` (lineage depth). The pure-transducer kinds appearing alongside them (`LINEAR`,
+`SUM`, `NONLIN`, `GATE`) are collateral: they are dropped in the same pass but do not
+themselves carry state.
+
+**Genotype 278 is not explained by that classification** and is recorded as such. It drops
+`GATE`, `LINEAR` and `PROGEXEC`, none of which is in the stateful set used here. `PROGEXEC`
+executes a program and may have effects the classification does not capture, but that is a
+conjecture, not a measurement, and it is not claimed. One of six counterexamples remains
+undiagnosed.
+
+### What this makes concrete
+
+The repair registered as route 1 is now specific and falsifiable rather than a gesture:
+
+> **A sound reduction must treat store reads and writes as dataflow edges.** Backward
+> reachability over the *declared* edge relation is insufficient because `INSERT`,
+> `DENSE`, `MATERIALIZE` and `VERSIONED` communicate through machine state that the edge
+> relation does not represent. Adding an implicit edge from every writer of a store to
+> every reader of that store, then re-running backward reachability, is the candidate
+> repair — and it is testable by exactly the experiment above: it must reach 600/600.
+
+That experiment is registered as the next CP2 step. It is **not** run here and **not**
+claimed. If it reaches 600/600, `prune` becomes sound and the soundness half of CP2 is
+available — the completeness half remains blocked for the undecidability reason already
+recorded, which no reduction can repair.
