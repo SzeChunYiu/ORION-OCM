@@ -812,3 +812,81 @@ inequalities between coordinates and both died on the first grid that was not bu
 died nowhere, because it is not a fit.
 
 **`N10`'s domain verdict is unchanged at `REDUCED_TO_PARENT`.** Nothing here reopens it; this is a cost-law record.
+
+---
+
+## 15. GMI-DA9 corroborated on rows it was not derived from, and the correction it forces on `G15`
+
+**Status:** `PROVED_AT_SCOPE` for the coefficient carrier over the registered ecology family.
+**Receipt:** `STAGE_B1_V31_DG7_COEFFICIENT_WITNESS.json` (`RV-377-089`), sha `a07f2109839c75f9…`, 80 declared parameter
+settings × 3 ecologies, with the full six-intervention family charged on every row clearing θ under `standard`.
+
+### 15.1 What this was supposed to be
+
+The first **`DG-7` audit**. `RV-377-082` had swept the coefficient row's parameters, found an admissible witness on
+`E_smooth1`, and written of the other two ecologies that their failure was *"a **real ceiling** rather than a missing
+setting: the best of all 68 rows reaches only `0.8438` on `E_smooth3` and `0.8385` on `E_sym5`."* Those 68 rows swept
+`h` over `(1, 2, 3, 4, 6, 8)` and **stopped at `h = 8`**. Under protocol rule 38 that is a class-level negative over a
+truncated grid, so it was re-run to `h = 32`.
+
+**The audit confirmed its target.** No cell of the extension clears θ on either ecology, and the best cells *outside*
+the old grid are **worse** than inside it (`0.8125` and `0.7865`). The ceiling is real and is now entitled to the word.
+The first `DG-7` audit upholding rather than overturning is what makes the remaining audits worth running.
+
+### 15.2 What it actually found
+
+The frozen clause `C5` predicted that *at most a minority* of rows admissible under the `standard` intervention would
+survive all six. The observed number is **zero — on all three ecologies**.
+
+| ecology | best row | `standard` | falls to | under |
+|---|---|---|---|---|
+| `E_smooth1` | `grad_h6_lr2` | 0.8906 | **0.8281** | `shuffled_events` |
+| `E_smooth1` | `grad_h6_lr3` | 0.8698 | **0.7448** | `shuffled_events` |
+| `E_smooth1` | `grad_h24_lr3` | 0.8594 | **0.5260** | `half_events` |
+| `E_smooth3` | `grad_h6_lr2` | 0.8438 | **0.6927** | `shuffled_events` |
+| `E_sym5` | `grad_h3_lr1` | 0.8385 | **0.7708** | `half_events` |
+
+The binding interventions are exactly the two `GMI-DA9` names for this carrier class — *"coefficient rows fail under
+`shuffled_events` and `half_events`, when the order or the number of gradient steps changes, which is what a gradient
+learner is sensitive to and a table is not."* `GMI-DA9` was derived from 8 registered rows on `E_smooth1`; it is here
+corroborated on **240 fresh rows across three ecologies** that it was not derived from.
+
+> **The coefficient carrier `D1` has no intervention-robustly admissible witness anywhere in the registered ecology
+> family.** Every row that clears θ does so only because the registered protocol feeds gradient steps in one fixed
+> order and one fixed number, and loses admissibility as soon as either is varied.
+
+### 15.3 The correction this forces, against this lane's own earlier claim
+
+`RV-377-082` recorded `G15_STEP_ONE_REACHED`. It was written **before** `RV-377-085` established protocol rule 36 —
+admissibility must name its intervention set, and a row is admissible unqualified only if it clears θ under all of
+them. Under that definition the witness does not exist and **`G15` step one is not reached.** The terminal is restated
+as `REACHED_UNDER_STANDARD_INTERVENTION_ONLY`.
+
+The consequence runs back through the whole chain:
+
+* `RV-377-081`'s **0 of 6** and `RV-377-083`'s **0 of 3** are *both* zero-exposure results under rule-36
+  admissibility — not on two ecologies, but on **every** registered ecology measured so far.
+* Neither is evidence about search, budget or encoding. The question task #25 asked — *is the coefficient carrier's
+  non-recovery budget or encoding?* — has the answer **neither**: there is nothing intervention-robust there to
+  recover.
+* `G15` must be restated as *exhibit a coefficient-carrier witness admissible under the full registered family, or
+  prove none exists over the declared alphabet* — at which point the carrier's recovery rate is **undefined**, not
+  zero, and every saturation denominator that counted it must be recomputed.
+
+This is the second time rule 36 has invalidated a positive claim, and both claims were this lane's own.
+
+### 15.4 The clause that failed, and why it is worth keeping
+
+`C1` predicted that the `(h, LR)` ridge `RV-377-088` measured on the `smooth` layer — best width rising as rate falls,
+with a single wide low-rate winner at 16 events — would **transfer** to the typed IR and lift `E_smooth3` over θ. It
+does not. The capability surface over `h` on the typed IR has no trend at all (`0.6302, 0.7500, 0.6510, 0.5365,
+0.5156, 0.7188, 0.5469` at `lr = 1` on `E_smooth1`).
+
+The reason is that the two rows are **not the same parameterization under the same name**. `smooth.S4Net` initialises
+`h` hidden units by cycling a fixed 24-constant list; `zoo.gradient_net` builds a `DENSE` block of width `5h` and an
+`AFFINE` block of width `h` under the `morph` initialiser. `h` indexes a different family of initial conditions in
+each, so a landscape feature in one says nothing about the other.
+
+**Constraint recorded:** two rows implementing "the same mechanism" at different layers may not be read as the same
+function of a shared parameter name unless their initialisers coincide. A landscape feature measured at one layer is
+evidence at that layer only.
