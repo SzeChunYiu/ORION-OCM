@@ -1,0 +1,1512 @@
+{
+ "b2_frontier_schema": {
+  "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
+  "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Exactly reconstructible from shared_reuse_grid_H; gmi_microscope/grid_audit.py expands it.",
+  "grid_H": "every context of a receipt shares the receipt's shared_reuse_grid_H",
+  "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
+  "single_row_context": "a context with fewer than two admissible rows has no frontier DECISION; it carries its cost coordinates and nothing else."
+ },
+ "b2_frontiers": {
+  "T_ABS|lo1": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "38"
+    ],
+    "RELU_w2": [
+     "2",
+     "22"
+    ],
+    "RELU_w3": [
+     "3",
+     "32"
+    ],
+    "RELU_w4": [
+     "4",
+     "42"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w2"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w2"
+   ],
+   "occupants_on_grid": [
+    "RELU_w2"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_ABS|local4": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "146"
+    ],
+    "RELU_w2": [
+     "2",
+     "82"
+    ],
+    "RELU_w3": [
+     "3",
+     "122"
+    ],
+    "RELU_w4": [
+     "4",
+     "162"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/24"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w2"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/24",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w2"
+   ],
+   "occupants_on_grid": [
+    "RELU_w2"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_ABS|route16": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "68"
+    ],
+    "RELU_w2": [
+     "2",
+     "52"
+    ],
+    "RELU_w3": [
+     "3",
+     "62"
+    ],
+    "RELU_w4": [
+     "4",
+     "72"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w2"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w2"
+   ],
+   "occupants_on_grid": [
+    "RELU_w2"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_ABS|route4": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "44"
+    ],
+    "RELU_w2": [
+     "2",
+     "28"
+    ],
+    "RELU_w3": [
+     "3",
+     "38"
+    ],
+    "RELU_w4": [
+     "4",
+     "48"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w2"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w2"
+   ],
+   "occupants_on_grid": [
+    "RELU_w2"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_AFFINE|lo1": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "20"
+    ],
+    "GATED_w2": [
+     "2",
+     "38"
+    ],
+    "LINEAR_w1": [
+     "1",
+     "8"
+    ],
+    "RELU_w2": [
+     "2",
+     "22"
+    ],
+    "RELU_w3": [
+     "3",
+     "32"
+    ],
+    "RELU_w4": [
+     "4",
+     "42"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "LINEAR_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "LINEAR_w1"
+   ],
+   "occupants_on_grid": [
+    "LINEAR_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_AFFINE|local4": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "74"
+    ],
+    "GATED_w2": [
+     "2",
+     "146"
+    ],
+    "LINEAR_w1": [
+     "1",
+     "26"
+    ],
+    "RELU_w2": [
+     "2",
+     "82"
+    ],
+    "RELU_w3": [
+     "3",
+     "122"
+    ],
+    "RELU_w4": [
+     "4",
+     "162"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/24"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "LINEAR_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/24",
+   "occupant_for_all_sufficiently_large_H": [
+    "LINEAR_w1"
+   ],
+   "occupants_on_grid": [
+    "LINEAR_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_AFFINE|route16": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "50"
+    ],
+    "GATED_w2": [
+     "2",
+     "68"
+    ],
+    "LINEAR_w1": [
+     "1",
+     "38"
+    ],
+    "RELU_w2": [
+     "2",
+     "52"
+    ],
+    "RELU_w3": [
+     "3",
+     "62"
+    ],
+    "RELU_w4": [
+     "4",
+     "72"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "LINEAR_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "LINEAR_w1"
+   ],
+   "occupants_on_grid": [
+    "LINEAR_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_AFFINE|route4": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "26"
+    ],
+    "GATED_w2": [
+     "2",
+     "44"
+    ],
+    "LINEAR_w1": [
+     "1",
+     "14"
+    ],
+    "RELU_w2": [
+     "2",
+     "28"
+    ],
+    "RELU_w3": [
+     "3",
+     "38"
+    ],
+    "RELU_w4": [
+     "4",
+     "48"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "LINEAR_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "LINEAR_w1"
+   ],
+   "occupants_on_grid": [
+    "LINEAR_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_PRODUCT|lo1": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "38"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 1024,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "GATED_w2"
+   ],
+   "occupants_on_grid": [
+    "GATED_w2"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  },
+  "T_PRODUCT|local4": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "146"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 1024,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "GATED_w2"
+   ],
+   "occupants_on_grid": [
+    "GATED_w2"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  },
+  "T_PRODUCT|route16": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "68"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 1024,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "GATED_w2"
+   ],
+   "occupants_on_grid": [
+    "GATED_w2"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  },
+  "T_PRODUCT|route4": {
+   "cost_coordinates_A_E": {
+    "GATED_w2": [
+     "2",
+     "44"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 1024,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "GATED_w2"
+   ],
+   "occupants_on_grid": [
+    "GATED_w2"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  },
+  "T_RELU|lo1": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "20"
+    ],
+    "GATED_w2": [
+     "2",
+     "38"
+    ],
+    "RELU_w1": [
+     "1",
+     "12"
+    ],
+    "RELU_w2": [
+     "2",
+     "22"
+    ],
+    "RELU_w3": [
+     "3",
+     "32"
+    ],
+    "RELU_w4": [
+     "4",
+     "42"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w1"
+   ],
+   "occupants_on_grid": [
+    "RELU_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_RELU|local4": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "74"
+    ],
+    "GATED_w2": [
+     "2",
+     "146"
+    ],
+    "RELU_w1": [
+     "1",
+     "42"
+    ],
+    "RELU_w2": [
+     "2",
+     "82"
+    ],
+    "RELU_w3": [
+     "3",
+     "122"
+    ],
+    "RELU_w4": [
+     "4",
+     "162"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/24"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/24",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w1"
+   ],
+   "occupants_on_grid": [
+    "RELU_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_RELU|route16": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "50"
+    ],
+    "GATED_w2": [
+     "2",
+     "68"
+    ],
+    "RELU_w1": [
+     "1",
+     "42"
+    ],
+    "RELU_w2": [
+     "2",
+     "52"
+    ],
+    "RELU_w3": [
+     "3",
+     "62"
+    ],
+    "RELU_w4": [
+     "4",
+     "72"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w1"
+   ],
+   "occupants_on_grid": [
+    "RELU_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  },
+  "T_RELU|route4": {
+   "cost_coordinates_A_E": {
+    "GATED_w1": [
+     "1",
+     "26"
+    ],
+    "GATED_w2": [
+     "2",
+     "44"
+    ],
+    "RELU_w1": [
+     "1",
+     "18"
+    ],
+    "RELU_w2": [
+     "2",
+     "28"
+    ],
+    "RELU_w3": [
+     "3",
+     "38"
+    ],
+    "RELU_w4": [
+     "4",
+     "48"
+    ]
+   },
+   "crossovers_H_star": {
+    "GATED_w2|RELU_w3": "1/6"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RELU_w1"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "1/6",
+   "occupant_for_all_sufficiently_large_H": [
+    "RELU_w1"
+   ],
+   "occupants_on_grid": [
+    "RELU_w1"
+   ],
+   "rows_never_occupying_a_cell": [
+    "GATED_w1",
+    "GATED_w2",
+    "RELU_w2",
+    "RELU_w3",
+    "RELU_w4"
+   ]
+  }
+ },
+ "cells": {
+  "T_ABS": {
+   "inputs": 25,
+   "minimal_exact_width_by_arm": {
+    "GATED": 2,
+    "LINEAR": null,
+    "RELU": 2
+   },
+   "routing_cost_identical_across_arms": true,
+   "rows": {
+    "GATED_w1": {
+     "admissible_at_theta": false,
+     "arm": "GATED",
+     "capability": "3/5",
+     "capability_float": 0.6,
+     "charged_local_transform_ops_per_query": 18,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "20",
+     "class_size_at_this_width": 531,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "GATED_w2": {
+     "admissible_at_theta": true,
+     "arm": "GATED",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 36,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "38",
+     "class_size_at_this_width": 130519,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "LINEAR_w1": {
+     "admissible_at_theta": false,
+     "arm": "LINEAR",
+     "capability": "3/5",
+     "capability_float": 0.6,
+     "charged_local_transform_ops_per_query": 6,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "8",
+     "class_size_at_this_width": 27,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w1": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "3/5",
+     "capability_float": 0.6,
+     "charged_local_transform_ops_per_query": 10,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "12",
+     "class_size_at_this_width": 43,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w2": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 20,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "22",
+     "class_size_at_this_width": 873,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "RELU_w3": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 30,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "32",
+     "class_size_at_this_width": 10819,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 3
+    },
+    "RELU_w4": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 40,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "42",
+     "class_size_at_this_width": 92533,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 4
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "GATED_w1": "20",
+     "GATED_w2": "38",
+     "LINEAR_w1": "8",
+     "RELU_w1": "12",
+     "RELU_w2": "22",
+     "RELU_w3": "32",
+     "RELU_w4": "42"
+    },
+    "n_rows": 8,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "2/5",
+    "capability_float": 0.4,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "target": "T_ABS"
+  },
+  "T_AFFINE": {
+   "inputs": 25,
+   "minimal_exact_width_by_arm": {
+    "GATED": 1,
+    "LINEAR": 1,
+    "RELU": 2
+   },
+   "routing_cost_identical_across_arms": true,
+   "rows": {
+    "GATED_w1": {
+     "admissible_at_theta": true,
+     "arm": "GATED",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 18,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "20",
+     "class_size_at_this_width": 531,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "GATED_w2": {
+     "admissible_at_theta": true,
+     "arm": "GATED",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 36,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "38",
+     "class_size_at_this_width": 130519,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "LINEAR_w1": {
+     "admissible_at_theta": true,
+     "arm": "LINEAR",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 6,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "8",
+     "class_size_at_this_width": 27,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w1": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "3/5",
+     "capability_float": 0.6,
+     "charged_local_transform_ops_per_query": 10,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "12",
+     "class_size_at_this_width": 43,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w2": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 20,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "22",
+     "class_size_at_this_width": 873,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "RELU_w3": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 30,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "32",
+     "class_size_at_this_width": 10819,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 3
+    },
+    "RELU_w4": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 40,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "42",
+     "class_size_at_this_width": 92533,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 4
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "GATED_w1": "20",
+     "GATED_w2": "38",
+     "LINEAR_w1": "8",
+     "RELU_w1": "12",
+     "RELU_w2": "22",
+     "RELU_w3": "32",
+     "RELU_w4": "42"
+    },
+    "n_rows": 8,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "1/5",
+    "capability_float": 0.2,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "target": "T_AFFINE"
+  },
+  "T_GATE": {
+   "inputs": 25,
+   "minimal_exact_width_by_arm": {
+    "GATED": null,
+    "LINEAR": null,
+    "RELU": null
+   },
+   "routing_cost_identical_across_arms": true,
+   "rows": {
+    "GATED_w1": {
+     "admissible_at_theta": false,
+     "arm": "GATED",
+     "capability": "21/25",
+     "capability_float": 0.84,
+     "charged_local_transform_ops_per_query": 18,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "20",
+     "class_size_at_this_width": 531,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "GATED_w2": {
+     "admissible_at_theta": false,
+     "arm": "GATED",
+     "capability": "22/25",
+     "capability_float": 0.88,
+     "charged_local_transform_ops_per_query": 36,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "38",
+     "class_size_at_this_width": 130519,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "LINEAR_w1": {
+     "admissible_at_theta": false,
+     "arm": "LINEAR",
+     "capability": "17/25",
+     "capability_float": 0.68,
+     "charged_local_transform_ops_per_query": 6,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "8",
+     "class_size_at_this_width": 27,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w1": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "19/25",
+     "capability_float": 0.76,
+     "charged_local_transform_ops_per_query": 10,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "12",
+     "class_size_at_this_width": 43,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w2": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "21/25",
+     "capability_float": 0.84,
+     "charged_local_transform_ops_per_query": 20,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "22",
+     "class_size_at_this_width": 873,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "RELU_w3": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "21/25",
+     "capability_float": 0.84,
+     "charged_local_transform_ops_per_query": 30,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "32",
+     "class_size_at_this_width": 10819,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 3
+    },
+    "RELU_w4": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "21/25",
+     "capability_float": 0.84,
+     "charged_local_transform_ops_per_query": 40,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "42",
+     "class_size_at_this_width": 92533,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 4
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "GATED_w1": "20",
+     "GATED_w2": "38",
+     "LINEAR_w1": "8",
+     "RELU_w1": "12",
+     "RELU_w2": "22",
+     "RELU_w3": "32",
+     "RELU_w4": "42"
+    },
+    "n_rows": 8,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "17/25",
+    "capability_float": 0.68,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "target": "T_GATE"
+  },
+  "T_PRODUCT": {
+   "inputs": 25,
+   "minimal_exact_width_by_arm": {
+    "GATED": 2,
+    "LINEAR": null,
+    "RELU": null
+   },
+   "routing_cost_identical_across_arms": true,
+   "rows": {
+    "GATED_w1": {
+     "admissible_at_theta": false,
+     "arm": "GATED",
+     "capability": "17/25",
+     "capability_float": 0.68,
+     "charged_local_transform_ops_per_query": 18,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "20",
+     "class_size_at_this_width": 531,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "GATED_w2": {
+     "admissible_at_theta": true,
+     "arm": "GATED",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 36,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "38",
+     "class_size_at_this_width": 130519,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "LINEAR_w1": {
+     "admissible_at_theta": false,
+     "arm": "LINEAR",
+     "capability": "9/25",
+     "capability_float": 0.36,
+     "charged_local_transform_ops_per_query": 6,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "8",
+     "class_size_at_this_width": 27,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w1": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "12/25",
+     "capability_float": 0.48,
+     "charged_local_transform_ops_per_query": 10,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "12",
+     "class_size_at_this_width": 43,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w2": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "3/5",
+     "capability_float": 0.6,
+     "charged_local_transform_ops_per_query": 20,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "22",
+     "class_size_at_this_width": 873,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "RELU_w3": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "18/25",
+     "capability_float": 0.72,
+     "charged_local_transform_ops_per_query": 30,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "32",
+     "class_size_at_this_width": 10819,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 3
+    },
+    "RELU_w4": {
+     "admissible_at_theta": false,
+     "arm": "RELU",
+     "capability": "21/25",
+     "capability_float": 0.84,
+     "charged_local_transform_ops_per_query": 40,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "42",
+     "class_size_at_this_width": 92533,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 4
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "GATED_w1": "20",
+     "GATED_w2": "38",
+     "LINEAR_w1": "8",
+     "RELU_w1": "12",
+     "RELU_w2": "22",
+     "RELU_w3": "32",
+     "RELU_w4": "42"
+    },
+    "n_rows": 8,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "9/25",
+    "capability_float": 0.36,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "target": "T_PRODUCT"
+  },
+  "T_RELU": {
+   "inputs": 25,
+   "minimal_exact_width_by_arm": {
+    "GATED": 1,
+    "LINEAR": null,
+    "RELU": 1
+   },
+   "routing_cost_identical_across_arms": true,
+   "rows": {
+    "GATED_w1": {
+     "admissible_at_theta": true,
+     "arm": "GATED",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 18,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "20",
+     "class_size_at_this_width": 531,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "GATED_w2": {
+     "admissible_at_theta": true,
+     "arm": "GATED",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 36,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "38",
+     "class_size_at_this_width": 130519,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "LINEAR_w1": {
+     "admissible_at_theta": false,
+     "arm": "LINEAR",
+     "capability": "3/5",
+     "capability_float": 0.6,
+     "charged_local_transform_ops_per_query": 6,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "8",
+     "class_size_at_this_width": 27,
+     "exact": false,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w1": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 10,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "12",
+     "class_size_at_this_width": 43,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 1
+    },
+    "RELU_w2": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 20,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "22",
+     "class_size_at_this_width": 873,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 2
+    },
+    "RELU_w3": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 30,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "32",
+     "class_size_at_this_width": 10819,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 3
+    },
+    "RELU_w4": {
+     "admissible_at_theta": true,
+     "arm": "RELU",
+     "capability": "1",
+     "capability_float": 1.0,
+     "charged_local_transform_ops_per_query": 40,
+     "charged_routing_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "42",
+     "class_size_at_this_width": 92533,
+     "exact": true,
+     "serves_developed_state": true,
+     "width": 4
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "GATED_w1": "20",
+     "GATED_w2": "38",
+     "LINEAR_w1": "8",
+     "RELU_w1": "12",
+     "RELU_w2": "22",
+     "RELU_w3": "32",
+     "RELU_w4": "42"
+    },
+    "n_rows": 8,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "3/5",
+    "capability_float": 0.6,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "target": "T_RELU"
+  }
+ },
+ "claim_ceiling": "an exact reachability boundary for three declared local-transform families over ONE declared coefficient alphabet {-1, 0, +1}, ONE declared 25-point input grid and width ladders capped at 4 (ReLU) and 2 (gated). A row reported as not reaching a target is NOT PROVED IMPOSSIBLE: it is proved unreachable AT THOSE WIDTHS OVER THAT ALPHABET, which is an exact bound and not a theorem about ReLU networks. It establishes nothing about a trained neural network.",
+ "claim_level": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
+ "claims": {
+  "C10_rule22_no_declared_target_is_a_void_obligation": true,
+  "C11_rule21_no_admissible_row_serves_developed_state_at_zero_charged_cost": true,
+  "C12_the_charged_local_transform_cost_is_strictly_increasing_in_width_for_both_nonlinear_arms": true,
+  "C13_a_gated_term_is_strictly_more_expensive_than_a_relu_term_at_the_same_width": true,
+  "C14_dg2_every_frontier_grid_covers_twice_every_crossover": true,
+  "C15_the_content_conditioned_transport_target_is_unreachable_by_EVERY_declared_arm_at_every_declared_width": true,
+  "C1_routing_cost_is_identical_across_every_arm_and_width_so_any_difference_is_the_local_transform": true,
+  "C2_the_affine_arm_is_exact_on_the_affine_target_and_on_no_other": true,
+  "C3_the_relu_arm_reaches_the_one_breakpoint_target_at_width_1": true,
+  "C4_the_relu_arm_needs_strictly_more_width_for_the_two_breakpoint_target_than_for_the_one_breakpoint_target": true,
+  "C5_the_relu_arm_does_not_reach_the_bilinear_target_at_any_declared_width": true,
+  "C6_the_gated_arm_reaches_the_bilinear_target_within_its_declared_width_ladder": true,
+  "C7_the_gated_arm_dominates_the_relu_arm_on_the_bilinear_target_at_every_matched_width": true,
+  "C8_width_is_vacuous_for_the_affine_arm_its_class_does_not_grow": true,
+  "C9_the_relu_class_grows_strictly_with_width": true
+ },
+ "counting_note": "the class sizes reported are counts of distinct FUNCTIONS on the declared 25-point input grid under the declared coefficient alphabet and the registered fixed point. They are counts of configurations, not of species and not of forms (protocol rule 29).",
+ "declared_instrument": {
+  "capability_rule": "the best member of the arm's FULLY ENUMERATED class at that width -- the parent-maximal member of that arm (protocol rule 19), never a fitted one",
+  "class_sizes": {
+   "GATED": {
+    "1": 531,
+    "2": 130519
+   },
+   "LINEAR": {
+    "1": 27
+   },
+   "RELU": {
+    "1": 43,
+    "2": 873,
+    "3": 10819,
+    "4": 92533
+   }
+  },
+  "coefficient_alphabet": [
+   -16,
+   0,
+   16
+  ],
+  "cost_rule": "routing and local-transform operations are METERED on gmi_microscope/core.Machine under basis B0, not counted by hand; routing is two charged edges, identical for every arm",
+  "gated_widths": [
+   1,
+   2
+  ],
+  "input_grid": [
+   -16,
+   -8,
+   0,
+   8,
+   16
+  ],
+  "input_pairs": 25,
+  "randomness": "none",
+  "relu_widths": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "term_set_sizes": {
+   "GATED": 531,
+   "LINEAR": 27,
+   "RELU": 43
+  },
+  "theta": "1",
+  "universe": "gmi_microscope/core.py registered fixed point: TOTAL_BITS = 8, FRAC_BITS = 4, with its exact ADD, MUL (declared rounding), THRESH and saturation semantics"
+ },
+ "dg2_audit": {
+  "auditor": "gmi_microscope/grid_audit.py family C, driven by gmi_microscope/b2_audit.py",
+  "run_before_commit": true,
+  "verdict_recorded_in": "microscopes/results/STAGE_B2_DG2_AUDIT_V1.json"
+ },
+ "evidence_class": "SYNTHETIC_EXACT_EMPIRICAL (tier S) executed in the REGISTERED 8-bit fixed-point universe; every function class is enumerated in full and every cost is metered on the registered charged machine. NOT neural evidence.",
+ "evidence_kind": "SYNTHETIC_EXACT_MICROSCOPE__LAPTOP_SCOPE__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+ "frontier_note": "rows are EXACT local transforms only (adequacy held at theta = 1 on the enumerated input grid); A = the arm's declared width (its description in units), E = c_route * charged routing ops + c_local * charged local-transform ops, both METERED on the registered charged machine rather than counted by hand",
+ "issue": [
+  377,
+  422
+ ],
+ "n_claims": 15,
+ "n_claims_hold": 15,
+ "protocol_rules_carried": {
+  "rule_19": "capability is the best member of the fully enumerated class, so a reported shortfall is a shortfall of the whole arm at that width",
+  "rule_21": "rule 21 as NARROWED by RV-377-073: no admissible row may serve state written during development without a charged operation. The original wording ('no admissible row has zero execution cost per query') is FALSIFIED_AND_REPLACED -- a machine serving a constant legitimately costs nothing to run, and rule 22 requires exactly such a row in every cell.",
+  "rule_22": "rule 22: an obligation is meaningful only where the hindsight-optimal CONSTANT answer is below theta; a mode whose constant control is admissible is VOID, not weak, and its clauses are not evaluated there.",
+  "rule_24": "rule 24: a gate claim must enumerate the representations of the carrier's state the alphabet admits and test the strongest at the gated setting.",
+  "rule_28": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+ },
+ "receipt_sha256": "eda0ddfbd72aeabafe9e976b774ec338e35e95bb54a391eca9a59693eaf3c63a",
+ "registry_entries": [
+  "TF-022 position-wise MLP",
+  "TF-023 MLP width / expansion ratio",
+  "TF-024 activation function",
+  "TF-025 GLU / SwiGLU gating"
+ ],
+ "revival_id": "RV-377-095",
+ "row": "B2.7 MLP width/gating",
+ "rule24_gate_record": {
+  "capability_by_representation": {
+   "GATED_w2": "1",
+   "LINEAR_w1": "9/25",
+   "RELU_w4": "21/25"
+  },
+  "claim": "the bilinear target is reachable by a local transform at the registered 8-bit precision",
+  "declared_strongest_is_the_measured_strongest": true,
+  "declared_strongest_representation": "GATED_w2",
+  "gated_axis": "local transform family",
+  "gated_setting": "declared coefficient alphabet {-1, 0, +1}, widths to 4",
+  "measured_strongest_representation": "GATED_w2",
+  "note": "the enumerated representations of the LOCAL TRANSFORM are the affine class, the width-w ReLU sums to width 4 and the width-w gated sums to width 2; every class is enumerated in full and the best member taken, so a reported shortfall is a shortfall of the whole class (protocol rule 19)",
+  "rule": "rule 24: a gate claim must enumerate the representations of the carrier's state the alphabet admits and test the strongest at the gated setting.",
+  "state_representations_enumerated": [
+   "GATED_w2",
+   "LINEAR_w1",
+   "RELU_w4"
+  ],
+  "verdict": "best capability on the bilinear target at each arm's largest declared width"
+ },
+ "schema": "GMI_B2_07_MLP_V1",
+ "shared_reuse_grid_H": [
+  1,
+  2,
+  4,
+  16,
+  64,
+  256,
+  1024
+ ],
+ "status": "GREEN",
+ "theorems": []
+}

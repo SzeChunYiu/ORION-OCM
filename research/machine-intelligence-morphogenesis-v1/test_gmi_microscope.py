@@ -1110,6 +1110,39 @@ def test_b2_06_softmax_receipt_replays_exactly(tmp_path):
         assert c["rule21_charged_serve_audit"]["passed"] is True
 
 
+def test_b2_07_mlp_receipt_replays_exactly(tmp_path):
+    """RV-377-095 (B2.7 MLP width/gating): the committed receipt reproduces byte for byte. Routing is held identical
+    and charged, width buys breakpoints, gating buys the product, and the gate is not free."""
+    from gmi_microscope import b2_mlp
+    rc = b2_mlp.main(str(tmp_path / "mlp.json"))
+    committed = json.loads((RES / "STAGE_B2_07_MLP_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 15 and rc["n_claims"] == 15
+
+    cells = committed["cells"]
+    # C1: the charged routing cost is 2 ops for every arm and width, so any difference is the local transform
+    for c in cells.values():
+        assert {v["charged_routing_ops_per_query"] for v in c["rows"].values()} == {2}
+    # width buys breakpoints: 1 for the one-breakpoint target, 2 for the two-breakpoint target
+    assert cells["T_RELU"]["minimal_exact_width_by_arm"]["RELU"] == 1
+    assert cells["T_ABS"]["minimal_exact_width_by_arm"]["RELU"] == 2
+    # gating buys the product: no rectified width up to 4 reaches it, the gate reaches it at width 2
+    assert cells["T_PRODUCT"]["minimal_exact_width_by_arm"]["RELU"] is None
+    assert cells["T_PRODUCT"]["minimal_exact_width_by_arm"]["GATED"] == 2
+    assert [cells["T_PRODUCT"]["rows"][f"RELU_w{w}"]["capability"] for w in (1, 2, 3, 4)] == \
+        ["12/25", "3/5", "18/25", "21/25"]
+    # the gate is bought, not free: a gated term is strictly more expensive than a rectified one at matched width
+    for w in (1, 2):
+        assert (cells["T_AFFINE"]["rows"][f"GATED_w{w}"]["charged_local_transform_ops_per_query"]
+                > cells["T_AFFINE"]["rows"][f"RELU_w{w}"]["charged_local_transform_ops_per_query"])
+    # C15: the content-conditioned transport target is reached by no declared arm at any declared width
+    assert all(v is None for v in cells["T_GATE"]["minimal_exact_width_by_arm"].values())
+    assert cells["T_GATE"]["rows"]["GATED_w2"]["capability"] == "22/25"
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""
