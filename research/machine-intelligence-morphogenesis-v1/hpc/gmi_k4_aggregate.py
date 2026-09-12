@@ -2,9 +2,9 @@
 """Aggregate K4 array receipts without silently dropping failures or leaking names before scoring.
 
 The aggregator reconstructs the frozen canonical 264-task plan independently of the task files,
-requires exactly one receipt for every index, validates freeze hashes and task specifications, and
-writes both machine-readable and human-readable reports. Architecture names are hidden by default;
-`--reveal-names` may only be used after all scoring is complete.
+requires exactly one receipt for every index, validates both freeze hashes and task specifications,
+and writes both machine-readable and human-readable reports. Architecture names are hidden by
+default; `--reveal-names` may only be used after all scoring is complete.
 """
 from __future__ import annotations
 
@@ -18,6 +18,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FREEZE = os.path.join(ROOT, "GMI_K4_LOFO_FREEZE_V1.json")
+GEN_FREEZE = os.path.join(ROOT, "GMI_K4_GENERATOR_FREEZE_V1.json")
 RES = os.path.join(ROOT, "microscopes", "results", "k4")
 
 
@@ -26,6 +27,13 @@ def load_freeze():
     full = json.loads(raw)
     safe = dict(full); safe.pop("name_key", None)
     return full, safe, hashlib.sha256(raw.encode()).hexdigest()
+
+
+def load_generator_freeze():
+    raw = open(GEN_FREEZE).read(); body = json.loads(raw)
+    if body.get("status") != "FROZEN_BEFORE_ANY_K4_SEARCH_RESULT":
+        raise RuntimeError(f"unexpected generator freeze status: {body.get('status')}")
+    return body, hashlib.sha256(raw.encode()).hexdigest()
 
 
 def task_plan(freeze):
@@ -58,6 +66,7 @@ def main():
     a = ap.parse_args()
 
     full, freeze, freeze_sha = load_freeze()
+    gen_freeze, gen_freeze_sha = load_generator_freeze()
     plan = task_plan(freeze)
     recs, parse_fail = load_receipts(a.pattern)
     by_idx = collections.defaultdict(list)
@@ -84,7 +93,8 @@ def main():
         if any(r.get(k) != v for k, v in spec.items()): err.append("task_spec_mismatch")
         if r.get("n_tasks_in_plan") != len(plan): err.append("plan_length_mismatch")
         if r.get("freeze_artifact_sha256") != freeze_sha: err.append("freeze_sha_mismatch")
-        expected_hash = hashlib.sha256(json.dumps({**spec, "freeze": freeze_sha}, sort_keys=True).encode()).hexdigest()
+        if r.get("generator_freeze_sha256") != gen_freeze_sha: err.append("generator_freeze_sha_mismatch")
+        expected_hash = hashlib.sha256(json.dumps({**spec, "freeze": freeze_sha, "generator_freeze": gen_freeze_sha}, sort_keys=True).encode()).hexdigest()
         if r.get("task_hash") != expected_hash: err.append("task_hash_mismatch")
         if r.get("seed") != int(expected_hash[:8], 16): err.append("seed_mismatch")
         if r.get("status") != "OK": err.append("task_failed")
@@ -127,8 +137,10 @@ def main():
 
     git_shas = sorted(set(r.get("git_commit_sha") for r in ordered if r.get("git_commit_sha")))
     report = {
-        "schema": "GMIK4AggregateReceiptV1",
+        "schema": "GMIK4AggregateReceiptV2",
         "freeze_sha256": freeze_sha,
+        "generator_freeze_sha256": gen_freeze_sha,
+        "generator_freeze_schema": gen_freeze.get("schema"),
         "expected_tasks": len(plan),
         "receipts_found": len(recs),
         "valid_indexed_receipts": len(ordered),
@@ -154,7 +166,7 @@ def main():
     json.dump(report, open(a.out_json, "w"), indent=1, sort_keys=True)
 
     lines = [
-        "# K4 leave-one-family-out aggregate v1", "",
+        "# K4 leave-one-family-out aggregate v2", "",
         f"Terminal: `{terminal}`", "",
         f"Expected tasks: **{len(plan)}**; indexed receipts: **{len(ordered)}**; structural errors: **{len(structural_errors)}**.", "",
         "## Verdict counts", "",
