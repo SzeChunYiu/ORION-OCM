@@ -18,6 +18,10 @@ from __future__ import annotations
 import itertools
 
 from .core import Machine, clamp, fx
+
+
+def prog_bad(p):
+    return p is None or isinstance(p, (str, Val))
 from . import morph
 
 FX_ONE = fx(1.0)
@@ -130,10 +134,12 @@ class VM:
         return [(x >> b) & 1 for b in range(4)]
 
     def _key(self, xvec, keybits):
-        return tuple(1 if v.v > 0 else 0 for v in xvec[:keybits])
+        return tuple(1 if getattr(v, "v", 0) > 0 else 0 for v in (xvec or [])[:keybits])
 
     def _dot(self, w_names, xvec, tape):
         """dot product of a parameter block with a vector; one extra parameter cell beyond the vector length acts as a bias."""
+        if not isinstance(w_names, list) or not all(isinstance(t, str) for t in w_names): return Val(0)
+        xvec = [v for v in (xvec or []) if isinstance(v, Val)]
         M = self.M; s = Val(0)
         for n, xv in zip(w_names, xvec):
             w = Val(M.read(n)); prod = M.op("MUL", w.v, xv.v)
@@ -152,16 +158,16 @@ class VM:
             if cls == "U" and y is None: continue
             if k == "INPUT": vals[i] = xb[: p["width"]]
             elif k == "TARGET": vals[i] = None if y is None else Val(y)
-            elif k == "CONST": vals[i] = Val(M.read(f"{i}_c"))
-            elif k in ("DENSE",): vals[i] = self.state[i]
+            elif k == "CONST": vals[i] = Val(M.read(f"{i}_c")) if f"{i}_c" in M.cells else Val(0)
+            elif k in ("DENSE",): vals[i] = self.state.get(i, [])
             elif k in ("TABLE", "KVSTORE", "EVIDENCE", "SHADOW", "MATERIALIZE", "VERSIONED"): vals[i] = self.state[i] if k != "VERSIONED" else self._in(i, 0, vals)
             elif k == "PROGRAM": vals[i] = self.state[i]
             elif k == "EDGE": vals[i] = self._in(i, 0, vals)
             elif k == "LINEAR":
-                w = self._in(i, 0, vals); xv = self._in(i, 1, vals); vals[i] = self._dot(w, xv, tape) if (w is not None and xv is not None) else Val(0)
+                vals[i] = self._dot(self._in(i, 0, vals), self._in(i, 1, vals), tape)
             elif k == "AFFINE":
                 w = self._in(i, 0, vals); xv = self._in(i, 1, vals); W = p["width"]; out = []
-                if w is None or xv is None: vals[i] = [Val(0)] * W
+                if not isinstance(w, list) or not all(isinstance(t, str) for t in w) or not isinstance(xv, list) or not all(isinstance(v, Val) for v in xv): vals[i] = [Val(0)] * W
                 else:
                     per = len(xv) + 1
                     for j in range(W):
@@ -190,20 +196,22 @@ class VM:
                 vals[i] = Val(M.op("ADD", a.v, b.v), [(a, FX_ONE), (b, FX_ONE)] if tape else None)
             elif k == "LOOKUP":
                 st = self._in(i, 0, vals); xv = self._in(i, 1, vals); kb = self._keybits(i, 0)
-                r = M.op("S_LOOKUP", st, self._key(xv, kb)) if (st and xv) else None; vals[i] = Val(0 if r is None else r)
+                r = M.op("S_LOOKUP", st, self._key(xv, kb)) if (isinstance(st, str) and st in M.stores and isinstance(xv, list)) else None; vals[i] = Val(0 if r is None else r)
             elif k == "NEAREST":
-                st = self._in(i, 0, vals); xv = self._in(i, 1, vals); vals[i] = self._nearest(st, xv, p["k"]) if (st and xv) else Val(0)
+                st = self._in(i, 0, vals); xv = self._in(i, 1, vals); vals[i] = self._nearest(st, xv, p["k"]) if (isinstance(st, str) and st in M.stores and isinstance(xv, list)) else Val(0)
             elif k == "SCORESELECT":
-                st = self._in(i, 0, vals); xv = self._in(i, 1, vals); vals[i] = self._scoreselect(st, xv) if (st and xv) else Val(0)
+                st = self._in(i, 0, vals); xv = self._in(i, 1, vals); vals[i] = self._scoreselect(st, xv) if (isinstance(st, str) and st in M.stores and isinstance(xv, list)) else Val(0)
             elif k == "SELECT":
                 a = self._in(i, 0, vals); b = self._in(i, 1, vals); f = self._in(i, 2, vals); vals[i] = (a if M.op("EQ", 1 if f else 0, 1) else b) or Val(0)
             elif k == "PROGEXEC":
-                prog = self._in(i, 0, vals); xv = self._in(i, 1, vals); src = self.inputs[i][0]
-                gr = self._grammar_of(src); vals[i] = Val(gr.execute(M, prog, [v.v for v in xv])) if (prog is not None and xv) else Val(0)
+                prog = self._in(i, 0, vals); xv = self._in(i, 1, vals); src = self.inputs.get(i, {}).get(0)
+                try: vals[i] = Val(self._grammar_of(src).execute(M, prog, [v.v for v in xv])) if (prog is not None and not isinstance(prog, str) and xv and all(isinstance(v, Val) for v in xv)) else Val(0)
+                except morph.MorphError: vals[i] = Val(0)
             elif k == "VERIFY":
-                prog = self._in(i, 0, vals); ev = self._in(i, 1, vals); vals[i] = self._verify_prog(self.inputs[i][0], prog, ev) if (prog is not None and ev) else 1
+                prog = self._in(i, 0, vals); ev = self._in(i, 1, vals)
+                vals[i] = self._verify_prog(self.inputs.get(i, {}).get(0), prog, ev) if (prog is not None and not isinstance(prog, str) and isinstance(ev, str)) else 1
             elif k == "VERIFYTAB":
-                st = self._in(i, 0, vals); ev = self._in(i, 1, vals); vals[i] = self._verify_tab(st, ev, self._keybits(i, 0)) if (st and ev) else 1
+                st = self._in(i, 0, vals); ev = self._in(i, 1, vals); vals[i] = self._verify_tab(st, ev, self._keybits(i, 0)) if (isinstance(st, str) and st in M.stores and isinstance(ev, str) and ev in M.stores) else 1
             elif k == "ABSTAIN":
                 v = self._in(i, 0, vals); f = self._in(i, 1, vals); vals[i] = v if M.op("EQ", 1 if f else 0, 1) else None
             elif k == "ROLLBACK":
@@ -215,21 +223,24 @@ class VM:
         return vals, vals.get(self.output)
 
     def _keybits(self, i, port):
-        src = self.inputs[i][port]; k, p = self.nodes[src]
+        src = self.inputs.get(i, {}).get(port)
+        if src is None: return 4
+        k, p = self.nodes[src]
         if k == "TABLE": return p["keybits"]
         if k == "MATERIALIZE": return p["keybits"]
         if k in ("SHADOW", "ROLLBACK", "VERSIONED"):
             return self._keybits(src, 0)
         return 4
 
-    def _grammar_of(self, node):
+    def _grammar_of(self, node, depth=0):
+        if node is None or depth > 8 or node not in self.nodes: raise morph.MorphError("no grammar upstream")
         k = self.nodes[node][0]
         if k == "PROGRAM": return self.grammars[node]
-        if k in ("SEARCH", "PMUTATE", "ROLLBACK"): return self._grammar_of(self.inputs[node][0])
+        if k in ("SEARCH", "PMUTATE", "ROLLBACK"): return self._grammar_of(self.inputs.get(node, {}).get(0), depth + 1)
         raise morph.MorphError("no grammar upstream")
 
     def _nearest(self, st, xv, k):
-        M = self.M; xb = [1 if v.v > 0 else 0 for v in xv]; ds = []
+        M = self.M; xb = [1 if getattr(v, "v", 0) > 0 else 0 for v in xv]; ds = []
         for key, val in M.stores[st]:
             d = 0
             for a, b in zip(key, xb): d = M.op("ADD", d, M.op("XOR", a, b))
@@ -244,7 +255,7 @@ class VM:
         return Val(acc)
 
     def _scoreselect(self, st, xv):
-        M = self.M; xb = [1 if v.v > 0 else 0 for v in xv]; ds = []; vs = []
+        M = self.M; xb = [1 if getattr(v, "v", 0) > 0 else 0 for v in xv]; ds = []; vs = []
         for key, val in M.stores[st]:
             d = 0
             for a, b in zip(key, xb): d = M.op("ADD", d, M.op("XOR", a, b))
@@ -255,7 +266,11 @@ class VM:
         return Val(acc)
 
     def _verify_prog(self, prog_node, prog, ev):
-        M = self.M; gr = self._grammar_of(prog_node); ok = 1
+        M = self.M
+        if not isinstance(ev, str) or ev not in M.stores: return 1
+        try: gr = self._grammar_of(prog_node)
+        except morph.MorphError: return 1
+        ok = 1
         for xk, y in M.stores[ev]:
             pred = gr.execute(M, prog, [FX_ONE if b else 0 for b in xk]); ok = M.op("AND", ok, M.op("EQ", pred, y))
         return ok
@@ -271,7 +286,7 @@ class VM:
         M = self.M
         if k == "GRAD":
             names = self._in(i, 0, vals); pred = self._in(i, 1, vals); tgt = self._in(i, 2, vals)
-            if names is None or pred is None or tgt is None: return None
+            if not isinstance(names, list) or not all(isinstance(t, str) for t in names) or not isinstance(pred, Val) or not isinstance(tgt, Val): return None
             err = M.op("SUB", pred.v, tgt.v); M.op("ADJ", err)
             grads = self._backprop(pred, err); lr = p["lr"]; native = "ADJ" in M.basis.native
             mul = _mul if native else (lambda a, b: M.op("MUL", a, b))
@@ -279,21 +294,24 @@ class VM:
                 g = grads.get(n, 0)
                 if g: M.write(n, clamp(M.read(n) - mul(lr, g)))
             return None
-        src = self.inputs[i][0]
+        src = self.inputs.get(i, {}).get(0)
+        if src is None: return None
         if k == "INSERT":
             st = self._in(i, 0, vals); xv = self._in(i, 1, vals); tgt = self._in(i, 2, vals)
-            if st and xv and tgt is not None:
-                key = tuple(1 if v.v > 0 else 0 for v in xv); M.stores[st] = [(kk, vv) for kk, vv in M.stores[st] if kk != key]
+            if isinstance(st, str) and st in M.stores and isinstance(xv, list) and isinstance(tgt, Val):
+                key = tuple(1 if getattr(v, "v", 0) > 0 else 0 for v in xv); M.stores[st] = [(kk, vv) for kk, vv in M.stores[st] if kk != key]
                 M.op("S_INSERT", st, key, tgt.v)
             return None
         if k == "CLOSEDFORM":
             st = self._in(i, 0, vals); xv = self._in(i, 1, vals); tgt = self._in(i, 2, vals); kb = self._keybits(i, 0)
-            if st and xv and tgt is not None:
+            if isinstance(st, str) and st in M.stores and isinstance(xv, list) and isinstance(tgt, Val):
                 key = self._key(xv, kb); M.stores[st] = [(kk, vv) for kk, vv in M.stores[st] if kk != key]; M.op("S_INSERT", st, key, tgt.v)
             return None
         if k == "SEARCH":
-            prog = self._in(i, 0, vals); ev = self._in(i, 1, vals); gr = self._grammar_of(src)
-            if ev is None: return None
+            if prog_bad(self._in(i, 0, vals)) or not isinstance(self._in(i, 1, vals), str): return None
+            prog = self._in(i, 0, vals); ev = self._in(i, 1, vals)
+            try: gr = self._grammar_of(src)
+            except morph.MorphError: return None
             best = prog; best_err = None; tried = 0
             for cand in gr.progs[: p["budget"]]:
                 tried += 1; e = 0
@@ -302,8 +320,10 @@ class VM:
                 if best_err is None or e < best_err: best_err, best = e, cand
             self.state[src] = best; return None
         if k == "PMUTATE":
-            prog = self._in(i, 0, vals); ev = self._in(i, 1, vals); gr = self._grammar_of(src)
-            if ev is None: return None
+            if prog_bad(self._in(i, 0, vals)) or not isinstance(self._in(i, 1, vals), str): return None
+            prog = self._in(i, 0, vals); ev = self._in(i, 1, vals)
+            try: gr = self._grammar_of(src)
+            except morph.MorphError: return None
             def err_of(c):
                 e = 0
                 for xk, yy in M.stores[ev]:
@@ -341,8 +361,8 @@ class VM:
 
     # ------------------------------------------------------------------------------------------------ row interface
     def query(self, x):
-        _, out = self.evaluate(x); self.abstained = out is None
-        return 0 if out is None else out.v
+        _, out = self.evaluate(x); self.abstained = not isinstance(out, Val)
+        return 0 if self.abstained else out.v
 
     def feedback(self, x, y):
         M = self.M
@@ -359,9 +379,10 @@ class VM:
         for i in self.order:
             k, p = self.nodes[i]
             if k == "MATERIALIZE":
-                src = self.inputs[i].get(0)
+                src = self.inputs.get(i, {}).get(0)
                 if src is None: continue
-                gr = self._grammar_of(src); prog = self.state[src] if self.nodes[src][0] == "PROGRAM" else None
+                if src not in self.nodes or self.nodes[src][0] != "PROGRAM" or src not in self.grammars or i not in self.state: continue
+                gr = self.grammars[src]; prog = self.state.get(src)
                 if prog is None: continue
                 st = self.state[i]; M.stores[st] = []
                 for key in itertools.product((0, 1), repeat=p["keybits"]):
