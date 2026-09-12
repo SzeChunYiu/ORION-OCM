@@ -120,7 +120,7 @@ def crossover(rng, a, b):
     return child
 
 
-def map_elites(eco, seed, evaluations=1000000, n_init=2000, log_every=25000, ckpt_path=None, ckpt_every=100000, log=None):
+def map_elites(eco, seed, evaluations=1000000, n_init=2000, log_every=25000, ckpt_path=None, ckpt_every=100000, log=None, use_dup=True):
     rng = random.Random(seed)
     archive = {}          # descriptor -> (score, candidate, size)
     geno_cache = {}       # canonical genotype -> score (the RV-028 caches, kept)
@@ -142,7 +142,7 @@ def map_elites(eco, seed, evaluations=1000000, n_init=2000, log_every=25000, ckp
         u = rng.random()
         if u < 0.20 and len(vals) > 1:
             _, other, _ = rng.choice(vals); child = crossover(rng, parent, other)
-        elif u < 0.45:
+        elif use_dup and u < 0.45:
             child = duplicate_reindex(rng, parent)
         else:
             child = blind.mutate_gp(rng, parent)
@@ -158,16 +158,16 @@ def map_elites(eco, seed, evaluations=1000000, n_init=2000, log_every=25000, ckp
     return archive, n, hits, history
 
 
-def main(seed=5, evaluations=1000000, tag="RUN10_QD_MAPELITES", log=None):
+def main(seed=5, evaluations=1000000, tag="RUN10_QD_MAPELITES", log=None, use_dup=True):
     eco = blind.ecology_div()
     planted = blind.PLANTED_LEARNER_SMOOTH8_LR4
     planted_score, planted_desc = score_and_desc(planted, eco)
-    archive, n, hits, history = map_elites(eco, seed, evaluations, ckpt_path=os.path.join(RES, f"CKPT_{tag}_S{seed}.json"), log=log)
+    archive, n, hits, history = map_elites(eco, seed, evaluations, ckpt_path=os.path.join(RES, f"CKPT_{tag}_S{seed}.json"), log=log, use_dup=use_dup)
     elites = sorted(archive.items(), key=lambda kv: -kv[1][0])
     top = [{"descriptor": list(k), "score": v[0], "size": v[2], "class": blind.classify_locality_v2({"used_store": k[1] >= 1, "n_fx_cells_written": k[1], "max_writes": k[1]}, v[1]) if hasattr(blind, "classify_locality_v2") else "", "f": json.dumps(v[1]["f"]), "g": json.dumps(v[1]["g"])} for k, v in elites[:12]]
     winners = [e for e in top if e["score"] >= blind.THETA_SMOOTH]
     receipt = {"schema": "StageFBlindRecoveryQDV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422], "revival_record": "RV-377-057", "run_tag": tag, "seed": seed,
-               "search_family": "MAP-Elites quality diversity (Mouret & Clune 2015) over the neutral grammar: descriptors (program size bucket, plasticity 0-5, output-spread bucket), 6x6x6 = 216 cells, uniform elite selection, Koza subtree mutation, genotype cache; NO fitness-proportional selection and NO size tie-break",
+               "duplicate_and_reindex_operator_enabled": use_dup, "search_family": "MAP-Elites quality diversity (Mouret & Clune 2015) over the neutral grammar: descriptors (program size bucket, plasticity 0-5, output-spread bucket), 6x6x6 = 216 cells, uniform elite selection, Koza subtree mutation, genotype cache; NO fitness-proportional selection and NO size tie-break",
                "ecology": {"kind": eco.get("kind"), "events": eco["events"], "n_targets": len(eco.get("targets", [1]))}, "n_evaluations": n, "genotype_cache_hits": hits,
                "planted_learner_score_in_this_ecology": planted_score, "planted_learner_descriptor": list(planted_desc), "planted_learner_size": cand_size(planted),
                "theta": blind.THETA_SMOOTH, "archive_cells_filled": len(archive), "archive_cells_total": 216,
@@ -184,4 +184,6 @@ def main(seed=5, evaluations=1000000, tag="RUN10_QD_MAPELITES", log=None):
 if __name__ == "__main__":
     s = int(sys.argv[1]) if len(sys.argv) > 1 else 5
     ev = int(sys.argv[2]) if len(sys.argv) > 2 else 1000000
-    main(s, ev, log=sys.argv[3] if len(sys.argv) > 3 else None)
+    nodup = "--nodup" in sys.argv
+    main(s, ev, tag="RUN10B_QD_NODUP_ABLATION" if nodup else "RUN10_QD_MAPELITES",
+         log=next((a for a in sys.argv[3:] if not a.startswith("--")), None), use_dup=not nodup)
