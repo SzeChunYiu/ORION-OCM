@@ -460,3 +460,26 @@ def test_r8_triage_screen_was_audited_before_use_and_its_cells_replay():
         assert triage.screen(g, target)[0] == cell["screen"], cell["fingerprint"]
         assert triage.confirm(g, target)[0] == cell["exact"], cell["fingerprint"]
 
+
+def test_r9_census_counts_three_different_things_and_the_small_sizes_reproduce():
+    """R9: the committed census reproduces exactly at the small exhaustive sizes, the three counts are reported
+    separately, and the two invariants the whole lane leans on hold — the developmental response is a function of the
+    canonical form, and remint changes no count."""
+    import random
+    from gmi_microscope import census
+    rc = json.loads((RES / "STAGE_R9_CENSUS_V1.json").read_text())
+    assert rc["terminal"] == "R9_CENSUS_EXECUTED"
+    assert rc["response_class_check_total"]["n_disagreements"] == 0
+    assert rc["remint_invariance"]["n_changed"] == 0
+    rows = {r["size"]: r for r in rc["counts_by_size"]}
+    for n in (3, 4):
+        r = census.census_size(n, True, random.Random(0))
+        for k in ("n_configurations_enumerated", "n_canonical_classes_in_sample", "n_response_classes_in_sample"):
+            assert r[k] == rows[n][k], (n, k)
+    assert census.enumerate_stratum(census._strata(5)[0], materialize=False)[0] >= 0
+    # the three counts are strictly different things and the receipt says so
+    assert rows[5]["n_configurations_enumerated"] > rows[5]["n_canonical_classes_in_sample"] > rows[5]["n_response_classes_in_sample"]
+    assert "forbidden_sentence" in rc["three_counts_are_different_things"]
+    est = rows[6]["N_CONFIG_stratified_estimate"]
+    assert est["n_strata_sampled"] < est["n_strata_population"] and est["N_CONFIG_estimate"] > 0
+
