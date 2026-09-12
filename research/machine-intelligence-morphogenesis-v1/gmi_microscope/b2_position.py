@@ -168,6 +168,11 @@ def run_cell(task, n):
     }
 
 
+FRONTIER_NOTE_TEXT = ("rows are EXACT position representations only (adequacy held at theta = 1 under the "
+                      "parent-maximal reader of each representation); A = c_desc * declared position codes, "
+                      "E = c_tok * per-token ops + c_pair * per-pair ops")
+
+
 def main(path=None):
     cells = {f"{t}|n={n}": run_cell(t, n) for t in TASKS for n in LENGTHS}
 
@@ -180,10 +185,7 @@ def main(path=None):
                      for a, r in cell["rows"].items() if r["exact"]}
             if lines:
                 ctxs[f"{key}|{pname}"] = lines
-    b2_frontiers, shared_grid = C.frontier_set(
-        ctxs, note="rows are EXACT position representations only (adequacy held at theta = 1 under the parent-maximal "
-                   "reader of each representation); A = c_desc * declared position codes, E = c_tok * per-token ops + "
-                   "c_pair * per-pair ops")
+    b2_frontiers, shared_grid = C.frontier_set(ctxs, note=FRONTIER_NOTE_TEXT)
 
     # rule 24: the gate record, at the gated setting (the longest declared length, on the order-dependent tasks)
     gates = {}
@@ -282,6 +284,7 @@ def main(path=None):
                          "b2_frontiers so the grid is auditable from the receipt's own contents (protocol rule 28).",
         "cells": cells,
         "b2_frontiers": b2_frontiers,
+        "frontier_note": FRONTIER_NOTE_TEXT,
         "shared_reuse_grid_H": shared_grid,
         "arms_exact_on_every_task_at_every_declared_length": all_task_all_length_exact,
         "claims": {k: bool(v) for k, v in clauses.items()},

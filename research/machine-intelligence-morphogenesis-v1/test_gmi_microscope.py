@@ -1013,3 +1013,45 @@ def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_
     # the defect this audit found in an already committed record: RV-377-056's frontier is nested, so the corpus-wide
     # DG-2 audit of RV-377-068 never graded it
     assert by["STAGE_B2_03_ROUTING_V1.json"]["verdict"] == "UNAUDITABLE_BY_INSTRUMENT"
+
+
+def test_b2_02_position_receipt_replays_exactly(tmp_path):
+    """RV-377-091 (B2.2 positional necessity and geometry): the committed receipt reproduces byte for byte, and the
+    three measured resolution thresholds -- including the one that REFUTED the frozen clause C6 -- are replayed."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_position
+    rc = b2_position.main(str(tmp_path / "pos.json"))
+    committed = json.loads((RES / "STAGE_B2_02_POSITION_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 11 and rc["n_claims"] == 13
+    assert rc["claims"]["C6_a_bounded_learned_absolute_table_is_exact_on_ABS_FIRST_everywhere_and_on_ABS_LAST_only_for_n_le_P"] is False
+    assert rc["claims"]["C7b_relative_resolution_R_equal_d_is_inexact_on_the_distance_d_task_at_every_length"] is False
+
+    cells = committed["cells"]
+    cap = lambda t, n, a: Fr(cells[f"{t}|n={n}"]["rows"][a]["capability"])
+    L = b2_position.LENGTHS
+    # C1: TM-1 measured. The PARENT-MAXIMAL permutation-invariant encoder is exact only on the invariant obligation.
+    assert all(cap("PERM_COUNT", n, "NONE") == 1 for n in L)
+    assert all(cap(t, n, "NONE") < 1 for t in ("ABS_FIRST", "ABS_LAST", "REL_DIST2") for n in L)
+    # rule 22: no cell is a VOID obligation; rule 21: every admissible row that serves developed state is charged
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+    # C5: a cyclic code of period P is exact on ABS_FIRST exactly while n <= P
+    for a, P in (("ROT_P2", 2), ("ROT_P4", 4), ("ROT_P6", 6)):
+        assert all((cap("ABS_FIRST", n, a) == 1) == (n <= P) for n in L), a
+    # the REFUTATION: the frozen threshold for a bounded absolute table was n <= P; the exact threshold is n <= P + 1,
+    # because a SINGLETON out-of-range bucket is itself a position code
+    for a, P in (("ABS_P2", 2), ("ABS_P4", 4), ("ABS_P6", 6)):
+        assert all((cap("ABS_LAST", n, a) == 1) == (n <= P + 1) for n in L), a
+        assert all(cap("ABS_FIRST", n, a) == 1 for n in L), a
+    assert cap("ABS_LAST", 5, "ABS_P4") == 1 and cap("ABS_LAST", 6, "ABS_P4") == Fr(3, 4)
+    # C7a / C7b: a saturating relative code resolves the distance-d obligation iff R >= d + 1, and the R = d row is
+    # exact only at the shortest length, which is a boundary effect and not the resolution law
+    assert all(cap("REL_DIST2", n, "REL_R3") == 1 for n in L)
+    assert cap("REL_DIST2", 4, "REL_R2") == 1
+    assert all(cap("REL_DIST2", n, "REL_R2") < 1 for n in L if n >= 6)
+    # C10: the price dichotomy -- exactly two arms are exact everywhere, and they pay in different currencies
+    assert committed["arms_exact_on_every_task_at_every_declared_length"] == ["ABS_DECLARED", "REL_R3"]
+    assert all(b["dg2_grid_covers_twice_every_crossover"] for b in committed["b2_frontiers"].values())

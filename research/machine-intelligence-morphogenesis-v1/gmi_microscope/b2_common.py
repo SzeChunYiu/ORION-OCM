@@ -183,7 +183,29 @@ def frontier_set(contexts, note=""):
         for k, v in crossovers({r: (Fr(a), Fr(b)) for r, (a, b) in lines.items()}).items():
             allcross[f"{cname}|{k}"] = v
     grid = grid_for(allcross)
-    return {cname: frontier_block(lines, note=note, grid=grid) for cname, lines in contexts.items()}, grid
+    blocks = {}
+    for cname, lines in contexts.items():
+        if len(lines) < 2:
+            # a context with fewer than two admissible rows has no frontier DECISION: there is nothing for a crossover
+            # to move and nothing for DG-2 to truncate. It is recorded as such rather than padded into the grid.
+            blocks[cname] = {"rule": RULE_28, "single_row_context": True,
+                             "cost_coordinates_A_E": {r: [str(Fr(v[0])), str(Fr(v[1]))] for r, v in lines.items()},
+                             "occupants_on_grid": sorted(lines), "crossovers_H_star": {},
+                             "dg2_grid_covers_twice_every_crossover": True,
+                             "note": "fewer than two admissible rows; no frontier decision exists in this context",
+                             "frontier_runs": [], "occupant_for_all_sufficiently_large_H": sorted(lines),
+                             "rows_never_occupying_a_cell": [], "largest_crossover": None,
+                             "grid_max_H": max(grid), "grid_H_is_the_receipts_shared_reuse_grid_H": True}
+            continue
+        b = frontier_block(lines, note="", grid=grid)
+        # the grid is shared by every context of the receipt; it is carried ONCE, at the receipt's top level, as
+        # shared_reuse_grid_H. Repeating it per context would multiply the receipt's size by the context count.
+        del b["grid_H"]
+        b["grid_H_is_the_receipts_shared_reuse_grid_H"] = True
+        blocks[cname] = b
+    for b in blocks.values():
+        b["frontier_note"] = "see frontier_note at the receipt's top level (it is identical for every context)"
+    return blocks, grid
 
 
 def runs_of(front, grid):
@@ -217,7 +239,6 @@ def frontier_block(lines, note="", grid=None):
         "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
         "cost_coordinates_A_E": {r: [str(v[0]), str(v[1])] for r, v in sorted(lines.items())},
         "crossovers_H_star": {k: str(v) for k, v in sorted(cross.items())},
-        "crossovers_H_star_decimal": {k: round(float(v), 6) for k, v in sorted(cross.items())},
         "largest_crossover": str(max(cross.values())) if cross else None,
         "grid_H": grid, "grid_max_H": max(grid),
         "dg2_grid_covers_twice_every_crossover": check_dg2(cross, grid),

@@ -590,6 +590,7 @@ def main(path=None):
                          "it was committed; see dg2_audit above.",
         "cells": cells,
         "b2_frontiers": b2_frontiers,
+        "frontier_note": FRONTIER_NOTE_TEXT,
         "shared_reuse_grid_H": shared_grid,
         "optimal_vocabulary_size_by_cell_price_horizon": optima,
         "claims": {k: bool(v) for k, v in clauses.items()},

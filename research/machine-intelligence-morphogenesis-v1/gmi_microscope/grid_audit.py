@@ -179,16 +179,19 @@ def _famC_lines(d):
     blocks = d.get("b2_frontiers")
     if not isinstance(blocks, dict) or not blocks:
         return None
+    shared = [int(h) for h in d.get("shared_reuse_grid_H", [])]
     ctx = {}
     grid = set()
     reported = {}
     for cname, b in blocks.items():
+        if b.get("single_row_context"):
+            continue
         co = b.get("cost_coordinates_A_E")
         if co is None:
             return None
         lines = {row: (F(v[0]), F(v[1])) for row, v in co.items()}
         ctx[cname] = {"admissible": sorted(lines), "params": [0], "lines": {(r, 0): v for r, v in lines.items()}}
-        g = [int(h) for h in b.get("grid_H", [])]
+        g = [int(h) for h in b.get("grid_H", shared)]
         grid.update(g)
         runs = b.get("frontier_runs")
         if runs is None:
