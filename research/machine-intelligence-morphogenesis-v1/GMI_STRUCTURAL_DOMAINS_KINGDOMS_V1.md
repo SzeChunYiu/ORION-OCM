@@ -559,13 +559,55 @@ A genuinely new domain of machine intelligence should satisfy all of:
 ```text
 1. novel primitive carrier of sufficient cognitive state;
 2. novel primitive execution/update law;
-3. no bounded semantics-preserving reduction to existing domains over the registered family;
+3. no bounded semantics-preserving reduction to existing domains over the registered family,
+   where the registered family declares (3a) its STRUCTURE-DEPTH BOUND, (3b) the COMPOSITION
+   OPERATOR whose image fixes how a parent's store grows with that depth, and (3c) the
+   REUSE-HORIZON BOUND over which the frontier is read; and where the parent is PARENT-MAXIMAL;
 4. at least one ecology where the new carrier/law changes the achievable resource-capability frontier;
 5. neutral biosphere recovery from low-level primitives;
 6. recurrence under remint and independent search encodings.
 ```
 
 This is a substantially stronger claim than a new architecture.
+
+## 14.1 Amendment to criterion 3 (closes gap DG-3; record `RV-377-065`)
+
+Criterion 3 as originally written — "no bounded semantics-preserving reduction to existing domains over the registered
+family" — is neither true nor false until the family names three quantities. `GMI_DEPTH_GATED_KINGDOM_V1.md` executed
+the decision that forces each of them; the receipt is
+`microscopes/results/STAGE_DK_V1_DEPTH_GATED.json`.
+
+**(3a) The structure-depth bound.** GMI-DA3 (`GMI_DOMAIN_ALGEBRA_EXECUTED_V1.md` §4) shows the reduction's reuse
+crossover `H*(d) ~ R^d/d` is unbounded in structure depth `d`, so a bounded reduction at every fixed depth need not be
+bounded over a family of unbounded depth. Executed at depths 1–6 for the permutation-protected binding code: the
+parent-maximal crossover at `R = 4`, `F = 8`, `D = 64` is `54.5, 22.75, 80.875, 303.25, 1167.4375, 4556.35`, with
+consecutive ratios rising strictly towards `R = 4`. A family without a declared depth bound therefore has no determinate
+answer to criterion 3.
+
+**(3b) The composition operator.** Naming the depth bound is not enough, because how much the parent must store at depth
+`d` is a property of the operator's **image**, not of the depth. Executed: the XOR bind that `RV-377-044` used is
+commutative and involutive, so its path code has at most `2^R` values and its measured image is `4, 7, 8, 8, 8, 8` at
+depths 1–6 — it saturates, the parent-maximal store is bounded by `2^R·F` vectors **uniformly in depth** (≤ 4618 bits at
+`D = 64` against the carrier's 864, a constant factor of 5.3449), and criterion 3 fails for the whole unbounded-depth
+family at once. Under `PERM` (the same carrier with the PERMUTE primitive of DC1's declared native basis) the image is
+exactly `R^d` = `4, 16, 64, 256, 1024, 4096` and the depth escape is real. A criterion-3 claim that does not name the
+operator is a claim about an unnamed image.
+
+**(3c) The reuse-horizon bound.** Even with (3a) and (3b) named, "changes the frontier" is read on a grid, and gap DG-2
+requires that grid to extend past every crossover reported. An unbounded `H*(d)` means the carrier holds the frontier
+over an ever-larger initial segment of reuse horizons — it does **not** mean the parent is excluded. Executed: in 62 of
+the 62 frontier decisions with a non-empty admissible set the parent-maximal opponent occupies at least one horizon, and
+in 0 of 96 does the carrier occupy while no parent does.
+
+**Parent-maximality.** Protocol rule 19 (gap DG-5) applies to criterion 3 as stated: the reduction must be attempted
+against the strongest member of the parent domain, adversarially constructed. `RV-377-065` constructs three opponents
+beyond `RV-377-044`'s, and the strongest of them is a factor of about 4 cheaper.
+
+**Re-adjudication of DC1 under the amended text.** With the depth bound declared, the operator named and the reuse
+horizon bounded, DC1 remains `REDUCED_TO_PARENT(D2)`: exact developmental equality with all three materializing
+opponents in 48 of 48 executed cells, and no cell in which it excludes the parent-maximal opponent from the frontier. At
+structure depth 1 the path-materializing opponent is bit-identical to the carrier in description, in serve cost and in
+answers, so depth 1 cannot distinguish the two at all.
 
 ---
 

@@ -1,0 +1,70 @@
+{
+  "schema": "ExactCognitivePolyphenismPhaseV1",
+  "claim_ceiling": "toy economic phase calibration only",
+  "model": "iid uniform regime queries; independent semantic update probability q before each query; lazy phenotype recompilation when queried stale",
+  "scenarios": [
+    {
+      "name": "P_PLUS_HETEROGENEOUS",
+      "parameters": {
+        "k": 16,
+        "q": 0.05,
+        "poly_serve": 1.15,
+        "core_update": 1.0,
+        "compile_cost": 2.5,
+        "eager_serve": 1.2,
+        "eager_update_per_phenotype": 2.0,
+        "fixed_match": 1.0,
+        "fixed_mismatch": 6.0
+      },
+      "stale_probability": 0.4571428571428572,
+      "costs": {
+        "POLYPHENIC_LAZY": 2.342857142857143,
+        "EAGER_STATIC_HYBRID": 2.8,
+        "BEST_SINGLE_FIXED": 5.6875
+      },
+      "winner": "POLYPHENIC_LAZY"
+    },
+    {
+      "name": "N_TWIN_LOW_DIVERSITY",
+      "parameters": {
+        "k": 2,
+        "q": 0.1,
+        "poly_serve": 1.15,
+        "core_update": 1.0,
+        "compile_cost": 2.5,
+        "eager_serve": 1.2,
+        "eager_update_per_phenotype": 2.0,
+        "fixed_match": 1.0,
+        "fixed_mismatch": 6.0
+      },
+      "stale_probability": 0.18181818181818185,
+      "costs": {
+        "POLYPHENIC_LAZY": 1.7045454545454546,
+        "EAGER_STATIC_HYBRID": 1.6,
+        "BEST_SINGLE_FIXED": 3.5
+      },
+      "winner": "EAGER_STATIC_HYBRID"
+    },
+    {
+      "name": "N_TWIN_EXPENSIVE_COMPILATION",
+      "parameters": {
+        "k": 16,
+        "q": 0.05,
+        "poly_serve": 1.15,
+        "core_update": 1.0,
+        "compile_cost": 8.0,
+        "eager_serve": 1.2,
+        "eager_update_per_phenotype": 2.0,
+        "fixed_match": 1.0,
+        "fixed_mismatch": 6.0
+      },
+      "stale_probability": 0.4571428571428572,
+      "costs": {
+        "POLYPHENIC_LAZY": 4.857142857142858,
+        "EAGER_STATIC_HYBRID": 2.8,
+        "BEST_SINGLE_FIXED": 5.6875
+      },
+      "winner": "EAGER_STATIC_HYBRID"
+    }
+  ]
+}

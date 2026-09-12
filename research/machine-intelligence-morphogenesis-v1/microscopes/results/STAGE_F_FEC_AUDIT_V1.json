@@ -1,0 +1,53 @@
+{
+ "audit_by_probe_length": {
+  "10": {
+   "candidates_that_would_inherit_a_wrong_score": 1386,
+   "distinct_signatures": 1735,
+   "max_score_spread_within_a_signature": 0.4844,
+   "mean_score_spread_within_shared_signatures": 0.0191,
+   "n_candidates": 4000,
+   "probe_events": 10,
+   "shared_signatures": 271,
+   "shared_signatures_with_differing_true_scores": 69,
+   "wrong_score_fraction": 0.3465
+  },
+  "16": {
+   "candidates_that_would_inherit_a_wrong_score": 1207,
+   "distinct_signatures": 1876,
+   "max_score_spread_within_a_signature": 0.4481,
+   "mean_score_spread_within_shared_signatures": 0.0133,
+   "n_candidates": 4000,
+   "probe_events": 16,
+   "shared_signatures": 255,
+   "shared_signatures_with_differing_true_scores": 50,
+   "wrong_score_fraction": 0.3018
+  },
+  "32": {
+   "candidates_that_would_inherit_a_wrong_score": 1060,
+   "distinct_signatures": 1937,
+   "max_score_spread_within_a_signature": 0.16,
+   "mean_score_spread_within_shared_signatures": 0.0036,
+   "n_candidates": 4000,
+   "probe_events": 32,
+   "shared_signatures": 241,
+   "shared_signatures_with_differing_true_scores": 27,
+   "wrong_score_fraction": 0.265
+  }
+ },
+ "claim_ceiling": "random candidates of the registered grammar; the contamination rate under SELECTION may differ from the rate under random sampling",
+ "consequence": "the functional-equivalence cache is unsound at every probe length tested; it is disabled by default in gmi_microscope/fast.py from this record onward, and the RUN9 receipts (RV-377-028) are marked instrument-contaminated",
+ "ecology": "E_smooth8_div (four sign-flipped targets, 32 events)",
+ "grammar": {
+  "g_depth": 3,
+  "n_bits": 8,
+  "n_cells": 4
+ },
+ "issue": [
+  377,
+  422
+ ],
+ "receipt_sha256": "bdf9008b33c287ab5a7439adc76f99e4b8683cf5f1f63c99acb1e72abfcf54a3",
+ "revival_record": "RV-377-061",
+ "schema": "StageFFECSoundnessAuditV1",
+ "status": "EXECUTED_EXACT_AT_SCOPE"
+}

@@ -1,0 +1,518 @@
+{
+ "arms": [
+  "fixed",
+  "learned"
+ ],
+ "census_context": {
+  "counts": [
+   {
+    "exhaustive": true,
+    "n_canonical_classes_in_sample": 6,
+    "n_configurations_enumerated": 6,
+    "n_response_classes_in_sample": 1,
+    "size": 3
+   },
+   {
+    "exhaustive": true,
+    "n_canonical_classes_in_sample": 227,
+    "n_configurations_enumerated": 227,
+    "n_response_classes_in_sample": 4,
+    "size": 4
+   },
+   {
+    "exhaustive": true,
+    "n_canonical_classes_in_sample": 8593,
+    "n_configurations_enumerated": 12987,
+    "n_response_classes_in_sample": 4,
+    "size": 5
+   }
+  ],
+  "note": "an archive of N cells is not N species and not N of anything until it is put next to the size of the space it was drawn from; the census sizes here are small by design and are context, not a bound on the episode's own genotypes",
+  "receipt": "STAGE_R9_CENSUS_V1_R11_CONTEXT.json",
+  "receipt_sha256": "3c9dcc90860968da256f989d831500fb103ac9af604beee1e19fcb337a53a4df"
+ },
+ "claim_ceiling": "one episode family, two arms, the listed seeds, one grammar, one screen, one ecology pool. Delta_B_meta is a statement about this operator set and this policy parameterization on this pool; stage B9 asks for it on untouched regime sequences, which this lane does not have",
+ "determinism_witness": {
+  "arm": "learned",
+  "evaluations": 250,
+  "expected": {
+   "B_search_draws": 591,
+   "archive_cells": 37,
+   "best_capability": 0.8125,
+   "n_admissible_cells": 0,
+   "n_evaluated": 250,
+   "n_lineage_records": 250,
+   "n_screened_out_by_the_audited_screen": 3,
+   "policy_charge": 2234,
+   "total_charge": 660300
+  },
+  "instructions": "biosphere.summarize(biosphere.episode(seed, arm, evaluations, tau=tau, resume=False), arm, seed) must reproduce every field of `expected`",
+  "seed": 11,
+  "tau": 0.2083
+ },
+ "ecology_pool": [
+  {
+   "coeffs": [
+    0.5,
+    0.25,
+    -0.5,
+    0.375
+   ],
+   "name": "Ep_smooth3",
+   "spec_id": "9f50f8c9d4aaec1f"
+  },
+  {
+   "coeffs": [
+    0.3125,
+    0.3125,
+    0.3125,
+    0.3125
+   ],
+   "name": "Ep_sym5",
+   "spec_id": "dc86a99b2528065d"
+  },
+  {
+   "coeffs": [
+    0.25,
+    -0.5,
+    0.5,
+    -0.25
+   ],
+   "name": "Ep_mixed",
+   "spec_id": "3397990b369bf290"
+  }
+ ],
+ "episode_stages": [
+  "ecology sampling (D pool)",
+  "development on the exact charged VM",
+  "charging",
+  "R8 triage screen then exact confirmation",
+  "MAP-Elites archiving per ecology",
+  "R7 lineage recording and elite replay",
+  "fossil retention",
+  "R9 census for context"
+ ],
+ "evaluations_per_episode": 2000,
+ "issue": [
+  377,
+  422
+ ],
+ "layer": "R11",
+ "layer_reading": "the open-world episode driver (stage B4) carrying the protocol's meta-morphogenesis arm (stage B9); see the module docstring",
+ "meta_morphogenesis": {
+  "Delta_B_meta_definition": "B_fixed_morphogenesis - B_learned_morphogenesis, both measured as the TOTAL charge (development + screen + search draws + policy) spent when the arm first reaches the milestone",
+  "Delta_B_meta_values": [
+   -5653492
+  ],
+  "by_seed": {
+   "0": {
+    "B_fixed_morphogenesis": 470197,
+    "B_learned_morphogenesis": 6123689,
+    "Delta_B_meta": -5653492,
+    "milestone_reached_by": [
+     "fixed",
+     "learned"
+    ]
+   },
+   "1": {
+    "B_fixed_morphogenesis": 2028770,
+    "B_learned_morphogenesis": null,
+    "Delta_B_meta": null,
+    "milestone_reached_by": [
+     "fixed"
+    ]
+   }
+  },
+  "declared_milestone": "an admissible genotype (capability >= 0.85) in at least 2 distinct carrier classes",
+  "learned_policy": "per (ecology, parent carrier), sample the R5 operator with probability proportional to (successes + 1)/(tries + 1); a success is a proposal that takes or improves an archive cell. Its consultations, its updates and its counter description are charged to B_search",
+  "n_seeds_where_both_arms_reached_the_milestone": 1,
+  "verdict": "FIXED_MORPHOGENESIS_CHEAPER_ON_1_OF_2_SEEDS",
+  "verdict_note": "Delta_B_meta is defined only on the 1 of 2 seeds where BOTH arms reached the declared milestone; a seed where one arm never reached it contributes nothing and is not counted as a win for the other. Archive quality at the fixed evaluation budget is reported per run and is a separate observation from the charge-to-milestone"
+ },
+ "open_endedness_not_claimed": "biosphere document section 21 lists what an open-endedness claim must measure (new viable species rate, new occupied niches, mechanism-vector entropy, parent-reduction distance trend, major transition count). This episode measures the archive, the lineage and the charge over a fixed budget and claims none of those",
+ "receipt_sha256": "aa047bad696ea1fd8d22a3537052f5ca670e53b50074f1d37b6445e9f15fa6f3",
+ "resume_determinism": {
+  "checkpoint_at": 200,
+  "differences": {},
+  "identical": true,
+  "run_to": 400
+ },
+ "run_tag": "V1",
+ "runs": {
+  "fixed|S0": {
+   "B_search_draws": 3940,
+   "archive_cells": 57,
+   "arm": "fixed",
+   "best_capability": 0.8594,
+   "by_ecology": {
+    "Ep_mixed": {
+     "admissible_cells": 0,
+     "best": 0.8333,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 19
+    },
+    "Ep_smooth3": {
+     "admissible_cells": 6,
+     "best": 0.8594,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 19
+    },
+    "Ep_sym5": {
+     "admissible_cells": 6,
+     "best": 0.8542,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 19
+    }
+   },
+   "develop_and_screen_charge": 39366886,
+   "dvp_stream_ledger": {
+    "generated_development_ecologies": [
+     "Ep_mixed",
+     "Ep_smooth3",
+     "Ep_sym5"
+    ],
+    "protected_queries": 0,
+    "protected_specs_frozen": {
+     "E_parity": "ecc8c11114d0cab4",
+     "E_smooth1": "41719d03bbdf5cd6"
+    },
+    "queries_by_stream": {
+     "D": 2000,
+     "P": 0,
+     "V": 0
+    },
+    "v_budget": 8,
+    "v_queries": []
+   },
+   "fossils_retained": 2000,
+   "milestone_at_evaluation": 176,
+   "milestone_total_charge": 470197,
+   "n_admissible_cells": 12,
+   "n_evaluated": 2000,
+   "n_lineage_records": 2000,
+   "n_screened_out_by_the_audited_screen": 3,
+   "niche_breadth_of_admissible_genotypes": {
+    "distribution": {
+     "1": 12,
+     "2": 0,
+     "3": 0
+    },
+    "max_ecologies_occupied": 1,
+    "n_admissible_genotypes": 12
+   },
+   "policy_charge": 0,
+   "proposals_refused_too_wide": 0,
+   "replay_audit": {
+    "n_elites_replayed": 20,
+    "n_steps": 97,
+    "replay_failures": 0
+   },
+   "resumed_from": null,
+   "seconds": 45.8,
+   "seed": 0,
+   "total_charge": 39370826
+  },
+  "fixed|S1": {
+   "B_search_draws": 3717,
+   "archive_cells": 56,
+   "arm": "fixed",
+   "best_capability": 0.8958,
+   "by_ecology": {
+    "Ep_mixed": {
+     "admissible_cells": 6,
+     "best": 0.8958,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 19
+    },
+    "Ep_smooth3": {
+     "admissible_cells": 7,
+     "best": 0.8698,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 19
+    },
+    "Ep_sym5": {
+     "admissible_cells": 6,
+     "best": 0.875,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 18
+    }
+   },
+   "develop_and_screen_charge": 26517395,
+   "dvp_stream_ledger": {
+    "generated_development_ecologies": [
+     "Ep_mixed",
+     "Ep_smooth3",
+     "Ep_sym5"
+    ],
+    "protected_queries": 0,
+    "protected_specs_frozen": {
+     "E_parity": "ecc8c11114d0cab4",
+     "E_smooth1": "41719d03bbdf5cd6"
+    },
+    "queries_by_stream": {
+     "D": 2000,
+     "P": 0,
+     "V": 0
+    },
+    "v_budget": 8,
+    "v_queries": []
+   },
+   "fossils_retained": 2000,
+   "milestone_at_evaluation": 388,
+   "milestone_total_charge": 2028770,
+   "n_admissible_cells": 19,
+   "n_evaluated": 2000,
+   "n_lineage_records": 2000,
+   "n_screened_out_by_the_audited_screen": 6,
+   "niche_breadth_of_admissible_genotypes": {
+    "distribution": {
+     "1": 19,
+     "2": 0,
+     "3": 0
+    },
+    "max_ecologies_occupied": 1,
+    "n_admissible_genotypes": 19
+   },
+   "policy_charge": 0,
+   "proposals_refused_too_wide": 0,
+   "replay_audit": {
+    "n_elites_replayed": 20,
+    "n_steps": 77,
+    "replay_failures": 0
+   },
+   "resumed_from": null,
+   "seconds": 33.5,
+   "seed": 1,
+   "total_charge": 26521112
+  },
+  "learned|S0": {
+   "B_search_draws": 5368,
+   "archive_cells": 50,
+   "arm": "learned",
+   "best_capability": 0.8594,
+   "by_ecology": {
+    "Ep_mixed": {
+     "admissible_cells": 0,
+     "best": 0.8333,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 17
+    },
+    "Ep_smooth3": {
+     "admissible_cells": 4,
+     "best": 0.8594,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 17
+    },
+    "Ep_sym5": {
+     "admissible_cells": 0,
+     "best": 0.8125,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 16
+    }
+   },
+   "develop_and_screen_charge": 28460794,
+   "dvp_stream_ledger": {
+    "generated_development_ecologies": [
+     "Ep_mixed",
+     "Ep_smooth3",
+     "Ep_sym5"
+    ],
+    "protected_queries": 0,
+    "protected_specs_frozen": {
+     "E_parity": "ecc8c11114d0cab4",
+     "E_smooth1": "41719d03bbdf5cd6"
+    },
+    "queries_by_stream": {
+     "D": 2000,
+     "P": 0,
+     "V": 0
+    },
+    "v_budget": 8,
+    "v_queries": []
+   },
+   "fossils_retained": 2000,
+   "milestone_at_evaluation": 821,
+   "milestone_total_charge": 6123689,
+   "n_admissible_cells": 4,
+   "n_evaluated": 2000,
+   "n_lineage_records": 2000,
+   "n_screened_out_by_the_audited_screen": 11,
+   "niche_breadth_of_admissible_genotypes": {
+    "distribution": {
+     "1": 4,
+     "2": 0,
+     "3": 0
+    },
+    "max_ecologies_occupied": 1,
+    "n_admissible_genotypes": 4
+   },
+   "policy_charge": 11094,
+   "proposals_refused_too_wide": 0,
+   "replay_audit": {
+    "n_elites_replayed": 20,
+    "n_steps": 151,
+    "replay_failures": 0
+   },
+   "resumed_from": null,
+   "seconds": 32.8,
+   "seed": 0,
+   "total_charge": 28477256
+  },
+  "learned|S1": {
+   "B_search_draws": 6121,
+   "archive_cells": 51,
+   "arm": "learned",
+   "best_capability": 0.8333,
+   "by_ecology": {
+    "Ep_mixed": {
+     "admissible_cells": 0,
+     "best": 0.8333,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 17
+    },
+    "Ep_smooth3": {
+     "admissible_cells": 0,
+     "best": 0.8125,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 17
+    },
+    "Ep_sym5": {
+     "admissible_cells": 0,
+     "best": 0.7188,
+     "carriers": [
+      "DENSE",
+      "KVSTORE",
+      "NONE",
+      "PROGRAM",
+      "TABLE"
+     ],
+     "cells": 17
+    }
+   },
+   "develop_and_screen_charge": 9533632,
+   "dvp_stream_ledger": {
+    "generated_development_ecologies": [
+     "Ep_mixed",
+     "Ep_smooth3",
+     "Ep_sym5"
+    ],
+    "protected_queries": 0,
+    "protected_specs_frozen": {
+     "E_parity": "ecc8c11114d0cab4",
+     "E_smooth1": "41719d03bbdf5cd6"
+    },
+    "queries_by_stream": {
+     "D": 2000,
+     "P": 0,
+     "V": 0
+    },
+    "v_budget": 8,
+    "v_queries": []
+   },
+   "fossils_retained": 2000,
+   "milestone_at_evaluation": null,
+   "milestone_total_charge": null,
+   "n_admissible_cells": 0,
+   "n_evaluated": 2000,
+   "n_lineage_records": 2000,
+   "n_screened_out_by_the_audited_screen": 14,
+   "niche_breadth_of_admissible_genotypes": {
+    "distribution": {
+     "1": 0,
+     "2": 0,
+     "3": 0
+    },
+    "max_ecologies_occupied": 0,
+    "n_admissible_genotypes": 0
+   },
+   "policy_charge": 11906,
+   "proposals_refused_too_wide": 0,
+   "replay_audit": {
+    "n_elites_replayed": 20,
+    "n_steps": 38,
+    "replay_failures": 0
+   },
+   "resumed_from": null,
+   "seconds": 18.0,
+   "seed": 1,
+   "total_charge": 9551659
+  }
+ },
+ "schema": "StageR11BiosphereEpisodeV1",
+ "screen_audit_receipt": "STAGE_R8_SCREEN_AUDIT_V1.json",
+ "screen_audit_receipt_sha256": "56d9d805941bcba43115fe5c70c6fd5b07726483413c7fa375de106835bbdd27",
+ "seconds": 171.0,
+ "seeds": [
+  0,
+  1
+ ],
+ "status": "EXECUTED_EXACT_AT_SCOPE",
+ "tau": 0.2083,
+ "terminal": "R11_BIOSPHERE_EPISODE_EXECUTED"
+}
