@@ -404,19 +404,32 @@ Evaluation must specify which object is being claimed to improve.
 Implement finite/exact tests:
 
 ```text
-X-TMT1 enumerate permutation-sensitive finite obligations and invariant encoders
-X-TMT2 enumerate W-suffix collisions
-X-TMT3 enumerate required edge-set families and verify fixed union lower bound
-X-TMT4 numerically/symbolically verify softmax variational optimum
-X-TMT6 compare recomputation vs exact cache traces
-X-TMT8 enumerate tied/untied tiny linear/nonlinear families
-X-TMT9 symbolic Jacobian checks
+X-TMT1  enumerate permutation-sensitive finite obligations and invariant encoders
+X-TMT2  enumerate W-suffix collisions
+X-TMT3  enumerate required edge-set families and verify fixed union lower bound
+X-TMT4  numerically/symbolically verify softmax variational optimum
+X-TMT5  exact causal-mask dependence: perturb the last token, compare prefix outputs
+X-TMT6  compare recomputation vs exact cache traces
+X-TMT7  naive vs block-wise online exact attention, exact and float64
+X-TMT8  enumerate tied/untied tiny linear/nonlinear families
+X-TMT9  symbolic Jacobian checks
+X-TMT10 exact autoregressive chain factorization on a finite distribution
 X-TMT11 finite conditional distributions and KL decomposition
 X-TMT12 enumerate quantizer collisions and target distinctions
 X-TMT13 cache element accounting
+X-TMT14 fixed-window vs cache: run the X-TMT2 collision construction through the X-TMT6 cache trace and show that
+        the cache changes op counts and leaves the induced partition of histories bit-identical
+X-TMT15 decoding policy vs model distribution: one exact p_theta decoded by greedy / temperature / top-k / top-p /
+        beam, showing distinct emissions from a bit-identical conditional table
 ```
 
-Receipts must distinguish theorem implementation checks from empirical neural evidence.
+Status: the programme is **fully implemented** in `gmi_microscope/tmt.py` at X-TMT1..X-TMT15 and executed GREEN (15/15) in
+`GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json`. TMT-14 and TMT-15 were previously recorded as type distinctions with
+no finite check; both now carry one.
+
+Receipts must distinguish theorem implementation checks from empirical neural evidence. Every check above is
+`MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE`: it establishes a statement about the theorem on an enumerated
+finite scope and establishes nothing about any trained neural network.
 
 ---
 

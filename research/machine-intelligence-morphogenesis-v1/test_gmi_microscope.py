@@ -182,11 +182,11 @@ def test_credit_receipt_cell_reproduces():
 
 
 def test_transformer_microfeature_exact_receipt_reproduces(tmp_path):
-    """X-TMT1..13: the exact/numerical theorem checks are GREEN and the receipt is byte-reproducible (sha)."""
+    """X-TMT1..15: the exact/numerical theorem checks are GREEN and the receipt is byte-reproducible (sha)."""
     import json
     from gmi_microscope import tmt
     r = tmt.main(str(tmp_path / "r.json"))
-    assert r["status"] == "GREEN" and r["n_passed"] == 13
+    assert r["status"] == "GREEN" and r["n_passed"] == 15
     ref = json.load(open(HERE / "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json"))
     assert ref["receipt_sha256"] == r["receipt_sha256"]
 
@@ -227,3 +227,22 @@ def test_b0_equivalence_receipt_reproduces(tmp_path):
     ref = json.load(open(RES / "STAGE_B0_EQUIVALENCE_METERING_V1.json"))
     (RES / "STAGE_B0_EQUIVALENCE_METERING_TEST_TMP.json").unlink()
     assert o["terminal"] == "BIOSPHERE_B0_EQUIVALENCE_AND_METERING_GREEN" and o["receipt_sha256"] == ref["receipt_sha256"]
+
+
+def test_transformer_microfeature_registry_valid():
+    """The committed microfeature registry validates: fields non-empty, types in the alphabet, claim levels legal, ids unique,
+    TMT references in TMT-1..15, X-TMT references present and GREEN in the executed receipt, and the builder reproduces it."""
+    from gmi_microscope import registry, registry_check
+    errors = registry_check.check(verbose=False)
+    assert errors == [], errors
+    reg = json.loads((HERE / "GMI_TRANSFORMER_MICROFEATURE_REGISTRY_V1.json").read_text(encoding="utf-8"))
+    assert reg["n_features"] == len(reg["features"]) >= 80
+    assert reg["registry_sha256"] == registry.build()["registry_sha256"]  # the builder is the source of the committed file
+    # every feature covered by the section-1 acceptance list, and PROVED_AT_SCOPE only behind an executed check
+    receipt = json.loads((HERE / "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json").read_text())
+    green = {c["check"] for c in receipt["checks"] if c["passed"]}
+    for f in reg["features"]:
+        assert set(f["gmi_type"]) <= set("CSRTNUHVGPD"), f["id"]
+        if f["evidence_status"] == "PROVED_AT_SCOPE":
+            assert f["formal_theorem"]["receipt_check"] in green, f["id"]
+    assert reg["counts_by_evidence_status"]["PROVED_AT_SCOPE"] >= 10
