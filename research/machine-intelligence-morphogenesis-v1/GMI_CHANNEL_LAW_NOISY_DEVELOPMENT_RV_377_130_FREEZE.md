@@ -123,3 +123,65 @@ Confirming N1–N6 establishes CL-3 as a verified member of the channel-law fami
 its `q = 0` boundary, and adds the first law in the family in which *knowledge of the channel*
 (the value of `q`) is itself a capability-bearing quantity. It says nothing about architecture
 (RV-377-121 stands), nothing beyond exact identification on this world family.
+
+---
+
+# RV-377-130 — ADJUDICATION: all six confirmed
+
+186 cells, 60 independent `W` draws × 2048 evaluations each, 11 160 draws. Receipt
+`microscopes/results/CHANNEL_LAW_NOISY_DEVELOPMENT_RV_377_130.json` (md5 `0fc620481252bf926101d41975587c12`,
+verified identical on billy-old and here). Run on billy-old, harness sha256 recorded in the receipt.
+
+| id | outcome |
+|----|---------|
+| N1 | **CONFIRMED** — 0 cells above ceiling + 4 s.e.; 0 cells above 3 s.e. (null expectation 0.25) |
+| N2 | **CONFIRMED** — `know_noise` meets the ceiling at every `(q, r)`, max \|z\| = 2.50 over 35 cells |
+| N3 | **CONFIRMED** — `trust` on its line everywhere; below ½ by more than 4 s.e. at every `q ∈ {0.75, 1.0}`, `r ≥ 16` |
+| N4 | **CONFIRMED** — every machine within 4 s.e. of ½ at `q = ½` |
+| N5 | **CONFIRMED** — `q = 0` reproduces CL-1 at every `r` |
+| N6 | **CONFIRMED** — `majority` tight (max \|z\| 2.54 over 27 cells); `first_copy` flat in `k`; `unanimous` on its line and below the ceiling at every `k ≥ 3` |
+
+Single-reveal grid (mean over 60 draws):
+
+| `q` | `r` | ceiling | `know_noise` | `trust` | `ignore_dev` |
+|---|---|---|---|---|---|
+| 0.0 | 32 | 0.7500 | 0.7507 | 0.7511 | 0.5021 |
+| 0.25 | 32 | 0.6250 | 0.6245 | 0.6250 | 0.5028 |
+| 0.5 | 32 | 0.5000 | 0.5014 | 0.4992 | 0.5005 |
+| 0.75 | 32 | 0.6250 | 0.6238 | **0.3778** | 0.4998 |
+| 0.75 | 64 | 0.7500 | 0.7578 | **0.2422** | 0.5020 |
+| 1.0 | 32 | 0.7500 | 0.7490 | **0.2504** | 0.5004 |
+| 1.0 | 64 | 1.0000 | 1.0000 | **0.0000** | 0.4993 |
+
+`k`-copy grid at `r = 32`:
+
+| `q` | `k` | ceiling | `majority` | `first_copy` | `unanimous` (line) |
+|---|---|---|---|---|---|
+| 0.1 | 1 | 0.7000 | 0.7079 | 0.7046 | 0.7076 (0.7000) |
+| 0.1 | 3 | 0.7360 | 0.7360 | 0.6998 | 0.6793 (0.6820) |
+| 0.1 | 5 | 0.7457 | 0.7466 | 0.6966 | 0.6465 (0.6476) |
+| 0.25 | 3 | 0.6719 | 0.6682 | 0.6241 | 0.6029 (0.6016) |
+| 0.25 | 5 | 0.6982 | 0.7000 | 0.6206 | 0.5590 (0.5591) |
+| 0.4 | 5 | 0.5913 | 0.5977 | 0.5523 | 0.5197 (0.5169) |
+
+## The result worth reading directly
+
+Read the `trust` column at `q = 1.0`. Every revealed bit is inverted; the machine that trusts
+them scores **0.0000 at `r = 64`** — every answer wrong — while `know_noise`, holding exactly
+the same development, scores 1.0000, and `ignore_dev`, holding none, scores ½. Three
+machines, one world, three numbers all derived in advance from the same channel argument.
+
+> **A channel read with the wrong model of its noise is worth less than no channel.** The
+> proposed form `(r/L)(1−q) + (1−r/L)/2` is not the ceiling of the class; it is the exact
+> score of the machine that does not know `q`, and the gap to the ceiling is `(r/L)(2q − 1)`
+> for `q > ½`.
+
+`unanimous` gets worse as `k` grows (0.7076 → 0.6793 → 0.6465 at `q = 0.1`) while the
+ceiling rises (0.70 → 0.736 → 0.746): more copies of the channel, less capability, because
+the machine discards any disagreeing set. Predicted to four decimals.
+
+## Terminal
+
+`CL3_NOISY_DEVELOPMENT_LAW_VERIFIED_AT_REGISTERED_SCOPE` = **TRUE**. Contains CL-1 at
+`q = 0` (analytic and N5). The tasking's proposed form is retired as a ceiling and retained as
+the trust line.
