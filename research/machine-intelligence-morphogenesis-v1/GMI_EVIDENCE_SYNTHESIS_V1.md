@@ -36,6 +36,8 @@ this table silently.
 | causal meaning / viability | causal-viability layer | EXACT, REPLICATED | closed |
 | physical substrate constants | nonclassical end-to-end theorem | RV-377-195 EXTERNAL (Willow, HERMES): parent wins by ≥ 10¹⁰ at the registered obligation | evaluated from published constants only |
 | uncomputability boundary | GG35 THEOREM | halting reduction | boundary, not gap |
+| morphology / family selection (MS-1…3, GG60 end-to-end traces) | THEOREM + EXACT synthetic traces (neural / non-neural / hybrid / inversion) | **measured**: MS-2 on the charged frontier receipts — 82/309 scopes derive one family, 191 carry an (H, r) boundary, 26/51 ecologies show cross-column family inversion (`GMI_MEASURED_PROFILE_FAMILY_SELECTION_V1.md`) | closed at registered scope with measured profiles |
+| realization compilation layer | THEOREM | EXACT after correction: the committed checker pinned 274 Boolean functions where the family has 276 and its receipt was not the script's output; fixed and regenerated (PR #480) | closed; replication caught the defect |
 
 ## 3. The seven-gap table, current reading
 
@@ -44,7 +46,7 @@ this table silently.
 | 1 | true zero-prior derivation | named-family recovery RED at protected tier (structural); operational fibers closed; carrier-class rate law **PENDING** (RV-377-140); CP1 ablation: 33 kinds, 49/99 units done, 13 kinds revived under the kind-agnostic generator (RV-377-202, running) | #455, FO1–3, RV-140, RV-202 |
 | 2 | blind recovery (B5) | the RV-377-113 positive re-read under atrophy: coefficient class 0/12 (RV-377-141, PENDING adjudication); memory/program classes recovered | RV-141 |
 | 3 | cross-paradigm morphogenesis (B6) | theory: recursive lift GG13–18; experiment RV-377-180 **PENDING** | RV-180 |
-| 4 | unknown / novel morphology (B7) | four unoccupied channel cells predicted and exact-verified; realization by neutral search **PENDING** (RV-377-200) | FO11, RV-200 |
+| 4 | unknown / novel morphology (B7) | four unoccupied channel cells predicted and exact-verified; realization search RV-377-200 running: first STORE seed lands at 0.857 ± 0.009 vs ceiling 0.891 (ceiling respected, store carrier as predicted, channel ablation drops it to 0.686) — attainment within 3 s.e. still open | FO11, RV-200 |
 | 5 | architecture-independent principle (B8) | semantic cut + substrate lifting + channel family verified; master factorization GG33 | GG1–9, GG22–24, GG33 |
 | 6 | phase law / predictive dynamics | PROTECTED GREEN 8/8 + REAL off-band | K5 V7/V8, RV-190/194 |
 | 7 | universality + real/physical | REAL closed at sklearn scale; physical sign from EXTERNAL constants; independent authorship **PENDING** (IG-4/5, RV-377-160) | RV-190/194/195, RV-160 |
