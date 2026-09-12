@@ -1,0 +1,10 @@
+{
+  "schema": "GMIK5BHContinualCorrigendumV3",
+  "status": "FROZEN_BEFORE_RUNNER_AND_RESULTS",
+  "supersedes_only": "F_CONTINUAL portion of GMI_K5_BH_DESIGN_CORRIGENDUM_V2.json",
+  "reason": "For isotropic binary linear tasks, direct rewrite to the new separator retains agreement 1-acos(overlap)/pi with the old task. At overlap=0.99 this is about 0.955, already above the frozen 0.95 retention threshold, so REPLAY need not be frontier-optimal. At overlap=0.98 direct rewrite agreement is about 0.936 (<0.95), while a midpoint shared separator is about 0.968 agreement with each task, creating the intended replay-admissible / rewrite-inadmissible regime.",
+  "final_F_CONTINUAL_grid": {"task_overlap": [0.0, 0.60, 0.90, 0.98]},
+  "final_F_CONTINUAL_predictions": {"0.0": "EXPANSION", "0.6": "EXPANSION", "0.9": "EXPANSION", "0.98": "REPLAY"},
+  "thresholds_unchanged": {"min_old_accuracy": 0.95, "min_new_accuracy": 0.90},
+  "rule": "This is an analytic design correction before runner implementation and protected execution. V1/V2 design statements remain in history but are not empirical results."
+}

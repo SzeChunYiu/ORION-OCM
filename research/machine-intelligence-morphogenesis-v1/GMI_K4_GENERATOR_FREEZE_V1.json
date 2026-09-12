@@ -1,0 +1,47 @@
+{
+  "schema": "GMIK4GeneratorFreezeV1",
+  "status": "FROZEN_BEFORE_ANY_K4_SEARCH_RESULT",
+  "parent_freeze": "GMI_K4_LOFO_FREEZE_V1.json",
+  "purpose": "Operationalize the already-frozen 22 semantic obligation classes without architecture names. This file freezes workload scaling, positive/twin pairing, admissibility and search attribution before gmi_k4_search.py produces any protected result.",
+  "name_barrier": "The generator and search engine may read family id, obligation_class, phase_prediction, negative_twin and kill_condition. They MUST NOT read name_key during generation, ranking, search, measurement or scoring. property_vector is withheld from ranking and used only after the winner is frozen for verdict comparison.",
+  "cells": {
+    "w1": {"scale": 1, "train_units": 32, "serve_units": 32, "reuse": 1},
+    "w2": {"scale": 2, "train_units": 64, "serve_units": 64, "reuse": 4},
+    "w4": {"scale": 4, "train_units": 128, "serve_units": 128, "reuse": 16},
+    "w8": {"scale": 8, "train_units": 256, "serve_units": 256, "reuse": 64}
+  },
+  "protected_pairing": "Every cell is evaluated on a positive world and its frozen negative twin. The same family/cell seed deterministically generates both. A K4 recovery requires the positive winner to match the frozen property vector and the negative twin to change the winning measured vector or make the positive mechanism inadmissible. No-twin-flip is a theory/phase-law RED, not a search success.",
+  "semantic_threshold": 0.98,
+  "ranking": {
+    "primary": "admissible semantic score >= threshold",
+    "secondary": "minimum scalarized lifecycle burden over the nine charged channels",
+    "tertiary": "smaller neutral program description, then canonical candidate serialization"
+  },
+  "lifecycle_weights": {
+    "development_compute": 1.0,
+    "search_compute": 1.0,
+    "description_compiler_burden": 1.0,
+    "state_storage": 1.0,
+    "serve_compute_latency": 1.0,
+    "update_retraining": 1.0,
+    "communication": 1.0,
+    "verification": 1.0,
+    "human_external_intervention": 1.0
+  },
+  "candidate_scope": {
+    "rule": "finite exhaustive neutral mechanism palette; no historical architecture macro is a candidate primitive",
+    "coverage": "If the full declared palette is scored, the cell is exhaustive regardless of the numeric --budget. If a future palette exceeds budget, the task must report non-exhaustive coverage and cannot use THEORY_RED unless the frozen predicted witness was independently constructed inside the searched cap.",
+    "same_author_limitation": "The palette is same-authored and therefore does NOT close IG-5 primitive-selection independence. K4 receipts from this engine must carry PENDING_INDEPENDENT_PRIMITIVES even when recovery is green."
+  },
+  "known_controls": ["CTL_IDENTITY", "CTL_CONSTANT", "CTL_LOOKUP", "CTL_AFFINE"],
+  "control_rule": "All four controls must be recovered by the same grammar implementation before INCONCLUSIVE_SEARCH is an allowed diagnosis. A control failure is INCONCLUSIVE_GRAMMAR_OR_HARNESS.",
+  "generator_rule": "Each obligation generator is a deterministic semantic world family keyed only by obligation_class, cell scale and seed. Random coefficients/labels/topologies use the task seed; no draw is rejected because of search outcome.",
+  "prohibited": [
+    "reading name_key before verdict freeze",
+    "using property_vector in candidate ranking",
+    "architecture-named candidate macros",
+    "changing a generator after seeing its protected result without retiring the split",
+    "dropping failed tasks from aggregate receipts"
+  ],
+  "claim_ceiling": "This freeze makes K4 executable and auditable but does not close IG-4 meter bucketing, IG-5 primitive authorship, learning-scale realism or K5 held-family prediction by itself."
+}

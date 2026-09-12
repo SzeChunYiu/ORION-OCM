@@ -1,0 +1,54 @@
+{
+  "schema": "GMIK4ProtectedSuccessorFreezeV2",
+  "status": "FROZEN_BEFORE_PUBLIC_BEACON_AND_BEFORE_ANY_V2_PROTECTED_RESULT",
+  "predecessor_disposition": {
+    "prediction_freeze": "GMI_K4_LOFO_FREEZE_V1.json",
+    "predictions": "INHERITED_UNCHANGED",
+    "deterministic_search_engine": "gmi_k4_search.py",
+    "deterministic_engine_status": "DEVELOPMENT_EXPOSED__NOT_PROTECTED",
+    "reason": "The deterministic V1 engine was dry-run during harness development. Its outcomes cannot be reused as protected evidence. No V1 GREEN/RED is promoted to K4 evidence."
+  },
+  "protected_engine": {
+    "path": "gmi_k4_search_v2.py",
+    "engine_commit": "26efff01a9e19dea1d05eb6eade3c8ec3782222b",
+    "rule": "Within each already-frozen semantic obligation class, quantitative nuisance/phase coordinates are generated from the protected seed. The prediction vector is not used in ranking.",
+    "fresh_coordinates": [
+      "reuse_multiplier",
+      "volatility",
+      "dependence_density",
+      "heterogeneity",
+      "router_noise",
+      "rank_fraction",
+      "error_correlation",
+      "checker_ratio",
+      "goal_reuse",
+      "model_error",
+      "jointness",
+      "manifold_fraction",
+      "sequence_dependency",
+      "symmetry_break"
+    ]
+  },
+  "generator_contract": "GMI_K4_GENERATOR_FREEZE_V1.json",
+  "prediction_contract": "GMI_K4_LOFO_FREEZE_V1.json",
+  "public_beacon_rule": {
+    "network": "League of Entropy drand quicknet mainnet",
+    "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "period_seconds": 3,
+    "endpoint_template": "https://api.drand.sh/v2/beacons/quicknet/rounds/{round}",
+    "selection": "Use the first quicknet round whose canonical round timestamp is at least 900 seconds after the GitHub committed_at timestamp of THIS successor-freeze commit. The successor-freeze commit must exist before the selected round exists.",
+    "verification": "Record round, signature/randomness payload returned by the public relay, retrieval timestamp and source URL in GMI_K4_PUBLIC_BEACON_V2.json. Prefer a drand client/signature verification when available; lack of cryptographic verification must be explicitly reported, not silently assumed.",
+    "no_reroll": "Exactly one selected round. A failed or inconvenient result never authorizes selecting another beacon round."
+  },
+  "task_seed_rule": "seed_i = int(SHA256('GMI-K4-V2' || task_hash || public_beacon_randomness_hex)[:16],16) mod 2^32",
+  "protected_execution_rule": "No gmi_k4_search_v2 protected cell may run until GMI_K4_PUBLIC_BEACON_V2.json exists and satisfies the committed rule. Development probes may use a fixed non-beacon seed but must label themselves DEVELOPMENT_ONLY and may not enter the protected aggregate.",
+  "verdict_rule": "Same as the inherited K4 freeze: K4_RECOVERY_GREEN, THEORY_RED, INCONCLUSIVE_GRAMMAR, INCONCLUSIVE_SEARCH. Every positive cell retains the negative-twin requirement.",
+  "independence_residue": {
+    "IG-1_generator": "CLOSED_AT_REGISTERED_FINITE_SCOPE_BY_FROZEN_DETERMINISTIC_WORLD_RULE",
+    "IG-2_seed": "CLOSED_BY_FUTURE_PUBLIC_DRAND_BEACON_IF_RULE_VERIFIED",
+    "IG-3_leakage": "CLOSED_TO_COMMIT_ORDER_SCOPE_BY_GITHUB_ANCESTRY; private precomputation remains a governance caveat",
+    "IG-4_meter": "PENDING_INDEPENDENT_BUCKETING",
+    "IG-5_encoding": "PENDING_INDEPENDENT_PRIMITIVES"
+  },
+  "claim_ceiling": "A V2 protected result can close same-author, future-seeded K4 cells at this finite mechanism scope. It cannot self-certify independent primitive selection, independent cost bucketing, K5 held-family prediction, or historical architecture uniqueness."
+}

@@ -1,121 +1,66 @@
 #!/usr/bin/env python3
-"""One K4 array task, with the brief's part-J execution discipline enforced rather than described.
-
-Every task persists, in its own receipt: git commit SHA, freeze artifact SHA, SLURM job/array id, interpreter and
-platform versions, the task hash, the seed and how it was derived, the resource request, actual wall time, CPU time,
-peak memory, exit code, the complete raw result and the scored verdict.
-
-TWO RULES THAT ARE ENFORCED IN CODE, NOT LEFT TO THE OPERATOR:
-
-  * A FAILED TASK STILL WRITES A RECEIPT. The brief states that no successful aggregate may omit failed seeds. A task
-    that raises writes a receipt with status=FAILED and the traceback, so the aggregate cannot silently lose it. An
-    aggregator that finds a gap in the task index range is required to treat the gap as a failure, not as absence.
-
-  * THE RUNNER NEVER READS `name_key`. The freeze carries the family-id -> architecture-name mapping for human
-    adjudication afterwards. This module loads the freeze and deletes that key before anything else touches it, so a
-    name leak would require editing this file, which shows up in the diff.
-"""
+"""One protected grammar-native K4 V3 array task with fail-closed provenance."""
 from __future__ import annotations
-
-import argparse
-import hashlib
-import json
-import os
-import platform
-import resource
-import subprocess
-import sys
-import time
-import traceback
+import argparse, hashlib, json, os, platform, resource, subprocess, sys, time, traceback
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FREEZE = os.path.join(ROOT, "GMI_K4_LOFO_FREEZE_V1.json")
-RES = os.path.join(ROOT, "microscopes", "results", "k4")
+GEN_FREEZE = os.path.join(ROOT, "GMI_K4_GENERATOR_FREEZE_V1.json")
+SUCCESSOR_FREEZE = os.path.join(ROOT, "GMI_K4_GRAMMAR_NATIVE_SUCCESSOR_FREEZE_V3.json")
+BEACON = os.path.join(ROOT, "GMI_K4_PUBLIC_BEACON_V3.json")
+RES = os.path.join(ROOT, "microscopes", "results", "k4_v3")
 
 
-def load_freeze():
-    with open(FREEZE) as f:
-        raw = f.read()
-    body = json.loads(raw)
-    body.pop("name_key", None)          # the name barrier, enforced here
-    return body, hashlib.sha256(raw.encode()).hexdigest()
+def jhash(path):
+    raw = open(path).read(); return json.loads(raw), hashlib.sha256(raw.encode()).hexdigest()
+
+
+def load_contracts():
+    freeze, fsha = jhash(FREEZE); freeze.pop("name_key", None)
+    gen, gsha = jhash(GEN_FREEZE); succ, ssha = jhash(SUCCESSOR_FREEZE); beacon, bsha = jhash(BEACON)
+    if gen.get("status") != "FROZEN_BEFORE_ANY_K4_SEARCH_RESULT": raise RuntimeError("bad generator freeze status")
+    if succ.get("status") != "FROZEN_BEFORE_V3_PUBLIC_BEACON_AND_ANY_V3_PROTECTED_RESULT": raise RuntimeError("bad V3 successor freeze status")
+    if beacon.get("status") != "ACQUIRED_NO_REROLL" or not beacon.get("no_reroll") or not beacon.get("sha256_signature_consistency_verified"):
+        raise RuntimeError("invalid V3 public beacon")
+    return freeze, fsha, gsha, ssha, beacon, bsha
 
 
 def git_sha():
-    try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-    except Exception:
-        return "UNKNOWN"
+    try: return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    except Exception: return "UNKNOWN"
 
 
-def task_plan(freeze):
-    """the full task list, in a canonical order fixed by the freeze -- not by the runner's discretion."""
-    fams = sorted(freeze["families"])
-    grams = sorted(freeze["grammars"])
-    plan = []
-    for fid in fams:
-        for g in grams:
-            for cell in ("w1", "w2", "w4", "w8"):
-                plan.append({"family": fid, "grammar": g, "cell": cell})
-    return plan
+def plan(fr):
+    return [{"family": f, "grammar": g, "cell": c} for f in sorted(fr["families"]) for g in sorted(fr["grammars"]) for c in ("w1", "w2", "w4", "w8")]
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--task-index", type=int, required=True)
-    ap.add_argument("--job-id", default="local")
-    ap.add_argument("--host", default="unknown")
-    ap.add_argument("--budget", type=int, default=1000000)
-    a = ap.parse_args()
-
-    os.makedirs(RES, exist_ok=True)
-    t0 = time.time()
-    freeze, freeze_sha = load_freeze()
-    plan = task_plan(freeze)
-    rec = {
-        "schema": "GMIK4TaskReceiptV1",
-        "task_index": a.task_index, "slurm_job_id": a.job_id, "host": a.host,
-        "git_commit_sha": git_sha(), "freeze_artifact_sha256": freeze_sha,
-        "freeze_declared_sha256": freeze.get("freeze_sha256"),
-        "python_version": sys.version.split()[0], "platform": platform.platform(),
-        "resource_request": {"cpus": 1, "budget_scored_candidates": a.budget},
-        "n_tasks_in_plan": len(plan),
-    }
+    ap = argparse.ArgumentParser(); ap.add_argument("--task-index", type=int, required=True); ap.add_argument("--job-id", default="local")
+    ap.add_argument("--host", default="unknown"); ap.add_argument("--budget", type=int, default=1_000_000); a = ap.parse_args()
+    os.makedirs(RES, exist_ok=True); t0 = time.time(); rec = {"schema": "GMIK4TaskReceiptV4", "task_index": a.task_index, "slurm_job_id": a.job_id, "host": a.host}
     try:
-        if not 0 <= a.task_index < len(plan):
-            raise IndexError(f"task index {a.task_index} outside plan of {len(plan)}")
-        unit = plan[a.task_index]
-        rec.update(unit)
-        rec["task_hash"] = hashlib.sha256(
-            json.dumps({**unit, "freeze": freeze_sha}, sort_keys=True).encode()).hexdigest()
-        # seed derivation is recorded, not improvised (sub-gate IG-2)
-        rec["seed"] = int(rec["task_hash"][:8], 16)
-        rec["seed_derivation"] = "sha256(task_spec || freeze_sha)[:8]; deterministic given the frozen plan"
-
-        from gmi_k4_search import run_cell        # imported late so an import error is still receipted
-        out = run_cell(unit["family"], unit["grammar"], unit["cell"],
-                       freeze=freeze, seed=rec["seed"], budget=a.budget)
-        rec["raw_result"] = out
-        rec["verdict"] = out["verdict"]
-        rec["status"] = "OK"
+        freeze, fsha, gsha, ssha, beacon, bsha = load_contracts(); p = plan(freeze)
+        rec.update({"git_commit_sha": git_sha(), "freeze_artifact_sha256": fsha, "generator_freeze_sha256": gsha,
+                    "successor_freeze_sha256": ssha, "public_beacon_sha256": bsha, "public_beacon_round": beacon.get("target_round"),
+                    "public_beacon_randomness": beacon.get("randomness"), "python_version": sys.version.split()[0], "platform": platform.platform(),
+                    "resource_request": {"cpus": 1, "budget_scored_candidates": a.budget}, "n_tasks_in_plan": len(p)})
+        if not 0 <= a.task_index < len(p): raise IndexError(f"task index {a.task_index} outside plan of {len(p)}")
+        unit = p[a.task_index]; rec.update(unit)
+        th = hashlib.sha256(json.dumps({**unit, "prediction_freeze": fsha, "generator_freeze": gsha, "successor_freeze": ssha}, sort_keys=True).encode()).hexdigest()
+        rec["task_hash"] = th
+        rec["seed"] = int(hashlib.sha256(("GMI-K4-V3" + th + beacon["randomness"]).encode()).hexdigest()[:16], 16) % (2**32)
+        rec["seed_derivation"] = "int(SHA256('GMI-K4-V3'||task_hash||drand_randomness)[:16],16) mod 2^32"
+        from gmi_k4_search_v3 import run_cell
+        out = run_cell(unit["family"], unit["grammar"], unit["cell"], freeze=freeze, seed=rec["seed"], budget=a.budget)
+        rec["raw_result"] = out; rec["verdict"] = out["verdict"]; rec["status"] = "OK"
     except Exception:
-        rec["status"] = "FAILED"
-        rec["traceback"] = traceback.format_exc()
-        rec["verdict"] = "TASK_FAILED"
+        rec["status"] = "FAILED"; rec["traceback"] = traceback.format_exc(); rec["verdict"] = "TASK_FAILED"
     finally:
-        ru = resource.getrusage(resource.RUSAGE_SELF)
-        rec["wall_seconds"] = round(time.time() - t0, 3)
-        rec["cpu_seconds"] = round(ru.ru_utime + ru.ru_stime, 3)
-        rec["peak_rss_kb"] = ru.ru_maxrss
+        ru = resource.getrusage(resource.RUSAGE_SELF); rec["wall_seconds"] = round(time.time()-t0, 3); rec["cpu_seconds"] = round(ru.ru_utime+ru.ru_stime, 3); rec["peak_rss_kb"] = ru.ru_maxrss
         rec["exit_code"] = 0 if rec.get("status") == "OK" else 1
-        out_path = os.path.join(RES, f"K4_{a.host}_{a.job_id}_{a.task_index:05d}.json")
-        with open(out_path, "w") as f:
-            json.dump(rec, f, indent=1, sort_keys=True, default=str)
-        print(json.dumps({k: rec.get(k) for k in
-                          ("task_index", "family", "grammar", "cell", "verdict", "status",
-                           "wall_seconds", "cpu_seconds")}))
+        path = os.path.join(RES, f"K4V3_{a.host}_{a.job_id}_{a.task_index:05d}.json"); json.dump(rec, open(path, "w"), indent=1, sort_keys=True, default=str)
+        print(json.dumps({k: rec.get(k) for k in ("task_index", "family", "grammar", "cell", "verdict", "status", "public_beacon_round", "wall_seconds", "cpu_seconds")}))
     sys.exit(rec["exit_code"])
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()

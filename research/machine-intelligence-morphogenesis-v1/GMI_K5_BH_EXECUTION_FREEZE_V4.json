@@ -1,0 +1,48 @@
+{
+  "schema": "GMIK5BHExecutionFreezeV4",
+  "status": "FROZEN_AFTER_RUNNER_IMPLEMENTATION_BEFORE_PUBLIC_BEACON_AND_PROTECTED_EXECUTION",
+  "design_contracts": [
+    "GMI_K5_BH_PHASE_FREEZE_V1.json",
+    "GMI_K5_BH_SCORING_FREEZE_V1.json",
+    "GMI_K5_BH_DESIGN_CORRIGENDUM_V2.json",
+    "GMI_K5_BH_CONTINUAL_CORRIGENDUM_V3.json"
+  ],
+  "experiment_core": {
+    "path": "gmi_k5_bh_experiments.py",
+    "commit": "efbaddb9a9edd527051d9a2ef178f519deb7e3f0",
+    "dependency_policy": "Python standard library only",
+    "protected_mutability": "Any code change after this freeze retires the protected split and requires a new execution freeze/beacon."
+  },
+  "final_task_plan": {
+    "B_ROUTING": {"parameter": "dependence_density", "values": [0.10, 0.30, 0.60, 0.90]},
+    "B_SPECIALIZATION": {"parameter": "heterogeneity_tau", "values": [0.0, 0.08, 0.25, 0.70]},
+    "B_RESIDUAL": {"parameter": "residual_fraction", "values": [0.0, 0.02, 0.10, 0.50]},
+    "B_COMPILE_SEARCH": {"parameter": "query_reuse", "values": [1, 4, 16, 64]},
+    "C_FEATURE_LEARNING": {"parameter": "nonlinear_signal", "values": [0.0, 0.25, 0.60, 1.0]},
+    "D_GENERATIVE": {"parameter": "prefix_sharing", "values": [0.0, 0.25, 0.60, 0.90]},
+    "E_CONTROL": {"parameter": "goal_reuse", "values": [1, 2, 8, 32]},
+    "F_CONTINUAL": {"parameter": "task_overlap", "values": [0.0, 0.60, 0.90, 0.98]}
+  },
+  "replicates_per_value": 8,
+  "expected_tasks": 256,
+  "canonical_order": "sort lane ids lexicographically; preserve each lane values in the listed order; replicate indices 0..7",
+  "scoring": {
+    "exact_lanes": ["B_ROUTING", "B_RESIDUAL", "B_COMPILE_SEARCH", "D_GENERATIVE"],
+    "stochastic_lanes": ["B_SPECIALIZATION", "C_FEATURE_LEARNING", "E_CONTROL", "F_CONTINUAL"],
+    "source": "GMI_K5_BH_SCORING_FREEZE_V1.json with F_CONTINUAL values/predictions superseded only by GMI_K5_BH_CONTINUAL_CORRIGENDUM_V3.json"
+  },
+  "public_beacon_rule": {
+    "network": "League of Entropy drand quicknet mainnet",
+    "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "genesis_time": 1692803367,
+    "period_seconds": 3,
+    "selection": "Use exactly the first quicknet round whose canonical round timestamp is at least 900 seconds after the GitHub committed_at timestamp of THIS execution-freeze commit.",
+    "no_reroll": true,
+    "receipt": "GMI_K5_BH_PUBLIC_BEACON_V4.json"
+  },
+  "task_seed_rule": "seed_i = int(SHA256('GMI-K5-BH-V4' || task_hash || public_beacon_randomness_hex)[:16],16) mod 2^32",
+  "task_hash_rule": "SHA256(canonical JSON of lane, parameter, value, replicate, phase/scoring/corrigendum/execution freeze hashes)",
+  "receipt_rule": "Every task writes a receipt on success or failure. Missing, duplicate, stale-hash, wrong-seed, wrong-schema or nonzero-exit tasks make the aggregate structurally invalid; failed seeds are never omitted.",
+  "protected_execution": "No protected task may run until GMI_K5_BH_PUBLIC_BEACON_V4.json exists and matches this freeze. Development smoke tests must use a fixed non-beacon seed and a separate development-only result directory.",
+  "claim_ceiling": "Synthetic held-regime phase-law evidence only. Even all-green results do not close real code/math/science/control transfer, independent meter/grammar authorship, modern large-model scaling or physical/nonclassical hardware frontiers."
+}
