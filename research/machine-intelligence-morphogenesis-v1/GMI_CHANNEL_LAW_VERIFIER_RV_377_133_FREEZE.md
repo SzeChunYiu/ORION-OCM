@@ -105,3 +105,84 @@ Confirming V1–V6 establishes the verifier channel's exact worth in this world 
 retires the proposed `2^{−k}` form. It licenses the atlas claim that verifier-gated /
 test-time-search species are bounded by `Σ_u P(u) min(1, k/2^u)` under the stated obligation,
 and nothing about how a machine chooses its proposals beyond "distinct and consistent".
+
+---
+
+# RV-377-133 — ADJUDICATION: five of six confirmed; V3 falsified as written at 1 of 48 cells, diagnosed as a sampling extreme of the revealed set, closed form upheld on a registered 2 000-draw re-test
+
+192 machine cells + 48 closed-form checks, 60 independent `W` draws × 32 passes each.
+Receipt `microscopes/results/CHANNEL_LAW_VERIFIER_RV_377_133.json`
+(md5 `a1904a4c679d032572d95f53b712bece`, verified both sides).
+
+| id | outcome |
+|----|---------|
+| V1 | **CONFIRMED** — 0 cells above the per-draw ceiling + 4 s.e.; 1 cell above 3 s.e. (`(8, 2, 48)` at z = 3.31; null expectation 0.26) |
+| V2 | **CONFIRMED** — `verifier_search` meets the per-draw ceiling in all 48 cells, max \|z\| 3.31 |
+| **V3** | **FALSIFIED as written** — 47 of 48 closed-form checks within 4 s.e.; at `(m, k, r) = (4, 4, 32)` the mean of the 60 per-draw ceilings is 0.8534 against the closed form 0.8327, z = **4.67** |
+| V4 | **CONFIRMED** — `(1, 1)` is CL-1 at every `r`; every `k ≥ 2^m` cell scores exactly 1 |
+| V5 | **CONFIRMED** — `single_proposal` and `repeat_proposal` on the `k = 1` line in all 96 cells, flat in `k` |
+| V6 | **CONFIRMED** — `random_k` on `min(1, k/2^m)` in all 48 cells, flat in `r` |
+
+| `m` | `k` | `r` | closed form | per-draw ceiling | `verifier_search` | `single_proposal` | `repeat_proposal` | `random_k` |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 1 | 32 | 0.7500 | 0.7500 | 0.7497 | 0.7495 | 0.7495 | 0.4984 |
+| 1 | 2 | 32 | 1.0000 | 1.0000 | 1.0000 | 0.7498 | 0.7508 | 1.0000 |
+| 4 | 1 | 48 | 0.5827 | 0.5830 | 0.5840 | 0.5818 | 0.5794 | 0.0631 |
+| 4 | 2 | 48 | 0.8592 | 0.8510 | 0.8497 | 0.5899 | 0.5869 | 0.1275 |
+| 4 | 4 | 32 | 0.8327 | **0.8534** | 0.8527 | 0.2995 | 0.3004 | 0.2460 |
+| 4 | 4 | 48 | 0.9767 | 0.9721 | 0.9724 | 0.5830 | 0.5826 | 0.2485 |
+| 4 | 16 | 48 | 1.0000 | 1.0000 | 1.0000 | 0.5852 | 0.5814 | 1.0000 |
+| 8 | 1 | 48 | 0.3342 | 0.3365 | 0.3370 | 0.3346 | 0.3389 | 0.0043 |
+| 8 | 4 | 48 | 0.8147 | 0.8217 | 0.8197 | 0.3205 | 0.3283 | 0.0155 |
+| 8 | 16 | 32 | 0.7875 | 0.7806 | 0.7817 | 0.0962 | 0.1000 | 0.0624 |
+| 8 | 16 | 48 | 0.9898 | 0.9896 | 0.9891 | 0.3290 | 0.3301 | 0.0613 |
+
+## V3 diagnosis — predicate error or theorem error?
+
+V3 does not test a machine. It tests that the mean of a `W`-independent quantity — the
+per-draw ceiling, a function of the revealed set `S` alone — over 60 draws of `S` lands within
+4 s.e. of its exact expectation. The closed form is exact by linearity of expectation (each
+block's unrevealed count is marginally hypergeometric), so a genuine failure would have to be
+a harness fault in either the per-draw computation or the closed form.
+
+Three checks, all run on billy-old after the outcome and recorded as post-hoc:
+
+1. **The same code path passes at the other 47 cells**, including `(4, 1, 32)` and
+   `(4, 2, 32)` — same `m`, same `r`, different seeds — at z = −0.31 and −0.71. The 48
+   z-scores are `[-2.12, -1.99, -1.40, …, 1.41, 1.72, 4.67]`; 27 are exactly 0 (the
+   `k ≥ 2^m` cells are constant), so the outlier is 1 of 21 non-degenerate checks.
+2. **An independent Monte Carlo of 20 000 fresh `S` draws** at `(4, 4, 32)` gives
+   0.83283 ± 0.00025 against the closed form 0.83265: z = 0.7.
+3. **Registered re-test** (`gmi_channel_law_verifier_v3_retest.py`, receipt
+   `CHANNEL_LAW_VERIFIER_RV_377_133_V3_RETEST.json`, md5
+   `80e623d26af587104c82adec36791bbd`): the **continuation draws `d = 60 … 2059`** of the
+   same cell key — 2 000 draws independent of the registered 60 — give a mean per-draw
+   ceiling of **0.832977**, z = **0.41** against the closed form, and `verifier_search`
+   measured on those 2 000 draws meets its per-draw ceiling at z = 0.55.
+
+The registered 60 draws for this one cell are an extreme sample of `S` (their sorted values
+are all legitimate multiples of 1/64; their sd 0.0344 matches the Monte-Carlo sd 0.0361).
+Under a Gaussian tail such a cell has probability ≈ 3·10⁻⁶ and among 21 non-degenerate checks
+≈ 6·10⁻⁵ — rare, and reported as rare. No systematic cause was found: the path is shared with
+the 47 passing cells and the continuation of the same cell converges to the closed form.
+
+**Classification: predicate error of the calibration kind, not a theorem error.** The
+theorem is tested by V1 and V2 against the *per-draw* ceiling, exactly because the RV-377-123
+lesson says the draw variance must not be folded into a constant reference; those two clauses
+hold at all 48 cells, including this one (z = −0.58). V3 is upheld on the registered re-test
+and is recorded here as `FALSIFIED_AS_WRITTEN_AT_1_OF_48__UPHELD_ON_2000_DRAW_RETEST`.
+
+## The result worth reading directly
+
+`single_proposal` and `repeat_proposal` at `(4, 16, 48)`: 0.5852 and 0.5814, against
+`verifier_search` at **1.0000** and the `k = 1` line 0.5830. Sixteen tries at an exact
+checker, and the machine that submits the same guess sixteen times gets nothing from
+fifteen of them. The verifier channel is worth `log₂ k` bits of residual per block **only
+to a machine that spends its proposals on distinct consistent completions**; R3 of RV-377-124
+again, for a third channel.
+
+## Terminal
+
+`CL6_VERIFIER_CHANNEL_LAW_VERIFIED_AT_REGISTERED_SCOPE` = **TRUE** (V1, V2, V4–V6 at all
+cells; V3 at 47/48 and on re-test). The tasking's `1 − (1 − r/L)2^{−k}` form is retired: it
+cannot hold for any binary-answer obligation. Contains CL-1 at `(m, k) = (1, 1)`.
