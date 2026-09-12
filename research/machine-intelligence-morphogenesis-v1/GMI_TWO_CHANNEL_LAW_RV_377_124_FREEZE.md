@@ -77,3 +77,74 @@ Still one obligation type (exact identification), one `L`, one world family. Con
 would establish that the framework yields a *family* of capability laws over channel
 configurations, with the one-channel law as a boundary case — not that GMI predicts anything
 about architectures, which `RV-377-121` showed it does not.
+
+---
+
+# RV-377-124 — ADJUDICATION: all five confirmed
+
+60 cells, 60 independent `W` draws × 2000 queries each, 3 600 measurements.
+
+| `r` | `p` | `bound2` | `table2` | `ignore_hint` | TI-1 bound |
+|---|---|---|---|---|---|
+| 0 | 0.00 | 0.5000 | 0.5005 | **0.5005** | 0.5000 |
+| 0 | 0.50 | 0.7500 | 0.7482 | **0.5005** | 0.5000 |
+| 0 | 1.00 | 1.0000 | 1.0000 | **0.5005** | 0.5000 |
+| 16 | 0.00 | 0.6250 | 0.6251 | **0.6251** | 0.6250 |
+| 16 | 0.50 | 0.8125 | 0.8135 | **0.6251** | 0.6250 |
+| 16 | 1.00 | 1.0000 | 1.0000 | **0.6251** | 0.6250 |
+| 48 | 0.00 | 0.8750 | 0.8761 | **0.8761** | 0.8750 |
+| 48 | 1.00 | 1.0000 | 1.0000 | **0.8761** | 0.8750 |
+
+| id | outcome |
+|----|---------|
+| R1 | **CONFIRMED** — 0 cells above `bound2 + 3 s.e.` |
+| R2 | **CONFIRMED** — 0 shortfalls; `table2` attains the ceiling at every `(r,p)` |
+| R3 | **CONFIRMED** — 0 issues |
+| R4 | **CONFIRMED** — `p = 0` reproduces the TI-1 curve at every `r` |
+| R5 | **CONFIRMED** — slope **−0.4998** (want −0.5), intercept **1.0001** (want 1.0), **R² = 0.999970** |
+
+## R3 is the result worth looking at directly
+
+Read the `ignore_hint` column down any `r` block. It **does not move**:
+
+```
+r = 0 :  p = 0.00 → 0.5005    p = 0.50 → 0.5005    p = 1.00 → 0.5005
+r = 16:  p = 0.00 → 0.6251    p = 0.50 → 0.6251    p = 1.00 → 0.6251
+r = 48:  p = 0.00 → 0.8761    p = 0.50 → 0.8761    p = 1.00 → 0.8761
+```
+
+At `p = 1.00` the query hands the machine the correct answer on **every single query**, and
+`ignore_hint` still scores exactly what the TI-1 one-channel law predicts for its development
+alone. It sits on `½ + r/(2L)` at every `p`.
+
+> **Capability tracks the information a machine actually uses, not the information present in
+> its environment.** Two machines in the same world, with the same channels available, differ
+> in capability by exactly the channel one of them declines to read — and the size of that
+> difference is predicted in closed form, in advance.
+
+## What is now established
+
+> **GMI yields a FAMILY of capability laws indexed by channel configuration**, not a single
+> bound:
+>
+> ```
+> one channel   accuracy ≤ ½ + r/(2L)                    (RV-377-123, verified, tight)
+> two channels  accuracy ≤ 1 − (1 − r/L)(1 − p)/2        (RV-377-124, verified, tight)
+> ```
+>
+> The second **contains** the first as its `p = 0` boundary — verified analytically for all
+> `r ∈ 0..64` and empirically at every `r` (R4). A framework producing two unrelated formulas
+> would be fitting; one producing a family whose boundary case is the earlier law is deriving.
+
+Both laws are **quantitative, derived before measurement, about machine classes defined by
+information channels rather than by architecture, met rather than merely respected, and
+verified against machines built to try to break them.**
+
+`GMI_PREDICTS_CAPABILITY_OF_AN_UNSEEN_FORM` = **TRUE**, now for **two** distinct forms with
+**different** capability numbers.
+
+## Scope, unchanged and stated again
+
+One obligation type (exact identification), one `L`, one world family. This says nothing about
+*which* architecture a search will build — `RV-377-121` settled that at 0.0 % cross-seed
+agreement and nothing here disturbs it. The laws are narrow, and true.
