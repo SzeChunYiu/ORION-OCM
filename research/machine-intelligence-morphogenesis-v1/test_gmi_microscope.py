@@ -493,3 +493,109 @@ def test_e1_scdi_receipt_cell_reproduces_and_crossover_is_analytic():
     for key, cross in committed["analytic_crossovers"].items():
         if cross:
             assert max(committed["frontier_grids"][key]) > max(cross.values()), key
+
+
+# --------------------------------------------------------------------------------------------------------------
+# RV-377-070 — the F axis of GMI-DA7: the refined ecology family and the fourteen exact-equality certificates
+# --------------------------------------------------------------------------------------------------------------
+def test_f_axis_certificate_enumeration_replays_the_committed_receipts():
+    """The certificate table is RECOMPUTED from the committed source receipts, cell by cell, and must agree with the
+    F-axis receipt: 17 certificate rows over 13 receipts, 14 distinct (candidate, parent) pairs, 8 candidates."""
+    from gmi_microscope import refine_f
+    committed = json.loads((RES / "STAGE_F_AXIS_REFINEMENT_V1.json").read_text())
+    enum = committed["certificate_enumeration"]
+    assert enum["n_certificate_pairs"] == 17, enum["n_certificate_pairs"]
+    assert enum["n_certified_candidates"] == 8, enum["n_certified_candidates"]
+    assert len({(c["candidate"], c["parent"]) for c in enum["certificates"]}) == 14
+    # replay: every certified pair really is bit-identical on every registered cell of its own receipt
+    for c in enum["certificates"]:
+        src = json.loads((RES / c["receipt"]).read_text())
+        rows = src["rows"]
+        instr = refine_f.RECEIPT_INSTRUMENT.get(c["receipt"])
+        sigs = {}
+        for key, cell in src["cells"].items():
+            r, ctx = refine_f._row_and_context(key, rows)
+            if r is None or (instr is not None and instr not in ctx):
+                continue
+            sigs.setdefault(r, {})[ctx] = cell["answer_signature"]
+        common = set(sigs[c["candidate"]]) & set(sigs[c["parent"]])
+        assert len(common) == c["n_cells"], (c["receipt"], c["candidate"], c["parent"], len(common))
+        for ctx in common:
+            assert sigs[c["candidate"]][ctx] == sigs[c["parent"]][ctx], (c["receipt"], c["candidate"], c["parent"], ctx)
+    # and the enumeration recomputes to the same thing when run again from the receipts on disk
+    assert refine_f.enumerate_certificates()["certificates"] == enum["certificates"]
+
+
+def test_f_axis_split_and_surviving_pairs_replay_exactly():
+    """Committed F-axis cells replay: for a split pair the exact first (ecology, intervention, query) and BOTH served
+    answers reproduce; for a surviving pair the refined family reproduces as EQUAL over the same cell count."""
+    from gmi_microscope import refine_f
+    committed = json.loads((RES / "STAGE_F_AXIS_REFINEMENT_V1.json").read_text())
+    for pkey in ("P1", "P13", "P12"):
+        want = committed["pairs"][pkey]
+        got = refine_f.run_pair(pkey)
+        assert got["refined_family_verdict"] == want["refined_family_verdict"], pkey
+        assert got["n_refined_cells"] == want["n_refined_cells"], pkey
+        assert got["first_split"] == want["first_split"], pkey
+        assert got["demands_that_split"] == want["demands_that_split"], pkey
+        assert got["registered_family_verdict"] == "EXACT_DEVELOPMENTAL_EQUALITY", pkey
+    # the surviving pair is certified over a strictly larger family than the registered one that certified it
+    assert committed["pairs"]["P12"]["refined_over_registered_cell_ratio"] >= 10
+
+
+def test_f_axis_registered_cells_replay_from_the_source_modules():
+    """The registered side of two certificates is replayed through the carriers' own modules and must reproduce the
+    committed receipt cells bit for bit -- the equality the refined family is attacking is a real committed fact."""
+    from gmi_microscope import dc_vsa, dn_obstruction
+    src = json.loads((RES / "STAGE_DC_V24_DC1_VSA.json").read_text())
+    for cname in ("D64_d1_k3", "D64_d2_k3"):
+        spec = src["cells_spec"][cname]
+        eco = dc_vsa.ecology(spec["D"], spec["depth"], spec["k"], noise=spec["noise"])
+        sigs = {}
+        for row in ("VSA", "STORE_MAT"):
+            r = dc_vsa.run(row, bases.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"], eco)
+            cell = src["cells"][f"{cname}|{row}|B0_LOCAL_ADAPTIVE_TRANSDUCERS"]
+            for k in ("answer_signature", "capability", "desc_bits", "exec_per_query", "R"):
+                assert r[k] == cell[k], (cname, row, k)
+            sigs[row] = r["answer_signature"]
+        assert sigs["VSA"] == sigs["STORE_MAT"], cname
+        assert src["vsa_equals_store_mat_answers"][f"{cname}|B0_LOCAL_ADAPTIVE_TRANSDUCERS"] is True
+    src = json.loads((RES / "STAGE_DN_V30_N11_OBSTRUCTION_R2.json").read_text())
+    for cname in ("m10_d2_k10", "m16_d2_k16"):
+        spec = src["cells_spec"][cname]
+        eco = dn_obstruction.ecology(spec["m"], spec["k"], spec["d"])
+        sigs = {}
+        for row in ("OBSTRUCT", "DENSE_RREF"):
+            r = dn_obstruction.run(row, bases.ALL["B0_LOCAL_ADAPTIVE_TRANSDUCERS"], eco)
+            cell = src["cells"][f"{cname}|{row}"]
+            for k in ("answer_signature", "capability", "desc_bits", "exec_per_query"):
+                assert r[k] == cell[k], (cname, row, k)
+            sigs[row] = r["answer_signature"]
+        assert sigs["OBSTRUCT"] == sigs["DENSE_RREF"], cname
+
+
+def test_f_axis_clause_adjudication_is_recorded_verbatim_with_its_failures():
+    """Every frozen clause is present with a HOLDS/FAILS verdict, the three that failed are still recorded with
+    their observed values, and the demand-level facts the surviving verdicts rest on are the committed ones."""
+    committed = json.loads((RES / "STAGE_F_AXIS_REFINEMENT_V1.json").read_text())
+    cl = committed["clause_adjudication"]
+    assert {f"clause_{i}" for i in range(1, 13)} == set(cl)   # the receipt is dumped with sorted keys
+    assert {k for k, v in cl.items() if v["verdict"] == "FAILS"} == {"clause_1", "clause_2", "clause_8"}
+    for v in cl.values():
+        assert v["clause"] and v["observed"] is not None
+    # NOISY_CUE never splits the two algebraic pairs at any k: the lazy/eager identity holds for corrupted cues too
+    for pkey in ("P1", "P4"):
+        assert committed["pairs"][pkey]["per_demand"]["NOISY_CUE"]["n_differing"] == 0
+    # every OVERFLOW split is absent at the capacity edge and present past it (the GMI-DA4 signature)
+    for pkey, p in committed["pairs"].items():
+        g = p["gate_classification"].get("OVERFLOW")
+        if g:
+            assert g["capacity_gated"] is True, pkey
+            for load, v in g["by_load"].items():
+                if "past_capacity" not in load:
+                    assert v["n_differing"] == 0, (pkey, load)
+    # exactly three pairs carry a split that no known gate explains
+    surviving = [k for k, p in committed["pairs"].items()
+                 if any(g["classification"] == "SURVIVES_THE_KNOWN_GATES" for g in p["gate_classification"].values())]
+    assert sorted(surviving) == ["P13", "P2", "P3"], surviving
+    assert committed["terminal"] == "F_REFINEMENT_SPLITS_10_OF_14_EQUALITY_CERTIFICATES__3_SURVIVE_THE_KNOWN_GATES"
