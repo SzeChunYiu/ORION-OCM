@@ -1,0 +1,69 @@
+{
+  "schema": "GMIK5BHPhaseFreezeV1",
+  "status": "FROZEN_BEFORE_RUNNER_AND_BEFORE_PUBLIC_BEACON",
+  "purpose": "Prospectively test eight remaining quantitative response-law families using fresh commit-seeded synthetic worlds. This is K5-style held-regime evidence, not real-workload or independent-authorship closure.",
+  "lanes": {
+    "B_ROUTING": {
+      "question": "fixed union routing vs input-dependent routing",
+      "grid": {"dependence_density": [0.10, 0.30, 0.60, 0.90]},
+      "fixed_prediction": "dynamic wins iff saved inactive-edge work exceeds routing/communication overhead; fixed wins otherwise",
+      "observable": ["union_edges", "mean_active_edges", "routing_overhead", "fixed_cost", "dynamic_cost"],
+      "red": "winner disagrees with frozen inequality after exact measured costs"
+    },
+    "B_SPECIALIZATION": {
+      "question": "shared estimator vs per-mode specialization with routing",
+      "grid": {"heterogeneity_tau": [0.0, 0.08, 0.25, 0.70]},
+      "fixed_prediction": "without routing cost, specialization wins when tau^2 > sigma^2/N*(1-1/m); actual winner must include measured router error/cost",
+      "observable": ["shared_test_mse", "specialized_test_mse", "router_errors", "state", "development_work"],
+      "red": "protected winner/crossover lies outside preregistered finite-sample uncertainty band"
+    },
+    "B_RESIDUAL": {
+      "question": "shared core only vs shared core+sparse residual vs explicit full state",
+      "grid": {"residual_fraction": [0.0, 0.02, 0.10, 0.50]},
+      "fixed_prediction": "core-only wins at zero residual; core+residual wins while exception code/update burden is below full-state burden; full state wins once sparse-residual advantage disappears",
+      "observable": ["semantic_error", "state_units", "update_writes", "query_work", "total_burden"],
+      "red": "measured admissible frontier contradicts the burden inequality"
+    },
+    "B_COMPILE_SEARCH": {
+      "question": "per-query search vs precompiled reusable answer state",
+      "grid": {"query_reuse": [1, 4, 16, 64]},
+      "fixed_prediction": "compile wins once build_cost < reuse*(search_serve-compiled_serve); search wins below crossover",
+      "observable": ["build_expansions", "search_expansions", "compiled_serve", "semantic_error", "total_burden"],
+      "red": "winner disagrees with exact amortization inequality"
+    },
+    "C_FEATURE_LEARNING": {
+      "question": "fixed feature/readout vs trainable nonlinear features",
+      "grid": {"nonlinear_signal": [0.0, 0.25, 0.60, 1.0]},
+      "fixed_prediction": "if protected target residual outside fixed tangent/feature span exceeds tolerance, fixed-feature realization cannot pass; trainable-feature realization may pass only if development reaches it within budget",
+      "observable": ["fixed_train_error", "fixed_test_error", "trainable_train_error", "trainable_test_error", "feature_movement", "steps", "restart_success"],
+      "red": "fixed-feature passes despite certified residual lower bound, or predicted reachable trainable regime systematically fails under frozen budget"
+    },
+    "D_GENERATIVE": {
+      "question": "prefix-conditional state vs component/latent state on equal-likelihood finite distributions",
+      "grid": {"prefix_sharing": [0.0, 0.25, 0.60, 0.90]},
+      "fixed_prediction": "semantic likelihood cannot choose the family; component state wins when component-table burden < distinct-prefix tree burden plus sequential serving, prefix state wins when prefix reuse reverses the lifecycle inequality",
+      "observable": ["exact_nll", "component_state", "prefix_state", "sample_steps", "total_burden"],
+      "red": "lifecycle winner disagrees with frozen exact representation/serve accounting"
+    },
+    "E_CONTROL": {
+      "question": "direct learned policy vs reusable learned dynamics+planning",
+      "grid": {"goal_reuse": [1, 2, 8, 32]},
+      "fixed_prediction": "model route wins when reuse benefit exceeds planning cost plus 2*model-value-error penalty; direct policy wins below crossover",
+      "observable": ["model_error", "policy_return", "model_plan_return", "development_steps", "planning_steps", "total_burden"],
+      "red": "held winner contradicts the preregistered reuse/error bound at matched return tolerance"
+    },
+    "F_CONTINUAL": {
+      "question": "full rewrite vs replay vs isolated expansion",
+      "grid": {"task_overlap": [0.0, 0.25, 0.60, 0.90]},
+      "fixed_prediction": "strict retention plus low overlap favors isolated expansion; high reusable overlap can favor shared update/replay once its information/update burden is lower",
+      "observable": ["old_accuracy", "new_accuracy", "replay_bits", "new_state", "update_work", "total_burden"],
+      "red": "frontier morphology reverses outside the registered overlap/retention burden law"
+    }
+  },
+  "replicates_per_grid_cell": 8,
+  "task_count": 256,
+  "quality_rule": "Compare lifecycle burden only among realizations satisfying the lane-specific semantic/quality threshold. An inadmissible low-cost realization cannot win.",
+  "measurement_rule": "Raw event counts are primary. Wall-clock/RSS are secondary environment-specific measurements. Every failed seed is retained.",
+  "public_seed_rule": "Use one future drand quicknet beacon selected by a successor beacon contract committed after the runner is frozen; derive each task seed from beacon randomness + lane + grid value + replicate index.",
+  "claim_ceiling": "Synthetic held-regime K5-style phase evidence. Does not close real transfer, independent authorship, modern large-model scaling or hardware/nonclassical frontiers."
+}
