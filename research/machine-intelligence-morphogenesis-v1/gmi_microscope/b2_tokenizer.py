@@ -404,17 +404,9 @@ def run_cell(mname):
     audit = C.charged_serve_audit(audit_rows)
 
     # rule 28 frontier: EXACT rows only (burden at fixed semantic adequacy), one context per price vector
-    frontiers = {}
-    for pname, (c_mem, c_len) in PRICES.items():
-        lines = {name: (c_mem * r["description_scalars_total"], c_len * Fr(r["charged_serve_ops_per_query"]))
-                 for name, r in rows_out.items() if r["exact"]}
-        frontiers[pname] = C.frontier_block(
-            lines, note="rows are EXACT tokenizers only (semantic adequacy held at theta = 1 under the parent-maximal "
-                        "bag reader); A = c_mem * (2Vd embedding scalars + the READER's own description scalars), "
-                        "E = c_len * mean tokens served per query. Charging the reader is stage B0.3 metering "
-                        "hostility: a row exact only as a table over feature classes may not hide that table's size "
-                        "in the tokenizer's embedding count.")
-
+    ctxs = {pname: {name: (c_mem * r["description_scalars_total"], c_len * Fr(r["charged_serve_ops_per_query"]))
+                    for name, r in rows_out.items() if r["exact"]}
+            for pname, (c_mem, c_len) in PRICES.items()}
     minimal_exact_V = min((r["vocabulary_size_V"] for r in rows_out.values() if r["exact"]), default=None)
     return {
         "morphology": mname, "unit_length": len(units[0]), "units": [list(u) for u in units],
@@ -430,7 +422,8 @@ def run_cell(mname):
         "exact_rows": sorted(name for name, r in rows_out.items() if r["exact"]),
         "exact_and_linear_rows": sorted(name for name, r in rows_out.items()
                                         if r["exact"] and r["linear_system_consistent"]),
-        "frontier_by_price": frontiers,
+        "frontier_cost_lines_by_price": {p: {r: [str(a), str(b)] for r, (a, b) in v.items()} for p, v in ctxs.items()},
+        "_lines": ctxs,
         "census_of_rows": C.census(len(rows_out), alphabet="the eight-symbol surface alphabet Sigma plus BPE merge "
                                                            "pieces and the declared units over it",
                                    servability_filter="exact under the parent-maximal bag-of-tokens reader at theta = 1",
@@ -438,8 +431,27 @@ def run_cell(mname):
     }
 
 
+FRONTIER_NOTE_TEXT = ("rows are EXACT tokenizers only (semantic adequacy held at theta = 1 under the parent-maximal "
+                      "bag reader); A = c_mem * (2Vd embedding scalars + the READER's own description scalars), "
+                      "E = c_len * mean tokens served per query. Charging the reader is stage B0.3 metering hostility: "
+                      "a row exact only as a table over feature classes may not hide that table's size in the "
+                      "tokenizer's embedding count.")
+
+
 def main(path=None):
     cells = {mname: run_cell(mname) for mname in MORPHOLOGIES}
+    # ONE shared reuse grid for the whole receipt, built from the crossovers of EVERY (morphology, price) context, so
+    # that a single grid maximum is honest for all of them and gmi_microscope/grid_audit.py grades one grid (rule 28).
+    ctxs = {f"{m}|{p}": cells[m]["_lines"][p] for m in cells for p in PRICES}
+    b2_frontiers, shared_grid = C.frontier_set(ctxs, note=FRONTIER_NOTE_TEXT)
+    for m in cells:
+        # the cell carries a COMPACT summary; the full auditable block lives once, under b2_frontiers
+        cells[m]["frontier_by_price"] = {p: {k: b2_frontiers[f"{m}|{p}"][k] for k in
+                                             ("cost_coordinates_A_E", "crossovers_H_star", "largest_crossover",
+                                              "grid_max_H", "dg2_grid_covers_twice_every_crossover",
+                                              "occupants_on_grid", "occupant_for_all_sufficiently_large_H",
+                                              "rows_never_occupying_a_cell", "frontier_runs")} for p in PRICES}
+        del cells[m]["_lines"]
 
     def opt_V(cell, price, H):
         """the cost-minimizing EXACT vocabulary size at this price and reuse horizon."""
@@ -461,7 +473,7 @@ def main(path=None):
 
     def on_frontier_everywhere(m):
         name = next(n for n in cells[m]["rows"] if n.startswith("ORACLE_UNIT"))
-        return all(name in occ for fb in cells[m]["frontier_by_price"].values() for occ in fb["frontier"].values())
+        return all(name in occ for fb in cells[m]["frontier_by_price"].values() for _, _, occ in fb["frontier_runs"])
 
     clauses = {
         "C1_character_level_row_is_exact_only_where_units_are_single_symbols": (
@@ -562,13 +574,23 @@ def main(path=None):
             "mem1_len1 occupant sets. Clause C17 is frozen although the calibration already indicated it FAILS on "
             "MORPH2, because the clause states a quantitative claim worth committing either way.",
         ],
+        "dg2_audit": {
+            "auditor": "gmi_microscope/grid_audit.py family C, driven by gmi_microscope/b2_audit.py",
+            "run_before_commit": True,
+            "verdict_recorded_in": "microscopes/results/STAGE_B2_DG2_AUDIT_V1.json",
+            "what_the_auditor_does_here": "it recomputes this receipt's own frontier from this receipt's own per-row "
+                                          "cost coordinates, cell for cell (the soundness gate), and then checks "
+                                          "whether the occupant is constant for every H beyond the grid maximum",
+        },
         "dg2_procedure": "every crossover of every price vector is computed FIRST in exact rationals (b2_common."
                          "crossovers), the reuse grid is then built to bracket each one and reach 4x the largest "
                          "(grid_for), and check_dg2 asserts max(grid) >= 2*max(crossover) per context; the per-row "
                          "cost coordinates (A, E) are carried in the receipt so the grid is auditable from its own "
                          "contents (protocol rule 28). gmi_microscope/grid_audit.py was run over this receipt before "
-                         "it was committed.",
+                         "it was committed; see dg2_audit above.",
         "cells": cells,
+        "b2_frontiers": b2_frontiers,
+        "shared_reuse_grid_H": shared_grid,
         "optimal_vocabulary_size_by_cell_price_horizon": optima,
         "claims": {k: bool(v) for k, v in clauses.items()},
         "n_claims_hold": sum(bool(v) for v in clauses.values()), "n_claims": len(clauses),
@@ -593,10 +615,10 @@ if __name__ == "__main__":
             m, c["unit_length"], c["corpus_strings"], c["rule22_constant_control"]["capability"],
             c["minimal_exact_vocabulary_size"]))
         for name, row in sorted(c["rows"].items()):
-            print("   %-10s V=%2d  n_tok=%-6s cap=%-8s rank=%-3d consistent=%-5s samples=%-5s remint_cap=%-8s exact=%s" % (
+            print("   %-18s V=%2d n_tok=%-9s cap=%-9s aligned=%-9s linN=%-5s lookN=%-4s remint=%-9s exact=%s" % (
                 name, row["vocabulary_size_V"], row["mean_tokens_per_string"],
-                row["hindsight_optimal_bag_reader_capability"], row["linear_system_rank"],
-                row["linear_system_consistent"], row["sample_efficiency_examples"],
+                row["hindsight_optimal_bag_reader_capability"], row["unit_aligned_segmentation_fraction"],
+                row["linear_sample_efficiency_examples"], row["lookup_sample_efficiency_examples"],
                 row["remint_hindsight_optimal_capability"], row["exact"]))
     print()
     for k, v in r["claims"].items():

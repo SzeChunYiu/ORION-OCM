@@ -1,0 +1,66 @@
+{
+ "auditor": "gmi_microscope/grid_audit.py, family C (stage-B2 receipts, graded from their own carried per-row cost coordinates; no generating module is imported and nothing is replayed)",
+ "claim_ceiling": "the audit is exact on the receipts whose cost lines are carried in the receipt itself; a SAFE verdict is a statement about that receipt's own admissible set and price vectors, not about rows or prices it never reported",
+ "counts": {
+  "NO_FRONTIER": 1,
+  "SAFE": 1,
+  "UNAUDITABLE_BY_INSTRUMENT": 1
+ },
+ "issue": [
+  377,
+  422
+ ],
+ "n_receipts": 3,
+ "no_frontier_is_not_a_pass": "a receipt listed NO_FRONTIER makes no frontier claim at all; it is neither SAFE nor TRUNCATED, and rule 28 does not apply to it",
+ "receipt_sha256": "6b68b7bb352e6e5d0455ddd9692d2512466c3fa574a7156aec9aa35b1452804b",
+ "receipts": [
+  {
+   "frontier_rule": "stage B2: exact rows only (semantic adequacy held at the cell's theta), each row at its own declared configuration, on the shared DG-2 grid built from the analytic crossovers of every context of the receipt (protocol rule 17 stated per receipt)",
+   "grade": null,
+   "grid_max_H": 393220,
+   "has_multi_row_context": true,
+   "largest_crossover": null,
+   "n_cells_reproduced": 3372,
+   "n_contexts": 12,
+   "n_crossovers_beyond_grid": 0,
+   "n_occupant_changes_beyond_grid": 0,
+   "n_rows_denied_a_cell_by_truncation": 0,
+   "params_r": [
+    0
+   ],
+   "receipt": "STAGE_B2_01_TOKENIZER_V1.json",
+   "reproduced_own_frontier": true,
+   "revival_record": "RV-377-090",
+   "run_tag": null,
+   "schema": "GMI_B2_01_TOKENIZER_V1",
+   "verdict": "SAFE"
+  },
+  {
+   "nested_frontier_keys": [
+    "cells.POINTER_q16_j1.frontier_by_discovery_price",
+    "cells.POINTER_q16_j4.frontier_by_discovery_price",
+    "cells.POINTER_q16_j8.frontier_by_discovery_price",
+    "cells.POINTER_q1_j1.frontier_by_discovery_price",
+    "cells.POINTER_q2_j1.frontier_by_discovery_price",
+    "cells.POINTER_q4_j1.frontier_by_discovery_price",
+    "cells.POINTER_q8_j1.frontier_by_discovery_price",
+    "cells.POINTER_q8_j4.frontier_by_discovery_price"
+   ],
+   "reason": "this receipt DOES report a frontier, but only NESTED inside its cells and with no top-level per-row cost coordinates. gmi_microscope/grid_audit.py's corpus scan looks only at TOP-LEVEL keys containing 'frontier', so the receipt was never graded by the DG-2 corpus audit of RV-377-068 and is not auditable by that instrument now. Rule 28 is satisfied in substance (the per-arm costs are printed per cell) and unsatisfied in form.",
+   "receipt": "STAGE_B2_03_ROUTING_V1.json",
+   "revival_record": "RV-377-056",
+   "schema": "GMI_B2_03_ROUTING_V1",
+   "verdict": "UNAUDITABLE_BY_INSTRUMENT"
+  },
+  {
+   "nested_frontier_keys": [],
+   "reason": "this receipt reports no frontier anywhere, so rule 28 has nothing to audit",
+   "receipt": "STAGE_B2_12_KV_CACHE_V1.json",
+   "revival_record": "RV-377-055",
+   "schema": "GMI_B2_KV_CACHE_V1",
+   "verdict": "NO_FRONTIER"
+  }
+ ],
+ "rule_audited": "protocol rule 28 and gap DG-2, over this lane's stage-B2 receipts only",
+ "schema": "GMI_B2_DG2_AUDIT_V1"
+}

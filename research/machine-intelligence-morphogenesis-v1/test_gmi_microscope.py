@@ -951,3 +951,65 @@ def test_r11_biosphere_episode_is_deterministic_resumable_and_cites_its_screen_a
             assert d["B_fixed_morphogenesis"] - d["B_learned_morphogenesis"] == d["Delta_B_meta"]
         else:
             assert len(d["milestone_reached_by"]) < 2
+
+
+# ======================================================================================================================
+# Stage B2 microfeature phase atlas (issue #422, REVIVAL_LEDGER_B2.jsonl, RV-377-090 onward).
+# Every one of these is a SYNTHETIC EXACT MICROSCOPE at laptop scope: exact rational or registered 8-bit fixed-point
+# arithmetic, no randomness, freeze-before-run. NONE of them is evidence about a trained neural network.
+# ======================================================================================================================
+def test_b2_01_tokenizer_receipt_replays_exactly(tmp_path):
+    """RV-377-090 (B2.1 tokenizer granularity): the committed receipt reproduces byte for byte, and the numbers the
+    record's terminal rests on are replayed from the committed file."""
+    from gmi_microscope import b2_tokenizer
+    rc = b2_tokenizer.main(str(tmp_path / "tok.json"))
+    committed = json.loads((RES / "STAGE_B2_01_TOKENIZER_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 17 and rc["n_claims"] == 18
+    assert rc["claims"]["C17_the_unit_aligned_row_occupies_every_frontier_cell_at_every_price_in_MORPH2_and_MORPH3"] is False
+
+    cells = committed["cells"]
+    # rule 22: the hindsight-optimal constant answer is 9/64 in all three morphologies, so none is a VOID obligation
+    for m in cells:
+        assert cells[m]["rule22_constant_control"]["capability"] == "9/64"
+        assert cells[m]["rule22_constant_control"]["obligation_void"] is False
+        assert cells[m]["rule21_charged_serve_audit"]["passed"] is True
+    # C1: the character-level row is exact only where the units are single symbols
+    assert cells["MORPH1_symbol"]["rows"]["BPE_k00_V08"]["hindsight_optimal_bag_reader_capability"] == "1"
+    assert cells["MORPH2_digram"]["rows"]["BPE_k00_V08"]["hindsight_optimal_bag_reader_capability"] == "3/8"
+    assert cells["MORPH3_trigram"]["rows"]["BPE_k00_V08"]["hindsight_optimal_bag_reader_capability"] == "3/8"
+    # C3: minimal exact vocabulary sizes 8, 16, 16 entries
+    assert [cells[m]["minimal_exact_vocabulary_size"] for m in ("MORPH1_symbol", "MORPH2_digram", "MORPH3_trigram")] == [8, 16, 16]
+    # C14: at the SAME vocabulary size V = 16, alignment and not size decides exactness
+    for m, bpe_cap in (("MORPH2_digram", "127/128"), ("MORPH3_trigram", "15/16")):
+        oracle = cells[m]["rows"]["ORACLE_UNIT_V16"]
+        bpe = cells[m]["rows"]["BPE_k08_V16"]
+        assert oracle["vocabulary_size_V"] == bpe["vocabulary_size_V"] == 16
+        assert oracle["hindsight_optimal_bag_reader_capability"] == "1" and oracle["linear_system_consistent"] is True
+        assert bpe["hindsight_optimal_bag_reader_capability"] == bpe_cap and bpe["linear_system_consistent"] is False
+        assert oracle["unit_aligned_segmentation_fraction"] == "1"
+    # C15: greedy frequency merging does not recover unit boundaries even once it contains every unit
+    assert cells["MORPH2_digram"]["rows"]["BPE_k12_V20"]["unit_aligned_segmentation_fraction"] == "49/64"
+    assert cells["MORPH3_trigram"]["rows"]["BPE_k24_V32"]["unit_aligned_segmentation_fraction"] == "371/512"
+    # C7: linear sample efficiency along the MORPH1 BPE ladder
+    assert [cells["MORPH1_symbol"]["rows"]["BPE_k%02d_V%02d" % (k, 8 + k)]["linear_sample_efficiency_examples"]
+            for k in (0, 2, 4, 8, 12, 16, 20, 24)] == [8, 10, 28, 64, 64, 89, 121, 169]
+    # DG-2 / protocol rule 28: one shared grid, every context covering twice every crossover, coordinates carried
+    assert all(b["dg2_grid_covers_twice_every_crossover"] for b in committed["b2_frontiers"].values())
+    assert all(b["cost_coordinates_A_E"] for b in committed["b2_frontiers"].values())
+
+
+def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
+    """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
+    cost coordinates it carries itself -- no replay, no import of the generating module."""
+    from gmi_microscope import b2_audit
+    rc = b2_audit.main(str(tmp_path / "audit.json"))
+    by = {r["receipt"]: r for r in rc["receipts"]}
+    for name, r in by.items():
+        if r["verdict"] in ("SAFE", "TRUNCATED"):
+            assert r["reproduced_own_frontier"] is True, name
+            assert r["verdict"] == "SAFE", (name, r.get("grade"))
+    assert by["STAGE_B2_01_TOKENIZER_V1.json"]["verdict"] == "SAFE"
+    # the defect this audit found in an already committed record: RV-377-056's frontier is nested, so the corpus-wide
+    # DG-2 audit of RV-377-068 never graded it
+    assert by["STAGE_B2_03_ROUTING_V1.json"]["verdict"] == "UNAUDITABLE_BY_INSTRUMENT"

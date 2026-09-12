@@ -174,12 +174,37 @@ def frontier_of(lines, grid):
     return out
 
 
-def frontier_block(lines, note=""):
+def frontier_set(contexts, note=""):
+    """The rule-28 block for a WHOLE receipt: one shared reuse grid built from the crossovers of EVERY context, so
+    that a single grid maximum is honest for all of them and gmi_microscope/grid_audit.py can grade the receipt
+    against one grid. Returns (blocks, shared_grid)."""
+    allcross = {}
+    for cname, lines in contexts.items():
+        for k, v in crossovers({r: (Fr(a), Fr(b)) for r, (a, b) in lines.items()}).items():
+            allcross[f"{cname}|{k}"] = v
+    grid = grid_for(allcross)
+    return {cname: frontier_block(lines, note=note, grid=grid) for cname, lines in contexts.items()}, grid
+
+
+def runs_of(front, grid):
+    """The frontier as maximal runs of constant occupant over the grid: [H_low, H_high, occupants]."""
+    out = []
+    for H in grid:
+        occ = front[H]
+        if out and out[-1][2] == occ:
+            out[-1][1] = H
+        else:
+            out.append([H, H, occ])
+    return out
+
+
+def frontier_block(lines, note="", grid=None):
     """The whole rule-28 block for ONE context: per-row cost coordinates, every crossover, the grid built from them,
     the DG-2 assertion, the occupant at every H, and the occupant for all sufficiently large H."""
     lines = {k: (Fr(v[0]), Fr(v[1])) for k, v in lines.items()}
     cross = crossovers(lines)
-    grid = grid_for(cross)
+    if grid is None:
+        grid = grid_for(cross)
     front = frontier_of(lines, grid)
     inf_occ = []
     if lines:
@@ -196,7 +221,10 @@ def frontier_block(lines, note=""):
         "largest_crossover": str(max(cross.values())) if cross else None,
         "grid_H": grid, "grid_max_H": max(grid),
         "dg2_grid_covers_twice_every_crossover": check_dg2(cross, grid),
-        "frontier": {str(H): front[H] for H in grid},
+        "frontier_runs": runs_of(front, grid),
+        "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in "
+                                "[H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible "
+                                "from grid_H; gmi_microscope/grid_audit.py expands it.",
         "occupants_on_grid": sorted({r for v in front.values() for r in v}),
         "occupant_for_all_sufficiently_large_H": inf_occ,
         "rows_never_occupying_a_cell": sorted(set(lines) - {r for v in front.values() for r in v}),
