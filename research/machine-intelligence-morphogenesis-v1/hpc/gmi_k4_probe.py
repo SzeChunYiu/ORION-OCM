@@ -4,12 +4,14 @@
 No partition/account is selected here. The probe records what the cluster reports and runs one tiny
 name-blind K4 cell to measure wall/RSS. gmi_k4_submit.py requires an explicit account/partition that
 must appear in this probe and derives time/memory sizing from the measured pilot with frozen safety factors.
+Both the family prediction freeze and executable generator freeze are hashed into the probe receipt.
 """
 from __future__ import annotations
 import hashlib, json, os, platform, resource, subprocess, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FREEZE = os.path.join(ROOT, "GMI_K4_LOFO_FREEZE_V1.json")
+GEN_FREEZE = os.path.join(ROOT, "GMI_K4_GENERATOR_FREEZE_V1.json")
 OUT = os.path.join(ROOT, "LUNARC_ENV_PROBE_V1.json")
 
 
@@ -22,10 +24,12 @@ def sh(cmd):
 
 
 def main():
-    with open(FREEZE) as f:
-        raw = f.read()
-    freeze = json.loads(raw); freeze.pop("name_key", None)
+    raw = open(FREEZE).read(); freeze = json.loads(raw); freeze.pop("name_key", None)
+    gen_raw = open(GEN_FREEZE).read(); gen = json.loads(gen_raw)
+    if gen.get("status") != "FROZEN_BEFORE_ANY_K4_SEARCH_RESULT":
+        raise SystemExit(f"unexpected generator freeze status: {gen.get('status')}")
     freeze_sha = hashlib.sha256(raw.encode()).hexdigest()
+    gen_sha = hashlib.sha256(gen_raw.encode()).hexdigest()
     partitions = sh(["sinfo", "-h", "-o", "%P|%a|%l|%c|%m|%G"])
     assoc = sh(["sacctmgr", "-n", "-P", "show", "assoc", f"user={os.environ.get('USER','')}", "format=Account,Partition,QOS"])
     slurm_ver = sh(["sinfo", "--version"])
@@ -40,13 +44,14 @@ def main():
     ru = resource.getrusage(resource.RUSAGE_SELF)
 
     rec = {
-        "schema": "LUNARCEnvProbeV1",
+        "schema": "LUNARCEnvProbeV2",
         "status": "MEASURED_NOT_SUBMITTED",
         "host": platform.node(),
         "platform": platform.platform(),
         "python": sys.version,
         "cwd": os.getcwd(),
         "freeze_sha256": freeze_sha,
+        "generator_freeze_sha256": gen_sha,
         "slurm_version": slurm_ver,
         "partitions": partitions,
         "associations": assoc,
