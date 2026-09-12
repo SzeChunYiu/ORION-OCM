@@ -999,6 +999,43 @@ def test_b2_01_tokenizer_receipt_replays_exactly(tmp_path):
     assert all(b["cost_coordinates_A_E"] for b in committed["b2_frontiers"].values())
 
 
+def test_b2_04_heads_receipt_replays_exactly(tmp_path):
+    """RV-377-092 (B2.4 head factorization): the committed receipt reproduces byte for byte; the minimal exact head
+    count is independent of sequence length in all 144 cells and equals the counting bound."""
+    from gmi_microscope import b2_heads
+    rc = b2_heads.main(str(tmp_path / "heads.json"))
+    committed = json.loads((RES / "STAGE_B2_04_HEADS_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 14 and rc["n_claims"] == 14
+
+    cells = committed["cells"]
+    H = lambda rep, sn, k, b: cells[f"{rep}|{sn}|k={k}|b={b}"]["minimal_exact_head_count"]
+    # C1: sequence length moves the head count nowhere
+    for rep in b2_heads.REPRESENTATIONS:
+        for sn in b2_heads.RELATION_SETS:
+            for b in b2_heads.BUDGETS:
+                assert len({H(rep, sn, k, b) for k in b2_heads.LENGTHS}) == 1, (rep, sn, b)
+    # the measured ladder under an absolute-position representation
+    assert [H("CONTENT_POSITION", sn, 6, 1) for sn in
+            ("R1_SELF", "R2_SELF_NEXT", "R3_SELF_NEXT_SKIP2", "R4_ALL")] == [1, 2, 3, 4]
+    assert [H("CONTENT_POSITION", sn, 6, 2) for sn in
+            ("R1_SELF", "R2_SELF_NEXT", "R3_SELF_NEXT_SKIP2", "R4_ALL")] == [1, 1, 2, 2]
+    # C2: a duplicated relation costs nothing -- multiplicity, not declared count
+    assert H("CONTENT_POSITION", "R2_SELF_SELF_DUPLICATE", 6, 1) == H("CONTENT_POSITION", "R1_SELF", 6, 1) == 1
+    # C4 / C5 / C13: servability is the representation's, and relative and absolute are INCOMPARABLE
+    assert all(H("CONTENT_ONLY", sn, 6, 1) is None for sn in b2_heads.RELATION_SETS)
+    assert H("CONTENT_RELPOS", "R3_SELF_NEXT_SKIP2", 6, 1) == 3
+    assert H("CONTENT_RELPOS", "R4_ALL", 6, 2) is None and H("CONTENT_POSITION", "R4_ALL", 6, 2) == 2
+    # C14: the counting bound is tight wherever the set is servable, under every representation
+    for key, cell in cells.items():
+        h = cell["minimal_exact_head_count"]
+        if h is not None:
+            assert h == -(-cell["distinct_relation_multiplicity"] // cell["edge_budget_b"]), key
+    for cell in cells.values():
+        assert cell["rule22_constant_control"]["obligation_void"] is False
+        assert cell["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""

@@ -195,7 +195,7 @@ def run_cell(repname, setname, k, b):
                                     "capability": str(ctrl["capability"]),
                                     "theta": str(THETA),
                                     "obligation_void": C.obligation_is_void(ctrl["capability"], THETA),
-                                    "rule": C.RULE_22},
+                                    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level"},
         "rule21_charged_serve_audit": C.charged_serve_audit(audit_rows),
         "rows": rows,
     }
@@ -330,6 +330,7 @@ def main(path=None):
                       "verdict_recorded_in": "microscopes/results/STAGE_B2_DG2_AUDIT_V1.json"},
         "cells": cells,
         "b2_frontiers": b2_frontiers,
+        "b2_frontier_schema": C.FRONTIER_SCHEMA,
         "frontier_note": FRONTIER_NOTE_TEXT,
         "shared_reuse_grid_H": shared_grid,
         "claims": {k: bool(v) for k, v in clauses.items()},

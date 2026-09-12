@@ -99,7 +99,7 @@ def charged_serve_audit(rows):
     offenders = sorted(n for n, r in rows.items()
                        if r.get("admissible") and r.get("serves_developed_state") and Fr(r["charged_serve_ops_per_query"]) <= 0)
     zero_cost = sorted(n for n, r in rows.items() if Fr(r["charged_serve_ops_per_query"]) == 0)
-    return {"rule": RULE_21, "n_rows": len(rows),
+    return {"rule": "see protocol_rules_carried.rule_21 at the receipt's top level", "n_rows": len(rows),
             "admissible_rows_serving_developed_state_at_zero_cost": offenders,
             "zero_cost_rows": zero_cost,
             "zero_cost_rows_are_all_constant_answer": all(not rows[n].get("serves_developed_state") for n in zero_cost),
@@ -203,9 +203,24 @@ def frontier_set(contexts, note=""):
         del b["grid_H"]
         b["grid_H_is_the_receipts_shared_reuse_grid_H"] = True
         blocks[cname] = b
+    # every key that is identical for every context is hoisted to the receipt's top level as FRONTIER_SCHEMA; leaving
+    # a copy in each of several hundred contexts multiplies a receipt's size without adding a decidable fact.
     for b in blocks.values():
-        b["frontier_note"] = "see frontier_note at the receipt's top level (it is identical for every context)"
+        for k in ("rule", "cost_model", "frontier_runs_format", "note", "grid_H_is_the_receipts_shared_reuse_grid_H"):
+            b.pop(k, None)
     return blocks, grid
+
+
+FRONTIER_SCHEMA = {
+    "rule": RULE_28,
+    "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
+    "grid_H": "every context of a receipt shares the receipt's shared_reuse_grid_H",
+    "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in "
+                            "[H_low, H_high]. Exactly reconstructible from shared_reuse_grid_H; "
+                            "gmi_microscope/grid_audit.py expands it.",
+    "single_row_context": "a context with fewer than two admissible rows has no frontier DECISION; it carries its "
+                          "cost coordinates and nothing else.",
+}
 
 
 def runs_of(front, grid):

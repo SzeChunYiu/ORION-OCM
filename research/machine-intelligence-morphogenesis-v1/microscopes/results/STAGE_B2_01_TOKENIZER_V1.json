@@ -1,4 +1,11 @@
 {
+ "b2_frontier_schema": {
+  "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
+  "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Exactly reconstructible from shared_reuse_grid_H; gmi_microscope/grid_audit.py expands it.",
+  "grid_H": "every context of a receipt shares the receipt's shared_reuse_grid_H",
+  "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
+  "single_row_context": "a context with fewer than two admissible rows has no frontier DECISION; it carries its cost coordinates and nothing else."
+ },
  "b2_frontiers": {
   "MORPH1_symbol|mem1_len1": {
    "cost_coordinates_A_E": {
@@ -39,7 +46,6 @@
      "3"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k00_V08|BPE_k02_V10": "1536/5",
     "BPE_k00_V08|BPE_k04_V12": "1536/5",
@@ -78,7 +84,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V08": "27648/83"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -124,11 +129,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "18432/49",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -144,8 +146,7 @@
    "rows_never_occupying_a_cell": [
     "BPE_k02_V10",
     "BPE_k04_V12"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH1_symbol|mem1_len16": {
    "cost_coordinates_A_E": {
@@ -186,7 +187,6 @@
      "48"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k00_V08|BPE_k02_V10": "96/5",
     "BPE_k00_V08|BPE_k04_V12": "96/5",
@@ -225,7 +225,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V08": "1728/83"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -264,11 +263,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "1152/49",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -284,8 +280,7 @@
     "BPE_k02_V10",
     "BPE_k04_V12",
     "BPE_k12_V20"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH1_symbol|mem1_len4": {
    "cost_coordinates_A_E": {
@@ -326,7 +321,6 @@
      "12"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k00_V08|BPE_k02_V10": "384/5",
     "BPE_k00_V08|BPE_k04_V12": "384/5",
@@ -365,7 +359,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V08": "6912/83"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -411,11 +404,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "4608/49",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -431,8 +421,7 @@
    "rows_never_occupying_a_cell": [
     "BPE_k02_V10",
     "BPE_k04_V12"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH1_symbol|mem4_len1": {
    "cost_coordinates_A_E": {
@@ -473,7 +462,6 @@
      "3"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k00_V08|BPE_k02_V10": "6144/5",
     "BPE_k00_V08|BPE_k04_V12": "6144/5",
@@ -512,7 +500,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V08": "110592/83"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -558,11 +545,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "73728/49",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -578,8 +562,7 @@
    "rows_never_occupying_a_cell": [
     "BPE_k02_V10",
     "BPE_k04_V12"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH2_digram|mem1_len1": {
    "cost_coordinates_A_E": {
@@ -604,7 +587,6 @@
      "3"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k12_V20|BPE_k16_V24": "3200/7",
     "BPE_k12_V20|BPE_k20_V28": "3392/7",
@@ -618,7 +600,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V16": "42240/43"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -635,11 +616,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "24576",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -651,8 +629,7 @@
     "BPE_k12_V20",
     "BPE_k16_V24",
     "BPE_k20_V28"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH2_digram|mem1_len16": {
    "cost_coordinates_A_E": {
@@ -677,7 +654,6 @@
      "48"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k12_V20|BPE_k16_V24": "200/7",
     "BPE_k12_V20|BPE_k20_V28": "212/7",
@@ -691,7 +667,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V16": "2640/43"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -708,11 +683,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "1536",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -724,8 +696,7 @@
     "BPE_k12_V20",
     "BPE_k16_V24",
     "BPE_k20_V28"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH2_digram|mem1_len4": {
    "cost_coordinates_A_E": {
@@ -750,7 +721,6 @@
      "12"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k12_V20|BPE_k16_V24": "800/7",
     "BPE_k12_V20|BPE_k20_V28": "848/7",
@@ -764,7 +734,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V16": "10560/43"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -781,11 +750,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "6144",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -797,8 +763,7 @@
     "BPE_k12_V20",
     "BPE_k16_V24",
     "BPE_k20_V28"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH2_digram|mem4_len1": {
    "cost_coordinates_A_E": {
@@ -823,7 +788,6 @@
      "3"
     ]
    },
-   "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
    "crossovers_H_star": {
     "BPE_k12_V20|BPE_k16_V24": "12800/7",
     "BPE_k12_V20|BPE_k20_V28": "13568/7",
@@ -837,7 +801,6 @@
     "BPE_k24_V32|ORACLE_UNIT_V16": "168960/43"
    },
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [
     [
      1,
@@ -854,11 +817,8 @@
      ]
     ]
    ],
-   "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Equivalent to one entry per grid point and exactly reconstructible from grid_H; gmi_microscope/grid_audit.py expands it.",
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": "98304",
-   "note": "",
    "occupant_for_all_sufficiently_large_H": [
     "BPE_k24_V32"
    ],
@@ -870,8 +830,7 @@
     "BPE_k12_V20",
     "BPE_k16_V24",
     "BPE_k20_V28"
-   ],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+   ]
   },
   "MORPH3_trigram|mem1_len1": {
    "cost_coordinates_A_E": {
@@ -882,12 +841,9 @@
    },
    "crossovers_H_star": {},
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [],
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": null,
-   "note": "fewer than two admissible rows; no frontier decision exists in this context",
    "occupant_for_all_sufficiently_large_H": [
     "ORACLE_UNIT_V16"
    ],
@@ -895,7 +851,6 @@
     "ORACLE_UNIT_V16"
    ],
    "rows_never_occupying_a_cell": [],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
    "single_row_context": true
   },
   "MORPH3_trigram|mem1_len16": {
@@ -907,12 +862,9 @@
    },
    "crossovers_H_star": {},
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [],
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": null,
-   "note": "fewer than two admissible rows; no frontier decision exists in this context",
    "occupant_for_all_sufficiently_large_H": [
     "ORACLE_UNIT_V16"
    ],
@@ -920,7 +872,6 @@
     "ORACLE_UNIT_V16"
    ],
    "rows_never_occupying_a_cell": [],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
    "single_row_context": true
   },
   "MORPH3_trigram|mem1_len4": {
@@ -932,12 +883,9 @@
    },
    "crossovers_H_star": {},
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [],
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": null,
-   "note": "fewer than two admissible rows; no frontier decision exists in this context",
    "occupant_for_all_sufficiently_large_H": [
     "ORACLE_UNIT_V16"
    ],
@@ -945,7 +893,6 @@
     "ORACLE_UNIT_V16"
    ],
    "rows_never_occupying_a_cell": [],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
    "single_row_context": true
   },
   "MORPH3_trigram|mem4_len1": {
@@ -957,12 +904,9 @@
    },
    "crossovers_H_star": {},
    "dg2_grid_covers_twice_every_crossover": true,
-   "frontier_note": "see frontier_note at the receipt's top level (it is identical for every context)",
    "frontier_runs": [],
-   "grid_H_is_the_receipts_shared_reuse_grid_H": true,
    "grid_max_H": 393220,
    "largest_crossover": null,
-   "note": "fewer than two admissible rows; no frontier decision exists in this context",
    "occupant_for_all_sufficiently_large_H": [
     "ORACLE_UNIT_V16"
    ],
@@ -970,7 +914,6 @@
     "ORACLE_UNIT_V16"
    ],
    "rows_never_occupying_a_cell": [],
-   "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
    "single_row_context": true
   }
  },
@@ -3153,7 +3096,7 @@
     },
     "n_rows": 10,
     "passed": true,
-    "rule": "rule 21 as NARROWED by RV-377-073: no admissible row may serve state written during development without a charged operation. The original wording ('no admissible row has zero execution cost per query') is FALSIFIED_AND_REPLACED -- a machine serving a constant legitimately costs nothing to run, and rule 22 requires exactly such a row in every cell.",
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
     "zero_cost_rows": [
      "CONSTANT_CONTROL"
     ],
@@ -3164,7 +3107,7 @@
     "capability": "9/64",
     "capability_float": 0.140625,
     "obligation_void": false,
-    "rule": "rule 22: an obligation is meaningful only where the hindsight-optimal CONSTANT answer is below theta; a mode whose constant control is admissible is VOID, not weak, and its clauses are not evaluated there.",
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
     "theta": "1"
    },
    "surface_length": 3,
@@ -5169,7 +5112,7 @@
     },
     "n_rows": 10,
     "passed": true,
-    "rule": "rule 21 as NARROWED by RV-377-073: no admissible row may serve state written during development without a charged operation. The original wording ('no admissible row has zero execution cost per query') is FALSIFIED_AND_REPLACED -- a machine serving a constant legitimately costs nothing to run, and rule 22 requires exactly such a row in every cell.",
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
     "zero_cost_rows": [
      "CONSTANT_CONTROL"
     ],
@@ -5180,7 +5123,7 @@
     "capability": "9/64",
     "capability_float": 0.140625,
     "obligation_void": false,
-    "rule": "rule 22: an obligation is meaningful only where the hindsight-optimal CONSTANT answer is below theta; a mode whose constant control is admissible is VOID, not weak, and its clauses are not evaluated there.",
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
     "theta": "1"
    },
    "surface_length": 6,
@@ -6921,7 +6864,7 @@
     },
     "n_rows": 10,
     "passed": true,
-    "rule": "rule 21 as NARROWED by RV-377-073: no admissible row may serve state written during development without a charged operation. The original wording ('no admissible row has zero execution cost per query') is FALSIFIED_AND_REPLACED -- a machine serving a constant legitimately costs nothing to run, and rule 22 requires exactly such a row in every cell.",
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
     "zero_cost_rows": [
      "CONSTANT_CONTROL"
     ],
@@ -6932,7 +6875,7 @@
     "capability": "9/64",
     "capability_float": 0.140625,
     "obligation_void": false,
-    "rule": "rule 22: an obligation is meaningful only where the hindsight-optimal CONSTANT answer is below theta; a mode whose constant control is admissible is VOID, not weak, and its clauses are not evaluated there.",
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
     "theta": "1"
    },
    "surface_length": 9,
@@ -7146,7 +7089,7 @@
   "rule_28": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
   "rule_29": "rule 29: a census count is meaningless outside the triple (alphabet, servability filter, ecology) and must carry all three in the same sentence as the number."
  },
- "receipt_sha256": "ab66979c19c6baa3a9dd50fd32a21ba0c05f9b620a54cf388085c30ab10775b9",
+ "receipt_sha256": "2b61c8758383fdd3d2be9e72ead2b190abdcf194bf4370f66a8a82042b891328",
  "registry_entries": [
   "TF-001 tokenization / segmentation",
   "TF-002 vocabulary size",
