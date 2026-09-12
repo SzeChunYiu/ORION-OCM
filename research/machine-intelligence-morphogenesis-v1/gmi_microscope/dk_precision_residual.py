@@ -105,12 +105,29 @@ def portfolio(eco, instruments=INSTRUMENTS, table_mode="sel1", fix_div=True, see
     return cells
 
 
+def rho(pe):
+    """the r-coefficient the FROZEN cost function actually has: C = desc + H*exec_q + r*(upd_e + ver_e) +
+    (r/4)*rev_e = desc + H*exec_q + r*rho, so the cost function is affine in (H, r) with exactly THREE
+    coefficients, not five."""
+    return pe["upd_e"] + pe["ver_e"] + pe["rev_e"] / 4
+
+
 def dominates(pa, pb):
-    """pa dominates pb coordinate-wise: pa is at least as cheap on desc and on every per-use coefficient, and
-    strictly cheaper on at least one. Then cost_a <= cost_b for EVERY H >= 0 and r >= 0, strictly somewhere, so no
-    crossover exists and the 'no cell' statement is a theorem about the affine cost function (gap DG-2)."""
+    """RAW-COORDINATE domination, the test RV-377-076 clause 2 was frozen with: pa no larger than pb on desc and on
+    every one of the four per-use coefficients, strictly smaller somewhere. Sufficient for domination but NOT
+    necessary, because upd_e, ver_e and rev_e enter the cost only through their sum rho."""
     ks = ("desc", "exec_q", "upd_e", "ver_e", "rev_e")
     return all(pa[k] <= pb[k] for k in ks) and any(pa[k] < pb[k] for k in ks)
+
+
+def dominates_cost(pa, pb):
+    """COST-COORDINATE domination: pa no larger than pb on each of the three coefficients the frozen cost function
+    has -- desc, exec_q and rho -- and strictly smaller on at least one. This is necessary AND sufficient for
+    cost_a <= cost_b at EVERY H >= 0 and r >= 0 with strictness somewhere, so no crossover exists in either axis
+    and the 'no cell' statement is a theorem about the affine cost function rather than a grid observation
+    (gap DG-2)."""
+    ka = (pa["desc"], pa["exec_q"], rho(pa)); kb = (pb["desc"], pb["exec_q"], rho(pb))
+    return all(x <= y for x, y in zip(ka, kb)) and any(x < y for x, y in zip(ka, kb))
 
 
 def frontier_report(pes, base_h=(1, 2, 16, 128, 1024, 8192), base_r=(0, 1, 4, 16, 64, 256)):
@@ -124,12 +141,19 @@ def frontier_report(pes, base_h=(1, 2, 16, 128, 1024, 8192), base_r=(0, 1, 4, 16
             fr[f"H={Hh}|r={r}"] = sorted(n for n, v in cs.items() if v == m)
     occ = {}
     for n in pes: occ[n] = sum(1 for v in fr.values() if n in v)
-    maxcross = max([float(v) for v in cr.values()], default=0.0)
+    maxH = max([float(v) for k, v in cr.items() if k.startswith("H|")], default=0.0)
+    maxR = max([float(v) for k, v in cr.items() if k.startswith("r|")], default=0.0)
     return {"crossovers": {k: str(v) for k, v in cr.items()},
             "crossovers_float": {k: float(v) for k, v in cr.items()},
-            "largest_crossover": maxcross, "grid_H": hg, "grid_r": rg,
-            "grid_max_H": max(hg) if hg else None,
-            "grid_extends_past_twice_largest_crossover": bool(not cr or max(hg) >= 2 * maxcross),
+            "largest_H_crossover": maxH, "largest_r_crossover": maxR,
+            "grid_H": hg, "grid_r": rg, "grid_max_H": max(hg) if hg else None,
+            "grid_max_r": max(rg) if rg else None,
+            "H_grid_extends_past_twice_largest_H_crossover": bool(not hg or max(hg) >= 2 * maxH),
+            "r_grid_extends_past_twice_largest_r_crossover": bool(not rg or max(rg) >= 2 * maxR),
+            "asymptotic_min_exec_q_as_H_to_infinity": sorted(
+                n for n, v in pes.items() if v["exec_q"] == min(p["exec_q"] for p in pes.values())) if pes else [],
+            "asymptotic_min_rho_as_r_to_infinity": sorted(
+                n for n, v in pes.items() if rho(v) == min(rho(p) for p in pes.values())) if pes else [],
             "n_cells": len(fr), "occupancy": occ, "frontier": fr}
 
 
@@ -198,6 +222,74 @@ def sequence_diagnostics(eco, precision="fx8"):
     return {"H1_H2_evidence_and_flip_structure": h12, "H3_posterior_concentration": h3, "log_row_state": state}
 
 
+# --------------------------------------------------------------------------- part 3b: the scalpel
+def _is_tie(u, S, v):
+    """the exact value x = S * 2^(u/S) is a half-integer, i.e. x = v - 1/2 where v is the half-UP rounding.
+    Decided by raising to the S-th power so that no floating point is involved."""
+    return (F(2 * S, 1) ** S) * (F(2) ** u) == F(2 * v - 1) ** S
+
+
+def tie_census(S):
+    """which exponent-table entries are decided by the ROUNDING TIE-BREAK alone."""
+    ties = {}
+    for u in range(-255, 1):
+        v = AU._round_half_up_exact_pow2(u, S)
+        if _is_tie(u, S, v):
+            ties[u] = {"half_up": v, "half_down": v - 1, "exact_value_times_S": f"{2*v-1}/2",
+                       "log2_weight": float(F(u, S))}
+    return ties
+
+
+class HalfDownLogBayes8(AU.AuditedLogBayes8):
+    """RV-377-075's row with ONE change: the exponent table rounds ties DOWN instead of up. At fx8 exactly ONE of
+    the 256 entries changes -- u = -80, the entry for a weight of exactly 2^-5 = 1/32, which the published
+    half-up rule promotes to the instrument's smallest positive value 1/16 and this rule sends to 0. Everything
+    else -- arithmetic, constants, events, scoring, theta -- is identical. A scalpel, not a rewrite."""
+    row = "LOGBAYES8"
+
+    def init(self, M):
+        super().init(M)
+        A = self.A
+        self.tie_entries_changed = []
+        for u, val in list(self.exp_tab.items()):
+            v = AU._round_half_up_exact_pow2(u, A.S)
+            if _is_tie(u, A.S, v):
+                self.exp_tab[u] = A.clamp(v - 1)
+                self.tie_entries_changed.append([u, val, A.clamp(v - 1)])
+
+
+def run_halfdown(eco, precision="fx8", seed=0):
+    M = Machine(B0); A = AU.TracedArith(M, precision); ref = HalfDownLogBayes8(eco, A)
+    M.phase("exec"); ref.init(M)
+    ev = eco["events"]
+    for t, (x, y) in enumerate(ev, 1):
+        M.phase("exec")
+        for xx in eco["eval"]: ref.query(M, xx)
+        M.phase("upd"); ref.observe(M, x, y); M.end_event()
+        M.phase("ver")
+        for xx in eco["eval"]: M.op("EQ", ref.query(M, xx), 0)
+        if t == REVOKE_AT:
+            M.phase("rev"); ref.revoke(M, REVOKE_INDEX, *ev[REVOKE_INDEX]); M.end_event()
+    M.phase("exec")
+    lw = list(ref.lw); ws = ref._linear_weights(M)
+    served = {xx: A.frac(ref.query(M, xx)) for xx in eco["eval"]}
+    cap, excess = capability(eco, served)
+    return {"capability": float(round(cap, 6)), "admissible": bool(cap >= THETA),
+            "n_table_entries_changed": len(ref.tie_entries_changed),
+            "table_entries_changed": ref.tie_entries_changed,
+            "linear_weights_raw": ws, "n_linear_weights_nonzero": sum(1 for w in ws if w),
+            "log_weights_raw": lw,
+            "served_float": {str(k): float(v) for k, v in served.items()}}
+
+
+def exact_posterior_within(eco, k):
+    """the ECOLOGY-ONLY predictor: how many hypotheses of the EXACT posterior lie within a factor 2^k of the
+    maximum-a-posteriori weight. The 8-bit exponent table's smallest non-zero entry sits at 2^-5 of the maximum
+    (half-up), so this count at k = 5 is what the fx8 readout can represent."""
+    post = eco["post"]; mx = max(post)
+    return sum(1 for w in post if w * (2 ** k) >= mx)
+
+
 # --------------------------------------------------------------------------- main
 def main(tag="V1", seed=0, table_mode="sel1"):
     ecos = all_ecologies()
@@ -230,12 +322,24 @@ def main(tag="V1", seed=0, table_mode="sel1"):
                         if n == me: continue
                         dm[n] = {"dominates_logbayes8_fx8": bool(dominates(pb, pes[me])),
                                  "is_dominated_by_logbayes8_fx8": bool(dominates(pes[me], pb)),
+                                 "dominates_logbayes8_fx8_in_cost_coordinates": bool(dominates_cost(pb, pes[me])),
+                                 "rho_logbayes8_fx8": str(rho(pes[me])), "rho_other": str(rho(pb)),
+                                 "upd_e_logbayes8_fx8": str(pes[me]["upd_e"]), "upd_e_other": str(pb["upd_e"]),
+                                 "ver_e_logbayes8_fx8": str(pes[me]["ver_e"]), "ver_e_other": str(pb["ver_e"]),
+                                 "rev_e_logbayes8_fx8": str(pes[me]["rev_e"]), "rev_e_other": str(pb["rev_e"]),
                                  "H_crossover": next((str(v) for k, v in rep["crossovers"].items()
                                                       if k.startswith("H|") and me in k and n in k), None),
                                  "r_crossover": next((str(v) for k, v in rep["crossovers"].items()
                                                       if k.startswith("r|") and me in k and n in k), None),
                                  "desc_logbayes8_fx8": str(pes[me]["desc"]), "desc_other": str(pb["desc"]),
                                  "exec_q_logbayes8_fx8": str(pes[me]["exec_q"]), "exec_q_other": str(pb["exec_q"])}
+                dm["_SUMMARY"] = {
+                    "rows_dominating_logbayes8_fx8_in_RAW_coordinates":
+                        sorted(n for n, v in dm.items() if v["dominates_logbayes8_fx8"]),
+                    "rows_dominating_logbayes8_fx8_in_COST_coordinates":
+                        sorted(n for n, v in dm.items() if v["dominates_logbayes8_fx8_in_cost_coordinates"]),
+                    "any_cost_coordinate_dominator": bool(any(
+                        v["dominates_logbayes8_fx8_in_cost_coordinates"] for v in dm.values()))}
                 domin[f"{ekey}|{price}|{bas}"] = dm
         front[f"{ekey}|admissible_sets"] = adm
 
@@ -296,6 +400,74 @@ def main(tag="V1", seed=0, table_mode="sel1"):
     }
     separating = sorted(k for k, v in h_tests.items() if v["separates"])
 
+    # ---------------- part 3b: the scalpel, and the ecology-only predictor
+    scalpel = {}
+    for ek in ("ambig", "noisy"):
+      for v in ("A", "B", "C", "D", "E"):
+        eco = ecos[f"{ek}|{v}"]
+        base = diag[f"{ek}|{v}"]["log_row_state"]
+        hd = run_halfdown(eco, "fx8", seed)
+        scalpel[f"{ek}|{v}"] = {"published_half_up_capability": base["capability"],
+                      "published_half_up_admissible": base["admissible"],
+                      "published_n_linear_weights_nonzero": base["n_linear_weights_nonzero"],
+                      "half_down_capability": hd["capability"],
+                      "half_down_admissible": hd["admissible"],
+                      "half_down_n_linear_weights_nonzero": hd["n_linear_weights_nonzero"],
+                      "n_table_entries_changed": hd["n_table_entries_changed"],
+                      "table_entries_changed": hd["table_entries_changed"],
+                      "served_half_up": base["served_float"], "served_half_down": hd["served_float"],
+                      "flipped_to_admissible": bool(hd["admissible"] and not base["admissible"]),
+                      "flipped_to_inadmissible": bool(base["admissible"] and not hd["admissible"])}
+    scalpel_summary = {
+        "sequences_flipped_to_admissible": sorted(k for k, v in scalpel.items() if v["flipped_to_admissible"]),
+        "sequences_flipped_to_inadmissible": sorted(k for k, v in scalpel.items() if v["flipped_to_inadmissible"]),
+        "sequences_unchanged": sorted(k for k, v in scalpel.items()
+                                      if v["published_half_up_capability"] == v["half_down_capability"]),
+        "n_table_entries_changed": 1}
+    predictor = {}
+    for v in ("A", "B", "C", "D", "E"):
+        eco = ecos[f"ambig|{v}"]
+        predictor[v] = {f"exact_posterior_within_2^{k}_of_MAP": exact_posterior_within(eco, k)
+                        for k in (3, 4, 5, 6, 7)}
+        predictor[v]["executed_n_linear_weights_nonzero_fx8"] = \
+            diag[f"ambig|{v}"]["log_row_state"]["n_linear_weights_nonzero"]
+        predictor[v]["admissible_fx8"] = ambig_split[v]
+    tie = tie_census(16)
+    # the negative twin on ALL five declared sequences, including the two never executed before this record
+    twin = {}
+    for ek in ("ambig", "noisy"):
+        for v in ("A", "B", "C", "D", "E"):
+            c = AU.run("LOGBAYES8_NOMAXSUB", ecos[f"{ek}|{v}"], "fx8", seed, table_mode="sel1",
+                       branch_gts=False, fix_div=True)
+            twin[f"{ek}|{v}"] = {"capability": c["capability"], "capability_exact": c["capability_exact"],
+                                 "admissible": c["admissible"], "exactly_zero": c["capability_exact"] == "0/1"}
+    twin_summary = {"all_ambig_exactly_zero": all(twin[f"ambig|{v}"]["exactly_zero"] for v in "ABCDE"),
+                    "all_sequences_exactly_zero": all(t["exactly_zero"] for t in twin.values())}
+
+    # the headline numbers of the residual, in one place
+    cA = portfolio(ecos["ambig|A"], instruments=("fx8", "fx10"), table_mode="sel1")
+    scanA = AU.run("LOGBAYES8", ecos["ambig|A"], "fx8", seed, table_mode="scan", branch_gts=True, fix_div=True)
+    lg = cA[("LOGBAYES8", "fx8")]; qc = cA[("QCOUNT", "fx10")]; bm = cA[("BAYESM", "fx10")]
+    headline = {
+        "logbayes8_fx8": {"desc_flat": lg["desc_bits"], "desc_scaled": lg["desc_bits_scaled"],
+                          "exec_q_reduced_sel1": str(lg["exec_q"]),
+                          "exec_q_reduced_registered_B0_scan": str(scanA["exec_q"]),
+                          "exec_q_native": str(lg["nat_exec_q"]), "capability": lg["capability"]},
+        "qcount_fx10": {"desc_flat": qc["desc_bits"], "desc_scaled": qc["desc_bits_scaled"],
+                        "exec_q_reduced": str(qc["exec_q"]), "exec_q_native": str(qc["nat_exec_q"]),
+                        "capability": qc["capability"]},
+        "bayesm_fx10": {"desc_flat": bm["desc_bits"], "desc_scaled": bm["desc_bits_scaled"],
+                        "exec_q_reduced": str(bm["exec_q"]), "capability": bm["capability"]},
+        "ratios": {
+            "desc_flat_log_over_qcount": float(F(lg["desc_bits"], qc["desc_bits"])),
+            "desc_scaled_log_over_qcount": float(F(lg["desc_bits_scaled"], qc["desc_bits_scaled"])),
+            "exec_q_reduced_sel1_log_over_qcount": float(lg["exec_q"] / qc["exec_q"]),
+            "exec_q_reduced_scan_log_over_qcount": float(scanA["exec_q"] / qc["exec_q"]),
+            "exec_q_native_log_over_qcount": float(lg["nat_exec_q"] / qc["nat_exec_q"]),
+            "rho_reduced_log_over_qcount": float(rho(per_event(lg, "reduced", False)) /
+                                                 rho(per_event(qc, "reduced", False)))},
+    }
+
     receipt = {
         "schema": "StageDKPrecisionResidualV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
         "revival_record": "RV-377-076", "run_tag": tag, "seed": seed, "theta": str(THETA),
@@ -317,6 +489,14 @@ def main(tag="V1", seed=0, table_mode="sel1"):
         "part3_ambig_admissibility_by_sequence": ambig_split,
         "part3_hypothesis_separation": h_tests,
         "part3_separating_variables": separating,
+        "part3b_tie_break_scalpel": {
+            "per_sequence": scalpel, "summary": scalpel_summary,
+            "exponent_table_tie_census_fx8": tie,
+            "n_tie_entries_fx8": len(tie),
+            "method": "the exponent table's half-UP rounding is replaced by half-DOWN. At fx8 this changes EXACTLY the tie entries -- the entries whose exact value S*2^(u/S) is a half-integer -- and nothing else. Arithmetic, constants, events, scoring rule and theta are untouched."},
+        "part3b_ecology_only_predictor": predictor,
+        "negative_twin_all_five_sequences": {"per_sequence": twin, "summary": twin_summary},
+        "residual_headline": headline,
         "declared_new_flip_schedules": {"D": FLIPS_D, "E": FLIPS_E},
         "claim_ceiling": "one hypothesis class of 32, one prior, five declared event sequences, one machine seed, two ecologies. The frontier is decided on an H,r grid extended past twice every positive analytic crossover, together with a coordinate-wise domination theorem where no crossover exists; it is not a proof over the whole non-negative quadrant for pairs where neither holds. The table-charging regime is declared and the primary column is RV-377-075's own (`sel1`), which is the regime most generous to the log row and therefore hostile to this record's own conclusion.",
     }
@@ -325,6 +505,17 @@ def main(tag="V1", seed=0, table_mode="sel1"):
               indent=1, sort_keys=True, default=str)
     print("ambig admissibility by sequence at fx8:", ambig_split)
     print("separating variables:", separating)
+    for k in sorted(scalpel):
+        v = scalpel[k]
+        print("  scalpel", k, "half_up", v["published_half_up_capability"], v["published_half_up_admissible"],
+              "-> half_down", v["half_down_capability"], v["half_down_admissible"],
+              "| entries changed", v["n_table_entries_changed"],
+              "| nonzero", v["published_n_linear_weights_nonzero"], "->",
+              v["half_down_n_linear_weights_nonzero"])
+    print("scalpel summary:", scalpel_summary)
+    print("ecology-only predictor:", {v: predictor[v] for v in ("A", "B", "C", "D", "E")})
+    print("negative twin:", twin_summary, {k: v["capability"] for k, v in sorted(twin.items())})
+    print("headline ratios:", headline["ratios"])
     for k, v in sorted(resid.items()):
         print(k, "cells", v["n_cells"], "| logbayes8@fx8 holds", v["cells_held_by_logbayes8_at_fx8"],
               "| any fx8 holds", v["cells_held_by_any_fx8_row"])

@@ -54,15 +54,36 @@ on how far replay can be truncated, not a search for a formula.
 
 | id | gap | concrete closure experiment |
 |---|---|---|
-| **DG-2** | a "no cell exists" clause checked only on a truncated reuse grid | every frontier grid must extend to the analytic crossover of every price vector reported; found when `RV-377-045` clause 7 held to H = 1 024 while the crossover it denied lay at H = 1 856 |
+| **DG-2** *(sharpened by `RV-377-076` — see §3a)* | a "no cell exists" clause checked only on a truncated reuse grid | every frontier grid must extend to the analytic crossover of every price vector reported; found when `RV-377-045` clause 7 held to H = 1 024 while the crossover it denied lay at H = 1 856 |
 | **DG-3** | novelty criterion 3 is stated without a structure-depth bound | the crossover `H*(d) ~ R^d/d` is unbounded in depth (`RV-377-044`), so the criterion must name the family's depth bound; closure = amend `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` §14 and re-adjudicate DC1 under the amended text |
-| **DG-6** | the domain-novelty criterion is stated without an **arithmetic instrument** | opened by `RV-377-066`: on the ambiguous-evidence ecology `E_ambig` NO carrier of any registered kind is admissible in the registered 8-bit universe (all ten rows exactly 0.0) although an 8-bit-representable answer would score 0.910880, and above 10 total bits (5 fractional) every frontier cell is held by a probabilistic carrier. Criterion 3 of `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` §14 must therefore read "no bounded semantics-preserving reduction to existing domains over the registered family **at a declared precision**", as it already must name a depth bound (DG-3) and a parent-maximal opponent (DG-5). Closure = re-adjudicate the eleven executed candidates under the wide instrument |
+| **DG-6** *(premise corrected by `RV-377-075`/`RV-377-076`)* | the domain-novelty criterion is stated without an **arithmetic instrument** | opened by `RV-377-066`: on the ambiguous-evidence ecology `E_ambig` NO carrier of any registered kind is admissible in the registered 8-bit universe (all ten rows exactly 0.0) although an 8-bit-representable answer would score 0.910880, and above 10 total bits (5 fractional) every frontier cell is held by a probabilistic carrier. Criterion 3 of `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` §14 must therefore read "no bounded semantics-preserving reduction to existing domains over the registered family **at a declared precision**", as it already must name a depth bound (DG-3) and a parent-maximal opponent (DG-5). Closure = re-adjudicate the eleven executed candidates under the wide instrument |
 | **DG-5** | bounded reduction is only meaningful against a **parent-maximal** opponent | exposed by N11, where the separation against a naive search parent is exponential and collapses to a constant against a dense-coefficient parent computing the same annihilator. Closure = a declared parent-maximality procedure (literature sweep plus an adversarial parent-construction step) run before every reduction verdict |
 | **G2b** | admissibility of a **stochastic** carrier is a distribution over seeds | executed at two points (5 % of seeds admissible; on an admissible seed it occupies 14/56 to 56/56 cells): closure = a declared reliability index `q` on every frontier table, and a census for every stochastic row added later |
 | **G14** | the cost model does not charge the **failed draws** of a stochastic carrier as search cost | `lifecycle_vector` in `gmi_microscope/vm.py` already carries `B_search` and `B_failed_candidates`; closure = apply them to the D′/E′ frontier and re-adjudicate `RV-377-041b` with failed draws charged |
 | **G8** | the new-form criterion needs lower bounds, not only occupancy | exhaustive size census gives exact bounds only to size 4; closure = formal obstruction proofs for a property vector against parent products |
 | **G10** | "predict a new form" | nine candidates executed, all reduced; closure = a candidate whose carrier is **not** a bounded composition of the primitive alphabet, which by GMI-DA1 means enlarging the alphabet |
 | **G12** | reachability of the search and algebraic forms by neutral search | **closed at scope by `RV-377-058`**: the symbolic program/search carrier is recovered to admissibility (0.8958) from primitives |
+
+
+### 3a. DG-2 after `RV-377-076`: a "no cell" clause has **two** discharges and must say which
+
+`RV-377-076` needed a "`LOGBAYES8@fx8` holds 0 of 42 / 49 / 294 / 899 cross-instrument cells" clause, and found
+that DG-2's grid rule is only half of what such a clause needs.
+
+* **Discharge by theorem.** The frozen cost `C = desc + H·exec_q + r·(upd_e + ver_e) + (r/4)·rev_e` is affine in
+  `(H, r)` with exactly **three** coefficients — `desc`, `exec_q` and `ρ = upd_e + ver_e + rev_e/4`. If one
+  admissible row is no larger on all three and strictly smaller on one, it is cheaper at **every** `H ≥ 0`,
+  `r ≥ 0`; no crossover exists and no grid is required. `QCOUNT@fx10` does this to `LOGBAYES8@fx8` in all eight
+  keys: `(596, 12, 549)` against `(3 104, 208, 2 075.75)` under the reduced price, `(596, 4, 112)` against
+  `(3 104, 96, 904)` under the native price.
+* **Discharge by grid, per axis.** Where no dominator exists the grid must pass **twice the largest crossover in
+  each axis separately** — `RV-377-076`'s `H` grid reaches 8 192 against a largest `H`-crossover of 75.0, and its
+  `r` grid reaches 256 against a largest `r`-crossover of 23.25. Checking one combined maximum, as this lane did
+  before, can pass an `H` grid while leaving the `r` axis short.
+
+`RV-377-076`'s own clause 3 **FAILED** on exactly this point: it asserted domination for *every* pair, and
+`BAYESM@fx10` has a positive `r`-crossover with the log row at 76/165 = 0.460606. The clause is recorded as failed,
+and the rule below is what it earned. → **protocol rule 27**.
 
 ## 4. Open, outside this lane
 
@@ -85,4 +106,7 @@ on how far replay can be truncated, not a search for a formula.
 | 21 | *(narrowed by its own test)* no admissible row may serve **state written during development** without a charged operation — a store lookup or a state read carrying developed information must be charged. The original wording ("no admissible row has zero execution cost per query") is `FALSIFIED_AND_REPLACED`: a machine serving a **constant** legitimately costs nothing to run | `RV-377-072` (an unmetered serve took 175 frontier cells at 802 against 12 296); narrowed by `RV-377-073` |
 | 24 | a **gate** claim (precision, capacity, reliability, depth) must enumerate the **representations of the carrier's state** the alphabet admits and test the strongest at the gated setting; rule 19's parent-maximality covers the opponent's *state encoding*, not only its carrier family | `RV-377-075` (an 8-bit log-domain posterior scored 0.874265 where ten linear rows scored exactly 0.0) |
 | 23 | a carrier descriptor is computed on the **atrophied** genotype, never on the raw one, in every archive, recovery receipt and B-stage gate — a descriptor read off a raw graph measures the search's introns, not the machine's carrier | `RV-377-074` (2 of 7 recovered carriers mis-credited; median intron fraction 0.53) |
+| 25 | a row that reads a **declared constant table** must charge every read at the **registered emulation cost of the basis it runs on**; a table is not a free indirection. In `B0` no store kind is native, so a table read is a **linear scan, one `EQ` per entry** | `RV-377-076` (`RV-377-075` charged one `SEL` per read of a 256-entry table — a 256× undercharge; `exec_q` 208 → 8 432 per query) |
+| 26 | when **one** declared cell or event sequence fails while its siblings pass, the record must test whether a **single rounding decision in a declared constant** carries the difference — a one-entry intervention with all else held fixed — **before** attributing the failure to the ecology or the evidence | `RV-377-076` (declared sequence B's failure is one of 256 exponent-table entries: the unique half-integer tie at `log₂ w = −5`; flipping its tie-break moves B from 0.400545 to 0.874245 and leaves the other nine sequence-cells bit-identical) |
+| 27 | a **"no cell exists"** clause must state **which** DG-2 discharge it uses — a **cost-coordinate domination**, which is a theorem over the whole non-negative quadrant, or a **grid extended past twice the largest crossover in each axis separately** — and must report the pairs only the second covers. Domination is tested in the coordinates the **cost function has**, not the coordinates the receipt prints | `RV-377-076` (its own clause 2 failed by testing five raw coefficients where the cost function has three; the true and stronger statement was one line away) |
 | 22 | an obligation is history-dependent only where the best **constant** answer is below θ; every temporal ecology carries a hindsight-optimal constant-answer control row and clauses are evaluated only where that control fails. A mode whose control is admissible at every length is **VOID**, not weak | `RV-377-072`; confirmed by `RV-377-073` (the running-maximum control scored exactly 1.0 at all five lengths, voiding 30 of 90 cells) |

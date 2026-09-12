@@ -562,3 +562,142 @@ def test_dk_precision_gated_kingdom_decision_replays():
     assert ref["noisy"]["smallest_admissible_total_bits_any_d3_row"] == 8
     assert committed["threshold_bits"] == 12
     assert committed["terminal"] == "PRECISION_GATED_KINGDOM_ESTABLISHED_AT_SCOPE__THRESHOLD_12_BITS"
+
+
+def test_dk_logdomain_audit_receipt_cells_replay_exactly():
+    """RV-377-076 part 1, the hostile audit of RV-377-075. Replays committed cells of
+    STAGE_DK_V4_LOGDOMAIN_AUDIT_V1.json and re-checks the four findings that decide whether the refutation
+    survives: capability is INVARIANT under every table-charging regime (so no charging finding can restore
+    RV-377-066, whose kingdom condition is an admissibility condition); the registered B0 emulation of a table
+    read is a linear scan and the published one-SEL charge understates it by a factor of 256; every value the row
+    produces at fx8 lies inside the instrument; and the served answers do not move when the ecology's truth is
+    poisoned."""
+    from gmi_microscope import dk_precision_log_audit as au
+    from gmi_microscope.core import UNIVERSE
+    committed = json.loads((RES / "STAGE_DK_V4_LOGDOMAIN_AUDIT_V1.json").read_text())
+    assert committed["REFUTATION_SURVIVES"] is True
+    assert committed["terminal"].startswith("RV_377_075_SURVIVES_THE_HOSTILE_AUDIT")
+
+    # there is no TABLE or MATERIALIZE kind, and no store kind is native in the basis this microscope runs on
+    reg = committed["attack_A1_table_charging"]["registered_kinds"]
+    assert reg["TABLE_or_MATERIALIZE_is_a_registered_kind"] is False
+    assert "TABLE" not in UNIVERSE and "MATERIALIZE" not in UNIVERSE
+    assert reg["store_kinds_native_in_B0"] == []
+    assert au.table_read_charge("sel1", 256) == 1
+    assert au.table_read_charge("indexed", 256) == 10
+    assert au.table_read_charge("scan", 256) == 256
+
+    # the load-bearing replay: three charging regimes, one ecology cell each, capability identical every time
+    eco = au.ecology("ambig", "A")
+    caps = set()
+    for tm in au.TABLE_MODES:
+        for fixdiv in (False, True):
+            key = f"ambig|A|fx8|LOGBAYES8|{tm}|{'divfix' if fixdiv else 'aspub'}"
+            got = au.run("LOGBAYES8", eco, "fx8", 0, table_mode=tm, branch_gts=(tm != "sel1"), fix_div=fixdiv)
+            cell = committed["cells"][key]
+            for k in ("capability", "capability_exact", "admissible", "desc_bits_flat_table",
+                      "desc_bits_store_table", "charged_ops_total", "answer_signature", "R"):
+                assert got[k] == cell[k], (key, k, got[k], cell[k])
+            assert got["admissible"] is True
+            caps.add(got["capability_exact"])
+    assert len(caps) == 1                       # charging is not in the capability functional
+    assert committed["cells"]["ambig|A|fx8|LOGBAYES8|sel1|divfix"]["capability"] == 0.874265
+    assert str(committed["cells"]["ambig|A|fx8|LOGBAYES8|sel1|divfix"]["exec_q"]) == "208"
+    assert str(committed["cells"]["ambig|A|fx8|LOGBAYES8|scan|divfix"]["exec_q"]) == "8432"
+    assert committed["cells"]["ambig|A|fx8|LOGBAYES8|sel1|divfix"]["desc_bits_flat_table"] == 3104
+    assert committed["cells"]["ambig|A|fx8|LOGBAYES8|sel1|divfix"]["desc_bits_store_table"] == 3618
+
+    # A2: the log constants, recomputed by exact integer comparison with no floating point
+    from fractions import Fraction
+    assert au._round_half_up_exact_log2(Fraction(1, 2), 16) == -16       # log2(1/2) = -1 -> -16 on the 1/16 grid
+    assert au._round_half_up_exact_log2(Fraction(1, 8), 16) == -48       # log2(1/8) = -3
+    assert au._round_half_up_exact_pow2(0, 16) == 16                     # 2^0 = 1 -> 16
+    assert au._round_half_up_exact_pow2(-80, 16) == 1                    # 2^-5 = 1/32 -> the HALF-UP tie
+    for v in committed["attack_A2_constants"]["per_cell"].values():
+        assert v["log_constants_wrong"] == 0 and v["table_entries_wrong"] == 0
+        assert v["log_constants_checked"] == 1056 and v["table_entries_checked"] == 256
+
+    # A4 and A5, from the committed receipt
+    a4 = committed["attack_A4_range"]["per_cell_carrier_arithmetic"]["ambig|A|fx8|LOGBAYES8"]
+    assert (a4["raw_min"], a4["raw_max"]) == (-128, 127) and a4["values_outside_instrument_range"] == 0
+    assert a4["values_observed"] == 137326 and a4["clamp_events"] == 529
+    assert committed["attack_A4_range"]["guard_sentinel"]["fx8"]["guard_branch_reachable"] is False
+    assert committed["attack_A5_leak"]["all_identical_under_poisoning"] is True
+    assert committed["attack_A5_leak"]["positive_control_flat_prior"]["control_moves"] is True
+
+    # A6 and A7: two instrument defects of the REFUTING row, neither of which moves a capability
+    a6 = committed["attack_A6_charged_op_identity"]
+    assert a6["identical_across_instruments_as_published"] is False
+    assert a6["identical_across_instruments_with_div_repair"] is True
+    tot = a6["per_row"]["ambig|A|LOGBAYES8|aspub"]["charged_ops_total_by_instrument"]
+    assert tot["fx8"] == tot["fx10"] == tot["fx12"] == 3290043 and tot["fx16"] == 3289787
+    a7 = committed["attack_A7_op_counter"]
+    assert a7["phase_ledger_R_identical_in_all_cells"] is True
+    assert a7["capability_and_answers_identical_in_all_cells"] is True
+    assert a7["per_cell"]["ambig|A|fx8|LOGBAYES8"]["delta"] == 12544        # 392 queries x 32 hypotheses
+    assert a7["ATTACK_LANDS"] is False
+
+
+def test_dk_precision_residual_receipt_replays():
+    """RV-377-076 parts 2 and 3. Replays committed cells of STAGE_DK_V5_PRECISION_RESIDUAL_V1.json: the
+    cross-instrument frontier on which the 8-bit log row holds NOTHING while occupying every cell of the fx8
+    per-instrument frontier for want of a competitor; the cost-coordinate domination that makes the 0-cell result
+    a theorem rather than a grid truncation (gap DG-2); and the one-entry tie-break scalpel that flips declared
+    sequence B from inadmissible to admissible while leaving A, C, D and E bit-identical."""
+    from gmi_microscope import dk_precision_residual as rs
+    committed = json.loads((RES / "STAGE_DK_V5_PRECISION_RESIDUAL_V1.json").read_text())
+
+    # part 2: at fx8 on E_ambig exactly one row is admissible, and it holds every cell of that instrument's
+    # frontier -- an empty field, not a victory
+    assert committed["frontier"]["ambig|A|admissible_sets"]["fx8"] == ["LOGBAYES8"]
+    for price in ("reduced", "native"):
+        for basis in ("flat", "scaled"):
+            per = committed["frontier"][f"ambig|A|per_instrument|fx8|{price}|{basis}"]
+            assert per["occupancy"] == {"LOGBAYES8": per["n_cells"]} and per["n_cells"] == 36
+            # ... and nothing at all in the cross-instrument frontier
+            res = committed["residual"][f"ambig|A|{price}|{basis}"]
+            assert res["cells_held_by_logbayes8_at_fx8"] == 0
+            assert res["cells_held_by_any_fx8_row"] == 0
+            assert res["wider_instrument_strictly_necessary_for_admissibility"] is False
+            assert res["wider_instrument_strictly_cheaper_in_every_cell"] is True
+            # DG-2 discharged BOTH ways: a cost-coordinate dominator, and a grid past twice every crossover
+            dom = committed["logbayes8_fx8_pairwise_domination"][f"ambig|A|{price}|{basis}"]["_SUMMARY"]
+            assert dom["any_cost_coordinate_dominator"] is True
+            assert "QCOUNT@fx10" in dom["rows_dominating_logbayes8_fx8_in_COST_coordinates"]
+            cross = committed["frontier"][f"ambig|A|cross_instrument|ALL|{price}|{basis}"]
+            assert cross["H_grid_extends_past_twice_largest_H_crossover"] is True
+            assert cross["r_grid_extends_past_twice_largest_r_crossover"] is True
+            assert "LOGBAYES8@fx8" not in cross["asymptotic_min_exec_q_as_H_to_infinity"]
+            assert "LOGBAYES8@fx8" not in cross["asymptotic_min_rho_as_r_to_infinity"]
+    # the contrast the residual rests on: on E_noisy an 8-bit row DOES hold the cross-instrument frontier
+    assert committed["residual"]["noisy|A|reduced|flat"]["cells_held_by_any_fx8_row"] == 42
+
+    # the price of eight bits, replayed
+    ratios = committed["residual_headline"]["ratios"]
+    assert round(ratios["desc_flat_log_over_qcount"], 6) == 5.208054
+    assert round(ratios["desc_scaled_log_over_qcount"], 6) == 4.646707
+    assert round(ratios["exec_q_reduced_sel1_log_over_qcount"], 6) == 17.333333
+    assert round(ratios["exec_q_reduced_scan_log_over_qcount"], 6) == 702.666667
+
+    # part 3: the one-entry scalpel, re-executed rather than trusted
+    assert committed["part3_ambig_admissibility_by_sequence"] == {"A": True, "B": False, "C": True,
+                                                                 "D": True, "E": True}
+    assert committed["part3b_tie_break_scalpel"]["n_tie_entries_fx8"] == 1
+    assert list(committed["part3b_tie_break_scalpel"]["exponent_table_tie_census_fx8"]) == ["-80"]
+    ecos = rs.all_ecologies()
+    for v, expect_cap, expect_adm in (("A", 0.874265, True), ("B", 0.874245, True), ("C", 0.874265, True)):
+        got = rs.run_halfdown(ecos[f"ambig|{v}"], "fx8")
+        cell = committed["part3b_tie_break_scalpel"]["per_sequence"][f"ambig|{v}"]
+        assert got["capability"] == cell["half_down_capability"] == expect_cap, (v, got["capability"])
+        assert got["admissible"] is cell["half_down_admissible"] is expect_adm
+        assert got["n_table_entries_changed"] == 1
+    summ = committed["part3b_tie_break_scalpel"]["summary"]
+    assert summ["sequences_flipped_to_admissible"] == ["ambig|B"]
+    assert summ["sequences_flipped_to_inadmissible"] == []
+    # the ecology is NOT what differs: the exact posterior has the same shape on all five sequences
+    pred = committed["part3b_ecology_only_predictor"]
+    assert {pred[v]["exact_posterior_within_2^5_of_MAP"] for v in "ABCDE"} == {8}
+    assert pred["B"]["executed_n_linear_weights_nonzero_fx8"] == 9
+    assert {pred[v]["executed_n_linear_weights_nonzero_fx8"] for v in "ACDE"} == {6}
+    # and the negative twin is exactly zero on all ten declared sequence-cells
+    assert committed["negative_twin_all_five_sequences"]["summary"]["all_sequences_exactly_zero"] is True

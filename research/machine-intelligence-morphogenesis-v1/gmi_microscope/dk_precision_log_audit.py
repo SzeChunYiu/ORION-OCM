@@ -425,6 +425,28 @@ def main(tag="V1", seed=0):
     a6_aspub = all(v["identical_across_instruments"] for k, v in a6.items() if k.endswith("aspub"))
     a6_divfix = all(v["identical_across_instruments"] for k, v in a6.items() if k.endswith("divfix"))
 
+    # A7: does RV-377-075's own op counter count its own table reads?
+    a7 = {}
+    for kind in ("ambig", "noisy"):
+        for variant in ("A", "B", "C"):
+            eco = ecology(kind, variant)
+            for prec in ("fx8", "fx10", "fx12", "fx16"):
+                for r in ROWS:
+                    a = DL.run(r, B0, eco, prec, seed)
+                    b = run(r, eco, prec, seed, table_mode="sel1", branch_gts=False, fix_div=False)
+                    nq = len(eco["eval"]) * (N_EVENTS + 1) + len(eco["eval"]) * N_EVENTS
+                    a7[f"{kind}|{variant}|{prec}|{r}"] = {
+                        "published_charged_ops_total": a["charged_ops_total"],
+                        "audited_charged_ops_total": b["charged_ops_total"],
+                        "delta": b["charged_ops_total"] - a["charged_ops_total"],
+                        "expected_delta_queries_x_hypotheses": (nq * eco["n_hyps"]) if r != "LOGMAP8" else 0,
+                        "R_identical": a["R"] == b["R"],
+                        "capability_identical": a["capability_exact"] == b["capability_exact"],
+                        "answer_signature_identical": a["answer_signature"] == b["answer_signature"]}
+    a7_R_ok = all(v["R_identical"] for v in a7.values())
+    a7_cap_ok = all(v["capability_identical"] and v["answer_signature_identical"] for v in a7.values())
+    a7_undercount = {k: v["delta"] for k, v in a7.items() if v["delta"]}
+
     a2 = attack_a2_constants()
     a2_ok = all(v["log_constants_wrong"] == 0 and v["table_entries_wrong"] == 0 for v in a2.values())
     a3 = attack_a3_maxsub()
@@ -437,7 +459,8 @@ def main(tag="V1", seed=0):
         for fx in (False, True):
             survive[f"{tm}|{'divfix' if fx else 'aspub'}"] = \
                 cells[f"ambig|A|fx8|LOGBAYES8|{tm}|{'divfix' if fx else 'aspub'}"]["admissible"]
-    refutation_survives = all(survive.values()) and a2_ok and a4_ok and a5["all_identical_under_poisoning"]
+    refutation_survives = (all(survive.values()) and a2_ok and a4_ok and a5["all_identical_under_poisoning"]
+                           and a7_R_ok and a7_cap_ok)
 
     receipt = {
         "schema": "StageDKLogDomainHostileAuditV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
@@ -472,6 +495,13 @@ def main(tag="V1", seed=0):
                                           "identical_across_instruments_with_div_repair": bool(a6_divfix),
                                           "ATTACK_LANDS": False,
                                           "finding": "RV-377-075's readout charges its division only when the denominator is non-zero, so its charged op sequence is DATA-DEPENDENT and not identical across instruments -- the exact control RV-377-066 enforced. Repairing it (fix_div_dependence) restores identity. This is an instrument defect of the refuting row; it does not move any capability."},
+        "attack_A7_op_counter": {
+            "per_cell": a7, "ATTACK_LANDS": bool(not (a7_R_ok and a7_cap_ok)),
+            "phase_ledger_R_identical_in_all_cells": bool(a7_R_ok),
+            "capability_and_answers_identical_in_all_cells": bool(a7_cap_ok),
+            "cells_with_an_undercounted_op_total": len(a7_undercount),
+            "undercount_by_cell": a7_undercount,
+            "finding": "RV-377-075's `charged_ops_total` counter does not count its own table reads: M.op(\"SEL\") charges the phase ledger but never increments the instrument's op counter, so the published total understates by exactly one activation per hypothesis per query -- 12 544 on the ambiguous ecology (392 queries x 32) and 25 088 on the noisy one. The PHASE LEDGER R, which is what the cost model reads, is correct and identical in all 72 cells, so the frontier is unaffected. A reporting defect, not a pricing one. DOES NOT LAND."},
         "logbayes8_fx8_ambig_A_admissible_under_every_regime": survive,
         "REFUTATION_SURVIVES": bool(refutation_survives),
         "terminal": ("RV_377_075_SURVIVES_THE_HOSTILE_AUDIT__THE_8_BIT_LOG_DOMAIN_ROW_IS_ADMISSIBLE_AT_0_874265_UNDER_EVERY_DECLARED_TABLE_CHARGING_REGIME__RV_377_066_IS_NOT_RESTORED"
@@ -489,6 +519,8 @@ def main(tag="V1", seed=0):
     print("A4 any value outside instrument range:", not a4_ok)
     print("A5 answers identical under poisoned truth:", a5["all_identical_under_poisoning"])
     print("A6 op identity as published:", a6_aspub, "| with div repair:", a6_divfix)
+    print("A7 phase ledger R identical in all 72 cells:", a7_R_ok, "| op-total undercounted in",
+          len(a7_undercount), "cells")
     print("LOGBAYES8 fx8 ambig A admissible by regime:", survive)
     print("TERMINAL:", receipt["terminal"])
     return receipt

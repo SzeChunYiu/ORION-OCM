@@ -377,7 +377,7 @@ Both were found by **failed clauses**, and neither touches the headline, which c
 | axis | status | result |
 |---|---|---|
 | `A` alphabet | **EXECUTED** (`RV-377-072`, `RV-377-073`) | **no new kingdom**; D6 reduces to D2 at a constant 4-bit overhead (GMI-DA8) |
-| `p` precision | **EXECUTED then REFUTED** (`RV-377-066`, refuted by `RV-377-075`) | **no new kingdom**; the gate was a property of the *linear representation*, not of the word width — an 8-bit **log-domain** posterior built only from registered kinds scores 0.874265 where ten linear rows scored exactly 0.0 |
+| `p` precision | **EXECUTED, REFUTED, then AUDITED AND SETTLED** (`RV-377-066`, refuted by `RV-377-075`, audited and residual executed by `RV-377-076`) | **no new kingdom, and no capability purchase either — only a priced one.** The gate was a property of the *linear representation*, not of the word width: an 8-bit **log-domain** posterior built only from registered kinds scores 0.874265 where ten linear rows scored exactly 0.0. Seven attacks on that row (its table's status as a registered kind and its charge, its constants, its renormalization charge, its actual bit width, leakage, charged-op identity, its op counter) leave it admissible under **every** declared charging regime. What survives is a **cost** statement — see §11d |
 | `d` depth | running (`RV-377-065`) | — |
 | `F` ecology family | running (`RV-377-070`) | — |
 
@@ -412,3 +412,58 @@ everything except the one thing that mattered. It held the charged operation seq
 is the right control for comparing instruments, and it verified that the answer is representable at 8 bits, which is the
 right control for representability. Neither control reaches the choice of state encoding, and that is where the gate
 lived.
+
+### 11d. The precision axis, settled: precision buys **description and execution cost**, not capability
+
+`RV-377-076` did two things. It **attacked** `RV-377-075` — seven named attacks, any of which would have restored the
+kingdom — and it **executed the residual** the refutation left behind. Receipts
+`STAGE_DK_V4_LOGDOMAIN_AUDIT_V1.json` and `STAGE_DK_V5_PRECISION_RESIDUAL_V1.json`; record `RV-377-076` in the new
+ledger `REVIVAL_LEDGER_PRESIDUAL.jsonl`, **9 of 11 clauses HOLD**, clauses 2 and 9 **FAIL** and are stated in full
+there and in `GMI_PRECISION_GATED_KINGDOM_V1.md` §§11a and 12.
+
+**The refutation survives.** The sharpest attack is real and still does not land: there is **no `TABLE` or
+`MATERIALIZE` kind** in the registered universe, and **none of the five registered store kinds is native in `B0`**,
+which realizes a table read as a **linear scan, one `EQ` per entry**. Charged at that registered rate the log row's
+`exec_q` goes **208 → 8 432** per query and its description **3 104 → 3 618** bits. Its capability does not move by
+a single bit, because **charging is not in the capability functional** and `RV-377-066`'s kingdom condition is an
+*admissibility* condition. Two genuine instrument defects were found in the refuting row — a data-dependent division
+charge that breaks charged-op identity across instruments (3 290 043 against 3 289 787 at fx16), and an op counter
+that omits its own 12 544 table reads — and neither moves a capability either.
+
+**The residual, executed.** On the **cross-instrument** frontier — the frontier `RV-377-066` never computed, and the
+one on which "is a wider instrument necessary?" is actually decidable — the 8-bit log row holds **0 of 42, 0 of 49,
+0 of 294 and 0 of 899** cells, and so does **every** other fx8 row. It holds 36 of 36 cells of the fx8
+*per-instrument* frontier only because it is the sole admissible row there: protocol rule 17 applied per instrument
+reports an **empty field** as a victory. The 0-cell result is a **theorem**, not a grid observation: `QCOUNT@fx10`
+dominates it on all three coefficients the frozen cost function has — `(596, 12, 549)` against
+`(3 104, 208, 2 075.75)` reduced, `(596, 4, 112)` against `(3 104, 96, 904)` native.
+
+So two extra bits of instrument (8 → 10 total, 4 → 5 fractional) buy, on `E_ambig`:
+
+| | 8 bits (`LOGBAYES8`) | 10 bits (`QCOUNT`) | ratio |
+|---|---|---|---|
+| description, flat basis | 3 104 | 596 | **5.208054** |
+| description, `scaled` basis | 3 104 | 668 | **4.646707** |
+| charged activations / query, reduced price | 208 | 12 | **17.333333** |
+| … at the **registered `B0`** table charge | 8 432 | 12 | **702.666667** |
+| reuse coefficient ρ | 2 075.75 | 549 | **3.780965** |
+
+**2 508 description bits and 196 charged activations per query, at every cell — not at a crossover.** And on
+`E_noisy` precision buys **nothing**: `QCOUNT@fx8` holds 42 of 42, 243 of 243, 48 of 49 and 1 120 of 1 120 joint
+cells. Whether the instrument buys anything is an **ecology** property; what it buys, where it buys anything, is
+**description and execution cost**.
+
+**`GMI-DA5`, final form at this scope.** The arithmetic instrument is **not** a kingdom parameter (`RV-377-075`) and
+**not merely** a substrate parameter: on an ecology where the 8-bit universe can only answer in a representation that
+costs 5.2× the description and 17.3× the per-query charge, it is a **description-cost parameter**. Gap `DG-6`'s
+closure experiment — re-adjudicating the eleven reduced candidates under the wide instrument — is unchanged in form
+but changed in kind: it is now a **cost** question, not a capability one.
+
+**One more thing `RV-377-076` corrected in `RV-377-075`.** `RV-377-075` reported its row admissible "on two of three
+declared event sequences" and registered the prediction that a fourth and fifth would split the same way. Both new
+sequences are **admissible** (D 0.910859, E 0.874273), so the split is **4–1**, and the single failure is not a
+property of the event sequence at all: it is **one of 256 exponent-table entries** — the unique entry decided by a
+rounding **tie**, at `log₂ w = −5` exactly — on which three hypotheses of sequence B land and none of the other four
+sequences does. Flipping that one entry's tie-break moves B from 0.400545 to **0.874245 and admissible** and leaves
+the other nine sequence-cells **bit-identical**. Under half-down tie-breaking the split is **5–0**. → **protocol
+rules 25, 26 and 27**.

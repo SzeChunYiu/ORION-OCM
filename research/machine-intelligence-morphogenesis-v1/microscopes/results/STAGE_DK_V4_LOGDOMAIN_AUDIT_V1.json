@@ -3886,6 +3886,713 @@
    }
   }
  },
+ "attack_A7_op_counter": {
+  "ATTACK_LANDS": false,
+  "capability_and_answers_identical_in_all_cells": true,
+  "cells_with_an_undercounted_op_total": 48,
+  "finding": "RV-377-075's `charged_ops_total` counter does not count its own table reads: M.op(\"SEL\") charges the phase ledger but never increments the instrument's op counter, so the published total understates by exactly one activation per hypothesis per query -- 12 544 on the ambiguous ecology (392 queries x 32) and 25 088 on the noisy one. The PHASE LEDGER R, which is what the cost model reads, is correct and identical in all 72 cells, so the frontier is unaffected. A reporting defect, not a pricing one. DOES NOT LAND.",
+  "per_cell": {
+   "ambig|A|fx10|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|A|fx10|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 54176,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 41632
+   },
+   "ambig|A|fx10|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|A|fx12|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|A|fx12|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 51616,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 39072
+   },
+   "ambig|A|fx12|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|A|fx16|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 65979,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53435
+   },
+   "ambig|A|fx16|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 51360,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 38816
+   },
+   "ambig|A|fx16|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|A|fx8|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|A|fx8|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 54176,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 41632
+   },
+   "ambig|A|fx8|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|B|fx10|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|B|fx10|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 56224,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 43680
+   },
+   "ambig|B|fx10|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|B|fx12|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|B|fx12|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 51616,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 39072
+   },
+   "ambig|B|fx12|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|B|fx16|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 65979,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53435
+   },
+   "ambig|B|fx16|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 51360,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 38816
+   },
+   "ambig|B|fx16|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|B|fx8|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|B|fx8|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 54688,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 42144
+   },
+   "ambig|B|fx8|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|C|fx10|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|C|fx10|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 52640,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 40096
+   },
+   "ambig|C|fx10|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|C|fx12|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|C|fx12|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 51616,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 39072
+   },
+   "ambig|C|fx12|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|C|fx16|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 65979,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53435
+   },
+   "ambig|C|fx16|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 51360,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 38816
+   },
+   "ambig|C|fx16|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "ambig|C|fx8|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 66235,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 53691
+   },
+   "ambig|C|fx8|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 52640,
+    "capability_identical": true,
+    "delta": 12544,
+    "expected_delta_queries_x_hypotheses": 12544,
+    "published_charged_ops_total": 40096
+   },
+   "ambig|C|fx8|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 15667,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 15667
+   },
+   "noisy|A|fx10|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|A|fx10|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 105120,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 80032
+   },
+   "noisy|A|fx10|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|A|fx12|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|A|fx12|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 103072,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 77984
+   },
+   "noisy|A|fx12|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|A|fx16|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128443,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103355
+   },
+   "noisy|A|fx16|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 101536,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 76448
+   },
+   "noisy|A|fx16|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|A|fx8|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|A|fx8|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 103072,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 77984
+   },
+   "noisy|A|fx8|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|B|fx10|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|B|fx10|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 105120,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 80032
+   },
+   "noisy|B|fx10|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|B|fx12|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|B|fx12|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 103072,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 77984
+   },
+   "noisy|B|fx12|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|B|fx16|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128443,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103355
+   },
+   "noisy|B|fx16|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 101536,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 76448
+   },
+   "noisy|B|fx16|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|B|fx8|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|B|fx8|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 105120,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 80032
+   },
+   "noisy|B|fx8|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|C|fx10|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|C|fx10|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 103072,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 77984
+   },
+   "noisy|C|fx10|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|C|fx12|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|C|fx12|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 102048,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 76960
+   },
+   "noisy|C|fx12|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|C|fx16|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128443,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103355
+   },
+   "noisy|C|fx16|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 101536,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 76448
+   },
+   "noisy|C|fx16|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   },
+   "noisy|C|fx8|LOGBAYES8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 128955,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 103867
+   },
+   "noisy|C|fx8|LOGBAYES8_NOMAXSUB": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 102048,
+    "capability_identical": true,
+    "delta": 25088,
+    "expected_delta_queries_x_hypotheses": 25088,
+    "published_charged_ops_total": 76960
+   },
+   "noisy|C|fx8|LOGMAP8": {
+    "R_identical": true,
+    "answer_signature_identical": true,
+    "audited_charged_ops_total": 27819,
+    "capability_identical": true,
+    "delta": 0,
+    "expected_delta_queries_x_hypotheses": 0,
+    "published_charged_ops_total": 27819
+   }
+  },
+  "phase_ledger_R_identical_in_all_cells": true,
+  "undercount_by_cell": {
+   "ambig|A|fx10|LOGBAYES8": 12544,
+   "ambig|A|fx10|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|A|fx12|LOGBAYES8": 12544,
+   "ambig|A|fx12|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|A|fx16|LOGBAYES8": 12544,
+   "ambig|A|fx16|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|A|fx8|LOGBAYES8": 12544,
+   "ambig|A|fx8|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|B|fx10|LOGBAYES8": 12544,
+   "ambig|B|fx10|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|B|fx12|LOGBAYES8": 12544,
+   "ambig|B|fx12|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|B|fx16|LOGBAYES8": 12544,
+   "ambig|B|fx16|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|B|fx8|LOGBAYES8": 12544,
+   "ambig|B|fx8|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|C|fx10|LOGBAYES8": 12544,
+   "ambig|C|fx10|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|C|fx12|LOGBAYES8": 12544,
+   "ambig|C|fx12|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|C|fx16|LOGBAYES8": 12544,
+   "ambig|C|fx16|LOGBAYES8_NOMAXSUB": 12544,
+   "ambig|C|fx8|LOGBAYES8": 12544,
+   "ambig|C|fx8|LOGBAYES8_NOMAXSUB": 12544,
+   "noisy|A|fx10|LOGBAYES8": 25088,
+   "noisy|A|fx10|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|A|fx12|LOGBAYES8": 25088,
+   "noisy|A|fx12|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|A|fx16|LOGBAYES8": 25088,
+   "noisy|A|fx16|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|A|fx8|LOGBAYES8": 25088,
+   "noisy|A|fx8|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|B|fx10|LOGBAYES8": 25088,
+   "noisy|B|fx10|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|B|fx12|LOGBAYES8": 25088,
+   "noisy|B|fx12|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|B|fx16|LOGBAYES8": 25088,
+   "noisy|B|fx16|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|B|fx8|LOGBAYES8": 25088,
+   "noisy|B|fx8|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|C|fx10|LOGBAYES8": 25088,
+   "noisy|C|fx10|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|C|fx12|LOGBAYES8": 25088,
+   "noisy|C|fx12|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|C|fx16|LOGBAYES8": 25088,
+   "noisy|C|fx16|LOGBAYES8_NOMAXSUB": 25088,
+   "noisy|C|fx8|LOGBAYES8": 25088,
+   "noisy|C|fx8|LOGBAYES8_NOMAXSUB": 25088
+  }
+ },
  "cells": {
   "ambig|A|fx10|LOGBAYES8_NOMAXSUB|indexed|aspub": {
    "R": {
@@ -26366,7 +27073,7 @@
   "sel1|divfix": true
  },
  "question": "is RV-377-075's 8-bit log-domain row cheating? Six named attacks, each of which would restore RV-377-066 if it landed.",
- "receipt_sha256": "f615294d78f9bbe00f2b769929e81002d37e5d2433d509df02a875d0ce563015",
+ "receipt_sha256": "f200b438c9f39c6dcf59887bff1c5b10161545f7f0fb180c7e6d5a27bfb09017",
  "revival_record": "RV-377-076",
  "run_tag": "V1",
  "schema": "StageDKLogDomainHostileAuditV1",
