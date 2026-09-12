@@ -364,3 +364,46 @@ that the frozen answer is not what the search converges on.
 
 `K4_PROPERTY_PREDICTION_GREEN_AT_REGISTERED_SCOPE` is **FALSE at development scope**,
 with the protected verdict pending and predicted by Q4 to be the same.
+
+---
+
+## RV-377-107 — CORRECTION to the grammar-inertness table (self-reported)
+
+Two numbers in the DG-11 table above were wrong. The error is mine, in the
+*analysis* script, not in the Codex lane's engine.
+
+**The mistake.** My sweep script recorded the receipt's top-level
+`scalar_lifecycle_cost` under the column name `target_cost`. That field is the
+**search winner's** cost, not the frozen-target witness's. The witness's cost lives
+in `expressibility_witness.scalar_lifecycle_cost`, and the null-vs-witness
+comparison is `null_vs_target_witness_margin`. Separately, my identity test counted
+two missing values as equal, inflating the "identical" counts.
+
+**Corrected table:**
+
+| quantity | identical across all three grammars | as first reported |
+|---|---|---|
+| **verdict** | **88 / 88** | 88 / 88 — *unchanged* |
+| search winner cost | **0 / 76** | wrongly given as "target cost 12 / 88" |
+| best admissible null cost | **0 / 24** | wrongly given as 64 / 88 |
+| null-vs-target-witness margin | **0 / 24** | not reported |
+
+Cross-grammar spread in the null-vs-witness margin is nonzero on **24 of 24**
+combos where it is defined, reaching 158.52 on `K4-A15 | w8`.
+
+**DG-11 is strengthened, not weakened.** The corrected reading is sharper than the
+one I published: the grammar changes **every numeric quantity on every combo where
+that quantity is defined — 0/76 and 0/24 identical — and changes a verdict on none
+of 88.** The claim that the grammar axis is verdict-inert stands on better evidence
+than the table I first wrote.
+
+**The Codex adjudicator was checked for a real inconsistency and is correct.** Three
+cells (`K4-A19` at `w8`, all three grammars) carry a *negative* null-vs-witness
+margin, i.e. the null is **not** cheaper. All three are adjudicated `THEORY_RED`,
+none as `THEORY_RED_NULL_DOMINATES`. The engine does not claim null dominance where
+the margin does not support it. The apparent contradiction I chased — cells whose
+`null_cost` exceeded their `target_cost` — was entirely an artefact of my column
+naming.
+
+No verdict count, no prediction score (Q1–Q4), and no other statement in the
+adjudication above depended on the two wrong numbers.
