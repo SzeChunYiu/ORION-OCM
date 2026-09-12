@@ -1,0 +1,65 @@
+{
+  "artifact": "GMI_SOFTWARE_METER_RECEIPT_V1",
+  "status": "ENVIRONMENT_SPECIFIC_SOFTWARE_COUNTER_CALIBRATION",
+  "freeze": "GMI_SOFTWARE_METER_FREEZE_V1.json",
+  "runner": "run_gmi_software_meter_v1.py",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "results": {
+    "explicit_table": {
+      "median_build_time_ns": 407583,
+      "median_update_time_ns": 7686,
+      "median_query_time_ns": 1852198,
+      "peak_tracemalloc_bytes_for_built_state": 306488,
+      "semantic_checksum": 371546416,
+      "semantic_mismatches": 0,
+      "raw_build_times_ns": [917962,407583,442589,375528,374865,393198,425666],
+      "raw_update_times_ns": [19572,8036,7686,6291,6167,7353,7709],
+      "raw_query_times_ns": [1852198,2057195,1725825,1788741,2683085,2979410,1823813]
+    },
+    "shared_formula": {
+      "median_build_time_ns": 441,
+      "median_update_time_ns": 411,
+      "median_query_time_ns": 1998295,
+      "peak_tracemalloc_bytes_for_built_state": 0,
+      "semantic_checksum": 74545525,
+      "semantic_mismatches": 297,
+      "raw_build_times_ns": [80959,1050,460,441,334,286,407],
+      "raw_update_times_ns": [1412,662,411,497,321,337,354],
+      "raw_query_times_ns": [2216881,1965406,1998295,1949796,1984578,2172856,3630279]
+    },
+    "shared_formula_plus_residual": {
+      "median_build_time_ns": 1145,
+      "median_update_time_ns": 7379,
+      "median_query_time_ns": 2141328,
+      "peak_tracemalloc_bytes_for_built_state": 0,
+      "semantic_checksum": 371546416,
+      "semantic_mismatches": 0,
+      "raw_build_times_ns": [1229,1714,916,692,1245,1024,1145],
+      "raw_update_times_ns": [16453,9240,7478,6464,7379,6914,6784],
+      "raw_query_times_ns": [2141328,2050995,2077470,2226165,2249890,2276722,2024295]
+    },
+    "linear_scan_records": {
+      "median_build_time_ns": 978976,
+      "median_update_time_ns": 6493975,
+      "median_query_time_ns": 746449542,
+      "peak_tracemalloc_bytes_for_built_state": 558757,
+      "semantic_checksum": 371546416,
+      "semantic_mismatches": 0,
+      "raw_build_times_ns": [939391,2429575,1898829,995307,967016,971370,978976],
+      "raw_update_times_ns": [6359812,6546441,8820189,6463602,6802883,6364686,6493975],
+      "raw_query_times_ns": [734525047,793762141,916760941,767252832,746449542,711041717,744947537]
+    }
+  },
+  "semantic_contract_pass": {
+    "explicit_table": true,
+    "shared_formula_plus_residual": true,
+    "linear_scan_records": true,
+    "shared_formula_negative_control_mismatches": 297
+  },
+  "measurement_caveat": "The preregistered tracemalloc field measures build-state peak only; for the hybrid this excludes residual entries inserted during updates and must not be interpreted as total post-update memory.",
+  "claim_ceiling": "One Python runtime; no independent audit, energy counter, compiler equivalence or hardware-independent frontier claim.",
+  "terminal": "SOFTWARE_METER_FROZEN_RUN_COMPLETE"
+}
