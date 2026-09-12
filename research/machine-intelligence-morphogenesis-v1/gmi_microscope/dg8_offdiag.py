@@ -928,6 +928,72 @@ def run(freeze_commit="UNRECORDED"):
     return receipt
 
 
+# ========================================================================================== POST-FREEZE CONTROLS
+# Declared AFTER the freeze and disclosed as such in GMI_DG8_OFFDIAGONAL_RESULT_V1.md section 7. Every one is chosen
+# to WEAKEN this run's headline. The C2 falsifier sits at (h=6, lr=4), d=1, fx10, E_sym5, extra_unseen_feedback; two
+# things could make it uninteresting, and both are checked here:
+#   1. the instrument may be doing nothing -- the same cell at fx8 may already be admissible, in which case the
+#      falsification is an (A, intervention) fact and not an instrument fact;
+#   2. the intervention may be doing all the work -- `extra_unseen_feedback` hands back the true labels of
+#      smooth.UNSEEN[:4], which are FOUR OF THE EIGHT INPUTS THE CAPABILITY IS SCORED ON, so a witness taken under
+#      that intervention alone is scored partly on inputs it was just trained on.
+CONTROL_CELLS = [
+    ([6, 4], 1, "fx10", ["E_sym5", "extra_unseen_feedback"], "the C2 falsifier itself (in the frozen sample)"),
+    ([6, 4], 1, "fx8", ["E_sym5", "extra_unseen_feedback"], "same cell at the DEFAULT instrument"),
+    ([6, 4], 1, "fx10", ["E_sym5", "standard"], "same cell under the DEFAULT intervention"),
+    ([6, 4], 1, "fx8", ["E_sym5", "standard"], "RV-377-089's own region: both defaults"),
+    ([24, 12], 1, "fx12", ["E_parity", "extra_unseen_feedback"], "the E_parity valid witness (in the frozen sample)"),
+    ([24, 12], 1, "fx8", ["E_parity", "extra_unseen_feedback"], "same cell at the DEFAULT instrument"),
+    ([24, 12], 1, "fx12", ["E_parity", "standard"], "same cell under the DEFAULT intervention"),
+    ([24, 12], 1, "fx8", ["E_parity", "standard"], "both defaults"),
+    ([4, 2], 1, "fx8", ["E_wit1", "standard"], "E_wit1 witness 1 collapsed to d = 1, fx8"),
+    ([16, 12], 1, "fx8", ["E_wit1", "shuffled_events"], "E_wit1 witness 2 collapsed to fx8"),
+]
+CONTROL_FAMILIES = ((([6, 4], 1, "fx8", "E_sym5")), (([6, 4], 1, "fx10", "E_sym5")),
+                    (([24, 12], 1, "fx8", "E_parity")), (([24, 12], 1, "fx12", "E_parity")))
+
+
+def controls():
+    from .core import sha256_of
+    rows = []
+    for A, d, p, F, why in CONTROL_CELLS:
+        r = evaluate_cell([A, d, p, F])
+        r["why"] = why
+        rows.append(r)
+    fam = {}
+    for A, d, p, eco in CONTROL_FAMILIES:
+        caps = caps_all_interventions(A[0], A[1], d, p, eco)
+        vals = [v for v in caps.values() if v is not None]
+        with instrument(p):
+            spec = ecology.REGISTRY[eco]
+            ev = smooth.UNSEEN if spec["criterion"] == "unseen" else smooth.ALL_X
+            const_cap, _ = best_constant(target_at_instrument(spec), ev)
+        fam[f"A{A}|d{d}|{p}|{eco}"] = {
+            "by_intervention": caps, "min_over_six": min(vals),
+            "admissible_all_six": min(vals) >= THETA,
+            "best_constant_capability": const_cap,
+            "interventions_clearing_theta": sorted(k for k, v in caps.items() if v is not None and v >= THETA),
+            "margins_registered_fx_units": {k: round((v - const_cap) / FX_UNIT_REGISTERED, 4)
+                                            for k, v in caps.items() if v is not None}}
+    receipt = {
+        "schema": "GMIDG8OffDiagonalControlsV1", "gap": "DG-8",
+        "status": "POST-FREEZE CONTROLS, disclosed. Not part of the frozen sample.",
+        "why": "each control is chosen to WEAKEN the run's headline, not to support it",
+        "extra_unseen_feedback_leak": {
+            "fed_back_by_the_intervention": smooth.UNSEEN[:4],
+            "scored_on_by_the_unseen_criterion": smooth.UNSEEN,
+            "overlap": len(set(smooth.UNSEEN[:4]) & set(smooth.UNSEEN)),
+            "note": "four of the eight inputs the capability is scored on are handed to the machine as training "
+                    "data by the intervention itself. This is a property of the REGISTERED intervention family, not "
+                    "of this run: every single-intervention admissibility number taken under extra_unseen_feedback "
+                    "anywhere in this corpus is scored half on inputs it was just trained on."},
+        "controls": rows, "intervention_families": fam}
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, "STAGE_DG8_OFFDIAGONAL_CONTROLS_V1.json"), "w"),
+              indent=1, sort_keys=True, default=str)
+    return receipt
+
+
 if __name__ == "__main__":
     import sys
     if sys.argv[1:2] == ["freeze"]:
@@ -935,6 +1001,9 @@ if __name__ == "__main__":
         d = freeze(cost_grid=grid)
         print("frozen", len(d["cells"]), "cells; sha", d["sample_sha256"][:16])
         print("coverage before the run:", d["coverage_before_the_run"]["true_coverage_fraction"])
+    elif sys.argv[1:2] == ["controls"]:
+        c = controls()
+        print("controls sha", c["receipt_sha256"][:16])
     elif sys.argv[1:2] == ["run"]:
         r = run(freeze_commit=sys.argv[2] if len(sys.argv) > 2 else "UNRECORDED")
         print(json.dumps(r["scores"], indent=1))
