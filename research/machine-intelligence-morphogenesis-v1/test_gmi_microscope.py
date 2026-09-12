@@ -1178,6 +1178,47 @@ def test_b2_08_residual_receipt_replays_exactly(tmp_path):
         assert c["rule21_charged_serve_audit"]["passed"] is True
 
 
+def test_b2_09_norm_receipt_replays_exactly(tmp_path):
+    """RV-377-097 (B2.9 normalization): the committed receipt reproduces byte for byte. The conditioning mediator is
+    obligation-aware and UNORDERED: it screens off the architecture label with a spread of exactly 0 and capability is
+    not monotone in it, while the raw distinct-state count fails both readings."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_norm
+    rc = b2_norm.main(str(tmp_path / "norm.json"))
+    committed = json.loads((RES / "STAGE_B2_09_NORM_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 10 and rc["n_claims"] == 14
+
+    mt = committed["mediator_test"]
+    assert mt["strong_reading_holds"] is False and mt["weak_reading_holds"] is False
+    assert mt["largest_capability_spread_within_one_mediator_value"] == "31/128"
+    assert mt["refined_strong_holds"] is True
+    assert mt["largest_capability_spread_within_one_refined_mediator_value"] == "0"
+    assert mt["refined_monotone_holds"] is False
+    for k in ("C1_MEDIATOR_STRONG_equal_mediator_implies_equal_capability_so_the_arm_label_adds_nothing",
+              "C2_MEDIATOR_WEAK_capability_is_monotone_nondecreasing_in_the_mediator",
+              "C13_MEDIATOR_REFINED_capability_is_monotone_in_the_obligation_aware_mediator",
+              "C7_widening_the_precision_never_lowers_the_capability_of_any_arm_at_any_depth_or_drift"):
+        assert rc["claims"][k] is False, k
+    assert rc["claims"]["C14_MEDIATOR_REFINED_STRONG_equal_obligation_aware_mediator_implies_equal_capability"] is True
+
+    cells = committed["cells"]
+    # C5: the negative twin with a data-independent scale IS the unnormalized arm at unit drift -- so every
+    # normalizer effect below is attributable to data dependence and not to arithmetic
+    for p in ("8.4", "12.6", "16.8"):
+        for L in (1, 2, 4, 8, 16):
+            assert (cells[f"p={p}|g=1"]["rows"][f"CONST_SCALE_TWIN_L{L}"]["capability"]
+                    == cells[f"p={p}|g=1"]["rows"][f"NONE_L{L}"]["capability"])
+    # C3 / C8: the unnormalized arm collapses to one state under contractive drift and no declared width rescues it
+    assert cells["p=8.4|g=1/2"]["rows"]["NONE_L16"]["mediator_distinct_states"] == 1
+    for p in ("8.4", "12.6", "16.8"):
+        assert Fr(cells[f"p={p}|g=1/2"]["rows"]["NONE_L16"]["capability"]) < Fr(3, 4)
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""
