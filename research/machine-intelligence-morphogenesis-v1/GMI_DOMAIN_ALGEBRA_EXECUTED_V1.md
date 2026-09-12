@@ -702,3 +702,113 @@ it was measured under.
 is "admissible" unqualified only if it passes under all of them. A verdict under one condition is reported as
 "admissible under ⟨intervention⟩" and is necessary, not sufficient, for occupancy. Roughly a third of the corpus's
 verdicts need that qualification, and the frontier tables built on them inherit it.
+
+---
+
+## 14. GMI-DA10 — a cost law is a pair of scaling functions, never an inequality between coordinates
+
+**Status:** `PROVED_AT_SCOPE` for the `N10` microscope; the *methodological* half is protocol rule 37 and binds the
+whole corpus.
+**Receipt:** `STAGE_DN_V29_N10_SERVE_LAW.json` (`RV-377-053`), sha `325e600a58efa244…`, 12 cells × 2 rows × 2
+instruments, 70 700 queries per row per instrument, 6.0 s.
+
+### 14.1 The negative this replaces
+
+`RV-377-051` observed that the `N10` candidate (a vector clock) sometimes serves more cheaply than its program-search
+parent and sometimes does not. `RV-377-052` froze the closed form
+
+> `exec_per_query(POSET) < exec_per_query(PROG_SEARCH)` **iff** `L > w`
+
+and ran it out of sample. It **failed**, 28 of 32, refuted in the single cell `w6_L6` where `L = w` and the candidate
+won anyway. `RV-377-052` then registered a *second* closed form, `L ≥ 6 ∨ w ≤ 2`, which fitted all sixteen cells then
+on record, and marked it `REGISTERED_FOR_EXPERIMENT` "pending a cell at `L = 5`". That cell was never run, and the
+successor id the record named was never written. The negative stood for the rest of the programme.
+
+### 14.2 Why the replacement was not entitled to promotion
+
+`RV-377-052`'s own `new_theory_constraint` had already said what was wrong:
+
+> *a cost law separating a candidate from a parent must be stated as a comparison of each row's own scaling FUNCTION,
+> not as an inequality between the coordinates … any inequality between `w` and `L` is an artefact of the grid on
+> which it was fitted.*
+
+`L ≥ 6 ∨ w ≤ 2` is another inequality between the coordinates, fitted to the same grid. Promoting it would have
+repeated the error that produced the falsified law. `RV-377-053` therefore registered, **before the run**, the
+prediction that the replacement **fails**.
+
+### 14.3 The theorem
+
+Read off the charged source rather than any grid:
+
+* `Poset.query` serves through `_le`, which charges **one `GT` per clock component** and returns at the first
+  componentwise excess. The clock has **one component per chain**, and there are `w` chains. Therefore
+
+  | query truth | charged ops | range |
+  |---|---|---|
+  | `i` precedes `j` | `w` | exactly `w` |
+  | `j` precedes `i` | `k₁ + w` | `(w, 2w]` |
+  | concurrent | `k₁ + k₂` | `[2, 2w]` |
+
+  **No `L` term appears anywhere.** `L` changes only *which queries exist and what their truths are* — the ecology's
+  query mix — never the cost of serving one of them.
+
+* `ProgSearch.query` charges **one `EQ` per DFS edge examined**, so its cost is the size of the explored edge set,
+  which grows in **both** coordinates.
+
+Both are consequently **exact functions of the dependency graph**, computable with no Machine, no charging and no free
+parameter: the vector clock is the componentwise longest-path vector, and the DFS is deterministic given the
+successor-list order.
+
+### 14.4 What was measured
+
+Grid `CELLS_R3` = widths `5, 7, 9, 16` × chain lengths `5, 7, 10`. **No width and no length here appears** in `CELLS`
+(`w ∈ {1,2,4,8}`, `L ∈ {4,8,12}`) or `CELLS_R2` (`w ∈ {2,3,4,6,12}`, `L ∈ {4,6,8,12}`), so every cell is out of sample
+for every law on record. Three cells were run before the freeze to size the runtime and are **disclosed as
+calibration** (protocol rule 17) and excluded from the decisive count of the closed-form clauses.
+
+| clause | content | verdict |
+|---|---|---|
+| C1 | no `POSET` query costs more than `2w`, at either instrument | **HOLDS** 12/12 |
+| C2 | every forward-ordered query costs **exactly `w`** | **HOLDS** 12/12 |
+| C3 | reverse in `(w, 2w]`, concurrent in `[2, 2w]` | **HOLDS** 12/12 |
+| C4 | the distinct-forward-cost set at a width is `{w}` at **every** `L` | **HOLDS** |
+| C5 | pure-graph predictors reproduce the charged count **query by query** | **HOLDS**, 141 400 / 141 400, **zero** mismatches |
+| C6 | the `RV-377-052` registered closed form holds out of sample | **FAILS** — refuted at `w7_L5` (frozen as a *predicted* failure) |
+| C6b | the already-falsified form `L > w`, re-tested | holds only **6 of 12** here, against 28 of 32 on its own grid |
+| C7 | the boundary is a **surface**, not an inequality | **HOLDS** — 8 pairs share `sign(L − w)` with opposite verdicts, 4 share `L` with opposite verdicts |
+
+The distinct-forward-cost set is `{5}` at width 5 for `L = 5, 7` and `10` alike, `{7}` at width 7, `{9}` at width 9,
+`{16}` at width 16. The **mean** still drifts — `5.9850 / 5.7143 / 5.5237` at `w = 5` — and the per-query decomposition
+shows exactly why: the concurrent-to-ordered mix moves from `422/178` at `L = 5` to `1254/1196` at `L = 10`, and
+concurrent queries are the cheap ones. **The drift `RV-377-052` measured is the query mix, now confirmed by
+construction rather than conjectured.**
+
+### 14.5 The boundary, since it is now computable
+
+At `L = 5` the verdict **splits between `w = 7` and `w = 9`** (`6.3975 < 7.0269` but `8.8187 > 8.2232`); at `L = 7` and
+`L = 10` the candidate wins at all four widths; at `L = 5` the parent wins at `w = 9` and `w = 16`. That split is the
+whole content of the `L = 5` row `RV-377-052` was waiting for, and it is why no inequality between `w` and `L` can
+express the boundary — the crossing is where `mean explored-edge count` overtakes `mean clock-comparison count`, and
+those are two different functions of the graph, not two coordinates.
+
+### 14.6 Unplanned corroboration
+
+The grid was built for the serve law and incidentally re-tested the **precision-gate law** on ground it had never
+seen. It holds **12 of 12**: `POSET`'s `fx8` capability is strictly below its wide capability in exactly the four
+cells where the counter range `L` exceeds 8 (`L = 10`: `0.9898, 0.9942, 0.9944, 0.9976` against `1.0000`) and equal to
+it in all eight cells at `L = 5` and `L = 7`, while `PROG_SEARCH`, which holds no counter, is ungated everywhere.
+That is a **third independent grid** for that law.
+
+### 14.7 Consequence for the corpus — protocol rule 37
+
+> A cost law stated as an **inequality between ecology coordinates** may not be promoted above
+> `REGISTERED_FOR_EXPERIMENT`. To reach `PROVED_AT_SCOPE` it must exhibit, **for each row it compares**, a predictor of
+> that row's charged cost **derived from the row's own source or state**, carrying **no parameter fitted to the
+> measurement grid**, and must be adjudicated at the **finest resolution the charging supports** — per query, not per
+> cell mean.
+
+The `N10` serve law needed two falsifications to reach this form: once as `L > w`, once as `L ≥ 6 ∨ w ≤ 2`. Both were
+inequalities between coordinates and both died on the first grid that was not built around them. The mechanism form
+died nowhere, because it is not a fit.
+
+**`N10`'s domain verdict is unchanged at `REDUCED_TO_PARENT`.** Nothing here reopens it; this is a cost-law record.
