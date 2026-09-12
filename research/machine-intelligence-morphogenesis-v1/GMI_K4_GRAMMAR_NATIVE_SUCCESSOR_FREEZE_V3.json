@@ -1,0 +1,57 @@
+{
+  "schema": "GMIK4GrammarNativeSuccessorFreezeV3",
+  "status": "FROZEN_BEFORE_V3_PUBLIC_BEACON_AND_ANY_V3_PROTECTED_RESULT",
+  "prediction_contract": "GMI_K4_LOFO_FREEZE_V1.json",
+  "prediction_status": "INHERITED_UNCHANGED_FROM_ORIGINAL_WITNESSED_FREEZE",
+  "predecessors": [
+    {
+      "engine": "gmi_k4_search.py",
+      "status": "DEVELOPMENT_EXPOSED_NOT_PROTECTED",
+      "reason": "deterministic dry-run observed during harness engineering"
+    },
+    {
+      "engine": "gmi_k4_search_v2.py",
+      "successor_freeze": "GMI_K4_PROTECTED_SUCCESSOR_FREEZE_V2.json",
+      "status": "SUPERSEDED_BEFORE_BEACON_AND_BEFORE_PROTECTED_EXECUTION",
+      "reason": "self-audit found G1/G2/G3 were one common phenotype palette with different price maps, not disjoint program/state-model implementations"
+    }
+  ],
+  "grammar_native_engine": {
+    "search_path": "gmi_k4_search_v3.py",
+    "search_commit": "a5470153d50318f99bf518d25f8253f76cea81c6",
+    "grammar_path": "gmi_k4_grammar_native.py",
+    "grammar_commit": "e1939f22b7753f899cc392d8ebe4e8b5c0a70959",
+    "grammars": ["G1_TENSOR_GRAPH", "G2_SYMBOLIC_PROGRAM", "G3_FSM_MESSAGE"],
+    "implementation_disjointness": "Each grammar has a separate token prefix/inventory, program serialization and primitive cost algebra; pairwise token intersection is asserted empty at import time.",
+    "candidate_generation": "Each grammar exhaustively crosses 22 neutral resource/state shapes with routing, sharing, retrieval, serve-iteration, stochasticity, verification, authority, update-locality and width choices, subject only to target-independent coherence checks.",
+    "property_measurement": "The ten K4 axes are measured from the generated program phenotype. The frozen target property vector is removed before ranking and used only after the winner is frozen.",
+    "control_gate": "CTL_IDENTITY, CTL_CONSTANT, CTL_LOOKUP and CTL_AFFINE are recovered inside each grammar-native candidate space before a scientific verdict is allowed.",
+    "coverage": "The registered 1e6 budget must exhaust each finite candidate space; otherwise the cell is INCONCLUSIVE_SEARCH."
+  },
+  "world_generation": {
+    "source": "gmi_k4_search_v2.world_profile",
+    "fresh_seed_coordinates": ["reuse_multiplier", "volatility", "dependence_density", "heterogeneity", "router_noise", "rank_fraction", "error_correlation", "checker_ratio", "goal_reuse", "model_error", "jointness", "manifold_fraction", "sequence_dependency", "symmetry_break"],
+    "positive_and_negative_twin": true
+  },
+  "public_beacon_rule": {
+    "network": "League of Entropy drand quicknet mainnet",
+    "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "genesis_time": 1692803367,
+    "period_seconds": 3,
+    "selection": "Use exactly the first quicknet round whose round timestamp is at least 900 seconds after the GitHub committed_at timestamp of THIS V3 freeze commit.",
+    "round_formula": "floor((target_unix - 1692803367)/3)+1",
+    "no_reroll": true,
+    "receipt": "GMI_K4_PUBLIC_BEACON_V3.json"
+  },
+  "task_seed_rule": "seed_i = int(SHA256('GMI-K4-V3' || task_hash || public_beacon_randomness_hex)[:16],16) mod 2^32",
+  "protected_rule": "No V3 protected task may execute until the one-shot V3 public beacon receipt exists. Development smoke/probe seeds are excluded from the V3 aggregate.",
+  "independence": {
+    "generator_discretion": "FROZEN_MAXIMAL_FINITE_CROSS_PRODUCT_AT_REGISTERED_SCOPE",
+    "seed_discretion": "FUTURE_PUBLIC_BEACON_RULE_FROZEN",
+    "predictor_leakage": "GITHUB_COMMIT_ORDER_SCOPE",
+    "implementation_level_three_grammar_disjointness": "MECHANICALLY_REQUIRED",
+    "IG-4_meter_bucketing": "PENDING_INDEPENDENT_BUCKETING",
+    "IG-5_primitive_selection": "PENDING_INDEPENDENT_PRIMITIVES"
+  },
+  "claim_ceiling": "V3 can provide protected same-author grammar-native K4 evidence at this finite registered scope. It still cannot self-close external primitive-selection or meter-bucketing independence, K5 held-family prediction, real-workload transfer, or physical frontier evidence."
+}

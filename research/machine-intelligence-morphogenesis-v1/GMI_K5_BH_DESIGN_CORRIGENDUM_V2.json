@@ -1,0 +1,18 @@
+{
+  "schema": "GMIK5BHDesignCorrigendumV2",
+  "status": "FROZEN_BEFORE_RUNNER_AND_RESULTS",
+  "parent_phase_freeze": "GMI_K5_BH_PHASE_FREEZE_V1.json",
+  "parent_scoring_freeze": "GMI_K5_BH_SCORING_FREEZE_V1.json",
+  "preserved_error": "The V1 continual prediction assigned REPLAY at task_overlap=0.9 while retaining a 0.95 old-task threshold. For two homogeneous linear separators with cosine overlap 0.9, the angle is about 25.8 degrees; any single separator centered between them has about 92.8% agreement with each under isotropic inputs, so the intended shared-linear replay realization cannot satisfy the stated retention threshold. This is a design contradiction discovered analytically before execution, not an empirical result.",
+  "replacement_F_CONTINUAL_grid": {"task_overlap": [0.0, 0.60, 0.90, 0.99]},
+  "replacement_F_CONTINUAL_predictions": {
+    "0.0": "EXPANSION",
+    "0.6": "EXPANSION",
+    "0.9": "EXPANSION",
+    "0.99": "REPLAY"
+  },
+  "unchanged_thresholds": {"min_old_accuracy": 0.95, "min_new_accuracy": 0.90},
+  "unchanged_replicates": 8,
+  "all_other_lanes": "UNCHANGED",
+  "rule": "Execution and aggregation MUST use this corrected F_CONTINUAL grid. The V1 incorrect prediction remains in git history and must not be described as an empirical RED because no protected task was run under it."
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "GMIK5BHAdmissibilityScoringAddendumV2",
+  "status": "FROZEN_BEFORE_K5_PUBLIC_BEACON_AND_ANY_PROTECTED_K5_RESULT",
+  "parent_scoring_contract": "GMI_K5_BH_SCORING_FREEZE_V1.json",
+  "reason": "The V1 scoring freeze preregistered quality thresholds, and the experiment core returns an explicit admissible set, but the V4 aggregate compared winner labels without enforcing membership in that set. This addendum makes the existing quality constitution executable before any protected beacon exists.",
+  "replicate_validation": {
+    "required_field": "raw_result.admissible",
+    "observed_winner_rule": "observed_winner must be NONE or a member of raw_result.admissible; any other value is STRUCTURAL_INVALID",
+    "predicted_admissibility": "predicted_winner is admissible iff it is a member of raw_result.admissible",
+    "agreement": "A replicate counts as an agreement only if predicted_winner == observed_winner AND predicted_winner is admissible.",
+    "inadmissible_prediction": "A replicate whose predicted_winner is outside admissible is PREDICTED_INADMISSIBLE even if a raw label comparison would otherwise match."
+  },
+  "cell_scoring": {
+    "exact_lanes": "Any PREDICTED_INADMISSIBLE replicate is THEORY_RED. Otherwise retain the original exact 8/8 agreement rule.",
+    "stochastic_lanes": "If at least 6/8 replicates are PREDICTED_INADMISSIBLE, the cell is THEORY_RED. If 1-5 are PREDICTED_INADMISSIBLE, the cell is INCONCLUSIVE. If zero are predicted-inadmissible, apply the original V1 >=6/8 plus mean-margin-sign GREEN/RED/INCONCLUSIVE rule unchanged.",
+    "structural_invalid": "Any receipt missing admissible, or reporting an observed winner not in admissible and not NONE, makes execution structurally invalid rather than scientific RED."
+  },
+  "no_threshold_change": "All numerical quality thresholds remain exactly those in GMI_K5_BH_SCORING_FREEZE_V1.json; this addendum adds no favorable threshold and changes no lane prediction.",
+  "claim_ceiling": "This is a pre-execution scorer correction. It creates no evidence and cannot change any global terminal by itself."
+}

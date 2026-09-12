@@ -1,0 +1,48 @@
+{
+  "schema": "GMIK4NullAwareSuccessorFreezeV5",
+  "status": "FROZEN_BEFORE_V5_PUBLIC_BEACON_AND_ANY_V5_SEARCH_RESULT",
+  "prediction_contract": "GMI_K4_LOFO_FREEZE_V1.json",
+  "prediction_status": "INHERITED_UNCHANGED_FROM_ORIGINAL_WITNESSED_FREEZE",
+  "predecessor_disposition": {
+    "V3": "DEVELOPMENT_ONLY__DG10_RESOURCE_PAIR_SUPPLIED_BY_STATE_SHAPE",
+    "V4": "SUPERSEDED_BEFORE_PUBLIC_BEACON_AND_BEFORE_PROTECTED_EXECUTION__EXPLICIT_NULL_FRONTIER_MISSING",
+    "reason": "PR #445 rules 40/42 and DG-9 require constant/fixed-function null controls against every obligation; V4 corrected DG-10 but did not separately enumerate those strong inert parents."
+  },
+  "v5_engine": {
+    "resource_program_path": "gmi_k4_resource_native_v4.py",
+    "resource_program_commit": "d36579bbf4745d9c2bf391d89836b95d74f09ac7",
+    "base_search_path": "gmi_k4_search_v4.py",
+    "base_search_commit": "05a0c79cb4d2aab5c0e08e1b6b1e141cbde476d2",
+    "null_path": "gmi_k4_null_frontier_v5.py",
+    "null_commit": "12a46ca88bf1e57cd5ba11eb7a8c1bf1833e8613",
+    "adjudicator_path": "gmi_k4_search_v5.py",
+    "adjudicator_commit": "23159846cdff04f3c9c6bc16615d1aeefdc9d54d",
+    "dg10_rule": "state and serve laws remain independently generated low-level expressions and are inferred from measured numeric traces, never copied from a one-of-22 state token",
+    "nulls": ["NULL_CONSTANT", "NULL_FIXED_NUMERIC", "NULL_FIXED_TABLE", "NULL_FIXED_VERIFIED_PROGRAM", "NULL_FIXED_SEQUENCE_SAMPLER", "NULL_FIXED_WORLD_MODEL"],
+    "null_cost_rule": "Nulls pay description/state/serve/verification/communication under the same V4 meter; development_compute and update_retraining are exactly zero because the target behavior is hard-coded.",
+    "null_semantic_rule": "Nulls are evaluated by the same obligation evaluator as searched candidates and may be admissible only if semantic_score >= 0.98.",
+    "null_red_rule": "If the cheapest admissible null has strictly lower total lifecycle cost than the admissible frozen-target witness, the cell is THEORY_RED_NULL_DOMINATES. This remains RED even if the 10-axis vector matches, because the obligation failed to distinguish developed from hard-coded behavior.",
+    "stochastic_search_cap": 1000000,
+    "green_rule": "Absent null dominance, inherit V4: measured target vector recovered, negative twin flips, controls recover, and >=1e6 scored candidates."
+  },
+  "public_beacon_rule": {
+    "network": "League of Entropy drand quicknet mainnet",
+    "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "genesis_time": 1692803367,
+    "period_seconds": 3,
+    "selection": "Use exactly the first quicknet round whose canonical timestamp is at least 900 seconds after the GitHub committed_at timestamp of THIS V5 freeze commit.",
+    "no_reroll": true,
+    "receipt": "GMI_K4_PUBLIC_BEACON_V5.json"
+  },
+  "task_seed_rule": "seed_i = int(SHA256('GMI-K4-V5' || task_hash || public_beacon_randomness_hex)[:16],16) mod 2^32",
+  "protected_rule": "No V5 protected task may execute until the one-shot V5 public beacon receipt exists. Any V4/V5 development smoke result is excluded from the protected aggregate.",
+  "independence": {
+    "DG-10": "CLOSED_BY_MEASURED_FACTORISED_RESOURCE_AXES_AT_V5_SCOPE",
+    "DG-9_NULLS": "EXPLICIT_CONSTANT_AND_FIXED_FUNCTION_FRONTIER_FROZEN",
+    "IG-2": "FUTURE_PUBLIC_BEACON_RULE_FROZEN",
+    "IG-3": "GITHUB_COMMIT_ORDER_SCOPE",
+    "IG-4_meter_bucketing": "PENDING_INDEPENDENT_BUCKETING",
+    "IG-5_primitive_selection": "PENDING_INDEPENDENT_PRIMITIVES"
+  },
+  "claim_ceiling": "V5 can expose non-discriminating obligations and test the original K4 property predictions without DG-10. Same-author evaluator/meter/primitives remain limitations; K5, real transfer and physical frontier evidence remain separate."
+}
