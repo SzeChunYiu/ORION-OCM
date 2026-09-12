@@ -220,6 +220,51 @@ def _served(vm, x):
     return None if vm.abstained else int(v)
 
 
+# ------------------------------------------------------------------------------------ obstruction diagnostics
+DEV_LENGTHS = (8, 16, 32)            # declared: is an obstruction a SIZE bound or a development-length bound?
+K_VARIANTS = (1, 3, 5)               # declared: NEAREST's k, the one SIGMA parameter the registered memory carrier tunes
+METRIC_VARIANTS = (0, 1)
+
+
+def capability_of(g, n_events):
+    """capability on the registered ecology at a declared development length; None if the genotype cannot run."""
+    target = _target(); M = Machine(bases.ALL[ECOLOGY["column"]], seed=ECOLOGY["seed"])
+    try:
+        vm = VM(g, M, seed=ECOLOGY["seed"]); M.phase("exec"); vm.init()
+        for t in range(1, n_events + 1):
+            x = smooth.TRAIN[(t - 1) % len(smooth.TRAIN)]
+            M.phase("upd"); vm.feedback(x, target[x]); M.end_event()
+        M.phase("exec"); final = {xx: _served(vm, xx) for xx in smooth.ALL_X}
+    except Exception:                                    # noqa: BLE001
+        return None
+    err = sum(abs((final[x] if final[x] is not None else 0) - target[x]) for x in smooth.UNSEEN) / FX_ONE / len(smooth.UNSEEN)
+    return {"n_events": n_events, "capability": round(max(0.0, 1 - err / 1.5), 4),
+            "exact_on_unseen": sum(1 for x in smooth.UNSEEN if final[x] == target[x])}
+
+
+def diagnose(g):
+    """two declared diagnostics on one genotype, reported and never used to rescue a clause.
+
+    (a) DEVELOPMENT LENGTH: capability at 8, 16 and 32 events. A ceiling that does not move with development length is a
+        size/alphabet bound; one that does is a development-length bound wearing a size bound's clothes.
+    (b) ALPHABET PARAMETER: the same structure with NEAREST's k and metric varied off their frozen SIGMA values. Every
+        obstruction here is relative to SIGMA, and this says how much of it is the structure and how much is one frozen
+        parameter (GMI-DA1: what exists is a property of the alphabet)."""
+    out = {"by_development_length": [capability_of(g, n) for n in DEV_LENGTHS], "by_alphabet_parameter": []}
+    near = [i for i, (k, _) in g["nodes"].items() if k == "NEAREST"]
+    if not near: return out
+    for k in K_VARIANTS:
+        for m in METRIC_VARIANTS:
+            nodes = {i: (kk, dict(pp)) for i, (kk, pp) in g["nodes"].items()}
+            for i in near: nodes[i] = ("NEAREST", {"k": k, "metric": m})
+            gv = {"nodes": nodes, "edges": list(g["edges"]), "meta": dict(g["meta"])}
+            c = capability_of(gv, ECOLOGY["n_events"])
+            out["by_alphabet_parameter"].append({"k": k, "metric": m, "in_sigma": (k == SIGMA["NEAREST"]["k"] and m == SIGMA["NEAREST"]["metric"]),
+                                                 "capability": None if c is None else c["capability"],
+                                                 "admissible": None if c is None else c["capability"] >= ECOLOGY["theta"]})
+    return out
+
+
 # ------------------------------------------------------------------------------------------------------------ driver
 def main(max_size=7, budget_s=1800, tag="V1"):
     t0 = time.time()
@@ -233,15 +278,21 @@ def main(max_size=7, budget_s=1800, tag="V1"):
                              "obstruction is claimed at this size or above")
             sizes[n] = entry
             break
-        resp = {}; runnable = 0; props_here = {p: [] for p in PROPERTY_VECTOR}
+        resp = {}; runnable = 0; props_here = {p: [] for p in PROPERTY_VECTOR}; best = (None, None)
         for fp, g in forms.items():
             r = response_of(g)
             if r is None: continue
             runnable += 1
             key = sha256_of(r["response"])
             if key not in resp: resp[key] = {"fingerprint": fp, "capability": r["capability"], "properties": r["properties"]}
+            if best[0] is None or r["capability"] > best[0]: best = (r["capability"], fp)
             for p, v in r["properties"].items():
                 if v: props_here[p].append(fp)
+        if best[1] is not None:
+            bg = forms[best[1]]
+            entry["best_capability_form"] = {"fingerprint": best[1], "capability": best[0],
+                                             "kinds": sorted(k for k, _ in bg["nodes"].values()),
+                                             "genotype": morph.to_json(bg), "diagnostics": diagnose(bg)}
         entry.update({"runnable_forms": runnable, "response_classes": len(resp),
                       "forms_realizing": {p: len(v) for p, v in props_here.items()},
                       "best_capability": max((v["capability"] for v in resp.values()), default=0.0)})
@@ -288,6 +339,12 @@ def main(max_size=7, budget_s=1800, tag="V1"):
         "counts_by_size": sizes,
         "largest_size_enumerated_exactly": largest_exact,
         "obstructions": obstructions,
+        "obstruction_diagnostics_note":
+            "each size's best-capability form carries two declared diagnostics under counts_by_size[...].best_capability_form."
+            "diagnostics. They are REPORTED, never used to rescue a clause: (a) capability at 8, 16 and 32 development "
+            "events, which separates a size/alphabet bound from a development-length bound, and (b) the same structure with "
+            "NEAREST's k and metric varied off their frozen SIGMA values, which says how much of an obstruction is the "
+            "structure and how much is one frozen parameter",
         "three_counts_are_three_things": {
             "type_correct_genotypes": "CONFIGURATIONS: (slot -> kind) assignments with a typed wiring under the declared "
                                       "slot order. This is a configuration count. It is NOT a count of forms and it is NOT "

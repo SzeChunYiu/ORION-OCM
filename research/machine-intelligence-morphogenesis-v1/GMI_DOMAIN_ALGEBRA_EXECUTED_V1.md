@@ -119,6 +119,14 @@ clause** of the frozen prediction, is `P = 4` under the native associative-memor
 
 **Status:** `PROVED_AT_SCOPE` for the executed instance (one pattern set per cell; a second set is the obvious replication).
 
+**Grid correction (`RV-377-068`, gap DG-2 closed).** "The sole frontier occupant of all 48 grid cells" is a statement about
+`H ≤ 1024` and must be read that way (protocol rule 21). The standing audit reproduces this receipt's own frontier cell for
+cell and then grades it **TRUNCATED, MAJOR**: the coupling-field row occupies zero cells of the reported grid and does
+occupy cells beyond it, with the crossover recomputed independently at exactly `H* = 1856` in the `N32_P4_n1` cell under the
+wide instrument at the native price. The re-run on a grid extended past that crossover changes **no cell the receipt already
+reported** and adds 216 it never reported, which is where the denied occupant appears. The factor-of-31 gate separation and
+every capability in the receipt are untouched: `H` enters only the cost model, never the execution.
+
 **Consequence.** "Compressed memory" is not a kingdom-making property. The executed statement is sharper and more useful
 than the usual qualitative one: *a compressed carrier earns its place only where its compression gate precedes its capacity
 gate*, and for Hebbian couplings at this scale it does not, by a factor of 31.
@@ -153,9 +161,36 @@ runs (about 5 percent), with seed-medians 0.39–0.60 and maxima up to 0.9583. `
 14 of 56 frontier cells in the scan-store columns, 50 of 56 in the native-store column and **56 of 56** in the
 native-stochastic, uniform and compressed-program columns.
 
-**Status:** `PROVED_AT_SCOPE`. **Open consequence (gap G14):** the registered cost model does not yet charge the *failed
-draws* of a stochastic carrier as search cost, although the biosphere burden vector requires it (`B_search`,
-`B_failed_candidates`; implemented in `gmi_microscope/vm.py::lifecycle_vector` but not yet applied to the D′/E′ frontier).
+**Status:** `PROVED_AT_SCOPE` for the reliability statement; **the cost statement above is superseded — see 7b.**
+
+### 7b. GMI-DA6 corrected by `RV-377-067` (gap G14 closed): the cheapest admissible form was the most expensive one
+
+Gap G14 is now executed, and it inverts the cost half of this section rather than qualifying it. Charging the failed draws
+through the burden vector's own terms (`B_search`, `B_failed_candidates` from `gmi_microscope/vm.py::lifecycle_vector`),
+
+```
+C′(row, H, r) = C(row, H, r) + B_search,   B_search = (1/q − 1) · D_draw
+D_draw = exec + upd + ver + rev of ONE complete run of the registered protocol
+```
+
+the particle carrier occupies **0 of 336** frontier cells — none in any of the six columns, at either declared reliability —
+against the 14/56 to 56/56 reported above. `RV-377-041b` re-adjudicated clause by clause keeps **2 of its 5 clauses**, and
+they are exactly the two that are not cost claims (admissibility at size 8, and the identity of the non-stochastic cells).
+The charge is between **9.5 and 32 729 times** the cheapest competing row's entire registered lifecycle cost across the
+336 cells, and the carrier's break-even reliability is **q\* = 0.4992–0.8426** by column against a measured 1 seed in 32.
+The re-entry crossover exists but lies at H = 4.2 × 10⁷ to 1.2 × 10⁹ (reported per protocol rule 21).
+
+Two further corrections this forces on the text above:
+
+* the census rate is **9 of 192 runs (4.6875 %, 1/q = 21.33 draws)**, not the "10 of 192 runs (about 5 percent)" stated in
+  §7 and in `RV-377-040`: the committed census receipt's own per-cell counts are 1 + 2 + 0 + 4 + 1 + 1 = 9, and a recount
+  over its 192 raw capability values agrees. The published figure is off by one run;
+* the theory core's two-regime answer ("at low reliability a stochastic search form dominates because its lifecycle burden
+  is the smallest of all") has the wrong sign once the lottery is paid for. The corrected statement is that **lowering the
+  declared reliability moves a stochastic carrier into the admissible set and out of the cheap set at the same time**,
+  which is protocol rule 20.
+
+**Receipt:** `STAGE_G14_FAILED_DRAW_CHARGING_V1.json` (`RV-377-067`, 6 of 8 clauses; clauses 2 and 5 failed and kept).
 
 ---
 

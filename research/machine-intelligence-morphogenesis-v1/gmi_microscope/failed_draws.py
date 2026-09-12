@@ -237,7 +237,18 @@ def main(tag="V1"):
             counts = {row: sum(1 for v in fr.values() if row in v) for row in adm}
             reentry = {str(r): (lambda h: None if h is None else {"exact": str(h), "float": float(h)})(
                 reentry_H(P, S, adm, "S3", r)) for r in R_GRID} if "S3" in adm else {}
+            ratios = []
+            for H in H_GRID:
+                for rr in R_GRID:
+                    rivals = [cost(P[x], F(0), H, rr) for x in adm if x not in STOCHASTIC_ROWS]
+                    if rivals and S.get("S3"): ratios.append(S["S3"] / min(rivals))
             blocks[label] = {"q": f"{q.numerator}/{q.denominator}", "expected_draws": float(1 / q),
+                             "search_charge_vs_cheapest_rival": (
+                                 None if not ratios else
+                                 {"min_factor": float(min(ratios)), "max_factor": float(max(ratios)),
+                                  "note": "B_search divided by the cheapest competing row's WHOLE registered lifecycle cost, "
+                                          "over the 56 cells of this column; the minimum is at the most expensive cell "
+                                          "(H = 128, r = 32) and the maximum at the cheapest (H = 1, r = 0)"}),
                              "expected_failed_draws": float(1 / q - 1),
                              "B_search_charged": {row: float(S[row]) for row in adm},
                              "frontier": fr, "cells_won": counts,
