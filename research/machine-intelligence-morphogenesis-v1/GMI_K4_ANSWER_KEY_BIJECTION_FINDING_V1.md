@@ -78,3 +78,42 @@ actual retained state and per-query work**, exactly as the `B1` layer's `carrier
 graph rather than from a label. Until then no K4 verdict from this engine bears on `K4_LOFO`.
 
 Recorded as gap **DG-10**.
+
+---
+
+## Addendum — the V3 engine's verdict distribution, and why running it was safe
+
+**Development-time observation, seed 17, cell `w2`, all 22 families × 3 grammars = 66 cells.** Explicitly **not**
+protected evidence, for the reason given below.
+
+| verdict | count | share |
+|---|---|---|
+| `THEORY_RED` | **59** | 89.4% |
+| `INCONCLUSIVE_GRAMMAR` | 6 | 9.1% |
+| `K4_RECOVERY_GREEN` | 1 | 1.5% |
+
+All 59 REDs give the same reason: *"grammar-native frontier property vector contradicts frozen prediction"*. The 6
+inconclusives are *"no admissible positive candidate"* — which is also why the branch's three hostile tests fail with
+`KeyError`: they hit that early-return path, which omits `winner_candidate_id` and `world_profile`, so those tests
+never reach the substance of their assertions. **The leakage and replay guarantees they exist to establish are
+therefore currently UNVERIFIED — not verified-and-broken, but unestablished.**
+
+**Why running this did not burn anything.** The protected V3 successor draws its seed from a **future drand beacon**
+that has not been acquired — `GMI_K4_PUBLIC_BEACON_V3.json` does not exist, and the successor freeze still reads
+`FROZEN_BEFORE_V3_PUBLIC_BEACON_AND_ANY_V3_PROTECTED_RESULT`. The protected seed therefore does not exist yet and
+cannot be contaminated by a development observation at seed 17. **This is sub-gate `IG-2` doing precisely the work it
+was specified for**, and it is the reason this review could measure the engine at all without spending the protected
+evidence — a contrast with V1, which the branch's own audit had to retire for exactly this.
+
+**How the 89.4% should and should not be read.** It is a large apparent negative against GMI's `K4` predictions and it
+must not be reported as one yet, for two reasons stated in advance of any protected run:
+
+1. **`DG-10` applies.** The candidate space hands the search the two axes that name the family. A frontier vector that
+   contradicts the prediction in 89% of cells means the *cost model* is selecting a different pre-built shape than the
+   predicted one — which is a statement about the lifecycle price map at least as much as about GMI.
+2. **The obligations may not discriminate.** 6 cells find no admissible candidate at all, which is the same
+   "ecology does not discriminate" failure mode `DG-9` found in the `B1` layer. No best-constant or fixed-function
+   null (rules 40, 42) has been run against these obligations.
+
+The honest reading today: **the engine is measuring something, and nobody has yet established that what it measures is
+GMI's prediction rather than its own price map.** That question is answerable and is the next work.
