@@ -1,0 +1,295 @@
+=== host cn094 world=shallow_shelf M2-P4 stage 3; runner_sha=7d790905ada3ad76 methods_sha=e0a0565466dc6778
+=== protected targets: 33
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": -3890.3,
+  "ci95_low": -13730.7,
+  "worst_ratio": 2.0,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": false,
+  "reason": "ci95_low<=0"
+ },
+ "ocm_controller": {
+  "rule": {
+   "[4, 3, 2, 4]": false,
+   "[4, 5, 2, 4]": false,
+   "[8, 6, 4, 4]": false,
+   "[8, 5, 2, 4]": false,
+   "[8, 6, 6, 4]": false
+  },
+  "fallback": false,
+  "probe_depth": 3,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 11 of 29 rows",
+  "beta": 8420,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "frequency",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 18038.0,
+   "mdl": 20441.1
+  },
+  "validated_better_interleave": {
+   "frequency": 19,
+   "mdl": 15
+  }
+ },
+ "mdl_fragments": [
+  [
+   "square",
+   "double"
+  ],
+  [
+   "square",
+   "inc",
+   "double",
+   "square"
+  ],
+  [
+   "dec",
+   "square",
+   "square"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "dec",
+   "double",
+   "square"
+  ],
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "double",
+   "dec",
+   "square"
+  ],
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "square",
+   "dec"
+  ],
+  [
+   "double",
+   "inc"
+  ]
+ ],
+ "mdl_admission": false,
+ "mdl_terminal": "KEEP_PRIMITIVE_BASELINE",
+ "mdl_strictly_better": 19,
+ "train_solved": 43,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 29,
+ "held_out_strictly_better": 19,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 21414.8,
+ "held_out_mean_candidate": 25305.0,
+ "wall_seconds": 94.72,
+ "pid": 131942
+}
+checkpoint written, pid 132280
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "RESET",
+ "calibration_only": false,
+ "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+ "fragments_served": 0,
+ "process": {
+  "pid": 132283,
+  "pre_restart_pid": 132280,
+  "pid_changed": true
+ },
+ "targets": 33,
+ "ladder": [
+  200000
+ ],
+ "successes": 33,
+ "attempts": 33,
+ "all_targets_verified": true,
+ "ladder_total": 33,
+ "mean_B_slots": 21089.6,
+ "external_verifications": 33,
+ "successes_by_budget": {
+  "200000": 33
+ },
+ "wall_seconds": 26.38
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GF_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, MDL library, fixed depth 4",
+ "fragments_served": 10,
+ "process": {
+  "pid": 132466,
+  "pre_restart_pid": 132280,
+  "pid_changed": true
+ },
+ "targets": 33,
+ "ladder": [
+  200000
+ ],
+ "successes": 33,
+ "attempts": 33,
+ "all_targets_verified": true,
+ "ladder_total": 33,
+ "mean_B_slots": 21611.0,
+ "external_verifications": 33,
+ "successes_by_budget": {
+  "200000": 33
+ },
+ "wall_seconds": 35.0
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "SHUFFLED_HISTORY",
+ "calibration_only": false,
+ "note": "random fragments matching the mined count and length profile, with the true hidden motifs excluded so the control cannot rediscover them by chance",
+ "fragments_served": 15,
+ "process": {
+  "pid": 132892,
+  "pre_restart_pid": 132280,
+  "pid_changed": true
+ },
+ "targets": 33,
+ "ladder": [
+  200000
+ ],
+ "successes": 33,
+ "attempts": 33,
+ "all_targets_verified": true,
+ "ladder_total": 33,
+ "mean_B_slots": 36895.3,
+ "external_verifications": 33,
+ "successes_by_budget": {
+  "200000": 33
+ },
+ "wall_seconds": 27.09
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 3 beta 8420, rule cells 5",
+ "fragments_served": 16,
+ "process": {
+  "pid": 133248,
+  "pre_restart_pid": 132280,
+  "pid_changed": true
+ },
+ "targets": 33,
+ "ladder": [
+  200000
+ ],
+ "successes": 33,
+ "attempts": 33,
+ "all_targets_verified": true,
+ "ladder_total": 33,
+ "mean_B_slots": 7913.3,
+ "external_verifications": 33,
+ "successes_by_budget": {
+  "200000": 33
+ },
+ "wall_seconds": 19.44
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 10,
+ "process": {
+  "pid": 133460,
+  "pre_restart_pid": 132280,
+  "pid_changed": true
+ },
+ "targets": 33,
+ "ladder": [
+  200000
+ ],
+ "successes": 33,
+ "attempts": 33,
+ "all_targets_verified": true,
+ "ladder_total": 33,
+ "mean_B_slots": 26477.2,
+ "external_verifications": 33,
+ "successes_by_budget": {
+  "200000": 33
+ },
+ "wall_seconds": 20.37
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D3",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 3",
+ "fragments_served": 16,
+ "process": {
+  "pid": 133708,
+  "pre_restart_pid": 132280,
+  "pid_changed": true
+ },
+ "targets": 33,
+ "ladder": [
+  200000
+ ],
+ "successes": 33,
+ "attempts": 33,
+ "all_targets_verified": true,
+ "ladder_total": 33,
+ "mean_B_slots": 7913.3,
+ "external_verifications": 33,
+ "successes_by_budget": {
+  "200000": 33
+ },
+ "wall_seconds": 19.67
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 4",
+ "fragments_served": 16,
+ "process": {
+  "pid": 133883,
+  "pre_restart_pid": 132280,
+  "pid_changed": true
+ },
+ "targets": 33,
+ "ladder": [
+  200000
+ ],
+ "successes": 33,
+ "attempts": 33,
+ "all_targets_verified": true,
+ "ladder_total": 33,
+ "mean_B_slots": 10270.1,
+ "external_verifications": 33,
+ "successes_by_budget": {
+  "200000": 33
+ },
+ "wall_seconds": 30.14
+}
+
+=== DONE shallow_shelf 2026-09-12T01:08:11Z

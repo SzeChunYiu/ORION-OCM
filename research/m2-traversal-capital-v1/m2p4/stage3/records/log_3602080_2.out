@@ -1,0 +1,276 @@
+=== host cn094 world=deep_well M2-P4 stage 3; runner_sha=7d790905ada3ad76 methods_sha=e0a0565466dc6778
+=== protected targets: 37
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": -3322.2,
+  "ci95_low": -22111.1,
+  "worst_ratio": 2.0,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": false,
+  "reason": "ci95_low<=0"
+ },
+ "ocm_controller": {
+  "rule": {
+   "[8, 6, 3, 1]": true,
+   "[8, 6, 6, 1]": false,
+   "[8, 6, 5, 1]": true,
+   "[8, 6, 4, 1]": true,
+   "[8, 5, 2, 1]": false,
+   "[8, 6, 2, 1]": true
+  },
+  "fallback": true,
+  "probe_depth": 1,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 25 of 25 rows",
+  "beta": 10,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "mdl",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 50882.5,
+   "mdl": 57802.4
+  },
+  "validated_better_interleave": {
+   "frequency": 13,
+   "mdl": 15
+  }
+ },
+ "mdl_fragments": [
+  [
+   "square",
+   "dec",
+   "square"
+  ],
+  [
+   "double",
+   "square"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "square",
+   "square"
+  ],
+  [
+   "square",
+   "double"
+  ]
+ ],
+ "mdl_admission": false,
+ "mdl_terminal": "KEEP_PRIMITIVE_BASELINE",
+ "mdl_strictly_better": 15,
+ "train_solved": 38,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 25,
+ "held_out_strictly_better": 13,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 57792.4,
+ "held_out_mean_candidate": 61114.5,
+ "wall_seconds": 360.27,
+ "pid": 131941
+}
+checkpoint written, pid 134333
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "RESET",
+ "calibration_only": false,
+ "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+ "fragments_served": 0,
+ "process": {
+  "pid": 134335,
+  "pre_restart_pid": 134333,
+  "pid_changed": true
+ },
+ "targets": 37,
+ "ladder": [
+  200000
+ ],
+ "successes": 37,
+ "attempts": 37,
+ "all_targets_verified": true,
+ "ladder_total": 37,
+ "mean_B_slots": 63591.4,
+ "external_verifications": 37,
+ "successes_by_budget": {
+  "200000": 37
+ },
+ "wall_seconds": 129.02
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GF_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, MDL library, fixed depth 4",
+ "fragments_served": 6,
+ "process": {
+  "pid": 134788,
+  "pre_restart_pid": 134333,
+  "pid_changed": true
+ },
+ "targets": 37,
+ "ladder": [
+  200000
+ ],
+ "successes": 37,
+ "attempts": 37,
+ "all_targets_verified": true,
+ "ladder_total": 37,
+ "mean_B_slots": 37324.6,
+ "external_verifications": 37,
+ "successes_by_budget": {
+  "200000": 37
+ },
+ "wall_seconds": 142.57
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "SHUFFLED_HISTORY",
+ "calibration_only": false,
+ "note": "random fragments matching the mined count and length profile, with the true hidden motifs excluded so the control cannot rediscover them by chance",
+ "fragments_served": 16,
+ "process": {
+  "pid": 135091,
+  "pre_restart_pid": 134333,
+  "pid_changed": true
+ },
+ "targets": 37,
+ "ladder": [
+  200000
+ ],
+ "successes": 37,
+ "attempts": 37,
+ "all_targets_verified": true,
+ "ladder_total": 37,
+ "mean_B_slots": 121243.5,
+ "external_verifications": 37,
+ "successes_by_budget": {
+  "200000": 37
+ },
+ "wall_seconds": 128.68
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 1 beta 10, rule cells 6",
+ "fragments_served": 6,
+ "process": {
+  "pid": 135317,
+  "pre_restart_pid": 134333,
+  "pid_changed": true
+ },
+ "targets": 37,
+ "ladder": [
+  200000
+ ],
+ "successes": 37,
+ "attempts": 37,
+ "all_targets_verified": true,
+ "ladder_total": 37,
+ "mean_B_slots": 63592.7,
+ "external_verifications": 37,
+ "successes_by_budget": {
+  "200000": 37
+ },
+ "wall_seconds": 126.96
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 6,
+ "process": {
+  "pid": 135511,
+  "pre_restart_pid": 134333,
+  "pid_changed": true
+ },
+ "targets": 37,
+ "ladder": [
+  200000
+ ],
+ "successes": 37,
+ "attempts": 37,
+ "all_targets_verified": true,
+ "ladder_total": 37,
+ "mean_B_slots": 55994.8,
+ "external_verifications": 37,
+ "successes_by_budget": {
+  "200000": 37
+ },
+ "wall_seconds": 59.09
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D3",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 3",
+ "fragments_served": 16,
+ "process": {
+  "pid": 135631,
+  "pre_restart_pid": 134333,
+  "pid_changed": true
+ },
+ "targets": 37,
+ "ladder": [
+  200000
+ ],
+ "successes": 37,
+ "attempts": 37,
+ "all_targets_verified": true,
+ "ladder_total": 37,
+ "mean_B_slots": 45823.4,
+ "external_verifications": 37,
+ "successes_by_budget": {
+  "200000": 37
+ },
+ "wall_seconds": 126.53
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 4",
+ "fragments_served": 16,
+ "process": {
+  "pid": 135774,
+  "pre_restart_pid": 134333,
+  "pid_changed": true
+ },
+ "targets": 37,
+ "ladder": [
+  200000
+ ],
+ "successes": 34,
+ "attempts": 37,
+ "all_targets_verified": false,
+ "ladder_total": 34,
+ "mean_B_slots": 54818.1,
+ "external_verifications": 34,
+ "successes_by_budget": {
+  "200000": 34
+ },
+ "wall_seconds": 302.03
+}
+
+=== DONE deep_well 2026-09-12T01:26:33Z
