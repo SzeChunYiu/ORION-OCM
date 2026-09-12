@@ -114,3 +114,134 @@ axes actually break the family bijection is a separate question, answerable only
 after the module runs, and is not claimed here.
 
 No RED result is touched. No earlier failure is rewritten.
+
+---
+
+# RV-377-106 — OUTCOMES (appended after the repair run; nothing above was edited)
+
+## Repair applied
+
+`_PROBE_MOD = 41` (prime, > 39 variables), with an assertion that the modulus
+exceeds the variable count, plus the two missing distractor guards. No reference
+law added, removed or rewritten; probe count unchanged at 19; candidate generation
+and ranking untouched.
+
+## Results, verbatim
+
+```
+P1 IMPORT OK, probes=19 mod=41 vars=39
+P2 distinct variable traces: 39/39
+P2 state signatures: 22/22
+P2 serve signatures: 21/21
+P3 state distractor->reference: [None, None, None]
+P3 serve distractor->reference: [None, None, None]
+P3 measure of distractors: ['UNCLASSIFIED_STATE_LAW', 'UNCLASSIFIED_STATE_LAW',
+  'UNCLASSIFIED_STATE_LAW'] ['UNCLASSIFIED_SERVE_LAW', 'UNCLASSIFIED_SERVE_LAW',
+  'UNCLASSIFIED_SERVE_LAW']
+```
+
+```
+$ python3 -m pytest test_gmi_k4_resource_native_v4.py -q
+........                                                                 [100%]
+8 passed in 2.84s
+```
+
+| id | outcome |
+|----|---------|
+| P1 | **CONFIRMED** |
+| P2 | **CONFIRMED** — 39/39, 22/22, 21/21 |
+| P3 | **CONFIRMED** — the new assertion passes as written; no distractor edit needed |
+| P4 | **FALSIFIED** |
+| P5 | pending full-suite run |
+
+### P4 was falsified, and that is a win for the Codex lane
+
+I predicted the V4/V5 tests would show at least one further failure beyond the
+import error, on the reasoning that a module of this size that has never once
+executed will not be correct first time. All 8 tests passed on the first run.
+The prediction was wrong and the lane's code was right. Recorded as stated, not
+dropped: the defect was confined to the probe panel's modulus, and everything the
+panel feeds was correct.
+
+## Two findings that stand regardless
+
+**F1 — the V5 stack has no tests.** `gmi_k4_search_v5.py` and
+`gmi_k4_null_frontier_v5.py` have no test file; `test_gmi_k4_resource_native_v4.py`
+covers V4 only. Eight commits — the null-aware successor, its freeze JSON, the
+LUNARC sizing, the beacon, the aggregate, the renderer and the submitter — rest
+on untested modules that, until this repair, could not be imported.
+
+**F2 — DG-10's status was asserted, not demonstrated.**
+`GMI_K4_NULL_AWARE_SUCCESSOR_FREEZE_V5.json` records
+`"DG-10": "CLOSED_BY_MEASURED_FACTORISED_RESOURCE_AXES_AT_V5_SCOPE"`. At the time
+that was written the mechanism said to close DG-10 raised on import and had never
+run. After this repair the *instrument* demonstrably separates all 22 state and
+all 21 serve laws, so the mechanism now exists — but DG-10 is closed only when the
+protected V5 run actually recovers the measured target vector. The freeze's
+own status line remains ahead of its evidence and is left in place, unedited,
+with this narrowing recorded against it.
+
+## What was checked and found clean
+
+The commit `55e94109 "size LUNARC from null-aware K4 V5 development sample"` was
+audited for fabricated numbers, since no development sample could have been taken
+from a module that raised on import. It changes only the probe *script*; no
+`LUNARC_ENV_PROBE_V1.json` with numbers was committed, the sizing is computed at
+run time on LUNARC, and every field is tagged
+`DEVELOPMENT_ONLY_MEASURED_NOT_SUBMITTED` /
+`"Development verdict and null audit are never protected evidence."` The commit
+title overstates ("from ... development sample" implies a sample was taken) but
+no result is fabricated. This lane is disciplined about the evidence line.
+
+---
+
+# RV-377-107 — FREEZE: first execution of the V5 null frontier returns RED
+
+Frozen BEFORE the development sweep. Appended outcomes only.
+
+## The triggering observation
+
+With the panel repaired, `gmi_k4_search_v5.run_cell` executes for the first time.
+On the first family/grammar cell, at both budgets tried:
+
+```
+budget=  2000 wall=   0.19s verdict='THEORY_RED_NULL_DOMINATES' best_null=NULL_FIXED_NUMERIC
+budget= 20000 wall=   1.86s verdict='THEORY_RED_NULL_DOMINATES' best_null=NULL_FIXED_NUMERIC
+```
+
+`NULL_FIXED_NUMERIC` reaches `semantic_score: 1.0` with
+`development_compute: 0.0` and `update_retraining: 0.0` both forced to zero, for a
+scalar lifecycle cost of 32.914 — strictly below the admissible developed witness.
+Per the lane's own frozen rule this is RED **even if the 10-axis vector matches**,
+"because the obligation failed to distinguish developed from hard-coded behavior."
+
+This is rule 42 firing exactly as it was written to fire. A hard-coded answer beats
+a developed one, so the obligation on this cell certifies nothing about
+intelligence.
+
+## Scope discipline
+
+This is a DEVELOPMENT result at a development seed. The V5 freeze states: "No V5
+protected task may execute until the one-shot V5 public beacon receipt exists. Any
+V4/V5 development smoke result is excluded from the protected aggregate." It is
+therefore **not protected evidence** and is not counted as one. It is recorded
+here as the basis of a falsifiable prediction about the protected run.
+
+## Frozen predictions for the 264-cell development sweep
+
+Grid: 22 families x 3 grammars x 4 cells (w1,w2,w4,w8), budget 20000, development seed.
+
+| id | prediction | falsifier |
+|----|-----------|-----------|
+| Q1 | **>= 60% of the 264 cells return `THEORY_RED_NULL_DOMINATES`.** | fewer than 158 cells RED |
+| Q2 | It is **not** 100% — at least one family resists null dominance, because obligations requiring stochastic serve, retrieval or external authority should not be satisfiable by a fixed numeric answer. | all 264 cells RED |
+| Q3 | `NULL_FIXED_NUMERIC` or `NULL_FIXED_TABLE` is the dominating null in the majority of RED cells. | a different null dominates most |
+| Q4 | The protected beacon run will reproduce the same RED verdict on the cells RED here. | protected run turns those cells GREEN |
+
+Q1 and Q4 are predictions **against** GMI. If they hold, the K4 obligation set is
+largely non-discriminating and a large block of the K4 programme certifies nothing.
+That is the outcome this sweep is designed to expose rather than avoid.
+
+Q2 is the prediction that can save something: if some families resist, those are
+the cells where the obligation genuinely demands development, and they are the only
+K4 cells whose verdicts mean anything.

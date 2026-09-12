@@ -107,8 +107,15 @@ _RESOURCE_VARS = sorted({
 })
 
 
+# The modulus must exceed len(_RESOURCE_VARS) and be coprime to the multiplier,
+# or variables at indices j and j + modulus receive identical values on EVERY probe
+# (the i * 11 term shifts all variables equally and so can never break the tie).
+_PROBE_MOD = 41  # prime, > len(_RESOURCE_VARS)
+assert _PROBE_MOD > len(_RESOURCE_VARS), "probe modulus must exceed the variable count"
+
+
 def _probe_env(i):
-    env = {v: 2 + ((j * 7 + i * 11) % 13) for j, v in enumerate(_RESOURCE_VARS)}
+    env = {v: 2 + ((j * 7 + i * 11) % _PROBE_MOD) for j, v in enumerate(_RESOURCE_VARS)}
     # Force a few coordinates to mutually incommensurate values on every probe.
     env["search_branch"] = 2 + (i % 4)
     env["window"] = 2 + ((3 * i + 1) % 7)
@@ -125,6 +132,13 @@ if len(STATE_SIG_TO_LABEL) != len(STATE_REFERENCE):
     raise AssertionError("state measurement panel aliases reference laws")
 if len(SERVE_SIG_TO_LABEL) != len(SERVE_REFERENCE):
     raise AssertionError("serve measurement panel aliases reference laws")
+# The signature tables are built from the reference laws only, so a distractor whose
+# signature lands on a reference signature is silently reported as a frozen target
+# coordinate.  That is the DG-10 leak in reverse and must fail closed too.
+if any(signature(d) in STATE_SIG_TO_LABEL for d in STATE_DISTRACTORS):
+    raise AssertionError("state distractor aliases a reference law")
+if any(signature(d) in SERVE_SIG_TO_LABEL for d in SERVE_DISTRACTORS):
+    raise AssertionError("serve distractor aliases a reference law")
 
 
 def measure_state_law(expr): return STATE_SIG_TO_LABEL.get(signature(expr), "UNCLASSIFIED_STATE_LAW")
