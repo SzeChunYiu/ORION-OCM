@@ -504,3 +504,28 @@ def test_r10_invasion_cells_replay_and_competition_is_not_independent_scoring():
     assert rc["n_cells"] == len(rc["pools"]) * rc["n_carriers"] ** 2
     assert rc["prediction_holds"] is (rc["n_offdiagonal_cells_where_competition_disagrees_with_solo"] > 0)
 
+
+def test_r11_biosphere_episode_is_deterministic_resumable_and_cites_its_screen_audit():
+    """R11: the committed episode receipt carries a self-verifying witness episode that reproduces field for field, the
+    checkpointed-and-resumed episode equals the straight-through one, the protected stream was never queried, and the
+    screen audit is cited by hash (protocol rule 18)."""
+    from gmi_microscope import biosphere
+    rc = json.loads((RES / "STAGE_R11_BIOSPHERE_V1.json").read_text())
+    aud = json.loads((RES / "STAGE_R8_SCREEN_AUDIT_V1.json").read_text())
+    assert rc["screen_audit_receipt_sha256"] == aud["receipt_sha256"]
+    assert rc["resume_determinism"]["identical"] is True
+    for run in rc["runs"].values():
+        assert run["dvp_stream_ledger"]["protected_queries"] == 0
+        assert run["replay_audit"]["replay_failures"] == 0
+    w = rc["determinism_witness"]
+    st = biosphere.episode(w["seed"], w["arm"], w["evaluations"], tau=w["tau"], resume=False)
+    got = biosphere.summarize(st, w["arm"], w["seed"])
+    for k, v in w["expected"].items():
+        assert got[k] == v, (k, got[k], v)
+    # Delta_B_meta is only computed where BOTH arms reached the declared milestone
+    mm = rc["meta_morphogenesis"]
+    for seed, d in mm["by_seed"].items():
+        if d["Delta_B_meta"] is not None:
+            assert d["B_fixed_morphogenesis"] - d["B_learned_morphogenesis"] == d["Delta_B_meta"]
+        else:
+            assert len(d["milestone_reached_by"]) < 2
