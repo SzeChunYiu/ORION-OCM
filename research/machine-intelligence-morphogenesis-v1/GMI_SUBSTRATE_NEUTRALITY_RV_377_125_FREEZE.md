@@ -79,3 +79,73 @@ machine built to attack it.
 
 One obligation type, one world family, `L = 32`. This tests capability parity, not cost parity
 — GMI's separate claim that the substrates differ in lifecycle burden is untouched here.
+
+---
+
+# RV-377-125 — ADJUDICATION: neural and non-neural sit on the same ceiling
+
+`L = 32`, 80 independent `W` draws × 800 queries, 6 values of `r`, 3 substrates.
+
+| `r` | bound | `neural_perceptron` | `symbolic_program` | `exemplar_table` |
+|---|---|---|---|---|
+| 0 | 0.5000 | 0.5000 ± 0.0019 | 0.5000 ± 0.0019 | 0.5000 ± 0.0019 |
+| 4 | 0.5625 | 0.5452 ± 0.0080 | 0.5637 ± 0.0020 | 0.5637 ± 0.0020 |
+| 8 | 0.6250 | 0.6068 ± 0.0081 | 0.6242 ± 0.0023 | 0.6242 ± 0.0023 |
+| 16 | 0.7500 | 0.7445 ± 0.0072 | 0.7499 ± 0.0017 | 0.7499 ± 0.0017 |
+| 24 | 0.8750 | 0.8734 ± 0.0048 | 0.8752 ± 0.0013 | 0.8752 ± 0.0013 |
+| 32 | 1.0000 | 1.0000 ± 0.0000 | 1.0000 ± 0.0000 | 1.0000 ± 0.0000 |
+
+| id | outcome |
+|----|---------|
+| S1 | **CONFIRMED** — 0 violations; no substrate exceeds `½ + r/(2L)` in expectation |
+| S2 | **CONFIRMED** — 0 gaps; neural and symbolic agree within 3 s.e. at every `r` |
+| S3 | **CONFIRMED** — the perceptron's pilot advantage vanishes entirely in expectation |
+| S4 | **CONFIRMED** — all three sit at exactly 0.5000 with no development |
+| S5 | **CONFIRMED** — all three reach exactly 1.0000 at full development |
+
+## The result
+
+> **At equal channel access, a gradient-trained neural machine has no capability advantage
+> over a symbolic lookup program.** Both sit on `½ + r/(2L)`; neither exceeds it; both reach
+> exactly ½ with no development and exactly 1.0 with full development.
+
+This derives neural and non-neural intelligence **under one law**. The capability ceiling is a
+function of the information channels alone, and the substrate does not enter it. Whatever
+distinguishes a neural machine from a lookup table at this scope, it is **not what it can
+achieve** — it is what it costs.
+
+## S3 was the honest risk, and it resolved against the pilot
+
+The disclosed pilot showed the perceptron at **0.8113 against a 0.7500 bound** — above the
+ceiling and above both symbolic machines on the same world. Had that survived averaging, my own
+capability law would have been wrong as stated, missing a term for machines that estimate
+global statistics from `D`.
+
+It did not survive. Over 80 draws the perceptron sits **on or below** the bound at every `r`.
+The pilot was the fixed-`W` effect: on one draw, the revealed sample's bit-imbalance does
+estimate the unrevealed majority; averaged over `W`, `H(W_unrevealed | D) = L − r` exactly and
+the gain is zero. The machine built to attack the law confirmed it instead.
+
+## Flagged rather than waved through
+
+The perceptron is **below** the symbolic machines at `r = 4, 8, 16, 24` — **four of four**
+non-trivial values, consistently one-sided. Each individual gap is inside 3 s.e. (at `r = 4`,
+diff 0.0185 against a tolerance of 0.0247, which is not comfortable), but a one-sided run of
+four is not what symmetric noise produces.
+
+The reading is that the perceptron **pays a real optimizer cost**: 60 epochs of SGD does not
+perfectly memorize the revealed pairs, and its trained bias adds variance (its standard error
+is 3–4× the symbolic machines' at every `r`). That is a *capability shortfall from imperfect
+optimization*, not a substrate advantage, and it points the same way as the main result — the
+neural machine never does better, only sometimes slightly worse.
+
+This does not affect S1, S2 or S3 as scored. It is recorded because a consistent one-sided
+deviation deserves a stated explanation rather than a passing p-value, and because a
+larger-draw re-test would settle whether the shortfall is real or four coincidences. Registered,
+not claimed.
+
+## Scope
+
+One obligation type, one world family, `L = 32`, one neural architecture with one training
+budget. This tests **capability parity only**. GMI's separate claim that substrates differ in
+*lifecycle cost* is untouched here and is not evidence for or against.
