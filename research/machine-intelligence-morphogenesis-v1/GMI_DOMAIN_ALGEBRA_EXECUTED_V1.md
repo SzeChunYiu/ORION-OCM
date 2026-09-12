@@ -139,6 +139,8 @@ same charged op sequence it is admissible to `P = 4`. The probabilistic carrier 
 **Status:** `PROVED_AT_SCOPE`. This **closes gap G5** of the theory core for these microscopes: the wide-precision
 instrument is no longer a declared intention but an executed column.
 
+**Executed consequence (`RV-377-066`, `STAGE_DK_V2_PRECISION_GATED.json`, `GMI_PRECISION_GATED_KINGDOM_V1.md`).** The kingdom question has now been asked on this axis. On a declared ambiguous-evidence ecology **no carrier of any registered kind is admissible in the 8-bit universe** — all ten rows score exactly 0.0, while the closest 8-bit-grid answer to the Bayes probability would score 0.910880 — and at **10 total bits (5 fractional)** and above, every frontier cell of all 20 (instrument, price, description-basis) keys is occupied by a probabilistic carrier and by no 8-bit-admissible one. GMI-DA5 therefore upgrades from a statement about **admissibility** to a statement about **occupancy**: the arithmetic instrument is a *kingdom* parameter, new gap **DG-6**. Two qualifications are executed alongside it: on a second, noisy-label ecology a quantized-count posterior reaches θ at 8 bits (0.863997) and occupies every cell, so precision is not a kingdom-maker in general; and inside the kingdom the occupant is the pruned or count-based realization, not exact inference (the exact posterior holds 0 of 42 reduced-price cells, crossover H* = 52/84 = 0.619048 queries). Consequently the §9b terminal below is a statement about the **8-bit** universe, and each of the eleven reduction verdicts inherits an instrument qualifier.
+
 ---
 
 ## 7. GMI-DA6 — the reliability index of a stochastic carrier
