@@ -130,7 +130,12 @@ capability-feasible space, and the only surviving niche is a serve-price corner 
 **Executed decision.** `STAGE_DC_V25_DC3_ENERGY.json` (record `RV-377-045`). At `N = 32`: capacity gate between `P = 4`
 and `P = 8` (`0.125 N` to `0.25 N`, bracketing the classical `0.138 N`); compression gate at `P* = 124 = 3.9 N`. The
 separation is a factor of 31. The exemplar parent was exactly correct (1.0) at every tested pattern count under both
-precision instruments, and was the sole frontier occupant of all 48 grid cells. The surviving niche, found by a **failed
+precision instruments, and was the sole frontier occupant of all 48 grid cells **up to the grid that was run**.
+*Bound attached 2026-09-12: `RV-377-068` grades this receipt **TRUNCATED, MAJOR**. Its grid stops at `H` = 1024 while
+the coupling-field row overtakes the pattern store at `H*` = 1856 exactly, in context `N32_P4_n1` under the wide
+instrument at the native price — a factor of 1.812 beyond the grid. "Sole occupant of all 48 cells" is therefore a
+statement about `H ≤ 1024` and not about the quadrant; the surviving niche the failed clause found is the same one,
+recovered here from the receipt's own coordinates rather than from the prose that first recorded it.* The surviving niche, found by a **failed
 clause** of the frozen prediction, is `P = 4` under the native associative-memory price at reuse `H > 1856`.
 
 **Status:** `PROVED_AT_SCOPE` for the executed instance (one pattern set per cell; a second set is the obvious replication).
