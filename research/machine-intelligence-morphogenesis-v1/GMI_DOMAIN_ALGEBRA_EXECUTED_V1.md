@@ -929,3 +929,79 @@ each, so a landscape feature in one says nothing about the other.
 **Constraint recorded:** two rows implementing "the same mechanism" at different layers may not be read as the same
 function of a shared parameter name unless their initialisers coincide. A landscape feature measured at one layer is
 evidence at that layer only.
+
+---
+
+## 16. GMI-DA11 — a negative claim is a claim about a region of the closure lattice, and must be indexed like one
+
+**Status:** `PROVED_AT_SCOPE` as a corollary of `GMI-DA7`; the corpus evidence is four executed instances, three of
+which falsified a standing claim and one of which falsified a claim made under the rule itself.
+**Protocol rules:** 37, 38, 39.
+
+### 16.1 The observation
+
+Three protocol rules were opened in one session, from three apparently unrelated failures:
+
+| rule | from | the claim that died | the index left unswept |
+|---|---|---|---|
+| 37 | `RV-377-053` | the `N10` serve law, twice: `L > w`, then `L ≥ 6 ∨ w ≤ 2` | the **cost coordinates** — both forms were inequalities between grid axes, fitted to the grid |
+| 38 | `RV-377-088` | `E_smooth2` is `NOT_OBSERVABLE`, recorded twice | the **row parameters** `h`, `LR` — the class was tested at two of 35 settings |
+| 39 | `RV-377-089b` | *my own* "no coefficient witness anywhere in the registered family" | the **ecologies** — 3 of 5 were measured |
+
+These are the same error on three different indices. In each case a claim of the form *"no X"* was recorded after
+searching a proper subset of the space X ranges over, with the subset fixed by an inherited default — a class constant,
+a hardcoded dict, a grid someone else chose — rather than by the claim.
+
+### 16.2 Why `GMI-DA7` makes this a theorem and not a hygiene rule
+
+`GMI-DA7` (§10) proves that the expressible-realization set `K(A, d, p, F)` is **monotone in all four of its declared
+parameters**: refining the alphabet `A`, the structure-depth bound `d`, the arithmetic instrument `p` or the ecology
+family `F` can only **split** classes, never merge them. A positive claim — *this carrier is admissible*, *this
+reduction exists* — is a claim about a **point**, and monotonicity carries it upward: a witness at `(A, d, p, F)`
+remains a witness at every refinement.
+
+A negative claim is the opposite. *"No carrier of this class is admissible"* is a claim about an entire **region** of
+the lattice, and monotonicity gives it no protection whatever: it is falsified by a single point anywhere in the region
+it implicitly quantified over. So:
+
+> **`GMI-DA11`.** A negative claim is a universally quantified statement over a region of `K(A, d, p, F)` and over the
+> parameter family within `A`. It is entitled to exactly the region actually searched. A negative recorded without
+> naming its indices claims a region it did not search, and the difference is not conservatism — it is the claim being
+> **false over the unsearched part**, as three of the four executed instances demonstrate.
+
+The asymmetry is exact and worth stating plainly: **positives are cheap to hold and negatives are expensive**, because
+monotonicity is on the positive's side. Every negative in this corpus is a bounded-search result wearing a universal's
+clothes unless its bounds are written down.
+
+### 16.3 The four executed instances
+
+* **`RV-377-053`** — the serve law died twice as a coordinate inequality and survives as a pair of scaling functions
+  derived from the row source, exact in **141 400 of 141 400** query-level identities. *Rule 37.*
+* **`RV-377-088`** — `E_smooth2` carried two `NOT_OBSERVABLE` terminals; sweeping `h` and `LR` overturned **both**
+  (`0.8802` at 48 events against `0.8411` recorded; `0.9271` at 16 against `0.7578`). The registered constants turned
+  out to be the **argmax for the first ecology the row ever faced**, carried unchanged into every later verdict.
+  *Rule 38.*
+* **`RV-377-089`** — the first `DG-7` audit **upheld** its target: `RV-377-082`'s ceiling on `E_smooth3` and `E_sym5`
+  survives a sweep to `h = 32`. A rule that only ever overturns is not measuring anything.
+* **`RV-377-089b`** — and then falsified a claim made *under rule 38, one hour after it was written*, on the axis the
+  rule had not been written for. Six coefficient rows on `E_sym3` are admissible under all six interventions.
+  *Rule 39.*
+
+### 16.4 The operational form
+
+Every negative terminal in this corpus must now carry an **index block**: for each of `A` (including the parameter
+family within it), `d`, `p`, `F` and the intervention set, either the swept range or the held default, explicitly.
+`DG-7` is the audit that brings the existing corpus into that form.
+
+Two consequences already banked:
+
+* the word **"ceiling"** is now earned only with an index block — `RV-377-082`'s was not, and survived; `RV-377-014`'s
+  was not, and did not;
+* the phrase **"no admissible witness"** carries a quantifier that must be written: `RV-377-089`'s cost a correction
+  within the hour.
+
+### 16.5 What this does not say
+
+It does not say the corpus's negatives are wrong. It says their **scope** is narrower than their wording, and that the
+difference is measurable — four measurements so far, two overturned, one upheld, one overturned against its own author.
+The upheld case is what makes the other three informative rather than merely embarrassing.
