@@ -60,8 +60,12 @@ P_B = {"state_per_model": 0.002, "work_per_sample": 1e-5, "route_work_per_query"
 P_C = {"error_pp": 100.0, "state": 0.02, "step": 0.005, "movement": 0.01}
 
 
+REVIVAL = {"active": False}   # set by --revival (RV-377-191 F descriptor, RV-377-192 B descriptor); see the revival freeze
+
+
 def seed_for(freeze_sha: str, lane: str, value: float, rep: int) -> int:
-    h = hashlib.sha256(f"GMI-RT-V3|{freeze_sha}|{lane}|{value}|{rep}".encode()).hexdigest()
+    tag = "GMI-RT-V3R" if REVIVAL["active"] else "GMI-RT-V3"
+    h = hashlib.sha256(f"{tag}|{freeze_sha}|{lane}|{value}|{rep}".encode()).hexdigest()
     return int(h[:16], 16) % (2 ** 32)
 
 
@@ -155,10 +159,19 @@ def lane_F(seed, agreement, data):
     # ---- descriptors (training split only)
     a_hat = float(np.mean(y_old_tr == y_new_tr))
     omega_hat = float(np.cos(np.pi * (1.0 - a_hat)))
-    # inner holdout of the OLD half gives the learner's base error e_hat; the old model is then the holdout-trained one
-    Xo_fit, Xo_ho, yo_fit, yo_ho = train_test_split(Xo, yo, test_size=0.2, random_state=seed, stratify=yo)
-    old = mlp(seed, warm=True).fit(Xo_fit, yo_fit)
-    e_hat = float(np.mean(old.predict(Xo_ho) != yo_ho))
+    if REVIVAL["active"]:
+        # RV-377-191 (descriptor stage): e_hat from 5-fold CV of the old model over the whole old half (sd ~0.007
+        # instead of ~0.017 from a 108-sample holdout); the deployed old model is trained on the full old half.
+        skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed); errs = []
+        for tr_i, te_i in skf.split(Xo, yo):
+            errs.append(float(np.mean(mlp(seed, warm=True).fit(Xo[tr_i], yo[tr_i]).predict(Xo[te_i]) != yo[te_i])))
+        e_hat = float(np.mean(errs)); Xo_fit, yo_fit = Xo, yo
+        old = mlp(seed, warm=True).fit(Xo_fit, yo_fit)
+    else:
+        # inner holdout of the OLD half gives the learner's base error e_hat; the old model is then the holdout-trained one
+        Xo_fit, Xo_ho, yo_fit, yo_ho = train_test_split(Xo, yo, test_size=0.2, random_state=seed, stratify=yo)
+        old = mlp(seed, warm=True).fit(Xo_fit, yo_fit)
+        e_hat = float(np.mean(old.predict(Xo_ho) != yo_ho))
     pred_acc = {
         "REWRITE": {"old": 1.0 - (1.0 - a_hat) - e_hat, "new": 1.0 - e_hat},
         "REPLAY": {"old": 1.0 - e_hat - (1.0 - a_hat) / 2.0, "new": 1.0 - e_hat - (1.0 - a_hat) / 2.0},
@@ -228,6 +241,20 @@ def lane_B(seed, tau, data):
     # noise floor of the weighted between-mode variance of residual means under zero true offsets: (m-1) sigma^2 / n
     tau2_hat = max(0.0, between - within * (M_MODES - 1) / n)
     sigma2_hat = within
+    if REVIVAL["active"]:
+        # RV-377-192 (theory/descriptor stage): heterogeneity relative to what the SHARED model class can represent,
+        # i.e. parameter (slope + offset) heterogeneity across modes (Chow form): in-sample SSE reduction of the
+        # per-mode fits over the shared fit, minus the overfitting allowance p (m-1) sigma^2 / n; sigma^2 from the
+        # per-mode fits. The K5 grand-mean world is the special case p = 1 (offsets only).
+        sse_shared = float((r ** 2).sum()); sse_exp = 0.0
+        for j in range(M_MODES):
+            sel = mtr == j
+            if sel.sum() >= 2:
+                ej = Ridge(alpha=1.0).fit(Xtr[sel], ytr[sel]); sse_exp += float(((ytr[sel] - ej.predict(Xtr[sel])) ** 2).sum())
+            else:
+                sse_exp += float((r[sel] ** 2).sum())
+        sigma2_hat = sse_exp / max(1, n - M_MODES * p)
+        tau2_hat = max(0.0, (sse_shared - sse_exp) / n - sigma2_hat * p * (M_MODES - 1) / n)
     price_shared = P_B["state_per_model"] * 1 + P_B["work_per_sample"] * n
     price_spec = P_B["state_per_model"] * M_MODES + P_B["work_per_sample"] * (n + N_TEST_B * P_B["route_work_per_query"])
     exp_shared = sigma2_hat + tau2_hat + sigma2_hat * p / n + price_shared
@@ -395,6 +422,8 @@ def score_cell(receipts):
 
 def run_task(args):
     lane, value, rep, freeze_sha, data = args
+    if len(args) > 5 and args[5]:
+        REVIVAL["active"] = True      # worker processes: re-activate the revival variant
     seed = seed_for(freeze_sha, lane, value, rep)
     t0 = time.time()
     committed, phash, observation = LANES[lane](seed, value, data)
@@ -406,7 +435,8 @@ def run_task(args):
         margin = margin_k5(pred, observation["admissible"], committed["cost"])
     else:
         margin = margin_k5(pred, observation["admissible"], observation["objective"])
-    return {"schema": SCHEMA, "revival_id": REVIVAL_ID, "lane": lane, "parameter": GRIDS[lane]["parameter"], "value": value,
+    rid = REVIVAL_ID if not REVIVAL["active"] else {"F_CONTINUAL_REAL": "RV-377-191", "B_SPECIALIZATION_REAL": "RV-377-192"}.get(lane, REVIVAL_ID)
+    return {"schema": SCHEMA, "revival_id": rid, "revival_variant": REVIVAL["active"], "lane": lane, "parameter": GRIDS[lane]["parameter"], "value": value,
             "replicate": rep, "seed": seed, "freeze_sha": freeze_sha, "prediction": committed, "prediction_sha256": phash,
             "observation": observation, "agreement": bool(agreement), "margin": float(margin),
             "wall_s": time.time() - t0, "environment": {"python": sys.version.split()[0], "sklearn": sklearn.__version__,
@@ -419,13 +449,16 @@ def main():
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--lanes", default=",".join(LANES))
     ap.add_argument("--jobs", type=int, default=3)
+    ap.add_argument("--revival", action="store_true", help="RV-377-191/192 descriptor-stage variants (F, B lanes)")
     a = ap.parse_args()
+    if a.revival:
+        REVIVAL["active"] = True
     os.makedirs(a.out_dir, exist_ok=True)
     hs = fetch_california_housing(); dg = load_digits()
     data = {"housing": (hs.data, hs.target), "digits": (dg.data, dg.target)}
     data_sha = {"housing": hashlib.sha256(np.ascontiguousarray(hs.data).tobytes() + np.ascontiguousarray(hs.target).tobytes()).hexdigest(),
                 "digits": hashlib.sha256(np.ascontiguousarray(dg.data).tobytes() + np.ascontiguousarray(dg.target).tobytes()).hexdigest()}
-    tasks = [(lane, v, r, a.freeze_sha, data) for lane in a.lanes.split(",") for v in GRIDS[lane]["values"] for r in range(REPLICATES)]
+    tasks = [(lane, v, r, a.freeze_sha, data, a.revival) for lane in a.lanes.split(",") for v in GRIDS[lane]["values"] for r in range(REPLICATES)]
     from concurrent.futures import ProcessPoolExecutor
     receipts = []
     with ProcessPoolExecutor(max_workers=a.jobs) as ex:
@@ -448,7 +481,8 @@ def main():
                                     else "GMI_LAW_DIFFERS_FROM_CV_ON_%d_OF_%d_REPLICATES" % (
                                         sum(r["prediction"]["cv_predicted_winner"] != r["prediction"]["gmi_predicted_winner"] for r in lane_rs), len(lane_rs)))
     green = sum(1 for lane in a.lanes.split(",") if lanes[lane] == "GREEN")
-    agg = {"schema": SCHEMA + "Aggregate", "revival_id": REVIVAL_ID, "freeze_sha": a.freeze_sha, "dataset_sha256": data_sha,
+    agg = {"schema": SCHEMA + "Aggregate", "revival_id": REVIVAL_ID if not a.revival else "RV-377-191/192", "revival_variant": a.revival,
+           "freeze_sha": a.freeze_sha, "dataset_sha256": data_sha,
            "tasks": len(receipts), "expected_tasks": len(tasks), "cell_results": cells, "lane_results": lanes,
            "terminal": f"REAL_TRANSFER_PHASE_LAWS_GREEN_ON_{green}_OF_{len(a.lanes.split(','))}_LANES",
            "environment": receipts[0]["environment"] if receipts else None}
