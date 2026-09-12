@@ -1,0 +1,48 @@
+{
+  "artifact": "GMI_ZERO_PRIOR_GRAMMAR_BIAS_HOSTILE_RECEIPT_V1",
+  "status": "EXECUTED_EXACT_HOSTILE",
+  "runner": "run_gmi_zero_prior_grammar_bias_hostile_v1.py",
+  "grammar": {
+    "domain": "F_5 -> F_5",
+    "terminals": ["x", "0", "1", "2", "3", "4"],
+    "binary_operators": ["add_mod_5", "multiply_mod_5", "equality_to_0_or_1"],
+    "cost": "AST node count"
+  },
+  "semantic_functions_total": 3125,
+  "all_functions_reached_by_cost": 15,
+  "cost_histogram": {
+    "1": 6,
+    "3": 13,
+    "5": 72,
+    "7": 237,
+    "9": 791,
+    "11": 1438,
+    "13": 567,
+    "15": 1
+  },
+  "stable_affine_target": {
+    "outputs": [1, 3, 0, 2, 4],
+    "minimum_ast_cost": 5,
+    "one_minimum_expression": "(1+(2*x))"
+  },
+  "predecessor_memory_twin": {
+    "outputs": [0, 0, 0, 0, 1],
+    "minimum_ast_cost": 3,
+    "one_minimum_expression": "eq(4,x)",
+    "cross_grammar_incompressibility_claim": "FALSIFIED"
+  },
+  "successor_hard_target": {
+    "outputs": [4, 2, 4, 1, 1],
+    "minimum_ast_cost": 15,
+    "one_minimum_expression": "(1+(3*(eq(1,x)+eq(eq(3,x),eq(4,x)))))",
+    "number_of_functions_at_maximum_cost": 1
+  },
+  "checks": {
+    "all_3125_semantic_functions_exhausted": true,
+    "predecessor_twin_has_three_node_equality_program": true,
+    "predecessor_cross_grammar_negative_control_fails": true,
+    "successor_hard_target_is_unique_at_cost_15": true
+  },
+  "claim_ceiling": "Exact hostile against one richer DSL. The successor hard target is grammar-relative, not intrinsically incompressible; multi-grammar protected testing remains required.",
+  "terminal": "ZERO_PRIOR_GRAMMAR_BIAS_PREDECESSOR_RED_SUCCESSOR_FROZEN"
+}
