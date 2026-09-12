@@ -13,6 +13,8 @@ Refusals (distinct exit codes, never warnings):
   3  a required file is missing or empty
   4  the destination already exists (an ingest never overwrites a package)
   5  the spec does not hash to the frozen sha256
+  6  the provenance manifest itself carries taxonomy tokens
+  7  the taxonomy scanner could not be loaded, so the manifest is unverifiable
 """
 import argparse, hashlib, io, json, os, shutil, sys, time
 from pathlib import Path
@@ -70,8 +72,12 @@ def main() -> int:
         digests[n] = dst
 
     manifest = {
+        # NO lane identifier here. This manifest is written INTO the authored directory,
+        # and the stage-2 orchestrator scans every file in that directory with the 219-token
+        # taxonomy hostile. A lane token would void the package as AUTHORSHIP_CONTAMINATED --
+        # contamination by the ingest step, not by the author. (M2-P2/M2-P3 manifests also
+        # live in authored/ and pass precisely because they carry no T6/T7 token.)
         "schema": "OCM_M2P4_AUTHORED_PACKAGE_PROVENANCE_V1",
-        "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
         "owner_issue": 165, "hardening_parent": 323,
         "status": "INGEST_ONLY_NOT_A_GATE_AND_NOT_A_SCORED_RUN",
         "ingested_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -92,6 +98,30 @@ def main() -> int:
             "these three files are the artifact of record; any defect re-runs the author unit or "
             "becomes CANNOT_CHECK — they are never patched in place"),
     }
+    # self-scan: the manifest joins the authored artifacts in the stage-2 taxonomy scan,
+    # so it must itself be clean. Refuse rather than emit a package that voids on ingest.
+    blob = json.dumps(manifest, indent=1) + "\n"
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "m2p2"))
+        import m2p2_taxa as _taxa
+        _tiers = _taxa.build_token_list()
+        _hits = _taxa.scan_text(blob, _taxa._patterns(_tiers))
+        if _hits:
+            shutil.rmtree(into)
+            print("REFUSE: the provenance manifest carries taxonomy tokens %s -- writing it "
+                  "would void the package as AUTHORSHIP_CONTAMINATED by the ingest step"
+                  % [h["token"] for h in _hits])
+            return 6
+        manifest_scan = "CLEAN (%d tokens checked)" % sum(len(v) for v in _tiers.values())
+    except ImportError as e:
+        # A could-not-check must NEVER be recorded as a checked-and-fine. If the scanner
+        # cannot be loaded we cannot know whether this manifest would void the package,
+        # so refuse outright rather than emit an unverified one.
+        shutil.rmtree(into)
+        print("REFUSE: taxonomy scanner could not be loaded (%s) -- the manifest cannot be "
+              "self-checked, so the package is not written" % e)
+        return 7
+    manifest["manifest_taxonomy_self_scan"] = manifest_scan
     io.open(into / "PROVENANCE.json", "w", encoding="utf-8").write(
         json.dumps(manifest, indent=1) + "\n")
 
