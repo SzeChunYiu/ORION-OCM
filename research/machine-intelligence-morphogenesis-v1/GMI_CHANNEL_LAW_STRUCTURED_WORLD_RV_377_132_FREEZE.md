@@ -113,3 +113,62 @@ Confirming S1–S7 establishes the first law in the family that bounds capabilit
 memorised indices**, with the bound equal to a computable property of the public structure and
 the revealed set, containing CL-1 at `H = L`. It does not extend to non-linear structure, to
 approximate identification, or to any architecture claim.
+
+---
+
+# RV-377-132 — ADJUDICATION: all nine clauses confirmed; the phase transition is observed
+
+126 machine cells + 21 closed-form checks, 60 independent `θ` draws × 2048 evaluations each.
+Receipt `microscopes/results/CHANNEL_LAW_STRUCTURED_WORLD_RV_377_132.json`
+(md5 `6ceb8f58cd9c82366131f4af26c0a836`, verified both sides).
+
+| id | outcome |
+|----|---------|
+| S1 | **CONFIRMED** — 0 cells above the per-draw ceiling + 4 s.e.; 0 above 3 s.e. (null 0.17) |
+| S2 | **CONFIRMED** — `eliminate` meets the per-draw ceiling in all 42 cells, max \|z\| **1.96** |
+| S3 | **CONFIRMED** — `table` on CL-1 everywhere |
+| S4 | **CONFIRMED** — `G_rep` closed form matches the per-draw mean at all 21 `(H, r)` |
+| S5a | **CONFIRMED** — `G_rep` gains over CL-1 at every `0 < r < 64`, `H < 64`: +0.147 to +0.245 (`H = 16`), +0.052 to +0.123 (`H = 32`) |
+| **S5b** | **CONFIRMED** — `G_rand` gain over CL-1 is **0.0019 / 0.0013 / 0.0011** at `(H, r) = (16, 8), (32, 8), (32, 16)`, all below 0.01; and **+0.230 / +0.313 / +0.250 / +0.125** at `H = 16, r ≥ 16`, **+0.167 / +0.125** at `H = 32, r ≥ 32` |
+| S6 | **CONFIRMED** — `H = 64` is CL-1 for both matrices |
+| S7a | **CONFIRMED** — `eliminate_wrong_G` never exceeds CL-1 |
+| S7b | **CONFIRMED** — `eliminate_wrong_G` sits on CL-1 in all 42 cells |
+
+| `G` | `H` | `r` | per-draw ceiling | closed form | `eliminate` | `table` | `eliminate_wrong_G` | CL-1 |
+|---|---|---|---|---|---|---|---|---|
+| rep | 16 | 8 | 0.7104 | 0.7110 | 0.7097 | 0.5634 | 0.5613 | 0.5625 |
+| rep | 16 | 16 | 0.8359 | 0.8469 | 0.8356 | 0.6269 | 0.6182 | 0.6250 |
+| rep | 16 | 32 | 0.9672 | 0.9717 | 0.9669 | 0.7499 | 0.7570 | 0.7500 |
+| rep | 32 | 16 | 0.7208 | 0.7202 | 0.7200 | 0.6246 | 0.6256 | 0.6250 |
+| rep | 32 | 48 | 0.9740 | 0.9702 | 0.9740 | 0.8737 | 0.8732 | 0.8750 |
+| rand | 16 | 8 | 0.5642 | — | 0.5644 | 0.5612 | 0.5606 | 0.5625 |
+| rand | 16 | 16 | 0.8535 | — | 0.8546 | 0.6245 | 0.6294 | 0.6250 |
+| rand | 16 | 24 | 1.0000 | — | **1.0000** | 0.6847 | 0.6958 | 0.6875 |
+| rand | 32 | 16 | 0.6250 | — | 0.6261 | 0.6265 | 0.6243 | 0.6250 |
+| rand | 32 | 24 | 0.6892 | — | 0.6890 | 0.6869 | 0.6873 | 0.6875 |
+| rand | 32 | 32 | 0.9164 | — | 0.9167 | 0.7506 | 0.7487 | 0.7500 |
+| rand | 32 | 48 | 1.0000 | — | **1.0000** | 0.8759 | 0.8766 | 0.8750 |
+| rand | 64 | 32 | 0.7500 | — | 0.7500 | 0.7488 | 0.7503 | 0.7500 |
+
+(The per-draw ceiling and the closed form differ by the sampling of `S` over 60 draws; S4 is
+the statement that they agree within 4 s.e., which they do at all 21 cells.)
+
+## The result worth reading directly
+
+Read the `G_rand, H = 16` rows of `eliminate` down `r`: 0.5644 → 0.8546 → **1.0000**. At
+`r = 8` the machine that knows the structure is indistinguishable from the one that
+memorises (0.5644 vs 0.5612); at `r = 24`, 40 indices it was never shown, it answers every one
+of the 64 correctly. Under `G_rep` with the same `H` and the same `r` the curve is 0.7097 →
+0.8356 → 0.9327: smooth. Same theorem, two matrices, two predicted shapes, both observed.
+
+> **Structure buys exactly the span fraction, and nothing else.** A machine reading the same
+> development without the structure gets the CL-1 line (S3). A machine reading a *wrong*
+> structure also gets the CL-1 line (S7b) — a wrong linear belief serves fresh coins, it does
+> not serve wrong answers. Generalization beyond the memorised indices is a computable
+> property of `(G, S)`, met to within noise in every cell.
+
+## Terminal
+
+`CL5_STRUCTURED_WORLD_LAW_VERIFIED_AT_REGISTERED_SCOPE` = **TRUE**. Contains CL-1 at
+`H = L` (analytic, S6). First law in the family bounding capability on indices outside the
+development set.
