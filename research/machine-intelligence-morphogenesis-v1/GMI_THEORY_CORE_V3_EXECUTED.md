@@ -246,6 +246,61 @@ says something sharp about what a kingdom is: since the phase boundary is a prop
 ecology parameter cannot create a new domain — it can only change which domains are admissible. A genuinely new kingdom
 must therefore change the *coordinates*, not the ecology (which is exactly the bounded-reduction criterion of GMI-DA1).
 
+## 5g. Kingdom closure, the register theorem, and the four axes (executed 2026-09-12)
+
+The full derivation now lives in `GMI_DOMAIN_DERIVATION_COMPLETE_V1.md`; this section records what changed in the core.
+
+**`GMI-DA7` (kingdom closure), `PROVED_AT_SCOPE`.** Bounded reduction is not one relation. It is indexed by four declared
+parameters, every one of which the executed microscopes fix: the primitive alphabet `A` (34 kinds), the structure-depth
+bound `d`, the arithmetic instrument `p` (8-bit fixed point), and the ecology family `F` (5 ecologies × 6 interventions).
+The class set `K(A, d, p, F)` partitions the expressible realizations, a candidate lies outside it only if it is not a
+bounded `A`-composition at `(d, p)` separated within `F`, and `K` is **monotone in all four**: enlarging `A`, `d` or `p`
+can only add classes; refining `F` can only split them.
+
+Consequence: the **eleven** executed candidate reductions (DC1, DC2, DC3, DC7, DC9, N3, N8, N10, N11, and the Codex forms
+F4 and F6) were *forced before they were run*. They are one theorem, not eleven facts. And eight of them were certified by
+exact developmental equality, which under monotonicity in `F` is not evidence that the carriers are the same machine — it
+is evidence that `F` never asked them to differ.
+
+**`GMI-DA8` (register theorem), `PROVED_AT_SCOPE`.** Any carrier whose state is a single finite-precision value updated by
+an input-driven transition reading no target is exactly emulated by a one-entry store under read-modify-write,
+`INSERT(tab, key, g(LOOKUP(tab, key), f(INPUT)))`. Executed over three history-dependent obligations, five stream lengths,
+seven rows and six price columns: **bit-identical on 54 of 54 valid cells**, a **constant 4-bit** description overhead, an
+execution overhead of exactly `c + k/T`, and **0 of 8 190** frontier cells for the parent (`RV-377-072`, `RV-377-073`).
+
+This **falsifies the enumeration half of `GMI-DA1`** recorded in §5e. The alphabet admits **eight** carrier classes, not
+nine: D6 (dynamical / controller) is the read-modify-write phase of D2 and entered the taxonomy because the taxonomy was
+read off the literature rather than off the type system. Gap `DG-1` closes — by showing the primitive adds no class.
+
+Two further corrections to §5e that the same runs force:
+
+* **Two of the nine registered domains are empty at the registered instrument settings.** D3 probabilistic is empty at
+  `p = 8` and D7 collective at reliability `q = 0.5`. "Nine domains exist" is false unqualified; seven are occupied and
+  two are gated.
+* **The coefficient carrier cannot express an input-driven transition.** `GRAD` is the only update kind producing a `VEC`
+  and it requires a target. In this alphabet "recurrent" is a property of **memory**, not of the continuous carrier.
+
+**The reachability half moved too.** The standing negative of `RV-377-023`/`028` is `FALSIFIED_AND_REPLACED`: both
+quality-diversity seeds cross `θ` at 10⁶ evaluations (0.8809, 0.8796) against a sound baseline of 0.7346, and the
+attribution is exact — the archive supplies 0.109 of the 0.146 gain and the duplicate-and-reindex operator the remaining
+0.037, which is the part that crosses `θ`. Charged morphogenetic atrophy then showed that **all 24** winners contain a
+two-rule error-driven coefficient learner (`c0 ← ADD(out, MUL(kh, e))` plus a target-tracking rule) with **every** store
+write deleted (`RV-377-071`). Admissibility recovery is not form recovery, but it *contains* it, and a carrier descriptor
+computed on a raw genotype is not a measurement of the carrier — the winners were 55–68 % introns.
+
+**Four axes remain, and each is a registered experiment rather than a hope:**
+
+| axis | status | record |
+|---|---|---|
+| `A` alphabet | **EXECUTED — no new kingdom** | `RV-377-072`, `RV-377-073` |
+| `d` structure depth (`H*(d) ~ R^d/d` unbounded) | running | `RV-377-065` |
+| `p` precision (D3 empty at 8 bits) | running | `RV-377-066` |
+| `F` ecology family (the eight equality certificates) | running | `RV-377-070` |
+
+Protocol rules added from failures in this block: **20** a recovery claim must exhibit the structural match, not only a
+capability at or above `θ`; **21** no admissible row may serve state written during development without a charged
+operation; **22** an obligation is history-dependent only where the best constant answer is below `θ`.
+
 ## 6. E-series status across the three lanes
 
 | lane | level | status |
