@@ -1,0 +1,227 @@
+{
+ "claim_ceiling": "E2 exploratory at tiny scope, single search family, one basis column (B0), one seed; post-hoc label-free classification; not a confirmatory blind-recovery result (#377 \u00a713 requires matched generic search parents, multiple encodings and seeds).",
+ "declared": "V1 = frozen budget (3000/40); RUN2 = declared exploratory re-run at 4x budget after V1 returned no E_smooth winner; V1 is preserved and remains the frozen result",
+ "ecologies": {
+  "E_bind": {
+   "all_x": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "events": 8,
+   "kind": "bind",
+   "train": [
+    0,
+    1,
+    2,
+    3
+   ]
+  },
+  "E_smooth": {
+   "all_x": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "events": 16,
+   "kind": "smooth",
+   "train": [
+    0,
+    3,
+    5,
+    6,
+    9,
+    10,
+    12,
+    15
+   ]
+  }
+ },
+ "issue": 377,
+ "receipt_sha256": "01328599f70f5fd7df5c9329efd3665c483b10c24d94e901c9e439e6bd8b8152",
+ "results": {
+  "E_bind": {
+   "best_score": 1.0,
+   "hill_steps": 160,
+   "n_random": 12000,
+   "n_winners_at_theta": 12,
+   "random_baseline_fraction_at_theta": 0.0026666666666666666,
+   "theta": 1.0,
+   "topk": 12,
+   "winner_classes": [
+    "NUMERIC_SPARSE",
+    "NUMERIC_SPARSE",
+    "NUMERIC_SPARSE",
+    "NUMERIC_SPARSE",
+    "NUMERIC_SPARSE",
+    "STORE_LOCAL (M1/M5 class)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "STORE_LOCAL (M1/M5 class)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "STORE_LOCAL (M1/M5 class)",
+    "STORE_LOCAL (M1/M5 class)"
+   ],
+   "winner_details": [
+    {
+     "class": "NUMERIC_SPARSE",
+     "cost": {
+      "desc": 42,
+      "exec": 24,
+      "rev": 0,
+      "upd": 8,
+      "ver": 0
+     },
+     "f": "[\"OR\", \"x1\", [\"NOT\", \"x0\"]]",
+     "g": "[[\"c3\", \"x1\"]]",
+     "max_writes": 1,
+     "n_fx_cells_written": 1,
+     "score": 1.0,
+     "used_store": false
+    },
+    {
+     "class": "NUMERIC_SPARSE",
+     "cost": {
+      "desc": 42,
+      "exec": 36,
+      "rev": 0,
+      "upd": 8,
+      "ver": 0
+     },
+     "f": "[\"ADD\", [\"NOT\", [\"SUB\", \"x0\", \"x1\"]], \"L\"]",
+     "g": "[[\"c0\", \"y\"]]",
+     "max_writes": 1,
+     "n_fx_cells_written": 1,
+     "score": 1.0,
+     "used_store": false
+    },
+    {
+     "class": "NUMERIC_SPARSE",
+     "cost": {
+      "desc": 42,
+      "exec": 48,
+      "rev": 0,
+      "upd": 8,
+      "ver": 0
+     },
+     "f": "[\"ADD\", \"x1\", [\"SEL\", \"k0\", [\"GT\", \"c2\", \"x2\"], [\"NOT\", \"x0\"]]]",
+     "g": "[[\"c3\", \"c3\"]]",
+     "max_writes": 0,
+     "n_fx_cells_written": 1,
+     "score": 1.0,
+     "used_store": false
+    },
+    {
+     "class": "NUMERIC_SPARSE",
+     "cost": {
+      "desc": 42,
+      "exec": 84,
+      "rev": 0,
+      "upd": 8,
+      "ver": 0
+     },
+     "f": "[\"SUB\", [\"XOR\", [\"XOR\", \"kq\", \"c0\"], [\"SUB\", \"k0\", \"L\"]], [\"ADD\", [\"GT\", \"c3\", \"x0\"], [\"SUB\", \"x0\", \"x1\"]]]",
+     "g": "[[\"c1\", \"out\"]]",
+     "max_writes": 1,
+     "n_fx_cells_written": 1,
+     "score": 1.0,
+     "used_store": false
+    },
+    {
+     "class": "NUMERIC_SPARSE",
+     "cost": {
+      "desc": 42,
+      "exec": 84,
+      "rev": 0,
+      "upd": 24,
+      "ver": 0
+     },
+     "f": "[\"SUB\", [\"OR\", [\"SEL\", \"x3\", \"c3\", \"x1\"], \"x1\"], [\"SUB\", [\"MUL\", \"kq\", \"kh\"], [\"XOR\", \"x0\", \"k1\"]]]",
+     "g": "[[\"c0\", \"y\"], [\"c0\", \"x3\"], [\"c1\", \"e\"]]",
+     "max_writes": 2,
+     "n_fx_cells_written": 2,
+     "score": 1.0,
+     "used_store": false
+    },
+    {
+     "class": "STORE_LOCAL (M1/M5 class)",
+     "cost": {
+      "desc": 122,
+      "exec": 20,
+      "rev": 0,
+      "upd": 30,
+      "ver": 0
+     },
+     "f": "\"L\"",
+     "g": "[[\"INSERT\", \"y\"]]",
+     "max_writes": 2,
+     "n_fx_cells_written": 0,
+     "score": 1.0,
+     "used_store": true
+    }
+   ]
+  },
+  "E_smooth": {
+   "best_score": 0.8542,
+   "hill_steps": 160,
+   "n_random": 12000,
+   "n_winners_at_theta": 1,
+   "random_baseline_fraction_at_theta": 0.0,
+   "theta": 0.85,
+   "topk": 12,
+   "winner_classes": [
+    "NUMERIC_SPARSE"
+   ],
+   "winner_details": [
+    {
+     "class": "NUMERIC_SPARSE",
+     "cost": {
+      "desc": 42,
+      "exec": 320,
+      "rev": 0,
+      "upd": 48,
+      "ver": 0
+     },
+     "f": "[\"SEL\", [\"NEG\", [\"ADD\", \"L\", \"x1\"]], [\"AND\", [\"THRESH\", \"k0\"], [\"GT\", \"c3\", \"c3\"]], [\"SEL\", \"x3\", [\"ADD\", \"kq\", \"x1\"], [\"MUL\", \"x1\", \"c2\"]]]",
+     "g": "[[\"c0\", \"x0\"], [\"c2\", \"k1\"], [\"c2\", \"e\"]]",
+     "max_writes": 2,
+     "n_fx_cells_written": 2,
+     "score": 0.8542,
+     "used_store": false
+    }
+   ]
+  }
+ },
+ "run_tag": "RUN2",
+ "schema": "StageFBlindRecoveryV1",
+ "search": "random N + hill-climb from top-k by single-node mutation; label-free; scored by (score, -charged cost)",
+ "seed": 1,
+ "status": "EXECUTED_AT_TINY_SCOPE",
+ "verdict": {
+  "F1_bind_winners_store_local": {
+   "fraction_numeric_dense": 0.0,
+   "fraction_store_local": 0.3333333333333333,
+   "holds": false
+  },
+  "F2_smooth_winners_numeric_dense": {
+   "fraction_numeric_dense": 0.0,
+   "fraction_store_local": 0.0,
+   "holds": false
+  },
+  "F3_handover": "NOT_OBSERVABLE__NO_STORE_LOCAL_CANDIDATE_REACHED_THETA_IN_E_SMOOTH"
+ }
+}

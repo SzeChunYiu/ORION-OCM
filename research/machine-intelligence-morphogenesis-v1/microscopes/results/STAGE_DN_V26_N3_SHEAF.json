@@ -1,0 +1,4799 @@
+{
+ "candidate_spec": {
+  "capability_hypothesis": "exact global answers with a description linear in the number of patches ((n-1)d^2 bits) and a serve cost linear in the number of patches, where a table parent must enumerate d^n and a search parent may backtrack exponentially",
+  "carrier": "a sheaf of local sections over a declared cover: (n-1) local relations R_i subset d x d on patches P_i = {x_i, x_{i+1}} with overlap {x_{i+1}} of width 1, plus the restriction maps",
+  "domain_discriminator": "does gluing produce answers no bounded parent reproduces? Decided here by exact answer-signature equality against both matched parents",
+  "native_operators": "RESTRICT (restrict a local section to an overlap), GLUE (compose sections agreeing on their overlap), CHECK (does a local section extend), PROJECT (read a variable off a glued section)",
+  "natural_complexity_coordinate": "number of patches k = n - 1 at fixed overlap width 1, against the global assignment space d^n that the cover factorizes",
+  "parent_attacks": "D2 constraint/table memory (TABLE_MAT, materializing) and D4/D5 program search (PROG_SEARCH, lazy), plus a plain exemplar control (TABLE_SEEN)",
+  "predicted_niche": "obligations whose global relation is exponential (d^n) but factorizes through a cover of bounded overlap; queries ask for a global section consistent with a boundary",
+  "weak_regime": "overlap width approaching n (the cover stops factorizing) and dense relations (where lex-first search finds a solution immediately and gluing is pure overhead)"
+ },
+ "cells": {
+  "n10_d3_dense|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 237,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8007bd95dbcb617861affe6625a0c6bf8a141e68c496d52a8513fce75c76d042",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 165,
+   "exec_per_query": 26.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 102,
+   "native_per_query": 11.3333
+  },
+  "n10_d3_dense|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 237,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8007bd95dbcb617861affe6625a0c6bf8a141e68c496d52a8513fce75c76d042",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 165,
+   "exec_per_query": 26.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 102,
+   "native_per_query": 11.3333
+  },
+  "n10_d3_dense|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1899,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "bc65927a0a7b5999da47339f6d83349552d90252dcbd6cca4ecf623455ec42f9",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 211.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 171,
+   "native_per_query": 19.0
+  },
+  "n10_d3_dense|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1899,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "bc65927a0a7b5999da47339f6d83349552d90252dcbd6cca4ecf623455ec42f9",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 211.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 171,
+   "native_per_query": 19.0
+  },
+  "n10_d3_dense|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 3669,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8007bd95dbcb617861affe6625a0c6bf8a141e68c496d52a8513fce75c76d042",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 407.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 252,
+   "native_per_query": 28.0
+  },
+  "n10_d3_dense|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 3669,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8007bd95dbcb617861affe6625a0c6bf8a141e68c496d52a8513fce75c76d042",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 407.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 252,
+   "native_per_query": 28.0
+  },
+  "n10_d3_dense|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 531495,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8007bd95dbcb617861affe6625a0c6bf8a141e68c496d52a8513fce75c76d042",
+   "capability": 1.0,
+   "compile_ops": 531450,
+   "desc_bits": 189,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 59049,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n10_d3_dense|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 531520,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8007bd95dbcb617861affe6625a0c6bf8a141e68c496d52a8513fce75c76d042",
+   "capability": 1.0,
+   "compile_ops": 531475,
+   "desc_bits": 189,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 59049,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n10_d3_dense|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 54,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "836981ce54fa2e0eb1980a54d10cd35eac6a45e4c8ab549aa541cf6ce906c2c6",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 6.0,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n10_d3_dense|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 66,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "836981ce54fa2e0eb1980a54d10cd35eac6a45e4c8ab549aa541cf6ce906c2c6",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 7.3333,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n10_d3_late|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 53541,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d2e412a21042bb439ef3d06f26401171fd8a78eaf0cb688eedfe13adc742b5f5",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 165,
+   "exec_per_query": 5949.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 31100,
+   "native_per_query": 3455.5556
+  },
+  "n10_d3_late|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 53541,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d2e412a21042bb439ef3d06f26401171fd8a78eaf0cb688eedfe13adc742b5f5",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 165,
+   "exec_per_query": 5949.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 31100,
+   "native_per_query": 3455.5556
+  },
+  "n10_d3_late|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1899,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "bc65927a0a7b5999da47339f6d83349552d90252dcbd6cca4ecf623455ec42f9",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 211.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 171,
+   "native_per_query": 19.0
+  },
+  "n10_d3_late|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1899,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "bc65927a0a7b5999da47339f6d83349552d90252dcbd6cca4ecf623455ec42f9",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 211.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 171,
+   "native_per_query": 19.0
+  },
+  "n10_d3_late|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 3574,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d2e412a21042bb439ef3d06f26401171fd8a78eaf0cb688eedfe13adc742b5f5",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 397.1111,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 198,
+   "native_per_query": 22.0
+  },
+  "n10_d3_late|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 3574,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d2e412a21042bb439ef3d06f26401171fd8a78eaf0cb688eedfe13adc742b5f5",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 153,
+   "exec_per_query": 397.1111,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 198,
+   "native_per_query": 22.0
+  },
+  "n10_d3_late|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 531495,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d2e412a21042bb439ef3d06f26401171fd8a78eaf0cb688eedfe13adc742b5f5",
+   "capability": 1.0,
+   "compile_ops": 531450,
+   "desc_bits": 189,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 59049,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n10_d3_late|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 531520,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d2e412a21042bb439ef3d06f26401171fd8a78eaf0cb688eedfe13adc742b5f5",
+   "capability": 1.0,
+   "compile_ops": 531475,
+   "desc_bits": 189,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 59049,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n10_d3_late|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 54,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "d24defcd6aef8eb350bc14d9cf0dafb3542c37bbf12cbb48eab40e44c22c60f5",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 6.0,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n10_d3_late|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 66,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "d24defcd6aef8eb350bc14d9cf0dafb3542c37bbf12cbb48eab40e44c22c60f5",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 7.3333,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_dense|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 66,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b9f32bcad6b94affa9b26090c880554359485c5b4ce1cdc6ac1a20ccf734e64c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 7.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 39,
+   "native_per_query": 4.3333
+  },
+  "n4_d3_dense|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 66,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b9f32bcad6b94affa9b26090c880554359485c5b4ce1cdc6ac1a20ccf734e64c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 7.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 39,
+   "native_per_query": 4.3333
+  },
+  "n4_d3_dense|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 657,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "1ada86e34a91c03836c8ac9de6f2519eaf07795a6e0502a310a927f799920ddd",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 73.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 63,
+   "native_per_query": 7.0
+  },
+  "n4_d3_dense|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 657,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "1ada86e34a91c03836c8ac9de6f2519eaf07795a6e0502a310a927f799920ddd",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 73.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 63,
+   "native_per_query": 7.0
+  },
+  "n4_d3_dense|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1268,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b9f32bcad6b94affa9b26090c880554359485c5b4ce1cdc6ac1a20ccf734e64c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 140.8889,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 90,
+   "native_per_query": 10.0
+  },
+  "n4_d3_dense|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1268,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b9f32bcad6b94affa9b26090c880554359485c5b4ce1cdc6ac1a20ccf734e64c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 140.8889,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 90,
+   "native_per_query": 10.0
+  },
+  "n4_d3_dense|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 297,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b9f32bcad6b94affa9b26090c880554359485c5b4ce1cdc6ac1a20ccf734e64c",
+   "capability": 1.0,
+   "compile_ops": 252,
+   "desc_bits": 81,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 81,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_dense|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 322,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b9f32bcad6b94affa9b26090c880554359485c5b4ce1cdc6ac1a20ccf734e64c",
+   "capability": 1.0,
+   "compile_ops": 277,
+   "desc_bits": 81,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 81,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_dense|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 54,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "b71536b53543e83e1945edfc115849038e562ad6718344cc90224e2d2852ab15",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 6.0,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_dense|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 66,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "b71536b53543e83e1945edfc115849038e562ad6718344cc90224e2d2852ab15",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 7.3333,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_sparse|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 75,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8ecb26ceef489a553447a88ade59b49c5d6e2da687697f7fe19097208e46f162",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 8.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 39,
+   "native_per_query": 4.3333
+  },
+  "n4_d3_sparse|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 75,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8ecb26ceef489a553447a88ade59b49c5d6e2da687697f7fe19097208e46f162",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 8.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 39,
+   "native_per_query": 4.3333
+  },
+  "n4_d3_sparse|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 657,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "1ada86e34a91c03836c8ac9de6f2519eaf07795a6e0502a310a927f799920ddd",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 73.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 63,
+   "native_per_query": 7.0
+  },
+  "n4_d3_sparse|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 657,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "1ada86e34a91c03836c8ac9de6f2519eaf07795a6e0502a310a927f799920ddd",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 73.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 63,
+   "native_per_query": 7.0
+  },
+  "n4_d3_sparse|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1261,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8ecb26ceef489a553447a88ade59b49c5d6e2da687697f7fe19097208e46f162",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 140.1111,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 81,
+   "native_per_query": 9.0
+  },
+  "n4_d3_sparse|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1261,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8ecb26ceef489a553447a88ade59b49c5d6e2da687697f7fe19097208e46f162",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 140.1111,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 81,
+   "native_per_query": 9.0
+  },
+  "n4_d3_sparse|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 297,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8ecb26ceef489a553447a88ade59b49c5d6e2da687697f7fe19097208e46f162",
+   "capability": 1.0,
+   "compile_ops": 252,
+   "desc_bits": 81,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 81,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_sparse|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 322,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "8ecb26ceef489a553447a88ade59b49c5d6e2da687697f7fe19097208e46f162",
+   "capability": 1.0,
+   "compile_ops": 277,
+   "desc_bits": 81,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 81,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_sparse|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 59,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "09425fe4d568e572dbe75840817c87a9fbb20dc0c898c90a84b8e4e6d5a3ce5e",
+   "capability": 0.5556,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 6.5556,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n4_d3_sparse|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 71,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "09425fe4d568e572dbe75840817c87a9fbb20dc0c898c90a84b8e4e6d5a3ce5e",
+   "capability": 0.5556,
+   "compile_ops": 0,
+   "desc_bits": 39,
+   "exec_per_query": 7.8889,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_dense|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 123,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2697af2537e815b2c2dc88a196e505377983ef1c8d24560fa14818e32b936d3f",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 87,
+   "exec_per_query": 13.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 60,
+   "native_per_query": 6.6667
+  },
+  "n6_d3_dense|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 123,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2697af2537e815b2c2dc88a196e505377983ef1c8d24560fa14818e32b936d3f",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 87,
+   "exec_per_query": 13.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 60,
+   "native_per_query": 6.6667
+  },
+  "n6_d3_dense|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1071,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "376f69bfa067d30580e83a54767b5a8e20d3846b3099b454032320b2f34292a7",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 119.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 99,
+   "native_per_query": 11.0
+  },
+  "n6_d3_dense|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1071,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "376f69bfa067d30580e83a54767b5a8e20d3846b3099b454032320b2f34292a7",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 119.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 99,
+   "native_per_query": 11.0
+  },
+  "n6_d3_dense|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2061,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2697af2537e815b2c2dc88a196e505377983ef1c8d24560fa14818e32b936d3f",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 229.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 144,
+   "native_per_query": 16.0
+  },
+  "n6_d3_dense|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2061,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2697af2537e815b2c2dc88a196e505377983ef1c8d24560fa14818e32b936d3f",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 229.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 144,
+   "native_per_query": 16.0
+  },
+  "n6_d3_dense|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 3699,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2697af2537e815b2c2dc88a196e505377983ef1c8d24560fa14818e32b936d3f",
+   "capability": 1.0,
+   "compile_ops": 3654,
+   "desc_bits": 117,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 729,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_dense|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 3724,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2697af2537e815b2c2dc88a196e505377983ef1c8d24560fa14818e32b936d3f",
+   "capability": 1.0,
+   "compile_ops": 3679,
+   "desc_bits": 117,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 729,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_dense|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 54,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "f4bb9983ecfc597c7171c189946a0f5b2001b6675ca30bac14d15b3b48ddf1b2",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 6.0,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_dense|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 66,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "f4bb9983ecfc597c7171c189946a0f5b2001b6675ca30bac14d15b3b48ddf1b2",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 7.3333,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_late|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 789,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "301bbbb6b0f5b77c3815fb1bcd3f26f28988a8599050c2f6fc4e7fd4b15a4457",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 87,
+   "exec_per_query": 87.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 452,
+   "native_per_query": 50.2222
+  },
+  "n6_d3_late|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 789,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "301bbbb6b0f5b77c3815fb1bcd3f26f28988a8599050c2f6fc4e7fd4b15a4457",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 87,
+   "exec_per_query": 87.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 452,
+   "native_per_query": 50.2222
+  },
+  "n6_d3_late|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1071,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "376f69bfa067d30580e83a54767b5a8e20d3846b3099b454032320b2f34292a7",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 119.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 99,
+   "native_per_query": 11.0
+  },
+  "n6_d3_late|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1071,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "376f69bfa067d30580e83a54767b5a8e20d3846b3099b454032320b2f34292a7",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 119.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 99,
+   "native_per_query": 11.0
+  },
+  "n6_d3_late|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2014,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "301bbbb6b0f5b77c3815fb1bcd3f26f28988a8599050c2f6fc4e7fd4b15a4457",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 223.7778,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 114,
+   "native_per_query": 12.6667
+  },
+  "n6_d3_late|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2014,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "301bbbb6b0f5b77c3815fb1bcd3f26f28988a8599050c2f6fc4e7fd4b15a4457",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 223.7778,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 114,
+   "native_per_query": 12.6667
+  },
+  "n6_d3_late|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 3699,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "301bbbb6b0f5b77c3815fb1bcd3f26f28988a8599050c2f6fc4e7fd4b15a4457",
+   "capability": 1.0,
+   "compile_ops": 3654,
+   "desc_bits": 117,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 729,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_late|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 3724,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "301bbbb6b0f5b77c3815fb1bcd3f26f28988a8599050c2f6fc4e7fd4b15a4457",
+   "capability": 1.0,
+   "compile_ops": 3679,
+   "desc_bits": 117,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 729,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_late|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 54,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "17e2a5db25facc308f002c5f0f938d121d881bcafe428b9e7b85a3df54767eea",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 6.0,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_late|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 66,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "17e2a5db25facc308f002c5f0f938d121d881bcafe428b9e7b85a3df54767eea",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 7.3333,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_sparse|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 241,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b18e7ac7c4e1eafdaed00e5f742ce0f0d3f4c5b9eb69132202b7d3df0cbb25ac",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 87,
+   "exec_per_query": 26.7778,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 105,
+   "native_per_query": 11.6667
+  },
+  "n6_d3_sparse|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 241,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b18e7ac7c4e1eafdaed00e5f742ce0f0d3f4c5b9eb69132202b7d3df0cbb25ac",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 87,
+   "exec_per_query": 26.7778,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 105,
+   "native_per_query": 11.6667
+  },
+  "n6_d3_sparse|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1089,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "9cab33d4127c844652d2c88c348c76c149b5e46d18285d44742eebcaaea61bf2",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 121.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 99,
+   "native_per_query": 11.0
+  },
+  "n6_d3_sparse|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1089,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "9cab33d4127c844652d2c88c348c76c149b5e46d18285d44742eebcaaea61bf2",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 121.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 99,
+   "native_per_query": 11.0
+  },
+  "n6_d3_sparse|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2021,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b18e7ac7c4e1eafdaed00e5f742ce0f0d3f4c5b9eb69132202b7d3df0cbb25ac",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 224.5556,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 109,
+   "native_per_query": 12.1111
+  },
+  "n6_d3_sparse|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2021,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b18e7ac7c4e1eafdaed00e5f742ce0f0d3f4c5b9eb69132202b7d3df0cbb25ac",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 75,
+   "exec_per_query": 224.5556,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 109,
+   "native_per_query": 12.1111
+  },
+  "n6_d3_sparse|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 3699,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b18e7ac7c4e1eafdaed00e5f742ce0f0d3f4c5b9eb69132202b7d3df0cbb25ac",
+   "capability": 1.0,
+   "compile_ops": 3654,
+   "desc_bits": 117,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 729,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_sparse|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 3724,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "b18e7ac7c4e1eafdaed00e5f742ce0f0d3f4c5b9eb69132202b7d3df0cbb25ac",
+   "capability": 1.0,
+   "compile_ops": 3679,
+   "desc_bits": 117,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 729,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_sparse|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 69,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "f5f0af88f5b2fa39282be9bd0bff02cab455e9a2293433d8d2a853bd3c1f1b46",
+   "capability": 0.7778,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 7.6667,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d3_sparse|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 81,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "f5f0af88f5b2fa39282be9bd0bff02cab455e9a2293433d8d2a853bd3c1f1b46",
+   "capability": 0.7778,
+   "compile_ops": 0,
+   "desc_bits": 51,
+   "exec_per_query": 9.0,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n6_d4_dense|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 294,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2263a72fc0f7bb2f3450903bfa360672245071a124c056fce3abbb7f025d5a77",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 122,
+   "exec_per_query": 18.375,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 109,
+   "native_per_query": 6.8125
+  },
+  "n6_d4_dense|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 294,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2263a72fc0f7bb2f3450903bfa360672245071a124c056fce3abbb7f025d5a77",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 122,
+   "exec_per_query": 18.375,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 109,
+   "native_per_query": 6.8125
+  },
+  "n6_d4_dense|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 3120,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "dc0234cc3f2ea5f238d8a107069a9022c380300af5ba2bada28d33af996af56a",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 110,
+   "exec_per_query": 195.0,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 176,
+   "native_per_query": 11.0
+  },
+  "n6_d4_dense|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 3120,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "dc0234cc3f2ea5f238d8a107069a9022c380300af5ba2bada28d33af996af56a",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 110,
+   "exec_per_query": 195.0,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 176,
+   "native_per_query": 11.0
+  },
+  "n6_d4_dense|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 6129,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2263a72fc0f7bb2f3450903bfa360672245071a124c056fce3abbb7f025d5a77",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 110,
+   "exec_per_query": 383.0625,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 256,
+   "native_per_query": 16.0
+  },
+  "n6_d4_dense|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 6129,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2263a72fc0f7bb2f3450903bfa360672245071a124c056fce3abbb7f025d5a77",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 110,
+   "exec_per_query": 383.0625,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 256,
+   "native_per_query": 16.0
+  },
+  "n6_d4_dense|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 162,
+    "exec": 20632,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2263a72fc0f7bb2f3450903bfa360672245071a124c056fce3abbb7f025d5a77",
+   "capability": 1.0,
+   "compile_ops": 20496,
+   "desc_bits": 208,
+   "exec_per_query": 8.5,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 4096,
+   "native_ops": 16,
+   "native_per_query": 1.0
+  },
+  "n6_d4_dense|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 162,
+    "exec": 20646,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "2263a72fc0f7bb2f3450903bfa360672245071a124c056fce3abbb7f025d5a77",
+   "capability": 1.0,
+   "compile_ops": 20550,
+   "desc_bits": 208,
+   "exec_per_query": 6.0,
+   "learn_ops": 0,
+   "n_queries": 16,
+   "native_compile_ops": 4096,
+   "native_ops": 16,
+   "native_per_query": 1.0
+  },
+  "n6_d4_dense|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 42,
+    "exec": 142,
+    "rev": 0,
+    "upd": 4,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "2d1e9b290503ab89aff82eddfe11f56e9b9815097fa8f219a576d4f714042a58",
+   "capability": 0.25,
+   "compile_ops": 0,
+   "desc_bits": 68,
+   "exec_per_query": 8.875,
+   "learn_ops": 4,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 16,
+   "native_per_query": 1.0
+  },
+  "n6_d4_dense|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 42,
+    "exec": 148,
+    "rev": 0,
+    "upd": 12,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "2d1e9b290503ab89aff82eddfe11f56e9b9815097fa8f219a576d4f714042a58",
+   "capability": 0.25,
+   "compile_ops": 0,
+   "desc_bits": 68,
+   "exec_per_query": 9.25,
+   "learn_ops": 12,
+   "n_queries": 16,
+   "native_compile_ops": 0,
+   "native_ops": 16,
+   "native_per_query": 1.0
+  },
+  "n8_d3_dense|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 171,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d5dc105e66f1c10ffc5487b5ee77c65a36c547849053b8d2eb373f794962450c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 117,
+   "exec_per_query": 19.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 72,
+   "native_per_query": 8.0
+  },
+  "n8_d3_dense|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 171,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d5dc105e66f1c10ffc5487b5ee77c65a36c547849053b8d2eb373f794962450c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 117,
+   "exec_per_query": 19.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 72,
+   "native_per_query": 8.0
+  },
+  "n8_d3_dense|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1485,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "290c5281f59aa7749e4315583592531b2c746e38e187cbda3cf52fd4975ecf8e",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 165.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 135,
+   "native_per_query": 15.0
+  },
+  "n8_d3_dense|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1485,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "290c5281f59aa7749e4315583592531b2c746e38e187cbda3cf52fd4975ecf8e",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 165.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 135,
+   "native_per_query": 15.0
+  },
+  "n8_d3_dense|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2865,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d5dc105e66f1c10ffc5487b5ee77c65a36c547849053b8d2eb373f794962450c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 318.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 198,
+   "native_per_query": 22.0
+  },
+  "n8_d3_dense|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2865,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d5dc105e66f1c10ffc5487b5ee77c65a36c547849053b8d2eb373f794962450c",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 318.3333,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 198,
+   "native_per_query": 22.0
+  },
+  "n8_d3_dense|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 45981,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d5dc105e66f1c10ffc5487b5ee77c65a36c547849053b8d2eb373f794962450c",
+   "capability": 1.0,
+   "compile_ops": 45936,
+   "desc_bits": 153,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 6561,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_dense|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 46006,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "d5dc105e66f1c10ffc5487b5ee77c65a36c547849053b8d2eb373f794962450c",
+   "capability": 1.0,
+   "compile_ops": 45961,
+   "desc_bits": 153,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 6561,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_dense|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 54,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "f30b81ea089194a5c2052cf2d0dbcbf0a8e37be7d14e35f58b769ac835db981a",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 63,
+   "exec_per_query": 6.0,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_dense|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 66,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "f30b81ea089194a5c2052cf2d0dbcbf0a8e37be7d14e35f58b769ac835db981a",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 63,
+   "exec_per_query": 7.3333,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_late|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 6327,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "fa2cb73da7e464f657111dc5b7f433e7d84960c8bd173eb9d14692da16558519",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 117,
+   "exec_per_query": 703.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 3770,
+   "native_per_query": 418.8889
+  },
+  "n8_d3_late|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 6327,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "fa2cb73da7e464f657111dc5b7f433e7d84960c8bd173eb9d14692da16558519",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 117,
+   "exec_per_query": 703.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 3770,
+   "native_per_query": 418.8889
+  },
+  "n8_d3_late|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1485,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "290c5281f59aa7749e4315583592531b2c746e38e187cbda3cf52fd4975ecf8e",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 165.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 135,
+   "native_per_query": 15.0
+  },
+  "n8_d3_late|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1485,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "290c5281f59aa7749e4315583592531b2c746e38e187cbda3cf52fd4975ecf8e",
+   "capability": 0.2222,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 165.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 135,
+   "native_per_query": 15.0
+  },
+  "n8_d3_late|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2794,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "fa2cb73da7e464f657111dc5b7f433e7d84960c8bd173eb9d14692da16558519",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 310.4444,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 156,
+   "native_per_query": 17.3333
+  },
+  "n8_d3_late|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2794,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "fa2cb73da7e464f657111dc5b7f433e7d84960c8bd173eb9d14692da16558519",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 310.4444,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 156,
+   "native_per_query": 17.3333
+  },
+  "n8_d3_late|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 45981,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "fa2cb73da7e464f657111dc5b7f433e7d84960c8bd173eb9d14692da16558519",
+   "capability": 1.0,
+   "compile_ops": 45936,
+   "desc_bits": 153,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 6561,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_late|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 46006,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "fa2cb73da7e464f657111dc5b7f433e7d84960c8bd173eb9d14692da16558519",
+   "capability": 1.0,
+   "compile_ops": 45961,
+   "desc_bits": 153,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 6561,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_late|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 54,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "3163277840af7fcc62ca00190814d1b8b6cdb033e5d65a5847147886dbd8034e",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 63,
+   "exec_per_query": 6.0,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_late|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 66,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "3163277840af7fcc62ca00190814d1b8b6cdb033e5d65a5847147886dbd8034e",
+   "capability": 0.3333,
+   "compile_ops": 0,
+   "desc_bits": 63,
+   "exec_per_query": 7.3333,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_sparse|PROG_SEARCH|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 123,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "1f4a0b225be5bbd5799a3c067b4b30a9c2ef097bdf266785137b0c1608dfab12",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 117,
+   "exec_per_query": 13.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 51,
+   "native_per_query": 5.6667
+  },
+  "n8_d3_sparse|PROG_SEARCH|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 12,
+    "exec": 123,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "1f4a0b225be5bbd5799a3c067b4b30a9c2ef097bdf266785137b0c1608dfab12",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 117,
+   "exec_per_query": 13.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 51,
+   "native_per_query": 5.6667
+  },
+  "n8_d3_sparse|SHEAF_NOGLUE|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1503,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "07fa5a6942741f373725a9d8aef86b97f32bd6eafc04de29532bcc93dfa9f7b2",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 167.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 135,
+   "native_per_query": 15.0
+  },
+  "n8_d3_sparse|SHEAF_NOGLUE|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 1503,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "07fa5a6942741f373725a9d8aef86b97f32bd6eafc04de29532bcc93dfa9f7b2",
+   "capability": 0.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 167.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 135,
+   "native_per_query": 15.0
+  },
+  "n8_d3_sparse|SHEAF|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2859,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "1f4a0b225be5bbd5799a3c067b4b30a9c2ef097bdf266785137b0c1608dfab12",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 317.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 177,
+   "native_per_query": 19.6667
+  },
+  "n8_d3_sparse|SHEAF|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 0,
+    "exec": 2859,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "1f4a0b225be5bbd5799a3c067b4b30a9c2ef097bdf266785137b0c1608dfab12",
+   "capability": 1.0,
+   "compile_ops": 0,
+   "desc_bits": 105,
+   "exec_per_query": 317.6667,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 177,
+   "native_per_query": 19.6667
+  },
+  "n8_d3_sparse|TABLE_MAT|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 45981,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "1f4a0b225be5bbd5799a3c067b4b30a9c2ef097bdf266785137b0c1608dfab12",
+   "capability": 1.0,
+   "compile_ops": 45936,
+   "desc_bits": 153,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 6561,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_sparse|TABLE_MAT|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 92,
+    "exec": 46006,
+    "rev": 0,
+    "upd": 0,
+    "ver": 0
+   },
+   "admissible": true,
+   "answer_signature": "1f4a0b225be5bbd5799a3c067b4b30a9c2ef097bdf266785137b0c1608dfab12",
+   "capability": 1.0,
+   "compile_ops": 45961,
+   "desc_bits": 153,
+   "exec_per_query": 5.0,
+   "learn_ops": 0,
+   "n_queries": 9,
+   "native_compile_ops": 6561,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_sparse|TABLE_SEEN|B0_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 59,
+    "rev": 0,
+    "upd": 3,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "e6fa1c25a53761442883b22eef7cbb83a78ca4a03e0473e74f5e4ccce6e0edda",
+   "capability": 0.5556,
+   "compile_ops": 0,
+   "desc_bits": 63,
+   "exec_per_query": 6.5556,
+   "learn_ops": 3,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  },
+  "n8_d3_sparse|TABLE_SEEN|B0i_LOCAL_ADAPTIVE_TRANSDUCERS": {
+   "R": {
+    "desc": 32,
+    "exec": 71,
+    "rev": 0,
+    "upd": 8,
+    "ver": 0
+   },
+   "admissible": false,
+   "answer_signature": "e6fa1c25a53761442883b22eef7cbb83a78ca4a03e0473e74f5e4ccce6e0edda",
+   "capability": 0.5556,
+   "compile_ops": 0,
+   "desc_bits": 63,
+   "exec_per_query": 7.8889,
+   "learn_ops": 8,
+   "n_queries": 9,
+   "native_compile_ops": 0,
+   "native_ops": 9,
+   "native_per_query": 1.0
+  }
+ },
+ "cells_spec": {
+  "n10_d3_dense": {
+   "d": 3,
+   "n": 10,
+   "rho_den": 10,
+   "rho_num": 7
+  },
+  "n10_d3_late": {
+   "d": 3,
+   "n": 10,
+   "rho_den": 10,
+   "rho_num": 9,
+   "tail": true
+  },
+  "n4_d3_dense": {
+   "d": 3,
+   "n": 4,
+   "rho_den": 10,
+   "rho_num": 7
+  },
+  "n4_d3_sparse": {
+   "d": 3,
+   "n": 4,
+   "rho_den": 10,
+   "rho_num": 4
+  },
+  "n6_d3_dense": {
+   "d": 3,
+   "n": 6,
+   "rho_den": 10,
+   "rho_num": 7
+  },
+  "n6_d3_late": {
+   "d": 3,
+   "n": 6,
+   "rho_den": 10,
+   "rho_num": 9,
+   "tail": true
+  },
+  "n6_d3_sparse": {
+   "d": 3,
+   "n": 6,
+   "rho_den": 10,
+   "rho_num": 4
+  },
+  "n6_d4_dense": {
+   "d": 4,
+   "n": 6,
+   "rho_den": 10,
+   "rho_num": 7
+  },
+  "n8_d3_dense": {
+   "d": 3,
+   "n": 8,
+   "rho_den": 10,
+   "rho_num": 7
+  },
+  "n8_d3_late": {
+   "d": 3,
+   "n": 8,
+   "rho_den": 10,
+   "rho_num": 9,
+   "tail": true
+  },
+  "n8_d3_sparse": {
+   "d": 3,
+   "n": 8,
+   "rho_den": 10,
+   "rho_num": 4
+  }
+ },
+ "claim_ceiling": "exact charged replay at scope; one declared relation family per cell; the reduction attack is an exact answer-signature equality test against two matched existing-domain parents; native prices are declared, not measured; no new domain is claimed",
+ "columns": [
+  "B0_LOCAL_ADAPTIVE_TRANSDUCERS",
+  "B0i_LOCAL_ADAPTIVE_TRANSDUCERS"
+ ],
+ "crossovers": {
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 0.72,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 2188.3333,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 5716.7604,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0315,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 1319.9155,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 24912.8827,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 0.72,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 2188.3333,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 5716.7604,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0315,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 1319.9775,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 24914.0546,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": null,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 2813.5714,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 17.1,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": null,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 1355.4475,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 89.4135,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": null,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 2813.5714,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 17.1,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": null,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 1355.5112,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 89.4177,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 2.1176,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 13.6667,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 33.3003,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0899,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 2.1635,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 120.8589,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 2.1176,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 13.6667,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 33.3003,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0899,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 2.3475,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 131.5733,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 2.5714,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 15.375,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 33.3003,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0911,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 2.176,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 84.6008,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 2.5714,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 15.375,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 33.3003,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0911,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 2.361,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 92.1009,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 1.2857,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 51.4,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 133.9404,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0557,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 16.5,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 425.0753,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 1.2857,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 51.4,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 133.9404,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0557,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 16.6116,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 427.9599,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": null,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 66.0855,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 15.4199,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0882,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 16.8939,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 44.5645,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": null,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 66.0855,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 15.4199,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0882,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 17.0081,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 44.8669,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 27.0027,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 69.3901,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 71.156,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0607,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 16.834,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 169.1631,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 27.0027,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 69.3901,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 71.156,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0607,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 16.9479,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 170.3111,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 1.3061,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 279.6,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 719.4839,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0329,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 54.9815,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 2084.2532,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 1.3061,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 279.6,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 719.4839,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0329,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 54.7602,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 1667.5556,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 0.8571,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 314.7143,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 942.4286,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0401,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 146.7575,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 3283.7143,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 0.8571,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 314.7143,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 942.4286,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0401,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 146.8372,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 3285.5,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": null,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 404.6335,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 15.7865,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": null,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 150.5479,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 65.8625,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": null,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 404.6335,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 15.7865,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": null,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 150.6297,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 65.8983,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 0.8571,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 354.0529,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 1413.6328,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0395,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 147.0703,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 5304.4411,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_PROG_SEARCH": 0.8571,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|SHEAF_vs_TABLE_MAT": 354.0529,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|TABLE_MAT_vs_PROG_SEARCH": 1413.6328,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_PROG_SEARCH": 0.0395,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|SHEAF_vs_TABLE_MAT": 147.1503,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|TABLE_MAT_vs_PROG_SEARCH": 5307.3257
+ },
+ "desc_bits_formulas": {
+  "PROG_SEARCH": "(n-1)*d^2 + (n-1)*2*ceil(log2 n) + PROG_OPS",
+  "SHEAF": "(n-1)*d^2 + (n-1)*2*ceil(log2 n)",
+  "SHEAF_NOGLUE": "(n-1)*d^2 + (n-1)*2*ceil(log2 n)",
+  "TABLE_MAT": "d^2 * (1 + n*ceil(log2 d))",
+  "TABLE_SEEN": "|dev| * (2*ceil(log2 d) + 1 + n*ceil(log2 d))"
+ },
+ "developmental_equality": {
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_PROG_SEARCH": true,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_SHEAF_NOGLUE": false,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_MAT": true,
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|SHEAF_vs_TABLE_SEEN": false
+ },
+ "dg2_compliance": "the reuse-horizon grid of every (cell, column, price) is the union of the base grid (1, 16, 128, 1024) with floor(H*/2), ceil(H*)+1 and ceil(2H*) of EVERY pairwise analytic crossover among the admissible rows, so no frontier statement is made on a truncated grid",
+ "domain_candidate": "N3 relational-constraint / sheaf intelligence",
+ "ecology_facts": {
+  "n10_d3_dense": {
+   "d": 3,
+   "executed_relation_density": 0.7531,
+   "global_space": 59049,
+   "n": 10,
+   "n_feasible": 9,
+   "n_patches": 9,
+   "n_queries": 9,
+   "rho": "7/10",
+   "tail": false
+  },
+  "n10_d3_late": {
+   "d": 3,
+   "executed_relation_density": 0.8272,
+   "global_space": 59049,
+   "n": 10,
+   "n_feasible": 3,
+   "n_patches": 9,
+   "n_queries": 9,
+   "rho": "9/10",
+   "tail": true
+  },
+  "n4_d3_dense": {
+   "d": 3,
+   "executed_relation_density": 0.8519,
+   "global_space": 81,
+   "n": 4,
+   "n_feasible": 9,
+   "n_patches": 3,
+   "n_queries": 9,
+   "rho": "7/10",
+   "tail": false
+  },
+  "n4_d3_sparse": {
+   "d": 3,
+   "executed_relation_density": 0.5556,
+   "global_space": 81,
+   "n": 4,
+   "n_feasible": 6,
+   "n_patches": 3,
+   "n_queries": 9,
+   "rho": "4/10",
+   "tail": false
+  },
+  "n6_d3_dense": {
+   "d": 3,
+   "executed_relation_density": 0.7333,
+   "global_space": 729,
+   "n": 6,
+   "n_feasible": 9,
+   "n_patches": 5,
+   "n_queries": 9,
+   "rho": "7/10",
+   "tail": false
+  },
+  "n6_d3_late": {
+   "d": 3,
+   "executed_relation_density": 0.7111,
+   "global_space": 729,
+   "n": 6,
+   "n_feasible": 3,
+   "n_patches": 5,
+   "n_queries": 9,
+   "rho": "9/10",
+   "tail": true
+  },
+  "n6_d3_sparse": {
+   "d": 3,
+   "executed_relation_density": 0.4222,
+   "global_space": 729,
+   "n": 6,
+   "n_feasible": 2,
+   "n_patches": 5,
+   "n_queries": 9,
+   "rho": "4/10",
+   "tail": false
+  },
+  "n6_d4_dense": {
+   "d": 4,
+   "executed_relation_density": 0.75,
+   "global_space": 4096,
+   "n": 6,
+   "n_feasible": 16,
+   "n_patches": 5,
+   "n_queries": 16,
+   "rho": "7/10",
+   "tail": false
+  },
+  "n8_d3_dense": {
+   "d": 3,
+   "executed_relation_density": 0.7937,
+   "global_space": 6561,
+   "n": 8,
+   "n_feasible": 9,
+   "n_patches": 7,
+   "n_queries": 9,
+   "rho": "7/10",
+   "tail": false
+  },
+  "n8_d3_late": {
+   "d": 3,
+   "executed_relation_density": 0.7937,
+   "global_space": 6561,
+   "n": 8,
+   "n_feasible": 3,
+   "n_patches": 7,
+   "n_queries": 9,
+   "rho": "9/10",
+   "tail": true
+  },
+  "n8_d3_sparse": {
+   "d": 3,
+   "executed_relation_density": 0.4286,
+   "global_space": 6561,
+   "n": 8,
+   "n_feasible": 6,
+   "n_patches": 7,
+   "n_queries": 9,
+   "rho": "4/10",
+   "tail": false
+  }
+ },
+ "frontier": {
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1094": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=11435": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2190": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2858": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4378": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=5718": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=12456": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1321": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=24914": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2641": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=49827": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=659": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1094": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=11435": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2190": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2858": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4378": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=5718": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=12457": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1321": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=24916": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2641": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=49830": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=659": [
+   "PROG_SEARCH"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1406": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=19": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2815": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=36": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=5629": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=8": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1357": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=180": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2712": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=44": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=677": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=91": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1406": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=19": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2815": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=36": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=5629": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=8": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1357": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=180": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2713": [
+   "TABLE_MAT"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=44": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=677": [
+   "SHEAF"
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=91": [
+   "SHEAF"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=15": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=29": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=35": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=6": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=68": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=122": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=243": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=6": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=60": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=15": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=29": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=35": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=6": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=68": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=133": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=265": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=6": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=65": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=17": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=32": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=35": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=68": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=7": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=171": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=42": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=6": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=86": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=17": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=32": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=35": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=68": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=7": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=186": [
+   "TABLE_MAT"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=46": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=6": [
+   "PROG_SEARCH"
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=94": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=104": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=135": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=25": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=269": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=53": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=66": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=18": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=212": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=34": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=427": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=8": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=852": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=104": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=135": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=25": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=269": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=53": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=66": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=18": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=213": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=35": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=429": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=8": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=857": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=134": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=17": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=32": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=33": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=68": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=7": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=18": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=22": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=35": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=46": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=8": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=91": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=134": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=17": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=32": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=33": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=68": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=7": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=19": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=22": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=36": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=46": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=8": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=91": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=13": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=140": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=144": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=29": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=34": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=35": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=56": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=71": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=73": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=171": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=18": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=340": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=35": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=8": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=84": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=13": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=140": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=144": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=29": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=34": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=35": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=56": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=71": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=73": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=172": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=18": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=342": [
+   "TABLE_MAT"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=35": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=8": [
+   "PROG_SEARCH"
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=85": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=139": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1440": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=281": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=359": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=561": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=721": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1042": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=111": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2086": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=27": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=4170": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=56": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=139": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1440": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=281": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=359": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=4": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=561": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=721": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=111": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1669": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=27": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=3337": [
+   "TABLE_MAT"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=56": [
+   "PROG_SEARCH"
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=833": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=157": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1886": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=316": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=471": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=631": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=944": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=148": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1641": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=295": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=3285": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=6569": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=73": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=157": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1886": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=316": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=471": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=631": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=944": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=148": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1642": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=295": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=3287": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=6572": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=73": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=17": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=202": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=33": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=406": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=7": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=811": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=133": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=152": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=303": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=32": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=67": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=75": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=17": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=202": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=33": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=406": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=7": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=811": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=133": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=152": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=303": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=32": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=67": [
+   "SHEAF"
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=75": [
+   "SHEAF"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1415": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=177": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2829": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=356": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=706": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=710": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=10610": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=149": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2652": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=296": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=5306": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=73": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=1415": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=177": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=2829": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=3": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=356": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=706": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native|H=710": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=0": [
+   "SHEAF"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=1024": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=10616": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=128": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=149": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=16": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=2653": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=296": [
+   "PROG_SEARCH"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=5309": [
+   "TABLE_MAT"
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced|H=73": [
+   "PROG_SEARCH"
+  ]
+ },
+ "frontier_grid": {
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   2,
+   3,
+   16,
+   128,
+   1024,
+   1094,
+   2190,
+   2858,
+   4378,
+   5718,
+   11435
+  ],
+  "n10_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   128,
+   659,
+   1024,
+   1321,
+   2641,
+   12456,
+   24914,
+   49827
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   2,
+   3,
+   16,
+   128,
+   1024,
+   1094,
+   2190,
+   2858,
+   4378,
+   5718,
+   11435
+  ],
+  "n10_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   128,
+   659,
+   1024,
+   1321,
+   2641,
+   12457,
+   24916,
+   49830
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   8,
+   16,
+   19,
+   36,
+   128,
+   1024,
+   1406,
+   2815,
+   5629
+  ],
+  "n10_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   1,
+   16,
+   44,
+   91,
+   128,
+   180,
+   677,
+   1024,
+   1357,
+   2712
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   8,
+   16,
+   19,
+   36,
+   128,
+   1024,
+   1406,
+   2815,
+   5629
+  ],
+  "n10_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   1,
+   16,
+   44,
+   91,
+   128,
+   180,
+   677,
+   1024,
+   1357,
+   2713
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   4,
+   6,
+   15,
+   16,
+   29,
+   35,
+   68,
+   128,
+   1024
+  ],
+  "n4_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   4,
+   6,
+   16,
+   60,
+   122,
+   128,
+   243,
+   1024
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   4,
+   6,
+   15,
+   16,
+   29,
+   35,
+   68,
+   128,
+   1024
+  ],
+  "n4_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   4,
+   6,
+   16,
+   65,
+   128,
+   133,
+   265,
+   1024
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   4,
+   7,
+   16,
+   17,
+   32,
+   35,
+   68,
+   128,
+   1024
+  ],
+  "n4_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   4,
+   6,
+   16,
+   42,
+   86,
+   128,
+   171,
+   1024
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   4,
+   7,
+   16,
+   17,
+   32,
+   35,
+   68,
+   128,
+   1024
+  ],
+  "n4_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   4,
+   6,
+   16,
+   46,
+   94,
+   128,
+   186,
+   1024
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   3,
+   4,
+   16,
+   25,
+   53,
+   66,
+   104,
+   128,
+   135,
+   269,
+   1024
+  ],
+  "n6_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   8,
+   16,
+   18,
+   34,
+   128,
+   212,
+   427,
+   852,
+   1024
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   3,
+   4,
+   16,
+   25,
+   53,
+   66,
+   104,
+   128,
+   135,
+   269,
+   1024
+  ],
+  "n6_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   8,
+   16,
+   18,
+   35,
+   128,
+   213,
+   429,
+   857,
+   1024
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   7,
+   16,
+   17,
+   32,
+   33,
+   68,
+   128,
+   134,
+   1024
+  ],
+  "n6_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   8,
+   16,
+   18,
+   22,
+   35,
+   46,
+   91,
+   128,
+   1024
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   7,
+   16,
+   17,
+   32,
+   33,
+   68,
+   128,
+   134,
+   1024
+  ],
+  "n6_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   8,
+   16,
+   19,
+   22,
+   36,
+   46,
+   91,
+   128,
+   1024
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   13,
+   16,
+   29,
+   34,
+   35,
+   56,
+   71,
+   73,
+   128,
+   140,
+   144,
+   1024
+  ],
+  "n6_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   8,
+   16,
+   18,
+   35,
+   84,
+   128,
+   171,
+   340,
+   1024
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   13,
+   16,
+   29,
+   34,
+   35,
+   56,
+   71,
+   73,
+   128,
+   140,
+   144,
+   1024
+  ],
+  "n6_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   8,
+   16,
+   18,
+   35,
+   85,
+   128,
+   172,
+   342,
+   1024
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   3,
+   4,
+   16,
+   128,
+   139,
+   281,
+   359,
+   561,
+   721,
+   1024,
+   1440
+  ],
+  "n6_d4_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   27,
+   56,
+   111,
+   128,
+   1024,
+   1042,
+   2086,
+   4170
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   3,
+   4,
+   16,
+   128,
+   139,
+   281,
+   359,
+   561,
+   721,
+   1024,
+   1440
+  ],
+  "n6_d4_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   27,
+   56,
+   111,
+   128,
+   833,
+   1024,
+   1669,
+   3337
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   2,
+   3,
+   16,
+   128,
+   157,
+   316,
+   471,
+   631,
+   944,
+   1024,
+   1886
+  ],
+  "n8_d3_dense|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   73,
+   128,
+   148,
+   295,
+   1024,
+   1641,
+   3285,
+   6569
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   2,
+   3,
+   16,
+   128,
+   157,
+   316,
+   471,
+   631,
+   944,
+   1024,
+   1886
+  ],
+  "n8_d3_dense|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   73,
+   128,
+   148,
+   295,
+   1024,
+   1642,
+   3287,
+   6572
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   7,
+   16,
+   17,
+   33,
+   128,
+   202,
+   406,
+   811,
+   1024
+  ],
+  "n8_d3_late|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   1,
+   16,
+   32,
+   67,
+   75,
+   128,
+   133,
+   152,
+   303,
+   1024
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   1,
+   7,
+   16,
+   17,
+   33,
+   128,
+   202,
+   406,
+   811,
+   1024
+  ],
+  "n8_d3_late|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   1,
+   16,
+   32,
+   67,
+   75,
+   128,
+   133,
+   152,
+   303,
+   1024
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   2,
+   3,
+   16,
+   128,
+   177,
+   356,
+   706,
+   710,
+   1024,
+   1415,
+   2829
+  ],
+  "n8_d3_sparse|B0_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   73,
+   128,
+   149,
+   296,
+   1024,
+   2652,
+   5306,
+   10610
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|native": [
+   0,
+   1,
+   2,
+   3,
+   16,
+   128,
+   177,
+   356,
+   706,
+   710,
+   1024,
+   1415,
+   2829
+  ],
+  "n8_d3_sparse|B0i_LOCAL_ADAPTIVE_TRANSDUCERS|reduced": [
+   0,
+   1,
+   2,
+   16,
+   73,
+   128,
+   149,
+   296,
+   1024,
+   2653,
+   5309,
+   10616
+  ]
+ },
+ "generator": "LCG(1103515245, 12345), bit 16 per draw for relation seeds; relations seed 41; density rho = rho_num/rho_den tested on the low 16 bits mod rho_den",
+ "hypothesis_source_status": "GMI_NOVEL_DOMAIN_HYPOTHESES_V1.md is NOT PRESENT on branch claude/gmi-d0-d1-research-dnbp8i (nor GMI_NEW_DOMAIN_HARDENING_PROGRAMME_V1.md, nor GMI_DOMAIN_DERIVATION_COMPLETENESS_V1.md). The N3 specification executed here is RECONSTRUCTED from the task directive's enumeration and tested against the admission contract that is present: kingdoms sections 2 and 14 and the DC1-DC9 method sections 0 and 2. Every reconstructed element is stated in `candidate_spec`.",
+ "issue": [
+  377,
+  422
+ ],
+ "native_price_vector": "one op per GLUE / RESTRICT / CHECK / PROJECT (sheaf); one op per table LOOKUP; one op per enumerated candidate assignment (table construction); one op per search node (program search). Declared, not measured.",
+ "receipt_sha256": "df29242f74950cdb86322a2cc22002c09bc953be811c5c613e0b20f1ae56a0ec",
+ "revival_record": "RV-377-050",
+ "row_roles": {
+  "candidate": "SHEAF",
+  "matched_parents": [
+   "TABLE_MAT",
+   "PROG_SEARCH",
+   "TABLE_SEEN"
+  ],
+  "negative_twin": "SHEAF_NOGLUE"
+ },
+ "rows": [
+  "SHEAF",
+  "TABLE_MAT",
+  "PROG_SEARCH",
+  "TABLE_SEEN",
+  "SHEAF_NOGLUE"
+ ],
+ "run_tag": "V26_N3_SHEAF",
+ "schema": "StageDNN3SheafV1",
+ "status": "EXECUTED_EXACT_AT_SCOPE",
+ "theta": 0.85
+}

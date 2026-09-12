@@ -1,0 +1,519 @@
+{
+ "checks": [
+  {
+   "cells": {
+    "count_ones|multiset_counts": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 0
+    },
+    "count_ones|positional_tuple": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 0
+    },
+    "count_ones|sorted_tuple": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 0
+    },
+    "first_token|multiset_counts": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 72
+    },
+    "first_token|positional_tuple": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 0
+    },
+    "first_token|sorted_tuple": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 72
+    },
+    "is_sorted|multiset_counts": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 56
+    },
+    "is_sorted|positional_tuple": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 0
+    },
+    "is_sorted|sorted_tuple": {
+     "permutation_pairs": 132,
+     "quotient_distinct_permutation_pairs_with_equal_state": 56
+    }
+   },
+   "check": "X-TMT1",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "all binary sequences of length 4, all permutations, 3 obligations x 3 encoders",
+   "theorem": "TMT-1 order-information necessity"
+  },
+  {
+   "cells": {
+    "W=1": {
+     "classes_with_quotient_collision": 2,
+     "min_error_rate": "1/2",
+     "min_errors_of_any_suffix_only_rule": 4,
+     "n": 3,
+     "sequences": 8,
+     "suffix_classes": 2
+    },
+    "W=2": {
+     "classes_with_quotient_collision": 4,
+     "min_error_rate": "1/2",
+     "min_errors_of_any_suffix_only_rule": 8,
+     "n": 4,
+     "sequences": 16,
+     "suffix_classes": 4
+    },
+    "W=3": {
+     "classes_with_quotient_collision": 8,
+     "min_error_rate": "1/2",
+     "min_errors_of_any_suffix_only_rule": 16,
+     "n": 5,
+     "sequences": 32,
+     "suffix_classes": 8
+    }
+   },
+   "check": "X-TMT2",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "binary sequences of length W+2, obligation = first token, W in {1,2,3}",
+   "theorem": "TMT-2 finite-window impossibility"
+  },
+  {
+   "cells": {
+    "local_window_2": {
+     "inputs": 1,
+     "mean_required_edges": "7",
+     "structural_routing_opportunity_edges": "0",
+     "union_covers_every_input": true,
+     "union_edges": 7
+    },
+    "pointer_per_position": {
+     "inputs": 256,
+     "mean_required_edges": "4",
+     "structural_routing_opportunity_edges": "12",
+     "union_covers_every_input": true,
+     "union_edges": 16
+    },
+    "single_pointer_last_token": {
+     "inputs": 4,
+     "mean_required_edges": "1",
+     "structural_routing_opportunity_edges": "3",
+     "union_covers_every_input": true,
+     "union_edges": 4
+    }
+   },
+   "check": "X-TMT3",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "pointer dependency families on 4 tokens (256 inputs), a single-pointer family, and an input-independent local window",
+   "theorem": "TMT-3 fixed-routing union lower bound"
+  },
+  {
+   "cells": {
+    "s=(-2.0, 5.0, 1.0)|T=0.5": {
+     "T_logsumexp": 5.000168118811,
+     "max_objective_on_simplex_grid": 5.0,
+     "objective_at_softmax": 5.000168118811,
+     "softmax": [
+      8.31249e-07,
+      0.999663818899,
+      0.000335349852
+     ]
+    },
+    "s=(-2.0, 5.0, 1.0)|T=1.0": {
+     "T_logsumexp": 5.019045007879,
+     "max_objective_on_simplex_grid": 5.016906849138,
+     "objective_at_softmax": 5.019045007879,
+     "softmax": [
+      0.000894679497,
+      0.981135202434,
+      0.017970118069
+     ]
+    },
+    "s=(-2.0, 5.0, 1.0)|T=2.0": {
+     "T_logsumexp": 5.306356414245,
+     "max_objective_on_simplex_grid": 5.305586538272,
+     "objective_at_softmax": 5.306356414245,
+     "softmax": [
+      0.025908654717,
+      0.857976810608,
+      0.116114534674
+     ]
+    },
+    "s=(0.0, 0.0, 0.0)|T=0.5": {
+     "T_logsumexp": 0.549306144334,
+     "max_objective_on_simplex_grid": 0.548996153199,
+     "objective_at_softmax": 0.549306144334,
+     "softmax": [
+      0.333333333333,
+      0.333333333333,
+      0.333333333333
+     ]
+    },
+    "s=(0.0, 0.0, 0.0)|T=1.0": {
+     "T_logsumexp": 1.098612288668,
+     "max_objective_on_simplex_grid": 1.097992306399,
+     "objective_at_softmax": 1.098612288668,
+     "softmax": [
+      0.333333333333,
+      0.333333333333,
+      0.333333333333
+     ]
+    },
+    "s=(0.0, 0.0, 0.0)|T=2.0": {
+     "T_logsumexp": 2.197224577336,
+     "max_objective_on_simplex_grid": 2.195984612797,
+     "objective_at_softmax": 2.197224577336,
+     "softmax": [
+      0.333333333333,
+      0.333333333333,
+      0.333333333333
+     ]
+    },
+    "s=(1.0, 2.0, 3.0)|T=0.5": {
+     "T_logsumexp": 3.07146581425,
+     "max_objective_on_simplex_grid": 3.070146634568,
+     "objective_at_softmax": 3.07146581425,
+     "softmax": [
+      0.015876239976,
+      0.117310427826,
+      0.866813332197
+     ]
+    },
+    "s=(1.0, 2.0, 3.0)|T=1.0": {
+     "T_logsumexp": 3.407605964444,
+     "max_objective_on_simplex_grid": 3.406840995039,
+     "objective_at_softmax": 3.407605964444,
+     "softmax": [
+      0.09003057317,
+      0.244728471055,
+      0.665240955775
+     ]
+    },
+    "s=(1.0, 2.0, 3.0)|T=2.0": {
+     "T_logsumexp": 4.360539341283,
+     "max_objective_on_simplex_grid": 4.359306028129,
+     "objective_at_softmax": 4.360539341283,
+     "softmax": [
+      0.186323723226,
+      0.307195885718,
+      0.506480391056
+     ]
+    },
+    "s=(10.0, -10.0, 0.0)|T=0.5": {
+     "T_logsumexp": 10.000000001031,
+     "max_objective_on_simplex_grid": 10.0,
+     "objective_at_softmax": 10.000000001031,
+     "softmax": [
+      0.999999997939,
+      0.0,
+      2.061e-09
+     ]
+    },
+    "s=(10.0, -10.0, 0.0)|T=1.0": {
+     "T_logsumexp": 10.00004540096,
+     "max_objective_on_simplex_grid": 10.0,
+     "objective_at_softmax": 10.00004540096,
+     "softmax": [
+      0.99995460007,
+      2.061e-09,
+      4.5397869e-05
+     ]
+    },
+    "s=(10.0, -10.0, 0.0)|T=2.0": {
+     "T_logsumexp": 10.013520887094,
+     "max_objective_on_simplex_grid": 10.0,
+     "objective_at_softmax": 10.013520887094,
+     "softmax": [
+      0.993262356842,
+      4.5094041e-05,
+      0.006692549117
+     ]
+    }
+   },
+   "check": "X-TMT4",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE__NUMERICAL",
+   "passed": true,
+   "scope": "4 score vectors x 3 temperatures; simplex grid of step 1/40 (861 points); float64, tolerance 1e-9",
+   "theorem": "TMT-4 softmax variational characterization",
+   "worst_grid_gap": 0.0
+  },
+  {
+   "cells": {
+    "causal_mask_outputs_before_last_position_unchanged": true,
+    "unmasked_outputs_before_last_position_changed": true
+   },
+   "check": "X-TMT5",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "exact dyadic-kernel attention on 5 tokens; perturb the last token; compare outputs at positions < 4",
+   "theorem": "TMT-5 causal information legality"
+  },
+  {
+   "cells": {
+    "outputs_identical": true,
+    "projection_mults_cached": 48,
+    "projection_mults_recompute": 168,
+    "ratio": "7/2"
+   },
+   "check": "X-TMT6",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "6-step autoregressive continuation, d = 2, exact rational projections and dyadic-kernel attention",
+   "theorem": "TMT-6 exact cache substitution"
+  },
+  {
+   "cells": {
+    "exact_dyadic_kernel_outputs_identical": true,
+    "float64_max_abs_difference": 0.0
+   },
+   "check": "X-TMT7",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "6 tokens; naive vs online block-wise (blocks 2 and 3) normalization; exact with the dyadic kernel, float64 with real exp",
+   "theorem": "TMT-7 implementation invariance of exact attention"
+  },
+  {
+   "cells": {
+    "distinct_functions_tied": 45,
+    "distinct_functions_untied": 1985,
+    "strict": true,
+    "tied_subset_of_untied": true
+   },
+   "check": "X-TMT8",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "y = W2 relu(W1 x), W in {-1,0,1}^(2x2), inputs {-1,0,1}^2; tied = (W2 = W1^T)",
+   "theorem": "TMT-8 tied-parameter function-class inclusion"
+  },
+  {
+   "cells": {
+    "end_to_end_plain_jacobian": [
+     [
+      "5/96",
+      "-11/192"
+     ],
+     [
+      "-7/288",
+      "31/576"
+     ]
+    ],
+    "end_to_end_residual_jacobian": [
+     [
+      "15/32",
+      "15/64"
+     ],
+     [
+      "1/24",
+      "61/144"
+     ]
+    ],
+    "layer0_J_equals_I_plus_Jf": true,
+    "layer1_J_equals_I_plus_Jf": true,
+    "layer2_J_equals_I_plus_Jf": true,
+    "max_entry_distance_from_identity_residual": "83/144",
+    "max_entry_norm_plain": "11/192"
+   },
+   "check": "X-TMT9",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "three exact rational 2x2 linear blocks; finite-difference Jacobians (exact for linear maps); end-to-end products",
+   "theorem": "TMT-9 residual Jacobian identity"
+  },
+  {
+   "cells": {
+    "all_sequences_factor_exactly": true
+   },
+   "check": "X-TMT10",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "exact rational distribution over binary sequences of length 3 (8 sequences)",
+   "theorem": "TMT-10 autoregressive chain factorization"
+  },
+  {
+   "cells": {
+    "q=p": {
+     "E_KL": 0.0,
+     "H_Y_given_X": 0.5357251107972525,
+     "cross_entropy": 0.5357251107972525,
+     "identity_gap": 0.0
+    },
+    "q_skewed": {
+     "E_KL": 0.1560103189353479,
+     "H_Y_given_X": 0.5357251107972525,
+     "cross_entropy": 0.6917354297326005,
+     "identity_gap": 1.1102230246251565e-16
+    },
+    "q_uniform": {
+     "E_KL": 0.15742206976269274,
+     "H_Y_given_X": 0.5357251107972525,
+     "cross_entropy": 0.6931471805599453,
+     "identity_gap": 1.1102230246251565e-16
+    }
+   },
+   "check": "X-TMT11",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE__NUMERICAL",
+   "passed": true,
+   "scope": "3 contexts x 2 outcomes, exact rational p and three candidate q; float64 logs, tolerance 1e-12",
+   "theorem": "TMT-11 population cross-entropy optimum"
+  },
+  {
+   "cells": {
+    "drop_low_bit": {
+     "exact_on_all_states_possible": false,
+     "serving_states": 16,
+     "serving_states_merging_quotient_distinct_authority_states": 16
+    },
+    "identity": {
+     "exact_on_all_states_possible": true,
+     "serving_states": 64,
+     "serving_states_merging_quotient_distinct_authority_states": 0
+    },
+    "keep_parity_side_channel": {
+     "exact_on_all_states_possible": true,
+     "serving_states": 32,
+     "serving_states_merging_quotient_distinct_authority_states": 0
+    }
+   },
+   "check": "X-TMT12",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "64 authority states in {0..7}^2, obligation = parity of the sum, three quantizers",
+   "theorem": "TMT-12 quantization collision no-go"
+  },
+  {
+   "cells": {
+    "GQA_g4": {
+     "H_kv": 2,
+     "formula_2LndHkv": 2048,
+     "stored_elements": 2048
+    },
+    "MHA": {
+     "H_kv": 8,
+     "formula_2LndHkv": 8192,
+     "stored_elements": 8192
+    },
+    "MQA": {
+     "H_kv": 1,
+     "formula_2LndHkv": 1024,
+     "stored_elements": 1024
+    }
+   },
+   "check": "X-TMT13",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "L=4, n=16, d=8, H=8; explicit element count vs 2 L n d H_kv",
+   "theorem": "TMT-13 key/value cache state scaling"
+  },
+  {
+   "cells": {
+    "distinguishable_history_classes_cached": 4,
+    "distinguishable_history_classes_recompute": 4,
+    "induced_partition_identical": true,
+    "op_ratio": "7/4",
+    "outputs_identical_recompute_vs_cached": true,
+    "projection_mults_cached": 512,
+    "projection_mults_recompute": 896,
+    "quotient_distinct_pairs_merged_by_W_suffix": 16,
+    "quotient_distinct_pairs_merged_cached": 16,
+    "quotient_distinct_pairs_merged_recompute": 16,
+    "reading": "the cache changed the op count and changed NOTHING about which histories are distinguishable; the window, not the cache, bounds context capacity",
+    "reference_W_suffix_classes": 4
+   },
+   "check": "X-TMT14",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "all 16 binary histories of length 4; a W=2 windowed exact decoder run twice (recompute vs exact per-token K/V cache); obligation = first token (the X-TMT2 obligation)",
+   "theorem": "TMT-14 fixed-window / cache distinction"
+  },
+  {
+   "cells": {
+    "argmax_sequence": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "beam_B=2": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "beam_B=4": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "distinct_emitted_sequences": 3,
+    "greedy": {
+     "emitted": [
+      0,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "11/80"
+    },
+    "p_theta_conditional_table_sha256": "b8e1430929ab416e5621db9e3179fbfb8b8eed80b07d1c6c99e6fa4e813ddc20",
+    "reading": "one p_theta, eight decoders, 3 distinct emissions; an evaluation that moves must name whether it moved p_theta or the decoder",
+    "temperature_T=1": {
+     "emitted": [
+      1,
+      0,
+      1
+     ],
+     "p_theta_of_emitted": "81/2000"
+    },
+    "temperature_T=1/2": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "top_k=1": {
+     "emitted": [
+      0,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "11/80"
+    },
+    "top_p=0.6": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    }
+   },
+   "check": "X-TMT15",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "one exact rational p_theta over binary sequences of length 3 (7 conditionals); greedy, temperature T in {1, 1/2} by deterministic inverse-CDF against a declared quantile sequence (7/10, 1/4, 19/20), top-k=1, top-p=0.6, beam B in {2,4}, and the exact sequence argmax; no randomness anywhere",
+   "theorem": "TMT-15 decoding policy / model distribution distinction"
+  }
+ ],
+ "claim_ceiling": "exact/numerical implementation checks of the theorem statements on enumerated finite scopes; establishes nothing about trained neural networks (section 17 of the theorems document remains empirical)",
+ "evidence_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+ "issue": [
+  377,
+  422
+ ],
+ "n_checks": 15,
+ "n_passed": 15,
+ "not_checked": {},
+ "receipt_sha256": "da6cdede1341ea9c0edb71b85eff700266c4f1f2286470e40c19579cc9bd1f8e",
+ "schema": "GMI_TRANSFORMER_MICROFEATURE_EXACT_V1",
+ "source_theorems": "GMI_TRANSFORMER_MICROFEATURE_THEOREMS_V1.md (TMT-1..15), programme section 16 (complete: every TMT-1..15 statement has a finite check)",
+ "status": "GREEN"
+}

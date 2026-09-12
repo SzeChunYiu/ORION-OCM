@@ -1,0 +1,214 @@
+{
+ "archive_cells_filled": 43,
+ "archive_cells_total": 180,
+ "best_by_carrier": {
+  "DENSE": {
+   "R": {
+    "desc": 20,
+    "exec": 1088,
+    "rev": 2,
+    "upd": 64,
+    "ver": 1280
+   },
+   "admissible": false,
+   "capability": 0.8333,
+   "fingerprint": "b053b56380ed51c5c63408273bfcfa9b8e2b2dc3854e5bfc1df0f3259004eb99",
+   "genotype": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"dense0\", \"linear1\", 0], [\"in0\", \"linear1\", 1], [\"linear0\", \"out0\", 0], [\"dense1\", \"linear0\", 1]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 1}], \"dense1\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear0\": [\"LINEAR\", {}], \"linear1\": [\"LINEAR\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "mechanism": "D1 coefficient / function field (gradient-style)",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 0,
+    "S": 2,
+    "T": 2,
+    "U": 0,
+    "V": 0
+   },
+   "n_nodes": 7
+  },
+  "KVSTORE": {
+   "R": {
+    "desc": 168,
+    "exec": 34448,
+    "rev": 7,
+    "upd": 1996,
+    "ver": 35040
+   },
+   "admissible": true,
+   "capability": 0.875,
+   "fingerprint": "8930c6a8f844402fb176c6e72c2abe5c8b7c211d8b718d46fe46db62a955b9cb",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"tgt0\", \"insert0\", 2], [\"table0\", \"scoreselect0\", 0], [\"in0\", \"scoreselect0\", 1], [\"scoreselect0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"table0\": [\"KVSTORE\", {\"cap\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "mechanism": "D2 exemplar / retrieval memory",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 1,
+    "T": 0,
+    "U": 1,
+    "V": 0
+   },
+   "n_nodes": 7
+  },
+  "NONE": {
+   "R": {
+    "desc": 42,
+    "exec": 0,
+    "rev": 4,
+    "upd": 0,
+    "ver": 256
+   },
+   "admissible": false,
+   "capability": 0.625,
+   "fingerprint": "5b1941a3844b585f27ef546a837d751cc96d0a04b830322303776618ff55b3f5",
+   "genotype": "{\"edges\": [[\"in0\", \"nearest0\", 1], [\"nearest0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore1\": [\"KVSTORE\", {\"cap\": 16}], \"kvstore2\": [\"KVSTORE\", {\"cap\": 16}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 1}]}}",
+   "mechanism": "stateless transducer",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 1,
+    "P": 0,
+    "R": 1,
+    "S": 3,
+    "T": 0,
+    "U": 0,
+    "V": 0
+   },
+   "n_nodes": 8
+  },
+  "PROGRAM": {
+   "R": {
+    "desc": 181,
+    "exec": 34720,
+    "rev": 7,
+    "upd": 2012,
+    "ver": 35296
+   },
+   "admissible": true,
+   "capability": 0.875,
+   "fingerprint": "7db6e9827eb3e5c0d862d8d1f3df8b5dddb7f43d42f12778654bd16ac23be688",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"tgt0\", \"insert0\", 2], [\"table0\", \"scoreselect0\", 0], [\"in0\", \"scoreselect0\", 1], [\"scoreselect0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"program0\", \"verify0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D4-D5 symbolic program / search",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 2,
+    "T": 0,
+    "U": 1,
+    "V": 2
+   },
+   "n_nodes": 10
+  },
+  "TABLE": {
+   "R": {
+    "desc": 168,
+    "exec": 34448,
+    "rev": 7,
+    "upd": 1996,
+    "ver": 35040
+   },
+   "admissible": true,
+   "capability": 0.875,
+   "fingerprint": "26eadf372a4a920f8445a4d5b10dabb4439c8715ee7f106576b0c78fc79e97cf",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"tgt0\", \"insert0\", 2], [\"table0\", \"scoreselect0\", 0], [\"in0\", \"scoreselect0\", 1], [\"scoreselect0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "mechanism": "D2 exemplar / indexed memory",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 1,
+    "T": 0,
+    "U": 1,
+    "V": 0
+   },
+   "n_nodes": 7
+  }
+ },
+ "claim_ceiling": "one ecology, one seed, exact charged replay; recovery means an admissible genotype whose served answer reads that carrier, not that the recovered machine equals any registered row",
+ "ecology": "E_smooth1",
+ "failed_phenotypes": 152,
+ "history": [
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.875,
+   "cells": 26,
+   "failed_phenotypes": 22,
+   "n_eval": 5000,
+   "sec": 169.8
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.875,
+   "cells": 27,
+   "failed_phenotypes": 78,
+   "n_eval": 10000,
+   "sec": 383.2
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.875,
+   "cells": 27,
+   "failed_phenotypes": 123,
+   "n_eval": 15000,
+   "sec": 598.6
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.875,
+   "cells": 43,
+   "failed_phenotypes": 152,
+   "n_eval": 20000,
+   "sec": 1026.5
+  }
+ ],
+ "issue": [
+  377,
+  422
+ ],
+ "mechanism_classes_recovered": [
+  "KVSTORE",
+  "PROGRAM",
+  "TABLE"
+ ],
+ "n_evaluations": 20000,
+ "proposal_tries_charged": 3341520,
+ "receipt_sha256": "b46b50a6edad5dee76d4ef5b8fa0ce769858196ccd08da84f28ed165bbe0d2ea",
+ "revival_record": "RV-377-058",
+ "run_tag": "V33_B1_IR_RECOVERY",
+ "schema": "StageB1NeutralRecoveryV1",
+ "search_family": "MAP-Elites over the typed morphology IR with the R5 operator grammar (add/remove node, rewire, add edge, change parameter, change state family, change update law, insert verifier, materialize, add lineage, clone/specialize) plus 20% graft recombination; descriptors (carrier, size, output drift); no architecture macro exists in the alphabet",
+ "seed": 2,
+ "status": "EXECUTED_EXACT_AT_SCOPE",
+ "terminal": "NEUTRAL_GRAMMAR_REDISCOVERS_KNOWN_FORMS_AT_SCOPE",
+ "theta": 0.85
+}

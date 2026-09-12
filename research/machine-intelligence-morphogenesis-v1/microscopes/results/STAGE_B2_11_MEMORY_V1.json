@@ -1,0 +1,2004 @@
+{
+ "b2_frontier_schema": {
+  "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
+  "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Exactly reconstructible from shared_reuse_grid_H; gmi_microscope/grid_audit.py expands it.",
+  "grid_H": "every context of a receipt shares the receipt's shared_reuse_grid_H",
+  "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
+  "single_row_context": "a context with fewer than two admissible rows has no frontier DECISION; it carries its cost coordinates and nothing else."
+ },
+ "b2_frontiers": {
+  "E_K2V2_n4|m1_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "4",
+     "5"
+    ],
+    "RECUR_b5": [
+     "5",
+     "5"
+    ],
+    "STORE_c2": [
+     "8",
+     "15"
+    ],
+    "STORE_c3": [
+     "12",
+     "20"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "8"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "9"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W4": "8/7",
+    "STORE_c2|WINDOW_W5": "2",
+    "STORE_c3|WINDOW_W4": "1/3",
+    "STORE_c3|WINDOW_W5": "8/11"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "2",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V2_n4|m1_s1_u8": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "4",
+     "33"
+    ],
+    "RECUR_b5": [
+     "5",
+     "33"
+    ],
+    "STORE_c2": [
+     "8",
+     "99"
+    ],
+    "STORE_c3": [
+     "12",
+     "132"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "36"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "37"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W4": "8/63",
+    "STORE_c2|WINDOW_W5": "6/31",
+    "STORE_c3|WINDOW_W4": "1/24",
+    "STORE_c3|WINDOW_W5": "8/95"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "6/31",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V2_n4|m1_s8_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "4",
+     "12"
+    ],
+    "RECUR_b5": [
+     "5",
+     "12"
+    ],
+    "STORE_c2": [
+     "8",
+     "36"
+    ],
+    "STORE_c3": [
+     "12",
+     "48"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "36"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "44"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c3|WINDOW_W4": "1/3",
+    "STORE_c3|WINDOW_W5": "2"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "2",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V2_n4|m8_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "32",
+     "5"
+    ],
+    "RECUR_b5": [
+     "40",
+     "5"
+    ],
+    "STORE_c2": [
+     "64",
+     "15"
+    ],
+    "STORE_c3": [
+     "96",
+     "20"
+    ],
+    "WINDOW_W4": [
+     "128",
+     "8"
+    ],
+    "WINDOW_W5": [
+     "160",
+     "9"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W4": "64/7",
+    "STORE_c2|WINDOW_W5": "16",
+    "STORE_c3|WINDOW_W4": "8/3",
+    "STORE_c3|WINDOW_W5": "64/11"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "16",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V2_n5|m1_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "4",
+     "6"
+    ],
+    "RECUR_b5": [
+     "5",
+     "6"
+    ],
+    "STORE_c2": [
+     "8",
+     "18"
+    ],
+    "STORE_c3": [
+     "12",
+     "24"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "10"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W5": "3/2",
+    "STORE_c3|WINDOW_W5": "4/7"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "3/2",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V2_n5|m1_s1_u8": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "4",
+     "41"
+    ],
+    "RECUR_b5": [
+     "5",
+     "41"
+    ],
+    "STORE_c2": [
+     "8",
+     "123"
+    ],
+    "STORE_c3": [
+     "12",
+     "164"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "45"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W5": "2/13",
+    "STORE_c3|WINDOW_W5": "8/119"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "2/13",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V2_n5|m1_s8_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "4",
+     "13"
+    ],
+    "RECUR_b5": [
+     "5",
+     "13"
+    ],
+    "STORE_c2": [
+     "8",
+     "39"
+    ],
+    "STORE_c3": [
+     "12",
+     "52"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "45"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c3|WINDOW_W5": "8/7"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "8/7",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V2_n5|m8_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b4": [
+     "32",
+     "6"
+    ],
+    "RECUR_b5": [
+     "40",
+     "6"
+    ],
+    "STORE_c2": [
+     "64",
+     "18"
+    ],
+    "STORE_c3": [
+     "96",
+     "24"
+    ],
+    "WINDOW_W5": [
+     "160",
+     "10"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W5": "12",
+    "STORE_c3|WINDOW_W5": "32/7"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b4"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "12",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b4"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b4"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V4_n4|m1_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "5",
+     "5"
+    ],
+    "RECUR_b6": [
+     "6",
+     "5"
+    ],
+    "STORE_c2": [
+     "8",
+     "15"
+    ],
+    "STORE_c3": [
+     "12",
+     "20"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "8"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "9"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W4": "8/7",
+    "STORE_c2|WINDOW_W5": "2",
+    "STORE_c3|WINDOW_W4": "1/3",
+    "STORE_c3|WINDOW_W5": "8/11"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "2",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V4_n4|m1_s1_u8": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "5",
+     "33"
+    ],
+    "RECUR_b6": [
+     "6",
+     "33"
+    ],
+    "STORE_c2": [
+     "8",
+     "99"
+    ],
+    "STORE_c3": [
+     "12",
+     "132"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "36"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "37"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W4": "8/63",
+    "STORE_c2|WINDOW_W5": "6/31",
+    "STORE_c3|WINDOW_W4": "1/24",
+    "STORE_c3|WINDOW_W5": "8/95"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "6/31",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V4_n4|m1_s8_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "5",
+     "12"
+    ],
+    "RECUR_b6": [
+     "6",
+     "12"
+    ],
+    "STORE_c2": [
+     "8",
+     "36"
+    ],
+    "STORE_c3": [
+     "12",
+     "48"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "36"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "44"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c3|WINDOW_W4": "1/3",
+    "STORE_c3|WINDOW_W5": "2"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "2",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K2V4_n4|m8_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "40",
+     "5"
+    ],
+    "RECUR_b6": [
+     "48",
+     "5"
+    ],
+    "STORE_c2": [
+     "64",
+     "15"
+    ],
+    "STORE_c3": [
+     "96",
+     "20"
+    ],
+    "WINDOW_W4": [
+     "128",
+     "8"
+    ],
+    "WINDOW_W5": [
+     "160",
+     "9"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c2|WINDOW_W4": "64/7",
+    "STORE_c2|WINDOW_W5": "16",
+    "STORE_c3|WINDOW_W4": "8/3",
+    "STORE_c3|WINDOW_W5": "64/11"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "16",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K3V2_n4|m1_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "5",
+     "5"
+    ],
+    "RECUR_b6": [
+     "6",
+     "5"
+    ],
+    "STORE_c3": [
+     "12",
+     "20"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "8"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "9"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c3|WINDOW_W4": "1/3",
+    "STORE_c3|WINDOW_W5": "8/11"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "8/11",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K3V2_n4|m1_s1_u8": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "5",
+     "33"
+    ],
+    "RECUR_b6": [
+     "6",
+     "33"
+    ],
+    "STORE_c3": [
+     "12",
+     "132"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "36"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "37"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c3|WINDOW_W4": "1/24",
+    "STORE_c3|WINDOW_W5": "8/95"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "8/95",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K3V2_n4|m1_s8_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "5",
+     "12"
+    ],
+    "RECUR_b6": [
+     "6",
+     "12"
+    ],
+    "STORE_c3": [
+     "12",
+     "48"
+    ],
+    "WINDOW_W4": [
+     "16",
+     "36"
+    ],
+    "WINDOW_W5": [
+     "20",
+     "44"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c3|WINDOW_W4": "1/3",
+    "STORE_c3|WINDOW_W5": "2"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "2",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  },
+  "E_K3V2_n4|m8_s1_u1": {
+   "cost_coordinates_A_E": {
+    "RECUR_b5": [
+     "40",
+     "5"
+    ],
+    "RECUR_b6": [
+     "48",
+     "5"
+    ],
+    "STORE_c3": [
+     "96",
+     "20"
+    ],
+    "WINDOW_W4": [
+     "128",
+     "8"
+    ],
+    "WINDOW_W5": [
+     "160",
+     "9"
+    ]
+   },
+   "crossovers_H_star": {
+    "STORE_c3|WINDOW_W4": "8/3",
+    "STORE_c3|WINDOW_W5": "64/11"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1024,
+     [
+      "RECUR_b5"
+     ]
+    ]
+   ],
+   "grid_max_H": 1024,
+   "largest_crossover": "64/11",
+   "occupant_for_all_sufficiently_large_H": [
+    "RECUR_b5"
+   ],
+   "occupants_on_grid": [
+    "RECUR_b5"
+   ],
+   "rows_never_occupying_a_cell": [
+    "RECUR_b6",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ]
+  }
+ },
+ "cells": {
+  "E_K2V2_n4": {
+   "ecology": "E_K2V2_n4",
+   "exact_rows": [
+    "RECUR_b4",
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ],
+   "histories": 432,
+   "history_length_n": 4,
+   "keys_K": 2,
+   "maximum_required_memory_depth_events": 3,
+   "minimal_exact_recurrent_bits": 4,
+   "minimal_exact_window_events": 4,
+   "myhill_nerode_classes": 9,
+   "myhill_nerode_verified_by_separating_suffix": true,
+   "rows": {
+    "HYBRID_W1_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "25/36",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 8,
+     "exact": false,
+     "parameter": "W=1,c=1",
+     "serves_developed_state": true
+    },
+    "HYBRID_W2_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "89/108",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": false,
+     "parameter": "W=2,c=1",
+     "serves_developed_state": true
+    },
+    "RECUR_b3": {
+     "admissible_at_theta": false,
+     "arm": "RECUR",
+     "capability": null,
+     "capability_upper_bound_if_sub_minimal": "1",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 3,
+     "exact": false,
+     "note": "sub-minimal recurrent width: only an UPPER BOUND on capability is reported, because a recurrent state must be closed under the transition and the best sub-minimal state is a quotient-automaton search, not a partition of answers",
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "RECUR_b4": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "exact": true,
+     "note": null,
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "RECUR_b5": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 5,
+     "exact": true,
+     "note": null,
+     "parameter": 5,
+     "serves_developed_state": true
+    },
+    "STORE_STALE_TWIN": {
+     "admissible_at_theta": false,
+     "arm": "STORE_STALE",
+     "capability": "47/54",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 8,
+     "exact": false,
+     "histories_with_an_overwritten_queried_key": 56,
+     "note": "identical retrieval machinery and identical charged cost, invalidation removed",
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "STORE_c1": {
+     "admissible_at_theta": false,
+     "arm": "STORE",
+     "capability": "25/36",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 4,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "STORE_c2": {
+     "admissible_at_theta": true,
+     "arm": "STORE",
+     "capability": "1",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 8,
+     "exact": true,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "STORE_c3": {
+     "admissible_at_theta": true,
+     "arm": "STORE",
+     "capability": "1",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": true,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W1": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "19/54",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "distinct_reader_states": 2,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "WINDOW_W2": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "17/27",
+     "charged_serve_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "2",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 8,
+     "distinct_reader_states": 12,
+     "exact": false,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "WINDOW_W3": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "23/27",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 12,
+     "distinct_reader_states": 72,
+     "exact": false,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W4": {
+     "admissible_at_theta": true,
+     "arm": "WINDOW",
+     "capability": "1",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 16,
+     "distinct_reader_states": 432,
+     "exact": true,
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "WINDOW_W5": {
+     "admissible_at_theta": true,
+     "arm": "WINDOW",
+     "capability": "1",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 20,
+     "distinct_reader_states": 432,
+     "exact": true,
+     "parameter": 5,
+     "serves_developed_state": true
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "HYBRID_W1_c1": "4",
+     "HYBRID_W2_c1": "5",
+     "RECUR_b3": "1",
+     "RECUR_b4": "1",
+     "RECUR_b5": "1",
+     "STORE_STALE_TWIN": "3",
+     "STORE_c1": "3",
+     "STORE_c2": "3",
+     "STORE_c3": "4",
+     "WINDOW_W1": "1",
+     "WINDOW_W2": "2",
+     "WINDOW_W3": "3",
+     "WINDOW_W4": "4",
+     "WINDOW_W5": "5"
+    },
+    "n_rows": 15,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "19/54",
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "values_V": 2
+  },
+  "E_K2V2_n5": {
+   "ecology": "E_K2V2_n5",
+   "exact_rows": [
+    "RECUR_b4",
+    "RECUR_b5",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W5"
+   ],
+   "histories": 2592,
+   "history_length_n": 5,
+   "keys_K": 2,
+   "maximum_required_memory_depth_events": 4,
+   "minimal_exact_recurrent_bits": 4,
+   "minimal_exact_window_events": 5,
+   "myhill_nerode_classes": 9,
+   "myhill_nerode_verified_by_separating_suffix": true,
+   "rows": {
+    "HYBRID_W1_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "227/324",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 8,
+     "exact": false,
+     "parameter": "W=1,c=1",
+     "serves_developed_state": true
+    },
+    "HYBRID_W2_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "64/81",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": false,
+     "parameter": "W=2,c=1",
+     "serves_developed_state": true
+    },
+    "RECUR_b3": {
+     "admissible_at_theta": false,
+     "arm": "RECUR",
+     "capability": null,
+     "capability_upper_bound_if_sub_minimal": "1",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 3,
+     "exact": false,
+     "note": "sub-minimal recurrent width: only an UPPER BOUND on capability is reported, because a recurrent state must be closed under the transition and the best sub-minimal state is a quotient-automaton search, not a partition of answers",
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "RECUR_b4": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "exact": true,
+     "note": null,
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "RECUR_b5": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 5,
+     "exact": true,
+     "note": null,
+     "parameter": 5,
+     "serves_developed_state": true
+    },
+    "STORE_STALE_TWIN": {
+     "admissible_at_theta": false,
+     "arm": "STORE_STALE",
+     "capability": "43/54",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 8,
+     "exact": false,
+     "histories_with_an_overwritten_queried_key": 528,
+     "note": "identical retrieval machinery and identical charged cost, invalidation removed",
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "STORE_c1": {
+     "admissible_at_theta": false,
+     "arm": "STORE",
+     "capability": "227/324",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 4,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "STORE_c2": {
+     "admissible_at_theta": true,
+     "arm": "STORE",
+     "capability": "1",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 8,
+     "exact": true,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "STORE_c3": {
+     "admissible_at_theta": true,
+     "arm": "STORE",
+     "capability": "1",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": true,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W1": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "65/162",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "distinct_reader_states": 2,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "WINDOW_W2": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "46/81",
+     "charged_serve_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "2",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 8,
+     "distinct_reader_states": 12,
+     "exact": false,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "WINDOW_W3": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "61/81",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 12,
+     "distinct_reader_states": 72,
+     "exact": false,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W4": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "73/81",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 16,
+     "distinct_reader_states": 432,
+     "exact": false,
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "WINDOW_W5": {
+     "admissible_at_theta": true,
+     "arm": "WINDOW",
+     "capability": "1",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 20,
+     "distinct_reader_states": 2592,
+     "exact": true,
+     "parameter": 5,
+     "serves_developed_state": true
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "HYBRID_W1_c1": "4",
+     "HYBRID_W2_c1": "5",
+     "RECUR_b3": "1",
+     "RECUR_b4": "1",
+     "RECUR_b5": "1",
+     "STORE_STALE_TWIN": "3",
+     "STORE_c1": "3",
+     "STORE_c2": "3",
+     "STORE_c3": "4",
+     "WINDOW_W1": "1",
+     "WINDOW_W2": "2",
+     "WINDOW_W3": "3",
+     "WINDOW_W4": "4",
+     "WINDOW_W5": "5"
+    },
+    "n_rows": 15,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "65/162",
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "values_V": 2
+  },
+  "E_K2V4_n4": {
+   "ecology": "E_K2V4_n4",
+   "exact_rows": [
+    "RECUR_b5",
+    "RECUR_b6",
+    "STORE_c2",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ],
+   "histories": 2000,
+   "history_length_n": 4,
+   "keys_K": 2,
+   "maximum_required_memory_depth_events": 3,
+   "minimal_exact_recurrent_bits": 5,
+   "minimal_exact_window_events": 4,
+   "myhill_nerode_classes": 25,
+   "myhill_nerode_verified_by_separating_suffix": true,
+   "rows": {
+    "HYBRID_W1_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "63/100",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 8,
+     "exact": false,
+     "parameter": "W=1,c=1",
+     "serves_developed_state": true
+    },
+    "HYBRID_W2_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "203/250",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": false,
+     "parameter": "W=2,c=1",
+     "serves_developed_state": true
+    },
+    "RECUR_b4": {
+     "admissible_at_theta": false,
+     "arm": "RECUR",
+     "capability": null,
+     "capability_upper_bound_if_sub_minimal": "1",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "exact": false,
+     "note": "sub-minimal recurrent width: only an UPPER BOUND on capability is reported, because a recurrent state must be closed under the transition and the best sub-minimal state is a quotient-automaton search, not a partition of answers",
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "RECUR_b5": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 5,
+     "exact": true,
+     "note": null,
+     "parameter": 5,
+     "serves_developed_state": true
+    },
+    "RECUR_b6": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 6,
+     "exact": true,
+     "note": null,
+     "parameter": 6,
+     "serves_developed_state": true
+    },
+    "STORE_STALE_TWIN": {
+     "admissible_at_theta": false,
+     "arm": "STORE_STALE",
+     "capability": "92/125",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 8,
+     "exact": false,
+     "histories_with_an_overwritten_queried_key": 528,
+     "note": "identical retrieval machinery and identical charged cost, invalidation removed",
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "STORE_c1": {
+     "admissible_at_theta": false,
+     "arm": "STORE",
+     "capability": "63/100",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 4,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "STORE_c2": {
+     "admissible_at_theta": true,
+     "arm": "STORE",
+     "capability": "1",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 8,
+     "exact": true,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "STORE_c3": {
+     "admissible_at_theta": true,
+     "arm": "STORE",
+     "capability": "1",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": true,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W1": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "27/125",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "distinct_reader_states": 2,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "WINDOW_W2": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "77/125",
+     "charged_serve_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "2",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 8,
+     "distinct_reader_states": 20,
+     "exact": false,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "WINDOW_W3": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "107/125",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 12,
+     "distinct_reader_states": 200,
+     "exact": false,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W4": {
+     "admissible_at_theta": true,
+     "arm": "WINDOW",
+     "capability": "1",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 16,
+     "distinct_reader_states": 2000,
+     "exact": true,
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "WINDOW_W5": {
+     "admissible_at_theta": true,
+     "arm": "WINDOW",
+     "capability": "1",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 20,
+     "distinct_reader_states": 2000,
+     "exact": true,
+     "parameter": 5,
+     "serves_developed_state": true
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "HYBRID_W1_c1": "4",
+     "HYBRID_W2_c1": "5",
+     "RECUR_b4": "1",
+     "RECUR_b5": "1",
+     "RECUR_b6": "1",
+     "STORE_STALE_TWIN": "3",
+     "STORE_c1": "3",
+     "STORE_c2": "3",
+     "STORE_c3": "4",
+     "WINDOW_W1": "1",
+     "WINDOW_W2": "2",
+     "WINDOW_W3": "3",
+     "WINDOW_W4": "4",
+     "WINDOW_W5": "5"
+    },
+    "n_rows": 15,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "27/125",
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "values_V": 4
+  },
+  "E_K3V2_n4": {
+   "ecology": "E_K3V2_n4",
+   "exact_rows": [
+    "RECUR_b5",
+    "RECUR_b6",
+    "STORE_c3",
+    "WINDOW_W4",
+    "WINDOW_W5"
+   ],
+   "histories": 2187,
+   "history_length_n": 4,
+   "keys_K": 3,
+   "maximum_required_memory_depth_events": 3,
+   "minimal_exact_recurrent_bits": 5,
+   "minimal_exact_window_events": 4,
+   "myhill_nerode_classes": 27,
+   "myhill_nerode_verified_by_separating_suffix": true,
+   "rows": {
+    "HYBRID_W1_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "1415/2187",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 8,
+     "exact": false,
+     "parameter": "W=1,c=1",
+     "serves_developed_state": true
+    },
+    "HYBRID_W2_c1": {
+     "admissible_at_theta": false,
+     "arm": "HYBRID",
+     "capability": "1739/2187",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": false,
+     "parameter": "W=2,c=1",
+     "serves_developed_state": true
+    },
+    "RECUR_b4": {
+     "admissible_at_theta": false,
+     "arm": "RECUR",
+     "capability": null,
+     "capability_upper_bound_if_sub_minimal": "1",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "exact": false,
+     "note": "sub-minimal recurrent width: only an UPPER BOUND on capability is reported, because a recurrent state must be closed under the transition and the best sub-minimal state is a quotient-automaton search, not a partition of answers",
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "RECUR_b5": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 5,
+     "exact": true,
+     "note": null,
+     "parameter": 5,
+     "serves_developed_state": true
+    },
+    "RECUR_b6": {
+     "admissible_at_theta": true,
+     "arm": "RECUR",
+     "capability": "1",
+     "capability_upper_bound_if_sub_minimal": null,
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 6,
+     "exact": true,
+     "note": null,
+     "parameter": 6,
+     "serves_developed_state": true
+    },
+    "STORE_STALE_TWIN": {
+     "admissible_at_theta": false,
+     "arm": "STORE_STALE",
+     "capability": "683/729",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": false,
+     "histories_with_an_overwritten_queried_key": 138,
+     "note": "identical retrieval machinery and identical charged cost, invalidation removed",
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "STORE_c1": {
+     "admissible_at_theta": false,
+     "arm": "STORE",
+     "capability": "1415/2187",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 4,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "STORE_c2": {
+     "admissible_at_theta": false,
+     "arm": "STORE",
+     "capability": "1823/2187",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 3,
+     "description_bits": 8,
+     "exact": false,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "STORE_c3": {
+     "admissible_at_theta": true,
+     "arm": "STORE",
+     "capability": "1",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 4,
+     "description_bits": 12,
+     "exact": true,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W1": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "343/729",
+     "charged_serve_ops_per_query": 1,
+     "charged_serve_ops_per_query_unit_price": "1",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 4,
+     "distinct_reader_states": 3,
+     "exact": false,
+     "parameter": 1,
+     "serves_developed_state": true
+    },
+    "WINDOW_W2": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "505/729",
+     "charged_serve_ops_per_query": 2,
+     "charged_serve_ops_per_query_unit_price": "2",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 8,
+     "distinct_reader_states": 27,
+     "exact": false,
+     "parameter": 2,
+     "serves_developed_state": true
+    },
+    "WINDOW_W3": {
+     "admissible_at_theta": false,
+     "arm": "WINDOW",
+     "capability": "631/729",
+     "charged_serve_ops_per_query": 3,
+     "charged_serve_ops_per_query_unit_price": "3",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 12,
+     "distinct_reader_states": 243,
+     "exact": false,
+     "parameter": 3,
+     "serves_developed_state": true
+    },
+    "WINDOW_W4": {
+     "admissible_at_theta": true,
+     "arm": "WINDOW",
+     "capability": "1",
+     "charged_serve_ops_per_query": 4,
+     "charged_serve_ops_per_query_unit_price": "4",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 16,
+     "distinct_reader_states": 2187,
+     "exact": true,
+     "parameter": 4,
+     "serves_developed_state": true
+    },
+    "WINDOW_W5": {
+     "admissible_at_theta": true,
+     "arm": "WINDOW",
+     "capability": "1",
+     "charged_serve_ops_per_query": 5,
+     "charged_serve_ops_per_query_unit_price": "5",
+     "charged_update_ops_per_event": 1,
+     "description_bits": 20,
+     "distinct_reader_states": 2187,
+     "exact": true,
+     "parameter": 5,
+     "serves_developed_state": true
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "CONSTANT_CONTROL": "0",
+     "HYBRID_W1_c1": "4",
+     "HYBRID_W2_c1": "5",
+     "RECUR_b4": "1",
+     "RECUR_b5": "1",
+     "RECUR_b6": "1",
+     "STORE_STALE_TWIN": "4",
+     "STORE_c1": "3",
+     "STORE_c2": "3",
+     "STORE_c3": "4",
+     "WINDOW_W1": "1",
+     "WINDOW_W2": "2",
+     "WINDOW_W3": "3",
+     "WINDOW_W4": "4",
+     "WINDOW_W5": "5"
+    },
+    "n_rows": 15,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "capability": "343/729",
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "values_V": 2
+  }
+ },
+ "claim_ceiling": "a measured burden comparison of four declared memory mechanisms on four declared key-value ecologies with histories of length 4 and 5, under four declared price vectors. It establishes NOTHING about context windows, state-space models or retrieval-augmented generation in a trained network: the recurrent arm here is an exact automaton state rather than a learned compression, so its minimal width is a LOWER BOUND on what a learned recurrent state would need and never an achievable figure for one.",
+ "claim_level": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
+ "claims": {
+  "C10_rule22_no_declared_ecology_is_a_void_obligation": true,
+  "C11_rule21_no_admissible_row_serves_developed_state_at_zero_charged_cost": true,
+  "C12_dg2_every_frontier_grid_covers_twice_every_crossover": true,
+  "C13_every_declared_ecology_is_servable_by_at_least_three_of_the_four_mechanism_families": true,
+  "C1_the_minimal_exact_window_equals_the_maximum_required_memory_depth_in_every_ecology": false,
+  "C2_the_minimal_exact_recurrent_width_is_INDEPENDENT_of_the_history_length": true,
+  "C3_the_minimal_exact_window_DOES_move_with_the_history_length_at_fixed_class_count": true,
+  "C4_the_minimal_exact_recurrent_width_tracks_the_myhill_nerode_class_count_and_nothing_else": true,
+  "C5_the_myhill_nerode_class_count_is_verified_by_a_separating_suffix_in_every_ecology": true,
+  "C6_a_store_of_capacity_at_least_the_key_count_is_exact_in_every_ecology": true,
+  "C7_the_negative_twin_without_invalidation_is_inexact_in_every_ecology_where_a_key_is_overwritten": true,
+  "C8_no_universal_winner_the_frontier_occupant_differs_across_declared_price_vectors": false,
+  "C9_the_compressed_recurrent_state_is_the_cheapest_exact_mechanism_at_the_unit_price_in_every_ecology": true
+ },
+ "counting_note": "the Myhill-Nerode class counts are counts of AUTOMATON STATES of a declared obligation under a declared event alphabet and a declared history length. They are not species counts and not form counts (protocol rule 29).",
+ "declared_instrument": {
+  "bits_per_store_entry": 4,
+  "bits_per_stored_event": 4,
+  "capability_rule": "the hindsight-optimal function of the arm's carried state (parent-maximal reader, protocol rule 19) -- for the window arm this is exactly the X-TMT2 construction",
+  "ecologies": {
+   "E_K2V2_n4": {
+    "history_length": 4,
+    "keys": 2,
+    "values": 2
+   },
+   "E_K2V2_n5": {
+    "history_length": 5,
+    "keys": 2,
+    "values": 2
+   },
+   "E_K2V4_n4": {
+    "history_length": 4,
+    "keys": 2,
+    "values": 4
+   },
+   "E_K3V2_n4": {
+    "history_length": 4,
+    "keys": 3,
+    "values": 2
+   }
+  },
+  "obligation": "the MOST RECENT value written for the queried key, or a declared UNSET; facts are mutable by construction",
+  "price_vectors": {
+   "m1_s1_u1": [
+    "1",
+    "1",
+    "1"
+   ],
+   "m1_s1_u8": [
+    "1",
+    "1",
+    "8"
+   ],
+   "m1_s8_u1": [
+    "1",
+    "8",
+    "1"
+   ],
+   "m8_s1_u1": [
+    "8",
+    "1",
+    "1"
+   ]
+  },
+  "randomness": "none",
+  "store_capacities": [
+   1,
+   2,
+   3
+  ],
+  "store_charging": "an indexed lookup charged as gmi_microscope/core.py charges one: 1 + ceil(log2(c+1)) activations per access",
+  "theta": "1",
+  "windows": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ]
+ },
+ "dg2_audit": {
+  "auditor": "gmi_microscope/grid_audit.py family C, driven by gmi_microscope/b2_audit.py",
+  "run_before_commit": true,
+  "verdict_recorded_in": "microscopes/results/STAGE_B2_DG2_AUDIT_V1.json"
+ },
+ "evidence_class": "SYNTHETIC_EXACT_EMPIRICAL (tier S): every history of every declared ecology enumerated in full, exact rational capabilities, no randomness. NOT neural evidence.",
+ "evidence_kind": "SYNTHETIC_EXACT_MICROSCOPE__LAPTOP_SCOPE__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+ "frontier_note": "rows are EXACT memory mechanisms only -- burden compared AT FIXED SEMANTIC ADEQUACY, which is the endpoint the protocol row names; A = c_mem * description bits, E = c_serve * charged serve operations per query + c_upd * charged update operations per event * the declared events per query",
+ "issue": [
+  377,
+  422
+ ],
+ "n_claims": 13,
+ "n_claims_hold": 11,
+ "protocol_rules_carried": {
+  "rule_19": "every arm's capability is the parent-maximal reader of the state it carries; the Myhill-Nerode class count is verified by a separating suffix and not asserted",
+  "rule_21": "rule 21 as NARROWED by RV-377-073: no admissible row may serve state written during development without a charged operation. The original wording ('no admissible row has zero execution cost per query') is FALSIFIED_AND_REPLACED -- a machine serving a constant legitimately costs nothing to run, and rule 22 requires exactly such a row in every cell.",
+  "rule_22": "rule 22: an obligation is meaningful only where the hindsight-optimal CONSTANT answer is below theta; a mode whose constant control is admissible is VOID, not weak, and its clauses are not evaluated there.",
+  "rule_24": "rule 24: a gate claim must enumerate the representations of the carrier's state the alphabet admits and test the strongest at the gated setting.",
+  "rule_28": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt."
+ },
+ "receipt_sha256": "37c6b923c7fb410e4a8a07d36831b5c3b604b25594860b3a2c20dc72879472c7",
+ "registry_entries": [
+  "TF-044 context window W",
+  "TF-045 recurrence / state-space memory",
+  "TF-046 retrieval / RAG",
+  "TF-049 external database / knowledge graph",
+  "TF-047 KV cache"
+ ],
+ "revival_id": "RV-377-099",
+ "row": "B2.11 context vs recurrence vs retrieval",
+ "rule24_gate_record": {
+  "capability_by_representation": {
+   "WINDOW_W1": "65/162",
+   "WINDOW_W2": "46/81",
+   "WINDOW_W3": "61/81",
+   "WINDOW_W4": "73/81",
+   "WINDOW_W5": "1"
+  },
+  "claim": "a bounded context window suffices for a mutable-fact obligation",
+  "declared_strongest_is_the_measured_strongest": true,
+  "declared_strongest_representation": "WINDOW_W5",
+  "gated_axis": "required memory depth",
+  "gated_setting": "the longest declared history",
+  "measured_strongest_representation": "WINDOW_W5",
+  "note": "protocol rule 24: the enumerated representations of the carrier's history are the window suffixes of every declared width, the recurrent states of every declared width, the stores of every declared capacity and the hybrids; the strongest window is tested at the gated setting",
+  "rule": "rule 24: a gate claim must enumerate the representations of the carrier's state the alphabet admits and test the strongest at the gated setting.",
+  "state_representations_enumerated": [
+   "WINDOW_W1",
+   "WINDOW_W2",
+   "WINDOW_W3",
+   "WINDOW_W4",
+   "WINDOW_W5"
+  ],
+  "verdict": "capability of each declared window width on the longest declared ecology"
+ },
+ "schema": "GMI_B2_11_MEMORY_V1",
+ "shared_reuse_grid_H": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  9,
+  10,
+  12,
+  13,
+  16,
+  17,
+  20,
+  26,
+  34,
+  64,
+  68,
+  256,
+  1024
+ ],
+ "status": "RED",
+ "theorems": [
+  "TM-8 / TMT-2 finite-context information no-go (receipt check X-TMT2), whose collision construction is the window arm's capability rule here",
+  "TMT-14 fixed-window / cache distinction (X-TMT14): the window arm's cost is a materialization and its capacity is the window, which that check already separates"
+ ]
+}

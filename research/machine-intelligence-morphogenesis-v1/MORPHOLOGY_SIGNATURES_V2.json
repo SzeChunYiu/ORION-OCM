@@ -1,0 +1,197 @@
+{
+  "contract_id": "GMI_MORPHOLOGY_SIGNATURES_V2",
+  "issue": 377,
+  "status": "DRAFT_FOR_HOSTILE_REVIEW",
+  "definitions_ref": "DEFINITIONS_V2_EXACT.md \u00a73, \u00a74.6",
+  "principle": "Morphology is a property of phenotypes (Cap, Dev, Res) and of bounded mutual compilation, never of syntax or of a generator-side label. Signatures below are conjunctions of five label-free observables; no signature names a parent architecture.",
+  "observables": {
+    "theta_type": {
+      "values": [
+        "DISCRETE_FINITE",
+        "BOUNDED_PRECISION_NUMERIC",
+        "MIXED"
+      ],
+      "definition": "type of the mutable state Theta_x = product of local states (D-1.5)"
+    },
+    "update_locality": {
+      "values": [
+        "NONE",
+        "LOCAL_O1",
+        "SPARSE_SUBLINEAR",
+        "DENSE_LINEAR"
+      ],
+      "definition": "loc(x) = max over feedback events of |changed occurrences| / |Theta_x|; NONE: inert; LOCAL_O1: bounded by a constant; SPARSE: o(|Theta_x|); DENSE: Theta(|Theta_x|)"
+    },
+    "feedback_dependence": {
+      "values_subset_of": [
+        "scalar_loss",
+        "exact_counterexample",
+        "query_access",
+        "likelihood_score"
+      ],
+      "definition": "fbdep(x) = feedback types under which Theta_x changes at all on the registered protocol; demonstration is folded into exact_counterexample (an (input, correct output) pair), membership/equivalence queries into query_access"
+    },
+    "execution_shape": {
+      "values": [
+        "ACYCLIC_FIXED_DEPTH",
+        "BOUNDED_LOOP",
+        "STORE_MATCH_CYCLE",
+        "ENUMERATE_TEST_CYCLE",
+        "SAMPLE_SCORE_CYCLE"
+      ],
+      "definition": "shape of the induced transition delta_x under the registered combinators"
+    },
+    "store_discipline": {
+      "values": [
+        "NONE",
+        "INDEXED_EXEMPLARS",
+        "RULE_SET",
+        "TERM_LIBRARY",
+        "TRACE_DISTRIBUTION",
+        "PARAMETER_ARRAY"
+      ],
+      "definition": "organization of the part of Theta_x that grows with experience"
+    }
+  },
+  "signatures": {
+    "M0_AUTOMATON": {
+      "theta_type": "DISCRETE_FINITE",
+      "update_locality": "NONE",
+      "feedback_dependence": [],
+      "execution_shape": "BOUNDED_LOOP",
+      "store_discipline": "NONE",
+      "note": "inert finite transducer; the base case every basis must generate (GMI-T1); learning-law-free"
+    },
+    "M1_PRODUCTION": {
+      "theta_type": "DISCRETE_FINITE",
+      "update_locality": "LOCAL_O1",
+      "feedback_dependence": [
+        "exact_counterexample"
+      ],
+      "execution_shape": "STORE_MATCH_CYCLE",
+      "store_discipline": "RULE_SET",
+      "note": "typed working store + condition/action rules + conflict resolution; update = rule add/remove/reweight (chunking-shaped); Rete-class match cost is the exec coordinate (P8 ledger)"
+    },
+    "M2_PROGRAMMATIC": {
+      "theta_type": "DISCRETE_FINITE",
+      "update_locality": "SPARSE_SUBLINEAR",
+      "feedback_dependence": [
+        "exact_counterexample",
+        "query_access"
+      ],
+      "execution_shape": "ENUMERATE_TEST_CYCLE",
+      "store_discipline": "TERM_LIBRARY",
+      "note": "term + interpreter-as-composite + search-with-verifier update; universality is the trap (GMI-T8): the claim is the K-bounded compilation of the search law, never expressivity"
+    },
+    "M3_PROBABILISTIC": {
+      "theta_type": "MIXED",
+      "update_locality": "DENSE_LINEAR|LOCAL_O1 (see amendment SIG_V2_AMEND_1)",
+      "feedback_dependence": [
+        "likelihood_score"
+      ],
+      "execution_shape": "SAMPLE_SCORE_CYCLE",
+      "store_discipline": "TRACE_DISTRIBUTION",
+      "note": "distribution over execution traces; update = conditioning (posterior proportional to prior x likelihood) realized by sample/score/normalize primitives; exact only where conditioning is computable (P6 ledger: Ackerman-Freer-Roy boundary)"
+    },
+    "M4_PARAMETRIC_GRADIENT": {
+      "theta_type": "BOUNDED_PRECISION_NUMERIC",
+      "update_locality": "DENSE_LINEAR",
+      "feedback_dependence": [
+        "scalar_loss"
+      ],
+      "execution_shape": "ACYCLIC_FIXED_DEPTH",
+      "store_discipline": "PARAMETER_ARRAY",
+      "note": "dense numeric parameters, affine+pointwise-nonlinear acyclic composition, update = every parameter moves per scalar-loss event by a locally computed request (Learn-category shape, P7 ledger). Named by observables, not by 'neuron'."
+    },
+    "M5_MEMORY_RETRIEVAL": {
+      "theta_type": "DISCRETE_FINITE",
+      "update_locality": "LOCAL_O1",
+      "feedback_dependence": [
+        "exact_counterexample"
+      ],
+      "execution_shape": "STORE_MATCH_CYCLE",
+      "store_discipline": "INDEXED_EXEMPLARS",
+      "note": "insert-and-lookup; distinguished from M1 by store discipline (exemplars vs rules) and from M4 by theta_type and locality; the grokking memorization phenotype (P9A ledger) sits here"
+    },
+    "M6_HYBRID": {
+      "theta_type": "MIXED",
+      "update_locality": "MIXED",
+      "feedback_dependence": [
+        "scalar_loss",
+        "exact_counterexample"
+      ],
+      "execution_shape": "COMPOSITE_WITH_PROPOSAL_VERIFICATION_BOUNDARY",
+      "store_discipline": "MIXED",
+      "note": "at least two signatures joined at an explicit proposal/verification boundary (DreamCoder / inference-compilation / neurosymbolic shape); membership requires that each sub-part alone would classify into a distinct class at the same (eps, K)"
+    }
+  },
+  "classification_rule": "x in class k iff exists y with Sig_k(y) and x ~_(E,eps,K) y (D-5.3). Multiple memberships reported as HYBRID_OR_AMBIGUOUS; none as NOVELTY_CANDIDATE_AT_K. Classifier code frozen (hash) before any D6 search is designed; runs only post-hoc; receives no generator label.",
+  "tolerance_defaults_V1": {
+    "eps": 0,
+    "K": "declared per microscope; must be below K_sim(B) (D-6.2) or the row is UNIVERSAL_COMPUTATION_ONLY"
+  },
+  "hostiles_bound_to_this_contract": [
+    "H14-09 new-morphology-compiles-cheaply-to-parent",
+    "H14-10 known-morphology-missed-by-encoding",
+    "H14-06 descriptor-labels-family-during-search"
+  ],
+  "parent_taxonomies_absorbed_not_adopted": {
+    "Kotseruba-Tsotsos symbolic/emergent/hybrid": "syntactic classification of architectures; absorbed as a prior over signatures, not as a class definition (P8 ledger)",
+    "Hospedales meta-representation/optimizer/objective": "learning-law taxonomy within M4; absorbed into feedback_dependence + update_locality (P4 ledger)",
+    "ORION morphology zoo unit_types/field_families (#221)": "OCM-internal non-neural genome; each unit_type maps to a signature or a composite of signatures; the zoo cannot express M4 and therefore cannot answer the Track-B question as written (#377 \u00a716)"
+  },
+  "relation_to_v1": "Additive to MORPHOLOGY_CONTRACT_V1.json (Codex, 90a73ce1). V1 fields G/X/Theta/Pi/L/K and phenotype (Q,R,D,S) are kept; V2 makes the structural observable S a decidable 5-tuple and turns V1 known_form_hypotheses into label-free signatures.",
+  "coherence_constraints_frozen": [
+    {
+      "id": "C1",
+      "rule": "update_locality == NONE  =>  feedback_dependence == {}",
+      "why": "no update means no feedback can change Theta; the converse is NOT required (self-organizing / Hebbian updates use no external feedback)"
+    },
+    {
+      "id": "C2",
+      "rule": "store_discipline == PARAMETER_ARRAY  =>  theta_type in {BOUNDED_NUMERIC, MIXED}",
+      "why": "a parameter array is numeric by definition"
+    },
+    {
+      "id": "C3",
+      "rule": "store_discipline == TRACE_DISTRIBUTION  =>  theta_type in {BOUNDED_NUMERIC, MIXED}",
+      "why": "weights over traces are numeric"
+    },
+    {
+      "id": "C4",
+      "rule": "execution_shape == ENUMERATE_TEST_CYCLE  =>  feedback_dependence != {}",
+      "why": "enumerate-and-test needs a test signal"
+    },
+    {
+      "id": "C5",
+      "rule": "update_locality == DENSE_LINEAR  =>  store_discipline in {PARAMETER_ARRAY, NONE}",
+      "why": "touching Theta(|Theta|) coordinates per event on a growing exemplar/rule/term store contradicts the store discipline; dense updates act on fixed arrays or fixed state"
+    }
+  ],
+  "classifier_discipline": "Frozen (sha256 in FREEZE file) before any D6 search; runs post-hoc only; receives x and E only, never a generator label; multiple membership reported as HYBRID_OR_AMBIGUOUS; none as NOVELTY_CANDIDATE_AT_K.",
+  "amendments": [
+    {
+      "amendment_id": "SIG_V2_AMEND_1",
+      "utc": "2026-09-11T11:28:31Z",
+      "changes": [
+        {
+          "signature": "M3_PROBABILISTIC",
+          "field": "update_locality",
+          "old": "SPARSE_SUBLINEAR",
+          "new": "DENSE_LINEAR (particle/trace-reweighting conditioning) | LOCAL_O1 (conjugate sufficient-statistic conditioning)",
+          "evidence": "Stage D measured M3 (particle set) rewrites every weight per event"
+        },
+        {
+          "signature": "M1_PRODUCTION vs M5_MEMORY_RETRIEVAL",
+          "field": "class relation",
+          "note": "at the Stage D scope (key-matched rules vs exemplars on a 4-input target) the two signatures are ONE class (identical Dev tables, resources within K_FLAT in every column); the store_discipline coordinate separates them only where rules generalize beyond keys \u2014 a scope obligation for the next microscope"
+        },
+        {
+          "signature": "classifier",
+          "field": "store vs cells",
+          "note": "Stage F: with |X| \u2264 number of numeric cells, cells act as an exemplar store; a classifier keyed on store-primitive USE mislabels local cell-memory forms \u2014 the locality observable (writes/event) is the robust coordinate, store use is not"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+ "archive_cells_filled": 225,
+ "archive_cells_total": 720,
+ "best_by_carrier": {
+  "DENSE": {
+   "R": {
+    "desc": 259,
+    "exec": 21136,
+    "rev": 16,
+    "upd": 1231,
+    "ver": 21568
+   },
+   "admissible": true,
+   "capability": 0.875,
+   "fingerprint": "43e8288b0fc332a21ddf6a47a864a2b8761cb58acc39be16b1da6d796559ced3",
+   "genotype": "{\"edges\": [[\"in0\", \"scoreselect0\", 1], [\"kvstore0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"tgt0\", \"insert0\", 2], [\"scoreselect0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"in0\", \"grad0\", 0], [\"abstain0\", \"grad0\", 2], [\"dense0\", \"scoreselect1\", 1], [\"scoreselect1\", \"grad0\", 1], [\"program0\", \"verify0\", 0], [\"kvstore0\", \"rollback0\", 0], [\"verify0\", \"rollback0\", 2], [\"rollback0\", \"scoreselect0\", 0], [\"insert0\", \"insert1\", 0], [\"dense0\", \"insert1\", 1], [\"scoreselect1\", \"insert1\", 2], [\"insert1\", \"rollback0\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"dense0\": [\"DENSE\", {\"width\": 8}], \"dense1\": [\"DENSE\", {\"width\": 1}], \"grad0\": [\"GRAD\", {\"lr\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"insert1\": [\"INSERT\", {}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"rollback0\": [\"ROLLBACK\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"scoreselect1\": [\"SCORESELECT\", {\"temp\": 1}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D1 coefficient / function field (gradient-style)",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 4,
+    "T": 0,
+    "U": 3,
+    "V": 3
+   },
+   "n_nodes": 15,
+   "target_fed_updates": 3
+  },
+  "KVSTORE": {
+   "R": {
+    "desc": 350,
+    "exec": 38336,
+    "rev": 9,
+    "upd": 2240,
+    "ver": 38864
+   },
+   "admissible": true,
+   "capability": 0.8958,
+   "fingerprint": "27e4f710474e49ec0dd7878365535c8f7e095f7e1c777f6d505c8becde0e9e27",
+   "genotype": "{\"edges\": [[\"in0\", \"scoreselect0\", 1], [\"kvstore0\", \"insert0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"grad0\", 0], [\"in0\", \"grad0\", 1], [\"kvstore0\", \"rollback0\", 0], [\"verify0\", \"rollback0\", 2], [\"rollback0\", \"scoreselect0\", 0], [\"dense0\", \"insert0\", 1], [\"dense0\", \"linear0\", 0], [\"dense0\", \"linear0\", 1], [\"linear0\", \"insert0\", 2], [\"table0\", \"rollback0\", 1], [\"kvstore0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"abstain0\", 0], [\"tgt0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"grad0\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"grad0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"kvstore0\": [\"KVSTORE\", {\"cap\": 16}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"rollback0\": [\"ROLLBACK\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D2 exemplar / retrieval memory",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 3,
+    "T": 1,
+    "U": 2,
+    "V": 4
+   },
+   "n_nodes": 15,
+   "target_fed_updates": 1
+  },
+  "NONE": {
+   "R": {
+    "desc": 22,
+    "exec": 272,
+    "rev": 0,
+    "upd": 16,
+    "ver": 512
+   },
+   "admissible": false,
+   "capability": 0.8333,
+   "fingerprint": "94cf3521c01d53e8f25b44bd001dfa0e95bb1e095a16d9dec5c4c578c33c19ec",
+   "genotype": "{\"edges\": [[\"in0\", \"lookup0\", 1], [\"out0\", \"select0\", 0], [\"tgt0\", \"select0\", 1], [\"const1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"const0\": [\"CONST\", {\"value\": 16}], \"const1\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"select0\": [\"SELECT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "stateless transducer",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 2,
+    "T": 0,
+    "U": 0,
+    "V": 1
+   },
+   "n_nodes": 8,
+   "target_fed_updates": 0
+  },
+  "PROGRAM": {
+   "R": {
+    "desc": 359,
+    "exec": 38336,
+    "rev": 9,
+    "upd": 2240,
+    "ver": 38864
+   },
+   "admissible": true,
+   "capability": 0.8958,
+   "fingerprint": "12b203f4859fbc15dd4f5b4f1df4367dc02b7cac1c343fdb9467e7789e83b325",
+   "genotype": "{\"edges\": [[\"in0\", \"scoreselect0\", 1], [\"kvstore0\", \"insert0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"grad0\", 0], [\"in0\", \"grad0\", 1], [\"kvstore0\", \"rollback0\", 0], [\"verify0\", \"rollback0\", 2], [\"rollback0\", \"scoreselect0\", 0], [\"dense0\", \"insert0\", 1], [\"dense0\", \"linear0\", 0], [\"dense0\", \"linear0\", 1], [\"linear0\", \"insert0\", 2], [\"table0\", \"rollback0\", 1], [\"kvstore0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"abstain0\", 0], [\"tgt0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"grad0\", 2], [\"program0\", \"verify0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"grad0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"kvstore0\": [\"KVSTORE\", {\"cap\": 16}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"rollback0\": [\"ROLLBACK\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D4-D5 symbolic program / search",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 4,
+    "T": 1,
+    "U": 2,
+    "V": 4
+   },
+   "n_nodes": 16,
+   "target_fed_updates": 1
+  },
+  "TABLE": {
+   "R": {
+    "desc": 352,
+    "exec": 12784,
+    "rev": 9,
+    "upd": 770,
+    "ver": 13072
+   },
+   "admissible": true,
+   "capability": 0.8958,
+   "fingerprint": "6553a99d500552d2a1b00e9e6c0a5322474067214921fb934e6e56120d8e3fac",
+   "genotype": "{\"edges\": [[\"in0\", \"scoreselect0\", 1], [\"kvstore0\", \"insert0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"grad0\", 0], [\"in0\", \"grad0\", 1], [\"verify0\", \"rollback0\", 2], [\"rollback0\", \"scoreselect0\", 0], [\"dense0\", \"insert0\", 1], [\"dense0\", \"linear0\", 0], [\"dense0\", \"linear0\", 1], [\"linear0\", \"insert0\", 2], [\"table0\", \"rollback0\", 1], [\"kvstore0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"abstain0\", 0], [\"tgt0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"grad0\", 2], [\"grad0\", \"insert1\", 0], [\"in0\", \"insert1\", 1], [\"nearest0\", \"insert1\", 2], [\"insert1\", \"rollback0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"grad0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"insert1\": [\"INSERT\", {}], \"kvstore0\": [\"TABLE\", {\"keybits\": 3}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"rollback0\": [\"ROLLBACK\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "mechanism": "D2 exemplar / indexed memory",
+   "mechanism_vector": {
+    "C": 2,
+    "D": 1,
+    "G": 0,
+    "H": 0,
+    "P": 0,
+    "R": 2,
+    "S": 3,
+    "T": 1,
+    "U": 3,
+    "V": 4
+   },
+   "n_nodes": 16,
+   "target_fed_updates": 2
+  }
+ },
+ "claim_ceiling": "one ecology, one seed per receipt, exact charged replay under the standard intervention; carriers here are RAW descriptors and must be re-read after atrophy per protocol rule 23 before any recovery claim",
+ "ecology": "E_smooth1",
+ "failed_phenotypes": 45,
+ "history": [
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    1,
+    2,
+    3
+   ],
+   "best": 0.875,
+   "cells": 81,
+   "failed_phenotypes": 7,
+   "n_eval": 5000,
+   "sec": 154.8
+  },
+  {
+   "admissible_carriers": [
+    "DENSE",
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    1,
+    2,
+    3
+   ],
+   "best": 0.8958,
+   "cells": 156,
+   "failed_phenotypes": 15,
+   "n_eval": 10000,
+   "sec": 425.5
+  },
+  {
+   "admissible_carriers": [
+    "DENSE",
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    1,
+    2,
+    3
+   ],
+   "best": 0.8958,
+   "cells": 193,
+   "failed_phenotypes": 29,
+   "n_eval": 15000,
+   "sec": 784.4
+  },
+  {
+   "admissible_carriers": [
+    "DENSE",
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "admissible_update_buckets": [
+    1,
+    2,
+    3
+   ],
+   "best": 0.8958,
+   "cells": 225,
+   "failed_phenotypes": 45,
+   "n_eval": 20000,
+   "sec": 1193.6
+  }
+ ],
+ "issue": [
+  377,
+  422
+ ],
+ "mechanism_classes_recovered": [
+  "DENSE",
+  "KVSTORE",
+  "PROGRAM",
+  "TABLE"
+ ],
+ "n_evaluations": 20000,
+ "proposal_tries_charged": 440364,
+ "receipt_sha256": "604c643bfbed4961f3d598a4c2690b53be161af911a9c352b325b87c59bfeef6",
+ "revival_record": "RV-377-087",
+ "run_tag": "V37_B1X_MECHANISM",
+ "schema": "StageB1XMechanismDescriptorV1",
+ "seed": 1,
+ "status": "EXECUTED_EXACT_AT_SCOPE",
+ "terminal": "NEUTRAL_GRAMMAR_REDISCOVERS_KNOWN_FORMS_AT_SCOPE",
+ "the_only_change_from_b1": "one added archive coordinate: the number of UPDATE-class nodes reachable from TARGET, bucketed at 0/1/2/3+. Same operator grammar, same charged VM, same ecology, same theta, same budget, same seeds.",
+ "theta": 0.85
+}

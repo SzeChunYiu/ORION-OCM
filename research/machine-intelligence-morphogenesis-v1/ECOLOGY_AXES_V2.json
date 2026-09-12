@@ -1,0 +1,179 @@
+{
+  "contract_id": "GMI_ECOLOGY_AXES_V2",
+  "issue": 377,
+  "status": "DRAFT_FOR_HOSTILE_REVIEW",
+  "definitions_ref": "DEFINITIONS_V2_EXACT.md \u00a72",
+  "principle": "An ecology is a finite, fully declared object. Every phase claim names the axes it varies and freezes every other axis. Axes are chosen so that at least one parent theorem already proves a tractability/learnability flip along the axis (P9B ledger); Track B adds the morphology-class and resource-frontier reading on top, it does not re-prove the flips.",
+  "tuple": "E = (D_tau, O, A, F, V, p, b, H, Delta)   (V1 symbols)",
+  "axes": {
+    "data_volume": {
+      "values": [
+        "TINY",
+        "SMALL",
+        "LARGE"
+      ],
+      "parent_flip": "computational-statistical tradeoff (Shalev-Shwartz-Shamir-Tromer 2012; Decatur-Goldreich-Ron 1999): more samples can buy less compute; which learner is efficient changes with sample count",
+      "predicted_lever": "favors M4/M5 as volume rises (parametric fit / memorization amortize), M2/M3 when tiny"
+    },
+    "noise": {
+      "values": [
+        "NONE",
+        "LABEL_FLIP_LOW",
+        "LABEL_FLIP_HIGH"
+      ],
+      "parent_flip": "SQ noise tolerance (Kearns 1998): SQ-learnable classes tolerate classification noise; exact-counterexample learners (M1/M2) do not by default",
+      "predicted_lever": "noise penalizes exact-verification morphologies unless V supplies noise-robust checks"
+    },
+    "smoothness": {
+      "values": [
+        "DISCRETE_UNSTRUCTURED",
+        "PIECEWISE",
+        "SMOOTH"
+      ],
+      "parent_flip": "universal approximation is resource-blind (P9A); depth-separation lower bounds (Telgarsky 2016) charge non-smooth targets",
+      "predicted_lever": "smooth targets favor M4; discrete/combinatorial favor M1/M2"
+    },
+    "compositionality": {
+      "values": [
+        "FLAT",
+        "SHALLOW_COMPOSITIONAL",
+        "DEEP_COMPOSITIONAL"
+      ],
+      "parent_flip": "library learning amortization (HST-T05 macro threshold; DreamCoder/Stitch ablations, P5 ledger)",
+      "predicted_lever": "deep compositional + reuse favors M2 library forms"
+    },
+    "algorithmic_structure": {
+      "values": [
+        "LOOKUP",
+        "PARITY_LIKE",
+        "AUTOMATON_LIKE",
+        "ARITHMETIC"
+      ],
+      "parent_flip": "parity is not SQ/gradient-learnable but is exactly searchable (Kearns 1998; Shalev-Shwartz et al. 2017; Abbe et al. 2021); automata are passively hard but query-learnable (Gold 1978 / Pitt-Warmuth 1993 vs Angluin 1987)",
+      "predicted_lever": "PARITY_LIKE is a frozen kill-axis for M4 under scalar_loss"
+    },
+    "exactness": {
+      "values": [
+        "APPROXIMATE_OK",
+        "EXACT_REQUIRED"
+      ],
+      "parent_flip": "none needed: exact contracts change V's cost function directly",
+      "predicted_lever": "EXACT_REQUIRED penalizes M4 unless paired with a verifier (M6)"
+    },
+    "partial_observability": {
+      "values": [
+        "FULL",
+        "PARTIAL_DETERMINISTIC",
+        "PARTIAL_STOCHASTIC"
+      ],
+      "parent_flip": "HST-T03 representation insufficiency; POMDP belief-state parents",
+      "predicted_lever": "stochastic partial observability favors M3 (belief = trace distribution)"
+    },
+    "drift": {
+      "values": [
+        "STATIONARY",
+        "RARE_SHIFT",
+        "FREQUENT_SHIFT"
+      ],
+      "parent_flip": "stability-plasticity (Grossberg; EWC, P4 ledger); tracking regret parents (HSG)",
+      "predicted_lever": "frequent shift charges rev; local-update morphologies (M1/M5) revise cheaper than dense M4"
+    },
+    "revision_frequency": {
+      "values": [
+        "NEVER",
+        "RARE",
+        "FREQUENT"
+      ],
+      "parent_flip": "HST-T06 dependency-cone locality: revocation cost is local iff dependency semantics are complete",
+      "predicted_lever": "frequent revocation favors provenance-carrying M1/M2/M5 over M4 (no cone)"
+    },
+    "reuse_horizon": {
+      "values": [
+        "ONE_SHOT",
+        "SHORT",
+        "LONG"
+      ],
+      "parent_flip": "HST-T05 macro amortization: H_eff * dC_use > C_build + C_maint + C_rev",
+      "predicted_lever": "long reuse amortizes expensive-to-build forms (M4 training, M2 libraries)"
+    },
+    "verification_strength": {
+      "values": [
+        "NONE",
+        "MEMBERSHIP",
+        "EQUIVALENCE_ORACLE",
+        "PROOF_CHECKER"
+      ],
+      "parent_flip": "Angluin 1987 L*: DFA learning polynomial with membership+equivalence queries; Gold 1978 / Pitt-Warmuth 1993 / Kearns-Valiant 1994: intractable passively. Same target class, opposite tractability, axis = verification contract.",
+      "predicted_lever": "the single most important axis for M0/M1/M2 acquisition (D2)"
+    },
+    "interaction_cost": {
+      "values": [
+        "FREE",
+        "PRICED",
+        "PROHIBITIVE"
+      ],
+      "parent_flip": "value of information / Blackwell with probe cost (HST-T08)",
+      "predicted_lever": "priced queries shift M2 (query-hungry) toward M3/M4 (sample-hungry)"
+    },
+    "feedback_type": {
+      "values_subset_of": [
+        "scalar_loss",
+        "exact_counterexample",
+        "query_access",
+        "likelihood_score"
+      ],
+      "parent_flip": "differentiable vs PAC vs SQ (Abbe et al. 2021): what gradient-based learners can learn depends on gradient precision; exact counterexamples enable CEGIS-class learners",
+      "predicted_lever": "fbdep(x) must intersect fb for any Dev at all; this axis defines which morphologies can develop in E at all (a hard, not soft, phase boundary)"
+    }
+  },
+  "provisional_phase_hypotheses_from_377_s12": [
+    {
+      "id": "PH-1",
+      "ecology": "data_volume=LARGE, noise=LABEL_FLIP_LOW, smoothness=SMOOTH, reuse_horizon=LONG, feedback_type={scalar_loss}",
+      "predicted_M_star": [
+        "M4_PARAMETRIC_GRADIENT"
+      ],
+      "status": "HYPOTHESIS_NOT_CONCLUSION"
+    },
+    {
+      "id": "PH-2",
+      "ecology": "data_volume=TINY, compositionality=DEEP_COMPOSITIONAL, exactness=EXACT_REQUIRED, verification_strength=EQUIVALENCE_ORACLE, reuse_horizon=LONG",
+      "predicted_M_star": [
+        "M2_PROGRAMMATIC",
+        "M1_PRODUCTION"
+      ],
+      "status": "HYPOTHESIS_NOT_CONCLUSION"
+    },
+    {
+      "id": "PH-3",
+      "ecology": "data_volume=TINY, partial_observability=PARTIAL_STOCHASTIC, feedback_type={likelihood_score}",
+      "predicted_M_star": [
+        "M3_PROBABILISTIC"
+      ],
+      "status": "HYPOTHESIS_NOT_CONCLUSION"
+    },
+    {
+      "id": "PH-4",
+      "ecology": "smoothness=SMOOTH statistical input, exactness=EXACT_REQUIRED, verification_strength=PROOF_CHECKER",
+      "predicted_M_star": [
+        "M6_HYBRID"
+      ],
+      "status": "HYPOTHESIS_NOT_CONCLUSION"
+    },
+    {
+      "id": "PH-5",
+      "ecology": "algorithmic_structure=PARITY_LIKE, feedback_type={scalar_loss} only",
+      "predicted_M_star": [
+        "NONE_DEVELOPS (hard boundary)"
+      ],
+      "status": "PARENT_ANCHORED (Kearns 1998 / Abbe et al. 2021) \u2014 this is the registered negative control for any D5 phase diagram"
+    }
+  ],
+  "rules": [
+    "A phase claim varies at most two axes at once in V1 and freezes the rest.",
+    "PH-5 (parity under scalar loss only) must appear as a negative control in every D5 diagram; a diagram on which M4 'develops' under PH-5 has an assay defect.",
+    "Ecology design is charged: an ecology authored after seeing search results is ECOLOGY_DESIGN_DOMINATES (#377 \u00a722).",
+    "Every axis value is finite; 'LARGE' data volume in a tiny world means the full finite domain, and the row says so."
+  ],
+  "relation_to_v1": "Additive to ECOLOGY_CONTRACT_V1.json (Codex). V1 lists 19 candidate coordinates; V2 registers, per axis, the parent theorem that already proves a tractability/learnability flip along it (verification pending PARENT_LEDGER_V2 family P9B), so Track-B phase claims on these axes are parent-anchored. Axes without a known parent flip stay in V1 as candidates."
+}
