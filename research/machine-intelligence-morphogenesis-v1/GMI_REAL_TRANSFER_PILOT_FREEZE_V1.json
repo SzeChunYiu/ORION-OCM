@@ -1,0 +1,20 @@
+{
+  "artifact": "GMI_REAL_TRANSFER_PILOT_FREEZE_V1",
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "datasets": ["sklearn_iris", "sklearn_wine", "sklearn_breast_cancer", "sklearn_digits"],
+  "candidate_realizations": ["linear_logistic", "rbf_kernel", "exemplar_knn", "random_forest_partition_ensemble"],
+  "data_access_rule": "datasets are bundled sklearn reference datasets; no network fetch",
+  "split": {
+    "test_fraction": 0.20,
+    "validation_fraction_of_remaining": 0.25,
+    "stratified": true,
+    "seed_rule": "integer value of first 8 hex digits of this freeze commit SHA modulo 2^31"
+  },
+  "development_protocol": "fit candidates on development split; candidate choice uses validation split only; untouched test labels are read only after choice is fixed",
+  "selector": "minimize validation_error + 0.002*log10(1+fit_time_ns) + 0.0001*state_kib; ties by lower state_kib then fixed candidate order",
+  "refit": "selected candidate is refit on development+validation before final test evaluation; all candidates are also refit only for retrospective regret calculation after selected test score is recorded",
+  "primary_endpoint": "selected_candidate_test_error minus retrospective_best_candidate_test_error",
+  "secondary": ["fit_time_ns", "serialized_state_bytes", "test_error_all_candidates"],
+  "kill_or_narrow": "positive test regret does not falsify GMI broadly; it falsifies this registered selector at this real-pilot scope. zero/small regret is only portfolio-selection calibration, not K5 theory closure.",
+  "claim_ceiling": "small bundled tabular/image classification pilot; same-author runner; no independent meter; not code/math/science/control transfer; not a broad known-family K5 result"
+}
