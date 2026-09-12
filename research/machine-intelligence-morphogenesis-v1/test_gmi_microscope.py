@@ -1080,6 +1080,36 @@ def test_b2_05_kvsharing_receipt_replays_exactly(tmp_path):
         assert c["rule21_charged_serve_audit"]["passed"] is True
 
 
+def test_b2_06_softmax_receipt_replays_exactly(tmp_path):
+    """RV-377-094 (B2.6 softmax entropy/temperature): the committed receipt reproduces byte for byte. The optimal
+    concentration tracks ambiguity, and the 8-bit LOG weight recovers it where the 8-bit LINEAR weight does not --
+    protocol rule 24 and RV-377-075, at one word width."""
+    from gmi_microscope import b2_softmax
+    rc = b2_softmax.main(str(tmp_path / "sm.json"))
+    committed = json.loads((RES / "STAGE_B2_06_SOFTMAX_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 14 and rc["n_claims"] == 14
+
+    # C1 is a MATHEMATICAL implementation check and is labelled as one; it is not evidence for anything below
+    assert committed["variational_check"]["kind"].startswith("MATH_IMPLEMENTATION_CHECK")
+    assert committed["variational_check"]["passed"] is True
+    # the measured response law: the optimum moves 0 -> 2 -> 4 -> inf as ambiguity goes 1 -> 2 -> 4 -> 8
+    T = committed["optimal_temperature_by_ambiguity_and_instrument"]
+    assert [T[f"m={m}|EXACT"] for m in (1, 2, 4, 8)] == ["0", "2", "4", "inf"]
+    # rule 24: the log-domain 8-bit weight recovers it everywhere, the linear 8-bit weight does not
+    assert [T[f"m={m}|FX8_LOG"] for m in (1, 2, 4, 8)] == ["0", "2", "4", "inf"]
+    assert [T[f"m={m}|FX8_LINEAR"] for m in (1, 2, 4, 8)] != [T[f"m={m}|EXACT"] for m in (1, 2, 4, 8)]
+    assert committed["rule24_gate_record"]["capability_by_representation"]["FX8_LOG"] == "1"
+    # C13: ambiguity forces materialization -- the cheapest admissible top-kappa rises with it
+    cheapest = {m: min(v["kappa"] for v in committed["cells"][f"m={m}|EXACT"]["rows"].values() if v["exact"])
+                for m in (1, 2, 4, 8)}
+    assert [cheapest[m] for m in (1, 2, 4, 8)] == [1, 1, 2, 8]
+    # rule 22 holds by construction: adequacy is relative to the control, so no cell is VOID
+    for c in committed["cells"].values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""
