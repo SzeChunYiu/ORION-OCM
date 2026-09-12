@@ -1,0 +1,160 @@
+{
+ "audit": {
+  "by_declared_population": {
+   "parent_neighbour": {
+    "false_promotion_rate": 0.6504,
+    "false_rejection_rate": 0.0,
+    "n": 129,
+    "n_admissible": 43,
+    "n_promoted": 123
+   },
+   "uniform_grammar_draw": {
+    "false_promotion_rate": 1.0,
+    "false_rejection_rate": null,
+    "n": 121,
+    "n_admissible": 0,
+    "n_promoted": 112
+   }
+  },
+  "canonical_cache": {
+   "max_exact_score_spread_within_a_canonical_form": 0.0,
+   "n_groups": 231,
+   "n_shared_canonical_forms": 10,
+   "sound": true
+  },
+  "false_promotion_rate": 0.817,
+  "false_rejection_by_mechanism_family": {
+   "DENSE": {
+    "false_rejection_rate": null,
+    "mechanism": "D1 coefficient / function field (gradient-style)",
+    "n": 48,
+    "n_admissible": 0,
+    "n_false_rejection": 0
+   },
+   "KVSTORE": {
+    "false_rejection_rate": 0.0,
+    "mechanism": "D2 exemplar / retrieval memory",
+    "n": 57,
+    "n_admissible": 20,
+    "n_false_rejection": 0
+   },
+   "NONE": {
+    "false_rejection_rate": null,
+    "mechanism": "stateless transducer",
+    "n": 45,
+    "n_admissible": 0,
+    "n_false_rejection": 0
+   },
+   "PROGRAM": {
+    "false_rejection_rate": 0.0,
+    "mechanism": "D4-D5 symbolic program / search",
+    "n": 66,
+    "n_admissible": 21,
+    "n_false_rejection": 0
+   },
+   "TABLE": {
+    "false_rejection_rate": 0.0,
+    "mechanism": "D2 exemplar / indexed memory",
+    "n": 34,
+    "n_admissible": 2,
+    "n_false_rejection": 0
+   }
+  },
+  "false_rejection_rate": 0.0,
+  "mean_exact_charge": 504096.9,
+  "mean_screen_charge": 45833.1,
+  "n_admissible_exact": 43,
+  "n_audit": 250,
+  "n_false_promotion": 192,
+  "n_false_rejection": 0,
+  "n_promoted": 235,
+  "n_rejected": 15,
+  "screen_cost_fraction_of_exact": 0.0909,
+  "screen_recall_on_admissible": 1.0,
+  "tau": 0.2083
+ },
+ "audit_rate_within_declared_budget": true,
+ "audit_seed": 202,
+ "budget_sweep": [
+  {
+   "cost_fraction_of_full_fidelity": 1.0309,
+   "declared_budget": 0.0,
+   "measured_false_promotion_rate": 0.817,
+   "measured_false_rejection_rate": 0.0,
+   "pays_for_itself": false,
+   "promoted_fraction": 0.94,
+   "tau": 0.2083
+  },
+  {
+   "cost_fraction_of_full_fidelity": 1.0309,
+   "declared_budget": 0.05,
+   "measured_false_promotion_rate": 0.817,
+   "measured_false_rejection_rate": 0.0,
+   "pays_for_itself": false,
+   "promoted_fraction": 0.94,
+   "tau": 0.2083
+  },
+  {
+   "cost_fraction_of_full_fidelity": 1.0309,
+   "declared_budget": 0.1,
+   "measured_false_promotion_rate": 0.817,
+   "measured_false_rejection_rate": 0.0,
+   "pays_for_itself": false,
+   "promoted_fraction": 0.94,
+   "tau": 0.2083
+  },
+  {
+   "cost_fraction_of_full_fidelity": 1.0309,
+   "declared_budget": 0.2,
+   "measured_false_promotion_rate": 0.817,
+   "measured_false_rejection_rate": 0.0,
+   "pays_for_itself": false,
+   "promoted_fraction": 0.94,
+   "tau": 0.2083
+  },
+  {
+   "cost_fraction_of_full_fidelity": 0.9469,
+   "declared_budget": 0.4,
+   "measured_false_promotion_rate": 0.8551,
+   "measured_false_rejection_rate": 0.2791,
+   "pays_for_itself": true,
+   "promoted_fraction": 0.856,
+   "tau": 0.5208
+  }
+ ],
+ "budget_sweep_note": "each row's tau is fitted on the calibration sample and measured on the audit sample. A row with pays_for_itself false means the ladder costs MORE than confirming everything exactly at that budget, because the screen promotes nearly everything; the operating row is the budget declared before calibration, not the cheapest row in this table",
+ "calibration_admissible": 17,
+ "calibration_seed": 101,
+ "claim_ceiling": "rates of this screen on RANDOM draws of the registered grammar on one ecology; under selection the population is not random and the rates may differ (the same caveat as RV-377-061). A bounded false-rejection rate makes the search cheap, not complete",
+ "declared_audit_population": "50 per cent uniform draws from the registered grammar, 50 per cent 1-3 step mutational neighbours of the R4 known parents; rates are reported for the mixture and for each sub-population separately (see the module docstring for why uniform draws alone cannot measure a false-rejection rate)",
+ "declared_false_rejection_budget": 0.05,
+ "ecology": "E_smooth3",
+ "ecology_spec_id": "2fea7ea09ad41d06",
+ "exact": "F5 exact confirmation: the registered 16-event protocol, capability scored on the unseen inputs, theta = 0.85",
+ "issue": [
+  377,
+  422
+ ],
+ "layer": "R8",
+ "n_calibration": 150,
+ "prior_failure_that_created_the_rule": {
+  "functional_equivalence_cache_wrong_score_fraction_probe10": 0.3465,
+  "receipt": "STAGE_F_FEC_AUDIT_V1.json",
+  "record": "RV-377-061"
+ },
+ "protocol_rule": "18 \u2014 any cache or surrogate that assigns a fitness a candidate did not itself earn must be audited for soundness on the registered grammar BEFORE the run, and the audit receipt cited in the run receipt",
+ "receipt_sha256": "56d9d805941bcba43115fe5c70c6fd5b07726483413c7fa375de106835bbdd27",
+ "remint_invariance": {
+  "assertion": "morph.remint changes neither fidelity's score on any checked draw",
+  "n_changed": 0,
+  "n_checked": 40
+ },
+ "run_tag": "V1",
+ "schema": "StageR8ScreenSoundnessAuditV1",
+ "screen": "F2 cheap proxy: the registered development protocol truncated from 16 events to 4, capability scored on all 16 inputs",
+ "seconds": 185.4,
+ "status": "EXECUTED_EXACT_AT_SCOPE",
+ "status_verdict": "SCREEN_AUDITED_GREEN",
+ "tau_frozen_on_calibration": 0.2083,
+ "theta": 0.85
+}

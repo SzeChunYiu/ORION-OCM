@@ -438,3 +438,25 @@ def test_r7_lineage_descent_replays_from_the_committed_receipt():
                 assert morph.fingerprint(g) == step["expected_fingerprint"]
             assert morph.fingerprint(g) == w["final_fingerprint"]
 
+
+def test_r8_triage_screen_was_audited_before_use_and_its_cells_replay():
+    """R8 (protocol rule 18): the triage run cites its screen's audit receipt by hash; the audit's measured
+    false-rejection rate honours the budget declared before calibration; the only cache used is keyed by the exact
+    canonical form and its measured score spread is 0 (contrast the functional-equivalence cache of RV-377-061, which
+    mis-scored 34.65 per cent); and every committed confirmed cell re-scores to the committed values at both fidelities."""
+    from gmi_microscope import morph, smooth, triage
+    aud = json.loads((RES / "STAGE_R8_SCREEN_AUDIT_V1.json").read_text())
+    run = json.loads((RES / "STAGE_R8_TRIAGE_V1.json").read_text())
+    assert aud["status_verdict"] == "SCREEN_AUDITED_GREEN"
+    assert run["screen_audit_receipt_sha256"] == aud["receipt_sha256"]
+    assert aud["audit"]["false_rejection_rate"] <= aud["declared_false_rejection_budget"]
+    assert aud["audit"]["canonical_cache"]["max_exact_score_spread_within_a_canonical_form"] == 0.0
+    assert aud["remint_invariance"]["n_changed"] == 0
+    fec = json.loads((RES / "STAGE_F_FEC_AUDIT_V1.json").read_text())
+    assert fec["audit_by_probe_length"]["10"]["wrong_score_fraction"] == 0.3465   # the failure rule 18 came from
+    target = smooth.make_target(smooth.COEFFS_V3)
+    for cell in run["best_confirmed"][:4]:
+        g = morph.from_json(cell["genotype"])
+        assert triage.screen(g, target)[0] == cell["screen"], cell["fingerprint"]
+        assert triage.confirm(g, target)[0] == cell["exact"], cell["fingerprint"]
+
