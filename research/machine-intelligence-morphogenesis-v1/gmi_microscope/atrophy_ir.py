@@ -101,8 +101,11 @@ def reclassify(receipt_path, eco_name="E_smooth3", theta=THETA):
 
 
 def main(tag="V1", eco_name="E_smooth3", receipts=None):
+    """receipt files are selected by ECOLOGY, because the same seed is run on more than one and a B1 elite must be
+    atrophied on the ecology it was recovered on."""
     t0 = time.time()
-    files = receipts or sorted(f for f in os.listdir(RES) if f.startswith("STAGE_B1_") and f.endswith(".json"))
+    files = receipts or sorted(f for f in os.listdir(RES)
+                               if f.startswith("STAGE_B1_V33") and f.endswith(".json") and eco_name in f)
     rows = {}
     for f in files:
         try:

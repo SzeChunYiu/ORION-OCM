@@ -124,7 +124,10 @@ def main(seed=0, evaluations=20000, tag="V33_B1_IR_RECOVERY", eco_name="E_smooth
                "terminal": "NEUTRAL_GRAMMAR_REDISCOVERS_KNOWN_FORMS_AT_SCOPE" if len(recovered) >= 2 else "SEARCH_GRAMMAR_INADEQUATE__UNKNOWN_FORM_TESTS_BLOCKED",
                "claim_ceiling": "one ecology, one seed, exact charged replay; recovery means an admissible genotype whose served answer reads that carrier, not that the recovered machine equals any registered row"}
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
-    json.dump(receipt, open(os.path.join(RES, f"STAGE_B1_{tag}_S{seed}.json"), "w"), indent=1, sort_keys=True, default=str)
+    # the ecology is part of the receipt NAME. It was not, and the second ecology silently OVERWROTE two committed
+    # receipts of the first (recorded as an instrument failure alongside RV-377-078): a receipt filename must key on
+    # every coordinate that changes its content.
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_B1_{tag}_{eco_name}_S{seed}.json"), "w"), indent=1, sort_keys=True, default=str)
     print("recovered mechanism classes:", recovered, "| terminal:", receipt["terminal"])
     for c, v in sorted(by_carrier.items()): print(f"  {c:8s} cap {v['capability']:.4f} adm {v['admissible']} nodes {v['n_nodes']:2d}  {v['mechanism']}")
     return receipt
