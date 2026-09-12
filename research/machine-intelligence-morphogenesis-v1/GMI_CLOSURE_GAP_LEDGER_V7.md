@@ -26,8 +26,8 @@ values; C_FEATURE_LEARNING THEORY_RED (nonlinear_signal 0.6: 0/8, mean margin -1
 
 Revival of the two non-green K5 lanes: `GMI_K5_V7_REVIVAL_RV_377_170_FREEZE.md` (RV-377-170, RV-377-171). Both
 attribute to the prediction stage (reachability clause dropped; admissibility term omitted). The V8 successor on
-fresh grids is GREEN on both lanes at development tier (billy-old, 80/80); its protected tier is recorded in the
-freeze document's §4 when it lands. Neither tier reopens the V7 verdicts.
+fresh grids is GREEN on both lanes at development tier (billy-old, 80/80) and at protected tier (LUNARC job
+3605817, beacon round 32144246, 80/80, `K5_BH_V8_PROTECTED_GREEN`). Neither tier reopens the V7 verdicts.
 
 ## Residual classification, V7
 

@@ -213,3 +213,53 @@ law extrapolation 1.95), observed NONE 8/8. `r = 4`: DIRECT inadmissible 3/8 (P-
 **P-C1..C7 and P-E1..E7 all hold at development tier.** Lane verdicts GREEN/GREEN. This licenses the protected
 V8 tier (`GMI_K5_BH_EXECUTION_FREEZE_V8.json`, commit `c9f36e5d`); nothing in the plan was changed after the
 development outcome.
+
+### 4.2 Protected tier (LUNARC, job 3605817, beacon round 32144246, 80/80)
+
+Execution freeze `GMI_K5_BH_EXECUTION_FREEZE_V8.json` at commit `c9f36e5d` (unix 1789235202); beacon
+`GMI_K5_BH_PUBLIC_BEACON_V8.json` acquired on billy-laptop at round 32144246 (t = 1789236102, ct + 900 s exactly),
+randomness `5b90aa68…7ba08d`, no reroll. Submitter, task and aggregate all verified the contract through
+`hpc/gmi_beacon_verify.py` against the clone at commit `8701cba8`; every receipt carries round 32144246; the
+aggregate's six freeze hashes match the worktree files. Partition `aurora`, array `0-79%80`, 00:10:00 / 512M,
+all 80 tasks COMPLETED (max wall 0.79 s). Aggregate `microscopes/results/k5_bh_v8/K5_BH_REVIVAL_AGGREGATE_V8_PROTECTED.json`,
+terminal **`K5_BH_V8_PROTECTED_GREEN`**, 0 structural errors.
+
+| lane cell | predicted | agree | pred.-inadmissible | mean margin | verdict | auxiliary |
+|---|---|---|---|---|---|---|
+| C 0.40 | FIXED_FEATURE | 8/8 | 0 | +1.011 | GREEN | fixed err 0.0753 (floor 0.0751, P-C4 ok); gain -0.02 pp (P-C2 ok) |
+| C 0.50 | FIXED_FEATURE | 8/8 | 0 | +0.977 | GREEN | fixed err 0.0798 (floor 0.0850); gain +0.01 pp (P-C2 ok) |
+| C 0.75 | FIXED_FEATURE | 7/8 | 0 | +0.504 | GREEN | fixed err 0.1286 (floor 0.1207); gain +0.48 pp, 1/8 above delta (P-C3 ok) |
+| C 0.85 | FIXED_FEATURE | 6/8 | 0 | +0.235 | GREEN | fixed err 0.1549 (floor 0.1424); gain +0.74 pp, 2/8 above delta (P-C3 ok) |
+| E 48 | DIRECT | 8/8 | 0 | +38710 | GREEN | direct admissible 8/8, mean return 0.8735 |
+| E 64 | DIRECT | 8/8 | 0 | +51430 | GREEN | 8/8, 0.8616 |
+| E 96 | DIRECT | 8/8 | 0 | +76870 | GREEN | 8/8, 0.8603 |
+| E 128 | DIRECT | 8/8 | 0 | +102310 | GREEN | 8/8, 0.8633 |
+
+Probes: `s = 1.2`: fixed inadmissible 8/8 (P-C5), trainable admissible 0/8 (P-C6), mean gain +2.03 pp (P-C7),
+observed NONE 8/8. `r = 4`: DIRECT inadmissible 1/8 (P-E4), mean direct return 0.8733 (P-E5), MODEL admissible
+8/8 (P-E6). Kill P-E7: lane inadmissible total 0.
+
+**All fourteen numbered predictions hold at protected tier; both lanes GREEN.** The C 0.85 cell sits at the
+rule's edge (6/8, margin +0.24, gain 0.74 pp against delta 0.98), which is where the corrected law placed the
+crossover ("in (0.85, 1.0]"); a fresh cell above 0.85 is expected to flip and is *not* claimed GREEN.
+
+Deviation (operational, not scientific): the sbatch's `module load Python/3.11.5` did not take effect inside the
+array tasks; receipts record Python 3.9.25, the same interpreter the protected V7 run used. The core is pure
+stdlib and the development tier (3.11.16) and protected tier agree on every verdict.
+
+### 4.3 Adjudication
+
+- **RV-377-170 (C_FEATURE_LEARNING):** `C_FEATURE_LEARNING_REVIVED_GREEN_ON_FRESH_GRID_UNDER_REACHABILITY_CONDITIONED_LAW__V7_RED_AT_0_6_STANDS`.
+  The protected V7 THEORY_RED at 0.6 remains the authoritative falsification of the residual-magnitude
+  prediction. The reachability-conditioned law is GREEN on the FIXED side at both tiers and its probe confirms
+  that no trainable-wins regime exists under `D7` inside the admissible range. Boundary: exhibiting a
+  trainable-wins regime needs a development-budget axis (new core; RV-377-172 if ever wanted, not required).
+- **RV-377-171 (E_CONTROL):** `E_CONTROL_REVIVED_GREEN_ON_FRESH_GRID_UNDER_ADMISSIBILITY_CONDITIONED_PREDICTION__V7_INCONCLUSIVE_AT_1_2_8_STANDS__MODEL_SIDE_UNREALISABLE_IN_FROZEN_WORLD`.
+  The protected V7 INCONCLUSIVE at 1/2/8 stands. The admissibility-conditioned predictor is GREEN at both tiers;
+  the probe at r = 4 (1/8 and 3/8 inadmissible at the two tiers against 1.84 expected) and the untriggered kill
+  condition test the concentration law's content. Boundary: the MODEL side of the phase law is unrealisable in
+  this world (planning per goal 1600 ops > direct 805); a world with amortised planning is a new core
+  (RV-377-173 if ever wanted, not required).
+
+No second revival iteration (RV-377-172/173) is needed: both successors passed at protected tier, and the
+declared boundaries are structural to the frozen core, not failures of the successors.

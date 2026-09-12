@@ -346,8 +346,9 @@ placed by residual magnitude without the reachability clause the theory carries 
 realization's training error at 0.6, 0.0910, equals the analytic linear-Bayes floor 0.0911); the control
 predictor omitted the admissibility term for its stochastic DIRECT route (per-goal return mean 0.859, sd 0.161).
 The corrected predictions on fresh grids ({0.40, 0.50, 0.75, 0.85} and {48, 64, 96, 128}) are GREEN on both lanes
-at development tier (billy-old, 80/80, all six probe predictions holding); the protected V8 outcome is recorded
-in that document's §4.2. The V7 verdicts are not reopened.
+at development tier (billy-old, 80/80, all six probe predictions holding) **and at protected tier** (LUNARC job
+3605817, beacon round 32144246, 80/80, terminal `K5_BH_V8_PROTECTED_GREEN`, all fourteen numbered predictions
+holding; that document's §4.2). The V7 verdicts are not reopened. Ledger rows RV-377-170 and RV-377-171.
 
 **Terminal register additions (§5):**
 
