@@ -93,7 +93,23 @@ which is unbounded in `d`. Hence the bounded reduction of GMI-DA2 exists at ever
 horizon amortizes it over a family of **unbounded** depth: criterion 3 of the domain-novelty criterion is not a property of
 a carrier alone but of a carrier **and a declared depth bound**.
 
-**Executed decision.** `RV-377-044` clause 7 (held). **Status:** `PROVED_AT_SCOPE`.
+**Executed decision.** `RV-377-044` clause 7 (held). **Status:** `PROVED_AT_SCOPE_UNDER_A_NAMED_BINDING_OPERATOR` —
+see the correction below.
+
+**Correction forced by `RV-377-065`** (`GMI_DEPTH_GATED_KINGDOM_V1.md`, receipt `STAGE_DK_V1_DEPTH_GATED.json`). The
+formula above is the crossover against an opponent that materializes `R^d·F` bindings, and that opponent is
+**parent-maximal only when the binding operator's path code is injective**. XOR binding — the law `RV-377-044` executed —
+is commutative and involutive, so a path composes to the parity of its role multiset and the measured image is
+`4, 7, 8, 8, 8, 8` at depths 1–6, saturating at `2^R`. Against an opponent that materializes one bundle per **distinct**
+composition, the store is bounded by `2^R·F` vectors uniformly in depth (≤ 4 618 bits at `D = 64` against the carrier's
+864, a constant factor 5.3449), the crossover never exceeds its depth-1 value, and **a single bounded reduction covers
+the whole unbounded-depth family**. The formula overstates the parent-maximal store by `R^d/|image|` = 1, 16/7, 8, 32,
+128, 512 at depths 1–6 and the crossover by 6.5957 at the one depth-2 cell where the comparison is measurable;
+`RV-377-044`'s reported depth-2 description ratio of 10.667 becomes **4.667**. With the PERMUTE primitive of DC1's own
+declared native basis protecting the role at path position `i`, the image is exactly `R^d` and the statement above is
+executed as written to depth 6 against the strongest opponent constructed: parent-maximal `H*(d)` = 54.5, 22.75, 80.875,
+303.25, 1167.4375, 4556.35 at `D = 64`, with consecutive ratios rising strictly towards `R = 4`. Even there the carrier
+never excludes the opponent from the frontier: an unbounded crossover is not an unoccupied cell.
 
 **Theory correction this forces.** `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` §14 criterion 3 ("no bounded
 semantics-preserving reduction to existing domains over the registered family") must be read with the registered family's

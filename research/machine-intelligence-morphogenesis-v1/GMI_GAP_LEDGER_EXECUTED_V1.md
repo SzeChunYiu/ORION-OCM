@@ -53,14 +53,40 @@ on how far replay can be truncated, not a search for a formula.
 | id | gap | concrete closure experiment |
 |---|---|---|
 | **DG-1** | D6 (dynamical-state / controller) has no IR kind of its own; recurrent state is expressed only through `DENSE` plus an update law | add a `RECUR` state kind with an explicit iterated-map execution kind, re-run the B1 recovery harness, and check whether the carrier descriptor separates it from `DENSE` |
-| **DG-2** | a "no cell exists" clause checked only on a truncated reuse grid | every frontier grid must extend to the analytic crossover of every price vector reported; found when `RV-377-045` clause 7 held to H = 1 024 while the crossover it denied lay at H = 1 856 |
-| **DG-3** | novelty criterion 3 is stated without a structure-depth bound | the crossover `H*(d) ~ R^d/d` is unbounded in depth (`RV-377-044`), so the criterion must name the family's depth bound; closure = amend `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` §14 and re-adjudicate DC1 under the amended text |
+| **DG-2** *(closed for the receipts that adopt the procedure — see §3b)* | a "no cell exists" clause checked only on a truncated reuse grid | every frontier grid must extend to the analytic crossover of every price vector reported; found when `RV-377-045` clause 7 held to H = 1 024 while the crossover it denied lay at H = 1 856 |
+| **DG-3** *(**CLOSED** by `RV-377-065` — see §3b)* | novelty criterion 3 is stated without a structure-depth bound | the crossover `H*(d) ~ R^d/d` is unbounded in depth (`RV-377-044`), so the criterion must name the family's depth bound; closure = amend `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` §14 and re-adjudicate DC1 under the amended text |
 | **DG-5** | bounded reduction is only meaningful against a **parent-maximal** opponent | exposed by N11, where the separation against a naive search parent is exponential and collapses to a constant against a dense-coefficient parent computing the same annihilator. Closure = a declared parent-maximality procedure (literature sweep plus an adversarial parent-construction step) run before every reduction verdict |
 | **G2b** | admissibility of a **stochastic** carrier is a distribution over seeds | executed at two points (5 % of seeds admissible; on an admissible seed it occupies 14/56 to 56/56 cells): closure = a declared reliability index `q` on every frontier table, and a census for every stochastic row added later |
 | **G14** | the cost model does not charge the **failed draws** of a stochastic carrier as search cost | `lifecycle_vector` in `gmi_microscope/vm.py` already carries `B_search` and `B_failed_candidates`; closure = apply them to the D′/E′ frontier and re-adjudicate `RV-377-041b` with failed draws charged |
 | **G8** | the new-form criterion needs lower bounds, not only occupancy | exhaustive size census gives exact bounds only to size 4; closure = formal obstruction proofs for a property vector against parent products |
 | **G10** | "predict a new form" | nine candidates executed, all reduced; closure = a candidate whose carrier is **not** a bounded composition of the primitive alphabet, which by GMI-DA1 means enlarging the alphabet |
 | **G12** | reachability of the search and algebraic forms by neutral search | **closed at scope by `RV-377-058`**: the symbolic program/search carrier is recovered to admissibility (0.8958) from primitives |
+
+### 3b. DG-2 and DG-3 after `RV-377-065` (the depth-gated kingdom decision)
+
+`RV-377-065` (`GMI_DEPTH_GATED_KINGDOM_V1.md`, receipt `microscopes/results/STAGE_DK_V1_DEPTH_GATED.json`) executed the
+depth-indexed role-filler family at structure depths 1–6 against four adversarially constructed exemplar-store opponents.
+
+**DG-2 — closed by construction for every receipt that adopts the procedure.** `gmi_microscope/dk_depth.py` computes
+every admissible pair's crossover *first*, in exact rational arithmetic, then builds the reuse grid to bracket each one
+and reach `4×` the largest, and asserts `max(grid) ≥ 2·max(crossover)` per cell. That assertion held in **96 of 96**
+frontier decisions and is reported per cell as `dg2_grid_covers_twice_every_crossover`. The gap stays listed because the
+earlier receipts were not re-run under it; the procedure, not the inspection, is the closure.
+
+**DG-3 — closed.** §14 criterion 3 of `GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md` is amended (§14.1) to require three
+declared quantities rather than one: the family's structure-depth bound, the **composition operator** whose image fixes
+how the parent's store grows with depth, and the reuse-horizon bound. The middle one was not anticipated by the gap as
+written and is the executed content of the record: the XOR bind of `RV-377-044` has a path-code image of measured size
+`4, 7, 8, 8, 8, 8` at depths 1–6 — it saturates at `2^R`, so one bounded reduction with overhead factor ≤ 5.3449 covers
+the whole unbounded-depth family; the permutation-protected code has image exactly `R^d` and the depth escape is real.
+GMI-DA3 is therefore relativized to a named operator, and `RV-377-044`'s published depth-2 description ratio of 10.667 is
+corrected to 4.6667 against the parent-maximal opponent. DC1 re-adjudicated under the amended text remains
+`REDUCED_TO_PARENT(D2)`.
+
+**DG-5 and G8 — reinforced, not closed.** The record is the third application of protocol rule 19 and the first in which
+adversarial parent construction changed a published number. G8 is untouched and is now the single gap between this
+negative verdict and a theorem: the result is an **occupancy** statement over four constructed opponents, not a lower
+bound over all of them.
 
 ## 4. Open, outside this lane
 
