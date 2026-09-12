@@ -1,0 +1,50 @@
+name: GMI K4-K5 research protocol gate
+
+on:
+  pull_request:
+    paths:
+      - 'research/machine-intelligence-morphogenesis-v1/**'
+      - '.github/workflows/gmi-k4-k5-research-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hostile-protocol-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pytest
+        run: python -m pip install --disable-pip-version-check pytest==8.3.5
+      - name: Syntax-check protected execution scripts
+        working-directory: research/machine-intelligence-morphogenesis-v1
+        run: |
+          python -m py_compile \
+            gmi_k4_resource_native_v4.py \
+            gmi_k4_search_v4.py \
+            gmi_k4_null_frontier_v5.py \
+            gmi_k4_search_v5.py \
+            hpc/gmi_k4_task.py \
+            hpc/gmi_k4_aggregate_v6.py \
+            hpc/gmi_k4_probe.py \
+            hpc/gmi_k4_submit.py \
+            hpc/gmi_k4_beacon_v6.py \
+            hpc/gmi_k5_bh_task_v5.py \
+            hpc/gmi_k5_bh_aggregate_v5.py \
+            hpc/gmi_k5_bh_probe_v5.py \
+            hpc/gmi_k5_bh_submit_v5.py \
+            hpc/gmi_k5_bh_beacon_v5.py
+      - name: Run hostile K4/K5 research tests
+        working-directory: research/machine-intelligence-morphogenesis-v1
+        run: |
+          python -m pytest -q \
+            test_gmi_k4_engine.py \
+            test_gmi_k4_grammar_native.py \
+            test_gmi_k4_resource_native_v4.py \
+            test_gmi_k4_null_frontier_v5.py \
+            test_gmi_k5_admissibility_v5.py
