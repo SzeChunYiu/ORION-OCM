@@ -119,3 +119,66 @@ distortion gap**, and the gap is zero at `s = 0`, `s = r − 1`, `s ≥ r` and p
 This is the first law in the family that is not attained at every grid point, and the doc says
 so. Not charged: the `log₂ C(L, r)` bits of index bookkeeping. One obligation, one world family,
 no architecture claim.
+
+---
+
+# RV-377-131 — ADJUDICATION: the proposed law is falsified in all 8 registered cells; the corrected law holds and is attained at all 24 tight points
+
+104 machine cells (23 `(r, s)` cells × legal machines), 100 independent `W` draws × 4096
+evaluations each. Receipt `microscopes/results/CHANNEL_LAW_BOUNDED_STATE_RV_377_131.json`
+(md5 `8c464cae285d9c08f36e7e0806bf66f6`, verified both sides).
+
+| id | outcome |
+|----|---------|
+| B1 | **CONFIRMED** — 0 legal machines above the corrected ceiling + 4 s.e.; 0 above 3 s.e. (null 0.14) |
+| B2 | **CONFIRMED** — `truncate` on the proposed line in all 23 cells, max \|z\| 3.29 |
+| **B3** | **CONFIRMED** — the proposed law is exceeded in **8 of 8** cells: `repetition` at `s = 1` by z = 7.1 / 9.3 / 9.8 / 11.5 (`r` = 7/15/31/63), `hamming` at `s = r − m` by z = 9.8 / 19.5 / 34.1 / 133.6 |
+| **B4** | **CONFIRMED** — the corrected ceiling is met within 4 s.e. at all 24 perfect-code and boundary points |
+| B5 | **CONFIRMED** — `parity_store` at ½, `truncate_flip` on the mirrored line, everywhere |
+| B6 | diagnostic — at `s = ⌊r/4⌋` every machine sits well below the converse (e.g. `(63, 15)`: ceiling 0.7557, best machine 0.6170); tightness there is neither claimed nor observed |
+
+| `r` | `s` | corrected ceiling | proposed line | `truncate` | `repetition` | `hamming` | `even_weight` |
+|---|---|---|---|---|---|---|---|
+| 7 | 1 | 0.5171 | 0.5078 | 0.5079 | **0.5183** | – | – |
+| 7 | 4 | 0.5410 | 0.5312 | 0.5319 | 0.5187 | **0.5393** | – |
+| 7 | 6 | 0.5469 | 0.5469 | 0.5446 | 0.5164 | 0.5411 | 0.5471 |
+| 15 | 1 | 0.5245 | 0.5078 | 0.5093 | **0.5243** | – | – |
+| 15 | 11 | 0.6025 | 0.5859 | 0.5862 | 0.5223 | **0.6017** | – |
+| 15 | 14 | 0.6094 | 0.6094 | 0.6090 | 0.5246 | 0.6022 | 0.6086 |
+| 31 | 1 | 0.5350 | 0.5078 | 0.5082 | **0.5339** | – | – |
+| 31 | 7 | 0.6167 | 0.5547 | 0.5539 | 0.5384 | – | – |
+| 31 | 26 | 0.7271 | 0.7031 | 0.7024 | 0.5348 | **0.7270** | – |
+| 31 | 30 | 0.7344 | 0.7344 | 0.7352 | 0.5321 | 0.7282 | 0.7344 |
+| 63 | 1 | 0.5497 | 0.5078 | 0.5073 | **0.5548** | – | – |
+| 63 | 15 | 0.7557 | 0.6172 | 0.6170 | 0.5493 | – | – |
+| 63 | 57 | 0.9768 | 0.9453 | 0.9450 | 0.5438 | **0.9767** | – |
+| 63 | 62 | 0.9844 | 0.9844 | 0.9842 | 0.5525 | 0.9767 | 0.9843 |
+| 63 | 63 | 0.9922 | 0.9922 | 0.9923 | 0.5483 | 0.9767 | 0.9851 |
+
+(`–` = machine needs more than `s` bits, not run.)
+
+## What happened here, stated plainly
+
+The tasking supplied a law. Derivation found a legal machine that beats it before any world
+was drawn. The run then measured that machine beating it by up to **133 standard errors**
+(`hamming` at `(63, 57)`: 0.9767 against a proposed ceiling of 0.9453), and measured the
+replacement ceiling being attained to within noise at every point where the theory says a
+perfect code exists — including the three points (`s = r − 1`) where the theory says the
+proposed line and the corrected ceiling **coincide**, and they do (0.5469/0.5469, 0.7344/0.7344,
+0.9844/0.9844, with two different machines attaining each).
+
+> **Bounded memory is a rate-distortion channel, not a truncation channel.** A machine with
+> `s` bits of state about `r` revealed bits reaches `(r/L)(1 − d*(r, s)) + (1 − r/L)/2`, where
+> `d*` is the sphere-covering distortion of a `2^s`-word code; it does not reach
+> `½ + s/(2L)`. Compression that keeps *a little about everything* beats memory that keeps
+> *everything about a little*, by a margin computed in closed form.
+
+The corrected law is a converse at intermediate `s`, where no perfect code exists; B6 shows
+the registered machines sit far below it there and no tightness is claimed. Closing that gap
+(the finite-block-length optimum) is a named open item, not a defect of the law.
+
+## Terminal
+
+`CL4_BOUNDED_STATE_LAW_VERIFIED_AT_REGISTERED_SCOPE` = **TRUE** (corrected form).
+`CL4_PROPOSED_TRUNCATION_FORM_IS_A_CEILING` = **FALSE**, 8 of 8 cells. Contains CL-1 at
+`s ≥ r`; coincides with truncation at `s ∈ {0, r − 1} ∪ [r, ∞)`.
