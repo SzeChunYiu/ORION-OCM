@@ -41,7 +41,6 @@ def run():
             "scope": "One developed state must serve both obligations. A paid router/composite must itself be in the reachable set.",
         },
         "original_files_modified": False,
-        "receipt_type": "EXACT_FALSIFICATION_NOT_EMPIRICAL_HOLDOUT",
     }
 
 if __name__ == "__main__":
