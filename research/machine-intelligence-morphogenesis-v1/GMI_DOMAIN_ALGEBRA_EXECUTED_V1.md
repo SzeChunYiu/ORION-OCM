@@ -658,3 +658,47 @@ rounding **tie**, at `log₂ w = −5` exactly — on which three hypotheses of 
 sequences does. Flipping that one entry's tie-break moves B from 0.400545 to **0.874245 and admissible** and leaves
 the other nine sequence-cells **bit-identical**. Under half-down tie-breaking the split is **5–0**. → **protocol
 rules 25, 26 and 27**.
+
+---
+
+## 13. GMI-DA9 — exactness buys intervention-robustness
+
+Every admissibility verdict in this lane was taken under the `standard` intervention while the registry declares six.
+`RV-377-085` evaluated the registered zoo on all five registered ecologies under all six, and the single-condition tables
+turn out to have been reporting something weaker than they said.
+
+| ecology | admissible under `standard` | under all six | lost |
+|---|---|---|---|
+| `E_smooth1` | 5 | 3 | particles, soft retrieval |
+| `E_smooth3` | 5 | 3 | nearest-neighbour store, particles |
+| `E_sym5` | 4 | 3 | soft retrieval |
+| `E_sym3` | 6 | 4 | gradient net, particles |
+| `E_parity` | 5 | 4 | soft retrieval |
+| **total** | **25** | **17** | **8, i.e. 32 %** |
+
+**Statement (GMI-DA9).** Admissibility is a property of a carrier and an **intervention family**, not of a carrier and an
+ecology. On the registered family, **exactly two rows are admissible under all six interventions on all five
+ecologies — `program_search` and `compiled_search`, and both are EXACT.** Every approximate carrier fails somewhere:
+memory, coefficient, stochastic and attention-like alike.
+
+**Status:** `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY` over 5 ecologies × 6 interventions × the registered zoo.
+**Receipt:** `STAGE_RULE36_INTERVENTION_ADMISSIBILITY_V1.json` (`RV-377-085`).
+
+The losses are **mechanism-specific rather than uniform**, which is what makes this a separation and not a difficulty
+shift — the nearest-neighbour store's capability *rises* under three of the five non-standard interventions on
+`E_smooth1`:
+
+* **coefficient** rows fail under `shuffled_events` and `half_events` — when the order or the number of gradient steps
+  changes, which is what a gradient learner is sensitive to and a table is not;
+* **store** rows fail under `extra_unseen_feedback` — when given feedback on inputs they will be evaluated on;
+* **search** rows are exact and immune to both.
+
+**Why this matters beyond the bookkeeping.** It is the first executed reason in this programme to prefer a deliberative
+carrier that is *not about cost*. Every earlier argument for D4/D5 was a lifecycle-cost argument on a frontier; this one
+says the exact carriers are the only ones whose admissibility is a property of the machine rather than of the conditions
+it was measured under.
+
+**Consequence for the corpus.** Protocol rule 36: every admissibility verdict must name its intervention set, and a row
+is "admissible" unqualified only if it passes under all of them. A verdict under one condition is reported as
+"admissible under ⟨intervention⟩" and is necessary, not sufficient, for occupancy. Roughly a third of the corpus's
+verdicts need that qualification, and the frontier tables built on them inherit it.
