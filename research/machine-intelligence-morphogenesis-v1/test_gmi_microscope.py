@@ -227,3 +227,56 @@ def test_b0_equivalence_receipt_reproduces(tmp_path):
     ref = json.load(open(RES / "STAGE_B0_EQUIVALENCE_METERING_V1.json"))
     (RES / "STAGE_B0_EQUIVALENCE_METERING_TEST_TMP.json").unlink()
     assert o["terminal"] == "BIOSPHERE_B0_EQUIVALENCE_AND_METERING_GREEN" and o["receipt_sha256"] == ref["receipt_sha256"]
+
+
+def test_dc_field_receipt_cell_reproduces():
+    """DC2 (RV-377-046): one committed cell of the self-organizing-field microscope replays exactly, and the
+    weight-sharing-ablated parent's answers equal the field row's in exactly the cells where it is capable."""
+    from gmi_microscope import dc_field
+    committed = json.loads((RES / "STAGE_DC_V30_DC2_FIELD.json").read_text())
+    spec = committed["cells_spec"]["L32_r110_n128"]
+    eco = dc_field.ecology(spec["L"], spec["T"], spec["rule"], spec["n_dev"])
+    for row in ("FIELD", "FIELD_NONLOCAL"):
+        r = dc_field.run(row, bases.B0, eco)
+        cell = committed["cells"][f"L32_r110_n128|{row}"]
+        for k in ("capability", "desc_bits", "exec_per_query", "native_ops", "learn_ops", "answer_signature", "R"):
+            assert r[k] == cell[k], (row, k)
+    assert committed["field_equals_field_nonlocal_answers"]["L32_r110_n128"] is True
+    assert committed["separation_by_L"]["L32_r110"]["description_ratio"] == 32
+
+
+def test_dc_quantum_receipt_cell_reproduces():
+    """DC7 (RV-377-047): one committed cell replays exactly in both precision instruments, and the QQ family census
+    separates the projective class (0 violations) from the ordered-Bayes class (94.7 per cent)."""
+    from gmi_microscope import dc_quantum
+    committed = json.loads((RES / "STAGE_DC_V31_DC7_QUANTUM.json").read_text())
+    eco = dc_quantum.ecology(1, 4)
+    for row in ("QPROJ", "BAYES_ORDERED", "TABLE", "QPROJ_COMMUTING"):
+        for prec in ("fx8", "wide"):
+            r = dc_quantum.run(row, bases.B0, eco, precision=prec)
+            cell = committed["cells"][f"n1_Q4|{row}|{prec}"]
+            for k in ("capability", "desc_bits", "exec_per_query", "native_per_query", "max_abs_error_units", "answer_signature", "R"):
+                assert r[k] == cell[k], (row, prec, k)
+    census = committed["qq_family_census"]["n1"]
+    assert census["projective_frac_violating_tol"] == 0.0
+    assert census["ordered_bayes_frac_violating_tol"] == 0.947456
+    assert committed["analytic_crossovers"]["n1_Q4|wide|native"]["BAYES_ORDERED|QPROJ"] == 32 * 4 - 12
+
+
+def test_dc_phase_receipt_cell_reproduces():
+    """DC9 (RV-377-054): one committed cell replays exactly; the phase row equals the exemplar parent in its own code,
+    and at Q = 2 with an odd bundle size it equals DC1's hyperdimensional row bit for bit."""
+    from gmi_microscope import dc_phase
+    committed = json.loads((RES / "STAGE_DC_V32_DC9_PHASE.json").read_text())
+    spec = committed["cells_spec"]["D64_d1_k3_Q2_P64_s7"]
+    eco = dc_phase.ecology(spec["D"], spec["depth"], spec["k"], spec["Dp"], spec["Q"],
+                           noise=spec["noise"], phase_noise=spec["phase_noise"], seed=spec["rec_seed"])
+    sigs = {}
+    for row in dc_phase.ROWS:
+        r = dc_phase.run(row, bases.B0, eco, precision="wide")
+        cell = committed["cells"][f"D64_d1_k3_Q2_P64_s7|{row}|wide"]
+        for k in ("capability", "desc_bits", "exec_per_query", "native_per_query", "answer_signature"):
+            assert r[k] == cell[k], (row, k)
+        sigs[row] = r["answer_signature"]
+    assert sigs["PHASE"] == sigs["PHASE_STORE_MAT"] == sigs["VSA"]
+    assert all(v["phase_equals_phase_store_mat"] for v in committed["cross_carrier_equality"].values())

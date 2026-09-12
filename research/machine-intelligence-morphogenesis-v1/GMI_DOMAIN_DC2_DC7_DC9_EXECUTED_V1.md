@@ -1,0 +1,146 @@
+# DC2, DC7, DC9 — executed exact microscopes and reduction verdicts (V1)
+
+Status: **EXECUTED AT SCOPE — NO NEW DOMAIN IS CLAIMED.** All three candidates reduce to existing domains.
+Issue #422 (Track B). Companions: `GMI_DOMAIN_CANDIDATES_DC1_DC9_V1.md` (section 0 method, section 2 candidates),
+`gmi_microscope/dc_vsa.py` + `dc_energy.py` (the DC1/DC3 worked examples), `REVIVAL_LEDGER_DC2_DC7_DC9.jsonl`
+(records RV-377-046, RV-377-047, RV-377-054 — frozen before each run, committed before each run, outcomes filled
+clause by clause afterwards, failed clauses preserved verbatim).
+
+Microscopes: `gmi_microscope/dc_field.py`, `gmi_microscope/dc_quantum.py`, `gmi_microscope/dc_phase.py`.
+Receipts: `microscopes/results/STAGE_DC_V30_DC2_FIELD.json` (sha `f98f83ab46684ca3…`),
+`STAGE_DC_V31_DC7_QUANTUM.json` (sha `3b265fa77acdcd6c…`), `STAGE_DC_V32_DC9_PHASE.json` (sha `56ed145e4bf4b66f…`).
+Tests: `test_gmi_microscope.py::test_dc_field_receipt_cell_reproduces`, `…dc_quantum…`, `…dc_phase…` (3 passed).
+
+| candidate | carrier | native law | strongest parents | exact developmental equality with a parent? | claim level |
+|---|---|---|---|---|---|
+| **DC2** self-organizing field | ring of `L` binary cells | one synchronous lattice update under a shared radius-1 local rule | D6 iterated local map; the weight-sharing ablation `FIELD_NONLOCAL`; D2 `TABLE`; D1 `DENSE` | **YES** — identical answers in exactly the 60 of 144 cells where the ablated parent is capable | `REDUCED_TO_PARENT(D6 + translation-equivariant weight sharing)` |
+| **DC7** quantum cognition | real amplitude vector in `R^d`, `d = 2^n` | Lüders projector application + Born readout, non-commuting question projectors | D3 `BAYES_ORDERED` (explicit order variable); D2 `TABLE` | **not needed** — both parents reproduce the whole registered obligation exactly (capability 1.0, zero error) | `REDUCED_TO_PARENT(D3 with an amplitude state)`, `SUBSTRATE_VARIANT` below `H = 32Q − 12` |
+| **DC9** oscillatory / phase coding | `Dp` phase units in `Z_Q` | binding by phase offset, retrieval by coherence (Kuramoto order parameter) | D2 `PHASE_STORE_MAT` (exemplar store in the phase code); DC1's `VSA` and `STORE_MAT` | **YES** — identical to `PHASE_STORE_MAT` in **66 of 66** (cell, instrument) pairs; identical to DC1's `VSA` bit for bit in all 9 `Q = 2`, odd-`k`, noiseless wide cells | `REDUCED_TO_PARENT(D2 — the same parent as DC1, of which DC1 is the Q = 2 special case)` |
+
+---
+
+## DC2 — self-organizing field (`E_spatial`, RV-377-046, 144 cells × 4 rows)
+
+**Ecology.** A ring of `L` cells; development shows `n_dev` whole `T = 3`-step orbits under a hidden elementary rule;
+evaluation demands the exact configuration after `T` steps on unseen initial configurations. `L ∈ {8,16,32,64}`,
+rule `∈ {110, 30, 90, 232}`, `n_dev ∈ {1,…,256}`.
+
+**Executed numbers.**
+
+* **Description separation is exactly `L`** in all 144 cells: `desc(FIELD) = 8` bits, `desc(FIELD_NONLOCAL) = 8L`.
+* **Serve separation is exactly zero.** `exec_per_query(FIELD) = exec_per_query(FIELD_NONLOCAL) = 33L`
+  (264 / 528 / 1056 / 2112) and `native_ops = 48` for both, in every cell.
+* **Sample separation** `n*(FIELD_NONLOCAL) / n*(FIELD)` = 8, 16, 32 or 128 across the 16 `(L, rule)` groups;
+  `n*(FIELD) = 1` in 15 of 16 groups (2 for rule 232 at `L = 8`), `n*(FIELD_NONLOCAL) ∈ {8,…,128}`, non-decreasing in `L`.
+* **Exact developmental equality**: `answer_signature(FIELD) == answer_signature(FIELD_NONLOCAL)` **iff**
+  `FIELD_NONLOCAL` reaches capability 1.0 — 144 of 144 cells. Full site identification is *sufficient but not necessary*
+  (3 cells reach equality with one site still ambiguous, because the surviving candidates agree on every neighbourhood
+  the rollouts visit).
+* `TABLE` inadmissible in all 144 cells; `DENSE` inadmissible in all 144 (max 0.5, on the one linearly separable rule).
+
+**Crossover.** There is **none**: the two rows' per-query costs are identical under both price vectors, so the analytic
+crossover set is empty in all 288 (cell, price) pairs, and a checked **uniform-domination certificate** (FIELD's fixed
+*and* per-query cost ≤ every admissible row's, 288/288) settles the "no cell exists" clause without needing an extended
+grid at all — a second, cheaper discharge route for gap DG-2 alongside RV-377-045's grid extension.
+
+**Verdict.** The field carrier is D6 plus a shared parameter. 4 of 9 frozen clauses hold exactly; 5 fail in part
+(all prediction-writing or ecology-construction errors, none favouring the candidate). Known defect, recorded:
+at `L = 8` the 256-member configuration space makes dev and eval initials overlap in 28 cells, so the
+unseen-configuration obligation holds only in the 116 cells at `L ≥ 16`.
+
+## DC7 — quantum cognition (`E_order`, RV-377-047, 6 cells × 4 rows × 2 instruments)
+
+**Ecology.** A registered table of question-order response frequencies: for each of `Q` question pairs and each asking
+order, the four joint outcome probabilities, generated by a declared real projective model on `n` qubits and quantized
+to 4096ths. Tolerance 16/4096. No floating point anywhere — trigonometry comes from an integer Taylor series over
+`floor(π·10^50)/10^50`.
+
+**Executed numbers. All nine frozen clauses hold.**
+
+* **Precision gate.** Under the registered 8-bit instrument **no row is admissible** in any cell (max 0.75) — the gate
+  belongs to the *obligation's* resolution, not to the carrier, since both classical parents fail with it. Under the
+  wide instrument `QPROJ`, `BAYES_ORDERED` and `TABLE` are each exactly 1.0 with **zero** maximum error.
+* **Parsimony confirmed and bounded.** `desc(QPROJ) = 12d + 8Q`, `desc(BAYES_ORDERED) = 72Q`, `desc(TABLE) = 96Q`;
+  executed ratios 3.6 → 7.579 (vs D3) and 4.8 → 10.105 (vs D2) as `Q` runs 2 → 16, converging to **9 and 12**. The
+  literature's parsimony claim is real and is a *constant factor*.
+* **Reduction cost.** `exec_per_query(QPROJ) = 6d² + 3d` (30 at `n = 1`, 108 at `n = 2`) against 3 native ops, i.e. a
+  measured **`2d² + d` = 10 and 36 charged scalar ops per native op — Θ(4ⁿ) over a 2ⁿ-amplitude state**.
+* **QQ structural witness (family census).** Over 1728 declared projective members `max|QQ| ≤ 1` unit and **0 %** exceed
+  the tolerance; over 15625 declared ordered-Bayes members **94.7456 %** exceed it (`max|QQ| = 0.667`), with exactly
+  5.2544 % satisfying it exactly. **But** QQ does *not* discriminate the fitted rows: every admissible row reproduces a
+  QQ-satisfying table and therefore serves `|QQ| ≤ 1`. This corrects the candidates document's phrasing — QQ fails for
+  the ordered-Bayes **class**, not for an ordered-Bayes row fitted to this obligation.
+* Negative twin `QPROJ_COMMUTING` inadmissible everywhere (≤ 0.125) with served `QQ = 0` exactly.
+
+**Crossover.** Native price: `QPROJ` is the sole frontier occupant below **`H* = 32Q − 12`** (`n = 1`) and `32Q − 24`
+(`n = 2`) — executed 52, 116, 244, 500 and 40, 104, all integer-exact — and `BAYES_ORDERED` above; `TABLE` never
+occupies a native-price frontier cell. Reduced price: `QPROJ` never occupies a frontier cell at any `H`, because its
+declared grid search costs 497760·`Q` charged ops; the frontier is `TABLE` below `296Q/(4Q − 2.5)` (107.6364, 87.7037,
+80.2712, 77.0081) and `BAYES_ORDERED` above. Grids were extended to `H = 3185122` to reach a second reduced-price
+crossover at `Q ≥ 8` (DG-2 honoured, not truncated).
+
+**Verdict.** A description-parsimonious reparameterization of D3 whose exact classical simulation is polynomial at each
+fixed `n`. Its executed value is a constant-factor description saving plus one genuine class-level structural constraint.
+
+## DC9 — oscillatory / phase coding (`E_bindsync`, RV-377-054, 33 cells × 5 rows × 2 instruments)
+
+**Ecology.** DC1's `E_rolefill` obligation, **imported unchanged** from `dc_vsa.py`, with the same record structures
+additionally encoded in a `Z_Q` phase code whose codebook uses DC1's own LCG seeds. Three declared record seeds
+(7, 13, 23) replicate every comparison. Eight of eleven base cells give the phase and binary codes **equal description**.
+
+**Executed numbers.**
+
+* **Bounded reduction, 66 of 66.** `PHASE` and `PHASE_STORE_MAT` (the exemplar store in the phase code) return
+  **identical answers** in every cell, every radix, every depth, both instruments — RV-377-044's lazy/eager identity is
+  radix-independent, because `coherence(cue − role, f) = coherence(cue, role + f)` holds componentwise in `Z_Q`.
+* **DC1 is DC9's `Q = 2` special case.** `PHASE` equals DC1's `VSA` **bit for bit** in exactly the nine
+  `Q = 2`, `Dp = D`, odd-`k`, noiseless wide cells and nowhere else. At `Q = 2` the cosine table is `(+1, −1)`, so
+  coherence `= Dp − 2·Hamming` and the phase argmax *is* the Hamming argmin; the only remaining difference is the
+  declared bundle tie-break, which is why equality holds at odd `k` and fails at even `k`.
+* **Inherited structure.** `desc(PHASE_STORE_MAT)/desc(PHASE) = R^depth·F/(R+F)` = **2.667** (depth 1) and **10.667**
+  (depth 2), independent of `Q`, `Dp`, `D` — DC1's ratio exactly. Serve surplus over the store parent is exactly
+  `3·Dp·depth`, the transposition of DC1's `depth·D`.
+* **The one result favouring the candidate.** At equal description a radix-4 or radix-8 phase code is *strictly* more
+  capable than the binary code in **15 of 15** such cells, and wins **7 admissibility niches** where `PHASE` is
+  admissible and `VSA` is not (e.g. `D128_d2_k3_Q4_P64_s23`: 0.9583 vs 0.7917). **In every one of the seven,
+  `PHASE_STORE_MAT` is admissible with the identical capability**, and no cell anywhere has `PHASE` admissible while
+  `PHASE_STORE_MAT` is not. The advantage belongs to the **code radix** and is shared by the D2 parent, so criterion 4
+  is not satisfied by the phase *law*.
+* **Precision.** Every `Q = 2` cell is inadmissible under the registered 8-bit instrument (0.333–0.688: with `|cos| = 1`
+  the coherence sum saturates after eight units); only 5 of 33 cells survive, all at `Q ∈ {4, 8}`. The imported
+  hyperdimensional rows are instrument-independent in all 33 cells.
+* Negative twin `PHASE_NOCOUPLE` never exceeds 0.375.
+
+**Crossover.** Reduced-price `PHASE`/`PHASE_STORE_MAT` crossovers: **39.5, 47.0, 53.6667, 39.2222, 46.1667, 169.0833**
+by configuration, each exact at every seed. The imported `VSA`/`STORE_MAT` crossover reproduces RV-377-044's executed
+**54.5** (`D = 64`, depth 1) and **189.625** (`D = 128`, depth 2) — an independent check that DC1's rows are unmodified.
+No reported grid fails to reach a crossover it reports (132/132 groups).
+
+**Verdict.** Phase binding is DC1's binding at a different code radix, and both reduce to the same D2 parent. The
+candidates document's registration of DC9 as "reduction to D6 + DC1" is **corrected**: the reduction target is D2
+directly — the microscope needs no temporal dynamics, since binding by phase offset and retrieval by coherence are
+static algebra in `Z_Q`.
+
+---
+
+## What the three runs add to the theory
+
+1. **A new discharge route for gap DG-2** (RV-377-046): when one row's *fixed and* per-query costs both dominate, a
+   "no cell exists" clause is settled by a **uniform-domination certificate**, with no grid extension needed. An
+   extended grid is required only where per-query costs cross — as in DC7, whose grids reach `H = 3185122`.
+2. **A standing requirement for "structural witness" claims** (RV-377-047): a constraint satisfied identically by a
+   model *class* says nothing when tested on rows fitted to class-conforming data. It must be reported as a **family
+   census** over a declared parameter grid. DC7's QQ equality is the worked example: 0 % vs 94.7 % violation.
+3. **Code radix becomes an axis of the normal form** (RV-377-054), alongside structure depth (RV-377-044) and symmetry
+   (RV-377-046). And: **criterion 4 must be tested against the candidate's own parent in the candidate's own code** —
+   DC9 beats DC1 in seven cells and would read as a frontier change against D1–D9 as currently instantiated, yet its own
+   exemplar store holds every one of those cells identically.
+
+The programme-level prediction of `GMI_DOMAIN_CANDIDATES_DC1_DC9_V1` §4 — that no candidate survives criterion 3 at the
+exact layer — is **upheld for DC2, DC7 and DC9**, with the honest qualification recorded in RV-377-054 that DC9 does
+change the admissible set against the incumbent carrier, and that this is a code effect its own parent shares.
+
+Open, non-blocking: DC2's `DENSE` row carries a declared 16-trajectory training cap, so its frontier position at large
+`n_dev` is unmeasured (a disclosed diagnostic shows it reaches 1.0 on the majority rule at 256 trajectories);
+DC2's `L = 8` ecology defect; DC7's `n = 2` state is declared rather than searched; DC9 replicates records over three
+seeds but the codebook over one draw.
