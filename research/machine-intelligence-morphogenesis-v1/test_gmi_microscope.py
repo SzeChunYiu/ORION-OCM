@@ -227,3 +227,48 @@ def test_b0_equivalence_receipt_reproduces(tmp_path):
     ref = json.load(open(RES / "STAGE_B0_EQUIVALENCE_METERING_V1.json"))
     (RES / "STAGE_B0_EQUIVALENCE_METERING_TEST_TMP.json").unlink()
     assert o["terminal"] == "BIOSPHERE_B0_EQUIVALENCE_AND_METERING_GREEN" and o["receipt_sha256"] == ref["receipt_sha256"]
+
+
+def test_dn_n8_autocatalytic_receipt_cell_reproduces():
+    """N8 (RV-377-052): the L8 cell of STAGE_DN_V28_N8_AUTOCATALYTIC replays exactly, and the
+    autocatalytic candidate is developmentally IDENTICAL to the oracle-fed memory parent."""
+    from gmi_microscope import dn_autocatalytic as A
+    committed = json.loads((RES / "STAGE_DN_V28_N8_AUTOCATALYTIC.json").read_text())
+    eco = A.ecology(A.CELLS["L8"]["L"])
+    for row in ("AUTOCAT_EAGER", "TABLE_FULL", "AUTOCAT_NOFEED"):
+        r = A.run(row, bases.B0, eco)
+        c = committed["cells"][f"L8|{row}"]
+        assert (r["capability"], r["desc_bits"], r["compile_ops"], r["exec_per_query"], r["R"]) == \
+               (c["capability"], c["desc_bits"], c["compile_ops"], c["exec_per_query"], c["R"]), row
+        assert r["answer_signature"] == c["answer_signature"], row
+    assert committed["cells"]["L8|AUTOCAT_EAGER"]["answer_signature"] == committed["cells"]["L8|TABLE_FULL"]["answer_signature"]
+    assert committed["autocat_equals_parent_answers"]["L8|AUTOCAT_EAGER==TABLE_FULL"] is True
+    assert committed["cells"]["L8|AUTOCAT_NOFEED"]["admissible"] is False
+
+
+def test_dn_n11_obstruction_receipt_cell_and_growth_law():
+    """N11 (RV-377-053/054): the m10_d2_k8 cell of STAGE_DN_V29_N11_OBSTRUCTION replays exactly;
+    the candidate and the dense-coefficient parent answer identically (the bounded reduction), and the
+    measured growth law is constant serve cost d*(2m+2) against exhaustion 2m + 3m*(2^k - 1)."""
+    from gmi_microscope import dn_obstruction as O
+    committed = json.loads((RES / "STAGE_DN_V29_N11_OBSTRUCTION.json").read_text())
+    spec = O.CELLS["m10_d2_k8"]
+    eco = O.ecology(spec["m"], spec["k"], spec["d"], n_eval=8, n_unsat_eval=5)
+    assert eco["corank"] == spec["d"] and eco["rank"] == spec["m"] - spec["d"]
+    for row in ("OBSTRUCT", "DENSE_RREF", "OBSTRUCT_NOCERT"):
+        r = O.run(row, bases.B0, eco)
+        c = committed["cells"][f"m10_d2_k8|{row}"]
+        assert (r["capability"], r["desc_bits"], r["compile_ops"], r["exec_per_query"], r["R"]) == \
+               (c["capability"], c["desc_bits"], c["compile_ops"], c["exec_per_query"], c["R"]), row
+        assert r["answer_signature"] == c["answer_signature"], row
+    assert committed["obstruct_equals_parent_answers"]["m10_d2_k8|OBSTRUCT==DENSE_RREF"] is True
+    for cname, spec in O.CELLS.items():
+        m, d, k = spec["m"], spec["d"], spec["k"]
+        assert committed["cells"][f"{cname}|OBSTRUCT"]["exec_per_query"] == d * (2 * m + 2), cname
+        if (1 << k) <= O.SEARCH_BUDGET:
+            assert committed["cells"][f"{cname}|SEARCH_ENUM"]["exec_per_unsat_query"] == 2 * m + 3 * m * ((1 << k) - 1), cname
+    ratios = [committed["growth_law_k_sweep"][c]["search_over_obstruct"]
+              for c in sorted(committed["growth_law_k_sweep"], key=lambda c: committed["growth_law_k_sweep"][c]["k"])]
+    assert len(ratios) >= 4
+    for a, b in zip(ratios, ratios[1:]):
+        assert 3.99 <= b / a <= 4.01, (a, b)
