@@ -171,11 +171,60 @@ def run_search(arm, seed, freeze_commit, host, evaluations=20000):
     return out
 
 
+def adjudicate(freeze_commit, host, seeds=(0, 1, 2)):
+    """P1-P5 of GMI_B7_REGION_REALIZATION_RV_377_200_FREEZE.md over the committed receipts (mechanical)."""
+    cert = json.load(open(os.path.join(RES, f"STAGE_B7_REGION_CERTIFICATE_{host}.json")))
+    out = {"schema": "StageB7AdjudicationV1", "revival_record": "RV-377-200", "freeze_commit": freeze_commit, "host": host,
+           "cap_star": CAP_STAR, "P0": {a: cert["arms"][a]["P0_within_3se_of_cap_star"] for a in ARMS}, "cells": {}}
+    p1 = p4 = True; p2_seeds = 0; p3_ok = True; p3_n = 0; p5_seeds = 0; store_elites = []
+    for seed in seeds:
+        for arm in ARMS:
+            r = json.load(open(os.path.join(RES, f"STAGE_B7_REGION_{arm}_S{seed}_{host}.json")))
+            cs = CAP_STAR[arm]; cell = {}
+            attained = False; best_dev = -1; best_dev_prot = None
+            for name, e in r["elites"].items():
+                pe = e["protected_own_arm"]
+                if pe is None: continue
+                se = max(pe["se"], 1e-9); above = pe["mean"] > cs + 3 * se
+                cell[name] = {"dev": e["dev_capability"], "prot": pe["mean"], "se": pe["se"], "above_ceiling": above,
+                              "carrier_atrophied": e.get("carrier_atrophied"), "other_arm": e["protected_other_arm"]["mean"] if e["protected_other_arm"] else None}
+                if arm == "STORE":
+                    if above: p1 = False
+                    if pe["mean"] >= cs - 3 * se:
+                        attained = True; p3_n += 1
+                        oa = e["protected_other_arm"]; oo = oa["mean"] if oa else None
+                        ok = e.get("carrier_atrophied") in ("TABLE", "KVSTORE") and oo is not None and oo <= CAP_STAR["NOSTORE"] + 3 * max(oa["se"], 1e-9)
+                        cell[name]["P3_ok"] = ok
+                        if not ok: p3_ok = False
+                    if e["dev_capability"] > best_dev: best_dev = e["dev_capability"]; best_dev_prot = pe["mean"]
+                else:
+                    if above or pe["mean"] >= THETA: p4 = False
+            if arm == "STORE":
+                if attained: p2_seeds += 1
+                if best_dev_prot is not None and best_dev - best_dev_prot >= 0.02: p5_seeds += 1
+            out["cells"][f"{arm}_S{seed}"] = cell
+    out["verdicts"] = {"P1_ceiling_respected": p1, "P2_realized_seeds": p2_seeds, "P2": p2_seeds >= 2,
+                       "P3_form_and_channel_ablation": p3_ok and p3_n > 0, "P3_n_attainers": p3_n,
+                       "P4_empty_region_empty": p4, "P5_selection_channel_seeds": p5_seeds, "P5": p5_seeds >= 2}
+    v = out["verdicts"]
+    out["terminal"] = ("B7_PREREGISTERED_REGION_REALIZED_AT_REGISTERED_SCOPE" if all(v[k] for k in ("P1_ceiling_respected", "P2", "P3_form_and_channel_ablation", "P4_empty_region_empty"))
+                       else "B7_REGION_PREDICTIONS_PARTIALLY_HELD__SEE_VERDICTS")
+    out["receipt_sha256"] = sha256_of({k: x for k, x in out.items() if k != "receipt_sha256"})
+    json.dump(out, open(os.path.join(RES, f"STAGE_B7_REGION_ADJUDICATION_{host}.json"), "w"), indent=1, sort_keys=True)
+    print(json.dumps(out["verdicts"], indent=1)); print("terminal:", out["terminal"])
+    for k, cell in out["cells"].items():
+        for name, c in cell.items():
+            print(f"{k:11s} {name:8s} dev={c['dev']:.4f} prot={c['prot']:.4f}±{c['se']:.4f} other={c['other_arm']} atrophied={c['carrier_atrophied']} above={c['above_ceiling']} P3={c.get('P3_ok')}")
+    return out
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
     if a[0] == "certificate":
         certificate(a[1], a[2])
     elif a[0] == "search":
         run_search(a[1], int(a[2]), a[3], a[4], int(a[5]) if len(a) > 5 else 20000)
+    elif a[0] == "adjudicate":
+        adjudicate(a[1], a[2])
     else:
         raise SystemExit(__doc__)
