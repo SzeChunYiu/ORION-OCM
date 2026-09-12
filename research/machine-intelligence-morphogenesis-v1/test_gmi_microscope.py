@@ -1143,6 +1143,41 @@ def test_b2_07_mlp_receipt_replays_exactly(tmp_path):
         assert c["rule21_charged_serve_audit"]["passed"] is True
 
 
+def test_b2_08_residual_receipt_replays_exactly(tmp_path):
+    """RV-377-096 (B2.8 residual connection): the committed receipt reproduces byte for byte. In the registered 8-bit
+    universe the skip is a scale amplifier of gain 1 + g, is strictly harmful at unit gain, and loses at depth to a
+    plain path with scale control and no skip -- the parent-maximal opponent rule 24 requires of a depth gate."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_residual
+    rc = b2_residual.main(str(tmp_path / "res.json"))
+    committed = json.loads((RES / "STAGE_B2_08_RESIDUAL_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 13 and rc["n_claims"] == 13
+
+    cells = committed["cells"]
+    cap = lambda g, arm, L: Fr(cells[f"g={g}|delta=1"]["rows"][f"{arm}_L{L}"]["capability"])
+    # C4: at unit gain the skip is strictly harmful at every declared depth
+    for L in (1, 2, 4, 8, 16):
+        assert cap(16, "RESIDUAL", L) < cap(16, "PLAIN", L) == 1, L
+    # C3: the scale-controlled opponent with NO skip beats the residual arm at depth 16 at every declared gain
+    for g in (4, 8, 16, 24, 32):
+        assert cap(g, "PLAIN_RESCALED", 16) > cap(g, "RESIDUAL", 16), g
+    # the two failure modes: the plain path underflows (saturated fraction 0, response 0 LSBs, one state left),
+    # the residual path saturates (more than half the states pinned at a rail)
+    p16 = cells["g=8|delta=1"]["rows"]["PLAIN_L16"]
+    r16 = cells["g=8|delta=1"]["rows"]["RESIDUAL_L16"]
+    assert p16["collapsed_to_one_state"] is True and p16["saturated_fraction"] == "0" and p16["max_response_lsb"] == 0
+    assert Fr(r16["saturated_fraction"]) > Fr(1, 2)
+    # C7: the scale-controlled opponent is depth-invariant in the contractive regime
+    assert len({cells["g=8|delta=1"]["rows"][f"PLAIN_RESCALED_L{L}"]["distinct_states"] for L in (1, 2, 4, 8, 16)}) == 1
+    # the protocol row's "optimization success" half is declared not executed rather than proxied
+    assert any("OPTIMIZATION SUCCESS" in t for t in committed["not_executed_and_declared_open"])
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""
