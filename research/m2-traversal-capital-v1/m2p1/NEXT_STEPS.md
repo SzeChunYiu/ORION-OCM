@@ -7,7 +7,7 @@ is projected. Claim ceilings are stated per row.
 
 | target | status | strongest evidence | ceiling |
 |---|---|---|---|
-| **(1) independent ecology** | 🟢 at second-author-model scope | the mined library, served guided-first, beats RESET on all 8 independently authored M2-P2 worlds (−52 … −95 %) and on the M1 lane's partitions; the earlier "beats the strongest parent" figures (M1 −11 %, FV6 −48 %) were against the *interleaving* parents (#411); **M2-P3 replicated the C2 benefit on worlds authored by a second model: 4 / 4, median −92.0 %, prediction held** | M2-P2's frozen terminal is `CANNOT_CHECK_NO_ADMITTING_WORLD`; the author unit is a model proxy of this lane's model family |
+| **(1) independent ecology** | 🟢 at second-author-model scope | the mined library, served guided-first, beats RESET on all 8 independently authored M2-P2 worlds (−52 … −95 %) and on the M1 lane's partitions; the earlier "beats the strongest parent" figures (M1 −11 %, FV6 −48 %) were against the *interleaving* parents (#411); **M2-P3 replicated the C2 benefit on worlds authored by a second model: 4 / 4, median −92.0 %, prediction held** | M2-P2's frozen terminal is `CANNOT_CHECK_NO_ADMITTING_WORLD`; the author unit is a model proxy of this lane's model family. A second *grammar* (band 3-4, M2-P4) is a separate axis: registered and gated, **scored run submitted and its outcome UNKNOWN** (ledger 65) — nothing is claimed from it |
 | **(2) lifetime economics** | 🟢 fixed regimes · 🟡 mixed | 670 targets: marginal 403 / incremental 215 pay, conservative 475 ✓ or 878 ✗ by attribution rule; **three fresh long-horizon seeds pay on the conservative ledger under the hostile rule** — [LONG_HORIZON_LIFETIME.md](LONG_HORIZON_LIFETIME.md); K1-L FRAGILE; K1 on mixed regimes NOT_ESTABLISHED (three stop rules, #407) | registered grammar; the admission rule still refuses on every lifetime world (deployment is by the validated library) |
 | **(3) OCM vs strongest parent** | 🔴 **FALSIFIED** at authored-world scope | the fixed guided-first parent (MDL library, depth 4, no rule, no liveness) ties or beats controller_v5 on 8/8 authored worlds; on four the controller reduces to it exactly; the "≈ half" was the guided-first vs interleave serving identity (#411, ledger 55–58) | no OCM-specific residual is claimed anywhere in this lane |
 | **(4) general developmental** | 🟢 at `d = 2` (history vs RESET) | benefit does not decay with arrangement distance (D1: 5.2 % at `d=1` → 12.9 % at `d=2`); pure-`d=2` replicated on 5 seeds, all positive (−11.5 … −44.7 %) | a history-induced search benefit, not an OCM-specific one; `d ≥ 3` empty by counting at this `(m, k)` |
@@ -74,11 +74,27 @@ set no learner can mine (ledger 58). No further controller revision is registere
      registered grammar. (An earlier revision of this file called it open; that was an absence
      claim made from a retraction line without searching for the result by name.)
 
+5. **Target (1): a second *grammar* — registered, gated, submitted, outcome UNKNOWN.** M2-P4 widens
+   the authored band to 3-4 with chunk count 10-16 over the *existing* substrate (ledger 61; the
+   bound `members <= f + k^2` makes k >= 10 necessary). Stage 2 passed every entry gate 8/8, G-SURF
+   included, on an independently authored package. Stage 3 was registered **before** the run
+   (`m2p4/stage3/M2P4_STAGE3_FREEZE_V1.json`) and the scorer was validated **before** use against a
+   known answer (k=7/8, hc08 at Holm 0.157, median -0.8766). The array was submitted (LUNARC
+   3602080); six of eight tasks completed at exit 0:0 and access was then lost mid-run, so **nothing
+   was scored and no claim exists** (ledger 65). This is a could-not-check, not a pending success.
+   Resuming requires `m2p4/stage3/m2p4_resume.sh` to return `COMPLETE` — both primary arms present
+   and `all_targets_verified` on all eight worlds — because the scorer silently skips a world
+   missing an arm, and a dropped world changes `m`, hence Holm, hence the terminal.
+
 ## What would still falsify the picture
 
 - A second authoring regime (next experiment 2) on which the mined library, served guided-first,
   fails to beat RESET on a material fraction of viable worlds → the C2 benefit is a property of
   one author's worlds.
+- A second *grammar* — a different axis from the author. M2-P4 (band 3-4, chunk count 10-16) is
+  registered, gated 8/8 and submitted; if it returns `C2_NOT_REPLICATED_IN_SECOND_GRAMMAR` the
+  benefit is a property of the band-2-3 tiling. **Its outcome is currently unknown**, so it has
+  neither fired nor been ruled out.
 - `d=2` aggregate flips sign on later seeds → the 5/5 was early-seed luck.
 - *Already fired:* "the 18-world aggregate shows the integrated arm losing to the parent" — in
   the stronger form of #411: against the guided-first parent the controller never wins.
