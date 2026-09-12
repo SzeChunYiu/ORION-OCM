@@ -140,8 +140,62 @@ this lane is where the GMI law and ordinary CV can disagree; whichever the prote
 
 ## 5. Execution record (append-only)
 
-(empty at freeze)
+- Freeze commit `H = cd4c653dfcd4cf4f88b60db33882d10403defa16` (this file + runner). A one-replicate mechanics smoke
+  run (`--freeze-sha SMOKE`, one cell per lane, `smoke/smoke.log` on billy-laptop, not evidence) preceded the
+  protected run; it found no defect and nothing was changed after it.
+- Protected run: billy-laptop (Python 3.11.14, scikit-learn 1.9.1, numpy 2.4.6, Linux x86_64), 3 niced processes,
+  104/104 tasks, receipts `microscopes/results/real_transfer_v3/`, aggregate `REAL_TRANSFER_AGGREGATE_V3.json`
+  (md5 `779f3c9c…` verified identical on both hosts), dataset SHA-256 as registered in §1.
+- Revival iterations: `GMI_REAL_TRANSFER_REVIVAL_RV_377_191_FREEZE.md` (RV-377-191 F descriptor, RV-377-192 B
+  descriptor; freeze `7fe510c7`, receipts `microscopes/results/real_transfer_v3_revival/`, 72/72) and
+  `GMI_REAL_TRANSFER_REVIVAL_RV_377_193_FREEZE.md` (RV-377-193 B world; freeze `267f39ee`, receipts
+  `microscopes/results/real_transfer_v3_revival2/`, 32/32).
 
 ## 6. Adjudication (append-only)
 
-(empty at freeze)
+Aggregate terminal: **`REAL_TRANSFER_PHASE_LAWS_GREEN_ON_1_OF_3_LANES`** (C_FEATURE_LEARNING_REAL GREEN;
+F_CONTINUAL_REAL INCONCLUSIVE; B_SPECIALIZATION_REAL INCONCLUSIVE).
+
+| cell | predicted (law) | agree | pred.-inadm. | mean margin | verdict | GMI = CV | CV right / GMI right |
+|---|---|---|---|---|---|---|---|
+| C 0.0 | TRAINABLE 8/8 | 8/8 | 0 | +3.67 | GREEN | 8/8 | 8 / 8 |
+| C 0.3 | TRAINABLE 8/8 | 7/8 | 0 | +0.92 | GREEN | 8/8 | 7 / 7 |
+| C 0.6 | TRAINABLE 8/8 | 7/8 | 0 | +1.42 | GREEN | 8/8 | 7 / 7 |
+| C 1.0 | TRAINABLE 8/8 | 7/8 | 0 | +1.31 | GREEN | 8/8 | 7 / 7 |
+| F 0.6 | EXPANSION 6, NONE 2 | 6/8 | 0 | +0.50 | GREEN | 7/8 | 7 / 6 |
+| F 0.8 | EXPANSION 7, NONE 1 | 7/8 | 0 | +0.75 | GREEN | 7/8 | 8 / 7 |
+| F 0.9 | EXPANSION 6, NONE 2 | 6/8 | 0 | +0.50 | GREEN | 5/8 | 5 / 6 |
+| F 0.95 | REPLAY 2, EXPANSION 2, NONE 4 | 1/8 | 2 | −524.7 | INCONCLUSIVE | 4/8 | 4 / 1 |
+| F 1.0 | REWRITE 8/8 | 8/8 | 0 | +34.4 | GREEN | 8/8 | 8 / 8 |
+| B 0.0 | SHARED 8/8 | 5/8 | 2 | −0.240 | INCONCLUSIVE | 5/8 | 5 / 5 |
+| B 0.1 | SHARED 8/8 | 1/8 | 5 | −0.506 | INCONCLUSIVE | 7/8 | 2 / 1 |
+| B 0.3 | SHARED 8/8 | 0/8 | 4 | −0.527 | INCONCLUSIVE | 1/8 | 2 / 0 |
+| B 0.8 | SHARED 6, NONE 2 | 0/8 | 2 | −0.552 | INCONCLUSIVE | 0/8 | 8 / 0 |
+
+**C_FEATURE_LEARNING_REAL — GREEN on all four cells.** The reachability-conditioned law (training-error gain against
+the frozen price surplus δ = 0.96–1.01 pp) predicted TRAINABLE_FEATURE on 32/32 replicates (predicted gain 1.9–5.1
+pp from `ŝ` = 0.040–0.074 and MLP training error 0.004–0.030); the protected test vindicated it on 29/32 (observed
+gains −0.0…6.7 pp; the three misses had observed gains 0.89, 0.44, 0.00 pp below δ). Both realizations were
+admissible on 32/32 (test errors 0.04–0.09 and 0.007–0.06 against 0.18). **Parent subtraction:
+`PARENT_SUFFICIENT_CV`** — 3-fold CV on the training split named the same winner on 32/32 replicates (and was wrong on
+the same three). Boundary: the grid never crossed the law's own crossover (the fixed random-feature realization never
+won, even at `s = 0` where the target is linear, because 288 RBF features fit a linear boundary less well than a
+16-unit MLP on the digits PCA-16 inputs); the FIXED-wins regime would need a larger price surplus (a bigger MLP) or a
+weaker trainable budget and is not exhibited here.
+
+**F_CONTINUAL_REAL — INCONCLUSIVE (4/5 cells GREEN).** Off the crossover the transferred law is right where it makes
+a prediction: 27/28 non-NONE predictions at 0.6/0.8/0.9 agreed (0 opposing), 8/8 at 1.0. The lane fails only through
+(a) 9/40 `NONE`/`REPLAY` predictions traced to the 108-sample holdout estimate of the learner's base error
+(`ê` 0.007–0.074 within one cell against 0.05 of admissibility headroom) and (b) the 0.95 cell, which sits on the real
+learner's crossover (REPLAY old accuracy mean 0.949 against the 0.95 bar). Diagnosis and revival in
+`GMI_REAL_TRANSFER_REVIVAL_RV_377_191_FREEZE.md` §4 (RV-377-191).
+
+**B_SPECIALIZATION_REAL — INCONCLUSIVE (0/4 cells).** The law predicted SHARED on 30/32; observed SPECIALIZED 16/32,
+SHARED 6/32, NONE 10/32. Two causes, separated in `GMI_REAL_TRANSFER_REVIVAL_RV_377_191_FREEZE.md` §2 and
+`…RV_377_193_FREEZE.md`: the offset-only heterogeneity descriptor is blind to what a *featured* shared model absorbs
+(RV-377-192), and the unbounded feature tails of California housing at n = 400 produce 1–7-row k-means modes and
+test-leverage blow-ups (RV-377-193). CV was right on 17/32 (8/8 at τ = 0.8).
+
+**Lane terminals.** C: `C_FEATURE_LEARNING_REAL_GREEN_4_OF_4__PARENT_SUFFICIENT_CV__FIXED_WINS_REGIME_NOT_EXHIBITED`.
+F: `F_CONTINUAL_REAL_INCONCLUSIVE__GREEN_OFF_CROSSOVER_4_OF_5_CELLS` → RV-377-191. B:
+`B_SPECIALIZATION_REAL_INCONCLUSIVE_0_OF_4` → RV-377-192 → RV-377-193.
