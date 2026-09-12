@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install --disable-pip-version-check pytest==8.3.5
-      - name: Existing K4 research regressions
+      - name: Existing K4 research and imported null regressions
         working-directory: research/machine-intelligence-morphogenesis-v1
         run: |
           python -m pytest -q test_gmi_k4_engine.py test_gmi_k4_grammar_native.py test_gmi_k4_resource_native_v4.py test_gmi_k4_null_frontier_v5.py
@@ -40,7 +40,11 @@ jobs:
         run: python run_checks.py
       - name: Execute source-pinned legacy counterexamples and exhaustive class bound
         working-directory: research/machine-intelligence-morphogenesis-v1/closure_certificates_v1
-        run: python legacy_class_bound.py > legacy-integration.json
+        run: |
+          python legacy_class_bound.py > legacy-integration.json
+          cat legacy-integration.json
+          python integration_checks.py > null-integration.json
+          cat null-integration.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -48,4 +52,5 @@ jobs:
           path: |
             research/machine-intelligence-morphogenesis-v1/closure_certificates_v1/evidence/
             research/machine-intelligence-morphogenesis-v1/closure_certificates_v1/legacy-integration.json
+            research/machine-intelligence-morphogenesis-v1/closure_certificates_v1/null-integration.json
           if-no-files-found: warn

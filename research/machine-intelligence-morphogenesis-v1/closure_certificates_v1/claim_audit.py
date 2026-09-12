@@ -116,6 +116,9 @@ def run_development_cell(family: str, grammar: str, cell: str, *, freeze: dict,
     """Opt-in bounded legacy execution; never uses the protected million-sample cap."""
     if type(budget) is not int or not 0 <= budget <= 20_000:
         raise ValueError("development budget must be an integer in [0, 20000]")
+    # Resolve and hash-check the repository source before importing from its parent.
+    from legacy_class_bound import load_pinned_model
+    load_pinned_model()
     import gmi_k4_search_v5 as legacy
     return audit_receipt(legacy.run_cell(family, grammar, cell, freeze=copy.deepcopy(freeze),
                                         seed=seed, budget=budget))
