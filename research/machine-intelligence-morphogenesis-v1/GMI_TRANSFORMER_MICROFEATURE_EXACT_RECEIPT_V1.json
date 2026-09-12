@@ -39,6 +39,7 @@
      "quotient_distinct_permutation_pairs_with_equal_state": 56
     }
    },
+   "check": "X-TMT1",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "all binary sequences of length 4, all permutations, 3 obligations x 3 encoders",
@@ -71,6 +72,7 @@
      "suffix_classes": 8
     }
    },
+   "check": "X-TMT2",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "binary sequences of length W+2, obligation = first token, W in {1,2,3}",
@@ -100,6 +102,7 @@
      "union_edges": 4
     }
    },
+   "check": "X-TMT3",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "pointer dependency families on 4 tokens (256 inputs), a single-pointer family, and an input-independent local window",
@@ -228,6 +231,7 @@
      ]
     }
    },
+   "check": "X-TMT4",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE__NUMERICAL",
    "passed": true,
    "scope": "4 score vectors x 3 temperatures; simplex grid of step 1/40 (861 points); float64, tolerance 1e-9",
@@ -239,6 +243,7 @@
     "causal_mask_outputs_before_last_position_unchanged": true,
     "unmasked_outputs_before_last_position_changed": true
    },
+   "check": "X-TMT5",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "exact dyadic-kernel attention on 5 tokens; perturb the last token; compare outputs at positions < 4",
@@ -251,6 +256,7 @@
     "projection_mults_recompute": 168,
     "ratio": "7/2"
    },
+   "check": "X-TMT6",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "6-step autoregressive continuation, d = 2, exact rational projections and dyadic-kernel attention",
@@ -261,6 +267,7 @@
     "exact_dyadic_kernel_outputs_identical": true,
     "float64_max_abs_difference": 0.0
    },
+   "check": "X-TMT7",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "6 tokens; naive vs online block-wise (blocks 2 and 3) normalization; exact with the dyadic kernel, float64 with real exp",
@@ -273,6 +280,7 @@
     "strict": true,
     "tied_subset_of_untied": true
    },
+   "check": "X-TMT8",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "y = W2 relu(W1 x), W in {-1,0,1}^(2x2), inputs {-1,0,1}^2; tied = (W2 = W1^T)",
@@ -306,6 +314,7 @@
     "max_entry_distance_from_identity_residual": "83/144",
     "max_entry_norm_plain": "11/192"
    },
+   "check": "X-TMT9",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "three exact rational 2x2 linear blocks; finite-difference Jacobians (exact for linear maps); end-to-end products",
@@ -315,6 +324,7 @@
    "cells": {
     "all_sequences_factor_exactly": true
    },
+   "check": "X-TMT10",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "exact rational distribution over binary sequences of length 3 (8 sequences)",
@@ -341,6 +351,7 @@
      "identity_gap": 1.1102230246251565e-16
     }
    },
+   "check": "X-TMT11",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE__NUMERICAL",
    "passed": true,
    "scope": "3 contexts x 2 outcomes, exact rational p and three candidate q; float64 logs, tolerance 1e-12",
@@ -364,6 +375,7 @@
      "serving_states_merging_quotient_distinct_authority_states": 0
     }
    },
+   "check": "X-TMT12",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "64 authority states in {0..7}^2, obligation = parity of the sum, three quantizers",
@@ -387,10 +399,108 @@
      "stored_elements": 1024
     }
    },
+   "check": "X-TMT13",
    "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
    "passed": true,
    "scope": "L=4, n=16, d=8, H=8; explicit element count vs 2 L n d H_kv",
    "theorem": "TMT-13 key/value cache state scaling"
+  },
+  {
+   "cells": {
+    "distinguishable_history_classes_cached": 4,
+    "distinguishable_history_classes_recompute": 4,
+    "induced_partition_identical": true,
+    "op_ratio": "7/4",
+    "outputs_identical_recompute_vs_cached": true,
+    "projection_mults_cached": 512,
+    "projection_mults_recompute": 896,
+    "quotient_distinct_pairs_merged_by_W_suffix": 16,
+    "quotient_distinct_pairs_merged_cached": 16,
+    "quotient_distinct_pairs_merged_recompute": 16,
+    "reading": "the cache changed the op count and changed NOTHING about which histories are distinguishable; the window, not the cache, bounds context capacity",
+    "reference_W_suffix_classes": 4
+   },
+   "check": "X-TMT14",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "all 16 binary histories of length 4; a W=2 windowed exact decoder run twice (recompute vs exact per-token K/V cache); obligation = first token (the X-TMT2 obligation)",
+   "theorem": "TMT-14 fixed-window / cache distinction"
+  },
+  {
+   "cells": {
+    "argmax_sequence": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "beam_B=2": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "beam_B=4": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "distinct_emitted_sequences": 3,
+    "greedy": {
+     "emitted": [
+      0,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "11/80"
+    },
+    "p_theta_conditional_table_sha256": "b8e1430929ab416e5621db9e3179fbfb8b8eed80b07d1c6c99e6fa4e813ddc20",
+    "reading": "one p_theta, eight decoders, 3 distinct emissions; an evaluation that moves must name whether it moved p_theta or the decoder",
+    "temperature_T=1": {
+     "emitted": [
+      1,
+      0,
+      1
+     ],
+     "p_theta_of_emitted": "81/2000"
+    },
+    "temperature_T=1/2": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    },
+    "top_k=1": {
+     "emitted": [
+      0,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "11/80"
+    },
+    "top_p=0.6": {
+     "emitted": [
+      1,
+      0,
+      0
+     ],
+     "p_theta_of_emitted": "729/2000"
+    }
+   },
+   "check": "X-TMT15",
+   "kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+   "passed": true,
+   "scope": "one exact rational p_theta over binary sequences of length 3 (7 conditionals); greedy, temperature T in {1, 1/2} by deterministic inverse-CDF against a declared quantile sequence (7/10, 1/4, 19/20), top-k=1, top-p=0.6, beam B in {2,4}, and the exact sequence argmax; no randomness anywhere",
+   "theorem": "TMT-15 decoding policy / model distribution distinction"
   }
  ],
  "claim_ceiling": "exact/numerical implementation checks of the theorem statements on enumerated finite scopes; establishes nothing about trained neural networks (section 17 of the theorems document remains empirical)",
@@ -399,14 +509,11 @@
   377,
   422
  ],
- "n_checks": 13,
- "n_passed": 13,
- "not_checked": {
-  "TMT-14 fixed-window / cache distinction": "type distinction (no finite check; X-TMT6 shows caching changes op counts, X-TMT2 shows the window bounds the distinctions)",
-  "TMT-15 decoding policy / model distribution distinction": "type distinction (no finite check)"
- },
- "receipt_sha256": "84e7ff11a5930cad8343f18adc068419ccf4a94d69cc24888ef1646ca99bd595",
+ "n_checks": 15,
+ "n_passed": 15,
+ "not_checked": {},
+ "receipt_sha256": "da6cdede1341ea9c0edb71b85eff700266c4f1f2286470e40c19579cc9bd1f8e",
  "schema": "GMI_TRANSFORMER_MICROFEATURE_EXACT_V1",
- "source_theorems": "GMI_TRANSFORMER_MICROFEATURE_THEOREMS_V1.md (TMT-1..15), programme section 16",
+ "source_theorems": "GMI_TRANSFORMER_MICROFEATURE_THEOREMS_V1.md (TMT-1..15), programme section 16 (complete: every TMT-1..15 statement has a finite check)",
  "status": "GREEN"
 }

@@ -182,11 +182,11 @@ def test_credit_receipt_cell_reproduces():
 
 
 def test_transformer_microfeature_exact_receipt_reproduces(tmp_path):
-    """X-TMT1..13: the exact/numerical theorem checks are GREEN and the receipt is byte-reproducible (sha)."""
+    """X-TMT1..15: the exact/numerical theorem checks are GREEN and the receipt is byte-reproducible (sha)."""
     import json
     from gmi_microscope import tmt
     r = tmt.main(str(tmp_path / "r.json"))
-    assert r["status"] == "GREEN" and r["n_passed"] == 13
+    assert r["status"] == "GREEN" and r["n_passed"] == 15
     ref = json.load(open(HERE / "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json"))
     assert ref["receipt_sha256"] == r["receipt_sha256"]
 
@@ -374,3 +374,43 @@ def test_dc_phase_receipt_cell_reproduces():
         sigs[row] = r["answer_signature"]
     assert sigs["PHASE"] == sigs["PHASE_STORE_MAT"] == sigs["VSA"]
     assert all(v["phase_equals_phase_store_mat"] for v in committed["cross_carrier_equality"].values())
+def test_transformer_microfeature_registry_valid():
+    """The committed microfeature registry validates: fields non-empty, types in the alphabet, claim levels legal, ids unique,
+    TMT references in TMT-1..15, X-TMT references present and GREEN in the executed receipt, and the builder reproduces it."""
+    from gmi_microscope import registry, registry_check
+    errors = registry_check.check(verbose=False)
+    assert errors == [], errors
+    reg = json.loads((HERE / "GMI_TRANSFORMER_MICROFEATURE_REGISTRY_V1.json").read_text(encoding="utf-8"))
+    assert reg["n_features"] == len(reg["features"]) >= 80
+    assert reg["registry_sha256"] == registry.build()["registry_sha256"]  # the builder is the source of the committed file
+    # every feature covered by the section-1 acceptance list, and PROVED_AT_SCOPE only behind an executed check
+    receipt = json.loads((HERE / "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json").read_text())
+    green = {c["check"] for c in receipt["checks"] if c["passed"]}
+    for f in reg["features"]:
+        assert set(f["gmi_type"]) <= set("CSRTNUHVGPD"), f["id"]
+        if f["evidence_status"] == "PROVED_AT_SCOPE":
+            assert f["formal_theorem"]["receipt_check"] in green, f["id"]
+    assert reg["counts_by_evidence_status"]["PROVED_AT_SCOPE"] >= 10
+
+
+def test_executed_b2_rows_reproduce_and_are_green(tmp_path):
+    """RV-377-056 (B2.3 routing) reproduces byte for byte; RV-377-055 (B2.12 KV cache) reproduces on its small cells.
+    Both are synthetic exact microscopes: they are NOT evidence about a trained neural network."""
+    from gmi_microscope import b2_kv, b2_route
+    rc = b2_route.main(str(tmp_path / "route.json"))
+    committed = json.loads((HERE / "microscopes" / "results" / "STAGE_B2_03_ROUTING_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 8
+    # the measured minimal safe fixed budget is exactly |union E(x)| in every cell (TMT-3 realized as a measurement)
+    for cell in rc["cells"].values():
+        assert cell["minimal_safe_fixed_budget_measured"] == cell["union_edges"]
+        assert cell["frontier_by_discovery_price"]["1"]["winner_excluding_oracle"] != "DYNAMIC"
+    kv = json.loads((HERE / "microscopes" / "results" / "STAGE_B2_12_KV_CACHE_V1.json").read_text())
+    assert kv["status"] == "GREEN" and kv["n_claims_hold"] == 7
+    for name, P, C, R, L, H in b2_kv.CELLS[:4]:          # the large cells are exercised by the committed receipt
+        cell = b2_kv.run_cell(P, C, R, L, H)
+        for k in ("outputs_identical_recompute_vs_cache", "mults_recompute", "mults_cache", "cache_elems_peak", "mu_star_measured"):
+            assert cell[k] == kv["cells"][name][k], (name, k)
+    # the cache is worth exactly nothing without reuse or continuation length
+    assert kv["cells"]["P4_C1_R1"]["mu_star_measured"] == "0"
+    assert kv["cells"]["P16_C8_R4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L2H4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L8H1"]["mu_star_measured"]
