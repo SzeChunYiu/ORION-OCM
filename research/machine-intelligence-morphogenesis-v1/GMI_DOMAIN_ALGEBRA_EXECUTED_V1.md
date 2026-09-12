@@ -1005,3 +1005,35 @@ Two consequences already banked:
 It does not say the corpus's negatives are wrong. It says their **scope** is narrower than their wording, and that the
 difference is measurable — four measurements so far, two overturned, one upheld, one overturned against its own author.
 The upheld case is what makes the other three informative rather than merely embarrassing.
+
+
+### 16.6 Corollary — four one-axis negatives do not compose into a negative over the product
+
+`GMI-DA7` names four axes on which a kingdom can be gained, and the programme's central negative is that none of them
+yields one. The `DG-7` index audit (§5 of `GMI_DG7_INDEX_AUDIT_V1.md`) establishes what those four sweeps actually
+covered:
+
+| axis | swept | held at default |
+|---|---|---|
+| `A` | 7 rows × 3 obligation modes × 6 columns | `d`, `p`, `F`, intervention set |
+| `d` | 48 cells, depths `d1`–`d6`, two code families | depth > 6, `p`, `F`, intervention set |
+| `p` | 7 instruments `fx8`…`wide`, 13 rows | **2 ecologies only**, `A` parameters, `d` |
+| `F` | 14 certified pairs × 7 deciding demands | `A` parameters, `d`, `p` |
+
+Each is strong on its own axis and defaulted on the other three. **No cell off the diagonal of `A × d × p × F` has
+been searched.** `GMI-DA7`'s monotonicity says refining any axis can only split classes; it says nothing about whether
+a kingdom lives at a *combination*.
+
+**This is not a scruple — it has already cost a witness.** `RV-377-089b`'s six intervention-robust coefficient
+witnesses sit at `A`-parameter `h = 3` **×** ecology `E_sym3`. The parameter sweep ran the right parameters on the
+wrong three ecologies; the ecology enumeration ran all five at the zoo's default parameters. Both were correct on
+their own axis; the product contained what neither found. One executed off-diagonal miss is enough.
+
+The theorem is untouched — it is proved, not measured. What narrows is the empirical conclusion drawn under it:
+
+> No kingdom is gained by refining **any single axis while the other three are held at their registered defaults**.
+> The joint region is unsearched.
+
+Gap `DG-8`. Closure is a **declared low-discrepancy sample** of the off-diagonal region, sized so that a
+kingdom-bearing cell of stated minimum measure is hit with stated probability, registered before the run — not an
+exhaustive product sweep, which is not affordable.

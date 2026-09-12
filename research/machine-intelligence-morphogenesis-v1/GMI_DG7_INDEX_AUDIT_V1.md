@@ -87,3 +87,54 @@ Four indices re-run so far: **two negatives overturned** (`RV-377-088`, twice ov
 confirming `RV-377-082`'s ceiling to `h = 32`), **one overturned against its own author within the hour**
 (`RV-377-089b`). A rule that only ever overturns is measuring nothing; the upheld case is what makes the others
 informative.
+
+---
+
+## 5. The four kingdom-axis negatives, indexed — and the joint region nobody searched
+
+`GMI-DA7` concludes that a kingdom can be gained on exactly four axes — the alphabet `A`, the structure-depth bound
+`d`, the arithmetic instrument `p`, the ecology family `F` — and the programme's central negative is that **none of the
+four yields one**. That conclusion is a conjunction of four executed sweeps. Here is what each actually searched.
+
+| axis | record | receipt | **swept** | **held at default** |
+|---|---|---|---|---|
+| `A` alphabet | `GMI-DA8` | `STAGE_AXIS_A_V2_REPAIRED.json` | 7 rows × 3 obligation modes (`ACC`, `PARITY`, `MAXV`) × 6 columns, θ = 0.85 | `d`, `p` (registered 8-bit), `F`, intervention set (**standard only** — predates rule 36) |
+| `d` depth | `RV-377-065` | `STAGE_DK_V1_DEPTH_GATED.json` | **48 cells, depths `d1`–`d6`**, two code families (`PERM`, `XOR`), 6 rows, `D64`/`D128`, seeds 7/13/23 | **depth > 6**, `p`, `F`, intervention set |
+| `p` precision | `RV-377-076` | `STAGE_DK_V5_PRECISION_RESIDUAL_V1.json` | **7 instruments `fx8`…`wide`**, 13 rows, 5 event sequences, θ = 17/20 | **2 ecologies only**, `A` parameters, `d`, intervention set |
+| `F` family | `RV-377-070` | `STAGE_F_AXIS_REFINEMENT_V1.json` | **14 certified pairs × 7 deciding demands**; 10 split, 4 survive | `A` parameters, `d`, `p` |
+
+Each is strong **on its own axis** and sits at an inherited default on the other three. So:
+
+> **The four axes were swept one at a time. No cell off the diagonal of `A × d × p × F` has ever been searched.**
+> `GMI-DA7`'s monotonicity says refining any axis can only *split* classes — it says nothing about whether a kingdom
+> lives at a *combination*, e.g. an extended alphabet **at** depth 5 **at** 12 bits **under** a refined family. Four
+> one-axis negatives do not compose into a negative over the product.
+
+### 5.1 This is not a hypothetical gap — it has already cost one witness
+
+`RV-377-089b` is exactly a two-axis miss. The six intervention-robust coefficient witnesses live at the combination
+
+* **`A`-parameter** `h = 3` (not the zoo default `h ∈ {2, 4}`), **and**
+* **ecology** `E_sym3` (not among the three `RV-377-082` measured).
+
+Neither one-axis sweep could see them. The parameter sweep (`RV-377-089`) ran the right parameters on the **wrong three
+ecologies** and concluded "no witness anywhere". The ecology enumeration (`RV-377-085`, `GMI-DA9`) ran all five
+ecologies at the **zoo's default parameters** and concluded the gradient net was "lost" on `E_sym3`. Both were correct
+on their own axis and both missed the point that was there. It took the product of the two to find it.
+
+**One executed instance of an off-diagonal witness is enough to make the joint region a real gap rather than a
+scruple.**
+
+### 5.2 What this does and does not do to `GMI-DA7`
+
+It does **not** touch `GMI-DA7`'s theorem, which is a monotonicity result about `K(A, d, p, F)` and is proved, not
+measured. It narrows the **empirical conclusion drawn under it**. The honest statement is:
+
+> No kingdom is gained by refining **any single axis while the other three are held at their registered defaults**.
+> The joint region is unsearched, and the one place a product of two axes has been searched, it contained something
+> neither axis found alone.
+
+Recorded as gap **DG-8**. Closure is not an exhaustive product sweep — that is the full cross-product of four axes and
+is not affordable. Closure is: **a declared low-discrepancy sample of the off-diagonal region, sized so that a
+kingdom-bearing cell of a stated minimum measure would be hit with a stated probability**, executed once, with the
+sample and the probability registered before the run.
