@@ -173,11 +173,14 @@ instrument is no longer a declared intention but an executed column.
 frontier is a step function of the declared reliability `q` (the fraction of seeds at or above `θ`). Frontier tables
 without a declared `q` are `q = 0.5` tables.
 
-**Executed decision.** `STAGE_DE_S3_SEED_CENSUS_V1.json` (`RV-377-040`): the particle carrier is admissible on 10 of 192
-runs (about 5 percent), with seed-medians 0.39–0.60 and maxima up to 0.9583. `STAGE_DE_SMOOTH_V22_SYM5_S4.json`
-(`RV-377-041b`, all five clauses held): on an admissible seed the same carrier is the cheapest admissible form and takes
-14 of 56 frontier cells in the scan-store columns, 50 of 56 in the native-store column and **56 of 56** in the
-native-stochastic, uniform and compressed-program columns.
+**Executed decision.** `STAGE_DE_S3_SEED_CENSUS_V1.json` (`RV-377-040`): the particle carrier is admissible on
+**9 of 192 runs (4.6875 %, `1/q` = 21.33 draws)** — the "10 of 192, about 5 percent" carried here until 2026-09-12 was an
+**off-by-one**, corrected by `RV-377-067` — with seed-medians 0.39–0.60 and maxima up to 0.9583.
+`STAGE_DE_SMOOTH_V22_SYM5_S4.json` (`RV-377-041b`) reported that on an admissible seed the same carrier is the cheapest
+admissible form, taking 14 of 56 frontier cells in the scan-store columns, 50 of 56 in the native-store column and 56 of
+56 in the native-stochastic, uniform and compressed-program columns, with **all five clauses held**.
+**Every occupancy figure in that sentence is superseded by §7b, where the carrier takes 0 of 336 cells and the record
+keeps 2 of its 5 clauses.**
 
 **Status:** `PROVED_AT_SCOPE` for the reliability statement; **the cost statement above is superseded — see 7b.**
 
@@ -196,7 +199,7 @@ against the 14/56 to 56/56 reported above. `RV-377-041b` re-adjudicated clause b
 they are exactly the two that are not cost claims (admissibility at size 8, and the identity of the non-stochastic cells).
 The charge is between **9.5 and 32 729 times** the cheapest competing row's entire registered lifecycle cost across the
 336 cells, and the carrier's break-even reliability is **q\* = 0.4992–0.8426** by column against a measured 1 seed in 32.
-The re-entry crossover exists but lies at H = 4.2 × 10⁷ to 1.2 × 10⁹ (reported per protocol rule 21).
+The re-entry crossover exists but lies at H = 4.2 × 10⁷ to 1.2 × 10⁹ (reported per gap `DG-2`, whose audit instrument is now standing).
 
 Two further corrections this forces on the text above:
 
@@ -206,7 +209,7 @@ Two further corrections this forces on the text above:
 * the theory core's two-regime answer ("at low reliability a stochastic search form dominates because its lifecycle burden
   is the smallest of all") has the wrong sign once the lottery is paid for. The corrected statement is that **lowering the
   declared reliability moves a stochastic carrier into the admissible set and out of the cheap set at the same time**,
-  which is protocol rule 20.
+  which is **protocol rule 27**.
 
 **Receipt:** `STAGE_G14_FAILED_DRAW_CHARGING_V1.json` (`RV-377-067`, 6 of 8 clauses; clauses 2 and 5 failed and kept).
 
@@ -408,6 +411,30 @@ no class.
 transition: `GRAD` is the only update kind producing a `VEC` and it requires a target. So in this alphabet "recurrent" is
 a property of the **memory** carrier, not of the continuous one — which is the opposite of how the neural literature
 assigns it.
+
+### 11z. What the grid audit did to every occupancy sentence in this document
+
+`RV-377-068` wrote the enforcement instrument gap `DG-2` had only ever described, and ran it over the whole corpus. Of 73
+committed receipts carrying a frontier, **64 were graded and 9 cannot be audited from their own contents at all**. Of the
+64:
+
+| verdict | count |
+|---|---|
+| SAFE | 30 |
+| **TRUNCATED** | **34** — every one graded MAJOR, none minor |
+
+Worst case: a grid stopping at **1/32 082** of the crossover it implicitly denies. The auditor's positive control
+recovered the original instance independently, at exactly `H* = 1856` against a grid maximum of 1024, from the receipt's
+own coordinates rather than from the prose that first recorded it.
+
+**This is a defect in more than a third of the programme's frontier claims, this document included.** `GMI-DA4`'s "sole
+frontier occupant of all 48 grid cells" and every sentence of the same shape must now be read with its `H` bound
+attached: *sole occupant up to the grid that was run*, not sole occupant. The 34 truncated receipts are named in the
+audit receipt with their crossovers and the extensions they need.
+
+The second defect class is worse because it is not fixable by re-running: nine receipts report a frontier without the
+per-row cost coordinates that produced it, so nobody — the author included — can check their grids. That is now protocol
+rule 28.
 
 ### 11a. Two defects this run found in the programme's own instrument
 
