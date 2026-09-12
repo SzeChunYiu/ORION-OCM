@@ -69,3 +69,85 @@ wrote three records earlier. U4 is a prediction **for** GMI — a genuine risk, 
 If U3 holds, two `NOT_OBSERVABLE` terminals are restored and DG-7's overturn count
 goes to zero or one. That is recorded as such, and the restored terminals are
 reinstated verbatim rather than re-derived.
+
+---
+
+# RV-377-111 — ADJUDICATION (appended; nothing frozen above was edited)
+
+## Result
+
+```
+faithfulness control passed: True          status: EXECUTED_EXACT_AT_SCOPE
+surviving all six interventions: 0 of 11
+binding intervention: half_events on 11 of 11
+```
+
+| ecology | cell | `standard` | min over six | θ − min | fx short | |
+|---|---|---|---|---|---|---|
+| `E_smooth` | `h12_lr0.25` | 0.8568 | 0.6094 | 0.2406 | 5.774 | FAILS |
+| `E_smooth` | `h4_lr0.25` | 0.9062 | 0.7708 | 0.0792 | 1.901 | FAILS |
+| `E_smooth` | `h6_lr0.125` | 0.8568 | 0.7396 | 0.1104 | 2.650 | FAILS |
+| `E_smooth` | `h8_lr0.25` | 0.8646 | 0.7188 | 0.1312 | 3.149 | FAILS |
+| `E_smooth2` | `h16_lr0.0625` | 0.8646 | 0.5729 | 0.2771 | 6.650 | FAILS |
+| `E_smooth2` | `h3_lr0.25` | 0.8672 | 0.7266 | 0.1234 | 2.962 | FAILS |
+| `E_smooth2` | `h4_lr0.125` | 0.8672 | 0.7917 | 0.0583 | 1.399 | FAILS |
+| `E_smooth2` | `h6_lr0.125` | 0.8802 | **0.8490** | 0.0010 | **0.024** | **WITHIN_QUANTIZATION** |
+| `E_smooth3` | `h4_lr0.125` | 0.8932 | 0.7734 | 0.0766 | 1.838 | FAILS |
+| `E_smooth3` | `h6_lr0.125` | 0.8750 | 0.7526 | 0.0974 | 2.338 | FAILS |
+| `E_smooth3` | `h8_lr0.125` | 0.8698 | 0.7656 | 0.0844 | 2.026 | FAILS |
+
+## Predictions, scored
+
+| id | outcome |
+|----|---------|
+| U1 | **CONFIRMED** — control passed on all 11 cells; the intervention numbers are readable |
+| U2 | **CONFIRMED** — 0 of 11 survive, against a predicted ≤ 5 |
+| U3 | **CONFIRMED** — 0 of 4 `E_smooth2` cells survive, against a predicted ≤ 1 |
+| U4 | **CONFIRMED, and more sharply than predicted** — `half_events` binds on **11 of 11**, not merely a majority |
+
+## Consequence: DG-7's overturn count is zero
+
+`RV-377-088`'s `C1` — "the dense row class contains an admissible member", asserted
+unqualified — does not hold under the registered intervention family on any of the
+three ecologies it measured. Under rule 36 the claim was never admissible to make.
+
+> **The two `NOT_OBSERVABLE` terminals withdrawn on the strength of `RV-377-088` are
+> RESTORED:** `E_SMOOTH2_NOT_OBSERVABLE__NO_ADMISSIBLE_ROW_AT_16_EVENTS`
+> (`RV-377-009`) and its 48-event counterpart (`RV-377-014`). They are reinstated
+> **verbatim**, not re-derived. DG-7's running score of "two class-level negatives
+> overturned" is **zero**.
+
+This is the fifth positive claim in this corpus invalidated by a rule the same lane
+wrote, and the first where the invalidating rule predated the claim by three records.
+
+## The honest caveat, which cuts against my own conclusion
+
+`E_smooth2 | h6_lr0.125` fails by **0.0010 capability = 0.024 fx units** — a
+twenty-fifth of one quantization step. Rule 40's discipline is symmetric: a margin
+below one fx unit is not a separation, and that applies to a *failure* exactly as it
+applies to a success. That cell is recorded **`WITHIN_QUANTIZATION`, not failed**. It
+is the single strongest cell in `RV-377-088`'s grid and it is, on this evidence,
+undecided rather than refuted.
+
+So the precise statement is: **0 of 11 cells survive, 10 of 11 fail outright, and 1 is
+within quantization.** The restoration of the two terminals rests on the other three
+`E_smooth2` cells, which fail by 1.399 to 6.650 fx units and are not close.
+
+## A genuine positive for GMI, on ground it was never fitted to
+
+`GMI-DA9` states that exactness buys intervention-robustness and that **coefficient
+rows fail under `shuffled_events` and `half_events`**. It was derived from different
+rows, on different ecologies, at a different development length.
+
+`half_events` is the binding intervention on **11 of 11** cells here — every cell,
+without exception, on three ecologies, across `h` from 3 to 16 and `lr` from 0.0625 to
+0.25. `GMI-DA9` named the failure mode correctly on rows it had never seen.
+
+That is recorded as a corroboration and not inflated: it is one intervention of the
+two DA9 names, on one row family, and it does not rescue `C1`.
+
+## Preserved
+
+`RV-377-088`'s text, receipt and published numbers are untouched. The `standard`
+column of this re-score reproduces its published admissibility exactly, which is what
+makes the intervention column readable. `smooth.run` was not modified.
