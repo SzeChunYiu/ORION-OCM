@@ -148,9 +148,10 @@ descriptor was reading the introns. Recovery receipts now require a charged atro
 
 | open item | status | closure experiment |
 |---|---|---|
-| `d` axis — is there a depth at which the binding carrier resists a parent-maximal opponent at every reuse horizon? | running | `RV-377-065` |
-| `p` axis — does D3 occupy cells above a precision threshold that no 8-bit carrier occupies? | running | `RV-377-066` |
-| `F` axis — do the eight exact-equality certificates survive demands `F` never posed? | running | `RV-377-070` |
+| `d` axis — is there a depth at which the binding carrier resists a parent-maximal opponent at every reuse horizon? | **EXECUTED, no** to depth 6; and `GMI-DA3` is falsified for the XOR code, surviving only for a permutation-protected one | `RV-377-065` |
+| `p` axis — does D3 occupy cells above a precision threshold that no 8-bit carrier occupies? | **EXECUTED, then REFUTED**: an 8-bit log-domain posterior is admissible where ten linear rows are not | `RV-377-066`, `RV-377-075` |
+| `F` axis — do the exact-equality certificates survive demands `F` never posed? | **EXECUTED**: 10 of 14 split, 3 survive the known gates, no reduction overturned but every one now qualified by a declared capacity bound | `RV-377-070` |
+| stage B4 — does neutral search produce an unknown form? | **EXECUTED, no**: 0 of 7 novel by response, 5 of 7 novel structurally, one recovered machine identical to a parent node for node | `RV-377-077` |
 | L8-ADMISSIBILITY — predicting which carriers are admissible in an unseen ecology | closed for retrieval carriers (exact closed forms on 17/17 and 16/16), open for optimization carriers, which are trajectory properties and initialization-asymmetric by 0.07–0.15 | `RV-377-062`; residual `OPEN_NONBLOCKING` |
 | lower bounds rather than occupancy | exhaustive census exact only to size 4 | gap `G8`, running |
 | real-system validation of any law | none | Codex E3/E4; `OUT_OF_SCOPE` for this lane |

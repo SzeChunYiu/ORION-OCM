@@ -394,8 +394,26 @@ Both were found by **failed clauses**, and neither touches the headline, which c
 |---|---|---|
 | `A` alphabet | **EXECUTED** (`RV-377-072`, `RV-377-073`) | **no new kingdom**; D6 reduces to D2 at a constant 4-bit overhead (GMI-DA8) |
 | `p` precision | **EXECUTED then REFUTED** (`RV-377-066`, refuted by `RV-377-075`) | **no new kingdom**; the gate was a property of the *linear representation*, not of the word width — an 8-bit **log-domain** posterior built only from registered kinds scores 0.874265 where ten linear rows scored exactly 0.0 |
-| `d` depth | running (`RV-377-065`) | — |
-| `F` ecology family | running (`RV-377-070`) | — |
+| `d` structure depth | **EXECUTED** (`RV-377-065`, 7 of 12 clauses) | **no new kingdom** to depth 6; the parent-maximal opponent occupies every cell. And `GMI-DA3` itself is **falsified for the XOR code**: one bounded reduction with overhead ≤ 5.3449 covers the whole unbounded-depth family. It survives only for a *permutation-protected* code, so the theorem must name its binding operator |
+| `F` ecology family | **EXECUTED** (`RV-377-070`) | **no new kingdom**; the refined family **splits 10 of 14** exact-equality certificates and 3 survive the known gates, but every reduction survives *qualified by a declared capacity bound* rather than overturned. Two candidates (DC7, and F6 against the universal parent) gain a `CANDIDATE_CLASS_SEPARATION` no known gate explains — and still fail criterion 3, the reduction existing at polynomial cost (8Q² or 6Q² against 2Q), which by §9 is one more crossover law of the L4 family |
+
+### 11d. The kingdom question, answered on all four axes
+
+`GMI-DA7` proves these four axes are the *only* places a kingdom can hide. All four have now been executed, and the
+answer is the same on each: **no new kingdom at this scope.** That is not four independent negatives. It is the theorem
+being confirmed where it could most easily have failed, and each axis returned something the theory did not have before:
+
+* `A` gave **GMI-DA8** and cost the enumeration half of `GMI-DA1` — the alphabet admits eight carrier classes, not nine.
+* `p` gave the first positive result of the programme and then took it back, and cost the claim that a gate is a property
+  of a word width — it is a property of a *representation* (rule 24).
+* `d` cost `GMI-DA3` its generality: the unbounded-depth crossover holds for a permutation-protected binding operator and
+  **not** for the XOR code the original record executed it on.
+* `F` cost every one of the eleven reductions its unqualified form: each now carries a declared **capacity bound**, and
+  the reductions hold up to the parent's certified state size and not past it.
+
+Stage B4's first open-world pre-test agrees (`RV-377-077`): of seven neutrally recovered admissible machines, **five look
+novel structurally and none is novel by response** — every one emits a final served answer vector bit-identical to a
+known parent's, and one reproduces a parent node for node.
 
 ### 11c. The precision axis, and the rule its refutation forced
 
