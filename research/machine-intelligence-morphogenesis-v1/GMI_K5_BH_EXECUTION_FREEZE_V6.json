@@ -1,0 +1,33 @@
+{
+  "schema":"GMIK5BHExecutionFreezeV6",
+  "status":"FROZEN_BEFORE_K5_V6_BEACON_AND_PROTECTED_EXECUTION",
+  "predecessor":{"freeze":"GMI_K5_BH_EXECUTION_FREEZE_V5.json","disposition":"SUPERSEDED_BEFORE_PUBLIC_BEACON_AND_BEFORE_PROTECTED_EXECUTION","reason":"V6 independently recomputes the unique preregistered future drand round; V5 trusted receipt flags/hash consistency but did not prove no reroll."},
+  "design_contracts":["GMI_K5_BH_PHASE_FREEZE_V1.json","GMI_K5_BH_SCORING_FREEZE_V1.json","GMI_K5_BH_DESIGN_CORRIGENDUM_V2.json","GMI_K5_BH_CONTINUAL_CORRIGENDUM_V3.json","GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json"],
+  "experiment_core":{"path":"gmi_k5_bh_experiments.py","commit":"efbaddb9a9edd527051d9a2ef178f519deb7e3f0","status":"UNCHANGED"},
+  "beacon_verifier":{"path":"hpc/gmi_beacon_verify.py","commit":"1dcbd564791511466de858d55d6f2ddbee22a92d"},
+  "execution":{
+    "task":{"path":"hpc/gmi_k5_bh_task_v6.py","commit":"e6e227bb97388926c7273448cdc3bf3f5fc0f003"},
+    "aggregate":{"path":"hpc/gmi_k5_bh_aggregate_v6.py","commit":"90b803a02903d2f64a8b6c03646beeecbd55be36"},
+    "array":{"path":"hpc/gmi_k5_bh_array.sbatch","commit":"54bdc6fa29a976ed7672c796fa13dc8979413ee5"},
+    "probe":{"path":"hpc/gmi_k5_bh_probe_v6.py","commit":"cc925da69581b38844f5b4b6ee3a1cc94da9198e"},
+    "submit":{"path":"hpc/gmi_k5_bh_submit_v6.py","commit":"96fc1fefaaa0d16ab4ddc277a552df0eaa701040"}
+  },
+  "final_task_plan":{
+    "B_ROUTING":{"parameter":"dependence_density","values":[0.10,0.30,0.60,0.90]},
+    "B_SPECIALIZATION":{"parameter":"heterogeneity_tau","values":[0.0,0.08,0.25,0.70]},
+    "B_RESIDUAL":{"parameter":"residual_fraction","values":[0.0,0.02,0.10,0.50]},
+    "B_COMPILE_SEARCH":{"parameter":"query_reuse","values":[1,4,16,64]},
+    "C_FEATURE_LEARNING":{"parameter":"nonlinear_signal","values":[0.0,0.25,0.60,1.0]},
+    "D_GENERATIVE":{"parameter":"prefix_sharing","values":[0.0,0.25,0.60,0.90]},
+    "E_CONTROL":{"parameter":"goal_reuse","values":[1,2,8,32]},
+    "F_CONTINUAL":{"parameter":"task_overlap","values":[0.0,0.60,0.90,0.98]}
+  },
+  "replicates_per_value":8,
+  "expected_tasks":256,
+  "scoring":{"parent":"GMI_K5_BH_SCORING_FREEZE_V1.json","admissibility":"GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json","numerical_thresholds_unchanged":true},
+  "public_beacon_rule":{"network":"League of Entropy drand quicknet mainnet","chain_hash":"52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971","genesis_time":1692803367,"period_seconds":3,"delay_seconds":900,"selection":"Use exactly the first quicknet round at or after execution-freeze commit timestamp + delay_seconds.","no_reroll":true,"receipt":"GMI_K5_BH_PUBLIC_BEACON_V6.json","verification":"Task, aggregate and submitter independently retrieve this exact freeze blob from the beacon-declared commit and recompute the unique round."},
+  "task_seed_rule":"int(SHA256('GMI-K5-BH-V6'||task_hash||verified_unique_drand_randomness)[:16],16) mod 2^32",
+  "receipt_rule":"Every task writes a receipt. Missing/duplicate/stale-hash/wrong-seed/wrong-round/wrong-schema/nonzero-exit/observed-outside-admissible invalidates execution.",
+  "protected_execution":"No K5 V6 task may execute until a V6 beacon receipt exists and independently verifies against this exact freeze commit.",
+  "claim_ceiling":"Synthetic held-regime K5 phase-law evidence only. Independent authorship, real transfer, large-model scaling and physical/nonclassical frontiers remain external."
+}
