@@ -1,0 +1,2125 @@
+{
+ "schema": "GMIParentLiteratureLedgerV2",
+ "status": "current-literature first-refusal ledger; existence of every work verified by search result (arXiv/publisher/proceedings page in results, alphaXiv id, or Consensus record); no full-text depth claimed",
+ "status_date": "2026-09-12",
+ "refs": [
+  "GMI_THEORY_CORE_V3_EXECUTED.md",
+  "GMI_PREDICTED_MACHINE_INTELLIGENCE_FORMS_V1.md",
+  "REVIVAL_LEDGER.jsonl (RV-377-029..043)",
+  "PARENT_LEDGER_V2.json",
+  "LITERATURE_LEDGER_V2.md",
+  "NOVELTY_RESIDUAL_V2.md"
+ ],
+ "threat_scale": {
+  "LOW": "parent is the form or a tool; does not explain or reduce a GMI law/form",
+  "MEDIUM": "parent explains part of the claim or supplies the frame; GMI keeps a scoped residual",
+  "HIGH": "parent already states, proves or measures the mechanism/phase law at the claim's own layer; GMI residual is at most scope or a coordinate"
+ },
+ "verification_legend": {
+  "WS": "WebSearch results contained the work's own page (arXiv abs/pdf, DOI/publisher page, or proceedings page)",
+  "AX": "alphaXiv discover_papers returned the work with its arXiv id",
+  "CS": "Consensus search returned the work (title, authors, venue, year)"
+ },
+ "areas": [
+  {
+   "id": 1,
+   "area": "Transformer/attention theory: expressivity, positional encodings, length generalization, circuits/induction heads, in-context learning theory",
+   "works": [
+    {
+     "citation": "Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, Polosukhin (2017). Attention Is All You Need.",
+     "year": 2017,
+     "venue": "NeurIPS 2017",
+     "url": "https://arxiv.org/abs/1706.03762",
+     "establishes": "Defines the attention form as softmax-normalized similarity-weighted retrieval over a context store, composed with position encodings and feed-forward blocks; no recurrence.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-034 (attention family derived at D1 as similarity-weighted retrieval; NORMALIZE primitive, gap G9)",
+      "threat": "LOW",
+      "why": "The parent is the form itself; GMI claims only the basis-dependence of its cost and its domination by hard kNN at scope, which the parent does not address."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Elhage, Nanda, Olsson, Henighan, Joseph, Mann, Askell, Bai, Chen, Conerly, DasSarma, Drain, Ganguli, Hatfield-Dodds, Hernandez, Jones, Kernion, Lovitt, Ndousse, Amodei, Brown, Clark, Kaplan, McCandlish, Olah (2021). A Mathematical Framework for Transformer Circuits.",
+     "year": 2021,
+     "venue": "Transformer Circuits Thread (Anthropic)",
+     "url": "https://transformer-circuits.pub/2021/framework/index.html",
+     "establishes": "Rewrites attention-only transformers as sums of readable paths (QK/OV circuits), showing that trained weights are compositions of interpretable sub-programs (skip-trigram and induction circuits).",
+     "first_refusal": {
+      "gmi_claim": "L1 (realization is compilation) and section 1b Step 1 (a trained network is a compiled program)",
+      "threat": "MEDIUM",
+      "why": "The 'trained network = compiled composition of circuits' view is the mechanistic-interpretability standard; L1 adds only the cost signature and the cross-basis identity of development tables."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Olsson, Elhage, Nanda, Joseph, DasSarma, Henighan, Mann, Askell, Bai, Chen, Conerly, Drain, Ganguli, Hatfield-Dodds, Hernandez, Johnston, Jones, Kernion, Lovitt, Ndousse, Amodei, Brown, Clark, Kaplan, McCandlish, Olah (2022). In-context Learning and Induction Heads.",
+     "year": 2022,
+     "venue": "Transformer Circuits Thread; arXiv:2209.11895",
+     "url": "https://arxiv.org/abs/2209.11895",
+     "establishes": "Induction heads form abruptly during training (a phase change) and their formation coincides with the appearance of in-context learning across model sizes.",
+     "first_refusal": {
+      "gmi_claim": "L5 (reachability order inert -> memory -> context-conditioned memory before any in-weights learner; RV-377-023 plateau)",
+      "threat": "HIGH",
+      "why": "A parent already documents the developmental phase transition that produces the in-context form, with a mechanism; GMI's L5 ordering at 10^5 evaluations is a coarse instance unless it predicts the order across bases."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Zhou, Bradley, Littwin, Razin, Saremi, Susskind, Bengio, Nakkiran (2023). What Algorithms can Transformers Learn? A Study in Length Generalization. [Follow-on: Huang, Yang, Bhattamishra, Sarrof, Krebs, Zhou, Nakkiran, Hahn (2025). A Formal Framework for Understanding Length Generalization in Transformers, ICLR 2025, arXiv:2410.02140.]",
+     "year": 2023,
+     "venue": "ICLR 2024; arXiv:2310.16028",
+     "url": "https://arxiv.org/abs/2310.16028",
+     "establishes": "RASP-L conjecture: transformers length-generalize on a task iff it has a short RASP-L program valid for all lengths; the 2025 follow-on proves limit-transformer bounds via C-RASP.",
+     "first_refusal": {
+      "gmi_claim": "L3 gates 1-2 (existence in the generator's grammar; admissibility on the unseen split, RV-377-014/017)",
+      "threat": "MEDIUM",
+      "why": "A grammar-level existence/admissibility criterion for the transformer family already exists with proofs; GMI's four gates would have to reproduce the RASP-L/C-RASP boundary to add anything for this family."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Merrill, Sabharwal (2023). The Parallelism Tradeoff: Limitations of Log-Precision Transformers.",
+     "year": 2023,
+     "venue": "TACL 11; arXiv:2207.00729",
+     "url": "https://arxiv.org/abs/2207.00729",
+     "establishes": "Log-precision transformers are simulable by uniform TC^0 circuits; any equally parallelizable architecture inherits the same limits (cannot solve linear equalities or CFG membership if L != P).",
+     "first_refusal": {
+      "gmi_claim": "L6 (instrument parameters, FRAC_BITS, decide which forms exist; RV-377-029/031 precision gating; gap G5)",
+      "threat": "HIGH",
+      "why": "Precision-bounded expressivity is a theorem-level parent; 'precision decides existence of the probabilistic/policy-gradient rows' is an instance of precision-limited expressivity, not a new law."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Garg, Tsipras, Liang, Valiant (2022). What Can Transformers Learn In-Context? A Case Study of Simple Function Classes.",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv:2208.01066",
+     "url": "https://arxiv.org/abs/2208.01066",
+     "establishes": "Transformers trained from scratch in-context learn linear, sparse-linear, two-layer-NN and decision-tree function classes at the level of task-specific estimators, under distribution shift.",
+     "first_refusal": {
+      "gmi_claim": "L5 / RV-377-023 (task diversity creates the selection gradient toward context-conditioned memory forms) and 1b Step 5 (forward pass as proposal geometry)",
+      "threat": "MEDIUM",
+      "why": "The parent shows SGD on a diversity ecology reaches an in-context learner that matches least squares; GMI's executed 'diversity creates the gradient' is Chan 2022 plus Garg 2022 at toy scale."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "von Oswald, Niklasson, Randazzo, Sacramento, Mordvintsev, Zhmoginov, Vladymyrov (2023). Transformers learn in-context by gradient descent.",
+     "year": 2023,
+     "venue": "ICML 2023; arXiv:2212.07677",
+     "url": "https://arxiv.org/abs/2212.07677",
+     "establishes": "A weight construction shows one linear self-attention layer implements a gradient-descent step on a regression loss; trained transformers converge to this mesa-optimizer.",
+     "first_refusal": {
+      "gmi_claim": "L1 (the same update law compiled into a different basis at bounded cost) and 1b Step 1 / GMI-TN2 (an ML algorithm = update law U + query law Q)",
+      "threat": "HIGH",
+      "why": "Cross-basis compilation of the gradient law into attention weights, in a real system, is exactly L1's 'compilation with a cost signature' claim; the executed six-basis C2 result is a toy version of what this parent already demonstrates."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Reddy (2024). The mechanistic basis of data dependence and abrupt learning in an in-context classification task.",
+     "year": 2024,
+     "venue": "ICLR 2024 (oral); arXiv:2312.03002",
+     "url": "https://arxiv.org/abs/2312.03002",
+     "establishes": "A minimal attention network shows the induction head emerges abruptly through a three-way interaction and competes with in-weights learning; burstiness and class count decide ICL vs IWL.",
+     "first_refusal": {
+      "gmi_claim": "L5 and L2 ecology axes (task diversity, seen/unseen split) — the in-context vs in-weights occupant as a function of ecology coordinates",
+      "threat": "HIGH",
+      "why": "A parent already provides the mechanistic phase diagram of context-conditioned vs in-weights forms as a function of ecology coordinates, with a minimal model; L5's ordering result is a coarse instance."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "area": "Optimization and generalization: implicit bias, edge of stability, NTK vs feature learning, double descent, grokking, scaling laws, emergence-metric critiques",
+   "works": [
+    {
+     "citation": "Soudry, Hoffer, Nacson, Gunasekar, Srebro (2018). The Implicit Bias of Gradient Descent on Separable Data.",
+     "year": 2018,
+     "venue": "JMLR 19; arXiv:1710.10345",
+     "url": "https://arxiv.org/abs/1710.10345",
+     "establishes": "Gradient descent on separable data converges (slowly) to the max-margin direction: the optimizer, not the loss, selects the solution.",
+     "first_refusal": {
+      "gmi_claim": "L2/L3 (the search process Gamma selects the occupant among admissible realizations) and 1b Step 2",
+      "threat": "MEDIUM",
+      "why": "Gamma has a parent-owned selection law (max-margin) that GMI's 'rho-cheapest admissible' phrasing does not capture; the executed frontier assumes Gamma is neutral among admissible forms."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Cohen, Kaur, Li, Kolter, Talwalkar (2021). Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability. [Follow-on: Liu, Zhang, Du, Zhao (2025). A Minimalist Example of Edge-of-Stability and Progressive Sharpening, NeurIPS 2025, arXiv:2503.02809.]",
+     "year": 2021,
+     "venue": "ICLR 2021; arXiv:2103.00065",
+     "url": "https://arxiv.org/abs/2103.00065",
+     "establishes": "Full-batch GD drives sharpness to 2/eta and then hovers there; loss is non-monotone at short scales while decreasing over long scales (progressive sharpening then self-stabilization, proved in a two-layer example in 2025).",
+     "first_refusal": {
+      "gmi_claim": "RV-377-015 / L3 existence clause (a stable step is expressible: learning rate below 2 over the active inputs) and 1b Step 2(b)",
+      "threat": "MEDIUM",
+      "why": "GMI's stability clause is the classical 2/lambda_max condition; the parent shows real training self-organizes to that boundary, so the executed 'stable step' gate is the linear special case of a known dynamic."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Jacot, Gabriel, Hongler (2018). Neural Tangent Kernel: Convergence and Generalization in Neural Networks.",
+     "year": 2018,
+     "venue": "NeurIPS 2018; arXiv:1806.07572",
+     "url": "https://arxiv.org/abs/1806.07572",
+     "establishes": "In the infinite-width limit training follows kernel gradient descent with a fixed NTK; the network behaves as a kernel machine (lazy regime), with feature learning requiring different scalings.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-025 / L4b (generalizing memory vs gradient occupant is basis-dependent) and RV-377-034 (attention as kernel smoothing dominated by hard kNN)",
+      "threat": "HIGH",
+      "why": "The NTK identifies the gradient row with a kernel-memory row in the lazy regime, collapsing GMI's memory-vs-gradient distinction at large width unless feature learning is charged; L4b must survive this identification."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Belkin, Hsu, Ma, Mandal (2019). Reconciling modern machine-learning practice and the classical bias-variance trade-off.",
+     "year": 2019,
+     "venue": "PNAS 116(32)",
+     "url": "https://doi.org/10.1073/pnas.1903070116",
+     "establishes": "Test risk is non-monotone in capacity (double descent): it peaks at the interpolation threshold and decreases again in the over-parameterized regime.",
+     "first_refusal": {
+      "gmi_claim": "Protocol rule 17 / RV-377-041b (frontier size rule R-top vs R-best when admissibility is non-monotone in size)",
+      "threat": "MEDIUM",
+      "why": "The non-monotonicity of admissibility in size that forced rule 17 is the double-descent phenomenon; GMI's rule is an instrument convention around a parent-owned curve."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Varma, Shah, Kenton, Kramar, Kumar (2023). Explaining grokking through circuit efficiency. [Model capacity follow-on: arXiv:2605.09724 (2026).]",
+     "year": 2023,
+     "venue": "arXiv:2309.02390",
+     "url": "https://arxiv.org/abs/2309.02390",
+     "establishes": "Grokking is a competition between a memorizing circuit and a more efficient but slower-to-learn generalizing circuit; a critical dataset size makes them equally efficient, predicting ungrokking and semi-grokking (confirmed).",
+     "first_refusal": {
+      "gmi_claim": "L4 cost crossovers and L5 acquisition order (memorizing plateau before the generalizing form; RV-377-025 Hamming-memory vs gradient occupant)",
+      "threat": "HIGH",
+      "why": "A parent already states an efficiency-competition phase law between memorizing and generalizing realizations with a critical crossover and confirmed novel predictions in a real neural system — the same shape as L4/L5 at executed toy scope."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Hoffmann, Borgeaud, Mensch, Buchatskaya, Cai, Rutherford, de Las Casas, Hendricks, Welbl, Clark, Hennigan, Noland, Millican, van den Driessche, Damoc, Guy, Osindero, Simonyan, Elsen, Rae, Vinyals, Sifre (2022). Training Compute-Optimal Large Language Models.",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv:2203.15556",
+     "url": "https://arxiv.org/abs/2203.15556",
+     "establishes": "Fits loss = E + A/N^alpha + B/D^beta over 400 models; compute-optimal training scales parameters and tokens equally (Chinchilla), overturning Kaplan-style allocations.",
+     "first_refusal": {
+      "gmi_claim": "Section 3 (cost per intelligence) and gap G1/G1b (a measured price vector); L4 as a cost law",
+      "threat": "MEDIUM",
+      "why": "GMI's 'capability per kilo-cost' table is a toy analogue of a frontier the parent measured at scale with real prices; GMI adds revision and retention axes the parent lacks, but its cost law has no scale evidence."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Schaeffer, Miranda, Koyejo (2023). Are Emergent Abilities of Large Language Models a Mirage?",
+     "year": 2023,
+     "venue": "NeurIPS 2023 (outstanding paper); arXiv:2304.15004",
+     "url": "https://arxiv.org/abs/2304.15004",
+     "establishes": "Apparent emergent abilities arise from nonlinear/discontinuous metrics applied to smoothly improving per-token performance; continuous metrics remove the discontinuity.",
+     "first_refusal": {
+      "gmi_claim": "L3 admissibility gate (capability >= theta), section 2 plateaus, and every 'occupant flip' read from a thresholded capability; rule 16 reliability curves",
+      "threat": "HIGH",
+      "why": "GMI's admissibility gate is a discontinuous metric on a continuous capability; every executed occupant flip that is really a threshold crossing is exposed to this critique and needs a continuous-metric replication."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Michaud, Liu, Girard, Tegmark (2023). The Quantization Model of Neural Scaling.",
+     "year": 2023,
+     "venue": "NeurIPS 2023; arXiv:2303.13506",
+     "url": "https://arxiv.org/abs/2303.13506",
+     "establishes": "Capabilities are discrete quanta learned in order of use frequency; a power law in frequencies yields power-law loss scaling and sudden per-skill emergence.",
+     "first_refusal": {
+      "gmi_claim": "L5 and section 2 ('what is found is decided before what is cheapest'; the climbing order inert -> memory -> context -> dense)",
+      "threat": "MEDIUM",
+      "why": "Gives a parent account of acquisition order (use frequency) that could reproduce GMI's climbing order without the cost/reachability machinery; GMI must show the order is cost-driven, not frequency-driven."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "area": "Causal representation learning and identifiability",
+   "works": [
+    {
+     "citation": "Schoelkopf, Locatello, Bauer, Ke, Kalchbrenner, Goyal, Bengio (2021). Toward Causal Representation Learning.",
+     "year": 2021,
+     "venue": "Proceedings of the IEEE 109(5); arXiv:2102.11107",
+     "url": "https://arxiv.org/abs/2102.11107",
+     "establishes": "Frames CRL: recover high-level causal variables and mechanisms from low-level observations; independent-causal-mechanism and sparse-mechanism-shift principles; links to transfer and robustness.",
+     "first_refusal": {
+      "gmi_claim": "F1 RQM (target distinctions aliased under prediction) and the PRQ residual-quotient theory (5d)",
+      "threat": "MEDIUM",
+      "why": "The 'residual inside predictive fibers' is CRL's non-identifiability of latents from observational data; the parent owns the framing, GMI owns only the finite counting bound."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Locatello, Bauer, Lucic, Raetsch, Gelly, Schoelkopf, Bachem (2019). Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations.",
+     "year": 2019,
+     "venue": "ICML 2019 (best paper); arXiv:1811.12359",
+     "url": "https://arxiv.org/abs/1811.12359",
+     "establishes": "Theorem: unsupervised disentanglement is impossible without inductive biases on model and data; 12,000 trained models confirm that disentangled models cannot be identified without supervision.",
+     "first_refusal": {
+      "gmi_claim": "Worlds W0/W1 and F1.1-F1.2 (a pure predictor cannot recover residual identities); PRQ-1/PRQ-2 and MN1-a/b (5d)",
+      "threat": "HIGH",
+      "why": "The impossibility theorem is the parent form of GMI's predictive-sufficiency no-go; PRQ-1/2 is a pigeonhole restatement that the theory core itself scores as a tautology check."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Khemakhem, Kingma, Monti, Hyvaerinen (2020). Variational Autoencoders and Nonlinear ICA: A Unifying Framework.",
+     "year": 2020,
+     "venue": "AISTATS 2020; arXiv:1907.04809",
+     "url": "https://arxiv.org/abs/1907.04809",
+     "establishes": "iVAE: with an auxiliary observed variable and a conditionally factorial prior, deep latent-variable models become identifiable up to simple transformations.",
+     "first_refusal": {
+      "gmi_claim": "F1.3 (composition rule reconstructing target state from predictor plus residual) and F4.4 (evidence update refining target state)",
+      "threat": "MEDIUM",
+      "why": "Shows that side information is what makes the residual recoverable — the parent form of 'developmental side-information' (MN2); GMI must show its residual bound is not the iVAE identifiability condition in disguise."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Lachapelle, Rodriguez Lopez, Sharma, Everett, Le Priol, Lacoste, Lacoste-Julien (2022). Disentanglement via Mechanism Sparsity Regularization: A New Principle for Nonlinear ICA.",
+     "year": 2022,
+     "venue": "CLeaR 2022; arXiv:2107.10098",
+     "url": "https://arxiv.org/abs/2107.10098",
+     "establishes": "Identifiability up to permutation when latent mechanisms are sparse in past latents/auxiliary variables, including unknown-target interventions.",
+     "first_refusal": {
+      "gmi_claim": "F2.2 (sparse dependency-aligned residual factors) and A1 factorization (RV-377-037)",
+      "threat": "MEDIUM",
+      "why": "Sparsity of mechanisms as an identifiability principle is parent-owned; GMI's sparse residual factors are an engineering restatement without an identifiability result."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Brehmer, De Haan, Lippe, Cohen (2022). Weakly supervised causal representation learning.",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv:2203.16437",
+     "url": "https://arxiv.org/abs/2203.16437",
+     "establishes": "Paired pre/post-intervention samples (no labels) suffice to identify latent causal variables and structure; implicit latent causal models avoid explicit graph search.",
+     "first_refusal": {
+      "gmi_claim": "F4 IQL (interventions split observational aliases) and world W4",
+      "threat": "MEDIUM",
+      "why": "Weakly supervised interventional pairs already deliver identification; IQL must show that choosing which intervention to run by target ambiguity adds anything beyond identifiability-by-interventions."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Ahuja, Mahajan, Wang, Bengio (2023). Interventional Causal Representation Learning.",
+     "year": 2023,
+     "venue": "ICML 2023 (PMLR 202); arXiv:2209.11924",
+     "url": "https://proceedings.mlr.press/v202/ahuja23a.html",
+     "establishes": "Perfect do-interventions identify latent factors up to permutation and scaling via support geometry; imperfect interventions give block-affine identification.",
+     "first_refusal": {
+      "gmi_claim": "F4.1-F4.3 (interventions remove target ambiguity) and the W4/W9 twins",
+      "threat": "HIGH",
+      "why": "A parent theorem already says which interventions remove which aliases; IQL's 'target-quotient information value' must add predictive power over this class or trigger its own kill condition."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "von Kuegelgen, Besserve, Wendong, Gresele, Kekic, Bareinboim, Blei, Schoelkopf (2023). Nonparametric Identifiability of Causal Representations from Unknown Interventions.",
+     "year": 2023,
+     "venue": "NeurIPS 2023; arXiv:2306.00542",
+     "url": "https://arxiv.org/abs/2306.00542",
+     "establishes": "With nonparametric mixing and causal model, one perfect intervention per node (two for general n) identifies latents and graph up to ambiguities shown to be irresolvable from interventional data.",
+     "first_refusal": {
+      "gmi_claim": "F4.5 (stop when remaining ambiguity is below need) and F1.4 (residual capacity); the irresolvable-ambiguity classes are the parent's lower bound",
+      "threat": "HIGH",
+      "why": "The parent both gives the sufficient intervention set and proves which ambiguities no intervention resolves — the two halves of IQL's stop rule."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Varici, Acarturk, Shanmugam, Kumar, Tajer (2025). Score-based Causal Representation Learning: Linear and General Transformations.",
+     "year": 2025,
+     "venue": "JMLR 26(112); arXiv:2402.00849",
+     "url": "https://jmlr.org/papers/v26/24-0194.html",
+     "establishes": "Score-function variations across interventional environments give identifiability and achievability: one stochastic hard intervention per node (linear mixing), two (general mixing), with algorithms.",
+     "first_refusal": {
+      "gmi_claim": "F4.6 (reuse of intervention structure across ecologies) and the MLX experiment rows for F1/F4",
+      "threat": "MEDIUM",
+      "why": "Achievability (an algorithm attaining the identifiability bound) is what GMI's F4 microscope would have to beat; the parent already supplies the constructive baseline."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "area": "Continual learning, model editing, unlearning, plasticity loss",
+   "works": [
+    {
+     "citation": "Bourtoule, Chandrasekaran, Choquette-Choo, Jia, Travers, Zhang, Lie, Papernot (2021). Machine Unlearning.",
+     "year": 2021,
+     "venue": "IEEE S&P 2021; arXiv:1912.03817",
+     "url": "https://arxiv.org/abs/1912.03817",
+     "establishes": "SISA: shard, isolate, slice, aggregate — bounds the influence of a data point so unlearning retrains only the affected shard/slice; cost proportional to the affected partition.",
+     "first_refusal": {
+      "gmi_claim": "A1/A3 (factorized served state, dependency-tracked repair; RV-377-037: A1/A3 change cost only), L4e, and the section 5.3 E5 reduction attack that names SISA",
+      "threat": "HIGH",
+      "why": "SISA is the exact parent for 'revision cost proportional to the affected cone' with retraining as repair; the E5 compilation of the VLC row into SISA is still pending and could end the VLC novelty claim."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Meng, Bau, Andonian, Belinkov (2022). Locating and Editing Factual Associations in GPT (ROME); Meng, Sen Sharma, Andonian, Belinkov, Bau (2023). Mass-Editing Memory in a Transformer (MEMIT).",
+     "year": 2022,
+     "venue": "NeurIPS 2022 (arXiv:2202.05262); ICLR 2023 (arXiv:2210.07229)",
+     "url": "https://arxiv.org/abs/2202.05262",
+     "establishes": "Causal tracing locates factual associations in mid-layer MLPs; rank-one (ROME) and mass (MEMIT) updates edit thousands of facts directly in weights.",
+     "first_refusal": {
+      "gmi_claim": "A3 dependency-tracked local repair, VLC ability A2 (zero collateral regression), F2.4 local residual rebuild",
+      "threat": "MEDIUM",
+      "why": "The parent achieves local repair without a dependency cone but pays collateral damage (Gupta 2024), which is GMI's exposure term; the executed cone result is exact only at scope."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Mitchell, Lin, Bosselut, Manning, Finn (2022). Memory-Based Model Editing at Scale (SERAC).",
+     "year": 2022,
+     "venue": "ICML 2022 (PMLR 162); arXiv:2206.06520",
+     "url": "https://proceedings.mlr.press/v162/mitchell22a.html",
+     "establishes": "Semi-parametric editing: edits are stored in an explicit memory, a scope classifier decides whether an input is in an edit's scope, and a counterfactual model serves in-scope inputs.",
+     "first_refusal": {
+      "gmi_claim": "F1 RQM (broad predictor + separately mutable residual + composition rule) and F2.3 (authoritative residual separated from serving state)",
+      "threat": "HIGH",
+      "why": "SERAC is an existing RQM: F1.1-F1.3 are realized by base model, edit memory and scope classifier; only the capacity law F1.4-F1.6 remains for GMI to own."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Hartvigsen, Sankaranarayanan, Palangi, Kim, Ghassemi (2023). Aging with GRACE: Lifelong Model Editing with Discrete Key-Value Adaptors.",
+     "year": 2023,
+     "venue": "NeurIPS 2023; arXiv:2211.11031",
+     "url": "https://arxiv.org/abs/2211.11031",
+     "establishes": "A discrete, local codebook of edits in a layer's latent space supports thousands of sequential edits from streaming errors with minimal impact on unrelated inputs, without changing weights.",
+     "first_refusal": {
+      "gmi_claim": "F1/F2 (residual as a codebook adaptor), VLC A2 (no collateral regression), MN1 residual capacity",
+      "threat": "HIGH",
+      "why": "A working lifelong residual store with locality guarantees; the residual-capacity law GMI predicts (bits per predictive class) would have to be measured against GRACE's codebook growth."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Cohen, Biran, Yoran, Globerson, Geva (2024). Evaluating the Ripple Effects of Knowledge Editing in Language Models.",
+     "year": 2024,
+     "venue": "TACL 12; arXiv:2307.12976",
+     "url": "https://arxiv.org/abs/2307.12976",
+     "establishes": "An edit implies further facts that must change (ripple effects); proposes evaluation criteria for logical propagation and shows current editors fail them.",
+     "first_refusal": {
+      "gmi_claim": "A3 dependency cone / update geometry Delta_U (RV-377-036) and VLC A2/A3 (blast radius = cone)",
+      "threat": "MEDIUM",
+      "why": "The parent names the dependency-cone problem for real models but has no dependency-tracked repair; GMI's executed cone is exact only at scope and untested on any real editor."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Gupta, Rao, Anumanchipalli (2024). Model Editing at Scale leads to Gradual and Catastrophic Forgetting.",
+     "year": 2024,
+     "venue": "Findings of ACL 2024; arXiv:2401.07453",
+     "url": "https://arxiv.org/abs/2401.07453",
+     "establishes": "Sequential ROME/MEMIT edits cause gradual then abrupt forgetting of earlier edits and downstream ability.",
+     "first_refusal": {
+      "gmi_claim": "Retention price lambda_R and the exposure term (gap G4: collateral regression priced by lambda); RV-377-032 A2",
+      "threat": "MEDIUM",
+      "why": "Quantifies collateral regression as a function of edit count in a real system — GMI's retention term with a measured, nonlinear shape the exact layer does not reproduce."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Dohare, Hernandez-Garcia, Lan, Rahman, Mahmood, Sutton (2024). Loss of plasticity in deep continual learning.",
+     "year": 2024,
+     "venue": "Nature 632, 768-774",
+     "url": "https://doi.org/10.1038/s41586-024-07711-7",
+     "establishes": "Standard deep learning loses the ability to learn under continual training (ImageNet, RL); plasticity is maintained only by injecting a random non-gradient component (continual backpropagation) or L2.",
+     "first_refusal": {
+      "gmi_claim": "L4a revision axis (the r >= 1 occupant is the cheapest-update admissible form with fixed per-event work) and 1b Step 3; RV-377-040/041 stochastic component",
+      "threat": "HIGH",
+      "why": "Real-system evidence that the gradient realization is not admissible at high revision count without stochastic reinjection contradicts L4a's constant per-event update cost, and echoes RV-041's low-reliability stochastic occupant."
+     },
+     "verified": true,
+     "verification": "WS+CS"
+    },
+    {
+     "citation": "Lyle, Zheng, Khetarpal, van Hasselt, Pascanu, Martens, Dabney (2024). Disentangling the Causes of Plasticity Loss in Neural Networks.",
+     "year": 2024,
+     "venue": "arXiv:2402.18762",
+     "url": "https://arxiv.org/abs/2402.18762",
+     "establishes": "Plasticity loss decomposes into several independent mechanisms; no single intervention suffices, but layer normalization plus weight decay is robust across nonstationarities.",
+     "first_refusal": {
+      "gmi_claim": "L6 (instrument parameters) and the RV-377-037 mechanism-factorial method (witness-changing vs cost-changing mechanisms)",
+      "threat": "MEDIUM",
+      "why": "A parent factorial decomposition of mechanisms in a real continual learner; GMI's factorial is exact at scope but has no real-system analogue, and plasticity is an unmodelled coordinate of theta."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "area": "External memory / RAG / retrieval-augmented and memory-augmented models",
+   "works": [
+    {
+     "citation": "Graves, Wayne, Danihelka (2014). Neural Turing Machines.",
+     "year": 2014,
+     "venue": "arXiv:1410.5401",
+     "url": "https://arxiv.org/abs/1410.5401",
+     "establishes": "Couples a controller network to an external memory via differentiable attention; learns copy, sort and associative recall from examples.",
+     "first_refusal": {
+      "gmi_claim": "L1 (memory forms M1/M5 as compiled rows) and the F1 parent list (memory-augmented networks)",
+      "threat": "LOW",
+      "why": "The parent is the memory-augmented form; GMI's claim concerns which ecology makes it the occupant, which the parent does not address."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal, Kuettler, Lewis, Yih, Rocktaeschel, Riedel, Kiela (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.",
+     "year": 2020,
+     "venue": "NeurIPS 2020; arXiv:2005.11401",
+     "url": "https://arxiv.org/abs/2005.11401",
+     "establishes": "Joint model of a parametric generator and a non-parametric dense retriever over a document index; the index can be swapped without retraining.",
+     "first_refusal": {
+      "gmi_claim": "F1 RQM parent first-refusal list and L4b (generalizing memory vs gradient at r >= 1)",
+      "threat": "MEDIUM",
+      "why": "RAG is a broad predictor plus a mutable store; F1's only residual claim is that the store's size/necessity tracks measured residual burden, which is untested."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Khandelwal, Levy, Jurafsky, Zettlemoyer, Lewis (2020). Generalization through Memorization: Nearest Neighbor Language Models.",
+     "year": 2020,
+     "venue": "ICLR 2020; arXiv:1911.00172",
+     "url": "https://arxiv.org/abs/1911.00172",
+     "establishes": "Interpolating a pretrained LM with kNN over a datastore of contexts lowers perplexity (15.79 on WikiText-103) with no training; memory beats retraining for rare patterns and domain shift.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-025 / L4b (memory wins in local-transducer bases at r >= 1) and RV-377-034 (hard kNN dominates soft attention)",
+      "threat": "HIGH",
+      "why": "A real-system executed instance of 'a memory form is admissible and cheaper than retraining at revision' — the L4b occupant switch in a real basis — is parent-owned."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Borgeaud, Mensch, Hoffmann, Cai, Rutherford, Millican, van den Driessche, Lespiau, Damoc, Clark, de Las Casas, Guy, Menick, Ring, Hennigan, Huang, Maggiore, Jones, Cassirer, Brock, Paganini, Irving, Vinyals, Osindero, Simonyan, Rae, Elsen, Sifre (2022). Improving language models by retrieving from trillions of tokens (RETRO).",
+     "year": 2022,
+     "venue": "ICML 2022; arXiv:2112.04426",
+     "url": "https://arxiv.org/abs/2112.04426",
+     "establishes": "Chunked cross-attention over a 2T-token retrieval database matches GPT-3-class performance with 25x fewer parameters; pretrained models can be RETROfitted.",
+     "first_refusal": {
+      "gmi_claim": "Section 3 cost per intelligence and L4 (description cost traded against query/store cost)",
+      "threat": "MEDIUM",
+      "why": "A measured capability-per-parameter trade between compiled (weights) and stored (index) realizations at scale; GMI's toy table has the same shape without scale evidence."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Wu, Rabe, Hutchins, Szegedy (2022). Memorizing Transformers.",
+     "year": 2022,
+     "venue": "ICLR 2022 (spotlight); arXiv:2203.08913",
+     "url": "https://arxiv.org/abs/2203.08913",
+     "establishes": "Approximate kNN lookup into a non-differentiable memory of past (key, value) pairs improves language modeling up to 262K tokens and lets the model use newly defined theorems at test time.",
+     "first_refusal": {
+      "gmi_claim": "L5 (context-conditioned memory forms) and F1.6 (avoid full predictor replacement when residual updates are sparse)",
+      "threat": "MEDIUM",
+      "why": "Test-time use of newly defined objects without retraining is the F1.6 ability in a real system; GMI's residual law would have to predict the memory-size/return curve the parent measured."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Asai, Wu, Wang, Sil, Hajishirzi (2024). Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection.",
+     "year": 2024,
+     "venue": "ICLR 2024 (oral); arXiv:2310.11511",
+     "url": "https://arxiv.org/abs/2310.11511",
+     "establishes": "On-demand retrieval plus reflection tokens with which the model critiques its own retrieval and generation; improves factuality without an external verifier.",
+     "first_refusal": {
+      "gmi_claim": "F3.7 (abstain or serve the incumbent while unresolved) and A4 verify-before-swap with a weak, non-independent verifier (twin W8)",
+      "threat": "MEDIUM",
+      "why": "Shows what self-verification buys and where it fails; F3.3's insistence on an independent verifier is the difference GMI must measure, and W8 is the parent's regime."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Das, Chaudhury, Nelson, Melnyk, Swaminathan, Dai, Lozano, Kollias, Chenthamarakshan, Navratil, Dan, Chen (2024). Larimar: Large Language Models with Episodic Memory Control.",
+     "year": 2024,
+     "venue": "ICML 2024; arXiv:2403.11901",
+     "url": "https://arxiv.org/abs/2403.11901",
+     "establishes": "A brain-inspired episodic memory controller gives one-shot knowledge updates and selective forgetting without retraining, 8-10x faster than editing baselines.",
+     "first_refusal": {
+      "gmi_claim": "F1/F2 (authoritative residual memory separate from serving weights) and A2 authority/serving separation",
+      "threat": "HIGH",
+      "why": "An RQM/VRQM-shaped real system with one-shot revisions and selective forgetting already exists; F2's residual claim reduces to whether versioning concentrates in this memory under retention pressure."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Behrouz, Zhong, Mirrokni (2025). Titans: Learning to Memorize at Test Time.",
+     "year": 2025,
+     "venue": "NeurIPS 2025; arXiv:2501.00663",
+     "url": "https://arxiv.org/abs/2501.00663",
+     "establishes": "A neural long-term memory module updates its own weights at test time by a surprise-driven gradient rule with adaptive forgetting, combined with attention for short-term context.",
+     "first_refusal": {
+      "gmi_claim": "L5 (context-conditioned memory vs in-weights learner) and L4a (test-time gradient writes to a memory module as the cheapest-update form)",
+      "threat": "MEDIUM",
+      "why": "Blurs GMI's memory/gradient dichotomy: the occupant is a gradient-updated memory; L4b's basis-dependent split must accommodate hybrid rows before the executed table can be called a law."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "area": "Mixture-of-experts and conditional computation",
+   "works": [
+    {
+     "citation": "Jacobs, Jordan, Nowlan, Hinton (1991). Adaptive Mixtures of Local Experts.",
+     "year": 1991,
+     "venue": "Neural Computation 3(1), 79-87",
+     "url": "https://doi.org/10.1162/neco.1991.3.1.79",
+     "establishes": "A gating network and local expert networks trained competitively so that experts specialize on sub-regions of the input.",
+     "first_refusal": {
+      "gmi_claim": "F5 LMHM parent list (MoE) and L2 (conditional realization)",
+      "threat": "LOW",
+      "why": "Static experts of one family; F5's residual (development-time change of a factor's realization family) is not addressed."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Shazeer, Mirhoseini, Maziarz, Davis, Le, Hinton, Dean (2017). Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer.",
+     "year": 2017,
+     "venue": "ICLR 2017; arXiv:1701.06538",
+     "url": "https://arxiv.org/abs/1701.06538",
+     "establishes": "Sparse gating over thousands of experts gives >1000x capacity at near-constant compute; load-balancing losses make conditional computation trainable at scale.",
+     "first_refusal": {
+      "gmi_claim": "F5.6/F5.8 and RV-377-043 (heterogeneous mesh); section 5.3 E5 reduction into sparse MoE",
+      "threat": "MEDIUM",
+      "why": "Sparse conditional computation is the parent GMI must compile the LMHM row into; the executed mesh differs only in per-factor family change, which the E5 attack has not yet tested."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Fedus, Zoph, Shazeer (2022). Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity.",
+     "year": 2022,
+     "venue": "JMLR 23; arXiv:2101.03961",
+     "url": "https://arxiv.org/abs/2101.03961",
+     "establishes": "Top-1 routing with constant per-token compute; 7x pretraining speedup at equal FLOPs; identifies routing instabilities and remedies.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-033 CP ability B2 (update cost independent of the number of inactive phenotypes)",
+      "threat": "MEDIUM",
+      "why": "Per-token compute independent of inactive experts is MoE's defining property; CP's B2 is a parent product and only the compile/interpret crossover H* is GMI's."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Clark, de las Casas, Guy, Mensch, Paganini, Hoffmann, Damoc, Hechtman, Cai, Borgeaud, van den Driessche, Rutherford, Hennigan, Johnson, Millican, Cassirer, Jones, Buchatskaya, Budden, Sifre, Osindero, Vinyals, Rae, Elsen, Kavukcuoglu, Simonyan (2022). Unified Scaling Laws for Routed Language Models.",
+     "year": 2022,
+     "venue": "ICML 2022 (oral); arXiv:2202.01169",
+     "url": "https://arxiv.org/abs/2202.01169",
+     "establishes": "Performance of routed models scales as a bilinear law in parameter count and expert count; defines an effective parameter count and compares three routing techniques quantitatively.",
+     "first_refusal": {
+      "gmi_claim": "L4 and section 3 (cost laws as crossovers on two independent cost axes); L4b basis-dependence",
+      "threat": "HIGH",
+      "why": "A measured two-axis cost law with crossovers for conditional computation already exists at scale; GMI's H*/r*/lambda* crossovers are toy analogues with no scale evidence."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Krajewski, Ludziejewski, Adamczewski, Pioro, Krutul, Antoniak, Ciebiera, Krol, Odrzygozdz, Sankowski, Cygan, Jaszczur (2024). Scaling Laws for Fine-Grained Mixture of Experts. [Companion: Abnar et al. (2025). Parameters vs FLOPs: Scaling Laws for Optimal Sparsity for MoE Language Models, ICML 2025, arXiv:2501.12370.]",
+     "year": 2024,
+     "venue": "ICML 2024; arXiv:2402.07871",
+     "url": "https://arxiv.org/abs/2402.07871",
+     "establishes": "Expert granularity is a scaling variable; optimal granularity and optimal sparsity depend on the compute budget, and mirroring the dense FFN size is almost never optimal.",
+     "first_refusal": {
+      "gmi_claim": "L4d (materialization keeps realizations factorized) and RV-377-036 (fine vs coarse occupant by query geometry); F5.7",
+      "threat": "MEDIUM",
+      "why": "Optimal granularity as a function of budget is a parent-owned fine-vs-coarse occupant law; GMI's version adds query/update geometry but has no scale calibration."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Dai, Deng, Zhao, Xu, Gao, Chen, Li, Zeng, Yu, Wu, Xie, Li, Huang, Luo, Ruan, Sui, Liang (2024). DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models.",
+     "year": 2024,
+     "venue": "arXiv:2401.06066",
+     "url": "https://arxiv.org/abs/2401.06066",
+     "establishes": "Fine expert segmentation plus shared always-on experts increases specialization and reduces redundancy; matches dense models at 40% of the compute.",
+     "first_refusal": {
+      "gmi_claim": "F5.1 (semantic/dependency-aligned factor graph) and RV-377-043 shared-query exposure coupling (shared experts as shared factors)",
+      "threat": "MEDIUM",
+      "why": "Shared plus routed experts is an engineering instance of shared-factor coupling; GMI's slope-30 coupling term is exact at scope and unmeasured in any MoE."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Pfeiffer, Ruder, Vulic, Ponti (2023). Modular Deep Learning.",
+     "year": 2023,
+     "venue": "TMLR; arXiv:2302.11529",
+     "url": "https://arxiv.org/abs/2302.11529",
+     "establishes": "Unifies modular architectures along computation function, routing function, aggregation function and training setting; modules as autonomous parameter-efficient units composed by learned or fixed routing.",
+     "first_refusal": {
+      "gmi_claim": "F5 in full (parent list: modular neural networks) and F5.4 (local Gamma)",
+      "threat": "HIGH",
+      "why": "The survey's taxonomy already spans heterogeneous modules, learned routing and module-local training; F5's residual is only development-time family change under a measured local demand, which no executed record yet shows in a real modular system."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Ostapenko, Su, Ponti, Charlin, Le Roux, Caccia, Sordoni (2024). Towards Modular LLMs by Building and Reusing a Library of LoRAs.",
+     "year": 2024,
+     "venue": "ICML 2024 (PMLR 235); arXiv:2405.11157",
+     "url": "https://proceedings.mlr.press/v235/ostapenko24a.html",
+     "establishes": "Builds a library of adapters by model-based clustering and routes to them zero-shot (Arrow) from adapter parameters alone, generalizing to unseen tasks.",
+     "first_refusal": {
+      "gmi_claim": "F5.5 (unaffected factors remain authoritative during local morphogenesis) and F2.8 (heterogeneous residual realization families)",
+      "threat": "MEDIUM",
+      "why": "Adapter libraries with zero-shot routing realize factor-local addition without global rebuild; F5 must show family change (not just adapter addition) is what the local demand predicts."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "area": "State-space models and linear attention / recurrence",
+   "works": [
+    {
+     "citation": "Gu, Goel, Re (2022). Efficiently Modeling Long Sequences with Structured State Spaces (S4).",
+     "year": 2022,
+     "venue": "ICLR 2022 (oral); arXiv:2111.00396",
+     "url": "https://arxiv.org/abs/2111.00396",
+     "establishes": "A structured parameterization of state-space models computes long-range convolutions efficiently; state of the art on Long Range Arena with 60x faster generation than transformers.",
+     "first_refusal": {
+      "gmi_claim": "L1 basis families (uniform/compressed-program vs local-transducer bases) and RV-377-025 basis dependence",
+      "threat": "MEDIUM",
+      "why": "A compressed-state basis with a different cost signature for the same sequence tasks; L1's 'bases differ by finite bands' has a parent instance whose bands are measured."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Gu, Dao (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces.",
+     "year": 2023,
+     "venue": "arXiv:2312.00752",
+     "url": "https://arxiv.org/abs/2312.00752",
+     "establishes": "Input-dependent (selective) SSM parameters give content-based reasoning in linear time; a hardware-aware scan makes the recurrence efficient without attention or MLP blocks.",
+     "first_refusal": {
+      "gmi_claim": "L4b (r >= 1 occupant is basis-dependent) and RV-377-035 (a price vector flips the occupant within the admissible set; hardware-aware design)",
+      "threat": "MEDIUM",
+      "why": "Hardware-aware selection of a compressed-state form is RV-035's mechanism in practice; GMI's version is a frozen price column, the parent's is a measured kernel."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Dao, Gu (2024). Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality.",
+     "year": 2024,
+     "venue": "ICML 2024 (PMLR 235); arXiv:2405.21060",
+     "url": "https://arxiv.org/abs/2405.21060",
+     "establishes": "Proves a duality between SSMs and attention variants via structured semiseparable matrices, giving Mamba-2 with 2-8x faster core layers at equal quality.",
+     "first_refusal": {
+      "gmi_claim": "L1 (two bases realizing the same form with identical development tables and different cost signatures; Codex T13/T16 flattening)",
+      "threat": "HIGH",
+      "why": "An algebraic duality between two bases with explicit cost accounting is exactly L1's 'compilation with a cost signature', parent-owned in the real family; GMI's executed six-basis C2 identity is a toy instance."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Merrill, Petty, Sabharwal (2024). The Illusion of State in State-Space Models.",
+     "year": 2024,
+     "venue": "ICML 2024; arXiv:2404.08819",
+     "url": "https://arxiv.org/abs/2404.08819",
+     "establishes": "Linear/diagonal SSMs cannot express computation outside TC^0 and so cannot track state (e.g., permutation composition) any better than transformers.",
+     "first_refusal": {
+      "gmi_claim": "L3 existence gate and L6 (which forms exist in a generator's grammar is decided by architecture and precision)",
+      "threat": "MEDIUM",
+      "why": "Existence-gate results for a whole family are parent theorems; GMI's exact-layer existence gate (RV-015/029/031) has no general-case theorem of this kind."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Jelassi, Brandfonbrener, Kakade, Malach (2024). Repeat After Me: Transformers are Better than State Space Models at Copying.",
+     "year": 2024,
+     "venue": "ICML 2024; arXiv:2402.01032",
+     "url": "https://arxiv.org/abs/2402.01032",
+     "establishes": "Theory and experiments: fixed-size-state models cannot copy strings longer than their state allows, while a two-layer transformer copies strings exponential in the number of heads.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-025 / L4b (memory forms vs compressed forms) and L3 admissibility of compressed-state forms on retrieval ecologies",
+      "threat": "HIGH",
+      "why": "A theorem-level admissibility boundary between store-based and compressed-state realizations on a retrieval ecology — the exact shape of GMI's admissibility gate — is parent-owned."
+     },
+     "verified": true,
+     "verification": "WS+AX"
+    },
+    {
+     "citation": "Arora, Eyuboglu, Zhang, Timalsina, Alberti, Zou, Rudra, Re (2024). Simple linear attention language models balance the recall-throughput tradeoff (Based).",
+     "year": 2024,
+     "venue": "ICML 2024 (PMLR 235); arXiv:2402.18668",
+     "url": "https://arxiv.org/abs/2402.18668",
+     "establishes": "Recall quality vs decoding throughput forms a Pareto frontier indexed by recurrent state size; Based (linear + sliding-window attention) moves along it with IO-aware kernels.",
+     "first_refusal": {
+      "gmi_claim": "L4 / section 3 (capability-per-cost frontier over state size) and RV-377-036 (query geometry decides the occupant)",
+      "threat": "HIGH",
+      "why": "An explicit measured Pareto frontier 'recall (capability) vs state size (cost)' in real systems; GMI's frontier tables are exact-scope analogues with no scale evidence."
+     },
+     "verified": true,
+     "verification": "WS+AX"
+    },
+    {
+     "citation": "Yang, Wang, Zhang, Shen, Kim (2024). Parallelizing Linear Transformers with the Delta Rule over Sequence Length (DeltaNet). [Follow-ons: Gated DeltaNet (arXiv:2412.06464); Gated DeltaNet-2 (arXiv:2605.22791, 2026).]",
+     "year": 2024,
+     "venue": "NeurIPS 2024; arXiv:2406.06484",
+     "url": "https://arxiv.org/abs/2406.06484",
+     "establishes": "A hardware-efficient algorithm trains linear transformers whose memory is updated by the delta (error-correcting) rule, improving associative recall over additive linear attention.",
+     "first_refusal": {
+      "gmi_claim": "L4a revision axis (the update law as an online error-correcting memory write) and RV-377-025 (Hamming-averaging memory admissibility)",
+      "threat": "MEDIUM",
+      "why": "The memory-write rule is itself a design axis with measured recall consequences; GMI's memory rows fix one write rule and so cannot see this axis."
+     },
+     "verified": true,
+     "verification": "WS+AX"
+    },
+    {
+     "citation": "(2026). The Impossibility Triangle of Long-Context Modeling.",
+     "year": 2026,
+     "venue": "arXiv:2605.05066 (abstract-level only)",
+     "url": "https://www.alphaxiv.org/abs/2605.05066",
+     "establishes": "Claims a proven trilemma: no sequence model simultaneously has length-independent per-step compute, bounded state size, and exact recall.",
+     "first_refusal": {
+      "gmi_claim": "L3/L4 admissibility-cost trade between memory and compressed forms; MN5 overcompression no-go (RV-377-036)",
+      "threat": "HIGH",
+      "why": "If the theorem holds as stated, MN5's overcompression no-go is a corollary for real sequence models; GMI's executed version is exact at scope only. Verified by abstract; full statement to be read before citing as load-bearing."
+     },
+     "verified": true,
+     "verification": "AX"
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "area": "Program synthesis and neuro-symbolic systems",
+   "works": [
+    {
+     "citation": "Gulwani, Polozov, Singh (2017). Program Synthesis.",
+     "year": 2017,
+     "venue": "Foundations and Trends in Programming Languages 4(1-2)",
+     "url": "https://doi.org/10.1561/2500000010",
+     "establishes": "Surveys synthesis as search over a program space guided by a specification: enumerative, deductive, constraint-based and statistical strategies, with cost of search as the central quantity.",
+     "first_refusal": {
+      "gmi_claim": "1b Step 3 (program search pays Theta(|G| m) per event) and L4 (search forms occupy only r = 0 or where nothing else is admissible)",
+      "threat": "MEDIUM",
+      "why": "The per-event cost of search as a function of grammar size is the parent's central accounting; GMI's search-row costs are one point in that space."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Ellis, Wong, Nye, Sable-Meyer, Morales, Hewitt, Cary, Solar-Lezama, Tenenbaum (2021). DreamCoder: Growing generalizable, interpretable knowledge with wake-sleep Bayesian program learning.",
+     "year": 2021,
+     "venue": "PLDI 2021; arXiv:2006.08381",
+     "url": "https://arxiv.org/abs/2006.08381",
+     "establishes": "Wake/abstraction/dreaming cycles grow a library of concepts and train a neural recognition model that amortizes search; solves domains from list processing to physics laws.",
+     "first_refusal": {
+      "gmi_claim": "F6 SCDI (developmental state = library; compiled serving = recognition network), L4f compile amortization, gap G12 (grammar-over-grammars)",
+      "threat": "HIGH",
+      "why": "A real self-compiling developmental system (already ledger P5.DREAMCODER_OBJECTIVE): library growth is developmental state and the recognition net is a compiled serving form; F6's residual is only the price-driven recompile policy."
+     },
+     "verified": true,
+     "verification": "AX"
+    },
+    {
+     "citation": "Li, Choi, Chung, Kushman, Schrittwieser, Leblond, Eccles, Keeling, Gimeno, Dal Lago, Hubert, Choy, de Masson d'Autume, Babuschkin, Chen, Huang, Welbl, Gowal, Cherepanov, Molloy, Mankowitz, Sutherland Robson, Kohli, de Freitas, Kavukcuoglu, Vinyals (2022). Competition-Level Code Generation with AlphaCode.",
+     "year": 2022,
+     "venue": "Science 378; arXiv:2203.07814",
+     "url": "https://arxiv.org/abs/2203.07814",
+     "establishes": "Generates millions of candidate programs, filters by example tests and clusters by behaviour to select submissions; top-54% on Codeforces.",
+     "first_refusal": {
+      "gmi_claim": "F3 VGSC (cheap high-entropy proposal + verifier filter) and RV-377-042 p_a coordinate",
+      "threat": "HIGH",
+      "why": "Generate-and-filter with a verifier at scale is parent-owned; VGSC's residual is only the serving/compilation lifecycle after admission."
+     },
+     "verified": true,
+     "verification": "AX"
+    },
+    {
+     "citation": "Bowers, Olausson, Wong, Grand, Tenenbaum, Ellis, Solar-Lezama (2023). Top-Down Synthesis for Library Learning (Stitch).",
+     "year": 2023,
+     "venue": "POPL 2023; arXiv:2211.16605",
+     "url": "https://arxiv.org/abs/2211.16605",
+     "establishes": "Corpus-guided top-down synthesis of library abstractions with branch-and-bound; 3-4 orders of magnitude faster and less memory than DreamCoder's compression.",
+     "first_refusal": {
+      "gmi_claim": "L4f compile amortization H* (compression cost vs reuse) and F6.6 (compiler burden charged to lifetime cost)",
+      "threat": "MEDIUM",
+      "why": "Shows the compile cost term in H* is itself movable by orders of magnitude; GMI's per-basis H* is only as stable as the compiler it charges."
+     },
+     "verified": true,
+     "verification": "AX"
+    },
+    {
+     "citation": "Grand, Wong, Bowers, Olausson, Liu, Tenenbaum, Andreas (2024). LILO: Learning Interpretable Libraries by Compressing and Documenting Code.",
+     "year": 2024,
+     "venue": "ICLR 2024; arXiv:2310.19791",
+     "url": "https://arxiv.org/abs/2310.19791",
+     "establishes": "LLM synthesis plus Stitch compression plus auto-documentation grows interpretable libraries that improve later synthesis.",
+     "first_refusal": {
+      "gmi_claim": "F6.2/F6.5 (multiple serving morphologies from one developmental library) and F1 (broad predictor + symbolic residual)",
+      "threat": "MEDIUM",
+      "why": "A neural predictor with a symbolic, separately mutable library is an RQM/SCDI hybrid in practice; GMI's forms are property vectors these systems already satisfy."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Romera-Paredes, Barekatain, Novikov, Balog, Kumar, Dupont, Ruiz, Ellenberg, Wang, Fawzi, Kohli, Fawzi (2024). Mathematical discoveries from program search with large language models (FunSearch).",
+     "year": 2024,
+     "venue": "Nature 625, 468-475",
+     "url": "https://doi.org/10.1038/s41586-023-06924-6",
+     "establishes": "An evolutionary loop pairing an LLM proposer with a systematic evaluator discovers new cap-set constructions and bin-packing heuristics.",
+     "first_refusal": {
+      "gmi_claim": "F3 (proposal + verifier) and L5 (reachability of new forms by search with a learned proposer)",
+      "threat": "MEDIUM",
+      "why": "Search with a learned proposer reaches genuinely new artefacts; GMI's E3-lite neutral search has no proposer of this strength and its reachability negatives may be proposer artefacts."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Trinh, Wu, Le, He, Luong (2024). Solving olympiad geometry without human demonstrations (AlphaGeometry).",
+     "year": 2024,
+     "venue": "Nature 625, 476-482",
+     "url": "https://doi.org/10.1038/s41586-023-06747-5",
+     "establishes": "A language model trained on synthetic proofs proposes auxiliary constructions while a symbolic deduction engine verifies; solves 25/30 IMO geometry problems.",
+     "first_refusal": {
+      "gmi_claim": "F3.1-F3.3 (cheap high-entropy proposer + independent verifier) and F5.6 (heterogeneous families: neural + symbolic)",
+      "threat": "HIGH",
+      "why": "A heterogeneous neural-proposer/symbolic-verifier mesh is a working parent of both F3 and F5; the property vectors are realized, and only the phase response to prices is GMI's to show."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Novikov, Vu, Eisenberger, Dupont, Huang, Wagner, Shirobokov, Kozlovskii, Ruiz, Mehrabian, Kumar, See, Chen, Sun, Rocktaeschel, Hutter, Balog, Le, Kohli, Fawzi, Fawzi (2025). AlphaEvolve: A coding agent for scientific and algorithmic discovery.",
+     "year": 2025,
+     "venue": "arXiv:2506.13131",
+     "url": "https://arxiv.org/abs/2506.13131",
+     "establishes": "An evolutionary coding agent with LLM ensembles and automated evaluators improved data-center scheduling, matrix-multiplication algorithms and the training of its own underlying LLM.",
+     "first_refusal": {
+      "gmi_claim": "L5 (search reaches new forms), section 7 / Q5 (a self-improving generator) and F3",
+      "threat": "HIGH",
+      "why": "A propose-verify-compile loop applied to its own substrate is the strongest existing instance of the self-improving generator GMI lists as a kill target for Q5."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "area": "Automated theorem proving and verifier-gated generation (LLM + proof checkers, generate-and-verify, speculative decoding as verification)",
+   "works": [
+    {
+     "citation": "Lample, Lacroix, Lachaux, Rodriguez, Hayat, Lavril, Ebner, Martinet (2022). HyperTree Proof Search for Neural Theorem Proving. [Predecessor: Polu, Sutskever (2020). Generative Language Modeling for Automated Theorem Proving (GPT-f), arXiv:2009.03393.]",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv:2205.11491",
+     "url": "https://arxiv.org/abs/2205.11491",
+     "establishes": "An online-trained transformer prover with hypertree search learns from its own verified proof searches: Metamath 65.4% -> 82.6%, miniF2F-curriculum 31% -> 42%.",
+     "first_refusal": {
+      "gmi_claim": "F3.5 (accepted candidates enter authoritative developmental state) and gap G11 (developmental capital K1: does verified experience lower the next acquisition's burden)",
+      "threat": "HIGH",
+      "why": "Verified candidates feeding back into development, with measured gains, is F3.5 and K1 realized in a real system; GMI's K1 evidence is a single OCM capsule."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Xin, Ren, Song, Shao, Zhao, Wang, Liu, Zhang, Li, Huang, Yang, Su, Zhang, Wu, Li, Ruan, Ma, Guo, Zhang (2024). DeepSeek-Prover-V1.5: Harnessing Proof Assistant Feedback for Reinforcement Learning and Monte-Carlo Tree Search.",
+     "year": 2024,
+     "venue": "arXiv:2408.08152",
+     "url": "https://arxiv.org/abs/2408.08152",
+     "establishes": "RL from Lean feedback plus RMaxTS (intrinsic-reward MCTS) for whole-proof generation: miniF2F 63.5%, ProofNet 25.3%.",
+     "first_refusal": {
+      "gmi_claim": "F3.4 (failed candidates are charged and retained by policy) and RV-377-042 p_a (generator quality) coordinate",
+      "threat": "MEDIUM",
+      "why": "The parent's intrinsic-reward exploration is a policy for what to do with failed candidates that GMI's VGSC row does not model; p_a is treated as fixed rather than learned."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "AlphaProof team, Google DeepMind (2025). Olympiad-level formal mathematical reasoning with reinforcement learning.",
+     "year": 2025,
+     "venue": "Nature (published November 2025)",
+     "url": "https://doi.org/10.1038/s41586-025-09833-y",
+     "establishes": "An AlphaZero-style agent trained on millions of auto-formalized problems finds Lean proofs; test-time RL on problem variants yields IMO-2024 silver-medal performance with kernel-checked proofs.",
+     "first_refusal": {
+      "gmi_claim": "F3 whole lifecycle (propose -> Lean verify -> learn), F6 (test-time RL = recompiling for a task at serving time), and E3 math lane (GMI_E3_PARENT_STACK M-P4)",
+      "threat": "HIGH",
+      "why": "The strongest real system realizing F3 plus test-time adaptation; GMI's E3 must beat it under a matched contract, and its 'test-time RL' is a per-task recompilation F6 predicts but has not measured."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Leviathan, Kalman, Matias (2023). Fast Inference from Transformers via Speculative Decoding.",
+     "year": 2023,
+     "venue": "ICML 2023 (PMLR 202); arXiv:2211.17192",
+     "url": "https://arxiv.org/abs/2211.17192",
+     "establishes": "A cheap draft model proposes tokens that the target model verifies in parallel with an acceptance rule preserving the exact output distribution; 2-3x speedup governed by acceptance rate and cost ratio.",
+     "first_refusal": {
+      "gmi_claim": "F3 (names speculative decoding as a parent) and RV-377-042 three-region diagram (p_a* = (c_g + c_v)/c_exact)",
+      "threat": "HIGH",
+      "why": "The parent's expected-speedup formula in acceptance rate alpha and cost ratio c is a closed-form phase law of the same type as p_a*; RV-042 executes the same structure with an added retention term."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Brown, Juravsky, Ehrlich, Clark, Le, Re, Mirhoseini (2024). Large Language Monkeys: Scaling Inference Compute with Repeated Sampling.",
+     "year": 2024,
+     "venue": "arXiv:2407.21787",
+     "url": "https://arxiv.org/abs/2407.21787",
+     "establishes": "Coverage (any correct sample) scales log-linearly with samples over four orders of magnitude; with automatic verifiers (code, proofs) coverage converts directly to performance, without them it does not.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-042 p_a (generator quality) and F3.1 (high-entropy cheap proposal); twin W8 (weak verifier)",
+      "threat": "HIGH",
+      "why": "A measured inference-time scaling law for proposal coverage and the verifier dependence of its value; RV-042's 'unverified speculation inadmissible below p_a = 1' is the parent's no-verifier case."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Snell, Lee, Xu, Kumar (2024). Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters.",
+     "year": 2024,
+     "venue": "ICLR 2025; arXiv:2408.03314",
+     "url": "https://arxiv.org/abs/2408.03314",
+     "establishes": "Compute-optimal allocation between revision and PRM-guided search depends on prompt difficulty; a smaller model with optimal test-time compute beats a 14x larger model on easy/medium prompts.",
+     "first_refusal": {
+      "gmi_claim": "L4 cost laws and section 3 (serving compute vs training compute crossover); F3's regime prediction",
+      "threat": "HIGH",
+      "why": "A compute-optimal frontier between two forms (bigger model vs verified search) measured in real systems is the shape of every GMI occupancy law, with real prices."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Setlur, Rajaraman, Levine, Kumar (2025). Scaling Test-Time Compute Without Verification or RL is Suboptimal.",
+     "year": 2025,
+     "venue": "arXiv:2502.12118",
+     "url": "https://arxiv.org/abs/2502.12118",
+     "establishes": "Proves verifier-based methods (RL or search) scale asymptotically better than verifier-free distillation of search traces at fixed compute, with the gap widening in test-time budget.",
+     "first_refusal": {
+      "gmi_claim": "F3.2/F3.3 (proposal state cannot become authoritative without an independent verifier) and RV-377-042 (unverified speculation inadmissible once the generator is fallible)",
+      "threat": "HIGH",
+      "why": "A theoretical separation between verifier-gated and verifier-free forms as a function of budget is exactly RV-042's phase claim, at general scope."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "(2026). Adaptive Generate-Rank-Verify: Inference-Time Search with Costly Verification.",
+     "year": 2026,
+     "venue": "arXiv:2605.17609 (abstract-level only)",
+     "url": "https://arxiv.org/abs/2605.17609",
+     "establishes": "Formulates inference-time search with a priced verifier and adapts how many candidates to rank and verify to the verification cost.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-042 (priced verification c_v; VGSC region where lambda x exposure > c_v)",
+      "threat": "MEDIUM",
+      "why": "Directly prices the verifier in the search policy, the coordinate RV-042 freezes; to be read in full before the VGSC E5 attack."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "area": "Neural architecture search and morphology search",
+   "works": [
+    {
+     "citation": "Zoph, Le (2017). Neural Architecture Search with Reinforcement Learning.",
+     "year": 2017,
+     "venue": "ICLR 2017; arXiv:1611.01578",
+     "url": "https://arxiv.org/abs/1611.01578",
+     "establishes": "An RNN controller trained by RL emits architectures; matches hand-designed CIFAR-10/PTB models at 800-GPU cost.",
+     "first_refusal": {
+      "gmi_claim": "L2 Gamma (search family) and PHASE_LAW_PARENT_ATLAS section 3; L5 reachability at budget",
+      "threat": "LOW",
+      "why": "Establishes that architecture is searchable at a price; GMI's claims are about which architecture the ecology selects, which NAS does not predict."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Liu, Simonyan, Yang (2019). DARTS: Differentiable Architecture Search.",
+     "year": 2019,
+     "venue": "ICLR 2019; arXiv:1806.09055",
+     "url": "https://arxiv.org/abs/1806.09055",
+     "establishes": "Continuous relaxation of the architecture space makes architecture search a bilevel gradient problem, orders of magnitude cheaper than RL/evolution.",
+     "first_refusal": {
+      "gmi_claim": "L5 discoverability gate and gap G6 (the dense learner needs 3-4 coordinated depth-3 writes and is not assembled at 10^5)",
+      "threat": "MEDIUM",
+      "why": "Shows a Gamma under which the dense learner is trivially reachable; G6's negative is a property of GMI's discrete search family, not of the form."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Elsken, Metzen, Hutter (2019). Neural Architecture Search: A Survey.",
+     "year": 2019,
+     "venue": "JMLR 20(55); arXiv:1808.05377",
+     "url": "https://arxiv.org/abs/1808.05377",
+     "establishes": "Decomposes NAS into search space, search strategy and performance-estimation strategy.",
+     "first_refusal": {
+      "gmi_claim": "L2 theta = (Omega, rho, Gamma) decomposition and L3 gates",
+      "threat": "MEDIUM",
+      "why": "The three-way decomposition (space/strategy/estimation) is the parent of GMI's (existence/discoverability/cost) split; GMI adds only the ecology and price axes."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Mellor, Turner, Storkey, Crowley (2021). Neural Architecture Search without Training.",
+     "year": 2021,
+     "venue": "ICML 2021 (PMLR 139); arXiv:2006.04647",
+     "url": "https://arxiv.org/abs/2006.04647",
+     "establishes": "Overlap of activation patterns in untrained networks predicts trained accuracy, enabling NAS in seconds on one GPU.",
+     "first_refusal": {
+      "gmi_claim": "L3 existence/admissibility certified before development (planted-learner certification 0.93; L5 'existence is certified separately')",
+      "threat": "MEDIUM",
+      "why": "Pre-development certification of admissibility is a parent practice (zero-cost proxies); GMI's planted-learner certificate is one such proxy without the parent's validation across spaces."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Gaier, Ha (2019). Weight Agnostic Neural Networks.",
+     "year": 2019,
+     "venue": "NeurIPS 2019; arXiv:1906.04358",
+     "url": "https://arxiv.org/abs/1906.04358",
+     "establishes": "Topology search finds networks that solve RL tasks and reach well above chance on MNIST with a single shared random weight — the architecture alone encodes the solution.",
+     "first_refusal": {
+      "gmi_claim": "L5 (neutral search reaches inert transducers first: RV-377-016/023, 3/3 seeds) and L1 (a form without an update law)",
+      "threat": "HIGH",
+      "why": "Neutral topology search finding inert forms that solve tasks without any learning law is the executed 'inert transducer first' result at real scale; the parent owns it."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Gupta, Savarese, Ganguli, Fei-Fei (2021). Embodied intelligence via learning and evolution.",
+     "year": 2021,
+     "venue": "Nature Communications 12; arXiv:2102.02202",
+     "url": "https://doi.org/10.1038/s41467-021-25874-z",
+     "establishes": "DERL evolves morphologies that learn control in environments of varying complexity; complex environments select morphologies that learn faster (a morphological Baldwin effect).",
+     "first_refusal": {
+      "gmi_claim": "L2 (the ecology selects the form through Gamma) and L5 (reached morphology depends on environment complexity); F5 local morphogenesis",
+      "threat": "HIGH",
+      "why": "An executed large-scale ecology -> morphology -> learnability law with a Baldwin-effect prediction; it is the embodied version of L2/L5 with real substrates, and GMI has no comparable evidence."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "White, Safari, Sukthanker, Ru, Elsken, Zela, Dey, Hutter (2023). Neural Architecture Search: Insights from 1000 Papers.",
+     "year": 2023,
+     "venue": "arXiv:2301.08727",
+     "url": "https://arxiv.org/abs/2301.08727",
+     "establishes": "Comprehensive taxonomy of NAS including one-shot, zero-cost proxies, benchmarks and reproducibility guidance.",
+     "first_refusal": {
+      "gmi_claim": "PHASE_LAW_PARENT_ATLAS section 3; gaps G6/G12 (reachability of search and algebraic forms by neutral search)",
+      "threat": "LOW",
+      "why": "Reference map of search families; GMI's reachability negatives should be checked against families in this taxonomy before being called results about Gamma."
+     },
+     "verified": true,
+     "verification": "AX"
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "area": "Quality-diversity, MAP-Elites, novelty search, POET/open-ended evolution, artificial life",
+   "works": [
+    {
+     "citation": "Lehman, Stanley (2011). Abandoning Objectives: Evolution Through the Search for Novelty Alone.",
+     "year": 2011,
+     "venue": "Evolutionary Computation 19(2)",
+     "url": "https://doi.org/10.1162/EVCO_a_00025",
+     "establishes": "Rewarding behavioural novelty instead of the objective solves deceptive tasks (maze, biped) that objective-based search cannot, and drives increasing complexity.",
+     "first_refusal": {
+      "gmi_claim": "L5 (a search reaches the class along whose fitness there is a monotone path; no monotone path from the memory plateau to the dense learner, RV-377-023/028)",
+      "threat": "HIGH",
+      "why": "GMI's reachability negatives are deception results; the parent's remedy (objective-free search) is an untested element of Gamma, so the negatives may be artefacts of a fitness-driven family."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Mouret, Clune (2015). Illuminating search spaces by mapping elites.",
+     "year": 2015,
+     "venue": "arXiv:1504.04909",
+     "url": "https://arxiv.org/abs/1504.04909",
+     "establishes": "MAP-Elites keeps the best solution per cell of a behaviour-descriptor space, returning a map of elites rather than a single optimum.",
+     "first_refusal": {
+      "gmi_claim": "Section 2 reachability table and F5 heterogeneous mesh (per-cell occupant); the (H, r, lambda) frontier tables as an archive",
+      "threat": "MEDIUM",
+      "why": "GMI's frontier tables are a MAP-Elites archive over demand coordinates with hand-enumerated rows; the parent already supplies the search that fills such an archive."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Cully, Clune, Tarapore, Mouret (2015). Robots that can adapt like animals.",
+     "year": 2015,
+     "venue": "Nature 521, 503-507; arXiv:1407.3501",
+     "url": "https://doi.org/10.1038/nature14422",
+     "establishes": "A pre-computed behaviour-performance map (MAP-Elites) plus Bayesian optimization at damage time lets a robot adapt in under two minutes.",
+     "first_refusal": {
+      "gmi_claim": "F6 SCDI (a precomputed repertoire of serving forms recompiled/selected at context change) and F5 local adaptation",
+      "threat": "MEDIUM",
+      "why": "A developmental repertoire compiled offline and selected online by a priced trial process is F6's cache/recompile policy in a real robot."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Wang, Lehman, Clune, Stanley (2019). Paired Open-Ended Trailblazer (POET): Endlessly Generating Increasingly Complex and Diverse Learning Environments and Their Solutions.",
+     "year": 2019,
+     "venue": "GECCO 2019; arXiv:1901.01753",
+     "url": "https://arxiv.org/abs/1901.01753",
+     "establishes": "Co-evolves environments and agents with transfer between pairs; stepping stones reach environments unsolvable by direct optimization.",
+     "first_refusal": {
+      "gmi_claim": "L2/L5 (changing the ecology, not the budget, moves the plateau: RV-377-023 +0.28 vs RV-018/028) and Q5 (self-improving generator)",
+      "threat": "HIGH",
+      "why": "POET already shows that ecology change rather than budget is what escapes plateaus — the executed RV-023 lesson — and supplies the generator of ecologies GMI treats as fixed."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Hughes, Dennis, Parker-Holder, Behbahani, Mavalankar, Shi, Schaul, Rocktaeschel (2024). Open-Endedness is Essential for Artificial Superhuman Intelligence.",
+     "year": 2024,
+     "venue": "ICML 2024; arXiv:2406.04268",
+     "url": "https://arxiv.org/abs/2406.04268",
+     "establishes": "Defines open-endedness formally as producing artefacts that are both novel and learnable from an observer's viewpoint.",
+     "first_refusal": {
+      "gmi_claim": "The C0-C3 novel-form admission rule and L5 'predict a new form' (novelty relative to an observer)",
+      "threat": "MEDIUM",
+      "why": "The observer-relative novelty definition is the parent of GMI's admission ladder; GMI's C3 replication rung is the learnability half of the parent definition."
+     },
+     "verified": true,
+     "verification": "AX"
+    },
+    {
+     "citation": "Zhang, Lehman, Stanley, Clune (2024). OMNI: Open-endedness via Models of human Notions of Interestingness. [Follow-on: Faldor, Zhang, Cully, Clune (2024). OMNI-EPIC, arXiv:2405.15568.]",
+     "year": 2024,
+     "venue": "ICLR 2024; arXiv:2306.01711",
+     "url": "https://arxiv.org/abs/2306.01711",
+     "establishes": "Uses foundation models as models of interestingness to choose which learnable tasks to pursue next in open-ended learning.",
+     "first_refusal": {
+      "gmi_claim": "L2 ecology selection (which Omega the generator faces next)",
+      "threat": "LOW",
+      "why": "Task selection by a learned interestingness model is outside GMI's fixed-ecology frame; a threat only if GMI's E3-lite adopts a learned task generator."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Kumar, Lu, Kirsch, Tang, Stanley, Isola, Ha (2024). Automating the Search for Artificial Life with Foundation Models (ASAL).",
+     "year": 2024,
+     "venue": "arXiv:2412.17799",
+     "url": "https://arxiv.org/abs/2412.17799",
+     "establishes": "Vision-language foundation models search ALife substrates (Lenia, Boids, cellular automata) for target, open-ended and novel simulations.",
+     "first_refusal": {
+      "gmi_claim": "E3-lite neutral search over a primitive grammar and gap G10 (novelty measured against parent products)",
+      "threat": "MEDIUM",
+      "why": "Supplies a novelty/open-endedness metric and a search that GMI's C1 neutral-recovery rung could reuse; without it GMI's novelty scoring is hand-made."
+     },
+     "verified": true,
+     "verification": "AX"
+    },
+    {
+     "citation": "Zhang, Hu, Lu, Lange, Clune (2025). Darwin Goedel Machine: Open-Ended Evolution of Self-Improving Agents.",
+     "year": 2025,
+     "venue": "ICLR 2026; arXiv:2505.22954",
+     "url": "https://arxiv.org/abs/2505.22954",
+     "establishes": "Coding agents modify their own code, are validated on benchmarks, and are kept in an open-ended archive; self-improvements compound (SWE-bench 20% -> 50%).",
+     "first_refusal": {
+      "gmi_claim": "Q5 (self-improving generator), F3.5 (accepted self-modifications enter authoritative state after verification), L5",
+      "threat": "HIGH",
+      "why": "A working self-modifying verifier-gated loop over its own Gamma — the composite of F3 and Q5 GMI lists as a kill target for its generator-improvement claim."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "area": "Predictive state representations, causal states/epsilon-machines, information bottleneck, sufficient statistics",
+   "works": [
+    {
+     "citation": "Littman, Sutton, Singh (2001). Predictive Representations of State.",
+     "year": 2001,
+     "venue": "NeurIPS 14",
+     "url": "https://proceedings.neurips.cc/paper/2001/hash/1e4d36177d71bbb3558e43af9577d70e-Abstract.html",
+     "establishes": "State as a vector of multi-step action-conditional predictions; every system has a linear PSR with no more tests than its minimal POMDP has states.",
+     "first_refusal": {
+      "gmi_claim": "L1 (the only representation-independent object is the task-relative semantic developmental state S_Omega) and F1's broad predictive quotient S_P; GMI_PARENT_IMPORTS section 2",
+      "threat": "MEDIUM",
+      "why": "The predictive quotient is parent-defined and bounded; GMI's S_Omega adds task relativity but has no analogue of the PSR dimension bound."
+     },
+     "verified": true,
+     "verification": "WS+CS"
+    },
+    {
+     "citation": "Shalizi, Crutchfield (2001). Computational Mechanics: Pattern and Prediction, Structure and Simplicity.",
+     "year": 2001,
+     "venue": "Journal of Statistical Physics 104",
+     "url": "https://doi.org/10.1023/A:1010388907793",
+     "establishes": "Causal states (histories with equal conditional futures) give the unique minimal optimal predictor (epsilon-machine), with optimality and uniqueness theorems.",
+     "first_refusal": {
+      "gmi_claim": "L1's uniqueness claim for S_Omega and the PRQ residual (target quotient vs causal-state quotient); GENERAL_INTELLIGENCE_THEORY_PARENT_ATLAS T7",
+      "threat": "HIGH",
+      "why": "Uniqueness and minimality of the predictive quotient is a parent theorem; GMI's representation-independent state is that theorem plus a task index, and the residual bound is the fiber-size count over causal states."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Barnett, Crutchfield (2015). Computational Mechanics of Input-Output Processes: Structured Transformations and the epsilon-Transducer.",
+     "year": 2015,
+     "venue": "Journal of Statistical Physics 161",
+     "url": "https://doi.org/10.1007/s10955-015-1327-5",
+     "establishes": "Extends causal states to channels: the epsilon-transducer is the minimal optimal model of a structured input-output mapping.",
+     "first_refusal": {
+      "gmi_claim": "L1 (finite-state transducer flattening, Codex T13/T16) and S_Omega for input-output obligations",
+      "threat": "MEDIUM",
+      "why": "The minimal transducer for an obligation with inputs is parent-owned; GMI's flattening theorem is a finite special case."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Tishby, Pereira, Bialek (1999). The Information Bottleneck Method.",
+     "year": 1999,
+     "venue": "Allerton 1999; arXiv:physics/0004057",
+     "url": "https://arxiv.org/abs/physics/0004057",
+     "establishes": "Compress X into T preserving information about Y: a rate-distortion trade with the relevance variable defining distortion.",
+     "first_refusal": {
+      "gmi_claim": "MN5 overcompression no-go and RV-377-036 (fine vs coarse occupant); GMI_REALIZATION_PARENT_ASSUMPTION_MAP section 1 rule",
+      "threat": "MEDIUM",
+      "why": "Any GMI result that is a compression-vs-relevance trade after variable mapping is IB by the programme's own disposition rule; RV-036's fine-vs-coarse cells need that check."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Still (2009). Information-theoretic approach to interactive learning.",
+     "year": 2009,
+     "venue": "EPL 85, 28005; arXiv:0709.1948",
+     "url": "https://arxiv.org/abs/0709.1948",
+     "establishes": "Derives optimal models and action policies for an interactive learner from one objective: maximal predictive power at minimal complexity, yielding curiosity-like exploration.",
+     "first_refusal": {
+      "gmi_claim": "F4 IQL (intervention choice by target ambiguity rather than surprise) and its kill condition",
+      "threat": "HIGH",
+      "why": "An existing derivation of intervention policy from a predictive-quotient/complexity objective is the class IQL's kill criterion names; IQL must show target-quotient value beats predictive-information value."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Lamb, Islam, Efroni, Didolkar, Misra, Foster, Molu, Chari, Krishnamurthy, Langford (2022). Guaranteed Discovery of Control-Endogenous Latent States with Multi-Step Inverse Models (AC-State).",
+     "year": 2022,
+     "venue": "TMLR 2023; arXiv:2207.08229",
+     "url": "https://arxiv.org/abs/2207.08229",
+     "establishes": "A multi-step inverse model with an information bottleneck provably recovers the minimal control-endogenous state, discarding predictive but uncontrollable distractors.",
+     "first_refusal": {
+      "gmi_claim": "F1 (S_O differs from S_P: the task-relative quotient discards predictive distinctions) and L1 task-relativity of S_Omega; worlds W1/W4",
+      "threat": "HIGH",
+      "why": "A guaranteed, constructive discovery of a task-relative quotient that is not the predictive quotient is the constructive form of GMI's S_Omega != S_P claim."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Shai, Marzen, Teixeira, Gietelink Oldenziel, Riechers (2024). Transformers represent belief state geometry in their residual stream.",
+     "year": 2024,
+     "venue": "NeurIPS 2024; arXiv:2405.15943",
+     "url": "https://arxiv.org/abs/2405.15943",
+     "establishes": "Transformers trained on HMM outputs linearly encode the mixed-state (belief) geometry of optimal prediction, including fractal geometries, and carry information about the entire future.",
+     "first_refusal": {
+      "gmi_claim": "1b Step 5 (forward pass as proposal geometry) and Codex NPI-1...15 (quotient transfer iff q_O = g o q_pred)",
+      "threat": "HIGH",
+      "why": "Real-system evidence that a trained substrate realizes the computational-mechanics predictive quotient; GMI's NPI theorems have a parent-executed instance at real scale."
+     },
+     "verified": true,
+     "verification": "WS+CS"
+    },
+    {
+     "citation": "Piotrowski, Riechers, Filan, Shai (2025). Constrained belief updates explain geometric structures in transformer representations.",
+     "year": 2025,
+     "venue": "arXiv:2502.01954",
+     "url": "https://arxiv.org/abs/2502.01954",
+     "establishes": "Attention implements a constrained (parallelized, partial) Bayesian belief update; attention patterns, OV vectors and embeddings are predicted analytically from the architecture's constraints.",
+     "first_refusal": {
+      "gmi_claim": "L6 (architectural constraints decide which quotient is realized) and RV-377-034 (attention as kernel smoothing)",
+      "threat": "MEDIUM",
+      "why": "Shows the realized quotient is the optimal one deformed by architectural constraints — a parent version of 'instrument parameters are part of theta' at real scale."
+     },
+     "verified": true,
+     "verification": "WS+CS"
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "area": "Incremental/self-adjusting computation, versioned databases, persistent data structures, build systems (for the versioned-local-compilation and lineage forms)",
+   "works": [
+    {
+     "citation": "Acar, Blelloch, Harper (2002/2006). Adaptive functional programming.",
+     "year": 2006,
+     "venue": "POPL 2002; ACM TOPLAS 28(6) 2006",
+     "url": "https://doi.org/10.1145/1186632.1186634",
+     "establishes": "Dynamic dependence graphs plus change propagation make any purely functional program adaptive; update time is bounded by the trace distance between runs (e.g., logarithmic for adaptive quicksort).",
+     "first_refusal": {
+      "gmi_claim": "A3 dependency-tracked incremental repair (RV-377-037: A3 changes cost only; update work 669 -> 387) and VLC ability A4 (revision cost proportional to the cone); section 5.3 names self-adjusting computation",
+      "threat": "HIGH",
+      "why": "The cost law 'update cost proportional to the affected trace' is a parent theorem with a general bound; GMI's executed cone result is an instance, and the E5 compilation into this parent is pending."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Hammer, Khoo, Hicks, Foster (2014). Adapton: Composable, Demand-Driven Incremental Computation.",
+     "year": 2014,
+     "venue": "PLDI 2014",
+     "url": "https://doi.org/10.1145/2594291.2594324",
+     "establishes": "Demand-driven (lazy) incremental computation: only demanded outputs are recomputed, handling interleaved updates and demands and composable sub-computations.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-033 CP ability B2 (lazy recompilation makes update cost independent of inactive phenotypes)",
+      "threat": "HIGH",
+      "why": "CP's B2 is Adapton's core property; the only GMI addition is the per-basis compile/interpret crossover H*."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Driscoll, Sarnak, Sleator, Tarjan (1989). Making data structures persistent.",
+     "year": 1989,
+     "venue": "Journal of Computer and System Sciences 38(1) (STOC 1986)",
+     "url": "https://doi.org/10.1016/0022-0000(89)90034-2",
+     "establishes": "General transformations (fat nodes, node copying) make linked structures partially or fully persistent with O(1) amortized space per update and logarithmic access to any version.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-038 (persistence depth as a demand coordinate; encoding tournament SNAP vs LOG; H*(depth)); F2.6 residual lineage; MLX-42 (copy-on-write and persistent root remain)",
+      "threat": "HIGH",
+      "why": "The snapshot vs log vs node-copying space/time trade is parent-owned with worst-case bounds; RV-038's H*(depth) crossover is an instance of that analysis, and the two untested encodings are the parent's own."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Okasaki (1998). Purely Functional Data Structures.",
+     "year": 1998,
+     "venue": "Cambridge University Press (book)",
+     "url": "https://doi.org/10.1017/CBO9780511530104",
+     "establishes": "Persistent (purely functional) structures with amortized bounds made valid under persistence via lazy evaluation; catenable lists, deques, heaps.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-038 encoding tournament and L4 amortization under lineage demand (beta_lin)",
+      "threat": "MEDIUM",
+      "why": "That amortized bounds break under persistence unless laziness is used is a cost law about lineage that GMI's per-record H* does not state."
+     },
+     "verified": true,
+     "verification": "WS+CS"
+    },
+    {
+     "citation": "Mokhov, Mitchell, Peyton Jones (2018/2020). Build Systems a la Carte.",
+     "year": 2018,
+     "venue": "ICFP 2018 (PACMPL 2); JFP 30 (2020)",
+     "url": "https://doi.org/10.1145/3236774",
+     "establishes": "Build systems decompose into a scheduler and a rebuilder (dirty bit, verifying traces, constructive traces, deep constructive traces); minimality, early cutoff and correctness are analysed per design point.",
+     "first_refusal": {
+      "gmi_claim": "A3/A4 (verifying traces = verify-before-swap; early cutoff = cone pruning), F2.4 dependency-tracked residual rebuild, F6.4 cache/recompile policy",
+      "threat": "HIGH",
+      "why": "The rebuilder taxonomy already spans GMI's verify-before-swap vs dirty-bit distinction as named design points with correctness and minimality proofs; RV-032/037 executed two of these points."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Budiu, Chajed, McSherry, Ryzhyk, Tannen (2023). DBSP: Automatic Incremental View Maintenance for Rich Query Languages.",
+     "year": 2023,
+     "venue": "PVLDB 16(7) (VLDB 2023); VLDB Journal 2025; arXiv:2203.16684",
+     "url": "https://arxiv.org/abs/2203.16684",
+     "establishes": "An algebra of stream operators in which every program has a mechanically derived incremental version; covers SQL and Datalog including recursion.",
+     "first_refusal": {
+      "gmi_claim": "A3 incremental repair as a general operator and materialized views as the parent of CP/VLC compiled serving state",
+      "threat": "HIGH",
+      "why": "A general theorem that incremental versions exist for every program of a rich language is the general-case form of GMI's per-row cone rebuild."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Konat, Steindorfer, Erdweg, Visser (2018). Scalable Incremental Building with Dynamic Task Dependencies (PIE).",
+     "year": 2018,
+     "venue": "ASE 2018",
+     "url": "https://doi.org/10.1145/3238147.3238196",
+     "establishes": "An incremental build algorithm whose cost scales with the number of affected tasks, not project size, while discovering dynamic dependencies during the build.",
+     "first_refusal": {
+      "gmi_claim": "VLC ability A4 (revision cost proportional to the cone, not the whole realization)",
+      "threat": "MEDIUM",
+      "why": "Cost-proportional-to-affected-set with dynamic dependencies is an engineering parent of A4; GMI has not shown its cone rule survives dynamically discovered dependencies."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Huang, Xu, Liu, Elmore, Parameswaran (2017). OrpheusDB: Bolt-on Versioning for Relational Databases.",
+     "year": 2017,
+     "venue": "PVLDB 10(10); arXiv:1703.02475",
+     "url": "https://arxiv.org/abs/1703.02475",
+     "establishes": "Adds dataset versioning to a relational database; LyreSplit partitioning trades storage against version-retrieval latency with provable bounds.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-038 (history encodings: description vs replay crossover) and F2 parent list (RAG with versioned stores; transactional databases + LLM)",
+      "threat": "MEDIUM",
+      "why": "The storage-vs-retrieval crossover for versioned data is already a parent optimization with bounds; RV-038's H*(depth) is a two-encoding special case."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "area": "Active learning / Bayesian experimental design / causal experimental design (for the interventional learner form F4)",
+   "works": [
+    {
+     "citation": "Lindley (1956). On a Measure of the Information Provided by an Experiment.",
+     "year": 1956,
+     "venue": "Annals of Mathematical Statistics 27(4)",
+     "url": "https://doi.org/10.1214/aoms/1177728069",
+     "establishes": "Expected information gain (expected reduction in Shannon entropy of the parameter) as the criterion for choosing experiments.",
+     "first_refusal": {
+      "gmi_claim": "F4.3 (IG_O(j) = A_t - E[A_{t+1} | do(j)]) and the F4 kill condition",
+      "threat": "HIGH",
+      "why": "IQL's information value is Lindley's expected information gain applied to a target functional; it is parent-owned unless target-quotient EIG differs measurably from parameter EIG, which is exactly its own kill condition."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Foster, Ivanova, Malik, Rainforth (2021). Deep Adaptive Design: Amortizing Sequential Bayesian Experimental Design.",
+     "year": 2021,
+     "venue": "ICML 2021 (PMLR 139); arXiv:2103.02438",
+     "url": "https://arxiv.org/abs/2103.02438",
+     "establishes": "A policy network trained offline on a lower bound of sequential EIG chooses designs in real time, non-myopically, across many deployments.",
+     "first_refusal": {
+      "gmi_claim": "F4.6 (learned reuse of intervention policies across structurally related ecologies)",
+      "threat": "HIGH",
+      "why": "F4.6 is DAD's amortization; any IQL microscope that trains a policy is a DAD instance unless the objective differs."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Rainforth, Foster, Ivanova, Bickford Smith (2024). Modern Bayesian Experimental Design.",
+     "year": 2024,
+     "venue": "Statistical Science 39(1); arXiv:2302.14545",
+     "url": "https://arxiv.org/abs/2302.14545",
+     "establishes": "Reviews EIG estimation, sequential and amortized design, implicit models and the computational advances that made them practical.",
+     "first_refusal": {
+      "gmi_claim": "F4 as a whole (parent first-refusal list: Bayesian experimental design)",
+      "threat": "MEDIUM",
+      "why": "Maps the design space F4 sits in; GMI's F4 property vector has no coordinate outside this map except the target-quotient functional."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Eberhardt, Glymour, Scheines (2005). On the Number of Experiments Sufficient and in the Worst Case Necessary to Identify All Causal Relations Among N Variables.",
+     "year": 2005,
+     "venue": "UAI 2005; arXiv:1207.1389",
+     "url": "https://arxiv.org/abs/1207.1389",
+     "establishes": "log2(N) + 1 multi-variable experiments suffice and are worst-case necessary to identify all causal relations among N variables (N - 1 for single-variable experiments).",
+     "first_refusal": {
+      "gmi_claim": "F4.5 (stop rule) and the planned RV-044 'closed-form count on the factored target'",
+      "threat": "HIGH",
+      "why": "RV-044's planned closed-form intervention count has a classical parent bound; unless GMI's count differs from the log2(N)+1 family it is a parent product."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Toth, Lorch, Knoll, Krause, Schoelkopf, Bauer, von Kuegelgen (2022). Active Bayesian Causal Inference.",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv:2206.02063",
+     "url": "https://arxiv.org/abs/2206.02063",
+     "establishes": "Designs experiments maximally informative about the target causal query (not the full graph), jointly inferring a posterior over models and queries; more data-efficient than graph-focused baselines.",
+     "first_refusal": {
+      "gmi_claim": "F4.3 (intervention choice sensitive to target-quotient ambiguity, not whole-model uncertainty)",
+      "threat": "HIGH",
+      "why": "Query-targeted EIG is precisely 'target quotient refinement rather than uncertainty reduction in a chosen model'; the IQL kill condition names this parent class."
+     },
+     "verified": true,
+     "verification": "WS+CS"
+    },
+    {
+     "citation": "Zhang, Cammarata, Squires, Sapsis, Uhler (2023). Active learning for optimal intervention design in causal models.",
+     "year": 2023,
+     "venue": "Nature Machine Intelligence 5, 1066-1075",
+     "url": "https://doi.org/10.1038/s42256-023-00719-0",
+     "establishes": "A causally informed, closed-form acquisition function with information-theoretic bounds selects interventions that move a system to a target state; applied to Perturb-CITE-seq.",
+     "first_refusal": {
+      "gmi_claim": "F4 (priced interventions toward a target) and F4.5 (stop when intervention cost dominates)",
+      "threat": "MEDIUM",
+      "why": "Closed-form acquisition with guarantees for goal-directed intervention design is a parent baseline the F4 microscope must include as a comparison arm."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Annadani, Tigas, Bauer, Foster (2024). Amortized Active Causal Induction with Deep Reinforcement Learning (CAASL).",
+     "year": 2024,
+     "venue": "NeurIPS 2024; arXiv:2405.16718",
+     "url": "https://arxiv.org/abs/2405.16718",
+     "establishes": "An RL-trained transformer policy proposes interventions from history alone, without likelihoods, and transfers to shifted and real settings.",
+     "first_refusal": {
+      "gmi_claim": "F4.6 (reuse across ecologies) and F4.2 (legal intervention generator)",
+      "threat": "MEDIUM",
+      "why": "Amortized, likelihood-free intervention policies already transfer across ecologies; F4.6 is realized, leaving only the target-quotient objective to GMI."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Zhang, Chen, Huan (2025). Goal-Oriented Sequential Bayesian Experimental Design for Causal Learning (GO-CBED).",
+     "year": 2025,
+     "venue": "arXiv:2507.07359",
+     "url": "https://arxiv.org/abs/2507.07359",
+     "establishes": "Non-myopic, goal-oriented causal BED maximizing EIG on user-specified causal quantities with a transformer policy and normalizing-flow posteriors; outperforms graph-focused baselines under small budgets.",
+     "first_refusal": {
+      "gmi_claim": "F4.3 and F4.6 together (target-quantity EIG with amortized non-myopic policy)",
+      "threat": "HIGH",
+      "why": "Goal-oriented EIG with amortization is F4 as a whole; the F4 discriminator must show that a quotient-defined target differs from a user-specified causal quantity in what it predicts."
+     },
+     "verified": true,
+     "verification": "WS+CS"
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "area": "Compilers/JIT/tracing and cache/memoization theory (for the self-compiling form F6 and compile-amortization laws)",
+   "works": [
+    {
+     "citation": "Futamura (1971; reprinted 1999). Partial Evaluation of Computation Process — An Approach to a Compiler-Compiler.",
+     "year": 1999,
+     "venue": "Higher-Order and Symbolic Computation 12, 381-391 (orig. Systems, Computers, Controls 1971)",
+     "url": "https://doi.org/10.1023/A:1010095604496",
+     "establishes": "Partially evaluating an interpreter with respect to a source program yields a compiled program; iterating yields a compiler and a compiler generator (the three projections).",
+     "first_refusal": {
+      "gmi_claim": "L4f compile amortization (interpretation minus lookup cost per query; source -> phenotype), F6.2 (compilers from developmental state), RV-377-033 H*",
+      "threat": "HIGH",
+      "why": "The interpreter/compiler relation and its cost accounting is parent-owned; GMI's compiled polyphenism is a Futamura projection with a reuse threshold added."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Michie (1968). 'Memo' Functions and Machine Learning.",
+     "year": 1968,
+     "venue": "Nature 218, 19-22",
+     "url": "https://doi.org/10.1038/218019a0",
+     "establishes": "Memoization as rote learning: a program improves its own efficiency during execution by caching results, framed explicitly as machine learning.",
+     "first_refusal": {
+      "gmi_claim": "L4d (monolithic compiled table vs recompute; lookup-native basis B2), F6.4 cache policy, section 3 (memory forms cheapest per capability)",
+      "threat": "MEDIUM",
+      "why": "The identification of table lookup with learning, and its cost trade against recomputation, is the 1968 parent of GMI's memory rows; only the basis-dependence of the trade is GMI's."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Karlin, Manasse, Rudolph, Sleator (1988). Competitive snoopy caching.",
+     "year": 1988,
+     "venue": "Algorithmica 3, 79-119 (FOCS 1986)",
+     "url": "https://doi.org/10.1007/BF01762111",
+     "establishes": "Introduces competitive analysis for online rent-or-buy (ski-rental) decisions: an online rule within a factor 2 of the optimal offline cost without knowing the future.",
+     "first_refusal": {
+      "gmi_claim": "L4e/L4f thresholds lambda*, H* and the RV-377-033/042 crossovers ('wins iff reuse exceeds the cost ratio')",
+      "threat": "HIGH",
+      "why": "Every GMI crossover H* = fixed cost / per-use saving is the ski-rental break-even, and the online version (H unknown) has a parent-owned competitive answer GMI does not yet have."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Sleator, Tarjan (1985). Amortized efficiency of list update and paging rules.",
+     "year": 1985,
+     "venue": "Communications of the ACM 28(2)",
+     "url": "https://doi.org/10.1145/2786.2793",
+     "establishes": "Amortized analysis of move-to-front and LRU; LRU is competitive against Belady's offline MIN by a factor depending on cache size, and no online rule does better.",
+     "first_refusal": {
+      "gmi_claim": "F6.4 (cache/recompile policy responds to reuse and invalidation) and L4 amortized cost accounting",
+      "threat": "MEDIUM",
+      "why": "Amortized and competitive accounting for caches is the parent of every GMI 'reuse horizon' argument; GMI's H is an offline quantity the parent shows need not be known."
+     },
+     "verified": true,
+     "verification": "CS"
+    },
+    {
+     "citation": "Gal, Eich, Shaver, Anderson, Mandelin, Haghighat, Kaplan, Hoare, Zbarsky, Orendorff, Ruderman, Smith, Reitmaier, Bebenita, Chang, Franz (2009). Trace-based just-in-time type specialization for dynamic languages (TraceMonkey).",
+     "year": 2009,
+     "venue": "PLDI 2009",
+     "url": "https://doi.org/10.1145/1542476.1542528",
+     "establishes": "Records hot loop traces at run time, compiles them specialized to the observed types with guards, and falls back to the interpreter when a guard fails.",
+     "first_refusal": {
+      "gmi_claim": "F6 (compile serving forms from observed use; guards = verification of assumptions; fallback = incumbent serving F3.7) and RV-377-033 lazy recompilation",
+      "threat": "HIGH",
+      "why": "A tracing JIT is a self-compiling developmental system with verified specialization and invalidation; F6's property vector F6.1-F6.4 is realized in every modern JavaScript engine."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Hoelzle, Chambers, Ungar (1991). Optimizing Dynamically-Typed Object-Oriented Languages With Polymorphic Inline Caches.",
+     "year": 1991,
+     "venue": "ECOOP 1991 (LNCS 512)",
+     "url": "https://doi.org/10.1007/BFb0057013",
+     "establishes": "Per-call-site caches of lookup results that also record receiver types, which the compiler uses as type feedback when recompiling.",
+     "first_refusal": {
+      "gmi_claim": "F6.4 and F5.3 (factor-local response measurements and resource receipts as the demand signature for local recompilation)",
+      "threat": "MEDIUM",
+      "why": "Local caches doubling as measured demand signatures for recompilation is the parent of F5.3/F5.8; GMI's local demand signature has no run-time collection mechanism."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Darwiche, Marquis (2002). A Knowledge Compilation Map.",
+     "year": 2002,
+     "venue": "JAIR 17, 229-264; arXiv:1106.1819",
+     "url": "https://arxiv.org/abs/1106.1819",
+     "establishes": "Organizes target compilation languages by succinctness and by which queries/transformations they support in polynomial time: compile once, answer many, at a succinctness price.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-033 CP (knowledge compilation named as parent), L4d/L4f (interpretation vs lookup; description vs query cost), RV-377-036 (query class decides the occupant)",
+      "threat": "HIGH",
+      "why": "'The query class decides which compiled form is worth its succinctness price' is the map's organizing principle; RV-036's Delta_Q result is an instance."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Chen, Moreau, Jiang, Zheng, Yan, Cowan, Shen, Wang, Hu, Ceze, Guestrin, Krishnamurthy (2018). TVM: An Automated End-to-End Optimizing Compiler for Deep Learning.",
+     "year": 2018,
+     "venue": "OSDI 2018; arXiv:1802.04799",
+     "url": "https://arxiv.org/abs/1802.04799",
+     "establishes": "Graph- and operator-level optimizations with a learned cost model map one model to many hardware back-ends.",
+     "first_refusal": {
+      "gmi_claim": "F6.2 (substrate-specific serving realizations), gap G1b (measured price vector), RV-377-035 (price vector flips the occupant)",
+      "threat": "MEDIUM",
+      "why": "Learned hardware cost models and per-substrate compilation are the parent of F6.2 and of GMI's missing measured price vector; GMI's HW column is frozen by hand."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  },
+  {
+   "id": 16,
+   "area": "No-free-lunch theorems and Goodhart/proxy-gaming literature",
+   "works": [
+    {
+     "citation": "Goldblum, Finzi, Rowan, Wilson (2023). The No Free Lunch Theorem, Kolmogorov Complexity, and the Role of Inductive Biases in Machine Learning.",
+     "year": 2023,
+     "venue": "arXiv:2304.05366",
+     "url": "https://arxiv.org/abs/2304.05366",
+     "establishes": "Real-world problems are overwhelmingly low-Kolmogorov-complexity while uniformly sampled datasets are not; neural networks share the low-complexity preference, so NFL does not bind in practice.",
+     "first_refusal": {
+      "gmi_claim": "L2 (form = cheapest admissible on Omega) and the NFL silence region (off permutation-closed classes; Codex RP16; P0.NFL)",
+      "threat": "MEDIUM",
+      "why": "Gives the modern statement of why structured ecologies escape NFL — the premise of any phase law — and attributes the escape to a shared simplicity bias GMI's ecology axes do not encode."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Manheim, Garrabrant (2018). Categorizing Variants of Goodhart's Law.",
+     "year": 2018,
+     "venue": "arXiv:1803.04585",
+     "url": "https://arxiv.org/abs/1803.04585",
+     "establishes": "Four failure modes of optimizing a proxy: regressional, extremal, causal and adversarial Goodhart.",
+     "first_refusal": {
+      "gmi_claim": "GMI_BIOSPHERE_NO_FREE_LUNCH_AND_GOODHART_GATES_V1 and L3 admissibility as a proxy metric (capability >= theta); rule 16",
+      "threat": "MEDIUM",
+      "why": "Provides the taxonomy GMI's Goodhart gates need; extremal Goodhart is the executed pattern of clause-writing errors from one-column calibrations (RV-035/037/038)."
+     },
+     "verified": true,
+     "verification": "AX"
+    },
+    {
+     "citation": "Gao, Schulman, Hilton (2023). Scaling Laws for Reward Model Overoptimization. [Follow-on: Rafailov et al. (2024). Scaling Laws for Reward Model Overoptimization in Direct Alignment Algorithms, NeurIPS 2024.]",
+     "year": 2023,
+     "venue": "ICML 2023 (PMLR 202); arXiv:2210.10760",
+     "url": "https://arxiv.org/abs/2210.10760",
+     "establishes": "Gold reward as a function of optimization against a proxy follows distinct functional forms in KL distance for RL and best-of-n, with coefficients scaling smoothly in proxy size.",
+     "first_refusal": {
+      "gmi_claim": "Retention price lambda and exposure (serving wrong answers), and any GMI selection on a proxy fitness (L5 fitness path as a proxy for capability)",
+      "threat": "HIGH",
+      "why": "A measured law for how optimizing a proxy diverges from the true objective with optimization pressure; GMI's frontier selection on scored capability has no such term and RV-041's low-reliability occupant is a proxy-optimization artefact candidate."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Skalse, Howe, Krasheninnikov, Krueger (2022). Defining and Characterizing Reward Hacking.",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv:2209.13085",
+     "url": "https://arxiv.org/abs/2209.13085",
+     "establishes": "Formal definition of hackable proxies; for finite policy sets only trivial proxies are unhackable, because reward linearity makes unhackability very strong.",
+     "first_refusal": {
+      "gmi_claim": "L2 ('form = rho-cheapest admissible' with admissibility measured by a proxy) and the E3/E5 protected-capability protocol",
+      "threat": "MEDIUM",
+      "why": "Any admissibility proxy GMI freezes is hackable by the search unless it is essentially the true obligation; the protected-world firewall (G4) is the only defence and is only partially satisfied."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Karwowski, Hayman, Bai, Kiendlhofer, Griffin, Skalse (2024). Goodhart's Law in Reinforcement Learning.",
+     "year": 2024,
+     "venue": "ICLR 2024; arXiv:2310.09144",
+     "url": "https://arxiv.org/abs/2310.09144",
+     "establishes": "Geometric explanation of Goodharting in RL and an early-stopping rule that provably avoids it.",
+     "first_refusal": {
+      "gmi_claim": "RV-377-040/041 (stochastic admissibility as a seed lottery) and L5 fitness-path selection",
+      "threat": "MEDIUM",
+      "why": "Provides a principled stopping rule against proxy overoptimization that GMI's search families lack; the executed 'stochastic form wins at low reliability' may be Goodharting of the admissibility proxy."
+     },
+     "verified": true,
+     "verification": "AX"
+    },
+    {
+     "citation": "Kwa, Thomas, Garriga-Alonso (2024). Catastrophic Goodhart: regularizing RLHF with KL divergence does not mitigate heavy-tailed reward misspecification.",
+     "year": 2024,
+     "venue": "NeurIPS 2024; arXiv:2407.14503",
+     "url": "https://arxiv.org/abs/2407.14503",
+     "establishes": "With heavy-tailed reward error, policies achieve arbitrarily high proxy reward with no utility gain despite KL regularization; light-tailed error is benign.",
+     "first_refusal": {
+      "gmi_claim": "L4e lambda* thresholds (bounded loss per wrong served answer) and the lifecycle exposure accounting (gap G4)",
+      "threat": "MEDIUM",
+      "why": "GMI's lambda-linear exposure accounting assumes bounded per-answer loss; heavy-tailed exposure breaks every lambda* threshold and the parent shows regularization does not rescue it."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Lehman, Clune, Misevic, et al. (2020). The Surprising Creativity of Digital Evolution: A Collection of Anecdotes from the Evolutionary Computation and Artificial Life Research Communities.",
+     "year": 2020,
+     "venue": "Artificial Life 26(2); arXiv:1803.03453",
+     "url": "https://arxiv.org/abs/1803.03453",
+     "establishes": "Catalogue of evolved systems exploiting bugs, simulator defects and specification gaps rather than solving the intended task.",
+     "first_refusal": {
+      "gmi_claim": "L7 negative controls and L6 (four instrument defects found by C2 failures: RV-377-021/026/029/031); L5 neutral search",
+      "threat": "MEDIUM",
+      "why": "The parent already documents that search finds instrument defects before solutions; GMI's defect-closure rules 12-17 are process responses to a parent-catalogued phenomenon."
+     },
+     "verified": true,
+     "verification": "WS"
+    },
+    {
+     "citation": "Pan, Bhatia, Steinhardt (2022). The Effects of Reward Misspecification: Mapping and Mitigating Misaligned Models.",
+     "year": 2022,
+     "venue": "ICLR 2022; arXiv:2201.03544",
+     "url": "https://arxiv.org/abs/2201.03544",
+     "establishes": "More capable agents exploit misspecified rewards more; capability thresholds produce phase transitions in true reward, motivating anomaly detection of aberrant policies.",
+     "first_refusal": {
+      "gmi_claim": "L3 admissibility vs capability scaling and the E3 gates (protected worlds)",
+      "threat": "MEDIUM",
+      "why": "Phase transitions in proxy gaming as capability grows are a parent-owned phase law that GMI's ecology-driven transitions must be distinguished from at real scale."
+     },
+     "verified": true,
+     "verification": "WS"
+    }
+   ]
+  }
+ ],
+ "ranked_threats": [
+  {
+   "rank": 1,
+   "parent": "Karlin, Manasse, Rudolph, Sleator (1988) competitive snoopy caching / ski-rental; Sleator & Tarjan (1985)",
+   "area": 15,
+   "gmi_claim": "L4e/L4f thresholds lambda*, H* and every executed crossover (RV-377-032/033/038/042)",
+   "threat": "HIGH",
+   "why": "Every GMI crossover is a rent-or-buy break-even; the parent owns both the offline break-even and the online competitive rule for unknown reuse horizons, which GMI has not formulated."
+  },
+  {
+   "rank": 2,
+   "parent": "Acar, Blelloch, Harper (2002/2006) self-adjusting computation; Mokhov, Mitchell, Peyton Jones (2018/2020) build systems; Budiu et al. (2023) DBSP",
+   "area": 13,
+   "gmi_claim": "A1/A3/A4 mechanisms, VLC (RV-377-032/037), F2.4",
+   "threat": "HIGH",
+   "why": "Dependency-tracked repair with cost bounded by trace distance, verifying/constructive-trace rebuilders and mechanical incrementalization are general theorems; the executed cone results are instances and the E5 compilation into these parents is pending."
+  },
+  {
+   "rank": 3,
+   "parent": "Varma, Shah, Kenton, Kramar, Kumar (2023) circuit efficiency",
+   "area": 2,
+   "gmi_claim": "L4 cost crossovers and L5 acquisition order (memorizing before generalizing; RV-377-025)",
+   "threat": "HIGH",
+   "why": "An efficiency-competition phase law between memorizing and generalizing realizations, with a critical crossover and confirmed novel predictions, already exists in real neural networks."
+  },
+  {
+   "rank": 4,
+   "parent": "Lindley (1956) EIG; Toth et al. (2022) ABCI; Foster et al. (2021) DAD; Zhang, Chen, Huan (2025) GO-CBED; Eberhardt et al. (2005)",
+   "area": 14,
+   "gmi_claim": "F4 IQL in full (F4.3, F4.5, F4.6; planned RV-044 closed-form count)",
+   "threat": "HIGH",
+   "why": "Target-quantity EIG, amortized non-myopic policies and worst-case experiment counts are all parent-owned; F4's only residual is the target-quotient functional, which is its own kill condition."
+  },
+  {
+   "rank": 5,
+   "parent": "Mitchell et al. (2022) SERAC; Hartvigsen et al. (2023) GRACE; Das et al. (2024) Larimar; Khandelwal et al. (2020) kNN-LM",
+   "area": 4,
+   "gmi_claim": "F1 RQM / F2 VRQM property vectors F1.1-F1.3, F2.3; RV-377-025 memory occupant",
+   "threat": "HIGH",
+   "why": "Broad predictor plus separately mutable residual store with scoped composition already exists in several real systems; only the residual-capacity law F1.4-F1.6 is unclaimed, and F1 is already scored IMPLEMENTATION_EQUIVALENT at the exact layer (5d)."
+  },
+  {
+   "rank": 6,
+   "parent": "Dao & Gu (2024) structured state-space duality; von Oswald et al. (2023) transformers learn in-context by GD",
+   "area": 7,
+   "gmi_claim": "L1 (realization is compilation with a cost signature; identical development tables across bases)",
+   "threat": "HIGH",
+   "why": "Proven dualities and constructions that compile one form (attention, gradient step) into another basis with explicit cost accounting realize L1 in the real families; the six-basis C2 identity is a toy instance."
+  },
+  {
+   "rank": 7,
+   "parent": "Leviathan et al. (2023) speculative decoding; Brown et al. (2024) coverage scaling; Snell et al. (2024); Setlur et al. (2025)",
+   "area": 9,
+   "gmi_claim": "F3 VGSC phase law and RV-377-042 (p_a*, three occupants, unverified speculation inadmissible)",
+   "threat": "HIGH",
+   "why": "A closed-form speedup law in acceptance rate and cost ratio, a measured coverage scaling law, a compute-optimal frontier and a verifier-vs-no-verifier separation theorem together cover RV-042's diagram at general scope."
+  },
+  {
+   "rank": 8,
+   "parent": "Jelassi et al. (2024) copying; Arora et al. (2024) recall-throughput; Impossibility Triangle (2026); Merrill et al. (2024)",
+   "area": 7,
+   "gmi_claim": "L3/L4 admissibility-cost trade between memory and compressed forms (RV-377-025/036; MN5)",
+   "threat": "HIGH",
+   "why": "Theorem-level admissibility boundaries and measured Pareto frontiers between store-based and compressed-state realizations exist for real sequence models; MN5's overcompression no-go is a corollary if the 2026 trilemma holds."
+  },
+  {
+   "rank": 9,
+   "parent": "Dohare et al. (2024) loss of plasticity",
+   "area": 4,
+   "gmi_claim": "L4a (r >= 1 occupant is the cheapest-update admissible form with constant per-event work); RV-377-040/041",
+   "threat": "HIGH",
+   "why": "Real-system evidence that the gradient realization loses admissibility with revision count unless a stochastic non-gradient component is added; plasticity is an unmodelled coordinate of theta and echoes the executed low-reliability stochastic occupant."
+  },
+  {
+   "rank": 10,
+   "parent": "Schaeffer, Miranda, Koyejo (2023) emergence mirage",
+   "area": 2,
+   "gmi_claim": "L3 thresholded admissibility (capability >= theta) and every occupant flip read from it",
+   "threat": "HIGH",
+   "why": "GMI's gate is a discontinuous metric on a continuous capability; without a continuous-metric replication every executed flip is exposed to the metric-artefact critique."
+  }
+ ],
+ "near_miss_threats": [
+  "Futamura (1971/1999) and Darwiche & Marquis (2002): L4f compile amortization and RV-377-033/036 (interpretation vs lookup; query class decides the compiled form).",
+  "Ahuja et al. (2023) and von Kuegelgen et al. (2023): F4 sufficiency and irresolvable-ambiguity bounds; Still (2009) and Lamb et al. (2022): F1/L1 task-relative quotient vs predictive quotient.",
+  "Olsson et al. (2022) and Reddy (2024): L5 ordering and the in-context vs in-weights phase diagram; Gaier & Ha (2019) and Gupta et al. (2021): L5 inert-first and ecology -> morphology.",
+  "Clark et al. (2022) and Hoffmann et al. (2022): L4/section 3 cost laws measured at scale with real prices.",
+  "Bourtoule et al. (2021) SISA; Driscoll et al. (1989) persistence: RV-377-037 and RV-377-038 encodings.",
+  "DreamCoder (2021), AlphaEvolve (2025), Darwin Goedel Machine (2025), AlphaProof (2025): F6 and the self-improving generator Q5."
+ ],
+ "answered_by_executed_records": [
+  {
+   "record": "RV-377-032 and RV-377-037 (VLC frontier; A1/A3/A4 factorial)",
+   "parents": [
+    "Bourtoule et al. 2021 SISA",
+    "Acar et al. 2002/2006",
+    "Mokhov et al. 2018/2020 (verifying vs constructive traces)",
+    "Konat et al. 2018",
+    "Meng et al. 2022/2023 ROME/MEMIT",
+    "Cohen et al. 2024 ripple effects"
+   ],
+   "what_the_record_tests": "Verify-before-swap (A4) is the sole witness-changing mechanism (wrong served 60 -> 0, abstentions 0 -> 96) while factorization (A1) and dependency-tracked repair (A3) change only cost (update work 101 469 -> 669 -> 387), with interactions independent of lambda; per-basis lambda* = {92, 142, 4 036}.",
+   "what_remains": "No parent states the witness/cost mechanism split; but the E5 compilation of the VLC row into SISA / self-adjusting computation / verifying-trace rebuilders at <= 2x cost has not been executed, so novelty stays PENDING_REDUCTION."
+  },
+  {
+   "record": "RV-377-033 (Cognitive Polyphenism E1)",
+   "parents": [
+    "Hammer et al. 2014 Adapton (laziness)",
+    "Futamura 1971/1999",
+    "Darwiche & Marquis 2002",
+    "Fedus et al. 2022 Switch (compute independent of inactive experts)"
+   ],
+   "what_the_record_tests": "Lazy recompilation gives update work 2.6x below eager with one of three regimes active; compiled polyphenism enters the frontier only beyond H* ~ 1 410 reuses per rebuild in the store-native basis.",
+   "what_remains": "B2 and the compile/interpret crossover are parent products (Adapton, Futamura, KC map); the only GMI-owned statement is the per-basis H* table."
+  },
+  {
+   "record": "RV-377-034 (attention family at D1)",
+   "parents": [
+    "Vaswani et al. 2017",
+    "Khandelwal et al. 2020 kNN-LM",
+    "Jacot et al. 2018 NTK (kernel regime)",
+    "Piotrowski et al. 2025"
+   ],
+   "what_the_record_tests": "Similarity-weighted retrieval with a fixed linear kernel has a closed-form admissibility region, is dominated by hard nearest-neighbour averaging everywhere, and is cheaper only where NORMALIZE/SCORE are native (4-7%).",
+   "what_remains": "The kernel-smoothing reading of attention and the NTK identification of gradient with kernel memory mean the executed dominance is expected from the parents; a temperature axis (declared) is needed before any claim."
+  },
+  {
+   "record": "RV-377-035 (hardware-priced column)",
+   "parents": [
+    "Clark et al. 2022 (two cost axes)",
+    "Chen et al. 2018 TVM (learned cost models)",
+    "Hooker 2020 hardware lottery (ledger P9A)",
+    "Hoffmann et al. 2022"
+   ],
+   "what_the_record_tests": "A price vector flips the occupant on 168/168 admissible cells and 0/56 inadmissible cells: price acts only inside the admissible set (L3 before L4).",
+   "what_remains": "Parents measure price effects at scale; the executed qualifier 'only within the admissible set' is GMI's, but the price column is frozen by hand (G1b measured vector still open)."
+  },
+  {
+   "record": "RV-377-036 (query vs update geometry, MN5)",
+   "parents": [
+    "Darwiche & Marquis 2002 (query class decides compiled form)",
+    "Arora et al. 2024 recall-throughput",
+    "Tishby et al. 1999 IB",
+    "Krajewski et al. 2024 granularity"
+   ],
+   "what_the_record_tests": "Query scope and update cone select the occupant independently; the coarse monolith wins only native-lookup x global-query x zero-update cells; no scalar dependency coordinate reproduces the table.",
+   "what_remains": "The parents own the query-class principle and the recall/state-size frontier; GMI owns only the executed independence of the two geometries at scope."
+  },
+  {
+   "record": "RV-377-038 (persistence / lineage encodings)",
+   "parents": [
+    "Driscoll et al. 1989",
+    "Okasaki 1998",
+    "Huang et al. 2017 OrpheusDB"
+   ],
+   "what_the_record_tests": "Persistence demand (legal historical queries) makes single-version forms inadmissible; snapshot vs undo-log encodings flip with depth through H*(depth) = description surplus / replay gap in all six columns.",
+   "what_remains": "Two of the parent's four encodings (copy-on-write, persistent root) are untested (MLX-42); the parent's worst-case bounds subsume the executed crossover."
+  },
+  {
+   "record": "RV-377-042 (Verifier-Gated Speculative Compiler)",
+   "parents": [
+    "Leviathan et al. 2023 speculative decoding",
+    "Brown et al. 2024 coverage",
+    "Setlur et al. 2025",
+    "Li et al. 2022 AlphaCode",
+    "Lample et al. 2022 HTPS"
+   ],
+   "what_the_record_tests": "Three occupants along generator quality p_a with p_a* = (c_g + c_v)/c_exact; unverified speculation inadmissible below p_a = 1; VGSC serves 0 wrong answers; reuse crossover H* ~ 120 in scan-store columns and none in B2.",
+   "what_remains": "The acceptance-rate/cost-ratio law and the verifier-vs-verifier-free separation are parent-owned at general scope; GMI adds the retention term lambda and the basis-dependence of H*, both at scope only. C1 neutral recovery open."
+  },
+  {
+   "record": "RV-377-043 (Locally Morphogenetic Heterogeneous Mesh)",
+   "parents": [
+    "Shazeer et al. 2017",
+    "Pfeiffer et al. 2023 modular deep learning",
+    "Ostapenko et al. 2024",
+    "Dai et al. 2024 DeepSeekMoE (shared experts)",
+    "Mouret & Clune 2015 MAP-Elites (per-cell occupant)"
+   ],
+   "what_the_record_tests": "Per-factor family fixed by the factor's own (exposure, overhead) coordinates; frontier meshes nested in exposure order; greedy factor-local flips reach the frontier mesh 108/108; non-additivity = shared-query exposure x lambda (slope 30, column-invariant).",
+   "what_remains": "The parents own heterogeneous modules, routing and shared factors; GMI owns the executed local-threshold law and the coupling slope at scope. The E5 compilation into sparse MoE is untested."
+  },
+  {
+   "record": "RV-377-040 / 041 / 041b (stochastic admissibility, reliability q)",
+   "parents": [
+    "Dohare et al. 2024 (random non-gradient component)",
+    "Karwowski et al. 2024 (early stopping vs Goodhart)",
+    "Gao et al. 2023 overoptimization",
+    "Lehman & Stanley 2011 novelty"
+   ],
+   "what_the_record_tests": "Admissibility of a stochastic form is a distribution over seeds (5% admissible); at low declared reliability the stochastic search form is the frontier occupant on 56/56 cells in four columns.",
+   "what_remains": "The parents suggest the low-reliability occupant may be proxy overoptimization (Goodhart) of the admissibility metric; gap G14 (charge failed draws) is open."
+  },
+  {
+   "record": "RV-377-029 / 031 (precision and accumulator semantics)",
+   "parents": [
+    "Merrill & Sabharwal 2023 (log-precision TC^0 bound)",
+    "Merrill et al. 2024 (SSMs in TC^0)"
+   ],
+   "what_the_record_tests": "FRAC_BITS = 4 makes Bayesian averaging over > 16 hypotheses underflow; the probabilistic row is admissible only at full observation and never the occupant at 8 bits; a wide-accumulator macro restored C2.",
+   "what_remains": "Precision-limited existence is a parent theorem class; the executed instances are instrument facts (L6), not laws."
+  },
+  {
+   "record": "RV-377-023 (earlier record cited by L5: diversity -> context-conditioned memory)",
+   "parents": [
+    "Chan et al. 2022 (ledger P4-LB)",
+    "Garg et al. 2022",
+    "Olsson et al. 2022",
+    "Reddy 2024",
+    "Wang et al. 2019 POET (ecology change moves the plateau)"
+   ],
+   "what_the_record_tests": "Sign-flip task diversity moves the neutral-search plateau by +0.28 and produces the context-conditioned class before any in-weights learner (3/3 seeds), whereas a 10x budget alone did not.",
+   "what_remains": "Parents own the mechanism, the phase diagram and the ecology-over-budget lesson; GMI's contribution is the label-free exact-layer replication only."
+  },
+  {
+   "record": "RV-377-025 (memory vs gradient occupant is basis-dependent)",
+   "parents": [
+    "Khandelwal et al. 2020 kNN-LM",
+    "Jacot et al. 2018 NTK",
+    "Jelassi et al. 2024",
+    "Varma et al. 2023"
+   ],
+   "what_the_record_tests": "At r >= 1 the generalizing memory wins in local-transducer bases and the gradient row in uniform/compressed-program bases (1 569/1 586 cells); Hamming-averaging admissible iff local curvature a <= 7/16.",
+   "what_remains": "The memory-vs-parametric occupant switch and its admissibility boundary are parent-owned in real families; the closed-form curvature bound is GMI's at scope."
+  }
+ ]
+}
