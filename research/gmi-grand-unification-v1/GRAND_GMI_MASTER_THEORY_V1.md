@@ -38,25 +38,43 @@ No architecture syntax occurs in the primitive tuple.
 
 ## 1. Canonical derived objects
 
-### 1.1 Semantic state
+### 1.1 Exact semantic state
 
-Histories are equivalent exactly when no admitted future intervention/environment/obligation probe can distinguish them beyond `epsilon`:
+Let `Q_h` be the complete protected future response profile of history `h` over all declared environments, interventions, continuations and obligation probes.
 
-\[
-h\equiv_{\Omega,\mathcal E,\Theta,\varepsilon}h'
-\iff
-Q_h\simeq_\varepsilon Q_{h'}.
-\]
-
-The canonical semantic state is
+Define **exact** semantic equivalence by
 
 \[
-\boxed{S^*=\mathcal H/\!\equiv}.
+h\equiv_0 h' \iff Q_h=Q_{h'}.
 \]
 
-This is the architecture-free state variable of the problem. Enlarging obligation, ecology, horizon or interventions can only refine it; finer states canonically map onto coarser states.
+Equality is transitive, so the canonical semantic state is the genuine quotient
 
-### 1.2 Semantic cut spectrum
+\[
+\boxed{S^*=\mathcal H/\!\equiv_0}.
+\]
+
+This is the architecture-free exact state variable of the problem. Enlarging obligation, ecology, horizon or interventions can only refine it; finer exact states canonically map onto coarser exact states.
+
+### 1.2 Approximate semantic resolution
+
+A tolerance relation of the form `distance <= epsilon` is generally **not transitive** and therefore must not be called a quotient equivalence. For approximate intelligence, choose a declared response pseudometric
+
+\[
+d_Q(h,h')=\sup_{\lambda\in\Lambda} d_\lambda(Q_h(\lambda),Q_{h'}(\lambda)),
+\]
+
+or another declared operational response metric. Approximate semantic complexity is then represented by metric objects such as covering/packing numbers
+
+\[
+N_\varepsilon(S^*,d_Q),\qquad P_\varepsilon(S^*,d_Q),
+\]
+
+or by an explicitly declared transitive coarse-graining. There is no automatic quotient by `d_Q<=epsilon`.
+
+This distinction is normative throughout Grand GMI: **exact state is a quotient; approximate state is a metric/coarse-graining problem unless transitivity is separately proved.**
+
+### 1.3 Semantic cut spectrum
 
 For every causal cut `C`, define
 
@@ -69,7 +87,7 @@ For every causal cut `C`, define
 
 At finite zero-error one-way scope this is exactly the semantic-conflict-hypergraph chromatic requirement. Noisy, bounded-memory, retrieval, verifier and structured-side-information laws are specializations/compositions of this object.
 
-### 1.3 Transformation-complexity spectrum
+### 1.4 Transformation-complexity spectrum
 
 For every local transformation site or process region `v`, define
 
@@ -82,7 +100,7 @@ For every local transformation site or process region `v`, define
 
 `kappa` and `tau` are irreducible as a pair: equal final semantic width can coexist with arbitrarily different local computation/query complexity.
 
-### 1.4 Symmetry object
+### 1.5 Symmetry object
 
 Let
 
@@ -90,9 +108,9 @@ Let
 G_{\mathfrak G}=\operatorname{Aut}(\mathbf P,\mathcal E,\Omega,\Theta,\rho)
 \]
 
-be the transformations that preserve the declared problem. `G` acts on `S*`. Under the layer-3 convexity conditions, every attainable randomized behavioral point has an equivariant representative with no worse resources; a unique deterministic optimum must be equivariant.
+be the transformations that preserve the declared problem. `G` acts on the exact quotient `S*`. Under the layer-3 convexity conditions, every attainable randomized behavioral point has an equivariant representative with no worse resources; a unique deterministic optimum must be equivariant.
 
-### 1.5 Developmental reachability
+### 1.6 Developmental reachability
 
 Development is itself a GMI process on morphology state. Let
 
@@ -102,7 +120,7 @@ Development is itself a GMI process on morphology state. Let
 
 be the morphology classes reachable under the declared development process and budget. Learning, meta-learning, architecture search, program synthesis, test-time adaptation, self-modification and evolutionary population updates are repeated applications of this lift.
 
-### 1.6 Causal semantic information
+### 1.7 Causal semantic information
 
 A physical distinction has semantic information only insofar as interventions on it can change an obligation-relevant attainable profile. At zero-error finite cut scope, a scalar specialization is conflict reduction
 
@@ -142,7 +160,6 @@ The developmental/reachable frontier is separately
 =
 \operatorname{Pareto}
 \{(Q(M),\rho(M)):M\in Phys_{\mathbf P}(\theta)\cap Reach_{\mathcal D}(B)\}.
-}
 \]
 
 This distinction is mandatory: global optimum and reachable optimum are different objects.
@@ -151,9 +168,9 @@ This distinction is mandatory: global optimum and reachable optimum are differen
 
 ## 3. Grand GMI factorization theorem
 
-> **GG33 — Grand Factorization Theorem.** Every admitted machine realization factors, at the declared operational resolution, into (i) semantic state distinctions `S*`, (ii) semantic information/communication requirements across its causal cuts `kappa`, (iii) local semantic transformations constrained by `tau`, (iv) physical process/resource realization under `P,rho`, and (v) developmental reachability under `D`.
+> **GG33 — Grand Factorization Theorem.** Every admitted machine realization factors, at the declared operational resolution, into (i) exact semantic state distinctions `S*` plus declared approximate response geometry when needed, (ii) semantic information/communication requirements across its causal cuts `kappa`, (iii) local semantic transformations constrained by `tau`, (iv) physical process/resource realization under `P,rho`, and (v) developmental reachability under `D`.
 
-For distributed systems, agent boundaries become internal cuts. For learned systems, training/deployment is a temporal cut and development is a lifted process. For substrate changes, response-preserving implementation maps preserve semantic coordinates while transforming resource coordinates. Symmetries act on the quotient and can constrain frontier representatives.
+For distributed systems, agent boundaries become internal cuts. For learned systems, training/deployment is a temporal cut and development is a lifted process. For substrate changes, response-preserving implementation maps preserve semantic coordinates while transforming resource coordinates. Symmetries act on the exact quotient and can constrain frontier representatives.
 
 Thus neural, symbolic, retrieval, recurrent, modular, multi-agent, evolutionary, analog and quantum-capable process descriptions are not separate definitions of intelligence. They are candidate realizations/factorizations of the same obligation-relative process requirements.
 
@@ -213,7 +230,7 @@ Classical deterministic/stochastic, analog, biological and quantum process theor
 
 For finite decidable registered problems, exact operational completeness is already proved: attainable set, frontier, fibers and bounded developmental reachability are computable exactly.
 
-For continuous/infinite process spaces, the same objects remain mathematically defined as equivalence classes, infima and Pareto sets. Existence/attainment/computability require regularity such as measurable kernels, compactness, lower semicontinuity or effective descriptions as appropriate.
+For continuous/infinite process spaces, the same exact response quotient and morphology objects remain set-theoretically defined when the response kernels are well-typed. Approximate analysis uses the declared response metric and covering/packing/optimization objects. Existence, attainment and computability require regularity such as measurable kernels, compactness, lower semicontinuity or effective descriptions as appropriate.
 
 For unrestricted Turing-complete machine spaces, no total exact solver can exist; the separate uncomputability theorem reduces the halting problem to exact GMI capability/reachability.
 
@@ -232,7 +249,7 @@ This is a boundary of mathematics, not a missing architecture theorem.
 Grand GMI V1 calls a theory-level object **globally closed** when:
 
 1. every admitted machine intelligence is typed as a causal physical process under the primitive declaration;
-2. semantic identity is fixed by the canonical response quotient;
+2. exact semantic identity is fixed by the canonical response quotient, while approximate resolution is separately metrized/coarse-grained;
 3. information/memory/communication requirements are typed by semantic cuts;
 4. computation is represented independently by transformation complexity;
 5. physical resources and substrate constraints determine feasible morphology frontiers;
@@ -254,7 +271,7 @@ The complete theory can be written as the chain
 \boxed{
 (\mathbf P,\mathcal B,\mathcal E,\Omega,\Theta,\rho,\mathcal D)
 \Longrightarrow
-S^*
+(S^*,d_Q)
 \Longrightarrow
 (\kappa,\tau,G, I_\Omega)
 \Longrightarrow
@@ -263,6 +280,8 @@ S^*
 (\mathcal F,\mathcal F^{reach},\text{morphology fibers}).
 }
 \]
+
+Here `S*` is exact; `d_Q` carries approximate response geometry.
 
 In words:
 
