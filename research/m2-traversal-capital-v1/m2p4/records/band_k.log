@@ -1,0 +1,35 @@
+canonical polys: 20321 floors: {'members_min': 90, 'initial_min': 15, 'tuning_min': 6, 'future_min': 20}
+band 3-4 pool: 320
+
+### (1) analytic bound check:  members <= f + k^2   (mbl=4)
+   checked 156 worlds, 0 violations -> BOUND HOLDS
+
+### (2) viability by chunk count (band 3-4)
+   k=4  mbl=4   viable  0/60   max members   18 
+   k=4  mbl=5   viable  0/60   max members   14 
+   k=5  mbl=4   viable  0/60   max members   26 
+   k=5  mbl=5   viable  0/60   max members   18 
+   k=6  mbl=4   viable  0/60   max members   36 
+   k=6  mbl=5   viable  0/60   max members   33 
+   k=7  mbl=4   viable  0/60   max members   46 
+   k=7  mbl=5   viable  0/60   max members   23 
+   k=8  mbl=4   viable  0/60   max members   59 
+   k=8  mbl=5   viable  0/60   max members   30 
+   k=9  mbl=4   viable  0/60   max members   65 
+   k=9  mbl=5   viable  0/60   max members   48 
+   k=10 mbl=4   viable  0/60   max members   77 
+   k=10 mbl=5   viable  0/60   max members   77 
+   k=11 mbl=4   viable  0/60   max members   84 
+   k=11 mbl=5   viable  0/60   max members   78 
+   k=12 mbl=4   viable  0/60   max members   89 
+   k=12 mbl=5   viable  0/60   max members   89 
+   k=13 mbl=4   viable  3/60   max members  103 <-- clears floor
+   k=13 mbl=5   viable  1/60   max members   91 <-- clears floor
+   k=14 mbl=4   viable  2/60   max members  101 <-- clears floor
+   k=14 mbl=5   viable  4/60   max members  121 <-- clears floor
+   k=15 mbl=4   viable  8/60   max members  173 <-- clears floor
+   k=15 mbl=5   viable  6/60   max members  114 <-- clears floor
+   k=16 mbl=4   viable 15/60   max members  140 <-- clears floor
+   k=16 mbl=5   viable  7/60   max members  129 <-- clears floor
+
+wrote BAND_K.json

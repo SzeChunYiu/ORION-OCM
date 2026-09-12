@@ -4,6 +4,14 @@ Applied to this lane's own claimed closures. The law's ten questions are asked o
 mechanic this lane says it has; anything that fails a question is **demoted here**, not
 defended.
 
+> **Dated audit — V1, not maintained.** This records what the audit said when it was taken
+> (last updated in #368) and is kept unrewritten on purpose. Three cells have since been
+> overtaken and are **stale**: L2's "P=6 analogue test running" (it has since COMPLETED — 6
+> seeds, all `BENEFIT_SURVIVES_AT_D2`; only the first run was retracted for a budget defect),
+> L5's 0.625 (now 0.818 active / 0.758 exhaustive) and L6's 🔴 "one
+> generation" (now 🟡, eight generations, terminal NO_IMPROVING_SLOPE). For current status
+> read [CORE.md](CORE.md) and [NEXT_STEPS.md](NEXT_STEPS.md), which supersede this file.
+
 ## Audit of claimed mechanics
 
 ### Applicability control (claimed 🟢)

@@ -1,0 +1,263 @@
+=== host cn159 world=world_6_full_palette M2-P3 stage 3; runner_sha=7d790905ada3ad76 methods_sha=e0a0565466dc6778
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": 35661.7,
+  "ci95_low": 28253.1,
+  "worst_ratio": 1.7327,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": true,
+  "reason": "admitted"
+ },
+ "ocm_controller": {
+  "rule": {},
+  "fallback": false,
+  "probe_depth": 4,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 0 of 46 rows",
+  "beta": 7380,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "mdl",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 2954.6,
+   "mdl": 2875.7
+  },
+  "validated_better_interleave": {
+   "frequency": 43,
+   "mdl": 46
+  }
+ },
+ "mdl_fragments": [
+  [
+   "double",
+   "double"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "double",
+   "inc"
+  ],
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "dec",
+   "double"
+  ]
+ ],
+ "mdl_admission": true,
+ "mdl_terminal": "HELD_OUT_SEARCH_IMPROVEMENT",
+ "mdl_strictly_better": 46,
+ "train_solved": 92,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 46,
+ "held_out_strictly_better": 43,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 37664.2,
+ "held_out_mean_candidate": 2002.4,
+ "wall_seconds": 87.26,
+ "pid": 761854
+}
+checkpoint written, pid 762723
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "RESET",
+ "calibration_only": false,
+ "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+ "fragments_served": 0,
+ "process": {
+  "pid": 762729,
+  "pre_restart_pid": 762723,
+  "pid_changed": true
+ },
+ "targets": 43,
+ "ladder": [
+  200000
+ ],
+ "successes": 43,
+ "attempts": 43,
+ "all_targets_verified": true,
+ "ladder_total": 43,
+ "mean_B_slots": 36628.6,
+ "external_verifications": 43,
+ "successes_by_budget": {
+  "200000": 43
+ },
+ "wall_seconds": 23.15
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GF_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, MDL library, fixed depth 4",
+ "fragments_served": 5,
+ "process": {
+  "pid": 762895,
+  "pre_restart_pid": 762723,
+  "pid_changed": true
+ },
+ "targets": 43,
+ "ladder": [
+  200000
+ ],
+ "successes": 43,
+ "attempts": 43,
+ "all_targets_verified": true,
+ "ladder_total": 43,
+ "mean_B_slots": 1602.1,
+ "external_verifications": 43,
+ "successes_by_budget": {
+  "200000": 43
+ },
+ "wall_seconds": 4.36
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "SHUFFLED_HISTORY",
+ "calibration_only": false,
+ "note": "random fragments matching the mined count and length profile, with the true hidden motifs excluded so the control cannot rediscover them by chance",
+ "fragments_served": 12,
+ "process": {
+  "pid": 762943,
+  "pre_restart_pid": 762723,
+  "pid_changed": true
+ },
+ "targets": 43,
+ "ladder": [
+  200000
+ ],
+ "successes": 43,
+ "attempts": 43,
+ "all_targets_verified": true,
+ "ladder_total": 43,
+ "mean_B_slots": 73257.2,
+ "external_verifications": 43,
+ "successes_by_budget": {
+  "200000": 43
+ },
+ "wall_seconds": 26.32
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 4 beta 7380, rule cells 0",
+ "fragments_served": 5,
+ "process": {
+  "pid": 763015,
+  "pre_restart_pid": 762723,
+  "pid_changed": true
+ },
+ "targets": 43,
+ "ladder": [
+  200000
+ ],
+ "successes": 43,
+ "attempts": 43,
+ "all_targets_verified": true,
+ "ladder_total": 43,
+ "mean_B_slots": 1602.1,
+ "external_verifications": 43,
+ "successes_by_budget": {
+  "200000": 43
+ },
+ "wall_seconds": 4.4
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 5,
+ "process": {
+  "pid": 763063,
+  "pre_restart_pid": 762723,
+  "pid_changed": true
+ },
+ "targets": 43,
+ "ladder": [
+  200000
+ ],
+ "successes": 43,
+ "attempts": 43,
+ "all_targets_verified": true,
+ "ladder_total": 43,
+ "mean_B_slots": 3203.2,
+ "external_verifications": 43,
+ "successes_by_budget": {
+  "200000": 43
+ },
+ "wall_seconds": 4.51
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D3",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 3",
+ "fragments_served": 16,
+ "process": {
+  "pid": 763108,
+  "pre_restart_pid": 762723,
+  "pid_changed": true
+ },
+ "targets": 43,
+ "ladder": [
+  200000
+ ],
+ "successes": 43,
+ "attempts": 43,
+ "all_targets_verified": true,
+ "ladder_total": 43,
+ "mean_B_slots": 1116.5,
+ "external_verifications": 43,
+ "successes_by_budget": {
+  "200000": 43
+ },
+ "wall_seconds": 3.97
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 4",
+ "fragments_served": 16,
+ "process": {
+  "pid": 763157,
+  "pre_restart_pid": 762723,
+  "pid_changed": true
+ },
+ "targets": 43,
+ "ladder": [
+  200000
+ ],
+ "successes": 43,
+ "attempts": 43,
+ "all_targets_verified": true,
+ "ladder_total": 43,
+ "mean_B_slots": 1116.5,
+ "external_verifications": 43,
+ "successes_by_budget": {
+  "200000": 43
+ },
+ "wall_seconds": 3.97
+}
+
+=== DONE world_6_full_palette 2026-09-11T22:12:27Z
