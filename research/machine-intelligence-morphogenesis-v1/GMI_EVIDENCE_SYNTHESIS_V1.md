@@ -49,7 +49,7 @@ this table silently.
 | 4 | unknown / novel morphology (B7) | four unoccupied channel cells predicted and exact-verified; realization search RV-377-200 running: first STORE seed lands at 0.857 ± 0.009 vs ceiling 0.891 (ceiling respected, store carrier as predicted, channel ablation drops it to 0.686) — attainment within 3 s.e. still open | FO11, RV-200 |
 | 5 | architecture-independent principle (B8) | semantic cut + substrate lifting + channel family verified; master factorization GG33 | GG1–9, GG22–24, GG33 |
 | 6 | phase law / predictive dynamics | PROTECTED GREEN 8/8 + REAL off-band | K5 V7/V8, RV-190/194 |
-| 7 | universality + real/physical | REAL closed at sklearn scale; physical sign from EXTERNAL constants; independent authorship **PENDING** (IG-4/5, RV-377-160) | RV-190/194/195, RV-160 |
+| 7 | universality + real/physical | REAL closed at sklearn scale; physical sign from EXTERNAL constants; independent authorship closed by model proxy (IG-4/5, RV-377-160; residue: same model family) | RV-190/194/195, RV-160 |
 
 ## 4. Standing negatives and their root causes (revival law: one stage, one lever)
 
@@ -60,8 +60,9 @@ this table silently.
 | 13 kinds STRUCTURAL_TO_GENERATOR | generator hard-codes kinds by name | kind-agnostic generator, inert on full alphabet | RV-202 running |
 | K5 C_FEATURE_LEARNING RED / E_CONTROL INCONCLUSIVE | frozen predictor omitted reachability / admissibility clause | corrected laws, fresh grids | GREEN at protected tier |
 | real-transfer crossover cells | finite sample at the frozen bar | off-band grid by power calculation; mass-weighted term | GREEN off-band; crossovers inside band by construction |
-| DG-12 degenerate obligations (axis_a, e1_cp, refine_f) + DG-13 leaky intervention / misnamed E_parity | instrument construction | additive V2 registrations | queued (instruments lane) |
-| IG-4/IG-5 same-author meter/alphabet | no independent author | blind model-proxy authors | RV-160 running |
+| DG-12 degenerate obligations (axis_a, e1_cp, refine_f) | obligation constant on the scored window | V2 obligations (owed) | audited (RV-377-118D), repair queued |
+| DG-13 leaky intervention / misnamed E_parity | scoring defect / dict-keys constructor | additive V2 registrations | CLOSED (RV-377-150): 3/36 store-row verdicts move; parity-separating split found |
+| IG-4/IG-5 same-author meter/alphabet | no independent author | blind model-proxy authors | CLOSED via model proxy (RV-377-160, PR #482): meter agreement ≥ 99 % per axis, K4 verdicts meter-invariant, alphabet covers all five carrier classes |
 
 ## 5. What would still be owed after every PENDING row lands
 
