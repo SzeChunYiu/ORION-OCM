@@ -82,6 +82,23 @@ All **12** registered smooth/table obligations (6 ecologies × 2 criteria) take 
 value over their own evaluation sets (`RV-377-112`). The core ecology set is sound on the
 degeneracy axis.
 
+### T5 — The carrier is an observable property of any non-trivial machine
+
+Restricted to the 116 behaviourally non-trivial genotypes of 600, **12 of 12** observable
+signatures map to exactly one carrier. Two systems indistinguishable under all 6 registered
+ecologies x all 6 registered interventions, and exhibiting more than one distinct answer,
+always have the same carrier on this sample.
+
+All three identifiability failures across the full 600 are among **behaviourally trivial**
+machines, and all three involve `NONE` — the benign case: a machine emitting at most one
+distinct answer exhibits nothing to infer from.
+
+This **rescues the descriptor T1 depends on.** `G15` step (ii) is a claim about
+`E_sym5 | DENSE` at capability 0.9115, squarely non-trivial. Had identifiability failed
+there, T1 would have been a claim about a genotype's internals rather than about anything an
+observer could measure. Record: `RV-377-116`. Two of that record's four predictions failed
+**in GMI's favour**.
+
 ### T4 — Universal computation is a boundary, not a basis
 
 Rung B0 is `EARNED_AS_BOUNDARY`: parent mathematics dominates at expressivity, so
@@ -207,6 +224,9 @@ search "could have found". (`RV-377-115`.)
 | `NO_DEGENERATE_OBLIGATION_AT_REGISTERED_SCOPE` | **FALSE** |
 | `ALL_REGISTERED_INTERVENTIONS_MEASURE_WHAT_THEY_CLAIM` | **FALSE** |
 | `ALL_REGISTERED_ECOLOGIES_ARE_WHAT_THEY_ARE_NAMED` | **FALSE** |
+| `CARRIER_IDENTIFIABLE_FROM_BEHAVIOUR_ON_NON_TRIVIAL_MACHINES` | **TRUE**, 12/12 |
+| `FINE_STRUCTURE_IDENTIFIABLE_FROM_BEHAVIOUR` | **FALSE** |
+| `CP5_REALIZATION_ADDRESSED` | **FALSE** — not started |
 
 ---
 
@@ -225,7 +245,8 @@ grammars.
 Same-author evaluator, meter and primitives remain the standing limitation on every claim in
 §2.
 
-**Critical path:** CP1 executing; CP3, CP4, CP6 not started; CP5 identifiability under test.
+**Critical path:** CP1 executing; CP3, CP4, CP6 not started. CP5's identifiability half is
+**settled and holds** (`RV-377-116`); its realization half is not started.
 
 ---
 
@@ -247,11 +268,15 @@ Same-author evaluator, meter and primitives remain the standing limitation on ev
 >
 > **(iii)** No result proved of one form extends to its behavioural class, and over a
 > Turing-complete IR none can. Every result in (i) is a **point claim** about the genotype
-> it was measured on.
+> it was measured on. But the *class label* those claims use is real: the fine structure of a
+> machine is not identifiable from its behaviour, while its **carrier is** — the
+> observational quotient is far too coarse to recover a genotype and just fine enough to
+> recover which of five mechanism classes it belongs to.
 >
 > **(iv)** Therefore GMI is, at registered scope, an **existence theory and not a
-> predictive one**: it can say that such machines arise from primitives, and it cannot say
-> which ones will, nor lift what it learns from one to any other.
+> predictive one**: it can say that such machines arise from primitives, and that the class
+> they belong to is measurable from outside; it cannot say which ones will arise, nor lift
+> what it learns from one to any other.
 
 The distance between (i) and (ii) is the theory. Closing it requires exactly the four things
 §6 names as not started — and the undecidability obstruction in (iii) means one of them,
