@@ -1,0 +1,60 @@
+{
+  "artifact": "GMI_P0_ZERO_PRIOR_RESPONSE_EXACT_RECEIPT_V1",
+  "status": "EXACT_FINITE_CALIBRATION",
+  "runner": "run_gmi_p0_zero_prior_response_exact_v1.py",
+  "checks": {
+    "hamming_ball_cardinality_exact": true,
+    "static_exact_mask_equals_dependency_union": true,
+    "dynamic_routing_crossover_exact": true,
+    "tv_packing_collision_lower_bound": true,
+    "rank_matrix_count_formula_exact": true,
+    "independent_mode_information_lower_bound": true
+  },
+  "sparse_residual": {
+    "n_min": 1,
+    "n_max": 7,
+    "q_min": 2,
+    "q_max": 4,
+    "formula_cases": 105,
+    "target_vectors_enumerated": 25377,
+    "mismatches": 0
+  },
+  "routing": {
+    "universal_edges_min": 1,
+    "universal_edges_max": 5,
+    "inputs_per_family": 3,
+    "dependency_families": 37448,
+    "crossover_checks": 187240,
+    "mismatches": 0
+  },
+  "predictive_state_packing": {
+    "k_min": 2,
+    "k_max": 7,
+    "epsilon": 0.49,
+    "state_count_cases": 21,
+    "fewer_than_k_state_mappings_checked": 398684,
+    "mismatches": 0
+  },
+  "finite_field_low_rank": {
+    "field": "GF(2)",
+    "m_min": 1,
+    "m_max": 4,
+    "n_min": 1,
+    "n_max": 4,
+    "shape_cases": 16,
+    "matrices_checked": 74954,
+    "mismatches": 0
+  },
+  "conditional_specialization": {
+    "modes_min": 1,
+    "modes_max": 3,
+    "queries_per_mode_min": 1,
+    "queries_per_mode_max": 3,
+    "q_values": [2, 3],
+    "cases": 18,
+    "target_signatures_enumerated": 21979,
+    "mismatches": 0
+  },
+  "claim_ceiling": "Exact finite theorem calibration only. Closes counting/crossover/lower-bound atoms; does not establish real pre-outcome estimators, router learnability, effective residual rank, MoE superiority, or protected held-family prediction.",
+  "terminal": "P0_ZERO_PRIOR_RESPONSE_LAWS_EXACT_LAYER_GREEN"
+}

@@ -1,0 +1,55 @@
+{
+  "artifact": "GMI_NOVEL_DOMAIN_EXACT_RECEIPT_V1",
+  "status": "EXACT_FINITE_CALIBRATION",
+  "runner": "run_gmi_novel_domain_exact_microscope_v1.py",
+  "coverage": {
+    "n3_parity_cycle": {
+      "n_min": 2,
+      "n_max": 8,
+      "constraint_vectors_total": 508,
+      "constraint_assignment_pairs_checked": 87376,
+      "consistent_constraint_vectors": 254,
+      "mismatches": 0,
+      "consistent_solution_count": 2
+    },
+    "n8_constructor_closure": {
+      "k_min": 1,
+      "k_max": 8,
+      "constructor_systems_total": 510,
+      "largest_distinct_future_signature_count": 256,
+      "largest_exact_descriptor_lower_bound_bits": 8
+    },
+    "n10_partial_order": {
+      "n_min": 1,
+      "n_max": 8,
+      "n8_snapshot_states": 256,
+      "n8_complete_interleavings": 40320,
+      "n8_exact_event_nodes": 8,
+      "n8_causal_edges": 0
+    },
+    "n11_quotient": {
+      "A_sizes": [2, 3, 4, 5, 6, 7, 8],
+      "G_sizes": [2, 3, 4, 5, 8],
+      "cases": 35,
+      "largest_raw_states": 64,
+      "largest_quotient_states": 8,
+      "largest_exact_saving_bits": 3.0
+    }
+  },
+  "checks": {
+    "n3_global_section_iff_zero_parity": true,
+    "n3_consistent_cycles_have_exactly_two_solutions": true,
+    "n8_k_future_bits_require_k_descriptor_bits": true,
+    "n10_snapshot_count_2_pow_n": true,
+    "n10_interleaving_count_n_factorial": true,
+    "n11_quotient_cardinality_optimal": true
+  },
+  "domain_novelty_update": {
+    "N3": "W0/W1 GREEN; W2 open, exact family has bounded symbolic reduction",
+    "N8": "W0/W1 GREEN including k-bit developmental-state lower bound; W2 open",
+    "N10": "W0/W1 GREEN; W2 RED at registered scope because strong symbolic partial-order parents realize same compression",
+    "N11": "W0/W1 GREEN; W2 RED at registered scope because result is a direct semantic-quotient realization"
+  },
+  "claim_ceiling": "Exact finite theorem calibration only. Establishes mechanism-level necessity/compression on constructed families; does not establish new-domain novelty or real-world superiority.",
+  "terminal": "NOVEL_DOMAIN_EXACT_FINITE_THEOREM_LAYER_GREEN"
+}

@@ -1,0 +1,24 @@
+{
+  "source_sha256": "a8680bdfc22f03ed77dc952e9a69c9b93a2c50420b926a8dfba920b53087c079",
+  "specification": {
+    "descriptor_theorem": "On a finite uniform collection, the minimum errors of a deterministic descriptor-only predictor equal N-sum_z max_y count(z,y). Exact auxiliary labels require at least ceil(log2 max_z number_of_distinct_labels(z)) worst-case fixed bits, and that many suffice when the descriptor is shared.",
+    "failed_atom": "Balance plus coordinate influence determines one exact cost/feasibility label",
+    "fresh_descriptor_scope": "All 9330 assignments of binary descriptors and ternary labels to N=1..5 cases; compare with all 9 descriptor-only predictors. Not previously used Boolean functions and not an empirical holdout.",
+    "fresh_prices": "NOT=AND=OR=22; XOR=m for m=1..88 excluding multiples of 11. Eighty disjoint noninteger normalized price cells. Predict min(22+2*m,88).",
+    "kill_conditions": [
+      "any predictor-error identity mismatch",
+      "any incorrect residual code",
+      "any set coverage miss",
+      "any frozen price miss",
+      "any certificate verification failure",
+      "parent/source hash mismatch"
+    ],
+    "parent_freeze_commit": "66aa16fbf4f390f4afac56e46d8971768e27f9ea",
+    "parent_source_sha256": "875c51fc49e6ca323eb6732095a435f55a18c20d0d5ac613ff1f5c535f620a4c",
+    "price_theorem": "For three-input select, with NOT=AND=OR=2 and XOR=k>0, minimum formula cost is min(2+2*k,8). This is a formula-tree statement, not shared-DAG or hardware optimality.",
+    "proof_parent": "V1 certified all 256 formula optima at k=3. A selector is not affine, so a formula needs AND/OR; non-XOR cost is an even number at least 2. For zero XORs the k=3 certificate gives cost>=8; one XOR gives non-XOR cost>=6; two or more XORs give cost>=2+2*k for k<=3. Monotonicity proves the k>=3 side. Two explicit constructions attain the bound.",
+    "scope_ceiling": "Corrected finite information theorem and exact operator-price calibration only. Known-family and real-regime closure remain blocked.",
+    "status": "FROZEN_BEFORE_SUCCESSOR_EXECUTION",
+    "successor": "A descriptor collision requires a set of possible labels or extra information, not an invented scalar prediction. Computing that set without outcome access remains a separate open estimator problem."
+  }
+}
