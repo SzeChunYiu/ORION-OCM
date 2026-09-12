@@ -1,0 +1,7390 @@
+{
+ "b2_frontier_schema": {
+  "cost_model": "cost(H) = A + H*E, A the description/fixed coordinate, E the charged execution cost per query",
+  "frontier_runs_format": "[H_low, H_high, occupants]: the occupant set is constant over every grid point in [H_low, H_high]. Exactly reconstructible from shared_reuse_grid_H; gmi_microscope/grid_audit.py expands it.",
+  "grid_H": "every context of a receipt shares the receipt's shared_reuse_grid_H",
+  "rule": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
+  "single_row_context": "a context with fewer than two admissible rows has no frontier DECISION; it carries its cost coordinates and nothing else."
+ },
+ "b2_frontiers": {
+  "MORPH1_symbol|mem1_len1": {
+   "cost_coordinates_A_E": {
+    "BPE_k00_V08": [
+     "72",
+     "3"
+    ],
+    "BPE_k02_V10": [
+     "90",
+     "753/256"
+    ],
+    "BPE_k04_V12": [
+     "108",
+     "369/128"
+    ],
+    "BPE_k08_V16": [
+     "144",
+     "177/64"
+    ],
+    "BPE_k12_V20": [
+     "180",
+     "85/32"
+    ],
+    "BPE_k16_V24": [
+     "216",
+     "1305/512"
+    ],
+    "BPE_k20_V28": [
+     "252",
+     "1253/512"
+    ],
+    "BPE_k24_V32": [
+     "288",
+     "301/128"
+    ],
+    "ORACLE_UNIT_V08": [
+     "72",
+     "3"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k00_V08|BPE_k02_V10": "1536/5",
+    "BPE_k00_V08|BPE_k04_V12": "1536/5",
+    "BPE_k00_V08|BPE_k08_V16": "1536/5",
+    "BPE_k00_V08|BPE_k12_V20": "3456/11",
+    "BPE_k00_V08|BPE_k16_V24": "24576/77",
+    "BPE_k00_V08|BPE_k20_V28": "92160/283",
+    "BPE_k00_V08|BPE_k24_V32": "27648/83",
+    "BPE_k02_V10|BPE_k04_V12": "1536/5",
+    "BPE_k02_V10|BPE_k08_V16": "1536/5",
+    "BPE_k02_V10|BPE_k12_V20": "23040/73",
+    "BPE_k02_V10|BPE_k16_V24": "21504/67",
+    "BPE_k02_V10|BPE_k20_V28": "82944/253",
+    "BPE_k02_V10|BPE_k24_V32": "50688/151",
+    "BPE_k02_V10|ORACLE_UNIT_V08": "1536/5",
+    "BPE_k04_V12|BPE_k08_V16": "1536/5",
+    "BPE_k04_V12|BPE_k12_V20": "9216/29",
+    "BPE_k04_V12|BPE_k16_V24": "6144/19",
+    "BPE_k04_V12|BPE_k20_V28": "73728/223",
+    "BPE_k04_V12|BPE_k24_V32": "5760/17",
+    "BPE_k04_V12|ORACLE_UNIT_V08": "1536/5",
+    "BPE_k08_V16|BPE_k12_V20": "2304/7",
+    "BPE_k08_V16|BPE_k16_V24": "12288/37",
+    "BPE_k08_V16|BPE_k20_V28": "55296/163",
+    "BPE_k08_V16|BPE_k24_V32": "18432/53",
+    "BPE_k08_V16|ORACLE_UNIT_V08": "1536/5",
+    "BPE_k12_V20|BPE_k16_V24": "18432/55",
+    "BPE_k12_V20|BPE_k20_V28": "36864/107",
+    "BPE_k12_V20|BPE_k24_V32": "4608/13",
+    "BPE_k12_V20|ORACLE_UNIT_V08": "3456/11",
+    "BPE_k16_V24|BPE_k20_V28": "4608/13",
+    "BPE_k16_V24|BPE_k24_V32": "36864/101",
+    "BPE_k16_V24|ORACLE_UNIT_V08": "24576/77",
+    "BPE_k20_V28|BPE_k24_V32": "18432/49",
+    "BPE_k20_V28|ORACLE_UNIT_V08": "92160/283",
+    "BPE_k24_V32|ORACLE_UNIT_V08": "27648/83"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     307,
+     [
+      "BPE_k00_V08",
+      "ORACLE_UNIT_V08"
+     ]
+    ],
+    [
+     308,
+     329,
+     [
+      "BPE_k08_V16"
+     ]
+    ],
+    [
+     330,
+     335,
+     [
+      "BPE_k12_V20"
+     ]
+    ],
+    [
+     336,
+     354,
+     [
+      "BPE_k16_V24"
+     ]
+    ],
+    [
+     355,
+     376,
+     [
+      "BPE_k20_V28"
+     ]
+    ],
+    [
+     377,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "18432/49",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k00_V08",
+    "BPE_k08_V16",
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28",
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V08"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k02_V10",
+    "BPE_k04_V12"
+   ]
+  },
+  "MORPH1_symbol|mem1_len16": {
+   "cost_coordinates_A_E": {
+    "BPE_k00_V08": [
+     "72",
+     "48"
+    ],
+    "BPE_k02_V10": [
+     "90",
+     "753/16"
+    ],
+    "BPE_k04_V12": [
+     "108",
+     "369/8"
+    ],
+    "BPE_k08_V16": [
+     "144",
+     "177/4"
+    ],
+    "BPE_k12_V20": [
+     "180",
+     "85/2"
+    ],
+    "BPE_k16_V24": [
+     "216",
+     "1305/32"
+    ],
+    "BPE_k20_V28": [
+     "252",
+     "1253/32"
+    ],
+    "BPE_k24_V32": [
+     "288",
+     "301/8"
+    ],
+    "ORACLE_UNIT_V08": [
+     "72",
+     "48"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k00_V08|BPE_k02_V10": "96/5",
+    "BPE_k00_V08|BPE_k04_V12": "96/5",
+    "BPE_k00_V08|BPE_k08_V16": "96/5",
+    "BPE_k00_V08|BPE_k12_V20": "216/11",
+    "BPE_k00_V08|BPE_k16_V24": "1536/77",
+    "BPE_k00_V08|BPE_k20_V28": "5760/283",
+    "BPE_k00_V08|BPE_k24_V32": "1728/83",
+    "BPE_k02_V10|BPE_k04_V12": "96/5",
+    "BPE_k02_V10|BPE_k08_V16": "96/5",
+    "BPE_k02_V10|BPE_k12_V20": "1440/73",
+    "BPE_k02_V10|BPE_k16_V24": "1344/67",
+    "BPE_k02_V10|BPE_k20_V28": "5184/253",
+    "BPE_k02_V10|BPE_k24_V32": "3168/151",
+    "BPE_k02_V10|ORACLE_UNIT_V08": "96/5",
+    "BPE_k04_V12|BPE_k08_V16": "96/5",
+    "BPE_k04_V12|BPE_k12_V20": "576/29",
+    "BPE_k04_V12|BPE_k16_V24": "384/19",
+    "BPE_k04_V12|BPE_k20_V28": "4608/223",
+    "BPE_k04_V12|BPE_k24_V32": "360/17",
+    "BPE_k04_V12|ORACLE_UNIT_V08": "96/5",
+    "BPE_k08_V16|BPE_k12_V20": "144/7",
+    "BPE_k08_V16|BPE_k16_V24": "768/37",
+    "BPE_k08_V16|BPE_k20_V28": "3456/163",
+    "BPE_k08_V16|BPE_k24_V32": "1152/53",
+    "BPE_k08_V16|ORACLE_UNIT_V08": "96/5",
+    "BPE_k12_V20|BPE_k16_V24": "1152/55",
+    "BPE_k12_V20|BPE_k20_V28": "2304/107",
+    "BPE_k12_V20|BPE_k24_V32": "288/13",
+    "BPE_k12_V20|ORACLE_UNIT_V08": "216/11",
+    "BPE_k16_V24|BPE_k20_V28": "288/13",
+    "BPE_k16_V24|BPE_k24_V32": "2304/101",
+    "BPE_k16_V24|ORACLE_UNIT_V08": "1536/77",
+    "BPE_k20_V28|BPE_k24_V32": "1152/49",
+    "BPE_k20_V28|ORACLE_UNIT_V08": "5760/283",
+    "BPE_k24_V32|ORACLE_UNIT_V08": "1728/83"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     19,
+     [
+      "BPE_k00_V08",
+      "ORACLE_UNIT_V08"
+     ]
+    ],
+    [
+     20,
+     20,
+     [
+      "BPE_k08_V16"
+     ]
+    ],
+    [
+     21,
+     22,
+     [
+      "BPE_k16_V24"
+     ]
+    ],
+    [
+     23,
+     23,
+     [
+      "BPE_k20_V28"
+     ]
+    ],
+    [
+     24,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "1152/49",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k00_V08",
+    "BPE_k08_V16",
+    "BPE_k16_V24",
+    "BPE_k20_V28",
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V08"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k02_V10",
+    "BPE_k04_V12",
+    "BPE_k12_V20"
+   ]
+  },
+  "MORPH1_symbol|mem1_len4": {
+   "cost_coordinates_A_E": {
+    "BPE_k00_V08": [
+     "72",
+     "12"
+    ],
+    "BPE_k02_V10": [
+     "90",
+     "753/64"
+    ],
+    "BPE_k04_V12": [
+     "108",
+     "369/32"
+    ],
+    "BPE_k08_V16": [
+     "144",
+     "177/16"
+    ],
+    "BPE_k12_V20": [
+     "180",
+     "85/8"
+    ],
+    "BPE_k16_V24": [
+     "216",
+     "1305/128"
+    ],
+    "BPE_k20_V28": [
+     "252",
+     "1253/128"
+    ],
+    "BPE_k24_V32": [
+     "288",
+     "301/32"
+    ],
+    "ORACLE_UNIT_V08": [
+     "72",
+     "12"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k00_V08|BPE_k02_V10": "384/5",
+    "BPE_k00_V08|BPE_k04_V12": "384/5",
+    "BPE_k00_V08|BPE_k08_V16": "384/5",
+    "BPE_k00_V08|BPE_k12_V20": "864/11",
+    "BPE_k00_V08|BPE_k16_V24": "6144/77",
+    "BPE_k00_V08|BPE_k20_V28": "23040/283",
+    "BPE_k00_V08|BPE_k24_V32": "6912/83",
+    "BPE_k02_V10|BPE_k04_V12": "384/5",
+    "BPE_k02_V10|BPE_k08_V16": "384/5",
+    "BPE_k02_V10|BPE_k12_V20": "5760/73",
+    "BPE_k02_V10|BPE_k16_V24": "5376/67",
+    "BPE_k02_V10|BPE_k20_V28": "20736/253",
+    "BPE_k02_V10|BPE_k24_V32": "12672/151",
+    "BPE_k02_V10|ORACLE_UNIT_V08": "384/5",
+    "BPE_k04_V12|BPE_k08_V16": "384/5",
+    "BPE_k04_V12|BPE_k12_V20": "2304/29",
+    "BPE_k04_V12|BPE_k16_V24": "1536/19",
+    "BPE_k04_V12|BPE_k20_V28": "18432/223",
+    "BPE_k04_V12|BPE_k24_V32": "1440/17",
+    "BPE_k04_V12|ORACLE_UNIT_V08": "384/5",
+    "BPE_k08_V16|BPE_k12_V20": "576/7",
+    "BPE_k08_V16|BPE_k16_V24": "3072/37",
+    "BPE_k08_V16|BPE_k20_V28": "13824/163",
+    "BPE_k08_V16|BPE_k24_V32": "4608/53",
+    "BPE_k08_V16|ORACLE_UNIT_V08": "384/5",
+    "BPE_k12_V20|BPE_k16_V24": "4608/55",
+    "BPE_k12_V20|BPE_k20_V28": "9216/107",
+    "BPE_k12_V20|BPE_k24_V32": "1152/13",
+    "BPE_k12_V20|ORACLE_UNIT_V08": "864/11",
+    "BPE_k16_V24|BPE_k20_V28": "1152/13",
+    "BPE_k16_V24|BPE_k24_V32": "9216/101",
+    "BPE_k16_V24|ORACLE_UNIT_V08": "6144/77",
+    "BPE_k20_V28|BPE_k24_V32": "4608/49",
+    "BPE_k20_V28|ORACLE_UNIT_V08": "23040/283",
+    "BPE_k24_V32|ORACLE_UNIT_V08": "6912/83"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     76,
+     [
+      "BPE_k00_V08",
+      "ORACLE_UNIT_V08"
+     ]
+    ],
+    [
+     77,
+     82,
+     [
+      "BPE_k08_V16"
+     ]
+    ],
+    [
+     83,
+     83,
+     [
+      "BPE_k12_V20"
+     ]
+    ],
+    [
+     84,
+     88,
+     [
+      "BPE_k16_V24"
+     ]
+    ],
+    [
+     89,
+     94,
+     [
+      "BPE_k20_V28"
+     ]
+    ],
+    [
+     95,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "4608/49",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k00_V08",
+    "BPE_k08_V16",
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28",
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V08"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k02_V10",
+    "BPE_k04_V12"
+   ]
+  },
+  "MORPH1_symbol|mem4_len1": {
+   "cost_coordinates_A_E": {
+    "BPE_k00_V08": [
+     "288",
+     "3"
+    ],
+    "BPE_k02_V10": [
+     "360",
+     "753/256"
+    ],
+    "BPE_k04_V12": [
+     "432",
+     "369/128"
+    ],
+    "BPE_k08_V16": [
+     "576",
+     "177/64"
+    ],
+    "BPE_k12_V20": [
+     "720",
+     "85/32"
+    ],
+    "BPE_k16_V24": [
+     "864",
+     "1305/512"
+    ],
+    "BPE_k20_V28": [
+     "1008",
+     "1253/512"
+    ],
+    "BPE_k24_V32": [
+     "1152",
+     "301/128"
+    ],
+    "ORACLE_UNIT_V08": [
+     "288",
+     "3"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k00_V08|BPE_k02_V10": "6144/5",
+    "BPE_k00_V08|BPE_k04_V12": "6144/5",
+    "BPE_k00_V08|BPE_k08_V16": "6144/5",
+    "BPE_k00_V08|BPE_k12_V20": "13824/11",
+    "BPE_k00_V08|BPE_k16_V24": "98304/77",
+    "BPE_k00_V08|BPE_k20_V28": "368640/283",
+    "BPE_k00_V08|BPE_k24_V32": "110592/83",
+    "BPE_k02_V10|BPE_k04_V12": "6144/5",
+    "BPE_k02_V10|BPE_k08_V16": "6144/5",
+    "BPE_k02_V10|BPE_k12_V20": "92160/73",
+    "BPE_k02_V10|BPE_k16_V24": "86016/67",
+    "BPE_k02_V10|BPE_k20_V28": "331776/253",
+    "BPE_k02_V10|BPE_k24_V32": "202752/151",
+    "BPE_k02_V10|ORACLE_UNIT_V08": "6144/5",
+    "BPE_k04_V12|BPE_k08_V16": "6144/5",
+    "BPE_k04_V12|BPE_k12_V20": "36864/29",
+    "BPE_k04_V12|BPE_k16_V24": "24576/19",
+    "BPE_k04_V12|BPE_k20_V28": "294912/223",
+    "BPE_k04_V12|BPE_k24_V32": "23040/17",
+    "BPE_k04_V12|ORACLE_UNIT_V08": "6144/5",
+    "BPE_k08_V16|BPE_k12_V20": "9216/7",
+    "BPE_k08_V16|BPE_k16_V24": "49152/37",
+    "BPE_k08_V16|BPE_k20_V28": "221184/163",
+    "BPE_k08_V16|BPE_k24_V32": "73728/53",
+    "BPE_k08_V16|ORACLE_UNIT_V08": "6144/5",
+    "BPE_k12_V20|BPE_k16_V24": "73728/55",
+    "BPE_k12_V20|BPE_k20_V28": "147456/107",
+    "BPE_k12_V20|BPE_k24_V32": "18432/13",
+    "BPE_k12_V20|ORACLE_UNIT_V08": "13824/11",
+    "BPE_k16_V24|BPE_k20_V28": "18432/13",
+    "BPE_k16_V24|BPE_k24_V32": "147456/101",
+    "BPE_k16_V24|ORACLE_UNIT_V08": "98304/77",
+    "BPE_k20_V28|BPE_k24_V32": "73728/49",
+    "BPE_k20_V28|ORACLE_UNIT_V08": "368640/283",
+    "BPE_k24_V32|ORACLE_UNIT_V08": "110592/83"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     1228,
+     [
+      "BPE_k00_V08",
+      "ORACLE_UNIT_V08"
+     ]
+    ],
+    [
+     1229,
+     1316,
+     [
+      "BPE_k08_V16"
+     ]
+    ],
+    [
+     1317,
+     1340,
+     [
+      "BPE_k12_V20"
+     ]
+    ],
+    [
+     1341,
+     1417,
+     [
+      "BPE_k16_V24"
+     ]
+    ],
+    [
+     1418,
+     1504,
+     [
+      "BPE_k20_V28"
+     ]
+    ],
+    [
+     1505,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "73728/49",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k00_V08",
+    "BPE_k08_V16",
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28",
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V08"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k02_V10",
+    "BPE_k04_V12"
+   ]
+  },
+  "MORPH2_digram|mem1_len1": {
+   "cost_coordinates_A_E": {
+    "BPE_k12_V20": [
+     "336",
+     "383/128"
+    ],
+    "BPE_k16_V24": [
+     "386",
+     "369/128"
+    ],
+    "BPE_k20_V28": [
+     "442",
+     "355/128"
+    ],
+    "BPE_k24_V32": [
+     "474",
+     "341/128"
+    ],
+    "ORACLE_UNIT_V16": [
+     "144",
+     "3"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k12_V20|BPE_k16_V24": "3200/7",
+    "BPE_k12_V20|BPE_k20_V28": "3392/7",
+    "BPE_k12_V20|BPE_k24_V32": "2944/7",
+    "BPE_k12_V20|ORACLE_UNIT_V16": "24576",
+    "BPE_k16_V24|BPE_k20_V28": "512",
+    "BPE_k16_V24|BPE_k24_V32": "2816/7",
+    "BPE_k16_V24|ORACLE_UNIT_V16": "30976/15",
+    "BPE_k20_V28|BPE_k24_V32": "2048/7",
+    "BPE_k20_V28|ORACLE_UNIT_V16": "38144/29",
+    "BPE_k24_V32|ORACLE_UNIT_V16": "42240/43"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     982,
+     [
+      "ORACLE_UNIT_V16"
+     ]
+    ],
+    [
+     983,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "24576",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28"
+   ]
+  },
+  "MORPH2_digram|mem1_len16": {
+   "cost_coordinates_A_E": {
+    "BPE_k12_V20": [
+     "336",
+     "383/8"
+    ],
+    "BPE_k16_V24": [
+     "386",
+     "369/8"
+    ],
+    "BPE_k20_V28": [
+     "442",
+     "355/8"
+    ],
+    "BPE_k24_V32": [
+     "474",
+     "341/8"
+    ],
+    "ORACLE_UNIT_V16": [
+     "144",
+     "48"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k12_V20|BPE_k16_V24": "200/7",
+    "BPE_k12_V20|BPE_k20_V28": "212/7",
+    "BPE_k12_V20|BPE_k24_V32": "184/7",
+    "BPE_k12_V20|ORACLE_UNIT_V16": "1536",
+    "BPE_k16_V24|BPE_k20_V28": "32",
+    "BPE_k16_V24|BPE_k24_V32": "176/7",
+    "BPE_k16_V24|ORACLE_UNIT_V16": "1936/15",
+    "BPE_k20_V28|BPE_k24_V32": "128/7",
+    "BPE_k20_V28|ORACLE_UNIT_V16": "2384/29",
+    "BPE_k24_V32|ORACLE_UNIT_V16": "2640/43"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     61,
+     [
+      "ORACLE_UNIT_V16"
+     ]
+    ],
+    [
+     62,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "1536",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28"
+   ]
+  },
+  "MORPH2_digram|mem1_len4": {
+   "cost_coordinates_A_E": {
+    "BPE_k12_V20": [
+     "336",
+     "383/32"
+    ],
+    "BPE_k16_V24": [
+     "386",
+     "369/32"
+    ],
+    "BPE_k20_V28": [
+     "442",
+     "355/32"
+    ],
+    "BPE_k24_V32": [
+     "474",
+     "341/32"
+    ],
+    "ORACLE_UNIT_V16": [
+     "144",
+     "12"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k12_V20|BPE_k16_V24": "800/7",
+    "BPE_k12_V20|BPE_k20_V28": "848/7",
+    "BPE_k12_V20|BPE_k24_V32": "736/7",
+    "BPE_k12_V20|ORACLE_UNIT_V16": "6144",
+    "BPE_k16_V24|BPE_k20_V28": "128",
+    "BPE_k16_V24|BPE_k24_V32": "704/7",
+    "BPE_k16_V24|ORACLE_UNIT_V16": "7744/15",
+    "BPE_k20_V28|BPE_k24_V32": "512/7",
+    "BPE_k20_V28|ORACLE_UNIT_V16": "9536/29",
+    "BPE_k24_V32|ORACLE_UNIT_V16": "10560/43"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     245,
+     [
+      "ORACLE_UNIT_V16"
+     ]
+    ],
+    [
+     246,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "6144",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28"
+   ]
+  },
+  "MORPH2_digram|mem4_len1": {
+   "cost_coordinates_A_E": {
+    "BPE_k12_V20": [
+     "1344",
+     "383/128"
+    ],
+    "BPE_k16_V24": [
+     "1544",
+     "369/128"
+    ],
+    "BPE_k20_V28": [
+     "1768",
+     "355/128"
+    ],
+    "BPE_k24_V32": [
+     "1896",
+     "341/128"
+    ],
+    "ORACLE_UNIT_V16": [
+     "576",
+     "3"
+    ]
+   },
+   "crossovers_H_star": {
+    "BPE_k12_V20|BPE_k16_V24": "12800/7",
+    "BPE_k12_V20|BPE_k20_V28": "13568/7",
+    "BPE_k12_V20|BPE_k24_V32": "11776/7",
+    "BPE_k12_V20|ORACLE_UNIT_V16": "98304",
+    "BPE_k16_V24|BPE_k20_V28": "2048",
+    "BPE_k16_V24|BPE_k24_V32": "11264/7",
+    "BPE_k16_V24|ORACLE_UNIT_V16": "123904/15",
+    "BPE_k20_V28|BPE_k24_V32": "8192/7",
+    "BPE_k20_V28|ORACLE_UNIT_V16": "152576/29",
+    "BPE_k24_V32|ORACLE_UNIT_V16": "168960/43"
+   },
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [
+    [
+     1,
+     3929,
+     [
+      "ORACLE_UNIT_V16"
+     ]
+    ],
+    [
+     3930,
+     393220,
+     [
+      "BPE_k24_V32"
+     ]
+    ]
+   ],
+   "grid_max_H": 393220,
+   "largest_crossover": "98304",
+   "occupant_for_all_sufficiently_large_H": [
+    "BPE_k24_V32"
+   ],
+   "occupants_on_grid": [
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28"
+   ]
+  },
+  "MORPH3_trigram|mem1_len1": {
+   "cost_coordinates_A_E": {
+    "ORACLE_UNIT_V16": [
+     "144",
+     "3"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 393220,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "ORACLE_UNIT_V16"
+   ],
+   "occupants_on_grid": [
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  },
+  "MORPH3_trigram|mem1_len16": {
+   "cost_coordinates_A_E": {
+    "ORACLE_UNIT_V16": [
+     "144",
+     "48"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 393220,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "ORACLE_UNIT_V16"
+   ],
+   "occupants_on_grid": [
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  },
+  "MORPH3_trigram|mem1_len4": {
+   "cost_coordinates_A_E": {
+    "ORACLE_UNIT_V16": [
+     "144",
+     "12"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 393220,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "ORACLE_UNIT_V16"
+   ],
+   "occupants_on_grid": [
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  },
+  "MORPH3_trigram|mem4_len1": {
+   "cost_coordinates_A_E": {
+    "ORACLE_UNIT_V16": [
+     "576",
+     "3"
+    ]
+   },
+   "crossovers_H_star": {},
+   "dg2_grid_covers_twice_every_crossover": true,
+   "frontier_runs": [],
+   "grid_max_H": 393220,
+   "largest_crossover": null,
+   "occupant_for_all_sufficiently_large_H": [
+    "ORACLE_UNIT_V16"
+   ],
+   "occupants_on_grid": [
+    "ORACLE_UNIT_V16"
+   ],
+   "rows_never_occupying_a_cell": [],
+   "single_row_context": true
+  }
+ },
+ "cells": {
+  "MORPH1_symbol": {
+   "census_of_rows": {
+    "alphabet": "the eight-symbol surface alphabet Sigma plus BPE merge pieces and the declared units over it",
+    "count": 9,
+    "counts_what": "tokenizer configurations on the declared ladder",
+    "ecology": "MORPH1_symbol",
+    "not_a_species_count": "this is a count of tokenizer configurations on the declared ladder under the triple above; it is NOT a count of species and NOT a count of forms",
+    "rule": "rule 29: a census count is meaningless outside the triple (alphabet, servability filter, ecology) and must carry all three in the same sentence as the number.",
+    "servability_filter": "exact under the parent-maximal bag-of-tokens reader at theta = 1"
+   },
+   "corpus_strings": 512,
+   "distinct_obligation_values": 14,
+   "exact_and_linear_rows": [
+    "BPE_k00_V08",
+    "BPE_k02_V10",
+    "BPE_k04_V12",
+    "BPE_k08_V16",
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28",
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V08"
+   ],
+   "exact_rows": [
+    "BPE_k00_V08",
+    "BPE_k02_V10",
+    "BPE_k04_V12",
+    "BPE_k08_V16",
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28",
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V08"
+   ],
+   "frontier_by_price": {
+    "mem1_len1": {
+     "cost_coordinates_A_E": {
+      "BPE_k00_V08": [
+       "72",
+       "3"
+      ],
+      "BPE_k02_V10": [
+       "90",
+       "753/256"
+      ],
+      "BPE_k04_V12": [
+       "108",
+       "369/128"
+      ],
+      "BPE_k08_V16": [
+       "144",
+       "177/64"
+      ],
+      "BPE_k12_V20": [
+       "180",
+       "85/32"
+      ],
+      "BPE_k16_V24": [
+       "216",
+       "1305/512"
+      ],
+      "BPE_k20_V28": [
+       "252",
+       "1253/512"
+      ],
+      "BPE_k24_V32": [
+       "288",
+       "301/128"
+      ],
+      "ORACLE_UNIT_V08": [
+       "72",
+       "3"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k00_V08|BPE_k02_V10": "1536/5",
+      "BPE_k00_V08|BPE_k04_V12": "1536/5",
+      "BPE_k00_V08|BPE_k08_V16": "1536/5",
+      "BPE_k00_V08|BPE_k12_V20": "3456/11",
+      "BPE_k00_V08|BPE_k16_V24": "24576/77",
+      "BPE_k00_V08|BPE_k20_V28": "92160/283",
+      "BPE_k00_V08|BPE_k24_V32": "27648/83",
+      "BPE_k02_V10|BPE_k04_V12": "1536/5",
+      "BPE_k02_V10|BPE_k08_V16": "1536/5",
+      "BPE_k02_V10|BPE_k12_V20": "23040/73",
+      "BPE_k02_V10|BPE_k16_V24": "21504/67",
+      "BPE_k02_V10|BPE_k20_V28": "82944/253",
+      "BPE_k02_V10|BPE_k24_V32": "50688/151",
+      "BPE_k02_V10|ORACLE_UNIT_V08": "1536/5",
+      "BPE_k04_V12|BPE_k08_V16": "1536/5",
+      "BPE_k04_V12|BPE_k12_V20": "9216/29",
+      "BPE_k04_V12|BPE_k16_V24": "6144/19",
+      "BPE_k04_V12|BPE_k20_V28": "73728/223",
+      "BPE_k04_V12|BPE_k24_V32": "5760/17",
+      "BPE_k04_V12|ORACLE_UNIT_V08": "1536/5",
+      "BPE_k08_V16|BPE_k12_V20": "2304/7",
+      "BPE_k08_V16|BPE_k16_V24": "12288/37",
+      "BPE_k08_V16|BPE_k20_V28": "55296/163",
+      "BPE_k08_V16|BPE_k24_V32": "18432/53",
+      "BPE_k08_V16|ORACLE_UNIT_V08": "1536/5",
+      "BPE_k12_V20|BPE_k16_V24": "18432/55",
+      "BPE_k12_V20|BPE_k20_V28": "36864/107",
+      "BPE_k12_V20|BPE_k24_V32": "4608/13",
+      "BPE_k12_V20|ORACLE_UNIT_V08": "3456/11",
+      "BPE_k16_V24|BPE_k20_V28": "4608/13",
+      "BPE_k16_V24|BPE_k24_V32": "36864/101",
+      "BPE_k16_V24|ORACLE_UNIT_V08": "24576/77",
+      "BPE_k20_V28|BPE_k24_V32": "18432/49",
+      "BPE_k20_V28|ORACLE_UNIT_V08": "92160/283",
+      "BPE_k24_V32|ORACLE_UNIT_V08": "27648/83"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       307,
+       [
+        "BPE_k00_V08",
+        "ORACLE_UNIT_V08"
+       ]
+      ],
+      [
+       308,
+       329,
+       [
+        "BPE_k08_V16"
+       ]
+      ],
+      [
+       330,
+       335,
+       [
+        "BPE_k12_V20"
+       ]
+      ],
+      [
+       336,
+       354,
+       [
+        "BPE_k16_V24"
+       ]
+      ],
+      [
+       355,
+       376,
+       [
+        "BPE_k20_V28"
+       ]
+      ],
+      [
+       377,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "18432/49",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k00_V08",
+      "BPE_k08_V16",
+      "BPE_k12_V20",
+      "BPE_k16_V24",
+      "BPE_k20_V28",
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V08"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k02_V10",
+      "BPE_k04_V12"
+     ]
+    },
+    "mem1_len16": {
+     "cost_coordinates_A_E": {
+      "BPE_k00_V08": [
+       "72",
+       "48"
+      ],
+      "BPE_k02_V10": [
+       "90",
+       "753/16"
+      ],
+      "BPE_k04_V12": [
+       "108",
+       "369/8"
+      ],
+      "BPE_k08_V16": [
+       "144",
+       "177/4"
+      ],
+      "BPE_k12_V20": [
+       "180",
+       "85/2"
+      ],
+      "BPE_k16_V24": [
+       "216",
+       "1305/32"
+      ],
+      "BPE_k20_V28": [
+       "252",
+       "1253/32"
+      ],
+      "BPE_k24_V32": [
+       "288",
+       "301/8"
+      ],
+      "ORACLE_UNIT_V08": [
+       "72",
+       "48"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k00_V08|BPE_k02_V10": "96/5",
+      "BPE_k00_V08|BPE_k04_V12": "96/5",
+      "BPE_k00_V08|BPE_k08_V16": "96/5",
+      "BPE_k00_V08|BPE_k12_V20": "216/11",
+      "BPE_k00_V08|BPE_k16_V24": "1536/77",
+      "BPE_k00_V08|BPE_k20_V28": "5760/283",
+      "BPE_k00_V08|BPE_k24_V32": "1728/83",
+      "BPE_k02_V10|BPE_k04_V12": "96/5",
+      "BPE_k02_V10|BPE_k08_V16": "96/5",
+      "BPE_k02_V10|BPE_k12_V20": "1440/73",
+      "BPE_k02_V10|BPE_k16_V24": "1344/67",
+      "BPE_k02_V10|BPE_k20_V28": "5184/253",
+      "BPE_k02_V10|BPE_k24_V32": "3168/151",
+      "BPE_k02_V10|ORACLE_UNIT_V08": "96/5",
+      "BPE_k04_V12|BPE_k08_V16": "96/5",
+      "BPE_k04_V12|BPE_k12_V20": "576/29",
+      "BPE_k04_V12|BPE_k16_V24": "384/19",
+      "BPE_k04_V12|BPE_k20_V28": "4608/223",
+      "BPE_k04_V12|BPE_k24_V32": "360/17",
+      "BPE_k04_V12|ORACLE_UNIT_V08": "96/5",
+      "BPE_k08_V16|BPE_k12_V20": "144/7",
+      "BPE_k08_V16|BPE_k16_V24": "768/37",
+      "BPE_k08_V16|BPE_k20_V28": "3456/163",
+      "BPE_k08_V16|BPE_k24_V32": "1152/53",
+      "BPE_k08_V16|ORACLE_UNIT_V08": "96/5",
+      "BPE_k12_V20|BPE_k16_V24": "1152/55",
+      "BPE_k12_V20|BPE_k20_V28": "2304/107",
+      "BPE_k12_V20|BPE_k24_V32": "288/13",
+      "BPE_k12_V20|ORACLE_UNIT_V08": "216/11",
+      "BPE_k16_V24|BPE_k20_V28": "288/13",
+      "BPE_k16_V24|BPE_k24_V32": "2304/101",
+      "BPE_k16_V24|ORACLE_UNIT_V08": "1536/77",
+      "BPE_k20_V28|BPE_k24_V32": "1152/49",
+      "BPE_k20_V28|ORACLE_UNIT_V08": "5760/283",
+      "BPE_k24_V32|ORACLE_UNIT_V08": "1728/83"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       19,
+       [
+        "BPE_k00_V08",
+        "ORACLE_UNIT_V08"
+       ]
+      ],
+      [
+       20,
+       20,
+       [
+        "BPE_k08_V16"
+       ]
+      ],
+      [
+       21,
+       22,
+       [
+        "BPE_k16_V24"
+       ]
+      ],
+      [
+       23,
+       23,
+       [
+        "BPE_k20_V28"
+       ]
+      ],
+      [
+       24,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "1152/49",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k00_V08",
+      "BPE_k08_V16",
+      "BPE_k16_V24",
+      "BPE_k20_V28",
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V08"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k02_V10",
+      "BPE_k04_V12",
+      "BPE_k12_V20"
+     ]
+    },
+    "mem1_len4": {
+     "cost_coordinates_A_E": {
+      "BPE_k00_V08": [
+       "72",
+       "12"
+      ],
+      "BPE_k02_V10": [
+       "90",
+       "753/64"
+      ],
+      "BPE_k04_V12": [
+       "108",
+       "369/32"
+      ],
+      "BPE_k08_V16": [
+       "144",
+       "177/16"
+      ],
+      "BPE_k12_V20": [
+       "180",
+       "85/8"
+      ],
+      "BPE_k16_V24": [
+       "216",
+       "1305/128"
+      ],
+      "BPE_k20_V28": [
+       "252",
+       "1253/128"
+      ],
+      "BPE_k24_V32": [
+       "288",
+       "301/32"
+      ],
+      "ORACLE_UNIT_V08": [
+       "72",
+       "12"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k00_V08|BPE_k02_V10": "384/5",
+      "BPE_k00_V08|BPE_k04_V12": "384/5",
+      "BPE_k00_V08|BPE_k08_V16": "384/5",
+      "BPE_k00_V08|BPE_k12_V20": "864/11",
+      "BPE_k00_V08|BPE_k16_V24": "6144/77",
+      "BPE_k00_V08|BPE_k20_V28": "23040/283",
+      "BPE_k00_V08|BPE_k24_V32": "6912/83",
+      "BPE_k02_V10|BPE_k04_V12": "384/5",
+      "BPE_k02_V10|BPE_k08_V16": "384/5",
+      "BPE_k02_V10|BPE_k12_V20": "5760/73",
+      "BPE_k02_V10|BPE_k16_V24": "5376/67",
+      "BPE_k02_V10|BPE_k20_V28": "20736/253",
+      "BPE_k02_V10|BPE_k24_V32": "12672/151",
+      "BPE_k02_V10|ORACLE_UNIT_V08": "384/5",
+      "BPE_k04_V12|BPE_k08_V16": "384/5",
+      "BPE_k04_V12|BPE_k12_V20": "2304/29",
+      "BPE_k04_V12|BPE_k16_V24": "1536/19",
+      "BPE_k04_V12|BPE_k20_V28": "18432/223",
+      "BPE_k04_V12|BPE_k24_V32": "1440/17",
+      "BPE_k04_V12|ORACLE_UNIT_V08": "384/5",
+      "BPE_k08_V16|BPE_k12_V20": "576/7",
+      "BPE_k08_V16|BPE_k16_V24": "3072/37",
+      "BPE_k08_V16|BPE_k20_V28": "13824/163",
+      "BPE_k08_V16|BPE_k24_V32": "4608/53",
+      "BPE_k08_V16|ORACLE_UNIT_V08": "384/5",
+      "BPE_k12_V20|BPE_k16_V24": "4608/55",
+      "BPE_k12_V20|BPE_k20_V28": "9216/107",
+      "BPE_k12_V20|BPE_k24_V32": "1152/13",
+      "BPE_k12_V20|ORACLE_UNIT_V08": "864/11",
+      "BPE_k16_V24|BPE_k20_V28": "1152/13",
+      "BPE_k16_V24|BPE_k24_V32": "9216/101",
+      "BPE_k16_V24|ORACLE_UNIT_V08": "6144/77",
+      "BPE_k20_V28|BPE_k24_V32": "4608/49",
+      "BPE_k20_V28|ORACLE_UNIT_V08": "23040/283",
+      "BPE_k24_V32|ORACLE_UNIT_V08": "6912/83"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       76,
+       [
+        "BPE_k00_V08",
+        "ORACLE_UNIT_V08"
+       ]
+      ],
+      [
+       77,
+       82,
+       [
+        "BPE_k08_V16"
+       ]
+      ],
+      [
+       83,
+       83,
+       [
+        "BPE_k12_V20"
+       ]
+      ],
+      [
+       84,
+       88,
+       [
+        "BPE_k16_V24"
+       ]
+      ],
+      [
+       89,
+       94,
+       [
+        "BPE_k20_V28"
+       ]
+      ],
+      [
+       95,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "4608/49",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k00_V08",
+      "BPE_k08_V16",
+      "BPE_k12_V20",
+      "BPE_k16_V24",
+      "BPE_k20_V28",
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V08"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k02_V10",
+      "BPE_k04_V12"
+     ]
+    },
+    "mem4_len1": {
+     "cost_coordinates_A_E": {
+      "BPE_k00_V08": [
+       "288",
+       "3"
+      ],
+      "BPE_k02_V10": [
+       "360",
+       "753/256"
+      ],
+      "BPE_k04_V12": [
+       "432",
+       "369/128"
+      ],
+      "BPE_k08_V16": [
+       "576",
+       "177/64"
+      ],
+      "BPE_k12_V20": [
+       "720",
+       "85/32"
+      ],
+      "BPE_k16_V24": [
+       "864",
+       "1305/512"
+      ],
+      "BPE_k20_V28": [
+       "1008",
+       "1253/512"
+      ],
+      "BPE_k24_V32": [
+       "1152",
+       "301/128"
+      ],
+      "ORACLE_UNIT_V08": [
+       "288",
+       "3"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k00_V08|BPE_k02_V10": "6144/5",
+      "BPE_k00_V08|BPE_k04_V12": "6144/5",
+      "BPE_k00_V08|BPE_k08_V16": "6144/5",
+      "BPE_k00_V08|BPE_k12_V20": "13824/11",
+      "BPE_k00_V08|BPE_k16_V24": "98304/77",
+      "BPE_k00_V08|BPE_k20_V28": "368640/283",
+      "BPE_k00_V08|BPE_k24_V32": "110592/83",
+      "BPE_k02_V10|BPE_k04_V12": "6144/5",
+      "BPE_k02_V10|BPE_k08_V16": "6144/5",
+      "BPE_k02_V10|BPE_k12_V20": "92160/73",
+      "BPE_k02_V10|BPE_k16_V24": "86016/67",
+      "BPE_k02_V10|BPE_k20_V28": "331776/253",
+      "BPE_k02_V10|BPE_k24_V32": "202752/151",
+      "BPE_k02_V10|ORACLE_UNIT_V08": "6144/5",
+      "BPE_k04_V12|BPE_k08_V16": "6144/5",
+      "BPE_k04_V12|BPE_k12_V20": "36864/29",
+      "BPE_k04_V12|BPE_k16_V24": "24576/19",
+      "BPE_k04_V12|BPE_k20_V28": "294912/223",
+      "BPE_k04_V12|BPE_k24_V32": "23040/17",
+      "BPE_k04_V12|ORACLE_UNIT_V08": "6144/5",
+      "BPE_k08_V16|BPE_k12_V20": "9216/7",
+      "BPE_k08_V16|BPE_k16_V24": "49152/37",
+      "BPE_k08_V16|BPE_k20_V28": "221184/163",
+      "BPE_k08_V16|BPE_k24_V32": "73728/53",
+      "BPE_k08_V16|ORACLE_UNIT_V08": "6144/5",
+      "BPE_k12_V20|BPE_k16_V24": "73728/55",
+      "BPE_k12_V20|BPE_k20_V28": "147456/107",
+      "BPE_k12_V20|BPE_k24_V32": "18432/13",
+      "BPE_k12_V20|ORACLE_UNIT_V08": "13824/11",
+      "BPE_k16_V24|BPE_k20_V28": "18432/13",
+      "BPE_k16_V24|BPE_k24_V32": "147456/101",
+      "BPE_k16_V24|ORACLE_UNIT_V08": "98304/77",
+      "BPE_k20_V28|BPE_k24_V32": "73728/49",
+      "BPE_k20_V28|ORACLE_UNIT_V08": "368640/283",
+      "BPE_k24_V32|ORACLE_UNIT_V08": "110592/83"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       1228,
+       [
+        "BPE_k00_V08",
+        "ORACLE_UNIT_V08"
+       ]
+      ],
+      [
+       1229,
+       1316,
+       [
+        "BPE_k08_V16"
+       ]
+      ],
+      [
+       1317,
+       1340,
+       [
+        "BPE_k12_V20"
+       ]
+      ],
+      [
+       1341,
+       1417,
+       [
+        "BPE_k16_V24"
+       ]
+      ],
+      [
+       1418,
+       1504,
+       [
+        "BPE_k20_V28"
+       ]
+      ],
+      [
+       1505,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "73728/49",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k00_V08",
+      "BPE_k08_V16",
+      "BPE_k12_V20",
+      "BPE_k16_V24",
+      "BPE_k20_V28",
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V08"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k02_V10",
+      "BPE_k04_V12"
+     ]
+    }
+   },
+   "frontier_cost_lines_by_price": {
+    "mem1_len1": {
+     "BPE_k00_V08": [
+      "72",
+      "3"
+     ],
+     "BPE_k02_V10": [
+      "90",
+      "753/256"
+     ],
+     "BPE_k04_V12": [
+      "108",
+      "369/128"
+     ],
+     "BPE_k08_V16": [
+      "144",
+      "177/64"
+     ],
+     "BPE_k12_V20": [
+      "180",
+      "85/32"
+     ],
+     "BPE_k16_V24": [
+      "216",
+      "1305/512"
+     ],
+     "BPE_k20_V28": [
+      "252",
+      "1253/512"
+     ],
+     "BPE_k24_V32": [
+      "288",
+      "301/128"
+     ],
+     "ORACLE_UNIT_V08": [
+      "72",
+      "3"
+     ]
+    },
+    "mem1_len16": {
+     "BPE_k00_V08": [
+      "72",
+      "48"
+     ],
+     "BPE_k02_V10": [
+      "90",
+      "753/16"
+     ],
+     "BPE_k04_V12": [
+      "108",
+      "369/8"
+     ],
+     "BPE_k08_V16": [
+      "144",
+      "177/4"
+     ],
+     "BPE_k12_V20": [
+      "180",
+      "85/2"
+     ],
+     "BPE_k16_V24": [
+      "216",
+      "1305/32"
+     ],
+     "BPE_k20_V28": [
+      "252",
+      "1253/32"
+     ],
+     "BPE_k24_V32": [
+      "288",
+      "301/8"
+     ],
+     "ORACLE_UNIT_V08": [
+      "72",
+      "48"
+     ]
+    },
+    "mem1_len4": {
+     "BPE_k00_V08": [
+      "72",
+      "12"
+     ],
+     "BPE_k02_V10": [
+      "90",
+      "753/64"
+     ],
+     "BPE_k04_V12": [
+      "108",
+      "369/32"
+     ],
+     "BPE_k08_V16": [
+      "144",
+      "177/16"
+     ],
+     "BPE_k12_V20": [
+      "180",
+      "85/8"
+     ],
+     "BPE_k16_V24": [
+      "216",
+      "1305/128"
+     ],
+     "BPE_k20_V28": [
+      "252",
+      "1253/128"
+     ],
+     "BPE_k24_V32": [
+      "288",
+      "301/32"
+     ],
+     "ORACLE_UNIT_V08": [
+      "72",
+      "12"
+     ]
+    },
+    "mem4_len1": {
+     "BPE_k00_V08": [
+      "288",
+      "3"
+     ],
+     "BPE_k02_V10": [
+      "360",
+      "753/256"
+     ],
+     "BPE_k04_V12": [
+      "432",
+      "369/128"
+     ],
+     "BPE_k08_V16": [
+      "576",
+      "177/64"
+     ],
+     "BPE_k12_V20": [
+      "720",
+      "85/32"
+     ],
+     "BPE_k16_V24": [
+      "864",
+      "1305/512"
+     ],
+     "BPE_k20_V28": [
+      "1008",
+      "1253/512"
+     ],
+     "BPE_k24_V32": [
+      "1152",
+      "301/128"
+     ],
+     "ORACLE_UNIT_V08": [
+      "288",
+      "3"
+     ]
+    }
+   },
+   "minimal_exact_vocabulary_size": 8,
+   "morphology": "MORPH1_symbol",
+   "rows": {
+    "BPE_k00_V08": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "3",
+     "description_scalars_total": 72,
+     "distinct_feature_classes": 120,
+     "embedding_scalars_2Vd": 64,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 8,
+     "linear_system_consistent": true,
+     "linear_system_rank": 8,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 3.0,
+     "mean_tokens_per_string": "3",
+     "merge_table": [],
+     "merges": [],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 8,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "3",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1536,
+     "unit_aligned_segmentation_fraction": "1",
+     "vocabulary_size_V": 8
+    },
+    "BPE_k02_V10": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "753/256",
+     "description_scalars_total": 90,
+     "distinct_feature_classes": 134,
+     "embedding_scalars_2Vd": 80,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 10,
+     "linear_system_consistent": true,
+     "linear_system_rank": 10,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.941406,
+     "mean_tokens_per_string": "753/256",
+     "merge_table": [
+      [
+       0,
+       "|",
+       0
+      ],
+      [
+       1,
+       "|",
+       1
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        1
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 10,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "753/256",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1506,
+     "unit_aligned_segmentation_fraction": "241/256",
+     "vocabulary_size_V": 10
+    },
+    "BPE_k04_V12": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "369/128",
+     "description_scalars_total": 108,
+     "distinct_feature_classes": 148,
+     "embedding_scalars_2Vd": 96,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 28,
+     "linear_system_consistent": true,
+     "linear_system_rank": 12,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.882812,
+     "mean_tokens_per_string": "369/128",
+     "merge_table": [
+      [
+       0,
+       "|",
+       0
+      ],
+      [
+       1,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       2
+      ],
+      [
+       3,
+       "|",
+       3
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        3
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 12,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "369/128",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1476,
+     "unit_aligned_segmentation_fraction": "113/128",
+     "vocabulary_size_V": 12
+    },
+    "BPE_k08_V16": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "177/64",
+     "description_scalars_total": 144,
+     "distinct_feature_classes": 176,
+     "embedding_scalars_2Vd": 128,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 64,
+     "linear_system_consistent": true,
+     "linear_system_rank": 16,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.765625,
+     "mean_tokens_per_string": "177/64",
+     "merge_table": [
+      [
+       0,
+       "|",
+       0
+      ],
+      [
+       1,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       2
+      ],
+      [
+       3,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       4
+      ],
+      [
+       5,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       6
+      ],
+      [
+       7,
+       "|",
+       7
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        7
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 16,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "177/64",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1416,
+     "unit_aligned_segmentation_fraction": "49/64",
+     "vocabulary_size_V": 16
+    },
+    "BPE_k12_V20": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "85/32",
+     "description_scalars_total": 180,
+     "distinct_feature_classes": 200,
+     "embedding_scalars_2Vd": 160,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 64,
+     "linear_system_consistent": true,
+     "linear_system_rank": 20,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.65625,
+     "mean_tokens_per_string": "85/32",
+     "merge_table": [
+      [
+       0,
+       "|",
+       0
+      ],
+      [
+       1,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       2
+      ],
+      [
+       3,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       4
+      ],
+      [
+       5,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       6
+      ],
+      [
+       7,
+       "|",
+       7
+      ],
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       2
+      ],
+      [
+       0,
+       "|",
+       3
+      ],
+      [
+       0,
+       "|",
+       4
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        4
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 20,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "85/32",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1360,
+     "unit_aligned_segmentation_fraction": "21/32",
+     "vocabulary_size_V": 20
+    },
+    "BPE_k16_V24": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "1305/512",
+     "description_scalars_total": 216,
+     "distinct_feature_classes": 224,
+     "embedding_scalars_2Vd": 192,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 89,
+     "linear_system_consistent": true,
+     "linear_system_rank": 24,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.548828,
+     "mean_tokens_per_string": "1305/512",
+     "merge_table": [
+      [
+       0,
+       "|",
+       0
+      ],
+      [
+       1,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       2
+      ],
+      [
+       3,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       4
+      ],
+      [
+       5,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       6
+      ],
+      [
+       7,
+       "|",
+       7
+      ],
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       2
+      ],
+      [
+       0,
+       "|",
+       3
+      ],
+      [
+       0,
+       "|",
+       4
+      ],
+      [
+       0,
+       "|",
+       5
+      ],
+      [
+       0,
+       "|",
+       6
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       2
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        2
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 24,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "1305/512",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1305,
+     "unit_aligned_segmentation_fraction": "281/512",
+     "vocabulary_size_V": 24
+    },
+    "BPE_k20_V28": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "1253/512",
+     "description_scalars_total": 252,
+     "distinct_feature_classes": 248,
+     "embedding_scalars_2Vd": 224,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 121,
+     "linear_system_consistent": true,
+     "linear_system_rank": 28,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.447266,
+     "mean_tokens_per_string": "1253/512",
+     "merge_table": [
+      [
+       0,
+       "|",
+       0
+      ],
+      [
+       1,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       2
+      ],
+      [
+       3,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       4
+      ],
+      [
+       5,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       6
+      ],
+      [
+       7,
+       "|",
+       7
+      ],
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       2
+      ],
+      [
+       0,
+       "|",
+       3
+      ],
+      [
+       0,
+       "|",
+       4
+      ],
+      [
+       0,
+       "|",
+       5
+      ],
+      [
+       0,
+       "|",
+       6
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       2
+      ],
+      [
+       1,
+       "|",
+       3
+      ],
+      [
+       1,
+       "|",
+       4
+      ],
+      [
+       1,
+       "|",
+       5
+      ],
+      [
+       1,
+       "|",
+       6
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        6
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 28,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "1253/512",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1253,
+     "unit_aligned_segmentation_fraction": "229/512",
+     "vocabulary_size_V": 28
+    },
+    "BPE_k24_V32": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "301/128",
+     "description_scalars_total": 288,
+     "distinct_feature_classes": 272,
+     "embedding_scalars_2Vd": 256,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 169,
+     "linear_system_consistent": true,
+     "linear_system_rank": 32,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.351562,
+     "mean_tokens_per_string": "301/128",
+     "merge_table": [
+      [
+       0,
+       "|",
+       0
+      ],
+      [
+       1,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       2
+      ],
+      [
+       3,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       4
+      ],
+      [
+       5,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       6
+      ],
+      [
+       7,
+       "|",
+       7
+      ],
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       2
+      ],
+      [
+       0,
+       "|",
+       3
+      ],
+      [
+       0,
+       "|",
+       4
+      ],
+      [
+       0,
+       "|",
+       5
+      ],
+      [
+       0,
+       "|",
+       6
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       2
+      ],
+      [
+       1,
+       "|",
+       3
+      ],
+      [
+       1,
+       "|",
+       4
+      ],
+      [
+       1,
+       "|",
+       5
+      ],
+      [
+       1,
+       "|",
+       6
+      ],
+      [
+       1,
+       "|",
+       7
+      ],
+      [
+       2,
+       "|",
+       3
+      ],
+      [
+       2,
+       "|",
+       4
+      ],
+      [
+       2,
+       "|",
+       5
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        5
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 32,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "301/128",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1204,
+     "unit_aligned_segmentation_fraction": "45/128",
+     "vocabulary_size_V": 32
+    },
+    "ORACLE_UNIT_V08": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "3",
+     "description_scalars_total": 72,
+     "distinct_feature_classes": 120,
+     "embedding_scalars_2Vd": 64,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 8,
+     "linear_system_consistent": true,
+     "linear_system_rank": 8,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 3.0,
+     "mean_tokens_per_string": "3",
+     "merge_table": "declared unit boundaries (not learned)",
+     "merges": "declared unit boundaries (not learned)",
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 8,
+     "remint_exact": true,
+     "remint_hindsight_optimal_capability": "1",
+     "remint_hindsight_optimal_capability_float": 1.0,
+     "remint_linear_consistent": true,
+     "remint_mean_tokens": "3",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1536,
+     "unit_aligned_segmentation_fraction": "1",
+     "vocabulary_size_V": 8
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "BPE_k00_V08": "3",
+     "BPE_k02_V10": "753/256",
+     "BPE_k04_V12": "369/128",
+     "BPE_k08_V16": "177/64",
+     "BPE_k12_V20": "85/32",
+     "BPE_k16_V24": "1305/512",
+     "BPE_k20_V28": "1253/512",
+     "BPE_k24_V32": "301/128",
+     "CONSTANT_CONTROL": "0",
+     "ORACLE_UNIT_V08": "3"
+    },
+    "n_rows": 10,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "best_constant_answer": -1,
+    "capability": "9/64",
+    "capability_float": 0.140625,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "surface_length": 3,
+   "unit_length": 1,
+   "unit_values": [
+    1,
+    1,
+    -2,
+    -2,
+    3,
+    3,
+    0,
+    0
+   ],
+   "units": [
+    [
+     0
+    ],
+    [
+     1
+    ],
+    [
+     2
+    ],
+    [
+     3
+    ],
+    [
+     4
+    ],
+    [
+     5
+    ],
+    [
+     6
+    ],
+    [
+     7
+    ]
+   ]
+  },
+  "MORPH2_digram": {
+   "census_of_rows": {
+    "alphabet": "the eight-symbol surface alphabet Sigma plus BPE merge pieces and the declared units over it",
+    "count": 9,
+    "counts_what": "tokenizer configurations on the declared ladder",
+    "ecology": "MORPH2_digram",
+    "not_a_species_count": "this is a count of tokenizer configurations on the declared ladder under the triple above; it is NOT a count of species and NOT a count of forms",
+    "rule": "rule 29: a census count is meaningless outside the triple (alphabet, servability filter, ecology) and must carry all three in the same sentence as the number.",
+    "servability_filter": "exact under the parent-maximal bag-of-tokens reader at theta = 1"
+   },
+   "corpus_strings": 512,
+   "distinct_obligation_values": 14,
+   "exact_and_linear_rows": [
+    "ORACLE_UNIT_V16"
+   ],
+   "exact_rows": [
+    "BPE_k12_V20",
+    "BPE_k16_V24",
+    "BPE_k20_V28",
+    "BPE_k24_V32",
+    "ORACLE_UNIT_V16"
+   ],
+   "frontier_by_price": {
+    "mem1_len1": {
+     "cost_coordinates_A_E": {
+      "BPE_k12_V20": [
+       "336",
+       "383/128"
+      ],
+      "BPE_k16_V24": [
+       "386",
+       "369/128"
+      ],
+      "BPE_k20_V28": [
+       "442",
+       "355/128"
+      ],
+      "BPE_k24_V32": [
+       "474",
+       "341/128"
+      ],
+      "ORACLE_UNIT_V16": [
+       "144",
+       "3"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k12_V20|BPE_k16_V24": "3200/7",
+      "BPE_k12_V20|BPE_k20_V28": "3392/7",
+      "BPE_k12_V20|BPE_k24_V32": "2944/7",
+      "BPE_k12_V20|ORACLE_UNIT_V16": "24576",
+      "BPE_k16_V24|BPE_k20_V28": "512",
+      "BPE_k16_V24|BPE_k24_V32": "2816/7",
+      "BPE_k16_V24|ORACLE_UNIT_V16": "30976/15",
+      "BPE_k20_V28|BPE_k24_V32": "2048/7",
+      "BPE_k20_V28|ORACLE_UNIT_V16": "38144/29",
+      "BPE_k24_V32|ORACLE_UNIT_V16": "42240/43"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       982,
+       [
+        "ORACLE_UNIT_V16"
+       ]
+      ],
+      [
+       983,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "24576",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k12_V20",
+      "BPE_k16_V24",
+      "BPE_k20_V28"
+     ]
+    },
+    "mem1_len16": {
+     "cost_coordinates_A_E": {
+      "BPE_k12_V20": [
+       "336",
+       "383/8"
+      ],
+      "BPE_k16_V24": [
+       "386",
+       "369/8"
+      ],
+      "BPE_k20_V28": [
+       "442",
+       "355/8"
+      ],
+      "BPE_k24_V32": [
+       "474",
+       "341/8"
+      ],
+      "ORACLE_UNIT_V16": [
+       "144",
+       "48"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k12_V20|BPE_k16_V24": "200/7",
+      "BPE_k12_V20|BPE_k20_V28": "212/7",
+      "BPE_k12_V20|BPE_k24_V32": "184/7",
+      "BPE_k12_V20|ORACLE_UNIT_V16": "1536",
+      "BPE_k16_V24|BPE_k20_V28": "32",
+      "BPE_k16_V24|BPE_k24_V32": "176/7",
+      "BPE_k16_V24|ORACLE_UNIT_V16": "1936/15",
+      "BPE_k20_V28|BPE_k24_V32": "128/7",
+      "BPE_k20_V28|ORACLE_UNIT_V16": "2384/29",
+      "BPE_k24_V32|ORACLE_UNIT_V16": "2640/43"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       61,
+       [
+        "ORACLE_UNIT_V16"
+       ]
+      ],
+      [
+       62,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "1536",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k12_V20",
+      "BPE_k16_V24",
+      "BPE_k20_V28"
+     ]
+    },
+    "mem1_len4": {
+     "cost_coordinates_A_E": {
+      "BPE_k12_V20": [
+       "336",
+       "383/32"
+      ],
+      "BPE_k16_V24": [
+       "386",
+       "369/32"
+      ],
+      "BPE_k20_V28": [
+       "442",
+       "355/32"
+      ],
+      "BPE_k24_V32": [
+       "474",
+       "341/32"
+      ],
+      "ORACLE_UNIT_V16": [
+       "144",
+       "12"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k12_V20|BPE_k16_V24": "800/7",
+      "BPE_k12_V20|BPE_k20_V28": "848/7",
+      "BPE_k12_V20|BPE_k24_V32": "736/7",
+      "BPE_k12_V20|ORACLE_UNIT_V16": "6144",
+      "BPE_k16_V24|BPE_k20_V28": "128",
+      "BPE_k16_V24|BPE_k24_V32": "704/7",
+      "BPE_k16_V24|ORACLE_UNIT_V16": "7744/15",
+      "BPE_k20_V28|BPE_k24_V32": "512/7",
+      "BPE_k20_V28|ORACLE_UNIT_V16": "9536/29",
+      "BPE_k24_V32|ORACLE_UNIT_V16": "10560/43"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       245,
+       [
+        "ORACLE_UNIT_V16"
+       ]
+      ],
+      [
+       246,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "6144",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k12_V20",
+      "BPE_k16_V24",
+      "BPE_k20_V28"
+     ]
+    },
+    "mem4_len1": {
+     "cost_coordinates_A_E": {
+      "BPE_k12_V20": [
+       "1344",
+       "383/128"
+      ],
+      "BPE_k16_V24": [
+       "1544",
+       "369/128"
+      ],
+      "BPE_k20_V28": [
+       "1768",
+       "355/128"
+      ],
+      "BPE_k24_V32": [
+       "1896",
+       "341/128"
+      ],
+      "ORACLE_UNIT_V16": [
+       "576",
+       "3"
+      ]
+     },
+     "crossovers_H_star": {
+      "BPE_k12_V20|BPE_k16_V24": "12800/7",
+      "BPE_k12_V20|BPE_k20_V28": "13568/7",
+      "BPE_k12_V20|BPE_k24_V32": "11776/7",
+      "BPE_k12_V20|ORACLE_UNIT_V16": "98304",
+      "BPE_k16_V24|BPE_k20_V28": "2048",
+      "BPE_k16_V24|BPE_k24_V32": "11264/7",
+      "BPE_k16_V24|ORACLE_UNIT_V16": "123904/15",
+      "BPE_k20_V28|BPE_k24_V32": "8192/7",
+      "BPE_k20_V28|ORACLE_UNIT_V16": "152576/29",
+      "BPE_k24_V32|ORACLE_UNIT_V16": "168960/43"
+     },
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [
+      [
+       1,
+       3929,
+       [
+        "ORACLE_UNIT_V16"
+       ]
+      ],
+      [
+       3930,
+       393220,
+       [
+        "BPE_k24_V32"
+       ]
+      ]
+     ],
+     "grid_max_H": 393220,
+     "largest_crossover": "98304",
+     "occupant_for_all_sufficiently_large_H": [
+      "BPE_k24_V32"
+     ],
+     "occupants_on_grid": [
+      "BPE_k24_V32",
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": [
+      "BPE_k12_V20",
+      "BPE_k16_V24",
+      "BPE_k20_V28"
+     ]
+    }
+   },
+   "frontier_cost_lines_by_price": {
+    "mem1_len1": {
+     "BPE_k12_V20": [
+      "336",
+      "383/128"
+     ],
+     "BPE_k16_V24": [
+      "386",
+      "369/128"
+     ],
+     "BPE_k20_V28": [
+      "442",
+      "355/128"
+     ],
+     "BPE_k24_V32": [
+      "474",
+      "341/128"
+     ],
+     "ORACLE_UNIT_V16": [
+      "144",
+      "3"
+     ]
+    },
+    "mem1_len16": {
+     "BPE_k12_V20": [
+      "336",
+      "383/8"
+     ],
+     "BPE_k16_V24": [
+      "386",
+      "369/8"
+     ],
+     "BPE_k20_V28": [
+      "442",
+      "355/8"
+     ],
+     "BPE_k24_V32": [
+      "474",
+      "341/8"
+     ],
+     "ORACLE_UNIT_V16": [
+      "144",
+      "48"
+     ]
+    },
+    "mem1_len4": {
+     "BPE_k12_V20": [
+      "336",
+      "383/32"
+     ],
+     "BPE_k16_V24": [
+      "386",
+      "369/32"
+     ],
+     "BPE_k20_V28": [
+      "442",
+      "355/32"
+     ],
+     "BPE_k24_V32": [
+      "474",
+      "341/32"
+     ],
+     "ORACLE_UNIT_V16": [
+      "144",
+      "12"
+     ]
+    },
+    "mem4_len1": {
+     "BPE_k12_V20": [
+      "1344",
+      "383/128"
+     ],
+     "BPE_k16_V24": [
+      "1544",
+      "369/128"
+     ],
+     "BPE_k20_V28": [
+      "1768",
+      "355/128"
+     ],
+     "BPE_k24_V32": [
+      "1896",
+      "341/128"
+     ],
+     "ORACLE_UNIT_V16": [
+      "576",
+      "3"
+     ]
+    }
+   },
+   "minimal_exact_vocabulary_size": 16,
+   "morphology": "MORPH2_digram",
+   "rows": {
+    "BPE_k00_V08": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "6",
+     "description_scalars_total": 84,
+     "distinct_feature_classes": 20,
+     "embedding_scalars_2Vd": 64,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "3/8",
+     "hindsight_optimal_bag_reader_capability_float": 0.375,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 4,
+     "lookup_sample_efficiency_examples": 220,
+     "mean_tokens_float": 6.0,
+     "mean_tokens_per_string": "6",
+     "merge_table": [],
+     "merges": [],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 5632,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 20,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "3/8",
+     "remint_hindsight_optimal_capability_float": 0.375,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "6",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 3072,
+     "unit_aligned_segmentation_fraction": "1",
+     "vocabulary_size_V": 8
+    },
+    "BPE_k02_V10": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "83/16",
+     "description_scalars_total": 134,
+     "distinct_feature_classes": 54,
+     "embedding_scalars_2Vd": 80,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "133/256",
+     "hindsight_optimal_bag_reader_capability_float": 0.519531,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 6,
+     "lookup_sample_efficiency_examples": 358,
+     "mean_tokens_float": 5.1875,
+     "mean_tokens_per_string": "83/16",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       3
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 2222,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 54,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "97/256",
+     "remint_hindsight_optimal_capability_float": 0.378906,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "95/16",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 2656,
+     "unit_aligned_segmentation_fraction": "241/256",
+     "vocabulary_size_V": 10
+    },
+    "BPE_k04_V12": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "35/8",
+     "description_scalars_total": 212,
+     "distinct_feature_classes": 116,
+     "embedding_scalars_2Vd": 96,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "113/128",
+     "hindsight_optimal_bag_reader_capability_float": 0.882812,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 8,
+     "lookup_sample_efficiency_examples": 504,
+     "mean_tokens_float": 4.375,
+     "mean_tokens_per_string": "35/8",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 332,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 116,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "121/256",
+     "remint_hindsight_optimal_capability_float": 0.472656,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "11/2",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 2240,
+     "unit_aligned_segmentation_fraction": "113/128",
+     "vocabulary_size_V": 12
+    },
+    "BPE_k08_V16": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "399/128",
+     "description_scalars_total": 272,
+     "distinct_feature_classes": 144,
+     "embedding_scalars_2Vd": 128,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "127/128",
+     "hindsight_optimal_bag_reader_capability_float": 0.992188,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 12,
+     "lookup_sample_efficiency_examples": 504,
+     "mean_tokens_float": 3.117188,
+     "mean_tokens_per_string": "399/128",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       0
+      ],
+      [
+       3,
+       "|",
+       2
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       7,
+       "|",
+       6
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        6
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 8,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 144,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "255/512",
+     "remint_hindsight_optimal_capability_float": 0.498047,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "2607/512",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1596,
+     "unit_aligned_segmentation_fraction": "113/128",
+     "vocabulary_size_V": 16
+    },
+    "BPE_k12_V20": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "383/128",
+     "description_scalars_total": 336,
+     "distinct_feature_classes": 176,
+     "embedding_scalars_2Vd": 160,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 16,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.992188,
+     "mean_tokens_per_string": "383/128",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       0
+      ],
+      [
+       3,
+       "|",
+       2
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       7,
+       "|",
+       6
+      ],
+      [
+       0,
+       1,
+       "|",
+       0,
+       1
+      ],
+      [
+       2,
+       3,
+       "|",
+       2,
+       3
+      ],
+      [
+       4,
+       5,
+       "|",
+       4,
+       5
+      ],
+      [
+       6,
+       7,
+       "|",
+       6,
+       7
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      [
+       [
+        2,
+        3
+       ],
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        4,
+        5
+       ],
+       [
+        4,
+        5
+       ]
+      ],
+      [
+       [
+        6,
+        7
+       ],
+       [
+        6,
+        7
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 176,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "1/2",
+     "remint_hindsight_optimal_capability_float": 0.5,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "2591/512",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1532,
+     "unit_aligned_segmentation_fraction": "49/64",
+     "vocabulary_size_V": 20
+    },
+    "BPE_k16_V24": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "369/128",
+     "description_scalars_total": 386,
+     "distinct_feature_classes": 194,
+     "embedding_scalars_2Vd": 192,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 20,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.882812,
+     "mean_tokens_per_string": "369/128",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       0
+      ],
+      [
+       3,
+       "|",
+       2
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       7,
+       "|",
+       6
+      ],
+      [
+       0,
+       1,
+       "|",
+       0,
+       1
+      ],
+      [
+       2,
+       3,
+       "|",
+       2,
+       3
+      ],
+      [
+       4,
+       5,
+       "|",
+       4,
+       5
+      ],
+      [
+       6,
+       7,
+       "|",
+       6,
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       0
+      ],
+      [
+       0,
+       1,
+       "|",
+       1,
+       0
+      ],
+      [
+       0,
+       1,
+       "|",
+       2,
+       3
+      ],
+      [
+       0,
+       1,
+       "|",
+       3,
+       2
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      [
+       [
+        2,
+        3
+       ],
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        4,
+        5
+       ],
+       [
+        4,
+        5
+       ]
+      ],
+      [
+       [
+        6,
+        7
+       ],
+       [
+        6,
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        3,
+        2
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 194,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "1/2",
+     "remint_hindsight_optimal_capability_float": 0.5,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "1295/256",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1476,
+     "unit_aligned_segmentation_fraction": "175/256",
+     "vocabulary_size_V": 24
+    },
+    "BPE_k20_V28": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "355/128",
+     "description_scalars_total": 442,
+     "distinct_feature_classes": 218,
+     "embedding_scalars_2Vd": 224,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 24,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.773438,
+     "mean_tokens_per_string": "355/128",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       0
+      ],
+      [
+       3,
+       "|",
+       2
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       7,
+       "|",
+       6
+      ],
+      [
+       0,
+       1,
+       "|",
+       0,
+       1
+      ],
+      [
+       2,
+       3,
+       "|",
+       2,
+       3
+      ],
+      [
+       4,
+       5,
+       "|",
+       4,
+       5
+      ],
+      [
+       6,
+       7,
+       "|",
+       6,
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       0
+      ],
+      [
+       0,
+       1,
+       "|",
+       1,
+       0
+      ],
+      [
+       0,
+       1,
+       "|",
+       2,
+       3
+      ],
+      [
+       0,
+       1,
+       "|",
+       3,
+       2
+      ],
+      [
+       0,
+       1,
+       "|",
+       4,
+       5
+      ],
+      [
+       0,
+       1,
+       "|",
+       5,
+       4
+      ],
+      [
+       0,
+       1,
+       "|",
+       6,
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       7,
+       6
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      [
+       [
+        2,
+        3
+       ],
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        4,
+        5
+       ],
+       [
+        4,
+        5
+       ]
+      ],
+      [
+       [
+        6,
+        7
+       ],
+       [
+        6,
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        3,
+        2
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        4,
+        5
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        5,
+        4
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        6,
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        7,
+        6
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 218,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "1/2",
+     "remint_hindsight_optimal_capability_float": 0.5,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "1295/256",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1420,
+     "unit_aligned_segmentation_fraction": "147/256",
+     "vocabulary_size_V": 28
+    },
+    "BPE_k24_V32": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "341/128",
+     "description_scalars_total": 474,
+     "distinct_feature_classes": 218,
+     "embedding_scalars_2Vd": 256,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 26,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.664062,
+     "mean_tokens_per_string": "341/128",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       2,
+       "|",
+       3
+      ],
+      [
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       1,
+       "|",
+       0
+      ],
+      [
+       3,
+       "|",
+       2
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       7,
+       "|",
+       6
+      ],
+      [
+       0,
+       1,
+       "|",
+       0,
+       1
+      ],
+      [
+       2,
+       3,
+       "|",
+       2,
+       3
+      ],
+      [
+       4,
+       5,
+       "|",
+       4,
+       5
+      ],
+      [
+       6,
+       7,
+       "|",
+       6,
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       0
+      ],
+      [
+       0,
+       1,
+       "|",
+       1,
+       0
+      ],
+      [
+       0,
+       1,
+       "|",
+       2,
+       3
+      ],
+      [
+       0,
+       1,
+       "|",
+       3,
+       2
+      ],
+      [
+       0,
+       1,
+       "|",
+       4,
+       5
+      ],
+      [
+       0,
+       1,
+       "|",
+       5,
+       4
+      ],
+      [
+       0,
+       1,
+       "|",
+       6,
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       7,
+       6
+      ],
+      [
+       1,
+       "|",
+       0,
+       1,
+       0
+      ],
+      [
+       2,
+       3,
+       "|",
+       2
+      ],
+      [
+       3,
+       "|",
+       2,
+       3,
+       2
+      ],
+      [
+       4,
+       5,
+       "|",
+       4
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      [
+       [
+        2,
+        3
+       ],
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        4,
+        5
+       ],
+       [
+        4,
+        5
+       ]
+      ],
+      [
+       [
+        6,
+        7
+       ],
+       [
+        6,
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        3,
+        2
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        4,
+        5
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        5,
+        4
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        6,
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        7,
+        6
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        0,
+        1,
+        0
+       ]
+      ],
+      [
+       [
+        2,
+        3
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        2,
+        3,
+        2
+       ]
+      ],
+      [
+       [
+        4,
+        5
+       ],
+       [
+        4
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 218,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "1/2",
+     "remint_hindsight_optimal_capability_float": 0.5,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "1295/256",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1364,
+     "unit_aligned_segmentation_fraction": "147/256",
+     "vocabulary_size_V": 32
+    },
+    "ORACLE_UNIT_V16": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "3",
+     "description_scalars_total": 144,
+     "distinct_feature_classes": 120,
+     "embedding_scalars_2Vd": 128,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 8,
+     "linear_system_consistent": true,
+     "linear_system_rank": 8,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 3.0,
+     "mean_tokens_per_string": "3",
+     "merge_table": "declared unit boundaries (not learned)",
+     "merges": "declared unit boundaries (not learned)",
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 16,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "1/2",
+     "remint_hindsight_optimal_capability_float": 0.5,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "81/16",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1536,
+     "unit_aligned_segmentation_fraction": "1",
+     "vocabulary_size_V": 16
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "BPE_k00_V08": "6",
+     "BPE_k02_V10": "83/16",
+     "BPE_k04_V12": "35/8",
+     "BPE_k08_V16": "399/128",
+     "BPE_k12_V20": "383/128",
+     "BPE_k16_V24": "369/128",
+     "BPE_k20_V28": "355/128",
+     "BPE_k24_V32": "341/128",
+     "CONSTANT_CONTROL": "0",
+     "ORACLE_UNIT_V16": "3"
+    },
+    "n_rows": 10,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "best_constant_answer": -1,
+    "capability": "9/64",
+    "capability_float": 0.140625,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "surface_length": 6,
+   "unit_length": 2,
+   "unit_values": [
+    1,
+    1,
+    -2,
+    -2,
+    3,
+    3,
+    0,
+    0
+   ],
+   "units": [
+    [
+     0,
+     1
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     7,
+     6
+    ]
+   ]
+  },
+  "MORPH3_trigram": {
+   "census_of_rows": {
+    "alphabet": "the eight-symbol surface alphabet Sigma plus BPE merge pieces and the declared units over it",
+    "count": 9,
+    "counts_what": "tokenizer configurations on the declared ladder",
+    "ecology": "MORPH3_trigram",
+    "not_a_species_count": "this is a count of tokenizer configurations on the declared ladder under the triple above; it is NOT a count of species and NOT a count of forms",
+    "rule": "rule 29: a census count is meaningless outside the triple (alphabet, servability filter, ecology) and must carry all three in the same sentence as the number.",
+    "servability_filter": "exact under the parent-maximal bag-of-tokens reader at theta = 1"
+   },
+   "corpus_strings": 512,
+   "distinct_obligation_values": 14,
+   "exact_and_linear_rows": [
+    "ORACLE_UNIT_V16"
+   ],
+   "exact_rows": [
+    "ORACLE_UNIT_V16"
+   ],
+   "frontier_by_price": {
+    "mem1_len1": {
+     "cost_coordinates_A_E": {
+      "ORACLE_UNIT_V16": [
+       "144",
+       "3"
+      ]
+     },
+     "crossovers_H_star": {},
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [],
+     "grid_max_H": 393220,
+     "largest_crossover": null,
+     "occupant_for_all_sufficiently_large_H": [
+      "ORACLE_UNIT_V16"
+     ],
+     "occupants_on_grid": [
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": []
+    },
+    "mem1_len16": {
+     "cost_coordinates_A_E": {
+      "ORACLE_UNIT_V16": [
+       "144",
+       "48"
+      ]
+     },
+     "crossovers_H_star": {},
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [],
+     "grid_max_H": 393220,
+     "largest_crossover": null,
+     "occupant_for_all_sufficiently_large_H": [
+      "ORACLE_UNIT_V16"
+     ],
+     "occupants_on_grid": [
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": []
+    },
+    "mem1_len4": {
+     "cost_coordinates_A_E": {
+      "ORACLE_UNIT_V16": [
+       "144",
+       "12"
+      ]
+     },
+     "crossovers_H_star": {},
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [],
+     "grid_max_H": 393220,
+     "largest_crossover": null,
+     "occupant_for_all_sufficiently_large_H": [
+      "ORACLE_UNIT_V16"
+     ],
+     "occupants_on_grid": [
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": []
+    },
+    "mem4_len1": {
+     "cost_coordinates_A_E": {
+      "ORACLE_UNIT_V16": [
+       "576",
+       "3"
+      ]
+     },
+     "crossovers_H_star": {},
+     "dg2_grid_covers_twice_every_crossover": true,
+     "frontier_runs": [],
+     "grid_max_H": 393220,
+     "largest_crossover": null,
+     "occupant_for_all_sufficiently_large_H": [
+      "ORACLE_UNIT_V16"
+     ],
+     "occupants_on_grid": [
+      "ORACLE_UNIT_V16"
+     ],
+     "rows_never_occupying_a_cell": []
+    }
+   },
+   "frontier_cost_lines_by_price": {
+    "mem1_len1": {
+     "ORACLE_UNIT_V16": [
+      "144",
+      "3"
+     ]
+    },
+    "mem1_len16": {
+     "ORACLE_UNIT_V16": [
+      "144",
+      "48"
+     ]
+    },
+    "mem1_len4": {
+     "ORACLE_UNIT_V16": [
+      "144",
+      "12"
+     ]
+    },
+    "mem4_len1": {
+     "ORACLE_UNIT_V16": [
+      "576",
+      "3"
+     ]
+    }
+   },
+   "minimal_exact_vocabulary_size": 16,
+   "morphology": "MORPH3_trigram",
+   "rows": {
+    "BPE_k00_V08": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "9",
+     "description_scalars_total": 84,
+     "distinct_feature_classes": 20,
+     "embedding_scalars_2Vd": 64,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "3/8",
+     "hindsight_optimal_bag_reader_capability_float": 0.375,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 4,
+     "lookup_sample_efficiency_examples": 220,
+     "mean_tokens_float": 9.0,
+     "mean_tokens_per_string": "9",
+     "merge_table": [],
+     "merges": [],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 5632,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 20,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "3/8",
+     "remint_hindsight_optimal_capability_float": 0.375,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "9",
+     "remint_robust": true,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 4608,
+     "unit_aligned_segmentation_fraction": "1",
+     "vocabulary_size_V": 8
+    },
+    "BPE_k02_V10": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "65/8",
+     "description_scalars_total": 147,
+     "distinct_feature_classes": 67,
+     "embedding_scalars_2Vd": 80,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "287/512",
+     "hindsight_optimal_bag_reader_capability_float": 0.560547,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 6,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 8.125,
+     "mean_tokens_per_string": "65/8",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       5
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 1916,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 67,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "243/512",
+     "remint_hindsight_optimal_capability_float": 0.474609,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "137/16",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 4160,
+     "unit_aligned_segmentation_fraction": "225/256",
+     "vocabulary_size_V": 10
+    },
+    "BPE_k04_V12": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "117/16",
+     "description_scalars_total": 176,
+     "distinct_feature_classes": 80,
+     "embedding_scalars_2Vd": 96,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "149/256",
+     "hindsight_optimal_bag_reader_capability_float": 0.582031,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 8,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 7.3125,
+     "mean_tokens_per_string": "117/16",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       5
+      ],
+      [
+       2,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       1
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        1
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 1596,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 80,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "157/256",
+     "remint_hindsight_optimal_capability_float": 0.613281,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "8",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 3744,
+     "unit_aligned_segmentation_fraction": "419/512",
+     "vocabulary_size_V": 12
+    },
+    "BPE_k08_V16": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "93/16",
+     "description_scalars_total": 276,
+     "distinct_feature_classes": 148,
+     "embedding_scalars_2Vd": 128,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "15/16",
+     "hindsight_optimal_bag_reader_capability_float": 0.9375,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 10,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 5.8125,
+     "mean_tokens_per_string": "93/16",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       5
+      ],
+      [
+       2,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       0,
+       7,
+       "|",
+       6
+      ],
+      [
+       3,
+       "|",
+       4
+      ],
+      [
+       3,
+       4,
+       "|",
+       5
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        3,
+        4
+       ],
+       [
+        5
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 67,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 148,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "25/32",
+     "remint_hindsight_optimal_capability_float": 0.78125,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "119/16",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 2976,
+     "unit_aligned_segmentation_fraction": "419/512",
+     "vocabulary_size_V": 16
+    },
+    "BPE_k12_V20": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "141/32",
+     "description_scalars_total": 310,
+     "distinct_feature_classes": 150,
+     "embedding_scalars_2Vd": 160,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "15/16",
+     "hindsight_optimal_bag_reader_capability_float": 0.9375,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 12,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 4.40625,
+     "mean_tokens_per_string": "141/32",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       5
+      ],
+      [
+       2,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       0,
+       7,
+       "|",
+       6
+      ],
+      [
+       3,
+       "|",
+       4
+      ],
+      [
+       3,
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       2
+      ],
+      [
+       2,
+       1,
+       "|",
+       0
+      ],
+      [
+       5,
+       "|",
+       3,
+       1
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        3,
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        2,
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        3,
+        1
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 62,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 150,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "249/256",
+     "remint_hindsight_optimal_capability_float": 0.972656,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "889/128",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 2256,
+     "unit_aligned_segmentation_fraction": "419/512",
+     "vocabulary_size_V": 20
+    },
+    "BPE_k16_V24": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "1645/512",
+     "description_scalars_total": 342,
+     "distinct_feature_classes": 150,
+     "embedding_scalars_2Vd": 192,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "15/16",
+     "hindsight_optimal_bag_reader_capability_float": 0.9375,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 13,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 3.212891,
+     "mean_tokens_per_string": "1645/512",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       5
+      ],
+      [
+       2,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       0,
+       7,
+       "|",
+       6
+      ],
+      [
+       3,
+       "|",
+       4
+      ],
+      [
+       3,
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       2
+      ],
+      [
+       2,
+       1,
+       "|",
+       0
+      ],
+      [
+       5,
+       "|",
+       3,
+       1
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       6,
+       7,
+       "|",
+       0
+      ],
+      [
+       5,
+       4,
+       "|",
+       3
+      ],
+      [
+       1,
+       "|",
+       3,
+       5
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        3,
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        2,
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        3,
+        1
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        6,
+        7
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        5,
+        4
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        3,
+        5
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 62,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 150,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "249/256",
+     "remint_hindsight_optimal_capability_float": 0.972656,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "881/128",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1645,
+     "unit_aligned_segmentation_fraction": "419/512",
+     "vocabulary_size_V": 24
+    },
+    "BPE_k20_V28": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "1551/512",
+     "description_scalars_total": 398,
+     "distinct_feature_classes": 174,
+     "embedding_scalars_2Vd": 224,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "511/512",
+     "hindsight_optimal_bag_reader_capability_float": 0.998047,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 16,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 3.029297,
+     "mean_tokens_per_string": "1551/512",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       5
+      ],
+      [
+       2,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       0,
+       7,
+       "|",
+       6
+      ],
+      [
+       3,
+       "|",
+       4
+      ],
+      [
+       3,
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       2
+      ],
+      [
+       2,
+       1,
+       "|",
+       0
+      ],
+      [
+       5,
+       "|",
+       3,
+       1
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       6,
+       7,
+       "|",
+       0
+      ],
+      [
+       5,
+       4,
+       "|",
+       3
+      ],
+      [
+       1,
+       "|",
+       3,
+       5
+      ],
+      [
+       0,
+       1,
+       "|",
+       3,
+       5
+      ],
+      [
+       5,
+       4,
+       "|",
+       3,
+       5
+      ],
+      [
+       0,
+       1,
+       "|",
+       2,
+       1
+      ],
+      [
+       0,
+       1,
+       2,
+       "|",
+       0,
+       7,
+       6
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        3,
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        2,
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        3,
+        1
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        6,
+        7
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        5,
+        4
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      [
+       [
+        5,
+        4
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2,
+        1
+       ]
+      ],
+      [
+       [
+        0,
+        1,
+        2
+       ],
+       [
+        0,
+        7,
+        6
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 1,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 174,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "249/256",
+     "remint_hindsight_optimal_capability_float": 0.972656,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "3523/512",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1551,
+     "unit_aligned_segmentation_fraction": "403/512",
+     "vocabulary_size_V": 28
+    },
+    "BPE_k24_V32": {
+     "admissible_at_theta": false,
+     "charged_serve_ops_per_query": "1487/512",
+     "description_scalars_total": 446,
+     "distinct_feature_classes": 190,
+     "embedding_scalars_2Vd": 256,
+     "exact": false,
+     "hindsight_optimal_bag_reader_capability": "511/512",
+     "hindsight_optimal_bag_reader_capability_float": 0.998047,
+     "linear_sample_efficiency_examples": null,
+     "linear_system_consistent": false,
+     "linear_system_rank": 18,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 2.904297,
+     "mean_tokens_per_string": "1487/512",
+     "merge_table": [
+      [
+       0,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       5
+      ],
+      [
+       2,
+       "|",
+       1
+      ],
+      [
+       3,
+       "|",
+       1
+      ],
+      [
+       0,
+       "|",
+       7
+      ],
+      [
+       0,
+       7,
+       "|",
+       6
+      ],
+      [
+       3,
+       "|",
+       4
+      ],
+      [
+       3,
+       4,
+       "|",
+       5
+      ],
+      [
+       6,
+       "|",
+       7
+      ],
+      [
+       0,
+       1,
+       "|",
+       2
+      ],
+      [
+       2,
+       1,
+       "|",
+       0
+      ],
+      [
+       5,
+       "|",
+       3,
+       1
+      ],
+      [
+       5,
+       "|",
+       4
+      ],
+      [
+       6,
+       7,
+       "|",
+       0
+      ],
+      [
+       5,
+       4,
+       "|",
+       3
+      ],
+      [
+       1,
+       "|",
+       3,
+       5
+      ],
+      [
+       0,
+       1,
+       "|",
+       3,
+       5
+      ],
+      [
+       5,
+       4,
+       "|",
+       3,
+       5
+      ],
+      [
+       0,
+       1,
+       "|",
+       2,
+       1
+      ],
+      [
+       0,
+       1,
+       2,
+       "|",
+       0,
+       7,
+       6
+      ],
+      [
+       0,
+       1,
+       2,
+       "|",
+       3,
+       4,
+       5
+      ],
+      [
+       0,
+       1,
+       2,
+       "|",
+       5,
+       3,
+       1
+      ],
+      [
+       0,
+       1,
+       2,
+       1,
+       "|",
+       3,
+       5
+      ],
+      [
+       2,
+       1,
+       "|",
+       0,
+       1,
+       3,
+       5
+      ]
+     ],
+     "merges": [
+      [
+       [
+        0
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        2
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        7
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        3
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        3,
+        4
+       ],
+       [
+        5
+       ]
+      ],
+      [
+       [
+        6
+       ],
+       [
+        7
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2
+       ]
+      ],
+      [
+       [
+        2,
+        1
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        3,
+        1
+       ]
+      ],
+      [
+       [
+        5
+       ],
+       [
+        4
+       ]
+      ],
+      [
+       [
+        6,
+        7
+       ],
+       [
+        0
+       ]
+      ],
+      [
+       [
+        5,
+        4
+       ],
+       [
+        3
+       ]
+      ],
+      [
+       [
+        1
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      [
+       [
+        5,
+        4
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       [
+        2,
+        1
+       ]
+      ],
+      [
+       [
+        0,
+        1,
+        2
+       ],
+       [
+        0,
+        7,
+        6
+       ]
+      ],
+      [
+       [
+        0,
+        1,
+        2
+       ],
+       [
+        3,
+        4,
+        5
+       ]
+      ],
+      [
+       [
+        0,
+        1,
+        2
+       ],
+       [
+        5,
+        3,
+        1
+       ]
+      ],
+      [
+       [
+        0,
+        1,
+        2,
+        1
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      [
+       [
+        2,
+        1
+       ],
+       [
+        0,
+        1,
+        3,
+        5
+       ]
+      ]
+     ],
+     "obligation_distinct_pairs_merged_by_the_feature_map": 1,
+     "reader_class": "table over feature classes",
+     "reader_description_scalars": 190,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "249/256",
+     "remint_hindsight_optimal_capability_float": 0.972656,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "3523/512",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1487,
+     "unit_aligned_segmentation_fraction": "371/512",
+     "vocabulary_size_V": 32
+    },
+    "ORACLE_UNIT_V16": {
+     "admissible_at_theta": true,
+     "charged_serve_ops_per_query": "3",
+     "description_scalars_total": 144,
+     "distinct_feature_classes": 120,
+     "embedding_scalars_2Vd": 128,
+     "exact": true,
+     "hindsight_optimal_bag_reader_capability": "1",
+     "hindsight_optimal_bag_reader_capability_float": 1.0,
+     "linear_sample_efficiency_examples": 8,
+     "linear_system_consistent": true,
+     "linear_system_rank": 8,
+     "lookup_sample_efficiency_examples": 512,
+     "mean_tokens_float": 3.0,
+     "mean_tokens_per_string": "3",
+     "merge_table": "declared unit boundaries (not learned)",
+     "merges": "declared unit boundaries (not learned)",
+     "obligation_distinct_pairs_merged_by_the_feature_map": 0,
+     "reader_class": "linear bag-of-tokens (V weights)",
+     "reader_description_scalars": 16,
+     "remint_exact": false,
+     "remint_hindsight_optimal_capability": "247/512",
+     "remint_hindsight_optimal_capability_float": 0.482422,
+     "remint_linear_consistent": false,
+     "remint_mean_tokens": "265/32",
+     "remint_robust": false,
+     "serves_developed_state": true,
+     "total_tokens_over_corpus": 1536,
+     "unit_aligned_segmentation_fraction": "1",
+     "vocabulary_size_V": 16
+    }
+   },
+   "rule21_charged_serve_audit": {
+    "admissible_rows_serving_developed_state_at_zero_cost": [],
+    "charged_serve_ops_per_query": {
+     "BPE_k00_V08": "9",
+     "BPE_k02_V10": "65/8",
+     "BPE_k04_V12": "117/16",
+     "BPE_k08_V16": "93/16",
+     "BPE_k12_V20": "141/32",
+     "BPE_k16_V24": "1645/512",
+     "BPE_k20_V28": "1551/512",
+     "BPE_k24_V32": "1487/512",
+     "CONSTANT_CONTROL": "0",
+     "ORACLE_UNIT_V16": "3"
+    },
+    "n_rows": 10,
+    "passed": true,
+    "rule": "see protocol_rules_carried.rule_21 at the receipt's top level",
+    "zero_cost_rows": [
+     "CONSTANT_CONTROL"
+    ],
+    "zero_cost_rows_are_all_constant_answer": true
+   },
+   "rule22_constant_control": {
+    "best_constant_answer": -1,
+    "capability": "9/64",
+    "capability_float": 0.140625,
+    "obligation_void": false,
+    "rule": "see protocol_rules_carried.rule_22 at the receipt's top level",
+    "theta": "1"
+   },
+   "surface_length": 9,
+   "unit_length": 3,
+   "unit_values": [
+    1,
+    1,
+    -2,
+    -2,
+    3,
+    3,
+    0,
+    0
+   ],
+   "units": [
+    [
+     0,
+     1,
+     2
+    ],
+    [
+     3,
+     4,
+     5
+    ],
+    [
+     6,
+     7,
+     0
+    ],
+    [
+     1,
+     3,
+     5
+    ],
+    [
+     2,
+     1,
+     0
+    ],
+    [
+     5,
+     4,
+     3
+    ],
+    [
+     0,
+     7,
+     6
+    ],
+    [
+     5,
+     3,
+     1
+    ]
+   ]
+  }
+ },
+ "claim_ceiling": "a measured tokenizer/morphology/price tradeoff on three declared synthetic corpora of 512 enumerated strings each, under one declared BPE merge rule, one bag-of-tokens reader class and four declared price vectors. It establishes NOTHING about any real tokenizer, any real corpus or any trained neural network, and the 'no universal optimum' clause is a statement about THESE three morphologies and THESE four price vectors, not a theorem over all of them.",
+ "claim_level": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
+ "claims": {
+  "C10_rule21_no_admissible_row_serves_developed_state_at_zero_charged_cost": true,
+  "C11_character_level_capability_is_invariant_under_the_declared_remint": true,
+  "C12_at_least_one_exact_coarser_row_loses_exactness_under_the_remint": true,
+  "C13_dg2_every_frontier_grid_covers_twice_every_crossover": true,
+  "C14_at_equal_V16_the_unit_aligned_row_is_exact_and_linear_where_the_frequency_learned_row_is_neither": true,
+  "C15_frequency_learned_merge_tables_do_not_recover_unit_boundaries_at_k_ge_8": true,
+  "C16_lookup_sample_efficiency_is_nondecreasing_in_V_along_the_bpe_ladder": true,
+  "C17_the_unit_aligned_row_occupies_every_frontier_cell_at_every_price_in_MORPH2_and_MORPH3": false,
+  "C18_at_the_largest_declared_horizon_the_cost_optimal_vocabulary_on_MORPH1_is_not_the_smallest": true,
+  "C1_character_level_row_is_exact_only_where_units_are_single_symbols": true,
+  "C2_every_morphology_has_at_least_one_exact_row_on_the_declared_ladder": true,
+  "C3_minimal_exact_vocabulary_size_is_nondecreasing_in_unit_length_and_strictly_larger_at_m3": true,
+  "C4_no_universal_optimum_across_morphologies": true,
+  "C5_no_universal_optimum_across_reuse_horizons": true,
+  "C6_no_universal_optimum_across_price_vectors": true,
+  "C7_linear_sample_efficiency_is_nondecreasing_in_V_along_the_bpe_ladder": true,
+  "C8_charged_serve_tokens_are_nonincreasing_in_V_along_the_bpe_ladder": true,
+  "C9_rule22_constant_control_is_below_theta_in_every_morphology": true
+ },
+ "declared_instrument": {
+  "arithmetic": "exact rationals (fractions.Fraction) throughout; ranks by exact row reduction; no tolerance anywhere and no floating point in any decided quantity",
+  "capability_rule": "the hindsight-optimal FUNCTION of the token multiset (plurality within each feature class). This is the parent-maximal bag-of-tokens reader (protocol rule 19): no reader of that feature map, linear or not, can beat it.",
+  "charged_serve": "one charged operation per token served; the constant-answer control reads no developed state and is charged nothing",
+  "embedding_width_d": 4,
+  "merge_ladder": [
+   0,
+   2,
+   4,
+   8,
+   12,
+   16,
+   20,
+   24
+  ],
+  "price_vectors": {
+   "mem1_len1": [
+    "1",
+    "1"
+   ],
+   "mem1_len16": [
+    "1",
+    "16"
+   ],
+   "mem1_len4": [
+    "1",
+    "4"
+   ],
+   "mem4_len1": [
+    "4",
+    "1"
+   ]
+  },
+  "randomness": "none: corpora are enumerated in full, merges are learned by a deterministic frequency rule with lexicographic tie-break, and the remint is a declared permutation",
+  "remint_permutation_pi": {
+   "0": 1,
+   "1": 2,
+   "2": 0,
+   "3": 4,
+   "4": 5,
+   "5": 3,
+   "6": 7,
+   "7": 6
+  },
+  "surface_alphabet": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "theta": "1",
+  "unit_values": [
+   1,
+   1,
+   -2,
+   -2,
+   3,
+   3,
+   0,
+   0
+  ],
+  "units_per_string": 3
+ },
+ "dg2_audit": {
+  "auditor": "gmi_microscope/grid_audit.py family C, driven by gmi_microscope/b2_audit.py",
+  "run_before_commit": true,
+  "verdict_recorded_in": "microscopes/results/STAGE_B2_DG2_AUDIT_V1.json",
+  "what_the_auditor_does_here": "it recomputes this receipt's own frontier from this receipt's own per-row cost coordinates, cell for cell (the soundness gate), and then checks whether the occupant is constant for every H beyond the grid maximum"
+ },
+ "dg2_procedure": "every crossover of every price vector is computed FIRST in exact rationals (b2_common.crossovers), the reuse grid is then built to bracket each one and reach 4x the largest (grid_for), and check_dg2 asserts max(grid) >= 2*max(crossover) per context; the per-row cost coordinates (A, E) are carried in the receipt so the grid is auditable from its own contents (protocol rule 28). gmi_microscope/grid_audit.py was run over this receipt before it was committed; see dg2_audit above.",
+ "evidence_class": "SYNTHETIC_EXACT_EMPIRICAL (tier S): a measured quantity in a declared synthetic ecology, frozen before the run. NOT a closed-form identity and NOT neural evidence.",
+ "evidence_kind": "SYNTHETIC_EXACT_MICROSCOPE__LAPTOP_SCOPE__NOT_EMPIRICAL_NEURAL_EVIDENCE",
+ "frontier_note": "rows are EXACT tokenizers only (semantic adequacy held at theta = 1 under the parent-maximal bag reader); A = c_mem * (2Vd embedding scalars + the READER's own description scalars), E = c_len * mean tokens served per query. Charging the reader is stage B0.3 metering hostility: a row exact only as a table over feature classes may not hide that table's size in the tokenizer's embedding count.",
+ "issue": [
+  377,
+  422
+ ],
+ "n_claims": 18,
+ "n_claims_hold": 17,
+ "optimal_vocabulary_size_by_cell_price_horizon": {
+  "MORPH1_symbol|mem1_len16|H=1": 8,
+  "MORPH1_symbol|mem1_len16|H=1024": 32,
+  "MORPH1_symbol|mem1_len16|H=64": 32,
+  "MORPH1_symbol|mem1_len1|H=1": 8,
+  "MORPH1_symbol|mem1_len1|H=1024": 32,
+  "MORPH1_symbol|mem1_len1|H=64": 8,
+  "MORPH1_symbol|mem1_len4|H=1": 8,
+  "MORPH1_symbol|mem1_len4|H=1024": 32,
+  "MORPH1_symbol|mem1_len4|H=64": 8,
+  "MORPH1_symbol|mem4_len1|H=1": 8,
+  "MORPH1_symbol|mem4_len1|H=1024": 8,
+  "MORPH1_symbol|mem4_len1|H=64": 8,
+  "MORPH2_digram|mem1_len16|H=1": 16,
+  "MORPH2_digram|mem1_len16|H=1024": 32,
+  "MORPH2_digram|mem1_len16|H=64": 32,
+  "MORPH2_digram|mem1_len1|H=1": 16,
+  "MORPH2_digram|mem1_len1|H=1024": 32,
+  "MORPH2_digram|mem1_len1|H=64": 16,
+  "MORPH2_digram|mem1_len4|H=1": 16,
+  "MORPH2_digram|mem1_len4|H=1024": 32,
+  "MORPH2_digram|mem1_len4|H=64": 16,
+  "MORPH2_digram|mem4_len1|H=1": 16,
+  "MORPH2_digram|mem4_len1|H=1024": 16,
+  "MORPH2_digram|mem4_len1|H=64": 16,
+  "MORPH3_trigram|mem1_len16|H=1": 16,
+  "MORPH3_trigram|mem1_len16|H=1024": 16,
+  "MORPH3_trigram|mem1_len16|H=64": 16,
+  "MORPH3_trigram|mem1_len1|H=1": 16,
+  "MORPH3_trigram|mem1_len1|H=1024": 16,
+  "MORPH3_trigram|mem1_len1|H=64": 16,
+  "MORPH3_trigram|mem1_len4|H=1": 16,
+  "MORPH3_trigram|mem1_len4|H=1024": 16,
+  "MORPH3_trigram|mem1_len4|H=64": 16,
+  "MORPH3_trigram|mem4_len1|H=1": 16,
+  "MORPH3_trigram|mem4_len1|H=1024": 16,
+  "MORPH3_trigram|mem4_len1|H=64": 16
+ },
+ "pre_freeze_calibration_disclosed_in_full": [
+  "A calibration run was executed BEFORE the clauses were frozen, on a row set consisting of the BPE merge ladder alone, with admissibility defined as consistency of the exact LINEAR bag-of-tokens system. It showed (a) that no row of the ladder is linearly consistent on MORPH2 or MORPH3, so that definition left those two ecologies with an EMPTY admissible set and an empty frontier, and (b) that the frequency-learned merge table crosses unit boundaries even once it contains every unit as a merge.",
+  "Three changes were made in consequence, all before the freeze: (i) admissibility was moved to the PARENT-MAXIMAL reader of the feature map (the best function of the token multiset, protocol rule 19) rather than the convenient linear one, with linear realizability reported separately; (ii) the declared unit-aligned arm ORACLE_UNIT was added, so that vocabulary SIZE and merge-table ALIGNMENT are separable axes; (iii) the reader's own description was CHARGED (stage B0.3 metering hostility), because a row that is exact only as a table over feature classes would otherwise hide that table in the tokenizer's embedding count.",
+  "The calibration also fixed the numbers behind the predicted verdicts recorded in RV-377-090: the character-level capabilities (1, 3/8, 3/8), the minimal exact vocabulary sizes (8, 16, 16) and the mem1_len1 occupant sets. Clause C17 is frozen although the calibration already indicated it FAILS on MORPH2, because the clause states a quantitative claim worth committing either way."
+ ],
+ "protocol_rules_carried": {
+  "rule_19": "the capability of every row is the PARENT-MAXIMAL reader of its feature map, not a convenient linear one; the linear question is reported separately as linear_system_consistent",
+  "rule_21": "rule 21 as NARROWED by RV-377-073: no admissible row may serve state written during development without a charged operation. The original wording ('no admissible row has zero execution cost per query') is FALSIFIED_AND_REPLACED -- a machine serving a constant legitimately costs nothing to run, and rule 22 requires exactly such a row in every cell.",
+  "rule_22": "rule 22: an obligation is meaningful only where the hindsight-optimal CONSTANT answer is below theta; a mode whose constant control is admissible is VOID, not weak, and its clauses are not evaluated there.",
+  "rule_28": "rule 28 / DG-2: the reuse grid is built from the analytic crossovers, computed first in exact rationals, and extends past twice the largest of them; the per-row cost coordinates (A, E) that produced the frontier are carried in the receipt.",
+  "rule_29": "rule 29: a census count is meaningless outside the triple (alphabet, servability filter, ecology) and must carry all three in the same sentence as the number."
+ },
+ "receipt_sha256": "2b61c8758383fdd3d2be9e72ead2b190abdcf194bf4370f66a8a82042b891328",
+ "registry_entries": [
+  "TF-001 tokenization / segmentation",
+  "TF-002 vocabulary size",
+  "TF-003 token embeddings",
+  "TF-004 embedding dimension"
+ ],
+ "revival_id": "RV-377-090",
+ "row": "B2.1 tokenizer granularity",
+ "schema": "GMI_B2_01_TOKENIZER_V1",
+ "shared_reuse_grid_H": [
+  1,
+  4,
+  16,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  38,
+  40,
+  42,
+  44,
+  46,
+  48,
+  52,
+  54,
+  58,
+  61,
+  62,
+  64,
+  66,
+  73,
+  74,
+  76,
+  77,
+  78,
+  79,
+  80,
+  81,
+  82,
+  83,
+  84,
+  85,
+  86,
+  87,
+  88,
+  89,
+  91,
+  92,
+  94,
+  95,
+  100,
+  101,
+  105,
+  106,
+  114,
+  115,
+  121,
+  122,
+  124,
+  128,
+  129,
+  130,
+  148,
+  154,
+  158,
+  160,
+  162,
+  164,
+  166,
+  168,
+  170,
+  174,
+  178,
+  184,
+  190,
+  202,
+  212,
+  230,
+  244,
+  245,
+  246,
+  256,
+  258,
+  260,
+  292,
+  293,
+  307,
+  308,
+  314,
+  315,
+  316,
+  317,
+  318,
+  319,
+  320,
+  321,
+  323,
+  324,
+  325,
+  326,
+  327,
+  328,
+  329,
+  330,
+  331,
+  332,
+  333,
+  334,
+  335,
+  336,
+  338,
+  339,
+  340,
+  344,
+  345,
+  347,
+  348,
+  354,
+  355,
+  364,
+  365,
+  376,
+  377,
+  402,
+  403,
+  420,
+  421,
+  457,
+  458,
+  484,
+  485,
+  492,
+  512,
+  513,
+  516,
+  517,
+  586,
+  616,
+  630,
+  632,
+  636,
+  640,
+  642,
+  648,
+  652,
+  656,
+  658,
+  660,
+  662,
+  666,
+  668,
+  672,
+  678,
+  680,
+  690,
+  696,
+  710,
+  730,
+  754,
+  806,
+  842,
+  916,
+  970,
+  982,
+  983,
+  1024,
+  1026,
+  1034,
+  1170,
+  1171,
+  1228,
+  1229,
+  1256,
+  1257,
+  1262,
+  1263,
+  1271,
+  1272,
+  1276,
+  1277,
+  1283,
+  1284,
+  1293,
+  1294,
+  1302,
+  1303,
+  1311,
+  1312,
+  1315,
+  1316,
+  1317,
+  1322,
+  1323,
+  1328,
+  1329,
+  1332,
+  1333,
+  1340,
+  1341,
+  1342,
+  1343,
+  1355,
+  1356,
+  1357,
+  1378,
+  1379,
+  1391,
+  1392,
+  1417,
+  1418,
+  1459,
+  1460,
+  1504,
+  1505,
+  1536,
+  1537,
+  1609,
+  1610,
+  1682,
+  1683,
+  1828,
+  1829,
+  1938,
+  1939,
+  1966,
+  2048,
+  2049,
+  2065,
+  2066,
+  2342,
+  2458,
+  2514,
+  2526,
+  2544,
+  2554,
+  2568,
+  2588,
+  2606,
+  2624,
+  2632,
+  2634,
+  2646,
+  2658,
+  2666,
+  2682,
+  2686,
+  2712,
+  2714,
+  2758,
+  2784,
+  2836,
+  2920,
+  3010,
+  3074,
+  3220,
+  3366,
+  3658,
+  3878,
+  3929,
+  3930,
+  4098,
+  4132,
+  5261,
+  5262,
+  6144,
+  6145,
+  7860,
+  8260,
+  8261,
+  10524,
+  12290,
+  16522,
+  24576,
+  24577,
+  49154,
+  98304,
+  98305,
+  196610,
+  393220
+ ],
+ "status": "RED",
+ "theorems": [
+  "TM-10 parameter-sharing symmetry principle (the vocabulary/sharing tradeoff)",
+  "TMT-2 finite-window impossibility is NOT invoked here: the merging measured below is a property of the FEATURE MAP, not of a context window"
+ ]
+}

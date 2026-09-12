@@ -11,11 +11,10 @@
   "OUT_OF_SCOPE"
  ],
  "counts_by_evidence_status": {
-  "EMPIRICALLY_SUPPORTED_AT_TIER_S": 3,
-  "OPEN_NONBLOCKING": 1,
+  "EMPIRICALLY_SUPPORTED_AT_TIER_S": 24,
   "PARENT_THEOREM_UNDER_ASSUMPTIONS": 7,
-  "PROVED_AT_SCOPE": 15,
-  "REGISTERED_FOR_EXPERIMENT": 58
+  "PROVED_AT_SCOPE": 10,
+  "REGISTERED_FOR_EXPERIMENT": 43
  },
  "counts_by_type": {
   "C": 16,
@@ -53,9 +52,9 @@
  "features": [
   {
    "calculus_section": "4. Feature atlas - input representation and interface / Tokenizer / segmentation (C,S,P)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "An input compiler T mapping a surface byte/character stream u to a symbol sequence tau_1..tau_n over a finite vocabulary Sigma, with |T(u)| = n(u) the token count. Subword schemes (BPE-style merges, unigram-LM segmentation) define T by a learned merge/score table fitted to a corpus; the induced map is generally many-to-one on surface forms and one-to-many on meanings.",
-   "experiment": "B2.1 tokenizer granularity (factorial: surface morphology complexity x vocabulary size x sequence-length price x embedding memory price)",
+   "experiment": "B2.1 tokenizer granularity (factorial: surface morphology complexity x vocabulary size x sequence-length price x embedding memory price) -- EXECUTED as RV-377-090 (B2.1, receipt microscopes/results/STAGE_B2_01_TOKENIZER_V1.json, 17 of 18 clauses). NARROWED: exactness is decided by the merge table's ALIGNMENT with the obligation's unit structure and not by vocabulary size -- at the same V = 16 the unit-aligned tokenizer is exact and linearly realizable where the frequency-learned one is neither.",
    "formal_theorem": null,
    "gmi_type": [
     "C",
@@ -104,9 +103,9 @@
   },
   {
    "calculus_section": "4. Feature atlas - input representation and interface / Vocabulary size (C,S,P)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "The cardinality |Sigma| = V of the token alphabet. It fixes the embedding matrix E in R^{V x d}, the unembedding W_U in R^{V x d}, the softmax partition over V logits, and (through the segmentation that produced it) the expected sequence length E[n(u)], which for subword schemes falls roughly as V grows with diminishing returns.",
-   "experiment": "B2.1 tokenizer granularity (vocabulary-size axis)",
+   "experiment": "B2.1 tokenizer granularity (vocabulary-size axis) -- EXECUTED as RV-377-090 (B2.1). The no-universal-size claim is supported on THREE axes at once: the cost-optimal exact vocabulary differs across morphologies, across reuse horizons (8 -> 32 entries between H = 1 and H = 1024) and across price vectors.",
    "formal_theorem": null,
    "gmi_type": [
     "C",
@@ -246,9 +245,9 @@
   },
   {
    "calculus_section": "4. Feature atlas - input representation and interface / Positional mechanisms (S,R)",
-   "evidence_status": "PROVED_AT_SCOPE",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "A free table P in R^{n_max x d} added at layer 0: r_i^{(0)} = E(tau_i) + P[i]. Each position index i < n_max owns an independently learned vector; positions i >= n_max have no defined encoding.",
-   "experiment": "B2.2 positional necessity and geometry (arm: absolute)",
+   "experiment": "B2.2 positional necessity and geometry (arm: absolute) -- EXECUTED as RV-377-091 (B2.2, receipt STAGE_B2_02_POSITION_V1.json, 11 of 13 clauses). CORRECTED: a bounded absolute table with P codes and one out-of-range bucket resolves P + 1 positions, not P, because a SINGLETON bucket is itself a position code. The frozen threshold was refuted and replaced.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -347,9 +346,9 @@
   },
   {
    "calculus_section": "13. Small-feature closure table / RoPE (S/R)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "Position enters MULTIPLICATIVELY inside the score: partition the head dimension into d_h/2 planes, rotate q_i and k_j in plane m by angles i*theta_m and j*theta_m, so that <R(i)q, R(j)k> = <q, R(j-i)k> depends on (j-i) only. No vector is added to the residual stream and no position table is stored.",
-   "experiment": "B2.2 positional necessity and geometry (rotary-like arm; relative-distance and long-extrapolation tasks)",
+   "experiment": "B2.2 positional necessity and geometry (rotary-like arm; relative-distance and long-extrapolation tasks) -- EXECUTED as RV-377-091 (B2.2). A cyclic position code of period P is exact exactly while n <= P; the aliasing is measured at four obligations and seven lengths. The arm is a generic cyclic code, NOT RoPE.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -401,9 +400,9 @@
   },
   {
    "calculus_section": "13. Small-feature closure table / positional encoding (S/R)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "An additive term in the score: s_{ij} = q_i . k_j / sqrt(d_h) + B[bucket(j-i)] (learned scalar per bucket per head, T5-style) or s_{ij} = q_i . k_j / sqrt(d_h) - m_h (i - j) (a fixed per-head linear penalty in distance, ALiBi-style). B or m_h is read from the OFFSET only.",
-   "experiment": "B2.2 positional necessity and geometry (relative arm) and MLX-07 dependency variability x attention/dynamic routing",
+   "experiment": "B2.2 positional necessity and geometry (relative arm) and MLX-07 dependency variability x attention/dynamic routing -- EXECUTED as RV-377-091 (B2.2). A saturating relative code of reach R serves a distance-d obligation if and only if R >= d + 1: reaching the obligation's own distance is not enough. Relative and absolute representations are INCOMPARABLE -- each serves an obligation the other cannot.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -556,9 +555,9 @@
   },
   {
    "calculus_section": "13. Small-feature closure table / Q/K/V dimension (R/S)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "The per-head width: Q_h, K_h in R^{n x d_h}, V_h in R^{n x d_v}. It bounds the RANK of the per-head selection form (rank(W_h^Q (W_h^K)^T) <= d_h) and the dimension of the per-head payload. Conventionally d_h = d/H, so head count and head width trade at fixed total projection cost.",
-   "experiment": "B2.4 head factorization (vary the number of independent dependency relations at matched compute/parameters)",
+   "experiment": "B2.4 head factorization (vary the number of independent dependency relations at matched compute/parameters) -- EXECUTED as RV-377-093 (B2.5, receipt STAGE_B2_05_KVSHARING_V1.json, 13 of 13 clauses). The stored key/value WIDTH is the quantity that decides whether sharing is lossy, and it moves the gate monotonically: quality 1/4, 1/2, 3/4 at width caps 1, 2, 3 on the most heterogeneous portfolio at H_kv = 1.",
    "formal_theorem": null,
    "gmi_type": [
     "R",
@@ -656,9 +655,9 @@
   },
   {
    "calculus_section": "5. Feature atlas - attention and routing / Attention temperature / logit scaling (R,D)",
-   "evidence_status": "PROVED_AT_SCOPE",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "alpha = softmax(s / T_a) with T_a > 0. By TMT-4, softmax(s/T) = argmax_{p in Delta} [p.s + T H(p)], so T_a is exactly the weight on the entropy term of an entropy-regularized routing policy: T_a -> 0 gives hard argmax routing, T_a -> infinity gives uniform routing.",
-   "experiment": "B2.6 softmax entropy/temperature (routing tasks with controlled ambiguity)",
+   "experiment": "B2.6 softmax entropy/temperature (routing tasks with controlled ambiguity) -- EXECUTED as RV-377-094 (B2.6, receipt STAGE_B2_06_SOFTMAX_V1.json, 14 of 14 clauses). The optimal concentration tracks the posterior spread of the routing evidence (T* = 0, 2, 4, inf at ambiguity 1, 2, 4, 8), and at the registered 8 bits the LOG-domain weight recovers that optimum everywhere while the LINEAR weight misses it -- protocol rule 24 and RV-377-075, at one word width.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -817,9 +816,9 @@
   },
   {
    "calculus_section": "13. Small-feature closure table / head count (R)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "The count of parallel attention channels per layer, each with its own (W_h^Q, W_h^K, W_h^V) and its own softmax over sources. The layer output is W^O [A_1(X); ...; A_H(X)]. H is the granularity at which the layer can route by SEVERAL different criteria at once.",
-   "experiment": "B2.4 head factorization (vary the number of independent dependency relations at matched compute/parameters)",
+   "experiment": "B2.4 head factorization (vary the number of independent dependency relations at matched compute/parameters) -- EXECUTED as RV-377-092 (B2.4, receipt STAGE_B2_04_HEADS_V1.json, 14 of 14 clauses). The minimal exact head count is INDEPENDENT of sequence length in all 144 cells and equals ceil(relation multiplicity / edge budget); a relation declared twice costs nothing.",
    "formal_theorem": null,
    "gmi_type": [
     "R"
@@ -866,7 +865,7 @@
    "calculus_section": "5. Feature atlas - attention and routing / Multi-head attention (R,A1)",
    "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "The full sublayer A(X) = W^O concat_h [ softmax((XW_h^Q)(XW_h^K)^T / sqrt(d_h) + M + B) X W_h^V ], i.e. H independently normalized content-addressed reads of the same sequence, concatenated and mixed by one output map W^O.",
-   "experiment": "B2.3 fixed vs dynamic routing (all four arms plus a query-blind negative twin) -- EXECUTED as RV-377-056, 14792 enumerated inputs, 8/8 clauses; and MLX-07 dependency variability x attention/dynamic routing",
+   "experiment": "B2.3 fixed vs dynamic routing (all four arms plus a query-blind negative twin) -- EXECUTED as RV-377-056, 14792 enumerated inputs, 8/8 clauses; and MLX-07 dependency variability x attention/dynamic routing -- EXECUTED as RV-377-092 (B2.4). Representation decides WHETHER a relation set can be served and never HOW MANY factors it takes. Upper bound only: the head's score is an arbitrary content-based function, so every head count is an upper bound on a rank-bounded head's requirement.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -923,9 +922,9 @@
   },
   {
    "calculus_section": "5. Feature atlas - attention and routing / MHA / GQA / MQA (R,H,P)",
-   "evidence_status": "PROVED_AT_SCOPE",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "Let H_q be the query-head count and H_kv <= H_q the number of independently materialized key/value head pairs, with query heads partitioned into H_kv groups sharing one (K, V). MHA is H_kv = H_q, MQA is H_kv = 1, GQA is intermediate. By TMT-13 the autoregressive cache holds Theta(2 L n d H_kv) elements.",
-   "experiment": "B2.5 MHA -> GQA -> MQA (factorial: KV relation heterogeneity x sequence length x memory bandwidth price x cache capacity)",
+   "experiment": "B2.5 MHA -> GQA -> MQA (factorial: KV relation heterogeneity x sequence length x memory bandwidth price x cache capacity) -- EXECUTED as RV-377-093 (B2.5). RELOCATED: TM-7's adequacy loss is a stored-WIDTH property, not a map-identity one -- MQA becomes exact on a heterogeneous portfolio by widening the shared key alone (minimal H_kv 3 -> 1). Also measured: cache is NOT proportional to H_kv once per-group widths are counted (192, 448, 448, 512 elements at H_kv = 1, 2, 3, 4).",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -1134,9 +1133,9 @@
   },
   {
    "calculus_section": "6. Feature atlas - local transforms / MLPs / Position-wise MLP (T,S)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "G(x) = W_2 phi(W_1 x + b_1) + b_2 applied INDEPENDENTLY and identically at every position, with W_1 in R^{d_ff x d}, W_2 in R^{d x d_ff}. It mixes across the feature axis only; it moves no information between positions.",
-   "experiment": "B2.7 MLP width/gating (arms: linear / simple nonlinearity / gated local transform, routing need held fixed)",
+   "experiment": "B2.7 MLP width/gating (arms: linear / simple nonlinearity / gated local transform, routing need held fixed) -- EXECUTED as RV-377-095 (B2.7, receipt STAGE_B2_07_MLP_V1.json, 15 of 15 clauses). The local transform is measured ALONE: charged routing is 2 operations per query for every arm at every width, so every difference is the local transform and nothing else.",
    "formal_theorem": null,
    "gmi_type": [
     "T",
@@ -1183,9 +1182,9 @@
   },
   {
    "calculus_section": "6. Feature atlas - local transforms / MLPs / Width / expansion ratio (S,T,P)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "The ratio rho = d_ff / d (conventionally 4 for an ungated MLP; near 8/3 for gated variants at matched parameters). It sets the dimension of the intermediate workspace phi(W_1 x) and hence the number of independent nonlinear features one block can construct before projecting back to d.",
-   "experiment": "B2.7 MLP width/gating (vary local feature-composition complexity with routing need fixed)",
+   "experiment": "B2.7 MLP width/gating (vary local feature-composition complexity with routing need fixed) -- EXECUTED as RV-377-095 (B2.7). Width buys BREAKPOINTS: the rectified arm's minimal exact width is 1 for a one-breakpoint target and 2 for a two-breakpoint target, and its enumerated class grows 43, 873, 10819, 465179 functions across the width ladder.",
    "formal_theorem": null,
    "gmi_type": [
     "S",
@@ -1286,9 +1285,9 @@
   },
   {
    "calculus_section": "6. Feature atlas - local transforms / MLPs / GLU / SwiGLU-like gates (T,R)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "A multiplicative local gate: G(x) = W_2 ( phi(W_g x) (elementwise product) W_1 x ), with three matrices instead of two. SwiGLU takes phi = SiLU. At matched parameter count d_ff is reduced by about 2/3 relative to an ungated block.",
-   "experiment": "B2.7 MLP width/gating (gated local transform arm, matched parameter/FLOP controls)",
+   "experiment": "B2.7 MLP width/gating (gated local transform arm, matched parameter/FLOP controls) -- EXECUTED as RV-377-095 (B2.7). Gating buys the PRODUCT: no rectified sum of width up to 4 reaches the bilinear target over the declared alphabet (12/25, 3/5, 18/25, 21/25) while the gated arm reaches it at width 2. The matched-cost control the entry demands is answered: 18 charged operations per query against 10 at width 1.",
    "formal_theorem": null,
    "gmi_type": [
     "T",
@@ -1335,9 +1334,9 @@
   },
   {
    "calculus_section": "7. Feature atlas - residual stream and normalization / Residual connection (S,U)",
-   "evidence_status": "PROVED_AT_SCOPE",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "y = x + f(x) around every sublayer, so the Jacobian is J_y = I + J_f and a depth-L stack has end-to-end Jacobian prod_l (I + J_{f_l}). The sublayer computes an INCREMENT to a carried state rather than replacing it.",
-   "experiment": "B2.8 residual connection (vary depth and perturbation magnitude; shallow-regime negative control)",
+   "experiment": "B2.8 residual connection (vary depth and perturbation magnitude; shallow-regime negative control) -- EXECUTED as RV-377-096 (B2.8, receipt STAGE_B2_08_RESIDUAL_V1.json, 13 of 13 clauses). SPLIT. The SIGNAL-PROPAGATION reading is measured and comes out NEGATIVE in the registered 8-bit universe: the skip is a scale amplifier of gain 1 + g, is strictly harmful at unit gain at every depth, and loses at depth 16 at every declared gain to a plain path with scale control and no skip. The GRADIENT-TRANSPORT reading is untouched, is the parent literature's, and is declared out of scope in the receipt.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -1388,9 +1387,9 @@
   },
   {
    "calculus_section": "7. Feature atlas - residual stream and normalization / Residual stream (S,H)",
-   "evidence_status": "OPEN_NONBLOCKING",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "The sequence of vectors r^{(0)}, ..., r^{(L)} in R^{n x d} that every sublayer reads from and adds to. Because writes are additive into one d-dimensional space, features written by different mechanisms SUPERPOSE, and any read is a linear functional of the sum.",
-   "experiment": "MLX-41 probe vs causal-use separation and MLX-42 mechanism witness invariance; gap G-T08 residual-stream superposition/interference law",
+   "experiment": "MLX-41 probe vs causal-use separation and MLX-42 mechanism witness invariance; gap G-T08 residual-stream superposition/interference law -- EXECUTED as RV-377-096 (B2.8). The residual stream's DYNAMIC RANGE is the load-bearing quantity: the plain path underflows (saturated fraction 0, response 0 LSBs, one state left) and the residual path saturates (over half the states pinned at a rail).",
    "formal_theorem": null,
    "gmi_type": [
     "S",
@@ -1441,9 +1440,9 @@
   },
   {
    "calculus_section": "7. Feature atlas - residual stream and normalization / LayerNorm (N,U)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "LN(x) = gamma (x - mu(x)) / sqrt(sigma^2(x) + eps) + beta with mu and sigma^2 the mean and variance over the d feature coordinates of a single position. It is exactly invariant to x -> a x + b 1 for a > 0 (up to eps), then re-parameterized by learned gamma, beta.",
-   "experiment": "B2.9 normalization (factorial: depth x activation-scale drift x precision x batch/sequence statistics; arms none / center+scale / RMS-like)",
+   "experiment": "B2.9 normalization (factorial: depth x activation-scale drift x precision x batch/sequence statistics; arms none / center+scale / RMS-like) -- EXECUTED as RV-377-097 (B2.9, receipt STAGE_B2_09_NORM_V1.json, 10 of 14 clauses). RESTATED on the OBLIGATION-AWARE mediator: the fraction of obligation-distinct input pairs a stack does not merge screens off the architecture label with a capability spread of EXACTLY 0 over 120 rows, while the raw distinct-state count carries a spread of 31/128 and is not even monotone. On a scalar state this arm is a gauge choice and is NOT LayerNorm on a vector.",
    "formal_theorem": null,
    "gmi_type": [
     "N",
@@ -1489,9 +1488,9 @@
   },
   {
    "calculus_section": "7. Feature atlas - residual stream and normalization / RMSNorm (N,U,P)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "RMS(x) = gamma x / sqrt(mean(x^2) + eps): the same per-position scale gauge as LayerNorm with the recentering (subtracting mu) and usually the bias beta removed. It is invariant to x -> a x for a > 0 but NOT to x -> x + b 1.",
-   "experiment": "B2.9 normalization (RMS-like arm, same factorial)",
+   "experiment": "B2.9 normalization (RMS-like arm, same factorial) -- EXECUTED as RV-377-097 (B2.9). Same mediator, same caveat. Also measured: the negative twin with identical arithmetic and a data-independent scale reproduces the unnormalized arm EXACTLY at unit drift, so a normalizer's effect is its data dependence and not its arithmetic; and widening the precision LOWERS capability in three named places.",
    "formal_theorem": null,
    "gmi_type": [
     "N",
@@ -1539,9 +1538,9 @@
   },
   {
    "calculus_section": "7. Feature atlas - residual stream and normalization / Pre-norm vs post-norm (N,U)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "Pre-norm: x_{l+1} = x_l + f_l(N(x_l)), so the identity path from input to output is normalization-free. Post-norm: x_{l+1} = N(x_l + f_l(x_l)), so every skip passes through a normalizer. The two give different end-to-end Jacobians: pre-norm keeps an exact identity term at every depth, post-norm does not.",
-   "experiment": "B2.10 pre/post norm (optimization stability vs depth and residual magnitude)",
+   "experiment": "B2.10 pre/post norm (optimization stability vs depth and residual magnitude) -- EXECUTED as RV-377-098 (B2.10, receipt STAGE_B2_10_PRENORM_V1.json, 8 of 11 clauses). The bare claim 'pre-norm is more stable at depth' is FALSIFIED AT SCOPE: at the matched scale s = 1 + alpha*g the post-norm stack is an exact isometry and scores 251/256 at depth 16 against pre-norm's 1/2. The response law is on the RATIO of normalizer scale to residual accumulation; pre-norm's advantage is insensitivity to it.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -1956,9 +1955,9 @@
   },
   {
    "calculus_section": "8. Feature atlas - output and decoding / Temperature / top-k / top-p (D)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "Keep only the k highest-probability tokens, set the rest to zero, renormalize, then sample: p'(x) proportional to p(x) 1[x in TopK_k(p)]. k = 1 is exactly greedy decoding.",
-   "experiment": "B2.18 test-time working state; MLX-27 abstention vs unsafe serving (truncation is a crude admission rule)",
+   "experiment": "B2.18 test-time working state; MLX-27 abstention vs unsafe serving (truncation is a crude admission rule) -- EXECUTED as RV-377-094 (B2.6). Ambiguity FORCES MATERIALIZATION: the cheapest adequate top-kappa rises 1, 1, 2, 8 as ambiguity goes 1, 2, 4, 8, and the value of routing over a hindsight-optimal constant collapses to 1/32 of the constant's own error at total ambiguity.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -2284,9 +2283,9 @@
   },
   {
    "calculus_section": "11. Feature atlas - memory, retrieval and tools / recurrent/state-space memory (H,S,T)",
-   "evidence_status": "PROVED_AT_SCOPE",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "The maximum number of past tokens a forward pass may attend to. A model whose decision at step i is a function of suffix_W(x_{<=i}) and nothing else is a W-window machine. By TMT-2, if suffix_W(h) = suffix_W(h') while q_O(h) != q_O(h'), no such machine is exact on both histories.",
-   "experiment": "B2.11 context vs recurrence vs retrieval (histories with exact required memory depth; burden at fixed semantic adequacy)",
+   "experiment": "B2.11 context vs recurrence vs retrieval (histories with exact required memory depth; burden at fixed semantic adequacy) -- EXECUTED as RV-377-099 (B2.11, receipt STAGE_B2_11_MEMORY_V1.json, 11 of 13 clauses). The window's price is the required memory depth PLUS ONE event -- the query occupies a slot -- measured as minimal exact windows of 4, 5, 4, 4 against maximum depths of 3, 4, 3, 3.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -2343,9 +2342,9 @@
   },
   {
    "calculus_section": "11. Feature atlas - memory, retrieval and tools / recurrent/state-space memory (H,S,T)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "A fixed-size carried state updated causally: h_t = A h_{t-1} + B x_t, y_t = C h_t (+ D x_t), with A, B, C possibly input-dependent (selective SSM) or diagonal/structured for fast parallel scan. Serving cost is Theta(1) per token and state memory is Theta(dim h) INDEPENDENT of sequence length.",
-   "experiment": "B2.11 context vs recurrence vs retrieval (compressed-recurrent-state arm)",
+   "experiment": "B2.11 context vs recurrence vs retrieval (compressed-recurrent-state arm) -- EXECUTED as RV-377-099 (B2.11). The recurrent state's price is the obligation's MYHILL-NERODE class count and nothing else: minimal exact widths 4, 4, 5, 5 bits at class counts 9, 9, 25, 27, unmoved by history length. LOWER BOUND ONLY: an exact automaton state is not a learned recurrent state.",
    "formal_theorem": {
     "check_kind": "MATH_IMPLEMENTATION_CHECK__NOT_EMPIRICAL_NEURAL_EVIDENCE",
     "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json",
@@ -2403,9 +2402,9 @@
   },
   {
    "calculus_section": "11. Feature atlas - memory, retrieval and tools / retrieval / RAG (H,R,C)",
-   "evidence_status": "REGISTERED_FOR_EXPERIMENT",
+   "evidence_status": "EMPIRICALLY_SUPPORTED_AT_TIER_S",
    "exact_definition": "At serve time, a retriever selects k passages from an external corpus by a query-dependent score and they are placed in the context (or cross-attended, TF-020) before generation. The corpus is MUTABLE and external; the parameters are not consulted for its content.",
-   "experiment": "B2.17 RAG/tool authority (vary fact volatility, source authority, retrieval noise, provenance requirement, tool latency) and MLX-22 RAG/provenance/freshness decomposition",
+   "experiment": "B2.17 RAG/tool authority (vary fact volatility, source authority, retrieval noise, provenance requirement, tool latency) and MLX-22 RAG/provenance/freshness decomposition -- EXECUTED as RV-377-099 (B2.11). The retrieval arm's burden is INVALIDATION: the negative twin with identical machinery and identical charged cost scores 47/54, 43/54, 92/125, 683/729 and fails exactly on the histories where the queried key was overwritten.",
    "formal_theorem": null,
    "gmi_type": [
     "H",
@@ -4550,7 +4549,7 @@
  ],
  "n_features": 84,
  "not_evidence": "A TYPED LOCATION IS NOT EVIDENCE. Assigning a feature a GMI type, a mechanism hypothesis and a resource-effect direction records where the feature LIVES in the calculus and what would have to be measured; it establishes nothing about any trained neural network. The only fields that carry epistemic weight are `evidence_status` and the `formal_theorem` receipt reference behind it, and every X-TMT receipt check is a MATHEMATICAL IMPLEMENTATION CHECK on a finite enumerated scope -- not neural evidence. No entry in this registry claims that an LLM phenomenon is explained by its typed location.",
- "registry_sha256": "43f44f352add1119818a4f35bb8532cde24cdc29b6e7b532bdf1be30e5eabe9e",
+ "registry_sha256": "87ca393973bb12c4a57a69937e2ca3fbccb3a3a32acd60e5e86fff6edcdf358c",
  "required_fields": [
   "id",
   "name",
@@ -4572,9 +4571,10 @@
  ],
  "schema": "GMITransformerMicrofeatureRegistryV1",
  "sources": {
+  "b2_atlas": "GMI_STAGE_B2_ATLAS_EXECUTED_V1.md",
   "calculus": "GMI_NEURAL_LLM_TRANSFORMER_MICROFEATURE_CALCULUS_V1.md (section 1 acceptance fields; type alphabet; Delta_f)",
   "claim_levels": "GMI_RECURSIVE_THEORY_HARDENING_FIXED_POINT_V1.md section 3",
-  "executed_predictions": "REVIVAL_LEDGER_TF.jsonl (RV-377-055 KV cache, RV-377-056 routing)",
+  "executed_predictions": "REVIVAL_LEDGER_TF.jsonl (RV-377-055 B2.12 KV cache, RV-377-056 B2.3 routing); REVIVAL_LEDGER_B2.jsonl (RV-377-090 .. RV-377-099: B2.1 tokenizer, B2.2 position, B2.4 heads, B2.5 KV sharing, B2.6 softmax, B2.7 MLP, B2.8 residual, B2.9 normalization, B2.10 pre/post norm, B2.11 memory)",
   "experiments": "GMI_BIOSPHERE_EXPERIMENT_PROTOCOL_V1.md stage B2 (B2.1..B2.20); GMI_ML_THEORY_EXPERIMENT_MATRIX_V1.md (MLX-00..52)",
   "literature": "GMI_PARENT_LITERATURE_LEDGER_V2.json (127 verified works, 16 areas)",
   "receipt": "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json (X-TMT1..X-TMT15, executed)",

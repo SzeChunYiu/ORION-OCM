@@ -954,6 +954,7 @@ def test_r11_biosphere_episode_is_deterministic_resumable_and_cites_its_screen_a
             assert len(d["milestone_reached_by"]) < 2
 
 
+
 def test_dk_logdomain_audit_receipt_cells_replay_exactly():
     """RV-377-076 part 1, the hostile audit of RV-377-075. Replays committed cells of
     STAGE_DK_V4_LOGDOMAIN_AUDIT_V1.json and re-checks the four findings that decide whether the refutation
@@ -1091,3 +1092,403 @@ def test_dk_precision_residual_receipt_replays():
     assert {pred[v]["executed_n_linear_weights_nonzero_fx8"] for v in "ACDE"} == {6}
     # and the negative twin is exactly zero on all ten declared sequence-cells
     assert committed["negative_twin_all_five_sequences"]["summary"]["all_sequences_exactly_zero"] is True
+# ======================================================================================================================
+# Stage B2 microfeature phase atlas (issue #422, REVIVAL_LEDGER_B2.jsonl, RV-377-090 onward).
+# Every one of these is a SYNTHETIC EXACT MICROSCOPE at laptop scope: exact rational or registered 8-bit fixed-point
+# arithmetic, no randomness, freeze-before-run. NONE of them is evidence about a trained neural network.
+# ======================================================================================================================
+def test_b2_01_tokenizer_receipt_replays_exactly(tmp_path):
+    """RV-377-090 (B2.1 tokenizer granularity): the committed receipt reproduces byte for byte, and the numbers the
+    record's terminal rests on are replayed from the committed file."""
+    from gmi_microscope import b2_tokenizer
+    rc = b2_tokenizer.main(str(tmp_path / "tok.json"))
+    committed = json.loads((RES / "STAGE_B2_01_TOKENIZER_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 17 and rc["n_claims"] == 18
+    assert rc["claims"]["C17_the_unit_aligned_row_occupies_every_frontier_cell_at_every_price_in_MORPH2_and_MORPH3"] is False
+
+    cells = committed["cells"]
+    # rule 22: the hindsight-optimal constant answer is 9/64 in all three morphologies, so none is a VOID obligation
+    for m in cells:
+        assert cells[m]["rule22_constant_control"]["capability"] == "9/64"
+        assert cells[m]["rule22_constant_control"]["obligation_void"] is False
+        assert cells[m]["rule21_charged_serve_audit"]["passed"] is True
+    # C1: the character-level row is exact only where the units are single symbols
+    assert cells["MORPH1_symbol"]["rows"]["BPE_k00_V08"]["hindsight_optimal_bag_reader_capability"] == "1"
+    assert cells["MORPH2_digram"]["rows"]["BPE_k00_V08"]["hindsight_optimal_bag_reader_capability"] == "3/8"
+    assert cells["MORPH3_trigram"]["rows"]["BPE_k00_V08"]["hindsight_optimal_bag_reader_capability"] == "3/8"
+    # C3: minimal exact vocabulary sizes 8, 16, 16 entries
+    assert [cells[m]["minimal_exact_vocabulary_size"] for m in ("MORPH1_symbol", "MORPH2_digram", "MORPH3_trigram")] == [8, 16, 16]
+    # C14: at the SAME vocabulary size V = 16, alignment and not size decides exactness
+    for m, bpe_cap in (("MORPH2_digram", "127/128"), ("MORPH3_trigram", "15/16")):
+        oracle = cells[m]["rows"]["ORACLE_UNIT_V16"]
+        bpe = cells[m]["rows"]["BPE_k08_V16"]
+        assert oracle["vocabulary_size_V"] == bpe["vocabulary_size_V"] == 16
+        assert oracle["hindsight_optimal_bag_reader_capability"] == "1" and oracle["linear_system_consistent"] is True
+        assert bpe["hindsight_optimal_bag_reader_capability"] == bpe_cap and bpe["linear_system_consistent"] is False
+        assert oracle["unit_aligned_segmentation_fraction"] == "1"
+    # C15: greedy frequency merging does not recover unit boundaries even once it contains every unit
+    assert cells["MORPH2_digram"]["rows"]["BPE_k12_V20"]["unit_aligned_segmentation_fraction"] == "49/64"
+    assert cells["MORPH3_trigram"]["rows"]["BPE_k24_V32"]["unit_aligned_segmentation_fraction"] == "371/512"
+    # C7: linear sample efficiency along the MORPH1 BPE ladder
+    assert [cells["MORPH1_symbol"]["rows"]["BPE_k%02d_V%02d" % (k, 8 + k)]["linear_sample_efficiency_examples"]
+            for k in (0, 2, 4, 8, 12, 16, 20, 24)] == [8, 10, 28, 64, 64, 89, 121, 169]
+    # DG-2 / protocol rule 28: one shared grid, every context covering twice every crossover, coordinates carried
+    assert all(b["dg2_grid_covers_twice_every_crossover"] for b in committed["b2_frontiers"].values())
+    assert all(b["cost_coordinates_A_E"] for b in committed["b2_frontiers"].values())
+
+
+def test_b2_04_heads_receipt_replays_exactly(tmp_path):
+    """RV-377-092 (B2.4 head factorization): the committed receipt reproduces byte for byte; the minimal exact head
+    count is independent of sequence length in all 144 cells and equals the counting bound."""
+    from gmi_microscope import b2_heads
+    rc = b2_heads.main(str(tmp_path / "heads.json"))
+    committed = json.loads((RES / "STAGE_B2_04_HEADS_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 14 and rc["n_claims"] == 14
+
+    cells = committed["cells"]
+    H = lambda rep, sn, k, b: cells[f"{rep}|{sn}|k={k}|b={b}"]["minimal_exact_head_count"]
+    # C1: sequence length moves the head count nowhere
+    for rep in b2_heads.REPRESENTATIONS:
+        for sn in b2_heads.RELATION_SETS:
+            for b in b2_heads.BUDGETS:
+                assert len({H(rep, sn, k, b) for k in b2_heads.LENGTHS}) == 1, (rep, sn, b)
+    # the measured ladder under an absolute-position representation
+    assert [H("CONTENT_POSITION", sn, 6, 1) for sn in
+            ("R1_SELF", "R2_SELF_NEXT", "R3_SELF_NEXT_SKIP2", "R4_ALL")] == [1, 2, 3, 4]
+    assert [H("CONTENT_POSITION", sn, 6, 2) for sn in
+            ("R1_SELF", "R2_SELF_NEXT", "R3_SELF_NEXT_SKIP2", "R4_ALL")] == [1, 1, 2, 2]
+    # C2: a duplicated relation costs nothing -- multiplicity, not declared count
+    assert H("CONTENT_POSITION", "R2_SELF_SELF_DUPLICATE", 6, 1) == H("CONTENT_POSITION", "R1_SELF", 6, 1) == 1
+    # C4 / C5 / C13: servability is the representation's, and relative and absolute are INCOMPARABLE
+    assert all(H("CONTENT_ONLY", sn, 6, 1) is None for sn in b2_heads.RELATION_SETS)
+    assert H("CONTENT_RELPOS", "R3_SELF_NEXT_SKIP2", 6, 1) == 3
+    assert H("CONTENT_RELPOS", "R4_ALL", 6, 2) is None and H("CONTENT_POSITION", "R4_ALL", 6, 2) == 2
+    # C14: the counting bound is tight wherever the set is servable, under every representation
+    for key, cell in cells.items():
+        h = cell["minimal_exact_head_count"]
+        if h is not None:
+            assert h == -(-cell["distinct_relation_multiplicity"] // cell["edge_budget_b"]), key
+    for cell in cells.values():
+        assert cell["rule22_constant_control"]["obligation_void"] is False
+        assert cell["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_05_kvsharing_receipt_replays_exactly(tmp_path):
+    """RV-377-093 (B2.5 MHA -> GQA -> MQA): the committed receipt reproduces byte for byte; TM-7's adequacy loss is a
+    STORED WIDTH property, and the cache is NOT proportional to H_kv once per-group widths are measured."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_kvshare
+    rc = b2_kvshare.main(str(tmp_path / "kv.json"))
+    committed = json.loads((RES / "STAGE_B2_05_KVSHARING_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 13 and rc["n_claims"] == 13
+
+    cells = committed["cells"]
+    # C1: at the tightest caps the minimal exact H_kv IS the measured KV relation heterogeneity
+    for pf, het in (("HET1_homogeneous", 1), ("HET2_two_kinds", 2), ("HET3_three_kinds", 3), ("HET4_four_kinds", 4)):
+        c = cells[f"{pf}|n=16|dk=1|dv=1"]
+        assert c["kv_relation_heterogeneity_key_payload_pairs"] == het
+        assert c["minimal_exact_H_kv"] == het
+    # C5: MQA quality at the tightest caps
+    assert [cells[f"{pf}|n=16|dk=1|dv=1"]["rows"]["Hkv1"]["quality"] for pf in
+            ("HET1_homogeneous", "HET2_two_kinds", "HET3_three_kinds", "HET4_four_kinds")] == ["1", "1/2", "1/2", "1/4"]
+    # C6: widening the stored key alone makes MQA exact on a heterogeneous portfolio
+    assert cells["HET3_three_kinds|n=16|dk=1|dv=1"]["minimal_exact_H_kv"] == 3
+    assert cells["HET3_three_kinds|n=16|dk=3|dv=2"]["minimal_exact_H_kv"] == 1
+    # C2: sequence length moves the minimal exact ratio nowhere
+    for pf in b2_kvshare.HEADS_BY_PORTFOLIO:
+        for dk in b2_kvshare.D_K:
+            for dv in b2_kvshare.D_V:
+                assert len({cells[f"{pf}|n={n}|dk={dk}|dv={dv}"]["minimal_exact_H_kv"]
+                            for n in b2_kvshare.LENGTHS}) == 1, (pf, dk, dv)
+    # the measured cache is NOT proportional to H_kv: 192, 448, 448, 512 elements at (d_k, d_v) = (2, 2), n = 16
+    r = cells["HET4_four_kinds|n=16|dk=2|dv=2"]["rows"]
+    assert [r[f"Hkv{h}"]["cache_elements"] for h in (1, 2, 3, 4)] == [192, 448, 448, 512]
+    assert [r[f"Hkv{h}"]["quality"] for h in (1, 2, 3, 4)] == ["1/2", "1", "1", "1"]
+    # C13: one head requiring two key features denies the whole portfolio an exact ratio at width cap 1
+    assert all(cells[f"HET2_wide_head|n={n}|dk=1|dv={dv}"]["minimal_exact_H_kv"] is None
+               for n in b2_kvshare.LENGTHS for dv in b2_kvshare.D_V)
+    assert cells["HET2_wide_head|n=16|dk=2|dv=1"]["minimal_exact_H_kv"] == 1
+    # the rule 24 gate record moves monotonically with the stored width, which is the quantity it names
+    assert committed["rule24_gate_record"]["capability_by_representation"] == {"d_k=1": "1/4", "d_k=2": "1/2", "d_k=3": "3/4"}
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_06_softmax_receipt_replays_exactly(tmp_path):
+    """RV-377-094 (B2.6 softmax entropy/temperature): the committed receipt reproduces byte for byte. The optimal
+    concentration tracks ambiguity, and the 8-bit LOG weight recovers it where the 8-bit LINEAR weight does not --
+    protocol rule 24 and RV-377-075, at one word width."""
+    from gmi_microscope import b2_softmax
+    rc = b2_softmax.main(str(tmp_path / "sm.json"))
+    committed = json.loads((RES / "STAGE_B2_06_SOFTMAX_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 14 and rc["n_claims"] == 14
+
+    # C1 is a MATHEMATICAL implementation check and is labelled as one; it is not evidence for anything below
+    assert committed["variational_check"]["kind"].startswith("MATH_IMPLEMENTATION_CHECK")
+    assert committed["variational_check"]["passed"] is True
+    # the measured response law: the optimum moves 0 -> 2 -> 4 -> inf as ambiguity goes 1 -> 2 -> 4 -> 8
+    T = committed["optimal_temperature_by_ambiguity_and_instrument"]
+    assert [T[f"m={m}|EXACT"] for m in (1, 2, 4, 8)] == ["0", "2", "4", "inf"]
+    # rule 24: the log-domain 8-bit weight recovers it everywhere, the linear 8-bit weight does not
+    assert [T[f"m={m}|FX8_LOG"] for m in (1, 2, 4, 8)] == ["0", "2", "4", "inf"]
+    assert [T[f"m={m}|FX8_LINEAR"] for m in (1, 2, 4, 8)] != [T[f"m={m}|EXACT"] for m in (1, 2, 4, 8)]
+    assert committed["rule24_gate_record"]["capability_by_representation"]["FX8_LOG"] == "1"
+    # C13: ambiguity forces materialization -- the cheapest admissible top-kappa rises with it
+    cheapest = {m: min(v["kappa"] for v in committed["cells"][f"m={m}|EXACT"]["rows"].values() if v["exact"])
+                for m in (1, 2, 4, 8)}
+    assert [cheapest[m] for m in (1, 2, 4, 8)] == [1, 1, 2, 8]
+    # rule 22 holds by construction: adequacy is relative to the control, so no cell is VOID
+    for c in committed["cells"].values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_07_mlp_receipt_replays_exactly(tmp_path):
+    """RV-377-095 (B2.7 MLP width/gating): the committed receipt reproduces byte for byte. Routing is held identical
+    and charged, width buys breakpoints, gating buys the product, and the gate is not free."""
+    from gmi_microscope import b2_mlp
+    rc = b2_mlp.main(str(tmp_path / "mlp.json"))
+    committed = json.loads((RES / "STAGE_B2_07_MLP_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 15 and rc["n_claims"] == 15
+
+    cells = committed["cells"]
+    # C1: the charged routing cost is 2 ops for every arm and width, so any difference is the local transform
+    for c in cells.values():
+        assert {v["charged_routing_ops_per_query"] for v in c["rows"].values()} == {2}
+    # width buys breakpoints: 1 for the one-breakpoint target, 2 for the two-breakpoint target
+    assert cells["T_RELU"]["minimal_exact_width_by_arm"]["RELU"] == 1
+    assert cells["T_ABS"]["minimal_exact_width_by_arm"]["RELU"] == 2
+    # gating buys the product: no rectified width up to 4 reaches it, the gate reaches it at width 2
+    assert cells["T_PRODUCT"]["minimal_exact_width_by_arm"]["RELU"] is None
+    assert cells["T_PRODUCT"]["minimal_exact_width_by_arm"]["GATED"] == 2
+    assert [cells["T_PRODUCT"]["rows"][f"RELU_w{w}"]["capability"] for w in (1, 2, 3, 4)] == \
+        ["12/25", "3/5", "18/25", "21/25"]
+    # the gate is bought, not free: a gated term is strictly more expensive than a rectified one at matched width
+    for w in (1, 2):
+        assert (cells["T_AFFINE"]["rows"][f"GATED_w{w}"]["charged_local_transform_ops_per_query"]
+                > cells["T_AFFINE"]["rows"][f"RELU_w{w}"]["charged_local_transform_ops_per_query"])
+    # C15: the content-conditioned transport target is reached by no declared arm at any declared width
+    assert all(v is None for v in cells["T_GATE"]["minimal_exact_width_by_arm"].values())
+    assert cells["T_GATE"]["rows"]["GATED_w2"]["capability"] == "22/25"
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_08_residual_receipt_replays_exactly(tmp_path):
+    """RV-377-096 (B2.8 residual connection): the committed receipt reproduces byte for byte. In the registered 8-bit
+    universe the skip is a scale amplifier of gain 1 + g, is strictly harmful at unit gain, and loses at depth to a
+    plain path with scale control and no skip -- the parent-maximal opponent rule 24 requires of a depth gate."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_residual
+    rc = b2_residual.main(str(tmp_path / "res.json"))
+    committed = json.loads((RES / "STAGE_B2_08_RESIDUAL_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "GREEN" and rc["n_claims_hold"] == 13 and rc["n_claims"] == 13
+
+    cells = committed["cells"]
+    cap = lambda g, arm, L: Fr(cells[f"g={g}|delta=1"]["rows"][f"{arm}_L{L}"]["capability"])
+    # C4: at unit gain the skip is strictly harmful at every declared depth
+    for L in (1, 2, 4, 8, 16):
+        assert cap(16, "RESIDUAL", L) < cap(16, "PLAIN", L) == 1, L
+    # C3: the scale-controlled opponent with NO skip beats the residual arm at depth 16 at every declared gain
+    for g in (4, 8, 16, 24, 32):
+        assert cap(g, "PLAIN_RESCALED", 16) > cap(g, "RESIDUAL", 16), g
+    # the two failure modes: the plain path underflows (saturated fraction 0, response 0 LSBs, one state left),
+    # the residual path saturates (more than half the states pinned at a rail)
+    p16 = cells["g=8|delta=1"]["rows"]["PLAIN_L16"]
+    r16 = cells["g=8|delta=1"]["rows"]["RESIDUAL_L16"]
+    assert p16["collapsed_to_one_state"] is True and p16["saturated_fraction"] == "0" and p16["max_response_lsb"] == 0
+    assert Fr(r16["saturated_fraction"]) > Fr(1, 2)
+    # C7: the scale-controlled opponent is depth-invariant in the contractive regime
+    assert len({cells["g=8|delta=1"]["rows"][f"PLAIN_RESCALED_L{L}"]["distinct_states"] for L in (1, 2, 4, 8, 16)}) == 1
+    # the protocol row's "optimization success" half is declared not executed rather than proxied
+    assert any("OPTIMIZATION SUCCESS" in t for t in committed["not_executed_and_declared_open"])
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_09_norm_receipt_replays_exactly(tmp_path):
+    """RV-377-097 (B2.9 normalization): the committed receipt reproduces byte for byte. The conditioning mediator is
+    obligation-aware and UNORDERED: it screens off the architecture label with a spread of exactly 0 and capability is
+    not monotone in it, while the raw distinct-state count fails both readings."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_norm
+    rc = b2_norm.main(str(tmp_path / "norm.json"))
+    committed = json.loads((RES / "STAGE_B2_09_NORM_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 10 and rc["n_claims"] == 14
+
+    mt = committed["mediator_test"]
+    assert mt["strong_reading_holds"] is False and mt["weak_reading_holds"] is False
+    assert mt["largest_capability_spread_within_one_mediator_value"] == "31/128"
+    assert mt["refined_strong_holds"] is True
+    assert mt["largest_capability_spread_within_one_refined_mediator_value"] == "0"
+    assert mt["refined_monotone_holds"] is False
+    for k in ("C1_MEDIATOR_STRONG_equal_mediator_implies_equal_capability_so_the_arm_label_adds_nothing",
+              "C2_MEDIATOR_WEAK_capability_is_monotone_nondecreasing_in_the_mediator",
+              "C13_MEDIATOR_REFINED_capability_is_monotone_in_the_obligation_aware_mediator",
+              "C7_widening_the_precision_never_lowers_the_capability_of_any_arm_at_any_depth_or_drift"):
+        assert rc["claims"][k] is False, k
+    assert rc["claims"]["C14_MEDIATOR_REFINED_STRONG_equal_obligation_aware_mediator_implies_equal_capability"] is True
+
+    cells = committed["cells"]
+    # C5: the negative twin with a data-independent scale IS the unnormalized arm at unit drift -- so every
+    # normalizer effect below is attributable to data dependence and not to arithmetic
+    for p in ("8.4", "12.6", "16.8"):
+        for L in (1, 2, 4, 8, 16):
+            assert (cells[f"p={p}|g=1"]["rows"][f"CONST_SCALE_TWIN_L{L}"]["capability"]
+                    == cells[f"p={p}|g=1"]["rows"][f"NONE_L{L}"]["capability"])
+    # C3 / C8: the unnormalized arm collapses to one state under contractive drift and no declared width rescues it
+    assert cells["p=8.4|g=1/2"]["rows"]["NONE_L16"]["mediator_distinct_states"] == 1
+    for p in ("8.4", "12.6", "16.8"):
+        assert Fr(cells[f"p={p}|g=1/2"]["rows"]["NONE_L16"]["capability"]) < Fr(3, 4)
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_10_prenorm_receipt_replays_exactly(tmp_path):
+    """RV-377-098 (B2.10 pre/post norm): the committed receipt reproduces byte for byte. "Pre-norm is more stable at
+    depth" is FALSE at the matched scale s = 1 + alpha*g, where the post-norm stack is an exact isometry."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_prenorm
+    rc = b2_prenorm.main(str(tmp_path / "pn.json"))
+    committed = json.loads((RES / "STAGE_B2_10_PRENORM_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 8 and rc["n_claims"] == 11
+
+    # C1 is the MATH half and is labelled as one
+    assert committed["identity_path"]["kind"].startswith("MATH_IMPLEMENTATION_CHECK")
+    assert committed["identity_path"]["passed"] is True
+    cells = committed["cells"]
+    cap = lambda a, s, arm, L: Fr(cells[f"a={a}|s={s}"]["rows"][f"{arm}_L{L}"]["capability"])
+    # C3, the instrument check: at unit scale the two placements are the same arithmetic and are indistinguishable
+    for a in ("1/4", "1/2", "1", "2"):
+        for L in (1, 2, 4, 8, 16):
+            assert cap(a, "1", "PRE_NORM", L) == cap(a, "1", "POST_NORM", L)
+    # the matched scale s = 1 + alpha*g: the post-norm stack is an exact isometry and wins decisively
+    assert cells["a=1|s=2"]["rows"]["POST_NORM_L16"]["exact_end_to_end_identity_gain"] == "1"
+    assert cap("1", "2", "POST_NORM", 16) == Fr(251, 256) and cap("1", "2", "PRE_NORM", 16) == Fr(1, 2)
+    # and pre-norm wins at the mismatched scale
+    assert cap("1/4", "4", "PRE_NORM", 16) == Fr(7, 8) and cap("1/4", "4", "POST_NORM", 16) == Fr(1, 4)
+    assert rc["claims"]["C2_at_the_deepest_setting_and_scale_above_unity_pre_norm_capability_exceeds_post_norm_capability"] is False
+    # C8: the two placements are metered to cost the same, so nothing above is a cost difference in disguise
+    for L in (1, 2, 4, 8, 16):
+        assert (cells["a=1|s=1"]["rows"][f"PRE_NORM_L{L}"]["charged_serve_ops_per_query_unit_price"]
+                == cells["a=1|s=1"]["rows"][f"POST_NORM_L{L}"]["charged_serve_ops_per_query_unit_price"])
+    assert any("OPTIMIZATION STABILITY" in t for t in committed["not_executed_and_declared_open"])
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_11_memory_receipt_replays_exactly(tmp_path):
+    """RV-377-099 (B2.11 context vs recurrence vs retrieval): the committed receipt reproduces byte for byte. The
+    three mechanisms are priced by three INDEPENDENT properties of the obligation, and the recurrent state dominates
+    the frontier at every declared price."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_memory
+    rc = b2_memory.main(str(tmp_path / "mem.json"))
+    committed = json.loads((RES / "STAGE_B2_11_MEMORY_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 11 and rc["n_claims"] == 13
+
+    cells = committed["cells"]
+    # the three prices, measured: class count, minimal recurrent bits, maximum depth, minimal window
+    got = {n: (c["myhill_nerode_classes"], c["minimal_exact_recurrent_bits"],
+               c["maximum_required_memory_depth_events"], c["minimal_exact_window_events"])
+           for n, c in cells.items()}
+    assert got["E_K2V2_n4"] == (9, 4, 3, 4) and got["E_K2V2_n5"] == (9, 4, 4, 5)
+    assert got["E_K3V2_n4"] == (27, 5, 3, 4) and got["E_K2V4_n4"] == (25, 5, 3, 4)
+    # C2/C3: lengthening the history moves the window's price and leaves the recurrent state's untouched
+    assert (cells["E_K2V2_n4"]["minimal_exact_recurrent_bits"]
+            == cells["E_K2V2_n5"]["minimal_exact_recurrent_bits"] == 4)
+    assert (cells["E_K2V2_n4"]["minimal_exact_window_events"]
+            < cells["E_K2V2_n5"]["minimal_exact_window_events"])
+    # C1 fails by exactly one: a window must span the required depth PLUS the query event
+    assert rc["claims"]["C1_the_minimal_exact_window_equals_the_maximum_required_memory_depth_in_every_ecology"] is False
+    for c in cells.values():
+        assert c["minimal_exact_window_events"] == c["maximum_required_memory_depth_events"] + 1
+        assert c["myhill_nerode_verified_by_separating_suffix"] is True
+    # C7: the retrieval arm's burden is INVALIDATION -- the twin fails exactly where a key was overwritten
+    for c in cells.values():
+        twin = c["rows"]["STORE_STALE_TWIN"]
+        assert twin["exact"] is False and twin["histories_with_an_overwritten_queried_key"] > 0
+    # C8 fails: the recurrent state occupies the frontier ALONE at every declared price
+    assert rc["claims"]["C8_no_universal_winner_the_frontier_occupant_differs_across_declared_price_vectors"] is False
+    for k, b in committed["b2_frontiers"].items():
+        assert all(o.startswith("RECUR_") for o in b["occupants_on_grid"]), k
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
+def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
+    """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
+    cost coordinates it carries itself -- no replay, no import of the generating module."""
+    from gmi_microscope import b2_audit
+    rc = b2_audit.main(str(tmp_path / "audit.json"))
+    by = {r["receipt"]: r for r in rc["receipts"]}
+    for name, r in by.items():
+        if r["verdict"] in ("SAFE", "TRUNCATED"):
+            assert r["reproduced_own_frontier"] is True, name
+            assert r["verdict"] == "SAFE", (name, r.get("grade"))
+    assert by["STAGE_B2_01_TOKENIZER_V1.json"]["verdict"] == "SAFE"
+    # the defect this audit found in an already committed record: RV-377-056's frontier is nested, so the corpus-wide
+    # DG-2 audit of RV-377-068 never graded it
+    assert by["STAGE_B2_03_ROUTING_V1.json"]["verdict"] == "UNAUDITABLE_BY_INSTRUMENT"
+
+
+def test_b2_02_position_receipt_replays_exactly(tmp_path):
+    """RV-377-091 (B2.2 positional necessity and geometry): the committed receipt reproduces byte for byte, and the
+    three measured resolution thresholds -- including the one that REFUTED the frozen clause C6 -- are replayed."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_position
+    rc = b2_position.main(str(tmp_path / "pos.json"))
+    committed = json.loads((RES / "STAGE_B2_02_POSITION_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 11 and rc["n_claims"] == 13
+    assert rc["claims"]["C6_a_bounded_learned_absolute_table_is_exact_on_ABS_FIRST_everywhere_and_on_ABS_LAST_only_for_n_le_P"] is False
+    assert rc["claims"]["C7b_relative_resolution_R_equal_d_is_inexact_on_the_distance_d_task_at_every_length"] is False
+
+    cells = committed["cells"]
+    cap = lambda t, n, a: Fr(cells[f"{t}|n={n}"]["rows"][a]["capability"])
+    L = b2_position.LENGTHS
+    # C1: TM-1 measured. The PARENT-MAXIMAL permutation-invariant encoder is exact only on the invariant obligation.
+    assert all(cap("PERM_COUNT", n, "NONE") == 1 for n in L)
+    assert all(cap(t, n, "NONE") < 1 for t in ("ABS_FIRST", "ABS_LAST", "REL_DIST2") for n in L)
+    # rule 22: no cell is a VOID obligation; rule 21: every admissible row that serves developed state is charged
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+    # C5: a cyclic code of period P is exact on ABS_FIRST exactly while n <= P
+    for a, P in (("ROT_P2", 2), ("ROT_P4", 4), ("ROT_P6", 6)):
+        assert all((cap("ABS_FIRST", n, a) == 1) == (n <= P) for n in L), a
+    # the REFUTATION: the frozen threshold for a bounded absolute table was n <= P; the exact threshold is n <= P + 1,
+    # because a SINGLETON out-of-range bucket is itself a position code
+    for a, P in (("ABS_P2", 2), ("ABS_P4", 4), ("ABS_P6", 6)):
+        assert all((cap("ABS_LAST", n, a) == 1) == (n <= P + 1) for n in L), a
+        assert all(cap("ABS_FIRST", n, a) == 1 for n in L), a
+    assert cap("ABS_LAST", 5, "ABS_P4") == 1 and cap("ABS_LAST", 6, "ABS_P4") == Fr(3, 4)
+    # C7a / C7b: a saturating relative code resolves the distance-d obligation iff R >= d + 1, and the R = d row is
+    # exact only at the shortest length, which is a boundary effect and not the resolution law
+    assert all(cap("REL_DIST2", n, "REL_R3") == 1 for n in L)
+    assert cap("REL_DIST2", 4, "REL_R2") == 1
+    assert all(cap("REL_DIST2", n, "REL_R2") < 1 for n in L if n >= 6)
+    # C10: the price dichotomy -- exactly two arms are exact everywhere, and they pay in different currencies
+    assert committed["arms_exact_on_every_task_at_every_declared_length"] == ["ABS_DECLARED", "REL_R3"]
+    assert all(b["dg2_grid_covers_twice_every_crossover"] for b in committed["b2_frontiers"].values())

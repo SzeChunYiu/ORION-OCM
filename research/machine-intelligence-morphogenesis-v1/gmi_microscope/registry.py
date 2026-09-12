@@ -2754,6 +2754,97 @@ F("TF-084", "MoE load balancing",
   "12. Feature atlas - serving and systems / load balancing in MoE (P,R,U)")
 
 
+
+# ======================================================================================================================
+# Stage B2 executions of this lane (issue #422, REVIVAL_LEDGER_B2.jsonl, RV-377-090 .. RV-377-099).
+#
+# Ten B2 rows were executed as exact charged microscopes with deterministic receipts under the freeze-before-run
+# protocol. The entries below are the ones those runs MOVED. Every move is to EMPIRICALLY_SUPPORTED_AT_TIER_S -- tier
+# S is "synthetic exact microscope at laptop scope", NOT neural evidence -- and in several cases the claim was
+# NARROWED, RELOCATED or SPLIT rather than confirmed; the text records which.
+#
+# An entry is moved only where the run bears on the entry's own central statement. Entries that merely appear in a
+# receipt's instrument are deliberately NOT moved, and the ledger records why for each.
+# ======================================================================================================================
+
+B2_EXECUTED = {
+    "TF-001": ("RV-377-090 (B2.1, receipt microscopes/results/STAGE_B2_01_TOKENIZER_V1.json, 17 of 18 clauses). "
+               "NARROWED: exactness is decided by the merge table's ALIGNMENT with the obligation's unit structure and "
+               "not by vocabulary size -- at the same V = 16 the unit-aligned tokenizer is exact and linearly "
+               "realizable where the frequency-learned one is neither."),
+    "TF-002": ("RV-377-090 (B2.1). The no-universal-size claim is supported on THREE axes at once: the cost-optimal "
+               "exact vocabulary differs across morphologies, across reuse horizons (8 -> 32 entries between H = 1 and "
+               "H = 1024) and across price vectors."),
+    "TF-005": ("RV-377-091 (B2.2, receipt STAGE_B2_02_POSITION_V1.json, 11 of 13 clauses). CORRECTED: a bounded "
+               "absolute table with P codes and one out-of-range bucket resolves P + 1 positions, not P, because a "
+               "SINGLETON bucket is itself a position code. The frozen threshold was refuted and replaced."),
+    "TF-007": ("RV-377-091 (B2.2). A cyclic position code of period P is exact exactly while n <= P; the aliasing is "
+               "measured at four obligations and seven lengths. The arm is a generic cyclic code, NOT RoPE."),
+    "TF-008": ("RV-377-091 (B2.2). A saturating relative code of reach R serves a distance-d obligation if and only if "
+               "R >= d + 1: reaching the obligation's own distance is not enough. Relative and absolute "
+               "representations are INCOMPARABLE -- each serves an obligation the other cannot."),
+    "TF-011": ("RV-377-093 (B2.5, receipt STAGE_B2_05_KVSHARING_V1.json, 13 of 13 clauses). The stored key/value WIDTH "
+               "is the quantity that decides whether sharing is lossy, and it moves the gate monotonically: quality "
+               "1/4, 1/2, 3/4 at width caps 1, 2, 3 on the most heterogeneous portfolio at H_kv = 1."),
+    "TF-013": ("RV-377-094 (B2.6, receipt STAGE_B2_06_SOFTMAX_V1.json, 14 of 14 clauses). The optimal concentration "
+               "tracks the posterior spread of the routing evidence (T* = 0, 2, 4, inf at ambiguity 1, 2, 4, 8), and "
+               "at the registered 8 bits the LOG-domain weight recovers that optimum everywhere while the LINEAR "
+               "weight misses it -- protocol rule 24 and RV-377-075, at one word width."),
+    "TF-016": ("RV-377-092 (B2.4, receipt STAGE_B2_04_HEADS_V1.json, 14 of 14 clauses). The minimal exact head count "
+               "is INDEPENDENT of sequence length in all 144 cells and equals ceil(relation multiplicity / edge "
+               "budget); a relation declared twice costs nothing."),
+    "TF-017": ("RV-377-092 (B2.4). Representation decides WHETHER a relation set can be served and never HOW MANY "
+               "factors it takes. Upper bound only: the head's score is an arbitrary content-based function, so every "
+               "head count is an upper bound on a rank-bounded head's requirement."),
+    "TF-018": ("RV-377-093 (B2.5). RELOCATED: TM-7's adequacy loss is a stored-WIDTH property, not a map-identity one "
+               "-- MQA becomes exact on a heterogeneous portfolio by widening the shared key alone (minimal H_kv 3 -> "
+               "1). Also measured: cache is NOT proportional to H_kv once per-group widths are counted (192, 448, 448, "
+               "512 elements at H_kv = 1, 2, 3, 4)."),
+    "TF-022": ("RV-377-095 (B2.7, receipt STAGE_B2_07_MLP_V1.json, 15 of 15 clauses). The local transform is measured "
+               "ALONE: charged routing is 2 operations per query for every arm at every width, so every difference is "
+               "the local transform and nothing else."),
+    "TF-023": ("RV-377-095 (B2.7). Width buys BREAKPOINTS: the rectified arm's minimal exact width is 1 for a "
+               "one-breakpoint target and 2 for a two-breakpoint target, and its enumerated class grows 43, 873, "
+               "10819, 465179 functions across the width ladder."),
+    "TF-025": ("RV-377-095 (B2.7). Gating buys the PRODUCT: no rectified sum of width up to 4 reaches the bilinear "
+               "target over the declared alphabet (12/25, 3/5, 18/25, 21/25) while the gated arm reaches it at width "
+               "2. The matched-cost control the entry demands is answered: 18 charged operations per query against "
+               "10 at width 1."),
+    "TF-026": ("RV-377-096 (B2.8, receipt STAGE_B2_08_RESIDUAL_V1.json, 13 of 13 clauses). SPLIT. The "
+               "SIGNAL-PROPAGATION reading is measured and comes out NEGATIVE in the registered 8-bit universe: the "
+               "skip is a scale amplifier of gain 1 + g, is strictly harmful at unit gain at every depth, and loses at "
+               "depth 16 at every declared gain to a plain path with scale control and no skip. The GRADIENT-TRANSPORT "
+               "reading is untouched, is the parent literature's, and is declared out of scope in the receipt."),
+    "TF-027": ("RV-377-096 (B2.8). The residual stream's DYNAMIC RANGE is the load-bearing quantity: the plain path "
+               "underflows (saturated fraction 0, response 0 LSBs, one state left) and the residual path saturates "
+               "(over half the states pinned at a rail)."),
+    "TF-028": ("RV-377-097 (B2.9, receipt STAGE_B2_09_NORM_V1.json, 10 of 14 clauses). RESTATED on the "
+               "OBLIGATION-AWARE mediator: the fraction of obligation-distinct input pairs a stack does not merge "
+               "screens off the architecture label with a capability spread of EXACTLY 0 over 120 rows, while the raw "
+               "distinct-state count carries a spread of 31/128 and is not even monotone. On a scalar state this arm "
+               "is a gauge choice and is NOT LayerNorm on a vector."),
+    "TF-029": ("RV-377-097 (B2.9). Same mediator, same caveat. Also measured: the negative twin with identical "
+               "arithmetic and a data-independent scale reproduces the unnormalized arm EXACTLY at unit drift, so a "
+               "normalizer's effect is its data dependence and not its arithmetic; and widening the precision LOWERS "
+               "capability in three named places."),
+    "TF-030": ("RV-377-098 (B2.10, receipt STAGE_B2_10_PRENORM_V1.json, 8 of 11 clauses). The bare claim 'pre-norm is "
+               "more stable at depth' is FALSIFIED AT SCOPE: at the matched scale s = 1 + alpha*g the post-norm stack "
+               "is an exact isometry and scores 251/256 at depth 16 against pre-norm's 1/2. The response law is on the "
+               "RATIO of normalizer scale to residual accumulation; pre-norm's advantage is insensitivity to it."),
+    "TF-044": ("RV-377-099 (B2.11, receipt STAGE_B2_11_MEMORY_V1.json, 11 of 13 clauses). The window's price is the "
+               "required memory depth PLUS ONE event -- the query occupies a slot -- measured as minimal exact windows "
+               "of 4, 5, 4, 4 against maximum depths of 3, 4, 3, 3."),
+    "TF-045": ("RV-377-099 (B2.11). The recurrent state's price is the obligation's MYHILL-NERODE class count and "
+               "nothing else: minimal exact widths 4, 4, 5, 5 bits at class counts 9, 9, 25, 27, unmoved by history "
+               "length. LOWER BOUND ONLY: an exact automaton state is not a learned recurrent state."),
+    "TF-046": ("RV-377-099 (B2.11). The retrieval arm's burden is INVALIDATION: the negative twin with identical "
+               "machinery and identical charged cost scores 47/54, 43/54, 92/125, 683/729 and fails exactly on the "
+               "histories where the queried key was overwritten."),
+    "TF-038": ("RV-377-094 (B2.6). Ambiguity FORCES MATERIALIZATION: the cheapest adequate top-kappa rises 1, 1, 2, 8 "
+               "as ambiguity goes 1, 2, 4, 8, and the value of routing over a hindsight-optimal constant collapses to "
+               "1/32 of the constant's own error at total ambiguity."),
+}
+
 # ======================================================================================================================
 # Build
 # ======================================================================================================================
@@ -2789,7 +2880,11 @@ def build():
             "experiments": "GMI_BIOSPHERE_EXPERIMENT_PROTOCOL_V1.md stage B2 (B2.1..B2.20); GMI_ML_THEORY_EXPERIMENT_MATRIX_V1.md (MLX-00..52)",
             "claim_levels": "GMI_RECURSIVE_THEORY_HARDENING_FIXED_POINT_V1.md section 3",
             "literature": "GMI_PARENT_LITERATURE_LEDGER_V2.json (127 verified works, 16 areas)",
-            "executed_predictions": "REVIVAL_LEDGER_TF.jsonl (RV-377-055 KV cache, RV-377-056 routing)",
+            "executed_predictions": "REVIVAL_LEDGER_TF.jsonl (RV-377-055 B2.12 KV cache, RV-377-056 B2.3 routing); "
+                                    "REVIVAL_LEDGER_B2.jsonl (RV-377-090 .. RV-377-099: B2.1 tokenizer, B2.2 position, "
+                                    "B2.4 heads, B2.5 KV sharing, B2.6 softmax, B2.7 MLP, B2.8 residual, B2.9 "
+                                    "normalization, B2.10 pre/post norm, B2.11 memory)",
+            "b2_atlas": "GMI_STAGE_B2_ATLAS_EXECUTED_V1.md",
         },
         "not_evidence": NOT_EVIDENCE,
         "type_alphabet": TYPE_ALPHABET,
@@ -2808,6 +2903,10 @@ def build():
         "features": FEATURES,
     }
     for f in FEATURES:
+        if f["id"] in B2_EXECUTED:
+            # a stage-B2 row of this lane executed the entry's central statement; see REVIVAL_LEDGER_B2.jsonl
+            f["experiment"] = f["experiment"] + " -- EXECUTED as " + B2_EXECUTED[f["id"]]
+            f["evidence_status"] = "EMPIRICALLY_SUPPORTED_AT_TIER_S"
         registry["counts_by_evidence_status"][f["evidence_status"]] = registry["counts_by_evidence_status"].get(f["evidence_status"], 0) + 1
         for t in f["gmi_type"]:
             registry["counts_by_type"][t] = registry["counts_by_type"].get(t, 0) + 1
@@ -2907,8 +3006,9 @@ def render_md(reg):
     A("")
     A("## 3b. Executed B2 rows (tier S: synthetic exact, NOT neural)")
     A("")
-    A("Two B2 rows of `GMI_BIOSPHERE_EXPERIMENT_PROTOCOL_V1.md` have been executed at the exact layer under the "
-      "freeze-before-run protocol. Their frozen predictions and clause-by-clause outcomes are in `REVIVAL_LEDGER_TF.jsonl`:")
+    A("TWELVE B2 rows of `GMI_BIOSPHERE_EXPERIMENT_PROTOCOL_V1.md` have been executed at the exact layer under the "
+      "freeze-before-run protocol. The first two are in `REVIVAL_LEDGER_TF.jsonl`; the ten of this lane are in "
+      "`REVIVAL_LEDGER_B2.jsonl` and are narrated in `GMI_STAGE_B2_ATLAS_EXECUTED_V1.md`:")
     A("")
     A("| record | row | receipt | clauses | terminal |")
     A("|---|---|---|---|---|")
@@ -2918,10 +3018,40 @@ def render_md(reg):
       "minimal safe fixed budget = the union in every cell; dynamic never on the frontier at unit discovery price; the dense "
       "baseline overstates TMT-3's bound by exactly k - |union| |")
     A("")
-    A("Both are SYNTHETIC EXACT MICROSCOPES at laptop scope with no randomness. **Neither is evidence about a trained neural "
-      "network.** Tier S means: a measured quantity in a declared synthetic ecology, frozen before the run. The entries these "
-      "rows moved are `TF-010`, `TF-017`, `TF-019` (to `EMPIRICALLY_SUPPORTED_AT_TIER_S`, with the claim NARROWED rather than "
-      "confirmed) and `TF-047` (which keeps `PROVED_AT_SCOPE` from X-TMT6 and now records the executed row).")
+    for rid, row, rec, cl, term in [
+            ("RV-377-090", "B2.1 tokenizer granularity", "STAGE_B2_01_TOKENIZER_V1.json", "17 of 18",
+             "alignment, not vocabulary size, decides exactness; no universal optimum on three axes at once"),
+            ("RV-377-091", "B2.2 positional necessity and geometry", "STAGE_B2_02_POSITION_V1.json", "11 of 13",
+             "TM-1 measured; three resolution thresholds; a singleton out-of-range bucket is itself a position code"),
+            ("RV-377-092", "B2.4 head factorization", "STAGE_B2_04_HEADS_V1.json", "14 of 14",
+             "head count is independent of sequence length in all 144 cells; representation decides servability"),
+            ("RV-377-093", "B2.5 MHA -> GQA -> MQA", "STAGE_B2_05_KVSHARING_V1.json", "13 of 13",
+             "TM-7 relocated to stored WIDTH; cache is not proportional to H_kv once per-group widths are measured"),
+            ("RV-377-094", "B2.6 softmax entropy/temperature", "STAGE_B2_06_SOFTMAX_V1.json", "14 of 14",
+             "optimal concentration tracks ambiguity; at 8 bits the log-domain weight finds it and the linear one does not"),
+            ("RV-377-095", "B2.7 MLP width/gating", "STAGE_B2_07_MLP_V1.json", "15 of 15",
+             "width buys breakpoints, gating buys the product, and the gate costs 1.8x per term"),
+            ("RV-377-096", "B2.8 residual connection", "STAGE_B2_08_RESIDUAL_V1.json", "13 of 13",
+             "the skip is a scale amplifier of gain 1+g; scale control with no skip beats it at depth everywhere"),
+            ("RV-377-097", "B2.9 normalization", "STAGE_B2_09_NORM_V1.json", "10 of 14",
+             "the conditioning mediator is obligation-aware and unordered; a raw signal count is neither"),
+            ("RV-377-098", "B2.10 pre/post norm", "STAGE_B2_10_PRENORM_V1.json", "8 of 11",
+             "'pre-norm is more stable' is false at the matched scale; the variable is the scale ratio"),
+            ("RV-377-099", "B2.11 context vs recurrence vs retrieval", "STAGE_B2_11_MEMORY_V1.json", "11 of 13",
+             "three mechanisms priced by three independent properties; the recurrent state dominates every price")]:
+        A("| `%s` | %s | `microscopes/results/%s` | %s | %s |" % (rid, row, rec, cl, term))
+    A("")
+    A("All twelve are SYNTHETIC EXACT MICROSCOPES at laptop scope with no randomness. **None is evidence about a "
+      "trained neural network.** Tier S means: a measured quantity in a declared synthetic ecology, frozen before the "
+      "run. Four of the ten new rows are RED -- a clause failed as frozen and was scored verbatim rather than "
+      "softened -- and three of those failures corrected a claim rather than an instrument. The per-cell narrative, "
+      "the numbers, the claim ceilings and the registry cross-references are in "
+      "`GMI_STAGE_B2_ATLAS_EXECUTED_V1.md`; the frozen-then-adjudicated records are in `REVIVAL_LEDGER_B2.jsonl`.")
+    A("")
+    A("Entries moved by the ten new rows, all to `EMPIRICALLY_SUPPORTED_AT_TIER_S` and several with the claim "
+      "NARROWED, RELOCATED, SPLIT or CORRECTED rather than confirmed: " +
+      ", ".join("`%s`" % k for k in sorted(B2_EXECUTED)) + ".")
+    A("")
     A("")
     A("---")
     A("")

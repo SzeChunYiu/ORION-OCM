@@ -167,6 +167,48 @@ def _famB_lines(d, schema):
             "frontier_rule": "reuse-horizon frontier over the receipt's own admissible flag"}
 
 
+# ------------------------------------------------------------------------------------ family C: the stage-B2 receipts
+def _famC_lines(d):
+    """Stage-B2 receipts (schema GMI_B2_*). These carry their own per-row cost coordinates under `b2_frontiers`, one
+    block per context, each block holding cost_coordinates_A_E, the grid and the reported frontier. Protocol rule 28
+    exists exactly so that a receipt can be graded from its own contents, and this family is the first that can be:
+    nothing has to be imported and no generating module is used as a black box.
+
+    Every B2 context shares ONE reuse grid (b2_common.frontier_set), so the grid maximum this auditor grades against
+    is honest for every context of the receipt."""
+    blocks = d.get("b2_frontiers")
+    if not isinstance(blocks, dict) or not blocks:
+        return None
+    shared = [int(h) for h in d.get("shared_reuse_grid_H", [])]
+    ctx = {}
+    grid = set()
+    reported = {}
+    for cname, b in blocks.items():
+        if b.get("single_row_context"):
+            continue
+        co = b.get("cost_coordinates_A_E")
+        if co is None:
+            return None
+        lines = {row: (F(v[0]), F(v[1])) for row, v in co.items()}
+        ctx[cname] = {"admissible": sorted(lines), "params": [0], "lines": {(r, 0): v for r, v in lines.items()}}
+        g = [int(h) for h in b.get("grid_H", shared)]
+        grid.update(g)
+        runs = b.get("frontier_runs")
+        if runs is None:
+            for H, occ in b.get("frontier", {}).items():
+                reported[f"{cname}|H={int(H)}"] = occ
+        else:
+            for lo, hi, occ in runs:                      # runs are expanded back to one entry per grid point
+                for H in g:
+                    if lo <= H <= hi:
+                        reported[f"{cname}|H={H}"] = occ
+    return {"contexts": ctx, "grid": sorted(grid), "params": [0], "reported": reported,
+            "key": lambda c, H, r: f"{c}|H={H}",
+            "frontier_rule": "stage B2: exact rows only (semantic adequacy held at the cell's theta), each row at its "
+                             "own declared configuration, on the shared DG-2 grid built from the analytic crossovers "
+                             "of every context of the receipt (protocol rule 17 stated per receipt)"}
+
+
 # --------------------------------------------------------------------------------------------------------- the audit
 TIE = F(1, 10 ** 9)   # the tie tolerance every generating module used: winners are rows with c <= min(c) + 1e-9
 
@@ -194,6 +236,8 @@ def audit_receipt(path):
     try:
         if schema in ("StageDESmoothV1", "StageDECreditV1"):
             spec = _famA_lines(d)
+        elif str(schema).startswith("GMI_B2_"):
+            spec = _famC_lines(d)
         else:
             spec = _famB_lines(d, schema)
     except Exception as exc:                                   # noqa: BLE001 - a parse failure is a finding, not a crash
