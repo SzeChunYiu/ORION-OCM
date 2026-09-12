@@ -1,0 +1,29 @@
+{
+  "artifact": "GMI_SOFTWARE_METER_FREEZE_V1",
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "date": "2026-09-12",
+  "seed": 20260912,
+  "workload": {
+    "keys": 5000,
+    "queries": 10000,
+    "local_updates": 100,
+    "repeats": 7,
+    "base_law": "y = 3*x + 7",
+    "updated_keys": "deterministic RNG sample; updated value = base + 1000003"
+  },
+  "realizations": [
+    "explicit_table",
+    "shared_formula",
+    "shared_formula_plus_residual",
+    "linear_scan_records"
+  ],
+  "measurements": [
+    "median_build_time_ns",
+    "median_query_time_ns",
+    "median_update_time_ns",
+    "peak_tracemalloc_bytes_for_built_state",
+    "semantic_checksum"
+  ],
+  "semantic_contract": "For the post-update workload, explicit_table, shared_formula_plus_residual, and linear_scan_records must return the updated value on updated keys and base-law value elsewhere. shared_formula is intentionally a negative control after updates and must report semantic mismatch rather than being compared as admissible.",
+  "claim_ceiling": "Single Python runtime/software-counter calibration only; no hardware-independent frontier or energy claim."
+}
