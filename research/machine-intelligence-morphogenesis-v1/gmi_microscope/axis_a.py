@@ -223,12 +223,35 @@ class StoreX(Row):
     def step(self, M, x):
         if self.e.get("teacher2") is not None and self.e["teacher2"]:
             y = self.e["teacher2"].pop(0)
-            if (x % 16) not in self.mem: M.L.c["desc"] += M.basis.desc_store_entry
             self.mem[x % 16] = y
+            M.op("S_DELETE", "mem", x % 16)
             M.op("S_INSERT", "mem", x % 16, y); M.L.charge(M.basis.write_cost)
 
     def serve(self, M):
-        return self.mem.get(getattr(self, "last", 0) % 16, 0)
+        # protocol rule 21: the serve path is CHARGED. RV-377-072 found this row serving for free (0.0000 ops per event),
+        # which silently won 175 frontier cells at large reuse. The lookup is now a charged store operation.
+        v = M.op("S_LOOKUP", "mem", getattr(self, "last", 0) % 16)
+        return v if isinstance(v, int) else 0
+
+
+class ConstBest(Row):
+    """protocol rule 22 CONTROL: the best single constant answer, chosen with hindsight over the scored window.
+    An obligation is history-dependent only on cells where THIS row is inadmissible. It is given hindsight deliberately:
+    the control must be the strongest constant, not a fair one."""
+    row = "CONST_BEST"
+
+    def init(self, M):
+        M.declare("k", "fx", 0)
+        ys = self.e["truth"]; half = len(ys) // 2; window = ys[half:]
+        best = max(set(window), key=lambda v: window.count(v)) if window else 0
+        M.write("k", best)
+
+    def observe(self, M, x): self.last = x
+
+    def step(self, M, x): pass
+
+    def serve(self, M):
+        return M.read("k")
 
 
 class IterFrozen(IterMap):
@@ -239,14 +262,14 @@ class IterFrozen(IterMap):
 
 
 ROWS = {"ITERMAP": IterMap, "TAB_RMW": TabRmw, "EVIDENCE": EvidenceReplay, "DENSE_GRAD": DenseGrad,
-        "STORE_X": StoreX, "ITER_FROZEN": IterFrozen}
-REGISTERED_ALPHABET_ROWS = ("TAB_RMW", "EVIDENCE", "DENSE_GRAD", "STORE_X")
+        "STORE_X": StoreX, "ITER_FROZEN": IterFrozen, "CONST_BEST": ConstBest}
+REGISTERED_ALPHABET_ROWS = ("TAB_RMW", "EVIDENCE", "DENSE_GRAD", "STORE_X", "CONST_BEST")
 EXTENDED_ALPHABET_ROWS = ("ITERMAP", "ITER_FROZEN")
 
 
 def run(row, basis, T, mode, C=None, seed=0):
     xs = stream(T, seed); ys = truth(mode, xs)
-    eco = {"T": T, "mode": mode, "C": C if C is not None else T, "teacher": list(ys), "teacher2": list(ys)}
+    eco = {"T": T, "mode": mode, "C": C if C is not None else T, "teacher": list(ys), "teacher2": list(ys), "truth": list(ys)}
     ref = ROWS[row](eco); M = Machine(basis, seed=seed)
     M.phase("exec"); ref.init(M)
     desc_after_init = M.L.c["desc"]
@@ -277,7 +300,7 @@ def lifecycle(r, H, rr):
     return r["declared_desc_bits"] + H * r["exec_per_event"] + rr * (R["upd"] + R.get("ver", 0)) + (rr / 4) * R.get("rev", 0)
 
 
-T_GRID = (2, 4, 8, 16, 32, 64)
+T_GRID = (4, 8, 16, 32, 64)
 H_GRID = (1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096)
 R_GRID = (0, 1, 2, 4, 8, 16, 32)
 
@@ -327,9 +350,20 @@ def main(tag="V1", seed=0):
                         costs = {r: lifecycle(cells[(mode, T, r, cname)], H, rr) for r in adm}
                         m = min(costs.values())
                         frontier[f"{mode}|T={T}|{cname}|H={H}|r={rr}"] = sorted(r for r, c in costs.items() if c <= m + 1e-9)
-    occ = {}
+    # protocol rule 22: a cell is a VALID history-dependence test only where the best constant answer is inadmissible
+    valid = {}
+    for mode in MODES:
+        for T in T_GRID:
+            for cname in cols:
+                valid[f"{mode}|T={T}|{cname}"] = not cells[(mode, T, "CONST_BEST", cname)]["admissible"]
+    # protocol rule 21: no admissible row may serve for free
+    unmetered = sorted({f"{m}|T={T}|{r}|{c}" for (m, T, r, c), d in cells.items() if d["admissible"] and d["exec_per_event"] == 0})
+    occ = {}; occ_valid = {}
     for key, v in frontier.items():
-        for r in v: occ[r] = occ.get(r, 0) + 1
+        stem = "|".join(key.split("|")[:3])
+        for r in v:
+            occ[r] = occ.get(r, 0) + 1
+            if valid.get(stem): occ_valid[r] = occ_valid.get(r, 0) + 1
     registered_only_admissible = {}
     for mode in MODES:
         for T in T_GRID:
@@ -352,6 +386,10 @@ def main(tag="V1", seed=0):
                                          "exists anywhere on the (H, r) quadrant. The finite grid is reported for replay, but the claim that no "
                                          "cell favours the register parent rests on this algebraic statement, not on the grid's extent (gap DG-2)."), "registered_alphabet_admissible_rows": registered_only_admissible,
                "frontier": frontier, "frontier_occupancy_counts": occ, "n_frontier_cells": len(frontier),
+               "rule22_cell_validity": valid, "n_valid_cells": sum(1 for v in valid.values() if v), "n_void_cells": sum(1 for v in valid.values() if not v),
+               "rule22_void_modes": sorted({k.split("|")[0] for k, v in valid.items() if not v}),
+               "frontier_occupancy_on_valid_cells_only": occ_valid,
+               "rule21_unmetered_admissible_rows": unmetered, "rule21_assertion_holds": unmetered == [],
                "terminal": ("D6_REDUCED_TO_PARENT_D2__THE_ITERATED_MAP_CARRIER_IS_THE_READ_MODIFY_WRITE_PHASE_OF_MEMORY__"
                             "EXACT_DEVELOPMENTAL_EQUALITY_ON_ALL_CELLS" if all_eq else
                             "A_AXIS_SEPARATION__THE_ITERATED_MAP_CARRIER_DIFFERS_FROM_THE_PARENT_MAXIMAL_REGISTER_PARENT"),
@@ -364,7 +402,10 @@ def main(tag="V1", seed=0):
         for T in T_GRID:
             print(f"  {mode:7s} T={T:3d}", {r: cells[(mode, T, r, c0)]["capability"] for r in ROWS},
                   "| desc", {r: cells[(mode, T, r, c0)]["desc_bits"] for r in ("ITERMAP", "TAB_RMW", "EVIDENCE")})
-    print("frontier occupancy:", occ)
+    print("frontier occupancy (all cells):", occ)
+    print("frontier occupancy (rule-22 valid cells only):", occ_valid)
+    print("rule-22 valid cells:", receipt["n_valid_cells"], "void:", receipt["n_void_cells"], "void modes:", receipt["rule22_void_modes"])
+    print("rule-21 unmetered admissible rows:", unmetered or "none")
     print("terminal:", receipt["terminal"])
     return receipt
 
