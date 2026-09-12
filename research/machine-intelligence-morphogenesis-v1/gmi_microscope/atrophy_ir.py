@@ -47,8 +47,12 @@ def prune(g, target, theta=THETA, max_rounds=24):
     if base is None or base < theta:
         return cur, {"prunable": False, "reason": "the elite is not admissible under replay", "capability": base}
     evals = 1; removed = []
+    # the canonical order is computed ONCE, on the committed genotype: node identifiers are stable under deletion, so the
+    # order is remint-invariant and the whole pruning is deterministic. Recomputing it every round would be canonical too
+    # but the exact tie-break enumerates permutations of each colour class, which is exponential on graphs with many
+    # repeated kinds and is what made the first attempt of this run hang.
+    lab = morph.canonical_labels(cur)
     for rnd in range(max_rounds):
-        lab = morph.canonical_labels(cur)
         order = sorted((i for i, (k, _) in cur["nodes"].items() if k not in PROTECTED), key=lambda i: lab.get(i, 0))
         hit = False
         for nid in order:
