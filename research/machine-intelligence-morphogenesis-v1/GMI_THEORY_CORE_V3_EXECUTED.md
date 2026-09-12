@@ -215,11 +215,30 @@ Induced from 11 592 executed frontier cells across 34 receipts and then tested p
 Admissibility itself is closed-form on the symmetric family: `cap_S5h(k) = (48 − |k|)/48` (exact on fourteen executed
 ecologies), `cap_S5(k) = 1 − |k|/12`, gradient row admissible iff `|k| ≤ 4`, search row always.
 
-**Executed status.** The first version predicted 1 552 of 1 680 cells of five never-executed ecologies a priori
-(0.9238; `RV-377-059`), with the closed-form capability exact on all five. Two clauses failed and both were located: a
-threshold fitted on too few points, and the reuse-amortization boundary visible in the induction data but omitted from
-the rule. The corrected law is frozen as `RV-377-060` over eight further unrun ecologies (2 640 cells) together with a
-new sign-symmetry claim.
+**Executed status, and the split the second test forced.** The first version predicted 1 552 of 1 680 cells of five
+never-executed ecologies a priori (0.9238; `RV-377-059`). The corrected version was frozen over eight further unrun
+ecologies and **failed at the headline** (1 038 of 2 640, 0.3932; `RV-377-060`) — but the failure decomposes exactly, and
+the decomposition is the result:
+
+* **L8-OCCUPANCY — `PROVED_AT_SCOPE`.** Re-scored against each ecology's *observed* admissible set, the same occupancy
+  rule is right on **1 980 of 1 980 cells** across eight ecologies, six columns, eight reuse horizons and seven revision
+  rates. At the three ecologies where only the gradient row's admissibility was mispredicted, all 99 misses are exactly
+  the 99 cells the rule had assigned to that row, and there are no others.
+* **L8-ADMISSIBILITY — `OPEN_BLOCKING`.** Every error came from predicting *which* carriers are admissible. Three
+  distinct faults: the plain exemplar carrier was omitted from the candidate set although its closed form was computed;
+  the gradient carrier was assumed sign-symmetric and is **not** (0.9167 at k = 2 against 0.8490 at k = −2; 0.8646 at
+  k = 4 against 0.7552 at k = −4) because its initialization is fixed and asymmetric; and the search carrier was assumed
+  always admissible, while at |k| ≥ 12 **no registered carrier is admissible at all** and the frontier is empty.
+
+**What this says about the theory.** Cost ordering is universal and cheap to predict; capability is ecology-specific and
+is where the content lies. That is L3 (admissibility before cost) in its sharpest executed form, and it answers the
+note's third question — what limits the forms — definitely at this scope: **the limit is capability, not cost.** It also
+adds a mechanism the core did not have: the coefficient carrier's admissibility depends on the relationship between its
+initialization and the target, a dependence the exemplar, memory and search carriers do not show.
+
+The closure experiment for the open half (gap **DG-4**) is a closed form per carrier: `cap_S5h = (48 − |k|)/48` holds for
+|k| ≤ 12 and breaks at 13; `cap_S5 = 1 − |k|/12` holds; the gradient carrier needs an initialization-relative form and the
+search carrier a grammar-distance form.
 
 **Why this matters for the domain programme.** It is the first law in this core that predicts *which kingdom occupies a
 niche* before the niche is measured, which is what "the theory explains the domains" has to mean operationally. It also
