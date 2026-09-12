@@ -366,3 +366,45 @@ lanes, and the two that failed did so because the prediction omitted a clause th
 Bookkeeping: `GMI_CLOSURE_GAP_LEDGER_V7.md` reclassifies the LEARNING-SCALE EMPIRICAL residual accordingly;
 `GMI_WORK_MANIFEST_V1.json` unit U-A001 is marked done against the K4 V7 receipt with a note that the V7
 submitter, not the stale V5 command, was executed.
+
+## Addendum V1.3 (2026-09-12, real transfer and physical sign) — classes 3 and 4 of the closure ledger
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/real_transfer_v3/` (RV-377-190, freeze
+`cd4c653d`, 104/104), `…/real_transfer_v3_revival/` (RV-377-191/192, freeze `7fe510c7`, 72/72),
+`…/real_transfer_v3_revival2/` (RV-377-193, freeze `267f39ee`, 32/32), all on billy-laptop with prediction records
+hashed before test access; `microscopes/results/physical_frontier_rv_377_195/` (RV-377-195). Bookkeeping:
+`GMI_CLOSURE_GAP_LEDGER_V8.md`.
+
+**Real transfer (class 3).** Three of the eight held-family laws were transferred to scikit-learn learners on real
+data with the phase parameter *estimated on the training split*: C_FEATURE_LEARNING (reachability form) is GREEN on
+4/4 cells and identical to cross-validation on 32/32 replicates (`PARENT_SUFFICIENT_CV`); F_CONTINUAL is right on
+30/32 off-crossover replicates with 0 opposing and undecidable on its crossover cell (0.7 pp of headroom against a
+test sd of 0.9 pp at the frozen 0.95 bar); B_SPECIALIZATION is GREEN at high heterogeneity (7/8, margin ten times
+the test sd) once the world's feature tails are bounded and undecidable at the three low-heterogeneity grid values
+(objective gap below the test sd). Terminal `REAL_TRANSFER_PHASE_LAWS_GREEN_ON_1_OF_3_LANES`. Two learner-class
+terms the K5 laws lack were located and are named, not fitted: the continual law's retention fraction (the real MLP
+keeps ≈ 2/3 of the disputed mass under replay at high overlap, not 1/2) and the specialization law's mass-weighted
+variance term (`σ² p m / n`, hidden by the K5 balanced world).
+
+**Physical sign (class 4).** With published measured constants (Willow gate/readout/T1, Sycamore 26 kW system power,
+HERMES 0.86–3.38 µJ per 64-core MVM at 3–4-bit weight precision, Horowitz 45 nm datapath energies) the NC-1 burden
+inequality on the protected K5 C `s = 0.6` fixed readout has sign **PARENT** for both an analog crossbar (ratio
+64–7.7×10⁴) and a superconducting processor (79–87 majority shots; ratio 10¹⁰–6×10¹⁴), invariant over the quoted
+error bars. Terminal `PHYSICAL_FRONTIER_SIGN_FROM_PUBLISHED_CONSTANTS__NOT_MEASURED_IN_PROGRAMME`. Per EF-1 the
+variables that could flip it are the obligation's inner dimension (crossbar; `d* ≈ 10⁴–2×10⁵` MACs per query) and the
+native saving (quantum; `S ≳ 10¹⁰ pJ` per query); neither is fixed by any registered obligation.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `REAL_TRANSFER_PHASE_LAWS_GREEN_ON_1_OF_3_LANES` | **TRUE** (C); F, B direction-green off their crossovers (RV-377-191, RV-377-193) |
+| `REAL_TRANSFER_PHASE_LAWS_ADD_NOTHING_OVER_CV_WHERE_DECIDABLE` | **TRUE** |
+| `PHYSICAL_FRONTIER_SIGN_FROM_PUBLISHED_CONSTANTS__NOT_MEASURED_IN_PROGRAMME` | **PARENT**, both carriers, one obligation |
+
+**Boundary clause (viii), appended to §7.** The held-family response laws survive contact with real learners exactly
+where their descriptors resolve the crossover, and there they coincide with ordinary cross-validation; where the
+grid sits inside the finite-sample band of the frozen constitution they are undecidable by construction, and the
+laws as stated lack the learner-class terms that would move the crossover. The physical frontier, evaluated from
+external measurements rather than derived, points at the classical parent for every registered obligation, and its
+identifiability boundary is now a pair of named, bounded, unmeasured workload variables rather than an open set.
