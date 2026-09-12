@@ -332,3 +332,34 @@ Two additive changes, both behaviour-neutral for the committed R0–R6 receipts:
   species count at scope.
 * R10's allocation rule is unreplicated: one rule, one head start. A second allocation rule is the cheapest test of
   whether the reordering it reports is about competition or about that rule.
+
+---
+
+## 5. Two "exhaustive" size-5 censuses in this repository differ by a factor of 59, and both are right
+
+Merging this lane against the gap-closure lane puts two exhaustive counts of the same nominal quantity side by side:
+
+| receipt | size-5 configurations | isomorphism classes | response classes | best capability |
+|---|---|---|---|---|
+| `STAGE_R9_CENSUS_V1.json` (this lane) | **12 987** | 8 593 | **4** | 0.6617 |
+| `STAGE_G8_SIZE_CENSUS_LOWER_BOUNDS_V1.json` (`RV-377-069`) | **220** | 159 | **7** | 0.7188 |
+
+Neither is wrong and neither contradicts the other. They differ in three declared coordinates, each stated in its own
+receipt:
+
+* **alphabet** — `RV-377-069` enumerates a declared **19-kind** sub-alphabet; this lane's census declares its own
+  sub-alphabet with one parameter setting per kind;
+* **ecology** — `E_sym5` at 8 events against `E_smooth3`, which is why the best capabilities and the response-class
+  counts differ in *opposite* directions;
+* **servability filter** — `RV-377-069` admits a genotype only if every input port is bound and every node is the
+  output, an update-class node, or has an outgoing edge. This lane's census does not require the last of those.
+
+That third difference is the likely dominant term, and it is the same phenomenon this session measured twice already:
+a node that contributes nothing is still a node. If it is dominant, the factor of 59 between these two counts **is the
+intron multiplicity of the alphabet at size 5** — a quantity worth having in its own right. The closure test is direct:
+re-run this lane's census under `RV-377-069`'s servability filter and see whether 12 987 falls to 220.
+
+**Protocol rule 29, from this near-miss.** A census count is meaningless outside the triple *(alphabet, servability
+filter, ecology)*, and every count must carry all three in the same sentence that carries the number. "12 987
+configurations at size 5" and "220 configurations at size 5" are both exact and both true, and a reader who sees either
+alone learns nothing they can use.
