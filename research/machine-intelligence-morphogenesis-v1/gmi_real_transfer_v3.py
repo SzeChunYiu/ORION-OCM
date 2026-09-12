@@ -421,7 +421,7 @@ def score_cell(receipts):
 
 
 def run_task(args):
-    lane, value, rep, freeze_sha, data = args
+    lane, value, rep, freeze_sha, data = args[:5]
     if len(args) > 5 and args[5]:
         REVIVAL["active"] = True      # worker processes: re-activate the revival variant
     seed = seed_for(freeze_sha, lane, value, rep)
