@@ -184,3 +184,32 @@ RV-377-173 if needed, otherwise recorded as a scope boundary).
 3. Adjudicate in §4 (append-only); ledger rows RV-377-170 and RV-377-171.
 
 Commit of this file and of `GMI_K5_BH_REVIVAL_PLAN_V8.json` precedes every V8 execution.
+
+---
+
+## 4. Adjudication (append-only)
+
+### 4.1 Development tier (billy-old, 80/80, not protected)
+
+Aggregate `microscopes/results/k5_bh_v8_dev/K5_BH_REVIVAL_AGGREGATE_V8_DEVELOPMENT.json`, terminal
+`K5_BH_V8_DEVELOPMENT_GREEN`, 0 structural errors. Seeds derive from the plan file hash (development rule); the
+receipts' `git_commit_sha` is `UNKNOWN` because the billy-old lane directory is an rsync copy, not a checkout.
+
+| lane cell | predicted | agree | pred.-inadmissible | mean margin | verdict | auxiliary |
+|---|---|---|---|---|---|---|
+| C 0.40 | FIXED_FEATURE | 8/8 | 0 | +0.745 | GREEN | fixed err 0.0803 (floor 0.0751, P-C4 ok); gain +0.24 pp (P-C2 ok) |
+| C 0.50 | FIXED_FEATURE | 8/8 | 0 | +1.001 | GREEN | fixed err 0.0898 (floor 0.0850); gain -0.02 pp (P-C2 ok) |
+| C 0.75 | FIXED_FEATURE | 8/8 | 0 | +0.823 | GREEN | fixed err 0.1245 (floor 0.1207); gain +0.16 pp (P-C3 ok) |
+| C 0.85 | FIXED_FEATURE | 7/8 | 0 | +0.658 | GREEN | fixed err 0.1502 (floor 0.1424); gain +0.32 pp, 1/8 above delta (P-C3 ok) |
+| E 48 | DIRECT | 8/8 | 0 | +38710 | GREEN | direct admissible 8/8, mean return 0.8513 |
+| E 64 | DIRECT | 8/8 | 0 | +51430 | GREEN | 8/8, 0.8691 |
+| E 96 | DIRECT | 8/8 | 0 | +76870 | GREEN | 8/8, 0.8660 |
+| E 128 | DIRECT | 8/8 | 0 | +102310 | GREEN | 8/8, 0.8597 |
+
+Probes: `s = 1.2`: fixed inadmissible 8/8 (P-C5), trainable admissible 0/8 (P-C6), mean gain +1.99 pp (P-C7;
+law extrapolation 1.95), observed NONE 8/8. `r = 4`: DIRECT inadmissible 3/8 (P-E4; law 1.84), mean direct return
+0.8045 (P-E5), MODEL admissible 8/8 (P-E6). Kill P-E7: lane inadmissible total 0 (not triggered).
+
+**P-C1..C7 and P-E1..E7 all hold at development tier.** Lane verdicts GREEN/GREEN. This licenses the protected
+V8 tier (`GMI_K5_BH_EXECUTION_FREEZE_V8.json`, commit `c9f36e5d`); nothing in the plan was changed after the
+development outcome.
