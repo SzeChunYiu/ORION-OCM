@@ -420,6 +420,7 @@ def test_executed_b2_rows_reproduce_and_are_green(tmp_path):
 
 
 
+
 def test_e1_iql_receipt_cell_reproduces():
     """F4 (RV-377-063): committed cells replay exactly, the negative twin collapses, and the decisive negative-twin
     ecology ALIAS_NORESID ties target-ambiguity scoring against BOTH parent criteria to the charged op."""
@@ -837,3 +838,116 @@ def test_g8_size_census_replays_small_sizes_and_its_witnesses():
         for n, e in counts.items():
             if int(n) < o["minimum_realizing_size"]:
                 assert e["enumeration_complete"] and e["forms_realizing"][o["property"]] == 0, (o["property"], n)
+def test_r7_lineage_descent_replays_from_the_committed_receipt():
+    """R7: the committed lineage receipt is self-verifying — replaying each witnessed descent chain from its recorded
+    founder re-derives every intermediate fingerprint and the elite's fingerprint EXACTLY, and does so from a REMINTED
+    founder too (H5). A lineage that does not replay is a bug, so the committed receipt must report 0 failures."""
+    from gmi_microscope import lineage, morph
+    rc = json.loads((RES / "STAGE_R7_LINEAGE_V1.json").read_text())
+    assert rc["terminal"] == "R7_LINEAGE_REPLAYS_EXACTLY"
+    assert rc["replay_audit"]["replay_failures"] == 0
+    assert rc["remint_invariance"]["n_fingerprint_changed_by_remint"] == 0
+    assert rc["dvp_stream_ledger"]["protected_queries"] == 0          # the P stream was never touched
+    assert rc["replay_witness"], "the receipt must carry at least one replayable descent chain"
+    for w in rc["replay_witness"]:
+        for remint_seed in (None, 5):
+            g, _, _ = lineage.founder(w["founder"]["fseed"], w["founder"]["steps"])
+            if remint_seed is not None: g = lineage.canon_geno(morph.remint(g, remint_seed))
+            assert morph.fingerprint(g) == w["founder_fingerprint"]
+            for step in w["steps"]:
+                g, op, draws = lineage.propose(g, step["proposal_seed"], None, step["op_index"])
+                assert op == step["operator"] and draws == step["proposal_draws"]
+                assert morph.fingerprint(g) == step["expected_fingerprint"]
+            assert morph.fingerprint(g) == w["final_fingerprint"]
+
+
+def test_r8_triage_screen_was_audited_before_use_and_its_cells_replay():
+    """R8 (protocol rule 18): the triage run cites its screen's audit receipt by hash; the audit's measured
+    false-rejection rate honours the budget declared before calibration; the only cache used is keyed by the exact
+    canonical form and its measured score spread is 0 (contrast the functional-equivalence cache of RV-377-061, which
+    mis-scored 34.65 per cent); and every committed confirmed cell re-scores to the committed values at both fidelities."""
+    from gmi_microscope import morph, smooth, triage
+    aud = json.loads((RES / "STAGE_R8_SCREEN_AUDIT_V1.json").read_text())
+    run = json.loads((RES / "STAGE_R8_TRIAGE_V1.json").read_text())
+    assert aud["status_verdict"] == "SCREEN_AUDITED_GREEN"
+    assert run["screen_audit_receipt_sha256"] == aud["receipt_sha256"]
+    assert aud["audit"]["false_rejection_rate"] <= aud["declared_false_rejection_budget"]
+    assert aud["audit"]["canonical_cache"]["max_exact_score_spread_within_a_canonical_form"] == 0.0
+    assert aud["remint_invariance"]["n_changed"] == 0
+    fec = json.loads((RES / "STAGE_F_FEC_AUDIT_V1.json").read_text())
+    assert fec["audit_by_probe_length"]["10"]["wrong_score_fraction"] == 0.3465   # the failure rule 18 came from
+    target = smooth.make_target(smooth.COEFFS_V3)
+    for cell in run["best_confirmed"][:4]:
+        g = morph.from_json(cell["genotype"])
+        assert triage.screen(g, target)[0] == cell["screen"], cell["fingerprint"]
+        assert triage.confirm(g, target)[0] == cell["exact"], cell["fingerprint"]
+
+
+def test_r9_census_counts_three_different_things_and_the_small_sizes_reproduce():
+    """R9: the committed census reproduces exactly at the small exhaustive sizes, the three counts are reported
+    separately, and the two invariants the whole lane leans on hold — the developmental response is a function of the
+    canonical form, and remint changes no count."""
+    import random
+    from gmi_microscope import census
+    rc = json.loads((RES / "STAGE_R9_CENSUS_V1.json").read_text())
+    assert rc["terminal"] == "R9_CENSUS_EXECUTED"
+    assert rc["response_class_check_total"]["n_disagreements"] == 0
+    assert rc["remint_invariance"]["n_changed"] == 0
+    rows = {r["size"]: r for r in rc["counts_by_size"]}
+    for n in (3, 4):
+        r = census.census_size(n, True, random.Random(0))
+        for k in ("n_configurations_enumerated", "n_canonical_classes_in_sample", "n_response_classes_in_sample"):
+            assert r[k] == rows[n][k], (n, k)
+    assert census.enumerate_stratum(census._strata(5)[0], materialize=False)[0] >= 0
+    # the three counts are strictly different things and the receipt says so
+    assert rows[5]["n_configurations_enumerated"] > rows[5]["n_canonical_classes_in_sample"] > rows[5]["n_response_classes_in_sample"]
+    assert "forbidden_sentence" in rc["three_counts_are_different_things"]
+    est = rows[6]["N_CONFIG_stratified_estimate"]
+    assert est["n_strata_sampled"] < est["n_strata_population"] and est["N_CONFIG_estimate"] > 0
+
+
+def test_r10_invasion_cells_replay_and_competition_is_not_independent_scoring():
+    """R10: committed competition cells replay exactly on the charged machines, reminting a competitor changes nothing,
+    and the registered prediction (occupancy under a shared budget is not a function of the solo scores) is adjudicated
+    on the off-diagonal cells."""
+    from gmi_microscope import invasion, smooth, zoo
+    rc = json.loads((RES / "STAGE_R10_INVASION_V1.json").read_text())
+    assert rc["remint_invariance"]["n_changed"] == 0
+    target = smooth.make_target(smooth.COEFFS_V3)
+    checked = 0
+    for name, cell in list(rc["cells"].items())[:6]:
+        pool, r, i = name.split("|"); pool = int(pool[4:])
+        rec = invasion.compete(zoo.ZOO[r](), zoo.ZOO[i](), target, pool, rc["protocol"]["head_start_events"])
+        for k in ("outcome", "capability_resident", "capability_invader", "events_resident", "events_invader",
+                  "charge_resident", "charge_invader", "pool_spent", "allocation"):
+            assert rec[k] == cell[k], (name, k)
+        checked += 1
+    assert checked == 6
+    assert rc["n_cells"] == len(rc["pools"]) * rc["n_carriers"] ** 2
+    assert rc["prediction_holds"] is (rc["n_offdiagonal_cells_where_competition_disagrees_with_solo"] > 0)
+
+
+def test_r11_biosphere_episode_is_deterministic_resumable_and_cites_its_screen_audit():
+    """R11: the committed episode receipt carries a self-verifying witness episode that reproduces field for field, the
+    checkpointed-and-resumed episode equals the straight-through one, the protected stream was never queried, and the
+    screen audit is cited by hash (protocol rule 18)."""
+    from gmi_microscope import biosphere
+    rc = json.loads((RES / "STAGE_R11_BIOSPHERE_V1.json").read_text())
+    aud = json.loads((RES / "STAGE_R8_SCREEN_AUDIT_V1.json").read_text())
+    assert rc["screen_audit_receipt_sha256"] == aud["receipt_sha256"]
+    assert rc["resume_determinism"]["identical"] is True
+    for run in rc["runs"].values():
+        assert run["dvp_stream_ledger"]["protected_queries"] == 0
+        assert run["replay_audit"]["replay_failures"] == 0
+    w = rc["determinism_witness"]
+    st = biosphere.episode(w["seed"], w["arm"], w["evaluations"], tau=w["tau"], resume=False)
+    got = biosphere.summarize(st, w["arm"], w["seed"])
+    for k, v in w["expected"].items():
+        assert got[k] == v, (k, got[k], v)
+    # Delta_B_meta is only computed where BOTH arms reached the declared milestone
+    mm = rc["meta_morphogenesis"]
+    for seed, d in mm["by_seed"].items():
+        if d["Delta_B_meta"] is not None:
+            assert d["B_fixed_morphogenesis"] - d["B_learned_morphogenesis"] == d["Delta_B_meta"]
+        else:
+            assert len(d["milestone_reached_by"]) < 2
