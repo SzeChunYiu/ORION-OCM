@@ -58,9 +58,12 @@ them generate the classes. Reading the type signatures off `morph.KINDS`:
 
 Three facts in that table are not decorations, and each was earned by an experiment that could have gone the other way.
 
-* **Two of the nine domains are empty at the registered instrument settings.** D3 is shut out by 8-bit saturation and D7
-  by a reliability index of `q = 0.5`. "Nine domains exist" is therefore false as an unqualified statement; seven are
-  occupied and two are gated. Raise `p` and D3 should become non-empty; raise `q` and D7 should. Both are running.
+* **One of the nine domains is empty at the registered instrument settings, not two.** D7 is shut out by a reliability
+  index of `q = 0.5`. D3 was recorded as shut out by 8-bit saturation, and that is **`FALSIFIED`**: the saturation is a
+  property of the *linear* realization, and an 8-bit log-domain posterior built only from registered kinds is admissible
+  at 0.874265 (`RV-377-075`, upheld against seven attacks by `RV-377-076`). The prediction "raise `p` and D3 should
+  become non-empty" was tested and came back the other way — D3 is non-empty already, at the registered precision, once
+  the right representation is used. That is protocol rule 24, and it is the sharpest single correction of the session.
 * **D6 is not a class at all.** See §3.
 * **The coefficient carrier cannot express an input-driven transition.** `GRAD` is the only update kind producing a `VEC`
   and it requires a target. So in this alphabet "recurrent" is a property of the **memory** carrier, not of the continuous

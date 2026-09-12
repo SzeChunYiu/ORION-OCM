@@ -200,17 +200,27 @@ Induced from 11 592 executed frontier cells across 34 receipts and then tested p
 
 **Statement.** Given an ecology's parameter, a price-vector class and the admissible set:
 
-1. **r = 0** (no revision): the deliberative program/search domain **D4/D5** occupies every reuse horizon H ≥ 2. The
-   H = 1 description corner is **abstained**: the search row's description is ecology-dependent (154–334 bits across the
-   executed ecologies) while every other coordinate is not.
+1. **r = 0** (no revision): the deliberative program/search domain **D4/D5** occupies every reuse horizon H ≥ 2 *for
+   which the claim was computed*. The H = 1 description corner is **abstained**: the search row's description is
+   ecology-dependent (154–334 bits across the executed ecologies) while every other coordinate is not.
+   *Bound attached 2026-09-12 (gap DG-2, protocol rule 28).* "Every H ≥ 2" is unbounded in H and was checked on a finite
+   grid. At `r = 0` the lifecycle line is `desc + H·exec_q`, so the claim holds for all larger H **only if** the search
+   row's per-query execution cost is the smallest among the admissible rows; where it is not, a crossover exists and the
+   grid must reach it. `gmi_microscope/grid_audit.py` is the standing check and 34 of 64 audited receipts failed it, so
+   this sentence is `OPEN_NONBLOCKING` until the receipts behind it are graded SAFE.
 2. **r ≥ 1** under scan-store or native-store prices: the occupant is the admissible row minimising the **fixed**
    lifecycle line. Because the memory row's per-event coordinates are *exactly* ecology-independent and the gradient
    row's are constant to within 0.2 %, that line — and therefore the whole (H, r) phase boundary — is a property of the
    **price vector and the admissible set, not of the ecology**. In practice: **D2** below the boundary, **D1** above it
    (long reuse, few revisions).
 3. **r ≥ 1** under uniform or compressed-program prices: **D1** wherever admissible, else D2, else D4/D5.
-4. **D3** (probabilistic) occupies no cell at 8-bit precision and **D7** (stochastic population) none at reliability
-   q = 0.5.
+4. ~~**D3** (probabilistic) occupies no cell at 8-bit precision~~ — **FALSIFIED 2026-09-12.** `RV-377-075`, upheld
+   against seven attacks by `RV-377-076`, exhibits an 8-bit **log-domain** posterior built only from registered
+   kinds that is admissible at 0.874265 on the ambiguous-evidence ecology and 0.979053 on the noisy one. D3 was
+   empty at 8 bits **in its linear realization only**; the emptiness was a property of the representation, not of
+   the word width (protocol rule 24). What survives is a cost statement: precision buys description and execution
+   cost, not capability — two extra bits buy back 2 508 description bits and 196 charged activations per query.
+   **D7** (stochastic population) occupies no cell at reliability
 
 Admissibility itself is closed-form on the symmetric family: `cap_S5h(k) = (48 − |k|)/48` (exact on fourteen executed
 ecologies), `cap_S5(k) = 1 − |k|/12`, gradient row admissible iff `|k| ≤ 4`, search row always.
