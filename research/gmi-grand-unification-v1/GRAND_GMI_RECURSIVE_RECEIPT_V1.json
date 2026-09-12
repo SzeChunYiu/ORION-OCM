@@ -1,0 +1,36 @@
+{
+  "determinism": "exhaustive/no-rng",
+  "quotient_compatibility": {
+    "compatible": [
+      true,
+      {"X": ["Y"], "Y": ["Y"], "Z": ["Z"]}
+    ],
+    "syntax_sensitive": [
+      false,
+      {"X": ["Y", "Z"], "Y": ["Y"], "Z": ["Z"]}
+    ]
+  },
+  "reachability": {
+    "base": [
+      {"budget": 0, "reachable": [0]},
+      {"budget": 1, "reachable": [0, 1, 2]},
+      {"budget": 2, "reachable": [0, 1, 2, 3]},
+      {"budget": 3, "reachable": [0, 1, 2, 3]},
+      {"budget": 4, "reachable": [0, 1, 2, 3]}
+    ],
+    "lifted": [
+      {"budget": 0, "reachable_count": 1, "reaches_target": false},
+      {"budget": 1, "reachable_count": 3, "reaches_target": false},
+      {"budget": 2, "reachable_count": 6, "reaches_target": false},
+      {"budget": 3, "reachable_count": 8, "reaches_target": true},
+      {"budget": 4, "reachable_count": 8, "reaches_target": true}
+    ]
+  },
+  "semantic_state_refinement": {
+    "checks": 110592,
+    "matrices": 4096,
+    "nested_pairs_per_matrix": 27,
+    "strict_refinements": 63992
+  },
+  "terminal": "GRAND_GMI_RECURSIVE_MORPHOGENESIS_TRANCHE_ALL_GREEN"
+}
