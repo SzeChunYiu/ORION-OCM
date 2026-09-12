@@ -130,7 +130,7 @@ A one-state controller cannot retain which observation occurred and therefore ca
 The exact checker enumerates:
 
 - both passive deterministic guesses;
-- all four one-state input/output tables relevant to the terminal null observation;
+- both one-state terminal output policies after the sensed observation has disappeared;
 - all 16 binary encoder/decoder memory pairs, of which exactly two achieve perfect delayed reproduction.
 
 Therefore, under a zero-error obligation and a sensing budget that admits the probe,
