@@ -31,6 +31,11 @@ SUBS = [
      "import m2p4_compile as C      # noqa: E402"),
     ('SCHEMA = "OCM_M2P2_STAGE2_RECEIPT_V1"',
      'SCHEMA = "OCM_M2P4_STAGE2_RECEIPT_V1"'),
+    # G-SURF is SPAWNED as a subprocess by path, not imported, so widening the import
+    # search path does not reach it. HERE is m2p4/, which does not contain m2p2_gsurf.py:
+    # every G-SURF run failed rc=2 "can't open file" until this was repointed.
+    ('            r = subprocess.run([sys.executable, str(HERE / "m2p2_gsurf.py"),',
+     '            r = subprocess.run([sys.executable, str(LANE_ROOT / "m2p2" / "m2p2_gsurf.py"),'),
 ]
 expected = src
 for old, new in SUBS:

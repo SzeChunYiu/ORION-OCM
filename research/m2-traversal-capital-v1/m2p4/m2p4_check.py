@@ -178,7 +178,7 @@ def main() -> int:
     if viable:
         for p in viable:
             g = outdir / f"M2P2_GSURF_{json.loads(p.read_text())['world_id']}.json"
-            r = subprocess.run([sys.executable, str(HERE / "m2p2_gsurf.py"),
+            r = subprocess.run([sys.executable, str(LANE_ROOT / "m2p2" / "m2p2_gsurf.py"),
                                 "--repo", str(repo), "--world", str(p),
                                 "--out", str(g), "--seed", str(a.seed)],
                                capture_output=True, text=True)
