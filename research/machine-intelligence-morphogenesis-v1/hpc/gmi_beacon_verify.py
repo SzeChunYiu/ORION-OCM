@@ -26,7 +26,11 @@ def verify_beacon(*,repo_root:str,freeze_path:str,beacon:dict,expected_schema:st
     if beacon.get("status")!="ACQUIRED_NO_REROLL" or not beacon.get("no_reroll"):raise RuntimeError("beacon not immutable/no-reroll")
     commit=beacon.get(freeze_commit_field)
     if not isinstance(commit,str) or len(commit)<7:raise RuntimeError("beacon missing freeze commit")
-    rel=os.path.relpath(freeze_path,repo_root).replace(os.sep,"/")
+    # `git show <commit>:<path>` resolves a bare path against the repository toplevel, not the cwd;
+    # repo_root here is the study directory (a subdirectory), so the path must be toplevel-relative.
+    try:top=_git(repo_root,"rev-parse","--show-toplevel").decode().strip()
+    except Exception as e:raise RuntimeError(f"cannot locate git toplevel from {repo_root}: {e}")
+    rel=os.path.relpath(os.path.abspath(freeze_path),top).replace(os.sep,"/")
     current=open(freeze_path,"rb").read()
     try:committed=_git(repo_root,"show",f"{commit}:{rel}")
     except Exception as e:raise RuntimeError(f"cannot retrieve execution freeze from declared commit: {e}")
