@@ -684,6 +684,15 @@ memory, coefficient, stochastic and attention-like alike.
 **Status:** `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY` over 5 ecologies × 6 interventions × the registered zoo.
 **Receipt:** `STAGE_RULE36_INTERVENTION_ADMISSIBILITY_V1.json` (`RV-377-085`).
 
+> **SCOPE CORRECTION (`RV-377-089b`).** The table above is a fact about the **zoo's default-parameter rows**,
+> not about the carrier **classes**. The zoo contains exactly two coefficient members, `gradient_net_h2` and
+> `gradient_net_h4`, both at the default `lr = 4`, and those are the two `RV-377-085` evaluated. Sweeping the
+> coefficient class over 80 declared settings finds **six rows on `E_sym3` admissible under all six interventions**
+> (`grad_h3_lr3` clears θ everywhere with a margin of `0.0354`), none of them in the zoo — so the row marked *lost:
+> gradient net* for `E_sym3` is a default-parameter loss, not a class loss. The **headline is unharmed**: no single
+> coefficient row is robust on all five ecologies, so *exactly two rows are admissible under all six interventions
+> on all five ecologies, and both are exact* still stands. What narrows is the gloss below — see §15.3.
+
 The losses are **mechanism-specific rather than uniform**, which is what makes this a separation and not a difficulty
 shift — the nearest-neighbour store's capability *rises* under three of the five non-standard interventions on
 `E_smooth1`:
@@ -696,7 +705,9 @@ shift — the nearest-neighbour store's capability *rises* under three of the fi
 **Why this matters beyond the bookkeeping.** It is the first executed reason in this programme to prefer a deliberative
 carrier that is *not about cost*. Every earlier argument for D4/D5 was a lifecycle-cost argument on a frontier; this one
 says the exact carriers are the only ones whose admissibility is a property of the machine rather than of the conditions
-it was measured under.
+it was measured under — **narrowed by `RV-377-089b` to: the only ones whose admissibility is machine-determined on
+*every* registered ecology.** On `E_sym3` alone, once the coefficient class is swept rather than sampled at its
+defaults, an **approximate** carrier's admissibility is machine-determined too.
 
 **Consequence for the corpus.** Protocol rule 36: every admissibility verdict must name its intervention set, and a row
 is "admissible" unqualified only if it passes under all of them. A verdict under one condition is reported as
@@ -851,29 +862,57 @@ The binding interventions are exactly the two `GMI-DA9` names for this carrier c
 learner is sensitive to and a table is not."* `GMI-DA9` was derived from 8 registered rows on `E_smooth1`; it is here
 corroborated on **240 fresh rows across three ecologies** that it was not derived from.
 
-> **The coefficient carrier `D1` has no intervention-robustly admissible witness anywhere in the registered ecology
-> family.** Every row that clears θ does so only because the registered protocol feeds gradient steps in one fixed
-> order and one fixed number, and loses admissibility as soon as either is varied.
+> **On these three ecologies** the coefficient carrier `D1` has no intervention-robustly admissible witness. Every row
+> that clears θ does so only because the registered protocol feeds gradient steps in one fixed order and one fixed
+> number, and loses admissibility as soon as either is varied.
 
-### 15.3 The correction this forces, against this lane's own earlier claim
+> ⚠️ **This paragraph originally read "anywhere in the registered ecology family", and that was wrong.** It was a
+> class-level negative over **3 of the 5** registered ecologies — the same truncation defect, on the *ecology* axis,
+> that rule 38 had been written about on the *parameter* axis one hour earlier. `RV-377-089b` extended the identical
+> sweep to all five and found **six** coefficient rows on `E_sym3` admissible under **all six** interventions. The
+> wrong sentence is kept above, struck through in substance rather than deleted, because the corpus records
+> corrections against the original. §15.3 is rewritten accordingly.
 
-`RV-377-082` recorded `G15_STEP_ONE_REACHED`. It was written **before** `RV-377-085` established protocol rule 36 —
-admissibility must name its intervention set, and a row is admissible unqualified only if it clears θ under all of
-them. Under that definition the witness does not exist and **`G15` step one is not reached.** The terminal is restated
-as `REACHED_UNDER_STANDARD_INTERVENTION_ONLY`.
+### 15.3 What this actually settles — corrected by `RV-377-089b`
 
-The consequence runs back through the whole chain:
+`RV-377-082` recorded `G15_STEP_ONE_REACHED` before rule 36 existed, and its witness holds only under the `standard`
+intervention. `RV-377-089` then denied step one altogether. **Both are superseded.** Extending the same sweep from the
+three ecologies `RV-377-082` happened to use to **all five registered ones** settles it the other way:
 
-* `RV-377-081`'s **0 of 6** and `RV-377-083`'s **0 of 3** are *both* zero-exposure results under rule-36
-  admissibility — not on two ecologies, but on **every** registered ecology measured so far.
-* Neither is evidence about search, budget or encoding. The question task #25 asked — *is the coefficient carrier's
-  non-recovery budget or encoding?* — has the answer **neither**: there is nothing intervention-robust there to
-  recover.
-* `G15` must be restated as *exhibit a coefficient-carrier witness admissible under the full registered family, or
-  prove none exists over the declared alphabet* — at which point the carrier's recovery rate is **undefined**, not
-  zero, and every saturation denominator that counted it must be recomputed.
+| `E_sym3` row | `standard` | **min over all six interventions** |
+|---|---|---|
+| `grad_h3_lr3` | 0.8906 | **0.8854** |
+| `grad_h3_lr1` | 0.8594 | **0.8594** |
+| `grad_h3_lr2` | 0.8906 | **0.8594** |
+| `grad_h3_lr8` | 0.8698 | **0.8594** |
+| `grad_h1_lr8` | 0.8542 | **0.8542** |
+| `grad_h8_lr8` | 0.8542 | **0.8542** |
 
-This is the second time rule 36 has invalidated a positive claim, and both claims were this lane's own.
+> **`G15` step one is reached, in the strongest available form: an intervention-robustly admissible coefficient-carrier
+> witness exists on a registered ecology — six of them, at declared parameters, with margin.**
+
+**The missing index was never the width.** All six sit *inside* `RV-377-082`'s original `h` grid (`h = 1, 3, 8`); the
+wide cells `RV-377-089` added contribute none of them. What was missing was the **ecology** — `RV-377-082` measured
+three of five and never touched `E_sym3`, and `RV-377-089` inherited that choice without noticing. `E_sym3`'s target
+has all four coefficients equal at `3/16`, the smallest-magnitude symmetric target in the registry, which is where an
+8-bit gradient learner's quantization dead zone costs least.
+
+Consequences, restated correctly:
+
+* `D1`'s exposure under rule-36 admissibility is **1 of 5** registered ecologies, not 0. A `B1` recovery run **on
+  `E_sym3`** would be the first genuine full-family exposure trial the coefficient carrier has ever had — and is the
+  registered next experiment.
+* `RV-377-081`'s **0 of 6** and `RV-377-083`'s **0 of 3** remain zero-exposure results, because those runs used
+  `E_smooth3` and `E_sym5`, where the ceiling *is* real and is now swept to `h = 32`. That part of `RV-377-089`
+  stands.
+* The answer to task #25 — *budget or encoding?* — is **neither, and the runs could not have told us either way**:
+  they were held on the two ecologies where nothing robust exists to recover.
+* **Protocol rule 39** (opened here): rule 38's sweep obligation applies to *every* index of a class-level negative —
+  parameters, ecologies, interventions, instruments — and a terminal must name which indices were swept and which
+  were held at a default.
+
+This is the third time a positive claim has been invalidated by a rule this lane wrote itself, and the second time
+inside one session. Rule 38 was written at 07:30 and falsified a claim made under it at 08:30.
 
 ### 15.4 The clause that failed, and why it is worth keeping
 

@@ -47,15 +47,23 @@ THETA = 0.85
 H_GRID = (1, 2, 3, 4, 6, 8, 12, 16, 24, 32)     # (1..8) is RV-377-082's grid; 12, 16, 24, 32 are the extension
 LR_GRID = (1, 2, 3, 4, 6, 8, 12, 16)            # fx units at FRAC_BITS = 4: lr = 1 is 1/16, lr = 4 is 1/4
 RV082_H = (1, 2, 3, 4, 6, 8)
-ECOS = {"E_smooth3": smooth.COEFFS_V3, "E_sym5": (5 / 16,) * 4, "E_smooth1": smooth.COEFFS_V1}
-RV082_BEST = {"E_smooth3": 0.8438, "E_sym5": 0.8385, "E_smooth1": 0.8906}
+# RV-377-089b: all FIVE registered ecologies, so the claim is about the registered family and not a subset of it.
+# E_sym3 and E_parity were not measured by RV-377-082 at all; E_parity is a table target, not a coefficient one.
+ECOS = {"E_smooth3": smooth.COEFFS_V3, "E_sym5": (5 / 16,) * 4, "E_smooth1": smooth.COEFFS_V1,
+        "E_sym3": (3 / 16,) * 4, "E_parity": None}
+RV082_BEST = {"E_smooth3": 0.8438, "E_sym5": 0.8385, "E_smooth1": 0.8906, "E_sym3": None, "E_parity": None}
 COL = "B0_LOCAL_ADAPTIVE_TRANSDUCERS"
 RES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "microscopes", "results")
 
 
-def caps_under_all_interventions(g, coeffs):
+def _spec(eco, coeffs):
+    """the REGISTERED spec for this ecology, taken from ecology.REGISTRY rather than rebuilt."""
+    return ecology.REGISTRY[eco]
+
+
+def caps_under_all_interventions(g, eco, coeffs):
     """capability of one genotype under each of the six registered interventions (protocol rule 36)."""
-    spec = ecology.spec_smooth(coeffs, n_events=16, criterion="unseen")
+    spec = _spec(eco, coeffs)
     basis = bases.ALL[COL]
     out = {}
     for iv in ecology.INTERVENTIONS:
@@ -68,12 +76,12 @@ def caps_under_all_interventions(g, coeffs):
     return out
 
 
-def main(tag="V31_DG7_COEFFICIENT_WITNESS", revival="RV-377-089"):
+def main(tag="V31b_DG7_COEFFICIENT_WITNESS_ALL5", revival="RV-377-089b"):
     t0 = time.time()
     rows = {f"grad_h{h}_lr{lr}": (h, lr) for h in H_GRID for lr in LR_GRID}
     out = {}
     for eco, coeffs in ECOS.items():
-        target = smooth.make_target(coeffs)
+        target = ecology.target_of(ecology.REGISTRY[eco])
         cells = {}
         for name, (h, lr) in rows.items():
             g = zoo.gradient_net(h, lr)
@@ -90,7 +98,7 @@ def main(tag="V31_DG7_COEFFICIENT_WITNESS", revival="RV-377-089"):
         cand = sorted(cells, key=lambda k: -cells[k]["standard"])
         for name in [c for c in cand if cells[c]["standard"] >= THETA] or cand[:1]:
             h, lr = cells[name]["h"], cells[name]["lr"]
-            iv = caps_under_all_interventions(zoo.gradient_net(h, lr), coeffs)
+            iv = caps_under_all_interventions(zoo.gradient_net(h, lr), eco, coeffs)
             cells[name]["by_intervention"] = iv
             vals = [v for v in iv.values() if v is not None]
             cells[name]["admissible_all_interventions"] = bool(vals) and len(vals) == len(iv) and min(vals) >= THETA
@@ -101,11 +109,11 @@ def main(tag="V31_DG7_COEFFICIENT_WITNESS", revival="RV-377-089"):
         adm_std = sorted(k for k, v in cells.items() if v["standard"] >= THETA)
         adm_all = sorted(k for k, v in cells.items() if v.get("admissible_all_interventions"))
         out[eco] = {
-            "coeffs": list(coeffs), "n_rows": len(cells),
+            "coeffs": list(coeffs) if coeffs else "table target (parity)", "n_rows": len(cells),
             "best_row": best, "best_standard": cells[best]["standard"],
             "best_inside_RV082_grid": max(inside.values(), key=lambda v: v["standard"])["standard"] if inside else None,
             "best_outside_RV082_grid": max(outside.values(), key=lambda v: v["standard"])["standard"] if outside else None,
-            "RV082_reported_best": RV082_BEST[eco],
+            "RV082_reported_best": RV082_BEST.get(eco),
             "admissible_under_standard": adm_std,
             "admissible_under_all_six_interventions": adm_all,
             "witness_exists_standard": bool(adm_std),
@@ -131,7 +139,7 @@ def main(tag="V31_DG7_COEFFICIENT_WITNESS", revival="RV-377-089"):
     os.makedirs(RES, exist_ok=True)
     json.dump(receipt, open(os.path.join(RES, f"STAGE_B1_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
     for eco, v in out.items():
-        print(f'{eco:11s} RV082_best={v["RV082_reported_best"]:.4f}  inside(h<=8)={v["best_inside_RV082_grid"]}  '
+        print(f'{eco:11s} RV082_best={v["RV082_reported_best"]}  inside(h<=8)={v["best_inside_RV082_grid"]}  '
               f'outside(h>=12)={v["best_outside_RV082_grid"]}  best={v["best_row"]} {v["best_standard"]:.4f}')
         print(f'            admissible under standard: {v["admissible_under_standard"]}')
         print(f'            admissible under ALL SIX : {v["admissible_under_all_six_interventions"]}')
