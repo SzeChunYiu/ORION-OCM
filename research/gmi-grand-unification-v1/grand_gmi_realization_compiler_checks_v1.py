@@ -53,7 +53,7 @@ def exhaustive_boolean_family():
         by_n[str(n)] = {"functions": count, "point_checks": checks}
         functions += count
         point_checks += checks
-    assert functions == 274
+    assert functions == 276  # 2^2 + 2^4 + 2^8 Boolean functions on n = 1, 2, 3 inputs (was mis-pinned as 274; receipt by_n already summed to 276)
     assert point_checks == 2120
     return {
         "boolean_functions_checked": functions,
