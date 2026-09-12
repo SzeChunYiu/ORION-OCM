@@ -94,3 +94,49 @@ Confirming E1–E6 establishes the RAG-class ceiling as a member of the family t
 CL-2 (at `c = 1`) and CL-1 (at `cρ = 0`), and adds a precedence law: capability tracks the
 information a machine uses **in the order it uses it**. One obligation, one world family, no
 architecture claim.
+
+---
+
+# RV-377-134 — ADJUDICATION: all six confirmed
+
+192 cells, 60 independent `W` draws × 2048 evaluations each. Receipt
+`microscopes/results/CHANNEL_LAW_EXTERNAL_STORE_RV_377_134.json`
+(md5 `e19b795fa7a216ea226fb167cec8384c`, verified both sides).
+
+| id | outcome |
+|----|---------|
+| E1 | **CONFIRMED** — 0 cells above ceiling + 4 s.e.; 0 above 3 s.e. (null 0.26) |
+| E2 | **CONFIRMED** — `rag` meets the ceiling in all 48 cells, max \|z\| 2.29 |
+| E3 | **CONFIRMED** — `ignore_store` on CL-1 at every `(c, ρ)`, including `c = ρ = 1` |
+| E4 | **CONFIRMED** — `store_only` on `½ + cρ/2` at every `r` |
+| **E5** | **CONFIRMED** — `store_first` on its line in all 48 cells and below the ceiling by more than 4 s.e. in every cell with `r > 0, c > 0, ρ < 1` |
+| E6 | **CONFIRMED** — `c = 1` ceiling equals CL-2 with `p = ρ` cell for cell; `cρ = 0` cells sit on CL-1 |
+
+| `c` | `ρ` | `r` | ceiling | `rag` | `ignore_store` | `store_only` | `store_first` (line) |
+|---|---|---|---|---|---|---|---|
+| 0.25 | 0.5 | 48 | 0.8906 | 0.8909 | 0.8752 | 0.5630 | 0.8460 (0.8438) |
+| 0.5 | 0.0 | 48 | 0.8750 | 0.8746 | 0.8745 | 0.4982 | 0.6896 (0.6875) |
+| 0.5 | 0.5 | 16 | 0.7188 | 0.7178 | 0.6257 | 0.6253 | 0.6879 (0.6875) |
+| 0.5 | 1.0 | 48 | 0.9375 | 0.9392 | 0.8754 | 0.7494 | 0.9396 (0.9375) |
+| 1.0 | 0.0 | 48 | 0.8750 | 0.8748 | 0.8758 | 0.5001 | **0.4982** (0.5000) |
+| 1.0 | 0.5 | 16 | 0.8125 | 0.8112 | 0.6288 | 0.7497 | 0.7508 (0.7500) |
+| 1.0 | 0.5 | 48 | 0.9375 | 0.9375 | 0.8747 | 0.7512 | 0.7511 (0.7500) |
+| 1.0 | 1.0 | 48 | 1.0000 | 1.0000 | 0.8751 | 1.0000 | 1.0000 (1.0000) |
+
+## The result worth reading directly
+
+`(c, ρ, r) = (1, 0, 48)`: the store covers everything and retrieves garbage. `rag` — which
+asks its own memory first — scores 0.8748, the CL-1 number. `store_first` — same memory, same
+store, but it asks the store first — scores **0.4982**: chance. It has 48 correct bits in hand
+and overrides every one of them with a coin. The shortfall `(r/L)·c·(1−ρ)/2 = 0.375` was
+written down before the run.
+
+> **Capability tracks the information a machine uses, in the order it uses it.** The RAG
+> ceiling is CL-2 with `p = cρ`: coverage times reliability is exactly a hint rate. And a
+> retrieval channel consulted *ahead of* exact memory subtracts, in closed form, the
+> store's error rate on every index it shadows.
+
+## Terminal
+
+`CL7_EXTERNAL_STORE_LAW_VERIFIED_AT_REGISTERED_SCOPE` = **TRUE**. Contains CL-2 at `c = 1`
+(identity, E6) and CL-1 at `cρ = 0` (E6). The precedence line is a verified sub-law.
