@@ -451,3 +451,53 @@ grid is off the finite-sample band, they are a free, pre-outcome substitute for 
 sample sizes, and no free predictor tested here resolves it. The boundary is unchanged in kind — independent
 authorship, modern scale, fresh episodes rather than datasets — and narrower in extent by one class of claim: the laws
 are no longer "equal to CV where decidable", they are cheaper than CV where decidable and at least as accurate.
+
+## Addendum V1.3 (2026-09-12, RV-377-118D) — DG-12 completed on the twelve unaudited modules; the terminal stays FALSE
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/STAGE_DG12_COMPLETION_<module>_old.json`
+(12) and `STAGE_DG12_COMPLETION_old.json` (RV-377-118 Lane D, freeze `3e91942e`, laptop billy-old, content hashes
+identical across two invocations). Bookkeeping: `GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md`, ledger row `RV-377-118D`.
+
+**What was asked (§6, Coverage).** `RV-377-112` (T3) audited 16 obligations, found `e1_scdi` regime B to be a constant,
+and listed twelve obligation-bearing modules as uncovered. Prediction D1 of the distributed batch, frozen before the
+run: at least one further degenerate or near-degenerate obligation is found among the 12.
+
+**Result.** D1 **held**. Of the twelve, eleven carry an obligation of the DG-12 shape and one (`b2_common`) is an
+instrument library with none. Three of the eleven carry degenerate or near-degenerate obligations over the evaluation
+set their own `run()` scores: `axis_a`'s `MAXV` obligation is the constant 15 (12 at T = 4) on the scored second half
+of **every** registered stream length, and `PARITY` at T = 4 is the constant 0; `e1_cp`'s regime B is 21-of-24 or
+23-of-24 constant at the coefficients capability is scored against (a constant emitter of 1 is admissible there at
+0.875 / 0.9583 ≥ 0.85), and its coefficient space is degenerate on exactly the 37 824 / 65 536 assignments `e1_scdi`'s
+is, because it is the same function; `refine_f`'s own fifth serving regime E (1 iff the scope sum is positive) is the
+constant 1 on all 24 queries, and the regime B it re-imports likewise. The other eight — the three B2 band obligations
+at every declared width, `e1_iql` at all 16 orientations, `e1_lmhm`, `e1_vgsc` on every cell, `e1_vlc` on every cell —
+are non-degenerate; `b1x` inherits the registry obligations T3 already covers. Eleven own-registered rows in all, ten
+beyond the `e1_scdi` construction.
+
+**What this does and does not void.** Rule 22 and rule 40 had already caught three of the four constructions
+incidentally (`RV-377-072` voids exactly the `MAXV` and `PARITY`-T=4 cells; `RV-377-108` marks `e1_cp` regime B
+non-discriminating), so no verdict in §2 or §3 moves. What moves is the reading — those obligations are constants, not
+merely easy for a constant — and one thing nothing could have caught: `refine_f` takes no verdict against a truth, so
+its regime-E demand (`COMPOSITIONAL_UNSEEN`) witnesses the parent's abstention rather than any derivation, and the
+regime-B/E parts of its `ABSTAIN_OBLIGATION` lifecycle score (48 of 120 scored cells per pair) carry no information.
+`P13`'s split is decided first by `OVERFLOW` and stands; `P12` and `P14` are unaffected.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `DG-12_CLOSED` | **TRUE** as an audit, at registered scope (12 of 12 modules) |
+| `NO_DEGENERATE_OBLIGATION_AT_REGISTERED_SCOPE` | **FALSE** (unchanged in value; now on 4 modules — `e1_scdi`, `axis_a`, `e1_cp`, `refine_f` — rather than 1) |
+| `AXIS_A_MAXV_OBLIGATION_IS_A_CONSTANT_ON_EVERY_SCORED_WINDOW` | **TRUE** (5 of 5 stream lengths) |
+| `E1_CP_REGIME_B_NEAR_DEGENERATE_ON_EVERY_MULTI_REGIME_CELL` | **TRUE** (21/24, 21/24, 23/24; coefficient space 0.5771) |
+| `REFINE_F_FIFTH_REGIME_E_IS_A_CONSTANT_ON_EVAL_QUERIES` | **TRUE** (24/24) |
+| `REGISTERED_SMOOTH_TABLE_OBLIGATIONS_NON_DEGENERATE` | **TRUE**, 12/12 (unchanged) |
+
+**Open gaps (§6), amended by appending.** Coverage: DG-12 is closed as an audit; the three degenerate constructions
+remain in their instruments, and repairing them (a τ or coefficient grid for regime B, a sign regime over signed
+factors for E, a scored window that starts before the running maximum saturates) re-points historical claims and is
+DG-13-class work. Methodological: rule 45 is enforced by a post-hoc receipt, not by a precondition inside `run()`. The
+boundary is unchanged in kind and narrower in extent by one more instrument class: thresholded aggregates (a sum
+against a fixed τ, the sign of a positive sum, a running maximum of a bounded stream) evaluated on all-active query
+sets are the obligation constructions that degenerate in this corpus; exact sums, pairwise comparisons, band
+obligations and the interventional vector do not.

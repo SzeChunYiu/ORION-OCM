@@ -1,0 +1,890 @@
+{
+ "claim_ceiling": "exact, deterministic, no randomness; covers the obligations this module declares or scores at the coefficients / streams / grids its own run() uses; it does not run the module's rows and takes no verdict on any capability number",
+ "classification": "identical to RV-377-112 (_classify): DEGENERATE if one distinct answer; NEAR_DEGENERATE if the best constant agrees on >= 85 %; SKEWED_BINARY if binary with the minority class <= max(1, n/10); else NON_DEGENERATE. Verdicts are taken on the module's OWN obligations over their REGISTERED evaluation sets; rows marked inherited or informational are reported but do not decide.",
+ "content_sha256": "98aa026df42984f423126682d3f956e1d432dca6fb8e46d6cf0c45755deec53f",
+ "counts_by_status": {
+  "NON_DEGENERATE": 16,
+  "SKEWED_BINARY": 2
+ },
+ "degenerate": [],
+ "freeze_record": "GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md",
+ "gap": "DG-12",
+ "host": "old",
+ "inputs_sha256": {
+  "constant_control.py": "c33b4bd09d3d39a60e21268565637fbc774bcf9a60c5c2a8b574cbbaf5536927",
+  "degeneracy_audit.py": "28026954759d7e6cd3f4a639b59d73266642b31c305fed86b1e65f73e6dc2acd",
+  "e1_vlc.py": "3cdd3912c13b56dbcc219239e82ac88dda3c2ee8b9b7083b6689c00b7830966b"
+ },
+ "issue": [
+  377
+ ],
+ "lane": "RV118-D",
+ "module": "e1_vlc",
+ "module_verdict": "ALL_REGISTERED_OBLIGATIONS_NON_DEGENERATE",
+ "n_own_registered": 9,
+ "n_registered": 9,
+ "n_scored": 18,
+ "near_degenerate": [],
+ "not_applicable": [],
+ "notes": {
+  "cells": {
+   "RSTAR": {
+    "H": 64,
+    "U": 8,
+    "cone": 1,
+    "lambda": 256
+   },
+   "T1_STATIONARY": {
+    "H": 64,
+    "U": 0,
+    "cone": 1,
+    "lambda": 256
+   },
+   "T2_DENSE_CONE": {
+    "H": 64,
+    "U": 8,
+    "cone": 4,
+    "lambda": 256
+   },
+   "T3_WEAK_RETENTION": {
+    "H": 64,
+    "U": 8,
+    "cone": 1,
+    "lambda": 0
+   },
+   "T4_SHORT_REUSE": {
+    "H": 2,
+    "U": 8,
+    "cone": 1,
+    "lambda": 256
+   }
+  },
+  "collision_cells": {
+   "CQU1_LOCAL_U_LOCAL_Q": {
+    "H": 64,
+    "U": 8,
+    "cone": 1,
+    "lambda": 256,
+    "scope_size": 1
+   },
+   "CQU2_LOCAL_U_GLOBAL_Q": {
+    "H": 64,
+    "U": 8,
+    "cone": 1,
+    "lambda": 256,
+    "scope_size": 4
+   },
+   "CQU3_GLOBAL_U_LOCAL_Q": {
+    "H": 64,
+    "U": 8,
+    "cone": 4,
+    "lambda": 256,
+    "scope_size": 1
+   },
+   "CQU4_GLOBAL_U_GLOBAL_Q": {
+    "H": 64,
+    "U": 8,
+    "cone": 4,
+    "lambda": 256,
+    "scope_size": 4
+   }
+  },
+  "obligation": "e1_vlc.truth over EVAL_BY_SIZE[scope_size] at the coefficients after the cell's revisions (T1_STATIONARY, U=0, is the development obligation itself)",
+  "theta": 0.85
+ },
+ "obligations": {
+  "E_factored|CQU1_LOCAL_U_LOCAL_Q|U=8|cone=1|scope_size=1|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 256,
+    "16": 256,
+    "20": 256,
+    "4": 256
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 4,
+   "n_queries": 1024,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": -1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|CQU1_LOCAL_U_LOCAL_Q|U=8|cone=1|scope_size=1|final_coefficients|unseen": {
+   "best_constant_agreement": 0.625,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "20": 10,
+    "4": 6
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[1] (16 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 2,
+   "n_queries": 16,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.625,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|CQU2_LOCAL_U_GLOBAL_Q|U=8|cone=1|scope_size=4|final_coefficients|all": {
+   "best_constant_agreement": 0.1406,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 1,
+    "12": 4,
+    "16": 5,
+    "20": 16,
+    "24": 24,
+    "28": 16,
+    "32": 10,
+    "36": 24,
+    "4": 4,
+    "40": 36,
+    "44": 24,
+    "48": 10,
+    "52": 16,
+    "56": 24,
+    "60": 16,
+    "64": 5,
+    "68": 4,
+    "72": 6,
+    "76": 4,
+    "8": 6,
+    "80": 1
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 21,
+   "n_queries": 256,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.1406,
+    "best_constant_fx": 41,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|CQU2_LOCAL_U_GLOBAL_Q|U=8|cone=1|scope_size=4|final_coefficients|unseen": {
+   "best_constant_agreement": 0.75,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "48": 3,
+    "80": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[4] (4 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 2,
+   "n_queries": 4,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 47,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "SKEWED_BINARY"
+  },
+  "E_factored|CQU3_GLOBAL_U_LOCAL_Q|U=8|cone=4|scope_size=1|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 256,
+    "12": 256,
+    "16": 128,
+    "28": 128,
+    "4": 128,
+    "8": 128
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 6,
+   "n_queries": 1024,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": -1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|CQU3_GLOBAL_U_LOCAL_Q|U=8|cone=4|scope_size=1|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "12": 8,
+    "28": 5,
+    "4": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[1] (16 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 16,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 11,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|CQU4_GLOBAL_U_GLOBAL_Q|U=8|cone=4|scope_size=4|final_coefficients|all": {
+   "best_constant_agreement": 0.1016,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 1,
+    "12": 6,
+    "16": 9,
+    "20": 12,
+    "24": 16,
+    "28": 20,
+    "32": 22,
+    "36": 24,
+    "4": 2,
+    "40": 26,
+    "44": 24,
+    "48": 22,
+    "52": 20,
+    "56": 16,
+    "60": 12,
+    "64": 9,
+    "68": 6,
+    "72": 3,
+    "76": 2,
+    "8": 3,
+    "80": 1
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 21,
+   "n_queries": 256,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.1016,
+    "best_constant_fx": 39,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|CQU4_GLOBAL_U_GLOBAL_Q|U=8|cone=4|scope_size=4|final_coefficients|unseen": {
+   "best_constant_agreement": 0.75,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "56": 3,
+    "80": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[4] (4 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 2,
+   "n_queries": 4,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 55,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "SKEWED_BINARY"
+  },
+  "E_factored|RSTAR|U=8|cone=1|scope_size=2|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "16": 192,
+    "20": 384,
+    "24": 192,
+    "32": 96,
+    "36": 192,
+    "4": 192,
+    "40": 96,
+    "8": 96
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 9,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|RSTAR|U=8|cone=1|scope_size=2|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "24": 12,
+    "40": 9,
+    "8": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[2] (24 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 23,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T1_STATIONARY|U=0|cone=1|scope_size=2|final_coefficients|all": {
+   "best_constant_agreement": 0.1458,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "12": 224,
+    "16": 208,
+    "20": 160,
+    "24": 160,
+    "28": 192,
+    "32": 80,
+    "36": 64,
+    "4": 96,
+    "40": 96,
+    "44": 32,
+    "56": 16,
+    "8": 112
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 13,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.1458,
+    "best_constant_fx": 13,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T1_STATIONARY|U=0|cone=1|scope_size=2|final_coefficients|unseen": {
+   "best_constant_agreement": 0.4167,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "16": 6,
+    "24": 4,
+    "32": 3,
+    "40": 10,
+    "56": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[2] (24 unseen-pattern queries) after the cell's U=0 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 5,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.4167,
+    "best_constant_fx": 39,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T2_DENSE_CONE|U=8|cone=4|scope_size=2|final_coefficients|all": {
+   "best_constant_agreement": 0.1458,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "12": 224,
+    "16": 208,
+    "20": 160,
+    "24": 160,
+    "28": 192,
+    "32": 80,
+    "36": 64,
+    "4": 96,
+    "40": 96,
+    "44": 32,
+    "56": 16,
+    "8": 112
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 13,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.1458,
+    "best_constant_fx": 13,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T2_DENSE_CONE|U=8|cone=4|scope_size=2|final_coefficients|unseen": {
+   "best_constant_agreement": 0.4167,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "16": 6,
+    "24": 4,
+    "32": 3,
+    "40": 10,
+    "56": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[2] (24 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 5,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.4167,
+    "best_constant_fx": 39,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T3_WEAK_RETENTION|U=8|cone=1|scope_size=2|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "16": 192,
+    "20": 384,
+    "24": 192,
+    "32": 96,
+    "36": 192,
+    "4": 192,
+    "40": 96,
+    "8": 96
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 9,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T3_WEAK_RETENTION|U=8|cone=1|scope_size=2|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "24": 12,
+    "40": 9,
+    "8": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[2] (24 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 23,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T4_SHORT_REUSE|U=8|cone=1|scope_size=2|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "16": 192,
+    "20": 384,
+    "24": 192,
+    "32": 96,
+    "36": 192,
+    "4": 192,
+    "40": 96,
+    "8": 96
+   },
+   "evaluation_set": "the complete query space at that scope size (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 9,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored|T4_SHORT_REUSE|U=8|cone=1|scope_size=2|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "24": 12,
+    "40": 9,
+    "8": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_BY_SIZE[2] (24 unseen-pattern queries) after the cell's U=8 revision rounds: the set run() scores",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 23,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  }
+ },
+ "question": "does the obligation itself take more than one value over its own declared evaluation set?",
+ "receipt_path": "microscopes/results/STAGE_DG12_COMPLETION_e1_vlc_old.json",
+ "receipt_sha256": "85710184a06fe47fa73461cef00e6d4a807757e60543cbdcfbeab46967cf974d",
+ "revival_record": "RV-377-118",
+ "rule40_constant_clears_theta": [],
+ "schema": "RV377_118D_DG12_ModuleAuditV1",
+ "seconds": 26.01,
+ "skewed_binary": [
+  "E_factored|CQU2_LOCAL_U_GLOBAL_Q|U=8|cone=1|scope_size=4|final_coefficients|unseen",
+  "E_factored|CQU4_GLOBAL_U_GLOBAL_Q|U=8|cone=4|scope_size=4|final_coefficients|unseen"
+ ],
+ "status": "EXECUTED_EXACT_AT_SCOPE"
+}

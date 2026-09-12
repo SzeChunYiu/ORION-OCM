@@ -102,3 +102,11 @@ degenerate obligation is known and twelve modules are unaudited.
 > evaluation set *before* any row is scored against it, and the distinct-answer count
 > must appear in the receipt. A capability number computed against a constant obligation
 > is not a weak result; it is not a result.
+
+## Completion (appended 2026-09-12, RV-377-118D)
+
+The twelve uncovered modules were audited in `RV-377-118` Lane D (`GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md`,
+receipts `microscopes/results/STAGE_DG12_COMPLETION_*_old.json`). D1 held: `axis_a` (`MAXV` at every T, `PARITY` at
+T = 4), `e1_cp` (regime B, 21–23 of 24) and `refine_f` (its own regime E, and the re-imported regime B) carry degenerate
+or near-degenerate obligations; the other eight auditable modules do not; `b2_common` has no obligation; `b1x` inherits
+the registry's. `DG-12_CLOSED` → **TRUE** as an audit; `NO_DEGENERATE_OBLIGATION_AT_REGISTERED_SCOPE` stays **FALSE**.
