@@ -63,9 +63,35 @@ def run_one(drop, eco, seed, evaluations):
                 "carriers_recovered": r["mechanism_classes_recovered"],
                 "n_carriers_admissible": sum(1 for v in r["best_by_carrier"].values() if v["admissible"]),
                 "wall": round(time.perf_counter() - t, 2)}
+    except KeyError as e:
+        # RV-377-118 Lane C instrument note: `morphgen`'s mutation operators construct some
+        # kinds BY NAME (ABSTAIN, VERIFY, LOOKUP, LINEAR, PROGEXEC, ...), so deleting such a
+        # kind from the alphabet is not a leave-one-out test of derivability -- the generator
+        # crashes on its own hard-coded reference.  Recorded as its own status and written as
+        # a receipt so the unit is EXECUTED, not silently absent (18 of 33 kinds on E_wit1 in
+        # RV-377-110 left no receipt for exactly this reason).  Repairing the generator is a
+        # separate frozen revival, never a silent edit of this instrument.
+        if e.args and e.args[0] == drop:
+            rec = {"drop": drop, "ecology": eco, "seed": seed, "status": "STRUCTURAL_TO_GENERATOR",
+                   "error": repr(e)[:300],
+                   "reason": "morphgen constructs this kind by name; ablation is a generator crash, not a derivability test",
+                   "wall": round(time.perf_counter() - t, 2)}
+            _write_structural_receipt(rec)
+            return rec
+        return {"drop": drop, "ecology": eco, "seed": seed, "status": "ERROR",
+                "error": repr(e)[:300], "wall": round(time.perf_counter() - t, 2)}
     except Exception as e:
         return {"drop": drop, "ecology": eco, "seed": seed, "status": "ERROR",
                 "error": repr(e)[:300], "wall": round(time.perf_counter() - t, 2)}
+
+
+def _write_structural_receipt(rec):
+    res = os.path.join(os.path.dirname(HERE), "microscopes", "results")
+    os.makedirs(res, exist_ok=True)
+    path = os.path.join(res, f"STAGE_B1_ABL_{rec['drop']}_{rec['ecology']}_S{rec['seed']}.json")
+    with open(path, "w") as f:
+        json.dump({"schema": "GMIPrimitiveAblationStructuralReceiptV1", "revival_id": "RV-377-118",
+                   "lane": "RV118-C", **rec}, f, indent=1, sort_keys=True)
 
 
 def alphabet():
