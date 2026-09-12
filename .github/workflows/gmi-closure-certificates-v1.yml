@@ -1,0 +1,67 @@
+name: GMI closure certificates v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/machine-intelligence-morphogenesis-v1/**'
+      - '.github/workflows/gmi-closure-certificates-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Runtime provenance verifies the original migration tree, not just HEAD.
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --disable-pip-version-check -e '.[test]'
+      - name: Verify historical migration object is available
+        run: git cat-file -e '430708103525f567633e377f015a7113633d709d:research/orion-machine'
+      - name: Full default runtime suite
+        run: python -m pytest -q --junitxml=runtime-results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-closure-runtime-regression
+          path: runtime-results.xml
+          if-no-files-found: warn
+  gmi-certificates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --disable-pip-version-check pytest==8.3.5
+      - name: Existing K4 research and imported null regressions
+        working-directory: research/machine-intelligence-morphogenesis-v1
+        run: |
+          python -m pytest -q test_gmi_k4_engine.py test_gmi_k4_grammar_native.py test_gmi_k4_resource_native_v4.py test_gmi_k4_null_frontier_v5.py
+      - name: Exact proofs and executed bounded controls
+        working-directory: research/machine-intelligence-morphogenesis-v1/closure_certificates_v1
+        run: python run_checks.py
+      - name: Execute source-pinned legacy counterexamples and exhaustive class bound
+        working-directory: research/machine-intelligence-morphogenesis-v1/closure_certificates_v1
+        run: |
+          python legacy_class_bound.py > legacy-integration.json
+          cat legacy-integration.json
+          python integration_checks.py > null-integration.json
+          cat null-integration.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-closure-certificates-v1-evidence
+          path: |
+            research/machine-intelligence-morphogenesis-v1/closure_certificates_v1/evidence/
+            research/machine-intelligence-morphogenesis-v1/closure_certificates_v1/legacy-integration.json
+            research/machine-intelligence-morphogenesis-v1/closure_certificates_v1/null-integration.json
+          if-no-files-found: warn
