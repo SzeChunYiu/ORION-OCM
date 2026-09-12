@@ -24,7 +24,10 @@
    "research/m1-native-acquisition/m1_partitions.py": "f83aa82ef2afe2674e8d7448ac09aa50ddd11f8b6545540d8f9cf89d126c7414",
    "src/ocm/learning/methods.py": "e0a0565466dc67787b2162831e363b232960d0d864c15af62bc9e7e865f8b4d3",
    "research/m2-traversal-capital-v1/m2p4/m2p4_compile.py": "5ca1bbae52bb09f705ab3809f028d5fbd407937404b37159ea286d64827f8eb9",
-   "research/m2-traversal-capital-v1/m2p4/make_study_compiler.py": "6484a4be564c02d167737183df4d45babe4ccff573c38a609e66189f8f390b37"
+   "research/m2-traversal-capital-v1/m2p4/make_study_compiler.py": "6484a4be564c02d167737183df4d45babe4ccff573c38a609e66189f8f390b37",
+   "research/m2-traversal-capital-v1/m2p4/m2p4_check.py": "de7a07b61e295a4f63c016ac318de8438eed8272d5f04a61fc8d47eb05c70162",
+   "research/m2-traversal-capital-v1/m2p4/make_study_orchestrator.py": "e208c9fe5975eb00d8223ff40a460dc80d240cb1a798870529add55f8e55a44e",
+   "research/m2-traversal-capital-v1/m2p4/m2p4_author_session.py": "b2e866aac93c8dc894d3020512e19a01962e20f10fcecfa583a5f467b1657d76"
   },
   "imported_unmodified": [
    "src/ocm/learning/methods.py (registered units; sha256 asserted in every receipt)",
@@ -58,6 +61,14 @@
    "shape_definition": "(chunk count, chunk-length multiset, minimum builder length, part fractions); note mbl 5 and 6 are the same world, so they do not constitute distinct shapes",
    "counts_toward_floor_only_if": "the world passes the hard bounds and compiles VIABLE",
    "measured_satisfiability": "SATISFIABLE, but the viable region is concentrated at high chunk count and this is stated as a known constraint rather than discovered afterwards. Measured on the registered compiler (m2p4/records/BAND_K.json, 60 random worlds per cell): ZERO viable below k=13 \u2014 maximum members 77 (k=10), 84 (k=11), 89 (k=12) against a floor of 90 \u2014 then 3/60 at k=13, 2-4/60 at k=14, 6-8/60 at k=15 and 7-15/60 at k=16. The lane's own search nevertheless reached 6 viable worlds with 6 DISTINCT SHAPES in 62 random draws, so the worlds_min=6 and distinct_shapes_min=2 floors are jointly satisfiable; chunk count alone separates shapes (k=13,14,15,16 are four distinct shapes). An author who concentrates on k=10..12 will land CANNOT_CHECK_NO_VIABLE_WORLD; that is a measurement outcome and the bounds are NOT widened afterwards to rescue it. None of this is disclosed to the author unit \u2014 see forbidden."
+  },
+  "prompt_builder": {
+   "file": "research/m2-traversal-capital-v1/m2p4/m2p4_author_session.py",
+   "sha256": "b2e866aac93c8dc894d3020512e19a01962e20f10fcecfa583a5f467b1657d76",
+   "purpose": "builds the author prompt as a VERSIONED artifact \u2014 M2-P2 and M2-P3 left no committed wrapper, so their prompts survive only in scratch files. It never spawns a session.",
+   "framing": "M2-P3's framing lines verbatim; only the spec text and the studio path differ",
+   "asserts": "the spec's frozen sha256 before embedding it; that the studio directory is OUTSIDE the repository; and that neither the framing nor the spec leaks anything the freeze forbids disclosing \u2014 the viability economics, the f + k^2 bound, the calibration worlds, or lane vocabulary. It refuses with a distinct exit code rather than warning.",
+   "self_caught": "the leak check fired on its own first dry run: a studio path containing the study name named the study to the author. The path was made neutral (studio_d, as M2-P3 used studio_b) rather than the check weakened."
   }
  },
  "entry_gates": {
@@ -80,9 +91,12 @@
    "on_failure": "CANNOT_CHECK_world with measured counts, retained and reported"
   },
   "static_guard_and_orchestrator": {
-   "guard": "guard_v2.py sha256 d7b3c480c7cfb7c0dfe0eb0c007074ce0debeb35e11e9bcdd2c94d38aba4ac4c",
-   "orchestrator": "m2p3_check_v2.py sha256 1b8c5c5c07dccbce9040d9912600f4697e188a3e6ae9120ca3b0953e652cc66f",
-   "why_v2": "M2P3_FREEZE_V2 supersedes V1 for EVERY author session starting after it merged, so this study binds the V2 guard and orchestrator. Binding V1's m2p2_check.py would re-introduce the defect that rejected package A (ledger row 59)."
+   "guard": "guard_v2.py sha256 d7b3c480c7cfb7c0dfe0eb0c007074ce0debeb35e11e9bcdd2c94d38aba4ac4c \u2014 UNCHANGED and still used; the fix that made it correct (ledger row 59) is preserved in full",
+   "orchestrator": "m2p4_check.py sha256 de7a07b61e295a4f63c016ac318de8438eed8272d5f04a61fc8d47eb05c70162",
+   "generator": "make_study_orchestrator.py sha256 e208c9fe5975eb00d8223ff40a460dc80d240cb1a798870529add55f8e55a44e",
+   "why_not_m2p3_check_v2": "M2P3_FREEZE_V2's orchestrator CANNOT execute this study, and this was found before the author session rather than after. Two reasons, both verified by running it: (1) it hard-imports m2p2_compile, whose bounds are 4..8 chunks of length 2..3, so EVERY band-3-4 world would be rejected at validate_world before compilation; (2) it resolves every sibling module from HERE = its own directory, which worked only because M2-P3 kept copies beside it in m2p3/v2/ \u2014 from m2p4/ the imports m2p2_gsurf, m2p2_taxa and guard_v2 all raise ModuleNotFoundError.",
+   "what_changed": "generated by make_study_orchestrator.py with exactly three substitutions, proven by byte-identity after banner removal: the compiler import repointed to m2p4_compile, the sibling search path widened to the canonical m2p2/ and m2p3/v2/ directories so NO sha-bound file is duplicated, and the receipt schema relabelled to OCM_M2P4_STAGE2_RECEIPT_V1. Verified to import cleanly with all four sibling modules resolved; the generator is deterministic (regeneration is byte-identical).",
+   "unchanged": "the gate ORDER and every gate's content: taxonomy hostile, V2 static guard, determinism double-run, authoring floors, compilation, G-SURF. Only the compiler the orchestrator calls and the module search path differ."
   },
   "surface_derivability_gate": {
    "id": "G-SURF",
