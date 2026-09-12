@@ -185,7 +185,7 @@ the first candidates with executed receipts:
 | GMI-DA3 depth relativization | H*(d) ~ R^d/d is unbounded in structure depth, so novelty criterion 3 is only meaningful with a declared depth bound | PROVED_AT_SCOPE (`RV-377-044` clause 7); forces theory correction, gap DG-3 |
 | GMI-DA4 capacity/compression gates | a compressed carrier earns its place only if its compression gate precedes its capacity gate; for Hebbian couplings the gates are separated by a factor of 31 | PROVED_AT_SCOPE (`RV-377-045`: capacity in (0.125N, 0.25N], compression at 3.9N) |
 | GMI-DA5 precision as a gate | admissibility depends on the arithmetic instrument; two instruments with identical charged op sequences differ in admissibility | PROVED_AT_SCOPE (`RV-377-045` clause 1); **closes gap G5** |
-| GMI-DA6 reliability index | a stochastic carrier's admissibility is a distribution over seeds and the frontier is a step function of the declared reliability q | PROVED_AT_SCOPE (`RV-377-040`, `RV-377-041b`); opens gap G14 (charge failed draws) |
+| GMI-DA6 reliability index | a stochastic carrier's admissibility is a distribution over seeds and the frontier is a step function of the declared reliability q | `PROVED_AT_SCOPE` for the **reliability** half (`RV-377-040`, census corrected to **9 of 192**, not 10). Its **cost** half is `FALSIFIED_AND_REPLACED` by `RV-377-067`: with the failed draws charged, the carrier occupies **0 of 336** frontier cells at both declared reliabilities and `RV-377-041b` keeps 2 of its 5 clauses. Lowering the declared reliability moves a carrier into the admissible set and out of the cheap set at the same time (protocol rule 27) |
 
 Consequences for this core: **L4 (compile amortization) is the domain-forming law** — DC1 is the lazy phase of D2 and DC3 its
 lossy eager phase, so two of the candidate kingdoms are phases of one domain under a law this lane had already executed on
@@ -300,6 +300,17 @@ computed on a raw genotype is not a measurement of the carrier — the winners w
 Protocol rules added from failures in this block: **20** a recovery claim must exhibit the structural match, not only a
 capability at or above `θ`; **21** no admissible row may serve state written during development without a charged
 operation; **22** an obligation is history-dependent only where the best constant answer is below `θ`.
+
+## 5h. Corrections the hardening runs forced on this document (2026-09-12)
+
+| what this document said | what the executed record now says | record |
+|---|---|---|
+| the stochastic carrier is the cheapest admissible form at low reliability | it is the **most expensive**: 0 of 336 frontier cells once the failed draws are charged, at 9.5× to 32 729× the cheapest competitor's whole lifecycle | `RV-377-067` |
+| the particle carrier is admissible on 10 of 192 runs (~5 %) | **9 of 192** (4.6875 %, `1/q` = 21.33 draws). An off-by-one in the programme's own published index, found by an independent recount | `RV-377-067` |
+| frontier occupancy sentences quoted without a reuse bound | **34 of 64** auditable receipts have grids that stop before a crossover they implicitly deny, every one graded major, worst case 1/32 082 of it; 9 more cannot be audited at all | `RV-377-068` |
+| exact lower bounds only to size 4 | exact enumeration to **size 7**: 336 242 genotypes, 84 767 canonical forms, **127 response classes**, four lower bounds with witnesses, and no admissible genotype at size ≤ 7 | `RV-377-069` |
+| D6 dynamical is one of nine carrier classes | the alphabet admits **eight**; D6 is the read-modify-write phase of D2 | `RV-377-072` (GMI-DA8) |
+| a recovery is certified by a carrier descriptor | descriptors read **introns**: 2 of 7 recovered carriers mis-credited, median intron fraction 0.53 on the typed IR and 0.0 on hand-built parents | `RV-377-074`, `RV-377-077` |
 
 ## 6. E-series status across the three lanes
 
