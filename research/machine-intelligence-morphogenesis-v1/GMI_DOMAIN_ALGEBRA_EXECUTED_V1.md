@@ -214,7 +214,7 @@ Two further corrections this forces on the text above:
 * the theory core's two-regime answer ("at low reliability a stochastic search form dominates because its lifecycle burden
   is the smallest of all") has the wrong sign once the lottery is paid for. The corrected statement is that **lowering the
   declared reliability moves a stochastic carrier into the admissible set and out of the cheap set at the same time**,
-  which is **protocol rule 27**.
+  which is **protocol rule 35**.
 
 **Receipt:** `STAGE_G14_FAILED_DRAW_CHARGING_V1.json` (`RV-377-067`, 6 of 8 clauses; clauses 2 and 5 failed and kept).
 
