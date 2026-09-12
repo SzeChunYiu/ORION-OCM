@@ -579,6 +579,10 @@ if __name__ == "__main__":
         else:
             k = int(which); a = k / 16
             main(seed=1, coeffs=(a, a, a, a), tag=f"V20_SYM{k}_S1", n_events=16, rows=ROWS_V6, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "symnew":
+        # RV-377-059: symmetric ecologies never executed, for the prospective domain-selection test (ROWS_V6)
+        k = int(sys.argv[2]); a = k / 16
+        main(coeffs=(a, a, a, a), tag=f"V34_SYM{k}_H", n_events=16, rows=ROWS_V6, criterion="unseen")
     elif len(sys.argv) > 1 and sys.argv[1] == "seedrun":
         # RV-377-041: full ROWS_V6 run at a declared machine seed where the particle row is admissible (RV-040 census)
         which = sys.argv[2]; sd = int(sys.argv[3])
