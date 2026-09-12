@@ -133,4 +133,8 @@ def main(seed=0, evaluations=20000, tag="V37_B1X_MECHANISM", eco_name="E_smooth1
 
 if __name__ == "__main__":
     main(int(sys.argv[1]) if len(sys.argv) > 1 else 0, int(sys.argv[2]) if len(sys.argv) > 2 else 20000,
-         eco_name=sys.argv[3] if len(sys.argv) > 3 else "E_smooth1", log=sys.argv[4] if len(sys.argv) > 4 else None)
+         eco_name=sys.argv[3] if len(sys.argv) > 3 else "E_smooth1", log=sys.argv[4] if len(sys.argv) > 4 else None,
+         # distributed runs: the tag carries the HOST, so two machines can never write the same receipt.
+         # A receipt filename collision has already destroyed two committed receipts in this programme
+         # (recorded alongside RV-377-078); multiplying machines multiplies that risk.
+         tag=sys.argv[5] if len(sys.argv) > 5 else "V37_B1X_MECHANISM")
