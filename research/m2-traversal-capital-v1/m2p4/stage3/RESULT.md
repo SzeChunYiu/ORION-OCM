@@ -87,6 +87,24 @@ The legitimate revival is a **prospective** per-world selection rule, costed the
 deployed, registered before it is scored, and tested against the strongest parent. That has not
 been done and is not claimed.
 
+**And it is not obviously available.** Every prospective quantity recorded in `dev_state.json`
+was checked against the outcome, and none discriminates the passing worlds from the failing
+ones:
+
+- the dev phase's own held-out choice is MDL-at-depth-4 on **0 / 8** worlds — it picks
+  `frequency`@3 on four and `mdl`@1–3 on four — so the registered arm differs from it
+  *everywhere*, including on both worlds that pass;
+- `expected_probe_cost` (validation-only, computed from held-out tilings before any protected
+  target is touched) favours `frequency` on **7 / 8** worlds — again including both passers,
+  where the registered MDL-D4 arm wins large (0.126, 0.142);
+- `held_out_mean_candidate / held_out_mean_baseline` exceeds 1 on five worlds, but those five
+  include `leaky_seam`, which *passed* at −0.8741.
+
+These are descriptive and they restate the attribution rather than explaining the split. A rule
+built on them would have selected `frequency` on the two worlds the study currently passes. This
+is consistent with row 56's verdict — **STRUCTURAL at this authoring's tuning stream** — and it is
+why no selection study is registered here.
+
 ## Provenance
 
 Array **3602080**, all eight tasks `COMPLETED` at exit `0:0` — including the two still running
