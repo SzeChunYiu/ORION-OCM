@@ -1,0 +1,61 @@
+{
+  "schema": "GMIK5BHExecutionFreezeV5",
+  "status": "FROZEN_BEFORE_K5_V5_BEACON_AND_PROTECTED_EXECUTION",
+  "predecessor": {
+    "freeze": "GMI_K5_BH_EXECUTION_FREEZE_V4.json",
+    "disposition": "SUPERSEDED_BEFORE_PUBLIC_BEACON_AND_BEFORE_PROTECTED_EXECUTION",
+    "reason": "V4 aggregate did not enforce the quality/admissibility thresholds already frozen in GMI_K5_BH_SCORING_FREEZE_V1.json"
+  },
+  "design_contracts": [
+    "GMI_K5_BH_PHASE_FREEZE_V1.json",
+    "GMI_K5_BH_SCORING_FREEZE_V1.json",
+    "GMI_K5_BH_DESIGN_CORRIGENDUM_V2.json",
+    "GMI_K5_BH_CONTINUAL_CORRIGENDUM_V3.json",
+    "GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json"
+  ],
+  "experiment_core": {
+    "path": "gmi_k5_bh_experiments.py",
+    "commit": "efbaddb9a9edd527051d9a2ef178f519deb7e3f0",
+    "status": "UNCHANGED_FROM_V4",
+    "dependency_policy": "Python standard library only"
+  },
+  "execution_code": {
+    "task_path": "hpc/gmi_k5_bh_task_v5.py",
+    "task_commit": "294393b358a870dc1a7a99f590083a52a93e39b2",
+    "aggregate_path": "hpc/gmi_k5_bh_aggregate_v5.py",
+    "aggregate_commit": "560c8d4c947d5e22c881f86037ed0ddc4ace8d66"
+  },
+  "final_task_plan": {
+    "B_ROUTING": {"parameter": "dependence_density", "values": [0.10, 0.30, 0.60, 0.90]},
+    "B_SPECIALIZATION": {"parameter": "heterogeneity_tau", "values": [0.0, 0.08, 0.25, 0.70]},
+    "B_RESIDUAL": {"parameter": "residual_fraction", "values": [0.0, 0.02, 0.10, 0.50]},
+    "B_COMPILE_SEARCH": {"parameter": "query_reuse", "values": [1, 4, 16, 64]},
+    "C_FEATURE_LEARNING": {"parameter": "nonlinear_signal", "values": [0.0, 0.25, 0.60, 1.0]},
+    "D_GENERATIVE": {"parameter": "prefix_sharing", "values": [0.0, 0.25, 0.60, 0.90]},
+    "E_CONTROL": {"parameter": "goal_reuse", "values": [1, 2, 8, 32]},
+    "F_CONTINUAL": {"parameter": "task_overlap", "values": [0.0, 0.60, 0.90, 0.98]}
+  },
+  "replicates_per_value": 8,
+  "expected_tasks": 256,
+  "canonical_order": "sort lane ids lexicographically; preserve listed value order; replicate 0..7",
+  "scoring": {
+    "original_rules": "GMI_K5_BH_SCORING_FREEZE_V1.json",
+    "quality_enforcement": "GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json",
+    "exact_lanes": ["B_ROUTING", "B_RESIDUAL", "B_COMPILE_SEARCH", "D_GENERATIVE"],
+    "stochastic_lanes": ["B_SPECIALIZATION", "C_FEATURE_LEARNING", "E_CONTROL", "F_CONTINUAL"]
+  },
+  "public_beacon_rule": {
+    "network": "League of Entropy drand quicknet mainnet",
+    "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "genesis_time": 1692803367,
+    "period_seconds": 3,
+    "selection": "Use exactly the first quicknet round whose canonical timestamp is at least 900 seconds after the GitHub committed_at timestamp of THIS V5 execution-freeze commit.",
+    "no_reroll": true,
+    "receipt": "GMI_K5_BH_PUBLIC_BEACON_V5.json"
+  },
+  "task_seed_rule": "seed_i = int(SHA256('GMI-K5-BH-V5' || task_hash || public_beacon_randomness_hex)[:16],16) mod 2^32",
+  "task_hash_rule": "SHA256(canonical JSON of lane, parameter, value, replicate, phase/scoring/corrigenda/admissibility/execution freeze hashes)",
+  "receipt_rule": "Every task writes a receipt. Missing/duplicate/stale-hash/wrong-seed/wrong-schema/nonzero-exit/observed-outside-admissible makes aggregate structurally invalid.",
+  "protected_execution": "No V5 protected task may execute until GMI_K5_BH_PUBLIC_BEACON_V5.json exists and matches this freeze.",
+  "claim_ceiling": "Synthetic held-regime phase-law evidence with frozen quality constitution. Even all-green V5 results do not close independent authorship, real code/math/science/control transfer, modern large-model scaling, or physical/nonclassical hardware frontiers."
+}

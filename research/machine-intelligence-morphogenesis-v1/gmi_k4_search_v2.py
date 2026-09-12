@@ -7,16 +7,12 @@ inspected while engineering the harness, so it must not be called protected evid
 
 V2 keeps the already-frozen semantic class and candidate palette but generates a fresh quantitative
 world inside that class from the protected seed. The seed affects only nuisance/phase coordinates
-that the family prediction claims to survive (reuse, volatility, dependence density, heterogeneity,
-rank fraction, error correlation, checker ratio, goal reuse, jointness/manifold fraction, etc.). It
-does not read `name_key` and it does not use the target property vector in ranking.
-
-This still does NOT close IG-5 primitive-selection independence: the palette is same-authored.
+that the family prediction claims to survive. V2 was superseded before protected execution; this
+file is retained for audit and development tests.
 """
 
 import hashlib
 import json
-import random
 
 import gmi_k4_search as v1
 
@@ -48,11 +44,8 @@ def world_profile(seed: int, task: str, scale: int) -> dict:
 
 
 def _semantic_adjust(base: float, form, task: str, twin: bool, p: dict) -> float:
-    c = set(form.caps)
-    s = base
+    c = set(form.caps); s = base
     if twin:
-        # Twins destroy the property that gave the predicted mechanism its niche. The base V1 semantics
-        # already encode the structural twin; these terms only make the fresh quantitative cell nondegenerate.
         if task in ("linear", "basis") and "exact_lookup" in c: s += 0.02 * p["volatility"]
         if task in ("content", "sparse_content") and "content_route" in c: s -= 0.04 * p["dependence_density"]
         if task == "modes" and "mode_partition" in c: s -= 0.08 * p["heterogeneity"]
@@ -61,9 +54,6 @@ def _semantic_adjust(base: float, form, task: str, twin: bool, p: dict) -> float
         if task == "model_based" and "world_model" in c: s -= 0.03 * p["goal_reuse"] / 12.0
         if task == "latent_gen" and "latent_compress" in c: s -= 0.10 * (1.0 - p["manifold_fraction"])
         return max(0.0, min(1.0, s))
-
-    # Positive worlds vary *within* the declared niche. These corrections are small enough not to invent a
-    # completely different obligation but can expose a phase prediction that was too absolute.
     if task == "content" and "dense_pair" in c: s -= 0.025 * (1.0 - p["dependence_density"])
     if task == "sparse_content" and "sparse_pair" in c: s -= 0.03 * max(0.0, p["dependence_density"] - 0.55)
     if task == "modes" and "mode_partition" in c: s -= p["router_noise"]
@@ -78,14 +68,9 @@ def _semantic_adjust(base: float, form, task: str, twin: bool, p: dict) -> float
 
 
 def _lifecycle_adjust(cost: dict, form, task: str, p: dict) -> dict:
-    c = set(form.caps)
-    out = dict(cost)
-    reuse = p["reuse_multiplier"]
-
-    # Reuse amortizes development/description relative to serving.
+    c = set(form.caps); out = dict(cost); reuse = p["reuse_multiplier"]
     out["development_compute"] /= reuse
     out["description_compiler_burden"] /= max(0.8, reuse)
-
     if "exact_lookup" in c:
         out["update_retraining"] *= max(0.35, 1.15 - 0.8 * p["volatility"])
         out["state_storage"] *= 0.9 + 0.3 * p["volatility"]
@@ -96,58 +81,50 @@ def _lifecycle_adjust(cost: dict, form, task: str, p: dict) -> dict:
         out["development_compute"] *= 0.80 + 0.45 * p["heterogeneity"]
         out["communication"] *= 1.0 + 2.0 * p["router_noise"]
     if "low_rank_revision" in c:
-        f = max(0.08, min(1.0, p["rank_fraction"] * 3.0))
-        out["state_storage"] *= f
-        out["update_retraining"] *= f
-    if "variance_reduce" in c:
-        out["serve_compute_latency"] *= 1.0 + 0.5 * p["error_correlation"]
-    if "checker" in c:
-        out["verification"] *= p["checker_ratio"]
+        f = max(0.08, min(1.0, p["rank_fraction"] * 3.0)); out["state_storage"] *= f; out["update_retraining"] *= f
+    if "variance_reduce" in c: out["serve_compute_latency"] *= 1.0 + 0.5 * p["error_correlation"]
+    if "checker" in c: out["verification"] *= p["checker_ratio"]
     if "world_model" in c:
         out["development_compute"] /= max(1.0, p["goal_reuse"] / 2.0)
         out["serve_compute_latency"] *= 1.0 + 2.0 * p["model_error"]
-    if "direct_policy" in c:
-        out["development_compute"] *= 1.0 + 0.12 * max(0.0, p["goal_reuse"] - 2.0)
-    if "ordered_factorization" in c:
-        out["serve_compute_latency"] *= 0.85 + 0.45 * p["jointness"]
-    if "iterative_denoise" in c:
-        out["serve_compute_latency"] *= 1.15 - 0.25 * p["jointness"]
+    if "direct_policy" in c: out["development_compute"] *= 1.0 + 0.12 * max(0.0, p["goal_reuse"] - 2.0)
+    if "ordered_factorization" in c: out["serve_compute_latency"] *= 0.85 + 0.45 * p["jointness"]
+    if "iterative_denoise" in c: out["serve_compute_latency"] *= 1.15 - 0.25 * p["jointness"]
     if "latent_compress" in c:
-        out["state_storage"] *= 0.55 + p["manifold_fraction"]
-        out["serve_compute_latency"] *= 0.75 + p["manifold_fraction"]
-    if "equivariant" in c:
-        out["state_storage"] *= 1.0 + 3.0 * p["symmetry_break"]
-    if "sequence_state" in c:
-        out["state_storage"] *= 0.85 + 0.35 * p["sequence_dependency"]
+        out["state_storage"] *= 0.55 + p["manifold_fraction"]; out["serve_compute_latency"] *= 0.75 + p["manifold_fraction"]
+    if "equivariant" in c: out["state_storage"] *= 1.0 + 3.0 * p["symmetry_break"]
+    if "sequence_state" in c: out["state_storage"] *= 0.85 + 0.35 * p["sequence_dependency"]
     return out
+
+
+def _search_digest(out, profile):
+    # Fields downstream of target-vector adjudication are deliberately excluded.
+    keys = ("winner_neutral_form","winner_knob","scalar_lifecycle_cost","measured_property_vector",
+            "negative_twin_neutral_form","negative_twin_measured_vector","controls","coverage")
+    body = {k: out.get(k) for k in keys}; body["world_profile"] = profile
+    return hashlib.sha256(json.dumps(body, sort_keys=True, default=str).encode()).hexdigest()
 
 
 def run_cell(family: str, grammar: str, cell: str, *, freeze: dict, seed: int, budget: int = 1_000_000):
     fr = dict(freeze); fr.pop("name_key", None)
     if family not in fr.get("families", {}):
-        return {"verdict": "INCONCLUSIVE_GRAMMAR", "reason": "unknown family id", "family": family, "grammar": grammar, "cell": cell}
+        return {"schema":"GMIK4CellResultV2","verdict":"INCONCLUSIVE_GRAMMAR","reason":"unknown family id",
+                "family":family,"grammar":grammar,"cell":cell,"world_profile":None,"search_digest":None}
     spec = fr["families"][family]
     task = v1.OBLIGATION_KIND.get(spec["obligation_class"])
     if task is None:
-        return {"verdict": "INCONCLUSIVE_GRAMMAR", "reason": "no obligation generator", "family": family, "grammar": grammar, "cell": cell}
-    scale = int(cell[1:])
-    profile = world_profile(seed, task, scale)
-
-    old_sem = v1.semantic_score
-    old_life = v1.lifecycle
-    def sem(form, task_, scale_, twin=False):
-        return _semantic_adjust(old_sem(form, task_, scale_, twin), form, task_, twin, profile)
-    def life(form, grammar_, scale_, knob):
-        return _lifecycle_adjust(old_life(form, grammar_, scale_, knob), form, task, profile)
+        return {"schema":"GMIK4CellResultV2","verdict":"INCONCLUSIVE_GRAMMAR","reason":"no obligation generator",
+                "family":family,"grammar":grammar,"cell":cell,"world_profile":None,"search_digest":None}
+    scale = int(cell[1:]); profile = world_profile(seed, task, scale)
+    old_sem = v1.semantic_score; old_life = v1.lifecycle
+    def sem(form, task_, scale_, twin=False): return _semantic_adjust(old_sem(form, task_, scale_, twin), form, task_, twin, profile)
+    def life(form, grammar_, scale_, knob): return _lifecycle_adjust(old_life(form, grammar_, scale_, knob), form, task, profile)
     try:
-        v1.semantic_score = sem
-        v1.lifecycle = life
+        v1.semantic_score = sem; v1.lifecycle = life
         out = v1.run_cell(family, grammar, cell, freeze=fr, seed=seed, budget=budget)
     finally:
-        v1.semantic_score = old_sem
-        v1.lifecycle = old_life
-    out["schema"] = "GMIK4CellResultV2"
-    out["world_profile"] = profile
-    out["protected_engine"] = "gmi_k4_search_v2"
-    out["predecessor_engine_status"] = "V1_DEVELOPMENT_EXPOSED_NOT_PROTECTED"
+        v1.semantic_score = old_sem; v1.lifecycle = old_life
+    out["schema"] = "GMIK4CellResultV2"; out["world_profile"] = profile
+    out["protected_engine"] = "gmi_k4_search_v2"; out["predecessor_engine_status"] = "V1_DEVELOPMENT_EXPOSED_NOT_PROTECTED"
+    out["search_digest"] = _search_digest(out, profile)
     return out

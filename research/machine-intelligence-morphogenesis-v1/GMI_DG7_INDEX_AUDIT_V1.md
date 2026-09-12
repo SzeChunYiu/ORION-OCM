@@ -81,6 +81,23 @@ every confirmed high-priority target has either been re-run over the unswept ind
 wording to the region it actually searched. **Narrowing the wording is a full discharge**; re-running is required only
 where the unswept region is cheap and the claim is load-bearing.
 
+## 3a. Discharged so far
+
+| record | discharge | the index that was missing |
+|---|---|---|
+| `RV-377-005` | narrowed | everything — a bare `NOT_OBSERVABLE_AT_SCOPE` against rows "not yet built" |
+| `RV-377-016` | narrowed | budget, ecology, intervention set — declined by fiat as `NO_FURTHER_ESCALATION` |
+| `RV-377-023` | narrowed | ecology, interventions, **both null controls** (neither existed yet) |
+| `RV-377-030` | narrowed | ecology, interventions, null controls — the *positive* half inherits the same qualification |
+| `RV-377-058` | narrowed | its two ecologies are now known to carry **no** intervention-robust coefficient witness (`RV-377-089`), which explains its silence about `D1` without invoking search |
+| `RV-377-069` | narrowed | **size, capped at 7** |
+
+**`RV-377-069` is the sharpest instance in the corpus.** An exhaustive census is exhaustive only up to its bound, and
+that bound **excluded the answer**: `RV-377-102`'s intervention-robust coefficient witness is **11 nodes**, wholly
+outside a census that stopped at seven. Its four exact lower bounds stand precisely as measured — they are theorems
+about sizes 1–7. What is withdrawn is the implicature that a census stopping at 7 says anything about the carriers
+that turned out to matter. The word *exhaustive* had been carrying a completeness the measurement never had.
+
 ## 4. Running score
 
 Four indices re-run so far: **two negatives overturned** (`RV-377-088`, twice over), **one upheld** (`RV-377-089`

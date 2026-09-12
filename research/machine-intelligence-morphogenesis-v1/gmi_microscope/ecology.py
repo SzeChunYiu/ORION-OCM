@@ -32,7 +32,16 @@ def spec_table(table, name, n_events=16, criterion="unseen"):
     return {"family": "table", "table": [int(v) for v in table], "n_events": n_events, "criterion": criterion, "theta": 0.85, "name": name}
 
 
-REGISTRY = {"E_smooth3": spec_smooth(smooth.COEFFS_V3, "E_smooth3"), "E_sym3": spec_smooth((3 / 16,) * 4, "E_sym3"), "E_sym5": spec_smooth((5 / 16,) * 4, "E_sym5"),
+# RV-377-103: E_wit1 is the witness-bearing DISCRIMINATING ecology established by RV-377-102's complete enumeration.
+# It is registered here, before the recovery run, because G15 step two has never been asked on an ecology where the
+# thing being looked for demonstrably exists. Facts from STAGE_ECO_V32_ECO_AXIS.json, not from this run:
+#   best constant 0.7083 (DISCRIMINATING, theta 0.85); gradient_net(3,1) scores 0.8646 under ALL SIX interventions;
+#   margin 3.751 fx units of mean absolute error -- nearly four quantization steps.
+# Every previous coefficient-recovery trial was held on an ecology with either no witness (E_smooth3, E_sym5), a
+# standard-intervention-only witness (E_smooth1, E_parity), or a non-discriminating threshold (E_sym3).
+WITNESS_COEFFS_V1 = (-0.5, -0.5, -0.5, -0.25)
+
+REGISTRY = {"E_wit1": spec_smooth(WITNESS_COEFFS_V1, "E_wit1"), "E_smooth3": spec_smooth(smooth.COEFFS_V3, "E_smooth3"), "E_sym3": spec_smooth((3 / 16,) * 4, "E_sym3"), "E_sym5": spec_smooth((5 / 16,) * 4, "E_sym5"),
             "E_parity": spec_table(smooth.make_parity_target(), "E_parity"), "E_smooth1": spec_smooth(smooth.COEFFS_V1, "E_smooth1")}
 
 

@@ -1,0 +1,45 @@
+{
+  "schema": "GMIK4MeasuredResourceSuccessorFreezeV4",
+  "status": "FROZEN_BEFORE_V4_PUBLIC_BEACON_AND_ANY_V4_SEARCH_RESULT",
+  "prediction_contract": "GMI_K4_LOFO_FREEZE_V1.json",
+  "prediction_status": "INHERITED_UNCHANGED_FROM_ORIGINAL_WITNESSED_FREEZE",
+  "predecessor_disposition": {
+    "V1": "DEVELOPMENT_EXPOSED_NOT_PROTECTED",
+    "V2": "SUPERSEDED_BEFORE_PROTECTED_EXECUTION__SHARED_PALETTE_DEFECT",
+    "V3": "DEVELOPMENT_ONLY__DG10_RESOURCE_PAIR_SUPPLIED_BY_STATE_SHAPE",
+    "DG10_review_source": "PR #445 review: 22/22 StateShape (state,serve) pairs map exactly to the 22 frozen family pairs"
+  },
+  "v4_engine": {
+    "resource_program_path": "gmi_k4_resource_native_v4.py",
+    "resource_program_commit": "d36579bbf4745d9c2bf391d89836b95d74f09ac7",
+    "search_path": "gmi_k4_search_v4.py",
+    "search_commit": "05a0c79cb4d2aab5c0e08e1b6b1e141cbde476d2",
+    "candidate_generation": "State resource law, serve-work law, capability atoms, routing, sharing, retrieval, serve iteration, stochasticity, verifier, authority and update locality are generated as independent factors from a target-vector-free hash sampler.",
+    "state_serve_measurement": "Candidates store integer resource expressions, not state_scales_with/serve_scales_with labels. Labels are inferred after execution from 19 fixed asymmetric numeric probe worlds by exact trace matching.",
+    "distractors": "Both resource-law sets contain non-target laws that classify UNCLASSIFIED_*; the search space is not just the 22 frozen target pairs.",
+    "coverage": "1,000,000 scored stochastic candidates per cell is the registered K4 stochastic cap from the original freeze. V4 is not claimed exhaustive over its much larger factorized space.",
+    "expressibility_witness": "The frozen target vector may construct one grammar witness only after search ranking has completed. The witness is never inserted into the ranked stream and exists only to distinguish grammar/search failure from a concrete cheaper-parent THEORY_RED.",
+    "red_rule": "If the best recovered non-target realization is admissible and has strictly lower total lifecycle cost than the admissible target-vector witness, THEORY_RED is licensed without exhaustive search because it is a concrete counterexample to frontier optimality.",
+    "green_rule": "K4_RECOVERY_GREEN requires target-vector recovery, negative-twin vector flip, all known controls recovered and >=1,000,000 scored candidates."
+  },
+  "public_beacon_rule": {
+    "network": "League of Entropy drand quicknet mainnet",
+    "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "genesis_time": 1692803367,
+    "period_seconds": 3,
+    "selection": "Use exactly the first quicknet round whose round timestamp is at least 900 seconds after the GitHub committed_at timestamp of THIS V4 freeze commit.",
+    "no_reroll": true,
+    "receipt": "GMI_K4_PUBLIC_BEACON_V4.json"
+  },
+  "task_seed_rule": "seed_i = int(SHA256('GMI-K4-V4' || task_hash || public_beacon_randomness_hex)[:16],16) mod 2^32",
+  "protected_rule": "No V4 protected task may execute until the one-shot V4 public beacon receipt exists. Any V4 development seed/run before that beacon is development-only and excluded from the aggregate.",
+  "independence": {
+    "DG-10_state_serve_axis_leak": "CLOSED_BY_INDEPENDENT_RESOURCE_PROGRAM_FACTORS_AND_TRACE_MEASUREMENT_AT_V4_SCOPE",
+    "IG-1_generator": "FACTORISED_GENERATOR_FROZEN_BEFORE_RESULT",
+    "IG-2_seed": "FUTURE_PUBLIC_BEACON_RULE_FROZEN",
+    "IG-3_leakage": "GITHUB_COMMIT_ORDER_SCOPE",
+    "IG-4_meter_bucketing": "PENDING_INDEPENDENT_BUCKETING",
+    "IG-5_primitive_selection": "PENDING_INDEPENDENT_PRIMITIVES"
+  },
+  "claim_ceiling": "V4 can test the original 22 property predictions without the DG-10 pre-paired-resource-axis leak. Same-author semantic evaluator, meter bucketing and primitive selection remain limitations; a V4 green array alone cannot flip the global known-form or no-gap terminals."
+}

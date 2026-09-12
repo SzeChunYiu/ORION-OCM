@@ -15,8 +15,7 @@ def test_three_primitive_inventories_are_nonempty_and_pairwise_disjoint():
     assert all(inv[g] for g in inv)
     gs = sorted(inv)
     for i, a in enumerate(gs):
-        for b in gs[i+1:]:
-            assert inv[a].isdisjoint(inv[b]), (a, b, inv[a] & inv[b])
+        for b in gs[i+1:]: assert inv[a].isdisjoint(inv[b]), (a, b, inv[a] & inv[b])
 
 
 def test_candidate_serializations_use_only_their_grammar_prefix():
@@ -26,38 +25,38 @@ def test_candidate_serializations_use_only_their_grammar_prefix():
             sample.append(c)
             if i >= 99: break
         assert sample
-        for c in sample:
-            assert all(t.startswith(prefix + "_") for t in c.tokens)
+        for c in sample: assert all(t.startswith(prefix + "_") for t in c.tokens)
 
 
 def test_candidate_space_is_combinatorial_not_one_candidate_per_family():
     sizes = {g: sum(1 for _ in gn.iter_candidates(g)) for g in gn.PREFIX}
     assert all(n > 1000 for n in sizes.values()), sizes
-    assert len(set(sizes.values())) >= 1
 
 
-def test_property_vector_does_not_change_grammar_native_search_winner():
+def test_property_vector_does_not_change_v3_search_stream_even_if_inconclusive():
     fid = "K4-A13"; grammar = "G1_TENSOR_GRAPH"; cell = "w4"; seed = 0x12345678
     a = k4.run_cell(fid, grammar, cell, freeze=copy.deepcopy(SAFE), seed=seed, budget=1_000_000)
     alt = copy.deepcopy(SAFE)
-    alt["families"][fid]["property_vector"] = {
-        **alt["families"][fid]["property_vector"],
-        "external_authority": not alt["families"][fid]["property_vector"]["external_authority"],
-    }
+    alt["families"][fid]["property_vector"] = {**alt["families"][fid]["property_vector"],
+                                                "external_authority": not alt["families"][fid]["property_vector"]["external_authority"]}
     b = k4.run_cell(fid, grammar, cell, freeze=alt, seed=seed, budget=1_000_000)
-    assert a["winner_candidate_id"] == b["winner_candidate_id"]
-    assert a["winner_program_tokens"] == b["winner_program_tokens"]
-    assert a["measured_property_vector"] == b["measured_property_vector"]
-    assert a["scalar_lifecycle_cost"] == b["scalar_lifecycle_cost"]
-    assert a["target_vector_match"] != b["target_vector_match"]
+    assert a["search_digest"] == b["search_digest"]
+    assert a["world_profile"] == b["world_profile"]
+    if a.get("winner_candidate_id") is not None:
+        assert a["winner_candidate_id"] == b["winner_candidate_id"]
+        assert a["winner_program_tokens"] == b["winner_program_tokens"]
+        assert a["measured_property_vector"] == b["measured_property_vector"]
+        assert a["scalar_lifecycle_cost"] == b["scalar_lifecycle_cost"]
+        assert a["target_vector_match"] != b["target_vector_match"]
 
 
-def test_seed_changes_world_but_same_seed_replays():
+def test_seed_changes_world_but_same_seed_replays_even_if_no_winner():
     a = k4.run_cell("K4-A18", "G2_SYMBOLIC_PROGRAM", "w2", freeze=copy.deepcopy(SAFE), seed=17, budget=1_000_000)
     b = k4.run_cell("K4-A18", "G2_SYMBOLIC_PROGRAM", "w2", freeze=copy.deepcopy(SAFE), seed=17, budget=1_000_000)
     c = k4.run_cell("K4-A18", "G2_SYMBOLIC_PROGRAM", "w2", freeze=copy.deepcopy(SAFE), seed=18, budget=1_000_000)
     assert a == b
     assert a["world_profile"] != c["world_profile"]
+    assert a["search_digest"] != c["search_digest"]
 
 
 def test_full_native_space_is_exhausted_at_registered_budget():
@@ -72,3 +71,10 @@ def test_name_key_never_changes_native_result():
     a = k4.run_cell("K4-A03", "G3_FSM_MESSAGE", "w2", freeze=copy.deepcopy(FREEZE), seed=999, budget=1_000_000)
     b = k4.run_cell("K4-A03", "G3_FSM_MESSAGE", "w2", freeze=copy.deepcopy(SAFE), seed=999, budget=1_000_000)
     assert a == b
+
+
+def test_v3_is_explicitly_not_the_dg10_successor():
+    # This test prevents a later report from silently promoting V3 after PR #445's finding.
+    r = k4.run_cell("K4-A01", "G1_TENSOR_GRAPH", "w1", freeze=copy.deepcopy(SAFE), seed=1, budget=100)
+    if "independence" in r:
+        assert r["independence"].get("DG-10") == "OPEN_IN_V3__SEE_V4"
