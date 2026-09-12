@@ -419,6 +419,7 @@ def test_executed_b2_rows_reproduce_and_are_green(tmp_path):
 
 
 
+
 def test_e1_iql_receipt_cell_reproduces():
     """F4 (RV-377-063): committed cells replay exactly, the negative twin collapses, and the decisive negative-twin
     ecology ALIAS_NORESID ties target-ambiguity scoring against BOTH parent criteria to the charged op."""
@@ -738,3 +739,101 @@ def test_f_axis_clause_adjudication_is_recorded_verbatim_with_its_failures():
                  if any(g["classification"] == "SURVIVES_THE_KNOWN_GATES" for g in p["gate_classification"].values())]
     assert sorted(surviving) == ["P13", "P2", "P3"], surviving
     assert committed["terminal"] == "F_REFINEMENT_SPLITS_10_OF_14_EQUALITY_CERTIFICATES__3_SURVIVE_THE_KNOWN_GATES"
+def test_g14_failed_draw_charging_replays_committed_cells():
+    """RV-377-067 (gap G14): a committed cell of the corrected-cost receipt replays exactly, the reliability index is the
+    census's own (9 of 192, not the 10 the earlier records report), and the charged frontier arithmetic reproduces the
+    receipt's verdict on the cell that RV-377-041b's clause 3 was about."""
+    from fractions import Fraction as F
+
+    from gmi_microscope import failed_draws as fd
+
+    rc = json.loads((RES / "STAGE_G14_FAILED_DRAW_CHARGING_V1.json").read_text())
+    committed = json.loads((RES / "STAGE_DE_SMOOTH_V22_SYM5_S4.json").read_text())
+
+    # the cheap memory row replays cell for cell against the committed frontier receipt
+    col = "B0_LOCAL_ADAPTIVE_TRANSDUCERS"
+    cell = fd.run_cell("S5h", col, 4)
+    assert cell["R"] == committed["R_by_cell"][f"S5h|{col}|4"]
+    assert cell["capability"] == committed["capability_by_cell"][f"S5h|{col}|4"]
+    assert rc["reexecution_vs_committed"]["n_identical"] == rc["reexecution_vs_committed"]["n_cells"] == 30
+
+    # the reliability index is recomputed from the census receipt, not quoted
+    rel = fd.reliability_from_census()
+    assert rel["pooled"]["q"] == "9/192" == rc["reliability"]["pooled"]["q"]
+    assert abs(rel["pooled"]["expected_draws_1_over_q"] - 192 / 9) < 1e-12
+    lo, hi = fd.clopper_pearson(9, 192)
+    assert [float(lo), float(hi)] == rc["reliability"]["pooled"]["q_ci95_clopper_pearson"]
+    assert 0.02 < float(lo) and float(hi) < 0.10
+
+    # the charged line on the cell RV-377-041b claimed for the stochastic row: S3 loses it by three orders of magnitude
+    b = rc["by_column"][col]
+    pe = {k: fd.per_event(committed["R_by_cell"][f"{k}|{col}|{8 if k == 'S3' else 4}"]) for k in b["admissible_rows_R_top"]}
+    D = b["D_draw"]["S3"]
+    search = (F(192, 9) - 1) * D
+    c_s3 = fd.cost(pe["S3"], search, 128, 0)
+    c_s5h = fd.cost(pe["S5h"], F(0), 128, 0)
+    assert c_s3 > 50 * c_s5h                       # the cell RV-377-041b's clause 3 gave to S3 is now lost by 80x
+    ratio = b["charged"]["q_cell"]["search_charge_vs_cheapest_rival"]
+    assert ratio["min_factor"] > 9 and ratio["max_factor"] > 1000
+    assert b["charged"]["q_cell"]["S3_cells"] == b["charged"]["q_pooled"]["S3_cells"] == 0
+    assert rc["readjudication_of_RV_377_041b"][2]["verdict"] == "FAILS"
+    assert rc["n_RV041b_clauses_surviving"] == 2
+
+
+def test_dg2_grid_audit_replays_committed_verdicts():
+    """RV-377-068 (gap DG-2): the audit of two named committed receipts reproduces the committed audit, including the
+    crossover at H = 1856 that the rule was written from, and the auditor reproduces each graded receipt's own frontier."""
+    from gmi_microscope import grid_audit
+
+    rc = json.loads((RES / "STAGE_DG2_GRID_AUDIT_V1.json").read_text())
+    by_name = {r["receipt"]: r for r in rc["receipts"]}
+
+    energy = grid_audit.audit_receipt(str(RES / "STAGE_DC_V25_DC3_ENERGY.json"))
+    assert energy["verdict"] == "TRUNCATED" and energy["grade"] == "MAJOR"
+    assert energy["reproduced_own_frontier"] is True and energy["grid_max_H"] == 1024
+    smallest = min(energy["crossovers_beyond_grid"], key=lambda c: c["H_star"])
+    assert smallest["H_star"] == 1856.0 and sorted(smallest["rows"]) == ["HOPFIELD", "KNN_PAT"]
+    assert energy["verdict"] == by_name["STAGE_DC_V25_DC3_ENERGY.json"]["verdict"]
+
+    safe = grid_audit.audit_receipt(str(RES / "STAGE_DC_V31_DC7_QUANTUM.json"))
+    assert safe["verdict"] == by_name["STAGE_DC_V31_DC7_QUANTUM.json"]["verdict"] == "SAFE"
+    assert safe["reproduced_own_frontier"] is True
+
+    # no receipt is graded without its own frontier being reproduced, and none that fails that is called SAFE
+    for r in rc["receipts"]:
+        if r["verdict"] in ("SAFE", "TRUNCATED"):
+            assert r["reproduced_own_frontier"] is True, r["receipt"]
+        else:
+            assert r["reason"], r["receipt"]
+    assert rc["counts"]["TRUNCATED"] >= 20 and rc["counts"]["MINOR"] == 0
+
+
+def test_g8_size_census_replays_small_sizes_and_its_witnesses():
+    """RV-377-069 (gap G8): the exhaustive enumeration replays exactly at the small sizes, the three counts are nested,
+    and every obstruction's witness genotype reproduces the property it is a witness for."""
+    from gmi_microscope import morph, size_census
+
+    rc = json.loads((RES / "STAGE_G8_SIZE_CENSUS_LOWER_BOUNDS_V1.json").read_text())
+    counts = rc["counts_by_size"]
+    for n in ("3", "4", "5"):
+        n_typed, forms, complete = size_census.enumerate_size(int(n))
+        assert complete
+        assert n_typed == counts[n]["type_correct_genotypes"], n
+        assert len(forms) == counts[n]["canonical_forms"], n
+
+    for n, e in counts.items():
+        if not e["enumeration_complete"]: continue
+        assert e["response_classes"] <= e["canonical_forms"] <= e["type_correct_genotypes"], n
+
+    for o in rc["obstructions"]:
+        if o["minimum_realizing_size"] is None:
+            continue
+        g = morph.from_json(o["witness_genotype"])
+        assert morph.typecheck(g)
+        assert len(g["nodes"]) == o["minimum_realizing_size"]
+        r = size_census.response_of(g)
+        assert r is not None and r["properties"][o["property"]] is True, o["property"]
+        # the witness is minimal: the census enumerated every smaller size exhaustively and found none
+        for n, e in counts.items():
+            if int(n) < o["minimum_realizing_size"]:
+                assert e["enumeration_complete"] and e["forms_realizing"][o["property"]] == 0, (o["property"], n)
