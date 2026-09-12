@@ -1,0 +1,295 @@
+=== host cn094 world=leaky_seam M2-P4 stage 3; runner_sha=7d790905ada3ad76 methods_sha=e0a0565466dc6778
+=== protected targets: 36
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": -2258.2,
+  "ci95_low": -16563.9,
+  "worst_ratio": 2.0,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": false,
+  "reason": "ci95_low<=0"
+ },
+ "ocm_controller": {
+  "rule": {
+   "[4, 5, 0, 2]": false,
+   "[8, 3, 0, 2]": true,
+   "[4, 5, 1, 2]": true,
+   "[4, 3, 1, 2]": true,
+   "[8, 3, 1, 2]": true,
+   "[8, 5, 2, 2]": true,
+   "[8, 6, 2, 2]": true,
+   "[8, 5, 1, 2]": true
+  },
+  "fallback": true,
+  "probe_depth": 2,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 13 of 17 rows",
+  "beta": 182,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "mdl",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 19338.9,
+   "mdl": 22361.7
+  },
+  "validated_better_interleave": {
+   "frequency": 9,
+   "mdl": 14
+  }
+ },
+ "mdl_fragments": [
+  [
+   "double",
+   "square",
+   "inc"
+  ],
+  [
+   "square",
+   "inc",
+   "inc"
+  ],
+  [
+   "double",
+   "square",
+   "dec"
+  ],
+  [
+   "square",
+   "square",
+   "inc"
+  ],
+  [
+   "square",
+   "double",
+   "inc"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "dec",
+   "square",
+   "inc"
+  ],
+  [
+   "dec",
+   "square"
+  ]
+ ],
+ "mdl_admission": false,
+ "mdl_terminal": "KEEP_PRIMITIVE_BASELINE",
+ "mdl_strictly_better": 14,
+ "train_solved": 77,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 17,
+ "held_out_strictly_better": 9,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 22833.6,
+ "held_out_mean_candidate": 25091.9,
+ "wall_seconds": 67.13,
+ "pid": 131938
+}
+checkpoint written, pid 132132
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "RESET",
+ "calibration_only": false,
+ "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+ "fragments_served": 0,
+ "process": {
+  "pid": 132134,
+  "pre_restart_pid": 132132,
+  "pid_changed": true
+ },
+ "targets": 36,
+ "ladder": [
+  200000
+ ],
+ "successes": 36,
+ "attempts": 36,
+ "all_targets_verified": true,
+ "ladder_total": 36,
+ "mean_B_slots": 22403.8,
+ "external_verifications": 36,
+ "successes_by_budget": {
+  "200000": 36
+ },
+ "wall_seconds": 22.52
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GF_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, MDL library, fixed depth 4",
+ "fragments_served": 9,
+ "process": {
+  "pid": 132214,
+  "pre_restart_pid": 132132,
+  "pid_changed": true
+ },
+ "targets": 36,
+ "ladder": [
+  200000
+ ],
+ "successes": 36,
+ "attempts": 36,
+ "all_targets_verified": true,
+ "ladder_total": 36,
+ "mean_B_slots": 2821.1,
+ "external_verifications": 36,
+ "successes_by_budget": {
+  "200000": 36
+ },
+ "wall_seconds": 6.52
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "SHUFFLED_HISTORY",
+ "calibration_only": false,
+ "note": "random fragments matching the mined count and length profile, with the true hidden motifs excluded so the control cannot rediscover them by chance",
+ "fragments_served": 14,
+ "process": {
+  "pid": 132303,
+  "pre_restart_pid": 132132,
+  "pid_changed": true
+ },
+ "targets": 36,
+ "ladder": [
+  200000
+ ],
+ "successes": 36,
+ "attempts": 36,
+ "all_targets_verified": true,
+ "ladder_total": 36,
+ "mean_B_slots": 43754.3,
+ "external_verifications": 36,
+ "successes_by_budget": {
+  "200000": 36
+ },
+ "wall_seconds": 26.3
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 2 beta 182, rule cells 8",
+ "fragments_served": 9,
+ "process": {
+  "pid": 132503,
+  "pre_restart_pid": 132132,
+  "pid_changed": true
+ },
+ "targets": 36,
+ "ladder": [
+  200000
+ ],
+ "successes": 36,
+ "attempts": 36,
+ "all_targets_verified": true,
+ "ladder_total": 36,
+ "mean_B_slots": 18564.0,
+ "external_verifications": 36,
+ "successes_by_budget": {
+  "200000": 36
+ },
+ "wall_seconds": 20.22
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 9,
+ "process": {
+  "pid": 132712,
+  "pre_restart_pid": 132132,
+  "pid_changed": true
+ },
+ "targets": 36,
+ "ladder": [
+  200000
+ ],
+ "successes": 36,
+ "attempts": 36,
+ "all_targets_verified": true,
+ "ladder_total": 36,
+ "mean_B_slots": 5641.2,
+ "external_verifications": 36,
+ "successes_by_budget": {
+  "200000": 36
+ },
+ "wall_seconds": 6.9
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D3",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 3",
+ "fragments_served": 16,
+ "process": {
+  "pid": 132805,
+  "pre_restart_pid": 132132,
+  "pid_changed": true
+ },
+ "targets": 36,
+ "ladder": [
+  200000
+ ],
+ "successes": 36,
+ "attempts": 36,
+ "all_targets_verified": true,
+ "ladder_total": 36,
+ "mean_B_slots": 16965.2,
+ "external_verifications": 36,
+ "successes_by_budget": {
+  "200000": 36
+ },
+ "wall_seconds": 27.41
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_GFQ_D4",
+ "calibration_only": false,
+ "note": "ungated guided-first parent, frequency library, fixed depth 4",
+ "fragments_served": 16,
+ "process": {
+  "pid": 133198,
+  "pre_restart_pid": 132132,
+  "pid_changed": true
+ },
+ "targets": 36,
+ "ladder": [
+  200000
+ ],
+ "successes": 35,
+ "attempts": 36,
+ "all_targets_verified": false,
+ "ladder_total": 35,
+ "mean_B_slots": 31030.1,
+ "external_verifications": 35,
+ "successes_by_budget": {
+  "200000": 35
+ },
+ "wall_seconds": 79.28
+}
+
+=== DONE leaky_seam 2026-09-12T01:07:54Z
