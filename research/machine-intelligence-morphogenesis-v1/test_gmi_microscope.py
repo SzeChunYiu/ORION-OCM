@@ -1219,6 +1219,42 @@ def test_b2_09_norm_receipt_replays_exactly(tmp_path):
         assert c["rule21_charged_serve_audit"]["passed"] is True
 
 
+def test_b2_10_prenorm_receipt_replays_exactly(tmp_path):
+    """RV-377-098 (B2.10 pre/post norm): the committed receipt reproduces byte for byte. "Pre-norm is more stable at
+    depth" is FALSE at the matched scale s = 1 + alpha*g, where the post-norm stack is an exact isometry."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_prenorm
+    rc = b2_prenorm.main(str(tmp_path / "pn.json"))
+    committed = json.loads((RES / "STAGE_B2_10_PRENORM_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 8 and rc["n_claims"] == 11
+
+    # C1 is the MATH half and is labelled as one
+    assert committed["identity_path"]["kind"].startswith("MATH_IMPLEMENTATION_CHECK")
+    assert committed["identity_path"]["passed"] is True
+    cells = committed["cells"]
+    cap = lambda a, s, arm, L: Fr(cells[f"a={a}|s={s}"]["rows"][f"{arm}_L{L}"]["capability"])
+    # C3, the instrument check: at unit scale the two placements are the same arithmetic and are indistinguishable
+    for a in ("1/4", "1/2", "1", "2"):
+        for L in (1, 2, 4, 8, 16):
+            assert cap(a, "1", "PRE_NORM", L) == cap(a, "1", "POST_NORM", L)
+    # the matched scale s = 1 + alpha*g: the post-norm stack is an exact isometry and wins decisively
+    assert cells["a=1|s=2"]["rows"]["POST_NORM_L16"]["exact_end_to_end_identity_gain"] == "1"
+    assert cap("1", "2", "POST_NORM", 16) == Fr(251, 256) and cap("1", "2", "PRE_NORM", 16) == Fr(1, 2)
+    # and pre-norm wins at the mismatched scale
+    assert cap("1/4", "4", "PRE_NORM", 16) == Fr(7, 8) and cap("1/4", "4", "POST_NORM", 16) == Fr(1, 4)
+    assert rc["claims"]["C2_at_the_deepest_setting_and_scale_above_unity_pre_norm_capability_exceeds_post_norm_capability"] is False
+    # C8: the two placements are metered to cost the same, so nothing above is a cost difference in disguise
+    for L in (1, 2, 4, 8, 16):
+        assert (cells["a=1|s=1"]["rows"][f"PRE_NORM_L{L}"]["charged_serve_ops_per_query_unit_price"]
+                == cells["a=1|s=1"]["rows"][f"POST_NORM_L{L}"]["charged_serve_ops_per_query_unit_price"])
+    assert any("OPTIMIZATION STABILITY" in t for t in committed["not_executed_and_declared_open"])
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""
