@@ -585,13 +585,13 @@ def main(tag="V1_DEPTH_GATED", seed=0, cells=None, out_path=None):
                         dec = decisions[f"{law}_d{d}_D{D}_s{s}|{price}"]
                         hs = [Fraction(v) for k, v in dec["crossovers"].items()
                               if "VSA" in k.split("|") and set(k.split("|")) & set(PARENT_ROWS)]
-                        series[d] = {"parent_maximal_crossover_H_star": str(min(hs)) if hs else None,
+                        series[str(d)] = {"parent_maximal_crossover_H_star": str(min(hs)) if hs else None,
                                      "parent_maximal_crossover_H_star_decimal": round(float(min(hs)), 4) if hs else None,
                                      "admissible": "VSA" in dec["admissible_rows"],
                                      "parent_occupies_some_horizon": dec["parent_occupies_some_cell"]}
                     ratios = {}
                     for d in DEPTHS[1:]:
-                        a, b = series[d - 1]["parent_maximal_crossover_H_star"], series[d]["parent_maximal_crossover_H_star"]
+                        a, b = series[str(d - 1)]["parent_maximal_crossover_H_star"], series[str(d)]["parent_maximal_crossover_H_star"]
                         if a and b: ratios[f"{d - 1}->{d}"] = round(float(Fraction(b) / Fraction(a)), 4)
                     depth_law[key] = {"by_depth": series, "growth_ratio": ratios}
 
@@ -630,17 +630,207 @@ def main(tag="V1_DEPTH_GATED", seed=0, cells=None, out_path=None):
         "kingdom_cells": kingdom_cells, "d_star": d_star, "terminal": terminal,
         "claim_ceiling": "exact charged replay at scope. The scope is one obligation family (role-filler binding), one primitive alphabet, one arithmetic instrument (8-bit fixed point, basis B0), two declared binding laws, six structure depths, two hypervector widths and three record seeds at the narrower width. Native prices are DECLARED, not measured. Capability is the only rounded quantity (correct/total to 4 places); admissibility and every frontier comparison are exact rationals, so no verdict depends on a floating-point tolerance. A negative kingdom verdict is a statement about the opponents constructed here: it can be overturned only by a carrier that beats all four, never by a weaker parent",
     }
+    clauses, frontier_rule = load_clauses()
+    scores = score_clauses(receipt)
+    receipt["frozen_clauses_verbatim"] = {str(n): clauses[n] for n in clauses}
+    receipt["frozen_clauses_source"] = "REVIVAL_LEDGER_DK1.jsonl, record RV-377-065, field new_prediction_before_outcome, read verbatim at scoring time; the declared frontier rule preceding clause 1 is: " + frontier_rule
+    receipt["clause_scores"] = {str(n): scores[n] for n in scores}
+    receipt["clauses_held"] = sum(1 for n in scores if scores[n]["verdict"] == "HOLDS")
+    receipt["clauses_failed"] = sorted(n for n in scores if scores[n]["verdict"] == "FAILS")
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
     path = out_path or os.path.join(RES, f"STAGE_DK_{tag}.json")
     json.dump(receipt, open(path, "w"), indent=1, sort_keys=True, default=str)
     for law in LAWS:
         if f"{law}|D64|s7|reduced" not in depth_law: continue
         print(law, "H*(d) parent-maximal, reduced, D64 s7:",
-              {d: depth_law[f"{law}|D64|s7|reduced"]["by_depth"][d]["parent_maximal_crossover_H_star_decimal"] for d in DEPTHS})
-        print("   admissible:", {d: depth_law[f"{law}|D64|s7|reduced"]["by_depth"][d]["admissible"] for d in DEPTHS},
+              {d: depth_law[f"{law}|D64|s7|reduced"]["by_depth"][str(d)]["parent_maximal_crossover_H_star_decimal"] for d in DEPTHS})
+        print("   admissible:", {d: depth_law[f"{law}|D64|s7|reduced"]["by_depth"][str(d)]["admissible"] for d in DEPTHS},
               "| distinct path vectors:", {d: facts[f"{law}_d{d}_D64_s7"]["n_distinct_path_vectors"] for d in DEPTHS})
+    print("clauses HOLD:", receipt["clauses_held"], "of 12; FAILED:", receipt["clauses_failed"])
     print("terminal:", terminal)
     return receipt
+
+
+
+
+# -------------------------------------------------------------------------------------------------- clause scoring
+LEDGER = os.path.join(os.path.dirname(HERE), "REVIVAL_LEDGER_DK1.jsonl")
+
+
+def load_clauses(path=None, revival_id="RV-377-065"):
+    """the frozen clauses, read VERBATIM out of the committed ledger record so that nothing scored here can have been
+    edited after the freeze. The prediction is one string; clause n begins at its literal marker '(n) '."""
+    rec = None
+    for line in open(path or LEDGER, encoding="utf-8"):
+        d = json.loads(line)
+        if d["revival_id"] == revival_id: rec = d
+    text = rec["new_prediction_before_outcome"]
+    marks = []
+    pos = 0
+    for n in range(1, 13):
+        i = text.index(f"({n}) ", pos); marks.append((n, i)); pos = i + 1
+    out = {}
+    for j, (n, i) in enumerate(marks):
+        end = marks[j + 1][1] if j + 1 < len(marks) else len(text)
+        out[n] = text[i:end].strip()
+    return out, text[:marks[0][1]].strip()
+
+
+def score_clauses(receipt):
+    """score every frozen clause HOLDS or FAILS on the executed receipt. A clause is a conjunction: if any conjunct
+    fails the clause FAILS, and the decomposition records exactly which conjuncts held. No clause is softened."""
+    C = receipt["cells"]; FA = receipt["ecology_facts"]; DE = receipt["decisions"]
+    DL = receipt["depth_law_of_the_parent_maximal_opponent"]; SP = receipt["cells_spec"]; cells = list(SP)
+    def g(c, r, k): return C[f"{c}|{r}"][k]
+    S = {}
+
+    exp1 = {"PERM": [4, 16, 64, 256, 1024, 4096], "XOR": [4, 7, 8, 8, 8, 8]}
+    bad = [c for c in cells if FA[c]["n_distinct_path_vectors"] != exp1[SP[c]["law"]][SP[c]["depth"] - 1]]
+    S[1] = {"verdict": "HOLDS" if not bad else "FAILS", "cells_checked": len(cells), "mismatches": bad,
+            "distinct_path_vectors_by_law_and_depth": {
+                law: [FA[f"{law}_d{d}_D64_s7"]["n_distinct_path_vectors"] for d in DEPTHS] for law in LAWS}}
+
+    eq = receipt["exact_developmental_equality"]
+    b2a = [c for c in cells if not all(eq[c][f"VSA=={p}"] for p in ("STORE_MAT", "STORE_PATH", "STORE_DEDUP"))]
+    b2b = [c for c in cells if eq[c]["VSA==VSA_NOBIND"]]
+    S[2] = {"verdict": "HOLDS" if not b2a and not b2b else "FAILS",
+            "cells_with_all_three_parents_answer_identical": len(cells) - len(b2a), "of": len(cells),
+            "cells_where_negative_twin_matched": b2b}
+
+    dd = {64: [2309, 4038, 4615, 4616, 4617, 4618], 128: [4357, 7622, 8711, 8712, 8713, 8714]}
+    b3 = []
+    for c in cells:
+        d = SP[c]["depth"]; W = SP[c]["D"]; b = W + IDX_BITS; Rd = R_ROLES ** d
+        if g(c, "VSA", "desc_bits") != (R_ROLES + F_FILLERS) * b: b3.append((c, "VSA"))
+        if g(c, "STORE_MAT", "desc_bits") != Rd * F_FILLERS * b: b3.append((c, "STORE_MAT"))
+        if g(c, "STORE_PATH", "desc_bits") != (Rd + F_FILLERS) * b: b3.append((c, "STORE_PATH"))
+        if SP[c]["law"] == "XOR" and g(c, "STORE_DEDUP", "desc_bits") != dd[W][d - 1]: b3.append((c, "STORE_DEDUP"))
+    xd = {str(W): max(g(c, "STORE_DEDUP", "desc_bits") for c in cells if SP[c]["law"] == "XOR" and SP[c]["D"] == W)
+          for W in (64, 128)}
+    S[3] = {"verdict": "HOLDS" if not b3 else "FAILS", "mismatches": b3,
+            "xor_parent_maximal_description_bits_max_over_all_depths": xd,
+            "xor_parent_maximal_description_overhead_factor": {W: round(xd[W] / ((R_ROLES + F_FILLERS) * (int(W) + IDX_BITS)), 4) for W in xd}}
+
+    b4 = []
+    for c in cells:
+        d = SP[c]["depth"]; W = SP[c]["D"]; law = SP[c]["law"]; base = 2 * F_FILLERS * W + (F_FILLERS - 1)
+        want = {"VSA": ((2 * d - 1) if law == "PERM" else d) * W + base, "STORE_PATH": W + base,
+                "STORE_MAT": base, "STORE_DEDUP": base + (R_ROLES * d if law == "XOR" else 0)}
+        b4 += [(c, r) for r, v in want.items() if g(c, r, "exec_per_query") != v]
+    S[4] = {"verdict": "HOLDS" if not b4 else "FAILS", "mismatches": b4}
+
+    b5 = [k for k in DE if not DE[k]["dg2_grid_covers_twice_every_crossover"]]
+    S[5] = {"verdict": "HOLDS" if not b5 else "FAILS", "decisions_checked": len(DE), "violations": b5}
+
+    p64 = ["109/2", "91/4", "647/8", "1213/4", "18679/16", "91127/20"]
+    p128 = ["213/4", "179/8", "1279/16", "2405/8", "37103/32", "181231/40"]
+    nat = ["1440", "432", "1080", "3024", "9180", "147312/5"]
+    m6 = []
+    for W, ss, exp in ((64, (7, 13, 23), p64), (128, (7,), p128)):
+        for s in ss:
+            for d in DEPTHS:
+                v = DL[f"PERM|D{W}|s{s}|reduced"]["by_depth"][str(d)]["parent_maximal_crossover_H_star"]
+                if v != exp[d - 1]: m6.append((f"PERM|D{W}|s{s}|d{d}", v, exp[d - 1]))
+    m6n = [(d, DL["PERM|D64|s7|native"]["by_depth"][str(d)]["parent_maximal_crossover_H_star"], nat[d - 1])
+           for d in DEPTHS if DL["PERM|D64|s7|native"]["by_depth"][str(d)]["parent_maximal_crossover_H_star"] != nat[d - 1]]
+    inadm = [c for c in cells if SP[c]["law"] == "PERM" and not g(c, "VSA", "admissible")]
+    S[6] = {"verdict": "HOLDS" if not m6 and not m6n and not inadm else "FAILS",
+            "6a_reduced_values_exact": f"{24 - len(m6)} of 24", "6a_reduced_mismatches": m6,
+            "6a_native_values_exact": f"{6 - len(m6n)} of 6",
+            "6b_perm_cells_with_admissible_carrier": f"{24 - len(inadm)} of 24", "6b_inadmissible": inadm,
+            "6c_depth_1_reproduces_RV_377_044_H_star_54_5":
+                DL["PERM|D64|s7|reduced"]["by_depth"]["1"]["parent_maximal_crossover_H_star"] == "109/2"}
+
+    pred7 = {"1->2": 0.4174, "2->3": 3.5549, "3->4": 3.7527, "4->5": 3.8498, "5->6": 3.9024}
+    obs7 = {str(s): DL[f"PERM|D64|s{s}|reduced"]["growth_ratio"] for s in (7, 13, 23)}
+    m7 = {s: {k: (obs7[s].get(k), v) for k, v in pred7.items() if obs7[s].get(k) != v} for s in obs7}
+    m7 = {s: v for s, v in m7.items() if v}
+    xh = [Fraction(DL["XOR|D64|s7|reduced"]["by_depth"][str(d)]["parent_maximal_crossover_H_star"]) for d in DEPTHS
+          if DL["XOR|D64|s7|reduced"]["by_depth"][str(d)]["parent_maximal_crossover_H_star"]]
+    xh128 = [Fraction(DL["XOR|D128|s7|reduced"]["by_depth"][str(d)]["parent_maximal_crossover_H_star"]) for d in DEPTHS
+             if DL["XOR|D128|s7|reduced"]["by_depth"][str(d)]["parent_maximal_crossover_H_star"]]
+    r7 = [obs7["7"][k] for k in ("2->3", "3->4", "4->5", "5->6")]
+    S[7] = {"verdict": "HOLDS" if not m7 else "FAILS", "predicted_ratios": pred7,
+            "observed_ratios_by_seed_D64": obs7, "mismatches": m7,
+            "observed_ratios_D128_s7": DL["PERM|D128|s7|reduced"]["growth_ratio"],
+            "perm_ratios_strictly_increasing_from_depth_3_and_below_R": r7 == sorted(r7) and max(r7) < R_ROLES,
+            "xor_parent_maximal_crossover_never_exceeds_depth_1_value":
+                {"64": bool(xh) and max(xh) == xh[0] == Fraction("109/2"),
+                 "128": bool(xh128) and max(xh128) == xh128[0] == Fraction("213/4")},
+            "xor_admissible_crossovers_D64": [str(x) for x in xh], "xor_admissible_crossovers_D128": [str(x) for x in xh128]}
+
+    xa = {c: FA[c]["ambiguous_eval_queries"] for c in cells if SP[c]["law"] == "XOR"}
+    d1 = all(v == 0 for c, v in xa.items() if SP[c]["depth"] == 1)
+    d2 = [(c, v) for c, v in xa.items() if SP[c]["depth"] == 2 and v != 0]
+    d3 = all(v > 0 for c, v in xa.items() if SP[c]["depth"] >= 3)
+    cap3 = all(g(c, "VSA", "capability") < 1.0 for c in cells if SP[c]["law"] == "XOR" and SP[c]["depth"] >= 3)
+    pz = all(FA[c]["ambiguous_eval_queries"] == 0 for c in cells if SP[c]["law"] == "PERM")
+    S[8] = {"verdict": "HOLDS" if d1 and not d2 and d3 and cap3 and pz else "FAILS",
+            "depth_1_zero": d1, "depth_2_nonzero_cells": d2, "depth_ge_3_all_positive": d3,
+            "xor_capability_below_1_at_depth_ge_3": cap3, "perm_all_zero": pz, "xor_ambiguity_by_cell": xa}
+
+    nopar = [k for k in DE if not DE[k]["parent_occupies_some_cell"]]
+    empty = [k for k in nopar if DE[k]["admissible_rows"] == []]
+    S[9] = {"verdict": "HOLDS" if not nopar and receipt["d_star"] is None else "FAILS",
+            "decisions": len(DE), "decisions_with_a_parent_occupant": len(DE) - len(nopar),
+            "decisions_without_a_parent_occupant": len(nopar),
+            "of_those_with_an_EMPTY_admissible_set": len(empty),
+            "decisions_with_a_non_empty_frontier_and_no_parent_occupant": [k for k in nopar if k not in empty],
+            "parent_occupies_every_decision_that_has_any_occupant_at_all":
+                f"{len(DE) - len(nopar)} of {len(DE) - len(empty)}",
+            "kingdom_cells": receipt["kingdom_cells"], "d_star": receipt["d_star"], "terminal": receipt["terminal"]}
+
+    d1cells = [c for c in cells if SP[c]["depth"] == 1]
+    s10a = [f"{c}|{p}" for c in d1cells for p in ("reduced", "native") if DE[f"{c}|{p}"]["vsa_sole_occupant_horizons"]]
+    s10b = []
+    for c in cells:
+        if SP[c]["law"] != "PERM" or SP[c]["depth"] < 2: continue
+        h = DL[f"PERM|D{SP[c]['D']}|s{SP[c]['rec_seed']}|reduced"]["by_depth"][str(SP[c]["depth"])]["parent_maximal_crossover_H_star"]
+        if h is None: s10b.append((c, "no crossover")); continue
+        hf = Fraction(h); dec = DE[f"{c}|reduced"]
+        if sorted(dec["vsa_sole_occupant_horizons"]) != sorted(H for H in dec["grid"] if H < hf): s10b.append((c, "below"))
+        if any(H > hf for H in dec["vsa_sole_occupant_horizons"]): s10b.append((c, "above"))
+    S[10] = {"verdict": "HOLDS" if not s10a and not s10b else "FAILS",
+             "depth_1_cells_where_the_carrier_is_sole_occupant": s10a, "perm_depth_ge_2_violations": s10b}
+
+    ri = receipt["remint_ir"]; rn = receipt["remint_instance"]
+    conj = {"charged_costs_identical": all(rn[c]["all_charged_costs_identical"] for c in rn),
+            "admissibility_identical": all(rn[c]["all_admissibility_identical"] for c in rn),
+            "carrier_parent_equality_identical": all(rn[c]["carrier_parent_equality_identical"] for c in rn),
+            "decision_identical": all(rn[c]["decision_identical"] for c in rn),
+            "capability_identical_where_no_tie": rn["XOR_d1_D64_s7"]["all_capability_identical"] and rn["PERM_d4_D64_s7"]["all_capability_identical"],
+            "capability_moves_only_in_the_tied_cell": not rn["PERM_d2_D64_s7"]["all_capability_identical"] and rn["PERM_d2_D64_s7"]["tied_cleanup_eval_queries"] == 1,
+            "capability_moves_identically_in_carrier_and_all_three_parents":
+                len({rn["PERM_d2_D64_s7"]["capability_delta_by_row"][r] for r in ("VSA", "STORE_MAT", "STORE_PATH", "STORE_DEDUP")}) == 1,
+            "ir_canonical_invariant": all(ri["canonical_invariant_under_remint"].values()),
+            "ir_fingerprints_distinct": ri["fingerprints_all_distinct"],
+            "ir_carrier_and_path_parent_share_mechanism_vector": ri["carrier_and_path_parent_share_mechanism_vector"],
+            "ir_carrier_and_materializing_parent_differ": ri["carrier_and_materializing_parent_differ_in_mechanism_vector"]}
+    S[11] = {"verdict": "HOLDS" if all(conj.values()) else "FAILS", "conjuncts": conj,
+             "capability_delta_in_the_tied_cell": rn["PERM_d2_D64_s7"]["capability_delta_by_row"]}
+
+    fac = {str(d): f"{R_ROLES ** d}/{FA[f'XOR_d{d}_D64_s7']['n_distinct_path_vectors']}" for d in DEPTHS}
+    facv = {str(d): round(R_ROLES ** d / FA[f"XOR_d{d}_D64_s7"]["n_distinct_path_vectors"], 4) for d in DEPTHS}
+    pred12 = {"1": 1.0, "2": 2.2857, "3": 8.0, "4": 32.0, "5": 128.0, "6": 512.0}
+    f_ok = all(facv[str(d)] == pred12[str(d)] for d in DEPTHS)
+    h_xor_d2_64 = DL["XOR|D64|s7|reduced"]["by_depth"]["2"]["parent_maximal_crossover_H_star"]
+    h_xor_d2_128 = DL["XOR|D128|s7|reduced"]["by_depth"]["2"]["parent_maximal_crossover_H_star"]
+    da3_128 = receipt["closed_forms"]["XOR_d2_D128_s7"]["GMI_DA3_H_star_assuming_R_pow_d_distinct_bindings"]
+    stored_d2 = (C["XOR_d2_D64_s7|STORE_DEDUP"]["desc_bits"] - (R_ROLES + 2)) // (64 + IDX_BITS)
+    S[12] = {"verdict": "HOLDS" if f_ok and h_xor_d2_64 == "59/2" else "FAILS",
+             "stored_vector_overstatement_factor_by_depth": fac, "as_decimal": facv,
+             "predicted": pred12, "factors_exact": f_ok,
+             "crossover_overstatement_at_depth_2_D64": {
+                 "predicted_ratio": 6.5508, "observed": "NOT MEASURABLE AT D = 64: the carrier and all its parents are "
+                 "INADMISSIBLE in the XOR depth-2 D = 64 cells (capability 0.8333, 0.75, 0.8333 against theta 0.85), so "
+                 "the frontier rule admits no crossover there", "reported_by_the_run": h_xor_d2_64},
+             "crossover_overstatement_at_depth_2_D128_where_the_row_IS_admissible": {
+                 "GMI_DA3_formula": da3_128, "executed_parent_maximal": h_xor_d2_128,
+                 "ratio": round(float(Fraction(da3_128) / Fraction(h_xor_d2_128)), 4)},
+             "RV_377_044_depth_2_description_ratio_corrected":
+                 {"as_published": 10.667, "against_the_parent_maximal_opponent": round(stored_d2 / (R_ROLES + F_FILLERS), 4),
+                  "stored_vectors": stored_d2, "carrier_vectors": R_ROLES + F_FILLERS}}
+    return S
 
 
 if __name__ == "__main__":
