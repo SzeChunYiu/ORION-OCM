@@ -21,7 +21,14 @@ from .core import Machine, clamp, sha256_of
 from .vm import VM, lifecycle_vector
 
 INTERVENTIONS = {"standard": {}, "no_revoke": {"revoke": False}, "double_revoke": {"revoke": "double"}, "half_events": {"n_events": 8},
-                 "shuffled_events": {"order": [5, 0, 7, 2, 6, 1, 4, 3]}, "extra_unseen_feedback": {"extra": True}}
+                 "shuffled_events": {"order": [5, 0, 7, 2, 6, 1, 4, 3]}, "extra_unseen_feedback": {"extra": True},
+                 # RV-377-150 (DG-13, additive): the V1 `extra_unseen_feedback` trains on UNSEEN[:4] and then scores all
+                 # 8 UNSEEN inputs -- a 50 % leak (RV-377-114). V2 keeps the extra feedback and scores ONLY the four
+                 # never-revealed inputs UNSEEN[4:]. V1 is untouched so every historical receipt stands.
+                 "extra_unseen_feedback_v2": {"extra": True, "score": "unrevealed", "deprecates": "extra_unseen_feedback"}}
+# RV-377-150: the leak-free registered family -- the five trustworthy V1 interventions plus the V2 store-channel one.
+INTERVENTION_FAMILY_V1 = ("standard", "no_revoke", "double_revoke", "half_events", "shuffled_events", "extra_unseen_feedback")
+INTERVENTION_FAMILY_V2 = ("standard", "no_revoke", "double_revoke", "half_events", "shuffled_events", "extra_unseen_feedback_v2")
 
 
 def spec_smooth(coeffs, name=None, n_events=16, criterion="unseen"):
@@ -43,6 +50,13 @@ WITNESS_COEFFS_V1 = (-0.5, -0.5, -0.5, -0.25)
 
 REGISTRY = {"E_wit1": spec_smooth(WITNESS_COEFFS_V1, "E_wit1"), "E_smooth3": spec_smooth(smooth.COEFFS_V3, "E_smooth3"), "E_sym3": spec_smooth((3 / 16,) * 4, "E_sym3"), "E_sym5": spec_smooth((5 / 16,) * 4, "E_sym5"),
             "E_parity": spec_table(smooth.make_parity_target(), "E_parity"), "E_smooth1": spec_smooth(smooth.COEFFS_V1, "E_smooth1")}
+# RV-377-150 (DG-13, additive): `spec_table(dict)` iterates the dict's KEYS, so the registered E_parity table is the
+# identity 0..15, not parity (RV-377-114 / DG-13). E_parity_v2 registers the parity VALUES (fx 0 / 16) under a new
+# name; E_parity keeps its historical (misnamed) target so that every receipt citing it still reproduces.
+# Criterion "all": the registered TRAIN/UNSEEN split separates the 16 inputs by parity (TRAIN all even popcount,
+# UNSEEN all odd), so on the "unseen" criterion the parity target is the CONSTANT fx(1) -- degenerate by rule 45.
+REGISTRY["E_parity_v2"] = spec_table([smooth.make_parity_target()[x] for x in smooth.ALL_X], "E_parity_v2", criterion="all")
+REGISTRY["E_parity"]["deprecated_reason"] = "target is the identity 0..15 (dict keys), see RV-377-114 / DG-13; use E_parity_v2"
 
 
 def spec_id(spec):
@@ -83,6 +97,7 @@ def run_genotype(spec, genotype, basis, intervention="standard", seed=0):
         v = vm.query(xx); final.append(None if vm.abstained else v); nq += 1
     trace.append(final)
     eval_x = smooth.UNSEEN if spec["criterion"] == "unseen" else smooth.ALL_X
+    if J.get("score") == "unrevealed" and spec["criterion"] == "unseen": eval_x = smooth.UNSEEN[4:]   # RV-377-150 leak-free scoring
     err = sum(abs((final[xx] if final[xx] is not None else 0) - target[xx]) for xx in eval_x) / smooth.FX_ONE / len(eval_x)
     cap = round(max(0.0, 1 - err / 1.5), 4)
     return {"spec": spec["name"], "spec_id": spec_id(spec), "intervention": intervention, "basis": basis.name, "trace": trace, "capability": cap, "admissible": cap >= spec["theta"],
