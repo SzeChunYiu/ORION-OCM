@@ -483,3 +483,24 @@ def test_r9_census_counts_three_different_things_and_the_small_sizes_reproduce()
     est = rows[6]["N_CONFIG_stratified_estimate"]
     assert est["n_strata_sampled"] < est["n_strata_population"] and est["N_CONFIG_estimate"] > 0
 
+
+def test_r10_invasion_cells_replay_and_competition_is_not_independent_scoring():
+    """R10: committed competition cells replay exactly on the charged machines, reminting a competitor changes nothing,
+    and the registered prediction (occupancy under a shared budget is not a function of the solo scores) is adjudicated
+    on the off-diagonal cells."""
+    from gmi_microscope import invasion, smooth, zoo
+    rc = json.loads((RES / "STAGE_R10_INVASION_V1.json").read_text())
+    assert rc["remint_invariance"]["n_changed"] == 0
+    target = smooth.make_target(smooth.COEFFS_V3)
+    checked = 0
+    for name, cell in list(rc["cells"].items())[:6]:
+        pool, r, i = name.split("|"); pool = int(pool[4:])
+        rec = invasion.compete(zoo.ZOO[r](), zoo.ZOO[i](), target, pool, rc["protocol"]["head_start_events"])
+        for k in ("outcome", "capability_resident", "capability_invader", "events_resident", "events_invader",
+                  "charge_resident", "charge_invader", "pool_spent", "allocation"):
+            assert rec[k] == cell[k], (name, k)
+        checked += 1
+    assert checked == 6
+    assert rc["n_cells"] == len(rc["pools"]) * rc["n_carriers"] ** 2
+    assert rc["prediction_holds"] is (rc["n_offdiagonal_cells_where_competition_disagrees_with_solo"] > 0)
+
