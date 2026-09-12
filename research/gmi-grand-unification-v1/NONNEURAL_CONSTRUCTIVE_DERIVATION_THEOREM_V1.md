@@ -138,7 +138,7 @@ Therefore:
 - two states are sufficient;
 - the two-state XOR accumulator is a minimal exact non-neural realization.
 
-The checker enumerates every bit string through length 8 (511 nonempty prefixes plus the empty initial state) and verifies the transducer output against direct parity.
+The checker enumerates all 511 bit strings of lengths 0 through 8, including the empty initial string, and verifies the transducer output against direct parity.
 
 A recurrent neural implementation may realize the same protected process, but if the registered substrate/resource profile favors the two-state FSM, Grand GMI derives non-neural intelligence by the same frontier rule used everywhere else.
 
