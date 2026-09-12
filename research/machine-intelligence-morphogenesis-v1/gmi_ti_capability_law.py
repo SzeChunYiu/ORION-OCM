@@ -96,3 +96,61 @@ def measure_ablated(machine, L, r, n_queries, seed, alt_seed):
     rng = random.Random(seed ^ 0x5EED)
     hit = sum(1 for q in qs if MACHINES[machine](alt["development"], q, rng) == w["W"][q])
     return hit / len(qs)
+
+
+# =========================== RV-377-124: the TWO-CHANNEL law ===========================
+"""TI-2 says that when the query already reveals information about W, development need only
+carry the residual:  I(W;Z | Q,A) >= H(W | Q,A).
+
+Concretely, let the query for index i carry the answer with probability p (an informative
+query channel), independently of development.  An index is COVERED if development revealed it
+or the query carries it.  Then for ANY machine in the {D,Q} channel class:
+
+    accuracy(r,p)  <=  1 - (1 - r/L)(1 - p)/2
+
+because an uncovered index is independent of everything the machine holds.  At p = 0 this
+reduces exactly to the TI-1 law 1/2 + r/(2L), so the two-channel law CONTAINS the one-channel
+law as a boundary case -- which is itself a check.
+"""
+
+def bound2(L, r, p):
+    """TI-2 capability ceiling for the two-channel class."""
+    return 1.0 - (1.0 - r / L) * (1.0 - p) / 2.0
+
+
+def make_queries_informative(L, n, p, W, seed):
+    """each query is (index, hint) where hint is W[index] with probability p else None."""
+    rng = random.Random(seed ^ 0xC0FFEE)
+    out = []
+    for _ in range(n):
+        i = rng.randrange(L)
+        out.append((i, W[i] if rng.random() < p else None))
+    return out
+
+
+def m_table2(dev, q, rng):
+    """uses development, then the query hint, then guesses. The optimal {D,Q} machine."""
+    i, hint = q
+    for it in dev:
+        if it["index"] == i: return it["bit"]
+    if hint is not None: return hint
+    return rng.randrange(2)
+
+
+def m_ignore_hint(dev, q, rng):
+    """deliberately discards the query channel -- should be capped by the TI-1 law."""
+    i, hint = q
+    for it in dev:
+        if it["index"] == i: return it["bit"]
+    return rng.randrange(2)
+
+
+MACHINES2 = {"table2": m_table2, "ignore_hint": m_ignore_hint}
+
+
+def measure2(machine, L, r, p, n_queries, seed):
+    w = make_world(L, r, seed)
+    qs = make_queries_informative(L, n_queries, p, w["W"], seed)
+    rng = random.Random(seed ^ 0x5EED)
+    hit = sum(1 for q in qs if MACHINES2[machine](w["development"], q, rng) == w["W"][q[0]])
+    return hit / len(qs)
