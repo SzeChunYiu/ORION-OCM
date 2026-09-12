@@ -1255,6 +1255,48 @@ def test_b2_10_prenorm_receipt_replays_exactly(tmp_path):
         assert c["rule21_charged_serve_audit"]["passed"] is True
 
 
+def test_b2_11_memory_receipt_replays_exactly(tmp_path):
+    """RV-377-099 (B2.11 context vs recurrence vs retrieval): the committed receipt reproduces byte for byte. The
+    three mechanisms are priced by three INDEPENDENT properties of the obligation, and the recurrent state dominates
+    the frontier at every declared price."""
+    from fractions import Fraction as Fr
+
+    from gmi_microscope import b2_memory
+    rc = b2_memory.main(str(tmp_path / "mem.json"))
+    committed = json.loads((RES / "STAGE_B2_11_MEMORY_V1.json").read_text())
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["status"] == "RED" and rc["n_claims_hold"] == 11 and rc["n_claims"] == 13
+
+    cells = committed["cells"]
+    # the three prices, measured: class count, minimal recurrent bits, maximum depth, minimal window
+    got = {n: (c["myhill_nerode_classes"], c["minimal_exact_recurrent_bits"],
+               c["maximum_required_memory_depth_events"], c["minimal_exact_window_events"])
+           for n, c in cells.items()}
+    assert got["E_K2V2_n4"] == (9, 4, 3, 4) and got["E_K2V2_n5"] == (9, 4, 4, 5)
+    assert got["E_K3V2_n4"] == (27, 5, 3, 4) and got["E_K2V4_n4"] == (25, 5, 3, 4)
+    # C2/C3: lengthening the history moves the window's price and leaves the recurrent state's untouched
+    assert (cells["E_K2V2_n4"]["minimal_exact_recurrent_bits"]
+            == cells["E_K2V2_n5"]["minimal_exact_recurrent_bits"] == 4)
+    assert (cells["E_K2V2_n4"]["minimal_exact_window_events"]
+            < cells["E_K2V2_n5"]["minimal_exact_window_events"])
+    # C1 fails by exactly one: a window must span the required depth PLUS the query event
+    assert rc["claims"]["C1_the_minimal_exact_window_equals_the_maximum_required_memory_depth_in_every_ecology"] is False
+    for c in cells.values():
+        assert c["minimal_exact_window_events"] == c["maximum_required_memory_depth_events"] + 1
+        assert c["myhill_nerode_verified_by_separating_suffix"] is True
+    # C7: the retrieval arm's burden is INVALIDATION -- the twin fails exactly where a key was overwritten
+    for c in cells.values():
+        twin = c["rows"]["STORE_STALE_TWIN"]
+        assert twin["exact"] is False and twin["histories_with_an_overwritten_queried_key"] > 0
+    # C8 fails: the recurrent state occupies the frontier ALONE at every declared price
+    assert rc["claims"]["C8_no_universal_winner_the_frontier_occupant_differs_across_declared_price_vectors"] is False
+    for k, b in committed["b2_frontiers"].items():
+        assert all(o.startswith("RECUR_") for o in b["occupants_on_grid"]), k
+    for c in cells.values():
+        assert c["rule22_constant_control"]["obligation_void"] is False
+        assert c["rule21_charged_serve_audit"]["passed"] is True
+
+
 def test_b2_dg2_audit_grades_this_lanes_receipts_from_their_own_coordinates(tmp_path):
     """Protocol rule 28: every stage-B2 receipt of this lane is graded by gmi_microscope/grid_audit.py from the per-row
     cost coordinates it carries itself -- no replay, no import of the generating module."""
