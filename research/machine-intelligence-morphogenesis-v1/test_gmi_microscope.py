@@ -414,3 +414,27 @@ def test_executed_b2_rows_reproduce_and_are_green(tmp_path):
     # the cache is worth exactly nothing without reuse or continuation length
     assert kv["cells"]["P4_C1_R1"]["mu_star_measured"] == "0"
     assert kv["cells"]["P16_C8_R4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L2H4"]["mu_star_measured"] == kv["cells"]["P16_C8_R4__L8H1"]["mu_star_measured"]
+
+
+def test_r7_lineage_descent_replays_from_the_committed_receipt():
+    """R7: the committed lineage receipt is self-verifying — replaying each witnessed descent chain from its recorded
+    founder re-derives every intermediate fingerprint and the elite's fingerprint EXACTLY, and does so from a REMINTED
+    founder too (H5). A lineage that does not replay is a bug, so the committed receipt must report 0 failures."""
+    from gmi_microscope import lineage, morph
+    rc = json.loads((RES / "STAGE_R7_LINEAGE_V1.json").read_text())
+    assert rc["terminal"] == "R7_LINEAGE_REPLAYS_EXACTLY"
+    assert rc["replay_audit"]["replay_failures"] == 0
+    assert rc["remint_invariance"]["n_fingerprint_changed_by_remint"] == 0
+    assert rc["dvp_stream_ledger"]["protected_queries"] == 0          # the P stream was never touched
+    assert rc["replay_witness"], "the receipt must carry at least one replayable descent chain"
+    for w in rc["replay_witness"]:
+        for remint_seed in (None, 5):
+            g, _, _ = lineage.founder(w["founder"]["fseed"], w["founder"]["steps"])
+            if remint_seed is not None: g = lineage.canon_geno(morph.remint(g, remint_seed))
+            assert morph.fingerprint(g) == w["founder_fingerprint"]
+            for step in w["steps"]:
+                g, op, draws = lineage.propose(g, step["proposal_seed"], None, step["op_index"])
+                assert op == step["operator"] and draws == step["proposal_draws"]
+                assert morph.fingerprint(g) == step["expected_fingerprint"]
+            assert morph.fingerprint(g) == w["final_fingerprint"]
+

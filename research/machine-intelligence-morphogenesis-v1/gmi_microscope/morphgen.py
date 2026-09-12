@@ -189,19 +189,27 @@ OPS = (op_add_node, op_remove_node, op_rewire, op_add_edge, op_change_param, op_
 OP_NAMES = tuple(f.__name__ for f in OPS)
 
 
-def mutate(rng, g, tries=12):
-    """apply one operator; retry on a genotype that fails the type check. Every try is charged to the caller."""
+def mutate(rng, g, tries=12, record=None):
+    """apply one operator; retry on a genotype that fails the type check. Every try is charged to the caller.
+
+    `record`, when a list is passed, receives one entry per DRAW: the operator name and whether that draw survived the
+    type check. The draw sequence off `rng` is unchanged by the presence of the recorder, so a recorded run and an
+    unrecorded run with the same seed produce the same genotype (R7 lineage replay depends on this)."""
     for _ in range(tries):
-        cand = OPS[rng.randrange(len(OPS))](rng, json.loads(json.dumps(g)))
+        f = OPS[rng.randrange(len(OPS))]
+        cand = f(rng, json.loads(json.dumps(g)))
         try:
-            morph.typecheck(cand); _check_servable(cand); return cand, tries
+            morph.typecheck(cand); _check_servable(cand)
+            if record is not None: record.append((f.__name__, True))
+            return cand, tries
         except (morph.MorphError, ValueError, KeyError, IndexError):
+            if record is not None: record.append((f.__name__, False))
             continue
     return json.loads(json.dumps(g)), tries
 
 
-def crossover(rng, a, b, tries=12):
-    """graft a random node of b (with its parameters) into a, wired to a's sources."""
+def crossover(rng, a, b, tries=12, record=None):
+    """graft a random node of b (with its parameters) into a, wired to a's sources. `record` as in `mutate`."""
     for _ in range(tries):
         child = json.loads(json.dumps(a))
         cand = [i for i, (k, _) in b["nodes"].items() if k not in ("INPUT", "TARGET", "OUTPUT")]
@@ -215,8 +223,11 @@ def crossover(rng, a, b, tries=12):
             d, pt = rng.choice(dsts)
             child["edges"] = [e for e in child["edges"] if not (e[1] == d and e[2] == pt)] + [(nid, d, pt)]
         try:
-            morph.typecheck(child); _check_servable(child); return child, tries
+            morph.typecheck(child); _check_servable(child)
+            if record is not None: record.append(("op_graft_recombine", True))
+            return child, tries
         except (morph.MorphError, ValueError, KeyError, IndexError):
+            if record is not None: record.append(("op_graft_recombine", False))
             continue
     return json.loads(json.dumps(a)), tries
 

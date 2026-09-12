@@ -130,12 +130,13 @@ def mechanism_vector(g):
 
 
 # --------------------------------------------------------------------------------------------------------- canonical form
-def canonical(g):
-    """isomorphism-invariant serialization of the typed port graph (ids, order and meta are nuisance)."""
+def _wl_classes(g):
+    """Weisfeiler-Lehman colour refinement of the typed port graph; returns the colour classes in canonical colour order.
+    Factored out of canonical()/canonical_labels() (identical code, identical result) so that the size of the exact
+    tie-breaking search can be measured before it is run (see canonical_search_width)."""
     nodes = g["nodes"]; ids = sorted(nodes)
     ins = {i: {} for i in ids}; outs = {i: [] for i in ids}
     for a, b, pt in g["edges"]: ins[b][pt] = a; outs[a].append((b, pt))
-    # WL colour refinement
     colour = {i: json.dumps([nodes[i][0], sorted(nodes[i][1].items())]) for i in ids}
     for _ in range(len(ids) + 1):
         sig = {i: json.dumps([colour[i], sorted((pt, colour[a]) for pt, a in ins[i].items()), sorted((pt, colour[b]) for b, pt in outs[i])]) for i in ids}
@@ -145,7 +146,24 @@ def canonical(g):
         colour = new
     classes = {}
     for i in ids: classes.setdefault(colour[i], []).append(i)
-    ordered_classes = [classes[c] for c in sorted(classes, key=lambda c: int(c))]
+    return [classes[c] for c in sorted(classes, key=lambda c: int(c))]
+
+
+def canonical_search_width(g):
+    """the number of labellings canonical() must serialize: the product of the factorials of the WL class sizes. The
+    exact tie-break is a brute force, so a genotype with many interchangeable nodes is expensive to canonicalize; a
+    search that generates genotypes may use this to refuse a proposal before paying for it (R7/R11 do)."""
+    w = 1
+    for cl in _wl_classes(g):
+        for k in range(2, len(cl) + 1): w *= k
+        if w > 10 ** 12: return w
+    return w
+
+
+def canonical(g):
+    """isomorphism-invariant serialization of the typed port graph (ids, order and meta are nuisance)."""
+    nodes = g["nodes"]; ids = sorted(nodes)
+    ordered_classes = _wl_classes(g)
     def serialize(perm_map):
         lab = perm_map
         nl = sorted((lab[i], nodes[i][0], sorted(nodes[i][1].items())) for i in ids)
