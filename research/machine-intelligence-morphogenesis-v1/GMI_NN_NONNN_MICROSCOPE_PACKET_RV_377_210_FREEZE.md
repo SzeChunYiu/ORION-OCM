@@ -252,3 +252,8 @@ running a blind test, and X1–X3 are predictions about an instrument I do not c
 block schedule I did not design. Their claim boundary — no coverage of all optimized neural
 implementations, development cost excluded, envelopes not population bounds — carries over unchanged to
 anything this packet says about their result.
+
+> **Scope correction (2026-09-13).** What this packet's verdicts claim, and why the
+> `E3_REPORTED_NOT_BOUND` qualification is load-bearing rather than cosmetic, is set out in
+> `GMI_REACHABILITY_SCOPE_OF_FAMILY_VERDICTS_V1.md` against the other lane's `DU-3b`. No verdict
+> in this packet changes.
