@@ -1,0 +1,21 @@
+{
+  "schema": "GMIK5BHExecutionFreezeV8",
+  "status": "FROZEN_BEFORE_K5_V8_BEACON_AND_PROTECTED_EXECUTION",
+  "purpose": "Protected execution of the K5 B-H revival successor for RV-377-170 (C_FEATURE_LEARNING) and RV-377-171 (E_CONTROL). The protected V7 verdicts (K5_BH_V7_CONTAINS_RED; C THEORY_RED at nonlinear_signal 0.6, E INCONCLUSIVE at goal_reuse 1/2/8) remain authoritative and are not reopened by this run.",
+  "design_contracts": ["GMI_K5_BH_PHASE_FREEZE_V1.json", "GMI_K5_BH_SCORING_FREEZE_V1.json", "GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json", "GMI_K5_BH_EXECUTION_FREEZE_V7.json", "GMI_K5_V7_REVIVAL_RV_377_170_FREEZE.md"],
+  "revival_plan": {"path": "GMI_K5_BH_REVIVAL_PLAN_V8.json", "commit": "3306bf54", "sha256": "561e2da451b73bc33537b2c3f5a7df43e9c0c589a77684f4fe3ab403e536f1eb"},
+  "plan_sha256": "561e2da451b73bc33537b2c3f5a7df43e9c0c589a77684f4fe3ab403e536f1eb",
+  "experiment_core": {"path": "gmi_k5_bh_experiments.py", "commit": "efbaddb9a9edd527051d9a2ef178f519deb7e3f0", "status": "UNCHANGED_SINCE_V7"},
+  "beacon_verifier": {"path": "hpc/gmi_beacon_verify.py", "commit": "fd7ea7cb", "note": "symlink-safe toplevel resolution (PR #455 deviation 1)"},
+  "execution": {"task": {"path": "hpc/gmi_k5_bh_task_v8.py", "commit": "3306bf54"}, "aggregate": {"path": "hpc/gmi_k5_bh_aggregate_v8.py", "commit": "3306bf54"}, "array": {"path": "hpc/gmi_k5_bh_array_v8.sbatch", "commit": "SAME_COMMIT_AS_THIS_FREEZE"}, "submit": {"path": "hpc/gmi_k5_bh_submit_v8.py", "commit": "SAME_COMMIT_AS_THIS_FREEZE"}},
+  "development_tier_precedent": {"aggregate": "microscopes/results/k5_bh_v8_dev/K5_BH_REVIVAL_AGGREGATE_V8_DEVELOPMENT.json", "terminal": "K5_BH_V8_DEVELOPMENT_GREEN", "host": "billy-old", "status": "DEVELOPMENT_ONLY_NOT_PROTECTED", "note": "Both lanes GREEN and all six probe predictions held at development tier; this freeze commits the identical plan to a public-beacon-seeded protected run. No prediction was changed after the development outcome."},
+  "final_task_plan_source": "GMI_K5_BH_REVIVAL_PLAN_V8.json lanes[*].cells and lanes[*].probe; 2 lanes x (4 cells + 1 probe) x 8 replicates",
+  "replicates_per_value": 8,
+  "expected_tasks": 80,
+  "scoring": {"parent": "GMI_K5_BH_SCORING_FREEZE_V1.json", "admissibility": "GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json", "predictions": "GMI_K5_BH_REVIVAL_PLAN_V8.json (per-cell), never the core's predicted_winner", "numerical_thresholds_unchanged": true},
+  "sizing_basis": {"development_max_task_wall_seconds": 0.791, "development_peak_rss_kb": 22064, "v7_probe": "LUNARC_K5_BH_ENV_PROBE_V7.json", "rendered": {"walltime": "00:10:00", "mem_per_cpu": "512M", "array": "0-79%80"}},
+  "public_beacon_rule": {"network": "League of Entropy drand quicknet mainnet", "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971", "genesis_time": 1692803367, "period_seconds": 3, "delay_seconds": 900, "selection": "Use exactly the first quicknet round at or after this execution-freeze commit timestamp + 900 seconds.", "no_reroll": true, "receipt": "GMI_K5_BH_PUBLIC_BEACON_V8.json", "acquisition_host": "billy-laptop only; no LUNARC node contacts the network", "verification": "Task, aggregate and submitter independently retrieve this exact freeze blob from the beacon-declared commit and recompute the unique round."},
+  "task_seed_rule": "int(SHA256('GMI-K5-BH-V8'||task_hash||verified_unique_drand_randomness)[:16],16) mod 2^32; task_hash = SHA256(canonical JSON of {lane,parameter,value,replicate,kind,plan:SHA256(plan file)})",
+  "receipt_rule": "Every task writes a receipt under microscopes/results/k5_bh_v8/; stale/mixed/missing/duplicate/wrong-seed/wrong-round/inadmissible-output failures invalidate the aggregate.",
+  "claim_ceiling": "Synthetic held-regime revival evidence for two K5 lanes under the frozen V7 development budget and world; does not exhibit a trainable-feature-wins regime, does not test the MODEL side of the control law, and does not close real transfer, large-model scaling, independent authorship or physical frontiers."
+}

@@ -1,0 +1,65 @@
+{
+ "claim_ceiling": "exact, deterministic, no randomness; covers the obligations this module declares or scores at the coefficients / streams / grids its own run() uses; it does not run the module's rows and takes no verdict on any capability number",
+ "classification": "identical to RV-377-112 (_classify): DEGENERATE if one distinct answer; NEAR_DEGENERATE if the best constant agrees on >= 85 %; SKEWED_BINARY if binary with the minority class <= max(1, n/10); else NON_DEGENERATE. Verdicts are taken on the module's OWN obligations over their REGISTERED evaluation sets; rows marked inherited or informational are reported but do not decide.",
+ "content_sha256": "55f00334c112179bf96251737672ffe9251dfd5dcbeced76fe9df20035422527",
+ "counts_by_status": {
+  "NON_DEGENERATE": 1
+ },
+ "degenerate": [],
+ "freeze_record": "GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md",
+ "gap": "DG-12",
+ "host": "old",
+ "inputs_sha256": {
+  "b2_prenorm.py": "ffad1107215c468b5c6f378e520f4f17512a3180fe2a3158811a3554d1f4abc0",
+  "core.py": "efa1608bb79723855dd1685ec227082a324a1ee8952c3dc4ee5504d0da3ca248",
+  "degeneracy_audit.py": "28026954759d7e6cd3f4a639b59d73266642b31c305fed86b1e65f73e6dc2acd"
+ },
+ "issue": [
+  377
+ ],
+ "lane": "RV118-D",
+ "module": "b2_prenorm",
+ "module_verdict": "ALL_REGISTERED_OBLIGATIONS_NON_DEGENERATE",
+ "n_own_registered": 1,
+ "n_registered": 1,
+ "n_scored": 1,
+ "near_degenerate": [],
+ "not_applicable": [],
+ "notes": {
+  "n_classes": 4,
+  "obligation": "which of N_CLASSES equal bands of the fixed-point range the INPUT lay in",
+  "theta": 0.75
+ },
+ "obligations": {
+  "b2_prenorm.obligation|GRID": {
+   "best_constant_agreement": 0.25,
+   "counts": {
+    "0": 64,
+    "1": 64,
+    "2": 64,
+    "3": 64
+   },
+   "evaluation_set": "b2_prenorm.GRID: every representable 8-bit fixed-point input (256 states)",
+   "n_distinct_answers": 4,
+   "n_queries": 256,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.75
+   },
+   "status": "NON_DEGENERATE"
+  }
+ },
+ "question": "does the obligation itself take more than one value over its own declared evaluation set?",
+ "receipt_path": "microscopes/results/STAGE_DG12_COMPLETION_b2_prenorm_old.json",
+ "receipt_sha256": "a8f551d86d222d91899c84a8818f181cb3cdec2395f8e6ba21ecf393c16d0a6a",
+ "revival_record": "RV-377-118",
+ "rule40_constant_clears_theta": [],
+ "schema": "RV377_118D_DG12_ModuleAuditV1",
+ "seconds": 0.01,
+ "skewed_binary": [],
+ "status": "EXECUTED_EXACT_AT_SCOPE"
+}

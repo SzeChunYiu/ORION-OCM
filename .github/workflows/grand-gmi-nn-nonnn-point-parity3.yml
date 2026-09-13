@@ -1,0 +1,44 @@
+name: Grand GMI NN/non-NN parity3 point experiment
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_*'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v1.py'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_*'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v1.py'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  parity3-point-experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen candidate capability and preregistration
+        run: python research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v1.py --self-test
+      - name: Execute protected resource measurement once under frozen V1 rules
+        run: >-
+          python research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v1.py
+          --out "$RUNNER_TEMP/grand-gmi-parity3-point-v1.json"
+      - name: Upload complete atomic evidence packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: grand-gmi-parity3-point-v1
+          path: ${{ runner.temp }}/grand-gmi-parity3-point-v1.json
+          if-no-files-found: error
+      - name: Ensure experiment did not mutate tracked source
+        run: git diff --exit-code

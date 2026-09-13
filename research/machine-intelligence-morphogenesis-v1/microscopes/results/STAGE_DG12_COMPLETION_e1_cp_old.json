@@ -1,0 +1,1295 @@
+{
+ "claim_ceiling": "exact, deterministic, no randomness; covers the obligations this module declares or scores at the coefficients / streams / grids its own run() uses; it does not run the module's rows and takes no verdict on any capability number",
+ "classification": "identical to RV-377-112 (_classify): DEGENERATE if one distinct answer; NEAR_DEGENERATE if the best constant agrees on >= 85 %; SKEWED_BINARY if binary with the minority class <= max(1, n/10); else NON_DEGENERATE. Verdicts are taken on the module's OWN obligations over their REGISTERED evaluation sets; rows marked inherited or informational are reported but do not decide.",
+ "content_sha256": "a6c30f864de782ab5d9bf58d5c98e7e0045e1bdfe2c66761d71e5490ca43f62d",
+ "counts_by_status": {
+  "DEGENERATE__OBLIGATION_IS_A_CONSTANT": 3,
+  "NEAR_DEGENERATE__CONSTANT_AGREES_ON_>=85%": 3,
+  "NON_DEGENERATE": 24
+ },
+ "degenerate": [],
+ "freeze_record": "GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md",
+ "gap": "DG-12",
+ "host": "old",
+ "inputs_sha256": {
+  "constant_control.py": "c33b4bd09d3d39a60e21268565637fbc774bcf9a60c5c2a8b574cbbaf5536927",
+  "degeneracy_audit.py": "28026954759d7e6cd3f4a639b59d73266642b31c305fed86b1e65f73e6dc2acd",
+  "e1_cp.py": "9f60d2afae4109653772c5b11a4c71d2cd73bf353065f8a69ec07a1172943e14",
+  "e1_vlc.py": "3cdd3912c13b56dbcc219239e82ac88dda3c2ee8b9b7083b6689c00b7830966b"
+ },
+ "issue": [
+  377
+ ],
+ "lane": "RV118-D",
+ "module": "e1_cp",
+ "module_verdict": "NEAR_DEGENERATE_OBLIGATION_FOUND",
+ "n_own_registered": 10,
+ "n_registered": 10,
+ "n_scored": 30,
+ "near_degenerate": [
+  "E_factored3|N2_DENSE_ACTIVITY|regime_B|final_coefficients|unseen",
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_B|final_coefficients|unseen",
+  "E_factored3|PPLUS|regime_B|final_coefficients|unseen"
+ ],
+ "not_applicable": [],
+ "notes": {
+  "cells": {
+   "N1_ONE_REGIME": {
+    "H": 64,
+    "U": 8,
+    "active_per_window": 1,
+    "regimes": [
+     "A"
+    ],
+    "shared": true
+   },
+   "N2_DENSE_ACTIVITY": {
+    "H": 64,
+    "U": 8,
+    "active_per_window": 3,
+    "regimes": [
+     "A",
+     "B",
+     "C"
+    ],
+    "shared": true
+   },
+   "N3_NO_SHARED_SEMANTICS": {
+    "H": 64,
+    "U": 8,
+    "active_per_window": 1,
+    "regimes": [
+     "A",
+     "B",
+     "C"
+    ],
+    "shared": false
+   },
+   "PPLUS": {
+    "H": 64,
+    "U": 8,
+    "active_per_window": 1,
+    "regimes": [
+     "A",
+     "B",
+     "C"
+    ],
+    "shared": true
+   }
+  },
+  "obligation": "e1_cp.truth_regime over e1_vlc.EVAL_QUERIES at the coefficients run() scores against (after the cell's U revision windows; N3 serves B/C from independent coefficients)",
+  "tau_fx": 12,
+  "theta": 0.85
+ },
+ "obligations": {
+  "E_factored3|N1_ONE_REGIME|regime_A|development_coefficients|unseen": {
+   "best_constant_agreement": 0.4167,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "16": 6,
+    "24": 4,
+    "32": 3,
+    "40": 10,
+    "56": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 5,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.4167,
+    "best_constant_fx": 39,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N1_ONE_REGIME|regime_A|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "16": 192,
+    "20": 384,
+    "24": 192,
+    "32": 96,
+    "36": 192,
+    "4": 192,
+    "40": 96,
+    "8": 96
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 9,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N1_ONE_REGIME|regime_A|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "24": 12,
+    "40": 9,
+    "8": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 23,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_A|development_coefficients|unseen": {
+   "best_constant_agreement": 0.4167,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "16": 6,
+    "24": 4,
+    "32": 3,
+    "40": 10,
+    "56": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 5,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.4167,
+    "best_constant_fx": 39,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_A|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "16": 192,
+    "20": 384,
+    "24": 192,
+    "32": 96,
+    "36": 192,
+    "4": 192,
+    "40": 96,
+    "8": 96
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 9,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_A|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "24": 12,
+    "40": 9,
+    "8": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 23,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_B|development_coefficients|unseen": {
+   "best_constant_agreement": 1.0,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "1": 24
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 1,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 1,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_B|final_coefficients|all": {
+   "best_constant_agreement": 0.75,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 384,
+    "1": 1152
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_B|final_coefficients|unseen": {
+   "best_constant_agreement": 0.875,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 3,
+    "1": 21
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.875,
+    "best_constant_fx": 1,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NEAR_DEGENERATE__CONSTANT_AGREES_ON_>=85%"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_C|development_coefficients|unseen": {
+   "best_constant_agreement": 0.5417,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 11,
+    "1": 13
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5417,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_C|final_coefficients|all": {
+   "best_constant_agreement": 0.625,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 960,
+    "1": 576
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.625,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N2_DENSE_ACTIVITY|regime_C|final_coefficients|unseen": {
+   "best_constant_agreement": 0.75,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 18,
+    "1": 6
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_A|development_coefficients|unseen": {
+   "best_constant_agreement": 0.4167,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "16": 6,
+    "24": 4,
+    "32": 3,
+    "40": 10,
+    "56": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 5,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.4167,
+    "best_constant_fx": 39,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_A|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "16": 192,
+    "20": 384,
+    "24": 192,
+    "32": 96,
+    "36": 192,
+    "4": 192,
+    "40": 96,
+    "8": 96
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 9,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_A|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "24": 12,
+    "40": 9,
+    "8": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 23,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_B|development_coefficients|unseen": {
+   "best_constant_agreement": 1.0,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "1": 24
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 1,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 1,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_B|final_coefficients|all": {
+   "best_constant_agreement": 0.6771,
+   "coefficients": [
+    [
+     16,
+     12
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     8,
+     4
+    ],
+    [
+     12,
+     8
+    ]
+   ],
+   "counts": {
+    "0": 496,
+    "1": 1040
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.6771,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_B|final_coefficients|unseen": {
+   "best_constant_agreement": 0.9583,
+   "coefficients": [
+    [
+     16,
+     12
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     8,
+     4
+    ],
+    [
+     12,
+     8
+    ]
+   ],
+   "counts": {
+    "0": 1,
+    "1": 23
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.9583,
+    "best_constant_fx": 1,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NEAR_DEGENERATE__CONSTANT_AGREES_ON_>=85%"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_C|development_coefficients|unseen": {
+   "best_constant_agreement": 0.5417,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 11,
+    "1": 13
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5417,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_C|final_coefficients|all": {
+   "best_constant_agreement": 0.6354,
+   "coefficients": [
+    [
+     16,
+     12
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     8,
+     4
+    ],
+    [
+     12,
+     8
+    ]
+   ],
+   "counts": {
+    "0": 976,
+    "1": 560
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.6354,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_C|final_coefficients|unseen": {
+   "best_constant_agreement": 0.625,
+   "coefficients": [
+    [
+     16,
+     12
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     8,
+     4
+    ],
+    [
+     12,
+     8
+    ]
+   ],
+   "counts": {
+    "0": 15,
+    "1": 9
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.625,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|PPLUS|regime_A|development_coefficients|unseen": {
+   "best_constant_agreement": 0.4167,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "16": 6,
+    "24": 4,
+    "32": 3,
+    "40": 10,
+    "56": 1
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 5,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.4167,
+    "best_constant_fx": 39,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|PPLUS|regime_A|final_coefficients|all": {
+   "best_constant_agreement": 0.25,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 96,
+    "16": 192,
+    "20": 384,
+    "24": 192,
+    "32": 96,
+    "36": 192,
+    "4": 192,
+    "40": 96,
+    "8": 96
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 9,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 19,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|PPLUS|regime_A|final_coefficients|unseen": {
+   "best_constant_agreement": 0.5,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "24": 12,
+    "40": 9,
+    "8": 3
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 1,
+   "n_distinct_answers": 3,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 23,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 1 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|PPLUS|regime_B|development_coefficients|unseen": {
+   "best_constant_agreement": 1.0,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "1": 24
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 1,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 1,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_factored3|PPLUS|regime_B|final_coefficients|all": {
+   "best_constant_agreement": 0.75,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 384,
+    "1": 1152
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|PPLUS|regime_B|final_coefficients|unseen": {
+   "best_constant_agreement": 0.875,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 3,
+    "1": 21
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.875,
+    "best_constant_fx": 1,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NEAR_DEGENERATE__CONSTANT_AGREES_ON_>=85%"
+  },
+  "E_factored3|PPLUS|regime_C|development_coefficients|unseen": {
+   "best_constant_agreement": 0.5417,
+   "coefficients": [
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 11,
+    "1": 13
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES at the opening coefficients (queried in window 0, not scored)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5417,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|PPLUS|regime_C|final_coefficients|all": {
+   "best_constant_agreement": 0.625,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 960,
+    "1": 576
+   },
+   "evaluation_set": "the complete query space, 6 scopes x 256 inputs (informational)",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 1536,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.625,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|PPLUS|regime_C|final_coefficients|unseen": {
+   "best_constant_agreement": 0.75,
+   "coefficients": [
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "counts": {
+    "0": 18,
+    "1": 6
+   },
+   "evaluation_set": "e1_vlc.EVAL_QUERIES (24 unseen-pattern queries): the set run() scores capability on after the last revision",
+   "metric_tolerance_fx": 0,
+   "n_distinct_answers": 2,
+   "n_queries": 24,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_factored3|regime_A|coefficient_space": {
+   "fraction_degenerate": 0.0,
+   "n_assignments": 65536,
+   "n_degenerate": 0
+  },
+  "E_factored3|regime_B|coefficient_space": {
+   "fraction_degenerate": 0.5771,
+   "n_assignments": 65536,
+   "n_degenerate": 37824
+  },
+  "E_factored3|regime_C|coefficient_space": {
+   "fraction_degenerate": 0.0011,
+   "n_assignments": 65536,
+   "n_degenerate": 73
+  }
+ },
+ "question": "does the obligation itself take more than one value over its own declared evaluation set?",
+ "receipt_path": "microscopes/results/STAGE_DG12_COMPLETION_e1_cp_old.json",
+ "receipt_sha256": "0a322914cc6d5c0ee363c4f3589cf5c813af01a7a8ac184a060e8e1794ca7b5d",
+ "revival_record": "RV-377-118",
+ "rule40_constant_clears_theta": [
+  "E_factored3|N2_DENSE_ACTIVITY|regime_B|final_coefficients|unseen",
+  "E_factored3|N3_NO_SHARED_SEMANTICS|regime_B|final_coefficients|unseen",
+  "E_factored3|PPLUS|regime_B|final_coefficients|unseen"
+ ],
+ "schema": "RV377_118D_DG12_ModuleAuditV1",
+ "seconds": 50.69,
+ "skewed_binary": [],
+ "status": "EXECUTED_EXACT_AT_SCOPE"
+}

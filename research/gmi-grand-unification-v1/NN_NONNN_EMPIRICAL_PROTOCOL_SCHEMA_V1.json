@@ -1,0 +1,76 @@
+{
+  "schema": "NN_NONNN_EMPIRICAL_PROTOCOL_SCHEMA_V1",
+  "status": "PROTOCOL_SCHEMA_NOT_AN_EXECUTED_EXPERIMENT",
+  "required_sections": [
+    "problem_registration",
+    "family_definitions",
+    "candidate_universe",
+    "development_reachability",
+    "resource_accounting",
+    "deployment_generalization",
+    "replication_uncertainty",
+    "hard_feasibility_gates",
+    "selection_rule",
+    "prospective_predictions",
+    "provenance_receipts"
+  ],
+  "optional_but_required_before_scope_expansion": [
+    "candidate_expansion_attack"
+  ],
+  "allowed_selection_modes": [
+    "PARETO",
+    "SCALAR_PREREGISTERED"
+  ],
+  "allowed_canonical_terminals": [
+    "INFEASIBLE_AT_REGISTERED_SCOPE",
+    "DERIVED_NEURAL_AT_REGISTERED_SCOPE",
+    "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
+    "DERIVED_HYBRID_AT_REGISTERED_SCOPE",
+    "FAMILY_COEXISTENCE_AT_REGISTERED_SCOPE",
+    "UNDECIDED_FROM_CURRENT_EVIDENCE",
+    "INVALID_RECEIPT_OR_PROTOCOL_VIOLATION"
+  ],
+  "derived_family_terminal_requires": [
+    "problem_frozen",
+    "candidate_universe_frozen",
+    "development_budget_frozen",
+    "resource_boundary_frozen",
+    "deployment_split_frozen",
+    "uncertainty_rule_frozen",
+    "selection_rule_frozen",
+    "all_selected_candidates_pass_hard_gates",
+    "deployment_evidence_present",
+    "receipt_consistent"
+  ],
+  "candidate_record_required_fields": [
+    "candidate_id",
+    "family",
+    "implementation_version",
+    "substrate",
+    "development_procedure",
+    "development_budget",
+    "precision_regime",
+    "tools_external_memory_policy"
+  ],
+  "measurement_record_required_fields": [
+    "candidate_id",
+    "seed_or_run_id",
+    "capability",
+    "hard_gate_status",
+    "development_reached",
+    "deployment_evidence_status",
+    "resource_lower_bounds",
+    "resource_upper_bounds",
+    "provenance"
+  ],
+  "forbidden_shortcuts": [
+    "point_estimate_used_as_robust_bound_without_registered_justification",
+    "answer_derived_deployment_feature_without_oracle_label",
+    "post_outcome_tie_breaker",
+    "failed_candidate_silently_dropped",
+    "hidden_family_specific_tolerance",
+    "unregistered_candidate_universe_scope_expansion",
+    "training_fit_used_as_deployment_evidence_without_transport_theorem"
+  ],
+  "scope_boundary": "This schema makes external evidence acquisition auditable. It does not supply real measurements or candidate-universe completeness."
+}

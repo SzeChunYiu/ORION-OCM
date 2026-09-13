@@ -160,3 +160,24 @@ without an external author and at what exact residual cost. It does not license 
 `KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE` or
 `NO_KNOWN_UNTYPED_OR_UNTESTED_BLOCKING_GAP_AT_REGISTERED_SCOPE`; both remain `FALSE`, and IG-4/IG-5 are among the
 reasons the second cannot be flipped.
+
+## Addendum (2026-09-12, RV-377-160) — IG-4 and IG-5 closed by model proxy
+
+Append-only. Register §4 is superseded on two rows:
+
+```text
+IG-4 METER     CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY__DECLARED_AXES_EXCLUDED_P1B_HELD
+               fresh-context model proxy (served claude-fable-5-1) bucketed 2334 K4 V7 traces from a
+               spec-only brief: 10/10 axes >= 80 % (9 at 100 %, update_locality 99.19 %), 0/264 verdicts
+               moved, 0 flipped to GREEN. Receipt IG4_INDEPENDENT_METER_AGREEMENT_old.json.
+IG-5 ENCODING  CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY
+               fresh-context model proxy selected a 32-kind, 9-type neutral alphabet from a spec-only brief;
+               all nine reference parents compile with overhead 0.91-1.67x; all five carrier classes covered.
+               Receipt IG5_INDEPENDENT_ALPHABET_COVERAGE_old.json.
+```
+
+Residue that remains after this closure (`GMI_IG4_IG5_MODEL_PROXY_RV_377_160_FREEZE.md` §6): same model family
+(context, not model, independence); traces synthesized from the same-author lifecycle constitution (bucketing step
+closed, measurement step not); cost-channel allocation same-author; description-level coverage only. §3 Theorem IG-6
+component (b) is therefore closed at proxy tier and its external-author form remains available as a strictly stronger
+future closure. The two global terminals named in §4 stay FALSE for the other reasons listed there.

@@ -4,7 +4,7 @@ import argparse,collections,glob,hashlib,json,os
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)));PHASE=os.path.join(ROOT,"GMI_K5_BH_PHASE_FREEZE_V1.json");SCORE=os.path.join(ROOT,"GMI_K5_BH_SCORING_FREEZE_V1.json");C2=os.path.join(ROOT,"GMI_K5_BH_DESIGN_CORRIGENDUM_V2.json");C3=os.path.join(ROOT,"GMI_K5_BH_CONTINUAL_CORRIGENDUM_V3.json");ADM=os.path.join(ROOT,"GMI_K5_BH_ADMISSIBILITY_SCORING_ADDENDUM_V2.json");EXEC=os.path.join(ROOT,"GMI_K5_BH_EXECUTION_FREEZE_V7.json");BEACON=os.path.join(ROOT,"GMI_K5_BH_PUBLIC_BEACON_V7.json");RES=os.path.join(ROOT,"microscopes","results","k5_bh_v7")
 def jh(p):raw=open(p).read();return json.loads(raw),hashlib.sha256(raw.encode()).hexdigest()
 def vk(v):return json.dumps(v,sort_keys=True,separators=(",",":"))
-def plan(ex):return [{"lane":l,"parameter":s["parameter"],"value":v,"replicate":r} for l in sorted(ex["final_task_plan"]) for v in ex["final_task_plan"][l]["values"] for r in range(int(ex["replicates_per_value"]))]
+def plan(ex):return [{"lane":l,"parameter":s["parameter"],"value":v,"replicate":r} for l,s in sorted(ex["final_task_plan"].items()) for v in s["values"] for r in range(int(ex["replicates_per_value"]))]
 def main():
  ap=argparse.ArgumentParser();ap.add_argument("--pattern",default=os.path.join(RES,"K5BHV7_*.json"));ap.add_argument("--out-json",default=os.path.join(RES,"K5_BH_AGGREGATE_V7.json"));a=ap.parse_args();phase,ph=jh(PHASE);score,sc=jh(SCORE);c2,c2h=jh(C2);c3,c3h=jh(C3);adm,ah=jh(ADM);ex,eh=jh(EXEC);b,bh=jh(BEACON)
  from hpc.gmi_beacon_verify import verify_beacon
