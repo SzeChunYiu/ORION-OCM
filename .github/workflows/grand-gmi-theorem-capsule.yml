@@ -5,6 +5,7 @@ on:
     paths:
       - 'research/gmi-grand-unification-v1/**'
       - 'research/gmi-structural-threshold-repair-v1/**'
+      - 'research/gmi-finite-quantum-cover-v1/**'
       - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
       - '.github/workflows/grand-gmi-theorem-capsule.yml'
       - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
@@ -16,6 +17,7 @@ on:
     paths:
       - 'research/gmi-grand-unification-v1/**'
       - 'research/gmi-structural-threshold-repair-v1/**'
+      - 'research/gmi-finite-quantum-cover-v1/**'
       - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
       - '.github/workflows/grand-gmi-theorem-capsule.yml'
       - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
@@ -48,6 +50,10 @@ jobs:
         run: |
           python -I -B -m unittest discover -s research/gmi-structural-threshold-repair-v1 -p 'test_structural_threshold*_v1.py' -v
           python -I -O -B -m unittest discover -s research/gmi-structural-threshold-repair-v1 -p 'test_structural_threshold*_v1.py' -v
+      - name: Frozen finite quantum unit regressions
+        run: |
+          python -I -B research/gmi-finite-quantum-cover-v1/test_finite_quantum_v1.py
+          python -I -O -B research/gmi-finite-quantum-cover-v1/test_finite_quantum_v1.py
       - name: Replay every registered finite checker against complete frozen output
         run: >-
           python -I -B research/gmi-grand-unification-v1/replay_theorem_capsule_v1.py

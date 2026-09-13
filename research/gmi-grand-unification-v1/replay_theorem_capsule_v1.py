@@ -21,6 +21,9 @@ INVENTORY = "THEOREM_REPLAY_INVENTORY_V1.json"
 SCHEMA = "grand-gmi-theorem-replay-inventory-v1"
 CLAIM_CEILING = "registered finite executable checks only; no universal theorem or empirical closure"
 EXTERNAL_UNIT_DEPENDENCIES = {
+    "grand_gmi_finite_quantum_cover_checks_v1.py": (
+        "research/gmi-finite-quantum-cover-v1",
+    ),
     "grand_gmi_structural_neural_bound_checks_v1.py": (
         "research/gmi-structural-threshold-repair-v1",
     ),
