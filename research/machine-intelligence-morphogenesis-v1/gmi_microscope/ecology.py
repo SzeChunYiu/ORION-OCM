@@ -21,7 +21,12 @@ from .core import Machine, clamp, sha256_of
 from .vm import VM, lifecycle_vector
 
 INTERVENTIONS = {"standard": {}, "no_revoke": {"revoke": False}, "double_revoke": {"revoke": "double"}, "half_events": {"n_events": 8},
-                 "shuffled_events": {"order": [5, 0, 7, 2, 6, 1, 4, 3]}, "extra_unseen_feedback": {"extra": True}}
+                 "shuffled_events": {"order": [5, 0, 7, 2, 6, 1, 4, 3]}, "extra_unseen_feedback": {"extra": True},
+                 # RV-377-150 (DG-13, additive): V1 trains on UNSEEN[:4] and then scores all 8 UNSEEN inputs.
+                 # V2 keeps the extra feedback and scores only the four never-revealed inputs. V1 stays immutable.
+                 "extra_unseen_feedback_v2": {"extra": True, "score": "unrevealed", "deprecates": "extra_unseen_feedback"}}
+INTERVENTION_FAMILY_V1 = ("standard", "no_revoke", "double_revoke", "half_events", "shuffled_events", "extra_unseen_feedback")
+INTERVENTION_FAMILY_V2 = ("standard", "no_revoke", "double_revoke", "half_events", "shuffled_events", "extra_unseen_feedback_v2")
 
 
 def spec_smooth(coeffs, name=None, n_events=16, criterion="unseen"):
@@ -43,6 +48,18 @@ WITNESS_COEFFS_V1 = (-0.5, -0.5, -0.5, -0.25)
 
 REGISTRY = {"E_wit1": spec_smooth(WITNESS_COEFFS_V1, "E_wit1"), "E_smooth3": spec_smooth(smooth.COEFFS_V3, "E_smooth3"), "E_sym3": spec_smooth((3 / 16,) * 4, "E_sym3"), "E_sym5": spec_smooth((5 / 16,) * 4, "E_sym5"),
             "E_parity": spec_table(smooth.make_parity_target(), "E_parity"), "E_smooth1": spec_smooth(smooth.COEFFS_V1, "E_smooth1")}
+
+# RV-377-150 / DG-13, additive. `spec_table(dict)` historically iterated the dict keys, so E_parity is the identity
+# table rather than parity. E_parity_v2 registers the values under a new name. The `all` criterion is required because
+# the historical TRAIN/UNSEEN split itself separates parity and would make parity constant on UNSEEN.
+REGISTRY["E_parity_v2"] = spec_table([smooth.make_parity_target()[x] for x in smooth.ALL_X], "E_parity_v2", criterion="all")
+REGISTRY["E_parity"]["deprecated_reason"] = "target is the identity 0..15 (dict keys), see RV-377-114 / DG-13; use E_parity_v2"
+
+# RV-377-140 fresh class-rate ecologies, selected before the class-rate scoring run.
+CLASS_RATE_COEFFS_V1 = {"E_cr1": (-0.5, -0.5, -0.5, -0.5), "E_cr2": (-0.5, -0.5, -0.5, -0.125),
+                        "E_cr3": (-0.5, -0.5, -0.5, 0.25), "E_cr4": (-0.5, -0.5, -0.5, 0.375)}
+for _n, _c in CLASS_RATE_COEFFS_V1.items():
+    REGISTRY.setdefault(_n, spec_smooth(_c, _n))
 
 
 def spec_id(spec):
@@ -83,6 +100,7 @@ def run_genotype(spec, genotype, basis, intervention="standard", seed=0):
         v = vm.query(xx); final.append(None if vm.abstained else v); nq += 1
     trace.append(final)
     eval_x = smooth.UNSEEN if spec["criterion"] == "unseen" else smooth.ALL_X
+    if J.get("score") == "unrevealed" and spec["criterion"] == "unseen": eval_x = smooth.UNSEEN[4:]
     err = sum(abs((final[xx] if final[xx] is not None else 0) - target[xx]) for xx in eval_x) / smooth.FX_ONE / len(eval_x)
     cap = round(max(0.0, 1 - err / 1.5), 4)
     return {"spec": spec["name"], "spec_id": spec_id(spec), "intervention": intervention, "basis": basis.name, "trace": trace, "capability": cap, "admissible": cap >= spec["theta"],
