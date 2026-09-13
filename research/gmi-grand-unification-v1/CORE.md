@@ -12,6 +12,7 @@ sector or successful finite replay does not establish universal completion.
 | Can experiment cost and retained memory be optimized independently? | The same theorem constructs frontier `(1,3),(2,2)`; combining the separate minima is infeasible. |
 | What if gathering information changes the world? | [Controlled acquisition](CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md): exact belief updates and terminating policy synthesis; a protective action revives an otherwise destructive experiment. |
 | How do correlation and random failures change acquisition? | [Probabilistic acquisition](PROBABILISTIC_CONTROLLED_ACQUISITION_THEOREM_V1.md): sufficient observed state, distinct sure/almost-sure/deadline laws, and charged reset/certification remedies. |
+| How should acquisition handle an unknown fixed model? | [Fixed-model acquisition](FIXED_UNKNOWN_MODEL_ACQUISITION_THEOREM_V1.md): exact common-policy vectors, charged private randomization and reset-preserved knowledge; arbitrary row switching defines a different uncertainty class. |
 | When does a selected architecture actually exist? | [Constructive selection](CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md): nonempty selection, finite constructive coverage and complete profile fibers; explicit approximate witnesses when infima are unattained. |
 | When are family phase laws sound? | [Phase corrections](FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md): interval direction, continuity and coverage of all admitted competitors. |
 | When is proof reuse worthwhile and feasible? | [Proof reuse](PROOF_SEARCH_VERIFICATION_REUSE_THEOREM_V1.md): verified context transport, full use costs and memory-constrained static admission. |
@@ -29,8 +30,11 @@ work, and supplies the reverse control. This concerns the declared width/query
 summaries. [Labelled-partition reconstruction](LABELLED_PARTITION_QUERY_RECONSTRUCTION_THEOREM_V1.md)
 proves a complementary sufficiency law: the full input-labelled output
 partition determines attainable query-cost profiles under fixed access,
-query costs and free output relabelling. General physical spectra and
-other interfaces require their own proof.
+query costs and free output relabelling. [Relational reconstruction](RELATIONAL_QUERY_RECONSTRUCTION_THEOREM_V1.md)
+extends this to adequate-output sets through common-output feasibility on
+labelled subcubes, an immediate corollary of TDA and LQR. Pairwise compatibility
+alone can fail; interval-valued obligations supply a sufficient regime. General
+physical spectra and other interfaces require their own proof.
 
 Parent results are cited and distinguished from the GMI applications in each
 module. Exact finite checks challenge those applications; the analytic proofs
@@ -38,6 +42,7 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
+- [Recovered B6 witness and mechanism](../gmi-witness-evidence-v1/CORE.md): source-bound S1 recovery; DENSE removal preserves the proved behavioral projection while resource costs change.
 - [Preserved B6 records](../machine-intelligence-morphogenesis-v1/B6_CORRECTED_EVIDENCE_ASSESSMENT_V1.md): unchanged incomplete D adjudication, corrected identity scope, ecology assignments and search-plus-verification costs.
 - [Corrected B6 adjudication](../machine-intelligence-morphogenesis-v1/B6_ADJUDICATION_CORRECTION_V1.md): frozen quantifiers, missing evidence and founder coverage; [cross-instrument inference](../machine-intelligence-morphogenesis-v1/CROSS_INSTRUMENT_INFERENCE_CORRECTION_V1.md) separates uncertainty, transport and chronology.
 - [Reachability evidence correction](../machine-intelligence-morphogenesis-v1/REACHABILITY_EVIDENCE_CORRECTION_V1.md): recovered samples, complete reachable sets and candidate-specific constructions are different evidence objects.

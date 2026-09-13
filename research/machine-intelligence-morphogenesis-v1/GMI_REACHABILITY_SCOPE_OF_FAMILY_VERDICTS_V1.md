@@ -51,7 +51,7 @@ also distinguishes uncertain frontier membership, actual coexistence and
 transport across instruments. Matching family labels does not discharge those
 assumptions. No frozen packet verdict is retroactively changed here.
 
-## The preserved recovery reports and missing witnesses
+## Preserved reports and the subsequently recovered S1 witness
 
 [The B6 assessment](B6_CORRECTED_EVIDENCE_ASSESSMENT_V1.md) preserves nine
 physical arm receipts, their relevant source records and a reproducible
@@ -66,15 +66,19 @@ allowance is not a complete lifetime-cost bound.
 
 The first-DENSE summaries omit their raw/atrophied genotypes and full verifier
 certificates, including the rule-40 margin. A scoped search of the preserved
-snapshot found no corresponding saved genotype. Thus these are verified
-records of reported events, not independently re-exhibited admissible objects.
+snapshot found no corresponding saved genotype. That historical snapshot alone
+certifies records of reported events. The separate [S1 recovery packet](../gmi-witness-recovery-v1/CORE.md)
+now retains the exact recorded raw fingerprint, both graphs and full verifier
+outputs. It reproduces all 2,157 compact trace rows through search evaluation
+3,827 and passes fresh-process six-control/probe checks. The other two reports
+remain without recovered objects in these packets; campaign coverage is unchanged.
 
-Recovering and independently checking the SAME/CONTINUED S1 object is a useful
-next experiment because its recorded search placement is 3,827. That count
-does not guarantee successful reproduction. A recovery must bind the actual
-source, seed population, runtime and capture changes, retain the object and
-full verifier output, and account for its work. It establishes a witness only
-after that verification succeeds; it cannot settle unrestricted family coverage.
+The [mechanism result](../gmi-witness-mechanism-v1/RESULT_V1.md) additionally
+shows that this DENSE-labelled graph's numeric dense cell is unnecessary for
+its served behavior under the proved native-event projection. Removing it
+changes the frozen label to KVSTORE and trades lower description/memory for
+more operations. This is a concrete warning against identifying carrier
+presence with a learning mechanism or a complete cost-bearing machine class.
 
 [Reachability evidence correction](REACHABILITY_EVIDENCE_CORRECTION_V1.md)
 records the inference distinctions and links the raw-record assessment.

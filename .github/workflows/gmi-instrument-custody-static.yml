@@ -1,0 +1,133 @@
+name: GMI instrument and custody static evidence
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-parity-custody-repair-v1/**'
+      - 'research/gmi-opcode-instrument-revival-v1/**'
+      - 'research/gmi-instrument-custody-integration-v1/**'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v4.py'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v5.py'
+      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_PREREG_V5.json'
+      - 'research/gmi-grand-unification-v1/parity3_cross_envelope_adjudicate_v5.py'
+      - 'research/gmi-grand-unification-v1/verify_parity3_hosted_v4.py'
+      - '.github/workflows/gmi-instrument-custody-static.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-parity-custody-repair-v1/**'
+      - 'research/gmi-opcode-instrument-revival-v1/**'
+      - 'research/gmi-instrument-custody-integration-v1/**'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v4.py'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v5.py'
+      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_PREREG_V5.json'
+      - 'research/gmi-grand-unification-v1/parity3_cross_envelope_adjudicate_v5.py'
+      - 'research/gmi-grand-unification-v1/verify_parity3_hosted_v4.py'
+      - '.github/workflows/gmi-instrument-custody-static.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Static hostile controls, with skips reported explicitly
+        run: |
+          python -B -m unittest discover -s research/gmi-parity-custody-repair-v1 -p 'test_*.py' -v
+          python -O -B -m unittest discover -s research/gmi-parity-custody-repair-v1 -p 'test_*.py' -v
+          python -I -B research/gmi-opcode-instrument-revival-v1/test_opcode_revival_v2.py -v
+          python -I -O -B research/gmi-opcode-instrument-revival-v1/test_opcode_revival_v2.py -v
+      - name: Verify manifests and replay available static evidence only
+        run: |
+          python -I -B - <<'PY'
+          import hashlib, json, os, subprocess, sys
+          from pathlib import Path
+          repo = Path.cwd()
+          parity = repo / "research/gmi-parity-custody-repair-v1"
+          opcode = repo / "research/gmi-opcode-instrument-revival-v1"
+          expected = {
+              parity: ("MANIFEST_V2.json", "04760b5470606f9b21db392f5df683e50671fe822446c341531da96cc717c76e"),
+              opcode: ("MANIFEST.json", "ec4ebf4051ce0192885020d5d0d149e0667b564eac2480de926ab2bca58ccc34"),
+          }
+          def sha(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+          def require(ok, message):
+              if not ok:
+                  raise ValueError(message)
+          for unit, (manifest_name, digest) in expected.items():
+              require(sha(unit / manifest_name) == digest, "integration manifest binding")
+              rows = json.loads((unit / manifest_name).read_text())["files"]
+              actual = {str(f.relative_to(unit)) for f in unit.rglob("*")
+                        if f.is_file() and f != unit / manifest_name}
+              require(actual == set(rows), "complete unit membership")
+              for name, row in rows.items():
+                  path = unit / name
+                  require(path.stat().st_size == row["bytes"] and sha(path) == row["sha256"],
+                          "unit content binding: " + name)
+          sys.path.insert(0, str(parity))
+          from countercontrols_v2 import run_controls
+          from cross_envelope_v6 import collect
+          from frozen_contract_v1 import canonical
+          from test_historical_v6 import INTERPRETERS
+          counter = run_controls()
+          require(canonical(counter) == canonical(json.loads(
+              (parity / "raw/SYNTHETIC_COUNTERCONTROLS_V2.json").read_text())),
+              "complete synthetic countercontrol receipt")
+          sources = json.loads((parity / "FROZEN_INPUTS_V1.json").read_text())["sources"]
+          for name, digest in sources.items():
+              path = (parity / "raw/HISTORICAL_CROSS_ADJUDICATOR_V5.py"
+                      if name == "parity3_cross_envelope_adjudicate_v5.py"
+                      else repo / "research/gmi-grand-unification-v1" / name)
+              require(sha(path) == digest,
+                      "frozen parent source: " + name)
+          available = [str(p) for p in INTERPRETERS.values() if p.is_file()]
+          historical = collect([], available, sorted(
+              (parity / "raw").glob("NN_NONNN_POINT_PARITY3_RESULT_V5_*.json")))
+          if all(p.is_file() for p in INTERPRETERS.values()):
+              require(canonical(historical) == canonical(json.loads(
+                  (parity / "raw/REAL_PACKET_AUDIT_V6.json").read_text())),
+                  "complete historical static replay")
+          freeze = json.loads((opcode / "OPCODE_REVIVAL_FREEZE_V1.json").read_text())
+          executable = Path(freeze["environment"]["executable"])
+          opcode_status = {"status": "UNVERIFIABLE", "exact_receipt_replayed": False,
+                           "reason": "recorded interpreter binary unavailable",
+                           "bound_recorded_receipt_sha256": sha(opcode / "OPCODE_REVIVAL_RECEIPT_V2.json")}
+          if executable.is_file() and sha(executable) == freeze["environment"]["binary_sha256"]:
+              proc = subprocess.run([str(executable), "-I", "-B", str(opcode / "opcode_audit_v2.py")],
+                                    capture_output=True, check=False)
+              require(proc.returncode == 0, proc.stderr.decode(errors="replace"))
+              require(proc.stdout == (opcode / "OPCODE_REVIVAL_RECEIPT_V2.json").read_bytes(),
+                      "exact portable opcode V2 receipt")
+              opcode_status.update(status="COMPLETE_STATIC_REPLAY_PASS", exact_receipt_replayed=True,
+                                   reason="recorded binary available; no candidate bodies executed")
+          result = {"schema": "GMI_INSTRUMENT_CUSTODY_STATIC_INTEGRATION_V1",
+                    "unit_manifests_verified": {p.name: value[1] for p, value in expected.items()},
+                    "synthetic_countercontrol_exact_replay": True,
+                    "parity_historical_static_audit": historical,
+                    "opcode_static_audit": opcode_status,
+                    "candidate_invocations": 0, "timing_measurements": 0,
+                    "scope": "Static source/evidence verification; unavailable interpreters are not passes"}
+          output = Path(os.environ["RUNNER_TEMP"]) / "gmi-instrument-custody-static.json"
+          output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+          print(json.dumps(result, indent=2, sort_keys=True))
+          PY
+      - name: Preserve static audit and availability record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gmi-instrument-custody-static
+          path: ${{ runner.temp }}/gmi-instrument-custody-static.json
+          if-no-files-found: error
+      - name: Confirm frozen tracked evidence was not changed
+        run: /usr/bin/git diff --exit-code

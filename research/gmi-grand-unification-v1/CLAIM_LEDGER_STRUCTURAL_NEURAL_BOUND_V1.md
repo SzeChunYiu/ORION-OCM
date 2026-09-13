@@ -11,6 +11,9 @@ Status date: 2026-09-13. Additive to the Grand-GMI claim ledgers. Authority:
 | SN4 | Every unit count of five or more is excluded by a positive per-unit cost floor, so enumerating to four is complete over unit count. | THEOREM | registered class and coordinate |
 | SN5 | The registered XOR realization at 88 per sweep is beaten by no member of the class, written or unwritten, because PL-2's bound holds of every member. | THEOREM / CLASS EXCLUSION | registered class, coordinate and interpreter |
 | SN6 | The registered `N_SUM_THRESHOLD3_V3` candidate attains the derived bound on every tested interpreter, so the bound is tight in the PL-3b sense and the candidate register was not understating the neural family. | THEOREM / TIGHTNESS CERTIFICATE | three tested interpreters |
+| SN7 | The coordinate counts candidate-frame opcodes only, so delegated work is invisible: the SN-3 numeric bound is relative to the registered non-delegating rendering, and a delegating class member scores 256 per sweep against the derived 312. | THEOREM / SCOPE LIMIT | registered opcode coordinate |
+| SN7a | The exclusion survives delegation: 88 against 312 written-to-written and 48 against 256 delegating-to-delegating, and the coordinate's blindness favours the excluded class, so the exclusion is conservative. | THEOREM | registered class and coordinate |
+| SN7b | A minimality claim in this coordinate is gameable, since `sum(x) & 1` costs 48 against the registered XOR candidate's 88. The registered V2 to V6 verdicts are unaffected because their adjudication requires domination in all three coordinates. | SCOPE LIMIT / REPORTING REQUIREMENT | registered opcode coordinate |
 | SN6a | The minimum is attained by more than one specification, so by MS-3 only properties common to all minimizers are derived; no particular weight pattern follows. | SCOPE LIMIT | registered class |
 
 ## Per-interpreter derived bounds
@@ -28,6 +31,8 @@ Status date: 2026-09-13. Additive to the Grand-GMI claim ledgers. Authority:
 - cost floor at `k=5` is `41`, already above the enumerated minimum `39`;
 - the composed per-line prediction equals the compiled count of the minimizer, and the minimizer computes parity on all eight inputs;
 - the registered shared-sum net attains `312` per sweep on 3.12, equal to the derived bound; the registered DNF net costs `472` and does not attain it;
+- delegation witnesses per sweep on CPython 3.12.3: written class member `312`, delegating threshold net `256`, written XOR `88`, delegating non-neural `48`, with candidate-frame call counts `4`, `5`, `0`, `1`;
+- `sum` and `int` have no Python code object, so their work executes no candidate-frame opcode;
 - no timing measurement is used or produced.
 
 Terminal: `GRAND_GMI_STRUCTURAL_NEURAL_BOUND_GREEN_AT_FINITE_SCOPE`.

@@ -442,16 +442,88 @@ def check_registered_candidates_are_grammar_optimal():
     }
 
 
+# --- SN-7: the coordinate is not delegation invariant ---------------------
+
+DELEGATION_WITNESSES = {
+    "class_member_written_arithmetic": (
+        "def f(x):\n    a, b, c = x\n    s = a + b + c\n"
+        "    h0 = int(s >= 1)\n    h1 = int(s >= 2)\n    h2 = int(s >= 3)\n"
+        "    return int((h0 - h1 + h2) >= 1)\n"),
+    "threshold_net_delegating_the_sum": (
+        "def f(x):\n    s = sum(x)\n"
+        "    h0 = int(s >= 1)\n    h1 = int(s >= 2)\n    h2 = int(s >= 3)\n"
+        "    return int((h0 - h1 + h2) >= 1)\n"),
+    "non_neural_written_xor": "def f(x):\n    a, b, c = x\n    return (a ^ b) ^ c\n",
+    "non_neural_delegating": "def f(x):\n    return sum(x) & 1\n",
+}
+
+
+def check_delegation_is_outside_the_coordinate():
+    """SN-7. The coordinate counts candidate-frame opcodes only.
+
+    Moving work into a callee with no Python code object removes it from the
+    coordinate entirely. This is shown statically, without timing: `sum` and
+    `int` are C builtins, so their work executes no candidate-frame opcode.
+
+    Two consequences are recorded. First, the SN-3 numeric bound is relative to
+    the non-delegating rendering the grammar registers: a threshold network
+    that delegates its weighted sum scores below that bound. Second, the
+    exclusion survives anyway, and the bias runs toward the excluded class:
+    every class member already delegates its `int` conversions while the
+    written XOR realization delegates nothing, so correcting for invisible work
+    would only widen the margin.
+    """
+    counts, calls = {}, {}
+    for name, source in DELEGATION_WITNESSES.items():
+        total, fn = opcode_count(source)
+        require(tuple(fn(x) for x in INPUTS) == PARITY, f"{name} is not parity")
+        counts[name] = total * 8
+        instructions = dis.get_instructions(fn, adaptive=False)
+        calls[name] = sum(1 for i in instructions if i.opname.startswith("CALL"))
+
+    require(not hasattr(sum, "__code__") and not hasattr(int, "__code__"),
+            "the delegation witnesses are not C builtins on this interpreter")
+
+    member = counts["class_member_written_arithmetic"]
+    delegating_member = counts["threshold_net_delegating_the_sum"]
+    written_witness = counts["non_neural_written_xor"]
+    delegating_witness = counts["non_neural_delegating"]
+
+    require(delegating_member < member,
+            "delegation did not lower the class member's count, so this witness is vacuous")
+    require(written_witness < member, "the written exclusion failed")
+    require(delegating_witness < delegating_member,
+            "the like-for-like delegating exclusion failed")
+    require(calls["non_neural_written_xor"] == 0 and calls["class_member_written_arithmetic"] > 0,
+            "the delegation asymmetry between the compared realizations changed")
+    return {
+        "per_sweep_counts": counts,
+        "candidate_frame_calls": calls,
+        "callees_have_no_python_code_object": True,
+        "delegation_lowers_a_class_member_below_the_derived_bound": True,
+        "derived_bound_is_relative_to_the_non_delegating_rendering": True,
+        "exclusion_holds_written_against_written": True,
+        "exclusion_holds_delegating_against_delegating": True,
+        "coordinate_bias_favours_the_excluded_class": True,
+        "exclusion_is_conservative_under_delegation": True,
+        "timing_used": False,
+    }
+
+
 RESIDUE = {
     "closed_within_this_class": [
         "any number of hidden units, by enumeration to four and the cost floor above",
         "any integer coefficient magnitude, because the behaviour set is saturated",
         "both registered code shapes, independent forms and one shared form",
+        "the non-delegating rendering, which SN-7 shows is what the numeric bound is "
+        "relative to",
         "all threshold placements, by exhaustive enumeration of separable behaviours",
     ],
     "open_residue": [
         "more than one hidden layer",
         "activations other than an integer-threshold comparison",
+        "realizations that delegate arithmetic into a C builtin, which SN-7 measures: they "
+        "score below the derived bound while still being excluded",
         "vectorized or array-based realizations whose opcode accounting differs",
         "realizations that precompute their outputs, which the structural predicate "
         "excludes by definition rather than by discovery; that is the lookup family",
@@ -476,6 +548,7 @@ def run():
         "registered_candidates_are_grammar_optimal":
             check_registered_candidates_are_grammar_optimal(),
         "structural_exclusion": check_structural_exclusion(),
+        "delegation_outside_the_coordinate": check_delegation_is_outside_the_coordinate(),
         "residue": RESIDUE,
         "timing_measurement_used": False,
         "claim_ceiling": "one structural class, one task, one exact coordinate, one interpreter",

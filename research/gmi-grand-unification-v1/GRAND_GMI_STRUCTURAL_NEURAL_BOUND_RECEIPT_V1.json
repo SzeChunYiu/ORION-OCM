@@ -26,6 +26,28 @@
     "wider_range_never_cheaper": true
   },
   "claim_ceiling": "one structural class, one task, one exact coordinate, one interpreter",
+  "delegation_outside_the_coordinate": {
+    "callees_have_no_python_code_object": true,
+    "candidate_frame_calls": {
+      "class_member_written_arithmetic": 4,
+      "non_neural_delegating": 1,
+      "non_neural_written_xor": 0,
+      "threshold_net_delegating_the_sum": 5
+    },
+    "coordinate_bias_favours_the_excluded_class": true,
+    "delegation_lowers_a_class_member_below_the_derived_bound": true,
+    "derived_bound_is_relative_to_the_non_delegating_rendering": true,
+    "exclusion_holds_delegating_against_delegating": true,
+    "exclusion_holds_written_against_written": true,
+    "exclusion_is_conservative_under_delegation": true,
+    "per_sweep_counts": {
+      "class_member_written_arithmetic": 312,
+      "non_neural_delegating": 48,
+      "non_neural_written_xor": 88,
+      "threshold_net_delegating_the_sum": 256
+    },
+    "timing_used": false
+  },
   "grammar_minimum": {
     "derived_minimum_per_call": 39,
     "derived_minimum_per_full_domain_sweep": 312,
@@ -62,11 +84,13 @@
       "any number of hidden units, by enumeration to four and the cost floor above",
       "any integer coefficient magnitude, because the behaviour set is saturated",
       "both registered code shapes, independent forms and one shared form",
+      "the non-delegating rendering, which SN-7 shows is what the numeric bound is relative to",
       "all threshold placements, by exhaustive enumeration of separable behaviours"
     ],
     "open_residue": [
       "more than one hidden layer",
       "activations other than an integer-threshold comparison",
+      "realizations that delegate arithmetic into a C builtin, which SN-7 measures: they score below the derived bound while still being excluded",
       "vectorized or array-based realizations whose opcode accounting differs",
       "realizations that precompute their outputs, which the structural predicate excludes by definition rather than by discovery; that is the lookup family",
       "any substrate or language other than the registered CPython opcode coordinate",

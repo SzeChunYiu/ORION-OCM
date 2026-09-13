@@ -87,7 +87,9 @@ The `k = 1, 2` infeasibility is **derived here by enumeration**, not cited. It
 is consistent with the classical single-hidden-layer threshold lower bound for
 parity, which this work neither proves nor relies on.
 
-The minimum is `39` per call, `312` per full domain sweep. A minimizer is
+The minimum is `39` per call, `312` per full domain sweep, **relative to the
+non-delegating rendering the grammar registers**. SN-7 measures what happens
+when that condition is dropped. A minimizer is
 
 ```
 def f(x):
@@ -120,7 +122,8 @@ counts and **all** integer coefficient magnitudes in this class.
 > **SN-5.** The registered non-neural XOR realization costs `88` per sweep
 > against the derived class bound of `312`. By PL-2 the bound holds of every
 > member of the class, so no member — written or unwritten — beats that
-> witness.
+> witness. SN-7 shows the exclusion also holds like-for-like once delegation
+> is allowed on both sides.
 
 | Interpreter | derived class bound | XOR witness | margin |
 |---|---:|---:|---:|
@@ -147,6 +150,49 @@ The optimum is not unique: the minimizer above differs from the registered
 candidate and costs the same. By MS-3, only properties common to all
 minimizers are derived, so nothing follows about a particular weight pattern.
 
+## 6a. SN-7 — the coordinate does not see delegated work
+
+> **SN-7.** The registered coordinate counts candidate-frame opcodes only.
+> Moving work into a callee with no Python code object removes it from the
+> coordinate entirely, so the SN-3 numeric bound is relative to the
+> non-delegating rendering, and a delegating class member scores below it.
+
+Shown statically, without timing. `sum` and `int` are C builtins with no
+`__code__`, so their work executes no candidate-frame opcode. Per sweep on
+CPython 3.12.3, with candidate-frame call counts:
+
+| Realization | per sweep | frame calls |
+|---|---:|---:|
+| class member, written arithmetic | 312 | 4 |
+| threshold net delegating its weighted sum | **256** | 5 |
+| non-neural written XOR | 88 | 0 |
+| non-neural delegating, `sum(x) & 1` | **48** | 1 |
+
+Two consequences, and they point in opposite directions.
+
+**The numeric bound is conditional.** A threshold network that writes
+`s = sum(x)` instead of `s = a + b + c` scores `256`, below the derived `312`.
+So SN-3 is a bound over the registered non-delegating class, not over every
+Python realization of a threshold network. The grammar made that assumption
+implicitly; it is now an explicit condition.
+
+**The exclusion is not.** It holds written against written (`88 < 312`) and
+like-for-like delegating against delegating (`48 < 256`). And the coordinate's
+blindness runs *toward* the class being excluded: every class member already
+delegates its four `int` conversions while the written XOR realization
+delegates nothing, so accounting for invisible work would widen the margin
+rather than close it. The exclusion is therefore conservative in this
+coordinate.
+
+A separate caution follows for the wider evidence line. Because the coordinate
+is not delegation invariant, a *minimality* claim in it is gameable: the
+cheapest realization here, `sum(x) & 1` at `48`, is cheaper than the registered
+XOR candidate at `88`. The registered V2 to V6 verdicts do not depend on this,
+because their adjudication requires domination in all three registered
+coordinates rather than the opcode coordinate alone. But no claim that a
+particular realization is the cheapest should rest on this coordinate by
+itself.
+
 ## 7. Residue, stated as CU-3 requires
 
 Closed within this class, not merely sampled:
@@ -161,6 +207,8 @@ Open, and not touched by anything above:
 
 - **more than one hidden layer**;
 - **activations other than an integer-threshold comparison**;
+- **realizations that delegate arithmetic into a C builtin**, measured in
+  SN-7: they score below the derived bound and remain excluded;
 - **vectorized or array realizations**, whose opcode accounting differs;
 - **realizations that precompute their outputs** — the structural predicate
   excludes these by definition rather than by discovery, and they are the

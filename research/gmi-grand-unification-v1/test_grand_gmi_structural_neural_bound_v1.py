@@ -74,6 +74,25 @@ class StructuralNeuralBoundTests(unittest.TestCase):
         r = self.aggregate["registered_candidates_are_grammar_optimal"]
         self.assertTrue(r["minimizer_differs_from_registered_candidate"])
 
+    def test_sn7_delegation_is_outside_the_coordinate(self):
+        r = self.aggregate["delegation_outside_the_coordinate"]
+        counts = r["per_sweep_counts"]
+        self.assertLess(counts["threshold_net_delegating_the_sum"],
+                        counts["class_member_written_arithmetic"])
+        self.assertLess(counts["non_neural_written_xor"],
+                        counts["class_member_written_arithmetic"])
+        self.assertLess(counts["non_neural_delegating"],
+                        counts["threshold_net_delegating_the_sum"])
+        self.assertEqual(r["candidate_frame_calls"]["non_neural_written_xor"], 0)
+        self.assertTrue(r["callees_have_no_python_code_object"])
+        self.assertTrue(r["derived_bound_is_relative_to_the_non_delegating_rendering"])
+        self.assertTrue(r["exclusion_is_conservative_under_delegation"])
+        self.assertFalse(r["timing_used"])
+
+    def test_residue_names_delegation(self):
+        r = self.aggregate["residue"]
+        self.assertTrue(any("delegate" in x for x in r["open_residue"]))
+
     def test_residue_is_stated_and_non_empty(self):
         r = self.aggregate["residue"]
         self.assertTrue(r["open_residue"])
