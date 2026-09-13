@@ -240,6 +240,28 @@ The accompanying finite checker freezes six outcomes:
 
 It additionally checks candidate-universe sensitivity by starting with a neural-only registered universe and then admitting a better non-neural competitor, demonstrating that a scope-relative unique verdict can reverse when the candidate universe changes.
 
+### Executable input contract (2026-09-13 correction)
+
+`derive(candidates, ..., profile_dimension=d)` requires the positive integer `d`
+from the registered resource coordinates. It does not infer `d` from candidates:
+all candidates could have omitted the same coordinate. Every profile must have
+exactly `d` finite real, non-boolean entries in that registered order. Candidate
+names must be unique nonempty strings, and the finite checker admits only the
+three registered family labels `NEURAL`, `NON_NEURAL` and `HYBRID`.
+
+Every hard-gate field must be an explicit Boolean. A certified `False` excludes
+the candidate; a missing field, `None`, a string or an integer is unresolved or
+malformed evidence and makes the certificate `UNDECIDED_FROM_CURRENT_EVIDENCE`.
+Packet evidence flags must also be literal Booleans. Equal-length but incomplete
+profiles, duplicate identities and non-finite resources cannot yield a family
+certificate. Exact rational resource values remain admissible.
+
+These checks establish input structure only. Registered dimension/order, family
+membership, resource units and the truth of evidence fields still require C1–C10;
+the synthetic `candidate()` helper does not supply empirical certification.
+The counterexamples, correction and bounded tests are recorded in
+`CERTIFICATE_INPUT_CORRECTION_20260913.md`.
+
 ## 16. Terminal boundary
 
 Grand GMI may recursively refine formal bridges, but it must not recurse past the point where the missing premise is an empirical fact and relabel the absence of evidence as a theorem gap.
