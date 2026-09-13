@@ -57,6 +57,8 @@ instances are decidable, or that an empirical measurement has occurred.
 
 | 25 | The standing independent-replication obligation was unsatisfiable by construction: the V1-V4 instrument hard-requires a first-attempt push to `main` on a GitHub-hosted Linux runner, so no laptop, server or compute node can produce a valid packet, and interpreter-dependent AST hashes block cross-version candidate identity. V5 freezes a portable instrument with a recorded envelope, source-byte candidate identity and a cross-envelope adjudicator. Not executed. | `PARITY3_PORTABLE_REPLICATION_V5.md` | Current iteration; commit and merge only after required local gates pass |
 | 26 | Execute the portable registration. Three interpreter envelopes on one host, each once: CPython 3.11.15 and 3.12.3 both return a non-neural frontier with disjoint observed boxes, and 3.13.12 refuses the instrumentation gate before timing. The registered 3.12 opcode counts reproduce exactly on unrelated hardware; absolute counts are interpreter dependent while their ordering is not. Cross-host replication remains open. | `PARITY3_V5_CROSS_ENVELOPE_ASSESSMENT_20260913.md` | Current iteration; commit and merge only after required local gates pass |
+| 27 | The V5 execution refused CPython 3.13 at the instrumentation gate. The cause is the first-ever trace of each code object losing its first frame, not a per-process effect as first read. V6 adds one discarded priming domain sweep per candidate witness pass, keeps per-frame validation intact, records priming diagnostics, and binds candidate identity against both earlier portable harnesses. Frozen with a genuinely prospective 3.13 verdict claim; not executed. | `PARITY3_PRIMED_INSTRUMENT_V6.md` | Current iteration; commit and merge only after required local gates pass |
+| 28 | V6 records the predicted non-neural classification on CPython 3.13 and matching classifications on 3.11/3.12, over four registered candidates. Five valid V5/V6 packets agree in family support; the V5 3.13 refusal is retained. The V6 3.11 boxes leave lookup membership unresolved, not certified coexistence. Corrected DNF/shared-sum margins do not identify a causal interpreter trend. Cross-host replication and attempt custody remain open. | `PARITY3_V6_PROSPECTIVE_OUTCOME_20260913.md` | Current iteration; commit and merge only after required local gates pass |
 
 
 
@@ -407,6 +409,30 @@ Iteration 26 measured three interpreter envelopes on one container. It does not
 establish cross-host replication, does not convert a four-candidate point
 verdict into a family verdict, and does not turn an observed timing envelope
 into a bound. The named hosts remain outstanding.
+
+Iteration 27 repairs an instrument and freezes a registration. It executes no timing, and its P1 and P3 claims were already settled by a self-test that times nothing, which the registration discloses. Only the 3.13 verdict claim P2 is unmeasured at freeze time.
+
+V6 preserves the registered coordinate definitions; its additional tracing
+prefix does not establish equality of timing values or distributions after a
+finite warmup. Its source also retains the late existing-output check: an
+output collision is detected after the experiment function runs. Further
+V6 execution therefore needs a custody route bound to the V6 snapshot;
+the separately versioned V5 custody correction is not automatically applicable.
+The V6 self-test's green terminal is a diagnostic label: that path does not
+fully validate returned parity values and return flags. Actual measurement
+preflight retains those full per-frame checks. A versioned self-test/custody
+correction remains required before treating that diagnostic as a full gate.
+The V6 source and preregistration remain preserved without retroactive edits.
+
+Iteration 28 adds actual V6 packets. Static matching-release review reconstructs
+all recorded capability/tracing, block schedules, boxes and verdicts without
+rerunning measurements. The corrected readout separates DNF from shared-sum
+margins, repairs the old selective-undercount bias direction, and distinguishes
+possible from necessary lookup membership. Full priming traces and an independent
+first-attempt log remain absent; the updated multi-schema aggregator summarizes
+asserted terminals rather than deriving packet validity. These custody limitations
+do not themselves contradict the consistent recorded outcomes. Neither a causal
+interpreter trend nor a population timing bound follows from these runs.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
