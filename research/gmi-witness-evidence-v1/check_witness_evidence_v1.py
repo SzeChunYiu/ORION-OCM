@@ -40,6 +40,6 @@ if __name__ == "__main__":
     checker = research / "gmi-witness-mechanism-v1/check_mechanism_record.py"
     spec = importlib.util.spec_from_file_location("retained_mechanism_record", checker)
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    exec(compile(checker.read_bytes(), str(checker), "exec"), module.__dict__)
     module.main()
     print(json.dumps({"verified_payload_files": counts, "ecology_calls_executed": 0}, sort_keys=True))
