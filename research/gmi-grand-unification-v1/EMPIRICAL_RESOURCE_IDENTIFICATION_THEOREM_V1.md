@@ -1,7 +1,7 @@
 # Grand GMI Empirical Resource Identification Theorem V1
 
 Status: **THEOREM / ROBUST FAMILY-SELECTION BRIDGE UNDER MEASUREMENT UNCERTAINTY**  
-Date: 2026-09-12
+Date: 2026-09-13
 
 ## 1. Gap closed
 
@@ -125,7 +125,9 @@ Suppose new evidence replaces every uncertainty set `U(m)` by a subset `U'(m) su
 
 ### Proof
 
-Shrinking the winner's admissible upper envelope cannot make its worst case larger; shrinking the loser's admissible lower envelope can move it either way for arbitrary non-box sets, so the monotonicity statement is exact for retained domination only when the new sets are subsets and the old universal comparison `x <= y` held for every `x in U(a), y in U(b)`. That universal statement continues to hold for subsets. QED.
+For any nonempty nested sets `U'(m) subseteq U(m)`, each coordinate supremum cannot increase and each coordinate infimum cannot decrease. This holds for arbitrary sets, not only boxes. More directly, a universal strict Pareto comparison between every `x in U(a)` and `y in U(b)` remains true when either domain is restricted to a subset. Thus every previously established robust domination relation remains valid. QED.
+
+The coordinate-envelope direction above corrects an earlier proof sentence; it does not strengthen the theorem into a claim that arbitrary individual measurements or non-nested confidence sets preserve a verdict. Comparisons still use joint coverage and compatible profile sets.
 
 New evidence may therefore sharpen `UNDECIDED` into a family verdict. A previously certified verdict can be overturned only if the new evidence invalidates an old coverage/model assumption rather than merely refining a valid uncertainty set.
 
