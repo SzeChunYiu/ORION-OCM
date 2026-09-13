@@ -6,6 +6,7 @@ logic only and are not empirical claims about real hardware.
 """
 
 import json
+from fractions import Fraction
 
 
 class PhaseInputError(ValueError):
@@ -16,9 +17,16 @@ def robust_scalar_winner(intervals):
     # Malformed bounds must be rejected rather than compared: two families with
     # `lower > upper` both satisfy the unvalidated robustness test. See
     # FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md.
-    if not intervals:
+    if type(intervals) is not dict or not intervals:
         raise PhaseInputError("no registered family interval")
-    for fam, (lo, hi) in intervals.items():
+    for fam, bounds in intervals.items():
+        if type(fam) is not str or not fam:
+            raise PhaseInputError("family must be a nonempty string")
+        if type(bounds) is not tuple or len(bounds) != 2:
+            raise PhaseInputError("interval must be an exact pair")
+        if any(type(value) not in (int, Fraction) for value in bounds):
+            raise PhaseInputError("bounds must be exact integers or fractions")
+        lo, hi = bounds
         if lo > hi:
             raise PhaseInputError(f"{fam}: lower bound {lo} exceeds upper bound {hi}")
     winners = []

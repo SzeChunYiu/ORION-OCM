@@ -1,5 +1,7 @@
 # Grand GMI Master Closure Ledger V3
 
+Current additions and unresolved scientific obligations: [CORE](CORE.md), [scientific queue](SCIENTIFIC_GAP_QUEUE_V2.md). No closure label overrides their explicit assumptions and nonempty-selection requirements.
+
 Current audit qualification (2026-09-13): see `RECURSIVE_GAP_AUDIT_20260913.md`.
 Historical ontology/green labels below do not certify absence of theorem gaps;
 the corrected theorem statements and their explicit assumptions take precedence.

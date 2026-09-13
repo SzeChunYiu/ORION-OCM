@@ -99,8 +99,16 @@ Define
 Then `P` is **Pareto-derived at the registered scope** iff
 
 \[
-\boxed{\forall m\in\mathcal M_F,\ P(m).}
+\boxed{\mathcal M_F\ne\varnothing\quad\text{and}\quad\forall m\in\mathcal M_F,\ P(m).}
 \]
+
+Nonemptiness is essential. Adequate scalar costs {1/n:n>=1} have no
+Pareto point: 1/(n+1)<1/n improves every candidate. The universal predicate
+alone would derive both P and its negation over the empty selected set.
+Use NO_SELECTED_REALIZATION for proved nonattainment, distinct from an
+empty feasible set and from unknown attainment. A finite nonempty covering
+construction can supply attainment; see
+`CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md` (MSC-1–3).
 
 If there exists even one frontier morphology for which `P(m)` is false, `P` is not necessary under the registered Pareto criterion.
 
@@ -140,7 +148,12 @@ Every derived morphology property must enter through at least one typed source:
 }
 \]
 
-If changing none of those registered objects can change whether property `P` is selected, then `P` has not been derived from the Grand GMI problem specification; it has been inserted as an implementation prior or naming convention.
+Every claimed property needs a proof from the registered feasible/selected
+set and the relevant source assumptions. Invariance when the specification
+is unchanged is expected, and does not indicate an inserted prior. Nor must
+a derived invariant cease to hold in another specification. A property
+supported only by a chosen source implementation or historical name, without
+that selected-set entailment, has not been derived at the claimed scope.
 
 This is a provenance criterion, not a claim that deriving the frontier is computationally easy.
 
@@ -172,16 +185,16 @@ A statically superior architecture may be absent from `F_reach` if no admitted u
 
 This is the formal place where training, architecture search, evolution, self-modification and path dependence affect the derived realized form.
 
-`DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` bounds how far that can be
-derived. Two development laws can share the admitted realization set, the
-profiles, the family assignment and every proved necessity and still give
-different reachable frontiers (DU-1), so `F_reach` is not a function of the
-data the other layers supply and a development law must be registered in its
-own right — including its schedule semantics, since admitted updates need not
-commute (DU-2). Restricting to reachable realizations never lowers a derived
-lower bound but can invalidate a construction, so development evidence
-strengthens exclusions while it can destroy selections (DU-3). And no finite
-budget certifies an unbounded-development verdict (DU-4).
+`DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` distinguishes what static
+summaries identify from what an additional development model supplies.
+Different compatible development laws can yield different reachable frontiers
+(DU-1). A chosen schedule and existential reachability across all admitted
+schedules are distinct objects (DU-2). Feasible-set restriction preserves
+lower bounds; comparative exclusion survives only when its supporting
+construction remains feasible in the same scope (DU-3). Finally, a finite
+observed prefix alone need not settle an unbounded verdict, while a finite
+exact reachable-set closure certificate can settle it (DU-4). These results
+leave constructive research under registered development laws open.
 
 ## 11. Exact finite witness
 

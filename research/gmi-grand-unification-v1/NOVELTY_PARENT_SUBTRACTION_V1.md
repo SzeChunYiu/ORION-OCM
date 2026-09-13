@@ -4,6 +4,17 @@ Status: **PRIORITY NOT CLAIMED WITHOUT PARENT SUBTRACTION**
 Date: 2026-09-13  
 Base: `main@017b2ab7e8de4eaceeb44d3fba13b6d31a2d68b7`
 
+Scope correction: the complete cut/transformation spectra are proposed jointly;
+their unrestricted mathematical independence is not established by the one-final-cut
+OR example. The later [all-partition separation](FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md)
+does prove mutual non-determination for the explicitly declared complete
+input-partition width and bit-query summaries, using classical OR/parity/identity
+families; it does not compare arbitrary richer spectra. TDA proves an acquisition/persistent-alphabet frontier with unrestricted
+controller/workspace, not a full controller-resource frontier. PL-5 is a general
+non-identification result; independently established selected-set existence plus
+exhaustive rival exclusion can identify a family. These qualifications govern
+the candidate summaries below and the machine-readable ledger.
+
 This audit answers a different question from theorem correctness. A theorem can be correct and still be old. A programme can also be scientifically new while using old mathematics if the new object is a nontrivial composition, a new prediction, or a new empirical falsification.
 
 ## 1. Novelty classes
@@ -30,10 +41,10 @@ Every GMI result must be placed in one of these buckets before using words such 
 | finite machine → neural realization | automata/RNN and finite-state neural simulation literature | finite automata/transducers can be represented by neural networks | behavior-preserving compiler composed with GMI channel ceilings; proves that a GMI-derived finite machine has a neural realization, not that neural syntax is uniquely derived | `PARENT_OWNED_SPECIALIZATION` |
 | learning/meta-learning/NAS/evolution as lifted search | meta-learning, learning-to-learn, AutoML/NAS, evolutionary search | learning rules and architectures can themselves be optimization/search objects | one recursive GMI lift with quotient-compatibility as the no-hidden-architecture-prior gate | `TECHNICAL_NOVELTY_CANDIDATE` for the quotient-compatible architecture-neutral lift; broad recursion is parent-owned |
 | distributed/team/strategic intelligence | decentralized control, team decision theory, communication complexity, game theory | information structures constrain teams; strategic equilibria and regret are established | reduce teams, strategic agents, proof systems and reflective processes to the same external process + internal semantic-cut calculus | `NEW_SYNTHESIS_CANDIDATE` |
-| task-directed acquisition | equivalence-class determination / decision-region determination / active experiment design | stop acquisition once remaining hypotheses imply the same decision/class; adaptive test cost | set-valued compatible-action stopping combined with persistent-retention and controller/resource frontier accounting | parent core is `PARENT_OWNED_SPECIALIZATION`; joint acquisition/retention frontier is `TECHNICAL_NOVELTY_CANDIDATE` pending priority search |
+| task-directed acquisition | equivalence-class determination / decision-region determination / active experiment design | stop acquisition once remaining hypotheses imply the same decision/class; adaptive test cost | set-valued compatible-action stopping combined with persistent-alphabet accounting under unrestricted controller/workspace assumptions | parent core is `PARENT_OWNED_SPECIALIZATION`; joint acquisition/retention frontier is `TECHNICAL_NOVELTY_CANDIDATE` pending priority search |
 | Pareto morphology frontier and attained fibers | vector optimization, Pareto theory, robust optimization | nondominance, attainment, epsilon-optimal constructions, lower/upper certificates | operational *full realization fibers* are required before an architecture property is derived; names below probe resolution are intentionally not identified | `NEW_SYNTHESIS_CANDIDATE`; underlying optimization is parent-owned |
-| family-conditioned lower bounds PL-1…PL-5 | relaxation/lower-bounding and robust optimization | dropping constraints supplies lower bounds; stronger valid necessities tighten bounds; larger classes weaken them | bridge from semantic-cut/transformation necessities to structural morphology classes, covering unconstructed class members while proving necessities alone cannot select a family | `TECHNICAL_NOVELTY_CANDIDATE` as GMI bridge, not as generic optimization mathematics |
-| dual task signature `(kappa,tau)` | information/communication complexity + computational complexity | communication requirements and local computational difficulty are separately studied | make **attainable Pareto spectra of semantic communication and transformation computation coequal irreducible invariants** feeding one morphology law | `TECHNICAL_NOVELTY_CANDIDATE` / strongest current theory residual |
+| family-conditioned lower bounds PL-1…PL-5 | relaxation/lower-bounding and robust optimization | dropping constraints supplies lower bounds; stronger valid necessities tighten bounds; larger classes weaken them | bridge from semantic-cut/transformation necessities to structural morphology classes, covering unconstructed class members; lower bounds do not generally identify selection without additional premises | `TECHNICAL_NOVELTY_CANDIDATE` as GMI bridge, not as generic optimization mathematics |
+| dual task signature `(kappa,tau)` | information/communication complexity + computational complexity | communication requirements and local computational difficulty are separately studied | propose **joint attainable spectra of semantic communication and transformation computation** feeding one morphology law; full-spectrum independence remains unproved | `TECHNICAL_NOVELTY_CANDIDATE` / proposed theory residual |
 | broad obligation/resource calculus | 2026 Answerability programme (`Resource Geometry of Answerable Inference`, `Answerability Calculus`) | obligation-relative inference structure, realization categories, resource semantics, minimal sufficient cores, Pareto resource boundaries, composition and quantum-operational treatment | GMI must distinguish itself by its machine-intelligence-specific causal cuts, independent `kappa/tau`, recursive development, morphology fibers and prospective morphology experiments | `CLOSE_PARALLEL__NO_BROAD_PRIORITY_CLAIM` |
 | source-bound replay / hostile correction discipline | formal methods, reproducible science, preregistration | replay, provenance, counterexamples and preregistration are established methodology | unusually tight integration of theorem receipts, negative preservation, counterexample-driven reopening and prospective machine-form experiments | `PROGRAMME_METHOD_NOVELTY`, not a mathematical theorem claim |
 
@@ -47,7 +58,7 @@ The most defensible candidate for a genuinely new GMI object is not any individu
 
 with `kappa` and `tau` defined from **attainable resource sets / Pareto spectra**, not coordinatewise fictitious minima, and used jointly to constrain physical morphology.
 
-The parent literatures separately study sufficient/predictive states, communication/information requirements and computation complexity. The present audit did not locate a parent that makes obligation-relative semantic cut spectra and local transformation-complexity spectra coequal architecture-free invariants and then feeds both into a physical/developmental realization-fiber frontier. This is a **candidate novelty**, not a priority declaration.
+The parent literatures separately study sufficient/predictive states, communication/information requirements and computation complexity. The proposed synthesis uses both spectra to constrain a physical/developmental realization-fiber frontier. The all-partition theorem establishes a concrete width/query separation using classical constructions. Neither it nor this parent search proves that arbitrary richer spectra are irreducible to each other. This is a **candidate synthesis novelty**, not a priority or unrestricted independence declaration.
 
 ### 3.2 Architecture derivation is changed from name recovery to fiber statements
 
@@ -61,7 +72,7 @@ PL-1…PL-5 now derive family-conditioned lower bounds from proved semantic/tran
 
 - adding a valid necessity cannot lower a lower bound;
 - enlarging the structural class cannot raise it;
-- necessities can exclude but cannot by themselves select a family.
+- necessities do not generally identify a selected family; independently supplied existence and exhaustive rival exclusion can suffice on particular inputs.
 
 ### 3.4 Programme-specific prospective and negative evidence
 

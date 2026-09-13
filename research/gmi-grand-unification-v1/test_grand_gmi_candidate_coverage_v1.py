@@ -23,13 +23,34 @@ class CandidateCoverageTests(unittest.TestCase):
         )
         self.assertFalse(self.aggregate["physical_machine_enumeration_claimed"])
 
-    def test_cu1_coverage_is_decidable(self):
-        r = self.aggregate["coverage_is_decidable"]
+    def test_cu1_finite_coverage_is_decidable(self):
+        r = self.aggregate["finite_coverage_decision"]
         self.assertEqual(r["admitted_allocations"], 1344)
         self.assertFalse(r["registered_classes_cover"])
         self.assertEqual(r["uncovered_admitted_allocations"], 1105)
         self.assertTrue(r["completed_classes_cover"])
-        self.assertTrue(r["coverage_is_a_valid_dichotomy_not_an_enumeration"])
+        self.assertTrue(r["complement_cover_is_a_valid_dichotomy"])
+
+    def test_finite_prefix_cannot_certify_universal_coverage(self):
+        r = self.aggregate["finite_prefix_boundary"]
+        self.assertEqual(r["bounded_controls"], 8)
+        self.assertEqual(r["first_uncovered_indices"], list(range(1, 9)))
+        self.assertFalse(r["unrestricted_coverage_decidability_claimed"])
+        self.assertTrue(r["finite_prefix_never_used_as_infinite_certificate"])
+
+    def test_finite_decision_exact_positive_negative_empty_and_overlap(self):
+        even = {"even": lambda x: x % 2 == 0}
+        self.assertEqual(MOD.covers(even, (0, 2, 4)), (True, []))
+        self.assertEqual(MOD.covers(even, (0, 1, 2)), (False, [1]))
+        self.assertEqual(MOD.covers({}, ()), (True, []))
+        self.assertEqual(MOD.covers({}, (0,)), (False, [0]))
+        both = {**even, "odd": lambda x: x % 2 == 1, "all": lambda x: True}
+        self.assertEqual(MOD.covers(both, range(7)), (True, []))
+
+    def test_missing_boolean_predicate_evidence_is_rejected(self):
+        for value in (None, 1, "yes"):
+            with self.assertRaises(ValueError):
+                MOD.covers({"unknown": lambda x: value}, (0,))
 
     def test_cu3_residue_withdraws_the_verdict(self):
         r = self.aggregate["uncovered_residue_defeats_a_verdict"]

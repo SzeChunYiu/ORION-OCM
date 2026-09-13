@@ -39,10 +39,13 @@ These are operational properties. Source syntax, framework class names and param
 Let `M*` be the selected reachable morphology set under the registered Pareto or explicit selection rule. An architecture property `A` is derived at the registered scope iff
 
 \[
-\forall m\in M^*,\quad A(\sigma(m)).
+M^*\ne\varnothing\quad\text{and}\quad\forall m\in M^*,\ A(\sigma(m)).
 \]
 
-This is the Morphology Selection criterion applied at a finer resolution.
+This is the nonvacuous Morphology Selection criterion applied at a finer
+resolution. An empty frontier derives no architecture property. Equal-profile
+realizations must all be included, even if a constructive representative has
+the desired property; see `CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md`.
 
 A property may be derived even when the implementation family is not. For example, every selected realization may require persistent state while some are neural recurrent networks and others are finite-state controllers.
 
