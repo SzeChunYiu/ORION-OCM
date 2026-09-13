@@ -127,3 +127,14 @@ Claim-ladder movement: **B7** moves from BLOCKED to `EARNED_AT_REGISTERED_SCOPE_
 claimed — the realized form reduces to the memory parent; what is earned is prospective prediction and
 realization of a preregistered region, the master ledger's §7 step). RV-377-201 (budget revival) is not
 needed.
+
+## Addendum (post-adjudication): the measured rule-40 control, not the projected one
+
+Freeze §2 projected the rule-40 separation from `cap*₀ = 0.78175`, the expected score of a *fixed median
+guess*. The certificate measured the registered control — the per-table **argmax over c** — at
+`best_constant_protected_mean = 0.8021`, which is biased above that expectation. Against the measured
+control the three STORE attainers separate by **1.92, 1.32 and 1.52 fx units**, not the 2.6 fx the freeze
+projected. All three clear the 1 fx quantization floor, so P1–P5 and the terminal are unchanged; the
+projected figure in §2 is an overestimate and is corrected here rather than edited in place. Any rule-40
+margin quoted elsewhere from a *projected* constant carries the same bias and must be recomputed against
+the measured control before it is relied on.

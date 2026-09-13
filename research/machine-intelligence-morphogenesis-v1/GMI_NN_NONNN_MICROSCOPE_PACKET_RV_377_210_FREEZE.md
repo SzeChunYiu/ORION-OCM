@@ -90,7 +90,7 @@ Receipt `microscopes/results/STAGE_NN_NONNN_PACKET_RV_377_210_{HOST}.json`: cand
 hashes and families, per-task capability under each intervention, resource vectors, admissible set,
 Pareto set, family support, DC-2 verdict, reachability sidebar, and the shuffled-label control.
 Terminal names: `NN_NONNN_PACKET_VERDICT_<task>=<DC-2 verdict>` and the aggregate
-`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE` (all three tasks yield a DC-2 verdict other than UNDECIDED).
+`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND` (all three tasks yield a DC-2 verdict other than UNDECIDED, with the reachability field reported rather than bound — see the E3 qualification).
 
 ## Scope, stated once
 
@@ -115,9 +115,20 @@ unchanged on every task.
 | `E_wit1` | 0.7083 | `program_search`, `compiled_search` (1.0, +7.0 fx) **and `gradient_net_h3_lr1` (NEURAL, min 0.8542, +3.5 fx)** | all three | **`FAMILY_COEXISTENCE`** | **RED** — `INFEASIBLE` was predicted; instead the exact-search rows are admissible and one expansion neural row is intervention-robust under V2 |
 | E11 | — | one of four expansion rows admissible (on `E_wit1`) | — | — | **RED** as written |
 
-Terminal: **`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE`** — every task yields a DC-2 verdict; the readiness
-audit's `UNDECIDED_FROM_CURRENT_EVIDENCE` is discharged at this packet's scope with every load-bearing
-field (E0–E13) bound to one immutable packet.
+Terminal: **`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND`** — every task yields a
+DC-2 verdict at this packet's scope.
+
+**R3 is not discharged, and the readiness audit stays open on it.**
+`NN_NONNN_EMPIRICAL_EVIDENCE_READINESS_AUDIT_V1.md` §6 requires "real candidate-specific reachability
+distributions/certificates under a common development budget", and states that evidence from different
+scopes may not be stitched together after the fact. This packet's E3 supplies **class-level** reachability
+from the class-rate lane's searches (a different scope, different candidates), reported as a sidebar
+beside the verdict, not bound into the packet. Per the certificate's own C9 (receipts, ledger and prose
+must agree) the audit's R3 therefore remains `SYNTHETIC_ONLY` and the repository-wide family terminal
+stays `UNDECIDED_FROM_CURRENT_EVIDENCE`; what this packet decides is the family question **for its own
+candidate universe on this instrument**, with R0, R1, R2, R4–R8, R10 discharged and R3 reported.
+RV-377-211 (a packet whose candidates are the searched elites themselves, so reachability is bound rather
+than reported) is the named successor.
 
 ## Reading
 
@@ -144,3 +155,11 @@ field (E0–E13) bound to one immutable packet.
    so the admissible neural row on `E_wit1` is reachable by construction, not by the registered search);
    the candidate universe is this packet's (E11 shows the verdict is universe-relative: adding the
    expansion rows changed `E_wit1` from `DERIVED_NON_NEURAL` to `FAMILY_COEXISTENCE`).
+
+## Receipt / record terminal (C9)
+
+The runner wrote `"terminal": "NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE"` into
+`STAGE_NN_NONNN_PACKET_RV_377_210_old.json` before this qualification was written. The receipt is run
+evidence and is not edited; **this record's terminal —
+`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND` — is the authoritative one**, and the
+difference is exactly the E3 qualification above.

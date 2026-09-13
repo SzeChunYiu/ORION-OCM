@@ -313,3 +313,60 @@ Four protocol rules were opened by the work behind this document: **44** (contro
 retrospectively), **45** (obligations must be shown non-degenerate before use), **46**
 (instruments must be validated against their own declared semantics), **47** (no class claim
 without a sound *and* complete quotient).
+
+---
+
+# Addendum V1.4 — lead-session evidence, 2026-09-13
+
+Append-only. Every clause below cites a committed record; no earlier text is rewritten, and no RED result
+is weakened.
+
+## §4 claim ladder
+
+| rung | was | now | record |
+|---|---|---|---|
+| B7 | **BLOCKED** | **EARNED_AT_REGISTERED_SCOPE__CHANNEL_DEFINED_FORM** | RV-377-200 |
+
+B7's original wording ("novel morphology residual not reducible to registered parents") is **not** claimed:
+the realized form reduces to the memory parent. What is earned is the weaker, stated rung: the theory named
+an occupied region of channel space with an exact ceiling and a region predicted empty, *before* any search;
+a search containing no architecture macro then found machines attaining that ceiling with the predicted
+carrier class on 2 of 3 seeds, found nothing admissible in the empty region, and each attainer fell to the
+no-store ceiling when the predicted channel was removed. B5/B6/B8 are unchanged by this addendum.
+
+## §5 terminal register
+
+| terminal | was | now | record |
+|---|---|---|---|
+| `ALL_REGISTERED_INTERVENTIONS_MEASURE_WHAT_THEY_CLAIM` | FALSE | **TRUE for family V2** (FALSE for V1, preserved) | RV-377-150 |
+| `ALL_REGISTERED_ECOLOGIES_ARE_WHAT_THEY_ARE_NAMED` | FALSE | **TRUE with `E_parity_v2` registered** (`E_parity` keeps its `deprecated_reason`) | RV-377-150 |
+| `G15_STEP_TWO_REACHED` | TRUE at registered scope | **REACHED_ON_RAW_DESCRIPTOR_ONLY__NOT_REACHED_ON_ATROPHIED_READING** | RV-377-141 |
+| IG-4 meter bucketing | PENDING | **CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY** (≥ 99 % per-axis agreement; K4 verdicts meter-invariant) | RV-377-160 |
+| IG-5 primitive selection | PENDING | **CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY** (blind 32-kind alphabet compiles all nine parents, 0.91–1.67× overhead) | RV-377-160 |
+| DG-11 grammar axis | open | **GRAMMAR_AXIS_NOT_VERDICT_INERT** (78/88, families A09/A11/A18/A19/A20 split) | PR #455 |
+| DG-12 | open | audited; `NO_DEGENERATE_OBLIGATION_AT_REGISTERED_SCOPE` stays FALSE, now on four modules | RV-377-118D |
+| F1 (K4 property prediction) | development tier | **reproduced at PROTECTED tier**: 0/264 at 10⁶, beacon 32138309 | PR #455 |
+| — new — | | `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` across the 10 distinct ecologies tested | RV-377-140/141/142 |
+| — new — | | `CLASS_RATE_MORPHOLOGY_LAW_V2_SUPPORTED_AT_REGISTERED_SCOPE__M_ABSTAINS` | RV-377-142 |
+| — new — | | `NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND` | RV-377-210 |
+
+## §7 (ii) — the class-level statement
+
+§7 (ii) reports that cost-minimising search does not converge on GMI's predicted property vectors. That
+stands, now at protected tier. The class-level restatement earned since: at 20 000 charged evaluations the
+**coefficient class is never recovered** (0 of 43 runs, every ecology, witness-bearing and witness-free),
+while the **program class appears exactly where the registered exact-search row is rule-36 admissible**
+(prospectively confirmed on two fresh ecologies, RV-377-142). The memory clause abstains: a hand-built row
+licenses presence, never absence.
+
+## §6 — open gaps, revised
+
+* **DG-13 — closed additively** (RV-377-150). Closing the leak moved 3 of 36 registered-zoo verdicts, all
+  store rows losing admissibility; every rule-36 verdict taken under family V1 carries that qualification.
+  New construction fact: the registered TRAIN/UNSEEN split is parity-separating, so any parity-type
+  obligation is degenerate on the `unseen` criterion.
+* **Independence — closed by model proxy**, not by an independent human author; the standing residue is
+  same-model-family, synthesized traces and same-author cost allocation (RV-377-160).
+* **Still open and unchanged:** DG-8 lattice coverage (0.4473 %, `d = 1`, `fx8`); the undecidability
+  obstruction to any domain-wide lift; real independent human authorship; modern-scale neural evidence;
+  in-programme physical measurement (RV-377-195 evaluates the frontier sign from *published* constants only).
