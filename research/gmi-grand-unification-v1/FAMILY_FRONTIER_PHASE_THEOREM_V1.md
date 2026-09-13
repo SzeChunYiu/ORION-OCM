@@ -309,3 +309,12 @@ The theorem does not manufacture the functions `L_F(s)` and `U_F(s)` for real su
 - an explicit candidate universe.
 
 At that point Grand GMI can compute a scope-relative family phase verdict. Without those inputs, the correct result remains `UNDECIDED_FROM_CURRENT_EVIDENCE` rather than an invented architecture preference.
+
+`MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` now derives the **lower** bounds
+`L_F(s)` from the proved cut/transformation necessities and a declared
+accounting map, instead of accepting them as inputs. That derivation is one
+sided: no relaxation program supplies `U_F(s)`, so necessities can robustly
+exclude a family but never select one (PL-5). It also shows that an abstention
+region means two different things depending on whether the derived bounds are
+attained (PL-3b), and that a robust verdict survives more evidence but not a
+larger structure class (PL-4).
