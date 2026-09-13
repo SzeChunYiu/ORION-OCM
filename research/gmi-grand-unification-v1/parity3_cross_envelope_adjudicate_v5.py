@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Adjudicate V5 parity-3 packets across host and interpreter envelopes.
+"""Adjudicate portable parity-3 packets across host and interpreter envelopes.
 
 Replication is a question about agreement between envelopes, which no single
-packet can answer. This tool reads frozen V5 packets, refuses to combine
+packet can answer. This tool reads frozen V5 and V6 packets, refuses to combine
 packets whose candidates are not byte-identical, reports each envelope's own
 terminal, and reports whether the terminals agree.
 
-It never averages a resource envelope across envelopes and never upgrades a
-per-envelope terminal into a substrate-level claim.
+Family support and the within-family frontier are reported separately, because
+the exact opcode coordinate and the observed timing envelope do not have the
+same stability. It never averages a resource envelope across envelopes and
+never upgrades a per-envelope terminal into a substrate-level claim.
 """
 
 from __future__ import annotations
@@ -17,7 +19,11 @@ import json
 from pathlib import Path
 import sys
 
-SCHEMA = "NN_NONNN_POINT_PARITY3_RESULT_V5"
+# V5 and V6 packets are comparable because the adjudicator proves their
+# candidates byte-identical before comparing anything. V6 differs from V5 only
+# by a discarded priming trace in the instrument.
+SUPPORTED_SCHEMAS = ("NN_NONNN_POINT_PARITY3_RESULT_V5",
+                     "NN_NONNN_POINT_PARITY3_RESULT_V6")
 VALID_TERMINALS = (
     "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
     "DERIVED_NEURAL_AT_REGISTERED_SCOPE",
@@ -42,7 +48,8 @@ def load_packet(path: Path) -> dict:
     except ValueError as exc:
         raise AdjudicationError(f"{path.name}: invalid JSON: {exc}") from exc
     require(type(packet) is dict, f"{path.name}: expected a JSON object")
-    require(packet.get("schema") == SCHEMA, f"{path.name}: not a V5 result packet")
+    require(packet.get("schema") in SUPPORTED_SCHEMAS,
+            f"{path.name}: not a supported parity-3 result packet")
     require(type(packet.get("environment")) is dict, f"{path.name}: missing environment")
     require(type(packet.get("candidate_identity")) is dict, f"{path.name}: missing identity")
     terminal = packet.get("terminal")
@@ -53,8 +60,9 @@ def load_packet(path: Path) -> dict:
 
 def envelope_label(packet: dict) -> str:
     env = packet["environment"]
+    instrument = packet["schema"].rsplit("_", 1)[-1]
     return (f"{env['host_label']}|{env['python_implementation']}"
-            f"{env['python_version']}|{env['execution_context']}")
+            f"{env['python_version']}|{env['execution_context']}|{instrument}")
 
 
 def check_identity(packets: dict) -> dict:
@@ -63,7 +71,7 @@ def check_identity(packets: dict) -> dict:
     for label, packet in packets.items():
         identity = packet["candidate_identity"]
         require(identity.get("byte_identical_to_parent") is True,
-                f"{label}: candidates are not byte-identical to the V4 harness")
+                f"{label}: candidates are not byte-identical to their parent harness")
         hashes[label] = identity["local_source_sha256"]
     reference_label, reference = next(iter(hashes.items()))
     for label, value in hashes.items():
@@ -83,6 +91,7 @@ def adjudicate(packets: dict, outstanding: list[str]) -> dict:
         env = packet["environment"]
         row = {
             "host_label": env["host_label"],
+            "instrument_schema": packet["schema"],
             "execution_context": env["execution_context"],
             "python_version": env["python_version"],
             "platform": env["platform"],
@@ -102,6 +111,8 @@ def adjudicate(packets: dict, outstanding: list[str]) -> dict:
                 "frontier_candidate_ids": packet["frontier_candidate_ids"],
                 "frontier_families": packet["frontier_families"],
                 "opcode_counts": packet["opcode_counts"],
+                "priming_was_required": packet.get("instrumentation", {}).get(
+                    "priming_was_required_on_this_interpreter"),
             })
         per_envelope[label] = row
 
@@ -110,6 +121,9 @@ def adjudicate(packets: dict, outstanding: list[str]) -> dict:
     invalid = {label: row for label, row in per_envelope.items()
                if row["terminal"] == INVALID_TERMINAL}
     terminals = sorted({row["terminal"] for row in valid.values()})
+    family_supports = sorted({tuple(row["frontier_families"]) for row in valid.values()})
+    frontier_sets = sorted({tuple(sorted(row["frontier_candidate_ids"]))
+                            for row in valid.values()})
 
     if not valid:
         stability = "NO_VALID_ENVELOPE"
@@ -132,6 +146,7 @@ def adjudicate(packets: dict, outstanding: list[str]) -> dict:
     return {
         "schema": "NN_NONNN_POINT_PARITY3_CROSS_ENVELOPE_V5",
         "packets_read": len(packets),
+        "instrument_schemas_compared": sorted({p["schema"] for p in packets.values()}),
         "candidate_identity": identity,
         "per_envelope": per_envelope,
         "valid_envelopes": sorted(valid),
@@ -143,12 +158,19 @@ def adjudicate(packets: dict, outstanding: list[str]) -> dict:
         "opcode_counts_are_interpreter_dependent": len({
             tuple(sorted(counts.items())) for counts in opcode_table.values()
         }) > 1 if len(opcode_table) > 1 else None,
+        "distinct_family_supports": [list(x) for x in family_supports],
+        "family_support_stable": len(family_supports) == 1 if valid else None,
+        "distinct_frontier_candidate_sets": [list(x) for x in frontier_sets],
+        "within_family_frontier_stable": len(frontier_sets) == 1 if valid else None,
         "cross_envelope_stability": stability,
         "named_outstanding_hosts": sorted(outstanding),
         "replication_obligation_discharged": False,
         "aggregation_policy": (
             "Per-envelope terminals only. Resource envelopes are never pooled or averaged across "
-            "envelopes, and no per-envelope terminal is upgraded into a substrate-level claim."
+            "envelopes, and no per-envelope terminal is upgraded into a substrate-level claim. "
+            "Family support and the within-family frontier are reported separately, because the "
+            "exact opcode coordinate and the observed timing envelope do not have the same "
+            "stability: an observed window is not a bound."
         ),
         "claim_ceiling": (
             "Agreement or disagreement between the recorded envelopes on four frozen candidates "
