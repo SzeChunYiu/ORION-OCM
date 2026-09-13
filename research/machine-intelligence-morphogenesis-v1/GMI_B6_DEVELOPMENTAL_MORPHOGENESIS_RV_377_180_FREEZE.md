@@ -503,3 +503,51 @@ until the existing field can carry it.
 This is the second correction to this lane's own reading in one campaign, both caught before adjudication
 and both from re-reading what the instrument actually stores. Recorded in full because a withdrawn claim
 that quietly disappears is worse than one that was never made.
+
+### Third instrument reading checked: "atrophied carrier DENSE" is a priority pick, not an exclusive classification
+
+Having had two readings corrected in this campaign, I checked the field the whole coefficient result rests
+on. `b1.carrier_of` walks back from `OUTPUT`, collects every state kind on the served path, and then:
+
+```python
+for c in ("DENSE", "PROGRAM", "KVSTORE", "TABLE"):
+    if c in found: return c
+return "NONE"
+```
+
+It is a **fixed-priority pick over everything present on the served path, with DENSE ranked first.** A
+machine whose served path carries both a load-bearing DENSE node and a load-bearing TABLE node is
+reported `DENSE`. Of the four carriers, the coefficient label is therefore the most easily acquired.
+
+**What atrophy does and does not rule out.** The recoveries are read on the *atrophied* genotype under
+`prune_all_interventions` with floor `max(θ, bc + fx)`, so a node survives only if deleting it drops the
+machine below that floor. A vestigial DENSE node would be pruned and the carrier would not read DENSE.
+That is real protection, and it is what rule 23 buys. What it does **not** rule out is a machine in which
+a DENSE node *and* a memory node are **both** load-bearing — neither removable, both necessary. There the
+`DENSE` label is a priority artifact, and the honest description is hybrid.
+
+**The corpus already contains the sharper classifier, in the other instrument.** `nn_nonnn_packet.family_of`
+distinguishes this case explicitly:
+
+```python
+if dense and store: return "HYBRID"
+if dense: return "NEURAL"
+return "NON_NEURAL"
+```
+
+So two instruments in this corpus disagree about the same machine shape: the NN/non-NN packet calls
+DENSE-plus-store `HYBRID`, while `b1.carrier_of` calls it `DENSE`. Every carrier statement in this lane,
+including `Z1`–`Z3`, inherits the coarser reading.
+
+**Consequence for the coefficient-cell result, stated now rather than after adjudication.** "The warm arm
+reached an admissible atrophied-DENSE machine" is established in the sense that a load-bearing DENSE node
+survives atrophy on the served path. It is **not** established that the machine is a coefficient machine
+rather than a hybrid, and the registered occupant set it is being compared against was computed with the
+same coarse classifier, so the comparison is at least internally consistent.
+
+This is checkable for one machine as soon as the witness reconstruction completes: with the atrophied
+genotype in hand, the presence or absence of a surviving memory kind alongside DENSE settles it directly.
+Registered before that result exists: **Z6 — the witness's atrophied genotype contains a load-bearing
+memory kind alongside DENSE, i.e. it is a hybrid rather than a pure coefficient machine.** Falsified if
+the atrophied genotype's kinds include DENSE and no member of `{TABLE, KVSTORE, PROGRAM}` on the served
+path.
