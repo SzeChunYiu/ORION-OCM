@@ -30,8 +30,11 @@ work, and supplies the reverse control. This concerns the declared width/query
 summaries. [Labelled-partition reconstruction](LABELLED_PARTITION_QUERY_RECONSTRUCTION_THEOREM_V1.md)
 proves a complementary sufficiency law: the full input-labelled output
 partition determines attainable query-cost profiles under fixed access,
-query costs and free output relabelling. General physical spectra and
-other interfaces require their own proof.
+query costs and free output relabelling. [Relational reconstruction](RELATIONAL_QUERY_RECONSTRUCTION_THEOREM_V1.md)
+extends this to adequate-output sets through common-output feasibility on
+labelled subcubes, an immediate corollary of TDA and LQR. Pairwise compatibility
+alone can fail; interval-valued obligations supply a sufficient regime. General
+physical spectra and other interfaces require their own proof.
 
 Parent results are cited and distinguished from the GMI applications in each
 module. Exact finite checks challenge those applications; the analytic proofs

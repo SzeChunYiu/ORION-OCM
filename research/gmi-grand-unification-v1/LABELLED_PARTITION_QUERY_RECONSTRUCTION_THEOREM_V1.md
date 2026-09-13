@@ -131,8 +131,11 @@ on two input worlds, action sets {a,b},{b,c} and {a},{c} induce the same two-blo
 set-equality partition, but only the first permits zero-query success. Stopping
 requires the intersection over the whole compatible set to be nonempty.
 Pairwise compatibility is also insufficient: {a,b},{b,c},{a,c} have nonempty
-pairwise intersections and empty joint intersection. These are boundaries,
-not a replacement of the task-directed relational stopping theorem.
+pairwise intersections and empty joint intersection. [RQR-1–4](RELATIONAL_QUERY_RECONSTRUCTION_THEOREM_V1.md)
+constructs the relational extension from common-output feasibility on labelled
+subcubes, with a matched joint-profile oracle and an interval-valued positive
+repair. Its positive reconstruction is an immediate TDA/LQR corollary; output,
+controller and changed-interface costs still require their own register.
 
 ## 7. Development and representation are charged separately
 
