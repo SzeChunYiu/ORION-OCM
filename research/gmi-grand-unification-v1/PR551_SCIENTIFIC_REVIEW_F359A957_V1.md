@@ -50,7 +50,7 @@ DENSE fields and withdraw the claimed higher DENSE margin; do not infer an
 unrecorded margin or complete ancestry from these summaries.
 
 The tested TWIN arms are S0 miss and S1 hit; S2 is absent. The registered
-two-of-three Z3 condition remains pending. CONTINUED S0/S1 already supply two
+two-of-three F-Z3 falsifier remains unresolved; Z3 remains pending. CONTINUED S0/S1 already supply two
 recorded hits, but freeze line 217 specifies scoring only after all 24 arms
 exist. A condition settled for every S2 completion is distinct from completion
 of that registered campaign.
