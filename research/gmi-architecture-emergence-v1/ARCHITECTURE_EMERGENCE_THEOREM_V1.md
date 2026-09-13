@@ -1,151 +1,153 @@
-# Architecture emergence — AEM-1–7
+# Architecture emergence — corrected AEM-1–7
 
-Status: **SYNTHESIS THEOREM AT DECLARED SCOPE + EXACT WITNESSES**
-Date: 2026-09-13
+**Conditional selection, exact finite constructions and evidence boundaries.**
+The [original PR575/576 files](raw/pr575576-ef5be973/SOURCE_BINDINGS_V1.json)
+remain byte-exact. This is an application of existing ARCH and MSC results,
+not a new architecture or general optimization theory.
 
-Ledger item 11: define emergence as selection from a complete admitted feasible
-family under obligation/resource/development constraints, and state when
-prediction is impossible by underdetermination.
+## Parents and selection interface
 
-Every obstruction below is an **existing registered result**. The contribution is
-the cross-layer statement: that they act on five *distinct* arguments of the
-selection functional, so supplying four never suffices.
+[Formal ARCH1–5](../gmi-formal-derivation-v1/ARCHITECTURE.md), unchanged at
+formal1858, separates behavior, joint profiles, attainment and compilation.
+[MSC1–3](../gmi-grand-unification-v1/CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md)
+already supplies nonempty constructive coverage, complete fibers and common
+approximate witnesses. The mature bounded-optimality parent is
+[Russell, §§3–6](https://people.eecs.berkeley.edu/~russell/papers/aij-cnt.pdf):
+selection depends on the environment, performance measure and machine.
+The compatible-completion criterion below makes the overbroad AEM wording
+precise; these parent mechanisms are inherited.
 
-## 1. AEM-1 — what "an architecture is predicted" must mean
+## AEM-1 — definition, identification and selection are distinct
 
-A prediction claim is well-posed only relative to
+Fix the candidate/development class, obligations and resource order.
+A candidate denotes one implementation with its schedule; all profile
+coordinates must come from that same candidate and schedule. Specify whether
+they are expectations, pathwise bounds or other fixed statistics. Acquisition,
+synthesis, verification and deployment are charged in the declared boundary.
+Let A be the adequately feasible reachable set and pi(a) its finite real vector.
+We minimize the product order: q strictly dominates p iff q<=p and q!=p.
 
-\[
-\mathcal S=(\mathcal F,\ \mathcal O,\ \mathcal R,\ \mathcal D)
-\]
+Selection is M={a in A: pi(a) in Pareto(pi(A))}, not necessarily one machine.
+Fix a label map lambda for the claimed partition of realizations and write
+L={lambda(a):a in M}. For overlapping architectural properties instead ask
+whether every a in M satisfies the specified predicate; a single-label
+partition is a scoped convenience, not a required physical taxonomy.
 
-with (i) `F` a **complete admitted feasible family** carrying a coverage proof,
-(ii) `O` a declared obligation order, (iii) `R` a declared resource order, and
-(iv) `D` an admitted development law. The predicted architecture is the selection
-of the induced functional on `F`.
+A declared mathematical selection has a referent even when unknown or
+uncomputable. Coverage evidence is needed to warrant extension to an additional
+population, not to define a smaller problem. Missing data need not change
+selection; representability alone does not select.
 
-Absent any one component the phrase "GMI predicts this architecture" has no
-referent. `REPRESENTABLE` and `SELECTED` remain distinct closure states.
+## AEM-2 — constructive profile closure and full fibers
 
-## 2. AEM-2 — the positive condition
+Let C be a finite nonempty set of actual feasible reachable constructions.
+Suppose pi(C) subset pi(A) subset N, with N a sound necessity relaxation in the
+same ordered space, and every n in N weakly dominated by some pi(c), c in C.
+Then
 
-> **AEM-2.** If `F` carries a coverage proof, `O` and `R` are declared, `D` is
-> registered, and every profile not excluded by proved necessities is weakly
-> dominated by a constructive profile, then the constructive, physical and
-> necessity Pareto sets coincide and the selected family is determined.
+    Pareto(pi(C)) = Pareto(pi(A)) = Pareto(N) != empty.
 
-This is GG34's sufficient closure certificate applied to the family level, with
-MSC-1/MSC-2 supplying nonempty selection and complete fibers. It is sufficient,
-not necessary, and supplies no optimizer when all three Pareto sets are empty.
+Proof. A finite nonempty profile set has a minimal point (minimize the sum).
+For any intermediate P with pi(C) subset P subset N, a minimal p in P is
+weakly dominated by c in pi(C), forcing equality. Conversely, a strict
+P-dominator of a minimal c would itself be weakly dominated by some c' in
+pi(C), contradicting minimality. This proves equality and nonemptiness.
 
-## 3. AEM-3 — five independent obstructions
+This identifies profiles, not a unique label. Collect **all actual fibers**
+at those profiles. Label f is uniquely derived iff M is nonempty and all its
+members have label f. For differently labelled a,b with pi(a)=pi(b)=(1,1),
+C={a} satisfies coverage but neither single label is universally derived.
+Given finite A with decidable exact rational profiles, enumerate its complete
+frontier, fibers and labels. Infinite coverage remains a mathematical premise.
 
-Each registered result below removes a **different** argument of `S`. Each is
-already witnessed; none is introduced here.
+## AEM-3/4 — what missing information actually prevents
 
-| # | Obstruction | Argument destroyed | Registered source |
-|---|---|---|---|
-| O1 | coverage is not decidable from covered-class evidence | `F` | CU-3b |
-| O2 | static data does not identify a development law | `D` | DU-1 |
-| O3 | process law does not choose an obligation order | `O` | GG32 |
-| O4 | observation does not fix the interventional law | evaluation of `O` | CAU-1 |
-| O5 | relaxed bounds do not determine the actual family optimum | `R`-derived ranking | PL-5 |
+Let W be a nonempty set of complete models compatible with available evidence.
+Each w supplies A_w, profiles and the same candidate identity/label interface;
+write M_w and L_w for the selected realizations and labels.
 
-> **AEM-3.** Each of O1–O5 alone is sufficient to make the selection
-> undetermined, and each acts on an argument the others leave intact.
+**Identification criterion.** The label set is identified iff L_w is identical
+for every w. A uniquely derived label f requires L_w={f} in every world.
+A common optimal construction exists iff intersection_w M_w is nonempty.
 
-Witnesses, all exact: GG32 gives constitutions `V0={0}`, `V1={1}` on identical
-dynamics with opposite optimal actions. CAU-1 gives two registers with an
-identical observational law and `P(Y=1 | do(X=1))` of `1/2` against `1`. PL-5
-keeps refined bounds `L_NEURAL = 18`, `L_NON_NEURAL = 14` while actual minima are
-`18, 16` in one world and `18, 20` in another — opposite winners from the same
-relaxed data.
+Proof. Distinct compatible answers cannot be distinguished from the supplied
+evidence. Conversely, constancy defines one set-valued answer. The remaining
+clauses expose the required nonemptiness and common-witness quantifiers.
+A finite W of finite rational registers makes all three tests exact by
+enumeration; the algorithm does not discover W or certify physical coverage.
 
-## 4. AEM-4 — supplying four arguments is not enough
+The old five-item list names possible failure mechanisms, not five independent
+coordinates or universal vetoes. Missing coverage, development, preferences,
+causal evaluation or tight costs **can** alter L_w. They need not: an unknown
+rival cost in [2,3] cannot defeat a fixed feasible cost0 witness. Adding an
+unknown dominated candidate or changing only its reachability also leaves
+that winner fixed. Prove constancy over the compatible set rather than
+requiring information irrelevant to its selected answer.
 
-> **AEM-4.** For each `i`, there is a selection problem in which the four
-> arguments other than the one destroyed by `Oi` are fully supplied, and the
-> selected family is still undetermined.
+The inherited negative witnesses remain valid when they change selections:
+costs(18,16) versus(18,20) share lower bounds(18,14) but reverse the winner;
+opposite adequacy orders can select opposite actions on the same dynamics.
+Unknown causal effects alone are not a selection counterexample unless the
+uncertainty changes the relevant optimum.
 
-This is the operative consequence: partial rigour does not accumulate into a
-prediction. A programme may discharge coverage, declare `O` and `R`, and register
-`D`, and still be blocked by O4 or O5 alone.
+## AEM-5 — size transport requires its cost contract
 
-The claim is that the obstructions act on **distinct arguments**, which their
-witnesses exhibit. It is *not* a claim of formal logical independence in a
-model-theoretic sense; no such proof is offered.
+A verdict at one size supplies no general verdict at another by itself.
+[The evidence correction](EVIDENCE_AND_TRANSPORT_CORRECTION_V1.md) repairs
+the imported lower-bound-to-exact-crossover inference. Hypothetical exact
+costs X_n=3n+2 and D_n=2n+7 differ by n−5, giving a crossover at5.
+A mere native lower bound2n+1 supplies only D_n>=2n+7; it cannot prove a
+tie or cheaper delegation. Formula evaluation is not a native measurement.
+A proved size-uniform ordering is a positive transport certificate, not a
+falsifier of the statement that transport needs a warrant.
 
-## 5. AEM-5 — a family verdict does not transport across problem size
+## AEM-6 — a common constructive selection certificate
 
-Even with every argument supplied, a verdict established at one problem size need
-not hold at another. `PN-4R` measures the effect exactly: under a faithful native
-charge, written XOR is certifiably cheaper than a delegating realization for
-`n <= 4`, the bounds coincide at `n = 5` (544 = 544), and the delegating form is
-strictly cheaper for `n >= 6`.
+For this certificate, selection means argmin of a declared scalar objective J.
+A scalar-family verdict does not automatically cover the whole product-Pareto
+frontier: profiles(0,2) and(2,0) are both Pareto, but J(x,y)=2x+y selects only
+the former. Retain the selected order in every reported family conclusion.
 
-> **AEM-5.** Family orderings are size-indexed. A selection proved at size `n`
-> extends to `n' != n` only with a transport argument.
+Suppose one common adequately feasible reachable candidate a of label f exists
+in every compatible model, with J_w(a)<=U. Every other-label candidate in the
+entire claimed universe has J_w(b)>=L>U. Then every attained global minimizer
+has label f. If all A_w are finite nonempty with exact finite objective values,
+minimizers exist and f is uniquely derived.
 
-## 6. AEM-6 — what a prediction claim must exhibit
+Proof. Candidate a supplies nonemptiness and beats every other-label candidate.
+Finite enumeration supplies attainment. If every f-candidate additionally has
+J_w>=ell, then 0<=J_w(a)−inf_b J_w(b)<=U−ell. This yields a common executable
+approximation; exact common optimality still needs equality or another proof.
+This is MSC3 with its original coverage, adequacy and cost premises.
 
-1. the admitted family `F` **and** its coverage proof;
-2. declared `O` and `R` with their orders;
-3. a registered `D` with schedule semantics;
-4. discharge of O1–O5, or an explicit statement of which remains open;
-5. the problem size at which the verdict holds, per AEM-5;
-6. the residue, stated as `ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`
-   whenever coverage is not proved.
+For fixed finite nonempty A, Pareto selection exists. For a scalar objective,
+strict increase under strict product domination makes Pareto pruning safe.
+The Pareto order does not itself choose a scalarization or tie convention.
+Evaluating/enumerating candidates consumes resources; decidability alone
+does not establish economical physical synthesis.
 
-A claim missing any item is a representability statement, not an emergence
-prediction.
+## AEM-7 — feasibility, attainment and sampled failure
 
-## 8. AEM-7 — a capability obstruction, distinct from the five above
+Empty A means no adequately feasible reachable realization in the declared
+class. Nonempty A can lack a selected realization or an exact minimum:
+costs1/n for n>=1 have infimum0 and no minimizer. Given eta>0, integer
+n>=1/eta gives a witnessed eta-approximation; zero tolerance needs more.
+This is an algebraic infinite example, not a finite-prefix inference.
 
-O1–O5 each remove an *argument* of `S = (F, O, R, D)`. This one does not. It
-applies when every argument is supplied and the selection is still not realised,
-because the admitted family contains no member that reaches the obligation.
+A fully specified finite class whose every reachable member fails the exact
+obligation is infeasible. A finite failed archive is not such a coverage proof.
+A constructive repair can verify an adequate reachable candidate, justify an
+additional development edge, or admit a certified approximation; each changes
+the declared problem transparently. Finite reachability requires all relevant
+development states/edges; its helper does not price or validate that graph.
 
-> **AEM-7.** Supplying `F`, `O`, `R` and `D` does not entail that the selected
-> family is *attained*. A generator can assemble a structure constantly and still
-> produce no member meeting the obligation threshold.
+In B6, incidence, DENSE→GRAD adjacency and an outgoing-edge count establish
+neither trained-family ceilings nor causal failure explanations. The bound NAR
+control changes parameter and response8→7 with **no outgoing GRAD edge**.
+It verifies a state-update channel, not general learning or a campaign result.
+Saved-cell failures remain observations of that saved cohort.
 
-**Registered witness (gradient learners).** Two independent scopes, reported
-separately because they differ:
-
-| scope | population | `GRAD`-bearing |
-|---|---|---|
-| five retained source receipts (census) | 350 saved cells | **8** |
-| nine of eleven live archives (B6 freeze) | 677 archive cells | **34** |
-
-Of the 34: **33** wire `DENSE → GRAD`, so the parameter block reaches the update
-law; only **8** route the update back out; and **0** reach `θ = 0.85` even on the
-permissive standard-only reading.
-
-Two scope facts are load-bearing and must travel with the numbers. The 70
-exported arm rows contain **no** `GRAD` at all (`grad_rows = 0`, 63 distinct
-graphs) — that cohort is best-per-carrier elites, not the searched population,
-and an absence claim drawn from it was retracted. And occurrence is not use: the
-census records `causal_coefficient_use_certified = False` on its rows, stating
-that "GRAD occurrence does not prove effective gradient updates" and that
-adjacency and output ancestry "do not certify causal coefficient use".
-
-**Consequence for AEM-6.** A prediction claim must therefore also exhibit
-*attainment*: a member of `F` that meets `O` within `R`, reached under `D`. The
-checklist item is not "the structure is assemblable" but "an admitted member
-attains the obligation". Assembly frequency is not evidence of capability.
-
-**Falsifier.** Exhibit an admitted `GRAD`-bearing member reaching `θ` under the
-declared standard, or show that the 34-cell count does not survive rescanning the
-same archives.
-
-## 7. Falsifiers and boundaries
-
-AEM-2 is falsified by a selection problem meeting all its premises whose Pareto
-sets differ. AEM-3 is falsified by showing some `Oi` does not in fact block
-selection when the others are supplied. AEM-5 is falsified by a transport theorem
-making family orderings size-invariant under the declared charge.
-
-This unit does **not** establish: that any particular architecture is selected,
-that coverage is attainable for any physical universe, a development law for any
-system, or that the five obstructions are exhaustive. It states the conditions a
-prediction must meet and the registered reasons predictions currently fail.
+[Finite controls](test_architecture_emergence_v1.py) challenge full fibers,
+compatible worlds and exact domination; [evidence controls](test_aem7_capability_v1.py)
+read immutable NAR/census records. No new VM, search, training, ecology or
+timing experiment is run, and no grand checker or aggregate is modified.
