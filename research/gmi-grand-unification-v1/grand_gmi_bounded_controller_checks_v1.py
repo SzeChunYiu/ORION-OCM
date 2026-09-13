@@ -1,6 +1,11 @@
 """Independent product-graph oracle and small exhaustive bounded-controller census."""
 from itertools import product
 import json
+from pathlib import Path
+import sys
+
+# The capsule runs standalone checkers with -I; this bound sibling is explicit.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from grand_gmi_bounded_controller_model_v1 import (
     Model, controllers, decode_controller, decode_model, encode_controller,
     encode_model, evaluate, search, validate, width,

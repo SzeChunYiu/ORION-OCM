@@ -32,7 +32,9 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
+- [Preserved B6 records](../machine-intelligence-morphogenesis-v1/B6_CORRECTED_EVIDENCE_ASSESSMENT_V1.md): unchanged incomplete D adjudication, corrected identity scope, ecology assignments and search-plus-verification costs.
 - [Corrected B6 adjudication](../machine-intelligence-morphogenesis-v1/B6_ADJUDICATION_CORRECTION_V1.md): frozen quantifiers, missing evidence and founder coverage; [cross-instrument inference](../machine-intelligence-morphogenesis-v1/CROSS_INSTRUMENT_INFERENCE_CORRECTION_V1.md) separates uncertainty, transport and chronology.
+- [Reachability evidence correction](../machine-intelligence-morphogenesis-v1/REACHABILITY_EVIDENCE_CORRECTION_V1.md): recovered samples, complete reachable sets and candidate-specific constructions are different evidence objects.
 - [Recursive scientific queue](SCIENTIFIC_GAP_QUEUE_V2.md): unresolved questions,
   failed implications, constructive next tests and scope of completion.
 - [Correction history](RECURSIVE_GAP_AUDIT_20260913.md): earlier repaired

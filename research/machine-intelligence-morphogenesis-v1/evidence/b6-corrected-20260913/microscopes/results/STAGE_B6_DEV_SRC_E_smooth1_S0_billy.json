@@ -1,0 +1,645 @@
+{
+ "archive_cells_filled": 79,
+ "best_constant": 0.8333,
+ "best_constant_value": 8,
+ "carrier_histogram": {
+  "DENSE": 9,
+  "KVSTORE": 22,
+  "NONE": 5,
+  "PROGRAM": 18,
+  "TABLE": 25
+ },
+ "cells": {
+  "DENSE|size0|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "e405ac9af3643dd98018a7d7c3c4b027da72bd3e9c9dd52a5fed5cf3295f1e8d",
+   "genotype": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"dense0\", \"linear0\", 1], [\"linear0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 6}], \"linear0\": [\"LINEAR\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 5
+  },
+  "DENSE|size1|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "10bd689d2b0ff0d5c7f84344350667a5d06935374c90df6718cfc191f509ceac",
+   "genotype": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"linear0\", \"out0\", 0], [\"dense0\", \"linear0\", 1], [\"dense0\", \"edge0\", 0]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 1}], \"edge0\": [\"EDGE\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear0\": [\"LINEAR\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 7
+  },
+  "DENSE|size1|drift5": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "58a1f617a04c44de4df8fab78bb293a005f6b8720a9638d68e486141a97c5ff6",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"nearest1\", 1], [\"dense0\", \"closedform0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "DENSE|size2|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "3987c8ca88d3bf5bbb64135c3d2167c5b4cc1c87c649e3c2b617dc3fd02250d1",
+   "genotype": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"in0\", \"linear0\", 1], [\"linear0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"dense0\", \"linear1\", 0], [\"dense0\", \"linear1\", 1], [\"linear1\", \"out0\", 0], [\"tgt0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"const0\": [\"CONST\", {\"value\": 4}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear0\": [\"LINEAR\", {}], \"linear1\": [\"LINEAR\", {}], \"noupdate0\": [\"NOUPDATE\", {}], \"noupdate1\": [\"NOUPDATE\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 12
+  },
+  "DENSE|size2|drift5": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "97861dee6631a4de5d3aba4fa03f989335fec38010167497a0c2bdee6b1f407c",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"dense0\", \"nearest0\", 1], [\"table0\", \"closedform2\", 0], [\"dense0\", \"closedform2\", 1], [\"nearest0\", \"closedform2\", 2], [\"closedform2\", \"closedform0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"closedform2\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 12
+  },
+  "DENSE|size3|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "f2e396c46b2b245b972531495dd4912fa7186a99c8cba263cca3b163011bb321",
+   "genotype": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"in0\", \"linear0\", 1], [\"verify0\", \"abstain0\", 1], [\"dense0\", \"linear1\", 0], [\"linear1\", \"out0\", 0], [\"tgt0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"const1\", \"abstain0\", 0], [\"dense1\", \"linear1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"const0\": [\"CONST\", {\"value\": 4}], \"const1\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"dense1\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear0\": [\"LINEAR\", {}], \"linear1\": [\"LINEAR\", {}], \"noupdate0\": [\"NOUPDATE\", {}], \"noupdate1\": [\"NOUPDATE\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 14
+  },
+  "DENSE|size3|drift5": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "384a02bde61086816ba056ed6baae8797d9590f572cb3d95ec8a3dbf3103b863",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"dense0\", \"nearest0\", 1], [\"table0\", \"closedform2\", 0], [\"dense0\", \"closedform2\", 1], [\"nearest0\", \"closedform2\", 2], [\"closedform2\", \"closedform0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"closedform2\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 13
+  },
+  "DENSE|size4|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "e9d0938dcfbd8211aaa29005a40a73924fb0d912d0b4c5481db3fbb8eb5fd68e",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"const1\", \"closedform1\", 2], [\"nearest1\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0], [\"dense0\", \"nearest1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 23
+  },
+  "DENSE|size4|drift5": {
+   "capability": 0.8333,
+   "carrier_raw": "DENSE",
+   "fingerprint": "d29fc38a633bbac61b2fdf3c98cee33885d2697d3340bcaf74f957e44bdfd0d8",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"const1\", \"closedform1\", 2], [\"nearest1\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0], [\"dense0\", \"nearest1\", 1], [\"table2\", \"nearest1\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 23
+  },
+  "KVSTORE|size0|drift0": {
+   "capability": 0.625,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "0d218e1a22811f19694dec648c1d38b5579d86a1995eb3a5f45abbbd243596a1",
+   "genotype": "{\"edges\": [[\"kvstore0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"KVSTORE\", {\"cap\": 16}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 5
+  },
+  "KVSTORE|size1|drift0": {
+   "capability": 0.8958,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "18a99640adc9a990b371fcfc54c88d6abefdc2d1da78a21ce8246528c220e99b",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "KVSTORE|size1|drift1": {
+   "capability": 0.8646,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "2a173429cbd58d698d58f050288021e209898baa0f3503cc3e8ae7655cdf65b3",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 12}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "KVSTORE|size1|drift2": {
+   "capability": 0.6458,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "382c5d5fd827704a840ad2f66499efd2e66d694972a884cab637fea04f4f3dc1",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "KVSTORE|size1|drift3": {
+   "capability": 0.7292,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "99bf702826b9ff37e0516f570e2dfdf3cf1a9bbc92ec0ee64539364172a76789",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"dense0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"in0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 12}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "KVSTORE|size1|drift4": {
+   "capability": 0.8542,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "b98d1d9438472c1ad55dbf6777edb9c78bf107a2419fc4d00fc4a63123f0c84b",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "KVSTORE|size1|drift5": {
+   "capability": 0.8802,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "f3cd0de781182f3d99a5b087393a6063f3b8061a7da7636f31efaa661d06ecc0",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "KVSTORE|size2|drift0": {
+   "capability": 0.8958,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "88a06c34448d190dc770a5b7c228712e94bc1ac623e3218cc0daa7f049a5a1dd",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1], [\"tgt0\", \"select0\", 0], [\"tgt0\", \"select0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"select0\": [\"SELECT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "KVSTORE|size2|drift1": {
+   "capability": 0.8802,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "e311ba0e251f16b06416f704bad3a03b0779deaa4bc27f27efd55268213c7491",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"nearest0\", \"insert0\", 2], [\"dense1\", \"nearest0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"dense1\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 32}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 10
+  },
+  "KVSTORE|size2|drift2": {
+   "capability": 0.8438,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "5cae23777d3f3898cd2a044b58855d09565d7f6f813eb661cc44d49f56bd999a",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"nearest2\": [\"NEAREST\", {\"k\": 1, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 32}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 10
+  },
+  "KVSTORE|size2|drift3": {
+   "capability": 0.8698,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "652ad06a99c798c407e6e5cea1a12fc437c06d24141261a5d3fa2621a83dd988",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "KVSTORE|size2|drift4": {
+   "capability": 0.8646,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "7bf4a9b44aac05940ac92856bad4b92f7e8d3cbbee660c2b9af24da3c604aeee",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "KVSTORE|size2|drift5": {
+   "capability": 0.8958,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "b178a707cb55494aa5ad5a3a6c747a50385929deb150933111825a573a14c83f",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "KVSTORE|size3|drift0": {
+   "capability": 0.8958,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "c6b32be442b29d6e41e499dd0db071d2f68c621c17d204ed66d8d123b507a0d3",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0], [\"dense0\", \"linear0\", 0], [\"in0\", \"linear0\", 1], [\"linear0\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 15
+  },
+  "KVSTORE|size3|drift1": {
+   "capability": 0.8333,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "35d7c8d3499cfdddf7f0194cde25eabf1d54416af66c8570f137fe9cae80eb1b",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 14
+  },
+  "KVSTORE|size3|drift2": {
+   "capability": 0.8438,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "805ee04cdec60ce7c705cba9cd165feaa226ad5aec69217bca44e7f2ecc3ca2d",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 14
+  },
+  "KVSTORE|size3|drift3": {
+   "capability": 0.8698,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "605be7e983af622820c898610372777a7e703a65c7e91d6a3cbfca229cbd5dfb",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0], [\"search0\", \"lookup0\", 0], [\"dense0\", \"lookup0\", 1], [\"abstain0\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 15
+  },
+  "KVSTORE|size3|drift4": {
+   "capability": 0.8333,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "dc2d907dd28e226a8ab97eb0c67422ade2c4c9c762f008a36400ea895d7694f5",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0], [\"search0\", \"lookup0\", 0], [\"dense0\", \"lookup0\", 1], [\"abstain0\", \"closedform1\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"tgt0\", \"insert0\", 2], [\"insert0\", \"closedform0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 16
+  },
+  "KVSTORE|size3|drift5": {
+   "capability": 0.8958,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "5833fa6b91575a1abe2a0eede00b41a9630cb9f715f9ab21a8cdb760effeb6d7",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0], [\"abstain0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 15
+  },
+  "KVSTORE|size4|drift0": {
+   "capability": 0.8646,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "a231e80aae2e3c3ec8a932b2998370e8e040286494e86c516999601c78c74b23",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"tgt0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"const1\", \"closedform1\", 2], [\"table2\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 4}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "KVSTORE|size4|drift4": {
+   "capability": 0.8333,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "6fe875a05845fdddf70d6e138f1cf10623183e1216e7761edaba9c35566f68fb",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"table2\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0], [\"const1\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 4}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"KVSTORE\", {\"cap\": 32}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "KVSTORE|size4|drift5": {
+   "capability": 0.8333,
+   "carrier_raw": "KVSTORE",
+   "fingerprint": "a3182095c0782c6badbf6159111cc7ec1c52ac936de4b7bc1fb7d1aaa7ebf9c6",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"const1\", \"closedform1\", 2], [\"table2\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 4}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"KVSTORE\", {\"cap\": 32}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "NONE|size0|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "NONE",
+   "fingerprint": "c891c30c3fa9cf02e58be68aa4ebd5b282809a807cbd3a60db298df5caa85048",
+   "genotype": "{\"edges\": [[\"const0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"const0\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 5
+  },
+  "NONE|size1|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "NONE",
+   "fingerprint": "724f30c8b2ec1ff9e2acd60949d0f636ad4778b7d7df20a6ab09f473f4a12a51",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"const0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"const0\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 6
+  },
+  "NONE|size2|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "NONE",
+   "fingerprint": "b8c4fe7d2606551cfb3c9c5d3787699f92b7626e9ad76131d12ccc608e5e7d62",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"search0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"closedform0\", \"search0\", 0], [\"nearest0\", \"search0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"const0\", \"abstain0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"search0\": [\"CLOSEDFORM\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 12
+  },
+  "NONE|size3|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "NONE",
+   "fingerprint": "1ab4f772039294661daa0a2391852b8c9c9875e58e97d5110eca50eeaa911529",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"search0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"closedform0\", \"search0\", 0], [\"nearest0\", \"search0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table1\", \"versioned0\", 0], [\"const0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"search0\": [\"CLOSEDFORM\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 32}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 4}]}}",
+   "n_nodes": 14
+  },
+  "NONE|size4|drift0": {
+   "capability": 0.8333,
+   "carrier_raw": "NONE",
+   "fingerprint": "65c2d93f016fcdb454711ce77d14351a8344b578a972392494536d629d8fd66c",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"table2\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"const0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "PROGRAM|size0|drift0": {
+   "capability": 0.625,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "748879b595516477696d817144f18f5451a2217bcf56d606118414b6a07c9616",
+   "genotype": "{\"edges\": [[\"program0\", \"progexec0\", 0], [\"progexec0\", \"out0\", 0], [\"in0\", \"progexec0\", 1]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 4}], \"out0\": [\"OUTPUT\", {}], \"progexec0\": [\"PROGEXEC\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 5
+  },
+  "PROGRAM|size1|drift0": {
+   "capability": 0.625,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "b87b6314fc395c8298e940ade3bb5ce9e3edcf0ed44cf8380881a33a4791b630",
+   "genotype": "{\"edges\": [[\"in0\", \"progexec0\", 1], [\"program1\", \"progexec0\", 0], [\"program0\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 4}], \"out0\": [\"OUTPUT\", {}], \"progexec0\": [\"PROGEXEC\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "PROGRAM|size2|drift0": {
+   "capability": 0.8854,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "d77b8a7b2d1ef600ac3f410269946b683ffa28c2cc1c4104482d8fb619f49dbc",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 12
+  },
+  "PROGRAM|size2|drift1": {
+   "capability": 0.8333,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "944ea098ff698896fccadf8353c6fc000c1115e1595e2db4474b9dedece45cc3",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"closedform1\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 4}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 12
+  },
+  "PROGRAM|size2|drift4": {
+   "capability": 0.8646,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "7ad83f54410bc2f69080c7710380ffbc427d225f204301b6f1aaa82c582175f1",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"closedform1\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 12
+  },
+  "PROGRAM|size2|drift5": {
+   "capability": 0.8854,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "5e9324828c6d935d373294b6b71fd714406c4dee931a44e13a477609d927ab3b",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 12
+  },
+  "PROGRAM|size3|drift0": {
+   "capability": 0.8958,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "ce04fa6c4fee6cf33fa054c45cd38b045246a4b22e8e0c3230f0eef5d7c8d151",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"dense0\", \"linear0\", 0], [\"in0\", \"linear0\", 1], [\"linear0\", \"closedform1\", 2], [\"nearest2\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 16
+  },
+  "PROGRAM|size3|drift1": {
+   "capability": 0.8333,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "98247e4ad282772a7e23d54189b8be47e6a99f9aeb4acedf0b6dee84d2dd0261",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 13
+  },
+  "PROGRAM|size3|drift2": {
+   "capability": 0.8438,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "422c6927a6fe51e1772b84f04b1c3fadeed917983f43be037ac240e4d246104f",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 15
+  },
+  "PROGRAM|size3|drift3": {
+   "capability": 0.8698,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "62bf667d126daa8565c38d7cf61a3be873d9a17af19381a1f5220e58abd99584",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"search0\", \"lookup0\", 0], [\"dense0\", \"lookup0\", 1], [\"abstain0\", \"closedform1\", 2], [\"nearest2\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 16
+  },
+  "PROGRAM|size3|drift4": {
+   "capability": 0.8646,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "bc340582eaa1c6132fc49dcceed3e4aab2be41e17f46d27abbd5457e3405c9c3",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 13
+  },
+  "PROGRAM|size3|drift5": {
+   "capability": 0.8958,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "92102963798ffff6d053eee16a42916381166ba66c6567a6efb0de6508668fb3",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"search0\", \"lookup0\", 0], [\"dense0\", \"lookup0\", 1], [\"abstain0\", \"closedform1\", 2], [\"nearest2\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 16
+  },
+  "PROGRAM|size4|drift0": {
+   "capability": 0.8646,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "42664f0b23905fdcb3c42cb1fbe5a8f79a99ca97d0234fde95f523a270cc8dc4",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"table2\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"abstain1\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0], [\"table0\", \"nearest3\", 0], [\"in0\", \"nearest3\", 1], [\"nearest3\", \"abstain1\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest3\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 23
+  },
+  "PROGRAM|size4|drift1": {
+   "capability": 0.8333,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "0285351b6135cb0772841b3992abda1d2a7a20f4d9bd1cc22cbc7ad22e74ed10",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table0\", \"lookup1\", 0], [\"lookup1\", \"search0\", 2], [\"const1\", \"closedform1\", 2], [\"dense0\", \"lookup1\", 1], [\"nearest0\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 23
+  },
+  "PROGRAM|size4|drift2": {
+   "capability": 0.8333,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "85020129488a1197c6bc7dfb5b219ec149fab34695b8cc523e4899b202f90703",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table0\", \"lookup1\", 0], [\"in0\", \"lookup1\", 1], [\"lookup1\", \"search0\", 2], [\"const1\", \"closedform1\", 2], [\"nearest0\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 1}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "PROGRAM|size4|drift3": {
+   "capability": 0.8333,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "05352e65ed41ae99d87908d599531bd01c14fd4aa19368f85e18fc8ba7b90d29",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table0\", \"lookup1\", 0], [\"in0\", \"lookup1\", 1], [\"lookup1\", \"search0\", 2], [\"const1\", \"closedform1\", 2], [\"nearest0\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "PROGRAM|size4|drift4": {
+   "capability": 0.849,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "f27c0c10faa1d2f7ea76fe6fd4aaa089a45d100a2ea33038607b6cf03a94bac3",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0], [\"verify0\", \"abstain3\", 1], [\"abstain3\", \"abstain2\", 0], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"abstain3\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"abstain3\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "PROGRAM|size4|drift5": {
+   "capability": 0.849,
+   "carrier_raw": "PROGRAM",
+   "fingerprint": "9d434c48fecdf3986d44c1d3932632ab0b6c2d9676e2e9103047eb648911c9f9",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0], [\"verify0\", \"abstain3\", 1], [\"abstain3\", \"abstain2\", 0], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"abstain3\", 0], [\"table0\", \"nearest3\", 0], [\"in0\", \"nearest3\", 1], [\"nearest3\", \"abstain0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"abstain3\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest3\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 23
+  },
+  "TABLE|size0|drift0": {
+   "capability": 0.625,
+   "carrier_raw": "TABLE",
+   "fingerprint": "fe2ea5e4d542f68c3ca18b95282b944eae9fa5d77ca873e3a380e7a421bb7712",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 4}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 5
+  },
+  "TABLE|size1|drift0": {
+   "capability": 0.8958,
+   "carrier_raw": "TABLE",
+   "fingerprint": "5b5e1a7d6fe24618ed606c7e01c53e6ca0ae1f07317606cf51ccfd410dcc1161",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "TABLE|size1|drift1": {
+   "capability": 0.8646,
+   "carrier_raw": "TABLE",
+   "fingerprint": "a639325724139234ab9933eceff5c285c256d07f07a16d5ee278b65b944310ab",
+   "genotype": "{\"edges\": [[\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"insert0\", 2], [\"nearest0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "TABLE|size1|drift2": {
+   "capability": 0.6458,
+   "carrier_raw": "TABLE",
+   "fingerprint": "859314c6af904dc799873de92349cf7ab9d1deb2c3fc87859077bcd60ecb258b",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "TABLE|size1|drift3": {
+   "capability": 0.849,
+   "carrier_raw": "TABLE",
+   "fingerprint": "4cf0175a683a36a16fa063ff20e10b1410dd3341e0da3d77d604d23fd7d04257",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "TABLE|size1|drift4": {
+   "capability": 0.8594,
+   "carrier_raw": "TABLE",
+   "fingerprint": "c6722c55c660e0be37c82b0b8a8e7723c4cce5ebc0ace0b9a5c361242597b0e3",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "TABLE|size1|drift5": {
+   "capability": 0.8802,
+   "carrier_raw": "TABLE",
+   "fingerprint": "64f532ea0ed63e600a1e21a331cc82aae5d07535a8567733199ba50de9455806",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 8
+  },
+  "TABLE|size2|drift0": {
+   "capability": 0.8958,
+   "carrier_raw": "TABLE",
+   "fingerprint": "fbf9223629b25778bed28b63ce41800d92cc42a6bf0fe1c442e03cd30ff768b2",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"nearest1\", \"insert0\", 2], [\"dense0\", \"insert0\", 1], [\"tgt0\", \"select0\", 0], [\"tgt0\", \"select0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"select0\": [\"SELECT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "TABLE|size2|drift1": {
+   "capability": 0.8802,
+   "carrier_raw": "TABLE",
+   "fingerprint": "3e98c72ecad87f0d7615c32993acc4302b1bd9be8739ca706e1f55bf77076147",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"nearest0\", \"insert0\", 2], [\"dense1\", \"nearest0\", 1]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"dense1\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 10
+  },
+  "TABLE|size2|drift2": {
+   "capability": 0.8438,
+   "carrier_raw": "TABLE",
+   "fingerprint": "d910a911a828a00e1dc7404fda1dbabb35bcc4b70663b0f804bb56e2d6290474",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"nearest2\": [\"NEAREST\", {\"k\": 1, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 10
+  },
+  "TABLE|size2|drift3": {
+   "capability": 0.8698,
+   "carrier_raw": "TABLE",
+   "fingerprint": "2e622a8642ee90d25e3d22bec57eb808c0fe57b3051fb9e42f092fde4de1c808",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 4}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "TABLE|size2|drift4": {
+   "capability": 0.875,
+   "carrier_raw": "TABLE",
+   "fingerprint": "6c98c0712f590d2d2cd47c3af8e95af71559b6474bfd0cd57785cde2a49065a8",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "TABLE|size2|drift5": {
+   "capability": 0.8958,
+   "carrier_raw": "TABLE",
+   "fingerprint": "369a00db2114cab0ce206a1bbc2eb5d3c0e42053805826362feb1ac426c64bdd",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"insert0\", 0], [\"dense0\", \"insert0\", 1], [\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"nearest0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"insert0\": [\"INSERT\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9
+  },
+  "TABLE|size3|drift0": {
+   "capability": 0.8958,
+   "carrier_raw": "TABLE",
+   "fingerprint": "28a20c285c814721fd495b6cf10b60bf3e08c38a9a19ebc12b2302015078f631",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0], [\"search0\", \"lookup0\", 0], [\"dense0\", \"lookup0\", 1], [\"abstain0\", \"closedform1\", 2], [\"out0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"abstain0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 16
+  },
+  "TABLE|size3|drift1": {
+   "capability": 0.75,
+   "carrier_raw": "TABLE",
+   "fingerprint": "bae28a2cde5c716a2599161c8c656ba7d31fccc03f00b34acdda6e24336cb475",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 13
+  },
+  "TABLE|size3|drift2": {
+   "capability": 0.8333,
+   "carrier_raw": "TABLE",
+   "fingerprint": "ad0543a1821c0fe1c92cfd095f02a7fec33577d3c901850ad5691419abb2e7e5",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"const1\", \"closedform1\", 2], [\"dense0\", \"nearest0\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 15
+  },
+  "TABLE|size3|drift3": {
+   "capability": 0.8333,
+   "carrier_raw": "TABLE",
+   "fingerprint": "c6812bb3d1e0e7bb539e444493623d1572bc2ab98a9829aa2f7c77016e6dee71",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"out0\", 0], [\"const1\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 14
+  },
+  "TABLE|size3|drift4": {
+   "capability": 0.8646,
+   "carrier_raw": "TABLE",
+   "fingerprint": "82d12ac7161505562f271bcb8e740a209cf657cdbb2abcfbe30047315dfd2699",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"closedform1\", 2], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 14
+  },
+  "TABLE|size3|drift5": {
+   "capability": 0.8958,
+   "carrier_raw": "TABLE",
+   "fingerprint": "ea6cdf8a5f4e8927aa48033ea27f97587d8444db33703b91f6ccafa804d2ed37",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"tgt0\", \"search0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"dense0\", \"closedform1\", 1], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0], [\"search0\", \"lookup0\", 0], [\"dense0\", \"lookup0\", 1], [\"abstain0\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 6}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 15
+  },
+  "TABLE|size4|drift0": {
+   "capability": 0.8646,
+   "carrier_raw": "TABLE",
+   "fingerprint": "3a0509392cebeb63e3804718debca581afceccfaa05d6cf98631302fc6c18f67",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"tgt0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table2\", \"search0\", 0], [\"const1\", \"closedform1\", 2], [\"table2\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 4}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"table2\": [\"TABLE\", {\"keybits\": 3}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "TABLE|size4|drift1": {
+   "capability": 0.8333,
+   "carrier_raw": "TABLE",
+   "fingerprint": "c9e052847694dc33849403c9841d909b4faa48d11e7e425ab5ef5cc8542a81b0",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"nearest0\", \"out0\", 0], [\"table0\", \"lookup1\", 0], [\"lookup1\", \"search0\", 2], [\"const1\", \"closedform1\", 2], [\"dense0\", \"lookup1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"dense0\": [\"DENSE\", {\"width\": 2}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "TABLE|size4|drift2": {
+   "capability": 0.8333,
+   "carrier_raw": "TABLE",
+   "fingerprint": "ccabc7e8ba8be92256193897235cf5b250e13fee5cb6efe4fca0d1fe89538aef",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table0\", \"lookup1\", 0], [\"in0\", \"lookup1\", 1], [\"lookup1\", \"search0\", 2], [\"const1\", \"closedform1\", 2], [\"nearest0\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"nearest0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 1}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  },
+  "TABLE|size4|drift3": {
+   "capability": 0.8333,
+   "carrier_raw": "TABLE",
+   "fingerprint": "c2da6c235180034647cb4a8cf80a2f7b45bbe00da95ccc8a8a166808af69d990",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"program1\", \"verify0\", 0], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"program1\", \"materialize0\", 0], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"nearest0\", \"out0\", 0], [\"table0\", \"lookup1\", 0], [\"in0\", \"lookup1\", 1], [\"lookup1\", \"search0\", 2], [\"const1\", \"closedform1\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"const1\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 16}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"program1\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 21
+  },
+  "TABLE|size4|drift4": {
+   "capability": 0.849,
+   "carrier_raw": "TABLE",
+   "fingerprint": "fab165052cc3588e64d63ffe16594a3eb91744dfbef84703451928fc56c3b1b7",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"nearest0\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0], [\"verify0\", \"abstain3\", 1], [\"abstain3\", \"abstain2\", 0], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"abstain3\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"abstain3\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 21
+  },
+  "TABLE|size4|drift5": {
+   "capability": 0.849,
+   "carrier_raw": "TABLE",
+   "fingerprint": "dce8f83b79c68cdd32d4b8ead939ccf2606db03b58bc72dded35e91bb1e82a88",
+   "genotype": "{\"edges\": [[\"table0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"closedform1\", 0], [\"in0\", \"closedform1\", 1], [\"tgt0\", \"closedform1\", 2], [\"closedform1\", \"closedform0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"search0\", 0], [\"in0\", \"search0\", 1], [\"abstain0\", \"search0\", 2], [\"table0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"in0\", \"evidence0\", 0], [\"nearest0\", \"evidence0\", 1], [\"materialize0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0], [\"verify0\", \"abstain3\", 1], [\"abstain3\", \"abstain2\", 0], [\"table0\", \"nearest2\", 0], [\"in0\", \"nearest2\", 1], [\"nearest2\", \"abstain3\", 0], [\"table0\", \"nearest3\", 0], [\"in0\", \"nearest3\", 1], [\"nearest3\", \"abstain0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"abstain3\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"closedform1\": [\"CLOSEDFORM\", {}], \"const0\": [\"CONST\", {\"value\": 8}], \"evidence0\": [\"EVIDENCE\", {\"cap\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"materialize0\": [\"MATERIALIZE\", {\"keybits\": 3}], \"nearest0\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest3\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 1}], \"search0\": [\"INSERT\", {}], \"table0\": [\"TABLE\", {\"keybits\": 2}], \"table1\": [\"TABLE\", {\"keybits\": 2}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 22
+  }
+ },
+ "ecology": "E_smooth1",
+ "failed_phenotypes": 49,
+ "history": [
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.8854,
+   "cells": 40,
+   "failed_phenotypes": 12,
+   "n_eval": 5000,
+   "sec": 146.3
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.8958,
+   "cells": 57,
+   "failed_phenotypes": 19,
+   "n_eval": 10000,
+   "sec": 465.6
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.8958,
+   "cells": 71,
+   "failed_phenotypes": 33,
+   "n_eval": 15000,
+   "sec": 787.1
+  },
+  {
+   "admissible_carriers": [
+    "KVSTORE",
+    "PROGRAM",
+    "TABLE"
+   ],
+   "best": 0.8958,
+   "cells": 79,
+   "failed_phenotypes": 49,
+   "n_eval": 20000,
+   "sec": 1138.9
+  }
+ ],
+ "host": "billy",
+ "issue": [
+  377
+ ],
+ "n_evaluations": 20000,
+ "proposal_tries_charged": 608964,
+ "receipt_sha256": "df35cb22bf955b87b5830625d58f16250c7b3adbfd069f2f6e5cd9d5510431af",
+ "revival_record": "RV-377-180",
+ "schema": "StageB6DevelopmentSourceV1",
+ "search_family": "b1.search default path (seed_population=None), byte-identical to the committed B1 search",
+ "seconds": 1139.0,
+ "seed": 0,
+ "spec": {
+  "coeffs": [
+   0.25,
+   0.5,
+   -0.25,
+   0.5
+  ],
+  "criterion": "unseen",
+  "family": "smooth",
+  "n_events": 16,
+  "name": "E_smooth1",
+  "theta": 0.85
+ },
+ "spec_id": "41719d03bbdf5cd6"
+}
