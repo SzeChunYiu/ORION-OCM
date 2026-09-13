@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Independent fair n-bit database, static retained state of at most M bits, independent indexed queries; all learned code, addresses and database-dependent state must be included in retention",
+  "prediction": "For nonnegative charges, exact minimum of cA*expected_acquisition_reads+cM*retained_bits+H*cR*expected_query_reads is min over integer m<=M of (cA+cM)*m+H*cR*(1-sum of largest m query probabilities)",
+  "search": "Enumerate every set partition of all 2^n databases into at most2^M retained symbols, then find optimal adaptive one-bit read trees for acquisition and each retained-symbol/query fiber; no cache template used in synthesis",
+  "cases": [
+    {"id": "development_uniform", "n": 3, "memory_max": 2, "probabilities": ["1/3", "1/3", "1/3"], "cA": "1", "cM": "0", "cR": "1", "H": "6", "minimum": "4", "optimal_memory_sizes": [2]},
+    {"id": "heldout_skew_tie1", "n": 3, "memory_max": 2, "probabilities": ["1/2", "1/3", "1/6"], "cA": "1", "cM": "0", "cR": "1", "H": "2", "minimum": "2", "optimal_memory_sizes": [0, 1]},
+    {"id": "heldout_skew_tie2", "n": 3, "memory_max": 2, "probabilities": ["1/2", "1/3", "1/6"], "cA": "1", "cM": "0", "cR": "1", "H": "3", "minimum": "5/2", "optimal_memory_sizes": [1, 2]},
+    {"id": "heldout_skew_longer", "n": 3, "memory_max": 2, "probabilities": ["1/2", "1/3", "1/6"], "cA": "1", "cM": "0", "cR": "1", "H": "6", "minimum": "3", "optimal_memory_sizes": [2]},
+    {"id": "heldout_storage_price", "n": 3, "memory_max": 2, "probabilities": ["1/2", "1/3", "1/6"], "cA": "1", "cM": "1/2", "cR": "1", "H": "2", "minimum": "2", "optimal_memory_sizes": [0]}
+  ],
+  "controls": ["all2795 canonical encoders covered for n3 M2", "nonlinear parity retained state included", "acquisition cost independently verified by exhaustive read-tree oracle", "every tied optimal memory size retained", "changing query distribution can change selected memory", "full retention reduces future reads to zero but costs acquisition"],
+  "boundary": "These are three declared resource coordinates, not hardware total cost. CPU/address/code/index overhead, database correlation, changes to stored data, later state updates and nonuniform database bits need different contracts. Parameter holdout only; no unseen architecture family."
+}
