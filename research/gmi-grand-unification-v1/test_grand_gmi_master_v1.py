@@ -12,10 +12,15 @@ SPEC.loader.exec_module(MOD)
 
 
 class GrandGMIMasterTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.aggregate = MOD.run()
+
     def test_receipt_stack(self):
-        r = MOD.check_receipt_stack()
-        self.assertEqual(r["receipts"], 5)
+        r = self.aggregate["receipt_stack"]
+        self.assertEqual(r["receipts"], len(list(HERE.glob("grand_gmi*checks*.py"))) - 1)
         self.assertTrue(r["all_green"])
+        self.assertEqual(r["verification"], "FULL_PAYLOAD_SOURCE_BOUND_REPLAY")
 
     def test_approximate_relation_is_not_quotient(self):
         r = MOD.check_approximate_nontransitivity()
@@ -32,7 +37,13 @@ class GrandGMIMasterTests(unittest.TestCase):
         self.assertTrue(r["monotonicity_green"])
 
     def test_aggregate(self):
-        self.assertEqual(MOD.run()["terminal"], "GRAND_GMI_MASTER_INTEGRATION_ALL_GREEN")
+        self.assertEqual(self.aggregate["terminal"], "GRAND_GMI_MASTER_INTEGRATION_V2_ALL_GREEN")
+
+    def test_pareto_frontier_is_not_componentwise_infimum(self):
+        r = MOD.check_componentwise_infimum_not_attained()
+        self.assertEqual(r["pareto_frontier"], [[1, 3], [3, 1]])
+        self.assertEqual(r["componentwise_infimum"], [1, 1])
+        self.assertFalse(r["componentwise_infimum_attained"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,124 @@
+{
+  "schema": "NN_NONNN_POINT_PARITY3_PREREG_V4",
+  "experiment_id": "grand-gmi-parity3-hostile-expansion-v4",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "date": "2026-09-13",
+  "scientific_scope": "finite point comparison of four response-equivalent parity-3 realizations on one CPython 3.12 hosted-Linux execution substrate; not a universal intelligence-family claim",
+  "problem": {
+    "obligation": "For every x in {0,1}^3, emit x0 XOR x1 XOR x2 exactly.",
+    "protected_domain_size": 8,
+    "deployment_domain": "all 8 binary triples, exhaustively evaluated",
+    "capability_gate": "8/8 exact outputs required",
+    "null_baseline": "constant-zero policy, expected 4/8 exact"
+  },
+  "family_definitions": {
+    "NEURAL": "Feed-forward affine-threshold networks: the original four-minterm hidden layer and a separately derived three-hidden-unit shared-sum network. Both use a threshold output.",
+    "NON_NEURAL": "Direct two-XOR Boolean program and exact eight-entry lookup table, each returning one bit."
+  },
+  "candidates": [
+    {
+      "candidate_id": "N_THRESHOLD_DNF4_V1",
+      "family": "NEURAL",
+      "implementation": "neural_threshold_parity3",
+      "reachability": "directly constructed frozen source; no training/search",
+      "ast_sha256": "31a292d7f3835ad344729d34f85e4c907e8011b2a4934c486e191781fda8a0a9"
+    },
+    {
+      "candidate_id": "X_XOR2_V1",
+      "family": "NON_NEURAL",
+      "implementation": "non_neural_xor_parity3",
+      "reachability": "directly constructed frozen source; no training/search",
+      "ast_sha256": "5f9c89ced0cbf8ccd650d11a4605dd53e21f148c0ccbcdfebe10f34217927877"
+    },
+    {
+      "candidate_id": "N_SUM_THRESHOLD3_V3",
+      "family": "NEURAL",
+      "implementation": "neural_sum_threshold_parity3",
+      "reachability": "direct algebraic construction using parity as alternating cumulative thresholds; no timing-guided search",
+      "ast_sha256": "ae4f31e122e3e6ab4230d45d6fca45257ae2967a3b461943e94e399f28057fc5"
+    },
+    {
+      "candidate_id": "X_LOOKUP8_V3",
+      "family": "NON_NEURAL",
+      "implementation": "non_neural_lookup_parity3",
+      "reachability": "direct exhaustive truth table; no timing-guided search",
+      "ast_sha256": "32f518532e8b9e56579daa0017acea8ad0381884a6036ef98a445fcb8f8dd78f"
+    }
+  ],
+  "development_accounting": {
+    "mode": "preconstructed-candidate deployment comparison",
+    "development_reachability_gate": "both candidate functions must be present and pass exhaustive capability before measurement",
+    "development_cost_in_selection": false,
+    "reason": "Continues the deployment-only point comparison with four directly constructed candidates. Construction and optimization time are excluded and no lifecycle superiority is claimed."
+  },
+  "substrate": {
+    "runner": "GitHub Actions ubuntu-latest hosted runner",
+    "python_implementation": "CPython",
+    "python_version": "3.12.x",
+    "garbage_collection_during_timed_blocks": "disabled",
+    "external_tools_or_network_during_measurement": false
+  },
+  "measurement_schedule": {
+    "warmup_sweeps_per_candidate": 5000,
+    "timed_blocks": 32,
+    "sweeps_per_block": 20000,
+    "inputs_per_sweep": 8,
+    "calls_per_block_per_candidate": 160000,
+    "candidate_order": "rotate base order by block modulo 4; reverse base order on odd groups of 4"
+  },
+  "registered_resource_coordinates": [
+    {
+      "name": "python_opcode_count_per_full_domain_sweep",
+      "semantics": "exact CPython opcode events executed inside the candidate function over the 8 protected inputs",
+      "uncertainty": "none for the executed interpreter/code artifact"
+    },
+    {
+      "name": "wall_block_ns",
+      "semantics": "perf_counter_ns elapsed time for exactly 160000 protected candidate calls in one timed block",
+      "uncertainty": "finite observed schedule envelope [minimum block, maximum block]; no claim of population confidence beyond the registered run"
+    },
+    {
+      "name": "process_block_ns",
+      "semantics": "process_time_ns CPU time for exactly 160000 protected candidate calls in one timed block",
+      "uncertainty": "finite observed schedule envelope [minimum block, maximum block]; no claim of population confidence beyond the registered run"
+    }
+  ],
+  "selection_rule": {
+    "mode": "PARETO_ROBUST_BOX_DOMINATION",
+    "non_neural_terminal": "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
+    "neural_terminal": "DERIVED_NEURAL_AT_REGISTERED_SCOPE",
+    "abstention_terminal": "UNDECIDED_FROM_CURRENT_EVIDENCE",
+    "rule": "Remove a candidate iff another registered candidate robustly box-dominates it. Report the complete surviving frontier. Select a family only when every frontier candidate belongs to that family; report a unique candidate winner only for a singleton frontier. Mixed-family frontier means abstention. No scalarization or post-outcome tie-break."
+  },
+  "candidate_expansion_attack": {
+    "status": "PREREGISTERED_NOT_EXECUTED",
+    "new_candidates": [
+      "N_SUM_THRESHOLD3_V3",
+      "X_LOOKUP8_V3"
+    ],
+    "scope": "one algebraically reduced exact threshold network and one exact lookup table; no global architecture optimization or independent external optimization is claimed"
+  },
+  "claim_ceiling": "Four frozen candidates on parity-3 and the executed CPython 3.12 hosted runner, using finite observed deployment envelopes. No universal family winner, all-architecture optimization, independent prospective replication, development-cost advantage or representative intelligence claim.",
+  "independent_prospective_prediction": false,
+  "execution_policy": {
+    "timed_execution": "First main-push attempt only; no PR timing, local timing or rerun for outcome selection.",
+    "deterministic_self_tests": "Exhaustive capability, complete opcode traces, synthetic adjudication and schedule balance may be checked before freeze without timing.",
+    "failure_policy": "A failed expectation is valid scientific output; instrument or capability failure invalidates evidence and requires a separately registered repair."
+  },
+  "registered_expansion_expectation": {
+    "prediction": "The expanded robust frontier will contain only NON_NEURAL candidates.",
+    "expected_terminal": "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
+    "falsifier": "A surviving neural candidate makes this expectation fail. Any protocol or exact-capability failure invalidates the packet. Mixed-family frontier requires abstention.",
+    "post_failure_rule": "No changes to candidates, schedule, coordinates, scope or selection after timing; keep every first-run outcome, including failures and abstentions.",
+    "epistemic_status": "Outcome-informed hostile expansion after reading V1 and V2, frozen before V4 timing; V3 has not executed. Not independent prospective replication."
+  },
+  "expansion_lineage": {
+    "historical_packets": "V1 and V2 source, registrations, workflows and measured outcomes remain unchanged.",
+    "parent_source_commit": "204d5c74754a2bec6d50d9a3129f5b519438f5ea",
+    "prior_evidence_commit": "dfe2e4312105d49e87b4d144f30896c6102b1cd1",
+    "freeze_boundary": "first main commit with this V4 source, registration and workflow; first main-push attempt only; later source changes require a new version",
+    "instrument": "V2 prearmed complete candidate-frame opcode tracing and forward/reverse order validation retained for all four straight-line candidates",
+    "v3_execution": "No V3 workflow run was observed for the content commit 6ee679f4ff108bfab9817fda3c8d95b26edb6356 or empty merge commit 7eff0a4b8f53903a0799ff81ef422fafb3b6f931 before V4 registration. V3 is retained unchanged and unexecuted; do not retrospectively label it measured.",
+    "v4_change": "New execution identity and correction of the inherited scientific_scope wording from two to four candidates. Every candidate AST hash, schedule, resource coordinate, development boundary and decision rule is unchanged from V3. No timing outcome has been observed or used."
+  }
+}
