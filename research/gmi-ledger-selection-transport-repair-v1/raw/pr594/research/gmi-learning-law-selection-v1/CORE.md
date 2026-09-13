@@ -18,9 +18,3 @@ selects Bayesian updating and cheap gradient evaluation selects mirror descent.
 Status: **NOT REGISTERED IN THE REPLAY CAPSULE**, outside
 `research/gmi-grand-unification-v1/`. Conditional on a registered contract; no
 premise-free derivation is claimed, and no architecture follows from `D` alone.
-
-The three predictions frozen in
-[DEFERRED_PREDICTIONS_V1.md](DEFERRED_PREDICTIONS_V1.md) merged unevaluated and
-were then executed: [all three held](DEFERRED_EXECUTION_V1.md), 3 of 3, against
-the frozen digest. That makes the prospective claim a confirmed one rather than
-a recomputation.

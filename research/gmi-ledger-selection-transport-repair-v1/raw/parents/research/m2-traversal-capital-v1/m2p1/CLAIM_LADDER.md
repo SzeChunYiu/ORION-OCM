@@ -1,0 +1,124 @@
+# Claim rung statement for this lane (#373 §9), 2026-09-11
+
+```text
+CURRENT CLAIM RUNG        C2 — history-induced search / cognition-generation capital on
+                          genuinely new targets, in the registered grammar, on authored
+                          ecologies: BEHAVIOURAL_RECEIPT (rank_H < rank_0 on 92.5 % of
+                          2 741 G2-guaranteed targets, 29 worlds), 20/20 worlds and 10/10
+                          d = 2 seeds against the strongest parent, three long-horizon
+                          lifetimes paying on the hostile ledger.
+                          C3 (developmental capital) PARTIAL: the continual arm acquires a
+                          second regime's library during life from its own verified
+                          acquisitions (validated by charged probes whose depth was learned
+                          from history) at ≈ 5 k slots against ≈ 10⁵ for the developmental
+                          phase — but the procedure that made the second acquisition cheap
+                          is designed, not itself learned; K2 is not yet earned.
+                          C5 PARTIAL: frozen small-scale quantities predicted 670-target
+                          behaviour to 0.5 % and the long-horizon break-evens on three fresh
+                          seeds (all held, conservatively); one grammar only.
+
+WHAT BLOCKS THE NEXT RUNG C3: a measurement in which history improves the *acquisition* of
+                          new K1 — e.g. the second regime learned with fewer in-regime
+                          solutions than the first (learning-to-learn), not merely cheaper
+                          validation. C4: a second materially different domain under the
+                          same core (HET-LIF-1 is frozen by the other lane; this lane is
+                          single-domain). C6: an improving slope in cost-to-verified-
+                          improvement across genuine generations (RSI L6 not met).
+
+WHAT EVIDENCE WOULD       C3: on A → B → A′ → C lifetimes, the third regime learned from
+ADVANCE ONE RUNG          fewer solutions / cheaper validation than the second, with the
+                          mechanism of the saving identified (retained depth rule, retained
+                          validation slice size, transferred fragments) and charged.
+                          C4: SAME_CORE_TWO_DOMAINS_REGISTERED from HET-LIF-1 with the
+                          controller as the developmental core.
+
+WHAT WOULD PERMANENTLY    C3 at this scope: the in-regime solution count needed to learn a
+BLOCK THE ADVANCE         regime does not fall across regimes on any lifetime (learning cost is
+                          a constant of the grammar, not of history) — then the honest terminal
+                          is NO_TRANSFERABLE_HEADROOM for K2 in this grammar.
+                          C2 itself: an independently authored world family where the receipt
+                          fails under the deployable controller (stage 3 exploratory arm).
+```
+
+Parent absorption at this rung: EU admission (decision theory), MDL library selection
+(Stitch/DreamCoder), bounded-regret interleaving, liveness as sequential testing. None owns
+the *history-learned probe depth with charged validation on the organism's own acquisitions*;
+that residual is the lane's, and it is what C3 will be tested on.
+
+**Update (2026-09-11, after C3b).** The C3 attempt in this grammar ended at its registered terminal:
+**NOT_ESTABLISHED** — recombining retained capital cut a new regime's acquisition cost on 2 / 9
+fresh A → B → C seeds against a registered 2 / 3. The rung stays C2. What moved upward instead is
+cross-world acquisition: the continual procedure learns a world it was never developed on at
+0.35–0.47 × the fixed controller's cost (three pairs, every target verified), which is designed K1
+acquisition, not K2. The honest statement of what would advance C3 now is a *different* grammar or a
+different acquisition mechanism with its own prospective registration, not another revision here.
+
+**Update (2026-09-11, evening).** Two corrections to what was claimed upward: (1) the deployable
+controller beats the strongest parent on **7 / 8** independently authored worlds under one uniform
+controller (hc10 loses by 28 % under controller_v4), not 8 / 8; controller_v5 is registered to test
+8 / 8 uniformly. (2) The continual controller's mixed-regime K1 claim failed confirmation on fresh seeds
+(6 / 11 below the fixed controller); v6.8 is registered with a stop rule. The rung remains C2; the
+K1 claims that stand are regime shifts (12 / 12) and cross-world acquisition (3 / 3).
+
+**Update (2026-09-11, night).** K1 on mixed regimes failed confirmation twice (v6.8: 8/12 below fixed,
+regime-C 7/12; v6.9: 11/12, regime-C 5/12). The registered stop rule fired: **K1 on mixed regimes is
+NOT_ESTABLISHED at this grammar.** The primary cause of the earlier falsification is corrected to a
+failure-evidence lock-out. A narrower lifetime claim (K1-L) is registered under continual_v6.10 with its
+own stop rule. The rung remains **C2**; the standing K1 positives are regime shifts (12/12) and
+cross-world acquisition (3/3), both under the unchanged v6.6 defaults.
+
+**Update (2026-09-11, late).** **K1-L — lifetime advantage on mixed regimes — PASSED** on fresh seeds under
+continual_v6.10hi (lifetime below the fixed controller 11/11 and below RESET 11/11 gated seeds, all targets
+verified), attributed to a decision-invariant futility repair of a failure-evidence lock-out. Full K1 stays
+NOT_ESTABLISHED; a fresh full-K1 test under v6.10hi is registered as a new claim. Rung remains **C2**.
+
+**Update (2026-09-11, latest).** K1 under v6.10hi failed on fresh seeds (lifetime below fixed 9/12);
+K1 stays NOT_ESTABLISHED. K1-L passed on its registered sample but did not replicate (9/12) and is
+recorded as FRAGILE. The decision-invariant futility repair (h) is now part of the default controller
+(identity 14/14). Rung remains **C2**; the robust K1 positives are regime shifts and cross-world
+acquisition.
+
+**Update (2026-09-11, evening).** K1 under continual_v6.11 (regime-change detector) **passed all three bars
+on its registered fresh sample** (lifetime below fixed 11/11, below RESET 11/11, regime-C 10/11; no
+lock-outs). Recorded as passed once, replication pending on seeds 694–705; two of its diagnostic falsifiers
+failed (mechanism 6/11, one inertness world +2.5 %). Rung remains **C2** until the replication reports.
+
+**Update (2026-09-11, replication).** K1 under v6.11 failed its replication on the regime-C bar (8/12 against
+0.750) and is recorded FRAGILE; K1 on mixed regimes stays NOT_ESTABLISHED. The lifetime bars were met on both
+registered v6.11 samples (below the fixed controller and below RESET on 23/23 gated seeds), reported as
+components. Rung remains **C2**.
+
+**Update (2026-09-11, v6.12ps).** K1 under v6.12ps failed (lifetime below fixed 9/11, regime-C 6/11) and regressed two
+shift worlds; K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of regime C (C3). Rung **C2**.
+
+**Update (2026-09-12).** controller_v5's registered prediction held: **8 / 8 independently authored worlds**
+beat the registered interleaving parents under one uniform deployable controller (−14.4 … −50.0 %; hc10 8 521 vs
+13 760), by a prospective test (INTEGRATED_ARM.md, records/m2p2_exploratory_v5/). **Scope, stated the same day:**
+per target the arm costs 0.500–0.501× the MDL interleave parent. That is the guided-first-versus-interleave serving
+identity, so "beats the strongest parent" is not claimed until the absorbed guided-first parent (library-first
+enumeration at hindsight-best fixed depth, registered before its run) is measured. Target (3) is open at that scope. It is exploratory relative to the frozen M2-P2 family,
+whose terminal stays `CANNOT_CHECK_NO_ADMITTING_WORLD`; the rung stays C2. The next step that would move
+target (1) is a prospective M2-P3 registration: a fresh authoring with controller_v5 frozen as the primary arm.
+
+**Update (2026-09-12, later): target (3) is FALSIFIED at authored-world scope.** The absorbed guided-first parent
+has landed (LUNARC 3598971; INTEGRATED_ARM.md, records/m2p2_gf/). A single fixed, non-oracle parent,
+`PARENT_GF_D4` (MDL library, depth 4, always live, no rule, plain-baseline fallback), **ties controller_v5 on
+hc01, hc02, hc03, hc06 and hc10, and beats it on hc05, hc08 and hc09 (−11 … −17 %)**. On the ties the controller
+reduced to that parent. The controller's learned components (library selection, the task-statement miss rule,
+liveness) are net-negative or neutral against it on every authored world. **No OCM-specific residual beyond
+guided-first serving is claimed anywhere in this lane.** The failure is attributed to two stages, recorded
+separately in the revival ledger: library selection, where the validation cost model tiles only canonical programs
+while the probe hits equivalent ones; and miss routing to the interleave. The tuning stream does carry selection
+signal (ρ 0.64–1.0), but on hc08 and hc09 it robustly ranks the contested libraries the wrong way (validation
+bootstrap P = 0.018 and 0.001), so selection from the tuning stream is unavailable there, and measuring the probe
+directly does not help. The lever moves upstream to mining coverage (ledger row 58). The rung stays C2.
+
+**Update (2026-09-12, M2-P3): the C2 benefit replicates on a second author model.** Under a registration fixed before
+the author session (#414/#417), worlds authored by claude-haiku-4-5 (M2-P2's author was claude-fable-5-1) were scored
+with the fixed guided-first parent `PARENT_GF_D4` against RESET. **Terminal `C2_REPLICATED_SECOND_AUTHOR_MODEL`, 4 / 4
+viable worlds**, each Holm-significant at the registered 50 % effect-size bar (p = 0.0004), median −92.0 %, and the
+co-registered point prediction (−88 % ± 8) held. Independence is reported beside it: 0 / 6 shape collisions and
+0 / 6 identical chunk sets against both M2-P2 and the earlier package A. Scope: the author is the same model family and
+harness, so this is model- and session-level independence, not family-level or human authorship; M2-P2's frozen terminal
+is untouched; and **target (3) stays FALSIFIED** — `CONTINUED_OCM` again equalled the fixed parent on all four worlds.
+The rung stays C2; target (1) is no longer tied to one author model's worlds.

@@ -63,6 +63,8 @@ remaining requirements for real scientific evaluation.
 
 ## Scientific discipline
 
+[Current GMI scientific results](research/gmi-current-scientific-map-v1/CORE.md) collect the conditional laws, executable constructions and current qualifications of historical claims. The linked claim-specific gaps distinguish proved mechanisms from the remaining empirical and generalization obligations.
+
 OCM does **not** assume that Language KSO, Method KSO, Wisdom KSO, field/subject/domain hierarchies, symbolic grammar, hypergraphs, or any other current decomposition is the final architecture of cognition. These are candidate organizations to test and replace when evidence warrants it.
 
 The stable commitment is the epistemic contract: evidence identity, provenance, uncertainty, authority, scope, resource accounting, revocation/reopening, matched comparison, and fail-closed `CANNOT_CHECK` behavior.
