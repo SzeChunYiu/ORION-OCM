@@ -1,18 +1,25 @@
-# Parity-n cost predictions (P1a): read first
+# Parity-n cost audit: current reading
 
-Registers numeric predictions for parity-n at n = 4, 5, 6 in the repaired
-`(opcodes, unaccounted_calls)` coordinate **before** any n > 3 realization is
-compiled or counted.
+Read the [current interval correction](INTERVAL_COST_CORRECTION_V1.md) first.
 
-- [Preregistration](PARITY_N_PREDICTION_PREREGISTRATION_V1.md) — clauses PN-1..PN-5 with falsifiers.
-- [Derivation](parity_n_derivation_v1.py) — formulas only; validated against the
-  registered n=3 facts (11,0), (39,4), (17,0), (6,1), which it reproduces exactly.
+The [original preregistration and appended reports](PARITY_N_PREDICTION_PREREGISTRATION_V1.md)
+remain byte-exact. They include reported executions; those reports are retained
+evidence, with execution provenance and chronology unresolved by this unit.
+The [original formula script](parity_n_derivation_v1.py) computes and prints
+predictions only; it does not reproduce the reported candidate executions.
 
-Status: **NOT YET REGISTERED IN THE REPLAY CAPSULE, NOT YET MEASURED.** This unit
-is staged so the predictions are durable and timestamped ahead of measurement; it
-is deliberately outside `research/gmi-grand-unification-v1/` so it cannot perturb
-that sector's registered input set until it is properly registered.
+- A native **lower bound** can certify XOR is cheaper; it cannot certify
+  delegation is cheaper or that equal lower endpoints are an exact tie.
+- With the supplied lower bound 2n+1, XOR is certified for n<5.
+- If native cost is instead declared **exactly** 2n+1 in the same additive units,
+  the conditional crossover is XOR below5, tie at5, delegation above5.
+- Neither 2n+1 nor a native-to-Python unit conversion is certified empirically.
+  The authored count n+(n−1)+1 equals2n.
 
-PN-3 contradicts the common expectation that a lookup table is penalised for its
-`2^n` entries: a constant table is one `LOAD_CONST`, so this coordinate does not
-charge table size at all. That is a declared blind spot, not a result about memory.
+[Exact interval controls](test_parity_n_intervals_v1.py) ·
+[model](parity_n_interval_model_v1.py) · [operations](OPERATIONS_V1.md) ·
+[repair receipt](INTERVAL_REPAIR_RECEIPT_V1.json) ·
+[original source bindings](raw/pr573-8bd474de/SOURCE_BINDINGS_V1.json)
+
+No new candidate, campaign, timing or measurement is performed. This unit
+remains outside the grand replay capsule and changes none of its inputs.
