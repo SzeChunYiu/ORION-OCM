@@ -1,0 +1,107 @@
+{
+  "schema": "NN_NONNN_POINT_PARITY3_PREREG_V2",
+  "experiment_id": "grand-gmi-parity3-cpython312-point-instrument-repair-v2",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "date": "2026-09-13",
+  "scientific_scope": "finite point comparison of two response-equivalent parity-3 realizations on one CPython 3.12 hosted-Linux execution substrate; not a universal intelligence-family claim",
+  "problem": {
+    "obligation": "For every x in {0,1}^3, emit x0 XOR x1 XOR x2 exactly.",
+    "protected_domain_size": 8,
+    "deployment_domain": "all 8 binary triples, exhaustively evaluated",
+    "capability_gate": "8/8 exact outputs required",
+    "null_baseline": "constant-zero policy, expected 4/8 exact"
+  },
+  "family_definitions": {
+    "NEURAL": "A feed-forward affine-threshold network with four hidden threshold units, one for each positive parity minterm, followed by one threshold output unit.",
+    "NON_NEURAL": "A direct deterministic Boolean program composing two XOR operations; no affine-threshold hidden-unit realization is used by the candidate."
+  },
+  "candidates": [
+    {
+      "candidate_id": "N_THRESHOLD_DNF4_V1",
+      "family": "NEURAL",
+      "implementation": "neural_threshold_parity3",
+      "reachability": "directly constructed frozen source; no training/search"
+    },
+    {
+      "candidate_id": "X_XOR2_V1",
+      "family": "NON_NEURAL",
+      "implementation": "non_neural_xor_parity3",
+      "reachability": "directly constructed frozen source; no training/search"
+    }
+  ],
+  "development_accounting": {
+    "mode": "preconstructed-candidate deployment comparison",
+    "development_reachability_gate": "both candidate functions must be present and pass exhaustive capability before measurement",
+    "development_cost_in_selection": false,
+    "reason": "This first point experiment tests the deployment realization-selection bridge only. It does not compare learning algorithms or authoring cost."
+  },
+  "substrate": {
+    "runner": "GitHub Actions ubuntu-latest hosted runner",
+    "python_implementation": "CPython",
+    "python_version": "3.12.x",
+    "garbage_collection_during_timed_blocks": "disabled",
+    "external_tools_or_network_during_measurement": false
+  },
+  "measurement_schedule": {
+    "warmup_sweeps_per_candidate": 5000,
+    "timed_blocks": 31,
+    "sweeps_per_block": 20000,
+    "inputs_per_sweep": 8,
+    "calls_per_block_per_candidate": 160000,
+    "candidate_order": "alternate N->X and X->N by block index"
+  },
+  "registered_resource_coordinates": [
+    {
+      "name": "python_opcode_count_per_full_domain_sweep",
+      "semantics": "exact CPython opcode events executed inside the candidate function over the 8 protected inputs",
+      "uncertainty": "none for the executed interpreter/code artifact"
+    },
+    {
+      "name": "wall_block_ns",
+      "semantics": "perf_counter_ns elapsed time for exactly 160000 protected candidate calls in one timed block",
+      "uncertainty": "finite observed schedule envelope [minimum block, maximum block]; no claim of population confidence beyond the registered run"
+    },
+    {
+      "name": "process_block_ns",
+      "semantics": "process_time_ns CPU time for exactly 160000 protected candidate calls in one timed block",
+      "uncertainty": "finite observed schedule envelope [minimum block, maximum block]; no claim of population confidence beyond the registered run"
+    }
+  ],
+  "selection_rule": {
+    "mode": "PARETO_ROBUST_BOX_DOMINATION",
+    "non_neural_terminal": "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
+    "neural_terminal": "DERIVED_NEURAL_AT_REGISTERED_SCOPE",
+    "abstention_terminal": "UNDECIDED_FROM_CURRENT_EVIDENCE",
+    "rule": "A family is selected only if its candidate's upper bound is <= the competitor's lower bound in every registered resource coordinate and strictly lower in at least one. Otherwise abstain."
+  },
+  "candidate_expansion_attack": {
+    "status": "NOT_YET_RUN",
+    "required_after_initial_verdict": true,
+    "planned_attack_candidates": [
+      "an independently optimized exact neural threshold implementation",
+      "an exact non-neural lookup-table implementation"
+    ]
+  },
+  "claim_ceiling": "A successful result is a point verdict about these frozen candidates and this registered hosted-runner/CPython scope. It is not evidence that non-neural intelligence is universally preferable, nor that parity-3 is representative of general intelligence.",
+  "independent_prospective_prediction": false,
+  "registered_repair_expectation": {
+    "prediction": "X_XOR2_V1 will robustly dominate N_THRESHOLD_DNF4_V1 in the registered three-coordinate resource box on the CPython 3.12 hosted-runner scope.",
+    "expected_terminal": "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
+    "falsifier": "Any capability failure invalidates the packet. If the registered resource boxes fail robust non-neural domination, the prediction fails and the terminal must be UNDECIDED unless neural robust domination is observed.",
+    "post_failure_rule": "Do not change candidates, resources, repetitions, tie-breaking, or scope in this version after seeing results.",
+    "epistemic_status": "Post-V1 instrument-repair expectation; V1 outcomes have been read. Not an independent prospective prediction and not a revision of the failed V1 prediction."
+  },
+  "repair_lineage": {
+    "v1_outcomes": "Both hosted V1 packets remain UNDECIDED_FROM_CURRENT_EVIDENCE with prospective_prediction_passed=false. Their zero first-candidate opcode count is invalid instrument evidence.",
+    "v1_source_unchanged": true,
+    "v1_reexecution_authorized": false,
+    "new_version_frozen_before_v2_timing": true,
+    "measurement_integrity_gate": "Prearm a current frame before sys.settrace; require complete non-RESUME, non-CACHE straight-line opcode-offset sequence for each of 8 exact candidate calls; require positive count and identical witnesses in forward/reverse candidate order; abort before timed blocks on any failure.",
+    "freeze_boundary": "First main commit containing this V2 preregistration, V2 harness and V2 workflow. Hosted packet binds GitHub SHA, harness SHA256 and preregistration SHA256. Changing the frozen instrument after V2 outcomes requires another version."
+  },
+  "execution_policy": {
+    "timed_execution": "main push only when V2 preregistration, harness or workflow changes; no pull-request timing",
+    "deterministic_self_tests": "Opcode microdiagnostics are allowed before freeze; no local timing used as a hosted result.",
+    "original_v1": "Archived execution disabled; original source, preregistration and observed packets remain immutable."
+  }
+}

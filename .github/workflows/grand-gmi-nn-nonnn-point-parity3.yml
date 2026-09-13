@@ -1,17 +1,8 @@
 name: Grand GMI NN/non-NN parity3 point experiment
 
+# V1 has measured historical packets and a confirmed CPython 3.12 instrument
+# defect. Preserve this workflow/run lineage without automatically rerunning it.
 on:
-  pull_request:
-    paths:
-      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_*'
-      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v1.py'
-      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
-  push:
-    branches: [main]
-    paths:
-      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_*'
-      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v1.py'
-      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
   workflow_dispatch:
 
 permissions:
@@ -19,6 +10,7 @@ permissions:
 
 jobs:
   parity3-point-experiment:
+    if: ${{ false }} # Archived V1; use the separately frozen V2 workflow.
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
