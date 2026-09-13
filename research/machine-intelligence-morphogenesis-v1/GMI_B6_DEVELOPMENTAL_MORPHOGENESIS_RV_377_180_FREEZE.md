@@ -817,3 +817,36 @@ establish that no gradient learner is admissible here. Terminal:
 **`NO_REGISTERED_GRADIENT_NET_ADMISSIBLE_ON_E_SMOOTH3_OR_E_SYM5`** — which removes the grammar-artifact
 explanation as the leading one without establishing absence. A searched-elite existence certificate is the
 lever that would settle it, named and not adopted.
+
+### `Z5′` is FALSIFIED on the fifth recovery
+
+`DISJ|CONTINUED|S1` landed with a coefficient recovery whose primary-parent tag is **`DENSE`**:
+
+| field | value |
+|---|---|
+| pair / source → target | `DISJ`, `E_rnd1` → `E_sym5` |
+| coefficient recovery | found, min over six 0.8542, `B_morph` 68 749, trace index 2 349 |
+| origin | `["seed", 7]` → seed elite carrier **`DENSE`** |
+| that seed's capability on its own ecology | 0.6667 |
+| seeded carrier mix | `PROGRAM` 15, `DENSE` 14, `TABLE` 14, `KVSTORE` 14, `NONE` 5 |
+
+`Z5′` predicted that every recovery's primary-parent tag is a memory carrier. Four were
+(`PROGRAM`, `KVSTORE`, `TABLE`, `TABLE`); the fifth is not. **Falsified**, by its own registered falsifier,
+on the first arm that could have falsified it.
+
+**Both forms of the conversion hypothesis are now dead.** `Z5` as an ancestry claim was withdrawn earlier
+after the other lane showed `origin` omits crossover donors; `Z5′` survived as the weaker claim about the
+recorded tag, and that has now failed on the evidence. The idea that the coefficient carrier is reached
+*by conversion from* a memory carrier has no support left in this campaign, and it should not be revived
+without a donor-aware lineage instrument that could actually test it.
+
+Worth noting why the falsification arrived only now: the four earlier recoveries came from `SAME` and
+`CROSS`, whose sources are the structured ecologies `E_smooth1` and `E_smooth3`. This one comes from
+`DISJ`, seeded from the **structure-free random table** `E_rnd1`, whose archive carries a near-uniform
+carrier mix (14–15 elites each of `DENSE`, `TABLE`, `KVSTORE`, `PROGRAM`). A memory-heavy source yields
+memory-tagged founders; a uniform source does not. So the first four observations were a property of
+which sources had finished, not of the mechanism — an ordering artifact that a larger sample dissolved.
+
+That is the third registered hypothesis of this campaign to fall, after the structured-history-specific
+lift and the flat-ceiling law. Registering them is what made each falsification immediate and unambiguous
+rather than a matter of interpretation.
