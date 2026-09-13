@@ -1,7 +1,7 @@
 # Generalization Identifiability Parent Subtraction V1
 
 Status: **PARENT BOUNDARY EXPLICIT**  
-Date: 2026-09-12
+Date: 2026-09-13
 
 ## Parent-owned content
 
@@ -30,6 +30,8 @@ It thereby separates:
 
 The scientific residual is not “learning needs inductive bias.” It is the exact integration of that fact into the same Grand-GMI semantic/resource machinery and the resulting prospective-prediction gate:
 
-`THEORY_DETERMINED_TO_EPSILON only if frozen R_gen <= epsilon`.
+`THEORY_DETERMINED_TO_EPSILON requires feasible centers and a selector in the frozen predictor class`.
+
+The necessary scalar condition `R_gen<=epsilon` is sufficient in the unrestricted class under strict slack or an appropriate attainment theorem. At equality an unattained infimum can leave the tolerance infeasible; GIR-6 therefore checks the actual feasible-center sets. This distinction and the required compactness/measurable-selection machinery are parent-owned optimization and decision theory.
 
 This makes post-hoc explanation and prospective prediction operationally distinguishable in the formal theory.
