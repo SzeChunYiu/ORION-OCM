@@ -142,3 +142,56 @@ class LLS5_RefusalsAreExplicit(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LLS6_TiesAreNonGeneric(unittest.TestCase):
+    """The 42 ties were an artifact of the uniform probe, not a gap in the law."""
+
+    UNIFORM = None
+    GENERIC_A = None
+    GENERIC_B = None
+
+    def setUp(self):
+        self.UNIFORM = M.uniform_prices()
+        self.GENERIC_A = {op: F(p) for op, p in zip(M.OPERATIONS, [2, 3, 5, 7, 11, 13])}
+        self.GENERIC_B = {op: F(p) for op, p in zip(M.OPERATIONS, [17, 19, 23, 29, 31, 37])}
+
+    def census(self, prices):
+        c = {}
+        for caps in M.all_contracts():
+            t = M.select(caps, prices)["terminal"]
+            c[t] = c.get(t, 0) + 1
+        return c
+
+    def test_uniform_prices_are_not_generic_and_force_ties(self):
+        self.assertFalse(M.is_generic(self.UNIFORM))
+        self.assertTrue(M.tie_locus(self.UNIFORM))
+        self.assertGreater(self.census(self.UNIFORM).get("UNDETERMINED_TIE", 0), 0)
+
+    def test_equal_arity_is_the_root_cause(self):
+        arity = {n: len(s["uses"]) for n, s in M.LAWS.items()}
+        self.assertEqual(arity["GRADIENT_STEP"], arity["MIRROR_DESCENT"])
+        self.assertEqual(arity["MIRROR_DESCENT"], arity["BAYES_UPDATE"])
+        self.assertEqual(arity["EXACT_SEARCH"], arity["ORDINAL_HILL_CLIMB"])
+
+    def test_generic_prices_determine_the_law_on_every_feasible_contract(self):
+        for prices in (self.GENERIC_A, self.GENERIC_B):
+            self.assertTrue(M.is_generic(prices))
+            self.assertEqual(M.tie_locus(prices), ())
+            c = self.census(prices)
+            self.assertEqual(c.get("UNDETERMINED_TIE", 0), 0)
+            self.assertEqual(c.get("INFEASIBLE_AT_CONTRACT"), 36)
+            self.assertEqual(c.get("SELECTED"), 92)
+            self.assertEqual(sum(c.values()), 128)
+
+    def test_two_independent_generic_vectors_agree(self):
+        self.assertEqual(self.census(self.GENERIC_A), self.census(self.GENERIC_B))
+
+    def test_control_a_contrived_collision_reintroduces_ties(self):
+        """Genericity is load-bearing: engineer one collision and a tie returns."""
+        p = dict(self.GENERIC_A)
+        # make GRADIENT_STEP and MIRROR_DESCENT coincide: projection == normalization
+        p["PROJECTION"] = p["NORMALIZATION"]
+        self.assertFalse(M.is_generic(p))
+        self.assertIn(("GRADIENT_STEP", "MIRROR_DESCENT"), M.tie_locus(p))
+        self.assertGreater(self.census(p).get("UNDETERMINED_TIE", 0), 0)

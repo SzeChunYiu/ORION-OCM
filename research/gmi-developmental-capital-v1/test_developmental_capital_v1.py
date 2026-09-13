@@ -117,3 +117,104 @@ class MutationControlsGoRed(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class K2RetryRegistrationIsHonest(unittest.TestCase):
+    """The retry registration must not soften the standing negative."""
+
+    RETRY = HERE / "K2_RETRY_REGISTRATION_V1.md"
+
+    def test_it_declares_itself_unexecuted(self):
+        t = read(self.RETRY)
+        self.assertIn("REGISTERED_NOT_EXECUTED", t)
+        self.assertIn("K2 REMAINS NOT_ESTABLISHED", t)
+
+    def test_it_does_not_claim_k2(self):
+        t = read(self.RETRY)
+        for forbidden in ("K2 is established", "K2 SUPPORTED at scope",
+                          "establishes K2", "K2 now holds"):
+            self.assertNotIn(forbidden, t)
+
+    def test_the_standing_verdict_is_unchanged_in_the_parent(self):
+        m = re.search(r"GMI-T08.*?Current OCM status:\*\*\s*([A-Z_]+)",
+                      read(AXIOMS), re.S)
+        self.assertEqual(m.group(1), "NOT_ESTABLISHED")
+
+    def test_parent_subtraction_is_mandatory_not_optional(self):
+        t = read(self.RETRY)
+        self.assertIn("PARENT_SUFFICIENT", t)
+        self.assertIn("required, not optional", t)
+
+    def test_a_second_failure_is_pre_registered_as_structural_evidence(self):
+        t = read(self.RETRY)
+        self.assertIn("NOT_ESTABLISHED_SECOND_GRAMMAR", t)
+        self.assertIn("structural", t)
+
+    def test_every_outcome_terminal_is_distinct(self):
+        t = read(self.RETRY)
+        terms = re.findall(r"`(K2_SUPPORTED_AT_REGISTERED_SCOPE|PARENT_SUFFICIENT|"
+                           r"NOT_ESTABLISHED_SECOND_GRAMMAR|CANNOT_CHECK)`", t)
+        self.assertEqual(len(set(terms)), 4, "outcome table must cover four distinct terminals")
+
+
+class KRC_K2ReachabilityCondition(unittest.TestCase):
+    """KRC-1..4: the condition is exact, and the unit does not overclaim."""
+
+    DOC = HERE / "K2_REACHABILITY_CONDITION_V1.md"
+
+    @staticmethod
+    def acq(parts, library):
+        return len(set(parts) - set(library))
+
+    def k2(self, parts, library):
+        return self.acq(parts, library) < self.acq(parts, set())
+
+    def test_the_condition_is_necessary_and_sufficient(self):
+        """Exhaustive over every library/target pair on a small universe."""
+        universe = ("p", "q", "r", "s")
+        from itertools import combinations, chain
+        subsets = list(chain.from_iterable(combinations(universe, k)
+                                           for k in range(len(universe) + 1)))
+        checked = 0
+        for parts in subsets:
+            if not parts:
+                continue
+            for lib in subsets:
+                intersects = bool(set(lib) & set(parts))
+                self.assertEqual(self.k2(parts, lib), intersects,
+                                 "parts=%s lib=%s" % (parts, lib))
+                checked += 1
+        self.assertGreater(checked, 100)
+
+    def test_atomic_targets_cannot_support_k2_for_any_library(self):
+        universe = ("p", "q", "r", "s")
+        from itertools import combinations, chain
+        libs = list(chain.from_iterable(combinations(universe, k)
+                                        for k in range(len(universe) + 1)))
+        for lib in libs:
+            self.assertFalse(self.k2(("atomic_target",), lib),
+                             "an atomic target must never satisfy K2")
+
+    def test_mode_a_and_mode_b_are_distinguishable_by_decomposition_size(self):
+        self.assertFalse(self.k2(("p", "q"), ("x", "y")))   # mode (a): |P|=2
+        self.assertFalse(self.k2(("whole",), ("p", "q")))    # mode (b): |P|=1
+        self.assertEqual(len(("p", "q")), 2)
+        self.assertEqual(len(("whole",)), 1)
+
+    def test_the_document_does_not_claim_evidence_about_323(self):
+        t = read(self.DOC)
+        self.assertIn("NOT EVIDENCE ABOUT #323", t)
+        self.assertIn("prediction, not a finding", t)
+        for forbidden in ("K2 is established", "#323 is atomic",
+                          "this shows #323", "proves the grammar"):
+            self.assertNotIn(forbidden, t)
+
+    def test_the_standing_k2_verdict_is_still_not_established(self):
+        m = re.search(r"GMI-T08.*?Current OCM status:\*\*\s*([A-Z_]+)",
+                      read(AXIOMS), re.S)
+        self.assertEqual(m.group(1), "NOT_ESTABLISHED")
+
+    def test_the_prediction_states_its_own_falsifier(self):
+        t = read(self.DOC)
+        self.assertIn("falsified if", t)
+        self.assertIn("decomposition size", t)

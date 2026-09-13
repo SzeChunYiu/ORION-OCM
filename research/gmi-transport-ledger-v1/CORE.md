@@ -8,9 +8,16 @@ halves have opposite answers.
   membership and sound accounting — never cardinality, compactness,
   measurability or computability. The model confirms the bound is unchanged
   from 1 to 5,000 allocations.
-- **Orderings do not transport.** A shared lower bound constrains every machine
-  and orders none, so a competitive result measured small says nothing larger
-  without a comparator retained at that scale.
+- **Orderings transport only under a two-sided certificate.** A shared lower
+  bound constrains every machine and orders none (TL-3). But reusing DCR's
+  registered rule, a finite upper bound on the candidate strictly below the
+  comparator's lower bound certifies at any scale (TL-6), verified through a
+  10^6 rescaling. One-sided evidence buys nothing for exclusion; a retained
+  upper bound buys all of it.
+- **And that certificate is exactly what is required.** TL-7 proves the
+  condition necessary as well as sufficient, with constructive witnesses and a
+  zero-disagreement exhaustive check, so no rule on one-sided data can do
+  better. It also adds the mirror certificate TL-6 omitted.
 
 [TL-1–6](TRANSPORT_LEDGER_V1.md) proves both, keeps the physical calibration gap
 separate from the mathematical one, and moves no result between the atlas's
