@@ -38,8 +38,8 @@ instances are decidable, or that an empirical measurement has occurred.
 | 11 | A classical conflict coloring was treated as a globally readable quantum message. Preserve identity-message capacity; use the correct quantum feasibility problem for tasks with decoder side information. | `QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md` | [#521](https://github.com/SzeChunYiu/ORION-OCM/pull/521) |
 | 12 | The master used vector infima as attainable spectra and overly broad factorization/closure language. Attained sets, declared product orders, deterministic full-response factorization and a proved sufficient domination certificate replace those inferences. Recursive finiteness and dependent GG51/ledgers are aligned. | Corrected master §§1–8 and this audit | [#522](https://github.com/SzeChunYiu/ORION-OCM/pull/522) |
 | 13 | Hosted parity3 V1 assigned zero opcodes to the first measured candidate because opcode tracing was enabled too late. Preserve both failed/undecided V1 packets; prearm and validate complete opcode traces in an explicit V2 before timing. | `PARITY3_INSTRUMENTATION_CORRECTION_20260913.md` | [#524](https://github.com/SzeChunYiu/ORION-OCM/pull/524) |
-| 14 | Freeze and validate the actual V2 measurement separately from its instrument preregistration. Recompute all 62 blocks, exact capability, trace witnesses, resource boxes and the registered point verdict. | `NN_NONNN_POINT_PARITY3_HOSTED_RESULT_V2.json`; hosted run [34745072337](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34745072337) | this evidence iteration |
-| Follow-up: replay gate | The aggregate trusted terminal labels and stale partial receipts. Comprehensive source-bound full-payload replay, explicit historical evidence and hostile custody checks replace that gate. | Reviewed replay inventory and capsule documentation | pending integrated verification |
+| 14 | Freeze and validate the actual V2 measurement separately from its instrument preregistration. Recompute all 62 blocks, exact capability, trace witnesses, resource boxes and the registered point verdict. | `NN_NONNN_POINT_PARITY3_HOSTED_RESULT_V2.json`; hosted run [34745072337](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34745072337) | [#525](https://github.com/SzeChunYiu/ORION-OCM/pull/525) |
+| 15 | The aggregate trusted terminal labels and stale partial receipts. Source-bound full-payload replay of all 45 finite checkers, explicit historical evidence and hostile custody checks replace that gate. | `THEOREM_REPLAY_INVENTORY_V1.json`; `THEOREM_REPLAY_CAPSULE_V1.md` | Current capsule iteration; commit and merge only after required local gates pass |
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
@@ -120,7 +120,7 @@ parent results.
 
 | Obligation | What is still required | Current claim ceiling |
 |---|---|---|
-| Integrated executable custody | Replay every discovered finite checker against its complete frozen output and source/input inventory, including optimized-parent and hostile cases. | Pending final capsule iteration; individual repair tests have passed. |
+| Integrated executable custody | Replay all 45 discovered finite checkers against complete frozen outputs and source/input inventory; run all 219 research tests normally and with an optimized parent, including 23 hostile replay tests. | Reviewed gate under final local validation; publication requires all gates to pass. Successful replay establishes registered finite-check reproducibility only. |
 | Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. | V2 identifies the XOR candidate over one fixed threshold-network candidate at its registered CPython run/observed-envelope scope. V1's failed/undecided defective packets remain unchanged. V2 is a post-V1 repair, not an independent prospective prediction. |
 | Candidate-universe coverage | Explicit competitor register and hostile expansion, then replication across tasks and substrates. | A point verdict never enumerates all physical machines or establishes a universal family winner. |
 | Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication. | Conditional resource laws do not manufacture those measurements. |
@@ -134,6 +134,14 @@ pattern invalidates a transported bound, a source or receipt changes without
 review, an instrument fails validation, or new data invalidate a registered
 coverage/model assumption. Missing empirical fields remain missing evidence;
 renaming them “applications” does not discharge them.
+
+The readiness manifest and its checker dated 2026-09-12 retain their historical
+snapshot. Replaying that checker establishes snapshot consistency; its earlier
+point-evidence absence is superseded by this current correction index and
+`PARITY3_V2_HOSTED_RESULT_ASSESSMENT_20260913.md`. The original snapshot and the
+defective V1 measured packets remain preserved. A successful V2 point comparison
+does not discharge the broader candidate, development, replication, or physical
+realization obligations listed above.
 
 The V2 point packet is bound to source commit
 `204d5c74754a2bec6d50d9a3129f5b519438f5ea`. Both candidates pass all eight
