@@ -36,8 +36,9 @@ instances are decidable, or that an empirical measurement has occurred.
 | 9 | Probe affordability, a failed sufficient risk bound and absence of diagonal feedback were given false converses. Whole-policy feasibility, valid alternative certificates and identifiable realizable reflection are now required. Nested-set envelope directions are corrected. | `SUFFICIENCY_DIRECTIONS_AUDIT_V1.md` | [#519](https://github.com/SzeChunYiu/ORION-OCM/pull/519) |
 | 10 | One-way cut bounds were applied to interactive protocols and per-use carrier alphabets. Information after feedback and complete transcripts are registered explicitly. Strategic exact enumeration inherits effective comparison requirements. | `INTERACTIVE_CUT_SCOPE_CORRECTION_V1.md` | [#520](https://github.com/SzeChunYiu/ORION-OCM/pull/520) |
 | 11 | A classical conflict coloring was treated as a globally readable quantum message. Preserve identity-message capacity; use the correct quantum feasibility problem for tasks with decoder side information. | `QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md` | [#521](https://github.com/SzeChunYiu/ORION-OCM/pull/521) |
-| 12 | The master used vector infima as attainable spectra and overly broad factorization/closure language. Attained sets, declared product orders, deterministic full-response factorization and a proved sufficient domination certificate replace those inferences. Recursive finiteness and dependent GG51/ledgers are aligned. | Corrected master §§1–8 and this audit | this iteration |
-| Follow-up: empirical instrument | Hosted parity3 V1 assigned zero opcodes to the first measured candidate because opcode tracing was enabled too late. Preserve the failed V1 prediction and measured packets; validate an explicitly versioned V2 before timing. | V1 hosted run [34721365666](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34721365666); versioned correction pending | pending instrument iteration |
+| 12 | The master used vector infima as attainable spectra and overly broad factorization/closure language. Attained sets, declared product orders, deterministic full-response factorization and a proved sufficient domination certificate replace those inferences. Recursive finiteness and dependent GG51/ledgers are aligned. | Corrected master §§1–8 and this audit | [#522](https://github.com/SzeChunYiu/ORION-OCM/pull/522) |
+| 13 | Hosted parity3 V1 assigned zero opcodes to the first measured candidate because opcode tracing was enabled too late. Preserve both failed/undecided V1 packets; prearm and validate complete opcode traces in an explicit V2 before timing. | `PARITY3_INSTRUMENTATION_CORRECTION_20260913.md` | [#524](https://github.com/SzeChunYiu/ORION-OCM/pull/524) |
+| 14 | Freeze and validate the actual V2 measurement separately from its instrument preregistration. Recompute all 62 blocks, exact capability, trace witnesses, resource boxes and the registered point verdict. | `NN_NONNN_POINT_PARITY3_HOSTED_RESULT_V2.json`; hosted run [34745072337](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34745072337) | this evidence iteration |
 | Follow-up: replay gate | The aggregate trusted terminal labels and stale partial receipts. Comprehensive source-bound full-payload replay, explicit historical evidence and hostile custody checks replace that gate. | Reviewed replay inventory and capsule documentation | pending integrated verification |
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
@@ -120,7 +121,7 @@ parent results.
 | Obligation | What is still required | Current claim ceiling |
 |---|---|---|
 | Integrated executable custody | Replay every discovered finite checker against its complete frozen output and source/input inventory, including optimized-parent and hostile cases. | Pending final capsule iteration; individual repair tests have passed. |
-| Empirical family selection | One immutable task/candidate/development/deployment/resource packet with validated instruments and declared uncertainty semantics. | Finite theorem witnesses do not establish real-family superiority. Hosted parity3 V1 returned `UNDECIDED`; its failed prediction and confirmed zero-opcode instrument defect are retained. V2 validation and execution are pending. |
+| Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. | V2 identifies the XOR candidate over one fixed threshold-network candidate at its registered CPython run/observed-envelope scope. V1's failed/undecided defective packets remain unchanged. V2 is a post-V1 repair, not an independent prospective prediction. |
 | Candidate-universe coverage | Explicit competitor register and hostile expansion, then replication across tasks and substrates. | A point verdict never enumerates all physical machines or establishes a universal family winner. |
 | Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication. | Conditional resource laws do not manufacture those measurements. |
 | Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance. | Exact finite simulations are not experiments on arbitrary substrates. |
@@ -133,6 +134,24 @@ pattern invalidates a transported bound, a source or receipt changes without
 review, an instrument fails validation, or new data invalidate a registered
 coverage/model assumption. Missing empirical fields remain missing evidence;
 renaming them “applications” does not discharge them.
+
+The V2 point packet is bound to source commit
+`204d5c74754a2bec6d50d9a3129f5b519438f5ea`. Both candidates pass all eight
+parity inputs. Exact candidate-frame opcode counts are 472 for the threshold
+network and 88 for XOR; the XOR observed upper endpoints are below the neural
+lower endpoints for wall and process time as well. The registered terminal is
+`DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`. Development costs are explicitly
+excluded, uncertainty is the finite observed envelope, and candidate expansion
+has not run. This closes the instrument and recorded-point-evidence defects;
+it does not establish a universal architecture preference or generalization
+beyond the registered execution.
+
+The existing `theory-runtime-integration-v1` workflow is a separate engineering
+contract. It binds a historical `src/` runtime and ORION-V2 method-theory
+snapshot and currently requests `REVALIDATION_REQUIRED` despite its successful
+workflow exit. A new reviewed integration packet is needed to extend that
+runtime claim. Grand-GMI finite theorem replay neither changes those anchors
+nor claims to discharge that separate gate.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
