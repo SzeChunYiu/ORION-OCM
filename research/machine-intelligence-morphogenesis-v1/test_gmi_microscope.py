@@ -975,3 +975,71 @@ def test_dk_scaling_hardened_receipt_replays():
     assert all(rep[f"K128|{v}"]["native|scaled"] == 7 for v in "ABC")
     assert all(rep[f"K{K}|{v}"][f"{p}|flat"] == 0
                for K in (128, 256) for v in "ABC" for p in ("reduced", "native"))
+
+
+def test_dk_cached_exponent_receipt_replays():
+    """RV-377-081. The log row was charged per QUERY for work BAYESM and QCOUNT are charged per EVENT.
+    Materializing the exponent on update is answer-identical, moves the crossing root from 188 to 142.31 and the
+    first registered-price occupancy from K = 192 to K = 160 — and does NOT lift the occupancy off r = 0, because
+    log-domain updating costs about 3K charged activations per event against a count row's K. The record predicted
+    its own lever would fail on that axis and it did."""
+    from gmi_microscope import dk_precision_cached as ca
+    from fractions import Fraction
+    committed = json.loads((RES / "STAGE_DK_V10_CACHED_EXPONENT_V1.json").read_text())
+    assert committed["terminal"].startswith("THE_CHARGING_ASYMMETRY_IS_REAL_AND_THE_r_0_RESTRICTION_IS_NOT")
+    assert committed["the_law"]["all_checks_match"] is True
+
+    # clause 1: the caching moves the CHARGE and not the arithmetic — re-executed, not trusted
+    eco = ca.SC.ecology_scaled(32, 4, "A")            # K = 128
+    cached = ca.run(eco, "fx8")
+    uncached = ca.SC.run_cell("LOGLAD8_T4", eco, "fx8")
+    assert cached["answer_signature"] == uncached["answer_signature"]
+    assert cached["capability_exact"] == uncached["capability_exact"]
+    assert int(uncached["exec_q"]) == 188 and cached["exec_q"] == Fraction(3231, 50)
+    assert int(uncached["ver_e"]) == 1512 and int(cached["ver_e"]) == 520
+    assert cached["upd_e"] - uncached["upd_e"] == 124
+    assert cached["w_scalars"] - uncached["w_scalars"] == 4        # materialized weights are declared and charged
+    assert cached["desc_bits"] - uncached["desc_bits"] == 32
+
+    # clause 2: both laws exact at every K, under both prices
+    for K in (128, 160, 192, 256):
+        run = committed["runs"][str(K)]
+        for price, const in (("reduced", Fraction(14231, 50)), ("native", Fraction(236))):
+            lc = run["law_check"][price]
+            assert Fraction(lc["measured"]) == Fraction(lc["predicted"]) == -2 * K + const, (K, price)
+            assert ca.law(K, price) == -2 * K + const
+        assert run["cached_vs_uncached"]["answers_identical"] is True
+
+    # clauses 3 and 4: the roots moved, and the occupancy moved with them
+    assert committed["first_K_with_reduced_scaled_occupancy"] == 160       # was 192 uncached
+    assert committed["first_K_with_native_scaled_occupancy"] == 128
+    red = {K: committed["runs"][str(K)]["keys"]["reduced|scaled"]["cells_held_by_any_fx8_row"]
+           for K in (128, 160, 192, 256)}
+    assert red == {128: 0, 160: 1, 192: 2, 256: 5}, red
+
+    # clause 5, THE RESULT: r = 0 survives, and rho stays a RISING multiple of QCOUNT's
+    assert committed["all_held_cells_at_r0"] is True
+    assert committed["log_rho_exceeds_qcount_everywhere"] is True
+    ratios = [committed["runs"][str(K)]["rho_ratio"]["reduced"]["ratio"] for K in (128, 160, 192, 256)]
+    assert ratios == sorted(ratios) and min(ratios) > 2.0            # rising, never converging
+    for K in (128, 160, 192, 256):
+        for k, kv in committed["runs"][str(K)]["keys"].items():
+            assert kv["max_r_held"] in (0, None), (K, k, kv["max_r_held"])
+            assert kv["H_grid_ok"] is True and kv["r_grid_ok"] is True
+
+    # clause 6 FAILED and was ill-posed: the grid denominator moves when the portfolio changes
+    assert committed["runs"]["128"]["keys"]["reduced|scaled"]["n_cells"] == 900       # was 444 in RV-377-080
+    assert committed["runs"]["128"]["keys"]["native|scaled"]["cells_held_by_any_fx8_row"] == 7   # not > 7
+    assert committed["runs"]["256"]["keys"]["native|scaled"]["n_cells"] == 5310       # was 2752
+
+    # clause 7 and 8: flat still zero everywhere; cached and uncached are INCOMPARABLE, neither retires the other
+    assert committed["flat_basis_occupancy_is_zero_everywhere"] is True
+    for K in (128, 160, 192, 256):
+        run = committed["runs"][str(K)]
+        for price in ("reduced", "native"):
+            assert run["cached_dominates_uncached"][price] is False
+            assert run["uncached_dominates_cached"][price] is False
+
+    # what the lever did buy: the H axis extends far, the r axis does not move at all
+    assert [committed["runs"][str(K)]["keys"]["native|scaled"]["max_H_held"]
+            for K in (128, 160, 192, 256)] == [7, 22, 38, 70]

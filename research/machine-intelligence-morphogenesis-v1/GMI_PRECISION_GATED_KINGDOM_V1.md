@@ -25,6 +25,10 @@
 > Added by `RV-377-080`: **§17** — **it is not a residual, it is a line.** The cost difference is exactly
 > **−2K + 376** under the *registered* price, verified to the unit at seven class sizes, and the occupancy
 > appears at its root. **Two of the four permissive choices are gone.**
+> Added by `RV-377-081`: **§18** — the log row was charged **per query** for work its opponents pay **per event**.
+> Fixing that moves the root to **142.31** and first occupancy to **K = 160** — and leaves every cell at `r = 0`,
+> because log-domain **updating** costs ~3K per event against a count row's K. The `r = 0` qualification is now
+> **explained**, not merely observed.
 
 Status: **EXECUTED EXACT AT SCOPE** (§§1–9, terminal superseded — see the banner above).
 Receipt `microscopes/results/STAGE_DK_V2_PRECISION_GATED.json`
@@ -866,3 +870,79 @@ class-scaling rule, three declared sequences, two seeds, seven class sizes.
 → **protocol rule 34**: where a cost comparison is **affine in a construction parameter**, fit and report the exact
 law and its root — a verdict at one value of a parameter the cost function is linear in is a statement about *that
 value*, and the law is the result.
+
+
+---
+
+## 18. The log row amortizes against **queries** and never against **reuse** (`RV-377-081`)
+
+§17 left two qualifications and traced the `r = 0` one to the log row's reuse coefficient `ρ`. But that `ρ` was
+inflated by an asymmetry **this lane introduced**. `BayesPruned._rank` and `QCount._rank` materialize their readout
+weights **once per event**, in the update phase; `MinLogMixture.query` recomputed the exponent map on **every
+query** — four ladder reads at 31 charged activations each — although `lw` changes only on `observe` and `revoke`.
+Charging one carrier per query for what another is charged per event is exactly what **rule 28** was written for.
+
+`LOGLAD8_T4C` materializes the exponent on update, as `tw` already is. Receipt
+`STAGE_DK_V10_CACHED_EXPONENT_V1.json`, record `RV-377-081`, **7 of 8 clauses HOLD, clause 6 FAILS**.
+
+**The arithmetic is untouched** — served answers are **bit-identical** to the uncached row at every class size, and
+the four materialized weights are **declared as state and charged** (`w_scalars` K+30 → K+34, `desc` +32 bits).
+
+| | uncached | cached |
+|---|---|---|
+| `exec_q` | 188 | **3231/50 = 64.62** (÷2.909) |
+| `ver_e` | 1512 | **520** (÷2.909) |
+| `upd_e` | *x* | *x* + **124** |
+| `nat_exec_q` | 12 | **8** |
+
+**The H axis responds.** The registered-price root moves **188 → 142.31**, first `reduced|scaled` occupancy moves
+**K = 192 → K = 160**, counts go **0, 1, 2, 5** at K = 128…256, and the largest occupied `H` extends **7, 22, 38, 70**
+against §17's 7, 15, 23, 39. Twenty exact law checks now stand across §17 and §18, under two prices and two row
+variants.
+
+### 18a. The `r = 0` restriction survives — and it is now **explained**
+
+This record **froze the prediction that its own lever would fail**, from the probed `ρ` ratios, so the failure is a
+result and not a disappointment. It failed:
+
+| K | 128 | 160 | 192 | 256 |
+|---|---|---|---|---|
+| `ρ(log) / ρ(QCOUNT@fx10)`, reduced | 2.561 | 2.602 | 2.633 | **2.676** |
+| largest `r` held | **0** | **0** | **0** | **0** |
+
+The ratio **rises** with K rather than converging. The mechanism — not predicted, and what makes the finding
+structural rather than accounting:
+
+> The log row's update conditions `K` log-weights by an `ADD`, renormalizes by a max (`K−1` `GT`) and subtracts it
+> (`K` `SUB`) — about **3K** charged activations per event, against a count row's **K**. Caching moves work **off
+> the query path**; `r` is charged on the **update path**. So the log row amortizes against **queries** and can
+> **never** amortize against **reuse**, at any class size.
+
+That upgrades `r = 0` from an observation to a mechanism, which is a stronger statement than the one it replaces.
+
+### 18b. Clause 6 FAILED, and it was ill-posed
+
+It predicted occupancy counts strictly greater than §17's at every K. At K = 128 they are equal (0 and 7). **And the
+comparison was invalid by construction**: adding a row changes the analytic crossovers that **generate the grid**, so
+the denominator moved too — 444 → 900 cells at K = 128 `reduced|scaled`, 2 760 → 4 345 `native|scaled`. Fractions move
+in *both* directions: 0.836 % → 0.678 % at K = 256 `native|scaled` while the count rose 23 → 36. **Occupancy counts
+are not comparable across records with different portfolios.** → **rule 35**.
+
+**Claim DK-14 (new).** *The 8-bit log-domain carrier occupies on the **query** axis from `K = 160` under the
+registered price, and on the **reuse** axis at **no** executed class size, because log-domain updating costs ~3K
+charged activations per event against a count row's K. The `r = 0` qualification is structural, not an
+implementation artefact: it survives a charging fix that is answer-identical and that improves the query axis by a
+factor of 2.909.*
+**Level:** `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY`; the `ρ` ordering is `PROVED_AT_SCOPE` at the four
+executed class sizes.
+**Ceiling:** four class sizes, one ecology recipe, one declared sequence, one seed; the `scaled` basis remains a
+declared sensitivity column and `flat` is reported alongside with no primary elected.
+
+→ **rule 35** (occupancy counts are not comparable across records with different portfolios — compare cell *sets* or
+a grid fixed in advance) and **rule 36** (when a readout can be materialized on update, charge **both** forms and
+report which axis each helps: the read path governs `H`, the update path governs `r`).
+
+**Where this leaves the two qualifications.** They are no longer of the same kind. **`r = 0` is structural and
+explained.** The **`scaled` basis is an accounting choice and is not yet explained** — under `flat` the log row
+carries a constant **208-bit** premium that no class size removes, which makes the flat column a candidate for a
+**domination theorem** rather than another measurement.
