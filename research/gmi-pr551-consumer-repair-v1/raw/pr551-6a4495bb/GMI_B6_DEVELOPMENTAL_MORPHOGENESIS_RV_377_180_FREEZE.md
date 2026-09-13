@@ -1,0 +1,901 @@
+# RV-377-180 — FREEZE: B6 cross-paradigm developmental morphogenesis (GMI-T12)
+
+Frozen BEFORE the run. Outcomes appended only. Reserved ids RV-377-180…189.
+
+## The question
+
+Issue #377 §19 asks the meta-level question once known-morphology recovery succeeds (it has: `RV-377-113`,
+G15 step (ii) reached at registered scope):
+
+> Does developmental history make finding the *next useful morphology or learning law* easier?
+> `B_morph,g` = complete resources until the first verified useful morphology change at generation g;
+> track `B_morph,g+1 < B_morph,g` on fresh ecology shifts, with quality preserved and all failed
+> candidates charged.
+
+The boundary theorem (`GMI_COMPLETENESS_BOUNDARY_THEOREM_V1.md` §4) lists rung B6 as **BLOCKED (GMI-T12)**.
+This record executes GMI-T12 at the registered scope of the boundary theorem: the 36-kind typed alphabet,
+depth 1, 8-bit precision, the R5 grammar, θ = 0.85, the six registered interventions (of which
+`extra_unseen_feedback` leaks 50 %, DG-13 — retained because rule 36 as written requires all six; the
+five-intervention reading is recorded alongside).
+
+## The objects
+
+**Developmental history** = the MAP-Elites archive produced by the unchanged B1 search (`gmi_microscope/b1.py`,
+`search`, default path) on a SOURCE ecology `E_a`, 20 000 charged evaluations, seed `s`. The full archive
+(every occupied cell with its genotype) is saved by `b6_development.run_source`; the committed B1 receipts keep
+only the best genotype per carrier and cannot seed a population.
+
+**Three arms** on a fresh TARGET ecology `E_b`, identical charged budget (20 000 evaluations, seed placements
+charged like any other) and identical seed integers:
+
+| arm | initial population | what it is |
+|---|---|---|
+| RESET | 400 fresh random genotypes (the committed default) | generation g from scratch |
+| CONTINUED | the elites of `E_a`'s archive | the developmental arm, generation g+1 |
+| TWIN | the elites of the archive of a randomised table ecology `E_twin<s>`, **carrier-matched** to the CONTINUED seed set | the matched negative: "any warm start", no history on any structured ecology |
+
+Carrier matching (`matched_populations`): per raw-carrier class c, `k_c = min(n_a[c], n_twin[c])`; both seed sets
+take the top-`k_c` elites of their archive by capability, so the two seed sets have identical size and identical
+carrier histograms. Raw carrier is the archive's own descriptor; rule 23 governs recovery *claims*, and no claim is
+made about a seed. The mutation loop is untouched: parents are drawn uniformly from the archive as before.
+
+**Measurement per run** — the first admissible machine on `E_b`, found by a post-hoc ordered scan of every
+θ-crossing placement recorded by the search (`trace`), each candidate verified in evaluation order:
+
+1. rule 36: capability ≥ θ under all six registered interventions (`ecology.run_genotype`); 6 replays;
+2. rule 40: min over six − best constant ≥ 1 fx unit (`eco_axis.best_constant`, unseen criterion);
+3. rule 42: fixed-function null — distinct final served-answer vectors over the five registered smooth probe
+   targets ≥ 3 (RV-377-103 C4); extractor validated on `constant_emitter` (must read 1) and `gradient_net(3,1)`
+   (must read ≥ 3) before any candidate is read; 5 replays;
+4. rules 23/32: atrophy under all six interventions (`atrophy_ir.prune_all_interventions`) with the floor
+   `max(θ, best_constant + 1 fx)` so the atrophied genotype still clears rule 40 by construction; rule 42 re-read on
+   the atrophied genotype; every deletion trial charged once per intervention.
+
+`B_search` = search evaluations up to that placement (failed phenotypes included). `B_verify` = every control
+replay spent on that candidate and on every earlier θ-crossing candidate that failed. **`B_morph = B_search +
+B_verify`** is the primary measure. Also recorded: `B_dense`, the same measure restricted to candidates whose
+ATROPHIED carrier is DENSE (the coefficient carrier), scanned independently; final best capability (standard) and
+final best per carrier at 20 000; the atrophied carrier class of the first admissible machine; its lineage root
+(which seed it descends from).
+
+The source's own 20 000 evaluations are generation g's burden and are not charged to g+1: that is what §19's
+inequality compares.
+
+## The ecology pairs — deterministic rule
+
+Occupancy oracle: `GMI_RV_377_113_INTERVENTION_SCAN.json` (committed), read as: occupant class of an ecology =
+the set of carriers admissible under all six interventions at 20 000 evaluations, seed 0.
+
+| ecology | all-six occupants | rule 40 | reading |
+|---|---|---|---|
+| `E_smooth1` | KVSTORE, PROGRAM, TABLE | 0.502 fx (within quantization) | memory-occupied, no separation |
+| `E_smooth3` | KVSTORE, PROGRAM, TABLE | 1.126 fx | memory-occupied, separating |
+| `E_sym5` | DENSE, KVSTORE, PROGRAM, TABLE | 1.500 fx | coefficient-witness-bearing (and memory) |
+| `E_wit1` | none | — | no all-six occupant |
+
+Rule: (i) `E_b` must carry a rule-36 **and** rule-40 occupant at 20 000 evaluations, else "first admissible" is
+undefined at this budget → `E_b ∈ {E_smooth3, E_sym5}`. (ii) SAME-PARADIGM: memory-occupied → memory-occupied,
+source = the other memory-occupied registered ecology. (iii) CROSS-PARADIGM: memory-occupied → the
+coefficient-witness-bearing ecology. (iv) DISJOINT: no shared structure. The registry contains no ecology without
+bit-linear structure (`E_parity`'s target is the identity, DG-13; every smooth target is linear in the input bits;
+`RV-377-102`'s enumeration is the linear class), so the DISJOINT source is a **seeded random table**: 16 values
+uniform on the fx range spanned by the smooth targets, [−24, 24], seed 4242 + s (`E_rnd<s>`); the TWIN sources
+use the same generator with seed 7001 + s (`E_twin<s>`). The DISJOINT target is `E_sym5`, so CROSS and DISJOINT
+share one RESET baseline (RESET does not depend on `E_a`) and the coefficient-carrier delay can be read against
+a structured and a structure-free history on the same target and seeds.
+
+| pair | `E_a` | `E_b` |
+|---|---|---|
+| SAME | `E_smooth1` | `E_smooth3` |
+| CROSS | `E_smooth3` | `E_sym5` |
+| DISJ | `E_rnd<s>` | `E_sym5` |
+
+Seeds 0, 1, 2. Units: 12 sources (`E_smooth1`, `E_smooth3`, `E_rnd<s>`, `E_twin<s>` × 3) + 24 arms
+(SAME 9, CROSS 9, DISJ 6) = 36 searches of 20 000 evaluations.
+
+## Frozen predictions, derived from the theory's own results
+
+Derivations used: **BR-1** (`GMI_BASIN_RESTART_DEVELOPMENT_THEOREM_V1.md`): expected independent starts until a
+productive initialization = 1/p, so any change to the initialization measure μ that raises the productive-basin
+mass p of the target's occupant class lowers the expected burden, and any change that lowers it raises the burden;
+**CL-1** (`RV-377-123`): a memorizing machine knows only the indices revealed to it, so a memory carrier's *content*
+is re-developed on `E_b` within its 16 events and only its *mechanism* (store + read-out + their parameters)
+transfers; **T5** (`RV-377-116`): the carrier is an observable class, so "occupant class" is a measurable property
+of an archive; **RV-377-074** (rule 23): raw descriptors mis-credit carriers, so every class statement below is on
+the atrophied genotype; **RV-377-113**: on `E_sym5` the memory carriers are admissible at the same 1.5 fx margin
+as DENSE, so the *first* admissible machine there is not expected to be the coefficient carrier under any arm.
+
+| id | prediction | falsifier |
+|----|-----------|-----------|
+| D1a | SAME: `B_morph`(CONTINUED) < `B_morph`(RESET) on ≥ 2/3 seeds. (BR-1: `E_smooth1`'s memory elites are already in `E_smooth3`'s productive basin — the mechanism transfers by CL-1 — so p → ~1.) | CONTINUED ≥ RESET on ≥ 2/3 seeds |
+| D1b | SAME residual over "any warm start helps": `B_morph`(CONTINUED) < `B_morph`(TWIN) on ≥ 2/3 seeds. (The twin's memory elites were selected on a structure-free target where the unseen criterion cannot be learned, so their read-out parameters — k, metric, temperature — were selected on noise; `E_smooth1`'s were selected on a smooth linear target and carry over.) | TWIN ≤ CONTINUED on ≥ 2/3 seeds → the parents (OOPS / PowerPlay / bias-optimal warm start) predict everything and B6's terminal is PARENT_SUFFICIENT_OOPS |
+| D1s | (strong form, reported, not load-bearing) TWIN does **not** beat RESET on ≥ 2/3 seeds. **Predicted to FAIL**: CL-1 says the mechanism transfers whatever the source content, so a warm start from any memory-bearing archive is expected to help. Recorded so the parent's prediction is scored too. | TWIN < RESET on ≥ 2/3 seeds (= the parent is right) |
+| D2a | CROSS: `B_morph`(CONTINUED) < `B_morph`(RESET) on ≥ 2/3 seeds and the atrophied class of the first admissible machine is memory (TABLE / KVSTORE / PROGRAM) on ≥ 2/3 seeds — the memory history buys the memory occupant of `E_sym5`, not the coefficient carrier. | CONTINUED ≥ RESET, or first class DENSE on ≥ 2/3 seeds |
+| D2b | **The committed sign: harmful transfer for the coefficient carrier.** `B_dense`(CONTINUED) > `B_dense`(RESET) on every seed where both are determined (both reach an atrophied-DENSE admissible machine within 20 000). BR-1: a memory-adapted archive shifts μ away from the DENSE basin (its DENSE cells were selected on `E_smooth3`, where DENSE is inadmissible at 0.8125 — the dead region of BR §4), and uniform parent selection over a memory-dominated archive lowers p for DENSE; RESET's random init founds one machine in four on DENSE. A seed where either arm never reaches atrophied-DENSE within budget is recorded UNDETERMINED for D2b, not scored either way. | CONTINUED ≤ RESET on ≥ 2/3 determined seeds |
+| D2c | Continuous form of the sign, always determined: CONTINUED's final best DENSE-cell capability (standard) on `E_sym5` ≤ RESET's on ≥ 2/3 seeds. | CONTINUED > RESET on ≥ 2/3 seeds |
+| D2d | The delay is class-conditioned, not "any warm start": `B_dense`(DISJ-CONTINUED) is within the RESET seed spread (|difference| ≤ max − min of RESET's `B_dense` over the three seeds) or UNDETERMINED, on ≥ 2/3 seeds — a structure-free archive neither helps nor hurts the coefficient carrier. | DISJ-CONTINUED delays DENSE as much as CROSS-CONTINUED on ≥ 2/3 seeds → the sign is a warm-start artefact, D2b is not GMI content |
+| D3a | DISJ: no ordering between CONTINUED and TWIN: |`B_morph`(CONTINUED) − `B_morph`(TWIN)| ≤ RESET's seed spread on ≥ 2/3 seeds (the two are exchangeable by construction; this calibrates the twin instrument). | a consistent ordering on 3/3 seeds |
+| D3b | DISJ: `B_morph`(CONTINUED) < `B_morph`(RESET) on ≥ 2/3 seeds — the parent-predicted mechanism transfer (CL-1) from a structure-free archive; reported as the parent's prediction. | CONTINUED ≥ RESET on ≥ 2/3 seeds |
+| D4 | Quality preserved: CONTINUED's final best capability (standard) ≥ RESET's on the same seed, on every pair, on ≥ 2/3 seeds per pair. | CONTINUED < RESET on ≥ 2/3 seeds on any pair |
+| D5 | SAME: the atrophied carrier class of CONTINUED's first admissible machine ∈ `E_smooth1`'s occupant set {KVSTORE, PROGRAM, TABLE} on ≥ 2/3 seeds, and its lineage root is a seed elite (not a fresh random genotype). | class DENSE or NONE, or root not a seed, on ≥ 2/3 seeds |
+
+**Kill condition.** If D1a fails on all three seeds, B6 is `DEVELOPMENTAL_MORPHOGENESIS_NOT_OBSERVED_AT_SCOPE`
+(preserved negative) and one revival iteration `RV-377-181` runs with the single minimal justified change: longer
+source development (50 000 evaluations on `E_smooth1`), attributed to ONE stage — the source archive's depth —
+before any other lever is touched.
+
+**Terminal register.** B6 is `DEVELOPMENTAL_MORPHOGENESIS_OBSERVED_AT_SCOPE` only if D1a **and** D1b hold. If D1a
+holds and D1b fails, the terminal is `PARENT_SUFFICIENT_OOPS` (see below). D2b's outcome moves the sign row of the
+boundary theorem addendum whichever way it lands, including UNDETERMINED.
+
+## Parent subtraction — what OOPS / PowerPlay / bias-optimal warm starts already predict
+
+*OOPS (Schmidhuber, bias-optimal incremental problem solving)* and *PowerPlay* own: an accumulated repertoire of
+solutions / a learned proposal bias makes later problem solving cheaper on related tasks, and the repertoire grows.
+Applied here they predict, without any GMI content: **CONTINUED < RESET on every pair whose source archive contains
+working learners** (D1a, D2a, D3b), **TWIN < RESET** (D1s's failure), and **quality preserved** (D4) since the
+archive keeps the best. They are silent on the *class* of what transfers: they predict a speed-up, not which
+carrier appears first or whether a class-mismatched history delays a specific carrier.
+
+What GMI adds, and what this record tests as the residual: (1) D1b — a history on a *structured* ecology beats a
+carrier-matched history on a structure-free one, i.e. what transfers is not only the repertoire but the
+ecology-selected read-out; (2) D2b/D2d — the **class-conditioned sign**: a memory-adapted archive *delays* the
+coefficient carrier while a structure-free archive of the same carrier composition does not. These are statements
+about the carrier classes of `RV-377-116` (T5) and the basin masses of BR-1, which the parents do not index.
+
+**Honest terminal if the parents predict everything:** if D1b fails and D2b/D2d do not both hold, B6 is
+`PARENT_SUFFICIENT_OOPS` — warm starts help, GMI adds no class-conditioned content at this scope — and it is
+recorded as such without hedging.
+
+## Calibration disclosed before the freeze (protocol rule 17)
+
+Run on billy-old before this freeze was committed; nothing in the predictions above was changed after it ran.
+
+1. **Byte-identity of the default path.** The committed `b1.search` (origin/main `99e4db13`, file placed beside
+   the patched one as `b1_orig_tmp`) and the patched search produce the same 200-evaluation archive on `E_smooth3`
+   seed 0 — digest `11f0c9cd24b7b674` for the committed file, the patched file, and the patched file with a trace
+   list attached. Pinned in `test_b6_development.py`.
+2. **The verifier reproduces `RV-377-113`.** Replayed on the 13 committed best-by-carrier genotypes of the
+   `ABL_FULL` seed-0 receipts: min-over-six and binding intervention agree with `GMI_RV_377_113_INTERVENTION_SCAN.json`
+   on **13 of 13**; `E_smooth1` × 3 fail rule 40 at 0.502 fx, `E_wit1` × 3 fail rule 36 at 0.8333, `E_smooth3` × 3
+   and `E_sym5` × 4 pass at 1.126 / 1.500 fx; the rule-42 extractor reads 1 on `constant_emitter` and 4 on
+   `gradient_net(3,1)`. **Seen and disclosed:** under atrophy with the rule-40 floor, `E_sym5`'s committed DENSE
+   genotype (12 nodes, 0.9115) reads **TABLE** at 11 nodes — the coefficient recovery of `RV-377-113` is a raw-descriptor
+   reading; on the atrophied genotype `E_sym5`'s seed-0 occupants are {KVSTORE, TABLE}. This makes an atrophied-DENSE
+   first admissible machine rare, so D2b is expected to land UNDETERMINED on some or all seeds; D2c/D2d carry the
+   sign in that case. D2b's text is unchanged.
+3. **Timing.** 2 000-evaluation source searches: 68 s (`E_twin0`) and 87 s (`E_smooth3`); a 2 000-evaluation seeded
+   arm: 128 s (search 124.5 s, verification 3.3 s: 599 θ-crossing placements, 3 scanned, first pass at trace index 2,
+   `B_morph` 81 = 11 search + 70 verify, class TABLE — pilot numbers, not evidence). The committed 20 000-evaluation
+   baselines took 1 040–1 490 s (superlinear as the archive fills), so 36 runs ≈ 15 core-hours ≈ 4 h wall at 4
+   processes. **Three seeds are kept**; no scope reduction.
+4. Pilot receipts carry the host token `PILOT`, are not read as evidence and are not committed. The carrier-matched
+   seed set in the pilot had k = 4 per carrier (20 seeds); the NONE class is matched like any other.
+
+## Execution
+
+billy-old, `nice -n 10`, ≤ 4 processes; `gmi_b6_driver.py <host> sources 4` then `arms 4`; receipts
+`microscopes/results/STAGE_B6_DEV_SRC_<eco>_S<s>_old.json` and `STAGE_B6_DEV_<pair>_<arm>_S<s>_old.json`,
+rsync'd back and md5-verified both sides. Nothing runs on the Mac. No parameter is retuned after any outcome.
+
+---
+
+# RV-377-180-Z — a SEPARATE prospective registration, made with 7 of 24 arms in hand
+
+**Not part of the frozen D-table above.** D1a–D5 are untouched and are still scored exactly as frozen.
+This section registers a different question that the first seven arm receipts raised, and it is written
+**before** the remaining seventeen arms exist so that it is a prediction rather than a reading. It is
+scored separately and its outcome cannot change any D verdict.
+
+## What prompted it
+
+The corpus carries `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43`: across ten distinct
+ecologies, neutral search at 20 000 charged evaluations has never once recovered the coefficient class
+**under the atrophied reading** (rule 23). Lane B is the sharpest case — raw descriptor 4/9 DENSE,
+atrophied reading 0/9.
+
+`first_of_class(..., cls=("DENSE",))` in this lane applies that same bar: full `verify_candidate`
+(rule 36 over six interventions, rule 40 ≥ 1 fx over the best constant, rule 42 raw and atrophied,
+atrophy under all six with floor `max(θ, bc + fx)`) **and** `carrier_atrophied == "DENSE"`. So the arms
+measure the identical quantity the invariant counts, at the identical budget.
+
+Observed in the first seven arms, on the SAME pair whose target is `E_smooth3`:
+
+| arm | initial condition | atrophied-DENSE admissible | DENSE cell reached |
+|---|---|---|---|
+| RESET S0 | cold random init | **no** | 0.8125 |
+| TWIN S0 | warm, structure-free archive | **no** | 0.9010 (raw; fails the controls) |
+| CONTINUED S0 | warm, structured archive | **yes**, min6 0.8542, +1.001 fx | 0.9062 |
+| CONTINUED S1 | warm, structured archive | **yes**, min6 0.8542, +1.001 fx | 0.9583 |
+
+Two facts make this worth registering rather than reporting. First, `E_smooth3`'s registered occupant set
+is `(KVSTORE, PROGRAM, TABLE)`: **DENSE is not an occupant**, and D2b's own derivation calls it "the dead
+region of BR §4", inadmissible at 0.8125 — which is exactly the value the cold arm reached. Second, both
+recoveries have `origin = ["seed", k]` with `n_eval_search` of 18 595 and 3 827, so they are descendants
+produced during the search from a warm-started lineage, not seed elites handed over at initialisation.
+
+## Registered predictions (scored only when all 24 arms exist)
+
+| id | prediction | what it would mean |
+|---|---|---|
+| **Z1** | SAME/CONTINUED reaches an admissible atrophied-DENSE machine on ≥ 2/3 seeds | the registered-unoccupied coefficient cell of `E_smooth3` is reachable from a developed archive |
+| **Z2** | SAME/RESET reaches one on **0/3** seeds | the corpus invariant replicates at matched ecology, budget and bar — the cold-start arm is a within-lane control for the 43 |
+| **Z3** | SAME/TWIN reaches one on ≤ 1/3 seeds | the lift is specific to history selected on a *structured* source, i.e. a residual over "any warm start helps" |
+| **Z4** | no dead-region claim is available on CROSS | its target `E_sym5` lists DENSE as a registered occupant, so a DENSE recovery there is expected under any arm and is reported, not counted |
+
+## Falsifiers, stated once
+
+| id | registration is RED if |
+|---|---|
+| F-Z1 | SAME/CONTINUED reaches atrophied-DENSE on ≤ 1/3 seeds — the two hits were seed-luck |
+| F-Z2 | SAME/RESET reaches it on ≥ 1 seed — the cell is reachable cold, so the observation is about *speed*, not reachability, and it does not touch the 0-of-43 invariant |
+| F-Z3 | SAME/TWIN matches CONTINUED (≥ 2/3 seeds) — then any developed archive suffices, the effect is parent-owned (OOPS / bias-optimal warm start), and the honest terminal for the coefficient result is `PARENT_SUFFICIENT_OOPS`, recorded without hedging |
+
+## What this cannot claim even if every prediction holds
+
+It would be a statement about **one** target ecology at **one** budget under **one** generator. It would
+not overturn the 0-of-43 invariant, which is about cold-start neutral search: it would *scope* that
+invariant to its initial condition, which is a different and smaller claim than "the coefficient class is
+recoverable". Nor would it license any capability claim — the recovered machines clear the rule-40 line by
+1.001 fx, the minimum the bar admits, and that marginality is corpus-wide rather than special to DENSE.
+
+---
+
+## Instrument disclosure: the CROSS and DISJ twin arms are one experiment, not two
+
+Found by a duplicate-experiment detector added to `b6_adjudicate` after `CROSS|TWIN|S0` and
+`DISJ|TWIN|S0` returned identical `B_morph` (7 906), identical `final_best` (0.974), identical elite
+fingerprints and identical `first_dense_admissible`. They are two distinct receipt files holding the
+same computation.
+
+**Mechanism.** The TWIN arm seeds from the randomised-table archive `E_twin<s>`, carrier-matched to
+that pair's CONTINUED seed set. CROSS and DISJ share the target `E_sym5` and the same twin archive, and
+on seed 0 the match **saturated in both pairs**: the twin archive holds
+`DENSE 9 / KVSTORE 10 / NONE 4 / PROGRAM 9 / TABLE 10`, and both reference archives are at least that
+large in every carrier (CROSS `10/18/6/24/23`, DISJ `9/15/6/20/20`), so `matched_k_per_carrier` equals
+the whole twin archive in both cases. Same 42 seed fingerprints, same source receipt digest, same
+target, same seed — therefore the same run. The receipts differ only in `pair`, `source_ecology`,
+`history`, wall-clock and digest.
+
+**Consequence, stated plainly.** The carrier-matched twin is pair-specific only when the twin archive
+is *larger* than the reference archive in at least one carrier. When it is not, the "matched" control
+degenerates to "the entire twin archive" and stops distinguishing the pairs. So the campaign's 24
+receipt files contain **21 distinct experiments**: three `DISJ|RESET` files are the freeze's documented
+shared baseline (one file read under two labels), and three `CROSS|TWIN` ≡ `DISJ|TWIN` pairs are one
+computation reported twice. Any statement that counts warm-start arms on `E_sym5` as independent
+evidence must use the distinct count, not the file count.
+
+**What it does not affect.** D3a compares `DISJ|CONTINUED` against `DISJ|TWIN`, and its premise is that
+the two are exchangeable by construction — `E_rnd<s>` and `E_twin<s>` are both structure-free random
+tables feeding the same target. That premise is untouched, and the two arms give different numbers
+(4 536 vs 7 906 on seed 0), so D3a remains a live test. No D or Z prediction is rescored because of
+this disclosure; it changes how the evidence is *counted*, not what any arm measured.
+
+`b6_adjudicate` now reports `duplicate_experiments`, separating `shared_baseline_by_design` (one receipt
+file, two labels) from `duplicate_computation` (two files, same computation), and prints the distinct
+count alongside the file count.
+
+### Z control executed: admissibility was not inherited
+
+The obvious deflation of the Z observation is that the warm-started arms did not *find* an admissible
+coefficient machine at all — they were simply handed one in the archive they inherited. That control is
+now run and it fails to deflate anything.
+
+Every DENSE cell held by each source archive was replayed against the **target** ecology under the arm's
+exact `verify_candidate` (rule 36 over the six interventions, rule 40 ≥ 1 fx over the target's best
+constant, rule 42 raw and atrophied, atrophy under all six with floor `max(θ, bc + fx)`, and
+`carrier_atrophied == "DENSE"`). Receipt: `STAGE_B6_DENSE_INHERITANCE_CONTROL_billy.json`, script
+`gmi_microscope/b6_dense_inheritance_control.py`.
+
+| source → target | seed | DENSE cells | admissible on target | source's own best DENSE cap | failure mode |
+|---|---|---|---|---|---|
+| `E_smooth1` → `E_smooth3` | 0 | 9 | **0** | 0.8333 | rule 36 ×9 |
+| `E_smooth1` → `E_smooth3` | 1 | 19 | **0** | 0.8958 | rule 36 ×19 |
+| `E_smooth1` → `E_smooth3` | 2 | 10 | **0** | 0.8333 | rule 36 ×10 |
+| `E_smooth3` → `E_sym5` | 0 | 10 | **0** | 0.8125 | rule 36 ×10 |
+| `E_smooth3` → `E_sym5` | 1 | 16 | **0** | 0.9583 | rule 36 ×14, atrophies off DENSE ×2 |
+| `E_smooth3` → `E_sym5` | 2 | 8 | **0** | 0.8125 | rule 36 ×8 |
+
+**72 inherited coefficient machines tested, 0 admissible on the target.** Capability on the source does
+not rescue them: the `E_smooth3` seed-1 archive holds a DENSE cell at 0.9583 on its own ecology and it
+still fails rule 36 on `E_sym5`. So the admissible atrophied-DENSE machines the CONTINUED arms reached
+were produced by the warm-started search, not carried over ready-made — consistent with their recorded
+lineage (`origin = ["seed", k]`, first placed at evaluations 18 595 and 3 827, i.e. descendants).
+
+Two of the 72 pass every capability control and then **atrophy off DENSE** onto PROGRAM and TABLE. That
+is rule 23 operating exactly as `RV-377-074` says it must: the raw descriptor mis-credits the carrier,
+and reading the class on the atrophied genotype removes the credit. It is the same effect that separates
+lane B's raw 4/9 from its atrophied 0/9, observed here on independent material.
+
+This control constrains, and does not establish, Z1–Z3: it removes the inheritance explanation. Whether
+the lift is specific to structured history (Z3) or belongs to any developed archive still depends on the
+TWIN arms, which are unrun on seeds 1 and 2.
+
+### Z5, registered with 9 of 24 arms in hand: the coefficient carrier is reached by conversion, not by direct search
+
+The inheritance control above shows the admissible coefficient machines were produced by the search.
+The receipts also record *what they were produced from*, and on every one so far the answer is the same:
+
+| arm | admissible atrophied-DENSE machine descends from | root's carrier | root's capability on its own ecology |
+|---|---|---|---|
+| SAME CONTINUED S0 | seed elite #39 | **PROGRAM** | 0.8646 |
+| SAME CONTINUED S1 | seed elite #38 | **KVSTORE** | 0.8958 |
+| CROSS TWIN S0 ( ≡ DISJ TWIN S0 ) | seed elite #20 | **TABLE** | 0.4375 |
+
+**Not one descends from an inherited DENSE cell.** Three distinct observations, three different memory
+carriers as roots, spanning a wide capability range.
+
+This bears on why the cold arm fails. The freeze's own derivation says RESET's random init "founds one
+machine in four on DENSE", so a cold start is not short of coefficient machines — it founds plenty. What
+it lacks is a *developed memory machine to convert*. The route to an admissible coefficient carrier that
+these arms actually took runs **through** a memory carrier and crosses the carrier boundary under
+mutation, which is cross-paradigm morphogenesis in the sense B6 is about, observed inside a single arm.
+
+| id | registered prediction | falsifier |
+|---|---|---|
+| **Z5** | every admissible atrophied-DENSE machine recovered anywhere in this campaign descends from a **non-DENSE** seed elite | any one descends from a seed elite whose raw carrier is DENSE |
+
+**What Z5 does not say.** `origin` records the lineage *root*, not the path. A memory-rooted lineage must
+cross the carrier boundary somewhere, but these receipts do not show where, and they do not exclude DENSE
+intermediates between the root and the recovered machine. Z5 is a claim about founders, not about the
+whole trajectory; establishing the crossing point would need per-step lineage, which this instrument does
+not record. Nor does Z5 apply to cold arms, which have no seed elites at all — their origins are `init`.
+
+### Instrument gap: the Z1 machines' structure is not recoverable from these receipts
+
+A claim about a previously-unoccupied cell is a claim about *what occupies it*, so I went looking for the
+structure of the machines Z1 counts. It is not there, and the reason is worth stating.
+
+`first_of_class` returns carrier, capability, margin, origin and burden — **not** the genotype
+(`first_admissible` does return both raw and atrophied genotypes; the class-specific scan does not).
+`trace_compact` keeps only fingerprint, capability, `n_eval`, `n_nodes`, `desc` and origin. So the
+machines satisfying Z1 are identified but not described, and no amount of re-reading these receipts
+recovers them.
+
+**This is not fixed mid-campaign.** Adding the genotype to `first_of_class` is additive and changes no
+verdict, but applying it now would make the campaign's receipts inhomogeneous across arms under a frozen
+protocol. It is named as the next lever and not adopted: the structural question is answered by a re-run
+with the field present, not by editing the instrument while it runs.
+
+### What the archive's best coefficient cell shows instead (`STAGE_B6_DENSE_STRUCTURE_billy.json`)
+
+The archive *does* retain its best cell per carrier in full, so those were verified against the target
+under the arm's own controls (`gmi_microscope/b6_dense_structure_probe.py`). They are **different
+machines** from the ones Z1 counts — for `SAME|CONTINUED|S0` the archive's best DENSE cell scores 0.9062
+while the Z1 machine's standard capability is 0.8854 — and they behave differently:
+
+* eight of the nine best-DENSE cells **fail** the controls outright;
+* the one that passes, `CROSS|RESET|S0`, passes every capability control and then **atrophies onto
+  TABLE**. Its raw descriptor says coefficient carrier; its atrophied reading says memory carrier.
+
+That is the third independent sighting of rule-23 mis-crediting in this lane — after lane B's raw 4/9
+against atrophied 0/9, and the two inherited cells in the control above that atrophy onto PROGRAM and
+TABLE. Here it lands on an archive *elite*, which is the object most likely to be quoted as a result.
+
+Two further details worth keeping. `SAME|RESET|S0`'s best DENSE cell is a minimal seven-kind machine
+(`DENSE, EDGE, INPUT, LINEAR, OUTPUT, TARGET, VERIFY`) sitting at exactly **0.8125** — the dead-region
+value the D2b derivation quotes for `E_smooth3`, reproduced by an independent arm. And the two arms with
+the richest DENSE cells by raw capability (`DISJ|CONTINUED|S0` at 0.9583, `SAME|CONTINUED|S1` at 0.9583)
+both fail the controls, so raw capability in the coefficient cell is not evidence of an admissible
+coefficient machine.
+
+### Disclosed while the campaign ran: negatives cost more than positives, and they are exhaustive
+
+The arms differ in wall-clock by far more than the RV-377-202 sizing implied, and the reason is
+structural rather than incidental. Verification time across the nine completed arms:
+
+| arm | coefficient scan | candidates scanned | verification evaluations | verify seconds |
+|---|---|---|---|---|
+| `CROSS\|CONTINUED\|S0` | not found | 0 | 0 | 8 |
+| `SAME\|RESET\|S0` | not found | 0 | 0 | 272 |
+| `DISJ\|CONTINUED\|S0` | not found | 63 | 722 | 218 |
+| `CROSS\|TWIN\|S0` | **found** | 165 | 1 306 | 779 |
+| `DISJ\|TWIN\|S0` | **found** | 165 | 1 306 | 684 |
+| `SAME\|CONTINUED\|S1` | **found** | 464 | 3 500 | 390 |
+| `SAME\|CONTINUED\|S0` | **found** | 371 | 19 648 | 1 130 |
+| `SAME\|TWIN\|S0` | not found | 853 | 71 650 | **4 356** |
+| `CROSS\|RESET\|S0` | not found | 2 026 | 87 170 | **3 866** |
+
+A 500-fold spread in verification time, and it tracks the outcome: `first_of_class` **stops at the first
+hit**, so a positive pays for the candidates up to that hit, while a negative pays for **every** coefficient
+candidate in the trace. Where no coefficient candidate exists at all the scan is free; where many exist and
+none is admissible it is the dominant cost of the arm.
+
+Two consequences worth stating before the campaign finishes.
+
+**Runtime correlates with outcome, so early arms mislead about completion.** The nine finished arms are
+disproportionately the cheap ones. Estimating the remaining fifteen from them under-counts, and the
+seed-1 arms now at four hours against seed 0's twenty-eight minutes are the visible form of that.
+
+**The arms that decide the negative predictions are structurally the expensive ones.** `Z2` and `Z3` are
+both negative claims — the cold arm reaches the coefficient cell on 0/3 seeds, the structure-free twin on
+≤ 1/3. Confirming a negative is precisely the exhaustive path. That `SAME|RESET|S1` and `SAME|TWIN|S1` are
+the two longest-running arms is what the registration predicts their cost to look like, not a fault.
+
+**The negatives are exhaustive, not truncated — checked, not assumed.** `first_of_class` takes a
+`max_candidates` cap, and a capped scan would make every "not found" mean "not found within the cap",
+which would weaken `Z2` and `Z3` to conditional claims. The command line never passes it
+(`run_arm(pair, arm, seed, host, evaluations)` — five arguments, `max_candidates` left `None`), so both
+scans run to the end of the trace. A "not found" in this campaign is an exhaustion of every θ-crossing
+placement the search produced.
+
+### Interim correction (10 arms): the structure-free twin reaches the coefficient cell too
+
+`SAME|TWIN|S1` has landed and it **found** an admissible atrophied-DENSE machine on `E_smooth3`
+(`min_over_six` 0.875, rule-40 margin 1.5 fx, `B_morph` 3 280) — a higher margin than either CONTINUED
+recovery. Its founder is a TABLE seed elite, so `Z5` still holds on four observations with none
+rooted in DENSE.
+
+**This falsifies the reading I recorded at seven arms.** That note said the cold start and the
+structure-free twin did not reach the cell while the structured warm start did, and offered that as the
+shape of a structured-history-specific lift. On the SAME pair that is now false for seed 1. Corrected
+here rather than left standing until the adjudication.
+
+State of the registration at 10 of 24 arms:
+
+| id | per seed | verdict |
+|---|---|---|
+| `Z1` CONTINUED ≥ 2/3 | S0 ✓, S1 ✓, S2 pending | **HELD** — two hits settle it whatever S2 does |
+| `Z2` RESET 0/3 | S0 ✗, S1 pending, S2 pending | pending |
+| `Z3` TWIN ≤ 1/3 | S0 ✗, S1 **✓**, S2 pending | **pending, and now on a knife edge** |
+
+`Z3` is the clause that decides whether any of this belongs to the theory. One more twin hit on seed 2
+makes it 2/3, `F-Z3` trips, and the honest terminal for the coefficient result is
+`COEFFICIENT_LIFT_PARENT_SUFFICIENT_OOPS` — any developed archive suffices, the effect belongs to the
+warm-start parents (OOPS / PowerPlay / bias-optimal warm start), and the programme's own rule is that
+`PARENT_SUFFICIENT` is a success terminal to be recorded without hedging rather than engineered past.
+
+Two things survive either way, and they are worth separating from `Z3`'s fate now, while its outcome is
+still unknown:
+
+* **`Z2` is untouched by this.** Whether *cold* search reaches the cell is a different question from
+  which warm start does, and the cold arm has missed on the one seed it has finished. If `Z2` holds, the
+  scoping of `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` to its initial condition stands
+  regardless of whether the lift is parent-owned.
+* **`Z5` is untouched by this.** Four recoveries, four memory-carrier founders, none rooted in a
+  coefficient seed. Conversion from a memory carrier is a claim about *how* the cell is reached, not
+  about *which* archive licenses it, so a parent-sufficient `Z3` leaves it standing.
+
+### Z5 is WITHDRAWN as an ancestry claim, and replaced by what the instrument supports
+
+The other lane's `B6_LINEAGE_ATTRIBUTION_CORRECTION_V1.md` and its pinned counter-control
+(`evidence/b6-lineage-countercontrol-20260913/`) are **correct**, and they defeat `Z5` as I registered
+it. Verified independently against the source in this checkout rather than taken on trust
+(`gmi_microscope/b1.py`, the placement loop):
+
+```python
+_, parent, _, _ = rng.choice(vals)
+if rng.random() < 0.2 and len(vals) > 1:
+    _, other, _, _ = rng.choice(vals); child, tr = morphgen.crossover(rng, parent, other)
+else:
+    child, tr = morphgen.mutate(rng, parent)
+tries += tr; place(child, origin=origin_by_id.get(id(parent)) ...)
+```
+
+**Crossover fires on 20 % of placements, and `origin` is copied from `parent` alone — the donor `other`
+contributes structure and leaves no trace.** So a child with a TABLE primary and a DENSE donor is
+recorded as TABLE-rooted, and their counter-control exhibits exactly that case on a pinned crossover.
+
+`Z5` said "every admissible atrophied-DENSE machine descends from a **non-DENSE** seed elite". That is
+not what the receipts show and my own hedge did not cover it. I wrote that `origin` records the root and
+not the path, which addresses unseen *intermediates*; the defeating case is a co-parent at the **same
+step**, which the tag omits by construction. At a 20 % crossover rate a DENSE donor supplying the
+coefficient structure is a live path, not an exotic corner.
+
+**Withdrawn and replaced**, rather than repaired by reinterpretation:
+
+| id | status | statement |
+|---|---|---|
+| `Z5` | **WITHDRAWN** | "descends from a non-DENSE seed elite" — not established by `origin`, which is not an ancestry record |
+| `Z5′` | registered in its place | every recovery's **primary-parent tag** is a memory carrier. Checkable, and true on four recoveries: PROGRAM, KVSTORE, TABLE, TABLE — **and it licenses no claim about ancestry or about where the carrier boundary is crossed** |
+
+The inference `Z5` was carrying — that the coefficient carrier is reached by *conversion from* a memory
+carrier rather than by direct search — is therefore **unsupported at present**, not merely unproven in
+detail. It remains a live hypothesis and the interesting one, but the instrument cannot currently
+distinguish it from "a DENSE donor supplied the coefficient structure to a memory-tagged primary".
+
+**What would settle it**: donor-aware lineage, i.e. recording both parents' origins at a crossover
+placement (and, for the structural question, the genotype itself). That is the same class of gap as the
+discarded genotypes recorded above — in both cases the instrument records strictly less than the claim
+needs, and in both cases the right response is to name the missing field rather than to soften the claim
+until the existing field can carry it.
+
+This is the second correction to this lane's own reading in one campaign, both caught before adjudication
+and both from re-reading what the instrument actually stores. Recorded in full because a withdrawn claim
+that quietly disappears is worse than one that was never made.
+
+### Third instrument reading checked: "atrophied carrier DENSE" is a priority pick, not an exclusive classification
+
+Having had two readings corrected in this campaign, I checked the field the whole coefficient result rests
+on. `b1.carrier_of` walks back from `OUTPUT`, collects every state kind on the served path, and then:
+
+```python
+for c in ("DENSE", "PROGRAM", "KVSTORE", "TABLE"):
+    if c in found: return c
+return "NONE"
+```
+
+It is a **fixed-priority pick over everything present on the served path, with DENSE ranked first.** A
+machine whose served path carries both a load-bearing DENSE node and a load-bearing TABLE node is
+reported `DENSE`. Of the four carriers, the coefficient label is therefore the most easily acquired.
+
+**What atrophy does and does not rule out.** The recoveries are read on the *atrophied* genotype under
+`prune_all_interventions` with floor `max(θ, bc + fx)`, so a node survives only if deleting it drops the
+machine below that floor. A vestigial DENSE node would be pruned and the carrier would not read DENSE.
+That is real protection, and it is what rule 23 buys. What it does **not** rule out is a machine in which
+a DENSE node *and* a memory node are **both** load-bearing — neither removable, both necessary. There the
+`DENSE` label is a priority artifact, and the honest description is hybrid.
+
+**The corpus already contains the sharper classifier, in the other instrument.** `nn_nonnn_packet.family_of`
+distinguishes this case explicitly:
+
+```python
+if dense and store: return "HYBRID"
+if dense: return "NEURAL"
+return "NON_NEURAL"
+```
+
+So two instruments in this corpus disagree about the same machine shape: the NN/non-NN packet calls
+DENSE-plus-store `HYBRID`, while `b1.carrier_of` calls it `DENSE`. Every carrier statement in this lane,
+including `Z1`–`Z3`, inherits the coarser reading.
+
+**Consequence for the coefficient-cell result, stated now rather than after adjudication.** "The warm arm
+reached an admissible atrophied-DENSE machine" is established in the sense that a load-bearing DENSE node
+survives atrophy on the served path. It is **not** established that the machine is a coefficient machine
+rather than a hybrid, and the registered occupant set it is being compared against was computed with the
+same coarse classifier, so the comparison is at least internally consistent.
+
+This is checkable for one machine as soon as the witness reconstruction completes: with the atrophied
+genotype in hand, the presence or absence of a surviving memory kind alongside DENSE settles it directly.
+Registered before that result exists: **Z6 — the witness's atrophied genotype contains a load-bearing
+memory kind alongside DENSE, i.e. it is a hybrid rather than a pure coefficient machine.** Falsified if
+the atrophied genotype's kinds include DENSE and no member of `{TABLE, KVSTORE, PROGRAM}` on the served
+path.
+
+### The witness exists, is re-verified, and is a memory machine carrying a dense node
+
+`gmi_microscope/b6_witness_reconstruct.py` rebuilt `SAME|CONTINUED|S1`'s seeded population from the
+original source receipts, replayed the deterministic search, and **asserted the campaign's recorded
+fingerprint at the recorded trace index before writing anything**. Receipt:
+`evidence/b6-arms-20260913/STAGE_B6_DENSE_WITNESS_SAME_CONTINUED_S1_billy.json`.
+
+| check | result |
+|---|---|
+| seeded population rebuilt from the arm's own sources | 61 elites, fingerprint list identical |
+| trace length | 11 817, as the arm recorded |
+| fingerprint at index 2 156 | **matches** — this is the campaign's object, not a lookalike |
+| independent re-verification | `pass = True`, min over six 0.8542, atrophied margin 1.001 fx |
+| raw → atrophied | 20 nodes → 14 |
+
+So the coefficient recovery is no longer a log line. It is an exhibitable object with its genotype
+retained, and anyone can re-run the reconstruction and get the same fingerprint. That closes the
+instrument gap recorded above for one machine, and it cost one replayed search.
+
+**And the structure settles the question the label could not.** The atrophied kinds are:
+
+`ABSTAIN, DENSE, EVIDENCE, INPUT, INSERT, KVSTORE, MORPH_RULE, NEAREST, OUTPUT, TARGET, VERIFY`
+
+**`KVSTORE` survives atrophy alongside `DENSE`, with `INSERT` and `NEAREST` — a store, a write and a
+read.** `b1.carrier_of` reports `DENSE` only because DENSE outranks KVSTORE in its fixed priority order.
+The same graph under `nn_nonnn_packet.family_of` is `HYBRID`.
+
+This is the shape the other lane independently found in its own recovered witness (`KVSTORE`, `INSERT`
+and `NEAREST` beside `DENSE`), reached here from a different arm by a different route. Their consumer
+counter-control then showed, for their witness, that zeroing the dense output preserves query values,
+abstention and ordered stores — the dense cell had no active numeric consumer.
+
+**Consequence for `Z1`, stated plainly.** "The structured warm start reaches the coefficient cell of
+`E_smooth3`" is, on the one machine now exhibitable, "reaches a machine carrying a key-value store with
+read and write, plus a dense node that the presence-based descriptor ranks first." Whether the dense node
+does anything is not settled by its survival, for the reasons accepted in
+`GMI_PR551_REVIEW_ACCEPTED_CORRECTIONS_V1.md`.
+
+**Registered next, and now runnable because the genotype exists**: apply the other lane's consumer test
+to *this* witness — replace the `DENSE` output with a constructed zero vector and re-measure under all six
+interventions. **Z7: the zeroed graph remains admissible** (min over six ≥ θ with ≥ 1 fx margin), i.e. the
+dense node is behaviourally inert here as it was there. Falsified if zeroing it drops the machine below
+the bar. This is a retrodiction-risk case and is labelled as such: their result on their witness is
+public, so this inherits the same unverified-blindness status as `Z6` and claims no prospective standing.
+
+### Z7 settled by inspection: the dense node is a store key, not a coefficient
+
+With the genotype retained, the consumer question does not need a behavioural test — the wiring answers
+it. In the witness's atrophied graph the single `DENSE` node, `dense0`:
+
+| property | value |
+|---|---|
+| incoming edges | **none** — nothing ever writes to it, so it is never updated |
+| consumers | `evidence0` (`EVIDENCE`) and `insert1` (`INSERT`) |
+| numeric consumers (`DOT`, `LINEAR`) | **none** |
+| gradient consumers (`GRAD`) | **none** |
+
+The IR defines `DENSE` as a "dense continuous parameter block" whose coefficient uses are `DOT` (dot
+product with an input), `LINEAR` (a width × width map plus bias) and the reverse-mode `GRAD` update.
+**This graph contains none of them.** `dense0` is a static vector with no writer, piped into a store
+write and an evidence node — it is functioning as a **key or value for the key-value store**, not as a
+learned parameter.
+
+So the machine is a memory machine. `KVSTORE` with `INSERT` and two `NEAREST` reads does the work;
+the dense block is inert numerically and cannot be otherwise, because no path exists by which it could
+be read as a coefficient or updated as one. This reproduces the other lane's consumer finding on
+independent material and by a different method — they replaced the output and measured, this reads the
+wiring — and it is the stronger form, since it holds for every input rather than for the tested events.
+
+**Why it survived atrophy, and what that says about the routine.** Deleting `dense0` would leave
+`evidence0` and `insert1` with a missing input, which the deletion routine records as a type-check
+failure and skips; it never rewires. So the node is **structurally** load-bearing — the graph does not
+type-check without it — while being **semantically** inert. That is exactly the distinction the review
+insisted on, now exhibited concretely rather than argued: *deletion resistance is not necessity*, and
+here the gap between them is total.
+
+**Consequence, stated at its true scope.** On the one machine this lane can exhibit, the coefficient
+label is a descriptor artifact end to end: `b1.carrier_of` ranks `DENSE` first, the node is present, and
+nothing reads it as a coefficient. `Z1` on this machine reports a key-value machine.
+
+I have one witness, so this is **not** established for the other recoveries. Registered:
+**Z8 — every coefficient recovery in this campaign has the same shape: a `DENSE` node with no `DOT`,
+`LINEAR` or `GRAD` consumer in its atrophied graph.** Falsified by any recovery whose atrophied graph
+routes `DENSE` into a numeric or gradient consumer. Testable by reconstructing the remaining recoveries,
+at one replayed search each. This inherits the unverified-blindness status of `Z6`/`Z7`.
+
+If `Z8` holds, the honest statement about this lane's coefficient results is that **no coefficient
+machine was recovered at all** — and the corpus invariant
+`COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` would stand un-dented rather than scoped,
+with the warm-start arms reaching memory machines that the descriptor mislabels.
+
+### Z8 tested more broadly than registered: the gradient primitive appears in none of 70 searched graphs
+
+`Z8` asked whether the coefficient recoveries route `DENSE` into a coefficient consumer. That is testable
+far more cheaply and broadly than one replayed search per recovery, by inspecting every `DENSE`-bearing
+graph already committed in `evidence/b6-arms-20260913/`.
+
+**Dense-bearing graphs (17: archive best-`DENSE` cells, first-admissible atrophied graphs, and the witness)**
+
+| | count |
+|---|---|
+| with a numeric consumer (`DOT`/`LINEAR`) | **2 of 17** |
+| with a gradient consumer (`GRAD`) | **0 of 17** |
+| with any writer into the `DENSE` node | **0 of 17** |
+
+The last row is **not** a finding: `morph.KINDS["DENSE"]` is `("S", (), vec, ("width",))` — **zero input
+ports**, so no edge can legally target a `DENSE` node in this IR. A learner is expressed the other way, by
+threading `DENSE → GRAD → consumer`, since `GRAD` is `("U", (vec, sca, sca), vec, ("lr",))`. I nearly
+recorded a type-signature fact as a discovery; the meaningful quantity is `GRAD` as a *consumer*, and that
+is zero.
+
+**All carriers (70 graphs: every arm's archive elites plus first-admissible raw and atrophied)**
+
+> **`GRAD` appears in 0 of 70 graphs.** `DENSE` appears in 43 of them.
+
+`GRAD` is not excluded by the generator: `op_insert` draws uniformly from the 33 insertable kinds, so it
+is proposed at ≈ 3.03 % per insert and must be drawn many times across 20 000 evaluations. Its absence
+among survivors is therefore **selection, not exclusion**.
+
+**What follows, at its true scope.** These 70 graphs are archive elites and first-admissible graphs — a
+*survivor* sample. So the claim is "no inspected survivor contains `GRAD`", not "`GRAD` is never
+proposed". Within that scope:
+
+* `nn_nonnn_packet.family_of` defines `NEURAL` as `DENSE` on the served path **and** `GRAD` in the graph.
+  **No machine this campaign's search produced satisfies it.** The neural family is not merely
+  un-recovered here; its defining primitive is absent from every survivor.
+* "Coefficient carrier" in this searched population therefore means a **static** dense block — at most a
+  fixed linear transform (2 of 17), most often a store key or evidence value (the rest).
+
+**This sharpens the corpus invariant rather than scoping it.**
+`COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` is naturally read as "search fails to find
+coefficient machines". The structural reading is stronger and less flattering to the reachability story I
+was building this morning: search never assembles the gradient primitive at all, so the class it fails to
+recover is **not the learner class** — and the machines the descriptor does label coefficient-carrying are
+static blocks, one of which is now exhibited as a store key.
+
+**Registered next, and it needs an instrument change rather than a bigger sample**: is `GRAD` proposed and
+rejected, or effectively never proposed? The receipts record `proposal_tries_charged` and
+`failed_phenotypes` in aggregate but not per kind, so neither answer is available from them. That is the
+third instrument gap this campaign has hit, all of the same shape — the receipts record less than the
+question needs.
+
+### Root cause of the cost blowup: one drawn parameter spans 150×, and selection prefers its largest value
+
+The campaign is blocked on a single source, `E_twin2 S2`, and the blockage has a mechanism.
+
+**The outlier.** Its two siblings finished 20 000 evaluations comfortably; it did not:
+
+| source | final cells | best | seconds |
+|---|---|---|---|
+| `E_twin0 S0` | 42 | 0.5729 | 1 135.6 |
+| `E_twin1 S1` | 63 | 0.6198 | 1 873.7 |
+| `E_twin2 S2` | 22 *(at 15 000)* | 0.3802 | 603.5 at 15 000, then **> 26 000 s and counting** on the last block |
+
+Its per-block times were 104.8 s, 172.3 s, 326.4 s — roughly doubling — and then the final block exceeded
+its siblings' *entire runs* by more than an order of magnitude, with a **smaller and worse** archive.
+
+**The mechanism.** `morphgen.PARAM_CHOICES` draws `SEARCH`'s `budget` from `(16, 64, 256, 2401)`. `SEARCH`
+is "search expansion over the grammar" — an inner black-box optimisation executed on every event of the
+charged lifecycle, and again under each of the six interventions during verification. So a single
+parameter draw spans **150×** in inner work at identical charged cost.
+
+It is not hypothetical. Across the 70 committed graphs, 4 contain a `SEARCH` node and their budgets are:
+
+> **2401 ×3, 64 ×1**
+
+The largest value dominates the survivors, and the reason is selection, not chance: a bigger inner budget
+finds better programs, which scores higher, which survives. **Selection actively prefers the most
+expensive parameter value, and cost is not one of the archive's descriptor axes, so nothing penalises
+it.** In an impoverished archive — `E_twin2` held 22 cells against its siblings' 42 and 63 — the same few
+parents are drawn repeatedly, so one expensive parent dominates the remaining budget.
+
+**This is the mechanism behind three cost observations already recorded.** The 15–40× spread disclosed in
+`RV-377-202`, the 500× verification spread disclosed above, and this blockage are one phenomenon.
+
+**The consequence is not about wall-clock.** A charged evaluation is the programme's resource unit, and
+two machines costing one charged evaluation each can differ by 150× in work performed. **Any statement in
+this lane that treats charged evaluations as a proxy for compute is wrong by up to that factor**, which
+`RV-377-202` recorded as an observation and this identifies as a mechanism.
+
+**Open, and flagged rather than claimed**: whether the `RV-377-210` packet's resource coordinates
+(`desc`, `exec`, `upd`, `ver`) capture inner search budget. If they do not, a `PROGRAM` machine drawn at
+budget 2401 appears as cheap on that frontier as one drawn at 16, and the packet's domination edges would
+inherit the same 150× blind spot. That is a question about `ecology.run_genotype`'s ledger, not a finding,
+and it is the next thing worth checking.
+
+**Practical consequence for `Z3`.** `SAME|TWIN|S2` cannot start until this source completes, so the clause
+that decides whether the warm-start effect belongs to the theory or to its parents is blocked behind a
+pathology that has already consumed seven hours on its last 5 000 evaluations. No protocol change is made
+here; the state is recorded so the blockage is not mistaken for slowness.
+
+### The flagged worry about the packet's resource coordinates is RETRACTED — the ledger does charge inner search
+
+I flagged, without checking, that the `RV-377-210` packet's resource coordinates might not capture inner
+search budget, which would give its domination edges a 150× blind spot. **That is wrong, and checking it
+took one read.** The `SEARCH` handler in `vm.py`:
+
+```python
+for cand in gr.progs[: p["budget"]]:
+    tried += 1; e = 0
+    for xk, yy in M.stores[ev]:
+        pred = gr.execute(M, cand, ...); d = M.op("SUB", pred, yy); e = M.op("ADD", e, ...)
+```
+
+Every inner candidate is executed through `M` and scored with `M.op`, and `core.Machine.op` calls
+`_charge_op` unconditionally on both the native and the emulated path. So a machine drawn at `budget`
+2401 accrues roughly 150× the operations of one drawn at 16, **inside its `upd` phase, in the ledger the
+packet's Pareto frontier reads**. The packet is not blind to this axis and no packet verdict is in
+question.
+
+**What survives, stated precisely, because the distinction is the whole point.** There are two different
+resource notions here and I had been sliding between them:
+
+| quantity | what it counts | does the 150× show up? |
+|---|---|---|
+| **charged evaluations** — the 20 000 search budget | genotype evaluations attempted | **no** — one evaluation, whatever work it does |
+| **charged ops** — the `R` ledger (`desc`/`exec`/`upd`/`ver`) | operations performed inside them | **yes** |
+
+So the earlier statement stands in its own terms — treating *charged evaluations* as a proxy for compute
+is wrong by up to 150× — and the pathology behind `E_twin2` is real. But it is a statement about the
+search budget, not about the resource ledger, and the packet uses the ledger. Recording the retraction
+next to the finding so the finding is not read as wider than it is.
+
+### Why the gradient primitive never survives: measured, in three steps
+
+**Step 1 — it is proposed constantly.** A standalone generator probe (4 000 proposals through the same
+`morphgen.mutate` path `b1.search` uses) found `GRAD` in **417 of 4 000 proposals (10.4 %)**, every one a
+valid phenotype with all three of its input ports wired. So its absence from survivors is neither a
+vocabulary gap nor a type failure.
+
+**Step 2 — but the generator always leaves it dangling.** Of 60 sampled `GRAD` graphs, **0 had the `GRAD`
+output consumed by anything**. `op_add_node` wires only the new node's *inputs*; nothing connects its
+output. A dangling `GRAD` computes an update that goes nowhere, so it confers no advantage over the same
+graph without it, and it competes in the same archive cell as its parent — the descriptor axes (carrier,
+size, drift) do not separate them. `op_rewire` and `op_add_edge` *can* connect it later, so the learner
+needs a **conjunction of two mutations whose intermediate earns nothing**.
+
+**Step 3 — the second mutation does not rescue it, but that is inconclusive.** Hand-wiring the `GRAD`
+output into a `VEC` port on 120 graphs left capability unchanged: median 0.7083 either way, max 0.8125
+dangling against 0.7708 wired, **0 of either reaching θ**. My wiring was architectural nonsense — a random
+`VEC` edge is not a gradient learner — so this is recorded as inconclusive about the family, not as
+evidence against it.
+
+**The decisive test uses the registered rows instead.** `zoo.gradient_net` is a *hand-built* learner, the
+same family the `RV-377-210` packet calls `NEURAL`. Minimum over the six V1 interventions:
+
+| ecology | best constant | `h3 lr1` | `h3 lr2` | `h6 lr2` | `h8 lr2` |
+|---|---|---|---|---|---|
+| `E_smooth3` (the SAME target) | 0.8125 | 0.7760 | **0.8073** | 0.6927 | 0.6198 |
+| `E_sym5` (the CROSS target) | 0.7917 | 0.7708 | **0.8333** | 0.7917 | 0.5781 |
+
+**Not one is admissible.** θ is 0.85 and every row is below it. On `E_smooth3` the best gradient net
+(0.8073) is **below the best constant (0.8125)** — a learner there does worse than emitting a fixed number.
+
+**So the leading explanation is capability, not grammar.** Search does not assemble a gradient learner on
+these ecologies, and on this evidence it would not be rewarded for doing so. That displaces the
+search-artifact reading I was heading toward, and it answers the `Track B3c` distinction —
+theory-prediction RED against grammar/search RED — with measurement rather than assertion.
+
+**What it cannot claim, by this programme's own rule.** The class-rate law's `M′` clause states that a
+hand-built row licenses **presence, never absence**. Four registered configurations failing does not
+establish that no gradient learner is admissible here. Terminal:
+**`NO_REGISTERED_GRADIENT_NET_ADMISSIBLE_ON_E_SMOOTH3_OR_E_SYM5`** — which removes the grammar-artifact
+explanation as the leading one without establishing absence. A searched-elite existence certificate is the
+lever that would settle it, named and not adopted.
+
+### `Z5′` is FALSIFIED on the fifth recovery
+
+`DISJ|CONTINUED|S1` landed with a coefficient recovery whose primary-parent tag is **`DENSE`**:
+
+| field | value |
+|---|---|
+| pair / source → target | `DISJ`, `E_rnd1` → `E_sym5` |
+| coefficient recovery | found, min over six 0.8542, `B_morph` 68 749, trace index 2 349 |
+| origin | `["seed", 7]` → seed elite carrier **`DENSE`** |
+| that seed's capability on its own ecology | 0.6667 |
+| seeded carrier mix | `PROGRAM` 15, `DENSE` 14, `TABLE` 14, `KVSTORE` 14, `NONE` 5 |
+
+`Z5′` predicted that every recovery's primary-parent tag is a memory carrier. Four were
+(`PROGRAM`, `KVSTORE`, `TABLE`, `TABLE`); the fifth is not. **Falsified**, by its own registered falsifier,
+on the first arm that could have falsified it.
+
+**Both forms of the conversion hypothesis are now dead.** `Z5` as an ancestry claim was withdrawn earlier
+after the other lane showed `origin` omits crossover donors; `Z5′` survived as the weaker claim about the
+recorded tag, and that has now failed on the evidence. The idea that the coefficient carrier is reached
+*by conversion from* a memory carrier has no support left in this campaign, and it should not be revived
+without a donor-aware lineage instrument that could actually test it.
+
+Worth noting why the falsification arrived only now: the four earlier recoveries came from `SAME` and
+`CROSS`, whose sources are the structured ecologies `E_smooth1` and `E_smooth3`. This one comes from
+`DISJ`, seeded from the **structure-free random table** `E_rnd1`, whose archive carries a near-uniform
+carrier mix (14–15 elites each of `DENSE`, `TABLE`, `KVSTORE`, `PROGRAM`). A memory-heavy source yields
+memory-tagged founders; a uniform source does not. So the first four observations were a property of
+which sources had finished, not of the mechanism — an ordering artifact that a larger sample dissolved.
+
+That is the third registered hypothesis of this campaign to fall, after the structured-history-specific
+lift and the flat-ceiling law. Registering them is what made each falsification immediate and unambiguous
+rather than a matter of interpretation.
+
+### `Z8`'s gradient-absence claim is RETRACTED — two defects in my own scanner
+
+The other lane's `research/gmi-b6-consumer-census-v1/` corrects the `Z8` section above on two counts.
+Both verified independently here before acceptance, and both are worse than stated.
+
+**Defect 1 — the consumer whitelist was wrong, and partly fictional.** I tested for numeric consumers
+`{DOT, LINEAR}`. `AFFINE` is `("T", (vec, vec), vec, ("width",))` — a parameter-consuming transform of the
+same shape as `LINEAR` — and I omitted it, even though it appears in consumer lists I printed and read.
+Worse, **`DOT` is not a kind in this IR at all.** I built the whitelist from a source *comment* ("dot
+product of input with a DENSE parameter vector", which describes `LINEAR`) rather than from `morph.KINDS`.
+So the test checked one real kind and one that does not exist. Their count of six parameter-port
+adjacencies in those 17 rows, against my two, is the corrected figure.
+
+**Defect 2 — the scope was arm receipts, and I wrote it as the searched population.** My scan covered
+`final_best_genotypes` and `first_admissible` graphs from the arm receipts: best-per-carrier elites and
+one admissible machine per arm. That is a tiny, heavily selected slice. Scanning the **source archives**
+instead:
+
+> **34 of 677 archive cells contain `GRAD`**, across 9 of the 11 source archives.
+
+So "`GRAD` appears in none of 70 searched graphs" was true of my sample and false as the claim I drew
+from it. Gradient-bearing machines survive into archives routinely, at about 5 % of cells. **"Search
+never assembles the gradient primitive" is retracted.** (The other lane reports eight such graphs in five
+retained archives; scanning the live archives finds 34 in nine — same correction, larger scope.)
+
+These are the two failure modes this programme's own rules name — validate a checker on real data before
+trusting it, and justify the scope of an absence claim rather than inferring it from whatever the search
+returned.
+
+### What the gradient cells actually look like, now that they are counted
+
+| | count |
+|---|---|
+| `GRAD`-bearing archive cells | **34** |
+| with `DENSE` feeding the `GRAD` input | **33 of 34** |
+| with the `GRAD` **output consumed** by anything | **8 of 34** |
+| reaching θ = 0.85 on the archive's standard capability | **0 of 34** |
+
+The structural story therefore survives its retraction in a **weaker and more precise** form. The
+generator does assemble `DENSE → GRAD` constantly — 33 of 34 cells wire the parameter block into the
+update law, which is the hard half of a learner. What is missing is the other end: only 8 of 34 route
+the update *back out*, and the best of those consumers is a `LOOKUP`, not a predictor. And none of the 34
+reaches θ even on the permissive standard-only reading, let alone the six-intervention bar.
+
+So the corrected statement is: **gradient machines are assembled and retained; none of the retained ones
+is admissible.** That is consistent with the independent row measurement above — no registered
+`gradient_net` is admissible on these ecologies either — and it reaches the same place by a route that no
+longer depends on a claim of absence.
