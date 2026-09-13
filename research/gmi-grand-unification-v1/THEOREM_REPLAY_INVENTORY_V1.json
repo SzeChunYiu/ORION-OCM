@@ -98,6 +98,15 @@
       "terminal": "GRAND_GMI_MEASURABLE_CONTINUOUS_TRANCHE_ALL_GREEN"
     },
     {
+      "checker": "grand_gmi_continuous_lift_boundary_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_CONTINUOUS_LIFT_BOUNDARY_RECEIPT_V1.json",
+      "receipt_sha256": "a19140479730a4729e2f6b9101ee5cf0cbb55926b1fbcea162a4f2fdce8c1aae",
+      "source_sha256": "6d7f55da64d68fc4daedf59747e329a1b8c289e3b4f41197aacd3cfe3ec69dda",
+      "terminal": "GRAND_GMI_CONTINUOUS_LIFT_BOUNDARY_GREEN_AT_FINITE_SCOPE"
+    },
+    {
       "checker": "grand_gmi_continuous_realization_checks_v1.py",
       "historical_receipts": [],
       "kind": "finite_check",
@@ -417,9 +426,15 @@
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         },
         {
-          "path": "GRAND_GMI_MASTER_RECEIPT_V2.json",
-          "reason": "Exact #539 upstream receipt, preserved alongside the integrated versioned receipt.",
+          "path": "replay_receipts_v1/GRAND_GMI_MASTER_RECEIPT_PRE_CONTINUOUS_V2.json",
+          "reason": "Exact prior bytes preserved because upstream #541 recaptured its V2 aggregate in place.",
           "sha256": "18900f8071bb272a5db4a74dab4afe2a9e0880fccfa7a06319ab83c3f4304ea2",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "path": "GRAND_GMI_MASTER_RECEIPT_V2.json",
+          "reason": "Exact #541 upstream aggregate; integrated corrected evidence uses a new version.",
+          "sha256": "026687db5d8150bc551202248b3b03d7a8010930ada166fd5be0c496515dd831",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
@@ -879,6 +894,7 @@
     "CERTIFICATE_INPUT_CORRECTION_20260913.md": "70c87e2aed7de76e9f8fd7dfa60b484384d97a9d3282c5424b4d0cbf49f54963",
     "CERTIFIED_REUSE_INVALIDATION_THEOREM_V1.md": "619372d1b2102ad9826a256b57dcf33e432f34c73e9d541b299aa825151a13ae",
     "CLAIM_LEDGER_CANDIDATE_COVERAGE_V1.md": "4ff069ab8cc5adaca47319508795bdf810add42f4a8629edbe9d565fcf25ab23",
+    "CLAIM_LEDGER_CONTINUOUS_LIFT_V1.md": "a126fd043bb897be0993d7d30d5cec58a6f05e86a562be46a4844ff6e8f1a997",
     "CLAIM_LEDGER_DEVELOPMENTAL_UNDERDETERMINATION_V1.md": "54028f2dd80486b2434fbb0af3f1963787899290aedc082055e388d7f48cde1e",
     "CLAIM_LEDGER_DUAL_DERIVATION_ATLAS_V1.md": "e48899c43293219cc0af2ccab5765e28c5c4b0b4a51be34fac5f5cb66e0fa914",
     "CLAIM_LEDGER_FAMILY_PHASE_V1.md": "6fd3d40a1f951f28ed49a52a1c6e15a0c675e59fd04da86f6b432483390ecc75",
@@ -910,6 +926,7 @@
     "CONTINUAL_RETENTION_PARENT_SUBTRACTION_V1.md": "a01a32e185c16c5538744269fc7751537afe396a62af292653203332e43f860a",
     "CONTINUAL_SEMANTIC_RETENTION_CLAIMS_V1.md": "6f03e78858f878678218ae6b7d70d1a6eff953d80668906c1154c273c1384352",
     "CONTINUAL_SEMANTIC_RETENTION_THEOREM_V1.md": "82cc993ba9879b028f66ae9aca1fee182bc215aa8eeab2d1c7982cf1eee8eca1",
+    "CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md": "b331a0073f46747069447e44ef4942878458f0328fc54b7160e7fa9cd846e3cf",
     "CONTINUOUS_REALIZATION_BRIDGE_THEOREM_V1.md": "edb052ff83adcccde3c1acc5b74373b43df03da2b0f670a354371f4f434e834e",
     "CONTROLLED_ACQUISITION_CLAIM_LEDGER_V1.md": "37d849d87e13bc735bec3c9cddec902a22dbea286fd6de2ca3098ce3a95a31a7",
     "CONTROLLED_ACQUISITION_INFORMATION_STATE_THEOREM_V1.md": "fc4c47dfc7aa307380277885b23469ff0c2b52a8934faa9f326cbe7fe0a3bbbf",
