@@ -29,6 +29,9 @@ EXTERNAL_DOCUMENT_DEPENDENCIES = {
     ),
 }
 EXTERNAL_CONTROL_DEPENDENCIES = {
+    "nn_nonnn_point_parity3_experiment_v3.py": (
+        ".github/workflows/grand-gmi-nn-nonnn-point-parity3-v3.yml",
+    ),
     "replay_theorem_capsule_v1.py": (
         ".github/workflows/grand-gmi-theorem-capsule.yml",
     ),
