@@ -7,11 +7,13 @@ empirical frontier identification, all-input-partition width/query separation,
 bounded controller resources, repaired developmental reachability, shared-dependency
 reuse under memory constraints, finite known-kernel probabilistic acquisition,
 labelled-partition and relational adequate-output query reconstruction,
-finite fixed-unknown-model acquisition with charged private randomization, and
-finite-data model confidence with joint policy transfer. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V10.json`. Earlier aggregates and phase-law receipts
+finite fixed-unknown-model acquisition with charged private randomization,
+finite-data model confidence with joint policy transfer, the corrected
+all-coefficient structural threshold bound, and complete ideal finite quantum
+protocol coverage. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V12.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 65 checkers (64 leaves and one
+historical paths. The current register has 67 checkers (66 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -41,6 +43,8 @@ The operational-reachability and interactive-cut checkers additionally require t
 as an explicitly registered external normative document. Its workflow trigger
 and hash binding cover changes to that theorem outside the capsule directory.
 
+Explicit external research units are verified completely at every inventory load: exact manifest, full membership, byte counts and hashes, with unreadable paths, symlinks and special entries rejected. The structural repair unit preserves its raw source and native validation records this way.
+
 Each checker runs afresh in a separate assertion-enabled Python process with
 `-I -B` and an empty private bytecode-cache prefix, independent of
 `PYTHONOPTIMIZE`, an optimized parent process, or preexisting `.pyc` files. `-B`
@@ -60,10 +64,10 @@ entry, avoiding self-recursion. A leaf cannot reclassify itself as an aggregate.
 
 ## Complete external research units
 
-The fixed dependency map also registers the complete
-[finite quantum unit](../gmi-finite-quantum-cover-v1/CORE.md). Its original
+The fixed dependency map registers the complete structural-threshold repair
+unit and the [finite quantum unit](../gmi-finite-quantum-cover-v1/CORE.md). Its original
 checker, tests, theorem, assumptions, receipt and transitive raw parent records
-remain byte-preserved outside this directory. The grand wrapper returns the
+remain byte-preserved outside this directory. The quantum wrapper returns the
 entire original JSON payload inside its own bound receipt; no field is removed.
 
 `external_units` binds the unit manifest and every listed payload byte. Strict

@@ -24,6 +24,9 @@ EXTERNAL_UNIT_DEPENDENCIES = {
     "grand_gmi_finite_quantum_cover_checks_v1.py": (
         "research/gmi-finite-quantum-cover-v1",
     ),
+    "grand_gmi_structural_neural_bound_checks_v1.py": (
+        "research/gmi-structural-threshold-repair-v1",
+    ),
 }
 EXTERNAL_DOCUMENT_DEPENDENCIES = {
     "grand_gmi_operational_reachability_checks_v1.py": (
