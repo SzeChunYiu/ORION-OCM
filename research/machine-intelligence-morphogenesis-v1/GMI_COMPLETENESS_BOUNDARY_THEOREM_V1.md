@@ -501,3 +501,48 @@ boundary is unchanged in kind and narrower in extent by one more instrument clas
 against a fixed τ, the sign of a positive sum, a running maximum of a bounded stream) evaluated on all-active query
 sets are the obligation constructions that degenerate in this corpus; exact sums, pairwise comparisons, band
 obligations and the interventional vector do not.
+
+## Addendum V1.3 (2026-09-12, RV-377-160) — IG-4 / IG-5 closed by independent model proxy; the K4 negative is meter-invariant
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/IG4_INDEPENDENT_METER_AGREEMENT_old.json`
+(sha256 `a9912afd…`) and `microscopes/results/IG5_INDEPENDENT_ALPHABET_COVERAGE_old.json` (sha256 `557cf892…`), billy-old,
+freeze `GMI_IG4_IG5_MODEL_PROXY_RV_377_160_FREEZE.md` (commit `d650b50e`, before comparison). Ledger row `RV-377-160`.
+
+**What was asked (§6, Independence).** IG-4 (meter bucketing) and IG-5 (primitive selection) were `PENDING` for an
+external author. Under the operator rule of 2026-09-04 the gates close with their strongest legitimate proxy: a
+fresh-context model session given only a specification (no code, no path into the meter or the alphabet, no numeric
+bucket edge) authored an independent 10-axis meter and an independent neutral alphabet; the served model is asserted
+inside each artifact (`claude-fable-5-1`), label `HUMAN_GATE_BYPASSED__MODEL_PROXY`, never "externally obtained".
+
+**Result, IG-4.** On the 2334 candidates referenced by the 264 protected K4 V7 receipts (winners, witnesses, negative
+twins, null rows; each reconstructed and verified against its receipt id), the independent meter agrees with the
+native V4 meter on 10 of 10 registered axes at ≥ 80 %: 100 % on nine axes including both scaling axes, 99.19 % on
+`update_locality`. Re-aggregating all 264 verdicts with the independent buckets substituted for every property vector
+(costs, scores, controls, budgets fixed) moves **0 cells** and flips **0 to GREEN**: 150 / 76 / 38 before and after.
+The 19 `update_locality` disagreements are all `global → local` on exact-key candidates, where the charged rewritten
+fraction (0.095–0.462) is below any majority rule; the native label is the declared factor, the independent one the
+charged fraction. Preserved as a finding; no verdict depends on it. A shuffle control drops scaling-axis agreement
+to 0.18, so the agreement is not an artefact of the comparison.
+
+**Result, IG-5.** The independently selected alphabet (32 kinds, 9 types, no macro, type-closed) expresses all nine
+reference parents with description overhead 0.91–1.67× the native references (≤ 2× on every parent), covering all
+five registered carrier classes — memory, coefficient, program/search, belief, dynamical. It differs from the native
+alphabet in kind (a first-class belief carrier with multiplicative reweighting; a linear-scan transform for the
+dynamical parent), which is what a non-rename selection looks like.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `IG4_METER_BUCKETING` | `CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY__DECLARED_AXES_EXCLUDED_P1B_HELD` (10/10 axes ≥ 80 %, 0/264 moved) |
+| `IG5_PRIMITIVE_SELECTION` | `CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY` (5/5 classes, max overhead 1.67×) |
+| `K4_PROPERTY_PREDICTION_GREEN_AT_PROTECTED_TIER` | **FALSE**, 0/264, unchanged under the independent meter |
+| `NATIVE_UPDATE_LOCALITY_IS_DECLARED_NOT_CHARGED_ON_19_OF_2334_ROWS` | **TRUE** (exact-key volatility discount) |
+
+**Open gaps (§6), amended by appending.** Independence: IG-4 and IG-5 are closed at model-proxy tier. The standing
+limitation on every claim in §2 is narrowed from "same-author evaluator, meter and primitives" to "same-author
+*evaluator and cost-channel allocation*" — the nine charged channels and their formulas, and the semantic evaluator,
+remain same-author; the bucketing of measured traces into the registered vocabulary and the choice of primitives are
+reproduced by a fresh-context proxy of the same model family (context independence, not model independence). The
+boundary is unchanged in kind and narrower in extent by one clause: clause (ii) of §7 — cost-minimising search does
+not converge on the predicted property vectors on 264/264 — now holds under an independently bucketed meter.
