@@ -5,7 +5,7 @@ import unittest
 
 HERE = Path(__file__).resolve().parent
 SPEC = importlib.util.spec_from_file_location(
-    "controlled", HERE / "grand_gmi_controlled_acquisition_checks_v1.py")
+    "controlled", HERE / "grand_gmi_controlled_relational_acquisition_checks_v1.py")
 MOD = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MOD)
 
@@ -21,7 +21,7 @@ class TestControlledAcquisition(unittest.TestCase):
             "instances": 62208, "rank_oracle": 62208,
             "winning": 48744, "losing": 13464,
             "constructed_world_runs": 62064, "constructed_successes": 62064})
-        frozen = json.loads((HERE / "GRAND_GMI_CONTROLLED_ACQUISITION_RECEIPT_V1.json").read_text())
+        frozen = json.loads((HERE / "GRAND_GMI_CONTROLLED_RELATIONAL_ACQUISITION_RECEIPT_V1.json").read_text())
         self.assertEqual(json.loads(json.dumps(self.result)), frozen)
         self.assertEqual(len(MOD.policy_trees(2)), 202)
 

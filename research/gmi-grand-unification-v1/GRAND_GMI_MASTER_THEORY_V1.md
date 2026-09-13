@@ -407,7 +407,8 @@ the relaxed accounting program of `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md`
 computes a family-conditioned lower bound that binds every admitted machine in
 that structure class, including machines nobody has constructed. Upper bounds
 are not derivable this way, so the chain explains robust family **exclusion**;
-selection still requires a construction, and any verdict remains relative to
-the registered structure classes and their uncovered residue.
+selection requires independently justified existence of a selected realization;
+an executable selection also needs an admitted construction. Any verdict remains
+relative to the registered structure classes and their uncovered residue.
 
 This is the current Grand GMI V1 master statement.

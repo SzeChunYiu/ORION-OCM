@@ -120,9 +120,11 @@ boundaries are proved with it. The relaxation may be strictly loose, so an
 abstention verdict is uninformative about physics unless the compared bounds
 are attained. Registering a further valid necessity never lowers a derived
 bound, while weakening a structural predicate never raises one, which is the
-exact asymmetry between more evidence and more candidates. And no such program
-can select a family: two worlds sharing every necessity share every derived
-bound and can still differ, so necessities exclude while constructions select.
+exact asymmetry between more evidence and more candidates. The bounds do not generally identify selection: two worlds sharing the
+relaxed data can have opposite actual optimal families. This does not forbid
+identification on every input: independently justified nonempty selection and
+exhaustive rival exclusion can suffice. The corrected PL-5 supplies both
+counter-worlds and the positive existence/coverage certificate.
 
 ### A bound is only valid in the direction it was proved
 

@@ -150,7 +150,7 @@ Initial-world filtering alone would miss that success as well.
 
 ## 5. Independent finite evidence
 
-`grand_gmi_controlled_acquisition_checks_v1.py` enumerates every two-state,
+`grand_gmi_controlled_relational_acquisition_checks_v1.py` enumerates every two-state,
 two-control partial deterministic transition table (including illegal actions),
 every binary observation table, every two-action terminal relation (including
 empty rows), and all three nonempty initial beliefs. Its oracle generates
@@ -162,7 +162,7 @@ Depth two is complete for this declared universe: it has three beliefs, and
 CRA-2 bounds every winning rank by two. The checker also directly executes
 the six-state destructive/protected policies, illegal-action, losing-loop and
 finite-cost controls. The receipt is
-`GRAND_GMI_CONTROLLED_ACQUISITION_RECEIPT_V1.json`. Exact census agreement
+`GRAND_GMI_CONTROLLED_RELATIONAL_ACQUISITION_RECEIPT_V1.json`. Exact census agreement
 checks the finite implementation; the induction above supplies the theorem.
 
 ## 6. Primary parents and the remaining boundary

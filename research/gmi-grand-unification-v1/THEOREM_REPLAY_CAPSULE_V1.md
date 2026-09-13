@@ -1,11 +1,13 @@
 # Grand GMI finite-check replay capsule V1
 
-Current reviewed extension: [scientific CORE](CORE.md). Four additional finite
-sectors cover task-directed acquisition, constructive selection/attainment,
-family-phase soundness and proof reuse. The active aggregate is
-`GRAND_GMI_MASTER_RECEIPT_V3.json`; the V2 aggregate and original family replay
-remain immutable historical records. The complete current register has 49
-checkers (48 leaves and one aggregate); counts below describe earlier captures.
+Current reviewed extension: [scientific CORE](CORE.md). New sectors cover
+task-directed and controlled acquisition, constructive selection/attainment,
+family-bound soundness and derivation, proof reuse, certified repair, and
+empirical frontier identification and all-input-partition width/query separation. The active aggregate is
+`GRAND_GMI_MASTER_RECEIPT_V4.json`. Earlier aggregates and phase-law receipts
+remain preserved; exact pre-overwrite upstream aggregate bytes have separate
+historical paths. The current register has 54 checkers (53 leaves and one
+aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
 It does **not** establish universal truth of the theorem prose, validity of every
@@ -22,7 +24,7 @@ iteration. It registered 45 checker sources (44 leaves and one master), three
 non-test Python control sources, 112 local inputs (100 Markdown documents and
 12 JSON records), three external workflow controls, and one external normative
 document. File hashes identify the exact integrated versions; the base commit
-alone does not describe the additional gate files. The current reviewed inventory includes 45 checker sources, six Python controls, 119 local inputs, five workflow controls and the same external normative document; later versioned experiment/evidence additions are identified by their own hashes.
+alone does not describe the additional gate files. An intermediate capture included 45 checker sources, six Python controls, 119 local inputs, five workflow controls and the same external normative document; later versioned experiment/evidence additions are identified by their own hashes.
 
 `THEOREM_REPLAY_INVENTORY_V1.json` registers every
 `grand_gmi*checks*.py` file. Adding or removing a checker without updating the
@@ -48,7 +50,7 @@ projected away to make historical output match.
 The master entry is the only aggregate. Its implementation replays all leaf
 entries and checks the approximate-geometry and unattained-componentwise-infimum
 witnesses. The outer gate additionally compares the master output to
-`GRAND_GMI_MASTER_RECEIPT_V2.json`. The inner replay skips only the named master
+the active master receipt named in the inventory. The inner replay skips only the named master
 entry, avoiding self-recursion. A leaf cannot reclassify itself as an aggregate.
 
 ## Historical evidence
@@ -130,9 +132,9 @@ exercise stale and fabricated green receipts, omitted checks, malformed JSON,
 changed source/input hashes, nonzero exits, timeout, disabled-assertion attacks,
 stale bytecode imports, cross-checker receipt mutation, omitted external controls,
 and attempts to classify an executed packet as a preregistration-only receipt.
-There are 244 discovered research tests, including 23 hostile replay tests; both
-normal and optimized-parent suites and the full 45-checker outer replay are
-required before committing this integrated capsule.
+All currently discovered research tests, including the hostile replay tests,
+must pass in normal and optimized-parent suites, followed by the full current
+outer replay. Historical test/checker counts do not restrict discovery.
 
 The gate hashes code, registered JSON evidence, and all local theorem Markdown,
 including the documents directly read by the planning-semantics checker. A prose

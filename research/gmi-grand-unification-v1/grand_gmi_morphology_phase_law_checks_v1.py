@@ -127,7 +127,7 @@ MACHINES = (
 )
 
 UNSOUND_MACHINE = {
-    "id": "undercharged_accounting", "family": "NEURAL",
+    "id": "overcharging_accounting", "family": "NEURAL",
     "alloc": {"w1": 5, "w2": 1, "t1": 3, "t2": 3}, "overhead": {"memory": -4, "compute": -2},
 }
 
@@ -158,15 +158,18 @@ def check_transport_to_real_machines():
     spent = real_resources(UNSOUND_MACHINE)
     base = accounted(UNSOUND_MACHINE["alloc"])
     if not any(spent[name] < base[name] for name in base):
-        raise AssertionError("the unsound witness does not undercharge")
+        raise AssertionError("the accounting floor does not exceed actual resources")
     if scalar(spent) >= bounds["NEURAL"]:
         raise AssertionError("the unsound witness does not break the bound")
     return {
         "derived_bounds_used": bounds,
         "sound_machines_checked": checked,
         "every_sound_machine_respects_its_derived_bound": True,
-        "undercharged_accounting_scalar": scalar(spent),
-        "undercharged_accounting_breaks_the_bound": True,
+        "actual_resources": spent,
+        "accounted_resources": base,
+        "actual_scalar_cost": scalar(spent),
+        "overcharging_accounting_scalar": scalar(base),
+        "overcharging_accounting_breaks_the_bound": True,
     }
 
 
@@ -210,11 +213,13 @@ def check_relaxation_looseness_is_epistemic():
 
 def check_tight_bounds_make_abstention_physical():
     """PL-3b: when every compared bound is attained, the verdict is physical."""
-    tight = {"NEURAL": (14, 14), "NON_NEURAL": (14, 14)}
+    # Separate complete finite control, not the allocation-grid instance.
+    candidates = {"NEURAL": (14, 17), "NON_NEURAL": (14, 20)}
+    tight = {family: (min(costs), min(costs)) for family, costs in candidates.items()}
     for family, (lo, hi) in tight.items():
         if lo != hi:
             raise AssertionError(f"{family}: interval is not tight")
-    true_optima = {family: lo for family, (lo, _) in tight.items()}
+    true_optima = {family: min(costs) for family, costs in candidates.items()}
     interval_verdict = "UNDECIDED_FROM_CURRENT_EVIDENCE"
     for family, (_, hi) in tight.items():
         if all(robust_exclusion(hi, lo) for other, (lo, _) in tight.items() if other != family):
@@ -225,6 +230,7 @@ def check_tight_bounds_make_abstention_physical():
     if interval_verdict != optimum_verdict:
         raise AssertionError("tight intervals disagree with the true optima")
     return {
+        "complete_finite_candidate_costs": {f: list(v) for f, v in candidates.items()},
         "tight_intervals": {f: list(v) for f, v in tight.items()},
         "interval_verdict": interval_verdict,
         "true_optimum_verdict": optimum_verdict,
@@ -268,52 +274,81 @@ def check_evidence_monotonicity_and_candidate_sensitivity():
 # --- PL-5: the derivation is one sided ------------------------------------
 
 
+def survivor_from_empty_rivals(relaxations, machines):
+    """Sufficient certificate on a complete finite integer-cost machine universe."""
+    for machine in machines:
+        family = machine["family"]
+        if family not in relaxations:
+            raise ValueError("actual family is outside the claimed coverage")
+        if machine["allocation"] not in relaxations[family]:
+            raise ValueError("machine is not covered by its relaxed allocation set")
+        if type(machine["cost"]) is not int or machine["cost"] < 0:
+            raise ValueError("the finite witness requires nonnegative integer costs")
+    if not machines:
+        return {"family": None, "status": "NO_SELECTED_REALIZATION", "selected_families": []}
+    best = min(m["cost"] for m in machines)
+    selected = sorted({m["family"] for m in machines if m["cost"] == best})
+    possible = [f for f, allocations in relaxations.items() if allocations]
+    family = possible[0] if len(possible) == 1 else None
+    if family is not None and selected != [family]:
+        raise AssertionError("empty-rival certificate disagrees with actual finite selection")
+    return {"family": family, "status": "SELECTED" if family else "UNRESOLVED",
+            "selected_families": selected}
+
+
 def check_derivation_is_one_sided():
-    """Necessities can exclude a family; they can never select one.
-
-    Two substrate worlds share every proved necessity, hence every derived
-    lower bound, and differ only in which construction exists. Their verdicts
-    differ, so no relaxation program can produce a selection on its own.
-    """
+    """PL-5 general insufficiency plus a decisive positive exception."""
     lower = {family: derived_lower_bound(sigma, True)[0] for family, sigma in FAMILIES.items()}
-    world_a = {"NEURAL": None, "NON_NEURAL": 16}
-    world_b = {"NEURAL": 18, "NON_NEURAL": None}
-
-    def verdict(uppers):
-        selected = []
-        for family, upper in uppers.items():
-            if upper is None:
-                continue
-            if all(robust_exclusion(upper, lower[other])
-                   for other in lower if other != family):
-                selected.append(family)
-            if upper < lower[family]:
-                raise AssertionError(f"{family}: construction beats its own lower bound")
-        if len(selected) > 1:
-            raise AssertionError("two families robustly selected at once")
-        return selected[0] if selected else "UNDECIDED_FROM_CURRENT_EVIDENCE"
-
-    verdict_a, verdict_b = verdict(world_a), verdict(world_b)
-    if verdict_a != "NON_NEURAL":
-        raise AssertionError("world A verdict not reproduced")
-    if verdict_b != "UNDECIDED_FROM_CURRENT_EVIDENCE":
-        raise AssertionError("world B should abstain")
-    if verdict_a == verdict_b:
-        raise AssertionError("the two worlds must differ")
-    return {
-        "shared_derived_lower_bounds": lower,
-        "world_a_constructions": world_a,
-        "world_b_constructions": world_b,
-        "world_a_verdict": verdict_a,
-        "world_b_verdict": verdict_b,
-        "identical_necessities_do_not_fix_a_verdict": True,
-        "relaxation_yields_lower_bounds_only": True,
-    }
+    worlds, winners, comparisons = {}, {}, {}
+    for name, padding in (("world_a", 2), ("world_b", 6)):
+        machines = [dict(MACHINES[0]), dict(MACHINES[2])]
+        machines[1]["overhead"] = {"memory": padding, "compute": 0}
+        costs = {}
+        for machine in machines:
+            alloc, family = machine["alloc"], machine["family"]
+            if not satisfies_necessities(alloc, True) or not FAMILIES[family](alloc):
+                raise AssertionError("world violates the shared relaxed instance")
+            actual, floor = real_resources(machine), accounted(alloc)
+            if any(actual[k] < floor[k] for k in floor):
+                raise AssertionError("world violates accounting soundness")
+            costs[family] = scalar(actual)
+            if costs[family] < lower[family]:
+                raise AssertionError("actual cost violates its derived lower bound")
+        worlds[name] = costs
+        winners[name] = min(costs, key=costs.get)
+        certified = [f for f, upper in costs.items()
+                     if all(upper < lo for rival, lo in lower.items() if rival != f)]
+        comparisons[name] = certified[0] if certified else "UNDECIDED_FROM_CURRENT_EVIDENCE"
+    if winners != {"world_a": "NON_NEURAL", "world_b": "NEURAL"}:
+        raise AssertionError("shared-data worlds must have opposite actual optima")
+    # X={0,1}, necessity x>=1, predicates A:x=1 and B:x=0.
+    relaxed = {"A": {x for x in (0, 1) if x >= 1 and x == 1},
+               "B": {x for x in (0, 1) if x >= 1 and x == 0}}
+    actual = [{"family": "A", "allocation": 1, "cost": 2}]
+    positive = survivor_from_empty_rivals(relaxed, actual)
+    empty = survivor_from_empty_rivals(relaxed, [])
+    if positive["family"] != "A" or empty["status"] != "NO_SELECTED_REALIZATION":
+        raise AssertionError("selection existence is not respected")
+    try:
+        survivor_from_empty_rivals(relaxed, actual + [{"family": "C", "allocation": 0, "cost": 0}])
+    except ValueError:
+        coverage_refused = True
+    else:
+        raise AssertionError("an uncovered cheaper family was silently accepted")
+    return {"shared_derived_lower_bounds": lower,
+            "complete_world_candidate_costs": worlds, "true_optimal_families": winners,
+            "world_a_verdict": comparisons["world_a"], "world_b_verdict": comparisons["world_b"],
+            "identical_relaxation_data_do_not_determine_selection_in_general": True,
+            "relaxation_yields_lower_bounds_only": True,
+            "empty_rival_relaxation": {f: sorted(xs) for f, xs in relaxed.items()},
+            "selected_existence_supplied": positive, "empty_actual_world": empty,
+            "uncovered_candidate_refused": coverage_refused,
+            "numeric_upper_bound_needed_for_empty_rival_exclusion": False}
 
 
 def run():
     return {
-        "terminal": "GRAND_GMI_MORPHOLOGY_PHASE_LAW_DERIVATION_GREEN_AT_FINITE_SCOPE",
+        "terminal": "GRAND_GMI_MORPHOLOGY_PHASE_LAW_SCOPE_REPAIRED_V2_GREEN",
         "derived_bounds": check_derived_bounds(),
         "transport_to_real_machines": check_transport_to_real_machines(),
         "relaxation_looseness_is_epistemic": check_relaxation_looseness_is_epistemic(),
@@ -322,7 +357,7 @@ def run():
             check_evidence_monotonicity_and_candidate_sensitivity(),
         "derivation_is_one_sided": check_derivation_is_one_sided(),
         "real_substrate_bound_measured": False,
-        "claim_ceiling": "finite synthetic derivation witnesses; one-sided lower bounds only",
+        "claim_ceiling": "finite synthetic lower-bound witnesses; selection generally underdetermined, conditional positive exception retained",
     }
 
 

@@ -71,3 +71,17 @@ RTK instructions found and read at `/Users/billy/.claude/RTK.md`; explicit opera
 ## Integration successor
 
 The immutable audit above predates concurrent work: #531 retained V4 evidence and #532 merged the family-phase correction. The current [scientific CORE](../gmi-grand-unification-v1/CORE.md) builds on both, adapts the safe proof-search/reuse branch and tracks remaining obligations. The stale master-V2 and coefficient grafts remain superseded. PR #530 owns the newer B6 adjudicator/registration; its later changes were not included in the pinned science snapshot above.
+
+## Second scientific integration
+
+Main advanced through #534 phase-bound derivation and the novelty parent audit at
+`f6621916`. Both are integrated without importing stale branch versions.
+The original proof-reuse lineage now has a certified invalidation/repair
+successor with explicit lifetime costs; old RP identifiers remain unchanged.
+
+The later [pinned PR #530 review](../gmi-grand-unification-v1/PR530_SCIENTIFIC_REVIEW_88729748_V1.md)
+examines `88729748` and its `bc4dc228` addendum separately from the initial
+audit. It supplies finite counterexamples and concrete scoring repairs; its
+findings do not silently become claims about every later moving PR head.
+The [current scientific CORE](../gmi-grand-unification-v1/CORE.md) indexes the
+controlled-acquisition, empirical-identification and certified-repair results.

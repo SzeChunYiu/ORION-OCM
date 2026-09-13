@@ -115,3 +115,8 @@ certificate-transport and greedy counterexamples. These authored exact cases
 establish neither large-scale proof improvement nor measured acquisition costs.
 Unknown future multiplicities, dependent lemmas and invalidation require a
 registered online/dependency model and fresh comparison before deployment.
+
+The stable-validity restriction has an explicit successor in
+[CRI-1–3: certified reuse after invalidation](CERTIFIED_REUSE_INVALIDATION_THEOREM_V1.md):
+charged repair and residual storage, expected versus guaranteed gain, and an
+exact finite-horizon acquire/repair/rebuild/abandon policy comparison.
