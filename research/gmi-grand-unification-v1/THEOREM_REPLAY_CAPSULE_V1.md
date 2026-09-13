@@ -14,9 +14,9 @@ protocol coverage, joint-message composition for independent relational
 obligations, query-plus-terminal cost reconstruction, and a source-correct B6
 consumer census, adaptive-row confidence under supplied conditional laws, and typed delegation-cost closure under explicit additive contracts.
 The census is static evidence validation, not a new theorem. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V17.json`. Earlier aggregates and phase-law receipts
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V19.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 72 checkers (71 leaves and one
+historical paths. The current register has 74 checkers (73 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -103,6 +103,29 @@ and content, including the final load after all checkers execute. Thus a later
 checker cannot silently modify an earlier external input and retain a green run.
 These reviewed digests establish reproducibility, not independent authenticity
 of an arbitrary replacement inventory or a proof of the scientific claims.
+
+The eleven complete external units include the [native adjoint correction](NATIVE_ADJOINT_INTEGRATION_V1.md)
+and the separate [latest PR551 delta](PR551_FAMILY_CEILING_CORRECTION_08821A0A_V1.md).
+The NAR wrapper retains every original payload field and requires exact equality
+of nine exported runtime/dependency/test files with its frozen source copies.
+Those live files are external controls checked at every inventory load, including
+after later checkers. Source identity does not confer execution authenticity on
+the delta's reported summaries or turn a primitive fix into a campaign result.
+
+The [formal derivation supplement](FORMAL_DERIVATION_INTEGRATION_V1.md) is the
+tenth complete external unit. Its unchanged verifier executes 38 finite
+witnesses and returns the entire bound CHECKED payload; the wrapper never
+uses its authoring/freeze option. Both original receipts and all nine hostile
+controls remain preserved. Analytic proofs and empirical premises retain
+their stated scope; a complete finite replay is not a proof-assistant result.
+
+The eleventh unit is the complete [upstream source audit](GAC_WELL_FOUNDED_COMPOSITION_CORRECTION_V1.md),
+preserving the original GAC5 theorem. The corrected live theorem is separately
+hash-bound at each inventory load. Its stronger induction premise is a proof
+correction; finite statistical tests do not prove it by enumeration.
+The eight corrected live learning/memory theorem, helper, test and receipt
+files are separately bound as external documents/controls. Their original
+PR568 sources remain immutable audit inputs; the frozen formal unit is unchanged.
 
 ## Historical evidence
 

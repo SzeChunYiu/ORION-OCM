@@ -149,66 +149,24 @@ ARC-1–4 supplies one possible row-level construction when a row has a fixed su
 
 ## 6. GAC-5 — typed correctness composition
 
-Statistical validity is only one meaning of “valid pieces.” For semantic/system correctness, give component `i` an assume-guarantee contract
+Let every component satisfy A_i implies G_i on its declared interface. Require:
+(i) a finite DAG or well-founded predecessor relation, with external base assumptions;
+(ii) external premises and predecessor guarantees discharge every A_i;
+(iii) invocation stays in proved scope and wiring preserves types, timing and state/resource effects;
+(iv) all G_i together imply the global obligation O.
+Then well-founded induction establishes every G_i and therefore O.
+Alternatively, an externally initialized invariant may discharge each step's assumptions,
+be preserved by local guarantees, and imply O at termination.
+Acyclicity alone is insufficient for infinite unfounded chains; local guarantees
+alone are insufficient. Probabilistic guarantees need a joint proof or valid
+global error/evidence composition (GAC1/GAC4), not multiplication of confidences.
+The [full proof, infinite-chain countermodel and original source](../gmi-grand-unification-v1/GAC_WELL_FOUNDED_COMPOSITION_CORRECTION_V1.md)
+make the founded-dependency correction explicit.
 
-\[
-A_i \Longrightarrow G_i
-\]
+## 7. Exact failure controls
 
-on its declared input/output/history interface.
-
-For an acyclic wiring, suppose:
-
-1. every component is invoked inside its proved scope;
-2. every local assumption `A_i` is implied by the external premises plus guarantees of predecessor components;
-3. the wiring preserves types, timing and declared state/resource effects;
-4. the conjunction of the local guarantees implies the global obligation `O`.
-
-Then the composed system satisfies `O` by topological induction over the wiring graph.
-
-For recurrent/cyclic systems, replace topological induction with a supplied invariant `I`: initialization establishes `I`; `I` plus the wiring establishes every step's local assumptions; the local guarantees preserve `I`; and `I` plus the terminal condition implies `O`. Induction over time then yields the global guarantee.
-
-Probabilistic local guarantees do not combine by multiplying confidence levels. They require a joint proof, a valid error allocation such as GAC-4, or a globally conditionally valid evidence composition such as GAC-1.
-
-Therefore the defensible composition statement is
-
-\[
-\boxed{
-\text{valid pieces + discharged interfaces + valid evidence/cost composition}
-\Rightarrow \text{valid whole}.
-}
-\]
-
-“Valid pieces” alone is false.
-
-## 7. Four exact failure modes
-
-### C1. Private-history validity is insufficient
-
-Let a hidden fair bit `Z` be visible to the scheduler but absent from each row's private history. Define
-
-- `L_1 = 2` if `Z=1`, else `0`;
-- `L_2 = 2` if `Z=0`, else `0`.
-
-Each factor has unconditional expectation one. If the scheduler chooses row 1 when `Z=1` and row 2 when `Z=0`, the selected factor is always two. Local/unconditional validity did not survive adaptive selection. Under the global filtration containing `Z`, the selected factor visibly violates `E[L|F_0] <= 1`.
-
-### C2. Retroactive reweighting is not self-financing
-
-Let `E_1,E_2` independently equal `2` on heads and `0` on tails. Each has mean one. Choosing `max(E_1,E_2)` after seeing both gives expectation `2*(3/4)=3/2`. Predictable weights are essential.
-
-### C3. Dynamic names cannot reset alpha
-
-If each freshly named row runs an independent level-`alpha` failure event and receives a fresh full budget, familywise failure after `m` births is
-
-\[
-1-(1-\alpha)^m\to1.
-\]
-
-GAC-4 prevents this by requiring one globally summable budget.
-
-### C4. Dependence does not imply static-row stationarity
-
-A row whose Bernoulli success probability alternates between `1/4` and `3/4` as a function of global history has no single fixed conditional law `P_j`. A confidence sequence proved for one stationary `P_j` cannot be applied merely because the row name is unchanged.
+The [four original countercontrols](GLOBAL_ADAPTIVE_COUNTERCONTROLS_V1.md)
+remain unchanged in a focused companion, alongside their existing finite tests.
 
 ## 8. Resource accounting
 

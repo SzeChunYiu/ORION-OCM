@@ -15,19 +15,13 @@ def bare_recurrence(j, certified_cost=Fraction(1), cognitive_charge=Fraction(0))
     return min(certified_cost, cognitive_charge + j)
 
 
-def ranked_value(certified, cognitive, k, memo=None):
-    """VOC-2: cognition strictly decreases k and is unavailable at k = 0."""
-    if memo is None:
-        memo = {}
-    if k in memo:
-        return memo[k]
-    best = min(certified) if certified else None
-    if k > 0:
-        for charge, successor_certified in cognitive:
-            value = charge + ranked_value(successor_certified, cognitive, k - 1, memo)
-            best = value if best is None else min(best, value)
-    memo[k] = best
-    return best
+from pathlib import Path
+import types
+
+_model = types.ModuleType("voc_source")
+_path = Path(__file__).with_name("value_of_computation_model_v1.py")
+exec(compile(_path.read_bytes(), str(_path), "exec"), _model.__dict__)
+ranked_value = _model.ranked_value
 
 
 class ValueOfComputationControls(unittest.TestCase):
@@ -35,7 +29,7 @@ class ValueOfComputationControls(unittest.TestCase):
         # VOC-1 / T1: J = min(1, J) is solved by every J in [0, 1].
         for j in (Fraction(0), Fraction(1, 3), Fraction(1, 2), Fraction(1)):
             self.assertEqual(bare_recurrence(j), j)
-        # Outside the interval it is not a fixed point, so the set is exactly [0,1].
+        # Values are nonnegative by contract; signed fixed points below0 are outside it.
         self.assertNotEqual(bare_recurrence(Fraction(2)), Fraction(2))
 
     def test_rank_certificate_makes_the_value_unique_and_terminating(self) -> None:
@@ -74,6 +68,27 @@ class ValueOfComputationControls(unittest.TestCase):
         model_specific = Fraction(1)
         self.assertEqual(probe + model_specific, Fraction(2))
         self.assertLess(probe + model_specific, common_safe)
+
+    def test_actual_pinned_memo_collision_and_corrected_result(self):
+        # Execute preserved source without running its suite.
+        path = Path(__file__).parent / "raw/pr571-743b9ded/test_value_of_computation_v1.py"
+        old = {"__name__": "historical_voc_control"}
+        exec(compile(path.read_bytes(), str(path), "exec"), old)
+        c = Fraction
+        args = ([c(10)], [(c(0), [c(10)]), (c(0), [c(0)])], 1)
+        self.assertEqual(old["ranked_value"](*args), c(10))
+        self.assertEqual(ranked_value(*args), c(0))
+        self.assertEqual(old["ranked_value"]([c(10)], [(c(1), [c(10)])], 3), c(10))
+        self.assertEqual(ranked_value([c(10)], [(c(1), [c(10)])], 3), c(10))
+
+    def test_ranked_dead_end_is_infeasible(self):
+        self.assertIsNone(ranked_value([], [], 0))
+        self.assertIsNone(ranked_value([], [(Fraction(0), [])], 3))
+
+    def test_rank_cache_cannot_import_another_register(self):
+        poisoned = {0: Fraction(999), ((Fraction(0),), 0): Fraction(999)}
+        self.assertEqual(ranked_value([Fraction(0)], [], 0, poisoned), Fraction(0))
+        self.assertEqual(poisoned[0], Fraction(999))
 
     def test_tolerance_ties_are_not_exact_argmin_sets(self) -> None:
         # VOC-6 / W4 / T2.

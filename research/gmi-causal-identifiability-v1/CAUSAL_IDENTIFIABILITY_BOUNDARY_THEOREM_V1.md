@@ -1,130 +1,158 @@
-# Causal identifiability boundary — CAU-1–5
+# Causal identifiability boundary — CAU-1–4
 
-Status: **THEOREM AT DECLARED FINITE SCOPE + EXACT RATIONAL WITNESSES**
-Date: 2026-09-13
+Status: **CORRECTED finite SCM scope; exact rational controls.**
+This repairs PR570's missing support and model-class premises. The unchanged
+original three files and their source hashes are in [the archive](raw/pr570-1277d0e8/SOURCE_BINDINGS_V1.json).
 
-Ledger item 8. The statistical mechanism is **not** claimed novel: observational
-non-identifiability, the back-door criterion and do-calculus are established
-(Pearl 2009; Spirtes–Glymour–Scheines 2000; Bareinboim–Pearl 2016). The GMI
-contribution is the explicit interface: when an *observational* evidence stream
-admitted by `I` does and does not determine an obligation `O` stated over
-interventional quantities, with all probe costs charged by `R`.
+## Primary parents and disposition
 
-## Parents (cite, do not rewrite)
+[Pearl (2009), §§2–3](https://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf)
+supplies the mature SCM/intervention framework, back-door criterion and the
+distinction between identification and estimation. His §3.3.2 also supplies
+identification routes beyond a single back-door adjustment.
+The faithfulness qualification is explicit in §2.1, footnote 1.
+These mechanisms are adopted, not renamed as new discovery.
 
-| Parent | Disposition |
-|---|---|
-| `CAUSAL_SEMANTIC_VIABILITY_THEOREM_V1.md` GG29/GG30 | ADOPT Ω-nullity and `Δ_Ω(C)`. Meaning is obligation-relative causal relevance; this capsule adds *when observation fixes it*. |
-| master §1.7 | ADOPT "semantic information only insofar as interventions can change an obligation-relevant attainable profile". |
-| `research/g6-intervention-lab-v1/` | ADOPT paid probe transcripts as the cost model. REJECT reuse of its synthetic plant; its ceiling is a bounded plant, not a boundary theorem. |
-| `research/g2-strategy-identifiability-v1/` | ADOPT the exact finite microscope discipline. REJECT extending its locked G4.4 box; that capsule states preconditions, not a general boundary. |
-| `MINIMAL_AXIOM_FREEZE_V1.md` A1/A2/A4 | ADOPT nonanticipation, scoped quantification and charged composition. |
+GG29/GG30 supply obligation-relative semantic relevance; LMT's complete-view
+lemma supplies the indistinguishability step. A1/A2/A4 supply scoped access,
+nonanticipation and charging, while corrected GAC-5 supplies founded composition.
+The contribution here is an explicit finite interface and repaired controls,
+not a new causal-identification calculus or a physical validation.
 
-## 1. Register
+## 1. Register and observation interface
 
-A finite causal register is `M = (V, pa, F, P_U)`: finite variables `V`, parent
-map `pa`, deterministic structural maps `F = {f_v}` and a product law `P_U` over
-exogenous noise. `M` induces the observational law `P_M` and, for any assignment
-`do(X = x)`, the interventional law `P_M^{do(X=x)}` obtained by replacing `f_X`
-with the constant `x` and leaving every other map and `P_U` unchanged.
+Declare finite-valued endogenous variables, a finite **acyclic** causal graph,
+deterministic structural equations and a product law of independent root-noise
+coordinates. A root coordinate may be shared by several equations; shared hidden
+roots must appear in the expanded causal graph. Independence of root noises
+alone does not establish causal sufficiency of the *observed* variables.
+Acyclic evaluation gives a unique observational law and a unique law after
+each surgical replacement of selected equations by constants.
 
-An **evidence stream** is the sequence of quantities `I` actually admits. A
-*purely observational* stream admits only draws from `P_M`.
+Fix a nonempty admitted model class, observed variables and an observation
+protocol. In W1 the protocol returns fresh iid observational (X,Y) draws.
+The learner's initial information, private seed law, selection/stopping rules
+and decoder are fixed across worlds and contain no hidden world label.
+The complete decoder view includes observations, private randomness, actions,
+stopping information and every admitted side channel. Restricting only a
+marginal transcript is insufficient.
 
-## 2. CAU-1 — observational equivalence does not determine interventional law
+An intervention is mathematically defined by the SCM. Whether the interface
+admits *performing* it is a separate operational constraint. A model-defined
+query can be meaningful even when its corresponding experiment is unavailable.
 
-> **CAU-1.** There exist finite registers `M0, M1` with `P_{M0} = P_{M1}` on
-> every observable variable, yet `P_{M0}^{do(X=1)}(Y=1) ≠ P_{M1}^{do(X=1)}(Y=1)`.
-> Consequently no learner restricted to a purely observational stream can
-> determine the interventional target, whatever its sample size or compute.
+## 2. CAU-1 — indistinguishable complete views obstruct identification
 
-Proof. Exhibit the confounded/unconfounded pair of §6 and apply the two-world
-argument of LMT-5: the learner-visible histories have identical law, so its
-terminal output has identical law, and it cannot be correct in both worlds. The
-witness is exact and rational; no asymptotics are used. QED.
+There exist two models with identical observational laws but different exact
+interventional targets. For any fixed learner under the interface above,
+its complete view has the same law in the two models: couple the common seed
+and every observational reply, then induct through its actions and stopping.
+Its terminal output therefore has a common law. If the two required answers
+are distinct, their exact-success events are disjoint, and the two success
+probabilities sum to at most one. In particular, worst-world success is at
+most 1/2; nontermination does not help. The same conclusion applies to a
+decoder of the whole infinite iid stream, whenever that decoder is measurable.
 
-This is a statement about the *stream*, not about sample size. A1 is what makes
-it bite: the choice at each step is `F_{t-1}`-measurable, and `F_t` never
-contains an interventional draw that `I` did not admit.
+**W1.** U is a fair bit. World 0 has X=U,Y=U; world 1 has X=U,Y=X.
+Only X,Y are observed. Both laws put mass 1/2 on (0,0) and (1,1).
+Surgical do(X=1) gives P(Y=1)=1/2 and 1 respectively. No amount of
+computation or additional draws from that identical stream separates them.
+This statement does not prohibit identification in a smaller model class.
 
-## 3. CAU-2 — what observation does fix
+## 3. CAU-2 — population identification is a model-class property
 
-Observation fixes the law `P_M` and hence every functional of it, including the
-Markov equivalence class of compatible graphs. It therefore fixes the
-interventional target **only when** that target is constant on the equivalence
-class. Reporting an interventional number from observational data alone is a
-scope violation of A2 unless CAU-3's premises are discharged.
+For an ideal known compatible observational law P, define its nonempty fiber
+C(P)={M in the declared class: P_M restricted to observed variables equals P}.
+Require C(P)≠empty; no value is identified by vacuous constancy on an empty set.
+A target theta is point-identified at P **iff** theta(M) is constant on C(P).
+Necessity follows from indistinguishability; sufficiency defines a unique
+set-theoretic population functional. It supplies neither a computable
+procedure nor an exact finite-sample estimator.
 
-`Δ_Ω` and `I⁰_Ω` of GG29/GG30 are defined through admitted interventions, so
-they inherit exactly this boundary: a channel's semantic information is not
-estimable from passive observation without the same premises.
+An arbitrary observation distribution does **not** select one Markov
+equivalence class of causal DAGs. Under a declared fully observed acyclic DAG
+class, causal Markov and faithfulness assumptions, its exact conditional
+independences determine the DAG Markov equivalence class. Without these
+premises use the full compatible model fiber instead. For example,
+independent fair X,U with Y=X xor U has the same observed independent law
+as an empty graph with independent fair X,Y. The first structural graph has
+an X→Y edge and is unfaithful, so the two graphs are not Markov equivalent.
 
-## 4. CAU-3 — sufficient premises, and their charge
+Back-door adjustment and randomization below are sufficient routes, not
+necessary ones. Other identifying restrictions or do-calculus derivations
+may identify a query. Passive data determine GG29/GG30 intervention-dependent
+quantities only when those quantities are invariant on the admitted fiber;
+no blanket impossibility applies to every restricted class.
 
-> **CAU-3 (back-door).** If `Z` satisfies the back-door criterion for `(X, Y)`
-> in `M` — no member of `Z` is a descendant of `X`, and `Z` blocks every
-> back-door path — then
-> `P^{do(X=x)}(Y) = Σ_z P(Y | X=x, Z=z) P(Z=z)`,
-> every term of which is observational.
->
-> **CAU-3b (randomization).** If `I` admits an exogenous randomized assignment
-> of `X` independent of `U`, then `P(Y | X=x)` under that regime equals
-> `P^{do(X=x)}(Y)` directly.
+## 4. CAU-3 — supported adjustment and surgical randomization
 
-Both are premises, not conclusions. Under A4 the probes that establish them are
-charged: a randomized assignment consumes admitted interventions from `Θ` and
-their cost enters `R`. Identifiability is therefore **purchased**, never free,
-and the purchase is what CAU-1 proves cannot be skipped.
+Suppose observed Z meets the back-door criterion for (X,Y) in the declared
+acyclic causal model: Z contains no descendant of X and d-separates every
+back-door path in the full graph. Also require, for the target x,
+P(X=x | Z=z)>0 for every z with P(Z=z)>0. Then
+P(Y | do(X=x)) = sum_z P(Y | X=x,Z=z) P(Z=z).
+The graphical criterion gives conditional exchangeability; consistency and
+the stated support allow replacement by observational conditionals, and
+summing over Z gives the formula. Zero-mass Z strata contribute zero;
+positive-mass strata with zero treatment support are **not** imputed.
 
-## 5. CAU-4 — interventions are admitted operations
+**W2, constructive supported revival.** U is fair, B is an independent bit
+with P(B=1)=1/4. The observed root is Z=U; downstream equations are
+X=Z xor B and Y=Z in world 0, or Y=X in world 1. Thus the graph has
+Z→X,Z→Y in world 0: Z is the root itself, not a proxy child of a hidden parent.
+Every (X,Z) stratum has positive mass. Direct observed-table adjustment gives
+1/2 and 1 for do(X=1), matching surgical evaluation. In world 0 the unadjusted
+P(Y=1 | X=1)=3/4 differs from 1/2.
+These are new positive-support models, not a relabeling of W1.
 
-`do(·)` is meaningful only for assignments `I` actually admits. An intervention
-outside `Θ` is not a cheaper route to the same claim; it is a different declared
-problem under A2. Composing an identified effect with downstream components
-requires GAC-5's discharged interfaces: an identified `P^{do}` is a *local*
-guarantee and does not compose by itself.
+The original W2 used X=Z=U. Its counterfactual strata are unobserved, and its
+old helper evaluated structural equations instead of observed conditionals.
+The corrected helper refuses this input: back-door graphical structure
+without observational support did not identify that numerical formula.
 
-## 6. Exact witnesses
+**CAU-3b.** Replace only X's structural equation by an independent random
+assignment with known law rho, retaining all other equations and noise laws.
+For each x with rho(x)>0, the resulting P(Y | X=x) equals P(Y | do(X=x)).
+Conditioning on an independent assignment retains the original noise law,
+so the remaining equations are exactly the surgical model at x.
+Zero-probability assignments have no such observational conditional.
+Independence without the surgical/no-other-mechanism-change premise is insufficient.
 
-**W1 — confounded vs unconfounded.** `U ~ Bernoulli(1/2)`.
-*World 0:* `X = U`, `Y = U`. *World 1:* `X = U`, `Y = X`.
-Both give the same observational law: `P(X=1,Y=1) = P(X=0,Y=0) = 1/2`.
-Under `do(X=1)`: world 0 leaves `Y = U`, so `P(Y=1) = 1/2`; world 1 gives
-`P(Y=1) = 1`. Identical observation, different intervention: **1/2 ≠ 1**.
+**W3, supported bad-control witness.** X is fair; independent noises E,N
+have probability 1/4 of one. Let Y=X xor E and Z=Y xor N.
+All eight observed (X,Y,Z) cells have positive mass, and Z is a descendant.
+At X=1 the Y=1 conditional is 9/10 when Z=1 and 1/2 when Z=0.
+Each Z marginal is 1/2, so adjusting yields 7/10.
+Surgical do(X=1) yields 3/4. This isolates an unsafe descendant adjustment
+without an empty-stratum convention. The old deterministic W3's skipped
+unsupported stratum is retained as a rejection control, not as this proof.
+Some descendants may be harmless in special models; violation of the
+criterion alone does not assert bias in every model.
 
-**W2 — back-door recovery.** With `Z = U` observed, the back-door adjustment
-returns `1/2` in world 0 and `1` in world 1, matching the truth in each. The
-premise, not more data, is what restores identifiability.
+## 5. CAU-4 — operations and composed claims
 
-**W3 — adjusting on a descendant is not safe.** A third register: `X ~ Bernoulli(1/2)`
-exogenous, `Y = X`, and `Z = Y`, so `Z` is a descendant of `X` and violates the
-back-door criterion. The truth is `P(Y=1 | do(X=1)) = 1`, but the adjustment
-formula applied to `Z` returns
-`Σ_z P(Y=1 | X=1, Z=z) P(Z=z) = P(Y=1) = 1/2`.
-Exactly `1/2 ≠ 1`, so "adjust for everything observed" is refused: the criterion's
-exclusion of descendants is load-bearing, not decorative.
+Charge the observation, preparation, intervention, identification computation
+and other operations actually performed under the declared R contract.
+An already admitted causal premise or sufficient adjustment set may identify
+an effect without purchasing a new experiment. CAU-1 proves a two-world
+information obstruction; it does not prove a positive probe cost in every
+causal problem. A physical randomizer's surgical validity remains a premise
+requiring its own warrant; no finite rational table certifies hardware.
 
-Note on W1's learner bound: the frozen check that `max_q min(1-q, q) = 1/2` is an
-arithmetic witness of the two-world bound, not a proof of CAU-1. The proof is the
-identical-visible-law argument of §2.
+A derived effect is a local guarantee. Its downstream use requires discharged
+interfaces and the bases/well-founded dependencies or initialized invariant
+of corrected GAC-5. Experimental access outside the declared interface changes
+the operational problem, but does not erase the mathematical SCM query.
 
-## 7. Failure taxonomy
+## 6. Executable scope
 
-| Failure | Symptom | Repair |
-|---|---|---|
-| unmeasured confounding | two registers match observationally, differ under `do` | admit an intervention or a valid adjustment set |
-| bad control | adjustment set contains a descendant/collider | re-derive the set from the graph |
-| regime shift | assignment law changes between evidence and deployment | re-declare `E`; transport premise |
-| cost denial | identifiability asserted without charging probes | charge under A4 |
+[causal_tables_v1.py](causal_tables_v1.py) builds the finite joint tables;
+[test_causal_identifiability_v1.py](test_causal_identifiability_v1.py) derives
+observational ratios, independently evaluates surgical targets and rejects
+missing support. It also retains W1, private-decoder arithmetic and an
+unfaithful-graph control. These are controls, not a general identification solver.
 
-## 8. Falsifiers and boundaries
-
-CAU-1 is falsified by a purely observational learner that determines the
-interventional target in both W1 worlds. CAU-3 is falsified by a register
-satisfying the back-door premises whose adjustment formula disagrees with its
-own interventional law.
-
-This capsule does **not** establish: graph discovery from data, identifiability
-of arbitrary queries, transportability across environments, correctness of any
-physical randomizer, finite-sample rates, or that an identified effect is
-obligation-optimal. Those remain separate obligations.
+Finite-sample rates, arbitrary graph discovery, transport, learned causal
+premises and physical causal validity remain separate obligations.
+This unit is outside the grand replay capsule; its scoped repair receipt
+does not change any grand checker or aggregate.

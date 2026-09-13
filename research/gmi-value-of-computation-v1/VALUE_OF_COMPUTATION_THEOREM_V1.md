@@ -1,163 +1,152 @@
-# Value of computation and exact stopping — VOC-1–6
+# Value of computation and exact stopping — corrected VOC-1–6
 
-Status: **THEOREM AT DECLARED FINITE SCOPE + EXACT RATIONAL WITNESSES**
-Date: 2026-09-13
+**Finite deterministic stopping interface with explicit feasibility.**
+This repairs PR571 at [the preserved source](raw/pr571-743b9ded/SOURCE_BINDINGS_V1.json).
+It does not supply a general stochastic, physical or acquisition-cost theorem.
 
-Ledger item 10. Closes the three gaps left open by
-[`metareasoning-parent-review-v1`](../metareasoning-parent-review-v1/CORE.md),
-which recorded them as "open implementation/review tasks, not completed fixes":
-a termination-assumption gap (T1), an exactness-certification gap (T2) and
-contradictory stopping guidance (T3).
+## Primary parents and scope
 
-The mechanisms are inherited, not claimed novel.
-
-| Donor | What is inherited | What is *not* inherited |
-|---|---|---|
-| Hay, Russell, Tolpin, Shimony (2012) | metalevel decision process; explicit computation/stop alternatives; strictly positive computation cost | their Bayesian utility model; Theorem 5 bounds *expected* computation count, not a per-path bound |
-| Bertsekas (2017, 2020 rev.) | properness = finite total cost **and** finite steps to termination; under nonnegative costs, optimal-over-all-policies and Bellman fixed points need not coincide | Proposition 7's conditions (eq. 16 / finite `W`); no OCM transfer theorem follows |
-| Russell, Wefald (1991) | computation valued through its effect on external action | myopic single-step valuation as a decision rule |
-| Lotker, Patt-Shamir, Rawitz (2008/2010) | unknown-horizon investment framing | competitive guarantees; the reduction must be qualified, never imported by analogy |
+[Bertsekas (2020), §§I–II](https://arxiv.org/html/1711.10129v2) distinguishes
+termination, cost and the effective domain of proper policies. We use that
+distinction in a finite deterministic shortest-path specialization, not his
+infinite-state stochastic uniqueness theorem without its hypotheses.
+[Hay et al. (2012), Theorem 5](https://arxiv.org/pdf/1207.5879) bounds expected
+computation count in its metalevel model. Our path bound requires deterministic
+transitions and policies, not merely deterministic per-step prices.
+Russell–Wefald supplies the established nonmyopic decision perspective.
+No ski-rental competitive theorem or new general metareasoning law is claimed.
 
 ## 1. Register
 
-A finite metalevel register is `(Sigma, h, k)`: deliberation state `Sigma`,
-demand horizon `h`, cognitive allowance `k`. Two action kinds are admitted:
+Let S be a finite nonempty state set encoding all decision-relevant registers.
+Each state has finitely many certified terminal actions with rational cost
+c>=0 and cognitive edges (s,t,e), with rational charge e>=0 and a deterministic
+successor t. Policies are deterministic and may use full history. A successful
+episode takes finitely many edges then a certified terminal action. Its cost
+is the sum of all edge charges plus that terminal cost. Dead ends and infinite
+nonserving paths are infeasible and have value +infinity, regardless of their
+accumulated charge. Values take the extended **nonnegative** real range.
 
-- **certified actions** `a in A(Sigma)` with rational cost `c(a) >= 0`, which
-  terminate the episode;
-- **cognitive actions** `g in G(Sigma)` with rational charge `e(g) >= 0`, which
-  move to `Sigma'` and terminate nothing.
+The declared prices account for these operations only. Search, verification,
+synthesis, memory and platform costs require their own supplied accounting;
+solving this model does not measure them or certify action adequacy.
+The helper uses None exclusively for +infinity; it never treats failure as free.
 
-`min(empty) = +infinity`. Every charge is booked to the resource ledger `R`;
-A4 forbids an uncharged cognitive step.
+## 2. VOC-1 — Bellman equality alone does not impose termination
 
-## 2. VOC-1 — the bare recurrence does not define a stopping value
+For one state with terminal cost1 and a zero-cost self-loop, the bare equation
+J=min(1,J) has every nonnegative solution J in [0,1]. The serving-policy value
+is1. Choosing the self-loop forever does not serve the obligation.
+Over unrestricted signed reals, every J<=1 solves the equation; the
+nonnegative value domain is necessary for the stated exact interval.
+This preserves the original ambiguity result.
 
-> **VOC-1.** There is a register in which the unaugmented recurrence
-> `J(Sigma) = min( min_a c(a), min_g [ e(g) + J(Sigma') ] )`
-> has a continuum of solutions, so it determines neither the value nor whether
-> the selected policy ever acts.
+## 3. VOC-2 — ranked recursion with a feasibility distinction
 
-Proof. Take one state with a certified action of cost `1` and one cognitive
-action of charge `0` returning to the same state. The recurrence reduces to
-`J = min(1, J)`, satisfied by **every** `J in [0,1]`. If eventual action is
-required the intended value is `1`; if an unbounded zero-charge cognitive loop
-is admitted as a policy, the machine never serves the demand. QED.
+Augment the state by an integer k>=0. Each cognitive edge consumes exactly
+one unit, and no edge is legal at rank0. The unique extended value is
+J_0(s)=min A(s), and
+J_k(s)=min(min A(s), min_(s,t,e)[e+J_(k-1)(t)]),
+with min(empty)=+infinity.
 
-This is the T1 defect, stated as a theorem rather than a review note. Bertsekas
-is the parent: under nonnegative costs a Bellman equality alone does not supply
-properness.
+Induction gives a unique value at every (s,k), since each successor has smaller
+rank. When J_k(s)<infinity, a minimizing policy reaches a certified action
+within k cognitive steps, and every optimal finite-cost policy does likewise.
+When J_k(s)=+infinity, report INFEASIBLE; exhaustion alone does not serve.
+The single rank-zero state with no action is the missing-premise countermodel.
+If termination is required for every legal policy, every reachable rank-zero
+state and earlier dead end must instead have a certified stopping action.
 
-## 3. VOC-2 — a well-founded rank restores uniqueness
+A cache must retain the complete state as well as rank. The old helper cached
+only k: terminal10 at the root, zero-cost edges to terminal10 and terminal0,
+and k=1 returned10 although the exact optimum is0. The corrected helper and
+explicit state-table recursion distinguish those successors.
 
-> **VOC-2.** Require every cognitive transition to strictly decrease `k`, and
-> let `G(Sigma, 0) = empty`. Then `J` is unique, is computed by backward
-> induction on `k`, and every optimal policy terminates within `k` cognitive
-> steps.
+## 4. VOC-3 — positive costs on the viable domain
 
-Proof. Induct on `k`. At `k = 0` no cognitive action is admitted, so
-`J(Sigma, h, 0) = min_a c(a)`, a minimum over a finite set, `+infinity` if
-empty. For `k > 0`, every cognitive successor is evaluated at `k - 1`, already
-unique by hypothesis, so the right-hand side is a finite minimum of determined
-quantities. Well-foundedness of `k` forbids the VOC-1 loop. QED.
+Require every cognitive edge charge e>=epsilon>0. Define V as the states
+from which some finite path reaches a certified terminal action. Reverse
+reachability computes V exactly. Set J(s)=+infinity outside V.
 
-## 4. VOC-3 — a strictly positive charge gives properness without a rank bound
+**Theorem.** On V the serving-policy optimum is finite, attained, and is the
+unique finite nonnegative Bellman solution, with outgoing edges to S\V
+assigned +infinity. An optimal path has no repeated state and hence at most
+|V|-1 cognitive edges. For any initial state with a certified complete
+serving-policy cost bound C, every optimal path has at most floor(C/epsilon)
+cognitive steps. An immediately available terminal action is one such bound.
 
-> **VOC-3.** If every cognitive charge satisfies `e(g) >= epsilon > 0` and some
-> certified action has cost `C < infinity`, then no optimal policy takes more
-> than `floor(C / epsilon)` cognitive steps, and `J` is the unique bounded
-> solution.
+**Proof.** A serving path exists exactly on V. Removing a repeated-state
+segment preserves its endpoint and remaining deterministic actions while
+strictly decreasing cost. There are finitely many simple paths and terminal
+choices, so their minimum is finite and attained. First-action decomposition
+gives Bellman's equation. For any finite Bellman solution W on V, select a
+minimizing action. A selected edge has W(s)=e+W(t), so a selected cycle would
+give 0=sum e>0. The selected trajectory therefore terminates, and telescoping
+shows W equals that policy's cost. Conversely, applying Bellman's inequality
+along any serving path gives W no greater than its cost. Thus W=J.
+Finally, m edges cost at least m epsilon and J<=C. These prove all assertions.
 
-Proof. A policy taking `m` cognitive steps pays at least `m * epsilon`. If
-`m > C / epsilon` its cost exceeds `C`, which is attainable immediately, so it
-is not optimal. The optimal policy therefore lies in a finite-depth class, on
-which VOC-2's induction applies. QED.
+A local finite option does not give a bounded solution on the whole register:
+state s has terminal1 and an edge to trap t; t has only a charge1 self-loop.
+J(s)=1 but J(t)=+infinity, and J(t)=1+J(t) has no finite solution.
+The corrected algorithm returns the finite value and the infeasible region.
 
-This is the deterministic-cost analogue of Hay et al.'s Theorem 5 shape
-(computation count bounded by value over cost). Theirs bounds an *expectation*;
-this bounds every admitted path, because the charges here are deterministic.
+**Stochastic boundary (not a counterexample to the deterministic theorem).**
+At an unresolved state, stop costs3; each unit-cost trial succeeds with
+probability1/2 and otherwise returns there; success permits terminal0.
+Trials until success have expected cost2 and are optimal. Their step count
+has P(N>m)=2^-m, so no finite path bound holds. In such an expected-cost model,
+epsilon E[N]<=E[cost]<=C supplies an expected-count bound only.
+A rule stopping after H failures costs2+2^-H, showing the distinction exactly.
 
-**The stopping rule is now derived, not assumed.** Continue deliberating from
-`Sigma` iff some `g` satisfies `e(g) + J(Sigma') < min_a c(a)`; equivalently iff
-the value of computation `min_a c(a) - J(Sigma')` strictly exceeds its charge
-`e(g)`.
+## 5. Stopping, lookahead and safety — VOC-4/5
 
-## 5. VOC-4 — myopic value of computation is not a valid stopping rule
+Use VOC2 with the decreasing rank included in the state, or VOC3 with positive
+cognitive charges. These progress premises are required for a local minimizing
+selector to define a globally serving policy.
+Let A be the best immediate terminal cost and Q the best charged cognitive
+continuation e+J(t). At a viable state, strict Q<A makes stopping suboptimal;
+A<Q makes cognitive continuation suboptimal. If A=Q<infinity, both are optimal.
+A declared **stop-on-ties** policy continues iff Q<A. This is an optimal
+selection convention, not a claim that all optimal policies stop on ties.
+The difference A-J(t) is used only when both values are finite; the direct
+charged comparison also handles unavailable immediate actions.
+Without progress, s can have zero-cost edges to itself and terminal0 at t.
+The serving values are both0, but choosing the tied self-loop never serves.
+The executable chooser requires certified VOC3 values and positive charges;
+it does not validate an arbitrary supplied value table as a Bellman solution.
+ranked decisions instead use their decreasing-rank successor values.
 
-> **VOC-4.** There is a register where every single cognitive step has
-> non-positive value of computation, yet a two-step deliberation strictly
-> improves the achievable cost.
+The myopic alternative replaces J(t) with the best immediate terminal cost.
+For two probes costing1 each, initial and singly probed states have terminal10,
+while the doubly probed state has terminal1. One-step terminal lookahead stops
+at10; the full recursion pays3. This is VOC-4's valid nonmyopic witness.
 
-Witness in §7. Single-step lookahead stops and pays `10`; the optimal policy
-pays `3`. Russell and Wefald's framing of computation value is inherited; the
-myopic *rule* is refused.
+For VOC-5, a common adequate action may cost10 while a cost1 probe followed
+by a certified model-specific action costs1 in each of two possible worlds.
+The probe policy costs2 in **both** branches. This pathwise feasibility and
+cost comparison refutes “common safety implies economic optimality.”
+The observation-branching example is not used to import stochastic Bellman
+optimality into the deterministic theorem above.
 
-## 6. VOC-5 — a common safe action does not license economic stopping
+## 6. VOC-6 — exact decisions need certified comparisons
 
-> **VOC-5.** Existence of an action that is adequate for every surviving model
-> makes full identification unnecessary for *safety*, and does not imply that
-> stopping is *economically* optimal.
+The two rational action-cost rows (1,1+2^-42) and (1+2^-42,1) have opposite
+singleton argmins. There is **one unordered** conflicting row pair (or two
+ordered pairs). The original prose's count2 and its test's count1 used
+different conventions. Both floating values are exactly representable, yet
+relative tolerance1e-12 treats both rows as tied and loses that conflict.
 
-Witness in §7: the common safe action costs `10`; a cost-`1` probe distinguishes
-the models and unlocks a model-specific action costing `1`, total `2`. Stopping
-must be decided by the charged comparison of VOC-3, whether or not a common safe
-action exists. This is the T3 repair.
+Use exact rational comparisons, or outward error intervals with an explicit
+NUMERICALLY_UNRESOLVED outcome for uncertified signs. Epsilon-optimal sets are
+valid only when the protocol and claims consistently use that relaxed meaning.
+This example does not establish an error in any separately frozen population.
 
-## 7. Exact witnesses
+## 7. Evidence ceiling
 
-**W1 (VOC-1).** `c = 1`, cognitive charge `0` to the same state. Fixed-point set
-is the whole interval `[0, 1]`; the recurrence is satisfied by `0` and by `1`.
-
-**W2 (VOC-4, myopia).** Certified action available now costs `10`. Two probes
-each charge `1`. Either probe alone leaves the best certified cost at `10`, so
-each single-step value of computation is `10 - 10 = 0`, never exceeding its
-charge `1`. Both probes together unlock a certified action of cost `1`. Myopic
-rule: stop, pay `10`. Optimal: `1 + 1 + 1 = 3`.
-
-**W3 (VOC-5, T3).** Two surviving models; common safe action costs `10`; probe
-costs `1`; model-specific protected action costs `1`. Immediate action `10`;
-probe-then-act `2`.
-
-**W4 (VOC-6, T2).** Two states in one bucket with action pairs
-`(1, 1 + 2^-42)` and `(1 + 2^-42, 1)`. Both values are exactly representable in
-binary floating point. The exact argmin sets are opposite singletons, so the
-true collision count is `2`; `math.isclose(rel_tol=1e-12)` reports "tie" for
-both and records `0`.
-
-## 8. VOC-6 — exactness is a precondition, not a presentation detail
-
-> **VOC-6.** A tolerance-based tie test does not compute an exact argmin. An
-> instrument that labels tolerance ties as exact optimum sets can report a
-> collision count that differs from the exact one, as W4 exhibits.
-
-Repair, inherited from the review's own prescription: certify action-gap signs
-with exact scaled integers or rationals, or publish outward error intervals and
-label any unresolved action `NUMERICALLY_UNRESOLVED`. Retain raw signed
-residuals before any display clamp. An epsilon-optimal set is legitimate only if
-the protocol, the lemma application and every output name use that relaxed
-meaning.
-
-## 9. Failure taxonomy
-
-| Failure | Symptom | Repair |
-|---|---|---|
-| unbounded cognition | zero-charge cognitive cycle; continuum of fixed points | well-founded rank (VOC-2) or positive charge (VOC-3) |
-| myopic stopping | single-step VOC non-positive while multi-step improves | lookahead to the admitted allowance |
-| safety/economics conflation | stop because a common safe action exists | charged comparison of VOC-3 |
-| false exactness | tolerance ties reported as exact optima | exact rationals or explicit refusal (VOC-6) |
-| uncharged deliberation | cognition consumes an unpriced resource | book every charge to `R` per A4 |
-
-## 10. Falsifiers and boundaries
-
-VOC-1 is falsified by a proof that the bare recurrence has a unique solution on
-the W1 register. VOC-2 is falsified by an optimal policy exceeding `k` cognitive
-steps under a strictly decreasing rank. VOC-3 is falsified by an optimal policy
-taking more than `floor(C / epsilon)` cognitive steps under its premises. VOC-4
-and VOC-5 are falsified by recomputing their registers and obtaining the myopic
-or stop-immediately value as optimal.
-
-This unit does **not** establish: stochastic or Bayesian metalevel optimality,
-a competitive guarantee under unknown horizon, a bound over arbitrary programming
-languages or physical machines, the correctness of any particular frozen
-population label, or that any existing collision count in the reviewed source is
-numerically wrong. No such computation was performed here.
+[The correction context](VOC_REPAIR_CONTEXT_V1.md) links original and new
+controls. Exact stationary-policy and path enumeration independently challenge
+the finite solver, including genuine dead ends and the original clean fixture.
+These checks do not establish arbitrary-language or hardware optimality,
+action verification, stochastic metareasoning, or full cognitive costs.
+The unit remains outside the grand replay capsule.
