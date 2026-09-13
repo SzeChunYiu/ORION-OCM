@@ -257,3 +257,51 @@ anything this packet says about their result.
 > `E3_REPORTED_NOT_BOUND` qualification is load-bearing rather than cosmetic, is set out in
 > `GMI_REACHABILITY_SCOPE_OF_FAMILY_VERDICTS_V1.md` against the other lane's `DU-3b`. No verdict
 > in this packet changes.
+
+---
+
+## Adjudication of the prospective registration: X1 and X2 both held
+
+The other lane executed the four-candidate field as V5 across three interpreter envelopes
+(`PARITY3_V5_CROSS_ENVELOPE_ASSESSMENT_20260913.md`, adjudicated in
+`NN_NONNN_POINT_PARITY3_CROSS_ENVELOPE_V5.json`). Read from their receipt rather than their prose:
+
+| candidate | family | opcodes, CPython 3.12.3 | opcodes, 3.11.15 |
+|---|---|---:|---:|
+| `X_XOR2_V1` | NON_NEURAL | **88** | **88** |
+| `X_LOOKUP8_V3` | NON_NEURAL | 136 | 136 |
+| `N_SUM_THRESHOLD3_V3` (the smaller network) | NEURAL | 312 | 344 |
+| `N_THRESHOLD_DNF4_V1` (the original) | NEURAL | 472 | 512 |
+
+Both valid envelopes give the identical ordering and the identical terminal,
+`DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`, with
+`cross_envelope_stability = STABLE_ACROSS_ENVELOPES__DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`. The
+CPython 3.13.12 envelope returned `INVALID_RECEIPT_OR_PROTOCOL_VIOLATION` and was retained rather than
+dropped; their V6 repairs the instrument for it and is unexecuted.
+
+| id | registered prediction | outcome |
+|---|---|---|
+| **X1** | the frontier retains ≥ 1 non-neural candidate | **HELD** |
+| **X2** | the three-unit network does not survive — the exact-XOR program dominates it on opcode count, so the run reads non-neural again rather than abstaining | **HELD**: 88 against 312/344, and the wall envelopes do not overlap (XOR max 12.87 M ns against the network's min 37.72 M), so the domination is strict on every coordinate and no abstention was reached |
+| **X3** | conditional on X2 failing | **not triggered** |
+
+**The "weak neural candidate" objection to V2 is discharged.** The smaller network is a genuine
+improvement — 312 opcodes against the original's 472, a 34 % reduction — and is still three and a half
+times the exact-XOR program. Strengthening the neural side by a third does not move the verdict.
+
+**Timeline, since prospectivity is the whole value of the registration.** X1–X3 were committed at
+11:23:06 and merged to main at 12:12:51. The other lane froze its V5 instrument at 13:38:23 and executed
+it at 13:56:34 — 104 minutes after the registration was on main, by a lane that did not write it.
+
+**Prospective but not blind, stated so it is not overclaimed.** I had read their V2 result and their V3
+construction before registering, and X2's reasoning used the *structure* of their candidates — that an
+exact XOR is two binary operations while a table index is two shifts, two ors and a subscript. What I
+did not have, and could not have, was any timing or opcode measurement. So this is a prediction made
+before the data and not before the design. Their own claim ceiling also stands unchanged: not a
+universal family verdict, not a claim about unrecorded hosts.
+
+**What it does not settle.** The joint statement remains conditional, exactly as first recorded: `E_wit1`
+still returns `FAMILY_COEXISTENCE` on this instrument, where a coefficient row joins the Pareto set once
+its update work is ~500× smaller. And per `DU-3b` (see
+`GMI_REACHABILITY_SCOPE_OF_FAMILY_VERDICTS_V1.md`) both lanes' verdicts are constructions over
+registered candidate sets, so neither is protected against restriction to a reachable subset.
