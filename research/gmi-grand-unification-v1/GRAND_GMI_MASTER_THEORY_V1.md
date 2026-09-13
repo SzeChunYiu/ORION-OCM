@@ -3,7 +3,7 @@
 Status: **DECLARED CAUSAL-PROCESS SCHEMA; THEOREM-SPECIFIC ASSUMPTIONS AND RECURSIVE AUDIT REQUIRED**
 Date: 2026-09-12; corrected synthesis: 2026-09-13
 
-Current correction authority: `RECURSIVE_GAP_AUDIT_20260913.md`. A complete list
+Read first: [scientific CORE](CORE.md). Current correction authority: `RECURSIVE_GAP_AUDIT_20260913.md` and its [successor scientific queue](SCIENTIFIC_GAP_QUEUE_V2.md). A complete list
 of named objects, or green finite receipts, does not establish that every
 theorem or empirical instance has been verified. Earlier ontology-closure
 labels refer to the chosen schema, not an exhaustive absence-of-gaps theorem.
@@ -172,14 +172,15 @@ Development is itself a GMI process on morphology state. Let
 
 be the registered realization states reachable under the declared development process and budget. A quotient representation may be used when the registered projection preserves the protected profiles and future development semantics; membership of a realization then means membership of its projected class. Learning, meta-learning, architecture search, program synthesis, test-time adaptation, self-modification and evolutionary population updates are repeated applications of this lift.
 
-`D` is an irreducible component of the primitive tuple, not a derived object.
-Two development laws sharing every other registered input can have different
-reachable frontiers, so no derivation from semantic, cut, transformation,
-symmetry, resource or realization facts determines a trained outcome. A
-registered `D` must also fix its schedule semantics, because admitted updates
-need not commute. Reachability never lowers a derived lower bound but can
-invalidate a construction, and no finite budget certifies an
-unbounded-development verdict.
+Static realization/resource summaries do not generally identify an
+unconstrained development law or its reachable frontier. A particular `D`
+must be registered or justified by additional assumptions; this does not
+prevent constructive theorems conditional on that law. Distinguish one
+chosen schedule from existential reachability over all admitted schedules.
+Restricting the feasible set preserves valid lower bounds, while a comparative
+exclusion also requires retaining its feasible comparator witness. A finite
+budget alone need not establish an unbounded verdict; a proved exhaustive
+successor-closed reachable set can do so (corrected DU-1--4).
 
 ### 1.7 Causal semantic information
 
@@ -283,6 +284,11 @@ outer set, the assumed constructive dominator of that better point would also
 strictly dominate it, a contradiction. The same argument applies to the physical
 set between them. QED.
 
+A finite nonempty constructive register with proved coverage additionally supplies
+attainment; see [MSC-2](CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md).
+Architecture-property selection requires a nonempty selected set and the full
+physical profile fibers, not a single constructive representative (MSC-1).
+
 This is a **sufficient** certificate, not a necessity claim about every infinite
 set. Equality of Pareto sets alone need not mean every feasible point is dominated
 by a Pareto point. Nonempty attainable sets can have empty Pareto subsets, so this
@@ -382,7 +388,7 @@ remain scientific obligations; a label cannot discharge them.
 
 ## 9. Master law
 
-The complete theory can be written as the chain
+The declared theory framework can be written as the chain
 
 \[
 \boxed{
@@ -411,7 +417,8 @@ the relaxed accounting program of `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md`
 computes a family-conditioned lower bound that binds every admitted machine in
 that structure class, including machines nobody has constructed. Upper bounds
 are not derivable this way, so the chain explains robust family **exclusion**;
-selection still requires a construction, and any verdict remains relative to
-the registered structure classes and their uncovered residue.
+selection requires independently justified existence of a selected realization;
+an executable selection also needs an admitted construction. Any verdict remains
+relative to the registered structure classes and their uncovered residue.
 
 This is the current Grand GMI V1 master statement.

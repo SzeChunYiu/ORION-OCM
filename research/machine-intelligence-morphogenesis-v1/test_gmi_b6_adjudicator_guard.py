@@ -202,3 +202,222 @@ def test_z5_counts_a_duplicated_arm_once(res):
     out = A.adjudicate("t", seeds=(0, 1, 2))
     z5 = out["Z_registration"]["Z5"]
     assert z5["n_distinct_recoveries"] == 1, z5
+
+
+# V2 scientific regressions: real JSON inputs, complete no-alarm controls.
+def _complete_campaign(tmp):
+    for seed in (0, 1, 2):
+        for pair in ("SAME", "CROSS", "DISJ"):
+            for arm, cost in (("CONTINUED", 100), ("RESET", 300 + seed * 100), ("TWIN", 200)):
+                if pair == "DISJ" and arm == "RESET":
+                    continue
+                _receipt(tmp, pair, arm, seed, cost, 0.9, klass="TABLE")
+
+
+def _change_receipt(tmp, pair, arm, seed, update):
+    p = A.path(pair, arm, seed, "t")
+    data = json.load(open(p))
+    update(data)
+    json.dump(data, open(p, "w"))
+
+
+def test_terminal_requires_both_load_bearing_majorities_for_all_hit_counts(res):
+    _complete_campaign(res)
+    for earlier_hits in range(4):
+        for residual_hits in range(4):
+            for seed in range(3):
+                _receipt(res, "SAME", "CONTINUED", seed, 2, 0.9)
+                _receipt(res, "SAME", "RESET", seed, 3 if seed < earlier_hits else 1, 0.9)
+                _receipt(res, "SAME", "TWIN", seed, 3 if seed < residual_hits else 1, 0.9)
+            out = A.adjudicate("t")
+            positive = earlier_hits >= 2 and residual_hits >= 2
+            assert (out["terminal"] == "DEVELOPMENTAL_MORPHOGENESIS_OBSERVED_AT_REGISTERED_SCOPE") == positive
+            assert out["frozen_all_three_seed_kill_condition"] == (earlier_hits == 0)
+            if earlier_hits >= 2 and residual_hits < 2:
+                assert out["terminal"] == "PARENT_SUFFICIENT_OOPS"
+
+
+def test_complete_files_with_unknown_load_bearing_results_do_not_pass(res):
+    _complete_campaign(res)
+    for seed in range(3):
+        _receipt(res, "SAME", "CONTINUED", seed, None, 0.9)
+    out = A.adjudicate("t")
+    assert out["complete"]
+    assert out["terminal"] == "ADJUDICATION_UNDETERMINED__LOAD_BEARING_EVIDENCE"
+
+
+def test_d2a_is_conjunction_of_majorities_over_all_binary_seed_patterns(res):
+    _complete_campaign(res)
+    for earlier in range(8):
+        for memory in range(8):
+            for seed in range(3):
+                _receipt(res, "CROSS", "RESET", seed, 2, 0.9)
+                _receipt(res, "CROSS", "CONTINUED", seed, 1 if earlier & (1 << seed) else 3,
+                         0.9, klass="TABLE" if memory & (1 << seed) else "DENSE")
+            row = A.adjudicate("t")["predictions"]["D2a"]
+            expected = earlier.bit_count() >= 2 and memory.bit_count() >= 2
+            assert (row["verdict"] == "HELD") == expected
+            assert row["components"]["earlier"]["n_true"] == earlier.bit_count()
+            assert row["components"]["memory"]["n_true"] == memory.bit_count()
+
+
+def test_d2a_unknown_component_cannot_satisfy_its_majority(res):
+    _complete_campaign(res)
+    for seed in (1, 2):
+        _receipt(res, "CROSS", "CONTINUED", seed, 1, 0.9, klass=None)
+    row = A.adjudicate("t")["predictions"]["D2a"]
+    assert row["components"]["earlier"]["verdict"] == "HELD"
+    assert row["verdict"] == "PENDING_MORE_UNITS"
+
+
+def test_d3a_missing_defining_baseline_cannot_make_a_false_failure(res):
+    _complete_campaign(res)
+    for seed in range(3):
+        _receipt(res, "DISJ", "CONTINUED", seed, 100, 0.9)
+        _receipt(res, "DISJ", "TWIN", seed, 110, 0.9)
+    _receipt(res, "CROSS", "RESET", 0, 100, 0.9)
+    _receipt(res, "CROSS", "RESET", 1, 101, 0.9)
+    os.unlink(A.path("CROSS", "RESET", 2, "t"))
+    before = A.adjudicate("t")["predictions"]["D3a"]
+    assert before["verdict"] == "PENDING_MORE_UNITS"
+    assert before["detail"]["reset_B_morph_spread"] is None
+    _receipt(res, "CROSS", "RESET", 2, 200, 0.9)
+    assert A.adjudicate("t")["predictions"]["D3a"]["verdict"] == "HELD"
+    _receipt(res, "CROSS", "RESET", 2, 102, 0.9)
+    assert A.adjudicate("t")["predictions"]["D3a"]["verdict"] == "FAILED"
+
+
+def test_unknown_provenance_never_deduplicates_distinct_receipt_files(res):
+    _receipt(res, "SAME", "TWIN", 0, 1, 0.9)
+    _receipt(res, "CROSS", "TWIN", 0, 2, 0.9)
+    out = A.adjudicate("t")["duplicate_experiments"]
+    assert out["n_receipt_files"] == out["n_experiments_after_proven_deduplication"] == 2
+    assert out["n_undisclosed_groups"] == 0
+    assert out["n_distinct_experiments"] is None
+    assert len(out["identity_unknown_receipt_files"]) == 2
+
+
+def test_unknown_metadata_still_preserves_proven_shared_file_alias(res):
+    _receipt(res, "CROSS", "RESET", 0, 100, 0.9)
+    row = A.adjudicate("t")["duplicate_experiments"]
+    assert row["n_experiments_after_proven_deduplication"] == 1
+    assert "CROSS|RESET|S0 & DISJ|RESET|S0" in row["shared_baseline_by_design"]
+
+
+def test_known_distinct_seeded_populations_raise_no_duplicate_alarm(res):
+    _dense_receipt(res, "CROSS", "TWIN", 0, "TABLE", fps=("a", "b"))
+    _dense_receipt(res, "DISJ", "TWIN", 0, "TABLE", fps=("a", "c"))
+    row = A.adjudicate("t")["duplicate_experiments"]
+    assert row["n_undisclosed_groups"] == 0
+    assert row["n_distinct_experiments"] == 2
+
+
+def test_z5_unknown_warm_founders_cannot_be_dropped_from_the_claim(res):
+    _complete_campaign(res)
+    for pair in ("SAME", "CROSS", "DISJ"):
+        for arm in ("CONTINUED", "TWIN"):
+            for seed in range(3):
+                _receipt(res, pair, arm, seed, 100, 0.9, b_dense=900)
+    _dense_receipt(res, "SAME", "CONTINUED", 0, "TABLE")
+    row = A.adjudicate("t")["Z_registration"]["Z5"]
+    assert row["n_distinct_recoveries"] == 18
+    assert len(row["unknown_founders"]) == 17
+    assert row["recorded_first_recovery_verdict"] == "UNDETERMINED__UNKNOWN_FOUNDERS"
+    assert row["verdict"] != "HELD"
+
+
+def test_known_complete_first_recoveries_pass_only_the_recorded_subclaim(res):
+    _complete_campaign(res)
+    for pair in ("SAME", "CROSS", "DISJ"):
+        for arm in ("CONTINUED", "TWIN"):
+            for seed in range(3):
+                _dense_receipt(res, pair, arm, seed, "TABLE", fps=(pair, arm, str(seed)))
+    # Cold-arm founder is outside the Z5 claim.
+    _dense_receipt(res, "SAME", "RESET", 0, "DENSE", fps=("cold",))
+    row = A.adjudicate("t")["Z_registration"]["Z5"]
+    assert row["n_distinct_recoveries"] == 18
+    assert row["n_rooted_in_DENSE"] == 0
+    assert row["recorded_first_recovery_verdict"] == "HELD"
+    assert row["verdict"] == "UNDETERMINED__FIRST_RECOVERY_ONLY"
+
+
+@pytest.mark.parametrize("bad_index", [-1, True, "2", 100])
+def test_invalid_founder_indices_remain_unknown(res, bad_index):
+    _dense_receipt(res, "SAME", "CONTINUED", 0, "TABLE")
+    _change_receipt(res, "SAME", "CONTINUED", 0,
+                    lambda d: d["first_dense_admissible"].update(origin=["seed", bad_index]))
+    assert A.load("SAME", "CONTINUED", 0, "t")["dense_root_carrier"] is None
+
+
+@pytest.mark.parametrize("seeds", [(0, 0, 1), (1, 2, 3), (False, 1, 2)])
+def test_frozen_seed_identities_cannot_be_substituted_or_duplicated(res, seeds):
+    with pytest.raises(SystemExit):
+        A.adjudicate("t", seeds=seeds)
+
+
+def test_corrected_output_does_not_overwrite_historical_adjudication(res):
+    old = os.path.join(res, "STAGE_B6_DEV_ADJUDICATION_t.json")
+    with open(old, "w") as f:
+        f.write('{"historical": true}\n')
+    _complete_campaign(res)
+    out = A.adjudicate("t")
+    assert out["schema"] == "StageB6AdjudicationV2"
+    assert open(old).read() == '{"historical": true}\n'
+    assert os.path.exists(os.path.join(res, "STAGE_B6_DEV_ADJUDICATION_V2_t.json"))
+
+
+def test_missing_recovery_status_cannot_be_read_as_an_observed_nonrecovery(res):
+    _complete_campaign(res)
+    _dense_receipt(res, "SAME", "CONTINUED", 0, "TABLE")
+    _change_receipt(res, "SAME", "CONTINUED", 1,
+                    lambda d: d["first_dense_admissible"].pop("found"))
+    out = A.adjudicate("t")
+    assert out["Z_registration"]["Z1"]["per_seed"]["1"] is None
+    assert out["Z_registration"]["Z5"]["recorded_first_recovery_verdict"] == "PENDING_MORE_UNITS"
+
+
+def test_known_dense_founder_falsifies_even_with_an_unknown_duplicate_founder(res):
+    _dense_receipt(res, "CROSS", "TWIN", 0, "DENSE")
+    _dense_receipt(res, "DISJ", "TWIN", 0, "DENSE")
+    _change_receipt(res, "DISJ", "TWIN", 0,
+                    lambda d: d["first_dense_admissible"].pop("origin"))
+    row = A.adjudicate("t")["Z_registration"]["Z5"]
+    assert row["verdict"] == "FAILED"
+    assert row["n_rooted_in_DENSE"] == 1
+
+
+def test_contradictory_known_founders_block_adjudication_of_the_universal(res):
+    _dense_receipt(res, "CROSS", "TWIN", 0, "DENSE")
+    _dense_receipt(res, "DISJ", "TWIN", 0, "TABLE")
+    row = A.adjudicate("t")["Z_registration"]["Z5"]
+    assert row["verdict"] == "UNDETERMINED__CONFLICTING_PROVENANCE"
+    assert row["conflicting_provenance"]
+
+
+@pytest.mark.parametrize("costs,expected", [
+    ((1000, None, None), "HELD_WITH_REGISTERED_UNDETERMINED_CASES"),
+    ((1000, 1000, None), "FAILED"),
+    ((None, None, None), "HELD_VACUOUSLY__NO_DETERMINED_SEED"),
+    ((100, 100, 100), "HELD"),
+])
+def test_d2d_literal_or_undetermined_is_separate_from_numeric_support(res, costs, expected):
+    _complete_campaign(res)
+    for seed in range(3):
+        _receipt(res, "CROSS", "RESET", seed, 100, 0.9, b_dense=100 + 50*seed)
+        _receipt(res, "DISJ", "CONTINUED", seed, 100, 0.9, b_dense=costs[seed])
+    row = A.adjudicate("t")["predictions"]["D2d"]
+    assert row["verdict"] == expected
+    assert row["n_determined"] == sum(cost is not None for cost in costs)
+    assert row["n_registered_condition_true"] == sum(cost is None or abs(cost-(100+50*seed)) <= 100
+                                                     for seed, cost in enumerate(costs))
+
+
+def test_z_campaign_terminal_waits_for_all_registered_arms(res):
+    for seed in range(3):
+        _receipt(res, "SAME", "CONTINUED", seed, 100, 0.9, b_dense=200)
+        _receipt(res, "SAME", "RESET", seed, 300, 0.9)
+        _receipt(res, "SAME", "TWIN", seed, 200, 0.9)
+    z = A.adjudicate("t")["Z_registration"]
+    assert all(z[key]["verdict"] == "HELD" for key in ("Z1", "Z2", "Z3"))
+    assert z["terminal"] == "Z_UNDETERMINED__UNITS_MISSING"
+    assert not z["adjudication_complete"]

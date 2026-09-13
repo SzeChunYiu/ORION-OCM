@@ -1,111 +1,158 @@
 # Grand GMI Information–Computation Separation Theorem V1
 
-Status: **EXACT FINITE SEPARATION THEOREM**  
-Date: 2026-09-12
+Status: **EXACT FINAL-CUT / QUERY SEPARATION; BROADER CLAIM CORRECTED**
+Date: 2026-09-12; scope and joint-attainment refinement: 2026-09-13.
 
-## 0. Claim
+## 0. Exact claim and established parent
 
-A theory of intelligence based only on information, entropy, mutual information, channel capacity, memory size or communication width cannot be complete.
+Final-cut semantic width alone does not determine deterministic query
+complexity. Even on one fixed input domain, the same one-bit final-cut
+requirement is compatible with every exact query complexity from 1 to n.
 
-Two obligations can require exactly the same semantic information across a downstream cut while requiring arbitrarily different local computation before that cut.
+This does **not** prove independence of the full collections
+`{Kappa_G(C,epsilon)}_C` and `{Tau_G(R,epsilon)}_R`, nor that every theory
+expressed using information is incomplete. The proof compares a single final
+cut, not all cuts. The previous claims of two irreducible invariant families
+and the impossibility of all information-based theories exceeded that scope.
 
-Therefore Grand GMI needs at least two irreducible families of invariants:
+The established parent is deterministic decision-tree complexity:
+[Buhrman and de Wolf, *Complexity Measures and Decision Tree Complexity:
+A Survey* (2002), Sections 1 and 3.1](https://homepages.cwi.nl/~rdewolf/publ/qc/dectree.pdf).
+It defines adaptive input-bit queries and minimum worst-case tree depth;
+the same survey records `D(OR_n)=n`. We use that model faithfully and add an
+explicit final-message interface. The classical lower bound is not a new GMI
+complexity result. The joint feasibility statement below is a direct adaptation
+of these query bounds and elementary distinguishability.
 
-1. a **semantic cut spectrum** — what distinctions must cross each causal cut;
-2. a **transformation-complexity spectrum** — what physical/computational work is required locally to produce those distinctions.
+## 1. Register and coordinates
 
-## 1. Definitions
+Fix n>=1 and input x in {0,1}^n. A deterministic local processor learns x
+only through adaptive probes of individual bits. Every input is admissible;
+there is no input-dependent advice, precomputed answer, stronger oracle,
+or input-dependent initial state. The fixed obligation and its indices are
+known to the processor and actuator.
 
-Let a local processor receive input `x in {0,1}^n` and send a final answer bit to an actuator.
+The processor sends one final symbol to an actuator with no input side
+information. The actuator must output f(x) exactly from that symbol alone.
+Timing, silence, query transcripts and other side channels are unavailable
+to the actuator. Local computation precedes that final transmission.
 
-For an exact Boolean obligation `f`, define the final-cut semantic width
+For an exact Boolean obligation define
 
-`kappa_f = ceil(log2 |image(f)|)`.
+    kappa_f = ceil(log2 |image(f)|),
+    tau_f = minimum worst-case number of probes in an exact decision tree.
 
-Define `tau_f` in this theorem to be deterministic decision-tree query complexity: the smallest worst-case number of input-bit probes required to compute `f` exactly.
+Here kappa is final-message alphabet width, not Shannon entropy, mutual
+information, total memory or the full indexed cut spectrum. No input
+probability distribution is assumed. Under a uniform input distribution,
+projection and OR generally have different output entropies despite identical
+final-cut width.
 
-These are deliberately simple exact coordinates. The Grand GMI generalization replaces `tau` by a resource-vector Pareto frontier over the substrate's legal local transformations.
+The query model records probes only. Transient accumulator state, probe
+addresses, controller/code storage, local operations, time, energy and
+communication implementation have separate resource charges when relevant.
+Their feasibility is not implied by a one-bit final message or by tau.
 
-## 2. Separation family
+## 2. Exact separation at fixed input size
 
-For every `n >= 2`, define
+For each 1<=k<=n, let
 
-`f_easy(x_1,...,x_n) = x_1`
+    f_k(x_1,...,x_n) = OR(x_1,...,x_k).
 
-and
+Then, in the same registered query model,
 
-`f_hard(x_1,...,x_n) = OR(x_1,...,x_n)`.
+    kappa_(f_k) = 1,       tau_(f_k) = k.
 
-Both have image `{0,1}`. Therefore
+**Proof.** Both outputs occur, so the final alphabet requires two distinct
+symbols and one bit suffices. Querying the first k coordinates computes f_k
+with at most k probes. For the lower bound, answer zero to every probe. If
+any of the first k coordinates remains unqueried, both the all-zero input
+and the input with a single one at that coordinate remain consistent with
+the transcript, while their required outputs differ. Therefore an exact
+algorithm must probe all k relevant coordinates on the all-zero input.
+Probing an irrelevant coordinate cannot resolve this ambiguity. Hence the
+worst-case depth is exactly k. QED.
 
-`kappa_easy = kappa_hard = 1 bit`.
+The original easy-versus-OR comparison is k=1 versus k=n: for n>=2,
+`f_easy(x)=x_1` and `f_hard(x)=OR(x_1,...,x_n)` both have final-cut width 1,
+while their query complexities are 1 and n. Their ratio is unbounded as n
+grows. More strongly, fixing n>=2 still gives different query requirements
+at the same final-cut width and input size.
 
-But
+Thus neither `tau=F(kappa)` nor even `tau=F(n,kappa)` can hold for all these
+obligations. This rules out sufficiency of those particular coordinates;
+it does not rule out richer information descriptions or encodings.
 
-`tau_easy = 1`
+## 3. Joint message/query feasibility is attained
 
-while
+Let m>=1 be an integer allowance for the final message alphabet cardinality,
+and q>=0 an integer worst-case probe allowance. For obligation f_k, exact
+realization under these two allowances is possible if and only if
 
-`tau_hard = n`.
+    m >= 2   and   q >= k.
 
-### Proof
+Necessity of m>=2 follows because a one-symbol message with no side channel
+cannot produce two required outputs. Necessity of q>=k is the all-zero
+adversary above and holds regardless of m. A larger final alphabet supplies
+no information to the local processor before it computes its message.
 
-`f_easy` is computed by probing `x_1`, so `tau_easy <= 1`; a nonconstant Boolean function requires at least one probe, so equality holds.
+For simultaneous sufficiency, query coordinates 1,...,k, accumulate their
+OR, and then emit one of two symbols for the result. This one construction
+uses k probes and two final symbols. It attains the coordinate pair jointly;
+there is no inference from separate unattained minima. With only these two
+allowances constrained, the feasible region is exactly the stated rectangle.
 
-For OR, probing all `n` bits is sufficient. For necessity, consider an adversary answering `0` to every query. Until every bit has been queried, an unqueried bit could be `1`; therefore both the all-zero input and an input with a single unqueried `1` remain consistent but require different outputs. No exact deterministic algorithm can stop. Hence worst-case depth is at least `n`, and `tau_hard=n`. QED.
+The accumulator, its updates, scheduling/address state and controller are
+part of this construction, not information hidden in the final channel.
+Their costs remain separate. Additional limits on them require another
+feasibility analysis; this result does not establish total physical cost,
+bounded-memory attainability, or universal architecture sufficiency.
 
-The ratio `tau_hard/tau_easy=n` is unbounded even though the final semantic cut requirement is identical.
+## 4. Consequence for the GMI record
 
-## 3. Consequence
+It is useful to record both cut requirements and legal transformation costs.
+For a region R, let P_R be the registered substrate-legal processes realizing
+its required input/output relation, and rho_R(T) their charged resource vectors.
+One may record their feasible resource set and, when applicable, its Pareto
+minimal elements as `Tau_G(R,epsilon)`. This is a modeling definition, not an
+attainment theorem: Pareto minimal elements need not exist in every register.
 
-There is no function `F` of final-cut information alone such that
+The proposed record
 
-`transformation complexity = F(final-cut information)`
+    Xi_G = (S*, {Kappa_G(C,epsilon)}_C, {Tau_G(R,epsilon)}_R)
 
-for all finite obligations.
+keeps semantic equivalence, indexed cut constraints and local cost information
+explicit. This finite theorem motivates that bookkeeping but proves neither
+that the full collections are irreducible nor that Xi_G is a complete invariant.
+Upstream cuts can reveal which coordinates matter; time-indexed cuts can
+also encode aspects of the acquisition process. Their equality was not proved
+for the easy-versus-OR pair.
 
-Thus a universal GMI invariant cannot be one scalar 'amount of information'.
+The warranted architecture lesson is precise: providing the final output
+channel does not supply the probes needed to compute that output. Claims
+about retrieval, proof search, thermodynamics or general intelligence require
+their own registered mechanisms and bounds rather than an analogy to this pair.
 
-## 4. Transformation-complexity spectrum
+## 5. Executable scope and remaining independence obligation
 
-For a region `R` of a causal process network, let `P_R` be the set of substrate-legal local processes that realize the required semantic relation from the region's incoming semantic classes to its outgoing classes. Let `rho_R(T)` be a vector of physical/computational resources such as time, energy, memory traffic, circuit depth, queries, communication, precision and irreversible erasures.
+`grand_gmi_checks_v1.py` computes optimal deterministic decision-tree depths
+for projection and OR at n=2,...,7. Projection supplies the k=1 case; the OR
+cases supply k=2,...,7. These existing exact checks cover the essential query
+bounds. The proof above justifies adding irrelevant input coordinates and
+joint query-then-emit realization; the receipt is not a new enumeration of
+every padded (n,k), physical controller, or complete cut spectrum.
 
-Define
+A stronger independence study must first fix the substrate, admissible
+architectures, causal cut index set, error regime, side information and resource
+pricing. It must then match the **entire** relevant Kappa collection under a
+declared correspondence and prove that a Tau coordinate/frontier differs.
+An exact finite census may seek such a pair or expose a recoverability relation;
+either outcome must be retained. If mutual independence is claimed, the reverse
+non-determination also needs its own witness. Equality at the final cut alone
+cannot discharge this obligation. No such full-spectrum witness is established
+here.
 
-`Tau_G(R,epsilon) = Pareto{ rho_R(T) : T in P_R and task error <= epsilon }`.
-
-Grand GMI's task invariant is therefore not just a state quotient or cut width. At minimum it contains
-
-`Xi_G = (S*, {Kappa_G(C,epsilon)}_C, {Tau_G(R,epsilon)}_R)`.
-
-`S*` says which histories are semantically distinct; `Kappa` says which distinctions must cross which cuts; `Tau` says how difficult it is to transform available distinctions into required ones.
-
-## 5. Why this matters for machine-intelligence morphology
-
-The separation explains phenomena that information-only theories conflate:
-
-- a model can possess all task-relevant facts but lack enough inference-time compute to derive the answer;
-- a verifier can collapse semantic uncertainty while search cost remains dominant;
-- retrieval can supply the right information while reasoning over retrieved items remains hard;
-- two memories of equal bit capacity can support different capability because their access/transform costs differ;
-- thermodynamically low-information operations can still be computationally hard to realize efficiently.
-
-Recent quantum thermodynamics gives a physical analogue: Zhao, Zhang and Preskill (2026) show that information-theoretically optimal erasure work can be separated from efficient attainability under computational hardness assumptions. This is supporting parent evidence, not a proof of the GMI theorem above.
-
-## 6. Architecture interpretation
-
-A machine architecture is a factorization of the global obligation into local transformations connected by cuts.
-
-Its morphology must therefore solve a joint embedding problem:
-
-- provision enough distinguishability at every relevant cut (`Kappa`);
-- provision enough local transform resources in every region (`Tau`);
-- obey physical feasibility and global resource budgets.
-
-This is the first reason Grand GMI can distinguish architectures with equal memory or equal communication but radically different compute topology.
-
-## 7. Executable hostile check
-
-`grand_gmi_checks_v1.py` exactly computes deterministic decision-tree depth for the two function families for `n=2...7`. It obtains `1` for `f_easy` and `n` for OR while both final cuts remain one bit.
-
-The mathematical proof is for every finite `n`; the executable witness guards the implementation and statement against accidental weakening.
+A scoped successor now proves both directions for the explicitly registered
+all-input-partition width and worst/average-query summaries:
+[FPW-1–2](FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md). Richer Kappa/Tau
+collections and response relations retain the boundaries stated above.

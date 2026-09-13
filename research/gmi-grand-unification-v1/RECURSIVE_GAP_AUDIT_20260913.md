@@ -1,5 +1,7 @@
 # Grand GMI recursive gap audit — 2026-09-13
 
+Successor scientific work: [CORE](CORE.md) and [recursive queue](SCIENTIFIC_GAP_QUEUE_V2.md). These add task-directed acquisition/retention, nonvacuous constructive selection and resource-feasible proof reuse; earlier evidence remains historical at its declared scope.
+
 Status: **SCOPED THEOREM REPAIRS; FINITE REGRESSION EVIDENCE; GLOBAL AND EMPIRICAL COMPLETION NOT ESTABLISHED**
 
 This is the current correction index for `GRAND_GMI_MASTER_THEORY_V1.md` and
@@ -49,12 +51,9 @@ instances are decidable, or that an empirical measurement has occurred.
 | 19 | Retain and statically audit the first four-candidate hosted expansion: all 64 traces, 128 blocks, resource envelopes and full robust frontier. XOR is the sole survivor at the registered scope. | `PARITY3_V4_HOSTED_RESULT_ASSESSMENT_20260913.md`; hosted run [34749100254](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34749100254) | Current evidence iteration; validate and merge separately from the frozen experiment |
 | 20 | The family-phase crossover condition was vacuous, malformed intervals were compared instead of rejected, and the hybrid witness summed registered upper bounds into pure-family lower bounds and reused a composition law as a necessity. FP-3a now carries well-formedness, connected-domain and pairwise scope; FP-5a fixes bound direction; FP-5b requires a decomposition-closed candidate class. | `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 21 | The family phase law only compared registered bound functions; nothing derived them, so the master chain's final arrow was a schema plus a comparator. The relaxed accounting program now derives family-conditioned lower bounds from the proved necessities under an explicit accounting-soundness contract, covering unconstructed members of a structure class. The derivation is one sided, abstention is separated into epistemic and physical causes, and the evidence/candidate asymmetry is proved. | `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
-| 22 | Candidate-universe coverage was an open-ended enumeration obligation that no finite evidence could discharge. Coverage is now validity of the disjunction of the registered structural predicates, so it is decidable without enumerating machines. A verdict over a proved cover whose classes all carry derived bounds extends to unbuilt machines; without one it must be reported with its residue and cannot be upgraded. Coverage must be proved at the verdict's own resolution. | `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
-| 23 | The open training and large-scale-learning items were recorded as work not yet done. They are underdetermined: two development laws sharing the admitted realization set, profiles, families and every proved necessity give different reachable frontiers, so no derivation without a registered `D` can determine a trained outcome. A registered `D` must fix its schedule semantics; reachability strengthens exclusions but can destroy selections; and no finite budget certifies an unbounded verdict. | `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
-
-| 24 | The continuous/quantum obligation listed required properties without saying which conclusion each one buys, and the new derivation layer was stated over a finite domain. PL-2's lower bound is now proved to transfer with no regularity hypothesis, while attainment, computability, the response quotient and process legality are each gated by one decidable contract field that abstains when absent. | `CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
-
-
+| 22 | Candidate-universe coverage was an open-ended enumeration obligation that no finite evidence could discharge. Coverage is validity of the disjunction of registered structural predicates. It is decidable for an explicitly finite enumerable universe, while an arbitrary infinite universe requires a proof or stronger assumptions; pointwise predicate decidability is insufficient. A verdict over a proved cover whose classes all carry derived bounds extends to unbuilt machines; without one it must be reported with its residue and cannot be upgraded. Coverage must be proved at the verdict's own resolution. | `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 23 | The open training and large-scale-learning items were recorded as work not yet done. They are underdetermined: two development laws sharing the admitted realization set, profiles, families and every proved necessity give different reachable frontiers, so no derivation without a registered `D` can determine a trained outcome. A registered `D` must fix its schedule semantics; lower bounds persist under restriction, but competitive exclusions require retained comparator witnesses. Finite-prefix insufficiency does not exclude a finite exhaustive closure certificate. | `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 24 | Infinite-domain lower-bound transport does not require compactness, but accounting soundness remains required. Nonattainment need not block epsilon-witnesses or all classification; Boolean declarations do not certify result premises. | `CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`, corrected scope and positive alternatives | Original V1 preserved; corrected V2 evidence required |
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
@@ -114,25 +113,6 @@ uncomputability boundary discussion.
 
 
 
-
-### A required property is only useful once it names its conclusion
-
-Iteration 24 does not perform any experiment on a continuum. It removes
-the undifferentiated character of the continuous obligation. The lower-bound
-half of the derivation layer transfers verbatim to an infinite instance,
-because PL-2's proof appeals only to feasible-set membership and monotonicity
-and an infimum exists for any nonempty set bounded below; so a robust family
-exclusion is not an artifact of the finite witness domain. Everything
-interpretive is gated. Where the infimum is unattained no construction and no
-finite margin can certify tightness, so PL-3's separation of epistemic from
-physical abstention — the result that makes a boundary region readable — is
-structurally unavailable rather than merely unmeasured. Every finite
-observation window strictly overestimates the bound and widening strictly
-lowers it, so benchmark samples cannot stand in for an effective description.
-The contract is therefore registered as five Boolean fields, each withholding
-exactly the result that depends on it, with an absent field treated as
-withholding rather than as a permissive default.
-
 ### Gate repair carried by this iteration
 
 The controlled-acquisition checker merged onto `main` emitted its terminal
@@ -142,34 +122,37 @@ files are not all registered, so that checker could not be registered and its
 presence alone failed the coverage check: `main` carried 49 checker sources
 against 48 inventory entries. This iteration emits `terminal` alongside the
 historical `aggregate` field, refreezes that checker's receipt and registers
-it, restoring the gate. The checker's own logic, witnesses and tests are
-unchanged, and its 390,625-kernel enumeration is untouched.
+it, restoring the gate. The 390,625-kernel enumeration is retained. The later integrated CA-5
+repair computes its budget witness through pair/history policies and adds a
+hostile solver control. Original pre-recapture bytes and both versioned
+integrated receipts are preserved under explicit historical paths.
 
 ### An open item and an underdetermined target are different things
 
-Iteration 23 does not close the training or large-scale-learning
-obligations. It explains why listing them as pending work was the wrong
-classification. Their target is not determined by the data the rest of the
-package supplies: the witness holds the admitted realization set, the profile
-map, the family assignment and every proved necessity fixed, varies only the
-development law, and gets opposite family support. So `D` is irreducible, and
-a derivation that does not register it is not merely incomplete but about
-nothing. Registering a set of admitted operations is not enough either, since
-non-commuting updates make the schedule decide what is reachable. The useful
-consequence is an asymmetry: reachability evidence can only raise derived
-lower bounds, so exclusions survive it, while it can remove the construction a
-selection rests on — in the witness both family bounds rise, from 2 to 9 and
-from 5 to 5, and the verdict still inverts. Finally, where each admitted update
-strictly improves the profile and switches family, the verdict alternates at
-every budget, so a bounded-development result never extrapolates to the limit.
+Iteration 23 demonstrates that static realization summaries alone do not
+identify an unconstrained development law. This does not reclassify concrete
+registered-law research as complete or prohibit deriving a law under extra
+assumptions. Noncommuting updates can give different chosen-schedule outcomes;
+existential reachability over all admitted schedules is a separate graph.
+
+The initial exclusion claim required repair: removing the feasible cost-2 A
+witness leaves A at cost 9 and B at cost 5, so B can become optimal even
+though both class lower bounds remain valid. Retaining the comparator is the
+positive condition that preserves its competitive exclusion. Likewise, a
+finite prefix without a closure certificate need not identify the unbounded
+frontier, but an exhaustive finite successor-closed reachable set does.
+Edgewise improvement and family switches alone do not imply global frontier
+alternation on branching graphs. Corrected DU-1--4 retain explicit negative
+and constructive closure controls for these distinctions.
 
 ### Coverage is a predicate condition, not an enumeration
 
 Iteration 22 converts the candidate-universe obligation into something
-finite evidence can address. Stated as enumeration it was unsatisfiable: the
-physically legal set is not finite and unbuilt machines cannot be listed.
-Stated over structural predicates it is the validity of a disjunction, which a
-dichotomy can discharge. The cost of that reframing is explicit and is the
+a finite register can decide and a sound proof can sometimes certify over an
+infinite domain. Coverage is a universally quantified predicate disjunction;
+pointwise decidability of its predicates does not decide that universal claim.
+A dichotomy can prove a particular cover without enumerating every machine,
+but does not decide the validity of an arbitrary proposed cover. The cost of that reframing is explicit and is the
 main result: adjoining the complement predicate always completes a cover, so a
 cover is only as strong as its weakest derived bound, and in the registered
 witness completing the cover *withdraws* the family verdict rather than
@@ -177,8 +160,8 @@ confirming it. The two registered classes leave 1105 of 1344 admitted
 allocations uncovered, the complement class has derived bound 12 against a
 construction of cost 16, and 19 admitted residue allocations beat that
 construction outright. Without a coverage proof, two extensions consistent
-with all registered evidence give opposite verdicts, so the covered-class
-verdict may not be printed as a family verdict at all. Coverage also does not
+with the covered-class evidence can give opposite global verdicts, so a
+covered-class verdict must retain its explicit scope. Coverage also does not
 lift from components to composites, which is the precise reason hybrid forms
 escape pure-family verdicts.
 
@@ -194,9 +177,11 @@ boundaries are proved with it. The relaxation may be strictly loose, so an
 abstention verdict is uninformative about physics unless the compared bounds
 are attained. Registering a further valid necessity never lowers a derived
 bound, while weakening a structural predicate never raises one, which is the
-exact asymmetry between more evidence and more candidates. And no such program
-can select a family: two worlds sharing every necessity share every derived
-bound and can still differ, so necessities exclude while constructions select.
+exact asymmetry between more evidence and more candidates. The bounds do not generally identify selection: two worlds sharing the
+relaxed data can have opposite actual optimal families. This does not forbid
+identification on every input: independently justified nonempty selection and
+exhaustive rival exclusion can suffice. The corrected PL-5 supplies both
+counter-worlds and the positive existence/coverage certificate.
 
 ### A bound is only valid in the direction it was proved
 
@@ -259,7 +244,6 @@ parent results.
 | Candidate-universe coverage | Independent competitor optimization beyond the measured four-candidate expansion, then replication across tasks and substrates. | V4 performs the concrete algebraic-neural/lookup expansion; external optimization and candidate-universe completeness remain unestablished. A point verdict does not enumerate all physical machines. |
 | Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication, each against an explicitly registered development law. | Conditional resource laws do not manufacture those measurements. DU-1 additionally shows that no such law is derivable from the package's other registered inputs, so this obligation cannot be discharged by further theory alone. |
 | Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance. | Exact finite simulations are not experiments on arbitrary substrates. |
-| Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance, declared field by field. | Exact finite simulations are not experiments on arbitrary substrates. CL-1 transfers the derived lower bound without those fields; CL-2, CL-3 and CL-5 withhold attainment, computability, the response quotient and process legality until the corresponding field is discharged for the instance. A rational set with no minimum demonstrates the boundary; it is not a physical continuum. |
 | Unrestricted exact solution | No total solver can discharge all unrestricted Turing-complete unbounded instances. | Proven impossibility boundary; no green status can remove it. |
 | Absence of every possible theorem gap | Continued independent proof review and counterexample search. | Not established by a finite review or by coverage of named schema categories. |
 
@@ -308,17 +292,13 @@ obligation above is unchanged.
 Iteration 22 proves coverage for one registered finite instance only. It
 enumerates no physical machines, measures no substrate, and discharges no
 replication obligation. Because a completed cover is only as strong as its
-weakest derived bound, it more often removes a verdict than establishes one.
+weakest derived bound, completing it can withdraw a verdict; the finite witness
+does not establish a frequency claim across other problems.
 
 
 Iteration 23 measures no learning process at any scale and analyses no real
 curriculum. It forbids deriving a training outcome without a registered `D`;
 it does not forbid, and does not supply, a theorem conditional on one.
-
-
-Iteration 24 measures no physical continuum and performs no experiment on
-any substrate. Discharging a contract field for a real instance requires proofs
-and measurements about that instance, which no theory supplies.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not

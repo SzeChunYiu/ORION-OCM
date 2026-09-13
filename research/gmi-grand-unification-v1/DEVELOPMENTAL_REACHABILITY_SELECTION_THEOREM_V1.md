@@ -102,7 +102,11 @@ When multiple paths reach the same endpoint, path resources may create distinct 
 
 Suppose two admitted developmental mechanisms `U_1` and `U_2` reach response-equivalent endpoints with the same protected life-cycle profile. Then observation of the final intelligence does not identify which developmental mechanism occurred.
 
-A learning-rule property is derived only if it holds for every selected protected developmental path, or if path history itself is a protected observable.
+A learning-rule property is selection-derived only when the selected protected
+developmental-path set is nonempty and the property holds throughout that set
+(MSC-1). Observing a path can identify which mechanism actually ran when the
+registered history map distinguishes mechanisms. That does not by itself show
+that the same mechanism was necessary across all selected alternatives.
 
 Consequences:
 
@@ -130,7 +134,7 @@ Let `M_fixed` be morphologies with fixed topology/state structure and `M_grow` i
 
 1. no `m in M_fixed cap Reach_B(I)` satisfies the obligation;
 2. at least one `m in M_grow cap Reach_B(I)` does;
-3. every selected adequate endpoint uses a topology-changing developmental path;
+3. the selected adequate realization/path set is nonempty, and every member uses a topology-changing developmental path;
 
 then **architecture growth/self-modification is developmentally derived** at that scope.
 

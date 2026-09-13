@@ -88,7 +88,16 @@ This theorem is deliberately scope-indexed. It is not a total optimizer for unre
 
 ## 4. DC-2 — canonical family verdicts
 
-For a valid certificate:
+For a valid finite certificate with a total selection rule:
+
+An empty selected set licenses infeasibility only when the adequately feasible
+survivor set is itself empty. Finite nonempty point-profile sets have a Pareto
+point. This equivalence must not be transported to infinite spaces, where a
+nonempty feasible set can have no optimum (NO_SELECTED_REALIZATION), or to a
+failed/undefined selector. Unknown attainment remains unresolved evidence.
+All positive property/family verdicts require a nonempty selected set; see
+`CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md`.
+
 
 - `M* = empty` -> **INFEASIBLE_AT_REGISTERED_SCOPE**;
 - `F* = {NEURAL}` -> **DERIVED_NEURAL**;
@@ -127,22 +136,28 @@ This is the correct open-world boundary for claims such as "GMI derives a neural
 Anything stronger requires stronger coverage evidence.
 
 `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` supplies the missing
-completeness condition in checkable form. Because a family is the extension of
+completeness condition as a coverage proposition. An explicit finite universe
+and decidable membership make it decidable; an arbitrary infinite physical
+universe requires stronger decision assumptions or a sound proof certificate. Because a family is the extension of
 a structural predicate rather than a list, coverage is validity of the
-disjunction of the registered predicates (CU-1), and a verdict over a proved
-cover whose every class carries a derived lower bound does extend to machines
-nobody has built (CU-2). Two boundaries come with it: adjoining the complement
+disjunction of the registered predicates (CU-1), and a constructed witness with a strict gap below every competing class bound
+extends the corresponding exclusion to unbuilt machines in that proved cover
+(CU-2). Two boundaries come with it: adjoining the complement
 predicate always completes a cover, so the binding question is whether every
 class in it is *bounded*, and completing a cover frequently withdraws a verdict
 rather than confirming it; and without a coverage proof the covered-class
-verdict carries no information at all about the residue (CU-3b), so it must be
+evidence alone does not generally determine residue costs or a global verdict (CU-3b), so it must be
 reported as `ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`. Coverage must
 also be discharged at the resolution at which the verdict is stated, since a
 cover of components does not lift to composites (CU-4).
 
 ## 7. DC-5 — evidence-world robustness theorem
 
-Let `W` be the set of worlds compatible with all registered uncertainty sets and statistical/physical evidence. A unique family verdict is evidence-robust only if the same family support is selected in every `w in W` on the declared confidence event.
+Let `W` be a **nonempty** set of worlds compatible with all registered uncertainty sets and statistical/physical evidence. A unique family verdict is evidence-robust only if the same family support is selected in every `w in W` on the declared confidence event.
+
+An empty compatibility set is inconsistent evidence and invalidates the
+certificate; universal quantification over it supplies no robust family
+verdict. Unknown consistency is unresolved evidence.
 
 If two compatible evidence worlds produce different family supports, the certificate verdict is `UNDECIDED_FROM_CURRENT_EVIDENCE`.
 

@@ -67,8 +67,13 @@ Let
 A family property `Family_X(m)` is Pareto-derived iff
 
 \[
-\forall m\in\mathcal M_F^*,\ Family_X(m).
+\mathcal M_F^*\ne\varnothing\quad\text{and}\quad\forall m\in\mathcal M_F^*,\ Family_X(m).
 \]
+
+An empty selected set derives no family. Cross-family domination excludes
+the dominated family without establishing that an optimum of the surviving
+family exists. `CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md` gives
+sufficient attainment and approximate-witness certificates.
 
 Thus:
 
@@ -153,7 +158,11 @@ then the attainable resource vector of an assignment is the sum of its local vec
 
 If for every region `R_i` there is a unique locally dominating family realization `f_i^*`, the assignment formed from those local winners dominates every assignment that substitutes a locally dominated implementation in any region.
 
-Hence if at least two distinct families occur among the `f_i^*`, the globally dominating realization is hybrid.
+Hence if at least two distinct families occur among the registered local
+winners, the globally dominating realization **within that assignment class**
+is hybrid. Extending this conclusion to all physical realizations requires
+decomposition closure or a whole-obligation exclusion proof; a monolithic
+competitor is not covered merely by enumerating assignments (FP-5b).
 
 ### Proof
 

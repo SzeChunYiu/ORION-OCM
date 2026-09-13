@@ -1,25 +1,27 @@
 # Grand GMI Claim Ledger — Developmental Underdetermination V1
 
-Status date: 2026-09-13. Additive to the Grand-GMI claim ledgers. Authority:
-`DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md`.
+Status date: 2026-09-13. **V2 scope repair supersedes overbroad V1 claims.**
+Authority: `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md`.
+Current receipt: `GRAND_GMI_DEVELOPMENTAL_UNDERDETERMINATION_RECEIPT_V2.json`.
+The original V1 receipt is retained unchanged as a historical record.
 
-| ID | Claim | Status | Scope |
-|---|---|---|---|
-| DU1 | Two development laws can share the admitted realization set, profiles, family assignment and every proved necessity and still give different reachable frontiers and verdicts, so the reachable frontier is not a function of that data. | THEOREM / NO-GO | registered finite development graphs |
-| DU1a | Consequently no theorem of the form "necessities imply the trained outcome" can exist; the development law is an independent registered input. | COROLLARY | derivations that do not register `D` |
-| DU2 | Reachability depends on the schedule of admitted updates, not only on which updates are admitted, so registering a set of operations is not registering a development law. | THEOREM / HYPOTHESIS REQUIREMENT | non-commuting admitted updates |
-| DU3a | Restricting to reachable realizations never lowers a derived lower bound, so reachability evidence is PL-4a safe and a robust exclusion survives it. | THEOREM | derived lower bounds |
-| DU3b | Restricting to reachable realizations can invalidate a construction, so the verdict is not monotone under reachability and can invert while every family bound rises. | THEOREM / NO-GO | constructions and selections |
-| DU4 | Where each admitted update strictly improves the profile and changes family, the budget-`B` verdict reverses at budget `B+1`, so no finite budget certifies an unbounded-development verdict. | THEOREM / NO-GO | bounded development budgets |
+| ID | Current claim | Status and exact scope |
+|---|---|---|
+| DU1 | The same static realization/profile/family summaries can support different reachable frontiers under different unconstrained development relations. | Exact finite counterexample; no impossibility of registered-D learning theory. |
+| DU1a | A universal exact predictor using only those static summaries fails on this pair. | Scoped corollary; stronger hypotheses, dynamics identification and constructive Q2 remain legitimate. |
+| DU2 | Chosen update order can change a trajectory; all-schedules reachability is determined once the transition/admission semantics and quantifiers are fixed. | Exact finite witness; no requirement to prescribe one policy before defining a controlled graph. |
+| DU3a | Exact family infima cannot decrease under restriction, and existing sound lower bounds remain valid. | Same task, valuation and nested candidate scope; not every arbitrary new bound estimate must rise. |
+| DU3b | A comparative exclusion transfers only with a retained, jointly feasible comparator whose certified upper cost remains below the target lower bound. | Positive sufficient certificate; removing A2 lets B5 beat A9, restoring A2 restores exclusion. |
+| DU4 | A finite prefix alone admits adverse continuations; paths plus complete successor closure certify exact unbounded reachability in a finite graph. | Negative-prefix and positive-closure theorems; neither blanket non-extrapolation nor universal budget alternation. |
 
-## Exact witness aggregate
+V1's “exclusions survive” claim was false by its own A2/A9/B5 example.
+Its “no finite budget certifies” claim was false for exhausted finite graphs.
+Strictly improving, family-switching edges also need not alternate the optimal
+family in branching graphs. The V2 checker includes each counter-control and
+a positive repaired certificate, rather than treating these negatives as final.
 
-- shared realization data `{s0: 10, a: 5, b: 3}` with global family bests `NEURAL = 5`, `NON_NEURAL = 3`; law `D1` yields family support `{NEURAL}` and law `D2` yields `{NON_NEURAL}` at budget `1`;
-- admitted updates `double` and `add_three` under admission cap `6`: schedule `double->add_three` reaches `5` and is admitted, schedule `add_three->double` reaches `8` and is rejected;
-- reachability asymmetry: global bests `A = 2`, `B = 5` with support `{A}`; reachable bests `A = 9`, `B = 5` with support `{B}`; both bounds rose and the verdict inverted;
-- alternating chain of length `8`: frontiers `9, 8, 7, 6, 5, 4, 3, 2` with the verdict alternating at every budget and covering both families;
-- no learning process is measured, analysed or predicted at any scale.
+No training or scaling process is measured here. Registered development,
+policy optimization, resource calibration and prospective replication remain
+constructive obligations. Static underdetermination does not close them.
 
-Terminal: `GRAND_GMI_DEVELOPMENTAL_UNDERDETERMINATION_GREEN_AT_FINITE_SCOPE`.
-DU1 does not forbid a training theorem **given** a registered `D`; it forbids
-deriving one without `D`. Registered-`D` theorems remain an open target.
+Terminal: `GRAND_GMI_DEVELOPMENTAL_SCOPE_REPAIR_GREEN_AT_FINITE_SCOPE`.

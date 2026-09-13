@@ -77,7 +77,19 @@ If one family `A` satisfies
 U_A(s) < \min_{B\ne A} L_B(s),
 \]
 
-then `A` is the unique robust family winner at `s`.
+then A has the uniquely smallest family infimum at s, assuming finite
+bounds over nonempty adequate families. An **attained** robust winner
+additionally requires the infimum of A to be achieved in every compatible
+evidence world. A feasible witness of cost at most U_A robustly excludes
+every competing family even without within-family attainment. If its family
+lower bound is L_A, that witness has global regret at most U_A-L_A.
+See `CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md` (MSC-3).
+The candidate universe is the union of the registered family sets from
+section 2; a claim over additional physical candidates needs a coverage proof.
+All global infima and regret guarantees refer to that declared universe.
+For a one-family register use min(empty)=+infinity.
+The interval-ranking checker reports separation only; its finite synthetic
+witnesses do not establish attainment for an infinite family.
 
 Every registered interval must be well formed: `L_F(s) <= U_F(s)` in exact
 arithmetic. Malformed bounds must be rejected, not compared. Two families
@@ -166,7 +178,10 @@ For a family assignment `f_i` to each region, if certified realizations give upp
 J_{hybrid} \le \sum_i U_{f_i}(R_i) + U_{bridge}.
 \]
 
-If every pure-family realization has certified lower bound strictly above this hybrid upper bound, then the hybrid family is robustly selected under that scalar criterion.
+If every pure-family realization has certified lower bound strictly above
+this hybrid upper bound, those pure families are robustly excluded under that
+scalar criterion. A selected hybrid optimum additionally needs a nonempty
+attained selected set; exclusion does not establish within-hybrid attainment.
 
 Two directional hypotheses are mandatory when that exclusion is applied.
 
@@ -190,7 +205,7 @@ This is not a claim that hybridization is always beneficial. The cut cost can er
 
 ## 8. FP-6 — hybrid necessity criterion
 
-At registered scope, hybrid structure is **derived** rather than merely available if all selected morphologies contain at least two operationally distinct family realizations assigned to different required regions/cuts.
+At registered scope, hybrid structure is **derived** rather than merely available if the selected set is nonempty and all selected morphologies contain at least two operationally distinct family realizations assigned to different required regions/cuts.
 
 A constructive hybrid witness alone is insufficient. Pure neural and pure non-neural competitors must be excluded by hard feasibility, reachability or certified resource bounds, and any exclusion that uses a regional sum inherits FP-5a and FP-5b. Where either fails, the verdict is `UNDECIDED_FROM_CURRENT_EVIDENCE`.
 
@@ -313,8 +328,9 @@ At that point Grand GMI can compute a scope-relative family phase verdict. Witho
 `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` now derives the **lower** bounds
 `L_F(s)` from the proved cut/transformation necessities and a declared
 accounting map, instead of accepting them as inputs. That derivation is one
-sided: no relaxation program supplies `U_F(s)`, so necessities can robustly
-exclude a family but never select one (PL-5). It also shows that an abstention
+sided: its lower bounds do not generally identify a selected family (PL-5).
+Independently proved nonempty selection plus exhaustive rival exclusion can
+identify a family; an executable choice also needs an admitted construction. It also shows that an abstention
 region means two different things depending on whether the derived bounds are
 attained (PL-3b), and that a robust verdict survives more evidence but not a
 larger structure class (PL-4).

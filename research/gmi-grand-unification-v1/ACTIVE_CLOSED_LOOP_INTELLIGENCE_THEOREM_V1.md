@@ -3,6 +3,8 @@
 Status: **ACTIVE-INFORMATION NECESSITY + CONDITIONAL WHOLE-POLICY SUFFICIENCY + EXACT WITNESSES**
 Date: 2026-09-13
 
+The finite deterministic synthesis extension is [CRA-1--3](CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md): current-configuration belief updates, exact terminating-policy construction and finite-horizon cost. ACL-2b retains its conditional whole-policy scope.
+
 ## 1. Gap closed
 
 A passive input-output map is not the general form of intelligence. In an embodied process, actions can alter physical state, future observations, communication opportunities, risk and the information available to later decisions.
@@ -113,13 +115,16 @@ Closed-loop structure therefore does not imply neurality. Family selection remai
 
 ## 9. ACL-7 — embodied architecture property derivation
 
-A `SENSE -> STORE -> ACT` architecture property is derived if every selected adequate morphology must:
+A `SENSE -> STORE -> ACT` architecture property is derived if the selected
+adequate morphology set is nonempty and every member must:
 
 1. take an admitted information-gathering action;
 2. retain a protected distinction across a later cut;
 3. condition a terminal action on that retained distinction.
 
-This is a stronger statement than merely observing that a system happens to possess a sensor or memory. It says the closed-loop obligation logically requires those roles at the registered scope.
+This says the closed-loop obligation requires those roles throughout an
+actually nonempty selected set. Empty selection establishes no architecture
+property; the existence premise follows [MSC-1](CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md).
 
 ## 10. Exact hidden-bit witness
 

@@ -6,7 +6,7 @@ ledgers. Correction authority: `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md`.
 | ID | Claim | Status | Scope |
 |---|---|---|---|
 | GFP1 | A certified feasible family-A witness whose upper resource vector strictly Pareto-dominates a proved lower resource bound for every family-B realization robustly excludes family B. | THEOREM | registered resource coordinates and evidence bounds |
-| GFP2 | Under a declared scalar objective on well-formed intervals, `U_A(s) < min_B L_B(s)` uniquely identifies family A; overlapping optimum-cost intervals do not identify a family without additional evidence. | THEOREM | scalar registered selection functional; `L_F <= U_F` validated |
+| GFP2 | Under a declared scalar objective on well-formed intervals, `U_A(s) < min_B L_B(s)` uniquely identifies the least-infimum family A; an attained winner additionally needs attainment, and overlapping optimum-cost intervals do not identify a family without additional evidence. | THEOREM | scalar registered selection functional; `L_F <= U_F` validated |
 | GFP2a | Malformed certified intervals must be rejected rather than compared: two families registered as `[5,0]` both satisfy the unvalidated robustness test. | INPUT-VALIDATION REQUIREMENT | exact rational/integer bounds |
 | GFP3 | SUPERSEDED. The predecessor crossover condition `U_A >= L_B` and/or `U_B >= L_A` is vacuous: it holds at every robust-B parameter of any well-formed register. | WITHDRAWN AS VACUOUS | replaced by GFP3a |
 | GFP3a | On a parameter path where the registered intervals are well formed and `L_B - U_A` is continuous, a robust-A to robust-B transition contains a parameter at which neither A nor B is robust. | THEOREM | connected domain; pairwise conclusion only |
@@ -16,7 +16,13 @@ ledgers. Correction authority: `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md`.
 | GFP5 | For an obligation with a valid regional decomposition and declared additive resource law, a mixed-family composition inherits the sum of regional upper bounds plus bridge cost. | THEOREM | declared decomposition/additivity |
 | GFP5a | A pure-family lower bound is a sum of registered regional *lower* bounds; a registered upper bound may never be a term of it, and an unregistered regional lower bound admits only non-negativity. | THEOREM / BOUND-DIRECTION REQUIREMENT | registered regional bounds |
 | GFP5b | A regional sum lower bounds only realizations that factor through the registered regions with additively charged costs; excluding a pure family requires a decomposition-closed candidate class or a whole-obligation proof. | THEOREM / HYPOTHESIS REQUIREMENT | declared candidate class |
-| GFP6 | Hybrid morphology is derived only when every selected morphology contains the required mixed-family decomposition; one constructive hybrid witness is insufficient, and any regional-sum exclusion inherits GFP5a and GFP5b. | DERIVATION CRITERION | registered candidate universe |
+| GFP6 | Hybrid morphology is derived only when the selected set is nonempty and every selected morphology contains the required mixed-family decomposition; one constructive hybrid witness is insufficient, and any regional-sum exclusion inherits GFP5a and GFP5b. | DERIVATION CRITERION | registered candidate universe |
+
+| GFP7 | A finite nonempty feasible construction register that weakly dominates every admissible profile supplies a nonempty exact frontier; properties still require all equal-profile realization fibers. | THEOREM | MSC-2; universal coverage premise must be proved |
+| GFP8 | A witnessed upper cost below all rival lower bounds excludes rivals; U_A-L_A certifies witness regret, while an exact optimum needs attainment. | THEOREM | MSC-3; finite real bounds, nonempty evidence set |
+
+`CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md` supplies GFP7–8 and the
+nonvacuity/attainment correction to GFP2/6.
 
 ## Exact witness aggregate
 

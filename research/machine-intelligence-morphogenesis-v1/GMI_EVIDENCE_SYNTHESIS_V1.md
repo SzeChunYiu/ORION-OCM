@@ -6,6 +6,19 @@ closure) and `GMI_COMPLETENESS_BOUNDARY_THEOREM_V1.md` (+ V1.3 addenda). Rows ma
 still running when this file was written; they are updated by the records they cite, never by editing
 this table silently.
 
+## Current scientific qualifications (2026-09-13)
+
+The rows below preserve their dated evidence. Their closure labels do not
+supersede the [current scientific CORE](../gmi-grand-unification-v1/CORE.md).
+[Cross-instrument correction](CROSS_INSTRUMENT_INFERENCE_CORRECTION_V1.md)
+qualifies the matching-family inference, impossible neural-only falsifier and
+post-data registration chronology. Interval underidentification is distinct
+from exact microscope coexistence; matching labels do not prove transport.
+[B6 adjudication correction](B6_ADJUDICATION_CORRECTION_V1.md) replaces the
+known quantifier, missing-data and provenance errors in the scorer. Historical
+terminals must be read against their source version and bound freeze; missing
+founder records cannot establish a universal developmental claim.
+
 ## 1. Evidence tiers used below
 
 | tier | meaning |
