@@ -1,0 +1,51 @@
+name: ORION-V2 current runtime integration V2
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  current-source-bound-method-contract-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check out exact reviewed theory
+        uses: actions/checkout@v4
+        with:
+          repository: SzeChunYiu/ORION-V2
+          ref: b15abb41e1f9219ea793a15c5e641ac6579adb35
+          path: theory-source
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Binding and hostile replay controls
+        env:
+          OCM_THEORY_ROOT: ${{ github.workspace }}/theory-source
+        run: python -I -B research/theory-runtime-integration-v2/test_bindings.py
+      - name: Replay current contract and compare complete deterministic evidence
+        run: >-
+          python -I -B research/theory-runtime-integration-v2/check.py
+          --theory theory-source
+          --compare research/theory-runtime-integration-v2/REPLAY_V2.json
+          --out "$RUNNER_TEMP/theory-runtime-v2-replay.json"
+      - name: Retain this execution including any reopening
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: theory-runtime-integration-v2-replay
+          path: ${{ runner.temp }}/theory-runtime-v2-replay.json
+          if-no-files-found: warn
+      - name: Verify source integrity
+        if: ${{ always() }}
+        run: git diff --exit-code

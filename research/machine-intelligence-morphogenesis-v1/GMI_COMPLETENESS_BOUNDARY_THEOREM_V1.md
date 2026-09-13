@@ -313,3 +313,290 @@ Four protocol rules were opened by the work behind this document: **44** (contro
 retrospectively), **45** (obligations must be shown non-degenerate before use), **46**
 (instruments must be validated against their own declared semantics), **47** (no class claim
 without a sound *and* complete quotient).
+
+---
+
+## Addendum V1.3 (2026-09-12) — protected K4/K5 V7 folded in; F7 reclassified; K5 revival
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/k4_v7/K4_V7_AGGREGATE.json` (job
+3605505, beacon 32138309, 264/264) and `microscopes/results/k5_bh_v7/K5_BH_AGGREGATE_V7.json` (job 3605249, beacon
+32138625, 256/256), both under execution freezes with unique no-reroll drand rounds (PR #455).
+
+**F1 now holds at PROTECTED tier.** `K4_RECOVERY_GREEN` = **0 of 264** at budget 10^6 on every task (max wall
+127.6 s), beacon 32138309: THEORY_RED 150, THEORY_RED_NULL_DOMINATES 76, INCONCLUSIVE_GRAMMAR 38. The §3 F1
+statement, previously same-author development-tier, is reproduced under public-beacon seeding.
+`K4_PROPERTY_PREDICTION_GREEN_AT_PROTECTED_TIER = FALSE`.
+
+**F7 / DG-11 closes as `GRAMMAR_AXIS_NOT_VERDICT_INERT`.** The §3 F7 clause ("88 of 88") was a development-tier
+reading. At protected tier the three grammars agree on **78 of 88** (family, cell) pairs; the five families whose
+verdict splits across grammars are **K4-A09** (THEORY_RED 5 / INCONCLUSIVE_GRAMMAR 7), **K4-A11** (10 / 2),
+**K4-A18** (NULL_DOMINATES 3 / INCONCLUSIVE_GRAMMAR 9), **K4-A19** (THEORY_RED 3 / NULL_DOMINATES 9) and
+**K4-A20** (NULL_DOMINATES 4 / INCONCLUSIVE_GRAMMAR 8). DG-11 asked for one cell whose verdict differs between
+two grammars; ten now exist. The effective K4 sample is therefore larger than 88 and smaller than 264, and the
+grammar axis is a real (if minor) source of evidence rather than pure replication. F7 as written is **withdrawn
+at protected tier**; F1 is unaffected because no split reaches GREEN.
+
+**K5 terminal at protected tier:** `K5_HELD_FAMILY_RESPONSE_LAWS_GREEN_ON_6_OF_8_LANES_AT_PROTECTED_TIER`.
+GREEN on all four grid values: B_ROUTING, B_SPECIALIZATION, B_RESIDUAL, B_COMPILE_SEARCH, D_GENERATIVE,
+F_CONTINUAL. Non-green: **C_FEATURE_LEARNING** THEORY_RED (nonlinear_signal 0.6: 0/8 agree, mean margin -1.07;
+1.0 INCONCLUSIVE) → revival **RV-377-170**; **E_CONTROL** INCONCLUSIVE (goal_reuse 1/2/8 carry
+predicted-inadmissible replicates; 26/26 admissible replicates agree) → revival **RV-377-171**. Both revivals
+attribute to the prediction stage (`GMI_K5_V7_REVIVAL_RV_377_170_FREEZE.md`): the feature-learning crossover was
+placed by residual magnitude without the reachability clause the theory carries (the developed trainable
+realization's training error at 0.6, 0.0910, equals the analytic linear-Bayes floor 0.0911); the control
+predictor omitted the admissibility term for its stochastic DIRECT route (per-goal return mean 0.859, sd 0.161).
+The corrected predictions on fresh grids ({0.40, 0.50, 0.75, 0.85} and {48, 64, 96, 128}) are GREEN on both lanes
+at development tier (billy-old, 80/80, all six probe predictions holding) **and at protected tier** (LUNARC job
+3605817, beacon round 32144246, 80/80, terminal `K5_BH_V8_PROTECTED_GREEN`, all fourteen numbered predictions
+holding; that document's §4.2). The V7 verdicts are not reopened. Ledger rows RV-377-170 and RV-377-171.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `K4_PROPERTY_PREDICTION_GREEN_AT_PROTECTED_TIER` | **FALSE**, 0/264, beacon 32138309 |
+| `GRAMMAR_AXIS_VERDICT_INERT` | **FALSE** at protected tier (78/88); DG-11 closed as `GRAMMAR_AXIS_NOT_VERDICT_INERT` |
+| `K5_HELD_FAMILY_RESPONSE_LAWS_GREEN_ON_6_OF_8_LANES_AT_PROTECTED_TIER` | **TRUE**; non-green C (RV-377-170), E (RV-377-171) |
+
+**Boundary clause (vii), appended to §7.** At protected tier the theorem's shape is unchanged: the predictive
+claim about *which* machine cost-minimising search builds fails on 264/264 (ii); the held-family response laws,
+which are claims about *what a realization can achieve at a given lifecycle price*, hold on six of eight synthetic
+lanes, and the two that failed did so because the prediction omitted a clause the theory itself states
+(reachability; admissibility). The grammar axis carries a small amount of independent evidence rather than none.
+Bookkeeping: `GMI_CLOSURE_GAP_LEDGER_V7.md` reclassifies the LEARNING-SCALE EMPIRICAL residual accordingly;
+`GMI_WORK_MANIFEST_V1.json` unit U-A001 is marked done against the K4 V7 receipt with a note that the V7
+submitter, not the stale V5 command, was executed.
+
+## Addendum V1.3 (2026-09-12, real transfer and physical sign) — classes 3 and 4 of the closure ledger
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/real_transfer_v3/` (RV-377-190, freeze
+`cd4c653d`, 104/104), `…/real_transfer_v3_revival/` (RV-377-191/192, freeze `7fe510c7`, 72/72),
+`…/real_transfer_v3_revival2/` (RV-377-193, freeze `267f39ee`, 32/32), all on billy-laptop with prediction records
+hashed before test access; `microscopes/results/physical_frontier_rv_377_195/` (RV-377-195). Bookkeeping:
+`GMI_CLOSURE_GAP_LEDGER_V8.md`.
+
+**Real transfer (class 3).** Three of the eight held-family laws were transferred to scikit-learn learners on real
+data with the phase parameter *estimated on the training split*: C_FEATURE_LEARNING (reachability form) is GREEN on
+4/4 cells and identical to cross-validation on 32/32 replicates (`PARENT_SUFFICIENT_CV`); F_CONTINUAL is right on
+30/32 off-crossover replicates with 0 opposing and undecidable on its crossover cell (0.7 pp of headroom against a
+test sd of 0.9 pp at the frozen 0.95 bar); B_SPECIALIZATION is GREEN at high heterogeneity (7/8, margin ten times
+the test sd) once the world's feature tails are bounded and undecidable at the three low-heterogeneity grid values
+(objective gap below the test sd). Terminal `REAL_TRANSFER_PHASE_LAWS_GREEN_ON_1_OF_3_LANES`. Two learner-class
+terms the K5 laws lack were located and are named, not fitted: the continual law's retention fraction (the real MLP
+keeps ≈ 2/3 of the disputed mass under replay at high overlap, not 1/2) and the specialization law's mass-weighted
+variance term (`σ² p m / n`, hidden by the K5 balanced world).
+
+**Physical sign (class 4).** With published measured constants (Willow gate/readout/T1, Sycamore 26 kW system power,
+HERMES 0.86–3.38 µJ per 64-core MVM at 3–4-bit weight precision, Horowitz 45 nm datapath energies) the NC-1 burden
+inequality on the protected K5 C `s = 0.6` fixed readout has sign **PARENT** for both an analog crossbar (ratio
+64–7.7×10⁴) and a superconducting processor (79–87 majority shots; ratio 10¹⁰–6×10¹⁴), invariant over the quoted
+error bars. Terminal `PHYSICAL_FRONTIER_SIGN_FROM_PUBLISHED_CONSTANTS__NOT_MEASURED_IN_PROGRAMME`. Per EF-1 the
+variables that could flip it are the obligation's inner dimension (crossbar; `d* ≈ 10⁴–2×10⁵` MACs per query) and the
+native saving (quantum; `S ≳ 10¹⁰ pJ` per query); neither is fixed by any registered obligation.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `REAL_TRANSFER_PHASE_LAWS_GREEN_ON_1_OF_3_LANES` | **TRUE** (C); F, B direction-green off their crossovers (RV-377-191, RV-377-193) |
+| `REAL_TRANSFER_PHASE_LAWS_ADD_NOTHING_OVER_CV_WHERE_DECIDABLE` | **TRUE** |
+| `PHYSICAL_FRONTIER_SIGN_FROM_PUBLISHED_CONSTANTS__NOT_MEASURED_IN_PROGRAMME` | **PARENT**, both carriers, one obligation |
+
+**Boundary clause (viii), appended to §7.** The held-family response laws survive contact with real learners exactly
+where their descriptors resolve the crossover, and there they coincide with ordinary cross-validation; where the
+grid sits inside the finite-sample band of the frozen constitution they are undecidable by construction, and the
+laws as stated lack the learner-class terms that would move the crossover. The physical frontier, evaluated from
+external measurements rather than derived, points at the classical parent for every registered obligation, and its
+identifiability boundary is now a pair of named, bounded, unmeasured workload variables rather than an open set.
+
+## Addendum V1.3 (2026-09-12, RV-377-194) — real-transfer crossover cells re-tested off-band; cost-charged parent
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/real_transfer_rv194/` (RV-377-194, freeze
+`03a2fea8`, billy-laptop, 96/96, prediction records hashed before test access). Bookkeeping: `GMI_CLOSURE_GAP_LEDGER_V9.md`,
+`GMI_REAL_TRANSFER_RV_377_194_FREEZE.md` §8.
+
+**What changed in the laws (pre-registered, learner-class terms named in the previous addendum).** The specialization
+law's variance term is the mass-weighted `σ² p m / n`; the continual law's retention fraction is a within-train probe
+quantity `ρ̂_s` (fraction of the disputed mass the deployed strategy loses on the old task, measured on a 20 % probe of
+the training split, never on the test), with the K5 midpoint rule as the special case `ρ̂ = 1/2`. Both lanes carry the
+K5 B lane's finite-sample band explicitly (z = 2 on the paired per-query test errors, or on the accuracy bar), and the
+B grid was placed off the band by a frozen power calculation (n_test = 8000, τ ∈ {0.5, 0.65, 0.8, 1.0}). The F crossover
+cell cannot be placed off the band on digits (≈ 7 600 queries needed, 1 797 rows exist) and was declared inside-band
+by construction before the run.
+
+**Result.** Off the band the transferred laws name the protected winner on 63/64 replicates (B 32/32 across four cells,
+0 opposing; F 31/32 across four cells, 0 opposing) at zero extra training runs, where 3-fold cross-validation names it
+on 53/64 at 12–15 extra fits per replicate; the eight F differences are all CV naming NONE for a baseline that passes
+the bar when trained on the full development data. At the crossovers neither predictor is reliable (law 21/32, CV
+20/32; free holdout selection 6/8 on F), and the obstruction has moved: the measured test bands (se 0.002–0.013 at
+8 000 queries) are narrower than the crossover gaps, so the residual misses are the descriptors' own finite-sample
+noise (τ̂² from 7–17-row modes, ρ̂ from 8–17 disputed probe rows). The corrected continual law names REPLAY at the
+crossover on 5/8 where the K5 rule named it 0/8. The frozen aggregate terminal is
+`REAL_TRANSFER_PHASE_LAWS_PARENT_SUFFICIENT_CV`, produced by a kill condition that scored agreement with CV rather
+than correctness against it and fired on CV's errors; the label is carried unchanged and its defect recorded.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `REAL_TRANSFER_PHASE_LAWS_ADD_NOTHING_OVER_CV_WHERE_DECIDABLE` | **FALSE** (superseded by RV-377-194: same winner at zero cost in B; more accurate than CV in F) |
+| `REAL_TRANSFER_PHASE_LAWS_FREE_PREDICTOR_RIGHT_ON_63_OF_64_OFF_BAND_REPLICATES__CV_53_OF_64_AT_12_TO_15_EXTRA_FITS` | **TRUE** |
+| `REAL_TRANSFER_CROSSOVER_CELLS_INSIDE_BAND_BY_CONSTRUCTION__UNDECIDED_BY_LAW_21_OF_32_OR_CV_20_OF_32` | **TRUE** |
+| `F_CONTINUAL_REAL_LAW_EQUALS_FREE_HOLDOUT_SELECTION` | **TRUE** (37/40) |
+| `REAL_TRANSFER_RV_377_194_FROZEN_TERMINAL` | `REAL_TRANSFER_PHASE_LAWS_PARENT_SUFFICIENT_CV` (mis-specified kill; not re-scored) |
+
+**Boundary clause (viii), amended by appending.** Where the held-family laws carry their learner-class terms and the
+grid is off the finite-sample band, they are a free, pre-outcome substitute for cross-validation on real learners
+(same-author data); where the grid sits at the crossover the limit is no longer the protected test but the descriptors'
+sample sizes, and no free predictor tested here resolves it. The boundary is unchanged in kind — independent
+authorship, modern scale, fresh episodes rather than datasets — and narrower in extent by one class of claim: the laws
+are no longer "equal to CV where decidable", they are cheaper than CV where decidable and at least as accurate.
+
+## Addendum V1.3 (2026-09-12, RV-377-118D) — DG-12 completed on the twelve unaudited modules; the terminal stays FALSE
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/STAGE_DG12_COMPLETION_<module>_old.json`
+(12) and `STAGE_DG12_COMPLETION_old.json` (RV-377-118 Lane D, freeze `3e91942e`, laptop billy-old, content hashes
+identical across two invocations). Bookkeeping: `GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md`, ledger row `RV-377-118D`.
+
+**What was asked (§6, Coverage).** `RV-377-112` (T3) audited 16 obligations, found `e1_scdi` regime B to be a constant,
+and listed twelve obligation-bearing modules as uncovered. Prediction D1 of the distributed batch, frozen before the
+run: at least one further degenerate or near-degenerate obligation is found among the 12.
+
+**Result.** D1 **held**. Of the twelve, eleven carry an obligation of the DG-12 shape and one (`b2_common`) is an
+instrument library with none. Three of the eleven carry degenerate or near-degenerate obligations over the evaluation
+set their own `run()` scores: `axis_a`'s `MAXV` obligation is the constant 15 (12 at T = 4) on the scored second half
+of **every** registered stream length, and `PARITY` at T = 4 is the constant 0; `e1_cp`'s regime B is 21-of-24 or
+23-of-24 constant at the coefficients capability is scored against (a constant emitter of 1 is admissible there at
+0.875 / 0.9583 ≥ 0.85), and its coefficient space is degenerate on exactly the 37 824 / 65 536 assignments `e1_scdi`'s
+is, because it is the same function; `refine_f`'s own fifth serving regime E (1 iff the scope sum is positive) is the
+constant 1 on all 24 queries, and the regime B it re-imports likewise. The other eight — the three B2 band obligations
+at every declared width, `e1_iql` at all 16 orientations, `e1_lmhm`, `e1_vgsc` on every cell, `e1_vlc` on every cell —
+are non-degenerate; `b1x` inherits the registry obligations T3 already covers. Eleven own-registered rows in all, ten
+beyond the `e1_scdi` construction.
+
+**What this does and does not void.** Rule 22 and rule 40 had already caught three of the four constructions
+incidentally (`RV-377-072` voids exactly the `MAXV` and `PARITY`-T=4 cells; `RV-377-108` marks `e1_cp` regime B
+non-discriminating), so no verdict in §2 or §3 moves. What moves is the reading — those obligations are constants, not
+merely easy for a constant — and one thing nothing could have caught: `refine_f` takes no verdict against a truth, so
+its regime-E demand (`COMPOSITIONAL_UNSEEN`) witnesses the parent's abstention rather than any derivation, and the
+regime-B/E parts of its `ABSTAIN_OBLIGATION` lifecycle score (48 of 120 scored cells per pair) carry no information.
+`P13`'s split is decided first by `OVERFLOW` and stands; `P12` and `P14` are unaffected.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `DG-12_CLOSED` | **TRUE** as an audit, at registered scope (12 of 12 modules) |
+| `NO_DEGENERATE_OBLIGATION_AT_REGISTERED_SCOPE` | **FALSE** (unchanged in value; now on 4 modules — `e1_scdi`, `axis_a`, `e1_cp`, `refine_f` — rather than 1) |
+| `AXIS_A_MAXV_OBLIGATION_IS_A_CONSTANT_ON_EVERY_SCORED_WINDOW` | **TRUE** (5 of 5 stream lengths) |
+| `E1_CP_REGIME_B_NEAR_DEGENERATE_ON_EVERY_MULTI_REGIME_CELL` | **TRUE** (21/24, 21/24, 23/24; coefficient space 0.5771) |
+| `REFINE_F_FIFTH_REGIME_E_IS_A_CONSTANT_ON_EVAL_QUERIES` | **TRUE** (24/24) |
+| `REGISTERED_SMOOTH_TABLE_OBLIGATIONS_NON_DEGENERATE` | **TRUE**, 12/12 (unchanged) |
+
+**Open gaps (§6), amended by appending.** Coverage: DG-12 is closed as an audit; the three degenerate constructions
+remain in their instruments, and repairing them (a τ or coefficient grid for regime B, a sign regime over signed
+factors for E, a scored window that starts before the running maximum saturates) re-points historical claims and is
+DG-13-class work. Methodological: rule 45 is enforced by a post-hoc receipt, not by a precondition inside `run()`. The
+boundary is unchanged in kind and narrower in extent by one more instrument class: thresholded aggregates (a sum
+against a fixed τ, the sign of a positive sum, a running maximum of a bounded stream) evaluated on all-active query
+sets are the obligation constructions that degenerate in this corpus; exact sums, pairwise comparisons, band
+obligations and the interventional vector do not.
+
+## Addendum V1.3 (2026-09-12, RV-377-160) — IG-4 / IG-5 closed by independent model proxy; the K4 negative is meter-invariant
+
+Append-only. Nothing above is edited. Source receipts: `microscopes/results/IG4_INDEPENDENT_METER_AGREEMENT_old.json`
+(sha256 `a9912afd…`) and `microscopes/results/IG5_INDEPENDENT_ALPHABET_COVERAGE_old.json` (sha256 `557cf892…`), billy-old,
+freeze `GMI_IG4_IG5_MODEL_PROXY_RV_377_160_FREEZE.md` (commit `d650b50e`, before comparison). Ledger row `RV-377-160`.
+
+**What was asked (§6, Independence).** IG-4 (meter bucketing) and IG-5 (primitive selection) were `PENDING` for an
+external author. Under the operator rule of 2026-09-04 the gates close with their strongest legitimate proxy: a
+fresh-context model session given only a specification (no code, no path into the meter or the alphabet, no numeric
+bucket edge) authored an independent 10-axis meter and an independent neutral alphabet; the served model is asserted
+inside each artifact (`claude-fable-5-1`), label `HUMAN_GATE_BYPASSED__MODEL_PROXY`, never "externally obtained".
+
+**Result, IG-4.** On the 2334 candidates referenced by the 264 protected K4 V7 receipts (winners, witnesses, negative
+twins, null rows; each reconstructed and verified against its receipt id), the independent meter agrees with the
+native V4 meter on 10 of 10 registered axes at ≥ 80 %: 100 % on nine axes including both scaling axes, 99.19 % on
+`update_locality`. Re-aggregating all 264 verdicts with the independent buckets substituted for every property vector
+(costs, scores, controls, budgets fixed) moves **0 cells** and flips **0 to GREEN**: 150 / 76 / 38 before and after.
+The 19 `update_locality` disagreements are all `global → local` on exact-key candidates, where the charged rewritten
+fraction (0.095–0.462) is below any majority rule; the native label is the declared factor, the independent one the
+charged fraction. Preserved as a finding; no verdict depends on it. A shuffle control drops scaling-axis agreement
+to 0.18, so the agreement is not an artefact of the comparison.
+
+**Result, IG-5.** The independently selected alphabet (32 kinds, 9 types, no macro, type-closed) expresses all nine
+reference parents with description overhead 0.91–1.67× the native references (≤ 2× on every parent), covering all
+five registered carrier classes — memory, coefficient, program/search, belief, dynamical. It differs from the native
+alphabet in kind (a first-class belief carrier with multiplicative reweighting; a linear-scan transform for the
+dynamical parent), which is what a non-rename selection looks like.
+
+**Terminal register additions (§5):**
+
+| terminal | value |
+|---|---|
+| `IG4_METER_BUCKETING` | `CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY__DECLARED_AXES_EXCLUDED_P1B_HELD` (10/10 axes ≥ 80 %, 0/264 moved) |
+| `IG5_PRIMITIVE_SELECTION` | `CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY` (5/5 classes, max overhead 1.67×) |
+| `K4_PROPERTY_PREDICTION_GREEN_AT_PROTECTED_TIER` | **FALSE**, 0/264, unchanged under the independent meter |
+| `NATIVE_UPDATE_LOCALITY_IS_DECLARED_NOT_CHARGED_ON_19_OF_2334_ROWS` | **TRUE** (exact-key volatility discount) |
+
+**Open gaps (§6), amended by appending.** Independence: IG-4 and IG-5 are closed at model-proxy tier. The standing
+limitation on every claim in §2 is narrowed from "same-author evaluator, meter and primitives" to "same-author
+*evaluator and cost-channel allocation*" — the nine charged channels and their formulas, and the semantic evaluator,
+remain same-author; the bucketing of measured traces into the registered vocabulary and the choice of primitives are
+reproduced by a fresh-context proxy of the same model family (context independence, not model independence). The
+boundary is unchanged in kind and narrower in extent by one clause: clause (ii) of §7 — cost-minimising search does
+not converge on the predicted property vectors on 264/264 — now holds under an independently bucketed meter.
+# Addendum V1.4 — lead-session evidence, 2026-09-13
+
+Append-only. Every clause below cites a committed record; no earlier text is rewritten, and no RED result
+is weakened.
+
+## §4 claim ladder
+
+| rung | was | now | record |
+|---|---|---|---|
+| B7 | **BLOCKED** | **EARNED_AT_REGISTERED_SCOPE__CHANNEL_DEFINED_FORM** | RV-377-200 |
+
+B7's original wording ("novel morphology residual not reducible to registered parents") is **not** claimed:
+the realized form reduces to the memory parent. What is earned is the weaker, stated rung: the theory named
+an occupied region of channel space with an exact ceiling and a region predicted empty, *before* any search;
+a search containing no architecture macro then found machines attaining that ceiling with the predicted
+carrier class on 2 of 3 seeds, found nothing admissible in the empty region, and each attainer fell to the
+no-store ceiling when the predicted channel was removed. B5/B6/B8 are unchanged by this addendum.
+
+## §5 terminal register
+
+| terminal | was | now | record |
+|---|---|---|---|
+| `ALL_REGISTERED_INTERVENTIONS_MEASURE_WHAT_THEY_CLAIM` | FALSE | **TRUE for family V2** (FALSE for V1, preserved) | RV-377-150 |
+| `ALL_REGISTERED_ECOLOGIES_ARE_WHAT_THEY_ARE_NAMED` | FALSE | **TRUE with `E_parity_v2` registered** (`E_parity` keeps its `deprecated_reason`) | RV-377-150 |
+| `G15_STEP_TWO_REACHED` | TRUE at registered scope | **REACHED_ON_RAW_DESCRIPTOR_ONLY__NOT_REACHED_ON_ATROPHIED_READING** | RV-377-141 |
+| IG-4 meter bucketing | PENDING | **CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY** (≥ 99 % per-axis agreement; K4 verdicts meter-invariant) | RV-377-160 |
+| IG-5 primitive selection | PENDING | **CLOSED__HUMAN_GATE_BYPASSED__MODEL_PROXY** (blind 32-kind alphabet compiles all nine parents, 0.91–1.67× overhead) | RV-377-160 |
+| DG-11 grammar axis | open | **GRAMMAR_AXIS_NOT_VERDICT_INERT** (78/88, families A09/A11/A18/A19/A20 split) | PR #455 |
+| DG-12 | open | audited; `NO_DEGENERATE_OBLIGATION_AT_REGISTERED_SCOPE` stays FALSE, now on four modules | RV-377-118D |
+| F1 (K4 property prediction) | development tier | **reproduced at PROTECTED tier**: 0/264 at 10⁶, beacon 32138309 | PR #455 |
+| — new — | | `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` across the 10 distinct ecologies tested | RV-377-140/141/142 |
+| — new — | | `CLASS_RATE_MORPHOLOGY_LAW_V2_SUPPORTED_AT_REGISTERED_SCOPE__M_ABSTAINS` | RV-377-142 |
+| — new — | | `NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND` | RV-377-210 |
+
+## §7 (ii) — the class-level statement
+
+§7 (ii) reports that cost-minimising search does not converge on GMI's predicted property vectors. That
+stands, now at protected tier. The class-level restatement earned since: at 20 000 charged evaluations the
+**coefficient class is never recovered** (0 of 43 runs, every ecology, witness-bearing and witness-free),
+while the **program class appears exactly where the registered exact-search row is rule-36 admissible**
+(prospectively confirmed on two fresh ecologies, RV-377-142). The memory clause abstains: a hand-built row
+licenses presence, never absence.
+
+## §6 — open gaps, revised
+
+* **DG-13 — closed additively** (RV-377-150). Closing the leak moved 3 of 36 registered-zoo verdicts, all
+  store rows losing admissibility; every rule-36 verdict taken under family V1 carries that qualification.
+  New construction fact: the registered TRAIN/UNSEEN split is parity-separating, so any parity-type
+  obligation is degenerate on the `unseen` criterion.
+* **Independence — closed by model proxy**, not by an independent human author; the standing residue is
+  same-model-family, synthesized traces and same-author cost allocation (RV-377-160).
+* **Still open and unchanged:** DG-8 lattice coverage (0.4473 %, `d = 1`, `fx8`); the undecidability
+  obstruction to any domain-wide lift; real independent human authorship; modern-scale neural evidence;
+  in-programme physical measurement (RV-377-195 evaluates the frontier sign from *published* constants only).

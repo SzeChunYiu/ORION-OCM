@@ -1,0 +1,613 @@
+{
+ "claim_ceiling": "exact, deterministic, no randomness; covers the obligations this module declares or scores at the coefficients / streams / grids its own run() uses; it does not run the module's rows and takes no verdict on any capability number",
+ "classification": "identical to RV-377-112 (_classify): DEGENERATE if one distinct answer; NEAR_DEGENERATE if the best constant agrees on >= 85 %; SKEWED_BINARY if binary with the minority class <= max(1, n/10); else NON_DEGENERATE. Verdicts are taken on the module's OWN obligations over their REGISTERED evaluation sets; rows marked inherited or informational are reported but do not decide.",
+ "content_sha256": "ed9f23e79a9016a20d9095a4537e464cba2e8d07925ea833cd26753f737f6966",
+ "counts_by_status": {
+  "DEGENERATE__OBLIGATION_IS_A_CONSTANT": 7,
+  "NEAR_DEGENERATE__CONSTANT_AGREES_ON_>=85%": 2,
+  "NON_DEGENERATE": 18,
+  "SKEWED_BINARY": 3
+ },
+ "degenerate": [
+  "E_hist|MAXV|T=16|scored_window",
+  "E_hist|MAXV|T=32|scored_window",
+  "E_hist|MAXV|T=4|scored_window",
+  "E_hist|MAXV|T=64|scored_window",
+  "E_hist|MAXV|T=8|scored_window",
+  "E_hist|PARITY|T=4|scored_window"
+ ],
+ "freeze_record": "GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md",
+ "gap": "DG-12",
+ "host": "old",
+ "inputs_sha256": {
+  "axis_a.py": "cd4d2cf4ede6ace3b620d9279f881b131d54375de66570dbbe9253d69dc68945",
+  "degeneracy_audit.py": "28026954759d7e6cd3f4a639b59d73266642b31c305fed86b1e65f73e6dc2acd"
+ },
+ "issue": [
+  377
+ ],
+ "lane": "RV118-D",
+ "module": "axis_a",
+ "module_verdict": "DEGENERATE_OBLIGATION_FOUND",
+ "n_own_registered": 15,
+ "n_registered": 15,
+ "n_scored": 30,
+ "near_degenerate": [],
+ "not_applicable": [],
+ "notes": {
+  "T_grid": [
+   4,
+   8,
+   16,
+   32,
+   64
+  ],
+  "modes": [
+   "ACC",
+   "PARITY",
+   "MAXV"
+  ],
+  "obligation": "axis_a.truth(mode, stream(T, seed)) \u2014 the online history-dependent answer",
+  "seed": 0,
+  "theta": 0.85
+ },
+ "obligations": {
+  "E_hist|ACC|T=16|full_stream": {
+   "best_constant_agreement": 0.25,
+   "counts": {
+    "0": 1,
+    "1": 1,
+    "11": 1,
+    "12": 2,
+    "13": 1,
+    "14": 1,
+    "15": 1,
+    "2": 1,
+    "5": 2,
+    "6": 1,
+    "8": 4
+   },
+   "evaluation_set": "all 16 events of stream(T=16, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 11,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=16|scored_window": {
+   "best_constant_agreement": 0.375,
+   "counts": {
+    "1": 1,
+    "12": 1,
+    "13": 1,
+    "5": 1,
+    "6": 1,
+    "8": 3
+   },
+   "evaluation_set": "events t in [8, 16) of stream(T=16, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 6,
+   "n_queries": 8,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.375,
+    "best_constant_fx": 8,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=32|full_stream": {
+   "best_constant_agreement": 0.1562,
+   "counts": {
+    "0": 1,
+    "1": 5,
+    "10": 2,
+    "11": 1,
+    "12": 3,
+    "13": 2,
+    "14": 3,
+    "15": 2,
+    "2": 5,
+    "5": 2,
+    "6": 1,
+    "8": 4,
+    "9": 1
+   },
+   "evaluation_set": "all 32 events of stream(T=32, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 13,
+   "n_queries": 32,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=32|scored_window": {
+   "best_constant_agreement": 0.25,
+   "counts": {
+    "1": 4,
+    "10": 2,
+    "12": 1,
+    "13": 1,
+    "14": 2,
+    "15": 1,
+    "2": 4,
+    "9": 1
+   },
+   "evaluation_set": "events t in [16, 32) of stream(T=32, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 8,
+   "n_queries": 16,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=4|full_stream": {
+   "best_constant_agreement": 0.25,
+   "counts": {
+    "0": 1,
+    "12": 1,
+    "15": 1,
+    "5": 1
+   },
+   "evaluation_set": "all 4 events of stream(T=4, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 4,
+   "n_queries": 4,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=4|scored_window": {
+   "best_constant_agreement": 0.5,
+   "counts": {
+    "15": 1,
+    "5": 1
+   },
+   "evaluation_set": "events t in [2, 4) of stream(T=4, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 2,
+   "n_queries": 2,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5,
+    "best_constant_fx": 5,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "SKEWED_BINARY"
+  },
+  "E_hist|ACC|T=64|full_stream": {
+   "best_constant_agreement": 0.1094,
+   "counts": {
+    "0": 5,
+    "1": 6,
+    "10": 3,
+    "11": 2,
+    "12": 7,
+    "13": 5,
+    "14": 6,
+    "15": 2,
+    "2": 7,
+    "4": 1,
+    "5": 6,
+    "6": 2,
+    "7": 4,
+    "8": 6,
+    "9": 2
+   },
+   "evaluation_set": "all 64 events of stream(T=64, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 15,
+   "n_queries": 64,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=64|scored_window": {
+   "best_constant_agreement": 0.125,
+   "counts": {
+    "0": 4,
+    "1": 1,
+    "10": 1,
+    "11": 1,
+    "12": 4,
+    "13": 3,
+    "14": 3,
+    "2": 2,
+    "4": 1,
+    "5": 4,
+    "6": 1,
+    "7": 4,
+    "8": 2,
+    "9": 1
+   },
+   "evaluation_set": "events t in [32, 64) of stream(T=64, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 14,
+   "n_queries": 32,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.125,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=8|full_stream": {
+   "best_constant_agreement": 0.125,
+   "counts": {
+    "0": 1,
+    "11": 1,
+    "12": 1,
+    "14": 1,
+    "15": 1,
+    "2": 1,
+    "5": 1,
+    "8": 1
+   },
+   "evaluation_set": "all 8 events of stream(T=8, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 8,
+   "n_queries": 8,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|ACC|T=8|scored_window": {
+   "best_constant_agreement": 0.25,
+   "counts": {
+    "11": 1,
+    "14": 1,
+    "2": 1,
+    "8": 1
+   },
+   "evaluation_set": "events t in [4, 8) of stream(T=8, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 4,
+   "n_queries": 4,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.25,
+    "best_constant_fx": 2,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|MAXV|T=16|full_stream": {
+   "best_constant_agreement": 0.75,
+   "counts": {
+    "12": 4,
+    "15": 12
+   },
+   "evaluation_set": "all 16 events of stream(T=16, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|MAXV|T=16|scored_window": {
+   "best_constant_agreement": 1.0,
+   "counts": {
+    "15": 8
+   },
+   "evaluation_set": "events t in [8, 16) of stream(T=16, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 1,
+   "n_queries": 8,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 15,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_hist|MAXV|T=32|full_stream": {
+   "best_constant_agreement": 0.875,
+   "counts": {
+    "12": 4,
+    "15": 28
+   },
+   "evaluation_set": "all 32 events of stream(T=32, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 32,
+   "registered_evaluation_set": false,
+   "status": "NEAR_DEGENERATE__CONSTANT_AGREES_ON_>=85%"
+  },
+  "E_hist|MAXV|T=32|scored_window": {
+   "best_constant_agreement": 1.0,
+   "counts": {
+    "15": 16
+   },
+   "evaluation_set": "events t in [16, 32) of stream(T=32, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 1,
+   "n_queries": 16,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 15,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_hist|MAXV|T=4|full_stream": {
+   "best_constant_agreement": 1.0,
+   "counts": {
+    "12": 4
+   },
+   "evaluation_set": "all 4 events of stream(T=4, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 1,
+   "n_queries": 4,
+   "registered_evaluation_set": false,
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_hist|MAXV|T=4|scored_window": {
+   "best_constant_agreement": 1.0,
+   "counts": {
+    "12": 2
+   },
+   "evaluation_set": "events t in [2, 4) of stream(T=4, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 1,
+   "n_queries": 2,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 12,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_hist|MAXV|T=64|full_stream": {
+   "best_constant_agreement": 0.9375,
+   "counts": {
+    "12": 4,
+    "15": 60
+   },
+   "evaluation_set": "all 64 events of stream(T=64, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 64,
+   "registered_evaluation_set": false,
+   "status": "NEAR_DEGENERATE__CONSTANT_AGREES_ON_>=85%"
+  },
+  "E_hist|MAXV|T=64|scored_window": {
+   "best_constant_agreement": 1.0,
+   "counts": {
+    "15": 32
+   },
+   "evaluation_set": "events t in [32, 64) of stream(T=64, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 1,
+   "n_queries": 32,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 15,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_hist|MAXV|T=8|full_stream": {
+   "best_constant_agreement": 0.5,
+   "counts": {
+    "12": 4,
+    "15": 4
+   },
+   "evaluation_set": "all 8 events of stream(T=8, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 8,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|MAXV|T=8|scored_window": {
+   "best_constant_agreement": 1.0,
+   "counts": {
+    "15": 4
+   },
+   "evaluation_set": "events t in [4, 8) of stream(T=8, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 1,
+   "n_queries": 4,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 15,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_hist|PARITY|T=16|full_stream": {
+   "best_constant_agreement": 0.75,
+   "counts": {
+    "0": 12,
+    "1": 4
+   },
+   "evaluation_set": "all 16 events of stream(T=16, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|PARITY|T=16|scored_window": {
+   "best_constant_agreement": 0.75,
+   "counts": {
+    "0": 6,
+    "1": 2
+   },
+   "evaluation_set": "events t in [8, 16) of stream(T=16, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 2,
+   "n_queries": 8,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|PARITY|T=32|full_stream": {
+   "best_constant_agreement": 0.5938,
+   "counts": {
+    "0": 19,
+    "1": 13
+   },
+   "evaluation_set": "all 32 events of stream(T=32, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 32,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|PARITY|T=32|scored_window": {
+   "best_constant_agreement": 0.5625,
+   "counts": {
+    "0": 7,
+    "1": 9
+   },
+   "evaluation_set": "events t in [16, 32) of stream(T=32, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 2,
+   "n_queries": 16,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5625,
+    "best_constant_fx": 1,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|PARITY|T=4|full_stream": {
+   "best_constant_agreement": 0.75,
+   "counts": {
+    "0": 3,
+    "1": 1
+   },
+   "evaluation_set": "all 4 events of stream(T=4, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 4,
+   "registered_evaluation_set": false,
+   "status": "SKEWED_BINARY"
+  },
+  "E_hist|PARITY|T=4|scored_window": {
+   "best_constant_agreement": 1.0,
+   "counts": {
+    "0": 2
+   },
+   "evaluation_set": "events t in [2, 4) of stream(T=4, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 1,
+   "n_queries": 2,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 1.0,
+    "best_constant_fx": 0,
+    "constant_clears_theta": true,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "DEGENERATE__OBLIGATION_IS_A_CONSTANT"
+  },
+  "E_hist|PARITY|T=64|full_stream": {
+   "best_constant_agreement": 0.5781,
+   "counts": {
+    "0": 37,
+    "1": 27
+   },
+   "evaluation_set": "all 64 events of stream(T=64, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 64,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|PARITY|T=64|scored_window": {
+   "best_constant_agreement": 0.5625,
+   "counts": {
+    "0": 18,
+    "1": 14
+   },
+   "evaluation_set": "events t in [32, 64) of stream(T=64, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 2,
+   "n_queries": 32,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.5625,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|PARITY|T=8|full_stream": {
+   "best_constant_agreement": 0.75,
+   "counts": {
+    "0": 6,
+    "1": 2
+   },
+   "evaluation_set": "all 8 events of stream(T=8, seed=0) (served, but only the second half is scored)",
+   "n_distinct_answers": 2,
+   "n_queries": 8,
+   "registered_evaluation_set": false,
+   "status": "NON_DEGENERATE"
+  },
+  "E_hist|PARITY|T=8|scored_window": {
+   "best_constant_agreement": 0.75,
+   "counts": {
+    "0": 3,
+    "1": 1
+   },
+   "evaluation_set": "events t in [4, 8) of stream(T=8, seed=0): the window run() scores capability on",
+   "n_distinct_answers": 2,
+   "n_queries": 4,
+   "note": "the module's rule-22 CONST_BEST row picks the modal answer of this same window with hindsight, so best_constant_agreement here IS that control's capability",
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": 0,
+    "constant_clears_theta": false,
+    "metric": "exact agreement within 0 fx",
+    "theta": 0.85
+   },
+   "status": "SKEWED_BINARY"
+  }
+ },
+ "question": "does the obligation itself take more than one value over its own declared evaluation set?",
+ "receipt_path": "microscopes/results/STAGE_DG12_COMPLETION_axis_a_old.json",
+ "receipt_sha256": "d1526500b95e05102fdf409b87998c5211e12f68ff393686091eea07a5e1d650",
+ "revival_record": "RV-377-118",
+ "rule40_constant_clears_theta": [
+  "E_hist|MAXV|T=16|scored_window",
+  "E_hist|MAXV|T=32|scored_window",
+  "E_hist|MAXV|T=4|scored_window",
+  "E_hist|MAXV|T=64|scored_window",
+  "E_hist|MAXV|T=8|scored_window",
+  "E_hist|PARITY|T=4|scored_window"
+ ],
+ "schema": "RV377_118D_DG12_ModuleAuditV1",
+ "seconds": 0.01,
+ "skewed_binary": [
+  "E_hist|ACC|T=4|scored_window",
+  "E_hist|PARITY|T=8|scored_window"
+ ],
+ "status": "EXECUTED_EXACT_AT_SCOPE"
+}

@@ -1,0 +1,167 @@
+{
+ "P2_STATUS": "GREEN__ALL_FIVE_CLASSES_COVERED",
+ "alphabet_sha256": "b04abdcea0b5c0cc7617252181d6a548c6dc0d05e0e435a39e19ab39d730a3e9",
+ "class_status": {
+  "belief": "COVERED",
+  "coefficient": "COVERED",
+  "dynamical": "COVERED",
+  "memory": "COVERED",
+  "program_search": "COVERED"
+ },
+ "dead_output_types_note": "dead output types are reported as a defect but are not a RED condition for coverage",
+ "forbidden_macro_kind_names": [],
+ "host": "billy-laptop-old",
+ "kinds_by_class": {
+  "interface": [
+   "QUERY_IN",
+   "TARGET_IN",
+   "SERVE",
+   "COMPILE"
+  ],
+  "routing": [
+   "LOOKUP",
+   "NEAREST",
+   "SCORE",
+   "SELECT_BEST"
+  ],
+  "state": [
+   "TABLE",
+   "STORE",
+   "BLOCK",
+   "VEC_STATE",
+   "POPULATION"
+  ],
+  "transform": [
+   "KEY_OF",
+   "AFFINE",
+   "NONLIN",
+   "MUL",
+   "REDUCE",
+   "NORMALIZE",
+   "TARGETS",
+   "EXEC",
+   "LOSS",
+   "LIKELIHOOD",
+   "LINEAR_SCAN"
+  ],
+  "update": [
+   "EXACT_WRITE",
+   "INSERT",
+   "GRAD_STEP",
+   "SAMPLE_SEARCH",
+   "MUTATE_SEARCH",
+   "MULT_REWEIGHT"
+  ],
+  "verification": [
+   "PREDICATE",
+   "GATE"
+  ]
+ },
+ "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+ "label_recorded_by_blind_author": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+ "n_kinds": 32,
+ "n_types": 9,
+ "parents": {
+  "b1_finite_belief": {
+   "class": "belief",
+   "independent_nodes": 10,
+   "native_nodes": 11,
+   "native_reference": "native_belief_reference(this script)",
+   "overhead": 0.9090909090909091,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "c1_threshold_net": {
+   "class": "coefficient",
+   "independent_nodes": 14,
+   "native_nodes": 11,
+   "native_reference": "zoo.gradient_net_h2",
+   "overhead": 1.2727272727272727,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "d1_linear_recurrence": {
+   "class": "dynamical",
+   "independent_nodes": 13,
+   "native_nodes": 10,
+   "native_reference": "native_dynamical_reference(this script)",
+   "overhead": 1.3,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "m1_exact_table": {
+   "class": "memory",
+   "independent_nodes": 7,
+   "native_nodes": 6,
+   "native_reference": "zoo.exemplar_table",
+   "overhead": 1.1666666666666667,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "m2_nearest_exemplar": {
+   "class": "memory",
+   "independent_nodes": 8,
+   "native_nodes": 6,
+   "native_reference": "zoo.hamming_knn_k3",
+   "overhead": 1.3333333333333333,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "m3_soft_retrieval": {
+   "class": "memory",
+   "independent_nodes": 10,
+   "native_nodes": 6,
+   "native_reference": "zoo.soft_retrieval",
+   "overhead": 1.6666666666666667,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "p1_program_search": {
+   "class": "program_search",
+   "independent_nodes": 9,
+   "native_nodes": 7,
+   "native_reference": "zoo.program_search",
+   "overhead": 1.2857142857142858,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "p2_population_search": {
+   "class": "program_search",
+   "independent_nodes": 9,
+   "native_nodes": 7,
+   "native_reference": "zoo.particles_p4",
+   "overhead": 1.2857142857142858,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  },
+  "p3_compile_then_serve": {
+   "class": "program_search",
+   "independent_nodes": 11,
+   "native_nodes": 8,
+   "native_reference": "zoo.compiled_search",
+   "overhead": 1.375,
+   "status": "EXPRESSED",
+   "typecheck_errors": [],
+   "verdict": "COVERED"
+  }
+ },
+ "python": "3.11.16",
+ "required_classes_missing": [],
+ "revival_id": "RV-377-160",
+ "schema": "GMIIG5IndependentAlphabetCoverageV1",
+ "served_model_asserted_by_blind_author": "claude-fable-5-1",
+ "structural_errors": [],
+ "type_closure": {
+  "dead_outputs(not consumed, not answer)": [],
+  "undeclared_types": [],
+  "unproducible_inputs": []
+ }
+}

@@ -1,0 +1,64 @@
+{
+  "determinism": "exact-fraction-no-rng",
+  "finite_operational_closure": {
+    "all_checks_green": true,
+    "best_accuracy": "3/4",
+    "deterministic_policies": 16,
+    "observation_cells": 4,
+    "pareto_points_with_multiplicity": 2,
+    "terminal": "FINITE_OPERATIONAL_FRONTIER_EXACT_BY_EXHAUSTIVE_ENUMERATION_GREEN",
+    "worlds": 4
+  },
+  "neural_compiler": {
+    "all_checks_green": true,
+    "hidden_width": 6,
+    "horizon": 6,
+    "inputs": 2,
+    "pair_checks": 6,
+    "states": 3,
+    "terminal": "FINITE_TRANSDUCER_TO_RELU_COMPILATION_EXACT_GREEN",
+    "trace_checks": 192
+  },
+  "rv_377_135": {
+    "all_checks_green": true,
+    "atlas_63_57_d_star": "1/64",
+    "atlas_63_57_q_0.1_capability": "4513/5120",
+    "atlas_63_57_q_0.1_truncation": "137/160",
+    "atlas_63_57_syndrome_leaders_checked": 64,
+    "d_star": "1/8",
+    "id": "RV-377-135",
+    "microscope": {"L": 8, "code": "Hamming(7,4)", "q": "1/4", "r": 7, "s": 4},
+    "observed_capability": "85/128",
+    "observed_revealed_bit_error": "5/16",
+    "predicted_capability": "85/128",
+    "predicted_revealed_bit_error": "5/16",
+    "terminal": "NOISY_BOUNDED_STATE_COMPOSITION_FINITE_EXACT_GREEN"
+  },
+  "rv_377_136": {
+    "all_checks_green": true,
+    "example": {"L": 8, "c": "1/2", "observed_capability": "21/32", "predicted_capability": "21/32", "q": "1/4", "r": 4, "rho": "1/4"},
+    "id": "RV-377-136",
+    "pairwise_bayes_grid_checks": 20,
+    "sharp_overlap_law": "accuracy=max(a,b)",
+    "terminal": "NOISY_EXTERNAL_STORE_COMPOSITION_FINITE_EXACT_GREEN"
+  },
+  "rv_377_137": {
+    "G_rows": 6,
+    "all_checks_green": true,
+    "conditional_top_k_checks": 540,
+    "id": "RV-377-137",
+    "latent_dimension_H": 3,
+    "law": "success=min(1,k/2^delta), delta=rank(B mod span(S))",
+    "terminal": "STRUCTURED_WORLD_VERIFIER_COMPOSITION_FINITE_EXACT_GREEN"
+  },
+  "rv_377_138": {
+    "all_checks_green": true,
+    "boundary_checks": 588,
+    "id": "RV-377-138",
+    "strict_store_ordering_witness": {"covered": [0, 1], "ignore_store": "3/16", "k": 3, "rho": "1/2", "top_k_optimal": "27/64", "u": 4},
+    "terminal": "VERIFIER_EXTERNAL_STORE_COMPOSITION_FINITE_EXACT_GREEN",
+    "top_k_posterior_checks": 1872
+  },
+  "schema": "gmi-operational-closure-v1",
+  "terminal": "GMI_FINITE_OPERATIONAL_CLOSURE_MICROSCOPES_ALL_GREEN"
+}

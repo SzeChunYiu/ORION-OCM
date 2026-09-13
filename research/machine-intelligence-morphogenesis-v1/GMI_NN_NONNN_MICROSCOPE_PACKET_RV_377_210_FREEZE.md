@@ -1,0 +1,254 @@
+# RV-377-210 — FREEZE: a task-bound NN / non-NN family packet on the validated microscope
+
+`research/gmi-grand-unification-v1/NN_NONNN_EMPIRICAL_EVIDENCE_READINESS_AUDIT_V1.md` returns
+`UNDECIDED_FROM_CURRENT_EVIDENCE` because no immutable packet binds one protected task, a neural and a
+non-neural candidate under one accounting boundary, real development, real resources and protected
+deployment (R0, R2, R3, R4, R5, R9). This record freezes that packet on the instruments this programme
+has already validated, following `NN_NONNN_EMPIRICAL_INSTANTIATION_PROTOCOL_V1.md` E0–E13 in order.
+Everything below is written before the protected measurement; the runner is
+`gmi_microscope/nn_nonnn_packet.py`.
+
+## E0 — problem registration
+
+Three registered ecologies, each rule-40 discriminating (RV-377-108/101) with non-degenerate obligations
+(RV-377-112) and the leak-free intervention family V2 (RV-377-150):
+
+| task | coefficients / family | why it is in the packet |
+|---|---|---|
+| `E_cr4` | (−½, −½, −½, ⅜) smooth | memory-predicted-present, witness-free (RV-377-140 §8) |
+| `E_sym5` | (5/16)×4 smooth | the corpus's most-searched discriminating ecology; 12-seed class record |
+| `E_wit1` | (−½, −½, −½, −¼) smooth | witness-bearing (constructed to host a coefficient witness, RV-377-102) |
+
+Obligation: the registered 16-input smooth target; development = the registered protocol (16 feedback
+events, two passes over the 8 `TRAIN` inputs, revocation at event 9); protected deployment = the 8
+`UNSEEN` inputs, `cap = 1 − err/1.5`, θ = 0.85; interventions = `INTERVENTION_FAMILY_V2`; null =
+best constant on `UNSEEN` (rule 40, ≥ 1 fx margin). Semantic metric: the exact served trace (RV-377-116).
+
+## E1 — family predicates (operational, decided on the artifact)
+
+`NEURAL`: the served answer's dominant carrier on the raw genotype is `DENSE` (`b1.carrier_of`) and the
+genotype contains a `GRAD` update kind — i.e. numeric coefficient state trained by a gradient-style
+error-driven update. `NON_NEURAL`: served carrier ∈ {`TABLE`, `KVSTORE`, `PROGRAM`, `NONE`} and no `GRAD`
+kind. `HYBRID`: served path reads `DENSE` **and** a store/program carrier. Decided by
+`nn_nonnn_packet.family_of` before any capability is read.
+
+## E2 — candidate universe (immutable; canonical genotype hashes recorded in the receipt)
+
+Registered zoo rows: `gradient_net_h2`, `gradient_net_h4` (NEURAL); `exemplar_table`, `hamming_knn_k3`,
+`soft_retrieval`, `program_search`, `compiled_search`, `particles_p4`, `constant_emitter` (NON_NEURAL).
+**E11 expansion of the neural family** (so the family is represented by its best-known instances, not
+only the zoo defaults): `gradient_net(h, lr)` for (3,1), (3,2), (6,2), (8,2) — the hand-built coefficient
+witnesses of RV-377-082/102/140. 13 candidates × 3 tasks.
+
+## E3 — development / reachability
+
+Every candidate is developed by the same registered protocol (16 events) with the same budget; that is
+the common development law. Reachability under a neutral developmental *search* is supplied by the
+committed class-rate record (RV-377-140/141): on `E_sym5` memory class recovered 9/12 seeds, program 1/12,
+coefficient 0/12 at 20 000 charged evaluations; on `E_wit1` 1/3 (raw) → 0/3 (atrophied); `E_cr4`'s three
+seeds are scored in `STAGE_CLASSRATE_FRESH_V43_CLASSRATE_billy.json` when it lands. Reachability is
+reported per family alongside the verdict; it is not used to exclude hand-built candidates (E3 rule: a
+candidate not reached by the registered search is flagged, and the verdict is reported both with and
+without the reachability gate).
+
+## E4 — resource vector and accounting boundary
+
+The charged VM lifecycle vector of `ecology.run_genotype` (`lifecycle` / ledger `R`: description, execution,
+update, revision, verification work, memory cells/stores) under the `standard` protocol, exact and
+deterministic (zero-width intervals), one accounting boundary for every candidate. Pareto mode (E8 §11.1):
+minimize `(1 − min-over-V2 capability, desc, exec, upd, ver)`; no scalarization.
+
+## E5 — deployment evidence
+
+Capability on `UNSEEN` under each of the six V2 interventions; admissibility = min over the six ≥ θ **and**
+margin over the best constant ≥ 1 fx (rules 36 + 40). Hard feasibility (E7) before preference (E8).
+
+## E9/E10 — frozen predictions (from the theory's closed forms and committed receipts, no new run)
+
+| task | prediction | source |
+|---|---|---|
+| `E_cr4` | every NEURAL candidate inadmissible under V2 (best hand-built coefficient row min-over-six 0.849 < θ, RV-377-140 §8); memory rows admissible (closed form A_mem 0.9062 ≥ θ+1 fx); survivors all NON_NEURAL → **`DERIVED_NON_NEURAL`**; MS-2 property of the survivor set: store or exact-search carrier | RV-140 closed forms |
+| `E_sym5` | no NEURAL candidate admissible under the family (RV-377-089b: no coefficient witness on `E_sym5` over 80 rows to h = 32; V2 only removes the leaky bar); memory and program rows admissible (RV-377-113 table) → **`DERIVED_NON_NEURAL`** | RV-089b, RV-113 |
+| `E_wit1` | the coefficient witness holds under `standard` only (RV-377-103 C2 fails `shuffled_events`/`half_events`), so NEURAL inadmissible; memory/program rows: RV-377-113 found all three recovered carriers fail rule 36 on `E_wit1`, so the hand-built rows are predicted inadmissible too → **`INFEASIBLE_AT_REGISTERED_SCOPE`** (M* = ∅); if any non-neural row survives, `DERIVED_NON_NEURAL` | RV-103, RV-113 |
+| E11 | none of the four expansion rows is admissible under V2 on any task | witness scans |
+
+Falsifiers: a NEURAL candidate admissible under V2 on any task → that task's verdict is `FAMILY_COEXISTENCE`
+or decided by the Pareto step, recorded as the outcome (the prediction was wrong, the packet stands);
+`E_wit1` with a surviving memory row → `DERIVED_NON_NEURAL` (prediction of infeasibility wrong).
+Demotion rule (R9): a wrong family prediction is filed as RED for the clause and is not re-predicted on
+the same packet.
+
+## E12 — family-neutral controls
+
+`constant_emitter` (must be inadmissible everywhere: rule 40); the best constant per task; a family-blind
+re-run in which candidate labels are shuffled must leave every admissibility number unchanged (labels are
+read after measurement).
+
+## E13 — packet
+
+Receipt `microscopes/results/STAGE_NN_NONNN_PACKET_RV_377_210_{HOST}.json`: candidate registry with
+hashes and families, per-task capability under each intervention, resource vectors, admissible set,
+Pareto set, family support, DC-2 verdict, reachability sidebar, and the shuffled-label control.
+Terminal names: `NN_NONNN_PACKET_VERDICT_<task>=<DC-2 verdict>` and the aggregate
+`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND` (all three tasks yield a DC-2 verdict other than UNDECIDED, with the reachability field reported rather than bound — see the E3 qualification).
+
+## Scope, stated once
+
+This decides the family question **for this packet's candidate universe on this instrument** (16 inputs,
+8-bit fixed point, hand-built candidates plus neutral-search reachability evidence). It is not a claim
+about modern neural systems, real hardware, or any ecology outside the registered families; per DC-3 no
+named architecture is derived. Its value is that the readiness audit's `UNDECIDED` becomes a decided
+verdict at a real, protected, task-bound scope with every load-bearing field discharged.
+
+---
+
+# RV-377-210 — ADJUDICATION (receipt `STAGE_NN_NONNN_PACKET_RV_377_210_old.json`, billy-old)
+
+13 candidates × 3 tasks × 6 V2 interventions, charged lifecycle meter, rules 36 + 40, Pareto over
+`(1 − min capability, desc, exec, upd, ver)`; family labels read after measurement; shuffled-label control
+unchanged on every task.
+
+| task | best constant | admissible (rule 36 V2 + rule 40) | Pareto set | DC-2 verdict | prediction |
+|---|---|---|---|---|---|
+| `E_cr4` | 0.8125 | `program_search`, `compiled_search` (min 0.9167, +2.5 fx) | both | **`DERIVED_NON_NEURAL`** | verdict HELD; survivor-set clause RED: the memory rows are **not** admissible under V2 (`hamming_knn` min 0.8021 under `extra_unseen_feedback_v2`) — the DG-13 closure removed exactly the bar they relied on (RV-377-150: 3/36 store cells lost admissibility) |
+| `E_sym5` | 0.7917 | `program_search`, `compiled_search` (0.9375, +3.5 fx) | both | **`DERIVED_NON_NEURAL`** | HELD (best neural row (3,2) min 0.8333 < θ) |
+| `E_wit1` | 0.7083 | `program_search`, `compiled_search` (1.0, +7.0 fx) **and `gradient_net_h3_lr1` (NEURAL, min 0.8542, +3.5 fx)** | all three | **`FAMILY_COEXISTENCE`** | **RED** — `INFEASIBLE` was predicted; instead the exact-search rows are admissible and one expansion neural row is intervention-robust under V2 |
+| E11 | — | one of four expansion rows admissible (on `E_wit1`) | — | — | **RED** as written |
+
+Terminal: **`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND`** — every task yields a
+DC-2 verdict at this packet's scope.
+
+**R3 is not discharged, and the readiness audit stays open on it.**
+`NN_NONNN_EMPIRICAL_EVIDENCE_READINESS_AUDIT_V1.md` §6 requires "real candidate-specific reachability
+distributions/certificates under a common development budget", and states that evidence from different
+scopes may not be stitched together after the fact. This packet's E3 supplies **class-level** reachability
+from the class-rate lane's searches (a different scope, different candidates), reported as a sidebar
+beside the verdict, not bound into the packet. Per the certificate's own C9 (receipts, ledger and prose
+must agree) the audit's R3 therefore remains `SYNTHETIC_ONLY` and the repository-wide family terminal
+stays `UNDECIDED_FROM_CURRENT_EVIDENCE`; what this packet decides is the family question **for its own
+candidate universe on this instrument**, with R0, R1, R2, R4–R8, R10 discharged and R3 reported.
+RV-377-211 (a packet whose candidates are the searched elites themselves, so reachability is bound rather
+than reported) is the named successor.
+
+## Reading
+
+1. **Non-neural is derived where the obligation is exactly identifiable and the resource meter is
+   charged.** On `E_cr4` and `E_sym5` only the exact-search rows survive hard feasibility; the Pareto step
+   never has to decide between families. This is the measured counterpart of E2E-2 (exact controller →
+   non-neural) and matches the MS-2 reading of the frontier receipts (`GMI_MEASURED_PROFILE_FAMILY_SELECTION_V1.md`,
+   PROGRAM_SEARCH derived in 55 scopes).
+2. **A neural candidate is intervention-robust on the witness-bearing ecology.** `gradient_net(h=3, lr=1)`
+   clears every V2 bar on `E_wit1` (min 0.8542, 3.5 fx over the constant) — the first hand-built coefficient
+   row in the corpus admissible under a leak-free full family. It sits on the Pareto set with the two exact
+   rows because its update work (6 835) is 500× smaller than theirs (≈ 3.4 M) while its capability is lower:
+   the resource vector, not the semantics, keeps both families on the frontier. That is E2E-4's coexistence
+   outcome, measured.
+3. **Two predictions were wrong and are filed RED, not retuned.** The freeze predicted memory rows
+   admissible on `E_cr4` (they are not under V2) and `E_wit1` infeasible (it is not). Root cause, one stage
+   each: (i) the memory prediction reused the V1-family closed form after this session had itself closed
+   the leak that form depended on; (ii) the `E_wit1` prediction transferred RV-377-113's *searched-elite*
+   rule-36 failures to the *hand-built* expansion rows, which the freeze had explicitly added to represent
+   the neural family at its best. Neither error touches the verdict machinery; both are recorded in the
+   ledger and the demotion rule (R9) applies: no re-prediction on this packet.
+4. **What is not claimed.** No named architecture (DC-3); nothing about modern hardware or SGD-trained
+   networks (E3's reachability sidebar: neutral search recovers the coefficient class 0/12 on `E_sym5`,
+   so the admissible neural row on `E_wit1` is reachable by construction, not by the registered search);
+   the candidate universe is this packet's (E11 shows the verdict is universe-relative: adding the
+   expansion rows changed `E_wit1` from `DERIVED_NON_NEURAL` to `FAMILY_COEXISTENCE`).
+
+## Receipt / record terminal (C9)
+
+The runner wrote `"terminal": "NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE"` into
+`STAGE_NN_NONNN_PACKET_RV_377_210_old.json` before this qualification was written. The receipt is run
+evidence and is not edited; **this record's terminal —
+`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND` — is the authoritative one**, and the
+difference is exactly the E3 qualification above.
+
+## Cross-lane audit against the upstream certificate correction (2026-09-13)
+
+PR #513 (`CERTIFICATE_INPUT_CORRECTION_20260913.md`) repaired the finite NN/non-NN certificate
+adjudicator after finding counterexamples in it. Three of them bear on this packet's verdict function,
+so the packet was re-audited against its own committed receipt rather than assumed safe:
+
+| upstream counterexample | applies here? | evidence |
+|---|---|---|
+| non-Boolean adequacy (`adequate="false"`) accepted | **no** | adequacy is computed as a Boolean from rules 36 + 40; 0 of 39 rows non-Boolean |
+| unknown adequacy eliminating a superior rival | **no** | 0 of 39 rows have `min_v2 = None`; every candidate measured under all six V2 interventions on all three tasks |
+| missing deployment evidence yielding a family verdict, and absence of evidence reported as `INFEASIBLE` | **no, but the semantics were shared** | admissible sets were 2, 2 and 3 — the empty-set branch never fired |
+
+**No RV-377-210 verdict changes.** The guard was nevertheless added, because the packet's `verdict()`
+did carry the flagged semantics: it returned `INFEASIBLE_AT_REGISTERED_SCOPE` for an empty selected set
+unconditionally. It now returns that only when every candidate carries complete evidence, and
+`UNRESOLVED__INCOMPLETE_EVIDENCE` otherwise; each task records an `evidence_complete` flag, and
+`test_gmi_nn_nonnn_verdict_guard.py` pins both branches and the four canonical verdicts. Absence of
+evidence is unresolved, not proved infeasibility.
+
+## Cross-instrument comparison with the parity-3 point experiment (2026-09-13)
+
+The theory lane's `NN_NONNN_POINT_PARITY3_EXPERIMENT_V1` asks this packet's question on an entirely
+different instrument and returned `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`
+(`PARITY3_V2_HOSTED_RESULT_ASSESSMENT_20260913.md`): the XOR program's exact CPython opcode count and
+both observed timing envelopes strictly dominate the frozen threshold-network candidate's.
+
+| | parity-3 point experiment | RV-377-210 packet |
+|---|---|---|
+| obligation | parity-3, 8 states, exhaustive | three registered smooth ecologies, 8 UNSEEN inputs |
+| substrate / meter | real CPython 3.12 on a hosted runner: opcode events + wall and process envelopes | charged VM lifecycle vector (desc, exec, upd, ver), exact |
+| candidates | 2 frozen (1 neural, 1 non-neural) | 13 hashed (6 neural incl. 4 expansion rows, 7 non-neural) |
+| selection | robust domination on all three coordinates | hard feasibility (rules 36+40) then Pareto |
+| verdict | `DERIVED_NON_NEURAL` | `DERIVED_NON_NEURAL` on `E_cr4` and `E_sym5`; `FAMILY_COEXISTENCE` on `E_wit1` |
+
+**What the convergence is worth.** Two lanes, two instruments, two obligations, two resource meters, and
+the same family verdict wherever the obligation is exactly identifiable. Neither result depends on the
+other's machinery: one counts interpreter opcodes on real hardware, the other counts charged lifecycle
+work on the typed IR. That is stronger than either alone, and it is the first cross-instrument agreement
+on a family verdict in this corpus.
+
+**What it is not.** Both are explicitly point verdicts over their own candidate universes, and both
+records say so. More importantly the packet supplies the counter-case the single-instrument experiment
+cannot: on `E_wit1` a hand-built coefficient row is intervention-robust and sits on the Pareto set beside
+the exact rows, because its update work is ~500× smaller — `FAMILY_COEXISTENCE`, not non-neural. So the
+honest joint statement is **conditional, not universal**: where the obligation is exactly identifiable and
+exact search is admissible, the non-neural family is derived on both instruments; where a coefficient
+carrier is admissible and cheap to update, the families coexist on the frontier. That is exactly the
+shape `END_TO_END_DERIVATIONS_V1` E2E-2 and E2E-4 predict, now with one leg measured on each instrument.
+
+---
+
+## Prospective cross-instrument registration against the parity-3 V3/V4 expansion (2026-09-13)
+
+Registered **before** the other lane's V4 timing exists. Their V3 design
+(`PARITY3_CANDIDATE_EXPANSION_V3.md`, frozen at `6ee679f4`, re-registered for execution as V4 in
+`PARITY3_EXECUTION_RECOVERY_V4.md`) is the correct attack on the weakest point of the convergence this
+packet recorded: the V2 comparison carried **two** candidates, so "the neural one was weak" was a live
+objection. V3 keeps both V2 functions byte-identical and adds two more — a **smaller exact threshold
+network** (three hidden units `h_k = 1[s >= k]`, output `1[h_1 - h_2 + h_3 >= 1]`, exact on all eight
+inputs) and an **exact lookup table** over the truth table `(0,1,1,0,1,0,0,1)`. Their rule removes a
+candidate only when another's upper endpoint is at most its lower endpoint in **every** resource
+coordinate and strictly so in at least one, and — the clause that matters here — **if both families
+survive, they abstain**.
+
+That abstention is the same epistemic state this packet names `FAMILY_COEXISTENCE`. The two instruments
+have arrived at the same three-valued outcome space by different routes: derive one family, derive the
+other, or decline because both survive a family-neutral frontier rule. Recording that correspondence is
+what makes the comparison a comparison rather than two verdicts that happen to share a word.
+
+| id | registered prediction | reading if observed |
+|---|---|---|
+| **X1** | their V4 robust frontier retains ≥ 1 non-neural candidate (program or table) | expected; this packet produced no `DERIVED_NEURAL` verdict on any of its three tasks |
+| **X2** | the three-unit network does **not** survive: the exact-XOR program dominates it on exact opcode count, so their registered expectation holds and V4 reads non-neural again rather than abstaining | the convergence extends to a four-candidate field, and the "weak neural candidate" objection to V2 is discharged |
+| **X3** | if X2 fails and V4 abstains, that is **not** a break in the convergence | both instruments would then agree that cheapening the alternative family moves the verdict from derived-single-family to coexistence — exactly the `E_wit1` transition on this instrument, where a coefficient row joins the Pareto set once its update work is ~500x smaller |
+
+**The falsifier, stated so X3 cannot absorb every outcome.** The cross-instrument convergence is
+falsified if their V4 frontier retains **only neural candidates** (`DERIVED_NEURAL`). This packet's
+instrument produced non-neural on two tasks and coexistence on the third and never once derived the
+neural family, so a derived-neural verdict on a real CPython meter for the same class of obligation
+would be a straight contradiction between the instruments, not a refinement of them. X3 licenses
+abstention as compatible; it does not license the opposite verdict as compatible.
+
+**What this registration does not claim.** Their expectation is explicitly informed by V1/V2 and is not
+independent prospective replication; mine is informed by this packet's own results. Neither lane is
+running a blind test, and X1–X3 are predictions about an instrument I do not control and whose timing
+block schedule I did not design. Their claim boundary — no coverage of all optimized neural
+implementations, development cost excluded, envelopes not population bounds — carries over unchanged to
+anything this packet says about their result.

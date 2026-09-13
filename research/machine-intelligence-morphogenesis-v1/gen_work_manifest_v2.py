@@ -65,10 +65,12 @@ for m in ("axis_a", "b1x", "b2_common", "b2_depth", "b2_norm", "b2_prenorm",
         f"DG-12 degeneracy audit of {m}",
         ["python3", "-u", "-c",
          f"from gmi_microscope import degeneracy_audit as da;"
-         f"print(da.audit_module('{m}'))"],
-        f"microscopes/results/STAGE_DG12_{m}_{{HOST}}.json",
-        note="audit_module() must be written first; the module list is from RV-377-112's "
-             "declared uncovered set.", frozen=False)
+         f"print(da.audit_module('{m}', host='{{HOST}}'))"],
+        f"microscopes/results/STAGE_DG12_COMPLETION_{m}_{{HOST}}.json",
+        note="audit_module() implemented in gmi_microscope/degeneracy_audit.py (RV-377-118 Lane D); "
+             "prediction D1 and the adjudication rule are frozen in "
+             "GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md before any run. The module list is "
+             "RV-377-112's declared uncovered set.", frozen=True)
 
 old = {}
 if os.path.exists(OUT):
