@@ -17,3 +17,21 @@ Status date: 2026-09-12.
 Executable guard: `grand_gmi_checks_v1.py` exhausts 117,649 obligation families, freezes the graph-only counterexample, checks exact BSC data processing, and checks the 1-vs-n transformation separation through n=7.
 
 Aggregate terminal: `GRAND_GMI_SEMANTIC_CUT_TRANCHE_ALL_GREEN`.
+
+## Additive correction CD-1 — 2026-09-13
+
+The historical terminal above covers its stated finite checks, not an
+unperformed joint-attainment test. The former use of separately optimized
+ecology risks as one attainable profile is **REFUTED** by the common-decoder
+counterexample. GG4 and GG5 retain their fixed-coordinate meanings.
+
+| ID | Claim | Status | Scope |
+|---|---|---|---|
+| CD-1 | Joint risk set is the convex hull of deterministic common-decoder profiles. | THEOREM + EXACT CHECKS | full randomized decoder class; finite sets |
+| CD-2 | Oracle envelope is attainable iff simultaneous cellwise argmin intersections are nonempty. | THEOREM + EXACT CHECKS | finite common-decoder problem |
+| CD-3 | Garbling emulates an entire common-decoder risk vector under composition closure. | THEOREM + EXACT CHECKS | fixed side-information joint law; no free resource implication |
+| CD-4 | Separate ecology minimizers need not have a common realization. | EXACT COUNTEREXAMPLE | opposed binary actions, no observation |
+
+Authority: `COMMON_DECODER_CORRECTION_V1.md`, corrected cut theorem §§6–8,
+and `GRAND_GMI_COMMON_DECODER_RECEIPT_V1.json`.
+Current scoped terminal: `GRAND_GMI_COMMON_DECODER_CORRECTION_GREEN_AT_FINITE_SCOPE`.

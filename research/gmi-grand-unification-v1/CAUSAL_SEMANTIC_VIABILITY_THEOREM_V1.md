@@ -63,6 +63,14 @@ The same bit therefore has exactly one bit of zero-error semantic value for this
 
 A noisy channel whose supports overlap for both hidden states may carry Shannon information but still has zero zero-error semantic value for exact survival. Grand GMI therefore does not identify semantic information with mutual information in general.
 
+**Common-decoder clarification (2026-09-13).** The erased signal also prevents
+a randomized policy from attaining viability `(1,1)`: with probability `p`
+of action 1, the two error coordinates are `(p,1-p)`. Optimizing separately
+for each hidden hazard would instead give the unattainable error envelope
+`(0,0)`. `COMMON_DECODER_CORRECTION_V1.md` repairs that quantifier error in the
+stochastic cut spectrum. GG30 and the zero-error chromatic witness retain
+their common-action semantics and are unchanged by the correction.
+
 ## 5. Physics alone does not choose arbitrary goals
 
 Consider fixed dynamics `x_{t+1}=a_t` with actions `{0,1}`. Constitution `V_0={0}` makes action `0` viability-preserving; constitution `V_1={1}` makes action `1` viability-preserving. The physical transition law is identical.
