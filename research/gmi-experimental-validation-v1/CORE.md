@@ -1,27 +1,25 @@
 # Experimental validation: read first
 
-Ledger item 15. This unit does **not** supply a new benchmark protocol, and
-that is its finding.
+This [crosswalk](EXPERIMENTAL_VALIDATION_CROSSWALK_V1.md) connects existing
+experimental contracts to ledger item 15. It adds no experiment, protocol or
+capability verdict.
 
-Row 15 asks for "a prospective cross-family benchmark protocol measuring
-sample, robustness, adaptation, compute, lifetime cost and generalization with
-matched parents". Assimilation against `main` shows every one of those axes is
-already owned by a registered parent, spread across five units, and that no
-single document is the protocol the row describes. The
-[crosswalk](EXPERIMENTAL_VALIDATION_CROSSWALK_V1.md) names the owner of each
-axis, states the one residual, and records why row 15 cannot be closed
-empirically at all.
+The corrected distinction is:
 
-The residual is **transport, not machinery**: adaptation is registered as a
-theorem (`CONTINUAL_SEMANTIC_RETENTION_THEOREM_V1`, capsule-green) and as a
-matched mechanism comparator (ME `P4`), but it is not a measured coordinate in
-the only cross-realization-family protocol.
+- The general NN/non-NN protocol **permits execution after its prerequisites
+  are frozen**. Its synthetic self-test reports no real measurements.
+- The ME V0 documents record a **specific protected-task binding block** at
+  N3/N5. This is a source-indexed status, not mathematical impossibility.
+- An older parity-3 registration receipt is **registration-only**. It is not
+  the general protocol's terminal or the latest experiment status: separately
+  preserved V5/V6 packets report measurements at their restricted scope.
+- The formal unit already gives a prospective matched comparison. Broad
+  empirical validation and independent replication remain unestablished.
 
-Both governing protocols are execution-blocked by their own terminals, so no
-amount of protocol writing closes this row.
+PR581's original five changed files and commit object are retained in
+[raw](raw/pr581-f9a73a77/). [Source bindings](SOURCE_BINDINGS_V1.json) pin the
+parents and originals. The corrected test checks custody and status attribution;
+it supplies no scientific validation of a learner.
 
-Status: **NOT REGISTERED IN THE REPLAY CAPSULE**, outside
-`research/gmi-grand-unification-v1/`. Its nearest parent,
-`grand_gmi_nn_nonnn_empirical_protocol_checks_v1.py`, *is* capsule-registered;
-this unit sits below it until the queued inventory edit lands. No experiment is
-claimed to have been run and no family verdict is claimed.
+This unit has no new capsule checker. Only the grand audit annotation and its
+input digest change; all 74 registered checker/receipt records remain intact.

@@ -1,78 +1,85 @@
-# GMI experimental validation — parent crosswalk and residual
+# Experimental validation: parent crosswalk and corrected status
 
-Status: **CROSSWALK + RESIDUAL; NO EMPIRICAL VALIDATION CLAIMED**
-Date: 2026-09-13
+Status: **SOURCE-BOUND CROSSWALK; NO NEW EMPIRICAL VALIDATION**.
+Source boundary: PR581 f9a73a77 and reviewed main b43496c0, 2026-09-13.
 
-Ledger item 15 asks for "a prospective cross-family benchmark protocol
-measuring sample, robustness, adaptation, compute, lifetime cost and
-generalization with matched parents". The closure `CORE` states the same
-requirement as "matched baselines, development and lifetime cost, uncertainty
-and held-out tasks/substrates".
+## 1. Current obligation and prospective parents
 
-This unit supplies no such protocol, because assimilation against `main` shows
-one is not what is missing.
+The current [fifteen-question ledger](../gmi-recursive-theory-closure-v1/FIFTEEN_GAP_CLOSURE_LEDGER_V1.md)
+already distinguishes delivered finite witnesses from broad unexecuted
+sample-efficiency, robustness, adaptation, reasoning, compute and generalization
+experiments. Its row 15 links [FALSIFIABILITY](../gmi-formal-derivation-v1/FALSIFIABILITY.md),
+which specifies three task mechanisms, disjoint evaluation, strongest combined
+parents, an equal-sample shuffled control, causal transfer and full paid work.
 
-## 1. EV-1 — every axis is already owned
+Thus the historical request for a protocol is not the current ledger text.
+This crosswalk supplies navigation; it does not prove that all protocol
+components are complete or that adaptation transport is the only remaining work.
 
-| row-15 axis | owning registered parent | clause |
-|---|---|---|
-| cross-family (realization) | `NN_NONNN_EMPIRICAL_INSTANTIATION_PROTOCOL_V1` | E1 operational family definitions; E2 candidate universe |
-| robustness | same | E7 hard gate 2, intervention/robustness threshold |
-| generalization | same | E5 protected deployment set; E7 gate 6; `R_gen` radius |
-| compute | same | E4 resource vector with declared amortization rule |
-| lifetime cost | same, `DRS-3`, `h5-lifetime-economics-v1` | E3/E4 separate development and deployment coordinates |
-| sample | `ME_CONFIRMATORY_PREREGISTRATION_V0` H1 | information units required to first reach threshold |
-| uncertainty | same | exact sign test; `CANNOT_CHECK_POWER` below 16 non-tied |
-| matched parents | `ME_COMPARATOR_MANIFEST_V1` | parity matrix, twelve coordinates bound before outcome access |
-| adaptation | `CONTINUAL_SEMANTIC_RETENTION_THEOREM_V1`; ME `P4` | past-to-future semantic cut; continual-adaptation parent |
+| Coordinate | Existing parent and scope |
+|---|---|
+| Realization families and universe | [NN/non-NN protocol](../gmi-grand-unification-v1/NN_NONNN_EMPIRICAL_INSTANTIATION_PROTOCOL_V1.md), E1/E2: operational predicates, candidate artifacts and universe-relative verdicts. |
+| Robustness/generalization | Same E5/E7: protected deployment, interventions, leakage and hard gates. Actual task distribution and evidence must be supplied. |
+| Compute/development | Same E3/E4: search, failed seeds, preprocessing, external tools, memory and declared amortization. Units and uncertainty remain explicit. |
+| Sample efficiency/uncertainty | [ME confirmatory contract](../machine-epistemics-lifetime-v1/ME_CONFIRMATORY_PREREGISTRATION_V0.md), H1: paired lifetime differences in one frozen information channel, exact sign test and power refusal. |
+| Matched parents | [ME comparator manifest](../machine-epistemics-lifetime-v1/ME_COMPARATOR_MANIFEST_V1.md): P1-P5 powers, strongest compatible P6, twelve parity coordinates and refreshed versions before execution. |
+| Lifetime economics | ME H5 and [DRS-3](../gmi-grand-unification-v1/DEVELOPMENTAL_REACHABILITY_SELECTION_THEOREM_V1.md) charge development and use separately. [H5](../h5-lifetime-economics-v1/CORE.md) is a polynomial/microworld record with an explicit conditional cost scenario, not programme-wide payback. |
+| Adaptation/retention | ME P4 and the [lifetime benchmark](../machine-epistemics-lifetime-v1/ME_LIFETIME_BENCHMARK_V0.md) register drift/adaptation. [CSR](../gmi-grand-unification-v1/CONTINUAL_SEMANTIC_RETENTION_THEOREM_V1.md) supplies exact retained-state obligations, not optimization or sample-efficiency rates. |
+| Joint prospective comparison | Formal FALSIFIABILITY specifies compatible candidates/observations, cost-aware selection, transfer interventions and complete acquisition/switching/serving costs. Execution remains separate. |
 
-No single registered document is the protocol row 15 describes. The components
-are complete and the integration is absent. That is the honest state.
+ME H1's paired sign test is not automatically a confidence interval for mean
+resource cost or a family frontier. The general protocol's E6 requires a
+declared route to the bounds used by its selection rule. Shared axis names do
+not establish compatible estimands, tasks, access, acquisition paths or costs.
+The supplied parents therefore need explicit matching in each concrete study.
 
-## 2. EV-2 — the residual is transport, not machinery
+## 2. Registration, permission, execution and impossibility
 
-Adaptation is registered twice: as a theorem, capsule-green under
-`GRAND_GMI_CONTINUAL_RETENTION_TRANCHE_ALL_GREEN`, and as a matched mechanism
-comparator, ME `P4`, explicitly "under matched information and update budget".
+These are different source-indexed facts:
 
-It is **not** a measured coordinate in the only cross-realization-family
-protocol. That protocol contains no post-deployment adjustment axis.
+| Source | What its record establishes |
+|---|---|
+| General NN/non-NN protocol, sections 2 and 18 | Prospective execution is permitted after problem, candidates, budgets, metrics and falsifiers are frozen. It explicitly names execution on a concrete task/substrate as the next step. |
+| [General protocol self-test receipt](../gmi-grand-unification-v1/GRAND_GMI_NN_NONNN_EMPIRICAL_PROTOCOL_RECEIPT_V1.json) | Terminal `GRAND_GMI_NN_NONNN_EMPIRICAL_PROTOCOL_SELF_TEST_ALL_GREEN`; `real_empirical_measurements_executed=false` describes that synthetic self-test. |
+| [Parity-3 V1 preregistration receipt](../gmi-grand-unification-v1/GRAND_GMI_NN_NONNN_POINT_PARITY3_PREREG_RECEIPT_V1.json) | The inventory separately classifies this historical registration as `PREREGISTRATION_ONLY_NOT_MEASUREMENT` and names its execution workflow. That status does not belong to the general protocol. |
+| ME V0 confirmatory and benchmark documents | They record `CANNOT_CHECK_N3_N5_LOCKED_AND_FRESH_MATCHED_LIFETIMES_NOT_RUN` and `CANNOT_CHECK_PROTECTED_TASK_BINDING_N3_N5_LOCKED`. These are specific prerequisites and an unexecuted registered study, not a prohibition on all studies. |
+| [Corrected V6 outcome readout](../gmi-grand-unification-v1/PARITY3_V6_PROSPECTIVE_OUTCOME_20260913.md) | Existing V5/V6 measurements are retained at their four-candidate/interpreter scope; independent replication is not discharged. An old registration-only record cannot erase later recorded execution. |
+| This crosswalk | No experiment is executed or new result inferred. It does not recheck the live roadmap's N3/N5 implementation state or authenticate an unrecorded run. |
 
-Not claimed: that adding the coordinate would close row 15, or that the
-transport is difficult. It is a registration gap, not a discovery.
+The original CORE's "cannot be closed empirically at all" was unsupported.
+A protocol alone supplies neither measurements nor an impossibility theorem.
+The ME block must be resolved for that registered benchmark; permitted studies
+still need actual execution, full evidence and the appropriate replication.
 
-## 3. EV-3 — budget parity was already a registered gate
+## 3. Existing gates and remaining inference obligations
 
-An earlier draft of this unit proposed a budget-parity gate derived from
-`DRS-2`. That gate already exists: `ME_CONFIRMATORY_PREREGISTRATION_V0` makes
-"comparator information/tool/verifier mismatch mislabeled MATCHED" a hard
-integrity gate, and the comparator parity matrix binds update permission,
-planning budget and query compute before outcome access. `DRS-2` separately
-proves a deployment-only projection can reverse a family verdict.
+Budget parity was already registered: the ME integrity contract rejects
+information/tool/verifier mismatch mislabeled MATCHED, and its parity matrix
+includes update permission and planning/query compute. DRS-2 distinguishes
+deployment-only verdict reversals from a full life-cycle frontier. No new gate
+is proposed here.
 
-Nothing here is new. It is recorded so the gate is not proposed a third time.
+Independent replication is an operational obligation, not an impossibility
+proved by a theorem. NN/non-NN E6 permits declared uncertainty/calibration
+methods; ME's joint-thesis rule explicitly requires an independent replay.
+An observed timing envelope alone does not certify a population bound, but
+valid additional assumptions and calibration may supply one. Candidate-wide
+or family-wide conclusions still need the appropriate coverage; a finite
+registry cannot silently become all architectures.
 
-## 4. EV-4 — row 15 cannot be closed by writing protocols
+These constraints leave concrete study design, task/hash binding, acquisition
+and transfer evidence, physical accounting and independent replication open.
+A stored response-class theorem cannot establish a paid adaptation mechanism
+or empirical sample advantage. Parent sufficiency is an admissible outcome.
 
-Both governing protocols are execution-blocked by their own terminals:
+## 4. Correction and verification scope
 
-- ME: `CANNOT_CHECK_N3_N5_LOCKED_AND_FRESH_MATCHED_LIFETIMES_NOT_RUN`.
-- NN/non-NN: carried in the replay inventory as
-  `PREREGISTRATION_ONLY_NOT_MEASUREMENT`.
+The original five changed files and raw commit object are byte-preserved.
+The original keyword/co-occurrence tests are historical: clause presence or
+absence cannot prove completeness of an experimental programme. Replacement
+controls check the actual bound sources, distinguish the two receipt identities,
+and reject a misleading status substitution. They do not run a candidate,
+establish a new theorem or discharge ledger item 15.
 
-Independently of execution, four boundaries are already proved and are not
-addressed by any protocol: independent replication by an independent party;
-a universal family verdict without a coverage proof (`CU-3b`); deriving a
-development law from other registered inputs (`DU-1`); and converting an
-observed timing envelope into a bound.
-
-Terminal: `CROSSWALK_REGISTERED_NO_EMPIRICAL_VALIDATION`.
-
-## 5. Scope and falsifiers
-
-Not claimed: any experiment was run; any family verdict; that the parents are
-jointly sufficient; that row 15 is closed.
-
-Falsified if any registered document already states this crosswalk, if any
-listed clause does not exist in its cited parent, or if the cross-family
-protocol is shown to carry an adaptation coordinate.
+The grand inventory still has 74 checker records and unchanged full receipts.
+Its only changed scientific input is the corrected audit annotation.
