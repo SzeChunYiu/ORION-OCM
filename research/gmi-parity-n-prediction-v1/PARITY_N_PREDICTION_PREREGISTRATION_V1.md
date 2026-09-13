@@ -125,6 +125,49 @@ opcodes. DCR replaced DIC precisely because that second component was unsound (a
 directly). Removing the unsound component removed the basis for the ordering claims,
 while leaving the counts untouched.
 
+## REVIVAL 2026-09-13: PN-4 recovered as an n-dependent positive, PN-5 restored
+
+The earlier outcome recorded PN-4 and PN-5 as falsified. That was attributed to one
+stage and re-tested rather than filed: the failure was in the **cost contract**, not
+in the formulas. DCR-3 charges native obligations **zero** Python opcodes and treats a
+missing bound as `[0, infinity)`, so `sum(x)&1` appeared cheaper than written XOR only
+because its native work was priced at nothing - an unpriced-resource artifact.
+
+**Lever applied:** a sound *lower* bound `l` on native work per call, in the same
+Python-opcode units, which `separation` can use. Certification of XOR over `sum(x)&1`
+requires `2^n * (3n+2) < 2^n * (6 + l)`, i.e. `l > 3n - 4`.
+
+**PN-5 was never falsified.** `separation(XOR, shared-sum net)` returns
+`CERTIFIED_STRICTLY_LOWER` at **every** nonnegative `l`, including `l = 0`, at n = 3
+and n = 6. The neural form never wins, unconditionally. The earlier blanket statement
+was too broad.
+
+**PN-4 recovers under a faithful charge, with an exact crossover.** A faithful native
+charge for `sum` over an n-tuple is `l(n) = 2n + 1` (n loads, n-1 additions, one
+return). Measured with DCR's own machine:
+
+| n | faithful `l` | threshold `l > 3n-4` | XOR | delegating lower | verdict |
+|---|---|---|---|---|---|
+| 3 | 7 | 5 | 88 | 104 | CERTIFIED_STRICTLY_LOWER |
+| 4 | 9 | 8 | 224 | 240 | CERTIFIED_STRICTLY_LOWER |
+| 5 | 11 | 11 | 544 | 544 | UNVERIFIABLE (exact tie) |
+| 6 | 13 | 14 | 1280 | 1216 | delegation strictly cheaper |
+| 7 | 15 | 17 | 2944 | 2688 | delegation strictly cheaper |
+| 8 | 17 | 20 | 6656 | 5888 | delegation strictly cheaper |
+
+**Revived claim (PN-4R).** Under a faithful per-element native charge, written XOR is
+certifiably cheaper than `sum(x)&1` exactly for `n <= 4`; at `n = 5` the bounds coincide
+exactly at 544; for `n >= 6` the delegating form is strictly cheaper.
+
+**Structural boundary.** `2n + 1 > 3n - 4` iff `n < 5`, so **no fixed constant charge
+rescues the original ordering at all n**. The delegating form's per-call cost is constant
+in n while the XOR chain's grows as `3n + 2`, so delegation must eventually win. The
+original PN-4 was wrong because it asserted a uniform ordering where the true statement
+is a crossover.
+
+**Falsifier for PN-4R.** Exhibit a faithful native charge and an `n <= 4` at which XOR is
+not certified, or an `n >= 6` at which it is.
+
 ## What this does not establish
 
 PN-3 makes explicit that this coordinate omits table size, so none of these
