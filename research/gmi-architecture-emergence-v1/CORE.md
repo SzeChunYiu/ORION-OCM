@@ -1,20 +1,24 @@
-# Architecture emergence: read first
+# Architecture selection: read first
 
-Ledger item 11. [AEM-1–7](ARCHITECTURE_EMERGENCE_THEOREM_V1.md) defines what
-"GMI predicts this architecture" must mean, gives the positive condition under
-which it is determined, and collects the registered reasons it currently is not.
+[Corrected AEM-1–7](ARCHITECTURE_EMERGENCE_THEOREM_V1.md) separates
+profile closure, structural labels, model identification and attainment.
 
-The contribution is **cross-layer, not new mathematics**: five existing results —
-CU-3b, DU-1, GG32, CAU-1 and PL-5 — each destroy a *different* argument of the
-selection functional `(F, O, R, D)`, so discharging four never suffices. AEM-5
-adds that family orderings are size-indexed, measured exactly by PN-4R's
-crossover at `n = 5`.
+- Constructive nonempty domination identifies profiles; full realization
+  fibers determine which architectural properties are derived.
+- Missing information blocks selection only when compatible completions
+  give different answers. A common optimal construction is stronger.
+- Finite exact feasible registers attain selections. Failed samples,
+  empty feasibility and an unattained infimum are distinct.
+- A native lower bound cannot prove an exact parity crossover.
+- GRAD can update state without an outgoing edge. Incidence is no
+  trained-family capability ceiling.
 
-**AEM-7** adds a distinct *capability* obstruction: with every argument supplied,
-the generator assembles gradient-bearing machines routinely — 8 of 350 retained
-cells, and 34 of 677 live archive cells with 33 of 34 wiring `DENSE → GRAD` —
-yet only 8 of 34 route the update back out and **0 of 34** reach the obligation
-threshold. Occurrence is not certified use.
+[Evidence and transport](EVIDENCE_AND_TRANSPORT_CORRECTION_V1.md) →
+[model](architecture_selection_v1.py) →
+[finite controls](test_architecture_emergence_v1.py) →
+[evidence controls](test_aem7_capability_v1.py) →
+[repair receipt](REPAIR_RECEIPT_V1.json).
 
-Status: **NOT REGISTERED IN THE REPLAY CAPSULE**, outside
-`research/gmi-grand-unification-v1/`. No architecture is claimed to be selected.
+The [four original files](raw/pr575576-ef5be973/SOURCE_BINDINGS_V1.json) remain exact.
+No new architecture, training, campaign, native timing or global physical
+optimum is claimed. This unit does not modify the grand replay capsule.

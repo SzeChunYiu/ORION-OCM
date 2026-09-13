@@ -1,56 +1,70 @@
-"""Exact control for AEM-7 (capability obstruction).
-
-Freezes the two reported scopes and the caveat that governs them.  It does not
-re-derive the census; it pins the numbers so a later claim cannot drift from
-them, and asserts the arithmetic that makes AEM-7 a *capability* statement
-rather than an underdetermination one.
-"""
-
-from fractions import Fraction
+"""Read retained source-bound evidence; no literal archive count is an experiment."""
+from fractions import Fraction as F
+from pathlib import Path
+from copy import deepcopy
+import types
 import unittest
 
-# five retained source receipts (census contract)
-CENSUS_CELLS, CENSUS_GRAD = 350, 8
-# nine of eleven live archives (B6 freeze)
-LIVE_CELLS, LIVE_GRAD = 677, 34
-LIVE_DENSE_INTO_GRAD, LIVE_CONSUMED, LIVE_AT_THRESHOLD = 33, 8, 0
-# exported arm cohort (elites, not the searched population)
-ARM_ROWS, ARM_DISTINCT, ARM_GRAD = 70, 63, 0
+HERE = Path(__file__).resolve().parent
+e = types.ModuleType("aem_evidence")
+e.__file__ = str(HERE/"architecture_evidence_v1.py")
+exec(compile((HERE/"architecture_evidence_v1.py").read_bytes(),
+             str(HERE/"architecture_evidence_v1.py"), "exec"), e.__dict__)
+e.__file__ = str(HERE/"architecture_evidence_v1.py")
 
 
-class Aem7Witness(unittest.TestCase):
-    def test_generator_assembles_gradient_machines_in_both_scopes(self) -> None:
-        self.assertGreater(CENSUS_GRAD, 0)
-        self.assertGreater(LIVE_GRAD, 0)
-        # ~5% of live cells, so assembly is routine rather than incidental
-        rate = Fraction(LIVE_GRAD, LIVE_CELLS)
-        self.assertGreater(rate, Fraction(1, 25))
-        self.assertLess(rate, Fraction(1, 15))
+class EvidenceAndTransportControls(unittest.TestCase):
+    def test_actual_retained_no_return_edge_controls_update(self):
+        evidence = e.retained_evidence()
+        for facts in evidence["native_no_return_edge_controls"].values():
+            self.assertEqual(facts["outgoing_edges_from_graph"], [])
+            self.assertEqual((facts["weight_before"], facts["weight_after"]), (8, 7))
+            self.assertTrue(facts["write_recorded"])
+            self.assertEqual((facts["output_before"], facts["output_after"]), (8, 7))
+        self.assertEqual(evidence["new_native_or_ecology_calls"], 0)
 
-    def test_the_hard_half_is_wired_but_the_output_usually_is_not(self) -> None:
-        self.assertEqual(LIVE_DENSE_INTO_GRAD, 33)
-        self.assertLess(LIVE_CONSUMED, LIVE_DENSE_INTO_GRAD)
-        self.assertEqual(Fraction(LIVE_CONSUMED, LIVE_GRAD), Fraction(4, 17))
+    def test_outgoing_fact_is_derived_from_graph_not_reported_flag(self):
+        nar = e.read_parent("research/gmi-native-adjoint-repair-v1/RECEIPT_V1.json")
+        row = deepcopy(nar["native_vm_controls"]["B0/corrected/nonzero_input"])
+        self.assertEqual(row["grad_outgoing_edges"], [])
+        row["genotype"]["edges"].append(["grad", "output", 0])
+        self.assertNotEqual(e.gradient_facts(row)["outgoing_edges_from_graph"], [])
 
-    def test_no_assembled_machine_attains_the_obligation(self) -> None:
-        # This is what makes AEM-7 a capability obstruction.
-        self.assertEqual(LIVE_AT_THRESHOLD, 0)
+    def test_exact_census_records_preserve_distinct_scopes(self):
+        result = e.retained_evidence()
+        self.assertEqual((result["retained_source_archives"], result["retained_source_cells"],
+                          result["retained_source_grad_rows"]), (5, 350, 8))
+        self.assertEqual((result["exported_rows"], result["exported_distinct_graphs"]), (70, 63))
+        self.assertFalse(result["reported_34_cell_capabilities_recomputed"])
 
-    def test_arm_cohort_is_not_the_searched_population(self) -> None:
-        # grad_rows = 0 here; an absence claim drawn from it was retracted.
-        self.assertEqual(ARM_GRAD, 0)
-        self.assertLess(ARM_DISTINCT, ARM_ROWS)
-        self.assertLess(ARM_ROWS, CENSUS_CELLS)
-        self.assertLess(CENSUS_CELLS, LIVE_CELLS)
+    def test_lower_bound_at_six_permits_three_orderings(self):
+        xor, lower = 3*6+2, 2*6+1
+        totals = [6+n for n in (13, 14, 15)]
+        self.assertTrue(all(n >= lower for n in (13, 14, 15)))
+        self.assertLess(totals[0], xor)
+        self.assertEqual(totals[1], xor)
+        self.assertGreater(totals[2], xor)
 
-    def test_occurrence_is_not_certified_use(self) -> None:
-        causal_coefficient_use_certified = False
-        self.assertFalse(causal_coefficient_use_certified)
-        self.assertGreater(LIVE_GRAD, LIVE_AT_THRESHOLD)
+    def test_size_five_lower_endpoint_does_not_establish_tie(self):
+        xor = 3*5+2
+        self.assertEqual(6+11, xor)
+        self.assertGreater(6+12, xor)
 
-    def test_scopes_are_reported_separately_not_merged(self) -> None:
-        self.assertNotEqual(CENSUS_GRAD, LIVE_GRAD)
-        self.assertNotEqual(CENSUS_CELLS, LIVE_CELLS)
+    def test_exact_hypothesis_revives_crossover_and_other_cost_changes_it(self):
+        for n in range(1, 13):
+            xor = 3*n+2
+            exact = 6+2*n+1
+            self.assertEqual(xor-exact, n-5)
+            self.assertLess(xor, 6+4*n)
+            self.assertEqual(n+(n-1)+1, 2*n)
+
+    def test_corrected_zero_input_preserves_source_version_difference(self):
+        nar = e.read_parent("research/gmi-native-adjoint-repair-v1/RECEIPT_V1.json")
+        old = e.gradient_facts(nar["native_vm_controls"]["B0/old/zero_input"])
+        new = e.gradient_facts(nar["native_vm_controls"]["B0/corrected/zero_input"])
+        self.assertEqual((old["weight_before"], old["weight_after"]), (8, 9))
+        self.assertEqual((new["weight_before"], new["weight_after"]), (8, 8))
+        self.assertEqual((new["output_before"], new["output_after"]), (0, 0))
 
 
 if __name__ == "__main__":
