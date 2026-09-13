@@ -1,0 +1,488 @@
+# Grand GMI recursive gap audit — 2026-09-13
+
+Successor scientific work: [CORE](CORE.md) and [recursive queue](SCIENTIFIC_GAP_QUEUE_V2.md). These add task-directed acquisition/retention, nonvacuous constructive selection and resource-feasible proof reuse; earlier evidence remains historical at its declared scope.
+
+Status: **SCOPED THEOREM REPAIRS; FINITE REGRESSION EVIDENCE; GLOBAL AND EMPIRICAL COMPLETION NOT ESTABLISHED**
+
+This is the current correction index for `GRAND_GMI_MASTER_THEORY_V1.md` and
+the earlier master closure ledgers. The audit began at repository commit
+`5622ac45d0261e8fe0a92f4209b1bb782ce43732`, then reviewed subsequent repairs
+against the advancing `main`. Each iteration is a separate commit and merge.
+Historical receipts and negative outcomes retain their original scope.
+
+Current [B6 consumer correction](PR551_CONSUMER_CORRECTION_2D23C583_V1.md) binds the native-port census and source-seed counterevidence. It accepts the later SEARCH ledger retraction while retaining workload-ratio and causal-stage limits; the frozen prior reviews and raw evidence remain unchanged.
+
+## What closes an identified gap
+
+For a concrete defect, record the original implication, a counterexample or
+missing proof step, the strongest justified correction, its assumptions, and
+an independently reviewed proof. Where executable finite witnesses are useful,
+retain the negative witness and test the corrected statement. Propagate the
+correction to dependent master formulas and claim ledgers. Passing examples
+alone does not prove a quantified theorem.
+
+“Repaired” below means that the identified defect has this scoped treatment.
+It does not mean that no counterexample can ever be found, that all physical
+instances are decidable, or that an empirical measurement has occurred.
+
+## Iterations and correction authority
+
+| Iteration | Identified defect and corrected conclusion | Reviewable authority | Merge |
+|---|---|---|---|
+| 1 | Finite averaging was extended to compact groups without barycentric closure or coordinate regularity. GG20 now states finite and compact hypotheses separately; frontier attainment is separate. | `RECURSIVE_AUDIT_COMPACT_SYMMETRY_V1.md` | [#510](https://github.com/SzeChunYiu/ORION-OCM/pull/510) |
+| 2 | Separately optimized ecology risks were treated as jointly attainable. The common-decoder risk set is primary; the oracle envelope is attainable only with a common optimizer. | `COMMON_DECODER_CORRECTION_V1.md` | [#512](https://github.com/SzeChunYiu/ORION-OCM/pull/512) |
+| 3 | Malformed dimensions, non-finite coordinates and truthy non-Boolean evidence could pass a derivation certificate. Input validation and abstention are explicit. | `CERTIFICATE_INPUT_CORRECTION_20260913.md` | [#513](https://github.com/SzeChunYiu/ORION-OCM/pull/513) |
+| 4 | A minimax radius equal to tolerance was promoted to an attainable predictor. Uniform approximate selectors prove the value identity; tolerance feasibility requires actual centers and an admitted selector. | `GENERALIZATION_ATTAINMENT_AUDIT_V1.md` | [#514](https://github.com/SzeChunYiu/ORION-OCM/pull/514) |
+| 5 | Development costs disappeared after a reachability gate. Lifecycle costs are retained by default; deployment-only selection is explicit. Increasing the cap on the same charged costs preserves old frontier points under the registered fixed graph. | `DEVELOPMENTAL_LIFECYCLE_CORRECTION_V2.md` | [#515](https://github.com/SzeChunYiu/ORION-OCM/pull/515) |
+| 6 | Relational task success was equated with preservation of every counterfactual response. Full-map quotients, compatible-action sufficiency, recurrent congruence and null-history conventions are separated. | `SEMANTIC_ADEQUACY_CORRECTION_V1.md` | [#516](https://github.com/SzeChunYiu/ORION-OCM/pull/516) |
+| 7 | Robust regret and precision claims omitted finite-optimum and selector assumptions. Infinite-score boundaries, equality ties, and the `2 delta + alpha` approximate-selector guarantee are explicit. | `DECISION_FINITE_SCORES_AUDIT_V1.md` | [#517](https://github.com/SzeChunYiu/ORION-OCM/pull/517) |
+| 8 | Global frontier/reachability order, zero-cost path trees, computable-real comparisons, and implicit implementation finiteness invalidated exact enumeration claims. Restrict attained profiles before Pareto; use explicit finite realization and state/cost registers with exact decision procedures. | `RECURSIVE_AUDIT_OPERATIONAL_REACHABILITY_V1.md` | [#518](https://github.com/SzeChunYiu/ORION-OCM/pull/518) |
+| 9 | Probe affordability, a failed sufficient risk bound and absence of diagonal feedback were given false converses. Whole-policy feasibility, valid alternative certificates and identifiable realizable reflection are now required. Nested-set envelope directions are corrected. | `SUFFICIENCY_DIRECTIONS_AUDIT_V1.md` | [#519](https://github.com/SzeChunYiu/ORION-OCM/pull/519) |
+| 10 | One-way cut bounds were applied to interactive protocols and per-use carrier alphabets. Information after feedback and complete transcripts are registered explicitly. Strategic exact enumeration inherits effective comparison requirements. | `INTERACTIVE_CUT_SCOPE_CORRECTION_V1.md` | [#520](https://github.com/SzeChunYiu/ORION-OCM/pull/520) |
+| 11 | A classical conflict coloring was treated as a globally readable quantum message. Preserve identity-message capacity; use the correct quantum feasibility problem for tasks with decoder side information. | `QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md` | [#521](https://github.com/SzeChunYiu/ORION-OCM/pull/521) |
+| 12 | The master used vector infima as attainable spectra and overly broad factorization/closure language. Attained sets, declared product orders, deterministic full-response factorization and a proved sufficient domination certificate replace those inferences. Recursive finiteness and dependent GG51/ledgers are aligned. | Corrected master §§1–8 and this audit | [#522](https://github.com/SzeChunYiu/ORION-OCM/pull/522) |
+| 13 | Hosted parity3 V1 assigned zero opcodes to the first measured candidate because opcode tracing was enabled too late. Preserve both failed/undecided V1 packets; prearm and validate complete opcode traces in an explicit V2 before timing. | `PARITY3_INSTRUMENTATION_CORRECTION_20260913.md` | [#524](https://github.com/SzeChunYiu/ORION-OCM/pull/524) |
+| 14 | Freeze and validate the actual V2 measurement separately from its instrument preregistration. Recompute all 62 blocks, exact capability, trace witnesses, resource boxes and the registered point verdict. | `NN_NONNN_POINT_PARITY3_HOSTED_RESULT_V2.json`; hosted run [34745072337](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34745072337) | [#525](https://github.com/SzeChunYiu/ORION-OCM/pull/525) |
+| 15 | The aggregate trusted terminal labels and stale partial receipts. Source-bound full-payload replay of all 45 finite checkers, explicit historical evidence and hostile custody checks replace that gate. | `THEOREM_REPLAY_INVENTORY_V1.json`; `THEOREM_REPLAY_CAPSULE_V1.md` | [#526](https://github.com/SzeChunYiu/ORION-OCM/pull/526) |
+
+| 16 | Register a hostile four-candidate parity-3 expansion, including a shared-sum neural network and lookup table; preserve the complete robust frontier and balanced timing order. | `PARITY3_CANDIDATE_EXPANSION_V3.md`; frozen V3 registration and instrument | [#527](https://github.com/SzeChunYiu/ORION-OCM/pull/527); V3 remains unexecuted |
+
+
+| 17 | V1 pinned a stale runtime and checked only one generator support revocation. A separate V2 binds the current 179-file runtime/resource inventory and tests all three essential supports with retained history. | `../theory-runtime-integration-v2/REVIEW_V2.md`; hosted run [34749001490](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34749001490) | [#528](https://github.com/SzeChunYiu/ORION-OCM/pull/528) |
+| 18 | No V3 timing run appeared; an inherited description still said two candidates. Preserve V3 unchanged and freeze V4 with identical candidate/instrument/schedule identities, correct scope wording and complete workflow trigger coverage. | `PARITY3_EXECUTION_RECOVERY_V4.md` | [#529](https://github.com/SzeChunYiu/ORION-OCM/pull/529) |
+| 19 | Retain and statically audit the first four-candidate hosted expansion: all 64 traces, 128 blocks, resource envelopes and full robust frontier. XOR is the sole survivor at the registered scope. | `PARITY3_V4_HOSTED_RESULT_ASSESSMENT_20260913.md`; hosted run [34749100254](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34749100254) | Current evidence iteration; validate and merge separately from the frozen experiment |
+| 20 | The family-phase crossover condition was vacuous, malformed intervals were compared instead of rejected, and the hybrid witness summed registered upper bounds into pure-family lower bounds and reused a composition law as a necessity. FP-3a now carries well-formedness, connected-domain and pairwise scope; FP-5a fixes bound direction; FP-5b requires a decomposition-closed candidate class. | `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 21 | The family phase law only compared registered bound functions; nothing derived them, so the master chain's final arrow was a schema plus a comparator. The relaxed accounting program now derives family-conditioned lower bounds from the proved necessities under an explicit accounting-soundness contract, covering unconstructed members of a structure class. The derivation is one sided, abstention is separated into epistemic and physical causes, and the evidence/candidate asymmetry is proved. | `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 22 | Candidate-universe coverage was an open-ended enumeration obligation that no finite evidence could discharge. Coverage is validity of the disjunction of registered structural predicates. It is decidable for an explicitly finite enumerable universe, while an arbitrary infinite universe requires a proof or stronger assumptions; pointwise predicate decidability is insufficient. A verdict over a proved cover whose classes all carry derived bounds extends to unbuilt machines; without one it must be reported with its residue and cannot be upgraded. Coverage must be proved at the verdict's own resolution. | `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 23 | The open training and large-scale-learning items were recorded as work not yet done. They are underdetermined: two development laws sharing the admitted realization set, profiles, families and every proved necessity give different reachable frontiers, so no derivation without a registered `D` can determine a trained outcome. A registered `D` must fix its schedule semantics; lower bounds persist under restriction, but competitive exclusions require retained comparator witnesses. Finite-prefix insufficiency does not exclude a finite exhaustive closure certificate. | `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 24 | Infinite-domain lower-bound transport does not require compactness, but accounting soundness remains required. Nonattainment need not block epsilon-witnesses or all classification; Boolean declarations do not certify result premises. | `CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`, corrected scope and positive alternatives | Original V1 preserved; corrected V2 evidence required |
+
+| 25 | The standing independent-replication obligation was unsatisfiable by construction: the V1-V4 instrument hard-requires a first-attempt push to `main` on a GitHub-hosted Linux runner, so no laptop, server or compute node can produce a valid packet, and interpreter-dependent AST hashes block cross-version candidate identity. V5 freezes a portable instrument with a recorded envelope, source-byte candidate identity and a cross-envelope adjudicator. Not executed. | `PARITY3_PORTABLE_REPLICATION_V5.md` | Current iteration; commit and merge only after required local gates pass |
+| 26 | Execute the portable registration. Three interpreter envelopes on one host, each once: CPython 3.11.15 and 3.12.3 both return a non-neural frontier with disjoint observed boxes, and 3.13.12 refuses the instrumentation gate before timing. The registered 3.12 opcode counts reproduce exactly on unrelated hardware; absolute counts are interpreter dependent while their ordering is not. Cross-host replication remains open. | `PARITY3_V5_CROSS_ENVELOPE_ASSESSMENT_20260913.md` | Current iteration; commit and merge only after required local gates pass |
+| 27 | The V5 execution refused CPython 3.13 at the instrumentation gate. The cause is the first-ever trace of each code object losing its first frame, not a per-process effect as first read. V6 adds one discarded priming domain sweep per candidate witness pass, keeps per-frame validation intact, records priming diagnostics, and binds candidate identity against both earlier portable harnesses. Frozen with a genuinely prospective 3.13 verdict claim; not executed. | `PARITY3_PRIMED_INSTRUMENT_V6.md` | Current iteration; commit and merge only after required local gates pass |
+| 28 | V6 records the predicted non-neural classification on CPython 3.13 and matching classifications on 3.11/3.12, over four registered candidates. Five valid V5/V6 packets agree in family support; the V5 3.13 refusal is retained. The V6 3.11 boxes leave lookup membership unresolved, not certified coexistence. Corrected DNF/shared-sum margins do not identify a causal interpreter trend. Cross-host replication and attempt custody remain open. | `PARITY3_V6_PROSPECTIVE_OUTCOME_20260913.md` | Current iteration; commit and merge only after required local gates pass |
+| 29 | The structural threshold result is repaired by an all-coefficient geometric/dependency proof: exact minimum 39 per call under the two flat-linear shapes and opcode contract. Finite-grid coverage and universal delegated-family exclusion are withdrawn. | `STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md` | Corrected current authority; original source retained |
+| 30 | The incoming DIC pair admits a partial wrapper at (32,8) and implicit Python dispatch at (32,0), contradicting its broad no-export conclusion. Typed closure now preserves full descendants and native obligations: direct/partial wrappers cost 344 Python opcodes versus the parent 312 and retain all 32 int obligations. Nonnegative additive monotonicity is conditional on trace preservation; unknown native work remains unknown. STR's 39/312 minimum remains confined to its flat written grammar. | [DCR correction](DELEGATION_COST_CORRECTION_V1.md) | Corrected scoped authority; original DIC source and receipts preserved |
+| 31 | Ledger item 15 remains a broad empirical obligation. The crosswalk links existing matched-parent, sample, adaptation and life-cycle contracts, including the formal prospective comparison, without claiming their execution or joint sufficiency. The general NN/non-NN protocol permits prospective execution after registration; its synthetic self-test does not measure hardware. A separate historical parity-3 registration-only receipt is not an execution block and does not erase later V5/V6 packets. ME V0 records its specific N3/N5 protected-task binding block. None of these statuses proves empirical impossibility or closes broad transfer, full-cost and independent-replication obligations. | [Corrected crosswalk](../gmi-experimental-validation-v1/EXPERIMENTAL_VALIDATION_CROSSWALK_V1.md) | Source-scoped correction; original PR581 files retained |
+| 32 | Recorded retrospectively; the required audit row was omitted when this iteration merged. Ledger item 8 stated an observational non-identifiability boundary: two registers share one observational law while `do(X=1)` targets 1/2 and 1. The original theorem's hypotheses were weaker than the positive-support guard its own test relied on, and the missing premise was supplied by the later lane repair. | `../gmi-causal-identifiability-v1/CAUSAL_IDENTIFIABILITY_BOUNDARY_THEOREM_V1.md` | [#570](https://github.com/SzeChunYiu/ORION-OCM/pull/570) |
+| 33 | Recorded retrospectively. Ledger item 10 charged the value of computation. Its ranked-value memo keyed search depth without state identity, so distinct registers collided at equal depth; six controls passed only because the witness register had a single branch. Repaired at [#569](https://github.com/SzeChunYiu/ORION-OCM/pull/569): the key is now state together with remaining depth, and the defective original is retained as an executing countercontrol. Extended, not corrected, by [#580](https://github.com/SzeChunYiu/ORION-OCM/pull/580) and [#585](https://github.com/SzeChunYiu/ORION-OCM/pull/585) to zero-cost and stochastic stopping. | `../gmi-value-of-computation-v1/VOC_REPAIR_CONTEXT_V1.md` | [#571](https://github.com/SzeChunYiu/ORION-OCM/pull/571) |
+| 34 | Recorded retrospectively. Ledger item 9 was closed as `PARENT_SUFFICIENT`: controlled acquisition, bounded controllers, planning resolution and the decision-score audit already separate truth from preference and derive the finite Bellman recursion as a specialization. No new theorem was claimed. | `../gmi-agency-disposition-v1/AGENCY_DISPOSITION_V1.md` | [#572](https://github.com/SzeChunYiu/ORION-OCM/pull/572) |
+| 35 | Recorded retrospectively. Ledger item 12 registered prospective parity-n predictions. PN-4R used a lower bound on delegated native work to claim an exact tie at n=5 and a reversed ordering at n>=6; equal lower endpoints are not a tie because the delegating side is a half-line, and the authored count of n loads, n-1 additions and one return sums to 2n rather than 2n+1. Corrected at [#577](https://github.com/SzeChunYiu/ORION-OCM/pull/577): the supplied lower bound certifies XOR only for n<5, and the crossover location is a free parameter of the posited charge. | `../gmi-parity-n-prediction-v1/INTERVAL_COST_CORRECTION_V1.md` | [#573](https://github.com/SzeChunYiu/ORION-OCM/pull/573) |
+| 36 | Recorded retrospectively. Ledger item 13 supplied the specialization and difference table for the parent theories. `Prior-free by construction`, `identifiability is purchased` and TM-4's `THIN` status were overstatements refuted by exact witnesses, and the unit's vocabulary test could not have established the implications it appeared to guard. Rewritten at [#579](https://github.com/SzeChunYiu/ORION-OCM/pull/579); the originals are frozen under `raw/pr574-e130dc6a/`. | `../gmi-theory-map-v1/SCOPE_COUNTERMODELS_V1.md` | [#574](https://github.com/SzeChunYiu/ORION-OCM/pull/574) |
+| 37 | Recorded retrospectively. Ledger item 11 defined architecture emergence as selection from a complete admitted family and collected five obstructions. That narrative conflated optimal resource profiles with uniquely determined architecture families and treated any unknown component as an automatic obstruction. Rewritten at [#582](https://github.com/SzeChunYiu/ORION-OCM/pull/582) with retained realization fibers, a compatible-world criterion and a constructive family-exclusion certificate; the originals are frozen under `raw/pr575576-ef5be973/`. | `../gmi-architecture-emergence-v1/EVIDENCE_AND_TRANSPORT_CORRECTION_V1.md` | [#575](https://github.com/SzeChunYiu/ORION-OCM/pull/575) |
+| 38 | Recorded retrospectively. AEM-7 added a capability obstruction inferred from the B6 cohorts, reading outgoing GRAD edges as the update channel. The retained native control refutes that reading: `grad_outgoing_edges` is empty while the observed response still changes from 8 to 7, so a GRAD node with no outgoing edge writes parameter cells and alters behaviour. Selected-cell failure also does not establish a family-wide capability ceiling. Rewritten at [#582](https://github.com/SzeChunYiu/ORION-OCM/pull/582). | `../gmi-architecture-emergence-v1/EVIDENCE_AND_TRANSPORT_CORRECTION_V1.md` | [#576](https://github.com/SzeChunYiu/ORION-OCM/pull/576) |
+| 39 | Ledger item 7. `OPTIMIZATION.md` derives each learning law from a premise and O0 states the hinge without closing it: different premises select different mechanisms. No unit supplied the converse map. LLS-1 to LLS-5 give it for registered contracts: capabilities fix the admissible laws, exact prices fix the selected one. Over all 128 capability sets the census is 36 infeasible, 50 selected and 42 undetermined, with the infeasible count recomputed from a closed-form predicate rather than asserted. At fixed capabilities cheap likelihood evaluation selects Bayesian updating while cheap gradient evaluation selects mirror descent. Premise-free selection is refused, unpriced operations raise rather than defaulting, and no architecture follows because AEM needs all four arguments. | `../gmi-learning-law-selection-v1/LEARNING_LAW_SELECTION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 40 | Ledger item 8. Six ecology-conditioned predictions are derived by hand from the charge table and recomputed by an independent exhaustive minimiser that does not read the prediction document; all six agree and all three pairs separate. The status is an independent recomputation, not a temporal preregistration, because prediction and verification land in one commit; the parity V5/V6 workflow retains that stronger status and this unit does not borrow it. | `../gmi-learning-law-selection-v1/ECOLOGY_PREDICTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 41 | Ledger item 9. Asking whether exact finite laws survive realistic scale conflates two halves with opposite answers. CLB-1's chain is an order argument needing only allocation membership and sound accounting, so a transported lower bound is unchanged across allocation sets from 1 to 5,000 members and was never a statement about scale. A shared lower bound constrains every machine and orders none, so competitive exclusions measured small carry no force larger without a comparator retained at that scale. The physical calibration gap stays separate from the mathematical one and no result moves between the atlas tiers. | `../gmi-transport-ledger-v1/TRANSPORT_LEDGER_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 42 | Ledger item 10. The two developmental clauses have different verdicts and merging them is the error. K1, experience changing how future cognition is generated, is supported at its registered authored-grammar scope: rank_H earlier than rank_0 on 2,536 of 2,741 protected targets with 202 later and 3 tied, median 1.91 bits saved, and the solution guaranteed absent from history. K2, experience making acquisition of new capital cheaper, is NOT_ESTABLISHED: the registered recombination bar held on 2 of 9 fresh seeds. The negative is attributed to one stage, retained-capital recombination at that grammar, and the lever that would close it is named without asserting it exists. | `../gmi-developmental-capital-v1/DEVELOPMENTAL_CAPITAL_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 43 | Ledger item 7 revival. The shipped census reported 42 undetermined contracts and treated that as a property of the selection law. It was an artifact of measuring at uniform prices: GRADIENT_STEP, MIRROR_DESCENT and BAYES_UPDATE each charge two operations and the two discrete laws each charge one, so equal unit prices force equal totals by construction. Under generic prices the tie locus is empty and all 92 feasible contracts are SELECTED, agreeing exactly on two independent generic vectors. Genericity is load-bearing rather than incidental: equating projection with normalization reintroduces the GRADIENT_STEP/MIRROR_DESCENT tie on cue. A tie is a coincidence of prices, not an incompleteness of the law. | `../gmi-learning-law-selection-v1/LEARNING_LAW_SELECTION_THEOREM_V1.md` LLS-6 | Current iteration; commit and merge only after required local gates pass |
+| 44 | Ledger item 9 revival. The recorded negative, that competitive exclusions do not transport, described one-sided evidence rather than an impossibility. Reusing the registered DCR separation rule verbatim, a finite candidate upper bound strictly below the comparator's lower bound certifies at any scale; the certificate is an order comparison and survives rescaling by 10, 1,000 and 10^6. The earlier negative is exactly the degenerate case in which the candidate upper bound is absent. Overlapping and touching intervals return UNVERIFIABLE rather than false, and malformed or inexact intervals are refused. | `../gmi-transport-ledger-v1/TRANSPORT_LEDGER_V1.md` TL-6 | Current iteration; commit and merge only after required local gates pass |
+| 45 | Ledger item 8 revival. The ecology predictions carried no temporal priority because prediction and verification landed in one commit, and the unit said so. Three further predictions are now registered that no checker in this commit evaluates, and the deferral is proved rather than asserted: the deferred contracts are disjoint from every evaluated contract, the deferred tags are absent from the evaluated prediction table, and no module in the sector defines the deferred price vectors, so a later edit cannot backfill an answer without changing the frozen text. | `../gmi-learning-law-selection-v1/DEFERRED_PREDICTIONS_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 46 | Ledger item 10 revival attempt, recorded without changing its verdict. K2 remains NOT_ESTABLISHED at 2 of 9 fresh seeds. The retry is registered before execution: the single-stage attribution is retained-capital recombination at that grammar, the criterion, bar, seed protocol, assay gates and matched controls are held fixed, parent subtraction against facilitated variation and meta-learning is mandatory rather than optional, and four distinct outcome terminals are fixed in advance including PARENT_SUFFICIENT and a second-grammar failure reading as structural obstruction. Registration establishes nothing; it fixes the rules before the outcome is known. | `../gmi-developmental-capital-v1/K2_RETRY_REGISTRATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 47 | Ledger item 9, made exact, and a defect in the preceding row's own result. TL-6 supplied only a sufficient condition and, worse, implemented only one direction: it returned UNVERIFIABLE where the mirror certificate applies, since a comparator upper bound strictly below the candidate lower bound certifies the comparator cheaper. TL-7 proves the characterisation is necessary as well as sufficient. Necessity is constructive: whenever the candidate upper bound is absent or at least the comparator lower bound, explicit completions realise the opposite order or a tie, witnessed at A=[1,4] B=[3,9] by a=1,b=9 and a=4,b=3, and at the boundary by the tie a=b=3. An exhaustive rational grid finds zero disagreements between the rule and universal quantification over completions, so no rule on one-sided data can do better. | `../gmi-transport-ledger-v1/TRANSPORT_LEDGER_V1.md` TL-7 | Current iteration; commit and merge only after required local gates pass |
+| 48 | Ledger item 10, explained rather than resolved. K2 remains NOT_ESTABLISHED at 2 of 9 fresh seeds. Modelling retained capital as a library and new capital as a decomposition under the grammar, charging one unit per part not held, gives a necessary and sufficient condition: K2 holds exactly when the library intersects the target decomposition. Verified exhaustively over every library and target pair on a four element universe. The condition separates two failure modes the bare negative conflates: an irrelevant library, repairable by acquiring different capital, and an atomic target, which no library repairs because nothing is available to reuse and which is a property of the grammar. The registered attribution of the 2/9 outcome to recombination at that grammar names the second mode and predicts that a retry varying only the operator fails again. This is a falsifiable prediction from a declared unit charge model, not evidence about that experiment, and the retry registration now also requires recording each target's decomposition size so a second failure distinguishes the modes. | `../gmi-developmental-capital-v1/K2_REACHABILITY_CONDITION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+
+
+
+Strategic and quantum documents historically reuse `GG42`–`GG45`. References
+must include the source (for example `strategic:GG42`), or use the strategic
+ledger's distinct `GG-S*` IDs. The numerical collision does not identify the
+claims with each other.
+
+## Master proof corrections
+
+### Attained profiles precede envelopes
+
+For the common admissible encoder/decoder or transformation class, retain the
+entire attainable resource set and its declared order. Its Pareto subset is a
+derived spectrum. A nonempty infinite attainable set can have no Pareto point.
+For `{(1,3),(3,1)}`, the componentwise infimum `(1,1)` is unattained and budget
+`(2,2)` is infeasible. Separate scalarizations produce scalar lower bounds,
+which still need attainment before licensing a construction. GG51 and the
+family closure audit now use that same convention.
+
+For development, retain the same boundary predicate used in the global
+attainable set, then restrict to reachable realizations and take Pareto.
+Morphology-class representations require a registered projection preserving
+protected profiles and future update semantics. Do not intersect a global
+frontier with reachable profiles and call the result the constrained optimum.
+
+### Factorization and joint realization
+
+Equality of complete response profiles gives a well-defined response quotient.
+A deterministic encoding preserving that entire response map must determine
+the quotient class. A set-valued success obligation can be satisfied with less
+information: the allowed-action rows `{a,b}` and `{a,c}` share the constant
+solution `a`. The master therefore does not infer full-map reconstruction from
+success alone, nor joint physical sufficiency from separately satisfied cut
+and resource lower bounds.
+
+### A sufficient closure certificate with a proof
+
+Use one declared product order, written as minimization. Suppose
+`X_con subseteq X_phys subseteq X_nec` and every `n in X_nec` has a weakly
+dominating `c in X_con`. A Pareto point of an outer set must equal its
+constructive dominator. Conversely, an outer dominator of a constructive
+Pareto point would itself have a constructive dominator, contradicting that
+point's minimality. Thus the three Pareto subsets coincide. This proves the
+corrected GG34 sufficient certificate. It does not supply an optimizer when
+all three Pareto sets are empty, and equality of Pareto sets alone is not the
+stated coverage premise. Morphology identification still needs its fiber proof.
+
+### Finite recursion does not supply finiteness
+
+A finite number of well-typed lifts remains well typed. Exact finite
+enumeration additionally needs a finite effectively enumerable implementation
+register at every level, complete update semantics, and decidable equality,
+order and feasibility for every protected response/capability and resource
+coordinate. A finite alphabet does not bound invisible computation or
+implementation fibers. A finite cost cap does not bound the length of
+zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
+uncomputability boundary discussion.
+
+
+
+
+
+### A measurement reproduced, and an instrument that refused
+
+Iteration 26 is the first execution under the portable registration, and it
+produced two kinds of evidence.
+
+The registered exact coordinate reproduced. V2 and V4 registered 472 opcodes
+for the four-threshold neural candidate and 88 for the XOR candidate on a
+GitHub-hosted runner. Both reproduce exactly on CPython 3.12 on unrelated
+hardware under a validated complete witness. On CPython 3.11 the neural counts
+move to 512 and 344 while both non-neural counts are unchanged, so the absolute
+coordinate is interpreter dependent and the cheapest-to-costliest ordering is
+not. The verdict depends on the ordering, which is why the two envelopes agree.
+
+CPython 3.13.12 refused before timing. Its retained post-failure diagnostic
+pass records DNF8/8 complete and each other candidate7/8 complete. The source
+already ran `instrumentation_preflight` before collecting those diagnostics,
+so they cannot identify the first trace session or establish the precise
+tracing cause. Ignoring validation would undercount the latter three candidates
+and make them artificially cheaper relative to DNF. The original bias claim
+had that direction reversed. Per-frame validation correctly withholds the
+opcode comparison; the failure remains a concrete instrument-revival task.
+
+What the execution does not do is discharge the replication obligation. All
+three envelopes ran on one host and differ only in interpreter. The adjudication
+reports `replication_obligation_discharged: false`, and `laptop-billy`, `old`
+and `lunarc` still have no packets. The verdict also remains a four-candidate
+point verdict: four registered candidates are a candidate list, not a proved
+structural cover, so by the coverage correction the reading is
+`ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`. Under CLB-2 and CLB-3, these
+timing coordinates are finite observed windows rather than derived bounds; only
+the opcode coordinate is exact, and only for the interpreter that produced it.
+
+### An obligation no instrument can discharge is not an open task
+
+Iteration 25 concerns the empirical side. Independent replication has been
+carried as an evidence obligation since the first parity-3 packet, but the
+instrument that produces the evidence refuses to run anywhere it could be
+replicated: V1 to V4 require `GITHUB_ACTIONS`, `RUNNER_OS=Linux`,
+`GITHUB_REF=refs/heads/main`, `GITHUB_EVENT_NAME=push` and
+`GITHUB_RUN_ATTEMPT=1`, and yield `INVALID_RECEIPT_OR_PROTOCOL_VIOLATION`
+otherwise. That admits one attempt per push to main and nothing else, so no
+laptop, shared server or compute node can contribute a packet, and neither can
+a second attempt on the same runner. Candidate identity compounded it: V4 keys
+candidates on `ast.dump` output, which changes between CPython versions, so
+byte-identical sources on two interpreters are reported as different
+candidates.
+
+The repair separates custody from portability. What protects a measurement
+stays a hard gate — CPython, exact capability on all eight inputs, candidates
+byte-identical to the parent harness, and a complete validated opcode witness
+before any timing. What merely names a machine becomes a recorded envelope.
+Candidate identity moves to exact source bytes, which are interpreter
+independent.
+
+A diagnostic probe run before the freeze and disclosed in the registration
+found that the opcode instrument does not work on CPython 3.13: the first
+traced frame reports no opcode events, so a naive counter would report `9 * 7`
+events instead of `9 * 8` for the XOR candidate. That is the V1 defect
+recurring on a newer interpreter, and the V2 validation catches it, so a 3.13
+run is expected to yield an invalid packet that must be retained rather than
+retried. Exact opcode counts also differ between interpreters where the
+instrument does work, so the coordinate is envelope-relative and the
+adjudicator reports it per envelope.
+
+Replication is agreement between envelopes, which no single packet can
+establish. The adjudicator therefore refuses to compare packets with
+non-identical candidates, never pools a resource envelope across envelopes,
+and reports `replication_obligation_discharged: false` unconditionally.
+
+### A required property is only useful once it names its conclusion
+
+Iteration 24 supplies the continuous-lift clauses now named CLB-1–5 in
+`CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`. The repaired theorem distinguishes
+lower-bound transport, exact attainment, useful epsilon-witnesses and effective
+error certificates. A valid lower bound extends by order and accounting
+soundness; a competitive exclusion still needs its admitted comparator.
+Unattained infima can admit arbitrarily accurate constructive approximation
+and finite-margin family conclusions. Not every finite observation window
+strictly overestimates a bound: that behavior belongs to its stated witness.
+The declared Boolean contract fields record undischarged premises and do not
+certify analytic results. Actual proofs or verified certificates must supply
+those premises for each intended conclusion.
+
+### Gate repair carried by this iteration
+
+The controlled-acquisition checker merged onto `main` emitted its terminal
+label under the key `aggregate`. The replay capsule keys every registered
+checker on `terminal` and rejects a directory whose `grand_gmi*checks*.py`
+files are not all registered, so that checker could not be registered and its
+presence alone failed the coverage check: `main` carried 49 checker sources
+against 48 inventory entries. This iteration emits `terminal` alongside the
+historical `aggregate` field, refreezes that checker's receipt and registers
+it, restoring the gate. The 390,625-kernel enumeration is retained. The later integrated CA-5
+repair computes its budget witness through pair/history policies and adds a
+hostile solver control. Original pre-recapture bytes and both versioned
+integrated receipts are preserved under explicit historical paths.
+
+### An open item and an underdetermined target are different things
+
+Iteration 23 demonstrates that static realization summaries alone do not
+identify an unconstrained development law. This does not reclassify concrete
+registered-law research as complete or prohibit deriving a law under extra
+assumptions. Noncommuting updates can give different chosen-schedule outcomes;
+existential reachability over all admitted schedules is a separate graph.
+
+The initial exclusion claim required repair: removing the feasible cost-2 A
+witness leaves A at cost 9 and B at cost 5, so B can become optimal even
+though both class lower bounds remain valid. Retaining the comparator is the
+positive condition that preserves its competitive exclusion. Likewise, a
+finite prefix without a closure certificate need not identify the unbounded
+frontier, but an exhaustive finite successor-closed reachable set does.
+Edgewise improvement and family switches alone do not imply global frontier
+alternation on branching graphs. Corrected DU-1--4 retain explicit negative
+and constructive closure controls for these distinctions.
+
+### Coverage is a predicate condition, not an enumeration
+
+Iteration 22 converts the candidate-universe obligation into something
+a finite register can decide and a sound proof can sometimes certify over an
+infinite domain. Coverage is a universally quantified predicate disjunction;
+pointwise decidability of its predicates does not decide that universal claim.
+A dichotomy can prove a particular cover without enumerating every machine,
+but does not decide the validity of an arbitrary proposed cover. The cost of that reframing is explicit and is the
+main result: adjoining the complement predicate always completes a cover, so a
+cover is only as strong as its weakest derived bound, and in the registered
+witness completing the cover *withdraws* the family verdict rather than
+confirming it. The two registered classes leave 1105 of 1344 admitted
+allocations uncovered, the complement class has derived bound 12 against a
+construction of cost 16, and 19 admitted residue allocations beat that
+construction outright. Without a coverage proof, two extensions consistent
+with the covered-class evidence can give opposite global verdicts, so a
+covered-class verdict must retain its explicit scope. Coverage also does not
+lift from components to composites, which is the precise reason hybrid forms
+escape pure-family verdicts.
+
+### A comparator is not a derivation
+
+Iteration 21 closes a structural gap rather than a false implication.
+The family phase law and the derivation certificate both took `L_F` and `U_F`
+as registered inputs, so no theorem connected the proved cut/transformation
+necessities to a family bound. The relaxed accounting program supplies that
+connection for lower bounds: because it quantifies over a structural predicate
+rather than a candidate list, its bound bounds machines nobody has built. Three
+boundaries are proved with it. The relaxation may be strictly loose, so an
+abstention verdict is uninformative about physics unless the compared bounds
+are attained. Registering a further valid necessity never lowers a derived
+bound, while weakening a structural predicate never raises one, which is the
+exact asymmetry between more evidence and more candidates. The bounds do not generally identify selection: two worlds sharing the
+relaxed data can have opposite actual optimal families. This does not forbid
+identification on every input: independently justified nonempty selection and
+exhaustive rival exclusion can suffice. The corrected PL-5 supplies both
+counter-worlds and the positive existence/coverage certificate.
+
+### A bound is only valid in the direction it was proved
+
+A registered upper bound may never be a term of a lower bound. The predecessor
+hybrid witness computed pure-family lower bounds as `4 + 8` and `9 + 3` from a
+registered neural smooth-region *upper* bound and a registered non-neural
+exact-region *upper* bound. With non-negativity alone the sound pure-neural
+bound is `8`, which does not strictly exceed the hybrid upper bound `8`, so
+that verdict was not robust; the non-neural exclusion survived because its
+regional *lower* bound had been registered. Separately, a declared additive
+regional law composes a hybrid upper bound but does not lower bound a
+competitor that never instantiates the registered cut. Excluding a pure family
+by a regional sum now requires a decomposition-closed candidate class, or a
+lower bound proved for the whole obligation.
+
+### A comparison predicate must validate its own inputs
+
+`lower <= upper` is a hypothesis, not a formatting convention. Two families
+registered as `[5,0]` both satisfy an unvalidated strict-separation test, so
+the predecessor comparator could report two winners and fail an internal
+assertion rather than abstain. Family-phase comparison now rejects malformed
+intervals with a typed error, following the same convention as
+`CERTIFICATE_INPUT_CORRECTION_20260913.md`.
+
+### A crossover claim needs a connected domain
+
+The predecessor crossover set `U_A >= L_B` and/or `U_B >= L_A` is implied at
+every robust-`B` parameter of a well-formed register, so it identified no
+boundary. The repaired FP-3a proves the intended abstention conclusion by the
+intermediate value theorem on a connected path, and only for the compared
+pair: on a discrete scale register a robust transition can occur with no
+abstaining registered parameter, and a third family can be robust at a
+pairwise touch parameter.
+
+## Coverage of the recursive review
+
+The review checked the named semantic-cut, state-refinement, recursive,
+information/computation, symmetry, compositional/distributed, causal-meaning,
+master, physical/quantum, measurable/continuous, realization, morphology/family,
+certificate, active/epistemic, compositional-language, planning,
+decision-precision, generalization, continual-retention, proof-search,
+strategic, reflective and empirical-resource sectors and their relevant claim
+ledgers. The independent passes concentrated on quantifier order, attainment,
+joint feasibility, information patterns, resource accounting and evidence
+custody. Additional witnesses discovered while reviewing a repair were fed
+back into that repair before merge.
+
+No further demonstrated contradiction in the reviewed scope is an audit
+finding, not a proof that all possible GMI gaps have been enumerated. Parent
+mathematics and primary citations are documented in the individual correction
+audits; this work claims scoped application and repair, not novelty for those
+parent results.
+
+## Remaining evidence obligations and reopening
+
+| Obligation | What is still required | Current claim ceiling |
+|---|---|---|
+| Integrated executable custody | Replay every checker registered in `THEOREM_REPLAY_INVENTORY_V1.json` against complete frozen outputs; run every discovered research test normally and with an optimized parent. | `THEOREM_REPLAY_CAPSULE_V1.md` identifies the current V7 aggregate and historical captures. Successful replay establishes registered finite-check reproducibility only; experiment packets supply their separately scoped measurements. |
+| Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. V5 makes replication executable at all, but executes nothing. | V4 identifies XOR against the original network, a three-threshold neural construction and an exact lookup table. All four solve the full domain. The result is an observed-envelope point comparison informed by V1/V2, not independent prospective replication. |
+| Candidate-universe coverage | Independent competitor optimization beyond the measured four-candidate expansion, then replication across tasks and substrates. | V4 performs the concrete algebraic-neural/lookup expansion; external optimization and candidate-universe completeness remain unestablished. A point verdict does not enumerate all physical machines. |
+| Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication, each against an explicitly registered development law. | Conditional resource laws do not manufacture those measurements. DU-1 establishes general non-identification from static data when development is unconstrained. Stronger registered premises can support conditional derivations and finite reachability certificates; an unperformed physical measurement remains separate. |
+| Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance. | Exact finite simulations are not experiments on arbitrary substrates. |
+| Unrestricted exact solution | No total solver can discharge all unrestricted Turing-complete unbounded instances. | Proven impossibility boundary; no green status can remove it. |
+| Absence of every possible theorem gap | Continued independent proof review and counterexample search. | Not established by a finite review or by coverage of named schema categories. |
+
+Reopen an affected claim when a counterexample satisfies its premises, a
+required comparison/selector/realization lacks a proof, a new information
+pattern invalidates a transported bound, a source or receipt changes without
+review, an instrument fails validation, or new data invalidate a registered
+coverage/model assumption. Missing empirical fields remain missing evidence;
+renaming them “applications” does not discharge them.
+
+The readiness manifest and its checker dated 2026-09-12 retain their historical
+snapshot. Replaying that checker establishes snapshot consistency; its earlier
+point-evidence absence is superseded by this current correction index and
+`PARITY3_V2_HOSTED_RESULT_ASSESSMENT_20260913.md`. The original snapshot and the
+defective V1 measured packets remain preserved. A successful V2 point comparison
+does not discharge the broader candidate, development, replication, or physical
+realization obligations listed above.
+
+The V2 point packet is bound to source commit
+`204d5c74754a2bec6d50d9a3129f5b519438f5ea`. Both candidates pass all eight
+parity inputs. Exact candidate-frame opcode counts are 472 for the threshold
+network and 88 for XOR; the XOR observed upper endpoints are below the neural
+lower endpoints for wall and process time as well. The registered terminal is
+`DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`. Development costs are explicitly
+excluded and uncertainty is the finite observed envelope. Candidate expansion
+was not part of V2; it is now separately measured in V4 below. This closes the instrument and recorded-point-evidence defects;
+it does not establish a universal architecture preference or generalization
+beyond the registered execution.
+
+The existing `theory-runtime-integration-v1` workflow is a separate engineering
+contract. It binds a historical `src/` runtime and ORION-V2 method-theory
+snapshot and currently requests `REVALIDATION_REQUIRED` despite its successful
+workflow exit. PR #528 supplies the separately reviewed `theory-runtime-integration-v2` packet for the current runtime at `7f8488ed`. Hosted run 34749001490 passed all 22 binding controls and complete replay comparison; it covers the named finite M1–M4 engineering checks and three essential-support revocation cases. V1 remains historical. No runtime adoption or independent scientific/semantic authority is granted.
+
+Iteration 20 repairs the selection logic of the family-phase layer only. It
+does not supply the family-conditioned bound functions `L_F(s)` and `U_F(s)`
+for any real substrate, so the family phase diagram remains symbolic and the
+empirical obligations above are unchanged.
+
+Iteration 21 derives lower bounds only. It measures no substrate, supplies
+no `U_F`, does not make the relaxation tight, and does not establish that the
+registered structure classes cover the physically legal set. Every empirical
+obligation above is unchanged.
+
+
+Iteration 22 proves coverage for one registered finite instance only. It
+enumerates no physical machines, measures no substrate, and discharges no
+replication obligation. Because a completed cover is only as strong as its
+weakest derived bound, completing it can withdraw a verdict; the finite witness
+does not establish a frequency claim across other problems.
+
+
+Iteration 23 measures no learning process at any scale and analyses no real
+curriculum. It forbids deriving a training outcome without a registered `D`;
+it does not forbid, and does not supply, a theorem conditional on one.
+
+
+
+Iteration 24 measures no physical continuum and performs no experiment on
+any substrate. Discharging a contract field for a real instance requires proofs
+and measurements where the instance requires them; a finite replay supplies
+neither the missing proof nor an unperformed physical measurement.
+
+Iteration 25 executes no measurement. It freezes a portable instrument, its
+registration, a cross-envelope adjudicator and runner entry points for the
+named hosts `laptop-billy`, `old` and `lunarc`, whose packets do not exist. The
+replication obligation stays open until those envelopes are executed and their
+packets frozen.
+
+Iteration 26 measured three interpreter envelopes on one container. It does not
+establish cross-host replication, does not convert a four-candidate point
+verdict into a family verdict, and does not turn an observed timing envelope
+into a bound. The named hosts remain outstanding.
+
+Iteration 27 repairs an instrument and freezes a registration. It executes no timing, and its P1 and P3 claims were already settled by a self-test that times nothing, which the registration discloses. Only the 3.13 verdict claim P2 is unmeasured at freeze time.
+
+V6 preserves the registered coordinate definitions; its additional tracing
+prefix does not establish equality of timing values or distributions after a
+finite warmup. Its source also retains the late existing-output check: an
+output collision is detected after the experiment function runs. Further
+V6 execution therefore needs a custody route bound to the V6 snapshot;
+the separately versioned V5 custody correction is not automatically applicable.
+The V6 self-test's green terminal is a diagnostic label: that path does not
+fully validate returned parity values and return flags. Actual measurement
+preflight retains those full per-frame checks. A versioned self-test/custody
+correction remains required before treating that diagnostic as a full gate.
+The V6 source and preregistration remain preserved without retroactive edits.
+
+Iteration 28 adds actual V6 packets. Static matching-release review reconstructs
+all recorded capability/tracing, block schedules, boxes and verdicts without
+rerunning measurements. The corrected readout separates DNF from shared-sum
+margins, repairs the old selective-undercount bias direction, and distinguishes
+possible from necessary lookup membership. Full priming traces and an independent
+first-attempt log remain absent; the updated multi-schema aggregator summarizes
+asserted terminals rather than deriving packet validity. These custody limitations
+do not themselves contradict the consistent recorded outcomes. Neither a causal
+interpreter trend nor a population timing bound follows from these runs.
+Iteration 28 records a consistent finite outcome; prospective priority requires the chronology qualifications in the retained V6 audit and cannot be inferred from a static packet replay.
+
+Iteration 29 is superseded by STR-1–5. The attained flat-grammar bound survives through a direct proof; expanded-delegation and full-physical exclusions do not follow. Original source and receipt are retained in the structural-threshold repair unit.
+
+The audit stops making claims at those boundaries. The terminal is
+`SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
+`EVERY_POSSIBLE_GMI_GAP_CLOSED`.
+
+V3 now registers the concrete four-candidate expansion in `PARITY3_CANDIDATE_EXPANSION_V3.md`. Its first protected timing has not yet occurred at this registration stage. The 312-opcode shared-sum neural construction and 136-opcode lookup construction pass deterministic complete-domain instrument diagnostics; those static diagnostics do not predict timing envelopes or select a family. Independent external optimization and broader replication remain distinct obligations.
+
+## V4 premeasurement execution recovery
+
+No V3 measurement run appeared for its content commit `6ee679f4ff108bfab9817fda3c8d95b26edb6356` or final empty merge commit `7eff0a4b8f53903a0799ff81ef422fafb3b6f931`. V4 preserves the complete four-candidate design and fixes the inherited two-candidate descriptive scope field in a new immutable registration. No timing outcomes were read. `PARITY3_EXECUTION_RECOVERY_V4.md` records the new identity and limits. The capsule trigger now also covers isolated changes to the bound V3/V4 workflows.
+
+## Current measured expansion
+
+V4's first main execution at `d6147f95e48b2e4e4afc2c3bd1dee8551527c2fc`
+passed every capability and instrument gate. In 128 balanced timing blocks,
+XOR's upper endpoint is below each of the other three candidates' lower endpoint
+in every registered resource coordinate. The exact four-candidate robust frontier
+is `{X_XOR2_V1}`. The complete hosted stdout packet, provenance and static auditor
+are retained; no timed experiment was rerun to produce this evidence iteration.
+The smaller neural construction improves over the original within this run but
+does not displace XOR. This discharges the concrete measured expansion for these
+two added constructions; it does not claim independently optimized global neural
+coverage, population timing bounds, developmental advantage or cross-task
+replication. The remaining research obligations in the table are retained.
+
+## Historical geometry/signature content resolution
+
+[Q8-HGS-01–10](Q8_HISTORICAL_GEOMETRY_SIGNATURE_AUDIT_V1.md) audit all 26 changed files at two pinned historical heads. The positive repairs are additive-constant description invariance, an admitted diagonal quadratic control, and survival-conditional savings. Independent exact geometry arithmetic retains the finite reversal while correcting receipt/prospectivity scope; program-binding figures distinguish a 20% recovery margin from zero-net break-even. Historical bytes remain unchanged. The [closure/premise synthesis](REGISTERED_CLAIM_CLOSURE_V1.md) separates these resolved findings from broader unproved learning and physical claims.
