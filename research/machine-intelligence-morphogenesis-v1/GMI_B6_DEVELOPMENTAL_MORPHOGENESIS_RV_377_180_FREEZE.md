@@ -693,3 +693,52 @@ rejected, or effectively never proposed? The receipts record `proposal_tries_cha
 `failed_phenotypes` in aggregate but not per kind, so neither answer is available from them. That is the
 third instrument gap this campaign has hit, all of the same shape — the receipts record less than the
 question needs.
+
+### Root cause of the cost blowup: one drawn parameter spans 150×, and selection prefers its largest value
+
+The campaign is blocked on a single source, `E_twin2 S2`, and the blockage has a mechanism.
+
+**The outlier.** Its two siblings finished 20 000 evaluations comfortably; it did not:
+
+| source | final cells | best | seconds |
+|---|---|---|---|
+| `E_twin0 S0` | 42 | 0.5729 | 1 135.6 |
+| `E_twin1 S1` | 63 | 0.6198 | 1 873.7 |
+| `E_twin2 S2` | 22 *(at 15 000)* | 0.3802 | 603.5 at 15 000, then **> 26 000 s and counting** on the last block |
+
+Its per-block times were 104.8 s, 172.3 s, 326.4 s — roughly doubling — and then the final block exceeded
+its siblings' *entire runs* by more than an order of magnitude, with a **smaller and worse** archive.
+
+**The mechanism.** `morphgen.PARAM_CHOICES` draws `SEARCH`'s `budget` from `(16, 64, 256, 2401)`. `SEARCH`
+is "search expansion over the grammar" — an inner black-box optimisation executed on every event of the
+charged lifecycle, and again under each of the six interventions during verification. So a single
+parameter draw spans **150×** in inner work at identical charged cost.
+
+It is not hypothetical. Across the 70 committed graphs, 4 contain a `SEARCH` node and their budgets are:
+
+> **2401 ×3, 64 ×1**
+
+The largest value dominates the survivors, and the reason is selection, not chance: a bigger inner budget
+finds better programs, which scores higher, which survives. **Selection actively prefers the most
+expensive parameter value, and cost is not one of the archive's descriptor axes, so nothing penalises
+it.** In an impoverished archive — `E_twin2` held 22 cells against its siblings' 42 and 63 — the same few
+parents are drawn repeatedly, so one expensive parent dominates the remaining budget.
+
+**This is the mechanism behind three cost observations already recorded.** The 15–40× spread disclosed in
+`RV-377-202`, the 500× verification spread disclosed above, and this blockage are one phenomenon.
+
+**The consequence is not about wall-clock.** A charged evaluation is the programme's resource unit, and
+two machines costing one charged evaluation each can differ by 150× in work performed. **Any statement in
+this lane that treats charged evaluations as a proxy for compute is wrong by up to that factor**, which
+`RV-377-202` recorded as an observation and this identifies as a mechanism.
+
+**Open, and flagged rather than claimed**: whether the `RV-377-210` packet's resource coordinates
+(`desc`, `exec`, `upd`, `ver`) capture inner search budget. If they do not, a `PROGRAM` machine drawn at
+budget 2401 appears as cheap on that frontier as one drawn at 16, and the packet's domination edges would
+inherit the same 150× blind spot. That is a question about `ecology.run_genotype`'s ledger, not a finding,
+and it is the next thing worth checking.
+
+**Practical consequence for `Z3`.** `SAME|TWIN|S2` cannot start until this source completes, so the clause
+that decides whether the warm-start effect belongs to the theory or to its parents is blocked behind a
+pathology that has already consumed seven hours on its last 5 000 evaluations. No protocol change is made
+here; the state is recorded so the blockage is not mistaken for slowness.
