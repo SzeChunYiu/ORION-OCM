@@ -14,11 +14,13 @@ L(gx,ga;ge)=L(x,a;e),\qquad \rho_i(gM)=\rho_i(M).
 
 This is a property of the declared ecology/obligation/resource problem. It is not an architectural assumption.
 
-For a behavioral kernel `K(a|x)`, define the group action
+For a behavioral probability kernel `K`, define the action on measurable output sets `B` by
 
 \[
-(gK)(a|x)=K(g^{-1}a\mid g^{-1}x).
+(gK)(B\mid x)=K(g^{-1}B\mid g^{-1}x).
 \]
+
+The group transformations must preserve the declared measurable structure. For discrete outputs this reduces to `(gK)(a|x)=K(g^{-1}a|g^{-1}x)`; a density formula at continuous scope additionally depends on the reference measure.
 
 A kernel is equivariant iff `gK=K` for every `g in G`.
 
