@@ -182,3 +182,73 @@ unconditionally. It now returns that only when every candidate carries complete 
 `UNRESOLVED__INCOMPLETE_EVIDENCE` otherwise; each task records an `evidence_complete` flag, and
 `test_gmi_nn_nonnn_verdict_guard.py` pins both branches and the four canonical verdicts. Absence of
 evidence is unresolved, not proved infeasibility.
+
+## Cross-instrument comparison with the parity-3 point experiment (2026-09-13)
+
+The theory lane's `NN_NONNN_POINT_PARITY3_EXPERIMENT_V1` asks this packet's question on an entirely
+different instrument and returned `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`
+(`PARITY3_V2_HOSTED_RESULT_ASSESSMENT_20260913.md`): the XOR program's exact CPython opcode count and
+both observed timing envelopes strictly dominate the frozen threshold-network candidate's.
+
+| | parity-3 point experiment | RV-377-210 packet |
+|---|---|---|
+| obligation | parity-3, 8 states, exhaustive | three registered smooth ecologies, 8 UNSEEN inputs |
+| substrate / meter | real CPython 3.12 on a hosted runner: opcode events + wall and process envelopes | charged VM lifecycle vector (desc, exec, upd, ver), exact |
+| candidates | 2 frozen (1 neural, 1 non-neural) | 13 hashed (6 neural incl. 4 expansion rows, 7 non-neural) |
+| selection | robust domination on all three coordinates | hard feasibility (rules 36+40) then Pareto |
+| verdict | `DERIVED_NON_NEURAL` | `DERIVED_NON_NEURAL` on `E_cr4` and `E_sym5`; `FAMILY_COEXISTENCE` on `E_wit1` |
+
+**What the convergence is worth.** Two lanes, two instruments, two obligations, two resource meters, and
+the same family verdict wherever the obligation is exactly identifiable. Neither result depends on the
+other's machinery: one counts interpreter opcodes on real hardware, the other counts charged lifecycle
+work on the typed IR. That is stronger than either alone, and it is the first cross-instrument agreement
+on a family verdict in this corpus.
+
+**What it is not.** Both are explicitly point verdicts over their own candidate universes, and both
+records say so. More importantly the packet supplies the counter-case the single-instrument experiment
+cannot: on `E_wit1` a hand-built coefficient row is intervention-robust and sits on the Pareto set beside
+the exact rows, because its update work is ~500× smaller — `FAMILY_COEXISTENCE`, not non-neural. So the
+honest joint statement is **conditional, not universal**: where the obligation is exactly identifiable and
+exact search is admissible, the non-neural family is derived on both instruments; where a coefficient
+carrier is admissible and cheap to update, the families coexist on the frontier. That is exactly the
+shape `END_TO_END_DERIVATIONS_V1` E2E-2 and E2E-4 predict, now with one leg measured on each instrument.
+
+---
+
+## Prospective cross-instrument registration against the parity-3 V3/V4 expansion (2026-09-13)
+
+Registered **before** the other lane's V4 timing exists. Their V3 design
+(`PARITY3_CANDIDATE_EXPANSION_V3.md`, frozen at `6ee679f4`, re-registered for execution as V4 in
+`PARITY3_EXECUTION_RECOVERY_V4.md`) is the correct attack on the weakest point of the convergence this
+packet recorded: the V2 comparison carried **two** candidates, so "the neural one was weak" was a live
+objection. V3 keeps both V2 functions byte-identical and adds two more — a **smaller exact threshold
+network** (three hidden units `h_k = 1[s >= k]`, output `1[h_1 - h_2 + h_3 >= 1]`, exact on all eight
+inputs) and an **exact lookup table** over the truth table `(0,1,1,0,1,0,0,1)`. Their rule removes a
+candidate only when another's upper endpoint is at most its lower endpoint in **every** resource
+coordinate and strictly so in at least one, and — the clause that matters here — **if both families
+survive, they abstain**.
+
+That abstention is the same epistemic state this packet names `FAMILY_COEXISTENCE`. The two instruments
+have arrived at the same three-valued outcome space by different routes: derive one family, derive the
+other, or decline because both survive a family-neutral frontier rule. Recording that correspondence is
+what makes the comparison a comparison rather than two verdicts that happen to share a word.
+
+| id | registered prediction | reading if observed |
+|---|---|---|
+| **X1** | their V4 robust frontier retains ≥ 1 non-neural candidate (program or table) | expected; this packet produced no `DERIVED_NEURAL` verdict on any of its three tasks |
+| **X2** | the three-unit network does **not** survive: the exact-XOR program dominates it on exact opcode count, so their registered expectation holds and V4 reads non-neural again rather than abstaining | the convergence extends to a four-candidate field, and the "weak neural candidate" objection to V2 is discharged |
+| **X3** | if X2 fails and V4 abstains, that is **not** a break in the convergence | both instruments would then agree that cheapening the alternative family moves the verdict from derived-single-family to coexistence — exactly the `E_wit1` transition on this instrument, where a coefficient row joins the Pareto set once its update work is ~500x smaller |
+
+**The falsifier, stated so X3 cannot absorb every outcome.** The cross-instrument convergence is
+falsified if their V4 frontier retains **only neural candidates** (`DERIVED_NEURAL`). This packet's
+instrument produced non-neural on two tasks and coexistence on the third and never once derived the
+neural family, so a derived-neural verdict on a real CPython meter for the same class of obligation
+would be a straight contradiction between the instruments, not a refinement of them. X3 licenses
+abstention as compatible; it does not license the opposite verdict as compatible.
+
+**What this registration does not claim.** Their expectation is explicitly informed by V1/V2 and is not
+independent prospective replication; mine is informed by this packet's own results. Neither lane is
+running a blind test, and X1–X3 are predictions about an instrument I do not control and whose timing
+block schedule I did not design. Their claim boundary — no coverage of all optimized neural
+implementations, development cost excluded, envelopes not population bounds — carries over unchanged to
+anything this packet says about their result.
