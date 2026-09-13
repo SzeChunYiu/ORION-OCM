@@ -132,6 +132,12 @@ are monotone under trace-preserving insertion; a mere opaque-call count does
 not establish that premise. Missing native contracts mean unknown total work.
 The written STR 39/312 bound does not extend to the larger delegation class.
 
+The [formal derivation supplement](FORMAL_DERIVATION_INTEGRATION_V1.md) gives
+conditional classical discrete-time realizations and composition/acquisition
+laws from an economical operational basis. Its bounded-state/mass-floor,
+global-history, effective-computation and charged-cost contracts remain explicit;
+finite witnesses do not establish unrestricted physical or empirical closure.
+
 The [native adjoint correction](NATIVE_ADJOINT_INTEGRATION_V1.md) restores the
 input factor in the declared ordered clamped pullback and binds the actual
 runtime to its tested source. GRAD is a state-update side effect; absent outgoing

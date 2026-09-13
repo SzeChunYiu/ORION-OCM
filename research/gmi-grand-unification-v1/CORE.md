@@ -4,6 +4,15 @@ The [master declaration](GRAND_GMI_MASTER_THEORY_V1.md) fixes the causal-process
 scope. The theory is a set of conditional results and constructions. A named
 sector or successful finite replay does not establish universal completion.
 
+The [conditional formal derivation route](FORMAL_DERIVATION_INTEGRATION_V1.md)
+connects the operational contracts to adaptive inference, acquired state,
+composition, representations and a charged executable-structure learner.
+Its explicit premises and empirical obligations remain part of every result.
+The [GAC5 composition correction](GAC_WELL_FOUNDED_COMPOSITION_CORRECTION_V1.md)
+adds the founded-dependency premise while preserving the complete upstream source.
+The [learning/memory correction](LEARNING_MEMORY_INTEGRATION_CORRECTION_V1.md)
+aligns regret, fixed-class learning and complete-view forgetting with that route.
+
 ## Current scientific additions
 
 | Question | Result and proof |
