@@ -53,6 +53,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 23 | The open training and large-scale-learning items were recorded as work not yet done. They are underdetermined: two development laws sharing the admitted realization set, profiles, families and every proved necessity give different reachable frontiers, so no derivation without a registered `D` can determine a trained outcome. A registered `D` must fix its schedule semantics; reachability strengthens exclusions but can destroy selections; and no finite budget certifies an unbounded verdict. | `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
 
 
+
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
 ledger's distinct `GG-S*` IDs. The numerical collision does not identify the
@@ -109,6 +110,19 @@ implementation fibers. A finite cost cap does not bound the length of
 zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
 
+
+
+### Gate repair carried by this iteration
+
+The controlled-acquisition checker merged onto `main` emitted its terminal
+label under the key `aggregate`. The replay capsule keys every registered
+checker on `terminal` and rejects a directory whose `grand_gmi*checks*.py`
+files are not all registered, so that checker could not be registered and its
+presence alone failed the coverage check: `main` carried 49 checker sources
+against 48 inventory entries. This iteration emits `terminal` alongside the
+historical `aggregate` field, refreezes that checker's receipt and registers
+it, restoring the gate. The checker's own logic, witnesses and tests are
+unchanged, and its 390,625-kernel enumeration is untouched.
 
 ### An open item and an underdetermined target are different things
 
@@ -273,6 +287,7 @@ Iteration 22 proves coverage for one registered finite instance only. It
 enumerates no physical machines, measures no substrate, and discharges no
 replication obligation. Because a completed cover is only as strong as its
 weakest derived bound, it more often removes a verdict than establishes one.
+
 
 Iteration 23 measures no learning process at any scale and analyses no real
 curriculum. It forbids deriving a training outcome without a registered `D`;
