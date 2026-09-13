@@ -1,0 +1,109 @@
+{
+  "executable": "/home/billy/.local/share/uv/python/cpython-3.12-linux-x86_64-gnu/bin/python3",
+  "executable_sha256": "021044895e95be79dc2f110367607e684119afbc8ce75f6f0eec94844e0acec7",
+  "focused_tests": {
+    "commands": [
+      "python3.12 -B -m unittest discover -s . -p test_*.py -v",
+      "python3.12 -O -B -m unittest discover -s . -p test_*.py -v"
+    ],
+    "normal": 17,
+    "optimized": 17
+  },
+  "native_full_payload_replay": {
+    "native-normal": {
+      "command": "python3.12 -I -B replay_v1.py --native",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stdout_bytes": 6089533,
+      "stdout_sha256": "6811b6bccfad0fecbc0c63dffae3b89840f5dc8eb04115a082b0337a22da0307"
+    },
+    "native-optimized": {
+      "command": "python3.12 -I -O -B replay_v1.py --native",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stdout_bytes": 6089533,
+      "stdout_sha256": "6811b6bccfad0fecbc0c63dffae3b89840f5dc8eb04115a082b0337a22da0307"
+    }
+  },
+  "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.35",
+  "post_capture_custody_guard": {
+    "change": "native alternate-root refusal before worker; close scandir on hostile refusal",
+    "current_changed_files": {
+      "evidence_v1.py": {
+        "bytes": 4984,
+        "sha256": "943b6978c203ebe95a0e8a8b738ef2475d80deaadb1c0f0581536bb9eb632256"
+      },
+      "test_evidence_v1.py": {
+        "bytes": 2832,
+        "sha256": "8a4b38ff3b9b0315945b76c2e68b37e85a081c118112807d4424469f4a002fcf"
+      }
+    },
+    "native_reexecution": "NOT_NEEDED_FOR_ENTRY_GUARD_ONLY_CHANGE",
+    "prior_native_receipt_unchanged": true,
+    "tests": {
+      "normal": {
+        "command": "python3.12 -B -m unittest test_evidence_v1 -v",
+        "count": 3,
+        "full_output": "test_alternate_root_native_replay_refused_before_execution (test_evidence_v1.BindingTests.test_alternate_root_native_replay_refused_before_execution) ... ok\ntest_exact_original_source_and_changed_vm_refused (test_evidence_v1.BindingTests.test_exact_original_source_and_changed_vm_refused) ... ok\ntest_full_membership_symlink_and_mutation_refused (test_evidence_v1.BindingTests.test_full_membership_symlink_and_mutation_refused) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.009s\n\nOK\n",
+        "native_calls": 0
+      },
+      "optimized": {
+        "command": "python3.12 -O -B -m unittest test_evidence_v1 -v",
+        "count": 3,
+        "full_output": "test_alternate_root_native_replay_refused_before_execution (test_evidence_v1.BindingTests.test_alternate_root_native_replay_refused_before_execution) ... ok\ntest_exact_original_source_and_changed_vm_refused (test_evidence_v1.BindingTests.test_exact_original_source_and_changed_vm_refused) ... ok\ntest_full_membership_symlink_and_mutation_refused (test_evidence_v1.BindingTests.test_full_membership_symlink_and_mutation_refused) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.010s\n\nOK\n",
+        "native_calls": 0
+      }
+    }
+  },
+  "python": "3.12.13 (main, Aug  7 2026, 02:25:39) [Clang 22.1.3 ]",
+  "receipt_gzip_sha256": "fdc1cf70d771578b7c37517e69a59d072404ab21a433789fc902bb6ae063ddab",
+  "schema": "CurrentProgramAssayValidationV1",
+  "scope": "bounded exposed native controls, not historical campaign or prospective protected experiment",
+  "source_commit": "df777cd79ba5ec6925fd82552e9341f8d73f3577",
+  "source_files_at_validation": {
+    "call_capture_v1.py": {
+      "bytes": 5746,
+      "sha256": "9e7d479792eb3ca20daa51ce2f04a9ce005ee0dc1842e38d6b547943b2acb2cf"
+    },
+    "checkpoint_v1.py": {
+      "bytes": 5166,
+      "sha256": "ad43504aaf9d6b4e0448ca252ddc26f4a836fefa3f30b874862bd8fee3486b24"
+    },
+    "evidence_v1.py": {
+      "bytes": 4746,
+      "sha256": "da1eb6cbc7e52c450c2570cc7cbf028770bdb58eacaa1456f1d59965fce713d7"
+    },
+    "legacy_terminal_v1.py": {
+      "bytes": 3020,
+      "sha256": "0e04173eaf850c5791f9bb6bdefbe83d5bf8285dfe077058b8df02a1b0c4381e"
+    },
+    "native_source_v1.py": {
+      "bytes": 1483,
+      "sha256": "221f8a8f11cd1ab05ce85c3562f31e18543a9cef7d1fd467dc4f2e60463b7066"
+    },
+    "program_controls_v1.py": {
+      "bytes": 4547,
+      "sha256": "09108b55ad6d9b010b1975320e0e27c93093b2d0a7a5750b379311da6e0681ab"
+    },
+    "qualification_v1.py": {
+      "bytes": 2745,
+      "sha256": "a68f08f994b76c8eb72262146255d4795f4449d3e49854bdd2fdc5f355f46f4d"
+    },
+    "replay_v1.py": {
+      "bytes": 427,
+      "sha256": "7fb18240e38db2ce8cace0504c04af18cf983b0caa4e376688b8136710036a51"
+    },
+    "test_calls_v1.py": {
+      "bytes": 4047,
+      "sha256": "a9915b4d93dd6ddca11d802cd75a6633be3d2dff2e259f360038250614be4648"
+    },
+    "test_checkpoint_v1.py": {
+      "bytes": 3512,
+      "sha256": "157995b1f47e6d166d9a5febd9d86305bcad8be8dff3b52cd1985ba8f119829e"
+    },
+    "test_evidence_v1.py": {
+      "bytes": 2450,
+      "sha256": "0c399702254b75437953f8fed4653710743be7d730cb1871af0feb76fa3c9c87"
+    }
+  }
+}

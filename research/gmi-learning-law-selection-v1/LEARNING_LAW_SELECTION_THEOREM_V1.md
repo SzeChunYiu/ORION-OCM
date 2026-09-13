@@ -40,13 +40,16 @@ Define
 - `SELECTED(l)` when `l` uniquely minimises `c(., pi)` over `A(K)`;
 - `UNDETERMINED_TIE` when the minimum is attained more than once.
 
-Over the complete lattice of `2^7 = 128` capability sets at uniform prices the
-census is **36 infeasible, 50 selected, 42 undetermined**. The infeasible count
-is not asserted: it is recomputed from the closed-form predicate
+Over the complete lattice of `2^7 = 128` capability sets the infeasible count
+is 36. It is not asserted: it is recomputed from the closed-form predicate
 
 `¬DISC ∧ ¬(DIFF∧EUC) ∧ ¬(DIFF∧SIMPLEX) ∧ ¬(LIK∧FINH∧SIMPLEX)`
 
 and the two counts are required to agree.
+
+The remaining 92 contracts split according to the price vector, and **LLS-6
+shows the split is generic**: under any generic prices all 92 are `SELECTED`
+and none are undetermined.
 
 ## 3. LLS-3 — resources select the law at fixed capabilities
 
@@ -86,7 +89,33 @@ it is a statement about the *record*, not about what is knowable in principle.
 - `eta` and the geometry remain "part of the declared resource/accuracy
   contract, not a universal numeric constant predicted by GMI" (O0).
 
-## 6. Scope and falsifiers
+## 6. LLS-6 — the ties were an artifact of a degenerate probe
+
+An earlier draft of this unit reported the census **at uniform prices** as
+"36 infeasible, 50 selected, 42 undetermined" and treated the 42 as a property
+of the selection law. That was a measurement artifact, and the root cause is
+visible in the charge table: `GRADIENT_STEP`, `MIRROR_DESCENT` and
+`BAYES_UPDATE` each charge exactly two operations, and `EXACT_SEARCH` and
+`ORDINAL_HILL_CLIMB` each charge one. Equal arity plus equal unit prices forces
+equal totals, so uniform prices are the one vector guaranteed to tie.
+
+Call a price vector **generic** when no two registered laws' charged totals
+coincide. Then:
+
+- under uniform prices the tie locus is nonempty and ties appear;
+- under generic prices the tie locus is empty, and the census is **36
+  infeasible, 92 selected, 0 undetermined** — checked on two independent
+  generic vectors that agree exactly;
+- genericity is load-bearing, not incidental: setting `projection` equal to
+  `normalization` in an otherwise generic vector reintroduces the
+  `GRADIENT_STEP`/`MIRROR_DESCENT` tie on cue.
+
+So the registered contract **determines** the learning law on every feasible
+contract, except on the price-equality locus where two admissible laws cost
+exactly the same. A tie is a coincidence of prices, not an incompleteness of
+the selection law.
+
+## 7. Scope and falsifiers
 
 Not claimed: that the five registered laws exhaust machine learning; that the
 charge model matches any physical cost; that a selected law converges or
