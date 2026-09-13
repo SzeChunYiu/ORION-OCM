@@ -55,6 +55,10 @@ instances are decidable, or that an empirical measurement has occurred.
 | 23 | The open training and large-scale-learning items were recorded as work not yet done. They are underdetermined: two development laws sharing the admitted realization set, profiles, families and every proved necessity give different reachable frontiers, so no derivation without a registered `D` can determine a trained outcome. A registered `D` must fix its schedule semantics; lower bounds persist under restriction, but competitive exclusions require retained comparator witnesses. Finite-prefix insufficiency does not exclude a finite exhaustive closure certificate. | `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 24 | Infinite-domain lower-bound transport does not require compactness, but accounting soundness remains required. Nonattainment need not block epsilon-witnesses or all classification; Boolean declarations do not certify result premises. | `CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`, corrected scope and positive alternatives | Original V1 preserved; corrected V2 evidence required |
 
+| 25 | The standing independent-replication obligation was unsatisfiable by construction: the V1-V4 instrument hard-requires a first-attempt push to `main` on a GitHub-hosted Linux runner, so no laptop, server or compute node can produce a valid packet, and interpreter-dependent AST hashes block cross-version candidate identity. V5 freezes a portable instrument with a recorded envelope, source-byte candidate identity and a cross-envelope adjudicator. Not executed. | `PARITY3_PORTABLE_REPLICATION_V5.md` | Current iteration; commit and merge only after required local gates pass |
+
+
+
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
 ledger's distinct `GG-S*` IDs. The numerical collision does not identify the
@@ -112,6 +116,63 @@ zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
 
 
+
+
+
+### An obligation no instrument can discharge is not an open task
+
+Iteration 25 concerns the empirical side. Independent replication has been
+carried as an evidence obligation since the first parity-3 packet, but the
+instrument that produces the evidence refuses to run anywhere it could be
+replicated: V1 to V4 require `GITHUB_ACTIONS`, `RUNNER_OS=Linux`,
+`GITHUB_REF=refs/heads/main`, `GITHUB_EVENT_NAME=push` and
+`GITHUB_RUN_ATTEMPT=1`, and yield `INVALID_RECEIPT_OR_PROTOCOL_VIOLATION`
+otherwise. That admits one attempt per push to main and nothing else, so no
+laptop, shared server or compute node can contribute a packet, and neither can
+a second attempt on the same runner. Candidate identity compounded it: V4 keys
+candidates on `ast.dump` output, which changes between CPython versions, so
+byte-identical sources on two interpreters are reported as different
+candidates.
+
+The repair separates custody from portability. What protects a measurement
+stays a hard gate — CPython, exact capability on all eight inputs, candidates
+byte-identical to the parent harness, and a complete validated opcode witness
+before any timing. What merely names a machine becomes a recorded envelope.
+Candidate identity moves to exact source bytes, which are interpreter
+independent.
+
+A diagnostic probe run before the freeze and disclosed in the registration
+found that the opcode instrument does not work on CPython 3.13: the first
+traced frame reports no opcode events, so a naive counter would report `9 * 7`
+events instead of `9 * 8` for the XOR candidate. That is the V1 defect
+recurring on a newer interpreter, and the V2 validation catches it, so a 3.13
+run is expected to yield an invalid packet that must be retained rather than
+retried. Exact opcode counts also differ between interpreters where the
+instrument does work, so the coordinate is envelope-relative and the
+adjudicator reports it per envelope.
+
+Replication is agreement between envelopes, which no single packet can
+establish. The adjudicator therefore refuses to compare packets with
+non-identical candidates, never pools a resource envelope across envelopes,
+and reports `replication_obligation_discharged: false` unconditionally.
+
+### A required property is only useful once it names its conclusion
+
+Iteration 24 does not perform any experiment on a continuum. It removes
+the undifferentiated character of the continuous obligation. The lower-bound
+half of the derivation layer transfers verbatim to an infinite instance,
+because PL-2's proof appeals only to feasible-set membership and monotonicity
+and an infimum exists for any nonempty set bounded below; so a robust family
+exclusion is not an artifact of the finite witness domain. Everything
+interpretive is gated. Where the infimum is unattained no construction and no
+finite margin can certify tightness, so PL-3's separation of epistemic from
+physical abstention — the result that makes a boundary region readable — is
+structurally unavailable rather than merely unmeasured. Every finite
+observation window strictly overestimates the bound and widening strictly
+lowers it, so benchmark samples cannot stand in for an effective description.
+The contract is therefore registered as five Boolean fields, each withholding
+exactly the result that depends on it, with an absent field treated as
+withholding rather than as a permissive default.
 
 ### Gate repair carried by this iteration
 
@@ -240,7 +301,7 @@ parent results.
 | Obligation | What is still required | Current claim ceiling |
 |---|---|---|
 | Integrated executable custody | Replay all 45 discovered finite checkers against complete frozen outputs and source/input inventory; run all 244 research tests normally and with an optimized parent, including 23 hostile replay tests. | The 234-test V4 capsule passed on main at #529 (run 34749100288). This evidence iteration adds ten static packet tampering controls. Successful replay establishes registered finite-check reproducibility only; the hosted experiment supplies its separately scoped measurement. |
-| Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. | V4 identifies XOR against the original network, a three-threshold neural construction and an exact lookup table. All four solve the full domain. The result is an observed-envelope point comparison informed by V1/V2, not independent prospective replication. |
+| Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. V5 makes replication executable at all, but executes nothing. | V4 identifies XOR against the original network, a three-threshold neural construction and an exact lookup table. All four solve the full domain. The result is an observed-envelope point comparison informed by V1/V2, not independent prospective replication. |
 | Candidate-universe coverage | Independent competitor optimization beyond the measured four-candidate expansion, then replication across tasks and substrates. | V4 performs the concrete algebraic-neural/lookup expansion; external optimization and candidate-universe completeness remain unestablished. A point verdict does not enumerate all physical machines. |
 | Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication, each against an explicitly registered development law. | Conditional resource laws do not manufacture those measurements. DU-1 additionally shows that no such law is derivable from the package's other registered inputs, so this obligation cannot be discharged by further theory alone. |
 | Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance. | Exact finite simulations are not experiments on arbitrary substrates. |
@@ -299,6 +360,18 @@ does not establish a frequency claim across other problems.
 Iteration 23 measures no learning process at any scale and analyses no real
 curriculum. It forbids deriving a training outcome without a registered `D`;
 it does not forbid, and does not supply, a theorem conditional on one.
+
+
+
+Iteration 24 measures no physical continuum and performs no experiment on
+any substrate. Discharging a contract field for a real instance requires proofs
+and measurements about that instance, which no theory supplies.
+
+Iteration 25 executes no measurement. It freezes a portable instrument, its
+registration, a cross-envelope adjudicator and runner entry points for the
+named hosts `laptop-billy`, `old` and `lunarc`, whose packets do not exist. The
+replication obligation stays open until those envelopes are executed and their
+packets frozen.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
