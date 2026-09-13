@@ -596,3 +596,49 @@ interventions. **Z7: the zeroed graph remains admissible** (min over six ≥ θ 
 dense node is behaviourally inert here as it was there. Falsified if zeroing it drops the machine below
 the bar. This is a retrodiction-risk case and is labelled as such: their result on their witness is
 public, so this inherits the same unverified-blindness status as `Z6` and claims no prospective standing.
+
+### Z7 settled by inspection: the dense node is a store key, not a coefficient
+
+With the genotype retained, the consumer question does not need a behavioural test — the wiring answers
+it. In the witness's atrophied graph the single `DENSE` node, `dense0`:
+
+| property | value |
+|---|---|
+| incoming edges | **none** — nothing ever writes to it, so it is never updated |
+| consumers | `evidence0` (`EVIDENCE`) and `insert1` (`INSERT`) |
+| numeric consumers (`DOT`, `LINEAR`) | **none** |
+| gradient consumers (`GRAD`) | **none** |
+
+The IR defines `DENSE` as a "dense continuous parameter block" whose coefficient uses are `DOT` (dot
+product with an input), `LINEAR` (a width × width map plus bias) and the reverse-mode `GRAD` update.
+**This graph contains none of them.** `dense0` is a static vector with no writer, piped into a store
+write and an evidence node — it is functioning as a **key or value for the key-value store**, not as a
+learned parameter.
+
+So the machine is a memory machine. `KVSTORE` with `INSERT` and two `NEAREST` reads does the work;
+the dense block is inert numerically and cannot be otherwise, because no path exists by which it could
+be read as a coefficient or updated as one. This reproduces the other lane's consumer finding on
+independent material and by a different method — they replaced the output and measured, this reads the
+wiring — and it is the stronger form, since it holds for every input rather than for the tested events.
+
+**Why it survived atrophy, and what that says about the routine.** Deleting `dense0` would leave
+`evidence0` and `insert1` with a missing input, which the deletion routine records as a type-check
+failure and skips; it never rewires. So the node is **structurally** load-bearing — the graph does not
+type-check without it — while being **semantically** inert. That is exactly the distinction the review
+insisted on, now exhibited concretely rather than argued: *deletion resistance is not necessity*, and
+here the gap between them is total.
+
+**Consequence, stated at its true scope.** On the one machine this lane can exhibit, the coefficient
+label is a descriptor artifact end to end: `b1.carrier_of` ranks `DENSE` first, the node is present, and
+nothing reads it as a coefficient. `Z1` on this machine reports a key-value machine.
+
+I have one witness, so this is **not** established for the other recoveries. Registered:
+**Z8 — every coefficient recovery in this campaign has the same shape: a `DENSE` node with no `DOT`,
+`LINEAR` or `GRAD` consumer in its atrophied graph.** Falsified by any recovery whose atrophied graph
+routes `DENSE` into a numeric or gradient consumer. Testable by reconstructing the remaining recoveries,
+at one replayed search each. This inherits the unverified-blindness status of `Z6`/`Z7`.
+
+If `Z8` holds, the honest statement about this lane's coefficient results is that **no coefficient
+machine was recovered at all** — and the corpus invariant
+`COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` would stand un-dented rather than scoped,
+with the warm-start arms reaching memory machines that the descriptor mislabels.
