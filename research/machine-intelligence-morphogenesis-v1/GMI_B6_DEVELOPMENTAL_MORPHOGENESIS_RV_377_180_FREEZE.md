@@ -774,3 +774,46 @@ So the earlier statement stands in its own terms — treating *charged evaluatio
 is wrong by up to 150× — and the pathology behind `E_twin2` is real. But it is a statement about the
 search budget, not about the resource ledger, and the packet uses the ledger. Recording the retraction
 next to the finding so the finding is not read as wider than it is.
+
+### Why the gradient primitive never survives: measured, in three steps
+
+**Step 1 — it is proposed constantly.** A standalone generator probe (4 000 proposals through the same
+`morphgen.mutate` path `b1.search` uses) found `GRAD` in **417 of 4 000 proposals (10.4 %)**, every one a
+valid phenotype with all three of its input ports wired. So its absence from survivors is neither a
+vocabulary gap nor a type failure.
+
+**Step 2 — but the generator always leaves it dangling.** Of 60 sampled `GRAD` graphs, **0 had the `GRAD`
+output consumed by anything**. `op_add_node` wires only the new node's *inputs*; nothing connects its
+output. A dangling `GRAD` computes an update that goes nowhere, so it confers no advantage over the same
+graph without it, and it competes in the same archive cell as its parent — the descriptor axes (carrier,
+size, drift) do not separate them. `op_rewire` and `op_add_edge` *can* connect it later, so the learner
+needs a **conjunction of two mutations whose intermediate earns nothing**.
+
+**Step 3 — the second mutation does not rescue it, but that is inconclusive.** Hand-wiring the `GRAD`
+output into a `VEC` port on 120 graphs left capability unchanged: median 0.7083 either way, max 0.8125
+dangling against 0.7708 wired, **0 of either reaching θ**. My wiring was architectural nonsense — a random
+`VEC` edge is not a gradient learner — so this is recorded as inconclusive about the family, not as
+evidence against it.
+
+**The decisive test uses the registered rows instead.** `zoo.gradient_net` is a *hand-built* learner, the
+same family the `RV-377-210` packet calls `NEURAL`. Minimum over the six V1 interventions:
+
+| ecology | best constant | `h3 lr1` | `h3 lr2` | `h6 lr2` | `h8 lr2` |
+|---|---|---|---|---|---|
+| `E_smooth3` (the SAME target) | 0.8125 | 0.7760 | **0.8073** | 0.6927 | 0.6198 |
+| `E_sym5` (the CROSS target) | 0.7917 | 0.7708 | **0.8333** | 0.7917 | 0.5781 |
+
+**Not one is admissible.** θ is 0.85 and every row is below it. On `E_smooth3` the best gradient net
+(0.8073) is **below the best constant (0.8125)** — a learner there does worse than emitting a fixed number.
+
+**So the leading explanation is capability, not grammar.** Search does not assemble a gradient learner on
+these ecologies, and on this evidence it would not be rewarded for doing so. That displaces the
+search-artifact reading I was heading toward, and it answers the `Track B3c` distinction —
+theory-prediction RED against grammar/search RED — with measurement rather than assertion.
+
+**What it cannot claim, by this programme's own rule.** The class-rate law's `M′` clause states that a
+hand-built row licenses **presence, never absence**. Four registered configurations failing does not
+establish that no gradient learner is admissible here. Terminal:
+**`NO_REGISTERED_GRADIENT_NET_ADMISSIBLE_ON_E_SMOOTH3_OR_E_SYM5`** — which removes the grammar-artifact
+explanation as the leading one without establishing absence. A searched-elite existence certificate is the
+lever that would settle it, named and not adopted.
