@@ -88,7 +88,16 @@ This theorem is deliberately scope-indexed. It is not a total optimizer for unre
 
 ## 4. DC-2 — canonical family verdicts
 
-For a valid certificate:
+For a valid finite certificate with a total selection rule:
+
+An empty selected set licenses infeasibility only when the adequately feasible
+survivor set is itself empty. Finite nonempty point-profile sets have a Pareto
+point. This equivalence must not be transported to infinite spaces, where a
+nonempty feasible set can have no optimum (NO_SELECTED_REALIZATION), or to a
+failed/undefined selector. Unknown attainment remains unresolved evidence.
+All positive property/family verdicts require a nonempty selected set; see
+`CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md`.
+
 
 - `M* = empty` -> **INFEASIBLE_AT_REGISTERED_SCOPE**;
 - `F* = {NEURAL}` -> **DERIVED_NEURAL**;
@@ -128,7 +137,11 @@ Anything stronger requires stronger coverage evidence.
 
 ## 7. DC-5 — evidence-world robustness theorem
 
-Let `W` be the set of worlds compatible with all registered uncertainty sets and statistical/physical evidence. A unique family verdict is evidence-robust only if the same family support is selected in every `w in W` on the declared confidence event.
+Let `W` be a **nonempty** set of worlds compatible with all registered uncertainty sets and statistical/physical evidence. A unique family verdict is evidence-robust only if the same family support is selected in every `w in W` on the declared confidence event.
+
+An empty compatibility set is inconsistent evidence and invalidates the
+certificate; universal quantification over it supplies no robust family
+verdict. Unknown consistency is unresolved evidence.
 
 If two compatible evidence worlds produce different family supports, the certificate verdict is `UNDECIDED_FROM_CURRENT_EVIDENCE`.
 

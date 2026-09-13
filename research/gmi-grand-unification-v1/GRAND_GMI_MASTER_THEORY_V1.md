@@ -3,7 +3,7 @@
 Status: **DECLARED CAUSAL-PROCESS SCHEMA; THEOREM-SPECIFIC ASSUMPTIONS AND RECURSIVE AUDIT REQUIRED**
 Date: 2026-09-12; corrected synthesis: 2026-09-13
 
-Current correction authority: `RECURSIVE_GAP_AUDIT_20260913.md`. A complete list
+Read first: [scientific CORE](CORE.md). Current correction authority: `RECURSIVE_GAP_AUDIT_20260913.md` and its [successor scientific queue](SCIENTIFIC_GAP_QUEUE_V2.md). A complete list
 of named objects, or green finite receipts, does not establish that every
 theorem or empirical instance has been verified. Earlier ontology-closure
 labels refer to the chosen schema, not an exhaustive absence-of-gaps theorem.
@@ -274,6 +274,11 @@ outer set, the assumed constructive dominator of that better point would also
 strictly dominate it, a contradiction. The same argument applies to the physical
 set between them. QED.
 
+A finite nonempty constructive register with proved coverage additionally supplies
+attainment; see [MSC-2](CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md).
+Architecture-property selection requires a nonempty selected set and the full
+physical profile fibers, not a single constructive representative (MSC-1).
+
 This is a **sufficient** certificate, not a necessity claim about every infinite
 set. Equality of Pareto sets alone need not mean every feasible point is dominated
 by a Pareto point. Nonempty attainable sets can have empty Pareto subsets, so this
@@ -373,7 +378,7 @@ remain scientific obligations; a label cannot discharge them.
 
 ## 9. Master law
 
-The complete theory can be written as the chain
+The declared theory framework can be written as the chain
 
 \[
 \boxed{

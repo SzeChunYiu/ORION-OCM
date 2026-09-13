@@ -1,7 +1,13 @@
 # Grand GMI Epistemic Acquisition Theorem V1
 
 Status: **THEOREM + EXHAUSTIVE FINITE WITNESSES**  
-Date: 2026-09-12
+Date: 2026-09-12; instrumental-scope correction: 2026-09-13
+
+**Current scope:** `eta_Omega` identifies the complete protected response
+quotient. It need not equal the cost of selecting one successful action.
+[TDA-1--3](TASK_DIRECTED_ACQUISITION_THEOREM_V1.md) give the relational
+acquisition law and its exact experiment/retention tradeoff. The original
+EA-1--4 class-identification results and historical receipt remain valid.
 
 ## 0. Why this is the next derived law
 
@@ -117,7 +123,7 @@ Adaptivity is therefore not an extra intelligence primitive. It is a resource-ef
 
 ## 5. Information lower bound
 
-Suppose every experiment has at most `b` possible outcomes and the current candidate set contains `k` obligation classes that all must remain distinguishable in the worst case. A depth-`d` experiment tree has at most `b^d` leaves. Therefore
+For unit-cost experiments, suppose every experiment has at most `b>=2` possible outcomes and the current candidate set contains `k` obligation classes that all must remain distinguishable in the worst case. A depth-`d` experiment tree has at most `b^d` leaves. Therefore
 
 \[
 \boxed{\eta_\Omega\ge \lceil\log_b k\rceil}
@@ -141,11 +147,11 @@ w\equiv_\Omega w'
 
 whenever the two causal models induce the same protected downstream response profile for the declared obligation.
 
-**EA-5 — Obligation-Relative Causal Discovery Theorem.** In a finite exact causal-model class, the minimum worst-case number/resource of interventions required for task-sufficient causal discovery is exactly the epistemic acquisition complexity of the obligation quotient, not necessarily the complexity of full causal-model identification.
+**EA-5 — Protected-Response Causal Identification Theorem.** In a finite exact causal-model class satisfying the fixed deterministic experiment-table contract, the minimum worst-case number/resource of interventions required to identify the complete protected-response quotient is exactly `eta_Omega`, not necessarily the complexity of full causal-model identification. This is a reduction to EA-1, not an equality for every instrumental action objective.
 
 Thus two causal graphs may remain unresolved forever with no intelligence deficit if every distinction between them is Omega-null at the declared boundary.
 
-This does not deny the value of full scientific identification; it distinguishes a scientific obligation that asks for the graph itself from an instrumental obligation that only requires downstream adequate action.
+Full scientific identification remains appropriate when the obligation asks for the graph or response profile itself. A weaker instrumental action objective can be cheaper even when its worlds have different protected profiles: `{a,b}` and `{a,c}` admit the constant action `a`. With identical experiment rows the quotient is unidentifiable while action costs zero. TDA-1 replaces quotient-homogeneous leaves by leaves with a common successful action. State-changing interventions require a controlled-history register; a fixed observation table does not by itself model them.
 
 ---
 

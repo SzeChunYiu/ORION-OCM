@@ -1,5 +1,7 @@
 # Grand GMI recursive gap audit — 2026-09-13
 
+Successor scientific work: [CORE](CORE.md) and [recursive queue](SCIENTIFIC_GAP_QUEUE_V2.md). These add task-directed acquisition/retention, nonvacuous constructive selection and resource-feasible proof reuse; earlier evidence remains historical at its declared scope.
+
 Status: **SCOPED THEOREM REPAIRS; FINITE REGRESSION EVIDENCE; GLOBAL AND EMPIRICAL COMPLETION NOT ESTABLISHED**
 
 This is the current correction index for `GRAND_GMI_MASTER_THEORY_V1.md` and

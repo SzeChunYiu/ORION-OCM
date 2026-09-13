@@ -1,5 +1,5 @@
 {
-  "capture_python": "3.12.14",
+  "capture_python": "3.12.13",
   "checkers": [
     {
       "checker": "grand_gmi_active_closed_loop_checks_v1.py",
@@ -186,12 +186,22 @@
           "reason": "Historical frozen JSON differs from the complete current checker stdout: it carries a prose scope field the checker never emitted, and it predates the FAMILY_PHASE_SOUNDNESS_CORRECTION_V1 bound-direction and decomposition-closure fields. Preserve it for provenance; use the separately versioned executable-output snapshot for replay only.",
           "sha256": "fb5a38deea0d42f9ccffc54d9b0533ce833d6e816d67254d7742252622ef71bd",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "different_fields": [
+            "$.hybrid_exclusion_requires_decomposition_closed_candidates",
+            "$.pure_family_lower_bounds_sum_registered_lower_bounds"
+          ],
+          "path": "replay_receipts_v1/GRAND_GMI_FAMILY_PHASE_RECEIPT_PRE_SOUNDNESS_V1.json",
+          "reason": "Exact pre-#532 bytes recovered from main@0f902b38 because upstream rewrote this prior receipt in place; current upstream bytes also remain preserved.",
+          "sha256": "bf0dcd113344a630348a9ecd32fd50f5c5f44509091781c19de8abcd8fdcf368",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
       "kind": "finite_check",
       "receipt": "replay_receipts_v1/GRAND_GMI_FAMILY_PHASE_RECEIPT_REPLAY_V1.json",
       "receipt_sha256": "b921818b2dce29617a62667c33cd3e78669b587a72a204a617e8a391eeda7141",
-      "source_sha256": "d54cf0990fb9e888d34fdfb8dd999a89a46fa408c7e551b13453f4b38a3d3500",
+      "source_sha256": "745b2111c48de85c5a382e3ef0e04901d1804228db1fe195326d69efe7169034",
       "terminal": "GRAND_GMI_FAMILY_FRONTIER_PHASE_TRANCHE_ALL_GREEN"
     },
     {
@@ -267,11 +277,38 @@
           "reason": "The V1 aggregate checked five terminal labels and was not an exact replay of its own source. V2 replays all finite leaf payloads and adds the unattained componentwise-infimum witness.",
           "sha256": "fd3f3868006daee8000bdaa8557e2462ba3b5f151eae7199b89e1ae1336c4df0",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "different_fields": [
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_family_phase_checks_v1.py",
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_family_phase_soundness_checks_v1.py",
+            "$.receipt_stack.receipts",
+            "$.receipt_stack.terminals.GRAND_GMI_FAMILY_PHASE_SOUNDNESS_RECEIPT_V1.json"
+          ],
+          "path": "replay_receipts_v1/GRAND_GMI_MASTER_RECEIPT_PRE_PHASE_V2.json",
+          "reason": "Exact pre-#532 bytes recovered from main@0f902b38 because upstream rewrote this prior receipt in place; current upstream bytes also remain preserved.",
+          "sha256": "0f2d2802c60635b8f1b2ec821d6fbdb822129a965b2683c3fe9fc745d20878b0",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "different_fields": [
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_proof_search_checks_v1.py",
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_selection_attainment_checks_v1.py",
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_task_directed_acquisition_checks_v1.py",
+            "$.receipt_stack.receipts",
+            "$.receipt_stack.terminals.GRAND_GMI_PROOF_SEARCH_REUSE_RECEIPT_V1.json",
+            "$.receipt_stack.terminals.GRAND_GMI_SELECTION_ATTAINMENT_RECEIPT_V1.json",
+            "$.receipt_stack.terminals.GRAND_GMI_TASK_DIRECTED_ACQUISITION_RECEIPT_V1.json"
+          ],
+          "path": "GRAND_GMI_MASTER_RECEIPT_V2.json",
+          "reason": "Reviewed integration adds three finite sectors beyond the upstream family-phase correction; old aggregate remains its historical snapshot.",
+          "sha256": "d30460f792e61ab11458d94570dd95f98145bb6a4c438d0259ed1a750a1c3a7e",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
       "kind": "aggregate",
-      "receipt": "GRAND_GMI_MASTER_RECEIPT_V2.json",
-      "receipt_sha256": "d30460f792e61ab11458d94570dd95f98145bb6a4c438d0259ed1a750a1c3a7e",
+      "receipt": "GRAND_GMI_MASTER_RECEIPT_V3.json",
+      "receipt_sha256": "139603b4f84c98455fc51b1ee31bc2b6a9a5c879acde2c7bd4f82c4247159241",
       "source_sha256": "8eb251f3e5a24a0c36bcb08bd77c79f73ed1d4aa03cef97da3b3bab5fd14734b",
       "terminal": "GRAND_GMI_MASTER_INTEGRATION_V2_ALL_GREEN"
     },
@@ -498,6 +535,15 @@
       "terminal": "GRAND_GMI_FORMAL_REASONING_PROOF_SEARCH_TRANCHE_ALL_GREEN"
     },
     {
+      "checker": "grand_gmi_proof_search_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_PROOF_SEARCH_REUSE_RECEIPT_V1.json",
+      "receipt_sha256": "324e48833b047bb09ddcb74fb5ba5d9cb7e739e75b6f84e3e4fcae2e987d8d3d",
+      "source_sha256": "c01b5a6529ea443b533731ccb16399d369a31f795755e7f7c6a1930d2ff38880",
+      "terminal": "PROOF_SEARCH_REUSE_SCOPED_CHECKS_GREEN"
+    },
+    {
       "checker": "grand_gmi_quantum_checks_v1.py",
       "historical_receipts": [
         {
@@ -565,6 +611,15 @@
       "terminal": "GRAND_GMI_REFLECTIVE_SELF_REFERENCE_TRANCHE_ALL_GREEN"
     },
     {
+      "checker": "grand_gmi_selection_attainment_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_SELECTION_ATTAINMENT_RECEIPT_V1.json",
+      "receipt_sha256": "dc4e7ff537e13aeaf51fc86378377273c293fa4876d219b5b39ddae7363923c9",
+      "source_sha256": "7d38059dd9c12748c8c02ebe18e79a5a6606024ef69196b5d327528413c545b6",
+      "terminal": "GRAND_GMI_SELECTION_ATTAINMENT_FINITE_CERTIFICATE_GREEN"
+    },
+    {
       "checker": "grand_gmi_semantic_adequacy_checks_v1.py",
       "historical_receipts": [],
       "kind": "finite_check",
@@ -611,6 +666,15 @@
       "receipt_sha256": "af56b154e778643320ebd2218dde447a74df607e570cb14d02f8aea195515870",
       "source_sha256": "e858e527077e47073f6db28464505bd19da3299ba9dec0f29580aa12b27a06e6",
       "terminal": "GRAND_GMI_SUFFICIENCY_DIRECTIONS_TRANCHE_ALL_GREEN"
+    },
+    {
+      "checker": "grand_gmi_task_directed_acquisition_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_TASK_DIRECTED_ACQUISITION_RECEIPT_V1.json",
+      "receipt_sha256": "2ea767ef89e56a4017b369153dc065309bca2b624d08df3f6253b6f6459582dc",
+      "source_sha256": "78a803e3bb65ef8d27b942e1095609f9207ca8636958c0f6ba5b929718968505",
+      "terminal": "TASK_DIRECTED_ACQUISITION_FINITE_GREEN"
     }
   ],
   "claim_ceiling": "registered finite executable checks only; no universal theorem or empirical closure",
@@ -639,7 +703,7 @@
     "CAUSAL_SEMANTIC_VIABILITY_THEOREM_V1.md": "b44e07cdcb5127fcdb100c369fb2178a5fffe12b95152cf091daad9188cde69c",
     "CERTIFICATE_INPUT_CORRECTION_20260913.md": "70c87e2aed7de76e9f8fd7dfa60b484384d97a9d3282c5424b4d0cbf49f54963",
     "CLAIM_LEDGER_DUAL_DERIVATION_ATLAS_V1.md": "e48899c43293219cc0af2ccab5765e28c5c4b0b4a51be34fac5f5cb66e0fa914",
-    "CLAIM_LEDGER_FAMILY_PHASE_V1.md": "c07e3844575a477aec6c34c5fa69b45f34f6f7340f2f6ab601b222102b9ffbf8",
+    "CLAIM_LEDGER_FAMILY_PHASE_V1.md": "6fd3d40a1f951f28ed49a52a1c6e15a0c675e59fd04da86f6b432483390ecc75",
     "CLAIM_LEDGER_NN_NONNN_CLOSURE_AUDIT_V1.md": "69f67f8e19dadcfc548178194641c60ed535c5eb07f7d881d12405a309668b04",
     "CLAIM_LEDGER_NN_NONNN_EMPIRICAL_PROTOCOL_V1.md": "4a4c28f28cefc5fee71fd1d065771529ba3c854f0644e36acec91f63f944f3ea",
     "CLAIM_LEDGER_NN_NONNN_EVIDENCE_READINESS_V1.md": "a0f7f86be3ab943fdeb258e91223adcbecc27477d155b91ab64f9feddfe47f14",
@@ -663,22 +727,24 @@
     "COMPOSITIONAL_LANGUAGE_CLAIMS_V1.md": "1f8b6ead48b00736b60cd1544ca48e4f9a5cfc8c3bec88c856ab144519b7235f",
     "COMPOSITIONAL_LANGUAGE_MORPHOLOGY_THEOREM_V1.md": "cd451b1b99a8afee8777a1c5dcff76f695691ae48464b772f5a4562379192374",
     "COMPOSITIONAL_LANGUAGE_PARENT_SUBTRACTION_V1.md": "c4b619c08c3698a389cbea4c3de9f20e55c33facbbf563dd3b3baccd8f94a0b3",
+    "CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md": "a4002cf3710c1cd27be1d47cd6b5c0be0f354e254b6fccbb71618b72ae02df27",
     "CONTINUAL_RETENTION_PARENT_SUBTRACTION_V1.md": "a01a32e185c16c5538744269fc7751537afe396a62af292653203332e43f860a",
     "CONTINUAL_SEMANTIC_RETENTION_CLAIMS_V1.md": "6f03e78858f878678218ae6b7d70d1a6eff953d80668906c1154c273c1384352",
     "CONTINUAL_SEMANTIC_RETENTION_THEOREM_V1.md": "82cc993ba9879b028f66ae9aca1fee182bc215aa8eeab2d1c7982cf1eee8eca1",
     "CONTINUOUS_REALIZATION_BRIDGE_THEOREM_V1.md": "edb052ff83adcccde3c1acc5b74373b43df03da2b0f670a354371f4f434e834e",
+    "CORE.md": "9c35effc45b693fd1993418313a516c675ba51fe4ac69cff7ed2e9cb9b42a0e7",
     "DECISION_FINITE_SCORES_AUDIT_V1.md": "c64154bb930a8f29ff8040a3734b3fe5d265b9f4d8411271ac48fd7907e3e8f9",
     "DEVELOPMENTAL_LIFECYCLE_CORRECTION_V2.md": "df8de710ac307a5151aa27375edaf52abb306b659bfe94db20215d68ec0b7581",
     "DEVELOPMENTAL_REACHABILITY_SELECTION_THEOREM_V1.md": "67d905ff38306b56eaa79e99da048287e1d6b438575f52c3e11f19d281c449c3",
     "EMPIRICAL_RESOURCE_IDENTIFICATION_THEOREM_V1.md": "5c7604f3505be8ae04bc4ac06d982826bf05f6f6b0b5f95caa5309cf90f1fa29",
     "END_TO_END_DERIVATIONS_V1.md": "8ded24076996ba07a1277fa401def2fe85744fb06a9b2058ad35b6a7a83226b9",
-    "EPISTEMIC_ACQUISITION_CLAIMS_V1.md": "0323a69344d6067d878d13d970f56edaf2a1379816159207f5abe675d062fa88",
+    "EPISTEMIC_ACQUISITION_CLAIMS_V1.md": "3bb8f99fcdd9ce76c35e257ce19ebd6daa581c03edf9bfa5c1c3a6ab7ace2502",
     "EPISTEMIC_ACQUISITION_FREEZE_V1.md": "61205a1a3bbcfaa8d092aaa6750deb407012632fd7fde1458b2099b29a6fc487",
-    "EPISTEMIC_ACQUISITION_INTEGRATION_V1.md": "678b943d45d135ed16be3e0a6a4562510ead584338d1fcd4cb8536a080e84832",
-    "EPISTEMIC_ACQUISITION_PARENT_SUBTRACTION_V1.md": "b498d98e64bc8a6f36d6e51bbca23d00eae61b701609bd44e58757d9ff2b5e50",
+    "EPISTEMIC_ACQUISITION_INTEGRATION_V1.md": "78071fc45252351095707931636c88da538269294ee398df549fe203b5efe8cd",
+    "EPISTEMIC_ACQUISITION_PARENT_SUBTRACTION_V1.md": "92205d0b551f7f715128081ad7168df052e79e1f279741612efb29b36361aab0",
     "EPISTEMIC_ACQUISITION_README_V1.md": "3a8fe67d2654808bf50178c66dd842237b1af0e20c3e34397e42eb0e3b4b4b46",
-    "EPISTEMIC_ACQUISITION_THEOREM_V1.md": "ae1a834bf037632cca258e253473d6d4e8e841c6fecc0f2c540081d3ebb7626d",
-    "FAMILY_FRONTIER_PHASE_THEOREM_V1.md": "e69c65bbd83df6fda10b5fe14416fd338384f7e5908e923a85f4da1b3448199a",
+    "EPISTEMIC_ACQUISITION_THEOREM_V1.md": "8780a3c31f17a86d35edee33a99dede64e6860a83fec83b02786ac46acaab928",
+    "FAMILY_FRONTIER_PHASE_THEOREM_V1.md": "7f116df34e70753445dfef8a79381e1d8598870c79ad66659b2706a207caa41a",
     "FAMILY_PHASE_MERGE_NOTE_V1.md": "dae7b34a65397a80152874cae6572291ccd1253c9767731a2a3de4039d4549cd",
     "FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md": "e33b216acc1492e9f84262b510ad4cc6784a02c0d2c26e90f66bc21f97b5be0f",
     "FORMAL_REASONING_PROOF_SEARCH_THEOREM_V1.md": "043c6e2d868ce9033f43cd77cdcc83d955a023bc11eaa1278d41cd34abb9b915",
@@ -687,21 +753,21 @@
     "GENERALIZATION_IDENTIFIABILITY_CLAIMS_V1.md": "cdf0ad19fd489cfea305e72073b890f56c7d879af533b8a570fc8bc802738657",
     "GENERALIZATION_IDENTIFIABILITY_RADIUS_THEOREM_V1.md": "93c43a99622bcbcd062ce0ffe5ab10119a2ad7ce2892dd41143fa1d214d774b0",
     "GENERALIZATION_PARENT_SUBTRACTION_V1.md": "c6e10da7f69a017486a0480118c521e5a1270d4f0a36f090175923895b97de81",
-    "GRAND_GMI_MASTER_THEORY_V1.md": "afb934382ce90c01e574443857e10b4f45519227ecc7ae6123fd5355d9661128",
+    "GRAND_GMI_MASTER_THEORY_V1.md": "756bbf94207ad98f60f4fdea93828ff03b947a040719db4d2e8e6867161cc88c",
     "GRAND_GMI_NN_NONNN_CLOSURE_MANIFEST_V1.json": "d980eb1a3e71d62180b48f113f1740ea1994d35d2fdab49c334a4053c6c26638",
     "GRAND_GMI_STRATEGIC_PR_SUMMARY_V1.md": "dd6941979f1e5df02603ac294f4e1515622ea432578b83e28f96c3d3e06fa673",
     "INFORMATION_COMPUTATION_SEPARATION_THEOREM_V1.md": "fab719a8c36913d6f1a522f968a6d9164d25eb6c1b6b8d1d6e596d1785a8d7c9",
     "INTERACTIVE_CUT_SCOPE_CORRECTION_V1.md": "e4a80e80d955608de1c45109c9a466d1f9472de192bb6e81bfdadcdb7f25f462",
-    "INTRAFAMILY_ARCHITECTURE_REFINEMENT_THEOREM_V1.md": "1327acea1e57c754824d534d88d2f0879e9e1abc44de9045871bf370a93705ab",
+    "INTRAFAMILY_ARCHITECTURE_REFINEMENT_THEOREM_V1.md": "277bbb2a389a8082b2b23edd9b2667c6d99b1095096ef3a29104f1367a263236",
     "MASTER_CLOSURE_LEDGER_V1.md": "b3155ea948ee57a9a96e93d37bb4ad885ed489e3cb24521250c7f365480d8020",
     "MASTER_CLOSURE_LEDGER_V2.md": "abe71f671292786d7924ccaa7007c1bc7c8e92f4b659831a06bb4611dde6181b",
-    "MASTER_CLOSURE_LEDGER_V3.md": "3e3597665551469f3e0049acb4e5bbf0c5d7a9e44334b877edcb16b0e0276841",
+    "MASTER_CLOSURE_LEDGER_V3.md": "ff40b6ab41e15cdab76fbe12f807fca3dcc9fe3704acdca002a0bb0ac8798409",
     "MASTER_DERIVED_LAW_MANIFEST_V2.json": "4078f67f49a66fc962cb90398b21575f870705bcaff317097059496c9e54eecd",
     "MASTER_DERIVED_LAW_STACK_V2.md": "6f95173c434637d153b89fbda030d38bef29db3187ef2bebc9636ef2ad532861",
     "MEASURABLE_CONTINUOUS_GMI_THEOREM_V1.md": "779ad9a74fbfc24716465e8befdc6ccfccabb78184fb2ee904407a7f73f61348",
-    "MORPHOLOGY_SELECTION_THEOREM_V1.md": "3bb5aef705eda24e896411ea480531d7dc74dc4519740c8b9b4f568bd925ffee",
-    "NEURAL_NONNEURAL_FAMILY_SELECTION_THEOREM_V1.md": "472323c707b865105ac8116934c94fda4ff523a9e9b5cb02ecfa4d039310d707",
-    "NN_NONNN_DERIVATION_CERTIFICATE_AND_BOUNDARY_THEOREM_V1.md": "dfb77bc1759dda95e09a5abe8e4715b16b4692c5142a984c5adb174beef85ad8",
+    "MORPHOLOGY_SELECTION_THEOREM_V1.md": "6f7aa0b4a3b723321b59ca6a493bf33ae739080b8a056efab057737a8f6d92fb",
+    "NEURAL_NONNEURAL_FAMILY_SELECTION_THEOREM_V1.md": "988012e0fab064b482565f02c3064532b71e778c039f448eeb2d4b5819e70f65",
+    "NN_NONNN_DERIVATION_CERTIFICATE_AND_BOUNDARY_THEOREM_V1.md": "9190367654b6e3275819d4847df7f2e0bcc84ac47d9ee2cf41492dbbe3d3bce1",
     "NN_NONNN_DERIVATION_CERTIFICATE_TEMPLATE_V1.json": "2f10b3dfa7012d3ceca185bf1e58f0139e17ce70f730dad65aefd99f380e2dbf",
     "NN_NONNN_DUAL_DERIVATION_ATLAS_V1.md": "9fc8dd29a78156252ef9e19bc8f1e0fde3342c38e3227a7af42459037b73cad3",
     "NN_NONNN_EMPIRICAL_EVIDENCE_READINESS_AUDIT_V1.md": "fba6a3f5b68c660633dda4fbeacbcd16a36eb51a11dc37bec78d45f415a70697",
@@ -734,17 +800,19 @@
     "PLANNING_SEMANTIC_RESOLUTION_CLAIMS_V1.md": "6ffb515ebae99b809ceb7c083d2fe525f2209700307110aea9b172b953e20971",
     "PLANNING_SEMANTIC_RESOLUTION_PARENT_SUBTRACTION_V1.md": "bf9ecabece05ae9b3af5efe6773bd9faa06a0fc8c4bf7555ccf6ee6f130414bc",
     "PLANNING_SEMANTIC_RESOLUTION_THEOREM_V1.md": "faf2321084332b8dbbe3541e791567dbdd1e3a345281ee0610e38a3a2d37d773",
+    "PROOF_SEARCH_VERIFICATION_REUSE_THEOREM_V1.md": "c5917f038e4cf625d893f67e482f1294c341f4cc0ac80e8d3aa0e8d6aa600518",
     "QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md": "3924fbdf842e2a23ed7bd066be3a7bbf40e23a640773a350939a2a3f7e7db717",
     "QUANTUM_PROCESS_INSTANTIATION_THEOREM_V1.md": "6ae13ba236d74f53b8571d9163399e3d15fa2032245542dc5f7acf6dd4fe6f81",
     "REALIZATION_COMPILATION_THEOREM_V1.md": "2633c9a1e3f85dd7bcb80ad6636d728096eacf73e4788c1cda12a12b57cb81c2",
     "RECURSIVE_AUDIT_COMPACT_SYMMETRY_V1.md": "cab9a328c57dd29d3ff2b48910c25f2a2c028a5cae6309a6ea05d76d6df74b02",
     "RECURSIVE_AUDIT_OPERATIONAL_REACHABILITY_V1.md": "01e2f9c83ac4711c1e6894e00c40ce13ae3146bd7932d9d845b7f4c2fb290cec",
-    "RECURSIVE_GAP_AUDIT_20260913.md": "12989299163f0b08da68687df3307f2fdd0c718334df9021c24d0f6848b5ab70",
+    "RECURSIVE_GAP_AUDIT_20260913.md": "03926d2304f0da932a733ab7b576aa553071744ec4f67bb67aa151ede16b98b4",
     "RECURSIVE_MORPHOGENESIS_THEOREM_V1.md": "2bdf40948ef18d384371c551f0a7d818e4ad4f1545acf9f65d3bd8e0d6842c03",
     "REFLECTIVE_SELF_REFERENCE_THEOREM_V1.md": "595e27bee1b5977e33268e27a91abe193e269e8b7ab52918116a8ba98d27a2b1",
     "ROBUST_DECISION_PRECISION_CLAIMS_V1.md": "6517d6dfc769b26efbba19c4e78fd692bd9fb8c85bcfc84855600aca239c31f1",
     "ROBUST_DECISION_PRECISION_PARENT_SUBTRACTION_V1.md": "33af4dd5a93c08d5b87ee8cfcb7f73c20193949dea1e385a85a5feb59b615088",
     "ROBUST_DECISION_PRECISION_THEOREM_V1.md": "7e3bc837689878ccc6f1d1df9823525493e1518dc52ca3ba66ca65ee15756f99",
+    "SCIENTIFIC_GAP_QUEUE_V2.md": "0452eccf675b8f14a06c177c3b80f5ab62c39f99fa252788cdd107fb37bea6ba",
     "SEMANTIC_ADEQUACY_CORRECTION_V1.md": "e61e649244ab85e8991ff2b53c04e989bdee172dd8d3067c950943d20f8a19bc",
     "SEMANTIC_CUT_THEOREM_V1.md": "c2801906602b0081dab554d2fbb9c61866d6122aceac8a9a29865bc2b560b0fd",
     "SEMANTIC_STATE_REFINEMENT_THEOREM_V1.md": "ab47ea44f3ede57697df97369daab6c18a7292e8511b43d8e3f2c99e00020893",
@@ -752,7 +820,8 @@
     "SUBSTRATE_LIFTING_THEOREM_V1.md": "a4513071b695aa47d68c126a52b2bcf1c98f1d09ab57737bdfdf60266c987e2e",
     "SUFFICIENCY_DIRECTIONS_AUDIT_V1.md": "b3584d86d4c6cb813a670d57705b48abac5f3558820766c92811433bd82a3e66",
     "SYMMETRY_TO_MORPHOLOGY_THEOREM_V1.md": "c8decf048e88888d40173d2286feed37c90b1ea4a63b02b0a5eed074c2feeace",
-    "THEOREM_REPLAY_CAPSULE_V1.md": "38fbb06278cfdfad54b0fad4fc8b64c0128b089ce287d428655e1d853369dc77",
+    "TASK_DIRECTED_ACQUISITION_THEOREM_V1.md": "7d45d0a5700217c41d54cc498699283a0c5f173416269480090e684a057514c3",
+    "THEOREM_REPLAY_CAPSULE_V1.md": "fd34555c1682afbccbe5cf6d910797bce91c13d2b9ec7c7d22925f804d5217f3",
     "UNCOMPUTABILITY_BOUNDARY_THEOREM_V1.md": "b6dac6fe86c28c2a2ea2a90b9c1191334f3cb3f807a47011bde4808ceba22725"
   },
   "non_replayed_records": [

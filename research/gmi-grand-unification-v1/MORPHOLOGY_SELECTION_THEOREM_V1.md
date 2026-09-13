@@ -99,8 +99,16 @@ Define
 Then `P` is **Pareto-derived at the registered scope** iff
 
 \[
-\boxed{\forall m\in\mathcal M_F,\ P(m).}
+\boxed{\mathcal M_F\ne\varnothing\quad\text{and}\quad\forall m\in\mathcal M_F,\ P(m).}
 \]
+
+Nonemptiness is essential. Adequate scalar costs {1/n:n>=1} have no
+Pareto point: 1/(n+1)<1/n improves every candidate. The universal predicate
+alone would derive both P and its negation over the empty selected set.
+Use NO_SELECTED_REALIZATION for proved nonattainment, distinct from an
+empty feasible set and from unknown attainment. A finite nonempty covering
+construction can supply attainment; see
+`CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md` (MSC-1–3).
 
 If there exists even one frontier morphology for which `P(m)` is false, `P` is not necessary under the registered Pareto criterion.
 
@@ -140,7 +148,12 @@ Every derived morphology property must enter through at least one typed source:
 }
 \]
 
-If changing none of those registered objects can change whether property `P` is selected, then `P` has not been derived from the Grand GMI problem specification; it has been inserted as an implementation prior or naming convention.
+Every claimed property needs a proof from the registered feasible/selected
+set and the relevant source assumptions. Invariance when the specification
+is unchanged is expected, and does not indicate an inserted prior. Nor must
+a derived invariant cease to hold in another specification. A property
+supported only by a chosen source implementation or historical name, without
+that selected-set entailment, has not been derived at the claimed scope.
 
 This is a provenance criterion, not a claim that deriving the frontier is computationally easy.
 

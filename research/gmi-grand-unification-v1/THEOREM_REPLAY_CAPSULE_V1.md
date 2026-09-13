@@ -1,5 +1,12 @@
 # Grand GMI finite-check replay capsule V1
 
+Current reviewed extension: [scientific CORE](CORE.md). Four additional finite
+sectors cover task-directed acquisition, constructive selection/attainment,
+family-phase soundness and proof reuse. The active aggregate is
+`GRAND_GMI_MASTER_RECEIPT_V3.json`; the V2 aggregate and original family replay
+remain immutable historical records. The complete current register has 49
+checkers (48 leaves and one aggregate); counts below describe earlier captures.
+
 This gate establishes reproducibility of the registered finite executable checks.
 It does **not** establish universal truth of the theorem prose, validity of every
 external premise, completeness of a recursively discovered gap set, or empirical
