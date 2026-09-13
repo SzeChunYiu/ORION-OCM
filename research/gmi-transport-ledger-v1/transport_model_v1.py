@@ -67,3 +67,53 @@ def exclusion_transports(candidate, comparator):
     if ca_hi is not None and ca_hi < cb_lo:
         return "CERTIFIED_STRICTLY_LOWER"
     return "UNVERIFIABLE"
+
+
+# --- TL-7: the exact trichotomy, and the mirror direction TL-6 omitted -------
+
+def realizable_orders(a, b):
+    """Which strict orders some consistent completion can realise.
+
+    a, b are (lower, upper) with upper None meaning unbounded above.
+    Returns (can_a_lt_b, can_a_gt_b, can_equal).
+    """
+    for x in (a, b):
+        require(isinstance(x, tuple) and len(x) == 2, "bounds must be (lower, upper)")
+        lo, hi = x
+        require(isinstance(lo, Fraction), "lower bound must be exact")
+        require(hi is None or isinstance(hi, Fraction), "upper must be exact or None")
+        require(lo >= 0 and (hi is None or hi >= lo), "invalid nonnegative interval")
+    a_lo, a_hi = a
+    b_lo, b_hi = b
+    can_lt = True if b_hi is None else a_lo < b_hi
+    can_gt = True if a_hi is None else a_hi > b_lo
+    lo_max = max(a_lo, b_lo)
+    if a_hi is None and b_hi is None:
+        hi_min = None
+    elif a_hi is None:
+        hi_min = b_hi
+    elif b_hi is None:
+        hi_min = a_hi
+    else:
+        hi_min = min(a_hi, b_hi)
+    can_eq = True if hi_min is None else lo_max <= hi_min
+    return can_lt, can_gt, can_eq
+
+
+def compare(candidate, comparator):
+    """Complete comparison: both directions, with UNVERIFIABLE otherwise.
+
+    TL-6 implemented only the candidate direction; the mirror certificate
+    (comparator upper strictly below candidate lower) is equally valid.
+    """
+    a_hi = candidate[1]
+    b_hi = comparator[1]
+    if a_hi is not None and a_hi < comparator[0]:
+        return "CERTIFIED_STRICTLY_LOWER"
+    if b_hi is not None and b_hi < candidate[0]:
+        return "CERTIFIED_STRICTLY_HIGHER"
+    return "UNVERIFIABLE"
+
+
+COMPARE_TERMINALS = ("CERTIFIED_STRICTLY_LOWER", "CERTIFIED_STRICTLY_HIGHER",
+                     "UNVERIFIABLE")

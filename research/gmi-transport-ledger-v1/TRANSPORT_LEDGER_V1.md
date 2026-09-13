@@ -1,6 +1,6 @@
 # Transport ledger: what survives scale-up and what does not
 
-Status: **SPLIT RESULT; LOWER BOUNDS TRANSPORT UNCONDITIONALLY, ORDERINGS ONLY UNDER A TWO-SIDED CERTIFICATE**
+Status: **SPLIT RESULT, BOTH HALVES NOW EXACT: LOWER BOUNDS TRANSPORT UNCONDITIONALLY; ORDERINGS TRANSPORT IFF A TWO-SIDED CERTIFICATE EXISTS**
 Date: 2026-09-13
 
 Ledger item 9 asks whether the exact finite laws survive at realistic scale.
@@ -74,7 +74,33 @@ The practical reading: measuring a lower bound at small scale buys nothing for
 exclusion. Retaining a finite upper bound on the candidate buys everything, and
 is what a comparator "at that scale" actually supplies.
 
-## 5. TL-4 — the physical gap is separate from the mathematical one
+## 5. TL-7 — the certificate is necessary as well as sufficient
+
+TL-6 gives a sufficient condition. The characterisation is exact, and both
+directions are proved:
+
+    A certified strictly cheaper  <=>  a_hi is finite and a_hi < b_lo
+
+**Sufficiency** is the order chain. **Necessity** is constructive: whenever
+`a_hi` is absent or `a_hi >= b_lo`, explicit completions realise the opposite
+order or a tie. For `A=[1,4]`, `B=[3,9]` the witnesses are `a=1,b=9` and
+`a=4,b=3`; at the boundary `a_hi = b_lo` the witness is the tie `a=b=3`. An
+exhaustive check over a rational grid of interval pairs finds **zero**
+disagreements between the rule and "every completion has `a < b`".
+
+So the two-sided certificate is not a convenience. It is exactly the
+information content required, and no rule on one-sided data can do better.
+
+### The mirror certificate, which TL-6 omitted
+
+TL-6 tested only the candidate direction. The symmetric certificate is equally
+valid: `b_hi < a_lo` certifies the **comparator** strictly cheaper. `compare`
+implements both and returns one of `CERTIFIED_STRICTLY_LOWER`,
+`CERTIFIED_STRICTLY_HIGHER` or `UNVERIFIABLE`. On `A=[10,∞)`, `B=[1,4]` the
+mirror certificate applies while TL-6 alone reported `UNVERIFIABLE`. That was a
+gap in TL-6, and it is recorded rather than silently corrected.
+
+## 6. TL-4 — the physical gap is separate from the mathematical one
 
 CLB-1's accounting premise may be proved for a mathematical model. A physical
 application "additionally needs justified calibration/error bounds connecting
@@ -82,7 +108,7 @@ that model to its instance", and a field named `measured_resource_contract`
 "neither proves the inequality nor is a logical prerequisite to every abstract
 proof". Declaring a contract is not discharging it.
 
-## 6. TL-5 — where the repository already places itself
+## 7. TL-5 — where the repository already places itself
 
 The phenomenology atlas records three tiers: exact/tight sectors; results
 "structurally explained but quantitatively open at modern scale" — naming
@@ -95,7 +121,7 @@ This ledger does not move any result between tiers. It states why the first
 tier's lower bounds are already scale-free, and why nothing in the second tier
 becomes closed by proving more exact finite theorems.
 
-## 7. Scope and falsifiers
+## 8. Scope and falsifiers
 
 Not claimed: that any specific registered bound has its accounting premise
 discharged for a physical machine; that transport implies tightness; that an

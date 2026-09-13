@@ -14,6 +14,10 @@ halves have opposite answers.
   comparator's lower bound certifies at any scale (TL-6), verified through a
   10^6 rescaling. One-sided evidence buys nothing for exclusion; a retained
   upper bound buys all of it.
+- **And that certificate is exactly what is required.** TL-7 proves the
+  condition necessary as well as sufficient, with constructive witnesses and a
+  zero-disagreement exhaustive check, so no rule on one-sided data can do
+  better. It also adds the mirror certificate TL-6 omitted.
 
 [TL-1–6](TRANSPORT_LEDGER_V1.md) proves both, keeps the physical calibration gap
 separate from the mathematical one, and moves no result between the atlas's

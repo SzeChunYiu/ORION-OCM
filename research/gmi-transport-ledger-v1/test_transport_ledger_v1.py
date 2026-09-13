@@ -132,3 +132,52 @@ class TL6_ExclusionsTransportUnderATwoSidedCertificate(unittest.TestCase):
                  ((F(1), F(4)), (F(3), F(9)))]
         for c, m in cases:
             self.assertIn(T.exclusion_transports(c, m), T.EXCLUSION_TERMINALS)
+
+
+class TL7_TheCertificateIsNecessaryAndSufficient(unittest.TestCase):
+    """Unconditional characterisation, with constructive counter-witnesses."""
+
+    def test_certification_is_exactly_for_all_completions(self):
+        """Exhaustive over a rational grid: the rule never disagrees."""
+        grid = [F(k, 2) for k in range(0, 9)]
+        checked = 0
+        for a_lo in grid:
+            for a_hi in [x for x in grid if x >= a_lo] + [None]:
+                for b_lo in grid:
+                    for b_hi in [x for x in grid if x >= b_lo] + [None]:
+                        A, B = (a_lo, a_hi), (b_lo, b_hi)
+                        can_lt, can_gt, can_eq = T.realizable_orders(A, B)
+                        forall_lt = (not can_gt) and (not can_eq)
+                        certified = T.compare(A, B) == "CERTIFIED_STRICTLY_LOWER"
+                        self.assertEqual(certified, forall_lt, "%s vs %s" % (A, B))
+                        checked += 1
+        self.assertGreater(checked, 1000)
+
+    def test_non_certifying_pairs_have_both_orders_realizable(self):
+        A, B = (F(1), F(4)), (F(3), F(9))
+        self.assertEqual(T.compare(A, B), "UNVERIFIABLE")
+        can_lt, can_gt, _ = T.realizable_orders(A, B)
+        self.assertTrue(can_lt and can_gt)
+
+    def test_the_boundary_case_realizes_a_tie(self):
+        A, B = (F(1), F(3)), (F(3), None)
+        self.assertEqual(T.compare(A, B), "UNVERIFIABLE")
+        _, _, can_eq = T.realizable_orders(A, B)
+        self.assertTrue(can_eq)
+
+    def test_the_mirror_certificate_TL6_omitted(self):
+        """b_hi < a_lo certifies the comparator cheaper; TL-6 returned UNVERIFIABLE."""
+        A, B = (F(10), None), (F(1), F(4))
+        self.assertEqual(T.compare(A, B), "CERTIFIED_STRICTLY_HIGHER")
+        self.assertEqual(T.exclusion_transports(A, B), "UNVERIFIABLE")
+
+    def test_compare_agrees_with_exclusion_transports_on_its_own_direction(self):
+        for A, B in [((F(1), F(2)), (F(3), None)), ((F(1), None), (F(2), None)),
+                     ((F(1), F(4)), (F(3), F(9)))]:
+            if T.exclusion_transports(A, B) == "CERTIFIED_STRICTLY_LOWER":
+                self.assertEqual(T.compare(A, B), "CERTIFIED_STRICTLY_LOWER")
+
+    def test_every_compare_verdict_is_registered(self):
+        for A, B in [((F(1), F(2)), (F(9), None)), ((F(9), None), (F(1), F(2))),
+                     ((F(1), None), (F(1), None))]:
+            self.assertIn(T.compare(A, B), T.COMPARE_TERMINALS)
