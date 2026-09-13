@@ -551,3 +551,48 @@ Registered before that result exists: **Z6 — the witness's atrophied genotype 
 memory kind alongside DENSE, i.e. it is a hybrid rather than a pure coefficient machine.** Falsified if
 the atrophied genotype's kinds include DENSE and no member of `{TABLE, KVSTORE, PROGRAM}` on the served
 path.
+
+### The witness exists, is re-verified, and is a memory machine carrying a dense node
+
+`gmi_microscope/b6_witness_reconstruct.py` rebuilt `SAME|CONTINUED|S1`'s seeded population from the
+original source receipts, replayed the deterministic search, and **asserted the campaign's recorded
+fingerprint at the recorded trace index before writing anything**. Receipt:
+`evidence/b6-arms-20260913/STAGE_B6_DENSE_WITNESS_SAME_CONTINUED_S1_billy.json`.
+
+| check | result |
+|---|---|
+| seeded population rebuilt from the arm's own sources | 61 elites, fingerprint list identical |
+| trace length | 11 817, as the arm recorded |
+| fingerprint at index 2 156 | **matches** — this is the campaign's object, not a lookalike |
+| independent re-verification | `pass = True`, min over six 0.8542, atrophied margin 1.001 fx |
+| raw → atrophied | 20 nodes → 14 |
+
+So the coefficient recovery is no longer a log line. It is an exhibitable object with its genotype
+retained, and anyone can re-run the reconstruction and get the same fingerprint. That closes the
+instrument gap recorded above for one machine, and it cost one replayed search.
+
+**And the structure settles the question the label could not.** The atrophied kinds are:
+
+`ABSTAIN, DENSE, EVIDENCE, INPUT, INSERT, KVSTORE, MORPH_RULE, NEAREST, OUTPUT, TARGET, VERIFY`
+
+**`KVSTORE` survives atrophy alongside `DENSE`, with `INSERT` and `NEAREST` — a store, a write and a
+read.** `b1.carrier_of` reports `DENSE` only because DENSE outranks KVSTORE in its fixed priority order.
+The same graph under `nn_nonnn_packet.family_of` is `HYBRID`.
+
+This is the shape the other lane independently found in its own recovered witness (`KVSTORE`, `INSERT`
+and `NEAREST` beside `DENSE`), reached here from a different arm by a different route. Their consumer
+counter-control then showed, for their witness, that zeroing the dense output preserves query values,
+abstention and ordered stores — the dense cell had no active numeric consumer.
+
+**Consequence for `Z1`, stated plainly.** "The structured warm start reaches the coefficient cell of
+`E_smooth3`" is, on the one machine now exhibitable, "reaches a machine carrying a key-value store with
+read and write, plus a dense node that the presence-based descriptor ranks first." Whether the dense node
+does anything is not settled by its survival, for the reasons accepted in
+`GMI_PR551_REVIEW_ACCEPTED_CORRECTIONS_V1.md`.
+
+**Registered next, and now runnable because the genotype exists**: apply the other lane's consumer test
+to *this* witness — replace the `DENSE` output with a constructed zero vector and re-measure under all six
+interventions. **Z7: the zeroed graph remains admissible** (min over six ≥ θ with ≥ 1 fx margin), i.e. the
+dense node is behaviourally inert here as it was there. Falsified if zeroing it drops the machine below
+the bar. This is a retrodiction-risk case and is labelled as such: their result on their witness is
+public, so this inherits the same unverified-blindness status as `Z6` and claims no prospective standing.
