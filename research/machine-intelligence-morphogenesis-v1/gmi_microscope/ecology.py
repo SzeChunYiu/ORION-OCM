@@ -61,6 +61,13 @@ CLASS_RATE_COEFFS_V1 = {"E_cr1": (-0.5, -0.5, -0.5, -0.5), "E_cr2": (-0.5, -0.5,
 for _n, _c in CLASS_RATE_COEFFS_V1.items():
     REGISTRY.setdefault(_n, spec_smooth(_c, _n))
 
+# RV-377-142 successor ecologies. These coefficients were frozen before the six successor searches; registering them
+# here is bookkeeping only and MUST NOT be read as an adjudication of RV-377-142.
+CLASS_RATE_SUCCESSOR_COEFFS_V1 = {"E_cr5": (0.125, -0.5, -0.5, 0.25),
+                                  "E_cr6": (-0.125, -0.375, -0.125, 0.25)}
+for _n, _c in CLASS_RATE_SUCCESSOR_COEFFS_V1.items():
+    REGISTRY.setdefault(_n, spec_smooth(_c, _n))
+
 
 def spec_id(spec):
     return sha256_of(spec)[:16]
