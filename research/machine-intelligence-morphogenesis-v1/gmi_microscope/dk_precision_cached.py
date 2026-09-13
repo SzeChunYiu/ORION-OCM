@@ -226,3 +226,130 @@ def main(tag="V1", seed=0):
 
 if __name__ == "__main__":
     main(sys.argv[1] if len(sys.argv) > 1 else "V1")
+
+
+class NormalizedLadderRow(CachedLadderRow):
+    """the FULLY symmetrized log row: not only the exponent but the NORMALIZATION is materialized on update, so
+    its query is M multiplies and M adds and nothing else - bit for bit the shape of QCount.query. QCount divides
+    in `_rank`; this row now does too. If its exec_q then equals QCOUNT's, the flat-basis comparison reduces to a
+    single constant: the log representation's 26 declared scalars, which the flat basis never discounts."""
+    row = "LOGLAD8_T4N"
+
+    def _normalize(self, M):
+        A = self.A
+        den = 0
+        for w in self.wcache: den = A.add(den, w)
+        self.tw = [A.div(w, den) if den else 0 for w in self.wcache]
+
+    def init(self, M):
+        super().init(M)
+        self._normalize(M)
+        self.w_scalars += self.top_m          # the normalized weights are declared state too, and charged
+
+    def _rank(self, M):
+        super()._rank(M)
+        self._normalize(M)
+
+    def query(self, M, x):
+        A = self.A; acc = 0
+        for k, j in enumerate(self.top):
+            acc = A.add(acc, A.mul(self.tw[k], A.const(F(self.e["hyps"][j]["p"][x]))))
+        self._n(M, len(self.tw))
+        return acc
+
+
+def run_norm(eco, precision, seed=0):
+    M = Machine(B0, seed=seed); A = Arith(M, precision)
+    with SC.struct(eco.get("struct_bits", LM.CLASS_STRUCT_BITS)):
+        ref = NormalizedLadderRow(eco, A)
+        M.phase("exec"); ref.init(M)
+        ev = eco["events"]; nev = len(eco["eval"])
+        for t, (x, y) in enumerate(ev, 1):
+            M.phase("exec")
+            for xx in eco["eval"]: ref.query(M, xx)
+            M.phase("upd"); ref.observe(M, x, y); M.end_event()
+            M.phase("ver")
+            for xx in eco["eval"]: M.op("EQ", ref.query(M, xx), 0)
+            if t == REVOKE_AT:
+                M.phase("rev"); ref.revoke(M, REVOKE_INDEX, *ev[REVOKE_INDEX]); M.end_event()
+        M.phase("exec")
+        sfr = {xx: A.frac(ref.query(M, xx)) for xx in eco["eval"]}
+    cap, excess = capability(eco, sfr)
+    R = dict(M.L.c); nat = dict(ref.nat)
+    return {"row": ref.row, "precision": precision, "capability": float(round(cap, 6)),
+            "capability_exact": f"{cap.numerator}/{cap.denominator}", "admissible": bool(cap >= THETA),
+            "R": R, "native_R": nat, "charged_ops_total": A.n_ops,
+            "exec_q": F(R["exec"], nev * (N_EVENTS + 1)), "upd_e": F(R["upd"], N_EVENTS),
+            "ver_e": F(R["ver"], N_EVENTS), "rev_e": F(R["rev"]),
+            "nat_exec_q": F(nat["exec"], nev * (N_EVENTS + 1)), "nat_upd_e": F(nat["upd"], N_EVENTS),
+            "nat_ver_e": F(nat["ver"], N_EVENTS), "nat_rev_e": F(nat["rev"]),
+            "desc_bits": ref.desc_bits(), "desc_bits_scaled": ref.w_scalars * (A.bits or 72) + ref.struct_bits,
+            "w_scalars": ref.w_scalars, "struct_bits": ref.struct_bits,
+            "answer_signature": sha256_of([f"{sfr[xx].numerator}/{sfr[xx].denominator}" for xx in eco["eval"]])}
+
+
+FLAT_K_LADDER = (32, 64, 96, 128, 160, 192, 256)
+
+
+def flat_domination_check(tag="V1", seed=0):
+    """THE CLOSING QUESTION. Under the `scaled` basis an 8-bit row pays 8 bits per declared scalar and a 10-bit row
+    pays 10, and that discount is the entire mechanism of this lane's positive. Under the FLAT basis every
+    instrument's scalar is charged at the registered 8 bits, so a narrower word earns NO discount and the log
+    representation's declared-scalar overhead is a CONSTANT additive handicap. If QCOUNT then dominates the log row
+    in all three cost coordinates at every class size, the flat column is closed by a THEOREM over the whole
+    non-negative quadrant rather than by a grid of measurements - and the `scaled` qualification on RV-377-079's
+    positive is not a loose end but the mechanism itself, named."""
+    rows = {}
+    for K in FLAT_K_LADDER:
+        eco = SC.ecology_scaled(K // 4, 4, "A")
+        n = run_norm(eco, "fx8", seed); c = run(eco, "fx8", seed)
+        u = SC.run_cell("LOGLAD8_T4", eco, "fx8", seed)
+        q10 = SC.run_cell("QCOUNT", eco, "fx10", seed); q8 = SC.run_cell("QCOUNT", eco, "fx8", seed)
+        ent = {"K": K, "capability": {"normalized": n["capability"], "cached": c["capability"],
+                                      "uncached": u["capability"], "qcount_fx10": q10["capability"]},
+               "answers_identical_normalized_vs_cached": n["answer_signature"] == c["answer_signature"],
+               "answers_identical_cached_vs_uncached": c["answer_signature"] == u["answer_signature"],
+               "flat_desc": {"normalized": n["desc_bits"], "cached": c["desc_bits"],
+                             "uncached": u["desc_bits"], "qcount": q8["desc_bits"]},
+               "flat_desc_excess": {"normalized": n["desc_bits"] - q8["desc_bits"],
+                                    "cached": c["desc_bits"] - q8["desc_bits"],
+                                    "uncached": u["desc_bits"] - q8["desc_bits"]},
+               "exec_q": {"normalized": str(n["exec_q"]), "cached": str(c["exec_q"]),
+                          "uncached": str(u["exec_q"]), "qcount_fx10": str(q10["exec_q"])},
+               "dominated_under_flat": {}, "dominated_under_scaled": {}}
+        for nm, d in (("normalized", n), ("cached", c), ("uncached", u)):
+            for price in ("reduced", "native"):
+                pf = per_event(d, price, False); pq = per_event(q10, price, False)
+                ps = per_event(d, price, True); pqs = per_event(q10, price, True)
+                ent["dominated_under_flat"][f"{nm}|{price}"] = bool(RS.dominates_cost(pq, pf))
+                ent["dominated_under_scaled"][f"{nm}|{price}"] = bool(RS.dominates_cost(pqs, ps))
+                ent.setdefault("rho_flat", {})[f"{nm}|{price}"] = [str(RS.rho(pf)), str(RS.rho(pq))]
+        rows[K] = ent
+    flat_all = all(v["dominated_under_flat"][k] for v in rows.values() for k in v["dominated_under_flat"])
+    excess_const = {nm: sorted({v["flat_desc_excess"][nm] for v in rows.values()})
+                    for nm in ("normalized", "cached", "uncached")}
+    receipt = {
+        "schema": "StageDKFlatDominationTheoremV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": [377, 422],
+        "revival_record": "RV-377-082", "run_tag": tag, "seed": seed, "theta": str(THETA),
+        "question": "is the `scaled` qualification on this lane's positive a loose end, or is the discount a narrower word earns under `scaled` the entire mechanism - so that under FLAT the log row is DOMINATED at every class size, as a theorem?",
+        "K_ladder": list(FLAT_K_LADDER), "per_K": rows,
+        "flat_desc_excess_is_constant_in_K": {nm: len(v) == 1 for nm, v in excess_const.items()},
+        "flat_desc_excess_values": {nm: v for nm, v in excess_const.items()},
+        "qcount_dominates_every_log_row_under_flat_at_every_K": bool(flat_all),
+        "terminal": ("THE_FLAT_COLUMN_IS_CLOSED_BY_A_THEOREM__QCOUNT_COST_COORDINATE_DOMINATES_EVERY_8_BIT_LOG_ROW_AT_EVERY_CLASS_SIZE_UNDER_THE_FLAT_BASIS__THE_LOG_REPRESENTATIONS_DECLARED_SCALAR_OVERHEAD_IS_A_CONSTANT_THE_FLAT_BASIS_NEVER_DISCOUNTS"
+                     if flat_all else
+                     "THE_FLAT_COLUMN_IS_NOT_CLOSED__SOME_8_BIT_LOG_ROW_ESCAPES_DOMINATION_UNDER_THE_FLAT_BASIS"),
+        "claim_ceiling": "the NORMALIZED row is a DIFFERENT ROW, not a re-charging: dividing on the 8-bit grid during the update changes the served answer, and its capability differs from the cached row at K = 256. That is stated rather than hidden, and it is why this record reports the normalized row's capability at every K alongside its cost. Seven class sizes, one ecology recipe, one declared sequence, one seed.",
+    }
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_DK_V11_FLAT_DOMINATION_{tag}.json"), "w"),
+              indent=1, sort_keys=True, default=str)
+    for K in FLAT_K_LADDER:
+        v = rows[K]
+        print(f"  K={K:<4} excess flat {v['flat_desc_excess']} | cap norm {v['capability']['normalized']}"
+              f" cached {v['capability']['cached']} | ans(norm==cached) {v['answers_identical_normalized_vs_cached']}"
+              f" | dominated flat {all(v['dominated_under_flat'].values())}"
+              f" scaled {v['dominated_under_scaled']}")
+    print("flat excess constant in K:", receipt["flat_desc_excess_is_constant_in_K"], receipt["flat_desc_excess_values"])
+    print("TERMINAL:", receipt["terminal"])
+    return receipt

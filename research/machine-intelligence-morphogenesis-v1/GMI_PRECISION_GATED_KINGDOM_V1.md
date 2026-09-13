@@ -29,6 +29,10 @@
 > Fixing that moves the root to **142.31** and first occupancy to **K = 160** — and leaves every cell at `r = 0`,
 > because log-domain **updating** costs ~3K per event against a count row's K. The `r = 0` qualification is now
 > **explained**, not merely observed.
+> Added by `RV-377-082`: **§19** — the closing theorem. Under `flat` the log row's overhead is a **constant**
+> (208/240/272 bits over seven class sizes) that the basis never discounts, so `QCOUNT` **dominates at every K**
+> in 42 of 42 checks. **An occupancy verdict here is code-relative**, and the `scaled` qualification is the
+> mechanism, not a loose end.
 
 Status: **EXECUTED EXACT AT SCOPE** (§§1–9, terminal superseded — see the banner above).
 Receipt `microscopes/results/STAGE_DK_V2_PRECISION_GATED.json`
@@ -946,3 +950,84 @@ report which axis each helps: the read path governs `H`, the update path governs
 explained.** The **`scaled` basis is an accounting choice and is not yet explained** — under `flat` the log row
 carries a constant **208-bit** premium that no class size removes, which makes the flat column a candidate for a
 **domination theorem** rather than another measurement.
+
+
+---
+
+## 19. The closing theorem: an occupancy verdict here is **code-relative** (`RV-377-082`)
+
+§18 left exactly one qualification unexplained — the `scaled` description basis — and named it a candidate for a
+theorem rather than another measurement. Receipt `STAGE_DK_V11_FLAT_DOMINATION_V1.json`, record `RV-377-082`.
+
+**This record is an analytic verification and carries no predictive weight** — no numbered prediction was frozen
+before it, and that is disclosed here as it is in the record. Its content is a domination claim decided by
+comparing three cost coordinates, not by a forecast.
+
+### 19a. Under `flat`, the handicap is a constant and the domination is a theorem
+
+Under `flat` every instrument's declared scalar is charged at the registered **8 bits**, so an 8-bit row earns **no
+discount** over a 10-bit one and the log representation's extra declared scalars are a **constant additive
+handicap**:
+
+| flat description excess over `QCOUNT` | K = 32 | 64 | 96 | 128 | 160 | 192 | 256 |
+|---|---|---|---|---|---|---|---|
+| `LOGLAD8_T4` (uncached) | **208** | 208 | 208 | 208 | 208 | 208 | 208 |
+| `LOGLAD8_T4C` (cached) | **240** | 240 | 240 | 240 | 240 | 240 | 240 |
+| `LOGLAD8_T4N` (normalized) | **272** | 272 | 272 | 272 | 272 | 272 | 272 |
+
+Three rows, seven class sizes, twenty-one measurements, **three constants**. With the log row also no cheaper on
+`exec_q` and no cheaper on `ρ`, `QCOUNT@fx10` **cost-coordinate dominates all three at every class size under both
+prices — 42 of 42 checks**. Domination in the three coordinates the frozen cost function has is necessary and
+sufficient for `cost_a ≤ cost_b` over the **whole non-negative quadrant**, so the flat column is closed by a
+**theorem** and needs no grid at all.
+
+### 19b. Under `scaled`, the same test breaks at exactly the computed roots
+
+| dominated under `scaled`, reduced price | 32 | 64 | 96 | 128 | 160 | 192 | 256 |
+|---|---|---|---|---|---|---|---|
+| cached row | yes | yes | yes | **no** | no | no | no |
+| normalized row | yes | yes | yes | yes | **no** | no | no |
+
+Those are the roots §17 and §18 computed — 104 and 118 under the native price, 142.31 and 188 under the reduced —
+**recovered independently by a domination test that never builds an H × r grid.**
+
+### 19c. What this means, and it is uncomfortable
+
+> The same carriers, the same ecology, the same instruments and the same prices give **opposite occupancy verdicts**
+> under the programme's two declared description bases. Under `flat` the 8-bit row is dominated at **every** class
+> size, as a theorem. Under `scaled` the domination breaks at a computable root and the 8-bit row occupies.
+
+The disagreement is not noise and not a tie-break. **`scaled` is the only basis that prices the thing this lane's
+positive is made of** — the 2-bit-per-declared-scalar discount a narrower word earns — so the discount grows as
+`2K` while the handicap stays constant, and the sign flips. `RV-377-066` introduced `scaled` as a *sensitivity*
+check; four records passed through it without the disagreement ever surfacing, because all four ran at `K = 32`,
+where the handicap still exceeds the discount. **A programme that reports one basis reports half a result.**
+
+**The normalized row is a different row, and its answers say so.** `LOGLAD8_T4N` divides on the 8-bit grid during
+the update, so it is not a re-charging: its answers match the cached row at K = 32…192 and **differ at K = 256**,
+where its capability is 0.873903 against 0.911462. Reported at every K, not only where it flatters.
+
+**Claim DK-15 (new).** *A frontier occupancy verdict in this lane is **code-relative**. Under the flat description
+basis `QCOUNT@fx10` dominates every 8-bit log row at every executed class size (42/42 checks) because the log
+representation's declared-scalar overhead is constant in K; under the scaled basis the domination breaks at a
+computable root and the 8-bit row occupies. Both are correct under their own declared basis.*
+**Level:** `PROVED_AT_SCOPE` for the flat-basis domination (necessary and sufficient over the whole quadrant, at
+seven class sizes); `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY` for the constancy of the excess.
+**Ceiling:** no frozen prediction, so no predictive weight; one ecology recipe, one declared sequence, one seed,
+seven class sizes; the normalized row changes the served answer at K = 256.
+
+→ **rule 37**: where two declared description bases give **different occupancy verdicts**, report the verdict under
+each **and identify which quantity the bases price differently**. A basis disagreement is a finding about the cost
+model and may not be presented as a sensitivity.
+
+---
+
+## 20. The precision axis, closed at this scope
+
+| question | answer | record |
+|---|---|---|
+| Is D3 a **kingdom** above a precision threshold? | **No.** An 8-bit log-domain row built from registered kinds is admissible where ten linear rows score 0.0 | `RV-377-075`, audited `RV-377-076` |
+| Is precision a **capability** parameter? | **Yes**, on every executed ecology — gate at 10 total bits on `E_ambig`, **12** on `E_graded` | `RV-377-066`, `RV-377-078` |
+| Does precision buy **description cost**? | **Yes**, and it is an exact affine function of class size: **−2K + 376** bits under the registered price, root **K = 188** (142.31 for the symmetrized row) | `RV-377-079`, `RV-377-080`, `RV-377-081` |
+| Does an 8-bit row ever **occupy**? | **Yes on the query axis** from K = 160 under the registered price; **never on the reuse axis**, because log-domain updating costs ~3K per event against a count row's K | `RV-377-079` … `RV-377-081` |
+| Is that verdict **basis-independent**? | **No.** Under `flat`, dominated at every K as a theorem (42/42). The two bases price the narrow word differently, and that is the whole mechanism | `RV-377-082` |

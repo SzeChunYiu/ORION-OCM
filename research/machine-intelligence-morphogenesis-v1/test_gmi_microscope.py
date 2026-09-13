@@ -1043,3 +1043,50 @@ def test_dk_cached_exponent_receipt_replays():
     # what the lever did buy: the H axis extends far, the r axis does not move at all
     assert [committed["runs"][str(K)]["keys"]["native|scaled"]["max_H_held"]
             for K in (128, 160, 192, 256)] == [7, 22, 38, 70]
+
+
+def test_dk_flat_domination_theorem_replays():
+    """RV-377-082, the closing record. Under the FLAT basis every instrument's declared scalar is charged at the
+    registered 8 bits, so a narrower word earns no discount and the log representation's overhead is a CONSTANT
+    additive handicap — 208 / 240 / 272 bits across seven class sizes. QCOUNT then dominates every 8-bit log row
+    in all three cost coordinates at every K, which closes the flat column by a theorem over the whole quadrant.
+    Under `scaled` the same domination test breaks at exactly the roots computed in RV-377-080 and RV-377-081,
+    without building a grid at all."""
+    from gmi_microscope import dk_precision_cached as ca
+    committed = json.loads((RES / "STAGE_DK_V11_FLAT_DOMINATION_V1.json").read_text())
+    assert committed["terminal"].startswith("THE_FLAT_COLUMN_IS_CLOSED_BY_A_THEOREM")
+    assert committed["qcount_dominates_every_log_row_under_flat_at_every_K"] is True
+
+    # (a) the flat excess is a CONSTANT in K — one value per row over seven class sizes
+    assert committed["flat_desc_excess_values"] == {"uncached": [208], "cached": [240], "normalized": [272]}
+    assert all(committed["flat_desc_excess_is_constant_in_K"].values())
+    assert committed["K_ladder"] == [32, 64, 96, 128, 160, 192, 256]
+
+    # (b) 42 of 42 domination checks under flat: 7 class sizes x 3 rows x 2 prices
+    n_checks = 0
+    for K in committed["K_ladder"]:
+        ent = committed["per_K"][str(K)]
+        for key, dominated in ent["dominated_under_flat"].items():
+            assert dominated is True, (K, key)
+            n_checks += 1
+    assert n_checks == 42
+
+    # (c) under `scaled` the domination breaks at exactly the computed roots
+    sc = {K: committed["per_K"][str(K)]["dominated_under_scaled"] for K in committed["K_ladder"]}
+    assert all(sc[K]["cached|reduced"] for K in (32, 64, 96))           # dominated below the root
+    assert not any(sc[K]["cached|reduced"] for K in (128, 160, 192, 256))
+    assert all(sc[K]["normalized|reduced"] for K in (32, 64, 96, 128))  # the normalized root is higher
+    assert not any(sc[K]["normalized|reduced"] for K in (160, 192, 256))
+
+    # (d) the normalized row is a DIFFERENT row, and its answers say so at the largest class
+    for K in (32, 64, 96, 128, 160, 192):
+        assert committed["per_K"][str(K)]["answers_identical_normalized_vs_cached"] is True, K
+    assert committed["per_K"]["256"]["answers_identical_normalized_vs_cached"] is False
+    assert committed["per_K"]["256"]["capability"]["normalized"] == 0.873903
+    assert committed["per_K"]["256"]["capability"]["cached"] == 0.911462
+
+    # re-execute one cell rather than trusting the receipt end to end
+    eco = ca.SC.ecology_scaled(8, 4, "A")                                # K = 32, the registered class
+    nrm = ca.run_norm(eco, "fx8")
+    assert nrm["capability"] == 0.874265 and nrm["admissible"] is True
+    assert nrm["desc_bits"] - ca.SC.run_cell("QCOUNT", eco, "fx8")["desc_bits"] == 272
