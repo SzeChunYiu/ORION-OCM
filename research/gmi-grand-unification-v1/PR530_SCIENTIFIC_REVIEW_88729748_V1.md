@@ -123,5 +123,17 @@ findings.json, findings-current-88729748.json and findings-z5-bc4dc228.json.
 Their compact inputs and expected distinctions above are the portable
 regression specifications; scratch files are not immutable empirical receipts.
 The committed EFI checker/tests independently retain R5/R6 as exact controls.
-R1--R4/R7/R8 remain explicit repair tasks for the B6/registration owner;
-this module does not silently change the PR's frozen experiment.
+These findings retain their pinned historical scope. The integration repair
+below supersedes the outstanding-task status, without changing the freeze.
+
+## Integrated repair
+
+Main subsequently imported PR #530 and the recovered freeze/runtime via
+PR #538. [B6 V2](../machine-intelligence-morphogenesis-v1/B6_ADJUDICATION_CORRECTION_V1.md)
+repairs R1–R4/R8 and adjacent censored-condition and campaign-completeness
+logic, with 40 finite guards. Universal Z5 remains unresolved on first-only
+positive records; a narrower recorded-first verdict is reported separately.
+[The inference correction](../machine-intelligence-morphogenesis-v1/CROSS_INSTRUMENT_INFERENCE_CORRECTION_V1.md)
+records R5–R7 accurately: EFI supplies the positive identification method and
+feasible alternative falsifier, while chronology still requires fresh
+prospective evidence. No historical freeze or empirical receipt is rewritten.

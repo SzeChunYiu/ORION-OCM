@@ -1,8 +1,9 @@
 """RV-377-180 -- mechanical scoring of the frozen B6 predictions D1a..D5.
 
 Reads the arm receipts written by b6_development.run_arm and scores each frozen
-prediction exactly as GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md states it.
-No threshold, quantifier or falsifier is introduced here that is not in that table.
+prediction under GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md.
+B6_ADJUDICATION_CORRECTION_V1.md records the V2 logical corrections and the
+first-recovery evidence boundary; raw receipts and the freeze remain unchanged.
 
     python3 -m gmi_microscope.b6_adjudicate <host> [seeds]
 
@@ -12,9 +13,9 @@ Readings fixed here (stated so they are auditable, not silently chosen):
   * "RESET's seed spread" = max - min of the RESET arm's value over the three seeds,
     computed on B_morph for D3a and on B_dense for D2d.
   * D2d compares DISJ-CONTINUED's B_dense against the RESET B_dense of the SAME seed.
-  * A prediction of the form "X on >= 2/3 seeds" is HELD iff it holds on >= 2 of the
-    seeds that are scoreable; seeds that are UNDETERMINED are excluded from the
-    denominator only where the freeze says so (D2b, D2d), never elsewhere.
+  * A majority requires two of the three frozen seeds. D2b excludes registered
+    undetermined comparisons; D2d separately counts its literal "or UNDETERMINED"
+    condition. Missing files or unresolved metadata do not satisfy a predicate.
 """
 from __future__ import annotations
 
@@ -26,6 +27,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(os.path.dirname(HERE), "microscopes", "results")
 REVIVAL = "RV-377-180"
+CORRECTION = "B6_ADJUDICATION_CORRECTION_V1"
+RAW_CARRIERS = {"DENSE", "TABLE", "KVSTORE", "PROGRAM", "NONE"}
 MEMORY_CLASSES = {"TABLE", "KVSTORE", "PROGRAM"}
 SMOOTH1_OCCUPANTS = {"KVSTORE", "PROGRAM", "TABLE"}
 
@@ -47,27 +50,38 @@ def load(pair, arm, seed, host):
     sc = (d.get("seeding") or {}).get("seed_carriers_raw") or []
     do = fd.get("origin")
     di = do[1] if isinstance(do, (list, tuple)) and len(do) > 1 and do[0] == "seed" else None
+    carrier = (sc[di] if isinstance(sc, list) and type(di) is int and 0 <= di < len(sc) else None)
+    fps = sd.get("seed_fingerprints")
+    population_known = isinstance(fps, list) and bool(fps) and all(isinstance(x, str) and x for x in fps)
     return {
         "dense_root_kind": (do[0] if isinstance(do, (list, tuple)) and do else None),
-        "dense_root_carrier": (sc[di] if di is not None and di < len(sc) else None),
+        "dense_root_carrier": carrier if isinstance(carrier, str) and carrier in RAW_CARRIERS else None,
         "target_ecology": d.get("target_ecology"),
         "source_ecology": d.get("source_ecology"),
-        "seed_population_sha256": hashlib.sha256(
-            json.dumps(sd.get("seed_fingerprints") or [], sort_keys=True).encode()).hexdigest()[:16],
-        "B_morph": fa.get("B_morph") if fa.get("found") else None,
-        "found": bool(fa.get("found")),
-        "class": fa.get("carrier_atrophied"),
+        "seed_population_sha256": (hashlib.sha256(json.dumps(fps, sort_keys=True).encode()).hexdigest()
+                                   if population_known else None),
+        "B_morph": fa.get("B_morph") if fa.get("found") is True else None,
+        "found": fa.get("found") if type(fa.get("found")) is bool else None,
+        "class": fa.get("carrier_atrophied") if fa.get("found") is True else None,
         "origin": fa.get("origin"),
-        "B_dense": fd.get("B_morph") if fd.get("found") else None,
-        "dense_found": bool(fd.get("found")),
+        "B_dense": fd.get("B_morph") if fd.get("found") is True else None,
+        "dense_found": fd.get("found") if type(fd.get("found")) is bool else None,
         "final_best": d.get("final_best_capability_standard"),
         "final_best_dense": (d.get("final_best_by_carrier") or {}).get("DENSE"),
     }
 
 
 def spread(vals):
-    v = [x for x in vals if x is not None]
-    return (max(v) - min(v)) if len(v) >= 2 else None
+    """The registered whole-baseline spread; missing values are not a smaller baseline."""
+    return max(vals) - min(vals) if vals and all(x is not None for x in vals) else None
+
+
+def experiment_identity(row, arm, seed):
+    """Identity evidence is valid only within this fixed frozen campaign."""
+    target, population = row.get("target_ecology"), row.get("seed_population_sha256")
+    if not isinstance(target, str) or not target or population is None:
+        return None
+    return target, arm, seed, population
 
 
 def _tally(per_seed):
@@ -81,13 +95,15 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     instrument against real receipts. The frozen quantifier is ">= 2 of 3 seeds",
     so a run on fewer than three seeds can never be an adjudication: it is written
     to a separate file and stamped, never to the adjudication receipt."""
-    if len(seeds) != 3 and not validation_only:
+    if any(type(s) is not int for s in seeds) or len(set(seeds)) != len(seeds):
+        raise SystemExit("REFUSED: distinct integer seed identities required")
+    if set(seeds) != {0, 1, 2} and not validation_only:
         raise SystemExit("REFUSED: the freeze quantifies over exactly 3 seeds; "
                          "pass validation_only=True to inspect a partial set")
     R = {(p, a, s): load(p, a, s, host) for p in ("SAME", "CROSS", "DISJ")
          for a in ("RESET", "CONTINUED", "TWIN") for s in seeds}
     missing = sorted(f"{p}|{a}|S{s}" for (p, a, s), v in R.items() if v is None)
-    out = {"schema": "StageB6AdjudicationV1",
+    out = {"schema": "StageB6AdjudicationV2", "correction": CORRECTION,
            "validation_only": bool(validation_only), "revival_record": REVIVAL, "host": host,
            "seeds": list(seeds), "missing_units": missing,
            "complete": not missing, "rows": {f"{p}|{a}|S{s}": v for (p, a, s), v in R.items() if v},
@@ -100,7 +116,7 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         return x["B_morph"] < y["B_morph"]
 
     def rec(pid, per_seed, rule, detail=None):
-        """A ">= 2 of 3" prediction is decidable early in one direction only:
+        """A ">= 2 of 3" predicate settles when every completion agrees:
         two hits settle it HELD whatever the third seed does, and it is FAILED only
         once two or more seeds are known NOT to satisfy it. Anything in between is
         PENDING, never FAILED -- a missing unit is not a refutation."""
@@ -131,21 +147,29 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
                 for s in seeds},
         "SAME strong form (reported, predicted to FAIL): TWIN does NOT beat RESET on >= 2/3 seeds")
 
-    # D2a -- CROSS: earlier AND memory class
-    d2a = {}
-    for s in seeds:
-        e = lt("CROSS", "CONTINUED", "RESET", s)
-        c = R[("CROSS", "CONTINUED", s)]
-        k = None if not c or c["class"] is None else (c["class"] in MEMORY_CLASSES)
-        d2a[s] = None if (e is None or k is None) else (e and k)
-    rec("D2a", d2a, "CROSS: CONTINUED earlier than RESET AND first atrophied class is memory, each on >= 2/3 seeds",
-        {"classes": {str(s): (R[("CROSS", "CONTINUED", s)] or {}).get("class") for s in seeds}})
+    # D2a is a conjunction of two majority predicates, not a majority of conjunctions.
+    earlier, memory = {}, {}
+    for seed in seeds:
+        earlier[seed] = lt("CROSS", "CONTINUED", "RESET", seed)
+        row = R[("CROSS", "CONTINUED", seed)]
+        memory[seed] = None if not row or row["class"] is None else row["class"] in MEMORY_CLASSES
+    components = {}
+    for name, per in (("earlier", earlier), ("memory", memory)):
+        rec("D2a", per, "CROSS: " + name + " on >= 2/3 seeds")
+        components[name] = out["predictions"].pop("D2a")
+    verdicts = [row["verdict"] for row in components.values()]
+    verdict = ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
+               ("FAILED" if "FAILED" in verdicts else
+                ("HELD" if all(v == "HELD" for v in verdicts) else "PENDING_MORE_UNITS")))
+    out["predictions"]["D2a"] = {
+        "components": components, "verdict": verdict,
+        "rule": "CROSS: earlier on >=2/3 seeds AND memory class on >=2/3 seeds; seeds need not coincide"}
 
     # D2b -- committed sign, determined seeds only
     d2b = {}
     for s in seeds:
         c, r = R[("CROSS", "CONTINUED", s)], R[("CROSS", "RESET", s)]
-        if not c or not r or not c["dense_found"] or not r["dense_found"]:
+        if not c or not r or not c["dense_found"] or not r["dense_found"] or c["B_dense"] is None or r["B_dense"] is None:
             d2b[s] = None
         else:
             d2b[s] = c["B_dense"] > r["B_dense"]
@@ -168,25 +192,39 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         {"continued": {str(s): (R[("CROSS", "CONTINUED", s)] or {}).get("final_best_dense") for s in seeds},
          "reset": {str(s): (R[("CROSS", "RESET", s)] or {}).get("final_best_dense") for s in seeds}})
 
-    # D2d -- class-conditioned, uses RESET's B_dense spread
-    sp_dense = spread([(R[("CROSS", "RESET", s)] or {}).get("B_dense") for s in seeds])
-    d2d = {}
-    for s in seeds:
-        c, r = R[("DISJ", "CONTINUED", s)], R[("CROSS", "RESET", s)]
-        if not c or not r or c["B_dense"] is None or r["B_dense"] is None or sp_dense is None:
-            d2d[s] = None
+    # D2d accepts registered completed-run censoring, not missing units or metadata.
+    baseline = [R[("CROSS", "RESET", seed)] for seed in seeds]
+    baseline_pending = any(not row or row["dense_found"] is None
+                           or (row["dense_found"] and row["B_dense"] is None) for row in baseline)
+    sp_dense = spread([(row or {}).get("B_dense") for row in baseline])
+    d2d, condition, registered_undetermined = {}, {}, []
+    for seed in seeds:
+        c, r = R[("DISJ", "CONTINUED", seed)], R[("CROSS", "RESET", seed)]
+        unknown = (baseline_pending or not c or not r or c["dense_found"] is None
+                   or (c["dense_found"] and c["B_dense"] is None))
+        if unknown:
+            d2d[seed] = condition[seed] = None
+        elif not c["dense_found"] or not r["dense_found"] or sp_dense is None:
+            d2d[seed], condition[seed] = None, True
+            registered_undetermined.append(seed)
         else:
-            d2d[s] = abs(c["B_dense"] - r["B_dense"]) <= sp_dense
+            d2d[seed] = condition[seed] = abs(c["B_dense"] - r["B_dense"]) <= sp_dense
     ok, n, _ = _tally(d2d)
+    accepted, _, _ = _tally(condition)
+    failures = sum(value is False for value in condition.values())
+    verdict = ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
+               ("HELD" if ok >= 2 else
+                ("HELD_VACUOUSLY__NO_DETERMINED_SEED" if accepted >= 2 and n == 0 else
+                 ("HELD_WITH_REGISTERED_UNDETERMINED_CASES" if accepted >= 2 else
+                  ("FAILED" if failures >= 2 else "PENDING_MORE_UNITS")))))
     out["predictions"]["D2d"] = {
-        "per_seed": {str(s): d2d[s] for s in seeds}, "n_true": ok, "n_determined": n,
-        "verdict": ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
-                    ("HELD" if ok >= 2 else
-                     ("PENDING_MORE_UNITS" if any(R[(pp, aa, ss)] is None for pp, aa in
-                                                  (("DISJ", "CONTINUED"), ("CROSS", "RESET")) for ss in seeds)
-                      else ("HELD_VACUOUSLY__NO_DETERMINED_SEED" if n == 0 else "FAILED")))),
-        "reset_B_dense_spread": sp_dense,
-        "rule": "DISJ-CONTINUED B_dense within RESET seed spread, or UNDETERMINED, on >= 2/3 seeds"}
+        "per_seed": {str(seed): d2d[seed] for seed in seeds},
+        "registered_condition_per_seed": {str(seed): condition[seed] for seed in seeds},
+        "registered_undetermined_seeds": registered_undetermined,
+        "n_true": ok, "n_determined": n, "n_registered_condition_true": accepted,
+        "verdict": verdict, "reset_B_dense_spread": sp_dense,
+        "rule": "DISJ-CONTINUED B_dense within RESET seed spread, or registered completed-run "
+                "UNDETERMINED, on >=2/3 seeds; missing evidence remains pending"}
 
     # D3a / D3b -- DISJ
     sp_morph = spread([(R[("CROSS", "RESET", s)] or {}).get("B_morph") for s in seeds])
@@ -252,41 +290,43 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         {"class_origin": {str(s): [(R[("SAME", "CONTINUED", s)] or {}).get("class"),
                                    (R[("SAME", "CONTINUED", s)] or {}).get("origin")] for s in seeds}})
 
-    # ---- duplicate-experiment detector.
-    # Two arms that share a target ecology, a seed, an arm label and a byte-identical seeded
-    # population are ONE experiment reported twice, and must not be counted as independent
-    # evidence. This happens whenever the TWIN carrier-match saturates: if the twin archive is
-    # no larger than the reference archive in every carrier, the match takes the whole twin
-    # archive, so the "carrier-matched" control stops being pair-specific.
-    groups = {}
-    for (p_, a_, s_), v in R.items():
-        if not v or not v.get("seed_population_sha256"):
+    # Proven equality permits deduplication; missing provenance never establishes identity.
+    groups, path_groups, unknown_paths = {}, {}, set()
+    for (pair, arm, seed), row in R.items():
+        if not row:
             continue
-        k = (v["target_ecology"], a_, s_, v["seed_population_sha256"])
-        groups.setdefault(k, []).append(f"{p_}|{a_}|S{s_}")
+        label, receipt_path = f"{pair}|{arm}|S{seed}", path(pair, arm, seed, host)
+        path_groups.setdefault(receipt_path, []).append(label)
+        identity = experiment_identity(row, arm, seed)
+        if identity is None:
+            unknown_paths.add(receipt_path)
+        else:
+            groups.setdefault(identity, []).append(label)
     by_design, undisclosed = {}, {}
-    for k, v in groups.items():
-        if len(v) < 2:
+    for identity, labels in groups.items():
+        if len(labels) < 2:
             continue
-        paths = {path(x.split("|")[0], x.split("|")[1], int(x.split("|S")[1]), host) for x in v}
-        rec = {"target": k[0], "arm": k[1], "seed": k[2], "seed_population_sha256": k[3],
-               "n_distinct_receipt_files": len(paths),
-               "identical_B_morph": len({R[(x.split("|")[0], x.split("|")[1],
-                                            int(x.split("|S")[1]))]["B_morph"] for x in v}) == 1}
-        # one file read under two labels is the freeze's documented shared baseline;
-        # two files holding the same computation is a redundancy the freeze does not state
-        (by_design if len(paths) == 1 else undisclosed)[" & ".join(sorted(v))] = rec
-    ran = {path(p_, a_, s_, host) for (p_, a_, s_), v in R.items() if v}
+        keys = [tuple(label.replace("|S", "|").split("|")) for label in labels]
+        paths = {path(pair, arm, int(seed), host) for pair, arm, seed in keys}
+        record = {"target": identity[0], "arm": identity[1], "seed": identity[2],
+                  "seed_population_sha256": identity[3], "n_distinct_receipt_files": len(paths),
+                  "identical_B_morph": len({R[(pair, arm, int(seed))]["B_morph"]
+                                           for pair, arm, seed in keys}) == 1}
+        (by_design if len(paths) == 1 else undisclosed)[" & ".join(sorted(labels))] = record
+    for receipt_path, labels in path_groups.items():
+        if len(labels) > 1:
+            by_design.setdefault(" & ".join(sorted(labels)),
+                                 {"n_distinct_receipt_files": 1, "proven_by_shared_path": True})
+    after_dedup = len(path_groups) - sum(v["n_distinct_receipt_files"] - 1 for v in undisclosed.values())
     out["duplicate_experiments"] = {
-        "shared_baseline_by_design": by_design,
-        "duplicate_computation": undisclosed,
-        "n_undisclosed_groups": len(undisclosed),
-        "n_receipt_files": len(ran),
-        "n_distinct_experiments": len(ran) - sum(len(g.split(" & ")) - 1 for g in undisclosed),
-        "note": ("shared_baseline_by_design is one receipt file read under two pair labels, which the "
-                 "freeze states. duplicate_computation is two distinct receipt files holding the same "
-                 "computation: same target, same seed, byte-identical seeded population. Those are one "
-                 "experiment reported twice and must not be counted as independent evidence.")}
+        "shared_baseline_by_design": by_design, "duplicate_computation": undisclosed,
+        "n_undisclosed_groups": len(undisclosed), "n_receipt_files": len(path_groups),
+        "n_experiments_after_proven_deduplication": after_dedup,
+        "n_distinct_experiments": None if unknown_paths else after_dedup,
+        "identity_unknown_receipt_files": sorted(unknown_paths),
+        "note": ("Equal registered target, arm, seed and known seeded population identify a computation "
+                 "within the frozen campaign. Shared file paths identify documented aliases. Unknown "
+                 "provenance is not deduplicated and does not certify statistical independence.")}
 
     # ---- RV-377-180-Z: separate registration on coefficient-carrier reachability.
     # Scored apart from D1a..D5; a Z outcome cannot change any D verdict or the D terminal.
@@ -294,7 +334,7 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         per = {}
         for s in seeds:
             r = R[(pair, arm, s)]
-            per[s] = None if not r else bool(r["dense_found"])
+            per[s] = None if not r else r["dense_found"]
         return per
 
     Z = {}
@@ -312,26 +352,49 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         Z[zid] = {"per_seed": {str(s): per[s] for s in per}, "n_hits": hits,
                   "n_determined": n, "verdict": verdict, "rule": rule}
 
-    # Z5: founders of every recovered coefficient machine (counted over DISTINCT experiments)
-    seen, z5rows = set(), {}
-    for (p_, a_, s_), v in sorted(R.items()):
-        if not v or not v.get("dense_found") or not v.get("dense_root_carrier"):
+    # Z5's universal campaign claim is broader than the first-recovery fields supplied.
+    recovery_groups = {}
+    missing_warm = any(R[(pair, arm, seed)] is None or R[(pair, arm, seed)]["dense_found"] is None
+                       for pair in ("SAME", "CROSS", "DISJ")
+                       for arm in ("CONTINUED", "TWIN") for seed in seeds)
+    for (pair, arm, seed), row in sorted(R.items()):
+        if arm == "RESET" or not row or not row["dense_found"]:
             continue
-        k = (v["target_ecology"], a_, s_, v.get("seed_population_sha256"))
-        if k in seen:
-            continue
-        seen.add(k)
-        z5rows[f"{p_}|{a_}|S{s_}"] = v["dense_root_carrier"]
-    dense_roots = [c for c in z5rows.values()]
-    n_dense_root = sum(1 for c in dense_roots if c == "DENSE")
-    Z["Z5"] = {"roots_by_arm": z5rows, "n_distinct_recoveries": len(dense_roots),
-               "n_rooted_in_DENSE": n_dense_root,
-               "verdict": ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
-                           ("FAILED" if n_dense_root else
-                            ("HELD" if (not missing and dense_roots) else
-                             ("PENDING_MORE_UNITS" if missing else "UNDETERMINED__NO_RECOVERY")))),
-               "rule": "every admissible atrophied-DENSE machine descends from a non-DENSE seed elite; "
-                       "counted over distinct experiments, so a duplicated arm counts once"}
+        identity = experiment_identity(row, arm, seed)
+        key = ("known", identity) if identity is not None else ("receipt", path(pair, arm, seed, host))
+        recovery_groups.setdefault(key, []).append((f"{pair}|{arm}|S{seed}", row))
+    z5rows, unknown_roots, dense_roots, nonseed_roots, conflicts = {}, [], [], [], []
+    for entries in recovery_groups.values():
+        labels = " & ".join(label for label, _ in entries)
+        evidence = {(row["dense_root_kind"], row["dense_root_carrier"]) for _, row in entries}
+        determinate = {(kind, carrier) for kind, carrier in evidence
+                       if kind == "init" or (kind == "seed" and carrier in RAW_CARRIERS)}
+        if len(determinate) > 1:
+            conflicts.append(labels)
+        if any(kind == "seed" and carrier == "DENSE" for kind, carrier in evidence):
+            dense_roots.append(labels)
+        if any(kind == "init" for kind, _ in evidence):
+            nonseed_roots.append(labels)
+        known = len(evidence) == 1 and all(kind == "seed" and carrier in RAW_CARRIERS
+                                          for kind, carrier in evidence)
+        z5rows[labels] = next(iter(evidence))[1] if known else None
+        if not known:
+            unknown_roots.append(labels)
+    first_verdict = ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
+                     ("UNDETERMINED__CONFLICTING_PROVENANCE" if conflicts else
+                      ("FAILED" if dense_roots or nonseed_roots else
+                       ("PENDING_MORE_UNITS" if missing_warm else
+                        ("UNDETERMINED__UNKNOWN_FOUNDERS" if unknown_roots else
+                         ("HELD" if recovery_groups else "UNDETERMINED__NO_RECOVERY"))))))
+    universal = ("UNDETERMINED__FIRST_RECOVERY_ONLY" if first_verdict == "HELD" else first_verdict)
+    Z["Z5"] = {
+        "roots_by_arm": z5rows, "n_distinct_recoveries": len(recovery_groups),
+        "n_rooted_in_DENSE": len(dense_roots), "n_nonseed_roots": len(nonseed_roots),
+        "unknown_founders": unknown_roots, "conflicting_provenance": conflicts,
+        "recorded_first_recovery_verdict": first_verdict, "verdict": universal,
+        "evidence_scope": "first admissible atrophied-DENSE recovery per warm arm; RESET excluded",
+        "rule": "every recovered atrophied-DENSE machine descends from a non-DENSE seed elite; "
+                "first-only receipts cannot certify all later recoveries"}
 
     zrec("Z1", z1, lambda h: h >= 2, "SAME/CONTINUED reaches atrophied-DENSE on >= 2/3 seeds")
     zrec("Z2", z2, lambda h: h == 0, "SAME/RESET reaches it on 0/3 seeds (within-lane control for the 0-of-43 invariant)")
@@ -342,7 +405,8 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
                                        for a in ("RESET", "CONTINUED", "TWIN")}}
     if validation_only:
         Z["terminal"] = "NOT_SCORED__PARTIAL_SEED_SET"
-    elif any(Z[k]["verdict"] in ("UNDETERMINED", "PENDING_MORE_UNITS") for k in ("Z1", "Z2", "Z3")):
+    elif not out["complete"] or any(Z[k]["verdict"] in ("UNDETERMINED", "PENDING_MORE_UNITS")
+                                      for k in ("Z1", "Z2", "Z3")):
         Z["terminal"] = "Z_UNDETERMINED__UNITS_MISSING"
     elif Z["Z2"]["verdict"] == "FAILED":
         # F-Z2: the cell is reachable cold, so this is about speed, not reachability
@@ -354,19 +418,24 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         Z["terminal"] = "COEFFICIENT_CELL_REACHABLE_ONLY_FROM_STRUCTURED_HISTORY_AT_REGISTERED_SCOPE"
     else:
         Z["terminal"] = "COEFFICIENT_LIFT_NOT_OBSERVED"
+    Z["adjudication_complete"] = out["complete"] and not validation_only
     out["Z_registration"] = Z
 
     # terminal
     P = out["predictions"]
     if not out["complete"]:
         out["terminal"] = "ADJUDICATION_INCOMPLETE__UNITS_MISSING"
-    elif P["D1a"]["verdict"] == "FAILED" and P["D1a"]["n_true"] == 0:
+    elif P["D1a"]["verdict"] == "FAILED":
         out["terminal"] = "DEVELOPMENTAL_MORPHOGENESIS_NOT_OBSERVED_AT_SCOPE"
-    elif P["D1b"]["verdict"] != "HELD" and not (P["D2b"]["verdict"] == "HELD" and P["D2d"]["verdict"] == "HELD"):
-        # a vacuous D2d ("no determined seed") is not support: it cannot rescue a failed D1b
+    elif P["D1a"]["verdict"] == "HELD" and P["D1b"]["verdict"] == "HELD":
+        out["terminal"] = "DEVELOPMENTAL_MORPHOGENESIS_OBSERVED_AT_REGISTERED_SCOPE"
+    elif P["D1a"]["verdict"] == "HELD" and P["D1b"]["verdict"] == "FAILED":
         out["terminal"] = "PARENT_SUFFICIENT_OOPS"
     else:
-        out["terminal"] = "DEVELOPMENTAL_MORPHOGENESIS_OBSERVED_AT_REGISTERED_SCOPE"
+        out["terminal"] = "ADJUDICATION_UNDETERMINED__LOAD_BEARING_EVIDENCE"
+    out["frozen_all_three_seed_kill_condition"] = (
+        not validation_only and P["D1a"]["verdict"] == "FAILED"
+        and P["D1a"]["n_true"] == 0 and P["D1a"]["n_determined"] == 3)
     out["residual_over_parents"] = {
         "D1b_load_bearing": P["D1b"]["verdict"],
         "D2b_class_conditioned_sign": P["D2b"]["verdict"],
@@ -376,8 +445,8 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         out["terminal"] = "VALIDATION_ONLY__NOT_AN_ADJUDICATION"
         out["note"] = ("scored on %d of 3 seeds; every '>= 2/3' verdict below is therefore "
                        "not the frozen verdict, only an instrument check" % len(seeds))
-    p = os.path.join(RES, ("STAGE_B6_DEV_ADJ_VALIDATION_%s.json" % host) if validation_only
-                     else ("STAGE_B6_DEV_ADJUDICATION_%s.json" % host))
+    p = os.path.join(RES, ("STAGE_B6_DEV_ADJ_VALIDATION_V2_%s.json" % host) if validation_only
+                     else ("STAGE_B6_DEV_ADJUDICATION_V2_%s.json" % host))
     json.dump(out, open(p, "w"), indent=1, sort_keys=True, default=str)
     for k in sorted(Z):
         if isinstance(Z[k], dict) and "verdict" in Z[k]:
@@ -385,11 +454,11 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     print("Z terminal:", Z["terminal"])
     for k in sorted(P):
         v = P[k]
-        print(f"{k:5s} {v['verdict']:38s} {v.get('per_seed', v.get('per_pair'))}")
+        print(f"{k:5s} {v['verdict']:38s} {v.get('per_seed', v.get('per_pair', v.get('components')))}")
     DE = out["duplicate_experiments"]
     if DE["n_undisclosed_groups"]:
         print("DUPLICATE COMPUTATION:", DE["n_undisclosed_groups"], "group(s);",
-              DE["n_receipt_files"], "receipt files ->", DE["n_distinct_experiments"], "distinct experiments")
+              DE["n_receipt_files"], "receipt files ->", DE["n_experiments_after_proven_deduplication"], "after proven deduplication")
         for g in sorted(DE["duplicate_computation"]):
             print("   ", g)
     if DE["shared_baseline_by_design"]:

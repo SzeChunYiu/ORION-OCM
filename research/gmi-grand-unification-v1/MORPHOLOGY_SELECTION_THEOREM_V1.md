@@ -185,16 +185,16 @@ A statically superior architecture may be absent from `F_reach` if no admitted u
 
 This is the formal place where training, architecture search, evolution, self-modification and path dependence affect the derived realized form.
 
-`DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` bounds how far that can be
-derived. Two development laws can share the admitted realization set, the
-profiles, the family assignment and every proved necessity and still give
-different reachable frontiers (DU-1), so `F_reach` is not a function of the
-data the other layers supply and a development law must be registered in its
-own right — including its schedule semantics, since admitted updates need not
-commute (DU-2). Restricting to reachable realizations never lowers a derived
-lower bound but can invalidate a construction, so development evidence
-strengthens exclusions while it can destroy selections (DU-3). And no finite
-budget certifies an unbounded-development verdict (DU-4).
+`DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` distinguishes what static
+summaries identify from what an additional development model supplies.
+Different compatible development laws can yield different reachable frontiers
+(DU-1). A chosen schedule and existential reachability across all admitted
+schedules are distinct objects (DU-2). Feasible-set restriction preserves
+lower bounds; comparative exclusion survives only when its supporting
+construction remains feasible in the same scope (DU-3). Finally, a finite
+observed prefix alone need not settle an unbounded verdict, while a finite
+exact reachable-set closure certificate can settle it (DU-4). These results
+leave constructive research under registered development laws open.
 
 ## 11. Exact finite witness
 

@@ -172,14 +172,15 @@ Development is itself a GMI process on morphology state. Let
 
 be the registered realization states reachable under the declared development process and budget. A quotient representation may be used when the registered projection preserves the protected profiles and future development semantics; membership of a realization then means membership of its projected class. Learning, meta-learning, architecture search, program synthesis, test-time adaptation, self-modification and evolutionary population updates are repeated applications of this lift.
 
-`D` is an irreducible component of the primitive tuple, not a derived object.
-Two development laws sharing every other registered input can have different
-reachable frontiers, so no derivation from semantic, cut, transformation,
-symmetry, resource or realization facts determines a trained outcome. A
-registered `D` must also fix its schedule semantics, because admitted updates
-need not commute. Reachability never lowers a derived lower bound but can
-invalidate a construction, and no finite budget certifies an
-unbounded-development verdict.
+Static realization/resource summaries do not generally identify an
+unconstrained development law or its reachable frontier. A particular `D`
+must be registered or justified by additional assumptions; this does not
+prevent constructive theorems conditional on that law. Distinguish one
+chosen schedule from existential reachability over all admitted schedules.
+Restricting the feasible set preserves valid lower bounds, while a comparative
+exclusion also requires retaining its feasible comparator witness. A finite
+budget alone need not establish an unbounded verdict; a proved exhaustive
+successor-closed reachable set can do so (corrected DU-1--4).
 
 ### 1.7 Causal semantic information
 

@@ -145,5 +145,8 @@ The GMI contribution at this layer is the precise repair of its own task-directe
 ## 10. Executable evidence
 
 `grand_gmi_controlled_acquisition_checks_v1.py` exhaustively compares CA-2 to explicit history policies and pins the CA-3/CA-4/CA-5 counterexamples. `GRAND_GMI_CONTROLLED_ACQUISITION_RECEIPT_V2.json` records the exact integrated
-output, including the replay terminal field. V1 remains unchanged. The CA-5
-values are now computed from policies instead of supplied in a constant table.
+output, including the replay terminal field. Upstream PR #539 recaptured its
+V1 file in place. The original pre-terminal V1 bytes are preserved separately in
+`replay_receipts_v1/GRAND_GMI_CONTROLLED_ACQUISITION_PRE_CAPSULE_V1.json`;
+the inventory identifies both histories. CA-5 values are now computed from
+policies instead of supplied in a constant table.
