@@ -378,3 +378,43 @@ value the D2b derivation quotes for `E_smooth3`, reproduced by an independent ar
 the richest DENSE cells by raw capability (`DISJ|CONTINUED|S0` at 0.9583, `SAME|CONTINUED|S1` at 0.9583)
 both fail the controls, so raw capability in the coefficient cell is not evidence of an admissible
 coefficient machine.
+
+### Disclosed while the campaign ran: negatives cost more than positives, and they are exhaustive
+
+The arms differ in wall-clock by far more than the RV-377-202 sizing implied, and the reason is
+structural rather than incidental. Verification time across the nine completed arms:
+
+| arm | coefficient scan | candidates scanned | verification evaluations | verify seconds |
+|---|---|---|---|---|
+| `CROSS\|CONTINUED\|S0` | not found | 0 | 0 | 8 |
+| `SAME\|RESET\|S0` | not found | 0 | 0 | 272 |
+| `DISJ\|CONTINUED\|S0` | not found | 63 | 722 | 218 |
+| `CROSS\|TWIN\|S0` | **found** | 165 | 1 306 | 779 |
+| `DISJ\|TWIN\|S0` | **found** | 165 | 1 306 | 684 |
+| `SAME\|CONTINUED\|S1` | **found** | 464 | 3 500 | 390 |
+| `SAME\|CONTINUED\|S0` | **found** | 371 | 19 648 | 1 130 |
+| `SAME\|TWIN\|S0` | not found | 853 | 71 650 | **4 356** |
+| `CROSS\|RESET\|S0` | not found | 2 026 | 87 170 | **3 866** |
+
+A 500-fold spread in verification time, and it tracks the outcome: `first_of_class` **stops at the first
+hit**, so a positive pays for the candidates up to that hit, while a negative pays for **every** coefficient
+candidate in the trace. Where no coefficient candidate exists at all the scan is free; where many exist and
+none is admissible it is the dominant cost of the arm.
+
+Two consequences worth stating before the campaign finishes.
+
+**Runtime correlates with outcome, so early arms mislead about completion.** The nine finished arms are
+disproportionately the cheap ones. Estimating the remaining fifteen from them under-counts, and the
+seed-1 arms now at four hours against seed 0's twenty-eight minutes are the visible form of that.
+
+**The arms that decide the negative predictions are structurally the expensive ones.** `Z2` and `Z3` are
+both negative claims — the cold arm reaches the coefficient cell on 0/3 seeds, the structure-free twin on
+≤ 1/3. Confirming a negative is precisely the exhaustive path. That `SAME|RESET|S1` and `SAME|TWIN|S1` are
+the two longest-running arms is what the registration predicts their cost to look like, not a fault.
+
+**The negatives are exhaustive, not truncated — checked, not assumed.** `first_of_class` takes a
+`max_candidates` cap, and a capped scan would make every "not found" mean "not found within the cap",
+which would weaken `Z2` and `Z3` to conditional claims. The command line never passes it
+(`run_arm(pair, arm, seed, host, evaluations)` — five arguments, `max_candidates` left `None`), so both
+scans run to the end of the trace. A "not found" in this campaign is an exhaustion of every θ-crossing
+placement the search produced.

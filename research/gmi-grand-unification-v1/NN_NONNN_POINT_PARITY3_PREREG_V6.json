@@ -1,0 +1,134 @@
+{
+  "candidate_identity_basis": "Exact source segment bytes. The V4 AST hashes are interpreter-version dependent, because ast.dump output changes between CPython versions, so they cannot bind a candidate across the interpreter envelopes this replication compares. Every packet additionally records its local AST hash and proves byte-identity against the V4 harness.",
+  "candidates": [
+    {
+      "candidate_id": "N_THRESHOLD_DNF4_V1",
+      "family": "NEURAL",
+      "implementation": "neural_threshold_parity3",
+      "reachability": "directly constructed frozen source; no training/search",
+      "source_sha256": "da8182c1b6bba4d555733a9507f1b3a97db6b83d40dec231d5e71cec0aa93056"
+    },
+    {
+      "candidate_id": "X_XOR2_V1",
+      "family": "NON_NEURAL",
+      "implementation": "non_neural_xor_parity3",
+      "reachability": "directly constructed frozen source; no training/search",
+      "source_sha256": "6fc320f1e13e75399c930c0c8a5c165b0e0f04231a8c5db6c36c3c7c5ca033dd"
+    },
+    {
+      "candidate_id": "N_SUM_THRESHOLD3_V3",
+      "family": "NEURAL",
+      "implementation": "neural_sum_threshold_parity3",
+      "reachability": "direct algebraic construction using parity as alternating cumulative thresholds; no timing-guided search",
+      "source_sha256": "7e782c3efcfe8a7ee481d5fe00ce908ca8d5f2ef31d0410a5d12837f6204fe36"
+    },
+    {
+      "candidate_id": "X_LOOKUP8_V3",
+      "family": "NON_NEURAL",
+      "implementation": "non_neural_lookup_parity3",
+      "reachability": "direct exhaustive truth table; no timing-guided search",
+      "source_sha256": "208c25f9c5399a74b40d14998cbd3ec5bc32b8f190e7928414efaf0dd8562bd8"
+    }
+  ],
+  "claim_ceiling": "Four frozen candidates on parity-3, on each recorded host and interpreter envelope, using finite observed deployment envelopes and exact validated opcode counts. No universal family winner, no all-architecture optimization, no cross-host replication, no development-cost advantage, no claim about any substrate other than the recorded CPython envelopes, and no representative intelligence claim.",
+  "date": "2026-09-13",
+  "development_accounting": "Development and search costs are excluded, exactly as in V1 to V4. All four candidates are directly constructed frozen sources. No development-cost advantage is claimed for any family.",
+  "execution_policy": "One packet per envelope. A packet is frozen exactly as emitted. Invalid packets are retained with their diagnostics and are never overwritten by a later attempt on the same envelope.",
+  "experiment_id": "NN_NONNN_POINT_PARITY3_V6_PRIMED_INSTRUMENT_REPLICATION",
+  "family_definitions": {
+    "NEURAL": "affine-threshold unit composition; weighted sums compared against thresholds",
+    "NON_NEURAL": "direct Boolean or exact table realization with no threshold units"
+  },
+  "hard_gates": [
+    "CPython interpreter; the registered opcode coordinate is defined by CPython bytecode events",
+    "exact capability on all eight inputs for every candidate",
+    "candidate sources byte-identical to both the V5 and V4 harnesses",
+    "a complete validated per-frame opcode witness for every candidate, forward and reverse, before any timing; priming does not weaken this gate",
+    "balanced candidate order across blocks and garbage collection disabled during timing"
+  ],
+  "independent_prospective_prediction": false,
+  "instrument_change": {
+    "measurement_equivalence": "Priming runs the candidate over the input domain under tracing and discards the result. The recorded witness is validated per frame exactly as in V5, and timing happens after the registered warmup, so the repair cannot change a V5-valid envelope's measurement semantics.",
+    "visibility": "Each packet records the priming witness diagnostics and whether priming was required.",
+    "what": "One discarded priming trace session per candidate before the recorded witness.",
+    "why": "On CPython 3.13 the first-ever trace of a code object reports no opcode events for its first frame, while any later trace of the same code object is complete. Verified on 3.13.12 with four never-before-traced code objects: first-ever witnesses were [0,9,9,9,9,9,9,9] and immediate repeats were [9,9,9,9,9,9,9,9]. CPython 3.12.3 shows no such effect."
+  },
+  "measurement_schedule": {
+    "calls_per_block_per_candidate": 160000,
+    "candidate_order": "rotate base order by block modulo 4; reverse base order on odd groups of 4",
+    "inputs_per_sweep": 8,
+    "sweeps_per_block": 20000,
+    "timed_blocks": 32,
+    "warmup_sweeps_per_candidate": 5000
+  },
+  "prior_diagnostic_knowledge": {
+    "no_timing_observed_on_3_13": true,
+    "opcode_mechanism_probe": "The prearm was probed on CPython 3.11.15, 3.12.3 and 3.13.12 before the V5 freeze, and the first-ever-trace effect was isolated on 3.13.12 before this V6 freeze.",
+    "static_disassembly_known": "Per-call instruction counts on 3.13.12 are 55, 9, 36 and 16 for the four candidates, from dis.get_instructions, which requires no execution.",
+    "v5_executed_envelopes": "CPython 3.11.15 and 3.12.3 returned DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE; 3.13.12 returned INVALID_RECEIPT_OR_PROTOCOL_VIOLATION at the instrumentation gate.",
+    "v6_self_test_executed_before_freeze": "The V6 instrument self-test, which validates witnesses without timing anything, was run on CPython 3.11.15, 3.12.3 and 3.13.12 before this freeze. It confirmed P1 and P3 directly: on 3.13.12 the gate passes with priming required, every recorded witness is complete, the priming witness shows exactly one empty frame per candidate, and the exact counts are 72, 128, 288 and 440. P1 and P3 are therefore already settled at freeze time and are retained in the expectation only as a record of the reasoning. P2 remains the sole unmeasured claim."
+  },
+  "problem": {
+    "capability_gate": "all eight outputs must equal the expected parity before any timing",
+    "obligation": "zero error on the complete input domain",
+    "task": "exact 3-bit parity on all eight inputs"
+  },
+  "recorded_not_gated": [
+    "host label",
+    "execution surface",
+    "interpreter version",
+    "platform",
+    "CPU",
+    "SLURM job identity"
+  ],
+  "registered_replication_expectation": {
+    "epistemic_status": "Mixed and separated on purpose. P1 and P3 were already confirmed at freeze time by the V6 instrument self-test, which times nothing; see prior_diagnostic_knowledge. They are retained as a record of the reasoning, not as open predictions. P2 is the only genuinely prospective claim: no timing measurement has ever been executed on CPython 3.13 under any registration, so the 3.13 wall and process envelopes, and therefore the 3.13 verdict, are unmeasured at the time of this freeze. The V1, V2, V4 and V5 outcomes on other interpreters were read.",
+    "expected_terminal": "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
+    "falsifier": "P1 fails if the gate still refuses 3.13. P2 fails if a neural candidate survives on any envelope, if any envelope abstains, or if two validating envelopes disagree. P3 fails on any count or ordering other than those stated. A protocol, identity or capability failure invalidates that packet rather than the expectation.",
+    "post_failure_rule": "No changes to candidates, schedule, coordinates, scope, selection or instrument after timing. Keep every first-run outcome per envelope, including failures and abstentions.",
+    "prediction": "P1, mechanism informed: with priming, the instrumentation gate will pass on CPython 3.13.12, so that envelope will produce a timed packet instead of a refusal. P2, prospective: the CPython 3.13.12 terminal will be DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE and will agree with the 3.11 and 3.12 envelopes. P3, prospective: the 3.13.12 exact opcode counts will be 72 for X_XOR2_V1, 128 for X_LOOKUP8_V3, 288 for N_SUM_THRESHOLD3_V3 and 440 for N_THRESHOLD_DNF4_V1, preserving the cheapest-to-costliest ordering observed on 3.11 and 3.12."
+  },
+  "registered_resource_coordinates": [
+    {
+      "kind": "exact",
+      "name": "python_opcode_count_per_full_domain_sweep",
+      "note": "complete validated opcode witness over all eight inputs"
+    },
+    {
+      "kind": "observed envelope",
+      "name": "wall_block_ns",
+      "note": "finite min and max over the registered blocks"
+    },
+    {
+      "kind": "observed envelope",
+      "name": "process_block_ns",
+      "note": "finite min and max over the registered blocks"
+    }
+  ],
+  "replication_lineage": {
+    "freeze_boundary": "first main commit carrying this V6 source and registration; later source changes require a new version",
+    "historical_packets": "V1, V2, V4 and V5 source, registrations, workflows and measured outcomes remain unchanged, including the retained V5 CPython 3.13 refusal packet.",
+    "parent_harnesses": [
+      "nn_nonnn_point_parity3_experiment_v5.py",
+      "nn_nonnn_point_parity3_experiment_v4.py"
+    ],
+    "parent_registration": "NN_NONNN_POINT_PARITY3_PREREG_V5.json",
+    "v6_change": "Instrument priming only, plus recording the priming witness and binding candidate identity against both earlier portable harnesses. Every candidate body, the schedule, the resource coordinates, the development boundary and the decision rule are unchanged."
+  },
+  "replication_targets": {
+    "executable_by_this_registration": [
+      "any CPython 3.11, 3.12 or 3.13 host, including a local laptop, a shared server and a SLURM compute node"
+    ],
+    "named_outstanding_hosts": [
+      "laptop-billy",
+      "old",
+      "lunarc"
+    ],
+    "note": "Packets for the named outstanding hosts are not produced by this registration and remain an open obligation until those envelopes are executed and their packets frozen. Every envelope executed so far shares one host, so cross-host replication is untouched."
+  },
+  "schema": "NN_NONNN_POINT_PARITY3_PREREG_V6",
+  "scientific_scope": "V5 established that the opcode instrument refuses CPython 3.13, because the first-ever trace of a code object loses its first frame's opcode events there. V6 repairs the instrument with one discarded priming trace per candidate and nothing else, so that a third interpreter generation can contribute an envelope. Candidates, schedule, resource coordinates, development boundary and decision rule are unchanged from V5 and V4.",
+  "selection_rule": "A candidate is on the robust frontier unless another candidate's upper endpoints are weakly below its lower endpoints in every registered coordinate and strictly below in at least one. A single-family frontier derives that family at the recorded envelope. A mixed-family frontier abstains.",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "substrate": "Any CPython 3 interpreter on any host, now including 3.13. The interpreter version, platform, CPU and execution surface are recorded in every packet and are part of that packet's scope, not a gate."
+}
