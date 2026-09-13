@@ -54,6 +54,9 @@ WITNESS_COEFFS_V1 = (-0.5, -0.5, -0.5, -0.25)
 # closed forms (from that receipt): E_cr1 best constant 0.6667, memory closed form 0.8333 (< theta), witness-free;
 # E_cr2 0.7292 / 0.8646 (within one fx unit of theta), witness-bearing; E_cr3 0.7917 / 0.8958, witness-bearing;
 # E_cr4 0.8125 / 0.9062, witness-free. None of these had ever been B1-searched.
+# RV-377-142: two further fresh ecologies from the same walk (select_fresh(6), tag V44_CLASSRATE_SELECT6; canonical
+# indices 8 and 9 of the discriminating enumeration), registered additively before any run.
+CLASS_RATE_COEFFS_V2 = {"E_cr5": (-0.5, -0.5, -0.5, 0.5), "E_cr6": (-0.5, -0.5, -0.375, -0.5)}
 CLASS_RATE_COEFFS_V1 = {"E_cr1": (-0.5, -0.5, -0.5, -0.5), "E_cr2": (-0.5, -0.5, -0.5, -0.125),
                         "E_cr3": (-0.5, -0.5, -0.5, 0.25), "E_cr4": (-0.5, -0.5, -0.5, 0.375)}
 
@@ -117,3 +120,5 @@ def run_genotype(spec, genotype, basis, intervention="standard", seed=0):
 def response_signature(resp):
     """the exact semantic/developmental part of a response (rho_M excluded): served trace and capability."""
     return sha256_of({"trace": resp["trace"], "capability": resp["capability"]})
+for _n, _c in CLASS_RATE_COEFFS_V2.items():
+    REGISTRY.setdefault(_n, spec_smooth(_c, _n))
