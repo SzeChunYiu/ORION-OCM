@@ -22,6 +22,9 @@ SCHEMA = "grand-gmi-theorem-replay-inventory-v1"
 CLAIM_CEILING = "registered finite executable checks only; no universal theorem or empirical closure"
 CHECKER_TIMEOUT_SECONDS = {"grand_gmi_terminal_cost_checks_v1.py": 180}
 EXTERNAL_UNIT_DEPENDENCIES = {
+    "grand_gmi_b6_consumer_census_checks_v1.py": (
+        "research/gmi-b6-consumer-census-v1",
+    ),
     "grand_gmi_terminal_cost_checks_v1.py": (
         "research/gmi-terminal-cost-reconstruction-v1",
     ),

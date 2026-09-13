@@ -10,6 +10,8 @@ the earlier master closure ledgers. The audit began at repository commit
 against the advancing `main`. Each iteration is a separate commit and merge.
 Historical receipts and negative outcomes retain their original scope.
 
+Current [B6 consumer correction](PR551_CONSUMER_CORRECTION_2D23C583_V1.md) binds the native-port census and source-seed counterevidence. It accepts the later SEARCH ledger retraction while retaining workload-ratio and causal-stage limits; the frozen prior reviews and raw evidence remain unchanged.
+
 ## What closes an identified gap
 
 For a concrete defect, record the original implication, a counterexample or

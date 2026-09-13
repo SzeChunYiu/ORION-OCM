@@ -47,7 +47,8 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
-- [PR #551 updated qualifications](PR551_SCIENTIFIC_REVIEW_F359A957_V1.md): accepted retractions, validated tenth-arm availability, corrected carrier-field attribution and exact identity of the reconstructed witness.
+- [PR #551 current consumer correction](PR551_CONSUMER_CORRECTION_2D23C583_V1.md): native parameter ports, exact cohorts and source-seed counterevidence; accepted inner-search ledger retraction with workload and causal limits. Earlier field and campaign qualifications remain linked.
+- [Portable B6 consumer census](../gmi-b6-consumer-census-v1/CORE.md): complete static payload and original source/raw bytes, with missing-source abstention and no new empirical execution.
 - [Instrument and custody repairs](../gmi-instrument-custody-integration-v1/CORE.md): canonical pre-reservation, full V5 packet reconstruction and the bounded opcode callback repair.
 - [Complete retained V6 audit](../gmi-parity-v6-evidence-v1/CORE.md): all three measured packets reconstructed without new measurements; absent priming traces and unauthenticated chronology remain explicit.
 - [Recovered B6 witness and mechanism](../gmi-witness-evidence-v1/CORE.md): source-bound S1 recovery; DENSE removal preserves the proved behavioral projection while resource costs change.
