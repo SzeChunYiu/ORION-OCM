@@ -164,7 +164,9 @@ existing SC-1 adequacy distinction through experimentation and then through a
 separately declared retention cut. No novelty is claimed for those parents.
 
 State-changing, unsafe or availability-changing tests require a controlled
-state/history register; `S` alone need not be sufficient. Stochastic errors,
+state/history register; `S` alone need not be sufficient. The finite
+deterministic case is now constructed in [CRA-1--3](CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md),
+including a destructive probe and protection-before-probing repair. Stochastic errors,
 unknown outcome tables, deployment cost, bounded acquisition workspace and
 physical realization require additional models. This module does not discharge
 those obligations or establish universal completion.
