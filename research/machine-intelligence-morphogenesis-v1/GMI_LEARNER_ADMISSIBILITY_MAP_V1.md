@@ -145,3 +145,56 @@ Two lessons kept, since both are about my own method rather than the subject:
 * The flat-ceiling negative above is **unaffected** — it compares each family's variability against the
   constant's, row by row, and adding more families cannot rescue a hypothesis that failed on the rows
   it was tested on.
+
+---
+
+## The full matrix (all nine rows, six ecologies) — and the flat-ceiling hypothesis is half right
+
+`STAGE_FAMILY_ECOLOGY_MATRIX_V1.json`, minimum over the six V1 interventions, θ = 0.85, rule-40 line at
+≥ 1 fx over each ecology's best constant.
+
+| row | mean | stdev | spread | admissible on |
+|---|---:|---:|---:|---|
+| `compiled_search` | **0.9653** | **0.0260** | **0.0625** | **all six** |
+| `program_search` | **0.9653** | **0.0260** | **0.0625** | **all six** |
+| `hamming_knn_k3` | 0.8524 | 0.0435 | 0.1355 | 3 of 6 |
+| `soft_retrieval` | 0.8142 | 0.0655 | 0.2083 | 1 of 6 |
+| *BEST CONSTANT* | *0.8090* | *0.0516* | *0.1667* | — |
+| `particles_p4` | 0.7743 | 0.0674 | 0.2084 | none |
+| `gradient_net_h4` | 0.7335 | 0.0560 | 0.1459 | none |
+| `constant_emitter` | 0.6979 | 0.2769 | 0.7917 | none |
+| `gradient_net_h2` | 0.6788 | 0.0406 | 0.1094 | none |
+| `exemplar_table` | 0.6285 | 0.1092 | 0.3333 | none |
+
+**The correction above is confirmed**: the exact-search family is admissible on **every** ecology, memory
+on three, retrieval on one, and nothing else anywhere. Ranking the cheap rows alone was wrong.
+
+**And the flat-ceiling hypothesis is half right, which is more interesting than either verdict I gave it.**
+It fails as a universal claim — most families vary as much as the constant. But it holds sharply for the
+one family that is universally admissible: both search rows sit at 0.9653 with **stdev 0.0260, half the
+constant's 0.0516, and the smallest spread of any row (0.0625 against 0.1667)**.
+
+That is mechanistically sensible rather than coincidental. An exact search over the grammar is
+**target-agnostic**: it finds whatever program the ecology needs, so its capability barely depends on
+which ecology it faces. A fixed constant is the opposite extreme — one value against varying targets,
+hence the largest spread in the table (0.7917). The families in between are partly target-dependent.
+
+**So the shape of the law is: flatness tracks target-agnosticism, and the flattest family is admissible
+everywhere.** That is a statement about which species can occupy which niches, derived from measurement,
+and it is the positive counterpart to the day's negatives.
+
+## The capability/reachability gap, stated with both numbers
+
+This matters because the corpus's own recovery record says something different from this capability map:
+
+| | exact-search family |
+|---|---|
+| **admissible** (hand-built row, measured here) | **6 of 6 ecologies**, margins 1.5–4.0 fx |
+| **recovered** by neutral search (class-rate record) | program class present on **1 of 3 seeds** |
+
+A family that is admissible everywhere is recovered a third of the time. That gap is not a defect in
+either measurement — it is exactly `DU-1`: admissibility is a property of the static package, reachability
+is a property of the development law, and the second does not follow from the first. The class-rate law's
+`P′` clause already couples them empirically ("program class present iff the exact-search row is rule-36
+admissible"); this supplies the capability half of that coupling with numbers, and leaves the reachability
+half where `DU-1` says it must stay.
