@@ -113,9 +113,15 @@
           "different_fields": [
             "$.terminal"
           ],
-          "path": "GRAND_GMI_CONTROLLED_ACQUISITION_RECEIPT_V1.json",
-          "reason": "Preserved upstream CA payload; V2 adds the replay terminal while computing the same budget values from executed policies.",
+          "path": "replay_receipts_v1/GRAND_GMI_CONTROLLED_ACQUISITION_PRE_CAPSULE_V1.json",
+          "reason": "Exact prior bytes preserved because upstream #539 recaptured this versioned path in place; later integration uses a separately versioned aggregate/output.",
           "sha256": "3a3a360cfce6b468bd49c44f3ad7304b28306022060d897d8947b32dc873b1c7",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "path": "GRAND_GMI_CONTROLLED_ACQUISITION_RECEIPT_V1.json",
+          "reason": "Exact #539 upstream receipt, preserved alongside the integrated versioned receipt.",
+          "sha256": "ef7b7ec5a41dab7b98aee99260e285720294e5396e8b169508d7c9d705f58c79",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
@@ -178,6 +184,15 @@
       "receipt_sha256": "b8c175ed5ee452e8caa62fb57d4a01c1771ae6ffca43dee5923918fd81735e86",
       "source_sha256": "b29f6e34a2668b4ea6ccd74909e4796075ed6d22469de3f94a05f4f3b4bb788b",
       "terminal": "GRAND_GMI_DEVELOPMENTAL_LIFECYCLE_SELECTION_V2_ALL_GREEN"
+    },
+    {
+      "checker": "grand_gmi_developmental_underdetermination_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_DEVELOPMENTAL_UNDERDETERMINATION_RECEIPT_V1.json",
+      "receipt_sha256": "db68f7f5c96fddf90ba124a386421c9dd4e602e2b79537374df2e7534b397e01",
+      "source_sha256": "db412807e6a7badc51000f02f888855a9a682bae531f3a39d47116a2223d58f1",
+      "terminal": "GRAND_GMI_DEVELOPMENTAL_UNDERDETERMINATION_GREEN_AT_FINITE_SCOPE"
     },
     {
       "checker": "grand_gmi_dual_derivation_atlas_checks_v1.py",
@@ -373,8 +388,8 @@
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         },
         {
-          "path": "GRAND_GMI_MASTER_RECEIPT_V2.json",
-          "reason": "Exact #537 upstream aggregate, before the concurrent scientific sectors were integrated.",
+          "path": "replay_receipts_v1/GRAND_GMI_MASTER_RECEIPT_PRE_UNDERDETERMINATION_V2.json",
+          "reason": "Exact prior bytes preserved because upstream #539 recaptured this versioned path in place; later integration uses a separately versioned aggregate/output.",
           "sha256": "3e57292c28835193c9cdc903c517bf8a0a0c2a80b8d1f456c3df9a94bcd0119f",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         },
@@ -399,6 +414,12 @@
           "path": "GRAND_GMI_MASTER_RECEIPT_V3.json",
           "reason": "Second scientific integration adds controlled acquisition, lifetime repair, empirical frontier identification, all-partition width/query separation and corrected upstream phase derivation.",
           "sha256": "139603b4f84c98455fc51b1ee31bc2b6a9a5c879acde2c7bd4f82c4247159241",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "path": "GRAND_GMI_MASTER_RECEIPT_V2.json",
+          "reason": "Exact #539 upstream receipt, preserved alongside the integrated versioned receipt.",
+          "sha256": "18900f8071bb272a5db4a74dab4afe2a9e0880fccfa7a06319ab83c3f4304ea2",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
@@ -858,6 +879,7 @@
     "CERTIFICATE_INPUT_CORRECTION_20260913.md": "70c87e2aed7de76e9f8fd7dfa60b484384d97a9d3282c5424b4d0cbf49f54963",
     "CERTIFIED_REUSE_INVALIDATION_THEOREM_V1.md": "619372d1b2102ad9826a256b57dcf33e432f34c73e9d541b299aa825151a13ae",
     "CLAIM_LEDGER_CANDIDATE_COVERAGE_V1.md": "4ff069ab8cc5adaca47319508795bdf810add42f4a8629edbe9d565fcf25ab23",
+    "CLAIM_LEDGER_DEVELOPMENTAL_UNDERDETERMINATION_V1.md": "54028f2dd80486b2434fbb0af3f1963787899290aedc082055e388d7f48cde1e",
     "CLAIM_LEDGER_DUAL_DERIVATION_ATLAS_V1.md": "e48899c43293219cc0af2ccab5765e28c5c4b0b4a51be34fac5f5cb66e0fa914",
     "CLAIM_LEDGER_FAMILY_PHASE_V1.md": "6fd3d40a1f951f28ed49a52a1c6e15a0c675e59fd04da86f6b432483390ecc75",
     "CLAIM_LEDGER_MORPHOLOGY_PHASE_LAW_V1.md": "71ba218244a7a31fdd69e5292de3d6b6b0004f21a880edf9a4b2f7df75982cba",
@@ -896,6 +918,7 @@
     "DECISION_FINITE_SCORES_AUDIT_V1.md": "c64154bb930a8f29ff8040a3734b3fe5d265b9f4d8411271ac48fd7907e3e8f9",
     "DEVELOPMENTAL_LIFECYCLE_CORRECTION_V2.md": "df8de710ac307a5151aa27375edaf52abb306b659bfe94db20215d68ec0b7581",
     "DEVELOPMENTAL_REACHABILITY_SELECTION_THEOREM_V1.md": "9d365e4b6df9304fc290f5501434541740b16a09763434da54c1b7c8fcc60671",
+    "DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md": "0328695756aab81c43de497ac0de23607083210e2cad1b6f53ea0d3dbe8ef6a3",
     "EMPIRICAL_FRONTIER_IDENTIFICATION_THEOREM_V1.md": "09a804adab3d57d22d2b99be6c7e11ca10bd5d12428fc09e78a437c215b154ae",
     "EMPIRICAL_RESOURCE_IDENTIFICATION_THEOREM_V1.md": "5c7604f3505be8ae04bc4ac06d982826bf05f6f6b0b5f95caa5309cf90f1fa29",
     "END_TO_END_DERIVATIONS_V1.md": "8ded24076996ba07a1277fa401def2fe85744fb06a9b2058ad35b6a7a83226b9",

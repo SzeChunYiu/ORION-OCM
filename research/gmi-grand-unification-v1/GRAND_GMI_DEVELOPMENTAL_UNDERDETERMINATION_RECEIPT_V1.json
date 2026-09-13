@@ -1,0 +1,119 @@
+{
+  "claim_ceiling": "finite synthetic development witnesses; no training or scaling claim",
+  "learning_process_measured": false,
+  "no_finite_budget_certifies_the_limit": {
+    "chain_length": 8,
+    "finite_budget_verdict_does_not_extrapolate": true,
+    "frontier_strictly_improves_with_every_admitted_update": true,
+    "per_budget": {
+      "1": {
+        "frontier": 9,
+        "verdict": "NON_NEURAL"
+      },
+      "2": {
+        "frontier": 8,
+        "verdict": "NEURAL"
+      },
+      "3": {
+        "frontier": 7,
+        "verdict": "NON_NEURAL"
+      },
+      "4": {
+        "frontier": 6,
+        "verdict": "NEURAL"
+      },
+      "5": {
+        "frontier": 5,
+        "verdict": "NON_NEURAL"
+      },
+      "6": {
+        "frontier": 4,
+        "verdict": "NEURAL"
+      },
+      "7": {
+        "frontier": 3,
+        "verdict": "NON_NEURAL"
+      },
+      "8": {
+        "frontier": 2,
+        "verdict": "NEURAL"
+      }
+    },
+    "verdict_alternates_at_every_budget": true
+  },
+  "reachability_asymmetry": {
+    "global_best_by_family": {
+      "A": 2,
+      "B": 5
+    },
+    "global_verdict": "A",
+    "reachability_can_invalidate_a_construction": true,
+    "reachability_never_lowers_a_lower_bound": true,
+    "reachable_best_by_family": {
+      "A": 9,
+      "B": 5
+    },
+    "reachable_verdict": "B",
+    "verdict_is_not_monotone_under_reachability": true
+  },
+  "realization_data_does_not_determine_reachability": {
+    "per_development_law": {
+      "D1_grows_neural": {
+        "best_by_family": {
+          "NEURAL": 5
+        },
+        "reachable_states": [
+          "a",
+          "s0"
+        ],
+        "verdict": "NEURAL"
+      },
+      "D2_grows_non_neural": {
+        "best_by_family": {
+          "NEURAL": 10,
+          "NON_NEURAL": 3
+        },
+        "reachable_states": [
+          "b",
+          "s0"
+        ],
+        "verdict": "NON_NEURAL"
+      }
+    },
+    "reachable_frontier_is_not_a_function_of_realization_data": true,
+    "shared_global_best_by_family": {
+      "NEURAL": 5,
+      "NON_NEURAL": 3
+    },
+    "shared_profiles": {
+      "a": 5,
+      "b": 3,
+      "s0": 10
+    },
+    "shared_state_set": [
+      "s0",
+      "a",
+      "b"
+    ]
+  },
+  "schedule_matters_not_just_the_update_set": {
+    "admission_cap": 6,
+    "admitted_update_set": [
+      "add_three",
+      "double"
+    ],
+    "registered_development_law_must_fix_its_schedule_semantics": true,
+    "same_update_set_different_reachable_set": true,
+    "schedules": {
+      "add_three->double": {
+        "admitted": false,
+        "result": 8
+      },
+      "double->add_three": {
+        "admitted": true,
+        "result": 5
+      }
+    }
+  },
+  "terminal": "GRAND_GMI_DEVELOPMENTAL_UNDERDETERMINATION_GREEN_AT_FINITE_SCOPE"
+}
