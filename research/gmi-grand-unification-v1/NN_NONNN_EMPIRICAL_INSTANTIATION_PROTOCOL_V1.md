@@ -295,6 +295,30 @@ The accompanying checker does not pretend to run hardware. It validates protocol
 
 These are logic tests only.
 
+### Input and missingness correction (2026-09-13)
+
+The scalar adjudicator validates a finite candidate registry, unique nonempty
+candidate IDs, registered family labels, literal Boolean evidence fields, and
+finite non-Boolean numeric intervals with `lo <= hi`. Invalid or missing fields
+produce `UNDECIDED_FROM_CURRENT_EVIDENCE`. Certified intervals must use the same
+registered scalar, units and coverage/calibration rule; numerical validation
+cannot establish those external prerequisites or manufacture confidence.
+
+`deployment_evidence_present=False` records missing evidence. It is not a proved
+deployment failure. If such a candidate passes the other hard and development
+gates, the packet is undecided even if another candidate has complete evidence.
+If a candidate already has a certified `hard_gate_pass=False` or
+`development_reached=False`, that independent failure excludes it without needing
+deployment evidence. A certified deployment failure belongs in the hard-gate
+result. `INFEASIBLE_AT_REGISTERED_SCOPE` is reserved for a registry whose candidates
+are all excluded by certified failures, including an explicitly empty registry.
+
+The earlier frozen receipt's
+`synthetic_missing_deployment_with_hard_gate_interpretation=INFEASIBLE_AT_REGISTERED_SCOPE`
+was inconsistent with this missing-evidence boundary. It is superseded by the
+regenerated receipt's `synthetic_missing_deployment_verdict=UNDECIDED_FROM_CURRENT_EVIDENCE`.
+See `CERTIFICATE_INPUT_CORRECTION_20260913.md` for counterexamples and verification.
+
 ## 18. What this round closes
 
 The formal closure audit said the remaining NN/non-NN gaps are external premises. This protocol makes those premises operationally acquirable:
