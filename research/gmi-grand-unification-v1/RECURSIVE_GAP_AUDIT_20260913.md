@@ -41,7 +41,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 14 | Freeze and validate the actual V2 measurement separately from its instrument preregistration. Recompute all 62 blocks, exact capability, trace witnesses, resource boxes and the registered point verdict. | `NN_NONNN_POINT_PARITY3_HOSTED_RESULT_V2.json`; hosted run [34745072337](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34745072337) | [#525](https://github.com/SzeChunYiu/ORION-OCM/pull/525) |
 | 15 | The aggregate trusted terminal labels and stale partial receipts. Source-bound full-payload replay of all 45 finite checkers, explicit historical evidence and hostile custody checks replace that gate. | `THEOREM_REPLAY_INVENTORY_V1.json`; `THEOREM_REPLAY_CAPSULE_V1.md` | [#526](https://github.com/SzeChunYiu/ORION-OCM/pull/526) |
 
-| 16 | Register a hostile four-candidate parity-3 expansion, including a shared-sum neural network and lookup table; preserve the complete robust frontier and balanced timing order. | `PARITY3_CANDIDATE_EXPANSION_V3.md`; frozen V3 registration and instrument | Current iteration; merge after deterministic validation, then retain first hosted outcome |
+| 16 | Register a hostile four-candidate parity-3 expansion, including a shared-sum neural network and lookup table; preserve the complete robust frontier and balanced timing order. | `PARITY3_CANDIDATE_EXPANSION_V3.md`; frozen V3 registration and instrument | [#527](https://github.com/SzeChunYiu/ORION-OCM/pull/527); V3 remains unexecuted |
 | 17 | The family-phase crossover condition was vacuous, malformed intervals were compared instead of rejected, and the hybrid witness summed registered upper bounds into pure-family lower bounds and reused a composition law as a necessity. FP-3a now carries well-formedness, connected-domain and pairwise scope; FP-5a fixes bound direction; FP-5b requires a decomposition-closed candidate class. | `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
@@ -207,3 +207,7 @@ The audit stops making claims at those boundaries. The terminal is
 `EVERY_POSSIBLE_GMI_GAP_CLOSED`.
 
 V3 now registers the concrete four-candidate expansion in `PARITY3_CANDIDATE_EXPANSION_V3.md`. Its first protected timing has not yet occurred at this registration stage. The 312-opcode shared-sum neural construction and 136-opcode lookup construction pass deterministic complete-domain instrument diagnostics; those static diagnostics do not predict timing envelopes or select a family. Independent external optimization and broader replication remain distinct obligations.
+
+## V4 premeasurement execution recovery
+
+No V3 measurement run appeared for its content commit `6ee679f4ff108bfab9817fda3c8d95b26edb6356` or final empty merge commit `7eff0a4b8f53903a0799ff81ef422fafb3b6f931`. V4 preserves the complete four-candidate design and fixes the inherited two-candidate descriptive scope field in a new immutable registration. No timing outcomes were read. `PARITY3_EXECUTION_RECOVERY_V4.md` records the new identity and limits. The capsule trigger now also covers isolated changes to the bound V3/V4 workflows.
