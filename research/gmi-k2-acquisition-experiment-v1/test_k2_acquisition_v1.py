@@ -172,3 +172,33 @@ class TheDocumentDoesNotOverclaim(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class KAE10_AccelerationWithoutShortening(unittest.TestCase):
+    """Necessity is scope-bound: naming alone can accelerate without shortening."""
+
+    TARGET = None
+
+    def setUp(self):
+        self.TARGET = K.semantics(("double", "inc"), K.PRIMITIVES)
+
+    def test_renaming_the_macro_flips_k2_with_everything_else_fixed(self):
+        early = {"a": ("inc", "double"), "p2": ("dec", "square")}
+        late = {"p1": ("inc", "double"), "p2": ("dec", "square")}
+        r_early = K.k2_trial(self.TARGET, early, 4)
+        r_late = K.k2_trial(self.TARGET, late, 4)
+        self.assertTrue(r_early["k2"], "early-sorting name must accelerate")
+        self.assertFalse(r_late["k2"], "late-sorting name must not")
+        self.assertEqual(r_early["reset"], r_late["reset"], "RESET must be unchanged")
+
+    def test_no_shortening_is_available_in_that_witness(self):
+        early = {"a": ("inc", "double"), "p2": ("dec", "square")}
+        self.assertFalse(K.reuse_available(self.TARGET, early, 4),
+                         "the witness must have L_H >= L_R")
+
+    def test_the_registered_libraries_do_not_exhibit_it(self):
+        """Why KAE-3's sweep found nothing: these names sort too late."""
+        for lib in ({"p1": ("inc", "double"), "p2": ("dec", "square")},
+                    {"q1": ("square", "square")}):
+            if not K.reuse_available(self.TARGET, lib, 4):
+                self.assertFalse(K.k2_trial(self.TARGET, lib, 4)["k2"])
