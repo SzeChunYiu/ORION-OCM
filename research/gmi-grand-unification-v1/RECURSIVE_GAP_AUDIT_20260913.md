@@ -56,6 +56,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 24 | Infinite-domain lower-bound transport does not require compactness, but accounting soundness remains required. Nonattainment need not block epsilon-witnesses or all classification; Boolean declarations do not certify result premises. | `CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`, corrected scope and positive alternatives | Original V1 preserved; corrected V2 evidence required |
 
 | 25 | The standing independent-replication obligation was unsatisfiable by construction: the V1-V4 instrument hard-requires a first-attempt push to `main` on a GitHub-hosted Linux runner, so no laptop, server or compute node can produce a valid packet, and interpreter-dependent AST hashes block cross-version candidate identity. V5 freezes a portable instrument with a recorded envelope, source-byte candidate identity and a cross-envelope adjudicator. Not executed. | `PARITY3_PORTABLE_REPLICATION_V5.md` | Current iteration; commit and merge only after required local gates pass |
+| 26 | Execute the portable registration. Three interpreter envelopes on one host, each once: CPython 3.11.15 and 3.12.3 both return a non-neural frontier with disjoint observed boxes, and 3.13.12 refuses the instrumentation gate before timing. The registered 3.12 opcode counts reproduce exactly on unrelated hardware; absolute counts are interpreter dependent while their ordering is not. Cross-host replication remains open. | `PARITY3_V5_CROSS_ENVELOPE_ASSESSMENT_20260913.md` | Current iteration; commit and merge only after required local gates pass |
 
 
 
@@ -118,6 +119,38 @@ uncomputability boundary discussion.
 
 
 
+
+### A measurement reproduced, and an instrument that refused
+
+Iteration 26 is the first execution under the portable registration, and it
+produced two kinds of evidence.
+
+The registered exact coordinate reproduced. V2 and V4 registered 472 opcodes
+for the four-threshold neural candidate and 88 for the XOR candidate on a
+GitHub-hosted runner. Both reproduce exactly on CPython 3.12 on unrelated
+hardware under a validated complete witness. On CPython 3.11 the neural counts
+move to 512 and 344 while both non-neural counts are unchanged, so the absolute
+coordinate is interpreter dependent and the cheapest-to-costliest ordering is
+not. The verdict depends on the ordering, which is why the two envelopes agree.
+
+CPython 3.13.12 refused before timing. Its retained post-failure diagnostic
+pass records DNF8/8 complete and each other candidate7/8 complete. The source
+already ran `instrumentation_preflight` before collecting those diagnostics,
+so they cannot identify the first trace session or establish the precise
+tracing cause. Ignoring validation would undercount the latter three candidates
+and make them artificially cheaper relative to DNF. The original bias claim
+had that direction reversed. Per-frame validation correctly withholds the
+opcode comparison; the failure remains a concrete instrument-revival task.
+
+What the execution does not do is discharge the replication obligation. All
+three envelopes ran on one host and differ only in interpreter. The adjudication
+reports `replication_obligation_discharged: false`, and `laptop-billy`, `old`
+and `lunarc` still have no packets. The verdict also remains a four-candidate
+point verdict: four registered candidates are a candidate list, not a proved
+structural cover, so by the coverage correction the reading is
+`ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`. Under CLB-2 and CLB-3, these
+timing coordinates are finite observed windows rather than derived bounds; only
+the opcode coordinate is exact, and only for the interpreter that produced it.
 
 ### An obligation no instrument can discharge is not an open task
 
@@ -369,6 +402,11 @@ registration, a cross-envelope adjudicator and runner entry points for the
 named hosts `laptop-billy`, `old` and `lunarc`, whose packets do not exist. The
 replication obligation stays open until those envelopes are executed and their
 packets frozen.
+
+Iteration 26 measured three interpreter envelopes on one container. It does not
+establish cross-host replication, does not convert a four-candidate point
+verdict into a family verdict, and does not turn an observed timing envelope
+into a bound. The named hosts remain outstanding.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not

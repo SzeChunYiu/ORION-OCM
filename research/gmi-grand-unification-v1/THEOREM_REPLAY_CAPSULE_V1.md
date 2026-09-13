@@ -122,7 +122,7 @@ python -I -B research/gmi-grand-unification-v1/replay_theorem_capsule_v1.py
 
 The dedicated workflow runs these gates on pull requests and main pushes touching
 any file in this research directory, the external normative document, or any of
-the five registered workflows. It uses CPython
+the registered workflows. It uses CPython
 3.12.14 and uploads the aggregate replay report. No package installation is
 required.
 
