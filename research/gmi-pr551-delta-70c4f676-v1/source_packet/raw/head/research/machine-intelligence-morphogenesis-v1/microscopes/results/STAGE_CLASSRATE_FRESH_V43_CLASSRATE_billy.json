@@ -1,0 +1,1761 @@
+{
+ "host": "billy",
+ "issue": [
+  377
+ ],
+ "missing": [],
+ "rates": {
+  "E_cr1": {
+   "classes_by_seed": {
+    "S0": [
+     "PROGRAM"
+    ],
+    "S1": [],
+    "S2": []
+   },
+   "coefficient": 0,
+   "coefficient_rate": "0/3",
+   "memory": 0,
+   "memory_rate": "0/3",
+   "n_seeds": 3,
+   "program": 1,
+   "program_rate": "1/3",
+   "seeds": [
+    0,
+    1,
+    2
+   ]
+  },
+  "E_cr2": {
+   "classes_by_seed": {
+    "S0": [
+     "TABLE"
+    ],
+    "S1": [
+     "PROGRAM",
+     "TABLE"
+    ],
+    "S2": [
+     "PROGRAM"
+    ]
+   },
+   "coefficient": 0,
+   "coefficient_rate": "0/3",
+   "memory": 2,
+   "memory_rate": "2/3",
+   "n_seeds": 3,
+   "program": 2,
+   "program_rate": "2/3",
+   "seeds": [
+    0,
+    1,
+    2
+   ]
+  },
+  "E_cr3": {
+   "classes_by_seed": {
+    "S0": [
+     "KVSTORE"
+    ],
+    "S1": [
+     "PROGRAM",
+     "TABLE"
+    ],
+    "S2": []
+   },
+   "coefficient": 0,
+   "coefficient_rate": "0/3",
+   "memory": 2,
+   "memory_rate": "2/3",
+   "n_seeds": 3,
+   "program": 1,
+   "program_rate": "1/3",
+   "seeds": [
+    0,
+    1,
+    2
+   ]
+  },
+  "E_cr4": {
+   "classes_by_seed": {
+    "S0": [],
+    "S1": [
+     "PROGRAM"
+    ],
+    "S2": []
+   },
+   "coefficient": 0,
+   "coefficient_rate": "0/3",
+   "memory": 0,
+   "memory_rate": "0/3",
+   "n_seeds": 3,
+   "program": 1,
+   "program_rate": "1/3",
+   "seeds": [
+    0,
+    1,
+    2
+   ]
+  }
+ },
+ "readings": [
+  {
+   "best_constant": 0.6667,
+   "classes_recovered": [
+    "PROGRAM"
+   ],
+   "classes_recovered_V2": [
+    "PROGRAM"
+   ],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr1",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": true,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr1_S0.json",
+   "receipt_sha256": "053534b8fed613a59943e001c2b5f1b23496575f1ed59b118ddfad98fbe632db",
+   "rows": {
+    "KVSTORE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.875,
+      "extra_unseen_feedback": 0.901,
+      "extra_unseen_feedback_v2": 0.9271,
+      "half_events": 0.8333,
+      "no_revoke": 0.875,
+      "shuffled_events": 0.7917,
+      "standard": 0.875
+     },
+     "capability_committed": 0.875,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7917,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 3.0
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.9271,
+      "min": 0.7917,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 3.0
+     },
+     "min_over_six": 0.7917,
+     "n_nodes_raw": 26,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 3.0,
+     "rule40_separates": true,
+     "standard_replayed": 0.875
+    },
+    "PROGRAM": {
+     "atrophied_carrier": "PROGRAM",
+     "atrophied_fingerprint": "3569295215fb6da1c055c93fbb2715d856475c33feb145ec698dd456089d5dcb",
+     "atrophied_min_over_six": 0.8958,
+     "atrophy_evaluations_charged": 552,
+     "binding": "standard",
+     "by_intervention": {
+      "double_revoke": 0.8958,
+      "extra_unseen_feedback": 0.8958,
+      "extra_unseen_feedback_v2": 0.9062,
+      "half_events": 0.8958,
+      "no_revoke": 0.8958,
+      "shuffled_events": 0.8958,
+      "standard": 0.8958
+     },
+     "capability_committed": 0.8958,
+     "class_recovered": "PROGRAM",
+     "class_recovered_V2": "PROGRAM",
+     "family_V1": {
+      "binding": "standard",
+      "min": 0.8958,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 5.498
+     },
+     "family_V2": {
+      "binding": "standard",
+      "extra_unseen_feedback_v2": 0.9062,
+      "min": 0.8958,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 5.498
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 0.8958,
+     "n_nodes_atrophied": 9,
+     "n_nodes_raw": 24,
+     "n_removed": 15,
+     "raw_carrier": "PROGRAM",
+     "removed_kinds": [
+      "LOOKUP",
+      "LOOKUP",
+      "MATERIALIZE",
+      "MATERIALIZE",
+      "TABLE",
+      "TABLE",
+      "AFFINE",
+      "TABLE",
+      "VERSIONED",
+      "CLOSEDFORM",
+      "CLOSEDFORM",
+      "CLOSEDFORM",
+      "CONST",
+      "DENSE",
+      "INSERT"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 5.498,
+     "rule40_separates": true,
+     "standard_replayed": 0.8958
+    },
+    "TABLE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback": 0.776,
+      "extra_unseen_feedback_v2": 0.6771,
+      "half_events": 0.8333,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.7917,
+      "standard": 0.8542
+     },
+     "capability_committed": 0.8542,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.776,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.623
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.6771,
+      "min": 0.6771,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.25
+     },
+     "min_over_six": 0.776,
+     "n_nodes_raw": 26,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.623,
+     "rule40_separates": true,
+     "standard_replayed": 0.8542
+    }
+   },
+   "seed": 0
+  },
+  {
+   "best_constant": 0.6667,
+   "classes_recovered": [],
+   "classes_recovered_V2": [],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr1",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": false,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr1_S1.json",
+   "receipt_sha256": "76cd38216cad476715716842b0fbe32c4cad7869b08fa9d8b6cf0e5fef7418a8",
+   "rows": {
+    "PROGRAM": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9167,
+      "extra_unseen_feedback": 0.9167,
+      "extra_unseen_feedback_v2": 0.9271,
+      "half_events": 0.9167,
+      "no_revoke": 0.9167,
+      "shuffled_events": 0.7604,
+      "standard": 0.9167
+     },
+     "capability_committed": 0.9167,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7604,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.9271,
+      "min": 0.7604,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "min_over_six": 0.7604,
+     "n_nodes_raw": 14,
+     "raw_carrier": "PROGRAM",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.249,
+     "rule40_separates": true,
+     "standard_replayed": 0.9167
+    },
+    "TABLE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9167,
+      "extra_unseen_feedback": 0.9167,
+      "extra_unseen_feedback_v2": 0.9271,
+      "half_events": 0.9167,
+      "no_revoke": 0.9167,
+      "shuffled_events": 0.7604,
+      "standard": 0.9167
+     },
+     "capability_committed": 0.9167,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7604,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.9271,
+      "min": 0.7604,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "min_over_six": 0.7604,
+     "n_nodes_raw": 11,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.249,
+     "rule40_separates": true,
+     "standard_replayed": 0.9167
+    }
+   },
+   "seed": 1
+  },
+  {
+   "best_constant": 0.6667,
+   "classes_recovered": [],
+   "classes_recovered_V2": [],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr1",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": false,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr1_S2.json",
+   "receipt_sha256": "0e10fc800efe929650dff0a63fc5ee87d6ec1b5427862f926127432e267569aa",
+   "rows": {
+    "PROGRAM": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9167,
+      "extra_unseen_feedback": 0.9167,
+      "extra_unseen_feedback_v2": 0.9271,
+      "half_events": 0.9167,
+      "no_revoke": 0.9167,
+      "shuffled_events": 0.7604,
+      "standard": 0.9167
+     },
+     "capability_committed": 0.9167,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7604,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.9271,
+      "min": 0.7604,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "min_over_six": 0.7604,
+     "n_nodes_raw": 12,
+     "raw_carrier": "PROGRAM",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.249,
+     "rule40_separates": true,
+     "standard_replayed": 0.9167
+    },
+    "TABLE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9167,
+      "extra_unseen_feedback": 0.9167,
+      "extra_unseen_feedback_v2": 0.9271,
+      "half_events": 0.9167,
+      "no_revoke": 0.9167,
+      "shuffled_events": 0.7604,
+      "standard": 0.9167
+     },
+     "capability_committed": 0.9167,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7604,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.9271,
+      "min": 0.7604,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "min_over_six": 0.7604,
+     "n_nodes_raw": 15,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.249,
+     "rule40_separates": true,
+     "standard_replayed": 0.9167
+    }
+   },
+   "seed": 2
+  },
+  {
+   "best_constant": 0.7292,
+   "classes_recovered": [
+    "TABLE"
+   ],
+   "classes_recovered_V2": [],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr2",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": true,
+   "n_evaluations": 20000,
+   "program_class_recovered": false,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr2_S0.json",
+   "receipt_sha256": "44ce2e6c60e94480edadaad188553d6f7383fad772fb9f0256a57d58758bba53",
+   "rows": {
+    "DENSE": {
+     "atrophied_carrier": "TABLE",
+     "atrophied_fingerprint": "f92f819ce6f16fce66ee7ab3fa428b024fdc9a66c8bda8f4a4cc56b84cba2be6",
+     "atrophied_min_over_six": 0.8698,
+     "atrophy_evaluations_charged": 468,
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.9323,
+      "extra_unseen_feedback": 0.8698,
+      "extra_unseen_feedback_v2": 0.8229,
+      "half_events": 0.901,
+      "no_revoke": 0.9271,
+      "shuffled_events": 0.875,
+      "standard": 0.9271
+     },
+     "capability_committed": 0.9271,
+     "class_recovered": "TABLE",
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.8698,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 3.374
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.8229,
+      "min": 0.8229,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 2.249
+     },
+     "label_survives_atrophy": false,
+     "load_bearing_tested": true,
+     "min_over_six": 0.8698,
+     "n_nodes_atrophied": 14,
+     "n_nodes_raw": 24,
+     "n_removed": 10,
+     "raw_carrier": "DENSE",
+     "removed_kinds": [
+      "ABSTAIN",
+      "NEAREST",
+      "PROGRAM",
+      "SCORESELECT",
+      "SUM",
+      "AFFINE",
+      "VERSIONED",
+      "DENSE",
+      "KVSTORE",
+      "NEAREST"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 3.374,
+     "rule40_separates": true,
+     "standard_replayed": 0.9271
+    },
+    "KVSTORE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9271,
+      "extra_unseen_feedback": 0.9635,
+      "extra_unseen_feedback_v2": 0.9896,
+      "half_events": 0.8958,
+      "no_revoke": 0.9271,
+      "shuffled_events": 0.8177,
+      "standard": 0.9271
+     },
+     "capability_committed": 0.9271,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.8177,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.124
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.9896,
+      "min": 0.8177,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 2.124
+     },
+     "min_over_six": 0.8177,
+     "n_nodes_raw": 22,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.124,
+     "rule40_separates": true,
+     "standard_replayed": 0.9271
+    },
+    "PROGRAM": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9531,
+      "extra_unseen_feedback": 0.8594,
+      "extra_unseen_feedback_v2": 0.7812,
+      "half_events": 0.8854,
+      "no_revoke": 0.9531,
+      "shuffled_events": 0.8333,
+      "standard": 0.9531
+     },
+     "capability_committed": 0.9531,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.8333,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.498
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.7812,
+      "min": 0.7812,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 1.248
+     },
+     "min_over_six": 0.8333,
+     "n_nodes_raw": 13,
+     "raw_carrier": "PROGRAM",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.498,
+     "rule40_separates": true,
+     "standard_replayed": 0.9531
+    },
+    "TABLE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9531,
+      "extra_unseen_feedback": 0.8594,
+      "extra_unseen_feedback_v2": 0.7812,
+      "half_events": 0.8854,
+      "no_revoke": 0.9531,
+      "shuffled_events": 0.8333,
+      "standard": 0.9531
+     },
+     "capability_committed": 0.9531,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.8333,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 2.498
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.7812,
+      "min": 0.7812,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 1.248
+     },
+     "min_over_six": 0.8333,
+     "n_nodes_raw": 11,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 2.498,
+     "rule40_separates": true,
+     "standard_replayed": 0.9531
+    }
+   },
+   "seed": 0
+  },
+  {
+   "best_constant": 0.7292,
+   "classes_recovered": [
+    "PROGRAM",
+    "TABLE"
+   ],
+   "classes_recovered_V2": [
+    "PROGRAM",
+    "TABLE"
+   ],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr2",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": true,
+   "n_evaluations": 20000,
+   "program_class_recovered": true,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr2_S1.json",
+   "receipt_sha256": "5f017994848731d13c65b400cc59e4535177e34ea080b625d1297c1f25cdd2d4",
+   "rows": {
+    "DENSE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.8854,
+      "extra_unseen_feedback": 0.8438,
+      "extra_unseen_feedback_v2": 0.8229,
+      "half_events": 0.8854,
+      "no_revoke": 0.8854,
+      "shuffled_events": 0.7292,
+      "standard": 0.8854
+     },
+     "capability_committed": 0.8854,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7292,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 0.0
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.8229,
+      "min": 0.7292,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.0
+     },
+     "min_over_six": 0.7292,
+     "n_nodes_raw": 20,
+     "raw_carrier": "DENSE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 0.0,
+     "rule40_separates": false,
+     "standard_replayed": 0.8854
+    },
+    "KVSTORE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.8854,
+      "extra_unseen_feedback": 0.8438,
+      "extra_unseen_feedback_v2": 0.8229,
+      "half_events": 0.8854,
+      "no_revoke": 0.8854,
+      "shuffled_events": 0.7292,
+      "standard": 0.8854
+     },
+     "capability_committed": 0.8854,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7292,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 0.0
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.8229,
+      "min": 0.7292,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.0
+     },
+     "min_over_six": 0.7292,
+     "n_nodes_raw": 17,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 0.0,
+     "rule40_separates": false,
+     "standard_replayed": 0.8854
+    },
+    "PROGRAM": {
+     "atrophied_carrier": "PROGRAM",
+     "atrophied_fingerprint": "e595e65b301edbcc5bb4c5471d645baf8fd132c93c840cb27270cf479348dd6f",
+     "atrophied_min_over_six": 0.9583,
+     "atrophy_evaluations_charged": 180,
+     "binding": "standard",
+     "by_intervention": {
+      "double_revoke": 0.9583,
+      "extra_unseen_feedback": 0.9583,
+      "extra_unseen_feedback_v2": 0.9167,
+      "half_events": 0.9583,
+      "no_revoke": 0.9583,
+      "shuffled_events": 0.9583,
+      "standard": 0.9583
+     },
+     "capability_committed": 0.9583,
+     "class_recovered": "PROGRAM",
+     "class_recovered_V2": "PROGRAM",
+     "family_V1": {
+      "binding": "standard",
+      "min": 0.9583,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 5.498
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.9167,
+      "min": 0.9167,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 4.5
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 0.9583,
+     "n_nodes_atrophied": 8,
+     "n_nodes_raw": 13,
+     "n_removed": 5,
+     "raw_carrier": "PROGRAM",
+     "removed_kinds": [
+      "LOOKUP",
+      "LOOKUP",
+      "MATERIALIZE",
+      "MATERIALIZE",
+      "PROGEXEC"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 5.498,
+     "rule40_separates": true,
+     "standard_replayed": 0.9583
+    },
+    "TABLE": {
+     "atrophied_carrier": "TABLE",
+     "atrophied_fingerprint": "70c742b4b7a04c6973fbbc702740538d9539463b2acf2f55ebbe2086f553993e",
+     "atrophied_min_over_six": 0.8854,
+     "atrophy_evaluations_charged": 60,
+     "binding": "half_events",
+     "by_intervention": {
+      "double_revoke": 0.9167,
+      "extra_unseen_feedback": 0.9583,
+      "extra_unseen_feedback_v2": 0.9167,
+      "half_events": 0.8854,
+      "no_revoke": 0.9167,
+      "shuffled_events": 0.9167,
+      "standard": 0.9167
+     },
+     "capability_committed": 0.9167,
+     "class_recovered": "TABLE",
+     "class_recovered_V2": "TABLE",
+     "family_V1": {
+      "binding": "half_events",
+      "min": 0.8854,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 3.749
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.9167,
+      "min": 0.8854,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 3.749
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 0.8854,
+     "n_nodes_atrophied": 8,
+     "n_nodes_raw": 9,
+     "n_removed": 1,
+     "raw_carrier": "TABLE",
+     "removed_kinds": [
+      "NEAREST"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 3.749,
+     "rule40_separates": true,
+     "standard_replayed": 0.9167
+    }
+   },
+   "seed": 1
+  },
+  {
+   "best_constant": 0.7292,
+   "classes_recovered": [
+    "PROGRAM"
+   ],
+   "classes_recovered_V2": [
+    "PROGRAM"
+   ],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr2",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": true,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr2_S2.json",
+   "receipt_sha256": "75f719e57bd51f639f14d1d9125f323a403c283c7705b0444e3268a0e161c7cf",
+   "rows": {
+    "PROGRAM": {
+     "atrophied_carrier": "PROGRAM",
+     "atrophied_fingerprint": "52a78261bcd369fb07b2ff68d237d2e0ab1ea2a0bef9c5ce07fc05b058f027fc",
+     "atrophied_min_over_six": 0.8698,
+     "atrophy_evaluations_charged": 138,
+     "binding": "standard",
+     "by_intervention": {
+      "double_revoke": 0.8698,
+      "extra_unseen_feedback": 0.8698,
+      "extra_unseen_feedback_v2": 0.8542,
+      "half_events": 0.8698,
+      "no_revoke": 0.8698,
+      "shuffled_events": 0.8698,
+      "standard": 0.8698
+     },
+     "capability_committed": 0.8698,
+     "class_recovered": "PROGRAM",
+     "class_recovered_V2": "PROGRAM",
+     "family_V1": {
+      "binding": "standard",
+      "min": 0.8698,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 3.374
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.8542,
+      "min": 0.8542,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 3.0
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 0.8698,
+     "n_nodes_atrophied": 6,
+     "n_nodes_raw": 16,
+     "n_removed": 10,
+     "raw_carrier": "PROGRAM",
+     "removed_kinds": [
+      "ABSTAIN",
+      "ABSTAIN",
+      "PROGEXEC",
+      "VERIFY",
+      "VERIFY",
+      "ABSTAIN",
+      "LOOKUP",
+      "LOOKUP",
+      "MATERIALIZE",
+      "NEAREST"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 3.374,
+     "rule40_separates": true,
+     "standard_replayed": 0.8698
+    }
+   },
+   "seed": 2
+  },
+  {
+   "best_constant": 0.7917,
+   "classes_recovered": [
+    "KVSTORE"
+   ],
+   "classes_recovered_V2": [
+    "KVSTORE"
+   ],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr3",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": true,
+   "n_evaluations": 20000,
+   "program_class_recovered": false,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr3_S0.json",
+   "receipt_sha256": "2b0eb9868715b8f44fd13639aaba78cd58b5b2d28865c13f093de0f45197cf85",
+   "rows": {
+    "DENSE": {
+     "binding": "half_events",
+     "by_intervention": {
+      "double_revoke": 0.875,
+      "extra_unseen_feedback": 0.8646,
+      "extra_unseen_feedback_v2": 0.8438,
+      "half_events": 0.8438,
+      "no_revoke": 0.875,
+      "shuffled_events": 0.8646,
+      "standard": 0.875
+     },
+     "capability_committed": 0.875,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "half_events",
+      "min": 0.8438,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 1.25
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.8438,
+      "min": 0.8438,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 1.25
+     },
+     "min_over_six": 0.8438,
+     "n_nodes_raw": 24,
+     "raw_carrier": "DENSE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 1.25,
+     "rule40_separates": true,
+     "standard_replayed": 0.875
+    },
+    "KVSTORE": {
+     "atrophied_carrier": "KVSTORE",
+     "atrophied_fingerprint": "ee6d41503cd9f62b4fe406f9570e460684694f9e7b0e201fc3f469e661cb4564",
+     "atrophied_min_over_six": 0.8542,
+     "atrophy_evaluations_charged": 294,
+     "binding": "half_events",
+     "by_intervention": {
+      "double_revoke": 0.8958,
+      "extra_unseen_feedback": 0.8854,
+      "extra_unseen_feedback_v2": 0.875,
+      "half_events": 0.8542,
+      "no_revoke": 0.8958,
+      "shuffled_events": 0.8854,
+      "standard": 0.8958
+     },
+     "capability_committed": 0.8958,
+     "class_recovered": "KVSTORE",
+     "class_recovered_V2": "KVSTORE",
+     "family_V1": {
+      "binding": "half_events",
+      "min": 0.8542,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 1.5
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.875,
+      "min": 0.8542,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 1.5
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 0.8542,
+     "n_nodes_atrophied": 17,
+     "n_nodes_raw": 25,
+     "n_removed": 8,
+     "raw_carrier": "KVSTORE",
+     "removed_kinds": [
+      "ABSTAIN",
+      "ABSTAIN",
+      "LOOKUP",
+      "LOOKUP",
+      "MATERIALIZE",
+      "SCORESELECT",
+      "SUM",
+      "DENSE"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 1.5,
+     "rule40_separates": true,
+     "standard_replayed": 0.8958
+    },
+    "PROGRAM": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9271,
+      "extra_unseen_feedback": 0.9323,
+      "extra_unseen_feedback_v2": 0.8958,
+      "half_events": 0.8594,
+      "no_revoke": 0.9323,
+      "shuffled_events": 0.7865,
+      "standard": 0.9375
+     },
+     "capability_committed": 0.9375,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7865,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -0.125
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.8958,
+      "min": 0.7865,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": -0.125
+     },
+     "min_over_six": 0.7865,
+     "n_nodes_raw": 15,
+     "raw_carrier": "PROGRAM",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -0.125,
+     "rule40_separates": false,
+     "standard_replayed": 0.9375
+    },
+    "TABLE": {
+     "binding": "shuffled_events",
+     "by_intervention": {
+      "double_revoke": 0.9271,
+      "extra_unseen_feedback": 0.9323,
+      "extra_unseen_feedback_v2": 0.8958,
+      "half_events": 0.8594,
+      "no_revoke": 0.9323,
+      "shuffled_events": 0.7865,
+      "standard": 0.9375
+     },
+     "capability_committed": 0.9375,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "shuffled_events",
+      "min": 0.7865,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -0.125
+     },
+     "family_V2": {
+      "binding": "shuffled_events",
+      "extra_unseen_feedback_v2": 0.8958,
+      "min": 0.7865,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": -0.125
+     },
+     "min_over_six": 0.7865,
+     "n_nodes_raw": 13,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -0.125,
+     "rule40_separates": false,
+     "standard_replayed": 0.9375
+    }
+   },
+   "seed": 0
+  },
+  {
+   "best_constant": 0.7917,
+   "classes_recovered": [
+    "PROGRAM",
+    "TABLE"
+   ],
+   "classes_recovered_V2": [
+    "PROGRAM",
+    "TABLE"
+   ],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr3",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": true,
+   "n_evaluations": 20000,
+   "program_class_recovered": true,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr3_S1.json",
+   "receipt_sha256": "cb81c0a99e1afcf1983dda7077ae2104ac2830638b016b8e2066e62a87402b9f",
+   "rows": {
+    "KVSTORE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback": 0.7188,
+      "extra_unseen_feedback_v2": 0.7396,
+      "half_events": 0.8125,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.8542,
+      "standard": 0.8542
+     },
+     "capability_committed": 0.8542,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.7188,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -1.75
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.7396,
+      "min": 0.7396,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": -1.25
+     },
+     "min_over_six": 0.7188,
+     "n_nodes_raw": 8,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -1.75,
+     "rule40_separates": false,
+     "standard_replayed": 0.8542
+    },
+    "PROGRAM": {
+     "atrophied_carrier": "PROGRAM",
+     "atrophied_fingerprint": "8d31df67feb69b6a2438e6a92b70d2113a364a9aa8d5c59591f8d76e4e12b82d",
+     "atrophied_min_over_six": 1.0,
+     "atrophy_evaluations_charged": 180,
+     "binding": "standard",
+     "by_intervention": {
+      "double_revoke": 1.0,
+      "extra_unseen_feedback": 1.0,
+      "extra_unseen_feedback_v2": 1.0,
+      "half_events": 1.0,
+      "no_revoke": 1.0,
+      "shuffled_events": 1.0,
+      "standard": 1.0
+     },
+     "capability_committed": 1.0,
+     "class_recovered": "PROGRAM",
+     "class_recovered_V2": "PROGRAM",
+     "family_V1": {
+      "binding": "standard",
+      "min": 1.0,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 4.999
+     },
+     "family_V2": {
+      "binding": "standard",
+      "extra_unseen_feedback_v2": 1.0,
+      "min": 1.0,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 4.999
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 1.0,
+     "n_nodes_atrophied": 7,
+     "n_nodes_raw": 13,
+     "n_removed": 6,
+     "raw_carrier": "PROGRAM",
+     "removed_kinds": [
+      "LOOKUP",
+      "LOOKUP",
+      "LOOKUP",
+      "MATERIALIZE",
+      "MATERIALIZE",
+      "PROGEXEC"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 4.999,
+     "rule40_separates": true,
+     "standard_replayed": 1.0
+    },
+    "TABLE": {
+     "atrophied_carrier": "TABLE",
+     "atrophied_fingerprint": "e6f7be1d70f6a00012c3f7cb19250fe97e4c935a0b3eec06e47ad0740576ceea",
+     "atrophied_min_over_six": 0.8594,
+     "atrophy_evaluations_charged": 534,
+     "binding": "standard",
+     "by_intervention": {
+      "double_revoke": 0.8594,
+      "extra_unseen_feedback": 0.8594,
+      "extra_unseen_feedback_v2": 0.8958,
+      "half_events": 0.8906,
+      "no_revoke": 0.8594,
+      "shuffled_events": 0.8594,
+      "standard": 0.8594
+     },
+     "capability_committed": 0.8594,
+     "class_recovered": "TABLE",
+     "class_recovered_V2": "TABLE",
+     "family_V1": {
+      "binding": "standard",
+      "min": 0.8594,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 1.625
+     },
+     "family_V2": {
+      "binding": "standard",
+      "extra_unseen_feedback_v2": 0.8958,
+      "min": 0.8594,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 1.625
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 0.8594,
+     "n_nodes_atrophied": 11,
+     "n_nodes_raw": 28,
+     "n_removed": 17,
+     "raw_carrier": "TABLE",
+     "removed_kinds": [
+      "ABSTAIN",
+      "NEAREST",
+      "PROGEXEC",
+      "AFFINE",
+      "PROGRAM",
+      "VERIFY",
+      "MATERIALIZE",
+      "AFFINE",
+      "LOOKUP",
+      "LOOKUP",
+      "LOOKUP",
+      "LOOKUP",
+      "LOOKUP",
+      "MATERIALIZE",
+      "MATERIALIZE",
+      "MATERIALIZE",
+      "MATERIALIZE"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 1.625,
+     "rule40_separates": true,
+     "standard_replayed": 0.8594
+    }
+   },
+   "seed": 1
+  },
+  {
+   "best_constant": 0.7917,
+   "classes_recovered": [],
+   "classes_recovered_V2": [],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr3",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": false,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr3_S2.json",
+   "receipt_sha256": "5ee429dc961c1aa3fd624fcddeb3c75b7576d770e2adaf8f22f86a4870a376f6",
+   "rows": {
+    "KVSTORE": {
+     "binding": "half_events",
+     "by_intervention": {
+      "double_revoke": 0.875,
+      "extra_unseen_feedback": 0.8854,
+      "extra_unseen_feedback_v2": 0.8542,
+      "half_events": 0.8333,
+      "no_revoke": 0.875,
+      "shuffled_events": 0.875,
+      "standard": 0.875
+     },
+     "capability_committed": 0.875,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "half_events",
+      "min": 0.8333,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 0.998
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.8542,
+      "min": 0.8333,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.998
+     },
+     "min_over_six": 0.8333,
+     "n_nodes_raw": 17,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 0.998,
+     "rule40_separates": false,
+     "standard_replayed": 0.875
+    },
+    "PROGRAM": {
+     "binding": "half_events",
+     "by_intervention": {
+      "double_revoke": 0.875,
+      "extra_unseen_feedback": 0.8854,
+      "extra_unseen_feedback_v2": 0.8646,
+      "half_events": 0.8438,
+      "no_revoke": 0.875,
+      "shuffled_events": 0.875,
+      "standard": 0.875
+     },
+     "capability_committed": 0.875,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "half_events",
+      "min": 0.8438,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 1.25
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.8646,
+      "min": 0.8438,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 1.25
+     },
+     "min_over_six": 0.8438,
+     "n_nodes_raw": 20,
+     "raw_carrier": "PROGRAM",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 1.25,
+     "rule40_separates": true,
+     "standard_replayed": 0.875
+    },
+    "TABLE": {
+     "binding": "half_events",
+     "by_intervention": {
+      "double_revoke": 0.875,
+      "extra_unseen_feedback": 0.8854,
+      "extra_unseen_feedback_v2": 0.8542,
+      "half_events": 0.8333,
+      "no_revoke": 0.875,
+      "shuffled_events": 0.875,
+      "standard": 0.875
+     },
+     "capability_committed": 0.875,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "half_events",
+      "min": 0.8333,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 0.998
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.8542,
+      "min": 0.8333,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.998
+     },
+     "min_over_six": 0.8333,
+     "n_nodes_raw": 17,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 0.998,
+     "rule40_separates": false,
+     "standard_replayed": 0.875
+    }
+   },
+   "seed": 2
+  },
+  {
+   "best_constant": 0.8125,
+   "classes_recovered": [],
+   "classes_recovered_V2": [],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr4",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": false,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr4_S0.json",
+   "receipt_sha256": "2dfb7155aedb84998888b5038925629bc655a493706b8d39d601f1b2d44102de",
+   "rows": {
+    "KVSTORE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.9115,
+      "extra_unseen_feedback": 0.8229,
+      "extra_unseen_feedback_v2": 0.8438,
+      "half_events": 0.8958,
+      "no_revoke": 0.9115,
+      "shuffled_events": 0.9062,
+      "standard": 0.9115
+     },
+     "capability_committed": 0.9115,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.8229,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 0.25
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.8438,
+      "min": 0.8438,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.751
+     },
+     "min_over_six": 0.8229,
+     "n_nodes_raw": 15,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 0.25,
+     "rule40_separates": false,
+     "standard_replayed": 0.9115
+    },
+    "PROGRAM": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.9115,
+      "extra_unseen_feedback": 0.8229,
+      "extra_unseen_feedback_v2": 0.8438,
+      "half_events": 0.8958,
+      "no_revoke": 0.9115,
+      "shuffled_events": 0.9062,
+      "standard": 0.9115
+     },
+     "capability_committed": 0.9115,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.8229,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 0.25
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.8438,
+      "min": 0.8438,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.751
+     },
+     "min_over_six": 0.8229,
+     "n_nodes_raw": 16,
+     "raw_carrier": "PROGRAM",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 0.25,
+     "rule40_separates": false,
+     "standard_replayed": 0.9115
+    },
+    "TABLE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.9115,
+      "extra_unseen_feedback": 0.8229,
+      "extra_unseen_feedback_v2": 0.8438,
+      "half_events": 0.8958,
+      "no_revoke": 0.9115,
+      "shuffled_events": 0.9062,
+      "standard": 0.9115
+     },
+     "capability_committed": 0.9115,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.8229,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": 0.25
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.8438,
+      "min": 0.8438,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.751
+     },
+     "min_over_six": 0.8229,
+     "n_nodes_raw": 15,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": 0.25,
+     "rule40_separates": false,
+     "standard_replayed": 0.9115
+    }
+   },
+   "seed": 0
+  },
+  {
+   "best_constant": 0.8125,
+   "classes_recovered": [
+    "PROGRAM"
+   ],
+   "classes_recovered_V2": [
+    "PROGRAM"
+   ],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr4",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": true,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr4_S1.json",
+   "receipt_sha256": "dc2fe177107b0436a6605d7d6d2912e5fc6da89f7958c125b23b82c6fd299101",
+   "rows": {
+    "KVSTORE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback": 0.7396,
+      "extra_unseen_feedback_v2": 0.7812,
+      "half_events": 0.7812,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.8542,
+      "standard": 0.8542
+     },
+     "capability_committed": 0.8542,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.7396,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -1.75
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.7812,
+      "min": 0.7812,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": -0.751
+     },
+     "min_over_six": 0.7396,
+     "n_nodes_raw": 8,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -1.75,
+     "rule40_separates": false,
+     "standard_replayed": 0.8542
+    },
+    "PROGRAM": {
+     "atrophied_carrier": "PROGRAM",
+     "atrophied_fingerprint": "920c3b0d99be67e1a771973025fe79387ea587f1046b9ddc429cd6aefde74564",
+     "atrophied_min_over_six": 0.9583,
+     "atrophy_evaluations_charged": 180,
+     "binding": "standard",
+     "by_intervention": {
+      "double_revoke": 0.9583,
+      "extra_unseen_feedback": 0.9583,
+      "extra_unseen_feedback_v2": 0.9167,
+      "half_events": 0.9583,
+      "no_revoke": 0.9583,
+      "shuffled_events": 0.9583,
+      "standard": 0.9583
+     },
+     "capability_committed": 0.9583,
+     "class_recovered": "PROGRAM",
+     "class_recovered_V2": "PROGRAM",
+     "family_V1": {
+      "binding": "standard",
+      "min": 0.9583,
+      "rule36_admissible_V1": true,
+      "rule40_margin_fx_units": 3.499
+     },
+     "family_V2": {
+      "binding": "extra_unseen_feedback_v2",
+      "extra_unseen_feedback_v2": 0.9167,
+      "min": 0.9167,
+      "rule36_admissible_V2": true,
+      "rule40_margin_fx_units": 2.501
+     },
+     "label_survives_atrophy": true,
+     "load_bearing_tested": true,
+     "min_over_six": 0.9583,
+     "n_nodes_atrophied": 7,
+     "n_nodes_raw": 13,
+     "n_removed": 6,
+     "raw_carrier": "PROGRAM",
+     "removed_kinds": [
+      "KVSTORE",
+      "LOOKUP",
+      "LOOKUP",
+      "MATERIALIZE",
+      "MATERIALIZE",
+      "PROGEXEC"
+     ],
+     "replay_matches_receipt": true,
+     "rule36_admissible": true,
+     "rule40_margin_fx_units": 3.499,
+     "rule40_separates": true,
+     "standard_replayed": 0.9583
+    },
+    "TABLE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.8854,
+      "extra_unseen_feedback": 0.6979,
+      "extra_unseen_feedback_v2": 0.8958,
+      "half_events": 0.8333,
+      "no_revoke": 0.8854,
+      "shuffled_events": 0.8854,
+      "standard": 0.8854
+     },
+     "capability_committed": 0.8854,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.6979,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -2.75
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.8958,
+      "min": 0.8333,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": 0.499
+     },
+     "min_over_six": 0.6979,
+     "n_nodes_raw": 20,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -2.75,
+     "rule40_separates": false,
+     "standard_replayed": 0.8854
+    }
+   },
+   "seed": 1
+  },
+  {
+   "best_constant": 0.8125,
+   "classes_recovered": [],
+   "classes_recovered_V2": [],
+   "coefficient_class_recovered": false,
+   "ecology": "E_cr4",
+   "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
+   "memory_class_recovered": false,
+   "n_evaluations": 20000,
+   "program_class_recovered": false,
+   "receipt": "STAGE_B1_V43_CLASSRATE_billy_E_cr4_S2.json",
+   "receipt_sha256": "7d6f9dfb7d22ab070b75fe9493397f1298b05abc7032204ce202fe06e8cec6c6",
+   "rows": {
+    "KVSTORE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback": 0.7396,
+      "extra_unseen_feedback_v2": 0.7812,
+      "half_events": 0.7812,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.8542,
+      "standard": 0.8542
+     },
+     "capability_committed": 0.8542,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.7396,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -1.75
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.7812,
+      "min": 0.7812,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": -0.751
+     },
+     "min_over_six": 0.7396,
+     "n_nodes_raw": 7,
+     "raw_carrier": "KVSTORE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -1.75,
+     "rule40_separates": false,
+     "standard_replayed": 0.8542
+    },
+    "PROGRAM": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback": 0.7396,
+      "extra_unseen_feedback_v2": 0.7812,
+      "half_events": 0.7812,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.8542,
+      "standard": 0.8542
+     },
+     "capability_committed": 0.8542,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.7396,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -1.75
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.7812,
+      "min": 0.7812,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": -0.751
+     },
+     "min_over_six": 0.7396,
+     "n_nodes_raw": 10,
+     "raw_carrier": "PROGRAM",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -1.75,
+     "rule40_separates": false,
+     "standard_replayed": 0.8542
+    },
+    "TABLE": {
+     "binding": "extra_unseen_feedback",
+     "by_intervention": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback": 0.7396,
+      "extra_unseen_feedback_v2": 0.7812,
+      "half_events": 0.7812,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.8542,
+      "standard": 0.8542
+     },
+     "capability_committed": 0.8542,
+     "class_recovered": null,
+     "class_recovered_V2": null,
+     "family_V1": {
+      "binding": "extra_unseen_feedback",
+      "min": 0.7396,
+      "rule36_admissible_V1": false,
+      "rule40_margin_fx_units": -1.75
+     },
+     "family_V2": {
+      "binding": "half_events",
+      "extra_unseen_feedback_v2": 0.7812,
+      "min": 0.7812,
+      "rule36_admissible_V2": false,
+      "rule40_margin_fx_units": -0.751
+     },
+     "min_over_six": 0.7396,
+     "n_nodes_raw": 7,
+     "raw_carrier": "TABLE",
+     "replay_matches_receipt": true,
+     "rule36_admissible": false,
+     "rule40_margin_fx_units": -1.75,
+     "rule40_separates": false,
+     "standard_replayed": 0.8542
+    }
+   },
+   "seed": 2
+  }
+ ],
+ "receipt_sha256": "76cafcc67462868c949251662771ab2a8fe22c17f271995971dbe5c356af8306",
+ "revival_record": "RV-377-140",
+ "run_tag": "V43_CLASSRATE",
+ "schema": "ClassRateFreshScoringV1",
+ "seconds": 893.1,
+ "selection_receipt_sha256": "0156dc16becaa809762de20b2adb027479c617ae4fbef8c745a8c4da98a28731",
+ "status": "EXECUTED_EXACT_AT_SCOPE",
+ "theta": 0.85
+}
