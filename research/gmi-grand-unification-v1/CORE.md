@@ -17,6 +17,7 @@ sector or successful finite replay does not establish universal completion.
 | Can invalidated knowledge become worth retaining again? | [Certified repair](CERTIFIED_REUSE_INVALIDATION_THEOREM_V1.md): full lifetime costs and adaptive repair, rebuild and release policies; expected benefit is distinct from a guarantee. |
 | What does an uncertain frontier identify? | [Empirical frontier identification](EMPIRICAL_FRONTIER_IDENTIFICATION_THEOREM_V1.md): possible versus necessary membership, joint frontier witnesses and explicit cross-instrument transport. |
 | How do task necessities yield family bounds? | [Relaxation derivation](MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md): sound accounting and complete family coverage give lower bounds; existence and attainment require separate premises. |
+| When can candidate coverage actually be checked? | [Coverage correction](CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md): finite exhaustive decision and separately supplied infinite-domain proofs have distinct guarantees; completing a cover can withdraw an apparent winner. |
 
 The [all-partition separation](FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md)
 matches every indexed input-partition width while separating expected query

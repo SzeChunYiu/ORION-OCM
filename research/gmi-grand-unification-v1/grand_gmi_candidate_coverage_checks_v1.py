@@ -3,9 +3,9 @@
 
 DC-4 makes every family verdict relative to the registered candidate universe
 unless a separate completeness theorem covers the relevant physical
-realizations. These checks exercise that completeness condition as a decidable
-predicate over structure classes rather than an enumeration of machines, and
-exercise what a verdict does and does not mean without it.
+realizations. These checks decide coverage on a fully enumerated finite register
+with total Boolean structural predicates. They do not decide universal coverage
+on arbitrary infinite populations; bounded controls expose that distinction.
 
 The registered instance is imported from the morphology phase-law checker, so
 the derived bounds here are the same objects, not restated numbers.
@@ -54,11 +54,17 @@ COMPLETE_CLASSES = {**PL.FAMILIES, "RESIDUE": sigma_residue}
 
 def covers(classes, population):
     """CU-1: coverage is validity of the disjunction of the predicates."""
-    uncovered = [a for a in population if not any(sigma(a) for sigma in classes.values())]
+    uncovered = []
+    for a in population:
+        membership = [sigma(a) for sigma in classes.values()]
+        if any(type(value) is not bool for value in membership):
+            raise ValueError("class predicates must return explicit Booleans")
+        if not any(membership):
+            uncovered.append(a)
     return not uncovered, uncovered
 
 
-def check_coverage_is_decidable_and_fails_for_two_classes():
+def check_finite_coverage_is_decidable_and_fails_for_two_classes():
     """The two registered classes do not cover the admitted population."""
     population = admitted_allocations()
     complete, uncovered = covers(COVERED_CLASSES, population)
@@ -80,7 +86,8 @@ def check_coverage_is_decidable_and_fails_for_two_classes():
         "uncovered_admitted_allocations": len(uncovered),
         "completed_classes": sorted(COMPLETE_CLASSES),
         "completed_classes_cover": True,
-        "coverage_is_a_valid_dichotomy_not_an_enumeration": True,
+        "complement_cover_is_a_valid_dichotomy": True,
+        "decision_scope": "complete finite grid; total Boolean predicates",
     }
 
 
@@ -104,8 +111,8 @@ def verdict(uppers, lower):
 def check_uncovered_residue_defeats_a_verdict():
     """CU-3: a verdict over an incomplete cover is not a verdict over physics.
 
-    The non-neural construction of cost 16 robustly dominates the two
-    registered classes. Registering the complement class — a structural region
+    The non-neural construction of cost 16 strictly excludes the rival neural
+    class (bound 18), while its own class lower bound is 14. Registering the complement class — a structural region
     nobody had enumerated — withdraws that verdict, because its derived bound
     is below the construction's cost.
     """
@@ -171,9 +178,9 @@ def check_complete_cover_gives_a_universal_verdict():
 def check_non_upgradability_without_coverage():
     """CU-3b: without a coverage proof no verdict can be upgraded.
 
-    Two extensions of the registered classes are each consistent with all
-    registered evidence and give opposite verdicts, so the covered-class
-    verdict carries no information about the uncovered residue.
+    Two extensions preserve evidence restricted to the initial classes but
+    give different certified outcomes. That restricted evidence alone does
+    not generally determine the enlarged verdict; residue evidence remains usable.
     """
     witness = {"NON_NEURAL": 16}
     covered = derived_bounds(COVERED_CLASSES)
@@ -195,7 +202,7 @@ def check_non_upgradability_without_coverage():
         "bounds_over_registered_classes": covered,
         "verdict_under_expensive_extension": expensive,
         "verdict_under_cheap_extension": cheap,
-        "registered_evidence_does_not_decide_between_extensions": True,
+        "initial_class_evidence_alone_does_not_decide_extensions": True,
         "required_report": "ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE",
     }
 
@@ -251,10 +258,51 @@ def check_overlapping_classes_take_the_stronger_bound():
     }
 
 
+
+def _not_halted_within(table, steps):
+    """Bounded deterministic execution; None marks a halting state."""
+    state = 0
+    for step in range(steps + 1):
+        if table[state] is None:
+            return False
+        if step < steps:
+            state = table[state]
+    return True
+
+
+def check_finite_prefix_does_not_certify_universal_coverage():
+    """Finite controls only; the nonhalting reduction is a separate proof."""
+    witnesses = []
+    for limit in range(8):
+        loop = (0,)
+        late_halt = tuple(range(1, limit + 2)) + (None,)
+        loop_class = {"RUNNING": lambda n: _not_halted_within(loop, n)}
+        late_class = {"RUNNING": lambda n: _not_halted_within(late_halt, n)}
+        prefix = tuple(range(limit + 1))
+        if not covers(loop_class, prefix)[0] or not covers(late_class, prefix)[0]:
+            raise AssertionError("bounded indistinguishability control failed")
+        if any(loop_class["RUNNING"](n) != late_class["RUNNING"](n) for n in prefix):
+            raise AssertionError("the registered prefix should agree")
+        full_prefix = tuple(range(limit + 2))
+        if not covers(loop_class, full_prefix)[0]:
+            raise AssertionError("the actual loop control should remain covered")
+        covered, missing = covers(late_class, full_prefix)
+        if covered or missing != [limit + 1]:
+            raise AssertionError("later halting counterexample was not detected")
+        witnesses.append(limit + 1)
+    return {
+        "bounded_controls": len(witnesses),
+        "first_uncovered_indices": witnesses,
+        "finite_prefix_never_used_as_infinite_certificate": True,
+        "unrestricted_coverage_decidability_claimed": False,
+        "sound_supplied_proof_is_a_separate_sufficient_route": True,
+    }
+
 def run():
     return {
         "terminal": "GRAND_GMI_CANDIDATE_UNIVERSE_COVERAGE_GREEN_AT_FINITE_SCOPE",
-        "coverage_is_decidable": check_coverage_is_decidable_and_fails_for_two_classes(),
+        "finite_coverage_decision": check_finite_coverage_is_decidable_and_fails_for_two_classes(),
+        "finite_prefix_boundary": check_finite_prefix_does_not_certify_universal_coverage(),
         "uncovered_residue_defeats_a_verdict": check_uncovered_residue_defeats_a_verdict(),
         "complete_cover_gives_a_universal_verdict":
             check_complete_cover_gives_a_universal_verdict(),
@@ -263,7 +311,7 @@ def run():
         "overlapping_classes_take_the_stronger_bound":
             check_overlapping_classes_take_the_stronger_bound(),
         "physical_machine_enumeration_claimed": False,
-        "claim_ceiling": "coverage of one registered finite instance; no claim about all physics",
+        "claim_ceiling": "finite coverage decision; supplied-proof route; no unrestricted universal decider",
     }
 
 

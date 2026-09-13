@@ -26,6 +26,9 @@ The world is not required to change, but the physical state may. A history conta
 
 as the set of all current `(w,s)` pairs reachable from an admitted initial pair and consistent with the complete action/observation history.
 
+Register a nonempty initial pair set and retain only nonempty compatible
+successor sets. Beliefs in this theorem are therefore nonempty.
+
 A terminal action is robustly adequate exactly when
 
 `A(I) = intersection_{(w,s) in I} A_Omega(w,s)`
@@ -105,13 +108,23 @@ The smallest witness uses one informative cost-1 experiment. The identical pair 
 
 for every charged/path-dependent resource coordinate `r` that affects future feasibility or value.
 
-This directly prevents a cheaper persistent memory cut from hiding expensive acquisition work.
+This identifies which charged resource variables must enter the state. It does
+not itself optimize controller storage, transient workspace or implementation
+cost: Q2 remains open. The CA-5 checker now executes both pair and history recursions at the
+remaining unit-cost horizons; it does not synthesize a physical controller.
 
 ## 7. Relation to Grand GMI
 
 The previous noninvasive acquisition recurrence is the special case with fixed `s`, history-independent test legality and no path resource omitted from state.
 
 The correction makes acquisition a proper controlled causal process and aligns it with the master tuple's process theory, obligation and resource coordinates. The same state principle also applies to destructive measurements, active diagnosis, test-time interventions, experiment design and self-modification.
+
+The complementary [CRA-1--3](CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md)
+uses complete configurations, including the pair above when appropriate. It
+adds empty terminal relations for irrecoverable states, least-fixed-point
+synthesis of all finite terminating policies, rank bounds and protective
+control. Both use the same established strong-planning parent; their finite
+censuses are different checks of related formulations.
 
 ## 8. Stochastic boundary
 
@@ -131,4 +144,6 @@ The GMI contribution at this layer is the precise repair of its own task-directe
 
 ## 10. Executable evidence
 
-`grand_gmi_controlled_acquisition_checks_v1.py` exhaustively compares CA-2 to explicit history policies and pins the CA-3/CA-4/CA-5 counterexamples. `GRAND_GMI_CONTROLLED_ACQUISITION_RECEIPT_V1.json` records the exact output.
+`grand_gmi_controlled_acquisition_checks_v1.py` exhaustively compares CA-2 to explicit history policies and pins the CA-3/CA-4/CA-5 counterexamples. `GRAND_GMI_CONTROLLED_ACQUISITION_RECEIPT_V2.json` records the exact integrated
+output, including the replay terminal field. V1 remains unchanged. The CA-5
+values are now computed from policies instead of supplied in a constant table.

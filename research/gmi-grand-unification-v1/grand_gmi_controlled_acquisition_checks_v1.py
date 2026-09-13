@@ -182,13 +182,18 @@ def control_to_compatibility_witness():
 def budget_augmentation_witness():
     # Same hidden pair set. A one-step informative probe is feasible iff one unit remains.
     same_info_state = ((0, 0), (1, 0))
-    result = {
+    accepts = {(w, s): frozenset({w}) for w in (0, 1) for s in (0, 1)}
+    kernel = (((0, 0), None, (1, 0), None),)
+    # Unit action cost makes the remaining budget an exact remaining horizon.
+    values = [pair_value(kernel, accepts, remaining) for remaining in (0, 1)]
+    histories = [explicit_history_value(kernel, accepts, remaining) for remaining in (0, 1)]
+    if values != histories or values != [INF, 1]:
+        raise AssertionError("budget witness disagrees with executed policies")
+    return {
         "same_pair_state": [list(x) for x in same_info_state],
-        "remaining_budget_0": "INF",
-        "remaining_budget_1": 1,
+        "remaining_budget_0": "INF" if values[0] == INF else values[0],
+        "remaining_budget_1": "INF" if values[1] == INF else values[1],
     }
-    assert result["remaining_budget_0"] != result["remaining_budget_1"]
-    return result
 
 
 def run_all():
@@ -199,6 +204,7 @@ def run_all():
         "control_to_compatibility": control_to_compatibility_witness(),
         "budget_augmentation": budget_augmentation_witness(),
         "aggregate": "GRAND_GMI_CONTROLLED_ACQUISITION_TRANCHE_ALL_GREEN",
+        "terminal": "GRAND_GMI_CONTROLLED_ACQUISITION_TRANCHE_ALL_GREEN",
     }
     return result
 
