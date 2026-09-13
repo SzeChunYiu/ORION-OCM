@@ -1,21 +1,31 @@
 # GMI theory map: read first
 
-Ledger item 13. [TM-1–8](THEORY_MAP_V1.md) states, for each named parent theory,
-what GMI inherits, what it restricts, and what it does not claim.
+This is a corrected map of inherited mechanisms and conditional GMI results,
+based on main `ef5be973` after the formal, causal, learning and stopping repairs.
+It claims no new theorem, parent superiority or empirical capability.
 
-Evidence-backed rows: Bayesian inference (prior-free by construction, GG-S8),
-information theory (zero-error rather than Shannon, with the classical-5 /
-quantum-4 witness), statistical learning (GEI-5), reinforcement learning (CA-2's
-390,625-kernel verification, CA-6's boundary), causal inference (CAU-1–5, GG32),
-active learning (prior-free selection, VOC-3/VOC-4) and neural computation
-(GDA1–GDA8).
+Read [the eight-row map](THEORY_MAP_V1.md), then
+[primary mechanisms and assumptions](PARENT_MECHANISMS_V1.md).
+[Countermodels and correction reasons](SCOPE_COUNTERMODELS_V1.md)
+show why the original categorical contrasts were too strong.
 
-**TM-4 (MDL / PAC-Bayes) is marked THIN** — only two sector documents mention it
-and no specialization theorem exists. That row is a declared gap, not a claim.
+The substantive corrections are:
 
-The map asserts **no novelty**. Its falsifier is explicit: exhibit a registered
-GMI result contradicting a "restricted" clause, or show a stated "difference" is
-a theorem of the parent under the same hypotheses.
+- Bayesian updating is an admitted, explicitly derived specialization.
+- Formal L2 already supplies countable, prior-weighted, time-uniform learning
+  and a prefix-code penalty. This is not a general posterior-KL PAC-Bayes bound.
+- Causal identification depends on a declared model class and supplied access;
+  an already identifying premise need not require a new intervention.
+- Optimal stopping needs feasibility/progress and an explicit tie convention.
+- Conditional infinite-horizon transfer is already proved; sure safety and
+  unrestricted physical control do not follow.
 
-Status: **NOT REGISTERED IN THE REPLAY CAPSULE**, and outside
-`research/gmi-grand-unification-v1/`.
+The original three PR574 files are retained byte-for-byte in
+[the raw archive](raw/pr574-e130dc6a/).
+The former text-pattern test is historical: it enforced the stale THIN label
+and could not establish the scientific claims. No replacement string test
+is presented as scientific evidence.
+
+[Source bindings](SOURCE_BINDINGS_V1.json) identify the exact local parents
+and primary reading scope; [the manifest](MANIFEST_V1.json) binds this unit.
+This navigation unit remains outside the grand replay register.
