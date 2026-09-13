@@ -54,6 +54,29 @@ A measured value differing from the formula falsifies that family's clause and i
 recorded as a failure, not adjusted away. The registration is frozen before
 measurement precisely so that outcome remains available.
 
+## Correction 2026-09-13: PN-3's scope, after the DIC coordinate was superseded
+
+The coordinate these predictions were written against (DIC, PR563) was corrected by
+DCR-1-4 (PR565). Two confirmed defects in DIC, both reproduced independently:
+
+- a `functools.partial` wrapping a Python callee scored `(32, 8)` against `(344, 32)`
+  for the same callee invoked directly, because DIC recursed only into callees carrying
+  `__code__` and never followed `partial.func`, which does carry one. That is a
+  counterexample to DIC-5: the wrapped form dominates its parent in **both** components.
+- a user-defined `__getitem__` scored `(136, 0)` with no callee recorded, so descendant
+  Python work was charged to neither component.
+
+**Effect on PN-1..PN-5:** the per-call formulas are unchanged, because every registered
+parity-n realization here uses only exact constant tuples, exact int/bool arithmetic and
+named calls to `int`/`sum` - all inside the typed register DCR admits. **PN-3 must be read
+with that restriction made explicit:** a lookup table costs `5n+2` rather than `2^n`
+*only when the table is an exact constant tuple*. An arbitrary object with a Python
+`__getitem__` is not cheap; under DCR it is refused before its method is invoked, and
+under DIC it was silently scored as free. The blind spot PN-3 declares is therefore about
+constant-table **size**, not about subscription in general.
+
+These predictions must be re-validated against DCR's trace semantics before registration.
+
 ## What this does not establish
 
 PN-3 makes explicit that this coordinate omits table size, so none of these
