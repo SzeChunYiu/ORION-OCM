@@ -224,6 +224,15 @@ set. The last of those is the subject of the candidate-universe coverage
 correction. Real resource maps and large-scale learning evidence remain the
 empirical obligations already listed in the recursive audit.
 
+`CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md` determines which of these results
+survive an infinite instance. PL-2's lower bound transfers with no compactness,
+measurability or effectivity hypothesis, because its proof uses only
+feasible-set membership and monotonicity, so a robust exclusion is not a
+finite-scope artifact. PL-3b's tightness certificate does not transfer: where
+the infimum is unattained, an abstention cannot be classified as epistemic or
+physical at all. Computing the bound additionally needs an effective
+description, since every finite observation window strictly overestimates it.
+
 Terminal: `GRAND_GMI_MORPHOLOGY_PHASE_LAW_DERIVATION_GREEN_AT_FINITE_SCOPE`.
 
 ## 10. Parent mathematics and contribution boundary
