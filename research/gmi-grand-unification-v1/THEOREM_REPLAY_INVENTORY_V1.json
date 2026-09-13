@@ -11,6 +11,15 @@
       "terminal": "GRAND_GMI_ACTIVE_CLOSED_LOOP_INTELLIGENCE_ALL_GREEN"
     },
     {
+      "checker": "grand_gmi_adaptive_row_confidence_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_ADAPTIVE_ROW_CONFIDENCE_RECEIPT_V1.json",
+      "receipt_sha256": "2b434ce97cdd3ce484a3f602ca3ec1ab64201e70201907bbecc1af190733a1b6",
+      "source_sha256": "4e1e8d7fdc6b128822c30619a441a84d5740cae6d5e3ba97bac8dfee0f08c4e9",
+      "terminal": "GRAND_GMI_ADAPTIVE_ROW_CONFIDENCE_BOUND_REPLAY_GREEN"
+    },
+    {
       "checker": "grand_gmi_architecture_refinement_checks_v1.py",
       "historical_receipts": [],
       "kind": "finite_check",
@@ -667,11 +676,22 @@
           "reason": "Preserved the verified terminal-cost capture before adding the complete B6 consumer census evidence unit; this is static evidence validation, not a new theorem.",
           "sha256": "f15484280d335798a2b3cce5b45efbb5dc8a9abb3bc64a9effb42d533d7574db",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "different_fields": [
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_adaptive_row_confidence_checks_v1.py",
+            "$.receipt_stack.receipts",
+            "$.receipt_stack.terminals.GRAND_GMI_ADAPTIVE_ROW_CONFIDENCE_RECEIPT_V1.json"
+          ],
+          "path": "GRAND_GMI_MASTER_RECEIPT_V15.json",
+          "reason": "Preserved the verified B6 consumer census capture before adding adaptive finite-row confidence and inherited policy transfer.",
+          "sha256": "35c66f66ca80fe7a4d7ee591958b8c9cf8bfab28175722dfa3fc4a49fa9ba965",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
       "kind": "aggregate",
-      "receipt": "GRAND_GMI_MASTER_RECEIPT_V15.json",
-      "receipt_sha256": "35c66f66ca80fe7a4d7ee591958b8c9cf8bfab28175722dfa3fc4a49fa9ba965",
+      "receipt": "GRAND_GMI_MASTER_RECEIPT_V16.json",
+      "receipt_sha256": "8747424e8e8fbb5c0a91b07d51b4f8ba4cd91eb0ef1762bccf84136e152a5781",
       "source_sha256": "8eb251f3e5a24a0c36bcb08bd77c79f73ed1d4aa03cef97da3b3bab5fd14734b",
       "terminal": "GRAND_GMI_MASTER_INTEGRATION_V2_ALL_GREEN"
     },
@@ -1190,7 +1210,7 @@
     "parity3_cross_envelope_adjudicate_v5.py": "af2e1004d6d355cda71faa4281842ea5c0c3de28a6900082722adfc6c5ec7835",
     "relational_query_model_v1.py": "27a89dda784da13d1ca7603a6bcb4c7d88ce13602300280023ee8e297a62e884",
     "relational_query_oracle_v1.py": "1a1ebecf5f43788949530c2f10a03feac5f88de1ed49010e7755563081efad3e",
-    "replay_theorem_capsule_v1.py": "dcf825e895b685dc0ae9b2837493335ea2ee64770f50afd532ab0ac1805a165a",
+    "replay_theorem_capsule_v1.py": "88d44eca85a39961171fdbbe31fa06365bb0858670c14ce99baa4cd32a17da87",
     "structural_threshold_analytic_v1.py": "5b251a4f970e1951933e7e5e74f484a42e667855d97cce8c2796e254b96960e6",
     "structural_threshold_costs_v1.py": "7b6bd983041e231bc256d79551e00951ec2acbcb1c66cd36559768ba6fb482f8",
     "structural_threshold_countercontrols_v1.py": "c4934e38285afebecbb546902218989925f102ec0bc623a59bba8c0def05c20a",
@@ -1206,12 +1226,16 @@
     ".github/workflows/grand-gmi-nn-nonnn-point-parity3-v4.yml": "f2bbe111c9706c68ada445e106f0b3505bedbe4751ffb6f521b82a92d36719e0",
     ".github/workflows/grand-gmi-nn-nonnn-point-parity3-v5.yml": "81b43befc4fa3b5f7554a742f504e59ca6e9e2b995d840e2a0a74a0ab0032dad",
     ".github/workflows/grand-gmi-nn-nonnn-point-parity3.yml": "4d41e6ee688c2f5e690f792237d57fd89f60ada051a69766984880761ab83679",
-    ".github/workflows/grand-gmi-theorem-capsule.yml": "2424e379286f7fb00d5a6bf79ed529d62bb29e4f1eb87ffb64bbff062c599a22"
+    ".github/workflows/grand-gmi-theorem-capsule.yml": "122f3b5bfdbe35973dedac3f7eee04f2348626116a0ad38dd71ad344559c738e"
   },
   "external_documents": {
     "research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md": "1bfd52924f15d97d4a4ce5ab5520a194523aa65a6645818975455badd60fe7ec"
   },
   "external_units": {
+    "research/gmi-adaptive-row-confidence-v1": {
+      "manifest": "MANIFEST.json",
+      "sha256": "e1ea64e390d2690f36058895d1da03f2597696b7da055bad4e65ed8fc63f25d3"
+    },
     "research/gmi-b6-consumer-census-v1": {
       "manifest": "MANIFEST.json",
       "sha256": "bd56c38d16c23d2b956be0f19fee756f994c39fa8f4c96138ad10471b93d957f"
@@ -1280,7 +1304,7 @@
     "CONTROLLED_ACQUISITION_CLAIM_LEDGER_V1.md": "37d849d87e13bc735bec3c9cddec902a22dbea286fd6de2ca3098ce3a95a31a7",
     "CONTROLLED_ACQUISITION_INFORMATION_STATE_THEOREM_V1.md": "860f9359010deea540c3c965786aa73f08ad3d7380d1028434c857b9b074a9f3",
     "CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md": "13dc052ca61f9284c9037b2a000482efc2d96dadfcb8f1524932d938f9fd9128",
-    "CORE.md": "90c6df9a05c7f490188d6466ab5a9b3b053dd181fa8be266d175853544e48e60",
+    "CORE.md": "dcff0460734c202d99fe8b507fe28c54c92406d08989b349d9198746a6f4aa79",
     "DECISION_FINITE_SCORES_AUDIT_V1.md": "c64154bb930a8f29ff8040a3734b3fe5d265b9f4d8411271ac48fd7907e3e8f9",
     "DEVELOPMENTAL_LIFECYCLE_CORRECTION_V2.md": "df8de710ac307a5151aa27375edaf52abb306b659bfe94db20215d68ec0b7581",
     "DEVELOPMENTAL_REACHABILITY_SELECTION_THEOREM_V1.md": "9d365e4b6df9304fc290f5501434541740b16a09763434da54c1b7c8fcc60671",
@@ -1307,7 +1331,7 @@
     "GENERALIZATION_IDENTIFIABILITY_CLAIMS_V1.md": "cdf0ad19fd489cfea305e72073b890f56c7d879af533b8a570fc8bc802738657",
     "GENERALIZATION_IDENTIFIABILITY_RADIUS_THEOREM_V1.md": "93c43a99622bcbcd062ce0ffe5ab10119a2ad7ce2892dd41143fa1d214d774b0",
     "GENERALIZATION_PARENT_SUBTRACTION_V1.md": "c6e10da7f69a017486a0480118c521e5a1270d4f0a36f090175923895b97de81",
-    "GRAND_GMI_MASTER_THEORY_V1.md": "fe2224b3fd4d0b5366dbee2e9fa66070fa41903975122a9334ae3091d0d9a8d4",
+    "GRAND_GMI_MASTER_THEORY_V1.md": "6ab4b52021ca39039036cf44030e9a7c3d4d93806f033b2cda1b0c68430e0f5f",
     "GRAND_GMI_NN_NONNN_CLOSURE_MANIFEST_V1.json": "d980eb1a3e71d62180b48f113f1740ea1994d35d2fdab49c334a4053c6c26638",
     "GRAND_GMI_STRATEGIC_PR_SUMMARY_V1.md": "dd6941979f1e5df02603ac294f4e1515622ea432578b83e28f96c3d3e06fa673",
     "INFORMATION_COMPUTATION_SEPARATION_THEOREM_V1.md": "22279dfdb7474879538c12d4470de9e582f4b7e655f6ceaa8c2d84638d9aed1b",
@@ -1395,7 +1419,7 @@
     "ROBUST_DECISION_PRECISION_CLAIMS_V1.md": "6517d6dfc769b26efbba19c4e78fd692bd9fb8c85bcfc84855600aca239c31f1",
     "ROBUST_DECISION_PRECISION_PARENT_SUBTRACTION_V1.md": "33af4dd5a93c08d5b87ee8cfcb7f73c20193949dea1e385a85a5feb59b615088",
     "ROBUST_DECISION_PRECISION_THEOREM_V1.md": "7e3bc837689878ccc6f1d1df9823525493e1518dc52ca3ba66ca65ee15756f99",
-    "SCIENTIFIC_GAP_QUEUE_V2.md": "a51c4db1ce5fe306d64c62ec280ecbdbc4c59dfaeadd7f760153b2d6aafb6be4",
+    "SCIENTIFIC_GAP_QUEUE_V2.md": "803a06e761fee0c16b6b7d703fea3876ee7e8c3b2f753007963f020afb20d2b0",
     "SEMANTIC_ADEQUACY_CORRECTION_V1.md": "e61e649244ab85e8991ff2b53c04e989bdee172dd8d3067c950943d20f8a19bc",
     "SEMANTIC_CUT_THEOREM_V1.md": "c2801906602b0081dab554d2fbb9c61866d6122aceac8a9a29865bc2b560b0fd",
     "SEMANTIC_STATE_REFINEMENT_THEOREM_V1.md": "ab47ea44f3ede57697df97369daab6c18a7292e8511b43d8e3f2c99e00020893",
@@ -1409,7 +1433,7 @@
     "SYMMETRY_TO_MORPHOLOGY_THEOREM_V1.md": "c8decf048e88888d40173d2286feed37c90b1ea4a63b02b0a5eed074c2feeace",
     "TASK_DIRECTED_ACQUISITION_THEOREM_V1.md": "0219c2ad4ff30ba16f2e523576cf65f4e956e3782d9e1b5241be7f4ef8e89c4f",
     "TERMINAL_COST_PARENT_ASSIMILATION_V1.md": "3053c7c58f4d27b03c7fa5b8faaadea39648044488c4a959946b12f10ba8a1a6",
-    "THEOREM_REPLAY_CAPSULE_V1.md": "e6270782a6daf072f0d921b04bd81a19d75f05a51182b4ced2d241766d9f9da6",
+    "THEOREM_REPLAY_CAPSULE_V1.md": "6cf2aff21e2b6e0e3ea483c8aab82a9e11bfdf653d36ce6dc53b31587cb14399",
     "UNCOMPUTABILITY_BOUNDARY_THEOREM_V1.md": "b6dac6fe86c28c2a2ea2a90b9c1191334f3cb3f807a47011bde4808ceba22725"
   },
   "non_replayed_records": [

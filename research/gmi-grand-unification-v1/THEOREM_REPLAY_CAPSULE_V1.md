@@ -12,10 +12,11 @@ finite-data model confidence with joint policy transfer, the corrected
 all-coefficient structural threshold bound, and complete ideal finite quantum
 protocol coverage, joint-message composition for independent relational
 obligations, query-plus-terminal cost reconstruction, and a source-correct B6
-consumer census. The census is static evidence validation, not a new theorem. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V15.json`. Earlier aggregates and phase-law receipts
+consumer census, plus adaptive-row confidence under supplied conditional laws.
+The census is static evidence validation, not a new theorem. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V16.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 70 checkers (69 leaves and one
+historical paths. The current register has 71 checkers (70 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -69,15 +70,19 @@ entry, avoiding self-recursion. A leaf cannot reclassify itself as an aggregate.
 The fixed dependency map registers the complete structural-threshold repair,
 [finite quantum](../gmi-finite-quantum-cover-v1/CORE.md),
 [joint relational](../gmi-joint-relational-composition-v1/CORE.md),
-[terminal-cost](../gmi-terminal-cost-reconstruction-v1/CORE.md), and
-[B6 consumer census](../gmi-b6-consumer-census-v1/CORE.md) units. Original
+[terminal-cost](../gmi-terminal-cost-reconstruction-v1/CORE.md),
+[B6 consumer census](../gmi-b6-consumer-census-v1/CORE.md), and
+[adaptive-row confidence](../gmi-adaptive-row-confidence-v1/CORE.md) units. Original
 checkers, tests, theorems, receipts and transitive raw parent records remain
-byte-preserved outside this directory. The quantum, relational and terminal-cost wrappers
+byte-preserved outside this directory. The quantum, relational, terminal-cost
+and adaptive-confidence wrappers
 return their entire original JSON payloads inside bound outer receipts; no
 field is removed. JRC executes its original checker, not its smaller replay
 summary, using an isolated import bootstrap and an empty private cache prefix.
 TCR executes its original checker and preserves its complete `status: PASS`
-payload; its outer terminal cannot replace any original field. The B6 wrapper
+payload; its outer terminal cannot replace any original field. ARC likewise
+executes its unchanged original checker and preserves all confidence/control
+fields, source bindings and scope declarations inside its full outer receipt. The B6 wrapper
 likewise returns the entire original census, including source-seed and unknown
 source fields. Its frozen archive contains 30 source/raw members and is checked
 without executing the historical machines or conducting new measurements.

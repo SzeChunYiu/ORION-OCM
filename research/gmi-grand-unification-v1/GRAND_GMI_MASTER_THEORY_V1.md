@@ -93,6 +93,19 @@ or by an explicitly declared transitive coarse-graining. There is no automatic q
 
 This distinction is normative throughout Grand GMI: **exact state is a quotient; approximate state is a metric/coarse-graining problem unless transitivity is separately proved.**
 
+Finite sampled models require separate statistical premises. Under a supplied
+finite sufficient-state, support and known cost/terminal contract,
+[FMT-1–4](FINITE_DATA_MODEL_TRANSFER_THEOREM_V1.md) gives simultaneous fixed-N
+row confidence and joint finite-horizon policy transfer.
+[ARC-1–4](../gmi-adaptive-row-confidence-v1/ADAPTIVE_ROW_CONFIDENCE_THEOREM_V1.md)
+extends that confidence event to predictable adaptive row choices, counts and
+finite stopping times under fixed conditional row laws. The same event supports
+later data-selected finite horizons and common policies through FMT's existing
+bounds. This inherits confidence-sequence and simulation-lemma mechanisms;
+it neither learns the state/support nor authenticates freshness or stationarity.
+Acquisition, resets, sampler control, synthesis, storage and physical execution
+remain separately charged. No sure-safety or infinite-horizon claim follows.
+
 ### 1.3 Semantic cut spectrum
 
 For every causal cut `C`, first define the attainable resource set
