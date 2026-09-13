@@ -182,3 +182,33 @@ unconditionally. It now returns that only when every candidate carries complete 
 `UNRESOLVED__INCOMPLETE_EVIDENCE` otherwise; each task records an `evidence_complete` flag, and
 `test_gmi_nn_nonnn_verdict_guard.py` pins both branches and the four canonical verdicts. Absence of
 evidence is unresolved, not proved infeasibility.
+
+## Cross-instrument comparison with the parity-3 point experiment (2026-09-13)
+
+The theory lane's `NN_NONNN_POINT_PARITY3_EXPERIMENT_V1` asks this packet's question on an entirely
+different instrument and returned `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`
+(`PARITY3_V2_HOSTED_RESULT_ASSESSMENT_20260913.md`): the XOR program's exact CPython opcode count and
+both observed timing envelopes strictly dominate the frozen threshold-network candidate's.
+
+| | parity-3 point experiment | RV-377-210 packet |
+|---|---|---|
+| obligation | parity-3, 8 states, exhaustive | three registered smooth ecologies, 8 UNSEEN inputs |
+| substrate / meter | real CPython 3.12 on a hosted runner: opcode events + wall and process envelopes | charged VM lifecycle vector (desc, exec, upd, ver), exact |
+| candidates | 2 frozen (1 neural, 1 non-neural) | 13 hashed (6 neural incl. 4 expansion rows, 7 non-neural) |
+| selection | robust domination on all three coordinates | hard feasibility (rules 36+40) then Pareto |
+| verdict | `DERIVED_NON_NEURAL` | `DERIVED_NON_NEURAL` on `E_cr4` and `E_sym5`; `FAMILY_COEXISTENCE` on `E_wit1` |
+
+**What the convergence is worth.** Two lanes, two instruments, two obligations, two resource meters, and
+the same family verdict wherever the obligation is exactly identifiable. Neither result depends on the
+other's machinery: one counts interpreter opcodes on real hardware, the other counts charged lifecycle
+work on the typed IR. That is stronger than either alone, and it is the first cross-instrument agreement
+on a family verdict in this corpus.
+
+**What it is not.** Both are explicitly point verdicts over their own candidate universes, and both
+records say so. More importantly the packet supplies the counter-case the single-instrument experiment
+cannot: on `E_wit1` a hand-built coefficient row is intervention-robust and sits on the Pareto set beside
+the exact rows, because its update work is ~500× smaller — `FAMILY_COEXISTENCE`, not non-neural. So the
+honest joint statement is **conditional, not universal**: where the obligation is exactly identifiable and
+exact search is admissible, the non-neural family is derived on both instruments; where a coefficient
+carrier is admissible and cheap to update, the families coexist on the frontier. That is exactly the
+shape `END_TO_END_DERIVATIONS_V1` E2E-2 and E2E-4 predict, now with one leg measured on each instrument.
