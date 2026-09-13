@@ -59,3 +59,38 @@ also specifies B6 quantifier, missing-data and provenance counterexamples.
 repairs to the imported freeze. Raw acquisition/experiment receipts remain
 unchanged. A corrected scorer is evidence of correct adjudication logic;
 it is not a new developmental experiment or a proof of universal recovery.
+
+## Later V5 prediction readout
+
+[PR #551 at cbb6e103](https://github.com/SzeChunYiu/ORION-OCM/commit/cbb6e103ba5dd605107094a67c85b6ac69805697)
+compares the same X1/X2 registration with the later-published V5 interpreter
+packets. The numerical match is real: on 3.12.3 XOR has 88 opcodes versus
+312 for the shared-sum network, and its maximum recorded wall block is
+12,872,289 ns versus that network's minimum 37,721,833 ns. On 3.11.15 the
+respective counts are 88 and 344; the corresponding wall values are
+12,452,881 and 37,626,507 ns. Process-time boxes are also strictly separated.
+Thus these valid packets agree with the registered X1/X2 patterns; the invalid
+3.13 packet remains an instrumentation refusal. The 472-to-312 improvement is
+about 34% in the registered opcode coordinate, not a universal resource gain.
+
+The chronology above still refutes a claim that no four-candidate field had
+been measured before the registration: V4 already existed. It does not
+preclude a prospective prediction about a specifically later execution.
+These are distinct claims. V5's own packet classification is
+`independent_prospective_prediction=false`; that field concerns its declared
+protocol and does not by itself adjudicate an external lane's prediction.
+
+The retained V5 records contain host/interpreter/source bindings, but no UTC
+execution timestamp or run identifier; their interactive GitHub metadata is
+null. A later publication timestamp does not establish the actual measurement
+time. Certifying the external prediction as prospective for V5 therefore needs
+an independently bound chronology connecting its prior specification to that
+particular later run. This is an outstanding custody premise, not an allegation
+that the author saw results or that the reported run chronology is false.
+
+X1 remains forced once the admitted candidates' unique XOR opcode minimum is
+fixed. X2 is a feasible timing-sensitive prediction at that register. Agreement
+after adding this smaller network addresses that particular comparator; it
+does not exhaust independently optimized neural implementations or the
+candidate residue. Cross-instrument transport and full development/lifetime
+cost obligations remain as stated above.
