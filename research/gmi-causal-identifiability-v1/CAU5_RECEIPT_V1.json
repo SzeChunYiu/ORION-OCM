@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "schema": "CausalRungsReceiptV1",
+  "scope": "CAU-5 only: separator pair (W4a/W4b), discovery-procedure boundary (W1 skeleton), counterfactual rung (W5A/W5B). 11 exact finite controls, normal + optimized. No finite-sample, discovery-algorithm, learned-premise or physical-randomizer claim. Existing CAU-1-4 sources untouched.",
+  "source_parent_commit": "68148e67775c6638cd298babe953a7711c009245",
+  "source_and_evidence": {
+    "CAUSAL_COGNITION_SEPARATOR_THEOREM_V1.md": {
+      "bytes": 4604,
+      "sha256": "63aca5c5f68313b8fc9499e85f02cb4c1c35267fe2e45423bfcc08812ef0a68c"
+    },
+    "causal_rungs_v1.py": {
+      "bytes": 3323,
+      "sha256": "d9ac42f4cf026a1725be38a4ca1043cf77e2b307cc16ef19ff9084ad2cbd9123"
+    },
+    "test_causal_rungs_v1.py": {
+      "bytes": 3384,
+      "sha256": "2957a132f6c5450a281451533d09ccd917ce048e388d640b9a29d2be0e039fea"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_causal_rungs_v1.py",
+        "-v"
+      ],
+      "tests": 11,
+      "exit_code": 0
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_causal_rungs_v1.py",
+        "-v"
+      ],
+      "tests": 11,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_causal_rungs_v1.py"
+      ],
+      "tests": 11,
+      "exit_code": 0
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_causal_rungs_v1.py"
+      ],
+      "tests": 11,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for both files); sha256 of staged sources recomputed at write time and replacing placeholders before commit."
+}
