@@ -1,0 +1,83 @@
+{
+  "schema": "GmiZeroCostStoppingReceiptV1",
+  "source_commit": "ef5be9737b40aa5ea2fb7e988e32ee4b120c64b6",
+  "claim_scope": "Finite deterministic nonnegative graph, proper-policy optimum and lexicographic stationary progress; no physical or stochastic upgrade",
+  "source_bindings": {
+    "zero_cost_stopping_v1.py": {
+      "sha256": "5bbb490003085d5b2972b50b893c89e202620b8ecc0676ac1c61de85bc73db3c",
+      "bytes": 2628
+    },
+    "ZERO_COST_STOPPING_THEOREM_V1.md": {
+      "sha256": "2a3f2a34ed751d62715515ea2688aa8e0a47fe9a98787e52fef5878d2c59f7c1",
+      "bytes": 6911
+    },
+    "test_zero_cost_stopping_v1.py": {
+      "sha256": "f4aa2667faa5674c00fa154e967bbe4c67115d6fad91ab915001390a2067e852",
+      "bytes": 4495
+    },
+    "PARENT_BINDINGS_V1.json": {
+      "sha256": "710c0853efc4fe4cf9761aa6b8ec76b1fab67e67fd3b4ebb031365e6d7a2d37f",
+      "bytes": 784
+    },
+    "CORE.md": {
+      "sha256": "fc4b4824b4ef74006a6efa0098c382158ddfc8dbc2a9f211170255a76eccc62e",
+      "bytes": 1105
+    }
+  },
+  "runs": [
+    {
+      "mode": "normal",
+      "command": [
+        "/home/billy/.local/share/uv/python/cpython-3.12-linux-x86_64-gnu/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_zero_cost_stopping_v1.py"
+      ],
+      "returncode": 0,
+      "tests": 9,
+      "stdout": "",
+      "stderr": "test_all_two_state_graphs_zero_positive_missing (test_zero_cost_stopping_v1.ProperStopping.test_all_two_state_graphs_zero_positive_missing) ... ok\ntest_cost_priority_precedes_path_length (test_zero_cost_stopping_v1.ProperStopping.test_cost_priority_precedes_path_length) ... ok\ntest_input_contract_rejects_unproved_extensions (test_zero_cost_stopping_v1.ProperStopping.test_input_contract_rejects_unproved_extensions) ... ok\ntest_parallel_edges_and_rational_costs (test_zero_cost_stopping_v1.ProperStopping.test_parallel_edges_and_rational_costs) ... ok\ntest_scalar_greedy_can_loop_but_paired_selector_serves (test_zero_cost_stopping_v1.ProperStopping.test_scalar_greedy_can_loop_but_paired_selector_serves) ... ok\ntest_terminal_tie_chooses_zero_steps (test_zero_cost_stopping_v1.ProperStopping.test_terminal_tie_chooses_zero_steps) ... ok\ntest_three_state_zero_cycle_with_exit (test_zero_cost_stopping_v1.ProperStopping.test_three_state_zero_cycle_with_exit) ... ok\ntest_zero_iteration_fixed_point_is_not_proper_value (test_zero_cost_stopping_v1.ProperStopping.test_zero_iteration_fixed_point_is_not_proper_value) ... ok\ntest_zero_trap_is_infeasible_not_free (test_zero_cost_stopping_v1.ProperStopping.test_zero_trap_is_infeasible_not_free) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.055s\n\nOK\n"
+    },
+    {
+      "mode": "optimized",
+      "command": [
+        "/home/billy/.local/share/uv/python/cpython-3.12-linux-x86_64-gnu/bin/python3",
+        "-O",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_zero_cost_stopping_v1.py"
+      ],
+      "returncode": 0,
+      "tests": 9,
+      "stdout": "",
+      "stderr": "test_all_two_state_graphs_zero_positive_missing (test_zero_cost_stopping_v1.ProperStopping.test_all_two_state_graphs_zero_positive_missing) ... ok\ntest_cost_priority_precedes_path_length (test_zero_cost_stopping_v1.ProperStopping.test_cost_priority_precedes_path_length) ... ok\ntest_input_contract_rejects_unproved_extensions (test_zero_cost_stopping_v1.ProperStopping.test_input_contract_rejects_unproved_extensions) ... ok\ntest_parallel_edges_and_rational_costs (test_zero_cost_stopping_v1.ProperStopping.test_parallel_edges_and_rational_costs) ... ok\ntest_scalar_greedy_can_loop_but_paired_selector_serves (test_zero_cost_stopping_v1.ProperStopping.test_scalar_greedy_can_loop_but_paired_selector_serves) ... ok\ntest_terminal_tie_chooses_zero_steps (test_zero_cost_stopping_v1.ProperStopping.test_terminal_tie_chooses_zero_steps) ... ok\ntest_three_state_zero_cycle_with_exit (test_zero_cost_stopping_v1.ProperStopping.test_three_state_zero_cycle_with_exit) ... ok\ntest_zero_iteration_fixed_point_is_not_proper_value (test_zero_cost_stopping_v1.ProperStopping.test_zero_iteration_fixed_point_is_not_proper_value) ... ok\ntest_zero_trap_is_infeasible_not_free (test_zero_cost_stopping_v1.ProperStopping.test_zero_trap_is_infeasible_not_free) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.058s\n\nOK\n"
+    }
+  ],
+  "independent_exhaustive_graphs_per_run": 729,
+  "validation_output_bindings": {
+    "raw/validation/optimized.stderr.log": {
+      "sha256": "b4ca682a2f9d7e5d1cc5141dde2997e1819a572bf4db9711cf8791104813ec03",
+      "bytes": 1347
+    },
+    "raw/validation/normal.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "raw/validation/normal.stderr.log": {
+      "sha256": "696595680a9ce5e9f0a5b64b371f385e73db83c88af364e5eb6af1cbf05a86b6",
+      "bytes": 1347
+    },
+    "raw/validation/optimized.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "independent_review": {
+    "verdict": "ACCEPTED",
+    "scope": "ZCS1-3 proof, stationary trace oracle, exact model and memory accounting. Replaced per-state materialized candidate list with streaming selection; final bounded reviewer accepted O(S) auxiliary bound. Reviewer ran no tests; final9/9 normal and9/9 optimized executions are recorded above."
+  }
+}
