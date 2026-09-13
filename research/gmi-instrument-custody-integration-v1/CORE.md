@@ -35,3 +35,9 @@ remain byte-identical. This index and the integration receipt are new records.
 Use [parity countercontrol V2](../gmi-parity-custody-repair-v1/STATIC_REPLAY_V2.md)
 for active old-defect replay. The changed upstream aggregator remains separate
 authority. Original V1 code and receipts remain byte-identical.
+
+The separately frozen [retained V6 auditor](../gmi-parity-v6-evidence-v1/CORE.md) now
+reconstructs all three measured packets. [Integration validation](V6_INTEGRATION_VALIDATION_V1.json)
+records the complete static CI script run; [V6 CI](../../.github/workflows/gmi-parity-v6-static.yml)
+checks all exact releases and preserves current audit-binary identity separately
+from the unauthenticated historical measurement binary.
