@@ -66,11 +66,22 @@ class TheDeferralIsReal(unittest.TestCase):
 
 
 class TheTableIsFrozen(unittest.TestCase):
-    def test_digest_is_recorded_and_stable(self):
+    FROZEN_DIGEST = ("38493781de864856409a607ff75afea8"
+                     "0a3f51ad89d5c8b947a66d77a6f84787")
+
+    def test_digest_binds_the_actual_frozen_table(self):
+        """Corrects a vacuous assertion.
+
+        The previous version checked only that the digest had 64 alphanumeric
+        characters, which passes on any hex string and on an altered table.
+        This binds the actual bytes.
+        """
         digest = hashlib.sha256(doc_text().encode("utf-8")).hexdigest()
-        self.assertEqual(len(digest), 64)
-        # The digest is printed by the suite so a later commit can bind it.
-        self.assertTrue(digest.isalnum())
+        self.assertEqual(digest, self.FROZEN_DIGEST)
+
+    def test_control_an_altered_table_fails_the_binding(self):
+        altered = hashlib.sha256((doc_text() + "x").encode("utf-8")).hexdigest()
+        self.assertNotEqual(altered, self.FROZEN_DIGEST)
 
     def test_control_editing_the_table_changes_the_digest(self):
         a = hashlib.sha256(doc_text().encode("utf-8")).hexdigest()

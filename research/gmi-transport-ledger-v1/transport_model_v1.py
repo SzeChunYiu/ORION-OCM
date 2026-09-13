@@ -105,7 +105,18 @@ def compare(candidate, comparator):
 
     TL-6 implemented only the candidate direction; the mirror certificate
     (comparator upper strictly below candidate lower) is equally valid.
+
+    Validation mirrors `exclusion_transports`.  An earlier version omitted it
+    and certified empty intervals: compare((2,1),(3,4)) returned
+    CERTIFIED_STRICTLY_LOWER although the candidate interval is empty, and a
+    negative lower bound was accepted.  Raised by the ledger repair unit.
     """
+    for b in (candidate, comparator):
+        require(isinstance(b, tuple) and len(b) == 2, "bounds must be (lower, upper)")
+        lo, hi = b
+        require(isinstance(lo, Fraction), "lower bound must be exact")
+        require(hi is None or isinstance(hi, Fraction), "upper must be exact or None")
+        require(lo >= 0 and (hi is None or hi >= lo), "invalid nonnegative interval")
     a_hi = candidate[1]
     b_hi = comparator[1]
     if a_hi is not None and a_hi < comparator[0]:
