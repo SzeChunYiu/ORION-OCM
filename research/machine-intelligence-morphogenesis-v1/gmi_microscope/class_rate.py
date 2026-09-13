@@ -51,7 +51,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(os.path.dirname(HERE), "microscopes", "results")
 THETA = smooth.THETA
 COL = "B0_LOCAL_ADAPTIVE_TRANSDUCERS"
-INTERVENTIONS = list(ecology.INTERVENTIONS)
+# the frozen law is read on the V1 family (continuity with RV-377-113 and every receipt before RV-377-150); the
+# leak-free V2 family of RV-377-150 (DG-13) is reported BESIDE it on every elite, labelled explicitly (RV-377-151)
+FAMILY_V1 = tuple(ecology.INTERVENTION_FAMILY_V1)
+FAMILY_V2 = tuple(ecology.INTERVENTION_FAMILY_V2)
+INTERVENTIONS = sorted(set(FAMILY_V1) | set(FAMILY_V2), key=list(ecology.INTERVENTIONS).index)
 MEMORY_ROWS = ("exemplar_table", "hamming_knn_k3", "soft_retrieval")
 SEARCH_ROWS = ("program_search", "compiled_search")
 MEMORY_CLASSES = ("TABLE", "KVSTORE")
@@ -91,11 +95,13 @@ def closed_forms(coeffs, name=None, witness_scan=True):
     rows = {}
     for n in MEMORY_ROWS + SEARCH_ROWS:
         caps = _caps6(spec, zoo.ZOO[n](), basis)
-        mn = min(caps.values()) if caps else None
+        mn = min(caps[j] for j in FAMILY_V1) if caps else None
+        mn2 = min(caps[j] for j in FAMILY_V2) if caps else None
         rows[n] = {"by_intervention": caps, "standard": caps["standard"] if caps else None, "min_over_six": mn,
-                   "argmin": (min(caps, key=caps.get) if caps else None),
+                   "argmin": (min(FAMILY_V1, key=caps.get) if caps else None),
                    "admissible_all_six": (mn is not None and mn >= THETA),
-                   "margin_fx_units": (round((mn - bc) / FX_UNIT, 3) if mn is not None else None)}
+                   "margin_fx_units": (round((mn - bc) / FX_UNIT, 3) if mn is not None else None),
+                   "min_over_family_V2": mn2, "admissible_V2": (mn2 is not None and mn2 >= THETA)}
     # the MEMORY closed form is the theory's own (RV-377-059/060/062: cap_S5 = 1 - |k|/12, cap_S5h = (48 - |k|)/48 on the
     # symmetric family), evaluated analytically for the asymmetric vector under the registered standard protocol; the
     # replayed IR zoo rows are recorded beside it but are NOT the closed form (hamming_knn_k3 is a k = 3 nearest machine,
@@ -116,10 +122,11 @@ def closed_forms(coeffs, name=None, witness_scan=True):
                     continue
                 caps = _caps6(spec, g, basis) if std >= THETA else {"standard": std}
                 if not caps: continue
-                mn = min(caps.values())
+                mn = min(caps[j] for j in FAMILY_V1 if j in caps)
                 if best is None or mn > best["min_over_six"]:
                     best = {"h": h, "lr": lr, "min_over_six": mn, "standard": caps["standard"],
-                            "by_intervention": caps, "margin_fx_units": round((mn - bc) / FX_UNIT, 3)}
+                            "by_intervention": caps, "margin_fx_units": round((mn - bc) / FX_UNIT, 3),
+                            "min_over_family_V2": (min(caps[j] for j in FAMILY_V2) if len(caps) > 1 else std)}
         witness = best
     W = witness["min_over_six"] if witness else None
     out = {"coeffs": list(coeffs), "name": spec["name"], "spec_id": ecology.spec_id(spec),
@@ -243,14 +250,19 @@ def rescore_receipt(path, spec, bc, basis=None):
         caps = _caps6(spec, g, basis)
         if caps is None:
             rows[carrier] = {"error": "genotype did not evaluate under some intervention"}; continue
-        mn = min(caps.values()); margin = round((mn - bc) / FX_UNIT, 3)
+        mn = min(caps[j] for j in FAMILY_V1); margin = round((mn - bc) / FX_UNIT, 3)
+        mn2 = min(caps[j] for j in FAMILY_V2); margin2 = round((mn2 - bc) / FX_UNIT, 3)
         row = {"raw_carrier": carrier, "capability_committed": v["capability"], "standard_replayed": caps["standard"],
                "replay_matches_receipt": abs(caps["standard"] - v["capability"]) < 1e-9,
-               "by_intervention": caps, "min_over_six": mn, "binding": min(caps, key=caps.get),
+               "by_intervention": caps, "min_over_six": mn, "binding": min(FAMILY_V1, key=caps.get),
                "rule36_admissible": mn >= THETA, "rule40_margin_fx_units": margin, "rule40_separates": margin >= MEMORY_MARGIN_FX,
+               "family_V1": {"min": mn, "binding": min(FAMILY_V1, key=caps.get), "rule36_admissible_V1": mn >= THETA, "rule40_margin_fx_units": margin},
+               "family_V2": {"min": mn2, "binding": min(FAMILY_V2, key=caps.get), "rule36_admissible_V2": mn2 >= THETA, "rule40_margin_fx_units": margin2,
+                             "extra_unseen_feedback_v2": caps["extra_unseen_feedback_v2"]},
                "n_nodes_raw": v["n_nodes"]}
         if row["rule36_admissible"]:
-            small, info = atrophy_ir.prune_all_interventions(g, spec, basis)
+            # atrophy under the V1 family, exactly as frozen; the V2 minimum is reported on the same raw elite
+            small, info = atrophy_ir.prune_all_interventions(g, spec, basis, interventions=FAMILY_V1)
             row.update({"atrophied_carrier": b1.carrier_of(small), "n_nodes_atrophied": info.get("n_nodes"),
                         "n_removed": info.get("n_removed"), "removed_kinds": info.get("removed_kinds"),
                         "atrophy_evaluations_charged": info.get("evaluations_charged"),
@@ -259,15 +271,18 @@ def rescore_receipt(path, spec, bc, basis=None):
                         "label_survives_atrophy": b1.carrier_of(small) == carrier,
                         "atrophied_fingerprint": morph.fingerprint(small)})
             row["class_recovered"] = row["atrophied_carrier"] if (row["rule40_separates"] and row["atrophied_carrier"] != "NONE") else None
+            row["class_recovered_V2"] = row["atrophied_carrier"] if (row["class_recovered"] and mn2 >= THETA and margin2 >= MEMORY_MARGIN_FX) else None
         else:
-            row["class_recovered"] = None
+            row["class_recovered"] = None; row["class_recovered_V2"] = None
         rows[carrier] = row
         print(json.dumps({"receipt": os.path.basename(path), "carrier": carrier, "std": caps["standard"], "min6": mn,
                           "bind": row["binding"], "r36": row["rule36_admissible"], "margin": margin,
                           "atrophied": row.get("atrophied_carrier"), "removed": row.get("n_removed"), "class": row["class_recovered"]}), flush=True)
     classes = sorted({v["class_recovered"] for v in rows.values() if isinstance(v, dict) and v.get("class_recovered")})
+    classes2 = sorted({v["class_recovered_V2"] for v in rows.values() if isinstance(v, dict) and v.get("class_recovered_V2")})
     return {"receipt": os.path.basename(path), "ecology": r.get("ecology"), "seed": r.get("seed"), "n_evaluations": r.get("n_evaluations"),
             "receipt_sha256": r.get("receipt_sha256"), "best_constant": bc, "rows": rows, "classes_recovered": classes,
+            "classes_recovered_V2": classes2, "family_note": "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels",
             "memory_class_recovered": any(c in MEMORY_CLASSES for c in classes),
             "program_class_recovered": "PROGRAM" in classes, "coefficient_class_recovered": "DENSE" in classes}
 
@@ -382,6 +397,53 @@ def score_dir(directory, pattern, eco_name, out_tag, revival="RV-377-118"):
     return receipt
 
 
+def augment_v2(scoring_receipt, receipt_dir=None, out_suffix="_V2AUG"):
+    """RV-377-151 -- mechanical rescoring of an already-scored receipt under the leak-free V2 family: replay each
+    scored elite under `extra_unseen_feedback_v2` only (one evaluation per elite), keep the V1 numbers and the V1
+    atrophied labels untouched, and write a NEW receipt beside the old one. Nothing is overwritten."""
+    basis = bases.ALL[COL]
+    t0 = time.time()
+    r = json.load(open(scoring_receipt))
+    for rd in r["readings"]:
+        spec, bc = _spec_and_bc(rd["ecology"])
+        src = os.path.join(receipt_dir or RES, rd["receipt"])
+        b = json.load(open(src))
+        for carrier, v in rd["rows"].items():
+            if not isinstance(v, dict) or "by_intervention" not in v: continue
+            g = morph.from_json(b["best_by_carrier"][carrier]["genotype"])
+            v2 = ecology.run_genotype(spec, g, basis, "extra_unseen_feedback_v2")["capability"]
+            caps = dict(v["by_intervention"]); caps["extra_unseen_feedback_v2"] = v2
+            mn = min(caps[j] for j in FAMILY_V1); mn2 = min(caps[j] for j in FAMILY_V2)
+            m1 = round((mn - bc) / FX_UNIT, 3); m2 = round((mn2 - bc) / FX_UNIT, 3)
+            v["by_intervention"] = caps
+            v["family_V1"] = {"min": mn, "binding": min(FAMILY_V1, key=caps.get), "rule36_admissible_V1": mn >= THETA, "rule40_margin_fx_units": m1}
+            v["family_V2"] = {"min": mn2, "binding": min(FAMILY_V2, key=caps.get), "rule36_admissible_V2": mn2 >= THETA, "rule40_margin_fx_units": m2,
+                              "extra_unseen_feedback_v2": v2}
+            v["class_recovered_V2"] = v.get("atrophied_carrier") if (v.get("class_recovered") and mn2 >= THETA and m2 >= MEMORY_MARGIN_FX) else None
+        rd["classes_recovered_V2"] = sorted({v["class_recovered_V2"] for v in rd["rows"].values() if isinstance(v, dict) and v.get("class_recovered_V2")})
+        rd["family_note"] = "classes_recovered = V1 family (the frozen law); classes_recovered_V2 = leak-free RV-377-150 family, same atrophied labels"
+        print(json.dumps({"receipt": rd["receipt"], "V1": rd["classes_recovered"], "V2": rd["classes_recovered_V2"]}), flush=True)
+    def rates2(readings):
+        by = {}
+        for rd in readings:
+            e = by.setdefault(rd["ecology"], {"n_seeds": 0, "memory_V2": 0, "program_V2": 0, "coefficient_V2": 0, "classes_by_seed_V2": {}})
+            e["n_seeds"] += 1; c = rd["classes_recovered_V2"]; e["classes_by_seed_V2"][f"S{rd['seed']}"] = c
+            e["memory_V2"] += any(x in MEMORY_CLASSES for x in c); e["program_V2"] += "PROGRAM" in c; e["coefficient_V2"] += "DENSE" in c
+        return by
+    r["rates_V2"] = rates2(r["readings"])
+    if "rates_primary_three_seed_runs" in r:
+        prim = [rd for rd in r["readings"] if rd.get("harness") != "ABL_FULL_S0_baseline(RV-377-110)"]
+        r["rates_V2_primary_three_seed_runs"] = rates2(prim)
+    r["v2_augmentation"] = {"revival_record": "RV-377-151", "source_receipt": os.path.basename(scoring_receipt), "source_sha256": r.get("receipt_sha256"),
+                            "family_V1": list(FAMILY_V1), "family_V2": list(FAMILY_V2), "seconds": round(time.time() - t0, 1),
+                            "note": "V1 numbers, V1 atrophy and V1 class labels untouched; only extra_unseen_feedback_v2 was replayed on each scored elite"}
+    r["receipt_sha256"] = sha256_of({k: v for k, v in r.items() if k != "receipt_sha256"})
+    out = scoring_receipt.replace(".json", f"{out_suffix}.json")
+    json.dump(r, open(out, "w"), indent=1, sort_keys=True, default=str)
+    print("rates_V2:", json.dumps(r["rates_V2"])); print("wrote", out)
+    return r
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "diagnose"
     if cmd == "select": select_fresh(int(sys.argv[2]) if len(sys.argv) > 2 else 4)
@@ -389,4 +451,5 @@ if __name__ == "__main__":
     elif cmd == "score": score_fresh(host=sys.argv[2] if len(sys.argv) > 2 else "billy")
     elif cmd == "check": print(json.dumps(closed_form_check(), indent=1))
     elif cmd == "score_dir": score_dir(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+    elif cmd == "augment_v2": augment_v2(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None)
     else: raise SystemExit(f"unknown command {cmd}")

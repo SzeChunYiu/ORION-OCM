@@ -233,6 +233,47 @@ worker per invocation), receipts `STAGE_B1_V43_CLASSRATE_billy_E_cr{1..4}_S{0,1,
 `class_rate.py score billy` → `STAGE_CLASSRATE_FRESH_V43_CLASSRATE_billy.json`. Results are
 rsynced back and md5-verified; nothing runs on the Mac.
 
+## RV-377-118 Lane B adjudication (atrophied reading)
+
+The nine-seed replication of `G15` step (ii) ran on laptop billy (`U-B001..009`,
+`STAGE_B1_V41_G15_REPLICATE_billy_E_sym5_S{1..9}.json`, 20 000 evaluations each; seed 1
+reproduces the committed `V33` seed-1 receipt cell for cell). Scored by §3 —
+`STAGE_CLASSRATE_V43_LANEB_ATROPHIED.json` (sha `521a2011…`, 613 s); best constant 0.7917.
+Interventions are the **V1 family** here (continuity with `RV-377-113`); the leak-free V2 family
+of `RV-377-150` is reported in the `_V2AUG` receipt and in the table's last column.
+
+| seed | DENSE std | DENSE min over six (V1) | binding | rule 36 (V1) | rule 40 margin | DENSE after rule-32 atrophy | classes (V1) | DENSE rule 36 (V2) |
+|---|---|---|---|---|---|---|---|---|
+| S1 | 0.9062 | 0.8646 | `half_events` | ✓ | 1.75 fx | **TABLE** (27 → 17 nodes, both DENSE nodes deleted) | {KV, TABLE} | _V2AUG_ |
+| S2 | 0.8802 | 0.8594 | `shuffled_events` | ✓ | 1.63 | **TABLE** (30 → 12) | {KV, TABLE} | _V2AUG_ |
+| S3 | 0.9010 | 0.8281 | `no_revoke` | ✗ | — | — | {KV, TABLE} | _V2AUG_ |
+| S4 | 0.9688 | 0.7188 | `extra_unseen_feedback` | ✗ | — | — | ∅ (every carrier fails) | _V2AUG_ |
+| S5 | 0.9583 | 0.7500 | `shuffled_events` | ✗ | — | — | ∅ (every carrier fails) | _V2AUG_ |
+| S6 | 0.9010 | 0.8698 | `extra_unseen_feedback` | ✓ | 1.87 | **TABLE** (16 → 8, both DENSE nodes deleted) | {KV, TABLE} | _V2AUG_ |
+| S7 | 0.9115 | 0.8542 | `half_events` | ✓ | 1.50 | **TABLE** (18 → 12, both DENSE nodes deleted) | {KV, TABLE} | _V2AUG_ |
+| S8 | 0.8854 | 0.8281 | `extra_unseen_feedback` | ✗ | — | — | {KV, TABLE} | _V2AUG_ |
+| S9 | 0.9062 | 0.8229 | `shuffled_events` | ✗ | — | — | {PROGRAM} (0.9375 ×6, 11-node program) | _V2AUG_ |
+
+`RV-377-118`'s predictions, scored on both readings:
+
+| id | prediction | raw descriptor (as frozen) | atrophied reading (rule 23/32) |
+|---|---|---|---|
+| B1 | DENSE recovered and clears rule 36 on ≥ 3 of 9 seeds | **CONFIRMED** — 4 of 9 (S1, S2, S6, S7), every one separating the constant by ≥ 1.5 fx | **NOT REACHED** — 0 of 9: each of the four loses every DENSE node under rule-32 atrophy at no cost under any intervention and reads TABLE |
+| B2 | `half_events` binds on the majority of recovered seeds | **FALSIFIED** — 2 of 4 (S1, S7); `shuffled_events` and `extra_unseen_feedback` bind the other two; over all nine DENSE elites `half_events` binds 2, `shuffled_events` 3, `extra_unseen_feedback` 3, `no_revoke` 1 | same |
+| B3 | at least one seed recovers DENSE under `standard` but fails rule 36 | **CONFIRMED** — 5 of 9 (S3, S4, S5, S8, S9); S4 goes 0.9688 → 0.7188 | same |
+
+Class rates over the nine seeds (atrophied reading, V1): **memory 6/9, program 1/9,
+coefficient 0/9**; two runs (S4, S5) recover nothing under the family, as `RV-377-086` found
+for two of nine earlier runs. With the three `V33` seeds the `E_sym5` record is **12 seeds:
+memory 9/12, program 1/12, coefficient 0/12.**
+
+**Consequence for `G15_STEP_TWO_REACHED`** (recorded as `RV-377-141`): on the raw descriptor
+the step (ii) rate is 4/9 and `RV-377-118` B1 holds; on the atrophied reading the coefficient
+carrier has never been recovered by neutral search on any discriminating ecology in the
+corpus — 0 of 12 on `E_sym5`, 0 of 3 on `E_smooth1`, 0 of 3 on `E_smooth3`, 0 of 3 on `E_wit1`.
+The terminal moves from TRUE-at-registered-scope to
+`REACHED_ON_RAW_DESCRIPTOR_ONLY__NOT_REACHED_ON_ATROPHIED_READING`.
+
 ## 11. What this cannot settle
 
 Three seeds per ecology bound a rate coarsely: 2/3 against 1/3 is one seed. Four ecologies test
