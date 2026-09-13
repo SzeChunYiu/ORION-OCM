@@ -10,10 +10,11 @@ labelled-partition and relational adequate-output query reconstruction,
 finite fixed-unknown-model acquisition with charged private randomization,
 finite-data model confidence with joint policy transfer, the corrected
 all-coefficient structural threshold bound, and complete ideal finite quantum
-protocol coverage. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V12.json`. Earlier aggregates and phase-law receipts
+protocol coverage, and joint-message composition for independent relational
+obligations. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V13.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 67 checkers (66 leaves and one
+historical paths. The current register has 68 checkers (67 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -64,11 +65,14 @@ entry, avoiding self-recursion. A leaf cannot reclassify itself as an aggregate.
 
 ## Complete external research units
 
-The fixed dependency map registers the complete structural-threshold repair
-unit and the [finite quantum unit](../gmi-finite-quantum-cover-v1/CORE.md). Its original
-checker, tests, theorem, assumptions, receipt and transitive raw parent records
-remain byte-preserved outside this directory. The quantum wrapper returns the
-entire original JSON payload inside its own bound receipt; no field is removed.
+The fixed dependency map registers the complete structural-threshold repair,
+[finite quantum](../gmi-finite-quantum-cover-v1/CORE.md) and
+[joint relational](../gmi-joint-relational-composition-v1/CORE.md) units. Original
+checkers, tests, theorems, receipts and transitive raw parent records remain
+byte-preserved outside this directory. The quantum and relational wrappers
+return their entire original JSON payloads inside bound outer receipts; no
+field is removed. JRC executes its original checker, not its smaller replay
+summary, using an isolated import bootstrap and an empty private cache prefix.
 
 `external_units` binds the unit manifest and every listed payload byte. Strict
 recursive directory traversal rejects extra or missing files, symbolic links,
