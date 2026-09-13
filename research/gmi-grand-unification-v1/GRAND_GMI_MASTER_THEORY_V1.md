@@ -315,7 +315,17 @@ Under exact factorization of ecology, obligation, feasible process class and sep
 \operatorname{Pareto}(\mathcal A_1)\times\operatorname{Pareto}(\mathcal A_2).
 \]
 
-Independent exact semantic widths multiply in alphabet size and add in log-width. Coupled obligations need not factor. Therefore modularity is derived from problem factorization, not assumed from implementation style.
+At the registered classical cut with no receiver side information, independent
+exact functions require the product message alphabet; its log-width is additive.
+Product-restricted encoders also retain the product alphabet for independent
+set-valued obligations. With an arbitrary joint encoder, those same independent
+acceptable-output sets instead give a rectangle-cover optimum between the larger
+local optimum and their product. The strict witnesses are 3<4 and 8<9 symbols.
+Fixed binary widths use `ceil(log2(m1*m2))` for the optimally packed product,
+not the sum of separately rounded local widths. Problem factorization supplies
+a product construction; it does not establish optimal factorization over
+unrestricted joint encoders. See [JRC-1–4](../gmi-joint-relational-composition-v1/JOINT_RELATIONAL_COMPOSITION_THEOREM_V1.md).
+The product-process Pareto identity above retains its full factorization premises.
 
 ---
 
