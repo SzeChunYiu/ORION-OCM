@@ -1,0 +1,746 @@
+{
+ "archive_cells_filled": 82,
+ "arm": "STORE",
+ "cap_star": 0.89087,
+ "dev_table": [
+  -10,
+  -7,
+  3,
+  -6,
+  -3,
+  8,
+  5,
+  -10,
+  -2,
+  -10,
+  -3,
+  -6,
+  -2,
+  -2,
+  1,
+  -9
+ ],
+ "elites": {
+  "BEST": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.8854
+    },
+    "evaluations_charged": 38,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.8854,
+    "n_nodes": 8,
+    "n_removed": 8,
+    "prunable": true,
+    "removed_kinds": [
+     "CLOSEDFORM",
+     "PROGRAM",
+     "SHADOW",
+     "DENSE",
+     "KVSTORE",
+     "LINEAR",
+     "NEAREST",
+     "NEAREST"
+    ]
+   },
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "PROGRAM",
+   "dev_capability": 0.9635,
+   "genotype": "{\"edges\": [[\"in0\", \"nearest0\", 1], [\"kvstore0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"in0\", \"linear0\", 0], [\"in0\", \"linear0\", 1], [\"kvstore1\", \"shadow0\", 0], [\"nearest1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"noupdate0\", 0], [\"in0\", \"noupdate0\", 1], [\"tgt0\", \"noupdate0\", 2], [\"kvstore0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"closedform0\", \"nearest0\", 0], [\"kvstore0\", \"nearest2\", 0], [\"nearest2\", \"closedform0\", 2], [\"dense0\", \"nearest2\", 1], [\"program0\", \"verify0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"kvstore1\": [\"KVSTORE\", {\"cap\": 32}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"noupdate0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"shadow0\": [\"SHADOW\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"kvstore0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"noupdate0\", 0], [\"in0\", \"noupdate0\", 1], [\"tgt0\", \"noupdate0\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"noupdate0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 16,
+   "protected_other_arm": {
+    "caps": [
+     0.7812,
+     0.7865,
+     0.8177,
+     0.7344,
+     0.7604,
+     0.6771,
+     0.7344,
+     0.7135,
+     0.6719,
+     0.776,
+     0.8073,
+     0.7188,
+     0.6667,
+     0.7552,
+     0.7656,
+     0.7552,
+     0.75,
+     0.8281,
+     0.6875,
+     0.7188
+    ],
+    "mean": 0.74531,
+    "revealed_fx": 6.2125,
+    "se": 0.01063,
+    "unrevealed_fx": 6.0125
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8333,
+     0.8594,
+     0.9427,
+     0.8281,
+     0.8802,
+     0.8073,
+     0.8385,
+     0.8594,
+     0.8177,
+     0.8646,
+     0.9323,
+     0.849,
+     0.8177,
+     0.8802,
+     0.8802,
+     0.8646,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8177
+    ],
+    "mean": 0.86536,
+    "revealed_fx": 0.0,
+    "se": 0.00961,
+    "unrevealed_fx": 6.4625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8646,
+     0.8073,
+     0.8594,
+     0.8073,
+     0.8646,
+     0.8177,
+     0.8021,
+     0.7708,
+     0.8906,
+     0.8594,
+     0.8333,
+     0.8073,
+     0.7812,
+     0.8594,
+     0.9375,
+     0.8698,
+     0.9271,
+     0.9323,
+     0.75,
+     0.8802
+    ],
+    "mean": 0.84609,
+    "revealed_fx": 0.0,
+    "se": 0.0119,
+    "unrevealed_fx": 7.3875
+   }
+  },
+  "DENSE": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.8854
+    },
+    "evaluations_charged": 49,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.8854,
+    "n_nodes": 8,
+    "n_removed": 10,
+    "prunable": true,
+    "removed_kinds": [
+     "NEAREST",
+     "NEAREST",
+     "PROGRAM",
+     "TABLE",
+     "VERSIONED",
+     "INSERT",
+     "INSERT",
+     "KVSTORE",
+     "LINEAR",
+     "NEAREST"
+    ]
+   },
+   "carrier_atrophied": "DENSE",
+   "carrier_raw": "DENSE",
+   "dev_capability": 0.8854,
+   "genotype": "{\"edges\": [[\"in0\", \"nearest0\", 1], [\"kvstore0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"in0\", \"linear0\", 0], [\"linear1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"noupdate0\", 0], [\"in0\", \"noupdate0\", 1], [\"closedform0\", \"nearest0\", 0], [\"kvstore0\", \"nearest2\", 0], [\"dense0\", \"nearest2\", 1], [\"program0\", \"verify0\", 0], [\"dense0\", \"linear1\", 0], [\"in0\", \"linear1\", 1], [\"linear1\", \"noupdate0\", 2], [\"dense1\", \"linear0\", 1], [\"kvstore1\", \"versioned0\", 0], [\"kvstore1\", \"closedform0\", 0], [\"dense0\", \"closedform0\", 1], [\"abstain0\", \"closedform0\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"INSERT\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"dense1\": [\"DENSE\", {\"width\": 12}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"kvstore1\": [\"KVSTORE\", {\"cap\": 32}], \"linear0\": [\"LINEAR\", {}], \"linear1\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"noupdate0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 1}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"linear1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"dense0\", \"linear1\", 0], [\"in0\", \"linear1\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"dense1\": [\"DENSE\", {\"width\": 12}], \"in0\": [\"INPUT\", {\"width\": 4}], \"linear1\": [\"LINEAR\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 18,
+   "protected_other_arm": {
+    "caps": [
+     0.7917,
+     0.776,
+     0.7552,
+     0.7656,
+     0.7604,
+     0.6562,
+     0.7552,
+     0.6927,
+     0.6823,
+     0.8073,
+     0.7656,
+     0.75,
+     0.75,
+     0.7135,
+     0.7135,
+     0.7656,
+     0.7083,
+     0.8385,
+     0.6979,
+     0.8438
+    ],
+    "mean": 0.74946,
+    "revealed_fx": 5.8625,
+    "se": 0.01112,
+    "unrevealed_fx": 6.1625
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.7917,
+     0.776,
+     0.7552,
+     0.7656,
+     0.7604,
+     0.6562,
+     0.7552,
+     0.6927,
+     0.6823,
+     0.8073,
+     0.7656,
+     0.75,
+     0.75,
+     0.7135,
+     0.7135,
+     0.7656,
+     0.7083,
+     0.8385,
+     0.6979,
+     0.8438
+    ],
+    "mean": 0.74946,
+    "revealed_fx": 5.8625,
+    "se": 0.01112,
+    "unrevealed_fx": 6.1625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.7917,
+     0.776,
+     0.7552,
+     0.7656,
+     0.7604,
+     0.6562,
+     0.7552,
+     0.6927,
+     0.6823,
+     0.8073,
+     0.7656,
+     0.75,
+     0.75,
+     0.7135,
+     0.7135,
+     0.7656,
+     0.7083,
+     0.8385,
+     0.6979,
+     0.8438
+    ],
+    "mean": 0.74946,
+    "revealed_fx": 5.8625,
+    "se": 0.01112,
+    "unrevealed_fx": 6.1625
+   }
+  },
+  "KVSTORE": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.9427
+    },
+    "evaluations_charged": 4,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.9427,
+    "n_nodes": 6,
+    "n_removed": 0,
+    "prunable": true,
+    "removed_kinds": []
+   },
+   "carrier_atrophied": "KVSTORE",
+   "carrier_raw": "KVSTORE",
+   "dev_capability": 0.9427,
+   "genotype": "{\"edges\": [[\"kvstore0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"out0\", 0], [\"kvstore0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 12}], \"kvstore0\": [\"KVSTORE\", {\"cap\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"kvstore0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"out0\", 0], [\"kvstore0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 12}], \"kvstore0\": [\"KVSTORE\", {\"cap\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 6,
+   "protected_other_arm": {
+    "caps": [
+     0.8125,
+     0.8177,
+     0.724,
+     0.7656,
+     0.7604,
+     0.6979,
+     0.8385,
+     0.6927,
+     0.724,
+     0.7969,
+     0.8385,
+     0.7396,
+     0.7604,
+     0.7552,
+     0.7552,
+     0.776,
+     0.75,
+     0.8177,
+     0.7396,
+     0.7917
+    ],
+    "mean": 0.76771,
+    "revealed_fx": 5.4875,
+    "se": 0.00962,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   }
+  },
+  "NONE": {
+   "carrier_atrophied": null,
+   "carrier_raw": "NONE",
+   "dev_capability": 0.8229,
+   "genotype": "{\"edges\": [[\"in0\", \"nearest0\", 1], [\"nearest0\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore1\": [\"KVSTORE\", {\"cap\": 16}], \"kvstore2\": [\"KVSTORE\", {\"cap\": 16}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 0}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 1}]}}",
+   "n_nodes": 8,
+   "protected_other_arm": {
+    "caps": [
+     0.8125,
+     0.8177,
+     0.724,
+     0.7656,
+     0.7604,
+     0.6979,
+     0.8385,
+     0.6927,
+     0.724,
+     0.7969,
+     0.8385,
+     0.7396,
+     0.7604,
+     0.7552,
+     0.7552,
+     0.776,
+     0.75,
+     0.8177,
+     0.7396,
+     0.7917
+    ],
+    "mean": 0.76771,
+    "revealed_fx": 5.4875,
+    "se": 0.00962,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8125,
+     0.8177,
+     0.724,
+     0.7656,
+     0.7604,
+     0.6979,
+     0.8385,
+     0.6927,
+     0.724,
+     0.7969,
+     0.8385,
+     0.7396,
+     0.7604,
+     0.7552,
+     0.7552,
+     0.776,
+     0.75,
+     0.8177,
+     0.7396,
+     0.7917
+    ],
+    "mean": 0.76771,
+    "revealed_fx": 5.4875,
+    "se": 0.00962,
+    "unrevealed_fx": 5.6625
+   }
+  },
+  "PROGRAM": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.8854
+    },
+    "evaluations_charged": 38,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.8854,
+    "n_nodes": 8,
+    "n_removed": 8,
+    "prunable": true,
+    "removed_kinds": [
+     "CLOSEDFORM",
+     "PROGRAM",
+     "SHADOW",
+     "DENSE",
+     "KVSTORE",
+     "LINEAR",
+     "NEAREST",
+     "NEAREST"
+    ]
+   },
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "PROGRAM",
+   "dev_capability": 0.9635,
+   "genotype": "{\"edges\": [[\"in0\", \"nearest0\", 1], [\"kvstore0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"in0\", \"linear0\", 0], [\"in0\", \"linear0\", 1], [\"kvstore1\", \"shadow0\", 0], [\"nearest1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"noupdate0\", 0], [\"in0\", \"noupdate0\", 1], [\"tgt0\", \"noupdate0\", 2], [\"kvstore0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"closedform0\", \"nearest0\", 0], [\"kvstore0\", \"nearest2\", 0], [\"nearest2\", \"closedform0\", 2], [\"dense0\", \"nearest2\", 1], [\"program0\", \"verify0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"kvstore1\": [\"KVSTORE\", {\"cap\": 32}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"noupdate0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"shadow0\": [\"SHADOW\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"kvstore0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"noupdate0\", 0], [\"in0\", \"noupdate0\", 1], [\"tgt0\", \"noupdate0\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"noupdate0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 16,
+   "protected_other_arm": {
+    "caps": [
+     0.7812,
+     0.7865,
+     0.8177,
+     0.7344,
+     0.7604,
+     0.6771,
+     0.7344,
+     0.7135,
+     0.6719,
+     0.776,
+     0.8073,
+     0.7188,
+     0.6667,
+     0.7552,
+     0.7656,
+     0.7552,
+     0.75,
+     0.8281,
+     0.6875,
+     0.7188
+    ],
+    "mean": 0.74531,
+    "revealed_fx": 6.2125,
+    "se": 0.01063,
+    "unrevealed_fx": 6.0125
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8333,
+     0.8594,
+     0.9427,
+     0.8281,
+     0.8802,
+     0.8073,
+     0.8385,
+     0.8594,
+     0.8177,
+     0.8646,
+     0.9323,
+     0.849,
+     0.8177,
+     0.8802,
+     0.8802,
+     0.8646,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8177
+    ],
+    "mean": 0.86536,
+    "revealed_fx": 0.0,
+    "se": 0.00961,
+    "unrevealed_fx": 6.4625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8646,
+     0.8073,
+     0.8594,
+     0.8073,
+     0.8646,
+     0.8177,
+     0.8021,
+     0.7708,
+     0.8906,
+     0.8594,
+     0.8333,
+     0.8073,
+     0.7812,
+     0.8594,
+     0.9375,
+     0.8698,
+     0.9271,
+     0.9323,
+     0.75,
+     0.8802
+    ],
+    "mean": 0.84609,
+    "revealed_fx": 0.0,
+    "se": 0.0119,
+    "unrevealed_fx": 7.3875
+   }
+  },
+  "TABLE": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.8854
+    },
+    "evaluations_charged": 36,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.8854,
+    "n_nodes": 8,
+    "n_removed": 7,
+    "prunable": true,
+    "removed_kinds": [
+     "CLOSEDFORM",
+     "SHADOW",
+     "DENSE",
+     "KVSTORE",
+     "LINEAR",
+     "NEAREST",
+     "NEAREST"
+    ]
+   },
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "TABLE",
+   "dev_capability": 0.9635,
+   "genotype": "{\"edges\": [[\"in0\", \"nearest0\", 1], [\"kvstore0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"in0\", \"linear0\", 0], [\"in0\", \"linear0\", 1], [\"kvstore1\", \"shadow0\", 0], [\"nearest1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"noupdate0\", 0], [\"in0\", \"noupdate0\", 1], [\"tgt0\", \"noupdate0\", 2], [\"kvstore0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"closedform0\", \"nearest0\", 0], [\"kvstore0\", \"nearest2\", 0], [\"nearest2\", \"closedform0\", 2], [\"dense0\", \"nearest2\", 1]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"dense0\": [\"DENSE\", {\"width\": 1}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"kvstore1\": [\"KVSTORE\", {\"cap\": 32}], \"linear0\": [\"LINEAR\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"nearest2\": [\"NEAREST\", {\"k\": 3, \"metric\": 0}], \"noupdate0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"shadow0\": [\"SHADOW\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"kvstore0\", \"nearest1\", 0], [\"in0\", \"nearest1\", 1], [\"nearest1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"abstain0\", \"out0\", 0], [\"kvstore0\", \"noupdate0\", 0], [\"in0\", \"noupdate0\", 1], [\"tgt0\", \"noupdate0\", 2]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"in0\": [\"INPUT\", {\"width\": 4}], \"kvstore0\": [\"TABLE\", {\"keybits\": 1}], \"nearest1\": [\"NEAREST\", {\"k\": 1, \"metric\": 0}], \"noupdate0\": [\"INSERT\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 15,
+   "protected_other_arm": {
+    "caps": [
+     0.7812,
+     0.7865,
+     0.8177,
+     0.7344,
+     0.7604,
+     0.6771,
+     0.7344,
+     0.7135,
+     0.6719,
+     0.776,
+     0.8073,
+     0.7188,
+     0.6667,
+     0.7552,
+     0.7656,
+     0.7552,
+     0.75,
+     0.8281,
+     0.6875,
+     0.7188
+    ],
+    "mean": 0.74531,
+    "revealed_fx": 6.2125,
+    "se": 0.01063,
+    "unrevealed_fx": 6.0125
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8333,
+     0.8594,
+     0.9427,
+     0.8281,
+     0.8802,
+     0.8073,
+     0.8385,
+     0.8594,
+     0.8177,
+     0.8646,
+     0.9323,
+     0.849,
+     0.8177,
+     0.8802,
+     0.8802,
+     0.8646,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8177
+    ],
+    "mean": 0.86536,
+    "revealed_fx": 0.0,
+    "se": 0.00961,
+    "unrevealed_fx": 6.4625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8646,
+     0.8073,
+     0.8594,
+     0.8073,
+     0.8646,
+     0.8177,
+     0.8021,
+     0.7708,
+     0.8906,
+     0.8594,
+     0.8333,
+     0.8073,
+     0.7812,
+     0.8594,
+     0.9375,
+     0.8698,
+     0.9271,
+     0.9323,
+     0.75,
+     0.8802
+    ],
+    "mean": 0.84609,
+    "revealed_fx": 0.0,
+    "se": 0.0119,
+    "unrevealed_fx": 7.3875
+   }
+  }
+ },
+ "failed_phenotypes": 101,
+ "freeze_commit": "0b67192f1f3dc40c5148c6cbebdb9d9d84a78ce6",
+ "history": [
+  {
+   "best_dev": 0.9427,
+   "cells": 52,
+   "failed": 18,
+   "n_eval": 5000,
+   "sec": 150.1
+  },
+  {
+   "best_dev": 0.9427,
+   "cells": 55,
+   "failed": 46,
+   "n_eval": 10000,
+   "sec": 365.3
+  },
+  {
+   "best_dev": 0.9635,
+   "cells": 58,
+   "failed": 76,
+   "n_eval": 15000,
+   "sec": 715.1
+  },
+  {
+   "best_dev": 0.9635,
+   "cells": 82,
+   "failed": 101,
+   "n_eval": 20000,
+   "sec": 1422.0
+  }
+ ],
+ "host": "old",
+ "intervention": "extra_unseen_feedback",
+ "n_evaluations": 20000,
+ "proposal_tries_charged": 1013628,
+ "receipt_sha256": "625add6c490691c6148cd1b90e1827f61506e8ff6d6b7b07bd88327bac5a1067",
+ "revival_record": "RV-377-200",
+ "schema": "StageB7RegionSearchV1",
+ "seed": 2,
+ "summary": {
+  "BEST": {
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "PROGRAM",
+   "dev": 0.9635,
+   "other_arm_mean": 0.74531,
+   "prot_mean": 0.86536,
+   "prot_se": 0.00961
+  },
+  "DENSE": {
+   "carrier_atrophied": "DENSE",
+   "carrier_raw": "DENSE",
+   "dev": 0.8854,
+   "other_arm_mean": 0.74946,
+   "prot_mean": 0.74946,
+   "prot_se": 0.01112
+  },
+  "KVSTORE": {
+   "carrier_atrophied": "KVSTORE",
+   "carrier_raw": "KVSTORE",
+   "dev": 0.9427,
+   "other_arm_mean": 0.76771,
+   "prot_mean": 0.88202,
+   "prot_se": 0.00749
+  },
+  "NONE": {
+   "carrier_atrophied": null,
+   "carrier_raw": "NONE",
+   "dev": 0.8229,
+   "other_arm_mean": 0.76771,
+   "prot_mean": 0.76771,
+   "prot_se": 0.00962
+  },
+  "PROGRAM": {
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "PROGRAM",
+   "dev": 0.9635,
+   "other_arm_mean": 0.74531,
+   "prot_mean": 0.86536,
+   "prot_se": 0.00961
+  },
+  "TABLE": {
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "TABLE",
+   "dev": 0.9635,
+   "other_arm_mean": 0.74531,
+   "prot_mean": 0.86536,
+   "prot_se": 0.00961
+  }
+ },
+ "theta": 0.85
+}

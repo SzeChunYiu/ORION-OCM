@@ -1,0 +1,780 @@
+{
+ "archive_cells_filled": 47,
+ "arm": "STORE",
+ "cap_star": 0.89087,
+ "dev_table": [
+  7,
+  10,
+  3,
+  -9,
+  8,
+  -6,
+  -6,
+  1,
+  2,
+  -8,
+  1,
+  6,
+  -6,
+  0,
+  5,
+  1
+ ],
+ "elites": {
+  "BEST": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.9323
+    },
+    "evaluations_charged": 11,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.9323,
+    "n_nodes": 7,
+    "n_removed": 2,
+    "prunable": true,
+    "removed_kinds": [
+     "NEAREST",
+     "SCORESELECT"
+    ]
+   },
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "TABLE",
+   "dev_capability": 0.9323,
+   "genotype": "{\"edges\": [[\"kvstore0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"kvstore0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"kvstore0\", \"scoreselect0\", 0], [\"in0\", \"scoreselect0\", 1], [\"kvstore0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"out0\", 0], [\"lookup0\", \"sum0\", 0], [\"tgt0\", \"sum0\", 1], [\"sum0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 12}], \"insert0\": [\"INSERT\", {}], \"kvstore0\": [\"TABLE\", {\"keybits\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 2}], \"sum0\": [\"SUM\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"kvstore0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"kvstore0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"out0\", 0], [\"lookup0\", \"sum0\", 0], [\"tgt0\", \"sum0\", 1], [\"sum0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 12}], \"insert0\": [\"INSERT\", {}], \"kvstore0\": [\"TABLE\", {\"keybits\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"sum0\": [\"SUM\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9,
+   "protected_other_arm": {
+    "caps": [
+     0.8125,
+     0.8177,
+     0.724,
+     0.7656,
+     0.7604,
+     0.6979,
+     0.8385,
+     0.6927,
+     0.724,
+     0.7969,
+     0.8385,
+     0.7396,
+     0.7604,
+     0.7552,
+     0.7552,
+     0.776,
+     0.75,
+     0.8177,
+     0.7396,
+     0.7917
+    ],
+    "mean": 0.76771,
+    "revealed_fx": 5.4875,
+    "se": 0.00962,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   }
+  },
+  "DENSE": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.8802
+    },
+    "evaluations_charged": 18,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.8802,
+    "n_nodes": 6,
+    "n_removed": 4,
+    "prunable": true,
+    "removed_kinds": [
+     "DENSE",
+     "PROGRAM",
+     "SCORESELECT",
+     "VERSIONED"
+    ]
+   },
+   "carrier_atrophied": "DENSE",
+   "carrier_raw": "DENSE",
+   "dev_capability": 0.8802,
+   "genotype": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"linear0\", \"out0\", 0], [\"versioned0\", \"scoreselect0\", 0], [\"dense0\", \"scoreselect0\", 1], [\"dense2\", \"linear0\", 1]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 1}], \"dense1\": [\"DENSE\", {\"width\": 1}], \"dense2\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 6}], \"linear0\": [\"LINEAR\", {}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 1}], \"tgt0\": [\"TARGET\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 1}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"dense0\", \"linear0\", 0], [\"linear0\", \"out0\", 0], [\"dense2\", \"linear0\", 1]], \"meta\": {}, \"nodes\": {\"dense0\": [\"DENSE\", {\"width\": 1}], \"dense2\": [\"DENSE\", {\"width\": 4}], \"in0\": [\"INPUT\", {\"width\": 6}], \"linear0\": [\"LINEAR\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 10,
+   "protected_other_arm": {
+    "caps": [
+     0.7917,
+     0.7344,
+     0.599,
+     0.651,
+     0.6875,
+     0.8229,
+     0.8802,
+     0.651,
+     0.7448,
+     0.7552,
+     0.8177,
+     0.7396,
+     0.6458,
+     0.7344,
+     0.7969,
+     0.724,
+     0.8125,
+     0.7656,
+     0.7188,
+     0.6771
+    ],
+    "mean": 0.7375,
+    "revealed_fx": 5.8125,
+    "se": 0.01594,
+    "unrevealed_fx": 6.7875
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.7917,
+     0.7344,
+     0.599,
+     0.651,
+     0.6875,
+     0.8229,
+     0.8802,
+     0.651,
+     0.7448,
+     0.7552,
+     0.8177,
+     0.7396,
+     0.6458,
+     0.7344,
+     0.7969,
+     0.724,
+     0.8125,
+     0.7656,
+     0.7188,
+     0.6771
+    ],
+    "mean": 0.7375,
+    "revealed_fx": 5.8125,
+    "se": 0.01594,
+    "unrevealed_fx": 6.7875
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.7917,
+     0.7344,
+     0.599,
+     0.651,
+     0.6875,
+     0.8229,
+     0.8802,
+     0.651,
+     0.7448,
+     0.7552,
+     0.8177,
+     0.7396,
+     0.6458,
+     0.7344,
+     0.7969,
+     0.724,
+     0.8125,
+     0.7656,
+     0.7188,
+     0.6771
+    ],
+    "mean": 0.7375,
+    "revealed_fx": 5.8125,
+    "se": 0.01594,
+    "unrevealed_fx": 6.7875
+   }
+  },
+  "KVSTORE": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.9323
+    },
+    "evaluations_charged": 20,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.9323,
+    "n_nodes": 6,
+    "n_removed": 6,
+    "prunable": true,
+    "removed_kinds": [
+     "ABSTAIN",
+     "VERIFY",
+     "VERSIONED",
+     "LOOKUP",
+     "LOOKUP",
+     "PROGRAM"
+    ]
+   },
+   "carrier_atrophied": "KVSTORE",
+   "carrier_raw": "KVSTORE",
+   "dev_capability": 0.9323,
+   "genotype": "{\"edges\": [[\"table0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table0\", \"lookup1\", 0], [\"in0\", \"lookup1\", 1], [\"lookup1\", \"abstain0\", 0], [\"verify0\", \"abstain0\", 1], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"versioned0\", 0], [\"table0\", \"lookup2\", 0], [\"in0\", \"lookup2\", 1], [\"lookup2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 6}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"lookup2\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 1}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"lookup2\", 0], [\"in0\", \"lookup2\", 1], [\"lookup2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 6}], \"lookup2\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 12,
+   "protected_other_arm": {
+    "caps": [
+     0.8125,
+     0.8177,
+     0.724,
+     0.7656,
+     0.7604,
+     0.6979,
+     0.8385,
+     0.6927,
+     0.724,
+     0.7969,
+     0.8385,
+     0.7396,
+     0.7604,
+     0.7552,
+     0.7552,
+     0.776,
+     0.75,
+     0.8177,
+     0.7396,
+     0.7917
+    ],
+    "mean": 0.76771,
+    "revealed_fx": 5.4875,
+    "se": 0.00962,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   }
+  },
+  "NONE": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.8802
+    },
+    "evaluations_charged": 5,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.8802,
+    "n_nodes": 4,
+    "n_removed": 2,
+    "prunable": true,
+    "removed_kinds": [
+     "CLOSEDFORM",
+     "LOOKUP"
+    ]
+   },
+   "carrier_atrophied": "NONE",
+   "carrier_raw": "NONE",
+   "dev_capability": 0.8802,
+   "genotype": "{\"edges\": [[\"in0\", \"lookup0\", 1], [\"const1\", \"out0\", 0], [\"in0\", \"closedform0\", 1], [\"lookup0\", \"closedform0\", 2]], \"meta\": {}, \"nodes\": {\"closedform0\": [\"CLOSEDFORM\", {}], \"const1\": [\"CONST\", {\"value\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"const1\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"const1\": [\"CONST\", {\"value\": 4}], \"in0\": [\"INPUT\", {\"width\": 4}], \"out0\": [\"OUTPUT\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 6,
+   "protected_other_arm": {
+    "caps": [
+     0.7917,
+     0.7344,
+     0.599,
+     0.651,
+     0.6875,
+     0.8229,
+     0.8802,
+     0.651,
+     0.7448,
+     0.7552,
+     0.8177,
+     0.7396,
+     0.6458,
+     0.7344,
+     0.7969,
+     0.724,
+     0.8125,
+     0.7656,
+     0.7188,
+     0.6771
+    ],
+    "mean": 0.7375,
+    "revealed_fx": 5.8125,
+    "se": 0.01594,
+    "unrevealed_fx": 6.7875
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.7917,
+     0.7344,
+     0.599,
+     0.651,
+     0.6875,
+     0.8229,
+     0.8802,
+     0.651,
+     0.7448,
+     0.7552,
+     0.8177,
+     0.7396,
+     0.6458,
+     0.7344,
+     0.7969,
+     0.724,
+     0.8125,
+     0.7656,
+     0.7188,
+     0.6771
+    ],
+    "mean": 0.7375,
+    "revealed_fx": 5.8125,
+    "se": 0.01594,
+    "unrevealed_fx": 6.7875
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.7917,
+     0.7344,
+     0.599,
+     0.651,
+     0.6875,
+     0.8229,
+     0.8802,
+     0.651,
+     0.7448,
+     0.7552,
+     0.8177,
+     0.7396,
+     0.6458,
+     0.7344,
+     0.7969,
+     0.724,
+     0.8125,
+     0.7656,
+     0.7188,
+     0.6771
+    ],
+    "mean": 0.7375,
+    "revealed_fx": 5.8125,
+    "se": 0.01594,
+    "unrevealed_fx": 6.7875
+   }
+  },
+  "PROGRAM": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.9323
+    },
+    "evaluations_charged": 21,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.9323,
+    "n_nodes": 8,
+    "n_removed": 6,
+    "prunable": true,
+    "removed_kinds": [
+     "ABSTAIN",
+     "ABSTAIN",
+     "LOOKUP",
+     "PROGRAM",
+     "VERSIONED",
+     "LOOKUP"
+    ]
+   },
+   "carrier_atrophied": "KVSTORE",
+   "carrier_raw": "PROGRAM",
+   "dev_capability": 0.9323,
+   "genotype": "{\"edges\": [[\"table0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"table0\", \"lookup1\", 0], [\"in0\", \"lookup1\", 1], [\"verify0\", \"abstain0\", 1], [\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"program0\", \"verify0\", 0], [\"table0\", \"versioned0\", 0], [\"table0\", \"lookup2\", 0], [\"in0\", \"lookup2\", 1], [\"lookup0\", \"abstain1\", 0], [\"verify0\", \"abstain1\", 1], [\"abstain1\", \"abstain0\", 0], [\"lookup2\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain0\": [\"ABSTAIN\", {}], \"abstain1\": [\"ABSTAIN\", {}], \"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 6}], \"lookup0\": [\"LOOKUP\", {}], \"lookup1\": [\"LOOKUP\", {}], \"lookup2\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"program0\": [\"PROGRAM\", {\"grammar\": 0}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}], \"versioned0\": [\"VERSIONED\", {\"depth\": 1}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"table0\", \"closedform0\", 0], [\"in0\", \"closedform0\", 1], [\"tgt0\", \"closedform0\", 2], [\"table0\", \"lookup2\", 0], [\"in0\", \"lookup2\", 1], [\"lookup2\", \"abstain2\", 0], [\"verify0\", \"abstain2\", 1], [\"abstain2\", \"out0\", 0]], \"meta\": {}, \"nodes\": {\"abstain2\": [\"ABSTAIN\", {}], \"closedform0\": [\"CLOSEDFORM\", {}], \"in0\": [\"INPUT\", {\"width\": 6}], \"lookup2\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"table0\": [\"KVSTORE\", {\"cap\": 8}], \"tgt0\": [\"TARGET\", {}], \"verify0\": [\"VERIFY\", {}]}}",
+   "n_nodes": 14,
+   "protected_other_arm": {
+    "caps": [
+     0.8125,
+     0.8177,
+     0.724,
+     0.7656,
+     0.7604,
+     0.6979,
+     0.8385,
+     0.6927,
+     0.724,
+     0.7969,
+     0.8385,
+     0.7396,
+     0.7604,
+     0.7552,
+     0.7552,
+     0.776,
+     0.75,
+     0.8177,
+     0.7396,
+     0.7917
+    ],
+    "mean": 0.76771,
+    "revealed_fx": 5.4875,
+    "se": 0.00962,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   }
+  },
+  "TABLE": {
+   "atrophy": {
+    "capabilities": {
+     "extra_unseen_feedback": 0.9323
+    },
+    "evaluations_charged": 11,
+    "interventions": [
+     "extra_unseen_feedback"
+    ],
+    "min_capability": 0.9323,
+    "n_nodes": 7,
+    "n_removed": 2,
+    "prunable": true,
+    "removed_kinds": [
+     "NEAREST",
+     "SCORESELECT"
+    ]
+   },
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "TABLE",
+   "dev_capability": 0.9323,
+   "genotype": "{\"edges\": [[\"kvstore0\", \"nearest0\", 0], [\"in0\", \"nearest0\", 1], [\"kvstore0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"kvstore0\", \"scoreselect0\", 0], [\"in0\", \"scoreselect0\", 1], [\"kvstore0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"out0\", 0], [\"lookup0\", \"sum0\", 0], [\"tgt0\", \"sum0\", 1], [\"sum0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 12}], \"insert0\": [\"INSERT\", {}], \"kvstore0\": [\"TABLE\", {\"keybits\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"nearest0\": [\"NEAREST\", {\"k\": 5, \"metric\": 1}], \"out0\": [\"OUTPUT\", {}], \"scoreselect0\": [\"SCORESELECT\", {\"temp\": 2}], \"sum0\": [\"SUM\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "genotype_atrophied": "{\"edges\": [[\"kvstore0\", \"insert0\", 0], [\"in0\", \"insert0\", 1], [\"kvstore0\", \"lookup0\", 0], [\"in0\", \"lookup0\", 1], [\"lookup0\", \"out0\", 0], [\"lookup0\", \"sum0\", 0], [\"tgt0\", \"sum0\", 1], [\"sum0\", \"insert0\", 2]], \"meta\": {}, \"nodes\": {\"in0\": [\"INPUT\", {\"width\": 12}], \"insert0\": [\"INSERT\", {}], \"kvstore0\": [\"TABLE\", {\"keybits\": 4}], \"lookup0\": [\"LOOKUP\", {}], \"out0\": [\"OUTPUT\", {}], \"sum0\": [\"SUM\", {}], \"tgt0\": [\"TARGET\", {}]}}",
+   "n_nodes": 9,
+   "protected_other_arm": {
+    "caps": [
+     0.8125,
+     0.8177,
+     0.724,
+     0.7656,
+     0.7604,
+     0.6979,
+     0.8385,
+     0.6927,
+     0.724,
+     0.7969,
+     0.8385,
+     0.7396,
+     0.7604,
+     0.7552,
+     0.7552,
+     0.776,
+     0.75,
+     0.8177,
+     0.7396,
+     0.7917
+    ],
+    "mean": 0.76771,
+    "revealed_fx": 5.4875,
+    "se": 0.00962,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   },
+   "protected_own_arm_atrophied": {
+    "caps": [
+     0.8854,
+     0.8594,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.849,
+     0.9115,
+     0.8594,
+     0.8177,
+     0.8958,
+     0.9427,
+     0.901,
+     0.8802,
+     0.8698,
+     0.8802,
+     0.8958,
+     0.9062,
+     0.9583,
+     0.8698,
+     0.8281
+    ],
+    "mean": 0.88202,
+    "revealed_fx": 0.0,
+    "se": 0.00749,
+    "unrevealed_fx": 5.6625
+   }
+  }
+ },
+ "failed_phenotypes": 35,
+ "freeze_commit": "0b67192f1f3dc40c5148c6cbebdb9d9d84a78ce6",
+ "history": [
+  {
+   "best_dev": 0.9323,
+   "cells": 40,
+   "failed": 6,
+   "n_eval": 5000,
+   "sec": 275.4
+  },
+  {
+   "best_dev": 0.9323,
+   "cells": 47,
+   "failed": 13,
+   "n_eval": 10000,
+   "sec": 598.8
+  },
+  {
+   "best_dev": 0.9323,
+   "cells": 47,
+   "failed": 26,
+   "n_eval": 15000,
+   "sec": 1019.0
+  },
+  {
+   "best_dev": 0.9323,
+   "cells": 47,
+   "failed": 35,
+   "n_eval": 20000,
+   "sec": 1738.3
+  }
+ ],
+ "host": "old",
+ "intervention": "extra_unseen_feedback",
+ "n_evaluations": 20000,
+ "proposal_tries_charged": 1416156,
+ "receipt_sha256": "2fed32dc7717521a71544d1964d602cc65994b9445fc40dc5868f6b19a22b08f",
+ "revival_record": "RV-377-200",
+ "schema": "StageB7RegionSearchV1",
+ "seed": 0,
+ "summary": {
+  "BEST": {
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "TABLE",
+   "dev": 0.9323,
+   "other_arm_mean": 0.76771,
+   "prot_mean": 0.88202,
+   "prot_se": 0.00749
+  },
+  "DENSE": {
+   "carrier_atrophied": "DENSE",
+   "carrier_raw": "DENSE",
+   "dev": 0.8802,
+   "other_arm_mean": 0.7375,
+   "prot_mean": 0.7375,
+   "prot_se": 0.01594
+  },
+  "KVSTORE": {
+   "carrier_atrophied": "KVSTORE",
+   "carrier_raw": "KVSTORE",
+   "dev": 0.9323,
+   "other_arm_mean": 0.76771,
+   "prot_mean": 0.88202,
+   "prot_se": 0.00749
+  },
+  "NONE": {
+   "carrier_atrophied": "NONE",
+   "carrier_raw": "NONE",
+   "dev": 0.8802,
+   "other_arm_mean": 0.7375,
+   "prot_mean": 0.7375,
+   "prot_se": 0.01594
+  },
+  "PROGRAM": {
+   "carrier_atrophied": "KVSTORE",
+   "carrier_raw": "PROGRAM",
+   "dev": 0.9323,
+   "other_arm_mean": 0.76771,
+   "prot_mean": 0.88202,
+   "prot_se": 0.00749
+  },
+  "TABLE": {
+   "carrier_atrophied": "TABLE",
+   "carrier_raw": "TABLE",
+   "dev": 0.9323,
+   "other_arm_mean": 0.76771,
+   "prot_mean": 0.88202,
+   "prot_se": 0.00749
+  }
+ },
+ "theta": 0.85
+}

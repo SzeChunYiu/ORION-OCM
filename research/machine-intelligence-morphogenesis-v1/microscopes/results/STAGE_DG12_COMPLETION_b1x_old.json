@@ -1,0 +1,344 @@
+{
+ "claim_ceiling": "exact, deterministic, no randomness; covers the obligations this module declares or scores at the coefficients / streams / grids its own run() uses; it does not run the module's rows and takes no verdict on any capability number",
+ "classification": "identical to RV-377-112 (_classify): DEGENERATE if one distinct answer; NEAR_DEGENERATE if the best constant agrees on >= 85 %; SKEWED_BINARY if binary with the minority class <= max(1, n/10); else NON_DEGENERATE. Verdicts are taken on the module's OWN obligations over their REGISTERED evaluation sets; rows marked inherited or informational are reported but do not decide.",
+ "content_sha256": "813ac60985a436e408915251d76b555eedc604d7c35c92ff5d56b06d0b0ae45b",
+ "counts_by_status": {
+  "NON_DEGENERATE": 12
+ },
+ "degenerate": [],
+ "freeze_record": "GMI_DG12_COMPLETION_RV_377_118D_FREEZE.md",
+ "gap": "DG-12",
+ "host": "old",
+ "inputs_sha256": {
+  "b1.py": "e668b6bb021b9423c9d0caa9469b55c986473ba0d0363068f452fdfd7ba14466",
+  "b1x.py": "e25c1ace0f8b82ed596a7b7438e432c5c14de228b8935fe58f9fa35685dec8a5",
+  "degeneracy_audit.py": "28026954759d7e6cd3f4a639b59d73266642b31c305fed86b1e65f73e6dc2acd",
+  "ecology.py": "3a72f27237ade5ea90a852a72208ab43bb189a3eb1708ad76a242753cbc0e2a4",
+  "smooth.py": "4bdc31a6913004fd942e2ab57d5c2f3658e0dc33e276852faf2493c9aba190c3"
+ },
+ "issue": [
+  377
+ ],
+ "lane": "RV118-D",
+ "module": "b1x",
+ "module_verdict": "ALL_INHERITED_OBLIGATIONS_NON_DEGENERATE__NOTHING_NEW_TO_AUDIT",
+ "n_own_registered": 0,
+ "n_registered": 6,
+ "n_scored": 12,
+ "near_degenerate": [],
+ "not_applicable": [],
+ "notes": {
+  "criterion_scored_by_b1x": "unseen (b1x.evaluate default)",
+  "obligation": "none of its own: b1x adds one archive coordinate to b1 and scores the registered ecology targets; every row here is INHERITED and was already covered by RV-377-112",
+  "theta": 0.85
+ },
+ "obligations": {
+  "E_parity|all": {
+   "best_constant_agreement": 0.0625,
+   "counts": {
+    "0": 1,
+    "1": 1,
+    "10": 1,
+    "11": 1,
+    "12": 1,
+    "13": 1,
+    "14": 1,
+    "15": 1,
+    "2": 1,
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1,
+    "9": 1
+   },
+   "evaluation_set": "smooth.ALL_X (16 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_parity'] via b1.evaluate -> smooth.run(criterion='all'); audited in RV-377-112 as smooth_registry::E_parity|all",
+   "n_distinct_answers": 16,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.8333,
+    "best_constant_fx": 8,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_parity|unseen": {
+   "best_constant_agreement": 0.125,
+   "counts": {
+    "1": 1,
+    "11": 1,
+    "13": 1,
+    "14": 1,
+    "2": 1,
+    "4": 1,
+    "7": 1,
+    "8": 1
+   },
+   "evaluation_set": "smooth.UNSEEN (8 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_parity'] via b1.evaluate -> smooth.run(criterion='unseen'); audited in RV-377-112 as smooth_registry::E_parity|unseen",
+   "n_distinct_answers": 8,
+   "n_queries": 8,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.8333,
+    "best_constant_fx": 8,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_smooth1|all": {
+   "best_constant_agreement": 0.25,
+   "counts": {
+    "-4": 1,
+    "0": 2,
+    "12": 3,
+    "16": 2,
+    "20": 1,
+    "4": 3,
+    "8": 4
+   },
+   "evaluation_set": "smooth.ALL_X (16 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_smooth1'] via b1.evaluate -> smooth.run(criterion='all'); audited in RV-377-112 as smooth_registry::E_smooth1|all",
+   "n_distinct_answers": 7,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.7917,
+    "best_constant_fx": 8,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_smooth1|unseen": {
+   "best_constant_agreement": 0.5,
+   "counts": {
+    "-4": 1,
+    "12": 1,
+    "20": 1,
+    "4": 1,
+    "8": 4
+   },
+   "evaluation_set": "smooth.UNSEEN (8 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_smooth1'] via b1.evaluate -> smooth.run(criterion='unseen'); audited in RV-377-112 as smooth_registry::E_smooth1|unseen",
+   "n_distinct_answers": 5,
+   "n_queries": 8,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.8333,
+    "best_constant_fx": 8,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_smooth3|all": {
+   "best_constant_agreement": 0.125,
+   "counts": {
+    "-2": 1,
+    "-4": 1,
+    "-8": 1,
+    "0": 2,
+    "10": 2,
+    "12": 1,
+    "14": 1,
+    "18": 1,
+    "2": 1,
+    "4": 2,
+    "6": 2,
+    "8": 1
+   },
+   "evaluation_set": "smooth.ALL_X (16 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_smooth3'] via b1.evaluate -> smooth.run(criterion='all'); audited in RV-377-112 as smooth_registry::E_smooth3|all",
+   "n_distinct_answers": 12,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.7708,
+    "best_constant_fx": 6,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_smooth3|unseen": {
+   "best_constant_agreement": 0.25,
+   "counts": {
+    "-8": 1,
+    "18": 1,
+    "2": 1,
+    "4": 2,
+    "6": 2,
+    "8": 1
+   },
+   "evaluation_set": "smooth.UNSEEN (8 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_smooth3'] via b1.evaluate -> smooth.run(criterion='unseen'); audited in RV-377-112 as smooth_registry::E_smooth3|unseen",
+   "n_distinct_answers": 6,
+   "n_queries": 8,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.8125,
+    "best_constant_fx": 4,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_sym3|all": {
+   "best_constant_agreement": 0.375,
+   "counts": {
+    "0": 1,
+    "12": 1,
+    "3": 4,
+    "6": 6,
+    "9": 4
+   },
+   "evaluation_set": "smooth.ALL_X (16 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_sym3'] via b1.evaluate -> smooth.run(criterion='all'); audited in RV-377-112 as smooth_registry::E_sym3|all",
+   "n_distinct_answers": 5,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.9062,
+    "best_constant_fx": 6,
+    "constant_clears_theta": true,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_sym3|unseen": {
+   "best_constant_agreement": 0.5,
+   "counts": {
+    "3": 4,
+    "9": 4
+   },
+   "evaluation_set": "smooth.UNSEEN (8 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_sym3'] via b1.evaluate -> smooth.run(criterion='unseen'); audited in RV-377-112 as smooth_registry::E_sym3|unseen",
+   "n_distinct_answers": 2,
+   "n_queries": 8,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.875,
+    "best_constant_fx": 3,
+    "constant_clears_theta": true,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_sym5|all": {
+   "best_constant_agreement": 0.375,
+   "counts": {
+    "0": 1,
+    "10": 6,
+    "15": 4,
+    "20": 1,
+    "5": 4
+   },
+   "evaluation_set": "smooth.ALL_X (16 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_sym5'] via b1.evaluate -> smooth.run(criterion='all'); audited in RV-377-112 as smooth_registry::E_sym5|all",
+   "n_distinct_answers": 5,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.8438,
+    "best_constant_fx": 10,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_sym5|unseen": {
+   "best_constant_agreement": 0.5,
+   "counts": {
+    "15": 4,
+    "5": 4
+   },
+   "evaluation_set": "smooth.UNSEEN (8 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_sym5'] via b1.evaluate -> smooth.run(criterion='unseen'); audited in RV-377-112 as smooth_registry::E_sym5|unseen",
+   "n_distinct_answers": 2,
+   "n_queries": 8,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.7917,
+    "best_constant_fx": 5,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_wit1|all": {
+   "best_constant_agreement": 0.1875,
+   "counts": {
+    "-12": 3,
+    "-16": 3,
+    "-20": 3,
+    "-24": 1,
+    "-28": 1,
+    "-4": 1,
+    "-8": 3,
+    "0": 1
+   },
+   "evaluation_set": "smooth.ALL_X (16 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_wit1'] via b1.evaluate -> smooth.run(criterion='all'); audited in RV-377-112 as smooth_registry::E_wit1|all",
+   "n_distinct_answers": 8,
+   "n_queries": 16,
+   "registered_evaluation_set": false,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.75,
+    "best_constant_fx": -16,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  },
+  "E_wit1|unseen": {
+   "best_constant_agreement": 0.375,
+   "counts": {
+    "-20": 3,
+    "-24": 1,
+    "-4": 1,
+    "-8": 3
+   },
+   "evaluation_set": "smooth.UNSEEN (8 inputs)",
+   "inherited_from": "ecology.REGISTRY['E_wit1'] via b1.evaluate -> smooth.run(criterion='unseen'); audited in RV-377-112 as smooth_registry::E_wit1|unseen",
+   "n_distinct_answers": 4,
+   "n_queries": 8,
+   "registered_evaluation_set": true,
+   "rule40_constant_control": {
+    "best_constant_capability": 0.7083,
+    "best_constant_fx": -8,
+    "constant_clears_theta": false,
+    "metric": "mean-abs-error capability, cap = max(0, 1 - err/1.5)",
+    "theta": 0.85
+   },
+   "status": "NON_DEGENERATE"
+  }
+ },
+ "question": "does the obligation itself take more than one value over its own declared evaluation set?",
+ "receipt_path": "microscopes/results/STAGE_DG12_COMPLETION_b1x_old.json",
+ "receipt_sha256": "55178fe87e36210eec9a7e165cda1840206d9efd6f299a98eb13b572e56c4c5c",
+ "revival_record": "RV-377-118",
+ "rule40_constant_clears_theta": [
+  "E_sym3|unseen"
+ ],
+ "schema": "RV377_118D_DG12_ModuleAuditV1",
+ "seconds": 0.01,
+ "skewed_binary": [],
+ "status": "EXECUTED_EXACT_AT_SCOPE"
+}

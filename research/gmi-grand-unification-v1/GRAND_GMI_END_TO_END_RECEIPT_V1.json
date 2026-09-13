@@ -1,0 +1,46 @@
+{
+  "terminal": "GRAND_GMI_END_TO_END_DERIVATION_TRACES_ALL_GREEN",
+  "selector_neural": {
+    "semantic_states": 4,
+    "temporal_cut_states": 4,
+    "ideal_memory_bits": 2,
+    "fixed_route_best_correct_of_8": [6, 6],
+    "dynamic_route_best_correct_of_8": 8,
+    "reachable_profiles": {
+      "N_route": [2, 4, 2],
+      "P_mux": [5, 4, 3],
+      "T_lookup": [7, 8, 4]
+    },
+    "pareto_frontier": ["N_route"],
+    "derived_family": "neural"
+  },
+  "parity_non_neural": {
+    "semantic_states": 2,
+    "temporal_cut_states": 2,
+    "ideal_memory_bits": 1,
+    "xor_transition_cells_checked": 4,
+    "reachable_profiles": {
+      "P_fsm": [1, 1, 1],
+      "N_recur": [4, 2, 3],
+      "T_transition": [3, 2, 2]
+    },
+    "pareto_frontier": ["P_fsm"],
+    "derived_family": "non-neural-program"
+  },
+  "hybrid": {
+    "assignment_profiles": {
+      "neural+neural": [6, 7],
+      "neural+program": [2, 4],
+      "program+neural": [10, 10],
+      "program+program": [6, 7]
+    },
+    "pareto_frontier": ["neural+program"],
+    "derived_family": "hybrid-neural-program"
+  },
+  "substrate_inversion": {
+    "substrate_A_frontier": ["neural"],
+    "substrate_B_frontier": ["program"],
+    "protected_semantics_changed": false,
+    "family_inversion": true
+  }
+}
