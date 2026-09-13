@@ -14,6 +14,7 @@ def _load(name):
 
 
 V6 = _load("nn_nonnn_point_parity3_experiment_v6")
+ADJ = _load("parity3_cross_envelope_adjudicate_v5")
 V5 = _load("nn_nonnn_point_parity3_experiment_v5")
 V4 = _load("nn_nonnn_point_parity3_experiment_v4")
 
@@ -108,6 +109,55 @@ class PrimedInstrumentTests(unittest.TestCase):
                 counts[cid][position] += 1
         for cid, row in counts.items():
             self.assertEqual(row, [8, 8, 8, 8], cid)
+
+
+class CrossInstrumentAdjudicationTests(unittest.TestCase):
+    """V5 and V6 packets are comparable only via proved candidate identity."""
+
+    def _packet(self, schema, version, frontier, families):
+        return {
+            "schema": schema,
+            "environment": {
+                "host_label": "h", "execution_context": "INTERACTIVE_OR_LOCAL",
+                "python_implementation": "CPython", "python_version": version,
+                "platform": "Linux-test", "processor": "", "cpu_count": 4,
+            },
+            "candidate_identity": {
+                "byte_identical_to_parent": True,
+                "local_source_sha256": V6.candidate_source_hashes(
+                    HERE / "nn_nonnn_point_parity3_experiment_v6.py"),
+            },
+            "terminal": "DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE",
+            "frontier_candidate_ids": frontier,
+            "frontier_families": families,
+            "opcode_counts": {"X_XOR2_V1": 88},
+            "instrumentation_gate_pass": True,
+            "protected_timing_measurement_executed": True,
+        }
+
+    def test_v6_schema_is_accepted_and_labelled_by_instrument(self):
+        self.assertIn("NN_NONNN_POINT_PARITY3_RESULT_V6", ADJ.SUPPORTED_SCHEMAS)
+        packet = self._packet("NN_NONNN_POINT_PARITY3_RESULT_V6", "3.13.12",
+                              ["X_XOR2_V1"], ["NON_NEURAL"])
+        self.assertTrue(ADJ.envelope_label(packet).endswith("|V6"))
+
+    def test_family_support_can_be_stable_while_the_frontier_is_not(self):
+        packets = {}
+        for schema, version, frontier in (
+            ("NN_NONNN_POINT_PARITY3_RESULT_V5", "3.12.3", ["X_XOR2_V1"]),
+            ("NN_NONNN_POINT_PARITY3_RESULT_V6", "3.11.15",
+             ["X_XOR2_V1", "X_LOOKUP8_V3"]),
+        ):
+            packet = self._packet(schema, version, frontier, ["NON_NEURAL"])
+            packets[ADJ.envelope_label(packet)] = packet
+        result = ADJ.adjudicate(packets, [])
+        self.assertEqual(result["distinct_family_supports"], [["NON_NEURAL"]])
+        self.assertTrue(result["family_support_stable"])
+        self.assertFalse(result["within_family_frontier_stable"])
+        self.assertEqual(len(result["distinct_frontier_candidate_sets"]), 2)
+        self.assertEqual(result["cross_envelope_stability"],
+                         "STABLE_ACROSS_ENVELOPES__DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE")
+        self.assertFalse(result["replication_obligation_discharged"])
 
 
 if __name__ == "__main__":
