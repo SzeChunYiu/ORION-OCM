@@ -42,6 +42,9 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
+- [PR #551 qualifications](PR551_SCIENTIFIC_REVIEW_7E3F68AE_V1.md): prior data, carrier syntax and local pruning do not establish prospective priority or semantic necessity.
+- [Instrument and custody repairs](../gmi-instrument-custody-integration-v1/CORE.md): canonical pre-reservation, full V5 packet reconstruction and the bounded opcode callback repair.
+- [Complete retained V6 audit](../gmi-parity-v6-evidence-v1/CORE.md): all three measured packets reconstructed without new measurements; absent priming traces and unauthenticated chronology remain explicit.
 - [Recovered B6 witness and mechanism](../gmi-witness-evidence-v1/CORE.md): source-bound S1 recovery; DENSE removal preserves the proved behavioral projection while resource costs change.
 - [Preserved B6 records](../machine-intelligence-morphogenesis-v1/B6_CORRECTED_EVIDENCE_ASSESSMENT_V1.md): unchanged incomplete D adjudication, corrected identity scope, ecology assignments and search-plus-verification costs.
 - [Corrected B6 adjudication](../machine-intelligence-morphogenesis-v1/B6_ADJUDICATION_CORRECTION_V1.md): frozen quantifiers, missing evidence and founder coverage; [cross-instrument inference](../machine-intelligence-morphogenesis-v1/CROSS_INSTRUMENT_INFERENCE_CORRECTION_V1.md) separates uncertainty, transport and chronology.

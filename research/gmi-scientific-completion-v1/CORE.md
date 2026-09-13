@@ -1,5 +1,8 @@
 # Unmerged GMI scientific inventory
 
+This is the dated initial audit. Read [current dispositions](CURRENT_DISPOSITIONS_20260913.md)
+for the subsequently merged results and remaining historical work.
+
 Scientific audit baseline: [d6147f95e48b](https://github.com/SzeChunYiu/ORION-OCM/commit/d6147f95e48b2e4e4afc2c3bd1dee8551527c2fc); main tree `112671acab2997ebcb27fdba6e274004c4709066`. Every source link below is pinned to the commit actually read.
 
 Initial scan examined 116 GMI/Track-B refs, 460 GitHub PR records, registered Mac worktrees and laptop worktrees. Detailed science below is pinned in [SCIENCE_SNAPSHOT.json](SCIENCE_SNAPSHOT.json). A separate later immutable ref capture is [REF_BLOB_INVENTORY.json](REF_BLOB_INVENTORY.json); its newer baseline must not be substituted into these original science notes.
