@@ -19,9 +19,39 @@ The converse is not resource-neutral: a centralized realization may use communic
 
 ## 2. Internal communication is a semantic cut
 
-Partition a team into subsystems `A | B`. Any message channel from A to B is exactly a causal cut of the layer-1 Semantic Cut Theorem. Consequently the obligation-relative conflict hypergraph across the partition lower-bounds the required message alphabet.
+Partition a team into subsystems `A | B` and register their information at the
+boundary. A classical deterministic one-way interface has the SC-1 form
+`c:X -> Z`, `d:Z x Y -> A_out`: the complete forward message depends only on
+the registered sender information `X`, and the receiver uses that message and
+its registered side information `Y`. Under these hypotheses the minimum
+zero-error message alphabet is the obligation-relative hypergraph chromatic
+number `chi(H_C)`.
 
-**GG26 — distributed semantic-cut theorem.** Any exact distributed protocol must allocate at least the semantic cut width required by the obligation across each constrained partition.
+**GG26 — distributed one-way semantic-cut theorem.** A distributed interface
+with this registered one-way information pattern inherits SC-1 exactly.
+The alphabet counts the **complete encoded message**, or the full forward
+transcript when several transmissions implement that one-way message. It does
+not count just the carrier alphabet of one use of a reusable channel.
+
+Feedback can change the sender's information, so the hypergraph constructed
+before feedback does not automatically lower-bound an interactive protocol.
+At a later one-way boundary, register the actual sender/receiver information,
+compatible states and remaining obligation again. Apply SC-1 only if the
+resulting interface satisfies its one-way factorization. A lower bound on a
+whole interactive protocol needs a proof for that protocol class; adding up
+unconditioned one-way bounds does not supply one.
+
+**Exact feedback counterexample.** Alice holds `x in {0,1}^4`, Bob holds
+`y in {0,1,2,3}`, and Bob must return `x_y`. Before communication any two
+distinct words conflict at an index where they differ. The one-way graph is
+`K_16`, so Alice's one-way message needs 16 symbols, or four fixed bits.
+Instead Bob can send his two-bit index, then Alice can reply with the selected
+bit. All 64 input pairs succeed using three total bits and two forward reply
+symbols. The reply is now `c(x,y)`, not `c(x)`. Conditional on the received
+index, the remaining binary response has a two-class cut, in agreement with
+SC-1. The classical INDEX separation is reviewed in [Roughgarden, Lecture 2,
+§4](https://timroughgarden.org/w15/l/l2.pdf); the bounded witness and correction
+scope are in `INTERACTIVE_CUT_SCOPE_CORRECTION_V1.md`.
 
 Witness: Alice sees `x`, Bob sees `y`, and Bob must output `x XOR y`. Exhaustive deterministic one-way enumeration finds:
 

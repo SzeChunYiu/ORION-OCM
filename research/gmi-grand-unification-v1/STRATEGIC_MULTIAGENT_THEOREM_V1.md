@@ -10,6 +10,12 @@ Grand GMI already reduces cooperative distributed machines to one product-state 
 
 The theorem does **not** claim that physics selects one universal game-theoretic solution concept. Where obligations conflict, equilibrium existence and equilibrium selection depend on declared strategy classes and any optional scalarization/preferences.
 
+**Identifier scope.** The historical section IDs `GG42`–`GG45` below also occur
+in `QUANTUM_PROCESS_INSTANTIATION_THEOREM_V1.md`. Cite the source-qualified
+form `strategic:GG42` (versus `quantum:GG42`), or the distinct `GG-S*` IDs in
+`CLAIM_LEDGER_STRATEGIC_V1.md`. Existing IDs and receipts are retained; these
+are separate claims, not alternate names for one theorem.
+
 ## 1. Strategic GMI problem
 
 A finite strategic GMI problem is
@@ -73,7 +79,19 @@ This is exactly the semantic-state refinement theorem applied to a larger probe 
 
 ## 4. GG42 — strategic semantic cuts
 
-Any message exchanged between agents is an internal causal cut. If downstream agent `j` must act differently for upstream situations that are jointly compatible with its local side information, the layer-1 semantic-cut theorem applies unchanged.
+Inter-agent communication defines internal causal interfaces. At a classical
+deterministic **one-way** interface `c:X -> Z`, `d:Z x Y -> A`, the SC-1
+hypergraph bound applies to the complete encoded message. A pairwise clique
+bound applies when the required actions conflict pairwise under the declared
+side information; general set-valued obligations use the full hypergraph.
+
+Negotiation and other interactive protocols may first reveal receiver
+information to the sender. Their later messages can depend on that feedback,
+so a one-way hypergraph on the original sender input cannot be reused without
+checking the information pattern. Re-register the actual later cut and its
+remaining obligation, or prove a bound for the whole interactive class. The
+INDEX witness in `COMPOSITIONAL_DISTRIBUTED_GMI_THEOREM_V1.md` §2 gives four
+bits one-way versus three bits with feedback for the same final obligation.
 
 Therefore coordination, signaling, negotiation messages, shared blackboards, market prices, and opponent-model summaries are all instances of the same obligation-relative cut requirement.
 
@@ -88,7 +106,21 @@ For a finite registered strategic problem, the set
 =\{(\mathcal R(\sigma),Q(\sigma),\rho(\sigma)): \sigma\in K\}
 \]
 
-is exactly enumerable whenever the registered strategy family is finite/exactly enumerable. Its coordinatewise nondominated subset is the **strategic GMI frontier**.
+is exactly enumerable, with an exactly computable nondominated subset, under
+the following effective finite assumptions: `K` is a finite register with a
+terminating enumeration; all admitted ecology and unilateral-deviation
+coordinates form finite registers; loss, capability and resource coordinates
+are effectively evaluable; and every equality/order comparison needed for
+regret, hard gates and dominance has a total exact decision procedure. Exact
+rational coordinates suffice. Any larger number representation must supply
+the required procedures. These are the exact-arithmetic conditions of the
+finite operational theorem, not consequences of the cardinality of `K`.
+The coordinatewise nondominated subset is the **strategic GMI frontier**.
+
+To compute it, evaluate each registered strategy profile and deviation, form
+the finite regret vectors, then compare every pair of profiles. This terminates
+under the stated assumptions. An infinite enumerable strategy family does
+not inherit this finite exhaustion algorithm.
 
 A zero-regret equilibrium, when it exists, is a special point satisfying
 
@@ -97,6 +129,18 @@ r_{i,e,d_i}(\sigma)\le 0\quad\forall i,e,d_i.
 \]
 
 When no such point exists, the theory does not manufacture an equilibrium by silently introducing a prior or utility aggregation. It returns the nondominated regret/resource frontier.
+
+**Exact-comparison boundary.** One player with two actions of losses `0,x_P`
+and constant capability/resource coordinates is already sufficient: let
+`x_P=2^{-t}` if program `P` first halts at step
+`t>=1`, and zero otherwise. The real `x_P` is uniformly computable to arbitrary
+precision, but action 1 has zero regret exactly when `x_P=0`. A total exact
+zero-regret classifier over these representations would decide nonhalting.
+Finite strategy count alone therefore does not make exact equilibrium or
+frontier membership decidable. This is the same arithmetic boundary as
+`../machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md`
+§7, not an additional failure of finite rational game theory. See
+`INTERACTIVE_CUT_SCOPE_CORRECTION_V1.md` for its strategic specialization.
 
 ## 6. GG44 — ecology-robust equilibrium need not exist
 
