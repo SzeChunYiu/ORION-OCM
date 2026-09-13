@@ -90,6 +90,112 @@ def check_nonconvex_resource_boundary():
     }
 
 
+def rotate_atomic_measure(atoms, turns):
+    """Push a finite circle measure forward by a rational rotation."""
+    rotated = {}
+    for location, mass in atoms.items():
+        target = (location + turns) % 1
+        rotated[target] = rotated.get(target, Fraction(0)) + mass
+    return rotated
+
+
+def mix_circle_measures(left, right, weight):
+    """Mix exact (finite atomic part, Haar mass) circle measures.
+
+    The Haar component is declared analytically; this finite representation is
+    not an algorithm for integrating arbitrary infinite groups.
+    """
+    left_atoms, left_haar = left
+    right_atoms, right_haar = right
+    atoms = {}
+    for source, coefficient in ((left_atoms, weight), (right_atoms, 1 - weight)):
+        for location, mass in source.items():
+            atoms[location] = atoms.get(location, Fraction(0)) + coefficient * mass
+    atoms = {location: mass for location, mass in atoms.items() if mass}
+    return atoms, weight * left_haar + (1 - weight) * right_haar
+
+
+def finite_orbit_average(atoms, order):
+    averaged = {}
+    for step in range(order):
+        rotated = rotate_atomic_measure(atoms, Fraction(step, order))
+        for location, mass in rotated.items():
+            averaged[location] = averaged.get(location, Fraction(0)) + mass / order
+    return averaged
+
+
+def atomic_total_variation(left, right):
+    return sum(abs(left.get(x, 0) - right.get(x, 0))
+               for x in left.keys() | right.keys()) / 2
+
+
+def check_compact_averaging_boundary(max_order=32):
+    """Finite separating witnesses for the analytic compact counterexamples."""
+    seed = {Fraction(0): Fraction(1)}
+    subgroup_checks = 0
+    separated = 0
+    for order in range(1, max_order + 1):
+        averaged = finite_orbit_average(seed, order)
+        assert len(averaged) == order
+        assert sum(averaged.values()) == 1
+        for step in range(order):
+            assert rotate_atomic_measure(averaged, Fraction(step, order)) == averaged
+            subgroup_checks += 1
+        shifted = rotate_atomic_measure(averaged, Fraction(1, 2 * order))
+        assert averaged.keys().isdisjoint(shifted)
+        assert atomic_total_variation(averaged, shifted) == 1
+        separated += 1
+
+    # Nonatomic mass is affine and rotation invariant on the exact mixture
+    # model. Atoms and all finite orbit averages have cost 0; Haar has cost 1.
+    models = [(seed, Fraction(0)), ({Fraction(1, 3): Fraction(1)}, Fraction(0)),
+              ({}, Fraction(1))]
+    mix_checks = 0
+    for left, right, numerator in product(models, models, range(5)):
+        weight = Fraction(numerator, 4)
+        atoms, haar_mass = mix_circle_measures(left, right, weight)
+        assert sum(atoms.values()) + haar_mass == 1
+        assert haar_mass == weight * left[1] + (1 - weight) * right[1]
+        assert sum(rotate_atomic_measure(atoms, Fraction(1, 7)).values()) == sum(atoms.values())
+        mix_checks += 1
+
+    return {
+        "finite_cyclic_invariance_checks": subgroup_checks,
+        "circle_rotation_separating_witnesses": separated,
+        "separating_total_variation": "1",
+        "nonatomic_mass_affinity_checks": mix_checks,
+        "finite_orbit_nonatomic_cost": "0",
+        "haar_nonatomic_cost": "1",
+        "scope": "FINITE_SEPARATING_WITNESSES_WITH_ANALYTIC_HAAR_COMPONENT",
+    }
+
+
+def check_feasible_stability_and_frontier_boundaries():
+    # A convex feasible class p in [0,1/4] is not stable under action swap.
+    # Group stability is independent of convexity and of coordinate invariance.
+    pure = Fraction(0)
+    swapped = 1 - pure
+    average = (pure + swapped) / 2
+    feasible = lambda p: 0 <= p <= Fraction(1, 4)
+    assert feasible(pure)
+    assert not feasible(swapped)
+    assert not feasible(average)
+
+    # Trivial-group equivariance does not manufacture a Pareto optimum on
+    # the convex class p in (0,1), resource rho(p)=p.
+    successor_checks = 0
+    for n in range(2, 258):
+        p = Fraction(1, n)
+        better = p / 2
+        assert 0 < better < p < 1
+        successor_checks += 1
+    return {
+        "convex_nonstable_class_average_feasible": feasible(average),
+        "strict_resource_improvement_witnesses": successor_checks,
+        "scope": "FINITE_WITNESSES_FOR_ANALYTIC_NONATTAINMENT",
+    }
+
+
 def check_substrate_refinement(max_len=7):
     # Source semantic process: one bit s. Input i toggles s when i=1; output is new s.
     def src_step(s, i):
@@ -156,6 +262,8 @@ def run():
         "unique_deterministic_symmetry": check_unique_deterministic_symmetry(),
         "randomized_symmetrization": check_randomized_symmetrization(),
         "nonconvex_resource_boundary": check_nonconvex_resource_boundary(),
+        "compact_averaging_boundary": check_compact_averaging_boundary(),
+        "feasible_stability_and_frontier_boundaries": check_feasible_stability_and_frontier_boundaries(),
         "substrate_refinement": check_substrate_refinement(),
     }
 
