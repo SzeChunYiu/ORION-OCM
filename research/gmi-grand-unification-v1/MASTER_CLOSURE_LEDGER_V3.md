@@ -1,7 +1,11 @@
 # Grand GMI Master Closure Ledger V3
 
+Current audit qualification (2026-09-13): see `RECURSIVE_GAP_AUDIT_20260913.md`.
+Historical ontology/green labels below do not certify absence of theorem gaps;
+the corrected theorem statements and their explicit assumptions take precedence.
+
 Status date: 2026-09-13  
-Status: **FORMAL ONTOLOGY STILL CLOSED; STRATEGIC CONFLICT NOW REDUCED; EMPIRICAL/UNBOUNDED BOUNDARIES REMAIN EXPLICIT**
+Status: **DECLARED STRATEGIC SCHEMA COVERAGE; CORRECTED THEOREM ASSUMPTIONS AND EMPIRICAL/UNBOUNDED BOUNDARIES REMAIN EXPLICIT**
 
 V3 is additive to `MASTER_CLOSURE_LEDGER_V1.md` and `MASTER_CLOSURE_LEDGER_V2.md`. It does not weaken any earlier RED, OPEN or impossibility result.
 
@@ -49,8 +53,8 @@ New V3 strategic results:
 
 - equilibrium = simultaneous local best-response obligation satisfaction for the declared scalar game/strategy class;
 - opponent interventions refine semantic state rather than requiring a new state ontology;
-- signaling/negotiation is an internal semantic cut;
-- the finite strategic regret/capability/resource frontier is exactly enumerable;
+- signaling/negotiation is an internal semantic cut, with one-way or interactive information sets and the full transcript explicitly registered;
+- the finite strategic regret/capability/resource frontier is exactly enumerable when profile evaluation and exact comparison are decidable;
 - ecology-robust exact equilibrium can fail to exist;
 - optional game-theoretic/welfare selectors remain typed selectors when their ordering is not already declared by the obligations.
 
@@ -58,7 +62,7 @@ Authority: `STRATEGIC_MULTIAGENT_THEOREM_V1.md` and `GRAND_GMI_STRATEGIC_RECEIPT
 
 ## 4. Current strongest closure statement
 
-At the level of **formal ontology**, Grand GMI now covers single-agent, cooperative multi-agent and conflicting-obligation strategic systems within the same architecture-free process language.
+At the level of **declared schema coverage**, Grand GMI represents single-agent, cooperative multi-agent and conflicting-obligation strategic systems within the same process language. This does not certify all possible reductions or the absence of theorem gaps.
 
 The theory's master derived object can be written schematically as
 
@@ -68,7 +72,7 @@ The theory's master derived object can be written schematically as
 
 where the coordinates are instantiated only when relevant to the declared problem. Morphology is selected from the reachable physical realizations satisfying the required semantic/strategic signature and resource constraints.
 
-This is a schema/law closure, not an unrestricted exact solver.
+Each quantitative specialization retains its own process/interface, feasibility and attainment assumptions. Schema coverage does not discharge them.
 
 ## 5. What still blocks a "finished empirical science"
 
@@ -83,7 +87,7 @@ The following are still outside a globally completed empirical programme:
 
 ## 6. Current terminals
 
-`GRAND_GMI_V3_FORMAL_ONTOLOGY_CLOSED = TRUE`
+`GRAND_GMI_V3_DECLARED_SCHEMA_COVERAGE = TRUE`
 
 `GRAND_GMI_V3_SINGLE_COOPERATIVE_AND_STRATEGIC_MULTIAGENT_REDUCED_TO_ONE_PROCESS_THEORY = TRUE`
 

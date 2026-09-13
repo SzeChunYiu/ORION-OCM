@@ -102,7 +102,12 @@ as a named specialization: it is transformation complexity whose purpose is to a
 
 ## 4. Decision precision is an admissibility gate on resources
 
-Given robust action losses derived from the ecology/obligation, a certified loss-field error `delta` yields robust regret at most `2 delta`.
+Given nonempty finite actions and the corrected finite robust-score assumptions,
+a finite certified loss-field error `delta` yields robust regret at most
+`2 delta` **when the machine selects an estimated minimizer**. A certified
+`alpha`-suboptimal selector instead gives `2 delta + alpha`; its selection cost
+remains charged. All-infinite robust scores cannot be subtracted to define
+regret; the qualified finite-optimum extension is in the decision-precision theorem.
 
 Thus tolerance `epsilon` or exact-action margin `Delta` induces an admissibility constraint
 

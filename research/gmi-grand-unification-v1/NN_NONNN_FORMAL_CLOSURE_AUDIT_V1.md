@@ -178,7 +178,7 @@ For Turing-complete process languages, complete observational-equivalence normal
 
 ### B03 — noncompact attainment
 
-An infimum need not be attained. The theory uses infima by default and requires a separate compactness/attainment theorem before saying `minimum morphology`.
+An infimum need not be attained. Scalar lower-bound values require a separate attainment theorem before saying `minimum morphology`. The corrected master retains vector attainable sets and their Pareto spectra; a coordinatewise infimum may combine incompatible candidates and cannot replace their feasibility test. See corrected GG51 and `RECURSIVE_GAP_AUDIT_20260913.md`.
 
 ### B04 — exact quotient regularity
 

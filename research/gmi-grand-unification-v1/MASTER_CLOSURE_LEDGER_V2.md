@@ -1,7 +1,11 @@
 # Grand GMI Master Closure Ledger V2
 
+Current audit qualification (2026-09-13): see `RECURSIVE_GAP_AUDIT_20260913.md`.
+Historical ontology/green labels below do not certify absence of theorem gaps;
+the corrected theorem statements and their explicit assumptions take precedence.
+
 Status date: 2026-09-12  
-Status: **ONTOLOGY REMAINS CLOSED; QUANTITATIVE LAW STACK EXPANDED; FIVE FORMER APPLICATION LANES NOW HAVE EXACT NONTRIVIAL SECTORS**
+Status: **DECLARED SCHEMA COVERAGE; QUANTITATIVE SECTORS SUBJECT TO CORRECTED ASSUMPTIONS**
 
 V2 is additive to `MASTER_CLOSURE_LEDGER_V1.md`. It does not rewrite V1 evidence or impossibility boundaries.
 
@@ -19,11 +23,11 @@ No new primitive was required by the V2 quantitative tranches.
 |---|---|---|
 | held-out generalization identifiability | minimax compatible-target fiber radius `R_gen` | `GENERALIZATION_IDENTIFIABILITY_RADIUS_THEOREM_V1.md` |
 | exact generalization gate | `T` factors through protected evidence `D` | same |
-| prospective prediction gate | frozen `R_gen <= epsilon` required for theory-determined prediction at tolerance | same |
+| prospective prediction gate | nonempty tolerance-feasible centers with a registered selector; equality of radius and tolerance alone is insufficient | same |
 | task-sufficient experiment complexity | adaptive obligation-quotient acquisition `eta_Omega` | `EPISTEMIC_ACQUISITION_THEOREM_V1.md` |
-| robust approximate action adequacy | true robust regret <= `2 delta` | `ROBUST_DECISION_PRECISION_THEOREM_V1.md` |
+| robust approximate action adequacy | true robust regret <= `2 delta` under the corrected finite-score/finite-optimum assumptions | `ROBUST_DECISION_PRECISION_THEOREM_V1.md` |
 | exact action preservation | robust margin `Delta > 2 delta` | same |
-| precision morphology gate | `delta <= epsilon/2` or `delta < Delta/2` | same |
+| sufficient precision morphology certificate | `delta <= epsilon/2` for an actual estimated minimizer, or include selector error `alpha` via `2 delta+alpha`; failure of the bound alone does not prove inadequacy | same |
 | compositional code morphology | role-partition resource law `lambda A(pi)+c|pi|` | `COMPOSITIONAL_LANGUAGE_MORPHOLOGY_THEOREM_V1.md` |
 | compositional phase direction | optimal block count nonincreasing as transmission/lexicon price ratio rises | same |
 | black-box planning resolution | `Q=b^d-b^(d-q)` under unique-goal leaf verifier | `PLANNING_SEMANTIC_RESOLUTION_THEOREM_V1.md` |
@@ -51,7 +55,7 @@ V1 named richer language, planning and causal discovery as future sharper-law ta
 | measured hardware / quantum constraints | unchanged empirical/substrate programme |
 | prospective unoccupied regions | strengthened by `R_gen` frozen-identifiability gate; humanity-wide novel realization still requires execution |
 
-The word **partially** here describes domain breadth, not a defect in the exact theorem sectors. Each named finite theorem is fully proved at its declared scope.
+The word **partially** describes domain breadth. Correctness of a named finite theorem must still be assessed from its corrected premises, proof and counterexamples; naming a sector or passing a finite receipt does not prove the general statement.
 
 ## 5. New no-go boundaries
 
@@ -81,7 +85,7 @@ Therefore:
 
 ## 7. Current closure terminals
 
-`GRAND_GMI_V2_FORMAL_ONTOLOGY_CLOSED = TRUE`
+`GRAND_GMI_V2_DECLARED_SCHEMA_COVERAGE = TRUE`
 
 `GRAND_GMI_V2_QUANTITATIVE_DERIVED_LAW_STACK_STRICTLY_STRONGER_THAN_V1 = TRUE`
 
