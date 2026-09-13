@@ -6,11 +6,12 @@ family-bound soundness and derivation, proof reuse, certified repair, and
 empirical frontier identification, all-input-partition width/query separation,
 bounded controller resources, repaired developmental reachability, shared-dependency
 reuse under memory constraints, finite known-kernel probabilistic acquisition,
-labelled-partition and relational adequate-output query reconstruction, and
-finite fixed-unknown-model acquisition with charged private randomization. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V9.json`. Earlier aggregates and phase-law receipts
+labelled-partition and relational adequate-output query reconstruction,
+finite fixed-unknown-model acquisition with charged private randomization, and
+finite-data model confidence with joint policy transfer. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V10.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 64 checkers (63 leaves and one
+historical paths. The current register has 65 checkers (64 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
