@@ -244,15 +244,15 @@ of `RV-377-150` is reported in the `_V2AUG` receipt and in the table's last colu
 
 | seed | DENSE std | DENSE min over six (V1) | binding | rule 36 (V1) | rule 40 margin | DENSE after rule-32 atrophy | classes (V1) | DENSE rule 36 (V2) |
 |---|---|---|---|---|---|---|---|---|
-| S1 | 0.9062 | 0.8646 | `half_events` | ✓ | 1.75 fx | **TABLE** (27 → 17 nodes, both DENSE nodes deleted) | {KV, TABLE} | _V2AUG_ |
-| S2 | 0.8802 | 0.8594 | `shuffled_events` | ✓ | 1.63 | **TABLE** (30 → 12) | {KV, TABLE} | _V2AUG_ |
-| S3 | 0.9010 | 0.8281 | `no_revoke` | ✗ | — | — | {KV, TABLE} | _V2AUG_ |
-| S4 | 0.9688 | 0.7188 | `extra_unseen_feedback` | ✗ | — | — | ∅ (every carrier fails) | _V2AUG_ |
-| S5 | 0.9583 | 0.7500 | `shuffled_events` | ✗ | — | — | ∅ (every carrier fails) | _V2AUG_ |
-| S6 | 0.9010 | 0.8698 | `extra_unseen_feedback` | ✓ | 1.87 | **TABLE** (16 → 8, both DENSE nodes deleted) | {KV, TABLE} | _V2AUG_ |
-| S7 | 0.9115 | 0.8542 | `half_events` | ✓ | 1.50 | **TABLE** (18 → 12, both DENSE nodes deleted) | {KV, TABLE} | _V2AUG_ |
-| S8 | 0.8854 | 0.8281 | `extra_unseen_feedback` | ✗ | — | — | {KV, TABLE} | _V2AUG_ |
-| S9 | 0.9062 | 0.8229 | `shuffled_events` | ✗ | — | — | {PROGRAM} (0.9375 ×6, 11-node program) | _V2AUG_ |
+| S1 | 0.9062 | 0.8646 | `half_events` | ✓ | 1.75 fx | **TABLE** (27 → 17 nodes, both DENSE nodes deleted) | {KV, TABLE} | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S2 | 0.8802 | 0.8594 | `shuffled_events` | ✓ | 1.63 | **TABLE** (30 → 12) | {KV, TABLE} | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S3 | 0.9010 | 0.8281 | `no_revoke` | ✗ | — | — | {KV, TABLE} | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S4 | 0.9688 | 0.7188 | `extra_unseen_feedback` | ✗ | — | — | ∅ (every carrier fails) | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S5 | 0.9583 | 0.7500 | `shuffled_events` | ✗ | — | — | ∅ (every carrier fails) | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S6 | 0.9010 | 0.8698 | `extra_unseen_feedback` | ✓ | 1.87 | **TABLE** (16 → 8, both DENSE nodes deleted) | {KV, TABLE} | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S7 | 0.9115 | 0.8542 | `half_events` | ✓ | 1.50 | **TABLE** (18 → 12, both DENSE nodes deleted) | {KV, TABLE} | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S8 | 0.8854 | 0.8281 | `extra_unseen_feedback` | ✗ | — | — | {KV, TABLE} | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
+| S9 | 0.9062 | 0.8229 | `shuffled_events` | ✗ | — | — | {PROGRAM} (0.9375 ×6, 11-node program) | ✗ (V2: memory_V2 4/9 — S1, S2, S6, S7; program 1/9; coefficient 0/9) |
 
 `RV-377-118`'s predictions, scored on both readings:
 
@@ -281,3 +281,68 @@ each clause on at most four cells. The reading labels the machine by the carrier
 answer reads after atrophy, not by identity (`b1`'s own claim ceiling). The law says nothing
 about *which* memory machine arises — that is exactly the object `RV-377-121` showed is not
 well-posed, and it is not reintroduced here.
+
+
+---
+
+# RV-377-140 — ADJUDICATION (receipts `STAGE_CLASSRATE_FRESH_V43_CLASSRATE_billy.json` + `_V2AUG`, `STAGE_B1_V43_CLASSRATE_billy_E_cr{1..4}_S{0,1,2}.json`; lead session after the lane's handover)
+
+Twelve units, 20 000 charged evaluations each, scored by §3 under the V1 family (the frozen law) with the
+V2 family reported alongside (RV-377-150/151).
+
+| ecology | memory | program | coefficient | classes by seed (V1) | V2 |
+|---|---|---|---|---|---|
+| `E_cr1` | 0/3 | 1/3 | 0/3 | S0 {PROGRAM}, S1 ∅, S2 ∅ | same |
+| `E_cr2` | 2/3 | **2/3** | 0/3 | S0 {TABLE}, S1 {PROGRAM, TABLE}, S2 {PROGRAM} | memory 1/3 (S0's TABLE fails v2), program 2/3 |
+| `E_cr3` | 2/3 | 1/3 | 0/3 | S0 {KVSTORE}, S1 {PROGRAM, TABLE}, S2 ∅ | same |
+| `E_cr4` | **0/3** | 1/3 | 0/3 | S0 ∅, S1 {PROGRAM}, S2 ∅ | same |
+
+| falsifier | tripped? | evidence |
+|---|---|---|
+| F-M1 (memory missing on ≥ 2 ecologies where M predicts present) | no — 1 of 2 (`E_cr4`; `E_cr3` holds) | `E_cr4` S0: the KVSTORE/TABLE elite scores 0.9115 under `standard` and fails **only** `extra_unseen_feedback` (0.8229; 0.8438 under v2) |
+| F-M2 (memory ≥ 2/3 where predicted absent) | no | `E_cr1` 0/3 |
+| F-C1 (coefficient ≥ 2/3 on a witness-free ecology) | no | 0/3 everywhere; **0/24 over the whole fresh + lane-B record** |
+| **F-P1** (program ≥ 2/3 on any fresh ecology) | **YES** | `E_cr2` program 2/3 |
+| **F-O1** (ordering violated where memory predicted present, witness-free) | **YES** | `E_cr4`: memory 0 < program 1 |
+
+**Terminal: `CLASS_RATE_MORPHOLOGY_LAW_RED_AT_REGISTERED_SCOPE`**, attributed to clauses **P** and **O**;
+clause M survives its falsifier by one ecology but its `E_cr4` miss is diagnosed; clause C holds on every
+scoreable cell (coefficient class never recovered: 0/12 fresh, 0/9 lane B, 0/16 diagnosis).
+
+## Root cause — one stage per clause
+
+* **P (program ≤ 1/3 everywhere)** was calibrated from the record's low base rate, not from the theory's
+  own closed form. The selection receipt already held the exact-search row's rule-36 replay: `program_search`
+  min-over-six 1.0 / 0.9583 / 1.0 / 0.9583 on `E_cr1..4`, admissible with ≥ 3 fx margin on all four. A
+  reachable, admissible exact-search parent is exactly the condition under which the program class should be
+  *present*, and it was recovered on 1/3, 2/3, 1/3, 1/3. Stage: the predictor.
+* **M (memory present iff A_mem(S5h) ≥ θ + 1 fx)** used the Stage D'/E' `S5h` row's *standard-protocol*
+  closed form (0.9062 on `E_cr4`). The search runs on the typed IR and is scored under rule 36; the IR
+  memory row `hamming_knn_k3` replays at min-over-six **0.8229** on `E_cr4` (0.7708 / 0.7917 / 0.8125 on
+  `E_cr1..3`), all below θ, and the recovered `E_cr4` memory elites fail the same bar (`extra_unseen_feedback`).
+  The predictor was the wrong object (a different row under a different protocol). Stage: the predictor.
+  Its retrodiction is also imperfect in the other direction: `E_cr2`/`E_cr3` recovered memory 2/3 although
+  the hand-built memory row is inadmissible there — searched memory elites can beat the hand-built row, so
+  a row-based predictor can only license *abstention*, not absence.
+* **O** follows M.
+
+## Minimal justified change (frozen as RV-377-142, clause-only)
+
+* **P′**: program class present (≥ 1/3) iff the registered exact-search row is rule-36 admissible with ≥ 1 fx
+  margin over the best constant; ≤ 1/3 otherwise. Retrodicts all four fresh ecologies and `E_wit1`/`E_smooth1`/
+  `E_smooth3`/`E_sym5` (RV-377-141 table).
+* **M′**: memory class present (≥ 2/3) iff the best registered IR memory row is rule-36 admissible with ≥ 1 fx
+  margin; otherwise the law **abstains** on memory (a row-based predictor cannot exclude searched elites). On
+  the four fresh ecologies M′ abstains everywhere, so it makes no false claim and no claim.
+* **C** unchanged. **O′**: program ≥ coefficient wherever P′ predicts program present.
+
+The two further fresh ecologies are chosen by the same deterministic walk (`select_fresh(6)`, tag
+`V44_CLASSRATE_SELECT6`), registered as `E_cr5`, `E_cr6`, three seeds each, predictions and falsifiers in
+`GMI_K4_CLASS_RATE_REVIVAL_RV_377_142_FREEZE.md` before any run.
+
+## What moves
+
+`K4_CLASS_RATE_LAW`: clause C (coefficient never neutrally recovered, 0/37 across the corpus at 20 000
+evaluations, every ecology) is the one class-level regularity that has held everywhere; it is recorded as
+`COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_37` and is the class-level restatement of the
+protected K4 negative. Clauses M/P/O are RED as frozen and revived as M′/P′/O′.
