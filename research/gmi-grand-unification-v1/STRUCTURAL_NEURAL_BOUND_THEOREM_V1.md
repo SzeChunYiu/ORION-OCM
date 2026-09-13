@@ -13,6 +13,11 @@ coverage from a finite grid. The previous output grid omitted a legal
 four-input threshold function, and fixed variable order was not always the
 cheapest rendering. The direct geometric/dependency proof repairs the bound.
 
+[DCR-1–4](DELEGATION_COST_CORRECTION_V1.md) separately repairs incomplete
+delegation accounting with typed trace closure and explicit native obligations.
+Its larger source register inherits no 39/312 minimum or full frontier; the
+original analytic minimum remains scoped to the two flat written shapes.
+
 The previous universal exclusion under expanded delegation is withdrawn.
 Two opaque wrappers can have identical candidate-frame overhead while their
 callees differ. No full callee-work, timing, memory or physical-cost ordering

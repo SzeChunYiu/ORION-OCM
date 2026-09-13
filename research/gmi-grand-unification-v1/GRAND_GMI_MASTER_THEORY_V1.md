@@ -125,6 +125,13 @@ separately optimized ecology risks are only an oracle lower envelope (SC-2–5).
 Channel, decoding, randomization and simulation costs must remain charged in
 their registered regions.
 
+[Typed delegation](DELEGATION_COST_CORRECTION_V1.md) makes this accounting
+premise explicit for a finite source register: admitted wrappers preserve the
+ordered descendant trace and native obligations. Nonnegative additive costs
+are monotone under trace-preserving insertion; a mere opaque-call count does
+not establish that premise. Missing native contracts mean unknown total work.
+The written STR 39/312 bound does not extend to the larger delegation class.
+
 For a declared scalar resource, an infimum is a lower-bound value and must not
 be promoted to an attained resource without a witness or attainment theorem.
 At finite zero-error deterministic classical one-way alphabet scope the attained scalar minimum is
