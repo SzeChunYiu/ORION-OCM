@@ -41,7 +41,7 @@ Thus the no-go applies not merely to source-code equivalence but to exact unrest
 
 ## 4. What remains decidable
 
-The theorem does not weaken the finite operational completeness result. If the horizon, state/action spaces, legal kernel family and development budget are finite/decidable, exhaustive exact closure is valid.
+The theorem does not weaken the corrected finite operational completeness result. Exact enumeration requires an explicitly finite effectively enumerable realization register, effectively evaluable profiles and decidable exact feasibility/order predicates. Finite response alphabets do not imply finite implementation fibers or resource profiles, and computable-real coordinates alone do not make comparison decidable. A finite budget with zero-cost cycles does not imply a finite history tree: use the finite complete state/cost-label assumptions of `../machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md`. These hypotheses, or separately proved alternatives, must be supplied for each finite instance.
 
 Many structured infinite problems are also computable under additional restrictions. The no-go applies to a total procedure covering all unrestricted Turing-complete instances.
 

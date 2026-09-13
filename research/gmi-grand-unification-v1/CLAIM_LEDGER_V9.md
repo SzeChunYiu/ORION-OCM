@@ -8,7 +8,7 @@ Status date: 2026-09-12. Additive to V1–V8.
 | GG48 | Exact response equivalence remains a well-defined semantic quotient on infinite history spaces, but convenient measurable/standard-Borel structure of the quotient must be proved rather than assumed. | THEOREM / REGULARITY BOUNDARY | infinite exact semantic state |
 | GG49 | Every nonempty compact finite-dimensional attainable profile set contains a Pareto point; any minimizer of a strictly positive weighted sum is nondominated. | THEOREM | compact `Y subset R^d` |
 | GG50 | Infimum does not imply an attaining morphology; a noncompact attainable set can have an empty Pareto frontier. | COUNTEREXAMPLE / THEOREM BOUNDARY | noncompact profile image |
-| GG51 | `kappa` and `tau` are infima by default; replacing them by minima requires a separate attainment theorem. | NORMATIVE THEOREM | general process/resource classes |
+| GG51 | Scalar infima require separate attainment before becoming minima; vector attainable/Pareto spectra `kappa,tau` must not be replaced by coordinatewise lower envelopes. | NORMATIVE THEOREM | declared scalar or vector resource scope |
 | GG52 | If the response metric space is totally bounded, every nonzero tolerance admits a finite semantic cover; compact metric semantic spaces are therefore finite-complexity at finite resolution. | THEOREM | declared response metric |
 
 ## Exact hostile evidence

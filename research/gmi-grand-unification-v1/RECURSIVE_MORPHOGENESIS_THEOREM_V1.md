@@ -38,13 +38,16 @@ Consequently define recursively
 `G^(0)=G`,
 `G^(n+1)=Lift(G^(n))`.
 
-Then every finite registered recursion depth is another ordinary finite GMI problem.
+Then every finite registered recursion depth is another well-typed GMI problem.
+It is finite only if the operational realization/update register at every level
+is explicitly finite; a finite number of lifts does not make an infinite
+morphology domain finite.
 
 This is a typing theorem: it does not assert that an unbounded tower converges or that all update spaces are computable.
 
 ## 4. Finite exact recursive closure
 
-**Theorem RM-2.** If at each level up to depth `n` the registered state/morphology set, action/update set, ecology alphabet and horizon/budget are finite with exact decidable transitions/resources, then the finite operational completeness theorem applies inductively at every level `0...n`.
+**Theorem RM-2.** At each level up to depth `n`, supply a finite effectively enumerable realization register (including every implementation whose fiber is claimed), finite action/update and ecology registers, effectively evaluable profiles, and decidable exact transitions, feasibility, and equality/order for every protected response/capability and resource coordinate. For development supply either a finite step horizon or the finite complete state/cost-label hypotheses of the corrected finite operational completeness theorem; a finite cost cap alone need not bound path length. Under those assumptions that theorem applies inductively at every level `0...n`.
 
 Therefore GMI can compute at every such level:
 
@@ -55,7 +58,7 @@ Therefore GMI can compute at every such level:
 
 ### Proof
 
-Base case `n=0` is the existing finite operational completeness theorem. Assume level `k` is finite registered. By construction `Lift(G^(k))` has a finite registered state set and finite exact transition/action semantics under the stated assumptions; therefore the same finite completeness theorem applies at level `k+1`. Induction proves the claim. QED.
+Base case `n=0` is the corrected finite operational completeness theorem. At level `k+1`, the separately registered finite realization/update domain and exact decision procedures discharge the same theorem's assumptions. Applying it at each of the finitely many registered levels proves the claim. Neither finiteness nor effective comparison at level `k+1` follows from the level-`k` conclusion alone. QED.
 
 ## 5. What familiar mechanisms become
 
