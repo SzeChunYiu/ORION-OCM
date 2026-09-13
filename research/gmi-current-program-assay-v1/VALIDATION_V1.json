@@ -26,6 +26,35 @@
     }
   },
   "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.35",
+  "post_capture_custody_guard": {
+    "change": "native alternate-root refusal before worker; close scandir on hostile refusal",
+    "current_changed_files": {
+      "evidence_v1.py": {
+        "bytes": 4984,
+        "sha256": "943b6978c203ebe95a0e8a8b738ef2475d80deaadb1c0f0581536bb9eb632256"
+      },
+      "test_evidence_v1.py": {
+        "bytes": 2832,
+        "sha256": "8a4b38ff3b9b0315945b76c2e68b37e85a081c118112807d4424469f4a002fcf"
+      }
+    },
+    "native_reexecution": "NOT_NEEDED_FOR_ENTRY_GUARD_ONLY_CHANGE",
+    "prior_native_receipt_unchanged": true,
+    "tests": {
+      "normal": {
+        "command": "python3.12 -B -m unittest test_evidence_v1 -v",
+        "count": 3,
+        "full_output": "test_alternate_root_native_replay_refused_before_execution (test_evidence_v1.BindingTests.test_alternate_root_native_replay_refused_before_execution) ... ok\ntest_exact_original_source_and_changed_vm_refused (test_evidence_v1.BindingTests.test_exact_original_source_and_changed_vm_refused) ... ok\ntest_full_membership_symlink_and_mutation_refused (test_evidence_v1.BindingTests.test_full_membership_symlink_and_mutation_refused) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.009s\n\nOK\n",
+        "native_calls": 0
+      },
+      "optimized": {
+        "command": "python3.12 -O -B -m unittest test_evidence_v1 -v",
+        "count": 3,
+        "full_output": "test_alternate_root_native_replay_refused_before_execution (test_evidence_v1.BindingTests.test_alternate_root_native_replay_refused_before_execution) ... ok\ntest_exact_original_source_and_changed_vm_refused (test_evidence_v1.BindingTests.test_exact_original_source_and_changed_vm_refused) ... ok\ntest_full_membership_symlink_and_mutation_refused (test_evidence_v1.BindingTests.test_full_membership_symlink_and_mutation_refused) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.010s\n\nOK\n",
+        "native_calls": 0
+      }
+    }
+  },
   "python": "3.12.13 (main, Aug  7 2026, 02:25:39) [Clang 22.1.3 ]",
   "receipt_gzip_sha256": "fdc1cf70d771578b7c37517e69a59d072404ab21a433789fc902bb6ae063ddab",
   "schema": "CurrentProgramAssayValidationV1",

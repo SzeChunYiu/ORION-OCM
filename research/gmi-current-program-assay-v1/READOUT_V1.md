@@ -20,7 +20,9 @@ The original historical main function labels substituted incomplete evidence
 decided. The successor refuses it and accepts the complete-record control.
 No historical runner/campaign or existing source file was modified.
 
-17 focused tests pass normally and optimized. The original fault-at-write3
+17 focused tests pass normally and optimized. After the native capture, all3
+custody guards pass in both modes, including the new alternate-root refusal
+with zero native calls; native receipt bytes remain unchanged. The original fault-at-write3
 coverage failure and its complete source-bound record remain retained. Its
 correction to write4 changes only where the explicit fault is injected.
 

@@ -15,6 +15,8 @@ Explicit native exposed qualification and complete retained-receipt comparison:
 Repeat with -O for optimized-mode validation. Default replay verifies complete
 manifest membership/content before and after, retains the initial anchor, validates
 full recorded ledgers/states/control payload and emits the entire original payload.
+Native replay accepts only the imported unit root, so another directory cannot
+be audited while this source silently executes. Static audit can take another root.
 This is byte custody/consistency, not independent execution authentication.
 
 Focused tests (these execute bounded exposed native controls):

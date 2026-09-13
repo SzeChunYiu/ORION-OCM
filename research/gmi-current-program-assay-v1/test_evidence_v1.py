@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 import native_source_v1
-from evidence_v1 import verify_manifest
+from evidence_v1 import replay, verify_manifest
 
 
 class BindingTests(unittest.TestCase):
@@ -28,6 +28,13 @@ class BindingTests(unittest.TestCase):
                 p.write_bytes(p.read_bytes() + b"\n")
                 with self.assertRaises(ValueError):
                     native_source_v1.source_bytes()
+
+    def test_alternate_root_native_replay_refused_before_execution(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with patch("qualification_v1.run") as worker:
+                with self.assertRaisesRegex(ValueError, "imported unit root"):
+                    replay(native=True, root=Path(directory))
+                worker.assert_not_called()
 
     def test_full_membership_symlink_and_mutation_refused(self):
         with tempfile.TemporaryDirectory() as directory:

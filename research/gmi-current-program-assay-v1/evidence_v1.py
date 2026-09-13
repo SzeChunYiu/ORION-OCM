@@ -20,20 +20,21 @@ def verify_manifest(root=HERE):
     manifest = json.loads(anchor)
     observed = {}
     def walk(directory):
-        for entry in os.scandir(directory):
-            path = Path(entry.path)
-            mode = entry.stat(follow_symlinks=False).st_mode
-            if stat.S_ISLNK(mode):
-                raise ValueError("symlink in unit")
-            if stat.S_ISDIR(mode):
-                walk(path)
-            elif stat.S_ISREG(mode):
-                relative = path.relative_to(root).as_posix()
-                if relative != "MANIFEST_V1.json":
-                    data = path.read_bytes()
-                    observed[relative] = {"bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
-            else:
-                raise ValueError("nonregular unit member")
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                path = Path(entry.path)
+                mode = entry.stat(follow_symlinks=False).st_mode
+                if stat.S_ISLNK(mode):
+                    raise ValueError("symlink in unit")
+                if stat.S_ISDIR(mode):
+                    walk(path)
+                elif stat.S_ISREG(mode):
+                    relative = path.relative_to(root).as_posix()
+                    if relative != "MANIFEST_V1.json":
+                        data = path.read_bytes()
+                        observed[relative] = {"bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
+                else:
+                    raise ValueError("nonregular unit member")
     walk(root)
     if observed != manifest["files"]:
         raise ValueError("complete manifest membership/content mismatch")
@@ -92,6 +93,9 @@ def validate_payload(payload):
 
 
 def replay(native=False, root=HERE):
+    root = Path(root)
+    if native and root.resolve() != HERE.resolve():
+        raise ValueError("native replay requires this imported unit root")
     anchor = verify_manifest(root)
     expected = gzip.decompress((root / "raw/QUALIFICATION_RECEIPT_V1.json.gz").read_bytes())
     payload = validate_payload(json.loads(expected))
