@@ -52,8 +52,14 @@ developed on. Terminal: `NECESSITY_HOLDS_NO_COUNTEREXAMPLE`.
 | `three_part` | 113 / 287 | 0 / 161 |
 
 So K2 **holds** — at 100% for one library on held-out targets — and reuse is
-necessary but **not sufficient**: rates run from 45% to 100%. The asymmetry is
-the result, and an iff would be false.
+necessary **at this registered scope** but **not sufficient**: the held-out
+rates are 129/253 = 50.99%, 148/148 = 100% and 113/287 = **39.37%**. The
+asymmetry is the result, and an iff would be false.
+
+**Correction.** An earlier version reported the range as "45% to 100%". No
+entry in the table is 45%; the minimum is 39.3728%. The figure was stated
+without being computed. Raised by the capital-acquisition repair unit and
+recomputed here.
 
 The fourth library, `dec_inc`, is absent from this table on purpose. It has
 **zero** reuse targets in the held-out population, so it tests necessity and
@@ -102,7 +108,37 @@ direction, because both arms stop **partway through** their final level
 alphabet size or length, decides those cases. No law built from level totals can
 capture it, and none is registered here.
 
-## 9. Scope and falsifiers
+## 9. KAE-10 — acceleration without shortening, by naming alone
+
+The necessity result in KAE-3 holds for the four registered libraries. It is
+**not** a general law, and the counterexample turns on something the cost model
+does not otherwise expose: the enumeration order of the alphabet.
+
+Take the library `{a: (inc,double), p2: (dec,square)}` and the target `2x+1`.
+Both minimal lengths are 2, so **no shortening is available** (`L_H = L_R`).
+Yet RESET first hits `(double,inc)` at candidate 11 while H hits `(a,dec)` at
+candidate **8**, so K2 holds. Rename the same macro `p1` instead of `a`, change
+nothing else, and H's first hit moves to candidate **15** and K2 fails.
+
+Same functions, same semantics, same charges — only the *name* differs. `a`
+sorts ahead of `dec`, `double` and `inc`, so H reaches an answer earlier purely
+by position in the enumeration.
+
+Two consequences, both of which qualify results stated earlier:
+
+- **First-hit rank is not an intrinsic property of a library.** It is a
+  property of the library *plus* its naming under the authored order. Any claim
+  resting on candidate counts inherits that dependence.
+- **KAE-3's search could not have found this.** The four registered libraries
+  use names (`p1`, `p2`, `q1`, `a`, `b`, `c`, `z`) whose sort positions never
+  produce the effect for a non-shortening target; an independent sweep of 654
+  targets at cap 5 across all four returns zero counterexamples. The claim is
+  therefore true at its registered scope and false as stated generally.
+
+Raised by the capital-acquisition repair unit; the witness was recomputed here
+before being accepted, including the renaming control that makes K2 fail.
+
+## 10. Scope and falsifiers
 
 Not claimed: K2 at #323 or any other assay; that this microworld's costs model
 any runtime; that reuse is sufficient; that the harm rate transfers.
