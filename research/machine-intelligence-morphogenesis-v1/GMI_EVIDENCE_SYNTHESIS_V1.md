@@ -31,7 +31,7 @@ this table silently.
 | morphology = Pareto frontier + operational fibers | FO1–FO3 THEOREM | frontier enumeration EXACT (16 policies, best 3/4); **K4 V7 PROTECTED: 0/264 named-family recovery** — fibers, not names, are the closed object | closed as fibers; names not recoverable (RV-377-121) |
 | neural derivation with predicted capability | FO4–FO6 THEOREM | one-hot/ReLU compiler EXACT (192 traces) | closed at finite operational scope |
 | held-family response / phase laws | K5 phase freeze V1 + revival plan V8 | **PROTECTED GREEN 8/8 lanes** (V7 six lanes; V8 two revived lanes, RV-377-170/171); REAL transfer RV-377-190/194: off-band 63/64 vs CV 53/64 | closed at registered + sklearn scale |
-| prospective unoccupied channel domains | atlas §3 + FO11 | RV-377-135…138 EXACT GREEN; **RV-377-200 B7 realization search PENDING** (random world + store channel, ceiling 0.89087 predicted, region without store predicted empty) | prediction closed; realization pending |
+| prospective unoccupied channel domains | atlas §3 + FO11 | RV-377-135…138 EXACT GREEN; **RV-377-200 PROTECTED-draw realization: P0–P5 held** (ceiling attained on 2/3 seeds, store carriers, empty region empty, channel ablation) | prediction and realization closed at registered scope |
 | composite / distributed | compositional layer (PR #467) | EXACT, REPLICATED | closed with coupled-goal counterexample |
 | causal meaning / viability | causal-viability layer | EXACT, REPLICATED | closed |
 | physical substrate constants | nonclassical end-to-end theorem | RV-377-195 EXTERNAL (Willow, HERMES): parent wins by ≥ 10¹⁰ at the registered obligation | evaluated from published constants only |
@@ -44,9 +44,9 @@ this table silently.
 | # | gap | status now | record |
 |---|---|---|---|
 | 1 | true zero-prior derivation | named-family recovery RED at protected tier (structural); operational fibers closed; carrier-class rate law **PENDING** (RV-377-140); CP1 ablation: 33 kinds, 49/99 units done, 13 kinds revived under the kind-agnostic generator (RV-377-202, running) | #455, FO1–3, RV-140, RV-202 |
-| 2 | blind recovery (B5) | the RV-377-113 positive re-read under atrophy: coefficient class 0/12 (RV-377-141, PENDING adjudication); memory/program classes recovered | RV-141 |
+| 2 | blind recovery (B5) | lane B nine seeds: raw descriptor 4/9 DENSE (RV-118 B1 confirmed), atrophied reading 0/9 — coefficient class never recovered on any discriminating ecology (0/12 E_sym5, 0/3 each elsewhere); memory 9/12, program 1/12. `G15_STEP_TWO_REACHED` → REACHED_ON_RAW_DESCRIPTOR_ONLY (RV-377-141). Class-rate law CRML-1 scoring on 4 fresh ecologies in progress | RV-140/141 |
 | 3 | cross-paradigm morphogenesis (B6) | theory: recursive lift GG13–18; experiment RV-377-180 **PENDING** | RV-180 |
-| 4 | unknown / novel morphology (B7) | four unoccupied channel cells predicted and exact-verified; realization search RV-377-200 running: first STORE seed lands at 0.857 ± 0.009 vs ceiling 0.891 (ceiling respected, store carrier as predicted, channel ablation drops it to 0.686) — attainment within 3 s.e. still open | FO11, RV-200 |
+| 4 | unknown / novel morphology (B7) | four unoccupied channel cells predicted and exact-verified (FO11); **RV-377-200 realized**: a preregistered occupied region (structureless world + half-coverage store, ceiling 0.8909) was reached by macro-free search on 2/3 seeds with store carriers, the region predicted empty stayed empty, and removing the store channel removed the capability (P0–P5 all held). B7 earned as a channel-defined form, novelty over parents not claimed | FO11, RV-200 |
 | 5 | architecture-independent principle (B8) | semantic cut + substrate lifting + channel family verified; master factorization GG33 | GG1–9, GG22–24, GG33 |
 | 6 | phase law / predictive dynamics | PROTECTED GREEN 8/8 + REAL off-band | K5 V7/V8, RV-190/194 |
 | 7 | universality + real/physical | REAL closed at sklearn scale; physical sign from EXTERNAL constants; independent authorship closed by model proxy (IG-4/5, RV-377-160; residue: same model family) | RV-190/194/195, RV-160 |
