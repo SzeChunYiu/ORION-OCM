@@ -20,6 +20,11 @@ HERE = Path(__file__).resolve().parent
 INVENTORY = "THEOREM_REPLAY_INVENTORY_V1.json"
 SCHEMA = "grand-gmi-theorem-replay-inventory-v1"
 CLAIM_CEILING = "registered finite executable checks only; no universal theorem or empirical closure"
+EXTERNAL_UNIT_DEPENDENCIES = {
+    "grand_gmi_finite_quantum_cover_checks_v1.py": (
+        "research/gmi-finite-quantum-cover-v1",
+    ),
+}
 EXTERNAL_DOCUMENT_DEPENDENCIES = {
     "grand_gmi_operational_reachability_checks_v1.py": (
         "research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md",
@@ -184,6 +189,25 @@ def load_inventory(root):
             "unclassified or missing external control workflow")
     for name, digest in external_controls.items():
         bind_file(repository, name, digest)
+    units = data.get("external_units", {})
+    expected_units = {name for checker in names
+                      for name in EXTERNAL_UNIT_DEPENDENCIES.get(checker, ())}
+    require(type(units) is dict and set(units) == expected_units,
+            "unclassified or missing external research unit")
+    if units:
+        # Compile the already bound bytes afresh: no cached/imported substitute.
+        helper = "external_unit_bindings_v1.py"
+        source = bind_file(root, helper, controls.get(helper))
+        raw = source.read_bytes()
+        require(hashlib.sha256(raw).hexdigest() == controls[helper],
+                "external unit verifier source changed")
+        scope = {"__name__": "capsule_external_units", "__file__": str(source)}
+        exec(compile(raw, str(source), "exec"), scope)
+        for name, record in units.items():
+            try:
+                scope["verify_unit"](repository, name, record)
+            except (ValueError, OSError, TypeError) as exc:
+                raise ReplayError(f"external research unit invalid: {name}: {exc}") from exc
     for row in entries:
         bind_file(root, row["checker"], row.get("source_sha256"))
         for old in row["historical_receipts"]:

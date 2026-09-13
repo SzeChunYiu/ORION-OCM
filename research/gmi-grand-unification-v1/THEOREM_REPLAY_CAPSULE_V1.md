@@ -58,6 +58,24 @@ witnesses. The outer gate additionally compares the master output to
 the active master receipt named in the inventory. The inner replay skips only the named master
 entry, avoiding self-recursion. A leaf cannot reclassify itself as an aggregate.
 
+## Complete external research units
+
+The fixed dependency map also registers the complete
+[finite quantum unit](../gmi-finite-quantum-cover-v1/CORE.md). Its original
+checker, tests, theorem, assumptions, receipt and transitive raw parent records
+remain byte-preserved outside this directory. The grand wrapper returns the
+entire original JSON payload inside its own bound receipt; no field is removed.
+
+`external_units` binds the unit manifest and every listed payload byte. Strict
+recursive directory traversal rejects extra or missing files, symbolic links,
+special files and unreadable paths. When a checker needs such a unit, the gate
+compiles the hash-bound verifier source bytes afresh; old minimal fixtures need
+no external-unit helper. Every inventory load verifies complete unit membership
+and content, including the final load after all checkers execute. Thus a later
+checker cannot silently modify an earlier external input and retain a green run.
+These reviewed digests establish reproducibility, not independent authenticity
+of an arbitrary replacement inventory or a proof of the scientific claims.
+
 ## Historical evidence
 
 The initial audit found 15 of 37 checker outputs unequal to their corresponding

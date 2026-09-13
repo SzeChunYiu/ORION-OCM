@@ -24,6 +24,7 @@ sector or successful finite replay does not establish universal completion.
 | What does an acquisition policy cost to represent and execute? | [Bounded controllers](BOUNDED_CONTROLLER_RESOURCE_THEOREM_V1.md): exact finite controller synthesis, stored-program and live-state profiles, and a feedback revival. |
 | Can finite evidence settle unbounded development? | [Developmental repair](DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md): complete reachable closure certificates can; selection exclusion needs a retained comparator. |
 | When can candidate coverage actually be checked? | [Coverage correction](CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md): finite exhaustive decision and separately supplied infinite-domain proofs have distinct guarantees; completing a cover can withdraw an apparent winner. |
+| Can a continuous quantum protocol class be covered constructively? | [Finite quantum coverage](../gmi-finite-quantum-cover-v1/CORE.md): complete ideal unassisted one-way protocol coverage and an attained transmitted-dimension optimum from established real-algebraic parents. The executable evidence verifies finite witnesses; it does not run the general solver or establish hardware costs. |
 
 The [all-partition separation](FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md)
 matches every indexed input-partition width while separating expected query
