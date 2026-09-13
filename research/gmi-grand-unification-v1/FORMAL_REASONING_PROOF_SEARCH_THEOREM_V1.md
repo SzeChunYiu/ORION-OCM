@@ -48,7 +48,18 @@ S^*_{proof}=H_{proof}/\!\equiv_{proof}
 
 is the canonical exact proof-search state at that operational scope.
 
-Any exact proof-search representation must refine this quotient. If the proof grammar is right-congruent with respect to this equivalence, dynamic programming/search on the quotient is exact.
+Any representation preserving **every registered continuation response** must
+refine this quotient. Merely finding one accepted certificate can require less:
+partial histories with acceptable completions `{a,b}` and `{a,c}` have different
+full response rows but can both use completion `a`. Task-success necessity is
+therefore governed by the compatibility/cut condition in GP3, not by full
+response cardinality alone; see `SEMANTIC_ADEQUACY_CORRECTION_V1.md`.
+If the proof grammar respects class-consistent legal actions and is
+right-congruent with respect to the response equivalence, quotient search
+preserves the registered acceptance behavior. Dynamic programming for any
+additional objective or resource coordinate also requires that coordinate's
+transition/output costs to be preserved; acceptance equivalence alone does
+not identify a cost-optimal proof search.
 
 Thus symbolic proof states, learned proof embeddings and search nodes are candidate realizations of the same obligation-relative quotient.
 

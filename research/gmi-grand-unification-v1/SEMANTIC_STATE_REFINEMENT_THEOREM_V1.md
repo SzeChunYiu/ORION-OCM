@@ -1,7 +1,7 @@
 # Grand GMI Semantic-State Refinement Theorem V1
 
 Status: **EXACT SET-THEORETIC THEOREM; FINITE EXHAUSTIVE CHECK GREEN**  
-Date: 2026-09-12  
+Date: 2026-09-12; response-preservation/adequacy correction: 2026-09-13
 Parent main: `aae4d77e49542a135d14bdaf762ec74671abe8e4`
 
 ## 0. Purpose
@@ -30,6 +30,17 @@ The semantic state space is
 
 This generalizes the current predictive-response quotient while making the obligation/ecology dependence explicit.
 
+The refinement comparisons use the **same admitted history set** and a common
+response map: a larger declaration must restrict to the original responses
+on the old coordinates. Changing a kernel, history universe or interpretation
+while adding probes is not mere coordinate refinement.
+
+Every compared rooted response must be defined. A stochastic trajectory law
+alone fixes conditional responses only almost surely. All-history claims need
+declared rooted kernels/versions at null histories, or must restrict to a
+registered domain where those responses are defined. An almost-sure quotient
+must not be promoted into an all-intervention guarantee without that extension.
+
 ## 2. Obligation refinement theorem
 
 **Theorem SR-1.** If `Omega_1 subseteq Omega_2` with the same `E,K`, then
@@ -56,7 +67,8 @@ and there is the analogous canonical surjection
 
 `S(E_2,Omega,K) -> S(E_1,Omega,K)`.
 
-Thus admitting more possible environments can only preserve or increase the number of semantically necessary distinctions.
+Thus admitting more possible environments can only preserve or increase the
+number of distinctions needed to preserve the complete declared response map.
 
 ## 4. Intervention refinement theorem
 
@@ -82,25 +94,96 @@ Then
 
 For approximate response equivalence one may replace cardinality by an epsilon-covering number; monotonicity requires a compatible nesting of metrics/tolerances and is not claimed here without those regularity declarations.
 
-## 6. Interpretation as abstraction
+## 6. Full response preservation and task adequacy are different
 
-A coarser obligation/ecology/horizon identifies histories that a finer problem must keep distinct. Therefore abstraction is not fundamentally 'compressing a vector'; it is passing through the canonical quotient induced by forgetting distinctions that no longer matter.
+Write `q_T:H -> S_T` for the quotient map and `r:H -> R` for a deterministic
+representation. **SR-3 — response-preservation criterion.** There exists a
+readout `f` with `Q_h^T=f(r(h))` on the registered histories iff
 
-The quotient maps give a directed semantic coarse-graining system:
+`r(h)=r(h') => Q_h^T=Q_h'^T`,
 
-`... ->> S_{T+1} ->> S_T ->> ... ->> S_1`.
+equivalently iff `q_T=g o r` for a map `g` on `r(H)`.
 
-A representation is adequate at scale `T` exactly when it is sufficient for `S_T`; any extra distinctions are representational detail rather than task necessity.
+Proof: a readout cannot assign different response profiles to one value of
+`r`. Conversely the displayed implication makes `f(r(h))=Q_h^T` independent
+of the representative. The same construction gives `g(r(h))=[h]_T`. QED.
 
-## 7. Morphological pressure from semantic growth
+This is an exact statement about recovering **all registered responses**.
+It is not an iff criterion for satisfying a set-valued obligation by choosing
+one allowed behavior. Extra distinctions can also matter for physical cost,
+development or later interventions even when they do not affect `Q^T`.
+The canonical maps `... ->> S_(T+1) ->> S_T` remain valid response abstractions.
 
-The theorem alone does not derive a hardware architecture, but it creates a task-side invariant with direct morphological consequences once physical resources are added.
+**Relational counterexample.** With no downstream side information, let
+`Gamma(h0)={a,b}` and `Gamma(h1)={a,c}`. Probing all three actions gives success
+rows `(1,1,0)` and `(1,0,1)`, so the full response quotient has two classes.
+Nevertheless a constant representation with action `a` satisfies the
+obligation at both histories and requires only one cut symbol.
 
-- If `|S_T|` stabilizes, bounded exact semantic memory is possible at increasing horizon.
-- If `|S_T|` grows, any exact finite-memory realization must eventually enlarge memory, externalize state, exploit additional structure, tolerate error, or fail the obligation.
-- Different growth laws can therefore create different memory/routing pressures before any named architecture is introduced.
+**Three-way incompatibility witness.** Acceptable sets `{a,b}`, `{b,c}` and
+`{a,c}` give three distinct full response profiles. Every pair has a common
+action but the three-way intersection is empty: one symbol fails, two suffice.
+Pairwise compatibility is therefore not an equivalence relation sufficient
+for deciding joint adequacy. SC-1's semantic conflict hypergraph gives the
+correct one-way zero-error requirement, including this higher-order conflict.
 
-This is a theorem about semantic necessity, not a universal claim about the empirical scaling exponent of modern networks.
+The exact deterministic-function special case is retained. With no side
+information and `Gamma(h)={f(h)}`, two different required outputs are
+incompatible. The minimum alphabet is `|im f|`, equal to the number of
+distinct success rows. ACL-3's memory bound also remains valid because it
+explicitly assumes pairwise incompatible terminal actions and no surviving
+distinguishing external observation.
+
+## 7. From response classes to realizable memory
+
+If every future protected response must be reconstructed from an internal
+state and fixed identical downstream side information, SR-3 requires at
+least `|S_T|` distinct state values. This is a deterministic exact
+response-preservation bound at that cut. It is not a universal memory bound
+for merely satisfying `Omega`, stochastic mixtures, or unrestricted external
+information. For relational task success use SC-1's conflict condition and
+the actual permitted communication/control protocol.
+
+**Growth alone is insufficient for task-memory necessity.** Consider a
+binary sequence environment. At each step action `safe` always satisfies the
+obligation and action `probe` succeeds exactly when the current hidden bit is
+1; both advance the sequence. Full response probes over the next `T` steps
+distinguish all `2^T` prefixes. The one-state controller that always chooses
+`safe` still satisfies every finite-horizon obligation. Thus increasing
+full response diversity need not increase the memory required for success.
+
+Cardinality also does not by itself implement a recursively updated state.
+For deterministic history extension `h -> h·a`, a stationary quotient update
+`U([h],a)=[h·a]` exists iff the equivalence is a **right congruence**:
+
+`h~h' => h·a~h'·a`
+
+for equally legal extensions. This follows by the same representative-
+independence argument as RM-3. Legal action domains must be class-consistent
+or their differences included among the protected distinctions.
+
+If the full registered tests are closed under prefixing by every admitted
+action, and response semantics satisfy the corresponding concatenation law,
+equality of full responses implies this congruence: test after `a` by using
+the prefixed test before `a`. Without closure the implication fails. For
+example current-output probes merge two zero-output states `u,v`, while an
+action sends `u` back to itself and `v` to an output-one state.
+
+At finite horizon the automatic update is from remaining-horizon classes
+`S_T` to `S_(T-1)`, where tests and legality are truncated consistently;
+equality of `T`-step responses need not define a stationary update on `S_T`.
+For stochastic processes, equality of suitable joint future laws and the
+registered conditional-update convention is required; equality of a marginal
+current-response vector alone is not a lumpability theorem.
+
+When a finite response quotient has lawful output and update maps in the
+declared physical class, it supplies a bounded-state implementation of those
+responses. Finite/stabilizing class counts alone do not establish those maps,
+their computability, physical realization or resource cost. Infinite-horizon
+claims additionally require that the finite tests determine the protected
+infinite-horizon response family. These conditions preserve the valid
+predictive-state interpretation without deriving task memory from a class
+count that the task need not preserve.
 
 ## 8. Donor boundary
 
@@ -109,3 +192,8 @@ Predictive-state representations and computational-mechanics causal states are d
 ## 9. Executable check
 
 `grand_gmi_recursive_checks_v1.py` exhausts all `2^(4*3)=4096` binary response matrices for four histories and three obligation coordinates. Across all 27 nested obligation-family pairs per matrix, it checks refinement, canonical-map well-definedness, surjectivity, and nondecreasing quotient cardinality: 110,592 exact nested-pair checks.
+
+That historical checker does not establish an iff between task success and
+response preservation. The additive `SEMANTIC_ADEQUACY_CORRECTION_V1.md` and
+`GRAND_GMI_SEMANTIC_ADEQUACY_RECEIPT_V1.json` record counterexamples, exact
+relational/function checks and finite continuation/congruence checks.

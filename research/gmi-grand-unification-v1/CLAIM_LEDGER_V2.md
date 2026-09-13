@@ -17,3 +17,21 @@ Status date: 2026-09-12. Successor to `CLAIM_LEDGER_V1.md`; V1 remains authorita
 Executable guard: `grand_gmi_recursive_checks_v1.py` verifies 110,592 nested semantic-refinement cases, a good/bad quotient-development pair, and independent bounded-reachability calculations on base and lifted systems.
 
 Aggregate terminal: `GRAND_GMI_RECURSIVE_MORPHOGENESIS_TRANCHE_ALL_GREEN`.
+
+## Additive correction SA-1 — 2026-09-13
+
+GG10–GG12 retain their response-map refinement meanings. The former §6/§7
+promotion from full response-state necessity to arbitrary task-success
+necessity is **REFUTED** by overlapping acceptable-action sets.
+
+| ID | Claim | Status | Scope |
+|---|---|---|---|
+| SA-1 | A representation preserves every registered response iff its equality classes refine the exact response quotient. | THEOREM | deterministic all-response readout |
+| SA-2 | Relational task success need not preserve the full response quotient. | EXACT COUNTEREXAMPLES + ENUMERATION | common-action overlap and three-way conflict |
+| SA-3 | Exact deterministic-function outputs without side information retain the quotient/message equality. | THEOREM + EXACT CHECKS | singleton acceptable-action sets |
+| SA-4 | Stationary quotient update requires right congruence; truncated continuation equality gives a countdown update. | THEOREM + EXACT CHECKS | coherent finite deterministic transition semantics |
+| SA-5 | Null-history conditional versions can change all-history quotients without changing a joint law. | EXACT TYPING WITNESS | all-history vs almost-sure declaration |
+
+Authority: `SEMANTIC_ADEQUACY_CORRECTION_V1.md`, corrected semantic-state
+refinement theorem, and `GRAND_GMI_SEMANTIC_ADEQUACY_RECEIPT_V1.json`.
+Current scoped terminal: `GRAND_GMI_SEMANTIC_ADEQUACY_CORRECTION_GREEN_AT_FINITE_SCOPE`.
