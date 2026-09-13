@@ -1,0 +1,33 @@
+commit fc9f6169747cf45dc0562f216d74eae2d0682fdd
+Author:     Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com>
+AuthorDate: Sun Sep 13 23:42:46 2026 +0200
+Commit:     Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com>
+CommitDate: Sun Sep 13 23:42:46 2026 +0200
+
+    Derive skill chunking and why hierarchies are shallow (checklist item 10)
+    
+    Joins two proved results without assuming anything new. PVR-3 gives the reuse break-even,
+    retention winning exactly when r exceeds 1 + S/(C-U) and never when invoking costs as much
+    as deriving. The quotient theorem says the coarsest response-preserving quotient is the
+    unique minimal representation, so a skill is a retained sub-quotient and chunking is PVR-3
+    applied to it.
+    
+    The derived consequence is that levels are self-limiting. Retaining level one lowers the
+    derivation cost of level two, but C sits in the denominator of the threshold, so lowering
+    it raises the recurrence a level-two chunk must clear. Each level is harder to justify than
+    the one beneath it, and the first level should capture most of the benefit.
+    
+    That is a prediction and the evidence confirms it. An exact enumeration over five weighted
+    tasks gives flat 72, best one level 33, best two levels 31: the second level adds 2 against
+    the first level's 39, because short chunks are shared across every task while long ones are
+    task-specific. A sweep over storage price and recurrence shows the second level's
+    contribution rising with recurrence at every price, remaining a 10 to 20 percent minority
+    across the whole range, and falling to exactly zero at high storage price with low
+    recurrence.
+    
+    States what is not settled: subgoal formation, which connects to item 11 but is not proved
+    here, and hierarchical planning, since this compiles recurring structure rather than
+    searching futures. Load-bearing assumptions are PVR-3's own, and eviction would reinforce
+    rather than weaken the shallowness conclusion.
+    
+    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
