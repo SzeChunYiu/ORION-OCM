@@ -1,0 +1,39 @@
+name: GMI strategic ToM (TOM-1-3)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-strategic-tom-v1/**'
+      - '.github/workflows/gmi-strategic-tom.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-strategic-tom-v1/**'
+      - '.github/workflows/gmi-strategic-tom.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  strategic-tom:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run strategic ToM controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-strategic-tom-v1/test_strategic_tom_v1.py -v

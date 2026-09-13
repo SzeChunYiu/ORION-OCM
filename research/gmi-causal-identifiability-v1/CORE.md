@@ -19,3 +19,5 @@ The tests distinguish missing support from a valid numerical result.
 
 This unit is not registered in the grand replay capsule. It makes no
 finite-sample, physical-randomizer, universal discovery or hardware claim.
+
+CAU-5 supplement (checklist item 13): [separator theorem](CAUSAL_COGNITION_SEPARATOR_THEOREM_V1.md) runs the same way on the sibling [test_causal_rungs_v1.py](test_causal_rungs_v1.py); receipt [CAU5_RECEIPT_V1.json](CAU5_RECEIPT_V1.json) binds 11/11 on billy-old (py3.14) + laptop-billy (py3.8), normal + optimized.

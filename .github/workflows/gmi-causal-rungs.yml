@@ -1,0 +1,40 @@
+name: GMI causal rungs (CAU-5)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-causal-identifiability-v1/**'
+      - '.github/workflows/gmi-causal-rungs.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-causal-identifiability-v1/**'
+      - '.github/workflows/gmi-causal-rungs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  causal-rungs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run causal identifiability controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-causal-identifiability-v1/test_causal_identifiability_v1.py -v
+          python "${args[@]}" research/gmi-causal-identifiability-v1/test_causal_rungs_v1.py -v
