@@ -47,6 +47,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 17 | V1 pinned a stale runtime and checked only one generator support revocation. A separate V2 binds the current 179-file runtime/resource inventory and tests all three essential supports with retained history. | `../theory-runtime-integration-v2/REVIEW_V2.md`; hosted run [34749001490](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34749001490) | [#528](https://github.com/SzeChunYiu/ORION-OCM/pull/528) |
 | 18 | No V3 timing run appeared; an inherited description still said two candidates. Preserve V3 unchanged and freeze V4 with identical candidate/instrument/schedule identities, correct scope wording and complete workflow trigger coverage. | `PARITY3_EXECUTION_RECOVERY_V4.md` | [#529](https://github.com/SzeChunYiu/ORION-OCM/pull/529) |
 | 19 | Retain and statically audit the first four-candidate hosted expansion: all 64 traces, 128 blocks, resource envelopes and full robust frontier. XOR is the sole survivor at the registered scope. | `PARITY3_V4_HOSTED_RESULT_ASSESSMENT_20260913.md`; hosted run [34749100254](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34749100254) | Current evidence iteration; validate and merge separately from the frozen experiment |
+| 20 | The family-phase crossover condition was vacuous, malformed intervals were compared instead of rejected, and the hybrid witness summed registered upper bounds into pure-family lower bounds and reused a composition law as a necessity. FP-3a now carries well-formedness, connected-domain and pairwise scope; FP-5a fixes bound direction; FP-5b requires a decomposition-closed candidate class. | `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
@@ -103,6 +104,39 @@ coordinate. A finite alphabet does not bound invisible computation or
 implementation fibers. A finite cost cap does not bound the length of
 zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
+
+### A bound is only valid in the direction it was proved
+
+A registered upper bound may never be a term of a lower bound. The predecessor
+hybrid witness computed pure-family lower bounds as `4 + 8` and `9 + 3` from a
+registered neural smooth-region *upper* bound and a registered non-neural
+exact-region *upper* bound. With non-negativity alone the sound pure-neural
+bound is `8`, which does not strictly exceed the hybrid upper bound `8`, so
+that verdict was not robust; the non-neural exclusion survived because its
+regional *lower* bound had been registered. Separately, a declared additive
+regional law composes a hybrid upper bound but does not lower bound a
+competitor that never instantiates the registered cut. Excluding a pure family
+by a regional sum now requires a decomposition-closed candidate class, or a
+lower bound proved for the whole obligation.
+
+### A comparison predicate must validate its own inputs
+
+`lower <= upper` is a hypothesis, not a formatting convention. Two families
+registered as `[5,0]` both satisfy an unvalidated strict-separation test, so
+the predecessor comparator could report two winners and fail an internal
+assertion rather than abstain. Family-phase comparison now rejects malformed
+intervals with a typed error, following the same convention as
+`CERTIFICATE_INPUT_CORRECTION_20260913.md`.
+
+### A crossover claim needs a connected domain
+
+The predecessor crossover set `U_A >= L_B` and/or `U_B >= L_A` is implied at
+every robust-`B` parameter of a well-formed register, so it identified no
+boundary. The repaired FP-3a proves the intended abstention conclusion by the
+intermediate value theorem on a connected path, and only for the compared
+pair: on a discrete scale register a robust transition can occur with no
+abstaining registered parameter, and a third family can be robust at a
+pairwise touch parameter.
 
 ## Coverage of the recursive review
 
@@ -165,6 +199,11 @@ The existing `theory-runtime-integration-v1` workflow is a separate engineering
 contract. It binds a historical `src/` runtime and ORION-V2 method-theory
 snapshot and currently requests `REVALIDATION_REQUIRED` despite its successful
 workflow exit. PR #528 supplies the separately reviewed `theory-runtime-integration-v2` packet for the current runtime at `7f8488ed`. Hosted run 34749001490 passed all 22 binding controls and complete replay comparison; it covers the named finite M1–M4 engineering checks and three essential-support revocation cases. V1 remains historical. No runtime adoption or independent scientific/semantic authority is granted.
+
+Iteration 20 repairs the selection logic of the family-phase layer only. It
+does not supply the family-conditioned bound functions `L_F(s)` and `U_F(s)`
+for any real substrate, so the family phase diagram remains symbolic and the
+empirical obligations above are unchanged.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not

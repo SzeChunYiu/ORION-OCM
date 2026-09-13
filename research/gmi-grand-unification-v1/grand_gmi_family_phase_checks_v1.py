@@ -8,7 +8,19 @@ logic only and are not empirical claims about real hardware.
 import json
 
 
+class PhaseInputError(ValueError):
+    """A registered family interval is not a well-formed certified bound."""
+
+
 def robust_scalar_winner(intervals):
+    # Malformed bounds must be rejected rather than compared: two families with
+    # `lower > upper` both satisfy the unvalidated robustness test. See
+    # FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md.
+    if not intervals:
+        raise PhaseInputError("no registered family interval")
+    for fam, (lo, hi) in intervals.items():
+        if lo > hi:
+            raise PhaseInputError(f"{fam}: lower bound {lo} exceeds upper bound {hi}")
     winners = []
     for fam, (lo, hi) in intervals.items():
         if all(hi < other_lo for other, (other_lo, other_hi) in intervals.items() if other != fam):
@@ -55,18 +67,31 @@ def main():
     assert not vector_dominates_upper_lower((6, 7, 3), lower_b)
 
     # FP-5 hybrid-decomposition witness under a declared additive scalar model.
+    # A pure-family lower bound sums registered *lower* bounds only. The
+    # predecessor witness summed `neural_smooth_upper` and
+    # `nonneural_exact_upper` into lower bounds; both regional lower bounds are
+    # now registered explicitly. The exclusion is valid only over candidates
+    # that factor through the registered regions.
+    neural_smooth_lower = 4
     neural_smooth_upper = 4
     neural_exact_lower = 8
     nonneural_smooth_lower = 9
+    nonneural_exact_lower = 3
     nonneural_exact_upper = 3
     bridge_upper = 1
+    assert neural_smooth_lower <= neural_smooth_upper
+    assert nonneural_exact_lower <= nonneural_exact_upper
     hybrid_upper = neural_smooth_upper + nonneural_exact_upper + bridge_upper
-    pure_neural_lower = neural_smooth_upper + neural_exact_lower
-    pure_nonneural_lower = nonneural_smooth_lower + nonneural_exact_upper
+    pure_neural_lower = neural_smooth_lower + neural_exact_lower
+    pure_nonneural_lower = nonneural_smooth_lower + nonneural_exact_lower
     assert hybrid_upper == 8
     assert pure_neural_lower == 12
     assert pure_nonneural_lower == 12
     assert hybrid_upper < min(pure_neural_lower, pure_nonneural_lower)
+    # Without the registered smooth-region neural lower bound, non-negativity
+    # alone gives 8, which does not strictly exceed the hybrid upper bound.
+    unregistered_neural_lower = 0 + neural_exact_lower
+    assert not hybrid_upper < unregistered_neural_lower
 
     # FP-4 semantics alone cannot choose a family: opposite legal resource
     # orderings over response-equivalent realizations reverse selection.
@@ -83,6 +108,8 @@ def main():
         "hybrid_upper_bound": hybrid_upper,
         "pure_neural_lower_bound": pure_neural_lower,
         "pure_non_neural_lower_bound": pure_nonneural_lower,
+        "pure_family_lower_bounds_sum_registered_lower_bounds": True,
+        "hybrid_exclusion_requires_decomposition_closed_candidates": True,
         "hybrid_robustly_selected_in_synthetic_decomposition": True,
         "response_equivalent_family_selection_can_reverse_with_resource_model": True,
         "empirical_hardware_cost_claimed": False,
