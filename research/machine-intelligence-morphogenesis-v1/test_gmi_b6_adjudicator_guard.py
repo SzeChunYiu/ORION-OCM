@@ -98,3 +98,39 @@ def test_missing_units_block_any_adjudication(res):
     out = A.adjudicate("t", seeds=(0, 1, 2))
     assert out["terminal"] == "ADJUDICATION_INCOMPLETE__UNITS_MISSING"
     assert out["complete"] is False
+
+def test_a_missing_unit_is_never_a_refutation(res):
+    """A '>= 2 of 3' prediction with one hit and two unrun seeds must read PENDING,
+    not FAILED: the missing units could still satisfy it."""
+    _receipt(res, "SAME", "CONTINUED", 0, 278, 0.9062)
+    _receipt(res, "SAME", "RESET", 0, 11283, 0.8958)
+    _receipt(res, "SAME", "TWIN", 0, 560, 0.9062)
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    assert out["predictions"]["D1a"]["verdict"] == "PENDING_MORE_UNITS"
+    assert out["predictions"]["D1b"]["verdict"] == "PENDING_MORE_UNITS"
+    assert out["terminal"] == "ADJUDICATION_INCOMPLETE__UNITS_MISSING"
+
+
+def test_two_hits_settle_a_two_of_three_prediction_early(res):
+    """The sound early decision: two hits satisfy '>= 2/3' whatever the third seed does."""
+    for s in (0, 1):
+        _receipt(res, "SAME", "CONTINUED", s, 278, 0.9062)
+        _receipt(res, "SAME", "RESET", s, 11283, 0.8958)
+        _receipt(res, "SAME", "TWIN", s, 560, 0.9062)
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    assert out["predictions"]["D1b"]["verdict"] == "HELD"
+
+
+def test_z2_fails_as_soon_as_one_cold_arm_reaches_the_coefficient_cell(res):
+    """F-Z2: a single cold-start recovery settles Z2 FAILED with seeds still unrun,
+    because Z2 predicts 0 of 3."""
+    _receipt(res, "SAME", "RESET", 0, 11283, 0.8958, b_dense=9000)
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    z = out["Z_registration"]["Z2"]
+    assert z["verdict"] == "FAILED", z
+
+
+def test_z_terminal_is_pending_while_units_are_missing(res):
+    _receipt(res, "SAME", "CONTINUED", 0, 278, 0.9062, b_dense=38243)
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    assert out["Z_registration"]["terminal"] == "Z_UNDETERMINED__UNITS_MISSING"
