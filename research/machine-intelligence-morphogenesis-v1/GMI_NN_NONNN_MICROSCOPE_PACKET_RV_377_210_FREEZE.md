@@ -99,3 +99,48 @@ This decides the family question **for this packet's candidate universe on this 
 about modern neural systems, real hardware, or any ecology outside the registered families; per DC-3 no
 named architecture is derived. Its value is that the readiness audit's `UNDECIDED` becomes a decided
 verdict at a real, protected, task-bound scope with every load-bearing field discharged.
+
+---
+
+# RV-377-210 — ADJUDICATION (receipt `STAGE_NN_NONNN_PACKET_RV_377_210_old.json`, billy-old)
+
+13 candidates × 3 tasks × 6 V2 interventions, charged lifecycle meter, rules 36 + 40, Pareto over
+`(1 − min capability, desc, exec, upd, ver)`; family labels read after measurement; shuffled-label control
+unchanged on every task.
+
+| task | best constant | admissible (rule 36 V2 + rule 40) | Pareto set | DC-2 verdict | prediction |
+|---|---|---|---|---|---|
+| `E_cr4` | 0.8125 | `program_search`, `compiled_search` (min 0.9167, +2.5 fx) | both | **`DERIVED_NON_NEURAL`** | verdict HELD; survivor-set clause RED: the memory rows are **not** admissible under V2 (`hamming_knn` min 0.8021 under `extra_unseen_feedback_v2`) — the DG-13 closure removed exactly the bar they relied on (RV-377-150: 3/36 store cells lost admissibility) |
+| `E_sym5` | 0.7917 | `program_search`, `compiled_search` (0.9375, +3.5 fx) | both | **`DERIVED_NON_NEURAL`** | HELD (best neural row (3,2) min 0.8333 < θ) |
+| `E_wit1` | 0.7083 | `program_search`, `compiled_search` (1.0, +7.0 fx) **and `gradient_net_h3_lr1` (NEURAL, min 0.8542, +3.5 fx)** | all three | **`FAMILY_COEXISTENCE`** | **RED** — `INFEASIBLE` was predicted; instead the exact-search rows are admissible and one expansion neural row is intervention-robust under V2 |
+| E11 | — | one of four expansion rows admissible (on `E_wit1`) | — | — | **RED** as written |
+
+Terminal: **`NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE`** — every task yields a DC-2 verdict; the readiness
+audit's `UNDECIDED_FROM_CURRENT_EVIDENCE` is discharged at this packet's scope with every load-bearing
+field (E0–E13) bound to one immutable packet.
+
+## Reading
+
+1. **Non-neural is derived where the obligation is exactly identifiable and the resource meter is
+   charged.** On `E_cr4` and `E_sym5` only the exact-search rows survive hard feasibility; the Pareto step
+   never has to decide between families. This is the measured counterpart of E2E-2 (exact controller →
+   non-neural) and matches the MS-2 reading of the frontier receipts (`GMI_MEASURED_PROFILE_FAMILY_SELECTION_V1.md`,
+   PROGRAM_SEARCH derived in 55 scopes).
+2. **A neural candidate is intervention-robust on the witness-bearing ecology.** `gradient_net(h=3, lr=1)`
+   clears every V2 bar on `E_wit1` (min 0.8542, 3.5 fx over the constant) — the first hand-built coefficient
+   row in the corpus admissible under a leak-free full family. It sits on the Pareto set with the two exact
+   rows because its update work (6 835) is 500× smaller than theirs (≈ 3.4 M) while its capability is lower:
+   the resource vector, not the semantics, keeps both families on the frontier. That is E2E-4's coexistence
+   outcome, measured.
+3. **Two predictions were wrong and are filed RED, not retuned.** The freeze predicted memory rows
+   admissible on `E_cr4` (they are not under V2) and `E_wit1` infeasible (it is not). Root cause, one stage
+   each: (i) the memory prediction reused the V1-family closed form after this session had itself closed
+   the leak that form depended on; (ii) the `E_wit1` prediction transferred RV-377-113's *searched-elite*
+   rule-36 failures to the *hand-built* expansion rows, which the freeze had explicitly added to represent
+   the neural family at its best. Neither error touches the verdict machinery; both are recorded in the
+   ledger and the demotion rule (R9) applies: no re-prediction on this packet.
+4. **What is not claimed.** No named architecture (DC-3); nothing about modern hardware or SGD-trained
+   networks (E3's reachability sidebar: neutral search recovers the coefficient class 0/12 on `E_sym5`,
+   so the admissible neural row on `E_wit1` is reachable by construction, not by the registered search);
+   the candidate universe is this packet's (E11 shows the verdict is universe-relative: adding the
+   expansion rows changed `E_wit1` from `DERIVED_NON_NEURAL` to `FAMILY_COEXISTENCE`).
