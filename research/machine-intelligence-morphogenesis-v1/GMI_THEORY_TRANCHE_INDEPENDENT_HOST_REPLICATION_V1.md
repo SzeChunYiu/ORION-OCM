@@ -52,3 +52,22 @@ instantiation, measurable continuous GMI, realization compilation, morphology se
 non-neural family selection, phenomenology reduction, end-to-end derivation traces, epistemic
 acquisition, continuous realization bridge, non-neural constructive derivation, active closed-loop,
 compositional language morphology, NN/non-NN derivation certificate, planning semantic resolution.
+
+## Addendum — fifth pass (main@2d65cb11, after the lane's own six-PR correction wave)
+
+PRs #512–#517 repaired six defects the theory lane found in its own claims: common-decoder quantifiers,
+invalid evidence certificates, the generalization attainment gate, the developmental lifecycle frontier,
+task adequacy versus response preservation, and finite regret/selection assumptions. Re-executed every
+`*checks*.py` under `gmi-grand-unification-v1/` and `gmi-prior-free-derivation/` on **billy-laptop** (a
+third host for this corpus) from a fresh checkout at `2d65cb11`:
+
+* **45 of 45 checkers exit 0**, no non-zero exits;
+* `git status` clean after the runs — **no committed receipt changed**, so the corrections are consistent
+  with every receipt they left in place.
+
+Cross-lane consequence recorded separately: PR #513's certificate-input counterexamples were audited
+against `RV-377-210`'s committed receipt. None applies to that packet's data (adequacy is a measured
+Boolean, no candidate lacks deployment evidence, no task had an empty admissible set), so no verdict
+changes; the packet's adjudicator was nevertheless hardened so that absence of evidence abstains rather
+than declaring infeasibility. See the audit section of
+`GMI_NN_NONNN_MICROSCOPE_PACKET_RV_377_210_FREEZE.md`.
