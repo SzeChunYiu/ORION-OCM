@@ -10,12 +10,13 @@ import unittest
 
 class LearningMemoryControls(unittest.TestCase):
     def test_two_world_indistinguishability_ceiling(self) -> None:
-        # The learner-visible history law is identical, so one terminal output
-        # distribution q must serve both worlds.
-        for q in (Fraction(0), Fraction(1, 4), Fraction(1, 2), Fraction(3, 4), Fraction(1)):
-            success_p0 = 1 - q
-            success_p1 = q
-            self.assertLessEqual(min(success_p0, success_p1), Fraction(1, 2))
+        # A fixed learner has the same COMPLETE joint view in both worlds.
+        # A common decoder may abstain or return another wrong output.
+        for n0 in range(5):
+            for n1 in range(5 - n0):
+                success_p0, success_p1 = Fraction(n0, 4), Fraction(n1, 4)
+                self.assertLessEqual(success_p0 + success_p1, 1)
+                self.assertLessEqual(min(success_p0, success_p1), Fraction(1, 2))
 
     def test_approximate_erm_decomposition(self) -> None:
         # Fixed exact risks / empirical risks with eta-approximate ERM.
