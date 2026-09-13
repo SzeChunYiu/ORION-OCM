@@ -88,6 +88,12 @@ bindings. `MANIFEST_V1.json` separately binds every delivered payload except
 itself, including raw evidence and both final replay receipts. No test suite,
 scratch checkout or worker pool is run on the Mac.
 
+This is internal content consistency, not a strict filesystem-entry audit:
+the manifest follows file symlinks, excludes bytecode caches and does not
+inventory non-file entries. The exact external Git tree and delivery metadata
+identify the frozen package. Historical parent bindings are provenance
+records; replay does not re-read those parents from a live or remote checkout.
+
 ## Limits that passing cannot remove
 
 These are exact finite executions plus reviewed analytic derivations, not

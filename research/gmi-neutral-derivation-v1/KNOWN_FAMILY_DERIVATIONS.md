@@ -69,7 +69,7 @@ Positional codes, residual connections, normalization, feedforward blocks, head 
 
 ## Conditional computation / mixture of experts
 
-Let independent inputs X_1,…,X_n be selected by an index J with positive probability for every index; the task is to return X_J exactly.
+Let X_1,…,X_n be independent fair bits, and let J be independent of those bits with positive probability for every index; the task is to return X_J exactly, with no other X-dependent side information.
 An oblivious fixed read set independent of J and X must contain all n inputs: otherwise an omitted requested bit can be flipped without changing the view.
 With an admitted random-access interface, the index-dependent program reads just X_J once.
 Thus the interface/task can force conditional data access when the allowed external-read count is below n.
@@ -94,8 +94,8 @@ Relabeling symmetry alone does not establish expressivity beyond the known limit
 
 ## Bayesian systems
 
-With supplied prior π(h), likelihood P(e|h) and positive evidence probability, conditioning forces π(h|e)=π(h)P(e|h)/Σ_uπ(u)P(e|u).
-Under expected log loss, this posterior is the unique minimizing predictive distribution on its support: cross-entropy equals posterior entropy plus KL divergence.
+For a finite hypothesis set, supplied prior π(h), likelihood P(e|h) and positive evidence probability, conditioning forces π(h|e)=π(h)P(e|h)/Σ_uπ(u)P(e|u).
+For predicting H after evidence e under expected log loss, this posterior is the unique minimizing distribution: cross-entropy equals posterior entropy plus KL divergence.
 If the admitted evidence law factors P(e_1,…,e_T|h)=∏_tP(e_t|h), posterior log odds are prior log odds plus Σ_t log likelihood ratios.
 Thus the factorization yields additive sufficient evidence updates; duplicating perfectly correlated evidence violates that factorization and cannot be justified as a second independent update.
 The prior, hypothesis semantics, likelihood correctness and computable normalization remain premises. A Bayesian network's graph requires warranted conditional independences.
