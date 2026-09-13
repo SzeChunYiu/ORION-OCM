@@ -395,4 +395,14 @@ In words:
 
 > Physical law determines possible processes. Ecology and obligation determine which distinctions and transformations matter. Causal placement determines which semantic information must cross each cut and which transformations must occur locally. Resource laws determine which physical realizations can implement those requirements. Development determines which realizations can actually be reached. Intelligence morphology is the resulting resource-conditioned frontier, not a privileged architecture name.
 
+The final arrow has a one-sided derivation rather than only a schema. Given
+the proved necessities of the preceding arrows, a structural family predicate,
+a resource accounting map that undercharges and a monotone scalar functional,
+the relaxed accounting program of `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md`
+computes a family-conditioned lower bound that binds every admitted machine in
+that structure class, including machines nobody has constructed. Upper bounds
+are not derivable this way, so the chain explains robust family **exclusion**;
+selection still requires a construction, and any verdict remains relative to
+the registered structure classes and their uncovered residue.
+
 This is the current Grand GMI V1 master statement.

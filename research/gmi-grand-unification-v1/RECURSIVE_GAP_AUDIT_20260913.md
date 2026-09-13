@@ -48,6 +48,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 18 | No V3 timing run appeared; an inherited description still said two candidates. Preserve V3 unchanged and freeze V4 with identical candidate/instrument/schedule identities, correct scope wording and complete workflow trigger coverage. | `PARITY3_EXECUTION_RECOVERY_V4.md` | [#529](https://github.com/SzeChunYiu/ORION-OCM/pull/529) |
 | 19 | Retain and statically audit the first four-candidate hosted expansion: all 64 traces, 128 blocks, resource envelopes and full robust frontier. XOR is the sole survivor at the registered scope. | `PARITY3_V4_HOSTED_RESULT_ASSESSMENT_20260913.md`; hosted run [34749100254](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34749100254) | Current evidence iteration; validate and merge separately from the frozen experiment |
 | 20 | The family-phase crossover condition was vacuous, malformed intervals were compared instead of rejected, and the hybrid witness summed registered upper bounds into pure-family lower bounds and reused a composition law as a necessity. FP-3a now carries well-formedness, connected-domain and pairwise scope; FP-5a fixes bound direction; FP-5b requires a decomposition-closed candidate class. | `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 21 | The family phase law only compared registered bound functions; nothing derived them, so the master chain's final arrow was a schema plus a comparator. The relaxed accounting program now derives family-conditioned lower bounds from the proved necessities under an explicit accounting-soundness contract, covering unconstructed members of a structure class. The derivation is one sided, abstention is separated into epistemic and physical causes, and the evidence/candidate asymmetry is proved. | `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
@@ -104,6 +105,22 @@ coordinate. A finite alphabet does not bound invisible computation or
 implementation fibers. A finite cost cap does not bound the length of
 zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
+
+### A comparator is not a derivation
+
+Iteration 21 closes a structural gap rather than a false implication.
+The family phase law and the derivation certificate both took `L_F` and `U_F`
+as registered inputs, so no theorem connected the proved cut/transformation
+necessities to a family bound. The relaxed accounting program supplies that
+connection for lower bounds: because it quantifies over a structural predicate
+rather than a candidate list, its bound bounds machines nobody has built. Three
+boundaries are proved with it. The relaxation may be strictly loose, so an
+abstention verdict is uninformative about physics unless the compared bounds
+are attained. Registering a further valid necessity never lowers a derived
+bound, while weakening a structural predicate never raises one, which is the
+exact asymmetry between more evidence and more candidates. And no such program
+can select a family: two worlds sharing every necessity share every derived
+bound and can still differ, so necessities exclude while constructions select.
 
 ### A bound is only valid in the direction it was proved
 
@@ -204,6 +221,11 @@ Iteration 20 repairs the selection logic of the family-phase layer only. It
 does not supply the family-conditioned bound functions `L_F(s)` and `U_F(s)`
 for any real substrate, so the family phase diagram remains symbolic and the
 empirical obligations above are unchanged.
+
+Iteration 21 derives lower bounds only. It measures no substrate, supplies
+no `U_F`, does not make the relaxation tight, and does not establish that the
+registered structure classes cover the physically legal set. Every empirical
+obligation above is unchanged.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
