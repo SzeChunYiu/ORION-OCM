@@ -44,10 +44,10 @@ this table silently.
 
 | # | gap | status now | record |
 |---|---|---|---|
-| 1 | true zero-prior derivation | named-family recovery RED at protected tier (structural); operational fibers closed; carrier-class rate law **PENDING** (RV-377-140); CP1 ablation: 33 kinds, 49/99 units done, 13 kinds revived under the kind-agnostic generator (RV-377-202, running) | #455, FO1–3, RV-140, RV-202 |
-| 2 | blind recovery (B5) | lane B nine seeds: raw descriptor 4/9 DENSE (RV-118 B1 confirmed), atrophied reading 0/9 — coefficient class never recovered on any discriminating ecology (0/12 E_sym5, 0/3 each elsewhere); memory 9/12, program 1/12. `G15_STEP_TWO_REACHED` → REACHED_ON_RAW_DESCRIPTOR_ONLY (RV-377-141). Class-rate law CRML-1 scoring on 4 fresh ecologies in progress | RV-140/141 |
-| 3 | cross-paradigm morphogenesis (B6) | theory: recursive lift GG13–18; experiment RV-377-180 **PENDING** | RV-180 |
-| 4 | unknown / novel morphology (B7) | four unoccupied channel cells predicted and exact-verified (FO11); **RV-377-200 realized**: a preregistered occupied region (structureless world + half-coverage store, ceiling 0.8909) was reached by macro-free search on 2/3 seeds with store carriers, the region predicted empty stayed empty, and removing the store channel removed the capability (P0–P5 all held). B7 earned as a channel-defined form, novelty over parents not claimed | FO11, RV-200 |
+| 1 | true zero-prior derivation | named-family recovery RED at protected tier (structural); operational fibers closed; **class-rate law resolved**: RED as frozen (RV-377-140), root-caused, clause-revived and prospectively **SUPPORTED** on two further fresh ecologies (RV-377-142). CP1 ablation 98/99 units executed; the 13 generator-structural kinds are re-running under the kind-agnostic generator (RV-377-202, 25/39) | #455, FO1–3, RV-140/142, RV-202 |
+| 2 | blind recovery (B5) | lane B nine seeds: raw descriptor 4/9 DENSE (RV-118 B1 confirmed), atrophied reading 0/9. `G15_STEP_TWO_REACHED` → REACHED_ON_RAW_DESCRIPTOR_ONLY (RV-377-141). Corpus-wide invariant: **coefficient class recovered 0 of 43 times** at 20k charged evaluations across the 10 distinct ecologies tested; program class appears exactly where the exact-search row is rule-36 admissible (prospectively confirmed, RV-377-142) | RV-140/141/142 |
+| 3 | cross-paradigm morphogenesis (B6) | theory: recursive lift GG13–18. Experiment RV-377-180 **PENDING — sources 11/12, arms 0/24 started**; the warm-start vs reset vs twin comparison is the only gap-3 evidence and is not yet measured | RV-180 |
+| 4 | unknown / novel morphology (B7) | four unoccupied channel cells predicted and exact-verified (FO11); NN/non-NN family packet decided at microscope scope with R3 reported not bound (RV-377-210); **RV-377-200 realized**: a preregistered occupied region (structureless world + half-coverage store, ceiling 0.8909) was reached by macro-free search on 2/3 seeds with store carriers, the region predicted empty stayed empty, and removing the store channel removed the capability (P0–P5 all held). B7 earned as a channel-defined form, novelty over parents not claimed | FO11, RV-200 |
 | 5 | architecture-independent principle (B8) | semantic cut + substrate lifting + channel family verified; master factorization GG33 | GG1–9, GG22–24, GG33 |
 | 6 | phase law / predictive dynamics | PROTECTED GREEN 8/8 + REAL off-band | K5 V7/V8, RV-190/194 |
 | 7 | universality + real/physical | REAL closed at sklearn scale; physical sign from EXTERNAL constants; independent authorship closed by model proxy (IG-4/5, RV-377-160; residue: same model family) | RV-190/194/195, RV-160 |
@@ -64,6 +64,19 @@ this table silently.
 | DG-12 degenerate obligations (axis_a, e1_cp, refine_f) | obligation constant on the scored window | V2 obligations (owed) | audited (RV-377-118D), repair queued |
 | DG-13 leaky intervention / misnamed E_parity | scoring defect / dict-keys constructor | additive V2 registrations | CLOSED (RV-377-150): 3/36 store-row verdicts move; parity-separating split found |
 | IG-4/IG-5 same-author meter/alphabet | no independent author | blind model-proxy authors | CLOSED via model proxy (RV-377-160, PR #482): meter agreement ≥ 99 % per axis, K4 verdicts meter-invariant, alphabet covers all five carrier classes |
+
+## 4b. Where each of the four questions stands
+
+| question | answer at registered scope | tier | what is still external |
+|---|---|---|---|
+| derive known intelligence species | **yes, as operational fibers and families**, not as architecture names: every finite deterministic GMI machine compiles exactly to a ReLU realization (FO4–FO6); families are *selected* by charged resources (MS-2: 82/309 scopes derive one family; NN/non-NN packet: two tasks DERIVED_NON_NEURAL, one FAMILY_COEXISTENCE) | THEOREM + EXACT + measured | modern-scale systems; real hardware profiles |
+| predict / explain capability of existing species | **yes**: CL-1…CL-7 channel laws verified tight on protected draws and mapped to kNN, in-context LLM, RAG, verifier search, compressed models, structured and noisy-label learners; held-family phase laws GREEN 8/8 at protected tier and transferred to real sklearn learners (63/64 off-band vs CV's 53/64) | PROTECTED + REAL | large-scale neural regimes |
+| predict undiscovered domains / structures | **yes at registered finite scope**: four unoccupied channel classes predicted with ceilings and exact-verified (FO11), and one preregistered region realized by neutral search with its empty twin staying empty (RV-377-200) | EXACT + PROTECTED draws | regions whose predicted occupant is not a registered parent |
+| how far their capability can go | **yes, as channel ceilings**: each law gives a closed-form maximum for any machine with those channels, attained by construction and not exceeded (0 violations) | PROTECTED | ceilings for channel classes outside the registered family |
+
+The honest negative that bounds all four: GMI does **not** predict which architecture a cost-minimising
+search will build (0/264 protected, cross-seed agreement 0 %), and no result proved of one form lifts to its
+behavioural class over a Turing-complete IR.
 
 ## 5. What would still be owed after every PENDING row lands
 

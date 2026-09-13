@@ -40,3 +40,33 @@ reaches an admissible archive elite (θ = 0.85) there; IRREDUCIBLE otherwise. Ba
 Kill condition: if C6 fails the repair is incomplete; the failing kind is diagnosed and the run repeated
 after a second commit, never adjudicated with gaps. Ledger: RV-377-202. Terminal names:
 `PRIMITIVE_ABLATION_COMPLETE_OVER_33_KINDS_AT_REGISTERED_SCOPE` / `…_INCOMPLETE_<n>_UNITS`.
+
+---
+
+## Disclosed observation during execution (not a prediction, not a change)
+
+The 39 ABL2 units are far more expensive than the RV-377-110 sizing implied, and the cost is extremely
+uneven across kinds. Measured on billy-old (CPU time ≈ elapsed for every worker, i.e. these are compute
+costs, not contention):
+
+| unit | CPU seconds |
+|---|---|
+| median completed ABL2 unit | ≈ 3 700 – 7 000 |
+| `ABSTAIN_E_smooth1` | 4 502 |
+| `DENSE_E_smooth1` | 6 981 |
+| slowest two still running at the time of writing | **30 489** and **25 413** |
+
+The same pathology appears outside this lane: the B6 source search `E_twin2 S2` (`RV-377-180`, an unmodified
+20 000-evaluation B1 search on a random-table ecology) had consumed **28 713 CPU-seconds at 100 % CPU** while
+its siblings `E_twin0 S0` and `E_rnd2 S2` finished in 1 836 s and 692 s — a 15–40× spread on the *same*
+instrument with only the seed and target table differing.
+
+So the per-candidate evaluation cost of the neutral search varies by more than an order of magnitude with
+the alphabet and the ecology, at a fixed evaluation budget. The charged-evaluation count (20 000) is
+therefore **not** a proxy for charged compute, and any resource statement that treats the two as
+interchangeable is wrong by up to 40×. This is the charged-lifecycle analogue of the chart-cap finding in
+`RV-377-039/040`, where a nominally fixed budget hid a 10^5–10^6 spread in real work.
+
+Recorded here because it was observed while executing this freeze; it changes no prediction, no threshold
+and no unit of RV-377-202, whose predictions C3–C6 are scored on verdicts, not on wall-clock. It is a
+standing caveat for any future sizing estimate and for `B_search` accounting.
