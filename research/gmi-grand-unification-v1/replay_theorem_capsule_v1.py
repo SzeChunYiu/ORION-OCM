@@ -20,7 +20,11 @@ HERE = Path(__file__).resolve().parent
 INVENTORY = "THEOREM_REPLAY_INVENTORY_V1.json"
 SCHEMA = "grand-gmi-theorem-replay-inventory-v1"
 CLAIM_CEILING = "registered finite executable checks only; no universal theorem or empirical closure"
+CHECKER_TIMEOUT_SECONDS = {"grand_gmi_terminal_cost_checks_v1.py": 180}
 EXTERNAL_UNIT_DEPENDENCIES = {
+    "grand_gmi_terminal_cost_checks_v1.py": (
+        "research/gmi-terminal-cost-reconstruction-v1",
+    ),
     "grand_gmi_joint_relational_composition_checks_v1.py": (
         "research/gmi-joint-relational-composition-v1",
     ),
@@ -262,9 +266,10 @@ def replay(root=HERE, include_aggregate=True):
         frozen = bind_file(root, row["receipt"], row.get("receipt_sha256"))
         expected = strict_json(frozen.read_text(encoding="utf-8"), row["receipt"])
         require(expected.get("terminal") == row["terminal"], f"wrong frozen terminal: {row['receipt']}")
-        # The aggregate executes all leaves sequentially; it needs its own total
-        # budget while each individual finite checker retains the 60-second cap.
-        current = execute_checker(root, row, timeout=300 if row["kind"] == "aggregate" else 60)
+        # Preserve the ordinary 60-second leaf allowance. The complete TCR
+        # census has a separately registered allowance; no payload is reduced.
+        timeout = 300 if row["kind"] == "aggregate" else CHECKER_TIMEOUT_SECONDS.get(row["checker"], 60)
+        current = execute_checker(root, row, timeout=timeout)
         require(canonical(current) == canonical(expected),
                 f"full receipt differs from fresh checker output: {row['receipt']}")
         bind_file(root, row["receipt"], row["receipt_sha256"])

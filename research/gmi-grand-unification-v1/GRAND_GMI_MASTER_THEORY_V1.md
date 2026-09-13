@@ -150,22 +150,39 @@ that a full input-labelled output partition reconstructs attainable
 query-cost profiles at a fixed classical query interface. These scoped
 laws do not establish unrestricted irreducibility of entire `kappa`/`tau`
 spectra. Their relation depends on the retained semantic data and operations.
+[RQR-1–4](RELATIONAL_QUERY_RECONSTRUCTION_THEOREM_V1.md) extends query-only
+reconstruction to common adequate-output feasibility on labelled subcubes.
+With supplied nonnegative rational terminal-cost vectors,
+[TCR-1–4](../gmi-terminal-cost-reconstruction-v1/TERMINAL_COST_RECONSTRUCTION_THEOREM_V1.md)
+instead retains joint attainable terminal profiles and reconstructs the exact
+query-plus-terminal Pareto frontier. Adequate stopping need not be cheapest:
+a charged query can enable a cheaper terminal action. This specialization of
+established vector backups does not reconstruct controller/code, acquisition
+or physical realization costs. [Older repository parents](TERMINAL_COST_PARENT_ASSIMILATION_V1.md)
+already distinguish safe stopping, optimal stopping and paid continuation.
 
 ### 1.5 Symmetry object
 
 Let
 
 \[
-G_{\mathfrak G}=\operatorname{Aut}(\mathbf P,\mathcal E,\Omega,\Theta,\rho)
+G_{\mathfrak G}=\operatorname{Aut}(\mathbf P,\mathcal B,\mathcal E,\Omega,\Theta,\rho,\varepsilon)
 \]
 
-be the transformations that preserve the declared problem. `G` acts on the
-exact quotient `S*`. Under GG20's G-stable finite averaging hypotheses, or its
+be the transformations that preserve the declared problem, including its
+boundary/free information and error contract. The registered action must map
+admitted feasible kernels to admitted feasible kernels. `G` acts on the exact
+quotient `S*`. Under GG20's G-stable finite averaging hypotheses, or its
 compact barycentric-closure and coordinate-regularity hypotheses, every
 attainable randomized point has an equivariant feasible representative with no
 worse resources. A frontier representative requires an existing frontier point
 or separate attainment. A unique deterministic optimum is equivariant when the
 feasible class and selection rule are G-invariant.
+For development at allowance `b`, further restrict to the subgroup stabilizing
+`Reach_D(b)`. A sufficient development certificate preserves the admitted
+initial states and development resource charges as well as transition equivariance.
+[Boundary and reachability counterexamples](SYMMETRY_BOUNDARY_STABILIZER_CORRECTION_V1.md)
+explain why omitting either restriction can make averaging infeasible.
 
 ### 1.6 Developmental reachability
 

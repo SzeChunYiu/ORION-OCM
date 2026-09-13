@@ -10,11 +10,11 @@ labelled-partition and relational adequate-output query reconstruction,
 finite fixed-unknown-model acquisition with charged private randomization,
 finite-data model confidence with joint policy transfer, the corrected
 all-coefficient structural threshold bound, and complete ideal finite quantum
-protocol coverage, and joint-message composition for independent relational
-obligations. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V13.json`. Earlier aggregates and phase-law receipts
+protocol coverage, joint-message composition for independent relational
+obligations, and query-plus-terminal cost reconstruction. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V14.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 68 checkers (67 leaves and one
+historical paths. The current register has 69 checkers (68 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -66,13 +66,19 @@ entry, avoiding self-recursion. A leaf cannot reclassify itself as an aggregate.
 ## Complete external research units
 
 The fixed dependency map registers the complete structural-threshold repair,
-[finite quantum](../gmi-finite-quantum-cover-v1/CORE.md) and
-[joint relational](../gmi-joint-relational-composition-v1/CORE.md) units. Original
+[finite quantum](../gmi-finite-quantum-cover-v1/CORE.md),
+[joint relational](../gmi-joint-relational-composition-v1/CORE.md), and
+[terminal-cost](../gmi-terminal-cost-reconstruction-v1/CORE.md) units. Original
 checkers, tests, theorems, receipts and transitive raw parent records remain
-byte-preserved outside this directory. The quantum and relational wrappers
+byte-preserved outside this directory. The quantum, relational and terminal-cost wrappers
 return their entire original JSON payloads inside bound outer receipts; no
 field is removed. JRC executes its original checker, not its smaller replay
 summary, using an isolated import bootstrap and an empty private cache prefix.
+TCR executes its original checker and preserves its complete `status: PASS`
+payload; its outer terminal cannot replace any original field.
+The complete TCR census receives 120 seconds inside its wrapper and 180 in
+outer replay; ordinary leaves retain 60 and the aggregate 300. These are
+verification allowances, not measured resource or algorithmic-speed claims.
 
 `external_units` binds the unit manifest and every listed payload byte. Strict
 recursive directory traversal rejects extra or missing files, symbolic links,
