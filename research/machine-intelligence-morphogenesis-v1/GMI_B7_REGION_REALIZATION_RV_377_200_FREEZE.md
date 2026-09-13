@@ -92,3 +92,38 @@ machines are a known family), not a claim about architectures a cost-minimising 
 Reserved ids: RV-377-200 (this record), RV-377-201 (budget revival). Receipts:
 `microscopes/results/STAGE_B7_REGION_<arm>_S<seed>_{HOST}.json`, certificate
 `STAGE_B7_REGION_CERTIFICATE_{HOST}.json`.
+
+---
+
+# RV-377-200 — ADJUDICATION (receipts `STAGE_B7_REGION_{CERTIFICATE,<arm>_S<seed>,ADJUDICATION}_old.json`, billy-old)
+
+Freeze commit `0b67192f`; development tables and 20 protected tables derived from it; 6 searches × 20 000
+charged evaluations; adjudication mechanical (`b7_region.adjudicate`).
+
+| id | outcome |
+|---|---|
+| **P0** | HELD — `exemplar_table` on the STORE arm 0.8820 ± 0.0075 (cap* 0.8909, within 3 s.e.); on the NOSTORE arm 0.7677 ± 0.0096 (cap*₀ 0.7818, within 3 s.e.); best protected constant 0.8021 on average. |
+| **P1 ceiling** | **HELD** — no STORE-arm elite exceeds `cap* + 3 s.e.` on the protected tables (best means 0.8820, 0.8573, 0.8654). |
+| **P2 realization** | **HELD** — 2 of 3 development seeds reach `cap* − 3 s.e.` on the protected tables (seed 0: 0.8820 ± 0.0075; seed 2: 0.8654 ± 0.0096; seed 1 falls 3.8 s.e. short at 0.8573 ± 0.0088). The preregistered occupied region is realized by a search whose alphabet contains no architecture macro. |
+| **P3 form + channel ablation** | **HELD** — all 8 attaining elites carry a store class after atrophy (`TABLE`/`KVSTORE`), and every one falls to ≤ `cap*₀ + 3 s.e.` when scored without the store channel (0.7677, 0.6865, 0.7453): capability tracks the channel the machine reads, as CL-7 predicts. |
+| **P4 empty region** | **HELD** — on the NOSTORE arm no elite exceeds `cap*₀ + 3 s.e.` and none is admissible on the protected tables (best protected means 0.7099 ± 0.0208 and below): the region predicted empty is empty. |
+| **P5 selection channel** | **HELD** — on all 3 seeds the best STORE-arm elite scores ≥ 0.02 higher on its development table than on the protected mean (0.9323→0.8820, 0.9271→0.8573, 0.9635→0.8654): search selection is itself an information channel, and only protected draws measure the ceiling. |
+
+**Terminal: `B7_PREREGISTERED_REGION_REALIZED_AT_REGISTERED_SCOPE`.**
+
+What this establishes, and no more: the theory named an occupied region of channel space (structureless
+world + half-coverage external store) with an exact ceiling, and an empty one (same world, no store),
+before any search; a neutral search then found machines that attain the ceiling with the predicted carrier
+class and found nothing admissible in the empty region; removing the predicted channel removes the
+capability. It is a prediction about a form defined by its channels, verified by construction — not a
+historically novel architecture (store-reading memory machines are a known family), not a statement about
+which architecture cost-minimising search prefers (RV-377-121 stands), and at one obligation type, one
+world family, `L = 16`, 8-bit fixed point. Seed 0's attaining elite is behaviourally identical to the
+`exemplar_table` parent on all 20 protected tables (same mean, s.e. and ablated value), i.e. the search
+rediscovered the certificate machine's behaviour; seed 2's attainer is a distinct `TABLE`-carrier genotype.
+
+Claim-ladder movement: **B7** moves from BLOCKED to `EARNED_AT_REGISTERED_SCOPE__CHANNEL_DEFINED_FORM`
+(the rung's original wording "novel morphology residual not reducible to registered parents" is NOT
+claimed — the realized form reduces to the memory parent; what is earned is prospective prediction and
+realization of a preregistered region, the master ledger's §7 step). RV-377-201 (budget revival) is not
+needed.
