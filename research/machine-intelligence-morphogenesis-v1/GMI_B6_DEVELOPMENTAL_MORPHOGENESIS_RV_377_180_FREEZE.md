@@ -274,3 +274,39 @@ this disclosure; it changes how the evidence is *counted*, not what any arm meas
 `b6_adjudicate` now reports `duplicate_experiments`, separating `shared_baseline_by_design` (one receipt
 file, two labels) from `duplicate_computation` (two files, same computation), and prints the distinct
 count alongside the file count.
+
+### Z control executed: admissibility was not inherited
+
+The obvious deflation of the Z observation is that the warm-started arms did not *find* an admissible
+coefficient machine at all — they were simply handed one in the archive they inherited. That control is
+now run and it fails to deflate anything.
+
+Every DENSE cell held by each source archive was replayed against the **target** ecology under the arm's
+exact `verify_candidate` (rule 36 over the six interventions, rule 40 ≥ 1 fx over the target's best
+constant, rule 42 raw and atrophied, atrophy under all six with floor `max(θ, bc + fx)`, and
+`carrier_atrophied == "DENSE"`). Receipt: `STAGE_B6_DENSE_INHERITANCE_CONTROL_billy.json`, script
+`gmi_microscope/b6_dense_inheritance_control.py`.
+
+| source → target | seed | DENSE cells | admissible on target | source's own best DENSE cap | failure mode |
+|---|---|---|---|---|---|
+| `E_smooth1` → `E_smooth3` | 0 | 9 | **0** | 0.8333 | rule 36 ×9 |
+| `E_smooth1` → `E_smooth3` | 1 | 19 | **0** | 0.8958 | rule 36 ×19 |
+| `E_smooth1` → `E_smooth3` | 2 | 10 | **0** | 0.8333 | rule 36 ×10 |
+| `E_smooth3` → `E_sym5` | 0 | 10 | **0** | 0.8125 | rule 36 ×10 |
+| `E_smooth3` → `E_sym5` | 1 | 16 | **0** | 0.9583 | rule 36 ×14, atrophies off DENSE ×2 |
+| `E_smooth3` → `E_sym5` | 2 | 8 | **0** | 0.8125 | rule 36 ×8 |
+
+**72 inherited coefficient machines tested, 0 admissible on the target.** Capability on the source does
+not rescue them: the `E_smooth3` seed-1 archive holds a DENSE cell at 0.9583 on its own ecology and it
+still fails rule 36 on `E_sym5`. So the admissible atrophied-DENSE machines the CONTINUED arms reached
+were produced by the warm-started search, not carried over ready-made — consistent with their recorded
+lineage (`origin = ["seed", k]`, first placed at evaluations 18 595 and 3 827, i.e. descendants).
+
+Two of the 72 pass every capability control and then **atrophy off DENSE** onto PROGRAM and TABLE. That
+is rule 23 operating exactly as `RV-377-074` says it must: the raw descriptor mis-credits the carrier,
+and reading the class on the atrophied genotype removes the credit. It is the same effect that separates
+lane B's raw 4/9 from its atrophied 0/9, observed here on independent material.
+
+This control constrains, and does not establish, Z1–Z3: it removes the inheritance explanation. Whether
+the lift is specific to structured history (Z3) or belongs to any developed archive still depends on the
+TWIN arms, which are unrun on seeds 1 and 2.
