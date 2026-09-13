@@ -10,6 +10,8 @@ the earlier master closure ledgers. The audit began at repository commit
 against the advancing `main`. Each iteration is a separate commit and merge.
 Historical receipts and negative outcomes retain their original scope.
 
+Current [B6 consumer correction](PR551_CONSUMER_CORRECTION_2D23C583_V1.md) binds the native-port census and source-seed counterevidence. It accepts the later SEARCH ledger retraction while retaining workload-ratio and causal-stage limits; the frozen prior reviews and raw evidence remain unchanged.
+
 ## What closes an identified gap
 
 For a concrete defect, record the original implication, a counterexample or
@@ -60,7 +62,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 27 | The V5 execution refused CPython 3.13 at the instrumentation gate. The cause is the first-ever trace of each code object losing its first frame, not a per-process effect as first read. V6 adds one discarded priming domain sweep per candidate witness pass, keeps per-frame validation intact, records priming diagnostics, and binds candidate identity against both earlier portable harnesses. Frozen with a genuinely prospective 3.13 verdict claim; not executed. | `PARITY3_PRIMED_INSTRUMENT_V6.md` | Current iteration; commit and merge only after required local gates pass |
 | 28 | V6 records the predicted non-neural classification on CPython 3.13 and matching classifications on 3.11/3.12, over four registered candidates. Five valid V5/V6 packets agree in family support; the V5 3.13 refusal is retained. The V6 3.11 boxes leave lookup membership unresolved, not certified coexistence. Corrected DNF/shared-sum margins do not identify a causal interpreter trend. Cross-host replication and attempt custody remain open. | `PARITY3_V6_PROSPECTIVE_OUTCOME_20260913.md` | Current iteration; commit and merge only after required local gates pass |
 | 29 | The structural threshold result is repaired by an all-coefficient geometric/dependency proof: exact minimum 39 per call under the two flat-linear shapes and opcode contract. Finite-grid coverage and universal delegated-family exclusion are withdrawn. | `STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md` | Corrected current authority; original source retained |
-| 30 | The registered cost coordinate counted opcodes in the candidate's own frame only, so `sum(x) & 1` scored 48 against written XOR's 88 and a threshold net written with `s = sum(x)` scored 256 against its class's derived 312. Minimality and coverage claims were unsound in that coordinate. The repair registers the pair `(opcodes, unaccounted_calls)` under one product order: a statically resolved Python-coded callee is charged by recursion, a callee with no Python code object is charged to the second component, and the instrument refuses rather than guessing. Both gaming realizations become incomparable; both written-against-written exclusions survive; the opcode component's proved minimum is unchanged at 39 per call and 312 per sweep. No delegated-family exclusion is restored. | `DELEGATION_INVARIANT_COST_PREREGISTRATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 30 | The incoming DIC pair admits a partial wrapper at (32,8) and implicit Python dispatch at (32,0), contradicting its broad no-export conclusion. Typed closure now preserves full descendants and native obligations: direct/partial wrappers cost 344 Python opcodes versus the parent 312 and retain all 32 int obligations. Nonnegative additive monotonicity is conditional on trace preservation; unknown native work remains unknown. STR's 39/312 minimum remains confined to its flat written grammar. | [DCR correction](DELEGATION_COST_CORRECTION_V1.md) | Corrected scoped authority; original DIC source and receipts preserved |
 
 
 
@@ -462,3 +464,7 @@ does not displace XOR. This discharges the concrete measured expansion for these
 two added constructions; it does not claim independently optimized global neural
 coverage, population timing bounds, developmental advantage or cross-task
 replication. The remaining research obligations in the table are retained.
+
+## Historical geometry/signature content resolution
+
+[Q8-HGS-01–10](Q8_HISTORICAL_GEOMETRY_SIGNATURE_AUDIT_V1.md) audit all 26 changed files at two pinned historical heads. The positive repairs are additive-constant description invariance, an admitted diagonal quadratic control, and survival-conditional savings. Independent exact geometry arithmetic retains the finite reversal while correcting receipt/prospectivity scope; program-binding figures distinguish a 20% recovery margin from zero-net break-even. Historical bytes remain unchanged. The [closure/premise synthesis](REGISTERED_CLAIM_CLOSURE_V1.md) separates these resolved findings from broader unproved learning and physical claims.

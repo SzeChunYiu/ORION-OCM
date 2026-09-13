@@ -7,6 +7,10 @@ on:
       - 'research/gmi-structural-threshold-repair-v1/**'
       - 'research/gmi-finite-quantum-cover-v1/**'
       - 'research/gmi-joint-relational-composition-v1/**'
+      - 'research/gmi-terminal-cost-reconstruction-v1/**'
+      - 'research/gmi-b6-consumer-census-v1/**'
+      - 'research/gmi-adaptive-row-confidence-v1/**'
+      - 'research/gmi-delegation-cost-repair-v1/**'
       - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
       - '.github/workflows/grand-gmi-theorem-capsule.yml'
       - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
@@ -20,6 +24,10 @@ on:
       - 'research/gmi-structural-threshold-repair-v1/**'
       - 'research/gmi-finite-quantum-cover-v1/**'
       - 'research/gmi-joint-relational-composition-v1/**'
+      - 'research/gmi-terminal-cost-reconstruction-v1/**'
+      - 'research/gmi-b6-consumer-census-v1/**'
+      - 'research/gmi-adaptive-row-confidence-v1/**'
+      - 'research/gmi-delegation-cost-repair-v1/**'
       - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
       - '.github/workflows/grand-gmi-theorem-capsule.yml'
       - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
@@ -34,7 +42,7 @@ permissions:
 jobs:
   finite-capsule:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
@@ -60,6 +68,24 @@ jobs:
         run: |
           python -I -B -c 'import runpy, sys; from pathlib import Path; p=Path("research/gmi-joint-relational-composition-v1/test_joint_relation_v1.py").resolve(); sys.path.insert(0,str(p.parent)); sys.argv=[str(p)]; runpy.run_path(str(p),run_name="__main__")'
           python -I -O -B -c 'import runpy, sys; from pathlib import Path; p=Path("research/gmi-joint-relational-composition-v1/test_joint_relation_v1.py").resolve(); sys.path.insert(0,str(p.parent)); sys.argv=[str(p)]; runpy.run_path(str(p),run_name="__main__")'
+      - name: Frozen terminal-cost unit regressions
+        run: |
+          python -I -B research/gmi-terminal-cost-reconstruction-v1/test_terminal_cost_v1.py
+          python -I -O -B research/gmi-terminal-cost-reconstruction-v1/test_terminal_cost_v1.py
+      - name: Frozen B6 consumer census scientific and custody controls
+        run: |
+          python -I -B -m unittest discover -s research/gmi-b6-consumer-census-v1 -p 'test_*_v1.py' -v
+          python -I -O -B -m unittest discover -s research/gmi-b6-consumer-census-v1 -p 'test_*_v1.py' -v
+      - name: Frozen adaptive-row confidence unit regressions
+        run: |
+          python -I -B research/gmi-adaptive-row-confidence-v1/test_adaptive_rows_v1.py -v
+          python -I -O -B research/gmi-adaptive-row-confidence-v1/test_adaptive_rows_v1.py -v
+      - name: Frozen typed delegation scientific and custody controls
+        run: |
+          python -I -B -m unittest discover -s research/gmi-delegation-cost-repair-v1 -p 'test_*v1.py' -v
+          python -I -O -B -m unittest discover -s research/gmi-delegation-cost-repair-v1 -p 'test_*v1.py' -v
+          python -I -B research/gmi-delegation-cost-repair-v1/raw/test_grand_gmi_delegation_invariant_cost_v1.py
+          python -I -O -B research/gmi-delegation-cost-repair-v1/raw/test_grand_gmi_delegation_invariant_cost_v1.py
       - name: Replay every registered finite checker against complete frozen output
         run: >-
           python -I -B research/gmi-grand-unification-v1/replay_theorem_capsule_v1.py

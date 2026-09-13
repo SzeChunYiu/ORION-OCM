@@ -93,6 +93,19 @@ or by an explicitly declared transitive coarse-graining. There is no automatic q
 
 This distinction is normative throughout Grand GMI: **exact state is a quotient; approximate state is a metric/coarse-graining problem unless transitivity is separately proved.**
 
+Finite sampled models require separate statistical premises. Under a supplied
+finite sufficient-state, support and known cost/terminal contract,
+[FMT-1–4](FINITE_DATA_MODEL_TRANSFER_THEOREM_V1.md) gives simultaneous fixed-N
+row confidence and joint finite-horizon policy transfer.
+[ARC-1–4](../gmi-adaptive-row-confidence-v1/ADAPTIVE_ROW_CONFIDENCE_THEOREM_V1.md)
+extends that confidence event to predictable adaptive row choices, counts and
+finite stopping times under fixed conditional row laws. The same event supports
+later data-selected finite horizons and common policies through FMT's existing
+bounds. This inherits confidence-sequence and simulation-lemma mechanisms;
+it neither learns the state/support nor authenticates freshness or stationarity.
+Acquisition, resets, sampler control, synthesis, storage and physical execution
+remain separately charged. No sure-safety or infinite-horizon claim follows.
+
 ### 1.3 Semantic cut spectrum
 
 For every causal cut `C`, first define the attainable resource set
@@ -111,6 +124,13 @@ ecologies one common admissible decoder must satisfy the risk constraints;
 separately optimized ecology risks are only an oracle lower envelope (SC-2–5).
 Channel, decoding, randomization and simulation costs must remain charged in
 their registered regions.
+
+[Typed delegation](DELEGATION_COST_CORRECTION_V1.md) makes this accounting
+premise explicit for a finite source register: admitted wrappers preserve the
+ordered descendant trace and native obligations. Nonnegative additive costs
+are monotone under trace-preserving insertion; a mere opaque-call count does
+not establish that premise. Missing native contracts mean unknown total work.
+The written STR 39/312 bound does not extend to the larger delegation class.
 
 For a declared scalar resource, an infimum is a lower-bound value and must not
 be promoted to an attained resource without a witness or attainment theorem.
@@ -150,22 +170,39 @@ that a full input-labelled output partition reconstructs attainable
 query-cost profiles at a fixed classical query interface. These scoped
 laws do not establish unrestricted irreducibility of entire `kappa`/`tau`
 spectra. Their relation depends on the retained semantic data and operations.
+[RQR-1–4](RELATIONAL_QUERY_RECONSTRUCTION_THEOREM_V1.md) extends query-only
+reconstruction to common adequate-output feasibility on labelled subcubes.
+With supplied nonnegative rational terminal-cost vectors,
+[TCR-1–4](../gmi-terminal-cost-reconstruction-v1/TERMINAL_COST_RECONSTRUCTION_THEOREM_V1.md)
+instead retains joint attainable terminal profiles and reconstructs the exact
+query-plus-terminal Pareto frontier. Adequate stopping need not be cheapest:
+a charged query can enable a cheaper terminal action. This specialization of
+established vector backups does not reconstruct controller/code, acquisition
+or physical realization costs. [Older repository parents](TERMINAL_COST_PARENT_ASSIMILATION_V1.md)
+already distinguish safe stopping, optimal stopping and paid continuation.
 
 ### 1.5 Symmetry object
 
 Let
 
 \[
-G_{\mathfrak G}=\operatorname{Aut}(\mathbf P,\mathcal E,\Omega,\Theta,\rho)
+G_{\mathfrak G}=\operatorname{Aut}(\mathbf P,\mathcal B,\mathcal E,\Omega,\Theta,\rho,\varepsilon)
 \]
 
-be the transformations that preserve the declared problem. `G` acts on the
-exact quotient `S*`. Under GG20's G-stable finite averaging hypotheses, or its
+be the transformations that preserve the declared problem, including its
+boundary/free information and error contract. The registered action must map
+admitted feasible kernels to admitted feasible kernels. `G` acts on the exact
+quotient `S*`. Under GG20's G-stable finite averaging hypotheses, or its
 compact barycentric-closure and coordinate-regularity hypotheses, every
 attainable randomized point has an equivariant feasible representative with no
 worse resources. A frontier representative requires an existing frontier point
 or separate attainment. A unique deterministic optimum is equivariant when the
 feasible class and selection rule are G-invariant.
+For development at allowance `b`, further restrict to the subgroup stabilizing
+`Reach_D(b)`. A sufficient development certificate preserves the admitted
+initial states and development resource charges as well as transition equivariance.
+[Boundary and reachability counterexamples](SYMMETRY_BOUNDARY_STABILIZER_CORRECTION_V1.md)
+explain why omitting either restriction can make averaging infeasible.
 
 ### 1.6 Developmental reachability
 

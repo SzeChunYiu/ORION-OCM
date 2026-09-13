@@ -10,11 +10,13 @@ labelled-partition and relational adequate-output query reconstruction,
 finite fixed-unknown-model acquisition with charged private randomization,
 finite-data model confidence with joint policy transfer, the corrected
 all-coefficient structural threshold bound, and complete ideal finite quantum
-protocol coverage, and joint-message composition for independent relational
-obligations. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V14.json`. Earlier aggregates and phase-law receipts
+protocol coverage, joint-message composition for independent relational
+obligations, query-plus-terminal cost reconstruction, and a source-correct B6
+consumer census, adaptive-row confidence under supplied conditional laws, and typed delegation-cost closure under explicit additive contracts.
+The census is static evidence validation, not a new theorem. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V17.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 69 checkers (68 leaves and one
+historical paths. The current register has 72 checkers (71 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -66,13 +68,31 @@ entry, avoiding self-recursion. A leaf cannot reclassify itself as an aggregate.
 ## Complete external research units
 
 The fixed dependency map registers the complete structural-threshold repair,
-[finite quantum](../gmi-finite-quantum-cover-v1/CORE.md) and
-[joint relational](../gmi-joint-relational-composition-v1/CORE.md) units. Original
+[finite quantum](../gmi-finite-quantum-cover-v1/CORE.md),
+[joint relational](../gmi-joint-relational-composition-v1/CORE.md),
+[terminal-cost](../gmi-terminal-cost-reconstruction-v1/CORE.md),
+[B6 consumer census](../gmi-b6-consumer-census-v1/CORE.md),
+[adaptive-row confidence](../gmi-adaptive-row-confidence-v1/CORE.md), and
+[typed delegation](../gmi-delegation-cost-repair-v1/CORE.md) units. Original
 checkers, tests, theorems, receipts and transitive raw parent records remain
-byte-preserved outside this directory. The quantum and relational wrappers
+byte-preserved outside this directory. The quantum, relational, terminal-cost
+and adaptive-confidence wrappers
 return their entire original JSON payloads inside bound outer receipts; no
 field is removed. JRC executes its original checker, not its smaller replay
 summary, using an isolated import bootstrap and an empty private cache prefix.
+TCR executes its original checker and preserves its complete `status: PASS`
+payload; its outer terminal cannot replace any original field. ARC likewise
+executes its unchanged original checker and preserves all confidence/control
+fields, source bindings and scope declarations inside its full outer receipt.
+DCR retains its complete repaired payload, both original payloads, countercontrols
+and native trace witnesses. Its original positive DIC flags remain historical,
+not active evidence for the refuted no-export claim. The B6 wrapper
+likewise returns the entire original census, including source-seed and unknown
+source fields. Its frozen archive contains 30 source/raw members and is checked
+without executing the historical machines or conducting new measurements.
+The complete TCR census receives 120 seconds inside its wrapper and 180 in
+outer replay; ordinary leaves retain 60 and the aggregate 300. These are
+verification allowances, not measured resource or algorithmic-speed claims.
 
 `external_units` binds the unit manifest and every listed payload byte. Strict
 recursive directory traversal rejects extra or missing files, symbolic links,
@@ -92,7 +112,13 @@ from executable output; others omit executable witness rows or use a different
 summary structure. These discrepancies were invisible to the old master, which
 read five terminal strings.
 
-Historical receipts remain unchanged. Where current stdout differs, a separate
+Historical receipts remain unchanged. The incoming delegation aggregate named
+V14 is retained at replay_receipts_v1/GRAND_GMI_MASTER_RECEIPT_UPSTREAM_DELEGATION_V14.json;
+the reviewed TCR V14 and ARC V16 retain their original bytes. The original DIC
+receipt remains at its grand path, classified as historical on the DCR wrapper.
+Its checker and tests remain exact raw unit members rather than active grand
+checks; the original preregistration remains a bound historical document.
+ Where current stdout differs, a separate
 file in `replay_receipts_v1/` supplies the active exact-output expectation. The
 inventory links each historical record to its current checker and explicitly
 records `HISTORICAL_SUPERSEDED_FOR_REPLAY`, its hash, a reason, and differing field
