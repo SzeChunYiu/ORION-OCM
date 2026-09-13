@@ -1,0 +1,36 @@
+{
+  "schema": "GMI_FACTOR_COMPILATION_REGISTRATION_V1",
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "algebras": ["boolean", "rational", "min_plus"],
+  "score": ["scalar_add_multiply_lookup_count", "peak_resident_numeric_table_entries"],
+  "tie_rule": "retain every minimizing order; choose lexicographically first",
+  "search_family": "all permutations of all variables, without architecture macros",
+  "calibration": [
+    {"id": "chain3q2", "graph": "chain", "variables": 3, "domain_size": 2},
+    {"id": "star4q2", "graph": "star", "variables": 4, "domain_size": 2}
+  ],
+  "heldout": [
+    {"id": "chain5q3", "graph": "chain", "variables": 5, "domain_size": 3},
+    {"id": "cycle5q2", "graph": "cycle", "variables": 5, "domain_size": 2},
+    {"id": "clique4q2", "graph": "clique", "variables": 4, "domain_size": 2},
+    {"id": "disconnected5q2", "graph": "disconnected", "variables": 5, "domain_size": 2}
+  ],
+  "predictions": [
+    "Every order equals independent full assignment enumeration in each exact algebra.",
+    "For every order, work = sum_i (2*k_i+1)*product(sizes over bucket union) + 2*number(final scalar factors).",
+    "Width w gives work <= (2*m+3*n)*q^(w+1)+2*(m+n), an upper bound only.",
+    "Search evaluates exactly n! orders and charges the sum of all candidate execution counters.",
+    "Chain order (0,...,n-1) has width 1 and work (5*n-7)*q^2+3*q+2.",
+    "Star center-last has width 1 and work 3*(n-1)*q^2+(2*n-1)*q+2.",
+    "Star center-first has width n-1 and work (2*n-1)*q^n+3*sum(q^j,j=1..n-1)+2; it exceeds center-last in star4q2.",
+    "Clique orders all have width n-1 and identical structural work/memory profiles, so all n! orders tie.",
+    "Cycle5q2 has an order with width 2, without a claim that every solver must pay its dense-table upper bound.",
+    "Disconnected5q2 retains the isolated variable: its rational partition value includes a factor q; Boolean/min-plus use their own repeated-unit sum."
+  ],
+  "boundaries": [
+    "Known distributive compilation, not a historically new algorithm or domain.",
+    "Search is neutral only within registered variable-order factorization; factor scopes and semiring are supplied assumptions.",
+    "Numeric bit sizes, input residence, intermediate tables, search and certificate size are reported; Python overhead and physical energy/time are not inferred.",
+    "No neural architecture, arbitrary program basis, quantum, chemical or analog physical advantage is established."
+  ]
+}
