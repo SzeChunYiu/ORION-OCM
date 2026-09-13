@@ -1,0 +1,31 @@
+tree 814375f3df72ae9c05fa6c6b9d53677411111996
+parent 7328d5b3b0a5111fd43c3e277679faf0edeee1bb
+author Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com> 1789318227 +0200
+committer Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com> 1789318227 +0200
+
+Family x ecology matrix: the flat-ceiling hypothesis fails, and memory is the broadly admissible family
+
+The learner map suggested a predictive law -- each family has a roughly ecology-independent
+ceiling, so occupancy is decided by the constant rather than the family, and species
+occupancy would follow from two numbers.
+
+Tested across six hand-built families and six ecologies. The law predicts every family's
+standard deviation falls clearly below the constant's 0.0516. Two of six do. For
+soft_retrieval, exemplar_table and constant_emitter, capability varies as much as or more
+than the constant, so occupancy cannot be predicted that way. Recorded as a negative
+because it was my hypothesis and it is wrong: family capability is genuinely
+ecology-dependent, the same lesson DU-1 teaches about reachability.
+
+constant_emitter's large spread is a sanity check that the measurement behaves, since it
+is one fixed constant while the best constant is chosen per ecology.
+
+What the data does show is memory dominance with a number attached. hamming_knn_k3 is
+admissible on three of six ecologies and carries the highest mean of any row at 0.8524,
+above the mean best constant of 0.8090, while soft_retrieval manages one and the rest none.
+
+Also noted: the two gradient_net rows here are admissible nowhere while the parametrised
+gradient_net(h=3, lr=1) is admissible on E_wit1 at +3.751 fx, so the learner family is
+configuration-sensitive as well as ecology-sensitive -- a further reason the flat-ceiling
+reading was too simple.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>

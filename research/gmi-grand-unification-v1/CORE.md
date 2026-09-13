@@ -49,6 +49,9 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
+- [Native adjoint correction](NATIVE_ADJOINT_INTEGRATION_V1.md): missing input-factor repair, exact active-source custody and preserved historical behavior; no campaign recovery claim.
+- [PR551 family-ceiling correction](PR551_FAMILY_CEILING_CORRECTION_08821A0A_V1.md): selected scores and reported cells do not establish complete-family extrema.
+
 - [Claim closure and remaining premises](REGISTERED_CLAIM_CLOSURE_V1.md): established interfaces, explicit empirical obligations and the next causal-transfer claim.
 - [Historical geometry/signature audit](Q8_HISTORICAL_GEOMETRY_SIGNATURE_AUDIT_V1.md): all pinned source claims receive accepted, corrected or unaccepted dispositions; includes matched constructive controls.
 - [PR #551 current consumer correction](PR551_CONSUMER_CORRECTION_2D23C583_V1.md): native parameter ports, exact cohorts and source-seed counterevidence; accepted inner-search ledger retraction with workload and causal limits. Earlier field and campaign qualifications remain linked.

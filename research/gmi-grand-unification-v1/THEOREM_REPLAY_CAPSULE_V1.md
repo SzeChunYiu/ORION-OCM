@@ -14,9 +14,9 @@ protocol coverage, joint-message composition for independent relational
 obligations, query-plus-terminal cost reconstruction, and a source-correct B6
 consumer census, adaptive-row confidence under supplied conditional laws, and typed delegation-cost closure under explicit additive contracts.
 The census is static evidence validation, not a new theorem. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V17.json`. Earlier aggregates and phase-law receipts
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V18.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 72 checkers (71 leaves and one
+historical paths. The current register has 73 checkers (72 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -103,6 +103,14 @@ and content, including the final load after all checkers execute. Thus a later
 checker cannot silently modify an earlier external input and retain a green run.
 These reviewed digests establish reproducibility, not independent authenticity
 of an arbitrary replacement inventory or a proof of the scientific claims.
+
+The nine complete external units now also include the [native adjoint correction](NATIVE_ADJOINT_INTEGRATION_V1.md)
+and the separate [latest PR551 delta](PR551_FAMILY_CEILING_CORRECTION_08821A0A_V1.md).
+The NAR wrapper retains every original payload field and requires exact equality
+of nine exported runtime/dependency/test files with its frozen source copies.
+Those live files are external controls checked at every inventory load, including
+after later checkers. Source identity does not confer execution authenticity on
+the delta's reported summaries or turn a primitive fix into a campaign result.
 
 ## Historical evidence
 

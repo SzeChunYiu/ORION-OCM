@@ -22,6 +22,10 @@ SCHEMA = "grand-gmi-theorem-replay-inventory-v1"
 CLAIM_CEILING = "registered finite executable checks only; no universal theorem or empirical closure"
 CHECKER_TIMEOUT_SECONDS = {"grand_gmi_terminal_cost_checks_v1.py": 180}
 EXTERNAL_UNIT_DEPENDENCIES = {
+    "grand_gmi_native_adjoint_checks_v1.py": (
+        "research/gmi-native-adjoint-repair-v1",
+        "research/gmi-pr551-delta-08821a0a-v1",
+    ),
     "grand_gmi_delegation_cost_checks_v1.py": (
         "research/gmi-delegation-cost-repair-v1",
     ),
@@ -53,6 +57,17 @@ EXTERNAL_DOCUMENT_DEPENDENCIES = {
     ),
 }
 EXTERNAL_CONTROL_DEPENDENCIES = {
+    "grand_gmi_native_adjoint_checks_v1.py": (
+        'research/machine-intelligence-morphogenesis-v1/gmi_microscope/__init__.py',
+        'research/machine-intelligence-morphogenesis-v1/gmi_microscope/bases.py',
+        'research/machine-intelligence-morphogenesis-v1/gmi_microscope/core.py',
+        'research/machine-intelligence-morphogenesis-v1/gmi_microscope/historical_vm_v1.py',
+        'research/machine-intelligence-morphogenesis-v1/gmi_microscope/morph.py',
+        'research/machine-intelligence-morphogenesis-v1/gmi_microscope/vm.py',
+        'research/machine-intelligence-morphogenesis-v1/test_b6_development.py',
+        'research/machine-intelligence-morphogenesis-v1/test_gmi_microscope.py',
+        'research/machine-intelligence-morphogenesis-v1/test_gmi_vm_parameter_adjoint_v1.py',
+    ),
     "nn_nonnn_point_parity3_experiment_v5.py": (
         ".github/workflows/grand-gmi-nn-nonnn-point-parity3-v5.yml",
     ),
@@ -202,10 +217,10 @@ def load_inventory(root):
         require(Path(name).suffix == ".md", "external dependency must be normative Markdown")
         bind_file(repository, name, digest)
     external_controls = data.get("external_controls", {})
-    expected_controls = {name for source in controls
+    expected_controls = {name for source in (*controls, *names)
                          for name in EXTERNAL_CONTROL_DEPENDENCIES.get(source, ())}
     require(type(external_controls) is dict and set(external_controls) == expected_controls,
-            "unclassified or missing external control workflow")
+            "unclassified or missing external control workflow/source")
     for name, digest in external_controls.items():
         bind_file(repository, name, digest)
     units = data.get("external_units", {})

@@ -142,9 +142,10 @@ class VM:
         xvec = [v for v in (xvec or []) if isinstance(v, Val)]
         M = self.M; s = Val(0)
         for n, xv in zip(w_names, xvec):
-            w = Val(M.read(n), [("param", n)] if tape else None); prod = M.op("MUL", w.v, xv.v)
+            w = Val(M.read(n)); prod = M.op("MUL", w.v, xv.v)
             pv = Val(prod, [(w, xv.v), (xv, w.v)] if tape else None)
             s = Val(M.op("ADD", s.v, pv.v), [(s, FX_ONE), (pv, FX_ONE)] if tape else None)
+            if tape: pv.parents.append(("param", n))
         if len(w_names) == len(xvec) + 1:
             b = Val(M.read(w_names[-1])); s = Val(M.op("ADD", s.v, b.v), [(s, FX_ONE), (b, FX_ONE), ("param", w_names[-1])] if tape else None)
         return s

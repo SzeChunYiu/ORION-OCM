@@ -1,0 +1,428 @@
+{
+  "basis": {
+    "cost": {
+      "ADD": 1,
+      "AND": 1,
+      "CONST": 1,
+      "EQ": 1,
+      "GT": 1,
+      "INC": 1,
+      "MUL": 2,
+      "NEG": 1,
+      "NOT": 1,
+      "OR": 1,
+      "SEL": 1,
+      "SHR": 1,
+      "SUB": 1,
+      "THRESH": 1,
+      "XOR": 1
+    },
+    "desc_bits_by_type": {
+      "bool": 1,
+      "fin": 2,
+      "fx": 8
+    },
+    "desc_per_op": 1,
+    "desc_store_entry": 10,
+    "desc_store_header": 2,
+    "name": "B0_LOCAL_ADAPTIVE_TRANSDUCERS",
+    "native": [
+      "ADD",
+      "AND",
+      "CONST",
+      "EQ",
+      "GT",
+      "INC",
+      "MUL",
+      "NEG",
+      "NOT",
+      "OR",
+      "SEL",
+      "SHR",
+      "SUB",
+      "THRESH",
+      "XOR"
+    ],
+    "note": "typed local cells with local arithmetic/Boolean transitions; stores are emulated as cells + linear scan; gradients need an explicit adjoint pass built from arithmetic ops; sampling emulated by an LFSR",
+    "write_cost": 1
+  },
+  "binary": "/home/billy/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/bin/python3.12",
+  "binary_sha256": "021044895e95be79dc2f110367607e684119afbc8ce75f6f0eec94844e0acec7",
+  "exact_zero_multiplier_sensitivity": 0,
+  "expected_parameter_adjoint_fx": 0,
+  "genotype": {
+    "edges": [
+      [
+        "dense",
+        "linear",
+        0
+      ],
+      [
+        "input",
+        "linear",
+        1
+      ],
+      [
+        "linear",
+        "output",
+        0
+      ],
+      [
+        "dense",
+        "grad",
+        0
+      ],
+      [
+        "linear",
+        "grad",
+        1
+      ],
+      [
+        "target",
+        "grad",
+        2
+      ]
+    ],
+    "meta": {},
+    "nodes": {
+      "dense": [
+        "DENSE",
+        {
+          "width": 1
+        }
+      ],
+      "grad": [
+        "GRAD",
+        {
+          "lr": 1
+        }
+      ],
+      "input": [
+        "INPUT",
+        {
+          "width": 1
+        }
+      ],
+      "linear": [
+        "LINEAR",
+        {}
+      ],
+      "output": [
+        "OUTPUT",
+        {}
+      ],
+      "target": [
+        "TARGET",
+        {}
+      ]
+    }
+  },
+  "input": 0,
+  "learning_rate_fx": 1,
+  "observed_outputs": {
+    "after": 0,
+    "before": 0
+  },
+  "positive_control_sha256": "9ccab570371abc36952af23a5bb313b2dd7e936db3e12b79809c678190f196fd",
+  "protocol_sha256": "8bb5efca1f63e9b9d91ca183b40272aa32197f6a9465f0eef5aeacb3fa9eebc4",
+  "python": "3.12.13 (main, Aug  7 2026, 02:25:39) [Clang 22.1.3 ]",
+  "schema": "PR551_ZERO_INPUT_ADJOINT_CONTROL_V1",
+  "scope": "one authored VM adjoint counterexample; no ecology, search, capability or physical-cost claim",
+  "script_sha256": "9154941c7b44cd0c19e46dfe931b665c169b1a13b35b65bf6d7fefcc3734feaa",
+  "seed": 0,
+  "source_bindings_sha256": "0106e40019cdcc6db6afaf18a4dd36a9c299d5614e59776373c6ae2b6872e7a3",
+  "source_commit": "7328d5b3b0a5111fd43c3e277679faf0edeee1bb",
+  "stages": [
+    {
+      "cells": {
+        "dense_w0": 8
+      },
+      "emulated_ops": 0,
+      "event_write_fracs": [],
+      "ledger": {
+        "desc": 12,
+        "exec": 0,
+        "rev": 0,
+        "upd": 0,
+        "ver": 0
+      },
+      "native_ops": 0,
+      "ops_by_kind": {},
+      "stage": "initialization",
+      "stores": {},
+      "writes_in_event": []
+    },
+    {
+      "cells": {
+        "dense_w0": 8
+      },
+      "emulated_ops": 0,
+      "event_write_fracs": [],
+      "ledger": {
+        "desc": 12,
+        "exec": 3,
+        "rev": 0,
+        "upd": 0,
+        "ver": 0
+      },
+      "native_ops": 2,
+      "ops_by_kind": {
+        "fx": 2
+      },
+      "stage": "query_before",
+      "stores": {},
+      "writes_in_event": []
+    },
+    {
+      "cells": {
+        "dense_w0": 9
+      },
+      "emulated_ops": 1,
+      "event_write_fracs": [],
+      "ledger": {
+        "desc": 12,
+        "exec": 3,
+        "rev": 0,
+        "upd": 13,
+        "ver": 0
+      },
+      "native_ops": 10,
+      "ops_by_kind": {
+        "adj": 1,
+        "fx": 10
+      },
+      "stage": "feedback_before_end_event",
+      "stores": {},
+      "writes_in_event": [
+        "dense_w0"
+      ]
+    },
+    {
+      "cells": {
+        "dense_w0": 9
+      },
+      "emulated_ops": 1,
+      "event_write_fracs": [
+        1.0
+      ],
+      "ledger": {
+        "desc": 12,
+        "exec": 3,
+        "rev": 0,
+        "upd": 13,
+        "ver": 0
+      },
+      "native_ops": 10,
+      "ops_by_kind": {
+        "adj": 1,
+        "fx": 10
+      },
+      "stage": "feedback_after_end_event",
+      "stores": {},
+      "writes_in_event": []
+    },
+    {
+      "cells": {
+        "dense_w0": 9
+      },
+      "emulated_ops": 1,
+      "event_write_fracs": [
+        1.0
+      ],
+      "ledger": {
+        "desc": 12,
+        "exec": 6,
+        "rev": 0,
+        "upd": 13,
+        "ver": 0
+      },
+      "native_ops": 12,
+      "ops_by_kind": {
+        "adj": 1,
+        "fx": 12
+      },
+      "stage": "query_after",
+      "stores": {},
+      "writes_in_event": []
+    }
+  ],
+  "tape_observations": [
+    {
+      "after": {
+        "nodes": [
+          {
+            "adjoint_fx": -16,
+            "node": 0,
+            "parents": [
+              {
+                "local_derivative_fx": 16,
+                "node": 1
+              },
+              {
+                "local_derivative_fx": 16,
+                "node": 2
+              }
+            ],
+            "value_fx": 0
+          },
+          {
+            "adjoint_fx": -16,
+            "node": 1,
+            "parents": [],
+            "value_fx": 0
+          },
+          {
+            "adjoint_fx": -16,
+            "node": 2,
+            "parents": [
+              {
+                "local_derivative_fx": 0,
+                "node": 3
+              },
+              {
+                "local_derivative_fx": 8,
+                "node": 4
+              },
+              {
+                "parameter": "dense_w0"
+              }
+            ],
+            "value_fx": 0
+          },
+          {
+            "adjoint_fx": 0,
+            "node": 3,
+            "parents": [],
+            "value_fx": 8
+          },
+          {
+            "adjoint_fx": -8,
+            "node": 4,
+            "parents": [],
+            "value_fx": 0
+          }
+        ],
+        "root": 0
+      },
+      "before": {
+        "nodes": [
+          {
+            "adjoint_fx": 0,
+            "node": 0,
+            "parents": [
+              {
+                "local_derivative_fx": 16,
+                "node": 1
+              },
+              {
+                "local_derivative_fx": 16,
+                "node": 2
+              }
+            ],
+            "value_fx": 0
+          },
+          {
+            "adjoint_fx": 0,
+            "node": 1,
+            "parents": [],
+            "value_fx": 0
+          },
+          {
+            "adjoint_fx": 0,
+            "node": 2,
+            "parents": [
+              {
+                "local_derivative_fx": 0,
+                "node": 3
+              },
+              {
+                "local_derivative_fx": 8,
+                "node": 4
+              },
+              {
+                "parameter": "dense_w0"
+              }
+            ],
+            "value_fx": 0
+          },
+          {
+            "adjoint_fx": 0,
+            "node": 3,
+            "parents": [],
+            "value_fx": 8
+          },
+          {
+            "adjoint_fx": 0,
+            "node": 4,
+            "parents": [],
+            "value_fx": 0
+          }
+        ],
+        "root": 0
+      },
+      "error_fx": -16,
+      "machine_tape": [
+        [
+          "MUL",
+          [
+            8,
+            0
+          ],
+          0
+        ],
+        [
+          "ADD",
+          [
+            0,
+            0
+          ],
+          0
+        ],
+        [
+          "SUB",
+          [
+            0,
+            16
+          ],
+          -16
+        ],
+        [
+          "ADD",
+          [
+            -16,
+            0
+          ],
+          -16
+        ],
+        [
+          "ADD",
+          [
+            -16,
+            0
+          ],
+          -16
+        ],
+        [
+          "MUL",
+          [
+            -16,
+            0
+          ],
+          0
+        ],
+        [
+          "MUL",
+          [
+            -16,
+            8
+          ],
+          -8
+        ]
+      ],
+      "parameter_adjoints_fx": {
+        "dense_w0": -16
+      }
+    }
+  ],
+  "target_fx": 16
+}

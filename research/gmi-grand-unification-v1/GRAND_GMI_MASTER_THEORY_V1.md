@@ -132,6 +132,13 @@ are monotone under trace-preserving insertion; a mere opaque-call count does
 not establish that premise. Missing native contracts mean unknown total work.
 The written STR 39/312 bound does not extend to the larger delegation class.
 
+The [native adjoint correction](NATIVE_ADJOINT_INTEGRATION_V1.md) restores the
+input factor in the declared ordered clamped pullback and binds the actual
+runtime to its tested source. GRAD is a state-update side effect; absent outgoing
+edges cannot establish inactivity. This source repair leaves causal campaign
+attribution and transfer open. [Selected-score variation](PR551_FAMILY_CEILING_CORRECTION_08821A0A_V1.md)
+also cannot establish variation of a complete family supremum.
+
 For a declared scalar resource, an infimum is a lower-bound value and must not
 be promoted to an attained resource without a witness or attainment theorem.
 At finite zero-error deterministic classical one-way alphabet scope the attained scalar minimum is
