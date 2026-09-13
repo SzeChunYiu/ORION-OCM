@@ -1,9 +1,11 @@
 import importlib.util
 import json
+import os
 import pathlib
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 HERE = pathlib.Path(__file__).resolve().parent
 
@@ -127,9 +129,10 @@ class PortableInstrumentTests(unittest.TestCase):
             self.assertIn(key, env)
 
     def test_v4_harness_refuses_to_run_outside_github_actions(self):
-        # The portability defect V5 exists to repair: V1-V4 cannot produce a
-        # valid packet on any independent machine.
-        valid, failures = V4.protocol_environment_valid()
+        # Model the named outside-GitHub environment even when this test
+        # itself runs inside GitHub Actions. The frozen gate is unchanged.
+        with patch.dict(os.environ, {}, clear=True):
+            valid, failures = V4.protocol_environment_valid()
         self.assertFalse(valid)
         self.assertIn("not_github_actions_hosted_execution", failures)
 
