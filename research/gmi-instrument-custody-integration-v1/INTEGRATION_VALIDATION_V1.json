@@ -1,0 +1,115 @@
+{
+  "actual_available_static_replay": {
+    "opcode": "COMPLETE_STATIC_REPLAY_PASS",
+    "parity_retained_instrument_refusals": 1,
+    "parity_valid_packets": 2,
+    "workflow_output_sha256": "d8b09da4afd8232e5d390dd8084c292d87790987f492852f189a577b1bf39ed3"
+  },
+  "ambience": "CI=true,GITHUB_ACTIONS=true,GITHUB_EVENT_NAME=pull_request; GitHub-ref/workflow context also supplied in focused full gates",
+  "base_commit": "6abaebb2437687497c76177aaff1434f66a16e90",
+  "branch": "codex/gmi-instrument-custody-20260913",
+  "candidate_invocations": 0,
+  "exact_receipt_byte_replays": {
+    "opcode_active_v2": "8ad20679ab3cc7fa020b50f1ad473ed184976e39bd319d825c7db764ad742c8e",
+    "parity_countercontrol_v2": "3064a62f3fe301583c074731721e737550a669e3c9763bdc6657dd7cf73e44c8",
+    "parity_historical_three_packet_audit": "969f5c973c3a5afe3631e6fb54baa4b219592e15171d6c342715bbab86d1054f"
+  },
+  "interpreters": {
+    "parent3.12": {
+      "binary_sha256": "021044895e95be79dc2f110367607e684119afbc8ce75f6f0eec94844e0acec7",
+      "executable": "/home/billy/.local/share/uv/python/cpython-3.12-linux-x86_64-gnu/bin/python3",
+      "version": "3.12.13 (main, Aug  7 2026, 02:25:39) [Clang 22.1.3 ]"
+    },
+    "recorded_opcode3.13.12": {
+      "binary_sha256": "11e7b9408821b8b7fe5316c95de9e22e2b1deb7018ec1fd7f4c9a1053d1573df",
+      "executable": "/home/billy/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/bin/python3",
+      "version": "3.13.12 (main, Feb  3 2026, 22:52:12) [Clang 21.1.4 ]"
+    }
+  },
+  "preservation": "All imported parity V1 files and all opcode experiment files are byte-identical; new archive/V2 countercontrol and manifests are versioned integration additions.",
+  "schema": "GMI_INSTRUMENT_CUSTODY_INTEGRATION_VALIDATION_V1",
+  "scope": "Local static validation plus independently replayed existing evidence; unavailable binaries/skips are not passes; no global family or first-attempt provenance upgrade.",
+  "simulated_unavailable_interpreter_control": {
+    "method": "Only Path.is_file responses for the four registered interpreter locations were replaced by false; exact workflow Python body otherwise unchanged.",
+    "opcode": "UNVERIFIABLE",
+    "opcode_exact_replayed": false,
+    "parity_statuses": [
+      "UNVERIFIABLE",
+      "UNVERIFIABLE",
+      "UNVERIFIABLE"
+    ],
+    "parity_valid_packets": 0,
+    "workflow_output_sha256": "f9d3b00443215796efc7c03a382d9708142e7296ec15d76d74c9cc4ca5d9f0ae"
+  },
+  "tests": [
+    {
+      "log": "parity-v2-normal.log",
+      "log_sha256": "fd7352799823d087663fb022d5378615b3e51051bdb43bd9ca8d7caf4f42262b",
+      "passed": 39,
+      "scope": "39 static tests, normal3.12",
+      "seconds": 6.861,
+      "skipped": 0,
+      "tests": 39
+    },
+    {
+      "log": "parity-v2-optimized.log",
+      "log_sha256": "ed46f9ffe4439b4d6816557260e14aa483be328a451e13c4730a99fc03fe49cd",
+      "passed": 39,
+      "scope": "39 static tests, optimized3.12",
+      "seconds": 6.274,
+      "skipped": 0,
+      "tests": 39
+    },
+    {
+      "log": "opcode-normal.log",
+      "log_sha256": "9d572c592961a39e7d323ff2716c2cecbe918346ff3009a81a11cf1c4c644d59",
+      "passed": 16,
+      "scope": "16 activeV2 static tests, exact3.13.12",
+      "seconds": 0.184,
+      "skipped": 0,
+      "tests": 16
+    },
+    {
+      "log": "opcode-optimized.log",
+      "log_sha256": "84de9ebd8bbcd652ab9b267cf1439110ac6e186607d6164c758f2e4b2602b83b",
+      "passed": 16,
+      "scope": "16 activeV2 static tests, optimized exact3.13.12",
+      "seconds": 0.203,
+      "skipped": 0,
+      "tests": 16
+    },
+    {
+      "log": "opcode-ci-compatible.log",
+      "log_sha256": "0836cabf9cbfd0fd681cbdde15a1d3cc5ebc8fadc4466c9d765b76a05beb5dda",
+      "passed": 13,
+      "scope": "portable subset under3.12; native replay unavailable",
+      "seconds": 0.031,
+      "skipped": 3,
+      "tests": 16
+    },
+    {
+      "log": "opcode-ci-compatible-optimized.log",
+      "log_sha256": "5ce779aea366ab60fab209d2d818d109ab24c5a03dea1ecdd533be4ccceb9c80",
+      "passed": 13,
+      "scope": "optimized portable subset under3.12; native replay unavailable",
+      "seconds": 0.027,
+      "skipped": 3,
+      "tests": 16
+    }
+  ],
+  "timing_measurements": 0,
+  "unit_manifests": {
+    "opcode_integration": "ec4ebf4051ce0192885020d5d0d149e0667b564eac2480de926ab2bca58ccc34",
+    "parity_active_v2": "04760b5470606f9b21db392f5df683e50671fe822446c341531da96cc717c76e",
+    "parity_imported_v1": "a4b12d100b2ee2a1c67682fe57a229ce70b12b035d4f853c083a834c515aea6c"
+  },
+  "workflow": {
+    "hosted_ci_executed_by_this_local_integration": false,
+    "path": ".github/workflows/gmi-instrument-custody-static.yml",
+    "permission": "contents:read",
+    "python_body_parsed_and_executed": true,
+    "runs_on": "ubuntu-latest",
+    "sha256": "1e88f37bb0f9fae48ac56c188f23f23f15ca941a08327e90aa2123c39d4e5705",
+    "yaml_parsed": true
+  }
+}
