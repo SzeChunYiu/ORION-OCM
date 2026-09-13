@@ -1,21 +1,23 @@
-# Value of computation and exact stopping: read first
+# Value of computation: read first
 
-Ledger item 10. Makes the choice of *which computation or experiment to run next*
-a metalevel decision with the deliberation's own charge booked to the resource
-ledger, and supplies the termination and exactness certificates that decision
-needs.
+The [corrected VOC-1–6 proof](VALUE_OF_COMPUTATION_THEOREM_V1.md) supplies
+finite deterministic stopping values with explicit feasibility and charged
+continuation.
 
-- [Theorem VOC-1–6](VALUE_OF_COMPUTATION_THEOREM_V1.md)
-- [Exact witnesses](test_value_of_computation_v1.py) — rational counterexamples;
-  they freeze the refutations, they do not prove the analytic theorems.
+- Rank exhaustion is distinct from successfully serving the obligation.
+- Positive edge costs give unique finite values on the viable domain;
+  other states remain infeasible.
+- The certified-cost step bound is deterministic/pathwise. Expected-cost
+  stochastic processes require a different statement.
+- Full lookahead can improve on myopia; common safety does not settle cost.
+- Stop-on-ties is a declared optimal convention; exact argmins use exact signs.
 
-Closes the three gaps that [`metareasoning-parent-review-v1`](../metareasoning-parent-review-v1/CORE.md)
-recorded as open tasks: the termination-assumption gap (**VOC-1/2/3**), the
-exactness-certification gap (**VOC-6**) and the contradictory stopping guidance
-(**VOC-5**). The stopping rule is *derived* in VOC-3 — continue iff the value of
-computation strictly exceeds its charge — rather than assumed.
+[Model](value_of_computation_model_v1.py) →
+[focused tests](test_value_of_computation_v1.py) →
+[graph controls](test_value_of_computation_graphs_v1.py) →
+[context and receipt](VOC_REPAIR_CONTEXT_V1.md).
 
-Status: **NOT REGISTERED IN THE REPLAY CAPSULE.** Deliberately outside
-`research/gmi-grand-unification-v1/`. Mechanisms are inherited from Hay–Russell–
-Tolpin–Shimony, Bertsekas, Russell–Wefald and the ski-rental literature; the
-contribution is the finite certificate set, not the metareasoning idea.
+Original PR571 source and successful historical controls are retained separately.
+This is a corrected finite-model result, not a claim that the parent review's
+implementation, general termination, verification or full-cost obligations
+have all been discharged. No grand checker or aggregate is changed here.

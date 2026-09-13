@@ -1,0 +1,32 @@
+tree 4cd7c8dcecff5034f601f07f4da7716b1ec67f67
+parent 5e22676208bfb1c5d5847ff6fc913d87effcb860
+author Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com> 1789318301 +0200
+committer Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com> 1789318301 +0200
+
+Correct the memory-dominance claim: it was measured on a cost-biased subset
+
+The admissibility ranking excluded program_search, compiled_search and particles_p4
+because they were slow, and I then concluded which family is most broadly admissible from
+what remained. That is a selection artifact, and a cost-correlated one.
+
+Earlier in this same campaign I diagnosed why those rows are slow: SEARCH's budget spans
+16 to 2401, selection prefers the largest because a bigger inner budget finds better
+programs, and the ledger charges every inner candidate. Cost and capability are positively
+coupled in exactly those rows, so excluding by cost biases toward finding cheaper weaker
+families dominant, which is the conclusion I reached.
+
+The partial full-matrix run shows it. compiled_search, minimum over six interventions, is
+admissible on all four ecologies measured so far with margins from 1.5 to 4.0 fx, starting
+at 0.9375 where the best cheap row averaged 0.8524. This matches the class-rate record
+independently, where program_search was rule-36 admissible on E_cr1 to 4 at 3.5 fx or more.
+
+Corrected statement: the exact-search family is the broadly admissible one, and the memory
+claim should be read as broadest among the cheap rows, which is not an interesting
+category. The hamming_knn_k3 numbers stand; the ranking drawn from them does not.
+
+Two lessons kept, both about method: do not drop measurements by cost when cost correlates
+with the quantity being measured, which I had already established here and walked into an
+hour later; and the flat-ceiling negative is unaffected, since it compares each family's
+variability against the constant row by row.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>

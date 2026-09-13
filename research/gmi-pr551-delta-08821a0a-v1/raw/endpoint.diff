@@ -1,0 +1,244 @@
+diff --git a/research/machine-intelligence-morphogenesis-v1/GMI_LEARNER_ADMISSIBILITY_MAP_V1.md b/research/machine-intelligence-morphogenesis-v1/GMI_LEARNER_ADMISSIBILITY_MAP_V1.md
+index 912bd651..093f472c 100644
+--- a/research/machine-intelligence-morphogenesis-v1/GMI_LEARNER_ADMISSIBILITY_MAP_V1.md
++++ b/research/machine-intelligence-morphogenesis-v1/GMI_LEARNER_ADMISSIBILITY_MAP_V1.md
+@@ -53,3 +53,95 @@ Four hand-built configurations, six registered ecologies, one basis, θ = 0.85,
+ By the `M′` rule a hand-built row licenses **presence, never absence**, so "no admissible learner" here
+ means no *registered* learner, not that none exists. The positive half is firmer than the negative half:
+ `E_wit1` admitting one at +3.751 fx is an existence result and needs no such qualification.
++
++---
++
++## The flat-ceiling hypothesis it suggested is NOT supported
++
++The map above showed the learner's capability varying less across ecologies (0.807–0.865) than the best
++constant did (0.708–0.875), which suggested a predictive law: **each family has a roughly
++ecology-independent ceiling, so which species are admissible where is decided by the constant rather than
++by the family.** If true, species occupancy would follow from two numbers.
++
++Tested by measuring six hand-built families across all six ecologies, minimum over the six interventions
++(`STAGE_FAMILY_ECOLOGY_MATRIX_CHEAP_V1.json`). The law predicts every family's standard deviation should
++be clearly below the constant's.
++
++| row | mean | stdev | spread | flatter than the constant? |
++|---|---:|---:|---:|---|
++| **BEST CONSTANT** | 0.8090 | **0.0516** | 0.1667 | — |
++| `gradient_net_h2` | 0.6788 | 0.0406 | 0.1094 | yes |
++| `hamming_knn_k3` | **0.8524** | 0.0435 | 0.1355 | yes |
++| `gradient_net_h4` | 0.7335 | 0.0560 | 0.1459 | no (comparable) |
++| `soft_retrieval` | 0.8142 | 0.0655 | 0.2083 | **no** |
++| `exemplar_table` | 0.6285 | 0.1092 | 0.3333 | **no** |
++| `constant_emitter` | 0.6979 | 0.2769 | 0.7917 | **no** |
++
++**Two of six.** The hypothesis fails: for most families, capability varies as much as or more than the
++constant does, so occupancy cannot be predicted from a family ceiling plus an ecology constant. Recorded
++as a negative because it was my hypothesis and it is wrong — family capability is genuinely
++ecology-dependent, which is the same lesson `DU-1` teaches about reachability: these quantities are not
++functions of convenient summaries.
++
++(`constant_emitter`'s 0.2769 is a sanity check that the measurement is behaving: it is one *fixed*
++constant, while the "best constant" is chosen per ecology, so it should and does vary far more.)
++
++## What the same data does show
++
++**Memory is the broadly admissible family, by a clear margin.** Counting admissibility (θ = 0.85 and
++≥ 1 fx over the ecology's best constant):
++
++| family | admissible on |
++|---|---|
++| `hamming_knn_k3` | **`E_parity`, `E_sym3`, `E_sym5`** — 3 of 6 |
++| `soft_retrieval` | `E_smooth3` — 1 of 6 |
++| `gradient_net_h2`, `gradient_net_h4`, `exemplar_table`, `constant_emitter` | none |
++
++`hamming_knn_k3` also carries the highest mean of any row measured (0.8524, above the mean best constant
++of 0.8090). That is the hand-built counterpart of what the searched population keeps showing — memory
++carriers occupy where others do not — and it now has a number attached rather than only a recovery rate.
++
++Note the two `gradient_net` rows here (`h2`, `h4`) are admissible nowhere, while the parametrised
++`gradient_net(h=3, lr=1)` measured above **is** admissible on `E_wit1` at +3.751 fx. Different
++configurations of one family, and the difference matters: the learner family's admissibility is
++configuration-sensitive as well as ecology-sensitive, which is a further reason the flat-ceiling reading
++was too simple.
++
++### Correction: "memory is the broadly admissible family" was measured on a cost-biased subset
++
++The admissibility table above excludes `program_search`, `compiled_search` and `particles_p4`. I dropped
++them because they were slow — the full matrix was crawling — and then drew a conclusion about which
++family is most broadly admissible from what remained. **That is a selection artifact, and a
++cost-correlated one.**
++
++Earlier in this same campaign I diagnosed why those rows are slow: `SEARCH`'s `budget` spans
++`(16, 64, 256, 2401)`, selection prefers the largest value because a bigger inner budget finds better
++programs, and the ledger charges every inner candidate. **Cost and capability are positively coupled in
++exactly these rows.** Excluding rows by cost therefore biases toward finding cheaper, weaker families
++dominant — which is precisely the conclusion I reached.
++
++The partial full-matrix run already shows it. `compiled_search`, minimum over the six interventions:
++
++| ecology | best constant | `compiled_search` min over six | margin (fx) |
++|---|---:|---:|---:|
++| `E_smooth1` | 0.8333 | **1.0000** | +4.00 |
++| `E_smooth3` | 0.8125 | **0.9583** | +3.50 |
++| `E_parity` | 0.8333 | **0.9583** | +3.00 |
++| `E_sym3` | 0.8750 | **0.9375** | +1.50 |
++
++Four ecologies measured, **four admissible, every margin at or above 1.5 fx** — against
++`hamming_knn_k3`'s three of six at much thinner margins, and a best row mean of 0.8524 against numbers
++that start at 0.9375. This also matches the class-rate record independently: `program_search` was
++rule-36 admissible on `E_cr1…4` at ≥ 3.5 fx.
++
++**So the corrected statement is that the exact-search family is the broadly admissible one**, and the
++memory claim above should be read as "broadest among the cheap rows", which is not an interesting
++category. The `hamming_knn_k3` numbers themselves stand; the ranking drawn from them does not.
++
++Two lessons kept, since both are about my own method rather than the subject:
++
++* **Do not drop measurements by cost when cost correlates with the quantity being measured.** I had
++  already established that coupling in this campaign and still walked into it an hour later.
++* The flat-ceiling negative above is **unaffected** — it compares each family's variability against the
++  constant's, row by row, and adding more families cannot rescue a hypothesis that failed on the rows
++  it was tested on.
+diff --git a/research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_FAMILY_ECOLOGY_MATRIX_CHEAP_V1.json b/research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_FAMILY_ECOLOGY_MATRIX_CHEAP_V1.json
+new file mode 100644
+index 00000000..4ef50c9d
+--- /dev/null
++++ b/research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_FAMILY_ECOLOGY_MATRIX_CHEAP_V1.json
+@@ -0,0 +1,137 @@
++{
++ "admissible_on": {
++  "constant_emitter": [],
++  "exemplar_table": [],
++  "gradient_net_h2": [],
++  "gradient_net_h4": [],
++  "hamming_knn_k3": [
++   "E_parity",
++   "E_sym3",
++   "E_sym5"
++  ],
++  "soft_retrieval": [
++   "E_smooth3"
++  ]
++ },
++ "best_constant": {
++  "E_parity": 0.8333,
++  "E_smooth1": 0.8333,
++  "E_smooth3": 0.8125,
++  "E_sym3": 0.875,
++  "E_sym5": 0.7917,
++  "E_wit1": 0.7083
++ },
++ "ecologies": [
++  "E_parity",
++  "E_smooth1",
++  "E_smooth3",
++  "E_sym3",
++  "E_sym5",
++  "E_wit1"
++ ],
++ "fx": 16,
++ "interventions": [
++  "standard",
++  "no_revoke",
++  "double_revoke",
++  "half_events",
++  "shuffled_events",
++  "extra_unseen_feedback"
++ ],
++ "min_over_six": {
++  "constant_emitter": {
++   "E_parity": 0.8333,
++   "E_smooth1": 0.8333,
++   "E_smooth3": 0.7708,
++   "E_sym3": 0.875,
++   "E_sym5": 0.7917,
++   "E_wit1": 0.0833
++  },
++  "exemplar_table": {
++   "E_parity": 0.6875,
++   "E_smooth1": 0.625,
++   "E_smooth3": 0.7083,
++   "E_sym3": 0.75,
++   "E_sym5": 0.5833,
++   "E_wit1": 0.4167
++  },
++  "gradient_net_h2": {
++   "E_parity": 0.6302,
++   "E_smooth1": 0.7083,
++   "E_smooth3": 0.7031,
++   "E_sym3": 0.7396,
++   "E_sym5": 0.6354,
++   "E_wit1": 0.6562
++  },
++  "gradient_net_h4": {
++   "E_parity": 0.776,
++   "E_smooth1": 0.7604,
++   "E_smooth3": 0.7604,
++   "E_sym3": 0.7917,
++   "E_sym5": 0.6667,
++   "E_wit1": 0.6458
++  },
++  "hamming_knn_k3": {
++   "E_parity": 0.8802,
++   "E_smooth1": 0.8646,
++   "E_smooth3": 0.8177,
++   "E_sym3": 0.9167,
++   "E_sym5": 0.8542,
++   "E_wit1": 0.7812
++  },
++  "soft_retrieval": {
++   "E_parity": 0.8229,
++   "E_smooth1": 0.8281,
++   "E_smooth3": 0.8542,
++   "E_sym3": 0.8854,
++   "E_sym5": 0.8177,
++   "E_wit1": 0.6771
++  }
++ },
++ "schema": "FamilyEcologyCapabilityMatrixV1",
++ "stats": {
++  "BEST_CONSTANT": {
++   "mean": 0.809,
++   "n": 6,
++   "spread": 0.1667,
++   "stdev": 0.0516
++  },
++  "constant_emitter": {
++   "mean": 0.6979,
++   "n": 6,
++   "spread": 0.7917,
++   "stdev": 0.2769
++  },
++  "exemplar_table": {
++   "mean": 0.6285,
++   "n": 6,
++   "spread": 0.3333,
++   "stdev": 0.1092
++  },
++  "gradient_net_h2": {
++   "mean": 0.6788,
++   "n": 6,
++   "spread": 0.1094,
++   "stdev": 0.0406
++  },
++  "gradient_net_h4": {
++   "mean": 0.7335,
++   "n": 6,
++   "spread": 0.1459,
++   "stdev": 0.056
++  },
++  "hamming_knn_k3": {
++   "mean": 0.8524,
++   "n": 6,
++   "spread": 0.1355,
++   "stdev": 0.0435
++  },
++  "soft_retrieval": {
++   "mean": 0.8142,
++   "n": 6,
++   "spread": 0.2083,
++   "stdev": 0.0655
++  }
++ },
++ "theta": 0.85
++}
+\ No newline at end of file

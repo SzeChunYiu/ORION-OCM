@@ -1,0 +1,1904 @@
+{
+ "aggregate": {
+  "E_cr4": "DERIVED_NON_NEURAL",
+  "E_sym5": "DERIVED_NON_NEURAL",
+  "E_wit1": "FAMILY_COEXISTENCE"
+ },
+ "family_v2": [
+  "standard",
+  "no_revoke",
+  "double_revoke",
+  "half_events",
+  "shuffled_events",
+  "extra_unseen_feedback_v2"
+ ],
+ "host": "old",
+ "receipt_sha256": "9b41b7f50c0b8f270445917988eb50be249667b3d622cbe30127ee9a20dba684",
+ "registry": {
+  "compiled_search": {
+   "canonical_sha256": "70001501514329e0",
+   "family": "NON_NEURAL",
+   "kinds": [
+    "EVIDENCE",
+    "INPUT",
+    "LOOKUP",
+    "MATERIALIZE",
+    "OUTPUT",
+    "PROGRAM",
+    "SEARCH",
+    "TARGET"
+   ],
+   "n_nodes": 8
+  },
+  "constant_emitter": {
+   "canonical_sha256": "e2a7924da225d194",
+   "family": "NON_NEURAL",
+   "kinds": [
+    "DENSE",
+    "INPUT",
+    "LINEAR",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 5
+  },
+  "exemplar_table": {
+   "canonical_sha256": "9e996cc24b774000",
+   "family": "NON_NEURAL",
+   "kinds": [
+    "CLOSEDFORM",
+    "INPUT",
+    "LOOKUP",
+    "OUTPUT",
+    "TABLE",
+    "TARGET"
+   ],
+   "n_nodes": 6
+  },
+  "gradient_net_h2": {
+   "canonical_sha256": "588873a703be7e16",
+   "family": "NEURAL",
+   "kinds": [
+    "AFFINE",
+    "DENSE",
+    "EVIDENCE",
+    "GRAD",
+    "INPUT",
+    "LINEAR",
+    "NONLIN",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 11
+  },
+  "gradient_net_h3_lr1_E11": {
+   "canonical_sha256": "836ae67483f48eec",
+   "family": "NEURAL",
+   "kinds": [
+    "AFFINE",
+    "DENSE",
+    "EVIDENCE",
+    "GRAD",
+    "INPUT",
+    "LINEAR",
+    "NONLIN",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 11
+  },
+  "gradient_net_h3_lr2_E11": {
+   "canonical_sha256": "8f96328c563e2493",
+   "family": "NEURAL",
+   "kinds": [
+    "AFFINE",
+    "DENSE",
+    "EVIDENCE",
+    "GRAD",
+    "INPUT",
+    "LINEAR",
+    "NONLIN",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 11
+  },
+  "gradient_net_h4": {
+   "canonical_sha256": "336ec3f872d998e9",
+   "family": "NEURAL",
+   "kinds": [
+    "AFFINE",
+    "DENSE",
+    "EVIDENCE",
+    "GRAD",
+    "INPUT",
+    "LINEAR",
+    "NONLIN",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 11
+  },
+  "gradient_net_h6_lr2_E11": {
+   "canonical_sha256": "45b989d134213a22",
+   "family": "NEURAL",
+   "kinds": [
+    "AFFINE",
+    "DENSE",
+    "EVIDENCE",
+    "GRAD",
+    "INPUT",
+    "LINEAR",
+    "NONLIN",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 11
+  },
+  "gradient_net_h8_lr2_E11": {
+   "canonical_sha256": "5f293963f2ad7210",
+   "family": "NEURAL",
+   "kinds": [
+    "AFFINE",
+    "DENSE",
+    "EVIDENCE",
+    "GRAD",
+    "INPUT",
+    "LINEAR",
+    "NONLIN",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 11
+  },
+  "hamming_knn_k3": {
+   "canonical_sha256": "c9df46565020e870",
+   "family": "NON_NEURAL",
+   "kinds": [
+    "INPUT",
+    "INSERT",
+    "KVSTORE",
+    "NEAREST",
+    "OUTPUT",
+    "TARGET"
+   ],
+   "n_nodes": 6
+  },
+  "particles_p4": {
+   "canonical_sha256": "30a3103741125e88",
+   "family": "NON_NEURAL",
+   "kinds": [
+    "EVIDENCE",
+    "INPUT",
+    "OUTPUT",
+    "PMUTATE",
+    "PROGEXEC",
+    "PROGRAM",
+    "TARGET"
+   ],
+   "n_nodes": 7
+  },
+  "program_search": {
+   "canonical_sha256": "e4c42a891c932d6b",
+   "family": "NON_NEURAL",
+   "kinds": [
+    "EVIDENCE",
+    "INPUT",
+    "OUTPUT",
+    "PROGEXEC",
+    "PROGRAM",
+    "SEARCH",
+    "TARGET"
+   ],
+   "n_nodes": 7
+  },
+  "soft_retrieval": {
+   "canonical_sha256": "f6d897c9be1733e7",
+   "family": "NON_NEURAL",
+   "kinds": [
+    "INPUT",
+    "INSERT",
+    "KVSTORE",
+    "OUTPUT",
+    "SCORESELECT",
+    "TARGET"
+   ],
+   "n_nodes": 6
+  }
+ },
+ "resource_keys": [
+  "desc",
+  "exec",
+  "upd",
+  "ver"
+ ],
+ "revival_record": "RV-377-210",
+ "schema": "StageNNNonNNPacketV1",
+ "tasks": {
+  "E_cr4": {
+   "admissible": [
+    "compiled_search",
+    "program_search"
+   ],
+   "admissible_family_support": [
+    "NON_NEURAL"
+   ],
+   "best_constant": [
+    0.8125,
+    -10
+   ],
+   "neural_admissible": [],
+   "pareto": [
+    "compiled_search",
+    "program_search"
+   ],
+   "pareto_family_support": [
+    "NON_NEURAL"
+   ],
+   "rows": {
+    "compiled_search": {
+     "admissible": true,
+     "caps": {
+      "double_revoke": 0.9583,
+      "extra_unseen_feedback_v2": 0.9167,
+      "half_events": 0.9583,
+      "no_revoke": 0.9583,
+      "shuffled_events": 0.9583,
+      "standard": 0.9583
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 2.501,
+     "min_v2": 0.9167,
+     "resources": {
+      "desc": 2897,
+      "exec": 2176,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 2897,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 8.0,
+       "B_mem": 244,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 2176,
+       "B_train": 3407944,
+       "B_update": 1673305,
+       "B_verify": 2432,
+       "emulated_ops": 840,
+       "native_ops": 3653773
+      },
+      "upd": 3407944,
+      "ver": 2432
+     }
+    },
+    "constant_emitter": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.2917,
+      "extra_unseen_feedback_v2": 0.4167,
+      "half_events": 0.2917,
+      "no_revoke": 0.2917,
+      "shuffled_events": 0.2917,
+      "standard": 0.2917
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -12.499,
+     "min_v2": 0.2917,
+     "resources": {
+      "desc": 10,
+      "exec": 272,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 10,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 1.0,
+       "B_mem": 8,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 272,
+       "B_train": 16,
+       "B_update": 1,
+       "B_verify": 512,
+       "emulated_ops": 0,
+       "native_ops": 800
+      },
+      "upd": 16,
+      "ver": 512
+     }
+    },
+    "exemplar_table": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.5625,
+      "extra_unseen_feedback_v2": 0.625,
+      "half_events": 0.5625,
+      "no_revoke": 0.5625,
+      "shuffled_events": 0.5625,
+      "standard": 0.5625
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -6.0,
+     "min_v2": 0.5625,
+     "resources": {
+      "desc": 166,
+      "exec": 1283,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 4.716911764705882,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 1283,
+       "B_train": 58,
+       "B_update": 7,
+       "B_verify": 1548,
+       "emulated_ops": 561,
+       "native_ops": 2896
+      },
+      "upd": 58,
+      "ver": 1548
+     }
+    },
+    "gradient_net_h2": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.7969,
+      "extra_unseen_feedback_v2": 0.6979,
+      "half_events": 0.8073,
+      "no_revoke": 0.7969,
+      "shuffled_events": 0.75,
+      "standard": 0.8073
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -2.75,
+     "min_v2": 0.6979,
+     "resources": {
+      "desc": 276,
+      "exec": 9520,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 276,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 35.0,
+       "B_mem": 186,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 9520,
+       "B_train": 4414,
+       "B_update": 1966,
+       "B_verify": 9216,
+       "emulated_ops": 63,
+       "native_ops": 17315
+      },
+      "upd": 4414,
+      "ver": 9216
+     }
+    },
+    "gradient_net_h3_lr1_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8281,
+      "extra_unseen_feedback_v2": 0.8229,
+      "half_events": 0.8281,
+      "no_revoke": 0.8438,
+      "shuffled_events": 0.8438,
+      "standard": 0.8438
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": 0.25,
+     "min_v2": 0.8229,
+     "resources": {
+      "desc": 324,
+      "exec": 14144,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 324,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 52.0,
+       "B_mem": 234,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 14144,
+       "B_train": 6835,
+       "B_update": 2928,
+       "B_verify": 13568,
+       "emulated_ops": 63,
+       "native_ops": 25599
+      },
+      "upd": 6835,
+      "ver": 13568
+     }
+    },
+    "gradient_net_h3_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8438,
+      "extra_unseen_feedback_v2": 0.8125,
+      "half_events": 0.849,
+      "no_revoke": 0.8281,
+      "shuffled_events": 0.8542,
+      "standard": 0.849
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": 0.0,
+     "min_v2": 0.8125,
+     "resources": {
+      "desc": 324,
+      "exec": 14144,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 324,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 52.0,
+       "B_mem": 234,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 14144,
+       "B_train": 6952,
+       "B_update": 3045,
+       "B_verify": 13568,
+       "emulated_ops": 63,
+       "native_ops": 25697
+      },
+      "upd": 6952,
+      "ver": 13568
+     }
+    },
+    "gradient_net_h4": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8073,
+      "extra_unseen_feedback_v2": 0.7917,
+      "half_events": 0.6458,
+      "no_revoke": 0.7917,
+      "shuffled_events": 0.8125,
+      "standard": 0.625
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -4.5,
+     "min_v2": 0.625,
+     "resources": {
+      "desc": 372,
+      "exec": 18768,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 372,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 69.0,
+       "B_mem": 282,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 18768,
+       "B_train": 8274,
+       "B_update": 3798,
+       "B_verify": 17920,
+       "emulated_ops": 63,
+       "native_ops": 33415
+      },
+      "upd": 8274,
+      "ver": 17920
+     }
+    },
+    "gradient_net_h6_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.6927,
+      "extra_unseen_feedback_v2": 0.8021,
+      "half_events": 0.6094,
+      "no_revoke": 0.724,
+      "shuffled_events": 0.7135,
+      "standard": 0.7083
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -4.874,
+     "min_v2": 0.6094,
+     "resources": {
+      "desc": 468,
+      "exec": 28016,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 468,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 103.0,
+       "B_mem": 378,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 28016,
+       "B_train": 13284,
+       "B_update": 6015,
+       "B_verify": 26624,
+       "emulated_ops": 63,
+       "native_ops": 50170
+      },
+      "upd": 13284,
+      "ver": 26624
+     }
+    },
+    "gradient_net_h8_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.5729,
+      "extra_unseen_feedback_v2": 0.6458,
+      "half_events": 0.6771,
+      "no_revoke": 0.6354,
+      "shuffled_events": 0.6406,
+      "standard": 0.7552
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -5.75,
+     "min_v2": 0.5729,
+     "resources": {
+      "desc": 564,
+      "exec": 37264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 564,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 137.0,
+       "B_mem": 474,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 37264,
+       "B_train": 17579,
+       "B_update": 7777,
+       "B_verify": 35328,
+       "emulated_ops": 63,
+       "native_ops": 66425
+      },
+      "upd": 17579,
+      "ver": 35328
+     }
+    },
+    "hamming_knn_k3": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8229,
+      "extra_unseen_feedback_v2": 0.8021,
+      "half_events": 0.8333,
+      "no_revoke": 0.8229,
+      "shuffled_events": 0.8646,
+      "standard": 0.8229
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -0.25,
+     "min_v2": 0.8021,
+     "resources": {
+      "desc": 166,
+      "exec": 13856,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 50.94117647058823,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 13856,
+       "B_train": 813,
+       "B_update": 7,
+       "B_verify": 14240,
+       "emulated_ops": 17,
+       "native_ops": 28455
+      },
+      "upd": 813,
+      "ver": 14240
+     }
+    },
+    "particles_p4": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.9583,
+      "extra_unseen_feedback_v2": 0.9167,
+      "half_events": 0.75,
+      "no_revoke": 0.9167,
+      "shuffled_events": 0.9583,
+      "standard": 0.9583
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -1.5,
+     "min_v2": 0.75,
+     "resources": {
+      "desc": 175,
+      "exec": 3264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 175,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 12.0,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 3264,
+       "B_train": 19533,
+       "B_update": 8961,
+       "B_verify": 3328,
+       "emulated_ops": 293,
+       "native_ops": 29902
+      },
+      "upd": 19533,
+      "ver": 3328
+     }
+    },
+    "program_search": {
+     "admissible": true,
+     "caps": {
+      "double_revoke": 0.9583,
+      "extra_unseen_feedback_v2": 0.9167,
+      "half_events": 0.9583,
+      "no_revoke": 0.9583,
+      "shuffled_events": 0.9583,
+      "standard": 0.9583
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 2.501,
+     "min_v2": 0.9167,
+     "resources": {
+      "desc": 175,
+      "exec": 3264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 175,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 12.0,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 3264,
+       "B_train": 3404673,
+       "B_update": 1673126,
+       "B_verify": 3328,
+       "emulated_ops": 17,
+       "native_ops": 3651191
+      },
+      "upd": 3404673,
+      "ver": 3328
+     }
+    },
+    "soft_retrieval": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback_v2": 0.7812,
+      "half_events": 0.7812,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.8542,
+      "standard": 0.8542
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -0.751,
+     "min_v2": 0.7812,
+     "resources": {
+      "desc": 166,
+      "exec": 20592,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 75.70588235294117,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 20592,
+       "B_train": 1199,
+       "B_update": 7,
+       "B_verify": 21056,
+       "emulated_ops": 3819,
+       "native_ops": 39579
+      },
+      "upd": 1199,
+      "ver": 21056
+     }
+    }
+   },
+   "shuffled_label_control_ok": true,
+   "verdict_dc2": "DERIVED_NON_NEURAL",
+   "verdict_without_pareto": "DERIVED_NON_NEURAL"
+  },
+  "E_sym5": {
+   "admissible": [
+    "compiled_search",
+    "program_search"
+   ],
+   "admissible_family_support": [
+    "NON_NEURAL"
+   ],
+   "best_constant": [
+    0.7917,
+    5
+   ],
+   "neural_admissible": [],
+   "pareto": [
+    "compiled_search",
+    "program_search"
+   ],
+   "pareto_family_support": [
+    "NON_NEURAL"
+   ],
+   "rows": {
+    "compiled_search": {
+     "admissible": true,
+     "caps": {
+      "double_revoke": 0.9375,
+      "extra_unseen_feedback_v2": 0.9375,
+      "half_events": 0.9375,
+      "no_revoke": 0.9375,
+      "shuffled_events": 0.9375,
+      "standard": 0.9375
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 3.499,
+     "min_v2": 0.9375,
+     "resources": {
+      "desc": 2897,
+      "exec": 2176,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 2897,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 8.0,
+       "B_mem": 244,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 2176,
+       "B_train": 3526879,
+       "B_update": 1728766,
+       "B_verify": 2432,
+       "emulated_ops": 840,
+       "native_ops": 3828169
+      },
+      "upd": 3526879,
+      "ver": 2432
+     }
+    },
+    "constant_emitter": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.7917,
+      "extra_unseen_feedback_v2": 0.75,
+      "half_events": 0.7917,
+      "no_revoke": 0.7917,
+      "shuffled_events": 0.7917,
+      "standard": 0.7917
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -1.001,
+     "min_v2": 0.75,
+     "resources": {
+      "desc": 10,
+      "exec": 272,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 10,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 1.0,
+       "B_mem": 8,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 272,
+       "B_train": 16,
+       "B_update": 1,
+       "B_verify": 512,
+       "emulated_ops": 0,
+       "native_ops": 800
+      },
+      "upd": 16,
+      "ver": 512
+     }
+    },
+    "exemplar_table": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.5833,
+      "extra_unseen_feedback_v2": 0.4792,
+      "half_events": 0.5833,
+      "no_revoke": 0.5833,
+      "shuffled_events": 0.5833,
+      "standard": 0.5833
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -7.5,
+     "min_v2": 0.4792,
+     "resources": {
+      "desc": 166,
+      "exec": 1283,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 4.716911764705882,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 1283,
+       "B_train": 58,
+       "B_update": 7,
+       "B_verify": 1548,
+       "emulated_ops": 561,
+       "native_ops": 2896
+      },
+      "upd": 58,
+      "ver": 1548
+     }
+    },
+    "gradient_net_h2": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.6354,
+      "extra_unseen_feedback_v2": 0.6667,
+      "half_events": 0.6771,
+      "no_revoke": 0.6354,
+      "shuffled_events": 0.776,
+      "standard": 0.7188
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -3.751,
+     "min_v2": 0.6354,
+     "resources": {
+      "desc": 276,
+      "exec": 9520,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 276,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 35.0,
+       "B_mem": 186,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 9520,
+       "B_train": 4580,
+       "B_update": 2106,
+       "B_verify": 9216,
+       "emulated_ops": 63,
+       "native_ops": 17447
+      },
+      "upd": 4580,
+      "ver": 9216
+     }
+    },
+    "gradient_net_h3_lr1_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8385,
+      "extra_unseen_feedback_v2": 0.8854,
+      "half_events": 0.7708,
+      "no_revoke": 0.8333,
+      "shuffled_events": 0.8125,
+      "standard": 0.8385
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -0.502,
+     "min_v2": 0.7708,
+     "resources": {
+      "desc": 324,
+      "exec": 14144,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 324,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 52.0,
+       "B_mem": 234,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 14144,
+       "B_train": 6684,
+       "B_update": 3022,
+       "B_verify": 13568,
+       "emulated_ops": 63,
+       "native_ops": 25570
+      },
+      "upd": 6684,
+      "ver": 13568
+     }
+    },
+    "gradient_net_h3_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.849,
+      "extra_unseen_feedback_v2": 0.8958,
+      "half_events": 0.8385,
+      "no_revoke": 0.8385,
+      "shuffled_events": 0.8333,
+      "standard": 0.8385
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": 0.998,
+     "min_v2": 0.8333,
+     "resources": {
+      "desc": 324,
+      "exec": 14144,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 324,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 52.0,
+       "B_mem": 234,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 14144,
+       "B_train": 6625,
+       "B_update": 2987,
+       "B_verify": 13568,
+       "emulated_ops": 63,
+       "native_ops": 25532
+      },
+      "upd": 6625,
+      "ver": 13568
+     }
+    },
+    "gradient_net_h4": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.7552,
+      "extra_unseen_feedback_v2": 0.7292,
+      "half_events": 0.6823,
+      "no_revoke": 0.6667,
+      "shuffled_events": 0.7656,
+      "standard": 0.75
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -3.0,
+     "min_v2": 0.6667,
+     "resources": {
+      "desc": 372,
+      "exec": 18768,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 372,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 69.0,
+       "B_mem": 282,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 18768,
+       "B_train": 8709,
+       "B_update": 4043,
+       "B_verify": 17920,
+       "emulated_ops": 63,
+       "native_ops": 33705
+      },
+      "upd": 8709,
+      "ver": 17920
+     }
+    },
+    "gradient_net_h6_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.7969,
+      "extra_unseen_feedback_v2": 0.8438,
+      "half_events": 0.7917,
+      "no_revoke": 0.8333,
+      "shuffled_events": 0.8073,
+      "standard": 0.8281
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": 0.0,
+     "min_v2": 0.7917,
+     "resources": {
+      "desc": 468,
+      "exec": 28016,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 468,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 103.0,
+       "B_mem": 378,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 28016,
+       "B_train": 13669,
+       "B_update": 6085,
+       "B_verify": 26624,
+       "emulated_ops": 63,
+       "native_ops": 50365
+      },
+      "upd": 13669,
+      "ver": 26624
+     }
+    },
+    "gradient_net_h8_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.6979,
+      "extra_unseen_feedback_v2": 0.6562,
+      "half_events": 0.5781,
+      "no_revoke": 0.5833,
+      "shuffled_events": 0.7396,
+      "standard": 0.7188
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -5.126,
+     "min_v2": 0.5781,
+     "resources": {
+      "desc": 564,
+      "exec": 37264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 564,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 137.0,
+       "B_mem": 474,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 37264,
+       "B_train": 17579,
+       "B_update": 7987,
+       "B_verify": 35328,
+       "emulated_ops": 63,
+       "native_ops": 66515
+      },
+      "upd": 17579,
+      "ver": 35328
+     }
+    },
+    "hamming_knn_k3": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback_v2": 0.8021,
+      "half_events": 0.8958,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.9375,
+      "standard": 0.8542
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 0.25,
+     "min_v2": 0.8021,
+     "resources": {
+      "desc": 166,
+      "exec": 13856,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 50.94117647058823,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 13856,
+       "B_train": 813,
+       "B_update": 7,
+       "B_verify": 14240,
+       "emulated_ops": 17,
+       "native_ops": 28455
+      },
+      "upd": 813,
+      "ver": 14240
+     }
+    },
+    "particles_p4": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.7917,
+      "extra_unseen_feedback_v2": 0.7292,
+      "half_events": 0.7917,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.7917,
+      "standard": 0.7917
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -1.5,
+     "min_v2": 0.7292,
+     "resources": {
+      "desc": 175,
+      "exec": 3264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 175,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 12.0,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 3264,
+       "B_train": 19714,
+       "B_update": 9054,
+       "B_verify": 3328,
+       "emulated_ops": 293,
+       "native_ops": 30176
+      },
+      "upd": 19714,
+      "ver": 3328
+     }
+    },
+    "program_search": {
+     "admissible": true,
+     "caps": {
+      "double_revoke": 0.9375,
+      "extra_unseen_feedback_v2": 0.9375,
+      "half_events": 0.9375,
+      "no_revoke": 0.9375,
+      "shuffled_events": 0.9375,
+      "standard": 0.9375
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 3.499,
+     "min_v2": 0.9375,
+     "resources": {
+      "desc": 175,
+      "exec": 3264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 175,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 12.0,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 3264,
+       "B_train": 3523608,
+       "B_update": 1728587,
+       "B_verify": 3328,
+       "emulated_ops": 17,
+       "native_ops": 3825587
+      },
+      "upd": 3523608,
+      "ver": 3328
+     }
+    },
+    "soft_retrieval": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8542,
+      "extra_unseen_feedback_v2": 0.7292,
+      "half_events": 0.8542,
+      "no_revoke": 0.8542,
+      "shuffled_events": 0.8542,
+      "standard": 0.8542
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -1.5,
+     "min_v2": 0.7292,
+     "resources": {
+      "desc": 166,
+      "exec": 20592,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 75.70588235294117,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 20592,
+       "B_train": 1199,
+       "B_update": 7,
+       "B_verify": 21056,
+       "emulated_ops": 3819,
+       "native_ops": 39579
+      },
+      "upd": 1199,
+      "ver": 21056
+     }
+    }
+   },
+   "shuffled_label_control_ok": true,
+   "verdict_dc2": "DERIVED_NON_NEURAL",
+   "verdict_without_pareto": "DERIVED_NON_NEURAL"
+  },
+  "E_wit1": {
+   "admissible": [
+    "compiled_search",
+    "gradient_net_h3_lr1_E11",
+    "program_search"
+   ],
+   "admissible_family_support": [
+    "NEURAL",
+    "NON_NEURAL"
+   ],
+   "best_constant": [
+    0.7083,
+    -8
+   ],
+   "neural_admissible": [
+    "gradient_net_h3_lr1_E11"
+   ],
+   "pareto": [
+    "compiled_search",
+    "gradient_net_h3_lr1_E11",
+    "program_search"
+   ],
+   "pareto_family_support": [
+    "NEURAL",
+    "NON_NEURAL"
+   ],
+   "rows": {
+    "compiled_search": {
+     "admissible": true,
+     "caps": {
+      "double_revoke": 1.0,
+      "extra_unseen_feedback_v2": 1.0,
+      "half_events": 1.0,
+      "no_revoke": 1.0,
+      "shuffled_events": 1.0,
+      "standard": 1.0
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 7.001,
+     "min_v2": 1.0,
+     "resources": {
+      "desc": 2897,
+      "exec": 2176,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 2897,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 8.0,
+       "B_mem": 244,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 2176,
+       "B_train": 3381385,
+       "B_update": 1656078,
+       "B_verify": 2432,
+       "emulated_ops": 840,
+       "native_ops": 3609987
+      },
+      "upd": 3381385,
+      "ver": 2432
+     }
+    },
+    "constant_emitter": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.0833,
+      "extra_unseen_feedback_v2": 0.0,
+      "half_events": 0.0833,
+      "no_revoke": 0.0833,
+      "shuffled_events": 0.0833,
+      "standard": 0.0833
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -16.999,
+     "min_v2": 0.0,
+     "resources": {
+      "desc": 10,
+      "exec": 272,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 10,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 1.0,
+       "B_mem": 8,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 272,
+       "B_train": 16,
+       "B_update": 1,
+       "B_verify": 512,
+       "emulated_ops": 0,
+       "native_ops": 800
+      },
+      "upd": 16,
+      "ver": 512
+     }
+    },
+    "exemplar_table": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.4167,
+      "extra_unseen_feedback_v2": 0.3333,
+      "half_events": 0.4167,
+      "no_revoke": 0.4167,
+      "shuffled_events": 0.4167,
+      "standard": 0.4167
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -9.0,
+     "min_v2": 0.3333,
+     "resources": {
+      "desc": 166,
+      "exec": 1283,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 4.716911764705882,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 1283,
+       "B_train": 58,
+       "B_update": 7,
+       "B_verify": 1548,
+       "emulated_ops": 561,
+       "native_ops": 2896
+      },
+      "upd": 58,
+      "ver": 1548
+     }
+    },
+    "gradient_net_h2": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.6562,
+      "extra_unseen_feedback_v2": 0.7083,
+      "half_events": 0.7188,
+      "no_revoke": 0.6562,
+      "shuffled_events": 0.6875,
+      "standard": 0.6562
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -1.25,
+     "min_v2": 0.6562,
+     "resources": {
+      "desc": 276,
+      "exec": 9520,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 276,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 35.0,
+       "B_mem": 186,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 9520,
+       "B_train": 4466,
+       "B_update": 1922,
+       "B_verify": 9216,
+       "emulated_ops": 63,
+       "native_ops": 17321
+      },
+      "upd": 4466,
+      "ver": 9216
+     }
+    },
+    "gradient_net_h3_lr1_E11": {
+     "admissible": true,
+     "caps": {
+      "double_revoke": 0.8646,
+      "extra_unseen_feedback_v2": 0.8542,
+      "half_events": 0.8646,
+      "no_revoke": 0.8646,
+      "shuffled_events": 0.8646,
+      "standard": 0.8646
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": 3.502,
+     "min_v2": 0.8542,
+     "resources": {
+      "desc": 324,
+      "exec": 14144,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 324,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 52.0,
+       "B_mem": 234,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 14144,
+       "B_train": 6835,
+       "B_update": 3162,
+       "B_verify": 13568,
+       "emulated_ops": 63,
+       "native_ops": 25697
+      },
+      "upd": 6835,
+      "ver": 13568
+     }
+    },
+    "gradient_net_h3_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.8073,
+      "extra_unseen_feedback_v2": 0.8021,
+      "half_events": 0.8073,
+      "no_revoke": 0.8073,
+      "shuffled_events": 0.8333,
+      "standard": 0.8073
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": 2.251,
+     "min_v2": 0.8021,
+     "resources": {
+      "desc": 324,
+      "exec": 14144,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 324,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 52.0,
+       "B_mem": 234,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 14144,
+       "B_train": 6800,
+       "B_update": 3092,
+       "B_verify": 13568,
+       "emulated_ops": 63,
+       "native_ops": 25652
+      },
+      "upd": 6800,
+      "ver": 13568
+     }
+    },
+    "gradient_net_h4": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.6979,
+      "extra_unseen_feedback_v2": 0.6458,
+      "half_events": 0.7031,
+      "no_revoke": 0.6719,
+      "shuffled_events": 0.7083,
+      "standard": 0.6458
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -1.5,
+     "min_v2": 0.6458,
+     "resources": {
+      "desc": 372,
+      "exec": 18768,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 372,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 69.0,
+       "B_mem": 282,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 18768,
+       "B_train": 8379,
+       "B_update": 3798,
+       "B_verify": 17920,
+       "emulated_ops": 63,
+       "native_ops": 33460
+      },
+      "upd": 8379,
+      "ver": 17920
+     }
+    },
+    "gradient_net_h6_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.4479,
+      "extra_unseen_feedback_v2": 0.6562,
+      "half_events": 0.5052,
+      "no_revoke": 0.5417,
+      "shuffled_events": 0.6667,
+      "standard": 0.4375
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -6.499,
+     "min_v2": 0.4375,
+     "resources": {
+      "desc": 468,
+      "exec": 28016,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 468,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 103.0,
+       "B_mem": 378,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 28016,
+       "B_train": 13424,
+       "B_update": 6085,
+       "B_verify": 26624,
+       "emulated_ops": 63,
+       "native_ops": 50260
+      },
+      "upd": 13424,
+      "ver": 26624
+     }
+    },
+    "gradient_net_h8_lr2_E11": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.401,
+      "extra_unseen_feedback_v2": 0.8125,
+      "half_events": 0.7708,
+      "no_revoke": 0.1823,
+      "shuffled_events": 0.776,
+      "standard": 0.7344
+     },
+     "family": "NEURAL",
+     "margin_over_constant_fx": -12.624,
+     "min_v2": 0.1823,
+     "resources": {
+      "desc": 564,
+      "exec": 37264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 564,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 137.0,
+       "B_mem": 474,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 37264,
+       "B_train": 17525,
+       "B_update": 7785,
+       "B_verify": 35328,
+       "emulated_ops": 63,
+       "native_ops": 66413
+      },
+      "upd": 17525,
+      "ver": 35328
+     }
+    },
+    "hamming_knn_k3": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.7812,
+      "extra_unseen_feedback_v2": 0.7188,
+      "half_events": 0.8333,
+      "no_revoke": 0.7812,
+      "shuffled_events": 0.8854,
+      "standard": 0.7812
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 0.252,
+     "min_v2": 0.7188,
+     "resources": {
+      "desc": 166,
+      "exec": 13856,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 50.94117647058823,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 13856,
+       "B_train": 813,
+       "B_update": 7,
+       "B_verify": 14240,
+       "emulated_ops": 17,
+       "native_ops": 28455
+      },
+      "upd": 813,
+      "ver": 14240
+     }
+    },
+    "particles_p4": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.9167,
+      "extra_unseen_feedback_v2": 0.8333,
+      "half_events": 0.9167,
+      "no_revoke": 0.9167,
+      "shuffled_events": 1.0,
+      "standard": 0.8333
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 3.0,
+     "min_v2": 0.8333,
+     "resources": {
+      "desc": 175,
+      "exec": 3264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 175,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 12.0,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 3264,
+       "B_train": 19543,
+       "B_update": 8932,
+       "B_verify": 3328,
+       "emulated_ops": 293,
+       "native_ops": 29883
+      },
+      "upd": 19543,
+      "ver": 3328
+     }
+    },
+    "program_search": {
+     "admissible": true,
+     "caps": {
+      "double_revoke": 1.0,
+      "extra_unseen_feedback_v2": 1.0,
+      "half_events": 1.0,
+      "no_revoke": 1.0,
+      "shuffled_events": 1.0,
+      "standard": 1.0
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": 7.001,
+     "min_v2": 1.0,
+     "resources": {
+      "desc": 175,
+      "exec": 3264,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 175,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 12.0,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 3264,
+       "B_train": 3378114,
+       "B_update": 1655899,
+       "B_verify": 3328,
+       "emulated_ops": 17,
+       "native_ops": 3607405
+      },
+      "upd": 3378114,
+      "ver": 3328
+     }
+    },
+    "soft_retrieval": {
+     "admissible": false,
+     "caps": {
+      "double_revoke": 0.7708,
+      "extra_unseen_feedback_v2": 0.6146,
+      "half_events": 0.7708,
+      "no_revoke": 0.7708,
+      "shuffled_events": 0.7708,
+      "standard": 0.7708
+     },
+     "family": "NON_NEURAL",
+     "margin_over_constant_fx": -2.249,
+     "min_v2": 0.6146,
+     "resources": {
+      "desc": 166,
+      "exec": 20592,
+      "lifecycle": {
+       "B_capital": 0,
+       "B_comm": 0,
+       "B_compile": 0,
+       "B_data": 16,
+       "B_desc": 166,
+       "B_energy": null,
+       "B_external_calls": 0,
+       "B_failed_candidates": 0,
+       "B_human": 0,
+       "B_lat": 75.70588235294117,
+       "B_mem": 82,
+       "B_risk": 0.0,
+       "B_search": 0,
+       "B_serve": 20592,
+       "B_train": 1199,
+       "B_update": 7,
+       "B_verify": 21056,
+       "emulated_ops": 3819,
+       "native_ops": 39579
+      },
+      "upd": 1199,
+      "ver": 21056
+     }
+    }
+   },
+   "shuffled_label_control_ok": true,
+   "verdict_dc2": "FAMILY_COEXISTENCE",
+   "verdict_without_pareto": "FAMILY_COEXISTENCE"
+  }
+ },
+ "terminal": "NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE",
+ "theta": 0.85
+}

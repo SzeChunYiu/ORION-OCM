@@ -11,6 +11,20 @@ on:
       - 'research/gmi-b6-consumer-census-v1/**'
       - 'research/gmi-adaptive-row-confidence-v1/**'
       - 'research/gmi-delegation-cost-repair-v1/**'
+      - 'research/gmi-native-adjoint-repair-v1/**'
+      - 'research/gmi-formal-derivation-v1/**'
+      - 'research/gmi-main566567-audit-v1/**'
+      - 'research/gmi-recursive-theory-closure-v1/**'
+      - 'research/gmi-pr551-delta-08821a0a-v1/**'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/__init__.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/bases.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/core.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/historical_vm_v1.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/morph.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/vm.py'
+      - 'research/machine-intelligence-morphogenesis-v1/test_b6_development.py'
+      - 'research/machine-intelligence-morphogenesis-v1/test_gmi_microscope.py'
+      - 'research/machine-intelligence-morphogenesis-v1/test_gmi_vm_parameter_adjoint_v1.py'
       - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
       - '.github/workflows/grand-gmi-theorem-capsule.yml'
       - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
@@ -28,6 +42,20 @@ on:
       - 'research/gmi-b6-consumer-census-v1/**'
       - 'research/gmi-adaptive-row-confidence-v1/**'
       - 'research/gmi-delegation-cost-repair-v1/**'
+      - 'research/gmi-native-adjoint-repair-v1/**'
+      - 'research/gmi-formal-derivation-v1/**'
+      - 'research/gmi-main566567-audit-v1/**'
+      - 'research/gmi-recursive-theory-closure-v1/**'
+      - 'research/gmi-pr551-delta-08821a0a-v1/**'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/__init__.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/bases.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/core.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/historical_vm_v1.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/morph.py'
+      - 'research/machine-intelligence-morphogenesis-v1/gmi_microscope/vm.py'
+      - 'research/machine-intelligence-morphogenesis-v1/test_b6_development.py'
+      - 'research/machine-intelligence-morphogenesis-v1/test_gmi_microscope.py'
+      - 'research/machine-intelligence-morphogenesis-v1/test_gmi_vm_parameter_adjoint_v1.py'
       - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
       - '.github/workflows/grand-gmi-theorem-capsule.yml'
       - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
@@ -86,6 +114,26 @@ jobs:
           python -I -O -B -m unittest discover -s research/gmi-delegation-cost-repair-v1 -p 'test_*v1.py' -v
           python -I -B research/gmi-delegation-cost-repair-v1/raw/test_grand_gmi_delegation_invariant_cost_v1.py
           python -I -O -B research/gmi-delegation-cost-repair-v1/raw/test_grand_gmi_delegation_invariant_cost_v1.py
+      - name: Native adjoint frozen and active primitive controls
+        run: |
+          python -I -B -m unittest discover -s research/gmi-native-adjoint-repair-v1 -p 'test_*v1.py' -v
+          python -I -O -B -m unittest discover -s research/gmi-native-adjoint-repair-v1 -p 'test_*v1.py' -v
+          python -I -B research/machine-intelligence-morphogenesis-v1/test_gmi_vm_parameter_adjoint_v1.py
+          python -I -O -B research/machine-intelligence-morphogenesis-v1/test_gmi_vm_parameter_adjoint_v1.py
+      - name: Frozen formal derivation witnesses and hostile controls
+        run: |
+          python -I -B research/gmi-formal-derivation-v1/verify_unit.py
+          python -I -O -B research/gmi-formal-derivation-v1/verify_unit.py
+          python -I -B research/gmi-formal-derivation-v1/verify_controls.py
+          python -I -O -B research/gmi-formal-derivation-v1/verify_controls.py
+      - name: Preserved global adaptive finite statistical controls
+        run: |
+          python -I -B research/gmi-recursive-theory-closure-v1/test_global_adaptive_composition_v1.py
+          python -I -O -B research/gmi-recursive-theory-closure-v1/test_global_adaptive_composition_v1.py
+      - name: Repaired learning and complete-view memory controls
+        run: |
+          python -I -B -m unittest discover -s research/gmi-recursive-theory-closure-v1 -p 'test_learning_memory*.py' -v
+          python -I -O -B -m unittest discover -s research/gmi-recursive-theory-closure-v1 -p 'test_learning_memory*.py' -v
       - name: Replay every registered finite checker against complete frozen output
         run: >-
           python -I -B research/gmi-grand-unification-v1/replay_theorem_capsule_v1.py

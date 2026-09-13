@@ -1,23 +1,21 @@
-# Causal identifiability boundary: read first
+# Causal identifiability: read first
 
-Ledger item 8. States when an observational evidence stream does and does not
-determine an obligation expressed over interventional quantities.
+The [corrected CAU-1–4 theorem](CAUSAL_IDENTIFIABILITY_BOUNDARY_THEOREM_V1.md)
+states a finite acyclic SCM interface, complete-view impossibility and
+supported observational recovery.
 
-- [Theorem CAU-1–5](CAUSAL_IDENTIFIABILITY_BOUNDARY_THEOREM_V1.md) — the boundary,
-  its sufficient premises, and the charge those premises carry.
-- [Exact witnesses](test_causal_identifiability_v1.py) — rational counterexamples;
-  they freeze the refutations, they do not prove the analytic theorem.
+- Identical complete observational views cannot determine two different effects.
+- Population identification means constancy over a **declared compatible model class**.
+- Supported back-door adjustment and surgical randomization are sufficient routes.
+- Positive-support descendant adjustment can fail: 7/10 versus the true 3/4.
+- Charge operations actually performed; identification need not require a new probe.
 
-**CAU-1** two finite registers share an observational law yet differ under
-`do(X=1)` (`1/2` against `1`), so no purely observational learner determines the
-interventional target at any sample size. **CAU-3** restores identifiability only
-by supplying a premise — back-door adjustment or an admitted randomization — and
-under A4 those probes are charged, so identifiability is purchased, never free.
-**W3** shows the descendant exclusion is load-bearing: adjusting on a descendant
-of `X` returns `1/2` against a truth of `1`.
+The mature causal mechanisms are attributed to Pearl and their graph assumptions.
+The tests distinguish missing support from a valid numerical result.
 
-Status: **NOT REGISTERED IN THE REPLAY CAPSULE.** Deliberately outside
-`research/gmi-grand-unification-v1/` so it cannot perturb that sector's
-registered input set. The statistical mechanism is established causal inference
-(Pearl; Spirtes–Glymour–Scheines; Bareinboim–Pearl); the GMI content is the
-interface and the charged-probe accounting, not the identifiability calculus.
+[Model](causal_tables_v1.py) → [15 finite controls](test_causal_identifiability_v1.py)
+→ [repair receipt](REPAIR_RECEIPT_V1.json) →
+[unchanged PR570 source archive](raw/pr570-1277d0e8/SOURCE_BINDINGS_V1.json).
+
+This unit is not registered in the grand replay capsule. It makes no
+finite-sample, physical-randomizer, universal discovery or hardware claim.

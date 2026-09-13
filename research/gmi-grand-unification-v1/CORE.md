@@ -4,6 +4,15 @@ The [master declaration](GRAND_GMI_MASTER_THEORY_V1.md) fixes the causal-process
 scope. The theory is a set of conditional results and constructions. A named
 sector or successful finite replay does not establish universal completion.
 
+The [conditional formal derivation route](FORMAL_DERIVATION_INTEGRATION_V1.md)
+connects the operational contracts to adaptive inference, acquired state,
+composition, representations and a charged executable-structure learner.
+Its explicit premises and empirical obligations remain part of every result.
+The [GAC5 composition correction](GAC_WELL_FOUNDED_COMPOSITION_CORRECTION_V1.md)
+adds the founded-dependency premise while preserving the complete upstream source.
+The [learning/memory correction](LEARNING_MEMORY_INTEGRATION_CORRECTION_V1.md)
+aligns regret, fixed-class learning and complete-view forgetting with that route.
+
 ## Current scientific additions
 
 | Question | Result and proof |
@@ -48,6 +57,9 @@ module. Exact finite checks challenge those applications; the analytic proofs
 state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
+
+- [Native adjoint correction](NATIVE_ADJOINT_INTEGRATION_V1.md): missing input-factor repair, exact active-source custody and preserved historical behavior; no campaign recovery claim.
+- [PR551 family-ceiling correction](PR551_FAMILY_CEILING_CORRECTION_08821A0A_V1.md): selected scores and reported cells do not establish complete-family extrema.
 
 - [Claim closure and remaining premises](REGISTERED_CLAIM_CLOSURE_V1.md): established interfaces, explicit empirical obligations and the next causal-transfer claim.
 - [Historical geometry/signature audit](Q8_HISTORICAL_GEOMETRY_SIGNATURE_AUDIT_V1.md): all pinned source claims receive accepted, corrected or unaccepted dispositions; includes matched constructive controls.
