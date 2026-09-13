@@ -238,3 +238,39 @@ not overturn the 0-of-43 invariant, which is about cold-start neutral search: it
 invariant to its initial condition, which is a different and smaller claim than "the coefficient class is
 recoverable". Nor would it license any capability claim — the recovered machines clear the rule-40 line by
 1.001 fx, the minimum the bar admits, and that marginality is corpus-wide rather than special to DENSE.
+
+---
+
+## Instrument disclosure: the CROSS and DISJ twin arms are one experiment, not two
+
+Found by a duplicate-experiment detector added to `b6_adjudicate` after `CROSS|TWIN|S0` and
+`DISJ|TWIN|S0` returned identical `B_morph` (7 906), identical `final_best` (0.974), identical elite
+fingerprints and identical `first_dense_admissible`. They are two distinct receipt files holding the
+same computation.
+
+**Mechanism.** The TWIN arm seeds from the randomised-table archive `E_twin<s>`, carrier-matched to
+that pair's CONTINUED seed set. CROSS and DISJ share the target `E_sym5` and the same twin archive, and
+on seed 0 the match **saturated in both pairs**: the twin archive holds
+`DENSE 9 / KVSTORE 10 / NONE 4 / PROGRAM 9 / TABLE 10`, and both reference archives are at least that
+large in every carrier (CROSS `10/18/6/24/23`, DISJ `9/15/6/20/20`), so `matched_k_per_carrier` equals
+the whole twin archive in both cases. Same 42 seed fingerprints, same source receipt digest, same
+target, same seed — therefore the same run. The receipts differ only in `pair`, `source_ecology`,
+`history`, wall-clock and digest.
+
+**Consequence, stated plainly.** The carrier-matched twin is pair-specific only when the twin archive
+is *larger* than the reference archive in at least one carrier. When it is not, the "matched" control
+degenerates to "the entire twin archive" and stops distinguishing the pairs. So the campaign's 24
+receipt files contain **21 distinct experiments**: three `DISJ|RESET` files are the freeze's documented
+shared baseline (one file read under two labels), and three `CROSS|TWIN` ≡ `DISJ|TWIN` pairs are one
+computation reported twice. Any statement that counts warm-start arms on `E_sym5` as independent
+evidence must use the distinct count, not the file count.
+
+**What it does not affect.** D3a compares `DISJ|CONTINUED` against `DISJ|TWIN`, and its premise is that
+the two are exchangeable by construction — `E_rnd<s>` and `E_twin<s>` are both structure-free random
+tables feeding the same target. That premise is untouched, and the two arms give different numbers
+(4 536 vs 7 906 on seed 0), so D3a remains a live test. No D or Z prediction is rescored because of
+this disclosure; it changes how the evidence is *counted*, not what any arm measured.
+
+`b6_adjudicate` now reports `duplicate_experiments`, separating `shared_baseline_by_design` (one receipt
+file, two labels) from `duplicate_computation` (two files, same computation), and prints the distinct
+count alongside the file count.

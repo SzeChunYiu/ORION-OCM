@@ -134,3 +134,41 @@ def test_z_terminal_is_pending_while_units_are_missing(res):
     _receipt(res, "SAME", "CONTINUED", 0, 278, 0.9062, b_dense=38243)
     out = A.adjudicate("t", seeds=(0, 1, 2))
     assert out["Z_registration"]["terminal"] == "Z_UNDETERMINED__UNITS_MISSING"
+
+
+def test_duplicate_computation_is_separated_from_the_documented_shared_baseline(res, monkeypatch):
+    """CROSS|TWIN and DISJ|TWIN can be the same computation in two files (the twin
+    carrier-match saturates), while CROSS|RESET and DISJ|RESET are one file read twice.
+    The detector must not report the documented alias as a redundancy."""
+    import json as _json
+
+    def seeded(pair, arm, seed, fps, b_morph):
+        d = {
+            "first_admissible": {"found": True, "B_morph": b_morph, "carrier_atrophied": "TABLE",
+                                 "origin": ["seed", 1]},
+            "first_dense_admissible": {"found": False},
+            "final_best_capability_standard": 0.974,
+            "final_best_by_carrier": {"DENSE": 0.9},
+            "target_ecology": "E_sym5", "source_ecology": "E_x",
+            "seeding": {"seed_fingerprints": fps},
+        }
+        _json.dump(d, open(os.path.join(res, f"STAGE_B6_DEV_{pair}_{arm}_S{seed}_t.json"), "w"))
+
+    same_pop = ["aa", "bb", "cc"]
+    seeded("CROSS", "TWIN", 0, same_pop, 7906)
+    seeded("DISJ", "TWIN", 0, same_pop, 7906)
+    seeded("CROSS", "RESET", 0, ["zz"], 596)      # DISJ|RESET aliases this same file
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    de = out["duplicate_experiments"]
+    assert "CROSS|TWIN|S0 & DISJ|TWIN|S0" in de["duplicate_computation"], de
+    assert "CROSS|RESET|S0 & DISJ|RESET|S0" in de["shared_baseline_by_design"], de
+    assert de["n_undisclosed_groups"] == 1
+    assert de["n_distinct_experiments"] == de["n_receipt_files"] - 1
+
+
+def test_detector_is_silent_when_every_arm_is_distinct(res):
+    """The no-alarm case: a checker that fires on clean data gets switched off."""
+    for i, (pair, arm) in enumerate((("SAME", "CONTINUED"), ("SAME", "RESET"), ("SAME", "TWIN"))):
+        _receipt(res, pair, arm, 0, 100 + i, 0.9)
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    assert out["duplicate_experiments"]["n_undisclosed_groups"] == 0
