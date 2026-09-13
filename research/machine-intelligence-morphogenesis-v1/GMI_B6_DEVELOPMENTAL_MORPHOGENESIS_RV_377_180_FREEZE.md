@@ -642,3 +642,54 @@ If `Z8` holds, the honest statement about this lane's coefficient results is tha
 machine was recovered at all** — and the corpus invariant
 `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` would stand un-dented rather than scoped,
 with the warm-start arms reaching memory machines that the descriptor mislabels.
+
+### Z8 tested more broadly than registered: the gradient primitive appears in none of 70 searched graphs
+
+`Z8` asked whether the coefficient recoveries route `DENSE` into a coefficient consumer. That is testable
+far more cheaply and broadly than one replayed search per recovery, by inspecting every `DENSE`-bearing
+graph already committed in `evidence/b6-arms-20260913/`.
+
+**Dense-bearing graphs (17: archive best-`DENSE` cells, first-admissible atrophied graphs, and the witness)**
+
+| | count |
+|---|---|
+| with a numeric consumer (`DOT`/`LINEAR`) | **2 of 17** |
+| with a gradient consumer (`GRAD`) | **0 of 17** |
+| with any writer into the `DENSE` node | **0 of 17** |
+
+The last row is **not** a finding: `morph.KINDS["DENSE"]` is `("S", (), vec, ("width",))` — **zero input
+ports**, so no edge can legally target a `DENSE` node in this IR. A learner is expressed the other way, by
+threading `DENSE → GRAD → consumer`, since `GRAD` is `("U", (vec, sca, sca), vec, ("lr",))`. I nearly
+recorded a type-signature fact as a discovery; the meaningful quantity is `GRAD` as a *consumer*, and that
+is zero.
+
+**All carriers (70 graphs: every arm's archive elites plus first-admissible raw and atrophied)**
+
+> **`GRAD` appears in 0 of 70 graphs.** `DENSE` appears in 43 of them.
+
+`GRAD` is not excluded by the generator: `op_insert` draws uniformly from the 33 insertable kinds, so it
+is proposed at ≈ 3.03 % per insert and must be drawn many times across 20 000 evaluations. Its absence
+among survivors is therefore **selection, not exclusion**.
+
+**What follows, at its true scope.** These 70 graphs are archive elites and first-admissible graphs — a
+*survivor* sample. So the claim is "no inspected survivor contains `GRAD`", not "`GRAD` is never
+proposed". Within that scope:
+
+* `nn_nonnn_packet.family_of` defines `NEURAL` as `DENSE` on the served path **and** `GRAD` in the graph.
+  **No machine this campaign's search produced satisfies it.** The neural family is not merely
+  un-recovered here; its defining primitive is absent from every survivor.
+* "Coefficient carrier" in this searched population therefore means a **static** dense block — at most a
+  fixed linear transform (2 of 17), most often a store key or evidence value (the rest).
+
+**This sharpens the corpus invariant rather than scoping it.**
+`COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` is naturally read as "search fails to find
+coefficient machines". The structural reading is stronger and less flattering to the reachability story I
+was building this morning: search never assembles the gradient primitive at all, so the class it fails to
+recover is **not the learner class** — and the machines the descriptor does label coefficient-carrying are
+static blocks, one of which is now exhibited as a store key.
+
+**Registered next, and it needs an instrument change rather than a bigger sample**: is `GRAD` proposed and
+rejected, or effectively never proposed? The receipts record `proposal_tries_charged` and
+`failed_phenotypes` in aggregate but not per kind, so neither answer is available from them. That is the
+third instrument gap this campaign has hit, all of the same shape — the receipts record less than the
+question needs.
