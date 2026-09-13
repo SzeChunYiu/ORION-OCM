@@ -418,3 +418,40 @@ which would weaken `Z2` and `Z3` to conditional claims. The command line never p
 (`run_arm(pair, arm, seed, host, evaluations)` — five arguments, `max_candidates` left `None`), so both
 scans run to the end of the trace. A "not found" in this campaign is an exhaustion of every θ-crossing
 placement the search produced.
+
+### Interim correction (10 arms): the structure-free twin reaches the coefficient cell too
+
+`SAME|TWIN|S1` has landed and it **found** an admissible atrophied-DENSE machine on `E_smooth3`
+(`min_over_six` 0.875, rule-40 margin 1.5 fx, `B_morph` 3 280) — a higher margin than either CONTINUED
+recovery. Its founder is a TABLE seed elite, so `Z5` still holds on four observations with none
+rooted in DENSE.
+
+**This falsifies the reading I recorded at seven arms.** That note said the cold start and the
+structure-free twin did not reach the cell while the structured warm start did, and offered that as the
+shape of a structured-history-specific lift. On the SAME pair that is now false for seed 1. Corrected
+here rather than left standing until the adjudication.
+
+State of the registration at 10 of 24 arms:
+
+| id | per seed | verdict |
+|---|---|---|
+| `Z1` CONTINUED ≥ 2/3 | S0 ✓, S1 ✓, S2 pending | **HELD** — two hits settle it whatever S2 does |
+| `Z2` RESET 0/3 | S0 ✗, S1 pending, S2 pending | pending |
+| `Z3` TWIN ≤ 1/3 | S0 ✗, S1 **✓**, S2 pending | **pending, and now on a knife edge** |
+
+`Z3` is the clause that decides whether any of this belongs to the theory. One more twin hit on seed 2
+makes it 2/3, `F-Z3` trips, and the honest terminal for the coefficient result is
+`COEFFICIENT_LIFT_PARENT_SUFFICIENT_OOPS` — any developed archive suffices, the effect belongs to the
+warm-start parents (OOPS / PowerPlay / bias-optimal warm start), and the programme's own rule is that
+`PARENT_SUFFICIENT` is a success terminal to be recorded without hedging rather than engineered past.
+
+Two things survive either way, and they are worth separating from `Z3`'s fate now, while its outcome is
+still unknown:
+
+* **`Z2` is untouched by this.** Whether *cold* search reaches the cell is a different question from
+  which warm start does, and the cold arm has missed on the one seed it has finished. If `Z2` holds, the
+  scoping of `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43` to its initial condition stands
+  regardless of whether the lift is parent-owned.
+* **`Z5` is untouched by this.** Four recoveries, four memory-carrier founders, none rooted in a
+  coefficient seed. Conversion from a memory carrier is a claim about *how* the cell is reached, not
+  about *which* archive licenses it, so a parent-sufficient `Z3` leaves it standing.
