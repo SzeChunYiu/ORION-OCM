@@ -1,4 +1,4 @@
-# Architecture emergence — AEM-1–6
+# Architecture emergence — AEM-1–7
 
 Status: **SYNTHESIS THEOREM AT DECLARED SCOPE + EXACT WITNESSES**
 Date: 2026-09-13
@@ -98,6 +98,45 @@ strictly cheaper for `n >= 6`.
 
 A claim missing any item is a representability statement, not an emergence
 prediction.
+
+## 8. AEM-7 — a capability obstruction, distinct from the five above
+
+O1–O5 each remove an *argument* of `S = (F, O, R, D)`. This one does not. It
+applies when every argument is supplied and the selection is still not realised,
+because the admitted family contains no member that reaches the obligation.
+
+> **AEM-7.** Supplying `F`, `O`, `R` and `D` does not entail that the selected
+> family is *attained*. A generator can assemble a structure constantly and still
+> produce no member meeting the obligation threshold.
+
+**Registered witness (gradient learners).** Two independent scopes, reported
+separately because they differ:
+
+| scope | population | `GRAD`-bearing |
+|---|---|---|
+| five retained source receipts (census) | 350 saved cells | **8** |
+| nine of eleven live archives (B6 freeze) | 677 archive cells | **34** |
+
+Of the 34: **33** wire `DENSE → GRAD`, so the parameter block reaches the update
+law; only **8** route the update back out; and **0** reach `θ = 0.85` even on the
+permissive standard-only reading.
+
+Two scope facts are load-bearing and must travel with the numbers. The 70
+exported arm rows contain **no** `GRAD` at all (`grad_rows = 0`, 63 distinct
+graphs) — that cohort is best-per-carrier elites, not the searched population,
+and an absence claim drawn from it was retracted. And occurrence is not use: the
+census records `causal_coefficient_use_certified = False` on its rows, stating
+that "GRAD occurrence does not prove effective gradient updates" and that
+adjacency and output ancestry "do not certify causal coefficient use".
+
+**Consequence for AEM-6.** A prediction claim must therefore also exhibit
+*attainment*: a member of `F` that meets `O` within `R`, reached under `D`. The
+checklist item is not "the structure is assemblable" but "an admitted member
+attains the obligation". Assembly frequency is not evidence of capability.
+
+**Falsifier.** Exhibit an admitted `GRAD`-bearing member reaching `θ` under the
+declared standard, or show that the 34-cell count does not survive rescanning the
+same archives.
 
 ## 7. Falsifiers and boundaries
 
