@@ -51,6 +51,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 21 | The family phase law only compared registered bound functions; nothing derived them, so the master chain's final arrow was a schema plus a comparator. The relaxed accounting program now derives family-conditioned lower bounds from the proved necessities under an explicit accounting-soundness contract, covering unconstructed members of a structure class. The derivation is one sided, abstention is separated into epistemic and physical causes, and the evidence/candidate asymmetry is proved. | `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 22 | Candidate-universe coverage was an open-ended enumeration obligation that no finite evidence could discharge. Coverage is now validity of the disjunction of the registered structural predicates, so it is decidable without enumerating machines. A verdict over a proved cover whose classes all carry derived bounds extends to unbuilt machines; without one it must be reported with its residue and cannot be upgraded. Coverage must be proved at the verdict's own resolution. | `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 23 | The open training and large-scale-learning items were recorded as work not yet done. They are underdetermined: two development laws sharing the admitted realization set, profiles, families and every proved necessity give different reachable frontiers, so no derivation without a registered `D` can determine a trained outcome. A registered `D` must fix its schedule semantics; reachability strengthens exclusions but can destroy selections; and no finite budget certifies an unbounded verdict. | `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 24 | The continuous/quantum obligation listed required properties without saying which conclusion each one buys, and the new derivation layer was stated over a finite domain. PL-2's lower bound is now proved to transfer with no regularity hypothesis, while attainment, computability, the response quotient and process legality are each gated by one decidable contract field that abstains when absent. | `CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
 
 
 
@@ -111,6 +112,24 @@ zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
 
 
+
+### A required property is only useful once it names its conclusion
+
+Iteration 24 does not perform any experiment on a continuum. It removes
+the undifferentiated character of the continuous obligation. The lower-bound
+half of the derivation layer transfers verbatim to an infinite instance,
+because PL-2's proof appeals only to feasible-set membership and monotonicity
+and an infimum exists for any nonempty set bounded below; so a robust family
+exclusion is not an artifact of the finite witness domain. Everything
+interpretive is gated. Where the infimum is unattained no construction and no
+finite margin can certify tightness, so PL-3's separation of epistemic from
+physical abstention — the result that makes a boundary region readable — is
+structurally unavailable rather than merely unmeasured. Every finite
+observation window strictly overestimates the bound and widening strictly
+lowers it, so benchmark samples cannot stand in for an effective description.
+The contract is therefore registered as five Boolean fields, each withholding
+exactly the result that depends on it, with an absent field treated as
+withholding rather than as a permissive default.
 
 ### Gate repair carried by this iteration
 
@@ -237,7 +256,7 @@ parent results.
 | Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. | V4 identifies XOR against the original network, a three-threshold neural construction and an exact lookup table. All four solve the full domain. The result is an observed-envelope point comparison informed by V1/V2, not independent prospective replication. |
 | Candidate-universe coverage | Independent competitor optimization beyond the measured four-candidate expansion, then replication across tasks and substrates. | V4 performs the concrete algebraic-neural/lookup expansion; external optimization and candidate-universe completeness remain unestablished. A point verdict does not enumerate all physical machines. |
 | Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication, each against an explicitly registered development law. | Conditional resource laws do not manufacture those measurements. DU-1 additionally shows that no such law is derivable from the package's other registered inputs, so this obligation cannot be discharged by further theory alone. |
-| Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance. | Exact finite simulations are not experiments on arbitrary substrates. |
+| Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance, declared field by field. | Exact finite simulations are not experiments on arbitrary substrates. CL-1 transfers the derived lower bound without those fields; CL-2, CL-3 and CL-5 withhold attainment, computability, the response quotient and process legality until the corresponding field is discharged for the instance. A rational set with no minimum demonstrates the boundary; it is not a physical continuum. |
 | Unrestricted exact solution | No total solver can discharge all unrestricted Turing-complete unbounded instances. | Proven impossibility boundary; no green status can remove it. |
 | Absence of every possible theorem gap | Continued independent proof review and counterexample search. | Not established by a finite review or by coverage of named schema categories. |
 
@@ -292,6 +311,10 @@ weakest derived bound, it more often removes a verdict than establishes one.
 Iteration 23 measures no learning process at any scale and analyses no real
 curriculum. It forbids deriving a training outcome without a registered `D`;
 it does not forbid, and does not supply, a theorem conditional on one.
+
+Iteration 24 measures no physical continuum and performs no experiment on
+any substrate. Discharging a contract field for a real instance requires proofs
+and measurements about that instance, which no theory supplies.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
