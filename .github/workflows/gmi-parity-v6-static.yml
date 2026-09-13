@@ -1,0 +1,112 @@
+name: GMI retained parity V6 static evidence
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-parity-v6-evidence-v1/**'
+      - '.github/workflows/gmi-parity-v6-static.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-parity-v6-evidence-v1/**'
+      - '.github/workflows/gmi-parity-v6-static.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v6-static-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        id: py311
+        with:
+          python-version: '3.11.15'
+      - uses: actions/setup-python@v5
+        id: py312
+        with:
+          python-version: '3.12.3'
+      - uses: actions/setup-python@v5
+        id: py313
+        with:
+          python-version: '3.13.12'
+      - name: Verify all retained records under each exact release
+        env:
+          GMI_PY311: ${{ steps.py311.outputs.python-path }}
+          GMI_PY312: ${{ steps.py312.outputs.python-path }}
+          GMI_PY313: ${{ steps.py313.outputs.python-path }}
+        run: |
+          python -I -B - <<'PY'
+          import copy, hashlib, json, os, subprocess
+          from pathlib import Path
+          unit = Path('research/gmi-parity-v6-evidence-v1').resolve()
+          def require(ok, message):
+              if not ok:
+                  raise ValueError(message)
+          def sha(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+          def canonical(value):
+              return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)
+          manifest_digest = 'c1734a58186ef3d18ef92a53ac4eea355b70604f8a400e4d491f4213a930e38e'
+          require(sha(unit / 'MANIFEST.json') == manifest_digest, 'unit manifest binding')
+          manifest = json.loads((unit / 'MANIFEST.json').read_text())
+          actual = {str(p.relative_to(unit)) for p in unit.rglob('*') if p.is_file()}
+          require(actual == set(manifest['files']) | {'MANIFEST.json'}, 'complete unit membership')
+          for name, row in manifest['files'].items():
+              p = unit / name
+              require(p.stat().st_size == row['bytes'] and sha(p) == row['sha256'], name)
+          interpreters = {'3.11.15': os.environ['GMI_PY311'],
+                          '3.12.3': os.environ['GMI_PY312'],
+                          '3.13.12': os.environ['GMI_PY313']}
+          recorded = json.loads((unit / 'FULL_RETAINED_AUDIT_RECEIPT_V1.json').read_text())
+          expected = copy.deepcopy(recorded)
+          for version, binary in interpreters.items():
+              expected['records'][version]['auditor_runtime']['binary_sha256'] = sha(binary)
+              for flags in ([], ['-O']):
+                  subprocess.run([binary, '-I', '-B', *flags,
+                                  str(unit / 'test_v6_evidence_v1.py'), '-v'], check=True)
+          mapping = [item for version, binary in interpreters.items()
+                     for item in ('--interpreter', version + '=' + binary)]
+          captures = []
+          for flags in ([], ['--optimized']):
+              proc = subprocess.run([interpreters['3.12.3'], '-I', '-B',
+                                     str(unit / 'replay_v1.py'), *mapping, *flags],
+                                    capture_output=True, text=True, check=False)
+              require(proc.returncode == 0 and not proc.stderr, proc.stderr + proc.stdout)
+              capture = json.loads(proc.stdout)
+              require(canonical(capture) == canonical(expected),
+                      'complete payload differs from explicitly instantiated audit-binary receipt')
+              require(capture['status'] == 'ALL_THREE_STATIC_AUDITS_PASS'
+                      and capture['validated_packets'] == 3, 'incomplete native audit')
+              captures.append(proc.stdout)
+          require(captures[0] == captures[1], 'normal/optimized static receipts differ')
+          output = Path(os.environ['RUNNER_TEMP']) / 'gmi-parity-v6-static'
+          output.mkdir()
+          (output / 'CURRENT_AUDIT_RECEIPT.json').write_text(captures[0])
+          report = {'schema': 'GMI_PARITY_V6_CI_STATIC_REPLAY_V1',
+                    'manifest_sha256': manifest_digest,
+                    'historical_receipt_sha256': sha(unit / 'FULL_RETAINED_AUDIT_RECEIPT_V1.json'),
+                    'current_receipt_sha256': sha(output / 'CURRENT_AUDIT_RECEIPT.json'),
+                    'comparison': 'Entire payload after replacing only each declared audit-binary digest with the independently hashed current executable',
+                    'historical_binary_identity_authenticated': False,
+                    'new_candidate_calls': 0, 'new_priming_calls': 0, 'new_timing_calls': 0,
+                    'normal_optimized_receipts_byte_identical': True}
+          (output / 'REPLAY_SCOPE.json').write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(report, indent=2, sort_keys=True))
+          PY
+      - name: Preserve full current audit and comparison scope
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gmi-parity-v6-static
+          path: ${{ runner.temp }}/gmi-parity-v6-static/
+          if-no-files-found: error
+      - name: Confirm retained evidence was unchanged
+        run: /usr/bin/git diff --exit-code

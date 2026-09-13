@@ -20,6 +20,30 @@ HERE = Path(__file__).resolve().parent
 INVENTORY = "THEOREM_REPLAY_INVENTORY_V1.json"
 SCHEMA = "grand-gmi-theorem-replay-inventory-v1"
 CLAIM_CEILING = "registered finite executable checks only; no universal theorem or empirical closure"
+CHECKER_TIMEOUT_SECONDS = {"grand_gmi_terminal_cost_checks_v1.py": 180}
+EXTERNAL_UNIT_DEPENDENCIES = {
+    "grand_gmi_delegation_cost_checks_v1.py": (
+        "research/gmi-delegation-cost-repair-v1",
+    ),
+    "grand_gmi_adaptive_row_confidence_checks_v1.py": (
+        "research/gmi-adaptive-row-confidence-v1",
+    ),
+    "grand_gmi_b6_consumer_census_checks_v1.py": (
+        "research/gmi-b6-consumer-census-v1",
+    ),
+    "grand_gmi_terminal_cost_checks_v1.py": (
+        "research/gmi-terminal-cost-reconstruction-v1",
+    ),
+    "grand_gmi_joint_relational_composition_checks_v1.py": (
+        "research/gmi-joint-relational-composition-v1",
+    ),
+    "grand_gmi_finite_quantum_cover_checks_v1.py": (
+        "research/gmi-finite-quantum-cover-v1",
+    ),
+    "grand_gmi_structural_neural_bound_checks_v1.py": (
+        "research/gmi-structural-threshold-repair-v1",
+    ),
+}
 EXTERNAL_DOCUMENT_DEPENDENCIES = {
     "grand_gmi_operational_reachability_checks_v1.py": (
         "research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md",
@@ -184,6 +208,25 @@ def load_inventory(root):
             "unclassified or missing external control workflow")
     for name, digest in external_controls.items():
         bind_file(repository, name, digest)
+    units = data.get("external_units", {})
+    expected_units = {name for checker in names
+                      for name in EXTERNAL_UNIT_DEPENDENCIES.get(checker, ())}
+    require(type(units) is dict and set(units) == expected_units,
+            "unclassified or missing external research unit")
+    if units:
+        # Compile the already bound bytes afresh: no cached/imported substitute.
+        helper = "external_unit_bindings_v1.py"
+        source = bind_file(root, helper, controls.get(helper))
+        raw = source.read_bytes()
+        require(hashlib.sha256(raw).hexdigest() == controls[helper],
+                "external unit verifier source changed")
+        scope = {"__name__": "capsule_external_units", "__file__": str(source)}
+        exec(compile(raw, str(source), "exec"), scope)
+        for name, record in units.items():
+            try:
+                scope["verify_unit"](repository, name, record)
+            except (ValueError, OSError, TypeError) as exc:
+                raise ReplayError(f"external research unit invalid: {name}: {exc}") from exc
     for row in entries:
         bind_file(root, row["checker"], row.get("source_sha256"))
         for old in row["historical_receipts"]:
@@ -232,9 +275,10 @@ def replay(root=HERE, include_aggregate=True):
         frozen = bind_file(root, row["receipt"], row.get("receipt_sha256"))
         expected = strict_json(frozen.read_text(encoding="utf-8"), row["receipt"])
         require(expected.get("terminal") == row["terminal"], f"wrong frozen terminal: {row['receipt']}")
-        # The aggregate executes all leaves sequentially; it needs its own total
-        # budget while each individual finite checker retains the 60-second cap.
-        current = execute_checker(root, row, timeout=300 if row["kind"] == "aggregate" else 60)
+        # Preserve the ordinary 60-second leaf allowance. The complete TCR
+        # census has a separately registered allowance; no payload is reduced.
+        timeout = 300 if row["kind"] == "aggregate" else CHECKER_TIMEOUT_SECONDS.get(row["checker"], 60)
+        current = execute_checker(root, row, timeout=timeout)
         require(canonical(current) == canonical(expected),
                 f"full receipt differs from fresh checker output: {row['receipt']}")
         bind_file(root, row["receipt"], row["receipt_sha256"])

@@ -1,0 +1,12 @@
+{
+  "schema": "GMI_ADAPTIVE_ROW_CONFIDENCE_ASSUMPTIONS_V1",
+  "row_register": "Fixed finite rows and supplied finite alphabets containing true support",
+  "sampling_law": "The selected row is chosen before seeing the outcome; conditional on the whole pre-outcome history it has its fixed registered law",
+  "sampling_schedule": "Predictable row choices and arbitrary stopping; no termination or infinite-visitation assumption",
+  "error_allocation": "Fixed alpha strictly between zero and one; positive predeclared row weights sum at most one; n-th-visit allowance alpha*w/[n(n+1)]",
+  "unsampled_rows": "Radius one for unobserved unknown multi-symbol rows; radius zero for known or supplied singleton rows",
+  "all_known_case": "Maximum error includes zero, so an empty unknown register gives error zero",
+  "numerical_contract": "Exact rational arithmetic, positive Taylor lower bound on exp, least passing radius on grid j/n; no optimal-width claim",
+  "transfer": "Inherited FMT sufficient-state, common-policy, legal/start/success/known-cost and finite-horizon contract",
+  "outside_scope": ["learned support", "learned sufficient state", "sampling authenticity", "drifting conditional laws", "outcome-based row selection before disclosure", "data-chosen unregistered weights", "sampling termination", "infinite-horizon risk", "sure safety", "full physical and lifetime costs"]
+}

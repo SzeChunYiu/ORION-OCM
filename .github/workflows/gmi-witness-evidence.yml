@@ -1,0 +1,40 @@
+name: GMI witness evidence
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-witness-*/**'
+      - 'research/machine-intelligence-morphogenesis-v1/**'
+      - '.github/workflows/gmi-witness-evidence.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-witness-*/**'
+      - 'research/machine-intelligence-morphogenesis-v1/**'
+      - '.github/workflows/gmi-witness-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retained-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Verify complete custody and static controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-witness-evidence-v1/check_witness_evidence_v1.py
+          python "${args[@]}" research/gmi-witness-recovery-v1/test_capture_instrument.py
+          python "${args[@]}" research/gmi-witness-mechanism-v1/test_mechanism_record.py

@@ -179,3 +179,15 @@ claimed for them. The contribution is the reframing of the registered
 candidate-universe obligation from enumeration to a bounded-cover condition,
 the CU-2 transfer theorem, the CU-3b non-upgradability proof, the
 composition-resolution counterexample, and the exact finite witnesses.
+
+## Appendix — a scoped structural lower-bound application
+
+[STR-1–5](STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md) supplies an attained
+312-opcode sweep minimum for exact parity in two explicit flat-linear source
+shapes under its declared layout; XOR uses 88 in that coordinate. Geometric
+and dependency arguments cover all admitted integer coefficients and unit
+counts. The earlier finite-grid saturation argument is superseded.
+
+This is a predicate-class application of the bound, not coverage of every
+physical or neural realization. Expanded delegation and skip connections
+change the class; timing, memory, acquisition and callee costs remain separate.

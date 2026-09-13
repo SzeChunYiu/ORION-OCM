@@ -12,6 +12,11 @@ sector or successful finite replay does not establish universal completion.
 | Can experiment cost and retained memory be optimized independently? | The same theorem constructs frontier `(1,3),(2,2)`; combining the separate minima is infeasible. |
 | What if gathering information changes the world? | [Controlled acquisition](CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md): exact belief updates and terminating policy synthesis; a protective action revives an otherwise destructive experiment. |
 | How do correlation and random failures change acquisition? | [Probabilistic acquisition](PROBABILISTIC_CONTROLLED_ACQUISITION_THEOREM_V1.md): sufficient observed state, distinct sure/almost-sure/deadline laws, and charged reset/certification remedies. |
+| How should acquisition handle an unknown fixed model? | [Fixed-model acquisition](FIXED_UNKNOWN_MODEL_ACQUISITION_THEOREM_V1.md): exact common-policy vectors, charged private randomization and reset-preserved knowledge; arbitrary row switching defines a different uncertainty class. |
+| When does a structural resource bound cover unwritten programs? | [Threshold repair](STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md): geometric and input-dependency lower bounds meet an explicit flat-grammar construction; delegation and full physical costs remain outside this result. |
+| Can delegated work disappear from a cost certificate? | [Typed delegation correction](DELEGATION_COST_CORRECTION_V1.md): a finite typed interface preserves complete descendant traces and native obligations; trace-preserving insertion is monotone under nonnegative additive contracts. Unknown native work prevents a total-cost conclusion. |
+| What can finite model data certify? | [Finite-data transfer](FINITE_DATA_MODEL_TRANSFER_THEOREM_V1.md): simultaneous fixed-N row confidence transfers joint success/work bounds to data-selected policies; acquisition, synthesis and storage are charged separately, and unseen hazards prevent sure-success upgrades. |
+| Can model sampling adapt its row choices and stopping time? | [Adaptive row confidence](../gmi-adaptive-row-confidence-v1/CORE.md): one simultaneous row/visit event supports data-selected finite-horizon FMT policy transfer. Predictable selection, fixed conditional row laws, supplied state/support and charged acquisition remain premises. |
 | When does a selected architecture actually exist? | [Constructive selection](CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md): nonempty selection, finite constructive coverage and complete profile fibers; explicit approximate witnesses when infima are unattained. |
 | When are family phase laws sound? | [Phase corrections](FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md): interval direction, continuity and coverage of all admitted competitors. |
 | When is proof reuse worthwhile and feasible? | [Proof reuse](PROOF_SEARCH_VERIFICATION_REUSE_THEOREM_V1.md): verified context transport, full use costs and memory-constrained static admission. |
@@ -22,6 +27,9 @@ sector or successful finite replay does not establish universal completion.
 | What does an acquisition policy cost to represent and execute? | [Bounded controllers](BOUNDED_CONTROLLER_RESOURCE_THEOREM_V1.md): exact finite controller synthesis, stored-program and live-state profiles, and a feedback revival. |
 | Can finite evidence settle unbounded development? | [Developmental repair](DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md): complete reachable closure certificates can; selection exclusion needs a retained comparator. |
 | When can candidate coverage actually be checked? | [Coverage correction](CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md): finite exhaustive decision and separately supplied infinite-domain proofs have distinct guarantees; completing a cover can withdraw an apparent winner. |
+| Can a continuous quantum protocol class be covered constructively? | [Finite quantum coverage](../gmi-finite-quantum-cover-v1/CORE.md): complete ideal unassisted one-way protocol coverage and an attained transmitted-dimension optimum from established real-algebraic parents. The executable evidence verifies finite witnesses; it does not run the general solver or establish hardware costs. |
+| When do adequate outputs carry different costs? | [Terminal-cost reconstruction](../gmi-terminal-cost-reconstruction-v1/CORE.md): labelled subcube terminal-cost vectors reconstruct the joint query-plus-terminal frontier. One query can beat immediate adequate stopping; controller, acquisition and physical costs remain separate. |
+| Can independent acceptable-output obligations share cheaper messages? | [Joint relational composition](../gmi-joint-relational-composition-v1/CORE.md): a complete cover characterization permits 3<4 and 8<9 symbols versus optimally packed product encoders. Exact-function and product-machine factorization remain valid; physical and lifetime costs are separate. |
 
 The [all-partition separation](FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md)
 matches every indexed input-partition width while separating expected query
@@ -29,8 +37,11 @@ work, and supplies the reverse control. This concerns the declared width/query
 summaries. [Labelled-partition reconstruction](LABELLED_PARTITION_QUERY_RECONSTRUCTION_THEOREM_V1.md)
 proves a complementary sufficiency law: the full input-labelled output
 partition determines attainable query-cost profiles under fixed access,
-query costs and free output relabelling. General physical spectra and
-other interfaces require their own proof.
+query costs and free output relabelling. [Relational reconstruction](RELATIONAL_QUERY_RECONSTRUCTION_THEOREM_V1.md)
+extends this to adequate-output sets through common-output feasibility on
+labelled subcubes, an immediate corollary of TDA and LQR. Pairwise compatibility
+alone can fail; interval-valued obligations supply a sufficient regime. General
+physical spectra and other interfaces require their own proof.
 
 Parent results are cited and distinguished from the GMI applications in each
 module. Exact finite checks challenge those applications; the analytic proofs
@@ -38,6 +49,13 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
+- [Claim closure and remaining premises](REGISTERED_CLAIM_CLOSURE_V1.md): established interfaces, explicit empirical obligations and the next causal-transfer claim.
+- [Historical geometry/signature audit](Q8_HISTORICAL_GEOMETRY_SIGNATURE_AUDIT_V1.md): all pinned source claims receive accepted, corrected or unaccepted dispositions; includes matched constructive controls.
+- [PR #551 current consumer correction](PR551_CONSUMER_CORRECTION_2D23C583_V1.md): native parameter ports, exact cohorts and source-seed counterevidence; accepted inner-search ledger retraction with workload and causal limits. Earlier field and campaign qualifications remain linked.
+- [Portable B6 consumer census](../gmi-b6-consumer-census-v1/CORE.md): complete static payload and original source/raw bytes, with missing-source abstention and no new empirical execution.
+- [Instrument and custody repairs](../gmi-instrument-custody-integration-v1/CORE.md): canonical pre-reservation, full V5 packet reconstruction and the bounded opcode callback repair.
+- [Complete retained V6 audit](../gmi-parity-v6-evidence-v1/CORE.md): all three measured packets reconstructed without new measurements; absent priming traces and unauthenticated chronology remain explicit.
+- [Recovered B6 witness and mechanism](../gmi-witness-evidence-v1/CORE.md): source-bound S1 recovery; DENSE removal preserves the proved behavioral projection while resource costs change.
 - [Preserved B6 records](../machine-intelligence-morphogenesis-v1/B6_CORRECTED_EVIDENCE_ASSESSMENT_V1.md): unchanged incomplete D adjudication, corrected identity scope, ecology assignments and search-plus-verification costs.
 - [Corrected B6 adjudication](../machine-intelligence-morphogenesis-v1/B6_ADJUDICATION_CORRECTION_V1.md): frozen quantifiers, missing evidence and founder coverage; [cross-instrument inference](../machine-intelligence-morphogenesis-v1/CROSS_INSTRUMENT_INFERENCE_CORRECTION_V1.md) separates uncertainty, transport and chronology.
 - [Reachability evidence correction](../machine-intelligence-morphogenesis-v1/REACHABILITY_EVIDENCE_CORRECTION_V1.md): recovered samples, complete reachable sets and candidate-specific constructions are different evidence objects.

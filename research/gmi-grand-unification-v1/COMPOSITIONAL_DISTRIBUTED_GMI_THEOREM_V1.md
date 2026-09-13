@@ -103,7 +103,15 @@ Therefore required log-alphabet width adds:
 
 The checker exhausts all 27 ternary functions on a three-element domain against all 27 partners: 729/729 product pairs obey exact multiplicativity.
 
-**GG28 — independent semantic-width tensorization.** Independent exact output obligations multiply message alphabets and add log-width.
+**GG28 — independent semantic-width tensorization.** Independent exact function obligations multiply message alphabets and add log-width.
+
+This statement uses the single-valued functions and no-side-information cut
+specified above. Independent set-valued obligations with a shared joint encoder
+instead obey the complete cover characterization in
+[JRC-1–4](../gmi-joint-relational-composition-v1/JOINT_RELATIONAL_COMPOSITION_THEOREM_V1.md):
+the optimum can be strictly below the product of the local optima. Product-machine
+GG27 and the exact-function census remain valid. Fixed binary widths require
+rounding after packing the product alphabet, not separately before adding.
 
 ## 5. Coupled obligations break tensorization
 
