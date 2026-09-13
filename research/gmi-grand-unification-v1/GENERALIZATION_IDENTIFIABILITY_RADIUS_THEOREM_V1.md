@@ -1,11 +1,11 @@
 # Grand GMI Generalization Identifiability Radius Theorem V1
 
-Status: **THEOREM + EXHAUSTIVE FINITE WITNESSES**  
-Date: 2026-09-12
+Status: **INFIMUM IDENTITY + ATTAINMENT-AWARE PREDICTION GATE + EXACT WITNESSES**
+Date: 2026-09-13
 
 ## 0. Generalization is an identifiability problem before it is an architecture problem
 
-Let `E` be the admitted ecology/world class. A frozen training/probe process exposes an observation signature
+Let `E` be a nonempty admitted ecology/world class and `Y` a nonempty output space with nonnegative declared loss. A frozen training/probe process exposes an observation signature
 
 \[
 D:E\to\mathcal D.
@@ -19,11 +19,13 @@ T:E\to\mathcal Y,
 
 where `Y` carries a declared loss/distance `d_Y`.
 
-A learner or machine may implement any mapping
+The information-theoretic predictor class consists of all set-theoretic mappings
 
 \[
 g:\mathcal D\to\mathcal Y.
 \]
+
+Existence in this unrestricted class does not establish measurability, continuity, computability, or physical/developmental realizability. Those restrictions require their own selector or realization theorem. Fiberwise choices below use the usual axiom of choice when there are infinitely many fibers.
 
 Grand GMI asks first what is identifiable from `(E,D,T)` before discussing neural, symbolic, retrieval, program or other realizations.
 
@@ -51,7 +53,7 @@ and the global generalization radius
 \boxed{R_{gen}(E,D,T)=\sup_{z\in D(E)}r(z).}
 \]
 
-In finite spaces the infimum is a minimum.
+If the output space `Y` is finite, the infimum is a minimum. Finiteness of the world or observation space alone does not imply attainment. Radii are interpreted in `[0,+infinity]`.
 
 ---
 
@@ -68,7 +70,9 @@ R_{gen}(E,D,T).
 }
 \]
 
-**Proof.** Any predictor chooses one output `g(z)` independently for each observation fiber. Its worst-case error on fiber `F_z` is at least the smallest possible radius `r(z)`. Hence global error is at least `sup_z r(z)`. Conversely, choose on each fiber a center attaining `r(z)` (or an arbitrarily close center if only the infimum exists). Combining those fiberwise choices defines a predictor achieving the supremum of the fiber radii. QED.
+**Proof.** Any predictor chooses one output `g(z)` independently for each observation fiber. Its worst-case error on fiber `F_z` is at least `r(z)`, so its global error is at least `R_gen`. If `R_gen=+infinity`, this already proves the identity. Otherwise fix one `eta>0`, uniformly across all fibers, and choose `g_eta(z)` with fiber error less than `r(z)+eta`. The assembled predictor has global error at most `R_gen+eta`. Taking the infimum over predictors and then letting `eta` decrease to zero proves the value identity. QED.
+
+The last step proves equality of infima; it does not construct a predictor with error exactly `R_gen`. If every fiber radius is attained, choosing those centers does attain `R_gen`. Section 7 gives the exact feasibility criterion, which can hold even when some smaller fiber radii are not attained.
 
 No probability distribution over worlds is required.
 
@@ -182,12 +186,42 @@ For a proposed held-out domain or behavior, freeze before observation:
 - target `T`;
 - tolerance `epsilon`.
 
-Compute or bound `R_gen`.
+For finite `epsilon>=0`, define the set of feasible predictions on each fiber:
 
-- If `R_gen <= epsilon`, the target is identified to the declared tolerance by the theory/evidence package; a prospective prediction is licensed without choosing a probability prior over the remaining worlds.
-- If `R_gen > epsilon`, a specific prediction requires additional declared structure, information or prior; the current package does not identify it.
+\[
+A_\varepsilon(z)
+=\left\{y\in\mathcal Y:\sup_{e\in F_z}d_Y(y,T(e))\le\varepsilon\right\}.
+\]
 
-**GIR-6 — Prospective Prediction Gate.** Grand GMI should call a held-out prediction theory-determined only when the compatible ecology fiber has sufficiently small target radius at the time of freeze.
+For a metric this is the intersection, inside `Y`, of the closed `epsilon`-balls around all compatible targets. A predictor with error at most `epsilon` exists in the unrestricted class **iff** `A_epsilon(z)` is nonempty for every `z in D(E)`. Necessity follows by evaluating that predictor on each fiber; sufficiency follows by choosing a point from each feasible set.
+
+Compute or bound `R_gen`, while retaining the distinction between a value and a feasible prediction:
+
+- If `R_gen < epsilon`, the uniform-slack argument in GIR-1 supplies a predictor satisfying the tolerance.
+- If `R_gen = epsilon`, the radius alone does not decide feasibility. Prove that every `A_epsilon(z)` is nonempty; attainment of every fiber radius is one sufficient condition.
+- If `R_gen > epsilon`, no predictor can satisfy the all-world obligation at this frozen boundary. Additional structure or information, or a changed declared risk criterion, is required. A prior alone does not change the same worst-case obligation over `E`.
+
+A certified upper bound strictly below `epsilon` suffices; an upper bound equal to `epsilon` needs the same feasibility evidence. A lower bound above `epsilon` rules out feasibility, but a lower bound below `epsilon` does not license a prediction. For a prediction conditional on one observed signature `z`, apply the criterion only to that fiber. For any particular proposed output, check its membership in `A_epsilon(z)`; existence of some adequate output does not certify every output.
+
+**GIR-6 — Prospective Prediction Gate.** A frozen all-world prediction is licensed at tolerance `epsilon` exactly when feasible centers exist on every relevant observation fiber, with a selector in the registered predictor class. For the unrestricted set-theoretic class, this is exactly the nonempty-feasible-set criterion above. Restricted measurable, computable or physical classes need additional evidence that their selector is available.
+
+### Attainment sufficient conditions
+
+For a nonempty compact metric output space `Y`, the fiber objective `y -> sup_e d_Y(y,T(e))` is lower semicontinuous and attains its minimum. The same conclusion holds for a general loss when its fiber objective is lower semicontinuous on a nonempty compact output space and has a finite value somewhere. Compactness establishes fiberwise centers; it does not automatically supply a measurable selector as the observation varies.
+
+### Exact boundary counterexample
+
+Let `E={e_-,e_+}`, let both worlds have the same observation, take `Y=R minus {0}` with absolute distance, and let their targets be `-1,+1`. Every legal prediction satisfies
+
+\[
+\max\{|y+1|,|y-1|\}=1+|y|>1,
+\qquad
+\inf_{y\ne0}(1+|y|)=1.
+\]
+
+Thus `R_gen=epsilon=1` but `A_1(z)` is empty. The sequence `y_n=1/n` approaches the value and never attains it. At every strictly larger tolerance, a sufficiently small nonzero output is feasible. Restoring the missing point `0`, for example by using the compact output interval `[-1,1]`, makes the boundary feasible.
+
+Fiberwise optimality is sufficient but stronger than necessary: keep `Y=R minus {0}` and use two fibers with target sets `{-1,+1}` and `{-1,+3}`. Their radii are `1` (unattained) and `2` (attained at `1`). Outputs `1/2` and `1` have global error `2=R_gen`, despite nonattainment on the first fiber.
 
 This creates a hard guard against retrospectively explaining an unseen machine/domain after its outcome is already known.
 
@@ -273,16 +307,19 @@ The residual contribution is the architecture-free placement of held-out predict
 
 This also supplies an operational preregistration criterion for genuinely prospective Grand-GMI predictions.
 
+The infimum/attainment distinction is standard optimization theory; see Boyd and Vandenberghe, [*Convex Optimization*, section 4.1.1](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf). Measurable policy selection is a separate obligation, as illustrated by Yu and Bertsekas, [*A Mixed Value and Policy Iteration Method for Stochastic Control with Universally Measurable Policies*](https://arxiv.org/abs/1308.3814). The correction here applies these existing boundaries to GIR-1 and GIR-6; it claims no new parent theorem.
+
 ---
 
 ## 11. Scope and falsifiers
 
-The theorem is general as an inf-sup identity whenever fiber centers are interpreted with infima; the frozen microscope is finite and deterministic. Stochastic observations can be handled by replacing the deterministic signature with an information experiment and a declared risk criterion, but require separate measurable/statistical typing.
+The theorem is an inf-sup identity for the unrestricted predictor class under the nonempty-space and nonnegative-loss assumptions above. The original microscope is finite and deterministic. `grand_gmi_generalization_attainment_checks_v1.py` adds exact rational witnesses for finite target sets in a real output space with finitely many points removed; these boundary witnesses do not prove an arbitrary measurable-selection theorem. Stochastic observations require a separately declared risk criterion and measurable/statistical typing.
 
 Direct falsifiers:
 
 1. a finite `(D,T)` problem where exhaustive minimax prediction differs from the fiber radius;
 2. a target-distinct pair with identical evidence for which an exact predictor is correct on both without extra information;
 3. an observation refinement or ecology restriction that increases the minimax radius;
-4. a prospective prediction claimed theory-determined despite frozen `R_gen>epsilon` and no added assumption/information;
-5. a mismatch in the frozen exact receipt.
+4. a prospective prediction licensed when a required feasible-center set is empty, including an unattained `R_gen=epsilon` boundary;
+5. promotion of set-theoretic existence to a restricted predictor class without the required selector/realization evidence;
+6. a mismatch in the frozen exact receipts.
