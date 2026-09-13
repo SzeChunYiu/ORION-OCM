@@ -18,6 +18,7 @@ Readings fixed here (stated so they are auditable, not silently chosen):
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import sys
@@ -42,7 +43,12 @@ def load(pair, arm, seed, host):
     d = json.load(open(p))
     fa = d.get("first_admissible") or {}
     fd = d.get("first_dense_admissible") or {}
+    sd = d.get("seeding") or {}
     return {
+        "target_ecology": d.get("target_ecology"),
+        "source_ecology": d.get("source_ecology"),
+        "seed_population_sha256": hashlib.sha256(
+            json.dumps(sd.get("seed_fingerprints") or [], sort_keys=True).encode()).hexdigest()[:16],
         "B_morph": fa.get("B_morph") if fa.get("found") else None,
         "found": bool(fa.get("found")),
         "class": fa.get("carrier_atrophied"),
@@ -241,6 +247,42 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         {"class_origin": {str(s): [(R[("SAME", "CONTINUED", s)] or {}).get("class"),
                                    (R[("SAME", "CONTINUED", s)] or {}).get("origin")] for s in seeds}})
 
+    # ---- duplicate-experiment detector.
+    # Two arms that share a target ecology, a seed, an arm label and a byte-identical seeded
+    # population are ONE experiment reported twice, and must not be counted as independent
+    # evidence. This happens whenever the TWIN carrier-match saturates: if the twin archive is
+    # no larger than the reference archive in every carrier, the match takes the whole twin
+    # archive, so the "carrier-matched" control stops being pair-specific.
+    groups = {}
+    for (p_, a_, s_), v in R.items():
+        if not v or not v.get("seed_population_sha256"):
+            continue
+        k = (v["target_ecology"], a_, s_, v["seed_population_sha256"])
+        groups.setdefault(k, []).append(f"{p_}|{a_}|S{s_}")
+    by_design, undisclosed = {}, {}
+    for k, v in groups.items():
+        if len(v) < 2:
+            continue
+        paths = {path(x.split("|")[0], x.split("|")[1], int(x.split("|S")[1]), host) for x in v}
+        rec = {"target": k[0], "arm": k[1], "seed": k[2], "seed_population_sha256": k[3],
+               "n_distinct_receipt_files": len(paths),
+               "identical_B_morph": len({R[(x.split("|")[0], x.split("|")[1],
+                                            int(x.split("|S")[1]))]["B_morph"] for x in v}) == 1}
+        # one file read under two labels is the freeze's documented shared baseline;
+        # two files holding the same computation is a redundancy the freeze does not state
+        (by_design if len(paths) == 1 else undisclosed)[" & ".join(sorted(v))] = rec
+    ran = {path(p_, a_, s_, host) for (p_, a_, s_), v in R.items() if v}
+    out["duplicate_experiments"] = {
+        "shared_baseline_by_design": by_design,
+        "duplicate_computation": undisclosed,
+        "n_undisclosed_groups": len(undisclosed),
+        "n_receipt_files": len(ran),
+        "n_distinct_experiments": len(ran) - sum(len(g.split(" & ")) - 1 for g in undisclosed),
+        "note": ("shared_baseline_by_design is one receipt file read under two pair labels, which the "
+                 "freeze states. duplicate_computation is two distinct receipt files holding the same "
+                 "computation: same target, same seed, byte-identical seeded population. Those are one "
+                 "experiment reported twice and must not be counted as independent evidence.")}
+
     # ---- RV-377-180-Z: separate registration on coefficient-carrier reachability.
     # Scored apart from D1a..D5; a Z outcome cannot change any D verdict or the D terminal.
     def dense_hits(pair, arm):
@@ -318,6 +360,14 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     for k in sorted(P):
         v = P[k]
         print(f"{k:5s} {v['verdict']:38s} {v.get('per_seed', v.get('per_pair'))}")
+    DE = out["duplicate_experiments"]
+    if DE["n_undisclosed_groups"]:
+        print("DUPLICATE COMPUTATION:", DE["n_undisclosed_groups"], "group(s);",
+              DE["n_receipt_files"], "receipt files ->", DE["n_distinct_experiments"], "distinct experiments")
+        for g in sorted(DE["duplicate_computation"]):
+            print("   ", g)
+    if DE["shared_baseline_by_design"]:
+        print("shared baseline (by design):", ", ".join(sorted(DE["shared_baseline_by_design"])))
     print("terminal:", out["terminal"], "| missing:", len(missing))
     print("receipt", p)
     return out
