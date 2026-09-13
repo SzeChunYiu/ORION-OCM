@@ -50,7 +50,7 @@ Conversely, selecting the neural family does not derive convolution, recurrence,
 
 ## 4. AR-2 — symmetry gives a representative, not automatic necessity
 
-If the hypotheses of the existing Symmetry-to-Morphology Theorem hold, an equivariant frontier representative exists. That result alone does not imply that every frontier realization is syntactically equivariant or parameter tied.
+If the hypotheses of the existing Symmetry-to-Morphology Theorem hold, every feasible kernel has an equivariant no-worse representative. A Pareto starting profile has an equivariant representative with that same profile; existence of any Pareto profile requires a separate attainment result. The hypotheses include G-stability, and at compact-group scope feasible barycenters, continuous action/capability coordinates and lower-semicontinuous resources. The result alone does not imply that every frontier realization is syntactically equivariant or parameter tied.
 
 Therefore:
 

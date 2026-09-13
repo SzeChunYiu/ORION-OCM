@@ -1,7 +1,11 @@
 # Grand GMI Developmental Reachability Selection Theorem V1
 
 Status: **THEOREM / TRAINING-AND-DEVELOPMENT PATH SELECTION LAYER + EXACT FINITE WITNESS**  
-Date: 2026-09-12
+Date: 2026-09-12; lifecycle-accounting correction: 2026-09-13
+
+Current executable authority: `GRAND_GMI_DEVELOPMENTAL_LIFECYCLE_RECEIPT_V2.json`.
+The V1 receipt is historical: its budget-3 and budget-10 winners optimized
+deployment alone, despite the life-cycle objective in DRS-1/3.
 
 ## 1. Gap closed
 
@@ -37,6 +41,12 @@ Reach_B(I)=\{m:\text{there exists a legal developmental path from }I\text{ to }m
 
 The admissible deployment set is then intersected with `Reach_B(I)` before morphology/family selection.
 
+This is existential path reachability. It is not a guarantee that one controller
+can find the path under an unknown ecology: such a claim must quantify over one
+admissible observation-adapted developmental policy and its possible ecologies.
+The graph node must include any history that changes available transitions or
+future costs; otherwise a memoryless graph is not an adequate development model.
+
 ## 3. DRS-1 — reachable-endpoint derivation theorem
 
 Let `A_static` be the adequate physically realizable morphology set and
@@ -59,9 +69,20 @@ For budgets `B_1 <= B_2` under a monotone budget order,
 Reach_{B_1}(I)\subseteq Reach_{B_2}(I).
 \]
 
-Hence increasing development budget can add new morphology families to the selected set and can reverse a previous family verdict.
+Increasing development budget can add new morphology families to the selected
+set. If the budget is a componentwise cap on the same nonnegative path costs
+retained in the life-cycle profile, and the graph/profiles stay fixed, the old
+frontier persists: a newly feasible path cannot dominate an old frontier point.
+Indeed, any dominator has development costs no greater than that old point,
+so it already met the old budget, contradicting the old point's nondominance.
+This proves inclusion of the old life-cycle frontier in the new one.
 
-A statement such as "the task derives a neural network" is therefore incomplete unless the developmental budget and update dynamics are part of the registered scope. Under a larger budget, a non-neural or hybrid competitor may become reachable and dominate; under a tighter budget the reverse can happen.
+A budget-constrained deployment-only objective can reverse its family verdict,
+because it projects away the very cost that excluded the new competitor.
+Reversal of a full-profile verdict requires a different setup, such as changed
+profiles/update dynamics or a budget coordinate not retained in the objective.
+The declaration must identify that setup. Thus the development budget, update
+dynamics and retained resource coordinates are all essential to a family claim.
 
 ## 5. DRS-3 — development cost must be charged
 
@@ -117,7 +138,15 @@ The conclusion can apply to neural architecture growth, program synthesis, circu
 
 ## 9. DRS-7 — finite exact developmental solver
 
-For a finite morphology graph with nonnegative integral developmental costs and a finite budget, the reachable set and minimum developmental cost to every node are decidable by finite graph search. Combining that result with the existing finite exact GMI selection pipeline yields an exact endpoint/family verdict.
+For a finite memoryless morphology graph with nonnegative integral scalar
+developmental costs and a finite budget, the reachable set and minimum cost to
+every node are decidable by finite graph search. Simple paths suffice: deleting
+a cycle preserves the endpoint and cannot increase cost. Zero-cost cycles do
+not justify enumerating infinitely many histories. For vector costs there need
+not be a single componentwise minimum; retain nondominated cost labels at each
+node. Combining path-resource labels with deployment profiles yields an exact
+life-cycle endpoint/family verdict. This statement does not identify or enumerate
+all path histories when history is itself a protected observable.
 
 This is a finite-sector theorem only. It does not imply a total optimizer for unrestricted continuous or Turing-complete development spaces.
 
@@ -146,11 +175,21 @@ Only `N_good` is reachable among adequate endpoints. Neurality is therefore deve
 
 ### Budget 3
 
-`P_good` becomes reachable and strictly dominates `N_good`. The selected family flips to non-neural.
+`P_good` becomes reachable. The full profiles are `N_good=(2,2,2)` and
+`P_good=(1,1,3)`, where the last coordinate is development cost. Neither
+dominates the other, so the life-cycle verdict is neural/program coexistence.
+Only the separately declared deployment-only projection selects `P_good`.
+
+### Budget 10
+
+`X_ideal=(0,0,10)` joins the two life-cycle tradeoffs. All three remain
+nondominated. The deployment-only projection selects `X_ideal`.
 
 ### Static set
 
-If developmental reachability is ignored, `X_ideal` dominates both but is unavailable below cost 10. This is the exact failure mode of static-only reasoning.
+If developmental reachability and developmental cost are both ignored,
+`X_ideal` dominates in deployment coordinates but is unavailable below cost 10.
+Projecting out a charged resource can remove a real Pareto tradeoff.
 
 ### Different initial condition
 

@@ -10,7 +10,7 @@ The channel atlas currently contains CL-1 ... CL-7 as separate capability laws. 
 
 A cut separates an upstream part of a physical/intelligent process from a downstream part. The downstream part may also possess side information. The cut may be temporal (memory), spatial (communication), developmental (weights from training to deployment), inter-agent, inter-generational, or between an external store and a controller.
 
-The theorem below is architecture-free. It says exactly how many distinguishable cut symbols are necessary for an arbitrary finite set-valued obligation.
+The theorem below is architecture-free within the declared finite deterministic classical one-way interface. It says exactly how many classical cut symbols are necessary for an arbitrary finite set-valued obligation. It does not identify this classical alphabet size with the dimension of an unrestricted quantum carrier.
 
 ## 1. Exact finite cut problem
 
@@ -43,7 +43,7 @@ A coloring of a hypergraph is valid when no hyperedge is monochromatic. Let `chi
 
 ## 3. Theorem — exact semantic cut cardinality
 
-**Theorem SC-1.** The minimum number of cut symbols in any zero-error one-way protocol is exactly
+**Theorem SC-1.** The minimum number of classical cut symbols in any zero-error one-way protocol of the declared form `c:X -> Z`, `d:Z x Y -> A` is exactly
 
 `|Z|_min = chi(H_C)`.
 
@@ -56,6 +56,8 @@ Therefore the minimum fixed-length binary cut width is
 Necessity. Suppose `c` is a valid protocol. If a hyperedge `B` were monochromatic with color `z`, then for its witnessing side information `y`, the decoder would have to choose one action `d(z,y)` lying in every `Gamma(x,y)` for `x in B`. Their intersection is empty, contradiction. Hence `c` is a valid hypergraph coloring and `|Z| >= chi(H_C)`.
 
 Sufficiency. Let `c` be any valid coloring with `chi(H_C)` colors. Fix a color `z` and side information `y`, and let `B_{z,y}={x in X_y : c(x)=z}`. If `intersection_{x in B_{z,y}} Gamma(x,y)` were empty, then `B_{z,y}` would itself contain an infeasible hyperedge and would be monochromatic, contradicting validity. Thus the intersection is nonempty. Pick any action in it and define `d(z,y)` to be that action. This gives a zero-error protocol. QED.
+
+The integer `chi(H_C)` optimizes this classical protocol class. With downstream side information, the task need not require a single measurement that recovers every classical color from an arbitrary physical realization. Transport into GG37/GG44 therefore requires a protected classical interface or an independent proof of a globally decodable message requirement. For unassisted quantum one-way exact-function tasks, the corresponding dimension is the conflict graph's orthogonal rank; see [the quantum-process theorem, §4.3–4.4](QUANTUM_PROCESS_INSTANTIATION_THEOREM_V1.md) and [the exact boundary audit](QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md).
 
 ## 4. Why a hypergraph is necessary
 
@@ -79,45 +81,131 @@ For an exact function obligation `a=f(x,y)`, two upstream states conflict exactl
 
 Thus Witsenhausen-style zero-error side-information bounds are a special case of SC-1, not a separate GMI primitive.
 
-## 6. Stochastic/lossy cut theorem
+## 6. Stochastic/lossy cut theorem and the common decoder
 
-For a fixed ecology coordinate `e`, let `mu_e(x,y)` be its within-ecology source law, `K(z|x)` a stochastic cut channel, and `ell_e(a;x,y)` a bounded loss. Define
+**Correction, 2026-09-13:** the earlier version combined separately optimized
+ecology risks into an allegedly attainable profile. That lower envelope need
+not be jointly attainable. SC-1 and the single-ecology SC-2 remain valid; the
+multi-ecology spectrum is corrected below. See `COMMON_DECODER_CORRECTION_V1.md`.
 
-`p_e(x,y,z)=mu_e(x,y) K(z|x)`.
+Let `E,X,Y,Z,A` be nonempty finite sets, `mu_e(x,y)` a probability law inside
+ecology `e`, `K(z|x)` a stochastic cut channel, and `ell_e(a;x,y)` a bounded
+loss. The declared joint law is `p_e(x,y,z)=mu_e(x,y)K(z|x)`.
+A **single** decoder `d(a|z,y)` is used in all ecologies; it cannot condition on
+an unobserved `e`. Its risk vector has coordinates
 
-**Theorem SC-2.** For linear expected loss, the optimal decoder after `K` is deterministic at each `(z,y)` and the exact Bayes risk is
+`R_e(K,d) = sum_{x,y,z,a} mu_e(x,y) K(z|x) d(a|z,y) ell_e(a;x,y)`.
 
-`R_e^*(K) = sum_{z,y} p_e(z,y) min_a E_e[ell_e(a;X,y) | z,y]`.
+**Theorem SC-2 (fixed ecology).** When optimizing one ecology coordinate with
+all decoder kernels allowed, an optimal decoder can be chosen deterministic.
+Write `L_e(z,y,a)=sum_x mu_e(x,y)K(z|x)ell_e(a;x,y)`. Then
 
-This is not a prior over ecologies. `mu_e` is stochasticity inside one declared ecology coordinate. Across an ecology set `E`, GMI keeps the pointwise risk profile
+`R_e^*(K)=min_d R_e(K,d)=sum_{z,y} min_a L_e(z,y,a)`.
 
-`R(K) = (R_e^*(K))_{e in E}`.
+Proof: each decoder row is a probability vector, so each row's linear loss is
+minimized at an action attaining its smallest coefficient. Summing these
+independent minima proves the formula. This unnormalized formula also covers
+zero-probability cells without undefined conditional expectations. QED.
 
-## 7. Data-processing theorem
+The vector `b(K)=(R_e^*(K))_e` is an **oracle lower envelope**, not generally a
+machine's response profile. It optimizes `d` separately for each `e`.
 
-If `K_2 = G o K_1` for any downstream garbling channel `G`, then
+**Theorem SC-3 (attainable risk set).** For the full randomized common-decoder
+class define `Rset(K)={ (R_e(K,d))_e : d(a|z,y) is one decoder }`.
+It is the convex hull of the risk vectors of deterministic common decoders,
+hence a compact polytope. For deterministic-only or resource-restricted
+decoders use the actual registered set instead of its convex hull.
 
-`R_e^*(K_1) <= R_e^*(K_2)`
+Proof: the decoder set is a finite product of probability simplexes; its
+vertices are deterministic tables. The risk map is linear. More explicitly,
+give table `f:Z x Y -> A` weight `w_f=product_{z,y}d(f(z,y)|z,y)`.
+These nonnegative weights sum to one and reconstruct every decoder row and
+therefore its entire risk vector. Conversely any mixture of deterministic
+tables defines an allowed decoder with the corresponding risk vector. QED.
 
-for every ecology coordinate `e` and every declared loss problem.
+**Theorem SC-4 (when the oracle envelope is attainable).** For the full decoder
+class, `b(K) in Rset(K)` iff, for every `(z,y)`,
 
-Proof: after observing `K_1`, the downstream process can simulate `G` and then run the optimal `K_2` decoder. Therefore `K_1` can imitate every strategy available after `K_2`; optimizing cannot be worse. QED.
+`intersection_{e in E} argmin_a L_e(z,y,a)`
 
-This is the cut form of Blackwell/data-processing monotonicity. Because the inequality holds coordinatewise, no distribution over the ecology set is needed.
+is nonempty. An ecology with zero cell probability has every action in its
+argmin and imposes no restriction. When the intersections exist a
+deterministic common decoder attains the envelope.
+
+Proof: subtract each cell minimum from its action losses. Every residual is
+nonnegative. Equality of an ecology's total risk to its optimum forces every
+positive-probability decoder action to minimize that ecology's coefficient
+in every cell. A decoder attaining all minima therefore has support in each
+stated intersection. Conversely choose one action from each intersection. QED.
+
+**Hostile witness.** Let `X,Y,Z` be singletons, `E=A={0,1}`, and loss be
+`1[a != e]`. The oracle envelope is `(0,0)`. Common deterministic profiles are
+`(0,1)` and `(1,0)`; randomized profiles are `(p,1-p)`, `0<=p<=1`.
+No decoder attains `(0,0)`. The randomized robust optimum is `1/2`, whereas
+the deterministic robust optimum is `1`. This is the erased-signal viability
+counterexample of GG31's accompanying witness, now applied to the cut spectrum.
+
+No prior over ecologies is introduced: `mu_e` remains within-ecology
+stochasticity, and the risk vector retains all ecology coordinates.
+
+## 7. Data processing preserves jointly attainable risks
+
+Suppose `K_2(z2|x)=sum_z1 K_1(z1|x)G(z2|z1)` with the **same** stochastic
+garbling `G` in every ecology and the same side-information joint law above.
+For each common decoder `d2`, define
+
+`d1(a|z1,y)=sum_z2 G(z2|z1)d2(a|z2,y)`.
+
+**Theorem SC-5 (common-decoder emulation).** If the registered decoder class
+under `K_1` permits this composed kernel for every allowed `d2`, then
+
+`R_e(K_1,d1)=R_e(K_2,d2)` simultaneously for every `e`.
+
+Consequently `Rset(K_2) subseteq Rset(K_1)` for the full randomized classes.
+Any declared scalar criterion on these risk vectors, including worst-case
+risk, has an infimum under `K_1` no larger than under `K_2`.
+
+Proof: substitute the expression for `d1` into the finite sum defining risk
+and interchange the `z1,z2` sums. The coefficient of `d2(a|z2,y)` becomes
+`K_2(z2|x)`. The same `d1` proves equality in all coordinates. QED.
+
+The pointwise Bayes inequality `R_e^*(K_1)<=R_e^*(K_2)` follows and remains
+valid. It does not assert simultaneous attainability of those minima.
+With deterministic-only decoders, a stochastic garbling may require forbidden
+randomness: risk-set inclusion is then not automatic. Deterministic garbling
+preserves deterministic decoders. A marginal channel comparison also does not
+permit changing its correlation with side information unnoticed.
+
+This is Blackwell's emulation argument applied to a jointly attainable risk
+set. It is a **risk** statement: simulating `G`, realizing the better channel,
+or randomizing can consume resources. Resource-frontier dominance requires a
+separate lawful resource transport/inequality, not just the risk identity.
 
 ## 8. Semantic cut spectrum
 
-A grand GMI problem does not have one information number. It has a family indexed by physical/causal cuts and tolerance:
+For each physical cut `C`, register jointly lawful channel/decoder pairs
+`(K,d)` and a resource vector `rho_C(K,d)` containing every channel, decoding,
+randomization and simulation cost assigned to this region. The stochastic
+cut spectrum is
 
-`Kappa_G(C,epsilon) = Pareto{ (R(K), rho_cut(K)) : K physically/admissibly crosses C }`.
+`Kappa_G(C) = Pareto{ ( (R_e(K,d))_e, rho_C(K,d) ) : (K,d) admissible }`.
 
-At exact zero-error finite scope, the cardinality coordinate contains SC-1 as
+The underlying attainable set remains primary: an arbitrary noncompact
+channel/resource class can have an empty Pareto frontier despite containing
+legal pairs. Frontier existence is a separate attainment obligation (GG49/50).
 
-`min log2|Z| = log2 chi(H_C)`
+If tolerance `epsilon` is supplied, first restrict pairs to the registered
+risk constraint, for example `R_e(K,d)<=epsilon_e` for every ecology, and
+then take their resource frontier. Any costs assigned to another region must
+remain in the full-system resource profile and must not be counted twice.
+An oracle envelope may bound this spectrum from outside; it cannot replace
+an attainable profile unless SC-4 (or another joint realization proof) applies.
 
-(up to fixed-length integer rounding).
-
-Different familiar quantities are projections/specializations of this spectrum: memory capacity, communication bandwidth, training-to-deployment information, retrieval bandwidth, inter-agent messages, and genomic/inter-generational information.
+At exact zero-error finite deterministic one-way scope, the cardinality
+coordinate still contains SC-1: `min log2|Z|=log2 chi(H_C)`, up to fixed-length
+rounding. Common zero-error action compatibility is already built into SC-1.
+Memory, communication, development-to-deployment information and retrieval
+are scoped projections/compositions of this corrected spectrum.
 
 ## 9. Recovery of the current channel atlas
 

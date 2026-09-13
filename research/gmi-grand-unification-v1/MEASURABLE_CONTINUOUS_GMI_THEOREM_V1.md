@@ -95,19 +95,19 @@ Then `0` is the unique Pareto point.
 
 The checker pins the successor-dominance relation for the first 256 sequence elements and the restoration of the frontier by the limit point.
 
-## 6. Attainment of semantic cut and transformation infima
+## 6. Scalar lower bounds and vector attainable spectra
 
-The master quantities
+For a declared scalar resource or scalarization `r`, the lower-bound values
 
 \[
-\kappa(C,\varepsilon)=\inf R_C,
+\underline r_C(C,\varepsilon)=\inf R_C,
 \qquad
-\tau(v,\varepsilon)=\inf R_v
+\underline r_v(v,\varepsilon)=\inf R_v
 \]
 
-are valid lower-bound objects even if the infimum is not attained. To claim a minimum-message morphology, minimum-energy implementation or minimum-compute transformation, Grand GMI must separately establish an attainment theorem for the relevant physical/process class.
+are valid lower-bound objects even if the infimum is not attained. Here `R_C` and `R_v` are the attainable scalar values under that declared resource map. The corrected master instead defines the vector spectra `kappa` and `tau` from Pareto subsets of attainable resource sets, retaining the underlying sets even when no Pareto point exists. A coordinatewise infimum can combine incompatible implementations: `{(1,3),(3,1)}` has lower envelope `(1,1)` but no realization meeting budget `(2,2)`. Scalar lower bounds therefore cannot replace vector feasibility. To claim a minimum-message morphology, minimum-energy implementation or minimum-compute transformation, Grand GMI must separately establish attainment for the relevant process/resource class.
 
-**GG51 — infimum/minimum separation.** `kappa` and `tau` are infima by default. Replacing `inf` by `min` is a theorem obligation.
+**GG51 — scalar infimum/minimum and vector feasibility separation.** A scalar infimum is not necessarily a minimum. Vector attainable sets and their Pareto spectra are not their coordinatewise infima. Replacing a lower-bound value by an attained morphology is a separate theorem obligation.
 
 This prevents idealized limits from being silently described as buildable machines.
 

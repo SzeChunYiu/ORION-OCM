@@ -48,7 +48,18 @@ S^*_{proof}=H_{proof}/\!\equiv_{proof}
 
 is the canonical exact proof-search state at that operational scope.
 
-Any exact proof-search representation must refine this quotient. If the proof grammar is right-congruent with respect to this equivalence, dynamic programming/search on the quotient is exact.
+Any representation preserving **every registered continuation response** must
+refine this quotient. Merely finding one accepted certificate can require less:
+partial histories with acceptable completions `{a,b}` and `{a,c}` have different
+full response rows but can both use completion `a`. Task-success necessity is
+therefore governed by the compatibility/cut condition in GP3, not by full
+response cardinality alone; see `SEMANTIC_ADEQUACY_CORRECTION_V1.md`.
+If the proof grammar respects class-consistent legal actions and is
+right-congruent with respect to the response equivalence, quotient search
+preserves the registered acceptance behavior. Dynamic programming for any
+additional objective or resource coordinate also requires that coordinate's
+transition/output costs to be preserved; acceptance equivalence alone does
+not identify a cost-optimal proof search.
 
 Thus symbolic proof states, learned proof embeddings and search nodes are candidate realizations of the same obligation-relative quotient.
 
@@ -72,7 +83,16 @@ This is the theorem-proving specialization of the Grand-GMI information/computat
 
 Whenever one module/agent produces a proof state, lemma, certificate, tactic hint or verifier response consumed by another module, that interface is an ordinary semantic cut.
 
-If downstream behavior must distinguish `m` mutually conflicting proof situations under its local side information, the zero-error message alphabet needs at least `m` symbols, with the existing hypergraph generalization for set-valued proof obligations.
+For a classical deterministic **one-way** interface `c:X -> Z`, `d:Z x Y -> A`,
+if downstream behavior must distinguish `m` mutually conflicting proof
+situations under its registered local side information, the complete zero-error
+message alphabet needs at least `m` symbols, with SC-1's full hypergraph for
+general set-valued proof obligations. A reusable channel's per-use alphabet
+does not count its whole transmitted message. In interactive proof search,
+requests or verifier feedback may change the sender's information; apply the
+bound to the actual later one-way cut after re-registering its information and
+remaining obligation. The original unconditioned bound is not automatically
+a bound on an interactive transcript; see `INTERACTIVE_CUT_SCOPE_CORRECTION_V1.md`.
 
 Hence proof traces, chain-of-thought-like scratch state, retrieved lemmas and tactic messages are not special ontological objects; they are communication/memory realizations whose necessity depends on the proof obligation and cut geometry.
 

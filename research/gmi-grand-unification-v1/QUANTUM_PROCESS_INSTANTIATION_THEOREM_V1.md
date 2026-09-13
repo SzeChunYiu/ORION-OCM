@@ -1,7 +1,7 @@
 # Grand GMI Quantum-Process Instantiation Theorem V1
 
 Status: **FINITE-DIMENSIONAL OPERATIONAL INSTANTIATION + EXACT WITNESSES**  
-Date: 2026-09-12
+Date: 2026-09-13 — cut-interface scope corrected; finite-dimensional instantiation retained
 
 ## 1. Quantum mechanics enters as the process theory, not as a new intelligence ontology
 
@@ -68,19 +68,21 @@ Define
 C_0^{\mathbf P}(R;\mathcal B)
 \]
 
-as the maximum number of messages that can be transmitted across a physical resource `R` with zero error using the free side resources declared in boundary contract `B`.
+as the maximum number of freely selectable classical messages that can be transmitted across a physical resource `R` with zero error using the free side resources declared in boundary contract `B`. One admissible decoder must recover every message label. Any initially shared resource is fixed independently of the freely selected message before encoding; source-dependent side information belongs to a separately declared task, not to an undeclared identity-channel capacity resource.
 
-If a semantic cut requires `m` exactly distinguishable messages, any implementation must satisfy
+If a semantic cut requires simulation of that globally decodable `m`-symbol identity channel, any implementation must satisfy
 
 \[
 \boxed{C_0^{\mathbf P}(R;\mathcal B)\ge m.}
 \]
 
-**GG44 — process-relative cut-capacity theorem.** Semantic zero-error width is substrate independent, but the resource needed to realize it is determined by the process theory and free-resource contract.
+**GG44 — process-relative cut-capacity theorem.** A protected globally decodable `m`-symbol identity channel requires physical zero-error message capacity at least `m` under the declared process theory and free-resource contract. This follows directly by composing the implementation with its protected readout to obtain an `m`-message code.
+
+SC-1 instead minimizes the alphabet of a deterministic classical protocol `c:X -> Z`, `d:Z x Y -> A`. Its `chi(H_C)` is not automatically the size of an identity channel every quantum solution of the original task must implement. A decoder using side information `y` may choose different, incompatible measurements for different `y`; no single measurement need recover every classical color. The obligation is a substrate-independent specification, while the minimum resource within each allowed protocol class can differ. A protected classical interface, or a separate proof of the identity-channel requirement, is load-bearing when transporting SC-1 into GG44.
 
 ### 4.1 Bare finite-dimensional quantum carrier
 
-Without pre-shared entanglement or another side resource, perfectly distinguishable quantum code states have mutually orthogonal supports. A `d`-dimensional noiseless carrier therefore supports at most `d` zero-error messages, and a basis attains `d`.
+Without pre-shared entanglement or another message-bearing side resource, quantum code states distinguishable by one zero-error decoder have mutually orthogonal supports. A `d`-dimensional noiseless carrier therefore supports at most `d` freely selectable zero-error messages, and a basis attains `d`.
 
 Hence a bare `q`-qubit carrier (`d=2^q`) requires
 
@@ -88,7 +90,7 @@ Hence a bare `q`-qubit carrier (`d=2^q`) requires
 q\ge\lceil\log_2m\rceil
 \]
 
-for `m` exact classical semantic messages.
+for a protected globally decodable identity channel on `m` classical messages. It is not a general lower bound obtained by inserting a side-information task's classical chromatic alphabet into `m`.
 
 ### 4.2 Entanglement-assisted boundary
 
@@ -97,6 +99,39 @@ The capacity changes if entanglement is declared free across the boundary. For a
 Therefore a theorem that ignored pre-shared entanglement would overstate the required transmitted dimension. The correct object is `C_0^P(R;B)`, not carrier dimension in isolation.
 
 The exact checker records the bare and dense-coding capacities for `d=2,4,8,16` and verifies the corresponding message-count thresholds.
+
+### 4.3 Exact-function tasks with classical side information
+
+Fix finite input sets `X,Y`, a nonempty finite action set `A`, a nonempty promise relation `D subseteq X x Y`, and an exact required function `f:D -> A`. Alice knows only `x`; Bob knows `y`. There is one noiseless quantum transmission, no pre-shared entanglement, and no additional input-dependent shared state. Local state preparation and Bob's `y`-dependent measurement are unrestricted within finite-dimensional quantum theory; only transmitted dimension is optimized here. There is no postselection, abort outcome, or allowed error on promised inputs. Remove unused upstream inputs if necessary. An empty promise has no required responses and is handled separately by the trivial one-dimensional carrier: `d_min=1`, `q_min=0`.
+
+The conflict graph `G_f` has an edge `x ~ x'` exactly when some common compatible `y` satisfies `f(x,y) != f(x',y)`. Let `xi_C(G_f)` be its complex orthogonal rank: the least dimension admitting nonzero vectors `v_x` with `v_x` orthogonal to `v_x'` on every **edge**. This convention uses the conflict graph, not its complement.
+
+**Exact-function quantum cut characterization.** Under these assumptions,
+
+`d_min = xi_C(G_f)` and `q_min = ceil(log2 xi_C(G_f))`.
+
+Necessity. Allow Alice's transmitted states `rho_x` to be mixed. On a conflict edge, Bob must produce different outputs with certainty under the same `y`-dependent POVM. Thus the two states have orthogonal supports. One way to see this is to collect the POVM effect `E` for the first required output: `Tr(E rho_x)=1` and `Tr(E rho_x')=0`, with `0 <= E <= I`. The support of `rho_x` lies in the eigenvalue-one subspace of `E`, and that of `rho_x'` lies in its kernel. Choose any nonzero vector in each state's support. These vectors form an orthogonal representation in the transmitted dimension.
+
+Sufficiency. Normalize an orthogonal representation and send `rho_x=|v_x><v_x|`. For each fixed `y`, let `V_{a,y}` be the span of vectors for promised inputs with required output `a`. Distinct output spans are mutually orthogonal because every cross-pair is a conflict edge. Their orthogonal projectors, with the remaining orthogonal complement assigned to any one action, form a complete POVM. This decoder returns `f(x,y)` exactly on every promised input. Empty spans and unused `y` cause no problem. QED.
+
+This is an application of established one-way quantum communication results, not a new parent theorem: see [Stahlke, Theorem 12 and §IV](https://arxiv.org/pdf/1405.5254) and [de Wolf, §8.5](https://homepages.cwi.nl/~rdewolf/publ/qc/phd.pdf). Neither the proof nor the resource comparison grants uncounted preparation or measurement costs in other resource coordinates.
+
+### 4.4 General set-valued obligations
+
+Under the same unassisted one-way protocol assumptions, replace the exact function by nonempty acceptable-action sets `Gamma(x,y)`. Feasibility in dimension `d` is exactly the existence of density matrices `rho_x` and POVMs `(E_a^y)_{a in A}` satisfying
+
+```
+rho_x >= 0,  Tr(rho_x) = 1,
+E_a^y >= 0,  sum_a E_a^y = I_d,
+Tr(rho_x E_a^y) = 0
+    for every promised (x,y) and every a not in Gamma(x,y).
+```
+
+Here `>= 0` means positive semidefinite. These are the Born-rule zero-error conditions themselves: necessity follows from zero probability of forbidden actions, and sufficiency follows because all outcome probability is then on acceptable actions. This is a joint state/measurement feasibility characterization, not an efficient convex optimization claim. The exact-function orthogonal-rank formula does not assert a graph-only solution for arbitrary relations or replace SC-1's classical conflict hypergraph.
+
+### 4.5 Exact separation witness
+
+The [quantum/classical boundary audit](QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md) constructs a 14-input edge-promise task from the rational Yu–Oh rays with one additional orthogonal coordinate vector. Its conflict graph has chromatic number five and complex orthogonal rank four. Thus the exact classical task uses at least three fixed-length bits, while two qubits suffice with no entanglement. Integer coloring certificates and all 74 rational Born-rule input/context checks are reproduced by `grand_gmi_quantum_cut_scope_checks_v1.py`. This rejects the unqualified chromatic-width transport while retaining §§4.1–4.2 for identity-message codes.
 
 ## 5. Quantum impossibility constraints enter the necessary outer set
 
