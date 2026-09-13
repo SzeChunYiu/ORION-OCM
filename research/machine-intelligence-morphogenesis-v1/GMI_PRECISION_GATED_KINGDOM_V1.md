@@ -22,6 +22,9 @@
 > 32-member class. At **K = 128** an 8-bit row **occupies 7 of 2 760 cells** and has **zero cost-coordinate
 > dominators**. The positive is real, pre-registered, and needs four permissive choices at once — all four are
 > in its terminal.
+> Added by `RV-377-080`: **§17** — **it is not a residual, it is a line.** The cost difference is exactly
+> **−2K + 376** under the *registered* price, verified to the unit at seven class sizes, and the occupancy
+> appears at its root. **Two of the four permissive choices are gone.**
 
 Status: **EXECUTED EXACT AT SCOPE** (§§1–9, terminal superseded — see the banner above).
 Receipt `microscopes/results/STAGE_DK_V2_PRECISION_GATED.json`
@@ -781,3 +784,85 @@ class-scaling rule is declared, not sampled; the native price is declared, not m
 → **protocol rule 32** (a "no cell exists" verdict must name every parameter of the ecology *construction* held
 fixed while it was established) and **rule 33** (when the flat and scaled bases **disagree** on a verdict, report
 both terminals — a sensitivity column that changes an answer has stopped being a sensitivity column).
+
+
+---
+
+## 17. It is not a residual — it is a **line**, and its root is K = 188 (`RV-377-080`)
+
+§16's positive needed four permissive choices. Two of them are removable by the very mechanism that produced it,
+and this section removes them. Receipt `STAGE_DK_V9_SCALING_HARDENED_V1.json`, record `RV-377-080`,
+**6 of 7 clauses HOLD, clause 7 FAILS**.
+
+**The law.** Both rows carry the same `K`-element state and the same `M = 4` readout slots. The log row carries, in
+addition, a **fixed 26 declared scalars** — 7 distinct log-likelihood constants, 3 distinct log priors, 16 ladder
+breakpoints — measured at **exactly 208 bits across seven class sizes**. Under `scaled` an 8-bit row pays 8 bits per
+declared scalar and a 10-bit row pays 10, so at `H = 1, r = 0` against `QCOUNT@fx10`:
+
+```
+reduced price (the REGISTERED one):   cost(log@fx8) − cost(QCOUNT@fx10)  =  −2K + 376      root K = 188
+native  price:                                                           =  −2K + 208      root K = 104
+```
+
+These are **exact, not asymptotic**. Twelve predicted differences — four retrodicted from §16's receipt, eight
+predicted here — match the executed values **to the unit**:
+
+| K | 32 | 64 | 96 | 128 | 160 | 192 | 256 |
+|---|---|---|---|---|---|---|---|
+| reduced, predicted **and measured** | +312 | +248 | +184 | +120 | +56 | **−8** | **−136** |
+| `desc` excess (bits) | 208 | 208 | 208 | 208 | 208 | 208 | 208 |
+
+### 17a. The occupancy appears at the law's roots
+
+| K | 128 | 160 | **192** | **256** |
+|---|---|---|---|---|
+| **reduced** \| scaled — the *registered* price | 0 | 0 | **1** | **1** |
+| native \| scaled | 7 | 12 | 16 | **23** |
+| largest occupied H | 7 | 15 | 23 | **39** |
+| **flat**, either price | 0 | 0 | 0 | **0** |
+
+The native-price sign flips at K = 104, which is why §16 saw nothing at K = 96 and seven cells at K = 128. The
+reduced-price sign flips at K = 188 — and the first reduced-price occupancy is at **K = 192, and at no smaller K**.
+The occupancy is **monotone** in K and **extends in H** (7 → 15 → 23 → 39). It is a crossing, not a corner.
+
+> **Two of §16's four permissive choices are gone.** The positive no longer needs the **native price** — it exists
+> under the registered `reduced` price from K = 192 — and it no longer rests on a **particular class size**, because
+> the effect is an exact line verified at seven of them. What remains is the **`scaled` basis** and **r = 0**, and
+> naming which two remain is worth more than the cell count.
+
+### 17b. What still qualifies it, and where the next lever is
+
+* **The `scaled` basis.** Under `flat` the count is **zero at all seven class sizes**. The two bases disagree at
+  every K, so per **rule 33** neither is elected primary and both terminals stand.
+* **r = 0.** Every occupied cell, at every K, under every key, lies at **zero reuse**. The occupancy extends in `H`
+  and **never** in `r`, because the log row's reuse coefficient `ρ` exceeds `QCOUNT`'s at every class size — its
+  verification phase re-serves the whole evaluation set every event. **That is a property of the row's serve path,
+  not of precision,** and it names the next experiment.
+
+**The boundary leads the verdict by 64 hypotheses.** `LOGLAD8_T4@fx8` reaches **zero cost-coordinate dominators** at
+K = 128 under `reduced|scaled` while still holding zero cells, and takes its first cell only at K = 192. This is the
+second time in this sequence of records that the dominator count moved before the cell count did.
+
+### 17c. Clause 7 FAILED
+
+It predicted exact replication across declared sequences. **Seeds** replicate exactly. **Sequences do not**: at
+K = 256 under `native|scaled`, sequences A and C give **23** occupied cells and sequence B gives **21**. The frozen
+falsifier says *"any occupancy count differing between sequences A, B and C"*, so the clause fails as written — a
+frontier count over a 2 752-cell grid was too strong a thing to predict exactly. What **does** replicate across all
+three sequences is the sign, the reduced-price count (1, 1, 1 at K = 256), the K = 128 native count (7, 7, 7) and
+every flat zero. Reported as a failure, not rounded into agreement.
+
+**Claim DK-13 (new).** *The precision "residual" on the ambiguous ecology is not a residual. It is an **affine
+function of hypothesis-class size**, `−2K + 376` bits under the registered price and the scaled description basis,
+exact at seven class sizes, with root `K = 188`; an 8-bit row occupies from `K = 192` under the registered price and
+from `K = 128` under the native one. Four records measured it at `K = 32` — one point, on the positive side of its
+root — and called it a residual.*
+**Level:** `PROVED_AT_SCOPE` for the law and its roots (an identity in the affine cost model, verified at seven
+points under two price vectors); `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY` for the occupancy counts.
+**Ceiling:** the law holds under the **`scaled`** basis; under `flat` the count is zero at every executed K and no
+crossing is claimed. Every occupied cell lies at **r = 0**. One ecology recipe, a declared (not sampled)
+class-scaling rule, three declared sequences, two seeds, seven class sizes.
+
+→ **protocol rule 34**: where a cost comparison is **affine in a construction parameter**, fit and report the exact
+law and its root — a verdict at one value of a parameter the cost function is linear in is a statement about *that
+value*, and the law is the result.

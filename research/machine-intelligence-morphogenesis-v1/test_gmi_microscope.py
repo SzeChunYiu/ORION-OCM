@@ -911,3 +911,67 @@ def test_dk_class_scaling_receipt_replays():
                 f = committed["frontier"][f"K{K}|{price}|{basis}"]
                 assert f["H_grid_extends_past_twice_largest_H_crossover"] is True
                 assert f["r_grid_extends_past_twice_largest_r_crossover"] is True
+
+
+def test_dk_scaling_hardened_receipt_replays():
+    """RV-377-080. RV-377-079's positive needed four permissive choices; this replays the two that are removable.
+    The cost difference is an EXACT affine law in the class size — -2K + 376 under the registered (reduced) price
+    and -2K + 208 under the native one, matching the executed values to the unit at every K — and the occupancy
+    appears at exactly the law's roots. Clause 7 FAILED on a two-cell sequence disagreement and that is asserted
+    here too, not smoothed over."""
+    from gmi_microscope import dk_precision_scale_hard as hd
+    committed = json.loads((RES / "STAGE_DK_V9_SCALING_HARDENED_V1.json").read_text())
+    assert committed["terminal"].startswith("THE_POSITIVE_HARDENS")
+    assert committed["the_law"]["all_checks_match"] is True
+
+    # the law, re-derived rather than trusted, and exact at every executed K under BOTH prices
+    for K in (128, 160, 192, 256):
+        run = committed["runs"][f"K{K}|A|s0"]
+        for price, root in (("reduced", 376), ("native", 208)):
+            lc = run["law_check"][price]
+            assert lc["predicted"] == hd.law(K, price) == -2 * K + root, (K, price)
+            assert lc["measured"] == lc["predicted"], (K, price, lc)
+        assert run["desc_excess_flat_bits"] == 208                     # one constant, seven class sizes
+        assert run["w_scalars"]["log"] - run["w_scalars"]["qcount"] == 26
+    assert [committed["runs"][f"K{K}|A|s0"]["law_check"]["reduced"]["measured"]
+            for K in (128, 160, 192, 256)] == [120, 56, -8, -136]
+
+    # clause 3: the occupancy enters the REDUCED price column at exactly the law's root (188 -> first K = 192)
+    red = {K: committed["runs"][f"K{K}|A|s0"]["keys"]["reduced|scaled"]["cells_held_by_any_fx8_row"]
+           for K in (128, 160, 192, 256)}
+    assert red == {128: 0, 160: 0, 192: 1, 256: 1}, red
+    assert committed["first_K_with_reduced_scaled_occupancy"] == 192
+    assert committed["the_law"]["predicted_sign_flip_K"] == {"reduced": 188, "native": 104}
+
+    # clause 4: native|scaled occupancy is monotone and extends in H — a crossing, not a corner
+    nat = {K: committed["runs"][f"K{K}|A|s0"]["keys"]["native|scaled"]["cells_held_by_any_fx8_row"]
+           for K in (128, 160, 192, 256)}
+    assert nat == {128: 7, 160: 12, 192: 16, 256: 23}, nat
+    assert committed["native_scaled_occupancy_is_monotone_in_K"] is True
+    assert [committed["runs"][f"K{K}|A|s0"]["keys"]["native|scaled"]["max_H_held"]
+            for K in (128, 160, 192, 256)] == [7, 15, 23, 39]
+
+    # clauses 5 and 6, the qualifications that REMAIN: flat is zero everywhere, every cell is at r = 0
+    assert committed["flat_basis_occupancy_is_zero_everywhere"] is True
+    assert committed["all_held_cells_at_r0"] is True
+    for K in (128, 160, 192, 256):
+        for price in ("reduced", "native"):
+            k = committed["runs"][f"K{K}|A|s0"]["keys"][f"{price}|flat"]
+            assert k["cells_held_by_any_fx8_row"] == 0, (K, price)
+            assert k["H_grid_ok"] is True and k["r_grid_ok"] is True
+
+    # the boundary leads the verdict: zero dominators at K = 128 under reduced|scaled, first cell only at K = 192
+    for K in (128, 160, 192, 256):
+        d = committed["runs"][f"K{K}|A|s0"]["keys"]["reduced|scaled"]["fx8_dominator_counts"]
+        assert d["LOGLAD8_T4@fx8"] == 0, (K, d)
+
+    # clause 7 FAILED: seeds replicate exactly, sequences do not — 23 / 21 / 23 at K = 256 native|scaled
+    assert committed["seed_invariant"] is True
+    rep = committed["sequence_replication"]
+    assert [rep[f"K256|{v}"]["native|scaled"] for v in "ABC"] == [23, 21, 23]
+    assert len({rep[f"K256|{v}"]["native|scaled"] for v in "ABC"}) > 1      # the clause's own falsifier
+    # ... while the sign, the reduced count and the flat zeros DO replicate across all three sequences
+    assert all(rep[f"K256|{v}"]["reduced|scaled"] == 1 for v in "ABC")
+    assert all(rep[f"K128|{v}"]["native|scaled"] == 7 for v in "ABC")
+    assert all(rep[f"K{K}|{v}"][f"{p}|flat"] == 0
+               for K in (128, 256) for v in "ABC" for p in ("reduced", "native"))
