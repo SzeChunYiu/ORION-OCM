@@ -15,6 +15,9 @@
 > Added by `RV-377-077`: **§14** — the residual re-asked against a *parent-maximal* 8-bit row. It survives, but
 > **2 352 of its 2 508-bit margin was padding**, and the pruned 8-bit log row is now admissible on **10 of 10**
 > declared sequence-cells.
+> Added by `RV-377-078`: **§15** — the residual re-asked on a *second ecology built to break it*. It survives
+> that too, and the record's own hypothesis is **falsified**. `E_graded` widens the linear representation's gate
+> from 10 to **12 total bits** and moves **no occupancy at all**.
 
 Status: **EXECUTED EXACT AT SCOPE** (§§1–9, terminal superseded — see the banner above).
 Receipt `microscopes/results/STAGE_DK_V2_PRECISION_GATED.json`
@@ -595,3 +598,107 @@ distribution over sequences.
 
 → **protocol rule 28** (parent-maximality binds the *subject* of a claim, not only its opponent) and **rule 29**
 (a monotone map over a declared constant table must be reported in its **ladder** form as well as its table form).
+
+
+---
+
+## 15. The residual on a second ecology, built to break it (`RV-377-078`)
+
+§14 reduced the residual to 156 bits and named its mechanism. A residual that small raises a fair objection: every
+cell `QCOUNT` holds, it holds because on `E_ambig` and `E_noisy` a hypothesis can be reduced to its **thresholded**
+prediction. `QCount.init` sets `expl[j][x] = 1 if p[x] ≥ 1/2 else 0` and counts agreements, discarding magnitude
+entirely, and all four value pairs of a predicate share that threshold. So is the residual a *precision* fact, or a
+fact about two ecologies that never ask for a calibrated magnitude?
+
+**`E_graded`** removes the forgiveness: same seen set, same 32-member class, same prior, same 24 events and the same
+revocation, with two declared changes — value pairs widened to (15/16, 1/16), (3/4, 1/4), (9/16, 7/16), (1/2, 1/2),
+and the flip schedule thinned to **one flip in 24**. Receipt `STAGE_DK_V7_GRADED_ECOLOGY_V1.json`, record
+`RV-377-078`, **3 of 7 clauses HOLD, 3 FAIL, 1 VOID**.
+
+**The construction is disclosed, not neutral.** `E_graded` was built so that magnitude matters, hence built in a
+regime where a thresholding count row must do badly. Protocol rule 19 was discharged by building two graded count
+opponents **before** the verdict — `QCOUNT2`, which accumulates the declared likelihood instead of counting
+agreements, and `QCOUNT2M` with max-renormalization. **Both scored exactly 0.0 at every instrument.** They are bad
+opponents, that is a failed clause of this record, and it is stated here rather than left to be discovered.
+
+### 15a. At 8 bits, only the log-domain row can answer at all
+
+| `E_graded`, sequence A | fx8 | fx10 | fx12 | fx16 | wide |
+|---|---|---|---|---|---|
+| `QCOUNT` | 0.822415 | **0.735097** | **0.923404** | 0.923404 | 0.923404 |
+| `BAYESM` | 0.0 | 0.658658 | **0.987568** | 0.996425 | 0.999843 |
+| `BAYES` | 0.0 | 0.0 | 0.0 | **0.967456** | 1.0 |
+| `QCOUNT2`, `QCOUNT2M` | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| **log-domain rows** (all six) | **0.898854** | 0.978920 | 0.999843 | — | — |
+
+The fx8 admissible set is **exactly the log-domain rows**, and so is the fx10 set. `E_graded` therefore has a
+**wider precision gate for the linear representation than `E_ambig` did — 12 total bits against 10** — while the
+log-domain row is admissible at 8 on both.
+
+### 15b. And it changes no occupancy whatsoever
+
+**0 of 288, 0 of 840, 0 of 817, 0 of 3 906.** Every cell is held by `QCOUNT@fx12` or `BAYESM@fx12`. Every one of
+the six 8-bit rows carries **at least five cost-coordinate dominators**, so this is a theorem over the whole
+quadrant, and the grids independently pass twice the largest crossover in each axis.
+
+> **This is the sharpest form of the residual so far.** Even on an ecology where the 8-bit log row is the *only*
+> admissible row at 8 bits **and** at 10 bits, and where the linear rows need 12, the 8-bit row holds **no cell** —
+> because two extra bits of instrument are simply cheap under a cost model that charges per scalar **activation**
+> and describes every instrument on the same basis.
+
+**Clause 4 was this record's hypothesis and it is falsified.** The residual is not an `E_ambig` property. It is a
+property of the registered **cost model**, and the next lever is that model's description basis, not the ecology.
+
+### 15c. Two of the supporting clauses were wrong, and the corrections are worth more than the clauses
+
+* **Clause 2 FAILED.** It argued that `QCOUNT`'s thresholding is an *irrecoverable structural* loss, so no
+  precision could rescue it. **Wrong.** `QCOUNT` recovers to **0.923404 at 12 bits** and is **non-monotone in
+  precision** — 0.822415 at 8, **0.735097 at 10**, 0.923404 at 12. The argument ignored the **top-M ranking**,
+  which reconstructs enough of what the threshold discards once the counts are fine enough to rank correctly.
+  `RV-377-066` found non-monotonicity for the exact posterior and called it a property of a quantized mixture; it
+  is a property of quantized **ranking**, which is more general. → **protocol rule 31**.
+* **Clause 3 FAILED.** It explained `QCOUNT2`'s fx8 failure by quantization of its declared increment. **Wrong** —
+  the same row scores 0.0 at `wide`, where nothing quantizes. The real defect is that a **sum** of likelihoods is
+  not a **product**: the accumulator over-ranks the extreme value pair and serves ≈ 0.727 where `q*` is 0.608.
+  → **protocol rule 30**: an opponent built to discharge rule 19 must be **scored against the ladder** and reported
+  as weak if it fails everywhere; the existence of an opponent is not evidence that parent-maximality was met.
+
+**A finding not predicted and not looked for.** On declared sequence **E** of `E_graded` the fx8 admissible set is
+**empty** — `LOGLAD8_T4` scores exactly 0.0 — so this ecology carries a sequence-dependence that top-M pruning does
+**not** repair, unlike `E_ambig` sequence B. A, B, C and D all give 0.898854/0.898855.
+
+**Claim DK-11 (new).** *An ecology can move a capability gate by two bits and move no occupancy at all. `E_graded`
+widens the linear representation's precision gate from 10 total bits to 12 and leaves every frontier cell with a
+12-bit occupant. Under the registered cost model, precision is a capability parameter and a small description-cost
+parameter, and an occupancy parameter on **no** executed ecology.*
+**Level:** `PROVED_AT_SCOPE` for the 0-cell occupancy (cost-coordinate domination in all four keys);
+`EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY` for the capabilities.
+**Ceiling:** `E_graded` is a **constructed** ecology, disclosed as such, and two of the three opponents built for it
+failed everywhere. Three ecologies now, one class of 32, one prior, five declared sequences each, one seed. The six
+log-domain rows were executed only at fx8, fx10 and fx12, which does not touch the crux — the crux asks only whether
+an **8-bit** row occupies.
+
+
+### 15d. Where the margin actually is — and the next lever
+
+The number of cost-coordinate dominators is not the verdict, but it is the margin, and it is very different under
+the two description bases:
+
+| dominators of `LOGLAD8_T4@fx8` on `E_graded` | flat | **scaled** |
+|---|---|---|
+| reduced price | 5 | **1** |
+| native price | 10 | **2** |
+
+Under the `scaled` basis an 8-bit row pays **8 bits per declared scalar** where a 12-bit row pays **12**. The log
+row's irreducible overhead is 27 scalars (§14), and both rows carry the same `K + M` shared state, so the 8-bit row
+is cheaper to describe exactly when
+
+```
+8·(K + M + 27)  <  12·(K + M)      ⟺      K + M  >  54
+```
+
+At the registered class size `K = 32`, `M = 4` that inequality **fails** by 18. It holds from `K = 51` upward. **The
+class size has never been varied in this lane.** The `scaled` column was introduced by `RV-377-066` as a sensitivity
+check and has agreed with the flat basis on every verdict since; it does not agree on the *margin*, and that is what
+makes it the pointer. The successor experiment is therefore not another ecology — it is **class-size scaling under
+the scaled basis**, where a fixed 27-scalar overhead is amortized against a state that grows with `K`.

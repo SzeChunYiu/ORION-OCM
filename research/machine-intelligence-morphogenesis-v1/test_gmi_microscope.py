@@ -762,3 +762,83 @@ def test_dk_log_minimal_receipt_replays():
     c2 = lm.run("LOGTRIM8_T4", eco, "fx8", table_mode="scan")
     assert int(a2["exec_q"]) == 68 and int(c2["exec_q"]) == 392        # delta 324, not the predicted 328
     assert a2["capability_exact"] == c2["capability_exact"]
+
+
+def test_dk_graded_ecology_receipt_replays():
+    """RV-377-078. E_graded was built so that likelihood MAGNITUDE must be inferred, to test whether QCOUNT's
+    frontier occupancy is a property of counting or of the two registered ecologies. The record's own hypothesis
+    FAILED: at fx8 only log-domain rows are admissible, and they still hold zero cross-instrument cells. This
+    replays that, plus the two clause failures that matter — QCOUNT recovers at 12 bits (so its 8-bit failure is
+    precisional, not structural, and it is non-monotone in precision) and both graded count opponents score
+    exactly 0.0 at every instrument, which makes them bad opponents and is reported as such."""
+    from gmi_microscope import dk_precision_graded as g
+    committed = json.loads((RES / "STAGE_DK_V7_GRADED_ECOLOGY_V1.json").read_text())
+    assert committed["ANY_FX8_ROW_OCCUPIES_ON_E_GRADED"] is False
+    assert committed["terminal"].startswith("RESIDUAL_SURVIVES_ON_E_graded_TOO")
+
+    # the ecology is rebuilt from its declaration, not trusted
+    eco = g.ecology_graded("A")
+    assert eco["eval"] == [1, 2, 5, 6, 9, 10, 13, 14] and eco["n_hyps"] == 32
+    assert [str(a) + "/" + str(b) for a, b in g.VALS_GRADED] == ["15/16/1/16", "3/4/1/4", "9/16/7/16", "1/2/1/2"]
+    assert g.FLIPS_GRADED["A"] == (5,)                       # one flip in 24
+    assert round(float(eco["var"]), 6) == 0.093348
+    assert {round(float(v), 3) for v in eco["qstar"].values()} == {0.608, 0.392}
+
+    # clause 1: at fx8 the admissible set is EXACTLY the log-domain rows
+    assert committed["only_log_domain_rows_admissible_at_fx8"] is True
+    assert set(committed["admissible_at_fx8"]) == {"LOGBAYES8_FIXED", "LOGMIN8", "LOGTRIM8",
+                                                   "LOGLAD8", "LOGLAD8_T4", "LOGTRIM8_T4"}
+    cap = committed["capability"]
+    assert cap["A|fx8|QCOUNT"] == 0.822415 and cap["A|fx8|QCOUNT"] < 0.85
+    assert cap["A|fx8|LOGLAD8_T4"] == 0.898854
+    for r in ("BAYES", "BAYESM", "MAP", "PROG", "COEF", "EXEM", "GEN", "UNIFMIX", "BASE"):
+        assert cap[f"A|fx8|{r}"] == 0.0, r
+    assert g.run_extra("QCOUNT2", eco, "fx8")["capability"] == 0.0
+
+    # clause 2 FAILED: QCOUNT is admissible at fx12 and is NON-MONOTONE in precision
+    ladder = {p: cap[f"A|{p}|QCOUNT"] for p in ("fx8", "fx10", "fx12", "fx16", "fx24", "fx32", "wide")}
+    assert ladder["fx8"] == 0.822415 and ladder["fx10"] == 0.735097 and ladder["fx12"] == 0.923404
+    assert ladder["fx10"] < ladder["fx8"] < 0.85 <= ladder["fx12"]           # non-monotone, and it recovers
+    assert all(ladder[p] == 0.923404 for p in ("fx12", "fx16", "fx24", "fx32", "wide"))
+
+    # clause 3 FAILED: both graded count opponents score exactly 0.0 at EVERY instrument — bad opponents
+    for r in ("QCOUNT2", "QCOUNT2M"):
+        for p in ("fx8", "fx10", "fx12", "fx16", "fx24", "fx32", "wide"):
+            assert cap[f"A|{p}|{r}"] == 0.0, (r, p)
+
+    # clause 4 FAILED (the crux): zero 8-bit occupancy, as a theorem — every 8-bit row has a dominator
+    for price in ("reduced", "native"):
+        for basis in ("flat", "scaled"):
+            res = committed["residual"][f"graded|A|{price}|{basis}"]
+            assert res["any_fx8_row_occupies"] is False and res["cells_held_by_any_fx8_row"] == 0
+            assert all(n.endswith("@fx12") or n.endswith("@fx16") or n.endswith("@fx24")
+                       or n.endswith("@fx32") or n.endswith("@wide")
+                       for n in res["occupancy_nonzero"])
+            dom = committed["fx8_domination"][f"graded|A|{price}|{basis}"]
+            assert len(dom) == 6
+            for me, v in dom.items():
+                # ONE cost-coordinate dominator is all the theorem needs; the counts are recorded because the
+                # margin is the story. Under the `scaled` basis the ladder rows are nearly on the frontier —
+                # LOGLAD8_T4@fx8 has exactly ONE dominator under reduced|scaled and two under native|scaled,
+                # against 5-10 under the flat basis. That is where the next lever lives.
+                assert v["n_dominators"] >= 1, (me, v["n_dominators"])
+            fr = committed["frontier"][f"graded|A|{price}|{basis}"]
+            assert fr["H_grid_extends_past_twice_largest_H_crossover"] is True
+            assert fr["r_grid_extends_past_twice_largest_r_crossover"] is True
+    # the margin, which is not the verdict but is where the next lever lives: under the `scaled` basis the
+    # 8-bit ladder row is nearly on the frontier — one dominator, against five under the flat basis
+    dm = committed["fx8_domination"]
+    assert dm["graded|A|reduced|scaled"]["LOGLAD8_T4@fx8"]["n_dominators"] == 1
+    assert dm["graded|A|native|scaled"]["LOGLAD8_T4@fx8"]["n_dominators"] == 2
+    assert dm["graded|A|reduced|flat"]["LOGLAD8_T4@fx8"]["n_dominators"] == 5
+    assert dm["graded|A|reduced|scaled"]["LOGLAD8@fx8"]["n_dominators"] == 2
+
+    # clause 5 HOLDS: the exact posterior needs 16 bits here
+    assert cap["A|fx8|BAYES"] == 0.0 and cap["A|fx12|BAYES"] == 0.0
+    assert cap["A|fx16|BAYES"] == 0.967456 and cap["A|wide|BAYES"] == 1.0
+
+    # the unpredicted finding: E_graded widens the LINEAR gate to 12 total bits and moves no occupancy
+    assert cap["A|fx10|BAYESM"] == 0.658658 and cap["A|fx12|BAYESM"] == 0.987568
+    # ... and declared sequence E has an EMPTY fx8 admissible set, which pruning does not repair
+    assert cap["E|fx8|LOGLAD8_T4"] == 0.0
+    assert all(cap[f"{s}|fx8|LOGLAD8_T4"] >= 0.85 for s in "ABCD")
