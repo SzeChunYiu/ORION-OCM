@@ -340,3 +340,41 @@ cross the carrier boundary somewhere, but these receipts do not show where, and 
 intermediates between the root and the recovered machine. Z5 is a claim about founders, not about the
 whole trajectory; establishing the crossing point would need per-step lineage, which this instrument does
 not record. Nor does Z5 apply to cold arms, which have no seed elites at all — their origins are `init`.
+
+### Instrument gap: the Z1 machines' structure is not recoverable from these receipts
+
+A claim about a previously-unoccupied cell is a claim about *what occupies it*, so I went looking for the
+structure of the machines Z1 counts. It is not there, and the reason is worth stating.
+
+`first_of_class` returns carrier, capability, margin, origin and burden — **not** the genotype
+(`first_admissible` does return both raw and atrophied genotypes; the class-specific scan does not).
+`trace_compact` keeps only fingerprint, capability, `n_eval`, `n_nodes`, `desc` and origin. So the
+machines satisfying Z1 are identified but not described, and no amount of re-reading these receipts
+recovers them.
+
+**This is not fixed mid-campaign.** Adding the genotype to `first_of_class` is additive and changes no
+verdict, but applying it now would make the campaign's receipts inhomogeneous across arms under a frozen
+protocol. It is named as the next lever and not adopted: the structural question is answered by a re-run
+with the field present, not by editing the instrument while it runs.
+
+### What the archive's best coefficient cell shows instead (`STAGE_B6_DENSE_STRUCTURE_billy.json`)
+
+The archive *does* retain its best cell per carrier in full, so those were verified against the target
+under the arm's own controls (`gmi_microscope/b6_dense_structure_probe.py`). They are **different
+machines** from the ones Z1 counts — for `SAME|CONTINUED|S0` the archive's best DENSE cell scores 0.9062
+while the Z1 machine's standard capability is 0.8854 — and they behave differently:
+
+* eight of the nine best-DENSE cells **fail** the controls outright;
+* the one that passes, `CROSS|RESET|S0`, passes every capability control and then **atrophies onto
+  TABLE**. Its raw descriptor says coefficient carrier; its atrophied reading says memory carrier.
+
+That is the third independent sighting of rule-23 mis-crediting in this lane — after lane B's raw 4/9
+against atrophied 0/9, and the two inherited cells in the control above that atrophy onto PROGRAM and
+TABLE. Here it lands on an archive *elite*, which is the object most likely to be quoted as a result.
+
+Two further details worth keeping. `SAME|RESET|S0`'s best DENSE cell is a minimal seven-kind machine
+(`DENSE, EDGE, INPUT, LINEAR, OUTPUT, TARGET, VERIFY`) sitting at exactly **0.8125** — the dead-region
+value the D2b derivation quotes for `E_smooth3`, reproduced by an independent arm. And the two arms with
+the richest DENSE cells by raw capability (`DISJ|CONTINUED|S0` at 0.9583, `SAME|CONTINUED|S1` at 0.9583)
+both fail the controls, so raw capability in the coefficient cell is not evidence of an admissible
+coefficient machine.
