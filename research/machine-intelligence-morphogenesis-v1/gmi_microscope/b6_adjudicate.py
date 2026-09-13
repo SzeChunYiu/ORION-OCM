@@ -89,11 +89,22 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         return x["B_morph"] < y["B_morph"]
 
     def rec(pid, per_seed, rule, detail=None):
+        """A ">= 2 of 3" prediction is decidable early in one direction only:
+        two hits settle it HELD whatever the third seed does, and it is FAILED only
+        once two or more seeds are known NOT to satisfy it. Anything in between is
+        PENDING, never FAILED -- a missing unit is not a refutation."""
         ok, n, _ = _tally(per_seed)
+        n_false = sum(1 for v in per_seed.values() if v is False)
         if validation_only:
             verdict = "NOT_SCORED__PARTIAL_SEED_SET"
+        elif ok >= 2:
+            verdict = "HELD"
+        elif len(per_seed) - n_false < 2:
+            verdict = "FAILED"
+        elif n < len(per_seed):
+            verdict = "PENDING_MORE_UNITS"
         else:
-            verdict = "UNDETERMINED" if n == 0 else ("HELD" if ok >= 2 else "FAILED")
+            verdict = "UNDETERMINED" if n == 0 else "FAILED"
         out["predictions"][pid] = {"per_seed": {str(s): per_seed[s] for s in per_seed},
                                    "n_true": ok, "n_determined": n, "verdict": verdict,
                                    "rule": rule}
@@ -131,7 +142,9 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     out["predictions"]["D2b"] = {
         "per_seed": {str(s): d2b[s] for s in seeds}, "n_true": ok, "n_determined": n,
         "verdict": "NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
-                   ("UNDETERMINED__NO_DETERMINED_SEED" if n == 0 else ("HELD" if ok == n else "FAILED")),
+                   ("FAILED" if (n and ok < n) else
+                    ("PENDING_MORE_UNITS" if any(R[("CROSS", a, s)] is None for a in ("CONTINUED", "RESET") for s in seeds)
+                     else ("UNDETERMINED__NO_DETERMINED_SEED" if n == 0 else "HELD"))),
         "rule": "CROSS: B_dense(CONTINUED) > B_dense(RESET) on EVERY determined seed; undetermined seeds excluded"}
 
     # D2c -- continuous form, always determined
@@ -157,8 +170,10 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     out["predictions"]["D2d"] = {
         "per_seed": {str(s): d2d[s] for s in seeds}, "n_true": ok, "n_determined": n,
         "verdict": ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
-                    ("HELD_VACUOUSLY__NO_DETERMINED_SEED" if n == 0 else
-                     ("HELD" if ok >= 2 else "FAILED"))),
+                    ("HELD" if ok >= 2 else
+                     ("PENDING_MORE_UNITS" if any(R[(pp, aa, ss)] is None for pp, aa in
+                                                  (("DISJ", "CONTINUED"), ("CROSS", "RESET")) for ss in seeds)
+                      else ("HELD_VACUOUSLY__NO_DETERMINED_SEED" if n == 0 else "FAILED")))),
         "reset_B_dense_spread": sp_dense,
         "rule": "DISJ-CONTINUED B_dense within RESET seed spread, or UNDETERMINED, on >= 2/3 seeds"}
 
@@ -185,15 +200,27 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
             per[s] = None if not c or not r or c["final_best"] is None or r["final_best"] is None \
                 else c["final_best"] >= r["final_best"]
         ok, n, _ = _tally(per)
+        nf = sum(1 for v in per.values() if v is False)
+        if validation_only:
+            pv = "NOT_SCORED__PARTIAL_SEED_SET"
+        elif ok >= 2:
+            pv = "HELD"
+        elif len(seeds) - nf < 2:
+            pv = "FAILED"
+        elif n < len(seeds):
+            pv = "PENDING_MORE_UNITS"
+        else:
+            pv = "UNDETERMINED" if n == 0 else "FAILED"
         d4pairs[p] = {"per_seed": {str(s): per[s] for s in seeds}, "n_true": ok, "n_determined": n,
-                      "verdict": ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
-                                  ("UNDETERMINED" if n == 0 else ("HELD" if ok >= 2 else "FAILED")))}
+                      "verdict": pv}
     vs = [v["verdict"] for v in d4pairs.values()]
     # every pair must be HELD; anything else (FAILED, UNDETERMINED, NOT_SCORED) must not roll up to HELD
     if validation_only:
         d4v = "NOT_SCORED__PARTIAL_SEED_SET"
     elif "FAILED" in vs:
         d4v = "FAILED"
+    elif "PENDING_MORE_UNITS" in vs:
+        d4v = "PENDING_MORE_UNITS"
     elif all(v == "HELD" for v in vs):
         d4v = "HELD"
     else:
@@ -213,6 +240,53 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     rec("D5", d5, "SAME: CONTINUED first admissible class in {KVSTORE,PROGRAM,TABLE} and lineage root is a seed elite, on >= 2/3 seeds",
         {"class_origin": {str(s): [(R[("SAME", "CONTINUED", s)] or {}).get("class"),
                                    (R[("SAME", "CONTINUED", s)] or {}).get("origin")] for s in seeds}})
+
+    # ---- RV-377-180-Z: separate registration on coefficient-carrier reachability.
+    # Scored apart from D1a..D5; a Z outcome cannot change any D verdict or the D terminal.
+    def dense_hits(pair, arm):
+        per = {}
+        for s in seeds:
+            r = R[(pair, arm, s)]
+            per[s] = None if not r else bool(r["dense_found"])
+        return per
+
+    Z = {}
+    z1, z2, z3 = dense_hits("SAME", "CONTINUED"), dense_hits("SAME", "RESET"), dense_hits("SAME", "TWIN")
+
+    def zrec(zid, per, ok_fn, rule):
+        n = sum(1 for v in per.values() if v is not None)
+        hits = sum(1 for v in per.values() if v)
+        unknown = len(seeds) - n
+        # settled early iff the verdict is the same for every way the missing seeds could land
+        outcomes = {ok_fn(hits + extra) for extra in range(unknown + 1)}
+        verdict = ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
+                   ("HELD" if outcomes == {True} else
+                    ("FAILED" if outcomes == {False} else "PENDING_MORE_UNITS")))
+        Z[zid] = {"per_seed": {str(s): per[s] for s in per}, "n_hits": hits,
+                  "n_determined": n, "verdict": verdict, "rule": rule}
+
+    zrec("Z1", z1, lambda h: h >= 2, "SAME/CONTINUED reaches atrophied-DENSE on >= 2/3 seeds")
+    zrec("Z2", z2, lambda h: h == 0, "SAME/RESET reaches it on 0/3 seeds (within-lane control for the 0-of-43 invariant)")
+    zrec("Z3", z3, lambda h: h <= 1, "SAME/TWIN reaches it on <= 1/3 seeds (residual over 'any warm start helps')")
+    Z["Z4_reported_only"] = {"note": "CROSS target E_sym5 lists DENSE as a registered occupant; a DENSE "
+                                     "recovery there is expected under any arm and is reported, not scored",
+                             "cross": {a: {str(s): v for s, v in dense_hits("CROSS", a).items()}
+                                       for a in ("RESET", "CONTINUED", "TWIN")}}
+    if validation_only:
+        Z["terminal"] = "NOT_SCORED__PARTIAL_SEED_SET"
+    elif any(Z[k]["verdict"] in ("UNDETERMINED", "PENDING_MORE_UNITS") for k in ("Z1", "Z2", "Z3")):
+        Z["terminal"] = "Z_UNDETERMINED__UNITS_MISSING"
+    elif Z["Z2"]["verdict"] == "FAILED":
+        # F-Z2: the cell is reachable cold, so this is about speed, not reachability
+        Z["terminal"] = "COEFFICIENT_CELL_REACHABLE_COLD__NO_CLAIM_ON_THE_INVARIANT"
+    elif Z["Z1"]["verdict"] == "HELD" and Z["Z3"]["verdict"] == "FAILED":
+        # F-Z3: any developed archive suffices -> the warm-start parents own it
+        Z["terminal"] = "COEFFICIENT_LIFT_PARENT_SUFFICIENT_OOPS"
+    elif Z["Z1"]["verdict"] == "HELD" and Z["Z3"]["verdict"] == "HELD":
+        Z["terminal"] = "COEFFICIENT_CELL_REACHABLE_ONLY_FROM_STRUCTURED_HISTORY_AT_REGISTERED_SCOPE"
+    else:
+        Z["terminal"] = "COEFFICIENT_LIFT_NOT_OBSERVED"
+    out["Z_registration"] = Z
 
     # terminal
     P = out["predictions"]
@@ -237,6 +311,10 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     p = os.path.join(RES, ("STAGE_B6_DEV_ADJ_VALIDATION_%s.json" % host) if validation_only
                      else ("STAGE_B6_DEV_ADJUDICATION_%s.json" % host))
     json.dump(out, open(p, "w"), indent=1, sort_keys=True, default=str)
+    for k in sorted(Z):
+        if isinstance(Z[k], dict) and "verdict" in Z[k]:
+            print(f"{k:5s} {Z[k]['verdict']:38s} {Z[k]['per_seed']}")
+    print("Z terminal:", Z["terminal"])
     for k in sorted(P):
         v = P[k]
         print(f"{k:5s} {v['verdict']:38s} {v.get('per_seed', v.get('per_pair'))}")
