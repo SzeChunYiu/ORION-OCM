@@ -47,8 +47,9 @@ merely because an authored finite example passes.
 | Q8 | Historical geometry/signature examples collide with current RP12/RP13 identifiers. CRI now revives the hazard/repair question under fresh identifiers; other geometry claims remain historical. | Preserve exact originals; audit the residual collision/geometry examples under fresh identifiers and explicit model assumptions, with parent subtraction before migration. |
 | Q9 | The continuous repair separates lower-bound transport, exact attainment, epsilon certificates and undecidable optimization; physical selectors, operation legality and actual resource contracts remain instance-specific obligations. | Discharge them for a concrete continuous/quantum realization with actual proofs and measurements. A finite rational witness or declared Boolean field cannot establish arbitrary physical realizability. |
 | Q10 | Width-only separation and full-labelled-partition reconstruction are now both proved at their respective fixed query interfaces. General relational obligations, changed primitives, arbitrary internal cuts and physical cost vectors remain distinct. | Specify the exact richer invariant and execution interface before extending either direction. Preserve joint cost attainability, all-input correctness and output/code/acquisition costs; no unrestricted independence or physical reconstruction follows from these finite laws. |
+| Q11 | The newly merged V5 parity instrument refuses an existing output only after invoking measurement; its cross-envelope tool accepts asserted valid terminals without checking the underlying gates, measurements or freeze bindings. Source-pinned synthetic countercontrols demonstrate both, without any V5 measurement. | Preserve frozen V5; build a versioned launcher that reserves the canonical first attempt before measurement and a complete packet auditor that derives validity and comparisons. Require no-measurement-on-collision, positive complete-evidence and malformed-packet controls before using the new route. |
 
-Q1–Q4 and Q10 sharpen the theory. Q5–Q9 discharge empirical, transfer and evidence
+Q1–Q4 and Q10 sharpen the theory. Q5–Q9 and Q11 discharge empirical, transfer and evidence
 premises required for broader claims. All require primary-parent assimilation
 before choosing a new mechanism. Each failed test is diagnosed at one stage,
 followed by a constructive modification or alternative and a fresh comparison.
@@ -61,6 +62,6 @@ was omitted, or evidence fails its registered instrument. The audit must check
 the revised theorem and its dependents, including a no-alarm control.
 
 Exact unrestricted solving remains impossible by the stated undecidability
-reduction. That boundary does not discharge Q1–Q10, establish all sharp laws,
+reduction. That boundary does not discharge Q1–Q11, establish all sharp laws,
 or prove that all possible theory gaps have been enumerated. The overall
 scientific-completion goal therefore remains open.
