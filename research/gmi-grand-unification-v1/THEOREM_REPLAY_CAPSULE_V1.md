@@ -4,10 +4,11 @@ Current reviewed extension: [scientific CORE](CORE.md). New sectors cover
 task-directed and controlled acquisition, constructive selection/attainment,
 family-bound soundness and derivation, proof reuse, certified repair, and
 empirical frontier identification, all-input-partition width/query separation,
-bounded controller resources and repaired developmental reachability. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V5.json`. Earlier aggregates and phase-law receipts
+bounded controller resources, repaired developmental reachability, shared-dependency
+reuse under memory constraints, and finite known-kernel probabilistic acquisition. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V6.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 59 checkers (58 leaves and one
+historical paths. The current register has 61 checkers (60 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.

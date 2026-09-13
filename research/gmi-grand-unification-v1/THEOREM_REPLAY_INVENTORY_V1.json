@@ -512,11 +512,24 @@
           "reason": "Integrated bounded controller construction, development scope repair and continuous-domain correction, with new versioned leaf receipts.",
           "sha256": "7c8383b5d5bb692dbfda8f11eb9c45b267aed105b932e8b67050e8364c482927",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "different_fields": [
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_probabilistic_acquisition_checks_v1.py",
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_shared_reuse_checks_v1.py",
+            "$.receipt_stack.receipts",
+            "$.receipt_stack.terminals.GRAND_GMI_PROBABILISTIC_ACQUISITION_RECEIPT_V1.json",
+            "$.receipt_stack.terminals.GRAND_GMI_SHARED_REUSE_RECEIPT_V1.json"
+          ],
+          "path": "GRAND_GMI_MASTER_RECEIPT_V5.json",
+          "reason": "Extended the reviewed controlled-acquisition and reuse laws to finite known stochastic kernels and shared dependencies under transient memory, with exact constructive and independent oracle evidence.",
+          "sha256": "f07e3398f66f2f9a2eec145f6f01f46bd7bc972899b14fd54d133d36d1270717",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
       "kind": "aggregate",
-      "receipt": "GRAND_GMI_MASTER_RECEIPT_V5.json",
-      "receipt_sha256": "f07e3398f66f2f9a2eec145f6f01f46bd7bc972899b14fd54d133d36d1270717",
+      "receipt": "GRAND_GMI_MASTER_RECEIPT_V6.json",
+      "receipt_sha256": "b53c6148a30f9b52eaf34c8ee946269d2a32a728caf171ceb789c98edbdb651c",
       "source_sha256": "8eb251f3e5a24a0c36bcb08bd77c79f73ed1d4aa03cef97da3b3bab5fd14734b",
       "terminal": "GRAND_GMI_MASTER_INTEGRATION_V2_ALL_GREEN"
     },
@@ -765,6 +778,15 @@
       "terminal": "GRAND_GMI_PLANNING_RESOLUTION_TRANCHE_ALL_GREEN"
     },
     {
+      "checker": "grand_gmi_probabilistic_acquisition_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_PROBABILISTIC_ACQUISITION_RECEIPT_V1.json",
+      "receipt_sha256": "4dc0dafebf6dbb9aad686305a31a0e891c5d151b2d1e88026ba95b5e48db148a",
+      "source_sha256": "21b0d0b137f49c9bed864d311676236535c605b7a80534a89610ebcc0e5a76a2",
+      "terminal": "PCA_FINITE_KNOWN_KERNEL_REVIVAL_GREEN"
+    },
+    {
       "checker": "grand_gmi_proof_reasoning_checks_v1.py",
       "historical_receipts": [
         {
@@ -894,6 +916,15 @@
       "terminal": "GRAND_GMI_SEMANTIC_ADEQUACY_CORRECTION_GREEN_AT_FINITE_SCOPE"
     },
     {
+      "checker": "grand_gmi_shared_reuse_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_SHARED_REUSE_RECEIPT_V1.json",
+      "receipt_sha256": "aafd744f19aeeda1b72df7dc1ede4a04b3b34612782cc270e0979baa5311a7bf",
+      "source_sha256": "f5ab28bd1e9d48a0e2d75764d8f520b9a65d293253cb16db507220cee30384bc",
+      "terminal": "SHARED_DEPENDENCY_MEMORY_REUSE_FINITE_GREEN"
+    },
+    {
       "checker": "grand_gmi_strategic_checks_v1.py",
       "historical_receipts": [
         {
@@ -946,6 +977,9 @@
   "comparison": "strict complete JSON payload, preserving scalar types; no field projection or terminal-only shortcut",
   "control_sources": {
     "grand_gmi_bounded_controller_model_v1.py": "1031dbcec16461eebf75124f122c93fbbd1d4594ca75cc187b1f4cf78bf6cbad",
+    "grand_gmi_probabilistic_acquisition_model_v1.py": "5541c3d95792f18af17872052306c750a34acc1a30f025611f83a10ac852fd02",
+    "grand_gmi_shared_reuse_model_v1.py": "23d71eb42ea304238d6e1c287ec274c25fed80c62577177a6ab43ce59064f2cc",
+    "grand_gmi_shared_reuse_oracle_v1.py": "5a8dab125533df9252cae87dc69f884357ca6fd74965479383d9bc467a79032e",
     "nn_nonnn_point_parity3_experiment_v1.py": "5e7b9c12e4aa44e47963f67a8608c88d2cf1f77816b879e9edfa54cba2511ee3",
     "nn_nonnn_point_parity3_experiment_v2.py": "c7415458c306a01f6db4182b521cae3b4392a086630f234f83b982b8901aee9a",
     "nn_nonnn_point_parity3_experiment_v3.py": "8ac181ebd1457a8dfc9da05500b1e583d4fa560e08b7b5e2eab035c9461fbd0c",
@@ -970,7 +1004,7 @@
     "CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md": "fe75e174a15500dfb9e1f3987b5ff2df7119020cf43ff9c6459fc18b655f4865",
     "CAUSAL_SEMANTIC_VIABILITY_THEOREM_V1.md": "b44e07cdcb5127fcdb100c369fb2178a5fffe12b95152cf091daad9188cde69c",
     "CERTIFICATE_INPUT_CORRECTION_20260913.md": "70c87e2aed7de76e9f8fd7dfa60b484384d97a9d3282c5424b4d0cbf49f54963",
-    "CERTIFIED_REUSE_INVALIDATION_THEOREM_V1.md": "619372d1b2102ad9826a256b57dcf33e432f34c73e9d541b299aa825151a13ae",
+    "CERTIFIED_REUSE_INVALIDATION_THEOREM_V1.md": "3361a303d1f6aef808dfd725f2db7df515dec985f9c676157e7e22a1ec9748f9",
     "CLAIM_LEDGER_CANDIDATE_COVERAGE_V1.md": "4ff069ab8cc5adaca47319508795bdf810add42f4a8629edbe9d565fcf25ab23",
     "CLAIM_LEDGER_CONTINUOUS_LIFT_V1.md": "a60d9fc695c95c67d8bb8f6bac446088fd4ec5ec0479f361986bdcb6a7b24536",
     "CLAIM_LEDGER_DEVELOPMENTAL_UNDERDETERMINATION_V1.md": "80b991310c42f6930a748d777dee7e6afdb9ccaf00e3ec72d089a7952914eb43",
@@ -1007,9 +1041,9 @@
     "CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md": "5bde8fec4ad7b14adbd8455d264091cef3b2488cb9e5faeb859feb3f5a516d6e",
     "CONTINUOUS_REALIZATION_BRIDGE_THEOREM_V1.md": "edb052ff83adcccde3c1acc5b74373b43df03da2b0f670a354371f4f434e834e",
     "CONTROLLED_ACQUISITION_CLAIM_LEDGER_V1.md": "37d849d87e13bc735bec3c9cddec902a22dbea286fd6de2ca3098ce3a95a31a7",
-    "CONTROLLED_ACQUISITION_INFORMATION_STATE_THEOREM_V1.md": "77dd8ea1733165e5141b1a2ba28de5345b4e2a441dea0d3ef087241868006b15",
+    "CONTROLLED_ACQUISITION_INFORMATION_STATE_THEOREM_V1.md": "860f9359010deea540c3c965786aa73f08ad3d7380d1028434c857b9b074a9f3",
     "CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md": "13dc052ca61f9284c9037b2a000482efc2d96dadfcb8f1524932d938f9fd9128",
-    "CORE.md": "72cee6fcd0ba2503b0dcb0b9eaba033b0e1701bb7bb670b8f44a4d34c10bfeca",
+    "CORE.md": "1793059f7d8d0fe24f6d96d48b60f5b1149a0515750b2edcec8717d3f1d5636f",
     "DECISION_FINITE_SCORES_AUDIT_V1.md": "c64154bb930a8f29ff8040a3734b3fe5d265b9f4d8411271ac48fd7907e3e8f9",
     "DEVELOPMENTAL_LIFECYCLE_CORRECTION_V2.md": "df8de710ac307a5151aa27375edaf52abb306b659bfe94db20215d68ec0b7581",
     "DEVELOPMENTAL_REACHABILITY_SELECTION_THEOREM_V1.md": "9d365e4b6df9304fc290f5501434541740b16a09763434da54c1b7c8fcc60671",
@@ -1086,6 +1120,7 @@
     "PLANNING_SEMANTIC_RESOLUTION_PARENT_SUBTRACTION_V1.md": "bf9ecabece05ae9b3af5efe6773bd9faa06a0fc8c4bf7555ccf6ee6f130414bc",
     "PLANNING_SEMANTIC_RESOLUTION_THEOREM_V1.md": "faf2321084332b8dbbe3541e791567dbdd1e3a345281ee0610e38a3a2d37d773",
     "PR530_SCIENTIFIC_REVIEW_88729748_V1.md": "93286b59a687ef0149016265446d208feee404d75f78cee2462aa0430044e5bc",
+    "PROBABILISTIC_CONTROLLED_ACQUISITION_THEOREM_V1.md": "d98e78d758a9511dc85423653fac3c9109805b8a00b919075db79303d13e1a98",
     "PROOF_SEARCH_VERIFICATION_REUSE_THEOREM_V1.md": "43bc1ffd48c118e9fd69bd91d195916143af705a2ea1507b3ad234b336c85833",
     "QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md": "3924fbdf842e2a23ed7bd066be3a7bbf40e23a640773a350939a2a3f7e7db717",
     "QUANTUM_PROCESS_INSTANTIATION_THEOREM_V1.md": "6ae13ba236d74f53b8571d9163399e3d15fa2032245542dc5f7acf6dd4fe6f81",
@@ -1098,16 +1133,17 @@
     "ROBUST_DECISION_PRECISION_CLAIMS_V1.md": "6517d6dfc769b26efbba19c4e78fd692bd9fb8c85bcfc84855600aca239c31f1",
     "ROBUST_DECISION_PRECISION_PARENT_SUBTRACTION_V1.md": "33af4dd5a93c08d5b87ee8cfcb7f73c20193949dea1e385a85a5feb59b615088",
     "ROBUST_DECISION_PRECISION_THEOREM_V1.md": "7e3bc837689878ccc6f1d1df9823525493e1518dc52ca3ba66ca65ee15756f99",
-    "SCIENTIFIC_GAP_QUEUE_V2.md": "d36950932f76bf3b48c923839188c001eb53aa358e47bc47607c35f2084c10d9",
+    "SCIENTIFIC_GAP_QUEUE_V2.md": "3c766f8fb980369c59f4f2b8dc092530d66800d63b0dd325ca8cfcd792f22a08",
     "SEMANTIC_ADEQUACY_CORRECTION_V1.md": "e61e649244ab85e8991ff2b53c04e989bdee172dd8d3067c950943d20f8a19bc",
     "SEMANTIC_CUT_THEOREM_V1.md": "c2801906602b0081dab554d2fbb9c61866d6122aceac8a9a29865bc2b560b0fd",
     "SEMANTIC_STATE_REFINEMENT_THEOREM_V1.md": "ab47ea44f3ede57697df97369daab6c18a7292e8511b43d8e3f2c99e00020893",
+    "SHARED_DEPENDENCY_MEMORY_REUSE_THEOREM_V1.md": "cb18246541cb753a9b877b7b1f47fc44fbff348c49aed4baad403c898c68263b",
     "STRATEGIC_MULTIAGENT_THEOREM_V1.md": "4601ff11957d3ca62cd4ffdb4e4bc429313541d17a381b0982200d503c078db7",
     "SUBSTRATE_LIFTING_THEOREM_V1.md": "a4513071b695aa47d68c126a52b2bcf1c98f1d09ab57737bdfdf60266c987e2e",
     "SUFFICIENCY_DIRECTIONS_AUDIT_V1.md": "b3584d86d4c6cb813a670d57705b48abac5f3558820766c92811433bd82a3e66",
     "SYMMETRY_TO_MORPHOLOGY_THEOREM_V1.md": "c8decf048e88888d40173d2286feed37c90b1ea4a63b02b0a5eed074c2feeace",
     "TASK_DIRECTED_ACQUISITION_THEOREM_V1.md": "0219c2ad4ff30ba16f2e523576cf65f4e956e3782d9e1b5241be7f4ef8e89c4f",
-    "THEOREM_REPLAY_CAPSULE_V1.md": "03c9756a9d30baa27d46ffb40c008f86974314464255fa8ea1db5b09e0cf8dfb",
+    "THEOREM_REPLAY_CAPSULE_V1.md": "ca2657e8ed87373d202249c2e2ad2b997f9b4cd219434da25b4285131f489619",
     "UNCOMPUTABILITY_BOUNDARY_THEOREM_V1.md": "b6dac6fe86c28c2a2ea2a90b9c1191334f3cb3f807a47011bde4808ceba22725"
   },
   "non_replayed_records": [
