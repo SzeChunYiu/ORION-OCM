@@ -106,3 +106,42 @@ Note the two `gradient_net` rows here (`h2`, `h4`) are admissible nowhere, while
 configurations of one family, and the difference matters: the learner family's admissibility is
 configuration-sensitive as well as ecology-sensitive, which is a further reason the flat-ceiling reading
 was too simple.
+
+### Correction: "memory is the broadly admissible family" was measured on a cost-biased subset
+
+The admissibility table above excludes `program_search`, `compiled_search` and `particles_p4`. I dropped
+them because they were slow — the full matrix was crawling — and then drew a conclusion about which
+family is most broadly admissible from what remained. **That is a selection artifact, and a
+cost-correlated one.**
+
+Earlier in this same campaign I diagnosed why those rows are slow: `SEARCH`'s `budget` spans
+`(16, 64, 256, 2401)`, selection prefers the largest value because a bigger inner budget finds better
+programs, and the ledger charges every inner candidate. **Cost and capability are positively coupled in
+exactly these rows.** Excluding rows by cost therefore biases toward finding cheaper, weaker families
+dominant — which is precisely the conclusion I reached.
+
+The partial full-matrix run already shows it. `compiled_search`, minimum over the six interventions:
+
+| ecology | best constant | `compiled_search` min over six | margin (fx) |
+|---|---:|---:|---:|
+| `E_smooth1` | 0.8333 | **1.0000** | +4.00 |
+| `E_smooth3` | 0.8125 | **0.9583** | +3.50 |
+| `E_parity` | 0.8333 | **0.9583** | +3.00 |
+| `E_sym3` | 0.8750 | **0.9375** | +1.50 |
+
+Four ecologies measured, **four admissible, every margin at or above 1.5 fx** — against
+`hamming_knn_k3`'s three of six at much thinner margins, and a best row mean of 0.8524 against numbers
+that start at 0.9375. This also matches the class-rate record independently: `program_search` was
+rule-36 admissible on `E_cr1…4` at ≥ 3.5 fx.
+
+**So the corrected statement is that the exact-search family is the broadly admissible one**, and the
+memory claim above should be read as "broadest among the cheap rows", which is not an interesting
+category. The `hamming_knn_k3` numbers themselves stand; the ranking drawn from them does not.
+
+Two lessons kept, since both are about my own method rather than the subject:
+
+* **Do not drop measurements by cost when cost correlates with the quantity being measured.** I had
+  already established that coupling in this campaign and still walked into it an hour later.
+* The flat-ceiling negative above is **unaffected** — it compares each family's variability against the
+  constant's, row by row, and adding more families cannot rescue a hypothesis that failed on the rows
+  it was tested on.
