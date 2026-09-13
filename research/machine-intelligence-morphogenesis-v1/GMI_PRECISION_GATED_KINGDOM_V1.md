@@ -12,6 +12,9 @@
 >
 > Sections added by `RV-377-076`: **§10** the hostile audit of the refutation, **§11** the residual frontier,
 > **§12** why declared sequence B failed, **§13** the amended claims.
+> Added by `RV-377-077`: **§14** — the residual re-asked against a *parent-maximal* 8-bit row. It survives, but
+> **2 352 of its 2 508-bit margin was padding**, and the pruned 8-bit log row is now admissible on **10 of 10**
+> declared sequence-cells.
 
 Status: **EXECUTED EXACT AT SCOPE** (§§1–9, terminal superseded — see the banner above).
 Receipt `microscopes/results/STAGE_DK_V2_PRECISION_GATED.json`
@@ -502,3 +505,93 @@ PRECISION_BUYS_DESCRIPTION_AND_EXECUTION_COST_NOT_CAPABILITY__AT_SCOPE
   __9_OF_11_CLAUSES_HOLD__CLAUSES_2_AND_9_FAIL_AND_ARE_STATED_IN_FULL
 ```
 
+
+
+---
+
+## 14. The residual, re-asked against a **parent-maximal** 8-bit row (`RV-377-077`)
+
+§11 drew a cost conclusion against the row `RV-377-075` built to answer a *capability* question. Protocol rule 19
+says a verdict needs a parent-maximal **opponent**; it says nothing about the **subject**, and that was the hole.
+The 8-bit log row had never been optimised, so §11's margin was measured against a strawman of itself. Receipt
+`STAGE_DK_V6_LOG_MINIMAL_V1.json`, record `RV-377-077`, **7 of 8 clauses HOLD, clause 6 FAILS**.
+
+Three things were wrong with the row's cost, all of them the auditor's to fix:
+
+* **description padding** — `3·K = 96` declared log constants for a class with **seven** distinct likelihood
+  values and **three** distinct priors, while the hypothesis → (predicate, value-pair) map is already paid for
+  inside `CLASS_STRUCT_BITS`;
+* **an accounting asymmetry** — `dk_precision._Mixture` materializes 32 × 16 = **512** probability constants and
+  declares `w_scalars = 32`; it charges its constants to `struct`. The log row charged the same kind of constant
+  to scalars. Both conventions are reported below and **neither is asserted correct**;
+* **a table where a ladder would do** — the 256-entry exponent table spans `log₂` values fx8 cannot hold, zeroes
+  everything below `u = −80`, and its output takes only `S + 1 = 17` distinct values. The whole map is fixed by
+  **16 monotone breakpoints**: a comparison ladder of `GT` and `ADD` that uses **no store**, and is therefore
+  immune to the linear-scan charge protocol rule 25 imposes on a table.
+
+| row at fx8 on `E_ambig` | capability | `desc` | `exec_q` (`sel1`) | `exec_q` (registered `B0`) | declared scalars |
+|---|---|---|---|---|---|
+| `LOGBAYES8_FIXED` (§10's two defects repaired) | 0.874265 | 3 104 | 208 | 8 432 | 352 |
+| `LOGMIN8` (minimal description) | 0.874265 | 2 672 | 208 | — | 298 |
+| `LOGTRIM8` (+ trimmed table) | 0.874265 | 1 280 | 208 | 2 800 | 124 |
+| **`LOGLAD8`** (+ store-free ladder) | 0.874265 | **752** | 1 168 | **1 168** | 58 |
+| `LOGLAD8_T4` (+ top-4 readout) | 0.874265 | 804 | 188 | **188** | 62 |
+| **`LOGTRIM8_T4`** | 0.874265 | 1 332 | **68** | 392 | 128 |
+
+**The negative survives, and is now worth something.** On `E_ambig` **no 8-bit row occupies any cross-instrument
+cell** — 0 of 288, 0 of 840, 0 of 817, 0 of 3 906 — and every one of the seven 8-bit rows has at least six
+cost-coordinate dominators, so it is a theorem over the whole quadrant (rule 27), with the grids independently
+past twice the largest crossover per axis. On `E_noisy`, `QCOUNT@fx8` still holds 515/516, 3 605/3 605, 224/224
+and 612/612.
+
+**But §11's headline numbers must be restated.** The residual is **not** 5.208054× the description and 17.333333×
+the per-query charge. Those were measured against padding. The true figures, at the cheapest encoding of each:
+
+| | `RV-377-076` said | `RV-377-077` measures |
+|---|---|---|
+| `desc` ratio vs `QCOUNT@fx10` | 5.208054 (3 104 ÷ 596) | **1.261745** (752 ÷ 596) |
+| `exec_q` ratio vs `QCOUNT@fx10` | 17.333333 (208 ÷ 12) | **5.666667** (68 ÷ 12) |
+| excess description | 2 508 bits | **156 bits** |
+| excess charge per query | 196 activations | **56 activations** |
+
+**2 352 of the 2 508-bit gap was padding, an accounting asymmetry, or a table where a ladder would do.** What is
+left — 156 bits, 27 declared scalars: 8 log-likelihood constants, 3 log priors, 16 ladder breakpoints — is the
+**exponent map**, and that is the whole of the precision residual at this scope. No re-encoding brings it below
+`QCOUNT`'s 596, because both rows must carry the same 32-element state and the same 4 readout slots.
+
+### 14a. Clause 6 FAILED — and the failure is the positive
+
+The clause predicted top-M pruning would be capability-neutral at fx8, "because only six hypotheses carry a
+non-zero readout weight and the top four carry the mass". **It is not neutral.** On declared sequence B — the one
+sequence `RV-377-075` reported inadmissible — the four unpruned rows score 0.400545 and the **two pruned rows
+score 0.874245 and are admissible**. That is exactly the value §12a's one-entry tie-break produced, by the same
+mechanism: the three hypotheses sitting on the exponent table's rounding tie rank **seventh, eighth and ninth**,
+so a top-4 readout drops them. (On `E_noisy`/A pruning costs capability without costing admissibility,
+0.979053 → 0.949948.)
+
+So there are now **two independent one-line interventions, sharing no code path**, that each remove the split — a
+rounding tie-break, and the top-M pruning `BAYESM` and `QCOUNT` **already carry**. With it, the 8-bit log-domain
+row is admissible on **all ten declared sequence-cells**: ambiguous 0.874265 / 0.874245 / 0.874265 / 0.910859 /
+0.874273, noisy 0.949948 / 0.997887 / 0.999740 / 0.999678 / 0.999736. `RV-377-075`'s "two of three declared event
+sequences" is **five of five**. The split was never a property of the evidence.
+
+The clause failed in the direction that *helps* the row, which is the direction to report hardest — so it is
+recorded as a failure and, separately, as the result it bought.
+
+**Claim DK-9 (new).** *The precision residual on `E_ambig` is the **exponent map** and nothing else: 156 excess
+description bits and 56 excess charged activations per query, against 2 508 and 196 as measured by `RV-377-076`
+against an unoptimised row. No 8-bit row occupies a cross-instrument cell even so.*
+**Level:** `PROVED_AT_SCOPE` for the 0-cell occupancy (cost-coordinate domination); `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY` for the capabilities.
+**Ceiling:** the ladder's breakpoint count is `S`, so it scales with the instrument's fractional bits and is an
+**8-bit-favouring encoding by construction** — stated rather than hidden, and it does not help, since the row
+still holds no cell. Two description conventions are reported and neither is asserted correct.
+
+**Claim DK-10 (new).** *`RV-377-075`'s sequence split is gone: with the top-M pruning its own linear opponents
+carry, the 8-bit log row is admissible on 10 of 10 declared sequence-cells, and two independent interventions each
+suffice.*
+**Level:** `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY`.
+**Ceiling:** five declared flip schedules per ecology, one class, one prior, one seed. Not a claim about a
+distribution over sequences.
+
+→ **protocol rule 28** (parent-maximality binds the *subject* of a claim, not only its opponent) and **rule 29**
+(a monotone map over a declared constant table must be reported in its **ladder** form as well as its table form).

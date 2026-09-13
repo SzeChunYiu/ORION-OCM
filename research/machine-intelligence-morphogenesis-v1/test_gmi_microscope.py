@@ -701,3 +701,64 @@ def test_dk_precision_residual_receipt_replays():
     assert {pred[v]["executed_n_linear_weights_nonzero_fx8"] for v in "ACDE"} == {6}
     # and the negative twin is exactly zero on all ten declared sequence-cells
     assert committed["negative_twin_all_five_sequences"]["summary"]["all_sequences_exactly_zero"] is True
+
+
+def test_dk_log_minimal_receipt_replays():
+    """RV-377-077. The residual of RV-377-076 was drawn against an UNOPTIMISED 8-bit row. This replays the
+    committed cells of STAGE_DK_V6_LOG_MINIMAL_V1.json for the parent-maximal version of that row: minimal
+    description, a trimmed table, a store-free exponent LADDER and top-M pruning. Two things must both hold —
+    the negative survives (no 8-bit row occupies any cross-instrument cell on E_ambig), and top-M pruning makes
+    declared sequence B admissible, which is the second independent repair of the split RV-377-075 reported."""
+    from gmi_microscope import dk_precision_log_min as lm
+    committed = json.loads((RES / "STAGE_DK_V6_LOG_MINIMAL_V1.json").read_text())
+    assert committed["ANY_FX8_ROW_OCCUPIES_ON_E_AMBIG"] is False
+    assert committed["terminal"].startswith("RESIDUAL_CONFIRMED_AGAINST_A_PARENT_MAXIMAL_8_BIT_ROW")
+
+    # the six rows, re-executed at fx8 on E_ambig/A against the committed cells
+    eco = lm.ecology("ambig", "A")
+    expect = {"LOGBAYES8_FIXED": (3104, 208), "LOGMIN8": (2672, 208), "LOGTRIM8": (1280, 208),
+              "LOGLAD8": (752, 1168), "LOGLAD8_T4": (804, 188), "LOGTRIM8_T4": (1332, 68)}
+    for name, (desc, execq) in expect.items():
+        got = lm.run(name, eco, "fx8")
+        cell = committed["cells"][f"ambig|A|fx8|{name}"]
+        for k in ("capability", "capability_exact", "admissible", "desc_bits", "w_scalars", "R",
+                  "answer_signature"):
+            assert got[k] == cell[k], (name, k, got[k], cell[k])
+        assert got["desc_bits"] == desc and int(got["exec_q"]) == execq, (name, got["desc_bits"], got["exec_q"])
+        assert got["capability"] == 0.874265 and got["admissible"] is True
+    # the whole padding story in one line: 3104 -> 752 is a factor of 4.128, and 752 is still above QCOUNT's 596
+    assert round(3104 / 752, 3) == 4.128 and 752 > 596
+
+    # the negative, in all four keys, with a cost-coordinate dominator so it is a theorem (rule 27)
+    for price in ("reduced", "native"):
+        for basis in ("flat", "scaled"):
+            res = committed["residual"][f"ambig|A|{price}|{basis}"]
+            assert res["any_fx8_row_occupies"] is False and res["cells_held_by_any_fx8_row"] == 0
+            dom = committed["fx8_domination"][f"ambig|A|{price}|{basis}"]
+            for me, v in dom.items():
+                assert v["n_dominators"] >= 1, (me, v)
+            assert "QCOUNT@fx10" in dom["LOGLAD8_T4@fx8"]["cost_coordinate_dominators"]
+            fr = committed["frontier"][f"ambig|A|{price}|{basis}"]
+            assert fr["H_grid_extends_past_twice_largest_H_crossover"] is True
+            assert fr["r_grid_extends_past_twice_largest_r_crossover"] is True
+            # ... while on E_noisy an 8-bit row still holds the joint frontier
+            assert committed["residual"][f"noisy|A|{price}|{basis}"]["any_fx8_row_occupies"] is True
+
+    # clause 6 FAILED, and this is what it bought: top-M pruning is a SECOND repair of declared sequence B
+    b = {n: committed["cells"][f"ambig|B|fx8|{n}"] for n in expect}
+    assert {n for n, c in b.items() if c["admissible"]} == {"LOGLAD8_T4", "LOGTRIM8_T4"}
+    assert all(c["capability"] == 0.874245 for n, c in b.items() if c["admissible"])
+    assert all(c["capability"] == 0.400545 for n, c in b.items() if not c["admissible"])
+    # pruned rows are admissible on all ten declared sequence-cells at fx8
+    for ek in ("ambig", "noisy"):
+        for s in "ABCDE":
+            assert committed["cells"][f"{ek}|{s}|fx8|LOGLAD8_T4"]["admissible"] is True, (ek, s)
+
+    # the ladder is store-free, so protocol rule 25's linear-scan charge does not reach it
+    a = lm.run("LOGLAD8_T4", eco, "fx8", table_mode="sel1")
+    c = lm.run("LOGLAD8_T4", eco, "fx8", table_mode="scan")
+    assert int(a["exec_q"]) == int(c["exec_q"]) == 188
+    a2 = lm.run("LOGTRIM8_T4", eco, "fx8", table_mode="sel1")
+    c2 = lm.run("LOGTRIM8_T4", eco, "fx8", table_mode="scan")
+    assert int(a2["exec_q"]) == 68 and int(c2["exec_q"]) == 392        # delta 324, not the predicted 328
+    assert a2["capability_exact"] == c2["capability_exact"]
