@@ -67,3 +67,58 @@ RV-377-140 permitted, so no RV-377-143 on the same clauses.
 
 Receipts: `STAGE_B1_V45_CLASSRATE_billy_E_cr{5,6}_S{0,1,2}.json`, scoring
 `STAGE_CLASSRATE_FRESH_V45_CLASSRATE_billy.json` (V1 family; V2 augmentation beside it).
+
+---
+
+# RV-377-142 — ADJUDICATION (receipts `STAGE_B1_V45_CLASSRATE_billy_E_cr{5,6}_S{0,1,2}.json`, scoring `STAGE_CLASSRATE_FRESH_V45_CLASSRATE_billy.json` + `_V2AUG`, billy-laptop)
+
+Six searches, 20 000 charged evaluations each, scored by §3 (rules 36/40/32/23) under the V1 family with
+the V2 family augmented beside it.
+
+| ecology | bc | memory | program | coefficient | classes by seed | V2 |
+|---|---|---|---|---|---|---|
+| `E_cr5` | 0.8333 | 0/3 | **1/3** | 0/3 | S0 ∅, S1 {PROGRAM}, S2 ∅ | identical |
+| `E_cr6` | 0.6875 | 0/3 | **1/3** | 0/3 | S0 ∅, S1 ∅, S2 {PROGRAM} | identical |
+
+The two recoveries are exact program machines with large separations, and both survive charged atrophy:
+
+* `E_cr5` S1: min over six **1.0**, margin **4.00 fx**, 13 → 7 nodes, atrophied carrier PROGRAM.
+* `E_cr6` S2: min over six **0.9583**, margin **6.50 fx**, 26 → 8 nodes, atrophied carrier PROGRAM.
+
+| clause | prediction | outcome |
+|---|---|---|
+| **P′** | program ≥ 1/3 on both (exact-search row admissible: 1.0 / 0.9583, margins ≥ 4 fx) | **HELD** — 1/3 on both |
+| **M′** | abstains (memory rows below θ under rule 36: 0.8229 / 0.7917) | no claim made; observed 0/3, consistent |
+| **C** | coefficient ≤ 1/3 on both (witness-free) | **HELD** — 0/3 on both |
+| **O′** | program ≥ coefficient wherever P′ predicts present | **HELD** — 1 ≥ 0 on both |
+
+| falsifier | tripped? |
+|---|---|
+| F-P′1 (program 0/3 on either) | no |
+| F-C1 (coefficient ≥ 2/3 on either) | no |
+| F-O′1 (coefficient > program) | no |
+
+**Terminal: `CLASS_RATE_MORPHOLOGY_LAW_V2_SUPPORTED_AT_REGISTERED_SCOPE__M_ABSTAINS`.**
+
+## Stated plainly, including what this does not buy
+
+* P′ passed at its **weakest possible margin**: it predicts "present (≥ 1/3)" and the observed rate is
+  exactly 1/3 on both ecologies. The prediction is directional and the bar is low. The tension the freeze
+  disclosed in advance — `E_sym5` recovers program on 1 of 12 seeds, which fails the ≥ 1/3 batch form on 3
+  of 4 three-seed batches — is **not** resolved by this test and remains recorded.
+* M′ made no claim on either ecology, which is the honest state: a hand-built row licenses presence, never
+  absence, and on these two ecologies no memory row is admissible. The memory clause is therefore outside
+  the law's domain here, not supported by it.
+* **C is the clause that keeps accumulating.** The coefficient class is now recovered **0 of 43** times
+  across the corpus at 20 000 charged evaluations under the atrophied reading (16 diagnosis + 9 lane B +
+  12 RV-140 fresh + 6 here), on every registered and fresh ecology, witness-bearing and witness-free alike.
+  `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43`.
+
+## Instrument disclosure
+
+`score_fresh` keys its receipt list off the selection receipt, and `STAGE_CLASSRATE_SELECTION_V44_CLASSRATE_SELECT6.json`
+lists all six chosen names (`E_cr1`…`E_cr6`). Only `E_cr5`/`E_cr6` were run under the `V45` tag, so the
+scoring receipt's `status` field reads `INCOMPLETE__RECEIPTS_MISSING` and its `missing` list names the
+twelve `V45`-tagged `E_cr1..4` files that were never intended to exist (those ecologies were scored under
+`V43` in RV-377-140). The `E_cr5`/`E_cr6` rates are complete at 3 seeds each and are what this record
+adjudicates. No threshold, prediction or clause was changed after the outcomes.
