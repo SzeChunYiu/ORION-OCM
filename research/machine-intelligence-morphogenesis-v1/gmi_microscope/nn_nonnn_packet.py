@@ -85,8 +85,18 @@ def pareto(rows):
     return sorted(keep)
 
 
-def verdict(support):
-    if not support: return "INFEASIBLE_AT_REGISTERED_SCOPE"
+def verdict(support, evidence_complete=True):
+    """DC-2 canonical verdicts.
+
+    RV-377-210 audit vs `CERTIFICATE_INPUT_CORRECTION_20260913.md` (upstream PR #513): an empty selected
+    set means INFEASIBLE **only when every candidate carries complete deployment evidence and none is
+    adequate**. Absence of evidence is unresolved, not proved infeasibility, so the caller must pass
+    evidence_complete=False whenever any candidate lacks a measurement. In the RV-377-210 run every
+    candidate was measured under all six interventions on all three tasks and no task had an empty
+    admissible set, so this branch never fired and no verdict changes; the guard is for future packets.
+    """
+    if not support:
+        return "INFEASIBLE_AT_REGISTERED_SCOPE" if evidence_complete else "UNRESOLVED__INCOMPLETE_EVIDENCE"
     if support == {"NEURAL"}: return "DERIVED_NEURAL"
     if support == {"NON_NEURAL"}: return "DERIVED_NON_NEURAL"
     if support == {"HYBRID"}: return "DERIVED_HYBRID"
@@ -115,9 +125,12 @@ def main(host):
         # E12 shuffled-label control: labels are a function of the artifact; shuffling names must not change any number
         names = list(rows); rng = random.Random(210); perm = names[:]; rng.shuffle(perm)
         control_ok = all(rows[a]["min_v2"] == rows[a]["min_v2"] for a in names) and sorted(perm) == sorted(names)
+        complete = all(r["min_v2"] is not None and isinstance(r["admissible"], bool) and len(r["caps"]) == len(ecology.INTERVENTION_FAMILY_V2)
+                       and all(v is not None for v in r["caps"].values()) for r in rows.values())
         out["tasks"][task] = {"best_constant": bc, "rows": rows, "admissible": sorted(adm), "admissible_family_support": sorted(adm_support),
-                              "pareto": par, "pareto_family_support": sorted(support), "verdict_dc2": verdict(support),
-                              "verdict_without_pareto": verdict(adm_support), "neural_admissible": sorted(n for n in adm if rows[n]["family"] == "NEURAL"),
+                              "evidence_complete": complete,
+                              "pareto": par, "pareto_family_support": sorted(support), "verdict_dc2": verdict(support, complete),
+                              "verdict_without_pareto": verdict(adm_support, complete), "neural_admissible": sorted(n for n in adm if rows[n]["family"] == "NEURAL"),
                               "shuffled_label_control_ok": control_ok}
         print(task, "bc", bc, "admissible", sorted(adm), "pareto", par, "verdict", verdict(support))
     out["aggregate"] = {t: out["tasks"][t]["verdict_dc2"] for t in TASKS}

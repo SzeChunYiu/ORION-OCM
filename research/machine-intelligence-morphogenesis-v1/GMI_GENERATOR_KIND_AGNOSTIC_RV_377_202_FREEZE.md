@@ -70,3 +70,25 @@ interchangeable is wrong by up to 40×. This is the charged-lifecycle analogue o
 Recorded here because it was observed while executing this freeze; it changes no prediction, no threshold
 and no unit of RV-377-202, whose predictions C3–C6 are scored on verdicts, not on wall-clock. It is a
 standing caveat for any future sizing estimate and for `B_search` accounting.
+
+## Adjudicator validated on real data before use (partial run, NOT the adjudication)
+
+`primitive_ablation.adjudicate` was run on the receipts in hand and hand-checked before it is trusted
+to score C3–C6:
+
+* `STAGE_B1_ABL_SUM_E_sym5_S0` — best capability 0.8854 ≥ θ, admissible carriers KVSTORE/PROGRAM/TABLE →
+  hand verdict REDUCIBLE, matches the adjudicator.
+* `STAGE_B1_ABL2_ABSTAIN_E_smooth1_S0` — best 0.8958 ≥ θ → REDUCIBLE, matches.
+* `STAGE_B1_ABL_TABLE_E_sym5_S0` — `STRUCTURAL_TO_GENERATOR` → excluded from the tested set, **not**
+  silently counted as REDUCIBLE. The `MISSING` path is exercised too (`GATE_E_smooth1` is still running).
+
+Partial state at the time of validation: **25 kinds fully tested, 7 awaiting their ABL2 re-run, 1 missing**.
+
+> Among the 25 fully-tested kinds, **every one is REDUCIBLE on all three ecologies** — deleting it still
+> leaves an admissible elite. Irreducible-everywhere count so far: **0**.
+
+Read carefully, this is a statement about *this* ablation's question only: no single primitive is necessary
+for reaching admissibility on these three ecologies at 20 000 charged evaluations. It does not say the same
+machines are found without it, and single-kind deletion does not test pairs or larger subsets, so it is not
+a minimality result for the alphabet. C3–C6 are **not** scored here; this section exists so that the
+instrument is known-good before the verdicts are read, per the programme's validate-the-checker-first rule.

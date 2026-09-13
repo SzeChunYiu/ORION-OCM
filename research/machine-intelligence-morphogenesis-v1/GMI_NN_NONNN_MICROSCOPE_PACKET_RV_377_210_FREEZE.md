@@ -163,3 +163,22 @@ The runner wrote `"terminal": "NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE"` int
 evidence and is not edited; **this record's terminal —
 `NN_NONNN_PACKET_DECIDED_AT_MICROSCOPE_SCOPE__E3_REPORTED_NOT_BOUND` — is the authoritative one**, and the
 difference is exactly the E3 qualification above.
+
+## Cross-lane audit against the upstream certificate correction (2026-09-13)
+
+PR #513 (`CERTIFICATE_INPUT_CORRECTION_20260913.md`) repaired the finite NN/non-NN certificate
+adjudicator after finding counterexamples in it. Three of them bear on this packet's verdict function,
+so the packet was re-audited against its own committed receipt rather than assumed safe:
+
+| upstream counterexample | applies here? | evidence |
+|---|---|---|
+| non-Boolean adequacy (`adequate="false"`) accepted | **no** | adequacy is computed as a Boolean from rules 36 + 40; 0 of 39 rows non-Boolean |
+| unknown adequacy eliminating a superior rival | **no** | 0 of 39 rows have `min_v2 = None`; every candidate measured under all six V2 interventions on all three tasks |
+| missing deployment evidence yielding a family verdict, and absence of evidence reported as `INFEASIBLE` | **no, but the semantics were shared** | admissible sets were 2, 2 and 3 — the empty-set branch never fired |
+
+**No RV-377-210 verdict changes.** The guard was nevertheless added, because the packet's `verdict()`
+did carry the flagged semantics: it returned `INFEASIBLE_AT_REGISTERED_SCOPE` for an empty selected set
+unconditionally. It now returns that only when every candidate carries complete evidence, and
+`UNRESOLVED__INCOMPLETE_EVIDENCE` otherwise; each task records an `evidence_complete` flag, and
+`test_gmi_nn_nonnn_verdict_guard.py` pins both branches and the four canonical verdicts. Absence of
+evidence is unresolved, not proved infeasibility.
