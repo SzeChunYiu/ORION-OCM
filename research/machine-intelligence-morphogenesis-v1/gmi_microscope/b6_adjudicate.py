@@ -44,7 +44,12 @@ def load(pair, arm, seed, host):
     fa = d.get("first_admissible") or {}
     fd = d.get("first_dense_admissible") or {}
     sd = d.get("seeding") or {}
+    sc = (d.get("seeding") or {}).get("seed_carriers_raw") or []
+    do = fd.get("origin")
+    di = do[1] if isinstance(do, (list, tuple)) and len(do) > 1 and do[0] == "seed" else None
     return {
+        "dense_root_kind": (do[0] if isinstance(do, (list, tuple)) and do else None),
+        "dense_root_carrier": (sc[di] if di is not None and di < len(sc) else None),
         "target_ecology": d.get("target_ecology"),
         "source_ecology": d.get("source_ecology"),
         "seed_population_sha256": hashlib.sha256(
@@ -307,6 +312,27 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
         Z[zid] = {"per_seed": {str(s): per[s] for s in per}, "n_hits": hits,
                   "n_determined": n, "verdict": verdict, "rule": rule}
 
+    # Z5: founders of every recovered coefficient machine (counted over DISTINCT experiments)
+    seen, z5rows = set(), {}
+    for (p_, a_, s_), v in sorted(R.items()):
+        if not v or not v.get("dense_found") or not v.get("dense_root_carrier"):
+            continue
+        k = (v["target_ecology"], a_, s_, v.get("seed_population_sha256"))
+        if k in seen:
+            continue
+        seen.add(k)
+        z5rows[f"{p_}|{a_}|S{s_}"] = v["dense_root_carrier"]
+    dense_roots = [c for c in z5rows.values()]
+    n_dense_root = sum(1 for c in dense_roots if c == "DENSE")
+    Z["Z5"] = {"roots_by_arm": z5rows, "n_distinct_recoveries": len(dense_roots),
+               "n_rooted_in_DENSE": n_dense_root,
+               "verdict": ("NOT_SCORED__PARTIAL_SEED_SET" if validation_only else
+                           ("FAILED" if n_dense_root else
+                            ("HELD" if (not missing and dense_roots) else
+                             ("PENDING_MORE_UNITS" if missing else "UNDETERMINED__NO_RECOVERY")))),
+               "rule": "every admissible atrophied-DENSE machine descends from a non-DENSE seed elite; "
+                       "counted over distinct experiments, so a duplicated arm counts once"}
+
     zrec("Z1", z1, lambda h: h >= 2, "SAME/CONTINUED reaches atrophied-DENSE on >= 2/3 seeds")
     zrec("Z2", z2, lambda h: h == 0, "SAME/RESET reaches it on 0/3 seeds (within-lane control for the 0-of-43 invariant)")
     zrec("Z3", z3, lambda h: h <= 1, "SAME/TWIN reaches it on <= 1/3 seeds (residual over 'any warm start helps')")
@@ -355,7 +381,7 @@ def adjudicate(host, seeds=(0, 1, 2), validation_only=False):
     json.dump(out, open(p, "w"), indent=1, sort_keys=True, default=str)
     for k in sorted(Z):
         if isinstance(Z[k], dict) and "verdict" in Z[k]:
-            print(f"{k:5s} {Z[k]['verdict']:38s} {Z[k]['per_seed']}")
+            print(f"{k:5s} {Z[k]['verdict']:38s} {Z[k].get('per_seed', Z[k].get('roots_by_arm'))}")
     print("Z terminal:", Z["terminal"])
     for k in sorted(P):
         v = P[k]

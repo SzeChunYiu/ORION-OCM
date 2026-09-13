@@ -172,3 +172,33 @@ def test_detector_is_silent_when_every_arm_is_distinct(res):
         _receipt(res, pair, arm, 0, 100 + i, 0.9)
     out = A.adjudicate("t", seeds=(0, 1, 2))
     assert out["duplicate_experiments"]["n_undisclosed_groups"] == 0
+
+
+def _dense_receipt(tmp, pair, arm, seed, root_carrier, root_idx=2, fps=("a", "b", "c")):
+    import json as _json
+    carriers = ["TABLE", "PROGRAM", "KVSTORE", "DENSE"]
+    carriers[root_idx] = root_carrier
+    d = {"first_admissible": {"found": True, "B_morph": 100, "carrier_atrophied": "TABLE",
+                              "origin": ["seed", 1]},
+         "first_dense_admissible": {"found": True, "B_morph": 900, "origin": ["seed", root_idx]},
+         "final_best_capability_standard": 0.9, "final_best_by_carrier": {"DENSE": 0.9},
+         "target_ecology": "E_t", "source_ecology": "E_s",
+         "seeding": {"seed_fingerprints": list(fps), "seed_carriers_raw": carriers}}
+    _json.dump(d, open(os.path.join(tmp, f"STAGE_B6_DEV_{pair}_{arm}_S{seed}_t.json"), "w"))
+
+
+def test_z5_fails_when_a_coefficient_machine_is_rooted_in_a_coefficient_seed(res):
+    _dense_receipt(res, "SAME", "CONTINUED", 0, "DENSE")
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    z5 = out["Z_registration"]["Z5"]
+    assert z5["verdict"] == "FAILED", z5
+    assert z5["n_rooted_in_DENSE"] == 1
+
+
+def test_z5_counts_a_duplicated_arm_once(res):
+    """CROSS|TWIN and DISJ|TWIN are one experiment; Z5 must not count it twice."""
+    _dense_receipt(res, "CROSS", "TWIN", 0, "TABLE")
+    _dense_receipt(res, "DISJ", "TWIN", 0, "TABLE")
+    out = A.adjudicate("t", seeds=(0, 1, 2))
+    z5 = out["Z_registration"]["Z5"]
+    assert z5["n_distinct_recoveries"] == 1, z5

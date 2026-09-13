@@ -310,3 +310,33 @@ lane B's raw 4/9 from its atrophied 0/9, observed here on independent material.
 This control constrains, and does not establish, Z1–Z3: it removes the inheritance explanation. Whether
 the lift is specific to structured history (Z3) or belongs to any developed archive still depends on the
 TWIN arms, which are unrun on seeds 1 and 2.
+
+### Z5, registered with 9 of 24 arms in hand: the coefficient carrier is reached by conversion, not by direct search
+
+The inheritance control above shows the admissible coefficient machines were produced by the search.
+The receipts also record *what they were produced from*, and on every one so far the answer is the same:
+
+| arm | admissible atrophied-DENSE machine descends from | root's carrier | root's capability on its own ecology |
+|---|---|---|---|
+| SAME CONTINUED S0 | seed elite #39 | **PROGRAM** | 0.8646 |
+| SAME CONTINUED S1 | seed elite #38 | **KVSTORE** | 0.8958 |
+| CROSS TWIN S0 ( ≡ DISJ TWIN S0 ) | seed elite #20 | **TABLE** | 0.4375 |
+
+**Not one descends from an inherited DENSE cell.** Three distinct observations, three different memory
+carriers as roots, spanning a wide capability range.
+
+This bears on why the cold arm fails. The freeze's own derivation says RESET's random init "founds one
+machine in four on DENSE", so a cold start is not short of coefficient machines — it founds plenty. What
+it lacks is a *developed memory machine to convert*. The route to an admissible coefficient carrier that
+these arms actually took runs **through** a memory carrier and crosses the carrier boundary under
+mutation, which is cross-paradigm morphogenesis in the sense B6 is about, observed inside a single arm.
+
+| id | registered prediction | falsifier |
+|---|---|---|
+| **Z5** | every admissible atrophied-DENSE machine recovered anywhere in this campaign descends from a **non-DENSE** seed elite | any one descends from a seed elite whose raw carrier is DENSE |
+
+**What Z5 does not say.** `origin` records the lineage *root*, not the path. A memory-rooted lineage must
+cross the carrier boundary somewhere, but these receipts do not show where, and they do not exclude DENSE
+intermediates between the root and the recovered machine. Z5 is a claim about founders, not about the
+whole trajectory; establishing the crossing point would need per-step lineage, which this instrument does
+not record. Nor does Z5 apply to cold arms, which have no seed elites at all — their origins are `init`.
