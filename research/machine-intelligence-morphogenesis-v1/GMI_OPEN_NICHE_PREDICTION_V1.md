@@ -60,3 +60,51 @@ Admissibility over one construction at one θ with hand-built rows; nothing abou
 `O1` would not prove no machine can occupy the niche — only that none of the nine registered families does,
 which is the same presence/absence asymmetry the `M′` rule imposes everywhere else. The *unoccupiable*
 region is different: that one is derived, and no search could overturn it.
+
+---
+
+# RESULT — O1 and O2 FAILED, O3 held, and both failures share one root cause
+
+Seed `236716253`, twelve ecologies rejection-sampled into `0.9236 < bc ≤ 0.9583`, all nine rows.
+Receipt `STAGE_OPEN_NICHE_V1.json`.
+
+| id | prediction | outcome |
+|---|---|---|
+| **O1** | no row admissible on any of the twelve | **FAILED** — `E_open4` admits both search rows |
+| **O2** | exact search scores highest on ≥ 10 of 12 | **FAILED** — 8 of 12; memory tops the other four |
+| **O3** | exact search min over six ≥ 0.887 throughout | **HELD** — 12 of 12 |
+
+## The root cause, one error behind both failures
+
+**I used point estimates of family ceilings to define a boundary, and then conditioned on the tail.**
+
+The band's lower edge, 0.9236, came from exact search's *mean* ceiling 0.9653 minus the margin. But that
+ceiling is a distribution with stdev 0.026. On `E_open4` (`bc = 0.9271`, requiring 0.9688) search attained
+**exactly 0.9688** and cleared by precisely 1.0 fx. A boundary drawn from a mean cannot bound a
+distribution's reach.
+
+The same error explains O2. The ordering search > memory was measured as an average over a
+*representative* draw. This band is a **selected subpopulation** — conditioned on high baseline — and the
+ordering inverts there: `hamming_knn_k3` tops `E_open3`, `E_open5`, `E_open8` and `E_open9`. A law
+calibrated on marginal statistics does not transfer to a conditioned tail, and I applied it as if it did.
+
+That the niche-frequency law's own predictions held on a representative draw and fail here is not a
+contradiction — it is the distinction between a marginal and a conditional claim, which I collapsed.
+
+## What survives, corrected
+
+**O3 is the durable part.** Exact search held ≥ 0.887 on all twelve of the hardest targets in the space.
+Its ceiling is genuinely robust; what varies is whether that ceiling clears the *local* margin.
+
+**The open niche is mostly real, but it is not a band.** Eleven of twelve band ecologies are occupied by
+nothing. But unoccupancy cannot be defined by a fixed `bc` threshold derived from mean ceilings. The
+correct test is per-ecology: **an ecology is unoccupied iff every family's attainable ceiling there falls
+below `bc + 1/24`.** That is a measurement, not a boundary formula.
+
+**Corrected registration for any successor test:** compute the band from the *maximum attained* ceiling
+rather than the mean, and state family-ordering claims as marginal unless re-measured on the conditioned
+subpopulation.
+
+The **provably unoccupiable** region is untouched by all of this: where `bc > 1 − 1/24 = 0.9583`, no
+machine clears the margin whatever its ceiling, because capability is capped at 1.0. That derivation uses
+no ceiling estimate at all, which is exactly why it survives.
