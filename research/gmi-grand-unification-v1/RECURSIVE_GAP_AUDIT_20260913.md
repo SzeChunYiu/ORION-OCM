@@ -51,6 +51,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 21 | The family phase law only compared registered bound functions; nothing derived them, so the master chain's final arrow was a schema plus a comparator. The relaxed accounting program now derives family-conditioned lower bounds from the proved necessities under an explicit accounting-soundness contract, covering unconstructed members of a structure class. The derivation is one sided, abstention is separated into epistemic and physical causes, and the evidence/candidate asymmetry is proved. | `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 22 | Candidate-universe coverage was an open-ended enumeration obligation that no finite evidence could discharge. Coverage is now validity of the disjunction of the registered structural predicates, so it is decidable without enumerating machines. A verdict over a proved cover whose classes all carry derived bounds extends to unbuilt machines; without one it must be reported with its residue and cannot be upgraded. Coverage must be proved at the verdict's own resolution. | `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 
+
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
 ledger's distinct `GG-S*` IDs. The numerical collision does not identify the
@@ -106,6 +107,7 @@ coordinate. A finite alphabet does not bound invisible computation or
 implementation fibers. A finite cost cap does not bound the length of
 zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
+
 
 ### Coverage is a predicate condition, not an enumeration
 
@@ -246,6 +248,7 @@ Iteration 21 derives lower bounds only. It measures no substrate, supplies
 no `U_F`, does not make the relaxation tight, and does not establish that the
 registered structure classes cover the physically legal set. Every empirical
 obligation above is unchanged.
+
 
 Iteration 22 proves coverage for one registered finite instance only. It
 enumerates no physical machines, measures no substrate, and discharges no
