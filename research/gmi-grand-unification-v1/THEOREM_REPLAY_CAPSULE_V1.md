@@ -8,14 +8,14 @@ checks; an emitted green label is not independently a mathematical proof.
 
 ## What is checked
 
-The integrated capture is based on repository commit
+The initial integrated capture was based on repository commit
 `dfe2e4312105d49e87b4d144f30896c6102b1cd1`, after the V2 hosted-result merge
 [#525](https://github.com/SzeChunYiu/ORION-OCM/pull/525), plus this reviewed gate
-iteration. It registers 45 checker sources (44 leaves and one master), three
+iteration. It registered 45 checker sources (44 leaves and one master), three
 non-test Python control sources, 112 local inputs (100 Markdown documents and
 12 JSON records), three external workflow controls, and one external normative
 document. File hashes identify the exact integrated versions; the base commit
-alone does not describe the additional gate files.
+alone does not describe the additional gate files. The current reviewed inventory includes 45 checker sources, six Python controls, 119 local inputs, five workflow controls and the same external normative document; later versioned experiment/evidence additions are identified by their own hashes.
 
 `THEOREM_REPLAY_INVENTORY_V1.json` registers every
 `grand_gmi*checks*.py` file. Adding or removing a checker without updating the
@@ -78,6 +78,14 @@ independent prospective prediction, a population timing guarantee, or a general
 neural/non-neural family verdict. The result and both V1 packets are immutable
 inputs to this capsule; replay does not rerun their timed experiments.
 
+The V3 registration remains unchanged and unexecuted. V4 supplies the first
+four-candidate expansion packet: a separately derived three-threshold network
+and lookup-table competitor join the original candidates. XOR is the sole
+robust-frontier survivor in the registered hosted run. The static packet auditor
+and ten hostile evidence controls validate the recorded traces, blocks, envelopes
+and custody without timing again. The independent-optimization, development-cost
+and broader-replication limits remain explicit in its assessment.
+
 The evidence-readiness and closure-manifest checkers validate their declared,
 dated snapshots. In particular, replaying the 2026-09-12 readiness manifest does
 not assert that subsequently recorded V2 point evidence is absent. Current
@@ -102,7 +110,7 @@ python -I -B research/gmi-grand-unification-v1/replay_theorem_capsule_v1.py
 
 The dedicated workflow runs these gates on pull requests and main pushes touching
 any file in this research directory, the external normative document, or any of
-the three registered workflows. It uses CPython
+the five registered workflows. It uses CPython
 3.12.14 and uploads the aggregate replay report. No package installation is
 required.
 
@@ -115,7 +123,7 @@ exercise stale and fabricated green receipts, omitted checks, malformed JSON,
 changed source/input hashes, nonzero exits, timeout, disabled-assertion attacks,
 stale bytecode imports, cross-checker receipt mutation, omitted external controls,
 and attempts to classify an executed packet as a preregistration-only receipt.
-There are 219 discovered research tests, including 23 hostile replay tests; both
+There are 244 discovered research tests, including 23 hostile replay tests; both
 normal and optimized-parent suites and the full 45-checker outer replay are
 required before committing this integrated capsule.
 
