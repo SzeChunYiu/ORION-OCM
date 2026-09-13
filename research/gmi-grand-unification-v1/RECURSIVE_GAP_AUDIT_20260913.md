@@ -463,3 +463,7 @@ does not displace XOR. This discharges the concrete measured expansion for these
 two added constructions; it does not claim independently optimized global neural
 coverage, population timing bounds, developmental advantage or cross-task
 replication. The remaining research obligations in the table are retained.
+
+## Historical geometry/signature content resolution
+
+[Q8-HGS-01–10](Q8_HISTORICAL_GEOMETRY_SIGNATURE_AUDIT_V1.md) audit all 26 changed files at two pinned historical heads. The positive repairs are additive-constant description invariance, an admitted diagonal quadratic control, and survival-conditional savings. Independent exact geometry arithmetic retains the finite reversal while correcting receipt/prospectivity scope; program-binding figures distinguish a 20% recovery margin from zero-net break-even. Historical bytes remain unchanged. The [closure/premise synthesis](REGISTERED_CLAIM_CLOSURE_V1.md) separates these resolved findings from broader unproved learning and physical claims.

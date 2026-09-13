@@ -48,6 +48,8 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
+- [Claim closure and remaining premises](REGISTERED_CLAIM_CLOSURE_V1.md): established interfaces, explicit empirical obligations and the next causal-transfer claim.
+- [Historical geometry/signature audit](Q8_HISTORICAL_GEOMETRY_SIGNATURE_AUDIT_V1.md): all pinned source claims receive accepted, corrected or unaccepted dispositions; includes matched constructive controls.
 - [PR #551 current consumer correction](PR551_CONSUMER_CORRECTION_2D23C583_V1.md): native parameter ports, exact cohorts and source-seed counterevidence; accepted inner-search ledger retraction with workload and causal limits. Earlier field and campaign qualifications remain linked.
 - [Portable B6 consumer census](../gmi-b6-consumer-census-v1/CORE.md): complete static payload and original source/raw bytes, with missing-source abstention and no new empirical execution.
 - [Instrument and custody repairs](../gmi-instrument-custody-integration-v1/CORE.md): canonical pre-reservation, full V5 packet reconstruction and the bounded opcode callback repair.

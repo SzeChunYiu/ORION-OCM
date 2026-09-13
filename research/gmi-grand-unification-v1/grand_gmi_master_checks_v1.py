@@ -18,7 +18,7 @@ def check_receipt_stack(root=HERE):
     # Compile the helper source directly rather than accepting cached bytecode.
     source = HERE / "replay_theorem_capsule_v1.py"
     exec(compile(source.read_bytes(), str(source), "exec"), module.__dict__)
-    # The outer replay verifies this aggregate against MASTER_RECEIPT_V2.
+    # The outer replay uses the active aggregate receipt named in the inventory.
     # Re-entering it here would recursively execute the aggregate forever.
     return module.replay(root, include_aggregate=False)
 
