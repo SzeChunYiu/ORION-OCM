@@ -1,0 +1,69 @@
+name: Grand GMI parity3 V5 portable replication
+
+# V5 records its host and interpreter envelope rather than requiring one, so it
+# can also run on a laptop or a compute node. This workflow contributes the
+# GitHub-hosted runner envelope, which is the only independent hardware this
+# repository can measure by itself.
+#
+# The packet is printed in full with its digest so the measurement can be
+# reconstructed from the log and verified before anyone freezes it, and it is
+# also uploaded as an artifact. Nothing here commits a packet.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_PREREG_V5.json'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v5.py'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3-v5.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  parity3-portable-replication-v5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate the instrument before any timing
+        working-directory: research/gmi-grand-unification-v1
+        run: python -I -B nn_nonnn_point_parity3_experiment_v5.py --self-test
+      - name: Measure the hosted runner envelope
+        working-directory: research/gmi-grand-unification-v1
+        run: >-
+          python -I -B nn_nonnn_point_parity3_experiment_v5.py
+          --host-label github-hosted-runner
+          --out "$RUNNER_TEMP/parity3-v5-github-hosted-runner.json"
+          > /dev/null
+      - name: Print the packet and its digest for verifiable reconstruction
+        run: |
+          echo "PARITY3_V5_PACKET_SHA256=$(sha256sum "$RUNNER_TEMP/parity3-v5-github-hosted-runner.json" | cut -d' ' -f1)"
+          echo "PARITY3_V5_PACKET_BEGIN"
+          cat "$RUNNER_TEMP/parity3-v5-github-hosted-runner.json"
+          echo "PARITY3_V5_PACKET_END"
+      - name: Report the envelope verdict
+        working-directory: research/gmi-grand-unification-v1
+        run: >-
+          python -c "import json,os,sys;
+          p=json.load(open(os.environ['RUNNER_TEMP']+'/parity3-v5-github-hosted-runner.json'));
+          print('terminal:',p['terminal']);
+          print('timing_executed:',p.get('protected_timing_measurement_executed'));
+          print('frontier:',p.get('frontier_candidate_ids'));
+          print('families:',p.get('frontier_families'));
+          print('opcode_counts:',p.get('opcode_counts'));
+          print('environment_gate_failures:',p.get('environment_gate_failures'));
+          print('instrumentation_gate_failure:',p.get('instrumentation_gate_failure'))"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: parity3-v5-github-hosted-runner
+          path: ${{ runner.temp }}/parity3-v5-github-hosted-runner.json
+          if-no-files-found: error
