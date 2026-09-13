@@ -90,3 +90,45 @@ class TL4_TheParentClausesAreCitedCorrectly(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TL6_ExclusionsTransportUnderATwoSidedCertificate(unittest.TestCase):
+    """The positive form of TL-3, reusing DCR's registered separation rule."""
+
+    def test_finite_upper_below_comparator_lower_certifies_at_any_scale(self):
+        self.assertEqual(T.exclusion_transports((F(1), F(2)), (F(3), None)),
+                         "CERTIFIED_STRICTLY_LOWER")
+        # scale the whole problem: the certificate is order-based, so it survives
+        for k in (1, 10, 1000, 10 ** 6):
+            self.assertEqual(
+                T.exclusion_transports((F(1 * k), F(2 * k)), (F(3 * k), None)),
+                "CERTIFIED_STRICTLY_LOWER")
+
+    def test_lower_bounds_alone_never_certify(self):
+        """TL-3 restated: this is the degenerate case, candidate upper is None."""
+        self.assertEqual(T.exclusion_transports((F(1), None), (F(1), None)),
+                         "UNVERIFIABLE")
+        self.assertEqual(T.exclusion_transports((F(1), None), (F(5), None)),
+                         "UNVERIFIABLE")
+
+    def test_overlap_is_unverifiable_not_false(self):
+        self.assertEqual(T.exclusion_transports((F(1), F(4)), (F(3), F(9))),
+                         "UNVERIFIABLE")
+
+    def test_touching_intervals_do_not_certify(self):
+        self.assertEqual(T.exclusion_transports((F(1), F(3)), (F(3), None)),
+                         "UNVERIFIABLE")
+
+    def test_malformed_intervals_are_refused(self):
+        with self.assertRaises(ValueError):
+            T.exclusion_transports((F(2), F(1)), (F(3), None))
+        with self.assertRaises(ValueError):
+            T.exclusion_transports((F(-1), F(1)), (F(3), None))
+        with self.assertRaises(ValueError):
+            T.exclusion_transports((1.0, F(2)), (F(3), None))
+
+    def test_every_verdict_is_a_registered_terminal(self):
+        cases = [((F(1), F(2)), (F(3), None)), ((F(1), None), (F(2), None)),
+                 ((F(1), F(4)), (F(3), F(9)))]
+        for c, m in cases:
+            self.assertIn(T.exclusion_transports(c, m), T.EXCLUSION_TERMINALS)

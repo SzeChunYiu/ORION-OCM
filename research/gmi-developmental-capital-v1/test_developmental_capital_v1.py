@@ -117,3 +117,41 @@ class MutationControlsGoRed(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class K2RetryRegistrationIsHonest(unittest.TestCase):
+    """The retry registration must not soften the standing negative."""
+
+    RETRY = HERE / "K2_RETRY_REGISTRATION_V1.md"
+
+    def test_it_declares_itself_unexecuted(self):
+        t = read(self.RETRY)
+        self.assertIn("REGISTERED_NOT_EXECUTED", t)
+        self.assertIn("K2 REMAINS NOT_ESTABLISHED", t)
+
+    def test_it_does_not_claim_k2(self):
+        t = read(self.RETRY)
+        for forbidden in ("K2 is established", "K2 SUPPORTED at scope",
+                          "establishes K2", "K2 now holds"):
+            self.assertNotIn(forbidden, t)
+
+    def test_the_standing_verdict_is_unchanged_in_the_parent(self):
+        m = re.search(r"GMI-T08.*?Current OCM status:\*\*\s*([A-Z_]+)",
+                      read(AXIOMS), re.S)
+        self.assertEqual(m.group(1), "NOT_ESTABLISHED")
+
+    def test_parent_subtraction_is_mandatory_not_optional(self):
+        t = read(self.RETRY)
+        self.assertIn("PARENT_SUFFICIENT", t)
+        self.assertIn("required, not optional", t)
+
+    def test_a_second_failure_is_pre_registered_as_structural_evidence(self):
+        t = read(self.RETRY)
+        self.assertIn("NOT_ESTABLISHED_SECOND_GRAMMAR", t)
+        self.assertIn("structural", t)
+
+    def test_every_outcome_terminal_is_distinct(self):
+        t = read(self.RETRY)
+        terms = re.findall(r"`(K2_SUPPORTED_AT_REGISTERED_SCOPE|PARENT_SUFFICIENT|"
+                           r"NOT_ESTABLISHED_SECOND_GRAMMAR|CANNOT_CHECK)`", t)
+        self.assertEqual(len(set(terms)), 4, "outcome table must cover four distinct terminals")

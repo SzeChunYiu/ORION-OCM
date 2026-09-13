@@ -1,6 +1,6 @@
 # Transport ledger: what survives scale-up and what does not
 
-Status: **SPLIT RESULT; LOWER BOUNDS TRANSPORT, ORDERINGS DO NOT**
+Status: **SPLIT RESULT; LOWER BOUNDS TRANSPORT UNCONDITIONALLY, ORDERINGS ONLY UNDER A TWO-SIDED CERTIFICATE**
 Date: 2026-09-13
 
 Ledger item 9 asks whether the exact finite laws survive at realistic scale.
@@ -49,7 +49,32 @@ Consequently a competitive claim measured at small scale — *this family beats
 that one* — carries no force at a larger scale without a comparator retained
 **at that scale**. Only the one-sided bound travels.
 
-## 4. TL-4 — the physical gap is separate from the mathematical one
+## 4. TL-6 — exclusions transport under a two-sided certificate
+
+TL-3 is a statement about *one-sided* evidence, not an impossibility. The
+registered `DCR` separation rule already supplies the positive condition and is
+reused here verbatim: a comparison is certified iff the candidate's upper bound
+is finite and strictly below the comparator's lower bound.
+
+    candidate = [a_lo, a_hi],  comparator = [b_lo, b_hi]
+    CERTIFIED_STRICTLY_LOWER  iff  a_hi is finite and a_hi < b_lo
+    UNVERIFIABLE              otherwise
+
+Because the criterion is an order comparison it is scale-free in the same sense
+as TL-1: the same certificate holds after multiplying the whole problem by 1,
+10, 1,000 or 10^6. So a competitive exclusion **does** transport, provided a
+finite upper bound on the candidate is retained.
+
+TL-3 is exactly the degenerate case of this rule with `a_hi = None`: holding
+only lower bounds, no pair of machines is ever ordered. Overlapping intervals
+and touching intervals (`a_hi = b_lo`) return `UNVERIFIABLE` rather than false,
+and malformed or inexact intervals are refused.
+
+The practical reading: measuring a lower bound at small scale buys nothing for
+exclusion. Retaining a finite upper bound on the candidate buys everything, and
+is what a comparator "at that scale" actually supplies.
+
+## 5. TL-4 — the physical gap is separate from the mathematical one
 
 CLB-1's accounting premise may be proved for a mathematical model. A physical
 application "additionally needs justified calibration/error bounds connecting
@@ -57,7 +82,7 @@ that model to its instance", and a field named `measured_resource_contract`
 "neither proves the inequality nor is a logical prerequisite to every abstract
 proof". Declaring a contract is not discharging it.
 
-## 5. TL-5 — where the repository already places itself
+## 6. TL-5 — where the repository already places itself
 
 The phenomenology atlas records three tiers: exact/tight sectors; results
 "structurally explained but quantitatively open at modern scale" — naming
@@ -70,7 +95,7 @@ This ledger does not move any result between tiers. It states why the first
 tier's lower bounds are already scale-free, and why nothing in the second tier
 becomes closed by proving more exact finite theorems.
 
-## 6. Scope and falsifiers
+## 7. Scope and falsifiers
 
 Not claimed: that any specific registered bound has its accounting premise
 discharged for a physical machine; that transport implies tightness; that an

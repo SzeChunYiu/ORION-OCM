@@ -44,3 +44,26 @@ def exclusion_is_determined(L, costs):
     require(all(isinstance(c, Fraction) for c in costs), "exact only")
     strictly_above = [c for c in costs if c > L]
     return len(strictly_above) <= 1
+
+
+# --- TL-6: when exclusions DO transport -------------------------------------
+# Reuses the registered DCR criterion verbatim: separation is certified iff the
+# candidate's upper bound is finite and strictly below the comparator's lower
+# bound.  TL-3's negative is the degenerate case where the upper bound is None.
+
+EXCLUSION_TERMINALS = ("CERTIFIED_STRICTLY_LOWER", "UNVERIFIABLE")
+
+
+def exclusion_transports(candidate, comparator):
+    """candidate/comparator are (lower, upper); upper may be None for unbounded."""
+    for b in (candidate, comparator):
+        require(isinstance(b, tuple) and len(b) == 2, "bounds must be (lower, upper)")
+        lo, hi = b
+        require(isinstance(lo, Fraction), "lower bound must be exact")
+        require(hi is None or isinstance(hi, Fraction), "upper must be exact or None")
+        require(lo >= 0 and (hi is None or hi >= lo), "invalid nonnegative interval")
+    ca_hi = candidate[1]
+    cb_lo = comparator[0]
+    if ca_hi is not None and ca_hi < cb_lo:
+        return "CERTIFIED_STRICTLY_LOWER"
+    return "UNVERIFIABLE"

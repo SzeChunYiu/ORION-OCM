@@ -111,3 +111,26 @@ def uniform_prices(value=Fraction(1)):
 def observational_projection(capabilities, hidden):
     """What an observer sees when `hidden` capabilities are not recorded."""
     return frozenset(capabilities) - frozenset(hidden)
+
+
+def is_generic(prices):
+    """A price vector is generic when no two distinct admissible charge sets sum equal.
+
+    Ties in `select` are exactly the non-generic coincidences: under uniform
+    prices equal arity forces equal cost, which is a property of the probe and
+    not of the selection law.
+    """
+    sums = {}
+    for name, spec in LAWS.items():
+        total = sum(prices[op] for op in spec["uses"])
+        sums.setdefault(total, []).append(name)
+    return all(len(v) == 1 for v in sums.values())
+
+
+def tie_locus(prices):
+    """The laws whose charged totals coincide under this price vector."""
+    sums = {}
+    for name, spec in LAWS.items():
+        total = sum(prices[op] for op in spec["uses"])
+        sums.setdefault(total, []).append(name)
+    return tuple(tuple(sorted(v)) for v in sums.values() if len(v) > 1)
