@@ -455,3 +455,51 @@ still unknown:
 * **`Z5` is untouched by this.** Four recoveries, four memory-carrier founders, none rooted in a
   coefficient seed. Conversion from a memory carrier is a claim about *how* the cell is reached, not
   about *which* archive licenses it, so a parent-sufficient `Z3` leaves it standing.
+
+### Z5 is WITHDRAWN as an ancestry claim, and replaced by what the instrument supports
+
+The other lane's `B6_LINEAGE_ATTRIBUTION_CORRECTION_V1.md` and its pinned counter-control
+(`evidence/b6-lineage-countercontrol-20260913/`) are **correct**, and they defeat `Z5` as I registered
+it. Verified independently against the source in this checkout rather than taken on trust
+(`gmi_microscope/b1.py`, the placement loop):
+
+```python
+_, parent, _, _ = rng.choice(vals)
+if rng.random() < 0.2 and len(vals) > 1:
+    _, other, _, _ = rng.choice(vals); child, tr = morphgen.crossover(rng, parent, other)
+else:
+    child, tr = morphgen.mutate(rng, parent)
+tries += tr; place(child, origin=origin_by_id.get(id(parent)) ...)
+```
+
+**Crossover fires on 20 % of placements, and `origin` is copied from `parent` alone — the donor `other`
+contributes structure and leaves no trace.** So a child with a TABLE primary and a DENSE donor is
+recorded as TABLE-rooted, and their counter-control exhibits exactly that case on a pinned crossover.
+
+`Z5` said "every admissible atrophied-DENSE machine descends from a **non-DENSE** seed elite". That is
+not what the receipts show and my own hedge did not cover it. I wrote that `origin` records the root and
+not the path, which addresses unseen *intermediates*; the defeating case is a co-parent at the **same
+step**, which the tag omits by construction. At a 20 % crossover rate a DENSE donor supplying the
+coefficient structure is a live path, not an exotic corner.
+
+**Withdrawn and replaced**, rather than repaired by reinterpretation:
+
+| id | status | statement |
+|---|---|---|
+| `Z5` | **WITHDRAWN** | "descends from a non-DENSE seed elite" — not established by `origin`, which is not an ancestry record |
+| `Z5′` | registered in its place | every recovery's **primary-parent tag** is a memory carrier. Checkable, and true on four recoveries: PROGRAM, KVSTORE, TABLE, TABLE — **and it licenses no claim about ancestry or about where the carrier boundary is crossed** |
+
+The inference `Z5` was carrying — that the coefficient carrier is reached by *conversion from* a memory
+carrier rather than by direct search — is therefore **unsupported at present**, not merely unproven in
+detail. It remains a live hypothesis and the interesting one, but the instrument cannot currently
+distinguish it from "a DENSE donor supplied the coefficient structure to a memory-tagged primary".
+
+**What would settle it**: donor-aware lineage, i.e. recording both parents' origins at a crossover
+placement (and, for the structural question, the genotype itself). That is the same class of gap as the
+discarded genotypes recorded above — in both cases the instrument records strictly less than the claim
+needs, and in both cases the right response is to name the missing field rather than to soften the claim
+until the existing field can carry it.
+
+This is the second correction to this lane's own reading in one campaign, both caught before adjudication
+and both from re-reading what the instrument actually stores. Recorded in full because a withdrawn claim
+that quietly disappears is worse than one that was never made.
