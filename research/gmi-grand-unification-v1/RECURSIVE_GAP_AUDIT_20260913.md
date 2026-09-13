@@ -59,6 +59,7 @@ instances are decidable, or that an empirical measurement has occurred.
 | 26 | Execute the portable registration. Three interpreter envelopes on one host, each once: CPython 3.11.15 and 3.12.3 both return a non-neural frontier with disjoint observed boxes, and 3.13.12 refuses the instrumentation gate before timing. The registered 3.12 opcode counts reproduce exactly on unrelated hardware; absolute counts are interpreter dependent while their ordering is not. Cross-host replication remains open. | `PARITY3_V5_CROSS_ENVELOPE_ASSESSMENT_20260913.md` | Current iteration; commit and merge only after required local gates pass |
 | 27 | The V5 execution refused CPython 3.13 at the instrumentation gate. The cause is the first-ever trace of each code object losing its first frame, not a per-process effect as first read. V6 adds one discarded priming domain sweep per candidate witness pass, keeps per-frame validation intact, records priming diagnostics, and binds candidate identity against both earlier portable harnesses. Frozen with a genuinely prospective 3.13 verdict claim; not executed. | `PARITY3_PRIMED_INSTRUMENT_V6.md` | Current iteration; commit and merge only after required local gates pass |
 | 28 | V6 records the predicted non-neural classification on CPython 3.13 and matching classifications on 3.11/3.12, over four registered candidates. Five valid V5/V6 packets agree in family support; the V5 3.13 refusal is retained. The V6 3.11 boxes leave lookup membership unresolved, not certified coexistence. Corrected DNF/shared-sum margins do not identify a causal interpreter trend. Cross-host replication and attempt custody remain open. | `PARITY3_V6_PROSPECTIVE_OUTCOME_20260913.md` | Current iteration; commit and merge only after required local gates pass |
+| 29 | The structural threshold result is repaired by an all-coefficient geometric/dependency proof: exact minimum 39 per call under the two flat-linear shapes and opcode contract. Finite-grid coverage and universal delegated-family exclusion are withdrawn. | `STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md` | Corrected current authority; original source retained |
 
 
 
@@ -433,6 +434,9 @@ first-attempt log remain absent; the updated multi-schema aggregator summarizes
 asserted terminals rather than deriving packet validity. These custody limitations
 do not themselves contradict the consistent recorded outcomes. Neither a causal
 interpreter trend nor a population timing bound follows from these runs.
+Iteration 28 records a consistent finite outcome; prospective priority requires the chronology qualifications in the retained V6 audit and cannot be inferred from a static packet replay.
+
+Iteration 29 is superseded by STR-1–5. The attained flat-grammar bound survives through a direct proof; expanded-delegation and full-physical exclusions do not follow. Original source and receipt are retained in the structural-threshold repair unit.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not

@@ -8,10 +8,10 @@ bounded controller resources, repaired developmental reachability, shared-depend
 reuse under memory constraints, finite known-kernel probabilistic acquisition,
 labelled-partition and relational adequate-output query reconstruction,
 finite fixed-unknown-model acquisition with charged private randomization, and
-finite-data model confidence with joint policy transfer. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V10.json`. Earlier aggregates and phase-law receipts
+finite-data model confidence with joint policy transfer, and the corrected all-coefficient structural threshold bound. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V11.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 65 checkers (64 leaves and one
+historical paths. The current register has 66 checkers (65 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -40,6 +40,8 @@ The operational-reachability and interactive-cut checkers additionally require t
 `research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md`
 as an explicitly registered external normative document. Its workflow trigger
 and hash binding cover changes to that theorem outside the capsule directory.
+
+Explicit external research units are verified completely at every inventory load: exact manifest, full membership, byte counts and hashes, with unreadable paths, symlinks and special entries rejected. The structural repair unit preserves its raw source and native validation records this way.
 
 Each checker runs afresh in a separate assertion-enabled Python process with
 `-I -B` and an empty private bytecode-cache prefix, independent of

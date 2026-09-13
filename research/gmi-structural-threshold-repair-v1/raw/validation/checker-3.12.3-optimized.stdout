@@ -1,0 +1,470 @@
+{
+  "arbitrary_coefficient_lower_bound": {
+    "active_hidden_gates_at_least": 3,
+    "active_input_incidence_at_least": 6,
+    "all_unit_counts_covered_analytically": true,
+    "coefficient_saturation_argument_used": false,
+    "independent_finite_degree_cases": 3251,
+    "shape_A": "9+6*r+2*s >=39",
+    "shape_B": "15+8*r >=39"
+  },
+  "attainment": {
+    "all8_outputs": [
+      0,
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      1
+    ],
+    "exclusion_in_registered_flat_class": true,
+    "minimum_per_call": 39,
+    "minimum_per_sweep": 312,
+    "source": "def f(x):\n    a,b,c=x\n    s=a+b+c\n    h0=int(s>=1)\n    h1=int(s>=2)\n    h2=int(s>=3)\n    return int(h0-h1+h2>=1)\n",
+    "xor_per_sweep": 88
+  },
+  "cost_contract": {
+    "base": 6,
+    "contract": "flat syntax: BASE6, own>=4+2d, shared>=2d, unit>=6, output>=3+2r",
+    "native_representatives_match": true,
+    "output_increment": {
+      "1": 5,
+      "2": 7,
+      "3": 9,
+      "4": 11,
+      "5": 13,
+      "6": 15
+    },
+    "own_hidden": {
+      "1": 6,
+      "2": 8,
+      "3": 10
+    },
+    "shared_form": {
+      "1": 2,
+      "2": 4,
+      "3": 6
+    },
+    "shared_unit": 6
+  },
+  "delegation_counterexample": {
+    "callee_work_included": false,
+    "candidate_frame_call_opcode_included": true,
+    "full_physical_cost_comparison_established": false,
+    "neural_wrapper_per_sweep": 32,
+    "non_neural_wrapper_per_sweep": 32,
+    "outer_callable_has_python_code": false,
+    "python_descendant_is_explicitly_present": true,
+    "same_candidate_frame_overhead": true,
+    "universal_exclusion_of_delegating_class": false
+  },
+  "dependency_boundary": {
+    "one_hidden_gate_with_raw_input_skip_computes_parity": true,
+    "parity_edge_differences_each_axis": [
+      [
+        1,
+        -1,
+        -1,
+        1
+      ],
+      [
+        1,
+        -1,
+        -1,
+        1
+      ],
+      [
+        1,
+        -1,
+        -1,
+        1
+      ]
+    ],
+    "skip_connections_inside_registered_class": false
+  },
+  "general_neural_or_delegating_family_exclusion": false,
+  "midpoint_certificates": [
+    {
+      "opposite": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "parity": 0,
+      "same": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "parity": 0,
+      "same": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "parity": 0,
+      "same": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "parity": 0,
+      "same": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "parity": 0,
+      "same": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "parity": 0,
+      "same": [
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1
+        ]
+      ],
+      "parity": 1,
+      "same": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "parity": 1,
+      "same": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "parity": 1,
+      "same": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ],
+      "parity": 1,
+      "same": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ],
+      "parity": 1,
+      "same": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "opposite": [
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ],
+      "parity": 1,
+      "same": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    }
+  ],
+  "omitted_output_counterexample": {
+    "bounded_grid_covers_arbitrary_output_coefficients": false,
+    "bounded_output_functions": 986,
+    "omitted_full_truth_table": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "omitted_threshold": 4,
+    "omitted_weights": [
+      3,
+      2,
+      2,
+      1
+    ]
+  },
+  "rendering_counterexample": {
+    "all8_outputs_equal": true,
+    "fixed_input_order_is_always_minimal": false,
+    "fixed_order_opcodes": 18,
+    "reordered_opcodes": 17
+  },
+  "runtime_patch_identity_claim": false,
+  "schema": "GMI_STRUCTURAL_THRESHOLD_ANALYTIC_RECEIPT_V1",
+  "scope": "two faithful flat-linear shapes; hidden-only output; ideal opcode contract",
+  "syntax_stress_controls": {
+    "extended_argument_control": true,
+    "general_compiler_verified_by_sampling": false,
+    "large_integer_control": true,
+    "signed_zero_large_support_patterns": 124
+  },
+  "terminal": "ANALYTIC_FLAT_THRESHOLD_OPTIMUM_39_AT_OPCODE_CONTRACT",
+  "timing_or_ecology_measurements": false,
+  "two_input_output_certificate": {
+    "categories": {
+      "constant": 2,
+      "literal": 4,
+      "one_corner": 4,
+      "three_corners": 4
+    },
+    "realized_output_functions": 14,
+    "two_opposite_corner_patterns_excluded_by_midpoint": true
+  }
+}

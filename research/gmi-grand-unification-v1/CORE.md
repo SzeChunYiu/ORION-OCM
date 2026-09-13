@@ -13,6 +13,7 @@ sector or successful finite replay does not establish universal completion.
 | What if gathering information changes the world? | [Controlled acquisition](CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md): exact belief updates and terminating policy synthesis; a protective action revives an otherwise destructive experiment. |
 | How do correlation and random failures change acquisition? | [Probabilistic acquisition](PROBABILISTIC_CONTROLLED_ACQUISITION_THEOREM_V1.md): sufficient observed state, distinct sure/almost-sure/deadline laws, and charged reset/certification remedies. |
 | How should acquisition handle an unknown fixed model? | [Fixed-model acquisition](FIXED_UNKNOWN_MODEL_ACQUISITION_THEOREM_V1.md): exact common-policy vectors, charged private randomization and reset-preserved knowledge; arbitrary row switching defines a different uncertainty class. |
+| When does a structural resource bound cover unwritten programs? | [Threshold repair](STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md): geometric and input-dependency lower bounds meet an explicit flat-grammar construction; delegation and full physical costs remain outside this result. |
 | What can finite model data certify? | [Finite-data transfer](FINITE_DATA_MODEL_TRANSFER_THEOREM_V1.md): simultaneous fixed-N row confidence transfers joint success/work bounds to data-selected policies; acquisition, synthesis and storage are charged separately, and unseen hazards prevent sure-success upgrades. |
 | When does a selected architecture actually exist? | [Constructive selection](CONSTRUCTIVE_SELECTION_ATTAINMENT_BRIDGE_V1.md): nonempty selection, finite constructive coverage and complete profile fibers; explicit approximate witnesses when infima are unattained. |
 | When are family phase laws sound? | [Phase corrections](FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md): interval direction, continuity and coverage of all admitted competitors. |
@@ -43,7 +44,7 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
-- [PR #551 qualifications](PR551_SCIENTIFIC_REVIEW_7E3F68AE_V1.md): prior data, carrier syntax and local pruning do not establish prospective priority or semantic necessity.
+- [PR #551 updated qualifications](PR551_SCIENTIFIC_REVIEW_F359A957_V1.md): accepted retractions, validated tenth-arm availability, corrected carrier-field attribution and exact identity of the reconstructed witness.
 - [Instrument and custody repairs](../gmi-instrument-custody-integration-v1/CORE.md): canonical pre-reservation, full V5 packet reconstruction and the bounded opcode callback repair.
 - [Complete retained V6 audit](../gmi-parity-v6-evidence-v1/CORE.md): all three measured packets reconstructed without new measurements; absent priming traces and unauthenticated chronology remain explicit.
 - [Recovered B6 witness and mechanism](../gmi-witness-evidence-v1/CORE.md): source-bound S1 recovery; DENSE removal preserves the proved behavioral projection while resource costs change.

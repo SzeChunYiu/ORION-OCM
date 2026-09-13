@@ -6,7 +6,7 @@ immutable source snapshots remain unchanged. The current
 [recursive queue](../gmi-grand-unification-v1/SCIENTIFIC_GAP_QUEUE_V2.md)
 identify the live proofs and remaining obligations.
 
-## Merged results
+## Published integrations and current reviewed updates
 
 | Result | Published integration | Scientific scope |
 |---|---|---|
@@ -16,6 +16,17 @@ identify the live proofs and remaining obligations.
 | Fixed unknown-model acquisition | [#553](https://github.com/SzeChunYiu/ORION-OCM/pull/553) | Common history policies, charged private randomization and reset-preserved information; supplied models are not learned coverage. |
 | Versioned V5 custody and opcode repair | [#554](https://github.com/SzeChunYiu/ORION-OCM/pull/554) | Full static evidence reconstruction and a bounded callback intervention; frozen raw bytes remain unchanged. |
 | Relational query reconstruction | [#555](https://github.com/SzeChunYiu/ORION-OCM/pull/555) | Joint answer compatibility on labelled subcubes; immediate TDA/LQR corollary with separate output/controller costs. |
+
+The [finite-data and structural repair update](https://github.com/SzeChunYiu/ORION-OCM/pull/558)
+adds uniform finite-data policy transfer and repairs the all-coefficient threshold
+bound introduced in #557. Its analytic proof replaces incomplete coefficient-grid
+coverage; the expanded-delegation exclusion is withdrawn. Exact earlier aggregate
+bytes are restored, with the overwritten upstream versions separately retained.
+
+The [updated PR #551 assessment](../gmi-grand-unification-v1/PR551_SCIENTIFIC_REVIEW_F359A957_V1.md)
+records accepted retractions and the now-bound tenth arm. It corrects PROGRAM
+metrics attributed to DENSE and establishes that the new recovered graph is
+byte-identical to the already retained witness. The campaign remains incomplete.
 
 The new [retained V6 audit](../gmi-parity-v6-evidence-v1/CORE.md) supplies the
 complete static successor to the earlier partial audit. Its receipt records
