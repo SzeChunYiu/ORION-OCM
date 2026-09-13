@@ -32,11 +32,19 @@ no third case; the condition is necessary and sufficient, not a heuristic.
 | mode | condition | reading |
 |---|---|---|
 | (a) irrelevant library | `L ∩ P = {}`, `|P| > 1` | retention is real but aimed at the wrong parts |
-| (b) atomic target | `|P| = 1` | the grammar admits **no** decomposition to reuse |
+| (b) atomic target, disjoint from the library | `|P| = 1` and `L ∩ P = {}` | acquiring the target itself, which is the only reusable part there is |
 
 These demand different repairs. Mode (a) is fixed by acquiring different
-capital; mode (b) cannot be fixed by any library at all, because there is
-nothing to reuse — it is a property of the **grammar**, not of retention.
+capital; mode (b) is fixed by acquiring the target itself.
+
+**Correction.** An earlier version of this section claimed mode (b) "cannot be
+fixed by any library at all". That is false, and the test that appeared to
+confirm it was rigged: it drew libraries from a universe that excluded the
+target, imposing disjointness by construction. With `P = L = {a}` the history
+arm charges 0 against RESET's 1, so **K2 holds on an atomic target whose part
+is retained**. Decomposition size alone decides nothing; the governing
+condition is `L ∩ P ≠ {}` in both rows. Raised by the ledger repair unit and
+verified independently before being written here.
 
 ## 4. KRC-4 — the prediction this makes about the registered negative
 
