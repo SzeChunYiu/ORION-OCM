@@ -199,6 +199,10 @@ def run_all():
         "control_to_compatibility": control_to_compatibility_witness(),
         "budget_augmentation": budget_augmentation_witness(),
         "aggregate": "GRAND_GMI_CONTROLLED_ACQUISITION_TRANCHE_ALL_GREEN",
+        # The replay capsule keys every registered checker on `terminal`, and
+        # rejects a directory whose checkers are not all registered. Emit it
+        # alongside the historical `aggregate` field rather than renaming that.
+        "terminal": "GRAND_GMI_CONTROLLED_ACQUISITION_TRANCHE_ALL_GREEN",
     }
     return result
 

@@ -50,6 +50,8 @@ instances are decidable, or that an empirical measurement has occurred.
 | 20 | The family-phase crossover condition was vacuous, malformed intervals were compared instead of rejected, and the hybrid witness summed registered upper bounds into pure-family lower bounds and reused a composition law as a necessity. FP-3a now carries well-formedness, connected-domain and pairwise scope; FP-5a fixes bound direction; FP-5b requires a decomposition-closed candidate class. | `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 21 | The family phase law only compared registered bound functions; nothing derived them, so the master chain's final arrow was a schema plus a comparator. The relaxed accounting program now derives family-conditioned lower bounds from the proved necessities under an explicit accounting-soundness contract, covering unconstructed members of a structure class. The derivation is one sided, abstention is separated into epistemic and physical causes, and the evidence/candidate asymmetry is proved. | `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 22 | Candidate-universe coverage was an open-ended enumeration obligation that no finite evidence could discharge. Coverage is now validity of the disjunction of the registered structural predicates, so it is decidable without enumerating machines. A verdict over a proved cover whose classes all carry derived bounds extends to unbuilt machines; without one it must be reported with its residue and cannot be upgraded. Coverage must be proved at the verdict's own resolution. | `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 23 | The open training and large-scale-learning items were recorded as work not yet done. They are underdetermined: two development laws sharing the admitted realization set, profiles, families and every proved necessity give different reachable frontiers, so no derivation without a registered `D` can determine a trained outcome. A registered `D` must fix its schedule semantics; reachability strengthens exclusions but can destroy selections; and no finite budget certifies an unbounded verdict. | `DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
+
 
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
@@ -108,6 +110,37 @@ implementation fibers. A finite cost cap does not bound the length of
 zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
 
+
+
+### Gate repair carried by this iteration
+
+The controlled-acquisition checker merged onto `main` emitted its terminal
+label under the key `aggregate`. The replay capsule keys every registered
+checker on `terminal` and rejects a directory whose `grand_gmi*checks*.py`
+files are not all registered, so that checker could not be registered and its
+presence alone failed the coverage check: `main` carried 49 checker sources
+against 48 inventory entries. This iteration emits `terminal` alongside the
+historical `aggregate` field, refreezes that checker's receipt and registers
+it, restoring the gate. The checker's own logic, witnesses and tests are
+unchanged, and its 390,625-kernel enumeration is untouched.
+
+### An open item and an underdetermined target are different things
+
+Iteration 23 does not close the training or large-scale-learning
+obligations. It explains why listing them as pending work was the wrong
+classification. Their target is not determined by the data the rest of the
+package supplies: the witness holds the admitted realization set, the profile
+map, the family assignment and every proved necessity fixed, varies only the
+development law, and gets opposite family support. So `D` is irreducible, and
+a derivation that does not register it is not merely incomplete but about
+nothing. Registering a set of admitted operations is not enough either, since
+non-commuting updates make the schedule decide what is reachable. The useful
+consequence is an asymmetry: reachability evidence can only raise derived
+lower bounds, so exclusions survive it, while it can remove the construction a
+selection rests on — in the witness both family bounds rise, from 2 to 9 and
+from 5 to 5, and the verdict still inverts. Finally, where each admitted update
+strictly improves the profile and switches family, the verdict alternates at
+every budget, so a bounded-development result never extrapolates to the limit.
 
 ### Coverage is a predicate condition, not an enumeration
 
@@ -203,7 +236,7 @@ parent results.
 | Integrated executable custody | Replay all 45 discovered finite checkers against complete frozen outputs and source/input inventory; run all 244 research tests normally and with an optimized parent, including 23 hostile replay tests. | The 234-test V4 capsule passed on main at #529 (run 34749100288). This evidence iteration adds ten static packet tampering controls. Successful replay establishes registered finite-check reproducibility only; the hosted experiment supplies its separately scoped measurement. |
 | Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. | V4 identifies XOR against the original network, a three-threshold neural construction and an exact lookup table. All four solve the full domain. The result is an observed-envelope point comparison informed by V1/V2, not independent prospective replication. |
 | Candidate-universe coverage | Independent competitor optimization beyond the measured four-candidate expansion, then replication across tasks and substrates. | V4 performs the concrete algebraic-neural/lookup expansion; external optimization and candidate-universe completeness remain unestablished. A point verdict does not enumerate all physical machines. |
-| Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication. | Conditional resource laws do not manufacture those measurements. |
+| Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication, each against an explicitly registered development law. | Conditional resource laws do not manufacture those measurements. DU-1 additionally shows that no such law is derivable from the package's other registered inputs, so this obligation cannot be discharged by further theory alone. |
 | Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance. | Exact finite simulations are not experiments on arbitrary substrates. |
 | Unrestricted exact solution | No total solver can discharge all unrestricted Turing-complete unbounded instances. | Proven impossibility boundary; no green status can remove it. |
 | Absence of every possible theorem gap | Continued independent proof review and counterexample search. | Not established by a finite review or by coverage of named schema categories. |
@@ -254,6 +287,11 @@ Iteration 22 proves coverage for one registered finite instance only. It
 enumerates no physical machines, measures no substrate, and discharges no
 replication obligation. Because a completed cover is only as strong as its
 weakest derived bound, it more often removes a verdict than establishes one.
+
+
+Iteration 23 measures no learning process at any scale and analyses no real
+curriculum. It forbids deriving a training outcome without a registered `D`;
+it does not forbid, and does not supply, a theorem conditional on one.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
