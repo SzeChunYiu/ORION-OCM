@@ -19,13 +19,13 @@ This document formalizes that composition without equating semantic compression 
 
 ## 2. Distinguishability-capacity bridge
 
-Let a semantic cut `C` require at least `m` mutually distinct exact messages. Let a physical carrier at that cut have a protected readout map from its physically realizable carrier states to downstream message symbols.
+Let a semantic cut `C` require simulation of an ideal classical identity channel on `m` symbols: a single protected readout must return the chosen message exactly for every message in the alphabet. The physical boundary includes any declared receiver-side resource used in that readout. In particular, with pre-shared entanglement, the relevant received state is the transmitted carrier together with the receiver's share.
 
-If two required semantic messages are encoded by the same protected physical carrier state, no downstream process receiving only that carrier state can distinguish them. Therefore the encoding of required exact messages into protected carrier states must be injective.
+The required readout distinguishes all `m` encoded states with zero error. In particular the encoding must be injective, but injectivity alone is insufficient in a process theory such as quantum mechanics: distinct nonorthogonal states need not be perfectly distinguishable.
 
-**GG37 — physical distinguishability theorem.** Any exact physical realization of a semantic cut requiring `m` mutually distinguishable messages must expose at least `m` reliably distinguishable physical carrier states at that boundary.
+**GG37 — physical distinguishability theorem.** Any exact physical realization of a protected `m`-symbol identity channel must expose at least `m` physical received states distinguishable by one admissible readout under the declared resource contract.
 
-For a binary digital carrier with `b` independent ideal logical bits,
+For a binary digital carrier with `b` independent ideal logical bits and no additional message-bearing side resource,
 
 \[
 2^b\ge m,
@@ -33,7 +33,7 @@ For a binary digital carrier with `b` independent ideal logical bits,
 \boxed{b\ge\lceil\log_2m\rceil}.
 \]
 
-This is a direct architecture-free bridge from the Semantic Cut Theorem to physical memory/channel capacity. It does not assume how those physical states are implemented.
+This bridges the Semantic Cut Theorem to physical memory/channel capacity when the implementation realizes its classical cut alphabet through that protected readout. SC-1's minimum classical alphabet size is not, by itself, a globally distinguishable code-size lower bound for arbitrary quantum implementations of a task with downstream side information. Such implementations may use different measurements for different side-information values. The exact 14-input witness in [the quantum/classical boundary audit](QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md) requires five classical symbols but only a four-dimensional unassisted quantum carrier. The task and its acceptable actions survive a substrate change; the optimum within a chosen message process class need not.
 
 The exact checker verifies the binary bound for every `m=1,...,64` and enumerates every set partition through six physical microstates to confirm that semantic response classes can never outnumber available physical microstates.
 
