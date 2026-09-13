@@ -16,3 +16,5 @@ The repair receipt binds the source and retained logs from the actual normal
 and optimized runs, including the interpreter version and binary digest.
 It records this validation, not an interpreter-independent historical replay.
 The original PR570 source remains unchanged under raw/pr570-1277d0e8/.
+
+CAU-5 supplement for checklist item 13: [separator theorem](CAUSAL_COGNITION_SEPARATOR_THEOREM_V1.md) ([model](causal_rungs_v1.py) -> [11 controls](test_causal_rungs_v1.py) -> [receipt](CAU5_RECEIPT_V1.json)).
