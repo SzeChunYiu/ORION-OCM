@@ -49,6 +49,8 @@ instances are decidable, or that an empirical measurement has occurred.
 | 19 | Retain and statically audit the first four-candidate hosted expansion: all 64 traces, 128 blocks, resource envelopes and full robust frontier. XOR is the sole survivor at the registered scope. | `PARITY3_V4_HOSTED_RESULT_ASSESSMENT_20260913.md`; hosted run [34749100254](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34749100254) | Current evidence iteration; validate and merge separately from the frozen experiment |
 | 20 | The family-phase crossover condition was vacuous, malformed intervals were compared instead of rejected, and the hybrid witness summed registered upper bounds into pure-family lower bounds and reused a composition law as a necessity. FP-3a now carries well-formedness, connected-domain and pairwise scope; FP-5a fixes bound direction; FP-5b requires a decomposition-closed candidate class. | `FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
 | 21 | The family phase law only compared registered bound functions; nothing derived them, so the master chain's final arrow was a schema plus a comparator. The relaxed accounting program now derives family-conditioned lower bounds from the proved necessities under an explicit accounting-soundness contract, covering unconstructed members of a structure class. The derivation is one sided, abstention is separated into epistemic and physical causes, and the evidence/candidate asymmetry is proved. | `MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+| 22 | Candidate-universe coverage was an open-ended enumeration obligation that no finite evidence could discharge. Coverage is now validity of the disjunction of the registered structural predicates, so it is decidable without enumerating machines. A verdict over a proved cover whose classes all carry derived bounds extends to unbuilt machines; without one it must be reported with its residue and cannot be upgraded. Coverage must be proved at the verdict's own resolution. | `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` | Current iteration; commit and merge only after required local gates pass |
+
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
@@ -105,6 +107,26 @@ coordinate. A finite alphabet does not bound invisible computation or
 implementation fibers. A finite cost cap does not bound the length of
 zero-cost cycles. These conditions are now propagated into RM-2, GG14 and the
 uncomputability boundary discussion.
+
+
+### Coverage is a predicate condition, not an enumeration
+
+Iteration 22 converts the candidate-universe obligation into something
+finite evidence can address. Stated as enumeration it was unsatisfiable: the
+physically legal set is not finite and unbuilt machines cannot be listed.
+Stated over structural predicates it is the validity of a disjunction, which a
+dichotomy can discharge. The cost of that reframing is explicit and is the
+main result: adjoining the complement predicate always completes a cover, so a
+cover is only as strong as its weakest derived bound, and in the registered
+witness completing the cover *withdraws* the family verdict rather than
+confirming it. The two registered classes leave 1105 of 1344 admitted
+allocations uncovered, the complement class has derived bound 12 against a
+construction of cost 16, and 19 admitted residue allocations beat that
+construction outright. Without a coverage proof, two extensions consistent
+with all registered evidence give opposite verdicts, so the covered-class
+verdict may not be printed as a family verdict at all. Coverage also does not
+lift from components to composites, which is the precise reason hybrid forms
+escape pure-family verdicts.
 
 ### A comparator is not a derivation
 
@@ -226,6 +248,12 @@ Iteration 21 derives lower bounds only. It measures no substrate, supplies
 no `U_F`, does not make the relaxation tight, and does not establish that the
 registered structure classes cover the physically legal set. Every empirical
 obligation above is unchanged.
+
+
+Iteration 22 proves coverage for one registered finite instance only. It
+enumerates no physical machines, measures no substrate, and discharges no
+replication obligation. Because a completed cover is only as strong as its
+weakest derived bound, it more often removes a verdict than establishes one.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
