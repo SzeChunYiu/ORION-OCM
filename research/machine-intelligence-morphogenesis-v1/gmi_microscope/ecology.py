@@ -58,6 +58,14 @@ REGISTRY = {"E_wit1": spec_smooth(WITNESS_COEFFS_V1, "E_wit1"), "E_smooth3": spe
 REGISTRY["E_parity_v2"] = spec_table([smooth.make_parity_target()[x] for x in smooth.ALL_X], "E_parity_v2", criterion="all")
 REGISTRY["E_parity"]["deprecated_reason"] = "target is the identity 0..15 (dict keys), see RV-377-114 / DG-13; use E_parity_v2"
 
+# RV-377-140: the four FRESH ecologies of the class-rate morphology law, chosen by class_rate.select_fresh over RV-377-102's
+# discriminating enumeration (receipt STAGE_CLASSRATE_SELECTION_V43_CLASSRATE_SELECT.json). Registered additively;
+# setdefault so that the class-rate lane's own registration of the same names merges cleanly.
+CLASS_RATE_COEFFS_V1 = {"E_cr1": (-0.5, -0.5, -0.5, -0.5), "E_cr2": (-0.5, -0.5, -0.5, -0.125),
+                        "E_cr3": (-0.5, -0.5, -0.5, 0.25), "E_cr4": (-0.5, -0.5, -0.5, 0.375)}
+for _n, _c in CLASS_RATE_COEFFS_V1.items():
+    REGISTRY.setdefault(_n, spec_smooth(_c, _n))
+
 
 def spec_id(spec):
     return sha256_of(spec)[:16]
