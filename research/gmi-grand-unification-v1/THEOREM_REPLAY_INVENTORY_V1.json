@@ -536,11 +536,22 @@
           "reason": "Preserved the verified shared-reuse/probabilistic-acquisition capture before adding labelled-partition query reconstruction and its joint-cost witnesses.",
           "sha256": "b53c6148a30f9b52eaf34c8ee946269d2a32a728caf171ceb789c98edbdb651c",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "different_fields": [
+            "$.receipt_stack.fresh_payload_sha256.grand_gmi_unknown_model_checks_v1.py",
+            "$.receipt_stack.receipts",
+            "$.receipt_stack.terminals.GRAND_GMI_UNKNOWN_MODEL_ACQUISITION_RECEIPT_V1.json"
+          ],
+          "path": "GRAND_GMI_MASTER_RECEIPT_V7.json",
+          "reason": "Preserved the verified shared-reuse, known-kernel and labelled-partition capture before the fixed-unknown-model acquisition extension.",
+          "sha256": "bc0092e2901d3cf5518e23834e9387fd3124d400f35f7315b55b9a4b5c2045a2",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
       "kind": "aggregate",
-      "receipt": "GRAND_GMI_MASTER_RECEIPT_V7.json",
-      "receipt_sha256": "bc0092e2901d3cf5518e23834e9387fd3124d400f35f7315b55b9a4b5c2045a2",
+      "receipt": "GRAND_GMI_MASTER_RECEIPT_V8.json",
+      "receipt_sha256": "5b29dad84bff6c9d86ed95ddd67146afcc139ee56414fbf034f6aa03f3991554",
       "source_sha256": "8eb251f3e5a24a0c36bcb08bd77c79f73ed1d4aa03cef97da3b3bab5fd14734b",
       "terminal": "GRAND_GMI_MASTER_INTEGRATION_V2_ALL_GREEN"
     },
@@ -991,6 +1002,15 @@
       "receipt_sha256": "2ea767ef89e56a4017b369153dc065309bca2b624d08df3f6253b6f6459582dc",
       "source_sha256": "78a803e3bb65ef8d27b942e1095609f9207ca8636958c0f6ba5b929718968505",
       "terminal": "TASK_DIRECTED_ACQUISITION_FINITE_GREEN"
+    },
+    {
+      "checker": "grand_gmi_unknown_model_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_UNKNOWN_MODEL_ACQUISITION_RECEIPT_V1.json",
+      "receipt_sha256": "45410d819039d1c2966cc5da7a2d4103edffce6b736370c43602aebdffe46eae",
+      "source_sha256": "192c6e21eb585463b4e9162bf2b3435f49226708a79d4a2329d4d9748df7a7e7",
+      "terminal": "FIXED_UNKNOWN_MODEL_ACQUISITION_FINITE_GREEN"
     }
   ],
   "claim_ceiling": "registered finite executable checks only; no universal theorem or empirical closure",
@@ -1010,6 +1030,9 @@
     "nn_nonnn_point_parity3_experiment_v6.py": "8a91ccfab5fd7fa914ced8738c251863e1e32f6e902e317e108172e1adb95b7c",
     "parity3_cross_envelope_adjudicate_v5.py": "af2e1004d6d355cda71faa4281842ea5c0c3de28a6900082722adfc6c5ec7835",
     "replay_theorem_capsule_v1.py": "387c34cab9472124e90a77684086e46b9870fecffb6009a0248bf90d3d002d39",
+    "unknown_model_frontier_v1.py": "3d6b621ac192f42e6611b2c045c593b96c95db8731f4c851e6f2e61eb5d6c30c",
+    "unknown_model_mixtures_v1.py": "e01d28c9f993c74443212d884c976245ace60883f0e057cbaa36c7f06d81f9df",
+    "unknown_model_oracle_v1.py": "3ce024250ada12224599855838c64f8d4a4b47af498cbee77314c9b76489e345",
     "verify_parity3_hosted_v4.py": "73dfecef973d93ccd67897a391c7621ecb97d7b6cc5df62bdf1116e68ab4d268"
   },
   "external_controls": {
@@ -1069,7 +1092,7 @@
     "CONTROLLED_ACQUISITION_CLAIM_LEDGER_V1.md": "37d849d87e13bc735bec3c9cddec902a22dbea286fd6de2ca3098ce3a95a31a7",
     "CONTROLLED_ACQUISITION_INFORMATION_STATE_THEOREM_V1.md": "860f9359010deea540c3c965786aa73f08ad3d7380d1028434c857b9b074a9f3",
     "CONTROLLED_RELATIONAL_ACQUISITION_THEOREM_V1.md": "13dc052ca61f9284c9037b2a000482efc2d96dadfcb8f1524932d938f9fd9128",
-    "CORE.md": "f7ee043be7b91e6ef5574d2c97d1b64a6f09c9d39e66a78642bc4f84134b18c4",
+    "CORE.md": "19505f57e47a98e1ad69e8907006e3a4ffaaade0317250b0b7aa55f0fec392c5",
     "DECISION_FINITE_SCORES_AUDIT_V1.md": "c64154bb930a8f29ff8040a3734b3fe5d265b9f4d8411271ac48fd7907e3e8f9",
     "DEVELOPMENTAL_LIFECYCLE_CORRECTION_V2.md": "df8de710ac307a5151aa27375edaf52abb306b659bfe94db20215d68ec0b7581",
     "DEVELOPMENTAL_REACHABILITY_SELECTION_THEOREM_V1.md": "9d365e4b6df9304fc290f5501434541740b16a09763434da54c1b7c8fcc60671",
@@ -1086,6 +1109,7 @@
     "FAMILY_FRONTIER_PHASE_THEOREM_V1.md": "5021b5de82d9d37db0594949e15aacc4faac1f3d02a93501b5f75d6e18bf150c",
     "FAMILY_PHASE_MERGE_NOTE_V1.md": "dae7b34a65397a80152874cae6572291ccd1253c9767731a2a3de4039d4549cd",
     "FAMILY_PHASE_SOUNDNESS_CORRECTION_V1.md": "e33b216acc1492e9f84262b510ad4cc6784a02c0d2c26e90f66bc21f97b5be0f",
+    "FIXED_UNKNOWN_MODEL_ACQUISITION_THEOREM_V1.md": "4c135ef80102f5ccdf16e17ab4e380e5f830314111dee2825e9b03faf64d0493",
     "FORMAL_REASONING_PROOF_SEARCH_THEOREM_V1.md": "043c6e2d868ce9033f43cd77cdcc83d955a023bc11eaa1278d41cd34abb9b915",
     "FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md": "9ea0da12cae9b2b51b5203ec7f185037cd119f6c3b7a07f6e0badbaceafdc369",
     "GENERALIZATION_ATTAINMENT_AUDIT_V1.md": "55ef0bc6028e8b13883cfe74d4d2cabe7025fded4fca23b372986f81e49abe6f",
@@ -1161,7 +1185,7 @@
     "PLANNING_SEMANTIC_RESOLUTION_PARENT_SUBTRACTION_V1.md": "bf9ecabece05ae9b3af5efe6773bd9faa06a0fc8c4bf7555ccf6ee6f130414bc",
     "PLANNING_SEMANTIC_RESOLUTION_THEOREM_V1.md": "faf2321084332b8dbbe3541e791567dbdd1e3a345281ee0610e38a3a2d37d773",
     "PR530_SCIENTIFIC_REVIEW_88729748_V1.md": "93286b59a687ef0149016265446d208feee404d75f78cee2462aa0430044e5bc",
-    "PROBABILISTIC_CONTROLLED_ACQUISITION_THEOREM_V1.md": "d98e78d758a9511dc85423653fac3c9109805b8a00b919075db79303d13e1a98",
+    "PROBABILISTIC_CONTROLLED_ACQUISITION_THEOREM_V1.md": "cc9e157d0576ba568ba6ea6002395d52ebbde666fd871950f3c312e13c3ae903",
     "PROOF_SEARCH_VERIFICATION_REUSE_THEOREM_V1.md": "43bc1ffd48c118e9fd69bd91d195916143af705a2ea1507b3ad234b336c85833",
     "QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md": "3924fbdf842e2a23ed7bd066be3a7bbf40e23a640773a350939a2a3f7e7db717",
     "QUANTUM_PROCESS_INSTANTIATION_THEOREM_V1.md": "6ae13ba236d74f53b8571d9163399e3d15fa2032245542dc5f7acf6dd4fe6f81",
@@ -1174,7 +1198,7 @@
     "ROBUST_DECISION_PRECISION_CLAIMS_V1.md": "6517d6dfc769b26efbba19c4e78fd692bd9fb8c85bcfc84855600aca239c31f1",
     "ROBUST_DECISION_PRECISION_PARENT_SUBTRACTION_V1.md": "33af4dd5a93c08d5b87ee8cfcb7f73c20193949dea1e385a85a5feb59b615088",
     "ROBUST_DECISION_PRECISION_THEOREM_V1.md": "7e3bc837689878ccc6f1d1df9823525493e1518dc52ca3ba66ca65ee15756f99",
-    "SCIENTIFIC_GAP_QUEUE_V2.md": "6fe263dc7de196b6bc1f20d14ed58650bd9c137860f511e7ff6fde6fab782475",
+    "SCIENTIFIC_GAP_QUEUE_V2.md": "7d5a8e8392c17d214c4b4ac60f79e173403e3d4e2ab8b3ea2748ec0c183f6cb7",
     "SEMANTIC_ADEQUACY_CORRECTION_V1.md": "e61e649244ab85e8991ff2b53c04e989bdee172dd8d3067c950943d20f8a19bc",
     "SEMANTIC_CUT_THEOREM_V1.md": "c2801906602b0081dab554d2fbb9c61866d6122aceac8a9a29865bc2b560b0fd",
     "SEMANTIC_STATE_REFINEMENT_THEOREM_V1.md": "ab47ea44f3ede57697df97369daab6c18a7292e8511b43d8e3f2c99e00020893",
@@ -1184,7 +1208,7 @@
     "SUFFICIENCY_DIRECTIONS_AUDIT_V1.md": "b3584d86d4c6cb813a670d57705b48abac5f3558820766c92811433bd82a3e66",
     "SYMMETRY_TO_MORPHOLOGY_THEOREM_V1.md": "c8decf048e88888d40173d2286feed37c90b1ea4a63b02b0a5eed074c2feeace",
     "TASK_DIRECTED_ACQUISITION_THEOREM_V1.md": "0219c2ad4ff30ba16f2e523576cf65f4e956e3782d9e1b5241be7f4ef8e89c4f",
-    "THEOREM_REPLAY_CAPSULE_V1.md": "2a60a0fdf902a6c9244822ab86c77d46b5e34c91ff1bdb62cc562eb87646b239",
+    "THEOREM_REPLAY_CAPSULE_V1.md": "b71e9327e275370ac3f329b2311e6f34067c134900756ba768f2fce2d4f9d5a6",
     "UNCOMPUTABILITY_BOUNDARY_THEOREM_V1.md": "b6dac6fe86c28c2a2ea2a90b9c1191334f3cb3f807a47011bde4808ceba22725"
   },
   "non_replayed_records": [

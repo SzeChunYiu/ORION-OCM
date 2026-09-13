@@ -170,3 +170,8 @@ mode persistence and cutoff costs, and eight growing-delay prefix controls.
 The receipt GRAND_GMI_PROBABILISTIC_ACQUISITION_RECEIPT_V1.json binds finite
 outputs; the proofs establish the general laws. This advances Q1 only within
 the explicitly registered finite known-kernel, admitted-controller scope.
+
+The finite-horizon [UMA-1–4 extension](FIXED_UNKNOWN_MODEL_ACQUISITION_THEOREM_V1.md)
+handles a supplied finite family of fixed hidden kernels. Its common-policy
+vectors preserve information through resets and distinguish fixed uncertainty
+from rectangular row switching; learned coverage remains a separate premise.
