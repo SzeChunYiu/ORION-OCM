@@ -3,28 +3,24 @@
 
 from fractions import Fraction
 from itertools import combinations
+import importlib.util
 import json
 import pathlib
 
 HERE = pathlib.Path(__file__).resolve().parent
 
-EXPECTED_TERMINALS = {
-    "GRAND_GMI_SEMANTIC_CUT_RECEIPT_V1.json": "GRAND_GMI_SEMANTIC_CUT_TRANCHE_ALL_GREEN",
-    "GRAND_GMI_RECURSIVE_RECEIPT_V1.json": "GRAND_GMI_RECURSIVE_MORPHOGENESIS_TRANCHE_ALL_GREEN",
-    "GRAND_GMI_SUBSTRATE_SYMMETRY_RECEIPT_V1.json": "GRAND_GMI_SUBSTRATE_SYMMETRY_TRANCHE_ALL_GREEN",
-    "GRAND_GMI_COMPOSITIONAL_RECEIPT_V1.json": "GRAND_GMI_COMPOSITIONAL_DISTRIBUTED_TRANCHE_ALL_GREEN",
-    "GRAND_GMI_MEANING_RECEIPT_V1.json": "GRAND_GMI_CAUSAL_SEMANTIC_VIABILITY_TRANCHE_ALL_GREEN",
-}
-
-
-def check_receipt_stack():
-    observed = {}
-    for name, expected in EXPECTED_TERMINALS.items():
-        data = json.loads((HERE / name).read_text(encoding="utf-8"))
-        terminal = data["terminal"]
-        assert terminal == expected
-        observed[name] = terminal
-    return {"receipts": len(observed), "terminals": observed, "all_green": True}
+def check_receipt_stack(root=HERE):
+    spec = importlib.util.spec_from_file_location(
+        "grand_gmi_theorem_replay", HERE / "replay_theorem_capsule_v1.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    # The aggregate may also be imported by a caller with ambient .pyc caches.
+    # Compile the helper source directly rather than accepting cached bytecode.
+    source = HERE / "replay_theorem_capsule_v1.py"
+    exec(compile(source.read_bytes(), str(source), "exec"), module.__dict__)
+    # The outer replay verifies this aggregate against MASTER_RECEIPT_V2.
+    # Re-entering it here would recursively execute the aggregate forever.
+    return module.replay(root, include_aggregate=False)
 
 
 def check_approximate_nontransitivity():
@@ -74,12 +70,30 @@ def check_approximate_cover_monotonicity():
     }
 
 
+def check_componentwise_infimum_not_attained():
+    profiles = ((1, 3), (3, 1))
+    ideal = tuple(min(profile[i] for profile in profiles) for i in range(2))
+    frontier = tuple(p for p in profiles if not any(
+        all(a <= b for a, b in zip(q, p)) and any(a < b for a, b in zip(q, p))
+        for q in profiles
+    ))
+    if ideal != (1, 1) or ideal in profiles or frontier != profiles:
+        raise AssertionError("componentwise infimum/Pareto witness failed")
+    return {
+        "attainable_profiles": [list(p) for p in profiles],
+        "pareto_frontier": [list(p) for p in frontier],
+        "componentwise_infimum": list(ideal),
+        "componentwise_infimum_attained": False,
+    }
+
+
 def run():
     return {
-        "terminal": "GRAND_GMI_MASTER_INTEGRATION_ALL_GREEN",
+        "terminal": "GRAND_GMI_MASTER_INTEGRATION_V2_ALL_GREEN",
         "receipt_stack": check_receipt_stack(),
         "approximate_nontransitivity": check_approximate_nontransitivity(),
         "approximate_cover_monotonicity": check_approximate_cover_monotonicity(),
+        "componentwise_infimum_not_attained": check_componentwise_infimum_not_attained(),
     }
 
 

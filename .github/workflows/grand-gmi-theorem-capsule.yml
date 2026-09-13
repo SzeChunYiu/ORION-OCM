@@ -1,0 +1,52 @@
+name: Grand GMI finite theorem capsule replay
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-grand-unification-v1/**'
+      - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
+      - '.github/workflows/grand-gmi-theorem-capsule.yml'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-grand-unification-v1/**'
+      - 'research/machine-intelligence-morphogenesis-v1/GMI_OPERATIONAL_COMPLETENESS_THEOREM_V1.md'
+      - '.github/workflows/grand-gmi-theorem-capsule.yml'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3.yml'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  finite-capsule:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Research regressions including hostile receipt checks
+        run: |
+          python -B -m unittest discover -s research/gmi-grand-unification-v1 -p 'test_*.py' -v
+          python -B -O -m unittest discover -s research/gmi-grand-unification-v1 -p 'test_*.py' -v
+      - name: Replay every registered finite checker against complete frozen output
+        run: >-
+          python -I -B research/gmi-grand-unification-v1/replay_theorem_capsule_v1.py
+          > "$RUNNER_TEMP/grand-gmi-finite-capsule-replay.json"
+      - name: Upload replay evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: grand-gmi-finite-capsule-replay
+          path: ${{ runner.temp }}/grand-gmi-finite-capsule-replay.json
+          if-no-files-found: error
+      - name: Verify replay did not mutate tracked evidence
+        run: git diff --exit-code
