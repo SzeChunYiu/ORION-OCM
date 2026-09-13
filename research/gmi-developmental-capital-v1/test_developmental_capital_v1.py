@@ -186,14 +186,42 @@ class KRC_K2ReachabilityCondition(unittest.TestCase):
                 checked += 1
         self.assertGreater(checked, 100)
 
-    def test_atomic_targets_cannot_support_k2_for_any_library(self):
-        universe = ("p", "q", "r", "s")
+    def test_atomic_targets_DO_support_k2_when_the_library_contains_them(self):
+        """Corrects a rigged control.
+
+        The previous test asserted that an atomic target can never satisfy K2,
+        but drew libraries from a universe that EXCLUDED the target, so
+        disjointness was imposed by construction and the test could not fail.
+        The claim is false: with P = L = {a}, history charges 0 and RESET
+        charges 1.
+        """
+        self.assertTrue(self.k2(("a",), ("a",)),
+                        "P = L = {a}: B_H = 0 < B_RESET = 1, so K2 holds")
+        self.assertEqual(self.acq(("a",), ("a",)), 0)
+        self.assertEqual(self.acq(("a",), set()), 1)
+
+    def test_decomposition_size_alone_decides_nothing(self):
+        """|P| = 1 is not the condition; L intersecting P is."""
+        self.assertTrue(self.k2(("a",), ("a", "b")))     # atomic, overlapping
+        self.assertFalse(self.k2(("a",), ("b",)))        # atomic, disjoint
+        self.assertTrue(self.k2(("a", "b"), ("a",)))     # composite, overlapping
+        self.assertFalse(self.k2(("a", "b"), ("x",)))    # composite, disjoint
+
+    def test_the_condition_is_exactly_library_intersects_target(self):
         from itertools import combinations, chain
-        libs = list(chain.from_iterable(combinations(universe, k)
+        universe = ("a", "b", "c")
+        subs = list(chain.from_iterable(combinations(universe, k)
                                         for k in range(len(universe) + 1)))
-        for lib in libs:
-            self.assertFalse(self.k2(("atomic_target",), lib),
-                             "an atomic target must never satisfy K2")
+        checked = 0
+        for parts in subs:
+            if not parts:
+                continue
+            for lib in subs:
+                self.assertEqual(self.k2(parts, lib),
+                                 bool(set(lib) & set(parts)),
+                                 "parts=%s lib=%s" % (parts, lib))
+                checked += 1
+        self.assertGreater(checked, 20)
 
     def test_mode_a_and_mode_b_are_distinguishable_by_decomposition_size(self):
         self.assertFalse(self.k2(("p", "q"), ("x", "y")))   # mode (a): |P|=2

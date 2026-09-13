@@ -53,7 +53,8 @@ that one* — carries no force at a larger scale without a comparator retained
 
 TL-3 is a statement about *one-sided* evidence, not an impossibility. The
 registered `DCR` separation rule already supplies the positive condition and is
-reused here verbatim: a comparison is certified iff the candidate's upper bound
+reused here under **full Cartesian product semantics**: a comparison is
+certified iff the candidate's upper bound
 is finite and strictly below the comparator's lower bound.
 
     candidate = [a_lo, a_hi],  comparator = [b_lo, b_hi]
@@ -99,6 +100,20 @@ implements both and returns one of `CERTIFIED_STRICTLY_LOWER`,
 `CERTIFIED_STRICTLY_HIGHER` or `UNVERIFIABLE`. On `A=[10,∞)`, `B=[1,4]` the
 mirror certificate applies while TL-6 alone reported `UNVERIFIABLE`. That was a
 gap in TL-6, and it is recorded rather than silently corrected.
+
+### The iff requires full-product semantics
+
+Calling this rule "verbatim from DCR" was too strong. The equivalence holds
+when the two intervals are read as their full Cartesian product. Under a
+supplied **correlated** joint set it fails: for `W = {(1,2), (2,3)}` the
+difference has `max(a-b) = -1`, so `a < b` in every supplied world, although
+the marginal boxes `[1,2]` and `[2,3]` touch and permit a tie in their product.
+
+For a nonempty finite joint set `W`, every world has `a < b` iff `max(a-b) < 0`
+and every world has `a > b` iff `min(a-b) > 0`; the finite extrema are
+attained. Without attainment the margin can vanish — `W = {(0, 1/n)}` always
+has `a < b` while `sup(a-b) = 0`. Raised and derived by the ledger repair unit;
+cited here rather than re-derived.
 
 ## 6. TL-4 — the physical gap is separate from the mathematical one
 
