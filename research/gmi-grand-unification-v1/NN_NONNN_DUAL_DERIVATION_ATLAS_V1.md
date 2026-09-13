@@ -267,7 +267,11 @@ Suppose the operational task decomposes into:
 
 ### GMI derivation
 
-The family-phase hybrid theorem composes regional upper bounds plus bridge cost. If the best certified mixed assignment has upper cost below lower bounds for every pure neural and pure non-neural realization, then hybrid morphology is selected.
+The family-phase hybrid theorem composes regional upper bounds plus bridge cost.
+A witnessed mixed assignment below valid whole-family lower bounds excludes
+the registered pure competitors. Regional lower bounds cover monolithic
+competitors only with FP-5b decomposition coverage. An exact selected hybrid
+additionally requires nonempty attained selection, as in MSC-1–3.
 
 ### Realization
 
@@ -275,7 +279,7 @@ A neural subsystem can realize `R_s`; an FSM/program/verifier can realize `R_x`;
 
 ### Verdict
 
-This is **DERIVED_HYBRID** only when all selected morphologies require mixed-family regional realization. Merely attaching a symbolic tool to a neural model is not a derivation.
+This is **DERIVED_HYBRID** only when the selected set is nonempty and all its morphologies require mixed-family regional realization. Merely attaching a symbolic tool to a neural model is not a derivation.
 
 ## 12. Where named neural architectures come from
 

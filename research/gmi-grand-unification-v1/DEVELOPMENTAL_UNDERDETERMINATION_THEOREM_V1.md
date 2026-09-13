@@ -1,153 +1,154 @@
 # Grand GMI Developmental Underdetermination Theorem V1
 
-Status: **THEOREM / NO-GO BOUNDARY ON DERIVING DEVELOPMENT + EXACT FINITE WITNESSES**
-Date: 2026-09-13
+Status: **SCOPED UNDERDETERMINATION + CONSTRUCTIVE FINITE CLOSURE; V2 REPAIR**
+Date: 2026-09-13. The historical V1 receipt is preserved; current evidence is
+`GRAND_GMI_DEVELOPMENTAL_UNDERDETERMINATION_RECEIPT_V2.json`.
 
-Authority for the derived-bound machinery used below:
-`MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md`. Retained predecessors: MS-6,
-DRS-1–3, `DEVELOPMENTAL_LIFECYCLE_CORRECTION_V2.md`,
-`UNCOMPUTABILITY_BOUNDARY_THEOREM_V1.md`.
+## 1. Register and scope of the repair
 
-## 1. Gap addressed
+Fix admitted realizations X, scalar profiles c:X->R_(>=0), family labels,
+initial state s0, and a development transition relation D. At most B legal
+updates define Reach_B. In a controlled system D may include all admitted
+actions; a particular policy can induce a smaller reachable set. Profiles,
+legal transitions, admission and resource semantics must be registered.
+Reachability is existential over legal paths, not a guarantee under every
+policy or stochastic rollout. B counts updates here; path-dependent resource
+costs require charged edges or augmented state, not an identification of update
+count with total development work.
 
-`RECURSIVE_GAP_AUDIT_20260913.md` lists a general neural training theorem and
-modern-scale learning prediction as open, and records the resource/learning
-obligations as missing measurements. MS-6 already records that the reachable
-frontier differs from the static one.
+Static realization summaries alone need not identify development. That is a
+missing premise for unconditional prediction, not a reason to close the
+constructive registered-D learning programme. The package already carries D
+and contains conditional reachability/controlled-acquisition machinery.
+Neither this witness nor an undecidability theorem forbids useful conditional
+training, control, convergence or finite attainability theorems.
 
-What was missing is the reason those items are open. They were listed as work
-not yet done. This theorem establishes the stronger and more useful statement:
+The V1 wording overreached in three places: it promoted static-summary
+underdetermination to an impossibility of derivation; promoted lower-bound
+monotonicity to persistence of competitive exclusion; and treated finite
+prefixes as incapable of ever certifying a limit. These claims are corrected
+below, with positive retained-comparator and complete-closure certificates.
 
-> The reachable frontier is **not a function** of the data the rest of the
-> package supplies. No theorem of the form "necessities imply the trained
-> outcome" can exist, whatever effort is spent on it.
+## 2. DU-1 — static data alone does not identify an unconstrained D
 
-That converts an open task into a registered structural requirement: the
-development law is an independent input, with its own semantics, and a
-bounded-development verdict does not extrapolate.
+Two laws can share X, c, family assignment and all D-independent necessities
+while giving different Reach_B and family support. Let X={s0,a,b}, costs
+10,5,3 and labels A,A,B. One law permits only s0->a, the other only s0->b.
+At B=1 their cheapest reachable families are A and B respectively. Hence no
+single exact map from those shared static summaries predicts the reachable
+frontier for every otherwise unconstrained D. This is an elementary witness.
 
-## 2. DU-1 — realization data does not determine reachability
+It does not show that D cannot be constructed, identified from additional
+observations, or determined by stronger hypotheses. It does not forbid all
+conclusions independent of D: static lower bounds remain valid. Statements
+about every other component of the full package are unwarranted when some
+components already encode development. Concrete registered-D research and
+theory-guided design remain open work, including the constructive Q2 target.
 
-> **DU-1.** Two development laws can share the admitted realization set, the
-> profile map, the family assignment and every proved necessity, and still
-> yield different reachable frontiers and different verdicts.
+## 3. DU-2 — chosen schedules and all-schedules reachability differ
 
-### Proof
+Start at 1 with operations double and add_three; accept a transition only if
+its proposed value is at most 6. The prescribed order double/add_three reaches
+1,2,5. The order add_three/double reaches 1,4, then rejects proposal 8. The
+last admitted state is 4, not the rejected state 8.
 
-Exhibit the witness. States `{s0, a, b}` with profiles `10, 5, 3`, families
-`NEURAL, NEURAL, NON_NEURAL`. The global best per family is
-`NEURAL: 5`, `NON_NEURAL: 3`, and that data is shared by both laws. Law `D1`
-admits only `s0 -> a`; law `D2` admits only `s0 -> b`. At budget `1` the
-reachable frontier of `D1` has family support `{NEURAL}` and that of `D2` has
-family support `{NON_NEURAL}`. All inputs except the development law are
-identical, so the reachable frontier is not a function of them. QED.
+Thus selecting a schedule matters to its trajectory. It does not follow that
+one must prescribe a schedule to define reachability: if every admitted
+operation may be chosen at every step, the fully specified transition relation
+already determines the union over all schedules. At B=2 this union is
+{1,2,4,5}. Composition, admission and policy quantifiers are required; a fixed
+schedule is not. Policy synthesis over this graph is legitimate constructive
+work, as in finite dynamic programming and the registered controlled layer.
 
-### Consequence
+## 4. DU-3 — restriction preserves lower bounds, conditionally exclusions
 
-A "general training theorem" cannot be derived from semantic, cut,
-transformation, symmetry, resource or realization facts, because those facts
-do not determine the object it would be about. This is not a statement about
-the difficulty of analysing gradient descent. It is a statement that the
-target is underdetermined until `D` is registered, which is why the primitive
-tuple carries `D` as its own component.
+For X'_F subset X_F in the same task/profile scope,
 
-## 3. DU-2 — the admitted update set does not determine the reachable set
+    inf_(x in X'_F) c(x) >= inf_(x in X_F) c(x),
 
-> **DU-2.** Reachability depends on the schedule of admitted updates, not only
-> on which updates are admitted. A registered development law must therefore
-> fix its composition and admission semantics.
+with inf(empty)=+infinity. This follows from set inclusion. A sound lower
+bound on X_F remains a lower bound on X'_F. A fixed relaxation intersected
+with additional sound constraints also has a nondecreasing infimum. Arbitrary
+new numerical lower-bound estimates are not monotone unless previous valid
+bounds are retained or combined with them.
 
-### Proof
+**Competitive exclusion also needs its comparator.** Suppose L_F bounds every
+remaining F realization from below and a specific realization a outside F is
+retained, with certified c(a)<=U_a<L_F. Then every remaining F realization
+costs more than the retained a, so F cannot attain the scalar optimum. The
+same proof remains valid under further restriction only if that comparator
+(or another adequately bounded one) remains available, at the same task,
+valuation, development budget and jointly feasible comparison scope.
 
-Take admitted updates `double` and `add_three`, start value `1`, and the
-admission cap `6` applied after each update. The schedule
-`double -> add_three` gives `1 -> 2 -> 5`, admitted. The schedule
-`add_three -> double` gives `1 -> 4 -> 8`, which exceeds the cap and is
-rejected. The update set is identical; the reachable set is not. QED.
+The V1 counterexample refutes unconditional exclusion persistence: globally
+A has costs 2,9 and B has cost 5. The witness A2 excludes B because 2<5.
+Restrict to {A9,B5}: the target lower bound 5 remains valid, but A2 is gone
+and B now wins. Restoring the reachable comparator A2 restores the exclusion.
+Thus both selections and comparative exclusions can change under restriction;
+only the lower-bound inequality survives without a construction premise.
+Absolute impossibility below a fixed threshold is distinct from exclusion
+by comparison and does retain its valid lower-bound certificate.
 
-Non-commuting updates are the normal case for curricula, pruning and growth,
-architecture edits, and any budgeted search. Registering a set of admitted
-operations is therefore not a registration of a development law.
+## 5. DU-4 — finite prefixes need continuation control, which can be certified
 
-## 4. DU-3 — reachability is safe for bounds, unsafe for verdicts
+A bounded observed prefix alone need not determine a later verdict. For any
+B>=0, take prefix s0->...->sB with costs 1/(i+1) and family A. One continuation
+stops there; another adds s_(B+1) of cost 1/(B+2) in family B. The laws agree
+through budget B but their eventual cheapest families differ. No single exact eventual cheapest-family prediction
+from that prefix alone is valid uniformly over both possible continuations.
 
-> **DU-3a.** Restricting to reachable realizations never lowers a derived
-> lower bound: `L_F^{reach} >= L_F`.
->
-> **DU-3b.** Restricting to reachable realizations can invalidate a
-> construction, so the verdict is not monotone and can invert.
+This does not imply that no finite budget can certify unbounded reachability.
+For a complete registered transition relation, a finite set R with
 
-### Proof
+    s0 in R, every member has a certified path from s0, and D(R) subset R
 
-For DU-3a, `Reach` is a subset of the admitted set, and an infimum over a
-subset is at least the infimum over the set. Reachability evidence therefore
-behaves exactly like any other valid necessity in the sense of PL-4a, and a
-robust exclusion obtained without it survives.
+is **exactly** Reach_infinity. Paths prove R subset Reach_infinity; induction
+on path length using successor closure proves the reverse inclusion. If all
+these paths have length at most B, then Reach_B=Reach_infinity. The finite
+frontier computed on R is therefore the exact unbounded frontier of this
+registered graph. This is a positive certificate, not empirical extrapolation.
 
-For DU-3b, an upper bound is a construction, and constructions are not
-inherited by subsets. The witness has family `A` with realizations of cost `2`
-and `9`, and family `B` with a single realization of cost `5`. Globally the
-frontier support is `{A}` at cost `2`. If only the cost-`9` member of `A` and
-the cost-`5` member of `B` are reachable, the reachable frontier support is
-`{B}`. Both family lower bounds rose, from `2` to `9` and from `5` to `5`, yet
-the verdict inverted. QED.
+Equivalently, for a finite graph, Reach_(B+1)=Reach_B is a fixed point and
+certifies all later reachable sets. Exhaustive breadth-first exploration
+finds it after at most |X|-1 steps from one initial state. The transition
+relation must be complete, and any schedule/memory/admission state affecting
+future transitions must be represented. Observing no new state in sampled
+updates is not a successor-closure proof.
 
-This asymmetry is the precise shape of the learning gap. Training evidence can
-only strengthen exclusions; it can destroy the constructions on which any
-selection rests. So a selection claim always depends on development evidence,
-while an exclusion claim need not.
+The finite positive witness stops after s0->s1->s2 with costs 3,2,1 in A.
+Its path-and-closure certificate proves A optimal for unbounded development.
+Adding s2->s3 at cost 1/2 in B preserves the budget-2 prefix but invalidates
+that certificate and changes the eventual optimum to B. Extending the
+certificate to include s3 then proves the new exact result.
 
-## 5. DU-4 — no finite budget certifies an unbounded-development verdict
+Nor does every improving, family-changing edge force the budget optimum to
+alternate in a branching graph. A10->B1 and A10->B9->A8 satisfy those edge
+conditions, but B1 is best at both budgets 1 and 2. Alternating optimal support
+was valid only for V1's particular single chain. Its known length-8 chain is
+itself exhausted at budget 8, contrary to the former universal no-finite-budget
+claim. Infinite or partially known systems need their own induction or other
+continuation certificates; they are not settled by this finite construction.
 
-> **DU-4.** For development laws in which each admitted update strictly
-> improves the profile and changes family, the budget-`B` verdict reverses at
-> budget `B + 1` for every `B` below the chain length. A bounded-development
-> verdict therefore does not extrapolate to unbounded development.
+## 6. Parent assimilation, evidence and remaining constructive work
 
-### Proof
+[Bradley, *SAT-Based Model Checking Without Unrolling* (2011), Sections 2–3](https://theory.stanford.edu/~arbrad/papers/IC3.pdf)
+provides the transition-system and inductive-invariant parent: inclusion of
+initial states plus closure under transitions bounds every reachable state.
+We use that principle faithfully and add explicit path witnesses for equality;
+we do not implement or claim a new IC3 algorithm. Set-inclusion monotonicity,
+finite graph reachability and schedule composition are elementary parents.
+The package's phase/accounting and controlled-acquisition results supply the
+registered profile and action semantics; their hypotheses remain necessary.
 
-Take the chain `s0 -> s1 -> ... -> sk` with profile `10 - i` at `si` and
-family alternating with the parity of `i`. At budget `B <= k` the reachable set
-is `{s0, ..., sB}`, its frontier is `10 - B`, attained uniquely at `sB`, so the
-family support is the parity class of `B`. Consecutive budgets have opposite
-parity, so consecutive verdicts differ. The witness runs `k = 8` and checks
-that all eight frontiers are `9, 8, 7, 6, 5, 4, 3, 2` and that the verdict
-alternates at every step. QED.
+The V2 checker executes all four repaired witnesses. Tests additionally compare
+finite reachability against independent transitive closure on all 512 directed
+three-state graphs and reject malformed, incomplete and non-path certificates.
+V1's synthetic numbers remain historical evidence, not authority for its
+superseded broader claims. No learning dynamics or resource costs were measured.
 
-The separate uncomputability boundary already forbids a total exact solver for
-unrestricted machine spaces. DU-4 is the complementary finite statement: even
-where every budgeted question is decidable, no budgeted answer licenses the
-limit. A registered budget is a hypothesis with content, not a convenience.
-
-## 6. What this closes and what it does not
-
-Closed: the openness of the training and large-scale-learning items now has a
-proof rather than a placeholder. Their target is underdetermined by the rest
-of the package (DU-1); registering admitted operations is not registering a
-development law (DU-2); development evidence strengthens exclusions but can
-destroy selections (DU-3); and no finite budget certifies an unbounded
-verdict (DU-4).
-
-Not closed, and not closable this way:
-
-- no learning process is analysed, measured or predicted here, at any scale;
-- the witnesses are synthetic finite graphs, not gradient descent, architecture
-  search, or any real curriculum;
-- DU-1 does not say a training theorem is impossible **given** a registered
-  `D`; it says one cannot be derived without it. Registered-`D` theorems remain
-  an open and legitimate research target;
-- the empirical obligations for resource maps, developmental reachability
-  evidence and prospective replication are unchanged.
-
-Terminal: `GRAND_GMI_DEVELOPMENTAL_UNDERDETERMINATION_GREEN_AT_FINITE_SCOPE`.
-
-## 7. Parent mathematics and contribution boundary
-
-The parent facts are elementary: reachability in a finite directed graph,
-non-commutativity of function composition, and monotonicity of an infimum
-under set inclusion. The uncomputability of unrestricted reachability is the
-package's existing boundary theorem and is cited, not reproved. No novelty is
-claimed for any of them. The contribution is the identification that the
-registered package's open training items are underdetermined rather than
-merely unproved, the bound/verdict asymmetry of DU-3, and the finite
-non-extrapolation result DU-4, each with an exact witness.
+Closed here: the static-summary counterexample and the two specific invalid
+inferences, with constructive conditions under which exclusion and unbounded
+finite-graph selection are certified. Still open: choose or learn a useful D,
+prove or measure its costs and attainable outcomes, optimize admitted policies,
+and transfer/replicate beyond the registered instance. These are substantive
+research obligations, not reclassified away as underdetermination.

@@ -12,11 +12,12 @@ realizations have been covered". No such theorem existed. The recursive audit
 recorded the same hole as an open-ended obligation: "a point verdict never
 enumerates all physical machines."
 
-Stated as enumeration, that obligation can never be discharged — the set of
-physically legal machines is not finite, and unbuilt machines cannot be
-listed. This correction replaces enumeration with a **decidable coverage
-predicate over structure classes**, proves what a verdict means with it and
-without it, and proves that the upgrade cannot be made without it.
+Enumeration is sufficient for an explicitly enumerable finite population;
+an unbounded population may instead admit a structural coverage proof.
+Coverage is a **quantified condition over structure classes**, not a generally
+decidable predicate. This correction states the finite decision contract and
+the proof-certificate route, then proves what a verdict means with and without
+coverage. The physical candidate population itself remains a registered premise.
 
 ## 2. CU-1 — coverage is validity of a disjunction
 
@@ -37,6 +38,27 @@ a derived bound.
 
 That reframing is the whole content of this correction: coverage is cheap,
 **bounded** coverage is not.
+
+**CU-1b — finite decision and infinite proof boundary.** Given a complete
+finite population enumeration and total decidable class predicates, evaluate
+their disjunction on each member. Termination follows from finiteness and
+totality; no uncovered member iff the cover holds. A finite ambient register
+with decidable population membership gives the same procedure after filtering.
+
+For infinite populations, a supplied finite proof certificate accepted by a
+sound terminating proof checker can certify a particular cover relative to
+its declared axioms. Neither proof discovery nor a complete coverage decision
+procedure follows. The complement construction is a logical set identity;
+it does not decide whether a different supplied registry already covers.
+
+Indeed, let Phys=N and sigma_M(n) mean that machine M has not halted within
+n steps. Every sigma_M(n) is decidable by bounded simulation, while
+forall n sigma_M(n) holds iff M never halts. A general coverage decider would
+therefore decide nonhalting, contradicting the classical undecidability result
+([Turing, 1936/37](https://londmathsoc.onlinelibrary.wiley.com/doi/10.1112/plms/s2-42.1.230)).
+Finite prefix checks cannot settle that universal statement: a loop and a
+machine halting at N+1 agree through N. The checker executes bounded versions
+of this control; it does not claim to decide nonhalting.
 
 ## 3. CU-2 — a covered dominating witness excludes all of physics
 
@@ -60,7 +82,8 @@ of the weakest derived bound in the cover.
 The witness instance makes the failure arithmetic. Over the registered
 instance with the joint necessity registered, the two registered classes have
 derived bounds `L_NEURAL = 18` and `L_NON_NEURAL = 14`, and a registered
-non-neural construction of cost `16` robustly dominates both. The verdict over
+non-neural construction of cost `16` strictly excludes the rival neural class
+since `16 < 18`; it does not undercut its own class bound `14`. The verdict over
 those two classes is `NON_NEURAL`.
 
 But the two predicates do not cover the admitted population: of `1344`
@@ -74,18 +97,22 @@ the instance. The required report in that situation is
 
 `ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`,
 
-naming the covered classes, and it may not be printed as a family verdict.
+naming the covered classes; it may not be printed as a population-wide
+family verdict. A family verdict explicitly restricted to the covered union
+remains valid at that smaller scope.
 
 > **CU-3b — non-upgradability.** Without a coverage proof, the covered-class
-> verdict carries no information about the residue.
+> evidence alone does not generally determine the residue's costs or verdict.
 
 ### Proof
 
-Two extensions of the registered classes are each consistent with all
-registered evidence and give opposite verdicts. Extending by the expensive
+Two extensions of the registered classes preserve all evidence restricted to
+those classes and give different certified outcomes. Extending by the expensive
 exotic class `{residue, t1 >= 6, t2 >= 6}` keeps `NON_NEURAL`; extending by the
-full residue class withdraws it. Registered evidence does not distinguish
-them, so no inference from the covered classes to the residue is licensed. QED.
+full residue class withdraws it. Evidence restricted to the original classes does not distinguish
+them, so it cannot generally fix the enlarged verdict. Independent evidence
+about the residue remains usable; the known full finite population above
+already distinguishes these extensions. QED.
 
 ## 5. CU-4 — coverage must be proved at the verdict's resolution
 
@@ -119,12 +146,14 @@ freely, but may never leave a structural gap.
 
 ## 7. What this closes and what it does not
 
-Closed: the coverage obligation is no longer an unbounded enumeration
-requirement. It is a decidable predicate; a cover always exists; a verdict over
-a proved bounded cover extends to unbuilt machines (CU-2); a verdict without one
-must be reported with its residue and cannot be upgraded (CU-3, CU-3b);
-coverage must be proved at the verdict's own resolution (CU-4); and overlap is
-free (CU-5).
+Closed: coverage can be certified without listing every member, but is
+decidable here only for an explicitly finite enumerable population and total
+decidable predicates. A complement cover always exists as a set identity;
+a constructed witness strictly below all rival bounds under a proved cover
+excludes unbuilt rivals (CU-2). Without adequate coverage/evidence, the larger
+verdict is not determined by covered-class evidence alone (CU-3, CU-3b).
+Coverage must hold at the verdict's resolution (CU-4); overlaps obey both bounds
+(CU-5). No claim of deciding arbitrary quantified structural statements is made.
 
 Not closed, and not closable this way:
 
@@ -139,6 +168,8 @@ Not closed, and not closable this way:
   `RECURSIVE_GAP_AUDIT_20260913.md` is discharged.
 
 Terminal: `GRAND_GMI_CANDIDATE_UNIVERSE_COVERAGE_GREEN_AT_FINITE_SCOPE`.
+The corrected executable output is GRAND_GMI_CANDIDATE_COVERAGE_RECEIPT_V2.json;
+V1 remains an immutable historical receipt of the earlier source.
 
 ## 8. Parent mathematics and contribution boundary
 

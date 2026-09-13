@@ -1,6 +1,7 @@
 import importlib.util
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 HERE = Path(__file__).resolve().parent
 TARGET = HERE / "grand_gmi_controlled_acquisition_checks_v1.py"
@@ -28,6 +29,11 @@ class ControlledAcquisitionChecks(unittest.TestCase):
         r = MOD.budget_augmentation_witness()
         self.assertEqual(r["remaining_budget_0"], "INF")
         self.assertEqual(r["remaining_budget_1"], 1)
+
+    def test_budget_witness_rejects_a_broken_policy_solver(self):
+        with patch.object(MOD, 'pair_value', return_value=MOD.INF):
+            with self.assertRaises(AssertionError):
+                MOD.budget_augmentation_witness()
 
     def test_exhaustive_pair_state_equals_history_policy(self):
         r = MOD.exhaustive_pair_vs_history()

@@ -24,7 +24,7 @@ w\equiv_\Omega w'
 Q_w^{\Omega}=Q_{w'}^{\Omega}.
 \]
 
-The experiment policy is then required to identify only `W / equiv_Omega`, not the entire latent world/model/causal graph unless the obligation itself demands full identification.
+For the complete-response identification obligation, the experiment policy identifies `W / equiv_Omega`, not necessarily the entire latent world/model/causal graph. A weaker successful-action task can require less information than this quotient; TDA-1--3 make that distinction explicit.
 
 The exact finite microscope proves this distinction is operationally material: among 44,592 identifiable binary-obligation instances, 27,472 require strictly fewer adaptive experiments than identification of the finest experimentally accessible world partition.
 
@@ -33,3 +33,19 @@ Thus the residual claim is not "GMI invented active learning." It is:
 `OBLIGATION_DERIVED_EPISTEMIC_TARGET_CAN_BE_STRICTLY_CHEAPER_THAN_FULL_WORLD_IDENTIFICATION = TRUE_AT_EXHAUSTIVE_FINITE_SCOPE`.
 
 This composition connects semantic sufficiency, experimentation, downstream control and morphology/resource selection inside one architecture-free theory.
+
+## Overlapping action regions: an additional direct parent
+
+[Javdani et al., *Near Optimal Bayesian Active Learning for Decision Making*, AISTATS 2014, sections 2--3](https://publications.ri.cmu.edu/storage/publications/pub_files/2014/4/javdani14hec_extended.pdf)
+already define overlapping successful-decision regions and hyperedge removal.
+[Chen et al., UAI 2017, section 2](https://www.auai.org/uai2017/proceedings/papers/83.pdf)
+explicitly register worst-case as well as expected decision-region cost.
+
+Their region `R_a={w:a in Gamma(w)}` contains a candidate set exactly when
+that set has one common adequate action. Thus TDA-1's target and compatibility
+mechanism are faithful parent assimilation, and minimax Bellman optimization
+is established theory. Their Bayesian greedy guarantees are not automatically
+worst-case guarantees. TDA-3 composes this target with the already proved
+classical cut to obtain a declared experiment/retention feasibility law; the
+six-world witness exposes an unattainable pair of separate minima. This is
+a GMI repair and synthesis, with no new-parent or universal-novelty claim.

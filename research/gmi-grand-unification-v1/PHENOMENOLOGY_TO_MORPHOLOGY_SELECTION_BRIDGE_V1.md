@@ -50,6 +50,8 @@ A property may be **explained** before it is **selected**. For example:
 
 A statement `GMI derives family/property P at scope S` is false whenever one admissible selected/frontier morphology at the same registered scope lacks `P`.
 
+An empty selected set supplies no positive architecture derivation (MSC-1);
+proof of feasible selection is distinct from excluding counterproperties.
 Candidate omission is not a proof of derivation. Competing families must be excluded by proved response, physical, resource, developmental or selection constraints.
 
 This criterion is deliberately stronger than architecture compatibility.
