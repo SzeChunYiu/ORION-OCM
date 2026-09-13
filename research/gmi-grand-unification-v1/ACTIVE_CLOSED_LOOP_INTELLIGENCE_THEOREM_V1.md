@@ -1,7 +1,7 @@
 # Grand GMI Active Closed-Loop Intelligence Theorem V1
 
-Status: **THEOREM / ACTIVE-SENSING AND CLOSED-LOOP MORPHOLOGY LAYER + EXACT FINITE WITNESS**  
-Date: 2026-09-12
+Status: **ACTIVE-INFORMATION NECESSITY + CONDITIONAL WHOLE-POLICY SUFFICIENCY + EXACT WITNESSES**
+Date: 2026-09-13
 
 ## 1. Gap closed
 
@@ -50,7 +50,17 @@ Suppose before a terminal decision there are at least two latent hypotheses `h_0
 3. can be distinguished by an admitted sensing/probing action within budget;
 4. the protected obligation requires correctness on both hypotheses.
 
-Then no passive/open-loop terminal policy can satisfy the obligation, while an active sensing policy can. Hence **active information gathering is morphology-derived** at that scope.
+Then no terminal policy restricted to that passive information can satisfy the obligation. The existence of an affordable distinguishing probe does **not** by itself establish an adequate active policy. The acquired distinction must still reach a legal terminal action through an admitted controller, and the complete sensing, retention and action process must meet the total resource and viability constraints.
+
+**ACL-2a — acquisition necessity.** Conditions 1, 2 and 4 exclude the passive information boundary. Condition 3 identifies an available source of the missing information but supplies only acquisition feasibility.
+
+**ACL-2b — complete-policy sufficiency.** An active policy is adequate if an admitted probe and controller jointly map every compatible sensing outcome to the required legal terminal action, preserve any needed distinction until use, and satisfy the complete budget and other protected constraints. For a finite immediate-response instance with an exact distinguishing probe, the observation still available at the terminal decision, and an admitted within-budget lookup from outcomes to required actions, this policy is constructed directly by that lookup. Delayed action additionally requires a feasible retention/decoder process, as in ACL-3.
+
+### Counterexample to probe-only sufficiency
+
+Let the hidden bit be `h in {0,1}` and require terminal action `a=h`. A probe of cost one reveals `h`, but its observation is removed before a forced blank step. Admit the probe within the sensing budget while allowing only one persistent controller state, with no other side channel. All four conditions above hold, yet every legal terminal controller receives the same state and blank observation in both worlds. Neither deterministic output is correct on both; randomizing cannot make both success probabilities one. An admitted two-state controller can store the bit and succeed. Probe affordability therefore does not imply complete-policy feasibility.
+
+Active information gathering is morphology-derived for an adequate selected policy only after both the information necessity and complete-policy feasibility conditions have been established.
 
 The sensing action may be a camera movement, query, experiment, memory lookup, diagnostic test, communication request, database read, physical probe or another intervention. Grand GMI derives the information-acquisition role, not a particular sensor technology.
 
@@ -133,13 +143,15 @@ The exact checker enumerates:
 - both one-state terminal output policies after the sensed observation has disappeared;
 - all 16 binary encoder/decoder memory pairs, of which exactly two achieve perfect delayed reproduction.
 
-Therefore, under a zero-error obligation and a sensing budget that admits the probe,
+Therefore, under a zero-error obligation, a sensing budget that admits the probe, and a registered feasible two-state retention/terminal-action implementation,
 
 \[
 \boxed{\text{active sensing + one persistent bit is required}.}
 \]
 
 If the sensing budget is zero, the zero-error obligation is infeasible rather than magically solved by a more fashionable architecture.
+
+Likewise, if the probe is affordable but the complete budget admits only one persistent state, the delayed zero-error obligation is infeasible. The original witness fixes the two-state controller as available; it is not a theorem that the sensing budget alone determines feasibility. The additive sufficiency-direction checker freezes both budgets separately.
 
 ## 11. Relation to neural and non-neural intelligence
 

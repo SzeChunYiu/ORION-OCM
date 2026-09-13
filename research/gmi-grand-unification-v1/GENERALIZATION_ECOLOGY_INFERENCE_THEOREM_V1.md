@@ -1,7 +1,7 @@
 # Grand GMI Generalization and Ecology Inference Theorem V1
 
-Status: **THEOREM / GENERALIZATION-CERTIFICATE BRIDGE + NO-FREE-LUNCH BOUNDARY**  
-Date: 2026-09-12
+Status: **GENERALIZATION-CERTIFICATE BRIDGE WITH EXPLICIT SUFFICIENT-BOUND DIRECTION**
+Date: 2026-09-13
 
 ## 1. Gap closed
 
@@ -52,8 +52,8 @@ Assume:
 
 1. episodes are sampled independently from the registered deployment distribution `D`;
 2. loss is in `[0,1]`;
-3. the registered hypothesis/morphology class `H` is finite and fixed for the certificate;
-4. `n` samples are observed.
+3. the registered hypothesis/morphology class `H` is nonempty, finite and fixed independently of the sample;
+4. a positive integer `n` samples are observed and `0<delta<1`.
 
 Hoeffding's inequality plus a union bound gives, with probability at least `1-delta`, simultaneously for all `m in H`,
 
@@ -91,7 +91,17 @@ and a valid generalization certificate establishes
 
 then the obligation is certified with the stated confidence under the certificate assumptions.
 
-If the upper bound exceeds the obligation threshold, Grand GMI must report that the sample evidence is insufficient; empirical success cannot be rounded into a deployment guarantee.
+If this upper bound exceeds the obligation threshold, report that **this bound does not certify the obligation**. That failure proves neither actual inadequacy nor insufficiency of every certificate obtainable from the evidence. A sharper valid bound, a proved structural relation or the declared loss range may still certify the same candidate. Selection among statistical certificates must preserve the required joint/adaptive confidence guarantee; see GEI-8.
+
+**GEI-3a — sufficient certificate direction.** A valid risk upper bound below the task threshold certifies adequacy. An upper bound above the threshold supplies no converse conclusion. A valid risk lower bound above the threshold would instead certify inadequacy at its stated confidence.
+
+### Exact boundary and same-data witnesses
+
+Since losses are in `[0,1]`, the upper bound can always be clipped to `1`. With `|H|=1`, `n=1`, `delta=1/20` and zero empirical loss, the raw Hoeffding upper bound is greater than `1`; the obligation `R_D<=1` nevertheless holds certainly.
+
+A nontrivial witness uses a single fixed candidate and `n=2` independent losses. Register in advance the rule that returns upper bound `4/5` if both losses equal zero and returns `1` otherwise. This rule has coverage at least `24/25`, hence at least `1-delta` for `delta=1/20`: for a bounded loss `X`, `R=E[X]<=Pr(X>0)`, so if `R>4/5` the probability of observing two zero losses is at most `(1-R)^2<1/25`. If `R<=4/5`, the rule cannot under-cover.
+
+On the same two-zero sample, Hoeffding gives `sqrt(ln(40)/4)`, approximately `0.9603`, which fails to certify tolerance `4/5`. The registered zero-event rule does certify it at greater confidence. This is an alternative valid certificate, not permission to take an uncalibrated minimum over data-selected bounds.
 
 ## 6. GEI-4 — generalization uncertainty enters the morphology frontier
 

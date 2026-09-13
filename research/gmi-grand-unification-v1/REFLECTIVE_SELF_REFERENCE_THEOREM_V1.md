@@ -1,6 +1,6 @@
 # Grand GMI Reflective Self-Reference Theorem V1
 
-Status: **FORMAL REDUCTION + DIAGONAL IMPOSSIBILITY BOUNDARY**  
+Status: **FORMAL REDUCTION + DIAGONAL AND IDENTIFIABILITY BOUNDARIES**
 Date: 2026-09-13  
 Base: `main@02d288b5863efd746e13814a1468358a05511cfe`
 
@@ -98,17 +98,23 @@ This is a logical/causal diagonal boundary, not a statement about insufficient m
 
 The diagonal theorem does **not** imply that useful or exact self-models are impossible.
 
-Exact reflection is possible whenever the declared target/probe contract excludes the adversarial diagonal loop, for example:
+Excluding the adversarial diagonal loop removes that particular impossibility mechanism. It is not sufficient for exact reflection. A non-reactive target must also be identifiable from admitted self-probes, and an exact predictor must be available in the registered realization/development/resource class.
+
+**GR5a — absence of diagonal feedback has no existence converse.** Consider two hidden self-states `h=0,1`. Every admitted self-probe returns the same symbol. The protected future bit is fixed as `a=h` before prediction and never reacts to the emitted prediction. Both constant predictors fail in one self-state; randomization cannot give exact correctness in both. Thus a diagonal-free contract can remain non-identifiable, exactly as GR6 states.
+
+**GR5b — exact reflection under identifiable, realizable prediction.** For a fixed deterministic non-reactive target `T(e)` and self-probe signature `D(e)`, an unrestricted exact predictor exists iff `D(e)=D(e')` implies `T(e)=T(e')`. This is GIR-2/GR6 applied to the machine's own state. A physically admitted exact self-predictor additionally requires a legal within-budget implementation of the resulting factorization `T=g composed with D`, including developmental reachability when that is part of the contract.
+
+For example, a finite deterministic self-transition system with known initial state, fully specified transitions, a fixed finite continuation and a declared target can be evaluated by a finite lookup or simulation. Exact reflection follows when that implementation is admitted within the relevant budgets. The following contracts can therefore support exact reflection when their identifiability and implementation conditions are established:
 
 - prediction of a frozen pre-update snapshot;
 - prediction of a future response under a fixed non-reactive intervention;
 - prediction modulo a coarser semantic equivalence class;
 - delayed self-description whose target was fixed before the prediction became causally available;
-- bounded finite self-transition systems that are exactly enumerable.
+- bounded finite deterministic self-transition systems with known target-relevant initial state and an admitted exact evaluator.
 
 Therefore the correct Grand-GMI statement is:
 
-> self-prediction is exact or approximate relative to a declared causal probe contract; unrestricted reflexive prediction under prediction-reactive interventions is impossible.
+> exact self-prediction requires an identifiable target and an admitted exact predictor under the declared causal probe contract; a realized-output diagonal inverter makes exact prediction impossible.
 
 ## 7. GR6 — self-knowledge cannot exceed self-probe identifiability
 
@@ -129,8 +135,10 @@ This prevents self-reference from becoming an illicit route around the obligatio
 1. every binary self-response table on four physical states: adding self-probes only refines the semantic quotient;
 2. exact minimal self-model cardinality equals the number of distinct declared self-response rows;
 3. every one of all 256 Boolean predictors on three-bit contexts fails on all eight contexts under the realized-output diagonal inverter — 2,048/2,048 diagonal failures;
-4. fixed non-reactive self-targets remain exactly predictable, demonstrating that the impossibility is caused by the causal diagonal contract rather than reflection itself;
+4. fixed non-reactive self-targets on fully supplied finite context tables admit exact lookup predictions in that witness family; this does not establish identifiability from arbitrary self-probes;
 5. a finite self-modification graph has exactly the same bounded reachable set whether viewed directly or as a lifted recursive-morphogenesis problem.
+
+The additive sufficiency-direction checker also enumerates every binary two-self-state probe/target problem, including four diagonal-free problems that have no exact predictor because their targets are not identified by their probes.
 
 ## 10. Claim ceiling
 
