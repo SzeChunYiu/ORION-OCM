@@ -201,3 +201,28 @@ Terminal register:
 | `CL6_PROPOSED_2_TO_MINUS_K_FORM_IS_A_CEILING` | **FALSE**, analytically (binary answer) |
 | `UNOCCUPIED_CHANNEL_CLASSES_DERIVED` | 4 (RV-377-135 … 138), **NOT RUN** |
 | `ARCHITECTURE_PREDICTED` | **FALSE** (RV-377-121 stands) |
+
+---
+
+## Label disambiguation: `CL-k` is bound twice in this repository (2026-09-13)
+
+`CL-1 … CL-7` in this atlas are the **channel capability laws** (`CL-1` = TI-1, `RV-377-123`,
+`accuracy ≤ ½ + r/(2L)`; `CL-2` = TI-2, `RV-377-124`; and so on). The grand-unification lane uses the same
+labels with the channel meaning in `SEMANTIC_CUT_THEOREM_V1.md` ("the channel atlas currently contains
+CL-1 … CL-7 as separate capability laws"), `NOVELTY_PARENT_SUBTRACTION_V1.md` and `CLAIM_LEDGER_V1.md`
+(GG6: "CL-1…CL-7 are specializations/compositions of one semantic cut"). That is the established binding.
+
+**One document re-binds them.** `research/gmi-grand-unification-v1/CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`
+uses `CL-1 … CL-5` as section labels for continuous-lift clauses — there `CL-1` is "lower-bound transport
+is an order argument", not a capability law. A reader moving between that file and its four siblings in
+the same directory gets two different referents for one label, and the confusion is live: any note citing
+"CL-1" for the `½ + r/(2L)` ceiling can be cross-read as citing lower-bound transport.
+
+Recorded here rather than repaired unilaterally, because the labels belong to the other lane. It is a
+cheap repair when that lane chooses to make it: the six occurrences are section headings in the prose
+only — `CLAIM_LEDGER_CONTINUOUS_LIFT_V1.md` and `GRAND_GMI_CONTINUOUS_LIFT_BOUNDARY_RECEIPT_V1.json`
+contain **zero** `CL-k` references and key their clauses descriptively
+(`lower_bound_lifts_without_regularity`, `attainment_fails_without_compactness`), so nothing rebinds and
+no digest moves. Tracked as an issue against that lane.
+
+**Until then, cite channel laws as `CL-k (channel)` or by their TI alias** when the context spans lanes.
