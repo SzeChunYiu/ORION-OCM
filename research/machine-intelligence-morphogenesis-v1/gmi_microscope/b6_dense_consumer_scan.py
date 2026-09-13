@@ -9,7 +9,9 @@ Pure inspection of committed receipts: no search, no evaluation.
 """
 import json, glob, sys, os
 
-NUMERIC = {"DOT", "LINEAR"}
+# CORRECTED: DOT is not a kind in this IR, and AFFINE was missing. Built from morph.KINDS
+# (parameter-consuming transforms), not from a source comment. See the Z8 retraction.
+NUMERIC = {"LINEAR", "AFFINE"}
 GRADS = {"GRAD"}
 
 def probe(g):
