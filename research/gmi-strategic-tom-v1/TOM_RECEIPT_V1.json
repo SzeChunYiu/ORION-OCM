@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "schema": "StrategicTomReceiptV1",
+  "scope": "TOM-1-3 only: opponent-type forcing (copycat/contrarian), recursive-belief closure depth (beauty 0..5), partner-reliability probe value (stag-hunt team). 15 exact finite controls, normal + optimized. No mixed-equilibrium, reputation, learned-model or finite-sample claims. Item-16 teaching-incentive question NOT closed.",
+  "source_parent_commit": "6f5e4731f4b24db3ea146b5c53c6c0c845bf1d01",
+  "source_and_evidence": {
+    "STRATEGIC_TOM_THEOREM_V1.md": {
+      "bytes": 5408,
+      "sha256": "870144d4fed9701f6a9dd7a0db07f43074e089c37026d89f9ab124fd2b567505"
+    },
+    "strategic_tom_v1.py": {
+      "bytes": 3986,
+      "sha256": "d0e5d564bb9c1d0808e2e86b556772607e72b7719731034aa36be88bb5ce8274"
+    },
+    "test_strategic_tom_v1.py": {
+      "bytes": 4104,
+      "sha256": "dd4eb543bc6fecf85dd857570a777eef6f11dcc99377a896a7c1c438c7e2bbff"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_strategic_tom_v1.py",
+        "-v"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_strategic_tom_v1.py",
+        "-v"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_strategic_tom_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_strategic_tom_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for both files)."
+}
