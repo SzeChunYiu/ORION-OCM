@@ -18,6 +18,10 @@
 > Added by `RV-377-078`: **§15** — the residual re-asked on a *second ecology built to break it*. It survives
 > that too, and the record's own hypothesis is **falsified**. `E_graded` widens the linear representation's gate
 > from 10 to **12 total bits** and moves **no occupancy at all**.
+> Added by `RV-377-079`: **§16** — **the residual is a small-class artefact.** Every record above used a
+> 32-member class. At **K = 128** an 8-bit row **occupies 7 of 2 760 cells** and has **zero cost-coordinate
+> dominators**. The positive is real, pre-registered, and needs four permissive choices at once — all four are
+> in its terminal.
 
 Status: **EXECUTED EXACT AT SCOPE** (§§1–9, terminal superseded — see the banner above).
 Receipt `microscopes/results/STAGE_DK_V2_PRECISION_GATED.json`
@@ -702,3 +706,78 @@ class size has never been varied in this lane.** The `scaled` column was introdu
 check and has agreed with the flat basis on every verdict since; it does not agree on the *margin*, and that is what
 makes it the pointer. The successor experiment is therefore not another ecology — it is **class-size scaling under
 the scaled basis**, where a fixed 27-scalar overhead is amortized against a state that grows with `K`.
+
+
+---
+
+## 16. The residual is a **small-class artefact** (`RV-377-079`) — the first positive on this axis
+
+§§11, 14 and 15 established, three times and with increasing force, that **no 8-bit row occupies any
+cross-instrument cell** on the ambiguous ecology. All three used the same **32-member** hypothesis class. The class
+size is not one of `GMI-DA7`'s four closure parameters, which is exactly why nobody varied it — and the residual's
+own mechanism, a **fixed** overhead against a **growing** state, makes it the one parameter the arithmetic says must
+matter. Receipt `STAGE_DK_V8_CLASS_SCALING_V1.json`, record `RV-377-079`, **6 of 6 clauses HOLD**.
+
+**The ladder is anchored on the registered ecology, not a lookalike.** The scaling rule puts the eight *registered*
+predicates first in their registered order, then balanced truth tables; prior 4/2/2/2/1…; registered `VALS_AMBIG`.
+At `n_preds = 8` it reproduces `E_ambig` **exactly**, asserted on seven identity checks — `n_hyps`,
+`struct_bits = 288`, priors, likelihoods, events, `q*`, variance.
+
+| | K = 32 | K = 64 | K = 96 | **K = 128** |
+|---|---|---|---|---|
+| `LOGLAD8_T4` at fx8 | 0.874265 | 0.874211 | 0.874156 | 0.874149 |
+| `BAYES`, `BAYESM`, `QCOUNT`, `MAP` at fx8 | **0.0** | **0.0** | **0.0** | **0.0** |
+| log `desc` excess over `QCOUNT` | **208** | **208** | **208** | **208** |
+| cost-coordinate **dominators** of `LOGLAD8_T4@fx8` | 4 | 1 | 1 | **0** |
+| cells held by an 8-bit row, native \| scaled | 0 of 2 760 | 0 of 2 337 | 0 of 2 700 | **7 of 2 760** |
+| cells held by an 8-bit row, **flat** (either price) | 0 | 0 | 0 | **0** |
+
+The description excess is a **measured constant, 208 bits at every class size** — the overhead really is fixed and
+the state really is what grows. The **dominator count falls 4 → 1 → 1 → 0** monotonically, by the predicted
+mechanism: the domination theorem that carried every negative from §11 through §15 is **broken at K = 128**.
+
+**The positive.** At K = 128, under the native price and the `scaled` basis, `LOGLAD8_T4@fx8` occupies
+**H = 1…7 at r = 0** — sole occupant of the first six, sharing H = 7 with `QCOUNT@fx10`. It is the **first executed
+cell in this lane in which a row admissible in the registered 8-bit universe is the frontier occupant on the
+ambiguous ecology.**
+
+### 16a. How narrow it is — stated before it is cited, not after
+
+The 7 cells are **0.25 %** of that key's 2 760, and they need **four permissive choices at once**. Every one was
+declared in advance; **none is neutral**:
+
+1. **K = 128** — a class **four times** the registered size;
+2. **the native price** — which `RV-377-066`'s own claim ceiling calls *"declared, not measured"*, and which sets
+   the log row's `exec_q` to **12, identical to `QCOUNT`'s**, erasing its entire execution disadvantage;
+3. **the `scaled` basis** — a sensitivity column; under `flat` the count is **0 at every K**;
+4. **r = 0** — the **zero-reuse** corner. All seven cells lie there and **none at r ≥ 1**.
+
+Under `reduced|scaled` at the same K = 128 the count is **0**: `QCOUNT@fx10` costs 2 760 at H = 1, r = 0 against the
+log row's 2 880. *A positive that needs a 4× class, an unmeasured price, a sensitivity column and zero reuse is a
+positive. It is not a large one, and this document does not present it as one.*
+
+What is **not** narrow is the dominator count: at K = 128 the row has **zero** cost-coordinate dominators under
+**both** scaled prices, so under `reduced|scaled` it sits on the frontier's boundary even while holding no cell.
+
+### 16b. The clause that was right for the wrong reason
+
+Clause 2 computed the crossing against `QCOUNT@fx12` and its three signs are **exact** (+240, +112, −16, −144). But
+`QCOUNT@fx12` **is not the binding competitor**: `QCOUNT@fx10` is admissible from K = 32 onward and, under the
+scaled basis, pays **10** bits per declared scalar rather than 12. It is cheaper at every K and it is what actually
+holds the corner. The frozen algebra named the wrong opponent; the true crossing is later than it predicted. Stated
+here rather than letting a right answer stand on wrong reasoning.
+
+**Claim DK-12 (new).** *The precision residual on the ambiguous ecology is a **function of hypothesis-class size**
+with a computed crossing. Its mechanism is 208 fixed description bits against a state that grows as K; its
+cost-coordinate dominator count falls 4, 1, 1, 0 over K = 32, 64, 96, 128; and at K = 128, under the native price
+and the scaled basis, it reaches zero and an 8-bit row occupies 7 of 2 760 cells. Claims DK-6, DK-9 and DK-11 are
+therefore **scoped to a 32-member class** and `FALSIFIED_AND_REPLACED` beyond it.*
+**Level:** `EMPIRICALLY_SUPPORTED_AT_TIER_EXACT_CHARGED_REPLAY`; `PROVED_AT_SCOPE` for the zero-dominator statement
+at K = 128, which is a property of the affine cost function.
+**Ceiling:** one ecology recipe, one declared sequence, one seed, four class sizes, five instruments; the
+class-scaling rule is declared, not sampled; the native price is declared, not measured; the occupancy exists under
+`scaled` and not under `flat`, and only at r = 0.
+
+→ **protocol rule 32** (a "no cell exists" verdict must name every parameter of the ecology *construction* held
+fixed while it was established) and **rule 33** (when the flat and scaled bases **disagree** on a verdict, report
+both terminals — a sensitivity column that changes an answer has stopped being a sensitivity column).

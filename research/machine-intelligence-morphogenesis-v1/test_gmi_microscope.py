@@ -842,3 +842,72 @@ def test_dk_graded_ecology_receipt_replays():
     # ... and declared sequence E has an EMPTY fx8 admissible set, which pruning does not repair
     assert cap["E|fx8|LOGLAD8_T4"] == 0.0
     assert all(cap[f"{s}|fx8|LOGLAD8_T4"] >= 0.85 for s in "ABCD")
+
+
+def test_dk_class_scaling_receipt_replays():
+    """RV-377-079. Three records established that no 8-bit row occupies any cross-instrument cell on the ambiguous
+    ecology; all three used a 32-member class. This replays the class-size ladder that breaks that: the K = 32
+    point IS the registered E_ambig on seven identity checks, the log row's description excess is a CONSTANT 208
+    bits at every class size, and at K = 128 under the native price and the scaled basis an 8-bit row occupies 7
+    of 2 760 cells and has ZERO cost-coordinate dominators. The narrowness is asserted too — flat gives 0 at every
+    K, and all seven cells lie at r = 0."""
+    from gmi_microscope import dk_precision_scale as sc
+    committed = json.loads((RES / "STAGE_DK_V8_CLASS_SCALING_V1.json").read_text())
+    assert committed["ANY_FX8_ROW_OCCUPIES_AT_ANY_K"] is True
+    assert committed["terminal"].startswith("PRECISION_BUYS_NOTHING_AT_LARGE_CLASS_SIZE")
+
+    # the ladder is anchored: K = 32 IS the registered ambiguous ecology, re-derived not trusted
+    chk = sc.reproduce_check()
+    assert all(chk.values()), chk
+    assert committed["reproduces_registered_class_at_K32"] == chk
+
+    # clause 1: the overhead is FIXED and the state is what grows
+    for K in (32, 64, 96, 128):
+        lg = committed["cells"][f"{K}|fx8|LOGLAD8_T4"]["desc_bits"]
+        qc = committed["cells"][f"{K}|fx8|QCOUNT"]["desc_bits"]
+        assert lg - qc == 208, (K, lg, qc)
+        cap = committed["capability"]
+        for row in ("BAYES", "BAYESM", "QCOUNT", "MAP"):
+            assert cap[f"{K}|fx8|{row}"] == 0.0, (K, row)      # clause 6: the gate never closes
+        assert cap[f"{K}|fx8|LOGLAD8_T4"] >= 0.85
+
+    # clause 2: the frozen arithmetic, exact — and it named the wrong opponent, which the record corrects
+    alg = committed["frozen_algebra_evaluated"]
+    assert [alg[str(K)]["difference"] for K in (32, 64, 96, 128)] == [240, 112, -16, -144]
+    assert alg["128"]["log_is_cheaper_at_H1_r0"] is True and alg["32"]["log_is_cheaper_at_H1_r0"] is False
+    # ... the binding competitor is QCOUNT@fx10, not @fx12: it is admissible from K = 32 on
+    for K in (32, 64, 96, 128):
+        assert "QCOUNT" in committed["admissible"][f"K{K}|fx10"], K
+
+    # clause 3, THE POSITIVE: 7 cells at K = 128 under native|scaled, all at r = 0
+    res = committed["residual"]["K128|native|scaled"]
+    assert res["any_fx8_row_occupies"] is True
+    assert res["fx8_occupancy"] == {"LOGLAD8_T4@fx8": 7} and res["n_cells"] == 2760
+    fr = committed["frontier"]["K128|native|scaled"]["frontier"]
+    held = sorted(c for c, occ in fr.items() if "LOGLAD8_T4@fx8" in occ)
+    assert held == [f"H={h}|r=0" for h in (1, 2, 3, 4, 5, 6, 7)], held
+    assert all(c.endswith("|r=0") for c in held)               # the zero-reuse corner, and only it
+    assert fr["H=7|r=0"] == ["LOGLAD8_T4@fx8", "QCOUNT@fx10"]  # shared, not sole
+    # the structural statement: the domination theorem is broken, monotonically
+    dom = {K: committed["fx8_domination"][f"K{K}|native|scaled"]["LOGLAD8_T4@fx8"]["n_dominators"]
+           for K in (32, 64, 96, 128)}
+    assert dom == {32: 4, 64: 1, 96: 1, 128: 0}, dom
+    assert committed["fx8_domination"]["K128|reduced|scaled"]["LOGLAD8_T4@fx8"]["n_dominators"] == 0
+
+    # clauses 4 and 5, the narrowness: nothing at K = 32, and nothing under the FLAT basis at any K
+    for price in ("reduced", "native"):
+        for basis in ("flat", "scaled"):
+            assert committed["residual"][f"K32|{price}|{basis}"]["cells_held_by_any_fx8_row"] == 0
+        for K in (32, 64, 96, 128):
+            assert committed["residual"][f"K{K}|{price}|flat"]["cells_held_by_any_fx8_row"] == 0, (K, price)
+    # ... and under reduced|scaled at K = 128 it still holds nothing: QCOUNT@fx10 takes H=1|r=0
+    assert committed["residual"]["K128|reduced|scaled"]["cells_held_by_any_fx8_row"] == 0
+    assert committed["frontier"]["K128|reduced|scaled"]["frontier"]["H=1|r=0"] == ["QCOUNT@fx10"]
+
+    # every occupancy statement carries a grid past twice the largest crossover in each axis (rule 27)
+    for K in (32, 64, 96, 128):
+        for price in ("reduced", "native"):
+            for basis in ("flat", "scaled"):
+                f = committed["frontier"][f"K{K}|{price}|{basis}"]
+                assert f["H_grid_extends_past_twice_largest_H_crossover"] is True
+                assert f["r_grid_extends_past_twice_largest_r_crossover"] is True
