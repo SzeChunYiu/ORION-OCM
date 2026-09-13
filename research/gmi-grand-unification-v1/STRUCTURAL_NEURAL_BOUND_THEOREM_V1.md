@@ -13,6 +13,14 @@ coverage from a finite grid. The previous output grid omitted a legal
 four-input threshold function, and fixed variable order was not always the
 cheapest rendering. The direct geometric/dependency proof repairs the bound.
 
+The cost coordinate itself was repaired separately. SN-7 recorded that
+`python_opcode_count_per_full_domain_sweep` charges only the candidate's own
+frame, so exported work leaves the measure; the registered replacement is the
+pair `(opcodes, unaccounted_calls)` in
+[DIC-1-6](DELEGATION_INVARIANT_COST_PREREGISTRATION_V1.md). The opcode
+component's proved minimum is unchanged at 39 per call and 312 per sweep; the
+class bound is now a frontier rather than a scalar.
+
 The previous universal exclusion under expanded delegation is withdrawn.
 Two opaque wrappers can have identical candidate-frame overhead while their
 callees differ. No full callee-work, timing, memory or physical-cost ordering

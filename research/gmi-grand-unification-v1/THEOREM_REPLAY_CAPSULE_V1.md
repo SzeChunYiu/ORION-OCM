@@ -12,9 +12,9 @@ finite-data model confidence with joint policy transfer, the corrected
 all-coefficient structural threshold bound, and complete ideal finite quantum
 protocol coverage, and joint-message composition for independent relational
 obligations. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V13.json`. Earlier aggregates and phase-law receipts
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V14.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 68 checkers (67 leaves and one
+historical paths. The current register has 69 checkers (68 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
