@@ -105,7 +105,7 @@ population success probability, or measure the abstract DU-1 theorem.
 The theoretical correction is developed separately in the reachability-evidence
 correction; no packet verdict changes follow from this replay.
 
-## Witness availability and next decisive measurement
+## Historical witness omission and subsequent recovery
 
 The first-DENSE summaries omit raw and atrophied genotypes, full control results,
 and the rule-40 margin. The source verifier computes these quantities, but its
@@ -115,13 +115,21 @@ in all 24 snapshot JSON files found **663 unique persisted fingerprints** and
 no genotype matching any of these three first-DENSE fingerprints.
 This scoped search does not assert that no copy exists outside this snapshot.
 
-Consequently this assessment verifies recorded reports, not independently
-re-exhibited admissible DENSE witnesses. A separately registered deterministic
-replay retaining the SAME/CONTINUED S1 genotype and full verifier output is a
-concrete next measurement. It should preserve the old receipts, bind the source
-archive and search code, and charge all costs. No such replay was run here.
-Neither a single witness nor a completed three-seed campaign would establish
-unrestricted family coverage or global theory completion.
+That snapshot assessment verifies reported events. A subsequent, separately
+recorded [S1 recovery](../gmi-witness-recovery-v1/RESULT_V1.md) now retains the
+same raw fingerprint, reproduces all 2,157 compact trace rows and saves both
+genotypes plus full verifier output. Fresh-process checks verify the original
+six-control/probe bar on both graphs. The new recovery charges 7,615 calls
+across its declared stages, with historical source acquisition disclosed.
+The two other reported objects remain unrecovered in these packets.
+
+The [33-call mechanism experiment](../gmi-witness-mechanism-v1/RESULT_V1.md)
+removes DENSE while preserving all 11 served traces and common stores;
+a varying-key control changes behavior while still passing the historical bar.
+The accompanying consumer proof establishes its precise behavioral projection,
+not resource equivalence or numeric coefficient learning. Neither this witness
+nor a completed three-seed campaign establishes unrestricted family coverage
+or global theory completion. The original D-table adjudication stays incomplete.
 
 ## Reproduction bindings
 
@@ -153,4 +161,5 @@ records the successful real-data replay and that integrity control.
 The packet MANIFEST.json SHA-256 is
 `a5dc56295fc3cc3438e6e26ef7717ea99774de7f27b5e4ac1600103a28520a3a`.
 The original full snapshot remains the custody source for additional historical
-control reports; this packet licenses scorer replay, not missing-witness replay.
+control reports. This packet licenses scorer replay; the separate S1 recovery
+packet supplies the saved-witness replay and its additional source bindings.

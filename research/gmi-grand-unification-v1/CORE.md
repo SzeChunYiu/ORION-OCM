@@ -38,6 +38,7 @@ state the domain beyond the enumerated cases.
 
 ## Evidence and remaining work
 
+- [Recovered B6 witness and mechanism](../gmi-witness-evidence-v1/CORE.md): source-bound S1 recovery; DENSE removal preserves the proved behavioral projection while resource costs change.
 - [Preserved B6 records](../machine-intelligence-morphogenesis-v1/B6_CORRECTED_EVIDENCE_ASSESSMENT_V1.md): unchanged incomplete D adjudication, corrected identity scope, ecology assignments and search-plus-verification costs.
 - [Corrected B6 adjudication](../machine-intelligence-morphogenesis-v1/B6_ADJUDICATION_CORRECTION_V1.md): frozen quantifiers, missing evidence and founder coverage; [cross-instrument inference](../machine-intelligence-morphogenesis-v1/CROSS_INSTRUMENT_INFERENCE_CORRECTION_V1.md) separates uncertainty, transport and chronology.
 - [Reachability evidence correction](../machine-intelligence-morphogenesis-v1/REACHABILITY_EVIDENCE_CORRECTION_V1.md): recovered samples, complete reachable sets and candidate-specific constructions are different evidence objects.

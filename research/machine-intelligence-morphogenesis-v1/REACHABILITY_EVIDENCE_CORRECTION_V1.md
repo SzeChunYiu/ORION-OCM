@@ -1,7 +1,7 @@
 # Reachability evidence: scope correction
 
 Date: 2026-09-13. Reviewed [PR #540 at 9e47d410](https://github.com/SzeChunYiu/ORION-OCM/blob/9e47d4109aa786fc39fe4cd9bc642c14c167c211/research/machine-intelligence-morphogenesis-v1/GMI_REACHABILITY_SCOPE_OF_FAMILY_VERDICTS_V1.md).
-This note qualifies that unmerged source; it changes no frozen experiment.
+This note qualifies that pinned source; it changes no frozen experiment.
 
 ## Recovered examples and complete reachable sets
 
@@ -72,3 +72,19 @@ Source acquisition remains an additional excluded cost. The summaries omit
 the first-DENSE genotypes and rule-40 margins, preventing independent witness
 re-exhibition from that snapshot. The assessment supplies the exact scope,
 source bindings and unchanged incomplete adjudication.
+
+## Subsequent witness and mechanism repair
+
+The separately recorded [S1 recovery](../gmi-witness-recovery-v1/RESULT_V1.md)
+now retains the same raw fingerprint and reproduces all 2,157 historical compact
+trace rows. Both raw and pruned objects pass the frozen six-control/probe bar
+in fresh processes. This repairs S1 witness availability; it does not complete
+the 24-arm campaign or the other two reported-witness recoveries.
+
+The [registered mechanism intervention](../gmi-witness-mechanism-v1/RESULT_V1.md)
+removes DENSE while preserving all 11 served traces and common stores.
+The [consumer proof](../gmi-witness-mechanism-v1/CONSUMER_SEMANTICS_V1.md)
+extends that behavioral projection to every finite native event sequence
+under its explicit domain and execution assumptions. Resource costs differ.
+Thus the carrier descriptor is not invariant under this projection; neither
+numeric coefficient learning nor a cost-bearing equivalence follows from it.
