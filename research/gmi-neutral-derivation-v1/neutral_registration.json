@@ -1,0 +1,39 @@
+{
+  "schema": "GMI_NEUTRAL_SYNTHESIS_REGISTRATION_V1",
+  "timing": "Written before any synthesis or protected-case execution; digest sent to coordinating root before results.",
+  "grammar": {
+    "nodes": ["constant_0", "constant_1", "read_index", "binary_truth_table_4_bits", "lazy_if"],
+    "encoding": "Every node costs seven description bits: three opcode bits and four parameter bits; all sixteen binary truth tables are generated.",
+    "domain": "Loop-free finite Boolean expressions, input arity at most sixteen; duplicate reads charged separately.",
+    "enumeration": "Every ordered expression through the registered node bound, quotiented only by full finite outputs and per-input read/opcode/branch/read-mask traces at the same size.",
+    "not_claimed": ["universal encoding neutrality", "neural learning", "unseen-family prediction", "unbounded program synthesis"]
+  },
+  "input_order": "Lexicographic product of zero and one, first coordinate most significant.",
+  "prices": {"read": "1", "binary": "1/10", "description_bit": "1/700"},
+  "properties": {
+    "EAGER": "No executed branch on any input.",
+    "CONDITIONAL": "An executed branch on some input and no executed binary opcode on any input.",
+    "MIXED": "Both a branch and a binary opcode execute somewhere in the complete input domain."
+  },
+  "predicted_laws": {
+    "and2": "min(2q+a+21s, q(1+p)+b+28s) at size<=4; all equality fibers retained.",
+    "and3": "min(3q+2a+35s, q(1+2p)+ap+b+42s, q(1+p+p*p)+b(1+p)+49s) at size<=7 for the registered scenarios; tested as a prediction, not presumed by ranking.",
+    "parity3": "Every exact input transcript reads all three distinct bits; registered positive-cost optima at size<=7 are eager with cost 3q+2a+35s.",
+    "boundary_p_half": "For registered q,a,s and p=1/2, CONDITIONAL/MIXED tie at b=29/50 and MIXED/EAGER tie at b=57/50."
+  },
+  "cases": [
+    {"id":"D2_LOW","split":"development","arity":2,"nodes":4,"truth":"0001","p":"1/2","branch":"1/4","minimum":"179/100","properties":["CONDITIONAL"]},
+    {"id":"D2_HIGH","split":"development","arity":2,"nodes":4,"truth":"0001","p":"1/2","branch":"1","minimum":"213/100","properties":["EAGER"]},
+    {"id":"D2_TIE","split":"development","arity":2,"nodes":4,"truth":"0001","p":"1/2","branch":"59/100","minimum":"213/100","properties":["CONDITIONAL","EAGER"]},
+    {"id":"D2_FUNCTION","split":"development","arity":2,"nodes":4,"truth":"0110","p":"1/2","branch":"1/4","minimum":"213/100","properties":["EAGER"]},
+    {"id":"H3_LOW","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"1/2","branch":"1/4","minimum":"439/200","properties":["CONDITIONAL"]},
+    {"id":"H3_MID","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"1/2","branch":"3/4","minimum":"143/50","properties":["MIXED"]},
+    {"id":"H3_HIGH","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"1/2","branch":"3/2","minimum":"13/4","properties":["EAGER"]},
+    {"id":"H3_TIE_CM","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"1/2","branch":"29/50","minimum":"269/100","properties":["CONDITIONAL","MIXED"]},
+    {"id":"H3_TIE_ME","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"1/2","branch":"57/50","minimum":"13/4","properties":["EAGER","MIXED"]},
+    {"id":"H3_SHIFT_LOW","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"2/3","branch":"1/4","minimum":"1169/450","properties":["CONDITIONAL"]},
+    {"id":"H3_SHIFT_MID","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"2/3","branch":"3/5","minimum":"153/50","properties":["MIXED"]},
+    {"id":"H3_SHIFT_HIGH","split":"parameter_holdout","arity":3,"nodes":7,"truth":"00000001","p":"2/3","branch":"1","minimum":"13/4","properties":["EAGER"]},
+    {"id":"H3_FUNCTION","split":"function_holdout","arity":3,"nodes":7,"truth":"01101001","p":"1/2","branch":"1/4","minimum":"13/4","properties":["EAGER"]}
+  ]
+}

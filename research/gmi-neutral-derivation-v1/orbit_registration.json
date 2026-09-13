@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Exact finite affine constraint compilation; parameter and group-action holdouts, not an unseen architecture family",
+  "input_contract": "Finite index sets, paired permutation generators, permitted matrix entries including constant input; affinity and equivariance are supplied task obligations",
+  "prediction": "Dimension equals the number of simultaneous-action orbits wholly contained in permitted entries; the coefficient basis consists of disjoint orbit indicators",
+  "compiler_contract": "Build homogeneous rational linear equations for equivariance and support, solve by general row elimination, emit scalar multiply/add programs; no family names or layer templates enter the compiler",
+  "oracle_contract": "Independently enumerate the finite generated permutation action and its entry orbits; compare Burnside count, support, rank and complete basis",
+  "charging": "Report constraint entries, equation count, rational scalar arithmetic, active scalar coefficients, runtime multiply/adds and parameter coordinates; bit complexity and physical timing are not inferred",
+  "risk_prediction": "For a fixed coefficient subspace V and mean-zero noise covariance sigma2/n times identity, risk is squared projection bias plus sigma2*dim(V)/n; selecting V after observing the same noise is outside this claim",
+  "cases": [
+    {"id": "development_free_rectangle", "inputs": 3, "outputs": 2, "action": "none", "support": "full", "dimension": 8, "group_size": 1},
+    {"id": "development_cycle4", "inputs": 4, "outputs": 4, "action": "cycle", "support": "full", "dimension": 5, "group_size": 4},
+    {"id": "development_symmetric4", "inputs": 4, "outputs": 4, "action": "symmetric", "support": "full", "dimension": 3, "group_size": 24},
+    {"id": "heldout_cycle7_local", "inputs": 7, "outputs": 7, "action": "cycle", "support": "radius2", "dimension": 6, "group_size": 7},
+    {"id": "heldout_dihedral6", "inputs": 6, "outputs": 6, "action": "dihedral", "support": "full", "dimension": 5, "group_size": 12},
+    {"id": "heldout_independent_rectangle", "inputs": 3, "outputs": 2, "action": "independent", "support": "full", "dimension": 2, "group_size": 6},
+    {"id": "heldout_noninvariant_support", "inputs": 3, "outputs": 3, "action": "cycle", "support": "forbid00", "dimension": 3, "group_size": 3}
+  ],
+  "controls": ["wrong dimension rejected", "missing basis vector rejected", "forged non-equivariant basis rejected", "noninvariant support kills entire orbit", "runtime trace agrees with direct matrix evaluation", "exact finite noise risk equals theorem", "noise-selected-subspace misuse excluded"],
+  "interpretation": "The cases and known group actions were chosen by informed authors. This tests prospective numerical consequences of an explicit algebraic contract, not ignorance of architectural history or empirical family superiority."
+}
