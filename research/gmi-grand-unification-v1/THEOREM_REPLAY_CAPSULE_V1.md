@@ -4,10 +4,12 @@ Current reviewed extension: [scientific CORE](CORE.md). New sectors cover
 task-directed and controlled acquisition, constructive selection/attainment,
 family-bound soundness and derivation, proof reuse, certified repair, and
 empirical frontier identification, all-input-partition width/query separation,
-bounded controller resources and repaired developmental reachability. The active
-aggregate is `GRAND_GMI_MASTER_RECEIPT_V5.json`. Earlier aggregates and phase-law receipts
+bounded controller resources, repaired developmental reachability, shared-dependency
+reuse under memory constraints, finite known-kernel probabilistic acquisition,
+and labelled-partition query reconstruction. The active
+aggregate is `GRAND_GMI_MASTER_RECEIPT_V7.json`. Earlier aggregates and phase-law receipts
 remain preserved; exact pre-overwrite upstream aggregate bytes have separate
-historical paths. The current register has 59 checkers (58 leaves and one
+historical paths. The current register has 62 checkers (61 leaves and one
 aggregate); counts below describe explicitly historical captures.
 
 This gate establishes reproducibility of the registered finite executable checks.
@@ -120,7 +122,7 @@ python -I -B research/gmi-grand-unification-v1/replay_theorem_capsule_v1.py
 
 The dedicated workflow runs these gates on pull requests and main pushes touching
 any file in this research directory, the external normative document, or any of
-the five registered workflows. It uses CPython
+the registered workflows. It uses CPython
 3.12.14 and uploads the aggregate replay report. No package installation is
 required.
 

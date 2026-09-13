@@ -57,8 +57,9 @@ instances are decidable, or that an empirical measurement has occurred.
 
 | 25 | The standing independent-replication obligation was unsatisfiable by construction: the V1-V4 instrument hard-requires a first-attempt push to `main` on a GitHub-hosted Linux runner, so no laptop, server or compute node can produce a valid packet, and interpreter-dependent AST hashes block cross-version candidate identity. V5 freezes a portable instrument with a recorded envelope, source-byte candidate identity and a cross-envelope adjudicator. Not executed. | `PARITY3_PORTABLE_REPLICATION_V5.md` | Current iteration; commit and merge only after required local gates pass |
 | 26 | Execute the portable registration. Three interpreter envelopes on one host, each once: CPython 3.11.15 and 3.12.3 both return a non-neural frontier with disjoint observed boxes, and 3.13.12 refuses the instrumentation gate before timing. The registered 3.12 opcode counts reproduce exactly on unrelated hardware; absolute counts are interpreter dependent while their ordering is not. Cross-host replication remains open. | `PARITY3_V5_CROSS_ENVELOPE_ASSESSMENT_20260913.md` | Current iteration; commit and merge only after required local gates pass |
-| 27 | The V5 execution refused CPython 3.13 at the instrumentation gate. The cause is the first-ever trace of each code object losing its first frame, not a per-process effect as first read. V6 repairs it with one discarded priming trace per candidate, keeps per-frame validation intact, records the priming witness, and binds candidate identity against both earlier portable harnesses. Frozen with a genuinely prospective 3.13 verdict claim; not executed. | `PARITY3_PRIMED_INSTRUMENT_V6.md` | Current iteration; commit and merge only after required local gates pass |
-| 28 | Execute V6. The registration's only unmeasured claim, that CPython 3.13 would return a non-neural terminal agreeing with 3.11 and 3.12, held. Five valid envelopes across three interpreter generations and two instrument versions all return DERIVED_NON_NEURAL, with the V5 3.13 refusal retained. Family support is stable while the within-family frontier is not, and wall margins vary more between repeats of one interpreter than between interpreters, so no interpreter trend is supported. Cross-host replication untouched. | `PARITY3_V6_PROSPECTIVE_OUTCOME_20260913.md` | Current iteration; commit and merge only after required local gates pass |
+| 27 | The V5 execution refused CPython 3.13 at the instrumentation gate. The cause is the first-ever trace of each code object losing its first frame, not a per-process effect as first read. V6 adds one discarded priming domain sweep per candidate witness pass, keeps per-frame validation intact, records priming diagnostics, and binds candidate identity against both earlier portable harnesses. Frozen with a genuinely prospective 3.13 verdict claim; not executed. | `PARITY3_PRIMED_INSTRUMENT_V6.md` | Current iteration; commit and merge only after required local gates pass |
+| 28 | V6 records the predicted non-neural classification on CPython 3.13 and matching classifications on 3.11/3.12, over four registered candidates. Five valid V5/V6 packets agree in family support; the V5 3.13 refusal is retained. The V6 3.11 boxes leave lookup membership unresolved, not certified coexistence. Corrected DNF/shared-sum margins do not identify a causal interpreter trend. Cross-host replication and attempt custody remain open. | `PARITY3_V6_PROSPECTIVE_OUTCOME_20260913.md` | Current iteration; commit and merge only after required local gates pass |
+| 29 | Every parity-3 verdict was a point verdict over a candidate list, and CU-3b proves adding candidates cannot upgrade one. A derived lower bound over a predicate-defined class can, because PL-2 transfers it to unwritten members. For the single-hidden-layer integer-threshold class on parity-3 the exhaustive minimum is 312 per sweep on CPython 3.12, attained by the already-registered shared-sum candidate, against 88 for the registered XOR realization. Unit-count and coefficient residues are closed by saturation and a cost floor; multi-layer, non-threshold, vectorized and precomputing realizations remain open. | `STRUCTURAL_NEURAL_BOUND_THEOREM_V1.md` | Current iteration; commit and merge only after required local gates pass |
 
 
 
@@ -135,15 +136,14 @@ move to 512 and 344 while both non-neural counts are unchanged, so the absolute
 coordinate is interpreter dependent and the cheapest-to-costliest ordering is
 not. The verdict depends on the ordering, which is why the two envelopes agree.
 
-CPython 3.13.12 refused, and the refusal is the more informative half. Its
-retained diagnostics show the first candidate traced in the process with a
-complete witness and every later candidate missing exactly its first frame, so
-the opcode prearm works only for the first trace session per process on that
-interpreter. That is the V1 defect recurring, and it is order dependent: a
-counter without per-frame validation would have credited whichever candidate
-was measured first with a complete count and undercounted the rest, which on
-this instrument would have favoured the most expensive candidate. The V2
-per-frame and forward/reverse checks exist for exactly that.
+CPython 3.13.12 refused before timing. Its retained post-failure diagnostic
+pass records DNF8/8 complete and each other candidate7/8 complete. The source
+already ran `instrumentation_preflight` before collecting those diagnostics,
+so they cannot identify the first trace session or establish the precise
+tracing cause. Ignoring validation would undercount the latter three candidates
+and make them artificially cheaper relative to DNF. The original bias claim
+had that direction reversed. Per-frame validation correctly withholds the
+opcode comparison; the failure remains a concrete instrument-revival task.
 
 What the execution does not do is discharge the replication obligation. All
 three envelopes ran on one host and differ only in interpreter. The adjudication
@@ -151,7 +151,7 @@ reports `replication_obligation_discharged: false`, and `laptop-billy`, `old`
 and `lunarc` still have no packets. The verdict also remains a four-candidate
 point verdict: four registered candidates are a candidate list, not a proved
 structural cover, so by the coverage correction the reading is
-`ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`. And by CL-2 and CL-3 the
+`ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`. Under CLB-2 and CLB-3, these
 timing coordinates are finite observed windows rather than derived bounds; only
 the opcode coordinate is exact, and only for the interpreter that produced it.
 
@@ -194,21 +194,17 @@ and reports `replication_obligation_discharged: false` unconditionally.
 
 ### A required property is only useful once it names its conclusion
 
-Iteration 24 does not perform any experiment on a continuum. It removes
-the undifferentiated character of the continuous obligation. The lower-bound
-half of the derivation layer transfers verbatim to an infinite instance,
-because PL-2's proof appeals only to feasible-set membership and monotonicity
-and an infimum exists for any nonempty set bounded below; so a robust family
-exclusion is not an artifact of the finite witness domain. Everything
-interpretive is gated. Where the infimum is unattained no construction and no
-finite margin can certify tightness, so PL-3's separation of epistemic from
-physical abstention — the result that makes a boundary region readable — is
-structurally unavailable rather than merely unmeasured. Every finite
-observation window strictly overestimates the bound and widening strictly
-lowers it, so benchmark samples cannot stand in for an effective description.
-The contract is therefore registered as five Boolean fields, each withholding
-exactly the result that depends on it, with an absent field treated as
-withholding rather than as a permissive default.
+Iteration 24 supplies the continuous-lift clauses now named CLB-1–5 in
+`CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`. The repaired theorem distinguishes
+lower-bound transport, exact attainment, useful epsilon-witnesses and effective
+error certificates. A valid lower bound extends by order and accounting
+soundness; a competitive exclusion still needs its admitted comparator.
+Unattained infima can admit arbitrarily accurate constructive approximation
+and finite-margin family conclusions. Not every finite observation window
+strictly overestimates a bound: that behavior belongs to its stated witness.
+The declared Boolean contract fields record undischarged premises and do not
+certify analytic results. Actual proofs or verified certificates must supply
+those premises for each intended conclusion.
 
 ### Gate repair carried by this iteration
 
@@ -336,10 +332,10 @@ parent results.
 
 | Obligation | What is still required | Current claim ceiling |
 |---|---|---|
-| Integrated executable custody | Replay all 45 discovered finite checkers against complete frozen outputs and source/input inventory; run all 244 research tests normally and with an optimized parent, including 23 hostile replay tests. | The 234-test V4 capsule passed on main at #529 (run 34749100288). This evidence iteration adds ten static packet tampering controls. Successful replay establishes registered finite-check reproducibility only; the hosted experiment supplies its separately scoped measurement. |
+| Integrated executable custody | Replay every checker registered in `THEOREM_REPLAY_INVENTORY_V1.json` against complete frozen outputs; run every discovered research test normally and with an optimized parent. | `THEOREM_REPLAY_CAPSULE_V1.md` identifies the current V7 aggregate and historical captures. Successful replay establishes registered finite-check reproducibility only; experiment packets supply their separately scoped measurements. |
 | Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. V5 makes replication executable at all, but executes nothing. | V4 identifies XOR against the original network, a three-threshold neural construction and an exact lookup table. All four solve the full domain. The result is an observed-envelope point comparison informed by V1/V2, not independent prospective replication. |
 | Candidate-universe coverage | Independent competitor optimization beyond the measured four-candidate expansion, then replication across tasks and substrates. | V4 performs the concrete algebraic-neural/lookup expansion; external optimization and candidate-universe completeness remain unestablished. A point verdict does not enumerate all physical machines. |
-| Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication, each against an explicitly registered development law. | Conditional resource laws do not manufacture those measurements. DU-1 additionally shows that no such law is derivable from the package's other registered inputs, so this obligation cannot be discharged by further theory alone. |
+| Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication, each against an explicitly registered development law. | Conditional resource laws do not manufacture those measurements. DU-1 establishes general non-identification from static data when development is unconstrained. Stronger registered premises can support conditional derivations and finite reachability certificates; an unperformed physical measurement remains separate. |
 | Continuous/quantum physical realization | The stated compactness, measurability, effective descriptions, admitted operations and measured resource contract for the actual instance. | Exact finite simulations are not experiments on arbitrary substrates. |
 | Unrestricted exact solution | No total solver can discharge all unrestricted Turing-complete unbounded instances. | Proven impossibility boundary; no green status can remove it. |
 | Absence of every possible theorem gap | Continued independent proof review and counterexample search. | Not established by a finite review or by coverage of named schema categories. |
@@ -401,7 +397,8 @@ it does not forbid, and does not supply, a theorem conditional on one.
 
 Iteration 24 measures no physical continuum and performs no experiment on
 any substrate. Discharging a contract field for a real instance requires proofs
-and measurements about that instance, which no theory supplies.
+and measurements where the instance requires them; a finite replay supplies
+neither the missing proof nor an unperformed physical measurement.
 
 Iteration 25 executes no measurement. It freezes a portable instrument, its
 registration, a cross-envelope adjudicator and runner entry points for the
@@ -416,7 +413,30 @@ into a bound. The named hosts remain outstanding.
 
 Iteration 27 repairs an instrument and freezes a registration. It executes no timing, and its P1 and P3 claims were already settled by a self-test that times nothing, which the registration discloses. Only the 3.13 verdict claim P2 is unmeasured at freeze time.
 
+V6 preserves the registered coordinate definitions; its additional tracing
+prefix does not establish equality of timing values or distributions after a
+finite warmup. Its source also retains the late existing-output check: an
+output collision is detected after the experiment function runs. Further
+V6 execution therefore needs a custody route bound to the V6 snapshot;
+the separately versioned V5 custody correction is not automatically applicable.
+The V6 self-test's green terminal is a diagnostic label: that path does not
+fully validate returned parity values and return flags. Actual measurement
+preflight retains those full per-frame checks. A versioned self-test/custody
+correction remains required before treating that diagnostic as a full gate.
+The V6 source and preregistration remain preserved without retroactive edits.
+
+Iteration 28 adds actual V6 packets. Static matching-release review reconstructs
+all recorded capability/tracing, block schedules, boxes and verdicts without
+rerunning measurements. The corrected readout separates DNF from shared-sum
+margins, repairs the old selective-undercount bias direction, and distinguishes
+possible from necessary lookup membership. Full priming traces and an independent
+first-attempt log remain absent; the updated multi-schema aggregator summarizes
+asserted terminals rather than deriving packet validity. These custody limitations
+do not themselves contradict the consistent recorded outcomes. Neither a causal
+interpreter trend nor a population timing bound follows from these runs.
 Iteration 28 confirms one narrow prospective claim on one host and produces the first CPython 3.13 timing for this instrument line. It does not establish cross-host replication, does not convert the four-candidate point verdict into a family verdict, and supports no interpreter-version trend in the timing margins: repeats of one interpreter differ by more than interpreters differ from each other. The exact opcode ratio is the only reproducible quantitative margin.
+
+Iteration 29 is the first statement in the parity-3 line about machines nobody has built, and it is narrow: one task, one structural class, one exact coordinate, no timing. The bound is attained, so PL-3b applies and the exclusion is about true optima at that coordinate rather than about a relaxation's looseness. It also shows the candidate register was not understating the neural family, since the registered shared-sum candidate is already class-optimal. It does not make the verdict a statement about the physically legal set: the registered class is not a proved cover of it, and multi-layer, non-threshold, vectorized and output-precomputing realizations are outside the predicate by construction.
 
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not

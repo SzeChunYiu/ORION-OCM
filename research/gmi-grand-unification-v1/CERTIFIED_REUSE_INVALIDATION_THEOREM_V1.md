@@ -176,3 +176,8 @@ claimed. Unknown hazards, correlated or partially observed validity, failed
 repairs, shared lemma dependencies, contention and forced memory eviction require
 richer registered states/transitions and fresh comparisons. The three-state
 result does not discharge those obligations or establish universal completion.
+
+[SMR-1–4](SHARED_DEPENDENCY_MEMORY_REUSE_THEOREM_V1.md) separately extends
+reuse to shared computational/context dependencies and a hard transient-memory
+arena. Its weighted schedules charge rebuild, cleanup and prefetch; the DAG
+register does not inherit an unmodeled damaged-scaffold repair operation.

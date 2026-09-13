@@ -16,9 +16,9 @@ gives the compactness/lower-semicontinuity attainment argument.
 [Beeson, *Constructivity, Computability, and the Continuum*, pp. 4–6](https://www.cs.sjsu.edu/~beeson/Papers/ccc.pdf)
 explains effective approximation and Specker/halting obstructions. We use
 these established distinctions, not a new compactness or computability theorem.
-Measurable selection is separately addressed in CL-5 below.
+Measurable selection is separately addressed in CLB-5 below.
 
-## 2. CL-1 — lower-bound transport is an order argument
+## 2. CLB-1 — lower-bound transport is an order argument
 
 Let F be a nonempty relaxed allocation set and a:F->R an accounting objective,
 bounded below. For every admitted machine M require an allocation q_M in F
@@ -39,7 +39,7 @@ application additionally needs justified calibration/error bounds connecting
 that model to its instance. A field named measured_resource_contract neither
 proves the inequality nor is a logical prerequisite to every abstract proof.
 
-## 3. CL-2 — nonattainment allows constructive approximation
+## 3. CLB-2 — nonattainment allows constructive approximation
 
 For A={1+1/n:n>=1}, inf A=1 and no member equals 1. Exact attained equality
 at 1 is unavailable, but for every rational epsilon>0,
@@ -70,7 +70,7 @@ proved structural fact; it does not prohibit every epistemic/physical diagnosis.
 Any particular classification must state whether it concerns attained minima,
 infimal values, finite margins or a tolerance-level attainable region.
 
-## 4. CL-3 — samples, effective descriptions and certified enclosures
+## 4. CLB-3 — samples, effective descriptions and certified enclosures
 
 For this tail, the first N members have minimum 1+1/N. These sample minima
 strictly decrease while staying above 1. That is a fact about this ordered
@@ -101,7 +101,7 @@ N>=1/(2epsilon) gives a certified epsilon bracket. In a broader instance,
 effective covering/modulus and evaluation-error bounds must actually be
 provided. A declaration of effective_description is not a substitute for them.
 
-## 5. CL-4 — underaccounting is the sound direction
+## 5. CLB-4 — underaccounting is the sound direction
 
 A sound lower account may be smaller than real cost. On a singleton relaxed
 instance, L=a=5/6 and c=4/3 give L<=a<=c and a valid transported lower bound.
@@ -116,7 +116,7 @@ on all tail members is changed from x to x-1/2, its infimum changes from 1 to
 it changes the program whose infimum is being used. The checker now tests
 valid undercharge, invalid overcharge and failed allocation membership separately.
 
-## 6. CL-5 — declarations do not prove analytic or selector premises
+## 6. CLB-5 — declarations do not prove analytic or selector premises
 
 Parsing the five historical Boolean fields is decidable. The parser now
 returns DECLARED_UNVERIFIED or NOT_DECLARED; it licenses no mathematical result.

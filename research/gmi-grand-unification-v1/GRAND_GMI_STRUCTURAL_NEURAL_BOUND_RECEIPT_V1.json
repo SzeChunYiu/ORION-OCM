@@ -1,0 +1,99 @@
+{
+  "behaviour_saturation": {
+    "behaviour_sets_identical": true,
+    "behaviours_registered_range": 104,
+    "behaviours_wider_range": 104,
+    "coefficient_bound_is_not_binding": true,
+    "known_threshold_function_count_on_three_inputs": 104,
+    "registered_coefficient_range": [
+      -2,
+      -1,
+      0,
+      1,
+      2
+    ],
+    "wider_coefficient_range": [
+      -4,
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "wider_range_never_cheaper": true
+  },
+  "claim_ceiling": "one structural class, one task, one exact coordinate, one interpreter",
+  "grammar_minimum": {
+    "derived_minimum_per_call": 39,
+    "derived_minimum_per_full_domain_sweep": 312,
+    "hidden_behaviours_enumerated": 104,
+    "minimizer_computes_parity": true,
+    "minimizer_predicted_equals_compiled": true,
+    "minimizer_source": "def f(x):\n    a, b, c = x\n    s = a - b - c\n    h0 = int(s >= 1)\n    h1 = int(s >= 0)\n    h2 = int(s >= -1)\n    return int((h0 - h1 + h2) >= 1)",
+    "minimizing_shape": "B",
+    "one_and_two_unit_networks_infeasible": true,
+    "per_unit_count": {
+      "1": null,
+      "2": null,
+      "3": 39,
+      "4": 45
+    }
+  },
+  "interpreter": [
+    3,
+    12,
+    3
+  ],
+  "registered_candidates_are_grammar_optimal": {
+    "bound_is_tight_in_the_pl3b_sense": true,
+    "derived_minimum_per_call": 39,
+    "minimizer_differs_from_registered_candidate": true,
+    "registered_candidate_attains_the_bound": true,
+    "registered_dnf_net_per_call": 59,
+    "registered_dnf_net_per_sweep": 472,
+    "registered_shared_sum_net_per_call": 39,
+    "registered_shared_sum_net_per_sweep": 312
+  },
+  "residue": {
+    "closed_within_this_class": [
+      "any number of hidden units, by enumeration to four and the cost floor above",
+      "any integer coefficient magnitude, because the behaviour set is saturated",
+      "both registered code shapes, independent forms and one shared form",
+      "all threshold placements, by exhaustive enumeration of separable behaviours"
+    ],
+    "open_residue": [
+      "more than one hidden layer",
+      "activations other than an integer-threshold comparison",
+      "vectorized or array-based realizations whose opcode accounting differs",
+      "realizations that precompute their outputs, which the structural predicate excludes by definition rather than by discovery; that is the lookup family",
+      "any substrate or language other than the registered CPython opcode coordinate",
+      "wall and process time, which this derivation never uses"
+    ],
+    "predicate_is_a_scope_choice": "Defining the neural class as single-hidden-layer integer-threshold units is a registered scope decision. A different predicate is a different theorem, and by PL-4b weakening the predicate can only lower the bound."
+  },
+  "structural_exclusion": {
+    "coordinate": "python_opcode_count_per_full_domain_sweep",
+    "covers_unwritten_members_of_the_class": true,
+    "derived_class_lower_bound_per_sweep": 312,
+    "margin_per_sweep": 224,
+    "non_neural_witness_per_sweep": 88,
+    "ratio": "312/88",
+    "structural_exclusion_holds": true,
+    "timing_used": false,
+    "witness_source": "def f(x):\n    a, b, c = x\n    return (a ^ b) ^ c\n"
+  },
+  "terminal": "GRAND_GMI_STRUCTURAL_NEURAL_BOUND_GREEN_AT_FINITE_SCOPE",
+  "timing_measurement_used": false,
+  "unbounded_unit_count_excluded": {
+    "all_unit_counts_from_five_upward_excluded": true,
+    "enumerated_minimum_per_call": 39,
+    "enumeration_complete_over_unit_count": true,
+    "floor_at_five_units": 41,
+    "minimum_hidden_unit_line_cost": 6,
+    "minimum_output_line_cost": 5,
+    "minimum_shared_form_line_cost": 2
+  }
+}

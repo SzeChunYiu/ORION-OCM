@@ -143,8 +143,13 @@ Do not replace the frontier or feasibility test by that envelope. A registered
 scalar utility gives a separate scalar optimization; scalarized optima need not
 exhaust a nonconvex Pareto frontier.
 
-`kappa` and `tau` remain irreducible as a pair: equal final semantic width can
-coexist with arbitrarily different local computation/query complexity.
+The [width witnesses](FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md)
+establish non-determination for their declared width/query summaries.
+[LQR-1–4](LABELLED_PARTITION_QUERY_RECONSTRUCTION_THEOREM_V1.md) proves
+that a full input-labelled output partition reconstructs attainable
+query-cost profiles at a fixed classical query interface. These scoped
+laws do not establish unrestricted irreducibility of entire `kappa`/`tau`
+spectra. Their relation depends on the retained semantic data and operations.
 
 ### 1.5 Symmetry object
 
@@ -368,7 +373,7 @@ following intended categories:
 1. every admitted machine intelligence is typed as a causal physical process under the primitive declaration;
 2. exact semantic identity is fixed by the canonical response quotient, while approximate resolution is separately metrized/coarse-grained;
 3. information/memory/communication requirements are typed by semantic cuts;
-4. computation is represented independently by transformation complexity;
+4. computation is represented by transformation-cost spectra, with dependence on semantic data stated at the chosen execution interface;
 5. physical resources and substrate constraints determine feasible morphology frontiers;
 6. learning/evolution/search are recursive lifted GMI processes rather than extra primitives;
 7. multi-agent/modular systems are process compositions with internal cuts;

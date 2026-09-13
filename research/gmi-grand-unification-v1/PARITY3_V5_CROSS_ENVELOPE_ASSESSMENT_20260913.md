@@ -80,18 +80,20 @@ opcode events`, before any timing. The retained diagnostics are specific:
 | `N_SUM_THRESHOLD3_V3` | 36 | 8 | 7 | `[0, 36, 36, 36, 36, 36, 36, 36]` |
 | `X_LOOKUP8_V3` | 16 | 8 | 7 | `[0, 16, 16, 16, 16, 16, 16, 16]` |
 
-The first candidate traced in the process has a complete witness. Every
-candidate traced afterwards loses exactly its first frame. So on 3.13 the
-opcode prearm works only for the first trace session in a process.
+The retained **post-failure diagnostic pass** has eight complete DNF calls
+and seven complete calls for each of the other three candidates. In the pinned
+V5 source, `run_experiment` first invokes `instrumentation_preflight`; after
+that raises, it traces the candidates again to produce these diagnostics.
+They therefore do not describe the first trace session in the process. The
+failed preflight calls are not retained, and the precise first-use or tracing
+mechanism is unresolved by this packet.
 
-Two things follow. First, this is the V1 defect — tracing armed too late —
-recurring on a newer interpreter, and the V2 per-frame validation is what
-catches it. Second, the failure is **order dependent**: a counter without
-per-frame validation would have silently credited whichever candidate happened
-to be measured first with a complete count and undercounted the rest by one
-frame. On this instrument that would have advantaged `N_THRESHOLD_DNF4_V1`, the
-most expensive candidate. The forward and reverse order-invariance check exists
-for exactly this failure mode.
+Ignoring validation would count DNF at 440/440 expected events, XOR at 63/72,
+sum-threshold at 252/288, and lookup at 112/128. That would artificially cheapen
+the latter three candidates and disadvantage DNF relative to them. The original
+claim that this would advantage DNF reversed the arithmetic. Per-frame and
+forward/reverse validation correctly prevents using this incomplete witness
+for an opcode comparison. The frozen invalid output remains unchanged.
 
 No 3.13 timing was run and none should be, until the prearm is repaired for
 that interpreter. The invalid packet is frozen as it was emitted.
@@ -113,13 +115,14 @@ reading is `ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE` with the residue
 entirely open. Nothing here excludes an unbuilt neural realization cheaper
 than `X_XOR2_V1`.
 
-**The timing coordinates are not derived bounds.** By CL-2 and CL-3 of
-`CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md`, a finite observation window
-overestimates an infimum and cannot certify tightness. The wall and process
-coordinates here are finite observed envelopes of 32 blocks on one loaded
-container; they are not lower bounds on what these candidates cost, and they
-do not transfer to another machine. Only the opcode coordinate is exact, under
-its validated witness, and only for the interpreter that produced it.
+**The timing coordinates are finite observations.** CLB-2 and CLB-3 of
+`CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md` distinguish exact attainment,
+approximation and certified bounds. A finite sampled minimum is at least the
+infimum of the same cost map, but need not strictly exceed it. These 32-block
+wall/process envelopes have no independently supplied tightness certificate
+or population/transfer guarantee; they do not establish a lower bound on all
+executions or transfer to another machine. The opcode coordinate is exact
+under its validated witness for the interpreter that produced it.
 
 **Development and search costs remain excluded**, as in V1 to V4. All four
 candidates are directly constructed frozen sources, so this says nothing about
@@ -130,6 +133,14 @@ were read and the interpreter probe was run before the freeze. The expectation
 that a validating envelope would return a non-neural frontier, and that
 envelopes would agree, held on both valid envelopes. The expectation that 3.13
 would refuse also held. Neither is an independent prospective prediction.
+
+The raw packets record source/preregistration hashes and interpreter envelopes
+but lack execution timestamps and run IDs. Their contents alone do not certify
+the reported run-once chronology; no actual violation is established here.
+The original V5 cross-adjudicator trusts asserted validity fields. Q11 in
+`SCIENTIFIC_GAP_QUEUE_V2.md` requires a separately versioned complete evidence
+audit before that tool supplies validation authority. Reported observations
+and raw packet bytes remain preserved.
 
 ## 6. Registered expectation outcome
 
