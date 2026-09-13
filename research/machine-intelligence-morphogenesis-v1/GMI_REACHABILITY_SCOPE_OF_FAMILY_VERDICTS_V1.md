@@ -84,3 +84,59 @@ others — and it settles the existence question without touching any pending Z 
 `GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md` §RV-377-180-Z,
 `GMI_NN_NONNN_MICROSCOPE_PACKET_RV_377_210_FREEZE.md`, `GMI_RV_377_113_FREEZE.md`,
 `research/gmi-grand-unification-v1/DEVELOPMENTAL_UNDERDETERMINATION_THEOREM_V1.md`.
+
+## 5. The K4 selection negative is not a failure of effort — it is `DU-1` measured
+
+The corpus's own record calls this "the outcome most damaging to the programme":
+
+> `K4_SELECTION_PRINCIPLE_CAN_BE_PREDICTIVE` = **FALSE** — cost-minimising neutral search over the typed
+> IR does not converge on GMI's predicted 10-axis property vectors: 0 of 264 cells, cross-seed agreement
+> **0.0 %**, invariant under a twenty-five-fold budget increase (20 000 → 100 000 → 500 000 evaluations).
+> "Which genotype / property vector arises" is not a function of the inputs, not a well-posed prediction
+> target.
+
+`DU-1` proves that same sentence: the reachable frontier is **not a function** of the admitted realization
+set, the profile map, the family assignment or any proved necessity, and *no theorem of that form can
+exist*. One lane measured it and filed it as a defeat; the other lane derived it and filed it as a
+boundary. They are the same statement.
+
+That re-reading earns something the measurement alone could not. A negative result invites the question
+"would more work fix it?", and the corpus answered honestly that a 25× budget did not. `DU-1` answers it
+in general: no budget can, because the target is underdetermined until the development law is registered.
+The negative converts from *unexplained* to *derived*, and the repair it names is structural — register
+`D` as a primitive input — rather than "search harder".
+
+### Three distinct underdeterminations, one proved and two measured
+
+They should not be collapsed; each is independent evidence and each has a different remedy.
+
+| | source of variation | what is held fixed | evidence | status |
+|---|---|---|---|---|
+| **U1** stochastic | the search's random draw | law, operators, budget, ecology, bar | K4: 0.0 % cross-seed agreement over 264 cells, budget-invariant | measured |
+| **U2** initial condition | the seeded population | law, operators, budget, ecology, bar, **and the seed integer** | `RV-377-180`: `SAME/RESET/S0` does not reach the coefficient cell, `SAME/CONTINUED/S0` reports reaching it | measured |
+| **U3** structural | the development law itself | the entire static package | `DU-1`'s two-law witness | **proved** |
+
+`U2` is the one this lane contributes and it is not a special case of either neighbour: the seed integer
+is identical across those two arms, so it is not `U1`, and both arms run the same law and operator set, so
+it is not `U3`. It sits between them — the same law, differently initialised, reaching different frontiers.
+
+### What survives all three
+
+A claim universally quantified over a machine class survives restriction to any subset of that class, so
+it is untouched by `U1`, `U2` and `U3` alike. The channel capability ceilings are of exactly this shape:
+`CL-1`/TI-1 states `accuracy ≤ ½ + r/(2L)` for every machine in a channel class defined by *access
+structure*, not by reachability. Restricting to the reachable machines leaves them in the class, so the
+ceiling still binds — and `RV-377-123` verified it with 0 violations over 40 draws × 5 machines × 9 values
+of `r`, tight where predicted, linear R² 0.999815.
+
+So the programme's two halves have different standing, and the boundary between them is sharp:
+
+* **Ceilings and exclusions are law-invariant.** `GMI_PREDICTS_CAPABILITY_OF_AN_UNSEEN_FORM` rests on
+  TI-1 and is therefore *not* threatened by `DU-1`. Predicting how far a form's capability can go is
+  safe.
+* **Occupancy, frontier support and family verdicts are law-dependent.** Predicting *which* form arises is
+  the thing `DU-1` says is not well posed without `D`.
+
+Stated plainly: the theory can say how high any species can climb without knowing its development law, and
+cannot say which species appears without one. Both halves are load-bearing, and only the second was ever
+in doubt.
