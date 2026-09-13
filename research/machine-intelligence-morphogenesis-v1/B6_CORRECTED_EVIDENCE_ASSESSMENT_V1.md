@@ -62,8 +62,11 @@ Its exact distinct count is withheld because two RESET records lack seed fingerp
 This reports an identity-certification limitation, not evidence of extra duplicates
 or withdrawal of any measured arm result. The targets of those RESET records differ.
 
-The same three distinct recorded first DENSE recoveries retain founder carriers
-PROGRAM, KVSTORE, and TABLE; none has unknown or conflicting founder metadata.
+The same three distinct recorded first DENSE recoveries retain primary-lineage
+founder carriers PROGRAM, KVSTORE, and TABLE; those literal fields are known and
+consistent. Crossover copies only the primary parent's origin and omits the donor's
+ancestry, so these fields do not exclude DENSE founder or intermediate ancestry.
+See [the lineage correction](B6_LINEAGE_ATTRIBUTION_CORRECTION_V1.md).
 The corrected Z5 representation combines the proven twin alias and separates a
 statement about recorded first recoveries from the frozen universal statement
 about every recovered candidate. The available first-recovery records cannot
@@ -76,9 +79,9 @@ positive DENSE records are:
 
 | Recorded first recovery | Target | Search placement | Verification cost | Sum |
 |---|---|---:|---:|---:|
-| SAME/CONTINUED S0; PROGRAM founder 39 | E_smooth3 | 18,595 | 19,648 | 38,243 |
-| SAME/CONTINUED S1; KVSTORE founder 38 | E_smooth3 | 3,827 | 3,500 | 7,327 |
-| CROSS/TWIN S0 ≡ DISJ/TWIN S0; TABLE founder 20 | E_sym5 | 18,630 | 1,306 | 19,936 |
+| SAME/CONTINUED S0; PROGRAM primary founder 39 | E_smooth3 | 18,595 | 19,648 | 38,243 |
+| SAME/CONTINUED S1; KVSTORE primary founder 38 | E_smooth3 | 3,827 | 3,500 | 7,327 |
+| CROSS/TWIN S0 ≡ DISJ/TWIN S0; TABLE primary founder 20 | E_sym5 | 18,630 | 1,306 | 19,936 |
 
 Each record reports `carrier_atrophied=DENSE` and `min_over_six=0.8542`.
 SAME/RESET S0 and SAME/TWIN S0 report no such recovery in their search window.

@@ -139,3 +139,8 @@ different output entropies. Dynamic cuts, shared resources, interactive
 protocols, other distributions, error allowances and charged local operations
 require new registered comparisons. This is a classical scoped witness, not
 a claim of universal GMI completion or a new complexity-theoretic breakthrough.
+
+The complementary [LQR-1–4](LABELLED_PARTITION_QUERY_RECONSTRUCTION_THEOREM_V1.md)
+proves reconstruction from the full input-labelled output partition under a
+fixed classical query interface and costs. Width collections discard that
+partition structure; the two results concern explicitly different invariants.

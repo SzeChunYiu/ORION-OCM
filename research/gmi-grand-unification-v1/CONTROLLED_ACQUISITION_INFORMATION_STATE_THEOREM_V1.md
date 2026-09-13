@@ -130,6 +130,11 @@ censuses are different checks of related formulations.
 
 This theorem is finite deterministic and robust/zero-error. Under stochastic transitions or observations, a support set is generally insufficient for expected-risk optimization. The classical parent is the POMDP belief-state construction: a belief distribution is a sufficient statistic for history under the Markov model. Prior-free Grand GMI with multiple admitted stochastic ecologies may require a common-decoder family/set of controlled beliefs or another sufficient statistical object. That broader stochastic statement is not claimed here.
 
+[PCA-1–4](PROBABILISTIC_CONTROLLED_ACQUISITION_THEOREM_V1.md) supplies a
+separate finite known-kernel extension once a closed sufficient observed-state
+register is provided. It distinguishes sure, almost-sure, expected-work and
+deadline guarantees; generic infinite POMDP beliefs remain outside that scope.
+
 ## 9. Parent subtraction / novelty boundary
 
 This is **not** claimed as invention of belief-state planning or stateful experimental design.

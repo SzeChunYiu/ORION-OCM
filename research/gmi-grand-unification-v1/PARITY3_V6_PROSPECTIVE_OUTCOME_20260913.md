@@ -1,117 +1,144 @@
-# Parity-3 V6 execution — the prospective 3.13 claim, and what the margins show
+# Parity-3 V6: recorded outcomes and corrected interpretation
 
 Date: 2026-09-13. Registration: `NN_NONNN_POINT_PARITY3_PREREG_V6.json`.
 Harness: `nn_nonnn_point_parity3_experiment_v6.py`.
-Adjudication: `NN_NONNN_POINT_PARITY3_CROSS_ENVELOPE_V6.json` over all six
-frozen portable packets.
+Raw authority: PR #550, merge `243c2a12c0c385497b6ee43d5c60bfe8ebda270d`.
+The three V6 result packets and `NN_NONNN_POINT_PARITY3_CROSS_ENVELOPE_V6.json`
+remain byte-identical to that commit. This readout corrects its interpretation.
 
-## 1. The registered claims, and their outcomes
+## 1. Registered claims and recorded outcomes
 
-| Claim | Status at freeze | Outcome |
+| Claim | Status at freeze | Recorded outcome |
 |---|---|---|
-| P1 — the gate passes on CPython 3.13 with priming | already settled by self-test | **held**; `priming_was_required` is `true` on 3.13 and `false` on 3.11 and 3.12 |
-| P3 — 3.13 exact counts are 72 / 128 / 288 / 440 in the same order | already settled by static disassembly | **held** exactly |
-| P2 — the 3.13 terminal is `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE` and agrees with 3.11 and 3.12 | **unmeasured** | **held** |
+| P1: primed gate passes on CPython 3.13 | prior diagnostic knowledge | held in the full recorded preflight; see self-test limitation below |
+| P3: 3.13 opcode counts, XOR / lookup / sum / DNF | already known from static disassembly | 72 / 128 / 288 / 440 |
+| P2: 3.13 returns the non-neural terminal, agreeing with 3.11 and 3.12 | declared unmeasured at freeze | held at the registered four-candidate observed-box scope |
 
-P2 was the only genuinely prospective claim in the registration. It was
-registered and merged before any CPython 3.13 timing existed, and it held.
-That is one narrow prospective confirmation on one host, not the independent
-prospective replication the audit still lists as open.
+P2 is the registration's only open outcome prediction. The registration merged
+before these recorded timing packets. That chronology and the disclosed prior
+knowledge support a narrow prospective reading; the packets do not independently
+authenticate a global first-attempt history. This is one host, and the registration
+explicitly disclaims independent prospective replication.
 
-## 2. All six portable packets
+## 2. Six portable packets
 
-| Instrument | Interpreter | Terminal | Frontier |
+| Instrument | Interpreter | Recorded terminal | Candidates not robustly dominated |
 |---|---|---|---|
 | V5 | 3.11.15 | `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE` | `X_XOR2_V1` |
 | V5 | 3.12.3 | `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE` | `X_XOR2_V1` |
-| V5 | 3.13.12 | `INVALID_RECEIPT_OR_PROTOCOL_VIOLATION` | — (retained) |
+| V5 | 3.13.12 | `INVALID_RECEIPT_OR_PROTOCOL_VIOLATION` | none reported; refusal retained |
 | V6 | 3.11.15 | `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE` | `X_XOR2_V1`, `X_LOOKUP8_V3` |
 | V6 | 3.12.3 | `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE` | `X_XOR2_V1` |
 | V6 | 3.13.12 | `DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE` | `X_XOR2_V1` |
 
-Cross-envelope: `STABLE_ACROSS_ENVELOPES__DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`
-over five valid envelopes spanning three interpreter generations and two
-instrument versions, with the V5 3.13 refusal retained.
-`replication_obligation_discharged` remains `false`.
+The preserved aggregator reports
+`STABLE_ACROSS_ENVELOPES__DERIVED_NON_NEURAL_AT_REGISTERED_SCOPE`,
+`family_support_stable: true`, `within_family_frontier_stable: false`, and
+`replication_obligation_discharged: false`. Here stability means agreement of
+these recorded classifications. The five valid packets span three interpreter
+versions and two instrument versions on the same reported container.
 
-## 3. Family support is stable; the within-family frontier is not
+## 3. Box overlap does not certify coexistence
 
-The adjudication now reports these separately, because the V6 run on 3.11
-produced a **two-member** frontier: `X_XOR2_V1` no longer robustly dominates
-`X_LOOKUP8_V3` there, because XOR's observed wall envelope widened to
-`[10,947,182, 18,296,565]` and overlaps the lookup table's
-`[14,494,114, 16,064,526]`.
+On V6/3.11, XOR's observed wall interval `[10947182,18296565]` overlaps lookup's
+`[14494114,16064526]`. Consequently the registered upper-versus-lower dominance
+rule does not exclude lookup. XOR nevertheless has the unique strict minimum
+opcode coordinate and survives every completion within those boxes. Lookup's
+survival is possible, not necessary, under full rectangular interval uncertainty.
+The packet therefore does not certify a two-member physical Pareto frontier.
 
-- `family_support_stable`: **true**, `[["NON_NEURAL"]]` on all five envelopes.
-- `within_family_frontier_stable`: **false**, two distinct frontier sets.
+A complete candidate frontier determines its family image; it carries more
+detail than that image, which can remain unchanged when candidate membership
+changes. These runs do not isolate why the observed intervals differ: interpreter,
+priming, runtime state and uncontrolled run variation are not independently
+identified by this comparison. See `EMPIRICAL_FRONTIER_IDENTIFICATION_THEOREM_V1.md`
+for possible/necessary membership and transport premises. CLB-2 and CLB-3 in
+`CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md` distinguish attainment, approximation and
+certified bounds; they do not imply that every finite window is unstable or that
+all interval-based evidence is invalid. The channel claims retain their CL labels.
 
-Both frontier members are non-neural, so the registered family terminal is
-unaffected. But the composition of the frontier is a strictly weaker fact than
-the family verdict, and it moves with timing noise. This is the predicted
-behaviour, not a surprise: by CL-2 and CL-3 of
-`CONTINUOUS_LIFT_BOUNDARY_THEOREM_V1.md` an observed window is not a bound and
-cannot certify tightness, so anything that depends on the width of a window is
-not stable evidence.
+## 4. Margins recomputed from the raw boxes
 
-## 4. What the margins actually support
+Each wall ratio is the named neural candidate's observed minimum divided by
+XOR's observed maximum; each opcode ratio compares exact full-domain counts.
 
-| Instrument | Interpreter | Wall margin, DNF min / XOR max | Opcode ratio, DNF / XOR |
-|---|---|---:|---:|
-| V5 | 3.11.15 | 4.26x | 5.82x |
-| V5 | 3.12.3 | 3.92x | 5.36x |
-| V6 | 3.11.15 | 2.98x | 5.82x |
-| V6 | 3.12.3 | 4.05x | 5.36x |
-| V6 | 3.13.12 | 2.92x | 6.11x |
+| Instrument | Interpreter | DNF wall | DNF opcode | Shared-sum wall | Shared-sum opcode |
+|---|---|---:|---:|---:|---:|
+| V5 | 3.11.15 | 4.260 | 5.818 | 3.022 | 3.909 |
+| V5 | 3.12.3 | 3.923 | 5.364 | 2.930 | 3.545 |
+| V6 | 3.11.15 | 2.978 | 5.818 | 2.070 | 3.909 |
+| V6 | 3.12.3 | 4.052 | 5.364 | 3.034 | 3.545 |
+| V6 | 3.13.12 | 2.918 | 6.111 | 2.050 | 4.000 |
 
-The exact coordinate is reproducible: the opcode ratio depends only on the
-interpreter, and both V5 and V6 agree exactly on it for each interpreter.
+The original >=2.9 wall and >=5.3 opcode claim applies to DNF, not both neural
+candidates. Across both registered neural candidates and all five valid packets,
+the minimum ratios are 2.050419 wall and 3.545455 opcode. These are observed
+run ratios and interpreter-specific exact counts, not population speed bounds.
+Both neural boxes are robustly dominated by XOR in all five packets, including
+process time; this finite comparison survives the numerical correction.
 
-The timing margin does not behave that way. It varies between **2.92x and
-4.26x**, and the two runs of CPython 3.11 differ by more (4.26x against 2.98x)
-than any two interpreters differ from each other. **No interpreter trend is
-supported by this data.** In particular the 3.13 margin of 2.92x is not
-evidence that the newer interpreter narrows the gap, because the 3.11 repeat
-lands at 2.98x. Anyone reading a trend out of these five numbers would be
-reading run-to-run variation on a shared four-core container.
+DNF wall margins range from 2.918352 to 4.259762. The two 3.11 runs differ by
+1.281868, less than the 1.341410 difference between cross-interpreter extremes.
+The earlier opposite numerical comparison was false. Moreover those two 3.11
+runs use different instrument versions; this design identifies neither a pure
+repeat variance nor a causal interpreter trend. V5/V6 exact opcode counts do
+agree within each of their two shared interpreter versions.
 
-What survives is the qualitative separation: on every valid envelope the
-neural candidates' observed lower endpoints are above the cheapest non-neural
-candidate's observed upper endpoint by a factor of at least 2.9, and the exact
-opcode gap is at least 5.3x.
+## 5. Priming evidence and the earlier bias direction
 
-## 5. What the instrument repair is worth
+The V6/3.13 packet reports one empty frame in each forward priming diagnostic,
+followed by complete recorded forward and reverse witnesses. The 3.11/3.12
+forward priming diagnostics report complete frames. Their false
+`priming_was_required_on_this_interpreter` flags do not establish that adding
+tracing leaves timing values or distributions unchanged.
 
-V6's priming closes a real defect and extends the validated interpreter scope
-from two generations to three. The repair is visible rather than absorbed: on
-3.13 each discarded priming witness carries exactly one empty frame, and
-`priming_was_required_on_this_interpreter` records that it mattered. On 3.11
-and 3.12 priming changes nothing and the flag says so.
+The retained V5/3.13 refusal diagnostics are a later pass after the failed
+preflight had already traced DNF. Their counts are DNF 440/440, XOR 63/72,
+shared-sum 252/288 and lookup 112/128. Undercounting the latter three by 12.5%
+makes them artificially cheaper relative to DNF. It does not flatter DNF or
+uniformly favor the neural family: shared-sum is neural and is also undercounted.
+This is not the first-candidate-in-process chronology. The actual V5 gate
+refused before timing; no unvalidated deployment comparison was executed.
 
-The defect was worth catching for a reason beyond coverage. On 3.13 an
-unvalidated counter would have credited whichever candidate was traced first
-with a complete count and undercounted every other candidate by one frame out
-of eight, a 12.5% relative error applied selectively by measurement order. On
-this instrument the first-traced candidate is `N_THRESHOLD_DNF4_V1`, the most
-expensive one, so the error would have flattered the neural family. The V2
-per-frame and forward/reverse checks are what made that unavailable.
+## 6. Static validation and remaining custody obligations
 
-## 6. What remains open, unchanged
+A matching-release static review of all three V6 packets recomputed source and
+registration hashes, native AST/opcode offsets, 32 recorded capability cases,
+64 complete recorded frames, all 128 timing blocks, schedule/checksums, observed
+boxes and dominance results per packet. It called no candidates and reran no
+timing. Wrong trace output, missing return, negative duration and wrong-frontier
+countercontrols were rejected on each release. Source bytes match the frozen V6
+harness hash `8a91ccfab5fd7fa914ced8738c251863e1e32f6e902e317e108172e1adb95b7c`.
+This checks recorded evidence consistency; it does not authenticate remote clocks,
+binary builds, host identity or an exhaustive attempt log.
 
-- **Cross-host replication.** All six packets come from one container. Three
-  interpreter generations on one machine is not independent hardware.
-  `laptop-billy`, `old` and `lunarc` still have no packets;
-  `parity3_v5_runners/` is the entry point.
-- **Candidate-universe coverage.** Four registered candidates are a candidate
-  list, not a proved structural cover, so by
-  `CANDIDATE_UNIVERSE_COVERAGE_CORRECTION_V1.md` the reading stays
-  `ROBUST_WITHIN_COVERED_CLASSES_WITH_OPEN_RESIDUE`. Nothing here excludes an
-  unbuilt neural realization cheaper than `X_XOR2_V1`.
-- **Timing coordinates are not bounds**, as section 3 and 4 make concrete.
-- **Development and search costs remain excluded.**
-- **One prospective claim is not a prospective programme.** P2 concerned a
-  single interpreter on a single host, with P1 and P3 already settled before
-  the freeze. The audit's independent-prospective-replication obligation is
-  untouched.
+Residual source limitations remain explicit:
 
-Terminal for this execution set:
-`PARITY3_V6_PROSPECTIVE_CLAIM_HELD_SINGLE_HOST_THREE_INTERPRETERS`.
+- V6 checks an existing output path after running the experiment. Future execution
+  needs a V6-bound reservation-before-execution custody route with failed attempts
+  retained. The separately versioned V5 custody route does not authorize V6.
+- The self-test emits GREEN even when its support Boolean is false, and does not
+  fully validate recorded parity outputs/return flags. Actual measurement preflight
+  does perform those checks; the retained successful witnesses pass the static review.
+- Only forward priming summaries are retained, not full priming traces or reverse
+  priming summaries. Failure diagnostics retrace instead of preserving every failed
+  original trace. This limits tracing custody, not the validated recorded frames.
+- The multi-schema aggregator compares asserted hashes and terminals. Its new
+  instrument labels and separate family/candidate sets are useful summaries, but
+  it does not derive packet validity from complete evidence or prove candidate
+  identity against an external source anchor. Its output schema remains V5 even
+  in the V6-named historical file. Future complete auditing needs versioned authority.
+
+These limitations require versioned operational repairs; they do not, by themselves,
+invalidate the consistent measured packets. Frozen harness/preregistration and raw
+outputs have not been retroactively changed.
+
+## 7. Remaining scientific scope
+
+Cross-host replication (`laptop-billy`, `old`, `lunarc`), independently optimized
+candidate coverage, developmental/lifetime accounting and independent prospective
+replication remain open. `parity3_v5_runners/` is a V5 route only. Four candidates
+do not establish a structural family cover; candidate-coverage and EFI premises
+still govern any extension. Observed timing envelopes enclose the recorded blocks,
+not all future runs. The recorded execution label remains
+`PARITY3_V6_PROSPECTIVE_CLAIM_HELD_SINGLE_HOST_THREE_INTERPRETERS` at this scope.
