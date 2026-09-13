@@ -21,11 +21,30 @@ The retry changes exactly that stage and nothing else.
 ## 2. Held fixed (changing any of these starts a new registration)
 
 - the K2 criterion `E[B_H^acq(K1_new)] < E[B_RESET^acq(K1_new)]`;
-- the registered recombination bar, unchanged in form and threshold;
+- the registered recombination bar, unchanged in form (see section 2a on its threshold);
 - the fresh-seed protocol and seed count;
 - the assay, its gates and its leakage alarm;
 - `m* ∉ history` enforcement;
 - the matched-control construction.
+
+## 2a. The bar's threshold is not registered, and this registration will not invent one
+
+An earlier version of this file said the threshold was "unchanged" and then
+named a "preregistered majority". Both cannot be right, and neither is
+supported. Searched on `main` with a working control (`recombination bar`
+matches 5 times): `passes >=` and `seeds out of` match **zero** times, and
+every verbatim line states only that "the registered recombination bar held on
+2 of 9 fresh seeds" without ever defining the bar.
+
+The ledger repair unit asserts a two-thirds gate (`3 * passes >= 2 * N`) but
+does not cite a registration for it either. Copying a threshold out of a pull
+request description would manufacture a registration, so this file does not.
+
+**Requirement.** Before the retry executes, its registration must state the bar
+and the document that registers it. Until then no outcome terminal below is
+reachable, because none of them can be evaluated. For reference, 2 of 9 clears
+neither candidate reading: a majority needs `4 > 9` (false) and two-thirds
+needs `6 >= 18` (false).
 
 ## 3. The one change
 
@@ -49,7 +68,7 @@ Clearing the bar without this subtraction establishes nothing about GMI.
 
 | outcome | terminal |
 |---|---|
-| bar holds on a preregistered majority of fresh seeds, parent subtracted | `K2_SUPPORTED_AT_REGISTERED_SCOPE` |
+| bar holds at its stated threshold, parent subtracted | `K2_SUPPORTED_AT_REGISTERED_SCOPE` |
 | bar holds but a parent matches it | `PARENT_SUFFICIENT` |
 | bar does not hold | `NOT_ESTABLISHED_SECOND_GRAMMAR` |
 | assay or gate failure | `CANNOT_CHECK` |

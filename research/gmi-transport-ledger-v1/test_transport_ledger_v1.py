@@ -181,3 +181,31 @@ class TL7_TheCertificateIsNecessaryAndSufficient(unittest.TestCase):
         for A, B in [((F(1), F(2)), (F(9), None)), ((F(9), None), (F(1), F(2))),
                      ((F(1), None), (F(1), None))]:
             self.assertIn(T.compare(A, B), T.COMPARE_TERMINALS)
+
+
+class TL8_CompareValidatesLikeItsSibling(unittest.TestCase):
+    """Corrects a defect: compare() certified empty and negative intervals."""
+
+    def test_empty_candidate_interval_is_refused(self):
+        with self.assertRaises(ValueError):
+            T.compare((F(2), F(1)), (F(3), F(4)))
+
+    def test_negative_lower_bound_is_refused(self):
+        with self.assertRaises(ValueError):
+            T.compare((F(-1), F(2)), (F(3), F(4)))
+
+    def test_inexact_endpoint_is_refused(self):
+        with self.assertRaises(ValueError):
+            T.compare((1.0, F(2)), (F(3), F(4)))
+
+    def test_the_no_alarm_case_still_certifies(self):
+        self.assertEqual(T.compare((F(1), F(2)), (F(3), F(4))),
+                         "CERTIFIED_STRICTLY_LOWER")
+        self.assertEqual(T.compare((F(10), None), (F(1), F(4))),
+                         "CERTIFIED_STRICTLY_HIGHER")
+
+    def test_compare_and_exclusion_transports_now_agree_on_validation(self):
+        for bad in [((F(2), F(1)), (F(3), F(4))), ((F(-1), F(2)), (F(3), F(4)))]:
+            for fn in (T.compare, T.exclusion_transports):
+                with self.assertRaises(ValueError):
+                    fn(*bad)
