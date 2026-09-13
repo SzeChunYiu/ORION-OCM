@@ -300,9 +300,15 @@
             "$.receipt_stack.terminals.GRAND_GMI_SELECTION_ATTAINMENT_RECEIPT_V1.json",
             "$.receipt_stack.terminals.GRAND_GMI_TASK_DIRECTED_ACQUISITION_RECEIPT_V1.json"
           ],
-          "path": "GRAND_GMI_MASTER_RECEIPT_V2.json",
-          "reason": "Reviewed integration adds three finite sectors beyond the upstream family-phase correction; old aggregate remains its historical snapshot.",
+          "path": "replay_receipts_v1/GRAND_GMI_MASTER_RECEIPT_PRE_DERIVATION_V2.json",
+          "reason": "Exact pre-#534 aggregate preserved because upstream overwrote V2; superseded by the first scientific integration V3.",
           "sha256": "d30460f792e61ab11458d94570dd95f98145bb6a4c438d0259ed1a750a1c3a7e",
+          "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
+        },
+        {
+          "path": "GRAND_GMI_MASTER_RECEIPT_V2.json",
+          "reason": "Exact #534 upstream aggregate; excludes the additional scientific sectors integrated on this branch.",
+          "sha256": "bcd8c6343193a9b35f8aee2a7ea7a28c6a4e4955b1d3af114f713d40f0af1aa4",
           "status": "HISTORICAL_SUPERSEDED_FOR_REPLAY"
         }
       ],
@@ -330,6 +336,15 @@
       "receipt_sha256": "e4c9b484e275a6bab2ddc0cee3e886d7fc644ecffe656a12e937589ba0ad018d",
       "source_sha256": "1afcac832090b7b4cfa222be7659443045f4682cf046fdff7cced5b9a0db2ec4",
       "terminal": "GRAND_GMI_CAUSAL_SEMANTIC_VIABILITY_TRANCHE_ALL_GREEN"
+    },
+    {
+      "checker": "grand_gmi_morphology_phase_law_checks_v1.py",
+      "historical_receipts": [],
+      "kind": "finite_check",
+      "receipt": "GRAND_GMI_MORPHOLOGY_PHASE_LAW_RECEIPT_V1.json",
+      "receipt_sha256": "b5fe1962e4505b52a702b032ffee39dd557984653a2d14ac2b942acc5b5792d1",
+      "source_sha256": "1637571c1f01c186511c057be42a7fabd9465e5ac28c71c40e8f7cca3a9eb368",
+      "terminal": "GRAND_GMI_MORPHOLOGY_PHASE_LAW_DERIVATION_GREEN_AT_FINITE_SCOPE"
     },
     {
       "checker": "grand_gmi_morphology_selection_checks_v1.py",
@@ -704,6 +719,7 @@
     "CERTIFICATE_INPUT_CORRECTION_20260913.md": "70c87e2aed7de76e9f8fd7dfa60b484384d97a9d3282c5424b4d0cbf49f54963",
     "CLAIM_LEDGER_DUAL_DERIVATION_ATLAS_V1.md": "e48899c43293219cc0af2ccab5765e28c5c4b0b4a51be34fac5f5cb66e0fa914",
     "CLAIM_LEDGER_FAMILY_PHASE_V1.md": "6fd3d40a1f951f28ed49a52a1c6e15a0c675e59fd04da86f6b432483390ecc75",
+    "CLAIM_LEDGER_MORPHOLOGY_PHASE_LAW_V1.md": "0e079fee29834deffdcfaccc6462abed9f55516a0efb7e3aa269f7873d620ebb",
     "CLAIM_LEDGER_NN_NONNN_CLOSURE_AUDIT_V1.md": "69f67f8e19dadcfc548178194641c60ed535c5eb07f7d881d12405a309668b04",
     "CLAIM_LEDGER_NN_NONNN_EMPIRICAL_PROTOCOL_V1.md": "4a4c28f28cefc5fee71fd1d065771529ba3c854f0644e36acec91f63f944f3ea",
     "CLAIM_LEDGER_NN_NONNN_EVIDENCE_READINESS_V1.md": "a0f7f86be3ab943fdeb258e91223adcbecc27477d155b91ab64f9feddfe47f14",
@@ -765,6 +781,7 @@
     "MASTER_DERIVED_LAW_MANIFEST_V2.json": "4078f67f49a66fc962cb90398b21575f870705bcaff317097059496c9e54eecd",
     "MASTER_DERIVED_LAW_STACK_V2.md": "6f95173c434637d153b89fbda030d38bef29db3187ef2bebc9636ef2ad532861",
     "MEASURABLE_CONTINUOUS_GMI_THEOREM_V1.md": "779ad9a74fbfc24716465e8befdc6ccfccabb78184fb2ee904407a7f73f61348",
+    "MORPHOLOGY_PHASE_LAW_DERIVATION_V1.md": "c355a4dbbdf4d0b3b67381d7457f4c88b961f9c164ee4e6076bcc07df61e9c52",
     "MORPHOLOGY_SELECTION_THEOREM_V1.md": "6f7aa0b4a3b723321b59ca6a493bf33ae739080b8a056efab057737a8f6d92fb",
     "NEURAL_NONNEURAL_FAMILY_SELECTION_THEOREM_V1.md": "988012e0fab064b482565f02c3064532b71e778c039f448eeb2d4b5819e70f65",
     "NN_NONNN_DERIVATION_CERTIFICATE_AND_BOUNDARY_THEOREM_V1.md": "9190367654b6e3275819d4847df7f2e0bcc84ac47d9ee2cf41492dbbe3d3bce1",
