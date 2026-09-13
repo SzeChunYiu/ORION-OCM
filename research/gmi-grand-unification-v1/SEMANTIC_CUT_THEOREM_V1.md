@@ -10,7 +10,7 @@ The channel atlas currently contains CL-1 ... CL-7 as separate capability laws. 
 
 A cut separates an upstream part of a physical/intelligent process from a downstream part. The downstream part may also possess side information. The cut may be temporal (memory), spatial (communication), developmental (weights from training to deployment), inter-agent, inter-generational, or between an external store and a controller.
 
-The theorem below is architecture-free. It says exactly how many distinguishable cut symbols are necessary for an arbitrary finite set-valued obligation.
+The theorem below is architecture-free within the declared finite deterministic classical one-way interface. It says exactly how many classical cut symbols are necessary for an arbitrary finite set-valued obligation. It does not identify this classical alphabet size with the dimension of an unrestricted quantum carrier.
 
 ## 1. Exact finite cut problem
 
@@ -43,7 +43,7 @@ A coloring of a hypergraph is valid when no hyperedge is monochromatic. Let `chi
 
 ## 3. Theorem — exact semantic cut cardinality
 
-**Theorem SC-1.** The minimum number of cut symbols in any zero-error one-way protocol is exactly
+**Theorem SC-1.** The minimum number of classical cut symbols in any zero-error one-way protocol of the declared form `c:X -> Z`, `d:Z x Y -> A` is exactly
 
 `|Z|_min = chi(H_C)`.
 
@@ -56,6 +56,8 @@ Therefore the minimum fixed-length binary cut width is
 Necessity. Suppose `c` is a valid protocol. If a hyperedge `B` were monochromatic with color `z`, then for its witnessing side information `y`, the decoder would have to choose one action `d(z,y)` lying in every `Gamma(x,y)` for `x in B`. Their intersection is empty, contradiction. Hence `c` is a valid hypergraph coloring and `|Z| >= chi(H_C)`.
 
 Sufficiency. Let `c` be any valid coloring with `chi(H_C)` colors. Fix a color `z` and side information `y`, and let `B_{z,y}={x in X_y : c(x)=z}`. If `intersection_{x in B_{z,y}} Gamma(x,y)` were empty, then `B_{z,y}` would itself contain an infeasible hyperedge and would be monochromatic, contradicting validity. Thus the intersection is nonempty. Pick any action in it and define `d(z,y)` to be that action. This gives a zero-error protocol. QED.
+
+The integer `chi(H_C)` optimizes this classical protocol class. With downstream side information, the task need not require a single measurement that recovers every classical color from an arbitrary physical realization. Transport into GG37/GG44 therefore requires a protected classical interface or an independent proof of a globally decodable message requirement. For unassisted quantum one-way exact-function tasks, the corresponding dimension is the conflict graph's orthogonal rank; see [the quantum-process theorem, §4.3–4.4](QUANTUM_PROCESS_INSTANTIATION_THEOREM_V1.md) and [the exact boundary audit](QUANTUM_CLASSICAL_CUT_BOUNDARY_AUDIT_V1.md).
 
 ## 4. Why a hypergraph is necessary
 
