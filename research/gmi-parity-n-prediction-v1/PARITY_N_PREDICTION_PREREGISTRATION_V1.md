@@ -77,6 +77,54 @@ constant-table **size**, not about subscription in general.
 
 These predictions must be re-validated against DCR's trace semantics before registration.
 
+## OUTCOME 2026-09-13, measured against DCR on main@d61a2ec6
+
+Executed with DCR's own typed machine (`Program` + `typed_machine_v1.execute`) on
+CPython 3.12.14, over all 2^n inputs, n = 3,4,5,6. The PN clauses above are left
+**verbatim**: a failed prediction is a result, not something to edit away.
+
+### PN-1, PN-2, PN-3 — CONFIRMED, 16 of 16 exact
+
+Python opcodes per sweep, predicted vs measured, all MATCH:
+
+| n | XOR chain | shared-sum net | lookup table | `sum(x)&1` |
+|---|---|---|---|---|
+| 3 | 88 | 312 | 136 | 48 |
+| 4 | 224 | 800 | 352 | 96 |
+| 5 | 544 | 1952 | 864 | 192 |
+| 6 | 1280 | 4608 | 2048 | 384 |
+
+Native obligations: XOR 0, lookup 0, shared-sum net `(n+1)*2^n` (32/80/192/448),
+delegating `2^n` (8/16/32/64). PN-3 holds: the lookup table is `5n+2`, not `2^n`,
+because an exact constant tuple is one `LOAD_CONST`.
+
+### PN-4 and PN-5 — FALSIFIED
+
+Both clauses asserted an ordering (XOR stays undominated; the neural family never
+wins; `sum(x)&1` stays incomparable). Both depended on treating native obligations as
+a second **minimised** component. DCR does not do that, and the ordering fails on both
+available readings:
+
+- Under DCR-3's **implemented** contract (py events cost 1, native and adapter
+  obligations cost 0 Python opcodes), `separation(delegating, XOR)` =
+  **`CERTIFIED_STRICTLY_LOWER`** at n=3 (48 vs 88) and n=6 (384 vs 1280). The
+  delegating form certifiably **wins**.
+- Under the honest-unknown reading (DCR-3: an absent bound is `[0, infinity)`), the
+  delegating bounds are `(48, None)` and `(384, None)`, so `separation` returns
+  **`UNVERIFIABLE`** at both n. No ordering claim is certifiable in either direction.
+
+So PN-4/PN-5 are neither true in the certifying coordinate nor rescuable by appealing
+to unbounded native work. The transportable content of this registration is the count
+formulas, not any family verdict.
+
+### Why this happened
+
+The formulas were derived against DIC, whose second component was minimised alongside
+opcodes. DCR replaced DIC precisely because that second component was unsound (a
+`functools.partial` scored `(32,8)` against `(344,32)` for the same callee called
+directly). Removing the unsound component removed the basis for the ordering claims,
+while leaving the counts untouched.
+
 ## What this does not establish
 
 PN-3 makes explicit that this coordinate omits table size, so none of these
