@@ -201,3 +201,6 @@ Terminal register:
 | `CL6_PROPOSED_2_TO_MINUS_K_FORM_IS_A_CEILING` | **FALSE**, analytically (binary answer) |
 | `UNOCCUPIED_CHANNEL_CLASSES_DERIVED` | 4 (RV-377-135 … 138), **NOT RUN** |
 | `ARCHITECTURE_PREDICTED` | **FALSE** (RV-377-121 stands) |
+
+Continuous-lift clauses use **CLB-1–5**; this atlas retains **CL-1–7**.
+See [the label correction](CHANNEL_CONTINUOUS_LABEL_DISAMBIGUATION_V1.md).

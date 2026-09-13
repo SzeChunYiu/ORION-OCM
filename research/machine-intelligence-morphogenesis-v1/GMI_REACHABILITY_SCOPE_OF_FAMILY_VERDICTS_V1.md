@@ -78,3 +78,22 @@ after that verification succeeds; it cannot settle unrestricted family coverage.
 
 [Reachability evidence correction](REACHABILITY_EVIDENCE_CORRECTION_V1.md)
 records the inference distinctions and links the raw-record assessment.
+
+## The later K4 interpretation
+
+[PR #544 at 1ea21ceb](https://github.com/SzeChunYiu/ORION-OCM/pull/544/commits/1ea21cebc42cc51e05709dd3ffe88ae32753a988)
+adds a further identification of a finite K4 selection failure with DU-1.
+The logical connection must remain qualified. Different sampled genotypes under
+one stochastic search law can be compatible with one fixed reachable set and
+one fixed distribution. An increased finite evaluation allowance, by itself and without a complete
+continuation or successor-closure certificate, cannot prove that all further
+searches or all registered policies must fail. DU-1's two-law
+countermodel establishes general non-identification from static data; it does
+not turn a particular finite failure into that impossibility theorem.
+
+A valid universal channel ceiling survives restriction within the same channel
+class, with its access assumptions preserved. That is an upper bound on each
+admitted machine. Certifying that ceiling as an achieved optimum or exact capability requires
+a matching admitted construction. A competitive family exclusion using such
+a construction additionally requires that comparator to remain admitted. The earlier A/B example shows why an
+unqualified statement that all exclusions are law-invariant fails.

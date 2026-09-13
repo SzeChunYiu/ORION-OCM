@@ -45,10 +45,17 @@ Every GMI result must be placed in one of these buckets before using words such 
 | Pareto morphology frontier and attained fibers | vector optimization, Pareto theory, robust optimization | nondominance, attainment, epsilon-optimal constructions, lower/upper certificates | operational *full realization fibers* are required before an architecture property is derived; names below probe resolution are intentionally not identified | `NEW_SYNTHESIS_CANDIDATE`; underlying optimization is parent-owned |
 | family-conditioned lower bounds PL-1…PL-5 | relaxation/lower-bounding and robust optimization | dropping constraints supplies lower bounds; stronger valid necessities tighten bounds; larger classes weaken them | bridge from semantic-cut/transformation necessities to structural morphology classes, covering unconstructed class members; lower bounds do not generally identify selection without additional premises | `TECHNICAL_NOVELTY_CANDIDATE` as GMI bridge, not as generic optimization mathematics |
 | dual task signature `(kappa,tau)` | information/communication complexity + computational complexity | communication requirements and local computational difficulty are separately studied | propose **joint attainable spectra of semantic communication and transformation computation** feeding one morphology law; full-spectrum independence remains unproved | `TECHNICAL_NOVELTY_CANDIDATE` / proposed theory residual |
-| broad obligation/resource calculus | 2026 Answerability programme (`Resource Geometry of Answerable Inference`, `Answerability Calculus`) | obligation-relative inference structure, realization categories, resource semantics, minimal sufficient cores, Pareto resource boundaries, composition and quantum-operational treatment | GMI must distinguish itself by its machine-intelligence-specific causal cuts, independent `kappa/tau`, recursive development, morphology fibers and prospective morphology experiments | `CLOSE_PARALLEL__NO_BROAD_PRIORITY_CLAIM` |
+| broad obligation/resource calculus | 2026 Answerability programme (`Resource Geometry of Answerable Inference`, `Answerability Calculus`) | obligation-relative inference structure, realization categories, resource semantics, minimal sufficient cores, Pareto resource boundaries, composition and quantum-operational treatment | GMI must distinguish itself by its machine-intelligence-specific causal cuts, joint task-relative `kappa/tau` under explicit definitions, recursive development, morphology fibers and prospective morphology experiments | `CLOSE_PARALLEL__NO_BROAD_PRIORITY_CLAIM` |
 | source-bound replay / hostile correction discipline | formal methods, reproducible science, preregistration | replay, provenance, counterexamples and preregistration are established methodology | unusually tight integration of theorem receipts, negative preservation, counterexample-driven reopening and prospective machine-form experiments | `PROGRAMME_METHOD_NOVELTY`, not a mathematical theorem claim |
 
 ## 3. What appears genuinely additive today
+
+[Labelled-partition reconstruction](LABELLED_PARTITION_QUERY_RECONSTRUCTION_THEOREM_V1.md)
+now establishes a precise positive sufficiency law for fixed classical query
+primitives and costs, including joint pointwise profiles. It inherits the
+decision-tree parent and supplies no unrestricted independence or priority
+claim. BCR, PCA and SMR likewise apply explicit bounded-controller,
+stochastic-shortest-path and weighted rematerialization parents.
 
 ### 3.1 Strongest theory residual: the dual morphology-generating spectra
 

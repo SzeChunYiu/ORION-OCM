@@ -26,7 +26,11 @@ sector or successful finite replay does not establish universal completion.
 The [all-partition separation](FULL_PARTITION_WIDTH_COMPUTATION_SEPARATION_V1.md)
 matches every indexed input-partition width while separating expected query
 work, and supplies the reverse control. This concerns the declared width/query
-summaries; richer semantic and physical spectra need their own proof.
+summaries. [Labelled-partition reconstruction](LABELLED_PARTITION_QUERY_RECONSTRUCTION_THEOREM_V1.md)
+proves a complementary sufficiency law: the full input-labelled output
+partition determines attainable query-cost profiles under fixed access,
+query costs and free output relabelling. General physical spectra and
+other interfaces require their own proof.
 
 Parent results are cited and distinguished from the GMI applications in each
 module. Exact finite checks challenge those applications; the analytic proofs

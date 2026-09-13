@@ -67,23 +67,27 @@ n_experiments_after_proven_deduplication reports that provisional grouping;
 n_distinct_experiments is null when identity is unresolved.
 Known equal and known distinct seeded-population controls are both tested.
 
-## R8 — founder coverage and the all-recovery quantifier
+## R8 — recorded primary-lineage coverage and the all-recovery quantifier
 
 Z5 excludes cold RESET arms. Every reported warm-arm DENSE recovery must enter
-the evidence register before its founder is examined. One known non-DENSE
-founder plus 17 unknown warm-arm founders cannot produce HELD.
+the evidence register before its recorded primary founder is examined. One known
+non-DENSE primary founder plus 17 unknown such fields cannot produce HELD.
 Missing recovery flags remain unknown, and invalid seed indices cannot select
 a carrier accidentally through negative indexing or Boolean-to-integer coercion.
-A known DENSE founder can falsify early; contradictory known founder records
+A known DENSE primary founder can falsify early; contradictory known founder records
 for a proven identical experiment block an adjudication.
 
 The frozen Z5 claim quantifies over every recovered machine. The available
 first_dense_admissible fields identify only the first recovery per arm.
-Even complete non-DENSE founders for those first recoveries establish only
-recorded_first_recovery_verdict=HELD. The original broader verdict remains
-UNDETERMINED__FIRST_RECOVERY_ONLY. A complete recovery census with equivalent
-verification would be required to certify the universal positive. This is a
-separate evidence obligation, not a narrowed rewrite of the frozen prediction.
+Even complete non-DENSE primary founders for those first recoveries establish only
+recorded_first_recovery_verdict=HELD for that literal field predicate. The original
+broader verdict remains UNDETERMINED__FIRST_RECOVERY_ONLY. Crossover does not record
+the other parent's ancestry. A universal full-founder-ancestry positive needs both
+a complete recovery census with equivalent verification and complete parent
+provenance; primary labels alone cannot certify it. These are separate evidence
+obligations, not a narrowed rewrite of the frozen prediction. See
+[B6_LINEAGE_ATTRIBUTION_CORRECTION_V1.md](B6_LINEAGE_ATTRIBUTION_CORRECTION_V1.md).
+The scorer and its preserved outputs are unchanged by this interpretation repair.
 
 ## Adjacent frozen-condition repairs
 
