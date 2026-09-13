@@ -742,3 +742,35 @@ and it is the next thing worth checking.
 that decides whether the warm-start effect belongs to the theory or to its parents is blocked behind a
 pathology that has already consumed seven hours on its last 5 000 evaluations. No protocol change is made
 here; the state is recorded so the blockage is not mistaken for slowness.
+
+### The flagged worry about the packet's resource coordinates is RETRACTED — the ledger does charge inner search
+
+I flagged, without checking, that the `RV-377-210` packet's resource coordinates might not capture inner
+search budget, which would give its domination edges a 150× blind spot. **That is wrong, and checking it
+took one read.** The `SEARCH` handler in `vm.py`:
+
+```python
+for cand in gr.progs[: p["budget"]]:
+    tried += 1; e = 0
+    for xk, yy in M.stores[ev]:
+        pred = gr.execute(M, cand, ...); d = M.op("SUB", pred, yy); e = M.op("ADD", e, ...)
+```
+
+Every inner candidate is executed through `M` and scored with `M.op`, and `core.Machine.op` calls
+`_charge_op` unconditionally on both the native and the emulated path. So a machine drawn at `budget`
+2401 accrues roughly 150× the operations of one drawn at 16, **inside its `upd` phase, in the ledger the
+packet's Pareto frontier reads**. The packet is not blind to this axis and no packet verdict is in
+question.
+
+**What survives, stated precisely, because the distinction is the whole point.** There are two different
+resource notions here and I had been sliding between them:
+
+| quantity | what it counts | does the 150× show up? |
+|---|---|---|
+| **charged evaluations** — the 20 000 search budget | genotype evaluations attempted | **no** — one evaluation, whatever work it does |
+| **charged ops** — the `R` ledger (`desc`/`exec`/`upd`/`ver`) | operations performed inside them | **yes** |
+
+So the earlier statement stands in its own terms — treating *charged evaluations* as a proxy for compute
+is wrong by up to 150× — and the pathology behind `E_twin2` is real. But it is a statement about the
+search budget, not about the resource ledger, and the packet uses the ledger. Recording the retraction
+next to the finding so the finding is not read as wider than it is.
