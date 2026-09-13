@@ -177,3 +177,64 @@ Run on billy-old before this freeze was committed; nothing in the predictions ab
 billy-old, `nice -n 10`, ≤ 4 processes; `gmi_b6_driver.py <host> sources 4` then `arms 4`; receipts
 `microscopes/results/STAGE_B6_DEV_SRC_<eco>_S<s>_old.json` and `STAGE_B6_DEV_<pair>_<arm>_S<s>_old.json`,
 rsync'd back and md5-verified both sides. Nothing runs on the Mac. No parameter is retuned after any outcome.
+
+---
+
+# RV-377-180-Z — a SEPARATE prospective registration, made with 7 of 24 arms in hand
+
+**Not part of the frozen D-table above.** D1a–D5 are untouched and are still scored exactly as frozen.
+This section registers a different question that the first seven arm receipts raised, and it is written
+**before** the remaining seventeen arms exist so that it is a prediction rather than a reading. It is
+scored separately and its outcome cannot change any D verdict.
+
+## What prompted it
+
+The corpus carries `COEFFICIENT_CLASS_NOT_NEUTRALLY_RECOVERED_AT_20K__0_OF_43`: across ten distinct
+ecologies, neutral search at 20 000 charged evaluations has never once recovered the coefficient class
+**under the atrophied reading** (rule 23). Lane B is the sharpest case — raw descriptor 4/9 DENSE,
+atrophied reading 0/9.
+
+`first_of_class(..., cls=("DENSE",))` in this lane applies that same bar: full `verify_candidate`
+(rule 36 over six interventions, rule 40 ≥ 1 fx over the best constant, rule 42 raw and atrophied,
+atrophy under all six with floor `max(θ, bc + fx)`) **and** `carrier_atrophied == "DENSE"`. So the arms
+measure the identical quantity the invariant counts, at the identical budget.
+
+Observed in the first seven arms, on the SAME pair whose target is `E_smooth3`:
+
+| arm | initial condition | atrophied-DENSE admissible | DENSE cell reached |
+|---|---|---|---|
+| RESET S0 | cold random init | **no** | 0.8125 |
+| TWIN S0 | warm, structure-free archive | **no** | 0.9010 (raw; fails the controls) |
+| CONTINUED S0 | warm, structured archive | **yes**, min6 0.8542, +1.001 fx | 0.9062 |
+| CONTINUED S1 | warm, structured archive | **yes**, min6 0.8542, +1.001 fx | 0.9583 |
+
+Two facts make this worth registering rather than reporting. First, `E_smooth3`'s registered occupant set
+is `(KVSTORE, PROGRAM, TABLE)`: **DENSE is not an occupant**, and D2b's own derivation calls it "the dead
+region of BR §4", inadmissible at 0.8125 — which is exactly the value the cold arm reached. Second, both
+recoveries have `origin = ["seed", k]` with `n_eval_search` of 18 595 and 3 827, so they are descendants
+produced during the search from a warm-started lineage, not seed elites handed over at initialisation.
+
+## Registered predictions (scored only when all 24 arms exist)
+
+| id | prediction | what it would mean |
+|---|---|---|
+| **Z1** | SAME/CONTINUED reaches an admissible atrophied-DENSE machine on ≥ 2/3 seeds | the registered-unoccupied coefficient cell of `E_smooth3` is reachable from a developed archive |
+| **Z2** | SAME/RESET reaches one on **0/3** seeds | the corpus invariant replicates at matched ecology, budget and bar — the cold-start arm is a within-lane control for the 43 |
+| **Z3** | SAME/TWIN reaches one on ≤ 1/3 seeds | the lift is specific to history selected on a *structured* source, i.e. a residual over "any warm start helps" |
+| **Z4** | no dead-region claim is available on CROSS | its target `E_sym5` lists DENSE as a registered occupant, so a DENSE recovery there is expected under any arm and is reported, not counted |
+
+## Falsifiers, stated once
+
+| id | registration is RED if |
+|---|---|
+| F-Z1 | SAME/CONTINUED reaches atrophied-DENSE on ≤ 1/3 seeds — the two hits were seed-luck |
+| F-Z2 | SAME/RESET reaches it on ≥ 1 seed — the cell is reachable cold, so the observation is about *speed*, not reachability, and it does not touch the 0-of-43 invariant |
+| F-Z3 | SAME/TWIN matches CONTINUED (≥ 2/3 seeds) — then any developed archive suffices, the effect is parent-owned (OOPS / bias-optimal warm start), and the honest terminal for the coefficient result is `PARENT_SUFFICIENT_OOPS`, recorded without hedging |
+
+## What this cannot claim even if every prediction holds
+
+It would be a statement about **one** target ecology at **one** budget under **one** generator. It would
+not overturn the 0-of-43 invariant, which is about cold-start neutral search: it would *scope* that
+invariant to its initial condition, which is a different and smaller claim than "the coefficient class is
+recoverable". Nor would it license any capability claim — the recovered machines clear the rule-40 line by
+1.001 fx, the minimum the bar admits, and that marginality is corpus-wide rather than special to DENSE.
