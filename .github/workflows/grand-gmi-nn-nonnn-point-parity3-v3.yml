@@ -1,0 +1,40 @@
+name: Grand GMI parity3 V3 hostile candidate expansion
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-grand-unification-v1/NN_NONNN_POINT_PARITY3_PREREG_V3.json'
+      - 'research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v3.py'
+      - '.github/workflows/grand-gmi-nn-nonnn-point-parity3-v3.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  parity3-candidate-expansion-v3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check complete opcode instrumentation before protected timing
+        run: python -I -B research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v3.py --self-test
+      - name: Execute committed V3 schedule
+        run: >-
+          python -I -B research/gmi-grand-unification-v1/nn_nonnn_point_parity3_experiment_v3.py
+          --out "$RUNNER_TEMP/grand-gmi-parity3-point-v3.json"
+      - name: Upload complete V3 packet including invalid-protocol outcomes
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: grand-gmi-parity3-point-v3
+          path: ${{ runner.temp }}/grand-gmi-parity3-point-v3.json
+          if-no-files-found: warn
+      - name: Ensure experiment did not mutate tracked source
+        if: ${{ always() }}
+        run: git diff --exit-code

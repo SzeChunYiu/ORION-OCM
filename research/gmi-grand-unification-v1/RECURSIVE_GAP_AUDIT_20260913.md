@@ -39,7 +39,9 @@ instances are decidable, or that an empirical measurement has occurred.
 | 12 | The master used vector infima as attainable spectra and overly broad factorization/closure language. Attained sets, declared product orders, deterministic full-response factorization and a proved sufficient domination certificate replace those inferences. Recursive finiteness and dependent GG51/ledgers are aligned. | Corrected master §§1–8 and this audit | [#522](https://github.com/SzeChunYiu/ORION-OCM/pull/522) |
 | 13 | Hosted parity3 V1 assigned zero opcodes to the first measured candidate because opcode tracing was enabled too late. Preserve both failed/undecided V1 packets; prearm and validate complete opcode traces in an explicit V2 before timing. | `PARITY3_INSTRUMENTATION_CORRECTION_20260913.md` | [#524](https://github.com/SzeChunYiu/ORION-OCM/pull/524) |
 | 14 | Freeze and validate the actual V2 measurement separately from its instrument preregistration. Recompute all 62 blocks, exact capability, trace witnesses, resource boxes and the registered point verdict. | `NN_NONNN_POINT_PARITY3_HOSTED_RESULT_V2.json`; hosted run [34745072337](https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34745072337) | [#525](https://github.com/SzeChunYiu/ORION-OCM/pull/525) |
-| 15 | The aggregate trusted terminal labels and stale partial receipts. Source-bound full-payload replay of all 45 finite checkers, explicit historical evidence and hostile custody checks replace that gate. | `THEOREM_REPLAY_INVENTORY_V1.json`; `THEOREM_REPLAY_CAPSULE_V1.md` | Current capsule iteration; commit and merge only after required local gates pass |
+| 15 | The aggregate trusted terminal labels and stale partial receipts. Source-bound full-payload replay of all 45 finite checkers, explicit historical evidence and hostile custody checks replace that gate. | `THEOREM_REPLAY_INVENTORY_V1.json`; `THEOREM_REPLAY_CAPSULE_V1.md` | [#526](https://github.com/SzeChunYiu/ORION-OCM/pull/526) |
+
+| 16 | Register a hostile four-candidate parity-3 expansion, including a shared-sum neural network and lookup table; preserve the complete robust frontier and balanced timing order. | `PARITY3_CANDIDATE_EXPANSION_V3.md`; frozen V3 registration and instrument | Current iteration; merge after deterministic validation, then retain first hosted outcome |
 
 Strategic and quantum documents historically reuse `GG42`–`GG45`. References
 must include the source (for example `strategic:GG42`), or use the strategic
@@ -120,7 +122,7 @@ parent results.
 
 | Obligation | What is still required | Current claim ceiling |
 |---|---|---|
-| Integrated executable custody | Replay all 45 discovered finite checkers against complete frozen outputs and source/input inventory; run all 219 research tests normally and with an optimized parent, including 23 hostile replay tests. | Reviewed gate under final local validation; publication requires all gates to pass. Successful replay establishes registered finite-check reproducibility only. |
+| Integrated executable custody | Replay all 45 discovered finite checkers against complete frozen outputs and source/input inventory; run all 232 research tests normally and with an optimized parent, including 23 hostile replay tests. | The 219-test capsule passed on main at #526 (hosted run 34745987411). V3 adds 13 deterministic expansion controls and extends the bound inventory; no timing outcome is implied. Successful replay establishes registered finite-check reproducibility only. |
 | Empirical family selection | Validated task-bound instruments and a complete frozen packet; broader claims require prospective replication and expanded candidates. | V2 identifies the XOR candidate over one fixed threshold-network candidate at its registered CPython run/observed-envelope scope. V1's failed/undecided defective packets remain unchanged. V2 is a post-V1 repair, not an independent prospective prediction. |
 | Candidate-universe coverage | Explicit competitor register and hostile expansion, then replication across tasks and substrates. | A point verdict never enumerates all physical machines or establishes a universal family winner. |
 | Resource maps and large-scale learning | Calibrated task-bound measurements, developmental reachability evidence and prospective replication. | Conditional resource laws do not manufacture those measurements. |
@@ -164,3 +166,5 @@ nor claims to discharge that separate gate.
 The audit stops making claims at those boundaries. The terminal is
 `SCOPED_CORRECTIONS_WITH_EXPLICIT_EVIDENCE_OBLIGATIONS`, not
 `EVERY_POSSIBLE_GMI_GAP_CLOSED`.
+
+V3 now registers the concrete four-candidate expansion in `PARITY3_CANDIDATE_EXPANSION_V3.md`. Its first protected timing has not yet occurred at this registration stage. The 312-opcode shared-sum neural construction and 136-opcode lookup construction pass deterministic complete-domain instrument diagnostics; those static diagnostics do not predict timing envelopes or select a family. Independent external optimization and broader replication remain distinct obligations.
