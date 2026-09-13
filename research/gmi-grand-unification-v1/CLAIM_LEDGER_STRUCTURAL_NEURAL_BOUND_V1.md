@@ -1,43 +1,19 @@
-# Grand GMI Claim Ledger — Structural Neural Bound V1
+# Structural threshold claim ledger: corrected authority
 
-Status date: 2026-09-13. Additive to the Grand-GMI claim ledgers. Authority:
-`STRUCTURAL_NEURAL_BOUND_THEOREM_V1.md`.
+Current authority: [STR-1–5](STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md).
+Original SN ledger and source bytes are preserved in the adjacent
+[repair unit](../gmi-structural-threshold-repair-v1/CORE.md).
 
-| ID | Claim | Status | Scope |
-|---|---|---|---|
-| SN1 | The registered class is the single-hidden-layer integer-threshold form on parity-3, in two registered code shapes, rendered canonically and minimally, measured in the registered exact opcode coordinate. | DEFINITION / SCOPE | one task, one class, one coordinate |
-| SN2 | Enumerating hidden units over a strictly wider coefficient range yields the same 104 behaviours and never a cheaper rendering, so the coefficient bound does not limit the derived minimum. | THEOREM | integer linear forms on three binary inputs |
-| SN3 | Exact parity is infeasible with one or two hidden units and feasible from three; the enumerated minimum is 39 per call and 312 per sweep on CPython 3.12.3, attained by a compiled minimizer that computes parity. | THEOREM / EXHAUSTIVE ENUMERATION | registered class and coordinate |
-| SN4 | Every unit count of five or more is excluded by a positive per-unit cost floor, so enumerating to four is complete over unit count. | THEOREM | registered class and coordinate |
-| SN5 | The registered XOR realization at 88 per sweep is beaten by no member of the class, written or unwritten, because PL-2's bound holds of every member. | THEOREM / CLASS EXCLUSION | registered class, coordinate and interpreter |
-| SN6 | The registered `N_SUM_THRESHOLD3_V3` candidate attains the derived bound on every tested interpreter, so the bound is tight in the PL-3b sense and the candidate register was not understating the neural family. | THEOREM / TIGHTNESS CERTIFICATE | three tested interpreters |
-| SN7 | The coordinate counts candidate-frame opcodes only, so delegated work is invisible: the SN-3 numeric bound is relative to the registered non-delegating rendering, and a delegating class member scores 256 per sweep against the derived 312. | THEOREM / SCOPE LIMIT | registered opcode coordinate |
-| SN7a | The exclusion survives delegation: 88 against 312 written-to-written and 48 against 256 delegating-to-delegating, and the coordinate's blindness favours the excluded class, so the exclusion is conservative. | THEOREM | registered class and coordinate |
-| SN7b | A minimality claim in this coordinate is gameable, since `sum(x) & 1` costs 48 against the registered XOR candidate's 88. The registered V2 to V6 verdicts are unaffected because their adjudication requires domination in all three coordinates. | SCOPE LIMIT / REPORTING REQUIREMENT | registered opcode coordinate |
-| SN6a | The minimum is attained by more than one specification, so by MS-3 only properties common to all minimizers are derived; no particular weight pattern follows. | SCOPE LIMIT | registered class |
+| Earlier claim | Current disposition |
+|---|---|
+| SN1 registered threshold class | Two explicit flat-linear shapes, hidden-only output and a declared opcode-layout contract. |
+| SN2 finite-grid saturation proves all coefficients/costs covered | Inference withdrawn. The output grid omits a legal function; minimum rendering is not established by fixed term order. |
+| SN3–SN6 exact minimum and exclusion | Revived analytically: three active gates, six input incidences, lower bound 39 and an attained shared-sum witness. XOR has 11 at the same declared coordinate. |
+| SN4 all unit counts | Covered by the analytic inequalities for every retained gate count, without finite coefficient or gate-count saturation. |
+| SN7 candidate-frame blindness | Retained with explicit equal-overhead delegated witnesses; the CALL opcode is included but callee work is excluded. |
+| SN7a universal conservative exclusion under delegation | Withdrawn. Point comparisons do not bound the expanded class or establish full-cost dominance. |
+| SN6a uniqueness/weight morphology | No unique architecture or weight pattern is derived. |
+| Earlier three-interpreter captures | Historical records; current proof uses its explicit layout and separately validated native executions. |
 
-## Per-interpreter derived bounds
-
-| Interpreter | derived class bound per sweep | XOR witness per sweep | margin |
-|---|---:|---:|---:|
-| CPython 3.11.15 | 344 | 88 | 256 |
-| CPython 3.12.3 | 312 | 88 | 224 |
-| CPython 3.13.12 | 288 | 72 | 216 |
-
-## Exact witness aggregate
-
-- distinct hidden behaviours enumerated: `104`, identical over coefficients `[-2,2]` and `[-4,4]`, matching the count of threshold functions on three variables;
-- per-unit-count minima on CPython 3.12.3: `k=1` infeasible, `k=2` infeasible, `k=3` = `39`, `k=4` = `45`;
-- cost floor at `k=5` is `41`, already above the enumerated minimum `39`;
-- the composed per-line prediction equals the compiled count of the minimizer, and the minimizer computes parity on all eight inputs;
-- the registered shared-sum net attains `312` per sweep on 3.12, equal to the derived bound; the registered DNF net costs `472` and does not attain it;
-- delegation witnesses per sweep on CPython 3.12.3: written class member `312`, delegating threshold net `256`, written XOR `88`, delegating non-neural `48`, with candidate-frame call counts `4`, `5`, `0`, `1`;
-- `sum` and `int` have no Python code object, so their work executes no candidate-frame opcode;
-- no timing measurement is used or produced.
-
-Terminal: `GRAND_GMI_STRUCTURAL_NEURAL_BOUND_GREEN_AT_FINITE_SCOPE`.
-Open residue: more than one hidden layer, non-threshold activations,
-vectorized realizations, realizations that precompute outputs (excluded by the
-predicate as a scope choice), other substrates and languages, and all timing
-coordinates. The verdict for the physically legal set of parity-3
-realizations stays open, since the registered class is not a proved cover of it.
+The full corrected receipt is `GRAND_GMI_STRUCTURAL_NEURAL_BOUND_RECEIPT_V2.json`.
+The frozen V1 is retained as superseded evidence, including its earlier claims.

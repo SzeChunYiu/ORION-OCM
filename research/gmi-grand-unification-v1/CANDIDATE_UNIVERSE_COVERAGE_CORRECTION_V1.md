@@ -180,23 +180,14 @@ candidate-universe obligation from enumeration to a bounded-cover condition,
 the CU-2 transfer theorem, the CU-3b non-upgradability proof, the
 composition-resolution counterexample, and the exact finite witnesses.
 
-## Appendix — the first CU-2 transfer on a real instance
+## Appendix — a scoped structural lower-bound application
 
-`STRUCTURAL_NEURAL_BOUND_THEOREM_V1.md` supplies the missing half for one
-registered class. CU-3b says a point verdict over a candidate list cannot be
-upgraded by adding candidates; the structural bound sidesteps that by deriving
-a lower bound over a predicate-defined class, which PL-2 then transfers to
-members nobody has written.
+[STR-1–5](STRUCTURAL_THRESHOLD_ANALYTIC_CORRECTION_V1.md) supplies an attained
+312-opcode sweep minimum for exact parity in two explicit flat-linear source
+shapes under its declared layout; XOR uses 88 in that coordinate. Geometric
+and dependency arguments cover all admitted integer coefficients and unit
+counts. The earlier finite-grid saturation argument is superseded.
 
-For exact parity-3 in the registered CPython opcode coordinate, the
-single-hidden-layer integer-threshold class has derived minimum 312 per sweep
-on CPython 3.12, attained by the already-registered shared-sum candidate, while
-the registered XOR realization costs 88. No member of that class, written or
-unwritten, beats the witness. Its unit-count and coefficient residues are
-closed by a saturation argument and a cost floor rather than by sampling.
-
-This does not make the parity-3 verdict a statement about the physically legal
-set. The registered class is still not a proved cover of it, so CU-1 remains a
-separate obligation, and the residue named in that theorem's section 7 —
-multi-layer, non-threshold, vectorized, precomputing, other substrates, and all
-timing coordinates — is untouched.
+This is a predicate-class application of the bound, not coverage of every
+physical or neural realization. Expanded delegation and skip connections
+change the class; timing, memory, acquisition and callee costs remain separate.
