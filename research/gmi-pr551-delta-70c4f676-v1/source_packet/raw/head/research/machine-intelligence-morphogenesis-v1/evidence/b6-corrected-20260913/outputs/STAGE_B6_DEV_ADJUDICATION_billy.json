@@ -1,0 +1,496 @@
+{
+ "Z_registration": {
+  "Z1": {
+   "n_determined": 2,
+   "n_hits": 2,
+   "per_seed": {
+    "0": true,
+    "1": true,
+    "2": null
+   },
+   "rule": "SAME/CONTINUED reaches atrophied-DENSE on >= 2/3 seeds",
+   "verdict": "HELD"
+  },
+  "Z2": {
+   "n_determined": 1,
+   "n_hits": 0,
+   "per_seed": {
+    "0": false,
+    "1": null,
+    "2": null
+   },
+   "rule": "SAME/RESET reaches it on 0/3 seeds (within-lane control for the 0-of-43 invariant)",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "Z3": {
+   "n_determined": 1,
+   "n_hits": 0,
+   "per_seed": {
+    "0": false,
+    "1": null,
+    "2": null
+   },
+   "rule": "SAME/TWIN reaches it on <= 1/3 seeds (residual over 'any warm start helps')",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "Z4_reported_only": {
+   "cross": {
+    "CONTINUED": {
+     "0": false,
+     "1": null,
+     "2": null
+    },
+    "RESET": {
+     "0": false,
+     "1": null,
+     "2": null
+    },
+    "TWIN": {
+     "0": true,
+     "1": null,
+     "2": null
+    }
+   },
+   "note": "CROSS target E_sym5 lists DENSE as a registered occupant; a DENSE recovery there is expected under any arm and is reported, not scored"
+  },
+  "Z5": {
+   "n_distinct_recoveries": 3,
+   "n_rooted_in_DENSE": 0,
+   "roots_by_arm": {
+    "CROSS|TWIN|S0": "TABLE",
+    "SAME|CONTINUED|S0": "PROGRAM",
+    "SAME|CONTINUED|S1": "KVSTORE"
+   },
+   "rule": "every admissible atrophied-DENSE machine descends from a non-DENSE seed elite; counted over distinct experiments, so a duplicated arm counts once",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "terminal": "Z_UNDETERMINED__UNITS_MISSING"
+ },
+ "complete": false,
+ "duplicate_experiments": {
+  "duplicate_computation": {
+   "CROSS|TWIN|S0 & DISJ|TWIN|S0": {
+    "arm": "TWIN",
+    "identical_B_morph": true,
+    "n_distinct_receipt_files": 2,
+    "seed": 0,
+    "seed_population_sha256": "956aa4ee76aa8846",
+    "target": "E_sym5"
+   }
+  },
+  "n_distinct_experiments": 8,
+  "n_receipt_files": 9,
+  "n_undisclosed_groups": 1,
+  "note": "shared_baseline_by_design is one receipt file read under two pair labels, which the freeze states. duplicate_computation is two distinct receipt files holding the same computation: same target, same seed, byte-identical seeded population. Those are one experiment reported twice and must not be counted as independent evidence.",
+  "shared_baseline_by_design": {
+   "CROSS|RESET|S0 & DISJ|RESET|S0": {
+    "arm": "RESET",
+    "identical_B_morph": true,
+    "n_distinct_receipt_files": 1,
+    "seed": 0,
+    "seed_population_sha256": "4f53cda18c2baa0c",
+    "target": "E_sym5"
+   }
+  }
+ },
+ "host": "billy",
+ "missing_units": [
+  "CROSS|CONTINUED|S1",
+  "CROSS|CONTINUED|S2",
+  "CROSS|RESET|S1",
+  "CROSS|RESET|S2",
+  "CROSS|TWIN|S1",
+  "CROSS|TWIN|S2",
+  "DISJ|CONTINUED|S1",
+  "DISJ|CONTINUED|S2",
+  "DISJ|RESET|S1",
+  "DISJ|RESET|S2",
+  "DISJ|TWIN|S1",
+  "DISJ|TWIN|S2",
+  "SAME|CONTINUED|S2",
+  "SAME|RESET|S1",
+  "SAME|RESET|S2",
+  "SAME|TWIN|S1",
+  "SAME|TWIN|S2"
+ ],
+ "predictions": {
+  "D1a": {
+   "n_determined": 1,
+   "n_true": 1,
+   "per_seed": {
+    "0": true,
+    "1": null,
+    "2": null
+   },
+   "rule": "SAME: B_morph(CONTINUED) < B_morph(RESET) on >= 2/3 seeds",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D1b": {
+   "n_determined": 1,
+   "n_true": 1,
+   "per_seed": {
+    "0": true,
+    "1": null,
+    "2": null
+   },
+   "rule": "SAME residual: B_morph(CONTINUED) < B_morph(TWIN) on >= 2/3 seeds [LOAD-BEARING]",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D1s": {
+   "n_determined": 1,
+   "n_true": 0,
+   "per_seed": {
+    "0": false,
+    "1": null,
+    "2": null
+   },
+   "rule": "SAME strong form (reported, predicted to FAIL): TWIN does NOT beat RESET on >= 2/3 seeds",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D2a": {
+   "detail": {
+    "classes": {
+     "0": "TABLE",
+     "1": null,
+     "2": null
+    }
+   },
+   "n_determined": 1,
+   "n_true": 1,
+   "per_seed": {
+    "0": true,
+    "1": null,
+    "2": null
+   },
+   "rule": "CROSS: CONTINUED earlier than RESET AND first atrophied class is memory, each on >= 2/3 seeds",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D2b": {
+   "n_determined": 0,
+   "n_true": 0,
+   "per_seed": {
+    "0": null,
+    "1": null,
+    "2": null
+   },
+   "rule": "CROSS: B_dense(CONTINUED) > B_dense(RESET) on EVERY determined seed; undetermined seeds excluded",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D2c": {
+   "detail": {
+    "continued": {
+     "0": 0.7917,
+     "1": null,
+     "2": null
+    },
+    "reset": {
+     "0": 0.9115,
+     "1": null,
+     "2": null
+    }
+   },
+   "n_determined": 1,
+   "n_true": 1,
+   "per_seed": {
+    "0": true,
+    "1": null,
+    "2": null
+   },
+   "rule": "CROSS: CONTINUED final best DENSE-cell capability <= RESET's on >= 2/3 seeds",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D2d": {
+   "n_determined": 0,
+   "n_true": 0,
+   "per_seed": {
+    "0": null,
+    "1": null,
+    "2": null
+   },
+   "reset_B_dense_spread": null,
+   "rule": "DISJ-CONTINUED B_dense within RESET seed spread, or UNDETERMINED, on >= 2/3 seeds",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D3a": {
+   "detail": {
+    "reset_B_morph_spread": null
+   },
+   "n_determined": 0,
+   "n_true": 0,
+   "per_seed": {
+    "0": null,
+    "1": null,
+    "2": null
+   },
+   "rule": "DISJ: |B_morph(CONTINUED) - B_morph(TWIN)| <= RESET seed spread on >= 2/3 seeds",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D3b": {
+   "n_determined": 1,
+   "n_true": 0,
+   "per_seed": {
+    "0": false,
+    "1": null,
+    "2": null
+   },
+   "rule": "DISJ: B_morph(CONTINUED) < B_morph(RESET) on >= 2/3 seeds (parent's prediction)",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D4": {
+   "per_pair": {
+    "CROSS": {
+     "n_determined": 1,
+     "n_true": 1,
+     "per_seed": {
+      "0": true,
+      "1": null,
+      "2": null
+     },
+     "verdict": "PENDING_MORE_UNITS"
+    },
+    "DISJ": {
+     "n_determined": 1,
+     "n_true": 1,
+     "per_seed": {
+      "0": true,
+      "1": null,
+      "2": null
+     },
+     "verdict": "PENDING_MORE_UNITS"
+    },
+    "SAME": {
+     "n_determined": 1,
+     "n_true": 1,
+     "per_seed": {
+      "0": true,
+      "1": null,
+      "2": null
+     },
+     "verdict": "PENDING_MORE_UNITS"
+    }
+   },
+   "rule": "CONTINUED final best >= RESET's on >= 2/3 seeds on EVERY pair",
+   "verdict": "PENDING_MORE_UNITS"
+  },
+  "D5": {
+   "detail": {
+    "class_origin": {
+     "0": [
+      "KVSTORE",
+      [
+       "seed",
+       27
+      ]
+     ],
+     "1": [
+      "KVSTORE",
+      [
+       "seed",
+       54
+      ]
+     ],
+     "2": [
+      null,
+      null
+     ]
+    }
+   },
+   "n_determined": 2,
+   "n_true": 2,
+   "per_seed": {
+    "0": true,
+    "1": true,
+    "2": null
+   },
+   "rule": "SAME: CONTINUED first admissible class in {KVSTORE,PROGRAM,TABLE} and lineage root is a seed elite, on >= 2/3 seeds",
+   "verdict": "HELD"
+  }
+ },
+ "residual_over_parents": {
+  "D1b_load_bearing": "PENDING_MORE_UNITS",
+  "D2b_class_conditioned_sign": "PENDING_MORE_UNITS",
+  "D2d_class_conditioned_control": "PENDING_MORE_UNITS"
+ },
+ "revival_record": "RV-377-180",
+ "rows": {
+  "CROSS|CONTINUED|S0": {
+   "B_dense": null,
+   "B_morph": 142,
+   "class": "TABLE",
+   "dense_found": false,
+   "dense_root_carrier": null,
+   "dense_root_kind": null,
+   "final_best": 0.9115,
+   "final_best_dense": 0.7917,
+   "found": true,
+   "origin": [
+    "seed",
+    17
+   ],
+   "seed_population_sha256": "802a3301f4c2d1b1",
+   "source_ecology": "E_smooth3",
+   "target_ecology": "E_sym5"
+  },
+  "CROSS|RESET|S0": {
+   "B_dense": null,
+   "B_morph": 596,
+   "class": "KVSTORE",
+   "dense_found": false,
+   "dense_root_carrier": null,
+   "dense_root_kind": null,
+   "final_best": 0.9115,
+   "final_best_dense": 0.9115,
+   "found": true,
+   "origin": null,
+   "seed_population_sha256": "4f53cda18c2baa0c",
+   "source_ecology": "E_smooth3",
+   "target_ecology": "E_sym5"
+  },
+  "CROSS|TWIN|S0": {
+   "B_dense": 19936,
+   "B_morph": 7906,
+   "class": "TABLE",
+   "dense_found": true,
+   "dense_root_carrier": "TABLE",
+   "dense_root_kind": "seed",
+   "final_best": 0.974,
+   "final_best_dense": 0.9115,
+   "found": true,
+   "origin": [
+    "seed",
+    20
+   ],
+   "seed_population_sha256": "956aa4ee76aa8846",
+   "source_ecology": "E_smooth3",
+   "target_ecology": "E_sym5"
+  },
+  "DISJ|CONTINUED|S0": {
+   "B_dense": null,
+   "B_morph": 4536,
+   "class": "KVSTORE",
+   "dense_found": false,
+   "dense_root_carrier": null,
+   "dense_root_kind": null,
+   "final_best": 0.9583,
+   "final_best_dense": 0.9583,
+   "found": true,
+   "origin": [
+    "seed",
+    32
+   ],
+   "seed_population_sha256": "c2792dcfbe411071",
+   "source_ecology": "E_rnd0",
+   "target_ecology": "E_sym5"
+  },
+  "DISJ|RESET|S0": {
+   "B_dense": null,
+   "B_morph": 596,
+   "class": "KVSTORE",
+   "dense_found": false,
+   "dense_root_carrier": null,
+   "dense_root_kind": null,
+   "final_best": 0.9115,
+   "final_best_dense": 0.9115,
+   "found": true,
+   "origin": null,
+   "seed_population_sha256": "4f53cda18c2baa0c",
+   "source_ecology": "E_smooth3",
+   "target_ecology": "E_sym5"
+  },
+  "DISJ|TWIN|S0": {
+   "B_dense": 19936,
+   "B_morph": 7906,
+   "class": "TABLE",
+   "dense_found": true,
+   "dense_root_carrier": "TABLE",
+   "dense_root_kind": "seed",
+   "final_best": 0.974,
+   "final_best_dense": 0.9115,
+   "found": true,
+   "origin": [
+    "seed",
+    20
+   ],
+   "seed_population_sha256": "956aa4ee76aa8846",
+   "source_ecology": "E_rnd0",
+   "target_ecology": "E_sym5"
+  },
+  "SAME|CONTINUED|S0": {
+   "B_dense": 38243,
+   "B_morph": 278,
+   "class": "KVSTORE",
+   "dense_found": true,
+   "dense_root_carrier": "PROGRAM",
+   "dense_root_kind": "seed",
+   "final_best": 0.9062,
+   "final_best_dense": 0.9062,
+   "found": true,
+   "origin": [
+    "seed",
+    27
+   ],
+   "seed_population_sha256": "61f533c4567a63d0",
+   "source_ecology": "E_smooth1",
+   "target_ecology": "E_smooth3"
+  },
+  "SAME|CONTINUED|S1": {
+   "B_dense": 7327,
+   "B_morph": 407,
+   "class": "KVSTORE",
+   "dense_found": true,
+   "dense_root_carrier": "KVSTORE",
+   "dense_root_kind": "seed",
+   "final_best": 0.9583,
+   "final_best_dense": 0.9583,
+   "found": true,
+   "origin": [
+    "seed",
+    54
+   ],
+   "seed_population_sha256": "85338a281ef40ffe",
+   "source_ecology": "E_smooth1",
+   "target_ecology": "E_smooth3"
+  },
+  "SAME|RESET|S0": {
+   "B_dense": null,
+   "B_morph": 11283,
+   "class": "TABLE",
+   "dense_found": false,
+   "dense_root_carrier": null,
+   "dense_root_kind": null,
+   "final_best": 0.8958,
+   "final_best_dense": 0.8125,
+   "found": true,
+   "origin": null,
+   "seed_population_sha256": "4f53cda18c2baa0c",
+   "source_ecology": "E_smooth1",
+   "target_ecology": "E_smooth3"
+  },
+  "SAME|TWIN|S0": {
+   "B_dense": null,
+   "B_morph": 560,
+   "class": "KVSTORE",
+   "dense_found": false,
+   "dense_root_carrier": null,
+   "dense_root_kind": null,
+   "final_best": 0.9062,
+   "final_best_dense": 0.901,
+   "found": true,
+   "origin": [
+    "seed",
+    20
+   ],
+   "seed_population_sha256": "956aa4ee76aa8846",
+   "source_ecology": "E_smooth1",
+   "target_ecology": "E_smooth3"
+  }
+ },
+ "schema": "StageB6AdjudicationV1",
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "terminal": "ADJUDICATION_INCOMPLETE__UNITS_MISSING",
+ "validation_only": false
+}
