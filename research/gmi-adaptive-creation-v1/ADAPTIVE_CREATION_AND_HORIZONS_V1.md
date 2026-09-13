@@ -85,5 +85,7 @@ Finite Bernoulli rows, exact arithmetic. No learned support/state, no drifting
 laws, no physical-sampler authentication — all inherited ARC premises unchanged.
 The infinite-summable-budget construction is future work, explicitly not claimed.
 
+Parent ARC-1-4 unit is untouched (capsule manifest unchanged).
+
 Files: [model](adaptive_creation_v1.py) → [11 controls](test_adaptive_creation_v1.py) →
 [receipt](ARC5_RECEIPT_V1.json: 11/11 on billy-old py3.14 + laptop-billy py3.8, normal + optimized).

@@ -19,5 +19,3 @@ the checker does not authenticate a physical sampler or infer those facts.
 Original fixed-look procedures remain valid at their fixed looks. An explicit
 optional-monitoring counterexample and repair show what changes when the
 data determine when to stop.
-
-ARC-5 supplement (checklist item 32): [creation and horizons](ADAPTIVE_CREATION_AND_HORIZONS_V1.md) ([model](adaptive_creation_v1.py) -> [11 controls](test_adaptive_creation_v1.py) -> [receipt](ARC5_RECEIPT_V1.json): 11/11 on billy-old py3.14 + laptop-billy py3.8, normal + optimized).

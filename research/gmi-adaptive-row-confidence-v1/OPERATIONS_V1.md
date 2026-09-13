@@ -54,5 +54,3 @@ Primary sources and subtraction:
 
 The full FMT and historical FC-T7-containing documents are preserved under
 `raw/`. They are parent records, not modified ARC claims or new registrations.
-
-ARC-5 supplement for checklist item 32: [creation and horizons](ADAPTIVE_CREATION_AND_HORIZONS_V1.md) ([model](adaptive_creation_v1.py) -> [11 controls](test_adaptive_creation_v1.py) -> [receipt](ARC5_RECEIPT_V1.json)).
