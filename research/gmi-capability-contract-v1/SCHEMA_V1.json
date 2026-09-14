@@ -1,0 +1,35 @@
+{
+  "$schema": "",
+  "title": "CapabilityContractV1",
+  "description": "27-row architecture-independent capability contract (592 item 4 / 602 A4). Each row is inputs->allowed_info->behaviour->success->resource->twin->parent->falsifier.",
+  "type": "object",
+  "required": ["schema", "scope", "rows"],
+  "properties": {
+    "schema": {"type": "string", "enum": ["CapabilityContractV1"]},
+    "scope": {"type": "string"},
+    "rows": {
+      "type": "array",
+      "minItems": 27,
+      "maxItems": 27,
+      "items": {
+        "type": "object",
+        "required": ["id", "capability", "inputs", "allowed_info", "required_behaviour", "success_metric", "resource_metric", "negative_twin", "strongest_parent", "atlas_reduction", "falsifier"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^cap-[a-z0-9-]+$"},
+          "capability": {"type": "string", "minLength": 3},
+          "inputs": {"type": "string", "minLength": 20},
+          "allowed_info": {"type": "string", "minLength": 20},
+          "required_behaviour": {"type": "string", "minLength": 20},
+          "success_metric": {"type": "string", "minLength": 20},
+          "resource_metric": {"type": "string", "minLength": 15},
+          "negative_twin": {"type": "string", "minLength": 20},
+          "strongest_parent": {"type": "string", "minLength": 10},
+          "atlas_reduction": {"type": "string", "minLength": 10},
+          "falsifier": {"type": "string", "minLength": 20}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

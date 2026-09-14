@@ -1,0 +1,39 @@
+name: GMI capability contract (A4)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-capability-contract-v1/**'
+      - '.github/workflows/gmi-capability-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-capability-contract-v1/**'
+      - '.github/workflows/gmi-capability-contract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capability-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run capability contract controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-capability-contract-v1/test_capability_contract_v1.py -v
