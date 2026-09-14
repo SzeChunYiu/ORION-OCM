@@ -1,0 +1,39 @@
+name: GMI biological bridge contract
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-biological-bridge-v1/**'
+      - '.github/workflows/gmi-biological-bridge.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-biological-bridge-v1/**'
+      - '.github/workflows/gmi-biological-bridge.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bridge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run bridge contract checker
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-biological-bridge-v1/check_bridge_v1.py
