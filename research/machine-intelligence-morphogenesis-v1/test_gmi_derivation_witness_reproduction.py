@@ -41,6 +41,7 @@ WITNESSES = {
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
     "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
+    "equivariance_witness.py": "STAGE_EQUIVARIANCE_V1.json",
     "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
     "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
@@ -821,3 +822,47 @@ def test_mlp_is_recovered_only_when_a_single_layer_fails():
     assert by["xor2"]["depth"] == 2 and by["xor2"]["nonlinearity"] is True
     assert by["or2"]["cost"] < by["xor2"]["cost"], \
         "the simpler obligation should recover the cheaper machine"
+
+
+def test_symmetry_descriptor_refutes_with_a_counterexample():
+    """GMI_EQUIVARIANCE_DERIVATION_V1: the descriptor must separate invariant
+    from non-invariant obligations, and must REFUTE with an exhibited
+    counterexample rather than merely failing to prove."""
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x for x in r["symmetry"]}
+    assert by["has_11"]["shift_invariant"] is True
+    assert by["first_is_1"]["shift_invariant"] is False
+    assert by["first_is_1"]["counterexample"], \
+        "non-invariance is asserted without an exhibited counterexample"
+    vals = [x["shift_invariant"] for x in r["symmetry"]]
+    assert any(vals) and not all(vals), "the descriptor distinguishes nothing"
+
+
+def test_receptive_field_is_read_off_the_obligation():
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x["receptive_field"] for x in r["receptive_field"]}
+    assert by["has_11"] == 2 and by["has_101"] == 3, \
+        "the receptive field no longer matches the pattern width"
+    assert by["first_is_1"] is None, \
+        "a position-anchored obligation should not be a function of the window multiset"
+
+
+def test_shift_invariance_licenses_sharing_but_does_not_guarantee_it():
+    """parity_all is shift-invariant with receptive field 1 and STILL cannot be
+    expressed by an OR-combined shared detector. Losing that row would turn a
+    careful claim into an overclaim."""
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x for x in r["recovery"]}
+    assert by["has_11"]["shared_works"] is True
+    assert by["has_101"]["shared_works"] is True
+    assert by["parity_all"]["shared_works"] is False, (
+        "parity is now expressible by an OR-combined shared detector, so the "
+        "combiner caveat in the document would be stale")
+
+
+def test_equivariance_negative_twin_separates():
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x for x in r["negative_twin"]}
+    assert by["has_11"]["shared_works"] is True
+    assert by["first_is_1"]["shared_works"] is False, \
+        "sharing now works on a position-anchored obligation"
