@@ -12,6 +12,8 @@ DEP = HERE / "GMI_602_CLOSURE_DEPENDENCIES_V1.json"
 SPINE = HERE / "GMI_602_PARENT_ATLAS_AND_FORMAL_CLOSURE_V1.md"
 AMENDMENT = HERE / "GMI_602_PARENT_ATLAS_AMENDMENTS_V1.md"
 FORMAL_V2 = HERE / "GMI_602_FORMAL_GAP_CLOSURE_V2.md"
+FORMAL_V2_CORRIGENDA = HERE / "GMI_602_FORMAL_GAP_CORRIGENDA_V2.md"
+KNOWN_V3 = HERE / "GMI_602_KNOWN_FAMILY_FORMAL_CLOSURE_V3.md"
 CROSSWALK = HERE / "GMI_602_PARENT_FIRST_CROSSWALK_V1.json"
 PARENT = ROOT.parent / "machine-intelligence-morphogenesis-v1" / "PARENT_LEDGER_V2.json"
 
@@ -20,9 +22,11 @@ EXPECTED_THEOREMS = {
     *(f"T602-{i:02d}" for i in range(1, 17)),
     "T602-17",
     "T602-17b",
-    *(f"T602-{i:02d}" for i in range(18, 34)),
+    *(f"T602-{i:02d}" for i in range(18, 37)),
 }
-EXPECTED_CORRIGENDA = {"C602-05", "C602-13", "C602-14", "C602-17b", "C602-20"}
+EXPECTED_CORRIGENDA_V1 = {"C602-05", "C602-13", "C602-14", "C602-17b", "C602-20"}
+EXPECTED_CORRIGENDA_V2 = {"C602-25", "C602-26"}
+EXPECTED_CORRIGENDA = EXPECTED_CORRIGENDA_V1 | EXPECTED_CORRIGENDA_V2
 EXPECTED_ADDED_PARENT_CLASSES = {
     "predictive_state_causal_state_bisimulation",
     "statistical_sufficiency_information_bottleneck",
@@ -51,11 +55,15 @@ def main() -> None:
     spine = SPINE.read_text(encoding="utf-8")
     amendment = AMENDMENT.read_text(encoding="utf-8")
     formal_v2 = FORMAL_V2.read_text(encoding="utf-8")
+    formal_v2_corrigenda = FORMAL_V2_CORRIGENDA.read_text(encoding="utf-8")
+    known_v3 = KNOWN_V3.read_text(encoding="utf-8")
 
     assert dep["schema"] == "GMI_602_CLOSURE_DEPENDENCIES_V1"
     assert dep["formal_spine"] == SPINE.name
     assert dep["formal_amendment"] == AMENDMENT.name
     assert dep["formal_gap_supplement"] == FORMAL_V2.name
+    assert dep["formal_gap_corrigenda"] == FORMAL_V2_CORRIGENDA.name
+    assert dep["known_family_formal_supplement"] == KNOWN_V3.name
     assert dep["parent_crosswalk"] == CROSSWALK.name
     assert isinstance(parent, dict) and parent, "specialist parent ledger must parse as a nonempty JSON object"
     assert PARENT.stat().st_size > 10_000, "specialist parent ledger unexpectedly collapsed"
@@ -79,14 +87,25 @@ def main() -> None:
     theorem_ids = set(dep["theorems"])
     assert theorem_ids == EXPECTED_THEOREMS, "formal theorem inventory drifted"
     spine_ids = {*(f"T602-{i:02d}" for i in range(1, 24)), "T602-17b"}
+    v2_ids = {f"T602-{i:02d}" for i in range(24, 34)}
+    v3_ids = {f"T602-{i:02d}" for i in range(34, 37)}
     for theorem_id in sorted(EXPECTED_THEOREMS):
-        corpus = spine if theorem_id in spine_ids else formal_v2
+        if theorem_id in spine_ids:
+            corpus = spine
+        elif theorem_id in v2_ids:
+            corpus = formal_v2
+        elif theorem_id in v3_ids:
+            corpus = known_v3
+        else:
+            raise AssertionError(f"{theorem_id}: no owning formal artifact")
         assert theorem_id in corpus, f"{theorem_id}: declared but absent from its formal artifact"
 
     corrigenda = set(dep["normative_corrigenda"])
     assert corrigenda == EXPECTED_CORRIGENDA, "normative corrigenda inventory drifted"
-    for correction_id in sorted(EXPECTED_CORRIGENDA):
-        assert correction_id in amendment, f"{correction_id}: declared but absent from amendment"
+    for correction_id in sorted(EXPECTED_CORRIGENDA_V1):
+        assert correction_id in amendment, f"{correction_id}: declared but absent from V1 amendment"
+    for correction_id in sorted(EXPECTED_CORRIGENDA_V2):
+        assert correction_id in formal_v2_corrigenda, f"{correction_id}: declared but absent from V2 corrigenda"
 
     added_parents = set(dep["added_parent_classes"])
     assert added_parents == EXPECTED_ADDED_PARENT_CLASSES, "added parent-first class inventory drifted"
@@ -96,6 +115,8 @@ def main() -> None:
     assert "finite admitted candidate set" in amendment, "C602-14 candidate-finiteness repair missing"
     assert "C_\\pi(t)" in amendment, "C602-17b transcript-cell definition missing"
     assert "distinct real-valued" in amendment, "C602-20 extrapolation scope repair missing"
+    assert "infimum" in formal_v2_corrigenda and "epsilon" in formal_v2_corrigenda, "C602-25 attainment repair missing"
+    assert "continuous-state Markov kernel" in formal_v2_corrigenda, "C602-26 continuous reachability repair missing"
 
     for token in (
         "residual external-memory",
@@ -111,6 +132,16 @@ def main() -> None:
     ):
         assert token in formal_v2, f"formal V2 supplement lost required gap-closure token: {token}"
 
+    for token in (
+        "fixed/local vs adaptive-sparse",
+        "selector/emitter factorization",
+        "retained program/library search-burden law",
+    ):
+        assert token in known_v3, f"known-family V3 supplement lost required formal gap: {token}"
+
+    assert sections["Q"]["evidence_status"] == "GREEN_REGISTERED_SCOPE_PARENT_CROSSWALK"
+    assert not sections["Q"]["blockers"], "registered-scope Q coverage should not be made impossible by a permanent blocker"
+
     empirical = dep["empirical_claim"]
     if empirical["status"] == "EARNED":
         allowed = {
@@ -118,6 +149,7 @@ def main() -> None:
             "NOT_REQUIRED",
             "UPSTREAM_SPECIALIST_PARENT_LEDGER_PRESENT",
             "PARENT_CROSSWALK_PRESENT",
+            "GREEN_REGISTERED_SCOPE_PARENT_CROSSWALK",
         }
         non_green = {
             name: row["evidence_status"]
