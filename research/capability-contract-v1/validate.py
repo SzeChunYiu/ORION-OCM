@@ -22,7 +22,8 @@ EXPECTED_COORDINATES=(
 CAP_REQUIRED={"id","label","inputs","allowed_information","required_behavior","success_metric",
 "resource_metric","minimal_negative_twin","strongest_parent","falsifier","scope","assumptions",
 "evidence_class","claim_ceiling","coordinate_links"}
-COORD_REQUIRED={"id","label","definition","reporting_contract","scope","evidence_class","claim_ceiling"}
+COORD_REQUIRED={"id","label","definition","reporting_contract","scope","assumptions","strongest_parent",
+"falsifier","evidence_class","claim_ceiling"}
 META_REQUIRED={"schema_version","issue","scope","assumptions","evidence_class","strongest_parent",
 "falsifier","claim_ceiling","definitions","statistics","resource_dimensions","capability_files",
 "coordinate_file"}
@@ -90,6 +91,7 @@ def validate_registry(meta,caps,coords):
         for k in ("label","inputs","allowed_information","required_behavior","success_metric",
                   "minimal_negative_twin","strongest_parent","falsifier","scope","evidence_class"):
             if not isinstance(r[k],str) or not r[k].strip(): e.append(f"{cid}: {k} must be nonempty text")
+        if not isinstance(r["assumptions"],list) or not r["assumptions"]: e.append(f"{cid}: assumptions must be nonempty")
         if r["allowed_information"]!="A0": e.append(f"{cid}: allowed_information must reference A0")
         if r["success_metric"]!="S0": e.append(f"{cid}: success_metric must reference S0")
         if "+ N0" not in r["minimal_negative_twin"]: e.append(f"{cid}: negative twin must reference one-dependency N0")
@@ -111,8 +113,9 @@ def validate_registry(meta,caps,coords):
         if not isinstance(r,dict): e.append("coordinate row must be object"); continue
         qid=r.get("id","<missing>"); miss=COORD_REQUIRED-set(r)
         if miss: e.append(f"{qid}: missing fields {sorted(miss)}"); continue
-        for k in ("label","definition","reporting_contract","scope","evidence_class"):
+        for k in ("label","definition","reporting_contract","scope","strongest_parent","falsifier","evidence_class"):
             if not isinstance(r[k],str) or not r[k].strip(): e.append(f"{qid}: {k} must be nonempty text")
+        if not isinstance(r["assumptions"],list) or not r["assumptions"]: e.append(f"{qid}: assumptions must be nonempty")
         try:
             if rank(r["claim_ceiling"])>ceiling: e.append(f"{qid}: claim ceiling exceeds meta")
         except ValueError as x: e.append(f"{qid}: {x}")
