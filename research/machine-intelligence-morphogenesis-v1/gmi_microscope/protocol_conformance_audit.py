@@ -124,7 +124,12 @@ _verify_adjudication()
 
 # the two signals under test, exactly as a vocabulary proxy would define them
 SIG_TWIN = r"twin|negative|control|matched"
-SIG_REALSCALE = r"real[- ]regime|real[- ]scale|production|full[- ]scale"
+SIG_REALSCALE = r"\b(?:real[- ]regime|real[- ]scale|production|full[- ]scale)\b"
+# Word-bounded like the rest.  This removes one of the two false positives
+# ("reproduction", of a receipt) and leaves the other standing: B14 writes
+# "production system", a rewrite-systems term.  So the signal still has ZERO
+# true positives -- boundaries fix the lexical artefact and cannot fix the
+# semantic one, which is why precision stays at zero.
 
 
 def load(fam):
@@ -220,15 +225,23 @@ def main():
     print("-" * 96)
     print("3  WHY WIDENING DOES NOT RESCUE THE PROXY")
     print("-" * 96)
+    # Word-boundary delimited.  An earlier version matched bare substrings and was
+    # caught red-handed by this audit's own reproduction guard: a correction that
+    # added the word "stated" to a witness moved the "state" count from 16 to 17,
+    # because "state" is a prefix of "stated".  That is precisely the defect this
+    # document reports in the real-regime signal ("production system",
+    # "reproduction").  The boundaries below remove that class of false match.
+    # They do NOT rescue the proxy -- the saturation is unchanged -- which is the
+    # point: the method fails for structural reasons, not for want of tuning.
     KEYPAT = {
-        "obligation-sufficient state": r"state|carrier|memory|quotient|class",
-        "lower bound proved":          r"bound|minimal|min_|lower|least|floor",
-        "constructive realization":    r"realiz|construct|witness|exhibit|verified|machine",
-        "complexity coordinate":       r"cost|cells|bits|states|rounds|width|depth|traffic",
-        "lifecycle/resource law":      r"cost|price|charged|break_even|breakeven|budget",
+        "obligation-sufficient state": r"\b(?:state|states|carrier|carriers|memory|quotient|quotients|class|classes)\b",
+        "lower bound proved":          r"\b(?:bound|bounds|minimal|minimum|lower|least|floor)\b",
+        "constructive realization":    r"\b(?:realiz\w*|construct\w*|witness\w*|exhibit\w*|verified|machine|machines)\b",
+        "complexity coordinate":       r"\b(?:cost|costs|cells|bits|states|rounds|width|depth|traffic)\b",
+        "lifecycle/resource law":      r"\b(?:cost|costs|price|prices|charged|break_even|breakeven|budget)\b",
         "matched negative twin":       SIG_TWIN,
-        "crossover prediction":        r"crossover|break_even|breakeven|threshold|window|flip",
-        "neutral recovery":            r"recovery|recover|neutral",
+        "crossover prediction":        r"\b(?:crossover|break_even|breakeven|threshold|thresholds|window|windows|flip|flips)\b",
+        "neutral recovery":            r"\b(?:recovery|recover|recovers|neutral)\b",
     }
     print("  %-30s %14s %16s" % ("requirement", "receipt only", "receipt+source"))
     sat = []

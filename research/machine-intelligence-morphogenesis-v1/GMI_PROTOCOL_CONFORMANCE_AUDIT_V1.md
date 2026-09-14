@@ -52,23 +52,40 @@ four of eight signals at 18–19 of 19, because every witness is a Python file t
 
 | Requirement | receipt only | receipt + source |
 |---|---:|---:|
-| constructive realization | 5/19 | 19/19 — saturates |
-| complexity coordinate | 18/19 | 19/19 — saturates |
-| lifecycle/resource law | 16/19 | 19/19 — saturates |
-| crossover prediction | 10/19 | 18/19 — saturates |
-| obligation-sufficient state | 8/19 | 16/19 |
-| lower bound proved | 8/19 | 12/19 |
+| constructive realization | 4/19 | 19/19 — saturates |
+| complexity coordinate | 13/19 | 19/19 — saturates |
+| lifecycle/resource law | 9/19 | 19/19 — saturates |
+| crossover prediction | 8/19 | 18/19 — saturates |
+| obligation-sufficient state | 6/19 | 15/19 |
+| lower bound proved | 3/19 | 11/19 |
 | matched negative twin | 10/19 | 15/19 |
-| neutral recovery | 13/19 | 16/19 |
+| neutral recovery | 9/19 | 15/19 |
 
 Neither setting is a measurement. A number produced this way would say more about each author's prose than
 about their derivation.
 
 **The real-regime signal has no true positives at all.** Searching witness source for
-`real-regime|real-scale|production|full-scale` fires on exactly two families, and both are substring
-artefacts: B14 writes *"production system"* (a rewrite-systems term) and B15 writes *"reproduction"* (of a
-receipt). Precision zero. This is the same defect class as the `"copyable)" ⊂ "not copyable)"` self-match
-caught earlier in B14's own census — substring matching without a word boundary or a semantic check.
+`real-regime|real-scale|production|full-scale` fires on **one** family and it is wrong: B14 writes
+*"production system"*, a rewrite-systems term with nothing to do with scale. Precision zero, with zero true
+positives.
+
+Every pattern here is word-bounded, and that matters, because an unbounded earlier version fired on a
+second family too — B15 writes *"reproduction"* (of a receipt), which contains *production*. Boundaries
+remove that lexical artefact and cannot touch the semantic one. **A word boundary fixes the accident; it
+does not fix the wrong word.**
+
+### The audit caught itself committing the defect it reports
+
+This is not a hypothetical failure mode. An earlier version of this audit matched bare substrings, and a
+later correction elsewhere in the corpus added the word *"stated"* to a witness — which the pattern
+`state|carrier|memory|…` matched as a substring of *state*. The measured count moved from 16 to 17 on a
+change that altered no conformance whatsoever, and **this audit's own reproduction guard in CI failed on
+it**, which is how it was found.
+
+Two things follow. The receipt-only counts in the table above are all *lower* than they were under
+substring matching — the old ones were inflated by exactly this class of accident. And the saturation is
+unchanged at four of eight signals, which is the point: the proxy fails for structural reasons, not for
+want of tuning.
 
 ## 3  The cause, exhibited: there is no shared protocol vocabulary
 

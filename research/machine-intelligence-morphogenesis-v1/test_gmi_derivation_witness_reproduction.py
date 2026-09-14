@@ -1532,9 +1532,10 @@ def test_the_vocabulary_proxy_is_still_unsound_in_both_directions():
         "is named 'stateless' -- the miss is what shows the proxy is unsound")
     assert cms["real-regime replication"]["tp"] == 0, (
         "the real-regime signal gained a true positive")
-    assert len(cms["real-regime replication"]["false_positive"]) == 2, (
-        "the two substring artefacts ('production system', 'reproduction') are "
-        "the document's precision-zero evidence")
+    assert cms["real-regime replication"]["false_positive"] == ["B14 symbolic rewrite"], (
+        "the real-regime signal's only positive should be B14's 'production "
+        "system' -- a semantic false positive that word boundaries cannot "
+        "remove, which is the document's precision-zero evidence")
 
     sat = [k for k, v in r["widening_test"].items() if v["receipt_plus_source"] >= 18]
     assert len(sat) >= 4, (
