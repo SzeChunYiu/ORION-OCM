@@ -1,0 +1,99 @@
+{
+ "compression": [
+  {
+   "affine": true,
+   "bits": 1,
+   "obligation": "parity_b",
+   "one_hot": 2,
+   "states": 2
+  },
+  {
+   "affine": true,
+   "bits": 2,
+   "obligation": "count_b_mod4",
+   "one_hot": 4,
+   "states": 4
+  },
+  {
+   "affine": false,
+   "bits": 2,
+   "obligation": "ends_with_ab",
+   "one_hot": 4,
+   "states": 4
+  }
+ ],
+ "horizon": [
+  {
+   "attention_work": 3,
+   "cheapest_work": "state",
+   "memory_storage": 2,
+   "n": 2,
+   "state_storage": 2,
+   "state_work": 2
+  },
+  {
+   "attention_work": 10,
+   "cheapest_work": "state",
+   "memory_storage": 4,
+   "n": 4,
+   "state_storage": 2,
+   "state_work": 4
+  },
+  {
+   "attention_work": 36,
+   "cheapest_work": "state",
+   "memory_storage": 8,
+   "n": 8,
+   "state_storage": 2,
+   "state_work": 8
+  },
+  {
+   "attention_work": 136,
+   "cheapest_work": "state",
+   "memory_storage": 16,
+   "n": 16,
+   "state_storage": 2,
+   "state_work": 16
+  },
+  {
+   "attention_work": 2080,
+   "cheapest_work": "state",
+   "memory_storage": 64,
+   "n": 64,
+   "state_storage": 2,
+   "state_work": 64
+  }
+ ],
+ "recovery": [
+  {
+   "carry_all": 5,
+   "cheapest": "fixed carry",
+   "fixed": 4,
+   "n": 2
+  },
+  {
+   "carry_all": 14,
+   "cheapest": "fixed carry",
+   "fixed": 6,
+   "n": 4
+  },
+  {
+   "carry_all": 44,
+   "cheapest": "fixed carry",
+   "fixed": 10,
+   "n": 8
+  },
+  {
+   "carry_all": 152,
+   "cheapest": "fixed carry",
+   "fixed": 18,
+   "n": 16
+  },
+  {
+   "carry_all": 2144,
+   "cheapest": "fixed carry",
+   "fixed": 66,
+   "n": 64
+  }
+ ]
+}
