@@ -127,9 +127,26 @@ without a declaration.
 
 **A caveat that bears directly on a requirement this audit could not validate.** The protocol asks for a
 prediction frozen before the outcome. A prediction computed earlier in the *same run* is not a
-pre-registration, and most of this corpus is retrospective. The schema field
-`prediction_frozen_before_outcome` is the place that must eventually carry an answer; nothing in the
-current artifacts supports one.
+pre-registration, and most of this corpus is retrospective.
+
+A subsequent field-by-field adjudication of 21 families settled this one: **`prediction_frozen_before_outcome`
+is true for zero of them.** Four artifacts claimed otherwise in prose and none met the bar — a section
+headed "FROZEN THEN MEASURED" whose `predicted` and `measured` are built in the same dict in the same loop;
+a descriptor said to predict "BEFORE any machine is built" in the same file and the same run; and two more
+in the same shape. Those statements have been corrected in place; the receipts were unaffected and verified
+byte-identical.
+
+**The corpus already owns the mechanism it is not using, which makes this a gap with a known fix rather than
+a missing capability.** The RV-377 revival work does pre-registration properly and in two phases:
+`predict_sym.py` is written and run *before* the frontier runs, emits `STAGE_DE_SYM_PREDICTION.json` as its
+own committed receipt, and states at the top which inputs were admissible at freeze time; `compare_sym.py`
+is a separate script that adjudicates the executed frontiers against that frozen receipt afterwards. That is
+exactly what the protocol asks for. None of the 21 derivation families do it — every one states its
+prediction and measures it inside a single script.
+
+So the repair for this field is not new machinery. It is applying an existing in-house pattern: split the
+prediction into its own script and its own receipt, commit that receipt, and adjudicate against it in a
+second pass.
 
 ## 6  Scope
 
