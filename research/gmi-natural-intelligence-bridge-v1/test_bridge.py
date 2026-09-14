@@ -47,6 +47,7 @@ class TestMappingConsistency(unittest.TestCase):
             self.morphologies, self.ecologies, mapping))
 
     def test_inconsistent_mapping_fails_consistency(self):
+        """alpha+beta share pressure class but map to different taxa."""
         mapping = bridge.build_inconsistent_mapping()
         self.assertFalse(bridge.verify_mapping_consistency(
             self.morphologies, self.ecologies, mapping))
@@ -75,10 +76,12 @@ class TestMappingContent(unittest.TestCase):
 
 class TestMappingNonTrivial(unittest.TestCase):
     def test_valid_mapping_non_trivial(self):
-        self.assertTrue(bridge.verify_mapping_trivial(bridge.build_valid_mapping()))
+        self.assertTrue(bridge.verify_mapping_trivial(
+            bridge.build_valid_mapping()))
 
     def test_trivial_mapping_fails_non_trivial(self):
-        self.assertFalse(bridge.verify_mapping_trivial(bridge.build_trivial_mapping()))
+        self.assertFalse(bridge.verify_mapping_trivial(
+            bridge.build_trivial_mapping()))
 
 
 class TestPVR3(unittest.TestCase):
@@ -90,19 +93,17 @@ class TestPVR3(unittest.TestCase):
 
     def test_valid_pairs(self):
         self.assertTrue(bridge.pvr3_satisfied(
-            bridge.SYMBOLIC_MANIPULATION, bridge.SOCIAL_COORDINATION))
+            bridge.MORPH_ALPHA, bridge.ECO_SOCIAL))
         self.assertTrue(bridge.pvr3_satisfied(
-            bridge.SEQUENTIAL_MEMORY, bridge.VARIABLE_FORAGING))
+            bridge.MORPH_BETA, bridge.ECO_SOCIAL))
         self.assertTrue(bridge.pvr3_satisfied(
-            bridge.PREDICTIVE_MODELING, bridge.PREDATOR_PREY))
+            bridge.MORPH_GAMMA, bridge.ECO_PREDATOR))
 
     def test_invalid_pairs(self):
         self.assertFalse(bridge.pvr3_satisfied(
-            bridge.SYMBOLIC_MANIPULATION, bridge.PREDATOR_PREY))
+            bridge.MORPH_ALPHA, bridge.ECO_PREDATOR))
         self.assertFalse(bridge.pvr3_satisfied(
-            bridge.SEQUENTIAL_MEMORY, bridge.SOCIAL_COORDINATION))
-        self.assertFalse(bridge.pvr3_satisfied(
-            bridge.PREDICTIVE_MODELING, bridge.SOCIAL_COORDINATION))
+            bridge.MORPH_GAMMA, bridge.ECO_SOCIAL))
 
 
 class TestNegativeTwin(unittest.TestCase):
