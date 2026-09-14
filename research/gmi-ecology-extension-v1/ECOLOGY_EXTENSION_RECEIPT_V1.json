@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "schema": "EcologyExtensionReceiptV1",
+  "scope": "A2 only: 15 coordinates (other_agents + observation/action/feedback/verifier + task/horizon + drift + recurrence + noise + compositionality + social topology + embodiment + resource prices/budgets + verification latency + acquisition cost + protected splits) plus equivalence/remint bijection + label-leakage guard with 3-world toy (identity/relabel accept, collapsing/leaking reject). 15 exact controls, normal + optimized.",
+  "source_and_evidence": {
+    "ECOLOGY_EXTENSION_THEOREM_V1.md": {
+      "bytes": 4517,
+      "sha256": "f6fac659623e4f416999ad06185560deaeecae731aa4451632b7db381a3d7529"
+    },
+    "ECOLOGY_EXTENSION_CONTRACT_V1.json": {
+      "bytes": 9213,
+      "sha256": "2b88fca5864f81c480a8aa3225367ec31fffca8cb03f2361d822074e44fc2c19"
+    },
+    "SCHEMA_V1.json": {
+      "bytes": 5958,
+      "sha256": "d2c21c6c160953ac1330d916e24afe97d9d710f38e0caac4d9ab2092b86eb9b9"
+    },
+    "ecology_extension_v1.py": {
+      "bytes": 6603,
+      "sha256": "34d5f3f0b13686c6d2b4f67737137ebeb0ab4e77946dbef6fb719a63e1bf186a"
+    },
+    "test_ecology_extension_v1.py": {
+      "bytes": 4416,
+      "sha256": "ebb10247b190faa25a40f79de2162245643e502fedf156156b47d32428705b96"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_ecology_extension_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_ecology_extension_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_ecology_extension_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_ecology_extension_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for all four files plus two JSONs)."
+}
