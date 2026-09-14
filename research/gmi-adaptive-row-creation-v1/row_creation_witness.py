@@ -4,14 +4,15 @@ Extends ARC-1-4 and ARC-6 to rows created dynamically based on observed data.
 The simultaneous confidence event remains valid over every row at every visit,
 including rows born after the process starts.
 
-Uses the ARC-6 integer-math grid radius.  Python >= 3.8, stdlib only.
+Uses the ARC-6 Certificate dataclass and integer-math grid radius.
+Python >= 3.8, stdlib only.
 """
+from dataclasses import dataclass
 from fractions import Fraction as F
 from math import isqrt
 
 
 def _ceil_sqrt(value):
-    """Least integer k with k*k >= value."""
     if type(value) is not int or value < 0:
         raise ValueError("nonnegative integer required")
     root = isqrt(value)
@@ -23,7 +24,6 @@ def _ceil_sqrt(value):
 # ------------------------------------------------------------------
 
 def geometric_budget(alpha, step):
-    """Per-step creation budget alpha / [step*(step+1)]."""
     if not isinstance(alpha, F) or not F(0) < alpha < F(1):
         raise ValueError("alpha must be Fraction in (0,1)")
     if type(step) is not int or step < 1:
@@ -32,7 +32,6 @@ def geometric_budget(alpha, step):
 
 
 def geometric_budget_telescopes(alpha, T):
-    """Sum_{t=1..T} alpha/[t(t+1)] = alpha*T/(T+1)."""
     total = F(0)
     for t in range(1, T + 1):
         total += geometric_budget(alpha, t)
@@ -40,7 +39,6 @@ def geometric_budget_telescopes(alpha, T):
 
 
 def uniform_budget(alpha, step, max_steps=1000):
-    """Non-telescoping uniform allocation for comparison."""
     return alpha / (max_steps * (step + 1))
 
 
@@ -48,13 +46,24 @@ def uniform_budget(alpha, step, max_steps=1000):
 # Per-row certificate (ARC-6 integer grid radius)
 # ------------------------------------------------------------------
 
+@dataclass(frozen=True)
+class Certificate:
+    alpha: F
+    weight: F
+    visits: int
+    exponent: int
+    numerator: int
+    radius: F
+
+
 def certificate(alpha, weight, visits):
-    """ARC-6 grid radius: min(1, k/n).
+    """ARC-6 grid radius stored in a Certificate dataclass.
 
     m = smallest integer with 2*2^(-m) <= delta,
     k = ceil_sqrt(m*n/2), k <= n.
 
-    Returns Fraction in [0, 1].
+    The numerator is stored before Fraction auto-reduction so that
+    verify_certificate can check 2*k^2 >= m*n exactly.
     """
     if not isinstance(alpha, F) or not F(0) < alpha < F(1):
         raise ValueError("alpha must be Fraction in (0,1)")
@@ -63,38 +72,49 @@ def certificate(alpha, weight, visits):
     if type(visits) is not int or visits < 0:
         raise ValueError("visits must be nonnegative integer")
     if visits == 0:
-        return F(1)
+        return Certificate(alpha, weight, 0, 0, 0, F(1))
     delta = alpha * weight / (visits * (visits + 1))
     if delta >= F(1):
-        return F(0)
+        return Certificate(alpha, weight, visits, 0, 0, F(0))
     target = (2 * delta.denominator + delta.numerator - 1) // delta.numerator
     exponent = (target - 1).bit_length()
     k = min(visits, _ceil_sqrt((exponent * visits + 1) // 2))
-    return F(k, visits)
+    return Certificate(alpha, weight, visits, exponent, k, F(k, visits))
 
 
-def verify_certificate(alpha, weight, visits, rad):
-    """Check that rad satisfies 2*2^(-m) <= delta AND 2*k^2 >= m*n."""
-    if not isinstance(alpha, F) or not F(0) < alpha < F(1):
+def verify_certificate(cert):
+    """Check two independent integer inequalities.
+
+    (1) 2*2^(-m) <= delta  (dyadic tail bound within budget)
+    (2) 2*k^2 >= m*n       (Hoeffding exponent covered by dyadic)
+    """
+    if not isinstance(cert, Certificate):
         return False
-    if not isinstance(weight, F) or weight <= 0:
+    try:
+        if not isinstance(cert.alpha, F) or not F(0) < cert.alpha < F(1):
+            return False
+        if not isinstance(cert.weight, F) or cert.weight <= 0:
+            return False
+        if type(cert.visits) is not int or cert.visits < 0:
+            return False
+        if type(cert.exponent) is not int or cert.exponent < 0:
+            return False
+        if type(cert.numerator) is not int or cert.numerator < 0:
+            return False
+    except (TypeError, ValueError):
         return False
-    if type(visits) is not int or visits < 0:
+    if not isinstance(cert.radius, F) or not F(0) <= cert.radius <= F(1):
         return False
-    if not isinstance(rad, F) or not F(0) <= rad <= F(1):
+    n, k, m = cert.visits, cert.numerator, cert.exponent
+    if n == 0:
+        return k == 0 and m == 0 and cert.radius == F(1)
+    if k > n or cert.radius != F(k, n):
         return False
-    if visits == 0:
-        return rad == F(1)
-    if rad == F(1):
+    if cert.radius == F(1):
         return True
-    delta = alpha * weight / (visits * (visits + 1))
-    k = rad.numerator
-    n = visits
-    if k > n or rad != F(k, n):
-        return False
+    delta = cert.alpha * cert.weight / (n * (n + 1))
     target = (2 * delta.denominator + delta.numerator - 1) // delta.numerator
-    m = (target - 1).bit_length()
-    return 2 * k * k >= m * n
+    return m >= (target - 1).bit_length() and 2 * k * k >= m * n
 
 
 # ------------------------------------------------------------------
@@ -102,8 +122,6 @@ def verify_certificate(alpha, weight, visits, rad):
 # ------------------------------------------------------------------
 
 class AdaptiveCreator(object):
-    """Agent that creates rows when confidence is high enough."""
-
     def __init__(self, alpha, initial_rows, creation_threshold, max_creations):
         if not isinstance(alpha, F) or not F(0) < alpha < F(1):
             raise ValueError("alpha must be Fraction in (0,1)")
@@ -129,7 +147,6 @@ class AdaptiveCreator(object):
             })
 
     def create_row(self, birth_step):
-        """Create a new row with geometric budget allocation."""
         if self.creations_done >= self.max_creations:
             return None
         weight = geometric_budget(self.alpha, birth_step)
@@ -146,20 +163,20 @@ class AdaptiveCreator(object):
         return row
 
     def observe(self, row_idx, score):
-        """Record an observation for row row_idx."""
         row = self.rows[row_idx]
         if not isinstance(score, F) or not F(0) <= score <= F(1):
             raise ValueError("score must be Fraction in [0,1]")
         row['visits'] += 1
         row['successes'] += score
 
-    def get_radius(self, row_idx):
-        """Current certified radius for row row_idx."""
+    def get_cert(self, row_idx):
         row = self.rows[row_idx]
         return certificate(self.alpha, row['weight'], row['visits'])
 
+    def get_radius(self, row_idx):
+        return self.get_cert(row_idx).radius
+
     def get_interval(self, row_idx):
-        """Confidence interval [lo, hi] for row row_idx."""
         row = self.rows[row_idx]
         if row['visits'] == 0:
             return (F(0), F(1))
@@ -168,7 +185,6 @@ class AdaptiveCreator(object):
         return (max(F(0), center - r), min(F(1), center + r))
 
     def check_simultaneous(self):
-        """True if every row with visits is within its interval."""
         for i, row in enumerate(self.rows):
             if row['visits'] == 0:
                 continue
@@ -178,7 +194,6 @@ class AdaptiveCreator(object):
         return True
 
     def should_create(self):
-        """Create a row when all visited rows have radius <= threshold."""
         if self.creations_done >= self.max_creations:
             return False
         for i, row in enumerate(self.rows):
@@ -194,7 +209,6 @@ class AdaptiveCreator(object):
 
 def simulate_creation_process(alpha, initial_rows=3, max_creations=5,
                                steps=100, creation_threshold=F(1, 4)):
-    """Run adaptive creation with deterministic (mean-matching) scores."""
     creator = AdaptiveCreator(alpha, initial_rows, creation_threshold,
                                max_creations)
     evidence = {
