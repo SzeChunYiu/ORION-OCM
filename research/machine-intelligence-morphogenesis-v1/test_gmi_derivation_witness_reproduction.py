@@ -82,6 +82,7 @@ WITNESSES = {
     "predict_probe_law.py": "STAGE_PROBE_LAW_PREDICTION_V1.json",
     "species_algebra_witness.py": "STAGE_SPECIES_ALGEBRA_V1.json",
     "predict_intransitivity.py": "STAGE_INTRANSITIVITY_PREDICTION_V1.json",
+    "predict_symbiosis.py": "STAGE_SYMBIOSIS_PREDICTION_V1.json",
 }
 
 
@@ -2073,3 +2074,53 @@ def test_the_order_effect_is_real_and_partial():
         "inconsistent rather than order-dependent")
     assert r["relation_well_defined"] is False
     assert r["box_16_necessary"] is True
+
+
+# ---------------------------------------------------------------------------
+# G box 10: symbiosis.  The zero is only meaningful because the control fired.
+# ---------------------------------------------------------------------------
+def test_symbiosis_adjudication_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_SYMBIOSIS_VERDICT_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "compare_symbiosis.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "compare_symbiosis.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed verdict to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the symbiosis adjudication no longer reproduces its verdict")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_the_symbiosis_zero_is_backed_by_a_positive_control():
+    """'No symbiosis' is only a finding if joint effects were detectable."""
+    r = load_receipt("STAGE_SYMBIOSIS_VERDICT_V1.json")
+    assert r["symbiotic_pairs"] == 0, (
+        "symbiosis now occurs, which falsifies the frozen P1 -- that is a "
+        "positive instance for box 10 and should be reported as one")
+    assert r["mutually_harmful_pairs"] > 0, (
+        "mutual harm is also zero, so the comparison detects no joint effect at "
+        "all and the symbiosis zero is uninformative; this is the control the "
+        "frozen prediction named in advance")
+    assert r["one_sided_pairs"] > 0, (
+        "no pair is one-sided, which would mean the two competitors always move "
+        "together -- not a competition")
+    assert r["P1_holds"] and r["P2_holds"]
+
+
+def test_resident_invader_orientation_was_verified_not_assumed():
+    """Misreading the key would invert every comparison silently."""
+    r = load_receipt("STAGE_SYMBIOSIS_VERDICT_V1.json")
+    assert r["key_check_cells_agreeing"] == 192, (
+        "the cell-key reading no longer agrees with the invasion matrix on all "
+        "192 cells, so the resident/invader orientation is unverified and every "
+        "capability comparison has an undetermined sign")
+    assert r["resident_field"] == "second"
+    assert r["pairs_compared"] == 168, (
+        "the compared-pair count changed; 168 is the 192 cells minus the 24 "
+        "self-pairings, and a different number means self-pairings leaked in")
