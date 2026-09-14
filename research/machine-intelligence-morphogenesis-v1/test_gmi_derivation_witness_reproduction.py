@@ -63,6 +63,7 @@ WITNESSES = {
     "social_cognition_witness.py": "STAGE_SOCIAL_COGNITION_V1.json",
     "social_strategic_witness.py": "STAGE_SOCIAL_STRATEGIC_V1.json",
     "state_space_witness.py": "STAGE_STATE_SPACE_V1.json",
+    "symbolic_rewrite_witness.py": "STAGE_SYMBOLIC_REWRITE_V1.json",
     "subgoal_witness.py": "STAGE_SUBGOAL_WITNESS_V1.json",
     "update_law_witness.py": "STAGE_UPDATE_LAW_V1.json",
     "teaching_culture_witness.py": "STAGE_TEACHING_CULTURE_WITNESS_V1.json",
@@ -994,3 +995,85 @@ def test_fixed_state_work_does_not_grow_with_horizon():
         "state storage now grows with the horizon"
     assert rows[-1]["attention_work"] > 10 * rows[-1]["state_work"], \
         "the linear/quadratic gap has stopped growing"
+
+
+def test_relational_state_census_agrees_across_two_methods():
+    """GMI_SYMBOLIC_REWRITE_DERIVATION_V1: the 13-of-512 census is decided twice
+    by independent methods, and both regimes must be non-empty."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    c = r["relation_census"]
+    assert c["methods_agree"] is True, \
+        "the two independent census methods no longer agree"
+    assert c["scalar_representable_by_search"] == c["scalar_representable_by_certificate"]
+    n, total = c["scalar_representable_by_search"], c["relations_total"]
+    assert 0 < n < total, "either every relation is scalar-carried or none is"
+    assert c["explicit_state_forced"] == total - n
+
+
+def test_discreteness_twin_is_matched_on_size_and_distinctions():
+    """The cyclic/linear pair must stay matched on pair count AND distinct rows,
+    or the separation is confounded by something other than structure."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    tw = {x["relation"].split()[0]: x for x in r["relation_twin"]}
+    cyc, lin = tw["cyclic"], tw["linear"]
+    assert cyc["pairs"] == lin["pairs"], "the twin is no longer matched on size"
+    assert cyc["distinct_rows"] == lin["distinct_rows"], \
+        "the twin is no longer matched on distinction count"
+    assert cyc["scalar"] is None and lin["scalar"] is not None
+    assert cyc["violation"], "non-representability is asserted without a certificate"
+
+
+def test_composition_breakeven_exceeds_collapsing():
+    """What isolates closure from the per-map compression both families enjoy."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    by = {}
+    for x in r["composition_pvr3"]:
+        by["composing" if x["family"].startswith("composing") else "collapsing"] = x
+    assert by["composing"]["closure"] > by["collapsing"]["closure"], \
+        "the composing family no longer generates a larger closure"
+    assert by["composing"]["generator_cells"] == by["collapsing"]["generator_cells"], \
+        "the families are no longer matched on generator cost"
+    assert by["composing"]["break_even_r"] > by["collapsing"]["break_even_r"], \
+        "composition no longer raises the break-even over a collapsing family"
+
+
+def test_symbolic_parametric_split_runs_along_the_predicted_axis():
+    """Both must win somewhere AND along the stated axis. An earlier ladder had
+    no parametric winner at all and was vacuous, so winning somewhere is not
+    enough on its own."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    rows = [x for x in r["sparsity_ladder"] if x["L"] == 4]
+    assert rows, "the L=4 ladder is missing"
+    winners = {x["cheaper"] for x in rows}
+    assert "symbolic" in winners and "parametric" in winners, \
+        "the symbolic/parametric ladder lost one of its two regimes"
+    ctx = [x for x in rows if "ab -> ba" in x["obligation"]]
+    aff = [x for x in rows if "flip every slot" in x["obligation"]]
+    assert ctx and all(x["cheaper"] == "symbolic" for x in ctx), \
+        "the context-sensitive obligation is no longer symbolic-cheaper"
+    assert aff and all(x["cheaper"] == "parametric" for x in aff), \
+        "the affine obligation is no longer parametric-cheaper"
+
+
+def test_ordering_is_worth_cells_and_tolerance_pays_early():
+    """Ordering must beat an unordered sound cover, and the saving must appear
+    at a SMALL error fraction rather than only a degenerate one."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    e = r["exactness_curve"]
+    assert e["exact_cells_ordered"] < e["exact_cells_unordered"], \
+        "an ordered machine no longer beats an unordered sound cover"
+    assert r["ordering_saving_cells"] > 0
+    assert e["defaults_enumerated"] >= 1296, \
+        "the default search was truncated again -- the curve would be non-minimal"
+    one = [x for x in e["rows"] if x.get("errors") == 1]
+    assert one and one[0]["cells"] < e["exact_cells_ordered"], \
+        "tolerating a single error no longer saves anything"
+
+
+def test_rewrite_fingerprints_are_measured_not_labelled():
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    fp = {tuple(x["fingerprint"]) for x in r["neutral_recovery"]}
+    assert len(fp) >= 4, "the measured fingerprints have collapsed"
+    instrs = [x["instructions"] for x in r["neutral_recovery"]]
+    assert min(instrs) == 1 and max(instrs) >= 8, \
+        "both degenerate ends (a one-instruction machine and a full table) must be reached"
