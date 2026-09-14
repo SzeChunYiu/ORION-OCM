@@ -1292,5 +1292,22 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Represent a given joint distribution over a finite set of atoms exactly, under a fixed structural restriction on how the representation may be written.",
+    "state_sufficient": True,
+    "lower_bound": 4,
+    "upper_bound_construction": "components",
+    "coordinate": "components",
+    "resource_law": None,
+    "negative_control": "iterative_structural_negative",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [
+        "held-out disjoint joint panel re-testing two frozen laws (held_law1/held_law2/held_law3)",
+        "multiset reachability criterion cross-checked against exhaustive bijection enumeration",
+    ],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_GENERATIVE_FAMILY_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True, default=str)

@@ -248,5 +248,21 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Carry a distinction created at one step across to a later "
+                  "step that queries it, when the number of intervening steps "
+                  "is not known in advance.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "recovery",
+    "coordinate": "cells",
+    "resource_law": None,
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_GATED_RECURRENCE_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

@@ -349,5 +349,22 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Meet a response demand on feature vectors with a "
+                  "representation whose size does not grow with the universe, "
+                  "and determine that representation from observed "
+                  "input-response pairs.",
+    "state_sufficient": True,
+    "lower_bound": 3,
+    "upper_bound_construction": "identified_at",
+    "coordinate": "observations",
+    "resource_law": None,
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": False,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_LINEAR_FAMILY_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

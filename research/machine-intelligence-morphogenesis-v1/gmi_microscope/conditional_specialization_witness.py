@@ -1216,5 +1216,21 @@ OUT["parameters"] = {"tag_bits": B, "contexts": K, "payload_bits": N,
                      "n_splits_enumerated": BELL, "n_worlds": len(WORLDS),
                      "query_budget": R_TOTAL}
 
+OUT["protocol"] = {
+    "obligation": "Answer queries drawn from several sub-populations with different internal structure, using either one shared rule or several rules selected by a tag that names the sub-population, and pay for whichever is held and traversed.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "census",
+    "coordinate": "nodes",
+    "resource_law": "PVR-3",
+    "negative_control": "twins",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [
+        "neutral-search verdict cross-checked against the independent net-held accounting",
+    ],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_CONDITIONAL_SPECIALIZATION_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

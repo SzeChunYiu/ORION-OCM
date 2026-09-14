@@ -1240,5 +1240,19 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Answer every query over a finite universe when a compact description in a fixed class already answers most of them, by deciding which remaining queries must be held individually outside that description, what consulting the holding costs, and what happens to it when the underlying knowledge changes.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "quotient",
+    "coordinate": "entries",
+    "resource_law": "PVR-3",
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_RESIDUAL_MEMORY_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

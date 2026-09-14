@@ -352,5 +352,22 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Produce a demanded binary response for every fixed-length "
+                  "binary input using composed thresholded weighted sums, "
+                  "charged per parameter against the slot count of an "
+                  "explicit table.",
+    "state_sufficient": True,
+    "lower_bound": 2,
+    "upper_bound_construction": "depth_with_nonlinearity",
+    "coordinate": "depth",
+    "resource_law": None,
+    "negative_control": "negative_twin",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": False,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_NEURAL_ARCHITECTURE_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

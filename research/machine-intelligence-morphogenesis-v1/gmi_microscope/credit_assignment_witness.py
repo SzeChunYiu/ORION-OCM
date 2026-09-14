@@ -270,5 +270,21 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Obtain, for every tunable parameter of a computation, its "
+                  "effect on each output, counting the arithmetic actually "
+                  "performed rather than asserting a cost from a formula.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "accumulation",
+    "coordinate": "multiply-accumulate operations",
+    "resource_law": None,
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_CREDIT_ASSIGNMENT_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

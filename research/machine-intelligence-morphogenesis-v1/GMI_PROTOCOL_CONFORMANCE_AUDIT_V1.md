@@ -126,16 +126,45 @@ Conformance becomes checkable if each receipt declares it. The schema:
   "replication": "list[str] -- independent re-derivations"}}
 ```
 
-The witness validates every receipt against it and reports **0 of 19 families currently emit one**. The
-audit refuses partial adoption: it asserts that the compliant count is either zero or all nineteen, because
-a half-populated schema would invite a reader to mistake *2 of 19 emitting* for *2 of 19 conforming* —
-exactly the confusion this document exists to prevent.
+The audit refuses partial adoption: it asserts the compliant count is either zero or all nineteen, because a
+half-populated schema would invite a reader to mistake *2 of 19 emitting* for *2 of 19 conforming* — exactly
+the confusion this document exists to prevent.
+
+**The repair has now been applied: 19 of 19 families declare a block** (21 witnesses carry one; the audit
+validates the 19 in its family map). Every field was hand-adjudicated against the receipt it describes, and
+every emission was verified to change nothing else — each of the 21 regenerated receipts differs from its
+committed version by exactly the added `protocol` key, checked independently of the reports claiming it.
+
+**What that does and does not buy.** Conformance is now *readable* from the artifacts without any of the
+proxies in section 2, which is the point. But a declared block does not make itself true. It is only as good
+as the adjudication behind it; it can be checked against its receipt, and it can be wrong. This moves the
+claim from **unverifiable to checkable**, not to proven.
+
+Sections 2–4 are retained rather than deleted. They are the record of *why* declaration was necessary, they
+describe what the corpus looked like before it, and they still hold against the non-declared parts of every
+receipt.
+
+**That last clause is enforced, not assumed, and it had to be.** When the blocks first landed, the twin
+signal jumped from 10 of 19 to **19 of 19** — not because any family gained a control, but because the key
+name `negative_control` appears in every declaration *even where its value is `null`*. The same contamination
+hit the witness source, moving the saturation count from 4 of 8 to 5 of 8 with no derivation changed. A proxy
+that reads the declaration is measuring the declaration.
+
+So the audit now strips the declared block from both the receipt and the witness source before running any
+signal in sections 2–4, and every number returns to its pre-declaration value: twin 10 with B2 still missed,
+real-regime precision still zero, saturation back at 4 of 8, and the widening table above unchanged.
+**Declaring changes no derivation, so it must change no measurement** — and that is now a property the code
+has rather than a claim the document makes.
 
 ## 5  What this closes, and what it does not
 
-**B1 is not closed by this audit.** Two of its requirements are now measured (11/19 and 0/19); the other
-twelve are shown to be unmeasurable from the artifacts as emitted, with the cause exhibited and a repair
-specified and validated.
+**B1 is not closed by this audit.** Two of its requirements are *measured* (11/19 and 0/19). The other twelve
+were shown unmeasurable from the artifacts as they stood, the cause was exhibited, and the repair has since
+been applied — so they are now *declared* by all nineteen families.
+
+**Declared is not measured.** A declaration can be checked against its receipt and can be wrong; a
+measurement cannot be asserted into existence. The protocol blocks should be read as checkable claims, not
+as results.
 
 What *is* closed is the prior question, which was unmeasured: **where does the corpus stand against its own
 protocol?** The answer is that it stands better than a text proxy suggests on matched controls, exactly as

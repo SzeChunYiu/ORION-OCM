@@ -1119,5 +1119,19 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Answer a question about every element of an unordered collection of interconnected items, where the answer must be unchanged under any relabelling of the elements and may depend on elements arbitrarily far away through the connection structure.",
+    "state_sufficient": True,
+    "lower_bound": 3,
+    "upper_bound_construction": "carrier",
+    "coordinate": "states",
+    "resource_law": "CSR-1",
+    "negative_control": "negative_twin",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_MESSAGE_PASSING_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

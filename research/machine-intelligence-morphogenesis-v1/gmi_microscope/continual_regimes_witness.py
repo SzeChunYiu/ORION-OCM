@@ -257,5 +257,19 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Keep answering earlier queries correctly while new ones arrive over time, under a bounded capacity to tell things apart and a substrate that may degrade what is already held whenever new material is written.",
+    "state_sufficient": False,
+    "lower_bound": None,
+    "upper_bound_construction": None,
+    "coordinate": "distinctions",
+    "resource_law": "CSR-1",
+    "negative_control": "substrate_control",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": False,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_CONTINUAL_REGIMES_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)
