@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F3 capability interaction laws",
+  "scope": "finite exact microscopes for the two cross-cutting F3 rows",
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "claim_boundary": "This closes the registered F3 interaction-law rows at bounded finite scope only. It does not establish G6 capability prediction or empirical universality.",
+  "rows": [
+    {
+      "id": "F3-SUPERADD-1",
+      "ledger_row": "Identify superadditive thresholds where capabilities appear only jointly.",
+      "scope": "two finite distinction capacities whose jointly usable code space is Cartesian-product sized",
+      "assumptions": [
+        "baseline capacities are a0 and b0 and upgrades yield a1>=a0 and b1>=b0",
+        "the obligation requires at least N pairwise distinguishable joint cells",
+        "joint distinguishability capacity is exactly a*b",
+        "success is the threshold predicate a*b >= N"
+      ],
+      "theorem": "A capability appears only jointly exactly when a1*b1 >= N while a1*b0 < N and a0*b1 < N (with the baseline also below N). This gives a strict positive discrete interaction in the success indicator. Witness: a0=b0=1, a1=b1=2, N=4.",
+      "strongest_parent": "complementarity / threshold production on a Cartesian code space",
+      "negative_twin": "set N=2 in the witness; either upgrade alone reaches threshold, so the joint-only emergence disappears",
+      "nearest_counterexample": "if the two capacities are not jointly usable as a Cartesian code, the product law need not hold",
+      "falsifier": "a parameter tuple satisfying the stated inequalities where joint-only success does not occur, or joint-only success where one inequality fails",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-INTERFERE-1",
+      "ledger_row": "Identify interference cases where adding one component harms another.",
+      "scope": "one capability under a frozen hard resource budget with mandatory maintenance cost for an added component",
+      "assumptions": [
+        "total hard budget is R",
+        "capability A succeeds iff it receives at least Q resource units",
+        "A alone may use the full budget",
+        "adding component B imposes unavoidable maintenance cost M from the same budget",
+        "no compensating benefit from B is counted in A's metric"
+      ],
+      "theorem": "Adding B harms A exactly when R >= Q but R-M < Q. If adding B is a free optional extension that preserves the old feasible allocation (M=0 or old allocation remains feasible), optimal A performance cannot decrease; therefore genuine interference requires a load-bearing cost/coupling/constraint that removes an old feasible solution.",
+      "strongest_parent": "resource-constrained optimization and feasible-set monotonicity",
+      "negative_twin": "raise budget to R+M or make B optional/free; A's previous feasible allocation is restored and the harm vanishes",
+      "nearest_counterexample": "if B's presence improves A enough to offset its maintenance cost, net A performance may increase despite shared-budget contention",
+      "falsifier": "a frozen-budget instance satisfying R>=Q and R-M<Q where A remains feasible without an unmetered resource, or a free optional extension that lowers the optimum",
+      "status": "PROVED_BOUNDED"
+    }
+  ]
+}
