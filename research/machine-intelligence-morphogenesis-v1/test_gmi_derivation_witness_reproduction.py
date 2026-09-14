@@ -41,6 +41,7 @@ WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "conditional_specialization_witness.py": "STAGE_CONDITIONAL_SPECIALIZATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
+    "control_family_witness.py": "STAGE_CONTROL_FAMILY_V1.json",
     "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
     "equivariance_witness.py": "STAGE_EQUIVARIANCE_V1.json",
@@ -1188,3 +1189,74 @@ def test_both_recurrence_shapes_are_recovered():
     assert len(reads) > 1, "every ecology recovers the same shape"
     assert any(x["n_options"] > 1 for x in r["recovery"]), \
         "no ecology ever had a real choice between the two shapes"
+
+
+def test_action_quotient_is_coarser_than_belief():
+    """GMI_CONTROL_FAMILY_DERIVATION_V1: a controller needs the quotient its
+    ACTIONS induce, which is strictly coarser than the belief partition. If
+    they ever coincide, the document's central claim is gone."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    p = r["policy_memory"]
+    assert p["action_classes"] < p["belief_classes"], \
+        "the action quotient is no longer coarser than the belief partition"
+    assert p["minimal_m_base"] > p["minimal_m_twin"], \
+        "hiding the cue no longer costs memory -- the twin is broken"
+
+
+def test_state_only_reward_cannot_induce_an_ordered_task():
+    """The impossibility is the result: equal count vectors mean no additive
+    reward on state alone can separate the two tasks. The time-indexed repair
+    must succeed, or the section shows impossibility without a remedy."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    by = {x["target"]: x for x in r["reward_sufficiency"]}
+    ordered = [v for k, v in by.items() if "then" in k][0]
+    assert ordered["state_only_hits"] == 0, \
+        "a state-only reward now induces the ordered task"
+    assert ordered["time_indexed_hits"] > 0, \
+        "the time-indexed repair no longer works"
+    other = [v for k, v in by.items() if "twice" in k][0]
+    assert other["state_only_hits"] > 0, \
+        "the control task must be state-only inducible, or the contrast is lost"
+
+
+def test_caching_dominates_whole_table_compilation():
+    """Compile-all must never win. If it does, the trichotomy collapses to the
+    usual two-way story."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    rows = r["trichotomy"]
+    assert rows, "the trichotomy sweep is missing"
+    assert not any(x["cheapest"].startswith("compile") for x in rows), \
+        "whole-table compilation now wins somewhere"
+    kinds = {x["cheapest"] for x in rows}
+    assert len(kinds) > 1, "one shape is cheapest at every reuse -- no crossover"
+
+
+def test_partial_holding_is_what_uneven_visitation_buys():
+    """The intermediate shape must appear in the base world and NEVER in the
+    twin where every key is visited exactly once. Without the twin it would be
+    a tuning artefact."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    held = {(x["held"], x["keys"]) for x in r["recovery"]}
+    partial = [h for h in held if 0 < h[0] < h[1]]
+    assert partial, "no intermediate holding wins anywhere"
+    assert r["recovery_twin"]["partial_wins"] == 0, (
+        "partial holding now wins in the even-visitation twin, so it is not "
+        "uneven visitation that buys it")
+
+
+def test_exploration_is_the_price_of_not_being_told():
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    e, t = r["exploration"], r["exploration_twin"]
+    assert e["best_constant"] > 0, "a constant-arm machine is now optimal"
+    assert t["min_total_regret"] == 0, \
+        "announcing the payoffs no longer removes the regret"
+    assert t["min_regret_if_explores_split"] > 0, \
+        "exploring where arms differ is now free even when told"
+
+
+def test_options_pay_by_recurrence():
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    by = {x["tasks"]: x for x in r["options"]}
+    assert by["recurring"]["margin"] > 0
+    assert by["no recurrence"]["margin"] < 0, \
+        "an option with no recurrence now pays -- the condition is vacuous"
