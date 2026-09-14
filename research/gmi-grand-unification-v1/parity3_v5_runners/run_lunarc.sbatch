@@ -1,25 +1,30 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=parity3-v5
-#SBATCH --output=parity3-v5-%j.out
-#SBATCH --error=parity3-v5-%j.err
+#SBATCH --job-name=parity3
+#SBATCH --output=parity3-%j.out
+#SBATCH --error=parity3-%j.err
 #SBATCH --time=00:20:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --exclusive
 #
-# Frozen parity-3 V5 replication on a LUNARC compute node.
+# Frozen parity-3 replication on a LUNARC compute node.
 #
 #   sbatch -A <your-project> run_lunarc.sbatch
+#
+# PARITY3_HARNESS_VERSION selects the harness and defaults to v6, the one that
+# runs on CPython 3.13. Set it to v5 to reproduce a v5 envelope.
 #
 # --exclusive is requested because the registered coordinates include wall and
 # process time envelopes; a shared node makes those envelopes describe the
 # node's other tenants as much as the candidates. The opcode coordinate is
 # exact and unaffected.
 #
-# Adjust the module line to whatever provides CPython 3.11 or 3.12 on the
-# cluster. CPython 3.13 is expected to fail the instrumentation gate and emit
-# an invalid packet; that packet is still evidence and should be kept.
+# Adjust the module line to whatever provides CPython 3.11, 3.12 or 3.13 on the
+# cluster. Under v5, CPython 3.13 is expected to fail the instrumentation gate
+# and emit an invalid packet; that packet is still evidence and should be kept.
+# Under v6 the instrument is repaired for 3.13 and the run is expected to
+# complete.
 set -euo pipefail
 
 module purge
@@ -27,14 +32,21 @@ module purge
 PYTHON="${PARITY3_PYTHON:-python3}"
 
 HOST_LABEL="${PARITY3_HOST_LABEL:-lunarc}"
+HARNESS_VERSION="${PARITY3_HARNESS_VERSION:-v6}"
 HERE="${SLURM_SUBMIT_DIR:-$(pwd)}"
-HARNESS="$HERE/../nn_nonnn_point_parity3_experiment_v5.py"
+HARNESS="$HERE/../nn_nonnn_point_parity3_experiment_${HARNESS_VERSION}.py"
+if [ ! -f "$HARNESS" ]; then
+    echo "no such harness: $HARNESS" >&2
+    exit 2
+fi
+SCHEMA_TAG="$(printf '%s' "$HARNESS_VERSION" | tr '[:lower:]' '[:upper:]')"
 
 VERSION="$("$PYTHON" -c 'import sys;print("%d.%d.%d"%sys.version_info[:3])')"
 IMPL="$("$PYTHON" -c 'import platform;print(platform.python_implementation())')"
 NODE="${SLURMD_NODENAME:-unknown-node}"
-OUT="$HERE/../NN_NONNN_POINT_PARITY3_RESULT_V5_${HOST_LABEL}_${NODE}_${IMPL}${VERSION}.json"
+OUT="$HERE/../NN_NONNN_POINT_PARITY3_RESULT_${SCHEMA_TAG}_${HOST_LABEL}_${NODE}_${IMPL}${VERSION}.json"
 
+echo "harness    : $(basename "$HARNESS")"
 echo "cluster    : ${SLURM_CLUSTER_NAME:-unknown}"
 echo "node       : $NODE"
 echo "job id     : ${SLURM_JOB_ID:-none}"
