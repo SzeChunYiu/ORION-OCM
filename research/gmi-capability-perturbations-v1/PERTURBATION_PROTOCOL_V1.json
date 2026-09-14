@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F4 capability predictor",
+  "ledger_rows": [
+    "Predict capability after resource repricing.",
+    "Predict capability after ablation.",
+    "Predict capability after environmental drift."
+  ],
+  "scope": "exact finite capability counterfactuals whose perturbations change only the five registered signed margins and remain inside the development predictor's identified cube",
+  "assumptions": [
+    "fixed morphology semantics and capability contracts",
+    "repricing changes purchasable capacity as floor(spend/unit_price) under fixed spend",
+    "ablation subtracts declared capacity from one registered channel",
+    "environmental drift adds declared requirement to one registered obligation channel",
+    "no unregistered interaction changes during the perturbation"
+  ],
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "strongest_parent": "comparative statics, sensitivity analysis, monotone threshold systems",
+  "negative_twin": "a perturbation that does not cross the load-bearing margin threshold must not flip the target capability",
+  "nearest_counterexample": "if repricing changes morphology, ablation triggers compensation, or drift changes an unregistered interaction, margin recomputation alone is insufficient",
+  "falsifier": "Any registered case disagrees with the already-fitted development-only predictor or the independent exact capability oracle, or a non-threshold-crossing negative twin flips its protected target.",
+  "status": "PASS when exact controls agree",
+  "cases": [
+    {
+      "id": "REPRICE_MEMORY_CROSS",
+      "kind": "resource_repricing",
+      "target": "memory_exact",
+      "before": {"memory_margin": 0, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 0},
+      "parameters": {"axis": "memory_margin", "spend": 6, "old_price": 2, "new_price": 3, "requirement": 3},
+      "after": {"memory_margin": -1, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 0},
+      "expected_target_before": 1,
+      "expected_target_after": 0
+    },
+    {
+      "id": "REPRICE_MEMORY_TWIN_NO_CROSS",
+      "kind": "resource_repricing",
+      "target": "memory_exact",
+      "before": {"memory_margin": 1, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 0},
+      "parameters": {"axis": "memory_margin", "spend": 9, "old_price": 2, "new_price": 3, "requirement": 3},
+      "after": {"memory_margin": 0, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 0},
+      "expected_target_before": 1,
+      "expected_target_after": 1
+    },
+    {
+      "id": "ABLATE_MEMORY_CROSS",
+      "kind": "ablation",
+      "target": "planning_exact",
+      "before": {"memory_margin": 1, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 0},
+      "parameters": {"axis": "memory_margin", "removed_capacity": 2},
+      "after": {"memory_margin": -1, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 0},
+      "expected_target_before": 1,
+      "expected_target_after": 0
+    },
+    {
+      "id": "ABLATE_COMM_TWIN_PLANNING_STABLE",
+      "kind": "ablation",
+      "target": "planning_exact",
+      "before": {"memory_margin": 0, "planning_margin": 0, "communication_margin": 1, "routing_margin": 0, "verification_margin": 0},
+      "parameters": {"axis": "communication_margin", "removed_capacity": 2},
+      "after": {"memory_margin": 0, "planning_margin": 0, "communication_margin": -1, "routing_margin": 0, "verification_margin": 0},
+      "expected_target_before": 1,
+      "expected_target_after": 1
+    },
+    {
+      "id": "DRIFT_VERIFY_CROSS",
+      "kind": "environmental_drift",
+      "target": "verified_tool_exact",
+      "before": {"memory_margin": 0, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 1},
+      "parameters": {"axis": "verification_margin", "added_requirement": 2},
+      "after": {"memory_margin": 0, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": -1},
+      "expected_target_before": 1,
+      "expected_target_after": 0
+    },
+    {
+      "id": "DRIFT_COMM_TWIN_TOOL_STABLE",
+      "kind": "environmental_drift",
+      "target": "verified_tool_exact",
+      "before": {"memory_margin": 0, "planning_margin": 0, "communication_margin": 1, "routing_margin": 0, "verification_margin": 0},
+      "parameters": {"axis": "communication_margin", "added_requirement": 1},
+      "after": {"memory_margin": 0, "planning_margin": 0, "communication_margin": 0, "routing_margin": 0, "verification_margin": 0},
+      "expected_target_before": 1,
+      "expected_target_after": 1
+    }
+  ]
+}
