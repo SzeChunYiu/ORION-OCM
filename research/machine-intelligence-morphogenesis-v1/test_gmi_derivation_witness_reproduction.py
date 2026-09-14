@@ -59,6 +59,7 @@ WITNESSES = {
     "social_cognition_witness.py": "STAGE_SOCIAL_COGNITION_V1.json",
     "social_strategic_witness.py": "STAGE_SOCIAL_STRATEGIC_V1.json",
     "subgoal_witness.py": "STAGE_SUBGOAL_WITNESS_V1.json",
+    "update_law_witness.py": "STAGE_UPDATE_LAW_V1.json",
     "teaching_culture_witness.py": "STAGE_TEACHING_CULTURE_WITNESS_V1.json",
 }
 
@@ -747,3 +748,45 @@ def test_neural_morphology_has_a_losing_ecology():
     assert v["majority"] == "net wins"
     assert v["xor2"] in ("TABLE WINS", "tie"), \
         "the net now beats the table even where it needs full machinery"
+
+
+def test_gradient_law_needs_a_slope_and_random_search_does_not():
+    """GMI_UPDATE_LAW_DERIVATION_V1: on a needle landscape the gradient law
+    must return nothing while uniform search still finds the optimum. Both
+    halves -- otherwise this is a statement about difficulty, not about what a
+    gradient law requires."""
+    r = load_receipt("STAGE_UPDATE_LAW_V1.json")
+    rough = [x for x in r["reachability"] if x["landscape"] == "rough"]
+    smooth = [x for x in r["reachability"] if x["landscape"] == "smooth"]
+    assert rough and smooth
+    assert all(x["gradient"] is None for x in rough), \
+        "a gradient law now follows a slope that does not exist"
+    assert all(x["random"] is not None for x in rough), \
+        "uniform search should still find a needle"
+    assert all(x["gradient"] is not None for x in smooth), \
+        "a gradient law should reach the optimum on a smooth landscape"
+
+
+def test_update_law_has_a_parameter_count_break_even():
+    """The gradient premium is fixed while its saving grows with d, so some
+    other law must be cheapest at small d."""
+    r = load_receipt("STAGE_UPDATE_LAW_V1.json")
+    winners = [x["cheapest"] for x in r["charged_cost"]]
+    assert len(set(winners)) > 1, "one law is cheapest everywhere -- no break-even"
+    assert r["gradient_pays_from_d"] is not None, \
+        "the gradient law never becomes cheapest"
+    assert winners[0] != "gradient", \
+        "the gradient law is now cheapest at the smallest parameter count"
+
+
+def test_horizon_hypothesis_stays_refuted():
+    """The document says plainly that the horizon explanation is MINE and is
+    refused. If a change ever made it survive, the document would be stale and
+    this must fail rather than quietly pass."""
+    r = load_receipt("STAGE_UPDATE_LAW_V1.json")
+    assert r["hypothesis_A_horizon_survives"] is False, \
+        "the horizon hypothesis now survives -- the document retracts it and is stale"
+    assert r["hypothesis_B_substrate_survives"] is True, \
+        "the substrate hypothesis no longer survives"
+    assert all(x["fits_16"] for x in r["horizon"]["rows"]), \
+        "the gradient law no longer fits the registered 16-event budget"
