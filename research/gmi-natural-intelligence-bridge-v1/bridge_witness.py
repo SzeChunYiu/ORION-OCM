@@ -3,12 +3,16 @@
 No network, no external dependencies. Python 3.8+.
 
 Design:
-  morph_alpha and morph_beta share pressure class {planning, communication}.
-  morph_gamma has pressure class {prediction, error_correction}.
+  Mapping-consistency tests (morph_alpha/beta/gamma):
+    alpha + beta share pressure class {planning, communication}.
+    gamma has {prediction, error_correction}.
+    2 ecologies: eco_social demands {planning, communication},
+                 eco_predator demands {prediction, error_correction}.
+    alpha+beta both satisfy eco_social -> consistency constraint.
 
-  A valid mapping assigns the same taxon to alpha and beta, different to gamma.
-  An inconsistent mapping assigns different taxa to alpha and beta.
-  A trivial mapping assigns all three to the same taxon.
+  PVR-3 clean-bijection tests (named instances):
+    Each morphology has a UNIQUE pressure pair. No two share a pressure class.
+    3 ecologies match 1-to-1.  Every ecology is satisfied by exactly one morphology.
 """
 from dataclasses import dataclass, field
 from typing import Dict, List, Set
@@ -46,12 +50,18 @@ class Mapping:
 
 
 # ========== Explicit pressure tables ==========
-# Ground truth: alpha+beta share a pressure class; gamma is separate.
+# Mapping-consistency morphologies share pressure classes.
+# PVR-3 named morphologies each have a unique, disjoint pressure pair.
 
 MORPHOLOGY_PRESSURES: Dict[str, frozenset] = {
+    # Mapping tests: alpha and beta share {planning, communication}
     "morph_alpha": frozenset({"planning", "communication"}),
     "morph_beta":  frozenset({"planning", "communication"}),
     "morph_gamma": frozenset({"prediction", "error_correction"}),
+    # PVR-3 clean-bijection tests: each unique
+    "symbolic_manipulation": frozenset({"planning", "communication"}),
+    "sequential_memory":     frozenset({"sequential_processing", "pattern_recognition"}),
+    "predictive_modeling":   frozenset({"prediction", "error_correction"}),
 }
 
 
@@ -69,7 +79,7 @@ def verify_mapping_consistency(morphologies: List[Morphology],
     """Same pressure class must map to same morphological class.
 
     Group ecologies by pressure set. For each group find all morphologies
-    that satisfy ANY ecology in the group. All those must map to the same taxon.
+    that satisfy ANY ecology in the group. All must map to the same taxon.
     """
     eco_by_pressure: Dict[frozenset, List[Ecology]] = {}
     for eco in ecologies:
@@ -138,6 +148,8 @@ def verify_bridge_mapping(morphologies: List[Morphology],
 
 # ==================== TEST DATA ====================
 
+# --- Mapping-consistency morphologies (alpha+beta share pressure class) ---
+
 MORPH_ALPHA = Morphology(
     state_carrier="discrete_tokens",
     native_operators="production_rules",
@@ -151,10 +163,10 @@ MORPH_ALPHA = Morphology(
 MORPH_BETA = Morphology(
     state_carrier="persistent_state",
     native_operators="sequence_encoding",
-    control_update_law="temporal_learning",
-    memory_organization="hippocampal_cortical",
-    communication_protocol="social_gestures",
-    verification_mechanism="consistency_checking",
+    control_update_law="temporal_reasoning",
+    memory_organization="hippocampal_index",
+    communication_protocol="spatial_gestures",
+    verification_mechanism="forward_model",
     name="morph_beta",
 )
 
@@ -168,6 +180,40 @@ MORPH_GAMMA = Morphology(
     name="morph_gamma",
 )
 
+# --- PVR-3 clean-bijection morphologies (each unique pressure pair) ---
+
+SYMBOLIC_MANIPULATION = Morphology(
+    state_carrier="discrete_symbols",
+    native_operators="rewrite_systems",
+    control_update_law="inference_rules",
+    memory_organization="symbol_table_persistent",
+    communication_protocol="structured_language",
+    verification_mechanism="proof_checking",
+    name="symbolic_manipulation",
+)
+
+SEQUENTIAL_MEMORY = Morphology(
+    state_carrier="sequential_buffer",
+    native_operators="temporal_encoding",
+    control_update_law="sequence_completion",
+    memory_organization="hippocampal_index",
+    communication_protocol="temporal_gestures",
+    verification_mechanism="pattern_matching",
+    name="sequential_memory",
+)
+
+PREDICTIVE_MODELING = Morphology(
+    state_carrier="generative_model",
+    native_operators="prediction_networks",
+    control_update_law="prediction_error_learning",
+    memory_organization="cerebellar_internal",
+    communication_protocol="anticipatory_gestures",
+    verification_mechanism="model_correction",
+    name="predictive_modeling",
+)
+
+# --- Ecologies for mapping-consistency tests ---
+
 ECO_SOCIAL = Ecology(
     name="eco_social",
     pressures=frozenset({"planning", "communication"}),
@@ -177,6 +223,25 @@ ECO_PREDATOR = Ecology(
     name="eco_predator",
     pressures=frozenset({"prediction", "error_correction"}),
 )
+
+# --- Ecologies for PVR-3 clean-bijection tests ---
+
+SOCIAL_COORDINATION = Ecology(
+    name="social_coordination",
+    pressures=frozenset({"planning", "communication"}),
+)
+
+VARIABLE_FORAGING = Ecology(
+    name="variable_foraging",
+    pressures=frozenset({"sequential_processing", "pattern_recognition"}),
+)
+
+PREDATOR_PREY = Ecology(
+    name="predator_prey",
+    pressures=frozenset({"prediction", "error_correction"}),
+)
+
+# --- Taxa ---
 
 TAXON_1 = BiologicalTaxon(
     name="taxon_1",
@@ -188,9 +253,13 @@ TAXON_2 = BiologicalTaxon(
     neural_architecture={"pathway": "prediction_cortex"},
 )
 
+# --- Aggregated lists for mapping tests ---
+
 ALL_MORPHOLOGIES = [MORPH_ALPHA, MORPH_BETA, MORPH_GAMMA]
 ALL_ECOLOGIES = [ECO_SOCIAL, ECO_PREDATOR]
 
+
+# --- Mapping builders ---
 
 def build_valid_mapping() -> Mapping:
     """Consistent: alpha+beta share class -> same taxon. Non-trivial."""
@@ -217,7 +286,7 @@ def build_inconsistent_mapping() -> Mapping:
 
 
 def build_trivial_mapping() -> Mapping:
-    """Trivial: all map to same taxon."""
+    """Trivial: all map to same taxon. Fails content and non_trivial."""
     return Mapping(
         name="trivial",
         morphology_to_taxon={
@@ -241,8 +310,14 @@ if __name__ == "__main__":
         print(f"\n{label}:")
         for k, v in results.items():
             print(f"  {k}: {v}")
-    print("\nPVR-3 satisfaction matrix:")
+    print("\nPVR-3 satisfaction matrix (mapping ecologies):")
     for morph in ALL_MORPHOLOGIES:
         for eco in ALL_ECOLOGIES:
+            print(f"  {morph.name} x {eco.name} = {pvr3_satisfied(morph, eco)}")
+    print("\nPVR-3 clean-bijection matrix (named instances):")
+    named_morphs = [SYMBOLIC_MANIPULATION, SEQUENTIAL_MEMORY, PREDICTIVE_MODELING]
+    named_ecos = [SOCIAL_COORDINATION, VARIABLE_FORAGING, PREDATOR_PREY]
+    for morph in named_morphs:
+        for eco in named_ecos:
             print(f"  {morph.name} x {eco.name} = {pvr3_satisfied(morph, eco)}")
     print("\nWitness computation complete.")
