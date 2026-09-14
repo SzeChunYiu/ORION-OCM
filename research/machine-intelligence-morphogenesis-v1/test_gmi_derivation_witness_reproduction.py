@@ -382,6 +382,45 @@ def test_k4_probe_reproduces_its_committed_receipt():
         "re-run the probe and revisit GMI_K4_COST_STRUCTURE_ROOT_CAUSE_V1.md")
 
 
+def _run_k4_repair_probe():
+    """Execute the substitution-repair probe in place, like the structure probe."""
+    out = os.path.join(RESULTS, "STAGE_K4_SUBSTITUTION_REPAIR_V1.json")
+    before = open(out).read() if os.path.exists(out) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, "gmi_k4_substitution_probe_v1.py"],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1800)
+        assert proc.returncode == 0, (
+            "the K4 substitution-repair probe failed:\n%s"
+            % proc.stderr.decode("utf-8", "replace")[-2000:])
+        with open(out) as fh:
+            return json.load(fh)
+    finally:
+        if before is not None:
+            with open(out, "w") as fh:
+                fh.write(before)
+
+
+def test_repair_makes_neutral_search_recover_retention():
+    """GMI_K4_SUBSTITUTION_REPAIR_V1: three family-blind corrections turn a
+    search that was reuse-invariant across 4096x into one that marches to full
+    retention -- and still declines to retain when there is no reuse."""
+    r = _run_k4_repair_probe()
+    assert r == _committed("STAGE_K4_SUBSTITUTION_REPAIR_V1.json"), \
+        "the repair probe no longer reproduces its committed receipt"
+    rec = r["recovery"]
+    assert rec["frozen"] == 0, "the frozen control now recovers retention"
+    assert 0 < rec["repaired"] < rec["n"], \
+        "the repaired model must retain sometimes and not always"
+    sens = r["reuse_sensitivity"]
+    assert sens["frozen"] is False and sens["repaired"] is True, \
+        "the frozen winner must stay flat and the repaired one must move"
+    states = [x["state"] for x in r["q3_recovery_repaired"]]
+    assert states == sorted(states), "retained state is not monotone in reuse"
+    assert r["q3_recovery_repaired"][-1]["coverage"] >= 0.999
+    assert r["q3_recovery_repaired"][0]["coverage"] < 0.1
+
+
 def test_k4_cost_model_has_no_substitutions():
     """GMI_K4_COST_STRUCTURE_ROOT_CAUSE_V1: the root cause of 0 of 264.
 
