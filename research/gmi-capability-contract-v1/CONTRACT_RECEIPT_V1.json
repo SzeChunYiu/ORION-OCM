@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "schema": "CapabilityContractReceiptV1",
+  "scope": "A4 only: 27 rows, each inputs->allowed_info->behaviour->success->resource->twin->parent->atlas->falsifier, id set exact, scope Admissibility (DU-1). 15 exact controls, normal + optimized. No neutral-search reachability claim.",
+  "source_and_evidence": {
+    "CONTRACT_V1.json": {
+      "bytes": 36140,
+      "sha256": "b79bc6bd624e596a9eaceb8c23ac0d6804bfdf73e85397c7ef4897d57f9ed991"
+    },
+    "SCHEMA_V1.json": {
+      "bytes": 1569,
+      "sha256": "0697df6fa6dbb391177f58af8b6e19d4c2321f7ab70afa21933383dc4f8f6a4d"
+    },
+    "capability_contract_v1.py": {
+      "bytes": 5580,
+      "sha256": "03f55a13d152ce7e89d43785e736e9ccb7fd611eeb579e543bd3703d5a0fe715"
+    },
+    "test_capability_contract_v1.py": {
+      "bytes": 4542,
+      "sha256": "37e82f1263117f7c24a0c4beede393ef24b7ea574a4dca6a55c6ee296d7af4d8"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_capability_contract_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_capability_contract_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_capability_contract_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_capability_contract_v1.py"
+      ],
+      "tests": 15,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for all four files)."
+}
