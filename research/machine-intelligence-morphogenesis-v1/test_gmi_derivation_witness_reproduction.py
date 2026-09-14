@@ -42,6 +42,7 @@ WITNESSES = {
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
+    "lesion_witness.py": "STAGE_COMPONENT_LESIONS_V1.json",
     "memory_regime_witness.py": "STAGE_MEMORY_REGIME_WITNESS_V1.json",
     "metacognition_witness.py": "STAGE_METACOGNITION_V1.json",
     "pedagogy_witness.py": "STAGE_PEDAGOGY_V1.json",
@@ -257,3 +258,54 @@ def test_claim_pins_would_fail_on_an_inverted_claim():
         "the locality pin would accept a receipt where distant error is costly"
     assert not all(row["excess"] > 0.0 for row in near), \
         "the locality pin would accept a receipt where threshold error is free"
+
+
+def test_every_component_lesion_matches_its_derived_prediction():
+    """GMI_DERIVED_COMPONENT_LESIONS_V1: each deficit is computed from the law
+    that derived the component, then measured. A mismatch means the law and the
+    machine have come apart."""
+    r = load_receipt("STAGE_COMPONENT_LESIONS_V1.json")
+    assert r["lesions"], "receipt lost its lesions"
+    for row in r["lesions"]:
+        assert row["match"], "%s no longer matches its derived prediction" % row["lesion"]
+    shapes = {row["measured"] for row in r["lesions"]}
+    assert len(shapes) > 1, "every lesion now gives the same deficit"
+
+
+def test_lesion_double_dissociation_is_two_components_not_four():
+    """The dissociation claim is procedural-versus-semantic only. Retrieval also
+    moves the serving coordinate, so the guard pins the narrow claim and the
+    fact that other lesions share that axis -- which is what stops the document
+    from being read as a four-way dissociation."""
+    r = load_receipt("STAGE_COMPONENT_LESIONS_V1.json")
+    d = r["dissociation"]
+    assert d["procedural"]["serving"] > 0 and d["procedural"]["retention_bits"] == 0
+    assert d["semantic"]["retention_bits"] > 0 and d["semantic"]["serving"] == 0
+    assert "retrieval" in r["same_coordinate"], \
+        "retrieval no longer shares the serving coordinate -- the narrowing is stale"
+    assert len(r["same_coordinate"]) > 1
+
+
+def test_planning_lesion_is_conditional_on_interference():
+    """Lookahead earns its cost only when actions interfere. Both halves are
+    pinned: zero deficit on the registered task set, positive when a long early
+    match blocks a better covering. Either alone would be uninformative."""
+    r = load_receipt("STAGE_COMPONENT_LESIONS_V1.json")
+    pr = r["planning_regimes"]
+    assert pr["non_interfering"]["deficit"] == 0, \
+        "planning now helps even without interference"
+    assert pr["interfering"]["deficit"] > 0, \
+        "planning never helps, so the lesion is vacuous"
+
+
+def test_memory_lesions_are_conditional_on_regime():
+    """Consolidation saves nothing when nothing is redundant, and capacity loss
+    happens only when capacity is exceeded. A lesion that hurts everywhere says
+    nothing about when its component is needed."""
+    r = load_receipt("STAGE_COMPONENT_LESIONS_V1.json")
+    sem = [v["extra_bits"] for v in r["semantic_regimes"].values()]
+    epi = [v["lost"] for v in r["episodic_regimes"].values()]
+    assert any(x > 0 for x in sem) and any(x == 0 for x in sem), \
+        "the semantic lesion is no longer conditional on redundancy"
+    assert any(x > 0 for x in epi) and any(x == 0 for x in epi), \
+        "the episodic lesion is no longer conditional on capacity"
