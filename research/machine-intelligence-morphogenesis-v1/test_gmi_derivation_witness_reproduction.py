@@ -1963,3 +1963,56 @@ def test_hybrids_are_confined_to_the_parents_subcube():
     assert h["distinct_children"] == h["organizational_space"], (
         "pooled reachability changed; the document relies on it being total, "
         "which is exactly why the constraint is stated per pair instead")
+
+
+# ---------------------------------------------------------------------------
+# G boxes 7-9, 14-15: the invasion-competition result was sitting UNGUARDED.
+#
+# STAGE_R10_INVASION_V1.json carries a registered prediction, 192 competition
+# cells and an invariance control, and nothing in CI asserted any of it.  These
+# pins guard the claims; reproduction is not wired here because invasion.py is
+# not a single-file witness, and that is stated in the document rather than
+# implied by the pins.
+# ---------------------------------------------------------------------------
+def test_competition_reorders_occupancy():
+    """Occupancy under a shared budget is not a function of the solo scores."""
+    r = load_receipt("STAGE_R10_INVASION_V1.json")
+    assert r["prediction_holds"] is True, (
+        "the registered invasion prediction no longer holds")
+    n = r["n_cells_where_competition_disagrees_with_solo"]
+    assert n > 0, (
+        "competition never disagrees with independent solo scoring, which would "
+        "mean occupancy IS a function of the solo scores and the whole "
+        "competition apparatus is decorative")
+    assert n < r["n_cells"], (
+        "competition disagrees with solo scoring in every cell, which would "
+        "make the solo baseline useless as a comparison rather than a control")
+    assert r["n_offdiagonal_cells_where_competition_disagrees_with_solo"] > 0, (
+        "disagreement occurs only on the diagonal, i.e. only when a carrier "
+        "meets itself, which would not be a statement about invasion")
+
+
+def test_coexistence_is_the_exception_not_the_rule():
+    """Competitive exclusion dominates; coexistence is rare in every pool."""
+    r = load_receipt("STAGE_R10_INVASION_V1.json")
+    oc = r["outcome_counts_by_pool"]
+    assert oc, "no outcome counts"
+    for pool, c in oc.items():
+        total = sum(c.values())
+        assert set(c) >= {"COEXIST", "INVADER_REPLACES", "RESIDENT_HOLDS"}, (
+            "the outcome taxonomy lost a category at pool %s" % pool)
+        assert c["COEXIST"] < total / 2, (
+            "coexistence is no longer the exception at pool %s" % pool)
+        assert c["INVADER_REPLACES"] > 0 and c["RESIDENT_HOLDS"] > 0, (
+            "one of invasion or resistance never occurs at pool %s, so the "
+            "competition does not discriminate" % pool)
+
+
+def test_invasion_outcome_survives_reminting():
+    """The invariance control: renaming a competitor must change nothing."""
+    r = load_receipt("STAGE_R10_INVASION_V1.json")
+    ri = r["remint_invariance"]
+    assert ri["n_changed"] == 0, (
+        "reminting a competitor changed a reported quantity, so the outcome "
+        "depends on identity rather than on organization")
+    assert ri["n_competitions_checked"] > 0, "the invariance control never ran"
