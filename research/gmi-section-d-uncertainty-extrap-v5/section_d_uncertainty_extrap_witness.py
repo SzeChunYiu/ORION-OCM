@@ -177,7 +177,7 @@ def exactness_receipt():
         checks_by_scale[str(n)]={"bijections":relations,"candidate_directional_query_checks":qchecks,"expected_bijections":math.factorial(n)}
         for name in CANDIDATES:
             if observed[n][name] != {resource_vector(name,n).ops}: op_counts_match=False
-    return {"all_exact":bool(all_exact and op_counts_match),"lookup_exact":bool(all_exact),"op_counts_match":bool(op_counts_match),"total_bijections":total_relations,"total_candidate_directional_query_checks":total_directional_queries,"by_scale":checks_by_scale,"observed_block_ops":{str(n):{name:sorted(vals) for name,vals in observed[n].items()} for n in SCALES}}
+    return {"all_exact":bool(all_exact and op_counts_match),"total_bijections":total_relations,"total_candidate_directional_query_checks":total_directional_queries,"by_scale":checks_by_scale,"observed_block_ops":{str(n):{name:sorted(vals) for name,vals in observed[n].items()} for n in SCALES}}
 
 def reminted_relation(n:int):
     keys,vals=tokens(n); perm=tuple((3*i+1)%n for i in range(n)) if math.gcd(3,n)==1 else tuple((i+1)%n for i in range(n)); rel=relation_for_perm(n,perm)
@@ -196,7 +196,7 @@ def remint_receipt():
         walls=uncertainty_walls_from_vectors(vectors); lo,hi=min(walls.values()),max(walls.values())
         expected_lo,expected_hi=Fraction(3*n-5,n),Fraction(3*n-1,n)
         robust_ok=(robust_winner_from_vectors(vectors,Fraction(2))[0]=="dual_index" and robust_winner_from_vectors(vectors,Fraction(5,2))[0]==CANNOT and robust_winner_from_vectors(vectors,Fraction(3))[0]=="value_index")
-        out[str(n)]={"exact":bool(exact_by_n[n]),"vectors_preserved":all(vectors[name]==expected[name] for name in CANDIDATES),"boundary_preserved":boundary_from_vectors(vectors)==exact_boundary(n),"uncertainty_interval_preserved":(lo,hi)==(expected_lo,expected_hi),"robust_decisions_preserved":bool(robust_ok),"fit_preserved":bool(fit_preserved)}
+        out[str(n)]={"exact":bool(exact_by_n[n]),"vectors_preserved":all(vectors[name]==expected[name] for name in CANDIDATES),"boundary_preserved":bool(boundary_from_vectors(vectors)==exact_boundary(n) and fit_preserved),"uncertainty_interval_preserved":bool((lo,hi)==(expected_lo,expected_hi) and robust_ok)}
     return out
 
 def build_results():
