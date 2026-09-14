@@ -50,6 +50,7 @@ WITNESSES = {
     "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
     "gated_recurrence_witness.py": "STAGE_GATED_RECURRENCE_V1.json",
+    "generative_family_witness.py": "STAGE_GENERATIVE_FAMILY_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
@@ -61,6 +62,7 @@ WITNESSES = {
     "metacognition_witness.py": "STAGE_METACOGNITION_V1.json",
     "pedagogy_witness.py": "STAGE_PEDAGOGY_V1.json",
     "planning_stop_witness.py": "STAGE_PLANNING_STOP_V3.json",
+    "program_library_witness.py": "STAGE_PROGRAM_LIBRARY_V1.json",
     "recovery_objective_witness.py": "STAGE_RECOVERY_OBJECTIVE_V1.json",
     "replanning_witness.py": "STAGE_REPLANNING_V1.json",
     "search_frontier_witness.py": "STAGE_SEARCH_FRONTIER_V1.json",
@@ -1383,3 +1385,78 @@ def test_both_reader_shapes_are_recovered():
     r = load_receipt("STAGE_DYNAMIC_ROUTING_V1.json")
     kinds = {x["reads_as"] for x in r["recovery"] if x.get("shape")}
     assert len(kinds) > 1, "every ecology recovers the same reader shape"
+
+
+def test_a_library_chunk_loses_on_both_earlier_ledgers():
+    """GMI_PROGRAM_LIBRARY_DERIVATION_V1: the delta is that a chunk adds no
+    reachable function and costs more to serve, so it can only earn on search.
+    If a chunk ever enlarges the closure, that framing is wrong."""
+    r = load_receipt("STAGE_PROGRAM_LIBRARY_V1.json")
+    c = r["collapsing_control"]
+    assert c, "the closure control is missing"
+
+
+def test_the_paying_window_is_bounded_at_both_ends():
+    """Too shallow, nothing to shorten; too deep, branching outruns the levels
+    saved. An unbounded window would make this a monotone trade instead of an
+    optimum."""
+    r = load_receipt("STAGE_PROGRAM_LIBRARY_V1.json")
+    w = r["paying_windows"]
+    assert w, "the paying windows are missing"
+    for length, (lo, hi) in w.items():
+        assert lo <= hi, "window for length %s is empty" % length
+        assert hi < 20, (
+            "the paying window for length %s is unbounded above, so the "
+            "branching tax no longer bites" % length)
+
+
+def test_library_recovery_is_not_a_handed_answer():
+    """The searcher's winner must differ from the most frequent short answer.
+    A chooser handed the answer would return exactly that."""
+    r = load_receipt("STAGE_PROGRAM_LIBRARY_V1.json")
+    a = r["anti_rig"]
+    assert a["differs_from_most_frequent"] is True
+    assert a["differs_from_most_frequent_len3"] is True, (
+        "the search winner now matches the most frequent short answer, which "
+        "is what a handed answer looks like")
+    plans = r["neutral_recovery"]
+    stores_nothing = [x["stores_nothing"] for x in plans]
+    assert any(stores_nothing) and not all(stores_nothing), (
+        "storing nothing wins everywhere or nowhere -- the recovery is not "
+        "discriminating")
+
+
+def test_chain_ordering_law_still_fails_its_held_test():
+    """GMI_GENERATIVE_FAMILY_DERIVATION_V1: the main finding is a FAILURE. The
+    law is perfect on the support size it was fitted on and wrong elsewhere.
+    This pin locks the failure in -- a change that quietly made it pass would
+    silently erase a filed correction."""
+    r = load_receipt("STAGE_GENERATIVE_FAMILY_V1.json")
+    held = r["held_law3"]
+    failing = [x for x in held if not x["agree"]]
+    assert failing, (
+        "the chain-ordering law now agrees on every held support size, so the "
+        "CORRECTED finding in the document is stale")
+    worst = max(x["misses"]["said sensitive, was flat"] for x in held)
+    assert worst > 0, "the law no longer mispredicts any joint"
+
+
+def test_only_the_one_way_symmetry_implication_survives():
+    r = load_receipt("STAGE_GENERATIVE_FAMILY_V1.json")
+    law = r["chain_symmetry_law"]
+    assert law["symmetric_implies_flat"] is True
+    assert law["symmetric_sensitive"] == 0
+    assert law["converse_holds"] is False, (
+        "the converse now holds, which would make the law two-way after it was "
+        "filed as one-way only")
+
+
+def test_no_bijection_creates_a_zero_atom():
+    """The sharp impossibility, verified by exhaustion rather than argued."""
+    r = load_receipt("STAGE_GENERATIVE_FAMILY_V1.json")
+    f = r["flow_zero_impossibility"]
+    assert f["bijections_enumerated"] >= 40320, "the exhaustion shrank"
+    assert f["reachable_from_full_support_base"] == [], (
+        "a joint with a zero atom is now reachable from a full-support base by "
+        "bijection, which is impossible unless the model changed")
+    assert len(f["targets_with_a_zero_atom"]) >= 2
