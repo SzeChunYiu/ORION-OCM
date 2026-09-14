@@ -76,6 +76,7 @@ WITNESSES = {
     "teaching_culture_witness.py": "STAGE_TEACHING_CULTURE_WITNESS_V1.json",
     "residual_memory_witness.py": "STAGE_RESIDUAL_MEMORY_V1.json",
     "tool_routing_witness.py": "STAGE_TOOL_ROUTING_V1.json",
+    "real_regime_finite_state_witness.py": "STAGE_REAL_REGIME_FINITE_STATE_V1.json",
 }
 
 
@@ -1653,3 +1654,69 @@ def test_price_is_monotone_in_competence_but_not_strictly():
     assert 0 < pm["strictly_dearer"] < pm["nested_pairs"], (
         "taking on more tasks is either always or never strictly dearer; "
         "either way the reported partial saturation is stale")
+
+
+# ---------------------------------------------------------------------------
+# B2 at a real regime -- claim pins.
+#
+# This is the corpus's first movement off "0 of 19 families replicate at a real
+# regime".  The pins guard the criterion as much as the number: a replication
+# where the exhaustive method was merely slow would not be one.
+# ---------------------------------------------------------------------------
+def test_the_avoided_enumeration_is_impossible_not_merely_slow():
+    """The criterion, fixed before the measurement, must still be met."""
+    r = load_receipt("STAGE_REAL_REGIME_FINITE_STATE_V1.json")
+    e = r["exhaustion_avoided"]
+    assert e["states"] >= 10000, "the scale shrank below the registered N"
+    assert e["log10_machine_count"] > 1000, (
+        "the enumeration this replaces is no longer astronomically large, so "
+        "the result is a faster search rather than a real-regime replication")
+    assert e["certificate_pair_tests"] == e["states"] * (e["states"] - 1) // 2
+
+
+def test_every_certificate_pair_was_actually_checked():
+    """A fooling set proves a bound only if every pair is separated."""
+    r = load_receipt("STAGE_REAL_REGIME_FINITE_STATE_V1.json")
+    c = r["certificate"]
+    assert c["pairs_checked"] == 49995000, (
+        "the number of executed pair tests changed; the lower bound rests on "
+        "these having been run, not on the algebra that generated them")
+    assert c["pairs_failed"] == 0, "an exhibited suffix fails to separate a pair"
+    assert c["fooling_set_size"] == 10000
+
+
+def test_the_certificate_checker_can_reject():
+    """Without this, section 2 passing is coverage rather than evidence."""
+    r = load_receipt("STAGE_REAL_REGIME_FINITE_STATE_V1.json")
+    m = r["mutation_control"]
+    assert m["unseparated_pairs"] > 0, (
+        "a deliberately corrupted suffix is still accepted as separating every "
+        "probed pair, so the pair test cannot tell a valid certificate from an "
+        "invalid one")
+
+
+def test_only_the_lower_bound_is_claimed_to_replicate():
+    """The honest half of the result, pinned so it cannot quietly widen."""
+    r = load_receipt("STAGE_REAL_REGIME_FINITE_STATE_V1.json")
+    v = r["verdict"]
+    assert v["lower_bound_replicates"] is True
+    assert v["upper_bound_replicates"] is False, (
+        "the upper bound now claims to replicate; exhaustive replay over all "
+        "inputs does not scale, so if this flipped, check what it is really "
+        "asserting before believing it")
+    u = r["upper_bound"]
+    assert u["states_exercised_by_replay"] < u["states"], (
+        "the bounded replay now reaches every state, which would make the "
+        "document's scope caveat false")
+    assert u["state_errors"] == 0 and u["replay_errors"] == 0
+
+
+def test_the_bound_is_a_property_of_the_obligation_not_the_method():
+    """Matched negative control: an index-2 obligation must certify 2, not N."""
+    r = load_receipt("STAGE_REAL_REGIME_FINITE_STATE_V1.json")
+    n = r["negative_control"]
+    assert n["certified_lower_bound"] <= 3, (
+        "the same construction certifies a large bound for an obligation whose "
+        "index is 2, so the certificate inflates and the N-state result is not "
+        "trustworthy")
+    assert n["main_obligation_bound"] > 100 * n["certified_lower_bound"]
