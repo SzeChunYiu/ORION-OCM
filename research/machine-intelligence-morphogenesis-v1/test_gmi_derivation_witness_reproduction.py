@@ -57,6 +57,7 @@ WITNESSES = {
     "planning_stop_witness.py": "STAGE_PLANNING_STOP_V3.json",
     "recovery_objective_witness.py": "STAGE_RECOVERY_OBJECTIVE_V1.json",
     "replanning_witness.py": "STAGE_REPLANNING_V1.json",
+    "search_frontier_witness.py": "STAGE_SEARCH_FRONTIER_V1.json",
     "simulation_worth_witness.py": "STAGE_SIMULATION_WORTH_V1.json",
     "social_cognition_witness.py": "STAGE_SOCIAL_COGNITION_V1.json",
     "social_strategic_witness.py": "STAGE_SOCIAL_STRATEGIC_V1.json",
@@ -866,3 +867,50 @@ def test_equivariance_negative_twin_separates():
     assert by["has_11"]["shared_works"] is True
     assert by["first_is_1"]["shared_works"] is False, \
         "sharing now works on a position-anchored obligation"
+
+
+def test_search_is_forced_when_no_compact_policy_exists():
+    """GMI_SEARCH_FRONTIER_DERIVATION_V1: the budget must permit a policy in
+    some worlds and forbid it in others, or nothing is forced."""
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    poss = [x["policy_possible"] for x in r["frontier_forced"]]
+    assert any(poss) and not all(poss), \
+        "the storage budget no longer separates compilable worlds from others"
+
+
+def test_search_orders_are_memory_regimes():
+    """Depth-first must hold less than breadth-first on the SAME expansions,
+    and a constant heuristic must guide nothing -- without that control,
+    best-first would look inherently good."""
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    by = {x["order"]: x for x in r["orders"]}
+    assert by["depth-first"]["peak_memory"] < by["breadth-first"]["peak_memory"]
+    assert by["depth-first"]["expanded"] == by["breadth-first"]["expanded"], \
+        "the two blind orders should expand the same nodes, differing only in memory"
+    assert by["best-first (informed)"]["expanded"] < by["breadth-first"]["expanded"]
+    assert by["best-first (useless h)"]["expanded"] >= by["breadth-first"]["expanded"], \
+        "a constant heuristic now beats blind search -- the control is broken"
+
+
+def test_heuristic_has_a_finite_break_even():
+    """Its value is the search it removes, so a dear enough heuristic must stop
+    paying. A heuristic that pays at every price is not being charged."""
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    w = [x["worth_it"] for x in r["heuristic"]]
+    assert any(w) and not all(w), "the heuristic pays at every price or none"
+
+
+def test_compile_versus_search_crosses_on_reuse():
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    kinds = [x["cheaper"] for x in r["compile_vs_search"]]
+    assert "search" in kinds and "compile" in kinds, \
+        "no crossover between compiling and searching"
+    assert kinds[0] == "search" and kinds[-1] == "compile", \
+        "the crossover runs the wrong way in reuse"
+
+
+def test_both_shapes_are_neutrally_recovered():
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    reads = {x["reads_as"] for x in r["recovery"]}
+    assert len(reads) > 1, \
+        "every world recovers the same shape -- nothing has been recovered"

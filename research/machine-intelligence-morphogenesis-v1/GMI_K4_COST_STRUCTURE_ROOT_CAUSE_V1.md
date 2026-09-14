@@ -146,3 +146,27 @@ state and does substantially less serving work. Or exhibit any channel pair
 with correlation below −0.3. Or exhibit a grammar price within the registered
 spread that changes a winner. The probe asserts all three on every run, so any
 of them turning up will fail CI rather than sit unnoticed.
+
+## Appendix: the pathology observed in a live campaign
+
+Date added: 2026-09-14. Observation, not a new experiment.
+
+The B6 development campaign on `laptop-billy` gives a direct sighting of the
+cost pathology this document names. Across 23 completed units the wall time has
+a median of **0.74 h** and a maximum of **9.71 h**. One running unit,
+`src_E_twin2_S2`, logged its `n_eval = 15000` checkpoint at **603 seconds** —
+roughly 25 evaluations per second — and then produced no further checkpoint for
+**more than 27 hours**, at 99.9 % CPU with `TIME ≈ ELAPSED`.
+
+A single evaluation consuming more than a day, in a unit that was averaging 25
+per second, is what an unbounded draw from `SEARCH.budget ∈ (16, 64, 256, 2401)`
+looks like when it lands on a pathological candidate. Because cost is not a
+descriptor axis, nothing in the archive resists it, and because the draw is
+seeded, restarting reproduces it exactly.
+
+This is corroboration from an independent direction: the same missing cost
+structure that makes the K4 objective unable to express a mechanism also lets a
+single evaluation run without bound. The repair named in
+`GMI_K4_SUBSTITUTION_REPAIR_V1.md` addresses the first; the second needs a
+per-evaluation cap, which is a change to a registered protocol and is not made
+here.
