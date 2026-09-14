@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F3 capability interaction laws",
+  "scope": "finite exact microscopes for the first four F3 rows only",
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "claim_boundary": "These laws establish bounded interaction theorems and exact finite witnesses. They do not establish the G6 morphology-to-capability predictor, empirical universality, or monotone synergy.",
+  "rows": [
+    {
+      "id": "F3-MEM-PLAN-1",
+      "ledger_row": "Memory × planning interaction.",
+      "scope": "finite cue-conditioned deterministic plan tree with no external memory",
+      "assumptions": [
+        "the final correct branch is indexed by one of N equiprobable cue classes",
+        "the cue is unavailable after the initial observation",
+        "the agent has at most K persistent memory states",
+        "the planner can inspect at most D steps ahead while the obligation requires horizon H",
+        "success requires the exact cue-indexed terminal action"
+      ],
+      "theorem": "Exact success is possible iff K >= N and D >= H. If K < N, at least two cue classes collapse by pigeonhole; if D < H, the terminal discriminator lies outside the declared planning reach. The two resources therefore form an AND threshold rather than substitutable scalar capacity.",
+      "strongest_parent": "finite-state distinguishability plus bounded-horizon planning",
+      "negative_twin": "make the terminal action cue-independent; the memory threshold disappears while the planning-horizon requirement remains",
+      "nearest_counterexample": "allow an uncharged external cue store or reveal the cue again at the terminal node; K >= N is no longer necessary",
+      "falsifier": "an exact policy within this scope with K < N or D < H",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-MEM-ABS-1",
+      "ledger_row": "Memory × abstraction interaction.",
+      "scope": "finite obligation-preserving quotient of raw observations",
+      "assumptions": [
+        "raw items X are partitioned by an abstraction q into C classes",
+        "all items in one class have identical future obligations",
+        "different required classes must remain distinguishable",
+        "no external memory is available"
+      ],
+      "theorem": "An obligation-preserving abstraction changes the exact retained-state requirement from the number of task-distinct raw items to the number C of quotient classes. A coarser quotient that merges obligation-distinct items is not a cheaper exact solution; it makes exact success impossible.",
+      "strongest_parent": "sufficient-statistic / quotient-state compression",
+      "negative_twin": "assign a distinct obligation to every raw item; then C = |X| and abstraction yields no memory saving",
+      "nearest_counterexample": "if the quotient is chosen after seeing test labels, apparent compression can be leakage rather than an architecture-independent law",
+      "falsifier": "an exact no-external-memory realization needing fewer states than the task-distinct quotient index, or a proof-preserving quotient that merges two future-distinct obligations",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-SEARCH-HEUR-1",
+      "ledger_row": "Search × learned heuristic interaction.",
+      "scope": "repeated exact search on a fixed finite obligation family with a retained learned heuristic",
+      "assumptions": [
+        "baseline verified search cost is B0 per query",
+        "heuristic-guided verified search cost is B1 per query",
+        "learning and retaining the heuristic costs L once",
+        "all costs share one frozen additive unit and B0 >= B1",
+        "the heuristic does not change correctness or verifier power"
+      ],
+      "theorem": "Over r uses, retaining the learned heuristic is cheaper exactly when r(B0-B1) > L, ties when equal, and loses when smaller. Thus heuristic value is search burden removed, amortized against acquisition cost; with zero verified reduction it can never pay at positive L.",
+      "strongest_parent": "amortization / rational metareasoning / heuristic-search accounting",
+      "negative_twin": "set B1 = B0 while leaving L > 0; the heuristic strictly loses for every reuse count",
+      "nearest_counterexample": "if the heuristic changes error rate or verifier power, the one-coordinate cost comparison is incomplete and this theorem does not apply",
+      "falsifier": "a correctly metered instance satisfying the assumptions where the winner disagrees with the sign of r(B0-B1)-L",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-SOC-COMM-1",
+      "ledger_row": "Social modeling × communication interaction.",
+      "scope": "finite receiver decision with a compressed partner-type model and a finite message alphabet",
+      "assumptions": [
+        "partner type is compressed into at most S social-model states",
+        "the received message alphabet has at most K symbols",
+        "the receiver gets no other side information",
+        "the correct action can depend on the ordered pair (partner type, message)",
+        "exact success requires preserving every obligation-distinct pair"
+      ],
+      "theorem": "The receiver can condition on at most S*K social-state/message cells. If the task contains more than S*K obligation-distinct type-message pairs, exact success is impossible. The bound is tight when both encoders are injective on the required distinctions and the decoder maps each cell to its required action.",
+      "strongest_parent": "finite communication complexity plus sufficient social-state representation",
+      "negative_twin": "make the action independent of partner type; social-model cardinality drops out and only message distinctions matter",
+      "nearest_counterexample": "shared side information can refine receiver distinctions without consuming either declared S or K and therefore violates the scope",
+      "falsifier": "an exact receiver with more than S*K obligation-distinct cells under the stated information restriction",
+      "status": "PROVED_BOUNDED"
+    }
+  ]
+}
