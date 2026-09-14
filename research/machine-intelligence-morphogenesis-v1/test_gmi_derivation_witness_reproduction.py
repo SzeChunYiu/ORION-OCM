@@ -80,6 +80,7 @@ WITNESSES = {
     "predict_intersection_index.py": "STAGE_INTERSECTION_INDEX_PREDICTION_V1.json",
     "predict_composition_law.py": "STAGE_COMPOSITION_LAW_PREDICTION_V1.json",
     "predict_probe_law.py": "STAGE_PROBE_LAW_PREDICTION_V1.json",
+    "species_algebra_witness.py": "STAGE_SPECIES_ALGEBRA_V1.json",
 }
 
 
@@ -1898,3 +1899,120 @@ def test_the_corpus_has_both_a_cheap_and_an_expensive_composition():
     dm, dp = dear["measured_index"], dear["product_bound"]
     assert all(dm[k] == dp[k] for k in dm), "no expensive composition on record"
     assert dear["criterion_supported"] is True
+
+
+# ---------------------------------------------------------------------------
+# G: the species definitions, as proved properties rather than prose.
+# ---------------------------------------------------------------------------
+def test_species_relation_is_an_equivalence_and_the_partition_is_informative():
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    e = r["equivalence"]
+    assert e["reflexive"] and e["symmetric"] and e["transitive"], (
+        "the species relation lost an equivalence axiom")
+    assert 1 < e["species"] < e["descriptors"], (
+        "the partition is trivial -- one species, or all singletons -- and "
+        "either way carries no information")
+
+
+def test_morphological_distance_is_a_metric():
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    d = r["distance"]
+    assert d["symmetric"] and d["zero_iff_conspecific"] and d["triangle"], (
+        "the morphological distance is no longer a metric")
+    assert d["triples_checked"] >= 16777216, (
+        "the triangle inequality is checked on fewer triples than before; it is "
+        "an exhaustive claim and must stay exhaustive")
+    assert len(d["values"]) > 2, "distance is near-constant and cannot order morphologies"
+
+
+def test_species_identity_survives_substrate_change():
+    """If the resource profile were organizational, recompiling would speciate."""
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    s = r["substrate_invariance"]
+    assert s["species_changes"] == 0, (
+        "a substrate change moved a machine to another species, which breaks the "
+        "organizational/non-organizational split the whole section rests on")
+    assert s["substrate_changes_tried"] > 1000
+    w = r["within_species"]
+    assert w["dimensions_that_vary"] == ["resource"], (
+        "something organizational now varies within a species")
+
+
+def test_the_speciation_threshold_is_sharp():
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    t = r["speciation_threshold"]
+    assert set(t["distances_within"]).isdisjoint(t["distances_between"]), (
+        "a distance now occurs both within and between species, so the threshold "
+        "is no longer sharp and would need a tuned cutoff")
+    assert t["threshold"] == 1
+
+
+def test_hybrids_are_confined_to_the_parents_subcube():
+    """The real limit on composition, and it must be stated per pair."""
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    h = r["hybridization"]
+    assert h["subcube_law_holds"] is True, (
+        "parents at distance k no longer reach exactly 2^k children")
+    by_k = h["children_per_pair_by_distance"]
+    for k, vals in by_k.items():
+        assert vals == [2 ** int(k)], (
+            "distance %s reaches %s children, not %d" % (k, vals, 2 ** int(k)))
+    assert h["new_species"] > 0 and h["parental_variants"] > 0, (
+        "hybridization either always or never yields a new species, so the "
+        "criterion does not discriminate")
+    assert h["distinct_children"] == h["organizational_space"], (
+        "pooled reachability changed; the document relies on it being total, "
+        "which is exactly why the constraint is stated per pair instead")
+
+
+# ---------------------------------------------------------------------------
+# G boxes 7-9, 14-15: the invasion-competition result was sitting UNGUARDED.
+#
+# STAGE_R10_INVASION_V1.json carries a registered prediction, 192 competition
+# cells and an invariance control, and nothing in CI asserted any of it.  These
+# pins guard the claims; reproduction is not wired here because invasion.py is
+# not a single-file witness, and that is stated in the document rather than
+# implied by the pins.
+# ---------------------------------------------------------------------------
+def test_competition_reorders_occupancy():
+    """Occupancy under a shared budget is not a function of the solo scores."""
+    r = load_receipt("STAGE_R10_INVASION_V1.json")
+    assert r["prediction_holds"] is True, (
+        "the registered invasion prediction no longer holds")
+    n = r["n_cells_where_competition_disagrees_with_solo"]
+    assert n > 0, (
+        "competition never disagrees with independent solo scoring, which would "
+        "mean occupancy IS a function of the solo scores and the whole "
+        "competition apparatus is decorative")
+    assert n < r["n_cells"], (
+        "competition disagrees with solo scoring in every cell, which would "
+        "make the solo baseline useless as a comparison rather than a control")
+    assert r["n_offdiagonal_cells_where_competition_disagrees_with_solo"] > 0, (
+        "disagreement occurs only on the diagonal, i.e. only when a carrier "
+        "meets itself, which would not be a statement about invasion")
+
+
+def test_coexistence_is_the_exception_not_the_rule():
+    """Competitive exclusion dominates; coexistence is rare in every pool."""
+    r = load_receipt("STAGE_R10_INVASION_V1.json")
+    oc = r["outcome_counts_by_pool"]
+    assert oc, "no outcome counts"
+    for pool, c in oc.items():
+        total = sum(c.values())
+        assert set(c) >= {"COEXIST", "INVADER_REPLACES", "RESIDENT_HOLDS"}, (
+            "the outcome taxonomy lost a category at pool %s" % pool)
+        assert c["COEXIST"] < total / 2, (
+            "coexistence is no longer the exception at pool %s" % pool)
+        assert c["INVADER_REPLACES"] > 0 and c["RESIDENT_HOLDS"] > 0, (
+            "one of invasion or resistance never occurs at pool %s, so the "
+            "competition does not discriminate" % pool)
+
+
+def test_invasion_outcome_survives_reminting():
+    """The invariance control: renaming a competitor must change nothing."""
+    r = load_receipt("STAGE_R10_INVASION_V1.json")
+    ri = r["remint_invariance"]
+    assert ri["n_changed"] == 0, (
+        "reminting a competitor changed a reported quantity, so the outcome "
+        "depends on identity rather than on organization")
+    assert ri["n_competitions_checked"] > 0, "the invariance control never ran"
