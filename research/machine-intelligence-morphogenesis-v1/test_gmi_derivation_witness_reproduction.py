@@ -45,6 +45,7 @@ WITNESSES = {
     "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
     "equivariance_witness.py": "STAGE_EQUIVARIANCE_V1.json",
+    "dynamic_routing_witness.py": "STAGE_DYNAMIC_ROUTING_V1.json",
     "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
     "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
@@ -1329,3 +1330,56 @@ def test_finest_state_lemma_still_declares_its_argued_half():
     assert f["colour_is_realisable_by_a_local_rule"] is True
     assert "ARGUED" in f["no_machine_separates_more"], \
         "the argued half of the finest-state lemma is no longer declared as argued"
+
+
+def test_dynamic_routing_needs_both_halves_of_the_antecedent():
+    """GMI_DYNAMIC_ROUTING_DERIVATION_V1: routing is forced by a CONJUNCTION --
+    a tight budget AND a content-dependent target. Both twins must hold, or the
+    claim collapses to 'routing is generally useful'."""
+    r = load_receipt("STAGE_DYNAMIC_ROUTING_V1.json")
+    by = {(x["obligation"], x["budget"]): x for x in r["conjunction"]}
+    forced = by[("content-dependent", 2)]
+    assert forced["fixed"] is None and forced["dynamic"], \
+        "tight budget + content-dependent target no longer forces routing"
+    lifted = by[("content-dependent", 6)]
+    assert lifted["fixed"] is not None, \
+        "TWIN A broken: lifting the budget must make a fixed policy sufficient"
+    fixed_target = by[("content-independent", 2)]
+    assert fixed_target["fixed"] is not None, \
+        "TWIN B broken: a fixed target must be servable by a fixed policy"
+
+
+def test_there_is_a_band_where_routing_is_the_only_machine():
+    """Not merely cheaper -- the only thing that works. If a fixed policy ever
+    succeeds at the budget routing needs, that band disappears."""
+    r = load_receipt("STAGE_DYNAMIC_ROUTING_V1.json")
+    sweep = sorted(r["budget_sweep"], key=lambda x: x["budget"])
+    first_dyn = next(x["budget"] for x in sweep if x["dynamic_ok"])
+    first_fixed = next(x["budget"] for x in sweep if x["fixed_ok"])
+    assert first_fixed > first_dyn, \
+        "a fixed policy now works as cheaply as routing -- no forced band"
+
+
+def test_routing_presupposes_positional_distinction():
+    """Both halves: with position it works, without it fails. If an unordered
+    bag sufficed the obligation would not be order-sensitive."""
+    r = load_receipt("STAGE_DYNAMIC_ROUTING_V1.json")
+    p = r["position"]
+    assert p["with_position"] is True and p["without_position"] is False, \
+        "position is no longer necessary, so this section is vacuous"
+
+
+def test_routing_loses_where_the_target_is_fixed():
+    """The negative ecology. Routing must be strictly more expensive where the
+    choice it buys is never used."""
+    r = load_receipt("STAGE_DYNAMIC_ROUTING_V1.json")
+    n = r["negative_ecology"]
+    assert n["routing_loses"] is True, \
+        "routing no longer loses where the target's place is fixed"
+    assert n["dynamic_cost"] > n["fixed_cost"]
+
+
+def test_both_reader_shapes_are_recovered():
+    r = load_receipt("STAGE_DYNAMIC_ROUTING_V1.json")
+    kinds = {x["reads_as"] for x in r["recovery"] if x.get("shape")}
+    assert len(kinds) > 1, "every ecology recovers the same reader shape"
