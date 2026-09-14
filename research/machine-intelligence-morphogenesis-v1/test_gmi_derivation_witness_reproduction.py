@@ -39,6 +39,7 @@ RESULTS = os.path.join(HERE, "microscopes", "results")
 WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
+    "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
     "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
     "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
@@ -790,3 +791,33 @@ def test_horizon_hypothesis_stays_refuted():
         "the substrate hypothesis no longer survives"
     assert all(x["fits_16"] for x in r["horizon"]["rows"]), \
         "the gradient law no longer fits the registered 16-event budget"
+
+
+def test_accumulation_modes_scale_on_different_axes():
+    """GMI_CREDIT_ASSIGNMENT_DERIVATION_V1: forward cost scales with parameters
+    and reverse with outputs, so BOTH regimes must appear. Two earlier versions
+    of the witness made reverse win everywhere -- that is what a derivation with
+    no content looks like, and this pin is what would catch it."""
+    r = load_receipt("STAGE_CREDIT_ASSIGNMENT_V1.json")
+    kinds = {x["cheaper"] for x in r["accumulation"]}
+    assert "reverse" in kinds, "reverse mode is never cheaper"
+    assert "forward" in kinds, \
+        "reverse mode is cheaper in every regime -- the choice is not a choice"
+    scalar_loss = [x for x in r["accumulation"] if x["n_out"] == 1]
+    assert scalar_loss and all(x["cheaper"] == "reverse" for x in scalar_loss), \
+        "reverse should win at a scalar loss, the deepest point of its regime"
+    assert r["forward_regime"], "the forward-regime twin rows are missing"
+
+
+def test_mlp_is_recovered_only_when_a_single_layer_fails():
+    """Label-free recovery: XOR must return a depth-2 nonlinear machine and a
+    linearly separable obligation must not. Recovering an MLP for everything
+    would be a search that prefers MLPs rather than one that prices them."""
+    r = load_receipt("STAGE_CREDIT_ASSIGNMENT_V1.json")
+    by = {x["obligation"]: x for x in r["neutral_recovery"]}
+    assert by["xor2"]["is_mlp"] is True, "XOR no longer recovers a multi-layer machine"
+    assert by["or2"]["is_mlp"] is False, \
+        "a linearly separable obligation now recovers an MLP"
+    assert by["xor2"]["depth"] == 2 and by["xor2"]["nonlinearity"] is True
+    assert by["or2"]["cost"] < by["xor2"]["cost"], \
+        "the simpler obligation should recover the cheaper machine"
