@@ -1,0 +1,88 @@
+{
+  "schema": "GMI_METRICS_RUNTIME_COORDINATE_CONTRACT_V1",
+  "coordinates": {
+    "build": {
+      "symbol": "b",
+      "domain": "non_negative_integer",
+      "burden": true,
+      "description": "One-time cost of constructing the implementation"
+    },
+    "storage": {
+      "symbol": "s",
+      "domain": "non_negative_integer",
+      "burden": true,
+      "description": "Persistent memory footprint of the stored form"
+    },
+    "serve": {
+      "symbol": "v",
+      "domain": "non_negative_integer",
+      "burden": true,
+      "description": "Per-query cost of serving the architecture"
+    },
+    "update": {
+      "symbol": "u",
+      "domain": "non_negative_integer",
+      "burden": true,
+      "description": "Cost of modifying the stored architecture"
+    },
+    "verify": {
+      "symbol": "k",
+      "domain": "non_negative_integer",
+      "burden": true,
+      "description": "Cost of correctness verification"
+    },
+    "history": {
+      "symbol": "h",
+      "domain": "non_negative_integer",
+      "burden": true,
+      "description": "Cost of maintaining provenance and version history"
+    },
+    "search": {
+      "symbol": "r",
+      "domain": "non_negative_integer",
+      "burden": true,
+      "description": "Cost of retrieving relevant stored state"
+    },
+    "capability": {
+      "symbol": "c",
+      "domain": "non_negative_integer",
+      "burden": false,
+      "description": "Raw computational capability (operations per unit)"
+    },
+    "plasticity": {
+      "symbol": "p",
+      "domain": "non_negative_integer",
+      "burden": false,
+      "description": "Cost or capacity of restructuring the architecture"
+    },
+    "retention": {
+      "symbol": "t",
+      "domain": "non_negative_integer",
+      "burden": false,
+      "description": "Capacity of persistent memory or state"
+    },
+    "information_required": {
+      "symbol": "i",
+      "domain": "non_negative_integer",
+      "burden": false,
+      "description": "Minimum information needed to perform the function"
+    }
+  },
+  "total_coordinates": 11,
+  "burden_coordinates": 7,
+  "development_coordinates": 4,
+  "scalarization": {
+    "requires_explicit_price_vector": true,
+    "price_vector_length": 11,
+    "formula": "L(x) = sum_j lambda_j * x_j"
+  },
+  "budget_flip": {
+    "definition": "F_{B1}(x,y) != F_{B2}(x,y) for B1 != B2",
+    "falsifies": "Monotonic budget-response of optimal morphology"
+  },
+  "negative_budget": {
+    "energy": "undefined",
+    "memory": "undefined",
+    "action": "reject"
+  }
+}
