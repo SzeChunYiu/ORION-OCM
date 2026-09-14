@@ -5,23 +5,32 @@
   "ledger_rows": [
     "Predict capability after resource repricing.",
     "Predict capability after ablation.",
-    "Predict capability after environmental drift."
+    "Predict capability after environmental drift.",
+    "Calibrate uncertainty / abstention when capability is not identifiable."
   ],
-  "scope": "exact finite capability counterfactuals whose perturbations change only the five registered signed margins and remain inside the development predictor's identified cube",
+  "scope": "exact finite counterfactual capability prediction through five signed resource/requirement margins, plus logical abstention calibration under the already-fitted monotone development-world predictor",
   "assumptions": [
     "fixed morphology semantics and capability contracts",
     "repricing changes purchasable capacity as floor(spend/unit_price) under fixed spend",
     "ablation subtracts declared capacity from one registered channel",
     "environmental drift adds declared requirement to one registered obligation channel",
-    "no unregistered interaction changes during the perturbation"
+    "no unregistered interaction changes during the perturbation",
+    "abstention calibration is logical identifiability under the frozen componentwise monotonicity assumption, not probabilistic confidence calibration"
   ],
   "evidence_class": ["P1", "P2"],
   "claim_ceiling": "G2",
-  "strongest_parent": "comparative statics, sensitivity analysis, monotone threshold systems",
-  "negative_twin": "a perturbation that does not cross the load-bearing margin threshold must not flip the target capability",
-  "nearest_counterexample": "if repricing changes morphology, ablation triggers compensation, or drift changes an unregistered interaction, margin recomputation alone is insufficient",
-  "falsifier": "Any registered case disagrees with the already-fitted development-only predictor or the independent exact capability oracle, or a non-threshold-crossing negative twin flips its protected target.",
-  "status": "PASS when exact controls agree",
+  "strongest_parent": "comparative statics, sensitivity analysis, monotone threshold systems, selective classification with abstention",
+  "negative_twin": "a perturbation that does not cross the load-bearing margin threshold must not flip the target capability; a query with a monotone witness must not be relabeled CANNOT_IDENTIFY",
+  "nearest_counterexample": "if repricing changes morphology, ablation triggers compensation, drift changes an unregistered interaction, or componentwise monotonicity fails, margin recomputation and witness-based abstention are insufficient",
+  "falsifier": "Any registered perturbation case disagrees with the already-fitted development-only predictor or independent exact capability oracle; any non-threshold-crossing negative twin flips its protected target; or CANNOT_IDENTIFY is emitted despite an identifying monotone witness (or omitted when no witness exists).",
+  "status": "PASS when exact normal and optimized controls agree",
+  "abstention_calibration": {
+    "rule": "For target y at query z, emit 1 if any positive development world x satisfies x <= z componentwise; emit 0 if any negative development world x satisfies z <= x componentwise; otherwise emit CANNOT_IDENTIFY.",
+    "registered_probe_grid": "{-2,0,2}^5",
+    "probe_points": 243,
+    "targets_per_point": 4,
+    "required_control": "certificate prediction equals predictor output at all 972 point-target cells; every determinate cell must agree with the independent exact oracle"
+  },
   "cases": [
     {
       "id": "REPRICE_MEMORY_CROSS",

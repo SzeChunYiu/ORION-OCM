@@ -1,0 +1,56 @@
+name: GMI Section D uncertainty extrapolation v5
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-section-d-uncertainty-extrapolation-v5/**'
+      - '.github/workflows/gmi-section-d-uncertainty-extrapolation-v5.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-section-d-uncertainty-extrapolation-v5/**'
+      - '.github/workflows/gmi-section-d-uncertainty-extrapolation-v5.yml'
+
+jobs:
+  exact-v5:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce tiny training receipt
+        shell: bash
+        run: |
+          cd research/gmi-section-d-uncertainty-extrapolation-v5
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python -O training_measure_v5.py
+          else
+            python training_measure_v5.py
+          fi
+          git diff --exit-code -- TRAIN_V5.json
+      - name: Reproduce uncertainty and held-out receipt
+        shell: bash
+        run: |
+          cd research/gmi-section-d-uncertainty-extrapolation-v5
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python -O section_d_uncertainty_extrapolation_witness.py
+          else
+            python section_d_uncertainty_extrapolation_witness.py
+          fi
+          git diff --exit-code -- RESULT_V5.json
+      - name: Run hostile and custody tests
+        shell: bash
+        run: |
+          cd research/gmi-section-d-uncertainty-extrapolation-v5
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python -O -m unittest -v test_section_d_uncertainty_extrapolation.py
+          else
+            python -m unittest -v test_section_d_uncertainty_extrapolation.py
+          fi
+      - name: Source and raw-sample custody
+        run: git diff --exit-code

@@ -13,9 +13,12 @@ if SPEC.loader is None:
 SPEC.loader.exec_module(predictor_mod)
 
 AXES = predictor_mod.AXES
+TARGETS = predictor_mod.TARGETS
+CANNOT_IDENTIFY = predictor_mod.CANNOT_IDENTIFY
 
 
 def capability_oracle(point: Mapping[str, int]) -> Dict[str, int]:
+    _validate_point(point)
     return predictor_mod.capability_oracle(point)
 
 
@@ -59,10 +62,53 @@ def apply_repricing(point: Mapping[str, int], axis: str, *, spend: int, old_pric
     return out
 
 
+def build_predictor():
+    return predictor_mod.fit_registered_development_predictor()
+
+
 def predict(point: Mapping[str, int]):
     _validate_point(point)
-    predictor = predictor_mod.fit_registered_development_predictor()
-    return predictor.predict_vector(point)
+    return build_predictor().predict_vector(point)
+
+
+def identification_certificate(point: Mapping[str, int], target: str) -> Dict[str, object]:
+    """Return the exact monotone-witness certificate for one target.
+
+    A positive development world below the query forces 1 by monotonicity.
+    A negative development world above the query forces 0.  If neither exists,
+    the registered development corpus does not identify the target and the only
+    admissible output is CANNOT_IDENTIFY.
+    """
+    _validate_point(point)
+    if target not in TARGETS:
+        raise ValueError("unknown capability target")
+
+    def leq(left: Mapping[str, int], right: Mapping[str, int]) -> bool:
+        return all(left[axis] <= right[axis] for axis in AXES)
+
+    positive_below = False
+    negative_above = False
+    for record in predictor_mod.generate_development_worlds():
+        rp = {axis: int(record[axis]) for axis in AXES}
+        value = int(record["capabilities"][target])
+        if value == 1 and leq(rp, point):
+            positive_below = True
+        if value == 0 and leq(point, rp):
+            negative_above = True
+
+    if positive_below and negative_above:
+        raise AssertionError("monotone witness conflict")
+    if positive_below:
+        prediction = 1
+    elif negative_above:
+        prediction = 0
+    else:
+        prediction = CANNOT_IDENTIFY
+    return {
+        "positive_below_witness_exists": positive_below,
+        "negative_above_witness_exists": negative_above,
+        "prediction": prediction,
+    }
 
 
 def _validate_point(point: Mapping[str, int]) -> None:

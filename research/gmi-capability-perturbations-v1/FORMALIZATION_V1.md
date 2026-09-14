@@ -26,6 +26,18 @@ Increasing a registered environmental requirement by `d >= 0` at fixed capacity 
 
 The causal interpretation differs from ablation, but the exact capability consequence factors through the same signed margin. The registered positive increases verification requirement through zero and flips verified tool use; the twin changes communication requirement while keeping verified tool use unchanged.
 
+## Exact abstention-identifiability theorem
+
+Let the development corpus be a finite set of pairs `(x, y)` ordered componentwise by the five signed margins, and assume the binary capability target is monotone. For a query `z`:
+
+- if there exists a positive development point `x+ <= z`, monotonicity forces `y(z)=1`;
+- if there exists a negative development point `x- >= z`, monotonicity forces `y(z)=0`;
+- if neither witness exists, the development corpus plus monotonicity does not determine `y(z)`, so the only admissible output is `CANNOT_IDENTIFY`.
+
+The first two witnesses cannot coexist in a monotone corpus: if `x+ <= z <= x-`, transitivity gives `x+ <= x-`, contradicting `y(x+)=1 > 0=y(x-)`.
+
+This gives a logical calibration of abstention, not a probability calibration. The executable control exhausts the probe grid `{-2,0,2}^5` (243 points × 4 targets = 972 cells), checks that the independently reconstructed witness certificate equals the frozen predictor output in every cell, and checks every determinate output against the exact capability oracle. An explicit mixed-extreme query `(memory=2, planning=-2, others=0)` has neither planning witness and therefore must abstain even though the hidden oracle is 0.
+
 ## Boundary
 
-These are exact comparative statics for fixed morphology semantics and registered channels. They do not cover compensatory reconfiguration, morphology changes induced by price shifts, unregistered interactions, or open-ended environmental change. Claim ceiling: **G2**.
+These are exact comparative statics for fixed morphology semantics and registered channels. They do not cover compensatory reconfiguration, morphology changes induced by price shifts, unregistered interactions, probabilistic uncertainty calibration, or open-ended environmental change. Claim ceiling: **G2**.
