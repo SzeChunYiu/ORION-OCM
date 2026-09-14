@@ -7,9 +7,10 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
 DEP = HERE / "GMI_602_CLOSURE_DEPENDENCIES_V1.json"
 SPINE = HERE / "GMI_602_PARENT_ATLAS_AND_FORMAL_CLOSURE_V1.md"
-PARENT = HERE.parent / "machine-intelligence-morphogenesis-v1" / "PARENT_LEDGER_V2.json"
+PARENT = ROOT.parent / "machine-intelligence-morphogenesis-v1" / "PARENT_LEDGER_V2.json"
 
 EXPECTED_SECTIONS = tuple(chr(c) for c in range(ord("A"), ord("V") + 1))
 EXPECTED_THEOREMS = {
