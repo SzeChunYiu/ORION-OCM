@@ -22,8 +22,7 @@ aw = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = aw
 spec.loader.exec_module(aw)
 
-# Import all public names into test namespace for direct use
-from attention_checked import (
+from attention_witness import (
     full_routing_cost,
     sparse_routing_cost,
     sparse_wins,
