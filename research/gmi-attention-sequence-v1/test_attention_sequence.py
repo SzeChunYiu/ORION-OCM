@@ -22,6 +22,22 @@ aw = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = aw
 spec.loader.exec_module(aw)
 
+# Import all public names into test namespace for direct use
+from attention_checked import (
+    full_routing_cost,
+    sparse_routing_cost,
+    sparse_wins,
+    sparse_wins_condition,
+    phase_boundary_lambda_star,
+    sparse_dominates_at_lambda,
+    growing_quotient_obligation_cost_fixed,
+    growing_quotient_obligation_cost_recurrent,
+    compute_crossover_N_star,
+    sweep_cost_comparison,
+    sweep_phase_boundary,
+    sweep_crossover,
+)
+
 
 class TestT1SparseDominance(unittest.TestCase):
     """T1: Sparse routing beats full when K < M and L < C*(1 - K/M)."""

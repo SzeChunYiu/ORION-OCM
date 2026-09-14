@@ -1,0 +1,39 @@
+{
+  "schema": "ocm.gmi-primitive-freeze.manifest.v1",
+  "capsule": "gmi-primitive-freeze-v1",
+  "issue": 592,
+  "section": "A1",
+  "ceiling": "G1",
+  "status": "FROZEN_FOR_HOSTILE_REVIEW",
+  "date": "2026-09-14",
+  "strongest_parent": "research/machine-intelligence-morphogenesis-v1/DEFINITIONS_V2_EXACT.md",
+  "parent_superseded": false,
+  "claim": "No architecture label (BACKPROP, BAYES_UPDATE, ATTENTION, NEURON, PROGRAM_SYNTHESIS, SEARCH, MEMORY) is hidden as an opaque macro in the five-combinator grammar; plain Turing universality is insufficient for burden equivalence",
+  "theorems": [
+    {
+      "id": "A1-1",
+      "statement": "Every forbidden name is expressible as a composition of the five combinators under P, or provably requires an operation outside P ∪ C",
+      "proof": "primitive_witness.py::get_composition_witnesses()",
+      "expressible": ["BACKPROP", "BAYES_UPDATE", "ATTENTION", "NEURON", "MEMORY"],
+      "not_expressible": ["PROGRAM_SYNTHESIS", "SEARCH"]
+    },
+    {
+      "id": "A1-2",
+      "statement": "Two machines computing the same function may differ in PVR-3 burden",
+      "proof": "primitive_witness.py::TuringWitness",
+      "witness": "identity (burden=0) vs redundant pipeline (burden=2)"
+    }
+  ],
+  "primitives": {
+    "P": ["ID", "CONST", "COPY", "CTEST", "ACC"],
+    "C": ["seq", "par", "case", "loop_n", "fbk"]
+  },
+  "files": {
+    "PRIMITIVE_FREEZE_THEOREM_V1.md": "formal freeze record",
+    "primitive_witness.py": "exact computation proving both theorems",
+    "test_freeze.py": "15 unittest controls",
+    "CORE.md": "read-first entry point"
+  },
+  "no_production_code_deleted": true,
+  "no_push": true
+}
