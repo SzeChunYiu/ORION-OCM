@@ -1,7 +1,6 @@
 import importlib.util
 import json
 import sys
-from fractions import Fraction
 from pathlib import Path
 import unittest
 
@@ -11,7 +10,8 @@ ROOT = Path(__file__).resolve().parent
 def load_module(name, path):
     spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
+    if spec.loader is None:
+        raise RuntimeError(f"unable to load {path}")
     sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
@@ -49,7 +49,7 @@ class SectionDV5Tests(unittest.TestCase):
 
     def test_training_fit_is_tiny_only_and_affine(self):
         self.assertEqual(training.TRAINING_SIZES, (2, 3, 4, 5))
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             training.measure(17)
         fits = self.r["extrapolation"]["fits"]
         expected = {
