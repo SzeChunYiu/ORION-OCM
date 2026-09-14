@@ -25,6 +25,8 @@ def test_parent_first_refusal_required():
     m,c,q=load(); c=copy.deepcopy(c); c[0]["strongest_parent"]="bad"; assert any("P0" in x for x in v.validate_registry(m,c,q))
 def test_coordinate_set_exact():
     m,c,q=load(); q=copy.deepcopy(q); r=copy.deepcopy(q[0]); r["id"]="fake_iq"; q.append(r); assert any("coordinate ID set mismatch" in x for x in v.validate_registry(m,c,q))
+def test_coordinate_global_gate_metadata_required():
+    m,c,q=load(); q=copy.deepcopy(q); del q[0]["falsifier"]; assert any("missing fields" in x for x in v.validate_registry(m,c,q))
 
 def test_hoeffding_radius_three_tail_allocation():
     import math
