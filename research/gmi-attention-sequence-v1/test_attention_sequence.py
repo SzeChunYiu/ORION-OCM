@@ -22,7 +22,7 @@ aw = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = aw
 spec.loader.exec_module(aw)
 
-from attention_witness import (
+from attention_checked import (
     full_routing_cost,
     sparse_routing_cost,
     sparse_wins,
