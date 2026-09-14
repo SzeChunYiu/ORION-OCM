@@ -1,0 +1,76 @@
+commit 307e47eea42720de9692b55fac5b7c01ffa7526c
+Author:     Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com>
+AuthorDate: Mon Sep 14 00:20:35 2026 +0200
+Commit:     Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com>
+CommitDate: Mon Sep 14 00:20:35 2026 +0200
+
+    Derive the concept-formation trigger and category boundary (item 9 / I2)
+    
+    Both halves were already proved separately and never joined. The quotient theorem gives the
+    boundary: two experiences are the same concept iff they license the same future responses,
+    and the coarsest such quotient is the unique minimal representation. PVR-3 gives the
+    trigger: naming costs S once and saves C-U per use, so it pays iff the class recurs beyond
+    1 + S/(C-U). A concept is therefore a retained equivalence class.
+    
+    Exact witness over fifteen experiences: three classes clear the threshold and are named,
+    three singletons are declined. No concepts costs 75, the triggered set 48, and naming every
+    class 57.
+    
+    That last figure is the result. Naming everything costs 9 more than the triggered set, so
+    the law actively excludes abstraction rather than merely permitting it where it helps.
+    Over-abstraction is penalised by exactly the storage spent on classes that never recur.
+    Boundary verified exactly: all within-class pairs license identical responses and all
+    cross-class pairs differ.
+    
+    An instrument correction is recorded: the first run had every class clearing the threshold,
+    so selectivity was untested and the name-everything comparison came out identical. Three
+    one-off experiences were added. This is the second witness in this lane needing that fix.
+    
+    Scope: concept naming in any linguistic sense is not derived, since this is retention of an
+    equivalence class with no link to a symbol. That would run through the compositional-language
+    theorem.
+    
+    PVR-3 now governs five cognitive phenomena -- consolidation, chunking, teaching, culture and
+    concept formation -- differing only in what plays the reuse count.
+    
+    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
+:000000 100644 00000000 ce36d2b2 A	research/machine-intelligence-morphogenesis-v1/GMI_CONCEPT_FORMATION_TRIGGER_V1.md
+:000000 100644 00000000 87948578 A	research/machine-intelligence-morphogenesis-v1/gmi_microscope/concept_formation_witness.py
+:000000 100644 00000000 efb951ae A	research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_CONCEPT_FORMATION_V1.json
+
+commit 61729c1a5f1b9fe1dc60fb704dd9c5e2e33c495c
+Author:     Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com>
+AuthorDate: Mon Sep 14 00:10:53 2026 +0200
+Commit:     Sze Chun YIU <52784502+SzeChunYiu@users.noreply.github.com>
+CommitDate: Mon Sep 14 00:10:53 2026 +0200
+
+    Derive subgoal decomposition after falsifying the obvious version (item 11, partial)
+    
+    Item 10's skill derivation suggested that a subgoal is the entry state of a retained skill.
+    Complete enumeration over 30 prefix-states falsified it: 20 states show a cost-to-go drop
+    against only 10 entry states, with entry states a strict subset. The extra ten have no
+    applicable skill but benefit from one later in the plan, so the drop propagates backward by
+    ordinary dynamic programming. "Where cost-to-go drops" over-counts subgoals two to one and
+    measures reachability of a benefit rather than a decomposition point.
+    
+    The correction is that the benefit must be realised locally rather than inherited: a state
+    is a subgoal iff its drop exceeds the drop inherited from its successor. That set is exactly
+    the entry states, 10 and 10 with empty symmetric difference in both directions.
+    
+    The falsification is kept because the naive version is the one a reader reaches first and is
+    wrong by a factor of two here, which makes the locality condition load-bearing rather than a
+    technical refinement.
+    
+    Scope: subgoal decomposition is derived given a fixed skill set. Goal formation and the
+    planning stopping rule remain open, since the acquisition theorem stops probing rather than
+    search over futures. The load-bearing assumption yields a substantive prediction rather than
+    a caveat: subgoals are determined by an agent's skills, so two agents with different skills
+    decompose the same task differently.
+    
+    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
+:000000 100644 00000000 c13a4fef A	research/machine-intelligence-morphogenesis-v1/GMI_SUBGOAL_DERIVATION_V1.md
+:000000 100644 00000000 1a479d89 A	research/machine-intelligence-morphogenesis-v1/gmi_microscope/subgoal_witness.py
+:000000 100644 00000000 fd1f3416 A	research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_SUBGOAL_LOCAL_V1.json
+:000000 100644 00000000 90aa8847 A	research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_SUBGOAL_WITNESS_V1.json
