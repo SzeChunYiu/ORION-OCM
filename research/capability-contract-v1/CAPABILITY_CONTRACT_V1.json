@@ -13,13 +13,13 @@
   "claim_ceiling": "G1",
   "definitions": {
     "A0": "task spec + legal observations/messages/actions through decision time + own legal state; no protected labels, future/judge state, twin identity, or uncharged side channels",
-    "S0": "paired u∈[0,1]: d+=u(M,w+)-u(P,w+), d-=u(M,w-)-u(P,w-); beta=alpha/2; require mean(d+)-sqrt(2 ln(1/beta)/n)>tau_parent and |mean(d-)|+sqrt(2 ln(1/beta)/n)<=tau_twin",
+    "S0": "paired u∈[0,1]: d+=u(M,w+)-u(P,w+), d-=u(M,w-)-u(P,w-); gamma=alpha/3; eps(n,alpha)=sqrt(2 ln(3/alpha)/n); require mean(d+)-eps(n+,alpha)>tau_parent and |mean(d-)|+eps(n-,alpha)<=tau_twin",
     "N0": "remove exactly one registered capability-requiring conditional dependency; keep reward/action/scoring/remint family/non-target budgets matched",
     "P0": "best preregistered parent-envelope member under same allowed information restriction and resource budget gets first refusal"
   },
   "statistics": {
     "alpha_default": 0.05,
-    "rule": "Bonferroni beta=alpha/2 + Hoeffding paired-difference bounds"
+    "rule": "Three-tail Bonferroni alpha/3 + Hoeffding paired-difference bounds"
   },
   "resource_dimensions": {
     "sensor_reads": "charged accesses to environment observations or observation elements",
