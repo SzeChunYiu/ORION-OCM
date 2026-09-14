@@ -24,12 +24,21 @@ jobs:
         run: |
           set -euo pipefail
           cd research/gmi-section-d-uncertainty-extrap-v5
+          OUT="${RUNNER_TEMP}/RESULT_V5.${{ matrix.mode }}.json"
           if [ "${{ matrix.mode }}" = optimized ]; then
-            python -O section_d_uncertainty_extrap_witness.py --output RESULT_V5.json
+            python -O section_d_uncertainty_extrap_witness.py --output "$OUT"
           else
-            python section_d_uncertainty_extrap_witness.py --output RESULT_V5.json
+            python section_d_uncertainty_extrap_witness.py --output "$OUT"
           fi
-          git diff --exit-code -- RESULT_V5.json
+          python - "$OUT" <<'PY'
+          import json
+          import pathlib
+          import sys
+          committed = json.loads(pathlib.Path("RESULT_V5.json").read_text())
+          reproduced = json.loads(pathlib.Path(sys.argv[1]).read_text())
+          if committed != reproduced:
+              raise SystemExit("reproduced receipt differs semantically from committed RESULT_V5.json")
+          PY
       - name: Run hostile and theorem checks
         shell: bash
         run: |
