@@ -49,6 +49,7 @@ WITNESSES = {
     "interference_witness.py": "STAGE_INTERFERENCE_V1.json",
     "lesion_witness.py": "STAGE_COMPONENT_LESIONS_V1.json",
     "memory_regime_witness.py": "STAGE_MEMORY_REGIME_WITNESS_V1.json",
+    "neural_architecture_witness.py": "STAGE_NEURAL_ARCHITECTURE_V1.json",
     "metacognition_witness.py": "STAGE_METACOGNITION_V1.json",
     "pedagogy_witness.py": "STAGE_PEDAGOGY_V1.json",
     "planning_stop_witness.py": "STAGE_PLANNING_STOP_V3.json",
@@ -695,3 +696,54 @@ def test_sample_count_prediction_holds_at_every_dimension():
     for p in r["quantitative_prediction"]:
         assert p["match"], "d=%s predicted %s measured %s" % (
             p["d"], p["predicted"], p["measured"])
+
+
+def test_depth_without_nonlinearity_buys_nothing():
+    """GMI_NEURAL_ARCHITECTURE_DERIVATION_V1: every two-layer linear
+    composition must collapse to a single layer, checked constructively."""
+    r = load_receipt("STAGE_NEURAL_ARCHITECTURE_V1.json")
+    d = r["depth_without_nonlinearity"]
+    assert d["checked"] > 100000, "the composition sweep shrank"
+    assert d["irreducible"] == 0, \
+        "a two-layer linear map escaped single-layer form"
+
+
+def test_xor_separates_depth_one_from_depth_two():
+    """Both halves: XOR unreachable at depth 1 and reachable at depth 2, with a
+    bias present so depth 1 is the full linear-threshold class."""
+    r = load_receipt("STAGE_NEURAL_ARCHITECTURE_V1.json")
+    by = {x["task"]: x for x in r["depth_with_nonlinearity"]}
+    assert by["xor2"]["depth1"] is False and by["xor2"]["depth2"] is True
+    assert by["majority"]["depth1"] is True, \
+        "majority is linearly separable -- if it fails at depth 1 the unit lost its bias"
+
+
+def test_sharing_is_licensed_by_the_obligation():
+    """A permutation-invariant obligation may share; one that merely has the
+    same orbit count may not. Without the negative case this says nothing."""
+    r = load_receipt("STAGE_NEURAL_ARCHITECTURE_V1.json")
+    by = {x["obligation"]: x for x in r["sharing"]}
+    assert by["majority"]["permutation_invariant"] is True
+    assert by["first_bit"]["permutation_invariant"] is False, \
+        "first_bit is not permutation-invariant; sharing there merges inputs"
+    assert by["first_bit"]["orbits"] == by["majority"]["orbits"], \
+        "the point of first_bit is that orbit COUNT alone does not license sharing"
+
+
+def test_distributed_coding_is_cheaper_only_when_coordinates_collapse():
+    r = load_receipt("STAGE_NEURAL_ARCHITECTURE_V1.json")
+    by = {x["obligation"]: x for x in r["distributed"]}
+    assert by["factorizing"]["cheaper"] == "distributed"
+    assert by["diagonal"]["cheaper"] == "symbolic", \
+        "a fully entangled obligation now favours distributed coding"
+    assert by["diagonal"]["R"] == 4 and by["diagonal"]["C"] == 4
+
+
+def test_neural_morphology_has_a_losing_ecology():
+    """The bet must lose somewhere, or the morphology would be a universal
+    improvement and there would be no twin."""
+    r = load_receipt("STAGE_NEURAL_ARCHITECTURE_V1.json")
+    v = {x["obligation"]: x["verdict"] for x in r["negative_twin"]}
+    assert v["majority"] == "net wins"
+    assert v["xor2"] in ("TABLE WINS", "tie"), \
+        "the net now beats the table even where it needs full machinery"

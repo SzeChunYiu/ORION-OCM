@@ -1,0 +1,90 @@
+{
+ "depth_with_nonlinearity": [
+  {
+   "depth1": false,
+   "depth2": true,
+   "depth_needed": 2,
+   "task": "xor2"
+  },
+  {
+   "depth1": true,
+   "depth2": true,
+   "depth_needed": 1,
+   "task": "majority"
+  },
+  {
+   "depth1": true,
+   "depth2": true,
+   "depth_needed": 1,
+   "task": "single_bit"
+  }
+ ],
+ "depth_without_nonlinearity": {
+  "checked": 390625,
+  "irreducible": 0
+ },
+ "distributed": [
+  {
+   "C": 2,
+   "R": 2,
+   "cheaper": "distributed",
+   "distributed": 8,
+   "obligation": "factorizing",
+   "symbolic": 16
+  },
+  {
+   "C": 4,
+   "R": 4,
+   "cheaper": "symbolic",
+   "distributed": 24,
+   "obligation": "diagonal",
+   "symbolic": 16
+  }
+ ],
+ "negative_twin": [
+  {
+   "hidden": 0,
+   "net_cost": 4,
+   "obligation": "majority",
+   "table_cost": 8,
+   "verdict": "net wins"
+  },
+  {
+   "hidden": 2,
+   "net_cost": 9,
+   "obligation": "xor2",
+   "table_cost": 8,
+   "verdict": "TABLE WINS"
+  },
+  {
+   "hidden": null,
+   "net_cost": null,
+   "obligation": "parity3",
+   "table_cost": 8,
+   "verdict": "unreached<=2"
+  }
+ ],
+ "sharing": [
+  {
+   "inputs": 8,
+   "obligation": "majority",
+   "orbits": 4,
+   "permutation_invariant": true,
+   "saving": "2"
+  },
+  {
+   "inputs": 8,
+   "obligation": "parity",
+   "orbits": 4,
+   "permutation_invariant": true,
+   "saving": "2"
+  },
+  {
+   "inputs": 8,
+   "obligation": "first_bit",
+   "orbits": 4,
+   "permutation_invariant": false,
+   "saving": null
+  }
+ ]
+}
