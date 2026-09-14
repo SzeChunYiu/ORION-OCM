@@ -1,5 +1,6 @@
 import copy
 import importlib.util
+import json
 import pathlib
 import unittest
 
@@ -8,6 +9,27 @@ SPEC = importlib.util.spec_from_file_location("dev_predictor_v1", ROOT / "dev_pr
 mod = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
 SPEC.loader.exec_module(mod)
+
+
+class ProtocolTests(unittest.TestCase):
+    def test_claim_gate_metadata_complete(self):
+        protocol = json.loads((ROOT / "DEV_PREDICTOR_PROTOCOL_V1.json").read_text())
+        for field in (
+            "scope",
+            "assumptions",
+            "evidence_class",
+            "strongest_parent",
+            "negative_twin",
+            "nearest_counterexample",
+            "falsifier",
+            "claim_ceiling",
+            "status",
+        ):
+            self.assertTrue(protocol[field], field)
+        self.assertEqual("G2", protocol["claim_ceiling"])
+        self.assertEqual(243, protocol["development_world_count"])
+        self.assertEqual(set(mod.TARGETS), set(protocol["capability_targets"]))
+        self.assertEqual(set(mod.FORBIDDEN_FIELDS), set(protocol["forbidden_fit_fields"]))
 
 
 class DevelopmentCorpusTests(unittest.TestCase):
@@ -29,6 +51,12 @@ class DevelopmentCorpusTests(unittest.TestCase):
     def test_extra_architecture_identity_is_rejected(self):
         bad = dict(mod.generate_development_worlds()[0])
         bad["architecture_name"] = "opaque-family-id"
+        with self.assertRaises(ValueError):
+            mod.MonotoneDevelopmentPredictor.fit([bad])
+
+    def test_non_integer_margin_is_rejected(self):
+        bad = copy.deepcopy(mod.generate_development_worlds()[0])
+        bad["memory_margin"] = "-1"
         with self.assertRaises(ValueError):
             mod.MonotoneDevelopmentPredictor.fit([bad])
 
