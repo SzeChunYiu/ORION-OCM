@@ -1,0 +1,39 @@
+name: GMI developmental taxonomy (A3)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-developmental-taxonomy-v1/**'
+      - '.github/workflows/gmi-developmental-taxonomy.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-developmental-taxonomy-v1/**'
+      - '.github/workflows/gmi-developmental-taxonomy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  taxonomy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run developmental taxonomy controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-developmental-taxonomy-v1/test_taxonomy_v1.py -v

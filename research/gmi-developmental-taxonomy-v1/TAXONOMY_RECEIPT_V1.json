@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "schema": "TaxonomyReceiptV1",
+  "scope": "A3 only: five g-preserving predicates (INFO/RECODE/SKILL/LAW/MORPH) mutually exclusive + jointly exhaustive on 5x3 witness log, meta/hereditary extensions orthogonal, behavioural equivalence as landing identity, history irreducibility witness s_a=(0,0,0) vs s_b=(1,0,0) query-identical teach-distinguishable, parent 3^3=27 / 162 / 5 bits preserved. 14 exact controls, normal + optimized. No reachability or open-ended generality claims (DU-1).",
+  "source_and_evidence": {
+    "DEVELOPMENTAL_TAXONOMY_THEOREM_V1.md": {
+      "bytes": 7210,
+      "sha256": "2f679e263fc359e48b7624f790a64a0c30e187d70d8f381280729a6a7766af0a"
+    },
+    "taxonomy_v1.py": {
+      "bytes": 7488,
+      "sha256": "e04bc05f399f8e4f8ca9c46275ed6ce575757b537219c1d9f4997f35ae84a6b8"
+    },
+    "test_taxonomy_v1.py": {
+      "bytes": 4369,
+      "sha256": "4288597edc4a4ec99dc937790560291cc2be960b3648b6f1f94f8f19711137ea"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_taxonomy_v1.py"
+      ],
+      "tests": 14,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_taxonomy_v1.py"
+      ],
+      "tests": 14,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_taxonomy_v1.py"
+      ],
+      "tests": 14,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_taxonomy_v1.py"
+      ],
+      "tests": 14,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for both files)."
+}
