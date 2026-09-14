@@ -41,6 +41,7 @@ WITNESSES = {
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
     "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
+    "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
@@ -634,3 +635,63 @@ def test_some_obligations_are_incompressible_in_the_registered_class():
     comp = [x["compressible"] for x in r["bounds"]]
     assert any(comp) and not all(comp), \
         "the rule class now expresses everything or nothing"
+
+
+def test_coefficients_identify_at_exactly_d_independent_observations():
+    """GMI_LINEAR_FAMILY_DERIVATION_V1: both halves matter -- d identifies and
+    d-1 does not. Only the pair is a bound."""
+    r = load_receipt("STAGE_LINEAR_FAMILY_V1.json")
+    ident = sorted(r["identification"], key=lambda x: x["n"])
+    first = next(x["n"] for x in ident if x["identified"])
+    assert first == 3, "identification no longer happens at n = d = 3"
+    before = [x for x in ident if x["n"] == first - 1][0]
+    assert before["consistent"] > 1, \
+        "d-1 observations now identify, so there is no lower bound"
+    dep = r["dependent_observations"]
+    assert dep["consistent"] > 1, \
+        "dependent observations now identify -- independence stopped mattering"
+
+
+def test_a_link_delays_identification():
+    """The GLM claim is DELAY, not destruction -- an earlier version asserted
+    destruction and was false. Pin the weaker true statement."""
+    r = load_receipt("STAGE_LINEAR_FAMILY_V1.json")
+    at = r["identified_at"]
+    real = at["real value (regression)"]
+    glm = at["threshold (GLM link)"]
+    assert real == 3, "regression no longer identifies at n = d"
+    assert glm > real, "the link no longer costs anything in samples"
+
+
+def test_linearity_belongs_to_the_obligation_basis_pair():
+    """XOR must fail in raw features and succeed with one product feature.
+    Both halves, or the claim is about the obligation alone."""
+    r = load_receipt("STAGE_LINEAR_FAMILY_V1.json")
+    by = {x["basis"]: x for x in r["basis"]}
+    assert by["raw features"]["representable"] is False
+    assert by["raw + product"]["representable"] is True
+
+
+def test_full_monomial_basis_costs_exactly_a_table():
+    """The sharpest claim in B3: at full expressiveness a kernel machine
+    carries as many coefficients as a table carries slots, and each obligation
+    needs exactly its true degree."""
+    r = load_receipt("STAGE_LINEAR_FAMILY_V1.json")
+    rows = r["basis_cost"]
+    full = [x for x in rows if x["obligation"] == "__full_basis__"]
+    assert full and full[0]["basis_size"] == 8, \
+        "the full monomial basis no longer costs 2^d"
+    ladder = [x for x in rows if x["obligation"] != "__full_basis__"]
+    for x in ladder:
+        assert x["min_basis_degree"] == x["true_degree"], \
+            "%s needs degree %s, true degree %s" % (
+                x["obligation"], x["min_basis_degree"], x["true_degree"])
+    degs = [x["min_basis_degree"] for x in ladder]
+    assert min(degs) < max(degs), "the degree ladder collapsed"
+
+
+def test_sample_count_prediction_holds_at_every_dimension():
+    r = load_receipt("STAGE_LINEAR_FAMILY_V1.json")
+    for p in r["quantitative_prediction"]:
+        assert p["match"], "d=%s predicted %s measured %s" % (
+            p["d"], p["predicted"], p["measured"])
