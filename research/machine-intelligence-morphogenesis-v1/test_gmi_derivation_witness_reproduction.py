@@ -47,6 +47,7 @@ WITNESSES = {
     "metacognition_witness.py": "STAGE_METACOGNITION_V1.json",
     "pedagogy_witness.py": "STAGE_PEDAGOGY_V1.json",
     "planning_stop_witness.py": "STAGE_PLANNING_STOP_V3.json",
+    "recovery_objective_witness.py": "STAGE_RECOVERY_OBJECTIVE_V1.json",
     "replanning_witness.py": "STAGE_REPLANNING_V1.json",
     "simulation_worth_witness.py": "STAGE_SIMULATION_WORTH_V1.json",
     "social_cognition_witness.py": "STAGE_SOCIAL_COGNITION_V1.json",
@@ -309,3 +310,100 @@ def test_memory_lesions_are_conditional_on_regime():
         "the semantic lesion is no longer conditional on redundancy"
     assert any(x > 0 for x in epi) and any(x == 0 for x in epi), \
         "the episodic lesion is no longer conditional on capacity"
+
+
+def test_recovery_flips_on_the_objective_alone():
+    """GMI_RECOVERY_OBJECTIVE_MECHANISM_V1: a build-charged objective recovers
+    the family nowhere; a full-lifecycle objective recovers it in every ecology
+    with reuse above the break-even, and correctly misses at r=1. Both halves
+    matter -- an objective that recovered everywhere would be preferring the
+    target rather than pricing it."""
+    r = load_receipt("STAGE_RECOVERY_OBJECTIVE_V1.json")
+    rec = r["recovery"]
+    assert rec["A"] == 0, "the build-charged objective now recovers the family"
+    assert 0 < rec["B"] < rec["n"], \
+        "the lifecycle objective must recover it in some ecologies and not all"
+    assert r["completed_A_search_reaches_family"] is False, \
+        "a completed build-charged search now reaches the family"
+
+
+def test_more_budget_moves_away_from_the_family_under_a_bad_objective():
+    """The RV-377-109 signature: the frontier cheapens while the target does
+    not move. Pinned as cost strictly falling and distance not falling."""
+    r = load_receipt("STAGE_RECOVERY_OBJECTIVE_V1.json")
+    a = r["budget_sweep_A"]
+    assert a[-1]["cost_A"] < a[0]["cost_A"], "the frontier no longer cheapens"
+    assert a[-1]["distance_to_family"] >= a[0]["distance_to_family"], \
+        "more budget now closes the distance under the bad objective"
+    assert not any(x["recovered"] for x in a)
+    b = r["budget_sweep_B"]
+    assert b[-1]["recovered"] and not b[0]["recovered"], \
+        "under the lifecycle objective budget must help, from a starved miss"
+
+
+# --------------------------------------------------------------------------
+# The K4 cost-structure probe runs IN PLACE, because it imports the K4 modules
+# rather than being self-contained like the witnesses above.
+# --------------------------------------------------------------------------
+
+def _run_k4_probe():
+    """Execute the probe IN PLACE and return the receipt it writes.
+
+    It cannot use the temp-directory harness above: unlike the self-contained
+    witnesses, it imports the K4 modules in order to read the real cost model.
+    Running it rather than only reading its receipt is the point -- a change to
+    the cost model must fail this test, and a receipt-only check would sail
+    straight past one.
+    """
+    out = os.path.join(RESULTS, "STAGE_K4_COST_STRUCTURE_V1.json")
+    before = open(out).read() if os.path.exists(out) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, "gmi_k4_cost_structure_probe_v1.py"],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=900)
+        assert proc.returncode == 0, (
+            "the K4 cost-structure probe failed -- one of its findings is now "
+            "stale, which means the cost model changed:\n%s"
+            % proc.stderr.decode("utf-8", "replace")[-2000:])
+        with open(out) as fh:
+            return json.load(fh)
+    finally:
+        if before is not None:
+            with open(out, "w") as fh:
+                fh.write(before)
+
+
+def test_k4_probe_reproduces_its_committed_receipt():
+    """The probe reads a fixed cost model over a fixed seed, so its receipt is
+    deterministic. A difference means the cost model moved."""
+    assert _run_k4_probe() == _committed("STAGE_K4_COST_STRUCTURE_V1.json"), (
+        "the K4 cost model no longer produces the committed structure receipt; "
+        "re-run the probe and revisit GMI_K4_COST_STRUCTURE_ROOT_CAUSE_V1.md")
+
+
+def test_k4_cost_model_has_no_substitutions():
+    """GMI_K4_COST_STRUCTURE_ROOT_CAUSE_V1: the root cause of 0 of 264.
+
+    If any channel pair ever starts trading, this finding is stale and the
+    document must be revisited -- so the guard pins the absence, not a number.
+    """
+    r = load_receipt("STAGE_K4_COST_STRUCTURE_V1.json")
+    assert r["q2_tradeoffs"]["strong"] == [], \
+        "a channel substitution now exists -- the root-cause finding is stale"
+    assert not any(v["material_trade"] for v in r["q1_storage_vs_serving"].values()), \
+        "retained state now buys serving work somewhere"
+    q = r["q1_quartiles"]
+    assert q["storage_ratio"] >= 8 and q["serving_ratio"] < 1.5, \
+        "the quartile cross-check no longer shows state failing to buy serving"
+
+
+def test_k4_grammar_axis_cannot_flip_a_winner():
+    """DG-11 closed: the grammar enters as a scalar price on most channels, and
+    the registered 1.12x spread is nowhere near what would change an argmin."""
+    r = load_receipt("STAGE_K4_COST_STRUCTURE_V1.json")
+    q3 = r["q3_argmin"]
+    assert q3["agree"] is True, "the grammars now disagree -- DG-11 may be closable"
+    assert q3["flip_ratio"] is None or q3["flip_ratio"] > 10 * q3["actual_spread"], \
+        "the grammar price spread is now within reach of flipping a winner"
+    assert r["q3_price_channels"]["flat"] == ["state_storage"], \
+        "which channels carry the grammar price has changed"
