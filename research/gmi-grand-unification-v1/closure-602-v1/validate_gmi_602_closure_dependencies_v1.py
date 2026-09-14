@@ -12,6 +12,7 @@ DEP = HERE / "GMI_602_CLOSURE_DEPENDENCIES_V1.json"
 SPINE = HERE / "GMI_602_PARENT_ATLAS_AND_FORMAL_CLOSURE_V1.md"
 AMENDMENT = HERE / "GMI_602_PARENT_ATLAS_AMENDMENTS_V1.md"
 FORMAL_V2 = HERE / "GMI_602_FORMAL_GAP_CLOSURE_V2.md"
+CROSSWALK = HERE / "GMI_602_PARENT_FIRST_CROSSWALK_V1.json"
 PARENT = ROOT.parent / "machine-intelligence-morphogenesis-v1" / "PARENT_LEDGER_V2.json"
 
 EXPECTED_SECTIONS = tuple(chr(c) for c in range(ord("A"), ord("V") + 1))
@@ -34,6 +35,8 @@ EXPECTED_ADDED_PARENT_CLASSES = {
     "algorithmic_information_universal_agents",
     "observability_controllability_system_identification",
 }
+EXPECTED_Q_IDS = {f"Q{i:02d}" for i in range(1, 24)}
+EXPECTED_SUPPLEMENTAL_PARENT_IDS = {f"S{i:02d}" for i in range(1, 12)}
 
 
 def load_json(path: Path):
@@ -44,6 +47,7 @@ def load_json(path: Path):
 def main() -> None:
     dep = load_json(DEP)
     parent = load_json(PARENT)
+    crosswalk = load_json(CROSSWALK)
     spine = SPINE.read_text(encoding="utf-8")
     amendment = AMENDMENT.read_text(encoding="utf-8")
     formal_v2 = FORMAL_V2.read_text(encoding="utf-8")
@@ -52,8 +56,18 @@ def main() -> None:
     assert dep["formal_spine"] == SPINE.name
     assert dep["formal_amendment"] == AMENDMENT.name
     assert dep["formal_gap_supplement"] == FORMAL_V2.name
+    assert dep["parent_crosswalk"] == CROSSWALK.name
     assert isinstance(parent, dict) and parent, "specialist parent ledger must parse as a nonempty JSON object"
     assert PARENT.stat().st_size > 10_000, "specialist parent ledger unexpectedly collapsed"
+
+    assert crosswalk["schema"] == "GMI_602_PARENT_FIRST_CROSSWALK_V1"
+    q_rows = crosswalk["issue_Q_required"]
+    supplemental_rows = crosswalk["supplemental_parent_classes_required_by_other_602_rows"]
+    assert {row["id"] for row in q_rows} == EXPECTED_Q_IDS, "#602 Q parent crosswalk must cover all 23 requested families exactly once"
+    assert {row["id"] for row in supplemental_rows} == EXPECTED_SUPPLEMENTAL_PARENT_IDS, "supplemental parent-first inventory drifted"
+    for row in q_rows + supplemental_rows:
+        assert row.get("parent_owns") or row.get("purpose"), f"{row['id']}: missing parent-owned content"
+        assert row.get("gmi_residual") or row.get("residual"), f"{row['id']}: missing explicit GMI residual"
 
     sections = dep["sections"]
     assert tuple(sections.keys()) == EXPECTED_SECTIONS, "A..V section ledger must be complete and ordered"
@@ -64,8 +78,9 @@ def main() -> None:
 
     theorem_ids = set(dep["theorems"])
     assert theorem_ids == EXPECTED_THEOREMS, "formal theorem inventory drifted"
+    spine_ids = {*(f"T602-{i:02d}" for i in range(1, 24)), "T602-17b"}
     for theorem_id in sorted(EXPECTED_THEOREMS):
-        corpus = spine if theorem_id in {*(f"T602-{i:02d}" for i in range(1, 24)), "T602-17b"} else formal_v2
+        corpus = spine if theorem_id in spine_ids else formal_v2
         assert theorem_id in corpus, f"{theorem_id}: declared but absent from its formal artifact"
 
     corrigenda = set(dep["normative_corrigenda"])
@@ -98,7 +113,12 @@ def main() -> None:
 
     empirical = dep["empirical_claim"]
     if empirical["status"] == "EARNED":
-        allowed = {"GREEN", "NOT_REQUIRED", "UPSTREAM_SPECIALIST_PARENT_LEDGER_PRESENT"}
+        allowed = {
+            "GREEN",
+            "NOT_REQUIRED",
+            "UPSTREAM_SPECIALIST_PARENT_LEDGER_PRESENT",
+            "PARENT_CROSSWALK_PRESENT",
+        }
         non_green = {
             name: row["evidence_status"]
             for name, row in sections.items()
@@ -113,6 +133,8 @@ def main() -> None:
 
     print("GMI_602_CLOSURE_DEPENDENCY_LEDGER_VALID")
     print(f"parent_ledger_bytes={PARENT.stat().st_size}")
+    print(f"issue_Q_parent_rows={len(q_rows)}")
+    print(f"supplemental_parent_rows={len(supplemental_rows)}")
     print(f"theorem_ids={len(theorem_ids)}")
     print(f"corrigenda={len(corrigenda)}")
     print(f"added_parent_classes={len(added_parents)}")
