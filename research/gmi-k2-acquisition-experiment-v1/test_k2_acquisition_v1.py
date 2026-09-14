@@ -293,8 +293,6 @@ class TheDocumentDoesNotOverclaim(unittest.TestCase):
         self.assertNotIn(flat("this measures the 323 assay"), self.t)
 
 
-if __name__ == "__main__":
-    unittest.main()
 
 
 class KAE10_AccelerationWithoutShortening(unittest.TestCase):
@@ -325,3 +323,7 @@ class KAE10_AccelerationWithoutShortening(unittest.TestCase):
                     {"q1": ("square", "square")}):
             if not K.reuse_available(self.TARGET, lib, 4):
                 self.assertFalse(K.k2_trial(self.TARGET, lib, 4)["k2"])
+
+
+if __name__ == "__main__":
+    unittest.main()
