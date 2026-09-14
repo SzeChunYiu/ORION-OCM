@@ -1,0 +1,74 @@
+{
+  "schema": "GMICapabilityCeilingsV1",
+  "issue": 602,
+  "section": "F2 tranche 1",
+  "scope": "Finite registered zero-error capability ceilings for internal state, deterministic observation quotients, and fixed-bit deterministic communication. Theorems apply only after all other information channels named in each scope are frozen.",
+  "assumptions": [
+    "capability claims are made against prospectively registered task and information interfaces",
+    "zero-error means every registered latent/task class must receive its required response, not merely high average accuracy",
+    "state-capacity claims exclude uncharged external memory or hidden side channels",
+    "observation-quotient claims use the complete information available before the registered decision; later probes/interventions must be incorporated before applying the quotient",
+    "communication claims in this tranche use a noiseless deterministic fixed-bit one-way channel and no receiver side information correlated with the sender class"
+  ],
+  "evidence_class": "P1 formal theorem family plus P2 exhaustive finite witnesses",
+  "claim_ceiling": "G2",
+  "strongest_parents": [
+    "Myhill-Nerode / finite-state distinguishability lower bounds",
+    "Blackwell comparison of experiments / deterministic sufficiency and garbling",
+    "deterministic communication-complexity transcript-counting lower bounds"
+  ],
+  "falsifier": "A registered in-scope instance violates one of the stated ceilings while all theorem assumptions and all information/resource channels are checked exactly.",
+  "ceilings": [
+    {
+      "id": "F2_STATE_CAPACITY_MEMORY",
+      "box": "State-capacity -> memory ceiling theorem.",
+      "quantity": "K pairwise obligation-distinguishable history classes versus S available internal states.",
+      "theorem": "If K pairwise obligation-distinguishable histories must remain distinguishable after their common future observation interface and no other memory channel is available, zero-error success requires S >= K. Conversely, the finite delayed-label witness is realizable with S = K.",
+      "bound": "K <= S; equivalently the internal state identity carries at most log2(S) bits of distinction.",
+      "strongest_parent": "Myhill-Nerode theorem and distinguishing-set/state lower bounds.",
+      "repo_parent": "research/machine-intelligence-morphogenesis-v1/GMI_FINITE_STATE_DERIVATION_V1.md",
+      "assumptions": [
+        "finite history quotient",
+        "no external memory or hidden side channel",
+        "future observations do not re-separate histories already merged by the controller",
+        "zero-error registered obligation"
+      ],
+      "negative_twin": "K=3 delayed labels with S=2 states.",
+      "falsifier": "An exact in-scope controller with S<K states solves all K pairwise distinguishable obligations with zero error."
+    },
+    {
+      "id": "F2_OBSERVATION_QUOTIENT",
+      "box": "Observation quotient -> task distinguishability ceiling.",
+      "quantity": "Observation equivalence classes induced by the complete registered pre-decision observation map.",
+      "theorem": "For deterministic finite observation O:X->Z and required action g:X->A, with no later informative channel, a zero-error policy pi:Z->A exists iff g is constant on every fiber of O.",
+      "bound": "The required-action partition may not split an observation fiber; independently conditionable latent distinctions are bounded by the observation quotient.",
+      "strongest_parent": "Blackwell comparison/sufficiency; deterministic specialization of information garbling and data processing.",
+      "assumptions": [
+        "finite deterministic observation map",
+        "complete pre-decision information channel is registered",
+        "no post-observation probe, intervention, memory, or side information refines the fiber",
+        "zero-error required action"
+      ],
+      "negative_twin": "Two latent states share one observation but require different actions.",
+      "falsifier": "A policy using only the registered observation achieves zero error while assigning different required actions inside one observation fiber."
+    },
+    {
+      "id": "F2_COMMUNICATION_BANDWIDTH",
+      "box": "Communication bandwidth -> coordination ceiling.",
+      "quantity": "K sender classes requiring distinct receiver actions versus a B-bit fixed-length one-way transcript.",
+      "theorem": "With no receiver side information correlated with the sender class, a deterministic zero-error protocol requires K <= 2^B. The bound is tight by injective coding whenever K <= 2^B.",
+      "bound": "B >= ceil(log2 K), or equivalently K <= 2^B distinct zero-error coordination classes.",
+      "strongest_parent": "Deterministic communication complexity; transcript/protocol-tree counting lower bound.",
+      "assumptions": [
+        "finite sender coordination classes",
+        "noiseless deterministic fixed-length one-way communication",
+        "receiver has no correlated side information about sender class",
+        "distinct classes require distinct receiver actions",
+        "zero-error coordination"
+      ],
+      "negative_twin": "K=5 coordination classes over B=2 bits.",
+      "falsifier": "An in-scope B-bit deterministic protocol coordinates K>2^B distinct required receiver actions with zero error."
+    }
+  ],
+  "terminal": "F2_TRANCHE1_EXACT_CEILINGS_REGISTERED_AT_G2"
+}
