@@ -1,0 +1,63 @@
+{
+  "all_frozen_predictions_pass": true,
+  "assertions": {
+    "D6_01_full_schema_fiber_constancy": true,
+    "D6_02_drop_S_collision": true,
+    "D6_03_drop_E_collision": true,
+    "D6_04_drop_R_collision": true,
+    "D6_05_drop_V_collision": true,
+    "D6_06_drop_H_collision": true,
+    "D6_07_all_remints_preserve_coordinates_frontier": true,
+    "D6_08_no_coordinate_label_leakage": true,
+    "D6_09_quotient_refinement_implication": true,
+    "D6_10_frozen_frontiers": true
+  },
+  "atlas_size": 14,
+  "authority": {
+    "claim_ceiling": [
+      "FINITE_ATLAS_DECISION_SUFFICIENT_COMPLETE_COORDINATE_SCHEMA_D6",
+      "GROUPWISE_NECESSARY_S_E_R_V_H_ON_REGISTERED_ATLAS",
+      "PARENT_OWNED_QUOTIENT_SUFFICIENCY_AND_PHASE_MECHANISMS",
+      "NO_UNIVERSAL_COMPLETE_COORDINATE_ONTOLOGY_OR_FIELD_MINIMALITY_CLAIM"
+    ],
+    "freeze_commit": "187afe3744a869fe09b6bf3d71653852cdc4f9f3",
+    "issue": 693
+  },
+  "base_cells": 7,
+  "base_frontiers": {
+    "A_cap64_Q16_ext": ["default_exceptions", "full_map", "xor_fold"],
+    "A_cap64_Q16_proof": ["xor_fold"],
+    "A_cap64_Q1_ext": ["xor_fold"],
+    "A_cap8_Q16_ext": ["xor_fold"],
+    "B_cap8_Q16_ext": ["default_exceptions"],
+    "R4_H_key": ["key_index"],
+    "R4_H_value": ["value_index"]
+  },
+  "decision_partition": {
+    "default_exceptions": ["B_cap8_Q16_ext", "B_cap8_Q16_ext_remint"],
+    "default_exceptions|full_map|xor_fold": ["A_cap64_Q16_ext", "A_cap64_Q16_ext_remint"],
+    "key_index": ["R4_H_key", "R4_H_key_remint"],
+    "value_index": ["R4_H_value", "R4_H_value_remint"],
+    "xor_fold": ["A_cap64_Q16_proof", "A_cap64_Q16_proof_remint", "A_cap64_Q1_ext", "A_cap64_Q1_ext_remint", "A_cap8_Q16_ext", "A_cap8_Q16_ext_remint"]
+  },
+  "drop_one_collisions": {
+    "E": [{"frontiers": [["xor_fold"], ["xor_fold"], ["default_exceptions", "full_map", "xor_fold"], ["default_exceptions", "full_map", "xor_fold"]], "specimens": ["A_cap64_Q1_ext", "A_cap64_Q1_ext_remint", "A_cap64_Q16_ext", "A_cap64_Q16_ext_remint"]}],
+    "H": [{"frontiers": [["key_index"], ["key_index"], ["value_index"], ["value_index"]], "specimens": ["R4_H_key", "R4_H_key_remint", "R4_H_value", "R4_H_value_remint"]}],
+    "R": [{"frontiers": [["xor_fold"], ["xor_fold"], ["default_exceptions", "full_map", "xor_fold"], ["default_exceptions", "full_map", "xor_fold"]], "specimens": ["A_cap8_Q16_ext", "A_cap8_Q16_ext_remint", "A_cap64_Q16_ext", "A_cap64_Q16_ext_remint"]}],
+    "S": [{"frontiers": [["xor_fold"], ["xor_fold"], ["default_exceptions"], ["default_exceptions"]], "specimens": ["A_cap8_Q16_ext", "A_cap8_Q16_ext_remint", "B_cap8_Q16_ext", "B_cap8_Q16_ext_remint"]}],
+    "V": [{"frontiers": [["default_exceptions", "full_map", "xor_fold"], ["default_exceptions", "full_map", "xor_fold"], ["xor_fold"], ["xor_fold"]], "specimens": ["A_cap64_Q16_ext", "A_cap64_Q16_ext_remint", "A_cap64_Q16_proof", "A_cap64_Q16_proof_remint"]}]
+  },
+  "drop_one_required_collision_pass": {"E": true, "H": true, "R": true, "S": true, "V": true},
+  "full_schema": {"fiber_count": 7, "violations": []},
+  "quotient_theorem_check": {"decision_classes": 5, "full_schema_sufficient": true, "schema_fibers": 7},
+  "remint_cells": 7,
+  "source_remint_checks": {
+    "A_cap64_Q16_ext": {"coordinates_equal": true, "digest_equal": true, "frontier_equal": true},
+    "A_cap64_Q16_proof": {"coordinates_equal": true, "digest_equal": true, "frontier_equal": true},
+    "A_cap64_Q1_ext": {"coordinates_equal": true, "digest_equal": true, "frontier_equal": true},
+    "A_cap8_Q16_ext": {"coordinates_equal": true, "digest_equal": true, "frontier_equal": true},
+    "B_cap8_Q16_ext": {"coordinates_equal": true, "digest_equal": true, "frontier_equal": true},
+    "R4_H_key": {"coordinates_equal": true, "digest_equal": true, "frontier_equal": true},
+    "R4_H_value": {"coordinates_equal": true, "digest_equal": true, "frontier_equal": true}
+  }
+}
