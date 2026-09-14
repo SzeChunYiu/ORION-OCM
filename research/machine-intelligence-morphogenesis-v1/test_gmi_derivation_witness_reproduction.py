@@ -74,6 +74,8 @@ WITNESSES = {
     "subgoal_witness.py": "STAGE_SUBGOAL_WITNESS_V1.json",
     "update_law_witness.py": "STAGE_UPDATE_LAW_V1.json",
     "teaching_culture_witness.py": "STAGE_TEACHING_CULTURE_WITNESS_V1.json",
+    "residual_memory_witness.py": "STAGE_RESIDUAL_MEMORY_V1.json",
+    "tool_routing_witness.py": "STAGE_TOOL_ROUTING_V1.json",
 }
 
 
@@ -1460,3 +1462,194 @@ def test_no_bijection_creates_a_zero_atom():
         "a joint with a zero atom is now reachable from a full-support base by "
         "bijection, which is impossible unless the model changed")
     assert len(f["targets_with_a_zero_atom"]) >= 2
+
+
+# ---------------------------------------------------------------------------
+# B1 protocol conformance audit.
+#
+# This one is NOT a witness: it reads every family's receipt and witness source,
+# so it cannot run in the one-file temp dir that _run_witness creates.  It runs
+# in the tree instead.  It is still reproduction-checked -- it writes a receipt
+# and the claim pins below assert the document's headline numbers.
+# ---------------------------------------------------------------------------
+def test_protocol_conformance_audit_reproduces_its_committed_receipt():
+    """The audit asserts its own adjudication against the receipts.
+
+    If a family's named control key is absent from its receipt, or a family
+    adjudicated as having no control is hiding one, the audit fails here rather
+    than reporting a number that was never checked.
+
+    The audit needs the whole tree, so unlike a witness it cannot run in a
+    one-file temp dir -- it runs in place.  That would overwrite the committed
+    receipt, so the receipt is snapshotted, regenerated, compared, and restored.
+    The comparison IS the reproduction check.
+    """
+    receipt = os.path.join(RESULTS, "STAGE_PROTOCOL_CONFORMANCE_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "protocol_conformance_audit.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "protocol_conformance_audit.py failed:\n" + proc.stdout.decode()[-4000:])
+        after = open(receipt).read()
+        assert before is not None, "no committed receipt to reproduce"
+        assert json.loads(after) == json.loads(before), (
+            "the audit no longer reproduces its committed receipt -- the "
+            "corpus changed under it, which is exactly what this guard is for")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_adjudicated_conformance_numbers_are_the_documented_ones():
+    """The two numbers the document publishes as measured."""
+    r = load_receipt("STAGE_PROTOCOL_CONFORMANCE_V1.json")
+    cms = {c["signal"]: c for c in r["signal_validation"]}
+
+    twin = cms["matched negative control"]
+    adjudicated_true = twin["tp"] + twin["fn"]
+    assert adjudicated_true == 11, (
+        "the document reports 11 of 19 families constructing a matched negative "
+        "control; the adjudication now says %d" % adjudicated_true)
+
+    real = cms["real-regime replication"]
+    assert real["tp"] + real["fn"] == 0, (
+        "a family now replicates at a real regime, which would retire the "
+        "corpus's largest stated gap -- the document says 0 of 19")
+
+
+def test_the_vocabulary_proxy_is_still_unsound_in_both_directions():
+    """If this ever passes cleanly the document's central argument is stale."""
+    r = load_receipt("STAGE_PROTOCOL_CONFORMANCE_V1.json")
+    cms = {c["signal"]: c for c in r["signal_validation"]}
+
+    assert cms["matched negative control"]["missed"] == ["B2 finite-state"], (
+        "the matched-control signal no longer misses exactly B2, whose control "
+        "is named 'stateless' -- the miss is what shows the proxy is unsound")
+    assert cms["real-regime replication"]["tp"] == 0, (
+        "the real-regime signal gained a true positive")
+    assert len(cms["real-regime replication"]["false_positive"]) == 2, (
+        "the two substring artefacts ('production system', 'reproduction') are "
+        "the document's precision-zero evidence")
+
+    sat = [k for k, v in r["widening_test"].items() if v["receipt_plus_source"] >= 18]
+    assert len(sat) >= 4, (
+        "widening to witness source no longer saturates at least four signals, "
+        "so the argument that loosening the proxy destroys it is stale")
+
+
+def test_no_shared_vocabulary_for_the_matched_control():
+    """The exhibited cause: nine names, no common token."""
+    r = load_receipt("STAGE_PROTOCOL_CONFORMANCE_V1.json")
+    cs = r["control_synonyms"]
+    assert cs["shared_tokens"] == [], (
+        "the control names now share a token, so a single-token regex would "
+        "find them all and the no-shared-vocabulary finding is wrong")
+    assert len(cs["names"]) == 9, (
+        "the document states nine distinct names; the census now has %d"
+        % len(cs["names"]))
+    assert "stateless" in cs["names"], (
+        "'stateless' is the name the regex misses -- it carries the argument")
+
+
+def test_protocol_block_adoption_is_all_or_nothing_and_currently_none():
+    r = load_receipt("STAGE_PROTOCOL_CONFORMANCE_V1.json")
+    pb = r["protocol_block"]
+    assert pb["total"] == 19
+    assert pb["compliant"] == [] or len(pb["compliant"]) == 19, (
+        "partial protocol-block adoption invites a reader to mistake 'n of 19 "
+        "emitting' for 'n of 19 conforming'")
+    if pb["compliant"] == []:
+        assert pb["partial"] == [], (
+            "some family emits a partial protocol block; complete it or remove it")
+
+
+# ---------------------------------------------------------------------------
+# B12 residual memory (retrieval-augmented holding) -- claim pins.
+# ---------------------------------------------------------------------------
+def test_neutral_search_finds_both_holdings_and_change_separates_them():
+    """The split is the finding: both are reachable, change picks one."""
+    r = load_receipt("STAGE_RESIDUAL_MEMORY_V1.json")
+    n = r["neutral_split"]
+    assert n["external"] > 0 and n["internal"] > 0, (
+        "neutral search reached only one kind of holding, so the comparison "
+        "has no content")
+    assert n["external_under_change"] > n["internal_under_change"], (
+        "an external store no longer survives change better than an absorbed "
+        "one, which is the whole reason the family is derived")
+
+
+def test_the_holding_comparison_is_not_rigged():
+    """Anti-rig gates: several kinds win, none wins everywhere."""
+    r = load_receipt("STAGE_RESIDUAL_MEMORY_V1.json")
+    won = r["comparison_tally"]
+    assert len(won) >= 2, "only one holding ever attains the minimum"
+    cells = r["comparison_cells"]
+    total = len(cells) if isinstance(cells, list) else cells
+    assert max(won.values()) < total, (
+        "one holding attains the minimum in every cell -- rigged comparison")
+    assert r["comparison_outright"], "every cell is a tie, so nothing is decided"
+
+
+def test_the_store_is_forced_somewhere_and_wasteful_somewhere():
+    """Both verdicts must occur or the irreducibility section is one-sided."""
+    r = load_receipt("STAGE_RESIDUAL_MEMORY_V1.json")
+    verdicts = {x["verdict"] for x in r["irreducibility"]}
+    assert "STORE IS FORCED" in verdicts, (
+        "no obligation forces a store, so residual memory is never necessary")
+    assert "STORE IS WASTE" in verdicts, (
+        "no obligation makes the store wasteful, which would mean the finding "
+        "is 'always store' and the ecology is not discriminating")
+
+
+# ---------------------------------------------------------------------------
+# B20 tool routing -- claim pins.
+# ---------------------------------------------------------------------------
+def test_routing_cost_primitive_agrees_with_exhaustive_enumeration():
+    r = load_receipt("STAGE_TOOL_ROUTING_V1.json")
+    rows = {x["arity"]: x for x in r["primitive_validation"]}
+    for arity in (2, 3):
+        assert rows[arity]["mismatches"] == 0, (
+            "the DP disagrees with exhaustive enumeration at arity %d" % arity)
+        assert rows[arity]["with_dont_cares"] > 0, (
+            "no partial function carried a don't-care at arity %d, so the new "
+            "code path was never exercised" % arity)
+
+
+def test_breadth_is_paid_in_the_summed_price_not_the_posted_one():
+    """Where the cost of overlap actually lives.
+
+    A holder posts one price: its worst task's probing cost.  That saturates at
+    the payload arity, so the BROADEST holder posts no more than a narrow one --
+    the max cannot see breadth at all.  The cost shows up once per call, in the
+    sum over tasks of the cheapest competent holder's price.
+    """
+    r = load_receipt("STAGE_TOOL_ROUTING_V1.json")
+    ov = {x["layout"]: x for x in r["overlap"]}
+    part, everyone = ov["partition"], ov["everyone"]
+
+    assert part["covered"] == everyone["covered"], (
+        "the layouts no longer cover the same tasks, so their costs are not "
+        "comparable")
+    assert everyone["broadest_price"] == part["broadest_price"], (
+        "the posted price now separates total redundancy from a partition; if "
+        "that is real the documented reason for using the summed price (the "
+        "max saturates at the payload arity) is stale")
+    assert everyone["cheapest_sum"] > part["cheapest_sum"], (
+        "total redundancy is no longer dearer in summed price, so overlap is "
+        "free and the cost claimed for it does not exist")
+    assert everyone["fallbacks"] > part["fallbacks"] == 0, (
+        "the partition has a fallback, or total redundancy has none, so the "
+        "contrast is not the one claimed")
+
+
+def test_price_is_monotone_in_competence_but_not_strictly():
+    """The saturation, measured rather than argued."""
+    r = load_receipt("STAGE_TOOL_ROUTING_V1.json")
+    pm = r["price_monotone"]
+    assert pm["nested_pairs"] > 0, "no nested competence pairs were compared"
+    assert 0 < pm["strictly_dearer"] < pm["nested_pairs"], (
+        "taking on more tasks is either always or never strictly dearer; "
+        "either way the reported partial saturation is stale")
