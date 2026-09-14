@@ -11,6 +11,7 @@ on:
       - 'research/gmi-b6-consumer-census-v1/**'
       - 'research/gmi-adaptive-row-confidence-v1/**'
       - 'research/gmi-delegation-cost-repair-v1/**'
+      - 'research/gmi-threshold-task-frontier-v1/**'
       - 'research/gmi-native-adjoint-repair-v1/**'
       - 'research/gmi-formal-derivation-v1/**'
       - 'research/gmi-main566567-audit-v1/**'
@@ -42,6 +43,7 @@ on:
       - 'research/gmi-b6-consumer-census-v1/**'
       - 'research/gmi-adaptive-row-confidence-v1/**'
       - 'research/gmi-delegation-cost-repair-v1/**'
+      - 'research/gmi-threshold-task-frontier-v1/**'
       - 'research/gmi-native-adjoint-repair-v1/**'
       - 'research/gmi-formal-derivation-v1/**'
       - 'research/gmi-main566567-audit-v1/**'
@@ -114,6 +116,10 @@ jobs:
           python -I -O -B -m unittest discover -s research/gmi-delegation-cost-repair-v1 -p 'test_*v1.py' -v
           python -I -B research/gmi-delegation-cost-repair-v1/raw/test_grand_gmi_delegation_invariant_cost_v1.py
           python -I -O -B research/gmi-delegation-cost-repair-v1/raw/test_grand_gmi_delegation_invariant_cost_v1.py
+      - name: Threshold-task frontier controls, including the slow enumeration
+        run: |
+          python -I -B -m unittest discover -s research/gmi-threshold-task-frontier-v1 -p 'test_*_v1.py' -v
+          python -I -O -B -m unittest discover -s research/gmi-threshold-task-frontier-v1 -p 'test_*_v1.py' -v
       - name: Native adjoint frozen and active primitive controls
         run: |
           python -I -B -m unittest discover -s research/gmi-native-adjoint-repair-v1 -p 'test_*v1.py' -v
