@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "schema": "PlanningStoppingReceiptV1",
+  "scope": "I4 only: goal formation as max-confidence Omega_a, subgoal 0<V(S_sub)<V(W) reusable across W and T2={2,3,4,5}, stopping EVC<=0 for C(S) nonempty and 13/35 myopic-optimality for empty-C sets. Composes META-3 EVC; admissibility only (DU-1). 10 exact controls, normal + optimized.",
+  "source_and_evidence": {
+    "PLANNING_STOPPING_THEOREM_V1.md": {
+      "bytes": 5280,
+      "sha256": "5d6499f0f47f6cd775f66b6b1c39af3ac278714aa37bc4e173d8635a73f61222"
+    },
+    "planning_stopping_v1.py": {
+      "bytes": 5024,
+      "sha256": "5f941adfa3a9297c04dc4ce06e7e136a146c8b0ac19b6128d23bb65f8ffdec83"
+    },
+    "test_planning_stopping_v1.py": {
+      "bytes": 4325,
+      "sha256": "616b23489f280af45feee3cde8091839dc0c0a81be81f4ecb96e3d11d0a34d71"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_planning_stopping_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_planning_stopping_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_planning_stopping_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_planning_stopping_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for both files)."
+}

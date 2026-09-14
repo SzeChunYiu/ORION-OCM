@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "schema": "DerivedLesionReceiptV1",
+  "scope": "L5 only: six derived-component lesions (memory/attention/planning/causal/social/consolidation) each removing one mechanism not the search basis, plus L_basis control. 8x6 deficit table 0/1 measured, predicted double dissociations (L_mem/L_att, L_plan/L_causal, L_social/L_plan, L_consol/L_att), K/V6 probe reading. 12 exact controls, normal + optimized.",
+  "source_and_evidence": {
+    "DERIVED_LESION_THEOREM_V1.md": {
+      "bytes": 4880,
+      "sha256": "9daffc42b879ee4176faff560840bdc1405eb8f742f9ef1ab2adfea974ca8ff9"
+    },
+    "derived_lesion_v1.py": {
+      "bytes": 3795,
+      "sha256": "8cfe80dba4604596f261654f8a48a3b75e5c0be674a94c987b4b1bb1383c538e"
+    },
+    "test_derived_lesion_v1.py": {
+      "bytes": 3236,
+      "sha256": "17982145ea4c62594d1c763e6e83d8a622b0ee870795ee891e2559098ab24bf2"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_derived_lesion_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_derived_lesion_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_derived_lesion_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_derived_lesion_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for both files)."
+}
