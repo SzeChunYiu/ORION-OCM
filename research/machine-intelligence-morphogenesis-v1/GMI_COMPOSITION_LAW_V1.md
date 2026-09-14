@@ -85,6 +85,36 @@ with cancellation* (lcm). A suffix obligation composes *additively* (+2). These 
 one is arithmetic sharing of a single counter, the other is the collapse of suffix distinctions that no
 suffix can probe — and a theory that treated composition as one operation would predict neither.
 
+## 5b  Law 3 — when composition is NOT free, and the criterion that decides it
+
+Two laws that both predict collapse cannot distinguish a real criterion from a habit. So a third law was
+frozen (commit `d36ec382`) predicting the opposite outcome, with the risk stated in advance: *if the measured
+index comes out below the product, the criterion is wrong and Law 2's explanation is in doubt even though
+its number stands.*
+
+**The criterion**: composition is free exactly when the second obligation's distinctions **cannot be probed
+by suffixes**.
+
+* *"ends with ab"* is a property of the string's very end. The suffix-state after reading `z` is fixed by `z`
+  alone whenever `z` contains an `a`, so only the single letter `b` can expose the incoming state — almost
+  every distinction collapses, hence **+2**.
+* *"contains aba"* is **monotone**: once satisfied it stays satisfied, the tracker is absorbing, and a
+  completing suffix can always be chosen that works from one state and provably not from another. Nothing
+  collapses.
+
+**Law 3, predicted and measured**: the intersection of the counting obligation with *"contains aba"* has index
+exactly **4m — the full product**, on m = 2, 3, 4, 5, 6, 8, 10, 12. Every one of the 4m product states is
+reachable, asserted in the witness, so this is genuine distinguishability rather than a reachability artefact.
+
+| composition | cost over the same counting form |
+|---|---|
+| with *"ends with ab"* | **+2** |
+| with *"contains aba"* | **×4** |
+
+Same counter, same alphabet, opposite outcome. **So the collapse in Laws 1 and 2 is not a general fact about
+composition — it is a fact about which distinctions a suffix can probe.** A theory that reported only the
+cheap cases would have predicted this one wrong.
+
 ## 6  Scope
 
 Exact integer arithmetic, no sampling. Eleven tuples, verified by explicit product construction restricted

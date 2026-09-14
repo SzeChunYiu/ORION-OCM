@@ -79,6 +79,7 @@ WITNESSES = {
     "real_regime_finite_state_witness.py": "STAGE_REAL_REGIME_FINITE_STATE_V1.json",
     "predict_intersection_index.py": "STAGE_INTERSECTION_INDEX_PREDICTION_V1.json",
     "predict_composition_law.py": "STAGE_COMPOSITION_LAW_PREDICTION_V1.json",
+    "predict_probe_law.py": "STAGE_PROBE_LAW_PREDICTION_V1.json",
 }
 
 
@@ -1848,3 +1849,52 @@ def test_capability_ceiling_saturates():
     assert r["capability_ceiling_measured"] == 27720, (
         "the measured max index over moduli <= 12 changed from lcm(1..12)")
     assert r["verdict"] in ("HOLDS", "FALSIFIED")
+
+
+# ---------------------------------------------------------------------------
+# Law 3: the prediction that composition is EXPENSIVE.  Frozen at d36ec382.
+# This is the one that gives the mechanism teeth -- the other two both predicted
+# collapse, so neither could have distinguished a real criterion from a habit.
+# ---------------------------------------------------------------------------
+def test_probe_law_adjudication_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_PROBE_LAW_VERDICT_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "compare_probe_law.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "compare_probe_law.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed verdict to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the Law 3 adjudication no longer reproduces its committed verdict")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_monotone_obligation_costs_the_full_product():
+    r = load_receipt("STAGE_PROBE_LAW_VERDICT_V1.json")
+    assert r["disagreeing_m"] == [], (
+        "the monotone-obligation intersection no longer costs 4m: %s"
+        % r["disagreeing_m"])
+    meas, prod = r["measured_index"], r["product_bound"]
+    assert all(meas[k] == prod[k] for k in meas), (
+        "some m now collapses below the product bound, which would refute the "
+        "probeability criterion and put the +2 law's explanation in doubt")
+    assert all(r["reachable_states"][k] == prod[k] for k in prod), (
+        "not every product state is reachable, so a collapse could be "
+        "unreachability rather than indistinguishability")
+
+
+def test_the_corpus_has_both_a_cheap_and_an_expensive_composition():
+    """Without both, 'composition is cheap' would be an untested habit."""
+    cheap = load_receipt("STAGE_COMPOSITION_LAW_VERDICT_V1.json")
+    dear = load_receipt("STAGE_PROBE_LAW_VERDICT_V1.json")
+    assert cheap["verdict"] == "HOLDS" and dear["verdict"] == "HOLDS"
+    cm, cp = cheap["measured_counting_index"], cheap["generic_product_bound"]
+    assert any(cm[k] < cp[k] for k in cm), "no cheap composition on record"
+    dm, dp = dear["measured_index"], dear["product_bound"]
+    assert all(dm[k] == dp[k] for k in dm), "no expensive composition on record"
+    assert dear["criterion_supported"] is True
