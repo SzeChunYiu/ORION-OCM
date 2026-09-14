@@ -47,9 +47,9 @@ for S in (1, 3, 6, 10, 15, 20, 30):
             if best is None or c < best: best, bset = c, combo
     comm = cost(list(COMMITTED), S)
     loses = comm > flat
-    rows.append({"S": S, "flat": flat, "best": best, "best_set": list(bset),
+    rows.append({"S": S, "flat": flat, "best": best, "best_set": sorted(bset),
                  "committed": comm, "committed_loses": loses, "optimal_is_flat": len(bset) == 0})
-    print("%-8d %-12d %-22s %-14d %-14d %s" % (S, flat, ",".join(bset) or "(none)", best, comm, loses))
+    print("%-8d %-12d %-22s %-14d %-14d %s" % (S, flat, ",".join(sorted(bset)) or "(none)", best, comm, loses))
 
 flat_at = [r["S"] for r in rows if r["optimal_is_flat"]]
 lose_at = [r["S"] for r in rows if r["committed_loses"]]
