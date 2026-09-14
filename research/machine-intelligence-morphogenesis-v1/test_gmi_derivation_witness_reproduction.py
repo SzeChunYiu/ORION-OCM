@@ -42,6 +42,7 @@ WITNESSES = {
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
+    "interference_witness.py": "STAGE_INTERFERENCE_V1.json",
     "lesion_witness.py": "STAGE_COMPONENT_LESIONS_V1.json",
     "memory_regime_witness.py": "STAGE_MEMORY_REGIME_WITNESS_V1.json",
     "metacognition_witness.py": "STAGE_METACOGNITION_V1.json",
@@ -407,3 +408,43 @@ def test_k4_grammar_axis_cannot_flip_a_winner():
         "the grammar price spread is now within reach of flipping a winner"
     assert r["q3_price_channels"]["flat"] == ["state_storage"], \
         "which channels carry the grammar price has changed"
+
+
+def test_interference_is_caused_by_novelty_not_by_small_capacity():
+    """GMI_INTERFERENCE_STABILITY_PLASTICITY_V1: regimes B and C have identical
+    capacity and task sizes and differ only in redundancy, and only B is forced
+    to trade. That pair is the whole result -- without it, 'capacity binds' and
+    'interference happens' would be indistinguishable."""
+    r = load_receipt("STAGE_INTERFERENCE_V1.json")
+    b = [x for x in r["regimes"] if x["capacity"] == 4 and x["shared"] == 0]
+    c = [x for x in r["regimes"] if x["capacity"] == 4 and x["shared"] == 4]
+    assert b and c, "the B/C control pair is missing from the receipt"
+    assert b[0]["forced"] is True and c[0]["forced"] is False, \
+        "B and C no longer differ, so redundancy is not what dissolves the tradeoff"
+    forced = [x["forced"] for x in r["regimes"]]
+    assert any(forced) and not all(forced), "the tradeoff became unconditional"
+
+
+def test_stability_plasticity_frontier_is_monotone_in_capacity():
+    """More capacity must never buy less, and the sum must saturate at 2 only
+    when capacity covers every distinction that must be separated."""
+    from fractions import Fraction
+    r = load_receipt("STAGE_INTERFERENCE_V1.json")
+    sweep = sorted(r["capacity_sweep"], key=lambda x: x["capacity"])
+    sums = [Fraction(x["max_sum"]) for x in sweep]
+    assert sums == sorted(sums), "more capacity now buys less"
+    assert sums[0] < sums[-1], "capacity makes no difference -- nothing binds"
+    assert sums[-1] == 2, "the frontier no longer saturates at 2"
+    assert sweep[-1]["forced"] is False and sweep[0]["forced"] is True
+
+
+def test_interference_equals_the_excess_over_capacity():
+    """At full plasticity the stability lost is exactly the excess, which is
+    what makes catastrophic forgetting a capacity statement rather than a
+    property of any learning rule."""
+    from fractions import Fraction
+    r = load_receipt("STAGE_INTERFERENCE_V1.json")
+    for e in r["interference"]:
+        lost = 1 - Fraction(e["stability_at_full_plasticity"])
+        assert lost == Fraction(min(4, max(0, e["excess"])), 4), \
+            "interference at capacity %d no longer equals the excess" % e["capacity"]
