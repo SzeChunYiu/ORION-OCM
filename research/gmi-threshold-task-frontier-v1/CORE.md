@@ -29,6 +29,13 @@ Supporting facts, all exhaustive at their declared scope:
   survives and is strengthened.
 
 - [Theorem, scope and residue](THRESHOLD_TASK_FRONTIER_THEOREM_V1.md): TT-1..TT-7.
+- [Measured constant footprint](MEASURED_CONSTANT_FOOTPRINT_V1.md): TB-1..TB-6,
+  which discharges TT-6's pricing premise with two exact measured sizes. The
+  domination survives both; from n = 5 the in-memory measure makes the threshold
+  rendering the **unique** undominated realization, because its single constant
+  is an interned integer costing no incremental memory. It also withdraws the
+  nested-versus-flat table ranking the count coordinate produced: measured, the
+  two are incomparable.
 - [Complete payload](RECEIPT_V1.json) from `check_frontier_v1.py`.
 - [Portable replay](REPLAY_V1.md) and [complete bindings](MANIFEST_V1.json).
 

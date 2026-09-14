@@ -5,6 +5,8 @@ These raise explicitly rather than using `assert`, because the capsule runs the
 suite under -O as well.
 """
 
+import ast
+import pathlib
 import sys
 import unittest
 from pathlib import Path
@@ -16,6 +18,7 @@ for _path in (str(DCR), str(HERE)):
         sys.path.insert(0, _path)
 
 import check_frontier_v1 as frontier                        # noqa: E402
+import constant_footprint_v1 as footprint                  # noqa: E402
 import frontier_registers_v1 as reg                        # noqa: E402
 import minimal_renderings_v1 as enumeration                # noqa: E402
 from typed_machine_v1 import execute                       # noqa: E402
@@ -202,6 +205,124 @@ class Frontiers(unittest.TestCase):
     def test_terminal_and_ceiling(self):
         check(self.payload["terminal"] == frontier.TERMINAL, "terminal changed")
         check("no timing" in self.payload["claim_ceiling"], "the claim ceiling lost its limits")
+
+
+
+
+class MeasuredFootprint(unittest.TestCase):
+    """TB-1..TB-6: the measurements that discharge TT-6's pricing premise."""
+
+    payload = None
+
+    @classmethod
+    def setUpClass(cls):
+        cls.payload = frontier.run()
+
+    def test_size_contract_is_validated_not_assumed(self):
+        contract = footprint.size_contract()
+        check(contract["empty_tuple_bytes"] == 40 and contract["tuple_slot_bytes"] == 8
+              and contract["small_integer_bytes"] == 28,
+              "the size contract changed: %s" % (contract,))
+
+    def test_size_contract_refuses_a_different_build(self):
+        """Every contract item must refuse, including the maxsize width.
+
+        The first version recorded `interpreter_maxsize_bits` without requiring
+        it, while the write-up claimed it was validated. Cursor Bugbot raised
+        that on PR #625; each item is probed here so the claim and the code
+        cannot drift apart again.
+        """
+        for name in ("EMPTY_TUPLE_BYTES", "TUPLE_SLOT_BYTES", "SMALL_INT_BYTES",
+                     "MAXSIZE_BITS"):
+            original = getattr(footprint, name)
+            try:
+                setattr(footprint, name, original + 1)
+                with self.assertRaises(footprint.FootprintError):
+                    footprint.size_contract()
+            finally:
+                setattr(footprint, name, original)
+        contract = footprint.size_contract()
+        check(contract["empty_tuple_bytes"] == footprint.EMPTY_TUPLE_BYTES
+              and contract["interpreter_maxsize_bits"] == footprint.MAXSIZE_BITS,
+              "the contract did not recover after the probes")
+
+    def test_payload_integers_are_shared_objects(self):
+        """TB-1: counting them as memory would double-count existing objects."""
+        for n in (3, 8):
+            for name, row in footprint.footprints(reg.register(n)).items():
+                check(row["integers_are_shared_objects"],
+                      "payload integers are not shared: %s at n=%d" % (name, n))
+
+    def test_threshold_payload_is_constant_and_table_grows(self):
+        """TB-2, on the two extremes of the scope."""
+        for n in (3, 8):
+            prints = footprint.footprints(reg.register(n))
+            threshold = prints["THRESHOLD_COMPARISON_BOOL"]
+            check(threshold["marshalled_constant_bytes"] == 8
+                  and threshold["tuple_structure_bytes"] == 0,
+                  "the threshold payload changed at n=%d: %s" % (n, threshold))
+            nested = prints["NESTED_CONSTANT_TABLE"]
+            check(nested["tuple_nodes"] == 2 ** n - 1,
+                  "the nested table's node count changed at n=%d" % n)
+
+    def test_count_ranks_the_tables_and_measurement_does_not(self):
+        """TB-4, the ranking withdrawn from TT-6."""
+        payload = self.payload
+        for n in payload["scope_n"]:
+            row = payload["table_rendering_comparison"][str(n)]
+            check(row["nested"]["constant_cells"] < row["flat"]["constant_cells"],
+                  "the count no longer ranks nested below flat at n=%d" % n)
+            for component in ("marshalled_constant_bytes", "tuple_structure_bytes"):
+                check(row["flat"][component] < row["nested"][component],
+                      "flat is not cheaper under %s at n=%d" % (component, n))
+
+    def test_in_memory_frontier_is_the_threshold_form_alone_from_five(self):
+        """TB-6, the result the count coordinate had hidden."""
+        payload = self.payload
+        for n in payload["scope_n"]:
+            memory = payload["frontier_measured_constant_bytes"][str(n)]["tuple_structure_bytes"]
+            if n >= 5:
+                check(memory["undominated"] == ["THRESHOLD_COMPARISON_BOOL"],
+                      "the in-memory frontier is not unique at n=%d: %s"
+                      % (n, memory["undominated"]))
+            else:
+                check(len(memory["undominated"]) > 1,
+                      "the n=%d in-memory optimum should be a tie: %s"
+                      % (n, memory["undominated"]))
+
+
+class SuiteSelfControls(unittest.TestCase):
+    """Controls on this file itself, after a review finding that it lied.
+
+    `MeasuredFootprint` was appended below the `unittest.main()` guard, so a
+    script run collected 19 of 25 tests and still printed OK. Cursor Bugbot
+    raised it on PR #625. Discovery was unaffected, and CI uses discovery, so
+    nothing was actually unchecked in CI -- but a green run that silently drops
+    six controls is the failure mode this capsule exists to prevent, so the
+    entry point is now pinned in place rather than only moved.
+    """
+
+    def test_entry_point_is_the_last_top_level_statement(self):
+        source = pathlib.Path(__file__).read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        last = tree.body[-1]
+        check(isinstance(last, ast.If), "the last top-level statement is not the guard")
+        test = last.test
+        check(isinstance(test, ast.Compare)
+              and isinstance(test.left, ast.Name) and test.left.id == "__name__",
+              "the last top-level statement is not the __main__ guard")
+
+    def test_a_script_run_collects_every_test_class(self):
+        """Whatever discovery finds, a direct run must find too."""
+        source = pathlib.Path(__file__).read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        classes = [node.name for node in tree.body if isinstance(node, ast.ClassDef)]
+        guard_index = next(i for i, node in enumerate(tree.body)
+                           if isinstance(node, ast.If))
+        after = [node.name for node in tree.body[guard_index:]
+                 if isinstance(node, ast.ClassDef)]
+        check(not after, "test classes defined after the entry point: %s" % (after,))
+        check(len(classes) >= 6, "expected at least six test classes, found %d" % len(classes))
 
 
 if __name__ == "__main__":
