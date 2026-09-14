@@ -45,6 +45,34 @@ class V5Tests(unittest.TestCase):
             for x in (Fraction(1), wall-Fraction(1,10), wall, wall+Fraction(1,10), Fraction(4)):
                 self.assertEqual(w.direct_winners(vecs,x), w.hull_winners(vecs,x))
 
+    def test_optimized_exactness_guard_is_not_assert_dependent(self):
+        old_scales, old_lookup = w.SCALES, w.lookup
+        def wrong_lookup(name, state, direction, token):
+            got, ops = old_lookup(name, state, direction, token)
+            if direction == "forward" and token == "K0":
+                return "WRONG", ops
+            return got, ops
+        try:
+            w.SCALES = (2,)
+            w.lookup = wrong_lookup
+            self.assertFalse(w.exactness_receipt()["all_exact"])
+        finally:
+            w.SCALES, w.lookup = old_scales, old_lookup
+
+    def test_remint_vector_guard_is_measured(self):
+        old = w.persistent_cells
+        def bad_cells(name, state):
+            value = old(name, state)
+            return value + 1 if name == "value_index" else value
+        try:
+            w.persistent_cells = bad_cells
+            rr = w.remint_receipt()
+            self.assertFalse(rr["7"]["vectors_preserved"])
+            self.assertFalse(rr["8"]["vectors_preserved"])
+            self.assertFalse(rr["7"]["boundary_preserved"])
+        finally:
+            w.persistent_cells = old
+
     def test_receipt_reproduction(self):
         here=Path(__file__).resolve().parent
         committed=json.loads((here/"RESULT_V5.json").read_text())
