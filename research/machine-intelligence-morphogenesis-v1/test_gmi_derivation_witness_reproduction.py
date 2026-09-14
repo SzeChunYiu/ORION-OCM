@@ -80,6 +80,7 @@ WITNESSES = {
     "predict_intersection_index.py": "STAGE_INTERSECTION_INDEX_PREDICTION_V1.json",
     "predict_composition_law.py": "STAGE_COMPOSITION_LAW_PREDICTION_V1.json",
     "predict_probe_law.py": "STAGE_PROBE_LAW_PREDICTION_V1.json",
+    "species_algebra_witness.py": "STAGE_SPECIES_ALGEBRA_V1.json",
 }
 
 
@@ -1898,3 +1899,67 @@ def test_the_corpus_has_both_a_cheap_and_an_expensive_composition():
     dm, dp = dear["measured_index"], dear["product_bound"]
     assert all(dm[k] == dp[k] for k in dm), "no expensive composition on record"
     assert dear["criterion_supported"] is True
+
+
+# ---------------------------------------------------------------------------
+# G: the species definitions, as proved properties rather than prose.
+# ---------------------------------------------------------------------------
+def test_species_relation_is_an_equivalence_and_the_partition_is_informative():
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    e = r["equivalence"]
+    assert e["reflexive"] and e["symmetric"] and e["transitive"], (
+        "the species relation lost an equivalence axiom")
+    assert 1 < e["species"] < e["descriptors"], (
+        "the partition is trivial -- one species, or all singletons -- and "
+        "either way carries no information")
+
+
+def test_morphological_distance_is_a_metric():
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    d = r["distance"]
+    assert d["symmetric"] and d["zero_iff_conspecific"] and d["triangle"], (
+        "the morphological distance is no longer a metric")
+    assert d["triples_checked"] >= 16777216, (
+        "the triangle inequality is checked on fewer triples than before; it is "
+        "an exhaustive claim and must stay exhaustive")
+    assert len(d["values"]) > 2, "distance is near-constant and cannot order morphologies"
+
+
+def test_species_identity_survives_substrate_change():
+    """If the resource profile were organizational, recompiling would speciate."""
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    s = r["substrate_invariance"]
+    assert s["species_changes"] == 0, (
+        "a substrate change moved a machine to another species, which breaks the "
+        "organizational/non-organizational split the whole section rests on")
+    assert s["substrate_changes_tried"] > 1000
+    w = r["within_species"]
+    assert w["dimensions_that_vary"] == ["resource"], (
+        "something organizational now varies within a species")
+
+
+def test_the_speciation_threshold_is_sharp():
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    t = r["speciation_threshold"]
+    assert set(t["distances_within"]).isdisjoint(t["distances_between"]), (
+        "a distance now occurs both within and between species, so the threshold "
+        "is no longer sharp and would need a tuned cutoff")
+    assert t["threshold"] == 1
+
+
+def test_hybrids_are_confined_to_the_parents_subcube():
+    """The real limit on composition, and it must be stated per pair."""
+    r = load_receipt("STAGE_SPECIES_ALGEBRA_V1.json")
+    h = r["hybridization"]
+    assert h["subcube_law_holds"] is True, (
+        "parents at distance k no longer reach exactly 2^k children")
+    by_k = h["children_per_pair_by_distance"]
+    for k, vals in by_k.items():
+        assert vals == [2 ** int(k)], (
+            "distance %s reaches %s children, not %d" % (k, vals, 2 ** int(k)))
+    assert h["new_species"] > 0 and h["parental_variants"] > 0, (
+        "hybridization either always or never yields a new species, so the "
+        "criterion does not discriminate")
+    assert h["distinct_children"] == h["organizational_space"], (
+        "pooled reachability changed; the document relies on it being total, "
+        "which is exactly why the constraint is stated per pair instead")
