@@ -286,5 +286,19 @@ print("=" * 76)
 print("all assertions held")
 print("=" * 76)
 
+OUT["protocol"] = {
+    "obligation": "Answer every query over a finite universe, holding either the complete input-output table, or the shortest description in a fixed class that reproduces it, or a subset answered by proximity to the nearest held case.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "bounds",
+    "coordinate": "cells",
+    "resource_law": "PVR-3",
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": False,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_EXEMPLAR_PARAMETRIC_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

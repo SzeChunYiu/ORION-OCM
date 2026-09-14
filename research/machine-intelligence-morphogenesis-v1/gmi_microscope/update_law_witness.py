@@ -259,5 +259,21 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Choose the next parameter setting from what has been seen "
+                  "until the optimum is reached, and pay for whatever extra "
+                  "machinery the choice rule must retain.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "charged_cost",
+    "coordinate": "evaluations",
+    "resource_law": "PVR-3",
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": False,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_UPDATE_LAW_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

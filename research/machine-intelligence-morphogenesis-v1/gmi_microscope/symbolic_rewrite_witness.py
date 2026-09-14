@@ -1063,5 +1063,21 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Answer queries whose required distinctions are relations between objects that no single scalar coordinate can carry, where the same relations recur across many ground instances.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "sparsity_ladder",
+    "coordinate": "instructions",
+    "resource_law": "PVR-3",
+    "negative_control": "relation_twin",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [
+        "exhaustive scalar search cross-checked against a three-property certificate test on all 512 relations",
+    ],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_SYMBOLIC_REWRITE_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

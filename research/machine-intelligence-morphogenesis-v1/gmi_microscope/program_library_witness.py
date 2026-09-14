@@ -908,6 +908,20 @@ print("=" * 78)
 # receipt against the committed one as a dict, so any wall-clock field would
 # make the witness fail reproduction on a differently loaded machine.
 OUT["assertions"] = "all held"
+OUT["protocol"] = {
+    "obligation": "Answer a corpus of queries that each require a sequence of primitive moves, by searching the space of sequences, with the option of retaining named sequences that shorten later searches.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "chunks",
+    "coordinate": "candidates enumerated",
+    "resource_law": None,
+    "negative_control": "collapsing_control",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_PROGRAM_LIBRARY_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=2, sort_keys=True)
     fh.write("\n")

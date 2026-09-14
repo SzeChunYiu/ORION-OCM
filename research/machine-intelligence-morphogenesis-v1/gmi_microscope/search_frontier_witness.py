@@ -286,5 +286,19 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Reach a goal in a state graph, either by expanding states at query time or by holding a precomputed answer for every state, under a bounded memory budget.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "orders",
+    "coordinate": "nodes expanded",
+    "resource_law": "PVR-3",
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_SEARCH_FRONTIER_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

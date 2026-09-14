@@ -12,7 +12,8 @@ exact `fractions.Fraction` arithmetic. Nothing is sampled and no reported
 number is a float: a sampled estimate of a distribution is not a derivation of
 one.
 
-The four conditions, stated before they are measured:
+The four conditions, stated earlier in this file than they are measured --
+which is source order within one run, not a pre-registration:
 
   chain (autoregressive)   The chain rule is an identity, so exactness is
                            free. What is NOT free is the ORDERING: the number
@@ -1059,7 +1060,7 @@ print()
 print("=" * 78)
 print("6  HELD-FAMILY RESPONSE TESTS")
 print("=" * 78)
-print("  Two laws derived above are frozen as quantitative predictions, then")
+print("  Two laws derived above are stated as quantitative predictions, then")
 print("  measured on joints built by a RULE that does not consult the")
 print("  derivation panel. Asserted disjoint from it below. A held test whose")
 print("  sweep predicts the same outcome everywhere would establish nothing, so")
@@ -1290,6 +1291,23 @@ print()
 print("=" * 78)
 print("all assertions held")
 print("=" * 78)
+
+OUT["protocol"] = {
+    "obligation": "Represent a given joint distribution over a finite set of atoms exactly, under a fixed structural restriction on how the representation may be written.",
+    "state_sufficient": True,
+    "lower_bound": 4,
+    "upper_bound_construction": "components",
+    "coordinate": "components",
+    "resource_law": None,
+    "negative_control": "iterative_structural_negative",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [
+        "held-out disjoint joint panel re-testing two frozen laws (held_law1/held_law2/held_law3)",
+        "multiset reachability criterion cross-checked against exhaustive bijection enumeration",
+    ],
+    "version": "B1/v1",
+}
 
 with open("microscopes/results/STAGE_GENERATIVE_FAMILY_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True, default=str)

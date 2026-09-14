@@ -1195,5 +1195,19 @@ print(BAR)
 print("all assertions held")
 print(BAR)
 
+OUT["protocol"] = {
+    "obligation": "Act over a sequence of steps to maximize total payoff, where present choices change which situations arise later, the situation may be only partly observable, and the environment's responses may be unknown in advance.",
+    "state_sufficient": True,
+    "lower_bound": 2,
+    "upper_bound_construction": "policy_memory",
+    "coordinate": "states",
+    "resource_law": "PVR-3",
+    "negative_control": "exploration_twin",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_CONTROL_FAMILY_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

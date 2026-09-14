@@ -1,0 +1,120 @@
+{
+  "control_synonyms": {
+    "families": 11,
+    "names": [
+      "collapsing_control",
+      "exploration_twin",
+      "iterative_structural_negative",
+      "negative_ecology",
+      "negative_twin",
+      "relation_twin",
+      "stateless",
+      "substrate_control",
+      "twins"
+    ],
+    "shared_tokens": []
+  },
+  "protocol_block": {
+    "compliant": [
+      "B10 conditional spec",
+      "B11 exemplar/param",
+      "B13 belief state",
+      "B14 symbolic rewrite",
+      "B15 program library",
+      "B16 search frontier",
+      "B17 generative",
+      "B18 control",
+      "B19 continual",
+      "B2 finite-state",
+      "B3 linear/kernel",
+      "B4 credit assign",
+      "B4 neural arch",
+      "B4 update law",
+      "B5 equivariance",
+      "B6 gated recurrence",
+      "B7 dynamic routing",
+      "B8 message passing",
+      "B9 state space"
+    ],
+    "partial": [],
+    "schema_fields": [
+      "coordinate",
+      "lower_bound",
+      "negative_control",
+      "neutral_search_blind_to_family",
+      "obligation",
+      "prediction_frozen_before_outcome",
+      "replication",
+      "resource_law",
+      "state_sufficient",
+      "upper_bound_construction",
+      "version"
+    ],
+    "total": 19
+  },
+  "realscale_false_positive_context": {
+    "B14 symbolic rewrite": [
+      "\"\"\"b14: symbolic / production / rewrite sys",
+      "0:         reads = \"a production system\"     e",
+      "and a\")     print(\"  production system, and i"
+    ]
+  },
+  "signal_validation": [
+    {
+      "false_positive": [],
+      "fn": 1,
+      "fp": 0,
+      "missed": [
+        "B2 finite-state"
+      ],
+      "signal": "matched negative control",
+      "tn": 8,
+      "tp": 10
+    },
+    {
+      "false_positive": [
+        "B14 symbolic rewrite"
+      ],
+      "fn": 0,
+      "fp": 1,
+      "missed": [],
+      "signal": "real-regime replication",
+      "tn": 18,
+      "tp": 0
+    }
+  ],
+  "widening_test": {
+    "complexity coordinate": {
+      "receipt_only": 13,
+      "receipt_plus_source": 19
+    },
+    "constructive realization": {
+      "receipt_only": 4,
+      "receipt_plus_source": 19
+    },
+    "crossover prediction": {
+      "receipt_only": 8,
+      "receipt_plus_source": 18
+    },
+    "lifecycle/resource law": {
+      "receipt_only": 9,
+      "receipt_plus_source": 19
+    },
+    "lower bound proved": {
+      "receipt_only": 3,
+      "receipt_plus_source": 11
+    },
+    "matched negative twin": {
+      "receipt_only": 10,
+      "receipt_plus_source": 15
+    },
+    "neutral recovery": {
+      "receipt_only": 9,
+      "receipt_plus_source": 15
+    },
+    "obligation-sufficient state": {
+      "receipt_only": 6,
+      "receipt_plus_source": 15
+    }
+  }
+}

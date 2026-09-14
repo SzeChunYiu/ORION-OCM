@@ -1,0 +1,25 @@
+name: GMI capability predictor (F4 development-only)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-capability-predictor-dev-v1/**'
+      - '.github/workflows/gmi-capability-predictor-dev-v1.yml'
+  push:
+    paths:
+      - 'research/gmi-capability-predictor-dev-v1/**'
+      - '.github/workflows/gmi-capability-predictor-dev-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-controls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact controls (normal)
+        run: python -I -B research/gmi-capability-predictor-dev-v1/test_dev_predictor_v1.py -v
+      - name: Run exact controls (optimized)
+        run: python -I -O -B research/gmi-capability-predictor-dev-v1/test_dev_predictor_v1.py -v

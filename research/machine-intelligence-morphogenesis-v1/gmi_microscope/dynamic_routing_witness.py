@@ -320,5 +320,21 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Answer a demand whose relevant location is named by the "
+                  "input itself, while permitted to inspect only a bounded "
+                  "number of locations.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "recovery",
+    "coordinate": "places read (read budget)",
+    "resource_law": None,
+    "negative_control": "negative_ecology",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_DYNAMIC_ROUTING_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

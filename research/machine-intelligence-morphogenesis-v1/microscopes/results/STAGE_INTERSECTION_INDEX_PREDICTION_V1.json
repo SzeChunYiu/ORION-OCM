@@ -1,0 +1,36 @@
+{
+ "falsifier": "any measured index != m + 2 at any tested m >= 3; a measured 3m falsifies it, and so do m+1 and m+3",
+ "generic_product_bound": {
+  "12": 36,
+  "20": 60,
+  "3": 9,
+  "4": 12,
+  "5": 15,
+  "6": 18,
+  "7": 21,
+  "8": 24
+ },
+ "inputs_admissible_at_freeze": [
+  "definitions of obligations A and B",
+  "the three-state suffix automaton for 'ab'",
+  "pencil-and-paper collapse argument; no enumeration was run"
+ ],
+ "integrity": "committed and pushed in a commit containing no measuring code; the measuring script is written in a later commit, so commit order is the evidence",
+ "obligation_a": "count of 'b' divisible by m",
+ "obligation_b": "string ends with 'ab'",
+ "phase": "prediction -- no measurement performed or available in this script",
+ "predicted_index": {
+  "12": 14,
+  "20": 22,
+  "3": 5,
+  "4": 6,
+  "5": 7,
+  "6": 8,
+  "7": 9,
+  "8": 10
+ },
+ "predicted_rule": "index = m + 2 for every m >= 3",
+ "reasoning_digest": "the suffix-state reached after reading z depends only on z whenever z contains an 'a'; the sole state-dependent suffix is the single letter 'b'; so (r,no-progress)~(r,saw-a) except at r=m-1 and (r,no-progress)~(r,saw-ab) except at r=0, leaving m + 2 classes",
+ "registration": "GMI_INTERSECTION_INDEX_PREDICTION_V1",
+ "target": "intersection of A and B"
+}

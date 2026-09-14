@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F3 capability interaction laws",
+  "scope": "finite exact microscopes for F3 rows 5 through 9",
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "claim_boundary": "These are bounded interaction laws. They do not establish G6 capability prediction, universal monotone synergy, or empirical transfer.",
+  "rows": [
+    {
+      "id": "F3-COMM-TEACH-1",
+      "ledger_row": "Communication × teaching interaction.",
+      "scope": "finite learner state crossed with a finite teaching transcript alphabet",
+      "assumptions": [
+        "the learner begins in one of P prior-equivalence classes",
+        "the complete teaching transcript has at most K distinguishable values",
+        "the learner receives no additional side information",
+        "exact teaching requires preserving each obligation-distinct prior/transcript cell"
+      ],
+      "theorem": "After teaching, the learner can occupy at most P*K distinguishable prior/transcript cells. More than P*K obligation-distinct lesson outcomes cannot be taught exactly under the declared channel; the bound is tight by injective encoding when the required cells fit.",
+      "strongest_parent": "finite communication complexity plus pedagogical state update",
+      "negative_twin": "make the target independent of the teaching transcript; K drops out and communication has no pedagogical value",
+      "nearest_counterexample": "interactive side channels or an uncharged shared codebook can enlarge the effective transcript alphabet",
+      "falsifier": "an exact learner distinguishing more than P*K required cells without extra information",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-TEACH-CULT-1",
+      "ledger_row": "Teaching × cultural accumulation interaction.",
+      "scope": "deterministic one-generation ratchet with itemwise transmission and novel discovery",
+      "assumptions": [
+        "current repertoire has R distinct useful items",
+        "teaching can transmit at most K existing items exactly",
+        "the learner independently adds B genuinely novel useful items",
+        "transmitted and newly discovered items are retained without duplication"
+      ],
+      "theorem": "The maximum next-generation repertoire is min(R,K)+B. Strict cumulative growth occurs iff B > max(0,R-K). Thus teaching capacity determines how much rediscovery must merely replace transmission loss before culture can accumulate.",
+      "strongest_parent": "cultural transmission / retention recurrence with finite channel capacity",
+      "negative_twin": "set B=0; repertoire cannot grow and falls to min(R,K) when teaching is lossy",
+      "nearest_counterexample": "compression or compositional teaching can transmit more than K itemwise units and lies outside this itemwise scope",
+      "falsifier": "a repertoire larger than min(R,K)+B under the stated itemwise accounting",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-META-ALLOC-1",
+      "ledger_row": "Metacognition × resource allocation interaction.",
+      "scope": "finite optional computations with equal unit cost and additive expected net gains",
+      "assumptions": [
+        "each optional computation has a registered expected value of computation (EVC)",
+        "all optional computations consume one identical budget slot",
+        "net gains add and there are no interaction terms",
+        "at most k computations may be funded"
+      ],
+      "theorem": "An optimal allocation funds the k largest positive EVCs (or all positive EVCs if fewer than k). Scarcity is load-bearing: when k covers every positive-EVC operation, ranking information no longer changes the selected set.",
+      "strongest_parent": "rational metareasoning under equal-cost additive actions",
+      "negative_twin": "make all EVCs equal and positive; metacognitive ranking provides no allocation advantage",
+      "nearest_counterexample": "unequal costs or nonadditive computation interactions turn the problem into a different allocation problem; the top-k theorem need not hold",
+      "falsifier": "an equal-cost additive instance where a non-top-k-positive set has larger total EVC",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-CAUSAL-PLAN-1",
+      "ledger_row": "Causal model × planning interaction.",
+      "scope": "finite latent worlds represented by model classes with exact intervention action values",
+      "assumptions": [
+        "each latent world has a finite action-value vector under intervention",
+        "the planner observes only a registered model-class label",
+        "within a model class the planner must choose one action",
+        "planning success means choosing an action optimal in every latent world compatible with the observed class"
+      ],
+      "theorem": "A model representation is exactly planning-sufficient iff, for every represented class, the intersection of the argmax action sets of all compatible worlds is nonempty. Observational aliasing is harmless only when aliased worlds retain a common optimal intervention.",
+      "strongest_parent": "decision-theoretic sufficiency of causal/interventional state",
+      "negative_twin": "make all aliased worlds share the same optimal intervention; observationally coarse state becomes planning-sufficient",
+      "nearest_counterexample": "if the planner can actively disambiguate the latent world before acting, a currently insufficient class may become sufficient after information acquisition",
+      "falsifier": "a class with empty common-optimal-action intersection that nevertheless supports one exact class-conditioned action",
+      "status": "PROVED_BOUNDED"
+    },
+    {
+      "id": "F3-TOOL-VERIFY-1",
+      "ledger_row": "Tool routing × verification interaction.",
+      "scope": "ordered finite routed proposals, bounded verification prefix, deterministic accept predicate",
+      "assumptions": [
+        "the router produces an ordered proposal list",
+        "the verifier may inspect at most q routed proposals",
+        "safe adoption requires every accepted inspected proposal to be correct",
+        "success additionally requires at least one accepted correct inspected proposal"
+      ],
+      "theorem": "Guaranteed safe success occurs iff the verifier is sound on the inspected prefix and that prefix contains at least one accepted correct proposal. Routing proposals beyond q cannot improve the guarantee unless routing changes which proposals enter the verified prefix.",
+      "strongest_parent": "solver routing plus bounded verification / selective prediction",
+      "negative_twin": "set q=0; no routed proposal can be safely adopted regardless of router breadth",
+      "nearest_counterexample": "a verifier that can batch-certify uninspected proposals changes the effective verification budget and lies outside the prefix model",
+      "falsifier": "safe guaranteed adoption without a correct accepted proposal in the verified prefix, or safe adoption despite an accepted incorrect inspected proposal",
+      "status": "PROVED_BOUNDED"
+    }
+  ]
+}

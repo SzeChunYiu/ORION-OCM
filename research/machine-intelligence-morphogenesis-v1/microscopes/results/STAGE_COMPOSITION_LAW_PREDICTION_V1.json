@@ -1,0 +1,63 @@
+{
+ "capability_ceiling": {
+  "claim": "no composition of moduli <= 12 exceeds lcm(1..12) however many are composed",
+  "moduli_at_most": 12,
+  "predicted_max_index": 27720
+ },
+ "falsifiers": [
+  "any k-fold counting index != lcm",
+  "any suffix-composed index != counting index + 2",
+  "any composition of moduli <= 12 with index > lcm(1..12)"
+ ],
+ "form": "a machine required to satisfy several obligations at once",
+ "generic_product_bound": {
+  "12,18": 216,
+  "2,3": 6,
+  "2,3,5": 30,
+  "2,4": 8,
+  "2,4,8": 64,
+  "3,5,7": 105,
+  "4,6": 24,
+  "4,6,9": 216,
+  "6,10": 60,
+  "6,10,15": 900,
+  "6,15": 90
+ },
+ "inputs_admissible_at_freeze": [
+  "obligation definitions",
+  "Chinese Remainder Theorem",
+  "three-state suffix automaton for 'ab'",
+  "the published single-modulus m+2 result",
+  "no k-fold enumeration was run"
+ ],
+ "law_1": "k-fold intersection of counting obligations has index exactly lcm(m1..mk)",
+ "law_2": "intersecting any counting form with 'ends with ab' costs exactly +2",
+ "phase": "prediction -- no measurement performed or available in this script",
+ "predicted_counting_index": {
+  "12,18": 36,
+  "2,3": 6,
+  "2,3,5": 30,
+  "2,4": 4,
+  "2,4,8": 8,
+  "3,5,7": 105,
+  "4,6": 12,
+  "4,6,9": 36,
+  "6,10": 30,
+  "6,10,15": 30,
+  "6,15": 30
+ },
+ "predicted_suffix_composed_index": {
+  "12,18": 38,
+  "2,3": 8,
+  "2,3,5": 32,
+  "2,4": 6,
+  "2,4,8": 10,
+  "3,5,7": 107,
+  "4,6": 14,
+  "4,6,9": 38,
+  "6,10": 32,
+  "6,10,15": 32,
+  "6,15": 32
+ },
+ "registration": "GMI_COMPOSITION_LAW_PREDICTION_V1"
+}
