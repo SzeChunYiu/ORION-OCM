@@ -1,0 +1,34 @@
+{
+  "schema": "F1CapabilityAssayV1",
+  "issue": 602,
+  "scope": "Architecture-independent F1 measurement contract at registered task/ecology/resource envelopes. This is a G1 registration artifact, not evidence that a system possesses a capability and not a G6 morphology-to-capability predictor.",
+  "assumptions": [
+    "schema proofs are not empirical capability proofs",
+    "resource comparison is vector-valued unless nonnegative prices are preregistered",
+    "negative-twin minimality is local to one declared dependency",
+    "the concentration gate applies only to bounded independent evaluation units"
+  ],
+  "evidence_class": "P1 formal specification plus executable structural validation",
+  "claim_ceiling": "G1",
+  "definitions": {
+    "A0": "task specification plus legal observations/messages/actions through decision time plus own legal state; no protected labels, future/judge state, twin identity, or uncharged side channels",
+    "S0": "for paired utility u in [0,1], d_plus=u(M,w_plus)-u(P,w_plus), d_twin=u(M,w_twin)-u(P,w_twin); with epsilon(n,alpha)=sqrt(2 ln(3/alpha)/n), require mean(d_plus)-epsilon(n_plus,alpha)>tau_parent and abs(mean(d_twin))+epsilon(n_twin,alpha)<=tau_twin",
+    "N0": "remove exactly one registered capability-requiring conditional dependency while matching reward/action/scoring/remint family and non-target resource budgets",
+    "P0": "the best preregistered member of the strongest behavioral parent envelope under the same allowed-information and resource restrictions receives first refusal"
+  },
+  "statistics": {
+    "alpha_default": 0.05,
+    "simultaneous_events": 3,
+    "bound": "epsilon(n,alpha)=sqrt(2 ln(3/alpha)/n)",
+    "reason": "one positive-world lower-tail event plus two twin-world tails; Bonferroni alpha/3 and Hoeffding for differences in [-1,1]",
+    "requires_independent_units": true,
+    "dependence_boundary": "Repeated/adaptive dependent rows are outside this gate and must use a separately registered simultaneous-validity method."
+  },
+  "resource_order": {
+    "definition": "r <= s iff every registered nonnegative resource coordinate of r is <= the corresponding coordinate of s",
+    "default_comparison": "Pareto/componentwise",
+    "scalarization_rule": "A scalar price p^T r is admissible only when p is nonnegative and frozen before protected scoring; the underlying vector remains reportable."
+  },
+  "strongest_parent_rule": "In a finite enumerated parent class use the exact maximum. In an open class claim separation only from the preregistered searched envelope and report search coverage; the best tried baseline is not silently a universal optimum.",
+  "falsifier": "Any coordinate missing required metadata, claim-ceiling escalation, protected information leakage, unmatched resources, parent non-separation, failed negative-twin collapse, or violation of the stated concentration assumptions invalidates the corresponding registered claim."
+}
