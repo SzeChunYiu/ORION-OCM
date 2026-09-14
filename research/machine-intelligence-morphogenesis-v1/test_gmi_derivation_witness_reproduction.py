@@ -83,6 +83,7 @@ WITNESSES = {
     "species_algebra_witness.py": "STAGE_SPECIES_ALGEBRA_V1.json",
     "predict_intransitivity.py": "STAGE_INTRANSITIVITY_PREDICTION_V1.json",
     "predict_symbiosis.py": "STAGE_SYMBIOSIS_PREDICTION_V1.json",
+    "predict_repricing.py": "STAGE_REPRICING_PREDICTION_V1.json",
 }
 
 
@@ -2124,3 +2125,49 @@ def test_resident_invader_orientation_was_verified_not_assumed():
     assert r["pairs_compared"] == 168, (
         "the compared-pair count changed; 168 is the 192 cells minus the 24 "
         "self-pairings, and a different number means self-pairings leaked in")
+
+
+# ---------------------------------------------------------------------------
+# G box 13: repricing.  The second frozen prediction in this corpus to FAIL.
+# ---------------------------------------------------------------------------
+def test_repricing_adjudication_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_REPRICING_VERDICT_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "compare_repricing.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "compare_repricing.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed verdict to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the repricing adjudication no longer reproduces its verdict")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_repricing_is_non_monotone_and_the_failure_stays_recorded():
+    r = load_receipt("STAGE_REPRICING_VERDICT_V1.json")
+    assert r["verdict"] == "P1_FALSIFIED", (
+        "the repricing prediction is no longer recorded as failed; it was frozen "
+        "before the measurement and failing is its honest outcome")
+    assert r["oscillating_pairs"] > 0, (
+        "no pair oscillates any more, which would make repricing monotone and "
+        "reverse the documented finding")
+    assert r["P1_holds"] is False and r["P2_holds"] is True
+
+
+def test_the_repricing_zero_control_fired():
+    """Without a changing pair, 'no oscillation' would have been uninformative."""
+    r = load_receipt("STAGE_REPRICING_VERDICT_V1.json")
+    assert r["changing_pairs"] > 0, (
+        "no pair changes winner across pools, so the repricing moves nothing "
+        "and any claim about oscillation is uninformative")
+    assert r["constant_pairs"] > 0, (
+        "every pair changes, which would mean the pools share no structure at "
+        "all rather than that repricing has a specific effect")
+    assert r["oscillating_pairs"] < r["changing_pairs"], (
+        "every changing pair oscillates, which would be a different and much "
+        "stronger claim than the one measured")
