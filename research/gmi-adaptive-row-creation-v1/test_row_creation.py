@@ -39,23 +39,26 @@ class GeometricBudget(unittest.TestCase):
 
 class PerRowCertificates(unittest.TestCase):
     def test_certificate_valid(self):
+        """Every generated certificate passes verification."""
         alpha = F(1, 4)
         for weight in (F(1, 4), F(1, 3), F(1, 2)):
             for n in (1, 2, 5, 10, 50, 100, 500):
-                rad = arc7.certificate(alpha, weight, n)
-                self.assertTrue(arc7.verify_certificate(
-                    alpha, weight, n, rad),
-                    "n=%d w=%s rad=%s" % (n, weight, rad))
+                cert = arc7.certificate(alpha, weight, n)
+                self.assertIsInstance(cert, arc7.Certificate)
+                self.assertTrue(arc7.verify_certificate(cert),
+                                "n=%d w=%s" % (n, weight))
 
     def test_certificate_one_at_zero_visits(self):
-        rad = arc7.certificate(F(1, 4), F(1, 3), 0)
-        self.assertEqual(rad, F(1))
+        cert = arc7.certificate(F(1, 4), F(1, 3), 0)
+        self.assertIsInstance(cert, arc7.Certificate)
+        self.assertEqual(cert.radius, F(1))
+        self.assertTrue(arc7.verify_certificate(cert))
 
     def test_certificate_eventually_shrinks(self):
         alpha = F(1, 4)
         weight = F(1, 3)
-        r_small = arc7.certificate(alpha, weight, 500)
-        self.assertLess(r_small, F(1, 5))
+        cert = arc7.certificate(alpha, weight, 500)
+        self.assertLess(cert.radius, F(1, 5))
 
     def test_certificate_bad_alpha_rejected(self):
         with self.assertRaises(ValueError):
@@ -70,10 +73,20 @@ class PerRowCertificates(unittest.TestCase):
             arc7.certificate(F(1, 4), F(1, 3), -1)
 
     def test_verify_rejects_bad_radius(self):
-        self.assertFalse(arc7.verify_certificate(
-            F(1, 4), F(1, 3), 100, F(0)))
-        self.assertFalse(arc7.verify_certificate(
-            F(1, 4), F(1, 3), 100, F(1, 2)))
+        alpha, weight, n = F(1, 4), F(1, 3), 100
+        cert = arc7.certificate(alpha, weight, n)
+        bad = arc7.Certificate(cert.alpha, cert.weight, cert.visits,
+                               cert.effective_n, cert.exponent,
+                               cert.numerator, F(0))
+        self.assertFalse(arc7.verify_certificate(bad))
+        bad2 = arc7.Certificate(cert.alpha, cert.weight, cert.visits,
+                                cert.effective_n, cert.exponent,
+                                cert.numerator, F(1, 2))
+        self.assertFalse(arc7.verify_certificate(bad2))
+
+    def test_verify_rejects_non_certificate(self):
+        self.assertFalse(arc7.verify_certificate(42))
+        self.assertFalse(arc7.verify_certificate({"radius": 1}))
 
 
 class SimultaneousConfidence(unittest.TestCase):
