@@ -39,7 +39,9 @@ RESULTS = os.path.join(HERE, "microscopes", "results")
 WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
+    "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
+    "equivariance_witness.py": "STAGE_EQUIVARIANCE_V1.json",
     "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
     "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
@@ -59,6 +61,7 @@ WITNESSES = {
     "social_cognition_witness.py": "STAGE_SOCIAL_COGNITION_V1.json",
     "social_strategic_witness.py": "STAGE_SOCIAL_STRATEGIC_V1.json",
     "subgoal_witness.py": "STAGE_SUBGOAL_WITNESS_V1.json",
+    "update_law_witness.py": "STAGE_UPDATE_LAW_V1.json",
     "teaching_culture_witness.py": "STAGE_TEACHING_CULTURE_WITNESS_V1.json",
 }
 
@@ -747,3 +750,119 @@ def test_neural_morphology_has_a_losing_ecology():
     assert v["majority"] == "net wins"
     assert v["xor2"] in ("TABLE WINS", "tie"), \
         "the net now beats the table even where it needs full machinery"
+
+
+def test_gradient_law_needs_a_slope_and_random_search_does_not():
+    """GMI_UPDATE_LAW_DERIVATION_V1: on a needle landscape the gradient law
+    must return nothing while uniform search still finds the optimum. Both
+    halves -- otherwise this is a statement about difficulty, not about what a
+    gradient law requires."""
+    r = load_receipt("STAGE_UPDATE_LAW_V1.json")
+    rough = [x for x in r["reachability"] if x["landscape"] == "rough"]
+    smooth = [x for x in r["reachability"] if x["landscape"] == "smooth"]
+    assert rough and smooth
+    assert all(x["gradient"] is None for x in rough), \
+        "a gradient law now follows a slope that does not exist"
+    assert all(x["random"] is not None for x in rough), \
+        "uniform search should still find a needle"
+    assert all(x["gradient"] is not None for x in smooth), \
+        "a gradient law should reach the optimum on a smooth landscape"
+
+
+def test_update_law_has_a_parameter_count_break_even():
+    """The gradient premium is fixed while its saving grows with d, so some
+    other law must be cheapest at small d."""
+    r = load_receipt("STAGE_UPDATE_LAW_V1.json")
+    winners = [x["cheapest"] for x in r["charged_cost"]]
+    assert len(set(winners)) > 1, "one law is cheapest everywhere -- no break-even"
+    assert r["gradient_pays_from_d"] is not None, \
+        "the gradient law never becomes cheapest"
+    assert winners[0] != "gradient", \
+        "the gradient law is now cheapest at the smallest parameter count"
+
+
+def test_horizon_hypothesis_stays_refuted():
+    """The document says plainly that the horizon explanation is MINE and is
+    refused. If a change ever made it survive, the document would be stale and
+    this must fail rather than quietly pass."""
+    r = load_receipt("STAGE_UPDATE_LAW_V1.json")
+    assert r["hypothesis_A_horizon_survives"] is False, \
+        "the horizon hypothesis now survives -- the document retracts it and is stale"
+    assert r["hypothesis_B_substrate_survives"] is True, \
+        "the substrate hypothesis no longer survives"
+    assert all(x["fits_16"] for x in r["horizon"]["rows"]), \
+        "the gradient law no longer fits the registered 16-event budget"
+
+
+def test_accumulation_modes_scale_on_different_axes():
+    """GMI_CREDIT_ASSIGNMENT_DERIVATION_V1: forward cost scales with parameters
+    and reverse with outputs, so BOTH regimes must appear. Two earlier versions
+    of the witness made reverse win everywhere -- that is what a derivation with
+    no content looks like, and this pin is what would catch it."""
+    r = load_receipt("STAGE_CREDIT_ASSIGNMENT_V1.json")
+    kinds = {x["cheaper"] for x in r["accumulation"]}
+    assert "reverse" in kinds, "reverse mode is never cheaper"
+    assert "forward" in kinds, \
+        "reverse mode is cheaper in every regime -- the choice is not a choice"
+    scalar_loss = [x for x in r["accumulation"] if x["n_out"] == 1]
+    assert scalar_loss and all(x["cheaper"] == "reverse" for x in scalar_loss), \
+        "reverse should win at a scalar loss, the deepest point of its regime"
+    assert r["forward_regime"], "the forward-regime twin rows are missing"
+
+
+def test_mlp_is_recovered_only_when_a_single_layer_fails():
+    """Label-free recovery: XOR must return a depth-2 nonlinear machine and a
+    linearly separable obligation must not. Recovering an MLP for everything
+    would be a search that prefers MLPs rather than one that prices them."""
+    r = load_receipt("STAGE_CREDIT_ASSIGNMENT_V1.json")
+    by = {x["obligation"]: x for x in r["neutral_recovery"]}
+    assert by["xor2"]["is_mlp"] is True, "XOR no longer recovers a multi-layer machine"
+    assert by["or2"]["is_mlp"] is False, \
+        "a linearly separable obligation now recovers an MLP"
+    assert by["xor2"]["depth"] == 2 and by["xor2"]["nonlinearity"] is True
+    assert by["or2"]["cost"] < by["xor2"]["cost"], \
+        "the simpler obligation should recover the cheaper machine"
+
+
+def test_symmetry_descriptor_refutes_with_a_counterexample():
+    """GMI_EQUIVARIANCE_DERIVATION_V1: the descriptor must separate invariant
+    from non-invariant obligations, and must REFUTE with an exhibited
+    counterexample rather than merely failing to prove."""
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x for x in r["symmetry"]}
+    assert by["has_11"]["shift_invariant"] is True
+    assert by["first_is_1"]["shift_invariant"] is False
+    assert by["first_is_1"]["counterexample"], \
+        "non-invariance is asserted without an exhibited counterexample"
+    vals = [x["shift_invariant"] for x in r["symmetry"]]
+    assert any(vals) and not all(vals), "the descriptor distinguishes nothing"
+
+
+def test_receptive_field_is_read_off_the_obligation():
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x["receptive_field"] for x in r["receptive_field"]}
+    assert by["has_11"] == 2 and by["has_101"] == 3, \
+        "the receptive field no longer matches the pattern width"
+    assert by["first_is_1"] is None, \
+        "a position-anchored obligation should not be a function of the window multiset"
+
+
+def test_shift_invariance_licenses_sharing_but_does_not_guarantee_it():
+    """parity_all is shift-invariant with receptive field 1 and STILL cannot be
+    expressed by an OR-combined shared detector. Losing that row would turn a
+    careful claim into an overclaim."""
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x for x in r["recovery"]}
+    assert by["has_11"]["shared_works"] is True
+    assert by["has_101"]["shared_works"] is True
+    assert by["parity_all"]["shared_works"] is False, (
+        "parity is now expressible by an OR-combined shared detector, so the "
+        "combiner caveat in the document would be stale")
+
+
+def test_equivariance_negative_twin_separates():
+    r = load_receipt("STAGE_EQUIVARIANCE_V1.json")
+    by = {x["obligation"]: x for x in r["negative_twin"]}
+    assert by["has_11"]["shared_works"] is True
+    assert by["first_is_1"]["shared_works"] is False, \
+        "sharing now works on a position-anchored obligation"

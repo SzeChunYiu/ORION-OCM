@@ -1,0 +1,76 @@
+{
+  "schema": "GMICapabilityCeilingsF2Tranche3V1",
+  "issue": 602,
+  "section": "F2 tranche 3",
+  "scope": "Finite exact resource ceilings for worst-case exhaustive planning, deterministic unstructured verified search, and bounded verification under exchangeable defect locations. These are bounded G2 impossibility/tightness results, not a morphology-to-capability G6 predictor.",
+  "assumptions": [
+    "all resource budgets and task families are frozen before protected outcomes",
+    "planning is over a full finite b-ary tree with no pruning, transposition merging, heuristic oracle or structure that rules out branches",
+    "search is over a finite unstructured candidate class with a perfect membership verifier and no inference or side channel relating unchecked candidates to checked candidates",
+    "verification checks distinct obligation coordinates perfectly, defect locations are exchangeable under the registered uniform-r-subset model, and adoption occurs when all inspected coordinates pass",
+    "every theorem states an exact zero-error or explicitly distributional boundary and refuses claims outside that boundary"
+  ],
+  "evidence_class": "P1 formal theorem family plus P2 exhaustive finite witnesses",
+  "claim_ceiling": "G2",
+  "strongest_parents": [
+    "uninformed tree-search branching-factor complexity",
+    "deterministic decision-tree/query complexity for unstructured search",
+    "acceptance sampling and the hypergeometric distribution"
+  ],
+  "falsifier": "An in-scope finite instance violates a stated bound while its scope guards and resource accounting remain exactly satisfied.",
+  "ceilings": [
+    {
+      "id": "F2_PLANNING_RESOURCE_HORIZON",
+      "box": "Planning resource -> reachable horizon bound.",
+      "quantity": "Full b-ary planning tree, exhaustive node-inspection budget R, and guaranteed complete horizon h.",
+      "theorem": "In a full b-ary tree where any uninspected node through depth h may contain the only goal or obligation-changing event, a planner that guarantees complete zero-error coverage through depth h must inspect every node through that depth. The required node count is N(b,h)=h+1 for b=1 and (b^(h+1)-1)/(b-1) for b>1. The bound is tight by breadth-first exhaustive inspection.",
+      "bound": "N(b,h) <= R. For b>1, h <= floor(log_b(R(b-1)+1))-1; for b=1, h <= R-1.",
+      "strongest_parent": "Uninformed tree-search branching-factor complexity / exhaustive search.",
+      "repo_parent": "research/machine-intelligence-morphogenesis-v1/GMI_PLANNING_STOPPING_RULE_V1.md",
+      "assumptions": [
+        "finite full b-ary tree and integer horizon h>=0",
+        "node inspection is the metered planning resource",
+        "any node through depth h may be adversarially decisive",
+        "no heuristic oracle, pruning certificate, state merging/transposition, or structural dominance rule",
+        "guarantee is complete worst-case coverage, not success on one lucky path"
+      ],
+      "negative_twin": "A binary tree with R=14 cannot guarantee complete depth 3 because depth 3 contains 15 nodes including the root; R=15 is tight.",
+      "falsifier": "An in-scope planner guarantees complete depth h after inspecting fewer than N(b,h) nodes."
+    },
+    {
+      "id": "F2_SEARCH_BUDGET_VERIFIED_CLASS",
+      "box": "Search budget -> reachable verified-solution class.",
+      "quantity": "N unstructured candidates, one hidden valid candidate, and Q deterministic membership-verifier queries.",
+      "theorem": "If exactly one of N candidates may be valid and validity of one candidate gives no information about any other, every deterministic algorithm that guarantees finding the valid candidate in the worst case requires Q>=N membership queries. With Q<N, an adversary places the unique valid candidate at an unqueried index. The bound is tight by querying all candidates.",
+      "bound": "Worst-case guaranteed verified-solution class size <= Q; complete guarantee over N candidates requires Q>=N.",
+      "strongest_parent": "Deterministic decision-tree/query complexity for unstructured search.",
+      "assumptions": [
+        "finite candidate set with exactly one potentially valid location",
+        "validity membership oracle is exact",
+        "candidate identities are unstructured and checking one candidate gives no information about another",
+        "no generative shortcut, ordering promise, heuristic oracle, side information, or parallel unmetered verification",
+        "worst-case zero-error guarantee"
+      ],
+      "negative_twin": "N=5 candidates with Q=4 queries; whichever four indices are checked, the fifth can be the unique valid candidate.",
+      "falsifier": "An in-scope deterministic search guarantees the unique valid candidate for all placements with Q<N queries."
+    },
+    {
+      "id": "F2_VERIFICATION_BUDGET_FALSE_ADOPTION",
+      "box": "Verification budget -> admissible false-adoption floor.",
+      "quantity": "M obligation coordinates, exactly r defective coordinates chosen uniformly among all r-subsets, and q distinct perfect checks without replacement.",
+      "theorem": "Under exchangeable defect locations and no defect-location side information, any non-anticipating verifier that inspects q distinct coordinates and adopts iff all inspected coordinates pass misses every defect with probability C(M-q,r)/C(M,r), interpreted as zero when M-q<r. This is therefore the exact false-adoption probability for the registered model. In the distribution-free adversarial single-defect model, any q<M leaves an unchecked coordinate on which an invalid candidate can be placed, so zero worst-case false adoption requires q=M.",
+      "bound": "P_FA(q;M,r)=C(M-q,r)/C(M,r). For r=1, P_FA=(M-q)/M. Worst-case adversarial zero-FA requires q=M.",
+      "strongest_parent": "Acceptance sampling / hypergeometric sampling without replacement.",
+      "assumptions": [
+        "finite M obligation coordinates and 1<=r<=M defects",
+        "the r-defect set is uniformly distributed over all r-subsets for the probabilistic bound",
+        "q distinct checks are chosen without defect-location side information",
+        "each checked defect is detected perfectly",
+        "candidate is adopted iff no checked coordinate fails"
+      ],
+      "negative_twin": "M=10, r=1, q=8 has exact false-adoption probability 2/10; full q=10 verification has probability 0.",
+      "falsifier": "Under the registered exchangeable perfect-check model, measured exact enumeration disagrees with C(M-q,r)/C(M,r), or a q<M deterministic verifier guarantees zero false adoption against an adversarial single defect."
+    }
+  ],
+  "terminal": "F2_TRANCHE3_PLANNING_SEARCH_VERIFICATION_CEILINGS_REGISTERED_AT_G2"
+}
