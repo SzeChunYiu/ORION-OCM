@@ -78,6 +78,7 @@ WITNESSES = {
     "tool_routing_witness.py": "STAGE_TOOL_ROUTING_V1.json",
     "real_regime_finite_state_witness.py": "STAGE_REAL_REGIME_FINITE_STATE_V1.json",
     "predict_intersection_index.py": "STAGE_INTERSECTION_INDEX_PREDICTION_V1.json",
+    "predict_composition_law.py": "STAGE_COMPOSITION_LAW_PREDICTION_V1.json",
 }
 
 
@@ -1785,3 +1786,65 @@ def test_the_verdict_records_whether_the_prediction_held():
         "the verdict label disagrees with its own disagreement list")
     assert len(r["agreeing_m"]) + len(r["disagreeing_m"]) >= 8, (
         "fewer values of m were scored than were frozen")
+
+
+# ---------------------------------------------------------------------------
+# Section K: a predicted cost law for a form nobody had built, frozen before the
+# adjudicator existed (commit 0c9abc83) and scored afterwards.
+# ---------------------------------------------------------------------------
+def test_composition_law_adjudication_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_COMPOSITION_LAW_VERDICT_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope",
+                                          "compare_composition_law.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900)
+        assert proc.returncode == 0, (
+            "compare_composition_law.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed verdict to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the composition-law adjudication no longer reproduces its receipt")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_composition_is_lcm_not_product():
+    """Law 1, and that the test set can tell the two apart."""
+    r = load_receipt("STAGE_COMPOSITION_LAW_VERDICT_V1.json")
+    assert r["law_1_misses"] == [], (
+        "a k-fold counting intersection no longer has index lcm: %s"
+        % r["law_1_misses"])
+    meas, prod = r["measured_counting_index"], r["generic_product_bound"]
+    assert any(meas[k] < prod[k] for k in meas), (
+        "nothing collapses below the product bound, so the law is vacuous")
+    assert any(meas[k] == prod[k] for k in meas), (
+        "everything collapses, so the test set cannot distinguish 'index = lcm' "
+        "from 'composition is always cheaper than the product'")
+    assert max(prod[k] / meas[k] for k in meas) >= 30, (
+        "the largest collapse fell below 30x; (6,10,15) at 900 -> 30 is what "
+        "makes the sub-multiplicative claim non-trivial")
+
+
+def test_suffix_composition_is_additive_over_a_composed_form():
+    """Law 2: +2 on top of a COMPOSED counting form, which was untested."""
+    r = load_receipt("STAGE_COMPOSITION_LAW_VERDICT_V1.json")
+    assert r["law_2_misses"] == [], (
+        "composing with the suffix obligation no longer costs exactly +2: %s"
+        % r["law_2_misses"])
+    c, s = r["measured_counting_index"], r["measured_suffix_composed_index"]
+    assert all(s[k] == c[k] + 2 for k in c), "the +2 relation broke"
+    assert any(c[k] >= 30 for k in c), (
+        "no composed form in the set is large enough to make '+2 rather than "
+        "x3' a meaningful distinction")
+
+
+def test_capability_ceiling_saturates():
+    """Section K asks how far capability can go; the answer is that it stops."""
+    r = load_receipt("STAGE_COMPOSITION_LAW_VERDICT_V1.json")
+    assert r["capability_ceiling_holds"] is True
+    assert r["capability_ceiling_measured"] == 27720, (
+        "the measured max index over moduli <= 12 changed from lcm(1..12)")
+    assert r["verdict"] in ("HOLDS", "FALSIFIED")
