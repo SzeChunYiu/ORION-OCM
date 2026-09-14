@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "schema": "ReachabilityReceiptV1",
+  "scope": "E only: 4-node/5 laws (L_A, L_B, L_A_PLUS, L_A_SC, L_GREEDY_TRAP) sharing R=M={0,1,2,3} with DU-1 static facts identical, burden=BFS distance (None=inf), encoding=successor ordering with bound |Reach_enc1 \u0394 Reach_enc2| <= 1 (24 permutations), sufficient (strong-connectivity => Reach=R) + greedy (monotone burden) conditions, admissibility only. 12 exact controls, normal + optimized.",
+  "source_and_evidence": {
+    "REACHABILITY_REFINEMENT_THEOREM_V1.md": {
+      "bytes": 6225,
+      "sha256": "33a25549162a3f0c256372436cb04af91f04ad344901f247fa0d0ac9c2ca6dad"
+    },
+    "reachability_refinement_v1.py": {
+      "bytes": 8127,
+      "sha256": "6a52f2cfd6813c8ee3228dfa8e106842ebbd6d09d45e138eb6c1b6d029f8cbb4"
+    },
+    "test_reachability_refinement_v1.py": {
+      "bytes": 3797,
+      "sha256": "ce6a2276eef3d792205942b4536c2c04806e67197e668790c5d3a873972809c5"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_reachability_refinement_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_reachability_refinement_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_reachability_refinement_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_reachability_refinement_v1.py"
+      ],
+      "tests": 12,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for all three files)."
+}
