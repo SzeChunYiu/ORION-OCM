@@ -1,0 +1,39 @@
+name: GMI ecology contract (A2)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-ecology-contract-v2/**'
+      - '.github/workflows/gmi-ecology-contract-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-ecology-contract-v2/**'
+      - '.github/workflows/gmi-ecology-contract-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ecology-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run ecology contract controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-ecology-contract-v2/test_ecology_contract_v2.py -v

@@ -1,0 +1,94 @@
+{
+  "schema": "GMIEcologyContractV2",
+  "issue": 602,
+  "supersedes": null,
+  "refines": [
+    "research/machine-intelligence-morphogenesis-v1/ECOLOGY_CONTRACT_V1.json",
+    "research/machine-intelligence-morphogenesis-v1/ECOLOGY_AXES_V2.json",
+    "research/machine-intelligence-morphogenesis-v1/DEFINITIONS_V2_EXACT.md#2"
+  ],
+  "scope": "Finite registered task/ecology/resource envelopes. The contract specifies what must be declared before protected outcomes; it does not assert a morphology phase law or empirical capability result.",
+  "assumptions": [
+    "all finite alphabets, kernels, costs, budgets and splits used by a confirmatory claim are frozen before protected scoring",
+    "surface labels and remint identity are semantically inert and unavailable to the evaluated machine unless explicitly part of the task",
+    "resource coordinates are nonnegative and hard feasibility is evaluated componentwise before any scalar price comparison",
+    "other adaptive agents are environment participants with declared information/action/adaptation interfaces, not hidden fixed-noise processes",
+    "a remint changes only declared nominal encodings and preserves the registered semantic object up to the stated bijections"
+  ],
+  "evidence_class": "P1 formal specification plus executable finite structural/remint witnesses",
+  "strongest_parent": "POMDP/controlled stochastic process for observation-action dynamics; Markov/stochastic games and Dec-POMDPs for multiple adaptive agents/local information; Blackwell decision comparison for information acquisition; SCM/do semantics for interventions. GMI-specific residual is prospective registration, resource/verifier accounting, protected splits and remint anti-leakage.",
+  "falsifier": "Any A2 coordinate is absent or post-hoc; an adaptive participant is omitted from the environment object; hard budgets and prices are conflated; verification latency/loss or information-acquisition cost is uncharged; a protected split leaks; or a declared remint fails semantic isomorphism while still being treated as equivalent.",
+  "claim_ceiling": "G1",
+  "ecology_object": "E = (agents, observations, actions_interventions, feedback_verifier, task_horizon, drift, recurrence_reuse, noise_partial_observability, structure, social_topology, embodiment, resources, verification_economics, information_acquisition, protected_split, remint_equivalence)",
+  "required_coordinates": {
+    "adaptive_agents": {
+      "required": ["agent_set", "focal_agent", "adaptation_contract_per_agent", "goal_or_obligation_visibility"],
+      "rule": "Every participant whose policy/state update can depend on interaction history is represented explicitly. Fixed opponents may be marked nonadaptive; adaptive opponents/partners may not be collapsed into stationary noise without changing the ecology claim."
+    },
+    "observation_structure": {
+      "required": ["latent_state_domain_or_declared_state_abstraction", "observation_alphabet_per_agent", "observation_kernel_or_exact_map", "observation_timing"],
+      "rule": "Declare what each agent can observe and when. Partial observation is represented by a many-to-one or stochastic observation channel, not by prose."
+    },
+    "action_intervention_structure": {
+      "required": ["ordinary_action_alphabet_per_agent", "joint_action_semantics", "intervention_alphabet", "intervention_targets_and_modularity"],
+      "rule": "Ordinary actions and causal interventions are distinct registered channels when both exist. An intervention declares what mechanism is externally set and what other mechanisms remain invariant."
+    },
+    "feedback_verifier_structure": {
+      "required": ["development_feedback_channels", "feedback_timing", "verifier_authority", "verification_rule"],
+      "rule": "Training/development feedback and final verification authority are distinct objects even when implemented by the same checker."
+    },
+    "task_distribution_horizon": {
+      "required": ["task_family", "task_sampling_distribution_or_finite_schedule", "episode_horizon", "evaluation_horizon"],
+      "rule": "The distribution/schedule and horizons are frozen; a finite full-domain enumeration is named as such rather than called 'large'."
+    },
+    "drift_regime_change": {
+      "required": ["regime_state", "regime_transition_or_change_schedule", "which_contract_components_may_change"],
+      "rule": "Stationarity is an explicit zero-drift special case. Drift names which semantics, frequencies, prices or verifier conditions change."
+    },
+    "recurrence_reuse": {
+      "required": ["obligation_identity_rule", "reuse_count_or_distribution", "reuse_horizon"],
+      "rule": "Repeated opportunities are registered independently of task labels so amortization laws cannot be fitted after seeing reuse benefits."
+    },
+    "noise_partial_observability": {
+      "required": ["observation_noise_model", "transition_stochasticity", "feedback_noise_model", "unobserved_state_components"],
+      "rule": "Deterministic/full-observation cases are zero-noise/full-access specializations. Noise and hidden state are not merged into one scalar."
+    },
+    "compositional_symmetry_relational_structure": {
+      "required": ["composition_grammar_or_none", "registered_symmetry_group_or_none", "relation_schema_or_none"],
+      "rule": "Only prospectively declared structure may justify sharing, equivariance, compositional reuse or relational operators."
+    },
+    "social_topology": {
+      "required": ["interaction_graph_or_hypergraph", "communication_edges", "edge_directionality", "topology_dynamics"],
+      "rule": "For multiple agents, who can affect/observe/message whom is part of the ecology. A complete graph is a declared special case, not an implicit default."
+    },
+    "embodiment_sensor_actuator": {
+      "required": ["sensor_ports", "sensor_rate_latency_precision", "actuator_ports", "actuator_rate_latency_precision", "body_or_workspace_constraints"],
+      "rule": "If embodiment is irrelevant, use explicit NONE/UNCONSTRAINED values. Otherwise sensing and actuation constraints are charged environment coordinates."
+    },
+    "resource_prices_hard_budgets": {
+      "required": ["resource_coordinate_names", "hard_budget_vector", "price_vector_or_none", "accounting_horizon"],
+      "rule": "Feasibility is componentwise against hard budgets. Prices are a separate prospectively frozen nonnegative scalarization and never repair an infeasible point."
+    },
+    "verification_latency_cost_false_adoption": {
+      "required": ["verification_latency", "verification_resource_cost", "false_adoption_loss", "false_rejection_loss"],
+      "rule": "Accuracy alone is insufficient: latency, verification burden and asymmetric adoption/rejection losses are separately registered."
+    },
+    "information_acquisition_cost": {
+      "required": ["probe_or_query_channels", "per_channel_cost_vector", "query_latency", "query_budget"],
+      "rule": "Observations that require an active probe/query are not free observations. Acquisition cost and delay are charged before value-of-information claims."
+    },
+    "protected_train_development_heldout_splits": {
+      "required": ["construction_or_train_split", "development_split", "heldout_split", "freeze_point", "access_control_rule"],
+      "rule": "Held-out tasks/remints/outcomes are inaccessible to construction, search and coordinate choice before the freeze point."
+    },
+    "ecology_equivalence_remint": {
+      "required": ["nominal_domains_allowed_to_remint", "bijections", "semantic_invariants", "agent_visible_fields", "remint_identity_visibility"],
+      "rule": "E and E' are remint-equivalent only under bijections of nominal encodings that preserve transition/observation laws, obligations, verifier semantics, costs/budgets, topology, embodiment and split membership. Remint identity is hidden by default."
+    }
+  },
+  "anti_leakage": {
+    "forbidden_agent_visible_fields_by_default": ["ecology_id", "remint_id", "protected_split_membership", "protected_outcome", "architecture_or_family_label"],
+    "exception_rule": "A forbidden field may be made visible only when the task explicitly requires it; then it is no longer usable as protected evidence for invariance/remint claims."
+  },
+  "terminal": "A2_ECOLOGY_CONTRACT_REGISTERED_AT_G1"
+}
