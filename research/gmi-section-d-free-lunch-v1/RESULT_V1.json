@@ -1,0 +1,157 @@
+{
+  "decision_theorem_exhaustion": {
+    "equality": 305721,
+    "strict": 225720,
+    "tables_checked": 531441
+  },
+  "freeze_commit": "3fc4ddb2af98f738e5898a63488341c0d11f4364",
+  "morphology_phase": {
+    "coarse_coordinates": {
+      "Q": 16,
+      "developmental_history": "none",
+      "memory_budget": 8,
+      "n": 5,
+      "verifier": "exhaustive_truth_table_32"
+    },
+    "coarse_map_has_four_distinct_frontiers": true,
+    "common_morphology_across_all_four_frontiers": [],
+    "structural_signatures_distinct": true,
+    "worlds": {
+      "W-A": {
+        "frontier_Q16_mem8": ["xor_fold"],
+        "phase_Q1_40_mem64": [
+          {"Q_max": 13, "Q_min": 1, "frontier": ["xor_fold"]},
+          {"Q_max": 15, "Q_min": 14, "frontier": ["default_exceptions", "xor_fold"]},
+          {"Q_max": 40, "Q_min": 16, "frontier": ["default_exceptions", "full_map", "xor_fold"]}
+        ],
+        "phase_cells_checked": 40,
+        "remint_frontier_Q16_mem8": ["xor_fold"],
+        "remint_signature": {
+          "algebraic_degree": 1,
+          "algebraic_support_size_if_degree_le_1": 3,
+          "best_hamming_weight_step_residual": 14,
+          "best_step_cut": 2,
+          "best_step_polarity": "down",
+          "minority_count": 16
+        },
+        "signature": {
+          "algebraic_degree": 1,
+          "algebraic_support_size_if_degree_le_1": 3,
+          "best_hamming_weight_step_residual": 14,
+          "best_step_cut": 2,
+          "best_step_polarity": "down",
+          "minority_count": 16
+        }
+      },
+      "W-B": {
+        "frontier_Q16_mem8": ["default_exceptions"],
+        "phase_Q1_40_mem64": [
+          {"Q_max": 30, "Q_min": 1, "frontier": ["default_exceptions"]},
+          {"Q_max": 40, "Q_min": 31, "frontier": ["default_exceptions", "full_map"]}
+        ],
+        "phase_cells_checked": 40,
+        "remint_frontier_Q16_mem8": ["default_exceptions"],
+        "remint_signature": {
+          "algebraic_degree": 5,
+          "algebraic_support_size_if_degree_le_1": null,
+          "best_hamming_weight_step_residual": 1,
+          "best_step_cut": -1,
+          "best_step_polarity": "down",
+          "minority_count": 1
+        },
+        "signature": {
+          "algebraic_degree": 5,
+          "algebraic_support_size_if_degree_le_1": null,
+          "best_hamming_weight_step_residual": 1,
+          "best_step_cut": -1,
+          "best_step_polarity": "down",
+          "minority_count": 1
+        }
+      },
+      "W-C": {
+        "frontier_Q16_mem8": ["count_step"],
+        "phase_Q1_40_mem64": [
+          {"Q_max": 5, "Q_min": 1, "frontier": ["count_step"]},
+          {"Q_max": 15, "Q_min": 6, "frontier": ["count_step", "default_exceptions"]},
+          {"Q_max": 40, "Q_min": 16, "frontier": ["count_step", "default_exceptions", "full_map"]}
+        ],
+        "phase_cells_checked": 40,
+        "remint_frontier_Q16_mem8": ["count_step"],
+        "remint_signature": {
+          "algebraic_degree": 4,
+          "algebraic_support_size_if_degree_le_1": null,
+          "best_hamming_weight_step_residual": 0,
+          "best_step_cut": 3,
+          "best_step_polarity": "up",
+          "minority_count": 16
+        },
+        "signature": {
+          "algebraic_degree": 4,
+          "algebraic_support_size_if_degree_le_1": null,
+          "best_hamming_weight_step_residual": 0,
+          "best_step_cut": 3,
+          "best_step_polarity": "up",
+          "minority_count": 16
+        }
+      },
+      "W-D": {
+        "frontier_Q16_mem8": ["count_step_plus_exceptions"],
+        "phase_Q1_40_mem64": [
+          {"Q_max": 3, "Q_min": 1, "frontier": ["count_step_plus_exceptions"]},
+          {"Q_max": 16, "Q_min": 4, "frontier": ["count_step_plus_exceptions", "default_exceptions"]},
+          {"Q_max": 40, "Q_min": 17, "frontier": ["count_step_plus_exceptions", "default_exceptions", "full_map"]}
+        ],
+        "phase_cells_checked": 40,
+        "remint_frontier_Q16_mem8": ["count_step_plus_exceptions"],
+        "remint_signature": {
+          "algebraic_degree": 5,
+          "algebraic_support_size_if_degree_le_1": null,
+          "best_hamming_weight_step_residual": 1,
+          "best_step_cut": 3,
+          "best_step_polarity": "up",
+          "minority_count": 15
+        },
+        "signature": {
+          "algebraic_degree": 5,
+          "algebraic_support_size_if_degree_le_1": null,
+          "best_hamming_weight_step_residual": 1,
+          "best_step_cut": 3,
+          "best_step_polarity": "up",
+          "minority_count": 15
+        }
+      }
+    }
+  },
+  "nfl_control": [
+    {"high_distribution": {"0": 128, "1": 128}, "low_distribution": {"0": 128, "1": 128}, "mean": "1/2", "q": 1},
+    {"high_distribution": {"0": 64, "1": 192}, "low_distribution": {"0": 64, "1": 192}, "mean": "3/4", "q": 2},
+    {"high_distribution": {"0": 32, "1": 224}, "low_distribution": {"0": 32, "1": 224}, "mean": "7/8", "q": 3},
+    {"high_distribution": {"0": 16, "1": 240}, "low_distribution": {"0": 16, "1": 240}, "mean": "15/16", "q": 4},
+    {"high_distribution": {"0": 8, "1": 248}, "low_distribution": {"0": 8, "1": 248}, "mean": "31/32", "q": 5},
+    {"high_distribution": {"0": 4, "1": 252}, "low_distribution": {"0": 4, "1": 252}, "mean": "63/64", "q": 6},
+    {"high_distribution": {"0": 2, "1": 254}, "low_distribution": {"0": 2, "1": 254}, "mean": "127/128", "q": 7},
+    {"high_distribution": {"0": 1, "1": 255}, "low_distribution": {"0": 1, "1": 255}, "mean": "255/256", "q": 8}
+  ],
+  "schema": "GMI_SECTION_D_FREE_LUNCH_V1",
+  "structured_free_lunch": {
+    "best_constant": "1/2",
+    "closure_counterexample": {
+      "permuted": [0, 0, 0, 1, 0, 1, 1, 1],
+      "source": [0, 0, 0, 0, 1, 1, 1, 1],
+      "swap": [3, 4]
+    },
+    "conditioned": "8/9",
+    "down_high": "1/9",
+    "down_low": "8/9",
+    "free_lunch_gap": "7/18",
+    "structured_class_closed_under_all_input_permutations": false,
+    "up_high": "8/9",
+    "up_low": "1/9"
+  },
+  "terminal": [
+    "NFL_SYMMETRY_CONTROL_REPRODUCED",
+    "STRICT_FREE_LUNCH_FROM_REGISTERED_STRUCTURE_SUPPORTED",
+    "COARSE_D_MAP_FALSIFIED_AND_STRUCTURAL_REPAIR_SUPPORTED_AT_FINITE_SCOPE",
+    "PROSPECTIVE_PHASE_BOUNDARIES_CONFIRMED_AS_FROZEN"
+  ]
+}
