@@ -69,8 +69,8 @@ competitor's identity or name — and it was previously unguarded. It is now pin
 | box | status |
 |---|---|
 | 10 symbiosis | **closed, negatively** — see §5c |
-| 11 resource partitioning | **open** — the pool is shared but partitioning is never measured |
-| 12 abundance from ecology | **open** — no frequency prediction exists |
+| 11 resource partitioning | **closed** — see §5e; spending more *anti*-predicts winning |
+| 12 abundance from ecology | **closed** — see §5e; abundance is stable under repricing |
 | 13 morphology transitions under repricing | **closed** — see §5d; repricing is NON-monotone |
 | 16 multi-species ecologies | **open** — this is strictly **pairwise**; three or more competitors are untested |
 
@@ -195,6 +195,57 @@ pairs stay non-zero, and that not every changing pair oscillates.
 
 **Caveat carried from the R10 receipt**: the allocation rule is a modelling choice and a different rule can
 reorder outcomes. This is a property of this ecology under that rule.
+
+## 5e  Boxes 11 and 12: spending does not win, and abundance is stable
+
+Both frozen at `9f71a640` before any measuring code existed. One prediction failed, one held.
+
+### Box 11 — resource partitioning: **P1 falsified, and informatively**
+
+I predicted the winner draws more of the shared pool, reasoning that winning means developing further and
+development is what charge buys. The measurement says the opposite:
+
+| over 162 decided contests | count |
+|---|---:|
+| **loser** drew more charge | **110** |
+| winner drew more charge | 52 |
+| equal | 0 |
+
+**Drawing more of the shared pool anti-predicts winning**, roughly two to one. In hindsight the mechanism is
+plain — a competitor that burns charge inefficiently exhausts the budget and fails, so what wins is
+*efficiency of expenditure*, not expenditure. But I had it backwards in advance, and the prediction is
+recorded as failed rather than reinterpreted after the fact.
+
+The control mattered here too, in the opposite direction from usual: a pin asserts the winner draws more in
+**at least some** contests (52 of 162). "The winner never draws more" would be a far stronger claim than what
+was measured, and it should not be able to pass silently.
+
+### Box 12 — abundance: **P3 holds**
+
+Win counts per carrier per pool:
+
+| carrier | 20 000 | 60 000 | 200 000 |
+|---|---:|---:|---:|
+| **hamming_knn_k3** | **14** | **14** | **14** |
+| soft_retrieval | 12 | 12 | 12 |
+| exemplar_table | 8 | 8 | 8 |
+| gradient_net_h4 | 7 | 6 | 8 |
+| gradient_net_h2 | 6 | 6 | 6 |
+| particles_p4 | 4 | 3 | 5 |
+| compiled_search | 1 | 4 | 1 |
+| program_search | 0 | 2 | 1 |
+
+The same carrier tops every pool, and **four of the eight have identical win counts at every budget**.
+Abundance is predictable from the ecology and stable under repricing — even though box 13 showed repricing is
+non-monotone and two pairs oscillate.
+
+That combination is the useful part: **the pairwise outcomes move while the aggregate does not.** The four
+carriers that do vary — `compiled_search`, `gradient_net_h4`, `particles_p4`, `program_search` — are exactly
+where the budget bites, and a pin asserts that both the invariant and the varying sets stay non-empty, so
+neither "nothing moves" nor "everything moves" can creep in.
+
+**Caveat carried from R10**: the allocation rule is a modelling choice and a different rule can reorder
+outcomes. Box 11's result in particular is a statement about competition under *this* allocation rule.
 
 ## 6  A gap in the guarding, now fixed
 

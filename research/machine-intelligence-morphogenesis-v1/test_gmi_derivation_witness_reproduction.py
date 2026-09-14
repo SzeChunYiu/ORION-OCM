@@ -84,6 +84,7 @@ WITNESSES = {
     "predict_intransitivity.py": "STAGE_INTRANSITIVITY_PREDICTION_V1.json",
     "predict_symbiosis.py": "STAGE_SYMBIOSIS_PREDICTION_V1.json",
     "predict_repricing.py": "STAGE_REPRICING_PREDICTION_V1.json",
+    "predict_partition_abundance.py": "STAGE_PARTITION_ABUNDANCE_PREDICTION_V1.json",
 }
 
 
@@ -2171,3 +2172,67 @@ def test_the_repricing_zero_control_fired():
     assert r["oscillating_pairs"] < r["changing_pairs"], (
         "every changing pair oscillates, which would be a different and much "
         "stronger claim than the one measured")
+
+
+# ---------------------------------------------------------------------------
+# G boxes 11 and 12.  One prediction failed, one held -- both pinned.
+# ---------------------------------------------------------------------------
+def test_partition_abundance_adjudication_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_PARTITION_ABUNDANCE_VERDICT_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope",
+                                          "compare_partition_abundance.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "compare_partition_abundance.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed verdict to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the partition/abundance adjudication no longer reproduces")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_spending_more_of_the_pool_does_not_win():
+    """Box 11: the frozen P1 failed, and it failed in the informative direction."""
+    r = load_receipt("STAGE_PARTITION_ABUNDANCE_VERDICT_V1.json")
+    assert r["box_11_P1_holds"] is False, (
+        "the winner now draws more charge in a majority of contests, reversing "
+        "the documented finding; it was frozen the other way and failed")
+    assert r["loser_drew_more"] > r["winner_drew_more"], (
+        "drawing more charge no longer anti-predicts winning")
+    assert r["winner_drew_more"] > 0, (
+        "the winner NEVER draws more, which would be a far stronger claim than "
+        "the one measured and should not pass silently")
+    assert r["decided_contests"] >= 150
+
+
+def test_abundance_is_stable_under_repricing():
+    """Box 12: the frozen P3 held, with its control."""
+    r = load_receipt("STAGE_PARTITION_ABUNDANCE_VERDICT_V1.json")
+    assert r["box_12_P3_holds"] is True, "the top carrier now moves between pools"
+    assert r["box_12_P4_holds"] is True, (
+        "win counts are uniform, so 'the top carrier' names nothing and the "
+        "stability claim is vacuous -- this is the frozen control")
+    tops = r["top_by_pool"]
+    assert len({tuple(v) for v in tops.values()}) == 1
+    assert all(len(v) == 1 for v in tops.values()), (
+        "some pool has a tied top carrier, so 'the same top carrier' is no "
+        "longer a single well-defined claim")
+
+
+def test_some_carriers_are_completely_budget_invariant():
+    """The texture that keeps the stability claim from being over-read."""
+    r = load_receipt("STAGE_PARTITION_ABUNDANCE_VERDICT_V1.json")
+    w = r["wins_by_pool"]
+    pools = list(w)
+    invariant = [c for c in w[pools[0]]
+                 if len({w[p][c] for p in pools}) == 1]
+    varying = [c for c in w[pools[0]] if c not in invariant]
+    assert invariant, "no carrier has a budget-invariant win count any more"
+    assert varying, (
+        "every carrier is budget-invariant, which would mean repricing moves "
+        "nothing and contradicts the 7 changing pairs measured for box 13")
