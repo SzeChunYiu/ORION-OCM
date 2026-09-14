@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F4 capability predictor",
+  "ledger_row": "Fit/derive capability predictor only from development worlds.",
+  "scope": "finite architecture-name-free development worlds on the exhaustive five-margin cube {-1,0,1}^5 with four binary capability targets",
+  "assumptions": [
+    "the five signed margins are computed from registered morphology/ecology/resource quantities before capability outcomes are exposed",
+    "the four registered capability targets are monotone under componentwise increase of the five margins",
+    "development and held-family records are disjoint and held-family identities/outcomes are unavailable to fitting",
+    "outside order-identified regions the only licensed output is CANNOT_IDENTIFY"
+  ],
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "status": "PASS at registered development scope if exhaustive controls pass",
+  "claim_boundary": "This derives an architecture-name-free finite predictor only from theorem-generated development worlds. No held-family outcomes are visible to fitting, no family strengths/weaknesses are tested, and G6 is not claimed.",
+  "descriptor_dependency": "research/gmi-morphology-descriptor-v1/MORPHOLOGY_DESCRIPTOR_V1.json",
+  "development_world_axes": {
+    "memory_margin": [-1, 0, 1],
+    "planning_margin": [-1, 0, 1],
+    "communication_margin": [-1, 0, 1],
+    "routing_margin": [-1, 0, 1],
+    "verification_margin": [-1, 0, 1]
+  },
+  "development_world_count": 243,
+  "capability_targets": [
+    "memory_exact",
+    "planning_exact",
+    "coordination_exact",
+    "verified_tool_exact"
+  ],
+  "target_semantics": {
+    "memory_exact": "1 iff retained state capacity meets the registered task distinction requirement",
+    "planning_exact": "1 iff both retained state and planning depth meet the registered obligation",
+    "coordination_exact": "1 iff communication distinctions meet the registered coordination requirement",
+    "verified_tool_exact": "1 iff both routed proposal coverage and verification coverage meet the registered proposal obligation"
+  },
+  "fit_rule": "For each binary capability, form the componentwise-monotone lower envelope from dominated positive development worlds and upper envelope from dominating negative development worlds. Emit 1 or 0 only when the development corpus identifies the value; otherwise CANNOT_IDENTIFY.",
+  "fit_input_allowlist": [
+    "memory_margin",
+    "planning_margin",
+    "communication_margin",
+    "routing_margin",
+    "verification_margin",
+    "capabilities"
+  ],
+  "forbidden_fit_fields": [
+    "family_name",
+    "architecture_name",
+    "specimen_id",
+    "source_ref",
+    "held_family",
+    "heldout_outcome",
+    "test_outcome"
+  ],
+  "strongest_parent": "isotonic/monotone classification, partial-order concept learning, exact threshold identification",
+  "negative_twin": "inject a held-family outcome or identity field into fitting; the protocol must reject the record before model construction",
+  "nearest_counterexample": "outside the registered five-axis finite cube, monotonicity alone need not identify a unique capability value; the predictor must abstain rather than extrapolate",
+  "falsifier": "Any fitted model consumes a forbidden held/identity field, disagrees with an exhaustive registered development world, or emits a determinate prediction where its monotone envelopes do not identify one value."
+}
