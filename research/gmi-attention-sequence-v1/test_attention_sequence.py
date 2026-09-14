@@ -12,20 +12,15 @@ from fractions import Fraction as F
 import math
 import unittest
 
-from attention_witness import (
-    full_routing_cost,
-    sparse_routing_cost,
-    sparse_wins,
-    sparse_wins_condition,
-    phase_boundary_lambda_star,
-    sparse_dominates_at_lambda,
-    growing_quotient_obligation_cost_fixed,
-    growing_quotient_obligation_cost_recurrent,
-    compute_crossover_N_star,
-    sweep_cost_comparison,
-    sweep_phase_boundary,
-    sweep_crossover,
-)
+from pathlib import Path
+import importlib.util
+import sys
+
+path = Path(__file__).with_name("attention_witness.py")
+spec = importlib.util.spec_from_file_location("attention_checked", str(path))
+aw = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = aw
+spec.loader.exec_module(aw)
 
 
 class TestT1SparseDominance(unittest.TestCase):
@@ -215,8 +210,7 @@ class TestSweepConsistency(unittest.TestCase):
 
     def test_witness_main_runs(self):
         """The main() function should run without error."""
-        from attention_witness import main
-        result = main()
+        result = aw.main()
         self.assertGreater(result["t1"]["swept"], 0)
         self.assertGreater(result["t2"]["swept"], 0)
         self.assertGreater(result["t3"]["swept"], 0)
