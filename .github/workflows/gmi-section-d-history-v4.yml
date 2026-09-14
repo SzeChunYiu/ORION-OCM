@@ -1,0 +1,46 @@
+name: GMI Section D history v4
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-section-d-history-v4/**'
+      - '.github/workflows/gmi-section-d-history-v4.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-section-d-history-v4/**'
+      - '.github/workflows/gmi-section-d-history-v4.yml'
+
+jobs:
+  exact-history-phase:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce exact receipt
+        shell: bash
+        run: |
+          cd research/gmi-section-d-history-v4
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python -O section_d_history_witness.py
+          else
+            python section_d_history_witness.py
+          fi
+          git diff --exit-code -- RESULT_V4.json
+      - name: Run hostile and theorem checks
+        shell: bash
+        run: |
+          cd research/gmi-section-d-history-v4
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python -O -m unittest -v test_section_d_history.py
+          else
+            python -m unittest -v test_section_d_history.py
+          fi
+      - name: Source custody
+        run: git diff --exit-code
