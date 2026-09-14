@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "schema": "MetacognitionReceiptV1",
+  "scope": "META-1-4 only: confidence margin, unit-loss error cost, myopic EVC with 13/35 greedy-optimality condition, finite strategy register with measured partition (bold-32 + ties). 17 exact finite controls, normal + optimized. No learned candidates, stochastic kernels, infinite horizons, or reachability claims (DU-1).",
+  "source_and_evidence": {
+    "METACOGNITION_THEOREM_V1.md": {
+      "bytes": 6425,
+      "sha256": "81ba0f9893eb724828114dfcf011ede86dbc4f61307d78cbf95b19c1e9307ab0"
+    },
+    "metacognition_v1.py": {
+      "bytes": 7301,
+      "sha256": "be8064c1ca9632da51c2bedc15fe4c2285f6e21ee3a9031daa47cd78ba84af7b"
+    },
+    "test_metacognition_v1.py": {
+      "bytes": 7701,
+      "sha256": "7afdd59c53124ce96434e28142fe7ab6582917f7ceca230ec969d894c7991e24"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_metacognition_v1.py"
+      ],
+      "tests": 17,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_metacognition_v1.py"
+      ],
+      "tests": 17,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_metacognition_v1.py"
+      ],
+      "tests": 17,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_metacognition_v1.py"
+      ],
+      "tests": 17,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for both files)."
+}
