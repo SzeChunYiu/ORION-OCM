@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "schema": "AdaptiveCreationReceiptV1",
+  "scope": "ARC-5 only: bounded creation inside a predeclared potential register (positive); sampling horizon to n=512 (extends); unbounded unbudgeted creation (obstructed, conservation proof + hostile witness). 11 exact finite controls, normal + optimized. Summable-infinite-budget construction explicitly future work. Inherited ARC premises unchanged.",
+  "source_and_evidence": {
+    "ADAPTIVE_CREATION_AND_HORIZONS_V1.md": {
+      "bytes": 5197,
+      "sha256": "27daef903d29da8e978bb1262f324e2a4ac41f4feec237d12e23c4f07ec44722"
+    },
+    "adaptive_creation_v1.py": {
+      "bytes": 3580,
+      "sha256": "db9b294529ed2b7985c3633cb987f5a11c8900fbe1eba2357dfeb9e3b7d77e02"
+    },
+    "test_adaptive_creation_v1.py": {
+      "bytes": 3689,
+      "sha256": "c35d948f8ca306013074720d85fff93cf713244dc7fce2efdb3c9af26e74e2fc"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_adaptive_creation_v1.py"
+      ],
+      "tests": 11,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_adaptive_creation_v1.py"
+      ],
+      "tests": 11,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_adaptive_creation_v1.py"
+      ],
+      "tests": 11,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_adaptive_creation_v1.py"
+      ],
+      "tests": 11,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for both files)."
+}
