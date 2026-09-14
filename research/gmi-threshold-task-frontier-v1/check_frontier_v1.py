@@ -19,6 +19,7 @@ for _path in (str(DCR), str(HERE)):
     if _path not in sys.path:
         sys.path.insert(0, _path)
 
+import constant_footprint_v1 as footprint                  # noqa: E402
 import frontier_registers_v1 as reg                        # noqa: E402
 import minimal_renderings_v1 as enumeration                # noqa: E402
 from cost_contracts_v1 import additive_bounds              # noqa: E402
@@ -196,6 +197,26 @@ def product_frontier(rows, require_exact_int=False):
             "int_typed_obligation": require_exact_int}
 
 
+def measured_frontier(rows, prints, component):
+    """Product order on (opcodes, one measured constant-payload size)."""
+    eligible = {name: row for name, row in rows.items()
+                if row["native_obligations_per_call"] == 0 and row["exact_on_whole_domain"]}
+
+    def point(name):
+        return (eligible[name]["python_opcodes_per_call"], prints[name][component])
+
+    dominated = {}
+    for name in eligible:
+        a = point(name)
+        dominated[name] = sorted(other for other in eligible if other != name
+                                 and point(other)[0] <= a[0] and point(other)[1] <= a[1]
+                                 and point(other) != a)
+    return {"component": component,
+            "points": {name: list(point(name)) for name in sorted(eligible)},
+            "strictly_dominated_by": {k: v for k, v in sorted(dominated.items())},
+            "undominated": sorted(n for n in eligible if not dominated[n])}
+
+
 def formula(rows_by_n, name, field):
     """Exact affine fit a*n+b over the whole scope, or None when not affine."""
     present = [n for n in SCOPE if name in rows_by_n[n] and rows_by_n[n][name]["exact_on_whole_domain"]]
@@ -296,9 +317,113 @@ def run():
             "the n=4 minimal set changed: %d affine, %d non-affine"
             % (len(n4["affine"]), len(n4["non_affine"])))
 
+    contract = footprint.size_contract()
+    prints_by_n = {n: footprint.footprints(reg.register(n)) for n in SCOPE}
+
+    # TB-1: the integers in every payload are shared objects, so counting them as
+    # incremental memory would double-count. The table's real cost is its tuples.
+    for n in SCOPE:
+        for name, row in sorted(prints_by_n[n].items()):
+            require(row["integers_are_shared_objects"],
+                    "payload integers are not shared objects: %s at n=%d" % (name, n))
+
+    # TB-2: the threshold form's measured payload is constant in n; the table's
+    # is not. This is what TT-6 previously had to assume rather than measure.
+    for n in SCOPE:
+        threshold = prints_by_n[n]["THRESHOLD_COMPARISON_BOOL"]
+        require(threshold["marshalled_constant_bytes"] == 8
+                and threshold["tuple_structure_bytes"] == 0
+                and threshold["tuple_nodes"] == 0,
+                "the threshold payload changed at n=%d: %s" % (n, threshold))
+        nested = prints_by_n[n]["NESTED_CONSTANT_TABLE"]
+        require(nested["tuple_nodes"] == 2 ** n - 1 and nested["tuple_slots"] == 2 ** (n + 1) - 2,
+                "the nested table's tuple structure changed at n=%d: %s" % (n, nested))
+
+    # TB-3: TT-6's domination survives with measured bytes in place of the count,
+    # in both measured senses, against both table renderings, at every n.
+    for n in SCOPE:
+        for component in ("marshalled_constant_bytes", "tuple_structure_bytes"):
+            frontier = measured_frontier(rows_by_n[n], prints_by_n[n], component)
+            for table in ("NESTED_CONSTANT_TABLE", "FLAT_INDEX_TABLE"):
+                require("THRESHOLD_COMPARISON_BOOL" in frontier["strictly_dominated_by"][table],
+                        "the threshold form stopped dominating %s under %s at n=%d"
+                        % (table, component, n))
+            require("THRESHOLD_COMPARISON_BOOL" in frontier["undominated"],
+                    "the threshold form left the %s frontier at n=%d" % (component, n))
+
+    # TB-4: the count coordinate ranked the two table renderings and the
+    # measurement does not. Nested is cheaper in opcodes; flat is cheaper in both
+    # measured sizes, because nested pays a tuple header 2**n - 1 times.
+    table_pairs = {}
+    for n in SCOPE:
+        counted = priced_placeholder = None
+        nested_row, flat_row = rows_by_n[n]["NESTED_CONSTANT_TABLE"], rows_by_n[n]["FLAT_INDEX_TABLE"]
+        nested_print, flat_print = prints_by_n[n]["NESTED_CONSTANT_TABLE"], prints_by_n[n]["FLAT_INDEX_TABLE"]
+        require(nested_row["python_opcodes_per_call"] < flat_row["python_opcodes_per_call"],
+                "nested is no longer cheaper in opcodes at n=%d" % n)
+        require(nested_row["constant_cells"] < flat_row["constant_cells"],
+                "the count no longer ranks nested below flat at n=%d" % n)
+        for component in ("marshalled_constant_bytes", "tuple_structure_bytes"):
+            require(flat_print[component] < nested_print[component],
+                    "flat is no longer cheaper than nested under %s at n=%d" % (component, n))
+        table_pairs[str(n)] = {
+            "nested": {"opcodes": nested_row["python_opcodes_per_call"],
+                       "constant_cells": nested_row["constant_cells"],
+                       "marshalled_constant_bytes": nested_print["marshalled_constant_bytes"],
+                       "tuple_structure_bytes": nested_print["tuple_structure_bytes"]},
+            "flat": {"opcodes": flat_row["python_opcodes_per_call"],
+                     "constant_cells": flat_row["constant_cells"],
+                     "marshalled_constant_bytes": flat_print["marshalled_constant_bytes"],
+                     "tuple_structure_bytes": flat_print["tuple_structure_bytes"]},
+            "count_coordinate_ranks_them": "nested strictly dominates flat",
+            "measured_coordinates_rank_them": "incomparable: nested cheaper in opcodes, "
+                                              "flat cheaper in both measured sizes",
+        }
+        del counted, priced_placeholder
+
     opcode_frontier = {n: scalar_frontier(exact[n], "python_projection") for n in SCOPE}
     honest_frontier = {n: scalar_frontier(exact[n], "honest_unknown") for n in SCOPE}
     priced = {n: product_frontier(rows_by_n[n]) for n in SCOPE}
+    measured = {n: {component: measured_frontier(rows_by_n[n], prints_by_n[n], component)
+                    for component in ("marshalled_constant_bytes", "tuple_structure_bytes")}
+                for n in SCOPE}
+
+    # TB-5: under the serialized measure the frontier is exactly the counted one,
+    # so TT-6 was not an artifact of counting cells.
+    for n in SCOPE:
+        if n < 5:
+            continue
+        frontier = measured[n]["marshalled_constant_bytes"]
+        require(frontier["undominated"] == priced[n]["undominated"],
+                "the marshalled-bytes frontier differs from the counted one at n=%d: %s vs %s"
+                % (n, frontier["undominated"], priced[n]["undominated"]))
+
+    # TB-6: under the in-memory measure the frontier is strictly smaller, and from
+    # n = 5 the threshold rendering is the unique undominated realization. The
+    # count coordinate overcharged it: its one constant is an interned integer
+    # that already exists, so it costs no incremental memory, while the
+    # constant-free gate chain's advantage in the count was for nothing.
+    for n in SCOPE:
+        frontier = measured[n]["tuple_structure_bytes"]
+        require("THRESHOLD_COMPARISON_BOOL" in frontier["undominated"],
+                "the threshold form left the in-memory frontier at n=%d" % n)
+        require("MONOTONE_DNF_CHAIN" not in frontier["undominated"],
+                "the gate chain is still undominated in memory at n=%d" % n)
+        require("THRESHOLD_COMPARISON_BOOL"
+                in frontier["strictly_dominated_by"]["MONOTONE_DNF_CHAIN"],
+                "the threshold form does not dominate the gate chain at n=%d" % n)
+        if n >= 5:
+            require(frontier["undominated"] == ["THRESHOLD_COMPARISON_BOOL"],
+                    "the in-memory frontier is not the threshold form alone at n=%d: %s"
+                    % (n, frontier["undominated"]))
+        else:
+            # At n = 3, 4 the other minimal renderings tie it at zero structure
+            # bytes, which is TT-4's refutation showing up again.
+            require(len(frontier["undominated"]) > 1
+                    and all(prints_by_n[n][name]["tuple_structure_bytes"] == 0
+                            for name in frontier["undominated"]),
+                    "the n=%d in-memory optimum is not a tie at zero structure: %s"
+                    % (n, frontier["undominated"]))
     priced_int = {n: product_frontier(rows_by_n[n], require_exact_int=True) for n in SCOPE}
 
     # TT-6: once a constant cell costs anything, the 2**n table is strictly
@@ -366,6 +491,10 @@ def run():
         },
         "frontier_opcode_projection": {str(n): opcode_frontier[n] for n in SCOPE},
         "frontier_honest_unknown_native_cost": {str(n): honest_frontier[n] for n in SCOPE},
+        "measured_size_contract": contract,
+        "measured_constant_footprints": {str(n): prints_by_n[n] for n in SCOPE},
+        "table_rendering_comparison": table_pairs,
+        "frontier_measured_constant_bytes": {str(n): measured[n] for n in SCOPE},
         "frontier_priced_constant_cells": {str(n): priced[n] for n in SCOPE},
         "frontier_priced_constant_cells_int_typed": {str(n): priced_int[n] for n in SCOPE},
     }

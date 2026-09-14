@@ -249,10 +249,18 @@ Three qualifications, all of which the checker enforces:
   rendering satisfy the obligation under value equality, which is the reading
   used for TT-6; the int-typed frontier is computed and reported separately
   rather than folded in.
-- **`constant_cells` is a count, not a measurement.** It counts integer cells in
-  the code object's constants and in the registered data bindings. It is not
-  bytes, not resident memory, and not a physical cost. TT-6 says what follows
-  from charging that count; it does not claim a machine charges it.
+- **`constant_cells` is a count, not a measurement** — and that premise is now
+  discharged rather than left standing. It counts integer cells in the code
+  object's constants and in the registered data bindings; it is not bytes, not
+  resident memory, and not a physical cost.
+  [TB-1..TB-6](MEASURED_CONSTANT_FOOTPRINT_V1.md) replaces it with two exact
+  measured sizes on a validated object-size contract. The domination survives in
+  both, and from n = 5 the in-memory measure makes the threshold rendering the
+  **unique** undominated realization, because its one constant is an interned
+  integer that costs no incremental memory — something the count was
+  overcharging. TB-4 also **withdraws** one ranking the count produced: it
+  reported the nested table as strictly better than the flat one, and both
+  measurements report them incomparable.
 
 ## 8. TT-7 — what this does and does not change
 

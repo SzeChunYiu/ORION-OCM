@@ -16,6 +16,7 @@ for _path in (str(DCR), str(HERE)):
         sys.path.insert(0, _path)
 
 import check_frontier_v1 as frontier                        # noqa: E402
+import constant_footprint_v1 as footprint                  # noqa: E402
 import frontier_registers_v1 as reg                        # noqa: E402
 import minimal_renderings_v1 as enumeration                # noqa: E402
 from typed_machine_v1 import execute                       # noqa: E402
@@ -206,3 +207,75 @@ class Frontiers(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class MeasuredFootprint(unittest.TestCase):
+    """TB-1..TB-6: the measurements that discharge TT-6's pricing premise."""
+
+    payload = None
+
+    @classmethod
+    def setUpClass(cls):
+        cls.payload = frontier.run()
+
+    def test_size_contract_is_validated_not_assumed(self):
+        contract = footprint.size_contract()
+        check(contract["empty_tuple_bytes"] == 40 and contract["tuple_slot_bytes"] == 8
+              and contract["small_integer_bytes"] == 28,
+              "the size contract changed: %s" % (contract,))
+
+    def test_size_contract_refuses_a_different_build(self):
+        original = footprint.EMPTY_TUPLE_BYTES
+        try:
+            footprint.EMPTY_TUPLE_BYTES = original + 1
+            with self.assertRaises(footprint.FootprintError):
+                footprint.size_contract()
+        finally:
+            footprint.EMPTY_TUPLE_BYTES = original
+        check(footprint.size_contract()["empty_tuple_bytes"] == original,
+              "the contract did not recover after the probe")
+
+    def test_payload_integers_are_shared_objects(self):
+        """TB-1: counting them as memory would double-count existing objects."""
+        for n in (3, 8):
+            for name, row in footprint.footprints(reg.register(n)).items():
+                check(row["integers_are_shared_objects"],
+                      "payload integers are not shared: %s at n=%d" % (name, n))
+
+    def test_threshold_payload_is_constant_and_table_grows(self):
+        """TB-2, on the two extremes of the scope."""
+        for n in (3, 8):
+            prints = footprint.footprints(reg.register(n))
+            threshold = prints["THRESHOLD_COMPARISON_BOOL"]
+            check(threshold["marshalled_constant_bytes"] == 8
+                  and threshold["tuple_structure_bytes"] == 0,
+                  "the threshold payload changed at n=%d: %s" % (n, threshold))
+            nested = prints["NESTED_CONSTANT_TABLE"]
+            check(nested["tuple_nodes"] == 2 ** n - 1,
+                  "the nested table's node count changed at n=%d" % n)
+
+    def test_count_ranks_the_tables_and_measurement_does_not(self):
+        """TB-4, the ranking withdrawn from TT-6."""
+        payload = self.payload
+        for n in payload["scope_n"]:
+            row = payload["table_rendering_comparison"][str(n)]
+            check(row["nested"]["constant_cells"] < row["flat"]["constant_cells"],
+                  "the count no longer ranks nested below flat at n=%d" % n)
+            for component in ("marshalled_constant_bytes", "tuple_structure_bytes"):
+                check(row["flat"][component] < row["nested"][component],
+                      "flat is not cheaper under %s at n=%d" % (component, n))
+
+    def test_in_memory_frontier_is_the_threshold_form_alone_from_five(self):
+        """TB-6, the result the count coordinate had hidden."""
+        payload = self.payload
+        for n in payload["scope_n"]:
+            memory = payload["frontier_measured_constant_bytes"][str(n)]["tuple_structure_bytes"]
+            if n >= 5:
+                check(memory["undominated"] == ["THRESHOLD_COMPARISON_BOOL"],
+                      "the in-memory frontier is not unique at n=%d: %s"
+                      % (n, memory["undominated"]))
+            else:
+                check(len(memory["undominated"]) > 1,
+                      "the n=%d in-memory optimum should be a tie: %s"
+                      % (n, memory["undominated"]))
+
