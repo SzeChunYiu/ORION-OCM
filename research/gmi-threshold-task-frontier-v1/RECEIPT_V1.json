@@ -1,0 +1,2938 @@
+{
+  "candidates": {
+    "3": {
+      "DELEGATING_SUM_COMPARISON": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "DELEGATING",
+        "native_obligations_per_call": 1,
+        "note": "native sum; its work is a separate obligation",
+        "python_opcodes_per_call": 6,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    return sum(x) >= 2\n",
+        "value_equals_obligation": true
+      },
+      "FLAT_INDEX_TABLE": {
+        "constant_cells": 10,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "the rendering the parity-n registration costed as 5n+2",
+        "python_opcodes_per_call": 19,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    i = (v0 << 2) | (v1 << 1) | v2\n    return TABLE[i]\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_BOOL": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 0,
+        "note": "registered shape B with one hidden unit, native-free",
+        "python_opcodes_per_call": 19,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    s = v0 + v1 + v2\n    h0 = s >= 2\n    return h0 >= 1\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 2,
+        "note": "registered shape B with one hidden unit and int() units",
+        "python_opcodes_per_call": 23,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    s = v0 + v1 + v2\n    h0 = int(s >= 2)\n    return int(h0 >= 1)\n",
+        "value_equals_obligation": true
+      },
+      "MONOTONE_DNF_CHAIN": {
+        "constant_cells": 0,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_GATES",
+        "native_obligations_per_call": 0,
+        "note": "disjunction of every minimal true set",
+        "python_opcodes_per_call": 17,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    return (v0 & v1) | (v0 & v2) | (v1 & v2)\n",
+        "value_equals_obligation": true
+      },
+      "NESTED_CONSTANT_TABLE": {
+        "constant_cells": 8,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "task-independent constant table of 2**n cells",
+        "python_opcodes_per_call": 13,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    return TABLE[v0][v1][v2]\n",
+        "value_equals_obligation": true
+      },
+      "NONAFFINE_SHIFT_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "NON_THRESHOLD_ARITHMETIC",
+        "native_obligations_per_call": 0,
+        "note": "minimal-cost non-affine rendering found by the enumeration",
+        "python_opcodes_per_call": 13,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    return ((v0 + v1) << v2) > 1\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "one linear form, one threshold; Boolean-valued",
+        "python_opcodes_per_call": 13,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    return (v0 + v1 + v2) >= 2\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "same form, coerced to int without a native call",
+        "python_opcodes_per_call": 15,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    return 0 + ((v0 + v1 + v2) >= 2)\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_SHIFT_INT": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "linear form then a fixed shift; exact only where checked",
+        "python_opcodes_per_call": 13,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2 = x\n    return (v0 + v1 + v2) >> 1\n",
+        "value_equals_obligation": true
+      }
+    },
+    "4": {
+      "DELEGATING_SUM_COMPARISON": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "DELEGATING",
+        "native_obligations_per_call": 1,
+        "note": "native sum; its work is a separate obligation",
+        "python_opcodes_per_call": 6,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    return sum(x) >= 2\n",
+        "value_equals_obligation": true
+      },
+      "FLAT_INDEX_TABLE": {
+        "constant_cells": 19,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "the rendering the parity-n registration costed as 5n+2",
+        "python_opcodes_per_call": 24,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    i = (v0 << 3) | (v1 << 2) | (v2 << 1) | v3\n    return TABLE[i]\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_BOOL": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 0,
+        "note": "registered shape B with one hidden unit, native-free",
+        "python_opcodes_per_call": 22,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    s = v0 + v1 + v2 + v3\n    h0 = s >= 2\n    return h0 >= 1\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 2,
+        "note": "registered shape B with one hidden unit and int() units",
+        "python_opcodes_per_call": 26,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    s = v0 + v1 + v2 + v3\n    h0 = int(s >= 2)\n    return int(h0 >= 1)\n",
+        "value_equals_obligation": true
+      },
+      "MONOTONE_DNF_CHAIN": {
+        "constant_cells": 0,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_GATES",
+        "native_obligations_per_call": 0,
+        "note": "disjunction of every minimal true set",
+        "python_opcodes_per_call": 30,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    return (v0 & v1) | (v0 & v2) | (v0 & v3) | (v1 & v2) | (v1 & v3) | (v2 & v3)\n",
+        "value_equals_obligation": true
+      },
+      "NESTED_CONSTANT_TABLE": {
+        "constant_cells": 16,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "task-independent constant table of 2**n cells",
+        "python_opcodes_per_call": 16,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    return TABLE[v0][v1][v2][v3]\n",
+        "value_equals_obligation": true
+      },
+      "NONAFFINE_SHIFT_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "NON_THRESHOLD_ARITHMETIC",
+        "native_obligations_per_call": 0,
+        "note": "minimal-cost non-affine rendering found by the enumeration",
+        "python_opcodes_per_call": 16,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    return ((v0 + v1 + v2) << v3) > 1\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "one linear form, one threshold; Boolean-valued",
+        "python_opcodes_per_call": 16,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    return (v0 + v1 + v2 + v3) >= 2\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "same form, coerced to int without a native call",
+        "python_opcodes_per_call": 18,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    return 0 + ((v0 + v1 + v2 + v3) >= 2)\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_SHIFT_INT": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "linear form then a fixed shift; exact only where checked",
+        "python_opcodes_per_call": 16,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3 = x\n    return (v0 + v1 + v2 + v3) >> 1\n",
+        "value_equals_obligation": false
+      }
+    },
+    "5": {
+      "DELEGATING_SUM_COMPARISON": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "DELEGATING",
+        "native_obligations_per_call": 1,
+        "note": "native sum; its work is a separate obligation",
+        "python_opcodes_per_call": 6,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    return sum(x) >= 3\n",
+        "value_equals_obligation": true
+      },
+      "FLAT_INDEX_TABLE": {
+        "constant_cells": 36,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "the rendering the parity-n registration costed as 5n+2",
+        "python_opcodes_per_call": 29,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    i = (v0 << 4) | (v1 << 3) | (v2 << 2) | (v3 << 1) | v4\n    return TABLE[i]\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_BOOL": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 0,
+        "note": "registered shape B with one hidden unit, native-free",
+        "python_opcodes_per_call": 25,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    s = v0 + v1 + v2 + v3 + v4\n    h0 = s >= 3\n    return h0 >= 1\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 2,
+        "note": "registered shape B with one hidden unit and int() units",
+        "python_opcodes_per_call": 29,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    s = v0 + v1 + v2 + v3 + v4\n    h0 = int(s >= 3)\n    return int(h0 >= 1)\n",
+        "value_equals_obligation": true
+      },
+      "MONOTONE_DNF_CHAIN": {
+        "constant_cells": 0,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_GATES",
+        "native_obligations_per_call": 0,
+        "note": "disjunction of every minimal true set",
+        "python_opcodes_per_call": 67,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    return (v0 & v1 & v2) | (v0 & v1 & v3) | (v0 & v1 & v4) | (v0 & v2 & v3) | (v0 & v2 & v4) | (v0 & v3 & v4) | (v1 & v2 & v3) | (v1 & v2 & v4) | (v1 & v3 & v4) | (v2 & v3 & v4)\n",
+        "value_equals_obligation": true
+      },
+      "NESTED_CONSTANT_TABLE": {
+        "constant_cells": 32,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "task-independent constant table of 2**n cells",
+        "python_opcodes_per_call": 19,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    return TABLE[v0][v1][v2][v3][v4]\n",
+        "value_equals_obligation": true
+      },
+      "NONAFFINE_SHIFT_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "NON_THRESHOLD_ARITHMETIC",
+        "native_obligations_per_call": 0,
+        "note": "minimal-cost non-affine rendering found by the enumeration",
+        "python_opcodes_per_call": 19,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    return ((v0 + v1 + v2 + v3) << v4) > 1\n",
+        "value_equals_obligation": false
+      },
+      "THRESHOLD_COMPARISON_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "one linear form, one threshold; Boolean-valued",
+        "python_opcodes_per_call": 19,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    return (v0 + v1 + v2 + v3 + v4) >= 3\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "same form, coerced to int without a native call",
+        "python_opcodes_per_call": 21,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    return 0 + ((v0 + v1 + v2 + v3 + v4) >= 3)\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_SHIFT_INT": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "linear form then a fixed shift; exact only where checked",
+        "python_opcodes_per_call": 19,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4 = x\n    return (v0 + v1 + v2 + v3 + v4) >> 1\n",
+        "value_equals_obligation": false
+      }
+    },
+    "6": {
+      "DELEGATING_SUM_COMPARISON": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "DELEGATING",
+        "native_obligations_per_call": 1,
+        "note": "native sum; its work is a separate obligation",
+        "python_opcodes_per_call": 6,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    return sum(x) >= 3\n",
+        "value_equals_obligation": true
+      },
+      "FLAT_INDEX_TABLE": {
+        "constant_cells": 69,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "the rendering the parity-n registration costed as 5n+2",
+        "python_opcodes_per_call": 34,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    i = (v0 << 5) | (v1 << 4) | (v2 << 3) | (v3 << 2) | (v4 << 1) | v5\n    return TABLE[i]\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_BOOL": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 0,
+        "note": "registered shape B with one hidden unit, native-free",
+        "python_opcodes_per_call": 28,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    s = v0 + v1 + v2 + v3 + v4 + v5\n    h0 = s >= 3\n    return h0 >= 1\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 2,
+        "note": "registered shape B with one hidden unit and int() units",
+        "python_opcodes_per_call": 32,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    s = v0 + v1 + v2 + v3 + v4 + v5\n    h0 = int(s >= 3)\n    return int(h0 >= 1)\n",
+        "value_equals_obligation": true
+      },
+      "MONOTONE_DNF_CHAIN": {
+        "constant_cells": 0,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_GATES",
+        "native_obligations_per_call": 0,
+        "note": "disjunction of every minimal true set",
+        "python_opcodes_per_call": 128,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    return (v0 & v1 & v2) | (v0 & v1 & v3) | (v0 & v1 & v4) | (v0 & v1 & v5) | (v0 & v2 & v3) | (v0 & v2 & v4) | (v0 & v2 & v5) | (v0 & v3 & v4) | (v0 & v3 & v5) | (v0 & v4 & v5) | (v1 & v2 & v3) | (v1 & v2 & v4) | (v1 & v2 & v5) | (v1 & v3 & v4) | (v1 & v3 & v5) | (v1 & v4 & v5) | (v2 & v3 & v4) | (v2 & v3 & v5) | (v2 & v4 & v5) | (v3 & v4 & v5)\n",
+        "value_equals_obligation": true
+      },
+      "NESTED_CONSTANT_TABLE": {
+        "constant_cells": 64,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "task-independent constant table of 2**n cells",
+        "python_opcodes_per_call": 22,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    return TABLE[v0][v1][v2][v3][v4][v5]\n",
+        "value_equals_obligation": true
+      },
+      "NONAFFINE_SHIFT_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "NON_THRESHOLD_ARITHMETIC",
+        "native_obligations_per_call": 0,
+        "note": "minimal-cost non-affine rendering found by the enumeration",
+        "python_opcodes_per_call": 22,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    return ((v0 + v1 + v2 + v3 + v4) << v5) > 1\n",
+        "value_equals_obligation": false
+      },
+      "THRESHOLD_COMPARISON_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "one linear form, one threshold; Boolean-valued",
+        "python_opcodes_per_call": 22,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    return (v0 + v1 + v2 + v3 + v4 + v5) >= 3\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "same form, coerced to int without a native call",
+        "python_opcodes_per_call": 24,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    return 0 + ((v0 + v1 + v2 + v3 + v4 + v5) >= 3)\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_SHIFT_INT": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "linear form then a fixed shift; exact only where checked",
+        "python_opcodes_per_call": 22,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5 = x\n    return (v0 + v1 + v2 + v3 + v4 + v5) >> 1\n",
+        "value_equals_obligation": false
+      }
+    },
+    "7": {
+      "DELEGATING_SUM_COMPARISON": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "DELEGATING",
+        "native_obligations_per_call": 1,
+        "note": "native sum; its work is a separate obligation",
+        "python_opcodes_per_call": 6,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    return sum(x) >= 4\n",
+        "value_equals_obligation": true
+      },
+      "FLAT_INDEX_TABLE": {
+        "constant_cells": 134,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "the rendering the parity-n registration costed as 5n+2",
+        "python_opcodes_per_call": 39,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    i = (v0 << 6) | (v1 << 5) | (v2 << 4) | (v3 << 3) | (v4 << 2) | (v5 << 1) | v6\n    return TABLE[i]\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_BOOL": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 0,
+        "note": "registered shape B with one hidden unit, native-free",
+        "python_opcodes_per_call": 31,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    s = v0 + v1 + v2 + v3 + v4 + v5 + v6\n    h0 = s >= 4\n    return h0 >= 1\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 2,
+        "note": "registered shape B with one hidden unit and int() units",
+        "python_opcodes_per_call": 35,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    s = v0 + v1 + v2 + v3 + v4 + v5 + v6\n    h0 = int(s >= 4)\n    return int(h0 >= 1)\n",
+        "value_equals_obligation": true
+      },
+      "MONOTONE_DNF_CHAIN": {
+        "constant_cells": 0,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_GATES",
+        "native_obligations_per_call": 0,
+        "note": "disjunction of every minimal true set",
+        "python_opcodes_per_call": 289,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    return (v0 & v1 & v2 & v3) | (v0 & v1 & v2 & v4) | (v0 & v1 & v2 & v5) | (v0 & v1 & v2 & v6) | (v0 & v1 & v3 & v4) | (v0 & v1 & v3 & v5) | (v0 & v1 & v3 & v6) | (v0 & v1 & v4 & v5) | (v0 & v1 & v4 & v6) | (v0 & v1 & v5 & v6) | (v0 & v2 & v3 & v4) | (v0 & v2 & v3 & v5) | (v0 & v2 & v3 & v6) | (v0 & v2 & v4 & v5) | (v0 & v2 & v4 & v6) | (v0 & v2 & v5 & v6) | (v0 & v3 & v4 & v5) | (v0 & v3 & v4 & v6) | (v0 & v3 & v5 & v6) | (v0 & v4 & v5 & v6) | (v1 & v2 & v3 & v4) | (v1 & v2 & v3 & v5) | (v1 & v2 & v3 & v6) | (v1 & v2 & v4 & v5) | (v1 & v2 & v4 & v6) | (v1 & v2 & v5 & v6) | (v1 & v3 & v4 & v5) | (v1 & v3 & v4 & v6) | (v1 & v3 & v5 & v6) | (v1 & v4 & v5 & v6) | (v2 & v3 & v4 & v5) | (v2 & v3 & v4 & v6) | (v2 & v3 & v5 & v6) | (v2 & v4 & v5 & v6) | (v3 & v4 & v5 & v6)\n",
+        "value_equals_obligation": true
+      },
+      "NESTED_CONSTANT_TABLE": {
+        "constant_cells": 128,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "task-independent constant table of 2**n cells",
+        "python_opcodes_per_call": 25,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    return TABLE[v0][v1][v2][v3][v4][v5][v6]\n",
+        "value_equals_obligation": true
+      },
+      "NONAFFINE_SHIFT_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "NON_THRESHOLD_ARITHMETIC",
+        "native_obligations_per_call": 0,
+        "note": "minimal-cost non-affine rendering found by the enumeration",
+        "python_opcodes_per_call": 25,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    return ((v0 + v1 + v2 + v3 + v4 + v5) << v6) > 1\n",
+        "value_equals_obligation": false
+      },
+      "THRESHOLD_COMPARISON_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "one linear form, one threshold; Boolean-valued",
+        "python_opcodes_per_call": 25,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    return (v0 + v1 + v2 + v3 + v4 + v5 + v6) >= 4\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "same form, coerced to int without a native call",
+        "python_opcodes_per_call": 27,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    return 0 + ((v0 + v1 + v2 + v3 + v4 + v5 + v6) >= 4)\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_SHIFT_INT": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "linear form then a fixed shift; exact only where checked",
+        "python_opcodes_per_call": 25,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6 = x\n    return (v0 + v1 + v2 + v3 + v4 + v5 + v6) >> 1\n",
+        "value_equals_obligation": false
+      }
+    },
+    "8": {
+      "DELEGATING_SUM_COMPARISON": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "DELEGATING",
+        "native_obligations_per_call": 1,
+        "note": "native sum; its work is a separate obligation",
+        "python_opcodes_per_call": 6,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    return sum(x) >= 4\n",
+        "value_equals_obligation": true
+      },
+      "FLAT_INDEX_TABLE": {
+        "constant_cells": 263,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "the rendering the parity-n registration costed as 5n+2",
+        "python_opcodes_per_call": 44,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    i = (v0 << 7) | (v1 << 6) | (v2 << 5) | (v3 << 4) | (v4 << 3) | (v5 << 2) | (v6 << 1) | v7\n    return TABLE[i]\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_BOOL": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 0,
+        "note": "registered shape B with one hidden unit, native-free",
+        "python_opcodes_per_call": 34,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    s = v0 + v1 + v2 + v3 + v4 + v5 + v6 + v7\n    h0 = s >= 4\n    return h0 >= 1\n",
+        "value_equals_obligation": true
+      },
+      "HIDDEN_UNIT_NET_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD_NET",
+        "native_obligations_per_call": 2,
+        "note": "registered shape B with one hidden unit and int() units",
+        "python_opcodes_per_call": 38,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    s = v0 + v1 + v2 + v3 + v4 + v5 + v6 + v7\n    h0 = int(s >= 4)\n    return int(h0 >= 1)\n",
+        "value_equals_obligation": true
+      },
+      "MONOTONE_DNF_CHAIN": {
+        "constant_cells": 0,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_GATES",
+        "native_obligations_per_call": 0,
+        "note": "disjunction of every minimal true set",
+        "python_opcodes_per_call": 570,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    return (v0 & v1 & v2 & v3) | (v0 & v1 & v2 & v4) | (v0 & v1 & v2 & v5) | (v0 & v1 & v2 & v6) | (v0 & v1 & v2 & v7) | (v0 & v1 & v3 & v4) | (v0 & v1 & v3 & v5) | (v0 & v1 & v3 & v6) | (v0 & v1 & v3 & v7) | (v0 & v1 & v4 & v5) | (v0 & v1 & v4 & v6) | (v0 & v1 & v4 & v7) | (v0 & v1 & v5 & v6) | (v0 & v1 & v5 & v7) | (v0 & v1 & v6 & v7) | (v0 & v2 & v3 & v4) | (v0 & v2 & v3 & v5) | (v0 & v2 & v3 & v6) | (v0 & v2 & v3 & v7) | (v0 & v2 & v4 & v5) | (v0 & v2 & v4 & v6) | (v0 & v2 & v4 & v7) | (v0 & v2 & v5 & v6) | (v0 & v2 & v5 & v7) | (v0 & v2 & v6 & v7) | (v0 & v3 & v4 & v5) | (v0 & v3 & v4 & v6) | (v0 & v3 & v4 & v7) | (v0 & v3 & v5 & v6) | (v0 & v3 & v5 & v7) | (v0 & v3 & v6 & v7) | (v0 & v4 & v5 & v6) | (v0 & v4 & v5 & v7) | (v0 & v4 & v6 & v7) | (v0 & v5 & v6 & v7) | (v1 & v2 & v3 & v4) | (v1 & v2 & v3 & v5) | (v1 & v2 & v3 & v6) | (v1 & v2 & v3 & v7) | (v1 & v2 & v4 & v5) | (v1 & v2 & v4 & v6) | (v1 & v2 & v4 & v7) | (v1 & v2 & v5 & v6) | (v1 & v2 & v5 & v7) | (v1 & v2 & v6 & v7) | (v1 & v3 & v4 & v5) | (v1 & v3 & v4 & v6) | (v1 & v3 & v4 & v7) | (v1 & v3 & v5 & v6) | (v1 & v3 & v5 & v7) | (v1 & v3 & v6 & v7) | (v1 & v4 & v5 & v6) | (v1 & v4 & v5 & v7) | (v1 & v4 & v6 & v7) | (v1 & v5 & v6 & v7) | (v2 & v3 & v4 & v5) | (v2 & v3 & v4 & v6) | (v2 & v3 & v4 & v7) | (v2 & v3 & v5 & v6) | (v2 & v3 & v5 & v7) | (v2 & v3 & v6 & v7) | (v2 & v4 & v5 & v6) | (v2 & v4 & v5 & v7) | (v2 & v4 & v6 & v7) | (v2 & v5 & v6 & v7) | (v3 & v4 & v5 & v6) | (v3 & v4 & v5 & v7) | (v3 & v4 & v6 & v7) | (v3 & v5 & v6 & v7) | (v4 & v5 & v6 & v7)\n",
+        "value_equals_obligation": true
+      },
+      "NESTED_CONSTANT_TABLE": {
+        "constant_cells": 256,
+        "exact_on_whole_domain": true,
+        "family": "NON_NEURAL_TABLE",
+        "native_obligations_per_call": 0,
+        "note": "task-independent constant table of 2**n cells",
+        "python_opcodes_per_call": 28,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    return TABLE[v0][v1][v2][v3][v4][v5][v6][v7]\n",
+        "value_equals_obligation": true
+      },
+      "NONAFFINE_SHIFT_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "NON_THRESHOLD_ARITHMETIC",
+        "native_obligations_per_call": 0,
+        "note": "minimal-cost non-affine rendering found by the enumeration",
+        "python_opcodes_per_call": 28,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    return ((v0 + v1 + v2 + v3 + v4 + v5 + v6) << v7) > 1\n",
+        "value_equals_obligation": false
+      },
+      "THRESHOLD_COMPARISON_BOOL": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "one linear form, one threshold; Boolean-valued",
+        "python_opcodes_per_call": 28,
+        "return_type": [
+          "bool"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    return (v0 + v1 + v2 + v3 + v4 + v5 + v6 + v7) >= 4\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_COMPARISON_INT": {
+        "constant_cells": 2,
+        "exact_on_whole_domain": true,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "same form, coerced to int without a native call",
+        "python_opcodes_per_call": 30,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    return 0 + ((v0 + v1 + v2 + v3 + v4 + v5 + v6 + v7) >= 4)\n",
+        "value_equals_obligation": true
+      },
+      "THRESHOLD_SHIFT_INT": {
+        "constant_cells": 1,
+        "exact_on_whole_domain": false,
+        "family": "THRESHOLD",
+        "native_obligations_per_call": 0,
+        "note": "linear form then a fixed shift; exact only where checked",
+        "python_opcodes_per_call": 28,
+        "return_type": [
+          "int"
+        ],
+        "source": "def f(x):\n    v0, v1, v2, v3, v4, v5, v6, v7 = x\n    return (v0 + v1 + v2 + v3 + v4 + v5 + v6 + v7) >> 1\n",
+        "value_equals_obligation": false
+      }
+    }
+  },
+  "claim_ceiling": "one task family, one code grammar, one interpreter opcode layout and one declared constant-cell count; no timing, no physical memory and no coverage of the realizations nobody has written",
+  "cost_formulas": {
+    "DELEGATING_SUM_COMPARISON": {
+      "constant_cells": {
+        "a": 0,
+        "b": 1,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "python_opcodes_per_call": {
+        "a": 0,
+        "b": 6,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "FLAT_INDEX_TABLE": {
+      "constant_cells": null,
+      "python_opcodes_per_call": {
+        "a": 5,
+        "b": 4,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "HIDDEN_UNIT_NET_BOOL": {
+      "constant_cells": {
+        "a": 0,
+        "b": 2,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "python_opcodes_per_call": {
+        "a": 3,
+        "b": 10,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "HIDDEN_UNIT_NET_INT": {
+      "constant_cells": {
+        "a": 0,
+        "b": 2,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "python_opcodes_per_call": {
+        "a": 3,
+        "b": 14,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "MONOTONE_DNF_CHAIN": {
+      "constant_cells": {
+        "a": 0,
+        "b": 0,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "python_opcodes_per_call": null
+    },
+    "NESTED_CONSTANT_TABLE": {
+      "constant_cells": null,
+      "python_opcodes_per_call": {
+        "a": 3,
+        "b": 4,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "NONAFFINE_SHIFT_BOOL": {
+      "constant_cells": {
+        "a": 0,
+        "b": 1,
+        "holds_for_n": [
+          3,
+          4
+        ]
+      },
+      "python_opcodes_per_call": {
+        "a": 3,
+        "b": 4,
+        "holds_for_n": [
+          3,
+          4
+        ]
+      }
+    },
+    "THRESHOLD_COMPARISON_BOOL": {
+      "constant_cells": {
+        "a": 0,
+        "b": 1,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "python_opcodes_per_call": {
+        "a": 3,
+        "b": 4,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "THRESHOLD_COMPARISON_INT": {
+      "constant_cells": {
+        "a": 0,
+        "b": 2,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "python_opcodes_per_call": {
+        "a": 3,
+        "b": 6,
+        "holds_for_n": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "THRESHOLD_SHIFT_INT": {
+      "constant_cells": null,
+      "python_opcodes_per_call": null
+    }
+  },
+  "enumeration_scope": {
+    "arithmetic_shape_enumerated_at": [
+      "n=3"
+    ],
+    "arithmetic_shape_open_at": [
+      "n>=4 inside this checker; the unit test enumerates n=4 at a declared cap"
+    ],
+    "binary_operations": [
+      "&",
+      "*",
+      "+",
+      "-",
+      "<<",
+      ">>",
+      "^",
+      "|"
+    ],
+    "comparisons": [
+      "!=",
+      "<",
+      "<=",
+      "==",
+      ">",
+      ">="
+    ],
+    "constant_free_shapes_enumerated_at": [
+      "n=3 at caps 32/64/256",
+      "n=4 at cap 32 here, cap 64 in the unit test"
+    ],
+    "constants": [
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "left_shift_limit": 12,
+    "shapes_covered_by_measurement_not_enumeration": [
+      "realizations that read a registered data binding, that is the constant tables; the enumeration covers expression trees over the n unpacked inputs"
+    ],
+    "unary_budget": 2,
+    "unary_operations": [
+      "-",
+      "not",
+      "~"
+    ],
+    "unary_operations_refused_by_the_register": [
+      "+"
+    ],
+    "wide_constants": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8,
+      -7,
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "exhaustive_minimal_renderings": {
+    "n3_cap256": {
+      "affine": [
+        "((v0 + v1) + v2) > 1",
+        "((v0 + v1) + v2) >= 2"
+      ],
+      "arithmetic": [
+        "(((v0 + v1) + v2) >> 1)"
+      ],
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
+      "non_affine": [
+        "((v0 + v1) << v2) > 1",
+        "((v0 + v1) << v2) >= 2",
+        "((v0 + v2) << v1) > 1",
+        "((v0 + v2) << v1) >= 2",
+        "((v1 + v2) << v0) > 1",
+        "((v1 + v2) << v0) >= 2"
+      ]
+    },
+    "n3_cap32": {
+      "affine": [
+        "((v0 + v1) + v2) > 1",
+        "((v0 + v1) + v2) >= 2"
+      ],
+      "arithmetic": [
+        "(((v0 + v1) + v2) >> 1)"
+      ],
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
+      "non_affine": [
+        "((v0 + v1) << v2) > 1",
+        "((v0 + v1) << v2) >= 2",
+        "((v0 + v2) << v1) > 1",
+        "((v0 + v2) << v1) >= 2",
+        "((v1 + v2) << v0) > 1",
+        "((v1 + v2) << v0) >= 2"
+      ]
+    },
+    "n3_cap32_wide_constants": {
+      "affine": [
+        "((v0 + v1) + v2) > 1",
+        "((v0 + v1) + v2) >= 2"
+      ],
+      "arithmetic": [
+        "(((v0 + v1) + v2) >> 1)"
+      ],
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
+      "non_affine": [
+        "((v0 + v1) << v2) > 1",
+        "((v0 + v1) << v2) >= 2",
+        "((v0 + v2) << v1) > 1",
+        "((v0 + v2) << v1) >= 2",
+        "((v1 + v2) << v0) > 1",
+        "((v1 + v2) << v0) >= 2"
+      ]
+    },
+    "n3_cap64": {
+      "affine": [
+        "((v0 + v1) + v2) > 1",
+        "((v0 + v1) + v2) >= 2"
+      ],
+      "arithmetic": [
+        "(((v0 + v1) + v2) >> 1)"
+      ],
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
+      "non_affine": [
+        "((v0 + v1) << v2) > 1",
+        "((v0 + v1) << v2) >= 2",
+        "((v0 + v2) << v1) > 1",
+        "((v0 + v2) << v1) >= 2",
+        "((v1 + v2) << v0) > 1",
+        "((v1 + v2) << v0) >= 2"
+      ]
+    },
+    "n4_cap32_comparison_shape": {
+      "affine": [
+        "(((v0 + v1) + v2) + v3) > 1",
+        "(((v0 + v1) + v2) + v3) >= 2"
+      ],
+      "arithmetic": null,
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 8889,
+        "1": 68293,
+        "2": 256294
+      },
+      "non_affine": [
+        "(((v0 + v1) + v2) << v3) > 1",
+        "(((v0 + v1) + v2) << v3) >= 2",
+        "(((v0 + v1) + v3) << v2) > 1",
+        "(((v0 + v1) + v3) << v2) >= 2",
+        "(((v0 + v2) + v3) << v1) > 1",
+        "(((v0 + v2) + v3) << v1) >= 2",
+        "(((v1 + v2) + v3) << v0) > 1",
+        "(((v1 + v2) + v3) << v0) >= 2"
+      ]
+    }
+  },
+  "frontier_honest_unknown_native_cost": {
+    "3": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          null
+        ],
+        "FLAT_INDEX_TABLE": [
+          "19",
+          "19"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "19",
+          "19"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "23",
+          null
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "17",
+          "17"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "13",
+          "13"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          "13",
+          "13"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "13",
+          "13"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "15",
+          "15"
+        ],
+        "THRESHOLD_SHIFT_INT": [
+          "13",
+          "13"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [],
+        "NONAFFINE_SHIFT_BOOL": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "THRESHOLD_SHIFT_INT": []
+      },
+      "reading": "honest_unknown",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON",
+        "NESTED_CONSTANT_TABLE",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ]
+    },
+    "4": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          null
+        ],
+        "FLAT_INDEX_TABLE": [
+          "24",
+          "24"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "22",
+          "22"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "26",
+          null
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "30",
+          "30"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "16",
+          "16"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          "16",
+          "16"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "16",
+          "16"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "18",
+          "18"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [],
+        "NONAFFINE_SHIFT_BOOL": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "honest_unknown",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON",
+        "NESTED_CONSTANT_TABLE",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "5": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          null
+        ],
+        "FLAT_INDEX_TABLE": [
+          "29",
+          "29"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "25",
+          "25"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "29",
+          null
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "67",
+          "67"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "19",
+          "19"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "19",
+          "19"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "21",
+          "21"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "honest_unknown",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "6": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          null
+        ],
+        "FLAT_INDEX_TABLE": [
+          "34",
+          "34"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "28",
+          "28"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "32",
+          null
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "128",
+          "128"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "22",
+          "22"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "22",
+          "22"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "24",
+          "24"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "honest_unknown",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "7": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          null
+        ],
+        "FLAT_INDEX_TABLE": [
+          "39",
+          "39"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "31",
+          "31"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "35",
+          null
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "289",
+          "289"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "25",
+          "25"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "25",
+          "25"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "27",
+          "27"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "honest_unknown",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "8": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          null
+        ],
+        "FLAT_INDEX_TABLE": [
+          "44",
+          "44"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "34",
+          "34"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "38",
+          null
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "570",
+          "570"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "28",
+          "28"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "28",
+          "28"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "30",
+          "30"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "honest_unknown",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    }
+  },
+  "frontier_opcode_projection": {
+    "3": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          "6"
+        ],
+        "FLAT_INDEX_TABLE": [
+          "19",
+          "19"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "19",
+          "19"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "23",
+          "23"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "17",
+          "17"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "13",
+          "13"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          "13",
+          "13"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "13",
+          "13"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "15",
+          "15"
+        ],
+        "THRESHOLD_SHIFT_INT": [
+          "13",
+          "13"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "DELEGATING_SUM_COMPARISON",
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "DELEGATING_SUM_COMPARISON",
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "THRESHOLD_SHIFT_INT": [
+          "DELEGATING_SUM_COMPARISON"
+        ]
+      },
+      "reading": "python_projection",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON"
+      ]
+    },
+    "4": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          "6"
+        ],
+        "FLAT_INDEX_TABLE": [
+          "24",
+          "24"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "22",
+          "22"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "26",
+          "26"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "30",
+          "30"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "16",
+          "16"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          "16",
+          "16"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "16",
+          "16"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "18",
+          "18"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "DELEGATING_SUM_COMPARISON",
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "python_projection",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON"
+      ]
+    },
+    "5": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          "6"
+        ],
+        "FLAT_INDEX_TABLE": [
+          "29",
+          "29"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "25",
+          "25"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "29",
+          "29"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "67",
+          "67"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "19",
+          "19"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "19",
+          "19"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "21",
+          "21"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "DELEGATING_SUM_COMPARISON",
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "python_projection",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON"
+      ]
+    },
+    "6": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          "6"
+        ],
+        "FLAT_INDEX_TABLE": [
+          "34",
+          "34"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "28",
+          "28"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "32",
+          "32"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "128",
+          "128"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "22",
+          "22"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "22",
+          "22"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "24",
+          "24"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "DELEGATING_SUM_COMPARISON",
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "python_projection",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON"
+      ]
+    },
+    "7": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          "6"
+        ],
+        "FLAT_INDEX_TABLE": [
+          "39",
+          "39"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "31",
+          "31"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "35",
+          "35"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "289",
+          "289"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "25",
+          "25"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "25",
+          "25"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "27",
+          "27"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "DELEGATING_SUM_COMPARISON",
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "python_projection",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON"
+      ]
+    },
+    "8": {
+      "bounds": {
+        "DELEGATING_SUM_COMPARISON": [
+          "6",
+          "6"
+        ],
+        "FLAT_INDEX_TABLE": [
+          "44",
+          "44"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "34",
+          "34"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "38",
+          "38"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "570",
+          "570"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "28",
+          "28"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "28",
+          "28"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "30",
+          "30"
+        ]
+      },
+      "certified_strictly_below": {
+        "DELEGATING_SUM_COMPARISON": [],
+        "FLAT_INDEX_TABLE": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          "DELEGATING_SUM_COMPARISON",
+          "FLAT_INDEX_TABLE",
+          "HIDDEN_UNIT_NET_BOOL",
+          "HIDDEN_UNIT_NET_INT",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          "DELEGATING_SUM_COMPARISON"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "DELEGATING_SUM_COMPARISON",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "reading": "python_projection",
+      "undominated": [
+        "DELEGATING_SUM_COMPARISON"
+      ]
+    }
+  },
+  "frontier_priced_constant_cells": {
+    "3": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_INT"
+      ],
+      "int_typed_obligation": false,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          19,
+          10
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          19,
+          2
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          17,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          13,
+          8
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          13,
+          1
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          13,
+          1
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          15,
+          2
+        ],
+        "THRESHOLD_SHIFT_INT": [
+          13,
+          1
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "MONOTONE_DNF_CHAIN",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "THRESHOLD_SHIFT_INT": []
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ]
+    },
+    "4": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_INT",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": false,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          24,
+          19
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          22,
+          2
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          30,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          16,
+          16
+        ],
+        "NONAFFINE_SHIFT_BOOL": [
+          16,
+          1
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          16,
+          1
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          18,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL"
+        ],
+        "NONAFFINE_SHIFT_BOOL": [],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "NONAFFINE_SHIFT_BOOL",
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "5": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": false,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          29,
+          36
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          25,
+          2
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          67,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          19,
+          32
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          19,
+          1
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          21,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "6": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": false,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          34,
+          69
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          28,
+          2
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          128,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          22,
+          64
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          22,
+          1
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          24,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "7": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": false,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          39,
+          134
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          31,
+          2
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          289,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          25,
+          128
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          25,
+          1
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          27,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    },
+    "8": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": false,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          44,
+          263
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          34,
+          2
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          570,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          28,
+          256
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [
+          28,
+          1
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          30,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "HIDDEN_UNIT_NET_BOOL",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "HIDDEN_UNIT_NET_BOOL": [
+          "THRESHOLD_COMPARISON_BOOL",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ],
+        "THRESHOLD_COMPARISON_BOOL": [],
+        "THRESHOLD_COMPARISON_INT": [
+          "THRESHOLD_COMPARISON_BOOL"
+        ]
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "THRESHOLD_COMPARISON_BOOL"
+      ]
+    }
+  },
+  "frontier_priced_constant_cells_int_typed": {
+    "3": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_BOOL",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL"
+      ],
+      "int_typed_obligation": true,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          19,
+          10
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          17,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          13,
+          8
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          15,
+          2
+        ],
+        "THRESHOLD_SHIFT_INT": [
+          13,
+          1
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "MONOTONE_DNF_CHAIN",
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_INT",
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          "THRESHOLD_SHIFT_INT"
+        ],
+        "THRESHOLD_SHIFT_INT": []
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "THRESHOLD_SHIFT_INT"
+      ]
+    },
+    "4": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_BOOL",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": true,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          24,
+          19
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          30,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          16,
+          16
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          18,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_INT": []
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_INT"
+      ]
+    },
+    "5": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_BOOL",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": true,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          29,
+          36
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          67,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          19,
+          32
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          21,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_INT": []
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_INT"
+      ]
+    },
+    "6": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_BOOL",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": true,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          34,
+          69
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          128,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          22,
+          64
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          24,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_INT": []
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_INT"
+      ]
+    },
+    "7": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_BOOL",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": true,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          39,
+          134
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          289,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          25,
+          128
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          27,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_INT": []
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_INT"
+      ]
+    },
+    "8": {
+      "excluded_for_unbounded_or_inexact_cost": [
+        "DELEGATING_SUM_COMPARISON",
+        "HIDDEN_UNIT_NET_BOOL",
+        "HIDDEN_UNIT_NET_INT",
+        "NONAFFINE_SHIFT_BOOL",
+        "THRESHOLD_COMPARISON_BOOL",
+        "THRESHOLD_SHIFT_INT"
+      ],
+      "int_typed_obligation": true,
+      "points": {
+        "FLAT_INDEX_TABLE": [
+          44,
+          263
+        ],
+        "MONOTONE_DNF_CHAIN": [
+          570,
+          0
+        ],
+        "NESTED_CONSTANT_TABLE": [
+          28,
+          256
+        ],
+        "THRESHOLD_COMPARISON_INT": [
+          30,
+          2
+        ]
+      },
+      "strictly_dominated_by": {
+        "FLAT_INDEX_TABLE": [
+          "NESTED_CONSTANT_TABLE",
+          "THRESHOLD_COMPARISON_INT"
+        ],
+        "MONOTONE_DNF_CHAIN": [],
+        "NESTED_CONSTANT_TABLE": [],
+        "THRESHOLD_COMPARISON_INT": []
+      },
+      "undominated": [
+        "MONOTONE_DNF_CHAIN",
+        "NESTED_CONSTANT_TABLE",
+        "THRESHOLD_COMPARISON_INT"
+      ]
+    }
+  },
+  "layout_contract": {
+    "interpreter": "CPython 3.12",
+    "probe_opcode_counts": {
+      "native_int_call": 13,
+      "store_then_compare_3": 15,
+      "threshold_compare_3": 13,
+      "two_unary_3": 13,
+      "unary_invert_3": 12,
+      "unary_negate_3": 12,
+      "unary_not_3": 12,
+      "unpack_and_return_3": 7,
+      "xor_chain_3": 11
+    },
+    "registered_parity3_facts_reproduced": {
+      "DELEGATING_SUM_AND_MASK": [
+        6,
+        1
+      ],
+      "WRITTEN_SHARED_SUM_NET": [
+        39,
+        4
+      ],
+      "WRITTEN_XOR_CHAIN": [
+        11,
+        0
+      ]
+    },
+    "unary_plus_refusal": "Refusal: unaccounted opcode: CALL_INTRINSIC_1"
+  },
+  "scope_n": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "task": "majority-n: 1 exactly when at least half of n binary inputs are 1",
+  "terminal": "GRAND_GMI_THRESHOLD_TASK_FRONTIER_GREEN_AT_FINITE_SCOPE"
+}

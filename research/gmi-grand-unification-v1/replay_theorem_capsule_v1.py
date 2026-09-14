@@ -51,6 +51,10 @@ EXTERNAL_UNIT_DEPENDENCIES = {
     "grand_gmi_structural_neural_bound_checks_v1.py": (
         "research/gmi-structural-threshold-repair-v1",
     ),
+    "grand_gmi_threshold_task_frontier_checks_v1.py": (
+        "research/gmi-threshold-task-frontier-v1",
+        "research/gmi-delegation-cost-repair-v1",
+    ),
 }
 EXTERNAL_DOCUMENT_DEPENDENCIES = {
     "grand_gmi_formal_derivation_checks_v1.py": (
