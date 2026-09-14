@@ -79,6 +79,43 @@ determine multi-species outcomes — rock-paper-scissors cycles are the standard
 here rules one out. **Claiming section G's ecology closed on pairwise evidence would be wrong**, and the
 distinction is exactly the one boxes 8–9 versus box 16 are drawing.
 
+## 5b  Box 16 decided: a frozen prediction that FAILED, and a better finding underneath
+
+Section 5 called box 16 the load-bearing gap and cited rock-paper-scissors cycles as the *reason* pairwise
+data cannot settle multi-species outcomes. That was a borrowed warning. It is now a measured question about
+this corpus's own data — and the answer is not the one I predicted.
+
+**The prediction, frozen at `ed21bdf6` in a commit with no measuring code**: at least one intransitive triple
+exists among the 8 R10 carriers. The reasoning was that R10's upheld finding — occupancy is not a function of
+the solo scores — means a scalar ranking already loses information, so the pairwise relation is probably not
+an order either. The receipt recorded that this is an **inference, not an implication**, and that it could
+fail.
+
+**It failed.** Among triples whose three pairs are all decided: **0 of 76 are cyclic.** Where the two readings
+of the matrix agree, dominance is **acyclic**.
+
+That zero is not vacuous, and the witness enforces it: a triple only counts once all three of its pairs are
+*decided*, because an undecided pair cannot participate in a cycle. 76 triples were fully decided across the
+three pools and none was cyclic. A pin fails if the decided count ever collapses, since the acyclicity finding
+rests entirely on cycles having been possible.
+
+### What the data says instead: an order effect
+
+Reading the matrix two ways — *A succeeded as an invader against B* and *A repelled B as a resident* — should
+be the same fact. **In 36 of 168 ordered pairs, they disagree.**
+
+So "A beats B" is not one fact. **Who was there first changes the outcome.** That is a priority effect, and it
+answers box 16 more decisively than intransitivity would have: a pairwise table recording only *who beats
+whom* cannot determine a multi-species outcome when arrival order matters — transitive or not.
+
+**Box 16 is therefore necessary, for order dependence rather than for the intransitivity I predicted.** The
+prediction was wrong about the mechanism and right about the conclusion, which is exactly the case freezing
+exists to expose rather than smooth over. A pin keeps the verdict recorded as `FALSIFIED`.
+
+The disagreement is also *partial* — 36 of 168, not all of them — and that matters: universal disagreement
+would mean the matrix is simply inconsistent, whereas partial disagreement is a property of the competition.
+Both bounds are pinned.
+
 ## 6  A gap in the guarding, now fixed
 
 This result — a registered prediction, 192 cells, an invariance control — had **no CI pin of any kind**. It

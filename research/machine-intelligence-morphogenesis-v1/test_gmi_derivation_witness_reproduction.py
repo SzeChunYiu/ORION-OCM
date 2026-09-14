@@ -81,6 +81,7 @@ WITNESSES = {
     "predict_composition_law.py": "STAGE_COMPOSITION_LAW_PREDICTION_V1.json",
     "predict_probe_law.py": "STAGE_PROBE_LAW_PREDICTION_V1.json",
     "species_algebra_witness.py": "STAGE_SPECIES_ALGEBRA_V1.json",
+    "predict_intransitivity.py": "STAGE_INTRANSITIVITY_PREDICTION_V1.json",
 }
 
 
@@ -2016,3 +2017,59 @@ def test_invasion_outcome_survives_reminting():
         "reminting a competitor changed a reported quantity, so the outcome "
         "depends on identity rather than on organization")
     assert ri["n_competitions_checked"] > 0, "the invariance control never ran"
+
+
+# ---------------------------------------------------------------------------
+# G box 16: a frozen prediction that FAILED, and the better finding underneath.
+# ---------------------------------------------------------------------------
+def test_intransitivity_adjudication_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_INTRANSITIVITY_VERDICT_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope",
+                                          "compare_intransitivity.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "compare_intransitivity.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed verdict to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the intransitivity adjudication no longer reproduces its verdict")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_the_failed_prediction_stays_recorded_as_failed():
+    """A frozen prediction is only worth freezing if failure survives."""
+    r = load_receipt("STAGE_INTRANSITIVITY_VERDICT_V1.json")
+    assert r["verdict"] == "FALSIFIED", (
+        "the intransitivity prediction is no longer recorded as failed; it was "
+        "frozen before the measurement and failing is its honest outcome")
+    assert r["intransitive_triples_total"] == 0
+
+
+def test_zero_cycles_is_not_vacuous():
+    """Cycles had to be POSSIBLE for their absence to mean anything."""
+    r = load_receipt("STAGE_INTRANSITIVITY_VERDICT_V1.json")
+    assert r["fully_decided_triples_total"] > 0, (
+        "no triple has all three pairs decided, so a cycle was never possible "
+        "and 'zero cycles' decides nothing")
+    assert r["fully_decided_triples_total"] >= 50, (
+        "the decided-triple count collapsed; the acyclicity finding rests on "
+        "there being many triples that COULD have been cyclic")
+
+
+def test_the_order_effect_is_real_and_partial():
+    """The finding that outranks the prediction: arrival order changes outcomes."""
+    r = load_receipt("STAGE_INTRANSITIVITY_VERDICT_V1.json")
+    n, total = r["order_effect_pairs"], r["ordered_pairs_checked"]
+    assert n > 0, (
+        "succeeding as invader and repelling as resident now agree everywhere, "
+        "which would remove the order effect that makes box 16 necessary")
+    assert n < total, (
+        "they disagree on every pair, which would mean the matrix is simply "
+        "inconsistent rather than order-dependent")
+    assert r["relation_well_defined"] is False
+    assert r["box_16_necessary"] is True
