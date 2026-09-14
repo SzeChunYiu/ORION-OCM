@@ -1,0 +1,277 @@
+{
+ "fooling_sets": {
+  "constant": {
+   "all_pairs_separated": true,
+   "example_separators": [],
+   "size": 1
+  },
+  "count_b_mod3": {
+   "all_pairs_separated": true,
+   "example_separators": [
+    [
+     "",
+     "b",
+     ""
+    ],
+    [
+     "",
+     "bb",
+     ""
+    ],
+    [
+     "b",
+     "bb",
+     "b"
+    ]
+   ],
+   "size": 3
+  },
+  "ends_with_ab": {
+   "all_pairs_separated": true,
+   "example_separators": [
+    [
+     "",
+     "a",
+     "b"
+    ],
+    [
+     "",
+     "ab",
+     ""
+    ],
+    [
+     "a",
+     "ab",
+     ""
+    ]
+   ],
+   "size": 3
+  },
+  "last_symbol": {
+   "all_pairs_separated": true,
+   "example_separators": [
+    [
+     "",
+     "a",
+     ""
+    ]
+   ],
+   "size": 2
+  },
+  "parity_b": {
+   "all_pairs_separated": true,
+   "example_separators": [
+    [
+     "",
+     "b",
+     ""
+    ]
+   ],
+   "size": 2
+  }
+ },
+ "minimality": [
+  {
+   "any_machine_works": false,
+   "k_tried": 1,
+   "obligation": "parity_b"
+  },
+  {
+   "any_machine_works": false,
+   "k_tried": 2,
+   "obligation": "count_b_mod3"
+  },
+  {
+   "any_machine_works": false,
+   "k_tried": 2,
+   "obligation": "ends_with_ab"
+  },
+  {
+   "any_machine_works": false,
+   "k_tried": 1,
+   "obligation": "last_symbol"
+  }
+ ],
+ "neutral_recovery": [
+  {
+   "brute_force_k": 2,
+   "enumeration_limit": null,
+   "index": 2,
+   "match": true,
+   "obligation": "parity_b"
+  },
+  {
+   "brute_force_k": 3,
+   "enumeration_limit": null,
+   "index": 3,
+   "match": true,
+   "obligation": "count_b_mod3"
+  },
+  {
+   "brute_force_k": 3,
+   "enumeration_limit": null,
+   "index": 3,
+   "match": true,
+   "obligation": "ends_with_ab"
+  },
+  {
+   "brute_force_k": 1,
+   "enumeration_limit": null,
+   "index": 1,
+   "match": true,
+   "obligation": "constant"
+  },
+  {
+   "brute_force_k": 2,
+   "enumeration_limit": null,
+   "index": 2,
+   "match": true,
+   "obligation": "last_symbol"
+  }
+ ],
+ "quotient": [
+  {
+   "index": 2,
+   "obligation": "parity_b",
+   "representatives": [
+    "",
+    "b"
+   ]
+  },
+  {
+   "index": 3,
+   "obligation": "count_b_mod3",
+   "representatives": [
+    "",
+    "b",
+    "bb"
+   ]
+  },
+  {
+   "index": 3,
+   "obligation": "ends_with_ab",
+   "representatives": [
+    "",
+    "a",
+    "ab"
+   ]
+  },
+  {
+   "index": 1,
+   "obligation": "constant",
+   "representatives": [
+    ""
+   ]
+  },
+  {
+   "index": 2,
+   "obligation": "last_symbol",
+   "representatives": [
+    "",
+    "a"
+   ]
+  }
+ ],
+ "realization": [
+  {
+   "correct": true,
+   "obligation": "parity_b",
+   "replayed": 511,
+   "states": 2
+  },
+  {
+   "correct": true,
+   "obligation": "count_b_mod3",
+   "replayed": 511,
+   "states": 3
+  },
+  {
+   "correct": true,
+   "obligation": "ends_with_ab",
+   "replayed": 511,
+   "states": 3
+  },
+  {
+   "correct": true,
+   "obligation": "constant",
+   "replayed": 511,
+   "states": 1
+  },
+  {
+   "correct": true,
+   "obligation": "last_symbol",
+   "replayed": 511,
+   "states": 2
+  }
+ ],
+ "state_vs_history": [
+  {
+   "cheaper": "history",
+   "history_cost": 1,
+   "length": 1,
+   "state_cost": 3
+  },
+  {
+   "cheaper": "history",
+   "history_cost": 2,
+   "length": 2,
+   "state_cost": 3
+  },
+  {
+   "cheaper": "tie",
+   "history_cost": 3,
+   "length": 3,
+   "state_cost": 3
+  },
+  {
+   "cheaper": "state",
+   "history_cost": 4,
+   "length": 4,
+   "state_cost": 3
+  },
+  {
+   "cheaper": "state",
+   "history_cost": 8,
+   "length": 8,
+   "state_cost": 3
+  },
+  {
+   "cheaper": "state",
+   "history_cost": 16,
+   "length": 16,
+   "state_cost": 3
+  }
+ ],
+ "stateless": [
+  {
+   "index": 2,
+   "obligation": "parity_b",
+   "stateless_accuracy": 0.5029,
+   "sufficient": false
+  },
+  {
+   "index": 3,
+   "obligation": "count_b_mod3",
+   "stateless_accuracy": 0.6673,
+   "sufficient": false
+  },
+  {
+   "index": 3,
+   "obligation": "ends_with_ab",
+   "stateless_accuracy": 0.7515,
+   "sufficient": false
+  },
+  {
+   "index": 1,
+   "obligation": "constant",
+   "stateless_accuracy": 1.0,
+   "sufficient": true
+  },
+  {
+   "index": 2,
+   "obligation": "last_symbol",
+   "stateless_accuracy": 1.0,
+   "sufficient": true
+  }
+ ]
+}

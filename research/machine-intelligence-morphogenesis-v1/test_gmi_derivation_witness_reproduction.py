@@ -40,6 +40,7 @@ WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
+    "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
@@ -535,3 +536,51 @@ def test_redundancy_dissolves_the_problem_but_not_for_modularize():
     assert Fraction(sweep[-1]["costs"]["regularize"]) == 0
     assert Fraction(sweep[-1]["costs"]["modularize"]) > 0, \
         "isolation is now free on fully shared tasks -- the harm claim is stale"
+
+
+def test_minimal_automaton_equals_the_quotient_index():
+    """GMI_FINITE_STATE_DERIVATION_V1: brute force over every transition table
+    must land on the quotient index -- and, crucially, one fewer state must be
+    impossible. Without the second half this is an upper bound, not minimality."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    for row in r["neutral_recovery"]:
+        assert row["match"], \
+            "%s: brute force found %s states, quotient index is %s" % (
+                row["obligation"], row["brute_force_k"], row["index"])
+    assert r["minimality"], "the minimality-by-exhaustion section is missing"
+    for row in r["minimality"]:
+        assert row["any_machine_works"] is False, \
+            "%s is now solvable with %d states, contradicting its index" % (
+                row["obligation"], row["k_tried"])
+
+
+def test_stateless_suffices_exactly_when_the_obligation_is_memoryless():
+    """Both halves: it must succeed somewhere and fail somewhere, or the
+    result says nothing about when state is necessary."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    by = {x["obligation"]: x for x in r["stateless"]}
+    assert by["constant"]["sufficient"] and by["last_symbol"]["sufficient"]
+    assert not by["parity_b"]["sufficient"]
+    assert by["parity_b"]["stateless_accuracy"] < 0.6, \
+        "parity is no longer at chance for a stateless policy"
+    suff = [x["sufficient"] for x in r["stateless"]]
+    assert any(suff) and not all(suff), "the stateless result became unconditional"
+
+
+def test_fooling_set_size_equals_the_index():
+    """The lower bound must be exhibited, not asserted: every pair of
+    representatives needs a separating continuation."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    idx = {x["obligation"]: x["index"] for x in r["quotient"]}
+    for name, f in r["fooling_sets"].items():
+        assert f["all_pairs_separated"], "%s has an unseparated pair" % name
+        assert f["size"] == idx[name], \
+            "%s: fooling set %d against index %d" % (name, f["size"], idx[name])
+
+
+def test_state_versus_history_crossover_exists():
+    """Recurrent state must lose at short sequences and win at long ones."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    kinds = {c["cheaper"] for c in r["state_vs_history"]}
+    assert "history" in kinds and "state" in kinds, \
+        "no crossover between recurrent state and explicit history"
