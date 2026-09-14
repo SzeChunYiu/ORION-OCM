@@ -1,0 +1,182 @@
+{
+ "compile_vs_search": [
+  {
+   "cheaper": "search",
+   "compile": 121,
+   "r": 1,
+   "search": 5
+  },
+  {
+   "cheaper": "search",
+   "compile": 121,
+   "r": 4,
+   "search": 20
+  },
+  {
+   "cheaper": "search",
+   "compile": 121,
+   "r": 8,
+   "search": 40
+  },
+  {
+   "cheaper": "search",
+   "compile": 121,
+   "r": 16,
+   "search": 80
+  },
+  {
+   "cheaper": "search",
+   "compile": 121,
+   "r": 24,
+   "search": 120
+  },
+  {
+   "cheaper": "compile",
+   "compile": 121,
+   "r": 32,
+   "search": 160
+  },
+  {
+   "cheaper": "compile",
+   "compile": 121,
+   "r": 64,
+   "search": 320
+  }
+ ],
+ "frontier_forced": [
+  {
+   "D": 3,
+   "b": 2,
+   "budget": 40,
+   "policy_possible": true,
+   "states": 15
+  },
+  {
+   "D": 4,
+   "b": 2,
+   "budget": 40,
+   "policy_possible": true,
+   "states": 31
+  },
+  {
+   "D": 3,
+   "b": 3,
+   "budget": 40,
+   "policy_possible": true,
+   "states": 40
+  },
+  {
+   "D": 4,
+   "b": 3,
+   "budget": 40,
+   "policy_possible": false,
+   "states": 121
+  }
+ ],
+ "heuristic": [
+  {
+   "blind": "121",
+   "h_price": "0",
+   "informed": "5",
+   "worth_it": true
+  },
+  {
+   "blind": "121",
+   "h_price": "1",
+   "informed": "10",
+   "worth_it": true
+  },
+  {
+   "blind": "121",
+   "h_price": "4",
+   "informed": "25",
+   "worth_it": true
+  },
+  {
+   "blind": "121",
+   "h_price": "16",
+   "informed": "85",
+   "worth_it": true
+  },
+  {
+   "blind": "121",
+   "h_price": "24",
+   "informed": "125",
+   "worth_it": false
+  },
+  {
+   "blind": "121",
+   "h_price": "64",
+   "informed": "325",
+   "worth_it": false
+  }
+ ],
+ "orders": [
+  {
+   "expanded": 121,
+   "order": "breadth-first",
+   "peak_memory": 81
+  },
+  {
+   "expanded": 121,
+   "order": "depth-first",
+   "peak_memory": 9
+  },
+  {
+   "expanded": 5,
+   "order": "best-first (informed)",
+   "peak_memory": 9
+  },
+  {
+   "expanded": 121,
+   "order": "best-first (useless h)",
+   "peak_memory": 9
+  }
+ ],
+ "recovery": [
+  {
+   "D": 3,
+   "b": 2,
+   "cheapest": "store nothing, expand per query",
+   "costs": {
+    "store everything": 15,
+    "store nothing, expand per query": 8
+   },
+   "queries": 2,
+   "reads_as": "a searcher"
+  },
+  {
+   "D": 3,
+   "b": 2,
+   "cheapest": "store everything",
+   "costs": {
+    "store everything": 15,
+    "store nothing, expand per query": 128
+   },
+   "queries": 32,
+   "reads_as": "a compiled policy"
+  },
+  {
+   "D": 4,
+   "b": 3,
+   "cheapest": "store nothing, expand per query",
+   "costs": {
+    "store everything": 121,
+    "store nothing, expand per query": 10
+   },
+   "queries": 2,
+   "reads_as": "a searcher"
+  },
+  {
+   "D": 4,
+   "b": 3,
+   "cheapest": "store everything",
+   "costs": {
+    "store everything": 121,
+    "store nothing, expand per query": 320
+   },
+   "queries": 64,
+   "reads_as": "a compiled policy"
+  }
+ ]
+}
