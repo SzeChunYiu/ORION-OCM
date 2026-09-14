@@ -1,0 +1,48 @@
+{
+  "schema_version": "capability-contract-v1.0.0",
+  "issue": 602,
+  "scope": "#602 A4+F1; behavioral and architecture-independent",
+  "assumptions": [
+    "schema proofs are not empirical capability proofs",
+    "resource comparison is vector-valued unless prices are preregistered",
+    "negative-twin minimality is local to one declared dependency"
+  ],
+  "evidence_class": "P1 formal specification + structural validation",
+  "strongest_parent": "per-row operational null/envelope with first refusal",
+  "falsifier": "missing field/leak/unmatched resource/parent non-separation/twin non-collapse/remint failure",
+  "claim_ceiling": "G1",
+  "definitions": {
+    "A0": "task spec + legal observations/messages/actions through decision time + own legal state; no protected labels, future/judge state, twin identity, or uncharged side channels",
+    "S0": "paired u∈[0,1]: d+=u(M,w+)-u(P,w+), d-=u(M,w-)-u(P,w-); beta=alpha/2; require mean(d+)-sqrt(2 ln(1/beta)/n)>tau_parent and |mean(d-)|+sqrt(2 ln(1/beta)/n)<=tau_twin",
+    "N0": "remove exactly one registered capability-requiring conditional dependency; keep reward/action/scoring/remint family/non-target budgets matched",
+    "P0": "best preregistered parent-envelope member under same allowed information restriction and resource budget gets first refusal"
+  },
+  "statistics": {
+    "alpha_default": 0.05,
+    "rule": "Bonferroni beta=alpha/2 + Hoeffding paired-difference bounds"
+  },
+  "resource_dimensions": {
+    "sensor_reads": "charged accesses to environment observations or observation elements",
+    "compute_ops": "registered implementation-independent work units or, when unavailable, wall/CPU proxy reported with hardware",
+    "latency_ms": "end-to-end decision latency in milliseconds on registered hardware",
+    "memory_bits": "peak retained task-relevant state measured or upper-bounded in bits",
+    "storage_writes": "charged durable/volatile write operations",
+    "retrieval_probes": "charged memory/index records examined",
+    "sample_count": "training/evaluation samples consumed before protected scoring",
+    "environment_actions": "charged actions affecting the environment",
+    "simulator_calls": "charged model/simulator transition queries",
+    "interventions": "charged real or oracle-judged interventions",
+    "communication_bits": "bits transmitted across an agent/tool boundary, including protocol overhead",
+    "demonstration_count": "demonstration examples consumed or emitted",
+    "generation_count": "sequential cultural generations traversed",
+    "modification_count": "self-directed changes to update/control/search policy admitted by the harness",
+    "rollback_count": "rollbacks caused by failed/unsafe modification",
+    "tool_calls": "charged external tool/service invocations"
+  },
+  "capability_files": [
+    "CAPABILITIES_01.json",
+    "CAPABILITIES_02.json",
+    "CAPABILITIES_03.json"
+  ],
+  "coordinate_file": "CAPABILITY_COORDINATES_V1.json"
+}
