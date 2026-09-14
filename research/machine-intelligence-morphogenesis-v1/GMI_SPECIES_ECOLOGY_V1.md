@@ -68,10 +68,10 @@ competitor's identity or name — and it was previously unguarded. It is now pin
 
 | box | status |
 |---|---|
-| 10 symbiosis | **open** — nothing measures mutual benefit; the taxonomy has no cooperative outcome |
+| 10 symbiosis | **closed, negatively** — see §5c |
 | 11 resource partitioning | **open** — the pool is shared but partitioning is never measured |
 | 12 abundance from ecology | **open** — no frequency prediction exists |
-| 13 morphology transitions under repricing | **open** — pools vary, but no morphology is tracked across them |
+| 13 morphology transitions under repricing | **closed** — see §5d; repricing is NON-monotone |
 | 16 multi-species ecologies | **open** — this is strictly **pairwise**; three or more competitors are untested |
 
 Box 16 is the load-bearing gap. Every result above is a two-body contest, and pairwise exclusion does not
@@ -115,6 +115,86 @@ exists to expose rather than smooth over. A pin keeps the verdict recorded as `F
 The disagreement is also *partial* — 36 of 168, not all of them — and that matters: universal disagreement
 would mean the matrix is simply inconsistent, whereas partial disagreement is a property of the competition.
 Both bounds are pinned.
+
+## 5c  Box 10: symbiosis does not occur, and the zero is backed by a control
+
+**COEXIST is not symbiosis.** Coexisting means both survived; symbiosis means both did *better together than
+alone*. That distinction was what left box 10 open — and it turned out to be measurable from data already on
+disk, since R10 carries `capability_invader` / `capability_resident` for all 192 cells and a solo baseline
+per carrier per pool.
+
+**Criterion, frozen at `080a86ae`** before any measuring code existed: a pair is **symbiotic** iff both
+capabilities in competition strictly exceed the same carriers' solo capabilities; **mutually harmful** iff
+both are strictly lower; anything else is one-sided.
+
+Two predictions were frozen, not one:
+
+* **P1** — symbiosis never occurs. **Holds: 0 of 168 pairs.**
+* **P2** — mutual harm does occur. **Holds: 38 of 168 pairs.**
+
+**P2 exists because P1 alone would be unfalsifiable-looking.** "Nothing was found" is also what a broken
+measurement reports. The adjudicator *asserts* that mutual harm is non-zero, so if the comparison ever stops
+detecting joint effects the result fails loudly instead of returning a clean-looking zero. That assertion is
+the reason the zero can be believed.
+
+| outcome | pairs |
+|---|---:|
+| symbiotic (both above solo) | **0** |
+| mutually harmful (both below solo) | **38** |
+| one-sided | 123 |
+| both unchanged | 7 |
+
+**Reading**: two carriers sharing one charged pool never both end above their solo capability, while 38 pairs
+both end below it. Sharing a fixed budget is not a cooperative interaction in this ecology. Box 10's
+criterion is satisfiable in principle and has **no positive instance** in this corpus — a negative result,
+reported as one.
+
+### An orientation check that had to come first
+
+The cell keys are `pool<P>|<a>|<b>`, and which of `a`, `b` is the resident decides the **sign of every
+comparison**. Rather than assume it, the adjudicator checks both readings against the invasion matrix:
+`pool|resident|invader` agrees on **192 of 192** cells, the reverse on 54. A pin fails if that ever drops
+below 192, because a misread orientation would invert the entire result silently while still looking clean.
+
+## 5d  Box 13: repricing is non-monotone — the second frozen prediction to fail
+
+R10 ran the same 8 carriers at three budget pools, which *is* the repricing box 13 names. Reading a winner
+per pool gives each ordered pair a **winner sequence** of length 3; a pair **oscillates** if that sequence is
+`X, Y, X` — reversing as the budget grows, then reversing back.
+
+**Frozen at `f0c7cd29`**, before any measuring code existed:
+
+* **P1** — no pair oscillates. **FALSIFIED.**
+* **P2** — at least one pair changes winner. **Holds.**
+
+| | pairs |
+|---|---:|
+| ordered pairs | 56 |
+| constant across all three pools | 49 |
+| changed at least once | 7 |
+| **oscillating (`X, Y, X`)** | **2** |
+
+Both oscillations have `gradient_net_h4` as the invader: it wins at 20 000, loses at 60 000, and wins again at
+200 000. With n = 2 that is an observation about two pairs, **not** a claim that this carrier is special —
+stated here so a reader does not upgrade it.
+
+**What it means.** Repricing does **not** have a single direction. A transition made as the budget grows can
+be undone by growing it further, so **morphology transitions cannot be extrapolated from endpoints**: knowing
+the outcome at the smallest and largest pool does not determine the middle. Box 13 is closed with a negative
+structural answer rather than the predictable one-way law I expected.
+
+The texture is worth keeping: 49 of 56 pairs are completely budget-invariant, and among the 7 that change,
+3 move the resident's way and **0** move the invader's. So the system is *mostly* directional — the
+non-monotonicity is real but confined, and the confinement is what a reader needs in order not to over-read
+either way.
+
+**The control fired, which is why the falsification is trustworthy.** P2 exists because "no oscillation" is
+also what a repricing that changes nothing would report. 7 pairs do change, so the measurement was detecting
+budget effects when it found the oscillations. Pins assert that changing pairs stay non-zero, that constant
+pairs stay non-zero, and that not every changing pair oscillates.
+
+**Caveat carried from the R10 receipt**: the allocation rule is a modelling choice and a different rule can
+reorder outcomes. This is a property of this ecology under that rule.
 
 ## 6  A gap in the guarding, now fixed
 

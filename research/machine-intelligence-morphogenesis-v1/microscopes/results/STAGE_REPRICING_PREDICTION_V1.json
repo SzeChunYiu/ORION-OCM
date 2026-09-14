@@ -1,0 +1,20 @@
+{
+ "P1": "no ordered pair oscillates: zero X,Y,X sequences",
+ "P2": "at least one ordered pair changes winner across the pools",
+ "caveat_carried": "the R10 receipt states the allocation rule is a modelling choice and a different rule can reorder outcomes; whatever is found here is a property of this ecology under that rule",
+ "falsifiers": [
+  "P1 fails if any pair has winner sequence X,Y,X with X != Y",
+  "P2 fails if every pair has the same winner at all three pools"
+ ],
+ "oscillation_definition": "winner sequence across pools ordered by size is X, Y, X with X != Y and both actual carriers",
+ "phase": "prediction -- no measurement performed or available in this script",
+ "registration": "GMI_REPRICING_PREDICTION_V1",
+ "source_evidence": "STAGE_R10_INVASION_V1.json: invasion_matrix_by_pool at 3 pools",
+ "why_P1_matters": "no oscillation means repricing has a direction -- transitions are one-way and knowing two pools constrains the third; oscillation means morphology transitions cannot be extrapolated from endpoints",
+ "why_P2_needed": "P1 alone is the box-10 trap: 'no oscillation' is also what a repricing that changes nothing would report, so P2 is the control",
+ "winner_rule": {
+  "COEXIST": "neither",
+  "INVADER_REPLACES": "invader",
+  "RESIDENT_HOLDS": "resident"
+ }
+}
