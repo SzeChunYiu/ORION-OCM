@@ -1,11 +1,13 @@
 import importlib.util
 import json
 import pathlib
+import sys
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parent
 SPEC = importlib.util.spec_from_file_location("capability_interactions_v1", ROOT / "capability_interactions_v1.py")
 mod = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = mod
 assert SPEC.loader is not None
 SPEC.loader.exec_module(mod)
 
@@ -78,7 +80,6 @@ class MemoryAbstractionTests(unittest.TestCase):
 
 class SearchHeuristicTests(unittest.TestCase):
     def test_break_even(self):
-        # Each use saves 6 verified expansions; learning costs 18.
         self.assertEqual("SEARCH_PLAIN", mod.heuristic_verdict(baseline_cost=10, heuristic_cost=4, learn_cost=18, reuse=2))
         self.assertEqual("TIE", mod.heuristic_verdict(baseline_cost=10, heuristic_cost=4, learn_cost=18, reuse=3))
         self.assertEqual("RETAIN_HEURISTIC", mod.heuristic_verdict(baseline_cost=10, heuristic_cost=4, learn_cost=18, reuse=4))
