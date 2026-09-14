@@ -40,6 +40,7 @@ WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
+    "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
@@ -584,3 +585,52 @@ def test_state_versus_history_crossover_exists():
     kinds = {c["cheaper"] for c in r["state_vs_history"]}
     assert "history" in kinds and "state" in kinds, \
         "no crossover between recurrent state and explicit history"
+
+
+def test_retrieval_versus_parametric_crosses_in_problem_size():
+    """GMI_EXEMPLAR_VERSUS_PARAMETRIC_V1: a rule's cost is fixed while a table's
+    grows, so growing the universe must flip the winner. The expressibility
+    table alone is coarser than a crossover and is not what is pinned here."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    winners = [x["cheaper"] for x in r["size_crossover"]]
+    assert "exemplar" in winners and "parametric" in winners, \
+        "growing the universe no longer flips the winner"
+    small = r["size_crossover"][0]
+    large = r["size_crossover"][-1]
+    assert small["cheaper"] == "exemplar" and large["cheaper"] == "parametric", \
+        "the crossover runs the wrong way in problem size"
+    assert small["parametric"] == large["parametric"], \
+        "the rule cost now grows with the universe, which breaks the argument"
+
+
+def test_knn_needs_the_metric_to_be_aligned():
+    """Local lookup must beat full storage on smooth obligations and fail on
+    rough ones. If it won everywhere the metric would be doing no work."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    beats = {(x["obligation"], x["k"]): x["beats_exemplar"] for x in r["knn"]}
+    assert beats[("constant", 1)] and beats[("first_bit", 1)], \
+        "local lookup no longer helps on smooth obligations"
+    assert not beats[("parity", 1)], \
+        "local lookup now helps on parity, which is maximally rough in this metric"
+    vals = list(beats.values())
+    assert any(vals) and not all(vals), "the kNN result became unconditional"
+
+
+def test_no_exemplar_is_kept_when_lookup_costs_as_much_as_recompute():
+    """PVR-3's hard edge: U >= C forbids retention at ANY recurrence."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    never = [x for x in r["pvr3"] if x["U"] >= x["C"]]
+    assert never, "the U >= C control rows are missing"
+    assert not any(x["keep"] for x in never), \
+        "an exemplar is kept where lookup costs as much as recompute"
+    keeps = [x["keep"] for x in r["pvr3"]]
+    assert any(keeps) and not all(keeps), "the exemplar threshold is vacuous"
+
+
+def test_some_obligations_are_incompressible_in_the_registered_class():
+    """Both halves: the rule class must have gaps and must also succeed, or the
+    exemplar/parametric comparison has nothing to decide."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    comp = [x["compressible"] for x in r["bounds"]]
+    assert any(comp) and not all(comp), \
+        "the rule class now expresses everything or nothing"
