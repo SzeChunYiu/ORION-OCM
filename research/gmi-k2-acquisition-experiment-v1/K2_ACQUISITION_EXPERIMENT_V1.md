@@ -138,11 +138,36 @@ Two consequences, both of which qualify results stated earlier:
 Raised by the capital-acquisition repair unit; the witness was recomputed here
 before being accepted, including the renaming control that makes K2 fail.
 
-## 10. Scope and falsifiers
+## 10. KAE-11 — the held-out figures are regenerated, not read back
+
+Section 11 has always listed "if the held-out counts disagree with the frozen
+receipt" as a falsifier. Until now nothing evaluated it: the counts in KAE-4 and
+KAE-5 were read from the frozen receipt, and no test recomputed them, so a drift
+in the model would have left every number in this document standing.
+
+`heldout_census` now regenerates the census from the primitives on each run and
+compares it against the receipt. The guard's reach is established by perturbing
+the model rather than by asserting coverage:
+
+- A semantic drift (`double` multiplying by 3 instead of 2) reds 9 of 24 tests.
+- An **order-preserving** cost drift (charging 2 per step instead of 1) passed
+  24 of 24. Every recorded figure is a count of comparisons, and `k2_trial`
+  asks only whether `cost_H < cost_RESET`, so scaling both sides moved nothing.
+  That was a real blind spot, not a hypothetical one.
+- Folding the raw cost totals into the same pass closes it: the same drift now
+  reds 2 of 27, reporting `792160 != 396080`. `reset_cost_total` is 396080 for
+  all four libraries because RESET never consults the library, which is why
+  doubling the per-step charge is visible there at all.
+
+This is a reproduction guard over existing claims. It establishes no new K2
+result, and the rates in KAE-4 and KAE-5 are unchanged by it.
+
+## 11. Scope and falsifiers
 
 Not claimed: K2 at #323 or any other assay; that this microworld's costs model
 any runtime; that reuse is sufficient; that the harm rate transfers.
 
 Falsified if any no-reuse target anywhere shows `cost_H < cost_RESET`; if the
-held-out counts disagree with the frozen receipt; or if a library with nonzero
-reuse targets shows K2 at 0.
+held-out counts disagree with the frozen receipt; if the regenerated cost totals
+disagree with the pinned values of KAE-11; or if a library with nonzero reuse
+targets shows K2 at 0.

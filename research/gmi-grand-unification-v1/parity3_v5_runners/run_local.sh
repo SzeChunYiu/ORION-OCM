@@ -1,27 +1,40 @@
 #!/usr/bin/env bash
-# Run the frozen parity-3 V5 replication on a local machine (for example the
-# laptop registered as "billy", or the machine registered as "old").
+# Run a frozen parity-3 replication on a local machine (for example the laptop
+# registered as "billy", or the machine registered as "old").
 #
-#   ./run_local.sh <host-label> [python-executable]
+#   ./run_local.sh <host-label> [python-executable] [harness-version]
 #
 # The host label is recorded in the packet and is how the envelope is named in
 # the cross-envelope adjudication. Use the registered names: laptop-billy, old.
+#
+# The harness version defaults to v6, which is the one that runs on CPython
+# 3.13; v5 refuses that interpreter by design. Pass v5 explicitly, or set
+# PARITY3_HARNESS_VERSION, to reproduce a v5 envelope.
 #
 # One packet per envelope. The harness refuses to overwrite an existing packet,
 # so a second attempt on the same envelope fails loudly instead of replacing
 # the first outcome. Keep invalid packets: an instrument refusal is evidence.
 set -euo pipefail
 
-HOST_LABEL="${1:?usage: run_local.sh <host-label> [python-executable]}"
+HOST_LABEL="${1:?usage: run_local.sh <host-label> [python-executable] [harness-version]}"
 PYTHON="${2:-python3}"
+HARNESS_VERSION="${3:-${PARITY3_HARNESS_VERSION:-v6}}"
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-HARNESS="$HERE/../nn_nonnn_point_parity3_experiment_v5.py"
+HARNESS="$HERE/../nn_nonnn_point_parity3_experiment_${HARNESS_VERSION}.py"
+if [ ! -f "$HARNESS" ]; then
+    echo "no such harness: $HARNESS" >&2
+    echo "available:" >&2
+    ls "$HERE"/../nn_nonnn_point_parity3_experiment_v*.py >&2
+    exit 2
+fi
+SCHEMA_TAG="$(printf '%s' "$HARNESS_VERSION" | tr '[:lower:]' '[:upper:]')"
 
 VERSION="$("$PYTHON" -c 'import sys;print("%d.%d.%d"%sys.version_info[:3])')"
 IMPL="$("$PYTHON" -c 'import platform;print(platform.python_implementation())')"
-OUT="$HERE/../NN_NONNN_POINT_PARITY3_RESULT_V5_${HOST_LABEL}_${IMPL}${VERSION}.json"
+OUT="$HERE/../NN_NONNN_POINT_PARITY3_RESULT_${SCHEMA_TAG}_${HOST_LABEL}_${IMPL}${VERSION}.json"
 
+echo "harness         : $(basename "$HARNESS")"
 echo "host label      : $HOST_LABEL"
 echo "interpreter     : $IMPL $VERSION ($PYTHON)"
 echo "packet          : $OUT"
@@ -51,5 +64,5 @@ PY
 
 echo
 echo "Commit the packet, then adjudicate it together with the other envelopes:"
-echo "  python3 parity3_cross_envelope_adjudicate_v5.py NN_NONNN_POINT_PARITY3_RESULT_V5_*.json"
+echo "  python3 parity3_cross_envelope_adjudicate_v5.py NN_NONNN_POINT_PARITY3_RESULT_V[56]_*.json"
 exit $status
