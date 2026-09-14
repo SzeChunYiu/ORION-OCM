@@ -1,21 +1,27 @@
 {
   "schema": "GMICapabilityCeilingsV1",
   "issue": 602,
-  "section": "F2 tranche 1",
-  "scope": "Finite registered zero-error capability ceilings for internal state, deterministic observation quotients, and fixed-bit deterministic communication. Theorems apply only after all other information channels named in each scope are frozen.",
+  "section": "F2 tranches 1-2",
+  "scope": "Finite registered zero-error capability ceilings for internal state, deterministic observation quotients, fixed-bit deterministic communication, fixed-architecture quantized threshold boundaries, finite deterministic update channels, and exact linear protected-state subspaces. Every theorem applies only after all information, parameter, update, and architecture channels named in its scope are frozen.",
   "assumptions": [
-    "capability claims are made against prospectively registered task and information interfaces",
+    "capability claims are made against prospectively registered task, information, parameter and update interfaces",
     "zero-error means every registered latent/task class must receive its required response, not merely high average accuracy",
     "state-capacity claims exclude uncharged external memory or hidden side channels",
     "observation-quotient claims use the complete information available before the registered decision; later probes/interventions must be incorporated before applying the quotient",
-    "communication claims in this tranche use a noiseless deterministic fixed-bit one-way channel and no receiver side information correlated with the sender class"
+    "communication claims use a noiseless deterministic fixed-bit one-way channel and no receiver side information correlated with the sender class",
+    "precision claims freeze architecture, decoder/codebook and every precision-bearing parameter slot; architecture growth or an uncharged high-precision side parameter changes the theorem",
+    "update-channel claims freeze the initial state and require every target-dependent persistent change to pass through the registered finite update alphabet",
+    "protected-rank claims are exact for linear protected-output maps, or local first-order statements after an explicit linearization; nonlinear/global invariance needs a separate theorem"
   ],
   "evidence_class": "P1 formal theorem family plus P2 exhaustive finite witnesses",
   "claim_ceiling": "G2",
   "strongest_parents": [
     "Myhill-Nerode / finite-state distinguishability lower bounds",
     "Blackwell comparison of experiments / deterministic sufficiency and garbling",
-    "deterministic communication-complexity transcript-counting lower bounds"
+    "deterministic communication-complexity transcript-counting lower bounds",
+    "finite hypothesis-class counting and quantized-network expressivity",
+    "finite-alphabet reachability / quantized control and information-constrained optimization",
+    "rank-nullity and output-preserving/null-space continual-learning methods"
   ],
   "falsifier": "A registered in-scope instance violates one of the stated ceilings while all theorem assumptions and all information/resource channels are checked exactly.",
   "ceilings": [
@@ -68,7 +74,60 @@
       ],
       "negative_twin": "K=5 coordination classes over B=2 bits.",
       "falsifier": "An in-scope B-bit deterministic protocol coordinates K>2^B distinct required receiver actions with zero error."
+    },
+    {
+      "id": "F2_PRECISION_BOUNDARY",
+      "box": "Precision -> representable decision-boundary ceiling.",
+      "quantity": "N ordered probe points, hence N+1 distinct one-threshold labelings, versus a frozen B-bit threshold code with at most 2^B decoded boundary placements.",
+      "theorem": "For a fixed one-dimensional threshold architecture whose only boundary-selecting degree of freedom is a frozen B-bit code, the represented threshold family contains at most min(2^B,N+1) distinct zero-error boundary placements on N ordered probe points. Covering all N+1 placements requires 2^B >= N+1, and this is tight.",
+      "bound": "Representable boundary placements <= min(2^B,N+1); complete threshold-family coverage requires B >= ceil(log2(N+1)).",
+      "strongest_parent": "Finite hypothesis-class/cardinality counting under parameter quantization; bounded specialization of quantized-network expressivity.",
+      "assumptions": [
+        "one-dimensional one-threshold classifier family on a fixed finite ordered probe set",
+        "architecture and threshold decoder/codebook are frozen across the target family",
+        "all boundary-selecting precision-bearing parameters are included in the B-bit code",
+        "no architecture growth, additional high-precision parameter, or task-specific decoder rewrite",
+        "zero-error representation of the registered threshold labeling"
+      ],
+      "negative_twin": "N=4 probe points expose five threshold placements but B=2 supplies at most four decoded placements.",
+      "falsifier": "A fixed in-scope B-bit threshold decoder realizes more than 2^B distinct boundary placements, or covers all N+1 placements when 2^B<N+1."
+    },
+    {
+      "id": "F2_UPDATE_CHANNEL_PLASTICITY",
+      "box": "Update channel -> plasticity ceiling.",
+      "quantity": "K pairwise target-distinct successor states versus an A-symbol persistent update alphabet used for T update events.",
+      "theorem": "From a fixed initial persistent state, if every target-dependent persistent modification passes through a deterministic A-symbol update channel for at most T events and all other dynamics are target-independent, at most A^T target-distinct successor states can be selected. Guaranteeing K distinct targets requires K <= A^T; the bound is tight by injective transcript decoding.",
+      "bound": "K <= A^T; equivalently T >= ceil(log_A K) when A>1.",
+      "strongest_parent": "Finite-alphabet reachability/counting in quantized control and finite-rate information-constrained optimization.",
+      "assumptions": [
+        "fixed initial persistent state",
+        "finite deterministic update alphabet of size A",
+        "at most T update events",
+        "all target-dependent persistent information enters only through the registered update symbols",
+        "no unmetered direct write, external memory mutation, target-correlated side channel, or architecture growth",
+        "zero-error target reachability"
+      ],
+      "negative_twin": "A=2 update symbols for T=2 events expose four transcripts but K=5 distinct successor targets.",
+      "falsifier": "An in-scope deterministic A-symbol, T-event update channel selects K>A^T pairwise target-distinct persistent successor states from the same initial state."
+    },
+    {
+      "id": "F2_PROTECTED_RANK_FRONTIER",
+      "box": "Protected-state rank -> retention/plasticity frontier.",
+      "quantity": "A D-dimensional mutable parameter vector and an exact linear protected-output map P of rank R.",
+      "theorem": "Exact zero-forgetting updates satisfy P*Delta=0 and therefore lie in ker(P), whose dimension is D-R by rank-nullity. Thus an S-dimensional family of independent linear plastic update directions can coexist with exact retention only if R+S <= D; this bound is tight.",
+      "bound": "plastic update dimension <= D-R, equivalently protected rank + independent plastic rank <= D.",
+      "strongest_parent": "Rank-nullity theorem; output-preserving/null-space projection methods in continual learning.",
+      "repo_neighbor": "research/machine-intelligence-morphogenesis-v1/GMI_INTERFERENCE_STABILITY_PLASTICITY_V1.md",
+      "assumptions": [
+        "fixed D-dimensional mutable vector space",
+        "protected old behavior is represented by an exact linear map P",
+        "retention requires P*Delta=0 exactly",
+        "plasticity is counted as the dimension of linearly independent admissible update directions",
+        "no architecture growth or auxiliary mutable state outside the registered D coordinates"
+      ],
+      "negative_twin": "D=3 with rank(P)=2 leaves one protected null direction, so a two-dimensional independent plastic update family is impossible without changing protected outputs.",
+      "falsifier": "An exact in-scope protected map of rank R admits more than D-R linearly independent zero-forgetting update directions."
     }
   ],
-  "terminal": "F2_TRANCHE1_EXACT_CEILINGS_REGISTERED_AT_G2"
+  "terminal": "F2_TRANCHE2_SIX_EXACT_CEILINGS_REGISTERED_AT_G2"
 }
