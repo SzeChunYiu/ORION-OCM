@@ -9,13 +9,13 @@ Files:
 - `CAPABILITY_COORDINATES_V1.json` — the exact 17 F1 capability coordinates.
 - `FORMALIZATION.md` — mathematical objects, proofs, decision rule and claim boundaries.
 - `validate.py` — dependency-free structural verifier.
-- `../../tests/test_capability_contract_v1.py` — adversarial mutation tests.
+- `test_validate.py` — adversarial mutation and concentration-rule tests kept inside the research lane so research-only changes do not remint the runtime engineering source identity.
 
 Run from repo root:
 
 ```bash
 python3 research/capability-contract-v1/validate.py
-python3 -m pytest -q tests/test_capability_contract_v1.py
+python3 -m pytest -q research/capability-contract-v1/test_validate.py
 ```
 
 The validator must print:
