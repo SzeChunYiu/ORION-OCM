@@ -5,6 +5,8 @@ These raise explicitly rather than using `assert`, because the capsule runs the
 suite under -O as well.
 """
 
+import ast
+import pathlib
 import sys
 import unittest
 from pathlib import Path
@@ -205,8 +207,6 @@ class Frontiers(unittest.TestCase):
         check("no timing" in self.payload["claim_ceiling"], "the claim ceiling lost its limits")
 
 
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
 
 
 class MeasuredFootprint(unittest.TestCase):
@@ -225,15 +225,26 @@ class MeasuredFootprint(unittest.TestCase):
               "the size contract changed: %s" % (contract,))
 
     def test_size_contract_refuses_a_different_build(self):
-        original = footprint.EMPTY_TUPLE_BYTES
-        try:
-            footprint.EMPTY_TUPLE_BYTES = original + 1
-            with self.assertRaises(footprint.FootprintError):
-                footprint.size_contract()
-        finally:
-            footprint.EMPTY_TUPLE_BYTES = original
-        check(footprint.size_contract()["empty_tuple_bytes"] == original,
-              "the contract did not recover after the probe")
+        """Every contract item must refuse, including the maxsize width.
+
+        The first version recorded `interpreter_maxsize_bits` without requiring
+        it, while the write-up claimed it was validated. Cursor Bugbot raised
+        that on PR #625; each item is probed here so the claim and the code
+        cannot drift apart again.
+        """
+        for name in ("EMPTY_TUPLE_BYTES", "TUPLE_SLOT_BYTES", "SMALL_INT_BYTES",
+                     "MAXSIZE_BITS"):
+            original = getattr(footprint, name)
+            try:
+                setattr(footprint, name, original + 1)
+                with self.assertRaises(footprint.FootprintError):
+                    footprint.size_contract()
+            finally:
+                setattr(footprint, name, original)
+        contract = footprint.size_contract()
+        check(contract["empty_tuple_bytes"] == footprint.EMPTY_TUPLE_BYTES
+              and contract["interpreter_maxsize_bits"] == footprint.MAXSIZE_BITS,
+              "the contract did not recover after the probes")
 
     def test_payload_integers_are_shared_objects(self):
         """TB-1: counting them as memory would double-count existing objects."""
@@ -279,3 +290,40 @@ class MeasuredFootprint(unittest.TestCase):
                       "the n=%d in-memory optimum should be a tie: %s"
                       % (n, memory["undominated"]))
 
+
+class SuiteSelfControls(unittest.TestCase):
+    """Controls on this file itself, after a review finding that it lied.
+
+    `MeasuredFootprint` was appended below the `unittest.main()` guard, so a
+    script run collected 19 of 25 tests and still printed OK. Cursor Bugbot
+    raised it on PR #625. Discovery was unaffected, and CI uses discovery, so
+    nothing was actually unchecked in CI -- but a green run that silently drops
+    six controls is the failure mode this capsule exists to prevent, so the
+    entry point is now pinned in place rather than only moved.
+    """
+
+    def test_entry_point_is_the_last_top_level_statement(self):
+        source = pathlib.Path(__file__).read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        last = tree.body[-1]
+        check(isinstance(last, ast.If), "the last top-level statement is not the guard")
+        test = last.test
+        check(isinstance(test, ast.Compare)
+              and isinstance(test.left, ast.Name) and test.left.id == "__name__",
+              "the last top-level statement is not the __main__ guard")
+
+    def test_a_script_run_collects_every_test_class(self):
+        """Whatever discovery finds, a direct run must find too."""
+        source = pathlib.Path(__file__).read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        classes = [node.name for node in tree.body if isinstance(node, ast.ClassDef)]
+        guard_index = next(i for i, node in enumerate(tree.body)
+                           if isinstance(node, ast.If))
+        after = [node.name for node in tree.body[guard_index:]
+                 if isinstance(node, ast.ClassDef)]
+        check(not after, "test classes defined after the entry point: %s" % (after,))
+        check(len(classes) >= 6, "expected at least six test classes, found %d" % len(classes))
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

@@ -35,6 +35,7 @@ from types import CodeType
 EMPTY_TUPLE_BYTES = 40
 TUPLE_SLOT_BYTES = 8
 SMALL_INT_BYTES = 28
+MAXSIZE_BITS = 63
 
 
 class FootprintError(ValueError):
@@ -57,9 +58,12 @@ def size_contract():
             "tuple slot is %d bytes, contract says %d" % (per_slot, TUPLE_SLOT_BYTES))
     require(small_int == SMALL_INT_BYTES,
             "small int is %d bytes, contract says %d" % (small_int, SMALL_INT_BYTES))
+    maxsize_bits = sys.maxsize.bit_length()
+    require(maxsize_bits == MAXSIZE_BITS,
+            "sys.maxsize is %d bits, contract says %d" % (maxsize_bits, MAXSIZE_BITS))
     return {"empty_tuple_bytes": empty, "tuple_slot_bytes": per_slot,
             "small_integer_bytes": small_int,
-            "interpreter_maxsize_bits": sys.maxsize.bit_length()}
+            "interpreter_maxsize_bits": maxsize_bits}
 
 
 def integer_leaves(value):
