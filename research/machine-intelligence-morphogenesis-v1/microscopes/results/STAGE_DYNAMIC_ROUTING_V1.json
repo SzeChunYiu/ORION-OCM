@@ -1,0 +1,140 @@
+{
+ "budget_sweep": [
+  {
+   "budget": 1,
+   "cheaper": "neither",
+   "dynamic_ok": false,
+   "fixed_ok": false
+  },
+  {
+   "budget": 2,
+   "cheaper": "dynamic",
+   "dynamic_ok": true,
+   "fixed_ok": false
+  },
+  {
+   "budget": 3,
+   "cheaper": "dynamic",
+   "dynamic_ok": true,
+   "fixed_ok": false
+  },
+  {
+   "budget": 4,
+   "cheaper": "dynamic",
+   "dynamic_ok": true,
+   "fixed_ok": true
+  },
+  {
+   "budget": 5,
+   "cheaper": "dynamic",
+   "dynamic_ok": true,
+   "fixed_ok": true
+  },
+  {
+   "budget": 6,
+   "cheaper": "dynamic",
+   "dynamic_ok": true,
+   "fixed_ok": true
+  }
+ ],
+ "conjunction": [
+  {
+   "budget": 2,
+   "dynamic": true,
+   "fixed": null,
+   "obligation": "content-dependent"
+  },
+  {
+   "budget": 5,
+   "dynamic": true,
+   "fixed": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "obligation": "content-dependent"
+  },
+  {
+   "budget": 6,
+   "dynamic": true,
+   "fixed": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "obligation": "content-dependent"
+  },
+  {
+   "budget": 2,
+   "dynamic": false,
+   "fixed": [
+    3
+   ],
+   "obligation": "content-independent"
+  },
+  {
+   "budget": 5,
+   "dynamic": false,
+   "fixed": [
+    3
+   ],
+   "obligation": "content-independent"
+  },
+  {
+   "budget": 6,
+   "dynamic": false,
+   "fixed": [
+    3
+   ],
+   "obligation": "content-independent"
+  }
+ ],
+ "negative_ecology": {
+  "dynamic_cost": 3,
+  "fixed_cost": 1,
+  "fixed_places": [
+   3
+  ],
+  "routing_loses": true
+ },
+ "position": {
+  "with_position": true,
+  "without_position": false
+ },
+ "recovery": [
+  {
+   "budget": 2,
+   "cost": 3,
+   "n_options": 1,
+   "obligation": "content-dependent",
+   "reads_as": "a content-routed reader",
+   "shape": "read 1, then 1 chosen by it"
+  },
+  {
+   "budget": 6,
+   "cost": 3,
+   "n_options": 2,
+   "obligation": "content-dependent",
+   "reads_as": "a content-routed reader",
+   "shape": "read 1, then 1 chosen by it"
+  },
+  {
+   "budget": 2,
+   "cost": 1,
+   "n_options": 1,
+   "obligation": "content-independent",
+   "reads_as": "a fixed reader",
+   "shape": "read 1 fixed places"
+  },
+  {
+   "budget": 6,
+   "cost": 1,
+   "n_options": 1,
+   "obligation": "content-independent",
+   "reads_as": "a fixed reader",
+   "shape": "read 1 fixed places"
+  }
+ ]
+}
