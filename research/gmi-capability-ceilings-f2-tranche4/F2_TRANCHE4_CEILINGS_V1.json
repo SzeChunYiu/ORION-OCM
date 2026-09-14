@@ -1,0 +1,58 @@
+{
+  "schema": "GMICapabilityCeilingsF2Tranche4V1",
+  "issue": 602,
+  "section": "F2 tranche 4",
+  "scope": "Finite exact information ceilings for active acquisition and social-model identifiability. These results close the remaining bounded F2 theorem rows at G2; they do not establish a G6 morphology-to-capability predictor.",
+  "assumptions": [
+    "all hypothesis/model classes, observation channels, query outcome alphabets and resource budgets are frozen before protected outcomes",
+    "information-acquisition queries are deterministic and noiseless at the registered interface, each query has at most A outcomes, and no target information arrives through an unmetered side channel",
+    "the active-acquisition counting theorem is necessary for any query family; tightness additionally requires a rich query family capable of realizing a separating A-ary code",
+    "social-model claims use a finite hidden-model set and a complete registered observation transcript before the held-out social query",
+    "social identifiability is zero-error and deterministic at this theorem scope; stochastic behavior, approximate Bayesian recovery and misspecified agent models require separate statistical treatment"
+  ],
+  "evidence_class": "P1 formal theorem family plus P2 exhaustive finite witnesses",
+  "claim_ceiling": "G2",
+  "strongest_parents": [
+    "decision-tree / twenty-questions transcript counting and source coding",
+    "the already-registered deterministic observation-quotient ceiling plus statistical identifiability / inverse-planning theory-of-mind models"
+  ],
+  "falsifier": "A registered in-scope finite instance exceeds the transcript/identifiability ceiling while every information channel and theorem assumption remains exactly satisfied.",
+  "ceilings": [
+    {
+      "id": "F2_INFORMATION_ACQUISITION_BUDGET",
+      "box": "Information-acquisition budget -> uncertainty-resolution ceiling.",
+      "quantity": "K latent hypotheses, at most A outcomes per active query, at most q queries (or total budget B with uniform per-query cost c).",
+      "theorem": "Any deterministic adaptive q-query protocol with at most A outcomes per query has at most A^q complete transcripts, so zero-error identification of K latent hypotheses requires K <= A^q. Under uniform positive query cost c and total budget B, q <= floor(B/c), hence K <= A^floor(B/c). The count is tight when the registered query family can realize a separating A-ary code over the hypotheses.",
+      "bound": "K <= A^q; equivalently q >= ceil(log_A K) for A>1. With uniform cost: K <= A^floor(B/c).",
+      "strongest_parent": "Decision-tree leaf counting / twenty questions / finite source coding.",
+      "assumptions": [
+        "finite K latent hypotheses",
+        "deterministic noiseless active queries with at most A outcomes each",
+        "at most q acquired answers, or uniform positive query cost c under total budget B",
+        "no free side information, passive observation or intervention outcome carrying additional target information",
+        "zero-error identification; tightness only when the query family can implement a separating code"
+      ],
+      "negative_twin": "Five hypotheses with two binary queries expose at most four transcripts, so exact identification is impossible; three binary queries are sufficient in a rich separating-query family.",
+      "falsifier": "An in-scope deterministic q-query protocol identifies K>A^q hypotheses with zero error, or a B-budget protocol with uniform cost c identifies more than A^floor(B/c) hypotheses without another information channel."
+    },
+    {
+      "id": "F2_SOCIAL_OBSERVATION_IDENTIFIABILITY",
+      "box": "Social observation -> theory-of-mind identifiability ceiling.",
+      "quantity": "Finite hidden agent-model set Theta, registered social observation transcript tau(theta), and held-out required social response g(theta).",
+      "theorem": "Given only the registered deterministic transcript tau(theta), a zero-error social-response decoder exists iff g is constant on every transcript fiber tau^{-1}(t). Full hidden-model identification is possible iff tau is injective. Therefore two goal/belief models that are observationally equivalent under all registered social observations but require different held-out responses are not identifiable without an additional discriminating observation or assumption.",
+      "bound": "The held-out response partition cannot refine the transcript partition; full identifiable model classes <= number of distinct registered transcripts.",
+      "strongest_parent": "The F2 deterministic observation-quotient theorem (direct social-domain corollary), statistical identifiability, and inverse-planning/Bayesian theory-of-mind models that infer hidden goals/beliefs from observed actions.",
+      "repo_parent": "research/machine-intelligence-morphogenesis-v1/GMI_SOCIAL_AGENT_MODELS_V1.md",
+      "assumptions": [
+        "finite registered hidden agent-model set",
+        "complete deterministic social transcript available before the held-out response is frozen",
+        "no direct hidden-state label, private-state access or unregistered diagnostic interaction",
+        "required held-out social response g is fixed prospectively",
+        "zero-error deterministic theorem scope"
+      ],
+      "negative_twin": "Two hidden models produce the same observed action in the base context but require different held-out predictions; no transcript-only decoder can answer both. A registered diagnostic probe that makes their transcripts differ restores identifiability.",
+      "falsifier": "A transcript-only decoder gives different correct responses to two models in the same transcript fiber, or fully identifies two hidden models with identical complete registered transcripts."
+    }
+  ],
+  "terminal": "F2_ALL_ELEVEN_BOUNDED_CEILINGS_REGISTERED_AT_G2"
+}
