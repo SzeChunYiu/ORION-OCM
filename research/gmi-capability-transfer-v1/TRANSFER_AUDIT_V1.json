@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F4 capability predictor",
+  "ledger_rows": [
+    "Predict transfer across task families.",
+    "Calibrate uncertainty / abstention when capability is not identifiable."
+  ],
+  "scope": "two disjoint raw task families with different absolute requirement/capacity scales, exhaustively evaluated on the margin grid {-2,0,2}^5 using the already-fitted development-only predictor",
+  "assumptions": [
+    "the registered signed margins remain sufficient for the four exact capability predicates across both task families",
+    "task-family differences change raw requirement/capacity scales but not the semantics of the registered capability contracts",
+    "CANNOT_IDENTIFY is evaluated as abstention rather than an error or success",
+    "this is deterministic selective-prediction calibration, not probabilistic confidence calibration"
+  ],
+  "evidence_class": ["P2"],
+  "claim_ceiling": "G3",
+  "strongest_parent": "domain adaptation under invariant sufficient statistics; selective classification with abstention",
+  "negative_twin": "if a new task family changes the capability semantics rather than only the raw scale, signed-margin sufficiency need not transfer and this result does not apply",
+  "nearest_counterexample": "a hidden family-specific interaction can make identical margins imply different outcomes, invalidating transfer",
+  "falsifier": "Any determinate transfer prediction disagrees with the exact oracle, the two family audits disagree despite matched margins, or an abstention is counted as correct.",
+  "status": "PASS",
+  "result": {
+    "task_families": 2,
+    "members_per_family": 243,
+    "total_cells": 1944,
+    "determinate_cells": 416,
+    "correct_determinate_cells": 416,
+    "incorrect_determinate_cells": 0,
+    "abstention_cells": 1528,
+    "coverage_fraction": "52/243",
+    "abstention_fraction": "191/243",
+    "determinate_accuracy_fraction": "1",
+    "per_family": {
+      "TF_ALPHA": {"total": 972, "determinate": 208, "correct": 208, "abstain": 764},
+      "TF_BETA": {"total": 972, "determinate": 208, "correct": 208, "abstain": 764}
+    },
+    "per_target": {
+      "memory_exact": {"determinate": 96, "correct": 96, "abstain": 390},
+      "planning_exact": {"determinate": 112, "correct": 112, "abstain": 374},
+      "coordination_exact": {"determinate": 96, "correct": 96, "abstain": 390},
+      "verified_tool_exact": {"determinate": 112, "correct": 112, "abstain": 374}
+    }
+  }
+}
