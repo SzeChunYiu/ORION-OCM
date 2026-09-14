@@ -1,4 +1,5 @@
 """Exact controls for ARC-7 adaptive row creation. Python 3.8 safe, unittest."""
+from dataclasses import replace
 from fractions import Fraction as F
 from pathlib import Path
 import importlib.util
@@ -73,15 +74,12 @@ class PerRowCertificates(unittest.TestCase):
             arc7.certificate(F(1, 4), F(1, 3), -1)
 
     def test_verify_rejects_bad_radius(self):
+        """Modifying radius in a Certificate makes verify_certificate fail."""
         alpha, weight, n = F(1, 4), F(1, 3), 100
         cert = arc7.certificate(alpha, weight, n)
-        bad = arc7.Certificate(cert.alpha, cert.weight, cert.visits,
-                               cert.effective_n, cert.exponent,
-                               cert.numerator, F(0))
+        bad = replace(cert, radius=F(0))
         self.assertFalse(arc7.verify_certificate(bad))
-        bad2 = arc7.Certificate(cert.alpha, cert.weight, cert.visits,
-                                cert.effective_n, cert.exponent,
-                                cert.numerator, F(1, 2))
+        bad2 = replace(cert, radius=F(1, 2))
         self.assertFalse(arc7.verify_certificate(bad2))
 
     def test_verify_rejects_non_certificate(self):
@@ -162,6 +160,7 @@ class AdaptiveCreatorLogic(unittest.TestCase):
         self.assertGreaterEqual(hi, c.rows[2]['mean'])
 
     def test_radius_eventually_drops_below_threshold(self):
+        """With enough visits, radius drops below 1/4 for pre-registered rows."""
         alpha = F(1, 4)
         c = arc7.AdaptiveCreator(alpha, initial_rows=2,
                                  creation_threshold=F(1, 4),
