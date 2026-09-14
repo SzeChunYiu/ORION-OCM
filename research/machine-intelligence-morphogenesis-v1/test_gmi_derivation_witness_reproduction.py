@@ -55,6 +55,7 @@ WITNESSES = {
     "interference_witness.py": "STAGE_INTERFERENCE_V1.json",
     "lesion_witness.py": "STAGE_COMPONENT_LESIONS_V1.json",
     "memory_regime_witness.py": "STAGE_MEMORY_REGIME_WITNESS_V1.json",
+    "message_passing_witness.py": "STAGE_MESSAGE_PASSING_V1.json",
     "neural_architecture_witness.py": "STAGE_NEURAL_ARCHITECTURE_V1.json",
     "metacognition_witness.py": "STAGE_METACOGNITION_V1.json",
     "pedagogy_witness.py": "STAGE_PEDAGOGY_V1.json",
@@ -1260,3 +1261,71 @@ def test_options_pay_by_recurrence():
     assert by["recurring"]["margin"] > 0
     assert by["no recurrence"]["margin"] < 0, \
         "an option with no recurrence now pays -- the condition is vacuous"
+
+
+def test_carrier_is_not_the_answer_alphabet():
+    """GMI_MESSAGE_PASSING_DERIVATION_V1: the naive reading of CSR-1 would be
+    "the carrier is the size of the answer alphabet". reach_3 and odd_dist_3
+    refute it -- matched on rounds AND on answer alphabet, differing in carrier.
+    If they ever stop being matched the refutation is confounded."""
+    r = load_receipt("STAGE_MESSAGE_PASSING_V1.json")
+    by = {x["obligation"]: x for x in r["carrier"]}
+    a, b = by["reach_3"], by["odd_dist_3"]
+    assert a["rounds"] == b["rounds"], "the pair is no longer matched on rounds"
+    assert a["answer_values"] == b["answer_values"], \
+        "the pair is no longer matched on answer alphabet"
+    assert b["states"] > a["states"], \
+        "the carriers no longer differ -- the refutation is gone"
+    for x in r["carrier"]:
+        assert x["verified"] and x["configs_verified"] > 30000, \
+            "%s is no longer verified on the full configuration set" % x["obligation"]
+        assert x["states"] >= x["answer_values"]
+
+
+def test_two_state_search_has_a_working_positive_control():
+    """A negative from a search is worthless unless the search can succeed.
+    reach_3 must be FOUND, or odd_dist_3 finding nothing proves nothing."""
+    r = load_receipt("STAGE_MESSAGE_PASSING_V1.json")
+    t = r["two_state_search"]
+    assert t["reach_3_found"] > 0, \
+        "the searcher's positive control fails, so its negative is worthless"
+    assert t["odd_dist_3_found_at_pinned_rounds"] == 0, \
+        "a two-state machine now meets odd_dist_3 at the pinned round count"
+    assert t["machines_enumerated"] > 60000
+
+
+def test_the_expressiveness_ceiling_pair_is_genuinely_blind():
+    """The 1-WL ceiling: a non-isomorphic pair merged at every round, with a
+    MATCHED obligation that is NOT blind. Without the matched positive this
+    would only show the method is weak somewhere."""
+    r = load_receipt("STAGE_MESSAGE_PASSING_V1.json")
+    six = r["ceiling"]["6"]
+    obl = six["obligations"]
+    assert obl["connected"]["blind_at_stable_round"] is True, \
+        "connectivity is no longer blind at the stable round"
+    assert obl["leafy"]["blind_at_stable_round"] is False, \
+        "the matched positive is now blind too, so the ceiling claim is confounded"
+
+
+def test_every_access_wins_somewhere_and_none_dominates():
+    """A menu where one access always wins is not a recovery. An earlier
+    alphabetical tie-break inflated INCIDENT_BAG to 7 of 10."""
+    r = load_receipt("STAGE_MESSAGE_PASSING_V1.json")
+    counts = r["recovery_winner_counts"]
+    total = sum(counts.values())
+    assert all(v > 0 for v in counts.values()), \
+        "not every access wins somewhere: %s" % counts
+    assert counts["INCIDENT_BAG"] <= total / 2, (
+        "the relational access now wins a majority, which is what the "
+        "alphabetical tie-break bug looked like")
+
+
+def test_finest_state_lemma_still_declares_its_argued_half():
+    """Half of this lemma is a proof by induction, not an enumeration. The
+    receipt says so verbatim; if that ever silently becomes a measurement
+    claim, the document's scope note is stale."""
+    r = load_receipt("STAGE_MESSAGE_PASSING_V1.json")
+    f = r["finest_state_lemma"]
+    assert f["colour_is_realisable_by_a_local_rule"] is True
+    assert "ARGUED" in f["no_machine_separates_more"], \
+        "the argued half of the finest-state lemma is no longer declared as argued"
