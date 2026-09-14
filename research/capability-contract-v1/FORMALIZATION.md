@@ -87,32 +87,57 @@ Capability-specific evidence requires a positive candidate-parent gap in `w+` an
 
 ## 5. Finite-sample decision rule
 
-Since `u in [0,1]`, paired differences lie in `[-1,1]`. For `n` independent registered evaluation units, Hoeffding's inequality gives
+Since `u in [0,1]`, paired differences lie in `[-1,1]`. For `n` independent registered evaluation units, Hoeffding's inequality gives the one-sided bound
 
 \[
-\Pr\{\mathbb E[d] < \bar d-\epsilon\}\le\beta,
+\Pr\{\mathbb E[d] < \bar d-\epsilon\}\le\gamma,
 \qquad
-\epsilon(n,\beta)=\sqrt{\frac{2\ln(1/\beta)}{n}}.
+\epsilon(n,\gamma)=\sqrt{\frac{2\ln(1/\gamma)}{n}}.
 \]
 
-The two gates use Bonferroni `beta=alpha/2`:
+There are **three** one-sided concentration events in the common assay: one lower-tail event for the positive-world margin and two events (upper and lower) needed to upper-bound the absolute negative-twin mean. Allocate
 
 \[
-\operatorname{LCB}_{\alpha/2}(\bar d^+)>\tau_P,
+\gamma=\alpha/3.
+\]
+
+The gates are therefore
+
+\[
+\bar d^+-\epsilon(n_+,\alpha/3)>\tau_P,
 \]
 
 and
 
 \[
-\operatorname{UCB}_{\alpha/2}(|\bar d^-|)
-=|\bar d^-|+\epsilon(n,\alpha/2)\le\tau_N.
+|\bar d^-|+\epsilon(n_-,\alpha/3)\le\tau_N.
 \]
 
-`alpha`, `tau_P`, `tau_N`, the independence unit and sample-size plan must be frozen before the scored run. Capability-specific protocols may use stricter preregistered tests, but may not weaken these common gates.
+Equivalently,
+
+\[
+\epsilon(n,\alpha/3)=\sqrt{\frac{2\ln(3/\alpha)}{n}}.
+\]
+
+`alpha`, `tau_P`, `tau_N`, the independence unit and sample-size plan must be frozen before the scored run. Capability-specific protocols may use stricter preregistered tests, but may not weaken these common gates. `validate.py` implements this radius and the common pass/fail rule directly, so the mathematics is executable rather than only documentary.
 
 ### Theorem 2 — simultaneous error control
 
-Each one-sided Hoeffding gate fails with probability at most `alpha/2` under the bounded independent-unit assumption. By the union bound, the probability that either confidence statement fails is at most `alpha`. No Gaussian or asymptotic approximation is required.
+Let `E+` be failure of the positive lower confidence statement, and let `E-_upper` and `E-_lower` be the two failures required to control the negative-twin mean in both directions. Hoeffding gives
+
+\[
+\Pr(E^+)\le\alpha/3,\qquad
+\Pr(E^-_{upper})\le\alpha/3,\qquad
+\Pr(E^-_{lower})\le\alpha/3.
+\]
+
+The absolute-mean twin statement is valid whenever neither twin-tail event occurs. Hence, by the union bound,
+
+\[
+\Pr(E^+\cup E^-_{upper}\cup E^-_{lower})\le\alpha.
+\]
+
+Thus the two reported gates have simultaneous coverage at least `1-alpha` under the bounded independent-unit assumption. No Gaussian or asymptotic approximation is required.
 
 ## 6. Structural-completeness theorem
 
