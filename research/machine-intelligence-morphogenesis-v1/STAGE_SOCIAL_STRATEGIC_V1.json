@@ -1,0 +1,252 @@
+{
+  "D1": {
+    "goal_only_fits_when_channel_constant": true,
+    "goal_only_fits_when_channel_varies": false,
+    "pricing": [
+      {
+        "belief": "4/5",
+        "goal_only": "1",
+        "p_saw": "0",
+        "pays": false
+      },
+      {
+        "belief": "4/5",
+        "goal_only": "3/4",
+        "p_saw": "1/4",
+        "pays": true
+      },
+      {
+        "belief": "4/5",
+        "goal_only": "1/2",
+        "p_saw": "1/2",
+        "pays": true
+      },
+      {
+        "belief": "4/5",
+        "goal_only": "3/4",
+        "p_saw": "3/4",
+        "pays": true
+      },
+      {
+        "belief": "4/5",
+        "goal_only": "1",
+        "p_saw": "1",
+        "pays": false
+      }
+    ]
+  },
+  "D2": {
+    "sequential_loss": "1/5",
+    "simultaneous": [
+      {
+        "fixed": "1",
+        "pays": false,
+        "predictor": "4/5",
+        "q": "1/2"
+      },
+      {
+        "fixed": "1",
+        "pays": false,
+        "predictor": "9/10",
+        "q": "11/20"
+      },
+      {
+        "fixed": "1",
+        "pays": false,
+        "predictor": "1",
+        "q": "3/5"
+      },
+      {
+        "fixed": "1",
+        "pays": true,
+        "predictor": "11/10",
+        "q": "13/20"
+      },
+      {
+        "fixed": "1",
+        "pays": true,
+        "predictor": "6/5",
+        "q": "7/10"
+      },
+      {
+        "fixed": "1",
+        "pays": true,
+        "predictor": "13/10",
+        "q": "3/4"
+      },
+      {
+        "fixed": "1",
+        "pays": true,
+        "predictor": "7/5",
+        "q": "4/5"
+      }
+    ],
+    "threshold_q": "13/20"
+  },
+  "D3": {
+    "ALIGNED": {
+      "fixed_points": [
+        {
+          "informative": true,
+          "rule": {
+            "says_comp": "guard",
+            "says_coop": "share"
+          },
+          "signals": {
+            "comp": [
+              "says_comp"
+            ],
+            "coop": [
+              "says_coop"
+            ]
+          },
+          "value": "2"
+        },
+        {
+          "informative": true,
+          "rule": {
+            "says_comp": "share",
+            "says_coop": "guard"
+          },
+          "signals": {
+            "comp": [
+              "says_coop"
+            ],
+            "coop": [
+              "says_comp"
+            ]
+          },
+          "value": "2"
+        },
+        {
+          "informative": false,
+          "rule": {
+            "says_comp": "guard",
+            "says_coop": "guard"
+          },
+          "signals": {
+            "comp": [
+              "says_comp",
+              "says_coop"
+            ],
+            "coop": [
+              "says_comp",
+              "says_coop"
+            ]
+          },
+          "value": "1"
+        }
+      ],
+      "informative_equilibrium": true
+    },
+    "OPPOSED": {
+      "fixed_points": [
+        {
+          "informative": false,
+          "rule": {
+            "says_comp": "guard",
+            "says_coop": "guard"
+          },
+          "signals": {
+            "comp": [
+              "says_comp",
+              "says_coop"
+            ],
+            "coop": [
+              "says_comp",
+              "says_coop"
+            ]
+          },
+          "value": "1"
+        }
+      ],
+      "informative_equilibrium": false
+    },
+    "invertibility_note": {
+      "vs_inverting": {
+        "comp": [
+          "says_comp"
+        ],
+        "coop": [
+          "says_coop"
+        ]
+      },
+      "vs_trusting": {
+        "comp": [
+          "says_coop"
+        ],
+        "coop": [
+          "says_comp"
+        ]
+      }
+    }
+  },
+  "D4": {
+    "detector_needed_after_commitment": false,
+    "deterring_penalty": "6",
+    "lying": [
+      {
+        "lies": true,
+        "penalty": "0",
+        "rho": "1/4"
+      },
+      {
+        "lies": true,
+        "penalty": "0",
+        "rho": "1/2"
+      },
+      {
+        "lies": true,
+        "penalty": "2",
+        "rho": "1/4"
+      },
+      {
+        "lies": true,
+        "penalty": "2",
+        "rho": "1/2"
+      },
+      {
+        "lies": true,
+        "penalty": "6",
+        "rho": "1/4"
+      },
+      {
+        "lies": false,
+        "penalty": "6",
+        "rho": "1/2"
+      },
+      {
+        "lies": false,
+        "penalty": "12",
+        "rho": "1/4"
+      },
+      {
+        "lies": false,
+        "penalty": "12",
+        "rho": "1/2"
+      }
+    ],
+    "verification": [
+      {
+        "p_deceive": "0",
+        "verify": false
+      },
+      {
+        "p_deceive": "1/8",
+        "verify": false
+      },
+      {
+        "p_deceive": "1/4",
+        "verify": true
+      },
+      {
+        "p_deceive": "3/8",
+        "verify": true
+      },
+      {
+        "p_deceive": "1/2",
+        "verify": true
+      }
+    ]
+  }
+}
