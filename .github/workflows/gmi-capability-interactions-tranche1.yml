@@ -1,0 +1,33 @@
+name: GMI capability interactions (F3 tranche 1)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-capability-interactions-v1/**'
+      - '.github/workflows/gmi-capability-interactions-tranche1.yml'
+  push:
+    paths:
+      - 'research/gmi-capability-interactions-v1/**'
+      - '.github/workflows/gmi-capability-interactions-tranche1.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-controls:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        optimized: [false, true]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact controls
+        shell: bash
+        run: |
+          if [ "${{ matrix.optimized }}" = "true" ]; then
+            python3 -I -O -B research/gmi-capability-interactions-v1/test_capability_interactions_v1.py -v
+          else
+            python3 -I -B research/gmi-capability-interactions-v1/test_capability_interactions_v1.py -v
+          fi
