@@ -39,6 +39,7 @@ RESULTS = os.path.join(HERE, "microscopes", "results")
 WITNESSES = {
     "belief_state_witness.py": "STAGE_BELIEF_STATE_V1.json",
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
+    "conditional_specialization_witness.py": "STAGE_CONDITIONAL_SPECIALIZATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
     "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
@@ -1077,3 +1078,65 @@ def test_rewrite_fingerprints_are_measured_not_labelled():
     instrs = [x["instructions"] for x in r["neutral_recovery"]]
     assert min(instrs) == 1 and max(instrs) >= 8, \
         "both degenerate ends (a one-instruction machine and a full table) must be reached"
+
+
+def test_collapsibility_is_necessary_but_not_sufficient():
+    """GMI_CONDITIONAL_SPECIALIZATION_DERIVATION_V1: no tag-collapsible world may
+    pay, and non-collapsible worlds must SPLIT on whether they pay. If every
+    non-collapsible world paid, the condition would be a biconditional -- which
+    an earlier single-catalogue version wrongly reported."""
+    r = load_receipt("STAGE_CONDITIONAL_SPECIALIZATION_V1.json")
+    rows = r["census"]
+    coll_pay = [x for x in rows if x["max_places"] == 1 and x["pays"]]
+    assert not coll_pay, "a tag-collapsible world now pays"
+    noncoll = [x for x in rows if x["max_places"] > 1]
+    pay = [x for x in noncoll if x["pays"]]
+    assert pay, "no non-collapsible world pays"
+    assert len(pay) < len(noncoll), (
+        "every non-collapsible world pays, so the condition has become a "
+        "biconditional -- that was the confounded result, not the real one")
+
+
+def test_which_term_carries_the_surplus():
+    """The mechanism is NOT mainly duplicated bodies. If that ever flips, the
+    document's central correction is stale."""
+    r = load_receipt("STAGE_CONDITIONAL_SPECIALIZATION_V1.json")
+    w = r["which_term"]
+    assert w["paying"] > 0
+    assert w["map_cheaper_than_reach"] >= w["bodies_cost_more_undivided"], (
+        "duplicated bodies now carry the surplus more often than the "
+        "separation term -- the document says the opposite")
+
+
+def test_conditioning_never_saves_expected_traversal():
+    """Compute is refuted here, not merely unaddressed. A split that became
+    cheaper on expected traversal would overturn that."""
+    r = load_receipt("STAGE_CONDITIONAL_SPECIALIZATION_V1.json")
+    t = r["traversal_summary"]
+    assert t["expected_split_ever_cheaper"] is False, \
+        "the split is now cheaper on expected traversal somewhere"
+    assert t["expected_split_strictly_worse_in"] > 0
+
+
+def test_split_advantage_expires_at_a_finite_query_count():
+    """PVR-3 with the split on the retention side: some world must change hands."""
+    r = load_receipt("STAGE_CONDITIONAL_SPECIALIZATION_V1.json")
+    rows = r["query_crossover"]
+    finite = [x for x in rows if x["r_star"] != "never"]
+    assert finite, "no paying world's advantage expires -- the crossover is gone"
+    changed = [x for x in rows if x["verdict_r8"] != x["verdict_r512"]]
+    assert changed, "no verdict changes hands between r=8 and r=512"
+
+
+def test_recovery_is_not_a_handed_answer():
+    """The world's own obligation split must LOSE most of the time. A chooser
+    handed the answer would win all 60, and a mutation showed the gate once
+    accepted exactly that."""
+    r = load_receipt("STAGE_CONDITIONAL_SPECIALIZATION_V1.json")
+    rows = r["recovery"]
+    own = [x for x in rows if x["winner_is_the_worlds_own_split"]]
+    assert 0 < len(own) < len(rows), (
+        "the world's own split wins always or never -- in either case the "
+        "recovery is not discriminating")
+    assert len(own) < len(rows) / 2, \
+        "the world's own split now wins most worlds, which is what a rigged chooser looks like"
