@@ -1,0 +1,94 @@
+{
+  "schema": "EcologyExtensionContractV1",
+  "scope": "Finite declared ecology E=(D_tau,O,A,F,V,p,b,H,Delta) extending ECOLOGY_CONTRACT_V1.json + ECOLOGY_AXES_V2.json + DEFINITIONS_V2_EXACT.md s2. Admissibility only (DU-1); every coordinate mechanically checkable before protected outcomes.",
+  "extends": [
+    "research/machine-intelligence-morphogenesis-v1/ECOLOGY_CONTRACT_V1.json",
+    "research/machine-intelligence-morphogenesis-v1/ECOLOGY_AXES_V2.json",
+    "research/machine-intelligence-morphogenesis-v1/DEFINITIONS_V2_EXACT.md"
+  ],
+  "coordinates": {
+    "other_agents": {
+      "definition": "Explicit other-agent set with declared adaptivity (NONE / FIXED_OPPONENTS / ADAPTIVE_OPPONENTS / COOPERATIVE_TEAM / MIXED_POPULATION) and their observation/action interfaces. Adaptive agents are part of E, not an external bolt-on.",
+      "values": ["NONE", "FIXED_OPPONENTS", "ADAPTIVE_OPPONENTS", "COOPERATIVE_TEAM", "MIXED_POPULATION"],
+      "parent": "TOM-1 opponent-type forcing; GG41 strategic refinement strictly refines single-agent quotient",
+      "falsifier": "a two-agent ecology with ADAPTIVE_OPPONENTS on which a single-agent quotient predicts the frontier yet the adaptive opponent induces a different optimal morphology (TOM-1 forcing violated)"
+    },
+    "observation_structure": {
+      "definition": "Registered observation alphabet O and mapping obs: WorldState -> O exposed before each decision/update; declares what is observable, with what noise/partial observability, and what is hidden.",
+      "parent": "POMDP observation model; HST-T03 representation insufficiency",
+      "falsifier": "an ecology where a strictly larger O is claimed to need no additional state yet the semantic quotient refines on the larger O (undisclosed observation dependence)"
+    },
+    "action_intervention_structure": {
+      "definition": "Registered action/intervention alphabet A and effect law action: (WorldState, A) -> WorldState distribution; includes legal interventions on ecology variables, not just environment outputs.",
+      "parent": "Pearl do-calculus / intervention semantics; LMT complete-view lemma on admissible interventions",
+      "falsifier": "a claimed intervention-free optimum that is beaten by an admitted intervention under the same O and V"
+    },
+    "feedback_verifier_structure": {
+      "definition": "Development feedback channel F (labels, rewards, checker traces, intervention outcomes) and verifier contract V (membership / equivalence oracle / proof checker) with their availability schedule over H.",
+      "parent": "Angluin 1987 L* vs Gold 1978 passive-intractability; ECOLOGY_AXES_V2 verification_strength axis",
+      "falsifier": "a morphology claimed to develop under passive examples alone on a class whose passive intractability is parent-proved (Gold/Pitt-Warmuth/Kearns-Valiant)"
+    },
+    "task_distribution_horizon": {
+      "definition": "Finite registered task family D_tau and horizon H (task count / reuse opportunities / time steps); the distribution is over tasks, not just samples within a task.",
+      "parent": "Shalev-Shwartz comp-stat tradeoff; task-diversity / curriculum literature",
+      "falsifier": "a horizon-free morphology claim that reverses when H is instantiated to the registered horizon (reuse amortization missed)"
+    },
+    "drift_regime_change": {
+      "definition": "Registered drift process Delta: E_t -> E_{t+1} distribution or adversarial regime-change schedule over H, including rate and which coordinates it perturbs.",
+      "parent": "Grossberg stability-plasticity; EWC / continual learning drift parents (P4 ledger)",
+      "falsifier": "a drift-free optimal morphology claimed stable under FREQUENT_SHIFT drift on which local-update morphologies provably revise cheaper (drift cost not booked)"
+    },
+    "recurrence_reuse_structure": {
+      "definition": "Recurrence map declaring which subtask patterns repeat across tasks (with frequency and horizon) and thus which PVR-3 amortization conditions are live; distinct from raw horizon count.",
+      "parent": "HST-T05 macro amortization H_eff*dC_use > C_build+C_maint+C_rev; DreamCoder/Stitch library amortization",
+      "falsifier": "a library/skill morphology claimed optimal on a FLAT recurrence ecology with no recurring pattern to amortize"
+    },
+    "noise_partial_observability": {
+      "definition": "Joint declaration of exogenous noise (label-flip, stochastic transition) and partial observability (which state variables are hidden under which condition), with latent/predictable-component separation.",
+      "parent": "Kearns 1998 SQ noise tolerance; POMDP belief-state parents",
+      "falsifier": "a noise-intolerant exact-consistency learner predicted optimal under LABEL_FLIP_HIGH without a noise-robust V"
+    },
+    "compositionality_symmetry_relational": {
+      "definition": "Registered compositionality depth, symmetry groups G acting on tasks, and relational schema (graph / binding structure) exposing which compositions are valid.",
+      "parent": "Fodor/Pylyshyn compositionality; SCAN / symmetry-equivariant learning literature",
+      "falsifier": "a holistic-code morphology claimed optimal on a DEEP_COMPOSITIONAL G-invariant product space at equal reuse where compositional sharing provably reduces description length"
+    },
+    "social_topology": {
+      "definition": "Where multiple agents exist, the social topology graph (who observes whom, who communicates with whom, bandwidth/latency on edges) and population structure (SINGLETON / FIXED_POPULATION / OPEN_ENDED) with the coordination obligation.",
+      "parent": "items 18/19 teaching-culture break-even n>1+S/(C-U); TOM-3 reliability probe pricing; collective decision literature",
+      "falsifier": "a teaching/culture morphology predicted optimal for SINGLETON population with no transmission recipient"
+    },
+    "embodiment_sensor_actuator": {
+      "definition": "Sensor/actuator constraints: what the agent can sense (resolution, modality, cost) and effect (actuator repertoire, embodiment dynamics, cost/latency), distinct from abstract O/A alphabets by declaring physical limits.",
+      "parent": "embodied cognition (Pfeifer & Bongard); physical-resource bridge parents (Landauer et al.)",
+      "falsifier": "a morphology requiring sensing/actuation precision beyond the registered embodiment limit yet claimed feasible without the embodiment coordinate"
+    },
+    "resource_prices_budgets": {
+      "definition": "Separate hard budget vector b (per-coordinate caps: desc/exec/upd/ver/rev) and price vector p (affine scalarization p.R) frozen prospectively when needed; budgets not scalarized post hoc.",
+      "parent": "bounded rationality (Simon); resource-rational cognition; DEFINITIONS_V2_EXACT.md s5 affine-bound framework",
+      "falsifier": "a morphology ordering that reverses under a registered price-vector flip that the claim did not condition on"
+    },
+    "verification_latency_cost": {
+      "definition": "Latency and charged cost of invoking V (delay between action and verdict, monetary/compute cost, false-adoption cost on error), per call and in aggregate over H.",
+      "parent": "verification-cost / decision-cost literature; PVR-3 certificate validity window",
+      "falsifier": "a verifier-gated morphology claimed to match a verifier-free morphology at equal reported cost without booking latency/false-adoption cost"
+    },
+    "information_acquisition_cost": {
+      "definition": "Charged cost of observation/query/probe acquisition (sample cost, probe cost, active-experiment cost) as distinct from exec/ver cost, with budget and price declared.",
+      "parent": "Blackwell value of information; optimal experiment design (Lindley); TDA/GG12 acquisition family",
+      "falsifier": "a probe policy claimed net-beneficial whose obligation-relevant uncertainty reduction does not exceed its booked acquisition cost (re-run TDA value check)"
+    },
+    "protected_splits": {
+      "definition": "Declared protected train/development/held-out splits: which world/task/identity partitions the construction/search has not seen before freeze, with sealing protocol and remint generator share.",
+      "parent": "hold-out / cross-validation methodology; anti-story rule in ECOLOGY_CONTRACT_V1.json",
+      "falsifier": "a held-out prediction that reproduces after leaking the held-out identities through an undeclared remint (label leakage)"
+    }
+  },
+  "equivalence_remint_rules": {
+    "definition": "Two ecologies are equivalent only under a labelled bijection (remint) preserving (O,A,F,V,p,b,H,Delta) up to renaming; a remint must be bijective on registered world/task alphabets and preserve observation/verification contracts by pullback. Any mapping that collapses distinct worlds or leaks oracle information is not a remint.",
+    "remint_is_bijection": true,
+    "label_leakage_forbidden": true,
+    "parent": "cryptographic remint / isomorphism methodology; anti-story rule: coordinates may not be selected after outcomes",
+    "falsifier": "a claimed ecology equivalence witnessed by a non-bijective or label-leaking map, or a held-out success that disappears under a disjoint bijective remint"
+  }
+}

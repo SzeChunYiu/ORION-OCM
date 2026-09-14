@@ -1,0 +1,52 @@
+{
+  "$schema": "",
+  "title": "EcologyExtensionContractV1",
+  "description": "Extension to ECOLOGY_CONTRACT_V1.json + ECOLOGY_AXES_V2.json adding the 16 missing A2 coordinates including other_agents and equivalence/remint rules (592 item 2 / 602 A2).",
+  "type": "object",
+  "required": ["schema", "scope", "extends", "coordinates", "equivalence_remint_rules"],
+  "properties": {
+    "schema": {"type": "string", "enum": ["EcologyExtensionContractV1"]},
+    "scope": {"type": "string", "minLength": 20},
+    "extends": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"type": "string", "minLength": 5}
+    },
+    "coordinates": {
+      "type": "object",
+      "minProperties": 15,
+      "maxProperties": 16,
+      "additionalProperties": false,
+      "properties": {
+        "other_agents": {"type": "object", "required": ["definition", "values", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "values": {"type": "array", "minItems": 2, "items": {"type": "string"}}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "observation_structure": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "action_intervention_structure": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "feedback_verifier_structure": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "task_distribution_horizon": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "drift_regime_change": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "recurrence_reuse_structure": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "noise_partial_observability": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "compositionality_symmetry_relational": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "social_topology": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "embodiment_sensor_actuator": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "resource_prices_budgets": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "verification_latency_cost": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "information_acquisition_cost": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "protected_splits": {"type": "object", "required": ["definition", "parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 20}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 20}}, "additionalProperties": false}
+      }
+    },
+    "equivalence_remint_rules": {
+      "type": "object",
+      "required": ["definition", "remint_is_bijection", "label_leakage_forbidden", "parent", "falsifier"],
+      "properties": {
+        "definition": {"type": "string", "minLength": 20},
+        "remint_is_bijection": {"type": "boolean"},
+        "label_leakage_forbidden": {"type": "boolean"},
+        "parent": {"type": "string", "minLength": 10},
+        "falsifier": {"type": "string", "minLength": 20}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
