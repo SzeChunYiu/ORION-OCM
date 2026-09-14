@@ -77,6 +77,7 @@ WITNESSES = {
     "residual_memory_witness.py": "STAGE_RESIDUAL_MEMORY_V1.json",
     "tool_routing_witness.py": "STAGE_TOOL_ROUTING_V1.json",
     "real_regime_finite_state_witness.py": "STAGE_REAL_REGIME_FINITE_STATE_V1.json",
+    "predict_intersection_index.py": "STAGE_INTERSECTION_INDEX_PREDICTION_V1.json",
 }
 
 
@@ -1720,3 +1721,66 @@ def test_the_bound_is_a_property_of_the_obligation_not_the_method():
         "index is 2, so the certificate inflates and the N-state result is not "
         "trustworthy")
     assert n["main_obligation_bound"] > 100 * n["certified_lower_bound"]
+
+
+# ---------------------------------------------------------------------------
+# The corpus's first checkable pre-registration.
+#
+# predict_intersection_index.py was committed and pushed in a commit containing
+# NO measuring code; compare_intersection_index.py was written afterwards.  Git
+# commit order is the evidence, which is the property the four corrected
+# witnesses lacked -- there, prediction and measurement shared one run.
+# ---------------------------------------------------------------------------
+def test_adjudication_reproduces_and_scores_the_frozen_prediction():
+    receipt = os.path.join(RESULTS, "STAGE_INTERSECTION_INDEX_VERDICT_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope",
+                                          "compare_intersection_index.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "compare_intersection_index.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed verdict to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the adjudication no longer reproduces its committed verdict")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_the_frozen_prediction_is_scored_not_assumed():
+    """The verdict must be computed against the committed prediction receipt."""
+    pred = load_receipt("STAGE_INTERSECTION_INDEX_PREDICTION_V1.json")
+    got = load_receipt("STAGE_INTERSECTION_INDEX_VERDICT_V1.json")
+    assert got["registration_scored"] == pred["registration"], (
+        "the verdict scores a different registration than the one committed")
+    assert got["predicted_index"] == pred["predicted_index"], (
+        "the verdict's copy of the prediction differs from the frozen receipt, "
+        "which would mean the prediction was edited after the outcome")
+    assert pred["phase"].startswith("prediction"), (
+        "the prediction receipt no longer declares itself measurement-free")
+
+
+def test_the_intersection_collapses_below_the_product_bound():
+    """Non-vacuity: if the index were 3m there would be nothing to predict."""
+    r = load_receipt("STAGE_INTERSECTION_INDEX_VERDICT_V1.json")
+    meas, prod, reach = r["measured_index"], r["product_bound"], r["reachable_states"]
+    assert all(meas[k] < prod[k] for k in meas), (
+        "some m no longer collapses below the generic product bound")
+    assert all(reach[k] == prod[k] for k in reach), (
+        "not every product state is reachable any more; the collapse would then "
+        "be partly unreachability rather than indistinguishability, which is a "
+        "weaker and different claim")
+    assert all(meas[k] == int(k) + 2 for k in meas), (
+        "the measured rule is no longer index = m + 2")
+
+
+def test_the_verdict_records_whether_the_prediction_held():
+    r = load_receipt("STAGE_INTERSECTION_INDEX_VERDICT_V1.json")
+    assert r["verdict"] in ("HOLDS", "FALSIFIED")
+    assert r["verdict"] == ("HOLDS" if not r["disagreeing_m"] else "FALSIFIED"), (
+        "the verdict label disagrees with its own disagreement list")
+    assert len(r["agreeing_m"]) + len(r["disagreeing_m"]) >= 8, (
+        "fewer values of m were scored than were frozen")
