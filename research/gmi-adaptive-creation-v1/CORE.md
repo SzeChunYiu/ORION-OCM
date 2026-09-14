@@ -1,8 +1,13 @@
-# Adaptive creation (ARC-5)
+# Adaptive creation (ARC-5) — corrected
 
-Bounded row creation inside a predeclared potential register plus the sampling-horizon / unbounded-creation boundary for checklist item 32.
+The finite-register result survives. The former general unbounded-creation
+obstruction is retracted; see the [corrected disposition](ADAPTIVE_CREATION_AND_HORIZONS_V1.md)
+and [ARC-6 proof and controls](../gmi-countable-row-corrigendum-v1/README.md).
 
-- [Theorem](ADAPTIVE_CREATION_AND_HORIZONS_V1.md)
-- [Model](adaptive_creation_v1.py) -> [11 controls](test_adaptive_creation_v1.py) -> [receipt](ARC5_RECEIPT_V1.json): 11/11 on billy-old py3.14 + laptop-billy py3.8, normal + optimized.
+`adaptive_creation_v1.py`, its 11 controls and `ARC5_RECEIPT_V1.json` are retained
+as historical finite evidence, not verification of the new proof. The original
+receipt is not silently regenerated or attributed to new host runs.
 
-Parent unit [research/gmi-adaptive-row-confidence-v1](../gmi-adaptive-row-confidence-v1/OPERATIONS_V1.md) (ARC-1-4) is untouched; the capsule-bound manifest there is unchanged.
+The parent [ARC-1–4 capsule](../gmi-adaptive-row-confidence-v1/OPERATIONS_V1.md)
+and its manifest are unchanged. Claim ceiling: scoped mathematical validity,
+not a physical sampling certificate or a G6 capability predictor.

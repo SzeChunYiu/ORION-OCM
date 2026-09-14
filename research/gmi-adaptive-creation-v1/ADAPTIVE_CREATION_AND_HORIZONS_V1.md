@@ -1,91 +1,57 @@
-# Adaptive row *creation* and unlimited horizons — ARC-5 (checklist item 32)
+# Adaptive row creation and horizons — ARC-5, corrected disposition
 
-Status: **BOUNDARY THEOREM + EXACT FINITE WITNESSES (positive part) + EXPLICIT
-NEGATIVE PART (stated as terminal, not filed CORRECTED). Admissibility claim.**
-Date: 2026-09-14. Scope: finite Bernoulli rows, exact Fractions, CPython 3.8 safe.
+**CORRIGENDUM (2026-09-14), #655 / #602 M / #592 item 32.**
+The former ARC-5b(ii) general obstruction is retracted. The replacement proof,
+exact certificates and counterexamples are in
+[ARC-6](../gmi-countable-row-corrigendum-v1/FORMALIZATION_V1.md).
 
-Item-32 gap map: "adaptive *creation* of new rows" → ARC-5a (bounded creation:
-positive); "unlimited horizons" → ARC-5b (one frontier extends, one does not:
-partial — the non-extending half is a proven obstruction, stated with its
-falsifier, not a silent miss).
+## Visible retractions
 
-## ARC-5a — bounded creation preserves the guarantee (POSITIVE)
+1. The former assertion that infinitely many positive weights necessarily
+   diverge is false: w_j=1/[j(j+1)] has positive terms and total one.
+2. A small fixed positive row allowance does not impose a limiting confidence
+   radius floor. ARC-6 proves radius -> 0 for each fixed row as its visits grow.
+3. Exceeding a union-bound allocation is not a proof that every conceivable
+   method fails. Identical failure events disprove that inference. Independent
+   fixed-level row errors do accumulate, but that is a scoped counterexample.
 
-Register an initial finite row set plus a finite creation budget `B`: at most
-`B` new rows may ever be introduced, each new row `j` with a predeclared weight
-`w_j > 0` such that the *extended* weights still satisfy `Σw ≤ 1`. A new row
-introduced at creation time `t` receives: (i) its own visit counter starting at
-0; (ii) the same radius rule `e_j(n)` with allowance `αw_j/[n(n+1)]` — visits
-are counted *from its own creation*, never retroactively.
+The [original text remains in version history](https://github.com/SzeChunYiu/ORION-OCM/blob/139a123d429d1a800f7fb3e071ec94d773630615/research/gmi-adaptive-creation-v1/ADAPTIVE_CREATION_AND_HORIZONS_V1.md).
+It must not be cited as an established all-method impossibility result.
 
-**Claim.** The ARC-1 simultaneous event over the *extended* register still holds
-with probability ≥ `1−α`. **Proof.** Fix the full potential register (initial +
-all creatable rows) in advance — it is finite. Apply ARC-1's union argument to
-that register; each row's error budget is spent only on its own visits, and
-rows never sampled never fail. Adaptive *choice of which allowed row to create*
-is just another predictable selection over a finite potential set, so the
-supermartingale step is unchanged. QED.
+## ARC-5a — retained finite-register result
 
-In words: bounded creation is already inside ARC-1, not outside it — the
-advance work is declaring the potential register and its error budget *before*
-sampling. What ARC-1 cannot do is create rows whose weights were never
-allocated: `Σw ≤ 1` is the conservation law, and an unbudgeted creation breaks
-the union bound (see the hostile witness below).
+Freeze a finite potential row set, positive weights with total at most one,
+and a creation budget before outcomes. Each created row starts its own visit
+counter at zero and uses allowance alpha*w_j/[n(n+1)]. Under ARC-1's predictable
+selection and conditional fixed-row-law premises, union over the finite
+potential register and all finite visit counts gives a single 1-alpha event.
+Adaptive choice among those predeclared rows does not change the argument.
+This is inherited from ARC-1, not a new statistical rate.
 
-Machine-checked: a 2-initial + 1-creatable register, budget `B=1`, creation
-announced at `t=2` with predeclared weight; all potential rows satisfy their
-own `αw/[n(n+1)]` certificate on a 12-step adaptive run, and any row created
-beyond budget, or without a predeclared weight, is refused.
+## ARC-5b(i) — retained sampling-horizon boundary
 
-## ARC-5b — unlimited horizons: one frontier extends, one obstructs (PARTIAL)
+ARC-1 is already simultaneous over every finite attained sampling visit.
+A finite data-dependent stopping time inherits that event. This neither promises
+that sampling terminates nor certifies an infinite deployment horizon. Checking
+radii at n<=512 is a finite numerical control, not a proof of the infinite claim.
 
-Two distinct "unlimited" questions:
+## ARC-5b(ii) — corrected countable-creation result
 
-**(i) Sampling horizon `T → ∞` with a fixed finite register: EXTENDS.**
-ARC-1's bound is already uniform over every finite attained visit `n`
-(`Σ_n 1/[n(n+1)] = 1` converges), so the guarantee holds simultaneously for all
-finite `n` with no horizon cap. Stopping at any finite data-dependent `T`
-inherits it (ARC-2). Machine-checked: radii and certificates recomputed for
-`n` up to 512 — monotone tightening, all certificates hold; the only cost is
-exact-arithmetic bit growth (`O(log n)` counter bits, radius grid `j/n`).
+Predeclare a summable creation-order schedule, such as w_j=1/[j(j+1)]. Freeze
+each row's meaning before its own evidence. Conditional Hoeffding concentration
+at attained visits and a countable union then cover all created rows at all
+finite visits. ARC-6 states the precise stopping-time and conditional-mean
+premises, the proof, fixed-row shrinking widths, and the limits under replay,
+post-selection, drift, finite resource budgets and deployment horizons.
 
-**(ii) Unbounded creation (`B → ∞`) or genuinely new *kinds* of rows:
-OBSTRUCTED — terminal negative with proof.** Suppose rows can be created
-without limit, each needing positive error budget `w_j > 0` for a non-vacuous
-certificate. Then `Σ_j w_j` over infinitely many created rows diverges past 1
-for any fixed `α`, and the union allocation `αw_j/[n(n+1)]` cannot cover rows
-whose weights were never declared. Any scheme that reuses a fixed budget across
-unbounded creations either dilutes some row's allowance to zero (vacuous radius
-1 — the guarantee says nothing) or spends more than `α` total (the `1−α`
-promise breaks). The hostile witness: create one fresh row per step, each
-demanding the same allowance as existing rows — after `k` creations the spent
-budget is `k·αw`, exceeding `α` for `k > 1/w`. This is a conservation proof,
-not a missing implementation: unbounded creation *without a summable
-predeclared budget* contradicts the `1−α` promise itself.
+## Evidence and claim ceiling
 
-The revival path is named, not claimed: a *summable* infinite budget
-(`Σ_j w_j ≤ 1`, e.g. `w_j = 2^{−j−2}`) would extend ARC-5a to countable creation
-— but only with radii that never tighten below the diluted allowance, and the
-registration of "which creation gets which weight" must itself be predeclared
-and auditable. That construction is future work; this unit banks the bounded
-case and the obstruction.
+The existing model and 11-test receipt are preserved as **historical finite
+controls only**. The old receipt's source digest/scope describes its historical
+artifact, not this corrected document; it does not prove either retracted
+statement. No past host run is relabeled as a run of new code.
 
-## Falsifier
-
-(i) A bounded-budget creation run where some registered potential row violates
-its own `αw/[n(n+1)]` certificate on re-execution refutes ARC-5a. (ii) A scheme
-covering unbounded unbudgeted creations within a fixed `α` with non-vacuous
-radii refutes ARC-5b(ii) — this would be a genuine breakthrough, and the
-witness names exactly what it must do (find a summable allocation the proof
-missed, or a non-union argument).
-
-## Claim ceiling
-
-Finite Bernoulli rows, exact arithmetic. No learned support/state, no drifting
-laws, no physical-sampler authentication — all inherited ARC premises unchanged.
-The infinite-summable-budget construction is future work, explicitly not claimed.
-
-Parent ARC-1-4 unit is untouched (capsule manifest unchanged).
-
-Files: [model](adaptive_creation_v1.py) → [11 controls](test_adaptive_creation_v1.py) →
-[receipt](ARC5_RECEIPT_V1.json: 11/11 on billy-old py3.14 + laptop-billy py3.8, normal + optimized).
+The frozen ARC-1–4 unit and its capsule manifest are untouched. New ARC-6 has
+its own P1/P3 written argument and P2 exact controls, with a scoped G2 ceiling.
+Neither unit establishes physical-sampler authenticity, empirical G6 capability
+prediction or all-method impossibility of unlimited creation.
