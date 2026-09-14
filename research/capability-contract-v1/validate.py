@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Structural verifier for issue #602 A4/F1 capability-contract V1."""
 from __future__ import annotations
-import json, re, sys
+import json, math, re, sys
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
@@ -32,6 +32,27 @@ def rank(x):
     if not m: raise ValueError(f"invalid claim ceiling {x!r}")
     return int(m.group(1))
 
+def hoeffding_radius(n, alpha):
+    """One-sided radius for each of the three simultaneous paired-difference tails."""
+    if not isinstance(n, int) or n <= 0:
+        raise ValueError("n must be a positive integer")
+    if not isinstance(alpha, (int, float)) or not 0 < alpha < 1:
+        raise ValueError("alpha must lie in (0,1)")
+    return math.sqrt(2.0 * math.log(3.0 / alpha) / n)
+
+def assay_pass(positive_diffs, twin_diffs, tau_parent, tau_twin, alpha=0.05):
+    """Evaluate common S0 gates for paired differences already bounded in [-1,1]."""
+    if not positive_diffs or not twin_diffs:
+        raise ValueError("both paired-difference samples must be nonempty")
+    for x in [*positive_diffs, *twin_diffs]:
+        if not isinstance(x, (int, float)) or not -1 <= x <= 1:
+            raise ValueError("paired differences must lie in [-1,1]")
+    mp=sum(positive_diffs)/len(positive_diffs)
+    mt=sum(twin_diffs)/len(twin_diffs)
+    ep=hoeffding_radius(len(positive_diffs),alpha)
+    et=hoeffding_radius(len(twin_diffs),alpha)
+    return (mp-ep>tau_parent) and (abs(mt)+et<=tau_twin)
+
 def load_registry(base=HERE):
     meta=json.loads((base/"CAPABILITY_CONTRACT_V1.json").read_text(encoding="utf-8"))
     caps=[]
@@ -48,7 +69,7 @@ def validate_registry(meta,caps,coords):
     defs=meta.get("definitions",{})
     for code in ("A0","S0","N0","P0"):
         if not isinstance(defs.get(code),str) or not defs[code]: e.append(f"missing common definition {code}")
-    if "Bonferroni" not in meta.get("statistics",{}).get("rule",""): e.append("statistics must state two-gate correction")
+    if "alpha/3" not in meta.get("statistics",{}).get("rule",""): e.append("statistics must state three-tail Bonferroni correction")
     a=meta.get("statistics",{}).get("alpha_default")
     if not isinstance(a,(int,float)) or not 0<a<1: e.append("alpha_default must lie in (0,1)")
     cids=[r.get("id") for r in caps if isinstance(r,dict)]
