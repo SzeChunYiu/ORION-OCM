@@ -37,6 +37,7 @@ RESULTS = os.path.join(HERE, "microscopes", "results")
 
 # witness script -> the receipt it writes, relative to microscopes/results/
 WITNESSES = {
+    "belief_state_witness.py": "STAGE_BELIEF_STATE_V1.json",
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
     "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
@@ -57,9 +58,12 @@ WITNESSES = {
     "planning_stop_witness.py": "STAGE_PLANNING_STOP_V3.json",
     "recovery_objective_witness.py": "STAGE_RECOVERY_OBJECTIVE_V1.json",
     "replanning_witness.py": "STAGE_REPLANNING_V1.json",
+    "search_frontier_witness.py": "STAGE_SEARCH_FRONTIER_V1.json",
     "simulation_worth_witness.py": "STAGE_SIMULATION_WORTH_V1.json",
     "social_cognition_witness.py": "STAGE_SOCIAL_COGNITION_V1.json",
     "social_strategic_witness.py": "STAGE_SOCIAL_STRATEGIC_V1.json",
+    "state_space_witness.py": "STAGE_STATE_SPACE_V1.json",
+    "symbolic_rewrite_witness.py": "STAGE_SYMBOLIC_REWRITE_V1.json",
     "subgoal_witness.py": "STAGE_SUBGOAL_WITNESS_V1.json",
     "update_law_witness.py": "STAGE_UPDATE_LAW_V1.json",
     "teaching_culture_witness.py": "STAGE_TEACHING_CULTURE_WITNESS_V1.json",
@@ -866,3 +870,210 @@ def test_equivariance_negative_twin_separates():
     assert by["has_11"]["shared_works"] is True
     assert by["first_is_1"]["shared_works"] is False, \
         "sharing now works on a position-anchored obligation"
+
+
+def test_search_is_forced_when_no_compact_policy_exists():
+    """GMI_SEARCH_FRONTIER_DERIVATION_V1: the budget must permit a policy in
+    some worlds and forbid it in others, or nothing is forced."""
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    poss = [x["policy_possible"] for x in r["frontier_forced"]]
+    assert any(poss) and not all(poss), \
+        "the storage budget no longer separates compilable worlds from others"
+
+
+def test_search_orders_are_memory_regimes():
+    """Depth-first must hold less than breadth-first on the SAME expansions,
+    and a constant heuristic must guide nothing -- without that control,
+    best-first would look inherently good."""
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    by = {x["order"]: x for x in r["orders"]}
+    assert by["depth-first"]["peak_memory"] < by["breadth-first"]["peak_memory"]
+    assert by["depth-first"]["expanded"] == by["breadth-first"]["expanded"], \
+        "the two blind orders should expand the same nodes, differing only in memory"
+    assert by["best-first (informed)"]["expanded"] < by["breadth-first"]["expanded"]
+    assert by["best-first (useless h)"]["expanded"] >= by["breadth-first"]["expanded"], \
+        "a constant heuristic now beats blind search -- the control is broken"
+
+
+def test_heuristic_has_a_finite_break_even():
+    """Its value is the search it removes, so a dear enough heuristic must stop
+    paying. A heuristic that pays at every price is not being charged."""
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    w = [x["worth_it"] for x in r["heuristic"]]
+    assert any(w) and not all(w), "the heuristic pays at every price or none"
+
+
+def test_compile_versus_search_crosses_on_reuse():
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    kinds = [x["cheaper"] for x in r["compile_vs_search"]]
+    assert "search" in kinds and "compile" in kinds, \
+        "no crossover between compiling and searching"
+    assert kinds[0] == "search" and kinds[-1] == "compile", \
+        "the crossover runs the wrong way in reuse"
+
+
+def test_both_shapes_are_neutrally_recovered():
+    r = load_receipt("STAGE_SEARCH_FRONTIER_V1.json")
+    reads = {x["reads_as"] for x in r["recovery"]}
+    assert len(reads) > 1, \
+        "every world recovers the same shape -- nothing has been recovered"
+
+
+def test_belief_state_is_a_strict_quotient_of_histories():
+    """GMI_BELIEF_STATE_DERIVATION_V1: histories must collapse, or the belief
+    state saves nothing over storing the raw history."""
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    rows = sorted(r["quotient"], key=lambda x: x["length"])
+    assert rows[-1]["beliefs"] < rows[-1]["histories"], \
+        "no two histories collapse to the same posterior"
+    assert rows[-1]["collapse"] > rows[0]["collapse"], \
+        "the collapse no longer grows with history length"
+
+
+def test_point_estimate_fails_only_when_the_mode_is_a_minority():
+    """Both halves: it must suffice somewhere and fail somewhere, or this says
+    nothing about when a posterior is required."""
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    ag = [x["agree"] for x in r["point_estimate"]]
+    assert any(ag) and not all(ag), "the point-estimate result became unconditional"
+    bad = [x for x in r["point_estimate"] if not x["agree"]]
+    assert bad and bad[0]["loss"] != "0", \
+        "the failing case now loses nothing, so it is not a failure"
+
+
+def test_factorization_is_checked_not_assumed():
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    by = {x["joint"]: x for x in r["factorization"]}
+    assert by["independent"]["factorizes"] is True
+    assert by["diagonal"]["factorizes"] is False, \
+        "an entangled joint now factorizes -- conditional independence does no work"
+    assert by["independent"]["factored"] < by["independent"]["full"]
+
+
+def test_maintenance_and_compilation_cross_in_horizon():
+    """The crossover must run the right way: a table wins at short horizons
+    with many queries and cannot be built at long ones."""
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    kinds = {x["cheaper"] for x in r["maintain_vs_compile"]}
+    assert "compile" in kinds and "maintain" in kinds, \
+        "no crossover between maintaining a posterior and compiling a table"
+    short = [x for x in r["maintain_vs_compile"] if x["n"] == 2 and x["Q"] == 64][0]
+    long_ = [x for x in r["maintain_vs_compile"] if x["n"] == 10 and x["Q"] == 64][0]
+    assert short["cheaper"] == "compile" and long_["cheaper"] == "maintain"
+
+
+def test_smallest_sufficient_state_is_recovered():
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    needs = [x["needs_full"] for x in r["recovery"]]
+    assert any(needs) and not all(needs), \
+        "every belief needs the same state, so nothing is being recovered"
+
+
+def test_affine_realizability_is_searched_and_separates():
+    """GMI_STATE_SPACE_DERIVATION_V1: the pair that matters is two machines with
+    the SAME state count and encoding width where only one admits an affine
+    update. Without the negative this is a claim about compression, not about
+    linear realization."""
+    r = load_receipt("STAGE_STATE_SPACE_V1.json")
+    by = {x["obligation"]: x for x in r["compression"]}
+    assert by["count_b_mod4"]["affine"] is True
+    assert by["ends_with_ab"]["affine"] is False, \
+        "a non-invertible transition is now affine over GF(2) -- the negative is gone"
+    assert by["count_b_mod4"]["states"] == by["ends_with_ab"]["states"], \
+        "the pair must be matched on state count, or the separation is confounded"
+    assert by["count_b_mod4"]["bits"] == by["ends_with_ab"]["bits"], \
+        "the pair must be matched on encoding width too"
+    aff = [x["affine"] for x in r["compression"]]
+    assert any(aff) and not all(aff), "the affine search distinguishes nothing"
+
+
+def test_fixed_state_work_does_not_grow_with_horizon():
+    r = load_receipt("STAGE_STATE_SPACE_V1.json")
+    rows = sorted(r["horizon"], key=lambda x: x["n"])
+    assert all(x["cheapest_work"] == "state" for x in rows)
+    assert all(x["state_storage"] == rows[0]["state_storage"] for x in rows), \
+        "state storage now grows with the horizon"
+    assert rows[-1]["attention_work"] > 10 * rows[-1]["state_work"], \
+        "the linear/quadratic gap has stopped growing"
+
+
+def test_relational_state_census_agrees_across_two_methods():
+    """GMI_SYMBOLIC_REWRITE_DERIVATION_V1: the 13-of-512 census is decided twice
+    by independent methods, and both regimes must be non-empty."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    c = r["relation_census"]
+    assert c["methods_agree"] is True, \
+        "the two independent census methods no longer agree"
+    assert c["scalar_representable_by_search"] == c["scalar_representable_by_certificate"]
+    n, total = c["scalar_representable_by_search"], c["relations_total"]
+    assert 0 < n < total, "either every relation is scalar-carried or none is"
+    assert c["explicit_state_forced"] == total - n
+
+
+def test_discreteness_twin_is_matched_on_size_and_distinctions():
+    """The cyclic/linear pair must stay matched on pair count AND distinct rows,
+    or the separation is confounded by something other than structure."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    tw = {x["relation"].split()[0]: x for x in r["relation_twin"]}
+    cyc, lin = tw["cyclic"], tw["linear"]
+    assert cyc["pairs"] == lin["pairs"], "the twin is no longer matched on size"
+    assert cyc["distinct_rows"] == lin["distinct_rows"], \
+        "the twin is no longer matched on distinction count"
+    assert cyc["scalar"] is None and lin["scalar"] is not None
+    assert cyc["violation"], "non-representability is asserted without a certificate"
+
+
+def test_composition_breakeven_exceeds_collapsing():
+    """What isolates closure from the per-map compression both families enjoy."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    by = {}
+    for x in r["composition_pvr3"]:
+        by["composing" if x["family"].startswith("composing") else "collapsing"] = x
+    assert by["composing"]["closure"] > by["collapsing"]["closure"], \
+        "the composing family no longer generates a larger closure"
+    assert by["composing"]["generator_cells"] == by["collapsing"]["generator_cells"], \
+        "the families are no longer matched on generator cost"
+    assert by["composing"]["break_even_r"] > by["collapsing"]["break_even_r"], \
+        "composition no longer raises the break-even over a collapsing family"
+
+
+def test_symbolic_parametric_split_runs_along_the_predicted_axis():
+    """Both must win somewhere AND along the stated axis. An earlier ladder had
+    no parametric winner at all and was vacuous, so winning somewhere is not
+    enough on its own."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    rows = [x for x in r["sparsity_ladder"] if x["L"] == 4]
+    assert rows, "the L=4 ladder is missing"
+    winners = {x["cheaper"] for x in rows}
+    assert "symbolic" in winners and "parametric" in winners, \
+        "the symbolic/parametric ladder lost one of its two regimes"
+    ctx = [x for x in rows if "ab -> ba" in x["obligation"]]
+    aff = [x for x in rows if "flip every slot" in x["obligation"]]
+    assert ctx and all(x["cheaper"] == "symbolic" for x in ctx), \
+        "the context-sensitive obligation is no longer symbolic-cheaper"
+    assert aff and all(x["cheaper"] == "parametric" for x in aff), \
+        "the affine obligation is no longer parametric-cheaper"
+
+
+def test_ordering_is_worth_cells_and_tolerance_pays_early():
+    """Ordering must beat an unordered sound cover, and the saving must appear
+    at a SMALL error fraction rather than only a degenerate one."""
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    e = r["exactness_curve"]
+    assert e["exact_cells_ordered"] < e["exact_cells_unordered"], \
+        "an ordered machine no longer beats an unordered sound cover"
+    assert r["ordering_saving_cells"] > 0
+    assert e["defaults_enumerated"] >= 1296, \
+        "the default search was truncated again -- the curve would be non-minimal"
+    one = [x for x in e["rows"] if x.get("errors") == 1]
+    assert one and one[0]["cells"] < e["exact_cells_ordered"], \
+        "tolerating a single error no longer saves anything"
+
+
+def test_rewrite_fingerprints_are_measured_not_labelled():
+    r = load_receipt("STAGE_SYMBOLIC_REWRITE_V1.json")
+    fp = {tuple(x["fingerprint"]) for x in r["neutral_recovery"]}
+    assert len(fp) >= 4, "the measured fingerprints have collapsed"
+    instrs = [x["instructions"] for x in r["neutral_recovery"]]
+    assert min(instrs) == 1 and max(instrs) >= 8, \
+        "both degenerate ends (a one-instruction machine and a full table) must be reached"
