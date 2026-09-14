@@ -1,0 +1,44 @@
+name: GMI Section D uncertainty extrapolation v5
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-section-d-uncertainty-extrap-v5/**'
+      - '.github/workflows/gmi-section-d-uncertainty-extrap-v5.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-uncertainty-extrapolation:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce exact receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-section-d-uncertainty-extrap-v5
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -O section_d_uncertainty_extrap_witness.py --output RESULT_V5.json
+          else
+            python section_d_uncertainty_extrap_witness.py --output RESULT_V5.json
+          fi
+          git diff --exit-code -- RESULT_V5.json
+      - name: Run hostile and theorem checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-section-d-uncertainty-extrap-v5
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -O -m unittest -v test_section_d_uncertainty_extrap.py
+          else
+            python -m unittest -v test_section_d_uncertainty_extrap.py
+          fi
+      - name: Source custody
+        run: git diff --exit-code
