@@ -1,0 +1,25 @@
+{
+  "capsule": "gmi-capability-interactions-unified-v1",
+  "issue": 602,
+  "section": "F boxes 7-11",
+  "description": "Unified interaction classification for all 27 A4 capabilities based on shared resource channels",
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "parent_capsules": [
+    "gmi-capability-interactions-v1",
+    "gmi-capability-interactions-v2",
+    "gmi-capability-interactions-v3",
+    "gmi-capability-contract-v1"
+  ],
+  "theorem": "CI (Capability Interaction Classification)",
+  "scope": "All 27 capabilities from the 27-row A4 contract, pairwise interaction via resource channel overlap",
+  "falsifier": "An interfering pair (joint > sum) under A4 frozen accounting, or a pair with no shared channels that is not independent",
+  "files": [
+    "CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md",
+    "interactions_witness.py",
+    "test_interactions.py",
+    "CORE.md",
+    "MANIFEST.json"
+  ],
+  "run_test": "python3 -I -B research/gmi-capability-interactions-unified-v1/test_interactions.py -v"
+}
