@@ -1,0 +1,113 @@
+{
+  "schema": "CapabilityPredictorContractV1",
+  "issue": 602,
+  "section": "F4",
+  "scope": "Finite declared development worlds only (DU-1 admissible). Predictor maps frozen descriptor D(M), extended ecology E (A2, 15 coords + remint guard), resource envelope R=(b,p,rho) and development history H to per-row capability distributions over the 27 A4 rows. No claim that neutral search reaches any capability. Prospective, per-family remint, abstention-aware predictor. This is a CONTRACT SKELETON (spec, not empirical claim).",
+  "claim_ceiling": "G1",
+  "claim_ceiling_intended": "G6",
+  "claim_ceiling_note": "This skeleton registers the descriptor schema, predictor interface, freeze/remint rule and abstention gate. It does NOT earn any G6 empirical predictor claim; all 11 F4 boxes remain open pending a frozen held-family campaign.",
+  "a4_rows_ref": "research/gmi-capability-contract-v1/CONTRACT_V1.json",
+  "ecology_ref": "research/gmi-ecology-extension-v1/ECOLOGY_EXTENSION_CONTRACT_V1.json",
+  "f1_ref": "research/gmi-capability-contract-v1/CAPABILITY_COORDINATES_V1.json",
+  "descriptor_schema": {
+    "schema_tag": "MorphologyDescriptorV1",
+    "fields": 8,
+    "brand_label_rule": "All values are enumerable functional types. No architecture brand strings (e.g. Transformer, RNN, GNN, diffusion) are admitted as values. Known families are encoded as composites of the 8 fields.",
+    "fields_detail": {
+      "state_carrier": {
+        "definition": "Distinguishable persistent state alphabet and geometry that carries temporal semantic distinctions across delays. Declares kind and size/shape: FINITE_ALPHABET(n) | PRODUCT_VECTOR(d, field, precision) | GRAPH_INDEXED(nodes, edge_locality) | EXTERNAL_ADDRESSABLE(store_bits, latency, bandwidth) | HYBRID_COMPOSITE(product of above). Determines upper bound on temporal cut capacity |S|.",
+        "why_needed": "Without a declared carrier, GG54 (temporal memory cut) and GG57 (retention capacity) give vacuous bounds: exact delayed reproduction of m obligation-distinct histories requires |S|>=m. Carrier kind selects which cut-transformation tradeoffs are physically realizable.",
+        "strongest_parent": "Shannon channel capacity; finite-automaton state complexity; GG54/GG57 temporal cut theorems; physical resource bridge (Landauer).",
+        "falsifier": "A predictor that assigns identical capability to two machines differing only in |S| on the m-way delayed-reproduction microscope where the smaller |S|<m provably cannot be exact, or a claimed exact success with |S|<m verified by exhaustive encoding census."
+      },
+      "native_operators": {
+        "definition": "Set of atomic transformations delta available without learned composition, each with declared arity, domain and charged tau cost. Allowlist: FINITE_TABLE_LOOKUP | AFFINE_THRESHOLD | LOCAL_EQUIVARIANT_MAP | CONTENT_ROUTED_COMBINATION | GRAPH_LOCAL_MESSAGE | STACK_OR_COUNTER | VERIFIER_QUERY | TOOL_ORACLE_INVOKE | HYBRID_SET. Ordered multiset with per-op cost.",
+        "why_needed": "Tau complexity and symmetry structure separate which obligations factor through cheap local transforms vs require routing/search. Convolution/weight-sharing and GNN vs routing distinctions reduce to which native ops are cheap (Phenomenology Atlas convolution/GNN rows).",
+        "strongest_parent": "Circuit complexity; equivariant learning theory (Cohen-Welling); tau complexity spectrum; GG55 conditional routing separation.",
+        "falsifier": "Two descriptors differing only by adding CONTENT_ROUTED_COMBINATION that achieve identical predicted capability on the GG55 (x0,x1,q) conditional-routing world where fixed routing is provably 3/4 vs routed 1."
+      },
+      "control_update_law": {
+        "definition": "Paired law: control = how an action is selected from state (FIXED_POLICY | STATE_CONDITIONED | SEARCH_DERIVED | VERIFIER_GATED) and update = how state evolves from observation (NO_UPDATE | DISCRETE_REWRITE | PARAMETRIC_STEP | MEMORY_REPLAY). Declared as a pair (control, update) with step budget.",
+        "why_needed": "Separates deployment-time capability (fixed weights) from developmental change (learning). In-context adaptation (GG56) and continual retention (GG57) are capability changes due to update law, not parameter count. Planning vs habit crossover lives here.",
+        "strongest_parent": "POMDP control/update; recursive GMI lift (state contains learning process); planning semantic resolution theorem; GG56/GG57.",
+        "falsifier": "A predictor that scores a NO_UPDATE machine equal to a MEMORY_REPLAY machine on the sequential (x,y) retention world where any fixed state <4 fails exact joint recall provably."
+      },
+      "memory_organization": {
+        "definition": "Organization of persistent storage: UNIFIED_FLAT | PARTITIONED_SHORT_LONG | EXTERNAL_RETRIEVAL_CHANNEL | HIERARCHICAL_COMPRESSION | DUAL_WRITE_PROTECTED (paired with protected-state rank). Declares capacity share, consolidation/replay policy and port costs.",
+        "why_needed": "Same |S| with different organization yields different capacity/retention frontiers and retrieval efficiency. CSR-1 consolidation and interference/stability-plasticity tradeoff are organization-level laws, not scalar capacity laws.",
+        "strongest_parent": "Complementary learning systems (McClelland et al.); CSR-1 consolidation frontier; GG12 task-directed acquisition; GMI interference/stability-plasticity theorem.",
+        "falsifier": "A unified flat predictor matching a partitioned predictor on a consolidation microscope where M*_t=N_t reconstruction from transcript is provably required, or identical retrieval-efficiency predictions where GG12 residual distinction accounting differs."
+      },
+      "communication": {
+        "definition": "Declared internal/external cut structure: NONE_ISOLATED | BROADCAST_BOUNDED(width,cost) | POINT_TO_POINT_ROUTED(bandwidth, latency) | SHARED_EXTERNAL_STORE(bandwidth, noise). Includes topology when multiple carriers/agents exist.",
+        "why_needed": "Coordination and tool-use capability are cut-bounded (SC-1, GG25). Attention (GG55) is conditional cut allocation. Without this field, multi-agent and tool gains are misattributed to internal computation.",
+        "strongest_parent": "Shannon communication theory; SC-1 semantic cut theorem; GG55 conditional routing; GG58 tool boundary theorem; GG25 team cut.",
+        "falsifier": "Predictor assigns equal coordination capability to NONE_ISOLATED vs BROADCAST_BOUNDED(1 bit) on a world where GG25 proves coordination requires at least log2(m) bits of distinguishing message."
+      },
+      "verification": {
+        "definition": "Verifier channel V: NONE_PASSIVE | MEMBERSHIP_ORACLE | EQUIVALENCE_ORACLE | PROOF_CHECKER | DISTRIBUTED_CONSENSUS. Declares availability schedule, latency, per-call cost and false-adoption cost (asymmetric).",
+        "why_needed": "Verifier information changes reachable verified-solution class (CL-6 / PVR-3) and false-adoption floor at fixed search budget. Passive vs verifier-gated learning separations (Gold/Angluin) are V-separations.",
+        "strongest_parent": "Angluin L* vs Gold passive intractability; PVR-3 certificate window; CL-6 verifier cut law.",
+        "falsifier": "Predictor claims equal verified-solution reach at matched search budget for NONE_PASSIVE vs EQUIVALENCE_ORACLE on a class where parent proves passive intractability but active learning succeeds."
+      },
+      "development_law": {
+        "definition": "Search/development process D that maps prior morphology/history to new morphology: ENUMERATIVE_SEARCH | VARIATION_SELECTION_POPULATION | GRADIENT_BASED_UPDATE | VERIFIER_GUIDED_SYNTHESIS | HYBRID_DEVELOPMENT(declared mixture weights). Declares variation operator, selection rule, budget and encoding.",
+        "why_needed": "Admissibility (DU-1) does not imply reachability. Same ecology/resource optimum may be unreachable under one D and reachable under another. Developmental reachability and search-burden are D-properties.",
+        "strongest_parent": "Goldman/Gold learnability; developmental reachability selection theorem; architecture search / AutoML theory; neutral search methodology.",
+        "falsifier": "Predictor assigns identical capability to ENUMERATIVE_SEARCH vs VARIATION_SELECTION on a world where the optimum is provably outside the enumerable D bias but inside the other, yet measured reachability differs."
+      },
+      "resource_profile": {
+        "definition": "Charged resource vector with hard budgets b (per-coordinate caps: desc/exec/upd/ver/rev/acq), nonnegative price vector p for scalarizations, and physical map rho to time/energy/memory. Scalarization p^T r is allowed only with p frozen prospectively; componentwise Pareto is default.",
+        "why_needed": "Same functional morphology at different price/budget is a different practical capability (e.g., large context vs small context). Every F2 ceiling (state, planning, verification, acquisition) is resource-bounded. Repricing must move Pareto predictions.",
+        "strongest_parent": "Bounded rationality (Simon); resource-rational analysis (Lieder & Griffiths 2020); Blackwell experiment comparison; Landauer/Bremermann physical bounds; DEFINITIONS_V2_EXACT.md s5 affine framework.",
+        "falsifier": "A predictor whose Pareto ordering does not move when p is flipped to penalize the previously cheaper coordinate, or that claims a budget-violating morphology feasible without adjusting rho."
+      }
+    },
+    "equivalence_rule": "Two descriptors are equivalent iff their 8-field values are identical up to the declared state-alphabet isomorphism (bijection on finite labels) and operator-cost reparameterization preserving the tau pullback. Brand renaming is not an equivalence witness.",
+    "enumerability_guard": "Each field's allowed_values set is finite and frozen in SCHEMA_V1.json. Continuous params (n,d,precision,width,budgets) are bounded integers/reals with declared ranges. Any descriptor using a value outside the allowlist fails schema validation."
+  },
+  "predictor_interface": {
+    "signature": "Cap(D, E, R, H) -> { per_row: [27 x CapabilityForecast] , meta: PredictorMeta }",
+    "inputs": {
+      "D": "MorphologyDescriptorV1 value (8 fields) as above",
+      "E": "Extended ecology from ECOLOGY_EXTENSION_CONTRACT_V1.json (15 coords + remint guard)",
+      "R": "Resource envelope (b hard budgets, p nonnegative price frozen, rho physical map)",
+      "H": "Development history: which world/task families have been observed, which remain held, and prior morphology transitions (for path dependence)"
+    },
+    "outputs": {
+      "per_row": "For each of the 27 A4 ids, a distribution over capability grade: either categorical {fail, marginal, capable} with probabilities (p0,p1,p2) summing to 1, or continuous success probability in [0,1] as Beta(a,b) with reported mean and credible interval. The choice is frozen per row before held outcomes.",
+      "abstention": "Per-row abstain flag: when true, the distribution is withheld and reason code emitted. Abstained rows are not scored but abstention rate is reported.",
+      "resource_report": "Per-row predicted success metric and resource cost (r vector) under R, with Pareto frontier when multiple operating points exist."
+    },
+    "loss": {
+      "primary": "Per-row strictly proper scoring rule on held-family outcomes only: Brier score or log score (negative log-likelihood), computed against the realized 0/1 success or graded label by the A4 success_metric. No cross-row scalar J_p is reported without a preregistered nonnegative price vector; default aggregation is componentwise/Pareto.",
+      "scope": "Only held families (H_held) contribute. Development worlds (H_dev) are for fitting/deriving the predictor and must not enter the held loss. Per-family bijective remint is applied before scoring.",
+      "claim": "Supremum is over the registered parent envelope Pi_c^P(B) at matched information/resource, not over all baselines ever tried (F1 P0 strongest-parent first refusal)."
+    },
+    "abstention_gate": {
+      "firing_condition": "Abstain on row c when any of (i) descriptor underspecification: a required D field or E coordinate is NONE/UNDECLARED or |S| not declared; (ii) out-of-support: held ecology/task distance from development support exceeds pre-frozen threshold (e.g., Mahalanobis or remint-invariant distance, or held family was never within the convex hull of D_dev/H_dev under ecology embedding); (iii) non-identifiability: posterior variance/entropy exceeds eta_c or credible interval width exceeds delta_c or overlaps both tau_parent and tau_twin thresholds so the S0 gate cannot be decided; (iv) parent-unbounded: strongest parent value V_c^P(E,B) not bounded/enumerated to required precision; (v) remint violation risk: proposed remint for the family is not bijective or leaks the label. Any operator may tighten thresholds; none may relax them post-freeze.",
+      "reporting": "For each row, report abstention decision before observing held outcome, with reason code. Report overall abstention rate, selective risk (loss conditional on non-abstained), and coverage vs efficiency tradeoff. Abstention does not earn capability credit.",
+      "parent": "Selective prediction / Chow's reject option; conformal abstention; calibration (Gneiting & Raftery 2007); F1 three-event assay boundary.",
+      "falsifier": "A row predicted confidently on a held ecology declared UNSEEN_SYMBOL composed of a novel world alphabet symbol absent from every development world, where identifiability is provably absent, yet the predictor does not abstain."
+    },
+    "scope_and_assumptions": [
+      "Finite declared families only; no claim about unrestricted ecologies.",
+      "Admissibility (DU-1) scope: predictor bounds what D can do IF reached, not whether D is reachable (reachability is separate).",
+      "Allowed information A0, negative-twin N0 and parent first refusal P0 from F1 apply per row.",
+      "Independent evaluation units per F1 S0; dependent rows require separately registered simultaneous-validity method."
+    ]
+  },
+  "freeze_rule": {
+    "rule": "For each held family f in H_held, the predictor's per-row distributions (or abstain decisions) for f are serialized to a JSON artifact with SHA256 digest and timestamp BEFORE any outcome on f is observed or any code that could observe it is executed.",
+    "per_family": "Freeze is per family, not global: each family's artifact has its own digest. An update to one family's prediction does not open another family's freeze. Versioning is append-only; late edits create a new version with new digest and supersede prior only if still before outcomes.",
+    "remint": "Before freezing, inputs are canonicalized under a per-family bijective remint (label-leakage-free map on world/task ids). The remint seed is committed with the prediction. Re-running the remint must reproduce the same bijection; a non-bijective or leaking map invalidates the prediction.",
+    "prospective_only": "Prospective only: fitting, derivation or tuning on a held family's outcomes (or on any remint that peeks at held labels) voids that family's prediction. Retrospective predictions are not predictions. A pre-freeze audit log of which families were used for fitting must be committed and is checked to enforce prospective discipline.",
+    "verification": "An auditor can verify freeze by checking (a) timestamp < outcome timestamp, (b) digest matches artifact, (c) remint is bijective (checked by ecology_extension_v1 remint validator), (d) no held-family data appeared in the derivation commit graph (git history acyclicity)."
+  },
+  "falsifiers_overview": "See FALSIFIERS_V1.md. Three cheapest single-command falsifiers are: (Fz1) bijective remint twin swaps predicted grade while D,E,R,H identical; (Fz2) price-vector flip inverts predicted Pareto ordering but predictor does not move; (Fz3) ablation twin removing CONTENT_ROUTED_COMBINATION or halving |S| shows no predicted drop where GG55/GG54 prove a gap. Each is runnable on exact toy microscopes without a large campaign.",
+  "evidence_gate": "No G6 claim is earned by this skeleton. A G6 claim requires: descriptor enumerability check (P1) + predictor interface check (P1) + per-family frozen predictions + held-family prospective scoring with proper loss + abstention audit + parent subtraction + twin-collapse audit, all before held outcomes.",
+  "provenance": {
+    "parents": ["research/gmi-capability-contract-v1/CONTRACT_V1.json", "research/gmi-ecology-extension-v1/ECOLOGY_EXTENSION_CONTRACT_V1.json", "research/gmi-grand-unification-v1/PHENOMENOLOGY_REDUCTION_ATLAS_V1.md#GG53-59"],
+    "non_claims": ["No universal capability scalar or IQ implied", "No morphology-to-capability map proved", "No reachability implication (DU-1)", "No cross-family transfer proved without held-family test"]
+  }
+}

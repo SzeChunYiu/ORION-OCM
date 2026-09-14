@@ -1,0 +1,72 @@
+{
+  "$schema": "",
+  "title": "CapabilityPredictorContractV1",
+  "description": "F4 morphology->capability predictor contract skeleton (602 G6-track). Registers 8-field brand-free descriptor, Cap(D,E,R,H) predictor interface, per-family bijective-remint freeze rule and abstention gate. No G6 empirical claim earned.",
+  "type": "object",
+  "required": ["schema", "scope", "claim_ceiling", "descriptor_schema", "predictor_interface", "freeze_rule"],
+  "properties": {
+    "schema": {"type": "string", "enum": ["CapabilityPredictorContractV1"]},
+    "issue": {"type": "integer"},
+    "section": {"type": "string"},
+    "scope": {"type": "string", "minLength": 30},
+    "claim_ceiling": {"type": "string", "pattern": "^G\\d+$"},
+    "claim_ceiling_intended": {"type": "string", "pattern": "^G\\d+$"},
+    "claim_ceiling_note": {"type": "string", "minLength": 30},
+    "a4_rows_ref": {"type": "string", "minLength": 10},
+    "ecology_ref": {"type": "string", "minLength": 10},
+    "f1_ref": {"type": "string", "minLength": 10},
+    "descriptor_schema": {
+      "type": "object",
+      "required": ["schema_tag", "fields", "brand_label_rule", "fields_detail", "equivalence_rule", "enumerability_guard"],
+      "properties": {
+        "schema_tag": {"type": "string", "enum": ["MorphologyDescriptorV1"]},
+        "fields": {"type": "integer", "enum": [8]},
+        "brand_label_rule": {"type": "string", "minLength": 30},
+        "fields_detail": {
+          "type": "object",
+          "required": ["state_carrier", "native_operators", "control_update_law", "memory_organization", "communication", "verification", "development_law", "resource_profile"],
+          "additionalProperties": false,
+          "properties": {
+            "state_carrier": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+            "native_operators": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+            "control_update_law": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+            "memory_organization": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+            "communication": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+            "verification": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+            "development_law": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+            "resource_profile": {"type": "object", "required": ["definition", "why_needed", "strongest_parent", "falsifier"], "properties": {"definition": {"type": "string", "minLength": 30}, "why_needed": {"type": "string", "minLength": 30}, "strongest_parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false}
+          }
+        },
+        "equivalence_rule": {"type": "string", "minLength": 30},
+        "enumerability_guard": {"type": "string", "minLength": 30}
+      },
+      "additionalProperties": false
+    },
+    "predictor_interface": {
+      "type": "object",
+      "required": ["signature", "inputs", "outputs", "loss", "abstention_gate", "scope_and_assumptions"],
+      "properties": {
+        "signature": {"type": "string", "minLength": 10},
+        "inputs": {"type": "object", "required": ["D", "E", "R", "H"], "properties": {"D": {"type": "string", "minLength": 10}, "E": {"type": "string", "minLength": 10}, "R": {"type": "string", "minLength": 10}, "H": {"type": "string", "minLength": 10}}, "additionalProperties": false},
+        "outputs": {"type": "object", "required": ["per_row", "abstention", "resource_report"], "properties": {"per_row": {"type": "string", "minLength": 20}, "abstention": {"type": "string", "minLength": 10}, "resource_report": {"type": "string", "minLength": 10}}, "additionalProperties": false},
+        "loss": {"type": "object", "required": ["primary", "scope", "claim"], "properties": {"primary": {"type": "string", "minLength": 30}, "scope": {"type": "string", "minLength": 20}, "claim": {"type": "string", "minLength": 20}}, "additionalProperties": false},
+        "abstention_gate": {"type": "object", "required": ["firing_condition", "reporting", "parent", "falsifier"], "properties": {"firing_condition": {"type": "string", "minLength": 40}, "reporting": {"type": "string", "minLength": 30}, "parent": {"type": "string", "minLength": 10}, "falsifier": {"type": "string", "minLength": 30}}, "additionalProperties": false},
+        "scope_and_assumptions": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 15}}
+      },
+      "additionalProperties": false
+    },
+    "freeze_rule": {
+      "type": "object",
+      "required": ["rule", "per_family", "remint", "prospective_only", "verification"],
+      "properties": {
+        "rule": {"type": "string", "minLength": 40},
+        "per_family": {"type": "string", "minLength": 20},
+        "remint": {"type": "string", "minLength": 30},
+        "prospective_only": {"type": "string", "minLength": 30},
+        "verification": {"type": "string", "minLength": 30}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

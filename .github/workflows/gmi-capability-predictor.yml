@@ -1,0 +1,39 @@
+name: GMI capability predictor (F4 design)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-capability-predictor-v1/**'
+      - '.github/workflows/gmi-capability-predictor.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-capability-predictor-v1/**'
+      - '.github/workflows/gmi-capability-predictor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  predictor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run capability predictor controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-capability-predictor-v1/test_capability_predictor_v1.py -v

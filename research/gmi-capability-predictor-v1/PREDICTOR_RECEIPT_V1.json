@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "schema": "CapabilityPredictorReceiptV1",
+  "scope": "F4 design skeleton only: 8-field brand-free descriptor, predictor interface (proper loss + 5-trigger abstention + per-family bijective freeze), 3 toy falsifiers. Ceiling G1; all 11 F4 empirical boxes remain open pending frozen held-family campaign. 10 exact structural controls, normal + optimized.",
+  "source_and_evidence": {
+    "CONTRACT_V1.json": {
+      "bytes": 16955,
+      "sha256": "665605b9eb1d4cff04e7b4eca1bb78c7b18fb461b6fa7eaf695e7017025b561c"
+    },
+    "SCHEMA_V1.json": {
+      "bytes": 7140,
+      "sha256": "b2698c1d366527747db3a63fbb92fc7d1ed553176872376b89abb4b55978230d"
+    },
+    "capability_predictor_v1.py": {
+      "bytes": 11096,
+      "sha256": "3810ef4833f483b4e419af5f874b3ecbed929e4a7ec43821ed42adc15eaebda4"
+    },
+    "test_capability_predictor_v1.py": {
+      "bytes": 3572,
+      "sha256": "3b6fe2677d73ec69be17900192495eaf1924feff173b1fd1df73434628495866"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_capability_predictor_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_capability_predictor_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "test_capability_predictor_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": [
+        "python3",
+        "-I",
+        "-O",
+        "-B",
+        "test_capability_predictor_v1.py"
+      ],
+      "tests": 10,
+      "exit_code": 0,
+      "runtime": "3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for all four files)."
+}
