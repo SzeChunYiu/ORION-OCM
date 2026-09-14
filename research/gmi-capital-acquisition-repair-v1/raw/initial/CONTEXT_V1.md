@@ -1,0 +1,1 @@
+First model execution passed19 focused tests. The complete initial model output is retained compressed beside this note. A later review added the empty-state no-m contrast and explicit certificate hostile controls; task tables, program order and prices were unchanged. The first test output was observed in the task transcript, not retained as an original local log.
