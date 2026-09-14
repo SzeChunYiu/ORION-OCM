@@ -41,12 +41,14 @@ WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "conditional_specialization_witness.py": "STAGE_CONDITIONAL_SPECIALIZATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
+    "control_family_witness.py": "STAGE_CONTROL_FAMILY_V1.json",
     "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
     "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
     "equivariance_witness.py": "STAGE_EQUIVARIANCE_V1.json",
     "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
     "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
+    "gated_recurrence_witness.py": "STAGE_GATED_RECURRENCE_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
@@ -1140,3 +1142,121 @@ def test_recovery_is_not_a_handed_answer():
         "recovery is not discriminating")
     assert len(own) < len(rows) / 2, \
         "the world's own split now wins most worlds, which is what a rigged chooser looks like"
+
+
+def test_variable_duration_not_long_duration_forces_a_gate():
+    """GMI_GATED_RECURRENCE_DERIVATION_V1: the two ecologies must stay MATCHED on
+    longest delay, or the comparison is confounded by duration length rather
+    than duration variance -- which is the whole claim."""
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    by = {x["ecology"]: x for x in r["gating_pressure"]}
+    fixed = [v for k, v in by.items() if k.startswith("fixed")][0]
+    var = [v for k, v in by.items() if k.startswith("variable")][0]
+    assert fixed["max_gap"] == var["max_gap"], \
+        "the ecologies are no longer matched on longest delay"
+    assert fixed["register_lengths_that_work"], \
+        "no register solves the fixed ecology -- the twin is broken"
+    assert not var["register_lengths_that_work"], \
+        "a register now solves the variable ecology, refuting the central claim"
+    assert fixed["gated_works"] and var["gated_works"]
+
+
+def test_gating_has_a_cost_threshold_at_fixed_duration():
+    """Both machines correct, so the question is price. A register must win at
+    short delays or gating would be unconditionally right."""
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    kinds = [x["cheaper"] for x in r["crossover"]]
+    assert "register" in kinds and "gated" in kinds, \
+        "no crossover -- gating is now always or never worth its price"
+    assert kinds[0] == "register" and kinds[-1] == "gated", \
+        "the crossover runs the wrong way in delay"
+
+
+def test_retention_span_equals_capacity():
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    rows = sorted(r["retention"], key=lambda x: x["L"])
+    for x in rows:
+        assert len(x["answers_gaps"]) <= 2, \
+            "a register now answers many gaps at once"
+    spans = [x["max_gap"] for x in rows if x["max_gap"] is not None]
+    assert spans == sorted(spans) and len(set(spans)) > 1, \
+        "retention span no longer tracks capacity"
+
+
+def test_both_recurrence_shapes_are_recovered():
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    reads = {x["reads_as"] for x in r["recovery"]}
+    assert len(reads) > 1, "every ecology recovers the same shape"
+    assert any(x["n_options"] > 1 for x in r["recovery"]), \
+        "no ecology ever had a real choice between the two shapes"
+
+
+def test_action_quotient_is_coarser_than_belief():
+    """GMI_CONTROL_FAMILY_DERIVATION_V1: a controller needs the quotient its
+    ACTIONS induce, which is strictly coarser than the belief partition. If
+    they ever coincide, the document's central claim is gone."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    p = r["policy_memory"]
+    assert p["action_classes"] < p["belief_classes"], \
+        "the action quotient is no longer coarser than the belief partition"
+    assert p["minimal_m_base"] > p["minimal_m_twin"], \
+        "hiding the cue no longer costs memory -- the twin is broken"
+
+
+def test_state_only_reward_cannot_induce_an_ordered_task():
+    """The impossibility is the result: equal count vectors mean no additive
+    reward on state alone can separate the two tasks. The time-indexed repair
+    must succeed, or the section shows impossibility without a remedy."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    by = {x["target"]: x for x in r["reward_sufficiency"]}
+    ordered = [v for k, v in by.items() if "then" in k][0]
+    assert ordered["state_only_hits"] == 0, \
+        "a state-only reward now induces the ordered task"
+    assert ordered["time_indexed_hits"] > 0, \
+        "the time-indexed repair no longer works"
+    other = [v for k, v in by.items() if "twice" in k][0]
+    assert other["state_only_hits"] > 0, \
+        "the control task must be state-only inducible, or the contrast is lost"
+
+
+def test_caching_dominates_whole_table_compilation():
+    """Compile-all must never win. If it does, the trichotomy collapses to the
+    usual two-way story."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    rows = r["trichotomy"]
+    assert rows, "the trichotomy sweep is missing"
+    assert not any(x["cheapest"].startswith("compile") for x in rows), \
+        "whole-table compilation now wins somewhere"
+    kinds = {x["cheapest"] for x in rows}
+    assert len(kinds) > 1, "one shape is cheapest at every reuse -- no crossover"
+
+
+def test_partial_holding_is_what_uneven_visitation_buys():
+    """The intermediate shape must appear in the base world and NEVER in the
+    twin where every key is visited exactly once. Without the twin it would be
+    a tuning artefact."""
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    held = {(x["held"], x["keys"]) for x in r["recovery"]}
+    partial = [h for h in held if 0 < h[0] < h[1]]
+    assert partial, "no intermediate holding wins anywhere"
+    assert r["recovery_twin"]["partial_wins"] == 0, (
+        "partial holding now wins in the even-visitation twin, so it is not "
+        "uneven visitation that buys it")
+
+
+def test_exploration_is_the_price_of_not_being_told():
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    e, t = r["exploration"], r["exploration_twin"]
+    assert e["best_constant"] > 0, "a constant-arm machine is now optimal"
+    assert t["min_total_regret"] == 0, \
+        "announcing the payoffs no longer removes the regret"
+    assert t["min_regret_if_explores_split"] > 0, \
+        "exploring where arms differ is now free even when told"
+
+
+def test_options_pay_by_recurrence():
+    r = load_receipt("STAGE_CONTROL_FAMILY_V1.json")
+    by = {x["tasks"]: x for x in r["options"]}
+    assert by["recurring"]["margin"] > 0
+    assert by["no recurrence"]["margin"] < 0, \
+        "an option with no recurrence now pays -- the condition is vacuous"
