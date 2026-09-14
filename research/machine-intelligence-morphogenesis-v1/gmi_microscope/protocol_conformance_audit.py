@@ -132,10 +132,51 @@ SIG_REALSCALE = r"\b(?:real[- ]regime|real[- ]scale|production|full[- ]scale)\b"
 # semantic one, which is why precision stays at zero.
 
 
+def _strip_declaration(src):
+    """Remove the emitted OUT["protocol"] = {...} statement from witness source.
+
+    The same reason the block is stripped from the receipt: once a witness
+    declares its conformance, the declaration's own field names ("lower_bound",
+    "negative_control", "coordinate") are words in the source, and a proxy that
+    reads them is measuring the declaration rather than the derivation.  Leaving
+    it in moved the saturation count from 4 of 8 to 5 of 8 with no change to any
+    derivation.
+    """
+    i = src.find('OUT["protocol"]')
+    if i < 0:
+        return src
+    j = src.find("{", i)
+    if j < 0:
+        return src
+    depth = 0
+    for k in range(j, len(src)):
+        if src[k] == "{":
+            depth += 1
+        elif src[k] == "}":
+            depth -= 1
+            if depth == 0:
+                return src[:i] + src[k + 1:]
+    return src
+
+
 def load(fam):
+    """Receipt text with the DECLARED protocol block removed.
+
+    Sections 2-4 measure whether conformance is recoverable from the receipt
+    WITHOUT a declaration -- that is the whole question they exist to answer.
+    Once families declare a block, leaving it in makes every proxy trivially
+    true: the twin signal fires on all 19 of 19 because the key name
+    `negative_control` matches even where its value is null, against 10 of 19
+    with the block removed.  A proxy that reads the declaration is measuring the
+    declaration, not the artifact.  So the block is stripped here, and the
+    sections keep measuring the non-declared part of every receipt, which is
+    what the document says they do."""
     w, r = FAMILIES[fam]
-    src = open(os.path.join(HERE, w)).read().lower()
-    flat = json.dumps(json.load(open(os.path.join(RESULTS, r)))).lower()
+    src = _strip_declaration(open(os.path.join(HERE, w)).read()).lower()
+    d = json.load(open(os.path.join(RESULTS, r)))
+    if isinstance(d, dict):
+        d = {k: v for k, v in d.items() if k != "protocol"}
+    flat = json.dumps(d).lower()
     return src, flat
 
 
