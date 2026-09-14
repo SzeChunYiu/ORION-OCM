@@ -52,21 +52,40 @@ class LayoutContract(unittest.TestCase):
 
 class BudgetFloor(unittest.TestCase):
     def test_registered_written_costs_sit_at_the_budget_floor(self):
-        """Consistency with TT-2, which is event accounting rather than a search.
-
-        TT-2's claim that no written realization costs 3n+3 follows from the
-        layout contract: a constant is only ever loaded together with an
-        operation that consumes it. This test does not search for a
-        counterexample; it checks that every registered written candidate
-        respects the floor and that none lands on the unreachable 3n+3 budget.
-        """
+        """Every registered written candidate is at or above the 3n+4 floor."""
         for n in (3, 4, 5):
             costs = set()
             for name, row in reg.measure(n).items():
                 if row["native_obligations_per_call"] == 0:
                     costs.add(row["python_opcodes_per_call"])
-            check(3 * n + 3 not in costs, "a 3n+3 cost appeared at n=%d" % n)
             check(min(costs) == 3 * n + 4, "the floor moved at n=%d: %s" % (n, sorted(costs)))
+
+    def test_three_n_plus_three_is_reachable_in_the_register(self):
+        """The repair of TT-2's first version, kept as a standing control.
+
+        TT-2 originally claimed no written realization costs 3n+3. That is false:
+        each admitted unary operation costs exactly one opcode, so a unary
+        applied to a constant-free binary expression lands on 3n+3. Cursor Bugbot
+        raised this on PR #619 and it reproduced. The claim is now that majority
+        is not *realizable* there, which the enumeration checks.
+        """
+        for source, expected in (
+                ("def f(x):\n    a, b, c = x\n    return -(a ^ b ^ c)\n", 12),
+                ("def f(x):\n    a, b, c = x\n    return ~(a ^ b ^ c)\n", 12),
+                ("def f(x):\n    a, b, c = x\n    return not (a ^ b ^ c)\n", 12),
+                ("def f(x):\n    a, b, c = x\n    return a ^ (-b) ^ c\n", 12),
+                ("def f(x):\n    a, b, c = x\n    return - -(a ^ b ^ c)\n", 13)):
+            result = execute(Program({"f": source}), "f", (1, 0, 1))
+            check(result.python_opcodes == expected,
+                  "unary cost changed: %r gave %d, expected %d"
+                  % (source, result.python_opcodes, expected))
+
+    def test_unary_plus_is_refused_not_costed(self):
+        """Bugbot's example used unary `+`, which this register does not admit."""
+        program = Program({"f": "def f(x):\n    a, b, c = x\n    return +(a ^ b ^ c)\n"})
+        with self.assertRaises(Refusal):
+            execute(program, "f", (1, 0, 1))
+        check("+" not in enumeration.UNARY, "the enumeration admits an op the register refuses")
 
     def test_parity_reaches_the_constant_free_floor(self):
         source = "def f(x):\n    a, b, c = x\n    return a ^ b ^ c\n"
@@ -77,7 +96,9 @@ class BudgetFloor(unittest.TestCase):
 class ExhaustiveEnumeration(unittest.TestCase):
     def test_majority3_minimum_is_attained_by_both_structures(self):
         survey = enumeration.survey(3, enumeration.majority(3), 32, range(-6, 7))
-        check(survey["constant_free_3n_plus_2"] == [], "majority-3 reached the 3n+2 budget")
+        check(all(v == [] for v in survey["constant_free_by_unary_count"].values()),
+              "majority-3 reached a constant-free budget: %s"
+              % (survey["constant_free_by_unary_count"],))
         affine = [r["rendering"] for r in survey["comparison_3n_plus_4"] if r["affine_operand"]]
         other = [r["rendering"] for r in survey["comparison_3n_plus_4"] if not r["affine_operand"]]
         check(len(affine) == 2 and len(other) == 6,
@@ -91,12 +112,28 @@ class ExhaustiveEnumeration(unittest.TestCase):
         check(survey["arithmetic_3n_plus_4"] == [],
               "an arithmetic-form majority-4 minimum appeared: %s"
               % (survey["arithmetic_3n_plus_4"],))
-        check(survey["constant_free_3n_plus_2"] == [], "majority-4 reached the 3n+2 budget")
+        check(all(v == [] for v in survey["constant_free_by_unary_count"].values()),
+              "majority-4 reached a constant-free budget: %s"
+              % (survey["constant_free_by_unary_count"],))
+
+    def test_majority4_constant_free_search_is_saturated_at_cap_64(self):
+        """The cap-64 half of the n=4 saturation, moved out of the checker."""
+        wide = enumeration.survey(4, enumeration.majority(4), 64, range(-6, 7),
+                                  include_arithmetic=False)
+        check(all(v == [] for v in wide["constant_free_by_unary_count"].values()),
+              "a constant-free majority-4 rendering appeared at cap 64: %s"
+              % (wide["constant_free_by_unary_count"],))
+        affine = [r["rendering"] for r in wide["comparison_3n_plus_4"] if r["affine_operand"]]
+        other = [r["rendering"] for r in wide["comparison_3n_plus_4"] if not r["affine_operand"]]
+        check(len(affine) == 2 and len(other) == 8,
+              "the n=4 minimal set changed at cap 64: %d affine, %d other"
+              % (len(affine), len(other)))
 
     def test_parity3_is_reachable_without_a_constant(self):
         """A control: the enumeration does find a 3n+2 solution when one exists."""
         survey = enumeration.survey(3, enumeration.parity(3), 32, range(-6, 7))
-        check(survey["constant_free_3n_plus_2"], "the enumeration missed the XOR chain")
+        check(survey["constant_free_by_unary_count"]["3n+2"],
+              "the enumeration missed the XOR chain")
 
     def test_the_non_affine_rendering_really_computes_majority(self):
         for n in (3, 4):
@@ -117,6 +154,8 @@ class ExhaustiveEnumeration(unittest.TestCase):
             enumeration.points(7)
         with self.assertRaises(enumeration.EnumerationError):
             enumeration.reachable(3, 0)
+        with self.assertRaises(enumeration.EnumerationError):
+            enumeration.reachable(3, 32, unary_budget=enumeration.UNARY_BUDGET + 1)
         with self.assertRaises(enumeration.EnumerationError):
             enumeration.survey(3, (0, 1), 32, range(-1, 2))
 

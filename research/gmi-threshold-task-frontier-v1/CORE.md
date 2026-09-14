@@ -18,8 +18,9 @@ Two results, in opposite directions, both derived rather than sampled:
 
 Supporting facts, all exhaustive at their declared scope:
 
-- majority-n has no `3n + 2` realization at n = 3, 4, and there is no `3n + 3`
-  budget at all, so its minimum is `3n + 4`, attained;
+- majority-n has no constant-free realization at n = 3, 4 at any budget below
+  the one-constant `3n + 4` shape — `3n + 2`, `3n + 3` and the two-unary
+  `3n + 4` are all empty — so its minimum is `3n + 4`, attained;
 - the `3n + 4` optimum is attained by a threshold rendering **and** by a
   non-affine one, `((v0 + v1) << v2) > 1`, so minimal cost does **not** force
   the threshold structure. That claim is refuted here, not assumed;
@@ -33,3 +34,10 @@ Supporting facts, all exhaustive at their declared scope:
 
 These are finite source-and-coordinate results. No timing, no physical memory,
 no coverage of unwritten realizations, and nothing about learning.
+
+One correction is recorded in §10 of the theorem rather than quietly fixed: the
+first version of TT-2 claimed no written realization costs `3n + 3`, which is
+false because each admitted unary operation costs one opcode, and the
+enumeration behind TT-3 searched binary operations only. Cursor Bugbot raised it
+in review on PR #619. The search now spends a unary budget and the conclusions
+are unchanged.

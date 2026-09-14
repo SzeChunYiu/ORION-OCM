@@ -1018,6 +1018,10 @@
       ">",
       ">="
     ],
+    "constant_free_shapes_enumerated_at": [
+      "n=3 at caps 32/64/256",
+      "n=4 at cap 32 here, cap 64 in the unit test"
+    ],
     "constants": [
       -6,
       -5,
@@ -1034,6 +1038,18 @@
       6
     ],
     "left_shift_limit": 12,
+    "shapes_covered_by_measurement_not_enumeration": [
+      "realizations that read a registered data binding, that is the constant tables; the enumeration covers expression trees over the n unpacked inputs"
+    ],
+    "unary_budget": 2,
+    "unary_operations": [
+      "-",
+      "not",
+      "~"
+    ],
+    "unary_operations_refused_by_the_register": [
+      "+"
+    ],
     "wide_constants": [
       -12,
       -11,
@@ -1071,7 +1087,16 @@
       "arithmetic": [
         "(((v0 + v1) + v2) >> 1)"
       ],
-      "distinct_value_vectors": 235,
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
       "non_affine": [
         "((v0 + v1) << v2) > 1",
         "((v0 + v1) << v2) >= 2",
@@ -1089,7 +1114,16 @@
       "arithmetic": [
         "(((v0 + v1) + v2) >> 1)"
       ],
-      "distinct_value_vectors": 235,
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
       "non_affine": [
         "((v0 + v1) << v2) > 1",
         "((v0 + v1) << v2) >= 2",
@@ -1107,7 +1141,16 @@
       "arithmetic": [
         "(((v0 + v1) + v2) >> 1)"
       ],
-      "distinct_value_vectors": 235,
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
       "non_affine": [
         "((v0 + v1) << v2) > 1",
         "((v0 + v1) << v2) >= 2",
@@ -1125,7 +1168,16 @@
       "arithmetic": [
         "(((v0 + v1) + v2) >> 1)"
       ],
-      "distinct_value_vectors": 235,
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 235,
+        "1": 1432,
+        "2": 4139
+      },
       "non_affine": [
         "((v0 + v1) << v2) > 1",
         "((v0 + v1) << v2) >= 2",
@@ -1141,25 +1193,16 @@
         "(((v0 + v1) + v2) + v3) >= 2"
       ],
       "arithmetic": null,
-      "distinct_value_vectors": 8889,
-      "non_affine": [
-        "(((v0 + v1) + v2) << v3) > 1",
-        "(((v0 + v1) + v2) << v3) >= 2",
-        "(((v0 + v1) + v3) << v2) > 1",
-        "(((v0 + v1) + v3) << v2) >= 2",
-        "(((v0 + v2) + v3) << v1) > 1",
-        "(((v0 + v2) + v3) << v1) >= 2",
-        "(((v1 + v2) + v3) << v0) > 1",
-        "(((v1 + v2) + v3) << v0) >= 2"
-      ]
-    },
-    "n4_cap64_comparison_shape": {
-      "affine": [
-        "(((v0 + v1) + v2) + v3) > 1",
-        "(((v0 + v1) + v2) + v3) >= 2"
-      ],
-      "arithmetic": null,
-      "distinct_value_vectors": 8889,
+      "constant_free_by_unary_count": {
+        "3n+2": [],
+        "3n+3": [],
+        "3n+4": []
+      },
+      "distinct_value_vectors_by_unary_count": {
+        "0": 8889,
+        "1": 68293,
+        "2": 256294
+      },
       "non_affine": [
         "(((v0 + v1) + v2) << v3) > 1",
         "(((v0 + v1) + v2) << v3) >= 2",
@@ -2859,6 +2902,10 @@
       "native_int_call": 13,
       "store_then_compare_3": 15,
       "threshold_compare_3": 13,
+      "two_unary_3": 13,
+      "unary_invert_3": 12,
+      "unary_negate_3": 12,
+      "unary_not_3": 12,
       "unpack_and_return_3": 7,
       "xor_chain_3": 11
     },
@@ -2875,7 +2922,8 @@
         11,
         0
       ]
-    }
+    },
+    "unary_plus_refusal": "Refusal: unaccounted opcode: CALL_INTRINSIC_1"
   },
   "scope_n": [
     3,

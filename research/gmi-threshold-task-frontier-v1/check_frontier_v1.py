@@ -61,6 +61,12 @@ def layout_contract():
         "store_then_compare_3": ("def f(x):\n    a, b, c = x\n    s = a + b + c\n"
                                  "    return s >= 2\n", 15),
         "native_int_call": ("def f(x):\n    a, b, c = x\n    return int(a + b + c)\n", 13),
+        # Each admitted unary operation costs exactly one opcode, which is why
+        # 3n+3 is a reachable budget. TT-2's first version denied that.
+        "unary_negate_3": ("def f(x):\n    a, b, c = x\n    return -(a ^ b ^ c)\n", 12),
+        "unary_invert_3": ("def f(x):\n    a, b, c = x\n    return ~(a ^ b ^ c)\n", 12),
+        "unary_not_3": ("def f(x):\n    a, b, c = x\n    return not (a ^ b ^ c)\n", 12),
+        "two_unary_3": ("def f(x):\n    a, b, c = x\n    return - -(a ^ b ^ c)\n", 13),
     }
     measured = {}
     for name, (source, expected) in sorted(probes.items()):
@@ -94,7 +100,18 @@ def layout_contract():
         require(seen == {(opcodes, natives)},
                 "registered parity-3 fact not reproduced: %s %s" % (name, sorted(seen)))
         replayed[name] = [opcodes, natives]
+    # Unary `+` is refused rather than costed: CPython 3.12 compiles it to
+    # CALL_INTRINSIC_1, which the typed machine does not account. The
+    # enumeration's unary set therefore omits it.
+    refused = "def f(x):\n    a, b, c = x\n    return +(a ^ b ^ c)\n"
+    try:
+        execute(Program({"f": refused}), "f", (1, 0, 1))
+    except Exception as exc:                      # noqa: BLE001 - recorded, not handled
+        unary_plus = type(exc).__name__ + ": " + str(exc)
+    else:
+        raise CheckError("unary + is no longer refused by the typed register")
     return {"probe_opcode_counts": measured,
+            "unary_plus_refusal": unary_plus,
             "registered_parity3_facts_reproduced": replayed,
             "interpreter": "%s %d.%d" % (platform.python_implementation(),
                                          sys.version_info[0], sys.version_info[1])}
@@ -238,14 +255,21 @@ def run():
         surveys["n3_cap%d" % cap] = enumeration.survey(3, enumeration.majority(3), cap, CONSTANTS)
     surveys["n3_cap32_wide_constants"] = enumeration.survey(
         3, enumeration.majority(3), 32, WIDE_CONSTANTS)
-    for cap in (32, 64):
-        surveys["n4_cap%d_comparison_shape" % cap] = enumeration.survey(
-            4, enumeration.majority(4), cap, CONSTANTS, include_arithmetic=False)
+    # n=4 at cap 32 here; the cap-64 saturation and the n=4 one-constant
+    # arithmetic search live in the unit test, which has no 60-second allowance.
+    surveys["n4_cap32_comparison_shape"] = enumeration.survey(
+        4, enumeration.majority(4), 32, CONSTANTS, include_arithmetic=False)
 
-    # TT-3: majority needs a constant, so nothing reaches the 3n+2 budget.
+    # TT-3: majority needs a constant, so nothing reaches 3n+2, 3n+3 or the
+    # two-unary 3n+4 shape. The unary budgets are the repair: the first version
+    # of this enumeration searched binary operations only.
     for key, survey in sorted(surveys.items()):
-        require(survey["constant_free_3n_plus_2"] == [],
-                "a 3n+2 rendering of majority appeared in " + key)
+        free = survey["constant_free_by_unary_count"]
+        require(sorted(free) == ["3n+2", "3n+3", "3n+4"],
+                "the constant-free budget layers changed in " + key)
+        for budget, hits in sorted(free.items()):
+            require(hits == [], "a constant-free %s rendering of majority appeared in %s: %s"
+                    % (budget, key, hits))
 
     # TT-4: the 3n+4 optimum is attained by a threshold form and by a non-affine
     # form, so minimal cost does not force the threshold structure.
@@ -257,18 +281,20 @@ def run():
                        if not row["affine_operand"])
         require(affine, "no affine minimal rendering in " + key)
         require(other, "no non-affine minimal rendering in " + key)
-        saturation[key] = {"affine": affine, "non_affine": other,
-                           "arithmetic": survey["arithmetic_3n_plus_4"],
-                           "distinct_value_vectors": survey["distinct_value_vectors"]}
+        saturation[key] = {
+            "affine": affine, "non_affine": other,
+            "arithmetic": survey["arithmetic_3n_plus_4"],
+            "constant_free_by_unary_count": survey["constant_free_by_unary_count"],
+            "distinct_value_vectors_by_unary_count":
+                survey["distinct_value_vectors_by_unary_count"]}
     base = saturation["n3_cap32"]
     for key in ("n3_cap64", "n3_cap256", "n3_cap32_wide_constants"):
         require(saturation[key] == base,
                 "the n=3 enumeration is not saturated: " + key + " differs from n3_cap32")
-    require(saturation["n4_cap32_comparison_shape"]["affine"]
-            == saturation["n4_cap64_comparison_shape"]["affine"]
-            and saturation["n4_cap32_comparison_shape"]["non_affine"]
-            == saturation["n4_cap64_comparison_shape"]["non_affine"],
-            "the n=4 comparison-shape enumeration is not saturated")
+    n4 = saturation["n4_cap32_comparison_shape"]
+    require(len(n4["affine"]) == 2 and len(n4["non_affine"]) == 8,
+            "the n=4 minimal set changed: %d affine, %d non-affine"
+            % (len(n4["affine"]), len(n4["non_affine"])))
 
     opcode_frontier = {n: scalar_frontier(exact[n], "python_projection") for n in SCOPE}
     honest_frontier = {n: scalar_frontier(exact[n], "honest_unknown") for n in SCOPE}
@@ -321,6 +347,9 @@ def run():
         "exhaustive_minimal_renderings": saturation,
         "enumeration_scope": {
             "binary_operations": sorted(enumeration.BINARY),
+            "unary_operations": sorted(enumeration.UNARY),
+            "unary_operations_refused_by_the_register": ["+"],
+            "unary_budget": enumeration.UNARY_BUDGET,
             "comparisons": sorted(enumeration.COMPARE),
             "constants": list(CONSTANTS),
             "wide_constants": list(WIDE_CONSTANTS),
@@ -328,6 +357,12 @@ def run():
             "arithmetic_shape_enumerated_at": ["n=3"],
             "arithmetic_shape_open_at": ["n>=4 inside this checker; the unit test "
                                          "enumerates n=4 at a declared cap"],
+            "constant_free_shapes_enumerated_at": ["n=3 at caps 32/64/256",
+                                                   "n=4 at cap 32 here, cap 64 in the unit test"],
+            "shapes_covered_by_measurement_not_enumeration":
+                ["realizations that read a registered data binding, that is the "
+                 "constant tables; the enumeration covers expression trees over "
+                 "the n unpacked inputs"],
         },
         "frontier_opcode_projection": {str(n): opcode_frontier[n] for n in SCOPE},
         "frontier_honest_unknown_native_cost": {str(n): honest_frontier[n] for n in SCOPE},

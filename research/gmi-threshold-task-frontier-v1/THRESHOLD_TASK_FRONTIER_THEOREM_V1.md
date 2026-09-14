@@ -46,43 +46,75 @@ that this coordinate does not charge table size — survives and is strengthened
 the cheapest table is cheaper than PN-3 reported, and its `2**n` cells remain
 free. PN-1, PN-2 and PN-4R are untouched; they do not use the table row.
 
-## 3. TT-2 — the budget floor, and why there is no 3n+3
+## 3. TT-2 — the budget floor and the reachable budgets
 
 > **TT-2.** In the typed register, a **written** realization — one that reads its
 > n inputs in Python, through one `UNPACK_SEQUENCE` — costs
-> `(n + 2) + n + m + c + 1` Python opcodes, where `m` counts binary operations
-> and comparisons and `c` counts constant loads. An expression over all n inputs
-> needs `m >= n - 1`, and a constant is only ever loaded together with an
-> operation that consumes it, so `c >= 1` forces `m >= n`. The reachable budgets
-> are therefore `3n + 2` with no constant and `3n + 4` with one; **no written
-> realization costs `3n + 3`.**
+> `(n + 2) + n + m + u + c + 1` Python opcodes, where `m` counts binary
+> operations and comparisons, `u` counts unary operations and `c` counts
+> constant loads. An expression over all n inputs needs `m >= n - 1`, and a
+> constant is only ever loaded together with an operation that consumes it, so
+> `c >= 1` forces `m >= n + c - 1`. The budgets from `3n + 2` up are therefore
+>
+> | cost | shape |
+> |---|---|
+> | `3n + 2` | `u = 0`, `c = 0` |
+> | `3n + 3` | `u = 1`, `c = 0` |
+> | `3n + 4` | `u = 2`, `c = 0`, **or** `u = 0`, `c = 1` |
+>
+> and a constant table, which reads a registered data binding rather than
+> building an expression, also costs `3n + 4` (TT-1).
 
 This is event accounting against the layout contract the checker validates
-before reporting anything, not an empirical claim. It says nothing about a
-realization that hands the whole read to a native callee, such as
-`sum(x) >= k` at 6 opcodes: that form does not unpack in Python at all, and
-TT-5 treats it separately because its total cost has no finite upper bound. The registered parity-3
+before reporting anything, not an empirical claim. On the validated layout
+`UNARY_NEGATIVE`, `UNARY_INVERT` and `UNARY_NOT` each cost exactly one opcode,
+and unary `+` is **refused** rather than costed, because CPython 3.12 compiles
+it to `CALL_INTRINSIC_1`, which the typed machine does not account. The checker
+pins all four facts.
+
+It says nothing about a realization that hands the whole read to a native
+callee, such as `sum(x) >= k` at 6 opcodes: that form does not unpack in Python
+at all, and TT-5 treats it separately because its total cost has no finite upper
+bound.
+
+**This replaces a false claim.** TT-2's first version asserted that no written
+realization costs `3n + 3`. That is wrong — `-(a ^ b ^ c)` costs exactly
+`3n + 3` — and §10 records how the error was found and what it did and did not
+change. The registered parity-3
 facts are reproduced by the same instrument in the same run: written XOR chain
 11 opcodes with no native obligation, shared-sum threshold net 39 with four,
 `sum(x) & 1` 6 with one.
 
-## 4. TT-3 — majority needs a constant
+## 4. TT-3 — majority needs a constant, at every budget below 3n+4
 
-> **TT-3.** No `3n + 2` realization of majority-n exists for n = 3 or n = 4.
+> **TT-3.** No constant-free realization of majority-n exists at any budget below
+> the one-constant `3n + 4` shape, for n = 3 or n = 4. That covers `3n + 2`
+> (no unary), `3n + 3` (one unary) and the two-unary `3n + 4` shape.
 
-By exhaustive enumeration over the register's eight binary operations, every
-binary tree shape and every assignment of the n inputs to leaves, using each
-input exactly once. The enumeration is over reachable **value vectors** rather
-than over source texts, so it covers all renderings of each vector at once.
-At n = 3 the enumeration finds 235 distinct vectors, at n = 4 it finds 8889, and
-majority is not among them at either.
+By exhaustive enumeration over the register's eight binary operations and three
+admitted unary operations, every tree shape and every assignment of the n inputs
+to leaves, using each input exactly once, with the unary budget spent anywhere in
+the tree rather than only at the root. The enumeration is over reachable **value
+vectors** rather than over source texts, so it covers all renderings of each
+vector at once, and `not`'s Boolean results are normalised to integers because
+the obligation is value equality and Python has `True == 1`.
 
-Intermediate magnitudes are capped; the cap is shown not to bind by repeating
-the enumeration at caps 32, 64 and 256 (n = 3) and 32 and 64 (n = 4) with
-identical results, and at n = 3 by widening the constant range from [-6, 6] to
-[-12, 12] with identical results.
+Vectors reached, by unary operations spent:
+
+| n | `u = 0` | `u = 1` | `u = 2` |
+|---|---:|---:|---:|
+| 3 | 235 | 1432 | 4139 |
+| 4 | 8889 | 68293 | 256294 |
+
+Majority is in none of them. Intermediate magnitudes are capped; the cap is
+shown not to bind by repeating the enumeration at caps 32, 64 and 256 (n = 3)
+and 32 and 64 (n = 4) with identical results, and at n = 3 by widening the
+constant range from [-6, 6] to [-12, 12] with identical results.
 
 With TT-2 and TT-1 this fixes the minimum for majority-n at `3n + 4`, attained.
+The unary layers are the repair described in §10: the first version of this
+enumeration searched binary operations only, so its claim to be exhaustive did
+not in fact cover `3n + 3`.
 
 ## 5. TT-4 — the optimum does **not** force the threshold structure
 
@@ -118,6 +150,13 @@ which is int-typed rather than Boolean-typed, and which the enumeration finds at
 n = 3 only. The same enumeration at n = 4, run in the unit's own test at a
 declared cap, finds no arithmetic-form realization there.
 
+Both one-constant shapes are enumerated at `u = 0`, which is complete for them:
+spending a unary operation on top of a one-constant shape costs `3n + 5`, so no
+`3n + 4` one-constant rendering can contain one. The enumeration covers
+expression trees over the n unpacked inputs; realizations that read a registered
+data binding instead — the constant tables — are covered by direct measurement
+rather than by enumeration.
+
 **This refutes a claim it would have been easy to make.** Cost minimality on a
 threshold task does not single out the threshold structure: a non-threshold
 rendering attains the same optimum. Any argument of the form "the cheapest
@@ -138,9 +177,9 @@ The argument is short and does not depend on the task:
    obligation, so its cost interval is the singleton `[3n + 4, 3n + 4]`;
 2. among written realizations, none costs less than `3n + 2`, and none that
    needs a constant costs less than `3n + 4` (TT-2);
-3. so a written realization that beats the table must compute the task with
-   `n - 1` constant-free operations. Such a realization exists for parity —
-   the XOR chain at `3n + 2` — and not for majority (TT-3). Either way, whether
+3. so a written realization that beats the table must be constant-free, at
+   `3n + 2` or `3n + 3`. Such a realization exists for parity — the XOR chain at
+   `3n + 2` — and not for majority, at either budget (TT-3). Either way, whether
    it exists is a property of the task and not of the neural family, and it is
    never a threshold form: a threshold rendering always loads its threshold
    constant, so by TT-2 it never falls below `3n + 4`;
@@ -238,6 +277,9 @@ What is **not** established:
   enumerates the `3n + 4` arithmetic shape exhaustively at n = 3 only; the unit
   test enumerates n = 4 at a declared cap. n >= 5 is open, and only affects
   whether a cheaper int-typed rendering exists, not TT-5 or TT-6.
+- **the constant-free budgets above n = 4.** TT-3 is exhaustive at n = 3 and
+  n = 4. For n >= 5 the claim that majority needs a constant rests on TT-2's
+  accounting plus those two exhaustive cases, not on a search.
 - **more than one hidden layer, non-threshold activations, vectorized or array
   realizations, and any substrate other than the validated CPython opcode
   layout.** The layout is validated at run time and the checker refuses rather
@@ -265,3 +307,36 @@ task-independent negative answer to PN-5's residual question in the opcode
 coordinate; and the identification of the exact premise — charging constant
 cells at any positive rate — under which a structurally neural realization
 strictly dominates a registered non-neural one.
+
+## 10. Correction 2026-09-14: unary operations, found in review
+
+This section exists because the first version of this theorem, pushed as the
+first commit of PR #619, contained a false claim and an incomplete search.
+Cursor Bugbot raised it on that PR; it reproduced immediately and is repaired
+above rather than argued with.
+
+**What was wrong.** TT-2 accounted a written realization as unpack, input loads,
+binary operations and constants, and concluded that `3n + 3` was not a reachable
+budget. The typed register also admits unary operations, each costing one
+opcode, so `-(a ^ b ^ c)` costs exactly `3n + 3`. The claim was false. Worse,
+the enumeration behind TT-3 and TT-4 searched binary-operation expressions only,
+so it never looked at `3n + 3` at all, and its exhaustiveness claim was
+therefore overstated.
+
+**What was repaired.** TT-2 now carries the unary term and lists the three
+reachable budget shapes. The enumeration now spends a unary budget anywhere in
+the tree and reports the constant-free layers separately at `3n + 2`, `3n + 3`
+and the two-unary `3n + 4`. The checker pins the per-operation unary cost and
+records that unary `+` is refused rather than costed.
+
+**What it changed in the conclusions: nothing.** Re-run with the unary budget,
+majority-n is still unreachable at every constant-free budget below `3n + 4`, at
+n = 3 and n = 4, at caps 32 and 64 — so the minimum is still `3n + 4`, TT-5's
+negative half still holds, and TT-6's domination is untouched. TT-4's counts are
+also unchanged, because a one-constant `3n + 4` rendering cannot contain a unary
+operation without costing `3n + 5`.
+
+**One detail in the report was itself wrong, and it does not matter.** The
+finding's example was `+(a ^ b ^ c)`. Unary `+` is *refused* by this register on
+this layout, because CPython 3.12 compiles it to `CALL_INTRINSIC_1`. The
+finding's substance was right for `-`, `~` and `not`, which is what mattered.

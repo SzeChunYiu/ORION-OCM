@@ -1,22 +1,36 @@
 """Exhaustive minimal-budget renderings of a Boolean task in the typed register.
 
-The register's binary operations and its one-comparison-per-expression rule come
-from DCR (`typed_program_v1`, `typed_machine_v1`). This module never executes a
-candidate: it enumerates the value vectors reachable by a straight-line
-expression that uses each of the n unpacked inputs exactly once, under a declared
-intermediate-magnitude cap whose non-bindingness is checked by widening it.
+The register's operations come from DCR (`typed_program_v1`, `typed_machine_v1`).
+This module never executes a candidate: it enumerates the value vectors
+reachable by a straight-line expression that uses each of the n unpacked inputs
+exactly once, under a declared intermediate-magnitude cap whose non-bindingness
+is checked by widening it.
 
 Budget accounting, per `UNPACK_SEQUENCE` reading of an n-tuple:
 
     n + 2   LOAD_FAST x, UNPACK_SEQUENCE, n * STORE_FAST
     n       one LOAD_FAST per input
-    m       one event per binary operation
-    c       one LOAD_FAST per constant
+    m       one event per binary operation or comparison
+    u       one event per unary operation
+    c       one LOAD_FAST per integer constant
     1       RETURN_VALUE
 
-so an expression with n - 1 operations and no constant costs 3n + 2, and one
-with a single constant costs 3n + 4 whether the constant is consumed by a
-comparison or by an arithmetic operation. No budget of 3n + 3 exists.
+An expression over all n inputs needs `m >= n - 1`, and a constant is only ever
+loaded together with an operation that consumes it, so `c >= 1` forces
+`m >= n + c - 1`. The reachable budgets from `3n + 2` upward are therefore
+
+    3n + 2   u = 0, c = 0
+    3n + 3   u = 1, c = 0
+    3n + 4   u = 2, c = 0, or u = 0, c = 1
+
+and a unary operation on top of a one-constant shape costs `3n + 5`, so the
+one-constant layer needs `u = 0` to stay at `3n + 4`.
+
+Unary operations matter and were missed by this module's first version, which
+enumerated binary operations only and therefore did not cover `3n + 3` at all.
+On the validated layout `UNARY_NEGATIVE`, `UNARY_INVERT` and `UNARY_NOT` are
+admitted at one opcode each; unary `+` is **refused**, because CPython 3.12
+compiles it to `CALL_INTRINSIC_1`, which the typed machine does not account.
 """
 
 import itertools
@@ -25,9 +39,12 @@ import operator
 BINARY = {"+": operator.add, "-": operator.sub, "*": operator.mul,
           "^": operator.xor, "&": operator.and_, "|": operator.or_,
           "<<": operator.lshift, ">>": operator.rshift}
+# Unary `+` is deliberately absent: the typed machine refuses CALL_INTRINSIC_1.
+UNARY = {"-": operator.neg, "~": operator.invert, "not": operator.not_}
 COMPARE = {"==": operator.eq, "!=": operator.ne, "<": operator.lt,
            "<=": operator.le, ">": operator.gt, ">=": operator.ge}
 SHIFT_LIMIT = 12
+UNARY_BUDGET = 2
 
 
 class EnumerationError(ValueError):
@@ -53,7 +70,12 @@ def parity(n):
     return tuple(sum(p) & 1 for p in points(n))
 
 
-def _apply(op, left, right, cap):
+def normalise(vector):
+    """Value-equality key. `not` yields a bool and Python has True == 1."""
+    return tuple(int(v) for v in vector)
+
+
+def _binary(op, left, right, cap):
     if op in ("<<", ">>"):
         if any(y < 0 for y in right):
             return None
@@ -63,45 +85,70 @@ def _apply(op, left, right, cap):
     return out if all(-cap <= v <= cap for v in out) else None
 
 
-def reachable(n, cap, constants=()):
-    """{value vector: one canonical rendering} using every leaf exactly once.
+def reachable(n, cap, unary_budget=0, constants=()):
+    """{unary ops used: {value vector: one rendering}} at the full leaf set.
 
     Leaves are the n inputs, plus -- when `constants` is non-empty -- exactly one
-    further leaf holding any one of those constants.
+    further leaf holding any one of those constants. Every leaf is used once.
     """
     require(type(cap) is int and cap > 0, "positive magnitude cap required")
+    require(type(unary_budget) is int and 0 <= unary_budget <= UNARY_BUDGET,
+            "unary budget outside the declared range")
     pts = points(n)
-    table = {1 << i: {tuple(p[i] for p in pts): "v%d" % i} for i in range(n)}
+    table = {}
+
+    def add(slot, vector, text):
+        table.setdefault(slot, {}).setdefault(normalise(vector), text)
+
+    for i in range(n):
+        add((1 << i, 0), tuple(p[i] for p in pts), "v%d" % i)
+    leaves = n
     if constants:
-        table[1 << n] = {tuple(c for _ in pts): repr(c) for c in sorted(set(constants))}
-    full = (1 << (n + (1 if constants else 0))) - 1
+        leaves = n + 1
+        for constant in sorted(set(constants)):
+            add((1 << n, 0), tuple(constant for _ in pts), repr(constant))
+    full = (1 << leaves) - 1
     for mask in range(1, full + 1):
-        if mask in table or bin(mask).count("1") < 2:
-            continue
-        acc = {}
-        sub = (mask - 1) & mask
-        while sub:
-            other = mask ^ sub
-            if sub < other and sub in table and other in table:
-                for left, ltext in table[sub].items():
-                    for right, rtext in table[other].items():
-                        for op in BINARY:
-                            for a, at, b, bt in ((left, ltext, right, rtext),
-                                                 (right, rtext, left, ltext)):
-                                got = _apply(op, a, b, cap)
-                                if got is not None:
-                                    acc.setdefault(got, "(%s %s %s)" % (at, op, bt))
-            sub = (sub - 1) & mask
-        if acc:
-            table[mask] = acc
-    return table.get(full, {})
+        for used in range(unary_budget + 1):
+            if bin(mask).count("1") >= 2:
+                acc = {}
+                sub = (mask - 1) & mask
+                while sub:
+                    other = mask ^ sub
+                    if sub < other:
+                        for split in range(used + 1):
+                            left = table.get((sub, split))
+                            right = table.get((other, used - split))
+                            if not left or not right:
+                                continue
+                            for a, atext in left.items():
+                                for b, btext in right.items():
+                                    for op in BINARY:
+                                        for x, xt, y, yt in ((a, atext, b, btext),
+                                                             (b, btext, a, atext)):
+                                            got = _binary(op, x, y, cap)
+                                            if got is not None:
+                                                acc.setdefault(normalise(got),
+                                                               "(%s %s %s)" % (xt, op, yt))
+                    sub = (sub - 1) & mask
+                for vector, text in acc.items():
+                    add((mask, used), vector, text)
+            if used:
+                previous = table.get((mask, used - 1))
+                if previous:
+                    for vector, text in list(previous.items()):
+                        for name, function in UNARY.items():
+                            got = tuple(function(v) for v in vector)
+                            if all(-cap <= int(v) <= cap for v in got):
+                                add((mask, used), got, "%s(%s)" % (name, text))
+    return {used: table.get((full, used), {}) for used in range(unary_budget + 1)}
 
 
 def comparison_constants(vector, target, op):
-    """Every integer c with `vector op c` equal to target, as an exact set/range.
+    """Every integer c with `vector op c` equal to target, exactly.
 
     Returned as a sorted tuple when finite, or ("interval", lo, hi) with None for
-    an open end. Only finite answers are used by the callers below.
+    an open end, which the caller intersects with its declared constant range.
     """
     ones = [v for v, t in zip(vector, target) if t]
     zeros = [v for v, t in zip(vector, target) if not t]
@@ -148,23 +195,33 @@ def affine_form(vector, n):
     return offset, tuple(weights)
 
 
-def survey(n, target, cap, constants, include_arithmetic=True):
+def survey(n, target, cap, constants, include_arithmetic=True,
+           unary_budget=UNARY_BUDGET):
     """Exhaustive minimal-budget survey of one task at one cap.
 
-    `constant_free` is the 3n+2 budget; `comparison` and `arithmetic` are the two
-    3n+4 shapes. Every returned rendering is classified by whether the value it
-    compares is an affine form of the inputs.
+    `constant_free_by_unary_count` covers the `3n + 2`, `3n + 3` and `3n + 4`
+    budgets that use no constant, indexed by how many unary operations they
+    spend. `comparison` and `arithmetic` are the two one-constant `3n + 4`
+    shapes, which must spend no unary operation to stay at that budget.
+
+    The enumeration covers expression trees over the n unpacked inputs. Shapes
+    that read a registered data binding instead -- the constant tables -- are
+    covered by direct measurement in `frontier_registers_v1`, not here.
     """
     require(len(target) == 2 ** n, "target must cover the whole domain")
     require(all(t in (0, 1) for t in target), "target must be Boolean")
     allowed = sorted(set(constants))
     require(allowed and all(type(c) is int for c in allowed), "integer constants required")
-    plain = reachable(n, cap)
-    constant_free = sorted(text for vec, text in plain.items() if vec == target)
+    normalised_target = normalise(target)
+    plain = reachable(n, cap, unary_budget=unary_budget)
+    constant_free = {}
+    for used, rows in sorted(plain.items()):
+        constant_free["3n+%d" % (2 + used)] = sorted(
+            text for vector, text in rows.items() if vector == normalised_target)
     comparison = []
-    for vector, text in plain.items():
+    for vector, text in plain[0].items():
         for op in sorted(COMPARE):
-            found = comparison_constants(vector, target, op)
+            found = comparison_constants(vector, normalised_target, op)
             if found and found[0] == "interval":
                 lo, hi = found[1], found[2]
                 found = tuple(c for c in allowed
@@ -174,15 +231,18 @@ def survey(n, target, cap, constants, include_arithmetic=True):
                     comparison.append({"rendering": "%s %s %d" % (text, op, c),
                                        "affine_operand": affine_form(vector, n) is not None})
     if include_arithmetic:
-        withconst = reachable(n, cap, constants=allowed)
-        arithmetic = sorted(text for vec, text in withconst.items() if vec == target)
+        with_constant = reachable(n, cap, unary_budget=0, constants=allowed)
+        arithmetic = sorted(text for vector, text in with_constant[0].items()
+                            if vector == normalised_target)
     else:
         arithmetic = None
     comparison.sort(key=lambda row: (not row["affine_operand"], row["rendering"]))
-    return {"constant_free_3n_plus_2": constant_free,
+    return {"constant_free_by_unary_count": constant_free,
             "comparison_3n_plus_4": comparison,
             "arithmetic_3n_plus_4": arithmetic,
             "arithmetic_shape_enumerated": include_arithmetic,
-            "distinct_value_vectors": len(plain),
+            "distinct_value_vectors_by_unary_count":
+                {str(used): len(rows) for used, rows in sorted(plain.items())},
             "magnitude_cap": cap,
+            "unary_budget": unary_budget,
             "constants": allowed}
