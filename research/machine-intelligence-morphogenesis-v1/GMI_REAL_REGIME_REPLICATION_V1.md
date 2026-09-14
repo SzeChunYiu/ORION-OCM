@@ -104,10 +104,25 @@ the first movement away from it — not evidence that it was wrong. The honest s
 
 The generalizable part is the shape rather than the arithmetic: **wherever a family's small-scale
 result is obtained by exhaustive search, ask whether a certificate exists for the same claim.**
-Lower bounds often have one — fooling sets, adversary arguments, dimension counts. Upper bounds
-usually do not, because exhibiting a construction is easy while verifying it everywhere is not.
-That asymmetry predicts which halves of the corpus will scale and which will not, and it is
-checkable against the other eighteen families.
+Upper bounds usually do not have one, because exhibiting a construction is easy while verifying it
+everywhere is not.
+
+For lower bounds the honest answer is *sometimes*, and a first pass over eight families says so
+rather than confirming the hopeful version:
+
+* **B2's lower bound is a certificate** — a fooling set — which is why it scaled here.
+* **B4-neural's lower bound is itself an enumeration**: it establishes that `xor2` needs depth 2 by
+  exhausting every depth-1 threshold machine. Same kind of claim, no certificate, so the same trick
+  does not transfer.
+* **Four of the eight have no proved lower bound at all.** B4-credit, B4-update, B6 and B7 report
+  costs for two or three *hand-registered* candidates each — the comparison is between the options
+  the author wrote down, not a floor over all machines meeting the obligation.
+
+That last group matters more than the scaling question. A comparison among hand-registered
+candidates is a weaker claim than a lower bound, and the distinction is invisible in a receipt that
+records only the winning cost. It is one of the things a declared protocol block would make
+checkable, and it is why `lower_bound` in that schema is `int | null` rather than a number every
+family is expected to fill.
 
 ## 8  Scope
 
