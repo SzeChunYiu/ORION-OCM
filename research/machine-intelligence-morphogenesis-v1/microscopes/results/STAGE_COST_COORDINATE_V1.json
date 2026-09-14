@@ -1,0 +1,69 @@
+{
+ "commonly_metered": [
+  "build/acquisition",
+  "memory/storage",
+  "search/discovery",
+  "serving/execution",
+  "update"
+ ],
+ "counts": {
+  "build/acquisition": 290,
+  "communication": 8,
+  "energy": 3,
+  "failed-candidate": 171,
+  "human/AI design input": 2,
+  "maintenance": 2,
+  "memory/storage": 283,
+  "physical counters": 88,
+  "precision": 71,
+  "retrieval/index": 59,
+  "revision/unlearning": 5,
+  "search/discovery": 238,
+  "serving/execution": 281,
+  "training/development": 116,
+  "update": 247,
+  "verification": 37
+ },
+ "detector_validated_on": [
+  [
+   "STAGE_R10_INVASION_V1.json",
+   "search/discovery",
+   true
+  ],
+  [
+   "STAGE_R10_INVASION_V1.json",
+   "energy",
+   false
+  ],
+  [
+   "STAGE_FINITE_STATE_V1.json",
+   "memory/storage",
+   true
+  ],
+  [
+   "STAGE_FINITE_STATE_V1.json",
+   "energy",
+   false
+  ],
+  [
+   "STAGE_FINITE_STATE_V1.json",
+   "revision/unlearning",
+   false
+  ],
+  [
+   "STAGE_MESSAGE_PASSING_V1.json",
+   "communication",
+   true
+  ]
+ ],
+ "method": "a coordinate counts as metered when a receipt carries a KEY naming it, matched on whole key segments; a word in prose does not count",
+ "rarely_metered": [
+  "communication",
+  "energy",
+  "human/AI design input",
+  "maintenance",
+  "revision/unlearning"
+ ],
+ "receipts_scanned": 462,
+ "scope": "this measures whether a coordinate is METERED ANYWHERE in a receipt, not whether every claim in that receipt is charged for it, and not whether the number is correct"
+}
