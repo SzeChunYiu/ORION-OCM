@@ -2236,3 +2236,63 @@ def test_some_carriers_are_completely_budget_invariant():
     assert varying, (
         "every carrier is budget-invariant, which would mean repricing moves "
         "nothing and contradicts the 7 changing pairs measured for box 13")
+
+
+# ---------------------------------------------------------------------------
+# Q: parent-subtraction coverage.  An in-tree audit, not a single-file witness,
+# so it runs in place with its receipt snapshotted and restored.
+# ---------------------------------------------------------------------------
+def test_parent_coverage_audit_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_PARENT_COVERAGE_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "parent_coverage_audit.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "parent_coverage_audit.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed receipt to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the parent-coverage audit no longer reproduces its committed receipt")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_parent_coverage_is_partial_and_the_gap_is_named():
+    r = load_receipt("STAGE_PARENT_COVERAGE_V1.json")
+    assert r["traditions_total"] == 23
+    solid, unc = r["traditions_covered_solid"], r["traditions_uncovered"]
+    assert 0 < solid < 23, (
+        "coverage is total or zero; total would mean section Q is complete, "
+        "which is not credible, and zero would mean the token map is broken")
+    assert unc > 0 and len(r["uncovered"]) == unc, (
+        "the uncovered list does not match the uncovered count, so the gap is "
+        "not actually enumerated")
+
+
+def test_incidental_coverage_is_excluded_not_counted():
+    """One entry matching three unrelated traditions is a false positive."""
+    r = load_receipt("STAGE_PARENT_COVERAGE_V1.json")
+    assert r["promiscuous_entries"], (
+        "no entry spans three or more traditions any more; the promiscuity "
+        "gate is the thing that keeps incidental citation words from inflating "
+        "coverage, and if it never fires it is not being tested")
+    assert r["traditions_covered_suspect"] > 0
+    assert (r["traditions_covered_solid"] + r["traditions_covered_suspect"]
+            == r["traditions_covered_raw"]), "the solid/suspect split lost an entry"
+    assert r["traditions_covered_solid"] < r["traditions_covered_raw"], (
+        "downgrading removed nothing, so the raw count was already clean and "
+        "the documented distinction is stale")
+
+
+def test_the_ledger_discriminates_between_dispositions():
+    r = load_receipt("STAGE_PARENT_COVERAGE_V1.json")
+    d = r["dispositions_among_covering_entries"]
+    assert len(d) > 1, (
+        "every covering entry has the same disposition, so the ledger is not "
+        "distinguishing adopt from adapt from reject from leave-open")
+    assert "REJECT" in d or "LEAVE_OPEN" in d, (
+        "no covering entry rejects or leaves open a parent, which would mean "
+        "the ledger only ever absorbs and never declines")
