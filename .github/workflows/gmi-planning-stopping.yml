@@ -1,0 +1,42 @@
+name: GMI planning and stopping (I4)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-planning-stopping-v1/**'
+      - 'research/gmi-derived-lesion-v1/**'
+      - '.github/workflows/gmi-planning-stopping.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-planning-stopping-v1/**'
+      - 'research/gmi-derived-lesion-v1/**'
+      - '.github/workflows/gmi-planning-stopping.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  planning-stopping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run planning and lesion controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-planning-stopping-v1/test_planning_stopping_v1.py -v
+          python "${args[@]}" research/gmi-derived-lesion-v1/test_derived_lesion_v1.py -v
