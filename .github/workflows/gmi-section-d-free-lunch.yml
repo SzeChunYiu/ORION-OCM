@@ -1,0 +1,46 @@
+name: GMI Section D free lunch
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-section-d-free-lunch-v1/**'
+      - '.github/workflows/gmi-section-d-free-lunch.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-section-d-free-lunch-v1/**'
+      - '.github/workflows/gmi-section-d-free-lunch.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-section-d:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Reproduce prospective Section D receipt
+        working-directory: research/gmi-section-d-free-lunch-v1
+        run: |
+          args=(-B)
+          if [ "${{ matrix.mode }}" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" section_d_free_lunch_witness.py
+          git diff --exit-code -- RESULT_V1.json
+      - name: Hostile and theorem checks
+        working-directory: research/gmi-section-d-free-lunch-v1
+        run: |
+          args=(-B)
+          if [ "${{ matrix.mode }}" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" -m unittest -v test_section_d_free_lunch.py
+      - name: Source custody
+        run: git diff --exit-code
