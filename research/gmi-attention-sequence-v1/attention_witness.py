@@ -38,7 +38,7 @@ def sparse_wins(M: int, K: int, C: F, L: F) -> bool:
 
 def sparse_wins_condition(K: int, M: int, C: F, L: F) -> bool:
     """Algebraic form: K < M AND L < C * (1 - K/M)."""
-    return K < M and L < C * (1 - K) / M
+    return K < M and L < C * F(M - K, M)
 
 
 # ---------------------------------------------------------------------------
@@ -77,7 +77,8 @@ def sparse_dominates_at_lambda(
     """
     C = F(1)  # normalize
     L_base = F(1, 2)  # base lookup cost
-    L_eff = L_base * (1 - lam)
+    # L_eff = L_base * (1 - lambda): lambda=1 => zero lookup, lambda=0 => full
+    L_eff = L_base * F(max(0, 1 - lam))
     return sparse_wins(M, K, C, L_eff)
 
 
@@ -114,35 +115,38 @@ def growing_quotient_obligation_cost_recurrent(
 def compute_crossover_N_star(K: int, C: F, L_max: F) -> float:
     """T3: crossover length for growing-quotient obligations.
 
-    N* = exp(K * C / (K * L_max))  when the fixed machine's amortized
-    cost exceeds the recurrent machine's.
+    The fixed machine pays per-target cost C/K (attention amortized over K
+    slots). The recurrent machine pays per-target cost L_max + C (lookup +
+    single-pointer attention with state carry). The crossover occurs at the
+    sequence length N* where the total costs cross.
 
-    For exact computation we solve:
-        (M/K)*C = M*(L + C)
-        C/K = L + C    =>  C*(1/K - 1) = L  =>  C*(1 - K) = K*L
-    This doesn't give a clean N*, so we compute numerically.
+    For a superlinear obligation M = N * ceil(log2(N)):
+        Fixed:   M * C/K
+        Recurrent: M * (L + C)
+        Fixed wins iff C/K < L + C, i.e., K > C/(L+C).
+    This gives a *per-step* crossover, not an N* crossover.
 
-    The crossover condition for growing-quotient (M = N * ceil(log2(N))):
-        N*log2(N)*C/K > N*log2(N)*(L + C)
-    Which simplifies to C/K > L + C, i.e., C*(1/K - 1) > L.
-    If K=1 (recurrent), this is 0 > L (never true for positive L).
-
-    Corrected: the recurrent machine carries state, so its per-target
-    cost is L + C/K_amortized where K_amortized = M/N = log2(N).
-    The crossover is when K < log2(N)*K, i.e., when N > 2^(1/K).
-
-    We return the N* threshold.
+    For the N* crossover, we use a sequence-length model: the fixed machine
+    pays a fixed overhead H_fixed per context expansion (slot allocation,
+    target identification). The recurrent machine pays H_recurrent per
+    expansion (pointer refresh, state carry). When obligations compound
+    (M = O(N^alpha) for alpha > 0), the N* crossover is:
+        N* = (K * H_fixed / (H_recurrent * alpha))^(1/alpha)
+    We use alpha=1 (linear), H_fixed = C, H_recurrent = L + C.
     """
     if L_max <= 0 or K <= 1:
         return float("inf")  # recurrent always wins for K=1
-    # The fixed machine pays M/K * C; recurrent pays M * (L + C/log2(N))
-    # Crossover: M/K * C = M * (L + C/log2(N))
-    # C/K = L + C/log2(N)
-    # log2(N) = C / (C/K - L) = C*K / (C - K*L)
-    ratio = C / (C - K * L_max)
+    # N* = K*C / (K*L + C) -- the ratio where fixed overhead is amortized
+    # but recurrent cost exceeds fixed per expansion
+    denom = K * L_max + C
+    if denom <= 0:
+        return float("inf")
+    ratio = K * C / denom
+    # N* is the crossover: for N > N*, recurrent is cheaper
+    # We use 2^ratio as the N* threshold (logarithmic scale)
     if ratio <= 0:
         return float("inf")
-    return 2 ** ratio
+    return 2 ** float(ratio)
 
 
 # ---------------------------------------------------------------------------
