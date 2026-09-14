@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import pathlib
 from fractions import Fraction
@@ -15,6 +16,22 @@ TARGETS = (
     "coordination_exact",
     "verified_tool_exact",
 )
+
+
+def _canonical_digest(payload: Mapping[str, object]) -> str:
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def validate_frozen_custody(manifest: Mapping[str, object]) -> None:
+    if manifest.get("freeze_digest") != EXPECTED_FREEZE_DIGEST:
+        raise ValueError("scoring refused: frozen receipt digest field changed")
+    without_digest = dict(manifest)
+    without_digest.pop("freeze_digest", None)
+    if _canonical_digest(without_digest) != EXPECTED_FREEZE_DIGEST:
+        raise ValueError("scoring refused: frozen receipt content changed")
+    if manifest.get("status") != "FROZEN_NOT_YET_SCORED" or manifest.get("outcomes_present") is not False:
+        raise ValueError("scoring refused: freeze is not a clean preregistration")
 
 
 def held_oracle(point: Mapping[str, int]) -> Dict[str, int]:
@@ -44,16 +61,12 @@ def held_oracle(point: Mapping[str, int]) -> Dict[str, int]:
 
 def load_frozen_manifest() -> Dict[str, object]:
     manifest = json.loads(FREEZE_PATH.read_text())
-    if manifest["freeze_digest"] != EXPECTED_FREEZE_DIGEST:
-        raise ValueError("scoring refused: frozen receipt digest changed")
-    if manifest["status"] != "FROZEN_NOT_YET_SCORED" or manifest["outcomes_present"] is not False:
-        raise ValueError("scoring refused: freeze is not a clean preregistration")
+    validate_frozen_custody(manifest)
     return manifest
 
 
 def score_frozen_manifest(manifest: Mapping[str, object]) -> Dict[str, object]:
-    if manifest["freeze_digest"] != EXPECTED_FREEZE_DIGEST:
-        raise ValueError("wrong freeze digest")
+    validate_frozen_custody(manifest)
 
     total = 0
     determinate = 0
