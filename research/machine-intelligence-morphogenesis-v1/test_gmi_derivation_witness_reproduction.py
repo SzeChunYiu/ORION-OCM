@@ -39,6 +39,9 @@ RESULTS = os.path.join(HERE, "microscopes", "results")
 WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
+    "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
+    "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
+    "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
@@ -487,3 +490,147 @@ def test_interference_equals_the_excess_over_capacity():
         lost = 1 - Fraction(e["stability_at_full_plasticity"])
         assert lost == Fraction(min(4, max(0, e["excess"])), 4), \
             "interference at capacity %d no longer equals the excess" % e["capacity"]
+
+
+def test_every_continual_regime_wins_somewhere():
+    """GMI_CONTINUAL_LEARNING_REGIMES_V1: all four regimes must be cheapest in
+    some price regime. One that never wins is not a regime."""
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    wins = {row["winner"] for row in r["regime_table"]}
+    assert wins == {"expand", "regularize", "modularize", "replay"}, \
+        "not every regime wins somewhere: %s" % sorted(wins)
+
+
+def test_replay_is_specific_to_overwrite():
+    """The sharpest claim: switching the substrate to addressed, changing
+    nothing else, must take the win away from replay -- and replay must never
+    win anywhere overwrite is zero."""
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    ctrl = r["substrate_control"]
+    interfering = [c for c in ctrl if "interfering" in c["substrate"]]
+    addressed = [c for c in ctrl if "addressed" in c["substrate"]]
+    assert interfering and addressed, "the substrate control pair is missing"
+    assert interfering[0]["winner"] == "replay"
+    assert addressed[0]["winner"] != "replay", \
+        "replay still wins with overwrite off, so it is not specific"
+    # replay's own cost must be unchanged -- what changed is the damage
+    assert interfering[0]["costs"]["replay"] == addressed[0]["costs"]["replay"], \
+        "replay's price moved between substrates, confounding the control"
+
+
+def test_continual_crossover_is_a_price_not_a_task_property():
+    """Sweeping only the price of capacity, with the task sequence fixed, must
+    move the winner -- otherwise there is no crossover to report."""
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    winners = [x["winner"] for x in r["capacity_price_sweep"]]
+    assert len(set(winners)) > 1, "the winner never changes with capacity price"
+
+
+def test_redundancy_dissolves_the_problem_but_not_for_modularize():
+    """At full redundancy the capacity remedies cost nothing while isolation
+    still charges -- which is what makes a method harmful on shared tasks."""
+    from fractions import Fraction
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    sweep = sorted(r["redundancy_sweep"], key=lambda x: x["shared"])
+    assert Fraction(sweep[0]["costs"]["expand"]) > 0
+    assert Fraction(sweep[-1]["costs"]["expand"]) == 0
+    assert Fraction(sweep[-1]["costs"]["regularize"]) == 0
+    assert Fraction(sweep[-1]["costs"]["modularize"]) > 0, \
+        "isolation is now free on fully shared tasks -- the harm claim is stale"
+
+
+def test_minimal_automaton_equals_the_quotient_index():
+    """GMI_FINITE_STATE_DERIVATION_V1: brute force over every transition table
+    must land on the quotient index -- and, crucially, one fewer state must be
+    impossible. Without the second half this is an upper bound, not minimality."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    for row in r["neutral_recovery"]:
+        assert row["match"], \
+            "%s: brute force found %s states, quotient index is %s" % (
+                row["obligation"], row["brute_force_k"], row["index"])
+    assert r["minimality"], "the minimality-by-exhaustion section is missing"
+    for row in r["minimality"]:
+        assert row["any_machine_works"] is False, \
+            "%s is now solvable with %d states, contradicting its index" % (
+                row["obligation"], row["k_tried"])
+
+
+def test_stateless_suffices_exactly_when_the_obligation_is_memoryless():
+    """Both halves: it must succeed somewhere and fail somewhere, or the
+    result says nothing about when state is necessary."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    by = {x["obligation"]: x for x in r["stateless"]}
+    assert by["constant"]["sufficient"] and by["last_symbol"]["sufficient"]
+    assert not by["parity_b"]["sufficient"]
+    assert by["parity_b"]["stateless_accuracy"] < 0.6, \
+        "parity is no longer at chance for a stateless policy"
+    suff = [x["sufficient"] for x in r["stateless"]]
+    assert any(suff) and not all(suff), "the stateless result became unconditional"
+
+
+def test_fooling_set_size_equals_the_index():
+    """The lower bound must be exhibited, not asserted: every pair of
+    representatives needs a separating continuation."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    idx = {x["obligation"]: x["index"] for x in r["quotient"]}
+    for name, f in r["fooling_sets"].items():
+        assert f["all_pairs_separated"], "%s has an unseparated pair" % name
+        assert f["size"] == idx[name], \
+            "%s: fooling set %d against index %d" % (name, f["size"], idx[name])
+
+
+def test_state_versus_history_crossover_exists():
+    """Recurrent state must lose at short sequences and win at long ones."""
+    r = load_receipt("STAGE_FINITE_STATE_V1.json")
+    kinds = {c["cheaper"] for c in r["state_vs_history"]}
+    assert "history" in kinds and "state" in kinds, \
+        "no crossover between recurrent state and explicit history"
+
+
+def test_retrieval_versus_parametric_crosses_in_problem_size():
+    """GMI_EXEMPLAR_VERSUS_PARAMETRIC_V1: a rule's cost is fixed while a table's
+    grows, so growing the universe must flip the winner. The expressibility
+    table alone is coarser than a crossover and is not what is pinned here."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    winners = [x["cheaper"] for x in r["size_crossover"]]
+    assert "exemplar" in winners and "parametric" in winners, \
+        "growing the universe no longer flips the winner"
+    small = r["size_crossover"][0]
+    large = r["size_crossover"][-1]
+    assert small["cheaper"] == "exemplar" and large["cheaper"] == "parametric", \
+        "the crossover runs the wrong way in problem size"
+    assert small["parametric"] == large["parametric"], \
+        "the rule cost now grows with the universe, which breaks the argument"
+
+
+def test_knn_needs_the_metric_to_be_aligned():
+    """Local lookup must beat full storage on smooth obligations and fail on
+    rough ones. If it won everywhere the metric would be doing no work."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    beats = {(x["obligation"], x["k"]): x["beats_exemplar"] for x in r["knn"]}
+    assert beats[("constant", 1)] and beats[("first_bit", 1)], \
+        "local lookup no longer helps on smooth obligations"
+    assert not beats[("parity", 1)], \
+        "local lookup now helps on parity, which is maximally rough in this metric"
+    vals = list(beats.values())
+    assert any(vals) and not all(vals), "the kNN result became unconditional"
+
+
+def test_no_exemplar_is_kept_when_lookup_costs_as_much_as_recompute():
+    """PVR-3's hard edge: U >= C forbids retention at ANY recurrence."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    never = [x for x in r["pvr3"] if x["U"] >= x["C"]]
+    assert never, "the U >= C control rows are missing"
+    assert not any(x["keep"] for x in never), \
+        "an exemplar is kept where lookup costs as much as recompute"
+    keeps = [x["keep"] for x in r["pvr3"]]
+    assert any(keeps) and not all(keeps), "the exemplar threshold is vacuous"
+
+
+def test_some_obligations_are_incompressible_in_the_registered_class():
+    """Both halves: the rule class must have gaps and must also succeed, or the
+    exemplar/parametric comparison has nothing to decide."""
+    r = load_receipt("STAGE_EXEMPLAR_PARAMETRIC_V1.json")
+    comp = [x["compressible"] for x in r["bounds"]]
+    assert any(comp) and not all(comp), \
+        "the rule class now expresses everything or nothing"
