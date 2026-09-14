@@ -62,6 +62,7 @@ WITNESSES = {
     "simulation_worth_witness.py": "STAGE_SIMULATION_WORTH_V1.json",
     "social_cognition_witness.py": "STAGE_SOCIAL_COGNITION_V1.json",
     "social_strategic_witness.py": "STAGE_SOCIAL_STRATEGIC_V1.json",
+    "state_space_witness.py": "STAGE_STATE_SPACE_V1.json",
     "subgoal_witness.py": "STAGE_SUBGOAL_WITNESS_V1.json",
     "update_law_witness.py": "STAGE_UPDATE_LAW_V1.json",
     "teaching_culture_witness.py": "STAGE_TEACHING_CULTURE_WITNESS_V1.json",
@@ -965,3 +966,31 @@ def test_smallest_sufficient_state_is_recovered():
     needs = [x["needs_full"] for x in r["recovery"]]
     assert any(needs) and not all(needs), \
         "every belief needs the same state, so nothing is being recovered"
+
+
+def test_affine_realizability_is_searched_and_separates():
+    """GMI_STATE_SPACE_DERIVATION_V1: the pair that matters is two machines with
+    the SAME state count and encoding width where only one admits an affine
+    update. Without the negative this is a claim about compression, not about
+    linear realization."""
+    r = load_receipt("STAGE_STATE_SPACE_V1.json")
+    by = {x["obligation"]: x for x in r["compression"]}
+    assert by["count_b_mod4"]["affine"] is True
+    assert by["ends_with_ab"]["affine"] is False, \
+        "a non-invertible transition is now affine over GF(2) -- the negative is gone"
+    assert by["count_b_mod4"]["states"] == by["ends_with_ab"]["states"], \
+        "the pair must be matched on state count, or the separation is confounded"
+    assert by["count_b_mod4"]["bits"] == by["ends_with_ab"]["bits"], \
+        "the pair must be matched on encoding width too"
+    aff = [x["affine"] for x in r["compression"]]
+    assert any(aff) and not all(aff), "the affine search distinguishes nothing"
+
+
+def test_fixed_state_work_does_not_grow_with_horizon():
+    r = load_receipt("STAGE_STATE_SPACE_V1.json")
+    rows = sorted(r["horizon"], key=lambda x: x["n"])
+    assert all(x["cheapest_work"] == "state" for x in rows)
+    assert all(x["state_storage"] == rows[0]["state_storage"] for x in rows), \
+        "state storage now grows with the horizon"
+    assert rows[-1]["attention_work"] > 10 * rows[-1]["state_work"], \
+        "the linear/quadratic gap has stopped growing"
