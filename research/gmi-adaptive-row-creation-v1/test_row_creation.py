@@ -160,7 +160,6 @@ class AdaptiveCreatorLogic(unittest.TestCase):
         self.assertGreaterEqual(hi, c.rows[2]['mean'])
 
     def test_radius_eventually_drops_below_threshold(self):
-        """With enough visits, radius drops below 1/4 for pre-registered rows."""
         alpha = F(1, 4)
         c = arc7.AdaptiveCreator(alpha, initial_rows=2,
                                  creation_threshold=F(1, 4),
