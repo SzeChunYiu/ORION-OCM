@@ -47,6 +47,7 @@ WITNESSES = {
     "exemplar_parametric_witness.py": "STAGE_EXEMPLAR_PARAMETRIC_V1.json",
     "linear_family_witness.py": "STAGE_LINEAR_FAMILY_V1.json",
     "finite_state_witness.py": "STAGE_FINITE_STATE_V1.json",
+    "gated_recurrence_witness.py": "STAGE_GATED_RECURRENCE_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
@@ -1140,3 +1141,50 @@ def test_recovery_is_not_a_handed_answer():
         "recovery is not discriminating")
     assert len(own) < len(rows) / 2, \
         "the world's own split now wins most worlds, which is what a rigged chooser looks like"
+
+
+def test_variable_duration_not_long_duration_forces_a_gate():
+    """GMI_GATED_RECURRENCE_DERIVATION_V1: the two ecologies must stay MATCHED on
+    longest delay, or the comparison is confounded by duration length rather
+    than duration variance -- which is the whole claim."""
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    by = {x["ecology"]: x for x in r["gating_pressure"]}
+    fixed = [v for k, v in by.items() if k.startswith("fixed")][0]
+    var = [v for k, v in by.items() if k.startswith("variable")][0]
+    assert fixed["max_gap"] == var["max_gap"], \
+        "the ecologies are no longer matched on longest delay"
+    assert fixed["register_lengths_that_work"], \
+        "no register solves the fixed ecology -- the twin is broken"
+    assert not var["register_lengths_that_work"], \
+        "a register now solves the variable ecology, refuting the central claim"
+    assert fixed["gated_works"] and var["gated_works"]
+
+
+def test_gating_has_a_cost_threshold_at_fixed_duration():
+    """Both machines correct, so the question is price. A register must win at
+    short delays or gating would be unconditionally right."""
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    kinds = [x["cheaper"] for x in r["crossover"]]
+    assert "register" in kinds and "gated" in kinds, \
+        "no crossover -- gating is now always or never worth its price"
+    assert kinds[0] == "register" and kinds[-1] == "gated", \
+        "the crossover runs the wrong way in delay"
+
+
+def test_retention_span_equals_capacity():
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    rows = sorted(r["retention"], key=lambda x: x["L"])
+    for x in rows:
+        assert len(x["answers_gaps"]) <= 2, \
+            "a register now answers many gaps at once"
+    spans = [x["max_gap"] for x in rows if x["max_gap"] is not None]
+    assert spans == sorted(spans) and len(set(spans)) > 1, \
+        "retention span no longer tracks capacity"
+
+
+def test_both_recurrence_shapes_are_recovered():
+    r = load_receipt("STAGE_GATED_RECURRENCE_V1.json")
+    reads = {x["reads_as"] for x in r["recovery"]}
+    assert len(reads) > 1, "every ecology recovers the same shape"
+    assert any(x["n_options"] > 1 for x in r["recovery"]), \
+        "no ecology ever had a real choice between the two shapes"

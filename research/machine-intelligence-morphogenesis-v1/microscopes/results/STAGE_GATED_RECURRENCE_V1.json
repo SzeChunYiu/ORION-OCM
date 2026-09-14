@@ -1,0 +1,133 @@
+{
+ "crossover": [
+  {
+   "cheaper": "register",
+   "gap": 0,
+   "gated_cells": 3,
+   "register_cells": 1
+  },
+  {
+   "cheaper": "register",
+   "gap": 1,
+   "gated_cells": 3,
+   "register_cells": 2
+  },
+  {
+   "cheaper": "tie",
+   "gap": 2,
+   "gated_cells": 3,
+   "register_cells": 3
+  },
+  {
+   "cheaper": "gated",
+   "gap": 3,
+   "gated_cells": 3,
+   "register_cells": 4
+  },
+  {
+   "cheaper": "gated",
+   "gap": 6,
+   "gated_cells": 3,
+   "register_cells": 7
+  }
+ ],
+ "gating_pressure": [
+  {
+   "ecology": "fixed gap 4",
+   "gated_works": true,
+   "max_gap": 4,
+   "register_lengths_that_work": [
+    5
+   ]
+  },
+  {
+   "ecology": "variable gap 0/2/4",
+   "gated_works": true,
+   "max_gap": 4,
+   "register_lengths_that_work": []
+  }
+ ],
+ "recovery": [
+  {
+   "cells": 2,
+   "ecology": "fixed gap 1",
+   "n_options": 2,
+   "reads_as": "an ungated register",
+   "shape": "unconditional write, 2 cells"
+  },
+  {
+   "cells": 3,
+   "ecology": "fixed gap 6",
+   "n_options": 2,
+   "reads_as": "a gated cell",
+   "shape": "input-dependent write, 1 cell"
+  },
+  {
+   "cells": 3,
+   "ecology": "variable 0/2/4",
+   "n_options": 1,
+   "reads_as": "a gated cell",
+   "shape": "input-dependent write, 1 cell"
+  }
+ ],
+ "retention": [
+  {
+   "L": 1,
+   "answers_gaps": [
+    0
+   ],
+   "cells": 1,
+   "max_gap": 0
+  },
+  {
+   "L": 2,
+   "answers_gaps": [
+    1
+   ],
+   "cells": 2,
+   "max_gap": 1
+  },
+  {
+   "L": 4,
+   "answers_gaps": [
+    3
+   ],
+   "cells": 4,
+   "max_gap": 3
+  },
+  {
+   "L": 7,
+   "answers_gaps": [
+    6
+   ],
+   "cells": 7,
+   "max_gap": 6
+  }
+ ],
+ "temporal_cut": [
+  {
+   "a": "M0Q",
+   "answers_differ": true,
+   "b": "M1Q",
+   "gap": 0
+  },
+  {
+   "a": "M00Q",
+   "answers_differ": true,
+   "b": "M10Q",
+   "gap": 1
+  },
+  {
+   "a": "M0000Q",
+   "answers_differ": true,
+   "b": "M1000Q",
+   "gap": 3
+  },
+  {
+   "a": "M0000000Q",
+   "answers_differ": true,
+   "b": "M1000000Q",
+   "gap": 6
+  }
+ ]
+}
