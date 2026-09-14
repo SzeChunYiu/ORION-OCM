@@ -363,5 +363,5 @@ print("\n" + "=" * 70)
 print("all four parts non-vacuous; every number exact over Fractions")
 print("=" * 70)
 
-with open(sys.argv[1] if len(sys.argv) > 1 else "STAGE_SOCIAL_STRATEGIC_V1.json", "w") as fh:
+with open(sys.argv[1] if len(sys.argv) > 1 else "microscopes/results/STAGE_SOCIAL_STRATEGIC_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=2, sort_keys=True)
