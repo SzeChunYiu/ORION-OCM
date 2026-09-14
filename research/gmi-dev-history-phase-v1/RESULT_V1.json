@@ -1,0 +1,223 @@
+{
+  "all_pass": true,
+  "assertions": {
+    "A10_zero_gain_negative_complex": true,
+    "A10_zero_gain_negative_moderate": true,
+    "A10_zero_gain_negative_simple": true,
+    "A1_monotonicity": true,
+    "A2_simple_short": true,
+    "A3_complex_long": true,
+    "A4_negative_twin_fails": true,
+    "A5_neural_shorter_at_complex": true,
+    "A6_neural_adult_simple": true,
+    "A7_separation": true,
+    "A8_nonneg_neural_complex": true,
+    "A8_nonneg_neural_moderate": true,
+    "A8_nonneg_neural_simple": true,
+    "A8_nonneg_symbolic_complex": true,
+    "A8_nonneg_symbolic_moderate": true,
+    "A8_nonneg_symbolic_simple": true,
+    "A9_burden_decreasing_neural_complex": true,
+    "A9_burden_decreasing_neural_moderate": true,
+    "A9_burden_decreasing_neural_simple": true,
+    "A9_burden_decreasing_symbolic_complex": true,
+    "A9_burden_decreasing_symbolic_moderate": true,
+    "A9_burden_decreasing_symbolic_simple": true
+  },
+  "ecologies": [
+    {
+      "name": "simple",
+      "running_need": 10.0
+    },
+    {
+      "name": "moderate",
+      "running_need": 50.0
+    },
+    {
+      "name": "complex",
+      "running_need": 200.0
+    }
+  ],
+  "monotonicity_check": {
+    "neural": true,
+    "symbolic": true
+  },
+  "morphologies": [
+    {
+      "build_cost": 20.0,
+      "complexity_penalty": 1.0,
+      "gain_rate": 0.5,
+      "initial_capacity": 8.0,
+      "name": "neural",
+      "transition_cost": 2.0
+    },
+    {
+      "build_cost": 8.0,
+      "complexity_penalty": 2.0,
+      "gain_rate": 0.3,
+      "initial_capacity": 4.0,
+      "name": "symbolic",
+      "transition_cost": 1.0
+    },
+    {
+      "build_cost": 12.0,
+      "complexity_penalty": 1.5,
+      "gain_rate": 0.0,
+      "initial_capacity": 6.0,
+      "name": "negative",
+      "transition_cost": 1.5
+    }
+  ],
+  "negative_twin_check": {
+    "negative": true
+  },
+  "phase_table": {
+    "complex": {
+      "negative": -1,
+      "neural": 7,
+      "symbolic": 14
+    },
+    "moderate": {
+      "negative": -1,
+      "neural": 4,
+      "symbolic": 9
+    },
+    "simple": {
+      "negative": -1,
+      "neural": 1,
+      "symbolic": 4
+    }
+  },
+  "separation_check": true,
+  "trajectories": {
+    "negative": {
+      "complex": {
+        "burden_values": [
+          212.0,
+          213.5,
+          215.0,
+          216.5,
+          218.0,
+          219.5,
+          221.0,
+          222.5,
+          224.0,
+          225.5,
+          227.0
+        ],
+        "length": 10
+      },
+      "moderate": {
+        "burden_values": [
+          62.0,
+          63.5,
+          65.0,
+          66.5,
+          68.0,
+          69.5,
+          71.0,
+          72.5,
+          74.0,
+          75.5,
+          77.0
+        ],
+        "length": 10
+      },
+      "simple": {
+        "burden_values": [
+          22.0,
+          23.5,
+          25.0,
+          26.5,
+          28.0,
+          29.5,
+          31.0,
+          32.5,
+          34.0,
+          35.5,
+          37.0
+        ],
+        "length": 10
+      }
+    },
+    "neural": {
+      "complex": {
+        "burden_values": [
+          220.0,
+          143.3061,
+          97.5759,
+          70.626,
+          55.0671,
+          46.417,
+          41.9574,
+          40.0395
+        ],
+        "length": 7
+      },
+      "moderate": {
+        "burden_values": [
+          70.0,
+          52.3265,
+          42.394,
+          37.1565,
+          34.7668
+        ],
+        "length": 4
+      },
+      "simple": {
+        "burden_values": [
+          30.0,
+          28.0653
+        ],
+        "length": 1
+      }
+    },
+    "symbolic": {
+      "complex": {
+        "burden_values": [
+          208.0,
+          157.1636,
+          119.7623,
+          92.3139,
+          72.2388,
+          57.626,
+          47.0598,
+          39.4913,
+          34.1436,
+          30.4411,
+          27.9574,
+          26.3766,
+          25.4647,
+          25.0484,
+          24.9991
+        ],
+        "length": 14
+      },
+      "moderate": {
+        "burden_values": [
+          58.0,
+          46.0409,
+          37.4406,
+          31.3285,
+          27.0597,
+          24.1565,
+          22.2649,
+          21.1228,
+          20.5359,
+          20.3603
+        ],
+        "length": 9
+      },
+      "simple": {
+        "burden_values": [
+          18.0,
+          16.4082,
+          15.4881,
+          15.0657,
+          15.0119
+        ],
+        "length": 4
+      }
+    }
+  }
+}
