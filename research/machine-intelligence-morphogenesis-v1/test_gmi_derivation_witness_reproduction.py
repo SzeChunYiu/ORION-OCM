@@ -37,6 +37,7 @@ RESULTS = os.path.join(HERE, "microscopes", "results")
 
 # witness script -> the receipt it writes, relative to microscopes/results/
 WITNESSES = {
+    "belief_state_witness.py": "STAGE_BELIEF_STATE_V1.json",
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
     "credit_assignment_witness.py": "STAGE_CREDIT_ASSIGNMENT_V1.json",
@@ -914,3 +915,53 @@ def test_both_shapes_are_neutrally_recovered():
     reads = {x["reads_as"] for x in r["recovery"]}
     assert len(reads) > 1, \
         "every world recovers the same shape -- nothing has been recovered"
+
+
+def test_belief_state_is_a_strict_quotient_of_histories():
+    """GMI_BELIEF_STATE_DERIVATION_V1: histories must collapse, or the belief
+    state saves nothing over storing the raw history."""
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    rows = sorted(r["quotient"], key=lambda x: x["length"])
+    assert rows[-1]["beliefs"] < rows[-1]["histories"], \
+        "no two histories collapse to the same posterior"
+    assert rows[-1]["collapse"] > rows[0]["collapse"], \
+        "the collapse no longer grows with history length"
+
+
+def test_point_estimate_fails_only_when_the_mode_is_a_minority():
+    """Both halves: it must suffice somewhere and fail somewhere, or this says
+    nothing about when a posterior is required."""
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    ag = [x["agree"] for x in r["point_estimate"]]
+    assert any(ag) and not all(ag), "the point-estimate result became unconditional"
+    bad = [x for x in r["point_estimate"] if not x["agree"]]
+    assert bad and bad[0]["loss"] != "0", \
+        "the failing case now loses nothing, so it is not a failure"
+
+
+def test_factorization_is_checked_not_assumed():
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    by = {x["joint"]: x for x in r["factorization"]}
+    assert by["independent"]["factorizes"] is True
+    assert by["diagonal"]["factorizes"] is False, \
+        "an entangled joint now factorizes -- conditional independence does no work"
+    assert by["independent"]["factored"] < by["independent"]["full"]
+
+
+def test_maintenance_and_compilation_cross_in_horizon():
+    """The crossover must run the right way: a table wins at short horizons
+    with many queries and cannot be built at long ones."""
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    kinds = {x["cheaper"] for x in r["maintain_vs_compile"]}
+    assert "compile" in kinds and "maintain" in kinds, \
+        "no crossover between maintaining a posterior and compiling a table"
+    short = [x for x in r["maintain_vs_compile"] if x["n"] == 2 and x["Q"] == 64][0]
+    long_ = [x for x in r["maintain_vs_compile"] if x["n"] == 10 and x["Q"] == 64][0]
+    assert short["cheaper"] == "compile" and long_["cheaper"] == "maintain"
+
+
+def test_smallest_sufficient_state_is_recovered():
+    r = load_receipt("STAGE_BELIEF_STATE_V1.json")
+    needs = [x["needs_full"] for x in r["recovery"]]
+    assert any(needs) and not all(needs), \
+        "every belief needs the same state, so nothing is being recovered"
