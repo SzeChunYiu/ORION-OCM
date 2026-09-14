@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F4 capability predictor",
+  "freeze_digest": "cee4b92e9ca524d8d57d6f60c8fe529529216f13602a8a1f1b633a8c8fa3106a",
+  "scope": "prospectively frozen exact capability predictions for six opaque held structural families outside the development cube",
+  "evidence_class": ["P2"],
+  "claim_ceiling": "G3",
+  "status": "PASS",
+  "summary": {
+    "total_cells": 48,
+    "determinate_cells": 20,
+    "correct_determinate_cells": 20,
+    "incorrect_determinate_cells": 0,
+    "abstention_cells": 28,
+    "coverage_fraction": "5/12",
+    "determinate_accuracy_fraction": "1/1"
+  },
+  "family_signatures": [
+    {
+      "family_id": "HF_COMM_DEFICIT",
+      "determinate_cells": 2,
+      "correct_determinate_cells": 2,
+      "predicted_strengths": [],
+      "predicted_weaknesses": ["coordination_exact"]
+    },
+    {
+      "family_id": "HF_PLAN_DEFICIT",
+      "determinate_cells": 2,
+      "correct_determinate_cells": 2,
+      "predicted_strengths": [],
+      "predicted_weaknesses": ["planning_exact"]
+    },
+    {
+      "family_id": "HF_ROUTE_DEFICIT",
+      "determinate_cells": 2,
+      "correct_determinate_cells": 2,
+      "predicted_strengths": [],
+      "predicted_weaknesses": ["verified_tool_exact"]
+    },
+    {
+      "family_id": "HF_STATE_DEFICIT",
+      "determinate_cells": 4,
+      "correct_determinate_cells": 4,
+      "predicted_strengths": [],
+      "predicted_weaknesses": ["memory_exact", "planning_exact"]
+    },
+    {
+      "family_id": "HF_UPPER_RAY",
+      "determinate_cells": 8,
+      "correct_determinate_cells": 8,
+      "predicted_strengths": ["coordination_exact", "memory_exact", "planning_exact", "verified_tool_exact"],
+      "predicted_weaknesses": []
+    },
+    {
+      "family_id": "HF_VERIFY_DEFICIT",
+      "determinate_cells": 2,
+      "correct_determinate_cells": 2,
+      "predicted_strengths": [],
+      "predicted_weaknesses": ["verified_tool_exact"]
+    }
+  ],
+  "assumptions": [
+    "the freeze digest was committed before this scoring artifact",
+    "the held oracle is computed independently from exact registered obligation inequalities and does not call the fitted predictor",
+    "CANNOT_IDENTIFY is scored as abstention rather than success or failure",
+    "claims concern the six registered structural families, not all named architecture families"
+  ],
+  "strongest_parent": "prospective holdout evaluation with selective prediction / abstention",
+  "negative_twin": "score an edited or post-outcome freeze; digest custody must refuse it",
+  "nearest_counterexample": "perfect accuracy on determinate cells with zero or trivial coverage would not establish a useful predictor; coverage is therefore reported separately",
+  "falsifier": "Any determinate frozen prediction disagrees with the independent held oracle, the freeze digest changes, or abstentions are counted as correct predictions."
+}
