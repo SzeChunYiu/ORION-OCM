@@ -39,6 +39,7 @@ RESULTS = os.path.join(HERE, "microscopes", "results")
 WITNESSES = {
     "concept_formation_witness.py": "STAGE_CONCEPT_FORMATION_V1.json",
     "consolidation_witness.py": "STAGE_CONSOLIDATION_WITNESS_V1.json",
+    "continual_regimes_witness.py": "STAGE_CONTINUAL_REGIMES_V1.json",
     "goal_formation_witness.py": "STAGE_GOAL_FORMATION_V1.json",
     "hierarchy_overhead_witness.py": "STAGE_HIERARCHY_OVERHEAD_V1.json",
     "hierarchy_witness.py": "STAGE_HIERARCHY_WITNESS_V1.json",
@@ -487,3 +488,50 @@ def test_interference_equals_the_excess_over_capacity():
         lost = 1 - Fraction(e["stability_at_full_plasticity"])
         assert lost == Fraction(min(4, max(0, e["excess"])), 4), \
             "interference at capacity %d no longer equals the excess" % e["capacity"]
+
+
+def test_every_continual_regime_wins_somewhere():
+    """GMI_CONTINUAL_LEARNING_REGIMES_V1: all four regimes must be cheapest in
+    some price regime. One that never wins is not a regime."""
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    wins = {row["winner"] for row in r["regime_table"]}
+    assert wins == {"expand", "regularize", "modularize", "replay"}, \
+        "not every regime wins somewhere: %s" % sorted(wins)
+
+
+def test_replay_is_specific_to_overwrite():
+    """The sharpest claim: switching the substrate to addressed, changing
+    nothing else, must take the win away from replay -- and replay must never
+    win anywhere overwrite is zero."""
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    ctrl = r["substrate_control"]
+    interfering = [c for c in ctrl if "interfering" in c["substrate"]]
+    addressed = [c for c in ctrl if "addressed" in c["substrate"]]
+    assert interfering and addressed, "the substrate control pair is missing"
+    assert interfering[0]["winner"] == "replay"
+    assert addressed[0]["winner"] != "replay", \
+        "replay still wins with overwrite off, so it is not specific"
+    # replay's own cost must be unchanged -- what changed is the damage
+    assert interfering[0]["costs"]["replay"] == addressed[0]["costs"]["replay"], \
+        "replay's price moved between substrates, confounding the control"
+
+
+def test_continual_crossover_is_a_price_not_a_task_property():
+    """Sweeping only the price of capacity, with the task sequence fixed, must
+    move the winner -- otherwise there is no crossover to report."""
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    winners = [x["winner"] for x in r["capacity_price_sweep"]]
+    assert len(set(winners)) > 1, "the winner never changes with capacity price"
+
+
+def test_redundancy_dissolves_the_problem_but_not_for_modularize():
+    """At full redundancy the capacity remedies cost nothing while isolation
+    still charges -- which is what makes a method harmful on shared tasks."""
+    from fractions import Fraction
+    r = load_receipt("STAGE_CONTINUAL_REGIMES_V1.json")
+    sweep = sorted(r["redundancy_sweep"], key=lambda x: x["shared"])
+    assert Fraction(sweep[0]["costs"]["expand"]) > 0
+    assert Fraction(sweep[-1]["costs"]["expand"]) == 0
+    assert Fraction(sweep[-1]["costs"]["regularize"]) == 0
+    assert Fraction(sweep[-1]["costs"]["modularize"]) > 0, \
+        "isolation is now free on fully shared tasks -- the harm claim is stale"
