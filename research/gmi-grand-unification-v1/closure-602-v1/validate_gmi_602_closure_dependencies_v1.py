@@ -11,6 +11,7 @@ ROOT = HERE.parent
 DEP = HERE / "GMI_602_CLOSURE_DEPENDENCIES_V1.json"
 SPINE = HERE / "GMI_602_PARENT_ATLAS_AND_FORMAL_CLOSURE_V1.md"
 AMENDMENT = HERE / "GMI_602_PARENT_ATLAS_AMENDMENTS_V1.md"
+FORMAL_V2 = HERE / "GMI_602_FORMAL_GAP_CLOSURE_V2.md"
 PARENT = ROOT.parent / "machine-intelligence-morphogenesis-v1" / "PARENT_LEDGER_V2.json"
 
 EXPECTED_SECTIONS = tuple(chr(c) for c in range(ord("A"), ord("V") + 1))
@@ -18,7 +19,7 @@ EXPECTED_THEOREMS = {
     *(f"T602-{i:02d}" for i in range(1, 17)),
     "T602-17",
     "T602-17b",
-    *(f"T602-{i:02d}" for i in range(18, 24)),
+    *(f"T602-{i:02d}" for i in range(18, 34)),
 }
 EXPECTED_CORRIGENDA = {"C602-05", "C602-13", "C602-14", "C602-17b", "C602-20"}
 EXPECTED_ADDED_PARENT_CLASSES = {
@@ -45,10 +46,12 @@ def main() -> None:
     parent = load_json(PARENT)
     spine = SPINE.read_text(encoding="utf-8")
     amendment = AMENDMENT.read_text(encoding="utf-8")
+    formal_v2 = FORMAL_V2.read_text(encoding="utf-8")
 
     assert dep["schema"] == "GMI_602_CLOSURE_DEPENDENCIES_V1"
     assert dep["formal_spine"] == SPINE.name
     assert dep["formal_amendment"] == AMENDMENT.name
+    assert dep["formal_gap_supplement"] == FORMAL_V2.name
     assert isinstance(parent, dict) and parent, "specialist parent ledger must parse as a nonempty JSON object"
     assert PARENT.stat().st_size > 10_000, "specialist parent ledger unexpectedly collapsed"
 
@@ -62,7 +65,8 @@ def main() -> None:
     theorem_ids = set(dep["theorems"])
     assert theorem_ids == EXPECTED_THEOREMS, "formal theorem inventory drifted"
     for theorem_id in sorted(EXPECTED_THEOREMS):
-        assert theorem_id in spine, f"{theorem_id}: declared but absent from formal spine"
+        corpus = spine if theorem_id in {*(f"T602-{i:02d}" for i in range(1, 24)), "T602-17b"} else formal_v2
+        assert theorem_id in corpus, f"{theorem_id}: declared but absent from its formal artifact"
 
     corrigenda = set(dep["normative_corrigenda"])
     assert corrigenda == EXPECTED_CORRIGENDA, "normative corrigenda inventory drifted"
@@ -77,6 +81,20 @@ def main() -> None:
     assert "finite admitted candidate set" in amendment, "C602-14 candidate-finiteness repair missing"
     assert "C_\\pi(t)" in amendment, "C602-17b transcript-cell definition missing"
     assert "distinct real-valued" in amendment, "C602-20 extrapolation scope repair missing"
+
+    for token in (
+        "residual external-memory",
+        "common learning/update object",
+        "developmental reachability",
+        "hybrid solver routing",
+        "capability interaction calculus",
+        "capability-predictor sufficiency",
+        "machine-species ecology",
+        "Optional inheritance monotonicity",
+        "global statistical-validity",
+        "scaling, bottlenecks",
+    ):
+        assert token in formal_v2, f"formal V2 supplement lost required gap-closure token: {token}"
 
     empirical = dep["empirical_claim"]
     if empirical["status"] == "EARNED":
