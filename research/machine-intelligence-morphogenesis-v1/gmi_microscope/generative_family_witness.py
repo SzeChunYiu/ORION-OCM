@@ -12,7 +12,8 @@ exact `fractions.Fraction` arithmetic. Nothing is sampled and no reported
 number is a float: a sampled estimate of a distribution is not a derivation of
 one.
 
-The four conditions, stated before they are measured:
+The four conditions, stated earlier in this file than they are measured --
+which is source order within one run, not a pre-registration:
 
   chain (autoregressive)   The chain rule is an identity, so exactness is
                            free. What is NOT free is the ORDERING: the number
@@ -1059,7 +1060,7 @@ print()
 print("=" * 78)
 print("6  HELD-FAMILY RESPONSE TESTS")
 print("=" * 78)
-print("  Two laws derived above are frozen as quantitative predictions, then")
+print("  Two laws derived above are stated as quantitative predictions, then")
 print("  measured on joints built by a RULE that does not consult the")
 print("  derivation panel. Asserted disjoint from it below. A held test whose")
 print("  sweep predicts the same outcome everywhere would establish nothing, so")

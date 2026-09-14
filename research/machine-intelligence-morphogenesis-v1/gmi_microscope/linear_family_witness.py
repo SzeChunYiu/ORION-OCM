@@ -313,9 +313,11 @@ print("  and the advantage disappears continuously as the required degree rises.
 
 print()
 print("=" * 78)
-print("7  A QUANTITATIVE PREDICTION, FROZEN THEN MEASURED")
+print("7  A DERIVED PREDICTION, CHECKED AGAINST MEASUREMENT IN THIS RUN")
 print("=" * 78)
-print("  Prediction, computed BEFORE the measurement below: a coefficient")
+print("  Prediction, derived from the basis and stated before the")
+print("  measurement in this run -- same process, so NOT a pre-registration:")
+print("  a coefficient")
 print("  machine over d features identifies after exactly d independent")
 print("  observations, for every d -- not d-1, and not more than d.")
 print()

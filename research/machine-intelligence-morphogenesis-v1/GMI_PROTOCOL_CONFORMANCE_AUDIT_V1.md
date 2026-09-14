@@ -52,23 +52,40 @@ four of eight signals at 18–19 of 19, because every witness is a Python file t
 
 | Requirement | receipt only | receipt + source |
 |---|---:|---:|
-| constructive realization | 5/19 | 19/19 — saturates |
-| complexity coordinate | 18/19 | 19/19 — saturates |
-| lifecycle/resource law | 16/19 | 19/19 — saturates |
-| crossover prediction | 10/19 | 18/19 — saturates |
-| obligation-sufficient state | 8/19 | 16/19 |
-| lower bound proved | 8/19 | 12/19 |
+| constructive realization | 4/19 | 19/19 — saturates |
+| complexity coordinate | 13/19 | 19/19 — saturates |
+| lifecycle/resource law | 9/19 | 19/19 — saturates |
+| crossover prediction | 8/19 | 18/19 — saturates |
+| obligation-sufficient state | 6/19 | 15/19 |
+| lower bound proved | 3/19 | 11/19 |
 | matched negative twin | 10/19 | 15/19 |
-| neutral recovery | 13/19 | 16/19 |
+| neutral recovery | 9/19 | 15/19 |
 
 Neither setting is a measurement. A number produced this way would say more about each author's prose than
 about their derivation.
 
 **The real-regime signal has no true positives at all.** Searching witness source for
-`real-regime|real-scale|production|full-scale` fires on exactly two families, and both are substring
-artefacts: B14 writes *"production system"* (a rewrite-systems term) and B15 writes *"reproduction"* (of a
-receipt). Precision zero. This is the same defect class as the `"copyable)" ⊂ "not copyable)"` self-match
-caught earlier in B14's own census — substring matching without a word boundary or a semantic check.
+`real-regime|real-scale|production|full-scale` fires on **one** family and it is wrong: B14 writes
+*"production system"*, a rewrite-systems term with nothing to do with scale. Precision zero, with zero true
+positives.
+
+Every pattern here is word-bounded, and that matters, because an unbounded earlier version fired on a
+second family too — B15 writes *"reproduction"* (of a receipt), which contains *production*. Boundaries
+remove that lexical artefact and cannot touch the semantic one. **A word boundary fixes the accident; it
+does not fix the wrong word.**
+
+### The audit caught itself committing the defect it reports
+
+This is not a hypothetical failure mode. An earlier version of this audit matched bare substrings, and a
+later correction elsewhere in the corpus added the word *"stated"* to a witness — which the pattern
+`state|carrier|memory|…` matched as a substring of *state*. The measured count moved from 16 to 17 on a
+change that altered no conformance whatsoever, and **this audit's own reproduction guard in CI failed on
+it**, which is how it was found.
+
+Two things follow. The receipt-only counts in the table above are all *lower* than they were under
+substring matching — the old ones were inflated by exactly this class of accident. And the saturation is
+unchanged at four of eight signals, which is the point: the proxy fails for structural reasons, not for
+want of tuning.
 
 ## 3  The cause, exhibited: there is no shared protocol vocabulary
 
@@ -127,9 +144,26 @@ without a declaration.
 
 **A caveat that bears directly on a requirement this audit could not validate.** The protocol asks for a
 prediction frozen before the outcome. A prediction computed earlier in the *same run* is not a
-pre-registration, and most of this corpus is retrospective. The schema field
-`prediction_frozen_before_outcome` is the place that must eventually carry an answer; nothing in the
-current artifacts supports one.
+pre-registration, and most of this corpus is retrospective.
+
+A subsequent field-by-field adjudication of 21 families settled this one: **`prediction_frozen_before_outcome`
+is true for zero of them.** Four artifacts claimed otherwise in prose and none met the bar — a section
+headed "FROZEN THEN MEASURED" whose `predicted` and `measured` are built in the same dict in the same loop;
+a descriptor said to predict "BEFORE any machine is built" in the same file and the same run; and two more
+in the same shape. Those statements have been corrected in place; the receipts were unaffected and verified
+byte-identical.
+
+**The corpus already owns the mechanism it is not using, which makes this a gap with a known fix rather than
+a missing capability.** The RV-377 revival work does pre-registration properly and in two phases:
+`predict_sym.py` is written and run *before* the frontier runs, emits `STAGE_DE_SYM_PREDICTION.json` as its
+own committed receipt, and states at the top which inputs were admissible at freeze time; `compare_sym.py`
+is a separate script that adjudicates the executed frontiers against that frozen receipt afterwards. That is
+exactly what the protocol asks for. None of the 21 derivation families do it — every one states its
+prediction and measures it inside a single script.
+
+So the repair for this field is not new machinery. It is applying an existing in-house pattern: split the
+prediction into its own script and its own receipt, commit that receipt, and adjudicate against it in a
+second pass.
 
 ## 6  Scope
 

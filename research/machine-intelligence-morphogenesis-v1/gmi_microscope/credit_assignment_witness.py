@@ -7,7 +7,8 @@ did not have. This supplies both.
 
   1  forward and reverse accumulation, IMPLEMENTED and counted on a real graph
   2  the rule that selects between them, derived from those counts
-  3  a negative twin: the regime where reverse mode is the wrong choice
+  3  a regime crossover: where reverse mode is the dearer choice.  Both modes
+     succeed there, so this is NOT a matched failing control
   4  neutral recovery: a label-free search over machines that is told only
      "meet the obligation, pay for structure"
   5  the twin for that: an ecology where the recovered machine is NOT an MLP

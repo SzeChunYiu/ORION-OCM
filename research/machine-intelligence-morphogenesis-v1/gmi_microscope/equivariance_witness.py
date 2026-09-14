@@ -287,7 +287,8 @@ assert a["shared_works"] is True and b["shared_works"] is False, (
 assert a["shift_invariant"] is True and b["shift_invariant"] is False
 print()
 print("  > The advantage disappears exactly when the symmetry does, and the")
-print("  > descriptor in section 1 predicts it BEFORE any machine is built.")
+print("  > descriptor in section 1 implies it independently of any machine,")
+print("  > though stated in the same run, so it is not a pre-registration.")
 print()
 print("  A machine that shares weights on first_is_1 is not merely inefficient;")
 print("  it cannot express the obligation at all -- no shared detector at ANY")
