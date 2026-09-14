@@ -1405,5 +1405,19 @@ print("=" * 78)
 print("all assertions held   (%.1f s)" % (time.time() - T0))
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Answer queries when an outside party with its own limited competence and its own posted price will answer them, the caller knows which task it is running but not the payload, and the outside answer may be wrong without saying so.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "tasks",
+    "coordinate": "probes",
+    "resource_law": None,
+    "negative_control": "collapse_control",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_TOOL_ROUTING_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

@@ -15,7 +15,27 @@
     "shared_tokens": []
   },
   "protocol_block": {
-    "compliant": [],
+    "compliant": [
+      "B10 conditional spec",
+      "B11 exemplar/param",
+      "B13 belief state",
+      "B14 symbolic rewrite",
+      "B15 program library",
+      "B16 search frontier",
+      "B17 generative",
+      "B18 control",
+      "B19 continual",
+      "B2 finite-state",
+      "B3 linear/kernel",
+      "B4 credit assign",
+      "B4 neural arch",
+      "B4 update law",
+      "B5 equivariance",
+      "B6 gated recurrence",
+      "B7 dynamic routing",
+      "B8 message passing",
+      "B9 state space"
+    ],
     "partial": [],
     "schema_fields": [
       "coordinate",
@@ -41,15 +61,22 @@
   },
   "signal_validation": [
     {
-      "false_positive": [],
-      "fn": 1,
-      "fp": 0,
-      "missed": [
-        "B2 finite-state"
+      "false_positive": [
+        "B11 exemplar/param",
+        "B13 belief state",
+        "B16 search frontier",
+        "B3 linear/kernel",
+        "B4 credit assign",
+        "B4 update law",
+        "B6 gated recurrence",
+        "B9 state space"
       ],
+      "fn": 0,
+      "fp": 8,
+      "missed": [],
       "signal": "matched negative control",
-      "tn": 8,
-      "tp": 10
+      "tn": 0,
+      "tp": 11
     },
     {
       "false_positive": [
@@ -65,7 +92,7 @@
   ],
   "widening_test": {
     "complexity coordinate": {
-      "receipt_only": 13,
+      "receipt_only": 15,
       "receipt_plus_source": 19
     },
     "constructive realization": {
@@ -77,7 +104,7 @@
       "receipt_plus_source": 18
     },
     "lifecycle/resource law": {
-      "receipt_only": 9,
+      "receipt_only": 10,
       "receipt_plus_source": 19
     },
     "lower bound proved": {
@@ -85,15 +112,15 @@
       "receipt_plus_source": 11
     },
     "matched negative twin": {
-      "receipt_only": 10,
-      "receipt_plus_source": 15
+      "receipt_only": 19,
+      "receipt_plus_source": 19
     },
     "neutral recovery": {
       "receipt_only": 9,
       "receipt_plus_source": 15
     },
     "obligation-sufficient state": {
-      "receipt_only": 6,
+      "receipt_only": 8,
       "receipt_plus_source": 15
     }
   }

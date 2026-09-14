@@ -232,5 +232,19 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Answer a question about a sequence of symbols while carrying a bounded amount of information between symbols, advancing what is carried by one fixed rule applied once per symbol.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "compression",
+    "coordinate": "bits",
+    "resource_law": None,
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_STATE_SPACE_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

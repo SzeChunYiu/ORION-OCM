@@ -329,5 +329,22 @@ print("=" * 76)
 print("all assertions held")
 print("=" * 76)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Produce the demanded yes/no response at every point in a "
+                  "symbol sequence, where the response may depend on the "
+                  "entire history seen so far and not only on the current "
+                  "symbol.",
+    "state_sufficient": True,
+    "lower_bound": 3,
+    "upper_bound_construction": "realization",
+    "coordinate": "states",
+    "resource_law": None,
+    "negative_control": "stateless",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_FINITE_STATE_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

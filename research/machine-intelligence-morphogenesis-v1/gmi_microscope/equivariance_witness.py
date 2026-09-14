@@ -302,5 +302,21 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "version": "B1/v1",
+    "obligation": "Meet a response demand on cyclic binary sequences, and "
+                  "exploit exactly whatever positional symmetry the demand "
+                  "itself has, without assuming any.",
+    "state_sufficient": True,
+    "lower_bound": 3,
+    "upper_bound_construction": "recovery",
+    "coordinate": "window width (shared parameters)",
+    "resource_law": None,
+    "negative_control": "negative_twin",
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+}
+
 with open("microscopes/results/STAGE_EQUIVARIANCE_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)

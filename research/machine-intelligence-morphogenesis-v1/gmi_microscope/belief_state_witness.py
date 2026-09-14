@@ -271,5 +271,19 @@ print("=" * 78)
 print("all assertions held")
 print("=" * 78)
 
+OUT["protocol"] = {
+    "obligation": "Choose an action under a payoff when the quantity that determines the payoff is never observed directly and observations are noisy, holding only what is needed to keep acting correctly as observations accumulate.",
+    "state_sufficient": True,
+    "lower_bound": None,
+    "upper_bound_construction": "quotient",
+    "coordinate": "states",
+    "resource_law": "CSR-1",
+    "negative_control": None,
+    "prediction_frozen_before_outcome": False,
+    "neutral_search_blind_to_family": True,
+    "replication": [],
+    "version": "B1/v1",
+}
+
 with open("microscopes/results/STAGE_BELIEF_STATE_V1.json", "w") as fh:
     json.dump(OUT, fh, indent=1, sort_keys=True)
