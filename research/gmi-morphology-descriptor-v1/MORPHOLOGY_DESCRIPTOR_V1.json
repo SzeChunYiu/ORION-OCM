@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "F4 capability predictor",
+  "ledger_row": "Build architecture-name-free morphology descriptor.",
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G1",
+  "claim_boundary": "This freezes predictor-visible morphology coordinates only. It does not fit a capability predictor, freeze held-family outcomes, or claim G6.",
+  "identity_fields_excluded_from_predictor": ["specimen_id", "source_ref"],
+  "coordinates": [
+    {
+      "id": "state_carrier",
+      "semantics": "persistent internal decision-relevant state",
+      "required_fields": ["kind", "capacity", "precision", "persistence"]
+    },
+    {
+      "id": "operator_structure",
+      "semantics": "primitive transformation and composition structure",
+      "required_fields": ["arity", "locality", "composition_depth", "nonlinear_stage_count"]
+    },
+    {
+      "id": "control_routing",
+      "semantics": "how information selects and routes transformations",
+      "required_fields": ["conditional_branches", "routing_state_capacity", "fan_in", "fan_out"]
+    },
+    {
+      "id": "update_channel",
+      "semantics": "where and how retained state or parameters may change",
+      "required_fields": ["mutable_fraction", "signal_scope", "update_frequency", "credit_path_length"]
+    },
+    {
+      "id": "memory_organization",
+      "semantics": "retention and retrieval organization",
+      "required_fields": ["addressability", "retained_items", "retrieval_fanout", "write_persistence"]
+    },
+    {
+      "id": "sharing_symmetry",
+      "semantics": "reuse of one rule or parameter across obligation-equivalent positions",
+      "required_fields": ["sharing_groups", "largest_group", "equivariance_constraints", "reuse_count"]
+    },
+    {
+      "id": "communication_channel",
+      "semantics": "information exchange with other adaptive agents",
+      "required_fields": ["alphabet_capacity", "rounds", "recipient_count", "shared_side_information"]
+    },
+    {
+      "id": "tool_channel",
+      "semantics": "externally delegated proposal or action channel",
+      "required_fields": ["tool_count", "routing_choices", "result_bandwidth", "state_externalization"]
+    },
+    {
+      "id": "verification_path",
+      "semantics": "internal or external checking before adoption",
+      "required_fields": ["verified_fraction", "verification_depth", "latency", "false_adoption_guard"]
+    },
+    {
+      "id": "resource_footprint",
+      "semantics": "hard per-instance and retained resource commitments",
+      "required_fields": ["compute_units", "memory_units", "communication_units", "verification_units"]
+    },
+    {
+      "id": "development_law",
+      "semantics": "which morphology coordinates may change across development",
+      "required_fields": ["mutable_coordinate_count", "transition_depth", "heritable_fraction", "self_modification_guard"]
+    },
+    {
+      "id": "interface_geometry",
+      "semantics": "sensor/action boundary dimensionality and locality",
+      "required_fields": ["observation_ports", "action_ports", "observation_locality", "action_locality"]
+    }
+  ],
+  "forbidden_feature_tokens": [
+    "transformer", "cnn", "rnn", "lstm", "gru", "mlp", "svm", "perceptron",
+    "attention", "neuron", "convolution", "backprop", "backpropagation", "bayes",
+    "random forest", "decision tree", "kernel machine", "finite state machine"
+  ],
+  "falsifier": "A predictor-visible descriptor that requires a family label, leaks an excluded identity field, changes under metadata reminting, or cannot represent one of the registered structural coordinate families.",
+  "strongest_parent": "architecture characterization / algorithmic resource descriptors / sufficient structural statistics",
+  "negative_twin": "append a family-name feature; the anti-leakage validator must reject it even if prediction accuracy would improve"
+}
