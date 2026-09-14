@@ -4,7 +4,7 @@ import hashlib
 import importlib.util
 import json
 import pathlib
-from typing import Dict, List, Mapping, Union
+from typing import Dict, List, Mapping
 
 ROOT = pathlib.Path(__file__).resolve().parent
 PREDICTOR_PATH = ROOT.parent / "gmi-capability-predictor-dev-v1" / "dev_predictor_v1.py"
@@ -47,6 +47,16 @@ HELD_FAMILY_POINTS = {
 def _canonical_digest(payload: Mapping[str, object]) -> str:
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _walk_keys(value):
+    if isinstance(value, Mapping):
+        for key, child in value.items():
+            yield key
+            yield from _walk_keys(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from _walk_keys(child)
 
 
 def build_freeze_manifest() -> Dict[str, object]:
@@ -92,9 +102,50 @@ def build_freeze_manifest() -> Dict[str, object]:
     return manifest
 
 
+def validate_freeze_manifest(manifest: Mapping[str, object]) -> None:
+    required = {
+        "scope", "assumptions", "evidence_class", "strongest_parent", "negative_twin",
+        "nearest_counterexample", "falsifier", "claim_ceiling", "status", "families",
+        "freeze_digest", "outcomes_present", "outcome_fields_forbidden"
+    }
+    if not required.issubset(manifest):
+        raise ValueError("freeze manifest missing claim-gate metadata")
+    if manifest["outcomes_present"] is not False:
+        raise ValueError("held outcomes must be absent at freeze time")
+    forbidden = set(manifest["outcome_fields_forbidden"])
+    used_keys = set(_walk_keys(manifest)) - {"outcome_fields_forbidden"}
+    leaked = forbidden.intersection(used_keys)
+    if leaked:
+        raise ValueError(f"held outcome fields leaked into freeze: {sorted(leaked)}")
+
+    predictor = predictor_mod.fit_registered_development_predictor()
+    for family in manifest["families"]:
+        family_without_digest = dict(family)
+        claimed_family_digest = family_without_digest.pop("family_digest")
+        if _canonical_digest(family_without_digest) != claimed_family_digest:
+            raise ValueError("family digest mismatch")
+        family_id = family["family_id"]
+        if not isinstance(family_id, str) or not family_id.startswith("HF_"):
+            raise ValueError("held family IDs must be opaque HF_ identifiers")
+        for member in family["members"]:
+            point = member["descriptor_margins"]
+            if not any(abs(int(value)) > 1 for value in point.values()):
+                raise ValueError("held member overlaps the development cube")
+            expected = predictor.predict_vector(point)
+            if member["frozen_prediction"] != expected:
+                raise ValueError("frozen prediction does not match prefit predictor")
+
+    without_freeze_digest = dict(manifest)
+    claimed_freeze_digest = without_freeze_digest.pop("freeze_digest")
+    if _canonical_digest(without_freeze_digest) != claimed_freeze_digest:
+        raise ValueError("freeze digest mismatch")
+
+
 def render_manifest() -> str:
     return json.dumps(build_freeze_manifest(), indent=2, sort_keys=True) + "\n"
 
 
 if __name__ == "__main__":
-    print(render_manifest(), end="")
+    built = build_freeze_manifest()
+    validate_freeze_manifest(built)
+    print(json.dumps(built, indent=2, sort_keys=True))
