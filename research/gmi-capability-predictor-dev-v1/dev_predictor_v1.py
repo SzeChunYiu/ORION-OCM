@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from itertools import product
 from typing import Dict, Iterable, List, Mapping, Sequence, Tuple, Union
 
@@ -56,12 +55,14 @@ def _validate_point(point: Mapping[str, int]) -> None:
         raise ValueError("query point must contain exactly the five registered axes")
     for axis in AXES:
         value = point[axis]
-        if not isinstance(value, int):
+        if isinstance(value, bool) or not isinstance(value, int):
             raise ValueError(f"{axis} must be an integer margin")
 
 
 def _point_from_record(record: Mapping[str, object]) -> Dict[str, int]:
-    return {axis: int(record[axis]) for axis in AXES}
+    point = {axis: record[axis] for axis in AXES}
+    _validate_point(point)
+    return point  # type: ignore[return-value]
 
 
 def _leq(a: Mapping[str, int], b: Mapping[str, int]) -> bool:
@@ -75,19 +76,18 @@ def validate_development_record(record: Mapping[str, object]) -> None:
     expected = set(AXES) | {"capabilities"}
     if set(record) != expected:
         raise ValueError("development record must contain exactly registered fit fields")
-    point = _point_from_record(record)
-    _validate_point(point)
+    _point_from_record(record)
     caps = record["capabilities"]
     if not isinstance(caps, Mapping) or set(caps) != set(TARGETS):
         raise ValueError("capabilities must contain exactly the registered targets")
     for target in TARGETS:
-        if caps[target] not in (0, 1):
-            raise ValueError(f"{target} must be binary")
+        if caps[target] not in (0, 1) or isinstance(caps[target], bool):
+            raise ValueError(f"{target} must be binary integer 0/1")
 
 
-@dataclass(frozen=True)
 class MonotoneDevelopmentPredictor:
-    records: Tuple[Mapping[str, object], ...]
+    def __init__(self, records: Tuple[Mapping[str, object], ...]):
+        self.records = records
 
     @classmethod
     def fit(cls, records: Iterable[Mapping[str, object]]) -> "MonotoneDevelopmentPredictor":
