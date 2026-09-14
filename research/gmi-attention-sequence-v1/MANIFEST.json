@@ -1,0 +1,23 @@
+{
+  "capsule": "gmi-attention-sequence-v1",
+  "issue": 602,
+  "section": "E boxes (sparse/local attention, phase boundary, long-sequence ecology)",
+  "description": "Extends dynamic routing to M simultaneous targets; derives sparse attention condition, phase boundary, and long-sequence crossover for growing-quotient obligations",
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "parent_capsules": [
+    "gmi-formal-derivation-v1",
+    "gmi-hierarchical-chunking-repair-v1"
+  ],
+  "theorem": "ATTENTION_SEQUENCE (T1 sparse wins, T2 phase boundary, T3 long-sequence crossover)",
+  "scope": "Sparse/local attention routing under locality and budget constraints for M targets, K slots, sequence length N",
+  "falsifier": "An ecology with sublinear target growth (alpha < 1) where sparse routing without carry dominates carry-based routing at all N",
+  "files": [
+    "ATTENTION_SEQUENCE_THEOREM_V1.md",
+    "attention_witness.py",
+    "test_attention_sequence.py",
+    "CORE.md",
+    "MANIFEST.json"
+  ],
+  "run_test": "cd research/gmi-attention-sequence-v1 && python3 -I -B test_attention_sequence.py -v"
+}
