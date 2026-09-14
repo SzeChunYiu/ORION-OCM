@@ -1,5 +1,6 @@
 """KAE-1..9. The live census is re-derived; the held-out run is bound to the
 frozen receipt.  Controls must go red when fed a wrong claim."""
+import functools
 import json
 import unittest
 from pathlib import Path
@@ -97,30 +98,152 @@ class KAE5b_TiesAreASeparateCategory(unittest.TestCase):
         self.assertGreater(tie, 0, "exploratory population does contain ties")
 
 
+@functools.lru_cache(maxsize=None)
+def _heldout_census_cached(items, minlen, cap):
+    return _heldout_census_uncached(dict(items), minlen, cap)
+
+
+def heldout_census(library, minlen=5, cap=5):
+    """Cached wrapper: each library is regenerated once per process.
+
+    Without this the four-library census (~11s) is paid by every assertion that
+    needs it, which pushed the suite past the 60s checker budget.
+    """
+    return _heldout_census_cached(tuple(sorted(library.items())), minlen, cap)
+
+
+def _heldout_census_uncached(library, minlen=5, cap=5):
+    """Regenerate a held-out library census from the model, live.
+
+    The held-out figures carry the load-bearing claims and were previously read
+    from the frozen receipt only, so a change to the model that altered them
+    would have left receipt and documents asserting the old result.  Measured
+    cost: about 2.7s per library, 11s for all four.
+    """
+    pop = K.minimal_length_population(minlen, cap)
+    reuse = nore = k2r = k2n = worse = 0
+    reset_total = h_total = 0
+    for sem in pop:
+        avail = K.reuse_available(sem, library, cap)
+        t = K.k2_trial(sem, library, cap)
+        reset_total += t["reset"]; h_total += t["h"]
+        if avail:
+            reuse += 1; k2r += t["k2"]
+        else:
+            nore += 1; k2n += t["k2"]; worse += t["h_worse"]
+    return {"alphabet": len(K.with_library(library)),
+            "reuse_targets": reuse, "noreuse_targets": nore, "k2_on_reuse": k2r,
+            "k2_on_noreuse": k2n, "h_worse_on_noreuse": worse,
+            # Raw totals close the blind spot: every count above is a comparison,
+            # so a monotone rescaling of cost leaves them all unchanged.
+            "reset_cost_total": reset_total, "h_cost_total": h_total}
+
+
+class KAE_HeldoutReproduction(unittest.TestCase):
+    """REPRODUCTION layer: regenerate the held-out census and require equality.
+
+    Catches drift in any number.  On its own it would pass a coordinated
+    model-and-receipt update, which is what the claim pins below are for.
+    """
+
+    def test_every_heldout_library_regenerates_its_recorded_figures(self):
+        recorded = receipt()["confirmatory_heldout"]["results"]
+        for name, lib in sorted(LIBS.items()):
+            live = heldout_census(lib)
+            self.assertEqual({k: live[k] for k in recorded[name]}, recorded[name],
+                             "%s: regenerated census differs from the receipt" % name)
+
+    def test_the_population_size_is_the_recorded_one(self):
+        h = receipt()["confirmatory_heldout"]
+        self.assertEqual(len(K.minimal_length_population(h["minimal_len"], h["max_len"])),
+                         h["targets"])
+
+    def test_control_a_perturbed_library_must_fail_reproduction(self):
+        """A reproduction check that cannot go red is the defect being fixed."""
+        perturbed = {"q1": ("square", "inc")}          # squares' macro, altered
+        rec = receipt()["confirmatory_heldout"]["results"]["squares"]
+        live = heldout_census(perturbed)
+        self.assertNotEqual({k: live[k] for k in rec}, rec)
+
+
+class KAE_CostTotalsCloseTheOrderPreservingBlindSpot(unittest.TestCase):
+    """Every census count is a COMPARISON, so a monotone rescaling of cost
+    leaves all of them unchanged.  Doubling every charge was verified to keep
+    all 24 assertions green.  Raw totals are what move under such a change."""
+
+    EXPECTED = {
+        "dec_inc":    (396080, 903784),
+        "orig":       (396080, 1248876),
+        "squares":    (396080, 680016),
+        "three_part": (396080, 2550112),
+    }
+
+    def test_cost_totals_are_the_recorded_ones(self):
+        for name, lib in sorted(LIBS.items()):
+            live = heldout_census(lib)
+            self.assertEqual((live["reset_cost_total"], live["h_cost_total"]),
+                             self.EXPECTED[name], name)
+
+    def test_reset_total_is_library_independent(self):
+        """RESET never sees a library; divergence would mean contamination."""
+        totals = {heldout_census(lib)["reset_cost_total"] for lib in LIBS.values()}
+        self.assertEqual(len(totals), 1, "RESET cost must not depend on the library")
+        self.assertEqual(totals.pop(), 396080)
+
+    def test_the_totals_would_move_under_a_scaling_that_counts_cannot_see(self):
+        """Documents the boundary with arithmetic rather than a claim."""
+        live = heldout_census(LIBS["squares"])
+        scaled_reset = live["reset_cost_total"] * 2
+        scaled_h = live["h_cost_total"] * 2
+        self.assertNotEqual(scaled_reset, live["reset_cost_total"])
+        self.assertNotEqual(scaled_h, live["h_cost_total"])
+        # ... while the verdict the counts record is unchanged:
+        self.assertEqual(live["h_cost_total"] < live["reset_cost_total"],
+                         scaled_h < scaled_reset)
+
+
 class KAE4_K2IsPositiveWhereReuseExists(unittest.TestCase):
+    """CLAIM PINS: the specific headlines the documents assert."""
+
     def test_squares_library_is_fully_positive_on_heldout_reuse_targets(self):
-        r = receipt()["confirmatory_heldout"]["results"]["squares"]
-        self.assertEqual(r["k2_on_reuse"], r["reuse_targets"])
-        self.assertEqual(r["reuse_targets"], 148)
+        live = heldout_census(LIBS["squares"])
+        self.assertEqual(live["k2_on_reuse"], live["reuse_targets"])
+        self.assertEqual(live["reuse_targets"], 148)
 
     def test_reuse_is_not_sufficient(self):
-        r = receipt()["confirmatory_heldout"]["results"]
-        rates = {k: (v["k2_on_reuse"], v["reuse_targets"]) for k, v in r.items()
+        live = {k: heldout_census(v) for k, v in LIBS.items()}
+        rates = {k: (v["k2_on_reuse"], v["reuse_targets"]) for k, v in live.items()
                  if v["reuse_targets"] > 0}
         self.assertTrue(any(a < b for a, b in rates.values()),
                         "if every rate were 100% the condition would be an iff")
 
+    def test_the_minimum_rate_is_the_documented_one(self):
+        """The document states 39.3728%; pin the fraction it comes from."""
+        live = heldout_census(LIBS["three_part"])
+        self.assertEqual((live["k2_on_reuse"], live["reuse_targets"]), (113, 287))
+        self.assertAlmostEqual(100.0 * 113 / 287, 39.3728, places=4)
+
 
 class KAE5_AbsentReuseRetentionHarms(unittest.TestCase):
     def test_heldout_harm_is_total(self):
-        for name, v in receipt()["confirmatory_heldout"]["results"].items():
-            if v["noreuse_targets"]:
-                self.assertEqual(v["h_worse_on_noreuse"], v["noreuse_targets"], name)
+        for name, lib in sorted(LIBS.items()):
+            live = heldout_census(lib)
+            if live["noreuse_targets"]:
+                self.assertEqual(live["h_worse_on_noreuse"], live["noreuse_targets"], name)
+
+    def test_necessity_holds_live_on_the_heldout_population(self):
+        """The headline: zero K2 successes without reuse, regenerated."""
+        total_noreuse = 0
+        for name, lib in sorted(LIBS.items()):
+            live = heldout_census(lib)
+            self.assertEqual(live["k2_on_noreuse"], 0, name)
+            total_noreuse += live["noreuse_targets"]
+        self.assertEqual(total_noreuse, 1104, "held-out no-reuse pairs")
 
     def test_dec_inc_tests_necessity_but_not_sufficiency(self):
-        v = receipt()["confirmatory_heldout"]["results"]["dec_inc"]
-        self.assertEqual(v["reuse_targets"], 0)
-        self.assertGreater(v["noreuse_targets"], 0)
+        live = heldout_census(LIBS["dec_inc"])
+        self.assertEqual(live["reuse_targets"], 0)
+        self.assertGreater(live["noreuse_targets"], 0)
 
 
 class ControlsGoRed(unittest.TestCase):
