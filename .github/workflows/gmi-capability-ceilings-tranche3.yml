@@ -1,0 +1,33 @@
+name: GMI capability ceilings F2 tranche 3
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-capability-ceilings-f2-tranche3/**'
+      - '.github/workflows/gmi-capability-ceilings-tranche3.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-capability-ceilings-f2-tranche3/**'
+      - '.github/workflows/gmi-capability-ceilings-tranche3.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-controls:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact and hostile controls
+        shell: bash
+        run: |
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python3 -I -O -B research/gmi-capability-ceilings-f2-tranche3/test_capability_ceilings_tranche3_v1.py -v
+          else
+            python3 -I -B research/gmi-capability-ceilings-f2-tranche3/test_capability_ceilings_tranche3_v1.py -v
+          fi
