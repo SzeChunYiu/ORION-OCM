@@ -1,0 +1,237 @@
+{
+ "channels": [
+  "development_compute",
+  "search_compute",
+  "description_compiler_burden",
+  "state_storage",
+  "serve_compute_latency",
+  "update_retraining",
+  "communication",
+  "verification",
+  "human_external_intervention"
+ ],
+ "n_per_cell": 4000,
+ "q1_quartiles": {
+  "buckets": [
+   {
+    "bucket": "Q1 low",
+    "median_serve": 88.56,
+    "median_storage": 16.0
+   },
+   {
+    "bucket": "Q4 high",
+    "median_serve": 75.276,
+    "median_storage": 1024.0
+   }
+  ],
+  "serving_ratio": 1.176,
+  "storage_ratio": 64.0
+ },
+ "q1_storage_vs_serving": {
+  "G1_TENSOR_GRAPH@2": {
+   "corr": 0.012,
+   "frontier": [
+    [
+     0.75,
+     5.0
+    ],
+    [
+     1.0,
+     1.0
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G1_TENSOR_GRAPH@4": {
+   "corr": 0.0114,
+   "frontier": [
+    [
+     0.75,
+     6.0
+    ],
+    [
+     1.0,
+     1.0
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G1_TENSOR_GRAPH@8": {
+   "corr": 0.0113,
+   "frontier": [
+    [
+     0.75,
+     7.0
+    ],
+    [
+     1.0,
+     1.0
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G2_SYMBOLIC_PROGRAM@2": {
+   "corr": -0.0141,
+   "frontier": [
+    [
+     0.75,
+     35.424
+    ],
+    [
+     1.0,
+     1.08
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G2_SYMBOLIC_PROGRAM@4": {
+   "corr": -0.0154,
+   "frontier": [
+    [
+     0.75,
+     73.44
+    ],
+    [
+     1.0,
+     1.08
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G2_SYMBOLIC_PROGRAM@8": {
+   "corr": -0.0164,
+   "frontier": [
+    [
+     0.75,
+     146.88
+    ],
+    [
+     1.0,
+     1.08
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G3_FSM_MESSAGE@2": {
+   "corr": -0.0103,
+   "frontier": [
+    [
+     0.75,
+     8.96
+    ],
+    [
+     1.0,
+     1.12
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G3_FSM_MESSAGE@4": {
+   "corr": -0.0097,
+   "frontier": [
+    [
+     0.75,
+     17.92
+    ],
+    [
+     1.0,
+     1.12
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  },
+  "G3_FSM_MESSAGE@8": {
+   "corr": -0.0089,
+   "frontier": [
+    [
+     0.75,
+     35.84
+    ],
+    [
+     1.0,
+     1.12
+    ]
+   ],
+   "material_trade": false,
+   "pareto": 2
+  }
+ },
+ "q2_tradeoffs": {
+  "most_negative": [
+   [
+    "search_compute",
+    "serve_compute_latency",
+    -0.0178
+   ],
+   [
+    "development_compute",
+    "serve_compute_latency",
+    -0.0103
+   ],
+   [
+    "description_compiler_burden",
+    "serve_compute_latency",
+    -0.0102
+   ],
+   [
+    "state_storage",
+    "serve_compute_latency",
+    -0.0101
+   ]
+  ],
+  "most_positive": [
+   [
+    "serve_compute_latency",
+    "communication",
+    0.7472
+   ],
+   [
+    "development_compute",
+    "state_storage",
+    0.9822
+   ],
+   [
+    "development_compute",
+    "description_compiler_burden",
+    0.9871
+   ],
+   [
+    "description_compiler_burden",
+    "state_storage",
+    0.9975
+   ]
+  ],
+  "strong": []
+ },
+ "q3_argmin": {
+  "actual_spread": 1.12,
+  "agree": true,
+  "flip_ratio": null,
+  "pool": 4000
+ },
+ "q3_price_channels": {
+  "flat": [
+   "state_storage"
+  ],
+  "scaled": [
+   "development_compute",
+   "search_compute",
+   "description_compiler_burden",
+   "serve_compute_latency",
+   "update_retraining",
+   "communication"
+  ],
+  "zero_here": [
+   "verification",
+   "human_external_intervention"
+  ]
+ }
+}

@@ -1,0 +1,84 @@
+name: GMI items 7-10 sectors
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-learning-law-selection-v1/**'
+      - 'research/gmi-developmental-capital-v1/**'
+      - 'research/gmi-transport-ledger-v1/**'
+      - 'research/gmi-k2-acquisition-experiment-v1/**'
+      - '.github/workflows/gmi-items-7-to-10.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-learning-law-selection-v1/**'
+      - 'research/gmi-developmental-capital-v1/**'
+      - 'research/gmi-transport-ledger-v1/**'
+      - 'research/gmi-k2-acquisition-experiment-v1/**'
+      - '.github/workflows/gmi-items-7-to-10.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  gmi-items-7-to-10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Run all four sectors in both modes
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-items-710-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          for s in gmi-learning-law-selection-v1 gmi-developmental-capital-v1 \
+                   gmi-transport-ledger-v1 gmi-k2-acquisition-experiment-v1; do
+            python -B    -m unittest discover -s "research/$s" -p 'test_*.py' -v 2>&1 | tee "$out/$s-normal.txt"
+            python -B -O -m unittest discover -s "research/$s" -p 'test_*.py' -v 2>&1 | tee "$out/$s-optimized.txt"
+          done
+      - name: Assert each sector ran its expected count
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-items-710-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          declare -A EXP=( [gmi-learning-law-selection-v1]=43 \
+                           [gmi-developmental-capital-v1]=26 \
+                           [gmi-transport-ledger-v1]=29 \
+                           [gmi-k2-acquisition-experiment-v1]=27 )
+          rc=0
+          for s in "${!EXP[@]}"; do
+            for m in normal optimized; do
+              got=$(grep -oE '^Ran [0-9]+ test' "$out/$s-$m.txt" | grep -oE '[0-9]+' || echo 0)
+              if [ "$got" != "${EXP[$s]}" ]; then
+                echo "COUNT DRIFT: $s [$m] ran $got, expected ${EXP[$s]}"; rc=1
+              else
+                echo "ok $s [$m] ran $got"
+              fi
+            done
+          done
+          exit $rc
+      - name: Direct invocation must collect the same tests as discovery
+        run: |
+          set -euo pipefail
+          f=research/gmi-k2-acquisition-experiment-v1/test_k2_acquisition_v1.py
+          got=$(python -B "$f" 2>&1 | grep -oE '^Ran [0-9]+ test' | grep -oE '[0-9]+' || echo 0)
+          echo "direct invocation ran $got"
+          if [ "$got" != "27" ]; then
+            echo "A test class defined after the __main__ block is silently dropped on direct invocation."
+            exit 1
+          fi
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-items-7-to-10
+          path: '${{ runner.temp }}/gmi-items-710-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
