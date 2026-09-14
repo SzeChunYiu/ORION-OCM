@@ -15,6 +15,11 @@ TRAINING_SIZES = (2, 3, 4, 5)
 AUTHORITY = "ab231d78aae98beb679ca0e0ce8c36c4651dc438"
 
 
+def require(condition: bool, message: str):
+    if not condition:
+        raise ValueError(message)
+
+
 def relation(n: int):
     return {f"k{i}": f"v{(i + 1) % n}" for i in range(n)}
 
@@ -32,7 +37,7 @@ def key_lookup(rel, direction: str, token: str):
         ops += 1
         if v == token:
             found = k
-    assert found is not None
+    require(found is not None, "reverse lookup target missing")
     return found, ops
 
 
@@ -45,7 +50,7 @@ def value_lookup(inv, direction: str, token: str):
         ops += 1
         if k == token:
             found = v
-    assert found is not None
+    require(found is not None, "forward lookup target missing")
     return found, ops
 
 
@@ -77,7 +82,7 @@ def expected(rel, direction, token):
 
 
 def measure(n: int):
-    assert n in TRAINING_SIZES, "held-out sizes are forbidden in training program"
+    require(n in TRAINING_SIZES, "held-out sizes are forbidden in training program")
     rel = relation(n)
     inv = value_index(rel)
     _, migration_ops = migrate(rel)
@@ -87,7 +92,7 @@ def measure(n: int):
         kout, kop = key_lookup(rel, direction, token)
         vout, vop = value_lookup(inv, direction, token)
         target = expected(rel, direction, token)
-        assert kout == target == vout
+        require(kout == target == vout, "training implementation failed exactness")
         key_ops += kop
         value_ops += vop
     return {
