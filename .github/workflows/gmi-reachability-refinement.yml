@@ -1,0 +1,39 @@
+name: GMI reachability refinement (E)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-reachability-refinement-v1/**'
+      - '.github/workflows/gmi-reachability-refinement.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-reachability-refinement-v1/**'
+      - '.github/workflows/gmi-reachability-refinement.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reachability-refinement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run reachability refinement controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-reachability-refinement-v1/test_reachability_refinement_v1.py -v
