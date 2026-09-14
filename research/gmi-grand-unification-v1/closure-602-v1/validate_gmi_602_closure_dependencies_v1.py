@@ -14,6 +14,8 @@ AMENDMENT = HERE / "GMI_602_PARENT_ATLAS_AMENDMENTS_V1.md"
 FORMAL_V2 = HERE / "GMI_602_FORMAL_GAP_CLOSURE_V2.md"
 FORMAL_V2_CORRIGENDA = HERE / "GMI_602_FORMAL_GAP_CORRIGENDA_V2.md"
 KNOWN_V3 = HERE / "GMI_602_KNOWN_FAMILY_FORMAL_CLOSURE_V3.md"
+HIGH_RISK = HERE / "GMI_602_HIGH_RISK_PARENT_SUBTRACTIONS_V1.md"
+LIVE_RECONCILIATION = HERE / "GMI_602_LIVE_AUTHORITY_RECONCILIATION_V1.md"
 CROSSWALK = HERE / "GMI_602_PARENT_FIRST_CROSSWALK_V1.json"
 PARENT = ROOT.parent / "machine-intelligence-morphogenesis-v1" / "PARENT_LEDGER_V2.json"
 
@@ -22,7 +24,7 @@ EXPECTED_THEOREMS = {
     *(f"T602-{i:02d}" for i in range(1, 17)),
     "T602-17",
     "T602-17b",
-    *(f"T602-{i:02d}" for i in range(18, 37)),
+    *(f"T602-{i:02d}" for i in range(18, 39)),
 }
 EXPECTED_CORRIGENDA_V1 = {"C602-05", "C602-13", "C602-14", "C602-17b", "C602-20"}
 EXPECTED_CORRIGENDA_V2 = {"C602-25", "C602-26"}
@@ -41,6 +43,10 @@ EXPECTED_ADDED_PARENT_CLASSES = {
 }
 EXPECTED_Q_IDS = {f"Q{i:02d}" for i in range(1, 24)}
 EXPECTED_SUPPLEMENTAL_PARENT_IDS = {f"S{i:02d}" for i in range(1, 12)}
+EXPECTED_HIGH_RISK = {
+    "universal_program_search_vs_morphogenesis": "FORMAL_SUBTRACTION_GREEN_T602_37",
+    "active_inference_control_as_inference_vs_update_control_residual": "FORMAL_SUBTRACTION_GREEN_T602_38",
+}
 
 
 def load_json(path: Path):
@@ -57,6 +63,8 @@ def main() -> None:
     formal_v2 = FORMAL_V2.read_text(encoding="utf-8")
     formal_v2_corrigenda = FORMAL_V2_CORRIGENDA.read_text(encoding="utf-8")
     known_v3 = KNOWN_V3.read_text(encoding="utf-8")
+    high_risk = HIGH_RISK.read_text(encoding="utf-8")
+    live_reconciliation = LIVE_RECONCILIATION.read_text(encoding="utf-8")
 
     assert dep["schema"] == "GMI_602_CLOSURE_DEPENDENCIES_V1"
     assert dep["formal_spine"] == SPINE.name
@@ -64,7 +72,11 @@ def main() -> None:
     assert dep["formal_gap_supplement"] == FORMAL_V2.name
     assert dep["formal_gap_corrigenda"] == FORMAL_V2_CORRIGENDA.name
     assert dep["known_family_formal_supplement"] == KNOWN_V3.name
+    assert dep["high_risk_parent_subtractions"] == HIGH_RISK.name
+    assert dep["live_authority_reconciliation"] == LIVE_RECONCILIATION.name
     assert dep["parent_crosswalk"] == CROSSWALK.name
+    assert dep["authority"]["phase_uncertainty_extrapolation_first_closure_pr"] == 685
+    assert dep["authority"]["contributed_r4_integration_audit_pr"] == 691
     assert isinstance(parent, dict) and parent, "specialist parent ledger must parse as a nonempty JSON object"
     assert PARENT.stat().st_size > 10_000, "specialist parent ledger unexpectedly collapsed"
 
@@ -89,6 +101,7 @@ def main() -> None:
     spine_ids = {*(f"T602-{i:02d}" for i in range(1, 24)), "T602-17b"}
     v2_ids = {f"T602-{i:02d}" for i in range(24, 34)}
     v3_ids = {f"T602-{i:02d}" for i in range(34, 37)}
+    high_risk_ids = {"T602-37", "T602-38"}
     for theorem_id in sorted(EXPECTED_THEOREMS):
         if theorem_id in spine_ids:
             corpus = spine
@@ -96,6 +109,8 @@ def main() -> None:
             corpus = formal_v2
         elif theorem_id in v3_ids:
             corpus = known_v3
+        elif theorem_id in high_risk_ids:
+            corpus = high_risk
         else:
             raise AssertionError(f"{theorem_id}: no owning formal artifact")
         assert theorem_id in corpus, f"{theorem_id}: declared but absent from its formal artifact"
@@ -139,7 +154,27 @@ def main() -> None:
     ):
         assert token in known_v3, f"known-family V3 supplement lost required formal gap: {token}"
 
-    assert sections["Q"]["evidence_status"] == "GREEN_REGISTERED_SCOPE_PARENT_CROSSWALK"
+    assert dep["high_risk_parent_lanes"] == EXPECTED_HIGH_RISK
+    for token in (
+        "bias-optimal program-search parent subtraction",
+        "PARENT_SUFFICIENT_LEVIN_OOPS_POWERPLAY",
+        "active-inference / control-as-inference parent subtraction",
+        "PARENT_SUFFICIENT_ACTIVE_INFERENCE",
+        "PARENT_SUFFICIENT_CONTROL_AS_INFERENCE",
+    ):
+        assert token in high_risk, f"high-risk parent subtraction lost required token: {token}"
+
+    for token in (
+        "PR #685",
+        "PR #691",
+        "GREEN_REGISTERED_FINITE_PHASE_LAWS_AFTER_674_676_680_685",
+        "451-open-item historical gap ledger",
+    ):
+        assert token in live_reconciliation, f"live authority reconciliation lost required token: {token}"
+
+    assert sections["D"]["evidence_status"] == "GREEN_REGISTERED_FINITE_PHASE_LAWS_AFTER_674_676_680_685"
+    assert not sections["D"]["blockers"], "finite registered Section D should remain green after #685"
+    assert sections["Q"]["evidence_status"] == "GREEN_REGISTERED_SCOPE_PARENT_CROSSWALK_AND_HIGH_RISK_SUBTRACTIONS"
     assert not sections["Q"]["blockers"], "registered-scope Q coverage should not be made impossible by a permanent blocker"
 
     empirical = dep["empirical_claim"]
@@ -147,9 +182,8 @@ def main() -> None:
         allowed = {
             "GREEN",
             "NOT_REQUIRED",
-            "UPSTREAM_SPECIALIST_PARENT_LEDGER_PRESENT",
-            "PARENT_CROSSWALK_PRESENT",
-            "GREEN_REGISTERED_SCOPE_PARENT_CROSSWALK",
+            "GREEN_REGISTERED_FINITE_PHASE_LAWS_AFTER_674_676_680_685",
+            "GREEN_REGISTERED_SCOPE_PARENT_CROSSWALK_AND_HIGH_RISK_SUBTRACTIONS",
         }
         non_green = {
             name: row["evidence_status"]
@@ -171,6 +205,8 @@ def main() -> None:
     print(f"corrigenda={len(corrigenda)}")
     print(f"added_parent_classes={len(added_parents)}")
     print(f"sections={len(sections)}")
+    print("section_D_registered_finite=GREEN")
+    print("high_risk_parent_subtractions=GREEN")
     print("complete_empirical_closure=NOT_EARNED")
 
 
