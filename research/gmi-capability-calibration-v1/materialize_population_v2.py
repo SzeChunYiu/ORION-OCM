@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 import itertools
 import json
+from functools import lru_cache
 from pathlib import Path
 from typing import Dict, Mapping, Tuple
 
@@ -68,6 +69,7 @@ def _fast_predictions(mod, predictor, point: Tuple[int, ...]) -> Dict[str, objec
     return out
 
 
+@lru_cache(maxsize=1)
 def selected_populations():
     mod = _load_predictor_module()
     predictor = mod.fit_registered_development_predictor()
