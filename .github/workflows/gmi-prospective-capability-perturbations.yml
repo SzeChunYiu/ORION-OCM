@@ -1,0 +1,75 @@
+name: GMI prospective capability perturbations
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-prospective-capability-perturbations-v1/**"
+      - ".github/workflows/gmi-prospective-capability-perturbations.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-prospective-capability-perturbations-v1/**"
+      - ".github/workflows/gmi-prospective-capability-perturbations.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-hostile:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify freeze and predictor custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=ee62a2ae888ebddbc925972bc149468884e24ba5
+          PREDICTOR_BLOB=937b91f6a3787ff04c2b5209c81d249518406859
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          git cat-file -e "$FREEZE:research/gmi-prospective-capability-perturbations-v1/FREEZE_V1.md"
+          test "$(git hash-object research/gmi-capability-predictor-dev-v1/dev_predictor_v1.py)" = "$PREDICTOR_BLOB"
+          for path in \
+            research/gmi-prospective-capability-perturbations-v1/FORMALIZATION_V1.md \
+            research/gmi-prospective-capability-perturbations-v1/prospective_perturbations_v1.py \
+            research/gmi-prospective-capability-perturbations-v1/test_prospective_perturbations_v1.py \
+            research/gmi-prospective-capability-perturbations-v1/RESULT_V1.json \
+            .github/workflows/gmi-prospective-capability-perturbations.yml; do
+            if git cat-file -e "$FREEZE:$path" 2>/dev/null; then
+              echo "Implementation/result artifact existed at freeze: $path" >&2
+              exit 1
+            fi
+          done
+
+      - name: Run exact and hostile tests
+        working-directory: research/gmi-prospective-capability-perturbations-v1
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python -O -m unittest -v test_prospective_perturbations_v1.py
+          else
+            python -m unittest -v test_prospective_perturbations_v1.py
+          fi
+
+      - name: Reproduce committed receipt
+        working-directory: research/gmi-prospective-capability-perturbations-v1
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            python -O prospective_perturbations_v1.py > /tmp/result.json
+          else
+            python prospective_perturbations_v1.py > /tmp/result.json
+          fi
+          cmp RESULT_V1.json /tmp/result.json
