@@ -87,6 +87,7 @@ WITNESSES = {
     "predict_partition_abundance.py": "STAGE_PARTITION_ABUNDANCE_PREDICTION_V1.json",
     "reachability_witness.py": "STAGE_REACHABILITY_V1.json",
     "update_object_witness.py": "STAGE_UPDATE_OBJECT_V1.json",
+    "negative_ecology_witness.py": "STAGE_NEGATIVE_ECOLOGY_V1.json",
 }
 
 
@@ -2661,3 +2662,54 @@ def test_the_object_is_larger_than_the_named_paradigms():
     assert covered / total < 0.25, (
         "the named paradigms now cover a quarter of the space; the document "
         "reports 3.1%% and the gap is the point")
+
+
+# ---------------------------------------------------------------------------
+# C: every learning law has a constructed negative ecology.
+# ---------------------------------------------------------------------------
+def test_every_law_has_a_negative_ecology():
+    r = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
+    n = r["tasks"]
+    for law, losses in r["loses_on"].items():
+        assert losses > 0, (
+            "%s never loses on any task -- it would dominate the space and "
+            "section C's negative-ecology requirement would be unsatisfiable "
+            "for it" % law)
+        assert losses < n, (
+            "%s loses on every task; the box asks for an ecology where a law "
+            "loses, not for a law that always loses" % law)
+    assert r["examples"], "no negative ecology is exhibited, only counted"
+
+
+def test_containment_explains_never_being_uniquely_best():
+    """A strictly contained paradigm cannot be uniquely best -- and is not."""
+    r = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
+    for law, supersets in r["contained_in"].items():
+        assert r["uniquely_best_on"][law] == 0, (
+            "%s is strictly inside %s yet is uniquely best somewhere, which "
+            "contradicts the containment argument -- one of the two "
+            "computations is wrong" % (law, supersets))
+    assert r["never_unique_explained_by_containment"], (
+        "containment explains none of the never-unique laws, so the theorem "
+        "has no instance here")
+
+
+def test_the_unexplained_case_stays_flagged():
+    """state-only is never uniquely best WITHOUT being contained."""
+    r = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
+    assert "state-only" in r["never_unique_unexplained"], (
+        "state-only is no longer an unexplained never-unique law; the document "
+        "reports it as the case containment does not cover, and folding it in "
+        "silently would hide the one thing here that is not understood")
+    assert r["contained_in"].get("state-only") is None
+
+
+def test_some_laws_do_have_an_ecology_of_their_own():
+    r = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
+    uniq = r["uniquely_best_on"]
+    assert any(v > 0 for v in uniq.values()), (
+        "no law is uniquely best anywhere, so the paradigms are "
+        "indistinguishable by task performance and the comparison is empty")
+    assert any(v == 0 for v in uniq.values()), (
+        "every law has a task of its own, which would remove the containment "
+        "finding entirely")
