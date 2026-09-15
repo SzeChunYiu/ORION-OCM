@@ -25,6 +25,7 @@ def load(name, path):
 CAL = load("calv2", HERE / "capability_calibration_v2.py")
 POP = load("popv2", HERE / "materialize_population_v2.py")
 V1 = load("v1census", HERE / "preoutcome_v1_census.py")
+FULL = load("fullcensusv2", HERE / "full_population_census_v2.py")
 
 
 def oracle_count(N, K, n, x):
@@ -160,8 +161,12 @@ class CertificateTests(unittest.TestCase):
     def setUpClass(cls):
         cls.cert = CAL.build_sample_certificate()
 
+    def test_sample_certificate_reproduces_committed_pre_census_object(self):
+        committed = json.loads((HERE / "SAMPLE_CERTIFICATE_V2.json").read_text())
+        self.assertEqual(self.cert, committed)
+        self.assertFalse(committed["full_population_census_performed"])
+
     def test_principal_sample_result(self):
-        self.assertFalse(self.cert["full_population_census_performed"])
         for row in self.cert["coordinates"].values():
             self.assertEqual(row["sample_errors"], 0)
             self.assertEqual(row["upper_error_count"], 6)
@@ -190,6 +195,24 @@ class CertificateTests(unittest.TestCase):
     def test_simultaneous_budget(self):
         self.assertEqual(self.cert["delta_total"], "1/20")
         self.assertEqual(self.cert["simultaneous_coverage_lower_bound"], "19/20")
+
+
+class FullPopulationCensusTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.census = FULL.build_full_census()
+
+    def test_full_census_reproduces_committed_post_certificate_object(self):
+        committed = json.loads((HERE / "FULL_POPULATION_CENSUS_V2.json").read_text())
+        self.assertEqual(self.census, committed)
+        self.assertTrue(committed["all_coordinates_covered"])
+        self.assertFalse(committed["statistical_inputs_changed_after_census"])
+
+    def test_true_population_errors_are_inside_precommitted_bounds(self):
+        for row in self.census["coordinates"].values():
+            self.assertEqual(row["true_error_count"], 0)
+            self.assertEqual(row["sample_certificate_upper_error_count"], 6)
+            self.assertTrue(row["certificate_covers_true_error_count"])
 
 
 if __name__ == "__main__":
