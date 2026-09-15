@@ -1,0 +1,25 @@
+name: GMI morphogenesis limits (H)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-morphogenesis-limits-v1/**'
+      - '.github/workflows/gmi-morphogenesis-limits-v1.yml'
+  push:
+    paths:
+      - 'research/gmi-morphogenesis-limits-v1/**'
+      - '.github/workflows/gmi-morphogenesis-limits-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-controls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact controls (normal)
+        run: python -I -B research/gmi-morphogenesis-limits-v1/test_morphogenesis_limits_v1.py -v
+      - name: Run exact controls (optimized)
+        run: python -I -O -B research/gmi-morphogenesis-limits-v1/test_morphogenesis_limits_v1.py -v
