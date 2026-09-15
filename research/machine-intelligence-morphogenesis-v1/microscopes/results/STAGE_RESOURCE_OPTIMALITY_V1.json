@@ -1,0 +1,160 @@
+{
+  "behaviour_contained_but_not_member_contained": [
+    "state-only"
+  ],
+  "behaviour_contained_in": {
+    "keep-or-replace": [
+      "idempotent-on-repeat"
+    ],
+    "overwrite": [
+      "idempotent-on-repeat",
+      "keep-or-replace"
+    ],
+    "state-only": [
+      "overwrite",
+      "insertion-monotone",
+      "idempotent-on-repeat",
+      "keep-or-replace"
+    ]
+  },
+  "box12_uniquely_best_on": {
+    "additive": 14,
+    "idempotent-on-repeat": 20,
+    "insertion-monotone": 18,
+    "keep-or-replace": 0,
+    "overwrite": 0,
+    "state-only": 0
+  },
+  "breakpoints": [
+    "1/7",
+    "1/6",
+    "1/4",
+    "2/7",
+    "1/3",
+    "3/7",
+    "1/2",
+    "2/3",
+    "3/4",
+    "1",
+    "3/2",
+    "2",
+    "3"
+  ],
+  "breakpoints_total": 13,
+  "controls": {
+    "C1_spec_varies": true,
+    "C2_frontier_size_varies": true,
+    "C3_frontier_is_not_degenerate": true,
+    "C4_mem_varies": true
+  },
+  "coordinate_clash_tasks": 256,
+  "distinct_behaviours": {
+    "additive": 8,
+    "idempotent-on-repeat": 82,
+    "insertion-monotone": 56,
+    "keep-or-replace": 52,
+    "overwrite": 16,
+    "state-only": 4
+  },
+  "frontier_counts": {
+    "mem": {
+      "additive": 105,
+      "idempotent-on-repeat": 249,
+      "insertion-monotone": 227,
+      "keep-or-replace": 251,
+      "overwrite": 226,
+      "state-only": 202
+    },
+    "spec": {
+      "additive": 160,
+      "idempotent-on-repeat": 20,
+      "insertion-monotone": 109,
+      "keep-or-replace": 21,
+      "overwrite": 210,
+      "state-only": 0
+    }
+  },
+  "high_w_probe": "4",
+  "laws": [
+    "additive",
+    "overwrite",
+    "insertion-monotone",
+    "idempotent-on-repeat",
+    "keep-or-replace",
+    "state-only"
+  ],
+  "member_contained_in": {
+    "keep-or-replace": [
+      "idempotent-on-repeat"
+    ],
+    "overwrite": [
+      "idempotent-on-repeat",
+      "keep-or-replace"
+    ]
+  },
+  "paradigm_sizes": {
+    "additive": 16,
+    "idempotent-on-repeat": 1681,
+    "insertion-monotone": 256,
+    "keep-or-replace": 841,
+    "overwrite": 16,
+    "state-only": 256
+  },
+  "prediction_file": "gmi_microscope/predict_resource_optimality.py",
+  "schema": "GMI_RESOURCE_OPTIMALITY_V1",
+  "spec_cost_bits": {
+    "additive": 4,
+    "idempotent-on-repeat": 11,
+    "insertion-monotone": 8,
+    "keep-or-replace": 10,
+    "overwrite": 4,
+    "state-only": 8
+  },
+  "state_only_spec_frontier_tasks": 0,
+  "tasks_total": 256,
+  "tasks_unique_at_high_w": {
+    "mem": 60,
+    "spec": 142
+  },
+  "tasks_unique_at_w_zero": {
+    "mem": 52,
+    "spec": 52
+  },
+  "tie_break": "argmax-score-then-min-cost",
+  "unique_at_w_zero_by_law": {
+    "additive": 14,
+    "idempotent-on-repeat": 20,
+    "insertion-monotone": 18,
+    "keep-or-replace": 0,
+    "overwrite": 0,
+    "state-only": 0
+  },
+  "unique_optimum_cells": {
+    "mem": {
+      "additive": 376,
+      "idempotent-on-repeat": 376,
+      "insertion-monotone": 360,
+      "keep-or-replace": 0,
+      "overwrite": 28,
+      "state-only": 236
+    },
+    "spec": {
+      "additive": 1216,
+      "idempotent-on-repeat": 76,
+      "insertion-monotone": 693,
+      "keep-or-replace": 63,
+      "overwrite": 2296,
+      "state-only": 0
+    }
+  },
+  "verdict": {
+    "P1_state_only_never_on_spec_frontier": true,
+    "P2_behaviour_containment_is_the_right_hypothesis": true,
+    "P2_state_only_behaviour_contained_in_overwrite": true,
+    "P2_state_only_member_contained_in_overwrite": false,
+    "P3_w_zero_reproduces_box12_win_counts": true,
+    "P4_unique_optimum_vanishes_at_high_w": false,
+    "P5_every_law_but_state_only_uniquely_optimal_somewhere": true,
+    "P6_the_two_coordinates_disagree_on_some_task": true
+  }
+}
