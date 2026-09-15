@@ -65,7 +65,8 @@ def reachable_states(start, actions, transition):
         for a in actions:
             t = transition[(s, a)]
             if t not in seen:
-                seen.add(t); q.append(t)
+                seen.add(t)
+                q.append(t)
     return seen
 
 
@@ -99,7 +100,9 @@ def nfa_trace_set(start, transitions, max_depth):
         nxt = set()
         for state, word in frontier:
             for label, target in transitions.get(state,()):
-                nw = word + label; traces.add(nw); nxt.add((target,nw))
+                nw = word + label
+                traces.add(nw)
+                nxt.add((target,nw))
         frontier = nxt
     return tuple(sorted(traces, key=lambda x:(len(x),x)))
 
@@ -113,7 +116,8 @@ def nfa_strong_bisimilar(left, right, transitions):
             pe, qe = transitions.get(p,()), transitions.get(q,())
             if any(not any(l==l2 and (p2,q2) in relation for l2,q2 in qe) for l,p2 in pe) or any(not any(l==l2 and (p2,q2) in relation for l2,p2 in pe) for l,q2 in qe):
                 bad.add((p,q))
-        if not bad: break
+        if not bad:
+            break
         relation -= bad
     return (left,right) in relation
 
@@ -126,7 +130,8 @@ def nondeterministic_hostile():
 
 def predictive_partition(laws):
     buckets = defaultdict(list)
-    for h,law in laws.items(): buckets[tuple(law)].append(h)
+    for h,law in laws.items():
+        buckets[tuple(law)].append(h)
     return canonical_partition(buckets.values())
 
 
@@ -139,48 +144,72 @@ def predictive_sufficiency_witness():
     laws = {"hA":(Fraction(1,2),Fraction(1,2)),"hB":(Fraction(1,2),Fraction(1,4)),"hC":(Fraction(1,2),Fraction(1,2))}
     quotient, hs = predictive_partition(laws), tuple(laws)
     mins, min_count = set(), None
+    assignments_checked = 0
     for labels in product(range(3), repeat=3):
+        assignments_checked += 1
         stat = dict(zip(hs,labels))
-        if not is_predictive_sufficient(stat,laws): continue
-        n = len(set(labels)); blocks = canonical_partition([[h for h in hs if stat[h]==v] for v in set(labels)])
-        if min_count is None or n < min_count: min_count, mins = n, {blocks}
-        elif n == min_count: mins.add(blocks)
+        if not is_predictive_sufficient(stat,laws):
+            continue
+        n = len(set(labels))
+        blocks = canonical_partition([[h for h in hs if stat[h]==v] for v in set(labels)])
+        if min_count is None or n < min_count:
+            min_count, mins = n, {blocks}
+        elif n == min_count:
+            mins.add(blocks)
     short = {h:(laws[h][0],) for h in hs}
-    return {"quotient":quotient,"quotient_classes":len(quotient),"minimum_value_count":min_count,"minimum_partitions":tuple(sorted(mins,key=repr)),"short_tests_separate":predictive_partition(short)==quotient,"short_partition":predictive_partition(short),"full_tests_separate":True}
+    full = {h:tuple(laws[h]) for h in hs}
+    return {"quotient":quotient,"quotient_classes":len(quotient),"minimum_value_count":min_count,"minimum_partitions":tuple(sorted(mins,key=repr)),"statistic_assignments_checked":assignments_checked,"short_tests_separate":predictive_partition(short)==quotient,"short_partition":predictive_partition(short),"full_tests_separate":predictive_partition(full)==quotient}
 
 
 def finite_statistic_sufficient(sample_space, theta_distributions, statistic):
     for t in set(statistic[x] for x in sample_space):
-        fiber = [x for x in sample_space if statistic[x]==t]; conditionals=[]
+        fiber = [x for x in sample_space if statistic[x]==t]
+        conditionals=[]
         for dist in theta_distributions.values():
             mass = sum((dist.get(x,Fraction(0)) for x in fiber), Fraction(0))
-            if mass: conditionals.append(tuple(dist.get(x,Fraction(0))/mass for x in fiber))
-        if conditionals and any(c != conditionals[0] for c in conditionals[1:]): return False
+            if mass:
+                conditionals.append(tuple(dist.get(x,Fraction(0))/mass for x in fiber))
+        if conditionals and any(c != conditionals[0] for c in conditionals[1:]):
+            return False
     return True
 
 
 def sufficiency_incomparability_witness():
-    sample_a=(0,1); theta_a={0:{0:Fraction(1),1:Fraction(0)},1:{0:Fraction(0),1:Fraction(1)}}; stat_a={0:0,1:0}; future_a={0:(Fraction(1,2),Fraction(1,2)),1:(Fraction(1,2),Fraction(1,2))}
-    sample_b=((0,0),(0,1),(1,0),(1,1)); theta_b={0:{(0,0):Fraction(1,2),(0,1):Fraction(1,2)},1:{(1,0):Fraction(1,2),(1,1):Fraction(1,2)}}; stat_b={h:h[0] for h in sample_b}; future_b={h:((Fraction(1),Fraction(0)) if h[1]==0 else (Fraction(0),Fraction(1))) for h in sample_b}
+    sample_a=(0,1)
+    theta_a={0:{0:Fraction(1),1:Fraction(0)},1:{0:Fraction(0),1:Fraction(1)}}
+    stat_a={0:0,1:0}
+    future_a={0:(Fraction(1,2),Fraction(1,2)),1:(Fraction(1,2),Fraction(1,2))}
+    sample_b=((0,0),(0,1),(1,0),(1,1))
+    theta_b={0:{(0,0):Fraction(1,2),(0,1):Fraction(1,2)},1:{(1,0):Fraction(1,2),(1,1):Fraction(1,2)}}
+    stat_b={h:h[0] for h in sample_b}
+    future_b={h:((Fraction(1),Fraction(0)) if h[1]==0 else (Fraction(0),Fraction(1))) for h in sample_b}
     return {"A_predictive_sufficient":is_predictive_sufficient(stat_a,future_a),"A_parameter_sufficient":finite_statistic_sufficient(sample_a,theta_a,stat_a),"B_parameter_sufficient":finite_statistic_sufficient(sample_b,theta_b,stat_b),"B_predictive_sufficient":is_predictive_sufficient(stat_b,future_b)}
 
 
 def jsonable(obj):
-    if isinstance(obj,Fraction): return f"{obj.numerator}/{obj.denominator}"
-    if isinstance(obj,dict): return {str(k):jsonable(v) for k,v in obj.items()}
-    if isinstance(obj,(tuple,list,set)): return [jsonable(v) for v in obj]
+    if isinstance(obj,Fraction):
+        return f"{obj.numerator}/{obj.denominator}"
+    if isinstance(obj,dict):
+        return {str(k):jsonable(v) for k,v in obj.items()}
+    if isinstance(obj,(tuple,list,set)):
+        return [jsonable(v) for v in obj]
     return obj
 
 
 def build_receipt():
     dfa,census,nfa,ps,suf = dfa_witness(),exhaustive_deterministic_census(),nondeterministic_hostile(),predictive_sufficiency_witness(),sufficiency_incomparability_witness()
-    checks={"mn_reachable_four_state_witness":dfa["reachable"]==(0,1,2,3),"mn_exact_three_class_quotient":dfa["behavior_partition"]==((0,),(1,2),(3,)),"deterministic_behavior_equals_bisim_fixture":dfa["behavior_partition"]==dfa["bisimulation_partition"],"deterministic_exhaustive_census_complete":census["machines"]==5832,"deterministic_exhaustive_census_no_mismatch":census["mismatch_count"]==0,"nondeterministic_trace_sets_equal":nfa["trace_equal"],"nondeterministic_strong_bisimulation_fails":not nfa["strong_bisimilar"],"predictive_quotient_two_classes":ps["quotient_classes"]==2,"predictive_quotient_minimum_cardinality":ps["minimum_value_count"]==2,"predictive_minimum_partition_unique":ps["minimum_partitions"]==(ps["quotient"],),"incomplete_psr_tests_fail_to_separate":not ps["short_tests_separate"],"complete_registered_psr_tests_separate":ps["full_tests_separate"],"predictive_not_parameter_implication_hostile":suf["A_predictive_sufficient"] and not suf["A_parameter_sufficient"],"parameter_not_predictive_implication_hostile":suf["B_parameter_sufficient"] and not suf["B_predictive_sufficient"]}
-    return jsonable({"schema":"GMI_833_PARENT_EQUIVALENCE_RESULT_V1","verdict":"GREEN" if all(checks.values()) else "RED","claim_ceiling":CLAIM_CEILING,"forbidden_promotions":FORBIDDEN_PROMOTIONS,"checks":checks,"mn_witness":{"behavior_partition":dfa["behavior_partition"],"reachable":dfa["reachable"],"quotient_state_count":len(dfa["behavior_partition"])},"deterministic_bisimulation_census":census,"nondeterministic_hostile":nfa,"predictive_sufficiency":{"quotient":ps["quotient"],"minimum_value_count":ps["minimum_value_count"],"sufficient_statistic_assignments_checked":27,"short_partition":ps["short_partition"],"full_tests_separate":ps["full_tests_separate"]},"sufficiency_incomparability":suf,"parent_map":{"myhill_nerode":"EXACT_SPECIALIZATION_UNDER_DETERMINISTIC_LANGUAGE_ACCEPTANCE","deterministic_bisimulation":"EXACT_SPECIALIZATION_WITH_REGISTERED_OUTPUT_LABELS","nondeterministic_trace_vs_bisimulation":"STRICT_BOUNDARY_TRACE_EQUIVALENCE_IS_COARSER","classical_parameter_sufficiency":"INCOMPARABLE_WITH_PREDICTIVE_SUFFICIENCY_IN_GENERAL","predictive_state_representation":"COORDINATE_REALIZATION_IFF_TESTS_SEPARATE_PREDICTIVE_CLASSES"}})
+    checks={"mn_reachable_four_state_witness":dfa["reachable"]==(0,1,2,3),"mn_exact_three_class_quotient":dfa["behavior_partition"]==((0,),(1,2),(3,)),"deterministic_behavior_equals_bisim_fixture":dfa["behavior_partition"]==dfa["bisimulation_partition"],"deterministic_exhaustive_census_complete":census["machines"]==census["expected_machines"]==5832,"deterministic_exhaustive_census_no_mismatch":census["mismatch_count"]==0,"nondeterministic_trace_sets_equal":nfa["trace_equal"],"nondeterministic_strong_bisimulation_fails":not nfa["strong_bisimilar"],"predictive_quotient_two_classes":ps["quotient_classes"]==2,"predictive_quotient_minimum_cardinality":ps["minimum_value_count"]==ps["quotient_classes"],"predictive_minimum_partition_unique":ps["minimum_partitions"]==(ps["quotient"],),"incomplete_psr_tests_fail_to_separate":not ps["short_tests_separate"],"complete_registered_psr_tests_separate":ps["full_tests_separate"],"predictive_not_parameter_implication_hostile":suf["A_predictive_sufficient"] and not suf["A_parameter_sufficient"],"parameter_not_predictive_implication_hostile":suf["B_parameter_sufficient"] and not suf["B_predictive_sufficient"]}
+    return jsonable({"schema":"GMI_833_PARENT_EQUIVALENCE_RESULT_V1","verdict":"GREEN" if all(checks.values()) else "RED","claim_ceiling":CLAIM_CEILING,"forbidden_promotions":FORBIDDEN_PROMOTIONS,"checks":checks,"mn_witness":{"behavior_partition":dfa["behavior_partition"],"reachable":dfa["reachable"],"quotient_state_count":len(dfa["behavior_partition"])},"deterministic_bisimulation_census":census,"nondeterministic_hostile":nfa,"predictive_sufficiency":{"quotient":ps["quotient"],"minimum_value_count":ps["minimum_value_count"],"sufficient_statistic_assignments_checked":ps["statistic_assignments_checked"],"short_partition":ps["short_partition"],"full_tests_separate":ps["full_tests_separate"]},"sufficiency_incomparability":suf,"parent_map":{"myhill_nerode":"EXACT_SPECIALIZATION_UNDER_DETERMINISTIC_LANGUAGE_ACCEPTANCE","deterministic_bisimulation":"EXACT_SPECIALIZATION_WITH_REGISTERED_OUTPUT_LABELS","nondeterministic_trace_vs_bisimulation":"STRICT_BOUNDARY_TRACE_EQUIVALENCE_IS_COARSER","classical_parameter_sufficiency":"INCOMPARABLE_WITH_PREDICTIVE_SUFFICIENCY_IN_GENERAL","predictive_state_representation":"COORDINATE_REALIZATION_IFF_TESTS_SEPARATE_PREDICTIVE_CLASSES"}})
 
 
-def canonical_json(receipt): return json.dumps(receipt,indent=2,sort_keys=True)+"\n"
+def canonical_json(receipt):
+    return json.dumps(receipt,indent=2,sort_keys=True)+"\n"
+
 
 def main():
-    r=build_receipt(); print(canonical_json(r),end=""); return 0 if r["verdict"]=="GREEN" else 1
+    r=build_receipt()
+    print(canonical_json(r),end="")
+    return 0 if r["verdict"]=="GREEN" else 1
 
-if __name__=="__main__": raise SystemExit(main())
+if __name__=="__main__":
+    raise SystemExit(main())
