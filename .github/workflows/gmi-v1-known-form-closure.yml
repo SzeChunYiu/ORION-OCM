@@ -1,0 +1,56 @@
+name: GMI V1 known-form closure
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-v1-known-form-closure-v1/**"
+      - ".github/workflows/gmi-v1-known-form-closure.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-v1-known-form-closure-v1/**"
+      - ".github/workflows/gmi-v1-known-form-closure.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  known-form-closure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.14"
+      - name: Unit tests
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-v1-known-form-closure-v1/test_v1_known_form_closure_v1.py -v
+      - name: Emit receipt and require GREEN
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-v1-known-form-closure-v1/v1_known_form_closure_v1.py > /tmp/v1_known_form_receipt.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          got = json.loads(Path("/tmp/v1_known_form_receipt.json").read_text())
+          assert got["status"] == "GREEN", got.get("errors")
+          assert got["terminal"] == "KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE"
+          print("receipt_ok", got["family_count"], got["frontier_z3"])
+          PY
