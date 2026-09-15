@@ -1,0 +1,170 @@
+{
+  "schema": "GMI_CAPABILITY_PERTURBATION_FREEZE_V1",
+  "issue": 784,
+  "parent_issue": 602,
+  "claim_ceiling": "PROSPECTIVE_CAPABILITY_PERTURBATIONS_VALIDATED_AT_REGISTERED_SYNTHETIC_SCOPE",
+  "pinned_predictor": {
+    "path": "research/gmi-capability-predictor-dev-v1/dev_predictor_v1.py",
+    "git_blob_sha": "937b91f6a3787ff04c2b5209c81d249518406859",
+    "development_grid": [-1, 0, 1]
+  },
+  "axis_order": [
+    "memory_margin",
+    "planning_margin",
+    "communication_margin",
+    "routing_margin",
+    "verification_margin"
+  ],
+  "target_order": [
+    "memory_exact",
+    "planning_exact",
+    "coordination_exact",
+    "verified_tool_exact"
+  ],
+  "cannot_identify": "CANNOT_IDENTIFY",
+  "cases": [
+    {
+      "id": "A_pre",
+      "kind": "ablation_main_pre",
+      "point": [2, 0, 0, 0, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "A_post",
+      "kind": "ablation_main_post",
+      "point": [-2, 0, 0, 0, 0],
+      "oracle": [0, 0, 1, 1],
+      "predictor": [0, 0, "CANNOT_IDENTIFY", "CANNOT_IDENTIFY"]
+    },
+    {
+      "id": "A_safe_pre",
+      "kind": "ablation_safe_pre",
+      "point": [3, 0, 0, 0, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "A_safe_post",
+      "kind": "ablation_safe_post",
+      "point": [2, 0, 0, 0, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "R_pre",
+      "kind": "repricing_main_pre",
+      "point": [0, 0, 0, 2, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "R_post",
+      "kind": "repricing_main_post",
+      "point": [0, 0, 0, -2, 0],
+      "oracle": [1, 1, 1, 0],
+      "predictor": ["CANNOT_IDENTIFY", "CANNOT_IDENTIFY", "CANNOT_IDENTIFY", 0]
+    },
+    {
+      "id": "R_safe_pre",
+      "kind": "repricing_safe_pre",
+      "point": [0, 0, 0, 3, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "R_safe_post",
+      "kind": "repricing_safe_post",
+      "point": [0, 0, 0, 2, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "D_pre",
+      "kind": "drift_main_pre",
+      "point": [0, 0, 2, 0, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "D_post",
+      "kind": "drift_main_post",
+      "point": [0, 0, -2, 0, 0],
+      "oracle": [1, 1, 0, 1],
+      "predictor": ["CANNOT_IDENTIFY", "CANNOT_IDENTIFY", 0, "CANNOT_IDENTIFY"]
+    },
+    {
+      "id": "D_safe_pre",
+      "kind": "drift_safe_pre",
+      "point": [0, 0, 3, 0, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    },
+    {
+      "id": "D_safe_post",
+      "kind": "drift_safe_post",
+      "point": [0, 0, 2, 0, 0],
+      "oracle": [1, 1, 1, 1],
+      "predictor": [1, 1, 1, 1]
+    }
+  ],
+  "transformations": {
+    "ablation_main": {
+      "pre": "A_pre",
+      "post": "A_post",
+      "changed_axis": "memory_margin",
+      "from": 2,
+      "to": -2,
+      "expected_direct_deficit_set": ["memory_exact", "planning_exact"]
+    },
+    "ablation_safe": {
+      "pre": "A_safe_pre",
+      "post": "A_safe_post",
+      "changed_axis": "memory_margin",
+      "from": 3,
+      "to": 2,
+      "expected_direct_deficit_set": []
+    },
+    "repricing_main": {
+      "pre": "R_pre",
+      "post": "R_post",
+      "budget": 5,
+      "demand": 1,
+      "price_from": 3,
+      "price_to": 7,
+      "law": "routing_margin=budget-price*demand",
+      "expected_direct_deficit_set": ["verified_tool_exact"]
+    },
+    "repricing_safe": {
+      "pre": "R_safe_pre",
+      "post": "R_safe_post",
+      "budget": 5,
+      "demand": 1,
+      "price_from": 2,
+      "price_to": 3,
+      "law": "routing_margin=budget-price*demand",
+      "expected_direct_deficit_set": []
+    },
+    "drift_main": {
+      "pre": "D_pre",
+      "post": "D_post",
+      "shock": 4,
+      "law": "communication_margin_after=communication_margin_before-shock",
+      "expected_direct_deficit_set": ["coordination_exact"]
+    },
+    "drift_safe": {
+      "pre": "D_safe_pre",
+      "post": "D_safe_post",
+      "shock": 1,
+      "law": "communication_margin_after=communication_margin_before-shock",
+      "expected_direct_deficit_set": []
+    }
+  },
+  "forbidden_claims": [
+    "UNIVERSAL_CAPABILITY_PREDICTOR",
+    "REAL_WORLD_PERTURBATION_CALIBRATION",
+    "CAUSAL_EFFECT_IDENTIFIED_OUTSIDE_REGISTERED_ORACLE",
+    "G6_UNIVERSAL",
+    "COMPLETE_GMI"
+  ]
+}
