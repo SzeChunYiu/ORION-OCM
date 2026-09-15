@@ -1,0 +1,78 @@
+name: GMI capability calibration V1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-capability-calibration-v1/**"
+      - ".github/workflows/gmi-capability-calibration-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-capability-calibration-v1/**"
+      - ".github/workflows/gmi-capability-calibration-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-calibration:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run exact tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then
+            PY="python -O"
+          else
+            PY="python"
+          fi
+          $PY research/gmi-capability-calibration-v1/test_capability_calibration_v2.py
+          $PY research/gmi-capability-calibration-v1/test_result_v2.py
+      - name: Reproduce committed V2 artifacts byte-for-byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then
+            PY="python -O"
+          else
+            PY="python"
+          fi
+          $PY research/gmi-capability-calibration-v1/capability_calibration_v2.py > /tmp/SAMPLE_CERTIFICATE_V2.json
+          cmp research/gmi-capability-calibration-v1/SAMPLE_CERTIFICATE_V2.json /tmp/SAMPLE_CERTIFICATE_V2.json
+          $PY research/gmi-capability-calibration-v1/full_population_census_v2.py > /tmp/FULL_POPULATION_CENSUS_V2.json
+          cmp research/gmi-capability-calibration-v1/FULL_POPULATION_CENSUS_V2.json /tmp/FULL_POPULATION_CENSUS_V2.json
+          $PY research/gmi-capability-calibration-v1/result_v2.py > /tmp/RESULT_V2.json
+          cmp research/gmi-capability-calibration-v1/RESULT_V2.json /tmp/RESULT_V2.json
+      - name: Verify freeze and evidence ordering
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze_v1=e09972aa6e9b8a640effcb6a26d833fdfb44a696
+          freeze_v2=c05a38ab9bc37b5c7eafa046515d8661d8fe1497
+          sample_v2=5737a9efd113e8302810d21e4f798b82f1e4ecc0
+          cert_v2=1f7c29a3ef470957add504adfbe1ab375b933261
+          census_v2=cebca65071aa90300c9ace6c87bfb896946a460c
+
+          git cat-file -e "$freeze_v1^{commit}"
+          git cat-file -e "$freeze_v2^{commit}"
+          git cat-file -e "$sample_v2^{commit}"
+          git cat-file -e "$cert_v2^{commit}"
+          git cat-file -e "$census_v2^{commit}"
+
+          test -z "$(git ls-tree -r --name-only "$freeze_v1" -- research/gmi-capability-calibration-v1 | grep -E 'AUDIT_POPULATION|AUDIT_SAMPLE|SAMPLE_CERTIFICATE|FULL_POPULATION_CENSUS|RESULT' || true)"
+          test -z "$(git ls-tree -r --name-only "$freeze_v2" -- research/gmi-capability-calibration-v1 | grep -E 'AUDIT_POPULATION_V2|AUDIT_SAMPLE_V2|SAMPLE_CERTIFICATE_V2|FULL_POPULATION_CENSUS_V2|RESULT_V2' || true)"
+          git merge-base --is-ancestor "$freeze_v2" "$sample_v2"
+          git merge-base --is-ancestor "$sample_v2" "$cert_v2"
+          git merge-base --is-ancestor "$cert_v2" "$census_v2"
