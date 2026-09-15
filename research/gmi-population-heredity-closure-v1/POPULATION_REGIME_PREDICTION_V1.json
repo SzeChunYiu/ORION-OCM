@@ -1,0 +1,20 @@
+{
+  "schema": "GMI_POPULATION_HEREDITY_REGIME_PREDICTION_V1",
+  "issue": 602,
+  "ecology": {
+    "name": "TWO_NICHE_POST_REVEAL_SELECTION",
+    "genotypes": ["A", "B"],
+    "equiprobable_ecologies": ["A", "B"],
+    "timing": "population support freezes before ecology reveal; selection occurs after reveal; mutation/creation after reveal is forbidden",
+    "obligation": "serve a genotype matched to the revealed ecology"
+  },
+  "predictions": {
+    "diverse_population_capability": 1.0,
+    "best_single_genotype_capability": 0.5,
+    "homogeneous_negative_twin_capability": 0.5,
+    "minimal_support_size_for_full_capability": 2,
+    "parent_disposition": "exactly represented by D7 indexed components plus D8 replacement/lineage updates"
+  },
+  "falsifier": "a support-one population reaches capability above 0.5 without post-reveal creation, or the D7+D8 compiler changes any response",
+  "claim_ceiling": "POPULATION_SUPPORT_IRREDUCIBLE_TO_ONE_LINEAGE_IN_FROZEN_TIMING; REDUCED_TO_D7_D8"
+}
