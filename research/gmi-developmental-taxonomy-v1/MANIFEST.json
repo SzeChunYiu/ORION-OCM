@@ -1,0 +1,34 @@
+{
+  "name": "gmi-developmental-taxonomy-v1",
+  "version": "1.0.0",
+  "description": "Formal classification system for developmental changes in generative model interactions",
+  "type": "research-capsule",
+  "created": "2026-09-15",
+  "authors": ["ORION-OCM"],
+  "files": {
+    "core": "CORE.md",
+    "documentation": "TAXONOMY_V1.md",
+    "implementation": "taxonomy_v1.py",
+    "tests": "test_taxonomy_v1.py"
+  },
+  "dependencies": {
+    "python": ">=3.8",
+    "standard_library": ["dataclasses", "enum", "fractions", "typing"]
+  },
+  "classification": {
+    "domain": "generative-model-interaction",
+    "scope": "developmental-taxonomy",
+    "types": [
+      "information_storage",
+      "representation_change",
+      "skill_acquisition",
+      "learning_law_change",
+      "architecture_change"
+    ]
+  },
+  "tests": {
+    "count": 15,
+    "runner": "python3 -I -B test_taxonomy_v1.py -v",
+    "coverage": "mutual_exclusivity, joint_exhaustion, equivalence_relation, irreducibility"
+  }
+}
