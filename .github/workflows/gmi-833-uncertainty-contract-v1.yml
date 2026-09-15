@@ -75,50 +75,29 @@ jobs:
           verify_parent research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json 49df3257c9181c64bae63b53c503e302ca887fe8
           verify_parent research/gmi-epistemic-aleatoric-separation-v1/RESULT_V1.json e422a880c7e1f49cd80260cc679c31e056a4046d
           verify_parent research/gmi-capability-calibration-v2/RESULT_V2.json 278845962ef2a573d3664fc3a400591e440ed313
-      - name: Exact, parent-pin, and hostile tests
+      - name: Exact parent-pin and hostile tests
         shell: bash
         run: |
           set -euo pipefail
-          set +e
           if [ "${{ matrix.mode }}" = optimized ]; then
-            python -I -O -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v 2>&1 | tee /tmp/uncertainty-test.log
-            status=${PIPESTATUS[0]}
+            python -I -O -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v
           else
-            python -I -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v 2>&1 | tee /tmp/uncertainty-test.log
-            status=${PIPESTATUS[0]}
+            python -I -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v
           fi
-          set -e
-          if [ "$status" -ne 0 ]; then
-            exit "$status"
-          fi
+      - name: Regenerate deterministic receipt
+        shell: bash
+        run: |
+          set -euo pipefail
           if [ "${{ matrix.mode }}" = optimized ]; then
             python -I -O -B research/gmi-833-uncertainty-contract-v1/uncertainty_contract_v1.py > /tmp/result.json
           else
             python -I -B research/gmi-833-uncertainty-contract-v1/uncertainty_contract_v1.py > /tmp/result.json
           fi
-          cmp /tmp/result.json research/gmi-833-uncertainty-contract-v1/RESULT_V1.json
-      - name: Post exact failure diagnostic
-        if: failure() && github.event_name == 'pull_request' && matrix.mode == 'normal'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+      - name: Byte-identical receipt gate
         shell: bash
         run: |
           set -euo pipefail
-          {
-            echo '### #851 exact/hostile failure diagnostic'
-            echo
-            echo 'The gate remains RED. Tail of the exact test output:'
-            echo
-            echo '```text'
-            if [ -f /tmp/uncertainty-test.log ]; then
-              tail -n 120 /tmp/uncertainty-test.log
-            else
-              echo 'test log was not produced; failure occurred before exact tests'
-            fi
-            echo '```'
-          } > /tmp/diagnostic.md
-          gh pr comment "$PR_NUMBER" --body-file /tmp/diagnostic.md
+          cmp /tmp/result.json research/gmi-833-uncertainty-contract-v1/RESULT_V1.json
       - name: Check #833 exact reconciliation
         if: github.event_name == 'pull_request' && matrix.mode == 'normal'
         env:
