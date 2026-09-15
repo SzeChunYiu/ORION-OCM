@@ -30,6 +30,8 @@ N_CANDIDATES = int(PROTOCOL["task_plan"]["candidate_draws"])
 SEED = int(PROTOCOL["task_plan"]["seed"], 16)
 COVERAGE_BAR = float(PROTOCOL["adjudication"]["coverage_bar"])
 RETENTION_ONSET = int(PROTOCOL["adjudication"]["retention_onset_reuse"])
+FULL_COVERAGE_REUSE = 256
+FULL_COVERAGE_BAR = 0.999
 
 FROZEN_PINS = PROTOCOL["frozen_model_pins"]
 REPAIR_PIN = PROTOCOL["repaired_pricing"]["module_sha256"]
@@ -108,6 +110,21 @@ def winner(cands, reuse: float, pricing: str):
 
 def expected_retains(reuse: int) -> bool:
     return int(reuse) >= RETENTION_ONSET
+
+
+def full_coverage_at_registered_reuse(
+    cells, reuse: int = FULL_COVERAGE_REUSE, coverage_bar: float = FULL_COVERAGE_BAR
+) -> bool:
+    """Require the registered reuse cell itself to meet the coverage bar.
+
+    A later cell cannot retroactively satisfy a "by reuse 256" prediction.  The
+    registered schedule must contain exactly one target cell; missing or duplicate
+    target cells fail closed.
+    """
+    matches = [c for c in cells if int(c.get("reuse", -1)) == int(reuse)]
+    if len(matches) != 1:
+        return False
+    return float(matches[0]["repaired"]["coverage"]) >= float(coverage_bar)
 
 
 def adjudicate_cell(reuse: int, repaired_winner, frozen_winner) -> dict:
@@ -189,9 +206,7 @@ def run_campaign(n_candidates: int = N_CANDIDATES) -> dict:
         "frozen_reuse_invariant": len(set(frozen_profiles)) == 1,
         "repaired_state_monotone": states == sorted(states),
         "declines_retention_at_reuse_1": cells[0]["repaired"]["retains"] is False,
-        "full_coverage_by_256": any(
-            c["reuse"] >= 256 and c["repaired"]["coverage"] >= 0.999 for c in cells
-        ),
+        "full_coverage_by_256": full_coverage_at_registered_reuse(cells),
         "frozen_never_retains": all(not c["frozen_control"]["retains"] for c in cells),
         "green_cells_earned": green > 0,
     }
