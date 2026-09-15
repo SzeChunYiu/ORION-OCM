@@ -1,0 +1,51 @@
+name: Derived lesion analysis
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-derived-lesion-v1/**'
+      - '.github/workflows/gmi-derived-lesion.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-derived-lesion-v1/**'
+      - '.github/workflows/gmi-derived-lesion.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  derived-lesion-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/research/gmi-derived-lesion-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact finite controls (normal)
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/lesion-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B research/gmi-derived-lesion-v1/test_derived_lesion_v1.py -v \
+            2>&1 | tee "$out/tests-normal.txt"
+      - name: Exact finite controls (optimized)
+        run: |
+          out="$RUNNER_TEMP/lesion-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B -O research/gmi-derived-lesion-v1/test_derived_lesion_v1.py -v \
+            2>&1 | tee "$out/tests-optimized.txt"
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-derived-lesion-v1
+          path: '${{ runner.temp }}/lesion-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

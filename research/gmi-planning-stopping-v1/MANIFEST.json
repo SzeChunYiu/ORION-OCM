@@ -1,0 +1,51 @@
+{
+  "capsule": "gmi-planning-stopping-v1",
+  "version": "1.0.0",
+  "description": "Planning-stopping theorem with EVC-based stopping criterion and action-invariance proof",
+  "author": "ORION-OCM",
+  "created": "2026-09-15",
+  "tags": [
+    "planning",
+    "stopping-criterion",
+    "evc",
+    "action-invariance",
+    "bounded-rationality"
+  ],
+  "files": [
+    "CORE.md",
+    "PLANNING_STOPPING_THEOREM_V1.md",
+    "planning_stopping_v1.py",
+    "test_planning_stopping_v1.py"
+  ],
+  "requirements": {
+    "python": ">=3.8",
+    "dependencies": [],
+    "test_command": "python3 -I -B research/gmi-planning-stopping-v1/test_planning_stopping_v1.py -v"
+  },
+  "formal_content": [
+    "goal-duality",
+    "simulation-cost",
+    "evc-stopping-rule",
+    "action-invariance",
+    "finite-worlds-w1-w6",
+    "reusability-criterion"
+  ],
+  "tests": {
+    "count": 15,
+    "all_must_pass": true,
+    "coverage": [
+      "evc-computation",
+      "stopping-criterion",
+      "world-w1-linear",
+      "world-w3-dead-end",
+      "world-w4-budget",
+      "action-invariance",
+      "reusability",
+      "budget-constraint",
+      "subgoal-value",
+      "world-w2-branching",
+      "world-w6-loop",
+      "dataclass-constraints"
+    ]
+  }
+}

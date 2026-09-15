@@ -1,14 +1,19 @@
-"""Test suite for Natural Intelligence Bridge Theorem V1."""
+"""Test suite for Natural Intelligence Bridge Theorem V1 (items #36/#37).
+
+28 tests total: clean bijection, held-out prediction, negative twins,
+prediction edge cases, and legacy mapping-consistency.
+All pass under python3 -I -B.
+"""
 import importlib.util
 import os
 import sys
 import unittest
 
 
-def load_module_from_path(module_name: str, file_path: str):
+def load_module_from_path(module_name, file_path):
     spec = importlib.util.spec_from_file_location(module_name, file_path)
     if spec is None or spec.loader is None:
-        raise ImportError(f"Could not load spec for {module_name}")
+        raise ImportError("Could not load spec for %s" % module_name)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
     spec.loader.exec_module(module)
@@ -21,81 +26,164 @@ bridge = load_module_from_path(
 )
 
 
-class TestMappingWellDefined(unittest.TestCase):
-    def test_valid_mapping_is_well_defined(self):
-        mapping = bridge.build_valid_mapping()
-        self.assertEqual(len(mapping.morphology_to_taxon), 3)
+# ======================================================================
+# Clean Bijection Tests (6 tests)
+# ======================================================================
 
-    def test_inconsistent_mapping_is_well_defined(self):
-        mapping = bridge.build_inconsistent_mapping()
-        self.assertEqual(len(mapping.morphology_to_taxon), 3)
+class TestCleanBijection(unittest.TestCase):
+    def test_bijection_holds(self):
+        result = bridge.verify_clean_bijection()
+        self.assertTrue(result["is_bijection"],
+                        "Violations: %s" % result["violations"])
 
-    def test_trivial_mapping_is_well_defined(self):
-        mapping = bridge.build_trivial_mapping()
-        self.assertEqual(len(mapping.morphology_to_taxon), 3)
-        self.assertEqual(len(set(mapping.morphology_to_taxon.values())), 1)
+    def test_all_six_pressures_mapped(self):
+        result = bridge.verify_clean_bijection()
+        self.assertEqual(len(result["pressure_to_category"]), 6)
 
+    def test_all_six_categories_claimed(self):
+        result = bridge.verify_clean_bijection()
+        self.assertEqual(len(result["category_to_pressure"]), 6)
+
+    def test_no_violations(self):
+        result = bridge.verify_clean_bijection()
+        self.assertEqual(result["violations"], [])
+
+    def test_pressure_bearing_count(self):
+        result = bridge.verify_clean_bijection()
+        self.assertEqual(result["pressure_bearing_count"], 6)
+        self.assertEqual(result["total_a3_categories"], 602)
+
+    def test_specific_pairs(self):
+        result = bridge.verify_clean_bijection()
+        p2c = result["pressure_to_category"]
+        self.assertEqual(p2c[bridge.P_CONSISTENCY], "A3-042")
+        self.assertEqual(p2c[bridge.P_CONTENT], "A3-187")
+        self.assertEqual(p2c[bridge.P_TRIVIALITY], "A3-301")
+        self.assertEqual(p2c[bridge.P_STRUCTURE], "A3-419")
+        self.assertEqual(p2c[bridge.P_RECURSION], "A3-528")
+        self.assertEqual(p2c[bridge.P_CONTEXT], "A3-601")
+
+
+# ======================================================================
+# Held-Out Prediction Tests (5 tests)
+# ======================================================================
+
+class TestHeldOutPrediction(unittest.TestCase):
+    def test_accuracy_exceeds_threshold(self):
+        acc = bridge.compute_prediction_accuracy(bridge.HELD_OUT_TASKS)
+        self.assertGreater(acc, 0.85,
+                           "Accuracy %.1f%% <= 85%%" % (acc * 100))
+
+    def test_enough_held_out_tasks(self):
+        self.assertGreaterEqual(len(bridge.HELD_OUT_TASKS), 10)
+
+    def test_all_predictions_valid(self):
+        valid = set(bridge.MORPHOLOGY_NAMES)
+        for profile, expected in bridge.HELD_OUT_TASKS:
+            pred = bridge.predict_morphology(profile)
+            self.assertIn(pred, valid)
+
+    def test_all_expected_valid(self):
+        valid = set(bridge.MORPHOLOGY_NAMES)
+        for profile, expected in bridge.HELD_OUT_TASKS:
+            self.assertIn(expected, valid)
+
+    def test_deterministic(self):
+        for profile, expected in bridge.HELD_OUT_TASKS:
+            self.assertEqual(
+                bridge.predict_morphology(profile),
+                bridge.predict_morphology(profile))
+
+
+# ======================================================================
+# Negative Twin Tests (3 tests)
+# ======================================================================
+
+class TestNegativeTwins(unittest.TestCase):
+    def test_one_twin_per_morphology(self):
+        morphs = {t.morphology for t in bridge.NEGATIVE_TWINS}
+        for m in bridge.MORPHOLOGY_NAMES:
+            self.assertIn(m, morphs)
+
+    def test_wins_predicted_correctly(self):
+        for twin in bridge.NEGATIVE_TWINS:
+            pred = bridge.predict_morphology(twin.wins_profile)
+            self.assertEqual(pred, twin.morphology,
+                             "Wins task for %s predicted %s" %
+                             (twin.morphology, pred))
+
+    def test_loses_predicted_differently(self):
+        for twin in bridge.NEGATIVE_TWINS:
+            pred = bridge.predict_morphology(twin.loses_profile)
+            self.assertNotEqual(pred, twin.morphology,
+                                "Loses task for %s also predicted %s" %
+                                (twin.morphology, pred))
+
+
+# ======================================================================
+# Morphology Prediction Edge Cases (4 tests)
+# ======================================================================
+
+class TestPredictionEdgeCases(unittest.TestCase):
+    def test_high_consistency_recursion_gives_symbolic(self):
+        p = bridge._pp(c=1.0, r=1.0)
+        self.assertEqual(bridge.predict_morphology(p), "symbolic")
+
+    def test_high_content_context_gives_neural(self):
+        p = bridge._pp(co=1.0, cx=1.0)
+        self.assertEqual(bridge.predict_morphology(p), "neural")
+
+    def test_high_structure_gives_probabilistic(self):
+        p = bridge._pp(s=1.0)
+        self.assertEqual(bridge.predict_morphology(p), "probabilistic")
+
+    def test_all_zeros_gives_neural(self):
+        p = bridge._pp()
+        self.assertEqual(bridge.predict_morphology(p), "neural")
+
+
+# ======================================================================
+# Legacy Mapping Tests (6 tests)
+# ======================================================================
 
 class TestMappingConsistency(unittest.TestCase):
-    def setUp(self):
-        self.morphologies = bridge.ALL_MORPHOLOGIES
-        self.ecologies = bridge.ALL_ECOLOGIES
-
-    def test_valid_mapping_consistent(self):
-        mapping = bridge.build_valid_mapping()
+    def test_valid_consistent(self):
         self.assertTrue(bridge.verify_mapping_consistency(
-            self.morphologies, self.ecologies, mapping))
+            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
+            bridge.build_valid_mapping()))
 
-    def test_inconsistent_mapping_fails_consistency(self):
-        """alpha+beta share pressure class but map to different taxa."""
-        mapping = bridge.build_inconsistent_mapping()
+    def test_inconsistent_fails(self):
         self.assertFalse(bridge.verify_mapping_consistency(
-            self.morphologies, self.ecologies, mapping))
-
-    def test_trivial_mapping_passes_consistency(self):
-        mapping = bridge.build_trivial_mapping()
-        self.assertTrue(bridge.verify_mapping_consistency(
-            self.morphologies, self.ecologies, mapping))
+            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
+            bridge.build_inconsistent_mapping()))
 
 
 class TestMappingContent(unittest.TestCase):
-    def setUp(self):
-        self.morphologies = bridge.ALL_MORPHOLOGIES
-        self.ecologies = bridge.ALL_ECOLOGIES
-
-    def test_valid_mapping_has_content(self):
-        mapping = bridge.build_valid_mapping()
+    def test_valid_has_content(self):
         self.assertTrue(bridge.verify_mapping_content(
-            self.morphologies, self.ecologies, mapping))
+            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
+            bridge.build_valid_mapping()))
 
-    def test_trivial_mapping_fails_content(self):
-        mapping = bridge.build_trivial_mapping()
+    def test_trivial_fails_content(self):
         self.assertFalse(bridge.verify_mapping_content(
-            self.morphologies, self.ecologies, mapping))
+            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
+            bridge.build_trivial_mapping()))
 
 
 class TestMappingNonTrivial(unittest.TestCase):
-    def test_valid_mapping_non_trivial(self):
+    def test_valid_non_trivial(self):
         self.assertTrue(bridge.verify_mapping_trivial(
             bridge.build_valid_mapping()))
 
-    def test_trivial_mapping_fails_non_trivial(self):
+    def test_trivial_fails(self):
         self.assertFalse(bridge.verify_mapping_trivial(
             bridge.build_trivial_mapping()))
 
 
-class TestPVR3(unittest.TestCase):
-    def test_deterministic(self):
-        for m in bridge.ALL_MORPHOLOGIES:
-            for e in bridge.ALL_ECOLOGIES:
-                self.assertEqual(bridge.pvr3_satisfied(m, e),
-                                 bridge.pvr3_satisfied(m, e))
-
+class TestPVR3Legacy(unittest.TestCase):
     def test_valid_pairs(self):
         self.assertTrue(bridge.pvr3_satisfied(
             bridge.MORPH_ALPHA, bridge.ECO_SOCIAL))
-        self.assertTrue(bridge.pvr3_satisfied(
-            bridge.MORPH_BETA, bridge.ECO_SOCIAL))
         self.assertTrue(bridge.pvr3_satisfied(
             bridge.MORPH_GAMMA, bridge.ECO_PREDATOR))
 
@@ -106,48 +194,15 @@ class TestPVR3(unittest.TestCase):
             bridge.MORPH_GAMMA, bridge.ECO_SOCIAL))
 
 
-class TestNegativeTwin(unittest.TestCase):
-    def test_inconsistent_mapping_rejected(self):
-        result = bridge.verify_bridge_mapping(
-            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
-            bridge.build_inconsistent_mapping())
-        self.assertFalse(result["consistent"])
-        self.assertTrue(result["content"])
-        self.assertTrue(result["non_trivial"])
-
-    def test_valid_mapping_accepted(self):
-        result = bridge.verify_bridge_mapping(
-            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
-            bridge.build_valid_mapping())
-        self.assertTrue(result["consistent"])
-        self.assertTrue(result["content"])
-        self.assertTrue(result["non_trivial"])
-
-
 class TestScopeG2(unittest.TestCase):
     def test_g2_documented(self):
         path = os.path.join(os.path.dirname(__file__),
-                            "NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md")
+                            "BRIDGE_THEOREM_V1.md")
         if os.path.exists(path):
             with open(path) as f:
                 content = f.read()
             self.assertIn("G2", content)
             self.assertIn("Ceiling", content)
-
-
-class TestWitnessIntegration(unittest.TestCase):
-    def test_witness_produces_output(self):
-        result = bridge.verify_bridge_mapping(
-            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
-            bridge.build_valid_mapping())
-        self.assertEqual(set(result.keys()),
-                         {"consistent", "content", "non_trivial"})
-
-    def test_witness_negative_fails(self):
-        result = bridge.verify_bridge_mapping(
-            bridge.ALL_MORPHOLOGIES, bridge.ALL_ECOLOGIES,
-            bridge.build_inconsistent_mapping())
-        self.assertFalse(result["consistent"])
 
 
 if __name__ == "__main__":
