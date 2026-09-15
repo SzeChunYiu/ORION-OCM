@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - "research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_V1.json"
+      - "research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_COMPOSITION_V1.json"
       - "research/gmi-grand-unification-v1/reconcile_issue_602_v1.py"
       - ".github/workflows/gmi-issue-602-ledger-reconciliation.yml"
   push:
     branches: [main]
     paths:
       - "research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_V1.json"
+      - "research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_COMPOSITION_V1.json"
       - "research/gmi-grand-unification-v1/reconcile_issue_602_v1.py"
       - ".github/workflows/gmi-issue-602-ledger-reconciliation.yml"
   workflow_dispatch:
@@ -36,22 +38,35 @@ jobs:
         if: github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: >-
-          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py
-          --mode check --repository "${GITHUB_REPOSITORY}"
+        run: |
+          set -euo pipefail
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode check --repository "${GITHUB_REPOSITORY}"
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode check --repository "${GITHUB_REPOSITORY}" \
+            --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_COMPOSITION_V1.json
       - name: Apply exact registered transitions after merge to main
         if: github.event_name == 'push'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: >-
-          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py
-          --mode apply --repository "${GITHUB_REPOSITORY}"
+        run: |
+          set -euo pipefail
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode apply --repository "${GITHUB_REPOSITORY}"
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode apply --repository "${GITHUB_REPOSITORY}" \
+            --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_COMPOSITION_V1.json
       - name: Manual check/apply
         if: github.event_name == 'workflow_dispatch'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLY: ${{ inputs.apply }}
         run: |
+          set -euo pipefail
           mode=check
           if [ "$APPLY" = "true" ]; then mode=apply; fi
-          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py --mode "$mode" --repository "$GITHUB_REPOSITORY"
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode "$mode" --repository "$GITHUB_REPOSITORY"
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode "$mode" --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_COMPOSITION_V1.json
