@@ -1,19 +1,21 @@
 """
 Tests for GMI Biology Predictions V1
 
-15+ tests covering morphology prediction, negative twins, and developmental ordering.
+15 tests covering morphology prediction, negative twins, and developmental ordering.
 All tests use Python 3.8 compatible syntax, unittest, no network.
 """
 import sys
 import os
 import unittest
+import importlib
+import importlib.util
 
 # -I safety: import via spec
 _dir = os.path.dirname(os.path.abspath(__file__))
-_spec = __import__('importlib').util.spec_from_file_location(
+_spec = importlib.util.spec_from_file_location(
     "biology_predictions_v1",
     os.path.join(_dir, "biology_predictions_v1.py"))
-_mod = __import__('importlib').util.module_from_spec(_spec)
+_mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 
 SpeciesParams = _mod.SpeciesParams
@@ -80,7 +82,17 @@ class TestMorphologyPrediction(unittest.TestCase):
     def test_all_burdens_positive(self):
         _, burdens = predict_morphology_with_burden(CORVID)
         for name, b in burdens.items():
-            self.assertGreater(b, 0.0, f"Burden for {name} should be positive")
+            self.assertGreater(b, 0.0)
+
+    def test_primate_wins_neural(self):
+        """Primate: high E + high R + high V favors neural (ecology alignment dominates)."""
+        winner = predict_morphology(PRIMATE)
+        self.assertEqual(winner, "neural")
+
+    def test_corvid_beats_symbolic(self):
+        """Corvid: high E + high V -> symbolic (poor KL alignment) loses to neural."""
+        winner = predict_morphology(CORVID)
+        self.assertNotEqual(winner, "symbolic")
 
 
 class TestNegativeTwins(unittest.TestCase):
@@ -93,7 +105,7 @@ class TestNegativeTwins(unittest.TestCase):
             twin_winner = predict_morphology(twin)
             self.assertNotEqual(predicted, twin_winner)
 
-    def test_negative_twin_params_valid(self):
+    def test_negative_twin_params_in_bounds(self):
         predicted = predict_morphology(RODENT)
         twin = negative_twin(RODENT, predicted)
         if twin is not None:
@@ -104,18 +116,27 @@ class TestNegativeTwins(unittest.TestCase):
             self.assertLessEqual(twin.R, 10.0)
             self.assertLessEqual(twin.V, 10.0)
 
+    def test_negative_twin_found_for_all_species(self):
+        for sp in [CORVID, CEPHALOPOD, RODENT, PRIMATE]:
+            predicted = predict_morphology(sp)
+            twin = negative_twin(sp, predicted)
+            self.assertIsNotNone(twin, "No negative twin for %s" % sp.name)
+
 
 class TestDevelopmentalOrdering(unittest.TestCase):
     """Developmental ordering tests."""
 
-    def test_human_development_trajectory(self):
+    def test_human_development_trajectory_length(self):
         trajectory = predict_developmental_trajectory(HUMAN_DEVELOPMENT, HUMAN_E)
         self.assertEqual(len(trajectory), 3)
+
+    def test_human_development_stage_names(self):
+        trajectory = predict_developmental_trajectory(HUMAN_DEVELOPMENT, HUMAN_E)
         self.assertEqual(trajectory[0].name, "infant")
         self.assertEqual(trajectory[1].name, "child")
         self.assertEqual(trajectory[2].name, "adult")
 
-    def test_trajectory_stages_have_morphologies(self):
+    def test_trajectory_stages_have_valid_morphologies(self):
         trajectory = predict_developmental_trajectory(HUMAN_DEVELOPMENT, HUMAN_E)
         for stage in trajectory:
             self.assertIn(stage.predicted_morphology, ("neural", "symbolic", "probabilistic"))

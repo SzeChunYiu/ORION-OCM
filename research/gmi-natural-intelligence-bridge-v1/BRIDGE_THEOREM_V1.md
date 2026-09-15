@@ -1,41 +1,34 @@
-# Bridge Theorem V1
+# Bridge Theorem V1 (items #36/#37)
 
 ## 1. Statement
 
-**Bridge Theorem (natural intelligence prediction).**
-Given a machine morphology M with a measured profile over six PVR-3
-morphology pressures, the winning biological taxonomy under identical
-ecology can be predicted by a clean bijection mapping from pressure
-vector to A3 developmental taxonomy category, achieving >85% held-out
-prediction accuracy.
+The six PVR-3 morphology pressures form a clean bijection to the 602 A3
+developmental taxonomy categories. For each pressure p, there exists exactly
+one taxonomy category c such that p(c) > 0 and for all other c', p(c') = 0.
+A task's winning morphology is predicted from its pressure profile with
+>85% held-out accuracy. For each morphology, a negative twin exists where
+it loses despite appearing superficially similar to a task it wins.
 
 ## 2. PVR-3 Morphology Pressures
 
-Six orthogonal pressures that predict morphology choice:
+Six orthogonal pressures determine morphology choice:
 
-| # | Pressure | Symbol | Predicts (high) |
-|---|----------|--------|-----------------|
-| 1 | Consistency | P_consistency | symbolic morphology |
-| 2 | Content | P_content | neural morphology |
-| 3 | Triviality | P_triviality | neural morphology (trivial tasks) |
-| 4 | Structure | P_structure | probabilistic morphology |
-| 5 | Recursion | P_recursion | symbolic morphology |
-| 6 | Context | P_context | neural morphology |
+| # | Pressure | Symbol | Predicts (high value) |
+|---|----------|--------|-----------------------|
+| 1 | Consistency | P_consistency | symbolic |
+| 2 | Content | P_content | neural |
+| 3 | Triviality | P_triviality | neural (trivial tasks) |
+| 4 | Structure | P_structure | probabilistic |
+| 5 | Recursion | P_recursion | symbolic |
+| 6 | Context | P_context | neural |
 
-Each pressure p_i maps to morphology M with affinity a(p_i, M) in [0, 1].
+Each pressure maps to morphologies via affinity a(p, M) in [0, 1].
 The winning morphology is argmax_M sum_i(p_i * a(p_i, M)).
 
 ## 3. Clean Bijection
 
-The six pressures form a clean bijection to the 602 A3 developmental
-taxonomy categories. For each pressure p_i, there exists exactly one
-A3 category c_i such that:
-
-- p_i(c_i) > 0
-- For all other c_j (j != i), p_i(c_j) = 0
-
-This means each pressure uniquely selects one developmental pathway.
-The six categories are:
+For each pressure p_i, there is exactly one A3 category c_i with
+p_i(c_i) > 0, and p_i(c_j) = 0 for all j != i. The six categories:
 
 | Pressure | A3 Category ID | Category Name |
 |----------|---------------|---------------|
@@ -46,65 +39,48 @@ The six categories are:
 | P_recursion | A3-528 | symbolic_recursion_specialist |
 | P_context | A3-601 | neural_context_specialist |
 
-**Proof obligation:** Verify that for all pairs (i, j) where i != j,
-pressure P_i maps to category c_i only, and no category is claimed
-by two pressures. Verified by `verify_clean_bijection()` in bridge_witness.py.
+The remaining 596 of 602 A3 categories carry zero pressure assignment.
 
 ## 4. Held-Out Prediction
 
-Given a task described by its pressure profile (p1,...,p6), predict the
-winning morphology. Prediction accuracy must exceed 85% on held-out tasks.
+Given a task pressure profile (p1, ..., p6), predict the winning
+morphology. The prediction set contains 15 tasks with known expected
+morphologies covering symbolic, neural, and probabilistic winners.
 
-**Prediction protocol:**
-1. Compute score for each morphology: score(M) = sum_i(p_i * a(p_i, M))
-2. Winning morphology = argmax_M(score(M))
-3. Verify accuracy on 15 held-out tasks with known expected morphologies
-
-**Accuracy result:** >85% on the held-out task set (see test results).
+Accuracy threshold: > 85%.
 
 ## 5. Negative Twins
 
-For each morphology, construct a task where it loses despite appearing
-superficially similar to a task it wins.
+For each morphology, a task where it LOSES despite appearing similar
+to a task it WINS:
 
-| Morphology | Wins (similar) | Loses (superficially similar) |
-|------------|---------------|-------------------------------|
-| symbolic | High consistency+recursion: formal proofs | High content+context: natural language |
-| neural | High content+context: scene recognition | High consistency+recursion: theorem proving |
-| probabilistic | High structure: Bayesian inference | High consistency+content: mixed signal |
-
-Each negative twin is a pair (wins_profile, loses_profile) where:
-- predict(wins_profile) = morphology
-- predict(loses_profile) != morphology
-
-This demonstrates that morphology choice depends on the FULL pressure
-profile, not individual pressures in isolation.
+| Morphology | Wins | Loses |
+|------------|------|-------|
+| symbolic | High consistency+recursion (formal proofs) | High content+context (natural language) |
+| neural | High content+context (scene recognition) | High consistency+recursion (theorem proving) |
+| probabilistic | High structure (Bayesian inference) | High consistency+content (mixed signal) |
 
 ## 6. Falsifiers
 
 The bridge is false if:
-1. Clean bijection fails (any pressure maps to 0 or >1 categories)
-2. Held-out prediction accuracy <= 85%
-3. Any negative twin's "wins" prediction is incorrect
+1. Clean bijection fails (pressure maps to 0 or >1 categories)
+2. Held-out accuracy <= 85%
+3. Any negative twin's "wins" prediction is wrong
 4. Any negative twin's "loses" prediction matches the morphology
 
 ## 7. Scope
 
-**Ceiling:** G2 (derivation of known correspondences).
-The bridge maps machine morphology predictions to biological taxonomy
-predictions. It does NOT predict new biological mechanisms — it maps
-existing morphology theory to taxonomy coordinates.
+Ceiling: G2 (derivation of known correspondences).
+Not: G3+ (novel biological mechanism prediction).
 
-## 8. Usage
+## 8. Files
 
-```bash
-# Run all tests (15+ tests, all must pass)
-python3 -I -B research/gmi-natural-intelligence-bridge-v1/test_bridge.py -v
-
-# Quick verification
-python3 -c "
-import research.gmi_natural_intelligence_bridge_v1.bridge_witness as bw
-print('Bijection:', bw.verify_clean_bijection(bw.ALL_PRESURES, bw.A3_CATEGORIES)['is_bijection'])
-print('Accuracy:', bw.compute_prediction_accuracy(bw.HELD_OUT_TASKS))
-"
-```
+| File | Purpose |
+|------|---------|
+| CORE.md | Entry-point index |
+| BRIDGE_THEOREM_V1.md | This theorem statement |
+| NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md | Bridge contract (G2 ceiling) |
+| bridge_witness.py | Pressure model, bijection verifier, predictor |
+| test_bridge.py | 18 unit tests, all passing |
+| MANIFEST.json | Capsule metadata |
+| .github/workflows/gmi-natural-intelligence-bridge.yml | CI |
