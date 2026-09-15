@@ -9,6 +9,7 @@ CLAIM = "USEFUL_DESCENDANT_EVOLVABILITY_PREDICTION_VALIDATED_AT_REGISTERED_FINIT
 ZERO_TERMINAL = "UNREACHABLE_ZERO_USEFUL_MASS"
 CURRENT_OBJECT = (0, 0, 0, 0, 0, 0)
 SPACE = tuple(product((0, 1), repeat=6))
+MEMBERSHIP_VERIFIER_ID = "EXACT_CONJUNCTION_MEMBERSHIP_V1"
 KERNELS = {
     "RESET": (F(1,2),) * 6,
     "CONTINUED": (F(3,4), F(3,4), F(1,2), F(1,2), F(1,2), F(1,2)),
@@ -88,10 +89,63 @@ def sorted_mass_signature(ps):
     return tuple(sorted(m for _, m in distribution(ps)))
 
 
+def registered_arm_contracts():
+    """Materialize the frozen non-kernel contract independently for every arm."""
+    return {
+        name: {
+            "current_object": CURRENT_OBJECT,
+            "descendant_space": SPACE,
+            "admissible_descendants": SPACE,
+            "membership_verifier_id": MEMBERSHIP_VERIFIER_ID,
+            "proposal_events_per_draw": 1,
+            "verification_events_per_draw": 1,
+        }
+        for name in KERNELS
+    }
+
+
+def derive_common_state_contract(contracts):
+    """Fail closed unless all frozen non-kernel fields are extensionally identical."""
+    if set(contracts) != set(KERNELS):
+        raise RuntimeError("arm contract set does not match registered kernels")
+    ordered = [contracts[name] for name in KERNELS]
+    first = ordered[0]
+
+    def all_same(key):
+        return all(contract[key] == first[key] for contract in ordered[1:])
+
+    same_current = all_same("current_object")
+    same_space = all_same("descendant_space")
+    same_admissibility = all_same("admissible_descendants")
+    same_verifier = all_same("membership_verifier_id")
+    one_each = all(
+        contract["proposal_events_per_draw"] == 1
+        and contract["verification_events_per_draw"] == 1
+        for contract in ordered
+    )
+    if not all((same_current, same_space, same_admissibility, same_verifier, one_each)):
+        raise RuntimeError("cross-arm common-state contract mismatch")
+    if first["current_object"] not in first["descendant_space"]:
+        raise RuntimeError("registered current object is outside descendant space")
+    if tuple(first["admissible_descendants"]) != tuple(first["descendant_space"]):
+        raise RuntimeError("registered all-admissible contract changed")
+
+    return {
+        "current_object": list(first["current_object"]),
+        "descendant_space_size": len(first["descendant_space"]),
+        "same_current_object_across_arms": same_current,
+        "same_descendant_space_across_arms": same_space,
+        "same_admissibility_across_arms": same_admissibility,
+        "same_membership_verifier_per_held_task": same_verifier,
+        "one_proposal_and_one_verification_event_per_draw": one_each,
+    }
+
+
 def build_receipt():
     if len(SPACE) != 64 or CURRENT_OBJECT not in SPACE:
         raise RuntimeError("registered state-space invariant failed")
 
+    common_state = derive_common_state_contract(registered_arm_contracts())
     distributions = {name: distribution(ps) for name, ps in KERNELS.items()}
     normalization = {name: frac(sum((m for _, m in dist), F(0))) for name, dist in distributions.items()}
 
@@ -161,15 +215,7 @@ def build_receipt():
         "parent_issue": 602,
         "freeze_commit": FREEZE_COMMIT,
         "claim_ceiling": CLAIM,
-        "registered_common_state": {
-            "current_object": list(CURRENT_OBJECT),
-            "descendant_space_size": len(SPACE),
-            "same_current_object_across_arms": True,
-            "same_descendant_space_across_arms": True,
-            "same_admissibility_across_arms": True,
-            "same_membership_verifier_per_held_task": True,
-            "one_proposal_and_one_verification_event_per_draw": True,
-        },
+        "registered_common_state": common_state,
         "kernel_parameters": {name: [frac(p) for p in ps] for name, ps in KERNELS.items()},
         "kernel_normalization": normalization,
         "developmental_history": {"H0": "z_0=1", "H1": "z_1=1"},
