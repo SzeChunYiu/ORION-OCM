@@ -1,0 +1,20 @@
+{
+  "schema": "GMIP3TransferEnergyV1",
+  "terminal": "P3_TRANSFER_AND_ENERGY_SCALING_AT_REGISTERED_SCOPE",
+  "code_math_science_control_transfer": {
+    "arms": [
+      {"domain": "code", "parent": "research/cross-domain-transfer-v1", "status": "TRANSFER_SUPPORTED_AT_REGISTERED_SCOPE"},
+      {"domain": "math", "parent": "research/cross-domain-transfer-v1", "status": "TRANSFER_SUPPORTED_AT_REGISTERED_SCOPE"},
+      {"domain": "science", "parent": "research/gmi-capability-transfer-v1", "status": "TRANSFER_SUPPORTED_AT_REGISTERED_SCOPE"},
+      {"domain": "control", "parent": "research/gmi-capability-transfer-v1", "status": "TRANSFER_SUPPORTED_AT_REGISTERED_SCOPE"}
+    ],
+    "all_green": true
+  },
+  "physical_resource_energy_scaling": {
+    "parent": "research/gmi-physical-resource-metering-v1",
+    "meters": ["cpu", "gpu", "wall", "io", "energy"],
+    "scaling_law": "affine_in_registered_work_units",
+    "pareto_when_prices_unfixed": true,
+    "green": true
+  }
+}
