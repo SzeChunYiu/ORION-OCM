@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "H. Development, adaptation, and evolvability",
+  "scope": "finite charged lifecycle decisions over architecture expansion, pruning, compilation, local/global morphogenesis, bounded deterministic generation recurrences, and deterministic finite developmental state spaces",
+  "assumptions": [
+    "all lifecycle costs and losses are nonnegative integers and compared over a prospectively fixed finite horizon",
+    "expansion and pruning alternatives are obligation-equivalent except for explicitly charged residual loss",
+    "compiled execution includes verification cost",
+    "local morphogenesis may be selected only when the local patch is obligation-sufficient",
+    "the registered multi-generation recurrence holds parameters fixed over its bounded horizon",
+    "the finite-state impossibility result assumes deterministic closed dynamics on a fixed finite developmental state set"
+  ],
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "claim_boundary": "This closes the final six bounded H rows with finite lifecycle/cycle laws. It does not establish empirical G7 developmental prediction, stochastic or expanding-state open-endedness, unbounded self-modification, natural evolution, or universal architecture policy.",
+  "strongest_parent": "amortized replacement/expansion decisions, program compilation economics, local-vs-global optimization, dynamical-systems recurrence, pigeonhole principle on finite deterministic systems",
+  "negative_twin": "a structural change that does not improve fully charged lifecycle cost, an obligation-insufficient local patch, or a finite deterministic system claimed to produce infinitely many distinct states",
+  "nearest_counterexample": "stochastic dynamics, external novelty injection, or a developmental state space that can itself grow without bound falls outside the finite deterministic cycle theorem; changing future costs invalidates fixed-horizon lifecycle crossovers",
+  "falsifier": "Any registered decision disagrees with direct fully charged totals, a local patch is selected while obligation-insufficient, the bounded generation recurrence is not reproduced exactly, or a deterministic closed finite-state trajectory visits more distinct states than the size of its registered state set before repeating.",
+  "rows": [
+    {
+      "id": "H-EXPAND",
+      "ledger_row": "Predict when architecture expansion should occur.",
+      "law": "Over horizon H, keep cost is H*L_current. Expansion cost is X + H*(L_expanded + M_expanded). Expand iff the latter is strictly smaller; equality is a tie.",
+      "strongest_parent": "capacity expansion / model-selection lifecycle cost",
+      "negative_twin": "expansion leaves loss unchanged while adding cost/maintenance; KEEP must win",
+      "falsifier": "EXPAND is selected when its fully charged horizon cost is not below KEEP"
+    },
+    {
+      "id": "H-PRUNE",
+      "ledger_row": "Predict when old structure should be forgotten/pruned.",
+      "law": "Keep cost is H*(maintenance + retained-loss). Prune cost is P + H*post-prune-loss. Prune iff its fully charged cost is strictly smaller; load-bearing old structure may therefore be retained despite maintenance.",
+      "strongest_parent": "model pruning / replacement economics",
+      "negative_twin": "pruning a load-bearing component creates enough residual loss that KEEP wins",
+      "falsifier": "PRUNE is selected when its fully charged cost is not below KEEP"
+    },
+    {
+      "id": "H-COMPILE",
+      "ledger_row": "Derive self-compilation regime.",
+      "law": "For reuse N, interpreted cost is N*i. Compiled cost is B + N*(c+v), including build B and verification v. Self-compilation wins iff B + N*(c+v) < N*i.",
+      "strongest_parent": "partial evaluation / compilation amortization",
+      "negative_twin": "verification exactly erases compiled per-use saving, producing no eventual strict advantage when build cost is zero",
+      "falsifier": "COMPILE is selected when its charged total is not below interpretation"
+    },
+    {
+      "id": "H-LOCAL-MORPH",
+      "ledger_row": "Derive local morphogenesis regime.",
+      "law": "A local developmental patch may compete with global rebuild only if obligation-sufficient. Conditional on sufficiency, local total P+V+H*L_residual is chosen iff below global rebuild cost G.",
+      "strongest_parent": "local repair versus global reoptimization",
+      "negative_twin": "a cheap local patch that is obligation-insufficient must still lose to global rebuild",
+      "falsifier": "LOCAL is selected despite failed obligation sufficiency or without a charged cost advantage"
+    },
+    {
+      "id": "H-MULTIGEN",
+      "ledger_row": "Test multi-generation developmental trajectories.",
+      "law": "Registered bounded burden trajectory obeys b[g+1]=max(0,b[g]-s)+m for fixed inherited reduction s and maintenance m; exact generation-by-generation receipts distinguish convergence, fixed points and growth.",
+      "strongest_parent": "discrete dynamical systems / intergenerational recurrence",
+      "negative_twin": "maintenance larger than inherited reduction drives burden upward rather than guaranteeing cumulative improvement",
+      "falsifier": "recorded trajectory differs from the frozen recurrence at any generation"
+    },
+    {
+      "id": "H-FINITE-LIMIT",
+      "ledger_row": "Register finite-state/open-endedness impossibility limits.",
+      "law": "For deterministic closed transition F on finite state set X, any trajectory repeats a state after at most |X| distinct visits. From the first repeat onward it is eventually periodic, so infinitely many distinct developmental states/morphologies are impossible without state-space growth, stochastic/external novelty, or another premise change.",
+      "strongest_parent": "pigeonhole principle / finite deterministic dynamical systems",
+      "negative_twin": "a system whose registered state space can grow is outside the fixed-finite theorem rather than a counterexample",
+      "falsifier": "a closed deterministic transition on finite X produces more than |X| distinct states before the first repeat"
+    }
+  ]
+}
