@@ -1,0 +1,83 @@
+name: GMI 833 recursive gap governance v1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-833-recursive-gap-governance-v1/**"
+      - ".github/workflows/gmi-833-recursive-gap-governance-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-833-recursive-gap-governance-v1/**"
+      - ".github/workflows/gmi-833-recursive-gap-governance-v1.yml"
+  workflow_dispatch:
+    inputs:
+      apply_addendum_reconciliation:
+        description: "Apply earned #833 AA/AD addendum transitions"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Exact governance and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-833-recursive-gap-governance-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B test_gap_governance_v1.py
+            python -I -O -B gap_governance_v1.py > /tmp/result.json
+          else
+            python -I -B test_gap_governance_v1.py
+            python -I -B gap_governance_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json RESULT_V1.json
+
+  reconcile:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check live #833 addendum anchors on pull request
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          python research/gmi-833-recursive-gap-governance-v1/reconcile_issue_833_addendum_v1.py
+          --mode check --repository "${GITHUB_REPOSITORY}"
+      - name: Apply only registered earned addendum boxes after merge
+        if: github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          python research/gmi-833-recursive-gap-governance-v1/reconcile_issue_833_addendum_v1.py
+          --mode apply --repository "${GITHUB_REPOSITORY}"
+      - name: Manual check/apply
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLY: ${{ inputs.apply_addendum_reconciliation }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mode=check
+          if [ "$APPLY" = true ]; then mode=apply; fi
+          python research/gmi-833-recursive-gap-governance-v1/reconcile_issue_833_addendum_v1.py --mode "$mode" --repository "$GITHUB_REPOSITORY"
