@@ -1,0 +1,69 @@
+{
+  "schema": "GMIK4RepairedPricingCampaignFreezeV1",
+  "status": "FROZEN_PROTOCOL_DECISION_BEFORE_CAMPAIGN_RECEIPT",
+  "campaign_id": "GMI_K4_REPAIRED_PRICING_CAMPAIGN_V1",
+  "closes": {
+    "issues": ["#592", "#602"],
+    "checklist_items": ["22", "23", "35"],
+    "remaining_clause": "c",
+    "clause_text": "a registered campaign under the repaired pricing — a protocol decision, not something to do silently"
+  },
+  "protocol_decision": {
+    "adopt_repaired_pricing_for_this_campaign": true,
+    "mutate_frozen_v4_v7_model": false,
+    "rewrite_frozen_cell_verdicts": false,
+    "rationale": "Items 22/23/35 share a diagnosed instrument defect (no substitutions in frozen K4 pricing). Repair R1+R2+R3 was measured in GMI_K4_SUBSTITUTION_REPAIR_V1.md without touching the frozen model. Registering a SEPARATE campaign under that overlay is the remaining protocol act: green cells under repaired pricing may be earned here without silently mutating frozen V4/V7 receipts."
+  },
+  "frozen_model_pins": {
+    "untouched": true,
+    "gmi_k4_resource_native_v4.py_sha256": "1e29c745c61c95e73da696dbc190bf4035f8b2ac9b3255cbf29dd6ad285c87c1",
+    "gmi_k4_search_v4.py_sha256": "d8aaac3707983553a810c574c66855a24d2316aa5e3a25bdb8840b54c201bc24",
+    "GMI_K4_LOFO_FREEZE_V1.json_sha256": "83cd6a006fa53c1c56fbbf8d2c9243018c3c291037e400d2df693f7d0f668153",
+    "GMI_K4_MEASURED_RESOURCE_SUCCESSOR_FREEZE_V4.json_sha256": "d0196684f99838143a40bc3b5e2b9ecc136d0e7d743268cd6dc4510c412cfd32",
+    "GMI_K4_EXECUTION_FREEZE_V7.json_sha256": "e0d138482636aaa7277cfa057fe9382cd0bd6fe83df5037771e82e689b380ec0",
+    "disposition": "Frozen V4/V7 property-vector campaign remains the authority for its own protocol. Its 0/264 and THEORY_RED cells are not rewritten by this campaign."
+  },
+  "repaired_pricing": {
+    "module": "gmi_k4_substitution_repair_v1.py",
+    "module_sha256": "6efe125face8fb368b8d27560a6836ab5fc3bd96616571e786f32e86cfb4ed2f",
+    "corrections": ["R1_amortise_state_storage", "R2_store_reduces_serving", "R3_amortise_search_compute"],
+    "family_blind": true,
+    "overlay_only": true
+  },
+  "predicted_object": {
+    "kind": "PVR3_RETENTION_RECOVERY_UNDER_REUSE",
+    "not_predicted": "original_22_family_property_vectors",
+    "why_not_property_vectors": "Empirical probe under R1+R2+R3 still finds admissible non-target frontiers cheaper than several frozen target witnesses at budgets up to 8k; registering those vectors as the green target would silently pretend the repair reclassifies V4. The repair recovers the retention *mechanism* under reuse; that is what this campaign registers."
+  },
+  "task_plan": {
+    "grammars": ["G2_SYMBOLIC_PROGRAM"],
+    "scales": [4],
+    "reuse_schedule": [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 4096],
+    "candidate_draws": 4000,
+    "seed": "0xA11CE",
+    "expected_cells": 12,
+    "pricing_arms": ["repaired_R1R2R3", "frozen_v4_control"]
+  },
+  "adjudication": {
+    "coverage_bar": 0.5,
+    "retention_onset_reuse": 128,
+    "green_rule": "Under repaired pricing, cell at reuse r is K4_REPAIRED_CAMPAIGN_GREEN iff (r < retention_onset_reuse and winner does not retain) OR (r >= retention_onset_reuse and winner retains with coverage >= coverage_bar). Retention means retrieval != none and store coverage >= coverage_bar.",
+    "control_rule": "The identical cell under frozen v4 pricing must NOT retain at any reuse on the schedule. If the frozen control retains, the campaign is INVALID_INSTRUMENT rather than green.",
+    "red_rule": "Repaired arm violates the green_rule predicate for that reuse cell.",
+    "campaign_invariants": [
+      "repaired winner profile varies with reuse",
+      "frozen winner profile is reuse-invariant",
+      "repaired retained state is monotone nondecreasing in reuse",
+      "repaired declines retention at reuse 1",
+      "repaired reaches full coverage by reuse 256"
+    ]
+  },
+  "claim_ceiling": "This campaign can earn green cells for PVR-3 retention recovery under the registered repaired overlay. It does not flip frozen V4/V7 property-vector terminals, does not rewrite 0/264, and does not claim G6/G7.",
+  "collision_avoidance": {
+    "package_dir": "research/machine-intelligence-morphogenesis-v1/gmi_k4_repaired_campaign_v1/",
+    "not_using": [
+      "research/gmi-k4-substitution-cell-audit-v1/",
+      "Worker-1 per-cell audit directories"
+    ]
+  }
+}
