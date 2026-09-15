@@ -1,0 +1,79 @@
+name: gmi-neutral-three-law
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-neutral-three-law-v1/**'
+      - '.github/workflows/gmi-neutral-three-law.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-hostile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: normal
+            python_cmd: python
+          - mode: optimized
+            python_cmd: python -O
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify freeze and opaque-table custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=0d7810039a8705dab44928d09f1bdebd4cd3b91e
+          TARGETS=2f2324109373d97e055736d1291077fe12efd296
+          ROOT=research/gmi-neutral-three-law-v1
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          git merge-base --is-ancestor "$TARGETS" HEAD
+          changed_freeze="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
+          test "$changed_freeze" = "$ROOT/FREEZE_V1.md"
+          changed_targets="$(git diff-tree --no-commit-id --name-only -r "$TARGETS" | sed '/^$/d')"
+          test "$changed_targets" = "$ROOT/TARGETS_V1.json"
+          for path in \
+            "$ROOT/TARGETS_V1.json" \
+            "$ROOT/neutral_three_law_v1.py" \
+            "$ROOT/FORMALIZATION_V1.md" \
+            "$ROOT/test_neutral_three_law_v1.py" \
+            "$ROOT/RESULT_V1.json"; do
+            if git cat-file -e "$FREEZE:$path" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $path" >&2
+              exit 1
+            fi
+          done
+          git cat-file -e "$TARGETS:$ROOT/TARGETS_V1.json"
+          for path in \
+            "$ROOT/neutral_three_law_v1.py" \
+            "$ROOT/FORMALIZATION_V1.md" \
+            "$ROOT/test_neutral_three_law_v1.py" \
+            "$ROOT/RESULT_V1.json" \
+            ".github/workflows/gmi-neutral-three-law.yml"; do
+            if git cat-file -e "$TARGETS:$path" 2>/dev/null; then
+              echo "scorer/proof/result existed at target materialization: $path" >&2
+              exit 1
+            fi
+          done
+      - name: Run exact and adversarial tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} -m unittest discover \
+            -s research/gmi-neutral-three-law-v1 \
+            -p 'test_*.py'
+      - name: Reproduce committed receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} research/gmi-neutral-three-law-v1/neutral_three_law_v1.py > /tmp/RESULT_V1.json
+          cmp /tmp/RESULT_V1.json research/gmi-neutral-three-law-v1/RESULT_V1.json
