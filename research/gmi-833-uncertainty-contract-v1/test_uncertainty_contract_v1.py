@@ -6,6 +6,7 @@ import importlib.util
 import json
 from pathlib import Path
 import shutil
+import sys
 import tempfile
 import unittest
 
@@ -13,6 +14,7 @@ HERE = Path(__file__).resolve().parent
 SPEC = importlib.util.spec_from_file_location("uncertainty_contract_v1", HERE / "uncertainty_contract_v1.py")
 mod = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
+sys.modules[SPEC.name] = mod
 SPEC.loader.exec_module(mod)
 
 
