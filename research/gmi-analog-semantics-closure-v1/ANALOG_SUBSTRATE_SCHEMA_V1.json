@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Analog material cognition semantics v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["state_space", "input_space", "dynamics", "noise_model", "precision_model", "initialization", "readout", "horizon"],
+  "properties": {
+    "state_space": {"type": "string", "minLength": 1},
+    "input_space": {"type": "string", "minLength": 1},
+    "dynamics": {"type": "string", "minLength": 1},
+    "noise_model": {"type": "string", "minLength": 1},
+    "precision_model": {"type": "string", "minLength": 1},
+    "initialization": {"type": "string", "minLength": 1},
+    "readout": {"type": "string", "minLength": 1},
+    "horizon": {"type": "string", "minLength": 1}
+  }
+}
