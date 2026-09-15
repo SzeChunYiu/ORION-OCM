@@ -1,0 +1,47 @@
+{
+  "schema": "Issue602ReconciliationV1",
+  "version": "1.0.0",
+  "parent_issue": 602,
+  "mode": "exact_literal_replace_fail_closed",
+  "source_records": [
+    {
+      "issue": 757,
+      "pr": 761,
+      "merge_commit": "3f1115f872f252f623f3c49906614060c2771953",
+      "status": "CLOSED_MERGED",
+      "terminal": "SOUND_FINITE_UNCERTAINTY_COMPOSITION_FOR_REGISTERED_RELATIONS",
+      "scope": "finite registered relation chains and exact finite uncertainty sets",
+      "evidence": [
+        "research/gmi-uncertainty-composition-v1/FREEZE_V1.md",
+        "research/gmi-uncertainty-composition-v1/FORMALIZATION_V1.md",
+        "research/gmi-uncertainty-composition-v1/RESULT_V1.json",
+        "research/gmi-uncertainty-composition-v1/uncertainty_composition_v1.py",
+        "research/gmi-uncertainty-composition-v1/test_uncertainty_composition_v1.py",
+        ".github/workflows/gmi-uncertainty-composition.yml"
+      ],
+      "evidence_class": ["P1", "P2", "P3_CONSEQUENCE"],
+      "master_rows": ["M: propagate uncertainty through composition"],
+      "non_implications": [
+        "probabilistic capability-prediction calibration",
+        "independent stage errors",
+        "G6",
+        "G7",
+        "real-world coverage",
+        "complete GMI"
+      ]
+    }
+  ],
+  "replacements": [
+    {
+      "from": "- [ ] Propagate uncertainty through composition.",
+      "to": "- [x] Propagate uncertainty through composition. — ✅ #761/#757: pre-implementation-frozen finite registered-relation theorem; exact relational-image composition, dependence-safe `1-alpha-sum beta_i` union-bound coverage without independence, fail-closed full-target fallback for missing relations, exhaustive 1,024 composition certificates, 32 normal/optimized hostiles and deterministic receipt. Scope is finite registered relations; this does not calibrate capability prediction or prove scalable/general real-world coverage."
+    }
+  ],
+  "must_remain_open": [
+    "- [ ] Calibrate capability-prediction uncertainty."
+  ],
+  "expected": {
+    "replacement_count": 1
+  },
+  "claim_ceiling": "Reconcile only the single #602 Section-M uncertainty-through-composition row. Do not infer neighboring statistical calibration or broad GMI closure."
+}
