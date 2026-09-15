@@ -20,6 +20,7 @@ class Cell:
     frontier:tuple[str,...]
     vectors:dict
     truth_digest:str
+    encoding_digest:str
 
 def all_bits(n=N): return list(itertools.product((0,1), repeat=n))
 def truth_A(x): return x[0]^x[2]^x[4]
@@ -87,6 +88,9 @@ def pareto(vectors):
         if not dominated: out.append(v['name'])
     return tuple(sorted(out))
 
+def raw_bool_digest(vals):
+    return hashlib.sha256(('raw-bool:' + ''.join(str(v) for v in vals)).encode()).hexdigest()
+
 def bool_cell(specimen,source,fn,Q,cap,verifier,remint=False):
     cands,st=bool_candidates(fn); vectors=[]
     for c in cands:
@@ -98,11 +102,25 @@ def bool_cell(specimen,source,fn,Q,cap,verifier,remint=False):
     R={'hard_persistent_cap':cap,'persistent_accounting_rule':'cells_v1','lifecycle_operation_rule':'description_plus_verification_plus_serve_v1','common_workspace_allowance':0}
     V={'acceptance_semantics':'exact_all_inputs','verifier_mode':verifier,'false_adoption_tolerance':0,'certificate_verification_rule':'affine_certificate_if_present_v1' if verifier=='proof_aware' else 'exhaustive_truth_check_v1'}
     H={'inherited_semantic_state':'cold','past_build_cost_sunk':True,'future_conversion_rule':'no_conversion_v1','invalidation_reset_state':'none'}
-    return Cell(specimen,source,{'S':S,'E':E,'R':R,'V':V,'H':H},pareto(vectors),{v['name']:(v['persistent'],v['ops'],v['valid'],v['over_cap']) for v in vectors},st['digest'])
+    vals=table(fn)
+    return Cell(specimen,source,{'S':S,'E':E,'R':R,'V':V,'H':H},pareto(vectors),{v['name']:(v['persistent'],v['ops'],v['valid'],v['over_cap']) for v in vectors},st['digest'],raw_bool_digest(vals))
 
 def rel_digest(n=4): return hashlib.sha256(json.dumps({'kind':'bijection','n':n,'bidirectional':True},sort_keys=True).encode()).hexdigest()
 
 def relation_cell(specimen,source,history,remint=False):
+    n=4
+    keys=tuple(f'K{i}' for i in range(n))
+    vals=tuple(f'V{i}' for i in range(n))
+    relation=tuple((keys[i],vals[(i+1)%n]) for i in range(n))
+    if remint:
+        key_rename={keys[i]:f'RK{n-1-i}' for i in range(n)}
+        val_rename={vals[i]:f'RV{(i+2)%n}' for i in range(n)}
+        relation=tuple((key_rename[k],val_rename[v]) for k,v in relation)
+    if len({k for k,_ in relation})!=n or len({v for _,v in relation})!=n:
+        raise RuntimeError('relation remint must remain a bijection')
+    encoding_digest=hashlib.sha256(
+        json.dumps(relation,sort_keys=True,separators=(',',':')).encode()
+    ).hexdigest()
     if history=='domain_to_codomain':
         ops={'key_index':23,'value_index':25,'dual_index':8,'pair_list':32}
     elif history=='codomain_to_domain':
@@ -119,7 +137,7 @@ def relation_cell(specimen,source,history,remint=False):
     R={'hard_persistent_cap':4,'persistent_accounting_rule':'cells_v1','lifecycle_operation_rule':'serve_plus_future_conversion_v1','common_workspace_allowance':4}
     V={'acceptance_semantics':'exact_all_queries','verifier_mode':'extensional','false_adoption_tolerance':0,'certificate_verification_rule':'exhaustive_relation_check_v1'}
     H={'inherited_semantic_state':f'map_direction:{history}','past_build_cost_sunk':True,'future_conversion_rule':'bijection_orientation_reindex_2n_v1','invalidation_reset_state':'none'}
-    return Cell(specimen,source,{'S':S,'E':E,'R':R,'V':V,'H':H},pareto(vectors),{v['name']:(v['persistent'],v['ops'],v['valid'],v['over_cap']) for v in vectors},rel_digest())
+    return Cell(specimen,source,{'S':S,'E':E,'R':R,'V':V,'H':H},pareto(vectors),{v['name']:(v['persistent'],v['ops'],v['valid'],v['over_cap']) for v in vectors},rel_digest(),encoding_digest)
 
 def canon(obj): return json.dumps(obj,sort_keys=True,separators=(',',':'))
 def schema_key(cell,drop=None): return tuple(canon(cell.coordinates[g]) for g in GROUPS if g!=drop)
@@ -166,7 +184,7 @@ def source_remint_checks(cells):
     for c in cells:
         if c.specimen.endswith('_remint'): continue
         r=by[c.specimen+'_remint']
-        out[c.specimen]={'coordinates_equal':c.coordinates==r.coordinates,'frontier_equal':c.frontier==r.frontier,'digest_equal':c.truth_digest==r.truth_digest}
+        out[c.specimen]={'coordinates_equal':c.coordinates==r.coordinates,'frontier_equal':c.frontier==r.frontier,'digest_equal':c.truth_digest==r.truth_digest,'encoding_changed':c.encoding_digest!=r.encoding_digest}
     return out
 
 def no_leakage(cells):
