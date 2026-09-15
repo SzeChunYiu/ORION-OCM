@@ -1,0 +1,61 @@
+{
+  "schema": "GMI_833_G0_BINARY_RECOVERY_PRIOR_DISCLOSURE_V1",
+  "declared_level": "P3_RELATIVE_AT_REGISTERED_FINITE_SCOPE",
+  "architectural_prior": {
+    "present": false,
+    "notes": "No historical architecture/family identifier is visible to synthesis, candidate generation, execution, or scoring."
+  },
+  "representation_prior": {
+    "present": true,
+    "content": [
+      "binary external input/output wires",
+      "optional generic one-bit persistent state carrier"
+    ],
+    "claim_boundary": "Generic finite computational state is supplied; the result does not derive the existence of state from a literally representation-free universe."
+  },
+  "operator_prior": {
+    "present": true,
+    "grammar_twins": {
+      "G_NAND": ["variable wire", "NAND"],
+      "G_NOR": ["variable wire", "NOR"]
+    },
+    "forbidden_search_visible_macros": [
+      "recurrent",
+      "RNN",
+      "LSTM",
+      "GRU",
+      "delay",
+      "previous-input register",
+      "target next-state truth table",
+      "target output truth table"
+    ]
+  },
+  "search_prior": {
+    "present": true,
+    "strategy": "exhaustive finite semantic enumeration",
+    "expression_synthesis_tie_rule": "minimum primitive tree-gate count then lexical expression text",
+    "candidate_scientific_selection": "exact task satisfaction then raw Pareto resources; no scalar weight vector"
+  },
+  "ecological_prior": {
+    "present": true,
+    "tasks": {
+      "DELAY1": "first output zero; subsequent output equals previous input",
+      "IDENTITY": "output equals current input"
+    }
+  },
+  "evaluation_prior": {
+    "present": true,
+    "protected_score": "exact equality of output sequence to behavioral target",
+    "resource_vector": ["persistent_state_bits", "primitive_tree_gate_count"]
+  },
+  "post_hoc_only": [
+    "mapping recovered DELAY1 mechanism to the persistent-state/recurrence property description"
+  ],
+  "not_claimed": [
+    "assumption-free derivation",
+    "representation-prior-free derivation",
+    "search-prior invariance",
+    "final universal G0",
+    "broad architecture-neutral recovery"
+  ]
+}
