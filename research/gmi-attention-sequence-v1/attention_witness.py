@@ -111,28 +111,25 @@ def growing_quotient_obligation_cost_recurrent(
 def compute_crossover_N_star(K: int, C: F, L_max: F) -> float:
     """T3: crossover length for growing-quotient obligations.
 
-    Fixed cost: C + M * C / K
-    Recurrent cost: M * L_max
+    Fixed cost:   M*C + K*C*log(M)   (full attention + slot-allocation overhead)
+    Recurrent cost: M*L + C          (lookups via state carry + one-time carry)
 
-    Crossover where C + M * C / K = M * L_max:
-        C = M * (L_max - C/K)
-        M = C*K / (K*L_max - C)
+    Crossover where M*C + K*C*log(M) = M*L + C:
+        M*(C - L) + K*C*log(M) - C = 0
 
-    N* is the smallest N where M(N) = N * ceil(log2(N)) exceeds this.
+    N* is the smallest N where fixed cost <= recurrent cost.
+    If L_max >= C, recurrent always costs more (no crossover).
     """
     if K <= 0 or C <= 0 or L_max <= 0:
         return float("inf")
-    # If L_max <= C/K, Recurrent is always cheaper (N*=inf)
-    if L_max <= C / K:
+    # If L_max >= C, recurrent is always more expensive per-target; fixed wins
+    if L_max >= C:
         return float("inf")
-    M_cross = (C * K) / (K * L_max - C)
-    # Find smallest N where N * ceil(log2(N)) >= M_cross
+    # Numerical search: find N where fixed(N) <= recurrent(N)
     for N in range(1, 1000000):
-        if N <= 1:
-            M = N  # ceil(log2(1))=0, use M=N for N<=1
-        else:
-            M = N * math.ceil(math.log2(N))
-        if M >= M_cross:
+        c_fixed = growing_quotient_obligation_cost_fixed(K, N, C)
+        c_recurrent = growing_quotient_obligation_cost_recurrent(N, C, L_max)
+        if c_fixed <= c_recurrent:
             return float(N)
     return float("inf")
 
