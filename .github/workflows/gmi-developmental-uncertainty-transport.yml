@@ -59,3 +59,9 @@ jobs:
           set -euo pipefail
           ${{ matrix.python_cmd }} research/gmi-developmental-uncertainty-transport-v1/developmental_uncertainty_transport_v1.py > /tmp/RESULT_V1.json
           cmp /tmp/RESULT_V1.json research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json
+      - name: Reproduce dependence certificate
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} research/gmi-developmental-uncertainty-transport-v1/dependence_certificate_v1.py > /tmp/DEPENDENCE_CERTIFICATE_V1.json
+          cmp /tmp/DEPENDENCE_CERTIFICATE_V1.json research/gmi-developmental-uncertainty-transport-v1/DEPENDENCE_CERTIFICATE_V1.json
