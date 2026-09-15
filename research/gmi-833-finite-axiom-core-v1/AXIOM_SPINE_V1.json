@@ -1,0 +1,26 @@
+{
+  "schema": "GMI_833_FINITE_AXIOM_SPINE_V1",
+  "issue": 854,
+  "parent_issue": 833,
+  "axiom_count": 5,
+  "nodes": [
+    {"id":"AX-1","kind":"AXIOM","title":"finite typed registration","dependencies":[]},
+    {"id":"AX-2","kind":"AXIOM","title":"registered realization totality","dependencies":[]},
+    {"id":"AX-3","kind":"AXIOM","title":"resource validity","dependencies":[]},
+    {"id":"AX-4","kind":"AXIOM","title":"typed uncertainty validity","dependencies":[]},
+    {"id":"AX-5","kind":"AXIOM","title":"claim/evidence scope monotonicity","dependencies":[]},
+    {"id":"DEF-SPEC","kind":"DEFINITION","title":"external behavioral specification","dependencies":["AX-1"]},
+    {"id":"DEF-BEQ","kind":"DEFINITION","title":"protected behavioral equivalence and quotient","dependencies":["AX-1","AX-2","DEF-SPEC"]},
+    {"id":"DEF-REACH","kind":"DEFINITION","title":"developmental/resource-bounded reachability","dependencies":["AX-1","AX-2","AX-3"]},
+    {"id":"DEF-MORPH","kind":"DEFINITION","title":"registered mechanism isomorphism","dependencies":["AX-1","AX-2","AX-3","DEF-REACH"]},
+    {"id":"DEF-SPECIES","kind":"DEFINITION","title":"mechanism-equivalence quotient class","dependencies":["DEF-MORPH"]},
+    {"id":"DEF-CAP","kind":"DEFINITION","title":"external capability region/ceiling/impossibility","dependencies":["AX-1","AX-2","AX-3","DEF-SPEC"]},
+    {"id":"DEF-UQUERY","kind":"DEFINITION","title":"uncertainty query/abstention semantics","dependencies":["AX-4"]},
+    {"id":"DEF-SCOPE","kind":"DEFINITION","title":"finite theorem/result claim-scope checking","dependencies":["AX-5"]},
+    {"id":"CORE-1","kind":"THEOREM","title":"finite satisfaction decidable","dependencies":["AX-1","AX-2","AX-3","AX-4","AX-5"]},
+    {"id":"CORE-2","kind":"THEOREM","title":"explicit model establishes satisfiability","dependencies":["CORE-1"]},
+    {"id":"CORE-3","kind":"THEOREM","title":"relative syntactic consistency by soundness","dependencies":["CORE-2"]},
+    {"id":"CORE-4","kind":"THEOREM","title":"acyclic definitional reconstruction","dependencies":["DEF-BEQ","DEF-REACH","DEF-SPECIES","DEF-CAP","DEF-UQUERY","DEF-SCOPE"]},
+    {"id":"CORE-5","kind":"THEOREM","title":"bounded axiom irredundancy witnesses","dependencies":["AX-1","AX-2","AX-3","AX-4","AX-5"]}
+  ]
+}

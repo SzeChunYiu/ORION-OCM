@@ -1,0 +1,96 @@
+{
+  "actions": [
+    "stay",
+    "flip"
+  ],
+  "capability_certificates": {
+    "achievable": "1",
+    "impossible": "0"
+  },
+  "capability_contracts": [
+    {
+      "budget": [
+        "2",
+        "1"
+      ],
+      "id": "achievable",
+      "tasks": [
+        {
+          "target": 0,
+          "weight": "1",
+          "word": []
+        },
+        {
+          "target": 1,
+          "weight": "1",
+          "word": [
+            "flip"
+          ]
+        }
+      ],
+      "threshold": "1"
+    },
+    {
+      "budget": [
+        "2",
+        "1"
+      ],
+      "id": "impossible",
+      "tasks": [
+        {
+          "target": 1,
+          "weight": "1",
+          "word": []
+        }
+      ],
+      "threshold": "1"
+    }
+  ],
+  "claimed_behavior_equiv": [
+    ["s0","s0"],
+    ["s0","s1"],
+    ["s1","s0"],
+    ["s1","s1"],
+    ["s2","s2"]
+  ],
+  "development_edges": [["s0","s1"],["s1","s2"]],
+  "development_step_budget": 2,
+  "initial": "s0",
+  "intervention_outputs": [0,1],
+  "intervention_response": [
+    {"intervention":"probe","state":"s0","value":0},
+    {"intervention":"probe","state":"s1","value":0},
+    {"intervention":"probe","state":"s2","value":1}
+  ],
+  "interventions": ["probe"],
+  "output": [
+    {"state":"s0","value":0},
+    {"state":"s1","value":0},
+    {"state":"s2","value":1}
+  ],
+  "outputs": [0,1],
+  "query_fixture": {"domain":["s0","s1","s2"],"query":"protected_output","values":["s0","s2"]},
+  "resources": ["2","1"],
+  "schema": "GMI833FiniteCoreModelV1",
+  "scope_claims": [
+    {"claim":"GMI_REGISTERED_FINITE_AXIOM_CORE_SATISFIABLE_AND_COMPACT_AT_SCOPE","claim_scope":"FINITE_EXISTENTIAL","evidence_scope":"FINITE_MODEL_WITNESS","id":"model-sat"},
+    {"claim":"BOUNDED_SMALL_MODEL_CENSUS","claim_scope":"BOUNDED_FINITE","evidence_scope":"FINITE_EXHAUSTIVE","id":"bounded-census"},
+    {"claim":"FINITE_CORE_THEOREMS","claim_scope":"REGISTERED_FINITE","evidence_scope":"ANALYTIC_FINITE","id":"finite-theorem"}
+  ],
+  "states": ["s0","s1","s2"],
+  "transition": [
+    {"action":"flip","next":"s2","state":"s0"},
+    {"action":"stay","next":"s0","state":"s0"},
+    {"action":"flip","next":"s2","state":"s1"},
+    {"action":"stay","next":"s1","state":"s1"},
+    {"action":"flip","next":"s2","state":"s2"},
+    {"action":"stay","next":"s2","state":"s2"}
+  ],
+  "uncertainty_objects": [
+    {"domain":["s0","s1","s2"],"tag":"FeasibleSet","values":["s0","s1"]},
+    {"alpha":"1/10","domain":["s0","s1","s2"],"tag":"ConfidenceSet","truth_law":{"s0":"1/2","s1":"1/2","s2":"0"},"values":["s0","s1"]},
+    {"domain":[0,1],"law":{"0":"1/2","1":"1/2"},"tag":"PredictiveLaw"},
+    {"kernels":{"t0":{"0":"1","1":"0"},"t1":{"0":"0","1":"1"}},"outcomes":[0,1],"pi":{"t0":"1/2","t1":"1/2"},"tag":"LatentPredictiveModel","theta":["t0","t1"]},
+    {"coverage":"1/2","risk":"0","tag":"SelectivePrediction","value_set":[0,1]}
+  ]
+}

@@ -1,0 +1,140 @@
+name: GMI 833 finite axiom core v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-finite-axiom-core-v1/**'
+      - 'research/gmi-833-foundation-v1/MANIFEST_V1.json'
+      - 'research/gmi-833-parent-equivalence-v1/MANIFEST_V1.json'
+      - 'research/gmi-833-morphcap-v1/MANIFEST_V1.json'
+      - 'research/gmi-833-global-uncertainty-v1/MANIFEST_V1.json'
+      - '.github/workflows/gmi-833-finite-axiom-core-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-finite-axiom-core-v1/**'
+      - 'research/gmi-833-foundation-v1/MANIFEST_V1.json'
+      - 'research/gmi-833-parent-equivalence-v1/MANIFEST_V1.json'
+      - 'research/gmi-833-morphcap-v1/MANIFEST_V1.json'
+      - 'research/gmi-833-global-uncertainty-v1/MANIFEST_V1.json'
+      - '.github/workflows/gmi-833-finite-axiom-core-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=d54dcec2b09d99dcb42e28174e6e8b43ff278e08
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-finite-axiom-core-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-finite-axiom-core-v1/CORE.md \
+            research/gmi-833-finite-axiom-core-v1/AXIOM_SPINE_V1.json \
+            research/gmi-833-finite-axiom-core-v1/FOUNDATION_REDUCTION_V1.json \
+            research/gmi-833-finite-axiom-core-v1/FINITE_MODEL_V1.json \
+            research/gmi-833-finite-axiom-core-v1/AXIOM_CORE_THEOREMS_V1.md \
+            research/gmi-833-finite-axiom-core-v1/finite_axiom_core_v1.py \
+            research/gmi-833-finite-axiom-core-v1/test_finite_axiom_core_v1.py \
+            research/gmi-833-finite-axiom-core-v1/validate_axiom_spine_v1.py \
+            research/gmi-833-finite-axiom-core-v1/independent_core_oracle_v1.py \
+            research/gmi-833-finite-axiom-core-v1/ORACLE_RESULT_V1.json \
+            research/gmi-833-finite-axiom-core-v1/RESULT_V1.json \
+            research/gmi-833-finite-axiom-core-v1/MANIFEST_V1.json \
+            research/gmi-833-finite-axiom-core-v1/ISSUE_833_RECONCILIATION_AXIOM_CORE_V1.json \
+            .github/workflows/gmi-833-finite-axiom-core-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify pinned parent manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/gmi-833-foundation-v1/MANIFEST_V1.json)" = deb8ec3ef57887790a874e01656c0cb598b2c908
+          test "$(git hash-object research/gmi-833-parent-equivalence-v1/MANIFEST_V1.json)" = e3aa9f88e085478586c2c53a4f1d0a2546bb90e8
+          test "$(git hash-object research/gmi-833-morphcap-v1/MANIFEST_V1.json)" = 58b80724ef8651f3e476fdddddf2fe3a703fd5c2
+          test "$(git hash-object research/gmi-833-global-uncertainty-v1/MANIFEST_V1.json)" = 01114b6e67c727575cfcff267d88eacd13274486
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-finite-axiom-core-v1/test_finite_axiom_core_v1.py -v
+            python -I -O -B research/gmi-833-finite-axiom-core-v1/finite_axiom_core_v1.py > /tmp/result.json
+            python -I -O -B research/gmi-833-finite-axiom-core-v1/independent_core_oracle_v1.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-finite-axiom-core-v1/test_finite_axiom_core_v1.py -v
+            python -I -B research/gmi-833-finite-axiom-core-v1/finite_axiom_core_v1.py > /tmp/result.json
+            python -I -B research/gmi-833-finite-axiom-core-v1/independent_core_oracle_v1.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-finite-axiom-core-v1/RESULT_V1.json
+          cmp /tmp/oracle.json research/gmi-833-finite-axiom-core-v1/ORACLE_RESULT_V1.json
+          echo 'fbdbf349928f9abfca2676915eea3845bbae97e0a38fced08c7d985f5ec4452d  research/gmi-833-finite-axiom-core-v1/RESULT_V1.json' | sha256sum -c -
+          echo '38ea8d54b16d1091659cb781da8ff4331191fe7b4c40d664fc070b94a8db144c  research/gmi-833-finite-axiom-core-v1/ORACLE_RESULT_V1.json' | sha256sum -c -
+      - name: Validate compact spine and reduction ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B research/gmi-833-finite-axiom-core-v1/validate_axiom_spine_v1.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-finite-axiom-core-v1')
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          o=json.loads((root/'ORACLE_RESULT_V1.json').read_text())
+          if r['terminal'] != 'GMI_833_FINITE_AXIOM_CORE_V1_ALL_GREEN': raise SystemExit('receipt not green')
+          if r['axiom_count'] != 5 or m['axioms'] != ['AX-1','AX-2','AX-3','AX-4','AX-5']: raise SystemExit('axiom basis mismatch')
+          if r['bounded_structural_census']['candidates'] != 23328 or r['bounded_structural_census']['structurally_satisfying'] != 1024: raise SystemExit('bounded census mismatch')
+          if not all(v['only_target_false'] for v in r['axiom_independence'].values()): raise SystemExit('axiom irredundancy witness failed')
+          if r['behavioral_class_count'] != 2 or r['query']['terminal'] != 'CANNOT_IDENTIFY': raise SystemExit('foundation model control mismatch')
+          if o['terminal'] != 'GREEN' or not all(o['checks'].values()): raise SystemExit('independent oracle not green')
+          if m['claim_ceiling'] != r['claim_ceiling']: raise SystemExit('claim ceiling mismatch')
+          PY
+      - name: Check #833 exact reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-finite-axiom-core-v1/ISSUE_833_RECONCILIATION_AXIOM_CORE_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section C rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-finite-axiom-core-v1/ISSUE_833_RECONCILIATION_AXIOM_CORE_V1.json
