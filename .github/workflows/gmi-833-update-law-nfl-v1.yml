@@ -1,0 +1,121 @@
+name: GMI 833 finite update-law NFL v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-update-law-nfl-v1/**'
+      - '.github/workflows/gmi-833-update-law-nfl-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-update-law-nfl-v1/**'
+      - '.github/workflows/gmi-833-update-law-nfl-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=1a0b8a7874bfc8de9c08f025e6340f5dc33df6ba
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-update-law-nfl-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-update-law-nfl-v1/update_law_nfl_v1.py \
+            research/gmi-833-update-law-nfl-v1/test_update_law_nfl_v1.py \
+            research/gmi-833-update-law-nfl-v1/RESULT_V1.json \
+            research/gmi-833-update-law-nfl-v1/UPDATE_LAW_NFL_THEOREMS_V1.md \
+            research/gmi-833-update-law-nfl-v1/ISSUE_833_RECONCILIATION_UPDATE_LAW_NFL_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify exact parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            path="$1"; expected="$2"; actual="$(git rev-parse "HEAD:$path")"
+            test "$actual" = "$expected"
+            if [ ! -f "$path" ]; then mkdir -p "$(dirname "$path")"; git show "HEAD:$path" > "$path"; fi
+            test "$(git hash-object "$path")" = "$expected"
+          }
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-robustness-controls-v1/RESULT_V1.json c3ff199c343b6905dabe8e3aefdc5958a2c8a06a
+      - name: Exact NFL theorem and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-update-law-nfl-v1/test_update_law_nfl_v1.py -v
+            python -I -O -B research/gmi-833-update-law-nfl-v1/update_law_nfl_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-update-law-nfl-v1/test_update_law_nfl_v1.py -v
+            python -I -B research/gmi-833-update-law-nfl-v1/update_law_nfl_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-update-law-nfl-v1/RESULT_V1.json
+      - name: Check manifest and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-update-law-nfl-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          expected='GMI_FINITE_UPDATE_LAW_NO_FREE_LUNCH_BOUNDARY_AT_UNIFORM_COMPLETION_SCOPE'
+          assert m['source_main']==r['source_main']=='497977a071f33a824628332caf1ccc44e077f924'
+          assert m['freeze_commit']==r['freeze_commit']=='1a0b8a7874bfc8de9c08f025e6340f5dc33df6ba'
+          assert m['claim_ceiling']==r['claim_ceiling']==expected
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          assert r['deterministic_census']['law_history_cases']==136
+          assert r['deterministic_census']['failures']==[]
+          assert r['general_pairwise_reversal']['terminal']=='PAIRWISE_ECOLOGY_PREFERENCE_REVERSAL'
+          PY
+      - name: Check #833 exact reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-update-law-nfl-v1/ISSUE_833_RECONCILIATION_UPDATE_LAW_NFL_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section I NFL row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-update-law-nfl-v1/ISSUE_833_RECONCILIATION_UPDATE_LAW_NFL_V1.json
