@@ -1,0 +1,94 @@
+name: One-shot validate recovered research and reconcile 602
+
+on:
+  push:
+    branches:
+      - ops/validate-recovered-724-726-and-reconcile-602
+    paths:
+      - .github/workflows/tmp-validate-recovered-724-726-and-reconcile-602.yml
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate-and-reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate Section E searcher comparison normal and optimized
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-section-e-searcher-comparison-v2
+          python section_e_searcher_comparison_witness.py --output /tmp/RESULT_E2.normal.json
+          python -O section_e_searcher_comparison_witness.py --output /tmp/RESULT_E2.optimized.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          committed=json.loads(Path('RESULT_E2.json').read_text())
+          for p in ('/tmp/RESULT_E2.normal.json','/tmp/RESULT_E2.optimized.json'):
+              if json.loads(Path(p).read_text()) != committed:
+                  raise SystemExit(f'semantic receipt mismatch: {p}')
+          PY
+          python -m unittest -v test_section_e_searcher_comparison.py
+          python -O -m unittest -v test_section_e_searcher_comparison.py
+      - name: Validate ARC-6 countable confidence normal and optimized
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B research/gmi-countable-row-corrigendum-v1/test_countable_rows_v1.py -v
+          python -I -O -B research/gmi-countable-row-corrigendum-v1/test_countable_rows_v1.py -v
+          python -I -B research/gmi-adaptive-creation-v1/test_adaptive_creation_v1.py -v
+          python -I -O -B research/gmi-adaptive-creation-v1/test_adaptive_creation_v1.py -v
+      - name: Validate recovered F4 transfer freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B research/gmi-capability-transfer-freeze-v1/test_transfer_freeze_v1.py -v
+          python -I -O -B research/gmi-capability-transfer-freeze-v1/test_transfer_freeze_v1.py -v
+      - name: Verify validation did not mutate tracked evidence
+        run: git diff --exit-code
+      - name: Tick exactly six newly earned issue 602 rows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, urllib.request
+          repo=os.environ['GH_REPO']; token=os.environ['GH_TOKEN']; issue_number=602
+          api=f'https://api.github.com/repos/{repo}/issues/{issue_number}'
+          headers={'Accept':'application/vnd.github+json','Authorization':f'Bearer {token}','X-GitHub-Api-Version':'2022-11-28','User-Agent':'orion-602-reconciler'}
+          with urllib.request.urlopen(urllib.request.Request(api,headers=headers)) as r:
+              issue=json.load(r)
+          body=issue['body']
+          labels=[
+              'Prove/measure when search algorithm rather than ecology determines apparent morphology.',
+              'Close repeated-row/revisit validity.',
+              'Close adaptive row creation.',
+              'Close unlimited-horizon validity or state exact boundary.',
+              'Handle dependence without hidden independence assumptions.',
+              'Register one global good event for adaptive GMI decisions.',
+          ]
+          changed=0
+          for label in labels:
+              u=f'- [ ] {label}'; c=f'- [x] {label}'
+              nu=body.count(u); nc=body.count(c)
+              if nu+nc != 1:
+                  raise SystemExit(f'FAIL-CLOSED target multiplicity {label!r}: unchecked={nu} checked={nc}')
+              if nu==1:
+                  body=body.replace(u,c,1); changed += 1
+          payload=json.dumps({'body':body}).encode()
+          req=urllib.request.Request(api,data=payload,headers={**headers,'Content-Type':'application/json'},method='PATCH')
+          with urllib.request.urlopen(req) as r:
+              updated=json.load(r)
+          for label in labels:
+              if updated['body'].count(f'- [x] {label}') != 1:
+                  raise SystemExit(f'POSTCHECK failed: {label!r}')
+          print(f'ISSUE_602_RECONCILED targets={len(labels)} newly_changed={changed}')
+          PY
