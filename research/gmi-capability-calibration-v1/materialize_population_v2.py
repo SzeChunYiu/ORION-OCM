@@ -68,12 +68,11 @@ def _fast_predictions(mod, predictor, point: Tuple[int, ...]) -> Dict[str, objec
     return out
 
 
-def build_manifest() -> Mapping[str, object]:
+def selected_populations():
     mod = _load_predictor_module()
     predictor = mod.fit_registered_development_predictor()
-    raw = _raw_points()
     determinate = {target: [] for target in mod.TARGETS}
-    for point in raw:
+    for point in _raw_points():
         preds = _fast_predictions(mod, predictor, point)
         for target in mod.TARGETS:
             if preds[target] != mod.CANNOT_IDENTIFY:
@@ -81,35 +80,47 @@ def build_manifest() -> Mapping[str, object]:
                 digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()
                 determinate[target].append((digest, point))
 
-    coordinate_populations = {}
+    selected = {}
     for target in mod.TARGETS:
         rows = sorted(determinate[target], key=lambda item: (item[0], item[1]))
         if len(rows) != EXPECTED_COUNTS[target]:
             raise AssertionError(f"determinate-pool count drift for {target}")
-        selected = rows[:128]
-        ids = ["ACP2_" + digest[:16] for digest, _ in selected]
-        if len(set(ids)) != 128:
+        chosen = rows[:128]
+        items = tuple(("ACP2_" + digest[:16], point) for digest, point in chosen)
+        if len({sid for sid, _ in items}) != 128:
             raise AssertionError("opaque specimen id collision")
-        coordinate_populations[target] = {
+        selected[target] = {
             "determinate_pool_count": len(rows),
-            "population_count": 128,
-            "rows": [[sid, *point] for sid, (_, point) in zip(ids, selected)],
+            "items": items,
         }
+    return mod, selected
 
+
+def point_index() -> Mapping[str, Mapping[str, Tuple[int, ...]]]:
+    _mod, selected = selected_populations()
+    return {
+        target: {sid: point for sid, point in entry["items"]}
+        for target, entry in selected.items()
+    }
+
+
+def build_manifest() -> Mapping[str, object]:
+    _mod, selected = selected_populations()
     return {
         "schema": "CapabilityCalibrationPopulationV2",
         "issue": 764,
-        "predictor_base_commit": "7e1103f1a5d1f453e7fd305e23824eacd61f7992",
-        "predictor_blob_sha": "937b91f6a3787ff04c2b5209c81d249518406859",
-        "raw_candidate_values": [-3, -2, -1, 0, 1, 2, 3],
-        "excluded_development_cube_values": [-1, 0, 1],
         "raw_candidate_count": 16564,
-        "columns": ["specimen_id", *mod.AXES],
         "oracle_outcomes_included": False,
         "predictor_binary_predictions_included": False,
         "generator": "coordinate-determinate-filter-then-sha256-sort-first-128",
-        "domain_separator": "T602-M5-AUDIT-V2|<coordinate>|",
-        "coordinate_populations": coordinate_populations,
+        "coordinate_populations": {
+            target: {
+                "determinate_pool_count": entry["determinate_pool_count"],
+                "population_count": 128,
+                "specimen_ids": [sid for sid, _point in entry["items"]],
+            }
+            for target, entry in selected.items()
+        },
     }
 
 
