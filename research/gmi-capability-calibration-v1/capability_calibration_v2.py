@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+from copy import deepcopy
 from fractions import Fraction as F
 from math import comb
 from pathlib import Path
@@ -81,13 +82,15 @@ def upper_error_count(N: int, n: int, x: int, delta: F) -> int:
     return max(admissible)
 
 
-def validate_custody():
-    population = json.loads(POPULATION_PATH.read_text())
-    sample = json.loads(SAMPLE_PATH.read_text())
-    popmod = _load_population_module()
-    regenerated = popmod.build_manifest()
-    if population != regenerated:
-        raise ValueError("committed V2 population does not match frozen generator")
+def validate_manifests(population: Mapping[str, object], sample: Mapping[str, object], *, verify_population=True):
+    if population.get("schema") != "CapabilityCalibrationPopulationV2":
+        raise ValueError("wrong population schema")
+    if sample.get("schema") != "CapabilityCalibrationSampleV2":
+        raise ValueError("wrong sample schema")
+    if verify_population:
+        popmod = _load_population_module()
+        if population != popmod.build_manifest():
+            raise ValueError("committed V2 population does not match frozen generator")
     if population.get("oracle_outcomes_included") is not False:
         raise ValueError("population contains oracle outcomes")
     if population.get("predictor_binary_predictions_included") is not False:
@@ -120,7 +123,14 @@ def validate_custody():
             raise ValueError("sample must contain 64 distinct ids")
         if not set(chosen).issubset(ids):
             raise ValueError("sample id outside frozen population")
-    return population, sample, popmod
+    return True
+
+
+def validate_custody():
+    population = json.loads(POPULATION_PATH.read_text())
+    sample = json.loads(SAMPLE_PATH.read_text())
+    validate_manifests(population, sample, verify_population=True)
+    return population, sample, _load_population_module()
 
 
 def dependence_hostile() -> Mapping[str, object]:
@@ -182,7 +192,7 @@ def build_sample_certificate() -> Mapping[str, object]:
             "terminal": terminal,
         }
 
-        corrupt_errors = 64  # every determinate prediction is flipped by frozen NC-1
+        corrupt_errors = 64
         corrupt_upper = upper_error_count(128, 64, corrupt_errors, delta)
         corrupt_rate = F(corrupt_upper, 128)
         corrupted[target] = {
@@ -230,6 +240,21 @@ def build_sample_certificate() -> Mapping[str, object]:
         "dependence_hostile": dependence_hostile(),
         "full_population_census_performed": False,
     }
+
+
+def custody_mutants_for_tests():
+    population = json.loads(POPULATION_PATH.read_text())
+    sample = json.loads(SAMPLE_PATH.read_text())
+    duplicate = deepcopy(sample)
+    target = sorted(duplicate["coordinate_samples"])[0]
+    duplicate["coordinate_samples"][target][-1] = duplicate["coordinate_samples"][target][0]
+    outsider = deepcopy(sample)
+    outsider["coordinate_samples"][target][0] = "ACP2_NOT_IN_POPULATION"
+    short = deepcopy(sample)
+    short["coordinate_samples"][target] = short["coordinate_samples"][target][:-1]
+    outcome = deepcopy(sample)
+    outcome["outcomes_included"] = True
+    return population, (duplicate, outsider, short, outcome)
 
 
 if __name__ == "__main__":
