@@ -1,0 +1,14 @@
+from __future__ import annotations
+import importlib.util, json, sys, unittest
+from pathlib import Path
+HERE=Path(__file__).resolve().parent
+SPEC=importlib.util.spec_from_file_location("v7", str(HERE/"v7_tick_authority_v1.py"))
+MOD=importlib.util.module_from_spec(SPEC); sys.modules["v7"]=MOD; SPEC.loader.exec_module(MOD)
+class T(unittest.TestCase):
+    def test(self):
+        out=MOD.run()
+        self.assertTrue(out["all_v7_boxes_green"], out)
+        self.assertEqual(out["terminal"], MOD.TERMINAL)
+        committed=json.loads((HERE/"RECEIPT_V1.json").read_text())
+        self.assertEqual(json.dumps(committed,sort_keys=True), json.dumps(out,sort_keys=True))
+if __name__=="__main__": unittest.main()
