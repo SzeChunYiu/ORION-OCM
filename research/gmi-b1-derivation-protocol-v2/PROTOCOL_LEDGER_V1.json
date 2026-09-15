@@ -1,0 +1,88 @@
+{
+  "boxes": [
+    {
+      "id": "B1_01_obligation_state",
+      "text": "obligation-sufficient state identified without family labels."
+    },
+    {
+      "id": "B1_02_info_lower_bound",
+      "text": "information/state lower bound proved or bounded."
+    },
+    {
+      "id": "B1_03_constructive_upper",
+      "text": "constructive realization upper bound built."
+    },
+    {
+      "id": "B1_04_native_complexity",
+      "text": "native complexity coordinate identified."
+    },
+    {
+      "id": "B1_05_lifecycle_law",
+      "text": "lifecycle/resource law derived."
+    },
+    {
+      "id": "B1_06_parent_first_refusal",
+      "text": "strongest parent receives first refusal."
+    },
+    {
+      "id": "B1_07_preoutcome_descriptor",
+      "text": "pre-outcome descriptor frozen."
+    },
+    {
+      "id": "B1_08_crossover_freeze",
+      "text": "quantitative crossover/impossibility prediction frozen."
+    },
+    {
+      "id": "B1_09_neutral_grammar",
+      "text": "neutral grammar can express the target without named macros."
+    },
+    {
+      "id": "B1_10_neutral_search",
+      "text": "neutral search run with family identity hidden."
+    },
+    {
+      "id": "B1_11_phenotype_after_search",
+      "text": "phenotype classified only after search."
+    },
+    {
+      "id": "B1_12_remint_replication",
+      "text": "disjoint remint/encoding replication."
+    },
+    {
+      "id": "B1_13_real_regime",
+      "text": "real-regime replication where appropriate."
+    }
+  ],
+  "ops": [
+    "STORE",
+    "ROUTE",
+    "UPDATE",
+    "QUERY"
+  ],
+  "targets": {
+    "T_mem": {
+      "crossover_R": 4,
+      "need": [
+        "STORE",
+        "QUERY"
+      ],
+      "parent": "flat_table"
+    },
+    "T_route": {
+      "crossover_R": 3,
+      "need": [
+        "ROUTE",
+        "UPDATE"
+      ],
+      "parent": "fixed_source"
+    },
+    "T_update": {
+      "crossover_R": 5,
+      "need": [
+        "UPDATE",
+        "STORE"
+      ],
+      "parent": "batch_recompute"
+    }
+  }
+}

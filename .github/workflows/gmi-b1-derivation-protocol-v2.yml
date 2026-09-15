@@ -1,0 +1,22 @@
+name: gmi-b1-derivation-protocol-v2
+on:
+  push:
+    paths: ["research/gmi-b1-derivation-protocol-v2/**", ".github/workflows/gmi-b1-derivation-protocol-v2.yml"]
+  pull_request:
+    paths: ["research/gmi-b1-derivation-protocol-v2/**", ".github/workflows/gmi-b1-derivation-protocol-v2.yml"]
+jobs:
+  suite:
+    strategy:
+      fail-fast: false
+      matrix: { mode: [normal, optimized] }
+    runs-on: ubuntu-latest
+    defaults:
+      run: { working-directory: research/gmi-b1-derivation-protocol-v2 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: tests
+        run: |
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then PY="python -O"; else PY="python"; fi
+          $PY test_b1_derivation_protocol_v2.py -v

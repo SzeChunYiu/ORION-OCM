@@ -1,0 +1,1 @@
+# Theorem — B1 derivation protocol V2\n\nThirteen protocol predicates hold on `{T_mem,T_route,T_update}` under `b1_derivation_protocol_v2.py`.\n
