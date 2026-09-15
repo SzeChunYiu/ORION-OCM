@@ -31,11 +31,11 @@ A hostile test now constructs a fabricated tail and requires rejection. Boolean 
 Independent local reconstruction of the hardened branch files produced:
 
 ```text
-37/37 tests GREEN — normal Python
-37/37 tests GREEN — python -O
+40/40 tests GREEN — normal Python
+40/40 tests GREEN — python -O
 ```
 
-The deterministic `RESULT_V1.json` content remains unchanged after the custody hardening. Repository CI remains authoritative for merge: it must verify the pre-implementation freeze ancestry, run both normal/optimized suites, and reproduce the committed receipt byte-for-byte.
+The deterministic `RESULT_V1.json` content remains unchanged after the custody hardening. Repository CI remains authoritative for merge: it must verify the pre-implementation freeze ancestry, run both normal/optimized suites, reproduce the committed result byte-for-byte, and reproduce the dependence certificate byte-for-byte.
 
 ## Claim ceiling unchanged
 
