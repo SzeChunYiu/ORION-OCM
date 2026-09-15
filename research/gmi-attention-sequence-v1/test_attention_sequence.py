@@ -1,20 +1,11 @@
-"""Unit tests for the Attention Sequence Theorem V1.
-
-Covers:
-  T1: Sparse routing dominance (algebraic and numeric)
-  T2: Phase boundary computation and ecology prediction
-  T3: Long-sequence crossover for growing-quotient obligations
-  Edge cases and consistency checks
-"""
+"""Hostile/unit controls for Attention Sequence Corrigendum V2."""
 from __future__ import annotations
 
 from fractions import Fraction as F
-import math
-import unittest
-
-from pathlib import Path
 import importlib.util
+from pathlib import Path
 import sys
+import unittest
 
 path = Path(__file__).with_name("attention_witness.py")
 spec = importlib.util.spec_from_file_location("attention_checked", str(path))
@@ -22,215 +13,139 @@ aw = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = aw
 spec.loader.exec_module(aw)
 
-# Import all public names into test namespace for direct use
-from attention_checked import (
-    full_routing_cost,
-    sparse_routing_cost,
-    sparse_wins,
-    sparse_wins_condition,
-    phase_boundary_lambda_star,
-    sparse_dominates_at_lambda,
-    growing_quotient_obligation_cost_fixed,
-    growing_quotient_obligation_cost_recurrent,
-    compute_crossover_N_star,
-    sweep_cost_comparison,
-    sweep_phase_boundary,
-    sweep_crossover,
-)
+
+class TestT1SparseCost(unittest.TestCase):
+    def test_exact_iff_over_grid(self):
+        for M in (2, 4, 8, 16):
+            for K in range(0, M + 3):
+                for L in (F(0), F(1, 16), F(1, 4), F(1, 2), F(1)):
+                    numeric = False
+                    if 0 < K < M:
+                        numeric = aw.sparse_routing_cost(K, M, F(1), L) < aw.full_routing_cost(M, F(1))
+                    self.assertEqual(numeric, aw.sparse_wins_condition(K, M, F(1), L))
+                    self.assertEqual(numeric, aw.sparse_wins(M, K, F(1), L))
+
+    def test_zero_slots_are_not_a_solution(self):
+        self.assertFalse(aw.sparse_wins(8, 0, F(1), F(0)))
+        self.assertFalse(aw.sparse_wins_condition(0, 8, F(1), F(0)))
+
+    def test_full_slot_sparse_scheme_pays_lookup_and_does_not_win(self):
+        self.assertEqual(aw.full_routing_cost(8, F(1)), F(8))
+        self.assertEqual(aw.sparse_routing_cost(8, 8, F(1), F(1, 4)), F(10))
+        self.assertFalse(aw.sparse_wins(8, 8, F(1), F(1, 4)))
+
+    def test_strict_boundary_is_tie(self):
+        # K=6,M=8 => C(1-K/M)=1/4.
+        self.assertFalse(aw.sparse_wins(8, 6, F(1), F(1, 4)))
+        self.assertTrue(aw.sparse_wins(8, 6, F(1), F(1, 8)))
 
 
-class TestT1SparseDominance(unittest.TestCase):
-    """T1: Sparse routing beats full when K < M and L < C*(1 - K/M)."""
+class TestT2LocalityBoundary(unittest.TestCase):
+    def test_boundary_derived_from_same_cost_model(self):
+        # M=8,K=6,C=1,L0=1/2 => lambda*=1/2.
+        star = aw.phase_boundary_lambda_star(8, 6, F(1), F(1, 2))
+        self.assertEqual(star, F(1, 2))
+        self.assertFalse(aw.sparse_dominates_at_lambda(8, 6, F(1, 2), F(1), F(1, 2)))
+        self.assertTrue(aw.sparse_dominates_at_lambda(8, 6, F(3, 4), F(1), F(1, 2)))
 
-    def test_sparse_wins_basic(self):
-        """K=2, M=8, C=1, L=0.25: 2+2=4 < 8*1=8."""
-        self.assertTrue(sparse_wins(8, 2, F(1), F(1, 4)))
+    def test_negative_raw_threshold_means_all_legal_lambda_win(self):
+        # M=8,K=2: cost saving is already larger than worst registered lookup cost.
+        star = aw.phase_boundary_lambda_star(8, 2, F(1), F(1, 2))
+        self.assertEqual(star, F(-1, 2))
+        for lam in (F(0), F(1, 4), F(1)):
+            self.assertTrue(aw.sparse_dominates_at_lambda(8, 2, lam, F(1), F(1, 2)))
 
-    def test_sparse_loses_when_K_equals_M(self):
-        """K=M: both costs are M*C, so sparse does not strictly win."""
-        self.assertFalse(sparse_wins(8, 8, F(1), F(1, 4)))
+    def test_high_threshold_has_both_sides(self):
+        # M=8,K=7 => lambda*=3/4.
+        self.assertEqual(aw.phase_boundary_lambda_star(8, 7, F(1), F(1, 2)), F(3, 4))
+        self.assertFalse(aw.sparse_dominates_at_lambda(8, 7, F(3, 4), F(1), F(1, 2)))
+        self.assertTrue(aw.sparse_dominates_at_lambda(8, 7, F(7, 8), F(1), F(1, 2)))
 
-    def test_sparse_loses_when_L_too_high(self):
-        """K=1, M=4, C=1, L=1: 1+4=5 > 4*1=4."""
-        self.assertFalse(sparse_wins(4, 1, F(1), F(1)))
+    def test_illegal_sparse_regime_has_no_boundary(self):
+        self.assertIsNone(aw.phase_boundary_lambda_star(8, 0))
+        self.assertIsNone(aw.phase_boundary_lambda_star(8, 8))
+        self.assertFalse(aw.sparse_dominates_at_lambda(8, 8, F(1)))
 
-    def test_algebraic_matches_numeric(self):
-        """Algebraic condition must agree with cost comparison everywhere."""
-        for M in [4, 8, 16, 32]:
-            for K in range(1, M + 1):
-                C, L = F(1), F(1, 4)
-                self.assertEqual(
-                    sparse_wins(M, K, C, L),
-                    sparse_wins_condition(K, M, C, L),
-                    f"M={M}, K={K}",
-                )
-
-    def test_sparse_wins_boundary_K_equals_M_minus_1(self):
-        """K=M-1: sparse wins iff L < C/M."""
-        M = 10
-        C, L = F(1), F(1, 20)  # L = 0.05 < 0.1 = C/M
-        self.assertTrue(sparse_wins(M, M - 1, C, L))
-        L2 = F(1, 5)  # L = 0.2 > 0.1 = C/M
-        self.assertFalse(sparse_wins(M, M - 1, C, L2))
-
-    def test_savings_grow_as_K_shrinks(self):
-        """Fewer slots → larger savings from sparse routing."""
-        M, C, L = 16, F(1), F(1, 8)
-        savings = []
-        for K in [1, 2, 4, 8]:
-            s = full_routing_cost(M, C) - sparse_routing_cost(K, M, C, L)
-            savings.append(float(s))
-        for i in range(len(savings) - 1):
-            self.assertGreater(savings[i], savings[i + 1])
-
-    def test_fractional_costs(self):
-        """Non-integer cost parameters."""
-        C, L = F(3, 7), F(1, 11)
-        M, K = 10, 3
-        self.assertTrue(sparse_wins(M, K, C, L))
-
-    def test_K_zero_not_valid(self):
-        """K=0 means no attention at all; cost is M*L."""
-        # sparse cost = 0*C + M*L = M*L; full cost = M*C
-        # sparse wins iff M*L < M*C iff L < C
-        self.assertTrue(sparse_wins(10, 0, F(2), F(1)))
+    def test_locality_cost_endpoints(self):
+        self.assertEqual(aw.locality_lookup_cost(F(0), F(3, 5)), F(3, 5))
+        self.assertEqual(aw.locality_lookup_cost(F(1), F(3, 5)), F(0))
+        with self.assertRaises(ValueError):
+            aw.locality_lookup_cost(F(5, 4), F(1, 2))
 
 
-class TestT2PhaseBoundary(unittest.TestCase):
-    """T2: Phase boundary lambda* = log(M/K) / log(N/H)."""
+class TestT3GrowingCrossover(unittest.TestCase):
+    C = F(1)
+    L = F(1, 16)
+    B = F(16)
 
-    def test_lambda_star_zero_when_K_equals_M(self):
-        """K=M: log(1)/log(N/H) = 0."""
-        self.assertAlmostEqual(
-            phase_boundary_lambda_star(10, 10, 1024, 8), 0.0
+    def test_registered_target_count(self):
+        expected = {1: 1, 2: 2, 3: 6, 4: 8, 5: 15, 8: 24, 16: 64, 32: 160}
+        self.assertEqual({n: aw.growing_target_count(n) for n in expected}, expected)
+
+    def test_exact_registered_crossovers(self):
+        self.assertEqual(
+            {K: aw.compute_crossover_N_star(K, self.C, self.L, self.B) for K in (1, 2, 4, 8, 16)},
+            {1: 6, 2: 10, 4: 18, 8: 43, 16: None},
         )
 
-    def test_lambda_star_grows_with_M_over_K(self):
-        """Larger M/K ratio → higher lambda*."""
-        lam_2 = phase_boundary_lambda_star(8, 2, 1024, 8)
-        lam_4 = phase_boundary_lambda_star(16, 2, 1024, 8)
-        self.assertGreater(lam_4, lam_2)
+    def test_minimality_and_strictness(self):
+        for K, star in ((1, 6), (2, 10), (4, 18), (8, 43)):
+            at_fixed = aw.growing_quotient_obligation_cost_fixed(K, star, self.C)
+            at_rec = aw.growing_quotient_obligation_cost_recurrent(star, self.B, self.L)
+            self.assertLess(at_rec, at_fixed)
+            if star > 1:
+                before_fixed = aw.growing_quotient_obligation_cost_fixed(K, star - 1, self.C)
+                before_rec = aw.growing_quotient_obligation_cost_recurrent(star - 1, self.B, self.L)
+                self.assertGreaterEqual(before_rec, before_fixed)
 
-    def test_lambda_star_between_0_and_1(self):
-        """For valid inputs, lambda* should be in (0, 1]."""
-        lam = phase_boundary_lambda_star(16, 2, 1024, 8)
-        self.assertGreater(lam, 0.0)
-        self.assertLessEqual(lam, 1.0)
+    def test_no_crossover_when_recurrent_marginal_cost_not_lower(self):
+        self.assertEqual(aw.crossover_margin_per_target(16, self.C, self.L), F(0))
+        self.assertIsNone(aw.compute_crossover_N_star(16, self.C, self.L, self.B))
+        self.assertIsNone(aw.compute_crossover_N_star(32, self.C, self.L, self.B))
 
-    def test_sparse_wins_at_perfect_locality(self):
-        """lambda=1 (perfect locality): sparse/local always dominates."""
-        for M, K in [(8, 2), (16, 4), (32, 8)]:
-            self.assertTrue(
-                sparse_dominates_at_lambda(M, K, 1024, 8, 1.0),
-                f"M={M}, K={K}",
-            )
+    def test_more_fixed_slots_move_crossover_later(self):
+        stars = [aw.compute_crossover_N_star(K, self.C, self.L, self.B) for K in (1, 2, 4, 8)]
+        self.assertEqual(stars, sorted(stars))
+        self.assertEqual(len(set(stars)), len(stars))
 
-    def test_sparse_dominance_consistent_with_lambda_star(self):
-        """At lambda = lambda* + epsilon, sparse should dominate."""
-        for M, K in [(8, 2), (16, 4), (32, 8)]:
-            lam_star = phase_boundary_lambda_star(M, K, 1024, 8)
-            if lam_star > 0 and lam_star < 1:
-                lam_test = min(1.0, lam_star + 0.1)
-                self.assertTrue(
-                    sparse_dominates_at_lambda(M, K, 1024, 8, lam_test),
-                    f"M={M}, K={K}, lambda={lam_test:.4f} >= lambda*={lam_star:.4f}",
-                )
-
-    def test_phase_boundary_independence_of_N(self):
-        """lambda* should change when N changes (it depends on N/H)."""
-        lam_n1 = phase_boundary_lambda_star(16, 4, 512, 8)
-        lam_n2 = phase_boundary_lambda_star(16, 4, 1024, 8)
-        self.assertNotAlmostEqual(lam_n1, lam_n2, places=6)
+    def test_build_cost_moves_crossover_later(self):
+        small = aw.compute_crossover_N_star(4, self.C, self.L, F(4))
+        large = aw.compute_crossover_N_star(4, self.C, self.L, F(32))
+        self.assertIsNotNone(small)
+        self.assertIsNotNone(large)
+        self.assertLess(small, large)
 
 
-class TestT3LongSequenceCrossover(unittest.TestCase):
-    """T3: Crossover N* for growing-quotient obligations."""
+class TestSweepsAndHostileInputs(unittest.TestCase):
+    def test_t1_sweep_agrees_everywhere(self):
+        rows = aw.sweep_cost_comparison([4, 8, 16, 32], [1, 2, 4, 8])
+        self.assertEqual(len(rows), 16)
+        self.assertTrue(all(r["algebraic_match"] for r in rows))
 
-    def test_N_star_positive_finite(self):
-        """For K > C/L_max, N* should be positive and finite."""
-        # With C=1, L_max=0.25, need K > 4 for finite crossover
-        for K in [8, 16, 32]:
-            n_star = compute_crossover_N_star(K, F(1), F(1, 4))
-            self.assertGreater(n_star, 0)
-            self.assertNotEqual(n_star, float("inf"))
+    def test_t2_sweep_uses_exact_fractions(self):
+        rows = aw.sweep_phase_boundary([8], [2, 6, 7])
+        self.assertEqual([r["lambda_star"] for r in rows], [F(-1, 2), F(1, 2), F(3, 4)])
 
-    def test_recurrent_wins_beyond_crossover(self):
-        """For K where recurrent per-target cost < fixed per-target cost (L_max < C/K),
-        recurrent wins at all N including large N."""
-        C, L_max = F(1), F(1, 4)
-        # Need K < C/L_max = 4 for recurrent to have lower per-target cost
-        for K in [2]:
-            n_star = compute_crossover_N_star(K, C, L_max)
-            # N*=inf means recurrent always wins (L_max < C/K)
-            N_check = 10000
-            c_fixed = growing_quotient_obligation_cost_fixed(K, N_check, C)
-            c_recurrent = growing_quotient_obligation_cost_recurrent(N_check, C, L_max)
-            self.assertLess(c_recurrent, c_fixed, f"K={K}, N={N_check}")
+    def test_t3_sweep_pins_no_crossover_terminal(self):
+        rows = aw.sweep_crossover([1, 2, 4, 8, 16])
+        self.assertEqual([(r["K"], r["N_star"]) for r in rows], [(1, 6), (2, 10), (4, 18), (8, 43), (16, None)])
+        self.assertTrue(all(r["recurrent_wins_at_star"] for r in rows[:-1]))
+        self.assertFalse(rows[-1]["recurrent_wins_at_star"])
 
-    def test_fixed_wins_at_small_N(self):
-        """At very small N with generous K, fixed overhead is small but
-        per-target cost C/K is low — so fixed total ≈ C + M*C/K."""
-        c_fixed = growing_quotient_obligation_cost_fixed(8, 4, F(1))
-        c_recurrent = growing_quotient_obligation_cost_recurrent(4, F(1), F(1, 4))
-        # Fixed is always positive; recurrent is always positive
-        self.assertGreater(c_fixed, 0)
-        self.assertGreater(c_recurrent, 0)
-        # At K=8 (many slots), fixed is competitive: C/K=1/8 is small
-        self.assertLessEqual(c_fixed, c_recurrent * 10)
+    def test_invalid_inputs_fail_closed(self):
+        with self.assertRaises(ValueError):
+            aw.full_routing_cost(0, F(1))
+        with self.assertRaises(ValueError):
+            aw.growing_target_count(0)
+        with self.assertRaises(ValueError):
+            aw.compute_crossover_N_star(0, F(1), F(1, 16), F(16))
+        with self.assertRaises(ValueError):
+            aw.compute_crossover_N_star(4, F(0), F(1, 16), F(16))
 
-    def test_N_star_decreases_with_K(self):
-        """More attention slots → lower crossover N* (fixed machine dominates sooner)."""
-        n_star_8 = compute_crossover_N_star(8, F(1), F(1, 4))
-        n_star_16 = compute_crossover_N_star(16, F(1), F(1, 4))
-        self.assertGreater(n_star_8, n_star_16)
-
-    def test_growing_quotient_cost_superlinear(self):
-        """The obligation count should grow faster than linear."""
-        c4 = growing_quotient_obligation_cost_fixed(4, 16, F(1))
-        c8 = growing_quotient_obligation_cost_fixed(4, 32, F(1))
-        # 32 has log2(32)=5, 16 has log2(16)=4, so ratio = 32*5/(16*4) = 2.5
-        ratio = float(c8 / c4)
-        self.assertGreater(ratio, 2.0)
-
-
-class TestSweepConsistency(unittest.TestCase):
-    """Sweep functions should produce consistent results."""
-
-    def test_sweep_cost_algebraic_agreement(self):
-        """Every cell in the sweep should have algebraic == numeric."""
-        results = sweep_cost_comparison([4, 8, 16], [1, 2, 4])
-        for r in results:
-            self.assertTrue(
-                r["algebraic_match"],
-                f"M={r['M']}, K={r['K']}: mismatch",
-            )
-
-    def test_sweep_phase_boundary_range(self):
-        """All lambda* values should be in [0, 1]."""
-        results = sweep_phase_boundary([4, 8, 16, 32], [1, 2, 4, 8])
-        for r in results:
-            self.assertGreaterEqual(r["lambda_star"], 0.0)
-            self.assertLessEqual(r["lambda_star"], 1.0)
-
-    def test_sweep_crossover_non_empty(self):
-        """Sweep should produce results for at least some K values."""
-        results = sweep_crossover([1, 2, 4, 8, 16])
-        self.assertGreater(len(results), 0)
-
-    def test_sweep_4x4x4_cell_count(self):
-        """The full (M, K) sweep should cover 4*4 = 16 cells
-        (sweep_cost_comparison does not filter K >= M)."""
-        M_vals = [4, 8, 16, 32]
-        K_vals = [1, 2, 4, 8]
-        results = sweep_cost_comparison(M_vals, K_vals)
-        self.assertEqual(len(results), 16)
-
-    def test_witness_main_runs(self):
-        """The main() function should run without error."""
+    def test_main_runs(self):
         result = aw.main()
-        self.assertGreater(result["t1"]["swept"], 0)
-        self.assertGreater(result["t2"]["swept"], 0)
-        self.assertGreater(result["t3"]["swept"], 0)
+        self.assertTrue(result["t1_all_algebraic"])
+        self.assertEqual(result["t3"], ((1, 6), (2, 10), (4, 18), (8, 43), (16, None)))
 
 
 if __name__ == "__main__":
