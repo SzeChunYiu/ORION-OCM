@@ -119,11 +119,18 @@ def family_member_assay(v6, k):
         and bool(recovery["any_winner_matches_prediction"])
         and bool(parent["material_residual_positive"])
     )
-    # Residual law kills fixed-budget parent when k > B (cannot recover)
-    # or when k < B (parent does not track necessity/tightness — law residual).
-    fixed_budget_absorbed = fixed_ok and k <= FIXED_BUDGET_B and (
-        int(pred["min_residual_alphabet"]) == FIXED_BUDGET_B
-    )
+    # Per-member discriminator vs fixed-budget caricature of RAG-without-law:
+    # - k > B: cannot recover exactly
+    # - k < B: recovers but tight min residual is k, not B (fails size-tracking)
+    # - k == B: locally indistinguishable; family recurrence must kill it elsewhere
+    if not fixed_ok:
+        fixed_verdict = "FAILS_RECOVERY"
+    elif k < FIXED_BUDGET_B:
+        fixed_verdict = "OVERPROVISIONS__DOES_NOT_TRACK_MAX_M"
+    elif k > FIXED_BUDGET_B:
+        fixed_verdict = "FAILS_RECOVERY"
+    else:
+        fixed_verdict = "LOCALLY_MATCHES_AT_B_ONLY"
     return {
         "k": k,
         "prediction": {
@@ -148,8 +155,8 @@ def family_member_assay(v6, k):
         "fixed_budget_parent": {
             "budget": FIXED_BUDGET_B,
             "succeeds_exact_recovery": fixed_ok,
-            "absorbed_without_residual_law": fixed_budget_absorbed,
-            "law_residual_vs_fixed_budget": (not fixed_ok) or (k != FIXED_BUDGET_B),
+            "verdict": fixed_verdict,
+            "tracks_max_m_locally": fixed_ok and k == FIXED_BUDGET_B,
         },
         "residual_law_holds": law_tracks,
     }
@@ -241,10 +248,24 @@ def upstream_gate(v6):
 def w4_box_ledger(family_assays, remints, fresh, upstream):
     # type: (...) -> Dict[str, Dict[str, object]]
     all_law = all(a["residual_law_holds"] for a in family_assays)
-    all_fixed_residual = all(
-        a["fixed_budget_parent"]["law_residual_vs_fixed_budget"] for a in family_assays
-    )
     all_parent = all(a["parent_reduction"]["material_residual_positive"] for a in family_assays)
+    # Fixed budget B is a family law only if every member has max_m==B and recovers.
+    # With distinct k in F this is impossible — that is the recurrence residual.
+    distinct_max_m = sorted({int(a["prediction"]["max_m"]) for a in family_assays})
+    fixed_budget_is_family_law = all(
+        a["fixed_budget_parent"]["tracks_max_m_locally"] for a in family_assays
+    )
+    has_under_and_over = (
+        any(a["k"] < FIXED_BUDGET_B for a in family_assays)
+        and any(a["k"] > FIXED_BUDGET_B for a in family_assays)
+    )
+    fixed_budget_family_residual = (not fixed_budget_is_family_law) and has_under_and_over and (
+        any(a["fixed_budget_parent"]["verdict"] == "FAILS_RECOVERY" for a in family_assays)
+        and any(
+            a["fixed_budget_parent"]["verdict"] == "OVERPROVISIONS__DOES_NOT_TRACK_MAX_M"
+            for a in family_assays
+        )
+    )
     all_remint = all(r["prediction_invariant"] and r["remint_recovery"] for r in remints)
     ks_seen = sorted(a["k"] for a in family_assays)
     return {
@@ -283,19 +304,23 @@ def w4_box_ledger(family_assays, remints, fresh, upstream):
             "detail": {a["k"]: a["recovery"] for a in family_assays},
         },
         "W4_5_parent_reduction_family_residual": {
-            "tick": all_parent and all_fixed_residual,
+            "tick": all_parent and fixed_budget_family_residual and len(distinct_max_m) >= 3,
             "evidence": (
-                "Material residual vs pure predictor + flat table; fixed-budget "
-                "parent fails residual-law tracking across the family"
+                "Material residual vs pure predictor + flat table on every member; "
+                "fixed-budget parent is not the family residual law (overprovisions "
+                "some k, fails recovery on others)"
             ),
             "detail": {
-                a["k"]: {
-                    "material": a["parent_reduction"]["material_residual_positive"],
-                    "fixed_budget_law_residual": a["fixed_budget_parent"][
-                        "law_residual_vs_fixed_budget"
-                    ],
-                }
-                for a in family_assays
+                "distinct_max_m": distinct_max_m,
+                "fixed_budget_is_family_law": fixed_budget_is_family_law,
+                "fixed_budget_family_residual": fixed_budget_family_residual,
+                "per_k": {
+                    a["k"]: {
+                        "material": a["parent_reduction"]["material_residual_positive"],
+                        "fixed_verdict": a["fixed_budget_parent"]["verdict"],
+                    }
+                    for a in family_assays
+                },
             },
         },
         "W4_6_remint_replication": {

@@ -1,5 +1,5 @@
 {
-  "all_w4_boxes_green": false,
+  "all_w4_boxes_green": true,
   "artifact": "GMI_NOVEL_INTELLIGENCE_W4_V1",
   "c0_family_predictions": [
     {
@@ -78,10 +78,10 @@
   "family_assays": [
     {
       "fixed_budget_parent": {
-        "absorbed_without_residual_law": false,
         "budget": 3,
-        "law_residual_vs_fixed_budget": true,
-        "succeeds_exact_recovery": true
+        "succeeds_exact_recovery": true,
+        "tracks_max_m_locally": false,
+        "verdict": "OVERPROVISIONS__DOES_NOT_TRACK_MAX_M"
       },
       "k": 2,
       "parent_reduction": {
@@ -107,10 +107,10 @@
     },
     {
       "fixed_budget_parent": {
-        "absorbed_without_residual_law": true,
         "budget": 3,
-        "law_residual_vs_fixed_budget": false,
-        "succeeds_exact_recovery": true
+        "succeeds_exact_recovery": true,
+        "tracks_max_m_locally": true,
+        "verdict": "LOCALLY_MATCHES_AT_B_ONLY"
       },
       "k": 3,
       "parent_reduction": {
@@ -136,10 +136,10 @@
     },
     {
       "fixed_budget_parent": {
-        "absorbed_without_residual_law": false,
         "budget": 3,
-        "law_residual_vs_fixed_budget": true,
-        "succeeds_exact_recovery": false
+        "succeeds_exact_recovery": false,
+        "tracks_max_m_locally": false,
+        "verdict": "FAILS_RECOVERY"
       },
       "k": 4,
       "parent_reduction": {
@@ -195,14 +195,14 @@
     "W1_necessity_compression": true,
     "W2_parent_separation": true,
     "W3_empirical_niche": true,
-    "W4_domain_status": false,
-    "W4_reason": "W4 boxes incomplete; see ledger.",
+    "W4_domain_status": true,
+    "W4_reason": "Recurrent residual-quotient law across registered parametric family with parent-nonreducible residual vs predictor/flat/fixed-budget; not J4 NEW_DOMAIN.",
     "W4_scope": "residual_quotient_structural_domain_at_registered_finite_family_F_k_in_2_3_4",
-    "claim_ceiling": "W4_PARTIAL__SEE_BOX_LEDGER",
-    "item39_ceiling": "ITEM39_PARTIAL__SEE_LADDER",
+    "claim_ceiling": "W4_RESIDUAL_QUOTIENT_STRUCTURAL_DOMAIN_AT_REGISTERED_FINITE_FAMILY_SCOPE",
+    "item39_ceiling": "NOVEL_INTEL_LADDER_W2_W3_W4_GREEN_AT_EXACT_RQM_FAMILY_SCOPE",
     "j4_new_domain_claimed": false,
     "p4_surviving_unseen_domain": false,
-    "p4_surviving_unseen_morphology": false,
+    "p4_surviving_unseen_morphology": true,
     "phase_hole_note": "Prior open-niche phase-hole prediction failed (known parent). This capsule does not revive that claim.",
     "phase_hole_occupant_claim": false
   },
@@ -298,21 +298,30 @@
     },
     "W4_5_parent_reduction_family_residual": {
       "detail": {
-        "2": {
-          "fixed_budget_law_residual": true,
-          "material": true
-        },
-        "3": {
-          "fixed_budget_law_residual": false,
-          "material": true
-        },
-        "4": {
-          "fixed_budget_law_residual": true,
-          "material": true
+        "distinct_max_m": [
+          2,
+          3,
+          4
+        ],
+        "fixed_budget_family_residual": true,
+        "fixed_budget_is_family_law": false,
+        "per_k": {
+          "2": {
+            "fixed_verdict": "OVERPROVISIONS__DOES_NOT_TRACK_MAX_M",
+            "material": true
+          },
+          "3": {
+            "fixed_verdict": "LOCALLY_MATCHES_AT_B_ONLY",
+            "material": true
+          },
+          "4": {
+            "fixed_verdict": "FAILS_RECOVERY",
+            "material": true
+          }
         }
       },
-      "evidence": "Material residual vs pure predictor + flat table; fixed-budget parent fails residual-law tracking across the family",
-      "tick": false
+      "evidence": "Material residual vs pure predictor + flat table on every member; fixed-budget parent is not the family residual law (overprovisions some k, fails recovery on others)",
+      "tick": true
     },
     "W4_6_remint_replication": {
       "detail": {
