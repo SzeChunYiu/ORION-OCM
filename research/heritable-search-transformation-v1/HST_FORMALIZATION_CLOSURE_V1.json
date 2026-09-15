@@ -1,0 +1,208 @@
+{
+  "schema": "HST_FORMALIZATION_CLOSURE_V1",
+  "base_main_commit": "461bc3f1ea2c43b9c995aea13538bf30fbea2e4a",
+  "purpose": "Non-mutating normalization overlay for issue #233 / #602 proof-closure auditing. Frozen theorem statements remain authoritative; this file assigns exactly one primary proof class and makes domains/quantifiers explicit.",
+  "allowed_primary_classes": ["P1", "P2", "P3", "P4", "P5"],
+  "definition_dependencies": {
+    "external_parameters": ["C", "registered task/ecology D", "frozen predicates Adm/Useful", "frozen price vector p"],
+    "Sigma_t": ["L_t", "Q_t", "H_t", "E_t", "R_t", "V_t", "C"],
+    "proposal_x": ["Q_t", "L_t", "H_t", "E_t", "R_t"],
+    "evidence_e": ["V_t", "x", "tau", "C"],
+    "Sigma_t_plus_1": ["U", "Sigma_t", "x", "e"],
+    "B_t": ["Sigma_t", "C", "frozen price vector p", "first-admissible stopping event"],
+    "Ev_t": ["Q_t", "x", "Adm", "Useful", "registered task/ecology D"]
+  },
+  "rows": [
+    {
+      "theorem_id": "HST-T01",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "For each fixed registered task tau: nonempty strategy sets A_t subseteq A_{t+1}; a prospectively frozen scalar cost C defined on A_{t+1}; inherited strategies retain their old costs for the zero-overhead clause.",
+      "quantifiers": "For all tau, A_t, A_{t+1}, C: if A_t subseteq A_{t+1} and inherited strategies keep the same cost, then inf_{a in A_{t+1}} C(a,tau) <= inf_{a in A_t} C(a,tau).",
+      "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T01",
+      "counterexample_or_escape": "hostiles/W_T01_mandatory_overhead.json",
+      "claim_ceiling": "Per-task order dominance only; no rate, no task-uniform guarantee, and no controller-selection claim."
+    },
+    {
+      "theorem_id": "HST-T02",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Fixed representation F and constitution C; transformation set O; admissible transformation p; closure <O> under finite composition. Bounded Reach_B claims additionally use a frozen finite cost model.",
+      "quantifiers": "For all O,p: p notin <O> implies <O> is a strict subset of <O union {p}>. Any bounded strict-reach claim additionally requires an explicit registered witness reachable with p within B and unreachable from O within B.",
+      "proof_artifact": "HST_THEOREM_REGISTRY_V1.json::HST-T02",
+      "exact_certificate": "exact/T02_REACH_WITNESS_V1.json",
+      "counterexample_or_escape": "HST_THEOREM_REGISTRY_V1.json::HST-T02.evidence.hostile",
+      "claim_ceiling": "General closure inclusion is P1; bounded witness evidence is P2 at its enumerated world only."
+    },
+    {
+      "theorem_id": "HST-T03",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "States S, representation phi:S->Z, correct-action correspondence G:S->2^A, and policies measurable with respect to phi.",
+      "quantifiers": "For all s1,s2 in S, if phi(s1)=phi(s2) and G(s1) intersect G(s2) is empty, then no phi-measurable policy can satisfy the contract with probability 1 on both states.",
+      "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T03",
+      "counterexample_or_escape": "hostiles/W_T03_aliasing.json",
+      "claim_ceiling": "Aliasing impossibility only; does not identify which real representation collides or the probability of those states."
+    },
+    {
+      "theorem_id": "HST-T04",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Prefix-coded Levin-style allocation with candidate share proportional to 2^{-L}; fixed scheduler semantics; construction and verification overhead either unchanged or separately charged.",
+      "quantifiers": "For all integer L>=0 and Delta in [0,L], share(L-Delta)/share(L)=2^Delta whenever share(ell) is proportional to 2^{-ell}.",
+      "proof_artifact": "HST_THEOREM_REGISTRY_V1.json::HST-T04 (parent-owned Levin/OOPS result)",
+      "exact_certificate": "exact/PARENT_WITNESSES_T04_T08_V1.json",
+      "counterexample_or_escape": "HST-T05 hostile: shortening code can still lose after execution/lifecycle cost is charged.",
+      "claim_ceiling": "Allocation-ratio identity only; no unconditional wall-time speedup."
+    },
+    {
+      "theorem_id": "HST-T05",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Frozen scalar lifecycle coordinate; nonnegative build, maintenance, expected revision and per-use costs; useful reuse count H_eff.",
+      "quantifiers": "For all H_eff>=0 and registered costs, macro m is strictly cheaper than repeated composition s iff H_eff*(C_use(s)-C_use(m)) > C_build+C_maint+E[C_revision]; equality is a tie.",
+      "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T05",
+      "counterexample_or_escape": "hostiles/W_T05_macro_never_pays.json",
+      "claim_ceiling": "Arithmetic lifecycle criterion conditional on frozen quantities; prospective estimation of H_eff remains empirical."
+    },
+    {
+      "theorem_id": "HST-T06",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Finite acyclic dependency DAG whose protected node values are functions only of declared parents; intervention set S; exact recomputation semantics.",
+      "quantifiers": "For every node v outside Desc(S), do(S:=s') leaves v unchanged when the declared dependency graph is complete for protected outputs. Without dependency completeness there exists an acyclic declared graph with a hidden dependency for which a node outside declared Desc(S) changes.",
+      "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T06",
+      "counterexample_or_escape": "hostiles/W_T06_missing_edge_false_locality.json",
+      "claim_ceiling": "Value locality for complete acyclic dependencies; not a cost theorem and not a cyclic/TMS theorem."
+    },
+    {
+      "theorem_id": "HST-T07",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Fixed evaluator, frozen total order, immutable best-so-far archive with a policy guaranteed to retain a maximizer.",
+      "quantifiers": "For all n>=0, q_best(n+1)>=q_best(n). Finite-capacity variants inherit monotonicity only when the eviction policy preserves at least one current maximizer.",
+      "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T07",
+      "counterexample_or_escape": "hostiles/W_T07_ratchet_no_transfer.json",
+      "claim_ceiling": "Ratchet monotonicity only; not open-endedness, transfer, complexity growth, or improvement efficiency."
+    },
+    {
+      "theorem_id": "HST-T08",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Bayesian expected-utility decision problems and experiments E1,E0 where E0 is a Blackwell garbling of E1; information is free for the dominance theorem.",
+      "quantifiers": "For every Bayesian decision problem D, if E1 Blackwell-dominates E0 then V_D(E1)>=V_D(E0). With probe price c, acquisition is beneficial only when V_D(E1)-V_D(E0)>c.",
+      "proof_artifact": "HST_THEOREM_REGISTRY_V1.json::HST-T08 (Blackwell parent)",
+      "exact_certificate": "exact/PARENT_WITNESSES_T04_T08_V1.json",
+      "counterexample_or_escape": "HST-T08 cost-aware correction: a probe loses when its price exceeds its decision value.",
+      "claim_ceiling": "Parent-owned information dominance under Blackwell assumptions; no claim that information is free or that a real evaluator is sufficient."
+    },
+    {
+      "theorem_id": "HST-T09",
+      "primary_proof_class": "P3",
+      "secondary_evidence_classes": [],
+      "domain": "Tasks sampled from one registered environment distribution D; controlled finite hypothesis/bias family; prior/posterior and sample sizes satisfying the cited PAC-Bayes/lifelong-learning bound.",
+      "quantifiers": "For every registered prior/posterior and sample satisfying the bound assumptions, with probability at least 1-delta over task data sampled from D, true D-risk is bounded by the expression in bounds/HST_TRANSFER_BOUND_V1.md.",
+      "proof_artifact": "bounds/HST_TRANSFER_BOUND_V1.md",
+      "distributional_assumptions": ["tasks are sampled from one registered environment distribution D", "controlled finite hypothesis/bias family", "sample sizes satisfy the cited PAC-Bayes/lifelong-learning conditions"],
+      "counterexample_or_escape": "bounds/NEGATIVE_TRANSFER_COUNTEREXAMPLE_V1.md",
+      "claim_ceiling": "Same-distribution D generalization bound only; no guarantee under D'!=D, drift, arbitrary future domains, or against a flat prior."
+    },
+    {
+      "theorem_id": "HST-T10",
+      "primary_proof_class": "P2",
+      "secondary_evidence_classes": ["P3"],
+      "domain": "Finite candidate set X, frozen proposal kernel Q, frozen admissibility/usefulness predicates and registered future ecology D; exact microscope FW1 for the certified result.",
+      "quantifiers": "For every x in X, Ev(x)=P_{x'~Q(.|x)}[Adm(x') and Useful(x';D)] is computed exactly by complete enumeration of the registered finite support.",
+      "proof_artifact": "HST_THEOREM_REGISTRY_V1.json::HST-T10",
+      "exact_certificate": "exact/T10_EV_ORACLE_V1.json",
+      "counterexample_or_escape": "HST-T10 hostile: high current fitness can coexist with low useful-descendant mass.",
+      "claim_ceiling": "Exact useful-descendant mass only at the registered finite candidate/kernel/ecology scope; extrapolation is P3/P4."
+    },
+    {
+      "theorem_id": "HST-T11",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Repeated module M behind a semantics-preserving interface; fully charged definition, interface, execution/search, maintenance and revision costs.",
+      "quantifiers": "For every registered repeated-use context, if total charged lifecycle cost after promotion is strictly lower than without promotion while external semantics are preserved, promotion is cost-beneficial on that frozen coordinate; otherwise it is not.",
+      "proof_artifact": "HST_THEOREM_REGISTRY_V1.json::HST-T11",
+      "exact_certificate": "exact/T11_MODULE_PROMOTION_V1.json",
+      "counterexample_or_escape": "exact/T11_MODULE_PROMOTION_V1.json contains below-threshold and equality-boundary non-promotion cases.",
+      "claim_ceiling": "Conditional economic criterion; no theorem that development discovers such modules spontaneously."
+    },
+    {
+      "theorem_id": "HST-T12",
+      "primary_proof_class": "P5",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Closed deterministic dynamical system f:S->S with finite nonempty fixed state space S.",
+      "quantifiers": "For every s0 in S, the trajectory s_{n+1}=f(s_n) repeats by time |S|+1; therefore an infinite non-repeating state trajectory is impossible without changing the effective state/rule/task space.",
+      "proof_artifact": "proofs/LIMITS_V1.md#T12",
+      "exact_certificate": "exact/check_t12_v1.cert.json",
+      "counterexample_or_escape": "proofs/LIMITS_V1.md#T12: expanding/changing effective state space or horizon-scoped novelty escapes the literal fixed-finite claim.",
+      "claim_ceiling": "Bars literal infinite novelty in fixed finite closed deterministic systems; does not bar operational horizon-scoped novelty."
+    },
+    {
+      "theorem_id": "HST-T13",
+      "primary_proof_class": "P5",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Any finite observed trajectory prefix when the future transition law is not fully specified and proved.",
+      "quantifiers": "For every finite prefix h, there exists at least one bounded/eventually-periodic continuation and at least one continuing-novelty continuation consistent with h; hence h alone does not entail unbounded future novelty.",
+      "proof_artifact": "proofs/LIMITS_V1.md#T13",
+      "exact_certificate": "exact/check_t13_v1.cert.json",
+      "counterexample_or_escape": "proofs/LIMITS_V1.md#T13: a fully specified/proved transition law can entail its own future behavior.",
+      "claim_ceiling": "Finite observations support only horizon-scoped novelty claims, never unbounded-future novelty by observation alone."
+    },
+    {
+      "theorem_id": "HST-T14",
+      "primary_proof_class": "P5",
+      "secondary_evidence_classes": [],
+      "domain": "Search algorithms compared on problem classes satisfying the exact NFL hypotheses: closed under permutation with uniform averaging, or the stated orbit-constant generalization.",
+      "quantifiers": "For all search algorithms A,B, averaged performance is equal under the registered NFL ensemble assumptions; therefore no fixed search transformation universally dominates on that ensemble.",
+      "proof_artifact": "proofs/LIMITS_V1.md#T14",
+      "counterexample_or_escape": "proofs/LIMITS_V1.md#T14: structured non-c.u.p. classes or non-orbit-constant distributions escape NFL.",
+      "claim_ceiling": "Bars universal-best search claims; structured registered ecologies may admit conditional dominance."
+    },
+    {
+      "theorem_id": "HST-T15",
+      "primary_proof_class": "P5",
+      "secondary_evidence_classes": [],
+      "domain": "Arbitrary partial computable programs for Rice/halting; consistent recursively axiomatized sufficiently expressive theories for incompleteness; Goedel-machine claims only under their encoded proof-search assumptions.",
+      "quantifiers": "Every nontrivial extensional semantic property of partial computable functions lacks a total decider; qualifying formal theories cannot prove every intended arithmetic truth. Hence a complete general verifier of arbitrary beneficial self-change is unavailable.",
+      "proof_artifact": "proofs/LIMITS_V1.md#T15",
+      "counterexample_or_escape": "proofs/LIMITS_V1.md#T15: bounded contracts, total/ranked languages, weak decidable theories, or empirical validation escape the universal undecidability claim at narrower scope.",
+      "claim_ceiling": "Requires bounded decidable contracts, protected validation, and CANNOT_CHECK; does not say every useful change is uncheckable."
+    },
+    {
+      "theorem_id": "HST-T16",
+      "primary_proof_class": "P5",
+      "secondary_evidence_classes": [],
+      "domain": "Computable functions measured by an admissible Blum complexity measure.",
+      "quantifiers": "There exist computable problems g such that for every program computing g there exists another program with the prescribed asymptotic speedup under the theorem's computable speedup-function conditions; hence no globally fastest program exists for those problems.",
+      "proof_artifact": "proofs/LIMITS_V1.md#T16",
+      "counterexample_or_escape": "proofs/LIMITS_V1.md#T16: finite domains or problem families with matching lower bounds can have optimal solvers at scope.",
+      "claim_ceiling": "Bars a universal final-fastest-cognition claim; it is an existence limit, not an empirical prediction that every problem exhibits speedup chains."
+    },
+    {
+      "theorem_id": "HST-T17",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P4", "P2"],
+      "domain": "Toy self-modification system with mutable measured-score register s, protected performance w, optimizer target M=s, and no independent constraint tying s to w; real external-C robustness is a separate P4 bridge.",
+      "quantifiers": "There exists a legal self-change in the writable-score toy system with Delta M>0 and Delta w=0, and another with Delta M>0 and Delta w<0. Under the toy external binding E=w and no direct score-write channel, every measured gain is a protected-performance gain by construction.",
+      "proof_artifact": "proofs/T17_TOY.md",
+      "exact_certificate": "hostiles/T17_TAMPER_WITNESS.json",
+      "empirical_bridge": "HST_EMPIRICAL_BRIDGE_V1.json::T17",
+      "counterexample_or_escape": "hostiles/T17_TAMPER_WITNESS.json",
+      "claim_ceiling": "Toy anti-self-certification result only; explicitly not a theorem that external C solves Goodhart, corruption, completeness, or alignment."
+    },
+    {
+      "theorem_id": "HST-T18",
+      "primary_proof_class": "P1",
+      "secondary_evidence_classes": ["P2"],
+      "domain": "Real-valued scalar burden sequence B_g bounded below by b_min, with prospectively fixed epsilon>0 and each claimed improvement decreasing burden by at least epsilon.",
+      "quantifiers": "For every integer N>=0, if B_{g+1}<=B_g-epsilon for g=0,...,N-1 and B_N>=b_min, then N*epsilon<=B_0-b_min, hence N<=floor((B_0-b_min)/epsilon).",
+      "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T18",
+      "counterexample_or_escape": "proofs/PROOFS_CORE_V1.md#HST-T18: epsilon may shrink, scope/frontier may expand, new dimensions may appear, or the resource regime may change.",
+      "claim_ceiling": "Bars indefinite fixed-epsilon improvement on one fixed lower-bounded scalar burden; does not bar open-ended change through the stated escape routes."
+    }
+  ],
+  "master_statement": "At the registered HST scope, the formal core consists of conditional P1/P2/P3 results plus P5 limits: inherited structure can expand reach or lower charged burden only under explicit availability, representation, lifecycle, dependency, distribution and verification assumptions; finite certificates establish bounded instances; transfer bounds require a registered task distribution; and NFL, undecidability/incompleteness, Blum speedup, and finite-state/prefix limits forbid universal-best, universal-verifier, final-fastest, or finite-evidence-to-unbounded-novelty claims. Real heterogeneous developmental improvement remains empirical and is mapped through HST_EMPIRICAL_BRIDGE_V1.json."
+}
