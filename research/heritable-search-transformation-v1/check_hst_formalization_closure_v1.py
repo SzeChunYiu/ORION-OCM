@@ -31,6 +31,27 @@ ALLOWED_TERMINALS = {
 }
 EXPECTED = {f"HST-T{i:02d}" for i in range(1, 19)}
 
+# The dependency overlay intentionally uses the frozen mathematical surface notation
+# x/e/Adm/Useful.  Resolve those names explicitly rather than silently dropping them.
+# Any unrecognized identifier is a closure failure.
+DEFINITION_ALIASES = {
+    "x": "proposal_x",
+    "e": "evidence_e",
+    "Adm": "frozen predicates Adm/Useful",
+    "Useful": "frozen predicates Adm/Useful",
+}
+DEFINITION_PRIMITIVES = {
+    "L_t",
+    "Q_t",
+    "H_t",
+    "E_t",
+    "R_t",
+    "V_t",
+    "U",
+    "tau",
+    "first-admissible stopping event",
+}
+
 
 def load_json(path: Path):
     with path.open("r", encoding="utf-8") as handle:
@@ -71,9 +92,36 @@ def path_part(locator: str) -> str | None:
     return None
 
 
-def definition_graph_is_acyclic(deps: dict[str, list[str]]) -> tuple[bool, list[str]]:
-    defined = set(deps)
-    graph = {node: [dep for dep in values if dep in defined] for node, values in deps.items()}
+def normalize_definition_graph(
+    deps: dict[str, list[str]],
+) -> tuple[dict[str, list[str]], list[str]]:
+    """Resolve frozen surface aliases and reject every dangling dependency name."""
+    external_parameters = set(deps.get("external_parameters", []))
+    defined = set(deps) - {"external_parameters"}
+    allowed_leaves = external_parameters | DEFINITION_PRIMITIVES
+    graph: dict[str, list[str]] = {}
+    unknown: list[str] = []
+
+    for node in sorted(defined):
+        values = deps.get(node, [])
+        if not isinstance(values, list):
+            unknown.append(f"{node}: dependency list is not a list")
+            graph[node] = []
+            continue
+        resolved_edges: list[str] = []
+        for raw_dep in values:
+            dep = DEFINITION_ALIASES.get(raw_dep, raw_dep)
+            if dep in defined:
+                resolved_edges.append(dep)
+            elif dep in allowed_leaves:
+                continue
+            else:
+                unknown.append(f"{node} -> {raw_dep}")
+        graph[node] = resolved_edges
+    return graph, unknown
+
+
+def definition_graph_is_acyclic(graph: dict[str, list[str]]) -> tuple[bool, list[str]]:
     visiting: set[str] = set()
     visited: set[str] = set()
     cycle: list[str] = []
@@ -112,8 +160,11 @@ def main() -> int:
     overlay = load_json(OVERLAY)
     bridge = load_json(BRIDGE)
 
-    require(overlay.get("allowed_primary_classes") == ["P1", "P2", "P3", "P4", "P5"],
-            "overlay primary-class vocabulary drifted", failures)
+    require(
+        overlay.get("allowed_primary_classes") == ["P1", "P2", "P3", "P4", "P5"],
+        "overlay primary-class vocabulary drifted",
+        failures,
+    )
 
     reg_rows = registry.get("rows", [])
     ov_rows = overlay.get("rows", [])
@@ -122,17 +173,51 @@ def main() -> int:
 
     require(len(reg_rows) == len(reg_by_id), "duplicate theorem_id in frozen registry", failures)
     require(len(ov_rows) == len(ov_by_id), "duplicate theorem_id in closure overlay", failures)
-    require(set(reg_by_id) == EXPECTED, f"registry theorem census mismatch: {sorted(set(reg_by_id) ^ EXPECTED)}", failures)
-    require(set(ov_by_id) == EXPECTED, f"overlay theorem census mismatch: {sorted(set(ov_by_id) ^ EXPECTED)}", failures)
+    require(
+        set(reg_by_id) == EXPECTED,
+        f"registry theorem census mismatch: {sorted(set(reg_by_id) ^ EXPECTED)}",
+        failures,
+    )
+    require(
+        set(ov_by_id) == EXPECTED,
+        f"overlay theorem census mismatch: {sorted(set(ov_by_id) ^ EXPECTED)}",
+        failures,
+    )
 
     bridge_rows = bridge.get("rows", {})
     bridge_expected = {f"T{i:02d}" for i in range(1, 19)}
-    require(set(bridge_rows) == bridge_expected,
-            f"empirical bridge census mismatch: {sorted(set(bridge_rows) ^ bridge_expected)}", failures)
+    require(
+        set(bridge_rows) == bridge_expected,
+        f"empirical bridge census mismatch: {sorted(set(bridge_rows) ^ bridge_expected)}",
+        failures,
+    )
 
     deps = overlay.get("definition_dependencies", {})
-    acyclic, cycle = definition_graph_is_acyclic(deps)
+    graph, unknown_dependencies = normalize_definition_graph(deps)
+    require(
+        not unknown_dependencies,
+        "definition dependency identifiers do not resolve: " + ", ".join(unknown_dependencies),
+        failures,
+    )
+    acyclic, cycle = definition_graph_is_acyclic(graph)
     require(acyclic, f"definition dependency cycle: {' -> '.join(cycle)}", failures)
+
+    # Regression guard for the aliases that previously disappeared from the graph.
+    require(
+        graph.get("evidence_e") == ["proposal_x"],
+        f"definition alias regression: evidence_e edges={graph.get('evidence_e')!r}",
+        failures,
+    )
+    require(
+        graph.get("Sigma_t_plus_1") == ["Sigma_t", "proposal_x", "evidence_e"],
+        f"definition alias regression: Sigma_t_plus_1 edges={graph.get('Sigma_t_plus_1')!r}",
+        failures,
+    )
+    require(
+        graph.get("Ev_t") == ["proposal_x"],
+        f"definition alias regression: Ev_t edges={graph.get('Ev_t')!r}",
+        failures,
+    )
 
     definitions_text = DEFINITIONS.read_text(encoding="utf-8")
     for needle in ("Σ_t", "B_t", "Ev_t", "One primary class per row"):
@@ -153,8 +238,11 @@ def main() -> int:
         require(bool(frozen.get("assumptions")), f"{theorem_id}: frozen assumptions missing", failures)
         require(bool(frozen.get("parent_theorem")), f"{theorem_id}: strongest/owning parent missing", failures)
         require(bool(frozen.get("ocm_residual")), f"{theorem_id}: OCM residual missing", failures)
-        require(frozen.get("status") in ALLOWED_TERMINALS,
-                f"{theorem_id}: non-terminal or unknown status {frozen.get('status')!r}", failures)
+        require(
+            frozen.get("status") in ALLOWED_TERMINALS,
+            f"{theorem_id}: non-terminal or unknown status {frozen.get('status')!r}",
+            failures,
+        )
 
         proof_path = path_part(row.get("proof_artifact", ""))
         if proof_path:
@@ -169,24 +257,36 @@ def main() -> int:
         if primary == "P2":
             require(has_exact_evidence, f"{theorem_id}: P2 primary lacks exact certificate/checker", failures)
         if primary == "P3":
-            require(bool(row.get("distributional_assumptions")),
-                    f"{theorem_id}: P3 primary lacks explicit distributional assumptions", failures)
-            require("bounds/" in str(row.get("proof_artifact", "")),
-                    f"{theorem_id}: P3 primary lacks bound artifact", failures)
+            require(
+                bool(row.get("distributional_assumptions")),
+                f"{theorem_id}: P3 primary lacks explicit distributional assumptions",
+                failures,
+            )
+            require(
+                "bounds/" in str(row.get("proof_artifact", "")),
+                f"{theorem_id}: P3 primary lacks bound artifact",
+                failures,
+            )
         if primary == "P4":
             require(bool(row.get("empirical_bridge")), f"{theorem_id}: P4 primary lacks preregistered bridge", failures)
         if primary == "P5":
             ceiling = row.get("claim_ceiling", "").lower()
-            require(any(token in ceiling for token in ("limit", "bar", "unavailable", "requires", "never")),
-                    f"{theorem_id}: P5 row lacks explicit consequence/ceiling language", failures)
+            require(
+                any(token in ceiling for token in ("limit", "bar", "unavailable", "requires", "never")),
+                f"{theorem_id}: P5 row lacks explicit consequence/ceiling language",
+                failures,
+            )
 
         bridge_key = theorem_id.replace("HST-", "")
         bridge_row = bridge_rows.get(bridge_key, {})
         require(bool(bridge_row.get("hook")), f"{theorem_id}: empirical residual lacks concrete bridge hook", failures)
         require(bool(bridge_row.get("issue")), f"{theorem_id}: empirical residual lacks target issue", failures)
 
-    require(class_counts["P4"] == 0,
-            "HST theorem registry unexpectedly has a primary P4 theorem; P4 is intentionally carried as empirical residual bridges", failures)
+    require(
+        class_counts["P4"] == 0,
+        "HST theorem registry unexpectedly has a primary P4 theorem; P4 is intentionally carried as empirical residual bridges",
+        failures,
+    )
     require(bool(overlay.get("master_statement", "").strip()), "master surviving conditional statement missing", failures)
 
     result = {
@@ -196,6 +296,8 @@ def main() -> int:
         "primary_class_counts": class_counts,
         "bridge_rows_checked": len(bridge_rows),
         "definition_dependency_graph_acyclic": acyclic,
+        "definition_dependency_unknown_identifiers": unknown_dependencies,
+        "definition_dependency_resolved_edges": graph,
         "input_sha256": {
             REGISTRY.name: sha256(REGISTRY),
             OVERLAY.name: sha256(OVERLAY),
