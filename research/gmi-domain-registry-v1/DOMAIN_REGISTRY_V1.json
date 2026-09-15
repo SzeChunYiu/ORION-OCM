@@ -1,0 +1,244 @@
+{
+  "schema": "GMI_DOMAIN_REGISTRY_V1",
+  "issue": 602,
+  "section": "J1",
+  "scope": {
+    "registered_domains": "D1-D8 from GMI_STRUCTURAL_DOMAINS_KINGDOMS_V1.md",
+    "semantics": "finite typed realizations unless a row narrows the scope",
+    "domain_identity": "equivalence class of the symmetric semantics-preserving reduction preorder under an accepted burden class",
+    "excluded_from_identity": ["architecture name", "source-code spelling", "parameter remint", "unpriced substrate constant"],
+    "not_claimed": ["ontological completeness", "new domain", "universal minimal basis", "real-scale closure"]
+  },
+  "component_schema": "DOMAIN_COMPONENT_SCHEMA_V1.json",
+  "lifecycle_coordinates": [
+    "build_acquisition", "training_development", "serving_execution", "memory_storage",
+    "retrieval_index", "verification", "update", "revision_unlearning", "communication",
+    "precision", "search_discovery", "failed_candidate", "maintenance", "human_ai_design",
+    "physical_cpu_gpu_wall_io", "energy", "latency", "error_loss"
+  ],
+  "accepted_burden_equivalence_classes": [
+    {
+      "id": "E0_EXACT_ISOMETRY",
+      "semantic_requirement": "bidirectional exact equality of protected developmental response on every registered ecology/intervention",
+      "overhead_requirement": "every registered lifecycle coordinate is equal after declared unit conversion",
+      "directionality": "BIDIRECTIONAL",
+      "accepted_for_domain_equivalence": true,
+      "boundary": "Does not identify unregistered physical or precision costs."
+    },
+    {
+      "id": "E1_CONSTANT_FACTOR",
+      "semantic_requirement": "bidirectional exact equality of protected developmental response on every registered ecology/intervention",
+      "overhead_requirement": "each nonzero lifecycle coordinate is bounded by a prospectively declared finite multiplicative constant plus finite setup constant in both directions",
+      "directionality": "BIDIRECTIONAL",
+      "accepted_for_domain_equivalence": true,
+      "boundary": "Constants and size coordinate must be frozen; zero denominators require additive bounds rather than ratios."
+    },
+    {
+      "id": "E2_POLYNOMIAL",
+      "semantic_requirement": "bidirectional exact equality of protected developmental response on every registered ecology/intervention",
+      "overhead_requirement": "for one frozen native size vector, every lifecycle coordinate has an explicit polynomial upper bound in both directions",
+      "directionality": "BIDIRECTIONAL",
+      "accepted_for_domain_equivalence": true,
+      "boundary": "Degree, coefficients, precision, horizon and encoding are part of the claim; one-way simulation establishes only preorder."
+    },
+    {
+      "id": "E3_APPROXIMATE_OR_EMPIRICAL",
+      "semantic_requirement": "approximate/statistical response agreement under a declared metric or test distribution",
+      "overhead_requirement": "measured or bounded burden with explicit uncertainty",
+      "directionality": "ONE_WAY_ONLY",
+      "accepted_for_domain_equivalence": false,
+      "boundary": "Useful evidence, but insufficient for exact structural-domain equivalence."
+    }
+  ],
+  "domains": [
+    {
+      "id": "D1",
+      "name": "coefficient_function_field",
+      "definition": "Sufficient cognitive state is primarily a finite coefficient/parameter object defining a map or dynamical operator.",
+      "carriers": [{
+        "id": "D1_COEFFICIENT_OBJECT",
+        "mathematical_object": "finite typed tensor/vector theta over a declared scalar field or finite precision set",
+        "semantic_state": "the input-output or transition law induced by theta and the fixed interpreter/basis",
+        "observable_interface": ["evaluate(input)", "read_shape", "read_precision"],
+        "equivalence": "equal protected evaluations and update responses over the registered ecology, not raw coefficient equality",
+        "size_coordinates": ["parameter_count", "precision_bits", "basis_size"],
+        "serialization": "shape, scalar representation, basis identifier, coefficient sequence"
+      }],
+      "native_operators": [
+        {"id": "D1_EVALUATE", "signature": "Theta x Input -> Output", "preconditions": ["basis/interpreter declared"], "semantics": "evaluate the parameterized map", "state_effect": "READ_ONLY", "determinism": "DETERMINISTIC", "exactness": "EXACT", "cost_coordinates": ["serving_execution", "precision", "latency"]},
+        {"id": "D1_PARAMETER_UPDATE", "signature": "Theta x Evidence x Verifier -> Theta", "preconditions": ["update law declared"], "semantics": "replace coefficient state according to admitted evidence", "state_effect": "GLOBAL_MUTATION", "determinism": "SET_VALUED", "exactness": "APPROXIMATE_DECLARED", "cost_coordinates": ["training_development", "update", "verification"]}
+      ],
+      "development_laws": [{"id": "D1_DEVELOP", "signature": "U(theta,e,v,E,R)->theta'", "evidence_access": ["declared training evidence"], "verifier_access": ["declared loss or exact verifier"], "mutable_components": ["theta"], "history_effect": "SKILL", "stochasticity": "SET_VALUED", "cost_coordinates": ["training_development", "update", "failed_candidate"]}],
+      "strongest_parents": ["statistics and optimization", "function approximation", "neural and kernel methods"],
+      "evidence": ["research/machine-intelligence-morphogenesis-v1/GMI_LINEAR_FAMILY_DERIVATION_V1.md", "research/machine-intelligence-morphogenesis-v1/GMI_NEURAL_ARCHITECTURE_DERIVATION_V1.md"],
+      "falsifier": "an asserted D1 realization whose protected response depends on state absent from the declared coefficient object/interpreter",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    },
+    {
+      "id": "D2",
+      "name": "exemplar_memory_indexed",
+      "definition": "Sufficient cognitive state is primarily retained cases, records, exemplars, or associative traces.",
+      "carriers": [{
+        "id": "D2_RECORD_COLLECTION",
+        "mathematical_object": "finite multiset or key-value relation over typed records",
+        "semantic_state": "query-relevant distinctions retained by records plus index semantics",
+        "observable_interface": ["insert(record)", "retrieve(query)", "delete(record_id)"],
+        "equivalence": "equal retrieval fibers and protected responses under the registered update/query sequence",
+        "size_coordinates": ["record_count", "record_bits", "index_nodes"],
+        "serialization": "record schema, records, multiplicities/keys, index contract"
+      }],
+      "native_operators": [
+        {"id": "D2_RETRIEVE", "signature": "Records x Query -> CandidateSet", "preconditions": ["retrieval metric/index declared"], "semantics": "return records admitted by the query relation", "state_effect": "READ_ONLY", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["retrieval_index", "serving_execution", "latency"]},
+        {"id": "D2_INSERT_DELETE", "signature": "Records x Record x Action -> Records", "preconditions": ["record identity declared"], "semantics": "change retained-record membership", "state_effect": "LOCAL_MUTATION", "determinism": "DETERMINISTIC", "exactness": "EXACT", "cost_coordinates": ["update", "memory_storage", "revision_unlearning"]}
+      ],
+      "development_laws": [{"id": "D2_DEVELOP", "signature": "U(records,e,v,E,R)->records'", "evidence_access": ["admitted records"], "verifier_access": ["admission and revision verifier"], "mutable_components": ["records", "index"], "history_effect": "INFORMATION", "stochasticity": "SET_VALUED", "cost_coordinates": ["build_acquisition", "retrieval_index", "revision_unlearning"]}],
+      "strongest_parents": ["databases and indexing", "nearest-neighbor/nonparametric learning", "case-based reasoning and RAG"],
+      "evidence": ["research/machine-intelligence-morphogenesis-v1/GMI_ASSOCIATIVE_MEMORY_THEOREMS_V1.md", "research/gmi-consolidation-lifecycle-repair-v1/CORE.md"],
+      "falsifier": "a D2 classification whose obligation-sufficient state is unchanged when every retained record/index distinction is erased",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    },
+    {
+      "id": "D3",
+      "name": "probabilistic_belief",
+      "definition": "Sufficient cognitive state is an explicit probability law, posterior, or uncertainty-bearing latent structure.",
+      "carriers": [{
+        "id": "D3_MEASURE",
+        "mathematical_object": "normalized or explicitly subnormalized measure over a declared hypothesis/latent space",
+        "semantic_state": "probabilities assigned to protected events and decisions under declared loss",
+        "observable_interface": ["condition(evidence)", "marginal(query)", "sample(seed)"],
+        "equivalence": "almost-sure or support-object equality under the declared observation class and query set",
+        "size_coordinates": ["support_size", "factor_count", "precision_bits", "sample_count"],
+        "serialization": "space, measure representation, normalization/failure convention, precision"
+      }],
+      "native_operators": [
+        {"id": "D3_INFER", "signature": "Measure x Query -> MeasureOrDecision", "preconditions": ["query measurable", "failure convention declared"], "semantics": "marginalize, condition, sample, or decide under belief", "state_effect": "READ_ONLY", "determinism": "SET_VALUED", "exactness": "STATISTICAL_DECLARED", "cost_coordinates": ["serving_execution", "precision", "error_loss"]},
+        {"id": "D3_CONDITION", "signature": "Measure x Evidence -> Measure", "preconditions": ["likelihood/support declared"], "semantics": "update belief by the declared conditioning rule", "state_effect": "GLOBAL_MUTATION", "determinism": "DETERMINISTIC", "exactness": "APPROXIMATE_DECLARED", "cost_coordinates": ["update", "verification", "precision"]}
+      ],
+      "development_laws": [{"id": "D3_DEVELOP", "signature": "U(pi,e,v,E,R)->pi'", "evidence_access": ["declared likelihood/evidence"], "verifier_access": ["calibration or decision verifier"], "mutable_components": ["belief state", "model when separately licensed"], "history_effect": "INFORMATION", "stochasticity": "SET_VALUED", "cost_coordinates": ["training_development", "update", "error_loss"]}],
+      "strongest_parents": ["Bayesian inference and decision theory", "probabilistic programming", "graphical models"],
+      "evidence": ["research/gmi-section-c-learning-laws-v1/GMI_SECTION_C_FORMAL_SPECIALIZATIONS_V1.md", "research/machine-intelligence-morphogenesis-v1/GMI_CANDIDATE_DOMAIN_REDUCTION_THEOREMS_V2.md"],
+      "falsifier": "a purported D3 state whose protected uncertainty/decision behavior is not determined by the declared measure and interpreter",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    },
+    {
+      "id": "D4",
+      "name": "symbolic_rule_program",
+      "definition": "Sufficient cognitive state is discrete compositional syntax: rules, programs, proofs, equations, or constraints.",
+      "carriers": [{
+        "id": "D4_TERM_GRAPH",
+        "mathematical_object": "finite typed term, rule set, proof object, or syntax graph",
+        "semantic_state": "meaning induced by the declared interpreter/rewrite relation",
+        "observable_interface": ["parse_or_read", "evaluate", "rewrite", "verify"],
+        "equivalence": "equal protected semantics and developmental rewrite response, not textual identity",
+        "size_coordinates": ["symbol_count", "rule_count", "term_depth", "interpreter_size"],
+        "serialization": "signature, typed syntax graph, rule ordering, interpreter/version"
+      }],
+      "native_operators": [
+        {"id": "D4_EVALUATE_REWRITE", "signature": "Syntax x InputOrRule -> SyntaxOrOutput", "preconditions": ["typing and operational semantics declared"], "semantics": "apply one legal evaluation or rewrite step", "state_effect": "LOCAL_MUTATION", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["serving_execution", "verification", "latency"]},
+        {"id": "D4_COMPOSE", "signature": "Syntax x Syntax -> Syntax", "preconditions": ["interfaces compose"], "semantics": "construct a typed composite with declared semantics", "state_effect": "GLOBAL_MUTATION", "determinism": "DETERMINISTIC", "exactness": "EXACT", "cost_coordinates": ["build_acquisition", "memory_storage", "verification"]}
+      ],
+      "development_laws": [{"id": "D4_DEVELOP", "signature": "U(syntax,e,v,E,R)->syntax'", "evidence_access": ["examples, constraints, or proof obligations"], "verifier_access": ["type checker, interpreter, proof or task verifier"], "mutable_components": ["syntax graph", "rule set", "library"], "history_effect": "RECODE", "stochasticity": "SET_VALUED", "cost_coordinates": ["search_discovery", "verification", "maintenance"]}],
+      "strongest_parents": ["formal languages and semantics", "term rewriting and production systems", "program synthesis and theorem proving"],
+      "evidence": ["research/machine-intelligence-morphogenesis-v1/GMI_SYMBOLIC_REWRITE_DERIVATION_V1.md", "research/gmi-symbolic-selector-derivation-v1/SYMBOLIC_SELECTOR_DERIVATION_THEOREM_V1.md"],
+      "falsifier": "a D4 classification without a declared compositional syntax and operational semantics",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    },
+    {
+      "id": "D5",
+      "name": "search_deliberative_frontier",
+      "definition": "Sufficient cognitive state includes an evolving frontier of candidate futures, solutions, and verifier results.",
+      "carriers": [{
+        "id": "D5_FRONTIER",
+        "mathematical_object": "finite queue/multiset of candidates with traces, priorities, and verification state",
+        "semantic_state": "reachable candidate set plus selection/expansion history still relevant to future discovery",
+        "observable_interface": ["expand(candidate)", "score(candidate)", "select(frontier)", "verify(candidate)"],
+        "equivalence": "equal future verified discovery distribution/burden under the registered proposal and selection law",
+        "size_coordinates": ["frontier_width", "expanded_nodes", "depth", "verification_count"],
+        "serialization": "candidate encoding, queue order, scores, traces, verifier receipts"
+      }],
+      "native_operators": [
+        {"id": "D5_EXPAND_SELECT", "signature": "Frontier x ProposalLaw x Score -> Frontier", "preconditions": ["proposal support and ordering declared"], "semantics": "generate and retain candidate successors", "state_effect": "GLOBAL_MUTATION", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["search_discovery", "failed_candidate", "verification"]},
+        {"id": "D5_COMMIT", "signature": "Frontier x Verifier -> CandidateOrRefusal", "preconditions": ["admission threshold declared"], "semantics": "return a verified candidate or refuse", "state_effect": "READ_ONLY", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["verification", "latency", "error_loss"]}
+      ],
+      "development_laws": [{"id": "D5_DEVELOP", "signature": "U(frontier,e,v,E,R)->frontier'", "evidence_access": ["candidate evaluations"], "verifier_access": ["task/resource verifier"], "mutable_components": ["frontier", "proposal statistics", "visited set"], "history_effect": "SKILL", "stochasticity": "SET_VALUED", "cost_coordinates": ["search_discovery", "failed_candidate", "training_development"]}],
+      "strongest_parents": ["graph/tree search", "planning and metareasoning", "evolutionary and program search"],
+      "evidence": ["research/gmi-section-e-reachability-v1/RESULTS_AND_PROOF_E1.md", "research/machine-intelligence-morphogenesis-v1/GMI_SEARCH_FRONTIER_DERIVATION_V1.md"],
+      "falsifier": "a D5 claim whose future discovery behavior is independent of the declared frontier/proposal state",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    },
+    {
+      "id": "D6",
+      "name": "dynamical_state_controller",
+      "definition": "Sufficient cognitive state is a temporal state whose iterated evolution is constitutive of computation.",
+      "carriers": [{
+        "id": "D6_DYNAMIC_STATE",
+        "mathematical_object": "typed state z in a finite, discrete, continuous, or hybrid state space with transition law F",
+        "semantic_state": "current state plus transition/readout law determining protected trajectories",
+        "observable_interface": ["step(input)", "readout", "reset"],
+        "equivalence": "bisimulation or protected trace equivalence under registered interventions/horizon",
+        "size_coordinates": ["state_dimension", "precision_bits", "transition_description", "horizon"],
+        "serialization": "state-space type, current state, transition/readout law, clock/reset convention"
+      }],
+      "native_operators": [
+        {"id": "D6_STEP", "signature": "State x Input -> State", "preconditions": ["clock and transition semantics declared"], "semantics": "advance one registered transition", "state_effect": "GLOBAL_MUTATION", "determinism": "SET_VALUED", "exactness": "APPROXIMATE_DECLARED", "cost_coordinates": ["serving_execution", "latency", "precision"]},
+        {"id": "D6_READOUT", "signature": "State -> Output", "preconditions": ["readout law declared"], "semantics": "emit protected observation from current state", "state_effect": "READ_ONLY", "determinism": "DETERMINISTIC", "exactness": "EXACT", "cost_coordinates": ["serving_execution", "error_loss"]}
+      ],
+      "development_laws": [{"id": "D6_DEVELOP", "signature": "U(F,z,e,v,E,R)->(F',z')", "evidence_access": ["trajectories and feedback"], "verifier_access": ["trace/control verifier"], "mutable_components": ["state", "transition parameters when licensed"], "history_effect": "SKILL", "stochasticity": "SET_VALUED", "cost_coordinates": ["training_development", "update", "precision"]}],
+      "strongest_parents": ["automata and dynamical systems", "control and state-space models", "recurrent/reservoir computation"],
+      "evidence": ["research/machine-intelligence-morphogenesis-v1/GMI_FINITE_STATE_DERIVATION_V1.md", "research/machine-intelligence-morphogenesis-v1/GMI_STATE_SPACE_DERIVATION_V1.md"],
+      "falsifier": "a D6 claim where deleting current temporal state leaves every protected future trace unchanged",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    },
+    {
+      "id": "D7",
+      "name": "collective_distributed_population",
+      "definition": "Sufficient cognitive state depends on component states plus their interaction topology/messages and is not localized to one component.",
+      "carriers": [{
+        "id": "D7_DISTRIBUTED_CONFIGURATION",
+        "mathematical_object": "indexed family of component states plus typed communication topology and in-flight messages",
+        "semantic_state": "joint configuration distinctions required for protected collective response",
+        "observable_interface": ["local_step", "send", "receive", "aggregate"],
+        "equivalence": "protected distributed-trace equivalence under scheduler, failures, and communication contract",
+        "size_coordinates": ["component_count", "edge_count", "message_bits", "rounds", "failure_budget"],
+        "serialization": "component states, topology, message queues, scheduler/failure semantics"
+      }],
+      "native_operators": [
+        {"id": "D7_MESSAGE_STEP", "signature": "Configuration x LocalInputs -> Configuration", "preconditions": ["scheduler and channel semantics declared"], "semantics": "perform one local/communication round", "state_effect": "MESSAGE_MUTATION", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["communication", "latency", "energy"]},
+        {"id": "D7_RECONFIGURE", "signature": "Configuration x JoinLeaveFailure -> Configuration", "preconditions": ["membership law declared"], "semantics": "change component membership or interaction topology", "state_effect": "TOPOLOGY_MUTATION", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["update", "communication", "maintenance"]}
+      ],
+      "development_laws": [{"id": "D7_DEVELOP", "signature": "U(config,e,v,E,R)->config'", "evidence_access": ["local evidence and admitted messages"], "verifier_access": ["local/global collective verifier"], "mutable_components": ["component states", "messages", "topology when licensed"], "history_effect": "SKILL", "stochasticity": "SET_VALUED", "cost_coordinates": ["communication", "training_development", "maintenance"]}],
+      "strongest_parents": ["distributed algorithms", "multi-agent systems and games", "population/swarm computation"],
+      "evidence": ["research/machine-intelligence-morphogenesis-v1/GMI_DISTRIBUTED_SUFFICIENT_STATISTIC_THEOREMS_V1.md", "research/machine-intelligence-morphogenesis-v1/GMI_SPECIES_ECOLOGY_V1.md"],
+      "falsifier": "a D7 classification whose protected response admits an equivalent single-component carrier within the accepted burden class",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    },
+    {
+      "id": "D8",
+      "name": "morphogenetic_self_rewriting",
+      "definition": "Architecture, representation family, or update law is itself mutable obligation-relevant cognitive state.",
+      "carriers": [{
+        "id": "D8_MORPHOLOGY_STATE",
+        "mathematical_object": "typed morphology/genotype descriptor plus installed components, interfaces, and developmental law",
+        "semantic_state": "current and reachable future realizations under the registered morphogenesis grammar",
+        "observable_interface": ["inspect_descriptor", "propose_change", "verify_change", "install_or_revert"],
+        "equivalence": "equal protected present response and future morphology/capability reachability with matched burden",
+        "size_coordinates": ["component_count", "interface_count", "grammar_size", "reachable_state_count", "migration_cost"],
+        "serialization": "typed component graph, interface contracts, mutable rules, installed state, rollback point"
+      }],
+      "native_operators": [
+        {"id": "D8_REPLACE", "signature": "Morphology x Address x Component -> Morphology", "preconditions": ["typed interface and verifier declared"], "semantics": "replace one installed component or law and migrate state", "state_effect": "TOPOLOGY_MUTATION", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["search_discovery", "verification", "revision_unlearning", "maintenance"]},
+        {"id": "D8_COMPILE_INSTALL", "signature": "Genotype x Ecology x Resources -> Realization", "preconditions": ["compiler and migration semantics declared"], "semantics": "construct and install a serving realization", "state_effect": "GLOBAL_MUTATION", "determinism": "SET_VALUED", "exactness": "EXACT", "cost_coordinates": ["build_acquisition", "training_development", "failed_candidate"]}
+      ],
+      "development_laws": [{"id": "D8_DEVELOP", "signature": "Gamma(M,U,state,e,v,E,R,H)->(M',U',state',H')", "evidence_access": ["developmental evidence and current receipts"], "verifier_access": ["proposal, regression, safety, and task verifiers"], "mutable_components": ["morphology", "update law", "representation", "installed state"], "history_effect": "MORPH", "stochasticity": "SET_VALUED", "cost_coordinates": ["search_discovery", "failed_candidate", "verification", "maintenance"]}],
+      "strongest_parents": ["self-modifying and reflective systems", "NAS/AutoML and evolutionary computation", "program transformation and open-ended evolution"],
+      "evidence": ["research/gmi-developmental-taxonomy-v1/CORE.md", "research/gmi-section-e-reachability-v1/RESULTS_AND_PROOF_E1.md"],
+      "falsifier": "a D8 claim where morphology/update-law changes can be erased without changing any protected future reachability or burden",
+      "claim_ceiling": "REGISTERED_DOMAIN_SCHEMA_NOT_COMPLETENESS"
+    }
+  ],
+  "cross_domain_reduction_matrix": "REDUCTION_MATRIX_V1.json",
+  "neutral_grammar": "NEUTRAL_DOMAIN_GRAMMAR_V1.json",
+  "protected_receipt_schema": "PROTECTED_DOMAIN_RECEIPT_SCHEMA_V1.json",
+  "global_falsifier": "a registry row missing its sufficient-state carrier, native execution semantics, development law, strongest parent, burden coordinates, or explicit claim ceiling",
+  "global_claim_ceiling": "D1_D8_DOMAIN_INFRASTRUCTURE_REGISTERED_NOT_DOMAIN_BASIS_COMPLETE"
+}

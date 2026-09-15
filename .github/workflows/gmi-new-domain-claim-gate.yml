@@ -1,0 +1,51 @@
+name: GMI new-domain claim gate v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-new-domain-claim-gate-v1/**'
+      - 'research/gmi-domain-registry-v1/**'
+      - 'research/gmi-completeness-attack-v1/**'
+      - '.github/workflows/gmi-new-domain-claim-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-new-domain-claim-gate-v1/**'
+      - 'research/gmi-domain-registry-v1/**'
+      - 'research/gmi-completeness-attack-v1/**'
+      - '.github/workflows/gmi-new-domain-claim-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  claim-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run claim-gate report
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-new-domain-claim-gate-v1/claim_gate_v1.py
+      - name: Run claim-gate tests
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-new-domain-claim-gate-v1/test_claim_gate_v1.py -v

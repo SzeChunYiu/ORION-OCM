@@ -1,0 +1,118 @@
+{
+  "schema": "GMI_J2_ATTACK_LEDGER_V1",
+  "issue": 602,
+  "section": "J2",
+  "related_issues": [592],
+  "capsule": "research/gmi-completeness-attack-v1",
+  "burden_class": "E1_CONSTANT_FACTOR",
+  "frozen_burden": {
+    "D1": 8,
+    "D2": 8,
+    "D3": 8,
+    "D4": 8,
+    "D5": 8,
+    "D6": 8,
+    "D7": 8,
+    "D8": 4
+  },
+  "boxes": [
+    {
+      "id": "J2.D1",
+      "text": "Search for obligations no D1 realization meets within frozen burden bounds.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D1'); alone_coverage=8/161"
+    },
+    {
+      "id": "J2.D2",
+      "text": "Repeat for D2.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D2'); alone_coverage=8/161"
+    },
+    {
+      "id": "J2.D3",
+      "text": "Repeat for D3.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D3'); alone_coverage=8/161"
+    },
+    {
+      "id": "J2.D4",
+      "text": "Repeat for D4.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D4'); alone_coverage=8/161"
+    },
+    {
+      "id": "J2.D5",
+      "text": "Repeat for D5.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D5'); alone_coverage=8/161"
+    },
+    {
+      "id": "J2.D6",
+      "text": "Repeat for D6.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D6'); alone_coverage=8/161"
+    },
+    {
+      "id": "J2.D7",
+      "text": "Repeat for D7.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D7'); alone_coverage=8/161"
+    },
+    {
+      "id": "J2.D8",
+      "text": "Repeat for D8.",
+      "status": "GREEN",
+      "evidence": "first_unmet_witness('D8'); alone_coverage=4/161"
+    },
+    {
+      "id": "J2.PAIR",
+      "text": "Search for pairwise reduction failures.",
+      "status": "GREEN",
+      "evidence": "pairwise_reduction_failures count=28 (PAIR_FAIL_*)"
+    },
+    {
+      "id": "J2.HIGHER",
+      "text": "Search for higher-order combinations not captured by simple composition.",
+      "status": "GREEN",
+      "evidence": "higher_order_uncaptured_obligations count=9"
+    },
+    {
+      "id": "J2.BOUNDED",
+      "text": "Prove bounded completeness where possible.",
+      "status": "GREEN",
+      "evidence": "prove_bounded_completeness_atomic -> 60/60 = 1 on ATOMIC∩budget"
+    },
+    {
+      "id": "J2.OPEN",
+      "text": "Otherwise record explicit open regions rather than global completeness.",
+      "status": "GREEN",
+      "evidence": "open_region_fraction=73/161; already checked on issue; reinforced here"
+    }
+  ],
+  "coverage_fractions": {
+    "alone_D1": "8/161",
+    "alone_D2": "8/161",
+    "alone_D3": "8/161",
+    "alone_D4": "8/161",
+    "alone_D5": "8/161",
+    "alone_D6": "8/161",
+    "alone_D7": "8/161",
+    "alone_D8": "4/161",
+    "union": "88/161",
+    "open_regions": "73/161",
+    "bounded_atomic": "60/60"
+  },
+  "honest_tick_summary": {
+    "tickable_now": [
+      "J2.D1", "J2.D2", "J2.D3", "J2.D4",
+      "J2.D5", "J2.D6", "J2.D7", "J2.D8",
+      "J2.PAIR", "J2.HIGHER", "J2.BOUNDED"
+    ],
+    "already_ticked": ["J2.OPEN"],
+    "not_claimed": [
+      "ontological completeness",
+      "E2/E3 burden closure",
+      "richer-than-product joint operators"
+    ]
+  }
+}
