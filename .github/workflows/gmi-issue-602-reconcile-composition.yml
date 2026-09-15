@@ -1,0 +1,58 @@
+name: gmi-issue-602-reconcile-composition
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_M_COMPOSITION_V1.json'
+      - 'research/gmi-grand-unification-v1/reconcile_issue_602_v1.py'
+      - '.github/workflows/gmi-issue-602-reconcile-composition.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_M_COMPOSITION_V1.json'
+      - '.github/workflows/gmi-issue-602-reconcile-composition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate supplemental reconciliation spec
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import importlib.util
+          from pathlib import Path
+          root = Path('.')
+          path = root / 'research/gmi-grand-unification-v1/reconcile_issue_602_v1.py'
+          spec = importlib.util.spec_from_file_location('reconcile602', path)
+          mod = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+          cfg = mod.load_spec(root / 'research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_M_COMPOSITION_V1.json')
+          assert cfg['parent_issue'] == 602
+          assert len(cfg['replacements']) == 1
+          assert cfg['must_remain_open'] == ['- [ ] Calibrate capability-prediction uncertainty.']
+          PY
+      - name: Apply to issue 602 after merge
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_M_COMPOSITION_V1.json \
+            --apply \
+            --repo "$GITHUB_REPOSITORY" \
+            --issue 602 \
+            --token "$GITHUB_TOKEN" \
+            --allow-already-applied
