@@ -1,0 +1,51 @@
+{
+  "schema": "GMI_602_B14_SELECTOR_DERIVATION_LEDGER_V1",
+  "issue": 602,
+  "section": "B14",
+  "row": "Derive rule/rewrite operators from generic transformations",
+  "status": "GREEN_AT_REGISTERED_FINITE_AND_FORMAL_SCOPE",
+  "evidence_classes": ["P1", "P2"],
+  "formal_result": "For any finite obligation and fixed emitter repertoire, exact instruction synthesis is the minimum sound-selector cover problem; a selector-emitter rule is derived precisely when it is sound on its selected fiber and selected by the registered lifecycle order.",
+  "finite_certificate": {
+    "arity": 3,
+    "domain_size": 8,
+    "selector_family_sizes": {"positional": 27, "equality": 11, "arbitrary_subset": 255},
+    "xor_minimum_rules": {"positional": 3, "equality": 2, "arbitrary_subset": 2},
+    "mux_minimum_rules": {"positional": 2, "equality": 3, "arbitrary_subset": 2},
+    "arbitrary_subset_two_rule_selector_bits": 16
+  },
+  "strongest_parents": [
+    "exact set cover",
+    "decision lists and rule learning",
+    "production/rewrite systems",
+    "discrimination networks and pattern matching"
+  ],
+  "falsifiers": [
+    "a reported minimum is beaten by a legal sound cover",
+    "a retained rule disagrees with the obligation on any selected input",
+    "the XOR and MUX matched twins do not reverse the positional/equality rule-count ordering",
+    "arbitrary subset masks are treated as free rather than table-sized descriptions"
+  ],
+  "claim_ceiling": "SELECTOR_PLUS_EMITTER_REWRITE_OPERATOR_DERIVED_AT_REGISTERED_SCOPE",
+  "issue_602_reconciliation": {
+    "artifact": "ISSUE_602_FORMAL_RECONCILIATION_V1.md",
+    "verified_rows": [
+      "B14 rule/rewrite operators from generic transformations",
+      "B20 heterogeneous solvers versus one monolith",
+      "B20 routing cost and verification cost",
+      "I5 observational alias condition",
+      "I5 causal parent subtraction",
+      "P0 finish causal cognition"
+    ],
+    "verified_row_count": 6,
+    "existing_checked_rows_crossvalidated": 5,
+    "new_live_checkbox_authorized_after_merge_and_ci": "P0 finish causal cognition",
+    "stale_annotation_to_replace_after_merge_and_ci": "B14 rule/rewrite operators from generic transformations",
+    "adjacent_open_rows_preserved": true
+  },
+  "forbidden_claims": [
+    "UNIVERSAL_BEST_SELECTOR_LANGUAGE",
+    "UNBOUNDED_EMPIRICAL_REWRITE_RECOVERY",
+    "NEW_SYMBOLIC_DOMAIN"
+  ]
+}
