@@ -35,7 +35,7 @@ Independent local reconstruction of the hardened delta produced:
 40/40 tests GREEN — python -O
 ```
 
-The deterministic `RESULT_V1.json` content is unchanged by the custody hardening. Repository CI remains authoritative: it must verify the original pre-implementation freeze ancestry, run both normal/optimized suites, reproduce the committed result byte-for-byte, and reproduce the dependence certificate byte-for-byte.
+The deterministic `RESULT_V1.json` content is unchanged by the custody hardening. Because #749 was squash-merged, the original freeze commit is not expected to remain an ancestor of current `main`. Repository CI therefore verifies the immutable pre-implementation freeze object directly: the commit must exist, its commit diff must contain only `FREEZE_V1.md`, the current merged freeze file must be byte-identical to that original blob, and implementation/result artifacts must be absent at the freeze commit. CI must then run both normal/optimized suites and reproduce both committed certificates byte-for-byte.
 
 ## Claim ceiling unchanged
 
