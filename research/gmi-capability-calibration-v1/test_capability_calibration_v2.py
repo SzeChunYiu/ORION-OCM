@@ -49,10 +49,14 @@ class V1ProtocolFailureTests(unittest.TestCase):
         expected = json.loads((HERE / "V1_PREOUTCOME_CENSUS.json").read_text())
         actual = V1.build_census()
         self.assertEqual(actual, expected)
-        self.assertFalse(actual["oracle_outcomes_read"])
+        self.assertFalse(actual["oracle_outcomes_read_by_census"])
+        self.assertTrue(actual["sample_manifest_exists"])
+        self.assertTrue(actual["sample_manifest_outcome_free"])
+        self.assertFalse(actual["sample_manifest_is_valid_under_frozen_determinate_rule"])
         for row in actual["targets"].values():
             self.assertEqual(row["determinate"], 10)
-            self.assertFalse(row["sample_possible"])
+            self.assertFalse(row["determinate_sample_possible"])
+            self.assertEqual(row["minimum_abstentions_in_any_64_cell_sample"], 54)
 
 
 class V2PopulationAndCustodyTests(unittest.TestCase):
