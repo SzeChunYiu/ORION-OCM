@@ -35,9 +35,16 @@ jobs:
         run: |
           set -euo pipefail
           FREEZE=041bb8950ebeed94b8b258e7ad23258df19eec1c
-          git merge-base --is-ancestor "$FREEZE" HEAD
+          FREEZE_PATH=research/gmi-developmental-uncertainty-transport-v1/FREEZE_V1.md
+          # #749 was squash-merged, so the original freeze commit is no longer an
+          # ancestor of main. Verify the immutable freeze object directly instead:
+          # it exists, changed only the freeze file, contained no implementation or
+          # result, and the currently merged freeze file is byte-identical to it.
+          git cat-file -e "$FREEZE^{commit}"
           changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
-          test "$changed" = "research/gmi-developmental-uncertainty-transport-v1/FREEZE_V1.md"
+          test "$changed" = "$FREEZE_PATH"
+          git show "$FREEZE:$FREEZE_PATH" > /tmp/FREEZE_V1.md
+          cmp /tmp/FREEZE_V1.md "$FREEZE_PATH"
           if git cat-file -e "$FREEZE:research/gmi-developmental-uncertainty-transport-v1/developmental_uncertainty_transport_v1.py" 2>/dev/null; then
             echo 'implementation existed in freeze commit' >&2
             exit 1
