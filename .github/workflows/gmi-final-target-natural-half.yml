@@ -1,0 +1,40 @@
+name: GMI final-target natural half V1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-final-target-natural-half-v1/**'
+      - '.github/workflows/gmi-final-target-natural-half.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-final-target-natural-half-v1/**'
+      - '.github/workflows/gmi-final-target-natural-half.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  natural-half:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run natural-half composition tests
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-final-target-natural-half-v1/test_natural_half_v1.py -v
+          python "${args[@]}" research/gmi-final-target-natural-half-v1/natural_half_v1.py
