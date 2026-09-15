@@ -1,0 +1,420 @@
+{
+  "aggregate": {
+    "abstention_cells": 8,
+    "abstentions_excluded_from_accuracy": true,
+    "determinate_accuracy": "40/40",
+    "determinate_cells": 40,
+    "determinate_correct": 40,
+    "main_direct_deficits": {
+      "A0": [
+        "memory_exact",
+        "planning_exact"
+      ],
+      "D0": [
+        "coordination_exact"
+      ],
+      "R0": [
+        "verified_tool_exact"
+      ]
+    },
+    "safe_controls_all_ones": true,
+    "total_cells": 48
+  },
+  "axis_order": [
+    "memory_margin",
+    "planning_margin",
+    "communication_margin",
+    "routing_margin",
+    "verification_margin"
+  ],
+  "capability_order": [
+    "memory_exact",
+    "planning_exact",
+    "coordination_exact",
+    "verified_tool_exact"
+  ],
+  "cases": [
+    {
+      "abstention_cells": 2,
+      "case_id": "A0",
+      "determinate_cells": 6,
+      "determinate_correct": 6,
+      "direct_deficit_set": [
+        "memory_exact",
+        "planning_exact"
+      ],
+      "kind": "ablation",
+      "oracle": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 0,
+          "planning_exact": 0,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "post_abstention_set": [
+        "coordination_exact",
+        "verified_tool_exact"
+      ],
+      "pre_point": {
+        "communication_margin": 0,
+        "memory_margin": 2,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "predictor": {
+        "post": {
+          "coordination_exact": "CANNOT_IDENTIFY",
+          "memory_exact": 0,
+          "planning_exact": 0,
+          "verified_tool_exact": "CANNOT_IDENTIFY"
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "reconstructed_post_point": {
+        "communication_margin": 0,
+        "memory_margin": -2,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "safe_control": false,
+      "transform": {
+        "after": -2,
+        "axis": "memory_margin"
+      }
+    },
+    {
+      "abstention_cells": 0,
+      "case_id": "A1",
+      "determinate_cells": 8,
+      "determinate_correct": 8,
+      "direct_deficit_set": [],
+      "kind": "ablation",
+      "oracle": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "post_abstention_set": [],
+      "pre_point": {
+        "communication_margin": 0,
+        "memory_margin": 3,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "predictor": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "reconstructed_post_point": {
+        "communication_margin": 0,
+        "memory_margin": 2,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "safe_control": true,
+      "transform": {
+        "after": 2,
+        "axis": "memory_margin"
+      }
+    },
+    {
+      "abstention_cells": 3,
+      "case_id": "R0",
+      "determinate_cells": 5,
+      "determinate_correct": 5,
+      "direct_deficit_set": [
+        "verified_tool_exact"
+      ],
+      "kind": "repricing",
+      "oracle": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 0
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "post_abstention_set": [
+        "memory_exact",
+        "planning_exact",
+        "coordination_exact"
+      ],
+      "pre_point": {
+        "communication_margin": 0,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 2,
+        "verification_margin": 0
+      },
+      "predictor": {
+        "post": {
+          "coordination_exact": "CANNOT_IDENTIFY",
+          "memory_exact": "CANNOT_IDENTIFY",
+          "planning_exact": "CANNOT_IDENTIFY",
+          "verified_tool_exact": 0
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "reconstructed_post_point": {
+        "communication_margin": 0,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": -2,
+        "verification_margin": 0
+      },
+      "safe_control": false,
+      "transform": {
+        "budget": 5,
+        "demand": 1,
+        "price_after": 7,
+        "price_before": 3
+      }
+    },
+    {
+      "abstention_cells": 0,
+      "case_id": "R1",
+      "determinate_cells": 8,
+      "determinate_correct": 8,
+      "direct_deficit_set": [],
+      "kind": "repricing",
+      "oracle": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "post_abstention_set": [],
+      "pre_point": {
+        "communication_margin": 0,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 3,
+        "verification_margin": 0
+      },
+      "predictor": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "reconstructed_post_point": {
+        "communication_margin": 0,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 2,
+        "verification_margin": 0
+      },
+      "safe_control": true,
+      "transform": {
+        "budget": 5,
+        "demand": 1,
+        "price_after": 3,
+        "price_before": 2
+      }
+    },
+    {
+      "abstention_cells": 3,
+      "case_id": "D0",
+      "determinate_cells": 5,
+      "determinate_correct": 5,
+      "direct_deficit_set": [
+        "coordination_exact"
+      ],
+      "kind": "drift",
+      "oracle": {
+        "post": {
+          "coordination_exact": 0,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "post_abstention_set": [
+        "memory_exact",
+        "planning_exact",
+        "verified_tool_exact"
+      ],
+      "pre_point": {
+        "communication_margin": 2,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "predictor": {
+        "post": {
+          "coordination_exact": 0,
+          "memory_exact": "CANNOT_IDENTIFY",
+          "planning_exact": "CANNOT_IDENTIFY",
+          "verified_tool_exact": "CANNOT_IDENTIFY"
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "reconstructed_post_point": {
+        "communication_margin": -2,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "safe_control": false,
+      "transform": {
+        "shock": 4
+      }
+    },
+    {
+      "abstention_cells": 0,
+      "case_id": "D1",
+      "determinate_cells": 8,
+      "determinate_correct": 8,
+      "direct_deficit_set": [],
+      "kind": "drift",
+      "oracle": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "post_abstention_set": [],
+      "pre_point": {
+        "communication_margin": 3,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "predictor": {
+        "post": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        },
+        "pre": {
+          "coordination_exact": 1,
+          "memory_exact": 1,
+          "planning_exact": 1,
+          "verified_tool_exact": 1
+        }
+      },
+      "reconstructed_post_point": {
+        "communication_margin": 2,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "safe_control": true,
+      "transform": {
+        "shock": 1
+      }
+    }
+  ],
+  "claim_ceiling": "PROSPECTIVE_CAPABILITY_PERTURBATIONS_VALIDATED_AT_REGISTERED_SYNTHETIC_SCOPE",
+  "development_grid": "{-1,0,1}^5",
+  "forbidden_claims": [
+    "UNIVERSAL_CAPABILITY_PREDICTOR",
+    "REAL_WORLD_PERTURBATION_CALIBRATION",
+    "CAUSAL_EFFECT_IDENTIFIED_OUTSIDE_REGISTERED_ORACLE",
+    "G6_UNIVERSAL",
+    "COMPLETE_GMI"
+  ],
+  "freeze_commit": "ee62a2ae888ebddbc925972bc149468884e24ba5",
+  "hostiles": {
+    "abstention_laundering": "PASS_FAIL_CLOSED",
+    "development_grid_substitution": "PASS_FAIL_CLOSED",
+    "drift_arithmetic_mutation": "PASS_FAIL_CLOSED",
+    "expected_oracle_mutation": "PASS_FAIL_CLOSED",
+    "predictor_source_drift": "PASS_FAIL_CLOSED",
+    "repricing_arithmetic_mutation": "PASS_FAIL_CLOSED",
+    "safe_control_sensitivity": "PASS_FAIL_CLOSED"
+  },
+  "issue": 784,
+  "parent_issue": 602,
+  "pinned_predictor": {
+    "git_blob": "937b91f6a3787ff04c2b5209c81d249518406859",
+    "path": "gmi-capability-predictor-dev-v1/dev_predictor_v1.py"
+  },
+  "schema": "GMI_PROSPECTIVE_CAPABILITY_PERTURBATIONS_V1"
+}
