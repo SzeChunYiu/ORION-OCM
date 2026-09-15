@@ -1,4 +1,4 @@
-name: Temporary reconcile four earned 602 rows
+name: Temporary reconcile earned 602 rows
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
   reconcile:
     runs-on: ubuntu-latest
     steps:
-      - name: Tick exactly four earned rows
+      - name: Tick exact earned rows
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
@@ -35,29 +35,22 @@ jobs:
               ('Predict failure modes before testing.', '- [x] Predict failure modes before testing. — ✅ #682 froze held-family deficit predictions before outcomes (`communication`, `planning`, `routing`, `state`, `verification` failures plus allowed abstentions); #683 scored the immutable freeze with an independent oracle, 20/20 determinate cells correct.'),
               ('Demonstrate history improves unseen-task acquisition, not merely solution reuse.', '- [x] Demonstrate history improves unseen-task acquisition, not merely solution reuse. — ✅ #356: every protected target was disjoint from developmental history; `LIBRARY_ONLY == RESET`, shuffled history was worse than reset, and inherited history reduced verified acquisition burden across fresh worlds/hosts.'),
               ('Construct negative-transfer worlds.', '- [x] Construct negative-transfer worlds. — ✅ #237 HST negative-transfer hostile: exact two-ecology counterexample with disjoint admissible sets; ERM trained on one ecology has target-ecology risk 1 versus flat prior 1/2 (excess +1/2).'),
+              ('Held-out prediction of which learning law should dominate a new ecology.', '- [x] Held-out prediction of which learning law should dominate a new ecology. — ✅ `DEFERRED_PREDICTIONS_V1.md` froze three disjoint ecologies unevaluated on merged main; later `DEFERRED_EXECUTION_V1.md` parsed the frozen table and all 3/3 held (`MIRROR_DESCENT`, `BAYES_UPDATE`, `ORDINAL_HILL_CLIMB`). Scope is exact finite analytic charges, not real-machine cost.'),
           ]
-          lines=body.splitlines()
-          changed=0
+          lines=body.splitlines(); changed=0
           for label,newline in targets:
               hits=[i for i,line in enumerate(lines) if line.startswith('- [') and label in line]
-              if len(hits)!=1:
-                  raise SystemExit(f'FAIL_CLOSED {label!r} matches={len(hits)}')
+              if len(hits)!=1: raise SystemExit(f'FAIL_CLOSED {label!r} matches={len(hits)}')
               i=hits[0]
-              if lines[i].startswith('- [x]'):
-                  continue
-              if not lines[i].startswith('- [ ]'):
-                  raise SystemExit(f'FAIL_CLOSED unexpected state: {lines[i]}')
+              if lines[i].startswith('- [x]'): continue
+              if not lines[i].startswith('- [ ]'): raise SystemExit(f'FAIL_CLOSED unexpected state: {lines[i]}')
               lines[i]=newline; changed+=1
           if changed:
-              newbody='\n'.join(lines)
-              if body.endswith('\n'): newbody+='\n'
-              updated=request('PATCH',{'body':newbody})
-              check=updated.get('body') or ''
-          else:
-              check=body
+              newbody='\n'.join(lines)+( '\n' if body.endswith('\n') else '' )
+              check=(request('PATCH',{'body':newbody}).get('body') or '')
+          else: check=body
           for label,_ in targets:
-              hits=[line for line in check.splitlines() if line.startswith('- [x]') and label in line]
-              if len(hits)!=1:
+              if len([line for line in check.splitlines() if line.startswith('- [x]') and label in line])!=1:
                   raise SystemExit(f'post-write verification failed for {label}')
           print(f'RECONCILED_602_ROWS_CHANGED={changed}')
           PY
