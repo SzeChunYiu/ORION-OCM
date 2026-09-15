@@ -1,0 +1,432 @@
+{
+  "all_remaining_protocol_boxes_green": true,
+  "artifact": "GMI_B1_DERIVATION_PROTOCOL_V2",
+  "boxes": {
+    "B1_01_obligation_state": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "labels": null,
+            "n_need": 2
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "labels": null,
+            "n_need": 2
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "labels": null,
+            "n_need": 2
+          },
+          "ok": true
+        }
+      },
+      "text": "obligation-sufficient state identified without family labels.",
+      "tick": true
+    },
+    "B1_02_info_lower_bound": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "lower_bound": 2
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "lower_bound": 2
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "lower_bound": 2
+          },
+          "ok": true
+        }
+      },
+      "text": "information/state lower bound proved or bounded.",
+      "tick": true
+    },
+    "B1_03_constructive_upper": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "machine": [
+              "STORE",
+              "QUERY"
+            ]
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "machine": [
+              "ROUTE",
+              "UPDATE"
+            ]
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "machine": [
+              "UPDATE",
+              "STORE"
+            ]
+          },
+          "ok": true
+        }
+      },
+      "text": "constructive realization upper bound built.",
+      "tick": true
+    },
+    "B1_04_native_complexity": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "coord": "desc_len",
+            "value": 2
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "coord": "desc_len",
+            "value": 2
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "coord": "desc_len",
+            "value": 2
+          },
+          "ok": true
+        }
+      },
+      "text": "native complexity coordinate identified.",
+      "tick": true
+    },
+    "B1_05_lifecycle_law": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "acquire": 2,
+            "law": "total = acquire + R*serve",
+            "serve": 1
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "acquire": 2,
+            "law": "total = acquire + R*serve",
+            "serve": 1
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "acquire": 2,
+            "law": "total = acquire + R*serve",
+            "serve": 1
+          },
+          "ok": true
+        }
+      },
+      "text": "lifecycle/resource law derived.",
+      "tick": true
+    },
+    "B1_06_parent_first_refusal": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "machine_cost": 4,
+            "parent": "flat_table",
+            "parent_cost": 5,
+            "refused": true
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "machine_cost": 3,
+            "parent": "fixed_source",
+            "parent_cost": 4,
+            "refused": true
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "machine_cost": 5,
+            "parent": "batch_recompute",
+            "parent_cost": 6,
+            "refused": true
+          },
+          "ok": true
+        }
+      },
+      "text": "strongest parent receives first refusal.",
+      "tick": true
+    },
+    "B1_07_preoutcome_descriptor": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "descriptor": "mask:STORE/QUERY",
+            "frozen_before_search": true
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "descriptor": "mask:ROUTE/UPDATE",
+            "frozen_before_search": true
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "descriptor": "mask:UPDATE/STORE",
+            "frozen_before_search": true
+          },
+          "ok": true
+        }
+      },
+      "text": "pre-outcome descriptor frozen.",
+      "tick": true
+    },
+    "B1_08_crossover_freeze": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "R_star": 4,
+            "prediction": "machine dominates parent iff R>=4"
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "R_star": 3,
+            "prediction": "machine dominates parent iff R>=3"
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "R_star": 5,
+            "prediction": "machine dominates parent iff R>=5"
+          },
+          "ok": true
+        }
+      },
+      "text": "quantitative crossover/impossibility prediction frozen.",
+      "tick": true
+    },
+    "B1_09_neutral_grammar": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "expressible": true
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "expressible": true
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "expressible": true
+          },
+          "ok": true
+        }
+      },
+      "text": "neutral grammar can express the target without named macros.",
+      "tick": true
+    },
+    "B1_10_neutral_search": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "found": true,
+            "hidden_family": true,
+            "winners": [
+              [
+                "STORE",
+                "QUERY"
+              ]
+            ]
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "found": true,
+            "hidden_family": true,
+            "winners": [
+              [
+                "ROUTE",
+                "UPDATE"
+              ]
+            ]
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "found": true,
+            "hidden_family": true,
+            "winners": [
+              [
+                "STORE",
+                "UPDATE"
+              ]
+            ]
+          },
+          "ok": true
+        }
+      },
+      "text": "neutral search run with family identity hidden.",
+      "tick": true
+    },
+    "B1_11_phenotype_after_search": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "classified_after_search": true,
+            "mask": [
+              "STORE",
+              "QUERY"
+            ],
+            "phenotype": "exact_need_mask",
+            "used_family_label": false
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "classified_after_search": true,
+            "mask": [
+              "ROUTE",
+              "UPDATE"
+            ],
+            "phenotype": "exact_need_mask",
+            "used_family_label": false
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "classified_after_search": true,
+            "mask": [
+              "STORE",
+              "UPDATE"
+            ],
+            "phenotype": "exact_need_mask",
+            "used_family_label": false
+          },
+          "ok": true
+        }
+      },
+      "text": "phenotype classified only after search.",
+      "tick": true
+    },
+    "B1_12_remint_replication": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "remint_need": [
+              "EROTS",
+              "YREUQ"
+            ],
+            "replicated": true
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "remint_need": [
+              "ETUOR",
+              "ETADPU"
+            ],
+            "replicated": true
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "remint_need": [
+              "ETADPU",
+              "EROTS"
+            ],
+            "replicated": true
+          },
+          "ok": true
+        }
+      },
+      "text": "disjoint remint/encoding replication.",
+      "tick": true
+    },
+    "B1_13_real_regime": {
+      "targets": {
+        "T_mem": {
+          "evidence": {
+            "applicable": false,
+            "tick": true,
+            "typed_skip": "EXACT_FINITE_PANEL__REAL_REGIME_NOT_REQUIRED"
+          },
+          "ok": true
+        },
+        "T_route": {
+          "evidence": {
+            "applicable": false,
+            "tick": true,
+            "typed_skip": "EXACT_FINITE_PANEL__REAL_REGIME_NOT_REQUIRED"
+          },
+          "ok": true
+        },
+        "T_update": {
+          "evidence": {
+            "applicable": false,
+            "tick": true,
+            "typed_skip": "EXACT_FINITE_PANEL__REAL_REGIME_NOT_REQUIRED"
+          },
+          "ok": true
+        }
+      },
+      "text": "real-regime replication where appropriate.",
+      "tick": true
+    }
+  },
+  "claim_ceiling": "REGISTERED_FINITE_THREE_TARGET_PANEL",
+  "forbidden": [
+    "ALL_FAMILY_PROSPECTIVE_PREDICTION",
+    "REAL_REGIME_UNIVERSAL_CLAIM"
+  ],
+  "issue_refs": [
+    "#602"
+  ],
+  "matched_negative_prior_green": true,
+  "n_open_boxes_closed": 13,
+  "prior_ticks": {
+    "B1_00_matched_negative": {
+      "evidence": "research/gmi-b1-matched-negatives-v1",
+      "prior": true,
+      "text": "matched negative twin constructed.",
+      "tick": true
+    }
+  },
+  "schema": "GMIB1DerivationProtocolReceiptV2",
+  "section": "B1",
+  "terminal": "B1_COMMON_DERIVATION_PROTOCOL_GREEN_AT_REGISTERED_FINITE_PANEL_SCOPE"
+}
