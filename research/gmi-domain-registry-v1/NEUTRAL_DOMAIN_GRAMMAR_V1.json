@@ -1,0 +1,39 @@
+{
+  "schema": "GMI_NEUTRAL_DOMAIN_GRAMMAR_V1",
+  "scope": "finite typed carrier/operator construction; symbols are low-level mathematical constructors, not domain identities",
+  "carrier_constructors": [
+    {"symbol": "SCALAR", "arity": 1, "type": "Type -> Carrier"},
+    {"symbol": "VECTOR", "arity": 2, "type": "Nat x Type -> Carrier"},
+    {"symbol": "FINITE_MAP", "arity": 2, "type": "Type x Type -> Carrier"},
+    {"symbol": "SEQUENCE", "arity": 1, "type": "Type -> Carrier"},
+    {"symbol": "MULTISET", "arity": 1, "type": "Type -> Carrier"},
+    {"symbol": "PRODUCT", "arity": 2, "type": "Carrier x Carrier -> Carrier"},
+    {"symbol": "SUM", "arity": 2, "type": "Carrier x Carrier -> Carrier"},
+    {"symbol": "GRAPH", "arity": 2, "type": "VertexType x EdgeType -> Carrier"},
+    {"symbol": "MEASURE", "arity": 1, "type": "Type -> Carrier"},
+    {"symbol": "TERM", "arity": 1, "type": "Signature -> Carrier"},
+    {"symbol": "QUEUE", "arity": 1, "type": "Type -> Carrier"},
+    {"symbol": "INDEXED_FAMILY", "arity": 2, "type": "IndexType x Carrier -> Carrier"}
+  ],
+  "operator_constructors": [
+    {"symbol": "READ", "signature": "Carrier x Key -> Value"},
+    {"symbol": "WRITE", "signature": "Carrier x Key x Value -> Carrier"},
+    {"symbol": "APPLY", "signature": "Map x Input -> Output"},
+    {"symbol": "COMPOSE", "signature": "Map x Map -> Map"},
+    {"symbol": "STEP", "signature": "State x Input -> State"},
+    {"symbol": "SCORE", "signature": "Candidate x Evidence -> Score"},
+    {"symbol": "CHOOSE", "signature": "FiniteSet x Score -> Element"},
+    {"symbol": "NORMALIZE", "signature": "NonnegativeMeasure -> Measure"},
+    {"symbol": "SAMPLE", "signature": "Measure x Seed -> Value"},
+    {"symbol": "TRANSFORM", "signature": "Term x Rule -> Term"},
+    {"symbol": "SEND", "signature": "Node x Node x Message -> Event"},
+    {"symbol": "REPLACE_COMPONENT", "signature": "Composite x Address x Component -> Composite"}
+  ],
+  "forbidden_symbol_substrings": [
+    "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8",
+    "NEURAL", "BAYES", "MEMORY", "SEARCH", "PROGRAM", "MORPHOGENETIC",
+    "TRANSFORMER", "SOLVER", "DOMAIN"
+  ],
+  "classification_rule": "Search and execution see only typed symbols, costs, and protected outcomes. Domain labels are assigned after construction from carrier/operator semantics.",
+  "claim_boundary": "Expressibility by this grammar is not neutral recovery, reachability, or evidence that D1-D8 are complete."
+}

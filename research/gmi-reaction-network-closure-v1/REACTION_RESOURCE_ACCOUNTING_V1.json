@@ -1,0 +1,33 @@
+{
+  "schema": "GMI_REACTION_RESOURCE_ACCOUNTING_V1",
+  "coordinates": [
+    "species_count",
+    "reaction_count",
+    "molecule_count_or_concentration_precision",
+    "rate_constant_precision_bits",
+    "state_preparation",
+    "event_count",
+    "random_bits",
+    "simulation_error",
+    "time_horizon",
+    "readout",
+    "latency",
+    "wall_time",
+    "physical_volume",
+    "temperature",
+    "energy",
+    "waste_and_reset"
+  ],
+  "native_event": {
+    "logical_work": "one reaction firing plus clock advance",
+    "physical_requirements": "volume, temperature, mixing, molecule supply, sensing/readout, waste/reset and measured energy must be reported",
+    "forbidden_free_advantage": "parallel molecular firings, state preparation, and readout are never assigned zero cost"
+  },
+  "digital_ctmc": {
+    "state_count_bound": "product_i (bound_i + 1)",
+    "generator_construction": "O(number_of_states * number_of_reactions) propensity/validity evaluations",
+    "event_simulation": "O(number_of_reactions) rate work plus declared sampler, precision, and error",
+    "exactness": "exact for rational generator/event-choice algebra; waiting-time/sample realization inherits the declared real-number/randomness instrument"
+  },
+  "claim_boundary": "No physical speed, energy, latency, or precision separation is inferred from logical event counts."
+}
