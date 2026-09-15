@@ -1,0 +1,59 @@
+name: GMI issue 602 Section U reconciliation
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_U2_V1.json"
+      - ".github/workflows/gmi-issue-602-u2-reconciliation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_U2_V1.json"
+      - ".github/workflows/gmi-issue-602-u2-reconciliation.yml"
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply only the registered Section U transitions to issue #602"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  reconcile-u2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check live Section U preconditions on pull requests
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode check --repository "${GITHUB_REPOSITORY}" \
+            --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_U2_V1.json
+      - name: Apply exact Section U transitions after merge
+        if: github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode apply --repository "${GITHUB_REPOSITORY}" \
+            --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_U2_V1.json
+      - name: Manual check/apply
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          mode=check
+          if [ "$APPLY" = "true" ]; then mode=apply; fi
+          python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
+            --mode "$mode" --repository "${GITHUB_REPOSITORY}" \
+            --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_U2_V1.json
