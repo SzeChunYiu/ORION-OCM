@@ -36,7 +36,21 @@ Let the development corpus be a finite set of pairs `(x, y)` ordered componentwi
 
 The first two witnesses cannot coexist in a monotone corpus: if `x+ <= z <= x-`, transitivity gives `x+ <= x-`, contradicting `y(x+)=1 > 0=y(x-)`.
 
-This gives a logical calibration of abstention, not a probability calibration. The executable control exhausts the probe grid `{-2,0,2}^5` (243 points × 4 targets = 972 cells), checks that the independently reconstructed witness certificate equals the frozen predictor output in every cell, and checks every determinate output against the exact capability oracle. An explicit mixed-extreme query `(memory=2, planning=-2, others=0)` has neither planning witness and therefore must abstain even though the hidden oracle is 0.
+This gives logical calibration of abstention, not probability calibration.
+
+### Exhaustive calibration receipt
+
+The strengthened executable control exhausts the complete integer lattice `[-2,2]^5`: `5^5 = 3125` query points and four targets per point, for exactly `12,500` point-target cells. It obtains:
+
+- `5,248` determinate cells;
+- `7,252` explicit abstentions;
+- `0` determinate disagreements with the independent exact capability oracle.
+
+Thus, on this registered probe domain, selective prediction is sound wherever it speaks. Coverage is reported separately rather than hiding abstention inside accuracy. The older sparse `{-2,0,2}^5` probe remains as a regression subset.
+
+## Strict-domain lemma
+
+Python booleans are numerically coercible (`True == 1`, `False == 0`) but are not admissible resource quantities in this contract. Every spend, price, requirement, ablation amount, drift amount and calibration radius is therefore required to be a non-boolean integer in its declared domain. The hostile controls reject boolean smuggling explicitly. This condition is load-bearing because accepting `True` as a price or capacity change would make the scientific parameter schema differ from the registered mathematical domain.
 
 ## Boundary
 

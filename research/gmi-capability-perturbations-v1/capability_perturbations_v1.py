@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import pathlib
+from itertools import product
 from typing import Dict, Mapping
 
 ROOT = pathlib.Path(__file__).resolve().parent
@@ -17,14 +18,23 @@ TARGETS = predictor_mod.TARGETS
 CANNOT_IDENTIFY = predictor_mod.CANNOT_IDENTIFY
 
 
+def _require_int(value: int, name: str, *, minimum: int | None = None) -> None:
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError(f"{name} must be an integer")
+    if minimum is not None and value < minimum:
+        raise ValueError(f"{name} must be >= {minimum}")
+
+
 def capability_oracle(point: Mapping[str, int]) -> Dict[str, int]:
     _validate_point(point)
     return predictor_mod.capability_oracle(point)
 
 
 def reprice_margin(*, spend: int, old_price: int, new_price: int, requirement: int) -> tuple[int, int]:
-    if spend < 0 or old_price <= 0 or new_price <= 0 or requirement < 0:
-        raise ValueError("invalid repricing parameters")
+    _require_int(spend, "spend", minimum=0)
+    _require_int(old_price, "old_price", minimum=1)
+    _require_int(new_price, "new_price", minimum=1)
+    _require_int(requirement, "requirement", minimum=0)
     old_margin = spend // old_price - requirement
     new_margin = spend // new_price - requirement
     return old_margin, new_margin
@@ -32,8 +42,9 @@ def reprice_margin(*, spend: int, old_price: int, new_price: int, requirement: i
 
 def ablate(point: Mapping[str, int], axis: str, removed_capacity: int) -> Dict[str, int]:
     _validate_point(point)
-    if axis not in AXES or removed_capacity < 0:
-        raise ValueError("invalid ablation")
+    _require_int(removed_capacity, "removed_capacity", minimum=0)
+    if axis not in AXES:
+        raise ValueError("invalid ablation axis")
     out = dict(point)
     out[axis] -= removed_capacity
     return out
@@ -41,8 +52,9 @@ def ablate(point: Mapping[str, int], axis: str, removed_capacity: int) -> Dict[s
 
 def drift_requirement(point: Mapping[str, int], axis: str, added_requirement: int) -> Dict[str, int]:
     _validate_point(point)
-    if axis not in AXES or added_requirement < 0:
-        raise ValueError("invalid drift")
+    _require_int(added_requirement, "added_requirement", minimum=0)
+    if axis not in AXES:
+        raise ValueError("invalid drift axis")
     out = dict(point)
     out[axis] -= added_requirement
     return out
@@ -75,7 +87,7 @@ def identification_certificate(point: Mapping[str, int], target: str) -> Dict[st
     """Return the exact monotone-witness certificate for one target.
 
     A positive development world below the query forces 1 by monotonicity.
-    A negative development world above the query forces 0.  If neither exists,
+    A negative development world above the query forces 0. If neither exists,
     the registered development corpus does not identify the target and the only
     admissible output is CANNOT_IDENTIFY.
     """
@@ -108,6 +120,40 @@ def identification_certificate(point: Mapping[str, int], target: str) -> Dict[st
         "positive_below_witness_exists": positive_below,
         "negative_above_witness_exists": negative_above,
         "prediction": prediction,
+    }
+
+
+def calibration_probe(radius: int = 2) -> Dict[str, int]:
+    """Exhaustively score predictor identifiability on [-radius, radius]^5.
+
+    Determinate outputs are checked against the independent exact capability
+    oracle. Abstentions remain explicit and are never coerced to binary labels.
+    """
+    _require_int(radius, "radius", minimum=1)
+    predictor = build_predictor()
+    total = 0
+    determinate = 0
+    abstentions = 0
+    incorrect = 0
+    for values in product(range(-radius, radius + 1), repeat=len(AXES)):
+        point = dict(zip(AXES, values))
+        truth = capability_oracle(point)
+        predicted = predictor.predict_vector(point)
+        for target in TARGETS:
+            total += 1
+            value = predicted[target]
+            if value == CANNOT_IDENTIFY:
+                abstentions += 1
+            else:
+                determinate += 1
+                if value != truth[target]:
+                    incorrect += 1
+    return {
+        "radius": radius,
+        "total_cells": total,
+        "determinate_cells": determinate,
+        "abstention_cells": abstentions,
+        "incorrect_determinate_cells": incorrect,
     }
 
 

@@ -66,14 +66,9 @@ class PerturbationTests(unittest.TestCase):
         self.assertFalse(cert["negative_above_witness_exists"])
         self.assertEqual(mod.CANNOT_IDENTIFY, cert["prediction"])
         self.assertEqual(mod.CANNOT_IDENTIFY, self.predictor.predict_one(point, "planning_exact"))
-        # The exact oracle is deliberately hidden from fitting; abstention is not
-        # scored as a mistake merely because the oracle happens to be 0.
         self.assertEqual(0, mod.capability_oracle(point)["planning_exact"])
 
-    def test_abstention_calibration_exhaustive_probe_grid(self):
-        # 3^5 = 243 probe points, including values outside the development cube.
-        # The certificate must match the predictor exactly; determinate outputs
-        # must agree with the independent exact oracle.
+    def test_original_sparse_abstention_probe(self):
         for values in itertools.product((-2, 0, 2), repeat=len(mod.AXES)):
             point = dict(zip(mod.AXES, values))
             truth = mod.capability_oracle(point)
@@ -86,6 +81,30 @@ class PerturbationTests(unittest.TestCase):
                     self.assertFalse(cert["negative_above_witness_exists"])
                 else:
                     self.assertEqual(truth[target], prediction, (point, target))
+
+    def test_exhaustive_radius_two_calibration_counts_and_soundness(self):
+        receipt = mod.calibration_probe(radius=2)
+        self.assertEqual(12500, receipt["total_cells"])
+        self.assertEqual(5248, receipt["determinate_cells"])
+        self.assertEqual(7252, receipt["abstention_cells"])
+        self.assertEqual(0, receipt["incorrect_determinate_cells"])
+
+    def test_boolean_parameter_smuggling_refused(self):
+        base = {axis: 0 for axis in mod.AXES}
+        for kwargs in (
+            {"spend": True, "old_price": 1, "new_price": 1, "requirement": 0},
+            {"spend": 1, "old_price": True, "new_price": 1, "requirement": 0},
+            {"spend": 1, "old_price": 1, "new_price": True, "requirement": 0},
+            {"spend": 1, "old_price": 1, "new_price": 1, "requirement": True},
+        ):
+            with self.assertRaises(ValueError):
+                mod.reprice_margin(**kwargs)
+        with self.assertRaises(ValueError):
+            mod.ablate(base, "memory_margin", True)
+        with self.assertRaises(ValueError):
+            mod.drift_requirement(base, "memory_margin", True)
+        with self.assertRaises(ValueError):
+            mod.calibration_probe(radius=True)
 
     def test_invalid_parameters_refused(self):
         with self.assertRaises(ValueError):

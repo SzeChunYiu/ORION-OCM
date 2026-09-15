@@ -15,6 +15,7 @@
     "ablation subtracts declared capacity from one registered channel",
     "environmental drift adds declared requirement to one registered obligation channel",
     "no unregistered interaction changes during the perturbation",
+    "all perturbation counts/prices/requirements are non-boolean integers in their declared domains",
     "abstention calibration is logical identifiability under the frozen componentwise monotonicity assumption, not probabilistic confidence calibration"
   ],
   "evidence_class": ["P1", "P2"],
@@ -22,14 +23,18 @@
   "strongest_parent": "comparative statics, sensitivity analysis, monotone threshold systems, selective classification with abstention",
   "negative_twin": "a perturbation that does not cross the load-bearing margin threshold must not flip the target capability; a query with a monotone witness must not be relabeled CANNOT_IDENTIFY",
   "nearest_counterexample": "if repricing changes morphology, ablation triggers compensation, drift changes an unregistered interaction, or componentwise monotonicity fails, margin recomputation and witness-based abstention are insufficient",
-  "falsifier": "Any registered perturbation case disagrees with the already-fitted development-only predictor or independent exact capability oracle; any non-threshold-crossing negative twin flips its protected target; or CANNOT_IDENTIFY is emitted despite an identifying monotone witness (or omitted when no witness exists).",
+  "falsifier": "Any registered perturbation case disagrees with the already-fitted development-only predictor or independent exact capability oracle; any non-threshold-crossing negative twin flips its protected target; boolean values pass as numeric perturbation parameters; or CANNOT_IDENTIFY is emitted despite an identifying monotone witness (or omitted when no witness exists).",
   "status": "PASS when exact normal and optimized controls agree",
   "abstention_calibration": {
     "rule": "For target y at query z, emit 1 if any positive development world x satisfies x <= z componentwise; emit 0 if any negative development world x satisfies z <= x componentwise; otherwise emit CANNOT_IDENTIFY.",
-    "registered_probe_grid": "{-2,0,2}^5",
-    "probe_points": 243,
+    "registered_probe_grid": "integer lattice [-2,2]^5",
+    "probe_points": 3125,
     "targets_per_point": 4,
-    "required_control": "certificate prediction equals predictor output at all 972 point-target cells; every determinate cell must agree with the independent exact oracle"
+    "total_cells": 12500,
+    "determinate_cells": 5248,
+    "abstention_cells": 7252,
+    "incorrect_determinate_cells": 0,
+    "required_control": "certificate prediction equals predictor output; every determinate cell agrees with the independent exact oracle; abstentions remain explicit"
   },
   "cases": [
     {
