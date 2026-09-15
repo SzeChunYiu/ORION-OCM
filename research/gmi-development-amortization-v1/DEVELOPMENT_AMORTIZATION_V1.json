@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "H. Development, adaptation, and evolvability",
+  "scope": "finite repeated future-task horizons with nonnegative integer per-task acquisition/search costs and explicitly charged maintenance/revision overhead",
+  "assumptions": [
+    "the compared reset and continued systems face the same future task horizon",
+    "per-task cost summaries are fixed across the registered horizon",
+    "maintenance_revision includes all fixed retained-structure maintenance/revision cost charged to that horizon",
+    "representation quotient classes preserve the future obligation distinctions needed at this scope",
+    "learned-operator search cost includes verification cost",
+    "search-prior discovery cost includes prior inference/ranking overhead",
+    "all cost/rank/count fields are non-boolean integers in their registered domains"
+  ],
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "claim_boundary": "This derives exact finite amortization/crossover laws for five H rows. It does not establish empirical G7 development prediction, changing per-task costs, stochastic future-task distributions, architecture expansion/pruning, self-compilation, local morphogenesis, multi-generation trajectories or open-endedness.",
+  "strongest_parent": "amortized analysis, transfer-learning lifecycle accounting, macro-operator search reduction, heuristic/prior search ordering",
+  "negative_twin": "remove the per-task saving or increase maintenance beyond accumulated savings; continued development must tie or lose rather than being presumed beneficial",
+  "nearest_counterexample": "if future task costs drift with history, maintenance is state-dependent, retained structure changes the task distribution, or verification/representation/prior overhead is uncharged, the fixed-horizon linear crossover law is insufficient",
+  "falsifier": "Any registered lifecycle verdict disagrees with direct total-cost comparison, any asset is called beneficial when its charged per-task cost is not lower, or a strict continue break-even is reported when per-task saving is nonpositive.",
+  "rows": [
+    {
+      "id": "H-MAINT-REVERSAL",
+      "ledger_row": "Measure when maintenance/revision cost reverses inheritance benefit.",
+      "law": "For horizon H, reset cost C0=H*c0 and continued cost C1=M+H*c1. With saving Delta=c0-c1>0, maintenance/revision reverses the per-task inheritance benefit whenever M>H*Delta; equality is a tie.",
+      "strongest_parent": "amortized analysis / lifecycle cost crossover",
+      "negative_twin": "M=0 with c1<c0 cannot make continued more expensive",
+      "falsifier": "verdict differs from direct comparison of H*c0 and M+H*c1"
+    },
+    {
+      "id": "H-REPRESENTATION",
+      "ledger_row": "Derive when learned representations make future acquisition cheaper.",
+      "law": "If raw future acquisition distinguishes R cases while an obligation-preserving learned quotient requires Q classes plus charged use cost u, represented acquisition is cheaper exactly when Q+u<R; per-task saving is R-Q-u.",
+      "strongest_parent": "sufficient-statistic/quotient compression and transfer learning",
+      "negative_twin": "Q+u=R gives zero acquisition saving",
+      "falsifier": "represented acquisition is declared cheaper when Q+u>=R"
+    },
+    {
+      "id": "H-OPERATOR",
+      "ledger_row": "Derive when learned operators make future search cheaper.",
+      "law": "With baseline search B expansions and a learned operator requiring L expansions plus verification v, future search is cheaper exactly when L+v<B; per-task saving is B-L-v.",
+      "strongest_parent": "macro-operators/options and search-space reduction",
+      "negative_twin": "verification overhead exactly consumes the expansion saving",
+      "falsifier": "operator search is declared cheaper when L+v>=B"
+    },
+    {
+      "id": "H-PRIOR",
+      "ledger_row": "Derive when learned search priors improve future morphology discovery.",
+      "law": "For a fixed finite candidate ordering, baseline target rank r0 and prior target rank r1 with charged prior inference p give discovery costs r0 and r1+p; the learned prior improves discovery exactly when r1+p<r0.",
+      "strongest_parent": "heuristic search ordering / learning-to-search priors",
+      "negative_twin": "a misranked target with r1+p>r0 is harmful",
+      "falsifier": "a prior is called improving when its charged discovery cost is not below baseline"
+    },
+    {
+      "id": "H-RESET",
+      "ledger_row": "Predict when reset should beat continued development.",
+      "law": "Reset beats continued development exactly when H*c0 < M+H*c1, equivalently M>H*(c0-c1). If per-task saving Delta>0, the smallest integer horizon at which continued strictly wins is floor(M/Delta)+1; if Delta<=0 no finite strict continue break-even exists.",
+      "strongest_parent": "renewal/replacement and amortized lifecycle decisions",
+      "negative_twin": "at exact equality M=H*(c0-c1), verdict is TIE rather than RESET or CONTINUE",
+      "falsifier": "predicted reset/continue/tie verdict disagrees with the two fully charged lifecycle totals"
+    }
+  ]
+}
