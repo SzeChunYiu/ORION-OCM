@@ -1,0 +1,39 @@
+{
+  "schema": "GMI_PROTECTED_DOMAIN_RECEIPT_SCHEMA_V1",
+  "freeze_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["schema", "metadata", "outcome_commitment_sha256", "outcome_present", "salt_present"],
+    "properties": {
+      "schema": {"const": "GMI_PROTECTED_DOMAIN_FREEZE_V1"},
+      "metadata": {
+        "type": "object",
+        "required": ["candidate_id", "ecology_digest", "resource_digest", "grammar_digest", "split_digest", "prediction", "negative_twin_digest", "falsifier", "evaluator"],
+        "additionalProperties": true
+      },
+      "outcome_commitment_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+      "outcome_present": {"const": false},
+      "salt_present": {"const": false}
+    }
+  },
+  "reveal_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["schema", "freeze_digest", "metadata", "outcome", "salt", "commitment_verified"],
+    "properties": {
+      "schema": {"const": "GMI_PROTECTED_DOMAIN_REVEAL_V1"},
+      "freeze_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+      "metadata": {"type": "object"},
+      "outcome": {},
+      "salt": {"type": "string", "minLength": 1},
+      "commitment_verified": {"const": true}
+    }
+  },
+  "protocol": [
+    "Commit the freeze artifact before any protected outcome is read.",
+    "Keep outcome and salt outside the freeze custody boundary.",
+    "After scoring, publish a reveal whose commitment verifies byte-for-byte under canonical JSON.",
+    "A missing or mismatched reveal is CANNOT_IDENTIFY, never a negative or positive result.",
+    "The receipt proves ordering and integrity only when commit timestamps/custody are independently inspectable."
+  ]
+}
