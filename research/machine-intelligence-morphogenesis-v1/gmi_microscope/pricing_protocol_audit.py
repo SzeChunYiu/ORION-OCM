@@ -58,8 +58,23 @@ def allkeys(o, out):
     return out
 
 
+# Receipts produced BY audits that scan the corpus.  An audit must not count
+# its own output as corpus data: adding the pricing-protocol receipt changed the
+# cost-coordinate audit's own inputs and broke its reproduction, which is a
+# structural coupling rather than a one-off.  Excluding them makes each audit a
+# function of the DERIVATION receipts only, so adding another audit later cannot
+# silently move these numbers.
+SELF_REFERENTIAL = {
+    "STAGE_PROTOCOL_CONFORMANCE_V1.json",
+    "STAGE_PARENT_COVERAGE_V1.json",
+    "STAGE_COST_COORDINATE_V1.json",
+    "STAGE_PRICING_PROTOCOL_V1.json",
+}
+
 rows = {}
 for f in sorted(glob.glob(os.path.join(RESULTS, "STAGE_*.json"))):
+    if os.path.basename(f) in SELF_REFERENTIAL:
+        continue
     try:
         ks = allkeys(json.load(open(f)), set())
     except Exception:
@@ -123,6 +138,7 @@ assert len(withfront) < len(nofix), (
     "satisfied; that is not credible and suggests the pattern is too permissive")
 
 OUT = {
+    "self_referential_excluded": sorted(SELF_REFERENTIAL),
     "hand_checked_false_positives": {
         "w_scalars": (
             "a COUNT of scalar weights in a log-domain machine, not a cost "

@@ -4,7 +4,7 @@ Date: 2026-09-15. Addresses checklist section **N** (resource and lifecycle acco
 Witness: `gmi_microscope/cost_coordinate_audit.py`. Receipt: `microscopes/results/STAGE_COST_COORDINATE_V1.json`.
 
 Section N lists sixteen cost coordinates every claim should meter. This measures how many of the corpus's
-**462 receipts** carry each one.
+**459 derivation receipts** carry each one.
 
 ## 1  Why this is measured at key level, not by grepping
 
@@ -20,22 +20,22 @@ not.**
 
 | coordinate | receipts metering it | |
 |---|---:|---|
-| revision / unlearning | 5 (1.1%) | **rare** |
-| communication | 8 (1.7%) | **rare** |
-| energy | 3 (0.6%) | **rare** |
-| maintenance | 2 (0.4%) | **rare** |
-| human / AI design input | 2 (0.4%) | **rare** |
-| verification | 37 (8.0%) | |
-| retrieval / index | 59 (12.8%) | |
-| precision | 71 (15.4%) | |
-| physical counters | 88 (19.0%) | |
-| training / development | 116 (25.1%) | |
-| failed-candidate | 171 (37.0%) | |
-| search / discovery | 238 (51.5%) | **common** |
-| update | 247 (53.5%) | **common** |
-| serving / execution | 281 (60.8%) | **common** |
-| memory / storage | 283 (61.3%) | **common** |
-| build / acquisition | 290 (62.8%) | **common** |
+| maintenance | 1 (0.2%) | **rare** |
+| human / AI design input | 1 (0.2%) | **rare** |
+| energy | 2 (0.4%) | **rare** |
+| revision / unlearning | 4 (0.9%) | **rare** |
+| communication | 6 (1.3%) | **rare** |
+| verification | 36 (7.8%) | |
+| retrieval / index | 58 (12.6%) | |
+| precision | 70 (15.3%) | |
+| physical counters | 88 (19.2%) | |
+| training / development | 115 (25.1%) | |
+| failed-candidate | 170 (37.0%) | |
+| search / discovery | 237 (51.6%) | **common** |
+| update | 246 (53.6%) | **common** |
+| serving / execution | 280 (61.0%) | **common** |
+| memory / storage | 281 (61.2%) | **common** |
+| build / acquisition | 289 (63.0%) | **common** |
 
 **Five of sixteen are commonly metered; five are essentially never.** The corpus charges what it computes —
 building, storing, serving, updating, searching — and rarely charges what it does *after*: revising,
@@ -43,13 +43,13 @@ communicating, maintaining, and the energy or human input that went in.
 
 ## 3  The audit caught two of its own patterns being wrong
 
-**`revision/unlearning` first reported 81.3%** — the highest of any coordinate, which is what made it
+**`revision/unlearning` first reported 81%** — the highest of any coordinate, which is what made it
 obviously wrong: a corpus that charges unlearning more often than it charges execution does not exist. The
 pattern `^rev\w*$` was matching **`revival` (311 keys, from `REVIVAL_LEDGER`)** and **`revoke` (92, capability
-revocation)**. Genuine revision terms totalled about nine. Corrected: **1.1%**.
+revocation)**. Genuine revision terms totalled about nine. Corrected: **0.9%**.
 
 **`communication` reported 9.8%** via `^comm\w*$` matching `committed`, `commit` and `commuting`.
-Corrected: **1.7%**.
+Corrected: **1.3%**.
 
 This is the third prefix-pattern blowup in this corpus — after `state` matching *stated* and `production`
 matching *reproduction* — and the pattern is consistent enough to state as a rule: **a prefix pattern over
@@ -67,6 +67,16 @@ Six known-answer cases, **both polarities** — coordinates that must be found a
 A pin asserts the validation set stays two-sided, because a detector checked only on cases it should accept
 is not validated at all.
 
+## 4b  An audit must not count its own output
+
+Both audits scan every receipt, so adding the pricing-protocol receipt changed the cost-coordinate audit's
+own inputs and broke its reproduction — in CI and on billy-old simultaneously. That is a **structural
+coupling**, not a one-off: every future audit would have silently moved these numbers.
+
+Both audits now exclude the four **self-referential** receipts — the outputs of audits that scan the corpus —
+so each is a function of the **derivation** receipts alone. The excluded list is recorded in both receipts, so
+the exclusion is auditable rather than hidden, and the counts above are stable against adding another audit.
+
 ## 5  Scope
 
 This measures whether a coordinate is metered **anywhere** in a receipt. It does **not** establish that every
@@ -78,7 +88,7 @@ column is an upper bound on how well section N is satisfied.
 Section N's other two boxes are **rules**, not coverage questions, and a rule is checkable in a way a count is
 not. Witness: `gmi_microscope/pricing_protocol_audit.py`, receipt `STAGE_PRICING_PROTOCOL_V1.json`.
 
-Of 462 receipts, **325 meter two or more cost coordinates** — the population on which either rule can bind.
+Of 459 derivation receipts, **324 meter two or more cost coordinates** — the population on which either rule can bind.
 
 **R1 — no scalarization without a prospectively frozen price vector: clean.** Two multi-coordinate receipts
 scalarize, and **both carry a price-vector key. Zero violations.** A pin asserts that *something* scalarizes,
@@ -91,8 +101,8 @@ calling a weight count a pricing breach would have been exactly the over-claim t
 The false positive is excluded **by name with its reason recorded**, and pinned, so the next reader does not
 re-derive it as a violation.
 
-**R2 — report Pareto frontiers when prices are not fixed: substantially unmet.** Of **290** unpriced
-multi-coordinate receipts, **65 (22%) report a frontier** and 225 do not. Pins assert the figure stays
+**R2 — report Pareto frontiers when prices are not fixed: substantially unmet.** Of **289** unpriced
+multi-coordinate receipts, **65 (22%) report a frontier** and 224 do not. Pins assert the figure stays
 strictly between none and all: all would make R2 trivially met, none would suggest the pattern matches
 nothing, and either would be a different claim than the one measured.
 
