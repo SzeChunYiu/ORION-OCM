@@ -1,0 +1,61 @@
+name: gmi-developmental-uncertainty-transport
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-developmental-uncertainty-transport-v1/**'
+      - 'research/gmi-developmental-taxonomy-v1/**'
+      - 'research/gmi-f1-replay-resistant-adapter-v1/**'
+      - '.github/workflows/gmi-developmental-uncertainty-transport.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-hostile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: normal
+            python_cmd: python
+          - mode: optimized
+            python_cmd: python -O
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify pre-implementation freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=041bb8950ebeed94b8b258e7ad23258df19eec1c
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
+          test "$changed" = "research/gmi-developmental-uncertainty-transport-v1/FREEZE_V1.md"
+          if git cat-file -e "$FREEZE:research/gmi-developmental-uncertainty-transport-v1/developmental_uncertainty_transport_v1.py" 2>/dev/null; then
+            echo 'implementation existed in freeze commit' >&2
+            exit 1
+          fi
+          if git cat-file -e "$FREEZE:research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json" 2>/dev/null; then
+            echo 'result existed in freeze commit' >&2
+            exit 1
+          fi
+      - name: Run exact and adversarial tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} -m unittest discover \
+            -s research/gmi-developmental-uncertainty-transport-v1 \
+            -p 'test_*.py'
+      - name: Reproduce committed receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} research/gmi-developmental-uncertainty-transport-v1/developmental_uncertainty_transport_v1.py > /tmp/RESULT_V1.json
+          cmp /tmp/RESULT_V1.json research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json
