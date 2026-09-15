@@ -2296,3 +2296,67 @@ def test_the_ledger_discriminates_between_dispositions():
     assert "REJECT" in d or "LEAVE_OPEN" in d, (
         "no covering entry rejects or leaves open a parent, which would mean "
         "the ledger only ever absorbs and never declines")
+
+
+# ---------------------------------------------------------------------------
+# N: cost-coordinate metering.  In-tree audit over every receipt.
+# ---------------------------------------------------------------------------
+def test_cost_coordinate_audit_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_COST_COORDINATE_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "cost_coordinate_audit.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900)
+        assert proc.returncode == 0, (
+            "cost_coordinate_audit.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed receipt to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the cost-coordinate audit no longer reproduces its committed receipt")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_metering_is_uneven_across_the_sixteen_coordinates():
+    r = load_receipt("STAGE_COST_COORDINATE_V1.json")
+    c = r["counts"]
+    assert len(c) == 16, "section N has sixteen metering coordinates"
+    assert r["rarely_metered"], (
+        "no coordinate is rarely metered, which would mean section N is "
+        "essentially satisfied -- not credible")
+    assert r["commonly_metered"], (
+        "no coordinate is commonly metered, which would mean the key patterns "
+        "match nothing and the counts are meaningless")
+    assert set(r["rarely_metered"]).isdisjoint(r["commonly_metered"])
+
+
+def test_the_over_broad_patterns_stay_fixed():
+    """Three prefix patterns blew up this corpus; these two are pinned."""
+    r = load_receipt("STAGE_COST_COORDINATE_V1.json")
+    n = r["receipts_scanned"]
+    rev = r["counts"]["revision/unlearning"]
+    com = r["counts"]["communication"]
+    assert rev < 0.05 * n, (
+        "revision/unlearning is metered in over 5%% of receipts (%d of %d); the "
+        "pattern ^rev\\w*$ once matched `revival` and `revoke` and reported "
+        "81%%, the highest of any coordinate, which is how the bug was spotted"
+        % (rev, n))
+    assert com < 0.05 * n, (
+        "communication is metered in over 5%% of receipts (%d of %d); the "
+        "pattern ^comm\\w*$ once matched `committed`, `commit` and `commuting`"
+        % (com, n))
+    assert rev > 0 and com > 0, (
+        "the narrowed patterns now match nothing at all, which means they were "
+        "narrowed too far and the coordinate is undetectable rather than rare")
+
+
+def test_the_detector_is_validated_against_known_answers():
+    r = load_receipt("STAGE_COST_COORDINATE_V1.json")
+    g = r["detector_validated_on"]
+    assert len(g) >= 6, "the validation set shrank"
+    truths = {bool(t) for _f, _c, t in g}
+    assert truths == {True, False}, (
+        "the validation set is one-sided; a detector checked only on cases it "
+        "should accept, or only on cases it should reject, is not validated")
