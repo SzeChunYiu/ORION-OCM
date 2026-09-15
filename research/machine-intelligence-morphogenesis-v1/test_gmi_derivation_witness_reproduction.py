@@ -2415,3 +2415,59 @@ def test_frontiers_are_reported_only_sometimes():
     assert f < n / 2, (
         "most unpriced receipts now report a frontier, which would reverse the "
         "documented finding that R2 is substantially unmet")
+
+
+# ---------------------------------------------------------------------------
+# R: tiny-world microscope coverage, assigned by hand rather than by pattern.
+# ---------------------------------------------------------------------------
+def test_microscope_coverage_audit_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_MICROSCOPE_COVERAGE_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "microscope_coverage_audit.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
+        assert proc.returncode == 0, (
+            "microscope_coverage_audit.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed receipt to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the microscope-coverage audit no longer reproduces its receipt")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_world_coverage_is_partial_and_the_gaps_are_named():
+    r = load_receipt("STAGE_MICROSCOPE_COVERAGE_V1.json")
+    assert r["world_types"] == 14
+    assert 0 < r["world_types_covered"] < 14, (
+        "coverage is total or zero; the hand assignment is not discriminating")
+    assert r["world_types_without_a_witness"], "the gap list is empty"
+    assert "multi-species ecology" in r["world_types_without_a_witness"], (
+        "multi-species ecology now has a witness -- section G box 16 found "
+        "independently that every competition result is pairwise, so if this "
+        "changed, that finding needs revisiting too")
+
+
+def test_the_twin_rule_number_agrees_with_the_b1_audit():
+    """Two independent paths to the same count; a divergence is a defect."""
+    r = load_receipt("STAGE_MICROSCOPE_COVERAGE_V1.json")
+    pc = load_receipt("STAGE_PROTOCOL_CONFORMANCE_V1.json")
+    t = r["twin_rule"]
+    assert t["families_with_a_twin"] == pc["control_synonyms"]["families"], (
+        "the microscope audit and the B1 audit disagree on how many families "
+        "carry a matched negative twin")
+    assert t["distinct_names"] == len(pc["control_synonyms"]["names"])
+    assert 0 < t["families_with_a_twin"] < t["families_audited"]
+
+
+def test_the_certificate_rule_has_a_worked_instance_with_a_stated_limit():
+    r = load_receipt("STAGE_MICROSCOPE_COVERAGE_V1.json")
+    c = r["certificate_rule"]
+    assert c is not None, "the certificate instance vanished"
+    assert c["pairs_checked"] >= 49995000
+    assert c["lower_bound_replicates"] is True
+    assert c["upper_bound_replicates"] is False, (
+        "the upper bound now claims to replicate; R's certificate rule is "
+        "demonstrated for lower bounds only and the document says so")
