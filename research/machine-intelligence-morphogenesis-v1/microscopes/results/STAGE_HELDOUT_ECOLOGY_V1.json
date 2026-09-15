@@ -1,0 +1,110 @@
+{
+  "controls": {
+    "C1_ecology_is_actually_new": true,
+    "C2_unique_and_nonunique_tasks_both_occur": true,
+    "C3_ecology_is_not_saturated": true
+  },
+  "l2_replay": {
+    "L": 2,
+    "behaviour_contained_in": {
+      "keep-or-replace": [
+        "idempotent-on-repeat"
+      ],
+      "overwrite": [
+        "idempotent-on-repeat",
+        "keep-or-replace"
+      ],
+      "state-only": [
+        "overwrite",
+        "insertion-monotone",
+        "idempotent-on-repeat",
+        "keep-or-replace"
+      ]
+    },
+    "behaviour_counts": {
+      "additive": 8,
+      "idempotent-on-repeat": 82,
+      "insertion-monotone": 56,
+      "keep-or-replace": 52,
+      "overwrite": 16,
+      "state-only": 4
+    },
+    "distinct_behaviours_total": 102,
+    "never_uniquely_best": [
+      "keep-or-replace",
+      "overwrite",
+      "state-only"
+    ],
+    "sequences": 4,
+    "tasks": 256,
+    "tasks_with_unique_best": 52,
+    "uniquely_best_on": {
+      "additive": 14,
+      "idempotent-on-repeat": 20,
+      "insertion-monotone": 18,
+      "keep-or-replace": 0,
+      "overwrite": 0,
+      "state-only": 0
+    }
+  },
+  "l3": {
+    "L": 3,
+    "behaviour_contained_in": {
+      "keep-or-replace": [
+        "idempotent-on-repeat"
+      ],
+      "overwrite": [
+        "idempotent-on-repeat",
+        "keep-or-replace"
+      ],
+      "state-only": [
+        "additive",
+        "overwrite",
+        "insertion-monotone",
+        "idempotent-on-repeat",
+        "keep-or-replace"
+      ]
+    },
+    "behaviour_counts": {
+      "additive": 16,
+      "idempotent-on-repeat": 142,
+      "insertion-monotone": 56,
+      "keep-or-replace": 64,
+      "overwrite": 16,
+      "state-only": 4
+    },
+    "distinct_behaviours_total": 180,
+    "never_uniquely_best": [
+      "keep-or-replace",
+      "overwrite",
+      "state-only"
+    ],
+    "sequences": 8,
+    "tasks": 65536,
+    "tasks_with_unique_best": 20074,
+    "uniquely_best_on": {
+      "additive": 5722,
+      "idempotent-on-repeat": 11182,
+      "insertion-monotone": 3170,
+      "keep-or-replace": 0,
+      "overwrite": 0,
+      "state-only": 0
+    }
+  },
+  "l3_order_of_winners": [
+    "idempotent-on-repeat",
+    "additive",
+    "insertion-monotone"
+  ],
+  "prediction_file": "gmi_microscope/predict_heldout_ecology.py",
+  "schema": "GMI_HELDOUT_ECOLOGY_V1",
+  "self_validation_l2_matches_box12": true,
+  "verdict": {
+    "H1_state_only_behaviour_contained_in_overwrite": true,
+    "H2_state_only_uniquely_best_on_zero_tasks": true,
+    "H3_behaviour_counts": true,
+    "H4_never_uniquely_best_set": true,
+    "H5_order_preserved": false,
+    "H6_unique_fraction_strictly_smaller_than_l2": false
+  }
+}
