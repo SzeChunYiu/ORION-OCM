@@ -2844,3 +2844,111 @@ def test_resource_optimality_reproduces_its_committed_receipt():
             "adjudicated in this run")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+# ---------------------------------------------------------------------------
+# Section C box 14: held-out prediction in the L = 3 ecology.
+# ---------------------------------------------------------------------------
+
+def test_heldout_prediction_carries_no_measuring_code():
+    """Phase 1 must be a registration.  A held-out prediction that could compute
+    its own target is not held out."""
+    src = open(os.path.join(HERE, "gmi_microscope",
+                            "predict_heldout_ecology.py")).read()
+    for bad in ("import itertools", "for u in ALL", "def behaviour", "def apply"):
+        assert bad not in src, (
+            "predict_heldout_ecology.py contains %r, so it could have measured "
+            "the ecology it claims only to predict" % bad)
+
+
+def test_heldout_run_validated_itself_against_box12_first():
+    """The L=3 numbers are only trustworthy because the same code reproduced the
+    published L=2 receipt.  If that self-check is ever dropped, the held-out
+    result loses the evidence that its instrument works."""
+    r = load_receipt("STAGE_HELDOUT_ECOLOGY_V1.json")
+    assert r["self_validation_l2_matches_box12"] is True
+    b12 = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
+    assert r["l2_replay"]["uniquely_best_on"] == b12["uniquely_best_on"], (
+        "the L=2 replay no longer reproduces box 12, so the L=3 numbers in this "
+        "receipt were produced by an instrument that fails on known data")
+
+
+def test_state_only_containment_is_length_independent():
+    """The theorem: beh_L(state-only) subset beh_L(overwrite) for every L >= 1.
+    Confirmed at both enumerated lengths.  This is what makes state-only never
+    uniquely best structurally, rather than as an artefact of L = 2."""
+    r = load_receipt("STAGE_HELDOUT_ECOLOGY_V1.json")
+    for key in ("l2_replay", "l3"):
+        eco = r[key]
+        assert "overwrite" in eco["behaviour_contained_in"]["state-only"], (
+            "state-only is no longer behaviour-contained in overwrite at %s, "
+            "contradicting the length-independence theorem" % key)
+        assert eco["behaviour_counts"]["state-only"] == 4, (
+            "state-only's behaviours are the constant tuples, so there are "
+            "exactly S = 4 of them at any length")
+        assert eco["uniquely_best_on"]["state-only"] == 0
+
+
+def test_structural_predictions_transferred_to_the_new_ecology():
+    """H1-H4: containment, the never-uniquely-best set, and the behaviour counts
+    of the evidence-independent laws all predicted correctly before L=3 existed."""
+    r = load_receipt("STAGE_HELDOUT_ECOLOGY_V1.json")
+    v = r["verdict"]
+    for k in ("H1_state_only_behaviour_contained_in_overwrite",
+              "H2_state_only_uniquely_best_on_zero_tasks",
+              "H3_behaviour_counts",
+              "H4_never_uniquely_best_set"):
+        assert v[k] is True, "%s no longer holds" % k
+    assert r["l3"]["never_uniquely_best"] == r["l2_replay"]["never_uniquely_best"], (
+        "the never-uniquely-best set diverged between the two ecologies")
+
+
+def test_the_two_quantitative_predictions_stay_falsified():
+    """H5 and H6 were wrong and the record says so.  H5: additive overtakes
+    insertion-monotone, because unique wins measure distinctiveness rather than
+    behaviour count.  H6: uniqueness gets COMMONER with more coordinates, because
+    exact ties get rarer.  Flipping either to a pass would erase the boundary
+    this box establishes -- structural claims transfer, magnitudes do not."""
+    r = load_receipt("STAGE_HELDOUT_ECOLOGY_V1.json")
+    v = r["verdict"]
+    assert v["H5_order_preserved"] is False, (
+        "H5 is recorded as falsified; a pass means the prediction or the "
+        "measurement changed after the fact")
+    assert v["H6_unique_fraction_strictly_smaller_than_l2"] is False
+    l2, l3 = r["l2_replay"], r["l3"]
+    # additive overtook insertion-monotone
+    assert l2["uniquely_best_on"]["additive"] < l2["uniquely_best_on"]["insertion-monotone"]
+    assert l3["uniquely_best_on"]["additive"] > l3["uniquely_best_on"]["insertion-monotone"]
+    # and uniqueness became commoner, strictly, by exact integer cross-multiply
+    assert (l3["tasks_with_unique_best"] * l2["tasks"]
+            > l2["tasks_with_unique_best"] * l3["tasks"]), (
+        "the unique-best fraction no longer grew from L=2 to L=3")
+
+
+def test_heldout_ecology_reproduces_its_committed_receipt():
+    """Stage box 12's receipt alongside the script and require byte-identical
+    output.  Running in place would overwrite the file under comparison."""
+    script = "compare_heldout_ecology.py"
+    tmp = tempfile.mkdtemp(prefix="gmiho-")
+    try:
+        os.makedirs(os.path.join(tmp, "gmi_microscope"))
+        os.makedirs(os.path.join(tmp, "microscopes", "results"))
+        shutil.copy(os.path.join(MICRO, script),
+                    os.path.join(tmp, "gmi_microscope", script))
+        shutil.copy(os.path.join(RESULTS, "STAGE_NEGATIVE_ECOLOGY_V1.json"),
+                    os.path.join(tmp, "microscopes", "results",
+                                 "STAGE_NEGATIVE_ECOLOGY_V1.json"))
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", script)],
+            cwd=tmp, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=2400,
+        )
+        assert proc.returncode == 0, (
+            "%s exited %d\n%s" % (script, proc.returncode,
+                                  proc.stderr.decode("utf-8", "replace")[-2000:]))
+        with open(os.path.join(tmp, "microscopes", "results",
+                               "STAGE_HELDOUT_ECOLOGY_V1.json")) as fh:
+            fresh = json.load(fh)
+        assert fresh == _committed("STAGE_HELDOUT_ECOLOGY_V1.json"), (
+            "%s no longer reproduces its committed receipt" % script)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
