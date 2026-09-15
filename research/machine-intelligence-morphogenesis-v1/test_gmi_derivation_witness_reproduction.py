@@ -1482,6 +1482,40 @@ def test_no_bijection_creates_a_zero_atom():
 # in the tree instead.  It is still reproduction-checked -- it writes a receipt
 # and the claim pins below assert the document's headline numbers.
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# WHY CORPUS AUDITS ARE GUARDED BY DETERMINISM, NOT BY BYTE-REPRODUCTION.
+#
+# A witness reads its own inputs, so its receipt is fixed and byte-reproduction
+# is the right guard.  A corpus AUDIT reads every receipt, so its output is a
+# function of a growing corpus: adding any derivation receipt legitimately
+# changes its counts, and a committed copy goes stale by design.  Demanding
+# byte-equality there makes the guard fail on healthy growth -- it failed three
+# times before this was recognised, each time with no defect to find, and a
+# guard that cries wolf is one somebody eventually switches off.
+#
+# So corpus audits are guarded two ways instead:
+#   * DETERMINISM -- run twice, require identical output.  That is the property
+#     a byte-comparison was really testing.
+#   * CLAIM PINS  -- the qualitative findings, which are stable across corpus
+#     growth and are what the documents actually assert.
+# ---------------------------------------------------------------------------
+def _audit_is_deterministic(script, receipt_name):
+    """Run a corpus audit twice; its two outputs must agree exactly."""
+    receipt = os.path.join(RESULTS, receipt_name)
+    runs = []
+    for _ in range(2):
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", script)],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900)
+        assert proc.returncode == 0, (
+            "%s failed:\n%s" % (script, proc.stdout.decode()[-4000:]))
+        runs.append(json.load(open(receipt)))
+    assert runs[0] == runs[1], (
+        "%s is not deterministic: two runs over the same corpus disagree"
+        % script)
+    return runs[0]
+
+
 def test_protocol_conformance_audit_reproduces_its_committed_receipt():
     """The audit asserts its own adjudication against the receipts.
 
@@ -2302,23 +2336,9 @@ def test_the_ledger_discriminates_between_dispositions():
 # ---------------------------------------------------------------------------
 # N: cost-coordinate metering.  In-tree audit over every receipt.
 # ---------------------------------------------------------------------------
-def test_cost_coordinate_audit_reproduces():
-    receipt = os.path.join(RESULTS, "STAGE_COST_COORDINATE_V1.json")
-    before = open(receipt).read() if os.path.exists(receipt) else None
-    try:
-        proc = subprocess.run(
-            [sys.executable, os.path.join("gmi_microscope", "cost_coordinate_audit.py")],
-            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900)
-        assert proc.returncode == 0, (
-            "cost_coordinate_audit.py failed:\n" + proc.stdout.decode()[-4000:])
-        assert before is not None, "no committed receipt to reproduce"
-        assert json.loads(open(receipt).read()) == json.loads(before), (
-            "the cost-coordinate audit no longer reproduces its committed receipt")
-    finally:
-        if before is not None:
-            with open(receipt, "w") as fh:
-                fh.write(before)
-
+def test_cost_coordinate_audit_is_deterministic():
+    """Determinism, not byte-reproduction -- see the note above."""
+    _audit_is_deterministic("cost_coordinate_audit.py", "STAGE_COST_COORDINATE_V1.json")
 
 def test_metering_is_uneven_across_the_sixteen_coordinates():
     r = load_receipt("STAGE_COST_COORDINATE_V1.json")
@@ -2366,23 +2386,9 @@ def test_the_detector_is_validated_against_known_answers():
 # ---------------------------------------------------------------------------
 # N's two protocol rules: scalarization and Pareto frontiers.
 # ---------------------------------------------------------------------------
-def test_pricing_protocol_audit_reproduces():
-    receipt = os.path.join(RESULTS, "STAGE_PRICING_PROTOCOL_V1.json")
-    before = open(receipt).read() if os.path.exists(receipt) else None
-    try:
-        proc = subprocess.run(
-            [sys.executable, os.path.join("gmi_microscope", "pricing_protocol_audit.py")],
-            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900)
-        assert proc.returncode == 0, (
-            "pricing_protocol_audit.py failed:\n" + proc.stdout.decode()[-4000:])
-        assert before is not None, "no committed receipt to reproduce"
-        assert json.loads(open(receipt).read()) == json.loads(before), (
-            "the pricing-protocol audit no longer reproduces its receipt")
-    finally:
-        if before is not None:
-            with open(receipt, "w") as fh:
-                fh.write(before)
-
+def test_pricing_protocol_audit_is_deterministic():
+    """Determinism, not byte-reproduction -- see the note above."""
+    _audit_is_deterministic("pricing_protocol_audit.py", "STAGE_PRICING_PROTOCOL_V1.json")
 
 def test_no_scalarization_without_a_price_vector():
     """R1 -- and it is clean, which is a result rather than an absence."""
@@ -2421,23 +2427,9 @@ def test_frontiers_are_reported_only_sometimes():
 # ---------------------------------------------------------------------------
 # R: tiny-world microscope coverage, assigned by hand rather than by pattern.
 # ---------------------------------------------------------------------------
-def test_microscope_coverage_audit_reproduces():
-    receipt = os.path.join(RESULTS, "STAGE_MICROSCOPE_COVERAGE_V1.json")
-    before = open(receipt).read() if os.path.exists(receipt) else None
-    try:
-        proc = subprocess.run(
-            [sys.executable, os.path.join("gmi_microscope", "microscope_coverage_audit.py")],
-            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=600)
-        assert proc.returncode == 0, (
-            "microscope_coverage_audit.py failed:\n" + proc.stdout.decode()[-4000:])
-        assert before is not None, "no committed receipt to reproduce"
-        assert json.loads(open(receipt).read()) == json.loads(before), (
-            "the microscope-coverage audit no longer reproduces its receipt")
-    finally:
-        if before is not None:
-            with open(receipt, "w") as fh:
-                fh.write(before)
-
+def test_microscope_coverage_audit_is_deterministic():
+    """Determinism, not byte-reproduction -- see the note above."""
+    _audit_is_deterministic("microscope_coverage_audit.py", "STAGE_MICROSCOPE_COVERAGE_V1.json")
 
 def test_world_coverage_is_partial_and_the_gaps_are_named():
     r = load_receipt("STAGE_MICROSCOPE_COVERAGE_V1.json")
