@@ -174,8 +174,8 @@ class FiveKindChainTests(unittest.TestCase):
 
 class IgnoranceTests(unittest.TestCase):
     def setUp(self):
-        self.obj = ConfidenceObject(5, (F(0), F(1)), (F(0),), F(1,20), "TRANSPORTED", 0)
-        self.camp = TransportCampaign(0, (F(0),), F(1,20))
+        self.camp = TransportCampaign(5, (F(0), F(1)), F(1,20))
+        self.obj = self.camp.activate_source((F(0),))
 
     def test_no_relation_returns_full_target_domain(self):
         target = self.camp.propagate_unknown(self.obj, 6, (F(0), F(1), F(2)))
@@ -203,6 +203,17 @@ class IgnoranceTests(unittest.TestCase):
         target = self.camp.propagate_unknown(self.obj, 6, (F(0), F(1), F(2)))
         table = {x: True for x in target.domain}
         self.assertEqual(MOD.identify_boolean(target, table), "IDENTIFIED_TRUE")
+
+    def test_fabricated_chain_tail_rejected(self):
+        fabricated = ConfidenceObject(5, (F(0), F(1)), (F(1),), F(1,20), "SOURCE_ACTIVE", 0)
+        with self.assertRaises(ValueError):
+            self.camp.propagate_unknown(fabricated, 6, (F(0), F(1), F(2)))
+
+    def test_non_boolean_truth_table_rejected(self):
+        target = self.camp.propagate_unknown(self.obj, 6, (F(0), F(1), F(2)))
+        table = {F(0): 0, F(1): 1, F(2): 1}
+        with self.assertRaises(ValueError):
+            MOD.identify_boolean(target, table)
 
 
 class ExactSpecialCaseTests(unittest.TestCase):
