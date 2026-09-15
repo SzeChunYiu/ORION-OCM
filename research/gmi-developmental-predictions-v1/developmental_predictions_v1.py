@@ -105,7 +105,8 @@ GATES: Dict[str, Gate] = {
         0,
         ("cap-procedural-memory",),
     ),
-    "cap-social-cognition": (2, 1, 0, 0, 0, 0, ("cap-working-memory",)),
+    # S>=2 pushes social past the toddler WM stage (strict developmental order).
+    "cap-social-cognition": (2, 2, 0, 0, 0, 0, ("cap-working-memory",)),
     "cap-hierarchical-skill": (
         6,
         0,
