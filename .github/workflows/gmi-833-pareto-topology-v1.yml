@@ -1,0 +1,78 @@
+name: GMI 833 Pareto topology v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-pareto-topology-v1/**'
+      - '.github/workflows/gmi-833-pareto-topology-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-pareto-topology-v1/**'
+      - '.github/workflows/gmi-833-pareto-topology-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=39894c4b5a25521d78568955f687a10a672bce42
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-pareto-topology-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-pareto-topology-v1/pareto_topology_v1.py \
+            research/gmi-833-pareto-topology-v1/test_pareto_topology_v1.py \
+            research/gmi-833-pareto-topology-v1/RESULT_V1.json \
+            research/gmi-833-pareto-topology-v1/PARETO_TOPOLOGY_THEOREMS_V1.md; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-pareto-topology-v1/test_pareto_topology_v1.py -v
+            python -I -O -B research/gmi-833-pareto-topology-v1/pareto_topology_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-pareto-topology-v1/test_pareto_topology_v1.py -v
+            python -I -B research/gmi-833-pareto-topology-v1/pareto_topology_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-pareto-topology-v1/RESULT_V1.json
+      - name: Check dependencies and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f research/gmi-833-transform-geometry-v1/RESULT_V1.json
+          test -f research/gmi-833-remint-equivariance-v1/RESULT_V1.json
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-pareto-topology-v1')
+          manifest = json.loads((root/'MANIFEST_V1.json').read_text())
+          receipt = json.loads((root/'RESULT_V1.json').read_text())
+          expected = 'GMI_PARETO_TRANSFORM_ALGEBRA_AND_FORWARD_TOPOLOGY_AT_REGISTERED_FINITE_SCOPE'
+          assert manifest['freeze_commit'] == '39894c4b5a25521d78568955f687a10a672bce42'
+          assert manifest['claim_ceiling'] == expected == receipt['claim_ceiling']
+          assert receipt['verdict'] == 'GREEN'
+          assert all(receipt['checks'].values())
+          PY
