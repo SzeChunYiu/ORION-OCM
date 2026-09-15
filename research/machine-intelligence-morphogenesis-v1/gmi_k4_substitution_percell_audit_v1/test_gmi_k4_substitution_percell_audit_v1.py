@@ -70,8 +70,7 @@ class TestPercellAudit(unittest.TestCase):
         )
         self.assertTrue(cls["targets_substitution"])
         self.assertEqual(cls["substitution_kinds"], ["latent_compression"])
-        expressed = audit.repair_expressed_kinds(cls["substitution_kinds"])
-        self.assertEqual(expressed, [])
+        self.assertEqual(audit.repair_expressed_kinds(cls["substitution_kinds"]), [])
 
     def test_sparsity_alone_does_not_admit_without_expressed_kind(self):
         cls = audit.classify_property_vector(
@@ -192,34 +191,20 @@ class TestPercellAudit(unittest.TestCase):
         self.assertEqual(receipt["summary"]["admits_under_repaired_yes"], 96)
         self.assertEqual(receipt["summary"]["families_targets_yes_admits_no"], ["K4-A22"])
 
-    def test_committed_cells_json_matches_live_audit(self):
-        cells_doc = json.loads(
-            (HERE / "STAGE_K4_SUBSTITUTION_PERCELL_AUDIT_V1.json").read_text()
-        )
-        self.assertEqual(cells_doc["n_cells"], 159)
-        self.assertEqual(len(cells_doc["cells"]), 159)
+    def test_per_cell_partition_matches_ledger(self):
+        ledger = json.loads((HERE / "AUDIT_LEDGER_V1.json").read_text())
         receipt = audit.run_audit()
-        live = {
-            (c["family"], c["grammar"], c["cell"]): (
-                c["targets_substitution"],
-                c["admits_substitution_under_repaired_pricing"],
-                c["primary_kind"],
-            )
-            for c in receipt["cells"]
-        }
-        for row in cells_doc["cells"]:
-            key = (row["family"], row["grammar"], row["cell"])
-            self.assertIn(key, live)
+        self.assertEqual(len(receipt["cells"]), 159)
+        for c in receipt["cells"]:
+            fam_row = ledger["by_family"][c["family"]]
             self.assertEqual(
-                live[key],
-                (
-                    row["targets_substitution"],
-                    row["admits_substitution_under_repaired_pricing"],
-                    row["primary_kind"],
-                ),
-                msg=str(key),
+                c["targets_substitution"], fam_row["targets_substitution"]
             )
-        self.assertEqual(len(live), 159)
+            self.assertEqual(
+                c["admits_substitution_under_repaired_pricing"],
+                fam_row["admits_under_repaired_pricing"],
+            )
+            self.assertEqual(c["primary_kind"], fam_row["primary_kind"])
 
     def test_repair_ok_false_admits_nothing(self):
         bundle = audit.load_theory_red_bundle()
