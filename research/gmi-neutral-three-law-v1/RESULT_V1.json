@@ -66,73 +66,255 @@
   "recoveries": [
     {
       "canonical_expression": "half((w+y))",
-      "dependency_signature": ["w", "y"],
+      "dependency_signature": [
+        "w",
+        "y"
+      ],
       "dependency_witnesses": {
-        "w": {"out_a": "-1", "out_b": "-1/2", "row_a": [-1, -1, -1, -1], "row_b": [0, -1, -1, -1]},
-        "y": {"out_a": "-1", "out_b": "-1/2", "row_a": [-1, -1, -1, -1], "row_b": [-1, -1, 0, -1]}
+        "w": {
+          "out_a": "-1",
+          "out_b": "-1/2",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            0,
+            -1,
+            -1,
+            -1
+          ]
+        },
+        "y": {
+          "out_a": "-1",
+          "out_b": "-1/2",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            -1,
+            -1,
+            0,
+            -1
+          ]
+        }
       },
       "matched": true,
       "min_cost": 4,
-      "nonrequired_invariance": {"r": true, "x": true},
+      "nonrequired_invariance": {
+        "r": true,
+        "x": true
+      },
       "opaque_id": "opaque_1",
       "table_sha256": "6d5d219b1507d9ff2b2e5bac2fd30c90038eeaa3d3388e47074e0c07c7654505"
     },
     {
       "canonical_expression": "((half(x)*y)+w)",
-      "dependency_signature": ["w", "x", "y"],
+      "dependency_signature": [
+        "w",
+        "x",
+        "y"
+      ],
       "dependency_witnesses": {
-        "w": {"out_a": "-1/2", "out_b": "1/2", "row_a": [-1, -1, -1, -1], "row_b": [0, -1, -1, -1]},
-        "x": {"out_a": "-1/2", "out_b": "-1", "row_a": [-1, -1, -1, -1], "row_b": [-1, 0, -1, -1]},
-        "y": {"out_a": "-1/2", "out_b": "-1", "row_a": [-1, -1, -1, -1], "row_b": [-1, -1, 0, -1]}
+        "w": {
+          "out_a": "-1/2",
+          "out_b": "1/2",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            0,
+            -1,
+            -1,
+            -1
+          ]
+        },
+        "x": {
+          "out_a": "-1/2",
+          "out_b": "-1",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            -1,
+            0,
+            -1,
+            -1
+          ]
+        },
+        "y": {
+          "out_a": "-1/2",
+          "out_b": "-1",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            -1,
+            -1,
+            0,
+            -1
+          ]
+        }
       },
       "matched": true,
       "min_cost": 6,
-      "nonrequired_invariance": {"r": true},
+      "nonrequired_invariance": {
+        "r": true
+      },
       "opaque_id": "opaque_2",
       "table_sha256": "767f2e7f7bd98052beecf23303423baaac5796845cc20d5346dffe61bc0e449e"
     },
     {
       "canonical_expression": "((half(r)*x)+w)",
-      "dependency_signature": ["w", "x", "r"],
+      "dependency_signature": [
+        "w",
+        "x",
+        "r"
+      ],
       "dependency_witnesses": {
-        "r": {"out_a": "-1/2", "out_b": "-1", "row_a": [-1, -1, -1, -1], "row_b": [-1, -1, -1, 0]},
-        "w": {"out_a": "-1/2", "out_b": "1/2", "row_a": [-1, -1, -1, -1], "row_b": [0, -1, -1, -1]},
-        "x": {"out_a": "-1/2", "out_b": "-1", "row_a": [-1, -1, -1, -1], "row_b": [-1, 0, -1, -1]}
+        "r": {
+          "out_a": "-1/2",
+          "out_b": "-1",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            -1,
+            -1,
+            -1,
+            0
+          ]
+        },
+        "w": {
+          "out_a": "-1/2",
+          "out_b": "1/2",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            0,
+            -1,
+            -1,
+            -1
+          ]
+        },
+        "x": {
+          "out_a": "-1/2",
+          "out_b": "-1",
+          "row_a": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "row_b": [
+            -1,
+            0,
+            -1,
+            -1
+          ]
+        }
       },
       "matched": true,
       "min_cost": 6,
-      "nonrequired_invariance": {"y": true},
+      "nonrequired_invariance": {
+        "y": true
+      },
       "opaque_id": "opaque_3",
       "table_sha256": "2d7fcdd8c8c3dedb5db9ee51ecb208787c97a3ec8eac24f1dedea9e2c472c0aa"
     }
   ],
   "remove_half": {
-    "opaque_1": {"has_noninteger_output": true, "matched_through_cap": false},
-    "opaque_2": {"has_noninteger_output": true, "matched_through_cap": false},
-    "opaque_3": {"has_noninteger_output": true, "matched_through_cap": false}
+    "opaque_1": {
+      "has_noninteger_output": true,
+      "matched_through_cap": false
+    },
+    "opaque_2": {
+      "has_noninteger_output": true,
+      "matched_through_cap": false
+    },
+    "opaque_3": {
+      "has_noninteger_output": true,
+      "matched_through_cap": false
+    }
   },
   "required_variable_ablations": {
-    "r": [{"matched_through_cap": false, "opaque_id": "opaque_3"}],
+    "r": [
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_3"
+      }
+    ],
     "w": [
-      {"matched_through_cap": false, "opaque_id": "opaque_1"},
-      {"matched_through_cap": false, "opaque_id": "opaque_2"},
-      {"matched_through_cap": false, "opaque_id": "opaque_3"}
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_1"
+      },
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_2"
+      },
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_3"
+      }
     ],
     "x": [
-      {"matched_through_cap": false, "opaque_id": "opaque_2"},
-      {"matched_through_cap": false, "opaque_id": "opaque_3"}
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_2"
+      },
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_3"
+      }
     ],
     "y": [
-      {"matched_through_cap": false, "opaque_id": "opaque_1"},
-      {"matched_through_cap": false, "opaque_id": "opaque_2"}
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_1"
+      },
+      {
+        "matched_through_cap": false,
+        "opaque_id": "opaque_2"
+      }
     ]
   },
   "schema": "NeutralThreeLawReceiptV1",
   "target_materialization_commit": "2f2324109373d97e055736d1291077fe12efd296",
   "universe": {
-    "axes": ["w", "x", "y", "r"],
+    "axes": [
+      "w",
+      "x",
+      "y",
+      "r"
+    ],
     "sha256": "e8aec22f36a3558cb3f9356e57b4e13575d7905862cfac9fe1240618850ce523",
     "size": 81,
-    "values": [-1, 0, 1]
+    "values": [
+      -1,
+      0,
+      1
+    ]
   }
 }
