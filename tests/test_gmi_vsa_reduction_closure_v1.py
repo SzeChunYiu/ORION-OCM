@@ -23,5 +23,12 @@ def test_hash_verified_vsa_receipt_and_scaling_law() -> None:
     assert MODULE.after_independent_bit_noise(0.75, 0.25) == 0.625
 
 
-def test_only_five_earned_vsa_tasks_close() -> None:
-    assert MODULE.validate_closure()["ledger_rows"] == 5
+def test_neutral_recovery_changes_in_matched_twin() -> None:
+    result = MODULE.neutral_recovery_certificate()
+    assert result["structured_exact_count"] == 1
+    assert result["twin_exact_count"] == 12
+    assert result["structured_winner"] != result["twin_winner"]
+
+
+def test_all_seven_earned_vsa_tasks_close() -> None:
+    assert MODULE.validate_closure()["ledger_rows"] == 7

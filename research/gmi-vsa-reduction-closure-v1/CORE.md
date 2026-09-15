@@ -1,5 +1,5 @@
 # VSA reduction closure v1
 
-Five Issue #602 hyperdimensional/vector-symbolic reduction, scaling, and
-frontier tasks are reconciled. Both neutral-construction/recovery tasks remain
-open.
+All seven Issue #602 hyperdimensional/vector-symbolic tasks are reconciled.
+The neutral supplement constructs the carrier from low-level Boolean and index
+operations, then recovers it from a 36-member family-name-hidden search space.

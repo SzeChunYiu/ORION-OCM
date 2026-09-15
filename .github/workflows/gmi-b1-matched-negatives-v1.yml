@@ -1,0 +1,107 @@
+name: GMI B1 matched negatives V1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-b1-matched-negatives-v1/**"
+      - ".github/workflows/gmi-b1-matched-negatives-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-b1-matched-negatives-v1/**"
+      - ".github/workflows/gmi-b1-matched-negatives-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matched-negative-custody:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run independent exact controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then
+            PY="python -O"
+          else
+            PY="python"
+          fi
+          $PY research/gmi-b1-matched-negatives-v1/test_v1.py
+      - name: Reproduce prediction and result
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then
+            PY="python -O"
+          else
+            PY="python"
+          fi
+          $PY research/gmi-b1-matched-negatives-v1/emit_predictions_v1.py > /tmp/generated_prediction.json
+          python - <<'PY' > /tmp/committed_prediction.json
+          import json
+          from pathlib import Path
+          p = Path("research/gmi-b1-matched-negatives-v1/PREDICTIONS_V1.json")
+          print(json.dumps(json.loads(p.read_text()), sort_keys=True, separators=(",", ":")))
+          PY
+          cmp /tmp/generated_prediction.json /tmp/committed_prediction.json
+
+          $PY research/gmi-b1-matched-negatives-v1/emit_result_v1.py > /tmp/RESULT_V1.json
+          cmp research/gmi-b1-matched-negatives-v1/RESULT_V1.json /tmp/RESULT_V1.json
+      - name: Verify immutable two-phase Git custody and donor pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=54eea90557619b3864cb0cd5c0804942ee7dd67a
+          freeze=a57664ec99b143f5c56fdd2f058d1a3aa5e16bb7
+          prediction=95e817f46a3224b6299013fdae47aaa0835c8f31
+          scorer=5c10b2d7466e43ee0f187b6429191885f14cb55d
+          result=379dd3a0da46405e154e774e354f05c5a1fccaf9
+          capsule=research/gmi-b1-matched-negatives-v1
+
+          for commit in "$base" "$freeze" "$prediction" "$scorer" "$result"; do
+            git cat-file -e "$commit^{commit}"
+          done
+          git merge-base --is-ancestor "$base" "$freeze"
+          git merge-base --is-ancestor "$freeze" "$prediction"
+          git merge-base --is-ancestor "$prediction" "$scorer"
+          git merge-base --is-ancestor "$scorer" "$result"
+
+          test -z "$(git ls-tree -r --name-only "$freeze" -- "$capsule" | grep -E 'PREDICTIONS_V1|predict_v1|score_v1|RESULT_V1|test_v1|emit_' || true)"
+          test -n "$(git ls-tree -r --name-only "$prediction" -- "$capsule/PREDICTIONS_V1.json")"
+          test -n "$(git ls-tree -r --name-only "$prediction" -- "$capsule/predict_v1.py")"
+          test -z "$(git ls-tree -r --name-only "$prediction" -- "$capsule" | grep -E 'score_v1|RESULT_V1|test_v1|emit_' || true)"
+          test -n "$(git ls-tree -r --name-only "$scorer" -- "$capsule/score_v1.py")"
+          test -z "$(git ls-tree -r --name-only "$scorer" -- "$capsule/RESULT_V1.json")"
+          test -n "$(git ls-tree -r --name-only "$result" -- "$capsule/RESULT_V1.json")"
+
+          test "$(git rev-parse "$freeze:$capsule/FREEZE_V1.md")" = "$(git rev-parse "HEAD:$capsule/FREEZE_V1.md")"
+          test "$(git rev-parse "$prediction:$capsule/PREDICTIONS_V1.json")" = "$(git rev-parse "HEAD:$capsule/PREDICTIONS_V1.json")"
+
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/GMI_PROTOCOL_CONFORMANCE_AUDIT_V1.md")" = b9342f41dcdcef22fd26e540603a4248d00e18d5
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_LINEAR_FAMILY_V1.json")" = 94f36f3f294836963b9c933e0a42a9df8db97ec7
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_CREDIT_ASSIGNMENT_V1.json")" = 19ac9ca341e86a3d0c32a645b1c9ef7277ac6f2e
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_UPDATE_LAW_V1.json")" = 1970103336cd25a1c74a86128dc9b4e1fc57fae6
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_GATED_RECURRENCE_V1.json")" = a125dcfcbdaa6204c392664d4adc26946d5bde9d
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_STATE_SPACE_V1.json")" = 811581d1b2ebcacada89b66539e66884f4dc98d0
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_EXEMPLAR_PARAMETRIC_V1.json")" = 6bbfcb6aa33d5d068546df3a07b58f1a91b5816a
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_BELIEF_STATE_V1.json")" = 0555b9348565aa0e832a05744e2d37309129c410
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_SEARCH_FRONTIER_V1.json")" = 4efacaca13300cfffcdb78d6b15c0dcb53b63a90
+
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/linear_family_witness.py")" = 2d2656deed99d4aa603e8d7ec622a4fa706fb147
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/credit_assignment_witness.py")" = c00b06712aa65f9447bfdbfbacf1e8004f14626e
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/update_law_witness.py")" = 5b6b168079704dd8682a876567b4d427f87d1629
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/gated_recurrence_witness.py")" = f3fb7dc133689b41ceecab19536577782d820d3d
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/state_space_witness.py")" = 5217ee011569cf07f937da8ef556d4dbf4478265
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/exemplar_parametric_witness.py")" = 4bfbd65703d425b53395d2f900f267e29f3201af

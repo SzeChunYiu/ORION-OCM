@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       apply:
-        description: "Apply only the registered V5 evolvability transition to issue #602"
+        description: "Apply the registered V5 reconciliation to live issue #602"
         required: false
         default: false
         type: boolean
@@ -23,26 +23,28 @@ permissions:
   issues: write
 
 jobs:
-  reconcile-v5-evolvability:
+  reconcile:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Check live V5 preconditions on pull requests
+      - name: Check exact live-ledger transition on pull request
         if: github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
             --mode check --repository "${GITHUB_REPOSITORY}" \
             --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_V5_EVOLVABILITY_V1.json
-      - name: Apply exact V5 transition after merge
+      - name: Apply exact registered transition after merge
         if: github.event_name == 'push'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \
             --mode apply --repository "${GITHUB_REPOSITORY}" \
             --spec research/gmi-grand-unification-v1/ISSUE_602_RECONCILIATION_V5_EVOLVABILITY_V1.json
@@ -52,6 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLY: ${{ inputs.apply }}
         run: |
+          set -euo pipefail
           mode=check
           if [ "$APPLY" = "true" ]; then mode=apply; fi
           python research/gmi-grand-unification-v1/reconcile_issue_602_v1.py \

@@ -6,6 +6,7 @@ from vsa_reduction_closure_v1 import (
     after_independent_bit_noise,
     bundled_member_coordinate_accuracy,
     cleanup_failure_upper_bound,
+    neutral_recovery_certificate,
     validate_closure,
     validate_receipt,
 )
@@ -30,8 +31,16 @@ class VSAReductionClosureTests(unittest.TestCase):
         self.assertEqual(result["vsa_frontier_cells"], 19)
         self.assertEqual(result["parent_frontier_cells"], 5)
 
-    def test_only_five_earned_tasks_close(self) -> None:
-        self.assertEqual(validate_closure()["ledger_rows"], 5)
+    def test_neutral_low_level_recovery_and_negative_ecology(self) -> None:
+        result = neutral_recovery_certificate()
+        self.assertEqual(result["candidate_count"], 36)
+        self.assertEqual(result["structured_exact_count"], 1)
+        self.assertEqual(result["structured_winner"], ("xor", "majority", "rotate", "nearest"))
+        self.assertEqual(result["twin_exact_count"], 12)
+        self.assertNotEqual(result["twin_winner"], result["structured_winner"])
+
+    def test_all_seven_earned_tasks_close(self) -> None:
+        self.assertEqual(validate_closure()["ledger_rows"], 7)
 
 
 if __name__ == "__main__":
