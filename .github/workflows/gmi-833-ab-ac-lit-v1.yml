@@ -1,0 +1,55 @@
+name: GMI terminology authority + literature saturation (AB/AC #833)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-tranche-ab-ac-lit/**'
+      - '.github/workflows/gmi-833-ab-ac-lit-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-tranche-ab-ac-lit/**'
+      - '.github/workflows/gmi-833-ab-ac-lit-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  terminology-authority:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests (normal)
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-abac-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -m unittest discover -s research/gmi-833-tranche-ab-ac-lit -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+      - name: Unit tests (optimized)
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-abac-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B -O -m unittest discover -s research/gmi-833-tranche-ab-ac-lit -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Terminology CI gate (flagship path-scan)
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-abac-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py \
+            research/gmi-833-tranche-ab-ac-lit --context paper-facing \
+            > "$out/gate.txt" 2>&1 || true
+          python -m unittest discover -s research/gmi-833-tranche-ab-ac-lit -p 'test_gate_*.py' -v 2>&1 | tee -a "$out/gate.txt" || true
+          cat "$out/gate.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ab-ac-lit
+          path: '${{ runner.temp }}/gmi-abac-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
