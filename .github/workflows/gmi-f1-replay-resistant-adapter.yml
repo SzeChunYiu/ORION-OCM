@@ -1,0 +1,56 @@
+name: gmi-f1-replay-resistant-adapter
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-f1-replay-resistant-adapter-v1/**'
+      - 'research/gmi-countable-row-corrigendum-v1/**'
+      - '.github/workflows/gmi-f1-replay-resistant-adapter.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-hostile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: normal
+            python_cmd: python
+          - mode: optimized
+            python_cmd: python -O
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify pre-implementation freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=ac6fccf148140e4481f822c797f55c66791936d2
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
+          test "$changed" = "research/gmi-f1-replay-resistant-adapter-v1/FREEZE_V1.md"
+          if git cat-file -e "$FREEZE:research/gmi-f1-replay-resistant-adapter-v1/replay_resistant_f1_v1.py" 2>/dev/null; then
+            echo 'implementation existed in freeze commit' >&2
+            exit 1
+          fi
+      - name: Run exact and adversarial tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} -m unittest discover \
+            -s research/gmi-f1-replay-resistant-adapter-v1 \
+            -p 'test_*.py'
+      - name: Reproduce committed receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} research/gmi-f1-replay-resistant-adapter-v1/replay_resistant_f1_v1.py > /tmp/RESULT_V1.json
+          cmp /tmp/RESULT_V1.json research/gmi-f1-replay-resistant-adapter-v1/RESULT_V1.json
