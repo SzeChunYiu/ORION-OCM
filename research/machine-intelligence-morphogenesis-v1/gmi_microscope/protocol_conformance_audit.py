@@ -448,6 +448,8 @@ def main():
     print("  most of this corpus is retrospective.")
 
     os.makedirs(RESULTS, exist_ok=True)
+    # declare this receipt an audit output so corpus scanners skip it
+    out["corpus_audit"] = True
     with open(os.path.join(RESULTS, "STAGE_PROTOCOL_CONFORMANCE_V1.json"), "w") as fh:
         json.dump(out, fh, indent=2, sort_keys=True)
     print()

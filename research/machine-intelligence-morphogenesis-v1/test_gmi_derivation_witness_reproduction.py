@@ -2471,3 +2471,51 @@ def test_the_certificate_rule_has_a_worked_instance_with_a_stated_limit():
     assert c["upper_bound_replicates"] is False, (
         "the upper bound now claims to replicate; R's certificate rule is "
         "demonstrated for lower bounds only and the document says so")
+
+
+def test_every_corpus_audit_declares_itself():
+    """A rule, not a list -- because the list version broke twice.
+
+    Audits that scan every receipt must not count each other's output.  The
+    first fix hardcoded the set of such receipts and broke the moment another
+    audit was added; the second time it broke, the list was replaced by a
+    self-declaration.  This pin enforces the declaration, so a new audit that
+    forgets it fails here instead of silently shifting every other audit's
+    numbers.
+    """
+    import glob
+    # A corpus audit is one that SCANS every receipt -- identified by what it
+    # does, not by its filename.  `*_audit.py` matches ten files here, but five
+    # are domain audits that read one thing and need no declaration; demanding
+    # it from them would be this pin making the same over-reach the audits it
+    # guards have made three times.
+    audits = []
+    for a in sorted(glob.glob(os.path.join(MICRO, "*_audit.py"))):
+        src = open(a).read()
+        if 'glob(os.path.join(RESULTS' in src or 'glob.glob(os.path.join(RESULTS' in src:
+            audits.append(a)
+    assert len(audits) >= 2, (
+        "fewer than two corpus-scanning audits found; the detection looks for a "
+        "glob over RESULTS and may be stale")
+    undeclared = []
+    for a in audits:
+        src = open(a).read()
+        if "corpus_audit" not in src:
+            undeclared.append(os.path.basename(a))
+    assert not undeclared, (
+        "these corpus audits do not declare `corpus_audit: true` in their "
+        "receipt, so other audits will count their output as corpus data: %s"
+        % undeclared)
+
+    declared = []
+    for f in glob.glob(os.path.join(RESULTS, "STAGE_*.json")):
+        try:
+            d = json.load(open(f))
+        except Exception:
+            continue
+        if isinstance(d, dict) and d.get("corpus_audit") is True:
+            declared.append(os.path.basename(f))
+    assert len(declared) >= len(audits), (
+        "%d corpus-scanning audits exist but only %d receipts declare "
+        "themselves audits; a receipt was not regenerated after the rule "
+        "changed" % (len(audits), len(declared)))

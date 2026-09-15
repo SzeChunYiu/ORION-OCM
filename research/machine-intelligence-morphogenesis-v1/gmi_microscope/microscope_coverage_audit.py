@@ -115,6 +115,7 @@ if rr:
     assert rr["certificate"]["pairs_failed"] == 0
 
 OUT = {
+    "corpus_audit": True,
     "witnesses_present": len(present),
     "world_types": len(WORLDS),
     "world_types_covered": len(covered),

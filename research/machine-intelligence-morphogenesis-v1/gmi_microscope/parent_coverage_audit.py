@@ -227,6 +227,7 @@ assert len(dispositions) > 1, (
     "discriminating between adopt, adapt, reject and leave-open")
 
 OUT = {
+    "corpus_audit": True,
     "ledger_path": "research/parent-absorption-v1/LEDGER.json",
     "ledger_entries": len(ENTRIES),
     "traditions_total": len(TRADITIONS),

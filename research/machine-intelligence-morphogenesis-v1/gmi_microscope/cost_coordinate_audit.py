@@ -66,23 +66,25 @@ def all_keys(obj, out):
     return out
 
 
-# Receipts produced BY audits that scan the corpus.  An audit must not count
-# its own output as corpus data: adding the pricing-protocol receipt changed the
-# cost-coordinate audit's own inputs and broke its reproduction, which is a
-# structural coupling rather than a one-off.  Excluding them makes each audit a
-# function of the DERIVATION receipts only, so adding another audit later cannot
-# silently move these numbers.
-SELF_REFERENTIAL = {
-    "STAGE_PROTOCOL_CONFORMANCE_V1.json",
-    "STAGE_PARENT_COVERAGE_V1.json",
-    "STAGE_COST_COORDINATE_V1.json",
-    "STAGE_PRICING_PROTOCOL_V1.json",
-}
+# An audit that scans the corpus must not count its own output, or any other
+# audit's.  The first fix hardcoded a LIST of such receipts; adding one more
+# audit broke every other audit's reproduction, because a list is something you
+# must remember to update and a rule is not.
+#
+# So each corpus-scanning audit now DECLARES itself with `corpus_audit: true`,
+# and scanners skip any receipt carrying that flag.  Adding another audit later
+# cannot silently move these numbers.
+def is_corpus_audit(path):
+    try:
+        d = json.load(open(path))
+    except Exception:
+        return False
+    return isinstance(d, dict) and d.get("corpus_audit") is True
 
 receipts = {}
 for f in sorted(glob.glob(os.path.join(RESULTS, "STAGE_*.json"))):
     base = os.path.basename(f)
-    if base in SELF_REFERENTIAL:
+    if is_corpus_audit(f):
         continue
     try:
         receipts[base] = all_keys(json.load(open(f)), set())
@@ -156,7 +158,8 @@ assert rare, (
 assert common, "no coordinate is metered in half the receipts -- suspect the patterns"
 
 OUT = {
-    "self_referential_excluded": sorted(SELF_REFERENTIAL),
+    "corpus_audit": True,
+    "exclusion_rule": "receipts declaring corpus_audit:true are skipped",
     "receipts_scanned": len(receipts),
     "method": (
         "a coordinate counts as metered when a receipt carries a KEY naming it, "
