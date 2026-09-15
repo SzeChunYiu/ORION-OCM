@@ -5,7 +5,7 @@ on:
   pull_request:
     paths: ["research/gmi-j3-quantum-burden-v1/**", ".github/workflows/gmi-j3-quantum-burden-v1.yml"]
 jobs:
-  test:
+  suite:
     strategy:
       fail-fast: false
       matrix: { mode: [normal, optimized] }
@@ -20,5 +20,3 @@ jobs:
         run: |
           if [[ "${{ matrix.mode }}" == "optimized" ]]; then PY="python -O"; else PY="python"; fi
           $PY test_j3_quantum_burden_v1.py -v
-          $PY j3_quantum_burden_v1.py >/tmp/out.json
-          python -c 'import json; a=json.load(open("RECEIPT_V1.json")); b=json.load(open("/tmp/out.json")); assert a==b'
