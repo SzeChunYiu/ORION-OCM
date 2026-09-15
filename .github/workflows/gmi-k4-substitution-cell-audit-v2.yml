@@ -1,0 +1,43 @@
+name: GMI K4 substitution cell audit v2
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-k4-substitution-cell-audit-v2/**'
+      - '.github/workflows/gmi-k4-substitution-cell-audit-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-k4-substitution-cell-audit-v2/**'
+      - '.github/workflows/gmi-k4-substitution-cell-audit-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cell-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run K4 substitution cell-audit suite
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" -m py_compile \
+            research/gmi-k4-substitution-cell-audit-v2/cell_audit_v1.py \
+            research/gmi-k4-substitution-cell-audit-v2/test_cell_audit_v1.py
+          python "${args[@]}" research/gmi-k4-substitution-cell-audit-v2/cell_audit_v1.py
+          python "${args[@]}" research/gmi-k4-substitution-cell-audit-v2/test_cell_audit_v1.py -v

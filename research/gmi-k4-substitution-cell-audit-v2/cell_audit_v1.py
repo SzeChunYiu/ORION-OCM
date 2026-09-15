@@ -50,7 +50,6 @@ _CONTEXT_AXES = (
     "rounds",
     "window",
     "n_edges",
-    "n_steps",
 )
 
 # Root-cause substitution kinds (GMI_K4_COST_STRUCTURE_ROOT_CAUSE_V1.md).
@@ -89,7 +88,10 @@ def load_input(path: Path = INPUT_PATH) -> dict:
         raise ValueError("unexpected audit input schema: %r" % (obj.get("schema"),))
     cells = obj.get("cells")
     if not isinstance(cells, list) or len(cells) != 159:
-        raise ValueError("expected exactly 159 cells, got %s" % (len(cells) if isinstance(cells, list) else type(cells)))
+        raise ValueError(
+            "expected exactly 159 cells, got %s"
+            % (len(cells) if isinstance(cells, list) else type(cells))
+        )
     return obj
 
 
@@ -114,7 +116,6 @@ def _amortises(pv: dict) -> bool:
         return False
     if not _serve_has_context(serve):
         return False
-    # State must not already be the full serve product.
     state_toks = _tokens(state)
     # Amortisation: serve grows with a context axis beyond the state axis.
     if any(axis in serve and axis not in state_toks for axis in _CONTEXT_AXES):
@@ -273,7 +274,7 @@ def classify_cell(cell: dict, family_vectors: dict) -> dict:
     }
 
 
-def run_audit(input_obj: dict | None = None) -> dict:
+def run_audit(input_obj=None) -> dict:
     """Classify all 159 cells; return receipt dict."""
     pins = assert_frozen_untouched()
     obj = input_obj if input_obj is not None else load_input()
