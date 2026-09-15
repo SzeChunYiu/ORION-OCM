@@ -26,7 +26,12 @@ class FiniteProcess:
     transition: Mapping[tuple[Hashable, Hashable], Hashable]
 
     def validate(self) -> None:
-        if not self.states or not self.actions or len(set(self.states)) != len(self.states):
+        if (
+            not self.states
+            or not self.actions
+            or len(set(self.states)) != len(self.states)
+            or len(set(self.actions)) != len(self.actions)
+        ):
             raise ValueError("finite process needs nonempty unique state/action domains")
         if set(self.observation) != set(self.states):
             raise ValueError("every state needs one registered observation")
@@ -73,10 +78,14 @@ class Morphology:
         if set(self.state_type) != set(self.process.states):
             raise ValueError("every carrier needs one type")
         state_set = set(self.process.states)
-        if not self.intervention_response or any(row[0] not in state_set for row in self.intervention_response):
+        if not self.intervention_response or any(
+            len(row) != 3 or row[0] not in state_set for row in self.intervention_response
+        ):
             raise ValueError("intervention responses must be nonempty and state-typed")
         if not self.resource_profiles:
             raise ValueError("at least one experiment resource profile is required")
+        if len({experiment for experiment, _ in self.resource_profiles}) != len(self.resource_profiles):
+            raise ValueError("experiment resource identifiers must be unique")
         dimensions = {len(vector) for _, vector in self.resource_profiles}
         if len(dimensions) != 1 or dimensions == {0} or any(
             type(value) is not int or value < 0
@@ -98,9 +107,9 @@ class Morphology:
 def morphology_equivalent(left: Morphology, right: Morphology) -> bool:
     left.validate()
     right.validate()
-    if len(left.process.states) != len(right.process.states) or left.process.actions != right.process.actions:
+    if len(left.process.states) != len(right.process.states) or set(left.process.actions) != set(right.process.actions):
         return False
-    if left.resource_profiles != right.resource_profiles:
+    if dict(left.resource_profiles) != dict(right.resource_profiles):
         return False
     for image in permutations(right.process.states):
         bijection = dict(zip(left.process.states, image, strict=True))
@@ -213,7 +222,10 @@ def numeric_contract_satisfied(
         type(amount) is not int or amount < 0 for amount in resource_use
     ):
         raise ValueError("resource use must match the contract budget")
-    return Fraction(value) >= contract.threshold and all(
+    normalized_value = Fraction(value)
+    if not Fraction(0) <= normalized_value <= Fraction(1):
+        raise ValueError("capability value must lie in [0,1]")
+    return normalized_value >= contract.threshold and all(
         amount <= budget for amount, budget in zip(resource_use, contract.resource_budget, strict=True)
     )
 
@@ -230,6 +242,8 @@ def expected_binary_success(
         raise ValueError("observation/action contract omits a world")
     if set(observation.values()) - set(policy):
         raise ValueError("policy omits an observable state")
+    if any(action not in {0, 1} for action in required_action.values()):
+        raise ValueError("required actions must be binary")
     if any(not Fraction(0) <= probability <= Fraction(1) for probability in policy.values()):
         raise ValueError("binary policy probabilities must lie in [0,1]")
     total = Fraction(0)
@@ -453,14 +467,14 @@ def validate_all() -> dict[str, object]:
         left_process,
         {0: "CELL", 1: "CELL"},
         ((0, "probe", "z"), (1, "probe", "o")),
-        (("experiment", (2, 3)),),
+        (("experiment", (2, 3)), ("control", (0, 1))),
         ((0, 1, (1, 0)), (1, 0, (1, 0))),
     )
     right_morphology = Morphology(
         right_process,
         {"a": "CELL", "b": "CELL"},
         (("a", "probe", "z"), ("b", "probe", "o")),
-        (("experiment", (2, 3)),),
+        (("experiment", (2, 3)), ("control", (0, 1))),
         (("a", "b", (1, 0)), ("b", "a", (1, 0))),
     )
     if not morphology_equivalent(left_morphology, right_morphology):
@@ -470,7 +484,7 @@ def validate_all() -> dict[str, object]:
         right_process,
         {"a": "CELL", "b": "CELL"},
         right_morphology.intervention_response,
-        (("experiment", (2, 4)),),
+        (("experiment", (2, 4)), ("control", (0, 1))),
         right_morphology.development_edges,
     )
     if not machine_species_equivalent(left_morphology, right_morphology) or machine_species_equivalent(

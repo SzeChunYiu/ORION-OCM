@@ -72,6 +72,10 @@ class MathematicalCoreTests(unittest.TestCase):
     def test_invalid_process_fails_closed(self):
         with self.assertRaises(ValueError):
             stable_behavior_partition(FiniteProcess((0, 1), (0,), {0: 0, 1: 1}, {(0, 0): 0}))
+        with self.assertRaises(ValueError):
+            stable_behavior_partition(
+                FiniteProcess((0, 1), (0, 0), {0: 0, 1: 1}, {(0, 0): 0, (1, 0): 1})
+            )
 
     def test_morphology_equivalence_ignores_names_not_structure(self):
         left_process = FiniteProcess((0, 1), (0, 1), {0: "z", 1: "o"}, self.transitions)
@@ -81,14 +85,14 @@ class MathematicalCoreTests(unittest.TestCase):
             left_process,
             {0: "CELL", 1: "CELL"},
             ((0, "probe", "z"), (1, "probe", "o")),
-            (("experiment", (2, 3)),),
+            (("experiment", (2, 3)), ("control", (0, 1))),
             ((0, 1, (1, 0)), (1, 0, (1, 0))),
         )
         right = Morphology(
             right_process,
             {"a": "CELL", "b": "CELL"},
             (("a", "probe", "z"), ("b", "probe", "o")),
-            (("experiment", (2, 3)),),
+            (("experiment", (2, 3)), ("control", (0, 1))),
             (("a", "b", (1, 0)), ("b", "a", (1, 0))),
         )
         self.assertTrue(morphology_equivalent(left, right))
@@ -97,11 +101,21 @@ class MathematicalCoreTests(unittest.TestCase):
             right_process,
             {"a": "CELL", "b": "CELL"},
             right.intervention_response,
-            (("experiment", (2, 4)),),
+            (("experiment", (2, 4)), ("control", (0, 1))),
             right.development_edges,
         )
         self.assertFalse(morphology_equivalent(left, expensive))
         self.assertFalse(machine_species_equivalent(left, expensive))
+
+        reordered_process = FiniteProcess(("a", "b"), (1, 0), {"a": "z", "b": "o"}, right_transition)
+        reordered = Morphology(
+            reordered_process,
+            {"a": "CELL", "b": "CELL"},
+            tuple(reversed(right.intervention_response)),
+            tuple(reversed(right.resource_profiles)),
+            tuple(reversed(right.development_edges)),
+        )
+        self.assertTrue(morphology_equivalent(left, reordered))
 
     def test_intervention_and_development_are_not_silently_dropped(self):
         process = FiniteProcess((0, 1), (0, 1), {0: "z", 1: "o"}, self.transitions)
