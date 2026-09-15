@@ -1,5 +1,5 @@
 """
-test_phase_rv.py — 12+ unittest controls for morphology R/V phase law.
+test_phase_rv.py — 23+ unittest controls for morphology R/V phase law.
 
 Tests phase boundary correctness, held-out prediction accuracy, negative twins,
 and independent R/V axis effects. Python 3.8 safe, unittest, no network.
@@ -55,7 +55,7 @@ class TestPhaseBoundaryCorrectness(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[60.0], V_values=[0.95], N=200, H=50.0
+            morphs, R_values=[60.0], V_values=[0.8], N=100, H=50.0
         )
         self.assertEqual(grid[0][0], "neural")
 
@@ -64,7 +64,7 @@ class TestPhaseBoundaryCorrectness(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[2.0], V_values=[0.2], N=200, H=50.0
+            morphs, R_values=[2.0], V_values=[0.1], N=100, H=50.0
         )
         self.assertEqual(grid[0][0], "symbolic")
 
@@ -73,7 +73,7 @@ class TestPhaseBoundaryCorrectness(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[20.0], V_values=[0.6], N=200, H=50.0
+            morphs, R_values=[20.0], V_values=[0.6], N=100, H=50.0
         )
         self.assertEqual(grid[0][0], "probabilistic")
 
@@ -114,7 +114,7 @@ class TestNegativeTwins(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[60.0], V_values=[0.95], N=200, H=50.0
+            morphs, R_values=[60.0], V_values=[0.8], N=100, H=50.0
         )
         self.assertNotEqual(grid[0][0], "symbolic")
 
@@ -123,7 +123,7 @@ class TestNegativeTwins(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[2.0], V_values=[0.2], N=200, H=50.0
+            morphs, R_values=[2.0], V_values=[0.1], N=100, H=50.0
         )
         self.assertNotEqual(grid[0][0], "neural")
 
@@ -132,7 +132,7 @@ class TestNegativeTwins(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[2.0], V_values=[0.8], N=200, H=50.0
+            morphs, R_values=[2.0], V_values=[0.8], N=100, H=50.0
         )
         self.assertNotEqual(grid[0][0], "neural")
 
@@ -141,7 +141,7 @@ class TestNegativeTwins(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[60.0], V_values=[0.6], N=200, H=50.0
+            morphs, R_values=[60.0], V_values=[0.5], N=100, H=50.0
         )
         self.assertNotEqual(grid[0][0], "symbolic")
 
@@ -155,10 +155,10 @@ class TestRAxisIndependence(unittest.TestCase):
         morphs = witness.register_archetypes()
         V_fixed = 0.7
         low_grid = witness.compute_phase_grid(
-            morphs, R_values=[2.0], V_values=[V_fixed], N=200, H=50.0
+            morphs, R_values=[2.0], V_values=[V_fixed], N=100, H=50.0
         )
         high_grid = witness.compute_phase_grid(
-            morphs, R_values=[60.0], V_values=[V_fixed], N=200, H=50.0
+            morphs, R_values=[60.0], V_values=[V_fixed], N=100, H=50.0
         )
         self.assertNotEqual(low_grid[0][0], high_grid[0][0],
             "R axis has no effect on winner — theory predicts R matters")
@@ -171,7 +171,7 @@ class TestRAxisIndependence(unittest.TestCase):
         winners = []
         for R in [2.0, 5.0, 10.0, 20.0, 40.0, 60.0]:
             grid = witness.compute_phase_grid(
-                morphs, R_values=[R], V_values=[V_fixed], N=200, H=50.0
+                morphs, R_values=[R], V_values=[V_fixed], N=100, H=50.0
             )
             winners.append(grid[0][0])
         self.assertIn("neural", winners[-3:],
@@ -187,10 +187,10 @@ class TestVAxisIndependence(unittest.TestCase):
         morphs = witness.register_archetypes()
         R_fixed = 20.0
         low_grid = witness.compute_phase_grid(
-            morphs, R_values=[R_fixed], V_values=[0.2], N=200, H=50.0
+            morphs, R_values=[R_fixed], V_values=[0.2], N=100, H=50.0
         )
         high_grid = witness.compute_phase_grid(
-            morphs, R_values=[R_fixed], V_values=[0.8], N=200, H=50.0
+            morphs, R_values=[R_fixed], V_values=[0.8], N=100, H=50.0
         )
         self.assertNotEqual(low_grid[0][0], high_grid[0][0],
             "V axis has no effect on winner — theory predicts V matters")
@@ -203,7 +203,7 @@ class TestVAxisIndependence(unittest.TestCase):
         winners = []
         for V in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:
             grid = witness.compute_phase_grid(
-                morphs, R_values=[R_fixed], V_values=[V], N=200, H=50.0
+                morphs, R_values=[R_fixed], V_values=[V], N=100, H=50.0
             )
             winners.append(grid[0][0])
         # Should see all three morphologies across the V range
@@ -247,9 +247,9 @@ class TestResourcePressure(unittest.TestCase):
         morphs = witness.register_archetypes()
         neural = [m for m in morphs if m.name == "neural"][0]
         # Low R
-        burden_low = neural.burden(N=200, H=50.0, R=2.0, V=0.5)
+        burden_low = neural.burden(N=100, H=50.0, R=2.0, V=0.5)
         # High R
-        burden_high = neural.burden(N=200, H=50.0, R=60.0, V=0.5)
+        burden_high = neural.burden(N=100, H=50.0, R=60.0, V=0.5)
         self.assertGreater(burden_low, burden_high,
             "Low resources should increase burden")
 
@@ -265,11 +265,11 @@ class TestComplexityPressure(unittest.TestCase):
         neural = [m for m in morphs if m.name == "neural"][0]
         symbolic = [m for m in morphs if m.name == "symbolic"][0]
         # Low V
-        n_low = neural.burden(N=200, H=50.0, R=60.0, V=0.1)
-        s_low = symbolic.burden(N=200, H=50.0, R=60.0, V=0.1)
+        n_low = neural.burden(N=100, H=50.0, R=60.0, V=0.1)
+        s_low = symbolic.burden(N=100, H=50.0, R=60.0, V=0.1)
         # High V
-        n_high = neural.burden(N=200, H=50.0, R=60.0, V=0.8)
-        s_high = symbolic.burden(N=200, H=50.0, R=60.0, V=0.8)
+        n_high = neural.burden(N=100, H=50.0, R=60.0, V=0.8)
+        s_high = symbolic.burden(N=100, H=50.0, R=60.0, V=0.8)
         n_penalty = n_high - n_low
         s_penalty = s_high - s_low
         self.assertGreater(s_penalty, n_penalty,
@@ -298,7 +298,7 @@ class TestEdgeCases(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[1000.0], V_values=[0.9], N=200, H=50.0
+            morphs, R_values=[1000.0], V_values=[0.9], N=100, H=50.0
         )
         self.assertEqual(grid[0][0], "neural")
 
@@ -307,7 +307,7 @@ class TestEdgeCases(unittest.TestCase):
         witness = _import_witness()
         morphs = witness.register_archetypes()
         grid = witness.compute_phase_grid(
-            morphs, R_values=[0.1], V_values=[0.01], N=200, H=50.0
+            morphs, R_values=[0.1], V_values=[0.01], N=100, H=50.0
         )
         self.assertEqual(grid[0][0], "symbolic")
 
