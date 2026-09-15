@@ -1,0 +1,223 @@
+{
+  "schema": "GMI_UNCERTAINTY_DECOMPOSITION_V1",
+  "issue": 750,
+  "parent_issue": 602,
+  "proofs": {
+    "UD-T1": "PROOFS_V1.md#UD-T1 — exact law of total variance",
+    "UD-T2": "PROOFS_V1.md#UD-T2 — full-marginal non-identifiability",
+    "UD-T3": "PROOFS_V1.md#UD-T3 — predictive-mean epistemic variance is narrower than all model uncertainty",
+    "UD-T4": "PROOFS_V1.md#UD-T4 — fail-closed identifiability boundary"
+  },
+  "cases": [
+    {
+      "id": "pure_aleatoric",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {
+            "id": "theta0",
+            "weight": "1",
+            "kernel": {"-1": "1/2", "1": "1/2"}
+          }
+        ]
+      },
+      "expected": {
+        "mu": "0",
+        "aleatoric": "1",
+        "epistemic_mean": "0",
+        "total": "1",
+        "marginal": {"-1": "1/2", "1": "1/2"}
+      }
+    },
+    {
+      "id": "pure_epistemic_mean",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {
+            "id": "theta_minus",
+            "weight": "1/2",
+            "kernel": {"-1": "1"}
+          },
+          {
+            "id": "theta_plus",
+            "weight": "1/2",
+            "kernel": {"1": "1"}
+          }
+        ]
+      },
+      "expected": {
+        "mu": "0",
+        "aleatoric": "0",
+        "epistemic_mean": "1",
+        "total": "1",
+        "marginal": {"-1": "1/2", "1": "1/2"}
+      }
+    },
+    {
+      "id": "mixed_nonzero_components",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {
+            "id": "theta_low",
+            "weight": "1/2",
+            "kernel": {"0": "1/2", "2": "1/2"}
+          },
+          {
+            "id": "theta_high",
+            "weight": "1/2",
+            "kernel": {"2": "1/2", "4": "1/2"}
+          }
+        ]
+      },
+      "expected": {
+        "mu": "2",
+        "aleatoric": "1",
+        "epistemic_mean": "1",
+        "total": "2",
+        "marginal": {"0": "1/4", "2": "1/2", "4": "1/4"}
+      }
+    },
+    {
+      "id": "identical_means_different_higher_moments",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {
+            "id": "theta_point",
+            "weight": "1/2",
+            "kernel": {"0": "1"}
+          },
+          {
+            "id": "theta_spread",
+            "weight": "1/2",
+            "kernel": {"-1": "1/2", "1": "1/2"}
+          }
+        ]
+      },
+      "expected": {
+        "mu": "0",
+        "aleatoric": "1/2",
+        "epistemic_mean": "0",
+        "total": "1/2",
+        "marginal": {"-1": "1/4", "0": "1/2", "1": "1/4"}
+      },
+      "required_observation": "conditional kernels differ although epistemic_mean is zero"
+    }
+  ],
+  "nonidentifiability_pair": {
+    "left_case": "pure_aleatoric",
+    "right_case": "pure_epistemic_mean",
+    "required": "full predictive marginals equal while decompositions differ"
+  },
+  "hostiles": [
+    {
+      "id": "no_latent_semantics",
+      "model": {"predictive_marginal": {"-1": "1/2", "1": "1/2"}},
+      "error": "CANNOT_DECOMPOSE_WITHOUT_LATENT_SEMANTICS"
+    },
+    {
+      "id": "weights_not_normalized",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "1/3", "kernel": {"0": "1"}},
+          {"id": "b", "weight": "1/3", "kernel": {"1": "1"}}
+        ]
+      },
+      "error": "INVALID_LATENT_WEIGHTS"
+    },
+    {
+      "id": "kernel_not_normalized",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "1", "kernel": {"0": "1/3", "1": "1/3"}}
+        ]
+      },
+      "error": "INVALID_OUTCOME_KERNEL"
+    },
+    {
+      "id": "negative_weight",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "-1", "kernel": {"0": "1"}},
+          {"id": "b", "weight": "2", "kernel": {"1": "1"}}
+        ]
+      },
+      "error": "INVALID_LATENT_WEIGHTS"
+    },
+    {
+      "id": "negative_kernel_mass",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "1", "kernel": {"0": "-1", "1": "2"}}
+        ]
+      },
+      "error": "INVALID_OUTCOME_KERNEL"
+    },
+    {
+      "id": "duplicate_latent_id",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "1/2", "kernel": {"0": "1"}},
+          {"id": "a", "weight": "1/2", "kernel": {"1": "1"}}
+        ]
+      },
+      "error": "DUPLICATE_LATENT_ID"
+    },
+    {
+      "id": "duplicate_rational_outcome",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "1", "kernel": {"1": "1/2", "1/1": "1/2"}}
+        ]
+      },
+      "error": "DUPLICATE_RATIONAL_OUTCOME"
+    },
+    {
+      "id": "json_float_rejected",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": 1.0, "kernel": {"0": "1"}}
+        ]
+      },
+      "error": "NON_EXACT_RATIONAL"
+    },
+    {
+      "id": "decimal_string_rejected",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "1.0", "kernel": {"0": "1"}}
+        ]
+      },
+      "error": "NON_EXACT_RATIONAL"
+    },
+    {
+      "id": "zero_denominator_rejected",
+      "model": {
+        "latent_semantics": "registered",
+        "latent": [
+          {"id": "a", "weight": "1/0", "kernel": {"0": "1"}}
+        ]
+      },
+      "error": "NON_EXACT_RATIONAL"
+    }
+  ],
+  "claim_ceiling": "EXACT_EPISTEMIC_ALEATORIC_SEPARATION_FOR_REGISTERED_FINITE_LATENT_MODELS",
+  "forbidden_claims": [
+    "UNIVERSAL_UNCERTAINTY_DECOMPOSITION",
+    "POSTERIOR_CALIBRATED",
+    "ALEATORIC_INTRINSICALLY_IRREDUCIBLE_PROVED",
+    "CAPABILITY_UNCERTAINTY_CALIBRATED",
+    "MORPHOLOGY_UNCERTAINTY_CALIBRATED",
+    "COMPLETE_GMI"
+  ]
+}
