@@ -1,0 +1,89 @@
+name: GMI B1 prospective prediction V1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-b1-prospective-prediction-v1/**"
+      - ".github/workflows/gmi-b1-prospective-prediction-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-b1-prospective-prediction-v1/**"
+      - ".github/workflows/gmi-b1-prospective-prediction-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prospective-custody:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run independent exact tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then
+            PY="python -O"
+          else
+            PY="python"
+          fi
+          $PY research/gmi-b1-prospective-prediction-v1/test_v1.py
+      - name: Reproduce prediction and result byte-for-byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then
+            PY="python -O"
+          else
+            PY="python"
+          fi
+          $PY research/gmi-b1-prospective-prediction-v1/predict_v1.py > /tmp/PREDICTIONS_V1.json
+          cmp research/gmi-b1-prospective-prediction-v1/PREDICTIONS_V1.json /tmp/PREDICTIONS_V1.json
+          $PY research/gmi-b1-prospective-prediction-v1/emit_result_v1.py > /tmp/RESULT_V1.json
+          cmp research/gmi-b1-prospective-prediction-v1/RESULT_V1.json /tmp/RESULT_V1.json
+      - name: Verify immutable two-phase Git custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=526ff2d4ddee43abc2cf69e8ef820e9b55278154
+          prediction=0be66ccebf50bd7e0fac31421b052d2d858adbce
+          scorer=bc15c3ad583295d1c6dd2bc6f6d00a9ab2b3d984
+          result=0e7a717288ee57ef40e3ac0d1015aa7abe6e8d6e
+          base=c0501931d44e91910fa7b9518c35a59d914d7bf3
+          capsule=research/gmi-b1-prospective-prediction-v1
+
+          for commit in "$base" "$freeze" "$prediction" "$scorer" "$result"; do
+            git cat-file -e "$commit^{commit}"
+          done
+
+          git merge-base --is-ancestor "$base" "$freeze"
+          git merge-base --is-ancestor "$freeze" "$prediction"
+          git merge-base --is-ancestor "$prediction" "$scorer"
+          git merge-base --is-ancestor "$scorer" "$result"
+
+          test -z "$(git ls-tree -r --name-only "$freeze" -- "$capsule" | grep -E 'PREDICTIONS_V1|predict_v1|score_v1|RESULT_V1|emit_result_v1|test_v1' || true)"
+          test -n "$(git ls-tree -r --name-only "$prediction" -- "$capsule/PREDICTIONS_V1.json")"
+          test -n "$(git ls-tree -r --name-only "$prediction" -- "$capsule/predict_v1.py")"
+          test -z "$(git ls-tree -r --name-only "$prediction" -- "$capsule" | grep -E 'score_v1|RESULT_V1|emit_result_v1|test_v1' || true)"
+          test -n "$(git ls-tree -r --name-only "$scorer" -- "$capsule/score_v1.py")"
+          test -z "$(git ls-tree -r --name-only "$scorer" -- "$capsule/RESULT_V1.json")"
+          test -n "$(git ls-tree -r --name-only "$result" -- "$capsule/RESULT_V1.json")"
+
+          test "$(git rev-parse "$freeze:$capsule/FREEZE_V1.md")" = "$(git rev-parse "HEAD:$capsule/FREEZE_V1.md")"
+          test "$(git rev-parse "$prediction:$capsule/PREDICTIONS_V1.json")" = "$(git rev-parse "HEAD:$capsule/PREDICTIONS_V1.json")"
+
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/finite_state_witness.py")" = "5009d9f19eb43c5ee0ab59ee691889543c391102"
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/gmi_microscope/linear_family_witness.py")" = "2d2656deed99d4aa603e8d7ec622a4fa706fb147"
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_FINITE_STATE_V1.json")" = "143df98737d04f6a05df1fe791706d82cff9ffd8"
+          test "$(git rev-parse "$base:research/machine-intelligence-morphogenesis-v1/microscopes/results/STAGE_LINEAR_FAMILY_V1.json")" = "94f36f3f294836963b9c933e0a42a9df8db97ec7"
