@@ -86,6 +86,7 @@ WITNESSES = {
     "predict_repricing.py": "STAGE_REPRICING_PREDICTION_V1.json",
     "predict_partition_abundance.py": "STAGE_PARTITION_ABUNDANCE_PREDICTION_V1.json",
     "reachability_witness.py": "STAGE_REACHABILITY_V1.json",
+    "update_object_witness.py": "STAGE_UPDATE_OBJECT_V1.json",
 }
 
 
@@ -2609,3 +2610,54 @@ def test_one_added_operator_restores_full_reachability():
         "is what makes search burden repairable rather than fatal")
     assert o["after"]["rank"] == o["before"]["rank"] + 1, (
         "the added operator no longer raises the rank by exactly one")
+
+
+# ---------------------------------------------------------------------------
+# C box 1: one update object; paradigms as structural restrictions of it.
+# ---------------------------------------------------------------------------
+def test_every_paradigm_is_a_strict_non_vacuous_restriction():
+    r = load_receipt("STAGE_UPDATE_OBJECT_V1.json")
+    total = r["total_updates"]
+    assert total == 65536
+    for name, n in r["counts"].items():
+        assert n > 0, "%s matches no update at all -- an impossible rule, not a "\
+                      "specialization" % name
+        assert n < total, "%s matches every update -- it restricts nothing" % name
+
+
+def test_the_paradigms_relate_rather_than_merely_coexist():
+    """Containment and disjointness are the content; all-overlap would not be."""
+    r = load_receipt("STAGE_UPDATE_OBJECT_V1.json")
+    assert r["strict_containments"], (
+        "no paradigm is strictly inside another any more; the structure would "
+        "then say nothing about which is a special case of which")
+    assert r["disjoint_pairs"], (
+        "no two paradigms are disjoint; without an incompatible pair the "
+        "restrictions carry no discriminating information")
+    assert r["overlapping_pairs"] > 0, (
+        "no two paradigms share an update, so they are unrelated islands and "
+        "'one common object' explains nothing about their relation")
+
+
+def test_selection_is_a_special_case_of_consolidation():
+    """A derived relation, not an assumed one -- worth pinning by name."""
+    r = load_receipt("STAGE_UPDATE_OBJECT_V1.json")
+    pairs = {(a, b) for a, b in r["strict_containments"]}
+    assert any("keep-or-replace" in a and "idempotent" in b for a, b in pairs), (
+        "keep-or-replace is no longer strictly inside idempotent-on-repeat; "
+        "the document reports evolutionary selection as a special case of "
+        "consolidation and that claim is computed, so a change means the "
+        "computation changed")
+    assert any("overwrite" in a and "keep-or-replace" in b for a, b in pairs)
+
+
+def test_the_object_is_larger_than_the_named_paradigms():
+    """Room for a learning law the corpus has not named."""
+    r = load_receipt("STAGE_UPDATE_OBJECT_V1.json")
+    covered, total = r["covered_by_some_paradigm"], r["total_updates"]
+    assert covered < total, (
+        "every update now belongs to a named paradigm, which would mean six "
+        "names exhaust learning on this space -- not credible")
+    assert covered / total < 0.25, (
+        "the named paradigms now cover a quarter of the space; the document "
+        "reports 3.1%% and the gap is the point")
