@@ -1,0 +1,73 @@
+name: GMI prospective capability perturbations
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-capability-perturbations-v1/FREEZE_V1.md"
+      - "research/gmi-capability-perturbations-v1/FROZEN_CASES_V1.json"
+      - "research/gmi-capability-perturbations-v1/PROSPECTIVE_FORMALIZATION_V1.md"
+      - "research/gmi-capability-perturbations-v1/prospective_score_v1.py"
+      - "research/gmi-capability-perturbations-v1/test_prospective_v1.py"
+      - "research/gmi-capability-perturbations-v1/PROSPECTIVE_RESULT_V1.json"
+      - "research/gmi-capability-predictor-dev-v1/dev_predictor_v1.py"
+      - ".github/workflows/gmi-prospective-capability-perturbations-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-capability-perturbations-v1/FREEZE_V1.md"
+      - "research/gmi-capability-perturbations-v1/FROZEN_CASES_V1.json"
+      - "research/gmi-capability-perturbations-v1/PROSPECTIVE_FORMALIZATION_V1.md"
+      - "research/gmi-capability-perturbations-v1/prospective_score_v1.py"
+      - "research/gmi-capability-perturbations-v1/test_prospective_v1.py"
+      - "research/gmi-capability-perturbations-v1/PROSPECTIVE_RESULT_V1.json"
+      - "research/gmi-capability-predictor-dev-v1/dev_predictor_v1.py"
+      - ".github/workflows/gmi-prospective-capability-perturbations-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-freeze-normal-optimized:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify freeze custody and predictor identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=0fbd39d4e4848cd18d56552725e6c87412d041bf
+          ROOT=research/gmi-capability-perturbations-v1
+          PRED=research/gmi-capability-predictor-dev-v1/dev_predictor_v1.py
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          git diff --exit-code "$FREEZE" -- "$ROOT/FREEZE_V1.md" "$ROOT/FROZEN_CASES_V1.json"
+          test "$(git hash-object "$PRED")" = "937b91f6a3787ff04c2b5209c81d249518406859"
+          for path in \
+            "$ROOT/PROSPECTIVE_FORMALIZATION_V1.md" \
+            "$ROOT/prospective_score_v1.py" \
+            "$ROOT/test_prospective_v1.py" \
+            "$ROOT/PROSPECTIVE_RESULT_V1.json" \
+            ".github/workflows/gmi-prospective-capability-perturbations-v1.yml"; do
+            if git cat-file -e "$FREEZE:$path" 2>/dev/null; then
+              echo "successor artifact existed at freeze: $path" >&2
+              exit 1
+            fi
+          done
+      - name: Exact/adversarial tests — normal Python
+        run: python -m unittest research/gmi-capability-perturbations-v1/test_prospective_v1.py
+      - name: Exact/adversarial tests — optimized Python
+        run: python -O -m unittest research/gmi-capability-perturbations-v1/test_prospective_v1.py
+      - name: Reproduce receipt — normal
+        run: python research/gmi-capability-perturbations-v1/prospective_score_v1.py > /tmp/prospective-normal.json
+      - name: Reproduce receipt — optimized
+        run: python -O research/gmi-capability-perturbations-v1/prospective_score_v1.py > /tmp/prospective-optimized.json
+      - name: Receipts are frozen and byte-identical
+        run: |
+          cmp /tmp/prospective-normal.json research/gmi-capability-perturbations-v1/PROSPECTIVE_RESULT_V1.json
+          cmp /tmp/prospective-optimized.json research/gmi-capability-perturbations-v1/PROSPECTIVE_RESULT_V1.json
+          cmp /tmp/prospective-normal.json /tmp/prospective-optimized.json
