@@ -1,0 +1,43 @@
+name: GMI attention sequence corrigendum v2
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-attention-sequence-v1/**'
+      - '.github/workflows/gmi-attention-sequence-corrigendum-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-attention-sequence-v1/**'
+      - '.github/workflows/gmi-attention-sequence-corrigendum-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-corrigendum:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run corrected attention witness and hostile controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-attention-sequence-v1
+          if [ '${{ matrix.mode }}' = optimized ]; then
+            python -O attention_witness.py
+            python -O -m unittest -v test_attention_sequence.py
+          else
+            python attention_witness.py
+            python -m unittest -v test_attention_sequence.py
+          fi
+      - name: Source custody
+        run: git diff --exit-code
