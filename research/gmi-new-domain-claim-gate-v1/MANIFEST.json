@@ -1,0 +1,37 @@
+{
+  "name": "gmi-new-domain-claim-gate-v1",
+  "version": "1.0.0",
+  "description": "Executable #602 J4+K new-domain claim gate (25 predicates) with positive/negative twins",
+  "type": "research-capsule",
+  "issue": [602, 592],
+  "section": ["J4", "K"],
+  "created": "2026-09-15",
+  "python_requires": ">=3.8",
+  "dependencies": [],
+  "wires_to": [
+    "research/gmi-domain-registry-v1",
+    "research/gmi-completeness-attack-v1"
+  ],
+  "box_count": 25,
+  "tests": {
+    "command": "python3 -I -B research/gmi-new-domain-claim-gate-v1/test_claim_gate_v1.py -v",
+    "expected": "all pass"
+  },
+  "files": [
+    "CORE.md",
+    "CLAIM_GATE_THEOREM_V1.md",
+    "claim_gate_v1.py",
+    "test_claim_gate_v1.py",
+    "MANIFEST.json",
+    "J4_CLAIM_GATE_LEDGER_V1.json",
+    "fixtures/positive_residual_twin.json",
+    "fixtures/negative_absorbed_twin.json",
+    "../../.github/workflows/gmi-new-domain-claim-gate.yml"
+  ],
+  "twins": {
+    "positive": "fixtures/positive_residual_twin.json",
+    "negative": "fixtures/negative_absorbed_twin.json"
+  },
+  "claim_ceiling": "FINITE_DOSSIER_GATE_NOT_ONTOLOGICAL_NOVELTY",
+  "novelty_law": "pass only when residual survives; refuse novelty wording otherwise"
+}

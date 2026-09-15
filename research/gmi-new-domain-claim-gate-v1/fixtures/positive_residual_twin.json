@@ -1,0 +1,274 @@
+{
+  "alternate_encoding": {
+    "distinct_from_primary": true,
+    "encoding_id": "cochain_vector",
+    "replicated": true
+  },
+  "burden_separation": {
+    "asymptotic_note": "parent flat-table cost grows with global table; residual stays local-section sized",
+    "burden_class": "E1_CONSTANT_FACTOR",
+    "lifecycle_coordinates": [
+      "serving_execution",
+      "memory_storage",
+      "verification"
+    ],
+    "witness": {
+      "D1": "coord_gap_D1",
+      "D2": "coord_gap_D2",
+      "D3": "coord_gap_D3",
+      "D4": "coord_gap_D4",
+      "D5": "coord_gap_D5",
+      "D6": "coord_gap_D6",
+      "D7": "coord_gap_D7",
+      "D8": "coord_gap_D8"
+    }
+  },
+  "candidate_id": "CAND_SHEAF_RESIDUAL_V1",
+  "carrier": {
+    "id": "CAND_SHEAF_SECTION_CARRIER",
+    "mathematical_object": "finite sheaf of local sections with obstruction cocycle",
+    "semantic_state": "gluing-feasible section assignments under declared cover"
+  },
+  "compiler_overhead": {
+    "bounded": true,
+    "burden_class": "E1_CONSTANT_FACTOR",
+    "coordinates": [
+      "serving_execution",
+      "verification"
+    ],
+    "note": "obstruction certificate not free under E1",
+    "overhead_is_free": false,
+    "to_parent": "CSP_SAT"
+  },
+  "cross_encoding_replication": {
+    "encoding_a": "ordered_cover_list",
+    "encoding_b": "incidence_matrix",
+    "replicated": true,
+    "same_residual": true
+  },
+  "cross_search_replication": {
+    "replicated": true,
+    "same_residual": true,
+    "search_a": "exhaustive_product",
+    "search_b": "branch_and_bound_cost"
+  },
+  "display_name": "local_section_obstruction_carrier",
+  "enrichment": {
+    "enriched": true,
+    "predicted_ecology_score": 7,
+    "twin_ecology_score": 2
+  },
+  "freeze_advantage": {
+    "commitment_sha256": "5f7aacf06e3471a38241336502f86c1fc2b791c18f1270a21a2b9d388b60aeac",
+    "conditions": {
+      "advantage_law": "local_obstruction_cost_beats_flat_table",
+      "ecology": {
+        "budget": "tight_local_sections",
+        "regime": "obstruction_gluing_pressure"
+      },
+      "resource_vector": {
+        "local_radius": 2,
+        "section_bits": 8
+      }
+    },
+    "frozen_before_search": true
+  },
+  "freeze_negative_twin": {
+    "commitment_sha256": "d6e8a9df2d131b29ee6766d855cd331a9b6b3ce80c929bcc429ae0c0e14749b3",
+    "predicts_disappearance": true,
+    "twin_spec": {
+      "changed_coordinate": "ecology.gluing_required",
+      "from": true,
+      "prediction": "DISAPPEARS",
+      "to": false
+    }
+  },
+  "fresh_residual_prediction": {
+    "falsifier": "exhibit equal cost flat table with identical protected responses under E1",
+    "made_after_survival": true,
+    "statement": "on covers with nontrivial H1, residual alphabet grows with obstruction rank not with table size",
+    "unique_to_residual": true
+  },
+  "negative_twin": {
+    "base_digest": "a0419cf803f5f765b3fa6df2cda81fe455e1c9259a21b23091a910b378a294e7",
+    "changed_coordinate": "ecology.gluing_required",
+    "matched": true,
+    "prediction": "DISAPPEARS",
+    "twin_digest": "5e30853f83be140d1800b8812f1f75b92cf4f1bcbd58023650d73ba456e5c0cc"
+  },
+  "neutral_grammar": {
+    "candidate_macros_absent": true,
+    "forbidden_checked": true,
+    "symbols": [
+      "LOCAL_ASSIGN",
+      "OVERLAP_CHECK",
+      "MERGE_OR_CERT",
+      "COST_PROBE"
+    ]
+  },
+  "neutral_recovery": {
+    "family_macros_absent": true,
+    "grammar_symbols": [
+      "LOCAL_ASSIGN",
+      "OVERLAP_CHECK",
+      "MERGE_OR_CERT"
+    ],
+    "recovered": true,
+    "search_space_size": 12,
+    "winner": [
+      "OVERLAP_CHECK",
+      "MERGE_OR_CERT"
+    ]
+  },
+  "neutral_search": {
+    "identity_hidden": true,
+    "ran": true,
+    "result_commitment": "c3262667e9596178eade5fc31a1b4d07c861ca0d7644504510c21fc629d79ad5",
+    "space_size": 12
+  },
+  "novelty_claim": {
+    "assert_novelty": true,
+    "claim_ceiling": "FINITE_DOSSIER_GATE_NOT_ONTOLOGICAL_NOVELTY",
+    "wording": "candidate remains a new domain residual under the registered D1-D8 basis at frozen E1"
+  },
+  "operator_law": {
+    "execution_law": "exact finite cover walk with obstruction certificate",
+    "id": "CAND_GLUE_OR_OBSTRUCT",
+    "semantics": "attempt gluing; emit obstruction class on failure",
+    "signature": "Cover x LocalSections -> SectionOrObstruction"
+  },
+  "parent_family_reduction": {
+    "all_refuted": true,
+    "families": [
+      "CSP_SAT",
+      "FACTOR_GRAPH",
+      "GNN_MP",
+      "D7_COLLECTIVE"
+    ],
+    "residual_survives": true
+  },
+  "parent_review": {
+    "attempts": [
+      {
+        "evidence": "obstruction not clause-equivalent at burden",
+        "parent_id": "CSP_SAT",
+        "priority": 0,
+        "status": "REFUTES"
+      },
+      {
+        "evidence": "gluing residual outside pairwise factors",
+        "parent_id": "FACTOR_GRAPH",
+        "priority": 1,
+        "status": "REFUTES"
+      },
+      {
+        "evidence": "message passing lacks obstruction class",
+        "parent_id": "GNN_MP",
+        "priority": 2,
+        "status": "REFUTES"
+      },
+      {
+        "evidence": "population state insufficient",
+        "parent_id": "D7_COLLECTIVE",
+        "priority": 3,
+        "status": "REFUTES"
+      }
+    ],
+    "residual_survives": true,
+    "verdict": "RESIDUAL_SURVIVES_REGISTERED_PARENT_SET"
+  },
+  "phenotype_classification": {
+    "classified_after_search": true,
+    "label": "SHEAF_OBSTRUCTION_RESIDUAL",
+    "pre_search_label_absent": true
+  },
+  "property_vector": {
+    "derived_before_implementation": true,
+    "theory_ref": "J3 relational-constraint/sheaf residual sketch",
+    "vector": {
+      "gluing_failure_observable": true,
+      "local_section_alphabet_lb": 3,
+      "needs_obstruction_carrier": true
+    }
+  },
+  "prospective_ecology": {
+    "ecology_digest": "c52f098e3d72576f90dc6ef8357d0d4406358ba6c883a17a1e81fb8e5d17e69d",
+    "enter_frontier": {
+      "budget": "tight_local_sections",
+      "regime": "obstruction_gluing_pressure"
+    },
+    "frozen_before_search": true,
+    "leave_frontier": {
+      "budget": "unbounded_flat_memory",
+      "regime": "global_table_cheap"
+    }
+  },
+  "real_regime": {
+    "relevant": false,
+    "status": "NOT_RELEVANT_SCOPED",
+    "tasks": []
+  },
+  "real_transfer": {
+    "applicable": false,
+    "hooks": [
+      "hook_csp_gluing_bench",
+      "hook_heldout_cover_family"
+    ],
+    "status": "HOOKS_REGISTERED_NOT_APPLICABLE"
+  },
+  "reduction_attempts": [
+    {
+      "notes": "attempted semantics-preserving map into D1",
+      "semantic_preservation_attempt": "compiler_tried_D1",
+      "status": "FAILS",
+      "target": "D1"
+    },
+    {
+      "notes": "attempted semantics-preserving map into D2",
+      "semantic_preservation_attempt": "compiler_tried_D2",
+      "status": "FAILS",
+      "target": "D2"
+    },
+    {
+      "notes": "attempted semantics-preserving map into D3",
+      "semantic_preservation_attempt": "compiler_tried_D3",
+      "status": "FAILS",
+      "target": "D3"
+    },
+    {
+      "notes": "attempted semantics-preserving map into D4",
+      "semantic_preservation_attempt": "compiler_tried_D4",
+      "status": "FAILS",
+      "target": "D4"
+    },
+    {
+      "notes": "attempted semantics-preserving map into D5",
+      "semantic_preservation_attempt": "compiler_tried_D5",
+      "status": "FAILS",
+      "target": "D5"
+    },
+    {
+      "notes": "attempted semantics-preserving map into D6",
+      "semantic_preservation_attempt": "compiler_tried_D6",
+      "status": "FAILS",
+      "target": "D6"
+    },
+    {
+      "notes": "attempted semantics-preserving map into D7",
+      "semantic_preservation_attempt": "compiler_tried_D7",
+      "status": "FAILS",
+      "target": "D7"
+    },
+    {
+      "notes": "attempted semantics-preserving map into D8",
+      "semantic_preservation_attempt": "compiler_tried_D8",
+      "status": "FAILS",
+      "target": "D8"
+    }
+  ],
+  "remint_replication": {
+    "remint_id": "cover_relabel_pi_7",
+    "replicated": true,
+    "semantics_preserved": true
+  }
+}
