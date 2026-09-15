@@ -1,0 +1,198 @@
+{
+  "all_frozen_predictions_pass": true,
+  "assertions": {
+    "V5_01_exact_all_bijections_queries": true,
+    "V5_02_fit_coefficients": true,
+    "V5_03_n4_calibration": true,
+    "V5_04_heldout_n7": true,
+    "V5_05_heldout_n8": true,
+    "V5_06_uncertainty_intervals": true,
+    "V5_07_robust_probes": true,
+    "V5_08_batch_scope_failure": true,
+    "V5_09_selectors_agree": true,
+    "V5_10_remint": true,
+    "V5_11_only_frozen_phase_candidates": true
+  },
+  "authority": {
+    "claim_ceiling": [
+      "FINITE_EXACT_PROSPECTIVE_PHASE_BOUNDARY_UNCERTAINTY_V5",
+      "FINITE_EXACT_HELDOUT_SCALE_EXTRAPOLATION_V5",
+      "PARENT_OWNED_POLYHEDRAL_ROBUST_INDEXING_ASYMPTOTICS",
+      "NO_REAL_SCALE_UNIVERSAL_SCALING_OR_COMPLETE_COORDINATE_SCHEMA_CLAIM"
+    ],
+    "freeze_commit": "9d1fa1b0bbfdc8f12638aad7632d1ee6567c67b1",
+    "issue": 689
+  },
+  "batching_twin": {
+    "7": {
+      "batch_wall": "9/7",
+      "fit_fails": true,
+      "original_fit": "18/7"
+    },
+    "8": {
+      "batch_wall": "9/8",
+      "fit_fails": true,
+      "original_fit": "21/8"
+    }
+  },
+  "exactness": {
+    "all_exact": true,
+    "by_scale": {
+      "2": {
+        "bijections": 2,
+        "candidate_directional_query_checks": 32,
+        "expected_bijections": 2
+      },
+      "3": {
+        "bijections": 6,
+        "candidate_directional_query_checks": 144,
+        "expected_bijections": 6
+      },
+      "4": {
+        "bijections": 24,
+        "candidate_directional_query_checks": 768,
+        "expected_bijections": 24
+      },
+      "7": {
+        "bijections": 5040,
+        "candidate_directional_query_checks": 282240,
+        "expected_bijections": 5040
+      },
+      "8": {
+        "bijections": 40320,
+        "candidate_directional_query_checks": 2580480,
+        "expected_bijections": 40320
+      }
+    },
+    "observed_block_ops": {
+      "2": {
+        "dual_index": [8],
+        "key_index": [13],
+        "pair_list": [16],
+        "value_index": [11]
+      },
+      "3": {
+        "dual_index": [8],
+        "key_index": [18],
+        "pair_list": [24],
+        "value_index": [14]
+      },
+      "4": {
+        "dual_index": [8],
+        "key_index": [23],
+        "pair_list": [32],
+        "value_index": [17]
+      },
+      "7": {
+        "dual_index": [8],
+        "key_index": [38],
+        "pair_list": [56],
+        "value_index": [26]
+      },
+      "8": {
+        "dual_index": [8],
+        "key_index": [43],
+        "pair_list": [64],
+        "value_index": [29]
+      }
+    },
+    "total_bijections": 45392,
+    "total_candidate_directional_query_checks": 2863664
+  },
+  "fit": {
+    "alpha": "3",
+    "beta": "-3",
+    "calibration": [2,3,4],
+    "heldout": [7,8]
+  },
+  "remint": {
+    "7": {
+      "boundary_preserved": true,
+      "exact": true,
+      "uncertainty_interval_preserved": true,
+      "vectors_preserved": true
+    },
+    "8": {
+      "boundary_preserved": true,
+      "exact": true,
+      "uncertainty_interval_preserved": true,
+      "vectors_preserved": true
+    }
+  },
+  "scale_results": {
+    "2": {
+      "exact_boundary": "3/2",
+      "fit_prediction": "3/2",
+      "selections": {
+        "3/2": {"direct": ["dual_index","value_index"], "hull": ["dual_index","value_index"]},
+        "7/5": {"direct": ["dual_index"], "hull": ["dual_index"]},
+        "8/5": {"direct": ["value_index"], "hull": ["value_index"]}
+      },
+      "vectors": {"dual_index": [4,8], "key_index": [2,13], "pair_list": [4,16], "value_index": [2,11]}
+    },
+    "3": {
+      "exact_boundary": "2",
+      "fit_prediction": "2",
+      "selections": {
+        "19/10": {"direct": ["dual_index"], "hull": ["dual_index"]},
+        "2": {"direct": ["dual_index","value_index"], "hull": ["dual_index","value_index"]},
+        "21/10": {"direct": ["value_index"], "hull": ["value_index"]}
+      },
+      "vectors": {"dual_index": [6,8], "key_index": [3,18], "pair_list": [6,24], "value_index": [3,14]}
+    },
+    "4": {
+      "exact_boundary": "9/4",
+      "fit_prediction": "9/4",
+      "selections": {
+        "43/20": {"direct": ["dual_index"], "hull": ["dual_index"]},
+        "47/20": {"direct": ["value_index"], "hull": ["value_index"]},
+        "9/4": {"direct": ["dual_index","value_index"], "hull": ["dual_index","value_index"]}
+      },
+      "vectors": {"dual_index": [8,8], "key_index": [4,23], "pair_list": [8,32], "value_index": [4,17]}
+    },
+    "7": {
+      "exact_boundary": "18/7",
+      "fit_prediction": "18/7",
+      "selections": {
+        "173/70": {"direct": ["dual_index"], "hull": ["dual_index"]},
+        "18/7": {"direct": ["dual_index","value_index"], "hull": ["dual_index","value_index"]},
+        "187/70": {"direct": ["value_index"], "hull": ["value_index"]}
+      },
+      "vectors": {"dual_index": [14,8], "key_index": [7,38], "pair_list": [14,56], "value_index": [7,26]}
+    },
+    "8": {
+      "exact_boundary": "21/8",
+      "fit_prediction": "21/8",
+      "selections": {
+        "101/40": {"direct": ["dual_index"], "hull": ["dual_index"]},
+        "109/40": {"direct": ["value_index"], "hull": ["value_index"]},
+        "21/8": {"direct": ["dual_index","value_index"], "hull": ["dual_index","value_index"]}
+      },
+      "vectors": {"dual_index": [16,8], "key_index": [8,43], "pair_list": [16,64], "value_index": [8,29]}
+    }
+  },
+  "uncertainty": {
+    "7": {
+      "enumerated_interval": ["16/7","20/7"],
+      "exact_wall_inside": true,
+      "predicted_interval": ["16/7","20/7"],
+      "probes": {
+        "2": {"perturbation_winners": {"+0,+0": ["dual_index"], "+0,+1": ["dual_index"], "+0,-1": ["dual_index"], "+1,+0": ["dual_index"], "+1,+1": ["dual_index"], "+1,-1": ["dual_index"], "-1,+0": ["dual_index"], "-1,+1": ["dual_index"], "-1,-1": ["dual_index"]}, "robust_output": "dual_index"},
+        "3": {"perturbation_winners": {"+0,+0": ["value_index"], "+0,+1": ["value_index"], "+0,-1": ["value_index"], "+1,+0": ["value_index"], "+1,+1": ["value_index"], "+1,-1": ["value_index"], "-1,+0": ["value_index"], "-1,+1": ["value_index"], "-1,-1": ["value_index"]}, "robust_output": "value_index"},
+        "5/2": {"perturbation_winners": {"+0,+0": ["dual_index"], "+0,+1": ["value_index"], "+0,-1": ["dual_index"], "+1,+0": ["dual_index"], "+1,+1": ["dual_index"], "+1,-1": ["dual_index"], "-1,+0": ["value_index"], "-1,+1": ["value_index"], "-1,-1": ["dual_index"]}, "robust_output": "CANNOT_IDENTIFY"}
+      },
+      "walls": {"+0,+0": "18/7", "+0,+1": "17/7", "+0,-1": "19/7", "+1,+0": "19/7", "+1,+1": "18/7", "+1,-1": "20/7", "-1,+0": "17/7", "-1,+1": "16/7", "-1,-1": "18/7"}
+    },
+    "8": {
+      "enumerated_interval": ["19/8","23/8"],
+      "exact_wall_inside": true,
+      "predicted_interval": ["19/8","23/8"],
+      "probes": {
+        "2": {"perturbation_winners": {"+0,+0": ["dual_index"], "+0,+1": ["dual_index"], "+0,-1": ["dual_index"], "+1,+0": ["dual_index"], "+1,+1": ["dual_index"], "+1,-1": ["dual_index"], "-1,+0": ["dual_index"], "-1,+1": ["dual_index"], "-1,-1": ["dual_index"]}, "robust_output": "dual_index"},
+        "3": {"perturbation_winners": {"+0,+0": ["value_index"], "+0,+1": ["value_index"], "+0,-1": ["value_index"], "+1,+0": ["value_index"], "+1,+1": ["value_index"], "+1,-1": ["value_index"], "-1,+0": ["value_index"], "-1,+1": ["value_index"], "-1,-1": ["value_index"]}, "robust_output": "value_index"},
+        "5/2": {"perturbation_winners": {"+0,+0": ["dual_index"], "+0,+1": ["dual_index","value_index"], "+0,-1": ["dual_index"], "+1,+0": ["dual_index"], "+1,+1": ["dual_index"], "+1,-1": ["dual_index"], "-1,+0": ["dual_index","value_index"], "-1,+1": ["value_index"], "-1,-1": ["dual_index"]}, "robust_output": "CANNOT_IDENTIFY"}
+      },
+      "walls": {"+0,+0": "21/8", "+0,+1": "5/2", "+0,-1": "11/4", "+1,+0": "11/4", "+1,+1": "21/8", "+1,-1": "23/8", "-1,+0": "5/2", "-1,+1": "19/8", "-1,-1": "21/8"}
+    }
+  }
+}
