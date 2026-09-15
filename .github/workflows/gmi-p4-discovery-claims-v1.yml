@@ -1,0 +1,24 @@
+name: gmi-p4-discovery-claims-v1
+on:
+  push:
+    paths: ["research/gmi-p4-discovery-claims-v1/**", ".github/workflows/gmi-p4-discovery-claims-v1.yml"]
+  pull_request:
+    paths: ["research/gmi-p4-discovery-claims-v1/**", ".github/workflows/gmi-p4-discovery-claims-v1.yml"]
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix: { mode: [normal, optimized] }
+    runs-on: ubuntu-latest
+    defaults:
+      run: { working-directory: research/gmi-p4-discovery-claims-v1 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: tests
+        run: |
+          if [[ "${{ matrix.mode }}" == "optimized" ]]; then PY="python -O"; else PY="python"; fi
+          $PY test_p4_discovery_claims_v1.py -v
+          $PY p4_discovery_claims_v1.py >/tmp/out.json
+          python -c 'import json; a=json.load(open("RECEIPT_V1.json")); b=json.load(open("/tmp/out.json")); assert a==b'
