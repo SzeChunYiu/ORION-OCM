@@ -1,0 +1,26 @@
+name: GMI hybrid complementarity v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-hybrid-complementarity-v1/**'
+      - '.github/workflows/gmi-hybrid-complementarity-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-hybrid-complementarity-v1/**'
+      - '.github/workflows/gmi-hybrid-complementarity-v1.yml'
+
+jobs:
+  exact-witness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact hybrid theorem tests
+        working-directory: research/gmi-hybrid-complementarity-v1
+        run: |
+          python -m unittest -v test_hybrid_complementarity_v1.py
+          python hybrid_complementarity_v1.py
+          python -O -m unittest -v test_hybrid_complementarity_v1.py
