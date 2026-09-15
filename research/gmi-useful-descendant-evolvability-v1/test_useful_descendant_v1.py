@@ -83,14 +83,30 @@ class UsefulDescendantTests(unittest.TestCase):
         self.assertEqual(self.receipt["zero_mass_hostile"]["first_hit_burden"], mod.ZERO_TERMINAL)
         self.assertEqual(mod.first_hit_burden(F(0)), mod.ZERO_TERMINAL)
 
-    def test_common_state_contract(self):
-        row = self.receipt["registered_common_state"]
+    def test_common_state_contract_is_derived_from_per_arm_contracts(self):
+        contracts = mod.registered_arm_contracts()
+        row = mod.derive_common_state_contract(contracts)
+        self.assertEqual(row, self.receipt["registered_common_state"])
         self.assertEqual(row["current_object"], [0,0,0,0,0,0])
         self.assertEqual(row["descendant_space_size"], 64)
         self.assertTrue(row["same_current_object_across_arms"])
         self.assertTrue(row["same_descendant_space_across_arms"])
         self.assertTrue(row["same_admissibility_across_arms"])
         self.assertTrue(row["same_membership_verifier_per_held_task"])
+        self.assertTrue(row["one_proposal_and_one_verification_event_per_draw"])
+
+    def test_cross_arm_contract_mismatch_fails_closed(self):
+        contracts = mod.registered_arm_contracts()
+        contracts["SHUFFLED_HISTORY"] = dict(contracts["SHUFFLED_HISTORY"])
+        contracts["SHUFFLED_HISTORY"]["current_object"] = (1,0,0,0,0,0)
+        with self.assertRaisesRegex(RuntimeError, "cross-arm common-state contract mismatch"):
+            mod.derive_common_state_contract(contracts)
+
+        contracts = mod.registered_arm_contracts()
+        contracts["CONTINUED"] = dict(contracts["CONTINUED"])
+        contracts["CONTINUED"]["membership_verifier_id"] = "MUTATED_VERIFIER"
+        with self.assertRaisesRegex(RuntimeError, "cross-arm common-state contract mismatch"):
+            mod.derive_common_state_contract(contracts)
 
     def test_invalid_inputs_fail_closed(self):
         with self.assertRaises(ValueError):
