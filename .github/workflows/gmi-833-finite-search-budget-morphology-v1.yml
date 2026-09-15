@@ -1,0 +1,129 @@
+name: GMI 833 finite search-budget morphology v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-finite-search-budget-morphology-v1/**'
+      - '.github/workflows/gmi-833-finite-search-budget-morphology-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-finite-search-budget-morphology-v1/**'
+      - '.github/workflows/gmi-833-finite-search-budget-morphology-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=ea8bb2d457ee96ebedc2a3a74a735284690a0973
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-finite-search-budget-morphology-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-finite-search-budget-morphology-v1/finite_search_budget_v1.py \
+            research/gmi-833-finite-search-budget-morphology-v1/test_finite_search_budget_v1.py \
+            research/gmi-833-finite-search-budget-morphology-v1/RESULT_V1.json \
+            research/gmi-833-finite-search-budget-morphology-v1/FINITE_SEARCH_BUDGET_THEOREMS_V1.md \
+            research/gmi-833-finite-search-budget-morphology-v1/MANIFEST_V1.json \
+            research/gmi-833-finite-search-budget-morphology-v1/ISSUE_833_RECONCILIATION_FINITE_SEARCH_BUDGET_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify exact parent objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            path="$1"; expected="$2"; actual="$(git rev-parse "HEAD:$path")"
+            test "$actual" = "$expected"
+            if [ ! -f "$path" ]; then mkdir -p "$(dirname "$path")"; git show "HEAD:$path" > "$path"; fi
+            test "$(git hash-object "$path")" = "$expected"
+          }
+          verify_parent research/gmi-section-e-reachability-v1/RESULT_E1.json 369d3bd09279c4136ffeed469d0ffb0b6b5d443b
+          verify_parent research/gmi-section-e-searcher-comparison-v2/RESULT_E2.json 106653e98a2c0415720a10cb6c5f86a6c7243fe6
+          verify_parent research/gmi-833-global-vs-reachable-morphology-v1/RESULT_V1.json 37a0dda56649c02de1dd733b20a1266d481a3d30
+      - name: Exact theorem and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-finite-search-budget-morphology-v1/test_finite_search_budget_v1.py -v
+            python -I -O -B research/gmi-833-finite-search-budget-morphology-v1/finite_search_budget_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-finite-search-budget-morphology-v1/test_finite_search_budget_v1.py -v
+            python -I -B research/gmi-833-finite-search-budget-morphology-v1/finite_search_budget_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-finite-search-budget-morphology-v1/RESULT_V1.json
+      - name: Check manifest, census, parents, and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-finite-search-budget-morphology-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          expected='GMI_FINITE_SEARCH_PREFIX_MORPHOLOGY_SELECTION_DERIVED_AT_REGISTERED_SCOPE'
+          assert m['source_main']==r['source_main']=='4de059b76c0a805f616b645eab636580394a42ed'
+          assert m['freeze_commit']==r['freeze_commit']=='ea8bb2d457ee96ebedc2a3a74a735284690a0973'
+          assert m['claim_ceiling']==r['claim_ceiling']==expected
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          assert r['census']['schedule_worlds']==162009
+          assert r['census']['budget_points']==1448631
+          assert r['census']['failures']==[]
+          assert r['checks']['alternate_order_changes_recovery_threshold']
+          assert r['checks']['alternate_order_changes_finite_budget_morphology']
+          assert r['checks']['tie_equal_optimum_does_not_promote']
+          assert r['checks']['pre_evaluation_is_typed_terminal']
+          assert r['parent_boundary']['section_e_e2']['parent_owned']
+          assert 'stochastic' in r['parent_boundary']['section_e_e2']['outside_child_theorem']
+          PY
+      - name: Check #833 exact reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-finite-search-budget-morphology-v1/ISSUE_833_RECONCILIATION_FINITE_SEARCH_BUDGET_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section J row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-finite-search-budget-morphology-v1/ISSUE_833_RECONCILIATION_FINITE_SEARCH_BUDGET_V1.json

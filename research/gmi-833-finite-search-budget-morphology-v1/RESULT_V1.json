@@ -1,0 +1,393 @@
+{
+  "census": {
+    "budget_points": 1448631,
+    "cost_alphabet": [
+      1,
+      2,
+      3
+    ],
+    "failures": [],
+    "max_morphologies": 4,
+    "no_candidate_points": 324018,
+    "objective_alphabet": [
+      0,
+      1,
+      2
+    ],
+    "schedule_worlds": 162009,
+    "strict_improvement_events": 101466,
+    "tied_nonpromotion_events": 160434,
+    "zero_regret_points": 819297
+  },
+  "checks": {
+    "all_hostiles_rejected": true,
+    "alternate_order_changes_finite_budget_morphology": true,
+    "alternate_order_changes_recovery_threshold": true,
+    "census_budget_count_exact": true,
+    "census_exercises_pre_evaluation_terminal": true,
+    "census_exercises_strict_improvements": true,
+    "census_exercises_tied_nonpromotion": true,
+    "census_exercises_zero_regret": true,
+    "census_world_count_exact": true,
+    "census_zero_failures": true,
+    "pre_evaluation_is_typed_terminal": true,
+    "tie_earliest_seen_preserved": true,
+    "tie_equal_optimum_does_not_promote": true
+  },
+  "claim_ceiling": "GMI_FINITE_SEARCH_PREFIX_MORPHOLOGY_SELECTION_DERIVED_AT_REGISTERED_SCOPE",
+  "forbidden_promotions": [
+    "NEW_SEARCH_ALGORITHM",
+    "UNIVERSAL_SEARCHER_DOMINANCE",
+    "STOCHASTIC_SEARCH_THEOREM",
+    "ADAPTIVE_OR_NONSTATIONARY_COST_THEOREM",
+    "REAL_OPTIMIZER_CONVERGENCE",
+    "ARCHITECTURE_PRIOR_FREE_RECOVERY",
+    "PROSPECTIVE_HELDOUT_MORPHOLOGY_TRANSITIONS",
+    "P3_RECOVERY_COMPLETE",
+    "COMPLETE_GMI"
+  ],
+  "freeze_commit": "ea8bb2d457ee96ebedc2a3a74a735284690a0973",
+  "hostile_controls": {
+    "bool_budget_rejected": true,
+    "bool_objective_rejected": true,
+    "duplicate_order_rejected": true,
+    "duplicate_universe_rejected": true,
+    "empty_universe_rejected": true,
+    "extra_cost_rejected": true,
+    "extra_objective_rejected": true,
+    "float_budget_rejected": true,
+    "float_cost_rejected": true,
+    "float_objective_rejected": true,
+    "incomplete_order_rejected": true,
+    "missing_cost_rejected": true,
+    "missing_objective_rejected": true,
+    "negative_budget_rejected": true,
+    "negative_cost_rejected": true,
+    "outside_order_rejected": true,
+    "zero_cost_rejected": true
+  },
+  "master_issue": 833,
+  "parent_boundary": {
+    "global_vs_reachable": {
+      "claim_ceiling": "GMI_FINITE_GLOBAL_VS_REACHABLE_MORPHOLOGY_SELECTION_SEPARATED_AT_REGISTERED_SCOPE",
+      "parent_owned": true,
+      "registered_fact": "constrained/reachable optimum is distinct from full-space optimum"
+    },
+    "section_e_e1": {
+      "claim_ceiling": "FINITE_EXACT_PROSPECTIVE_SECTION_E_REACHABILITY_AND_SEARCH_BURDEN_V1",
+      "parent_owned": true,
+      "registered_fact": "at a 20-verification cap, one-bit BFS has not yet reached a target verified at index 21; alternate parent search/encoding schedules differ"
+    },
+    "section_e_e2": {
+      "claim_ceiling": "FINITE_EXACT_SAME_WORLD_PARENT_SEARCHER_COMPARISON_E2",
+      "outside_child_theorem": "stochastic and differentiable search results are evidence only, not covered by deterministic complete-trace theorem",
+      "parent_owned": true,
+      "registered_fact": "same-world finite-budget recovery differs across parent-owned search mechanisms"
+    }
+  },
+  "parent_pins": {
+    "global_vs_reachable": {
+      "blob": "37a0dda56649c02de1dd733b20a1266d481a3d30",
+      "path": "research/gmi-833-global-vs-reachable-morphology-v1/RESULT_V1.json"
+    },
+    "section_e_e1": {
+      "blob": "369d3bd09279c4136ffeed469d0ffb0b6b5d443b",
+      "path": "research/gmi-section-e-reachability-v1/RESULT_E1.json"
+    },
+    "section_e_e2": {
+      "blob": "106653e98a2c0415720a10cb6c5f86a6c7243fe6",
+      "path": "research/gmi-section-e-searcher-comparison-v2/RESULT_E2.json"
+    }
+  },
+  "schema": "GMI_833_FINITE_SEARCH_BUDGET_MORPHOLOGY_V1",
+  "source_issue": 877,
+  "source_main": "4de059b76c0a805f616b645eab636580394a42ed",
+  "theorems": {
+    "FSB_1": "budget exposes exactly the maximal cumulative-cost-feasible search prefix",
+    "FSB_2": "finite-budget incumbent is earliest-seen prefix argmin; empty prefix yields NO_EVALUATED_CANDIDATE",
+    "FSB_3": "incumbent value and exact regret are stepwise nonincreasing with budget",
+    "FSB_4": "global optimum value is recovered iff budget reaches the first global-optimum completion threshold B_star",
+    "FSB_5": "after initial selection, incumbent identity changes at a completion threshold iff the new candidate strictly improves objective",
+    "FSB_6": "complete enumeration recovers a global optimizer while alternate orders may change B_star and finite-budget morphology"
+  },
+  "verdict": "GREEN",
+  "witnesses": {
+    "alternate_order": {
+      "budget_1_early": {
+        "budget": "1",
+        "evaluated_count": 1,
+        "evaluated_prefix": [
+          "best"
+        ],
+        "global_value": "0",
+        "global_value_recovered": true,
+        "regret": "0",
+        "selected": "best",
+        "selected_value": "0",
+        "spent_completed_cost": "1",
+        "terminal": "FINITE_BUDGET_INCUMBENT"
+      },
+      "budget_1_late": {
+        "budget": "1",
+        "evaluated_count": 1,
+        "evaluated_prefix": [
+          "bad"
+        ],
+        "global_value": "0",
+        "global_value_recovered": false,
+        "regret": "2",
+        "selected": "bad",
+        "selected_value": "2",
+        "spent_completed_cost": "1",
+        "terminal": "FINITE_BUDGET_INCUMBENT"
+      },
+      "different_budget_1_morphologies": true,
+      "different_recovery_thresholds": true,
+      "early_best": {
+        "complete_recovers_global_value": true,
+        "complete_selection": "best",
+        "complete_value": "0",
+        "global_argmin": [
+          "best"
+        ],
+        "global_value": "0",
+        "order": [
+          "best",
+          "mid",
+          "bad"
+        ],
+        "recovery_threshold": "1",
+        "schedule": [
+          [
+            "best",
+            "1",
+            "1"
+          ],
+          [
+            "mid",
+            "1",
+            "2"
+          ],
+          [
+            "bad",
+            "1",
+            "3"
+          ]
+        ],
+        "total_cost": "3",
+        "transitions": {
+          "all_post_initial_changes_iff_strict_improvement": true,
+          "rows": [
+            {
+              "candidate": "best",
+              "candidate_value": "0",
+              "classification": "INITIAL_SELECTION",
+              "completion_cost": "1",
+              "identity_changed": true,
+              "index": 1,
+              "new_incumbent": "best",
+              "previous_incumbent": null,
+              "strict_improvement_over_previous": null
+            },
+            {
+              "candidate": "mid",
+              "candidate_value": "1",
+              "classification": "NO_INCUMBENT_CHANGE",
+              "completion_cost": "2",
+              "identity_changed": false,
+              "index": 2,
+              "new_incumbent": "best",
+              "previous_incumbent": "best",
+              "strict_improvement_over_previous": false
+            },
+            {
+              "candidate": "bad",
+              "candidate_value": "2",
+              "classification": "NO_INCUMBENT_CHANGE",
+              "completion_cost": "3",
+              "identity_changed": false,
+              "index": 3,
+              "new_incumbent": "best",
+              "previous_incumbent": "best",
+              "strict_improvement_over_previous": false
+            }
+          ]
+        }
+      },
+      "late_best": {
+        "complete_recovers_global_value": true,
+        "complete_selection": "best",
+        "complete_value": "0",
+        "global_argmin": [
+          "best"
+        ],
+        "global_value": "0",
+        "order": [
+          "bad",
+          "mid",
+          "best"
+        ],
+        "recovery_threshold": "3",
+        "schedule": [
+          [
+            "bad",
+            "1",
+            "1"
+          ],
+          [
+            "mid",
+            "1",
+            "2"
+          ],
+          [
+            "best",
+            "1",
+            "3"
+          ]
+        ],
+        "total_cost": "3",
+        "transitions": {
+          "all_post_initial_changes_iff_strict_improvement": true,
+          "rows": [
+            {
+              "candidate": "bad",
+              "candidate_value": "2",
+              "classification": "INITIAL_SELECTION",
+              "completion_cost": "1",
+              "identity_changed": true,
+              "index": 1,
+              "new_incumbent": "bad",
+              "previous_incumbent": null,
+              "strict_improvement_over_previous": null
+            },
+            {
+              "candidate": "mid",
+              "candidate_value": "1",
+              "classification": "STRICT_IMPROVEMENT",
+              "completion_cost": "2",
+              "identity_changed": true,
+              "index": 2,
+              "new_incumbent": "mid",
+              "previous_incumbent": "bad",
+              "strict_improvement_over_previous": true
+            },
+            {
+              "candidate": "best",
+              "candidate_value": "0",
+              "classification": "STRICT_IMPROVEMENT",
+              "completion_cost": "3",
+              "identity_changed": true,
+              "index": 3,
+              "new_incumbent": "best",
+              "previous_incumbent": "mid",
+              "strict_improvement_over_previous": true
+            }
+          ]
+        }
+      }
+    },
+    "pre_evaluation_terminal": {
+      "budget": "1",
+      "evaluated_count": 0,
+      "evaluated_prefix": [],
+      "global_value": "0",
+      "global_value_recovered": false,
+      "regret": null,
+      "selected": null,
+      "selected_value": null,
+      "spent_completed_cost": "0",
+      "terminal": "NO_EVALUATED_CANDIDATE"
+    },
+    "tie_nonpromotion": {
+      "budget_2": {
+        "budget": "2",
+        "evaluated_count": 2,
+        "evaluated_prefix": [
+          "a",
+          "b"
+        ],
+        "global_value": "0",
+        "global_value_recovered": true,
+        "regret": "0",
+        "selected": "a",
+        "selected_value": "0",
+        "spent_completed_cost": "2",
+        "terminal": "FINITE_BUDGET_INCUMBENT"
+      },
+      "earliest_seen_preserved": true,
+      "schedule": {
+        "complete_recovers_global_value": true,
+        "complete_selection": "a",
+        "complete_value": "0",
+        "global_argmin": [
+          "a",
+          "b"
+        ],
+        "global_value": "0",
+        "order": [
+          "a",
+          "b",
+          "c"
+        ],
+        "recovery_threshold": "1",
+        "schedule": [
+          [
+            "a",
+            "1",
+            "1"
+          ],
+          [
+            "b",
+            "1",
+            "2"
+          ],
+          [
+            "c",
+            "1",
+            "3"
+          ]
+        ],
+        "total_cost": "3",
+        "transitions": {
+          "all_post_initial_changes_iff_strict_improvement": true,
+          "rows": [
+            {
+              "candidate": "a",
+              "candidate_value": "0",
+              "classification": "INITIAL_SELECTION",
+              "completion_cost": "1",
+              "identity_changed": true,
+              "index": 1,
+              "new_incumbent": "a",
+              "previous_incumbent": null,
+              "strict_improvement_over_previous": null
+            },
+            {
+              "candidate": "b",
+              "candidate_value": "0",
+              "classification": "NO_INCUMBENT_CHANGE",
+              "completion_cost": "2",
+              "identity_changed": false,
+              "index": 2,
+              "new_incumbent": "a",
+              "previous_incumbent": "a",
+              "strict_improvement_over_previous": false
+            },
+            {
+              "candidate": "c",
+              "candidate_value": "1",
+              "classification": "NO_INCUMBENT_CHANGE",
+              "completion_cost": "3",
+              "identity_changed": false,
+              "index": 3,
+              "new_incumbent": "a",
+              "previous_incumbent": "a",
+              "strict_improvement_over_previous": false
+            }
+          ]
+        }
+      },
+      "second_equal_optimum_does_not_change_incumbent": true
+    }
+  }
+}
