@@ -1,0 +1,35 @@
+name: GMI exact uncertainty decomposition
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-uncertainty-decomposition-v1/**"
+      - ".github/workflows/gmi-uncertainty-decomposition.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-uncertainty-decomposition-v1/**"
+      - ".github/workflows/gmi-uncertainty-decomposition.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-normal-optimized:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Exact normal replay
+        run: |
+          python research/gmi-uncertainty-decomposition-v1/check_uncertainty_decomposition_v1.py > /tmp/normal.json
+          cat /tmp/normal.json
+      - name: Exact optimized replay
+        run: |
+          python -O research/gmi-uncertainty-decomposition-v1/check_uncertainty_decomposition_v1.py > /tmp/optimized.json
+          cat /tmp/optimized.json
+      - name: Receipts are byte-identical
+        run: cmp /tmp/normal.json /tmp/optimized.json
