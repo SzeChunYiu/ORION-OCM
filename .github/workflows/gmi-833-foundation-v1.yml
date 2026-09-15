@@ -41,8 +41,10 @@ jobs:
           cd research/gmi-833-foundation-v1
           if [ "${{ matrix.mode }}" = optimized ]; then
             python -I -O -B test_foundation_v1.py
+            python -I -O -B test_governance_v1.py
           else
             python -I -B test_foundation_v1.py
+            python -I -B test_governance_v1.py
           fi
       - name: Reproduce deterministic receipt
         shell: bash
