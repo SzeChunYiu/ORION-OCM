@@ -1,1 +1,0 @@
-Authority note: FREEZE_V1.md at ee62a2ae888ebddbc925972bc149468884e24ba5 is the pre-scoring authority for issue #784. This file exists only to make that custody boundary explicit in branch review metadata; it carries no scientific claim.
