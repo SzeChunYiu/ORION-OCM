@@ -1,0 +1,59 @@
+name: gmi-epistemic-aleatoric-separation
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-epistemic-aleatoric-separation-v1/**'
+      - '.github/workflows/gmi-epistemic-aleatoric-separation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-hostile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: normal
+            python_cmd: python
+          - mode: optimized
+            python_cmd: python -O
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify pre-implementation freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=f134569e8a9789cee5b3fde78d2ec330e5355d2a
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
+          test "$changed" = "research/gmi-epistemic-aleatoric-separation-v1/FREEZE_V1.md"
+          if git cat-file -e "$FREEZE:research/gmi-epistemic-aleatoric-separation-v1/epistemic_aleatoric_v1.py" 2>/dev/null; then
+            echo 'implementation existed in freeze commit' >&2
+            exit 1
+          fi
+          if git cat-file -e "$FREEZE:research/gmi-epistemic-aleatoric-separation-v1/RESULT_V1.json" 2>/dev/null; then
+            echo 'result existed in freeze commit' >&2
+            exit 1
+          fi
+      - name: Run exact and adversarial tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} -m unittest discover \
+            -s research/gmi-epistemic-aleatoric-separation-v1 \
+            -p 'test_*.py'
+      - name: Reproduce committed receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} research/gmi-epistemic-aleatoric-separation-v1/epistemic_aleatoric_v1.py > /tmp/RESULT_V1.json
+          cmp /tmp/RESULT_V1.json research/gmi-epistemic-aleatoric-separation-v1/RESULT_V1.json
