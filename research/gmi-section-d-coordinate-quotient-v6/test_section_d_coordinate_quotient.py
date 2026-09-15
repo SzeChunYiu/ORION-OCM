@@ -32,6 +32,15 @@ class D6Tests(unittest.TestCase):
         for source, row in self.r['source_remint_checks'].items():
             self.assertTrue(all(row.values()), source)
 
+    def test_relation_remint_is_not_a_clone(self):
+        for base_name in ('R4_H_key', 'R4_H_value'):
+            base = next(c for c in self.cells if c.specimen == base_name)
+            remint = next(c for c in self.cells if c.specimen == base_name + '_remint')
+            self.assertNotEqual(base.encoding_digest, remint.encoding_digest)
+            self.assertEqual(base.truth_digest, remint.truth_digest)
+            self.assertEqual(base.coordinates, remint.coordinates)
+            self.assertEqual(base.frontier, remint.frontier)
+
     def test_schema_values_do_not_leak_candidate_identity(self):
         self.assertTrue(w.no_leakage(self.cells))
 
