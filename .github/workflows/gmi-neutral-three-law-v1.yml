@@ -1,0 +1,71 @@
+name: GMI neutral three-law rediscovery
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-neutral-three-law-v1/**"
+      - ".github/workflows/gmi-neutral-three-law-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-neutral-three-law-v1/**"
+      - ".github/workflows/gmi-neutral-three-law-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-freeze-normal-optimized:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=0c1e74efd76bb7ce68cb24766546db19b9216638
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          git cat-file -e "$FREEZE:research/gmi-neutral-three-law-v1/FREEZE_V1.md"
+          for path in \
+            research/gmi-neutral-three-law-v1/FORMALIZATION_V1.md \
+            research/gmi-neutral-three-law-v1/neutral_three_law_v1.py \
+            research/gmi-neutral-three-law-v1/test_neutral_three_law_v1.py \
+            research/gmi-neutral-three-law-v1/RESULT_V1.json \
+            research/gmi-neutral-three-law-v1/check_raw_syntax_completeness_v1.py; do
+            if git cat-file -e "$FREEZE:$path" 2>/dev/null; then
+              echo "Implementation/result artifact existed at freeze: $path" >&2
+              exit 1
+            fi
+          done
+      - name: Exact tests — normal Python
+        working-directory: research/gmi-neutral-three-law-v1
+        run: python -m unittest -v test_neutral_three_law_v1.py
+      - name: Exact tests — optimized Python
+        working-directory: research/gmi-neutral-three-law-v1
+        run: python -O -m unittest -v test_neutral_three_law_v1.py
+      - name: Reproduce deterministic receipt — normal
+        working-directory: research/gmi-neutral-three-law-v1
+        run: python neutral_three_law_v1.py > /tmp/neutral-three-law.normal.json
+      - name: Reproduce deterministic receipt — optimized
+        working-directory: research/gmi-neutral-three-law-v1
+        run: python -O neutral_three_law_v1.py > /tmp/neutral-three-law.optimized.json
+      - name: Compare receipts byte-for-byte
+        working-directory: research/gmi-neutral-three-law-v1
+        run: |
+          cmp RESULT_V1.json /tmp/neutral-three-law.normal.json
+          cmp RESULT_V1.json /tmp/neutral-three-law.optimized.json
+          cmp /tmp/neutral-three-law.normal.json /tmp/neutral-three-law.optimized.json
+      - name: Exhaust all 40,026 raw syntax trees — normal
+        working-directory: research/gmi-neutral-three-law-v1
+        run: python check_raw_syntax_completeness_v1.py > /tmp/raw-syntax.normal.json
+      - name: Exhaust all 40,026 raw syntax trees — optimized
+        working-directory: research/gmi-neutral-three-law-v1
+        run: python -O check_raw_syntax_completeness_v1.py > /tmp/raw-syntax.optimized.json
+      - name: Raw syntax certificates are deterministic
+        run: cmp /tmp/raw-syntax.normal.json /tmp/raw-syntax.optimized.json
