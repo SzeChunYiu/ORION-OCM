@@ -3,11 +3,15 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 import unittest
 
-import foundation_v1 as f
-
 HERE = Path(__file__).resolve().parent
+# The scientific CI intentionally executes under `python -I`; match the existing
+# foundation suite by restoring only this package directory, never site/user paths.
+sys.path.insert(0, str(HERE))
+
+import foundation_v1 as f
 
 
 def load(name: str):
