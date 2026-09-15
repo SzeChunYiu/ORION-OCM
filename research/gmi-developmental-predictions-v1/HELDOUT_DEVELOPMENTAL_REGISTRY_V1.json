@@ -1,0 +1,73 @@
+{
+  "schema": "HeldOutDevelopmentalRegistryV1",
+  "fit_forbidden": true,
+  "scope": "Formal held-out developmental literature/dataset claims for #602 L4. Entries are comparison targets only; never fit inputs.",
+  "claim_ceiling": "FINITE_EXACT_HELD_OUT_COMPARISON_ONLY",
+  "notes": [
+    "Citations are registered literature pointers, not training labels.",
+    "Predictor gates are fixed from taxonomy+biology parents before scoring.",
+    "Mismatch falsifies the finite schedule at registered scope; it does not license post-hoc gate edits on this split."
+  ],
+  "entries": [
+    {
+      "id": "HO-order-procedural-before-composition",
+      "claim_type": "ordering",
+      "earlier": "cap-procedural-memory",
+      "later": "cap-compositional-reasoning",
+      "citation": "Constructive developmental ordering: skill/procedure before compositional recombination (Piagetian/constructivist held-out pointer)",
+      "source_split": "held_out"
+    },
+    {
+      "id": "HO-order-perception-before-working-memory",
+      "claim_type": "ordering",
+      "earlier": "cap-perception",
+      "later": "cap-working-memory",
+      "citation": "Sensorimotor/perception scaffolds working memory load (held-out developmental psych pointer)",
+      "source_split": "held_out"
+    },
+    {
+      "id": "HO-order-working-memory-before-social",
+      "claim_type": "ordering",
+      "earlier": "cap-working-memory",
+      "later": "cap-social-cognition",
+      "citation": "Social inference requires retained partner/state distinctions (held-out ToM prerequisite pointer)",
+      "source_split": "held_out"
+    },
+    {
+      "id": "HO-composition-not-infant",
+      "claim_type": "composition_stage_at_or_after",
+      "min_stage": "child",
+      "citation": "Compositional abstraction is not an infant-default; emerges after accumulated structure (held-out)",
+      "source_split": "held_out"
+    },
+    {
+      "id": "HO-social-depth-increases",
+      "claim_type": "social_depth_nondecreasing",
+      "citation": "Social inference depth increases across development under growing social ecology (held-out)",
+      "source_split": "held_out"
+    },
+    {
+      "id": "HO-morph-sensitive-period",
+      "claim_type": "sensitive_period_exists",
+      "kind": "MORPH",
+      "citation": "Resource/verifier assumptions imply a finite morphology-change window (held-out sensitive-period literature pointer)",
+      "source_split": "held_out"
+    },
+    {
+      "id": "HO-composition-needs-structure",
+      "claim_type": "structure_dependence",
+      "capability": "cap-compositional-reasoning",
+      "expected_depends": true,
+      "citation": "Compositional abstraction depends on accumulated prior structure (held-out)",
+      "source_split": "held_out"
+    },
+    {
+      "id": "HO-perception-no-structure",
+      "claim_type": "structure_dependence",
+      "capability": "cap-perception",
+      "expected_depends": false,
+      "citation": "Basic perception gate is resource-only at registered scope (held-out negative control)",
+      "source_split": "held_out"
+    }
+  ]
+}
