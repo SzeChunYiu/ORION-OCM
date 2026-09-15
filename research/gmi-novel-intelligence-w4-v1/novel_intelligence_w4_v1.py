@@ -22,7 +22,7 @@ import importlib.util
 import json
 import os
 import sys
-from typing import Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import Dict, List, Mapping, Sequence, Tuple
 
 Partition = Tuple[int, ...]
 
