@@ -1,0 +1,36 @@
+name: gmi-unseen-form-prediction-v1
+
+on:
+  push:
+    paths:
+      - "research/gmi-unseen-form-prediction-v1/**"
+      - ".github/workflows/gmi-unseen-form-prediction-v1.yml"
+  pull_request:
+    paths:
+      - "research/gmi-unseen-form-prediction-v1/**"
+      - ".github/workflows/gmi-unseen-form-prediction-v1.yml"
+
+jobs:
+  exact-v6:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/gmi-unseen-form-prediction-v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+      - name: Unit tests
+        run: python test_unseen_form_prediction_v1.py -v
+      - name: Emit receipt
+        run: python unseen_form_prediction_v1.py
+      - name: Require all six V6 boxes green
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("RESULT_V1.json"))
+          assert r["all_six_v6_boxes_green"] is True
+          assert r["item39_ladder"]["W4_domain_status"] is False
+          print("V6 OK:", {k: v["tick"] for k, v in r["v6_boxes"].items()})
+          PY
