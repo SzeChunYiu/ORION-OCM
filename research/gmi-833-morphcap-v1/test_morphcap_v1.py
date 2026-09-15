@@ -25,8 +25,9 @@ class MorphCapV1Tests(unittest.TestCase):
         self.assertEqual(mod.build_receipt(), expected)
         self.assertEqual(mod.canonical_json(expected), (HERE / "RESULT_V1.json").read_text())
 
-    def test_state_renaming_is_morphology_invariant(self):
+    def test_state_renaming_and_label_order_are_morphology_invariant(self):
         base, renamed, _, _, _ = mod.witness_machines()
+        self.assertNotEqual(tuple(base["actions"]), tuple(renamed["actions"]))
         self.assertTrue(mod.morphology_equivalent(base, renamed))
         self.assertEqual(mod.canonical_mechanism(base), mod.canonical_mechanism(renamed))
 
@@ -44,6 +45,27 @@ class MorphCapV1Tests(unittest.TestCase):
         self.assertTrue(all(mod.run_word(base, w) == mod.run_word(resource_twin, w) for w in words))
         self.assertFalse(mod.morphology_equivalent(base, resource_twin))
         self.assertFalse(mod.morphology_equivalent(base, intervention_twin))
+
+    def test_unreachable_registered_junk_is_rejected(self):
+        base, _, _, _, _ = mod.witness_machines()
+        junk = dict(base)
+        junk["states"] = ("A", "B", "J")
+        junk["output"] = dict(base["output"], J=0)
+        junk["transition"] = dict(base["transition"])
+        junk["transition"].update({("J", "flip"): "J", ("J", "stay"): "J"})
+        junk["intervention_response"] = dict(base["intervention_response"])
+        junk["intervention_response"][("J", "probe")] = 0
+        junk["development_edges"] = set(base["development_edges"])
+        with self.assertRaisesRegex(ValueError, "only reachable registered states"):
+            mod.canonical_mechanism(junk)
+
+    def test_incomplete_transition_contract_is_rejected(self):
+        base, _, _, _, _ = mod.witness_machines()
+        malformed = dict(base)
+        malformed["transition"] = dict(base["transition"])
+        del malformed["transition"][("A", "stay")]
+        with self.assertRaisesRegex(ValueError, "transition relation must be total"):
+            mod.canonical_mechanism(malformed)
 
     def test_equivalent_capability_regions_match(self):
         base, renamed, _, resource_twin, _ = mod.witness_machines()
@@ -73,6 +95,8 @@ class MorphCapV1Tests(unittest.TestCase):
     def test_hidden_information_ceiling_is_exact_half(self):
         grid = [Fraction(k,32) for k in range(33)]
         self.assertEqual({mod.hidden_world_score(p) for p in grid}, {Fraction(1,2)})
+        with self.assertRaises(ValueError):
+            mod.hidden_world_score(Fraction(33, 32))
 
     def test_revealed_information_positive_twin_reaches_one(self):
         self.assertEqual(mod.revealed_world_score(Fraction(0), Fraction(1)), Fraction(1))
@@ -83,6 +107,16 @@ class MorphCapV1Tests(unittest.TestCase):
     def test_empty_feasible_class_has_no_fabricated_ceiling(self):
         c = ({"score": Fraction(1), "resources": (2,2)},)
         self.assertIsNone(mod.finite_ceiling(c, (1,1)))
+
+    def test_negative_task_weight_is_rejected(self):
+        base, _, _, _, _ = mod.witness_machines()
+        bad = {
+            "tasks": ({"word": (), "target": 0, "weight": -1},),
+            "budget": (3, 2),
+            "threshold": 0,
+        }
+        with self.assertRaisesRegex(ValueError, "weights must be nonnegative"):
+            mod.capability_value(base, bad)
 
     def test_claim_ceiling_stays_bounded(self):
         r = mod.build_receipt()
