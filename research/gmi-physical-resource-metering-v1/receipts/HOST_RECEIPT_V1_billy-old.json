@@ -1,27 +1,27 @@
 {
   "claim_ceiling": "PHYSICAL_COUNTERS_CLOSED_AT_SCOPE;ENERGY_REMAINS_OPEN_WITHOUT_CALIBRATION",
   "deltas": {
-    "cpu_system_s": 0.0009379999999999996,
-    "cpu_user_s": 0.014087000000000002,
+    "cpu_system_s": 0.0029829999999999995,
+    "cpu_user_s": 0.054712999999999984,
     "energy_j": null,
     "gpu_time_s": null,
-    "io_read_bytes": null,
-    "io_write_bytes": null,
-    "wall_s": 0.01612179121002555
+    "io_read_bytes": 0.0,
+    "io_write_bytes": 0.0,
+    "wall_s": 0.05768516007810831
   },
   "host": {
-    "hostname": "BillydeMac-mini.local",
-    "machine": "arm64",
-    "pid": 48915,
-    "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
-    "python": "3.14.6"
+    "hostname": "billy-laptop-old",
+    "machine": "x86_64",
+    "pid": 670972,
+    "platform": "Linux-7.0.0-27-generic-x86_64-with-glibc2.43",
+    "python": "3.14.4"
   },
   "schema": "gmi-physical-resource-metering-receipt-v1",
   "scope": {
     "description": "Issue #602 Section N physical metering probe",
-    "digest": "702a706d79d2fd0f6396bff83014343cb59e4dffe101cf560d944c79933266c1",
+    "digest": "b336e88e2ec05377ccc9095cfd569ce532298bc555f8feab6a76841e55272a69",
     "registered_before_outcomes": true,
-    "scope_id": "gmi-physical-metering-v1-local"
+    "scope_id": "gmi-physical-metering-v1-billy-old"
   },
   "sibling_ledger_energy": "OPEN",
   "sibling_ledger_physical": "OPEN",
@@ -32,7 +32,7 @@
       "source": "time.perf_counter",
       "status": "AVAILABLE",
       "unit": "seconds",
-      "value": 0.01612179121002555
+      "value": 0.05768516007810831
     },
     {
       "coordinate": "cpu_user_s",
@@ -40,7 +40,7 @@
       "source": "resource.ru_utime",
       "status": "AVAILABLE",
       "unit": "seconds",
-      "value": 0.014087000000000002
+      "value": 0.054712999999999984
     },
     {
       "coordinate": "cpu_system_s",
@@ -48,23 +48,23 @@
       "source": "resource.ru_stime",
       "status": "AVAILABLE",
       "unit": "seconds",
-      "value": 0.0009379999999999996
+      "value": 0.0029829999999999995
     },
     {
       "coordinate": "io_read_bytes",
-      "notes": "host does not expose process read_bytes; not coerced to zero",
-      "source": "proc_io_or_none",
-      "status": "UNAVAILABLE",
+      "notes": "",
+      "source": "/proc/self/io",
+      "status": "AVAILABLE",
       "unit": "bytes",
-      "value": null
+      "value": 0.0
     },
     {
       "coordinate": "io_write_bytes",
-      "notes": "host does not expose process write_bytes; not coerced to zero",
-      "source": "proc_io_or_none",
-      "status": "UNAVAILABLE",
+      "notes": "",
+      "source": "/proc/self/io",
+      "status": "AVAILABLE",
       "unit": "bytes",
-      "value": null
+      "value": 0.0
     },
     {
       "coordinate": "gpu_time_s",

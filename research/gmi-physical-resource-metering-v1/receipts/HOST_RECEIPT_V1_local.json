@@ -1,0 +1,87 @@
+{
+  "claim_ceiling": "PHYSICAL_COUNTERS_CLOSED_AT_SCOPE;ENERGY_REMAINS_OPEN_WITHOUT_CALIBRATION",
+  "deltas": {
+    "cpu_system_s": 0.0019309999999999987,
+    "cpu_user_s": 0.015260000000000003,
+    "energy_j": null,
+    "gpu_time_s": null,
+    "io_read_bytes": null,
+    "io_write_bytes": null,
+    "wall_s": 0.03662662534043193
+  },
+  "host": {
+    "hostname": "BillydeMac-mini.local",
+    "machine": "arm64",
+    "pid": 57698,
+    "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6"
+  },
+  "schema": "gmi-physical-resource-metering-receipt-v1",
+  "scope": {
+    "description": "Issue #602 Section N physical metering probe",
+    "digest": "702a706d79d2fd0f6396bff83014343cb59e4dffe101cf560d944c79933266c1",
+    "registered_before_outcomes": true,
+    "scope_id": "gmi-physical-metering-v1-local"
+  },
+  "sibling_ledger_energy": "OPEN",
+  "sibling_ledger_physical": "OPEN",
+  "statuses": [
+    {
+      "coordinate": "wall_s",
+      "notes": "",
+      "source": "time.perf_counter",
+      "status": "AVAILABLE",
+      "unit": "seconds",
+      "value": 0.03662662534043193
+    },
+    {
+      "coordinate": "cpu_user_s",
+      "notes": "",
+      "source": "resource.ru_utime",
+      "status": "AVAILABLE",
+      "unit": "seconds",
+      "value": 0.015260000000000003
+    },
+    {
+      "coordinate": "cpu_system_s",
+      "notes": "",
+      "source": "resource.ru_stime",
+      "status": "AVAILABLE",
+      "unit": "seconds",
+      "value": 0.0019309999999999987
+    },
+    {
+      "coordinate": "io_read_bytes",
+      "notes": "host does not expose process read_bytes; not coerced to zero",
+      "source": "proc_io_or_none",
+      "status": "UNAVAILABLE",
+      "unit": "bytes",
+      "value": null
+    },
+    {
+      "coordinate": "io_write_bytes",
+      "notes": "host does not expose process write_bytes; not coerced to zero",
+      "source": "proc_io_or_none",
+      "status": "UNAVAILABLE",
+      "unit": "bytes",
+      "value": null
+    },
+    {
+      "coordinate": "gpu_time_s",
+      "notes": "UNAVAILABLE:no-nvidia-smi",
+      "source": "gpu-probe",
+      "status": "UNAVAILABLE",
+      "unit": "seconds",
+      "value": null
+    },
+    {
+      "coordinate": "energy_j",
+      "notes": "RAPL energy_uj unread; joules not inferred from CPU/wall",
+      "source": "no-calibrated-source",
+      "status": "OPEN",
+      "unit": "joules",
+      "value": null
+    }
+  ],
+  "workload": "default_probe"
+}
