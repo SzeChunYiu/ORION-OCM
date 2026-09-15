@@ -10,7 +10,7 @@ calibrated host source is present.
 from __future__ import annotations
 
 from contextlib import contextmanager
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from hashlib import sha256
 import json
 import os
