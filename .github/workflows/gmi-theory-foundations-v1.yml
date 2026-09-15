@@ -1,0 +1,33 @@
+name: GMI theory foundations v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-theory-foundations-v1/**'
+      - '.github/workflows/gmi-theory-foundations-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-theory-foundations-v1/**'
+      - '.github/workflows/gmi-theory-foundations-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  foundations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate ledgers and reconstruct finite theorem surfaces
+        run: python research/gmi-theory-foundations-v1/validate_foundations.py
+      - name: Run hostile controls
+        run: python research/gmi-theory-foundations-v1/test_foundations.py
+      - name: Exhaust all 2- and 3-state binary Mealy machines
+        run: python research/gmi-theory-foundations-v1/exhaustive_small_models.py
+      - name: Require clean reconstruction
+        run: git diff --exit-code

@@ -1,0 +1,81 @@
+{
+  "schema_version": "gmi-prior-ledger-v1",
+  "programme": "#833",
+  "tranche": "#834",
+  "architecture_prior_free_claim": {
+    "claimed": true,
+    "meaning": "No named implementation architecture is required by S1/S1.1 or B1-B3; residual restrictions below remain explicit.",
+    "forbidden_interpretation": "prior-free or assumption-free derivation"
+  },
+  "allowed_categories": [
+    "ARCHITECTURE",
+    "REPRESENTATION",
+    "OPERATOR",
+    "SEARCH",
+    "ECOLOGICAL",
+    "EVALUATION"
+  ],
+  "allowed_tiers": [
+    "P0",
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "entries": [
+    {
+      "id": "PRIOR-001",
+      "category": "REPRESENTATION",
+      "tier": "P1",
+      "restriction": "B1-B3 use deterministic total transition/output functions and exact finite action words.",
+      "used_by": ["B1", "B2", "B3", "N1-boundary"],
+      "justification": "Needed to state the exact v1 theorem; stochastic/partial/nondeterministic variants are separate gaps.",
+      "falsifier": "A proof step in B1-B3 is shown to use an undeclared stronger carrier or architecture assumption."
+    },
+    {
+      "id": "PRIOR-002",
+      "category": "EVALUATION",
+      "tier": "P4",
+      "restriction": "Behavioral equivalence is exact equality for all finite action suffixes.",
+      "used_by": ["B1", "B2", "B3"],
+      "justification": "Defines the v1 notion of exact behavioral identity.",
+      "falsifier": "The implementation or proof silently substitutes a tolerance, distribution, finite horizon, or benchmark score."
+    },
+    {
+      "id": "PRIOR-003",
+      "category": "SEARCH",
+      "tier": "P3",
+      "restriction": "Executable S1 sanity checks enumerate finite symmetric hypothesis sets only for sizes 2 through 6.",
+      "used_by": ["S1-check"],
+      "justification": "Bounded enumeration is only a reconstruction aid; the analytic group-action proof is unbounded.",
+      "falsifier": "The package advertises the bounded enumeration as the proof of S1."
+    },
+    {
+      "id": "PRIOR-004",
+      "category": "ECOLOGICAL",
+      "tier": "P4",
+      "restriction": "No environment distribution, task frequency, or real-world ecology is used in the formal theorems.",
+      "used_by": ["claim-ceiling"],
+      "justification": "Prevents formal closure from being laundered into empirical capability claims.",
+      "falsifier": "A real-scale or ecological conclusion is claimed from this package alone."
+    },
+    {
+      "id": "PRIOR-005",
+      "category": "ARCHITECTURE",
+      "tier": "P2",
+      "restriction": "NONE in theorem admissibility: S is an abstract carrier and no neural/graph/symbolic/program topology is selected.",
+      "used_by": ["S1", "B1", "B2", "B3"],
+      "justification": "This is the narrow basis for the architecture-prior-free label.",
+      "falsifier": "Reconstruction requires restricting S or the quotient to a named architecture family."
+    },
+    {
+      "id": "PRIOR-006",
+      "category": "OPERATOR",
+      "tier": "P2",
+      "restriction": "The deterministic theorem uses only total transition and output operators; no synthesis grammar is selected.",
+      "used_by": ["B1", "B2", "B3"],
+      "justification": "Separates generic transition structure from a grammar/library prior.",
+      "falsifier": "A hidden operator library beyond delta/lambda is required for the proof."
+    }
+  ]
+}
