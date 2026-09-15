@@ -1,0 +1,27 @@
+name: GMI capability task transfer freeze (F4)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-capability-transfer-freeze-v1/**'
+      - 'research/gmi-capability-predictor-dev-v1/**'
+      - '.github/workflows/gmi-capability-transfer-freeze-v1.yml'
+  push:
+    paths:
+      - 'research/gmi-capability-transfer-freeze-v1/**'
+      - 'research/gmi-capability-predictor-dev-v1/**'
+      - '.github/workflows/gmi-capability-transfer-freeze-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  transfer-freeze-controls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run transfer freeze controls (normal)
+        run: python -I -B research/gmi-capability-transfer-freeze-v1/test_transfer_freeze_v1.py -v
+      - name: Run transfer freeze controls (optimized)
+        run: python -I -O -B research/gmi-capability-transfer-freeze-v1/test_transfer_freeze_v1.py -v
