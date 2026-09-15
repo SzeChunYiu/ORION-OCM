@@ -1,0 +1,34 @@
+name: GMI history morphology discovery v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-history-morphology-discovery-v1/**'
+      - '.github/workflows/gmi-history-morphology-discovery-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-history-morphology-discovery-v1/**'
+      - '.github/workflows/gmi-history-morphology-discovery-v1.yml'
+
+jobs:
+  exact-assay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify freeze predates executor/result
+        run: |
+          test "$(git rev-list --count 022e55726a1a5e3235ddd516d386f6b96fdadc12..HEAD)" -ge 1
+          git show 022e55726a1a5e3235ddd516d386f6b96fdadc12:research/gmi-history-morphology-discovery-v1/FREEZE_V1.md >/dev/null
+          if git cat-file -e 022e55726a1a5e3235ddd516d386f6b96fdadc12:research/gmi-history-morphology-discovery-v1/history_morphology_discovery_v1.py 2>/dev/null; then exit 1; fi
+          if git cat-file -e 022e55726a1a5e3235ddd516d386f6b96fdadc12:research/gmi-history-morphology-discovery-v1/RESULT_V1.json 2>/dev/null; then exit 1; fi
+      - name: Run exact assay tests
+        working-directory: research/gmi-history-morphology-discovery-v1
+        run: |
+          python -m unittest -v test_history_morphology_discovery_v1.py
+          python history_morphology_discovery_v1.py >/tmp/history-morphology-result.json
+          python -O -m unittest -v test_history_morphology_discovery_v1.py
