@@ -1,0 +1,231 @@
+{
+  "checks": {
+    "alternate_search_hostile": true,
+    "alternate_search_positive": true,
+    "duplicate_weights_not_alternates": true,
+    "encoding_remint_positive": true,
+    "encoding_surface_tie_hostile": true,
+    "matched_twin_detected": true,
+    "missing_controls_fail_closed": true,
+    "nonbijective_remint_rejected": true,
+    "nonpositive_weight_rejected": true,
+    "pareto_dominance_positive": true,
+    "positive_global_robust": true,
+    "positive_requirements_satisfied": true,
+    "scalarization_reversal_hostile": true,
+    "search_budget_mismatch_abstains": true,
+    "search_rename_not_distinct": true,
+    "sensitive_global_not_laundered": true,
+    "sensitive_requirements_still_satisfied": true,
+    "unmatched_background_rejected": true
+  },
+  "claim_ceiling": "GMI_DERIVATION_ROBUSTNESS_CONTROL_REQUIREMENTS_FORMALIZED_AT_REGISTERED_FINITE_SCOPE",
+  "duplicate_weights_hostile": {
+    "reason": "SCALARIZATIONS_NOT_DISTINCT",
+    "terminal": "CANNOT_AUDIT_SCALARIZATION"
+  },
+  "forbidden_promotions": [
+    "ALL_GMI_RESULTS_ROBUST",
+    "ALL_GRAMMARS_NEUTRAL",
+    "ENCODING_INVARIANCE_UNIVERSAL",
+    "SEARCH_ALGORITHM_INDEPENDENCE_UNIVERSAL",
+    "SCALARIZATION_INDEPENDENCE_UNIVERSAL",
+    "ALL_HISTORICAL_RESULTS_REPLICATED",
+    "P3_RECOVERY_COMPLETE",
+    "COMPLETE_GMI"
+  ],
+  "freeze_commit": "d62a842c7b07007c5f4402895c04a0fce4f8b476",
+  "invalid_weight_hostile": {
+    "reason": "WEIGHTS_MUST_BE_STRICTLY_POSITIVE",
+    "terminal": "CANNOT_AUDIT_SCALARIZATION"
+  },
+  "issue": 863,
+  "missing_control_census": {
+    "cases": 16,
+    "failures": [],
+    "satisfying_cases": 1
+  },
+  "nonbijective_encoding_hostile": {
+    "reason": "REMINT_NOT_BIJECTIVE",
+    "terminal": "CANNOT_AUDIT_ENCODING"
+  },
+  "parent_issue": 833,
+  "parent_pins": [
+    {
+      "blob": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+      "claim_ceiling": "GMI_833_FOUNDATION_V1_FORMALIZED_AT_DECLARED_SCOPE",
+      "path": "research/gmi-833-foundation-v1/RESULT_V1.json"
+    },
+    {
+      "blob": "0d8b8c1dcd05512e2ec54db6bae872953daed87f",
+      "claim_ceiling": "GMI_NO_SMUGGLING_AUDIT_TOOLING_VALIDATED_AT_REGISTERED_FINITE_FIXTURE_SCOPE",
+      "path": "research/gmi-833-no-smuggling-audit-v1/RESULT_V1.json"
+    }
+  ],
+  "positive_control": {
+    "control_requirements_terminal": "CONTROL_REQUIREMENTS_SATISFIED",
+    "requirements_satisfied": true,
+    "sensitive": false,
+    "subaudits": {
+      "encoding": {
+        "canonical_result_1": "B",
+        "canonical_result_2": "B",
+        "semantics_preserving_bijection": true,
+        "terminal": "ENCODING_INVARIANT_AT_REGISTERED_REMINTS"
+      },
+      "grammar": {
+        "background_multiset_equal": true,
+        "context_equal": true,
+        "matched": true,
+        "mechanism_free_negative": 4,
+        "mechanism_free_positive": 4,
+        "negative_total": 4,
+        "positive_total": 6,
+        "target_candidates_removed": 2,
+        "terminal": "GRAMMAR_TWIN_MATCHED"
+      },
+      "scalarization": {
+        "pareto_front": [
+          "efficient"
+        ],
+        "price_conditional": false,
+        "terminal": "SCALARIZATION_INVARIANT_AT_REGISTERED_WEIGHTS",
+        "weights": [
+          [
+            "1",
+            "2"
+          ],
+          [
+            "3",
+            "1"
+          ]
+        ],
+        "winners": [
+          [
+            "efficient"
+          ],
+          [
+            "efficient"
+          ]
+        ]
+      },
+      "search": {
+        "declared_budget": 3,
+        "strategies": [
+          "exhaustive",
+          "branch_bound"
+        ],
+        "strategy_signatures": [
+          [
+            "enumerate_all",
+            "no_pruning"
+          ],
+          [
+            "admissible_lower_bound",
+            "prune"
+          ]
+        ],
+        "terminal": "SEARCH_INVARIANT_AT_REGISTERED_ALGORITHMS",
+        "winners": [
+          "B",
+          "B"
+        ]
+      }
+    },
+    "terminal": "ROBUST_AT_REGISTERED_CONTROLS"
+  },
+  "renamed_same_search_hostile": {
+    "reason": "SEARCHERS_NOT_MATERIALLY_DISTINCT",
+    "terminal": "CANNOT_AUDIT_SEARCH"
+  },
+  "schema": "GMI833DerivationRobustnessControlsResultV1",
+  "search_budget_hostile": {
+    "terminal": "CANNOT_COMPARE_SEARCH_BUDGETS"
+  },
+  "sensitivity_hostile": {
+    "control_requirements_terminal": "CONTROL_REQUIREMENTS_SATISFIED",
+    "requirements_satisfied": true,
+    "sensitive": true,
+    "subaudits": {
+      "encoding": {
+        "canonical_result_1": "A",
+        "canonical_result_2": "B",
+        "semantics_preserving_bijection": true,
+        "terminal": "ENCODING_SENSITIVE"
+      },
+      "grammar": {
+        "background_multiset_equal": true,
+        "context_equal": true,
+        "matched": true,
+        "mechanism_free_negative": 4,
+        "mechanism_free_positive": 4,
+        "negative_total": 4,
+        "positive_total": 6,
+        "target_candidates_removed": 2,
+        "terminal": "GRAMMAR_TWIN_MATCHED"
+      },
+      "scalarization": {
+        "pareto_front": [
+          "a",
+          "b"
+        ],
+        "price_conditional": false,
+        "terminal": "PRICE_SENSITIVE",
+        "weights": [
+          [
+            "4",
+            "1"
+          ],
+          [
+            "1",
+            "4"
+          ]
+        ],
+        "winners": [
+          [
+            "a"
+          ],
+          [
+            "b"
+          ]
+        ]
+      },
+      "search": {
+        "declared_budget": 1,
+        "strategies": [
+          "forward_early",
+          "reverse_early"
+        ],
+        "strategy_signatures": [
+          [
+            "early_stop",
+            "forward_order"
+          ],
+          [
+            "early_stop",
+            "reverse_order"
+          ]
+        ],
+        "terminal": "SEARCH_ALGORITHM_SENSITIVE",
+        "winners": [
+          "A",
+          "B"
+        ]
+      }
+    },
+    "terminal": "SENSITIVE_AT_REGISTERED_CONTROLS"
+  },
+  "source_main": "115145b60bae9d066d583a4c5d877ee59eb527ab",
+  "unmatched_grammar_hostile": {
+    "background_multiset_equal": false,
+    "context_equal": true,
+    "matched": false,
+    "mechanism_free_negative": 3,
+    "mechanism_free_positive": 4,
+    "negative_total": 3,
+    "positive_total": 6,
+    "target_candidates_removed": 2,
+    "terminal": "GRAMMAR_TWIN_UNMATCHED"
+  },
+  "verdict": "GREEN"
+}
