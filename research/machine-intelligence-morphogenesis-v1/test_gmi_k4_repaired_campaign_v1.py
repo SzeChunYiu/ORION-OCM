@@ -62,6 +62,39 @@ def test_campaign_earns_green_cells_under_repaired_pricing():
     assert any(r >= camp.RETENTION_ONSET for r in greens)
     assert receipt["invariants"]["frozen_never_retains"] is True
     assert receipt["invariants"]["green_cells_earned"] is True
+    assert receipt["invariants"]["full_coverage_by_256"] is True
+
+
+def test_full_coverage_by_256_requires_the_exact_registered_cell():
+    # Regression for Bugbot finding: saturation at 512 must not retroactively
+    # satisfy a prediction that requires full coverage by reuse 256.
+    late_only = [
+        {"reuse": 128, "repaired": {"coverage": 0.75}},
+        {"reuse": 256, "repaired": {"coverage": 0.98}},
+        {"reuse": 512, "repaired": {"coverage": 1.0}},
+        {"reuse": 4096, "repaired": {"coverage": 1.0}},
+    ]
+    assert camp.full_coverage_at_registered_reuse(late_only) is False
+
+    on_time = [
+        {"reuse": 128, "repaired": {"coverage": 0.75}},
+        {"reuse": 256, "repaired": {"coverage": 0.999}},
+        {"reuse": 512, "repaired": {"coverage": 1.0}},
+    ]
+    assert camp.full_coverage_at_registered_reuse(on_time) is True
+
+
+def test_full_coverage_by_256_fails_closed_if_cell_missing_or_duplicated():
+    missing = [
+        {"reuse": 128, "repaired": {"coverage": 0.9}},
+        {"reuse": 512, "repaired": {"coverage": 1.0}},
+    ]
+    duplicated = [
+        {"reuse": 256, "repaired": {"coverage": 1.0}},
+        {"reuse": 256, "repaired": {"coverage": 1.0}},
+    ]
+    assert camp.full_coverage_at_registered_reuse(missing) is False
+    assert camp.full_coverage_at_registered_reuse(duplicated) is False
 
 
 def test_frozen_control_arm_earns_no_retention_greens():
