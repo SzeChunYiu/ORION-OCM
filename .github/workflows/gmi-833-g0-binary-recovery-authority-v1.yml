@@ -1,0 +1,52 @@
+name: GMI 833 G0 binary recovery authority reconciliation v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-binary-recovery-v1/**'
+      - '.github/workflows/gmi-833-g0-binary-recovery-authority-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-binary-recovery-v1/**'
+      - '.github/workflows/gmi-833-g0-binary-recovery-authority-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-authority:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check merged G0 authority and local receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f research/gmi-833-g0-register-core-v1/RESULT_V1.json
+          test -f research/gmi-833-g0-binary-recovery-v1/RESULT_V1.json
+          test -f research/gmi-833-g0-binary-recovery-v1/ROBUSTNESS_RESULT_V1.json
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-g0-binary-recovery-v1')
+          authority = json.loads(Path('research/gmi-833-g0-register-core-v1/RESULT_V1.json').read_text())
+          recon = json.loads((root/'G0_AUTHORITY_RECONCILIATION_V1.json').read_text())
+          science = json.loads((root/'RESULT_V1.json').read_text())
+          robust = json.loads((root/'ROBUSTNESS_RESULT_V1.json').read_text())
+          assert authority['claim_ceiling'] == recon['g0_authority_claim'] == 'GMI_G0_REGISTER_CORE_AND_FINITE_EMBEDDINGS_AT_DECLARED_SCOPE'
+          assert authority.get('verdict') == 'GREEN'
+          assert science['claim_ceiling'] == recon['this_tranche_claim']
+          assert science['verdict'] == 'GREEN'
+          assert robust['scientific_claim'] == science['claim_ceiling']
+          assert robust['verdict'] == 'GREEN'
+          assert recon['relationship'] == 'COMPLEMENTARY_BOUNDED_RECOVERY_MICROSCOPE_NOT_COMPETING_G0'
+          assert recon['interpretation']['recovered_semantic_class_embeddable_in_g0_register_core'] is True
+          assert recon['interpretation']['nand_nor_claimed_as_unique_or_preferred_g0'] is False
+          PY
