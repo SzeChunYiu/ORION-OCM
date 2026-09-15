@@ -31,8 +31,9 @@ class HistoryMorphologyDiscoveryTests(unittest.TestCase):
         ranks = h.arm_ranks()
         self.assertLess(h.mean_rank(ranks["CONTINUED"]), h.mean_rank(ranks["RESET"]))
         self.assertLess(h.mean_rank(ranks["CONTINUED"]), h.mean_rank(ranks["SHUFFLED_HISTORY"]))
-        # Historical masks are still the first four CONTINUED proposals: they cost work.
-        self.assertEqual(h.learned_order(h.HISTORY)[:4], h.HISTORY)
+        # All historical masks still occupy the first four CONTINUED proposals and cost work.
+        # Their internal order follows the frozen numeric tie-breaker, not history sequence order.
+        self.assertEqual(set(h.learned_order(h.HISTORY)[:4]), set(h.HISTORY))
 
     def test_committed_result_matches_executor(self):
         committed = json.loads(Path("RESULT_V1.json").read_text())
