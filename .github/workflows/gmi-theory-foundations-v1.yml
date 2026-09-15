@@ -27,5 +27,7 @@ jobs:
         run: python research/gmi-theory-foundations-v1/validate_foundations.py
       - name: Run hostile controls
         run: python research/gmi-theory-foundations-v1/test_foundations.py
+      - name: Exhaust all 2- and 3-state binary Mealy machines
+        run: python research/gmi-theory-foundations-v1/exhaustive_small_models.py
       - name: Require clean reconstruction
         run: git diff --exit-code
