@@ -37,10 +37,29 @@ CLOSURE_STATES = (
     "REAL_SCALE_CLOSED",
 )
 SEVERITIES = ("CRITICAL", "HIGH", "MEDIUM", "LOW")
+FORBIDDEN_PROMOTIONS_PATH = HERE / "FORBIDDEN_PROMOTIONS_V1.json"
 
 
 class FoundationError(ValueError):
     pass
+
+
+def canonical_forbidden_promotions() -> tuple[str, ...]:
+    """Load and validate the one canonical #833 foundation prohibition vocabulary."""
+    try:
+        data = json.loads(FORBIDDEN_PROMOTIONS_PATH.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise FoundationError("cannot load canonical forbidden-promotion registry") from exc
+    if data.get("schema") != "GMI_833_FORBIDDEN_PROMOTIONS_V1":
+        raise FoundationError("invalid forbidden-promotion registry schema")
+    tokens = data.get("tokens")
+    if not isinstance(tokens, list) or not tokens:
+        raise FoundationError("forbidden-promotion registry requires a nonempty token list")
+    if any(not isinstance(token, str) or not token.strip() or token != token.upper() for token in tokens):
+        raise FoundationError("forbidden-promotion tokens must be nonempty uppercase strings")
+    if len(tokens) != len(set(tokens)):
+        raise FoundationError("forbidden-promotion tokens must be unique")
+    return tuple(tokens)
 
 
 def _fraction(value: int | Fraction) -> Fraction:
@@ -394,15 +413,7 @@ def build_receipt() -> dict[str, object]:
         "countable_uniform_prior_witnesses": countable,
         "protected_response_quotient": [list(block) for block in quotient],
         "pareto_certificate": pareto,
-        "forbidden_promotions": [
-            "COMPLETE_GMI",
-            "ONTOLOGICAL_COMPLETENESS",
-            "UNIVERSAL_ARCHITECTURE_PRIOR_FREEDOM",
-            "ALL_EXISTING_RESULTS_AUDITED",
-            "KNOWN_FAMILIES_DERIVED_AT_P3",
-            "UNSEEN_FORMS_DISCOVERED",
-            "REAL_SCALE_VALIDATION_COMPLETE",
-        ],
+        "forbidden_promotions": list(canonical_forbidden_promotions()),
     }
 
 
