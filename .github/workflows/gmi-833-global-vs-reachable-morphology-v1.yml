@@ -1,0 +1,131 @@
+name: GMI 833 global-vs-reachable morphology v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-global-vs-reachable-morphology-v1/**'
+      - '.github/workflows/gmi-833-global-vs-reachable-morphology-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-global-vs-reachable-morphology-v1/**'
+      - '.github/workflows/gmi-833-global-vs-reachable-morphology-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=e5b0c534e5d316c90e28dff0678ee6038b25e3a5
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-global-vs-reachable-morphology-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-global-vs-reachable-morphology-v1/global_vs_reachable_v1.py \
+            research/gmi-833-global-vs-reachable-morphology-v1/test_global_vs_reachable_v1.py \
+            research/gmi-833-global-vs-reachable-morphology-v1/RESULT_V1.json \
+            research/gmi-833-global-vs-reachable-morphology-v1/GLOBAL_VS_REACHABLE_THEOREMS_V1.md \
+            research/gmi-833-global-vs-reachable-morphology-v1/MANIFEST_V1.json \
+            research/gmi-833-global-vs-reachable-morphology-v1/ISSUE_833_RECONCILIATION_GLOBAL_VS_REACHABLE_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify exact parent objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            path="$1"; expected="$2"; actual="$(git rev-parse "HEAD:$path")"
+            test "$actual" = "$expected"
+            if [ ! -f "$path" ]; then mkdir -p "$(dirname "$path")"; git show "HEAD:$path" > "$path"; fi
+            test "$(git hash-object "$path")" = "$expected"
+          }
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-grand-unification-v1/GRAND_GMI_DEVELOPMENTAL_LIFECYCLE_RECEIPT_V2.json 8b7acb21cc21d41e54b23c91a9fca75af5612208
+          verify_parent research/gmi-grand-unification-v1/DEVELOPMENTAL_REACHABILITY_SELECTION_THEOREM_V1.md 27ecb316987bca886c1fc882a4f8c9e270bba4dc
+      - name: Exact theorem and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-global-vs-reachable-morphology-v1/test_global_vs_reachable_v1.py -v
+            python -I -O -B research/gmi-833-global-vs-reachable-morphology-v1/global_vs_reachable_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-global-vs-reachable-morphology-v1/test_global_vs_reachable_v1.py -v
+            python -I -B research/gmi-833-global-vs-reachable-morphology-v1/global_vs_reachable_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-global-vs-reachable-morphology-v1/RESULT_V1.json
+      - name: Check manifest, census, parent boundary, and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-global-vs-reachable-morphology-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          expected='GMI_FINITE_GLOBAL_VS_REACHABLE_MORPHOLOGY_SELECTION_SEPARATED_AT_REGISTERED_SCOPE'
+          assert m['source_main']==r['source_main']=='367e14e9296cf79924ce56d89fad34b3769acb5d'
+          assert m['freeze_commit']==r['freeze_commit']=='e5b0c534e5d316c90e28dff0678ee6038b25e3a5'
+          assert m['claim_ceiling']==r['claim_ceiling']==expected
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          assert r['scalar_census']['world_subset_cases']==1434
+          assert r['scalar_census']['nested_reachability_cases']==5826
+          assert r['scalar_census']['failures']==[]
+          assert r['pareto_census']['world_subset_cases']==500
+          assert r['pareto_census']['strict_inclusion_cases']==130
+          assert r['pareto_census']['failures']==[]
+          assert r['parent_witness']['corrected_parent_terminal']=='GRAND_GMI_DEVELOPMENTAL_LIFECYCLE_SELECTION_V2_ALL_GREEN'
+          assert r['parent_witness']['budget_2']['reachable_value']=='4'
+          assert r['parent_witness']['budget_3']['reachable_value']=='2'
+          assert r['parent_witness']['budget_10']['reachable_value']=='0'
+          assert r['witnesses']['checks']['pareto_reverse_inclusion_false']
+          PY
+      - name: Check #833 exact reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-global-vs-reachable-morphology-v1/ISSUE_833_RECONCILIATION_GLOBAL_VS_REACHABLE_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section J row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-global-vs-reachable-morphology-v1/ISSUE_833_RECONCILIATION_GLOBAL_VS_REACHABLE_V1.json
