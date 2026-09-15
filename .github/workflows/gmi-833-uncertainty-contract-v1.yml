@@ -48,6 +48,33 @@ jobs:
               exit 1
             fi
           done
+      - name: Verify and materialize pinned parent Git objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            path="$1"
+            expected="$2"
+            actual="$(git rev-parse "HEAD:$path")"
+            if [ "$actual" != "$expected" ]; then
+              echo "parent path/blob drift: $path expected=$expected actual=$actual" >&2
+              exit 1
+            fi
+            if [ ! -f "$path" ]; then
+              echo "worktree omitted pinned parent; materializing exact HEAD object: $path"
+              mkdir -p "$(dirname "$path")"
+              git show "HEAD:$path" > "$path"
+            fi
+            worktree_blob="$(git hash-object "$path")"
+            if [ "$worktree_blob" != "$expected" ]; then
+              echo "materialized parent blob mismatch: $path expected=$expected actual=$worktree_blob" >&2
+              exit 1
+            fi
+          }
+          verify_parent research/gmi-dependency-aware-uncertainty-composition-v1/RESULT_V1.json d5253d8b77f45a3dfc9f96ddf66eef427acb1bf9
+          verify_parent research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json 49df3257c9181c64bae63b53c503e302ca887fe8
+          verify_parent research/gmi-epistemic-aleatoric-separation-v1/RESULT_V1.json e422a880c7e1f49cd80260cc679c31e056a4046d
+          verify_parent research/gmi-capability-calibration-v2/RESULT_V2.json 278845962ef2a573d3664fc3a400591e440ed313
       - name: Exact, parent-pin, and hostile tests
         shell: bash
         run: |
@@ -76,9 +103,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify and materialize pinned parent Git objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            path="$1"
+            expected="$2"
+            actual="$(git rev-parse "HEAD:$path")"
+            test "$actual" = "$expected"
+            if [ ! -f "$path" ]; then
+              mkdir -p "$(dirname "$path")"
+              git show "HEAD:$path" > "$path"
+            fi
+            test "$(git hash-object "$path")" = "$expected"
+          }
+          verify_parent research/gmi-dependency-aware-uncertainty-composition-v1/RESULT_V1.json d5253d8b77f45a3dfc9f96ddf66eef427acb1bf9
+          verify_parent research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json 49df3257c9181c64bae63b53c503e302ca887fe8
+          verify_parent research/gmi-epistemic-aleatoric-separation-v1/RESULT_V1.json e422a880c7e1f49cd80260cc679c31e056a4046d
+          verify_parent research/gmi-capability-calibration-v2/RESULT_V2.json 278845962ef2a573d3664fc3a400591e440ed313
       - name: Apply only earned #833 Section C rows
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
