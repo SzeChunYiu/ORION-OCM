@@ -1,0 +1,124 @@
+name: GMI 833 stochastic predictive rank v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-stochastic-predictive-v1/**'
+      - 'research/gmi-theory-foundations-v1/GMI_GAP_GRAPH.json'
+      - '.github/workflows/gmi-833-stochastic-predictive-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-stochastic-predictive-v1/**'
+      - 'research/gmi-theory-foundations-v1/GMI_GAP_GRAPH.json'
+      - '.github/workflows/gmi-833-stochastic-predictive-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=f79f748c909e67dceab8f4d05ad6e1de4c273060
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-stochastic-predictive-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-stochastic-predictive-v1/stochastic_predictive_v1.py \
+            research/gmi-833-stochastic-predictive-v1/test_stochastic_predictive_v1.py \
+            research/gmi-833-stochastic-predictive-v1/RESULT_V1.json \
+            research/gmi-833-stochastic-predictive-v1/STOCHASTIC_PREDICTIVE_THEOREMS_V1.md \
+            research/gmi-833-stochastic-predictive-v1/CORE.md \
+            research/gmi-833-stochastic-predictive-v1/MANIFEST_V1.json \
+            research/gmi-833-stochastic-predictive-v1/validate_gap_extension_v1.py \
+            research/gmi-833-stochastic-predictive-v1/GMI_GAP_GRAPH_836_EXTENSION.json \
+            .github/workflows/gmi-833-stochastic-predictive-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-stochastic-predictive-v1/test_stochastic_predictive_v1.py -v
+            python -I -O -B research/gmi-833-stochastic-predictive-v1/stochastic_predictive_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-stochastic-predictive-v1/test_stochastic_predictive_v1.py -v
+            python -I -B research/gmi-833-stochastic-predictive-v1/stochastic_predictive_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-stochastic-predictive-v1/RESULT_V1.json
+          echo '29e88538957a466dad6f0adbe8d9f9cc11625147ccff4a82c4cdedae1f14da17  research/gmi-833-stochastic-predictive-v1/RESULT_V1.json' | sha256sum -c -
+      - name: Validate theorem manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('research/gmi-833-stochastic-predictive-v1')
+          manifest = json.loads((root / 'MANIFEST_V1.json').read_text())
+          receipt = json.loads((root / 'RESULT_V1.json').read_text())
+
+          freeze = 'f79f748c909e67dceab8f4d05ad6e1de4c273060'
+          if manifest['freeze_commit'] != freeze:
+              raise SystemExit('manifest freeze mismatch')
+          if receipt['freeze_commit'] != freeze:
+              raise SystemExit('receipt freeze mismatch')
+          if receipt['terminal'] != 'GMI_833_FINITE_PREDICTIVE_RANK_V1_ALL_GREEN':
+              raise SystemExit('receipt not green')
+          if receipt['claim_ceiling'] != manifest['claim_ceiling']:
+              raise SystemExit('claim ceiling mismatch')
+
+          census = receipt['small_binary_exact_census']
+          expected = {
+              'blocks': 81,
+              'class_count_strictly_above_rank_blocks': 36,
+              'factorization_failures': 0,
+              'rank_class_failures': 0,
+              'statistic_assignments': 20736,
+              'statistic_minimality_failures': 0,
+          }
+          if census != expected:
+              raise SystemExit(f'exact census mismatch: {census}')
+
+          sep = receipt['SEP_1']
+          if sep['predictive_class_count'] != 3:
+              raise SystemExit('SEP-1 class-count mismatch')
+          if sep['exact_rank'] != 2 or sep['independent_minor_rank'] != 2:
+              raise SystemExit('SEP-1 rank mismatch')
+          if not sep['exact_reconstruction'] or sep['under_dimension_claim_accepted']:
+              raise SystemExit('rank factorization/lower-bound hostile mismatch')
+
+          latent = receipt['latent_nonidentifiability']
+          if latent['observable_words_checked_including_empty'] != 63:
+              raise SystemExit('latent total-word count mismatch')
+          if latent['nonempty_words_checked'] != 62:
+              raise SystemExit('latent nonempty-word count mismatch')
+          if latent['failures'] != 0 or latent['latent_cardinality_identified']:
+              raise SystemExit('latent collision certificate mismatch')
+          PY
+      - name: Validate recursive gap extension
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B research/gmi-833-stochastic-predictive-v1/validate_gap_extension_v1.py

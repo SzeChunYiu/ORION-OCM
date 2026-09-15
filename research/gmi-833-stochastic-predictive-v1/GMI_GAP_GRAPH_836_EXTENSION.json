@@ -1,0 +1,143 @@
+{
+  "schema": "GMI_GAP_GRAPH_EXTENSION_V1",
+  "programme": "#833",
+  "issue": 836,
+  "base_graph": "research/gmi-theory-foundations-v1/GMI_GAP_GRAPH.json",
+  "nodes": [
+    {
+      "id": "CLAIM-836-FINITE-PREDICTIVE-BLOCK",
+      "kind": "CLAIM",
+      "title": "Finite controlled predictive quotient and exact linear rank dimension",
+      "claim": "At a registered finite horizon and finite complete test block, predictive-row equivalence is exact predictive sufficiency; the minimum exact linear predictive dimension equals the rank of the system-dynamics matrix.",
+      "premises": [
+        "finite set of positive-probability histories",
+        "finite complete registered controlled-test family",
+        "exact rational test probabilities",
+        "linear predictive representation reconstructs every registered test probability"
+      ],
+      "inference": "#846 PS-1 supplies quotient sufficiency/minimality; rank factorization gives rank(D) <= d for any exact d-dimensional linear representation and an exact rank(D)-dimensional core-test construction.",
+      "unresolved_assumption": "Only the finite exact block is closed; no finite-sample learning, approximation, infinite-horizon, or causal latent identification follows.",
+      "possible_counterexample": "An exact d-dimensional linear representation exists with d < rank(D), or a chosen rank-sized core-test matrix fails to reconstruct D.",
+      "severity": "HIGH",
+      "owner": "#836",
+      "parent": "GAP-833-STOCHASTIC-QUOTIENT",
+      "dependencies": [
+        "CLAIM-B1-B3"
+      ],
+      "evidence_required": [
+        "analytic proofs LR-1/LR-2",
+        "exact rational factorization",
+        "independent minor-based rank certificate",
+        "hostile class-count-vs-rank separation"
+      ],
+      "falsifier": "A registered exact counterexample violates the rank bound/factorization or the receipt fails deterministic reconstruction.",
+      "status": "LOCALLY_CLOSED"
+    },
+    {
+      "id": "GAP-836-INFINITE-MEASURABLE",
+      "kind": "OPEN_GAP",
+      "title": "Infinite-horizon / measurable predictive-state theory",
+      "claim": "Extend the finite exact quotient/rank block to general measurable controlled stochastic processes and infinite test families.",
+      "premises": [
+        "appropriate measurable-space, regular-conditional-probability, and infinite-horizon assumptions"
+      ],
+      "inference": "Not established by the finite matrix theorem.",
+      "unresolved_assumption": "Existence/measurability/canonicality of predictive state under infinite test families remains open.",
+      "possible_counterexample": "Finite-horizon predictive equality fails to determine an infinite-horizon law or a measurable quotient is ill-defined.",
+      "severity": "CRITICAL",
+      "owner": "#833",
+      "parent": "GAP-833-STOCHASTIC-QUOTIENT",
+      "dependencies": [
+        "CLAIM-836-FINITE-PREDICTIVE-BLOCK"
+      ],
+      "evidence_required": [
+        "new measurable/infinite-horizon theorem",
+        "hostile tail-event/process counterexamples"
+      ],
+      "falsifier": "A claimed extension lacks a well-defined measurable predictive statistic or changes under equivalent finite truncations.",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-836-APPROXIMATE-PREDICTIVE",
+      "kind": "OPEN_GAP",
+      "title": "Approximate predictive equivalence and error propagation",
+      "claim": "Define approximate predictive equivalence and prove quantitative value/behavior error guarantees under a declared metric.",
+      "premises": [
+        "registered approximation metric",
+        "stability/continuity conditions",
+        "declared decision target"
+      ],
+      "inference": "Exact row equality and exact rank do not supply approximate guarantees.",
+      "unresolved_assumption": "No approximation metric or error-propagation theorem is registered.",
+      "possible_counterexample": "Small predictive-row error causes large downstream decision/value error under an unstable target.",
+      "severity": "CRITICAL",
+      "owner": "#833",
+      "parent": "GAP-833-STOCHASTIC-QUOTIENT",
+      "dependencies": [
+        "CLAIM-836-FINITE-PREDICTIVE-BLOCK"
+      ],
+      "evidence_required": [
+        "metric-relative theorem",
+        "sharp counterexamples",
+        "finite exact-to-approximate boundary tests"
+      ],
+      "falsifier": "Approximate merging violates the claimed downstream guarantee.",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-836-FINITE-SAMPLE-ID",
+      "kind": "OPEN_GAP",
+      "title": "Finite-sample identification of predictive state and rank",
+      "claim": "Estimate predictive quotient/rank/core tests from finite stochastic data with valid error rates and abstention.",
+      "premises": [
+        "sampling/process assumptions",
+        "exploration/coverage assumptions",
+        "statistical estimator",
+        "confidence contract"
+      ],
+      "inference": "Exact known probabilities do not imply learnability or finite-sample consistency/rates.",
+      "unresolved_assumption": "No finite-sample estimator, rate, or confidence region is proved.",
+      "possible_counterexample": "Distinct predictive rows/ranks are statistically indistinguishable at the claimed sample size.",
+      "severity": "CRITICAL",
+      "owner": "#833",
+      "parent": "GAP-833-STOCHASTIC-QUOTIENT",
+      "dependencies": [
+        "CLAIM-836-FINITE-PREDICTIVE-BLOCK"
+      ],
+      "evidence_required": [
+        "finite-sample theorem or bounded negative",
+        "calibration/abstention controls",
+        "identifiability hostiles"
+      ],
+      "falsifier": "Claimed confidence/rate fails under a registered stochastic process satisfying its premises.",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-836-CAUSAL-LATENT-ID",
+      "kind": "OPEN_GAP",
+      "title": "Causal latent-state identification beyond predictive equivalence",
+      "claim": "Identify latent mechanism/state from observable controlled predictions under explicit causal/interventional assumptions.",
+      "premises": [
+        "registered causal latent semantics",
+        "intervention assumptions",
+        "identifiability conditions"
+      ],
+      "inference": "LAT-1 shows observable predictive equality alone is insufficient.",
+      "unresolved_assumption": "No causal assumptions sufficient for latent identification are supplied by #836.",
+      "possible_counterexample": "Two non-isomorphic latent controlled models remain interventionally/predictively indistinguishable under the registered access pattern.",
+      "severity": "CRITICAL",
+      "owner": "#833",
+      "parent": "GAP-833-STOCHASTIC-QUOTIENT",
+      "dependencies": [
+        "CLAIM-836-FINITE-PREDICTIVE-BLOCK"
+      ],
+      "evidence_required": [
+        "causal identifiability theorem",
+        "matched latent collision hostiles",
+        "intervention-access specification"
+      ],
+      "falsifier": "Distinct latent models satisfy all assumptions yet induce identical observable/interventional laws.",
+      "status": "OPEN"
+    }
+  ]
+}
