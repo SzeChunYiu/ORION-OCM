@@ -1,0 +1,24 @@
+{
+  "schema": "GMI_HELDOUT_LONG_SEQUENCE_V1",
+  "freeze_commit": "8e056fc56b833467d7cc4185ca0fda7d7c5f6dde",
+  "grammar_candidate_count": 44,
+  "calibration": [
+    {"n": 3, "exact_candidate_count": 1, "winner": "add(s,x)", "class": "ACCUMULATIVE_CARRY", "terminal_state_count": 4, "carried_state_bits": 2, "explicit_history_bits": 3},
+    {"n": 5, "exact_candidate_count": 1, "winner": "add(s,x)", "class": "ACCUMULATIVE_CARRY", "terminal_state_count": 6, "carried_state_bits": 3, "explicit_history_bits": 5},
+    {"n": 7, "exact_candidate_count": 1, "winner": "add(s,x)", "class": "ACCUMULATIVE_CARRY", "terminal_state_count": 8, "carried_state_bits": 3, "explicit_history_bits": 7}
+  ],
+  "heldout": [
+    {"n": 17, "exact_candidate_count": 1, "winner": "add(s,x)", "class": "ACCUMULATIVE_CARRY", "terminal_state_count": 18, "carried_state_bits": 5, "explicit_history_bits": 17},
+    {"n": 31, "exact_candidate_count": 1, "winner": "add(s,x)", "class": "ACCUMULATIVE_CARRY", "terminal_state_count": 32, "carried_state_bits": 5, "explicit_history_bits": 31},
+    {"n": 63, "exact_candidate_count": 1, "winner": "add(s,x)", "class": "ACCUMULATIVE_CARRY", "terminal_state_count": 64, "carried_state_bits": 6, "explicit_history_bits": 63}
+  ],
+  "terminal": "HELDOUT_LONG_SEQUENCE_NEUTRAL_RECOVERY_EXACT_AT_FROZEN_LENGTHS",
+  "claim_ceiling": "FINITE_EXACT_HELDOUT_LONG_SEQUENCE_NEUTRAL_RECOVERY_PARENT_OWNED_PROGRAM_SYNTHESIS",
+  "interpretation": [
+    "The held-out lengths were frozen before the executor/result commits.",
+    "Exactly one of 44 family-blind depth-1 update expressions is exact at every protected length.",
+    "The winner is classified only after scoring as ACCUMULATIVE_CARRY.",
+    "Required carried-state cardinality grows as n+1 while fixed-width storage grows as ceil(log2(n+1)); explicit history stores n bits.",
+    "This is a bounded program-synthesis/streaming calibration, not universal recurrent dominance or #592 neutral-emergence closure."
+  ]
+}

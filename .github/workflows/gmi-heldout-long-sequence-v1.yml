@@ -1,0 +1,34 @@
+name: GMI heldout long sequence v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-heldout-long-sequence-v1/**'
+      - '.github/workflows/gmi-heldout-long-sequence-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-heldout-long-sequence-v1/**'
+      - '.github/workflows/gmi-heldout-long-sequence-v1.yml'
+
+jobs:
+  exact-heldout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify freeze predates executor/result
+        run: |
+          test "$(git rev-list --count 8e056fc56b833467d7cc4185ca0fda7d7c5f6dde..HEAD)" -ge 1
+          git show 8e056fc56b833467d7cc4185ca0fda7d7c5f6dde:research/gmi-heldout-long-sequence-v1/FREEZE_V1.md >/dev/null
+          if git cat-file -e 8e056fc56b833467d7cc4185ca0fda7d7c5f6dde:research/gmi-heldout-long-sequence-v1/heldout_long_sequence_v1.py 2>/dev/null; then exit 1; fi
+          if git cat-file -e 8e056fc56b833467d7cc4185ca0fda7d7c5f6dde:research/gmi-heldout-long-sequence-v1/RESULT_V1.json 2>/dev/null; then exit 1; fi
+      - name: Run exact held-out recovery tests
+        working-directory: research/gmi-heldout-long-sequence-v1
+        run: |
+          python -m unittest -v test_heldout_long_sequence_v1.py
+          python heldout_long_sequence_v1.py >/tmp/heldout-result.json
+          python -O -m unittest -v test_heldout_long_sequence_v1.py
