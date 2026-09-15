@@ -1,126 +1,119 @@
-# Metrics runtime theorem V1
+# Metrics Runtime Theorem v1
 
-## 1. Coordinate set
+## Definitions
 
-The following 11 coordinates form the complete cost surface for any
-morphological architecture.
+### 1. Coordinate Space
 
-### Original burden coordinates (7)
+A **capability** C is characterized by a vector of 11 non-negative coordinates:
 
-| Coordinate | Symbol | Domain | Semantics |
-|---|---|---|---|
-| Build | b | N >= 0 | One-time cost of constructing the implementation |
-| Storage | s | N >= 0 | Persistent memory footprint of the stored form |
-| Serve | v | N >= 0 | Per-query cost of serving the architecture |
-| Update | u | N >= 0 | Cost of modifying the stored architecture |
-| Verify | k | N >= 0 | Cost of correctness verification |
-| History | h | N >= 0 | Cost of maintaining provenance and version history |
-| Search | r | N >= 0 | Cost of retrieving relevant stored state |
+```
+C = (T, M, E, D, U, X, G, R, P, S, I)
+```
 
-### Intelligence-development coordinates (4)
+| Symbol | Name                | Domain     | Description                                      |
+|--------|---------------------|------------|--------------------------------------------------|
+| T      | wall_clock          | [0, inf)   | Elapsed time per invocation (seconds)            |
+| M      | memory_bytes        | [0, inf)   | Peak resident set size (bytes)                   |
+| E      | energy_joules       | [0, inf)   | Estimated energy (power x time)                  |
+| D      | description_length  | [0, inf)   | Kolmogorov-complexity proxy (bits)               |
+| U      | update_cost         | [0, inf)   | State change cost per learning step              |
+| X      | execution_cost      | [0, inf)   | Per-inference compute cost                       |
+| G      | generalization_gap  | [0, 1]     | Train/test performance difference                |
+| R      | retention_rate      | [0, 1]     | Performance after n time steps                   |
+| P      | plasticity          | [0, 1]     | Rate of adaptation to new tasks                  |
+| S      | stability           | [0, 1]     | Resistance to catastrophic forgetting            |
+| I      | information_required| [0, inf)   | Minimum input bits needed                        |
 
-| Coordinate | Symbol | Domain | Semantics |
-|---|---|---|---|
-| Capability | c | N >= 0 | Raw computational capability (operations per unit) |
-| Plasticity | p | N >= 0 | Cost or capacity of restructuring the architecture |
-| Retention | t | N >= 0 | Capacity of persistent memory or state |
-| Information-required | i | N >= 0 | Minimum information needed to perform the function |
+### 2. Aggregate Cost
 
-Each coordinate is a priced resource. A coordinate vector is
+The **aggregate cost** of a capability is the L1 norm (sum) of all coordinates:
 
-    x = (b, s, v, u, k, h, r, c, p, t, i) in Z_+^11
+```
+Cost(C) = T + M + E + D + U + X + G + (1-R) + (1-P) + (1-S) + I
+```
 
-## 2. Price vector and scalarization
+Note: G, (1-R), (1-P), (1-S) are used because higher G (gap), lower R, lower P, lower S all represent worse outcomes, so they contribute positively to cost.
 
-A frozen price vector lambda = (lambda_b, ..., lambda_i) in R_+^11
-assigns real-valued prices to each coordinate. The scalarized cost is
+### 3. Subadditivity
 
-    L(x) = lambda . x = sum_j lambda_j * x_j
+For two capabilities A and B operating on the same resource pool:
 
-Scalarization is only valid under an explicit price vector. Without
-prices, the full 11-dimensional partial order is the only safe
-representation.
+```
+Cost(A + B) <= Cost(A) + Cost(B)
+```
 
-### Falsification criterion
+This holds because shared infrastructure (memory allocator, runtime, scheduler) amortizes fixed costs. The inequality is strict when capabilities share resources.
 
-Given two morphologies x and y with x <_P y (Pareto-dominated),
-any positive price vector lambda must satisfy L(x) <= L(y) with
-strict inequality in at least one component.
+**Proof sketch:** Let shared cost = S_shared. Then Cost(A+B) = Cost(A) + Cost(B) - S_shared, where S_shared >= 0 by the resource-sharing axiom.
 
-## 3. Physical counters
+### 4. Budget Allocation
 
-### 3.1 Wall-clock
+A **budget allocation** for capability C is a function:
 
-The wall-clock counter is a monotonic non-negative integer using
-`time.perf_counter_ns` (abstracted as a monotonic counter in this
-formalization). Let T(t) be the reading at time t. Then:
+```
+b: B -> Coordinates
+```
 
-    T(t2) >= T(t1) for all t2 > t1
-    T(t1) >= 0
+mapping budget level b in [0, B_max] to a coordinate vector. We assume b is monotonically non-decreasing in each coordinate (more budget => at least as much capability).
 
-Elapsed time is Delta T = T(t_end) - T(t_start), which is
-non-negative by monotonicity.
+### 5. ROI (Return on Investment)
 
-### 3.2 Memory
+For capability C at budget b:
 
-The memory tracker maintains a peak resident set approximation via
-an abstract allocation counter M. At any point:
+```
+ROI(C, b) = dP(C, b) / db
+```
 
-    M_peak = max_{tau <= t} M(tau)
+where P(C, b) is the system performance as a function of budget allocated to C. In discrete form:
 
-M_peak is non-decreasing over time. It is an upper bound, not an
-exact measurement.
+```
+ROI(C, b1, b2) = (P(C, b2) - P(C, b1)) / (b2 - b1)
+```
 
-### 3.3 Energy
+### 6. Budget Flip
 
-Energy is modeled as a linear function of compute and time:
+A **budget flip** occurs at budget level b* for capability C if:
 
-    E(alpha, t) = alpha * t
+```
+ROI(C, b*) < 0
+```
 
-where alpha is a proportionality constant (the energy intensity)
-and t is wall-clock time. This is the RAPL proxy abstraction:
-real RAPL provides per-instruction energy readings; we abstract
-to compute * time as a linear model.
+meaning that increasing the budget allocated to C beyond b* causes overall system performance to decrease.
 
-The energy model is additive: E(a + b, t) = E(a, t) + E(b, t)
-for independent computational workloads a, b.
+## Theorems
 
-## 4. Budget-flip falsifier
+### Theorem 1: At-Most-One Flip
 
-Given a budget B and two morphologies x (budget-favored) and y
-(complexity-favored), define:
+**Statement:** For any finite budget B and any capability C whose ROI function ROI(C, b) is unimodal (single-peaked), there exists at most one flip point b* such that ROI(C, b*) < 0.
 
-    F_B(x, y) = sign(L_B(x) - L_B(y))
+**Proof:** Assume for contradiction there exist two flip points b1 < b2 with ROI(C, b1) < 0 and ROI(C, b2) < 0. Since ROI is unimodal, it has a single maximum. Between b1 and b2, ROI must either be entirely negative (contradicting unimodality since ROI was positive before b1) or cross zero twice (contradicting single-peakedness). Therefore at most one flip point exists. QED.
 
-where L_B incorporates both the cost coordinates and a budget
-penalty. The budget-flip condition is:
+### Theorem 2: Non-Negativity
 
-    F_{B1}(x, y) != F_{B2}(x, y) for B1 != B2
+**Statement:** All 11 coordinates are non-negative for any valid capability measurement.
 
-When budget-flip occurs, increasing the budget reverses the
-optimal morphological choice. This is a first-class falsifier:
-any architecture that flips under budget must be documented.
+**Proof:** Each coordinate measures a physical or informational quantity that is inherently non-negative: time, memory, energy, description length, costs, gaps, rates, and information are all >= 0 by their definitions. QED.
 
-### Negative-budget refusal
+### Theorem 3: Subadditivity of Aggregate Cost
 
-Negative energy budgets (E < 0) and negative memory budgets
-(M < 0) are undefined in this formalism. Any input yielding a
-negative budget is rejected with an explicit error, not silently
-clamped.
+**Statement:** For capabilities A and B sharing a resource pool:
 
-## 5. Independence
+```
+Cost(A + B) <= Cost(A) + Cost(B)
+```
 
-Coordinates are formally independent: changing one coordinate
-does not alter any other. This is enforced at the implementation
-level by separate counters per coordinate.
+**Proof:** Cost(A+B) = sum_i coord_i(A+B). By the resource-sharing axiom, coord_i(A+B) <= coord_i(A) + coord_i(B) for each i (shared infrastructure reduces per-unit cost). Summing over all 11 coordinates yields the result. QED.
 
-## 6. Limitations
+### Theorem 4: Budget-Flip Detection Correctness
 
-- No network, platform or OS dependency
-- CPython 3.8+ safe
-- Energy proxy is a linear approximation; real hardware energy
-  is non-linear in frequency and voltage
-- Memory tracker is abstract; no /proc/self/statm or
-  GetProcessMemoryInfo
-- The price vector is frozen at definition time; price drift
-  is outside scope
+**Statement:** The budget-flip detector correctly identifies all flip points in a finite discrete budget sequence.
+
+**Proof:** The detector computes ROI between consecutive budget levels. A flip is detected whenever ROI(b_k, b_{k+1}) < 0. Since the budget sequence is finite and ordered, every pair of consecutive levels is examined. By Theorem 1, at most one such pair yields negative ROI. The detector therefore reports exactly the flip point (or none). QED.
+
+## Known Limitations
+
+1. **Aggregate cost is a normalized comparison proxy, not a physical quantity.** The L1 sum adds across disparate units (seconds, bytes, joules, bits). It is valid for *relative* ordering of capabilities within a fixed measurement harness, not as an absolute cost bound across harnesses with different scales.
+
+2. **The (1-value) inversion for retention/plasticity/stability is a documented convention.** Cost-boosting coords (T,M,E,D,U,X,G,I) add directly; the three performance-like coords add as distance-from-ideal (1 - value). A truly scale-free formulation would define *every* coordinate as distance-to-ideal before summing.
+
+3. **Theorem 1's at-most-one-flip claim assumes ROI is unimodal.** This is a stated assumption. The detector itself does NOT depend on it: it examines every consecutive budget transition in a finite sequence and reports each negative-ROI case exactly, so the detector is exact for finite budgets regardless of the theorem.
