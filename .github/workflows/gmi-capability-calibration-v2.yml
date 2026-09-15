@@ -1,0 +1,88 @@
+name: gmi-capability-calibration-v2
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-capability-calibration-v2/**'
+      - 'research/gmi-capability-predictor-dev-v1/**'
+      - '.github/workflows/gmi-capability-calibration-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-calibration:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: normal
+            python_cmd: python
+          - mode: optimized
+            python_cmd: python -O
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify freeze, frame and sample custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=dc36946f3f76d7b955c5c4cdbd802353d843ce12
+          FRAME=21daf199c4a36aa37f8ca2866c3dde7b75c52ad0
+          FRAME_MANIFEST=b62064b89bd58063394fdc852b9b6c729bcf6229
+          SAMPLE=3f2403bb183f045114af40df865860b0bf947333
+          PREDICTOR_BLOB=937b91f6a3787ff04c2b5209c81d249518406859
+
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          git merge-base --is-ancestor "$FRAME" HEAD
+          git merge-base --is-ancestor "$FRAME_MANIFEST" HEAD
+          git merge-base --is-ancestor "$SAMPLE" HEAD
+
+          changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
+          test "$changed" = "research/gmi-capability-calibration-v2/FREEZE_V2.md"
+
+          sample_changed="$(git diff-tree --no-commit-id --name-only -r "$SAMPLE" | sed '/^$/d')"
+          test "$sample_changed" = "research/gmi-capability-calibration-v2/AUDIT_SAMPLE_V2.json"
+
+          test "$(git rev-parse HEAD:research/gmi-capability-predictor-dev-v1/dev_predictor_v1.py)" = "$PREDICTOR_BLOB"
+
+          if git cat-file -e "$FREEZE:research/gmi-capability-calibration-v2/DETERMINATE_FRAME_SHARED_V2.csv" 2>/dev/null; then
+            echo 'frame existed at freeze' >&2
+            exit 1
+          fi
+          if git cat-file -e "$FREEZE:research/gmi-capability-calibration-v2/AUDIT_SAMPLE_V2.json" 2>/dev/null; then
+            echo 'sample existed at freeze' >&2
+            exit 1
+          fi
+          if git cat-file -e "$FREEZE:research/gmi-capability-calibration-v2/capability_calibration_v2.py" 2>/dev/null; then
+            echo 'scorer existed at freeze' >&2
+            exit 1
+          fi
+          if git cat-file -e "$SAMPLE:research/gmi-capability-calibration-v2/capability_calibration_v2.py" 2>/dev/null; then
+            echo 'scorer existed at sample-custody commit' >&2
+            exit 1
+          fi
+          if git cat-file -e "$SAMPLE:research/gmi-capability-calibration-v2/RESULT_V2.json" 2>/dev/null; then
+            echo 'result existed at sample-custody commit' >&2
+            exit 1
+          fi
+          git cat-file -e "$SAMPLE:research/gmi-capability-calibration-v2/DETERMINATE_FRAME_SHARED_V2.csv"
+      - name: Run exact theorem, scorer and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} -m unittest discover \
+            -s research/gmi-capability-calibration-v2 \
+            -p 'test_*.py'
+      - name: Reproduce deterministic receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          ${{ matrix.python_cmd }} research/gmi-capability-calibration-v2/capability_calibration_v2.py > /tmp/RESULT_V2.json
+          cmp /tmp/RESULT_V2.json research/gmi-capability-calibration-v2/RESULT_V2.json
