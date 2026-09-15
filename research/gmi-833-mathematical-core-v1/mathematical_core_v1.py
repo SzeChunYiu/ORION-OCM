@@ -189,6 +189,7 @@ class CapabilityContract:
     worlds: tuple[Hashable, ...]
     probabilities: tuple[Fraction, ...]
     threshold: Fraction
+    resource_budget: tuple[int, ...]
 
     def validate(self) -> None:
         if not self.identifier or not self.worlds or len(self.worlds) != len(self.probabilities):
@@ -199,6 +200,22 @@ class CapabilityContract:
             raise ValueError("capability probabilities must form a distribution")
         if not Fraction(0) <= self.threshold <= Fraction(1):
             raise ValueError("capability threshold must lie in [0,1]")
+        if not self.resource_budget or any(type(value) is not int or value < 0 for value in self.resource_budget):
+            raise ValueError("capability contract needs a nonnegative resource budget")
+
+
+def numeric_contract_satisfied(
+    value: Fraction, resource_use: Sequence[int], contract: CapabilityContract
+) -> bool:
+    """Threshold and coordinatewise budget gate, independent of architecture."""
+    contract.validate()
+    if len(resource_use) != len(contract.resource_budget) or any(
+        type(amount) is not int or amount < 0 for amount in resource_use
+    ):
+        raise ValueError("resource use must match the contract budget")
+    return Fraction(value) >= contract.threshold and all(
+        amount <= budget for amount, budget in zip(resource_use, contract.resource_budget, strict=True)
+    )
 
 
 def expected_binary_success(
@@ -251,7 +268,9 @@ def aliasing_ceiling_grid(denominator: int = 20) -> tuple[Fraction, ...]:
     """P2 finite control; the analytic theorem covers every p in [0,1]."""
     if denominator < 1:
         raise ValueError("denominator must be positive")
-    contract = CapabilityContract("LATENT_BINARY", (0, 1), (Fraction(1, 2), Fraction(1, 2)), Fraction(1, 2))
+    contract = CapabilityContract(
+        "LATENT_BINARY", (0, 1), (Fraction(1, 2), Fraction(1, 2)), Fraction(1, 2), (1,)
+    )
     observation = {0: "same", 1: "same"}
     required = {0: 0, 1: 1}
     return tuple(
@@ -475,7 +494,7 @@ def validate_all() -> dict[str, object]:
     alias_values = aliasing_ceiling_grid(20)
     alias_ceiling = numeric_capability_ceiling(alias_values)
     latent_contract = CapabilityContract(
-        "LATENT_BINARY", (0, 1), (Fraction(1, 2), Fraction(1, 2)), Fraction(3, 4)
+        "LATENT_BINARY", (0, 1), (Fraction(1, 2), Fraction(1, 2)), Fraction(3, 4), (1,)
     )
     revealed_success = expected_binary_success(
         {"left": Fraction(0), "right": Fraction(1)},
@@ -489,6 +508,8 @@ def validate_all() -> dict[str, object]:
         or not threshold_is_impossible(alias_ceiling, latent_contract.threshold)
         or revealed_success != 1
         or not ceiling_monotone((Fraction(1, 2),), (Fraction(1, 2), Fraction(1)))
+        or numeric_contract_satisfied(revealed_success, (2,), latent_contract)
+        or not numeric_contract_satisfied(revealed_success, (1,), latent_contract)
     ):
         raise ValueError("architecture-independent aliasing ceiling failed")
 
@@ -513,6 +534,7 @@ def validate_all() -> dict[str, object]:
         "revealed_information_ceiling": str(revealed_success),
         "threshold_three_quarters_impossible_under_aliasing": True,
         "ceiling_monotonicity": True,
+        "resource_budget_gate": True,
         "morphology_name_invariant": True,
         "species_is_morphology_quotient": True,
         "union_confidence": str(union.confidence),

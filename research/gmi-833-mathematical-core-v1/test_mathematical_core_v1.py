@@ -21,6 +21,7 @@ from mathematical_core_v1 import (
     identified_decision,
     machine_species_equivalent,
     morphology_equivalent,
+    numeric_contract_satisfied,
     stable_behavior_partition,
     validate_all,
 )
@@ -128,7 +129,7 @@ class MathematicalCoreTests(unittest.TestCase):
 
     def test_aliasing_ceiling_and_revealed_positive_control(self):
         self.assertEqual(set(aliasing_ceiling_grid(100)), {Fraction(1, 2)})
-        contract = CapabilityContract("LATENT", (0, 1), (Fraction(1, 2), Fraction(1, 2)), Fraction(3, 4))
+        contract = CapabilityContract("LATENT", (0, 1), (Fraction(1, 2), Fraction(1, 2)), Fraction(3, 4), (2, 3))
         success = expected_binary_success(
             {"left": Fraction(0), "right": Fraction(1)},
             {0: "left", 1: "right"},
@@ -136,6 +137,8 @@ class MathematicalCoreTests(unittest.TestCase):
             contract,
         )
         self.assertEqual(success, 1)
+        self.assertTrue(numeric_contract_satisfied(success, (2, 3), contract))
+        self.assertFalse(numeric_contract_satisfied(success, (2, 4), contract))
 
     def test_uncertainty_and_confidence_fail_closed(self):
         with self.assertRaises(ValueError):
