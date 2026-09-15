@@ -1,0 +1,62 @@
+name: GMI finite scaling and bottleneck laws
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-scaling-bottleneck-v1/**"
+      - ".github/workflows/gmi-scaling-bottleneck-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-scaling-bottleneck-v1/**"
+      - ".github/workflows/gmi-scaling-bottleneck-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-freeze-normal-optimized:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=afbb49c359024dbc84d799b73c721899cfe87e0b
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          git cat-file -e "$FREEZE:research/gmi-scaling-bottleneck-v1/FREEZE_V1.md"
+          for path in \
+            research/gmi-scaling-bottleneck-v1/FORMALIZATION_V1.md \
+            research/gmi-scaling-bottleneck-v1/scaling_bottleneck_v1.py \
+            research/gmi-scaling-bottleneck-v1/test_scaling_bottleneck_v1.py \
+            research/gmi-scaling-bottleneck-v1/RESULT_V1.json; do
+            if git cat-file -e "$FREEZE:$path" 2>/dev/null; then
+              echo "Implementation/result artifact existed at freeze: $path" >&2
+              exit 1
+            fi
+          done
+      - name: Exact tests — normal Python
+        working-directory: research/gmi-scaling-bottleneck-v1
+        run: python -m unittest -v test_scaling_bottleneck_v1.py
+      - name: Exact tests — optimized Python
+        working-directory: research/gmi-scaling-bottleneck-v1
+        run: python -O -m unittest -v test_scaling_bottleneck_v1.py
+      - name: Reproduce deterministic receipt — normal
+        working-directory: research/gmi-scaling-bottleneck-v1
+        run: python scaling_bottleneck_v1.py > /tmp/u2.normal.json
+      - name: Reproduce deterministic receipt — optimized
+        working-directory: research/gmi-scaling-bottleneck-v1
+        run: python -O scaling_bottleneck_v1.py > /tmp/u2.optimized.json
+      - name: Compare receipts byte-for-byte
+        working-directory: research/gmi-scaling-bottleneck-v1
+        run: |
+          cmp RESULT_V1.json /tmp/u2.normal.json
+          cmp RESULT_V1.json /tmp/u2.optimized.json
+          cmp /tmp/u2.normal.json /tmp/u2.optimized.json
