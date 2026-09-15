@@ -1,0 +1,46 @@
+name: HST v1 closure and issue reconciliation
+
+on:
+  pull_request:
+    paths:
+      - "research/heritable-search-transformation-v1/**"
+      - ".github/workflows/hst-v1-closure-reconcile.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/heritable-search-transformation-v1/**"
+      - ".github/workflows/hst-v1-closure-reconcile.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  closure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Aggregate theorem/certificate/hostile closure
+        run: python research/heritable-search-transformation-v1/check_hst_v1_closure_v1.py
+      - name: QD hostile optimized replay
+        run: python -O research/heritable-search-transformation-v1/hostiles/check_qd_syntactic_hostile_v1.py
+      - name: Fail-closed live issue reconciliation check
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          python research/heritable-search-transformation-v1/reconcile_issue_233_v1.py
+          --mode check
+          --repository "${{ github.repository }}"
+      - name: Apply exact evidence-backed issue transitions on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          python research/heritable-search-transformation-v1/reconcile_issue_233_v1.py
+          --mode apply
+          --repository "${{ github.repository }}"
