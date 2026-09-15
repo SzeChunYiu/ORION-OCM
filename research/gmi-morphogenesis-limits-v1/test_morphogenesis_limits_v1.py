@@ -16,7 +16,6 @@ SPEC.loader.exec_module(mod)
 
 class ExpansionPruningTests(unittest.TestCase):
     def test_expansion_crosses_lifecycle_threshold(self):
-        # Keep pays 6/task. Expanded form costs 8 once, then 1 loss + 1 maintenance/task.
         self.assertEqual(mod.KEEP, mod.expansion_verdict(horizon=1, current_loss_per_task=6, expanded_loss_per_task=1, expansion_cost=8, expanded_maintenance_per_task=1)["verdict"])
         self.assertEqual(mod.EXPAND, mod.expansion_verdict(horizon=3, current_loss_per_task=6, expanded_loss_per_task=1, expansion_cost=8, expanded_maintenance_per_task=1)["verdict"])
 
@@ -25,7 +24,6 @@ class ExpansionPruningTests(unittest.TestCase):
         self.assertEqual(mod.KEEP, result["verdict"])
 
     def test_pruning_unused_structure_eventually_wins(self):
-        # Keeping unused structure costs 2/task; pruning costs 5 once and causes no loss.
         self.assertEqual(mod.KEEP, mod.pruning_verdict(horizon=2, maintenance_per_task=2, keep_loss_per_task=0, post_prune_loss_per_task=0, prune_cost=5)["verdict"])
         self.assertEqual(mod.PRUNE, mod.pruning_verdict(horizon=3, maintenance_per_task=2, keep_loss_per_task=0, post_prune_loss_per_task=0, prune_cost=5)["verdict"])
 
@@ -36,7 +34,6 @@ class ExpansionPruningTests(unittest.TestCase):
 
 class CompilationAndLocalMorphogenesisTests(unittest.TestCase):
     def test_self_compilation_reuse_crossover(self):
-        # Interpreted=6/use. Compile once for 10, then 2/use + 1 verification/use.
         self.assertEqual(mod.INTERPRET, mod.self_compilation_verdict(reuse=2, interpreted_cost_per_use=6, compiled_cost_per_use=2, compile_cost=10, verification_cost_per_use=1)["verdict"])
         self.assertEqual(mod.COMPILE, mod.self_compilation_verdict(reuse=4, interpreted_cost_per_use=6, compiled_cost_per_use=2, compile_cost=10, verification_cost_per_use=1)["verdict"])
 
@@ -45,23 +42,9 @@ class CompilationAndLocalMorphogenesisTests(unittest.TestCase):
         self.assertEqual(mod.TIE, result["verdict"])
 
     def test_local_morphogenesis_requires_sufficiency_then_cost_advantage(self):
-        sufficient = mod.local_morphogenesis_verdict(
-            horizon=4,
-            global_rebuild_cost=20,
-            local_patch_cost=5,
-            local_verification_cost=2,
-            local_residual_loss_per_task=1,
-            local_obligation_sufficient=True,
-        )
+        sufficient = mod.local_morphogenesis_verdict(horizon=4, global_rebuild_cost=20, local_patch_cost=5, local_verification_cost=2, local_residual_loss_per_task=1, local_obligation_sufficient=True)
         self.assertEqual(mod.LOCAL, sufficient["verdict"])
-        insufficient = mod.local_morphogenesis_verdict(
-            horizon=4,
-            global_rebuild_cost=20,
-            local_patch_cost=1,
-            local_verification_cost=1,
-            local_residual_loss_per_task=0,
-            local_obligation_sufficient=False,
-        )
+        insufficient = mod.local_morphogenesis_verdict(horizon=4, global_rebuild_cost=20, local_patch_cost=1, local_verification_cost=1, local_residual_loss_per_task=0, local_obligation_sufficient=False)
         self.assertEqual(mod.GLOBAL, insufficient["verdict"])
 
 
@@ -96,7 +79,7 @@ class FiniteStateLimitTests(unittest.TestCase):
                     self.assertGreaterEqual(cert["cycle_length"], 1)
                     self.assertFalse(cert["open_ended_distinct_state_growth_possible"])
                     checked += 1
-        self.assertEqual(1081, checked)
+        self.assertEqual(1114, checked)
 
 
 class ExhaustiveCostAndRegistryTests(unittest.TestCase):
@@ -107,13 +90,7 @@ class ExhaustiveCostAndRegistryTests(unittest.TestCase):
                 for expanded_loss in range(4):
                     for expansion_cost in range(4):
                         for maintenance in range(3):
-                            result = mod.expansion_verdict(
-                                horizon=horizon,
-                                current_loss_per_task=current_loss,
-                                expanded_loss_per_task=expanded_loss,
-                                expansion_cost=expansion_cost,
-                                expanded_maintenance_per_task=maintenance,
-                            )
+                            result = mod.expansion_verdict(horizon=horizon, current_loss_per_task=current_loss, expanded_loss_per_task=expanded_loss, expansion_cost=expansion_cost, expanded_maintenance_per_task=maintenance)
                             keep = horizon * current_loss
                             expand = expansion_cost + horizon * (expanded_loss + maintenance)
                             expected = mod.EXPAND if expand < keep else mod.KEEP if expand > keep else mod.TIE
