@@ -1,0 +1,42 @@
+{
+  "schema": "HST_HOSTILE_QD_SYNTACTIC_ONE_PHENOTYPE_V1",
+  "issue": 233,
+  "purpose": "Smallest explicit witness that syntactic/archive diversity need not imply behavioral-phenotype diversity.",
+  "domain": [-1, 0, 1],
+  "phenotype_equivalence": "exact equality of the complete input-output vector on the registered domain",
+  "archive": [
+    {
+      "id": "g0",
+      "syntax": "x",
+      "declared_behavior": [-1, 0, 1]
+    },
+    {
+      "id": "g1",
+      "syntax": "x + 0",
+      "declared_behavior": [-1, 0, 1]
+    },
+    {
+      "id": "g2",
+      "syntax": "x * 1",
+      "declared_behavior": [-1, 0, 1]
+    },
+    {
+      "id": "g3",
+      "syntax": "(x + 1) - 1",
+      "declared_behavior": [-1, 0, 1]
+    }
+  ],
+  "negative_control": {
+    "id": "g4",
+    "syntax": "-x",
+    "declared_behavior": [1, 0, -1]
+  },
+  "expected": {
+    "syntactic_archive_entries": 4,
+    "distinct_syntaxes": 4,
+    "behavioral_phenotypes": 1,
+    "with_negative_control_behavioral_phenotypes": 2
+  },
+  "falsifies": "A quality-diversity archive is behaviorally diverse merely because it contains many syntactically distinct genotypes.",
+  "claim_ceiling": "FINITE_COUNTEREXAMPLE_SYNTACTIC_DIVERSITY_DOES_NOT_IMPLY_BEHAVIORAL_DIVERSITY"
+}

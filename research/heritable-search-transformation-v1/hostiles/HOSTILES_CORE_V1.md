@@ -3,11 +3,12 @@
 One smallest counterexample per theorem with ONE load-bearing assumption removed (or,
 where the row is already an impossibility/limit, the minimal world that *attains* the
 theorem's boundary — the nearest false generalization is then the overclaim the frozen
-statement forbids). Each witness is machine-checkable: `exact/check_core_v1.py`
-re-derives every number from the JSON in `hostiles/`. Sizes are stated honestly: these
-worlds are tiny by design (a witness only needs to be exact, not realistic).
+statement forbids). Each theorem-row witness is machine-checkable through the registered
+`exact/` checker; the additional Section-11 QD hostile is checked by
+`check_qd_syntactic_hostile_v1.py`. Sizes are stated honestly: these worlds are tiny by
+design (a witness only needs to be exact, not realistic).
 
-| witness | theorem | assumption removed / boundary attained | size | falsifies |
+| witness | theorem / issue row | assumption removed / boundary attained | size | falsifies |
 |---|---|---|---|---|
 | `W_T01_mandatory_overhead.json` | T01 | M = 0 → M = 2 | 2 strategies, 1 task | "inheritance cannot worsen optimal achievable burden" — `m_{t+1} = 5 > 3 = m_t` while `A_t ⊆ A_{t+1}` holds |
 | `W_T03_aliasing.json` | T03 | (exhibits hypotheses minimally) | 2 states, 1 internal state, 2 actions, 2 policies | "good enough search repairs any contract" — 0/2 φ-measurable policies succeed; the escape is a channel split, not search |
@@ -15,6 +16,7 @@ worlds are tiny by design (a witness only needs to be exact, not realistic).
 | `W_T06_missing_edge_false_locality.json` | T06 | dependency completeness (one real edge missing) | 3 nodes, 1 declared edge, 1 missing edge | **the important one**: declared DAG says R ∉ Desc(S) ⇒ R unchanged; actual computation moves R 5 → 6. False locality from an individually-correct but incomplete graph |
 | `W_T07_ratchet_no_transfer.json` | T07 | (attains the boundary the negative list describes) | 2 benchmarks × 3 items, 4 generations, 3 tables | "archive ratcheting to perfect quality implies generalization" — q1 strictly ratchets 0→3 (perfect), q2 stays exactly at default-chance 1 forever |
 | `W_T18_fixed_epsilon_saturation.json` | T18 | (attains the bound exactly; then executes escape route 1) | 11 + 40 states, integers/halvings | "open-ended self-improvement = fixed-ε gains on one frozen benchmark forever" — exactly 10 ε=1 improvements from B₀=10, then arithmetic stops it; a halving-ε restart yields unbounded *count* with total drop ≤ 1 (protocol artifact, not capability) |
+| `W_QD_syntactic_one_phenotype.json` | issue #233 §11 hostile | drops the unstated assumption that distinct genotype syntax implies distinct behavior | 4 archive entries on 3 inputs + 1 negative control | "a QD archive is behaviorally diverse because it contains many syntactically distinct genotypes" — 4 distinct syntax trees induce exactly 1 complete behavioral phenotype |
 
 ## Reading notes per witness
 
@@ -68,6 +70,15 @@ route 1, and it is an ε-protocol artifact. Routes 2–5 do not contradict the t
 each re-freezes the coordinate and thereby exits the theorem's hypotheses (which is why
 the frozen statement's escape disjunction is definitional: it enumerates the hypotheses,
 not new mathematics).
+
+**W-QD.** The archive contains `x`, `x+0`, `x*1`, and `(x+1)-1`. These are four
+syntactically distinct genotype descriptions, yet on the entire registered input domain
+`{-1,0,1}` they all realize the same vector `(-1,0,1)`. The negative control `-x`
+produces `(1,0,-1)`, proving the phenotype equivalence relation is capable of separating
+a genuinely different behavior. The witness does **not** claim QD is ineffective; it
+only makes the nearest false generalization explicit: syntactic/archive occupancy is not
+by itself evidence of behavioral diversity. `check_qd_syntactic_hostile_v1.py` re-evaluates
+the expressions rather than trusting the declared vectors.
 
 ## Non-witnesses (explicit)
 
