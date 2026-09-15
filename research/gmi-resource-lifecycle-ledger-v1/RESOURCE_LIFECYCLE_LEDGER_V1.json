@@ -1,0 +1,25 @@
+{
+  "schema": "gmi-resource-lifecycle-ledger-v1",
+  "claim_scope": "Exact typed accounting contract; it does not assert that all historical or future experiments already emit these coordinates.",
+  "coordinates": [
+    {"id": "build_acquisition", "unit": "declared build/acquisition operations or external currency", "boundary": "cold acquisition through runnable artifact", "zero_policy": "zero must be explicit and evidenced", "evidence": "build receipt or exact operation trace"},
+    {"id": "training_development", "unit": "declared update/example operations", "boundary": "development split only", "zero_policy": "zero means no development action", "evidence": "development trace"},
+    {"id": "serving_execution", "unit": "declared execution operations", "boundary": "post-admission task execution", "zero_policy": "zero means no serving execution", "evidence": "execution trace"},
+    {"id": "memory_storage", "unit": "byte-time or declared exact cells", "boundary": "retained state over registered horizon", "zero_policy": "zero forbids retained state", "evidence": "state inventory and horizon"},
+    {"id": "retrieval_index", "unit": "lookups/comparisons/index writes", "boundary": "index construction and query", "zero_policy": "zero means neither indexing nor retrieval", "evidence": "index/query trace"},
+    {"id": "verification", "unit": "verifier calls and checked items", "boundary": "candidate checking through adoption", "zero_policy": "zero means no verification performed", "evidence": "verifier receipt"},
+    {"id": "update", "unit": "state-write/update operations", "boundary": "admitted ordinary changes", "zero_policy": "zero means immutable during the stage", "evidence": "state transition trace"},
+    {"id": "revision_unlearning", "unit": "invalidations/recomputations/relearning operations", "boundary": "withdrawal through restored valid state", "zero_policy": "zero means no revision obligation occurred", "evidence": "revocation/rebuild trace"},
+    {"id": "communication", "unit": "bytes or exact messages", "boundary": "all system-boundary and agent-boundary traffic", "zero_policy": "zero means isolated execution", "evidence": "message/IO trace"},
+    {"id": "precision", "unit": "bit-operations or represented bits", "boundary": "all numeric/storage precision above a frozen baseline", "zero_policy": "zero means baseline exact/discrete representation", "evidence": "numeric-format manifest"},
+    {"id": "search_discovery", "unit": "proposal attempts and search operations", "boundary": "first proposal through terminal", "zero_policy": "zero requires a constructive non-search realization", "evidence": "proposal log"},
+    {"id": "failed_candidates", "unit": "rejected candidate count plus their charged work", "boundary": "every generated candidate including duplicates", "zero_policy": "zero requires no rejected proposal", "evidence": "complete proposal/verifier log"},
+    {"id": "maintenance", "unit": "scheduled and event-triggered maintenance operations", "boundary": "post-build registered horizon", "zero_policy": "zero means no maintenance action", "evidence": "lifecycle trace"},
+    {"id": "human_ai_design_input", "unit": "registered interventions, minutes, or tokens by source", "boundary": "problem freeze through terminal", "zero_policy": "zero requires an autonomous frozen procedure", "evidence": "intervention and provenance log"}
+  ],
+  "lifecycle_stages": ["BUILD", "DEVELOP", "SERVE", "REVISE", "MAINTAIN", "SEARCH"],
+  "scalarization_policy": "Forbidden unless a complete strictly-positive price vector and registration identifier were frozen before outcomes. Raw vectors remain primary.",
+  "frontier_policy": "When no price vector is frozen, report the Pareto frontier over complete raw vectors; never select weights after observing outcomes.",
+  "physical_metering": {"status": "OPEN", "reason": "A portable CPU/GPU/wall/IO measurement bridge and coverage audit are not supplied by this formal tranche."},
+  "energy_metering": {"status": "OPEN", "reason": "No calibrated energy source is available in this formal tranche; energy must not be inferred from operation counts."}
+}
