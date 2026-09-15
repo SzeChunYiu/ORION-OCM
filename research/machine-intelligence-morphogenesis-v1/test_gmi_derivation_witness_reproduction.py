@@ -2695,14 +2695,23 @@ def test_containment_explains_never_being_uniquely_best():
 
 
 def test_the_unexplained_case_stays_flagged():
-    """state-only is never uniquely best WITHOUT being contained."""
+    """Box 12 flagged `state-only` as never uniquely best and unexplained by
+    member containment.  Box 11 explains it -- by BEHAVIOUR containment, which
+    is a strictly weaker hypothesis -- but box 12's receipt records what box 12
+    could see, and it is still true that state-only is member-contained in
+    nothing.  The flag is amended, not deleted: silently dropping it would hide
+    the fact that the two boxes used different notions of containment, which is
+    the whole content of the resolution."""
     r = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
     assert "state-only" in r["never_unique_unexplained"], (
-        "state-only is no longer an unexplained never-unique law; the document "
-        "reports it as the case containment does not cover, and folding it in "
-        "silently would hide the one thing here that is not understood")
-    assert r["contained_in"].get("state-only") is None
-
+        "state-only is no longer flagged as unexplained-by-member-containment "
+        "in box 12's receipt; that flag is what box 11 resolves and it must "
+        "stay legible in the record it was written into")
+    ro = load_receipt("STAGE_RESOURCE_OPTIMALITY_V1.json")
+    assert ro["behaviour_contained_but_not_member_contained"] == ["state-only"], (
+        "state-only is the unique witness that behaviour containment is "
+        "strictly weaker than member containment; if that changed, box 11's "
+        "explanation of box 12's anomaly no longer stands")
 
 def test_some_laws_do_have_an_ecology_of_their_own():
     r = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
@@ -2713,3 +2722,125 @@ def test_some_laws_do_have_an_ecology_of_their_own():
     assert any(v == 0 for v in uniq.values()), (
         "every law has a task of its own, which would remove the containment "
         "finding entirely")
+
+
+# ---------------------------------------------------------------------------
+# Section C box 11: resource-optimality.  Two-phase; the prediction file landed
+# in an earlier commit with no measuring code.
+# ---------------------------------------------------------------------------
+
+def test_resource_optimality_prediction_carries_no_measuring_code():
+    """Phase 1 must be a registration, not a computation.  If the prediction
+    file can measure, the two-phase protocol proves nothing."""
+    src = open(os.path.join(HERE, "gmi_microscope",
+                            "predict_resource_optimality.py")).read()
+    for bad in ("import itertools", "for u in ALL", "def behaviour", "def apply"):
+        assert bad not in src, (
+            "predict_resource_optimality.py contains %r, so it is capable of "
+            "measuring what it claims only to predict" % bad)
+
+
+def test_behaviour_containment_explains_the_box12_anomaly():
+    """The theorem box 11 rests on: beh(A) subset beh(B) implies A is never
+    uniquely best.  Member containment is the special case box 12 used."""
+    r = load_receipt("STAGE_RESOURCE_OPTIMALITY_V1.json")
+    assert r["verdict"]["P2_behaviour_containment_is_the_right_hypothesis"]
+    assert "overwrite" in r["behaviour_contained_in"]["state-only"]
+    assert "state-only" not in r.get("member_contained_in", {}), (
+        "state-only became member-contained, which would collapse box 11's "
+        "distinction between the two notions of containment")
+    # member containment must imply behaviour containment, never the reverse
+    for a, bs in r["member_contained_in"].items():
+        for b in bs:
+            assert b in r["behaviour_contained_in"].get(a, []), (
+                "%s is member-contained in %s but not behaviour-contained, "
+                "which is impossible" % (a, b))
+
+
+def test_each_cost_coordinate_kills_a_different_law():
+    """The headline: resource-optimality is coordinate-dependent.  state-only is
+    optimal nowhere under specification cost but often under memory cost, and
+    keep-or-replace is the mirror image.  Collapsing the two coordinates into
+    one number would erase this."""
+    r = load_receipt("STAGE_RESOURCE_OPTIMALITY_V1.json")
+    u = r["unique_optimum_cells"]
+    assert u["spec"]["state-only"] == 0 and u["mem"]["state-only"] > 0, (
+        "state-only is no longer spec-dead and mem-alive")
+    assert u["mem"]["keep-or-replace"] == 0 and u["spec"]["keep-or-replace"] > 0, (
+        "keep-or-replace is no longer mem-dead and spec-alive")
+    assert r["frontier_counts"]["spec"]["state-only"] == 0
+    assert r["coordinate_clash_tasks"] == r["tasks_total"], (
+        "the two coordinates no longer disagree on every task")
+
+
+def test_box11_at_zero_weight_reproduces_box12():
+    """At w=0 the objective IS the score, so the two boxes must agree exactly.
+    This is the cross-check that would catch a capability bug in either."""
+    r = load_receipt("STAGE_RESOURCE_OPTIMALITY_V1.json")
+    b12 = load_receipt("STAGE_NEGATIVE_ECOLOGY_V1.json")
+    assert r["unique_at_w_zero_by_law"] == b12["uniquely_best_on"], (
+        "box 11 at w=0 disagrees with box 12's capability comparison")
+    assert r["verdict"]["P3_w_zero_reproduces_box12_win_counts"]
+
+
+def test_the_falsified_prediction_stays_falsified():
+    """P4 was wrong: equal costs CANCEL in score - w*cost, so a cost tie hands
+    the comparison back to capability instead of producing a tie.  Uniqueness is
+    therefore commoner at high w, not rarer.  Recording the falsification is the
+    point; quietly flipping it to a pass would destroy the two-phase evidence."""
+    r = load_receipt("STAGE_RESOURCE_OPTIMALITY_V1.json")
+    assert r["verdict"]["P4_unique_optimum_vanishes_at_high_w"] is False, (
+        "P4 is recorded as falsified; if the measurement now agrees with the "
+        "prediction, the prediction or the measurement changed after the fact")
+    assert r["tasks_unique_at_high_w"]["spec"] > r["tasks_unique_at_w_zero"]["spec"]
+
+
+def test_resource_optimality_costs_are_exact_and_nonvacuous():
+    """No floating point in any reported number, and every control passes."""
+    r = load_receipt("STAGE_RESOURCE_OPTIMALITY_V1.json")
+    for w in r["breakpoints"]:
+        assert "." not in w and ("/" in w or w.isdigit()), (
+            "breakpoint %r is not an exact rational" % w)
+    assert r["breakpoints_total"] == len(r["breakpoints"]) > 0
+    assert r["tie_break"] == "argmax-score-then-min-cost", (
+        "the tie-break rule changed; it is the most load-bearing free choice "
+        "in the cost model and a different rule gives a different frontier")
+    for k, v in r["controls"].items():
+        assert v, "non-vacuity control %s failed" % k
+
+
+def test_resource_optimality_reproduces_its_committed_receipt():
+    """Box 11's comparison is not in WITNESSES because it is not self-contained:
+    it reads box 12's receipt to run the w=0 cross-check.  So stage both inputs
+    into a scratch tree and require byte-identical output.  Running it in place
+    would overwrite the very file being compared and pass vacuously."""
+    script = "compare_resource_optimality.py"
+    tmp = tempfile.mkdtemp(prefix="gmiro-")
+    try:
+        os.makedirs(os.path.join(tmp, "gmi_microscope"))
+        os.makedirs(os.path.join(tmp, "microscopes", "results"))
+        shutil.copy(os.path.join(MICRO, script),
+                    os.path.join(tmp, "gmi_microscope", script))
+        shutil.copy(os.path.join(RESULTS, "STAGE_NEGATIVE_ECOLOGY_V1.json"),
+                    os.path.join(tmp, "microscopes", "results",
+                                 "STAGE_NEGATIVE_ECOLOGY_V1.json"))
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", script)],
+            cwd=tmp, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=900,
+        )
+        assert proc.returncode == 0, (
+            "%s exited %d\n%s" % (script, proc.returncode,
+                                  proc.stderr.decode("utf-8", "replace")[-2000:]))
+        produced = os.path.join(tmp, "microscopes", "results",
+                                "STAGE_RESOURCE_OPTIMALITY_V1.json")
+        assert os.path.exists(produced), "%s wrote no receipt" % script
+        with open(produced) as fh:
+            fresh = json.load(fh)
+        assert fresh == _committed("STAGE_RESOURCE_OPTIMALITY_V1.json"), (
+            "%s no longer reproduces its committed receipt" % script)
+        # the cross-check must have actually run, not been skipped
+        assert fresh.get("box12_uniquely_best_on"), (
+            "the w=0 cross-check against box 12 was skipped, so P3 was never "
+            "adjudicated in this run")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
