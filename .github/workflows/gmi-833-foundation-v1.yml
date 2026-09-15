@@ -1,0 +1,91 @@
+name: GMI 833 foundation v1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-833-foundation-v1/**"
+      - ".github/workflows/gmi-833-foundation-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-833-foundation-v1/**"
+      - ".github/workflows/gmi-833-foundation-v1.yml"
+  workflow_dispatch:
+    inputs:
+      apply_issue_reconciliation:
+        description: "Apply earned #833 foundation checkbox transitions"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Exact and hostile foundation tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-833-foundation-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B test_foundation_v1.py
+          else
+            python -I -B test_foundation_v1.py
+          fi
+      - name: Reproduce deterministic receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-833-foundation-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B foundation_v1.py > /tmp/result.json
+          else
+            python -I -B foundation_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json RESULT_V1.json
+
+  reconcile:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check live #833 anchors on pull request
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          python research/gmi-833-foundation-v1/reconcile_issue_833_v1.py
+          --mode check --repository "${GITHUB_REPOSITORY}"
+      - name: Apply only registered earned boxes after merge
+        if: github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          python research/gmi-833-foundation-v1/reconcile_issue_833_v1.py
+          --mode apply --repository "${GITHUB_REPOSITORY}"
+      - name: Manual check/apply
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLY: ${{ inputs.apply_issue_reconciliation }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mode=check
+          if [ "$APPLY" = true ]; then mode=apply; fi
+          python research/gmi-833-foundation-v1/reconcile_issue_833_v1.py --mode "$mode" --repository "$GITHUB_REPOSITORY"
