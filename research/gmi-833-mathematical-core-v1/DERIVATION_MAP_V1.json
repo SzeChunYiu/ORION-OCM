@@ -1,0 +1,30 @@
+{
+  "schema": "GMI_833_COMPACT_DERIVATION_MAP_V1",
+  "scope": "registered mathematical core vocabulary; empirical truth and future extensions are not derivable by definition",
+  "imports": {
+    "IMPORT_FOUNDATION": "research/gmi-833-foundation-v1/RESULT_V1.json",
+    "IMPORT_PARENT_EQUIVALENCE": "research/gmi-833-parent-equivalence-v1/RESULT_V1.json",
+    "IMPORT_MORPHCAP": "research/gmi-833-morphcap-v1/RESULT_V1.json",
+    "IMPORT_UNCERTAINTY": "research/gmi-833-global-uncertainty-v1/RESULT_V1.json"
+  },
+  "derived_constructs": [
+    {"id": "DEF_BEHAVIORAL_SPECIFICATION", "dependencies": ["AX1_TYPED_DOMAINS", "AX2_BEHAVIORAL_SPECIFICATION", "IMPORT_FOUNDATION"]},
+    {"id": "DEF_RESPONSE_QUOTIENT", "dependencies": ["AX2_BEHAVIORAL_SPECIFICATION", "AX3_TOTAL_REGISTERED_PROCESS", "AX4_BEHAVIORAL_EQUIVALENCE", "IMPORT_PARENT_EQUIVALENCE"]},
+    {"id": "DEF_DEVELOPMENTAL_REACHABILITY", "dependencies": ["AX1_TYPED_DOMAINS", "AX5_DEVELOPMENT", "AX6_RESOURCES", "IMPORT_FOUNDATION"]},
+    {"id": "DEF_MORPHOLOGY_EQUIVALENCE", "dependencies": ["AX3_TOTAL_REGISTERED_PROCESS", "AX5_DEVELOPMENT", "AX6_RESOURCES", "IMPORT_MORPHCAP"]},
+    {"id": "DEF_MACHINE_SPECIES_QUOTIENT", "dependencies": ["DEF_MORPHOLOGY_EQUIVALENCE", "IMPORT_MORPHCAP"]},
+    {"id": "DEF_CAPABILITY_REGION", "dependencies": ["AX2_BEHAVIORAL_SPECIFICATION", "AX6_RESOURCES", "AX7_CAPABILITY", "IMPORT_MORPHCAP"]},
+    {"id": "DEF_CAPABILITY_CEILING", "dependencies": ["DEF_CAPABILITY_REGION", "AX7_CAPABILITY", "IMPORT_MORPHCAP"]},
+    {"id": "DEF_TYPED_UNCERTAINTY", "dependencies": ["AX1_TYPED_DOMAINS", "AX8_UNCERTAINTY", "IMPORT_UNCERTAINTY"]},
+    {"id": "DEF_IDENTIFIED_QUERY", "dependencies": ["DEF_TYPED_UNCERTAINTY", "AX9_ABSTENTION", "IMPORT_UNCERTAINTY"]},
+    {"id": "DEF_CLAIM_SCOPE", "dependencies": ["AX10_SCOPE_TAGS", "IMPORT_FOUNDATION"]}
+  ],
+  "non_derivable_without_new_evidence": [
+    "empirical validity",
+    "real-system capability",
+    "universal grammar completeness",
+    "prospective prediction success",
+    "independent replication",
+    "ontological completeness"
+  ]
+}

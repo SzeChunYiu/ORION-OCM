@@ -1,0 +1,35 @@
+{
+  "schema": "gmi-833-compact-axioms-v1",
+  "claim_scope": "registered finite core plus explicitly tagged universal algebraic rules",
+  "axioms": [
+    {"id": "AX1_TYPED_DOMAINS", "statement": "State, input, action, output, verifier, history, and resource domains are typed and nonempty when used.", "scope": "forall[D]", "falsifier": "An admitted object crosses an undeclared type boundary."},
+    {"id": "AX2_BEHAVIORAL_SPECIFICATION", "statement": "A behavioral specification is an implementation-independent instance set and acceptance relation.", "scope": "forall[D]", "falsifier": "Acceptance depends on an architecture name rather than protected behavior."},
+    {"id": "AX3_TOTAL_REGISTERED_PROCESS", "statement": "At finite-core scope each registered state-action pair has exactly one successor and observation.", "scope": "forall_fin[U]", "falsifier": "A registered pair is missing or has multiple successors."},
+    {"id": "AX4_BEHAVIORAL_EQUIVALENCE", "statement": "States are equivalent exactly when every registered continuation has equal protected response.", "scope": "forall_fin[U]", "falsifier": "Equivalent states admit a distinguishing continuation or distinct states do not."},
+    {"id": "AX5_DEVELOPMENT", "statement": "A developmental law is a typed relation over machine-history pairs with resource-labeled edges.", "scope": "forall_fin[U]", "falsifier": "A reachable step lacks a typed predecessor, history, or resource charge."},
+    {"id": "AX6_RESOURCES", "statement": "Lifecycle resources are complete nonnegative vectors; raw coordinates precede scalarization.", "scope": "forall[D]", "falsifier": "An admitted vector omits a coordinate, is negative, or is silently scalarized."},
+    {"id": "AX7_CAPABILITY", "statement": "Capability is satisfaction of registered behavioral specifications under declared ecology/resource/history conditions.", "scope": "forall[D]", "falsifier": "Capability changes under architecture renaming with behavior and conditions fixed."},
+    {"id": "AX8_UNCERTAINTY", "statement": "Every uncertainty object has a nonempty typed domain, a typed candidate subset, a kind, version, and provenance; confidence is an additional target-specific coverage claim.", "scope": "forall[D]", "falsifier": "Kinds are conflated, a domain is empty, candidates leave the domain, or confidence lies outside [0,1]."},
+    {"id": "AX9_ABSTENTION", "statement": "Queries return IDENTIFIED only for singleton images; disagreement, missing semantics, and empty feasible sets return distinct CANNOT_IDENTIFY, CANNOT_CHECK, and INCONSISTENT outcomes.", "scope": "forall[D]", "falsifier": "A determinate value is emitted under disagreement or any two non-success outcomes are conflated."},
+    {"id": "AX10_SCOPE_TAGS", "statement": "Every theorem carries an explicit universal, finite, held-out, or sample scope tag.", "scope": "forall[D]", "falsifier": "A theorem is admitted without a scope tag."}
+  ],
+  "finite_model": {
+    "states": ["s0", "s1"],
+    "actions": ["toggle", "hold"],
+    "observation": {"s0": 0, "s1": 1},
+    "transition": [["s0", "toggle", "s1"], ["s0", "hold", "s0"], ["s1", "toggle", "s0"], ["s1", "hold", "s1"]],
+    "resources": [1, 0, 1],
+    "specifications": [{"id": "REPORT_STATE", "instances": ["s0", "s1"], "accept_pairs": [["s0", 0], ["s1", 1]]}],
+    "development_edges": [["s0", "s1", [1, 0, 0]]],
+    "uncertainty_worlds": ["s0", "s1"],
+    "uncertainty_kind": "FEASIBLE_SET",
+    "uncertainty_version": "model-v1",
+    "uncertainty_provenance": ["explicit-finite-model"],
+    "query_dispositions": ["IDENTIFIED", "CANNOT_IDENTIFY", "CANNOT_CHECK", "INCONSISTENT_REGISTERED_ASSUMPTIONS"],
+    "theorem_scopes": {
+      "BEHAVIOR_QUOTIENT": "forall[D]",
+      "FINITE_MODEL_CHECK": "forall_fin[U]",
+      "UNION_BOUND": "forall[D]"
+    }
+  }
+}
