@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bounded reaction-network cognitive carrier v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["species", "count_bounds", "reactions", "propensities", "state", "clock", "readout"],
+  "properties": {
+    "species": {"type": "array", "minItems": 1, "uniqueItems": true},
+    "count_bounds": {"type": "object", "minProperties": 1},
+    "reactions": {"type": "array", "minItems": 1},
+    "propensities": {"type": "array", "minItems": 1},
+    "state": {"type": "string", "minLength": 1},
+    "clock": {"enum": ["DISCRETE_EVENT", "CONTINUOUS_TIME", "SYNCHRONOUS_STEP"]},
+    "readout": {"type": "string", "minLength": 1}
+  }
+}
