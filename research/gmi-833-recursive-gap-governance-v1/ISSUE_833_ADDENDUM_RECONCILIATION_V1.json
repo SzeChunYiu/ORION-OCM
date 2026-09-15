@@ -1,0 +1,101 @@
+{
+  "schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1",
+  "issue": 833,
+  "comment_id": 5684607872,
+  "claim_ceiling": "GMI_833_RECURSIVE_GAP_GOVERNANCE_V1_AT_DECLARED_SCOPE",
+  "forbidden_promotions": [
+    "ALL_GAPS_EXHAUSTED",
+    "INDEPENDENT_HOSTILE_REVIEW_COMPLETE",
+    "CORPUS_AUDIT_COMPLETE",
+    "REPLICATED_CLOSED",
+    "REAL_SCALE_CLOSED",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Define a machine-readable `OPEN_GAP` object: claim, premise, inference, unresolved assumption, possible counterexample, severity, owner, parent result, evidence needed.",
+      "new": "- [x] Define a machine-readable `OPEN_GAP` object: claim, premise, inference, unresolved assumption, possible counterexample, severity, owner, parent result, evidence needed. — ✅ #839 machine-readable gap schema/validator; corpus population remains separate."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Require every theorem/proof/experiment to emit an explicit assumptions ledger.",
+      "new": "- [x] Require every theorem/proof/experiment to emit an explicit assumptions ledger. — ✅ #839 unified THEOREM/PROOF/EXPERIMENT_RESULT record requires assumptions."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Require every theorem to emit a dependency ledger.",
+      "new": "- [x] Require every theorem to emit a dependency ledger. — ✅ #839 result validator requires dependency ids."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Require every theorem to emit a falsifier/counterexample ledger.",
+      "new": "- [x] Require every theorem to emit a falsifier/counterexample ledger. — ✅ #839 result validator requires falsifiers and counterexample methods."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Require every theorem to emit a strongest-parent/subsumption ledger.",
+      "new": "- [x] Require every theorem to emit a strongest-parent/subsumption ledger. — ✅ #839 result validator requires strongest-parent entries."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Require every experiment to emit leakage, search-space, cost-model, evaluation and sampling-bias ledgers.",
+      "new": "- [x] Require every experiment to emit leakage, search-space, cost-model, evaluation and sampling-bias ledgers. — ✅ #839 experiment-ledger validator; prospective records also require outcomes unseen before freeze."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] For every closed gap, automatically ask what new assumptions/gaps were introduced by the repair.",
+      "new": "- [x] For every closed gap, automatically ask what new assumptions/gaps were introduced by the repair. — ✅ #839 gap records retain introduced assumptions/descendants and every research iteration emits explicit new-gap/new-assumption lists."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Define materiality thresholds so recursion does not terminate by arbitrary convenience.",
+      "new": "- [x] Define materiality thresholds so recursion does not terminate by arbitrary convenience. — ✅ #838/#839 CRITICAL/HIGH/MEDIUM/LOW semantics; open CRITICAL descendants block promotion."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Require at least two distinct counterexample-generation methods for flagship theorems.",
+      "new": "- [x] Require at least two distinct counterexample-generation methods for flagship theorems. — ✅ #839 validator rejects flagship result records with fewer than two distinct methods; this is a policy gate, not independent-review evidence."
+    },
+    {
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Define `LOCALLY_CLOSED`, `HOSTILE_CLOSED`, `REPLICATED_CLOSED`, and `REAL_SCALE_CLOSED`; never use bare `closed` scientifically.",
+      "new": "- [x] Define `LOCALLY_CLOSED`, `HOSTILE_CLOSED`, `REPLICATED_CLOSED`, and `REAL_SCALE_CLOSED`; never use bare `closed` scientifically. — ✅ #838/#839 validator accepts only the registered closure-state ladder and rejects bare `CLOSED`."
+    },
+    {
+      "anchor": "### AD. Recursive research loop",
+      "old": "- [ ] Implement the loop as a standard research template.",
+      "new": "- [x] Implement the loop as a standard research template. — ✅ #839 machine-readable 11-stage AD loop template and validator."
+    },
+    {
+      "anchor": "### AD. Recursive research loop",
+      "old": "- [ ] Require each iteration to create explicit new-gap records rather than silently editing assumptions.",
+      "new": "- [x] Require each iteration to create explicit new-gap records rather than silently editing assumptions. — ✅ #839 requires explicit new-gap ids and new-assumption lists on every iteration."
+    },
+    {
+      "anchor": "### AD. Recursive research loop",
+      "old": "- [ ] Stop only at the declared evidence ceiling, never because the checklist is long.",
+      "new": "- [x] Stop only at the declared evidence ceiling, never because the checklist is long. — ✅ #839 stopped iterations require an explicit evidence ceiling and stop reason."
+    },
+    {
+      "anchor": "### AD. Recursive research loop",
+      "old": "- [ ] If a result fails, preserve the failure as evidence and update the theory.",
+      "new": "- [x] If a result fails, preserve the failure as evidence and update the theory. — ✅ #839 failed iterations are invalid unless failure evidence is retained and a theory update is recorded."
+    },
+    {
+      "anchor": "### AD. Recursive research loop",
+      "old": "- [ ] If a parent theory subsumes the result, absorb the parent terminology/mathematics and move the novelty claim upward.",
+      "new": "- [x] If a parent theory subsumes the result, absorb the parent terminology/mathematics and move the novelty claim upward. — ✅ #839 parent-subsumed iterations require both parent-math absorption and novelty-claim migration."
+    },
+    {
+      "anchor": "### AD. Recursive research loop",
+      "old": "- [ ] If multiple theories predict the same outcome, design a discriminating experiment.",
+      "new": "- [x] If multiple theories predict the same outcome, design a discriminating experiment. — ✅ #839 theory-tie records require a registered discriminating experiment when discrimination is identifiable."
+    },
+    {
+      "anchor": "### AD. Recursive research loop",
+      "old": "- [ ] If no discriminating experiment is identifiable, mark the theories observationally indistinguishable at that scope.",
+      "new": "- [x] If no discriminating experiment is identifiable, mark the theories observationally indistinguishable at that scope. — ✅ #839 requires an explicit observational-indistinguishability scope when discrimination is not identifiable."
+    }
+  ]
+}
