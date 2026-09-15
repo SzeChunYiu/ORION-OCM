@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from fractions import Fraction
 import json
-from typing import Callable, Iterable, Mapping, Sequence, Tuple
+from typing import Callable, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 F = Fraction
 ALLOWED_KINDS = ("INFO", "RECODE", "SKILL", "LAW", "MORPH")
@@ -38,7 +38,7 @@ def frac(x: F) -> str:
     return str(x.numerator) if x.denominator == 1 else f"{x.numerator}/{x.denominator}"
 
 
-def set_strings(values: Iterable[F]) -> list[str]:
+def set_strings(values: Iterable[F]) -> List[str]:
     return [frac(x) for x in sorted(values)]
 
 
@@ -147,7 +147,10 @@ def affine_interval(lo: F, hi: F, a: F, b: F, eps: F = F(0)) -> Tuple[F, F]:
 def identify_boolean(obj: ConfidenceObject, truth_table: Mapping[F, bool]) -> str:
     if set(truth_table) != set(obj.domain):
         raise ValueError("truth table must cover the object's full domain exactly")
-    vals = {bool(truth_table[x]) for x in obj.values}
+    raw = [truth_table[x] for x in obj.values]
+    if any(type(value) is not bool for value in raw):
+        raise ValueError("truth table values must be exact bools")
+    vals = set(raw)
     if vals == {True}:
         return "IDENTIFIED_TRUE"
     if vals == {False}:
@@ -166,9 +169,9 @@ class TransportCampaign:
         self.source_alpha = source_alpha
         self._tail_version = source_version
         self._tail_domain = source_domain
-        self._contracts: list[TransportContract] = []
+        self._contracts: List[TransportContract] = []
         self._locked = False
-        self._source: ConfidenceObject | None = None
+        self._source: Optional[ConfidenceObject] = None
 
     @property
     def locked(self) -> bool:
@@ -226,6 +229,11 @@ class TransportCampaign:
         return tuple(states)
 
     def propagate_unknown(self, obj: ConfidenceObject, target_version: int, target_domain: Tuple[F, ...]) -> ConfidenceObject:
+        if self._source is None:
+            raise RuntimeError("activate source before unknown-relation propagation")
+        registered_tail = self.propagate_all()[-1]
+        if obj != registered_tail:
+            raise ValueError("unknown transport must start from the campaign's registered chain tail")
         if type(target_version) is not int or target_version != obj.version + 1:
             raise ValueError("unknown transport still requires adjacent target version")
         _domain(target_domain, "target_domain")
