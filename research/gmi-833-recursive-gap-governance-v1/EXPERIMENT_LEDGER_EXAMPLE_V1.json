@@ -1,0 +1,10 @@
+{
+  "experiment_id": "AA-GOV-HOSTILE-EXAMPLE",
+  "search_space": "all single-field mutations of the registered fixture plus explicit cycle insertion",
+  "cost_model": "one mutation is one hostile trial; no post-outcome repricing",
+  "evaluation": "exact validator accept/reject plus deterministic reason code",
+  "sampling_bias": "bounded fixture only; not a sample of all future GMI records",
+  "leakage_audit": "expected hostile labels are not read by the validator",
+  "outcomes_seen_before_freeze": false,
+  "negative_controls": ["valid acyclic graph", "valid locally-closed theorem record"]
+}
