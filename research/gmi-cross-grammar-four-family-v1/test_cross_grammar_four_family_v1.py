@@ -19,6 +19,11 @@ class CrossGrammarFourFamilyTests(unittest.TestCase):
         self.assertEqual(self.result["positive_twin_flips"], 8)
         self.assertEqual(self.result["ledger_rows"], 2)
 
+    def test_every_failed_candidate_is_counted(self):
+        accounting = self.result["search_accounting"]
+        self.assertEqual(accounting["candidate_attempts"], 104240)
+        self.assertEqual(accounting["failed_candidates"], 104136)
+
 
 if __name__ == "__main__":
     unittest.main()

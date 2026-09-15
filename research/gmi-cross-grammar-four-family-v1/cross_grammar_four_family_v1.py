@@ -265,13 +265,25 @@ def validate_closure() -> dict[str, Any]:
         raise ValueError("four-family/twin coverage drifted")
     counts = {family: {grammar: result[grammar]["candidate_count"] for grammar in ("A", "B")}
               for family, result in recoveries.items()}
+    attempts = sum(result[key]["candidate_count"] for result in recoveries.values()
+                   for key in ("A", "A_twin", "B", "B_twin"))
+    exact_candidates = sum(result[key]["exact_count"] for result in recoveries.values()
+                           for key in ("A", "A_twin", "B", "B_twin"))
+    search_accounting = {
+        "candidate_attempts": attempts,
+        "exact_candidates": exact_candidates,
+        "failed_candidates": attempts - exact_candidates,
+    }
     if receipt["schema"] != "GMI_CROSS_GRAMMAR_FOUR_FAMILY_RESULT_V1" or receipt["status"] != "EXECUTED_FINITE_EXACT":
         raise ValueError("cross-grammar receipt schema/status drifted")
     if receipt["candidate_counts"] != counts or receipt["positive_labels"] != expected:
         raise ValueError("cross-grammar receipt result drifted")
     if (receipt["families"], receipt["grammars"], receipt["positive_twin_flips"]) != (4, 2, 8):
         raise ValueError("cross-grammar receipt coverage drifted")
-    return {"families": 4, "grammars": 2, "positive_labels": labels, "positive_twin_flips": flips, "ledger_rows": 2, "recoveries": recoveries}
+    if receipt["search_accounting"] != search_accounting or attempts <= exact_candidates:
+        raise ValueError("failed-candidate search accounting drifted")
+    return {"families": 4, "grammars": 2, "positive_labels": labels, "positive_twin_flips": flips,
+            "search_accounting": search_accounting, "ledger_rows": 2, "recoveries": recoveries}
 
 
 if __name__ == "__main__":
