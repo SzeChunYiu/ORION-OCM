@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "schema": "PredictionsReceiptV1",
+  "artifact": "GMI_DEVELOPMENTAL_PREDICTIONS_V1",
+  "issues": ["#602-L4", "#592.28"],
+  "claim_ceiling": "FINITE_EXACT_DEVELOPMENTAL_PREDICTION_AT_REGISTERED_SCHEDULE",
+  "scope": "602 L4 developmental psychology: emergence ordering, prior-structure dependence, MORPH sensitive window, compositional abstraction stage, social inference depth trajectory, held-out registry compare without fit. 23 exact controls, normal + optimized. Parents: gmi-developmental-taxonomy-v1, gmi-biology-predictions-v1 ecology lift, gmi-capability-contract-v1 ids. Supports #592.28. No universal developmental claim.",
+  "source_and_evidence": {
+    "DEVELOPMENTAL_PREDICTIONS_THEOREM_V1.md": {
+      "bytes": 3490,
+      "sha256": "b3cf804bc52d89f75c7bb8a1c3be6d176d77147d4356db7a49bee3196d883302",
+      "md5": "5cd08afd816fa093a1ed973baed9b5e5"
+    },
+    "developmental_predictions_v1.py": {
+      "bytes": 18998,
+      "sha256": "ae313c9da4b7409374533c03160c2421974d0b8c60ec3697676b15e232939e52",
+      "md5": "763ab2b0c28ac9439088a7be58cf2b01"
+    },
+    "test_developmental_predictions_v1.py": {
+      "bytes": 6106,
+      "sha256": "1f6d430959b807f6bec18292ad341386ad059dcfaf251a702fc8e8389134f98e",
+      "md5": "aae884a53ab49fbabbf2863566cc865f"
+    },
+    "HELDOUT_DEVELOPMENTAL_REGISTRY_V1.json": {
+      "bytes": 3065,
+      "sha256": "df12cb1bbaa8042c6608c1efcbce286b236d383e96ca118ce447ef1100a88211",
+      "md5": "5a545a6a422525dce7185256416b2b01"
+    }
+  },
+  "runs": [
+    {
+      "host": "billy-old",
+      "mode": "normal",
+      "argv": ["python3", "-I", "-B", "test_developmental_predictions_v1.py"],
+      "tests": 23,
+      "exit_code": 0,
+      "runtime": "3.14.4"
+    },
+    {
+      "host": "billy-old",
+      "mode": "optimized",
+      "argv": ["python3", "-I", "-O", "-B", "test_developmental_predictions_v1.py"],
+      "tests": 23,
+      "exit_code": 0,
+      "runtime": "3.14.4"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "normal",
+      "argv": ["python3", "-I", "-B", "test_developmental_predictions_v1.py"],
+      "tests": 23,
+      "exit_code": 0,
+      "runtime": "3.8.10"
+    },
+    {
+      "host": "laptop-billy",
+      "mode": "optimized",
+      "argv": ["python3", "-I", "-O", "-B", "test_developmental_predictions_v1.py"],
+      "tests": 23,
+      "exit_code": 0,
+      "runtime": "3.8.10"
+    }
+  ],
+  "checksum_note": "md5-verified after scp on both hosts (remote md5 == local md5 for py/json sources).",
+  "summary": {
+    "emergence_ordering": {
+      "cap-perception": "infant",
+      "cap-working-memory": "toddler",
+      "cap-procedural-memory": "child",
+      "cap-social-cognition": "child",
+      "cap-compositional-reasoning": "adolescent",
+      "cap-abstraction-concept": "adolescent",
+      "cap-metacognition": "adolescent",
+      "cap-hierarchical-skill": "adult"
+    },
+    "compositional_abstraction_stage": "adolescent",
+    "social_depth_trajectory": [
+      ["infant", 0],
+      ["toddler", 1],
+      ["child", 2],
+      ["adolescent", 3],
+      ["adult", 4]
+    ],
+    "sensitive_periods": {
+      "MORPH": {
+        "window": ["child", "adolescent"],
+        "cost": 3,
+        "V_lock": 7,
+        "admissible_stages": ["child", "adolescent"]
+      }
+    },
+    "heldout_comparison": {
+      "n_match": 8,
+      "n_mismatch": 0,
+      "n_abstain": 0,
+      "n_entries": 8
+    },
+    "taxonomy_crosscheck": true
+  },
+  "l4_boxes": {
+    "L4_1_ordering": true,
+    "L4_2_prior_structure": true,
+    "L4_3_sensitive_periods": true,
+    "L4_4_compositional_abstraction": true,
+    "L4_5_social_depth": true,
+    "L4_6_heldout_comparison": true
+  }
+}
