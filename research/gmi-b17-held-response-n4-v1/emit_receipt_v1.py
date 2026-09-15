@@ -54,7 +54,7 @@ def compact_receipt():
 
 
 def main() -> int:
-    print(json.dumps(compact_receipt(), indent=2, sort_keys=True))
+    print(json.dumps(compact_receipt(), sort_keys=True, separators=(",", ":")))
     return 0
 
 
