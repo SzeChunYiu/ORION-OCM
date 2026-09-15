@@ -1,0 +1,92 @@
+name: GMI 833 stochastic predictive rank v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-stochastic-predictive-v1/**'
+      - 'research/gmi-theory-foundations-v1/GMI_GAP_GRAPH.json'
+      - '.github/workflows/gmi-833-stochastic-predictive-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-stochastic-predictive-v1/**'
+      - 'research/gmi-theory-foundations-v1/GMI_GAP_GRAPH.json'
+      - '.github/workflows/gmi-833-stochastic-predictive-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=f79f748c909e67dceab8f4d05ad6e1de4c273060
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-stochastic-predictive-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-stochastic-predictive-v1/stochastic_predictive_v1.py \
+            research/gmi-833-stochastic-predictive-v1/test_stochastic_predictive_v1.py \
+            research/gmi-833-stochastic-predictive-v1/RESULT_V1.json \
+            research/gmi-833-stochastic-predictive-v1/STOCHASTIC_PREDICTIVE_THEOREMS_V1.md \
+            research/gmi-833-stochastic-predictive-v1/CORE.md \
+            research/gmi-833-stochastic-predictive-v1/MANIFEST_V1.json \
+            research/gmi-833-stochastic-predictive-v1/validate_gap_extension_v1.py \
+            research/gmi-833-stochastic-predictive-v1/GMI_GAP_GRAPH_836_EXTENSION.json \
+            .github/workflows/gmi-833-stochastic-predictive-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-stochastic-predictive-v1/test_stochastic_predictive_v1.py -v
+            python -I -O -B research/gmi-833-stochastic-predictive-v1/stochastic_predictive_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-stochastic-predictive-v1/test_stochastic_predictive_v1.py -v
+            python -I -B research/gmi-833-stochastic-predictive-v1/stochastic_predictive_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-stochastic-predictive-v1/RESULT_V1.json
+          echo '29e88538957a466dad6f0adbe8d9f9cc11625147ccff4a82c4cdedae1f14da17  research/gmi-833-stochastic-predictive-v1/RESULT_V1.json' | sha256sum -c -
+      - name: Validate theorem manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-stochastic-predictive-v1')
+          manifest = json.loads((root/'MANIFEST_V1.json').read_text())
+          receipt = json.loads((root/'RESULT_V1.json').read_text())
+          if manifest['freeze_commit'] != 'f79f748c909e67dceab8f4d05ad6e1de4c273060':
+              raise SystemExit('manifest freeze mismatch')
+          if receipt['freeze_commit'] != manifest['freeze_commit']:
+              raise SystemExit('receipt freeze mismatch')
+          if receipt['terminal'] != 'GMI_833_FINITE_PREDICTIVE_RANK_V1_ALL_GREEN':
+              raise SystemExit('receipt not green')
+          if receipt['claim_ceiling'] != manifest['claim_ceiling']:
+              raise SystemExit('claim ceiling mismatch')
+         Ù[œÝ\ÈH™XÙZ\ÉÜÛX[Øš[˜\žWÙ^XÝØÙ[œÝ\É×Bˆ^XÝYHÂˆ	Ø›ØÚÜÉÎˆKˆ	ØÛ\Ü×ØÛÝ[ÜÝšXÝWØX›Ý™WÜ˜[š×Ø›ØÚÜÉÎˆÍ‹ˆ	Ù˜XÝÜš^˜][Û—Ù˜Z[\™\ÉÎˆˆ	Ü˜[š×ØÛ\Ü×Ù˜Z[\™\ÉÎˆˆ	ÜÝ]\ÝX×Ø\ÜÚYÛ›Y[ÉÎˆŒÌÍ‹ˆ	ÜÝ]\ÝX×ÛZ[š[X[]WÙ˜Z[\™\ÉÎˆˆBˆYˆÙ[œÝ\ÈOH^XÝY‚ˆ˜Z\ÙHÞ\Ý[Q^]
+‰Ù^XÝÙ[œÝ\ÈZ\ÛX]ÚˆØÙ[œÝ\ßIÊBˆÙ\H™XÙZ\ÉÔÑTÌI×BˆYˆÙ\ÉÜ™YXÝ]™WØÛ\Ü×ØÛÝ[	×HOHÈÜˆÙ\ÉÙ^XÝÜ˜[šÉ×HOHˆÜˆÙ\ÉÚ[™\[™[ÛZ[›Ü—Ü˜[šÉ×HOHŽ‚ˆ˜Z\ÙHÞ\Ý[Q^]
+	ÔÑTLHÙ\YšXØ]HZ\ÛX]Ú	ÊBˆYˆ›ÝÙ\ÉÙ^XÝÜ™XÛÛœÝXÝ[Û‰×HÜˆÙ\ÉÝ[™\—Ù[Y[œÚ[Û—ØÛZ[WØXØÙ\Y	×N‚ˆ˜Z\ÙHÞ\Ý[Q^]
+	Ü˜[šÈ˜XÝÜš^˜][Û‹ÛÝÙ\‹X›Ý[™ÜÝ[HZ\ÛX]Ú	ÊBˆ][H™XÙZ\ÉÛ][Û›ÛšY[YšXXš[]I×BˆYˆ][ÉÛØœÙ\˜X›WÝÛÜ™×ØÚXÚÙYÚ[˜ÛY[™×Ù[\I×HOHŒÈÜˆ][ÉÛ›Û™[\WÝÛÜ™×ØÚXÚÙY	×HOHŒˆÜˆ][ÉÙ˜Z[\™\É×HOHÜˆ][ÉÛ][ØØ\™[˜[]WÚY[YšYY	×N‚ˆ˜Z\ÙHÞ\Ý[Q^]
+	Û][ÛÛ\Ú[ÛˆÙ\YšXØ]HZ\ÛX]Ú	ÊBˆBˆH˜[YNˆ˜[Y]H™XÝ\œÚ]™HØ\^[œÚ[Û‚ˆÚ[ˆ˜\Úˆ[ŽˆˆÙ]Y][È\Y˜Z[ˆ]ÛˆRHPˆ™\ÙX\˜ÚÙÛZKNÌË\ÝØÚ\ÝXË\™YXÝ]™K]ŒKÝ˜[Y]WÙØ\Ù^[œÚ[Û—ÝŒKœB
