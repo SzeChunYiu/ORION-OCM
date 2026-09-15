@@ -74,19 +74,51 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+
           root = Path('research/gmi-833-stochastic-predictive-v1')
-          manifest = json.loads((root/'MANIFEST_V1.json').read_text())
-          receipt = json.loads((root/'RESULT_V1.json').read_text())
-          if manifest['freeze_commit'] != 'f79f748c909e67dceab8f4d05ad6e1de4c273060':
+          manifest = json.loads((root / 'MANIFEST_V1.json').read_text())
+          receipt = json.loads((root / 'RESULT_V1.json').read_text())
+
+          freeze = 'f79f748c909e67dceab8f4d05ad6e1de4c273060'
+          if manifest['freeze_commit'] != freeze:
               raise SystemExit('manifest freeze mismatch')
-          if receipt['freeze_commit'] != manifest['freeze_commit']:
+          if receipt['freeze_commit'] != freeze:
               raise SystemExit('receipt freeze mismatch')
           if receipt['terminal'] != 'GMI_833_FINITE_PREDICTIVE_RANK_V1_ALL_GREEN':
               raise SystemExit('receipt not green')
           if receipt['claim_ceiling'] != manifest['claim_ceiling']:
               raise SystemExit('claim ceiling mismatch')
-         Ù[œÝ\ÈH™XÙZ\ÉÜÛX[Øš[˜\žWÙ^XÝØÙ[œÝ\É×Bˆ^XÝYHÂˆ	Ø›ØÚÜÉÎˆKˆ	ØÛ\Ü×ØÛÝ[ÜÝšXÝWØX›Ý™WÜ˜[š×Ø›ØÚÜÉÎˆÍ‹ˆ	Ù˜XÝÜš^˜][Û—Ù˜Z[\™\ÉÎˆˆ	Ü˜[š×ØÛ\Ü×Ù˜Z[\™\ÉÎˆˆ	ÜÝ]\ÝX×Ø\ÜÚYÛ›Y[ÉÎˆŒÌÍ‹ˆ	ÜÝ]\ÝX×ÛZ[š[X[]WÙ˜Z[\™\ÉÎˆˆBˆYˆÙ[œÝ\ÈOH^XÝY‚ˆ˜Z\ÙHÞ\Ý[Q^]
-‰Ù^XÝÙ[œÝ\ÈZ\ÛX]ÚˆØÙ[œÝ\ßIÊBˆÙ\H™XÙZ\ÉÔÑTÌI×BˆYˆÙ\ÉÜ™YXÝ]™WØÛ\Ü×ØÛÝ[	×HOHÈÜˆÙ\ÉÙ^XÝÜ˜[šÉ×HOHˆÜˆÙ\ÉÚ[™\[™[ÛZ[›Ü—Ü˜[šÉ×HOHŽ‚ˆ˜Z\ÙHÞ\Ý[Q^]
-	ÔÑTLHÙ\YšXØ]HZ\ÛX]Ú	ÊBˆYˆ›ÝÙ\ÉÙ^XÝÜ™XÛÛœÝXÝ[Û‰×HÜˆÙ\ÉÝ[™\—Ù[Y[œÚ[Û—ØÛZ[WØXØÙ\Y	×N‚ˆ˜Z\ÙHÞ\Ý[Q^]
-	Ü˜[šÈ˜XÝÜš^˜][Û‹ÛÝÙ\‹X›Ý[™ÜÝ[HZ\ÛX]Ú	ÊBˆ][H™XÙZ\ÉÛ][Û›ÛšY[YšXXš[]I×BˆYˆ][ÉÛØœÙ\˜X›WÝÛÜ™×ØÚXÚÙYÚ[˜ÛY[™×Ù[\I×HOHŒÈÜˆ][ÉÛ›Û™[\WÝÛÜ™×ØÚXÚÙY	×HOHŒˆÜˆ][ÉÙ˜Z[\™\É×HOHÜˆ][ÉÛ][ØØ\™[˜[]WÚY[YšYY	×N‚ˆ˜Z\ÙHÞ\Ý[Q^]
-	Û][ÛÛ\Ú[ÛˆÙ\YšXØ]HZ\ÛX]Ú	ÊBˆBˆH˜[YNˆ˜[Y]H™XÝ\œÚ]™HØ\^[œÚ[Û‚ˆÚ[ˆ˜\Úˆ[ŽˆˆÙ]Y][È\Y˜Z[ˆ]ÛˆRHPˆ™\ÙX\˜ÚÙÛZKNÌË\ÝØÚ\ÝXË\™YXÝ]™K]ŒKÝ˜[Y]WÙØ\Ù^[œÚ[Û—ÝŒKœB
+
+          census = receipt['small_binary_exact_census']
+          expected = {
+              'blocks': 81,
+              'class_count_strictly_above_rank_blocks': 36,
+              'factorization_failures': 0,
+              'rank_class_failures': 0,
+              'statistic_assignments': 20736,
+              'statistic_minimality_failures': 0,
+          }
+          if census != expected:
+              raise SystemExit(f'exact census mismatch: {census}')
+
+          sep = receipt['SEP_1']
+          if sep['predictive_class_count'] != 3:
+              raise SystemExit('SEP-1 class-count mismatch')
+          if sep['exact_rank'] != 2 or sep['independent_minor_rank'] != 2:
+              raise SystemExit('SEP-1 rank mismatch')
+          if not sep['exact_reconstruction'] or sep['under_dimension_claim_accepted']:
+              raise SystemExit('rank factorization/lower-bound hostile mismatch')
+
+          latent = receipt['latent_nonidentifiability']
+          if latent['observable_words_checked_including_empty'] != 63:
+              raise SystemExit('latent total-word count mismatch')
+          if latent['nonempty_words_checked'] != 62:
+              raise SystemExit('latent nonempty-word count mismatch')
+          if latent['failures'] != 0 or latent['latent_cardinality_identified']:
+              raise SystemExit('latent collision certificate mismatch')
+          PY
+      - name: Validate recursive gap extension
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B research/gmi-833-stochastic-predictive-v1/validate_gap_extension_v1.py
