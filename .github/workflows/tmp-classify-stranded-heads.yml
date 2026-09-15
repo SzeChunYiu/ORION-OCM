@@ -1,0 +1,83 @@
+name: Temporary classify stranded branch heads
+
+on:
+  push:
+    branches: [ops/classify-stranded-heads]
+    paths: [.github/workflows/tmp-classify-stranded-heads.yml]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Classify every ahead remote branch by exact-head PR disposition
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import concurrent.futures, json, os, urllib.parse, urllib.request, time
+          repo=os.environ['GH_REPO']; token=os.environ['GH_TOKEN']; owner=repo.split('/')[0]
+          H={'Accept':'application/vnd.github+json','Authorization':f'Bearer {token}','X-GitHub-Api-Version':'2022-11-28','User-Agent':'orion-stranded-head-audit'}
+          api=f'https://api.github.com/repos/{repo}'
+          def get(url):
+              r=urllib.request.Request(url,headers=H)
+              with urllib.request.urlopen(r,timeout=45) as x:return json.load(x)
+          main=get(api+'/branches/main')['commit']['sha']
+          branches=[]; page=1
+          while True:
+              c=get(api+f'/branches?per_page=100&page={page}')
+              if not c: break
+              branches+=c
+              if len(c)<100: break
+              page+=1
+          def inspect(br):
+              name=br['name']; sha=br['commit']['sha']
+              if name=='main' or name.startswith('ops/'): return None
+              try:
+                  comp=get(api+'/compare/main...'+urllib.parse.quote(name,safe=''))
+              except Exception as e:
+                  return {'branch':name,'head_sha':sha,'class':'ERROR_COMPARE','error':repr(e)}
+              if comp.get('ahead_by',0)<=0:return None
+              q=urllib.parse.urlencode({'state':'all','head':f'{owner}:{name}','per_page':100})
+              try: prs=get(api+'/pulls?'+q)
+              except Exception as e: return {'branch':name,'head_sha':sha,'class':'ERROR_PRS','error':repr(e)}
+              head_prs=[]
+              for p in prs:
+                  h=(p.get('head') or {}).get('sha')
+                  head_prs.append({'number':p.get('number'),'state':p.get('state'),'draft':p.get('draft'),'merged_at':p.get('merged_at'),'head_sha':h,'base':(p.get('base') or {}).get('ref'),'title':p.get('title')})
+              exact=[p for p in head_prs if p['head_sha']==sha]
+              exact_merged=[p for p in exact if p['merged_at']]
+              exact_open=[p for p in exact if p['state']=='open' and not p['merged_at']]
+              if exact_merged: cls='EXACT_HEAD_MERGED'
+              elif exact_open: cls='EXACT_HEAD_OPEN_PR'
+              elif exact: cls='EXACT_HEAD_CLOSED_UNMERGED'
+              elif head_prs: cls='BRANCH_MOVED_AFTER_PR'
+              else: cls='NO_PR_FOUND'
+              commits=comp.get('commits',[])
+              latest=(((commits[-1].get('commit') or {}).get('committer') or {}).get('date')) if commits else None
+              return {'branch':name,'head_sha':sha,'class':cls,'ahead_by':comp.get('ahead_by'),'behind_by':comp.get('behind_by'),'latest':latest,
+                      'subjects':[(((c.get('commit') or {}).get('message') or '').split('\n',1)[0]) for c in commits[-8:]],
+                      'files':[f.get('filename') for f in comp.get('files',[]) if f.get('filename')], 'prs':head_prs}
+          with concurrent.futures.ThreadPoolExecutor(max_workers=16) as ex:
+              rows=list(ex.map(inspect,branches))
+          rows=[x for x in rows if x]
+          counts={}
+          for x in rows:counts[x['class']]=counts.get(x['class'],0)+1
+          unresolved=[x for x in rows if x['class']!='EXACT_HEAD_MERGED']
+          unresolved.sort(key=lambda x:((x.get('latest') or ''),x['branch']),reverse=True)
+          report={'schema':'ORION_STRANDED_HEAD_AUDIT_V1','main_sha':main,'branches_seen':len(branches),'ahead_heads':len(rows),'class_counts':counts,'unresolved_count':len(unresolved),'unresolved':unresolved}
+          with open('stranded_heads.json','w') as f:json.dump(report,f,indent=2);f.write('\n')
+          print('MAIN',main);print('BRANCHES',len(branches));print('AHEAD_HEADS',len(rows));print('COUNTS',json.dumps(counts,sort_keys=True));print('UNRESOLVED',len(unresolved))
+          for x in unresolved[:100]:
+              print('UNRESOLVED',x.get('latest'),x['class'],x.get('ahead_by'),x.get('behind_by'),x['branch'],x['head_sha'][:12],len(x.get('files',[])))
+              for s in x.get('subjects',[])[-3:]:print('  ',s)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stranded-head-audit
+          path: stranded_heads.json
+          if-no-files-found: error
