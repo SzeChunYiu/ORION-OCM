@@ -1,0 +1,76 @@
+name: GMI Section R microscope audit V1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-section-r-microscope-audit-v1/**"
+      - ".github/workflows/gmi-section-r-microscope-audit-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/gmi-section-r-microscope-audit-v1/**"
+      - ".github/workflows/gmi-section-r-microscope-audit-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=74f1037102ddde7cad6d8eb66505f78109dfa74f
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          git cat-file -e "$FREEZE:research/gmi-section-r-microscope-audit-v1/FREEZE_V1.md"
+          for path in \
+            research/gmi-section-r-microscope-audit-v1/MANIFEST_V1.json \
+            research/gmi-section-r-microscope-audit-v1/AUDIT_V1.md \
+            research/gmi-section-r-microscope-audit-v1/audit_section_r_v1.py \
+            research/gmi-section-r-microscope-audit-v1/test_audit_section_r_v1.py \
+            research/gmi-section-r-microscope-audit-v1/RESULT_V1.json; do
+            if git cat-file -e "$FREEZE:$path" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $path" >&2
+              exit 1
+            fi
+          done
+      - name: Run hostile audit tests
+        working-directory: research/gmi-section-r-microscope-audit-v1
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -O -m unittest -v test_audit_section_r_v1.py
+          else
+            python -m unittest -v test_audit_section_r_v1.py
+          fi
+      - name: Reproduce deterministic receipt
+        working-directory: research/gmi-section-r-microscope-audit-v1
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -O audit_section_r_v1.py > /tmp/section-r-${{ matrix.mode }}.json
+          else
+            python audit_section_r_v1.py > /tmp/section-r-${{ matrix.mode }}.json
+          fi
+          cmp RESULT_V1.json /tmp/section-r-${{ matrix.mode }}.json
+      - name: Verify PASS authority files are still present
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f research/machine-intelligence-morphogenesis-v1/gmi_microscope/neural_architecture_witness.py
+          test -f research/gmi-neutral-three-law-v1/check_raw_syntax_completeness_v1.py
