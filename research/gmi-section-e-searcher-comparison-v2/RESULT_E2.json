@@ -1,0 +1,178 @@
+{
+  "all_frozen_predictions_pass": true,
+  "assertions": {
+    "E2_01_discrete_plateau": true,
+    "E2_02_random_exact_distribution": true,
+    "E2_03_strict_evolution_plateau": true,
+    "E2_04_neutral5_probability": true,
+    "E2_05_neutral10_probability": true,
+    "E2_06_nas_endpoint_losses": true,
+    "E2_07_nas_recovers_over_budget": true,
+    "E2_08_darts_exact_gradient": true,
+    "E2_09_darts_recovers_and_charged": true,
+    "E2_10_common_budget_ordering": true,
+    "E2_11_singleton_negative": true,
+    "E2_12_remint_target": true,
+    "E2_13_remint_plateau": true,
+    "E2_14_remint_search_classes": true,
+    "E2_15_remint_nas_darts": true
+  },
+  "authority": {
+    "accounting_freeze_commit": "d437442367b7314a8ef453c0c1d4630e86b579c4",
+    "claim_ceiling": [
+      "FINITE_EXACT_SAME_WORLD_PARENT_SEARCHER_COMPARISON_E2",
+      "PARENT_OWNED_RANDOM_EVOLUTION_CGP_NAS_DARTS_SEARCH",
+      "NO_UNIVERSAL_SEARCHER_DOMINANCE_OR_REAL_SCALE_NAS_CLAIM"
+    ],
+    "freeze_commit": "773bebb5b7851c72a0a80e4ff22381406d9cac99",
+    "issue": 715
+  },
+  "darts": {
+    "arithmetic_update_ops": 2122,
+    "exact_error": 0,
+    "gradient": ["-1/32", "1/32", "-1/32", "1/32", "-1/32"],
+    "grammar_has_exact_target": true,
+    "hard_mask": 21,
+    "initial_loss": "31/128",
+    "post_step": ["3/4", "1/4", "3/4", "1/4", "3/4"],
+    "proposal_or_mutation_attempts": 5,
+    "success_probability_or_exact_success": true,
+    "terminal": null,
+    "truth_example_touches": 64,
+    "unique_discrete_candidates_verified": 1,
+    "within_primary_touch_cap": true
+  },
+  "nas_ablation": {
+    "arithmetic_update_ops": 8320,
+    "endpoint_losses": {
+      "0": {"selected": 1, "z0": "17/64", "z1": "15/64"},
+      "1": {"selected": 0, "z0": "15/64", "z1": "17/64"},
+      "2": {"selected": 1, "z0": "17/64", "z1": "15/64"},
+      "3": {"selected": 0, "z0": "15/64", "z1": "17/64"},
+      "4": {"selected": 1, "z0": "17/64", "z1": "15/64"}
+    },
+    "exact_error": 0,
+    "hard_mask": 21,
+    "proposal_or_mutation_attempts": 10,
+    "success_probability_or_exact_success": true,
+    "terminal": null,
+    "truth_example_touches": 352,
+    "unique_discrete_candidates_verified": 1,
+    "within_primary_touch_cap": false
+  },
+  "neutral_drift_10_hit_probability": "72696/390625",
+  "neutral_drift_5": {
+    "arithmetic_update_ops": 0,
+    "expected_proposal_or_mutation_attempts": "613/125",
+    "expected_truth_example_touches": "499904/3125",
+    "expected_unique_discrete_candidates_verified": "15622/3125",
+    "horizon": 5,
+    "paths_enumerated": 3125,
+    "success_probability": "12/125",
+    "terminal": "STOCHASTIC_NEUTRAL_DRIFT_DISTRIBUTION"
+  },
+  "random": {
+    "expected_rank": "33/2",
+    "expected_truth_example_touches": "528",
+    "reporting_at_cap": {
+      "arithmetic_update_ops": 0,
+      "proposal_or_mutation_attempts": 10,
+      "success_probability_or_exact_success": "5/16",
+      "terminal": "BUDGETED_RANDOM_SEARCH_DISTRIBUTION",
+      "truth_example_touches": 320,
+      "unique_discrete_candidates_verified": 10
+    },
+    "success_prob_at_10": "5/16",
+    "target_rank_support": [1, 32]
+  },
+  "remint": {
+    "darts": {
+      "arithmetic_update_ops": 2122,
+      "exact_error": 0,
+      "gradient": ["-1/32", "-1/32", "1/32", "-1/32", "1/32"],
+      "grammar_has_exact_target": true,
+      "hard_mask": 11,
+      "initial_loss": "31/128",
+      "post_step": ["3/4", "3/4", "1/4", "3/4", "1/4"],
+      "proposal_or_mutation_attempts": 5,
+      "success_probability_or_exact_success": true,
+      "terminal": null,
+      "truth_example_touches": 64,
+      "unique_discrete_candidates_verified": 1,
+      "within_primary_touch_cap": true
+    },
+    "nas_ablation": {
+      "arithmetic_update_ops": 8320,
+      "endpoint_losses": {
+        "0": {"selected": 1, "z0": "17/64", "z1": "15/64"},
+        "1": {"selected": 1, "z0": "17/64", "z1": "15/64"},
+        "2": {"selected": 0, "z0": "15/64", "z1": "17/64"},
+        "3": {"selected": 1, "z0": "17/64", "z1": "15/64"},
+        "4": {"selected": 0, "z0": "15/64", "z1": "17/64"}
+      },
+      "exact_error": 0,
+      "hard_mask": 11,
+      "proposal_or_mutation_attempts": 10,
+      "success_probability_or_exact_success": true,
+      "terminal": null,
+      "truth_example_touches": 352,
+      "unique_discrete_candidates_verified": 1,
+      "within_primary_touch_cap": false
+    },
+    "neutral_drift_10_hit_probability": "72696/390625",
+    "neutral_drift_5": {
+      "arithmetic_update_ops": 0,
+      "expected_proposal_or_mutation_attempts": "613/125",
+      "expected_truth_example_touches": "499904/3125",
+      "expected_unique_discrete_candidates_verified": "15622/3125",
+      "horizon": 5,
+      "paths_enumerated": 3125,
+      "success_probability": "12/125",
+      "terminal": "STOCHASTIC_NEUTRAL_DRIFT_DISTRIBUTION"
+    },
+    "permutation": [2, 4, 1, 0, 3],
+    "strict_evolution": {
+      "arithmetic_update_ops": 0,
+      "cache_errors": {"0": 16, "1": 16, "2": 16, "4": 16, "8": 16, "16": 16},
+      "current": 0,
+      "proposal_or_mutation_attempts": 10,
+      "success_probability_or_exact_success": false,
+      "terminal": "STRICT_ELITIST_PLATEAU",
+      "truth_example_touches": 192,
+      "unique_discrete_candidates_verified": 6
+    },
+    "target_mask": 11,
+    "target_support": [0, 1, 3]
+  },
+  "singleton_negative": {
+    "arithmetic_update_ops": 2122,
+    "exact_error": 1,
+    "gradient": ["1/32", "1/32", "1/32", "1/32", "1/32"],
+    "grammar_has_exact_target": false,
+    "hard_mask": 0,
+    "initial_loss": "31/128",
+    "post_step": ["1/4", "1/4", "1/4", "1/4", "1/4"],
+    "proposal_or_mutation_attempts": 5,
+    "success_probability_or_exact_success": false,
+    "terminal": "REPRESENTATION_MISSPECIFIED_NO_EXACT_AFFINE_TARGET",
+    "truth_example_touches": 64,
+    "unique_discrete_candidates_verified": 1,
+    "within_primary_touch_cap": true
+  },
+  "strict_evolution": {
+    "arithmetic_update_ops": 0,
+    "cache_errors": {"0": 16, "1": 16, "2": 16, "4": 16, "8": 16, "16": 16},
+    "current": 0,
+    "proposal_or_mutation_attempts": 10,
+    "success_probability_or_exact_success": false,
+    "terminal": "STRICT_ELITIST_PLATEAU",
+    "truth_example_touches": 192,
+    "unique_discrete_candidates_verified": 6
+  },
+  "world": {
+    "non_target_error": 16,
+    "target_mask": 21,
+    "target_support": [0, 2, 4],
+    "touch_cap": 320
+  }
+}
