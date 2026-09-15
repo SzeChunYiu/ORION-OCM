@@ -1,0 +1,51 @@
+{
+  "N": 128,
+  "acceptance_limit_exclusive_decimal": "115792089237316195423570985008687907853266668027594439580391811275259144552250",
+  "acceptance_quotient_decimal": "4834511427328546186527369623079505946687",
+  "all_sorted_population_ids_digest_sha256": "617ba9775dcb7201b1ace3d6bd2c27c7d034bc196a9974c5b7495c796c25dd94",
+  "combination_count_decimal": "23951146041928082866135587776380551750",
+  "coordinate_sample_files": {
+    "coordination_exact": {
+      "content_sha256": "6035f2bd78e6ed7892779808b91ec52e98ce6e3a18ddd1f63a37645c9a52c707",
+      "git_blob_sha": "bc3cf8cffa11296f0ad50c3cb34705820408eb70",
+      "path": "research/gmi-capability-calibration-v1/samples/coordination_exact_SAMPLE_V1.json",
+      "sampled_cell_id_count": 64
+    },
+    "memory_exact": {
+      "content_sha256": "d41a04c2feae42c44a91675eaaead1331f71e228a966ee184ec1c248fcc94d70",
+      "git_blob_sha": "0daeaecee67004a8a02a73ce8448d8592756a1cb",
+      "path": "research/gmi-capability-calibration-v1/samples/memory_exact_SAMPLE_V1.json",
+      "sampled_cell_id_count": 64
+    },
+    "planning_exact": {
+      "content_sha256": "e1d2861c661d0d18415dc00fe36623ff0e857180a03d2431cf07a0f928c0313b",
+      "git_blob_sha": "e550a2bca34ba9f9dbefd632d3b48d2b5dc679c0",
+      "path": "research/gmi-capability-calibration-v1/samples/planning_exact_SAMPLE_V1.json",
+      "sampled_cell_id_count": 64
+    },
+    "verified_tool_exact": {
+      "content_sha256": "1074f3b2e0e4916fb119dd68b2df7453a61c3c29f3a633da0cfb70733fd30b36",
+      "git_blob_sha": "0ee19c719372c3335652b788e8846d3e57d926e2",
+      "path": "research/gmi-capability-calibration-v1/samples/verified_tool_exact_SAMPLE_V1.json",
+      "sampled_cell_id_count": 64
+    }
+  },
+  "coordinates": [
+    "memory_exact",
+    "planning_exact",
+    "coordination_exact",
+    "verified_tool_exact"
+  ],
+  "entropy_space_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+  "freeze_commit": "f46d2b3930b980f85d2d0143cba20b39f396b396",
+  "issue": 764,
+  "n": 64,
+  "parent_issue": 602,
+  "population_commit": "68d5101b26bb095546030e1e37a994f74e62fe15",
+  "population_extension_digest_sha256": "19addf9b756b8702cc9534ee360abc1850bbbfcadb2989be11fbff5887b2c873",
+  "sampling_algorithm": "ExactUniformCombinationRankV1",
+  "sampling_rule": "Per coordinate: fresh 32-byte secrets.token_bytes blocks; z=big-endian integer; reject z>=L=floor(2^256/M)*M; r=z mod M; unrank r-th 64-combination of sorted reconstructed cell IDs in lexicographic combination order.",
+  "schema": "CapabilityCalibrationSampleManifestV1",
+  "scored_fields_present": false,
+  "sharding_note": "All four coordinate identity/entropy transcripts are committed atomically in the same custody commit as this master manifest; sharding keeps the audit artifact readable without changing sample identity."
+}
