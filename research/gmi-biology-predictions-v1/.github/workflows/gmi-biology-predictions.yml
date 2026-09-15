@@ -1,0 +1,40 @@
+name: GMI Biology Predictions V1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-biology-predictions-v1/**'
+  pull_request:
+    paths:
+      - 'research/gmi-biology-predictions-v1/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Run tests
+      working-directory: research/gmi-biology-predictions-v1
+      run: |
+        python3 -I -B test_biology_predictions_v1.py -v
+
+    - name: Verify test count
+      working-directory: research/gmi-biology-predictions-v1
+      run: |
+        TEST_COUNT=$(python3 -I -B test_biology_predictions_v1.py 2>&1 | grep -c "^test_")
+        echo "Tests found: $TEST_COUNT"
+        if [ "$TEST_COUNT" -lt 15 ]; then
+          echo "ERROR: Expected at least 15 tests, found $TEST_COUNT"
+          exit 1
+        fi
