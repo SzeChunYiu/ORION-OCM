@@ -85,6 +85,7 @@ WITNESSES = {
     "predict_symbiosis.py": "STAGE_SYMBIOSIS_PREDICTION_V1.json",
     "predict_repricing.py": "STAGE_REPRICING_PREDICTION_V1.json",
     "predict_partition_abundance.py": "STAGE_PARTITION_ABUNDANCE_PREDICTION_V1.json",
+    "reachability_witness.py": "STAGE_REACHABILITY_V1.json",
 }
 
 
@@ -2571,3 +2572,48 @@ def test_hybrid_is_the_thinnest_evidence_and_stays_flagged():
     assert h["occurrences"] <= 5, (
         "hybrid evidence grew beyond a handful of occurrences; the document "
         "calls it the thinnest of the six and should be updated if that changed")
+
+
+# ---------------------------------------------------------------------------
+# E: developmental reachability.  The algebra predicts, BFS confirms.
+# ---------------------------------------------------------------------------
+def test_reachability_equals_two_to_the_rank():
+    """The law is checked against exhaustive search, not assumed."""
+    r = load_receipt("STAGE_REACHABILITY_V1.json")
+    for name, v in r["laws"].items():
+        assert v["predicted"] == v["reached"] == 2 ** v["rank"], (
+            "the span law and BFS disagree for %s: predicted %d, reached %d"
+            % (name, v["predicted"], v["reached"]))
+        assert v["burden"] == 8 - v["rank"]
+
+
+def test_representability_is_not_reachability():
+    r = load_receipt("STAGE_REACHABILITY_V1.json")
+    laws = r["laws"]
+    strict = [n for n, v in laws.items() if v["reached"] < r["space"]]
+    full = [n for n, v in laws.items() if v["reached"] == r["space"]]
+    assert strict, (
+        "every developmental law now reaches the whole space, so the section's "
+        "central separation -- representable but unreachable -- has no instance")
+    assert full, (
+        "no law reaches the whole space, so unreachability cannot be attributed "
+        "to the law rather than to the space")
+
+
+def test_the_barrier_is_local_not_global():
+    r = load_receipt("STAGE_REACHABILITY_V1.json")
+    b = r["barrier_example"]
+    assert b["reachable_under"] and b["unreachable_under"], (
+        "the example target is reachable under all laws or none; the local "
+        "versus global distinction needs both")
+
+
+def test_one_added_operator_restores_full_reachability():
+    r = load_receipt("STAGE_REACHABILITY_V1.json")
+    o = r["operator_restoration"]
+    assert o["after"]["reached"] > o["before"]["reached"]
+    assert o["after"]["reached"] == r["space"], (
+        "the enlarged law no longer reaches everything; the restoration claim "
+        "is what makes search burden repairable rather than fatal")
+    assert o["after"]["rank"] == o["before"]["rank"] + 1, (
+        "the added operator no longer raises the rank by exactly one")

@@ -1,0 +1,74 @@
+{
+ "barrier_example": {
+  "reachable_under": [
+   "single-coordinate",
+   "first-half-only",
+   "paired + one single"
+  ],
+  "target": "single coordinate flip",
+  "unreachable_under": [
+   "paired-coordinates",
+   "all-or-nothing"
+  ]
+ },
+ "law": "|reachable| = 2^rank; target reachable iff (target XOR start) in span",
+ "laws": {
+  "all-or-nothing": {
+   "burden": 7,
+   "operators": 1,
+   "predicted": 2,
+   "rank": 1,
+   "reached": 2
+  },
+  "first-half-only": {
+   "burden": 4,
+   "operators": 4,
+   "predicted": 16,
+   "rank": 4,
+   "reached": 16
+  },
+  "paired + one single": {
+   "burden": 0,
+   "operators": 8,
+   "predicted": 256,
+   "rank": 8,
+   "reached": 256
+  },
+  "paired-coordinates": {
+   "burden": 1,
+   "operators": 7,
+   "predicted": 128,
+   "rank": 7,
+   "reached": 128
+  },
+  "single-coordinate": {
+   "burden": 0,
+   "operators": 8,
+   "predicted": 256,
+   "rank": 8,
+   "reached": 256
+  }
+ },
+ "operator_restoration": {
+  "after": {
+   "burden": 0,
+   "operators": 8,
+   "predicted": 256,
+   "rank": 8,
+   "reached": 256
+  },
+  "before": {
+   "burden": 1,
+   "operators": 7,
+   "predicted": 128,
+   "rank": 7,
+   "reached": 128
+  }
+ },
+ "space": 256,
+ "strict_laws": [
+  "all-or-nothing",
+  "first-half-only",
+  "paired-coordinates"
+ ]
+}
