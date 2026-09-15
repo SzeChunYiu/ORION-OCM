@@ -1,0 +1,117 @@
+{
+ "behaviours": {
+  "additive": 8,
+  "idempotent-on-repeat": 82,
+  "insertion-monotone": 56,
+  "keep-or-replace": 52,
+  "overwrite": 16,
+  "state-only": 4
+ },
+ "contained_in": {
+  "keep-or-replace": [
+   "idempotent-on-repeat"
+  ],
+  "overwrite": [
+   "idempotent-on-repeat",
+   "keep-or-replace"
+  ]
+ },
+ "examples": {
+  "additive": {
+   "beaten_by": "insertion-monotone",
+   "its_score": 2,
+   "task": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "winner_score": 3
+  },
+  "idempotent-on-repeat": {
+   "beaten_by": "additive",
+   "its_score": 3,
+   "task": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "winner_score": 4
+  },
+  "insertion-monotone": {
+   "beaten_by": "additive",
+   "its_score": 2,
+   "task": [
+    0,
+    0,
+    1,
+    2
+   ],
+   "winner_score": 3
+  },
+  "keep-or-replace": {
+   "beaten_by": "additive",
+   "its_score": 3,
+   "task": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "winner_score": 4
+  },
+  "overwrite": {
+   "beaten_by": "insertion-monotone",
+   "its_score": 2,
+   "task": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "winner_score": 3
+  },
+  "state-only": {
+   "beaten_by": "insertion-monotone",
+   "its_score": 2,
+   "task": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "winner_score": 3
+  }
+ },
+ "loses_on": {
+  "additive": 190,
+  "idempotent-on-repeat": 32,
+  "insertion-monotone": 82,
+  "keep-or-replace": 78,
+  "overwrite": 182,
+  "state-only": 218
+ },
+ "never_unique_explained_by_containment": [
+  "overwrite",
+  "keep-or-replace"
+ ],
+ "never_unique_unexplained": [
+  "state-only"
+ ],
+ "never_uniquely_best": [
+  "overwrite",
+  "keep-or-replace",
+  "state-only"
+ ],
+ "scope": "length-2 evidence sequences from one fixed initial state; a law losing here is a constructed instance, not a claim that it loses in general",
+ "tasks": 256,
+ "uniquely_best_on": {
+  "additive": 14,
+  "idempotent-on-repeat": 20,
+  "insertion-monotone": 18,
+  "keep-or-replace": 0,
+  "overwrite": 0,
+  "state-only": 0
+ }
+}
