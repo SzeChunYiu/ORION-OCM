@@ -144,19 +144,19 @@
       "theorem_id": "HST-T13",
       "primary_proof_class": "P5",
       "secondary_evidence_classes": ["P2"],
-      "domain": "Any finite observed trajectory prefix when the future transition law is not fully specified and proved.",
-      "quantifiers": "For every finite prefix h, there exists at least one bounded/eventually-periodic continuation and at least one continuing-novelty continuation consistent with h; hence h alone does not entail unbounded future novelty.",
+      "domain": "Any finite consistent observed prefix of a deterministic transition system when the future transition law is not fully specified and proved.",
+      "quantifiers": "For every finite consistent prefix rho, a bounded deterministic continuation exists. If rho is a simple non-repeating path, both a bounded continuation and a continuing-novelty continuation exist (the latter requiring unused/expandable state space); if rho already closes a deterministic cycle, every consistent deterministic continuation from rho_0 remains on that cycle. Therefore no finite positive novelty streak entails unbounded future novelty, while a repeated prefix can refute it under determinism.",
       "proof_artifact": "proofs/LIMITS_V1.md#T13",
       "exact_certificate": "exact/check_t13_v1.cert.json",
-      "counterexample_or_escape": "proofs/LIMITS_V1.md#T13: a fully specified/proved transition law can entail its own future behavior.",
-      "claim_ceiling": "Finite observations support only horizon-scoped novelty claims, never unbounded-future novelty by observation alone."
+      "counterexample_or_escape": "proofs/LIMITS_V1.md#T13: a proved non-recurrence premise can establish future novelty at its own scope; mere finite observation cannot.",
+      "claim_ceiling": "Finite observations support only horizon-scoped positive novelty claims; they never prove unbounded future novelty by observation alone."
     },
     {
       "theorem_id": "HST-T14",
       "primary_proof_class": "P5",
       "secondary_evidence_classes": [],
       "domain": "Search algorithms compared on problem classes satisfying the exact NFL hypotheses: closed under permutation with uniform averaging, or the stated orbit-constant generalization.",
-      "quantifiers": "For all search algorithms A,B, averaged performance is equal under the registered NFL ensemble assumptions; therefore no fixed search transformation universally dominates on that ensemble.",
+      "quantifiers": "For all search algorithms A,B within the cited NFL setting, averaged performance is equal under the registered NFL ensemble assumptions; therefore no fixed search transformation universally dominates on that ensemble.",
       "proof_artifact": "proofs/LIMITS_V1.md#T14",
       "counterexample_or_escape": "proofs/LIMITS_V1.md#T14: structured non-c.u.p. classes or non-orbit-constant distributions escape NFL.",
       "claim_ceiling": "Bars universal-best search claims; structured registered ecologies may admit conditional dominance."
