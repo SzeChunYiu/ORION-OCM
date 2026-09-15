@@ -1,0 +1,116 @@
+name: GMI 833 global uncertainty v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-global-uncertainty-v1/**'
+      - '.github/workflows/gmi-833-global-uncertainty-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-global-uncertainty-v1/**'
+      - '.github/workflows/gmi-833-global-uncertainty-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=b62fd81b5e3b37a4f94f70aaaa54d4b76e36008a
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-global-uncertainty-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-global-uncertainty-v1/global_uncertainty_v1.py \
+            research/gmi-833-global-uncertainty-v1/test_global_uncertainty_v1.py \
+            research/gmi-833-global-uncertainty-v1/RESULT_V1.json \
+            research/gmi-833-global-uncertainty-v1/GLOBAL_UNCERTAINTY_THEOREMS_V1.md \
+            research/gmi-833-global-uncertainty-v1/MANIFEST_V1.json \
+            research/gmi-833-global-uncertainty-v1/ISSUE_833_RECONCILIATION_UNCERTAINTY_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-global-uncertainty-v1/test_global_uncertainty_v1.py -v
+            python -I -O -B research/gmi-833-global-uncertainty-v1/global_uncertainty_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-global-uncertainty-v1/test_global_uncertainty_v1.py -v
+            python -I -B research/gmi-833-global-uncertainty-v1/global_uncertainty_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-global-uncertainty-v1/RESULT_V1.json
+      - name: Validate manifest and receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-global-uncertainty-v1')
+          manifest = json.loads((root/'MANIFEST_V1.json').read_text())
+          receipt = json.loads((root/'RESULT_V1.json').read_text())
+          if manifest['freeze_commit'] != 'b62fd81b5e3b37a4f94f70aaaa54d4b76e36008a':
+              raise SystemExit('manifest freeze mismatch')
+          if receipt['freeze_commit'] != manifest['freeze_commit']:
+              raise SystemExit('receipt freeze mismatch')
+          if receipt['terminal'] != 'GMI_833_GLOBAL_UNCERTAINTY_V1_ALL_GREEN':
+              raise SystemExit('receipt not green')
+          if receipt['claim_ceiling'] != manifest['claim_ceiling']:
+              raise SystemExit('claim ceiling mismatch')
+          if receipt['relation_composition_census'] != {'cases': 1024, 'failures': 0}:
+              raise SystemExit('relation composition certificate mismatch')
+          if receipt['boole_union_census']['cases'] != 4096 or receipt['boole_union_census']['failures'] != 0:
+              raise SystemExit('Boole certificate mismatch')
+          if receipt['query_identification_census']['cases'] != 64 or receipt['query_identification_census']['failures'] != 0:
+              raise SystemExit('query certificate mismatch')
+          PY
+      - name: Check #833 exact reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-global-uncertainty-v1/ISSUE_833_RECONCILIATION_UNCERTAINTY_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section C uncertainty rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-global-uncertainty-v1/ISSUE_833_RECONCILIATION_UNCERTAINTY_V1.json
