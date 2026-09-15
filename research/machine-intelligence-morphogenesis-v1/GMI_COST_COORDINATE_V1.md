@@ -73,6 +73,29 @@ This measures whether a coordinate is metered **anywhere** in a receipt. It does
 claim in that receipt is charged for it, and it does not check that the number is correct. So the common
 column is an upper bound on how well section N is satisfied.
 
-Two of section N's eighteen boxes are not coverage questions at all but protocol rules — *no scalarization
-without a prospectively frozen price vector*, and *report Pareto frontiers when prices are not fixed*. Those
-are auditable in the same style and are **not** addressed here; they remain open.
+## 6  The two protocol rules — audited
+
+Section N's other two boxes are **rules**, not coverage questions, and a rule is checkable in a way a count is
+not. Witness: `gmi_microscope/pricing_protocol_audit.py`, receipt `STAGE_PRICING_PROTOCOL_V1.json`.
+
+Of 462 receipts, **325 meter two or more cost coordinates** — the population on which either rule can bind.
+
+**R1 — no scalarization without a prospectively frozen price vector: clean.** Two multi-coordinate receipts
+scalarize, and **both carry a price-vector key. Zero violations.** A pin asserts that *something* scalarizes,
+because a rule satisfied only because nothing ever triggers it demonstrates nothing.
+
+Getting there required reading rather than counting. The audit first flagged **two candidate violations**, both
+in log-domain receipts, on a key called `w_scalars`. Reading it showed `w_scalars = 352` — a **count of scalar
+weights** in the machine, a size measure, not a cost scalarization at all. R1 restricts scalarizing *costs*;
+calling a weight count a pricing breach would have been exactly the over-claim these audits exist to prevent.
+The false positive is excluded **by name with its reason recorded**, and pinned, so the next reader does not
+re-derive it as a violation.
+
+**R2 — report Pareto frontiers when prices are not fixed: substantially unmet.** Of **290** unpriced
+multi-coordinate receipts, **65 (22%) report a frontier** and 225 do not. Pins assert the figure stays
+strictly between none and all: all would make R2 trivially met, none would suggest the pattern matches
+nothing, and either would be a different claim than the one measured.
+
+So N's two rules split: **one is met, one is met about a fifth of the time.**
+
+
