@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-"""Unit tests for gmi-novel-intelligence-w4-v1 (Py3.8-safe)."""
+"""Unit tests for gmi-novel-intelligence-w4-v1 (Py3.8-safe; -I safe)."""
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import os
 import unittest
+from pathlib import Path
 
-import novel_intelligence_w4_v1 as w4
+_path = Path(__file__).with_name("novel_intelligence_w4_v1.py")
+_spec = importlib.util.spec_from_file_location("novel_intelligence_w4_v1", _path)
+w4 = importlib.util.module_from_spec(_spec)
+assert _spec.loader is not None
+_spec.loader.exec_module(w4)
 
 
 class TestFreeze(unittest.TestCase):
