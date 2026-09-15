@@ -135,7 +135,7 @@ def main() -> int:
     require(acyclic, f"definition dependency cycle: {' -> '.join(cycle)}", failures)
 
     definitions_text = DEFINITIONS.read_text(encoding="utf-8")
-    for needle in ("Sigma_t", "B_t", "Ev_t", "One primary class per row"):
+    for needle in ("Σ_t", "B_t", "Ev_t", "One primary class per row"):
         require(needle in definitions_text, f"frozen definition anchor missing: {needle}", failures)
 
     class_counts = {name: 0 for name in sorted(ALLOWED_PRIMARY)}
@@ -176,10 +176,8 @@ def main() -> int:
         if primary == "P4":
             require(bool(row.get("empirical_bridge")), f"{theorem_id}: P4 primary lacks preregistered bridge", failures)
         if primary == "P5":
-            require("limit" in row.get("claim_ceiling", "").lower() or
-                    "bar" in row.get("claim_ceiling", "").lower() or
-                    "unavailable" in row.get("claim_ceiling", "").lower() or
-                    "requires" in row.get("claim_ceiling", "").lower(),
+            ceiling = row.get("claim_ceiling", "").lower()
+            require(any(token in ceiling for token in ("limit", "bar", "unavailable", "requires", "never")),
                     f"{theorem_id}: P5 row lacks explicit consequence/ceiling language", failures)
 
         bridge_key = theorem_id.replace("HST-", "")
