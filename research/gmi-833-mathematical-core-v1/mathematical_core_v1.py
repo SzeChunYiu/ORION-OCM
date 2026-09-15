@@ -1,0 +1,347 @@
+#!/usr/bin/env python3
+"""Executable finite models for Issue #833's architecture-neutral core."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from fractions import Fraction
+from itertools import permutations, product
+import json
+from pathlib import Path
+from typing import Callable, Hashable, Iterable, Mapping, Sequence
+
+
+HERE = Path(__file__).resolve().parent
+CANNOT_IDENTIFY = "CANNOT_IDENTIFY"
+INFEASIBLE = "INFEASIBLE"
+
+
+@dataclass(frozen=True)
+class FiniteProcess:
+    """A total deterministic labeled process; names carry no semantics."""
+
+    states: tuple[Hashable, ...]
+    actions: tuple[Hashable, ...]
+    observation: Mapping[Hashable, Hashable]
+    transition: Mapping[tuple[Hashable, Hashable], Hashable]
+
+    def validate(self) -> None:
+        if not self.states or not self.actions or len(set(self.states)) != len(self.states):
+            raise ValueError("finite process needs nonempty unique state/action domains")
+        if set(self.observation) != set(self.states):
+            raise ValueError("every state needs one registered observation")
+        expected = set(product(self.states, self.actions))
+        if set(self.transition) != expected or not set(self.transition.values()) <= set(self.states):
+            raise ValueError("transition must be total and closed")
+
+
+def stable_behavior_partition(process: FiniteProcess) -> tuple[tuple[Hashable, ...], ...]:
+    """Coarsest observation-preserving deterministic bisimulation/response quotient."""
+    process.validate()
+    block = {state: 0 for state in process.states}
+    while True:
+        signatures = {
+            state: (
+                process.observation[state],
+                tuple(block[process.transition[state, action]] for action in process.actions),
+            )
+            for state in process.states
+        }
+        unique = {signature: index for index, signature in enumerate(sorted(set(signatures.values()), key=repr))}
+        refined = {state: unique[signatures[state]] for state in process.states}
+        if all(refined[state] == block[state] for state in process.states):
+            break
+        block = refined
+    groups: dict[int, list[Hashable]] = {}
+    for state in process.states:
+        groups.setdefault(block[state], []).append(state)
+    return tuple(tuple(group) for _, group in sorted(groups.items()))
+
+
+@dataclass(frozen=True)
+class Morphology:
+    process: FiniteProcess
+    state_type: Mapping[Hashable, str]
+    resources: tuple[int, ...]
+
+    def validate(self) -> None:
+        self.process.validate()
+        if set(self.state_type) != set(self.process.states):
+            raise ValueError("every carrier needs one type")
+        if not self.resources or any(type(value) is not int or value < 0 for value in self.resources):
+            raise ValueError("resources must be a nonempty nonnegative integer vector")
+
+
+def morphology_equivalent(left: Morphology, right: Morphology) -> bool:
+    left.validate()
+    right.validate()
+    if len(left.process.states) != len(right.process.states) or left.process.actions != right.process.actions:
+        return False
+    if left.resources != right.resources:
+        return False
+    for image in permutations(right.process.states):
+        bijection = dict(zip(left.process.states, image, strict=True))
+        if any(left.state_type[s] != right.state_type[bijection[s]] for s in left.process.states):
+            continue
+        if any(left.process.observation[s] != right.process.observation[bijection[s]] for s in left.process.states):
+            continue
+        if all(
+            bijection[left.process.transition[s, a]] == right.process.transition[bijection[s], a]
+            for s in left.process.states
+            for a in left.process.actions
+        ):
+            return True
+    return False
+
+
+@dataclass(frozen=True)
+class SpeciesDescriptor:
+    capability_profile: tuple[tuple[str, bool], ...]
+    niche_profile: tuple[str, ...]
+    developmental_component: tuple[str, ...]
+    resource_order_type: tuple[int, ...]
+
+
+def machine_species_equivalent(left: SpeciesDescriptor, right: SpeciesDescriptor) -> bool:
+    """Registered species equivalence is descriptor equality, not architecture naming."""
+    return left == right
+
+
+@dataclass(frozen=True)
+class BehavioralSpecification:
+    identifier: str
+    instances: tuple[Hashable, ...]
+    accepts: Callable[[Hashable, Hashable], bool]
+
+
+def capability_profile(
+    behavior: Mapping[Hashable, Hashable], specifications: Sequence[BehavioralSpecification]
+) -> tuple[tuple[str, bool], ...]:
+    rows = []
+    for specification in specifications:
+        if not set(specification.instances) <= set(behavior):
+            raise ValueError("behavior omits a protected instance")
+        rows.append(
+            (
+                specification.identifier,
+                all(specification.accepts(instance, behavior[instance]) for instance in specification.instances),
+            )
+        )
+    return tuple(rows)
+
+
+def capability_bounds(
+    behaviors: Sequence[Mapping[Hashable, Hashable]], specifications: Sequence[BehavioralSpecification]
+) -> dict[str, tuple[int, int]]:
+    if not behaviors:
+        raise ValueError("capability uncertainty set cannot be empty")
+    profiles = [dict(capability_profile(behavior, specifications)) for behavior in behaviors]
+    return {
+        specification.identifier: (
+            min(int(profile[specification.identifier]) for profile in profiles),
+            max(int(profile[specification.identifier]) for profile in profiles),
+        )
+        for specification in specifications
+    }
+
+
+def impossibility_region(bounds: Mapping[str, tuple[int, int]]) -> tuple[str, ...]:
+    return tuple(identifier for identifier, (_, upper) in bounds.items() if upper == 0)
+
+
+@dataclass(frozen=True)
+class FiniteUncertainty:
+    worlds: frozenset[Hashable]
+    confidence: Fraction | None = None
+
+    def __post_init__(self) -> None:
+        if not self.worlds:
+            raise ValueError("uncertainty set cannot be empty")
+        if self.confidence is not None and not Fraction(0) <= self.confidence <= Fraction(1):
+            raise ValueError("confidence must lie in [0,1]")
+
+    def image(self, function: Callable[[Hashable], Hashable]) -> "FiniteUncertainty":
+        return FiniteUncertainty(frozenset(function(world) for world in self.worlds), self.confidence)
+
+
+def compose_uncertainty(*objects: FiniteUncertainty, independent: bool = False) -> FiniteUncertainty:
+    if not objects:
+        raise ValueError("composition needs at least one uncertainty object")
+    worlds = frozenset(product(*(obj.worlds for obj in objects)))
+    if any(obj.confidence is None for obj in objects):
+        confidence = None
+    elif independent:
+        confidence = product_fraction(obj.confidence for obj in objects if obj.confidence is not None)
+    else:
+        confidence = max(Fraction(0), 1 - sum((1 - obj.confidence for obj in objects if obj.confidence is not None), Fraction(0)))
+    return FiniteUncertainty(worlds, confidence)
+
+
+def product_fraction(values: Iterable[Fraction]) -> Fraction:
+    result = Fraction(1)
+    for value in values:
+        result *= value
+    return result
+
+
+def identified_decision(possible_values: Iterable[Hashable]) -> Hashable | str:
+    values = frozenset(possible_values)
+    if not values:
+        return INFEASIBLE
+    if len(values) == 1:
+        return next(iter(values))
+    return CANNOT_IDENTIFY
+
+
+def validate_axioms() -> dict[str, object]:
+    data = json.loads((HERE / "AXIOMS_V1.json").read_text(encoding="utf-8"))
+    axioms = data["axioms"]
+    if len(axioms) != 10 or len({row["id"] for row in axioms}) != len(axioms):
+        raise ValueError("compact axiom registry drifted")
+    if any(not {"statement", "scope", "falsifier"} <= row.keys() for row in axioms):
+        raise ValueError("axiom metadata incomplete")
+    required_axioms = {
+        "AX1_TYPED_DOMAINS",
+        "AX2_BEHAVIORAL_SPECIFICATION",
+        "AX3_TOTAL_REGISTERED_PROCESS",
+        "AX4_BEHAVIORAL_EQUIVALENCE",
+        "AX5_DEVELOPMENT",
+        "AX6_RESOURCES",
+        "AX7_CAPABILITY",
+        "AX8_UNCERTAINTY",
+        "AX9_ABSTENTION",
+        "AX10_SCOPE_TAGS",
+    }
+    if {row["id"] for row in axioms} != required_axioms:
+        raise ValueError("compact axiom identifiers drifted")
+
+    model = data["finite_model"]
+    process = FiniteProcess(
+        tuple(model["states"]),
+        tuple(model["actions"]),
+        model["observation"],
+        {(row[0], row[1]): row[2] for row in model["transition"]},
+    )
+    process.validate()
+    state_set = set(process.states)
+    specification_rows = model["specifications"]
+    development_rows = model["development_edges"]
+    resources = model["resources"]
+    uncertainty_worlds = model["uncertainty_worlds"]
+    theorem_scopes = model["theorem_scopes"]
+    model_specifications = tuple(
+        BehavioralSpecification(
+            row["id"],
+            tuple(row["instances"]),
+            lambda instance, output, pairs=frozenset(tuple(pair) for pair in row["accept_pairs"]):
+                (instance, output) in pairs,
+        )
+        for row in specification_rows
+    )
+    witness_behavior = dict(process.observation)
+    renamed_realization_behavior = dict(process.observation)
+
+    axiom_checks = {
+        "AX1_TYPED_DOMAINS": all(
+            (process.states, process.actions, process.observation, process.transition, specification_rows)
+        ),
+        "AX2_BEHAVIORAL_SPECIFICATION": bool(specification_rows)
+        and all(
+            row["instances"]
+            and set(row["instances"]) <= state_set
+            and row["accept_pairs"]
+            and all(len(pair) == 2 and pair[0] in row["instances"] for pair in row["accept_pairs"])
+            for row in specification_rows
+        ),
+        "AX3_TOTAL_REGISTERED_PROCESS": set(process.transition) == set(product(process.states, process.actions)),
+        "AX4_BEHAVIORAL_EQUIVALENCE": {frozenset(group) for group in stable_behavior_partition(process)}
+        == {frozenset({"s0"}), frozenset({"s1"})},
+        "AX5_DEVELOPMENT": bool(development_rows)
+        and all(
+            source in state_set
+            and target in state_set
+            and len(charge) == len(resources)
+            and all(type(value) is int and value >= 0 for value in charge)
+            for source, target, charge in development_rows
+        ),
+        "AX6_RESOURCES": bool(resources)
+        and all(type(value) is int and value >= 0 for value in resources),
+        "AX7_CAPABILITY": capability_profile(witness_behavior, model_specifications)
+        == capability_profile(renamed_realization_behavior, model_specifications),
+        "AX8_UNCERTAINTY": bool(uncertainty_worlds) and set(uncertainty_worlds) <= state_set,
+        "AX9_ABSTENTION": identified_decision(process.observation[state] for state in uncertainty_worlds)
+        == CANNOT_IDENTIFY,
+        "AX10_SCOPE_TAGS": bool(theorem_scopes)
+        and all(scope in {"forall[D]", "forall_fin[U]", "heldout[F]", "sample[P,n]"} for scope in theorem_scopes.values()),
+    }
+    failed = sorted(identifier for identifier, satisfied in axiom_checks.items() if not satisfied)
+    if failed:
+        raise ValueError(f"finite model violates registered axioms: {failed}")
+    return {
+        "axioms": len(axioms),
+        "axioms_satisfied": sum(axiom_checks.values()),
+        "finite_model_states": len(process.states),
+        "finite_model_actions": len(process.actions),
+        "model_satisfies_registered_axioms": True,
+    }
+
+
+def validate_all() -> dict[str, object]:
+    transition = {(state, bit): (state ^ bit) for state in (0, 1) for bit in (0, 1)}
+    left_process = FiniteProcess((0, 1), (0, 1), {0: "z", 1: "o"}, transition)
+    right_transition = {("a", 0): "a", ("a", 1): "b", ("b", 0): "b", ("b", 1): "a"}
+    right_process = FiniteProcess(("a", "b"), (0, 1), {"a": "z", "b": "o"}, right_transition)
+    left_morphology = Morphology(left_process, {0: "CELL", 1: "CELL"}, (2, 3))
+    right_morphology = Morphology(right_process, {"a": "CELL", "b": "CELL"}, (2, 3))
+    if not morphology_equivalent(left_morphology, right_morphology):
+        raise ValueError("morphology name invariance failed")
+
+    species = SpeciesDescriptor((("COPY", True),), ("recurrent",), ("component-1",), (0, 1))
+    other_species = SpeciesDescriptor((("COPY", False),), ("recurrent",), ("component-1",), (0, 1))
+    if not machine_species_equivalent(species, species) or machine_species_equivalent(species, other_species):
+        raise ValueError("machine-species equivalence failed")
+
+    specification = BehavioralSpecification("COPY", (0, 1), lambda instance, output: instance == output)
+    impossible_specification = BehavioralSpecification("IMPOSSIBLE", (0, 1), lambda _instance, _output: False)
+    possible = ({0: 0, 1: 1}, {0: 0, 1: 0})
+    bounds = capability_bounds(possible, (specification, impossible_specification))
+    capability_values = (capability_profile(behavior, (specification,))[0][1] for behavior in possible)
+    impossible = impossibility_region(bounds)
+    if (
+        bounds != {"COPY": (0, 1), "IMPOSSIBLE": (0, 0)}
+        or impossible != ("IMPOSSIBLE",)
+        or identified_decision(capability_values) != CANNOT_IDENTIFY
+    ):
+        raise ValueError("capability uncertainty/abstention boundary failed")
+
+    union = compose_uncertainty(
+        FiniteUncertainty(frozenset({"a", "b"}), Fraction(9, 10)),
+        FiniteUncertainty(frozenset({0, 1}), Fraction(4, 5)),
+    )
+    independent = compose_uncertainty(
+        FiniteUncertainty(frozenset({"a", "b"}), Fraction(9, 10)),
+        FiniteUncertainty(frozenset({0, 1}), Fraction(4, 5)),
+        independent=True,
+    )
+    if union.confidence != Fraction(7, 10) or independent.confidence != Fraction(18, 25):
+        raise ValueError("confidence composition failed")
+    result = {
+        **validate_axioms(),
+        "capability_bounds": bounds,
+        "impossibility_region": impossible,
+        "morphology_name_invariant": True,
+        "species_descriptor_architecture_free": True,
+        "union_confidence": str(union.confidence),
+        "independent_confidence": str(independent.confidence),
+        "global_abstention": CANNOT_IDENTIFY,
+    }
+    expected = json.loads((HERE / "RESULT_V1.json").read_text(encoding="utf-8"))
+    json_result = json.loads(json.dumps(result, sort_keys=True))
+    if json_result != expected:
+        raise ValueError("deterministic result receipt drifted")
+    return result
+
+
+if __name__ == "__main__":
+    print("GMI_833_MATHEMATICAL_CORE_V1_VALID")
+    print(json.dumps(validate_all(), sort_keys=True))
