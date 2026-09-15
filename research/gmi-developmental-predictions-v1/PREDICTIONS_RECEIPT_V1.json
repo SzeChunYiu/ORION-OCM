@@ -1,0 +1,63 @@
+{
+  "artifact": "GMI_DEVELOPMENTAL_PREDICTIONS_V1",
+  "issues": ["#602-L4", "#592.28"],
+  "claim_ceiling": "FINITE_EXACT_DEVELOPMENTAL_PREDICTION_AT_REGISTERED_SCHEDULE",
+  "hosts": {
+    "local": {
+      "python": "3.14.x",
+      "normal": {"tests": 23, "ok": true},
+      "optimized": {"tests": 23, "ok": true},
+      "note": "Validated with python3 -I -B and python3 -I -O -B before PR."
+    },
+    "billy-old": {
+      "reachable": false,
+      "note": "SSH host not reached during completion pass; CI matrix covers normal/-O."
+    },
+    "billy-laptop": {
+      "reachable": false,
+      "note": "SSH host not reached during completion pass; CI matrix covers normal/-O."
+    }
+  },
+  "summary": {
+    "emergence_ordering": {
+      "cap-perception": "infant",
+      "cap-working-memory": "toddler",
+      "cap-procedural-memory": "child",
+      "cap-social-cognition": "child",
+      "cap-compositional-reasoning": "adolescent",
+      "cap-abstraction-concept": "adolescent",
+      "cap-metacognition": "adolescent",
+      "cap-hierarchical-skill": "adult"
+    },
+    "compositional_abstraction_stage": "adolescent",
+    "social_depth_trajectory": [
+      ["infant", 0],
+      ["toddler", 1],
+      ["child", 2],
+      ["adolescent", 3],
+      ["adult", 4]
+    ],
+    "sensitive_periods": {
+      "MORPH": {
+        "window": ["child", "adolescent"],
+        "cost": 3,
+        "V_lock": 7,
+        "admissible_stages": ["child", "adolescent"]
+      }
+    },
+    "heldout_comparison": {
+      "n_match": 8,
+      "n_mismatch": 0,
+      "n_abstain": 0,
+      "n_entries": 8
+    }
+  },
+  "l4_boxes": {
+    "L4_1_ordering": true,
+    "L4_2_prior_structure": true,
+    "L4_3_sensitive_periods": true,
+    "L4_4_compositional_abstraction": true,
+    "L4_5_social_depth": true,
+    "L4_6_heldout_comparison": true
+  }
+}

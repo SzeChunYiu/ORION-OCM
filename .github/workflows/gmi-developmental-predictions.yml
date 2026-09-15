@@ -1,0 +1,65 @@
+name: GMI developmental predictions (L4)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-developmental-predictions-v1/**'
+      - 'research/gmi-developmental-taxonomy-v1/**'
+      - '.github/workflows/gmi-developmental-predictions.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-developmental-predictions-v1/**'
+      - 'research/gmi-developmental-taxonomy-v1/**'
+      - '.github/workflows/gmi-developmental-predictions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  predictions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Run developmental prediction controls
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          args=(-I -B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python "${args[@]}" research/gmi-developmental-predictions-v1/test_developmental_predictions_v1.py -v
+      - name: Emit summary and require held-out match
+        if: matrix.mode == 'normal'
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import importlib.util, json, pathlib
+          p = pathlib.Path('research/gmi-developmental-predictions-v1/developmental_predictions_v1.py')
+          spec = importlib.util.spec_from_file_location('devpred', p)
+          mod = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+          s = mod.summary()
+          held = s['heldout_comparison']
+          assert held['n_mismatch'] == 0, held
+          assert held['n_match'] == held['n_entries']
+          print('L4 OK:', held)
+          print('composition@', s['compositional_abstraction_stage'])
+          print('MORPH window', s['sensitive_periods']['MORPH']['window'])
+          PY
+      - name: Verify test count
+        run: |
+          set -euo pipefail
+          count="$(python -I -B research/gmi-developmental-predictions-v1/test_developmental_predictions_v1.py -v 2>&1 | grep -c '^test_')"
+          echo "test_methods=${count}"
+          test "${count}" -ge 23
