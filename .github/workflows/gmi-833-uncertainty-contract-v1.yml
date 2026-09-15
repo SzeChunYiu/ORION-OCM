@@ -79,14 +79,46 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          set +e
           if [ "${{ matrix.mode }}" = optimized ]; then
-            python -I -O -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v
+            python -I -O -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v 2>&1 | tee /tmp/uncertainty-test.log
+            status=${PIPESTATUS[0]}
+          else
+            python -I -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v 2>&1 | tee /tmp/uncertainty-test.log
+            status=${PIPESTATUS[0]}
+          fi
+          set -e
+          if [ "$status" -ne 0 ]; then
+            exit "$status"
+          fi
+          if [ "${{ matrix.mode }}" = optimized ]; then
             python -I -O -B research/gmi-833-uncertainty-contract-v1/uncertainty_contract_v1.py > /tmp/result.json
           else
-            python -I -B research/gmi-833-uncertainty-contract-v1/test_uncertainty_contract_v1.py -v
             python -I -B research/gmi-833-uncertainty-contract-v1/uncertainty_contract_v1.py > /tmp/result.json
           fi
           cmp /tmp/result.json research/gmi-833-uncertainty-contract-v1/RESULT_V1.json
+      - name: Post exact failure diagnostic
+        if: failure() && github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo '### #851 exact/hostile failure diagnostic'
+            echo
+            echo 'The gate remains RED. Tail of the exact test output:'
+            echo
+            echo '```text'
+            if [ -f /tmp/uncertainty-test.log ]; then
+              tail -n 120 /tmp/uncertainty-test.log
+            else
+              echo 'test log was not produced; failure occurred before exact tests'
+            fi
+            echo '```'
+          } > /tmp/diagnostic.md
+          gh pr comment "$PR_NUMBER" --body-file /tmp/diagnostic.md
       - name: Check #833 exact reconciliation
         if: github.event_name == 'pull_request' && matrix.mode == 'normal'
         env:
