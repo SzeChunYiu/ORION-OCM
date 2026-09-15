@@ -1,0 +1,40 @@
+{
+  "schema": "GMI_GAP_GRAPH_V1",
+  "roots": ["G0"],
+  "nodes": {
+    "G0": {
+      "id": "G0",
+      "claim_id": "AA-GOV-1",
+      "premise": "the registered result has a load-bearing unresolved child",
+      "inference": "result closure depends on child discharge",
+      "unresolved_assumption": "child premise not discharged",
+      "possible_counterexample": "child premise is false",
+      "severity": "HIGH",
+      "owner_role": "formal-logic",
+      "parent_result": "AA-GOV-1",
+      "evidence_needed": "descendant proof or counterexample",
+      "materiality": "can lower closure state",
+      "status": "OPEN",
+      "descendants": ["G1"],
+      "introduced_assumptions": [],
+      "counterexample_methods": []
+    },
+    "G1": {
+      "id": "G1",
+      "claim_id": "AA-GOV-1",
+      "premise": "a load-bearing theorem premise is required",
+      "inference": "premise implies parent admissibility",
+      "unresolved_assumption": "premise remains unproved",
+      "possible_counterexample": "explicit violation of the premise",
+      "severity": "CRITICAL",
+      "owner_role": "hostile-review",
+      "parent_result": "G0",
+      "evidence_needed": "proof or falsifying witness",
+      "materiality": "can reverse the scientific claim",
+      "status": "OPEN",
+      "descendants": [],
+      "introduced_assumptions": [],
+      "counterexample_methods": []
+    }
+  }
+}
