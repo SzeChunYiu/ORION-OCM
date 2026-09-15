@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "issue": 602,
+  "section": "H. Development, adaptation, and evolvability",
+  "scope": "finite directed developmental state graphs with explicitly charged nonnegative integer transition costs, finite current/future obligation sets, and bounded descendant budgets",
+  "assumptions": [
+    "developmental states and legal transitions are finite and prospectively registered",
+    "every transition cost includes the charged developmental/search work represented by that edge",
+    "current capability is evaluated before any new adaptation for the future obligation",
+    "useful-descendant mass counts descendant states/equivalence classes rather than path multiplicity",
+    "optional-inheritance monotonicity applies only when every old edge at the same cost remains feasible and inherited structure adds optional paths without mandatory maintenance or repricing"
+  ],
+  "evidence_class": ["P1", "P2"],
+  "claim_ceiling": "G2",
+  "claim_boundary": "This closes a bounded definitional/proof spine for seven H rows. It does not yet predict maintenance-cost reversal, representation/operator/search-prior benefits, reset regimes, expansion/pruning, self-compilation, local morphogenesis, multi-generation trajectories, or open-endedness; no G7 claim is made.",
+  "strongest_parent": "weighted shortest-path/control reachability, transfer-learning sample/search complexity, evolutionary accessibility/evolvability, option-value monotonicity",
+  "negative_twin": "make inherited structure mandatory or reprice/remove an old path; the free-option monotonicity theorem must refuse the instance rather than claiming inheritance cannot hurt",
+  "nearest_counterexample": "with mandatory maintenance, shared-budget coupling, changed transition costs, or hidden state-dependent constraints, inherited structure may increase future burden even though a free optional extension cannot",
+  "falsifier": "Any registered definition changes under pure path duplication, any shortest-path burden disagrees with exhaustive finite reachability, current capability alone identifies future learning potential in the separation witness, or a legal free optional extension increases minimum burden/decreases useful-descendant mass.",
+  "rows": [
+    {
+      "id": "H-CAP-POT",
+      "ledger_row": "Define current capability separately from future learning potential.",
+      "definition": "Current capability is success fraction on current obligations without further adaptation; future learning potential at budget B is the fraction of registered future obligations whose satisfying state set is reachable with minimum adaptation burden <= B.",
+      "strongest_parent": "current performance versus learning-curve/adaptation potential",
+      "negative_twin": "two states have the same current outputs and the same future shortest-path burdens; both quantities then coincide only accidentally",
+      "falsifier": "no finite witness exists with equal current capability but unequal future learning potential"
+    },
+    {
+      "id": "H-ADAPT-BURDEN",
+      "ledger_row": "Define adaptation burden.",
+      "definition": "For start state x and future obligation satisfying set G, adaptation burden A(x,G) is the minimum total charged transition cost of any legal developmental path from x into G, or infinity if G is unreachable.",
+      "strongest_parent": "weighted shortest path / optimal control cost-to-go",
+      "negative_twin": "an unreachable target has infinite rather than fabricated finite burden",
+      "falsifier": "computed burden differs from the minimum charged legal path cost"
+    },
+    {
+      "id": "H-EVOL-MASS",
+      "ledger_row": "Define useful-descendant mass/evolvability.",
+      "definition": "At budget B, useful-descendant mass is the sum of prospectively registered nonnegative weights of useful descendant states/equivalence classes whose minimum developmental burden from the current state is <= B; multiple paths to one descendant do not multiply its mass.",
+      "strongest_parent": "evolutionary accessibility / reachable phenotype mass",
+      "negative_twin": "duplicate a developmental path to an already reachable descendant; mass must not increase",
+      "falsifier": "mass changes under pure duplicate-path insertion or counts an unreachable-over-budget descendant"
+    },
+    {
+      "id": "H-MORPH-SEARCH",
+      "ledger_row": "Define morphology-search burden.",
+      "definition": "For a prospectively registered target morphology set M*, morphology-search burden is the minimum fully charged developmental transition/search cost from the current state to any member of M*, or infinity if unreachable.",
+      "strongest_parent": "search complexity / reachability cost",
+      "negative_twin": "representable but unreachable morphology has infinite search burden",
+      "falsifier": "a cheaper legal fully charged path to M* exists than the reported burden"
+    },
+    {
+      "id": "H-TRANSFER",
+      "ledger_row": "Define transfer benefit and harmful transfer.",
+      "definition": "For the same future obligation G, transfer benefit is A(reset,G) - A(continued,G). Positive is beneficial transfer, zero neutral, negative harmful transfer; infinities retain their reachability meaning.",
+      "strongest_parent": "transfer-learning savings / negative transfer",
+      "negative_twin": "swap reset and continued states; any finite nonzero transfer benefit changes sign",
+      "falsifier": "reported transfer sign disagrees with the two independently computed adaptation burdens"
+    },
+    {
+      "id": "H-PATH",
+      "ledger_row": "Define developmental path dependence.",
+      "definition": "Two developmental histories are path-dependent at the registered future scope when their present observable outputs are equal but the resulting internal developmental states have unequal adaptation burden for at least one registered future obligation.",
+      "strongest_parent": "history-dependent state / hysteresis / sufficient-state theory",
+      "negative_twin": "if present outputs differ, future burden differences do not establish the intended hidden-history witness",
+      "falsifier": "states declared path-dependent have either unequal present outputs or identical burdens for every registered future obligation"
+    },
+    {
+      "id": "H-INHERIT-OPTION",
+      "ledger_row": "Prove optional inheritance monotonicity at its actual scope.",
+      "definition": "If inherited structure is a free optional extension: every base developmental edge remains available at exactly the same cost and inheritance only adds legal paths, then minimum adaptation/morphology burden cannot increase and useful-descendant mass at any fixed budget cannot decrease.",
+      "strongest_parent": "feasible-set inclusion / option-value monotonicity",
+      "negative_twin": "replace an old unit-cost path by a mandatory higher-cost path; premise fails and burden may increase",
+      "falsifier": "a graph satisfying exact base-edge/cost inclusion has a target with larger inherited minimum burden or smaller inherited useful-descendant mass"
+    }
+  ]
+}
