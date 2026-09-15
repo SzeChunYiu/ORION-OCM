@@ -1,0 +1,41 @@
+name: gmi-novel-intelligence-w4-v1
+
+on:
+  push:
+    paths:
+      - "research/gmi-novel-intelligence-w4-v1/**"
+      - "research/gmi-unseen-form-prediction-v1/**"
+      - ".github/workflows/gmi-novel-intelligence-w4-v1.yml"
+  pull_request:
+    paths:
+      - "research/gmi-novel-intelligence-w4-v1/**"
+      - "research/gmi-unseen-form-prediction-v1/**"
+      - ".github/workflows/gmi-novel-intelligence-w4-v1.yml"
+
+jobs:
+  exact-w4:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/gmi-novel-intelligence-w4-v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+      - name: Unit tests
+        run: python test_novel_intelligence_w4_v1.py -v
+      - name: Emit receipt
+        run: python novel_intelligence_w4_v1.py
+      - name: Require all W4 boxes green
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("RESULT_V1.json"))
+          assert r["all_w4_boxes_green"] is True
+          assert r["item39_ladder"]["W4_domain_status"] is True
+          assert r["item39_ladder"]["j4_new_domain_claimed"] is False
+          assert r["item39_ladder"]["phase_hole_occupant_claim"] is False
+          assert r["upstream_compose"]["compose_ok"] is True
+          print("W4 OK:", {k: v["tick"] for k, v in r["w4_boxes"].items()})
+          PY
