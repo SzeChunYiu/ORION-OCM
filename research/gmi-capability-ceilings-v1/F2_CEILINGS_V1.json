@@ -1,8 +1,8 @@
 {
   "schema": "GMICapabilityCeilingsV1",
   "issue": 602,
-  "section": "F2 tranches 1-2",
-  "scope": "Finite registered zero-error capability ceilings for internal state, deterministic observation quotients, fixed-bit deterministic communication, fixed-architecture quantized threshold boundaries, finite deterministic update channels, and exact linear protected-state subspaces. Every theorem applies only after all information, parameter, update, and architecture channels named in its scope are frozen.",
+  "section": "F2 tranches 1-4 (unified eleven-ceiling registry)",
+  "scope": "Finite registered zero-error capability ceilings for internal state, deterministic observation quotients, fixed-bit deterministic communication, fixed-architecture quantized threshold boundaries, finite deterministic update channels, exact linear protected-state subspaces, exhaustive planning horizons, unstructured verified search, verification false-adoption floors, active information acquisition, and social-observation identifiability. Every theorem applies only after all information, parameter, update, resource, and architecture channels named in its scope are frozen.",
   "assumptions": [
     "capability claims are made against prospectively registered task, information, parameter and update interfaces",
     "zero-error means every registered latent/task class must receive its required response, not merely high average accuracy",
@@ -11,7 +11,12 @@
     "communication claims use a noiseless deterministic fixed-bit one-way channel and no receiver side information correlated with the sender class",
     "precision claims freeze architecture, decoder/codebook and every precision-bearing parameter slot; architecture growth or an uncharged high-precision side parameter changes the theorem",
     "update-channel claims freeze the initial state and require every target-dependent persistent change to pass through the registered finite update alphabet",
-    "protected-rank claims are exact for linear protected-output maps, or local first-order statements after an explicit linearization; nonlinear/global invariance needs a separate theorem"
+    "protected-rank claims are exact for linear protected-output maps, or local first-order statements after an explicit linearization; nonlinear/global invariance needs a separate theorem",
+    "planning claims meter exhaustive node inspections on a full finite b-ary tree with no pruning/oracle/merging",
+    "search claims are unstructured membership-query complexity with a perfect verifier and no candidate side information",
+    "verification claims use exchangeable defect locations for the hypergeometric floor and perfect distinct checks; adversarial zero-FA requires full coverage",
+    "information-acquisition claims count deterministic noiseless transcripts with bounded outcome alphabets and no free side information",
+    "social-observation claims apply the deterministic observation-quotient criterion to registered agent-model transcripts before held-out responses"
   ],
   "evidence_class": "P1 formal theorem family plus P2 exhaustive finite witnesses",
   "claim_ceiling": "G2",
@@ -21,7 +26,12 @@
     "deterministic communication-complexity transcript-counting lower bounds",
     "finite hypothesis-class counting and quantized-network expressivity",
     "finite-alphabet reachability / quantized control and information-constrained optimization",
-    "rank-nullity and output-preserving/null-space continual-learning methods"
+    "rank-nullity and output-preserving/null-space continual-learning methods",
+    "uninformed tree-search branching-factor complexity",
+    "deterministic decision-tree/query complexity for unstructured search",
+    "acceptance sampling and the hypergeometric distribution",
+    "decision-tree / twenty-questions transcript counting and source coding",
+    "the already-registered deterministic observation-quotient ceiling plus statistical identifiability / inverse-planning theory-of-mind models"
   ],
   "falsifier": "A registered in-scope instance violates one of the stated ceilings while all theorem assumptions and all information/resource channels are checked exactly.",
   "ceilings": [
@@ -127,7 +137,94 @@
       ],
       "negative_twin": "D=3 with rank(P)=2 leaves one protected null direction, so a two-dimensional independent plastic update family is impossible without changing protected outputs.",
       "falsifier": "An exact in-scope protected map of rank R admits more than D-R linearly independent zero-forgetting update directions."
+    },
+    {
+      "id": "F2_PLANNING_RESOURCE_HORIZON",
+      "box": "Planning resource -> reachable horizon bound.",
+      "quantity": "Full b-ary planning tree, exhaustive node-inspection budget R, and guaranteed complete horizon h.",
+      "theorem": "In a full b-ary tree where any uninspected node through depth h may contain the only goal or obligation-changing event, a planner that guarantees complete zero-error coverage through depth h must inspect every node through that depth. The required node count is N(b,h)=h+1 for b=1 and (b^(h+1)-1)/(b-1) for b>1. The bound is tight by breadth-first exhaustive inspection.",
+      "bound": "N(b,h) <= R. For b>1, h <= floor(log_b(R(b-1)+1))-1; for b=1, h <= R-1.",
+      "strongest_parent": "Uninformed tree-search branching-factor complexity / exhaustive search.",
+      "repo_parent": "research/machine-intelligence-morphogenesis-v1/GMI_PLANNING_STOPPING_RULE_V1.md",
+      "assumptions": [
+        "finite full b-ary tree and integer horizon h>=0",
+        "node inspection is the metered planning resource",
+        "any node through depth h may be adversarially decisive",
+        "no heuristic oracle, pruning certificate, state merging/transposition, or structural dominance rule",
+        "guarantee is complete worst-case coverage, not success on one lucky path"
+      ],
+      "negative_twin": "A binary tree with R=14 cannot guarantee complete depth 3 because depth 3 contains 15 nodes including the root; R=15 is tight.",
+      "falsifier": "An in-scope planner guarantees complete depth h after inspecting fewer than N(b,h) nodes."
+    },
+    {
+      "id": "F2_SEARCH_BUDGET_VERIFIED_CLASS",
+      "box": "Search budget -> reachable verified-solution class.",
+      "quantity": "N unstructured candidates, one hidden valid candidate, and Q deterministic membership-verifier queries.",
+      "theorem": "If exactly one of N candidates may be valid and validity of one candidate gives no information about any other, every deterministic algorithm that guarantees finding the valid candidate in the worst case requires Q>=N membership queries. With Q<N, an adversary places the unique valid candidate at an unqueried index. The bound is tight by querying all candidates.",
+      "bound": "Worst-case guaranteed verified-solution class size <= Q; complete guarantee over N candidates requires Q>=N.",
+      "strongest_parent": "Deterministic decision-tree/query complexity for unstructured search.",
+      "assumptions": [
+        "finite candidate set with exactly one potentially valid location",
+        "validity membership oracle is exact",
+        "candidate identities are unstructured and checking one candidate gives no information about another",
+        "no generative shortcut, ordering promise, heuristic oracle, side information, or parallel unmetered verification",
+        "worst-case zero-error guarantee"
+      ],
+      "negative_twin": "N=5 candidates with Q=4 queries; whichever four indices are checked, the fifth can be the unique valid candidate.",
+      "falsifier": "An in-scope deterministic search guarantees the unique valid candidate for all placements with Q<N queries."
+    },
+    {
+      "id": "F2_VERIFICATION_BUDGET_FALSE_ADOPTION",
+      "box": "Verification budget -> admissible false-adoption floor.",
+      "quantity": "M obligation coordinates, exactly r defective coordinates chosen uniformly among all r-subsets, and q distinct perfect checks without replacement.",
+      "theorem": "Under exchangeable defect locations and no defect-location side information, any non-anticipating verifier that inspects q distinct coordinates and adopts iff all inspected coordinates pass misses every defect with probability C(M-q,r)/C(M,r), interpreted as zero when M-q<r. This is therefore the exact false-adoption probability for the registered model. In the distribution-free adversarial single-defect model, any q<M leaves an unchecked coordinate on which an invalid candidate can be placed, so zero worst-case false adoption requires q=M.",
+      "bound": "P_FA(q;M,r)=C(M-q,r)/C(M,r). For r=1, P_FA=(M-q)/M. Worst-case adversarial zero-FA requires q=M.",
+      "strongest_parent": "Acceptance sampling / hypergeometric sampling without replacement.",
+      "assumptions": [
+        "finite M obligation coordinates and 1<=r<=M defects",
+        "the r-defect set is uniformly distributed over all r-subsets for the probabilistic bound",
+        "q distinct checks are chosen without defect-location side information",
+        "each checked defect is detected perfectly",
+        "candidate is adopted iff no checked coordinate fails"
+      ],
+      "negative_twin": "M=10, r=1, q=8 has exact false-adoption probability 2/10; full q=10 verification has probability 0.",
+      "falsifier": "Under the registered exchangeable perfect-check model, measured exact enumeration disagrees with C(M-q,r)/C(M,r), or a q<M deterministic verifier guarantees zero false adoption against an adversarial single defect."
+    },
+    {
+      "id": "F2_INFORMATION_ACQUISITION_BUDGET",
+      "box": "Information-acquisition budget -> uncertainty-resolution ceiling.",
+      "quantity": "K latent hypotheses, at most A outcomes per active query, at most q queries (or total budget B with uniform per-query cost c).",
+      "theorem": "Any deterministic adaptive q-query protocol with at most A outcomes per query has at most A^q complete transcripts, so zero-error identification of K latent hypotheses requires K <= A^q. Under uniform positive query cost c and total budget B, q <= floor(B/c), hence K <= A^floor(B/c). The count is tight when the registered query family can realize a separating A-ary code over the hypotheses.",
+      "bound": "K <= A^q; equivalently q >= ceil(log_A K) for A>1. With uniform cost: K <= A^floor(B/c).",
+      "strongest_parent": "Decision-tree leaf counting / twenty questions / finite source coding.",
+      "assumptions": [
+        "finite K latent hypotheses",
+        "deterministic noiseless active queries with at most A outcomes each",
+        "at most q acquired answers, or uniform positive query cost c under total budget B",
+        "no free side information, passive observation or intervention outcome carrying additional target information",
+        "zero-error identification; tightness only when the query family can implement a separating code"
+      ],
+      "negative_twin": "Five hypotheses with two binary queries expose at most four transcripts, so exact identification is impossible; three binary queries are sufficient in a rich separating-query family.",
+      "falsifier": "An in-scope deterministic q-query protocol identifies K>A^q hypotheses with zero error, or a B-budget protocol with uniform cost c identifies more than A^floor(B/c) hypotheses without another information channel."
+    },
+    {
+      "id": "F2_SOCIAL_OBSERVATION_IDENTIFIABILITY",
+      "box": "Social observation -> theory-of-mind identifiability ceiling.",
+      "quantity": "Finite hidden agent-model set Theta, registered social observation transcript tau(theta), and held-out required social response g(theta).",
+      "theorem": "Given only the registered deterministic transcript tau(theta), a zero-error social-response decoder exists iff g is constant on every transcript fiber tau^{-1}(t). Full hidden-model identification is possible iff tau is injective. Therefore two goal/belief models that are observationally equivalent under all registered social observations but require different held-out responses are not identifiable without an additional discriminating observation or assumption.",
+      "bound": "The held-out response partition cannot refine the transcript partition; full identifiable model classes <= number of distinct registered transcripts.",
+      "strongest_parent": "The F2 deterministic observation-quotient theorem (direct social-domain corollary), statistical identifiability, and inverse-planning/Bayesian theory-of-mind models that infer hidden goals/beliefs from observed actions.",
+      "repo_parent": "research/machine-intelligence-morphogenesis-v1/GMI_SOCIAL_AGENT_MODELS_V1.md",
+      "assumptions": [
+        "finite registered hidden agent-model set",
+        "complete deterministic social transcript available before the held-out response is frozen",
+        "no direct hidden-state label, private-state access or unregistered diagnostic interaction",
+        "required held-out social response g is fixed prospectively",
+        "zero-error deterministic theorem scope"
+      ],
+      "negative_twin": "Two hidden models produce the same observed action in the base context but require different held-out predictions; no transcript-only decoder can answer both. A registered diagnostic probe that makes their transcripts differ restores identifiability.",
+      "falsifier": "A transcript-only decoder gives different correct responses to two models in the same transcript fiber, or fully identifies two hidden models with identical complete registered transcripts."
     }
   ],
-  "terminal": "F2_TRANCHE2_SIX_EXACT_CEILINGS_REGISTERED_AT_G2"
+  "terminal": "F2_ALL_ELEVEN_BOUNDED_CEILINGS_REGISTERED_AT_G2"
 }

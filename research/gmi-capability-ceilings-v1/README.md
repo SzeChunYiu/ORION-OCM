@@ -1,13 +1,19 @@
-# GMI capability ceilings V1 — #602 F2 tranches 1–2
+# GMI capability ceilings V1 — #602 F2 (all eleven rows)
 
-This unit binds six classical lower-bound families into the architecture-independent GMI capability contract at deliberately bounded exact scope:
+This unit binds classical lower-bound families into the architecture-independent
+GMI capability contract at deliberately bounded exact scope:
 
 1. state capacity -> zero-error memory distinction ceiling;
 2. complete observation quotient -> zero-error task distinguishability ceiling;
 3. fixed-bit one-way communication -> zero-error coordination ceiling;
 4. fixed-architecture finite precision -> representable threshold-boundary ceiling;
 5. finite persistent-update alphabet -> target-state plasticity/reachability ceiling;
-6. protected-output rank -> exact retention/plasticity null-space frontier.
+6. protected-output rank -> exact retention/plasticity null-space frontier;
+7. exhaustive planning resource -> reachable complete horizon;
+8. unstructured search budget -> reachable verified-solution class;
+9. verification budget -> admissible false-adoption floor;
+10. information-acquisition budget -> uncertainty-resolution ceiling;
+11. social observation -> theory-of-mind identifiability ceiling.
 
 Artifacts:
 
@@ -24,6 +30,10 @@ python3 -I -B research/gmi-capability-ceilings-v1/test_capability_ceilings_v1.py
 python3 -I -O -B research/gmi-capability-ceilings-v1/test_capability_ceilings_v1.py -v
 ```
 
-The precision theorem intentionally freezes architecture and its boundary decoder. Low per-parameter precision is **not** claimed to impose a universal architecture-independent expressivity ceiling when width/depth or other parameter channels may change.
+The precision theorem intentionally freezes architecture and its boundary decoder.
+Low per-parameter precision is **not** claimed to impose a universal
+architecture-independent expressivity ceiling when width/depth or other parameter
+channels may change.
 
-Claim ceiling: **G2**. These are bounded theorem-level capability ceilings, not a G6 morphology-to-capability predictor.
+Claim ceiling: **G2**. These are bounded theorem-level capability ceilings, not a
+G6 morphology-to-capability predictor.

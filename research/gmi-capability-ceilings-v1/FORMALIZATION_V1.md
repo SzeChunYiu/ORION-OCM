@@ -1,6 +1,6 @@
-# GMI capability ceilings V1 — F2 tranches 1–2
+# GMI capability ceilings V1 — F2 all eleven rows
 
-Issue #602, section F2. This unit now closes six **bounded exact ceiling** boxes: internal-state capacity, observation-quotient distinguishability, deterministic communication bandwidth, fixed-architecture precision, finite persistent-update bandwidth, and linear protected-state rank. It remains deliberately narrower than a morphology-to-capability predictor.
+Issue #602, section F2. This unit closes eleven **bounded exact ceiling** boxes: internal-state capacity, observation-quotient distinguishability, deterministic communication bandwidth, fixed-architecture precision, finite persistent-update bandwidth, linear protected-state rank, exhaustive planning horizon, unstructured verified search, verification false-adoption floor, active information acquisition, and social-observation identifiability. It remains deliberately narrower than a morphology-to-capability predictor.
 
 ## 1. Parent subtraction
 
@@ -12,6 +12,11 @@ These results have strong classical parents, and the GMI claim is not that the u
 - **Precision.** Quantization theory studies what finite-precision parameter and arithmetic sets can represent. Importantly, recent expressivity results for quantized networks show why **precision alone cannot be turned into a universal architecture-independent ceiling**: additional width/depth can compensate for low per-parameter precision. The theorem here therefore freezes a one-threshold architecture, its decoder/codebook, and every boundary-selecting precision slot.
 - **Update channel.** Finite-alphabet/quantized control and information-constrained optimization study how discrete control/update alphabets restrict reachability or convergence. The result here is the zero-error finite counting specialization: from one fixed persistent state, `A^T` update transcripts cannot select more than `A^T` target-distinct persistent successors if no other target-dependent write channel exists.
 - **Protected-state rank.** Rank–nullity gives the exact dimension left after linear protected constraints. Continual-learning methods such as Orthogonal Gradient Descent and later null-space methods exploit the same parent structure: preserve old outputs by restricting updates to an output-insensitive/null subspace.
+- **Planning resource.** Uninformed tree-search branching-factor complexity: complete coverage of a full `b`-ary tree through depth `h` costs exactly `N(b,h)` node inspections when no pruning/oracle/merging is available.
+- **Search budget.** Deterministic decision-tree/query complexity for unstructured membership search: worst-case discovery of one hidden valid candidate among `N` unstructured candidates requires `N` queries.
+- **Verification budget.** Acceptance sampling / hypergeometric sampling without replacement gives the exact false-adoption floor under exchangeable defects; adversarial zero-FA requires full coverage.
+- **Information acquisition.** Decision-tree / twenty-questions transcript counting: at most `A^q` leaves for depth-`q` protocols with alphabet size `A`.
+- **Social observation.** Direct corollary of the deterministic observation-quotient theorem applied to hidden agent models; inverse-planning/Bayesian ToM is the application parent, not a novelty claim.
 
 The residual contribution of this unit is to bind those parent results to the architecture-independent F1 capability interface, state exact scope guards, pair each theorem with a negative twin, and make the tiny finite boundaries executable.
 
@@ -254,7 +259,7 @@ This result is complementary to `GMI_INTERFERENCE_STABILITY_PLASTICITY_V1.md`, w
 
 ## 9. Structural and hostile closure
 
-`capability_ceilings_v1.py` validates that all six theorem rows contain scope, assumptions, strongest parent, bound, negative twin, and falsifier. The control suite now has 31 checks and rejects, among other failures:
+`capability_ceilings_v1.py` validates that all eleven theorem rows contain scope, assumptions, strongest parent, bound, negative twin, and falsifier. The control suite rejects, among other failures:
 
 - G6 claim escalation or omitted theorem rows;
 - state claims hiding external memory or future re-separation;
@@ -263,11 +268,48 @@ This result is complementary to `GMI_INTERFERENCE_STABILITY_PLASTICITY_V1.md`, w
 - precision claims that allow architecture growth, post-hoc decoder rewrites, or hidden precision channels;
 - update-channel claims that allow direct writes, external mutation, side channels, or architecture growth;
 - protected-rank claims that silently substitute nonlinear/global invariance or auxiliary mutable state for the registered linear fixed-dimensional object;
+- planning claims with pruning/heuristic/merging shortcuts;
+- search claims with structured candidate promises or side information;
+- verification claims with defect-location side information or imperfect checks;
+- acquisition claims with free side channels or unbounded outcome alphabets;
+- social claims with private-state access, unregistered probes, or latent-label leakage;
 - floating-tolerance rank ambiguity, by computing witness rank exactly over rational arithmetic.
 
 A `PASS` therefore certifies the **registered finite theorem interfaces and witnesses**, not a general empirical capability predictor.
 
-## 10. Claim ceiling and remaining F2 gaps
+## 10. Planning resource -> reachable horizon
+
+Parent: uninformed tree-search branching-factor complexity. In a full `b`-ary tree through depth `h` with no pruning/oracle/merging, complete worst-case coverage requires inspecting every node:
+
+```text
+N(b,h) = sum_{d=0}^h b^d
+```
+
+Binary depth 3 needs exactly 15 inspections; budget 14 cannot guarantee complete horizon 3 (negative twin).
+
+## 11. Search budget -> reachable verified-solution class
+
+Parent: deterministic decision-tree/query complexity for unstructured membership search. With `N` unstructured candidates and one hidden valid member, worst-case zero-error discovery requires `Q >= N`. With `Q < N` an adversary places the valid member at an unqueried index. Witness: `N=5`, `Q=4`.
+
+## 12. Verification budget -> false-adoption floor
+
+Parent: acceptance sampling / hypergeometric sampling. Under exchangeable `r`-defect locations and `q` distinct perfect checks with adopt-on-all-pass,
+
+```text
+P_FA = C(M-q,r)/C(M,r)
+```
+
+Witness: `M=10,r=1,q=8` gives `1/5`; `M=6,r=2,q=2` gives `2/5`, matching exhaustive enumeration. Against an adversarial single defect, zero worst-case false adoption requires `q=M`.
+
+## 13. Information-acquisition budget -> uncertainty-resolution ceiling
+
+Parent: decision-tree / twenty-questions transcript counting. Deterministic adaptive `q`-query protocols with at most `A` outcomes per query have at most `A^q` transcripts, so zero-error identification of `K` hypotheses requires `K <= A^q`. Under uniform query cost `c` and budget `B`, `K <= A^{floor(B/c)}`. Witness: five hypotheses cannot be separated by two binary queries; four can.
+
+## 14. Social observation -> theory-of-mind identifiability
+
+Parent: the already-registered deterministic observation-quotient theorem, specialized to hidden agent models (inverse-planning/Bayesian ToM as application parent, not novelty). Held-out response `g` is recoverable from transcript `tau` iff `g` is constant on every fiber of `tau`; full model ID requires injective `tau`. Witness: colliding `goal_left`/`belief_blocked` transcripts cannot decode different held-out predictions until a registered diagnostic probe separates them.
+
+## 15. Claim ceiling
 
 Evidence class:
 
@@ -275,18 +317,10 @@ Evidence class:
 P1 formal theorem family + P2 exhaustive finite witnesses
 ```
 
-Strongest allowed terminal from the six-row unit:
+Strongest allowed terminal from the eleven-row unit:
 
 ```text
-F2_TRANCHE2_SIX_EXACT_CEILINGS_REGISTERED_AT_G2
+F2_ALL_ELEVEN_BOUNDED_CEILINGS_REGISTERED_AT_G2
 ```
-
-Still open in #602 F2:
-
-- planning resource -> reachable horizon bound;
-- search budget -> reachable verified-solution class;
-- verification budget -> admissible false-adoption floor;
-- information-acquisition budget -> uncertainty-resolution ceiling;
-- social observation -> theory-of-mind identifiability ceiling.
 
 This unit does **not** establish held-family capability prediction, resource-repricing prediction, or the G6 `MORPHOLOGY_TO_CAPABILITY_MAP_SUPPORTED_AT_REGISTERED_SCOPE` terminal.

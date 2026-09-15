@@ -1,7 +1,8 @@
-"""Exact finite witnesses and scope guards for #602 F2 capability ceilings."""
+"""Exact finite witnesses and scope guards for #602 F2 capability ceilings (all eleven rows)."""
 
 from fractions import Fraction
-from itertools import product
+from itertools import combinations, product
+from math import comb
 from pathlib import Path
 import json
 
@@ -15,6 +16,11 @@ EXPECTED_IDS = (
     "F2_PRECISION_BOUNDARY",
     "F2_UPDATE_CHANNEL_PLASTICITY",
     "F2_PROTECTED_RANK_FRONTIER",
+    "F2_PLANNING_RESOURCE_HORIZON",
+    "F2_SEARCH_BUDGET_VERIFIED_CLASS",
+    "F2_VERIFICATION_BUDGET_FALSE_ADOPTION",
+    "F2_INFORMATION_ACQUISITION_BUDGET",
+    "F2_SOCIAL_OBSERVATION_IDENTIFIABILITY",
 )
 REQUIRED_ROW_FIELDS = {
     "id", "box", "quantity", "theorem", "bound", "strongest_parent",
@@ -48,11 +54,11 @@ def validate_registry(data=None):
         errors.append("evidence class must register P1 and P2")
     if not isinstance(data["assumptions"], list) or not data["assumptions"]:
         errors.append("top-level assumptions must be non-empty")
-    if len(data["strongest_parents"]) < 6:
-        errors.append("all six strongest-parent families must be registered")
+    if len(data["strongest_parents"]) < 11:
+        errors.append("all eleven strongest-parent families must be registered")
     if not str(data["falsifier"]).strip():
         errors.append("top-level falsifier must be non-empty")
-    if data["terminal"] != "F2_TRANCHE2_SIX_EXACT_CEILINGS_REGISTERED_AT_G2":
+    if data["terminal"] != "F2_ALL_ELEVEN_BOUNDED_CEILINGS_REGISTERED_AT_G2":
         errors.append("terminal mismatch")
 
     rows = data["ceilings"]
@@ -387,6 +393,316 @@ def validate_protected_rank_scope(instance):
     return errors
 
 
+def complete_tree_nodes(branching, horizon):
+    """Number of nodes from depth 0 through horizon in a full b-ary tree."""
+    _positive_int("branching", branching)
+    _nonnegative_int("horizon", horizon)
+    if branching == 1:
+        return horizon + 1
+    return (branching ** (horizon + 1) - 1) // (branching - 1)
+
+
+def planning_budget_allows(branching, horizon, node_budget):
+    _positive_int("node_budget", node_budget)
+    return complete_tree_nodes(branching, horizon) <= node_budget
+
+
+def max_exhaustive_horizon(branching, node_budget):
+    _positive_int("branching", branching)
+    _positive_int("node_budget", node_budget)
+    h = 0
+    if complete_tree_nodes(branching, h) > node_budget:
+        return -1
+    while complete_tree_nodes(branching, h + 1) <= node_budget:
+        h += 1
+    return h
+
+
+def validate_planning_scope(instance):
+    errors = []
+    if not instance.get("full_tree", False):
+        errors.append("planning ceiling requires a full registered branching tree")
+    for key, phrase in (
+        ("heuristic_oracle", "heuristic oracle"),
+        ("pruning_certificate", "pruning certificate"),
+        ("transposition_merging", "transposition merging"),
+        ("structural_dominance", "structural dominance"),
+    ):
+        if instance.get(key, False):
+            errors.append("%s changes the exhaustive-tree ceiling" % phrase)
+    if not instance.get("worst_case_complete", False):
+        errors.append("theorem is a worst-case complete-coverage ceiling")
+    return errors
+
+
+def planning_uninspected_adversary(branching, horizon, inspected_nodes):
+    """True exactly when an uninspected node can still hide the only decisive event."""
+    _positive_int("branching", branching)
+    _nonnegative_int("horizon", horizon)
+    _nonnegative_int("inspected_nodes", inspected_nodes)
+    return inspected_nodes < complete_tree_nodes(branching, horizon)
+
+
+def search_budget_allows(candidate_count, queries):
+    _positive_int("candidate_count", candidate_count)
+    _nonnegative_int("queries", queries)
+    return queries >= candidate_count
+
+
+def max_guaranteed_unstructured_candidates(queries):
+    _nonnegative_int("queries", queries)
+    return queries
+
+
+def unstructured_search_adversary(candidate_count, queried_indices):
+    """Return an unqueried index where an adversary can place the unique valid candidate."""
+    _positive_int("candidate_count", candidate_count)
+    queried = tuple(queried_indices)
+    if any(isinstance(i, bool) or not isinstance(i, int) or i < 0 or i >= candidate_count for i in queried):
+        raise ValueError("queried index outside candidate domain")
+    if len(set(queried)) != len(queried):
+        raise ValueError("duplicate query does not enlarge searched class")
+    queried_set = set(queried)
+    for i in range(candidate_count):
+        if i not in queried_set:
+            return i
+    return None
+
+
+def validate_search_scope(instance):
+    errors = []
+    if not instance.get("unstructured_candidates", False):
+        errors.append("candidate structure can reduce deterministic query complexity")
+    if instance.get("ordering_promise", False):
+        errors.append("ordering promise is a search shortcut outside the unstructured theorem")
+    if instance.get("heuristic_oracle", False):
+        errors.append("heuristic oracle is an additional information channel")
+    if instance.get("side_information", False):
+        errors.append("side information must be charged before applying the search ceiling")
+    if not instance.get("perfect_membership_verifier", False):
+        errors.append("search theorem assumes an exact membership verifier")
+    if not instance.get("worst_case_zero_error", False):
+        errors.append("search theorem is worst-case zero-error only")
+    return errors
+
+
+def hypergeom_false_adoption(total_coordinates, defects, checks):
+    """Exact miss probability under a uniform r-defect subset and q checks."""
+    _positive_int("total_coordinates", total_coordinates)
+    _positive_int("defects", defects)
+    _nonnegative_int("checks", checks)
+    if defects > total_coordinates:
+        raise ValueError("defects cannot exceed total coordinates")
+    if checks > total_coordinates:
+        raise ValueError("checks cannot exceed total coordinates")
+    if total_coordinates - checks < defects:
+        return Fraction(0, 1)
+    return Fraction(comb(total_coordinates - checks, defects), comb(total_coordinates, defects))
+
+
+def minimum_checks_for_false_adoption(total_coordinates, defects, max_probability):
+    _positive_int("total_coordinates", total_coordinates)
+    _positive_int("defects", defects)
+    if defects > total_coordinates:
+        raise ValueError("defects cannot exceed total coordinates")
+    if not isinstance(max_probability, Fraction):
+        max_probability = Fraction(max_probability)
+    if max_probability < 0 or max_probability > 1:
+        raise ValueError("max_probability must lie in [0,1]")
+    for checks in range(total_coordinates + 1):
+        if hypergeom_false_adoption(total_coordinates, defects, checks) <= max_probability:
+            return checks
+    raise AssertionError("full verification must reach zero false adoption")
+
+
+def exhaustive_uniform_defect_miss(total_coordinates, defects, checked_indices):
+    """Enumerate every equally likely defect subset and return the exact miss fraction."""
+    _positive_int("total_coordinates", total_coordinates)
+    _positive_int("defects", defects)
+    if defects > total_coordinates:
+        raise ValueError("defects cannot exceed total coordinates")
+    checked = tuple(checked_indices)
+    if len(set(checked)) != len(checked):
+        raise ValueError("checks must be distinct")
+    if any(isinstance(i, bool) or not isinstance(i, int) or i < 0 or i >= total_coordinates for i in checked):
+        raise ValueError("checked index outside coordinate domain")
+    cases = list(combinations(range(total_coordinates), defects))
+    misses = sum(1 for bad in cases if set(bad).isdisjoint(checked))
+    return Fraction(misses, len(cases))
+
+
+def adversarial_zero_false_adoption_possible(total_coordinates, checks):
+    """Zero worst-case FA against one arbitrary defect is possible iff every coordinate is checked."""
+    _positive_int("total_coordinates", total_coordinates)
+    _nonnegative_int("checks", checks)
+    if checks > total_coordinates:
+        raise ValueError("checks cannot exceed total coordinates")
+    return checks == total_coordinates
+
+
+def validate_verification_scope(instance):
+    errors = []
+    if not instance.get("exchangeable_defects", False):
+        errors.append("probabilistic floor requires exchangeable registered defect locations")
+    if instance.get("defect_location_side_info", False):
+        errors.append("defect-location side information changes the sampling law")
+    if not instance.get("distinct_checks_without_replacement", False):
+        errors.append("theorem meters distinct checks without replacement")
+    if not instance.get("perfect_check_detection", False):
+        errors.append("exact formula assumes every checked defect is detected")
+    if not instance.get("adopt_iff_all_checked_pass", False):
+        errors.append("adoption rule must be fixed as all checked coordinates passing")
+    return errors
+
+
+def acquisition_transcript_capacity(outcomes_per_query, queries):
+    _positive_int("outcomes_per_query", outcomes_per_query)
+    _nonnegative_int("queries", queries)
+    return outcomes_per_query ** queries
+
+
+def acquisition_allows(hypotheses, outcomes_per_query, queries):
+    _positive_int("hypotheses", hypotheses)
+    return hypotheses <= acquisition_transcript_capacity(outcomes_per_query, queries)
+
+
+def minimum_queries(hypotheses, outcomes_per_query):
+    _positive_int("hypotheses", hypotheses)
+    _positive_int("outcomes_per_query", outcomes_per_query)
+    if hypotheses == 1:
+        return 0
+    if outcomes_per_query == 1:
+        raise ValueError("one-outcome queries cannot separate multiple hypotheses")
+    q = 0
+    cap = 1
+    while cap < hypotheses:
+        q += 1
+        cap *= outcomes_per_query
+    return q
+
+
+def max_queries_from_budget(total_budget, per_query_cost):
+    _nonnegative_int("total_budget", total_budget)
+    _positive_int("per_query_cost", per_query_cost)
+    return total_budget // per_query_cost
+
+
+def acquisition_budget_capacity(outcomes_per_query, total_budget, per_query_cost):
+    return acquisition_transcript_capacity(
+        outcomes_per_query,
+        max_queries_from_budget(total_budget, per_query_cost),
+    )
+
+
+def exhaustive_separating_code_exists(hypotheses, outcomes_per_query, queries, max_candidates=2_000_000):
+    """Enumerate hypothesis->transcript codes for tiny rich-query witnesses."""
+    _positive_int("hypotheses", hypotheses)
+    transcripts = acquisition_transcript_capacity(outcomes_per_query, queries)
+    candidates = transcripts ** hypotheses
+    if candidates > max_candidates:
+        raise ValueError("enumeration cap exceeded")
+    for code in product(range(transcripts), repeat=hypotheses):
+        if len(set(code)) == hypotheses:
+            return True
+    return False
+
+
+def validate_acquisition_scope(instance):
+    errors = []
+    if not instance.get("deterministic", False):
+        errors.append("acquisition ceiling is deterministic at this scope")
+    if not instance.get("noiseless", False):
+        errors.append("acquisition ceiling uses noiseless registered outcomes")
+    if not instance.get("bounded_outcome_alphabet", False):
+        errors.append("query outcome alphabet must be prospectively bounded")
+    if instance.get("free_side_information", False):
+        errors.append("free side information is an additional information channel")
+    if instance.get("passive_target_information", False):
+        errors.append("passive target information must be included before applying the ceiling")
+    if not instance.get("zero_error", False):
+        errors.append("acquisition theorem is zero-error only")
+    return errors
+
+
+def _validate_same_nonempty_domain(a, b):
+    if not a or not b:
+        raise ValueError("maps must be non-empty")
+    if set(a) != set(b):
+        raise ValueError("map domains must match")
+
+
+def social_response_identifiable(transcript_of_model, required_response):
+    """Exact fiber criterion: response must be constant on every transcript fiber."""
+    _validate_same_nonempty_domain(transcript_of_model, required_response)
+    response_by_transcript = {}
+    for model, transcript in transcript_of_model.items():
+        response = required_response[model]
+        if transcript in response_by_transcript and response_by_transcript[transcript] != response:
+            return False
+        response_by_transcript[transcript] = response
+    return True
+
+
+def social_model_identifiable(transcript_of_model):
+    if not transcript_of_model:
+        raise ValueError("transcript map must be non-empty")
+    return len(set(transcript_of_model.values())) == len(transcript_of_model)
+
+
+def social_transcript_class_count(transcript_of_model):
+    if not transcript_of_model:
+        raise ValueError("transcript map must be non-empty")
+    return len(set(transcript_of_model.values()))
+
+
+def exhaustive_social_decoder_exists(transcript_of_model, required_response, max_candidates=2_000_000):
+    _validate_same_nonempty_domain(transcript_of_model, required_response)
+    transcripts = tuple(sorted(set(transcript_of_model.values()), key=repr))
+    responses = tuple(sorted(set(required_response.values()), key=repr))
+    candidates = len(responses) ** len(transcripts)
+    if candidates > max_candidates:
+        raise ValueError("enumeration cap exceeded")
+    for outputs in product(responses, repeat=len(transcripts)):
+        decoder = dict(zip(transcripts, outputs))
+        if all(decoder[transcript_of_model[m]] == required_response[m] for m in transcript_of_model):
+            return True
+    return False
+
+
+def social_witness():
+    base = {
+        "goal_left": "context0:wait",
+        "belief_blocked": "context0:wait",
+        "goal_stay": "context0:go",
+    }
+    heldout = {
+        "goal_left": "predict:left",
+        "belief_blocked": "predict:right",
+        "goal_stay": "predict:stay",
+    }
+    diagnostic = {
+        "goal_left": "context0:wait|probe:left",
+        "belief_blocked": "context0:wait|probe:right",
+        "goal_stay": "context0:go|probe:stay",
+    }
+    return base, heldout, diagnostic
+
+
+def validate_social_scope(instance):
+    errors = []
+    if instance.get("hidden_model_label_visible", False):
+        errors.append("hidden model label is a direct answer side channel")
+    if instance.get("private_state_access", False):
+        errors.append("private-state access changes the social observation interface")
+    if instance.get("unregistered_later_probe", False):
+        errors.append("later diagnostic interaction must be included in the registered transcript")
+    if not instance.get("deterministic_behavior", False):
+        errors.append("this exact theorem uses deterministic model-to-transcript behavior")
+    if not instance.get("zero_error", False):
+        errors.append("this exact theorem is zero-error only")
+    return errors
+
+
 def run():
     registry_errors = validate_registry()
     if registry_errors:
@@ -397,6 +713,7 @@ def run():
     observation_good = dict(observation_bad)
     actions_good = {"x0": "a0", "x1": "a0", "x2": "a1"}
     protected = [[1, 0, 0], [0, 1, 0]]
+    social_base, social_heldout, social_diagnostic = social_witness()
 
     checks = {
         "state_bound_negative": not state_capacity_allows(3, 2),
@@ -427,6 +744,42 @@ def run():
         "protected_nullity_exact": protected_nullity(protected, 3) == 1,
         "protected_frontier_negative": not protected_frontier_allows(protected, 3, 2),
         "protected_frontier_tight": protected_frontier_allows(protected, 3, 1),
+        "planning_14_not_depth3": not planning_budget_allows(2, 3, 14),
+        "planning_15_depth3": planning_budget_allows(2, 3, 15),
+        "planning_horizon_boundary": (
+            max_exhaustive_horizon(2, 14) == 2 and max_exhaustive_horizon(2, 15) == 3
+        ),
+        "planning_adversary": planning_uninspected_adversary(2, 3, 14),
+        "search_4_not_5": not search_budget_allows(5, 4),
+        "search_5_covers_5": search_budget_allows(5, 5),
+        "search_adversary": unstructured_search_adversary(5, [0, 1, 2, 3]) == 4,
+        "verification_single_defect": hypergeom_false_adoption(10, 1, 8) == Fraction(1, 5),
+        "verification_two_defects": hypergeom_false_adoption(6, 2, 2) == Fraction(2, 5),
+        "verification_exhaustive_matches_formula": (
+            exhaustive_uniform_defect_miss(6, 2, [0, 1]) == Fraction(2, 5)
+        ),
+        "verification_full_zero": hypergeom_false_adoption(10, 1, 10) == 0,
+        "verification_adversarial_requires_full": (
+            not adversarial_zero_false_adoption_possible(10, 9)
+            and adversarial_zero_false_adoption_possible(10, 10)
+        ),
+        "acquisition_5_not_two_binary": not acquisition_allows(5, 2, 2),
+        "acquisition_4_two_binary": acquisition_allows(4, 2, 2),
+        "acquisition_min_queries": minimum_queries(5, 2) == 3,
+        "acquisition_exhaustive_negative": not exhaustive_separating_code_exists(5, 2, 2),
+        "acquisition_exhaustive_tight": exhaustive_separating_code_exists(4, 2, 2),
+        "acquisition_budget": acquisition_budget_capacity(2, 5, 2) == 4,
+        "social_base_not_identifiable": not social_response_identifiable(
+            social_base, social_heldout
+        ),
+        "social_base_decoder_absent": not exhaustive_social_decoder_exists(
+            social_base, social_heldout
+        ),
+        "social_diagnostic_restores": social_response_identifiable(
+            social_diagnostic, social_heldout
+        ),
+        "social_diagnostic_full_models": social_model_identifiable(social_diagnostic),
+        "social_base_classes": social_transcript_class_count(social_base) == 2,
     }
     failed = [name for name, ok in checks.items() if not ok]
     return {
