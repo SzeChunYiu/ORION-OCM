@@ -7,13 +7,17 @@ import unittest
 from mathematical_core_v1 import (
     CANNOT_IDENTIFY,
     BehavioralSpecification,
+    CapabilityContract,
     FiniteProcess,
     FiniteUncertainty,
     Morphology,
-    SpeciesDescriptor,
+    aliasing_ceiling_grid,
     capability_bounds,
     capability_profile,
+    capability_region,
+    ceiling_monotone,
     compose_uncertainty,
+    expected_binary_success,
     identified_decision,
     machine_species_equivalent,
     morphology_equivalent,
@@ -29,6 +33,9 @@ class MathematicalCoreTests(unittest.TestCase):
     def test_all_registered_claims(self):
         result = validate_all()
         self.assertEqual(result["axioms_satisfied"], 10)
+        self.assertEqual(result["scientific_claim_ledgers"], 4)
+        self.assertEqual(result["open_independent_review_gaps"], 1)
+        self.assertEqual(result["closure_level"], "LOCALLY_CLOSED")
         self.assertTrue(result["model_satisfies_registered_axioms"])
 
     def test_axiom_partition_matches_all_small_continuation_profiles(self):
@@ -69,22 +76,48 @@ class MathematicalCoreTests(unittest.TestCase):
         left_process = FiniteProcess((0, 1), (0, 1), {0: "z", 1: "o"}, self.transitions)
         right_transition = {("a", 0): "a", ("a", 1): "b", ("b", 0): "b", ("b", 1): "a"}
         right_process = FiniteProcess(("a", "b"), (0, 1), {"a": "z", "b": "o"}, right_transition)
-        left = Morphology(left_process, {0: "CELL", 1: "CELL"}, (2, 3))
-        right = Morphology(right_process, {"a": "CELL", "b": "CELL"}, (2, 3))
+        left = Morphology(
+            left_process,
+            {0: "CELL", 1: "CELL"},
+            ((0, "probe", "z"), (1, "probe", "o")),
+            (("experiment", (2, 3)),),
+            ((0, 1, (1, 0)), (1, 0, (1, 0))),
+        )
+        right = Morphology(
+            right_process,
+            {"a": "CELL", "b": "CELL"},
+            (("a", "probe", "z"), ("b", "probe", "o")),
+            (("experiment", (2, 3)),),
+            (("a", "b", (1, 0)), ("b", "a", (1, 0))),
+        )
         self.assertTrue(morphology_equivalent(left, right))
-        expensive = Morphology(right_process, {"a": "CELL", "b": "CELL"}, (2, 4))
+        self.assertTrue(machine_species_equivalent(left, right))
+        expensive = Morphology(
+            right_process,
+            {"a": "CELL", "b": "CELL"},
+            right.intervention_response,
+            (("experiment", (2, 4)),),
+            right.development_edges,
+        )
         self.assertFalse(morphology_equivalent(left, expensive))
+        self.assertFalse(machine_species_equivalent(left, expensive))
 
-    def test_species_descriptor_is_architecture_name_free(self):
-        descriptor = SpeciesDescriptor((("COPY", True),), ("recurrent",), ("component-1",), (0, 1))
-        self.assertTrue(machine_species_equivalent(descriptor, descriptor))
+    def test_intervention_and_development_are_not_silently_dropped(self):
+        process = FiniteProcess((0, 1), (0, 1), {0: "z", 1: "o"}, self.transitions)
+        base = Morphology(process, {0: "CELL", 1: "CELL"}, ((0, "probe", "z"),), (("e", (1,)),), ((0, 1, (1,)),))
+        changed_intervention = Morphology(process, {0: "CELL", 1: "CELL"}, ((0, "probe", "o"),), (("e", (1,)),), ((0, 1, (1,)),))
+        changed_development = Morphology(process, {0: "CELL", 1: "CELL"}, ((0, "probe", "z"),), (("e", (1,)),), ((1, 0, (1,)),))
+        self.assertFalse(morphology_equivalent(base, changed_intervention))
+        self.assertFalse(morphology_equivalent(base, changed_development))
 
     def test_capability_and_abstention(self):
         copy = BehavioralSpecification("COPY", (0, 1), lambda x, y: x == y)
         behaviors = ({0: 0, 1: 1}, {0: 0, 1: 0})
         self.assertEqual(capability_profile(behaviors[0], (copy,)), (("COPY", True),))
+        self.assertEqual(capability_region(behaviors[0], (copy,)), frozenset({"COPY"}))
         self.assertEqual(capability_bounds(behaviors, (copy,)), {"COPY": (0, 1)})
         self.assertEqual(identified_decision({True, False}), CANNOT_IDENTIFY)
+        self.assertTrue(ceiling_monotone((Fraction(1, 2),), (Fraction(1, 2), Fraction(1))))
 
     def test_union_bound_and_independence_are_distinct(self):
         a = FiniteUncertainty(frozenset({0, 1}), Fraction(9, 10))
@@ -92,6 +125,17 @@ class MathematicalCoreTests(unittest.TestCase):
         self.assertEqual(compose_uncertainty(a, b).confidence, Fraction(7, 10))
         self.assertEqual(compose_uncertainty(a, b, independent=True).confidence, Fraction(18, 25))
         self.assertEqual(len(compose_uncertainty(a, b).worlds), 4)
+
+    def test_aliasing_ceiling_and_revealed_positive_control(self):
+        self.assertEqual(set(aliasing_ceiling_grid(100)), {Fraction(1, 2)})
+        contract = CapabilityContract("LATENT", (0, 1), (Fraction(1, 2), Fraction(1, 2)), Fraction(3, 4))
+        success = expected_binary_success(
+            {"left": Fraction(0), "right": Fraction(1)},
+            {0: "left", 1: "right"},
+            {0: 0, 1: 1},
+            contract,
+        )
+        self.assertEqual(success, 1)
 
     def test_uncertainty_and_confidence_fail_closed(self):
         with self.assertRaises(ValueError):

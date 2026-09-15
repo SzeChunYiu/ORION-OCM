@@ -11,33 +11,37 @@ is retained only to evaluate the finite witness for axiom AX4.
 
 ## 2. Morphology and machine species
 
-Two finite morphologies are equivalent when a type-preserving carrier bijection
-commutes with every registered action transition, preserves observations, and
-preserves the complete lifecycle resource vector. This is typed resource-labeled
-process isomorphism, independent of carrier names.
+At registered scope `Omega`, a reduced mechanism signature contains the
+protected state/transition/observation relation, registered
+intervention-response relation, experiment-indexed raw lifecycle resource
+vectors, and resource-labeled developmental relation. Two finite morphologies
+are equivalent when a type-preserving carrier bijection commutes with every
+transition and preserves every observation, intervention response, experiment
+resource vector, and developmental edge/charge. This is typed resource-labeled
+relational isomorphism, independent of carrier or syntax names. Behavior-only
+equality is insufficient when any other preserved relation differs.
 
-Machine-species equivalence is separately registered equality of an
-architecture-name-free descriptor: behavioral capability profile, ecological
-niche profile, mutual developmental component, and resource-order type. It may
-group non-isomorphic realizations. Therefore morphology equivalence and species
-equivalence are not silently conflated.
+The legacy term **machine species** is defined as the quotient class under this
+same relation. Paper-facing text should use **computational-mechanism
+equivalence class** unless a biological analogy is explicit; no biological
+ontology follows from the quotient.
 
-Both are equivalence relations. Identity is an admissible isomorphism,
+This is an equivalence relation. Identity is an admissible isomorphism,
 inverting a preserving bijection proves symmetry, and composing two preserving
-bijections proves transitivity. Descriptor equality has the same three
-properties directly. Morphology equivalence can imply species equivalence only
-when every descriptor coordinate is itself invariant under the morphology
-isomorphism; species equivalence need not imply morphology isomorphism because
-the descriptor is intentionally coarser.
+bijections proves transitivity. State/syntax renaming stays in the same class;
+altering a resource coordinate, intervention outcome, or developmental edge
+provides a negative control outside the class.
 
 ## 3. Capability ceilings and impossibility
 
-A behavioral specification is a protected instance set with an acceptance
-relation. A machine's capability coordinate is 1 exactly when its behavior is
-accepted on every protected instance under the declared ecology, resource,
-history, development, and uncertainty conditions; otherwise it is 0. Renaming
-or swapping an implementation while preserving behavior cannot change this
-vector.
+A capability contract is externally declared by its task/ecology distribution,
+utility or acceptance functional, verifier, resource budget, and threshold. A
+machine's capability coordinate is 1 exactly when its protected outcomes and
+resource observations satisfy that contract; otherwise it is 0. Its capability
+region is the set of satisfied contracts. No architecture label is an input.
+Consequently realization renaming cannot change the region. Exact morphology
+equivalence implies equal regions whenever every contract is measurable from
+the relations preserved by the signature.
 
 For an admissible possibility set `U`, coordinate bounds are
 `L_j=min_{u in U} C_j(u)` and `H_j=max_{u in U} C_j(u)`. `H_j=0` is an
@@ -52,6 +56,28 @@ the minimum and maximum are attained. Every admissible realization obeys
 specification, ecology, resource/history conditions, and uncertainty set. It
 does not prove an unconditional physical impossibility after those premises are
 changed.
+
+For a numeric capability functional `V_c`, the ceiling over an admissible class
+`A_Omega` is `sup_{M in A_Omega} V_c(M)` (a maximum in the registered finite
+scope). A threshold above it, or an empty admissible class, is an impossibility
+region. If a resource budget is relaxed, its admissible class can only expand;
+if `A subseteq A'`, then `sup_A V_c <= sup_A' V_c`. Thus ceilings are monotone
+under class/budget relaxation and impossibility regions can only shrink.
+
+### Architecture-independent information ceiling
+
+Let latent world `W` be uniform on `{0,1}`, let both worlds emit the same
+pre-action observation, and require binary action `A=W` for success. Every
+randomized policy is a single number `p=P(A=1)`, so
+
+`P(success) = (1/2)(1-p) + (1/2)p = 1/2`.
+
+Therefore the capability ceiling is exactly `1/2` for every architecture; every
+threshold above `1/2` is impossible at this information scope. Revealing `W`
+before action admits `A=W` and gives the positive-control ceiling `1`. The
+executable P2 control enumerates all 21 policies `p=k/20` with exact rational
+arithmetic and obtains `1/2` for every point; that grid is evidence for the
+implementation, while the displayed identity proves the continuum theorem.
 
 ## 4. Uncertainty, composition, and abstention
 
