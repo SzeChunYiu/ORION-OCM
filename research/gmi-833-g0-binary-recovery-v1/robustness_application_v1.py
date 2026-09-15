@@ -6,6 +6,10 @@ from pathlib import Path
 import sys
 from typing import Callable, Sequence
 
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
 from g0_binary_recovery_v1 import (
     Candidate,
     GRAMMARS,
