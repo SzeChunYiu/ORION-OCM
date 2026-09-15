@@ -1,0 +1,36 @@
+{
+  "package": "gmi_k4_substitution_percell_audit_v1",
+  "issue_refs": ["#592", "#602"],
+  "checklist_items": ["22", "23", "35"],
+  "clause": "a",
+  "files": [
+    "gmi_k4_substitution_percell_audit_v1.py",
+    "test_gmi_k4_substitution_percell_audit_v1.py",
+    "GMI_K4_SUBSTITUTION_PERCELL_AUDIT_THEOREM_V1.md",
+    "AUDIT_LEDGER_V1.json",
+    "STAGE_K4_SUBSTITUTION_PERCELL_AUDIT_V1.json",
+    "MANIFEST.json"
+  ],
+  "stage_receipt": "../microscopes/results/STAGE_K4_SUBSTITUTION_PERCELL_AUDIT_V1.json",
+  "note": "STAGE_K4_SUBSTITUTION_PERCELL_AUDIT_V1.json is the committed 159-row per-cell audit. Run gmi_k4_substitution_percell_audit_v1.py to refresh RECEIPT_V1.json and the microscope stage copy with full admission_reason text. AUDIT_LEDGER_V1.json is the family rollup; tests assert ledger/cells == live audit.",
+  "depends_on": [
+    "../GMI_K4_COST_STRUCTURE_ROOT_CAUSE_V1.md",
+    "../GMI_K4_SUBSTITUTION_REPAIR_V1.md",
+    "../gmi_k4_substitution_repair_v1.py",
+    "../microscopes/results/STAGE_K4_SUBSTITUTION_REPAIR_V1.json",
+    "../GMI_K4_V5_DEV_SWEEP_RV_377_107.json",
+    "../GMI_K4_LOFO_FREEZE_V1.json"
+  ],
+  "collision_avoidance": {
+    "package_dir": "research/machine-intelligence-morphogenesis-v1/gmi_k4_substitution_percell_audit_v1/",
+    "not_editing": [
+      "research/gmi-k4-substitution-cell-audit-v1/",
+      "research/gmi-k4-substitution-cell-audit-v2/",
+      "research/gmi-grand-unification-v1/",
+      "research/gmi-biology-predictions-v1/",
+      "research/gmi-natural-intelligence-bridge-v1/",
+      "research/gmi-completeness-attack-v1/",
+      "research/machine-intelligence-morphogenesis-v1/gmi_k4_repaired_campaign_v1/"
+    ]
+  }
+}
