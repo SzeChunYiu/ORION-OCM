@@ -1,0 +1,80 @@
+{
+  "schema": "gmi-physical-resource-metering-v1",
+  "issue": 602,
+  "sections": ["N.physical_cpu_gpu_wall_io", "N.energy_where_feasible", "B19.real_task_sequences"],
+  "sibling_ledger": "research/gmi-resource-lifecycle-ledger-v1",
+  "claim_scope": "Executable physical metering harness and B19 planted real-sequence continual-learning witness at a registered microworld scope. Does not rewrite the fourteen-coordinate derivation ledger; does not claim calibrated joules on hosts without a calibrated energy source; does not claim ImageNet-scale continual learning.",
+  "physical_coordinates": [
+    {
+      "id": "wall_s",
+      "unit": "seconds",
+      "boundary": "perf_counter span enclosing the registered workload",
+      "zero_policy": "zero means no measurable wall elapsed within timer resolution",
+      "evidence": "before/after wall samples"
+    },
+    {
+      "id": "cpu_user_s",
+      "unit": "seconds",
+      "boundary": "process user CPU over the registered span",
+      "zero_policy": "zero means no charged user CPU",
+      "evidence": "resource.getrusage or process_time delta"
+    },
+    {
+      "id": "cpu_system_s",
+      "unit": "seconds",
+      "boundary": "process system CPU over the registered span",
+      "zero_policy": "zero means no charged system CPU",
+      "evidence": "resource.getrusage delta"
+    },
+    {
+      "id": "io_read_bytes",
+      "unit": "bytes",
+      "boundary": "bytes read attributed to the process when the host exposes them",
+      "zero_policy": "zero means no attributed reads; UNAVAILABLE is not zero",
+      "evidence": "/proc/self/io or Darwin rusage approximation with status tag"
+    },
+    {
+      "id": "io_write_bytes",
+      "unit": "bytes",
+      "boundary": "bytes written attributed to the process when the host exposes them",
+      "zero_policy": "zero means no attributed writes; UNAVAILABLE is not zero",
+      "evidence": "/proc/self/io or Darwin rusage approximation with status tag"
+    },
+    {
+      "id": "gpu_time_s",
+      "unit": "seconds",
+      "boundary": "device compute time when a probe is available",
+      "zero_policy": "UNAVAILABLE when no GPU probe exists; never invent GPU seconds",
+      "evidence": "nvidia-smi query or explicit UNAVAILABLE"
+    },
+    {
+      "id": "energy_j",
+      "unit": "joules",
+      "boundary": "calibrated energy only",
+      "zero_policy": "OPEN/UNCALIBRATED unless a host energy source is calibrated; never infer joules from operation counts",
+      "evidence": "Linux RAPL energy_uj when readable; otherwise OPEN"
+    }
+  ],
+  "energy_policy": {
+    "status_default": "OPEN",
+    "allowed_closed_when": "host exposes a calibrated counter (e.g. readable intel-rapl energy_uj) and the harness records source+scale",
+    "forbidden": ["relabel_operation_counts_as_joules", "guess_tdp_times_wall", "forge_gpu_energy_without_probe"]
+  },
+  "b19_scope": {
+    "task_kind": "planted sequential binary classification with controlled feature overlap",
+    "regimes": ["expand", "regularize", "modularize", "replay"],
+    "claim_ceiling": "REAL_SEQUENCE_WITNESS_AT_PLANTED_SCOPE",
+    "non_claims": [
+      "no ImageNet / Split-CIFAR transfer",
+      "no claim that price magnitudes are universal",
+      "ordering under registered prices is the scientific object"
+    ]
+  },
+  "falsifiers": [
+    "harness reports energy_j CLOSED without a calibrated source",
+    "GPU/IO UNAVAILABLE silently coerced to zero",
+    "B19 witness accepts without running at least two distinct concrete task sequences",
+    "predicted regime winner under fixed prices fails on the planted real sequences",
+    "sibling ledger path mutated or 14-coordinate contract rewritten"
+  ]
+}

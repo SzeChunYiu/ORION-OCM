@@ -1,0 +1,87 @@
+{
+  "claim_ceiling": "PHYSICAL_COUNTERS_CLOSED_AT_SCOPE;ENERGY_REMAINS_OPEN_WITHOUT_CALIBRATION",
+  "deltas": {
+    "cpu_system_s": 0.0029829999999999995,
+    "cpu_user_s": 0.054712999999999984,
+    "energy_j": null,
+    "gpu_time_s": null,
+    "io_read_bytes": 0.0,
+    "io_write_bytes": 0.0,
+    "wall_s": 0.05768516007810831
+  },
+  "host": {
+    "hostname": "billy-laptop-old",
+    "machine": "x86_64",
+    "pid": 670972,
+    "platform": "Linux-7.0.0-27-generic-x86_64-with-glibc2.43",
+    "python": "3.14.4"
+  },
+  "schema": "gmi-physical-resource-metering-receipt-v1",
+  "scope": {
+    "description": "Issue #602 Section N physical metering probe",
+    "digest": "b336e88e2ec05377ccc9095cfd569ce532298bc555f8feab6a76841e55272a69",
+    "registered_before_outcomes": true,
+    "scope_id": "gmi-physical-metering-v1-billy-old"
+  },
+  "sibling_ledger_energy": "OPEN",
+  "sibling_ledger_physical": "OPEN",
+  "statuses": [
+    {
+      "coordinate": "wall_s",
+      "notes": "",
+      "source": "time.perf_counter",
+      "status": "AVAILABLE",
+      "unit": "seconds",
+      "value": 0.05768516007810831
+    },
+    {
+      "coordinate": "cpu_user_s",
+      "notes": "",
+      "source": "resource.ru_utime",
+      "status": "AVAILABLE",
+      "unit": "seconds",
+      "value": 0.054712999999999984
+    },
+    {
+      "coordinate": "cpu_system_s",
+      "notes": "",
+      "source": "resource.ru_stime",
+      "status": "AVAILABLE",
+      "unit": "seconds",
+      "value": 0.0029829999999999995
+    },
+    {
+      "coordinate": "io_read_bytes",
+      "notes": "",
+      "source": "/proc/self/io",
+      "status": "AVAILABLE",
+      "unit": "bytes",
+      "value": 0.0
+    },
+    {
+      "coordinate": "io_write_bytes",
+      "notes": "",
+      "source": "/proc/self/io",
+      "status": "AVAILABLE",
+      "unit": "bytes",
+      "value": 0.0
+    },
+    {
+      "coordinate": "gpu_time_s",
+      "notes": "UNAVAILABLE:no-nvidia-smi",
+      "source": "gpu-probe",
+      "status": "UNAVAILABLE",
+      "unit": "seconds",
+      "value": null
+    },
+    {
+      "coordinate": "energy_j",
+      "notes": "RAPL energy_uj unread; joules not inferred from CPU/wall",
+      "source": "no-calibrated-source",
+      "status": "OPEN",
+      "unit": "joules",
+      "value": null
+    }
+  ],
+  "workload": "default_probe"
+}
