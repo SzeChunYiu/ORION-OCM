@@ -2360,3 +2360,58 @@ def test_the_detector_is_validated_against_known_answers():
     assert truths == {True, False}, (
         "the validation set is one-sided; a detector checked only on cases it "
         "should accept, or only on cases it should reject, is not validated")
+
+
+# ---------------------------------------------------------------------------
+# N's two protocol rules: scalarization and Pareto frontiers.
+# ---------------------------------------------------------------------------
+def test_pricing_protocol_audit_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_PRICING_PROTOCOL_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "pricing_protocol_audit.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900)
+        assert proc.returncode == 0, (
+            "pricing_protocol_audit.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed receipt to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the pricing-protocol audit no longer reproduces its receipt")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_no_scalarization_without_a_price_vector():
+    """R1 -- and it is clean, which is a result rather than an absence."""
+    r = load_receipt("STAGE_PRICING_PROTOCOL_V1.json")
+    assert r["R1_candidate_violations"] == [], (
+        "a multi-coordinate receipt scalarizes without a price vector: %s"
+        % r["R1_candidate_violations"])
+    assert r["R1_scalarizing"] > 0, (
+        "nothing scalarizes at all, so R1 is vacuously satisfied and the check "
+        "demonstrates nothing")
+    assert r["R1_scalarizing"] == r["R1_scalarizing_with_price_vector"]
+
+
+def test_the_scalarization_false_positive_stays_excluded():
+    """`w_scalars` is a weight COUNT, read and excluded by name."""
+    r = load_receipt("STAGE_PRICING_PROTOCOL_V1.json")
+    fp = r["hand_checked_false_positives"]
+    assert "w_scalars" in fp, (
+        "the hand-checked false positive is no longer recorded; without it a "
+        "future reader re-derives it as a violation")
+
+
+def test_frontiers_are_reported_only_sometimes():
+    """R2 -- measurably partial, which is the honest finding."""
+    r = load_receipt("STAGE_PRICING_PROTOCOL_V1.json")
+    n, f = r["R2_unpriced_multi_coordinate"], r["R2_reporting_a_frontier"]
+    assert n > 0, "no unpriced multi-coordinate receipt exists; R2 cannot bind"
+    assert 0 < f < n, (
+        "frontier reporting is all-or-nothing; all would make R2 trivially met "
+        "and none would suggest the frontier pattern matches nothing")
+    assert f < n / 2, (
+        "most unpriced receipts now report a frontier, which would reverse the "
+        "documented finding that R2 is substantially unmet")

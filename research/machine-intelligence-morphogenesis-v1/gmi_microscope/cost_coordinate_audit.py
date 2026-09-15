@@ -66,10 +66,26 @@ def all_keys(obj, out):
     return out
 
 
+# Receipts produced BY audits that scan the corpus.  An audit must not count
+# its own output as corpus data: adding the pricing-protocol receipt changed the
+# cost-coordinate audit's own inputs and broke its reproduction, which is a
+# structural coupling rather than a one-off.  Excluding them makes each audit a
+# function of the DERIVATION receipts only, so adding another audit later cannot
+# silently move these numbers.
+SELF_REFERENTIAL = {
+    "STAGE_PROTOCOL_CONFORMANCE_V1.json",
+    "STAGE_PARENT_COVERAGE_V1.json",
+    "STAGE_COST_COORDINATE_V1.json",
+    "STAGE_PRICING_PROTOCOL_V1.json",
+}
+
 receipts = {}
 for f in sorted(glob.glob(os.path.join(RESULTS, "STAGE_*.json"))):
+    base = os.path.basename(f)
+    if base in SELF_REFERENTIAL:
+        continue
     try:
-        receipts[os.path.basename(f)] = all_keys(json.load(open(f)), set())
+        receipts[base] = all_keys(json.load(open(f)), set())
     except Exception:
         continue
 
@@ -140,6 +156,7 @@ assert rare, (
 assert common, "no coordinate is metered in half the receipts -- suspect the patterns"
 
 OUT = {
+    "self_referential_excluded": sorted(SELF_REFERENTIAL),
     "receipts_scanned": len(receipts),
     "method": (
         "a coordinate counts as metered when a receipt carries a KEY naming it, "
