@@ -4,12 +4,14 @@ from fractions import Fraction as F
 import importlib.util
 import json
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 
 MODULE_PATH = Path(__file__).with_name("neutral_three_law_v1.py")
 spec = importlib.util.spec_from_file_location("neutral_three_law_v1", MODULE_PATH)
 mod = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = mod
 spec.loader.exec_module(mod)
 
 
@@ -89,7 +91,6 @@ class NeutralThreeLawTests(unittest.TestCase):
             protocol.mutate(cap=5)
 
     def test_independent_raw_syntax_through_cost_three_is_covered(self):
-        # Independent tiny raw-syntax enumerator: it deliberately does not quotient.
         rows = mod.universe()
         raw = {1: []}
         for c in (-1, 0, 1):
