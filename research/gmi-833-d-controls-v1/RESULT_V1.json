@@ -1,0 +1,245 @@
+{
+  "checks": {
+    "alternate_search_positive_robust": true,
+    "compensating_macro_hostile_flags": true,
+    "early_stop_search_hostile_flags": true,
+    "encoding_missing_candidate_flags": true,
+    "encoding_resource_change_flags": true,
+    "failed_control_blocks_global_robustness": true,
+    "matched_twin_capacity_hostile_flags": true,
+    "missing_controls_fail_closed": true,
+    "no_smuggling_arms_clean": true,
+    "parent_no_smuggling_result_pinned": true,
+    "pareto_property_robust_despite_identity_change": true,
+    "positive_record_robust": true,
+    "target_removal_hostile_flags": true,
+    "universal_candidate_winner_hostile_flags": true
+  },
+  "claim_ceiling": "GMI_DERIVATION_ROBUSTNESS_CONTROLS_ENFORCED_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "ALL_GMI_DERIVATIONS_ROBUST",
+    "ARCHITECTURE_PRIOR_FREE_UNIVERSALLY",
+    "REPRESENTATION_INDEPENDENT_UNIVERSALLY",
+    "SEARCH_INDEPENDENT_UNIVERSALLY",
+    "RESOURCE_PRICE_INDEPENDENT_UNIVERSALLY",
+    "KNOWN_FAMILY_RECOVERY_COMPLETE",
+    "COMPLETE_GMI"
+  ],
+  "hostiles": {
+    "combined_failed_control_terminal": "D_ROBUSTNESS_NOT_ESTABLISHED",
+    "compensating_macro": {
+      "contrast_support": false,
+      "mismatches": [],
+      "terminal": "COMPENSATING_TARGET_MACRO"
+    },
+    "encoding_missing_candidate": {
+      "alternate_syntax": true,
+      "canonical_candidate_count": 4,
+      "encoding_count": 2,
+      "terminal": "ENCODING_NOT_SEMANTICALLY_EQUIVALENT"
+    },
+    "encoding_resource_change": {
+      "alternate_syntax": true,
+      "canonical_candidate_count": 4,
+      "encoding_count": 2,
+      "terminal": "ENCODING_NOT_SEMANTICALLY_EQUIVALENT"
+    },
+    "missing_controls": {
+      "encodings": "CANNOT_ESTABLISH_D_ROBUSTNESS_ENCODING",
+      "matched_twin": "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+      "scalarization": "CANNOT_ESTABLISH_D_ROBUSTNESS_SCALARIZATION",
+      "search": "CANNOT_ESTABLISH_D_ROBUSTNESS_SEARCH"
+    },
+    "scalar_candidate_universal": {
+      "candidate_identity_sensitive": true,
+      "pareto_set": [
+        "k_balanced",
+        "k_compute",
+        "k_memory"
+      ],
+      "terminal": "SCALARIZATION_SENSITIVE",
+      "winners": [
+        [
+          "compute_high",
+          [
+            "k_compute"
+          ]
+        ],
+        [
+          "memory_high",
+          [
+            "k_memory"
+          ]
+        ],
+        [
+          "balanced",
+          [
+            "k_balanced"
+          ]
+        ]
+      ]
+    },
+    "search_early_stop": {
+      "all_searches_certified": false,
+      "conclusions": [
+        [
+          "exact_enumeration",
+          [
+            true
+          ]
+        ],
+        [
+          "early_heuristic",
+          [
+            false
+          ]
+        ]
+      ],
+      "runs": [
+        [
+          "exact_enumeration",
+          {
+            "certificate": "EXHAUSTIVE",
+            "evaluations": 4,
+            "selected": [
+              "k_balanced"
+            ]
+          }
+        ],
+        [
+          "early_heuristic",
+          {
+            "certificate": "INCOMPLETE",
+            "evaluations": 1,
+            "selected": [
+              "baseline"
+            ]
+          }
+        ]
+      ],
+      "terminal": "SEARCH_SENSITIVE"
+    },
+    "target_not_removed": {
+      "contrast_support": false,
+      "mismatches": [],
+      "terminal": "TARGET_MECHANISM_NOT_REMOVED"
+    },
+    "unmatched_twin": {
+      "contrast_support": false,
+      "mismatches": [
+        "max_depth"
+      ],
+      "terminal": "UNMATCHED_MECHANISM_TWIN"
+    }
+  },
+  "issue": 859,
+  "parent_audit": {
+    "actual_blob": "0d8b8c1dcd05512e2ec54db6bae872953daed87f",
+    "all_ok": true,
+    "blob_ok": true,
+    "claim_ceiling_ok": true,
+    "path": "research/gmi-833-no-smuggling-audit-v1/RESULT_V1.json",
+    "verdict_ok": true
+  },
+  "parent_issue": 833,
+  "positive": {
+    "encoding": {
+      "alternate_syntax": true,
+      "canonical_candidate_count": 4,
+      "encoding_count": 2,
+      "terminal": "ENCODING_ROBUST_AT_REGISTERED_FINITE_SCOPE"
+    },
+    "matched_twin": {
+      "contrast_support": true,
+      "mismatches": [],
+      "terminal": "MATCHED_MECHANISM_TWIN"
+    },
+    "no_smuggling": {
+      "arms": {
+        "negative": "CLEAN_AT_REGISTERED_AUDIT_SCOPE",
+        "positive": "CLEAN_AT_REGISTERED_AUDIT_SCOPE"
+      },
+      "parent": {
+        "actual_blob": "0d8b8c1dcd05512e2ec54db6bae872953daed87f",
+        "all_ok": true,
+        "blob_ok": true,
+        "claim_ceiling_ok": true,
+        "path": "research/gmi-833-no-smuggling-audit-v1/RESULT_V1.json",
+        "verdict_ok": true
+      },
+      "terminal": "NO_SMUGGLING_ARMS_CLEAN"
+    },
+    "scalarization": {
+      "candidate_identity_sensitive": true,
+      "pareto_set": [
+        "k_balanced",
+        "k_compute",
+        "k_memory"
+      ],
+      "terminal": "SCALARIZATION_ROBUST",
+      "winners": [
+        [
+          "compute_high",
+          [
+            "k_compute"
+          ]
+        ],
+        [
+          "memory_high",
+          [
+            "k_memory"
+          ]
+        ],
+        [
+          "balanced",
+          [
+            "k_balanced"
+          ]
+        ]
+      ]
+    },
+    "search": {
+      "all_searches_certified": true,
+      "conclusions": [
+        [
+          "exact_enumeration",
+          [
+            true
+          ]
+        ],
+        [
+          "admissible_branch_and_bound",
+          [
+            true
+          ]
+        ]
+      ],
+      "runs": [
+        [
+          "exact_enumeration",
+          {
+            "certificate": "EXHAUSTIVE",
+            "evaluations": 4,
+            "selected": [
+              "k_balanced"
+            ]
+          }
+        ],
+        [
+          "admissible_branch_and_bound",
+          {
+            "certificate": "ADMISSIBLE_BOUND_COMPLETE",
+            "evaluations": 1,
+            "selected": [
+              "k_balanced"
+            ]
+          }
+        ]
+      ],
+      "terminal": "SEARCH_ROBUST"
+    },
+    "terminal": "ROBUST_AT_REGISTERED_D_CONTROLS_SCOPE"
+  },
+  "schema": "GMI833DerivationRobustnessControlsResultV1",
+  "verdict": "GREEN"
+}
