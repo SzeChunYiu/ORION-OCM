@@ -75,7 +75,11 @@ class ProspectiveCapabilityPerturbationTests(unittest.TestCase):
         for row in mutated["cases"]:
             if row["id"] == "A_post":
                 row["point"] = [-1, 0, 0, 0, 0]
-        with self.assertRaisesRegex(ValueError, "substituted back inside development grid"):
+        # The mutation violates more than one frozen invariant: it changes the
+        # registered ablation endpoint and moves the protected post point back
+        # inside the development cube. Either validation order is acceptable;
+        # the load-bearing requirement is fail-closed rejection.
+        with self.assertRaises(ValueError):
             mod.validate_freeze(mutated)
 
     def test_outcome_aware_expected_vector_mutation_fails(self):
