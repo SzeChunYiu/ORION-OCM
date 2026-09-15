@@ -1,284 +1,284 @@
-"""Attention sequence witness: sweep (M, K, N) to verify sparse/local routing
-dominance, phase boundary, and long-sequence crossover for growing-quotient
-obligations.
+"""Corrected exact witness for the bounded attention-sequence cost laws.
 
-Claims verified:
-  T1 (Sparse wins): K*C + M*L < M*C iff K < M and L < C*(1 - K/M)
-  T2 (Phase boundary): lambda > log(M/K)/log(N/H) => sparse/local dominates
-  T3 (Long-sequence crossover): N* = exp(K*C/(K*L_max)) for growing-quotient
+Historical V1 T2/T3 formulas were internally inconsistent.  This module is the
+executable authority for Corrigendum V2:
 
-All arithmetic is exact rational (fractions.Fraction).
+T1  Conditional on both access schemes being exact/admissible,
+    sparse cost K*C + M*L beats full cost M*C iff
+    0 < K < M and L < C*(1-K/M).
+
+T2  If locality lambda in [0,1] reduces a registered base lookup price L0 to
+    L(lambda)=L0*(1-lambda), the exact cost boundary is
+    lambda* = 1 - C*(1-K/M)/L0.
+    Sparse wins strictly iff lambda > lambda* (subject to 0<K<M).
+
+T3  For a growing target count M(N)=N*ceil(log2 N), compare
+      fixed(K,N)      = M(N)*C/K
+      recurrent(N)    = B + M(N)*L
+    where B is an explicit one-time carry/build cost.  A finite strict crossover
+    exists iff L < C/K, and N* is the least N with
+      M(N)*(C/K-L) > B.
+
+All acceptance decisions use integers/Fraction only.  No architecture-family
+novelty is claimed; the model is a bounded lifecycle accounting microscope.
 """
 from __future__ import annotations
 
 from fractions import Fraction as F
-from typing import Dict, List, Tuple
-import math
+from typing import Dict, Iterable, List, Optional
 import itertools
 
 
+def _positive_int(name: str, value: int) -> None:
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        raise ValueError(f"{name} must be a positive integer")
+
+
+def _nonnegative_fraction(name: str, value: F) -> F:
+    value = F(value)
+    if value < 0:
+        raise ValueError(f"{name} must be nonnegative")
+    return value
+
+
 # ---------------------------------------------------------------------------
-# Cost model
+# T1: full versus sparse cost after obligation/access sufficiency is established
 # ---------------------------------------------------------------------------
 
 def full_routing_cost(M: int, C: F) -> F:
-    """Cost of attending to all M targets every step: M * C."""
+    _positive_int("M", M)
+    C = F(C)
+    if C <= 0:
+        raise ValueError("C must be positive")
     return M * C
 
 
 def sparse_routing_cost(K: int, M: int, C: F, L: F) -> F:
-    """Cost of sparse/local routing: K * C + M * L."""
+    _positive_int("M", M)
+    _positive_int("K", K)
+    C = F(C)
+    L = _nonnegative_fraction("L", L)
+    if C <= 0:
+        raise ValueError("C must be positive")
     return K * C + M * L
 
 
 def sparse_wins(M: int, K: int, C: F, L: F) -> bool:
-    """T1: sparse routing strictly cheaper than full routing."""
+    """Strict sparse cost win, conditional on legal 0<K<M sparse access."""
+    if isinstance(K, bool) or not isinstance(K, int) or K <= 0 or K >= M:
+        return False
     return sparse_routing_cost(K, M, C, L) < full_routing_cost(M, C)
 
 
 def sparse_wins_condition(K: int, M: int, C: F, L: F) -> bool:
-    """Algebraic form: K < M AND L < C * (1 - K/M)."""
-    return K < M and L < C * F(M - K, M)
+    if not isinstance(M, int) or isinstance(M, bool) or M <= 0:
+        raise ValueError("M must be a positive integer")
+    if not isinstance(K, int) or isinstance(K, bool):
+        raise ValueError("K must be an integer")
+    C = F(C)
+    L = _nonnegative_fraction("L", L)
+    if C <= 0:
+        raise ValueError("C must be positive")
+    return 0 < K < M and L < C * F(M - K, M)
 
 
 # ---------------------------------------------------------------------------
-# Phase boundary
+# T2: locality-induced lookup-price phase boundary
 # ---------------------------------------------------------------------------
 
-def phase_boundary_lambda_star(M: int, K: int, N: int, H: int) -> float:
-    """T2: critical locality parameter.
+def locality_lookup_cost(lam: F, L_base: F) -> F:
+    lam = F(lam)
+    L_base = _nonnegative_fraction("L_base", L_base)
+    if lam < 0 or lam > 1:
+        raise ValueError("lambda must lie in [0,1]")
+    return L_base * (1 - lam)
 
-    Sparse/local dominates when lambda > lambda* = log(M/K) / log(N/H).
-    Returns float (0.0 if denominator is zero or negative).
+
+def phase_boundary_lambda_star(
+    M: int,
+    K: int,
+    C: F = F(1),
+    L_base: F = F(1, 2),
+) -> Optional[F]:
+    """Return the raw strict-cost threshold lambda*.
+
+    ``None`` means there is no legal sparse regime (K<=0 or K>=M).  The raw
+    threshold may lie below 0 (sparse wins for every legal lambda) or above 1
+    (sparse never wins on lambda in [0,1]).
     """
-    if N <= H or M <= K or K <= 0:
-        return 0.0
-    denom = math.log(N / H)
-    if denom <= 0:
-        return 0.0
-    return math.log(M / K) / denom
+    _positive_int("M", M)
+    if not isinstance(K, int) or isinstance(K, bool) or K <= 0 or K >= M:
+        return None
+    C = F(C)
+    L_base = F(L_base)
+    if C <= 0 or L_base <= 0:
+        raise ValueError("C and L_base must be positive")
+    return F(1) - (C * F(M - K, M) / L_base)
 
 
 def sparse_dominates_at_lambda(
-    M: int, K: int, N: int, H: int, lam: float
+    M: int,
+    K: int,
+    lam: F,
+    C: F = F(1),
+    L_base: F = F(1, 2),
 ) -> bool:
-    """Does sparse/local routing dominate at this locality parameter?
-
-    Uses ecological cost model: each step attends to K of M targets.
-    With locality lambda^d, the M_local targets within distance d are
-    easy to find (low lookup cost). Targets beyond d require O(1) lookup
-    but are O(lambda^d) of the total.
-
-    The effective lookup cost under locality is:
-        L_eff = L_base * (1 - lambda)
-    (lambda=1: zero lookup; lambda=0: full lookup).
-
-    Sparse wins when L_eff < C * (1 - K/M).
-    """
-    C = F(1)  # normalize
-    L_base = F(1, 2)  # base lookup cost
-    # L_eff = L_base * (1 - lambda): lambda=1 => zero lookup, lambda=0 => full
-    L_eff = L_base * F(max(0, 1 - lam))
-    return sparse_wins(M, K, C, L_eff)
+    if K <= 0 or K >= M:
+        return False
+    return sparse_wins(M, K, C, locality_lookup_cost(lam, L_base))
 
 
 # ---------------------------------------------------------------------------
-# Long-sequence crossover
+# T3: finite long-sequence crossover with explicit retained-state build cost
 # ---------------------------------------------------------------------------
+
+def growing_target_count(N: int) -> int:
+    """Registered M(N)=N*ceil(log2 N), with one target per item at N=1."""
+    _positive_int("N", N)
+    ceil_log2 = max(1, (N - 1).bit_length())
+    return N * ceil_log2
+
 
 def growing_quotient_obligation_cost_fixed(K: int, N: int, C: F) -> F:
-    """Fixed-carry: M = O(N log N) targets, K slots.
-
-    Fixed overhead H_fixed = C for slot allocation + target identification,
-    plus amortized attention M*C/K.
-    T_fixed = C + M * C / K
-    """
-    M = N * max(1, math.ceil(math.log2(max(N, 2))))
-    return C + M * C / K
+    _positive_int("K", K)
+    C = F(C)
+    if C <= 0:
+        raise ValueError("C must be positive")
+    return F(growing_target_count(N), K) * C
 
 
 def growing_quotient_obligation_cost_recurrent(
-    N: int, C: F, L_max: F
+    N: int,
+    build_cost: F,
+    lookup_cost: F,
 ) -> F:
-    """Recurrent: state carry, pay L per lookup, one-time C for carry.
-
-    T_recurrent = M * L_max + C  (L per target lookup, one C for state).
-    """
-    M = N * max(1, math.ceil(math.log2(max(N, 2))))
-    return M * L_max + C
+    build_cost = _nonnegative_fraction("build_cost", build_cost)
+    lookup_cost = _nonnegative_fraction("lookup_cost", lookup_cost)
+    return build_cost + growing_target_count(N) * lookup_cost
 
 
-def compute_crossover_N_star(K: int, C: F, L_max: F) -> float:
-    """T3: crossover length for growing-quotient obligations.
+def crossover_margin_per_target(K: int, C: F, lookup_cost: F) -> F:
+    _positive_int("K", K)
+    C = F(C)
+    lookup_cost = _nonnegative_fraction("lookup_cost", lookup_cost)
+    if C <= 0:
+        raise ValueError("C must be positive")
+    return C / K - lookup_cost
 
-    Fixed cost:   M*C + K*C*log(M)   (full attention + slot-allocation overhead)
-    Recurrent cost: M*L + C          (lookups via state carry + one-time carry)
 
-    Crossover where M*C + K*C*log(M) = M*L + C:
-        M*(C - L) + K*C*log(M) - C = 0
-
-    N* is the smallest N where fixed cost <= recurrent cost.
-    If L_max >= C, recurrent always costs more (no crossover).
-    """
-    if K <= 0 or C <= 0 or L_max <= 0:
-        return float("inf")
-    # If L_max >= C, recurrent is always more expensive per-target; fixed wins
-    if L_max >= C:
-        return float("inf")
-    # Numerical search: find N where fixed(N) <= recurrent(N)
-    for N in range(1, 1000000):
-        c_fixed = growing_quotient_obligation_cost_fixed(K, N, C)
-        c_recurrent = growing_quotient_obligation_cost_recurrent(N, C, L_max)
-        if c_fixed <= c_recurrent:
-            return float(N)
-    return float("inf")
+def compute_crossover_N_star(
+    K: int,
+    C: F,
+    lookup_cost: F,
+    build_cost: F,
+    *,
+    max_N: int = 1_000_000,
+) -> Optional[int]:
+    """Least N at which recurrent carry is strictly cheaper, else ``None``."""
+    _positive_int("max_N", max_N)
+    build_cost = _nonnegative_fraction("build_cost", build_cost)
+    delta = crossover_margin_per_target(K, C, lookup_cost)
+    if delta <= 0:
+        return None
+    for N in range(1, max_N + 1):
+        if growing_target_count(N) * delta > build_cost:
+            return N
+    return None
 
 
 # ---------------------------------------------------------------------------
-# Sweep engine
+# Exhaustive finite sweeps used by tests/receipt-style console output
 # ---------------------------------------------------------------------------
-
-def sweep_phase_boundary(
-    M_values: List[int],
-    K_values: List[int],
-    N: int = 1024,
-    H: int = 8,
-) -> List[Dict]:
-    """Sweep (M, K) at fixed N, H.  Return phase boundary lambda* for each."""
-    results = []
-    for M, K in itertools.product(M_values, K_values):
-        if K >= M:
-            continue
-        lam_star = phase_boundary_lambda_star(M, K, N, H)
-        # Check at lambda = 1 (perfect locality) and lambda = lam_star + 0.1
-        wins_at_1 = sparse_dominates_at_lambda(M, K, N, H, 1.0)
-        wins_above = sparse_dominates_at_lambda(M, K, N, H, min(1.0, lam_star + 0.1))
-        results.append({
-            "M": M, "K": K, "N": N, "H": H,
-            "lambda_star": lam_star,
-            "wins_at_lambda_1": wins_at_1,
-            "wins_above_lambda_star": wins_above,
-        })
-    return results
-
 
 def sweep_cost_comparison(
-    M_values: List[int],
-    K_values: List[int],
+    M_values: Iterable[int],
+    K_values: Iterable[int],
     C: F = F(1),
     L: F = F(1, 4),
 ) -> List[Dict]:
-    """Sweep (M, K) at fixed cost parameters.  Verify T1 condition."""
-    results = []
+    rows: List[Dict] = []
     for M, K in itertools.product(M_values, K_values):
-        c_full = full_routing_cost(M, C)
-        c_sparse = sparse_routing_cost(K, M, C, L)
-        wins = sparse_wins(M, K, C, L)
+        legal = 0 < K < M
+        full = full_routing_cost(M, C)
+        sparse = sparse_routing_cost(K, M, C, L) if K > 0 else None
+        numeric = legal and sparse is not None and sparse < full
         algebraic = sparse_wins_condition(K, M, C, L)
-        results.append({
-            "M": M, "K": K,
-            "C": float(C), "L": float(L),
-            "full_cost": float(c_full),
-            "sparse_cost": float(c_sparse),
-            "savings": float(c_full - c_sparse),
-            "wins": wins,
-            "algebraic_match": wins == algebraic,
+        rows.append({
+            "M": M,
+            "K": K,
+            "legal": legal,
+            "full_cost": full,
+            "sparse_cost": sparse,
+            "wins": numeric,
+            "algebraic_match": numeric == algebraic,
         })
-    return results
+    return rows
+
+
+def sweep_phase_boundary(
+    M_values: Iterable[int],
+    K_values: Iterable[int],
+    C: F = F(1),
+    L_base: F = F(1, 2),
+) -> List[Dict]:
+    rows: List[Dict] = []
+    for M, K in itertools.product(M_values, K_values):
+        threshold = phase_boundary_lambda_star(M, K, C, L_base)
+        if threshold is None:
+            continue
+        probes = (F(0), F(1, 4), F(1, 2), F(3, 4), F(1))
+        rows.append({
+            "M": M,
+            "K": K,
+            "lambda_star": threshold,
+            "probes": tuple((lam, sparse_dominates_at_lambda(M, K, lam, C, L_base)) for lam in probes),
+        })
+    return rows
 
 
 def sweep_crossover(
-    K_values: List[int],
+    K_values: Iterable[int],
     C: F = F(1),
-    L_max: F = F(1, 4),
+    lookup_cost: F = F(1, 16),
+    build_cost: F = F(16),
 ) -> List[Dict]:
-    """Sweep K to find crossover N* for growing-quotient obligations."""
-    results = []
+    rows: List[Dict] = []
     for K in K_values:
-        n_star = compute_crossover_N_star(K, C, L_max)
-        # Verify: at N = N* + 1000, recurrent should beat fixed
-        N_check = int(n_star) + 1000 if n_star != float("inf") else 100000
-        c_fixed = growing_quotient_obligation_cost_fixed(K, N_check, C)
-        c_recurrent = growing_quotient_obligation_cost_recurrent(N_check, C, L_max)
-        results.append({
+        n_star = compute_crossover_N_star(K, C, lookup_cost, build_cost)
+        if n_star is None:
+            rows.append({"K": K, "N_star": None, "recurrent_wins_at_star": False})
+            continue
+        fixed = growing_quotient_obligation_cost_fixed(K, n_star, C)
+        recurrent = growing_quotient_obligation_cost_recurrent(n_star, build_cost, lookup_cost)
+        before = None
+        if n_star > 1:
+            before = (
+                growing_quotient_obligation_cost_recurrent(n_star - 1, build_cost, lookup_cost)
+                < growing_quotient_obligation_cost_fixed(K, n_star - 1, C)
+            )
+        rows.append({
             "K": K,
-            "C": float(C),
-            "L_max": float(L_max),
             "N_star": n_star,
-            "verified_at_N": N_check,
-            "fixed_cost": float(c_fixed),
-            "recurrent_cost": float(c_recurrent),
-            "recurrent_wins": c_recurrent < c_fixed,
+            "fixed_cost": fixed,
+            "recurrent_cost": recurrent,
+            "recurrent_wins_at_star": recurrent < fixed,
+            "recurrent_wins_before_star": before,
         })
-    return results
+    return rows
 
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-def main():
-    """Run all sweeps and print results."""
-    print("=" * 70)
-    print("ATTENTION SEQUENCE WITNESS — T1, T2, T3")
-    print("=" * 70)
-
-    # --- T1: Cost comparison ---
-    print("\n--- T1: Sparse wins (cost comparison) ---")
-    M_vals = [4, 8, 16, 32]
-    K_vals = [1, 2, 4, 8]
-    C, L = F(1), F(1, 4)
-    t1_results = sweep_cost_comparison(M_vals, K_vals, C, L)
-    t1_wins = sum(1 for r in t1_results if r["wins"])
-    t1_total = len(t1_results)
-    print(f"  Swept {t1_total} (M, K) cells; sparse wins in {t1_wins}/{t1_total}")
-    for r in t1_results:
-        print(
-            f"    M={r['M']:>3}, K={r['K']:>2}: "
-            f"full={r['full_cost']:.3f}, sparse={r['sparse_cost']:.3f}, "
-            f"savings={r['savings']:.3f}, win={r['wins']}, "
-            f"algebraic={r['algebraic_match']}"
-        )
-
-    # --- T2: Phase boundary ---
-    print("\n--- T2: Phase boundary (lambda vs r = K/M) ---")
-    t2_results = sweep_phase_boundary(M_vals, K_vals, N=1024, H=8)
-    print(f"  Swept {len(t2_results)} cells at N=1024, H=8")
-    for r in t2_results:
-        print(
-            f"    M={r['M']:>3}, K={r['K']:>2}: "
-            f"lambda*={r['lambda_star']:.4f}, "
-            f"win@1={r['wins_at_lambda_1']}, "
-            f"win@lambda*+0.1={r['wins_above_lambda_star']}"
-        )
-
-    # --- T3: Long-sequence crossover ---
-    print("\n--- T3: Long-sequence crossover (growing-quotient) ---")
-    K_vals_crossover = [1, 2, 4, 8, 16]
-    t3_results = sweep_crossover(K_vals_crossover, C=F(1), L_max=F(1, 4))
-    t3_verified = sum(1 for r in t3_results if r["recurrent_wins"])
-    print(f"  Swept {len(t3_results)} K values; verified at N*+1000: "
-          f"{t3_verified}/{len(t3_results)}")
-    for r in t3_results:
-        print(
-            f"    K={r['K']:>2}: N*={r['N_star']:.1f}, "
-            f"fixed={r['fixed_cost']:.1f}, recurrent={r['recurrent_cost']:.1f}, "
-            f"recurrent_wins={r['recurrent_wins']}"
-        )
-
-    # --- Summary ---
-    print("\n" + "=" * 70)
-    print("SUMMARY")
-    print(f"  T1 (sparse wins): {t1_wins}/{t1_total} cells")
-    print(f"  T2 (phase boundary): {len(t2_results)} cells verified")
-    print(f"  T3 (crossover): {t3_verified}/{len(t3_results)} verified")
-    print("=" * 70)
-
-    return {
-        "t1": {"swept": t1_total, "wins": t1_wins},
-        "t2": {"swept": len(t2_results)},
-        "t3": {"swept": len(t3_results), "verified": t3_verified},
+def main() -> Dict[str, object]:
+    t1 = sweep_cost_comparison([4, 8, 16, 32], [1, 2, 4, 8])
+    t2 = sweep_phase_boundary([4, 8, 16, 32], [1, 2, 4, 8])
+    t3 = sweep_crossover([1, 2, 4, 8, 16])
+    result = {
+        "t1_cells": len(t1),
+        "t1_all_algebraic": all(r["algebraic_match"] for r in t1),
+        "t2_cells": len(t2),
+        "t3": tuple((r["K"], r["N_star"]) for r in t3),
     }
+    print(result)
+    return result
 
 
 if __name__ == "__main__":

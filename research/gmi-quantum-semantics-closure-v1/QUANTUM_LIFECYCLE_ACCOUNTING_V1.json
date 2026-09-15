@@ -1,0 +1,14 @@
+{
+  "schema": "GMI_QUANTUM_LIFECYCLE_ACCOUNTING_V1",
+  "coordinates": [
+    "logical_qubits", "physical_qubits", "state_preparation_depth", "state_preparation_fidelity",
+    "gate_count", "gate_depth", "gate_error", "measurement_count", "measurement_shots",
+    "readout_error", "tomography_cost", "code_family", "code_distance", "syndrome_qubits",
+    "syndrome_cycles", "decoder_time", "logical_error", "classical_control", "communication",
+    "wall_time", "energy", "cooling_and_reset", "precision_bits", "simulation_error"
+  ],
+  "error_correction_rule": "Report physical-qubit and syndrome/decoder overhead at the target logical error; logical gates alone are not a lifecycle cost.",
+  "readout_rule": "Charge shots, destructive measurement, readout error mitigation, and tomography when full state information is claimed.",
+  "preparation_rule": "Charge preparation circuit/depth/fidelity and discarded attempts; an input amplitude vector is not free.",
+  "claim_boundary": "No capability or resource advantage follows without a matched known-quantum-algorithm baseline and measured end-to-end lifecycle frontier."
+}

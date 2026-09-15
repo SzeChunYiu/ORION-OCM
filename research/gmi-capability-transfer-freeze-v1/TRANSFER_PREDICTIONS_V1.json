@@ -1,0 +1,208 @@
+{
+  "assumptions": [
+    "the system capacity vector is fixed across source and target task families",
+    "target task requirements are frozen before target outcomes are computed",
+    "task-family IDs are opaque and unavailable to the predictor",
+    "transfer is mediated only by target signed margins capacity-requirement",
+    "CANNOT_IDENTIFY is a valid frozen transfer prediction and may not be edited after scoring"
+  ],
+  "claim_ceiling": "G2",
+  "evidence_class": [
+    "P1",
+    "P2"
+  ],
+  "falsifier": "Any frozen prediction uses a task-family name, any target outcome is present before scoring, any target prediction differs from the already-fitted development predictor applied to target margins, HTF_001 changes under reminting, or the freeze receipt is edited after scoring",
+  "freeze_digest": "caed0ceda2400db07b2523e4e992035252a000d7f0eaa64a357f1a186d9782e3",
+  "issue": 602,
+  "ledger_row": "Predict transfer across task families.",
+  "nearest_counterexample": "if task identity carries causal information not represented in requirements, or transfer changes morphology/development state, target margins are not sufficient and this transfer law fails",
+  "negative_twin": "HTF_001 is an opaque task-family remint with exactly the source requirements; its frozen capability vector must be invariant",
+  "outcome_fields_forbidden": [
+    "observed_capabilities",
+    "observed_outcome",
+    "pass_fail",
+    "score"
+  ],
+  "outcomes_present": false,
+  "schema_version": "1.0",
+  "scope": "prospective transfer predictions for one fixed structural system evaluated on six opaque target task families whose obligations are represented only by registered requirement vectors",
+  "section": "F4 capability predictor",
+  "source_task": {
+    "margins": {
+      "communication_margin": 0,
+      "memory_margin": 0,
+      "planning_margin": 0,
+      "routing_margin": 0,
+      "verification_margin": 0
+    },
+    "requirements": {
+      "communication_margin": 3,
+      "memory_margin": 3,
+      "planning_margin": 3,
+      "routing_margin": 3,
+      "verification_margin": 3
+    },
+    "source_prediction": {
+      "coordination_exact": 1,
+      "memory_exact": 1,
+      "planning_exact": 1,
+      "verified_tool_exact": 1
+    },
+    "task_family_id": "SOURCE_DEV_TASK"
+  },
+  "status": "FROZEN_NOT_YET_SCORED",
+  "strongest_parent": "task transfer under sufficient statistics / invariant risk structure / protected holdout evaluation",
+  "system_capacity": {
+    "communication_margin": 3,
+    "memory_margin": 3,
+    "planning_margin": 3,
+    "routing_margin": 3,
+    "verification_margin": 3
+  },
+  "target_task_families": [
+    {
+      "family_digest": "1e3d0c79eca0f59fe397816952f95236975d5c62694ec3b76b1d0805f9132160",
+      "frozen_prediction": {
+        "coordination_exact": 1,
+        "memory_exact": 1,
+        "planning_exact": 1,
+        "verified_tool_exact": 1
+      },
+      "margins": {
+        "communication_margin": 0,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "requirements": {
+        "communication_margin": 3,
+        "memory_margin": 3,
+        "planning_margin": 3,
+        "routing_margin": 3,
+        "verification_margin": 3
+      },
+      "task_family_id": "HTF_001"
+    },
+    {
+      "family_digest": "c3fd01f1174b3b054fb5be98f85e5077d947181eeb21522a16807d5b711ae9a6",
+      "frozen_prediction": {
+        "coordination_exact": "CANNOT_IDENTIFY",
+        "memory_exact": 0,
+        "planning_exact": 0,
+        "verified_tool_exact": "CANNOT_IDENTIFY"
+      },
+      "margins": {
+        "communication_margin": 0,
+        "memory_margin": -2,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "requirements": {
+        "communication_margin": 3,
+        "memory_margin": 5,
+        "planning_margin": 3,
+        "routing_margin": 3,
+        "verification_margin": 3
+      },
+      "task_family_id": "HTF_002"
+    },
+    {
+      "family_digest": "70c3c2ae59dd029c5fa1d7ee9781f1c6cc0402e1a14b2e4bddea8ae22050967f",
+      "frozen_prediction": {
+        "coordination_exact": 0,
+        "memory_exact": "CANNOT_IDENTIFY",
+        "planning_exact": "CANNOT_IDENTIFY",
+        "verified_tool_exact": "CANNOT_IDENTIFY"
+      },
+      "margins": {
+        "communication_margin": -2,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "requirements": {
+        "communication_margin": 5,
+        "memory_margin": 3,
+        "planning_margin": 3,
+        "routing_margin": 3,
+        "verification_margin": 3
+      },
+      "task_family_id": "HTF_003"
+    },
+    {
+      "family_digest": "59c52261948379bb326406d0c2ea5f0ab8d031914b12df395f18e215997075ef",
+      "frozen_prediction": {
+        "coordination_exact": "CANNOT_IDENTIFY",
+        "memory_exact": "CANNOT_IDENTIFY",
+        "planning_exact": "CANNOT_IDENTIFY",
+        "verified_tool_exact": 0
+      },
+      "margins": {
+        "communication_margin": 0,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": -2,
+        "verification_margin": 0
+      },
+      "requirements": {
+        "communication_margin": 3,
+        "memory_margin": 3,
+        "planning_margin": 3,
+        "routing_margin": 5,
+        "verification_margin": 3
+      },
+      "task_family_id": "HTF_004"
+    },
+    {
+      "family_digest": "4c6ed444c2ba1b7f17df4f928e4672a940ffa212951a22e2c2e8f62856385406",
+      "frozen_prediction": {
+        "coordination_exact": "CANNOT_IDENTIFY",
+        "memory_exact": "CANNOT_IDENTIFY",
+        "planning_exact": "CANNOT_IDENTIFY",
+        "verified_tool_exact": 0
+      },
+      "margins": {
+        "communication_margin": 0,
+        "memory_margin": 0,
+        "planning_margin": 0,
+        "routing_margin": 0,
+        "verification_margin": -2
+      },
+      "requirements": {
+        "communication_margin": 3,
+        "memory_margin": 3,
+        "planning_margin": 3,
+        "routing_margin": 3,
+        "verification_margin": 5
+      },
+      "task_family_id": "HTF_005"
+    },
+    {
+      "family_digest": "899012aec9bb31605e07e2277c8ce145b9909924992fb281887c17b6e7835e46",
+      "frozen_prediction": {
+        "coordination_exact": "CANNOT_IDENTIFY",
+        "memory_exact": "CANNOT_IDENTIFY",
+        "planning_exact": "CANNOT_IDENTIFY",
+        "verified_tool_exact": "CANNOT_IDENTIFY"
+      },
+      "margins": {
+        "communication_margin": 0,
+        "memory_margin": 2,
+        "planning_margin": -2,
+        "routing_margin": 0,
+        "verification_margin": 0
+      },
+      "requirements": {
+        "communication_margin": 3,
+        "memory_margin": 1,
+        "planning_margin": 5,
+        "routing_margin": 3,
+        "verification_margin": 3
+      },
+      "task_family_id": "HTF_006"
+    }
+  ]
+}

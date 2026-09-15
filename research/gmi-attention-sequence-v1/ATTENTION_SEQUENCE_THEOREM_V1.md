@@ -1,159 +1,219 @@
-# Attention Sequence Theorem V1
+# Attention Sequence Theorem V1 — Corrigendum V2
 
-**Capsule:** gmi-attention-sequence-v1
-**Issue:** 602 Section E — sparse/local attention and long-sequence ecology
-**Parents:** DYNAMIC_ROUTING (gmi-formal-derivation-v1), HIERARCHICAL_CHUNKING (skill formation)
-**Ceiling:** G2
+**Capsule:** `gmi-attention-sequence-v1`  
+**Issue:** #602 B7 / sequence-routing microscope  
+**Strongest parents:** decision-tree/query complexity, sparse routing/local algorithms, amortized/lifecycle accounting  
+**Evidence:** P1 algebra + P2 exact finite checks  
+**Ceiling:** bounded G2 mechanism/phase law; **not** a universal attention theorem
 
----
+## 0. Historical correction
 
-## 1. Setup and Definitions
+The original V1 text contained two load-bearing mistakes and is corrected here rather
+than silently overwritten conceptually:
 
-We study a machine that must attend to M targets (obligations, representations, or
-ecology members) using K attention slots per step, with context length N and H
-attention heads. Two routing strategies are compared:
+1. its T2 formula `log(M/K)/log(N/H)` was not derived from the lookup-cost model
+   implemented by the witness;
+2. its T3 section wrote mutually incompatible cost equations and even displayed an
+   impossible inequality of the form `C/K > L + C/K`.  The later
+   `ggu/phase-rv-attention-fix` branch also reversed the meaning of the crossover
+   in code/tests and therefore is **not** an authority.
 
-- **Full routing:** every step, allocate attention to all M targets. Cost per step:
-  C_full = M * C, where C is the per-target attention cost.
-- **Sparse/local routing:** allocate attention to K << M targets per step, using
-  locality structure to select which K. Cost per step: C_sparse = K * C + M * L,
-  where L is the lookup cost to identify the K relevant targets.
-
-The ecology has a **locality parameter** lambda in (0, 1]: a fraction
-M_local = M * lambda^d of targets are within distance d of any given target in the
-ecology's natural metric. For sequential ecologies (text, time series, plan steps),
-lambda captures how quickly relevance decays with distance.
-
----
-
-## 2. Sparse Attention Condition
-
-**Theorem 1 (Sparse wins).** When K < M targets compete for K attention slots,
-sparse/local routing dominates full routing if and only if:
-
-    K * C + M * L  <  M * C
-
-Equivalently:
-
-    K < M  AND  L < C * (1 - K/M)
-
-That is, the per-target attention cost C must exceed the lookup cost L by a factor
-that grows as K/M shrinks. When L is constant (hash-based lookup), sparse routing
-wins for all K < M * (1 - L/C).
-
-**Interpretation:** Sparse attention is not merely a heuristic — it is the
-information-theoretically correct response to a budget constraint on attention slots
-when targets are numerous and attention has non-zero cost.
+Those formulas are retracted.  T1 is retained with a missing feasibility guard fixed;
+T2 and T3 below are the corrected results.  The stronger access-sufficiency statement
+in #694 T602-34 remains the parent-first authority for *whether* a sparse reader is
+exactly admissible.  The present capsule only prices already-admissible schemes.
 
 ---
 
-## 3. Phase Boundary: Full vs Sparse/Local
+## 1. Registered cost model
 
-**Theorem 2 (Phase boundary).** Define the ratio r = K/M (attention fraction). The
-ecology's locality parameter lambda determines a critical ratio:
+Let an exact obligation require access to `M >= 1` relevant targets.  Assume a full
+reader and a sparse/local reader are both already proved sufficient for the protected
+obligation.
 
-    r* = L / C
+- `C > 0`: charged cost per attended target;
+- `K`: sparse slot count, required to satisfy `0 < K < M`;
+- `L >= 0`: charged lookup/routing cost **per registered target** under this bounded
+  model.
 
-Below r* (K/M < L/C), full routing is cheaper because you pay the full lookup cost
-on every target anyway. Above r* but below 1, sparse routing wins. At r = 1, both
-strategies are equivalent (full attention).
+Then
 
-For a sequential ecology with locality decay lambda:
+\[
+C_{full}=MC,
+\]
 
-    Sparse/local dominates when:  lambda > lambda* = log(M/K) / log(N/H)
+\[
+C_{sparse}=KC+ML.
+\]
 
-where N is context length and H is the number of attention heads (determining the
-effective per-step budget). This is the **attention phase boundary**.
-
-**Interpretation:** The phase boundary is a function of three quantities: how many
-targets exist (M), how many you can attend to (K), and how locally structured the
-ecology is (lambda). When the ecology is highly structured (lambda near 1), sparse
-routing wins easily. When the ecology is diffuse (lambda near 0), you need more
-attention slots to avoid paying lookup costs that erode the sparse advantage.
-
----
-
-## 4. Long-Sequence Crossover
-
-**Theorem 3 (Growing-quotient obligation).** Consider an obligation whose "quotient"
-(number of sub-goals per unit context) grows as O(log N) with context length N. A
-fixed-carry machine (constant K slots) attends to K targets per step and requires
-at least M/K steps to cover all M targets, where M = O(N log N). A recurrent
-machine (one pointer, refreshed) attends to 1 target per step but carries state
-across steps.
-
-The fixed-carry cost per obligation: T_fixed = (M/K) * C
-The recurrent cost per obligation: T_recurrent = M * (L + C/K)  (lookup + amortized
-attention via state carry)
-
-There exists a crossover length:
-
-    N* = exp( K * C / (C - K*L) )   for C > K*L
-
-Beyond N*, the recurrent machine strictly dominates because:
-
-    M/K * C  >  M * (L + C/K)
-    C/K  >  L + C/K  (absurd — the fixed machine cannot amortize its slot cost)
-
-The correct form is: for obligations growing as O(log N), the fixed machine needs
-M/K steps where each step pays full attention cost, while the recurrent machine
-carries partial state and only pays attention on the relevant target. The crossover
-occurs when:
-
-    log(N*) = K * C / (K * L_max)   where L_max = max per-target lookup in ecology
-
-**Interpretation:** This is the crossover #648 identifies: in long-sequence ecologies
-where obligations compound (each context expansion creates more sub-goals), a
-constant-attention-slot machine eventually loses to one that carries state across
-steps. The crossover is not a failure of attention — it is a structural consequence
-of the obligation growth rate exceeding the attention amortization rate.
+No cost inequality is allowed to legalize an insufficient access pattern; obligation
+sufficiency comes first, as in #694 T602-34.
 
 ---
 
-## 5. Ecological Prediction
+## 2. T1 — exact sparse/full cost condition
 
-**Corollary (Long-sequence ecology).** In an ecology where:
-1. Targets grow as M = O(N^alpha) for alpha > 0 (superlinear in context length)
-2. Attention budget K is fixed or grows sublinearly
-3. Lookup cost L is constant (hash-based) or logarithmic
+For legal `0<K<M`, sparse routing is strictly cheaper iff
 
-There exists N* such that for all N > N*, sparse/local routing with state carry
-strictly dominates both full routing and simple sparse routing without carry.
+\[
+KC+ML<MC
+\iff
+L<C\left(1-\frac KM\right).
+\]
 
-The crossover length scales as:
+This is an arithmetic identity.  In particular:
 
-    N* ~ (K/L)^(1/alpha)   for superlinear target growth
+- `K=0` is **not** treated as a valid attention solution merely because its arithmetic
+  cost is small;
+- at `K=M`, a sparse implementation that still pays positive lookup cost is more
+  expensive than full routing rather than "equivalent";
+- equality is a tie and does not count as a strict sparse win.
 
-**Falsifier:** An ecology with sublinear target growth (alpha < 1) where sparse
-routing without carry dominates carry-based routing at all N — this would show that
-state carry is never beneficial for sparse ecologies.
-
----
-
-## 6. Connection to GMI Framework
-
-This theorem extends the dynamic routing derivation (one pointer -> one target) to
-the multi-target regime. The key additions:
-
-- **M simultaneous targets** (not just one source -> one target)
-- **Phase boundary** as a function of ecology structure (lambda)
-- **Long-sequence crossover** for growing-quotient obligations (#648)
-
-The parents are:
-- **DYNAMIC_ROUTING:** derives the single-pointer routing condition
-- **HIERARCHICAL_CHUNKING:** provides the skill formation subroutine that makes
-  sparse/local routing constructive (not just amortized)
-
-The ceiling is G2 because the phase boundary and crossover are structural predictions
-that hold across ecology instances, not just within a single realization.
+The result is conditional on exactness/admissibility and says nothing universal about
+attention architectures.
 
 ---
 
-## 7. Evidence Summary
+## 3. T2 — locality-induced lookup phase boundary
 
-See `attention_witness.py` for:
-- Phase boundary verification (lambda vs r = K/M at multiple (M, K, N) tuples)
-- Long-sequence crossover verification (N* for growing-quotient obligations)
-- Cost comparison across the full (M, K, N) sweep
+Freeze a locality coordinate `lambda in [0,1]` and a positive worst/base lookup price
+`L0`.  In this microscope locality reduces lookup cost linearly:
 
-See `test_attention_sequence.py` for 10+ unit tests verifying all claims.
+\[
+L(\lambda)=L_0(1-\lambda).
+\]
+
+Substitute that *same* cost into T1.  The raw strict threshold is
+
+\[
+\lambda^*=1-\frac{C(1-K/M)}{L_0}.
+\]
+
+Therefore, for legal `0<K<M`,
+
+\[
+C_{sparse}<C_{full}
+\iff
+\lambda>\lambda^*.
+\]
+
+The raw threshold is deliberately not clipped:
+
+- `lambda* < 0` means sparse wins for every legal `lambda in [0,1]`;
+- `0 <= lambda* < 1` gives an actual within-domain phase boundary;
+- `lambda* >= 1` means no strict sparse win occurs in the registered locality range.
+
+This replaces the unsupported logarithmic V1 formula.  Other locality/lookup laws can
+be registered, but they must derive their own threshold from their own charged cost
+function rather than reuse this one.
+
+---
+
+## 4. T3 — growing-sequence carry crossover
+
+The original V1 attempted to compare a fixed-slot reader with a state-carry reader but
+used incompatible costs.  Corrigendum V2 registers one coherent finite model.
+
+Let the number of target obligations grow with sequence length as
+
+\[
+M(N)=N\,\lceil\log_2 N\rceil,
+\]
+
+with `M(1)=1`.  Compare:
+
+### Fixed-slot serving
+
+A fixed reader with `K` parallel slots pays
+
+\[
+C_F(N)=M(N)\frac CK.
+\]
+
+### Retained state / recurrent carry
+
+A carry mechanism pays a one-time build/retention cost `B >= 0` and per-target lookup
+cost `L >= 0`:
+
+\[
+C_R(N)=B+M(N)L.
+\]
+
+Define the per-target marginal saving
+
+\[
+\Delta=\frac CK-L.
+\]
+
+Then:
+
+- if `Delta <= 0`, no finite sequence length makes the recurrent carry strictly
+  cheaper in this model;
+- if `Delta > 0`, recurrent carry is strictly cheaper exactly when
+
+\[
+M(N)\Delta>B.
+\]
+
+Hence the exact crossover is the least positive integer
+
+\[
+N^*=\min\{N\ge1:M(N)(C/K-L)>B\}.
+\]
+
+This is simply a retained-structure amortization law.  A larger build cost moves the
+crossover later.  Increasing `K` makes fixed serving cheaper and therefore also moves
+the crossover later; once `C/K <= L`, the crossover disappears.
+
+### Registered exact example
+
+For
+
+```text
+C = 1
+L = 1/16
+B = 16
+K in {1,2,4,8,16}
+```
+
+the exhaustive integer witness gives
+
+```text
+K=1   -> N*=6
+K=2   -> N*=10
+K=4   -> N*=18
+K=8   -> N*=43
+K=16  -> NO_FINITE_CROSSOVER
+```
+
+At each finite `N*`, the state-carry cost is strictly lower and at `N*-1` it is not.
+The `K=16` terminal follows exactly from `C/K=L`.
+
+---
+
+## 5. Scope, parent subtraction, and falsifiers
+
+Parent work owns sparse/adaptive querying, locality/indexing, state-space recurrence,
+and amortized lifecycle accounting.  The only GMI-relevant residual here is the common
+obligation/resource bookkeeping and its prospectively registered phase boundary.
+
+This capsule does **not** establish:
+
+- that sparse access is sufficient for an arbitrary task;
+- a universal locality law;
+- a universal long-context architecture winner;
+- a real-scale transformer/state-space result;
+- architecture novelty.
+
+Falsifiers at this registered scope are direct:
+
+1. a legal `(M,K,C,L)` cell where T1's algebra disagrees with charged costs;
+2. a `lambda` cell where T2's direct charged comparison disagrees with the derived
+   threshold;
+3. a reported finite `N*` where recurrent carry does not strictly win, or where it
+   already wins at `N*-1`;
+4. a finite crossover reported when `C/K <= L`.
+
+`attention_witness.py` uses exact `Fraction` arithmetic for every acceptance decision,
+and `test_attention_sequence.py` checks the theorem under ordinary and optimized
+Python in CI.
