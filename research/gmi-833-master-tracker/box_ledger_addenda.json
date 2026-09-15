@@ -1,0 +1,406 @@
+{
+ "schema_version": "gmi-833-box-ledger-v1",
+ "source": "issue #833 addendum AA/AB/AC/AD",
+ "sections": [
+  {
+   "section": "AA.",
+   "boxes": [
+    {
+     "checked": false,
+     "text": "Define a machine-readable `OPEN_GAP` object: claim, premise, inference, unresolved assumption, possible counterexample, severity, owner, parent result, evidence needed."
+    },
+    {
+     "checked": false,
+     "text": "Require every theorem/proof/experiment to emit an explicit assumptions ledger."
+    },
+    {
+     "checked": false,
+     "text": "Require every theorem to emit a dependency ledger."
+    },
+    {
+     "checked": false,
+     "text": "Require every theorem to emit a falsifier/counterexample ledger."
+    },
+    {
+     "checked": false,
+     "text": "Require every theorem to emit a strongest-parent/subsumption ledger."
+    },
+    {
+     "checked": false,
+     "text": "Require every experiment to emit leakage, search-space, cost-model, evaluation and sampling-bias ledgers."
+    },
+    {
+     "checked": false,
+     "text": "For every closed gap, automatically ask what new assumptions/gaps were introduced by the repair."
+    },
+    {
+     "checked": false,
+     "text": "Recurse until no new **material** gap is found under the declared scope."
+    },
+    {
+     "checked": false,
+     "text": "Define materiality thresholds so recursion does not terminate by arbitrary convenience."
+    },
+    {
+     "checked": false,
+     "text": "Require independent hostile review before a gap can be marked exhausted."
+    },
+    {
+     "checked": false,
+     "text": "Require at least two distinct counterexample-generation methods for flagship theorems."
+    },
+    {
+     "checked": false,
+     "text": "Add bounded exhaustive counterexample search whenever the finite domain permits it."
+    },
+    {
+     "checked": false,
+     "text": "Add SMT/SAT/model-checking counterexample search where appropriate."
+    },
+    {
+     "checked": false,
+     "text": "Add property-based/randomized adversarial testing where exact enumeration is impossible."
+    },
+    {
+     "checked": false,
+     "text": "Add proof-assistant/formal-verification targets for the flagship mathematical spine where practical."
+    },
+    {
+     "checked": false,
+     "text": "Search for quantifier-order mistakes (`forall/exists` swaps)."
+    },
+    {
+     "checked": false,
+     "text": "Search for converse/inverse fallacies."
+    },
+    {
+     "checked": false,
+     "text": "Search for necessity-vs-sufficiency confusion."
+    },
+    {
+     "checked": false,
+     "text": "Search for representability-vs-reachability confusion."
+    },
+    {
+     "checked": false,
+     "text": "Search for optimality-vs-selection confusion."
+    },
+    {
+     "checked": false,
+     "text": "Search for finite-scope-to-universal extrapolation."
+    },
+    {
+     "checked": false,
+     "text": "Search for empirical-correlation-to-causal claims."
+    },
+    {
+     "checked": false,
+     "text": "Search for identifiability failures."
+    },
+    {
+     "checked": false,
+     "text": "Search for hidden dependence/independence assumptions."
+    },
+    {
+     "checked": false,
+     "text": "Search for hidden stationarity/ergodicity assumptions."
+    },
+    {
+     "checked": false,
+     "text": "Search for hidden bounded-horizon assumptions."
+    },
+    {
+     "checked": false,
+     "text": "Search for hidden compactness/finiteness assumptions."
+    },
+    {
+     "checked": false,
+     "text": "Search for encoding-dependent conclusions."
+    },
+    {
+     "checked": false,
+     "text": "Search for arbitrary unit/scalarization dependence."
+    },
+    {
+     "checked": false,
+     "text": "Search for search-algorithm-induced morphology artifacts."
+    },
+    {
+     "checked": false,
+     "text": "Search for grammar-induced morphology artifacts."
+    },
+    {
+     "checked": false,
+     "text": "Search for benchmark/ecology selection bias."
+    },
+    {
+     "checked": false,
+     "text": "Search for post-selection inference / multiple-testing problems."
+    },
+    {
+     "checked": false,
+     "text": "Search for data leakage/remint leakage."
+    },
+    {
+     "checked": false,
+     "text": "Search for underpowered negative results."
+    },
+    {
+     "checked": false,
+     "text": "Search for non-identifiable latent explanations."
+    },
+    {
+     "checked": false,
+     "text": "Search for alternative known-parent reductions after every new-form claim."
+    },
+    {
+     "checked": false,
+     "text": "Maintain a live `GMI_GAP_GRAPH` linking every claim to unresolved descendants."
+    },
+    {
+     "checked": false,
+     "text": "Define `LOCALLY_CLOSED`, `HOSTILE_CLOSED`, `REPLICATED_CLOSED`, and `REAL_SCALE_CLOSED`; never use bare `closed` scientifically."
+    },
+    {
+     "checked": false,
+     "text": "Prevent parent issue closure while any critical descendant gap remains unresolved."
+    },
+    {
+     "checked": false,
+     "text": "Run a final recursive hostile sweep before any flagship manuscript freeze."
+    }
+   ]
+  },
+  {
+   "section": "AB.",
+   "boxes": [
+    {
+     "checked": false,
+     "text": "Build a living `GMI_TERMINOLOGY_CROSSWALK` with: legacy GMI term, proposed paper term, academic field, canonical term(s), exact match/partial match/non-match, citations, definition, migration rule."
+    },
+    {
+     "checked": false,
+     "text": "Replace paper-facing `obligation` with `task`, `specification`, or `formal/behavioral specification` according to exact semantics; formal methods uses **formal specification** for a mathematical description of intended system behavior."
+    },
+    {
+     "checked": false,
+     "text": "Audit `morphology`; compare against **architecture**, **computational architecture**, **model class**, **representation**, **algorithm**, and **computational mechanism**. Keep `morphology` only where structure across heterogeneous computational organizations is genuinely intended."
+    },
+    {
+     "checked": false,
+     "text": "Audit `machine species`; compare against **algorithm/configuration class**, **model family**, **architecture family**, **behavioral phenotype**, and **equivalence class**. Treat biological language as analogy unless formally defined."
+    },
+    {
+     "checked": false,
+     "text": "Audit `ecology`; compare against **task distribution**, **environment**, **problem distribution**, **instance space**, and **operating regime**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `niche`; compare against **region of instance space**, **operating regime**, **performance region**, and **domain of competence**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `selection`; distinguish **algorithm selection**, **model selection**, **architecture search**, **hyperparameter/configuration selection**, and evolutionary selection."
+    },
+    {
+     "checked": false,
+     "text": "Explicitly parent-subtract Rice-style **algorithm selection**: problem space, feature space, algorithm space, performance space, selection mapping."
+    },
+    {
+     "checked": false,
+     "text": "Audit `phase law/phase diagram`; use only when there is a well-defined control-parameter space and qualitative regime transition; otherwise use regime map/crossover map."
+    },
+    {
+     "checked": false,
+     "text": "Audit `prior-free`; replace with **architecture-agnostic**, **architecture-uncommitted**, **family-agnostic search**, or explicit `architecture-prior-free` only after defining what priors remain."
+    },
+    {
+     "checked": false,
+     "text": "Use **inductive bias** for representational/search preferences when that is the established ML concept."
+    },
+    {
+     "checked": false,
+     "text": "Use **hypothesis class/search space/program space** rather than vague `possibility space` where appropriate."
+    },
+    {
+     "checked": false,
+     "text": "For synthesis, use **DSL / grammar / primitive set / search space / search strategy** where those are the actual objects; explicitly acknowledge that the DSL itself induces strong bias."
+    },
+    {
+     "checked": false,
+     "text": "Audit `neutral search`; replace with a precise description such as family-blind enumerative search, architecture-agnostic search, grammar-based synthesis, evolutionary search, etc."
+    },
+    {
+     "checked": false,
+     "text": "Audit `remint`; paper-facing alternatives should normally be **independent regeneration**, **re-randomization**, **relabeling control**, **fresh-instance replication**, or **independent replication**, depending on what was done."
+    },
+    {
+     "checked": false,
+     "text": "Audit `negative twin`; compare with **matched negative control**, **counterfactual control**, **ablation**, **placebo condition**, or **negative control**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `parent subtraction`; paper-facing terminology should normally be **comparison to strongest baselines/parent theories**, **subsumption analysis**, **reduction**, **ablation**, or **novelty analysis**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `carrier`; map where possible to **state representation**, **state space**, **memory substrate**, **computational substrate**, or **representation space**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `quotient`; retain mathematical quotient where exact; otherwise use **equivalence classes**, **state abstraction**, **minimal sufficient representation/state**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `capability ceiling`; compare with **upper bound**, **impossibility result**, **capacity bound**, **information-theoretic limit**, **sample/communication/complexity bound**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `development`; distinguish **online learning**, **continual learning**, **meta-learning**, **self-modification**, **architecture adaptation**, **developmental learning**, and **evolution**."
+    },
+    {
+     "checked": false,
+     "text": "Audit `evolvability`; use the established evolutionary-computation/ALife meaning and avoid using it as a synonym for ordinary adaptability."
+    },
+    {
+     "checked": false,
+     "text": "Audit `open-ended`; connect explicitly to **open-ended evolution/open-endedness** literature; do not use it merely to mean a large search space."
+    },
+    {
+     "checked": false,
+     "text": "Audit `novel intelligence`; distinguish **novel implementation**, **novel architecture**, **novel algorithmic mechanism**, **novel model class**, **novel computational paradigm/domain**, and **novel capability profile**."
+    },
+    {
+     "checked": false,
+     "text": "Define a novelty ladder using those academically interpretable levels."
+    },
+    {
+     "checked": false,
+     "text": "Audit `unseen form`; paper-facing term should specify whether this means held-out architecture, predicted morphology, novel mechanism, or new computational class."
+    },
+    {
+     "checked": false,
+     "text": "Audit `cognition` terms against cognitive science rather than ML metaphors: working/episodic/semantic/procedural memory, attention, metacognition, theory of mind, etc."
+    },
+    {
+     "checked": false,
+     "text": "Require cognitive terms to satisfy operational criteria before claiming correspondence to human/animal constructs."
+    },
+    {
+     "checked": false,
+     "text": "Audit `causal` terminology against SCM/intervention/counterfactual conventions."
+    },
+    {
+     "checked": false,
+     "text": "Audit uncertainty terminology against aleatoric/epistemic, confidence set, credible set, calibration, identifiability, and partial identification conventions."
+    },
+    {
+     "checked": false,
+     "text": "Audit `verification`; distinguish formal verification, empirical validation, evaluation, testing, certification, and verifier feedback."
+    },
+    {
+     "checked": false,
+     "text": "Audit `proof`; never call exhaustive finite computation a mathematical proof without stating the certificate/computer-assisted status precisely."
+    },
+    {
+     "checked": false,
+     "text": "Audit `derive`; reserve it for a conclusion logically/mathematically obtained from stated premises; otherwise use recover, select, fit, construct, reproduce, or explain."
+    },
+    {
+     "checked": false,
+     "text": "Audit `predict`; require temporal/epistemic separation from the outcome; otherwise use post-hoc explanation or reconstruction."
+    },
+    {
+     "checked": false,
+     "text": "Audit `discover`; require that the target was not encoded/named/privileged and that novelty survives parent reduction."
+    },
+    {
+     "checked": false,
+     "text": "Create a banned/avoid list of internally convenient but academically misleading terms for manuscripts."
+    },
+    {
+     "checked": false,
+     "text": "Require terminology review as a CI/checklist gate for flagship documents."
+    }
+   ]
+  },
+  {
+   "section": "AC.",
+   "boxes": [
+    {
+     "checked": false,
+     "text": "Create expert literature lanes: theoretical CS/formal languages; statistical learning/information theory; optimization/algorithm selection; program synthesis; neural architectures; RL/control; Bayesian/causal inference; evolutionary computation/ALife; cognitive science/neuroscience; formal methods; philosophy of science."
+    },
+    {
+     "checked": false,
+     "text": "For every core GMI construct, collect canonical and modern parent literature before naming it."
+    },
+    {
+     "checked": false,
+     "text": "Prefer canonical field terminology when definitions coincide."
+    },
+    {
+     "checked": false,
+     "text": "When terminology differs across fields, state the cross-field synonyms and choose one primary paper term."
+    },
+    {
+     "checked": false,
+     "text": "Maintain citation-backed definitions rather than model-generated definitions."
+    },
+    {
+     "checked": false,
+     "text": "Record earliest/strongest known parent for each mathematical idea."
+    },
+    {
+     "checked": false,
+     "text": "Record whether GMI contribution is theorem, synthesis, generalization, new selection law, new empirical result, or only terminology."
+    },
+    {
+     "checked": false,
+     "text": "Require a `WHAT_IS_ACTUALLY_NEW.md` table that survives all literature lanes."
+    },
+    {
+     "checked": false,
+     "text": "Re-run literature search before manuscript freeze because terminology and neighboring work can change."
+    }
+   ]
+  },
+  {
+   "section": "AD.",
+   "boxes": [
+    {
+     "checked": false,
+     "text": "Implement the loop as a standard research template."
+    },
+    {
+     "checked": false,
+     "text": "Require each iteration to create explicit new-gap records rather than silently editing assumptions."
+    },
+    {
+     "checked": false,
+     "text": "Stop only at the declared evidence ceiling, never because the checklist is long."
+    },
+    {
+     "checked": false,
+     "text": "If a result fails, preserve the failure as evidence and update the theory."
+    },
+    {
+     "checked": false,
+     "text": "If a parent theory subsumes the result, absorb the parent terminology/mathematics and move the novelty claim upward."
+    },
+    {
+     "checked": false,
+     "text": "If multiple theories predict the same outcome, design a discriminating experiment."
+    },
+    {
+     "checked": false,
+     "text": "If no discriminating experiment is identifiable, mark the theories observationally indistinguishable at that scope."
+    },
+    {
+     "checked": false,
+     "text": "Require flagship claims to survive at least one independent hostile team/lane that did not author the original result."
+    }
+   ]
+  }
+ ]
+}
