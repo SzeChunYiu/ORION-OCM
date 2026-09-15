@@ -1,0 +1,171 @@
+{
+  "bottleneck": {
+    "exact_exhaustive_control": {
+      "all_green": true,
+      "cases": 3375,
+      "failures": 0
+    },
+    "saturation_control": {
+      "after_extra_work": {
+        "bottlenecks": [
+          "memory",
+          "verify"
+        ],
+        "feasible": true,
+        "resources": [
+          1000000,
+          15,
+          22
+        ],
+        "sigma": "1"
+      },
+      "before_extra_work": {
+        "bottlenecks": [
+          "memory",
+          "verify"
+        ],
+        "feasible": true,
+        "resources": [
+          200,
+          15,
+          22
+        ],
+        "sigma": "1"
+      },
+      "binary_feasibility_unchanged": true
+    },
+    "theorem": "feasible iff min_i b_i/q_i >= 1",
+    "threshold_n11": {
+      "at": {
+        "feasible": true,
+        "resources": [
+          111,
+          15,
+          22
+        ]
+      },
+      "below": {
+        "feasible": false,
+        "resources": [
+          110,
+          15,
+          22
+        ]
+      },
+      "memory_negative_twin": {
+        "feasible": false,
+        "resources": [
+          1000000,
+          14,
+          1000000
+        ]
+      },
+      "requirements_L_n11": [
+        111,
+        15,
+        22
+      ]
+    }
+  },
+  "claim_ceiling": "FINITE_SCALING_BOTTLENECK_AND_CROSSOVER_LAWS_AT_REGISTERED_SCOPE",
+  "finite_size_correction": {
+    "asymptotic_n10_winner": "L",
+    "disposition": "ASYMPTOTIC_9N_NOT_EXACT_FINITE_LAW",
+    "exact_n10_winner": "Q",
+    "first_n_within_tolerance": 27,
+    "n10_relative_correction": "2/15",
+    "relative_correction": "4/(3n)",
+    "setup_term": 12,
+    "tolerance": "1/20"
+  },
+  "forbidden_claims": [
+    "THERMODYNAMIC_PHASE_TRANSITION_PROVED",
+    "UNIVERSAL_SCALING_EXPONENT",
+    "UNIVERSAL_BEST_MORPHOLOGY",
+    "REAL_SCALE_EXTRAPOLATION_PROVED",
+    "COMPLETE_GMI"
+  ],
+  "freeze_commit": "e4d6f9ef941e1b7dfc958c8f8446c7890f40d2a7",
+  "issue": 774,
+  "nonuniversality": {
+    "full_vector_nondominance": true,
+    "n11_L_resources": [
+      111,
+      15,
+      22
+    ],
+    "n11_Q_resources": [
+      121,
+      22,
+      11
+    ],
+    "pareto": {
+      "L_dominates_Q": false,
+      "Q_dominates_L": false
+    },
+    "verify_winner_n11": "Q",
+    "work_winner_n11": "L"
+  },
+  "parent_issue": 602,
+  "resource_laws": {
+    "L": {
+      "memory": "n+4",
+      "verify": "2n",
+      "work": "9n+12"
+    },
+    "Q": {
+      "memory": "2n",
+      "verify": "n",
+      "work": "n^2"
+    },
+    "price_vectors": {
+      "verify_only": [
+        0,
+        0,
+        1
+      ],
+      "work_only": [
+        1,
+        0,
+        0
+      ]
+    }
+  },
+  "schema": "FiniteScalingBottleneckReceiptV1",
+  "smooth_vs_crossover": {
+    "L_real_extension": "9x+12",
+    "Q_real_extension": "x^2",
+    "both_smooth_for_x_gt_0": true,
+    "smooth_control": {
+      "A": "3n+1",
+      "B": "5n+7",
+      "transition_count_n1_128": 0,
+      "winner": "A"
+    },
+    "thermodynamic_phase_transition_proved": false
+  },
+  "terminology": {
+    "capability": "CAPABILITY_REACHABILITY_THRESHOLD",
+    "forbidden": "THERMODYNAMIC_PHASE_TRANSITION_PROVED",
+    "selection": "MORPHOLOGY_SELECTION_CROSSOVER",
+    "within_morphology": "SMOOTH_WITHIN_MORPHOLOGY_SCALING"
+  },
+  "work_crossover": {
+    "D_10": -2,
+    "D_11": 10,
+    "L_wins_n_11_through_128": true,
+    "Q_wins_n_1_through_10": true,
+    "continuous_positive_root": "(9+sqrt(129))/2",
+    "decimal_display": "10.178908345800274",
+    "integer_transition_count": 1,
+    "integer_transitions": [
+      {
+        "from": "Q",
+        "from_n": 10,
+        "to": "L",
+        "to_n": 11
+      }
+    ],
+    "terminology": "MORPHOLOGY_SELECTION_CROSSOVER"
+  }
+}
