@@ -1,0 +1,38 @@
+{
+  "schema": "GMI_EXTENDED_COGNITION_PREDICTION_V1",
+  "issue": 602,
+  "ecology": {
+    "name": "DELAYED_EXTERNAL_BIT",
+    "inputs": [0, 1],
+    "phases": ["STORE", "DISTRACT", "QUERY"],
+    "agent_internal_capacity_bits": 0,
+    "environment_capacity_bits": 1,
+    "store_action": "write input bit to external mark",
+    "distractor": "make current observation and internal state equal across both histories",
+    "query": "return the stored input bit"
+  },
+  "boundary": {
+    "agent_state": "singleton A={unit}",
+    "environment_state": "one writable bit W={0,1}",
+    "observation_map": "STORE sees input; DISTRACT sees unit; QUERY may read W only in the extended arm",
+    "action_map": "STORE may write W; other phases do not write",
+    "world_transition": "W'=input on STORE and W'=W otherwise",
+    "future_interventions": ["QUERY after one DISTRACT"],
+    "resource_coordinates": ["internal_bits", "external_bits", "read_ops", "write_ops"],
+    "custody": {
+      "agent_owner": "agent implementation",
+      "environment_owner": "ecology implementation",
+      "reset_authority": "evaluator between episodes"
+    }
+  },
+  "predictions": {
+    "extended_capability": 1.0,
+    "agent_only_zero_bit_upper_bound": 0.5,
+    "erase_write_negative_twin_capability": 0.5,
+    "one_bit_internal_memory_parent_capability": 1.0,
+    "minimality": "environment bit is necessary relative to the frozen zero-internal-bit boundary",
+    "parent_disposition": "absorbed exactly by one-bit D2 memory / joint D6 state under matched storage and access"
+  },
+  "falsifier": "any exact replay that violates a numerical prediction, or any zero-bit agent-only carrier that distinguishes the two query histories without reading external state",
+  "claim_ceiling": "BOUNDARY_RELATIVE_EXTERNAL_STATE_NECESSITY_NOT_NEW_DOMAIN"
+}
