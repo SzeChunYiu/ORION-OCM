@@ -2519,3 +2519,55 @@ def test_every_corpus_audit_declares_itself():
         "%d corpus-scanning audits exist but only %d receipts declare "
         "themselves audits; a receipt was not regenerated after the rule "
         "changed" % (len(audits), len(declared)))
+
+
+# ---------------------------------------------------------------------------
+# D: which morphology classes have been OBSERVED to win.  Not a phase law.
+# ---------------------------------------------------------------------------
+def test_phase_win_audit_reproduces():
+    receipt = os.path.join(RESULTS, "STAGE_PHASE_WIN_V1.json")
+    before = open(receipt).read() if os.path.exists(receipt) else None
+    try:
+        proc = subprocess.run(
+            [sys.executable, os.path.join("gmi_microscope", "phase_win_audit.py")],
+            cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900)
+        assert proc.returncode == 0, (
+            "phase_win_audit.py failed:\n" + proc.stdout.decode()[-4000:])
+        assert before is not None, "no committed receipt to reproduce"
+        assert json.loads(open(receipt).read()) == json.loads(before), (
+            "the phase-win audit no longer reproduces its receipt")
+    finally:
+        if before is not None:
+            with open(receipt, "w") as fh:
+                fh.write(before)
+
+
+def test_every_morphology_class_has_been_observed_to_win():
+    r = load_receipt("STAGE_PHASE_WIN_V1.json")
+    assert r["classes_without"] == [], (
+        "a morphology class no longer has any demonstrated win: %s"
+        % r["classes_without"])
+    assert len(r["classes_with_a_demonstrated_win"]) == r["classes_total"] == 6
+    ev = r["evidence"]
+    assert all(v["occurrences"] > 0 for v in ev.values())
+
+
+def test_the_assignment_stays_conservative():
+    """Unassigned values cannot create a positive finding, only hide one."""
+    r = load_receipt("STAGE_PHASE_WIN_V1.json")
+    assert r["unassigned_winner_values"], (
+        "every winner value is now assigned to a class; for 38 heterogeneous "
+        "strings that means the assignment is straining to classify arguable "
+        "cases, which is how a positive finding becomes an artefact")
+    assert len(r["unassigned_winner_values"]) >= 10
+    assert r["distinct_winner_values"] > r["classes_total"]
+
+
+def test_hybrid_is_the_thinnest_evidence_and_stays_flagged():
+    """Its win rests on a single winner value; that is worth not forgetting."""
+    r = load_receipt("STAGE_PHASE_WIN_V1.json")
+    h = r["evidence"]["hybrid"]
+    assert h["occurrences"] > 0
+    assert h["occurrences"] <= 5, (
+        "hybrid evidence grew beyond a handful of occurrences; the document "
+        "calls it the thinnest of the six and should be updated if that changed")
