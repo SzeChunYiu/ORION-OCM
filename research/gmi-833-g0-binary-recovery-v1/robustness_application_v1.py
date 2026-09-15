@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.util
 import json
 from pathlib import Path
+import sys
 from typing import Callable, Sequence
 
 from g0_binary_recovery_v1 import (
@@ -24,10 +25,12 @@ ROBUST_PATH = ROOT / "gmi-833-robustness-controls-v1" / "robustness_controls_v1.
 def load_robustness_module():
     if not ROBUST_PATH.exists():
         raise RuntimeError("ROBUSTNESS_CONTROL_PARENT_MISSING")
-    spec = importlib.util.spec_from_file_location("gmi_833_robustness_controls_v1", ROBUST_PATH)
+    name = "gmi_833_robustness_controls_v1"
+    spec = importlib.util.spec_from_file_location(name, ROBUST_PATH)
     if spec is None or spec.loader is None:
         raise RuntimeError("ROBUSTNESS_CONTROL_PARENT_UNLOADABLE")
     module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -122,12 +125,13 @@ def build_record(rob, kind: str, ecology: str, target):
     positive, negative, context = grammar_twin_block(rob, kind, ecology)
 
     exact = exact_solutions(kind, target)
+    ordered_exact = sorted(exact, key=lambda c: canonical_semantic(c))
     vectors = {
         f"solution_{i:03d}": tuple(rob.frac(x) for x in candidate.resources)
-        for i, candidate in enumerate(sorted(exact, key=lambda c: canonical_semantic(c)))
+        for i, candidate in enumerate(ordered_exact)
     }
     winner_name = next(
-        name for name, candidate in zip(vectors, sorted(exact, key=lambda c: canonical_semantic(c)), strict=True)
+        name for name, candidate in zip(vectors, ordered_exact, strict=True)
         if candidate.semantic_id == winner.semantic_id
     )
 
