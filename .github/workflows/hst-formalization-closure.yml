@@ -1,0 +1,27 @@
+name: HST formalization closure
+
+on:
+  pull_request:
+    paths:
+      - "research/heritable-search-transformation-v1/**"
+      - ".github/workflows/hst-formalization-closure.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/heritable-search-transformation-v1/**"
+      - ".github/workflows/hst-formalization-closure.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify HST theorem-class, quantifier, bridge, and artifact closure
+        run: python research/heritable-search-transformation-v1/check_hst_formalization_closure_v1.py
