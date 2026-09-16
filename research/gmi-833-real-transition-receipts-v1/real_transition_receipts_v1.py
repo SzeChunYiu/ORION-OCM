@@ -257,7 +257,9 @@ def finite_certificate(pkg_dir: Path | None = None) -> dict[str, Any]:
     runs_dir = here / "REAL_RUNS"
     artifacts = build_eval_artifacts(runs_dir)
     licensed, unlicensed = licensed_systems(runs_dir)
-    receipts = build_receipts(runs_dir, artifacts, licensed)
+    # FREEZE_V3_ADDENDUM.md B4: receipts for the first five licensed systems
+    # in registered order; all licensed systems are still fully checked below
+    receipts = build_receipts(runs_dir, artifacts, licensed[:5])
     evaluation = protocol.evaluate(receipts)
 
     checks: dict[str, bool] = {}

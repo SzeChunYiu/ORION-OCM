@@ -51,6 +51,29 @@ SYSTEMS = [
     ("R06-spare-git",
      "/usr/bin/git",
      "", 400000, 16, 32, 32.0, 606),
+    # V3 addendum tranche (FREEZE_V3_ADDENDUM.md), registered before V3 outcomes
+    ("R07-frankenstein",
+     "https://www.gutenberg.org/files/84/84-0.txt:/tmp/w6-gutenberg-84.txt",
+     "/usr/lib/python3.8/email/utils.py+/usr/lib/python3.8/http/client.py",
+     350000, 24, 32, 6.0, 707),
+    ("R08-dict-words",
+     "/etc/dictionaries-common/words",
+     "/usr/lib/python3.8/ast.py+/usr/lib/python3.8/token.py+/usr/lib/python3.8/tokenize.py",
+     300000, 32, 16, 4.0, 808),
+    ("R09-kernel-headers",
+     "/usr/src/linux-headers-5.15.0-139-generic/include/linux/sched.h+"
+     "/usr/src/linux-headers-5.15.0-139-generic/include/linux/kernel.h+"
+     "/usr/src/linux-headers-5.15.0-139-generic/include/linux/mm.h",
+     "/usr/share/sounds/alsa/Rear_Right.wav", 300000, 16, 24, 6.0, 909),
+    ("R10-stdlib-ast",
+     "/usr/lib/python3.8/ast.py+/usr/lib/python3.8/token.py+/usr/lib/python3.8/tokenize.py",
+     "/usr/share/sounds/alsa/Rear_Left.wav", 250000, 24, 24, 8.0, 1010),
+    ("R11-programme-md",
+     "FREEZE_V1.md+FREEZE_V2_AMENDMENT.md+CORE.md",
+     "/usr/share/sounds/alsa/Rear_Right.wav", 200000, 16, 16, 2.0, 1111),
+    ("R12-rearleft-wav",
+     "/usr/share/sounds/alsa/Rear_Left.wav",
+     "/etc/dictionaries-common/words", 250000, 32, 32, 16.0, 1212),
 ]
 SPARE_ID = "R06-spare-git"
 
