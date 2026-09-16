@@ -201,18 +201,23 @@ def main() -> None:
             src, downloaded = load_source(primary)
             if not src.exists():
                 raise FileNotFoundError(src)
+            if src.stat().st_size * 8 < T:
+                raise RuntimeError("source too short for registered T")
             available.append((sid, src, T, W, H, p, seed))
             used_fallback[sid] = False
-        except Exception as e:  # registered fallback path
+        except Exception as e:  # registered fallback path (load or length failure)
             print("primary failed for %s: %r -> fallback" % (sid, e))
             if not fallback:
                 continue
-            src, _ = load_source(fallback)
-            if not src.exists():
-                print("fallback also missing for %s; skipping" % sid)
+            try:
+                src, _ = load_source(fallback)
+                if not src.exists() or src.stat().st_size * 8 < T:
+                    raise RuntimeError("fallback unusable")
+                available.append((sid, src, T, W, H, p, seed))
+                used_fallback[sid] = True
+            except Exception as e2:
+                print("fallback also failed for %s: %r; skipping" % (sid, e2))
                 continue
-            available.append((sid, src, T, W, H, p, seed))
-            used_fallback[sid] = True
 
     # keep all distinct-source systems in registered order; the amendment's
     # pre-registered eligibility filter (licensed band) selects the receipt
@@ -235,6 +240,10 @@ def main() -> None:
         t0 = time.time()
         if smoke:
             T = min(T, 8000)
+        sysd = out_root / sid
+        if (sysd / "runs.json").exists():
+            print("resume-skip", sid)
+            continue
         bits = bits_from_file(src, T)
         modes = np.random.Generator(np.random.PCG64(seed)).integers(0, 2, size=T).astype(np.float32)
         y = targets(bits, modes)
