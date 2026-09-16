@@ -3,7 +3,7 @@
 This capsule extends the architecture-uncommitted G0 programme with three typed finite state-field operators:
 
 - `POINTWISE` — one-site-local update;
-- `GLOBAL_BROADCAST` — permutation-invariant whole-carrier aggregation followed by sitewise update;
+- `GLOBAL_BROADCAST` — permutation-invariant whole-state-field aggregation followed by sitewise update;
 - `NEIGHBOR_UPDATE` — one-hop graph-local aggregation followed by sitewise update.
 
 The registered witnesses operate synchronously on three `Z3`-valued sites. They exist to prove exact semantic distinctions, relabeling equivariance and resource accounting at a finite scope; they are not architecture-family macros and do not establish neural/GNN universality.
