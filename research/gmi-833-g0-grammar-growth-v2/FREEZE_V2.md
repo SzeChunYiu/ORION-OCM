@@ -71,12 +71,15 @@ program). Registered instances: `c4`, `c5` (designed depth 4/5, probed depth 3).
 
 **ADM-ALT (rule-attribution diagnostic; no claim).** A registered diagnostic
 variant — among strictly-positive-gain candidates whose body references the most
-recently admitted macro prefer the frozen tie-break order; fall back to INV-1
-order when none qualifies; same charges, same saturation stop — must be run on
-`c4`/`c5` and reported. It is expected to form deeper chains (m4 over m3),
-demonstrating the SAT-1 ceiling is attributable to the frozen greedy rule, not
-to the language. It is a diagnostic only: no held-out claim is made for ADM-ALT
-libraries beyond reporting their charged nets.
+recently admitted macro, admit the one with the **smallest body length** (frozen
+tie-break thereafter); fall back to INV-1 order when none qualifies; same
+charges, same saturation stop, same GRW-1 checks — must be run on `c4`/`c5` and
+reported. The smallest-body preference is the minimal delta that favors
+pair-shaped bodies over whole-unit bodies at equal admissibility. It is expected
+to form deeper chains (m4 over m3 and beyond), demonstrating the SAT-1 ceiling
+is attributable to the frozen greedy gain order, not to the language. It is a
+diagnostic only: no held-out claim is made for ADM-ALT libraries beyond
+reporting their charged nets and saturation depth.
 
 **CMP-1 (tier-conditional compounding; the T4 question).** Frozen tiered
 held-out suites (fixtures; tiers = max k such that the target contains ≥ 2
