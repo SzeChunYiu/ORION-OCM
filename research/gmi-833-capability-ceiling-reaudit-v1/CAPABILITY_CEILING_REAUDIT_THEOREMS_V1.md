@@ -1,7 +1,9 @@
 # Capability-definition audit and eleven ceiling reproofs v1
 
-**Issue:** #918  
-**Parent:** #833 Section K  
+**Issue:** #918
+
+**Parent:** #833 Section K
+
 **Claim ceiling:** `GMI_833_CAPABILITY_DEFINITIONS_AND_ELEVEN_CEILINGS_REAUDITED_AT_REGISTERED_SCOPE`
 
 ## 1. Scope and source ownership
