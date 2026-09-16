@@ -76,6 +76,9 @@ def base_model():
         "states": ("s0", "s1", "s2"),
         "actions": ("stay", "flip"),
         "outputs": (0, 1),
+        "observations": (0, 1),
+        "messages": ("ping", "pong"),
+        "interventions": ("inspect", "hold"),
         "initial_state": "s0",
         "transition": {
             ("s0", "stay"): "s0", ("s0", "flip"): "s1",
@@ -86,6 +89,25 @@ def base_model():
             ("s0", "stay"): 0, ("s0", "flip"): 1,
             ("s1", "stay"): 0, ("s1", "flip"): 1,
             ("s2", "stay"): 1, ("s2", "flip"): 1,
+        },
+        "observe": {
+            ("s0", "stay"): 0, ("s0", "flip"): 1,
+            ("s1", "stay"): 0, ("s1", "flip"): 1,
+            ("s2", "stay"): 1, ("s2", "flip"): 1,
+        },
+        "communicate": {
+            ("s0", "ping"): "pong", ("s0", "pong"): "ping",
+            ("s1", "ping"): "pong", ("s1", "pong"): "ping",
+            ("s2", "ping"): "ping", ("s2", "pong"): "ping",
+        },
+        "intervention_observe": {
+            ("s0", "inspect"): 0, ("s0", "hold"): 0,
+            ("s1", "inspect"): 0, ("s1", "hold"): 0,
+            ("s2", "inspect"): 1, ("s2", "hold"): 1,
+        },
+        "verifier_boundary": {
+            "inputs": ("protected_trace", "resource_vector", "task_instance"),
+            "outputs": ("accept", "reject"),
         },
         "resource_coordinates": ("compute", "memory"),
         "event_resources": {
@@ -106,9 +128,22 @@ def base_model():
             {"id": "hidden_world", "score_min": Fraction(0), "score_max": Fraction(1), "achieved": Fraction(1, 2), "ceiling": Fraction(1, 2), "threshold": Fraction(3, 4), "depends_on": ("protected_trace", "resource_vector")},
         ),
         "uncertainty": {
-            "feasible": {"domain": (0, 1), "candidates": (0, 1)},
-            "confidence": {"domain": (0, 1), "candidates": (0,), "alpha": Fraction(1, 10)},
-            "predictive": {"outcomes": (0, 1), "probabilities": (Fraction(1, 4), Fraction(3, 4))},
+            "feasible": {"kind": "feasible", "domain": (0, 1), "candidates": (0, 1)},
+            "confidence": {"kind": "confidence", "domain": (0, 1), "candidates": (0,), "alpha": Fraction(1, 10)},
+            "predictive": {"kind": "predictive", "outcomes": (0, 1), "probabilities": (Fraction(1, 4), Fraction(3, 4))},
+            "latent": {
+                "kind": "latent",
+                "latent_states": ("theta0", "theta1"),
+                "prior": (Fraction(1, 2), Fraction(1, 2)),
+                "outcomes": (0, 1),
+                "kernels": ((Fraction(1), Fraction(0)), (Fraction(0), Fraction(1))),
+            },
+            "selective": {
+                "kind": "selective",
+                "value_set": (0,),
+                "risk_or_error_certificate": Fraction(1, 20),
+                "coverage": Fraction(3, 4),
+            },
         },
         "scope_records": (
             {"claim": "M_CORE_SATISFIES_AX1_AX6", "source_tag": "forall_fin", "target_tag": "forall_fin", "domain": "M_core"},
@@ -139,6 +174,9 @@ def check_ax2(m):
     states = tuple(m.get("states", ()))
     actions = tuple(m.get("actions", ()))
     outputs = set(m.get("outputs", ()))
+    observations = set(m.get("observations", ()))
+    messages = tuple(m.get("messages", ()))
+    interventions = tuple(m.get("interventions", ()))
     state_set = set(states)
     if not states:
         errors.append("EMPTY_STATE_CARRIER")
@@ -146,10 +184,19 @@ def check_ax2(m):
         errors.append("EMPTY_ACTION_CARRIER")
     if not outputs:
         errors.append("EMPTY_OUTPUT_CARRIER")
+    if not observations:
+        errors.append("EMPTY_OBSERVATION_CARRIER")
+    if not messages:
+        errors.append("EMPTY_MESSAGE_CARRIER")
+    if not interventions:
+        errors.append("EMPTY_INTERVENTION_CARRIER")
     if m.get("initial_state") not in state_set:
         errors.append("INITIAL_OUTSIDE_STATE")
     transition = m.get("transition", {})
     emit = m.get("emit", {})
+    observe = m.get("observe", {})
+    communicate = m.get("communicate", {})
+    intervention_observe = m.get("intervention_observe", {})
     for s in states:
         for a in actions:
             key = (s, a)
@@ -161,6 +208,27 @@ def check_ax2(m):
                 errors.append(f"EMIT_NOT_TOTAL:{s}:{a}")
             elif emit[key] not in outputs:
                 errors.append(f"EMIT_OUTSIDE_OUTPUT:{s}:{a}")
+            if key not in observe:
+                errors.append(f"OBSERVE_NOT_TOTAL:{s}:{a}")
+            elif observe[key] not in observations:
+                errors.append(f"OBSERVE_OUTSIDE_CARRIER:{s}:{a}")
+        for message in messages:
+            key = (s, message)
+            if key not in communicate:
+                errors.append(f"COMMUNICATION_NOT_TOTAL:{s}:{message}")
+            elif communicate[key] not in messages:
+                errors.append(f"COMMUNICATION_OUTSIDE_CARRIER:{s}:{message}")
+        for intervention in interventions:
+            key = (s, intervention)
+            if key not in intervention_observe:
+                errors.append(f"INTERVENTION_NOT_TOTAL:{s}:{intervention}")
+            elif intervention_observe[key] not in observations:
+                errors.append(f"INTERVENTION_OUTSIDE_OBSERVATION:{s}:{intervention}")
+    boundary = m.get("verifier_boundary", {})
+    if not boundary.get("inputs") or not boundary.get("outputs"):
+        errors.append("VERIFIER_BOUNDARY_MISSING")
+    if not m.get("event_resources"):
+        errors.append("RAW_RESOURCE_VECTOR_MISSING")
     return tuple(errors)
 
 
@@ -240,6 +308,13 @@ def check_ax5(m):
 def check_ax6(m):
     errors = []
     uncertainty = m.get("uncertainty", {})
+    expected_kinds = {"feasible", "confidence", "predictive", "latent", "selective"}
+    if set(uncertainty) != expected_kinds:
+        errors.append("UNCERTAINTY_FAMILY_INCOMPLETE")
+    for expected_kind in sorted(expected_kinds):
+        obj = uncertainty.get(expected_kind)
+        if obj is not None and obj.get("kind") != expected_kind:
+            errors.append(f"UNCERTAINTY_KIND_MISMATCH:{expected_kind}")
     feasible = uncertainty.get("feasible")
     if feasible is None:
         errors.append("FEASIBLE_MISSING")
@@ -268,6 +343,42 @@ def check_ax6(m):
             errors.append("PREDICTIVE_SHAPE")
         if any(x < 0 for x in probabilities) or sum(probabilities, Fraction(0)) != 1:
             errors.append("PREDICTIVE_NOT_NORMALIZED")
+    latent = uncertainty.get("latent")
+    if latent is None:
+        errors.append("LATENT_MISSING")
+    else:
+        latent_states = tuple(latent.get("latent_states", ()))
+        outcomes = tuple(latent.get("outcomes", ()))
+        prior = tuple(F(x) for x in latent.get("prior", ()))
+        kernels = tuple(tuple(F(x) for x in row) for row in latent.get("kernels", ()))
+        if not latent_states or len(set(latent_states)) != len(latent_states):
+            errors.append("LATENT_STATE_DOMAIN_INVALID")
+        if not outcomes or len(set(outcomes)) != len(outcomes):
+            errors.append("LATENT_OUTCOME_DOMAIN_INVALID")
+        if len(prior) != len(latent_states) or any(x < 0 for x in prior) or sum(prior, Fraction(0)) != 1:
+            errors.append("LATENT_PRIOR_NOT_NORMALIZED")
+        if len(kernels) != len(latent_states):
+            errors.append("LATENT_KERNEL_SHAPE")
+        else:
+            for row in kernels:
+                if len(row) != len(outcomes) or any(x < 0 for x in row) or sum(row, Fraction(0)) != 1:
+                    errors.append("LATENT_KERNEL_NOT_NORMALIZED")
+                    break
+    selective = uncertainty.get("selective")
+    if selective is None:
+        errors.append("SELECTIVE_MISSING")
+    else:
+        values = tuple(selective.get("value_set", ()))
+        if not values or len(set(values)) != len(values):
+            errors.append("SELECTIVE_VALUE_SET_INVALID")
+        for field in ("risk_or_error_certificate", "coverage"):
+            try:
+                value = F(selective[field])
+            except Exception:
+                errors.append(f"SELECTIVE_{field.upper()}_INVALID")
+                continue
+            if not 0 <= value <= 1:
+                errors.append(f"SELECTIVE_{field.upper()}_OUT_OF_RANGE")
     return tuple(errors)
 
 
@@ -281,7 +392,19 @@ def validate_model(model):
 
 
 def protected_response_profiles(model):
-    return {s: tuple(model["emit"][(s, a)] for a in model["actions"]) for s in model["states"]}
+    shared = (
+        tuple(model["resource_coordinates"]),
+        tuple(sorted(model["development_edges"])),
+    )
+    return {
+        s: (
+            tuple(model["emit"][(s, a)] for a in model["actions"]),
+            tuple(model["observe"][(s, a)] for a in model["actions"]),
+            tuple(model["intervention_observe"][(s, i)] for i in model["interventions"]),
+            shared,
+        )
+        for s in model["states"]
+    }
 
 
 def protected_response_quotient(model):
@@ -412,6 +535,8 @@ def hostile_model(label):
         model["accepted"]["i0"] = ()
     elif label == "AX-2":
         del model["transition"][("s0", "stay")]
+    elif label == "AX-2-channels":
+        del model["communicate"][("s0", "ping")]
     elif label == "AX-3":
         model["event_resources"]["execute_stay"]["compute"] = Fraction(-1)
     elif label == "AX-4":
@@ -427,6 +552,10 @@ def hostile_model(label):
         model["uncertainty"]["confidence"]["candidates"] = ()
     elif label == "AX-6-predictive":
         model["uncertainty"]["predictive"]["probabilities"] = (Fraction(1, 4), Fraction(1, 2))
+    elif label == "AX-6-latent":
+        model["uncertainty"]["latent"]["prior"] = (Fraction(3, 4), Fraction(3, 4))
+    elif label == "AX-6-selective":
+        model["uncertainty"]["selective"]["coverage"] = Fraction(5, 4)
     elif label == "META-1":
         model["scope_records"] = ({"claim": "bad", "source_tag": "forall_fin", "target_tag": "forall", "domain": "M_core"},)
     elif label == "META-2":
@@ -451,6 +580,8 @@ def hostile_hypercube():
                 model["accepted"] = patch["accepted"]
             elif label == "AX-2":
                 model["transition"] = patch["transition"]
+            elif label == "AX-2-channels":
+                model["communicate"] = patch["communicate"]
             elif label == "AX-3":
                 model["event_resources"] = patch["event_resources"]
             elif label == "AX-4":
@@ -462,11 +593,20 @@ def hostile_hypercube():
                 model["uncertainty"]["confidence"]["candidates"] = (2,)
             elif label == "AX-6-predictive":
                 model["uncertainty"]["predictive"]["probabilities"] = (Fraction(1, 4), Fraction(1, 2))
+            elif label == "AX-6-latent":
+                model["uncertainty"]["latent"]["prior"] = (Fraction(3, 4), Fraction(3, 4))
+            elif label == "AX-6-selective":
+                model["uncertainty"]["selective"]["coverage"] = Fraction(5, 4)
         out = validate_model(model)
         expected = set()
         for bit, label in zip(bits, labels):
             if bit:
-                expected.add("AX-6" if label.startswith("AX-6") else label)
+                if label.startswith("AX-6"):
+                    expected.add("AX-6")
+                elif label.startswith("AX-2"):
+                    expected.add("AX-2")
+                else:
+                    expected.add(label)
         actual = set(out["violated_axioms"])
         key = ",".join(sorted(actual)) or "NONE"
         violation_histogram[key] = violation_histogram.get(key, 0) + 1
@@ -474,7 +614,49 @@ def hostile_hypercube():
             failures.append({"bits": bits, "expected": tuple(sorted(expected)), "actual": out["violated_axioms"]})
         if sum(bits) == 1:
             singleton[labels[bits.index(1)]] = out["violated_axioms"]
-    return {"cases": 128, "failures": tuple(failures), "singleton_attribution": singleton, "satisfying_cases": violation_histogram.get("NONE", 0), "violation_histogram": violation_histogram}
+    return {
+        "cases": 2 ** len(labels),
+        "failures": tuple(failures),
+        "singleton_attribution": singleton,
+        "satisfying_cases": violation_histogram.get("NONE", 0),
+        "violation_histogram": violation_histogram,
+    }
+
+
+def targeted_mutation_audit():
+    def object_violation(label):
+        return validate_model(hostile_model(label))["violated_axioms"]
+
+    carrier = base_model()["states"]
+    broken_equivalence = tuple((a, b) for a in carrier for b in carrier if a == b)
+    broken_equivalence = tuple(pair for pair in broken_equivalence if pair != ("s0", "s0"))
+    rows = {
+        "negative_resource_coordinate": object_violation("AX-3"),
+        "non_total_registered_transition": object_violation("AX-2"),
+        "capability_ceiling_below_attained": object_violation("AX-5"),
+        "confidence_set_outside_domain": object_violation("AX-6-outside"),
+        "empty_positive_coverage_confidence": object_violation("AX-6-empty"),
+        "illegal_finite_to_universal_scope": ("META-1",) if check_meta1(hostile_model("META-1")) else (),
+        "equivalence_relation_violation": ("DEF-1",) if not relation_is_equivalence(carrier, broken_equivalence) else (),
+        "development_edge_outside_carrier": object_violation("AX-4"),
+        "registered_channel_non_total": object_violation("AX-2-channels"),
+        "latent_prior_not_normalized": object_violation("AX-6-latent"),
+        "selective_coverage_out_of_range": object_violation("AX-6-selective"),
+    }
+    expected = {
+        "negative_resource_coordinate": ("AX-3",),
+        "non_total_registered_transition": ("AX-2",),
+        "capability_ceiling_below_attained": ("AX-5",),
+        "confidence_set_outside_domain": ("AX-6",),
+        "empty_positive_coverage_confidence": ("AX-6",),
+        "illegal_finite_to_universal_scope": ("META-1",),
+        "equivalence_relation_violation": ("DEF-1",),
+        "development_edge_outside_carrier": ("AX-4",),
+        "registered_channel_non_total": ("AX-2",),
+        "latent_prior_not_normalized": ("AX-6",),
+        "selective_coverage_out_of_range": ("AX-6",),
+    }
+    return {"rows": rows, "expected": expected, "all_exact": rows == expected}
 
 
 def canonicalize(x):
@@ -499,11 +681,14 @@ def build_receipt(parent_audit=None):
     quotient = protected_response_quotient(model)
     qrel = quotient_relation(model)
     hyper = hostile_hypercube()
+    targeted = targeted_mutation_audit()
     parent_audit = parent_audit or {"all_ok": True, "rows": []}
     independence = {}
     for label, expected in (
-        ("AX-1", "AX-1"), ("AX-2", "AX-2"), ("AX-3", "AX-3"), ("AX-4", "AX-4"), ("AX-5", "AX-5"),
+        ("AX-1", "AX-1"), ("AX-2", "AX-2"), ("AX-2-channels", "AX-2"),
+        ("AX-3", "AX-3"), ("AX-4", "AX-4"), ("AX-5", "AX-5"),
         ("AX-6-outside", "AX-6"), ("AX-6-empty", "AX-6"), ("AX-6-predictive", "AX-6"),
+        ("AX-6-latent", "AX-6"), ("AX-6-selective", "AX-6"),
     ):
         independence[label] = validate_model(hostile_model(label))["violated_axioms"]
     meta1 = check_meta1(hostile_model("META-1"))
@@ -511,6 +696,8 @@ def build_receipt(parent_audit=None):
     checks = {
         "parents_exactly_pinned": parent_audit["all_ok"],
         "finite_model_satisfies_all_object_axioms": valid["satisfies"],
+        "registered_realization_channels_complete": not check_ax2(model),
+        "all_five_uncertainty_kinds_present": set(model["uncertainty"]) == {"feasible", "confidence", "predictive", "latent", "selective"},
         "protected_response_quotient_nontrivial": 1 < len(quotient) < len(model["states"]),
         "protected_response_relation_is_equivalence": relation_is_equivalence(model["states"], qrel),
         "development_reachability_nontrivial": reachable_versions(model) == ("v0", "v1"),
@@ -518,8 +705,12 @@ def build_receipt(parent_audit=None):
         "unknown_query_abstains": query_disposition(model["uncertainty"]["feasible"], lambda x: x)["terminal"] == "CANNOT_IDENTIFY",
         "constant_query_identified": query_disposition(model["uncertainty"]["feasible"], lambda x: 7)["terminal"] == "IDENTIFIED",
         "dependency_graph_acyclic": graph_is_acyclic(dependency_graph()),
-        "bounded_independence_witnesses": all(set(v) == {("AX-6" if k.startswith("AX-6") else k)} for k, v in independence.items()),
+        "bounded_independence_witnesses": all(
+            set(v) == {"AX-6" if k.startswith("AX-6") else "AX-2" if k.startswith("AX-2") else k}
+            for k, v in independence.items()
+        ),
         "hostile_hypercube_complete": hyper["cases"] == 128 and not hyper["failures"] and hyper["satisfying_cases"] == 1,
+        "targeted_mutations_exact": targeted["all_exact"],
         "scope_promotion_blocked": bool(meta1),
         "claim_promotion_blocked": bool(meta2),
     }
@@ -536,8 +727,12 @@ def build_receipt(parent_audit=None):
         "finite_model": {
             "state_count": len(model["states"]),
             "action_count": len(model["actions"]),
+            "observation_count": len(model["observations"]),
+            "message_count": len(model["messages"]),
+            "intervention_count": len(model["interventions"]),
             "version_count": len(model["versions"]),
             "resource_coordinates": model["resource_coordinates"],
+            "uncertainty_kinds": tuple(model["uncertainty"]),
             "protected_response_quotient": quotient,
             "reachable_versions": reachable_versions(model),
             "impossibility_ids": capability_impossibility_ids(model),
@@ -546,6 +741,7 @@ def build_receipt(parent_audit=None):
         },
         "independence_witnesses": independence,
         "hostile_hypercube": hyper,
+        "targeted_mutations": targeted,
         "governance_hostiles": {"META-1": meta1, "META-2": meta2},
         "dependency_graph": dependency_graph(),
         "checks": checks,

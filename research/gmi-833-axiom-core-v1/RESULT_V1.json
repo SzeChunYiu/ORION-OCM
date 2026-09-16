@@ -1,5 +1,6 @@
 {
   "checks": {
+    "all_five_uncertainty_kinds_present": true,
     "bounded_independence_witnesses": true,
     "claim_promotion_blocked": true,
     "constant_query_identified": true,
@@ -11,7 +12,9 @@
     "parents_exactly_pinned": true,
     "protected_response_quotient_nontrivial": true,
     "protected_response_relation_is_equivalence": true,
+    "registered_realization_channels_complete": true,
     "scope_promotion_blocked": true,
+    "targeted_mutations_exact": true,
     "unknown_query_abstains": true
   },
   "claim_ceiling": "GMI_REGISTERED_FINITE_AXIOM_CORE_SATISFIABLE_AND_COMPACT_AT_SCOPE",
@@ -71,6 +74,9 @@
     "impossibility_ids": [
       "hidden_world"
     ],
+    "intervention_count": 2,
+    "message_count": 2,
+    "observation_count": 2,
     "protected_response_quotient": [
       [
         "s0",
@@ -89,6 +95,13 @@
       "memory"
     ],
     "state_count": 3,
+    "uncertainty_kinds": [
+      "feasible",
+      "confidence",
+      "predictive",
+      "latent",
+      "selective"
+    ],
     "version_count": 3
   },
   "forbidden_promotions": [
@@ -209,6 +222,9 @@
     "AX-2": [
       "AX-2"
     ],
+    "AX-2-channels": [
+      "AX-2"
+    ],
     "AX-3": [
       "AX-3"
     ],
@@ -221,10 +237,16 @@
     "AX-6-empty": [
       "AX-6"
     ],
+    "AX-6-latent": [
+      "AX-6"
+    ],
     "AX-6-outside": [
       "AX-6"
     ],
     "AX-6-predictive": [
+      "AX-6"
+    ],
+    "AX-6-selective": [
       "AX-6"
     ]
   },
@@ -272,5 +294,78 @@
   },
   "parent_issue": 833,
   "schema": "GMI833FiniteAxiomCoreResultV1",
+  "targeted_mutations": {
+    "all_exact": true,
+    "expected": {
+      "capability_ceiling_below_attained": [
+        "AX-5"
+      ],
+      "confidence_set_outside_domain": [
+        "AX-6"
+      ],
+      "development_edge_outside_carrier": [
+        "AX-4"
+      ],
+      "empty_positive_coverage_confidence": [
+        "AX-6"
+      ],
+      "equivalence_relation_violation": [
+        "DEF-1"
+      ],
+      "illegal_finite_to_universal_scope": [
+        "META-1"
+      ],
+      "latent_prior_not_normalized": [
+        "AX-6"
+      ],
+      "negative_resource_coordinate": [
+        "AX-3"
+      ],
+      "non_total_registered_transition": [
+        "AX-2"
+      ],
+      "registered_channel_non_total": [
+        "AX-2"
+      ],
+      "selective_coverage_out_of_range": [
+        "AX-6"
+      ]
+    },
+    "rows": {
+      "capability_ceiling_below_attained": [
+        "AX-5"
+      ],
+      "confidence_set_outside_domain": [
+        "AX-6"
+      ],
+      "development_edge_outside_carrier": [
+        "AX-4"
+      ],
+      "empty_positive_coverage_confidence": [
+        "AX-6"
+      ],
+      "equivalence_relation_violation": [
+        "DEF-1"
+      ],
+      "illegal_finite_to_universal_scope": [
+        "META-1"
+      ],
+      "latent_prior_not_normalized": [
+        "AX-6"
+      ],
+      "negative_resource_coordinate": [
+        "AX-3"
+      ],
+      "non_total_registered_transition": [
+        "AX-2"
+      ],
+      "registered_channel_non_total": [
+        "AX-2"
+      ],
+      "selective_coverage_out_of_range": [
+        "AX-6"
+      ]
+    }
+  },
   "verdict": "GREEN"
 }

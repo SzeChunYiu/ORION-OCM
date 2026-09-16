@@ -8,7 +8,7 @@ This package separates:
 - five derived definitions/theorems (`DEF-1`…`DEF-5`);
 - two scientific-governance metarules (`META-1`, `META-2`).
 
-It constructs one explicit finite model satisfying all six object axioms and exhaustively checks a 128-case contradiction hypercube. This proves satisfiability/non-contradiction only for the registered finite core at the implemented semantics; it is not an absolute consistency proof.
+It constructs one explicit finite model satisfying all six object axioms, registers every required realization channel and all five uncertainty kinds, and exhaustively checks a 128-case contradiction hypercube. The eight issue-mandated hostile classes plus three audit hostiles have exact AX/DEF/META attribution. This proves satisfiability/non-contradiction only for the registered finite core at the implemented semantics; it is not an absolute consistency proof.
 
 ## Reproduce
 
