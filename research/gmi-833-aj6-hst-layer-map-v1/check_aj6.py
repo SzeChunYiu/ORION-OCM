@@ -1,5 +1,5 @@
 from __future__ import annotations
-import itertools, json
+import json
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
@@ -20,10 +20,12 @@ def developmental_worlds():
             worlds.append({"current":cur,"reach":frozenset(reach),"current_error":error(FUNCS[cur]),"future_best_error":min(error(FUNCS[i]) for i in reach)})
     return worlds
 
-def governed_update(state, patch, allow_substrate_change=False):
-    protected={"substrate_laws","operational_process_frame"}
-    if not allow_substrate_change and protected.intersection(patch):
+def governed_update(state, patch, allow_substrate_change=False, allow_constitution_change=False):
+    lower={"substrate_laws","operational_process_frame"}
+    if not allow_substrate_change and lower.intersection(patch):
         raise ValueError("LOWER_LAYER_PREMISE_CHANGE_REQUIRES_EXPLICIT_SCOPE_CHANGE")
+    if not allow_constitution_change and "C" in patch and patch["C"]!=state.get("C"):
+        raise ValueError("CONSTITUTION_CHANGE_REQUIRES_EXPLICIT_GOVERNANCE_SCOPE")
     out=dict(state); out.update(patch); return out
 
 def main():
@@ -55,11 +57,14 @@ def main():
     assert frozen["current_org"]==edit["current_org"]==0
 
     lower_layer_hostile="NOT_RUN"
-    try:
-        governed_update(seed,{"substrate_laws":"MAGIC_ORACLE"})
-    except ValueError:
-        lower_layer_hostile="REJECTED"
+    try: governed_update(seed,{"substrate_laws":"MAGIC_ORACLE"})
+    except ValueError: lower_layer_hostile="REJECTED"
     assert lower_layer_hostile=="REJECTED"
+
+    constitution_hostile="NOT_RUN"
+    try: governed_update(seed,{"C":"SELF_AUTHORIZED"})
+    except ValueError: constitution_hostile="REJECTED"
+    assert constitution_hostile=="REJECTED"
 
     theorem_map={
       "HST_T01":"reach-set dominance under optional inheritance -> developmental reach layer",
@@ -68,22 +73,25 @@ def main():
       "HST_T04_T05":"coded-search/macro amortization -> presentation/search-resource layer",
       "HST_T08":"Blackwell information dominance -> AJ3 decision-relevance layer",
       "HST_T09_T10":"transfer/evolvability -> developmental capability-response layer",
-      "HST_LIMITS":"meta-NFL/Rice/halting/Godel/Blum boundaries remain limits; lowering does not remove them"
+      "HST_LIMITS":"meta-NFL/Rice/halting/Goedel/Blum boundaries remain limits; lowering does not remove them"
     }
 
     result={
       "status":"GREEN",
       "hst_state_mapping":mapping,
+      "contextual_lift":"iota_chi(M)=Sigma; M alone does not identify Sigma",
       "finite_developmental_worlds":len(worlds),
       "same_current_capability_different_future_pairs":same_current_different_future,
       "frozen_future_best_identity_error":0.5,
       "one_edit_future_best_identity_error":0.0,
       "current_organization_same":True,
       "lower_layer_mutation_without_scope_change":lower_layer_hostile,
+      "constitution_mutation_without_governance_scope":constitution_hostile,
       "theorem_family_map":theorem_map,
-      "development_changes_allowed":["organization","presentation/language","proposal kernel","archive/library","task ecology","resource policy","verifier subject to C"],
-      "development_does_not_silently_change":["substrate laws","AJ1 operational frame assumptions"],
-      "forbidden_promotions":["HST_IS_SUBSTRATE_ONTOLOGY","CURRENT_CAPABILITY_DETERMINES_DEVELOPMENTAL_POTENTIAL","DEVELOPMENT_ALWAYS_IMPROVES","LOWERING_REMOVES_META_NFL_OR_UNDECIDABILITY","UNREGISTERED_SUBSTRATE_CHANGE_COUNTS_AS_DEVELOPMENT"],
+      "development_changes_allowed":["organization","presentation/language","proposal kernel","archive/library","resource policy","task ecology with provenance tag","verifier subject to C with provenance tag"],
+      "development_does_not_silently_change":["substrate laws","AJ1 operational frame assumptions","external constitution C"],
+      "hidden_assumptions_exposed":["developmental context required to lift M into Sigma","organization representation in L and compiler cost","verifier limited by admitted operational tests/resources","operator invention vs new substrate capability","endogenous vs exogenous E/V/C provenance"],
+      "forbidden_promotions":["HST_IS_SUBSTRATE_ONTOLOGY","MACHINE_STATE_UNIQUELY_DETERMINES_SIGMA","CURRENT_CAPABILITY_DETERMINES_DEVELOPMENTAL_POTENTIAL","DEVELOPMENT_ALWAYS_IMPROVES","LOWERING_REMOVES_META_NFL_OR_UNDECIDABILITY","UNREGISTERED_SUBSTRATE_CHANGE_COUNTS_AS_DEVELOPMENT"],
       "claim_ceiling":"AJ6_HST_AS_DEVELOPMENT_OVER_PROCESS_ORGANIZATIONS_AT_REGISTERED_SCOPE"
     }
     (HERE/"RESULT_V1.json").write_text(json.dumps(result,indent=2)+"\n")
