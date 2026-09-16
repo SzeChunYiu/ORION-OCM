@@ -1,0 +1,30 @@
+{
+  "schema":"AJ9C_BLIND_TEMPORAL_SEARCH_CONFIG_V1",
+  "task":{
+    "input_alphabet":[0,1],
+    "output_alphabet":[0,1],
+    "initial_internal_value":0,
+    "training_words":[[],[0],[1],[0,0],[0,1],[1,0],[1,1],[0,0,0],[0,0,1],[0,1,0],[0,1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]],
+    "required_rule":"at each external step emit the immediately preceding input, with initial required output 0",
+    "architecture_label_hidden":true
+  },
+  "candidate_capacity":{
+    "persistent_cells_allowed":[0,1],
+    "zero_cell_space":"all deterministic binary input->output maps",
+    "one_cell_space":"all deterministic binary (internal,input)->(next_internal,output) maps",
+    "total_candidates":260
+  },
+  "searches":[
+    {"id":"FULL_TABLE_ENUMERATION","budget":260},
+    {"id":"CONSTRAINT_FILTER_SEARCH","budget":260}
+  ],
+  "presentations":["ROW_TABLE","PACKED_BITSTRING"],
+  "evaluation":{
+    "primary":"exact output traces on the frozen words",
+    "raw_resource_vector":["persistent_cells","table_rows","tested_transitions"],
+    "no_family_score":true
+  },
+  "forbidden":["family ids/names","family fingerprint","recurrent macro","named recurrent architecture","family-specific score"],
+  "allowed_terminal":["RECOVERED","NOT_RECOVERED_AT_SCOPE"],
+  "predicted_selected_claim_enabled":false
+}
