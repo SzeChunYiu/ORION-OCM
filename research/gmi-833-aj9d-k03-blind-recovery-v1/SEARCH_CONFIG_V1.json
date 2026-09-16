@@ -1,0 +1,27 @@
+{
+  "schema":"AJ9D_GENERIC_SITE_SEARCH_CONFIG_V1",
+  "environment":{
+    "sites":[0,1,2],
+    "global_inputs":"all 8 binary triples",
+    "required_outputs":"for each site i, output 1 iff site i differs from cyclic successor (i+1 mod 3)",
+    "family_labels_hidden":true
+  },
+  "candidate_space":{
+    "per_output":"arbitrary deterministic Boolean function of all three global input bits",
+    "full_functions_per_output":256,
+    "architecture_constraints":"none beyond deterministic finite input/output semantics"
+  },
+  "searches":[
+    {"id":"FULL_GLOBAL_TRUTH_TABLE_ENUMERATION","rule":"enumerate every 3-input Boolean function independently for each output site"},
+    {"id":"MINIMUM_DEPENDENCY_SYNTHESIS","rule":"enumerate input subsets by cardinality then truth tables on the subset; return first exact semantics"}
+  ],
+  "presentations":["GLOBAL_TRUTH_VECTOR","SUBSET_PLUS_LOCAL_TABLE"],
+  "evaluation":{
+    "primary":"exact 3-output response over all eight global inputs",
+    "raw_resource_vector":["dependency_count_per_output","truth_rows_per_output","distinct_semantic_rule_tables_after_coordinate_alignment"],
+    "no_family_score":true
+  },
+  "forbidden":["family id/name","posthoc family fingerprint","convolution macro","local operator macro","weight-sharing macro","translation-equivariance bonus","family-specific cost"],
+  "allowed_terminal":["RECOVERED","NOT_RECOVERED_AT_SCOPE"],
+  "predicted_selected_claim_enabled":false
+}
