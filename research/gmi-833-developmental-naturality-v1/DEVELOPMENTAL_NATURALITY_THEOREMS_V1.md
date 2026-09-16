@@ -37,7 +37,7 @@ Let `T:M->N` and `U:N->P` be exact developmental-natural maps. For every `x,e`,
 
 Static label preservation composes by equality. Therefore `U o T` is exact developmental-natural. The executable kernel refuses to compose when either input fails the exact predicate.
 
-This is conventional naturality/homomorphism mathematics; the GMI contribution is the claim boundary that keeps static morphology compilation distinct from developmental equivalence.
+This is conventional naturality/homomorphism mathematics; the GMI contribution is the claim boundary that keeps static mechanism-structure compilation distinct from developmental equivalence.
 
 ## 4. Trajectory preservation theorem
 
@@ -69,9 +69,9 @@ The kernel rejects:
 
 - experience-alphabet mismatch;
 - non-total state maps;
-- images outside the target carrier;
+- images outside the target state set;
 - missing transform evidence;
-- update laws that leave the declared state carrier.
+- update laws that leave the declared state set.
 
 Behavior mismatch is not malformed data, so it returns a valid negative scientific result rather than an exception.
 
@@ -83,7 +83,7 @@ The scoped GMI residual is a machine-checkable distinction between:
 
 `static behavior transform < exact developmental transform`
 
-and a compositional contract that can be attached to the TRANS-1 morphology-transform category.
+and a compositional contract that can be attached to the TRANS-1 mechanism-transform category (the tranche family’s original category label is retained in the transform-geometry freeze).
 
 ## 8. Falsifiers
 
@@ -91,6 +91,6 @@ The claim is RED if identity fails, composition of two admitted exact maps fails
 
 ## 9. Forbidden promotions
 
-This result does not establish approximate or stochastic naturality, optimizer equivalence, learning-rate/normalization invariance, grammar-remint invariance, known-form recovery, held-family prediction, or complete GMI.
+This result does not establish approximate or stochastic naturality, optimizer equivalence, learning-rate/normalization invariance, grammar presentation-relabeling invariance, known-form recovery, held-family prediction, or complete GMI.
 
-The next mathematical successor can either extend this to stochastic/approximate kernels or move orthogonally to **GAUGE-1 remint equivariance**; neither is implied here.
+The next mathematical successor can either extend this to stochastic/approximate kernels or move orthogonally to **GAUGE-1 presentation-relabeling equivariance**; neither is implied here.

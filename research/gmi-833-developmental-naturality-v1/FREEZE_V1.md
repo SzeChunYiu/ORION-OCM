@@ -7,7 +7,7 @@ Base main: `1607215aaf5b90517389c13b2596e6cd2df52415` (TRANS-1/DIST-1 merged as 
 
 For finite deterministic developmental systems sharing a registered experience alphabet, let each system carry:
 
-- a finite developmental state carrier;
+- a finite developmental state set;
 - a deterministic update law `Phi(state, experience)`;
 - a protected output/behavior label on each state.
 
@@ -22,11 +22,11 @@ Prove/check at the registered finite scope:
 3. the composition of two static-behavior-preserving exact developmental-natural maps is again static-behavior-preserving and exact developmental-natural;
 4. exact naturality implies finite trajectory preservation for every registered experience sequence, by induction on sequence length;
 5. there exists an exact hostile pair where a state map preserves every protected state label but fails the commuting square for at least one update, proving `STATIC_BEHAVIOR_PRESERVATION != DEVELOPMENTAL_NATURALITY`;
-6. malformed/non-total maps, experience-alphabet mismatch, update escape outside the carrier, or behavior mismatch fail closed.
+6. malformed/non-total maps, experience-alphabet mismatch, update escape outside the state set, or behavior mismatch fail closed.
 
 ## Frozen boundaries
 
-This tranche does not claim approximate/stochastic naturality, optimizer equivalence, distributional learning equivalence, resource-optimal transformation, grammar-remint invariance, known-form recovery, or complete GMI.
+This tranche does not claim approximate/stochastic naturality, optimizer equivalence, distributional learning equivalence, resource-optimal transformation, grammar presentation-relabeling invariance, known-form recovery, or complete GMI.
 
 Expected claim ceiling if all theorem/hostile checks are GREEN:
 
