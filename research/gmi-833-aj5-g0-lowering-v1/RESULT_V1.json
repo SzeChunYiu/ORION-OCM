@@ -1,0 +1,57 @@
+{
+  "bounded_programs": 121,
+  "claim_ceiling": "AJ5_G0_LOWERED_TO_OPERATIONAL_ROLES_WITH_TWO_PRESENTATIONS_AT_REGISTERED_SCOPE",
+  "dynamic_time_bound": "lower_ops <= 5 * G0_steps",
+  "forbidden_promotions": [
+    "G0_IS_THE_OPERATIONAL_BOTTOM",
+    "UNIQUE_LOWEST_INSTRUCTION_BASIS",
+    "COMPILER_MAKES_SEARCH_BIAS_INVARIANT",
+    "ALL_MACHINE_MODELS_COMPILED",
+    "COMPLETE_GMI"
+  ],
+  "functional_lowering_mismatches": 0,
+  "inputs_per_program": 4,
+  "not_invariant_without_resource_translation": [
+    "instruction description length",
+    "micro-step cost",
+    "grammar mutation distance",
+    "search/reachability geometry"
+  ],
+  "observed_max_lower_ops": 32,
+  "observed_max_ops_per_g0_step": 4.0,
+  "parent_g0_path": "research/gmi-833-g0-register-core-v1/g0_register_core_v1.py",
+  "presentations": [
+    "P-FUN deterministic event/state-transform composition",
+    "P-REL relational small-step composition"
+  ],
+  "primitive_status": {
+    "DECJZ": "DERIVED",
+    "EMIT": "DERIVED",
+    "HALT": "PRESENTATION_ONLY",
+    "INC": "DERIVED",
+    "READ": "DERIVED"
+  },
+  "relational_lowering_mismatches": 0,
+  "representative_primitive_safe_cases": 12,
+  "semantic_execution_cases": 484,
+  "semantic_invariants": [
+    "terminal status",
+    "protected output",
+    "final registered store",
+    "G0-level step count"
+  ],
+  "static_code_size_bound": "micro_size <= 5 * |G0_program|",
+  "static_micro_expansion_upper_bound_per_instruction": {
+    "DECJZ": 5,
+    "EMIT": 2,
+    "HALT": 1,
+    "INC": 3,
+    "READ": 2
+  },
+  "status": "GREEN",
+  "terminal_histogram": {
+    "HALTED": 63,
+    "INPUT_UNDERFLOW": 107,
+    "STEP_BUDGET_EXHAUSTED": 314
+  }
+}
