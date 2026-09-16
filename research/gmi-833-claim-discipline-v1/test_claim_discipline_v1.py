@@ -13,13 +13,13 @@ def _reg():
 
 def test_universe_complete():
     reg = _reg()
-    assert reg["counts"]["objects"] == 233
+    assert reg["counts"]["objects"] == 234
     ids = [o["result_id"] for o in reg["objects"]]
-    assert len(set(ids)) == 233
+    assert len(set(ids)) == 234
     tr = {}
     for o in reg["objects"]:
         tr[o["tranche"]] = tr.get(o["tranche"], 0) + 1
-    assert tr == {"U-V1": 29, "U-LEGACY": 173, "U-ARRIVALS": 24, "U-NEW": 7}
+    assert tr == {"U-V1": 29, "U-LEGACY": 173, "U-ARRIVALS": 24, "U-NEW": 8}
 
 
 def test_every_field_present_and_valid():
@@ -40,7 +40,7 @@ def test_gap_count_enumerated():
     gaps = [(o["object_id"], f) for o in reg["objects"] for f in FIELDS if o["fields"][f]["status"] == "REGISTERED_GAP"]
     assert reg["counts"]["registered_gap"] == 8
     assert len(gaps) == 8
-    assert reg["counts"]["fields_registered"] == 233 * 5 - 8
+    assert reg["counts"]["fields_registered"] == 234 * 5 - 8
 
 
 def test_no_boilerplate_derived():

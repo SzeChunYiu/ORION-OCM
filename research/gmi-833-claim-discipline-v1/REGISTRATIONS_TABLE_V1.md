@@ -648,6 +648,12 @@ Machine-readable authority: `REGISTRATIONS_V1.json`. Legend per field letter (S/
 |---|---|---|---|---|---|---|---|
 | `AJ13_RECURSIVE_DESCENT_STOPPING_RULE_SATISFIED_AT_REGISTERED_AJ_SCOPE` | U-NEW | E | E | E | E | E | 0 |
 
+## `gmi-833-aj14-establishment-criterion-v1` (1 object)
+
+| object | tranche | S | A | F | P | X | gaps |
+|---|---|---|---|---|---|---|---|
+| `AJ14 scoped full-GMI establishment ladder (badge lattice over the AJ spine; adjudication result)` | U-NEW | E | E | E | E | E | 0 |
+
 ## `gmi-833-aj9h-k07-k11-blind-recovery-v1` (1 object)
 
 | object | tranche | S | A | F | P | X | gaps |

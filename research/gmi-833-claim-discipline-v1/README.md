@@ -6,14 +6,14 @@ extrapolations."
 
 **Deliverables**
 
-- `FREEZE_V1.md` - tranche freeze: universe (233 objects in 4 tranches + typed
+- `FREEZE_V1.md` - tranche freeze: universe (234 objects in 4 tranches + typed
   exclusions), the uniform scan rule (S1 score-record status / S2 package-docs
   extraction), status taxonomy, no-boilerplate contract, tranche falsifiers.
 - `scan_registers_v1.py` -> `GAP_REGISTER_V1.json` - mechanical S1 scan of all scored
   objects (deterministic; byte-identical under -I -B / -I -O -B).
 - `assemble_v1.py` + `authored_g6_v1.py` + `authored_overrides_v1.py` + `evidence/`
   -> `REGISTRATIONS_V1.json` - per-object registration of all five field pairs for
-  all 233 objects; every EXTRACTED item carries a file:line citation, every DERIVED
+  all 234 objects; every EXTRACTED item carries a file:line citation, every DERIVED
   item carries its basis, every REGISTERED_GAP (8 slots / 7 objects) a typed reason.
 - `REGISTRATIONS_TABLE_V1.md` - human-readable per-package index (make_table_v1.py).
 - `MATURE_RESCORE_BRIDGE.md` - the seven G6 analytic proofs re-scored under the
@@ -27,7 +27,7 @@ extrapolations."
 - `test_claim_discipline_v1.py` - package invariants (universe, field validity, gap
   enumeration, no-boilerplate, G7-not-bridged, rescore-unmodified).
 
-**Coverage:** 1165 field slots = 390 CARRIED + 708 EXTRACTED + 59 DERIVED + 8
+**Coverage:** 1170 field slots = 394 CARRIED + 713 EXTRACTED + 59 DERIVED + 8
 REGISTERED_GAP. Scan base SHA in RESULT_V1.json.
 
 **Standing rules honored:** no boilerplate registrations (cross-object duplicate

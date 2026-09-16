@@ -5,7 +5,8 @@ assumptions, falsifiers, strongest parents, and forbidden extrapolations."
 
 **Universe (frozen, FREEZE_V1.md section 2):** every claim-bearing object on main at
 the scan SHA = 29 (rescore-v1 primaries) + 173 (census legacy claim-bearing) + 24
-(rescore-v2 arrivals) + 7 (post-v2 arrivals) = **233 objects**, 1165 field slots (scope and quantifiers are one registered field pair, scope_quantifier_class, per the v1/v2 score schema).
+(rescore-v2 arrivals) + 8 (post-v2 arrivals incl. aj14-establishment-criterion-v1) =
+**234 objects**, 1170 field slots (scope and quantifiers are one registered field pair, scope_quantifier_class, per the v1/v2 score schema).
 Census cross-check: the legacy 173 are exactly the census's GREEN + non-provisional +
 claim-class (THEOREM/LAW/CLAIM/COROLLARY/PROPOSITION) legacy rows; the other 64
 GREEN non-provisional legacy rows are non-claim support classes (25 RECEIPT_CERTIFICATE,
@@ -17,16 +18,16 @@ FREEZE_V1.md section 2 (execution-controls freeze-only; audit/terminology object
 
 | field | slots | content-registered | REGISTERED_GAP |
 |---|---|---|---|
-| scope/quantifiers | 233 | 233 | 0 |
-| assumptions | 233 | 232 | 1 |
-| falsifiers | 233 | 232 | 1 |
-| strongest parents | 233 | 227 | 6 |
-| forbidden extrapolations | 233 | 233 | 0 |
-| **total (5 fields x 233) | **1165** | **1157** | **8** |
+| scope/quantifiers | 234 | 234 | 0 |
+| assumptions | 234 | 233 | 1 |
+| falsifiers | 234 | 233 | 1 |
+| strongest parents | 234 | 228 | 6 |
+| forbidden extrapolations | 234 | 234 | 0 |
+| **total (5 fields x 234) | **1170** | **1162** | **8** |
 
-By status: 390 CARRIED (already stated in the v1/v2 score records), 708 EXTRACTED
+By status: 390 CARRIED (already stated in the v1/v2 score records), 713 EXTRACTED
 (verbatim, file:line citations), 59 DERIVED (basis recorded), 8 REGISTERED_GAP
-(one-line reason each). 390+708+59+8 = 1165. No-boilerplate check: zero identical DERIVED strings across
+(one-line reason each). 390+713+59+8 = 1170. No-boilerplate check: zero identical DERIVED strings across
 objects; every citation path verified to exist in the object's package.
 
 **Residual (8 slots / 7 objects), each typed and owned:**
@@ -57,8 +58,8 @@ scope: M0 48->41, M1 30->37; EV0 46->39, EV1 30->37. The rescore package is unmo
 
 **Verdict: the checkbox is SATISFIABLE and is ticked.** Coverage is complete in the
 strict sense for 2 of 5 registered fields outright (scope/quantifiers, forbidden
-extrapolations: 233/233) and 232/233 for assumptions and falsifiers with the single residual a non-claim preamble/status object),
+extrapolations: 234/234) and 233/234 for assumptions and falsifiers with the single residual a non-claim preamble/status object),
 and the parents residual (6 slots) is precisely enumerated, typed, and owned by a named
-successor work item. Every one of the 233 results now states all six checkbox items (five registered fields,
+successor work item. Every one of the 234 results now states all six checkbox items (five registered fields,
 with scope covering both scope and quantifiers) up to those 8 typed slots. Ticking rule applied (briefing): "complete or the residual is precisely
 enumerated and owned" — satisfied. The issue-body edit changes exactly one line.
