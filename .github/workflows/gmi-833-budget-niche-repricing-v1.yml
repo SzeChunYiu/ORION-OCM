@@ -1,0 +1,106 @@
+name: GMI 833 budget niche repricing v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-budget-niche-repricing-v1/**'
+      - '.github/workflows/gmi-833-budget-niche-repricing-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-budget-niche-repricing-v1/**'
+      - '.github/workflows/gmi-833-budget-niche-repricing-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=aeda8b184cf2e2384d98f02f61b0d7c9e553cfc8
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-budget-niche-repricing-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-budget-niche-repricing-v1/budget_niche_repricing_v1.py \
+            research/gmi-833-budget-niche-repricing-v1/test_budget_niche_repricing_v1.py \
+            research/gmi-833-budget-niche-repricing-v1/RESULT_V1.json \
+            research/gmi-833-budget-niche-repricing-v1/BUDGET_NICHE_REPRICING_THEOREMS_V1.md; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-budget-niche-repricing-v1/test_budget_niche_repricing_v1.py -v
+            python -I -O -B research/gmi-833-budget-niche-repricing-v1/budget_niche_repricing_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-budget-niche-repricing-v1/test_budget_niche_repricing_v1.py -v
+            python -I -B research/gmi-833-budget-niche-repricing-v1/budget_niche_repricing_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-budget-niche-repricing-v1/RESULT_V1.json
+      - name: Check parent authorities and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f research/gmi-833-morphology-selection-schema-v1/RESULT_V1.json
+          test -f research/gmi-833-search-law-morphology-change-v1/RESULT_V1.json
+          test -f research/gmi-833-pareto-topology-v1/RESULT_V1.json
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-budget-niche-repricing-v1')
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          expected='GMI_FINITE_BUDGET_NICHE_AND_REPRICING_SELECTION_LAWS_AT_REGISTERED_SCOPE'
+          assert m['freeze_commit']=='aeda8b184cf2e2384d98f02f61b0d7c9e553cfc8'
+          assert m['claim_ceiling']==r['claim_ceiling']==expected
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-budget-niche-repricing-v1/ISSUE_833_RECONCILIATION_BNR_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply earned #833 Section-J rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-budget-niche-repricing-v1/ISSUE_833_RECONCILIATION_BNR_V1.json
