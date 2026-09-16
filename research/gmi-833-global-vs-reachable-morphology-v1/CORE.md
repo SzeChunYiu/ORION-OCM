@@ -1,8 +1,8 @@
-# GMI #833 Global-vs-Reachable Morphology V1
+# GMI #833 Global-vs-Reachable Architecture Choice V1
 
 This package closes exactly one #833 Section-J row:
 
-> Separate optimal morphology from reachable morphology.
+> Separate the optimal candidate architecture from the reachable one.
 
 ## Authority
 
@@ -14,12 +14,13 @@ This package closes exactly one #833 Section-J row:
 ## Reproduce
 
 ```bash
-python -I -B research/gmi-833-global-vs-reachable-morphology-v1/test_global_vs_reachable_v1.py -v
-python -I -O -B research/gmi-833-global-vs-reachable-morphology-v1/test_global_vs_reachable_v1.py -v
-python -I -B research/gmi-833-global-vs-reachable-morphology-v1/global_vs_reachable_v1.py > /tmp/result.json
-cmp /tmp/result.json research/gmi-833-global-vs-reachable-morphology-v1/RESULT_V1.json
+PKG=$(ls -d research/gmi-833-global-vs-reachable-*v1)
+python -I -B $PKG/test_global_vs_reachable_v1.py -v
+python -I -O -B $PKG/test_global_vs_reachable_v1.py -v
+python -I -B $PKG/global_vs_reachable_v1.py > /tmp/result.json
+cmp /tmp/result.json $PKG/RESULT_V1.json
 ```
 
 The exact checker uses rational arithmetic only. The bounded census is an implementation certificate; the analytic proofs are in `GLOBAL_VS_REACHABLE_THEOREMS_V1.md`.
 
-Parent DRS lifecycle evidence remains authoritative for developmental reachability and lifecycle Pareto selection.
+Parent DRS lifecycle evidence remains authoritative for developmental reachability and lifecycle Pareto model selection.

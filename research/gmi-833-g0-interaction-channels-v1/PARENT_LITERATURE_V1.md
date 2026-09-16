@@ -12,4 +12,4 @@ Repository parents:
 - #837/#851 own external verifier/authority and uncertainty-type distinctions.
 - #149/#165 contain stronger governed self-change/agent lifecycle machinery; E5 does not promote a call or message into authority.
 
-Residual here: exact finite queue/tool semantics, no-hidden-effect hostiles, agent-remint certificate, raw interaction resources and two-row #833 reconciliation.
+Residual here: exact finite queue/tool semantics, no-hidden-effect hostiles, agent-relabeling certificate, raw interaction resources and two-row #833 reconciliation.

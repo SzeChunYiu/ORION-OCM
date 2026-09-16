@@ -9,7 +9,7 @@ Parent issue: #833. Child: #837.
 
 > Under explicitly disclosed representation, search, ecology, evaluation, and resource assumptions, can implementation-independent behavioral specifications predict which computational mechanisms are necessary, reachable, and selected, and can those predictions prospectively recover known and previously unregistered machine-intelligence forms with falsifiable capability/resource laws?
 
-**Weakest defensible current GMI core claim.** GMI is presently defensible as a formal/evaluation framework that separates behavioral specification, exact response equivalence, admissibility, developmental reachability, resource/Pareto selection, and evidence maturity. Existing bounded results can instantiate those distinctions; they do not establish a universal architecture law.
+**Weakest defensible current GMI core claim.** GMI is presently defensible as a formal/evaluation framework that separates behavioral specification, exact response equivalence, admissibility, developmental reachability, resource/Pareto model selection, and evidence maturity. Existing bounded results can instantiate those distinctions; they do not establish a universal architecture law.
 
 **Strongest eventual claim.** A mature GMI theory would prospectively derive property-level mechanism requirements from architecture-uncommitted specifications/ecologies, recover the predicted mechanism classes under P3/P4 search, predict held-out transitions and failure regions, survive independent implementation/replication, and retain calibrated validity at real scale.
 
@@ -22,7 +22,7 @@ Evidence level is orthogonal to scientific maturity.
 | level | meaning | cannot by itself license |
 |---|---|---|
 | EV0 | definition/protocol/registration | theorem truth, empirical effect |
-| EV1 | deductive theorem with explicit premises and falsifiers | reachability, selection, empirical validity |
+| EV1 | deductive theorem with explicit premises and falsifiers | reachability, model selection, empirical validity |
 | EV2 | exact/computer-assisted certificate at a bounded declared universe | universal extrapolation, held-out prediction |
 | EV3 | prospectively frozen held-out experiment | independent replication, external validity |
 | EV4 | disjoint and/or independent implementation replication | universal real-scale law |
@@ -55,9 +55,9 @@ M\models\mathcal B
 
 Other statistical notions of satisfaction must be named separately.
 
-### BS-1 — conservative legacy-obligation map
+### BS-1 — conservative legacy claim-governance map (historically: the Ω-object)
 
-Existing GMI work uses a registered obligation object `Omega` (historically written with fields such as `(E,D,J,V,C,H,R)`) plus a legal trace universe and an acceptance/verification semantics. Define
+Existing GMI work uses a registered legacy claim-governance object `Omega` (historically written with fields such as `(E,D,J,V,C,H,R)`; the English label originally attached to this object is retired from live paper-facing prose by #833 Section A) plus a legal trace universe and an acceptance/verification semantics. Define
 
 \[
 \Phi(\Omega)=\mathcal B_\Omega,
@@ -76,7 +76,7 @@ M\models\Phi(\Omega).
 
 **Proof.** Both sides quantify over the same instances/traces and apply the same predicate; `Phi` merely extensionalizes the accepted traces. Therefore no accepted/rejected trace changes. QED.
 
-This proves a terminology migration, not that every historical use of the word `obligation` already obeyed the same semantics. Corpus-wide migration remains open.
+This proves a terminology migration, not that every historical use of the retired English label for `Omega` already obeyed the same semantics. Corpus-wide migration remains open.
 
 ### BS-2 — specification equivalence and protected behavioral equivalence
 
@@ -100,7 +100,7 @@ A minimal realization contract is
 
 where:
 
-- `X` is an internal state carrier;
+- `X` is the internal state set (the state representation of the realization);
 - `x0` is initial state (or an initialization kernel);
 - `Q` is an execution/proposal kernel from registered state/context to externally visible action/output proposals;
 - `U` is a state/update kernel;
@@ -190,7 +190,7 @@ A(e)=A(\sigma e)=\sigma A(e)=\sigma h^*\ne h^*,
 
 contradicting `A(e)=h*`. Thus a unique deterministic choice must break the symmetry through a representation, order, tie rule, extra evidence, or abstention. QED.
 
-For a finite symmetric set, randomized invariance can use the uniform distribution, but the chosen hypothesis set/equivalence/encoding remains a prior. For a countably infinite set PF-1 removes even the equal-mass escape. Wolpert–Macready further shows that algorithmic advantage requires restrictions/structure in the problem distribution. Consequently **literal assumption-/prior-free derivation is ill-posed**; scientifically meaningful claims must be relative to disclosed priors.
+For a finite symmetric set, randomized invariance can use the uniform distribution, but the chosen hypothesis set/equivalence/encoding remains a prior. For a countably infinite set PF-1 removes even the equal-mass escape. Wolpert–Macready further shows that algorithmic advantage requires restrictions/structure in the problem distribution. Consequently **literal assumption-free derivation is ill-posed**; scientifically meaningful claims must be relative to disclosed priors.
 
 ## 7. Resource vectors and scalarization
 

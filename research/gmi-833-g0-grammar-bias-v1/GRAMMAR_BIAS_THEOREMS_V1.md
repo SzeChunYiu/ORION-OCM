@@ -2,7 +2,7 @@
 
 ## Expert review lanes
 
-- **Formal methods / semantics:** checks that the semantic quotient is exactly the frozen protected execution signature and that every remint condition is extensional and machine-checkable.
+- **Formal methods / semantics:** checks that the semantic quotient is exactly the frozen protected execution signature and that every relabeling condition is extensional and machine-checkable.
 - **Program synthesis / representation bias:** checks that grammar restrictions and presentation multiplicities are treated as inductive/search bias rather than as neutral ontology.
 - **Algorithmic information / coding:** checks the boundary between finite grammar-relative code length and classical additive-constant invariance results.
 - **Hostile verification:** attacks bijection, semantic, length, edge, start-set, counting, and shortest-path assumptions with independent implementations.
@@ -27,24 +27,24 @@ Two independent algorithms are required: BFS and monotone wave expansion. A thir
 
 Frozen result: the 126 presentations occur at distances `0:1, 1:15, 2:110`; class-minimum distances are `0:1, 1:3, 2:14`. All presentations are reachable by radius 2. This does **not** mean all search algorithms reach classes equally quickly, only that the registered mutation graph has these exact distances.
 
-## REMINT-1 — isometric semantic grammar remints preserve registered bias
+## RELABEL-1 — isometric semantic grammar relabelings preserve registered bias
 
 Let `phi:P→P'` be a bijection preserving, pointwise, semantic class and description length, and preserving directed edges and the start set exactly. Then `phi` bijects every defining set for `L,N,Q,A`; graph isomorphism transports every start-rooted path length-for-length, hence preserves `d` and `R`. Any selector depending only on preserved external semantic data and these statistics is invariant/equivariant.
 
-The executable certificate checks all `4!=24` surface-node permutations of a four-presentation fixture: all 24 certify and all preserve every registered statistic and selection.
+The executable certificate checks all `4!=24` surface-node permutations of a four-presentation fixture: all 24 certify and all preserve every registered statistic and registered choice.
 
-## REMINT-2 — same semantic image is insufficient
+## RELABEL-2 — same semantic image is insufficient
 
 The frozen `GA/GB` pair has identical semantic image `{ROOT,A,B}` but swapped code lengths/search geometry:
 
 - `GA`: `(L,d)(A)=(1,1)`, `(L,d)(B)=(2,2)`;
 - `GB`: `(L,d)(A)=(2,2)`, `(L,d)(B)=(1,1)`.
 
-For candidate set `{A,B}`, the registered diagnostic selector changes from `A` to `B`. The obvious semantic-name correspondence fails the isometric-remint gate because lengths (and geometry) are not preserved.
+For candidate set `{A,B}`, the registered diagnostic selector changes from `A` to `B`. The obvious semantic-name correspondence fails the isometric-relabeling gate because lengths (and geometry) are not preserved.
 
 Thus:
 
-`same semantics != same description bias != same reachability bias != same grammar-relative selection`.
+`same semantics != same description bias != same reachability bias != same grammar-relative choice`.
 
 ## KOL-BOUND — finite/non-asymptotic boundary
 
@@ -52,4 +52,4 @@ Classical invariance results for universal description systems allow description
 
 ## Falsifiers
 
-The claim is RED if any registered presentation is omitted/duplicated, BFS disagrees with wave/Floyd–Warshall, a certified remint changes a protected statistic, a malformed remint is accepted, or the same-semantics hostile fails to change the registered grammar-relative selection.
+The claim is RED if any registered presentation is omitted/duplicated, BFS disagrees with wave/Floyd–Warshall, a certified relabeling changes a protected statistic, a malformed relabeling is accepted, or the same-semantics hostile fails to change the registered grammar-relative choice.

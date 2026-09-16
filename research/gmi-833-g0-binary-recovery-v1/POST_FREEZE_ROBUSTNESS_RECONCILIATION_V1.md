@@ -5,7 +5,7 @@ The scientific target for this tranche was frozen at commit `302ad7fed43b0e310b6
 While implementation was in progress, concurrent #833 work merged PR #863 as main `497977a071f33a824628332caf1ccc44e077f924`, adding a general requirement that architecture-uncommitted derivation experiments carry four explicit robustness controls:
 
 1. matched mechanism-removal grammar twin;
-2. semantic remint / alternate encoding;
+2. semantic relabeling / alternate encoding;
 3. materially distinct alternate search algorithms under a comparable budget frame;
 4. raw Pareto analysis plus alternate strictly-positive scalarizations.
 

@@ -31,7 +31,7 @@ The frozen hostile suite includes both directions; locality is not inferred from
 
 For all 8 three-site simple graphs, all 27 `Z3^3` states and all 6 vertex permutations, each registered operator satisfies exact transported-state equality. This is 1,296 checks per operator, 3,888 total, with zero mismatches.
 
-The theorem is scoped to the registered finite carrier and the commutative/permutation-invariant fold. It does not imply arbitrary-group or infinite-graph equivariance.
+The theorem is scoped to the registered finite state-field set and the commutative/permutation-invariant fold. It does not imply arbitrary-group or infinite-graph equivariance.
 
 ## RES-1 — exact raw resource accounting
 

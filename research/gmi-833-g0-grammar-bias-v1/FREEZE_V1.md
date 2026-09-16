@@ -8,11 +8,11 @@
 **Pinned #868 receipt blob:** `5d2948b9c04c84a46f6625e043753a489895478f`  
 **Status:** pre-implementation theorem/evidence freeze
 
-This file freezes the finite presentation universe, semantic test suite, code-length metric, mutation graph, remint definitions, hostile pair, expected structural counts, parent subtraction and claim ceiling before any #875 executor, tests, result receipt, reconciliation spec or dedicated workflow exists on this branch.
+This file freezes the finite presentation universe, semantic test suite, code-length metric, mutation graph, presentation-relabeling definitions, hostile pair, expected structural counts, strongest-parent subsumption and claim ceiling before any #875 executor, tests, result receipt, reconciliation spec or dedicated workflow exists on this branch.
 
 ## 1. Scientific boundary
 
-A grammar/search representation is an inductive bias. This tranche measures that bias exactly on one bounded slice of the already-merged `G0-reg-v1` operational grammar. It does **not** establish a universal algorithmic prior, universal search neutrality, Kolmogorov-neutral finite description lengths, or morphology invariance under arbitrary grammar changes.
+A grammar/search representation is an inductive bias. This tranche measures that bias exactly on one bounded slice of the already-merged `G0-reg-v1` operational grammar. It does **not** establish a universal algorithmic prior, universal search neutrality, Kolmogorov-neutral finite description lengths, or mechanism-structure invariance under arbitrary grammar changes.
 
 The formal object is a finite grammar/search presentation
 
@@ -54,7 +54,7 @@ Total frozen syntax presentations:
 
 `|P| = 5 + 121 = 126`.
 
-Program identity is a canonical tuple `(label_count, instruction_at_L0 [, instruction_at_L1])`; surface node names introduced later by a remint are not semantic.
+Program identity is a canonical tuple `(label_count, instruction_at_L0 [, instruction_at_L1])`; surface node names introduced later by a relabeling are not semantic.
 
 ## 3. Frozen semantic equivalence
 
@@ -160,9 +160,9 @@ They must agree presentation-by-presentation and class-by-class.
 
 The exact number of semantic classes at each distance is an outcome and is not frozen here.
 
-## 8. REMINT-1 — isometric grammar-remint theorem target
+## 8. RELABEL-1 — isometric grammar-relabeling theorem target
 
-An **isometric semantic remint** from `G` to `G'` is a bijection `phi:P->P'` satisfying for every `p,q`:
+An **isometric semantic relabeling** from `G` to `G'` is a bijection `phi:P->P'` satisfying for every `p,q`:
 
 ```text
 sigma'(phi(p)) = sigma(p)
@@ -188,13 +188,13 @@ Proof target: bijection transports each defining set exactly; graph-isomorphism 
 
 ### Frozen executable fixture
 
-Use a four-presentation finite grammar fixture with four surface node names. Exhaust every `4! = 24` syntax-name permutations as remints. Every certified isometric remint must preserve all bias quantities and a frozen grammar-relative selection functional.
+Use a four-presentation finite grammar fixture with four surface node names. Exhaust every `4! = 24` syntax-name permutations as relabelings. Every certified isometric relabeling must preserve all bias quantities and a frozen grammar-relative choice functional.
 
-This fixture is independent of #864's machine-state remint: it remints **program presentation nodes/search graph**.
+This fixture is independent of #864's machine-state relabeling: it relabels **program presentation nodes/search graph**.
 
-## 9. Grammar-relative morphology selection boundary
+## 9. Grammar-relative candidate-choice boundary
 
-For a finite candidate semantic set `C subseteq M`, freeze the demonstration selection functional
+For a finite candidate semantic set `C subseteq M`, freeze the demonstration choice functional
 
 ```text
 Sel_G(C) = lexicographic argmin over m in C of
@@ -203,9 +203,9 @@ Sel_G(C) = lexicographic argmin over m in C of
 
 This is a diagnostic grammar-relative selector, not a normative intelligence objective.
 
-Under REMINT-1, the tuple is invariant for every `m`, hence `Sel_G(C)` is invariant.
+Under RELABEL-1, the tuple is invariant for every `m`, hence `Sel_G(C)` is invariant.
 
-## 10. REMINT-2 frozen hostile — same semantics, changed grammar bias
+## 10. RELABEL-2 frozen hostile — same semantics, changed grammar bias
 
 Construct two tiny grammars with the same semantic image `{ROOT,A,B}` but different syntax geometry.
 
@@ -249,9 +249,9 @@ Then
 Sel_GB={B}.
 ```
 
-Thus the same semantic coverage does not imply the same description bias, reachability bias, or grammar-relative selected morphology. GA and GB are semantically equivalent by image but not isometric semantic remints.
+Thus the same semantic coverage does not imply the same description bias, reachability bias, or the grammar-relative selected candidate. GA and GB are semantically equivalent by image but not isometric semantic relabelings.
 
-## 11. Frozen remint hostiles
+## 11. Frozen relabeling hostiles
 
 Certification must fail closed for:
 
@@ -260,7 +260,7 @@ Certification must fail closed for:
 - description-length corruption;
 - missing/added edge not transported by `phi`;
 - start-set corruption;
-- arbitrary semantic-only map presented as an isometric remint.
+- arbitrary semantic-only map presented as an isometric relabeling.
 
 Each failure must identify its violated condition.
 
@@ -279,14 +279,14 @@ additive-constant asymptotic invariance
 
 The GA/GB hostile already witnesses finite inequality without contradicting the classical theorem.
 
-## 13. Strongest-parent subtraction
+## 13. Strongest-parent subsumption
 
 - SyGuS: grammar is explicit syntactic candidate-space restriction.
 - Whigham / grammar-based GP: language and search bias depend on grammar; same semantic language can have different connectivity/search landscape.
 - McKay et al. survey: grammar restrictions and representation/search connectivity are parent observations.
 - Kolmogorov/Solomonoff/Chaitin invariance: only additive-constant universal-description boundary, not finite equality.
 - #863: generic robustness requirement for alternate encodings/search algorithms/scalarizations.
-- #864: semantic machine-state remint equivariance; explicitly not search invariance.
+- #864: semantic machine-state presentation-relabeling equivariance; explicitly not search invariance.
 - #868: operational G0 semantics and manifest/receipt authority pinned above.
 
 ## 14. Reconciliation ceiling
@@ -296,7 +296,7 @@ After green dedicated CI, this tranche may reconcile only these #833 Section-E r
 - Quantify description-length bias induced by `G0`.
 - Quantify reachability bias induced by `G0`.
 - Construct multiple semantically equivalent grammars with different syntax.
-- Test whether morphology conclusions survive grammar reminting — disposition must explicitly say **invariant under certified isometric grammar remints, not invariant under arbitrary same-semantics grammar changes**.
+- Test whether mechanism-structure conclusions survive grammar relabeling — disposition must explicitly say **invariant under certified isometric grammar relabelings, not invariant under arbitrary same-semantics grammar changes**.
 
 ## 15. Claim ceiling
 

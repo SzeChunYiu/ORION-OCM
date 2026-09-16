@@ -1,8 +1,8 @@
-# GMI #833 Global-vs-Reachable Morphology Selection Theorems V1
+# GMI #833 Global-vs-Reachable Architecture-Choice Theorems V1
 
 Status: **FINITE THEOREM / EXACT WITNESS / HOSTILE-CLOSED AT REGISTERED SCOPE**  
 Source issue: #874  
-Master checklist: #833 Section J, exactly one row: `Separate optimal morphology from reachable morphology.`  
+Master checklist: #833 Section J, exactly one row: `Separate the optimal candidate architecture from the reachable one.`  
 Freeze: `e5b0c534e5d316c90e28dff0678ee6038b25e3a5`  
 Source main: `367e14e9296cf79924ce56d89fad34b3769acb5d`
 
@@ -27,7 +27,7 @@ The GMI-specific residual is the exact integration of those parent facts with a 
 
 Let:
 
-- `M` be a finite nonempty registered morphology set;
+- `M` be a finite nonempty registered candidate architecture set;
 - `R` be a finite nonempty reachable subset, `R ⊆ M`;
 - `f : M -> Q` be an exact rational scalar objective to minimize;
 - `p : M -> Q^d` be an exact rational resource/profile vector to minimize componentwise.
@@ -89,7 +89,7 @@ Then both global and reachable optimum values are `0`, but
 \operatorname{Argmin}_R f=\{b\}.
 \]
 
-Therefore equal best values do not justify “the same morphology was selected.”
+Therefore equal best values do not justify “the same candidate architecture was selected.”
 
 ## 6. GVR-4 — monotone reachability improves or preserves the best scalar value
 
@@ -109,7 +109,7 @@ we have
 
 Apply GVR-1 with `R2` as the containing feasible set and `R1` as its nonempty subset. QED.
 
-For a developmental budget family with `Reach_B1 ⊆ Reach_B2`, this means the best reachable **scalar** objective cannot worsen as the feasible set expands. It does not imply that the full lifecycle Pareto frontier shrinks, or that a unique morphology exists.
+For a developmental budget family with `Reach_B1 ⊆ Reach_B2`, this means the best reachable **scalar** objective cannot worsen as the feasible set expands. It does not imply that the full lifecycle Pareto frontier shrinks, or that a unique candidate architecture exists.
 
 ## 7. GVR-5 — Pareto efficiency is relative to the reachable feasible set
 
@@ -139,7 +139,7 @@ Let:
 
 Globally, `a` dominates both `b` and `c`, so `Pareto(M)={a}`. After `a` is made unreachable, `b` and `c` are incomparable, so `Pareto(R)={b,c}`.
 
-Thus a morphology can be globally dominated yet become reachable-Pareto-efficient solely because its dominator is unreachable. The forbidden shortcut
+Thus a candidate architecture can be globally dominated yet become reachable-Pareto-efficient solely because its dominator is unreachable. The forbidden shortcut
 
 `Pareto(R) ⊆ Pareto(M)`
 
@@ -192,10 +192,10 @@ The distinction matters because development cost remains a protected resource co
 
 The implementation rejects rather than silently interpreting:
 
-- an empty morphology universe;
+- an empty candidate architecture universe;
 - an empty reachable set;
 - reachable elements outside `M`;
-- duplicated morphology identities;
+- duplicated candidate identities;
 - missing or extra scalar objective entries;
 - floating-point or Boolean “exact” objectives;
 - a declared reachability expansion where `R1` is not a subset of `R2`;
@@ -212,11 +212,11 @@ This tranche alone does not establish:
 
 - that a global optimum is always reachable;
 - convergence of any real optimizer;
-- unique morphology selection;
+- a unique selected candidate;
 - that the reachable Pareto frontier is a subset of the global Pareto frontier;
 - unrestricted continuous/Turing-complete optimization;
-- prospective morphology-transition prediction;
+- prospective architecture-transition prediction;
 - P3 recovery;
 - complete GMI.
 
-Its only earned conclusion is the finite, registered-scope separation between global and developmentally reachable selection.
+Its only earned conclusion is the finite, registered-scope separation between global and developmentally reachable architecture choice.

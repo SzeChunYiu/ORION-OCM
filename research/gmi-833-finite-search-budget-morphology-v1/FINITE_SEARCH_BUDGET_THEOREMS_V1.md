@@ -1,8 +1,8 @@
-# GMI #833 Finite Search-Budget Morphology Selection Theorems V1
+# GMI #833 Finite Search-Budget Architecture-Choice Theorems V1
 
 Status: **FINITE THEOREM / EXACT CENSUS / HOSTILE-CLOSED AT REGISTERED SCOPE**  
 Source issue: #877  
-Master checklist: #833 Section J, exactly one row: `Derive morphology under finite search budgets.`  
+Master checklist: #833 Section J, exactly one row: `Derive the candidate architecture under finite search budgets.`  
 Freeze: `ea8bb2d457ee96ebedc2a3a74a735284690a0973`  
 Source main: `4de059b76c0a805f616b645eab636580394a42ed`
 
@@ -16,18 +16,18 @@ This tranche was reviewed through four independent lenses:
 
 1. **Search theory:** make budget mean a charged prefix of a registered search schedule rather than free candidate access.
 2. **Optimization:** distinguish the finite-prefix incumbent from the full-space optimum and derive the exact recovery threshold.
-3. **Algorithm selection / search bias:** preserve dependence on search order, encoding, and cost schedule rather than laundering them into morphology invariants.
+3. **Algorithm selection / search bias:** preserve dependence on search order, encoding, and cost schedule rather than laundering them into architecture-family invariants.
 4. **Formal / hostile review:** make empty prefixes, ties, positive-cost assumptions, exact thresholds, and alternate schedules machine-explicit.
 
 Fixed-budget search is established parent territory; for example, Stern, Puzis & Felner (ICAPS 2011) formulate search under a fixed solution-cost budget, and the broader anytime/budgeted-search literature studies solution quality as computation resources increase. The merged GMI Section-E packages #712 and #724 already provide exact finite-budget and cross-search evidence. This tranche does not claim a new search method.
 
-The residual here is a small deterministic theorem/schema connecting a **registered charged search trace** to the morphology observable at each finite search budget.
+The residual here is a small deterministic theorem/schema connecting a **registered charged search trace** to the candidate architecture observable at each finite search budget.
 
 ## 2. Registered objects
 
 Let:
 
-- `M={m_1,...,m_n}` be a finite nonempty morphology set;
+- `M={m_1,...,m_n}` be a finite nonempty candidate architecture set;
 - `f:M->Q` be an exact scalar objective to minimize;
 - `pi=(pi_1,...,pi_n)` be a complete permutation of `M`;
 - `c:M->Q_{>0}` be strictly positive exact candidate-evaluation costs;
@@ -49,7 +49,7 @@ and the evaluated prefix
 
 `P_B={pi_1,...,pi_{k(B)}}`.
 
-If `k(B)=0`, the selection terminal is `NO_EVALUATED_CANDIDATE`.
+If `k(B)=0`, the architecture-choice terminal is `NO_EVALUATED_CANDIDATE`.
 
 If `k(B)>0`, define the incumbent `I(B)` as the **earliest-seen** member of `P_B` attaining
 
@@ -79,15 +79,15 @@ Because every cost is strictly positive, the cumulative sequence `C_k` is strict
 
 The positive-cost premise is important: it makes candidate-completion thresholds strictly ordered and excludes zero-cost hidden evaluations.
 
-## 4. FSB-2 — finite-budget morphology is the prefix argmin
+## 4. FSB-2 — finite-budget architecture is the prefix argmin
 
 For `k(B)>0`,
 
 `I(B) = earliest_pi Argmin_{m in P_B} f(m)`.
 
-For `k(B)=0`, no morphology is selected.
+For `k(B)=0`, no candidate architecture is selected.
 
-This is a definition-level selection rule, but it closes an important scientific ambiguity: a finite search budget does not license choosing from unevaluated morphologies, and an empty search prefix is not silently mapped to a default architecture.
+This is a definition-level candidate-choice criterion, but it closes an important scientific ambiguity: a finite search budget does not license choosing from unevaluated candidates, and an empty search prefix is not silently mapped to a default architecture.
 
 ## 5. FSB-3 — incumbent value and regret are budget-monotone
 
@@ -127,11 +127,11 @@ Then
 
 ### Proof
 
-**If.** At `B>=B_star`, at least one globally optimal morphology has completed. Its objective value is `q*`, so the prefix minimum is at most `q*`. It cannot be below the global minimum, hence equality.
+**If.** At `B>=B_star`, at least one globally optimal candidate has completed. Its objective value is `q*`, so the prefix minimum is at most `q*`. It cannot be below the global minimum, hence equality.
 
-**Only if.** If `q(B)=q*`, the evaluated prefix contains a morphology whose objective value is global-optimal. Let its position be `i`. Completion requires `C_i<=B`. Since `B_star` is the minimum completion threshold among all global optimizers, `B_star<=C_i<=B`. QED.
+**Only if.** If `q(B)=q*`, the evaluated prefix contains a candidate whose objective value is global-optimal. Let its position be `i`. Completion requires `C_i<=B`. Since `B_star` is the minimum completion threshold among all global optimizers, `B_star<=C_i<=B`. QED.
 
-Thus a registered deterministic finite search schedule has an exact morphology-recovery budget. The threshold is schedule-dependent, not an intrinsic property of the objective alone.
+Thus a registered deterministic finite search schedule has an exact architecture-recovery budget. The threshold is schedule-dependent, not an intrinsic property of the objective alone.
 
 ## 7. FSB-5 — exact incumbent identity-change criterion
 
@@ -151,13 +151,13 @@ There are three cases.
 
 Therefore identity changes exactly on strict improvement. QED.
 
-The first completion threshold is classified separately as `INITIAL_SELECTION`, not as a change from an invented prior morphology.
+The first completion threshold is classified separately as `INITIAL_SELECTION`, not as a change from an invented prior candidate.
 
 ## 8. FSB-6 — complete recovery and order dependence coexist
 
 At `B>=C_n`, FSB-1 gives `P_B=M`, so FSB-2 selects a global optimizer.
 
-But finite-budget morphology and `B_star` need not be invariant under a semantics-preserving reordering of the same candidate set.
+But finite-budget architecture and `B_star` need not be invariant under a semantics-preserving reordering of the same candidate set.
 
 Exact witness:
 
@@ -172,7 +172,7 @@ Order B:
 
 `(bad, mid, best)` gives `B_star=3` and selects `bad` at budget 1.
 
-Both complete searches recover the same unique global optimum. Their finite-budget observed morphology differs.
+Both complete searches recover the same unique global optimum. Their finite-budget observed candidate architecture differs.
 
 This is the theorem-level form of the search-prior distinction already evidenced empirically in merged Section-E work.
 
@@ -192,13 +192,13 @@ Therefore:
 - additional optimal morphologies can later be evaluated;
 - selected **identity** need not change.
 
-A theorem that equates “new equal optimum became available” with “morphology transition occurred” is false under this registered selector.
+A theorem that equates “new equal optimum became available” with “architecture transition occurred” is false under this registered selector.
 
 ## 10. Exact bounded certificate
 
 The executable checker exhaustively enumerates:
 
-- morphology counts `1..4`;
+- candidate-count values `1..4`;
 - objective values in `{0,1,2}`;
 - positive evaluation costs in `{1,2,3}`;
 - every search permutation;
@@ -231,17 +231,17 @@ Some E2 searchers are stochastic or differentiable. Those results are **outside*
 
 ### #874
 
-#874 proves the global-vs-reachable selection separation. The present theorem refines a different axis: even when a candidate is in the finite search universe, a finite charged search prefix may not yet have evaluated it.
+#874 proves the global-vs-reachable separation for architecture choice. The present theorem refines a different axis: even when a candidate is in the finite search universe, a finite charged search prefix may not yet have evaluated it.
 
 ### #395
 
-#395 already states that a normative realization optimum can differ from the morphology found by bounded morphogenesis. This child supplies a narrow exact prefix theorem under stronger registered deterministic assumptions; it does not re-claim the conceptual split.
+#395 already states that a normative realization optimum can differ from the candidate architecture found by bounded synthesis. This child supplies a narrow exact prefix theorem under stronger registered deterministic assumptions; it does not re-claim the conceptual split.
 
 ## 12. Falsifiers and fail-closed conditions
 
 The implementation rejects:
 
-- empty or duplicate morphology universes;
+- empty or duplicate candidate architectures;
 - incomplete, duplicate, or non-permutation search traces;
 - missing or extra objective entries;
 - floating-point or Boolean objective values;
@@ -249,7 +249,7 @@ The implementation rejects:
 - zero, negative, floating-point, or Boolean costs;
 - negative, floating-point, or Boolean budgets.
 
-It returns `NO_EVALUATED_CANDIDATE` rather than fabricating a morphology before the first completion threshold.
+It returns `NO_EVALUATED_CANDIDATE` rather than fabricating a candidate architecture before the first completion threshold.
 
 A valid counterexample to any FSB theorem under the exact registered premises would falsify this tranche.
 
@@ -263,8 +263,8 @@ This tranche alone does not establish:
 - adaptive or nonstationary-cost search guarantees;
 - real optimizer convergence;
 - architecture-prior-free recovery;
-- prospective held-out morphology-transition prediction;
+- prospective held-out architecture-transition prediction;
 - P3 recovery;
 - complete GMI.
 
-Its only earned conclusion is the finite deterministic search-prefix morphology-selection theorem at the registered scope.
+Its only earned conclusion is the finite deterministic search-prefix architecture-choice theorem at the registered scope.

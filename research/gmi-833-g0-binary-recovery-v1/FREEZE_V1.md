@@ -5,7 +5,7 @@ Base main: `5acf80fe6505a72d6878ed754783ba25aecbaa82`.
 
 ## Scientific purpose
 
-This is the first tiny P3-relative recovery experiment in the Morphology Transformation Geometry programme. It does **not** define the final universal `G0` or close known-form recovery. It asks whether a mechanism property can be forced by an architecture-name-free behavioral ecology and independently recovered under two materially different low-level gate encodings.
+This is the first tiny P3-relative recovery experiment in the Mechanism Transformation Geometry programme. It does **not** define the final universal `G0` or close known-form recovery. It asks whether a mechanism property can be forced by an architecture-name-free behavioral ecology and independently recovered under two materially different low-level gate encodings.
 
 ## Disclosed primitive/search prior
 
@@ -16,7 +16,7 @@ Two grammar twins are registered before outcomes:
 
 `NAND` and `NOR` are generic functionally-complete Boolean primitives, not historical machine-intelligence architecture names. The optional state cell is explicitly disclosed as a generic computational-state primitive. No target family name, recurrent gate macro, delay operator, architecture-specific property vector, or expected solution truth table is supplied to search.
 
-Search is exhaustive at the finite semantic scope. The evaluator executes generated Boolean expressions and sequential state updates. Candidate selection uses exact task satisfaction first and the Pareto-minimal raw resource vector `(persistent_state_bits, primitive_gate_count)` second; no post-outcome scalar weights are introduced.
+Search is exhaustive at the finite semantic scope. The evaluator executes generated Boolean expressions and sequential state updates. Candidate choice uses exact task satisfaction first and the Pareto-minimal raw resource vector `(persistent_state_bits, primitive_gate_count)` second; no post-outcome scalar weights are introduced.
 
 ## Frozen theorems / checks
 
@@ -45,7 +45,7 @@ Register ecology `IDENTITY`: output equals current input.
 1. Both grammars must recover the stateless projection `output=input` as the unique Pareto-minimal semantic solution `(0 state bits, 0 gates)`.
 2. Stateful exact solutions may exist but are strictly resource-dominated; state is therefore not selected merely because the grammar exposes it.
 
-### Search/remint boundaries
+### Search/relabeling boundaries
 
 - exhaustive finite semantic search must make forward/reverse enumeration agree on the recovered semantic Pareto optimum;
 - NAND and NOR may have different expression lengths for other functions; no general search-prior invariance is claimed;

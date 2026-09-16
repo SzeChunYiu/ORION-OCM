@@ -1,4 +1,4 @@
-# Morphology equivalence and architecture-independent capability — v1
+# Mechanism-structure equivalence and architecture-independent capability — v1
 
 **Issue:** #848, child of #833 Section C  
 **Freeze:** `research/gmi-833-morphcap-v1/FREEZE_V1.md`  
@@ -14,7 +14,7 @@ Fix a scientific scope
 
 where `A` is the external action/input alphabet, `O` protected outputs, `J` the set of permitted intervention labels, `V` verifier/admissibility semantics, `R` the ordered lifecycle-resource coordinates, `D` the registered developmental/reachability relation type, and `C` the family of external capability contracts.
 
-For a finite realization `M`, first restrict to its reachable protected state carrier and quotient only states already identified as equivalent by the protected-response quotient from the #833 foundation. At this reduced level define the **registered mechanism signature**
+For a finite realization `M`, first restrict to its reachable protected state set and quotient only states already identified as equivalent by the protected-response quotient from the #833 foundation. At this reduced level define the **registered mechanism signature**
 
 `Sig_Omega(M) = (X,x0,lambda,delta,iota,rho,Delta)`
 
@@ -32,7 +32,7 @@ Architecture names, source-code identifiers, tensor names, symbolic labels, and 
 
 The deterministic finite signature used by the executable witness is only one exact microscope. For stochastic or set-valued systems the corresponding object is a labeled relational/probabilistic structure; this tranche does not claim the deterministic encoding is universal.
 
-## 2. MORPH-1 — morphology equivalence
+## 2. MORPH-1 — mechanism-structure equivalence
 
 For two signatures over the same external scope, define
 
@@ -59,13 +59,13 @@ The executable certificate independently canonicalizes every finite witness over
 
 ### Why behavior alone is weaker
 
-Suppose `N` copies the ordinary protected transition/output behavior of `M` but has resource vector `rho_N != rho_M`. Then all ordinary action traces can agree while condition 5 fails. Likewise, a changed intervention response violates condition 4 even if unperturbed traces agree. Thus morphology equivalence is intentionally stronger than behavioral equivalence at this scope.
+Suppose `N` copies the ordinary protected transition/output behavior of `M` but has resource vector `rho_N != rho_M`. Then all ordinary action traces can agree while condition 5 fails. Likewise, a changed intervention response violates condition 4 even if unperturbed traces agree. Thus mechanism-structure equivalence is intentionally stronger than behavioral equivalence at this scope.
 
-This prevents the term `morphology` from degenerating into either source-code syntax or task-output equality alone.
+This prevents the equivalence from degenerating into either source-code syntax or task-output equality alone (the parent tranche’s original name for the relation is retained in its own freeze).
 
-## 3. SPECIES-1 — machine species
+## 3. SPECIES-1 — mechanism equivalence classes (legacy species-style label)
 
-The legacy object called a **machine species** is defined, without extra ontology, as the quotient class
+The legacy object, named with a species-style label, is defined, without extra ontology, as the quotient class
 
 `Species_Omega(M) := [M]_(approx_Omega)`.
 
@@ -98,7 +98,7 @@ Define the **capability region**
 
 No architecture label occurs in this definition. A transformer, automaton, program, hybrid, or unknown mechanism is evaluated by the same external contract when the contract is applicable.
 
-### Theorem CAP-1 — morphology invariance
+### Theorem CAP-1 — mechanism-structure invariance
 
 If `M approx_Omega N` and `c` is measurable solely from components preserved by the registered mechanism isomorphism, then
 
@@ -183,7 +183,7 @@ The GMI contribution at this stage is only a disciplined common contract connect
 
 Nearest false promotions:
 
-- same task outputs do **not** imply same morphology;
+- same task outputs do **not** imply the same mechanism structure;
 - a finite registered mechanism quotient is not a universal ontology;
 - one information-theoretic ceiling is not a re-proof of the historical 11 capability ceilings;
 - a ceiling over `A_Omega` says nothing about systems excluded by the registered admissibility/information contract;

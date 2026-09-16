@@ -12,7 +12,7 @@ The four pinned parents remain authoritative for their stronger theorems and bou
 
 - #837 foundation/constitution;
 - #846 parent-equivalence boundaries;
-- #848 morphology/capability;
+- #848 mechanism-structure/capability;
 - #851 global uncertainty/abstention.
 
 ## 2. Why the provisional eight-item sketch was reduced
@@ -29,11 +29,11 @@ Treating all three as axioms would inflate the consistency burden and obscure ca
 
 ### AX-1 — external behavioral specification
 
-Every registered finite behavioral specification has a nonempty finite instance carrier. Each instance has a nonempty legal protected trace set and a nonempty accepted subset. Acceptance is external to implementation state names.
+Every registered finite behavioral specification has a nonempty finite instance set. Each instance has a nonempty legal protected trace set and a nonempty accepted subset. Acceptance is external to implementation state names.
 
 ### AX-2 — registered realization closure
 
-A finite realization has nonempty state/action/output/observation/message/intervention carriers, an initial state in its carrier, total closed registered transition/output/observation tables, total registered communication and intervention-response channels, a nonempty verifier boundary, and a registered raw resource vector family.
+A finite realization has nonempty state/action/output/observation/message/intervention sets, an initial state in its state set, total closed registered transition/output/observation tables, total registered communication and intervention-response channels, a nonempty verifier boundary, and a registered raw resource vector family.
 
 ### AX-3 — lifecycle resource admissibility
 
@@ -41,7 +41,7 @@ A declared resource coordinate set is nonempty and duplicate-free. Every event/d
 
 ### AX-4 — developmental closure
 
-The finite developmental carrier is nonempty, the initial version belongs to it, the developmental relation is nonempty, every edge stays within the carrier, and every edge has a registered resource vector.
+The finite developmental version set is nonempty, the initial version belongs to it, the developmental relation is nonempty, every edge stays within the version set, and every edge has a registered resource vector.
 
 ### AX-5 — external capability admissibility
 
@@ -63,9 +63,9 @@ which is nontrivial: two classes from three states.
 
 Myhill–Nerode, deterministic bisimulation, PSR and statistical-sufficiency relationships remain owned by #846 and its parents.
 
-### DEF-2 — morphology/mechanism equivalence
+### DEF-2 — mechanism-structure equivalence (the parent tranche’s historical label for this equivalence is retained in its own freeze)
 
-Registered structure isomorphism over realization/resource/development coordinates defines morphology equivalence; its equivalence properties remain parent-owned by #848. It is not another independent consistency assumption here.
+Registered structure isomorphism over realization/resource/development coordinates defines mechanism-structure equivalence (the parent tranche’s historical label for this equivalence is quoted in its own freeze); its equivalence properties remain parent-owned by #848. It is not another independent consistency assumption here.
 
 ### DEF-3 — developmental reachability
 
@@ -114,7 +114,7 @@ Each AX-1…AX-6 has a single-mutation witness whose validator output names that
 - AX-1: empty accepted set;
 - AX-2: missing transition table entry;
 - AX-3: negative resource coordinate;
-- AX-4: developmental edge outside the version carrier;
+- AX-4: developmental edge outside the version set;
 - AX-5: achieved score above its registered ceiling;
 - AX-6: candidate outside domain, empty positive-coverage confidence set, and non-normalized predictive law.
 
@@ -122,7 +122,7 @@ These are bounded independence witnesses at the registered finite semantics, not
 
 The hostile hypercube retains the seven independent defect bits from #858 (AX-1…AX-5 plus two distinct AX-6 defects), exhaustively checking all `2^7 = 128` combinations. Exactly one case—the all-clean assignment—satisfies all six axioms, and zero cases have incorrect violation attribution.
 
-The issue-mandated targeted audit separately locks exact attribution for negative resource, non-total transition, attained score above ceiling, confidence outside domain, empty positive-coverage confidence, illegal finite-to-universal promotion, a corrupted equivalence relation, and a developmental edge outside its carrier. Because equivalence is derived and scope discipline is governance, those two hostiles correctly report `DEF-1` and `META-1`, not fictitious object-axiom failures. Three additional audit hostiles cover a missing communication entry, non-normalized latent prior, and out-of-range selective coverage.
+The issue-mandated targeted audit separately locks exact attribution for negative resource, non-total transition, attained score above ceiling, confidence outside domain, empty positive-coverage confidence, illegal finite-to-universal promotion, a corrupted equivalence relation, and a developmental edge outside its version set. Because equivalence is derived and scope discipline is governance, those two hostiles correctly report `DEF-1` and `META-1`, not fictitious object-axiom failures. Three additional audit hostiles cover a missing communication entry, non-normalized latent prior, and out-of-range selective coverage.
 
 ## 9. Dependency graph
 

@@ -9,7 +9,7 @@
 
 This tranche adds explicit finite interaction channels only. It does not claim emergent communication, multi-agent learning, consensus, tool-use intelligence, autonomous agency, external-response truth, or authority delegation.
 
-## Carrier
+## Agent state set and queue semantics
 
 - agents `A={0,1,2}`;
 - local register per agent in `Z3`;
@@ -27,13 +27,13 @@ This tranche adds explicit finite interaction channels only. It does not claim e
 
 ## Exact finite certificate
 
-1. One-send agent-remint covariance: all `6 channels * 2 messages * 6 permutations = 72` cases.
+1. One-send agent-relabeling covariance: all `6 channels * 2 messages * 6 permutations = 72` cases.
 2. FIFO: all `6 channels * 4 two-message sequences = 24` cases.
 3. Destination isolation: every one-send case changes exactly one queue and no local register.
 4. No broadcast: message appears on exactly the named channel.
 5. Receive/apply split: receive alone changes only queue/read result; explicit apply changes only named receiver register.
 6. Tool table: `2 tools * 3 arguments = 6` exact calls; composed `ROT -> DOUBLE` and `DOUBLE -> ROT` remain order-sensitive controls.
-7. Agent-remint covariance is checked for queue/local-state transport; tool results are agent-independent external data.
+7. Agent-relabeling covariance is checked for queue/local-state transport; tool results are agent-independent external data.
 
 ## Raw resource vector
 
@@ -47,7 +47,7 @@ This tranche adds explicit finite interaction channels only. It does not claim e
 
 ## Hostiles
 
-Reject self-send, out-of-carrier agent, bad message, malformed/unknown channel, malformed queue state, non-bijective agent remint, unknown tool, invalid tool argument, forged external-data object/tool/value mismatch. `NO_MESSAGE` is not message zero. External data is never marked VERIFIED/AUTHORIZED by this tranche.
+Reject self-send, out-of-domain agent, bad message, malformed/unknown channel, malformed queue state, non-bijective agent relabeling, unknown tool, invalid tool argument, forged external-data object/tool/value mismatch. `NO_MESSAGE` is not message zero. External data is never marked VERIFIED/AUTHORIZED by this tranche.
 
 ## Claim ceiling
 

@@ -5,15 +5,15 @@
 **Source main:** `43102437ebcbf6f818bb58b45470beffaf865029`  
 **Status:** pre-implementation theorem/evidence freeze
 
-This file freezes the typed carrier, operator signatures, finite exhaustive universe, resource semantics, separation hostiles, permutation-relabeling theorem targets, and claim ceiling before executor/tests/results/reconciliation/workflow.
+This file freezes the typed state-field set, operator signatures, finite exhaustive universe, resource semantics, separation hostiles, permutation-relabeling theorem targets, and claim ceiling before executor/tests/results/reconciliation/workflow.
 
 ## Scientific boundary
 
-This tranche registers architecture-family-free finite state-field operators. It does not claim neural/GNN derivation, universal graph expressivity, stochastic dynamics, multi-agent communication, infinite-graph results, or morphology optimality.
+This tranche registers architecture-family-free finite state-field operators. It does not claim neural/GNN derivation, universal graph expressivity, stochastic dynamics, multi-agent communication, infinite-graph results, or candidate-architecture optimality.
 
 Parent mathematics remains parent-owned: local distributed computation, cellular/local update systems, permutation-invariant set aggregation/equivariant maps, and graph-neighborhood/message-passing patterns.
 
-## Registered carrier
+## Registered state-field set
 
 - sites: `V=(0,1,2)`;
 - values: `Z3={0,1,2}`;
@@ -100,7 +100,7 @@ These distinguish local, global, and graph-local information channels rather tha
 Reject before execution/certification:
 
 - state missing a site, containing extra sites, or value outside `Z3`;
-- edge endpoint outside carrier;
+- edge endpoint outside the declared state-field set;
 - self-loop;
 - duplicate/reversed-duplicate edge in raw input;
 - non-bijective relabeling;

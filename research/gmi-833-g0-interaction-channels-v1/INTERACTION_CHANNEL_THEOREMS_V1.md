@@ -15,7 +15,7 @@
 
 For every directed channel and every two-message word over `{0,1}`, two receives return exactly the sent order: 24/24 cases. `RECV` alone does not modify local state; only explicit `APPLY_RECEIVED` changes the named destination register. Empty receive returns typed `NO_MESSAGE`, distinct from message `0`.
 
-## COMM-3 — agent-remint covariance
+## COMM-3 — agent-relabeling covariance
 
 Transport local states and every directed queue under an arbitrary bijection of the three agent IDs. Sending before transport equals transport before sending on the transported channel. All `6 channels × 2 messages × 6 permutations = 72` checks agree exactly.
 
@@ -42,4 +42,4 @@ No hidden channel/tool work is scalarized away.
 
 ## Falsifiers
 
-Any implicit local mutation, cross-channel copy, FIFO failure, agent-remint mismatch, accepted malformed agent/message/tool, `NO_MESSAGE==0`, or automatic verification/authority promotion makes the tranche RED.
+Any implicit local mutation, cross-channel copy, FIFO failure, agent-relabeling mismatch, accepted malformed agent/message/tool, `NO_MESSAGE==0`, or automatic verification/authority promotion makes the tranche RED.

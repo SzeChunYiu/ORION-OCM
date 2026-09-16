@@ -1,4 +1,4 @@
-# GMI #833 morphology/capability freeze v1
+# GMI #833 mechanism-structure/capability freeze v1
 
 **Parent:** #833 Section C  
 **Child:** #848  
@@ -20,7 +20,7 @@ A finite registered scientific scope `Omega` declares:
 
 No architecture-family label is part of the scientific object.
 
-## MORPH-1 — mechanism signature and morphology equivalence
+## MORPH-1 — mechanism signature and mechanism-structure equivalence
 
 A realization's reduced mechanism signature at `Omega` is the finite relational structure consisting of:
 
@@ -38,12 +38,12 @@ Target theorem: `approx_Omega` is an equivalence relation. State/syntax renaming
 Frozen exact witnesses:
 
 - `M_A` and `M_RENAMED`: two-state realizations related by a pure state renaming; must be equivalent.
-- `M_RESOURCE_TWIN`: same protected transitions/outputs as `M_A` but one resource coordinate differs; behavior equal but morphology inequivalent.
-- `M_INTERVENTION_TWIN`: same ordinary behavior/resources but a registered intervention response differs; morphology inequivalent.
+- `M_RESOURCE_TWIN`: same protected transitions/outputs as `M_A` but one resource coordinate differs; behavior equal but structurally inequivalent.
+- `M_INTERVENTION_TWIN`: same ordinary behavior/resources but a registered intervention response differs; structurally inequivalent.
 
-## SPECIES-1 — machine species
+## SPECIES-1 — mechanism equivalence classes (legacy species-style label)
 
-Define legacy `machine species` at scope `Omega` as the quotient class `[M]_(approx_Omega)`. Paper-facing preferred term: `computational-mechanism equivalence class` unless an explicitly biological analogy is intended.
+Define the legacy species-style label at scope `Omega` as the quotient class `[M]_(approx_Omega)`. Paper-facing preferred term: `computational-mechanism equivalence class` unless an explicitly biological analogy is intended.
 
 No claim of a universal biological taxonomy or unique architecture ontology is permitted.
 
@@ -91,9 +91,9 @@ This tranche fails if:
 
 - state-renaming changes the mechanism class;
 - resource/intervention mismatches are ignored;
-- morphology equivalence fails reflexivity, symmetry or transitivity in finite hostile checks;
+- mechanism-structure equivalence fails reflexivity, symmetry or transitivity in finite hostile checks;
 - capability code branches on architecture-family names;
-- morphology-equivalent witnesses receive different registered capability regions;
+- structurally equivalent witnesses receive different registered capability regions;
 - budget/class relaxation lowers an exact finite ceiling;
 - any hidden-world randomized policy exceeds `1/2` in CAP-3;
 - the revealed-information positive twin fails to attain `1`;
@@ -112,4 +112,4 @@ Forbidden promotions:
 - `UNIVERSAL_INTELLIGENCE_MEASURE`
 - `COMPLETE_GMI`
 
-No Section-K capability re-audit, real-system validation, or architecture selection is claimed.
+No Section-K capability re-audit, real-system validation, or architecture-family choice is claimed.
