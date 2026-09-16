@@ -226,6 +226,42 @@ def validate_ledgers() -> dict[str, object]:
     return {"claim_ledgers": 2, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"}
 
 
+def validate_package_contracts() -> dict[str, object]:
+    manifest = json.loads((HERE / "MANIFEST_V1.json").read_text())
+    reconciliation = json.loads((HERE / "ISSUE_833_RECONCILIATION_CAPABILITY_ABSTENTION_V1.json").read_text())
+    replacements = reconciliation.get("replacements", [])
+    manifest_ok = (
+        manifest.get("issue") == 913
+        and manifest.get("source_pr") == 916
+        and manifest.get("parent_issue") == 833
+        and manifest.get("freeze_commit") == "b1615a6f55ffe1ad5925ab3d75674fc55dcc2886"
+        and manifest.get("frozen_main") == "d121aa20e5a31f57ce1194e8b635e7ce4d74762e"
+        and manifest.get("claim_ceiling") == CLAIM_CEILING
+        and manifest.get("target_rows") == 1
+        and manifest.get("total_exhaustive_cases") == 300
+        and tuple(manifest.get("forbidden_promotions", ())) == FORBIDDEN_PROMOTIONS
+    )
+    reconciliation_ok = (
+        reconciliation.get("schema") == "GMI_ISSUE_RECONCILIATION_V2"
+        and reconciliation.get("issue") == 833
+        and reconciliation.get("source_issue") == 913
+        and reconciliation.get("source_pr") == 916
+        and reconciliation.get("claim_ceiling") == CLAIM_CEILING
+        and tuple(reconciliation.get("forbidden_promotions", ())) == FORBIDDEN_PROMOTIONS
+        and len(replacements) == 1
+        and replacements[0].get("anchor") == "# K. Capability theory upgrade"
+        and replacements[0].get("old") == "- [ ] Require abstention where capability is not identifiable."
+        and replacements[0].get("new", "").startswith("- [x]")
+        and "PR #916 / #913" in replacements[0].get("new", "")
+    )
+    return {
+        "manifest_ok": manifest_ok,
+        "reconciliation_ok": reconciliation_ok,
+        "reconciliation_rows": len(replacements),
+        "source_pr": reconciliation.get("source_pr"),
+    }
+
+
 def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, object]:
     parent_audit = parent_audit or {"all_ok": True, "rows": []}
     binary = capability_query_disposition(("m0", "m1"), ("m0", "m1"), {"m0": 0, "m1": 1})
@@ -240,6 +276,7 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
     nontotal = capability_query_disposition(("m0", "m1"), ("m0",), {"m0": 0})
     census = exhaustive_census()
     ledgers = validate_ledgers()
+    package_contracts = validate_package_contracts()
     expected_census = {
         "feasible_query_cases": 64,
         "confidence_query_cases": 192,
@@ -255,6 +292,12 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
         "inconsistency_and_cannot_check_distinct": inconsistent["status"] == "INCONSISTENT_REGISTERED_ASSUMPTIONS" and missing["status"] == "CANNOT_CHECK_QUERY_NOT_REGISTERED" and nontotal["status"] == "CANNOT_CHECK_QUERY_NOT_TOTAL_ON_DOMAIN",
         "bounded_census_complete": census == expected_census,
         "scientific_ledgers_complete": ledgers == {"claim_ledgers": 2, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"},
+        "manifest_and_reconciliation_exact": package_contracts == {
+            "manifest_ok": True,
+            "reconciliation_ok": True,
+            "reconciliation_rows": 1,
+            "source_pr": 916,
+        },
     }
     return {
         "schema": "GMI833CapabilityAbstentionResultV1",
@@ -274,6 +317,7 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
             "nontotal_query": nontotal,
         },
         "scientific_ledger": ledgers,
+        "package_contracts": package_contracts,
         "checks": checks,
         "verdict": "GREEN" if all(checks.values()) else "RED",
     }

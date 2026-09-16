@@ -133,6 +133,17 @@ class CapabilityAbstentionTests(unittest.TestCase):
             {"claim_ledgers": 2, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"},
         )
 
+    def test_manifest_and_reconciliation_are_exactly_scoped_to_pr(self):
+        self.assertEqual(
+            M.validate_package_contracts(),
+            {
+                "manifest_ok": True,
+                "reconciliation_ok": True,
+                "reconciliation_rows": 1,
+                "source_pr": 916,
+            },
+        )
+
     def test_receipt_is_green_and_byte_stable(self):
         receipt = M.build_receipt(M.audit_parents())
         self.assertEqual(receipt["verdict"], "GREEN")
