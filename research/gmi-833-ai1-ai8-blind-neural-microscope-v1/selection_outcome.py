@@ -42,11 +42,11 @@ def certificate():
     hist={}
     for prev in ('RULE','COMPOSITION'):
         hist[prev]={H:switched_winner(prev,H)[0] for H in range(0,20)}
-    assert all(hist['RULE'][H]==('RULE',) for H in range(0,12)); assert hist['RULE'][12]==('COMPOSITION',)
+    assert all(hist['RULE'][H]==('RULE',) for H in range(0,11)); assert hist['RULE'][11]==('COMPOSITION','RULE'); assert hist['RULE'][12]==('COMPOSITION',)
     assert all(hist['COMPOSITION'][H]==('RULE',) for H in range(0,7)); assert hist['COMPOSITION'][7]==('COMPOSITION','RULE')
     assert all('COMPOSITION' in hist['COMPOSITION'][H] for H in range(7,20))
     # Matched scalar-price hostile: changing registered build cost can remove the composition region; raw Pareto remains primary.
     hostile=dict(rs); hostile['COMPOSITION']=(Fraction(200),Fraction(1),Fraction(4))
     hostile_comp_wins=[H for H in range(0,201) if 'COMPOSITION' in winners(H,hostile)[0]]
     assert not hostile_comp_wins
-    return {'pareto_front':list(pareto_front(rs)),'heldout':held,'full_regime_counts':{str(k):sum(1 for v in full.values() if v==k) for k in set(full.values())},'history_switching_rule_at_12':list(hist['RULE'][12]),'history_switching_composition_at_7':list(hist['COMPOSITION'][7]),'price_hostile_composition_wins':0,'raw_vectors_primary':True}
+    return {'pareto_front':list(pareto_front(rs)),'heldout':held,'full_regime_counts':{str(k):sum(1 for v in full.values() if v==k) for k in set(full.values())},'history_switching_rule_at_11':list(hist['RULE'][11]),'history_switching_rule_at_12':list(hist['RULE'][12]),'history_switching_composition_at_7':list(hist['COMPOSITION'][7]),'price_hostile_composition_wins':0,'raw_vectors_primary':True}
