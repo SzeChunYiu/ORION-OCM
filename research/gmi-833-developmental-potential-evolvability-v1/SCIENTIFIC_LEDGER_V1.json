@@ -1,0 +1,68 @@
+{
+  "schema": "GMI833DevelopmentalPotentialEvolvabilityScientificLedgerV1",
+  "claims": [
+    {
+      "id": "DP-1",
+      "assumptions": ["finite registered developmental carrier", "initial state in carrier", "nonnegative exact vector edge costs", "external capability score at every state", "coordinatewise budget"],
+      "dependencies": ["#837/#854 budget-restricted developmental reachability", "#848 external capability score", "finite maximum over the reachable set"],
+      "falsifiers": ["current score substituted for the reachable maximum", "potential decreases under budget expansion", "headroom differs from potential minus current"],
+      "strongest_parent": "resource-constrained graph reachability and finite optimal control",
+      "counterexample_methods": ["low-current/high-headroom witness", "high-current/zero-headroom witness", "1,512 exact budget cases"],
+      "limits": ["registered finite graph only", "potential is contract/development-law/budget relative rather than intrinsic"]
+    },
+    {
+      "id": "EV-1",
+      "assumptions": ["finite descendant carrier", "exact normalized proposal kernel", "registered useful-descendant set", "iid fixed-kernel proposals for first-hit expectation"],
+      "dependencies": ["#779 useful-descendant mass", "geometric distribution tail sum"],
+      "falsifiers": ["mass differs from kernel sum on useful set", "positive mass has expected proposal count other than 1/p", "zero mass receives a finite burden"],
+      "strongest_parent": "finite probability and geometric first-hitting time",
+      "counterexample_methods": ["zero-mass hostile", "105 exact kernel/useful-set cases"],
+      "limits": ["proposal count is not wall-clock, energy, or total lifecycle cost", "adaptive/non-iid proposal laws require another theorem"]
+    },
+    {
+      "id": "HIST-1",
+      "assumptions": ["held-out useful set disjoint from stored solutions", "common descendant carrier and verifier", "fixed iid baseline/history kernels", "positive priced per-proposal burden", "charged nonnegative history-policy overhead"],
+      "dependencies": ["EV-1 first-hit expectation", "registered nonnegative resource prices", "exact expected-burden comparison"],
+      "falsifiers": ["stored target contaminates the policy assay", "overhead is omitted", "positive-mass verdict disagrees with h+c/pH<c/p0"],
+      "strongest_parent": "geometric search burden plus finite amortized overhead",
+      "counterexample_methods": ["beneficial/tie/harmful twins", "zero-mass transitions", "300 exact history comparisons"],
+      "limits": ["history need not help", "future useful set and kernels are registered rather than learned from these outcomes"]
+    },
+    {
+      "id": "CAPITAL-1",
+      "assumptions": ["stored-solution identifiers are explicit", "proposal-law intervention is explicit", "solution and policy arms share carrier/verifier/resource semantics"],
+      "dependencies": ["developmental-capital K1/K2 distinction", "HIST-1 held-out policy assay"],
+      "falsifiers": ["direct stored-answer reuse is called search-policy improvement", "held-out proposal improvement is called stored-solution reuse", "one intervention changes both factors without disclosure"],
+      "strongest_parent": "solution reuse versus meta-search/search-policy improvement distinction",
+      "counterexample_methods": ["solution-only intervention", "policy-only intervention", "24 stored-set/target separation cases"],
+      "limits": ["does not establish empirical K2", "does not claim recursive operator or primitive invention"]
+    },
+    {
+      "id": "SCOPE",
+      "assumptions": ["#908 exact four-row freeze", "seven exact parent pins", "finite registered proof scope"],
+      "dependencies": ["#833 maturity/scope rules", "exact reconciliation whitelist"],
+      "falsifiers": ["another Section-L row is reconciled", "proposal count is relabeled physical cost", "finite result is called universal/open-ended", "parent result drifts"],
+      "strongest_parent": "scientific claim-scope governance",
+      "counterexample_methods": ["four-row reconciliation preimage", "forbidden-promotion scan", "parent-byte mutation"],
+      "limits": ["future-task empirical validation remains open", "independent hostile review remains open"]
+    }
+  ],
+  "open_gaps": [
+    {
+      "id": "GAP-DEVELOPMENTAL-POTENTIAL-INDEPENDENT-REVIEW",
+      "claim_id": "DP-1-EV-1-HIST-1-CAPITAL-1",
+      "premise": "Internal analytic proofs, exact witnesses, hostiles, and bounded censuses pass.",
+      "inference": "The four finite registered objects/laws are locally closed.",
+      "unresolved_assumption": "No independent hostile theorem reviewer has signed this tranche.",
+      "possible_counterexample": "A reviewer identifies an omitted quantifier or invalid scope transfer.",
+      "severity": "HIGH",
+      "owner_role": "independent theorem reviewer",
+      "parent_result": "Issue #833 AA/Z18",
+      "evidence_needed": "Independent review report and resolution ledger.",
+      "status": "OPEN",
+      "materiality": "Can change closure level but cannot silently promote the local result.",
+      "descendants": []
+    }
+  ],
+  "recursive_gap_verdict": "LOCALLY_CLOSED_WITH_INDEPENDENT_REVIEW_OPEN"
+}
