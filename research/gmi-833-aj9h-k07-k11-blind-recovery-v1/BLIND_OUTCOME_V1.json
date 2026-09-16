@@ -1,0 +1,51 @@
+{
+  "A": {
+    "future_consequence_changes_choice": true,
+    "immediate_greedy_first_action": "a",
+    "route_enumeration": {"sequence": ["b", "a"], "total": 5},
+    "route_recursive": {"sequence": ["b", "a"], "total": 5},
+    "selected_first_action": "b",
+    "trace": [["s0", "b", "s1", 0], ["s1", "a", "term", 5]]
+  },
+  "B": {
+    "alter_selected_record_changes_output": true,
+    "different_queries_select_different_records": true,
+    "route_distance": {"indices": [0,1,2], "outputs": [0,1,0]},
+    "route_exact_scan": {"indices": [0,1,2], "outputs": [0,1,0]}
+  },
+  "C": {
+    "descendant": "111",
+    "minimum_successful_retained_count": 2,
+    "next_members": ["100", "111"],
+    "route_capacity_enumeration": {
+      "1": {"best":"011","best_score":2,"generated":["011"],"parents":["011"],"target_reached":false},
+      "2": {"best":"111","best_score":5,"generated":["000","001","010","011","100","101","110","111"],"parents":["011","100"],"target_reached":true}
+    },
+    "route_factorized_inheritance": {"best":"111","domains":[["0","1"],["0","1"],["0","1"]]},
+    "selected_parents": ["011","100"],
+    "single_retained_fails": true,
+    "two_retained_succeeds": true
+  },
+  "D": {
+    "legal_candidate_semantics_count": 16,
+    "multiple_legal_programs_present": true,
+    "returned_artifact_executable": true,
+    "route_cube_cover": {"cube_count":2,"cubes":[[0,1],[1,0]],"outputs":[0,1,1,0]},
+    "route_expression": {"cost":4,"expression":"AND(OR(x0,x1),NOT(AND(x0,x1)))","outputs":[0,1,1,0]}
+  },
+  "E": {
+    "baseline_cumulative_cost": 20,
+    "later_uses": 6,
+    "library_after": ["ab"],
+    "library_before": [],
+    "persistent_change_used_later": true,
+    "route_frequency_gain": {"chosen":"ab","pair_counts":{"ab":3}},
+    "route_substring_enumeration": {"candidate_count":1,"chosen":"ab","cumulative_cost":13},
+    "strict_cumulative_improvement": true,
+    "task1_charged_cost": 6,
+    "task2_cost_with_persistent_change": 7
+  },
+  "benchmark_read": false,
+  "family_labels_used": false,
+  "schema": "AJ9H_BLIND_OUTCOME_V1"
+}
