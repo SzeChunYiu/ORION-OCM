@@ -1,0 +1,72 @@
+{
+ "schema": "GMI_833_CORPUS_PASSES_V2_VERDICT_REGISTER_V1",
+ "note": "Adjudicated verdicts from the corpus identification passes v2. Every verdict cites its evidence. 'PASS_L4x.agent_adjudicated' sections were read by read-only subagents and their CONFIRMED-class rows spot-verified by the pass owner; verdicts marked SCREENED-NOT-ADJUDICATED are explicit gap states, never 'clear'.",
+ "L42_term_duplicates": {
+  "detector": "detector_l42_v1.py (masked-hash over crosswalk classes; validation plants a-d all pass: recall 20/20, no-alarm 0/200, #949 anchor 1652==1652, dupid sample 0/200)",
+  "candidates": 1,
+  "verdicts": [
+   {
+    "group": "AUTO-4FC94E5CDE28AFCF35C4 + AUTO-7FF685146604E42B2629",
+    "unifying_row": "R10 (negative twin -> ablation)",
+    "verdict": "DISTINCT",
+    "reason": "Heading-label collision ('## Ablation theorem' in gmi-capability-perturbations-v1 vs '## Negative-twin theorem' in gmi-capability-real-regime-v1); labels unified by crosswalk row R10 but the underlying theorems are different results in different packages; a label match is not a restatement."
+   }
+  ],
+  "diagnostic": {
+   "punctuation_relaxed_mask_extra_groups": 128,
+   "class": "content-normalization near-duplicates (case/quote/plural variants; e.g. LAW 1 uppercase in .py vs title case in .md; JSON-vs-Python quoting of the same path string) — an adjacent CONTENT-hash refinement class, not terminology variants",
+   "disposition": "reported as next-detector recommendation; not adjudicated here"
+  },
+  "population_note": "22,553 P1 objects; strict masked-hash equality outside crosswalk spans is a high-precision condition by construction; the corpus's migration history (pre/post edit snapshots never coexist) makes intra-snapshot terminology variants rare — 1 candidate is consistent with that."
+ },
+ "L51_hidden_iid_stationarity": {
+  "population": 7196,
+  "flags": 7,
+  "verdicts": [
+   {"object_id": "AUTO-ED0744E206B8F2F627EB", "verdict": "REGISTERED_EXPLICIT", "reason": "ADAPTIVE_ROW_CONFIDENCE_THEOREM_V1.md L3-4 Scope line declares 'stationary conditional row laws' as an explicit scope condition."},
+   {"object_id": "AUTO-08D60214AEA617487C8F", "verdict": "REGISTERED_EXPLICIT", "reason": "F2_TRANCHE3 falsifier phrased 'Under the registered exchangeable perfect-check model'; F2 formalization (gmi-capability-ceilings-v1/FORMALIZATION_V1.md L17,L296) states the exchangeability premise."},
+   {"object_id": "AUTO-1CECC6A3CA424BD630D6", "verdict": "REGISTERED_EXPLICIT", "reason": "Same exchangeable-model registration in F2_CEILINGS_V1.json + FORMALIZATION_V1.md L296."},
+   {"object_id": "T602-19", "verdict": "REGISTERED_EXPLICIT", "reason": "Statement itself declares the premise: 'for iid bounded observations Xi in [0,1], fixed sample size N and fixed pre-data query'."},
+   {"object_id": "PCA-1", "verdict": "REGISTERED_EXPLICIT", "reason": "PCA-1 fixes the premise in-statement: 'Fix a deterministic stationary policy... In this finite stationary scope'."},
+   {"object_id": "AUTO-784E92C59EBC4FE4F67F", "verdict": "REGISTERED_EXPLICIT", "reason": "Governing theorem doc declares the premise: 'Obtain exactly N iid draws from each row... the union bound below only needs within-row iidness' (FINITE_DATA_MODEL_TRANSFER_THEOREM_V1.md L32,L41)."},
+   {"object_id": "AUTO-18029DAB25D10ACF7361", "verdict": "REGISTERED_EXPLICIT", "reason": "Executor takes the law as supplied input ('for a supplied finite iid law'), governed by the declared theorem premise."}
+  ],
+  "confirmed_defects": 0,
+  "false_positive_cause": "screen's registration-doc filter keyed on FREEZE/ASSUMPTION/RESULT/RECEIPT/README/CORE filenames; THEOREM/FORMALIZATION-named docs carry the registrations in this corpus.",
+  "residual_limitation": "word-level screening only; structural presupposition of iid/stationarity without the vocabulary is out of mechanical reach — feeds the L34 registration lane as the standing coverage mechanism."
+ },
+ "L52_hidden_finite_horizon": {
+  "population_p2": 197,
+  "flags": 3,
+  "verdicts": [
+   {"result_id": "GMI833_V2_LEGACY_004_F2-U", "verdict": "DECLARED_HORIZON", "reason": "'T=2' is the compute-channel parameter value of a witness; T is an explicit parameter of the theorem statement (A^T bound), not a hidden time horizon."},
+   {"result_id": "GMI833_V2_LEGACY_022_CA-2", "verdict": "DECLARED_HORIZON", "reason": "Statement quantifies over 'arbitrary finite history-dependent policies' — finiteness explicit; the horizon-two 390,625-kernel check is a control under the induction proof, not hidden support."},
+   {"result_id": "GMI833_V2_LEGACY_087_COST-LABEL", "verdict": "DECLARED_HORIZON", "reason": "Scope explicitly 'FINITE OPERATIONAL SCOPE'; the termination bound |S|*prod(floor(LB_i)+1) is a derived theorem output, not a hidden premise."}
+  ],
+  "confirmed_defects": 0,
+  "census_universal_statement_side_only": 1336,
+  "census_universal_status": "SCREENED-NOT-ADJUDICATED (census objects carry no justification/evidence field; evidence-side horizon check not mechanically possible at P1 scope)",
+  "false_positive_classes_recorded": ["T-as-channel-variable", "control-at-horizon-N", "derived-termination-bound"]
+ },
+ "L56_parent_rediscovery": {
+  "population": "24 P2 rows with named strongest_parents (173 rows are UNREGISTERED_IN_LEGACY_SOURCE — parent-registration gap feeding the in-flight L34 lane, not adjudicable here)",
+  "flags": 6,
+  "verdicts": [
+   {"result_id": "GMI833_V2_ARRIVAL_01_ai0-convergence-spine-v1", "verdict": "RESIDUAL_STATED", "reason": "Row justification: 'governance spine object: exact validation of authority DAG, no material theorem claimed'; spine policy GMI_CONVERGENCE_SPINE_V1.md L54 moves novelty to integration layer. No mathematical claim to be a rediscovery of."},
+   {"result_id": "GMI833_V2_ARRIVAL_19_aj9g-k06-blind-recovery-v1", "verdict": "RESIDUAL_STATED", "reason": "Statement is the two-independent-routes blind recovery result (generic prior/evidence multiplication vs integer-pair enumeration) at registered finite scope with explicit not-claimed list (THEORY.md L13) and second_impl=True; parents acknowledged; residual = the registered blind-recovery instance + two-route design."},
+   {"result_id": "GMI833_V2_ARRIVAL_20_capability-abstention-v1", "verdict": "RESIDUAL_STATED", "reason": "CAPABILITY_ABSTENTION_THEOREM_V1.md L103: 'repository contribution is only the exact fail-closed adapter, exhaustive ...'."},
+   {"result_id": "GMI833_V2_ARRIVAL_21_capability-bounds-interactions-v1", "verdict": "RESIDUAL_STATED", "reason": "CAPABILITY_BOUNDS_INTERACTIONS_THEOREMS_V1.md L168: 'standard parent mathematics. The contribution here is their exact integration ...'."},
+   {"result_id": "GMI833_V2_ARRIVAL_22_cognitive-reaudit-v1", "verdict": "RESIDUAL_PRESENT_UNSTATED", "reason": "No residual line in any package doc; but MEMORY-1's iff-characterization and ATTENTION-1's exact threshold d_S-d_F < (n-|S|)c are concrete deltas beyond the registered parents (observational equivalence, resource-rational computation). Registration-quality finding, not a rediscovery; recommendation: state the residual explicitly (L34)."},
+   {"result_id": "GMI833_V2_ARRIVAL_23_developmental-potential-evolvability-v1", "verdict": "RESIDUAL_STATED", "reason": "DEVELOPMENTAL_POTENTIAL_THEOREMS_V1.md L164: 'parent mathematics. The scoped contribution is their typed integration with the ...'."}
+  ],
+  "confirmed_defects": 0,
+  "false_positive_cause": "mechanical haystack read only PARENT/SUBSUMPTION-named files; residuals live in THEOREM/CORE/FREEZE docs in this corpus."
+ },
+ "L58_applied_downgrade": {
+  "target": "research/gmi-capability-interactions-unified-v1/CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md",
+  "registered_defect": "#939 verdict table: OVERSTRONG — universal phrasing 'for any two capabilities' exceeds a pure 27x27 finite classification once the rules rest on unproven equalities (joint=sum / joint=max).",
+  "action": "Section 2 reworded to registered 27x27 finite-classification scope (729 ordered / 351 unordered pairs) + mandatory joint-burden caveat (equalities are definitional classification criteria at registered scope, not proven resource accounting); Section 5 scope boundary aligned; PVR-3 no-interference scoped to Theorem IF's bounded finite scope; MANIFEST.json audit_trail entry (finding -> verdict -> new wording -> controls).",
+  "verification": "post-edit defect-clause check: 'for any two capabilities' 0 occurrences; 27x27 scoping present in header/Section 2/Section 5; caveat present twice; controls test_interactions.py 27/27 pass pre- and post-edit; custody check: no test or executor reads the .md.",
+  "verdict": "APPLIED"
+ }
+}
