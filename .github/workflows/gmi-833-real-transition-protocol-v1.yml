@@ -1,0 +1,72 @@
+name: GMI 833 real transition protocol v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-real-transition-protocol-v1/**'
+      - '.github/workflows/gmi-833-real-transition-protocol-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-real-transition-protocol-v1/**'
+      - '.github/workflows/gmi-833-real-transition-protocol-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        run: |
+          set -euo pipefail
+          freeze=6d39895b0336cb18eb583c735f0fbddc21c67b5e
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-real-transition-protocol-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-real-transition-protocol-v1/real_transition_protocol_v1.py \
+            research/gmi-833-real-transition-protocol-v1/test_real_transition_protocol_v1.py \
+            research/gmi-833-real-transition-protocol-v1/RESULT_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact protocol tests and receipt
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-real-transition-protocol-v1/test_real_transition_protocol_v1.py -v
+            python -I -O -B research/gmi-833-real-transition-protocol-v1/real_transition_protocol_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-real-transition-protocol-v1/test_real_transition_protocol_v1.py -v
+            python -I -B research/gmi-833-real-transition-protocol-v1/real_transition_protocol_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-real-transition-protocol-v1/RESULT_V1.json
+      - name: Enforce non-promotion
+        run: |
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-real-transition-protocol-v1')
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          assert r['scientific_row_earned'] is False
+          assert r['current_scientific_evidence']['terminal']=='INSUFFICIENT_REAL_SYSTEM_EVIDENCE'
+          assert r['current_scientific_evidence']['qualifying_count']==0
+          assert m['scientific_row_earned'] is False
+          assert m['claim_ceiling']==r['claim_ceiling']=='GMI_REAL_SYSTEM_TRANSITION_VALIDATION_PROTOCOL_MACHINE_CHECKABLE'
+          PY
