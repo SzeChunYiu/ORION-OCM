@@ -1,0 +1,26 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "source_issue": 895,
+  "issue": 833,
+  "claim_ceiling": "GMI_FINITE_HISTORY_SWITCHING_AND_HYSTERESIS_SELECTION_AT_REGISTERED_SCOPE",
+  "forbidden_promotions": [
+    "STOCHASTIC_SWITCHING_CLOSED",
+    "ENDOGENOUS_SWITCH_COST_LEARNING_CLOSED",
+    "GENERAL_NONMARKOV_HISTORY_CLOSED",
+    "REAL_WORLD_MIGRATION_CALIBRATED",
+    "UNIVERSAL_HYSTERESIS",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "# J. General morphology-selection theory",
+      "old": "- [ ] Derive when history changes the selected morphology.",
+      "new": "- [x] Derive when history changes the selected morphology. — ✅ #895 `gmi-833-history-switching-hysteresis-v1` HIST-1/HIST-2: current selection is `argmin_m[c(m)+K(h,m)]`; history matters exactly when selection sets differ across previous morphologies. For two forms with symmetric cross-switch cost `kappa`, the exact hysteresis band is `-kappa < c(B)-c(A) < kappa`, with boundary ties preserved and affine threshold witness `1/4,3/4`."
+    },
+    {
+      "anchor": "# J. General morphology-selection theory",
+      "old": "- [ ] Derive when migration/switching erases history dependence.",
+      "new": "- [x] Derive when migration/switching erases history dependence. — ✅ #895 ERASE-1/ERASE-2/RESET-1: origin-additive switching `K(h,m)=u(h)+v(m)` cancels history from the argmin (1,728 exact contexts); a strict uniform winner-margin gives another sufficient history-erasure law (13,824 switching contexts / 3,735 verified certificates); canonical reset maps all prior forms to one preselection state and therefore erases morphology identity by construction."
+    }
+  ]
+}
