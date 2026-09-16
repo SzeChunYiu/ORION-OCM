@@ -1,11 +1,21 @@
 from __future__ import annotations
-import json
+import importlib.util, json
 from pathlib import Path
-from blind_recovery_v1 import run_all
-from posthoc_adjudicate_v1 import adjudicate
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+
+
+def load_module(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    assert spec and spec.loader
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+BLIND = load_module("aj9h_blind", HERE / "blind_recovery_v1.py")
+POSTHOC = load_module("aj9h_posthoc", HERE / "posthoc_adjudicate_v1.py")
 
 PRIOR = [
   "gmi-833-aj9b-k01-blind-recovery-v1",
@@ -19,9 +29,9 @@ PRIOR = [
 
 def main():
     committed = json.loads((HERE / "BLIND_OUTCOME_V1.json").read_text())
-    live = run_all()
+    live = BLIND.run_all()
     assert live == committed
-    post = adjudicate()
+    post = POSTHOC.adjudicate()
     assert len(post["families"]) == 5
     assert all(x["terminal"] == "RECOVERED" for x in post["families"].values())
 
@@ -47,7 +57,6 @@ def main():
     hits = [x for x in forbidden if x in src]
     assert not hits, hits
 
-    # Explicit failure terminal control: with only zero-op terminals, XOR is unrecoverable.
     terminal_semantics = {(0,0,1,1),(0,1,0,1),(0,0,0,0),(1,1,1,1)}
     assert (0,1,1,0) not in terminal_semantics
     failure_terminal = "NOT_RECOVERED_AT_SCOPE"
