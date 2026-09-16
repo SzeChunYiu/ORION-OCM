@@ -1,0 +1,148 @@
+name: GMI 833 G0 grammar growth v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-grammar-growth-v1/**'
+      - '.github/workflows/gmi-833-g0-grammar-growth-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-grammar-growth-v1/**'
+      - '.github/workflows/gmi-833-g0-grammar-growth-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=10f0ef372d3068dcbfb9021d6a53b20ba576f39d
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-g0-grammar-growth-v1/FREEZE_V1.md"
+          git cat-file -e "$freeze:research/gmi-833-g0-grammar-growth-v1/FROZEN_FIXTURES_V1.json"
+          for p in \
+            research/gmi-833-g0-grammar-growth-v1/g0_grammar_growth_v1.py \
+            research/gmi-833-g0-grammar-growth-v1/independent_oracle_v1.py \
+            research/gmi-833-g0-grammar-growth-v1/test_g0_grammar_growth_v1.py \
+            research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json \
+            research/gmi-833-g0-grammar-growth-v1/ORACLE_RESULT_V1.json \
+            research/gmi-833-g0-grammar-growth-v1/GRAMMAR_GROWTH_THEOREMS_V1.md \
+            research/gmi-833-g0-grammar-growth-v1/PARENT_LITERATURE_V1.md \
+            research/gmi-833-g0-grammar-growth-v1/REUSE_AUDIT_V1.md \
+            research/gmi-833-g0-grammar-growth-v1/SCIENTIFIC_LEDGER_V1.json \
+            research/gmi-833-g0-grammar-growth-v1/RECEIPTS_RUN_LOG.md \
+            research/gmi-833-g0-grammar-growth-v1/CORE.md \
+            research/gmi-833-g0-grammar-growth-v1/MANIFEST_V1.json \
+            research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json \
+            .github/workflows/gmi-833-g0-grammar-growth-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify pinned parents and fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/g2-utility-gated-parents-v2/RESULT.json)" = a88edfd9733ba229ad28ad304338f0a87db4c31a
+          test "$(git hash-object research/h1-amortized-rewrite-v2/RESULT.json)" = 032c383235750dfa01e3018bfa18cb9aa466b786
+          test "$(git hash-object research/g2-acquisition-economics-v1/G2_ACQUISITION_ECONOMICS_V1.json)" = 11ba31a28e82351861e2ca45ee97f1a1c808b6af
+          test "$(git hash-object research/gmi-833-g0-grammar-bias-v1/MANIFEST_V1.json)" = 73c7c0557a3621beb4dd8dcd7cf5db62d02089e0
+          test "$(git hash-object research/gmi-833-g0-cost-privilege-v1/MANIFEST_V1.json)" = 99dddbbfda65be60919f51b021340ed929ad5d6b
+          echo '12acccf68dd5e02ac0521737bc8239f550600e80b87de3330beafa9a554921c6  research/gmi-833-g0-grammar-growth-v1/FROZEN_FIXTURES_V1.json' | sha256sum -c -
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-g0-grammar-growth-v1/test_g0_grammar_growth_v1.py -v
+            python -I -O -B research/gmi-833-g0-grammar-growth-v1/g0_grammar_growth_v1.py > /tmp/result.json
+            python -I -O -B research/gmi-833-g0-grammar-growth-v1/independent_oracle_v1.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-g0-grammar-growth-v1/test_g0_grammar_growth_v1.py -v
+            python -I -B research/gmi-833-g0-grammar-growth-v1/g0_grammar_growth_v1.py > /tmp/result.json
+            python -I -B research/gmi-833-g0-grammar-growth-v1/independent_oracle_v1.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json
+          cmp /tmp/oracle.json research/gmi-833-g0-grammar-growth-v1/ORACLE_RESULT_V1.json
+          echo 'bde6029b32374f04e74866f90bd01e9c0564d09d8db338f0039d6322eb980443  research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json' | sha256sum -c -
+          echo '91328e12292414d3751779785125c0dc81cc3afa1bbffecaf1643e8c229df134  research/gmi-833-g0-grammar-growth-v1/ORACLE_RESULT_V1.json' | sha256sum -c -
+      - name: Validate exact certificate and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-g0-grammar-growth-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          o=json.loads((root/'ORACLE_RESULT_V1.json').read_text())
+          if m['freeze_commit'] != '10f0ef372d3068dcbfb9021d6a53b20ba576f39d': raise SystemExit('freeze mismatch')
+          if r['freeze_commit'] != m['freeze_commit']: raise SystemExit('receipt freeze mismatch')
+          if r['claim_ceiling'] != m['claim_ceiling']: raise SystemExit('claim ceiling mismatch')
+          if r['terminal'] != 'GMI_833_E8_GRAMMAR_GROWTH_HELDOUT_REUSE_GREEN_AT_REGISTERED_SCOPE': raise SystemExit('receipt RED')
+          if not all(r['checks'].values()): raise SystemExit('failed check: ' + str([k for k,v in r['checks'].items() if not v]))
+          adm=[(a['name'],a['body'],a['occurrences'],a['gain']) for a in r['invention']['admissions']]
+          if adm != [('m1',['a','b'],11,8),('m2',['m1','m1'],4,1)]: raise SystemExit('admission trace mismatch')
+          if not r['rec1']['exact_witness']: raise SystemExit('REC-1 witness missing')
+          if r['heldout_reuse_positive']['net'] != -48739: raise SystemExit('H+ net mismatch')
+          if r['heldout_reuse_positive']['cumulative_burden_G0'] != 50052 or r['heldout_reuse_positive']['cumulative_burden_expanded'] != 1307: raise SystemExit('H+ burdens mismatch')
+          if r['heldout_unrelated_control']['net'] != 1178: raise SystemExit('H- net mismatch')
+          if r['heldout_unrelated_control']['cumulative_burden_G0'] != 538 or r['heldout_unrelated_control']['cumulative_burden_expanded'] != 1710: raise SystemExit('H- burdens mismatch')
+          if r['heldout_reuse_positive']['library_overhead_K_total'] != 6: raise SystemExit('K_total uncharged')
+          thr={t['macro']:(t['H_eff'],t['benefit_marginal'],t['K']) for t in r['threshold_thr1']['per_macro']}
+          if thr != {'m1':(8,8,3),'m2':(13,13,3)}: raise SystemExit('threshold mismatch')
+          if not r['threshold_thr1']['aggregate_holds'] or r['threshold_thr1']['aggregate_benefit_marginal'] != 21: raise SystemExit('aggregate threshold mismatch')
+          nu=r['null_null1']
+          if nu['n_seeds'] != 200 or nu['nulls_strictly_better_hplus'] != 0 or nu['true_library_empirical_rank_hplus'] != 1: raise SystemExit('null mismatch')
+          if r['kappa_ablation']['kappa_primary_derived'] != 1: raise SystemExit('kappa derivation mismatch')
+          if not o['all_ok']: raise SystemExit('oracle RED')
+          if set(r['forbidden_promotions']) != set(m['forbidden_promotions']): raise SystemExit('forbidden promotion mismatch')
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 E8 rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json
