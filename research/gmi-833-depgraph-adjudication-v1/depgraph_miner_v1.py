@@ -611,6 +611,9 @@ def mine_layer_c():
     pkg_re = re.compile(r"gmi-833-[a-z0-9-]+-v[0-9]+")
     dirs = {p.name: p for p in RESEARCH.iterdir()
             if p.is_dir() and p.name.startswith("gmi-833-")}
+    # this package's own freeze references its parents as provenance; harvesting
+    # them would make the graph mutate on every self-edit, so self is excluded
+    dirs.pop(HERE.name, None)
     short = {}
     for name in sorted(dirs):
         m = re.match(r"gmi-833-aj9([a-g])-", name)
