@@ -5,22 +5,22 @@ tree and FAILS if any bound artifact drifted. Also re-derives the headline
 counts from the bound JSONs and cross-checks the manifest's revival-ticket
 register against the pinned REVIVAL_TICKETS_V1.json.
 
-Post-freeze changes to bound artifacts are forbidden (BASELINE_V1.md §5);
-they must land as supplements + a later BASELINE_MANIFEST_V<n>.json, which
-this validator then checks the same way.
+House style: stdlib-only, runs directly under `python -I -B` / `python -I -O -B`
+(no pytest dependency). Post-freeze changes to bound artifacts are forbidden
+(BASELINE_V1.md §5); they must land as supplements + a later
+BASELINE_MANIFEST_V<n>.json, which this validator then checks the same way.
 """
 from __future__ import annotations
 
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path
 
-import pytest
-
-REPO = Path(__file__).resolve().parents[1]
-PKG = REPO / "research" / "gmi-833-theory-baseline-v1"
-MANIFEST_V1 = PKG / "BASELINE_MANIFEST_V1.json"
+REPO = Path(__file__).resolve().parents[2]
+PKG_DIR = Path(__file__).resolve().parent
+MANIFEST_V1 = PKG_DIR / "BASELINE_MANIFEST_V1.json"
 GIT = "/usr/bin/git"
 
 EXPECTED_PINNED_HEAD = "c4def870df287a476672e47219134832a0c2f380"
@@ -43,9 +43,13 @@ def _artifacts(manifest: dict) -> list[dict]:
     return arts
 
 
+def _self_binding(manifest: dict) -> list[dict]:
+    return manifest.get("self_binding", [])
+
+
 def _latest_manifests() -> list[Path]:
     """All baseline manifests present, version-ordered (V1 first)."""
-    paths = sorted(PKG.glob("BASELINE_MANIFEST_V*.json"))
+    paths = sorted(PKG_DIR.glob("BASELINE_MANIFEST_V*.json"))
     assert paths, "no BASELINE_MANIFEST file found"
     return paths
 
@@ -78,7 +82,8 @@ def test_every_bound_artifact_hash_matches_live_tree():
     """The freeze is tamper-evident: any drift in any bound file fails here."""
     for mpath in _latest_manifests():
         manifest = json.loads(mpath.read_text())
-        for art in _artifacts(manifest):
+        bound = _artifacts(manifest) + _self_binding(manifest)
+        for art in bound:
             path = REPO / art["path"]
             assert path.is_file(), f"bound artifact deleted: {art['path']} ({mpath.name})"
             data = path.read_bytes()
@@ -116,6 +121,7 @@ def test_headline_counts_rederived_from_bound_artifacts():
     dup = load("research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json")
     ovr = load("research/gmi-833-depgraph-adjudication-v1/OVERSTRONG_ADJUDICATION_V1.json")
     rag = load("research/gmi-833-depgraph-adjudication-v1/MASTER_RAG_TABLE_V1.json")
+    tsv2 = load("research/gmi-833-maturity-rescore-v2-v1/THEOREM_SCORES_V2.json")
     reg2 = load("research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json")
     res2 = load("research/gmi-833-claim-discipline-v1/RESULT_V2.json")
     tickets = load("research/gmi-833-corpus-passes-v2-v1/REVIVAL_TICKETS_V1.json")
@@ -143,6 +149,7 @@ def test_headline_counts_rederived_from_bound_artifacts():
     assert ovr["verdict_distribution"] == vc["overstrong_verdicts"] == {"PROPER": 283}
     assert len(rag["strata"]) == vc["master_rag_strata"] == 39
 
+    assert len(tsv2) == vc["theorem_scores_rows"] == 197
     assert len(reg2["objects"]) == vc["claim_discipline_objects_v2"] == 235
     assert res2["registered_gap_v2"] == vc["claim_discipline_registered_gap_v2"] == 0
     assert res2["field_slots"] == vc["claim_discipline_slots_v2"] == 1175
@@ -151,7 +158,6 @@ def test_headline_counts_rederived_from_bound_artifacts():
     assert vc["revival_tickets_total"] == 9
     assert vc["revival_tickets_closed"] == 3
     assert vc["revival_tickets_open"] == 6
-    assert vc["theorem_scores_rows"] == 197
     assert vc["terminology_edits_tranche1"] == 255
     assert vc["terminology_edits_tranche2"] == 217
     assert vc["terminology_aj_lane_residual_hits"] == 35
@@ -180,7 +186,9 @@ def test_no_unregistered_tracked_files_in_frozen_dirs():
     later manifest, which this check then accepts)."""
     accepted: set[str] = set()
     for mpath in _latest_manifests():
-        accepted.update(a["path"] for a in _artifacts(json.loads(mpath.read_text())))
+        m = json.loads(mpath.read_text())
+        accepted.update(a["path"] for a in _artifacts(m))
+        accepted.update(a["path"] for a in _self_binding(m))
     for comp in _load_manifest()["components"]:
         tracked = _git_ls_files(comp["package"])
         unregistered = tracked - accepted
@@ -190,5 +198,17 @@ def test_no_unregistered_tracked_files_in_frozen_dirs():
         )
 
 
+TESTS = [
+    test_manifest_pin_and_shape,
+    test_every_bound_artifact_hash_matches_live_tree,
+    test_assertion_dependencies_are_bound,
+    test_headline_counts_rederived_from_bound_artifacts,
+    test_revival_register_matches_pinned_tickets,
+    test_no_unregistered_tracked_files_in_frozen_dirs,
+]
+
 if __name__ == "__main__":
-    raise SystemExit(pytest.main([__file__, "-q"]))
+    for fn in TESTS:
+        fn()
+        print(f"PASS {fn.__name__}")
+    print(f"{len(TESTS)}/{len(TESTS)} passed")

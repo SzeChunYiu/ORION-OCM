@@ -5,8 +5,9 @@ Parent: SzeChunYiu/ORION-OCM#833 (Section B, line 59 — "Freeze an audited
 Pinned HEAD: `c4def870df287a476672e47219134832a0c2f380`
 ("research(#833): corpus identification passes v2 … L58 revival to universal CI-U (#976)").
 Machine binding: `BASELINE_MANIFEST_V1.json` (this directory) — 132 artifacts across
-11 component packages, each sha256-pinned; tamper-evident via
-`tests/test_theory_baseline_v1.py`, which re-derives every hash from the live tree
+11 component packages, each sha256-pinned (plus a self-binding of the freeze
+package's own files); tamper-evident via this package's
+`test_theory_baseline_v1.py`, which re-derives every hash from the live tree
 and fails on drift.
 
 **Claim ceiling:** `GMI_THEORY_BASELINE_V1_AT_PINNED_FROZEN_CORPUS_SCOPE`.
@@ -121,7 +122,8 @@ since pin** (re-checked at ship; see manifest `arrivals_since_pin`).
   supplement: `SUPPLEMENT_<n>_<slug>.md` in this directory (plus the owning lane's
   new artifacts) and, when the binding itself changes, `BASELINE_MANIFEST_V2.json`.
   The pinned manifest and its 132 bound files stay byte-identical forever.
-- **Tamper evidence.** `tests/test_theory_baseline_v1.py` re-derives every bound
+- **Tamper evidence.** `test_theory_baseline_v1.py` (package-local, stdlib-only,
+  runs under `python -I -B` / `python -I -O -B`) re-derives every bound
   sha256 from the live tree, re-derives the headline counts from the bound JSONs,
   and cross-checks the manifest's revival-ticket register against the pinned
   `REVIVAL_TICKETS_V1.json`. Any drift fails the package tests.

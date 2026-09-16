@@ -527,7 +527,8 @@ def main() -> int:
                 "SUPPLEMENT_<n>_<slug>.md (plus any new artifacts in the owning lane) and, "
                 "when the binding changes, BASELINE_MANIFEST_V2.json. The pinned "
                 "BASELINE_MANIFEST_V1.json and every file it binds stay byte-identical; "
-                "tests/test_theory_baseline_v1.py enforces this and fails on drift."
+                "research/gmi-833-theory-baseline-v1/test_theory_baseline_v1.py enforces "
+                "this and fails on drift."
             ),
             "supplement_pattern": "SUPPLEMENT_*_*.md + BASELINE_MANIFEST_V<n>.json",
             "tamper_evidence": "tests/test_theory_baseline_v1.py re-derives every sha256 from the live tree",
@@ -551,6 +552,28 @@ def main() -> int:
     for assertion, paths in manifest["assertion_dependencies"].items():
         for p in paths:
             assert p in bound, f"{assertion} references unbound artifact {p}"
+
+    # self-binding: the freeze package's own files (everything except the
+    # manifest, which cannot contain its own hash)
+    self_binding = []
+    for f in sorted((REPO / PKG).iterdir()):
+        if not f.is_file() or f.name == "BASELINE_MANIFEST_V1.json":
+            continue
+        data = f.read_bytes()
+        self_binding.append(
+            {
+                "path": f"{PKG}/{f.name}",
+                "sha256": sha256_bytes(data),
+                "bytes": len(data),
+                "role": "FREEZE_PACKAGE_SELF",
+            }
+        )
+    manifest["self_binding"] = self_binding
+    manifest["governance"]["tamper_evidence"] = (
+        "research/gmi-833-theory-baseline-v1/test_theory_baseline_v1.py re-derives "
+        "every sha256 (component artifacts + self-binding) from the live tree; "
+        "runs under python -I -B and -I -O -B with no third-party dependency"
+    )
 
     out_path = REPO / PKG / "BASELINE_MANIFEST_V1.json"
     out_path.write_text(json.dumps(manifest, indent=1, sort_keys=False) + "\n")

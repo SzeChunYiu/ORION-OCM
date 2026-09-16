@@ -14,9 +14,10 @@ v2 → grammar growth → progress ledger — into one tamper-evident baseline.
   component packages, each {path, sha256, bytes, role}; assertion→artifact
   dependency map A1–A14; revival-ticket register snapshot; arrival-absorption
   rule (0 arrivals at bind).
-- `tests/test_theory_baseline_v1.py` (repo `tests/`) — re-derives every hash
-  from the live tree, re-derives headline counts from the bound JSONs, and
-  fails on any drift or unregistered tracked file in a frozen package.
+- `test_theory_baseline_v1.py` (this package; `python -I -B`, stdlib-only) —
+  re-derives every hash from the live tree (component artifacts + freeze-package
+  self-binding), re-derives headline counts from the bound JSONs, and fails on
+  any drift or unregistered tracked file in a frozen package.
 - `build_manifest_v1.py` — deterministic manifest builder (stdlib-only,
   byte-identical under `-I -B` / `-I -O -B`); asserts every headline count
   against the live artifacts before writing.

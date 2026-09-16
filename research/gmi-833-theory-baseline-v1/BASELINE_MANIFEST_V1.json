@@ -1168,9 +1168,9 @@
   ]
  },
  "governance": {
-  "post_freeze_edit_rule": "No bound artifact may be edited in place after this freeze. Every change - a revival ticket closing, an arrival typed, a count moving - lands as a supplement: a NEW file research/gmi-833-theory-baseline-v1/SUPPLEMENT_<n>_<slug>.md (plus any new artifacts in the owning lane) and, when the binding changes, BASELINE_MANIFEST_V2.json. The pinned BASELINE_MANIFEST_V1.json and every file it binds stay byte-identical; tests/test_theory_baseline_v1.py enforces this and fails on drift.",
+  "post_freeze_edit_rule": "No bound artifact may be edited in place after this freeze. Every change - a revival ticket closing, an arrival typed, a count moving - lands as a supplement: a NEW file research/gmi-833-theory-baseline-v1/SUPPLEMENT_<n>_<slug>.md (plus any new artifacts in the owning lane) and, when the binding changes, BASELINE_MANIFEST_V2.json. The pinned BASELINE_MANIFEST_V1.json and every file it binds stay byte-identical; research/gmi-833-theory-baseline-v1/test_theory_baseline_v1.py enforces this and fails on drift.",
   "supplement_pattern": "SUPPLEMENT_*_*.md + BASELINE_MANIFEST_V<n>.json",
-  "tamper_evidence": "tests/test_theory_baseline_v1.py re-derives every sha256 from the live tree",
+  "tamper_evidence": "research/gmi-833-theory-baseline-v1/test_theory_baseline_v1.py re-derives every sha256 (component artifacts + self-binding) from the live tree; runs under python -I -B and -I -O -B with no third-party dependency",
   "forbidden_promotions": [
    "ALL_GMI_THEOREMS_TRUE",
    "ONTOLOGICAL_COMPLETENESS",
@@ -1183,5 +1183,31 @@
    "REVIVAL_OBLIGATION_CLOSED_BY_BASELINE",
    "SILENT_EDIT_OF_BOUND_ARTIFACT"
   ]
- }
+ },
+ "self_binding": [
+  {
+   "path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+   "sha256": "c2e5af01503fad8fcc20b416ea2c920e6e072011943e9681f090316813f51e2b",
+   "bytes": 12351,
+   "role": "FREEZE_PACKAGE_SELF"
+  },
+  {
+   "path": "research/gmi-833-theory-baseline-v1/README.md",
+   "sha256": "1c490e84639a5dec486911034daa4d5bd0ed1f9e24e7958c1946c2b612765242",
+   "bytes": 1643,
+   "role": "FREEZE_PACKAGE_SELF"
+  },
+  {
+   "path": "research/gmi-833-theory-baseline-v1/build_manifest_v1.py",
+   "sha256": "98e1f75209cf0a403723e04ffc51c66f0124980c9b7ac708da5ffde48dc7469b",
+   "bytes": 25901,
+   "role": "FREEZE_PACKAGE_SELF"
+  },
+  {
+   "path": "research/gmi-833-theory-baseline-v1/test_theory_baseline_v1.py",
+   "sha256": "46a8acd6f18fd0d6989a3cbfba7ad68521f331e5c4b46d9b69c7060ef9168c80",
+   "bytes": 9212,
+   "role": "FREEZE_PACKAGE_SELF"
+  }
+ ]
 }
