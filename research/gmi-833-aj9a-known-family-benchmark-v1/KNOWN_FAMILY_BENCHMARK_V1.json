@@ -1,0 +1,172 @@
+{
+  "schema": "AJ9_KNOWN_FAMILY_BENCHMARK_V1",
+  "status": "FROZEN_BEFORE_HOLDOUT_RUNS",
+  "role": "POSTHOC_ADJUDICATOR_ONLY",
+  "generator_access": false,
+  "search_access": false,
+  "evaluator_access": false,
+  "families": [
+    {
+      "family_id": "K01",
+      "paper_name": "neural/feed-forward",
+      "posthoc_fingerprint": {
+        "required": [
+          "directed acyclic composition from input toward output",
+          "multiple parameterized aggregation or affine-mixing sites",
+          "at least one non-affine transformation on an internal path",
+          "reuse of the same generic aggregation/nonlinearity construction across more than one internal unit or stage"
+        ],
+        "learning_extension": "if learning is claimed, experience updates distributed numeric parameters and alters future mapping"
+      },
+      "exclusions_near_neighbors": ["pure affine map with no nonlinearity", "literal lookup table", "family name or neuron/layer macro supplied to search"],
+      "minimum_observation_tests": ["intervene on at least two incoming signals and show aggregation dependence", "show non-affine response witness", "show acyclic multi-stage composition"],
+      "equivalence_scope": "structural-mechanism fingerprint plus protected I/O capability; not exact historical implementation identity",
+      "parent_anchors": ["McCulloch-Pitts 1943", "Rumelhart-Hinton-Williams 1986", "LeCun-Bottou-Bengio-Haffner 1998"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K02",
+      "paper_name": "recurrent/stateful",
+      "posthoc_fingerprint": {
+        "required": ["persistent internal state survives between external steps", "prior internal state causally changes a later output or update under matched current input", "the state is updated and fed into subsequent computation"]
+      },
+      "exclusions_near_neighbors": ["pure feed-forward mapping", "write-only passive memory not read by later control", "state label supplied as target macro"],
+      "minimum_observation_tests": ["same current input with different reachable prior internal states produces different protected response", "demonstrate at least one state-update cycle"],
+      "equivalence_scope": "stateful causal mechanism, not specific RNN equations",
+      "parent_anchors": ["Elman 1990 Finding Structure in Time", "finite-state/recurrent systems literature"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K03",
+      "paper_name": "local/shared-transform",
+      "posthoc_fingerprint": {
+        "required": ["a common transform or parameter set is applied at multiple positions/sites", "each application is restricted to a registered local neighborhood or receptive field", "consistent relabeling/translation of sites transports the local computation where the registered domain supports it"]
+      },
+      "exclusions_near_neighbors": ["independent unrelated parameters at every site", "global all-to-all transform with no locality", "convolution/local operator supplied as primitive macro"],
+      "minimum_observation_tests": ["same local pattern at two sites induces the same local transform under matched boundary conditions", "remote non-neighbor perturbation has no one-step effect at a tested local site"],
+      "equivalence_scope": "shared local mechanism; does not require literal convolution implementation",
+      "parent_anchors": ["LeCun et al. 1998 gradient-based document recognition / convolutional networks"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K04",
+      "paper_name": "attention/dynamic-routing",
+      "posthoc_fingerprint": {
+        "required": ["a query/current-content-dependent compatibility or routing quantity is computed for multiple candidate sources", "source influence on the aggregate changes when query/content changes", "selected or weighted source information is aggregated into a downstream computation"]
+      },
+      "exclusions_near_neighbors": ["fixed content-independent mixing", "static hard-wired routing", "attention/softmax/query-key-value macro supplied to search"],
+      "minimum_observation_tests": ["hold sources fixed and change query/content to change source influence", "show at least two candidate sources can dominate under different registered inputs"],
+      "equivalence_scope": "content-dependent routing/weighting mechanism; normalization need not be softmax unless claimed",
+      "parent_anchors": ["Vaswani et al. 2017 Attention Is All You Need", "earlier neural attention literature"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K05",
+      "paper_name": "symbolic/rewrite/search",
+      "posthoc_fingerprint": {
+        "required": ["machine state contains explicitly compositional discrete expressions/terms/structures", "legal transformations include rule-based rewrite/inference over those structures", "control selects among more than one legal symbolic successor or derivation path"]
+      },
+      "exclusions_near_neighbors": ["opaque numeric vector with no registered symbolic semantics", "fixed finite lookup with no compositional rewrite", "symbolic solver macro supplied whole"],
+      "minimum_observation_tests": ["trace at least one semantics-preserving or goal-directed multi-step rewrite", "show alternative legal symbolic successors from one structure"],
+      "equivalence_scope": "explicit symbolic structured-state transformation/search mechanism",
+      "parent_anchors": ["term-rewriting systems", "Knuth-Bendix completion", "classical AI state-space/symbolic search"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K06",
+      "paper_name": "probabilistic/Bayesian",
+      "posthoc_fingerprint": {
+        "required": ["internal predictive/belief object is a normalized probability distribution or equivalent probabilistic state", "registered evidence changes that object according to a declared probabilistic model", "predictions/decisions are computed from the updated probabilistic state"]
+      },
+      "exclusions_near_neighbors": ["unnormalized arbitrary score vector with no probabilistic semantics", "randomized action with no maintained belief", "Bayes operator supplied as an opaque target macro"],
+      "minimum_observation_tests": ["normalization check", "evidence-update likelihood-ratio or Bayes-equivalent check at finite scope", "posterior/predictive response changes under informative evidence"],
+      "equivalence_scope": "probabilistic belief-update semantics; exact Bayesian identity required only where family claim says Bayesian",
+      "parent_anchors": ["Bayes decision/inference theory", "Pearl 1988 Probabilistic Reasoning in Intelligent Systems"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K07",
+      "paper_name": "planning/control",
+      "posthoc_fingerprint": {
+        "required": ["candidate future action/state consequences or value-to-go quantities are evaluated before committing the current external action", "choice depends on predicted downstream consequence rather than current immediate score alone", "registered transition/control semantics connect action choices across more than one step"]
+      },
+      "exclusions_near_neighbors": ["pure reactive policy with no future-consequence computation", "fixed action sequence", "planner macro supplied as a primitive"],
+      "minimum_observation_tests": ["construct an immediate-reward trap where the selected action changes because of later consequence", "trace the internal multi-step or value-recursive calculation"],
+      "equivalence_scope": "lookahead/dynamic-programming/control-equivalent mechanism, not one named planning algorithm",
+      "parent_anchors": ["Bellman dynamic programming / principle of optimality", "Markov decision processes", "optimal control"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K08",
+      "paper_name": "retrieval/memory",
+      "posthoc_fingerprint": {
+        "required": ["multiple persistent stored items or records coexist", "a later query/key/content state selects or weights stored content non-uniformly", "retrieved content causally affects a downstream protected response"]
+      },
+      "exclusions_near_neighbors": ["single undifferentiated recurrent hidden state", "write-only archive", "fixed-address read independent of query/content when content-addressed retrieval is claimed"],
+      "minimum_observation_tests": ["same store with two different queries retrieves different registered items/content", "remove or alter selected memory and change protected response"],
+      "equivalence_scope": "selective persistent retrieval mechanism; may be associative, keyed or content-addressed",
+      "parent_anchors": ["Hopfield 1982 content-addressable memory", "associative memory / content-addressable memory literature"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K09",
+      "paper_name": "evolutionary/population search",
+      "posthoc_fingerprint": {
+        "required": ["at least two candidate organizations or heritable descriptions coexist in a population/set", "new candidates are generated by registered variation from existing candidate information", "evaluation/selection changes which candidate information persists or reproduces across iterations"]
+      },
+      "exclusions_near_neighbors": ["single-candidate deterministic local search with no population/heredity", "pure random restart with no inherited selected information", "genetic/evolution operator supplied as a family macro"],
+      "minimum_observation_tests": ["trace parent-to-descendant information inheritance", "show evaluation changes next-generation representation frequencies or membership"],
+      "equivalence_scope": "population/heredity/variation/selection search mechanism; not literal biological genetics",
+      "parent_anchors": ["Holland Adaptation in Natural and Artificial Systems", "genetic algorithms / evolutionary computation"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K10",
+      "paper_name": "program synthesis",
+      "posthoc_fingerprint": {
+        "required": ["search candidates are executable expressions/programs drawn from a declared language or grammar", "a semantic/formal behavioral specification is used to accept/reject or score candidates", "the returned artifact is itself an executable program/expression rather than only tuned numeric parameters"]
+      },
+      "exclusions_near_neighbors": ["ordinary parameter fitting with fixed program structure", "manual program construction", "target program template that already determines the held-out mechanism"],
+      "minimum_observation_tests": ["execute the synthesized artifact on protected tests", "show at least two syntactically different candidate programs were in the legal search set"],
+      "equivalence_scope": "program/expression synthesis from specification; grammar bias remains explicit",
+      "parent_anchors": ["program synthesis", "Alur et al. 2013 Syntax-Guided Synthesis"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    },
+    {
+      "family_id": "K11",
+      "paper_name": "self-modifying/developmental",
+      "posthoc_fingerprint": {
+        "required": ["the system proposes or effects a persistent change to its own organization, representation language, search/proposal law or reusable operator/library", "the changed object is used in later control/search rather than only stored as inert history", "the before/after mechanism is causally linked through a registered development/adoption transition"]
+      },
+      "exclusions_near_neighbors": ["ordinary transient working-state update", "external replacement with no machine-linked development path", "self-modification macro that directly installs the target solution"],
+      "minimum_observation_tests": ["replay same external situation before/after and expose mechanism/search-law difference", "show the persistent change is inherited into a later step/task"],
+      "equivalence_scope": "persistent self/developmental mechanism change; governance/verification properties are separately scored unless claimed",
+      "parent_anchors": ["Schmidhuber Goedel Machines", "self-modifying systems", "#233 HST/HSG developmental theory"],
+      "hidden_from_generator": true,
+      "hidden_from_search": true,
+      "hidden_from_evaluator": true
+    }
+  ],
+  "outcome_terminals": ["COMPILED", "RECOVERED", "PREDICTED_SELECTED", "NOT_RECOVERED_AT_SCOPE"],
+  "novelty_terminal_reserved_for_AJ10": "UNKNOWN_MORPHOLOGY"
+}
