@@ -1,0 +1,129 @@
+name: GMI 833 G0 cost privilege v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-cost-privilege-v1/**'
+      - '.github/workflows/gmi-833-g0-cost-privilege-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-cost-privilege-v1/**'
+      - '.github/workflows/gmi-833-g0-cost-privilege-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=abaf2c1dc252c5138bb43c5ba83bbde64d6c212f
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-g0-cost-privilege-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-g0-cost-privilege-v1/g0_cost_privilege_v1.py \
+            research/gmi-833-g0-cost-privilege-v1/independent_oracle_v1.py \
+            research/gmi-833-g0-cost-privilege-v1/test_g0_cost_privilege_v1.py \
+            research/gmi-833-g0-cost-privilege-v1/RESULT_V1.json \
+            research/gmi-833-g0-cost-privilege-v1/ORACLE_RESULT_V1.json \
+            research/gmi-833-g0-cost-privilege-v1/COST_PRIVILEGE_THEOREMS_V1.md \
+            research/gmi-833-g0-cost-privilege-v1/PARENT_LITERATURE_V1.md \
+            research/gmi-833-g0-cost-privilege-v1/CORE.md \
+            research/gmi-833-g0-cost-privilege-v1/MANIFEST_V1.json \
+            research/gmi-833-g0-cost-privilege-v1/ISSUE_833_RECONCILIATION_COST_PRIVILEGE_V1.json \
+            .github/workflows/gmi-833-g0-cost-privilege-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify pinned parent manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/gmi-833-g0-grammar-bias-v1/MANIFEST_V1.json)" = 73c7c0557a3621beb4dd8dcd7cf5db62d02089e0
+          test "$(git hash-object research/gmi-833-robustness-controls-v1/MANIFEST_V1.json)" = ebfe19ba1232725229bdd48916b4bdbe0cdfc8d8
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-g0-cost-privilege-v1/test_g0_cost_privilege_v1.py -v
+            python -I -O -B research/gmi-833-g0-cost-privilege-v1/g0_cost_privilege_v1.py > /tmp/result.json
+            python -I -O -B research/gmi-833-g0-cost-privilege-v1/independent_oracle_v1.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-g0-cost-privilege-v1/test_g0_cost_privilege_v1.py -v
+            python -I -B research/gmi-833-g0-cost-privilege-v1/g0_cost_privilege_v1.py > /tmp/result.json
+            python -I -B research/gmi-833-g0-cost-privilege-v1/independent_oracle_v1.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-g0-cost-privilege-v1/RESULT_V1.json
+          cmp /tmp/oracle.json research/gmi-833-g0-cost-privilege-v1/ORACLE_RESULT_V1.json
+          echo '630624c4d374b3cc805ffffebff9452df46c225a338552999c24758b971ef1e7  research/gmi-833-g0-cost-privilege-v1/RESULT_V1.json' | sha256sum -c -
+          echo '815bf78e9d5871d3d822a7843df1cadc537a058fe9cce0baeb93839d41d3a000  research/gmi-833-g0-cost-privilege-v1/ORACLE_RESULT_V1.json' | sha256sum -c -
+      - name: Validate exact certificate and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-g0-cost-privilege-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          o=json.loads((root/'ORACLE_RESULT_V1.json').read_text())
+          if m['freeze_commit'] != 'abaf2c1dc252c5138bb43c5ba83bbde64d6c212f': raise SystemExit('freeze mismatch')
+          if r['freeze_commit'] != m['freeze_commit']: raise SystemExit('receipt freeze mismatch')
+          if r['claim_ceiling'] != m['claim_ceiling']: raise SystemExit('claim ceiling mismatch')
+          if r['terminal'] != 'GMI_833_E7_COST_PRIVILEGE_AUDIT_GREEN_AT_REGISTERED_SCOPE': raise SystemExit('receipt RED')
+          if r['label_blindness'] != {'class_minimum_checks':90,'failures':0,'label_permutations':6,'point_cost_checks':180,'selection_checks':30,'weights':5}: raise SystemExit('label certificate mismatch')
+          if r['isometric_remints']['name_isometries'] != 720 or r['isometric_remints']['failures'] != 0: raise SystemExit('isometry certificate mismatch')
+          if r['dominance']['dominance_weight_checks'] != 1000 or r['dominance']['dominance_violations'] != 0: raise SystemExit('dominance certificate mismatch')
+          if r['structural_bias_boundary']['GA_selection'] != ['ALPHA'] or r['structural_bias_boundary']['GB_selection'] != ['BETA']: raise SystemExit('structural hostile failed')
+          if o['point_cost_checks'] != 180 or o['dominance_weight_checks'] != 1000 or o['dominance_violations'] != 0 or not o['reversal']: raise SystemExit('oracle mismatch')
+          if set(r['forbidden_promotions']) != set(m['forbidden_promotions']): raise SystemExit('forbidden promotion mismatch')
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-cost-privilege-v1/ISSUE_833_RECONCILIATION_COST_PRIVILEGE_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 E7 row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-cost-privilege-v1/ISSUE_833_RECONCILIATION_COST_PRIVILEGE_V1.json

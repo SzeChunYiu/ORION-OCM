@@ -1,0 +1,106 @@
+name: GMI 833 history switching hysteresis v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-history-switching-hysteresis-v1/**'
+      - '.github/workflows/gmi-833-history-switching-hysteresis-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-history-switching-hysteresis-v1/**'
+      - '.github/workflows/gmi-833-history-switching-hysteresis-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=b0290772d2fc9321d281077bbca8f03f3d8611e1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-history-switching-hysteresis-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-history-switching-hysteresis-v1/history_switching_hysteresis_v1.py \
+            research/gmi-833-history-switching-hysteresis-v1/test_history_switching_hysteresis_v1.py \
+            research/gmi-833-history-switching-hysteresis-v1/RESULT_V1.json \
+            research/gmi-833-history-switching-hysteresis-v1/HISTORY_SWITCHING_THEOREMS_V1.md; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-history-switching-hysteresis-v1/test_history_switching_hysteresis_v1.py -v
+            python -I -O -B research/gmi-833-history-switching-hysteresis-v1/history_switching_hysteresis_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-history-switching-hysteresis-v1/test_history_switching_hysteresis_v1.py -v
+            python -I -B research/gmi-833-history-switching-hysteresis-v1/history_switching_hysteresis_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-history-switching-hysteresis-v1/RESULT_V1.json
+      - name: Check parent authority and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f research/gmi-833-morphology-selection-schema-v1/RESULT_V1.json
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-history-switching-hysteresis-v1')
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          parent=json.loads(Path('research/gmi-833-morphology-selection-schema-v1/RESULT_V1.json').read_text())
+          expected='GMI_FINITE_HISTORY_SWITCHING_AND_HYSTERESIS_SELECTION_AT_REGISTERED_SCOPE'
+          assert m['freeze_commit']=='b0290772d2fc9321d281077bbca8f03f3d8611e1'
+          assert m['claim_ceiling']==r['claim_ceiling']==expected
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          assert parent['claim_ceiling']=='GMI_FINITE_MORPHOLOGY_SELECTION_AND_AFFINE_PHASE_SCHEMA_AT_REGISTERED_SCOPE'
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-history-switching-hysteresis-v1/ISSUE_833_RECONCILIATION_HISTORY_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply earned #833 Section-J history rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-history-switching-hysteresis-v1/ISSUE_833_RECONCILIATION_HISTORY_V1.json
