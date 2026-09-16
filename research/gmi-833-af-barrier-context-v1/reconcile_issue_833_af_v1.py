@@ -22,9 +22,11 @@ def load_registry() -> dict:
     require(obj["repository"] == "SzeChunYiu/ORION-OCM", "repository drift")
     require(obj["issue"] == 833 and obj["comment_id"] == 5693269426, "issue/comment authority drift")
     tasks = obj["tasks"]
-    require(len(tasks) == 23, f"expected 23 directly reconcilable AF0-AF3 tasks, got {len(tasks)}")
+    require(len(tasks) == 22, f"expected 22 directly reconcilable AF0-AF3 tasks after the AF1 corrected-boundary deferral, got {len(tasks)}")
     require(len(set(tasks)) == len(tasks), "duplicate reconciliation task")
     require(all(t.startswith("- [ ] ") for t in tasks), "all registry tasks must be exact unchecked markdown rows")
+    deferred = obj.get("deferred_tasks", [])
+    require(any("exact finite `G0` microscopes" in x.get("task", "") for x in deferred), "AF1 G0 corrected-boundary row must remain deferred")
     return obj
 
 
@@ -59,6 +61,7 @@ def reconcile_body(body: str, tasks: list[str], apply: bool) -> tuple[str, int, 
         if has_checked:
             checked += 1
             continue
+
         unchecked += 1
         if apply:
             out = out.replace(task, done, 1)
@@ -71,7 +74,7 @@ def main() -> None:
     args = ap.parse_args()
     reg = load_registry()
     if args.mode == "static-check":
-        print(json.dumps({"status": "GREEN", "mode": args.mode, "task_count": len(reg["tasks"])}, sort_keys=True))
+        print(json.dumps({"status": "GREEN", "mode": args.mode, "task_count": len(reg["tasks"]), "deferred_count": len(reg.get("deferred_tasks", []))}, sort_keys=True))
         return
 
     owner, repo = reg["repository"].split("/", 1)
@@ -81,13 +84,13 @@ def main() -> None:
     body = comment.get("body", "")
     new_body, unchecked, checked = reconcile_body(body, reg["tasks"], apply=args.mode == "apply")
     if args.mode == "remote-check":
-        print(json.dumps({"status": "GREEN", "mode": args.mode, "unchecked": unchecked, "already_checked": checked}, sort_keys=True))
+        print(json.dumps({"status": "GREEN", "mode": args.mode, "unchecked": unchecked, "already_checked": checked, "deferred_count": len(reg.get("deferred_tasks", []))}, sort_keys=True))
         return
 
     require(os.environ.get("GITHUB_TOKEN"), "GITHUB_TOKEN required for apply")
     if new_body != body:
         request_json("PATCH", comment_url, {"body": new_body})
-    print(json.dumps({"status": "GREEN", "mode": args.mode, "newly_checked": unchecked, "already_checked": checked}, sort_keys=True))
+    print(json.dumps({"status": "GREEN", "mode": args.mode, "newly_checked": unchecked, "already_checked": checked, "deferred_count": len(reg.get("deferred_tasks", []))}, sort_keys=True))
 
 
 if __name__ == "__main__":

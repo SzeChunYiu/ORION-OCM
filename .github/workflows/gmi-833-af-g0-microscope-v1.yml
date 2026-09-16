@@ -1,0 +1,75 @@
+name: gmi-833-af-g0-microscope-v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-af-barrier-context-v1/check_g0_micro_v1.py'
+      - 'research/gmi-833-af-barrier-context-v1/G0_RESULT_V1.json'
+      - 'research/gmi-833-af-barrier-context-v1/G0_MICROSCOPE_V1.md'
+      - 'research/gmi-833-af-barrier-context-v1/AF1_CORRECTED_BOUNDARY_V1.json'
+      - 'research/gmi-833-af-barrier-context-v1/ISSUE_833_AF_RECONCILIATION_V1.json'
+      - 'research/gmi-833-af-barrier-context-v1/reconcile_issue_833_af_v1.py'
+      - '.github/workflows/gmi-833-af-g0-microscope-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-af-barrier-context-v1/check_g0_micro_v1.py'
+      - 'research/gmi-833-af-barrier-context-v1/G0_RESULT_V1.json'
+      - 'research/gmi-833-af-barrier-context-v1/G0_MICROSCOPE_V1.md'
+      - 'research/gmi-833-af-barrier-context-v1/AF1_CORRECTED_BOUNDARY_V1.json'
+      - 'research/gmi-833-af-barrier-context-v1/ISSUE_833_AF_RECONCILIATION_V1.json'
+      - 'research/gmi-833-af-barrier-context-v1/reconcile_issue_833_af_v1.py'
+      - '.github/workflows/gmi-833-af-g0-microscope-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-g0-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze and G0 parent custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          FREEZE=b5a96cfb07f99f7493e5946dff42929eee653503
+          git merge-base --is-ancestor "$FREEZE" HEAD
+          test "$(git rev-parse HEAD:research/gmi-833-g0-register-core-v1/g0_register_core_v1.py)" = 6c80e7b1ee0cceedb5dc48eaf28bd3011750d80a
+          if git cat-file -e "$FREEZE:research/gmi-833-af-barrier-context-v1/check_g0_micro_v1.py" 2>/dev/null; then
+            echo 'G0 microscope implementation predates AF freeze' >&2
+            exit 1
+          fi
+      - name: Reproduce exact G0 microscope normal and optimized
+        working-directory: research/gmi-833-af-barrier-context-v1
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp G0_RESULT_V1.json /tmp/g0.pin.json
+          python3 -I -B check_g0_micro_v1.py >/tmp/g0.normal.out
+          cmp /tmp/g0.pin.json G0_RESULT_V1.json
+          python3 -I -O -B check_g0_micro_v1.py >/tmp/g0.opt.out
+          cmp /tmp/g0.pin.json G0_RESULT_V1.json
+          cmp /tmp/g0.normal.out /tmp/g0.opt.out
+      - name: Verify corrected-boundary reconciliation
+        working-directory: research/gmi-833-af-barrier-context-v1
+        run: |
+          python3 -I -B reconcile_issue_833_af_v1.py --mode static-check
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('.')
+          rec=json.loads((p/'ISSUE_833_AF_RECONCILIATION_V1.json').read_text())
+          corr=json.loads((p/'AF1_CORRECTED_BOUNDARY_V1.json').read_text())
+          row='- [ ] Construct exact finite `G0` microscopes where two machines have the same current capability but different `Gamma`, and conversely.'
+          assert row not in rec['tasks']
+          assert any(x['task']==row for x in rec['deferred_tasks'])
+          assert corr['first_direction']['status']=='GREEN_AT_REGISTERED_G0_SCOPE'
+          assert corr['literal_converse']['status']=='LOGICALLY_INCOMPATIBLE_WITH_REGISTERED_FULL_GAMMA_DEFINITION'
+          assert corr['reconciliation']=='LEAVE_ORIGINAL_ROW_UNCHECKED_UNTIL_WORDING_IS_REPAIRED'
+          PY
