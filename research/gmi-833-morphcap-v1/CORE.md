@@ -4,8 +4,8 @@ Bounded #848 / #833-C foundation tranche for architecture-independent computatio
 
 ## Scope
 
-- morphology equivalence = isomorphism of a registered architecture-name-free mechanism signature;
-- legacy `machine species` = quotient class under that equivalence;
+- mechanism-structure equivalence = isomorphism of a registered architecture-name-free mechanism signature;
+- the legacy species-style label = quotient class under that equivalence (paper term: computational-mechanism equivalence class);
 - capability = external task/verifier/resource functional, never an architecture label;
 - capability ceiling = supremum over an externally defined admissible realization class;
 - impossibility region = threshold above the ceiling or no feasible realization;
