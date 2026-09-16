@@ -135,9 +135,11 @@ charged discovery law—is absent. In case 2 the defining mediator for solution
 capital—a stored member of `U`—is absent, while the discovery-burden comparison
 is strict. `□`
 
-If stored solutions intersect `U`, the policy assay reports
-`CONTAMINATED_BY_STORED_SOLUTION` rather than trying to assign the observed
-benefit to both mechanisms. This preserves the existing repository finding:
+If stored solutions intersect `U` while the proposal law also changes, the
+policy assay reports `CANNOT_IDENTIFY_STORED_SOLUTION_CONTAMINATION` and a
+nonnumeric/unknown policy-capital disposition rather than trying to assign the
+observed benefit to either mechanism. With an unchanged proposal law, the
+solution-only intervention remains identified. This preserves the existing repository finding:
 K1-style solution/search assistance may be supported at a registered assay
 while empirical second-order K2 remains `NOT_ESTABLISHED`.
 
@@ -170,4 +172,3 @@ Allowed terminal:
 Forbidden from this tranche alone: universal or open-ended evolvability,
 history-always-helps, physical-runtime inference, empirical K2 closure, future
 task prediction, recursive primitive invention, or complete GMI.
-

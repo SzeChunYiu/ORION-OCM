@@ -323,12 +323,20 @@ def classify_capital(
     if not useful_set.issubset(baseline) or not stored_set.issubset(baseline) or set(baseline) != set(history):
         raise ValueError("capital assay objects must share one registered carrier")
     solution_capital = bool(useful_set & stored_set)
+    law_changed = baseline != history
     if solution_capital:
+        if law_changed:
+            return {
+                "solution_capital": True,
+                "search_policy_capital": None,
+                "policy_assay_status": "CANNOT_IDENTIFY_STORED_SOLUTION_CONTAMINATION",
+                "proposal_law_changed": True,
+            }
         return {
             "solution_capital": True,
             "search_policy_capital": False,
-            "policy_assay_status": "CONTAMINATED_BY_STORED_SOLUTION",
-            "proposal_law_changed": baseline != history,
+            "policy_assay_status": "SOLUTION_ONLY_UNCHANGED_POLICY",
+            "proposal_law_changed": False,
         }
     comparison = history_discovery_comparison(
         baseline,

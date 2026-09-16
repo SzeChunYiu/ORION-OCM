@@ -163,7 +163,18 @@ class DevelopmentalPotentialTests(unittest.TestCase):
         result = M.classify_capital({"u"}, {"u"}, kernel, kernel, (1,), (0,), (1,))
         self.assertTrue(result["solution_capital"])
         self.assertFalse(result["search_policy_capital"])
-        self.assertEqual(result["policy_assay_status"], "CONTAMINATED_BY_STORED_SOLUTION")
+        self.assertEqual(result["policy_assay_status"], "SOLUTION_ONLY_UNCHANGED_POLICY")
+
+    def test_stored_target_plus_changed_policy_is_not_identifiable(self):
+        result = M.classify_capital(
+            {"u"}, {"u"},
+            {"u": Fraction(1, 4), "n": Fraction(3, 4)},
+            {"u": Fraction(1, 2), "n": Fraction(1, 2)},
+            (1,), (0,), (1,),
+        )
+        self.assertTrue(result["solution_capital"])
+        self.assertIsNone(result["search_policy_capital"])
+        self.assertEqual(result["policy_assay_status"], "CANNOT_IDENTIFY_STORED_SOLUTION_CONTAMINATION")
 
     def test_policy_only_intervention_is_not_solution_reuse(self):
         result = M.classify_capital(
