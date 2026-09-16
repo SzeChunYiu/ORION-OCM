@@ -1,0 +1,34 @@
+{
+  "schema":"GMI_THEORY_DEPENDENCY_DAG_V1",
+  "canonical_interfaces":["GEN","DEV","REQ","REL","CAP","SEL","EVID"],
+  "integration_spine":"ISSUE_833",
+  "nodes":[
+    {"id":"ISSUE_833","owner":"#833","class":"FOUNDATIONAL","interfaces":["EVID"],"role":"INTEGRATION_SPINE","deps":[]},
+    {"id":"GOV_373","owner":"#373","class":"SPECIALIZATION","interfaces":["EVID"],"role":"CONVERGENCE_GOVERNANCE","deps":["ISSUE_833"]},
+    {"id":"BASELINE_602","owner":"#602","class":"SUPERSEDED_REDUNDANT","interfaces":["EVID"],"role":"HISTORICAL_V1_BASELINE","deps":["ISSUE_833"]},
+    {"id":"AJ_PROCESS_BOTTOM","owner":"#833/AJ1-AJ3","class":"FOUNDATIONAL","interfaces":["GEN","REL"],"role":"OPERATIONAL_BASE","deps":["ISSUE_833"]},
+    {"id":"AJ_MACHINE_ORG","owner":"#833/AJ4","class":"SPECIALIZATION","interfaces":["GEN"],"role":"MACHINE_ORGANIZATION","deps":["AJ_PROCESS_BOTTOM"]},
+    {"id":"G0_PRESENTATION","owner":"#868 + #833/AJ5","class":"SPECIALIZATION","interfaces":["GEN"],"role":"GRAMMAR_PRESENTATION","deps":["AJ_MACHINE_ORG"]},
+    {"id":"HSG_DEV","owner":"#233","class":"FOUNDATIONAL","interfaces":["DEV"],"role":"DEVELOPMENTAL_DYNAMICS","deps":["AJ_MACHINE_ORG"]},
+    {"id":"REQ_PROVENANCE","owner":"#833/AJ7","class":"FOUNDATIONAL","interfaces":["REQ"],"role":"REQUIREMENT_SOURCE","deps":["AJ_PROCESS_BOTTOM"]},
+    {"id":"PARENT_BLACKWELL","owner":"Blackwell/LeCam literature","class":"PARENT_OWNED","interfaces":["REL"],"role":"DECISION_INFORMATION_PARENT","deps":[]},
+    {"id":"REL_EQUIVALENCE","owner":"#846","class":"SPECIALIZATION","interfaces":["REL"],"role":"EQUIVALENCE_PARENT_CROSSWALK","deps":["AJ_PROCESS_BOTTOM","PARENT_BLACKWELL"]},
+    {"id":"CAPABILITY_CORE","owner":"#848","class":"SPECIALIZATION","interfaces":["CAP"],"role":"CAPABILITY_RESPONSE_CORE","deps":["AJ_MACHINE_ORG","REQ_PROVENANCE","REL_EQUIVALENCE"]},
+    {"id":"UNCERTAINTY_CORE","owner":"#851","class":"SPECIALIZATION","interfaces":["CAP","EVID"],"role":"UNCERTAINTY_ABSTENTION","deps":["CAPABILITY_CORE"]},
+    {"id":"SEL_MORPHOLOGY","owner":"#894/#898/#902","class":"SPECIALIZATION","interfaces":["SEL"],"role":"MORPHOLOGY_SELECTION","deps":["CAPABILITY_CORE","HSG_DEV","UNCERTAINTY_CORE"]},
+    {"id":"PARENT_NFL","owner":"Wolpert-Macready + parent learning theory","class":"PARENT_OWNED","interfaces":["DEV","SEL"],"role":"NO_FREE_LUNCH_BOUNDARY","deps":[]},
+    {"id":"BARRIER_CALCULUS","owner":"#833/AF","class":"SPECIALIZATION","interfaces":["GEN","DEV","REL","CAP","SEL"],"role":"CROSS_CUTTING_BOUNDARY_CALCULUS","deps":["PARENT_NFL"]},
+    {"id":"EVID_AA_AD","owner":"#833/AA-AD","class":"FOUNDATIONAL","interfaces":["EVID"],"role":"RECURSIVE_EVIDENCE_GOVERNANCE","deps":["ISSUE_833"]},
+    {"id":"HELDOUT_TRANSITIONS","owner":"#902","class":"EMPIRICAL_LAW","interfaces":["SEL","EVID"],"role":"PROSPECTIVE_FINITE_EVIDENCE","deps":["SEL_MORPHOLOGY","EVID_AA_AD"]},
+    {"id":"REAL_SYSTEM_GATE","owner":"#904/#903","class":"SPECIALIZATION","interfaces":["EVID"],"role":"REAL_SCALE_PROTOCOL","deps":["EVID_AA_AD"]},
+    {"id":"G0_STRUCTURAL_BIAS_BOUNDARY","owner":"#896","class":"SPECIALIZATION","interfaces":["GEN","EVID"],"role":"DISCRIMINATOR_COUNTEREXAMPLE","deps":["G0_PRESENTATION"]}
+  ],
+  "authority_reconciliation":{
+    "#833":"integration/scientific-spine specification",
+    "#233":"developmental-dynamics formal module",
+    "#373":"convergence/governance module",
+    "#602":"historical v1 closure baseline only"
+  },
+  "cross_cutting_only":["BARRIER_CALCULUS"],
+  "no_new_umbrella_gate":"NO_NEW_GMI_UMBRELLA_UNTIL_CONVERGENCE_V1"
+}
