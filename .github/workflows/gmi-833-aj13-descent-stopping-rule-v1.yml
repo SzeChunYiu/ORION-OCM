@@ -1,0 +1,33 @@
+name: GMI 833 AJ13 descent stopping rule
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj13-descent-stopping-rule-v1/**'
+      - 'research/gmi-833-aj12-foundation-substrate-relativity-v1/**'
+      - '.github/workflows/gmi-833-aj13-descent-stopping-rule-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AJ13 stopping audit
+        run: |
+          python3 -I ${{ matrix.opt }} -B research/gmi-833-aj13-descent-stopping-rule-v1/check_aj13.py
+          git diff --exit-code -- research/gmi-833-aj13-descent-stopping-rule-v1/RESULT_V1.json
+      - name: Assert scoped terminal
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('research/gmi-833-aj13-descent-stopping-rule-v1/RESULT_V1.json'))
+          assert r['status']=='GREEN'
+          assert all(r['stop_conditions'].values())
+          assert r['terminal']=='FOUNDATION_RELATIVE_GMI_CORE_STABLE_AT_REGISTERED_SCOPE'
+          assert r['forbidden_terminal']=='ABSOLUTE_BOTTOM_OF_MATHEMATICS_OR_REALITY_PROVEN'
+          assert 'COMPLETE_GMI' in r['forbidden_promotions']
+          PY
