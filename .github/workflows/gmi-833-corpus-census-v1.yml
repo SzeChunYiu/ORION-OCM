@@ -1,0 +1,85 @@
+name: GMI 833 corpus census v1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-833-corpus-census-v1/**"
+      - ".github/workflows/gmi-833-corpus-census-v1.yml"
+  push:
+    branches:
+      - "research/842-gmi-corpus-census-v1"
+    paths:
+      - "research/gmi-833-corpus-census-v1/**"
+      - ".github/workflows/gmi-833-corpus-census-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=8dd9dbfa9582bb052085b33f4aba88eb410150e7
+          test "$(git diff-tree --no-commit-id --name-only -r "$freeze")" = "research/gmi-833-corpus-census-v1/FREEZE_V1.md"
+          for p in corpus_census_v1.py test_corpus_census_v1.py CORPUS_INDEX_V1.json DEPENDENCY_GRAPH_V1.json GMI_GAP_GRAPH_V1.json AUDIT_V1.json; do
+            if git cat-file -e "$freeze:research/gmi-833-corpus-census-v1/$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2; exit 1
+            fi
+          done
+      - name: Normal and optimized hostiles
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/gmi-833-corpus-census-v1
+          python -I -B test_corpus_census_v1.py
+          python -I -O -B test_corpus_census_v1.py
+      - name: Reproduce census twice and compare bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-corpus-census-v1
+          rm -rf /tmp/census-normal /tmp/census-opt
+          python -I -B "$pkg/corpus_census_v1.py" --out-dir /tmp/census-normal > /tmp/summary-normal.json
+          python -I -O -B "$pkg/corpus_census_v1.py" --out-dir /tmp/census-opt > /tmp/summary-opt.json
+          cmp /tmp/summary-normal.json /tmp/summary-opt.json
+          for f in CORPUS_INDEX_V1.json DEPENDENCY_GRAPH_V1.json GMI_GAP_GRAPH_V1.json AUDIT_V1.json; do
+            cmp "/tmp/census-normal/$f" "/tmp/census-opt/$f"
+            if test -f "$pkg/$f"; then cmp "/tmp/census-normal/$f" "$pkg/$f"; fi
+          done
+          cat /tmp/summary-normal.json
+
+  materialize:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/research/842-gmi-corpus-census-v1'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: research/842-gmi-corpus-census-v1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Materialize frozen audit artifacts on research branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-corpus-census-v1
+          python -I -B "$pkg/corpus_census_v1.py" --out-dir "$pkg" > /tmp/census-summary.json
+          git add "$pkg/CORPUS_INDEX_V1.json" "$pkg/DEPENDENCY_GRAPH_V1.json" "$pkg/GMI_GAP_GRAPH_V1.json" "$pkg/AUDIT_V1.json"
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "research(#842): materialize frozen corpus audit artifacts [skip ci]"
+          git push origin HEAD:research/842-gmi-corpus-census-v1
