@@ -105,9 +105,15 @@ declines it without reuse. Under NS-1 consequence 2 that is the signature of
 
 **Does not** re-run any K4 cell or change any registered verdict. The frozen
 model is deliberately untouched, so nothing here reclassifies the 159
-`THEORY_RED` cells; that still needs the per-cell audit named in the root-cause
-document. A campaign under the repaired pricing is the natural next step and is
-a decision about the registered protocol, not something to do silently.
+`THEORY_RED` cells in-place. The per-cell audit named in the root-cause
+document is now executed as
+`gmi_k4_substitution_percell_audit_v1/`
+(`GMI_K4_SUBSTITUTION_PERCELL_AUDIT_THEOREM_V1.md`, stage receipt
+`microscopes/results/STAGE_K4_SUBSTITUTION_PERCELL_AUDIT_V1.json`): it partitions
+which of the 159 **admit a substitution under this repaired pricing**
+(admissible reading only; reachability remains clause (c) /
+`gmi_k4_repaired_campaign_v1`). A campaign under the repaired pricing is a
+decision about the registered protocol, not something to do silently.
 
 **Scope.** One grammar (`G2_SYMBOLIC_PROGRAM`), scale 4, 4 000 sampled
 candidates. `LOOKUP_RATIO` and the coverage model are a modelling choice — the
