@@ -373,6 +373,46 @@ def validate_ledgers() -> dict[str, object]:
     return {"claim_ledgers": 4, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"}
 
 
+def validate_package_contracts() -> dict[str, object]:
+    manifest = json.loads((HERE / "MANIFEST_V1.json").read_text())
+    reconciliation = json.loads((HERE / "ISSUE_833_RECONCILIATION_CAPABILITY_INTERACTIONS_V1.json").read_text())
+    expected_rows = {
+        "- [ ] Derive capability lower bounds as well as ceilings.",
+        "- [ ] Derive capability interactions/synergies.",
+        "- [ ] Derive capability interference under shared budgets.",
+    }
+    replacements = reconciliation.get("replacements", [])
+    manifest_ok = (
+        manifest.get("issue") == 906
+        and manifest.get("source_pr") == 907
+        and manifest.get("parent_issue") == 833
+        and manifest.get("freeze_commit") == "964a77c3accbf51b64a4b2af355dec751dfeec92"
+        and manifest.get("frozen_main") == "9f90fc4ef961b7e9adccf7438488d1a64b9e68be"
+        and manifest.get("claim_ceiling") == CLAIM_CEILING
+        and manifest.get("target_rows") == 3
+        and manifest.get("total_exhaustive_cases") == 6875
+        and tuple(manifest.get("forbidden_promotions", ())) == FORBIDDEN_PROMOTIONS
+    )
+    reconciliation_ok = (
+        reconciliation.get("schema") == "GMI_ISSUE_RECONCILIATION_V2"
+        and reconciliation.get("issue") == 833
+        and reconciliation.get("source_issue") == 906
+        and reconciliation.get("source_pr") == 907
+        and reconciliation.get("claim_ceiling") == CLAIM_CEILING
+        and tuple(reconciliation.get("forbidden_promotions", ())) == FORBIDDEN_PROMOTIONS
+        and len(replacements) == 3
+        and {row.get("old") for row in replacements} == expected_rows
+        and all(row.get("anchor") == "# K. Capability theory upgrade" for row in replacements)
+        and all(row.get("new", "").startswith("- [x]") and "PR #907 / #906" in row.get("new", "") for row in replacements)
+    )
+    return {
+        "manifest_ok": manifest_ok,
+        "reconciliation_ok": reconciliation_ok,
+        "reconciliation_rows": len(replacements),
+        "source_pr": reconciliation.get("source_pr"),
+    }
+
+
 def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, object]:
     parent_audit = parent_audit or {"all_ok": True, "rows": []}
     bounds = finite_capability_bounds({"low": 1, "middle": 2, "high": 3})
@@ -388,6 +428,7 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
     overlap = overlap_nonidentification_hostile()
     census = exhaustive_census()
     ledgers = validate_ledgers()
+    package_contracts = validate_package_contracts()
     expected_census = {
         "finite_bound_cases": 340,
         "class_inclusion_cases": 3840,
@@ -411,6 +452,12 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
         "overlap_does_not_determine_sign": not overlap["overlap_determines_sign"] and len(set(overlap["classifications"].values())) == 3,
         "bounded_censuses_complete": census == expected_census,
         "scientific_ledgers_complete": ledgers == {"claim_ledgers": 4, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"},
+        "manifest_and_reconciliation_exact": package_contracts == {
+            "manifest_ok": True,
+            "reconciliation_ok": True,
+            "reconciliation_rows": 3,
+            "source_pr": 907,
+        },
     }
     return {
         "schema": "GMI833CapabilityBoundsInteractionsResultV1",
@@ -434,6 +481,7 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
             "overlap_nonidentification": overlap,
         },
         "scientific_ledger": ledgers,
+        "package_contracts": package_contracts,
         "checks": checks,
         "verdict": "GREEN" if all(checks.values()) else "RED",
     }
