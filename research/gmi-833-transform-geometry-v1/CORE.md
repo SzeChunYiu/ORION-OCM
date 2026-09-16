@@ -1,6 +1,6 @@
 # gmi-833-transform-geometry-v1
 
-This tranche defines architecture-name-free verified morphology transforms at a finite registered scope, proves exact identity/associativity with fail-closed composition, and derives a price-conditional directed shortest-transform pseudometric from nonnegative semantic/resource burden.
+This tranche defines architecture-name-free verified architecture transforms at a finite registered scope, proves exact identity/associativity with fail-closed composition, and derives a price-conditional directed shortest-transform pseudometric from nonnegative semantic/resource burden.
 
 Primary burden remains the raw resource/error vector. The scalar distance exists only after weights are frozen. The result does not establish developmental naturality, full topology, grammar invariance, P3/P4 recovery, or unknown-form discovery.
 

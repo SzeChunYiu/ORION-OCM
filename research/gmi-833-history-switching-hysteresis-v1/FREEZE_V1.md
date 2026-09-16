@@ -1,13 +1,13 @@
 # GMI #833 history, switching and hysteresis v1 — freeze
 
 Parent issue: #833 Section J. Child: #895.  
-Base main: `44ec64478075bef14ad17bd009822225c972e983` (selection/phase schema #894 merged).
+Base main: `44ec64478075bef14ad17bd009822225c972e983` (choice/phase schema #894 merged).
 
 ## Frozen scope
 
-Finite architecture-name-free morphology set `M`. A current ecology supplies exact scalar base costs `c(m)`. The previous selected morphology `h` affects current choice only through an exact nonnegative switching/migration burden `K(h,m)`.
+Finite architecture-name-free candidate-architecture set `M`. A current ecology supplies exact scalar base costs `c(m)`. The previous selected candidate architecture `h` affects current choice only through an exact nonnegative switching/migration burden `K(h,m)`.
 
-The current history-conditioned selection set is
+The current history-conditioned choice set is
 
 `Sel(h)=argmin_m [ c(m) + K(h,m) ]`.
 
@@ -17,7 +17,7 @@ No architecture names enter the object.
 
 ### HIST-1 — exact history-dependence criterion
 
-History changes observed morphology at the registered current ecology iff there exist previous morphologies `h1,h2` with `Sel(h1) != Sel(h2)`. Preserve tie sets exactly.
+History changes the observed candidate architecture at the registered current ecology iff there exist previous candidate architectures `h1,h2` with `Sel(h1) != Sel(h2)`. Preserve tie sets exactly.
 
 Provide an exact hostile where identical instantaneous base costs select different morphologies solely because switching costs retain the previous form.
 
@@ -46,7 +46,7 @@ then `u(h)` is a common additive term across all current candidates and cancels 
 
 ### ERASE-2 — uniform winner margin
 
-For proposed current morphology `m*`, if for every previous state `h` and rival `n`:
+For a proposed current candidate architecture `m*`, if for every previous state `h` and rival `n`:
 
 `c(n)-c(m*) > K(h,m*)-K(h,n)`,
 
@@ -54,7 +54,7 @@ then `m*` is the unique current winner for every history. This is a sufficient h
 
 ### RESET-1 — explicit migration/reset
 
-If a registered migration/reset map sends every previous morphology to the same canonical preselection state `h0`, subsequent selection is history-independent by construction and equals `Sel(h0)`. Charge/reset cost remains external to this identity unless explicitly included in the selection objective.
+If a registered migration/reset map sends every previous candidate architecture to the same canonical preselection state `h0`, subsequent choice is history-independent by construction and equals `Sel(h0)`. Charge/reset cost remains external to this identity unless explicitly included in the choice objective.
 
 ## Required hostiles and certificates
 
@@ -67,7 +67,7 @@ If a registered migration/reset map sends every previous morphology to the same 
 
 ## Forbidden promotions
 
-This tranche does not claim stochastic switching dynamics, endogenous learned switching costs, general non-Markov history compression, real-world migration calibration, universal hysteresis, all morphology dynamics, or complete GMI.
+This tranche does not claim stochastic switching dynamics, endogenous learned switching costs, general non-Markov history compression, real-world migration calibration, universal hysteresis, all architecture dynamics, or complete GMI.
 
 Expected claim ceiling if GREEN:
 

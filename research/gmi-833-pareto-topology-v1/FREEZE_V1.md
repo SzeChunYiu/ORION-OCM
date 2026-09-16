@@ -42,4 +42,4 @@ Expected claim ceiling if GREEN:
 
 `GMI_PARETO_TRANSFORM_ALGEBRA_AND_FORWARD_TOPOLOGY_AT_REGISTERED_FINITE_SCOPE`
 
-Forbidden promotions: complete quantale/enriched-category formalization, universal topology, empirical morphology law, known-form P3 recovery, and complete GMI.
+Forbidden promotions: complete quantale/enriched-category formalization, universal topology, empirical architecture law, known-form P3 recovery, and complete GMI.

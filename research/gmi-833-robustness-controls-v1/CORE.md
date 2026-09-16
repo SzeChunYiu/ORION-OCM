@@ -3,7 +3,7 @@
 Bounded #863 / #833-D governance-and-evidence tranche for four required derivation robustness controls:
 
 - matched mechanism-removal grammar twins;
-- semantics-preserving alternate encodings/remints;
+- semantics-preserving alternate encodings/relabelings;
 - materially distinct alternate search algorithms;
 - raw Pareto analysis plus distinct positive resource scalarizations.
 

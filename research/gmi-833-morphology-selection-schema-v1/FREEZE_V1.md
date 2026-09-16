@@ -1,11 +1,11 @@
-# GMI #833 morphology selection schema v1 — freeze
+# GMI #833 architecture-choice schema v1 — freeze
 
 Parent issue: #833 Section J. Programme checkpoint: issue comment 5692726505.
 Base main: `861b1ba1cb871677867140d523ac49b37f15b832`.
 
 ## Frozen scientific scope
 
-Finite architecture-name-free candidate mechanism classes under an explicitly registered context. A context supplies a viable/reachable subset and exact nonnegative lifecycle/resource vectors. Scalar selection is conditional on a frozen strictly-positive price vector; raw vectors remain primary.
+Finite architecture-name-free candidate mechanism classes under an explicitly registered context. A context supplies a viable/reachable subset and exact nonnegative lifecycle/resource vectors. Scalar choice is conditional on a frozen strictly-positive price vector; raw vectors remain primary.
 
 For phase analysis, each viable candidate may instead carry an exact affine scalar score
 
@@ -15,7 +15,7 @@ on a closed rational interval `I=[L,U]`, with viability fixed on that interval. 
 
 ## Frozen theorem targets
 
-### SEL-1 — finite morphology-selection correspondence
+### SEL-1 — finite architecture-choice correspondence
 
 Define a total fail-closed schema returning:
 
@@ -25,7 +25,7 @@ Define a total fail-closed schema returning:
 
 Prove/check that every positive-scalar minimizer is Pareto-efficient and that restricting the candidate set to a reachable subset cannot produce an objective value better than the global viable optimum.
 
-### SEL-2 — sufficient conditions for unique selection
+### SEL-2 — sufficient conditions for unique choice
 
 Prove that if one viable candidate has strictly smaller scalar score than every rival, the scalar argmin is exactly that singleton. More strongly, if one candidate componentwise weakly dominates every rival and is strict against each rival somewhere, it is the unique Pareto member and the unique minimizer under every strictly-positive price vector.
 
@@ -33,7 +33,7 @@ A hostile must show that incomparability can yield coexistence and price-depende
 
 ### SEL-3 — Pareto coexistence
 
-Define coexistence as a Pareto frontier with cardinality greater than one. Preserve the entire frontier. A hostile must show that coordinatewise minima can fabricate an unattainable pseudo-morphology and are not a valid replacement for the frontier.
+Define coexistence as a Pareto frontier with cardinality greater than one. Preserve the entire frontier. A hostile must show that coordinatewise minima can fabricate an unattainable pseudo-candidate and are not a valid replacement for the frontier.
 
 ### PHASE-1 — exact affine phase boundaries
 
@@ -45,7 +45,7 @@ that lie in `I`. Prove that the exact argmin set is constant on every open cell 
 
 The executor must independently verify the theorem over an exact rational finite fixture by comparing analytic cells/boundaries against direct score evaluation.
 
-### PHASE-2 — uncertainty-set selection semantics
+### PHASE-2 — uncertainty-set choice semantics
 
 For a registered uncertain ecology/price interval `U=[l,u] subseteq I`, define the possible-winner set as the union of exact argmins across all phase cells and boundaries intersecting `U`.
 

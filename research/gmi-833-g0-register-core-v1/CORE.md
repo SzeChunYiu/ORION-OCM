@@ -23,4 +23,4 @@ Exact evidence:
 
 Claim ceiling: `GMI_G0_REGISTER_CORE_AND_FINITE_EMBEDDINGS_AT_DECLARED_SCOPE`.
 
-The supplied register/control representation is a disclosed prior. No unbiased-search, unique-universal-grammar, neural/probabilistic derivation, grammar-remint invariance or morphology-selection result is claimed.
+The supplied register/control representation is a disclosed prior. No unbiased-search, unique-universal-grammar, neural/probabilistic derivation, grammar-relabeling invariance or architecture-choice result is claimed.

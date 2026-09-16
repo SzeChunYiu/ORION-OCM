@@ -1,6 +1,6 @@
 # GMI #833 transform geometry v1 — freeze
 
-Freeze scope: finite exact deterministic transformation kernel for architecture-name-free morphology classes.
+Freeze scope: finite exact deterministic transformation kernel for architecture-name-free mechanism classes.
 
 Parent issue: #833.
 Programme anchor: issue comment 5687604615.
@@ -10,7 +10,7 @@ Base main: `4bf5b2164b152556db19007630e784becb3937a8`.
 
 ### TRANS-1A — category laws at registered finite scope
 
-A registered morphology transform is a directed edge carrying source, target, exact semantic-error increment, nonnegative lifecycle-resource vector, assumption set, and evidence token. Valid transforms include zero-cost/error identities. Composition is defined only when endpoints match, assumptions are compatible, and evidence is present; it adds semantic error and resource vectors and unions assumptions/evidence.
+A registered architecture transform is a directed edge carrying source, target, exact semantic-error increment, nonnegative lifecycle-resource vector, assumption set, and evidence token. Valid transforms include zero-cost/error identities. Composition is defined only when endpoints match, assumptions are compatible, and evidence is present; it adds semantic error and resource vectors and unions assumptions/evidence.
 
 Prove by exact construction/checking that:
 
@@ -37,7 +37,7 @@ This tranche does **not** claim:
 
 - developmental naturality or learning-trajectory equivalence;
 - topology of the full infinite machine-intelligence space;
-- grammar/remint invariance;
+- grammar/relabeling invariance;
 - P3/P4 known-family recovery;
 - unknown-form discovery;
 - universal category-theoretic novelty.

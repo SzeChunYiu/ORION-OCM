@@ -159,6 +159,20 @@ class TestABAutority(unittest.TestCase):
         self.assertEqual(r["gate_clean_hits"], 0)
         self.assertGreaterEqual(r["gate_hostile_hits"], 1)
 
+    def test_gate_acknowledge_suppresses_only_listed_site(self):
+        gate = _load("GMI_TERMINOLOGY_CI_GATE_V1.py")
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "ack.md"
+            p.write_text(
+                "# Ack fixture\n\nOne prior-free line.\n\nAnother prior-free line.\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(len(gate.scan_paths([str(p)])), 2)
+            acked = gate.scan_paths([str(p)], acknowledge=["%s:3" % p])
+            self.assertEqual(len(acked), 1, acked)
+            # malformed acknowledge ids suppress nothing (fail-safe: findings stay visible)
+            self.assertEqual(len(gate.scan_paths([str(p)], acknowledge=["not-a-site"])), 2)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

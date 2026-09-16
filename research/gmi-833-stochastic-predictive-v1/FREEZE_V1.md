@@ -6,7 +6,7 @@
 **Source main:** `5db372ef7003253d5846b324ed80a2454613983c`  
 **Status:** pre-implementation theorem/evidence freeze
 
-This file freezes the exact finite controlled-stochastic scope, theorem statements, hostile witnesses, strongest-parent subtraction, open descendants, and claim ceiling before implementation, tests, result receipts, gap-graph edits, or pull-request outcomes exist on this branch.
+This file freezes the exact finite controlled-stochastic scope, theorem statements, hostile witnesses, strongest-parent subsumption, open descendants, and claim ceiling before implementation, tests, result receipts, gap-graph edits, or pull-request outcomes exist on this branch.
 
 ## 1. Registered finite controlled process
 
@@ -87,7 +87,7 @@ Hence every exact predictive statistic refines the predictive-row quotient and
 
 If equality holds, the induced partitions agree up to relabeling.
 
-### Strongest-parent subtraction
+### Strongest-parent subsumption
 
 This quotient/minimality mathematics is already owned at the declared finite-test level by merged #846 PS-1. #836 may instantiate/revalidate it for an explicitly generated system-dynamics block, but may not advertise PQ-1 as a new theorem.
 
@@ -151,7 +151,7 @@ The machine checker must independently:
 
 This is a finite fixed-block factorization. It does **not** by itself prove a closed recursive PSR update law, a stationary infinite-horizon model, learnability from samples, or numerical stability.
 
-### Strongest-parent subtraction
+### Strongest-parent subsumption
 
 The rank/core-test theorem is established PSR/system-dynamics-matrix mathematics, especially Singh, James & Rudary (UAI 2004). #836's residual is exact repository formalization, hostile boundary checking, and explicit separation from quotient cardinality—not novelty in the rank theorem.
 
@@ -221,7 +221,7 @@ The post-freeze executor/tests must verify at least:
 - predictive equivalence by complete row equality;
 - a separating-test witness whenever a proposed statistic merges distinct rows;
 - exact rank by rational Gaussian elimination;
-- exact independent core-column selection;
+- exact independent core-column choice;
 - exact rank-attaining factorization and entrywise reconstruction;
 - SEP-1 valid-process witness with class count `3` and rank `2`;
 - duplicate-history positive control where multiple histories collapse to one predictive row;
@@ -252,7 +252,7 @@ Instead the post-proof branch must add a locally closed finite-block child claim
 
 - infinite-horizon / measurable-space predictive quotient and existence conditions;
 - approximate predictive equivalence / error metrics and approximate abstraction guarantees;
-- finite-sample identification, consistency, rates, and core-test selection under estimation error;
+- finite-sample identification, consistency, rates, and core-test choice under estimation error;
 - causal latent identification under richer interventions/assumptions.
 
 Any CRITICAL open descendant must continue to block promotion of the broad stochastic gap or #833 itself.
@@ -274,7 +274,7 @@ This tranche fails if any of the following occurs:
 
 ## 11. Claim ceiling
 
-Allowed only if all frozen obligations pass:
+Allowed only if all frozen acceptance items pass:
 
 `GMI_FINITE_PREDICTIVE_BLOCK_LINEAR_DIMENSION_AT_REGISTERED_HORIZON`
 

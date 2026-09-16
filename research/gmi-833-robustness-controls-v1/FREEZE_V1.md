@@ -27,11 +27,11 @@ There are two distinct predicates:
 
 A sensitive experiment may satisfy the control requirement while correctly refusing a robustness claim. The checklist rows above concern the first predicate.
 
-## R1 — matched grammar negative twin
+## R1 — matched grammar negative control
 
 For a positive finite candidate universe `C+` and target mechanism predicate `m:C+->{0,1}`, define the mechanism-free background projection `b(c)` from every registered non-target primitive/operator/search-capacity feature.
 
-A registered negative twin `C-` is matched iff:
+A registered negative control `C-` is matched iff:
 
 1. every `c in C-` has `m(c)=0`;
 2. the multiset `{b(c): c in C-, m(c)=0}` equals the mechanism-free multiset `{b(c): c in C+, m(c)=0}`;
@@ -44,9 +44,9 @@ Frozen positive fixture: two target-containing candidates plus four mechanism-fr
 
 Frozen hostile: delete one additional mechanism-free candidate; the twin must fail.
 
-## R2 — alternate semantic encodings/remints
+## R2 — alternate semantic encodings/relabelings
 
-A remint pair consists of finite encodings `e1,e2` plus a declared bijection `phi` between their symbols/candidates and a protected semantic map `sem`. It is valid iff:
+A relabeling pair consists of finite encodings `e1,e2` plus a declared bijection `phi` between their symbols/candidates and a protected semantic map `sem`. It is valid iff:
 
 - `phi` is bijective over the registered finite domain;
 - `sem_1(c) = sem_2(phi(c))` for every candidate;
@@ -58,7 +58,7 @@ Terminals:
 - `ENCODING_SENSITIVE` if they differ;
 - `CANNOT_AUDIT_ENCODING` if the map is absent, non-bijective, or not semantics-preserving.
 
-Frozen hostile: lexicographic tie-breaking over surface identifiers must change the chosen canonical class after a pure semantics-preserving remint and therefore surface `ENCODING_SENSITIVE`.
+Frozen hostile: lexicographic tie-breaking over surface identifiers must change the chosen canonical class after a pure semantics-preserving relabeling and therefore surface `ENCODING_SENSITIVE`.
 
 ## R3 — alternate search algorithms
 

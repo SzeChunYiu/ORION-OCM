@@ -16,7 +16,7 @@ This tranche may reconcile only these six #833 rows:
 3. `Build a cost-prior audit.`
 4. `Build a search-prior audit.`
 5. `Build an evaluation-prior audit.`
-6. `Build an ecology-selection-bias audit.`
+6. `Build an ecology-choice-bias audit.`
 
 It may not reconcile the later execution requirements for matched grammar twins, alternate encodings, alternate search algorithms, or alternate scalarizations across the corpus.
 
@@ -112,7 +112,7 @@ The audit flags:
 
 Frozen hostile: an evaluator adds one point solely for a target-family ID.
 
-## A6 — ecology-selection-bias audit
+## A6 — ecology-choice-bias audit
 
 Required disclosures:
 
@@ -134,7 +134,7 @@ If the finite frame is known, report sample-vs-frame target-favoring prevalence 
 4. A3 has no registered cost-prior sensitivity or malformed costs;
 5. A4 has no registered search-prior sensitivity;
 6. A5 has no registered evaluation-prior sensitivity;
-7. A6 has no registered ecology selection bias and the declared frame status is auditable for the claim being made.
+7. A6 has no registered ecology-choice bias and the declared frame status is auditable for the claim being made.
 
 Otherwise the global result is a structured union of sub-audit terminals, never a coerced CLEAN.
 

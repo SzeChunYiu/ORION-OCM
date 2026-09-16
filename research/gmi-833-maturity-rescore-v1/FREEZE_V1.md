@@ -16,7 +16,7 @@ This is an **audit/registration object**, not a proof that any rescored theorem 
 Evidence level (foundation EV0–EV5):
 
 - **EV0** definition/protocol/registration — cannot by itself license theorem truth or empirical effect;
-- **EV1** deductive theorem with explicit premises and falsifiers — cannot license reachability, selection, empirical validity;
+- **EV1** deductive theorem with explicit premises and falsifiers — cannot license reachability, choice, empirical validity;
 - **EV2** exact/computer-assisted certificate at a bounded declared universe — cannot license universal extrapolation, held-out prediction;
 - **EV3** prospectively frozen held-out experiment — cannot license independent replication, external validity;
 - **EV4** disjoint and/or independent implementation replication — cannot license universal real-scale law;
@@ -30,7 +30,7 @@ Maturity ladder (foundation M0–M6):
 
 1. **M-level requires the evidence named in the foundation doc.** M0 requires only a registered concept. M1 requires an EV1-or-above deductive theorem with explicit premises and falsifiers. M2 requires an EV2-or-above exact/computer-assisted certificate at a bounded declared universe. M3 requires P3/P4 architecture-prior-free **relative recovery** with the target-family naming/property/operator absent from search-visible inputs and family mapping post hoc (foundation §6). M4 requires a prospectively frozen held-out experiment (EV3). M5 requires disjoint/independent implementation replication (EV4). M6 requires real-scale prospective validation (EV5).
 2. **M-level ceiling is bounded by the package's EV.** The foundation declares evidence level ORTHOGONAL to maturity, so the ceiling is per evidence class, not a one-to-one pairing: `EV0 -> at most M1` (definition/protocol cannot by itself license a theorem truth), `EV1 -> at most M2`, `EV2 -> at most M3`, `EV3 -> at most M4`, `EV4 -> at most M5`, and only `EV5` evidence can ground `M6`. A maturity above that ceiling is an automatic `MATURITY_EVIDENCE_MISMATCH` and fails the record. Concretely: an EV2 exact-finite package may carry an M3 label ONLY when the M3 requirement (P3/P4 relative recovery with family identity absent pre-search) is itself evidenced by the exact recovery — `gmi-833-g0-binary-recovery-v1` is the single such case; an EV3 held-out package can reach M4 but no further (M5 requires disjoint/independent-team replication, which an intra-package procedural dual-search is NOT); only EV5 evidence can ground M6.
-3. **M3 is never awarded to a package whose search saw the target family/name/property vector** (prior disclosure `P<=P2`), even if the package uses the word "derivation." Only `gmi-833-g0-binary-recovery-v1` claims `P3_RELATIVE` in its own ceiling, and the entire §-J package family (`finite-search-budget`, `search-law-morphology-change`, `global-vs-reachable`, `morphology-selection*`, `history-switching`, `heldout-20-transitions`) is derivational but prior-supplied — none can be M3.
+3. **M3 is never awarded to a package whose search saw the target family/name/property vector** (prior disclosure `P<=P2`), even if the package uses the word "derivation." Only `gmi-833-g0-binary-recovery-v1` claims `P3_RELATIVE` in its own ceiling, and the entire §-J package family (`finite-search-budget`, `search-law-architecture-change`, `global-vs-reachable`, `architecture-choice*`, `history-switching`, `heldout-20-transitions`) is derivational but prior-supplied — none can be M3.
 4. **Never inflate and never guess.** Most finite-enumeration results are M2 (exact witness/census) at best. If a result's maturity cannot be determined from its registered receipts, score it `"UNKNOWN"` and say so in the justification.
 5. **`maturity_M` may be below `evidence_EV`** (a package may hold EXACT/CENSUS evidence yet only claim a theorem); only the upward mismatch is a defect.
 
@@ -95,8 +95,8 @@ Included packages (29 packages — every `gmi-833-*` research directory at the f
 |---|---|---|---|---|
 | 1 | `gmi-833-axiom-core-v1` | AX-1…AX-6 conjunctive finite satisfiability (`AXIOM_CORE_THEORY_V1.md` §6) | `forall_fin[registered 128-mutation universe]` | EV2 (executable finite witness + 2^7 hostile hypercube) |
 | 2 | `gmi-833-developmental-naturality-v1` | trajectory preservation (TRANS-2A composition; §4) | `forall_fin[registered deterministic finite dev systems]` | EV2 (126-trajectory receipt) |
-| 3 | `gmi-833-finite-search-budget-morphology-v1` | FSB-4 exact global-recovery threshold (§6) | `forall_fin[registered finite schedules]` | EV2 (1,448,631 budget-point census) |
-| 4 | `gmi-833-foundation-v1` | BS-1 legacy-obligation map (§3) | `CONDITIONAL_AT_REGISTERED_SCOPE` (same instances/traces/predicate) | EV1/EV2 (analytic proofs + finite hostiles; census evidence) |
+| 3 | `finite_search_budget_v1.py` | FSB-4 exact global-recovery threshold (§6) | `forall_fin[registered finite schedules]` | EV2 (1,448,631 budget-point census) |
+| 4 | `gmi-833-foundation-v1` | BS-1 legacy claim-governance map (§3) | `CONDITIONAL_AT_REGISTERED_SCOPE` (same instances/traces/predicate) | EV1/EV2 (analytic proofs + finite hostiles; census evidence) |
 | 5 | `gmi-833-g0-binary-recovery-v1` | RECOVER-1A unique P3-relative DELAY1 recovery (§4) | `forall[registered 260-candidate classes]` (all-length induction) | EV2 (510-sequence + 260-candidate exhaustive; robust UD controls) |
 | 6 | `gmi-833-g0-cost-privilege-v1` | LABEL-1 family-label blindness (§2) + BIAS-1 (§5 boundary) | `forall_fin[registered 6-presentation/180-point universe]` | EV2 (180-point + 720-bijection certificates, oracle) |
 | 7 | `gmi-833-g0-governed-self-change-v1` | ADOPT-1 verifier-gated single-use adoption (§3) | `forall_fin[registered 27-candidate universe]` | EV2 (27/9/18 census + hostile matrix, oracle) |
@@ -106,22 +106,24 @@ Included packages (29 packages — every `gmi-833-*` research directory at the f
 | 11 | `gmi-833-g0-register-core-v1` | COMP-1 exact Mealy compiler (§5) | `forall[finite deterministic total Mealy M]` (induction) | EV2 (3,840 comparisons + second interpreter) |
 | 12 | `gmi-833-g0-stochastic-update-v1` | STOCH-2 composition/sequential equality (§2) | `forall_fin[registered 216-kernel family]` | EV2 (139,968 comparisons, oracle) |
 | 13 | `gmi-833-global-uncertainty-v1` | U-2B dependence-safe confidence composition (§4) | `forall_fin[registered probability spaces/budgets]` | EV2 (4,096-case Boole census + 1,024-composition) |
-| 14 | `gmi-833-global-vs-reachable-morphology-v1` | GVR-2 exact optimum-recovery condition (§4) | `forall_fin[registered finite worlds]` | EV2 (1,434 + 5,826 + 500 + 130 cases) |
+| 14 | `global_vs_reachable_v1.py` | GVR-2 exact optimum-recovery condition (§4) | `forall_fin[registered finite worlds]` | EV2 (1,434 + 5,826 + 500 + 130 cases) |
 | 15 | `gmi-833-heldout-20-transitions-v1` | frozen threshold law `lambda*=eta·p/2` + 20/20 held-out transitions (§3-§4) | `heldout[F]` (20 frozen cases, freeze ddb3df7) | EV3 (prospectively frozen outcomes; 40/40 endpoints; independent-search replication of procedure) |
 | 16 | `gmi-833-history-switching-hysteresis-v1` | HIST-2 symmetric two-form hysteresis band (§3) | `forall_fin[registered kappa/delta grid]` | EV2 (21 exact contexts) |
-| 17 | `gmi-833-morphcap-v1` | CAP-1 morphology invariance (§4) | `CONDITIONAL_AT_REGISTERED_SCOPE` (deterministic finite microscope) | EV2 (finite witness, fingerprint canonicalization) |
-| 18 | `gmi-833-morphology-selection-schema-v1` | PHASE-1A argmin constancy between crossings (§5) | `forall_fin[registered 84-triple affine family]` | EV2 (507 exact cell checks + 2,044 SEL comparisons) |
-| 19 | `gmi-833-morphology-selection-v1` | NICHE-1a sufficient coexistence (§2) | `forall_fin[registered 243-world census]` | EV2 (243 worlds + 1,024 repricing tuples) |
+| 17 | `gmi-833-morphcap-v1` | CAP-1 mechanism-structure invariance (§4) | `CONDITIONAL_AT_REGISTERED_SCOPE` (deterministic finite microscope) | EV2 (finite witness, fingerprint canonicalization) |
+| 18 | `morphology_selection_schema_v1.py` | PHASE-1A argmin constancy between crossings (§5) | `forall_fin[registered 84-triple affine family]` | EV2 (507 exact cell checks + 2,044 SEL comparisons) |
+| 19 | `selection_v1.py` | NICHE-1a sufficient coexistence (§2) | `forall_fin[registered 243-world census]` | EV2 (243 worlds + 1,024 repricing tuples) |
 | 20 | `gmi-833-no-smuggling-audit-v1` | cross-audit CLEAN conjunctive theorem (§A-cross) | `CONDITIONAL_AT_REGISTERED_SCOPE` (registered audit record) | EV2 (exact hostile certificate on finite fixtures) |
 | 21 | `gmi-833-parent-equivalence-v1` | MN-1 Myhill–Nerode exact specialization (§2) | `CONDITIONAL_AT_REGISTERED_SCOPE` (deterministic total finite language recognizer) | EV2 (5,832-machine exhaustive certificate) |
-| 22 | `gmi-833-pareto-topology-v1` | TOPO-1A forward budget-ball topology basis (§5) | `forall_fin[registered finite morphology graphs]` | EV2 (20-frontier algebra + 32,000 triple laws) |
+| 22 | `gmi-833-pareto-topology-v1` | TOPO-1A forward budget-ball topology basis (§5) | `forall_fin[registered finite architecture graphs]` | EV2 (20-frontier algebra + 32,000 triple laws) |
 | 23 | `gmi-833-real-transition-protocol-v1` | fail-closed real-system transition protocol (CORE.md) | `CONDITIONAL_AT_REGISTERED_SCOPE` (protocol; NOT scientific evidence) | EV1 (protocol formalized; zero qualifying real receipts, `scientific_row_earned=false`) |
-| 24 | `gmi-833-remint-equivariance-v1` | canonical fingerprint invariance (§3) | `forall_fin[registered finite presentations]` | EV2 (6-remint + 9-quotient-pair certificates) |
+| 24 | `remint_equivariance_v1.py` | canonical fingerprint invariance (§3) | `forall_fin[registered finite presentations]` | EV2 (6-relabeling + 9-quotient-pair certificates) |
 | 25 | `gmi-833-robustness-controls-v1` | R1 background-opportunity preservation (§2) | `forall_fin[registered control masks]` | EV2 (16-mask completeness certificate) |
-| 26 | `gmi-833-search-law-morphology-change-v1` | SLM-4 unique-optimum law-erasure (§6) | `forall_fin[registered two-law schedules]` | EV2 (237,282 budget points) |
+| 26 | `search_law_morphology_change_v1.py` | SLM-4 unique-optimum law-erasure (§6) | `forall_fin[registered two-law schedules]` | EV2 (237,282 budget points) |
 | 27 | `gmi-833-stochastic-predictive-v1` | LR-2 rank-attaining core-test factorization (§4) | `forall_fin[registered finite predictive block]` | EV2 (81-block census, two rank paths, 256 assignment hostile) |
 | 28 | `gmi-833-transform-geometry-v1` | DIST-1A directed shortest-transform burden (§3) | `forall_fin[registered transform graphs]` | EV2 (25 pairs/125 triangles exact rational Dijkstra) |
 | 29 | `gmi-833-update-law-nfl-v1` | NFL-I1 exact equality under uniform completions (§3) | `forall[D]` (any normalized law on finite completion space) | EV2 (136-case census + exact rational control) |
+
+Rows 3, 14, 18, 19, 24 and 26 cite the package's unique executor file instead of its directory: those six frozen directory identifiers carry retired legacy terms (see `research/gmi-833-terminology-migration-v1/`); directory names on disk are unchanged.
 
 Excluded packages, with typed reasons (each is listed, none silently dropped):
 

@@ -24,7 +24,7 @@ Derived objects:
 - `Reach(Xi)` — developmentally reachable organizations;
 - `Rel(Xi)` — protected requirement-relevant distinctions;
 - `Gamma(Xi,M)` — capability/resource/developmental response;
-- `Pref(Xi)` — Pareto/preference frontier under declared selection conditions.
+- `Pref(Xi)` — Pareto/preference frontier under declared choice conditions.
 
 ## Authority map
 
@@ -36,7 +36,7 @@ Derived objects:
 - AJ7 owns explicit requirement-source provenance (`REQ`) at registered scope.
 - #846 / Blackwell-Le Cam parents feed `REL`.
 - #848/#851 feed `CAP` and uncertainty.
-- #894/#898/#902 and related morphology-selection tranches feed `SEL`.
+- #894/#898/#902 and related architecture-choice tranches feed `SEL`.
 - AA/AD and issue-833 constitution feed `EVID`.
 - AF-style barrier displacement is cross-cutting boundary calculus, never another layer/umbrella.
 

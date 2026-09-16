@@ -17,7 +17,7 @@ The three open #833 Section-E rows are:
 
 Target disposition: a **finite exact library-growth certificate** at registered scope — conservative monotone grammar extension with cycle rejection (GRW-1), deterministic charged-cost primitive invention from training programs only (INV-1), a frozen two-generation recursive witness (REC-1), and an exact held-out discovery-burden comparison with charged library overhead, an unrelated negative control and an equal-size random-admission null (HLD-1). This is an existence/conditional finite transfer result. It is **not** universal learning-to-learn, open-endedness, or guaranteed transfer.
 
-## 2. Parent subtraction
+## 2. Strongest-parent subsumption
 
 Parent machinery is imported, not reclaimed:
 
@@ -65,7 +65,7 @@ Input: the frozen training corpus only (list of base words). No held-out data ma
 4. **Admission**: new symbol `m_k -> u`; rewrite every corpus program by the same greedy non-overlapping replacement; grammar grows monotonically (`G_(t+1) = G_t ∪ {m_t}`); every old program stays legal and its expansion is unchanged.
 5. **Iteration**: repeat over the current alphabet (later bodies may use earlier macros; cycles forbidden) until no candidate has positive gain or `D_reg` admissions have occurred, with `D_reg` = initial corpus symbol count `S_0` (each admission strictly reduces the corpus symbol count by at least `o(b−1) ≥ 1` and the count is nonnegative, so `S_0` is a derived stopping bound, not a tuning parameter).
 
-## 6. GRW-1 — conservative expansion (proof obligation)
+## 6. GRW-1 — conservative expansion (proof requirement)
 
 For every admitted macro library `L` produced by the frozen rule, and for the hostile cyclic cases:
 

@@ -1,4 +1,4 @@
-# GMI #892 niche/repricing selection-laws freeze v1
+# GMI #892 niche/repricing choice-law freeze v1
 
 Parent: #833 Section J. Source main: `44ec64478075bef14ad17bd009822225c972e983` after merged #893/#894.
 
@@ -11,11 +11,11 @@ transitions.
 It does not close the three empirical rows for prospective transitions,
 independent-search replication, or real-system validation.
 
-## Frozen parent subtraction
+## Frozen strongest-parent subsumption
 
 The tranche must pin and import the merged #837 foundation, #847 parent
-equivalence, #850 morphology/capability, #876 global-vs-reachable selection,
-and #893/#894 morphology-selection/affine-phase receipts. The five selection
+equivalence, #850 mechanism-structure/capability, #876 global-vs-reachable architecture choice,
+and #893/#894 architecture-choice/affine-phase receipts. The five choice
 schema/phase rows already reconciled by #893 and the history/switching rows
 owned by #895 are excluded from this closure target.
 
@@ -25,7 +25,7 @@ owned by #895 are excluded from this closure target.
   closed;
 - finite protected computational-mechanism equivalence classes, never
   architecture-family labels;
-- local niche allocation over a common finite morphology carrier;
+- local niche allocation over a common finite candidate-architecture set;
 - complete local argmax sets, including ties, and nonnegative niche masses
   with positive total mass;
 - nonnegative raw resource vectors and prospectively registered linear prices.
@@ -35,7 +35,7 @@ owned by #895 are excluded from this closure target.
 The result is red if a zero-mass niche creates coexistence, a local tie is
 silently collapsed, global averaging is substituted for registered local
 allocation, repricing changes pairwise order without crossing its hyperplane,
-a quality/resource-dominating morphology loses under nonnegative prices, a
+a quality/resource-dominating candidate architecture loses under nonnegative prices, a
 parent receipt drifts, or any forbidden empirical or universal promotion
 appears.
 

@@ -1,6 +1,6 @@
 # gmi-833-no-smuggling-audit-v1
 
-Bounded #855 / #833-D audit-tooling tranche for architecture-name leakage, semantic macro smuggling, cost/search/evaluation priors, and ecology-selection bias.
+Bounded #855 / #833-D audit-tooling tranche for architecture-name leakage, semantic macro smuggling, cost/search/evaluation priors, and ecology-choice bias.
 
 The package is a **screening and fail-closed audit contract**, not a proof that the GMI corpus is architecture-prior-free.
 

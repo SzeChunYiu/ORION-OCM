@@ -208,8 +208,12 @@ def scan_paths(targets, banned=None, context="paper-facing", acknowledge=()):
                     continue
                 hits.append({"file": str(f), "term": term, "line_no": line_no, "text": line.strip()})
     if acknowledge:
-        ack = set(acknowledge)
-        hits = [h for h in hits if not (str(h["file"]), h["line_no"]) in ack]
+        ack = set()
+        for a in acknowledge:
+            f, sep, ln = a.rpartition(":")
+            if sep and ln.isdigit():
+                ack.add((f, int(ln)))
+        hits = [h for h in hits if (str(h["file"]), h["line_no"]) not in ack]
     return hits
 
 

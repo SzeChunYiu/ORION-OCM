@@ -1,4 +1,4 @@
-# GMI #833 real-system morphology transition evidence protocol v1 — freeze
+# GMI #833 real-system architecture-transition evidence protocol v1 — freeze
 
 Parent: #833 Section J. Child: #903.  
 Base main: `a0d2b4e6535f5d47dba3c56e94faa7aa8a2d8678`.
@@ -36,7 +36,7 @@ A qualifying transition additionally requires predicted and observed before/afte
 
 Return `REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE` only if at least five qualifying receipts have five distinct `system_id` values.
 
-Otherwise return `INSUFFICIENT_REAL_SYSTEM_EVIDENCE` with typed rejection reasons. Synthetic/toy/simulator-only evidence, duplicate systems, post-hoc prediction, missing resource measurements, non-replayable runs, leakage, or unidentified morphology can never count toward five.
+Otherwise return `INSUFFICIENT_REAL_SYSTEM_EVIDENCE` with typed rejection reasons. Synthetic/toy/simulator-only evidence, duplicate systems, post-hoc prediction, missing resource measurements, non-replayable runs, leakage, or unidentified architecture can never count toward five.
 
 ## Hostiles
 

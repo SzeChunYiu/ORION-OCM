@@ -161,7 +161,7 @@ Matched hostiles reject empty-class numerics, witness/floor conflation, context
 drift across cells, float or Boolean numerics, decreasing “upgrades”, negative
 budget quantities, objective drift, parent mutation, and overlap-only inference.
 
-## 6. Parent subtraction and claim boundary
+## 6. Strongest-parent subsumption and claim boundary
 
 Min/max order, mixed finite differences/factorial interaction contrasts,
 threshold complementarity, and monotonicity of optimization over a superset are

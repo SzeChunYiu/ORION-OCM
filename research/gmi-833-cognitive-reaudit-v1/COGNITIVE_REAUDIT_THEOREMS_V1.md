@@ -14,14 +14,14 @@ that interface can identify which physical partition generated them.
 
 Let `T` be the required item set, `S` the selected set, `n` the full item count,
 `c>0` the per-item materialization cost, and `d_F,d_S>=0` the full/selective
-discovery costs. If `T` is not a subset of `S`, selection is inadmissible
+discovery costs. If `T` is not a subset of `S`, choice is inadmissible
 regardless of cost. Otherwise
 
 `C_S=|S|c+d_S < C_F=nc+d_F`
 
 iff `d_S-d_F < (n-|S|)c`. Thus discovery overhead can erase the selective
-advantage. For singleton queries, a fixed blind selection of `k<n` items is
-exact on only `k/n` of the registered queries, so equal-size selection alone is
+advantage. For singleton queries, a fixed blind choice of `k<n` items is
+exact on only `k/n` of the registered queries, so equal-size choice alone is
 not an attention theorem.
 
 ## Theorem CONCEPT-1 — static quotient and partial-interface abstention

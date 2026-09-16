@@ -17,7 +17,7 @@ The contract must keep five object kinds machine-distinct:
 2. `ConfidenceSet(X,C,alpha,target,version,provenance)` with an explicit registered premise `P(theta in C) >= 1-alpha`.
 3. `PredictiveLaw(Y,P,version,provenance)` for predictive/aleatoric randomness over outcomes.
 4. `LatentPredictiveModel(Theta,pi,K,version,provenance)` only when latent-state semantics, prior and conditional kernel are registered.
-5. `SelectivePrediction(value_set,error_or_risk_certificate,coverage,version,provenance)` only when the corresponding selection/calibration semantics are actually registered.
+5. `SelectivePrediction(value_set,error_or_risk_certificate,coverage,version,provenance)` only when the corresponding selective-inference/calibration semantics are actually registered.
 
 A full set `C=X` means maximal registered possibility / `UNKNOWN` at state level. It has complete structural coverage of the registered domain but can contain no identifying information. Structural coverage and informativeness are separate.
 
@@ -189,7 +189,7 @@ This tranche fails if any of the following occurs:
 
 ## 11. Claim ceiling
 
-Allowed only if all frozen obligations pass:
+Allowed only if all frozen acceptance items pass:
 
 `GMI_GLOBAL_UNCERTAINTY_AND_ABSTENTION_CONTRACT_AT_REGISTERED_FINITE_SCOPE`
 

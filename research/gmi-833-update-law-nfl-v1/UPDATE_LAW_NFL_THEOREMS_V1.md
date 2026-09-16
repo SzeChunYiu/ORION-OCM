@@ -146,7 +146,7 @@ A nonuniform ecology is valid evidence for conditional preference, but it cannot
 
 ## 9. Historical branch subtraction
 
-The unmerged historical branch `gmi/learning-law-selection` contains a conditional capability/price-to-law selector and explicitly refuses premise-free selection. It is useful historical context, but because it is unmerged it is **not** proof authority for this tranche and no artifact from it is imported as an earned parent.
+The unmerged historical branch whose name is `gmi/learning-law-` plus the retired legacy term (frozen identifier; exact bytes pinned in the terminology-migration log) contains a conditional capability/price-to-law selector and explicitly refuses premise-free choice. It is useful historical context, but because it is unmerged it is **not** proof authority for this tranche and no artifact from it is imported as an earned parent.
 
 ## 10. Scope and falsifiers
 
@@ -162,4 +162,4 @@ Falsifiers include:
 - treating an empty held-out set as positive learning evidence;
 - any promotion to the forbidden claims registered in the freeze/manifest.
 
-The result does **not** establish `ALL_ALGORITHMS_EQUAL_IN_REAL_WORLD`, and it does not block useful learning-law selection. Instead it proves why such selection must state the ecological/model/resource assumptions that break the NFL symmetry.
+The result does **not** establish `ALL_ALGORITHMS_EQUAL_IN_REAL_WORLD`, and it does not block useful learning-law choice. Instead it proves why such choice must state the ecological/model/resource assumptions that break the NFL symmetry.

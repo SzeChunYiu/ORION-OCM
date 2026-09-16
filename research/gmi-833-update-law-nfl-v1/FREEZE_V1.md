@@ -120,7 +120,7 @@ No executor branch may infer `ALL_ALGORITHMS_EQUAL_IN_REAL_WORLD` from a uniform
 
 ## Historical branch boundary
 
-The old unmerged branch `gmi/learning-law-selection` is non-authoritative context only. It conditionally maps registered premises/prices to five learning laws and explicitly refuses premise-free selection. This tranche does not import its artifacts as proof authority or merge it wholesale.
+The old unmerged branch whose name is `gmi/learning-law-` plus the retired legacy term (frozen identifier; exact bytes pinned in the terminology-migration log) is non-authoritative context only. It conditionally maps registered premises/prices to five learning laws and explicitly refuses premise-free choice. This tranche does not import its artifacts as proof authority or merge it wholesale.
 
 ## Forbidden promotions
 
