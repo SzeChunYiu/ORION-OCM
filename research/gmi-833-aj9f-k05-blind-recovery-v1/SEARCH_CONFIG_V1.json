@@ -1,0 +1,23 @@
+{
+  "schema":"AJ9F_GENERIC_COMPOSITIONAL_STATE_SEARCH_CONFIG_V1",
+  "environment":{
+    "constructor":"N(x,y)",
+    "atoms":["E","A","B"],
+    "start":"N(N(E,A),N(B,E))",
+    "goal":"N(A,B)",
+    "legal_local_transforms":["N(E,x)->x","N(x,E)->x"],
+    "task_role":"environment law, not solver architecture"
+  },
+  "searches":[
+    {"id":"FIFO_FRONTIER_SEARCH","presentation":"NESTED_TUPLE"},
+    {"id":"DEPTH_LIMITED_ITERATION","presentation":"PREFIX_TOKEN_SEQUENCE"}
+  ],
+  "evaluation":{
+    "primary":"reach exact goal by legal environment transformations",
+    "raw_resource_vector":["expanded_states","generated_edges","solution_steps","peak_frontier"],
+    "no_family_score":true
+  },
+  "forbidden":["family id/name","posthoc fingerprint","symbolic solver macro","rewrite-engine macro","theorem prover macro","family-specific score"],
+  "allowed_terminal":["RECOVERED","NOT_RECOVERED_AT_SCOPE"],
+  "predicted_selected_claim_enabled":false
+}
