@@ -1,0 +1,31 @@
+name: GMI 833 AJ14 establishment ladder
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj14-establishment-criterion-v1/**'
+      - '.github/workflows/gmi-833-aj14-establishment-criterion-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AJ14 checker
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj14-establishment-criterion-v1/check_aj14.py
+      - name: Assert partial establishment ceiling
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('research/gmi-833-aj14-establishment-criterion-v1/RESULT_V1.json'))
+          assert r['status']=='GREEN'
+          assert len(r['earned_badges'])==4
+          assert r['full_gmi_supported_now'] is False
+          assert 'GMI_NOVEL_FORM_DISCOVERY_REPLICATED_AT_SCOPE' in r['unearned_badges']
+          assert 'FULL_GMI_THEORY_SUPPORTED_AT_DECLARED_SCOPE' in r['unearned_badges']
+          assert r['establishment_dimensions']['BOUNDED_ATLAS']['terminal']=='COMPLETE_GMI_ATLAS_AT_BOUND_B'
+          PY
