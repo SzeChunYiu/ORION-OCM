@@ -29,8 +29,9 @@ reads, not from the miner's output).  **357 cited edges** in five layers:
 **Census finding (reported as such):** the corpus states FEW id-resolvable
 claim→claim dependencies.  Zero census objects shipped `strongest_parents` or
 `claim_dependencies` populated; the 173 GREEN mainline EXPLICIT objects are
-mostly pointer/ledger rows and only 2 receive direct file-local edges (5 via
-rollup); 101 relation-verb lines reference parents by NAME ONLY (counted as
+mostly pointer/ledger rows: 0 receive direct file-local edges and 2
+inherit via pointer rollup; 86 relation-verb lines reference parents by
+NAME ONLY (counted as
 `named_only_mentions`, never edged).  The dependency content that does exist
 lives in structured parent tables (the collision matrix's P0–P9B literature
 parents, 98 edges), strongest-parent headers, family anchor tags, and the
