@@ -1,0 +1,30 @@
+{
+  "schema": "AJ10_PRE_TAXONOMY_EVALUATION_V1",
+  "heldout_task_id": "H1",
+  "taxonomy_visible_to_search": false,
+  "capability_evaluated_before_taxonomy": true,
+  "capability": {"protected_cases": 8, "correct_cases_each": 8, "exact": true},
+  "candidates": [
+    {
+      "route": "complete_response_table_enumeration",
+      "checked": 256,
+      "candidate_id": "T232",
+      "truth": [0,0,0,1,0,1,1,1],
+      "resource_vector": {"evaluation_operations": 1, "persistent_description_cells": 8},
+      "developmental_profile": "FIXED"
+    },
+    {
+      "route": "semantic_dynamic_closure",
+      "semantic_classes_seen": 121,
+      "frontier_sizes": [5,14,40,84,121],
+      "candidate_id": "E4",
+      "expression": "OR(AND(x0,x1),AND(x2,OR(x0,x1)))",
+      "truth": [0,0,0,1,0,1,1,1],
+      "resource_vector": {"evaluation_operations": 4, "persistent_description_cells": 0},
+      "developmental_profile": "FIXED"
+    }
+  ],
+  "pareto_frontier": ["T232","E4"],
+  "unique_morphology_selected": false,
+  "replication": "two materially different representations/search routes reproduce identical protected behavior"
+}
