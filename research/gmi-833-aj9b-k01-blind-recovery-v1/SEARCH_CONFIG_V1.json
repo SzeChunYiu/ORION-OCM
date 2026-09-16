@@ -1,0 +1,48 @@
+{
+  "schema": "AJ9B_BLIND_SEARCH_CONFIG_V1",
+  "benchmark_blob_required_after_generation_only": "6b9ac3095c90d74e2717671a70ad7cc18955310c",
+  "task": {
+    "inputs": [[0,0],[0,1],[1,0],[1,1]],
+    "required_outputs": [0,1,1,0],
+    "meaning_hidden_from_search": true
+  },
+  "generic_primitives": {
+    "atoms": ["INPUT_0","INPUT_1","CONST_-1","CONST_0","CONST_1"],
+    "unary": ["NEGATE","POSITIVE_TEST"],
+    "binary": ["ADD"],
+    "numeric_guard": "all intermediate registered values must remain in [-3,3]"
+  },
+  "forbidden": [
+    "family labels",
+    "family ids",
+    "posthoc benchmark fingerprints",
+    "architecture macros",
+    "family-specific operators",
+    "family-specific evaluator bonus",
+    "post-outcome classifier feedback"
+  ],
+  "searches": [
+    {
+      "id": "SIZE_LAYERED_SYNTAX_ENUMERATION",
+      "max_operation_nodes": 7,
+      "rule": "enumerate canonical expressions by exact operation count; no benchmark access"
+    },
+    {
+      "id": "SEMANTIC_COST_CLOSURE",
+      "max_operation_nodes": 7,
+      "rule": "independently compute minimal-cost semantic closure over the same generic primitives; no benchmark access"
+    }
+  ],
+  "presentations": [
+    "TREE_AST",
+    "POSTFIX_STACK_ENCODING"
+  ],
+  "evaluation": {
+    "primary": "exact protected output vector on the four registered inputs",
+    "raw_resource_vector": ["operation_nodes","positive_tests","depth","constant_uses"],
+    "no_family_score": true
+  },
+  "outcome_before_posthoc_adjudication": "candidate expressions and raw resource vectors only",
+  "allowed_scientific_terminal": ["RECOVERED","NOT_RECOVERED_AT_SCOPE"],
+  "predicted_selected_claim_enabled": false
+}
