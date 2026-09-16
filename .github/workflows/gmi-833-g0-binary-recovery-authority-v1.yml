@@ -41,7 +41,7 @@ jobs:
           science = json.loads((root/'RESULT_V1.json').read_text())
           robust = json.loads((root/'ROBUSTNESS_RESULT_V1.json').read_text())
           assert authority['claim_ceiling'] == recon['g0_authority_claim'] == 'GMI_G0_REGISTER_CORE_AND_FINITE_EMBEDDINGS_AT_DECLARED_SCOPE'
-          assert authority.get('verdict') == 'GREEN'
+          assert authority.get('terminal') == 'GMI_833_G0_REGISTER_CORE_V1_ALL_GREEN'
           assert science['claim_ceiling'] == recon['this_tranche_claim']
           assert science['verdict'] == 'GREEN'
           assert robust['scientific_claim'] == science['claim_ceiling']
