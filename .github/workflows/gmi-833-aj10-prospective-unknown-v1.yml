@@ -1,0 +1,30 @@
+name: GMI 833 AJ10 prospective unknown
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj10-prospective-unknown-v1/**'
+      - '.github/workflows/gmi-833-aj10-prospective-unknown-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AJ10 checker
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj10-prospective-unknown-v1/check_aj10.py
+      - name: Assert no false novelty
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('research/gmi-833-aj10-prospective-unknown-v1/RESULT_V1.json'))
+          assert r['status']=='GREEN'
+          assert r['unknown_channel_exercised'] is True
+          assert r['novel_form_claimed'] is False
+          assert r['claim_ceiling']=='AJ10_PROSPECTIVE_UNKNOWN_CHANNEL_AND_POSTHOC_PARENT_REDUCTION_AT_REGISTERED_FINITE_SCOPE'
+          assert 'NOVEL_MI_DISCOVERED' in r['forbidden_promotions']
+          PY
