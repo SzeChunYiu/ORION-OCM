@@ -1,0 +1,23 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "source_issue": 913,
+  "source_pr": 916,
+  "claim_ceiling": "GMI_833_CAPABILITY_IDENTIFICATION_ABSTENTION_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "CAPABILITY_PREDICTOR_COMPLETED",
+    "CALIBRATION_FROM_FEASIBILITY_ALONE",
+    "REAL_SYSTEM_CAPABILITY_VALIDATION",
+    "FULL_MODEL_IDENTITY_REQUIRED_FOR_EVERY_QUERY",
+    "UNIVERSAL_CAPABILITY_IDENTIFICATION",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "old": "- [ ] Require abstention where capability is not identifiable.",
+      "new": "- [x] Require abstention where capability is not identifiable. — ✅ PR #916 / #913 ABSTAIN-1: a capability point is emitted iff the exact query image over surviving candidates is a singleton; multi-valued images return the complete identified set and no point. Empty survivors are inconsistent, missing/non-total queries cannot-check, confidence budgets remain explicit, and feasible sets cannot fabricate calibration. Exact 300-case replay includes 36 forced-point counterexamples."
+    }
+  ]
+}
+
