@@ -1,0 +1,93 @@
+{
+  "schema": "GMI833G0GrammarGrowthScientificLedgerV1",
+  "issue": 897,
+  "parent_issue": 833,
+  "claims": [
+    {
+      "id": "GROWTH-1",
+      "statement": "Adding an acyclic charged macro to the frozen token grammar is conservative and monotone: every old program stays legal with unchanged exact expansion; cyclic dependencies fail closed with RECURSIVE_LIBRARY_CYCLE and no grammar update.",
+      "assumptions": [
+        "frozen {a,b,c} token grammar with concatenation only",
+        "macro bodies are sequences over the alphabet at admission time"
+      ],
+      "dependencies": ["GRW-1 proof (THEOREMS T1)", "in-trace expansion-preservation checks"],
+      "falsifiers": [
+        "any corpus program whose expansion changes across an admission",
+        "any cyclic library accepted as a grammar update"
+      ],
+      "strongest_parent": "standard rewriting/library-learning conservativity; #833 E-line grammar-bias boundary",
+      "counterexample_methods": ["self/2/3-cycle hostiles", "semantic-rewrite hostile"],
+      "limits": "finite scope; no claim about infinite grammar families or typed languages"
+    },
+    {
+      "id": "INVENT-1",
+      "statement": "The frozen deterministic rule (charged strict-positive corpus compression, syntax-independent tie-break, saturation stop) invents exactly m1 -> a b then m2 -> m1 m1 on the frozen corpus: recursive library formation with acyclic DAG and exact base-word semantics, re-derived by an independent oracle.",
+      "assumptions": [
+        "training corpus is successful programs only",
+        "greedy non-overlapping occurrence accounting",
+        "charges: definition cost |body| symbols + maintenance kappa per macro"
+      ],
+      "dependencies": ["INV-1 arithmetic (T2)", "kappa ablation {0..8}"],
+      "falsifiers": [
+        "admission of a zero-gain candidate (hostile HZERO-1)",
+        "tie resolved by target/family labels",
+        "oracle disagreement on any admission"
+      ],
+      "strongest_parent": "DreamCoder/Stitch corpus-compression abstraction admission; #233 HST-T05 lifecycle charges",
+      "counterexample_methods": ["zero-gain corpus", "uncharged-definition corpus", "uncharged-maintenance corpus"],
+      "limits": "one corpus, two generations; no claim that this rule is optimal (g2-acquisition-economics parent shows compression selectors can fail utility argmax elsewhere)"
+    },
+    {
+      "id": "HELDOUT-1",
+      "statement": "On 12 frozen-before-invention reuse-positive held-out targets, cumulative exact breadth-by-length discovery burden drops from 50,052 to 1,307 with K_total=6 charged (net -48,739, strict); the lifecycle identity H_eff*Delta > K holds exactly per macro and in aggregate; the unrelated control preserves a +1,178 charged regression; 0/200 equal-size random-admission nulls beat the true library.",
+      "assumptions": [
+        "held-out sets frozen before invention and disjoint at task level",
+        "burden metric counts every enumerated program including macro programs",
+        "horizon = one pass over the frozen held-out suite at kappa=1"
+      ],
+      "dependencies": ["burden formula (T3)", "widened-frontier lemma (T4)", "THR-1 instantiation (T5)", "NULL-1 ensemble"],
+      "falsifiers": [
+        "held-out data influencing invention (leakage hostile)",
+        "post-hoc held-out edits (hash hostile)",
+        "any null library with net < true net",
+        "control set showing hidden improvement"
+      ],
+      "strongest_parent": "#233 HST-T04 allocation compounding; h1-amortized chain (charges and alphabet-widening cost); g2-utility-gated (held-out utility evidence)",
+      "counterexample_methods": ["poisoned held-out fixtures", "tampered held-out hashes", "200-seed random-admission null", "unrelated negative control"],
+      "limits": "existence/conditional finite transfer at the registered fixture scope only; explicitly not PRIMITIVE_INVENTION_ALWAYS_HELPS, not universal, not real-world transfer; short targets can individually regress (burden metric punishes widened prefixes), the aggregate and the control carry the claim"
+    }
+  ],
+  "open_gaps": [
+    {
+      "id": "GAP-E8-1",
+      "claim_id": "INVENT-1",
+      "premise": "two generations suffice for the witness",
+      "unresolved_assumption": "deeper generational chains (m3 over m2) on larger corpora",
+      "possible_counterexample": "a corpus where greedy admission order blocks a beneficial deeper chain",
+      "severity": "medium",
+      "status": "OPEN",
+      "evidence_needed": "corpus family scaling the generational depth with exact charges"
+    },
+    {
+      "id": "GAP-E8-2",
+      "claim_id": "HELDOUT-1",
+      "premise": "compression admission transfers at this fixture",
+      "unresolved_assumption": "whether utility-gated admission (g2 parent) dominates compression admission on this grammar as it does on the polynomial grammar",
+      "possible_counterexample": "a held-out family where compression-admitted libraries are beaten by primitive-only search after charges",
+      "severity": "medium",
+      "status": "OPEN",
+      "evidence_needed": "head-to-head compression vs utility-gated admission under the same burden metric"
+    },
+    {
+      "id": "GAP-E8-3",
+      "claim_id": "HELDOUT-1",
+      "premise": "burden metric = enumerated index",
+      "unresolved_assumption": "scheduler-time costs (HST-T04 conditions) beyond enumeration count",
+      "possible_counterexample": "a cost regime where macro expansion execution cost reverses the verdict for marginal targets",
+      "severity": "low",
+      "status": "OPEN",
+      "evidence_needed": "registered execution-cost variant of the burden metric"
+    }
+  ],
+  "recursive_gap_verdict": "LOCALLY_CLOSED_WITH_OPEN_GAPS_RECORDED"
+}
