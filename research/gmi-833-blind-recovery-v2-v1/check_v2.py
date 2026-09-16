@@ -126,6 +126,7 @@ def main():
     #    and assert equality with the committed outcomes.
     import sys as _sys
     _sys.path.insert(0, str(HERE))
+    battery = json.loads((HERE / "NEUTRAL_BATTERY_FREEZE_V1.json").read_text())
     from battery_generate_v1 import delay_battery as _delay
     from neutral_search_v2 import (Basis as _Basis, FastBasis as _FBasis,
                                    rows_to_atom_semantics as _ras,
