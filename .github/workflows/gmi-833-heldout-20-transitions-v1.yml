@@ -1,0 +1,119 @@
+name: GMI 833 heldout 20 transitions v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-heldout-20-transitions-v1/**'
+      - '.github/workflows/gmi-833-heldout-20-transitions-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-heldout-20-transitions-v1/**'
+      - '.github/workflows/gmi-833-heldout-20-transitions-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prediction freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=ddb3df7a44a6a4fb47fdc362a1fa02e34b7a3a75
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-heldout-20-transitions-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-heldout-20-transitions-v1/full_enumeration_v1.py \
+            research/gmi-833-heldout-20-transitions-v1/frontier_branch_bound_v1.py \
+            research/gmi-833-heldout-20-transitions-v1/heldout_transition_v1.py \
+            research/gmi-833-heldout-20-transitions-v1/RESULT_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze outcome artifact existed at prediction freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Outcome oracles remain architecture-label blind
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -E 'STATELESS|PERSISTENT_STATE|TRANSFORMER|LSTM|ATTENTION|RNN|CNN' research/gmi-833-heldout-20-transitions-v1/full_enumeration_v1.py
+          ! grep -E 'STATELESS|PERSISTENT_STATE|TRANSFORMER|LSTM|ATTENTION|RNN|CNN' research/gmi-833-heldout-20-transitions-v1/frontier_branch_bound_v1.py
+      - name: Exact held-out tests and deterministic receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-heldout-20-transitions-v1/test_heldout_transition_v1.py -v
+            python -I -O -B research/gmi-833-heldout-20-transitions-v1/heldout_transition_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-heldout-20-transitions-v1/test_heldout_transition_v1.py -v
+            python -I -B research/gmi-833-heldout-20-transitions-v1/heldout_transition_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-heldout-20-transitions-v1/RESULT_V1.json
+      - name: Check parent authorities and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-heldout-20-transitions-v1')
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          phase=json.loads(Path('research/gmi-833-morphology-selection-schema-v1/RESULT_V1.json').read_text())
+          recover=json.loads(Path('research/gmi-833-g0-binary-recovery-v1/RESULT_V1.json').read_text())
+          robust=json.loads(Path('research/gmi-833-robustness-controls-v1/RESULT_V1.json').read_text())
+          expected='GMI_20_HELDOUT_BINARY_MORPHOLOGY_TRANSITIONS_AND_INDEPENDENT_SEARCH_REPLICATION_AT_REGISTERED_FINITE_SCOPE'
+          assert m['freeze_commit']=='ddb3df7a44a6a4fb47fdc362a1fa02e34b7a3a75'
+          assert r['freeze_commit']==m['freeze_commit']
+          assert r['claim_ceiling']==m['claim_ceiling']==expected
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          assert r['counts']['heldout_transitions']==20
+          assert r['counts']['endpoint_correct']==40
+          assert r['counts']['independent_search_agreements']==40
+          assert phase['claim_ceiling']=='GMI_FINITE_MORPHOLOGY_SELECTION_AND_AFFINE_PHASE_SCHEMA_AT_REGISTERED_SCOPE'
+          assert recover['claim_ceiling']=='GMI_P3_RELATIVE_BINARY_STATE_PROPERTY_RECOVERY_UNDER_NAND_NOR_GRAMMAR_TWINS_AT_REGISTERED_FINITE_SCOPE'
+          assert robust['claim_ceiling']=='GMI_DERIVATION_ROBUSTNESS_CONTROL_REQUIREMENTS_FORMALIZED_AT_REGISTERED_FINITE_SCOPE'
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-heldout-20-transitions-v1/ISSUE_833_RECONCILIATION_HELDOUT_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply earned prospective Section-J rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-heldout-20-transitions-v1/ISSUE_833_RECONCILIATION_HELDOUT_V1.json
