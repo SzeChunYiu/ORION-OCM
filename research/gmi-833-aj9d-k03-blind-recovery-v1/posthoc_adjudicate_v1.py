@@ -33,22 +33,21 @@ def inspect(outputs):
             t=list(s); t[remote]=1-t[remote]; t=tuple(t)
             remote_no_effect &= eval_table(subset,table,s)==eval_table(subset,table,t)
     shared=(len(set(tables))==1)
-    # Rotation equivariance under i -> i+1 and state-coordinate transport.
+    # Rotation equivariance under old site i -> new site i+1.
     for s in STATES:
         rotated=(s[2],s[0],s[1])
         y=[]; yr=[]
         for i in range(3):
             o=by_site[i]; y.append(eval_table(tuple(o["dependency_subset"]),tuple(o["table"]),s))
             r=by_site[(i+1)%3]; yr.append(eval_table(tuple(r["dependency_subset"]),tuple(r["table"]),rotated))
-        # rotated output at site i+1 equals original site i
-        relabel &= all(yr[i]==y[(i-1)%3] for i in range(3))
+        # Output at new site i+1 equals output at original site i.
+        relabel &= all(yr[i]==y[i] for i in range(3))
     # Same local 2-bit pattern produces same response at every site: enumerate matched pairs.
     same_local=True
     canonical=tables[0]
     for pair in itertools.product(BITS,repeat=2):
         expected=canonical[(pair[0]<<1)|pair[1]]
         for i in range(3):
-            # choose a global state realizing pair on i and successor; remote=0
             state=[0,0,0]; state[i]=pair[0]; state[(i+1)%3]=pair[1]
             o=by_site[i]
             same_local &= eval_table(tuple(o["dependency_subset"]),tuple(o["table"]),tuple(state))==expected
@@ -67,9 +66,7 @@ def main():
     data=BENCH.read_bytes(); assert git_blob_sha(data)==EXPECTED_BLOB
     family=next(f for f in json.loads(data)["families"] if f["family_id"]=="K03")
     outcome=json.loads(OUTCOME.read_text())
-    # Post-hoc fingerprint is applied to the independently synthesized minimum-dependency presentation.
     inspection=inspect(outcome["search_2"]["outputs"])
-    # Search 1 must independently agree on exact dependency sets.
     deps1=[o["exact_dependencies"] for o in outcome["search_1"]["outputs"]]
     deps2=[o["dependency_subset"] for o in outcome["search_2"]["outputs"]]
     agreement=(deps1==deps2)
