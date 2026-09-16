@@ -1,0 +1,31 @@
+name: GMI 833 AJ13 stopping rule
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj13-stopping-rule-v1/**'
+      - '.github/workflows/gmi-833-aj13-stopping-rule-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AJ13 checker
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj13-stopping-rule-v1/check_aj13.py
+      - name: Assert scoped stopping terminal
+        run: |
+          python3 - <<'PY'
+          import json
+          p='research/gmi-833-aj13-stopping-rule-v1/RESULT_V1.json'
+          r=json.load(open(p))
+          assert r['status']=='GREEN'
+          assert r['criteria_satisfied']==6
+          assert r['hostile_cases_rejected']==6
+          assert r['terminal']=='FOUNDATION_RELATIVE_GMI_CORE_STABLE_AT_REGISTERED_SCOPE'
+          assert r['forbidden_terminal']=='ABSOLUTE_BOTTOM_OF_MATHEMATICS_OR_REALITY_PROVEN'
+          PY
