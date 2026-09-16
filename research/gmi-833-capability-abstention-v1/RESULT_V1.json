@@ -1,0 +1,140 @@
+{
+  "census": {
+    "confidence_query_cases": 192,
+    "feasible_query_cases": 64,
+    "forced_point_counterexamples": 36,
+    "missing_query_cases": 8
+  },
+  "checks": {
+    "binary_nonidentification_abstains": true,
+    "bounded_census_complete": true,
+    "coarse_query_remains_identified": true,
+    "confidence_preserved_not_certainty": true,
+    "forced_point_has_counterexample": true,
+    "inconsistency_and_cannot_check_distinct": true,
+    "parents_exactly_pinned": true,
+    "scientific_ledgers_complete": true
+  },
+  "claim_ceiling": "GMI_833_CAPABILITY_IDENTIFICATION_ABSTENTION_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "CAPABILITY_PREDICTOR_COMPLETED",
+    "CALIBRATION_FROM_FEASIBILITY_ALONE",
+    "REAL_SYSTEM_CAPABILITY_VALIDATION",
+    "FULL_MODEL_IDENTITY_REQUIRED_FOR_EVERY_QUERY",
+    "UNIVERSAL_CAPABILITY_IDENTIFICATION",
+    "COMPLETE_GMI"
+  ],
+  "issue": 913,
+  "parent_audit": {
+    "all_ok": true,
+    "rows": [
+      {
+        "actual_blob": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+        "blob_ok": true,
+        "claim_ok": true,
+        "name": "foundation",
+        "path": "research/gmi-833-foundation-v1/RESULT_V1.json"
+      },
+      {
+        "actual_blob": "bdc5c3cd42e312d8c7af52f7ba84220631a25f8a",
+        "blob_ok": true,
+        "claim_ok": true,
+        "name": "morphcap",
+        "path": "research/gmi-833-morphcap-v1/RESULT_V1.json"
+      },
+      {
+        "actual_blob": "9ab16cf59087214e093ace3b18c6d08fc79ab871",
+        "blob_ok": true,
+        "claim_ok": true,
+        "name": "global_uncertainty",
+        "path": "research/gmi-833-global-uncertainty-v1/RESULT_V1.json"
+      },
+      {
+        "actual_blob": "3366a3bc7236d286f8d123bf53e4e3b2d22ad7b9",
+        "blob_ok": true,
+        "claim_ok": true,
+        "name": "axiom_core",
+        "path": "research/gmi-833-axiom-core-v1/RESULT_V1.json"
+      },
+      {
+        "actual_blob": "7ff80bab4a0b9e967e02cc6943bbe8828e3acea0",
+        "blob_ok": true,
+        "claim_ok": true,
+        "name": "capability_bounds",
+        "path": "research/gmi-833-capability-bounds-interactions-v1/RESULT_V1.json"
+      }
+    ]
+  },
+  "parent_issue": 833,
+  "schema": "GMI833CapabilityAbstentionResultV1",
+  "scientific_ledger": {
+    "claim_ledgers": 2,
+    "closure_level": "LOCALLY_CLOSED",
+    "open_review_gaps": 1
+  },
+  "verdict": "GREEN",
+  "witness": {
+    "binary_nonidentification": {
+      "coverage_lower_bound": null,
+      "failure_budget": null,
+      "identified_set": [
+        "0",
+        "1"
+      ],
+      "point_prediction": null,
+      "status": "CANNOT_IDENTIFY",
+      "uncertainty_kind": "FEASIBLE_SET"
+    },
+    "coarse_query": {
+      "coverage_lower_bound": null,
+      "failure_budget": null,
+      "identified_set": [
+        "7"
+      ],
+      "point_prediction": "7",
+      "status": "IDENTIFIED",
+      "uncertainty_kind": "FEASIBLE_SET"
+    },
+    "confidence_nonidentification": {
+      "coverage_lower_bound": "19/20",
+      "failure_budget": "1/20",
+      "identified_set": [
+        "0",
+        "1"
+      ],
+      "point_prediction": null,
+      "status": "CANNOT_IDENTIFY",
+      "uncertainty_kind": "CONFIDENCE_SET"
+    },
+    "empty_survivor": {
+      "coverage_lower_bound": null,
+      "failure_budget": null,
+      "identified_set": [],
+      "point_prediction": null,
+      "status": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+      "uncertainty_kind": "FEASIBLE_SET"
+    },
+    "forced_point": {
+      "chosen_point": "0",
+      "counterexample_candidate": "m1",
+      "counterexample_value": "1",
+      "uniformly_sound": false
+    },
+    "missing_query": {
+      "coverage_lower_bound": null,
+      "failure_budget": null,
+      "identified_set": null,
+      "point_prediction": null,
+      "status": "CANNOT_CHECK_QUERY_NOT_REGISTERED",
+      "uncertainty_kind": "FEASIBLE_SET"
+    },
+    "nontotal_query": {
+      "coverage_lower_bound": null,
+      "failure_budget": null,
+      "identified_set": null,
+      "point_prediction": null,
+      "status": "CANNOT_CHECK_QUERY_NOT_TOTAL_ON_DOMAIN",
+      "uncertainty_kind": "FEASIBLE_SET"
+    }
+  }
+}
