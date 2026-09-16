@@ -1,0 +1,1187 @@
+{
+ "schema": "GMI_833_THEORY_BASELINE_MANIFEST_V1",
+ "baseline": "GMI_THEORY_BASELINE_V1",
+ "parent_issue": 833,
+ "freeze_package": "research/gmi-833-theory-baseline-v1",
+ "claim_ceiling": "GMI_THEORY_BASELINE_V1_AT_PINNED_FROZEN_CORPUS_SCOPE",
+ "pinned_head_sha": "c4def870df287a476672e47219134832a0c2f380",
+ "pinned_head_subject": "research(#833): corpus identification passes v2 - L42/L44-L56 detectors + verdicts, L58 revival to universal CI-U (#976)",
+ "arrivals_since_pin": {
+  "checked_against": "c4def870df287a476672e47219134832a0c2f380",
+  "rule": "git diff --stat <pin>..<head> -- research/ ; new gmi-833-* dirs",
+  "new_gmi_833_dirs": [],
+  "claim_bearing_arrivals_absorbed_as_u_new": [],
+  "count_absorbed": 0,
+  "note": "re-run at every manifest build; arrivals enter as U-NEW until typed by the frozen mechanical re-run (arrival_absorption_rule below)"
+ },
+ "pin_method": "origin/main fetched at freeze time; branch research/833-theory-baseline-v1 cut from origin/main at the pinned SHA; every bound file verified byte-identical between working tree and the pinned blob (git hash-object == git rev-parse <pin>:<path>) before sha256 binding",
+ "bound_artifact_count": 132,
+ "components": [
+  {
+   "id": "corpus-census",
+   "package": "research/gmi-833-corpus-census-v1",
+   "pr": 845,
+   "child_issue": 842,
+   "role_in_baseline": "Frozen corpus universe: object grammar, file roles, per-object dispositions, duplicate candidates, dependency-gap audit. Everything downstream is scoped to this frozen census.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-corpus-census-v1/AUDIT_PROTOCOL_V1.md",
+     "sha256": "4edb6bca909708fa97a2c8417611b2e158e5c6e5496a3700842b4172020a924c",
+     "bytes": 3748,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-census-v1/AUDIT_V1.json",
+     "sha256": "714e123e593e9cf873b0f336872668b33f2d656373c7b524adbc757c8409300e",
+     "bytes": 483445,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json",
+     "sha256": "7ab18bcd841e55d6300b7c64cc50f420f2fa0dfb536ea151a46a68fd5eb3a1ef",
+     "bytes": 21806464,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-census-v1/DEPENDENCY_GRAPH_V1.json",
+     "sha256": "ffc5a22e254ce7f1ea85ac2b81b38373191624211660d7935e16ad61183201ea",
+     "bytes": 144,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-census-v1/FREEZE_V1.md",
+     "sha256": "708825a789c05b8c83c96d9c24870aec08e1dcb7de4fe4f10171887825d27d01",
+     "bytes": 9105,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json",
+     "sha256": "6677c009a8222abf0ed8ab4ca223340ef76e88d915d0fe766d63554e8277ee64",
+     "bytes": 688342,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-census-v1/corpus_census_v1.py",
+     "sha256": "4b3cab0f954d45fa3ddf985255c1fb9c97a175f8a51a07c243ce1a399558b13a",
+     "bytes": 19535,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-corpus-census-v1/test_corpus_census_v1.py",
+     "sha256": "b7f012058efce9d13caa10fdb28f7212473f16e3f749ca0a903a1f94763968d9",
+     "bytes": 4540,
+     "role": "TEST_CODE"
+    }
+   ]
+  },
+  {
+   "id": "corpus-audit-close",
+   "package": "research/gmi-833-corpus-audit-close-v1",
+   "pr": 939,
+   "child_issue": null,
+   "role_in_baseline": "Bounded semantic adjudication tranche over the frozen census (all 237 GREEN EXPLICIT + seeded stratified 200 of 22,316 AMBER+RED over 28 non-empty strata). Verdict taxonomy frozen; found the corpus's one confirmed OVERSTRONG (capability-interactions universal phrasing).",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-corpus-audit-close-v1/FREEZE_V1.md",
+     "sha256": "f1d42f182ac565048ce03539fa6e6e9e51fe80e2eb601fb7750b91325761a1a2",
+     "bytes": 6527,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-audit-close-v1/audit_close_v1.py",
+     "sha256": "3808caed759bc54f3bdb9f8af663e8c920a3f8c03a509ed2639b39be01212daf",
+     "bytes": 3886,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-corpus-audit-close-v1/verdicts_v1.py",
+     "sha256": "73cbb922cfd598116cc3be12e0879ed78cc7033976452496c065c21974d8af3f",
+     "bytes": 47153,
+     "role": "METHOD_CODE"
+    }
+   ]
+  },
+  {
+   "id": "depgraph-adjudication",
+   "package": "research/gmi-833-depgraph-adjudication-v1",
+   "pr": 949,
+   "child_issue": 842,
+   "role_in_baseline": "Dependency graph v2 with real cited edges; Tarjan cycle evidence; duplicate adjudication with content collapse; OVERSTRONG adjudication of the FIN2UNIV population; master RAG table over the whole corpus.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/CYCLE_REPORT_V1.json",
+     "sha256": "d74fbc755774eaf445f0a6487e4f1ba387d697028209f712bd7b4c1ef19c41e6",
+     "bytes": 779,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/DEPENDENCY_GRAPH_V2.json",
+     "sha256": "661ad9a57cf5e50d89aa1d3291f69e68795e117e52ffae5b72850c3b4aeea914",
+     "bytes": 223645,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json",
+     "sha256": "1e0ab6bcd60f653ce97d17c295c1d05a979e39ef979be1124c726ebe6f624c7e",
+     "bytes": 3164663,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/FREEZE_V1.md",
+     "sha256": "e15af7c7d43727dec79600038168914fe7f0fd41888650f5a904af38ade234db",
+     "bytes": 6654,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/MASTER_RAG_TABLE_V1.json",
+     "sha256": "83238bbc369105a2c41f038e242452e72c9aa4b34774b84ae53a8a6561ed8128",
+     "bytes": 11122,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/OVERSTRONG_ADJUDICATION_V1.json",
+     "sha256": "58d837804616ac0cb9c710b42a0c7a17718b44b4d13703becc4e26582469fcab",
+     "bytes": 189296,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/RECEIPTS_V1.json",
+     "sha256": "e5bffa2b3b467fb3d9db7a554da48f4576a11bc96bc8b153e978eb45c88490ea",
+     "bytes": 4394,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/cycle_check_v1.py",
+     "sha256": "1a725cc84512eeca5d97f52c2843644c32a11760ba3a483d4cd2aaf8b8e0f65c",
+     "bytes": 5998,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/depgraph_miner_v1.py",
+     "sha256": "a6a86cdbf0a9e1509de23dccb9570988fc40e13b28ab1503f338cb2a742e793f",
+     "bytes": 40481,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/duplicate_adjudication_v1.py",
+     "sha256": "ddfea33904a6b3352bfb34e9b3cb3783b0fb315ec4b26cf17aa080cbabd193f1",
+     "bytes": 17424,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/make_receipts_v1.py",
+     "sha256": "3748ec441c005666a5a093555ac5ee96dfd9097a39da2727ee05671cc8ddbaff",
+     "bytes": 4370,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/master_rag_v1.py",
+     "sha256": "a9cee8153c3176e17b9d72b414037d6ec0c5fb6c4786179af287f0360944e8bd",
+     "bytes": 11127,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/overstrong_adjudication_v1.py",
+     "sha256": "dc0e1cf489121f0338427abd63eecd7d5596dee350bcd5803642d707b5c32455",
+     "bytes": 21407,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-depgraph-adjudication-v1/test_depgraph_miner_v1.py",
+     "sha256": "4f4b979492fcbcefe49e0cb3453de42c7a76861d44a973e423a90fdf3f7d12d9",
+     "bytes": 5312,
+     "role": "TEST_CODE"
+    }
+   ]
+  },
+  {
+   "id": "maturity-rescore-v1",
+   "package": "research/gmi-833-maturity-rescore-v1",
+   "pr": 938,
+   "child_issue": null,
+   "role_in_baseline": "M0-M6 / EV0-EV5 maturity rubric freeze (29 833-family primaries; typed Gap 1 legacy-173 and Gap 2 post-freeze arrivals handed to v2).",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-maturity-rescore-v1/FREEZE_V1.md",
+     "sha256": "99953163cd48d3f17c0f9653bccfef8c8bff4cc42dbe41a81593b62f5cac6483",
+     "bytes": 19015,
+     "role": "AUTHORITY_DOC"
+    }
+   ]
+  },
+  {
+   "id": "maturity-rescore-v2",
+   "package": "research/gmi-833-maturity-rescore-v2-v1",
+   "pr": 948,
+   "child_issue": null,
+   "role_in_baseline": "Judgment protocol (FREEZE_V2) and 197-row THEOREM_SCORES_V2 covering both v1 gaps (173 legacy GREEN claim objects + 24 arrivals). Corpus fact recorded: no M5/M6 (no EV4/EV5 evidence) anywhere.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-maturity-rescore-v2-v1/FREEZE_V2.md",
+     "sha256": "0e5058943c7371b36d53e05f4ae8419503bfc6d749fd123ba709e083f0b3f0ec",
+     "bytes": 24783,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-maturity-rescore-v2-v1/MATURITY_RESCORE_V2.md",
+     "sha256": "dbc712ea2778785a363b6e174981766eeb14f0672af3172c410000da0e347e21",
+     "bytes": 35086,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-maturity-rescore-v2-v1/RESULT_V2.json",
+     "sha256": "f848c902fe1ea0318a20e45b00d727723f2836fa3bc6cd907c167ecdd3679be1",
+     "bytes": 9973,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-maturity-rescore-v2-v1/THEOREM_SCORES_V2.json",
+     "sha256": "71151b22e28f85824b4601e51a0187615f1516fc82541161e3b0248b47e18c9f",
+     "bytes": 357282,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-maturity-rescore-v2-v1/judgments_v2.py",
+     "sha256": "ba7e4de3b6623ed0ea5b8e9e567c1e13b7ac531be860d0b655a2ed31fddeb3b6",
+     "bytes": 287323,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-maturity-rescore-v2-v1/rescore_v2.py",
+     "sha256": "2c979b6ea05b5b9bd8ccb88841d3e618eee95e89bbdbc306ec367ca536f9c410",
+     "bytes": 13181,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-maturity-rescore-v2-v1/test_rescore_v2.py",
+     "sha256": "8a61951b481dca4e2a16a322101b1fdf40fc38233555334a46ab9bae74640e2e",
+     "bytes": 4244,
+     "role": "TEST_CODE"
+    }
+   ]
+  },
+  {
+   "id": "claim-discipline",
+   "package": "research/gmi-833-claim-discipline-v1",
+   "pr": 972,
+   "pr_successor": 975,
+   "child_issue": null,
+   "role_in_baseline": "Six discipline fields (scope/quantifiers, assumptions, falsifiers, strongest parents, forbidden extrapolations) registered for every claim-bearing object; successor tranche v2 closed all 8 v1 gaps and absorbed one post-freeze arrival under the frozen mechanical rule.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-claim-discipline-v1/FREEZE_V1.md",
+     "sha256": "a61cbd8e6abd2f37f0978abb59b214a252d9e46af66fb78b46715921fc44243d",
+     "bytes": 7714,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/GAP_REGISTER_V1.json",
+     "sha256": "17d06af605901bd6d219f2cd07496acce71e8beee50b975c620515383ada7404",
+     "bytes": 86578,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/ISSUE_833_ADJUDICATION.md",
+     "sha256": "0639da31c0660a243d70575ff98fbf487801cf8dac99fb7a575a39c592757861",
+     "bytes": 4257,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/MATURE_RESCORE_BRIDGE.md",
+     "sha256": "77c2df290c18f8d9ced48b5adc7c5be0f3811eef0684ae7498005a6b747aa2b5",
+     "bytes": 3836,
+     "role": "DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/PARENT_LITERATURE_ANALYSIS_V2.md",
+     "sha256": "426e0a4f798b42a83b5ed62d0b467f284aa78b602e0d450c91d1d2d73eb3bd1a",
+     "bytes": 13260,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/README.md",
+     "sha256": "c21254f698c5ccacea7682ad385e72d1828f65d4cbdf7a7db407fd121cad8329",
+     "bytes": 3914,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/REGISTRATIONS_TABLE_V1.md",
+     "sha256": "ccecc554acd0160ed3e52088f8433e33a90d9b7897ccc811f1d68579b8fbcdca",
+     "bytes": 29702,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/REGISTRATIONS_V1.json",
+     "sha256": "b6bd75035e11952e84df189eaaffd5ccd2a2148585f9b69b3cc0ac9796127493",
+     "bytes": 583176,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json",
+     "sha256": "90a278e1808a6e9e07eae4c21c8c4b28b2391ab134c48df5db8315e24827add9",
+     "bytes": 607322,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/REPORTED_NOT_FIXED.md",
+     "sha256": "f399ee87efb1db78448483ede16c917a5e99bb78ef1b974232a06c0336d06ed6",
+     "bytes": 2994,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/RESULT_V1.json",
+     "sha256": "2e4169f973328a4889437be520c8eae1f902514c8cab8a8fb4c9085baaa9e5a7",
+     "bytes": 4191,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/RESULT_V2.json",
+     "sha256": "a6d07a7035cc1eb251419f75f4f632653db5141052f08fd5bd10ffcead76faf0",
+     "bytes": 5483,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/SUCCESSOR_TRANCHE_V2.md",
+     "sha256": "966aae40385ca61da429bd2dfca76f04a57daf5fcdcea130aeedbf88e94778a2",
+     "bytes": 4191,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/assemble_v1.py",
+     "sha256": "6f55289ca2c6c67ebf714ee8280498b39678f9df359e8e69c02646dfe80b77ae",
+     "bytes": 12845,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/assemble_v2.py",
+     "sha256": "1c85e2c0e06b4425c0c6576c7c9ff5e116553cb5a2f782ae6806bd3b539cdd73",
+     "bytes": 7458,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/authored_arrival_v2.py",
+     "sha256": "26d1bce7915bc9e9d03ad0a793db45f1a2b0d058fafda7d4d5ef9b268bee4867",
+     "bytes": 5196,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/authored_g6_v1.py",
+     "sha256": "f404dd982ffb4f849c8b84369b9f671de6c48693db1bc75a46bea5e6d9f9a001",
+     "bytes": 16442,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/authored_overrides_v1.py",
+     "sha256": "423dfac91c569708a5d23cd19cf9b566797824845ad618df422b85ddb260252b",
+     "bytes": 28561,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/authored_parent_pins_v2.py",
+     "sha256": "ffe55931137a0d1183f31df59081c98339e0452886b0b5a73b64b750a30c43ae",
+     "bytes": 23533,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/census_locators_173.json",
+     "sha256": "a5de0d7972559663546590db46ca76b977f2624e8fa54abcf4ade180e994ba85",
+     "bytes": 20838,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/ev_arr24.jsonl",
+     "sha256": "21c6a493dcb6123f5a4afc1679c827190a8189d4d11585b91f1cae84133c4775",
+     "bytes": 29385,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/ev_ggu.jsonl",
+     "sha256": "fe34a8ba6cfdc17a9c24bab580bc1a319067ae74be2d9987f60a876114343bbb",
+     "bytes": 52038,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/ev_mim_a.jsonl",
+     "sha256": "e2b310e4ec302ec7eded2ebe2d43125138876983e937ccb9c60de8afae660191",
+     "bytes": 46401,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/ev_mim_b.jsonl",
+     "sha256": "6868bfbf0ed8b46df1569a0baf03a79ef728af79987c3b82e1e3b88b50947d66",
+     "bytes": 55674,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/ev_mim_jsonl.json",
+     "sha256": "73819fe3e167efa20668ddbd83da0434d6c6ca4af1706b2ca058b794d3a9c40d",
+     "bytes": 220764,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/ev_new7.jsonl",
+     "sha256": "af994d87e5f47851c4ef32d280815b540d68dfc7340956f9715dad7de3a016c6",
+     "bytes": 27052,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/ev_small.jsonl",
+     "sha256": "43084be337a5e3aa8c6ff971fd0097b16f4360719ea49906468b2f96f6bfdd86",
+     "bytes": 55002,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/evidence/join_v2_census.json",
+     "sha256": "7be183251f1569c07564896480493bb54474dd31cd1eb1483673f869a3d848c7",
+     "bytes": 9292,
+     "role": "EVIDENCE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/make_table_v1.py",
+     "sha256": "1c6c77c36633a41d82b0159d13f8328df80ae0f773c185f62db21a46a3469738",
+     "bytes": 2757,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/scan_registers_v1.py",
+     "sha256": "396ec23b84b3e7038c2414f012f162f56b04f3d250233a78b9a01a37b33322f6",
+     "bytes": 3717,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/test_claim_discipline_v1.py",
+     "sha256": "1221d4929746070c611207cea4ccb6708434fce54e969a2ecd65af31cca62ba9",
+     "bytes": 2800,
+     "role": "TEST_CODE"
+    },
+    {
+     "path": "research/gmi-833-claim-discipline-v1/test_claim_discipline_v2.py",
+     "sha256": "4891159bbcc78dbd144a54ae7bfd4b485715cd108cacedb81f54883ea924d9ae",
+     "bytes": 5252,
+     "role": "TEST_CODE"
+    }
+   ]
+  },
+  {
+   "id": "corpus-passes-v2",
+   "package": "research/gmi-833-corpus-passes-v2-v1",
+   "pr": 976,
+   "child_issue": null,
+   "role_in_baseline": "Corpus identification passes L42, L44-L56, L58 over frozen populations with a verdict register; every CONFIRMED finding carries a revival ticket; L58 revived the capability-interactions claim to the universal Theorem CI-U at original strength.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/FROZEN_PASSES_V1.md",
+     "sha256": "38044047b54f5fb984cd9533486642968a6af6bd24cf17dfd4957ccaea7cf64d",
+     "bytes": 18745,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/P1P2_SCREENS_V1.json",
+     "sha256": "5a857ecc4141b61e890d19a5cccf914ceb681d41a1b77ac48b7e57ce280a1d26",
+     "bytes": 42540,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/P3_SCREENS_V1.json",
+     "sha256": "e0c804b33ebe853460a061a506c070aaa57b7b1f31af11b38b464de84bd49f23",
+     "bytes": 196060,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L42_V1.md",
+     "sha256": "27f5471613cf1937c8e33387870747aad5809879f9b48686d25589cda0f53251",
+     "bytes": 3539,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L44_L45_V1.md",
+     "sha256": "8cf7cd2d1d645e6851b0aa0d947afb6cf67fe29038f5b979ac72158ed99ef6dd",
+     "bytes": 2602,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L46_V1.md",
+     "sha256": "c3d344ff467397ff1b0a21af299efa8a34b4f3ae49278aaf84fd984c38fc8ee1",
+     "bytes": 2723,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L47_V1.md",
+     "sha256": "3836a0f44a02cd37224f5e9d7d9b6b91b7c39aed9180a50b06741238ab152b0a",
+     "bytes": 2322,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L49_L50_L53_V1.md",
+     "sha256": "2dd06a980afee98d8779db295e460046ec41d2c838c10cada8888608e5427d28",
+     "bytes": 3682,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L51_L52_V1.md",
+     "sha256": "ed9071c5f31c3d42770c0459591c765c3c022373108e905abf64cbea390d9070",
+     "bytes": 2741,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L54_L55_V1.md",
+     "sha256": "9f5bec34d4205fbaf06f867078c53ea9d73f4a0d23c63b1f3ffe63600fb5b978",
+     "bytes": 1838,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L56_V1.md",
+     "sha256": "155fa904203caeb58e7c4987ebda8f9b1e5a590cb1ce9a4795562f3e697eff64",
+     "bytes": 2410,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/PASS_L58_V1.md",
+     "sha256": "53ce4d37cc29b50f7985d2356e240fd9c55aff028ea3f9c46b129f6b3fa9143a",
+     "bytes": 3068,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/RAG_DELTA_V1.json",
+     "sha256": "3b647bdb938e6d1bcd3e2f98d664a3aa6e9b1c0a7a7eaf8792491ff0037e1afd",
+     "bytes": 4926,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/README.md",
+     "sha256": "b34ee00b75c845b5d76bed49b3e4dd3e4cf5bf788a96c68a876d77b0107ad2cd",
+     "bytes": 2974,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/RECEIPTS_V1.json",
+     "sha256": "014ecea8d9dbe2373ec45a4c9ec5c1dd61a006a9500ce79857b277929497b6d2",
+     "bytes": 2985,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/REVIVAL_TICKETS_V1.json",
+     "sha256": "ca6f9c5fd6d1339dcd21e5e046a0a6b882b64c24b29cf565fc9341baab4085a9",
+     "bytes": 9068,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/TERM_DUP_CANDIDATES_V1.json",
+     "sha256": "ad40e030dff573fdfbc2b7d77a2afb16c0442883a1f18daf0e1b36f0e967be16",
+     "bytes": 848,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/TERM_NORM_DUP_CANDIDATES_V1.json",
+     "sha256": "4392d96193aadc6246a4a3ab285151d2a553b08e90e555b1d75f7e6a11a0733c",
+     "bytes": 734289,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_V1.json",
+     "sha256": "752a14b8ae9540895d960d0bb4a270e28902a2fe49d54846e5056e2d2f9e9e32",
+     "bytes": 24529,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/detector_l42_v1.py",
+     "sha256": "1cb727b05ad7472582b5341c88f2334078092ac9192bd84e92d43279eb25ccff",
+     "bytes": 9386,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/detector_l42_v2_v1.py",
+     "sha256": "e27eb40dd25ce1631baf5fabda3499c056defc5c6220b3b66f78065603aa3be3",
+     "bytes": 4436,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/make_receipts_v1.py",
+     "sha256": "223d64874f4839ac7ab12fa43ed009af0be52ec3242e60c9d2ef8467a75020c6",
+     "bytes": 4428,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/screen_p1p2_v1.py",
+     "sha256": "201edf23d05a4bb72be3e1e2ba227e4cd16e030db658b5cc0bb2b30d2407ce4f",
+     "bytes": 10486,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/screen_p3_v1.py",
+     "sha256": "fce14c1e84565f021caa654348079a03fcdb56c40fd72ed5b95698fc0f9a1ef5",
+     "bytes": 15096,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-corpus-passes-v2-v1/test_detector_l42_v1.py",
+     "sha256": "87f7abb82909a62091fe5282bd9e6fcc0b4dac27f303b9f2423bbe781dc344a0",
+     "bytes": 6915,
+     "role": "TEST_CODE"
+    }
+   ]
+  },
+  {
+   "id": "terminology-migration",
+   "package": "research/gmi-833-terminology-migration-v1",
+   "pr": 940,
+   "pr_successor": 947,
+   "child_issue": null,
+   "role_in_baseline": "Paper-rename-only terminology migration under crosswalk rules R1-R9: 255 (tranche 1) + 217 (tranche 2) rule-attributed edits; non-aj obligation cleared; residual = 35 aj-lane hits in 12 aj packages + 34 acknowledged definitional-quote/citation sites.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-terminology-migration-v1/ACKNOWLEDGED_FINDINGS_V1.json",
+     "sha256": "0c73332eb8dbdbca7d8fe4e61345fcec1c7857af343cb59955397d5a06ddf86b",
+     "bytes": 8828,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-terminology-migration-v1/FREEZE_V1.md",
+     "sha256": "9d614e952c48d94ebed317ebfec11111c4bb6cb9f008b475008aba5dc5ee6acd",
+     "bytes": 6554,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-terminology-migration-v1/MIGRATION_LOG_V1.md",
+     "sha256": "f6bb8ed75ce39182f04c25539a4221da27f5109826cb19b0141af2e37e22da59",
+     "bytes": 54364,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-terminology-migration-v1/MIGRATION_LOG_V2.md",
+     "sha256": "4f7be1a1b2ce9a5cd9107a186e6a0b1b81dd3c8931fdda61cb90b97e77be631c",
+     "bytes": 59288,
+     "role": "NARRATIVE_RESULT_DOC"
+    }
+   ]
+  },
+  {
+   "id": "blind-recovery-v2",
+   "package": "research/gmi-833-blind-recovery-v2-v1",
+   "pr": 974,
+   "child_issue": 434,
+   "role_in_baseline": "Blind-recovery protocol v2: every input channel frozen pre-search; coverage-complete neutral batteries; tier-declared basis grid; A2 semantic-fingerprint screen; recovery boundary measured over complete classes (XOR recovered, XNOR honestly fails); 6 registered open gaps.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/BASIS_GRID_V1.json",
+     "sha256": "53d2f0dbe1638866e07ab8bfdf3ce866fc9f535aabedd5f2b62b0d00a9a43e37",
+     "bytes": 3208,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/BLIND_OUTCOME_V2_T1.json",
+     "sha256": "7c7c817acdd698e1bb7c9854ba62440d51ba36c80ff6f0a7a721561897dfcda6",
+     "bytes": 32356,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/BLIND_OUTCOME_V2_T2.json",
+     "sha256": "f204c286cc904e6a06dc7c5a53c1be2d2a29bb48de9d95b40e6dc3ff3fd2ebaf",
+     "bytes": 5424,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/BLIND_OUTCOME_V2_T3.json",
+     "sha256": "10fa8f0fd7d965b8149c7e11458ba0850e56d3faee024e3f4b7d0ab7e86a46c0",
+     "bytes": 1298824,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/BLIND_OUTCOME_V2_T4.json",
+     "sha256": "a8db93af0ca77b6aed61e5660f69c2fab4db29e3f23091c9973933a25c7eb50d",
+     "bytes": 279675,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/MOTIVATION_RECEIPT_V1.json",
+     "sha256": "7f375cb0bdc3b79ee527bacdd3008cb1a756d56e3e92ac55e97fe7e50be20097",
+     "bytes": 2523,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/NEUTRAL_BATTERY_FREEZE_V1.json",
+     "sha256": "364ec75c3e68b3c9203dd975c9f6511d9f87c7ae185ef8880c2165bf7c0157af",
+     "bytes": 2260193,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/OPEN_GAPS.json",
+     "sha256": "907ce02400a06c738ae5ea6318a34cce7e4416518b4a0a75d6ba7321ced880fb",
+     "bytes": 1862,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/PARENT_LEDGER.md",
+     "sha256": "262cc37d786ebe4f4be10cd102ca23d4f42a148c63fcedba1d9683514c4e24cf",
+     "bytes": 2619,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/POSTHOC_RESULT_V2.json",
+     "sha256": "fd074df8d78f51f55f54a17e0bdedd82ee94510013d1995dc8a78b5dbaa1a8fd",
+     "bytes": 1293307,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/PRIOR_DISCLOSURE_V1.md",
+     "sha256": "95d90298a7ab8789064b24d964f3ed3e9f6a1c19fa33ce52d7fc33a6fc6e75ac",
+     "bytes": 13223,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/README.md",
+     "sha256": "3b8accb264cc03b082a1964e3337e6c3005042d2471f541f1be7363e22751ff7",
+     "bytes": 1021,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/SCREEN_RESULT_V1.json",
+     "sha256": "e706edbd9ed3146bc31f70d705647017921392d50fe696bb34cd44b578d3a5f3",
+     "bytes": 1979,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/THEORY_V2.md",
+     "sha256": "141589888347983f235cee263570f8e2048d14533d6268fdadd46a8564ba487e",
+     "bytes": 8039,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/battery_generate_v1.py",
+     "sha256": "5d897f1ffd0d2d382da34a491800db8323bcd3d4742e375080a4ef8dbaa06071",
+     "bytes": 8956,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/check_v2.py",
+     "sha256": "70dd342172495f28b3b06c4c0c260975af666398d4432cf8fca557f21aac4ac9",
+     "bytes": 8834,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/neutral_search_v2.py",
+     "sha256": "cc3a575bc9411a079c0755296acd09107c91592145944317b449a64181a1659e",
+     "bytes": 20400,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/posthoc_adjudicate_v2.py",
+     "sha256": "b4d71a0ad74627aab9faae6d27861326ba44dff9cef2c0a1cc61a44c18cc252e",
+     "bytes": 33894,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/run_v2_tranches.py",
+     "sha256": "f106d54ba2f55d204829bf6434935ff0295dc0bf6a42e3588a6e7b6696450a99",
+     "bytes": 13799,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/screen_v2.py",
+     "sha256": "5b5ce6d3e484b62aa5e3dbaffd90fd898844d7f8feb8c129fb47fc95a55c1fd1",
+     "bytes": 11498,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-blind-recovery-v2-v1/v1_counterfactual_or_task.py",
+     "sha256": "703c603a29fd4798786c24d8650f3eab2d6b968d38c03a3e79d644e5c9ce05b5",
+     "bytes": 5168,
+     "role": "METHOD_CODE"
+    }
+   ]
+  },
+  {
+   "id": "g0-grammar-growth",
+   "package": "research/gmi-833-g0-grammar-growth-v1",
+   "pr": 945,
+   "child_issue": 897,
+   "role_in_baseline": "Frozen grammar-growth formalism (GRW-1, INV-1, REC-1, HLD-1, THR-1, NULL-1) with burden receipts, 200-seed null, and independent-oracle agreement; terminal green at registered finite scope.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/CORE.md",
+     "sha256": "952df0abe3a4c34e62f9778964a7d7173851f096e26162dc527e405b94828a80",
+     "bytes": 1627,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/FREEZE_V1.md",
+     "sha256": "8528edf846320832ddbc647eead87eb7d3979d09072583b1b0463cd379d452c1",
+     "bytes": 16186,
+     "role": "AUTHORITY_DOC"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/FROZEN_FIXTURES_V1.json",
+     "sha256": "12acccf68dd5e02ac0521737bc8239f550600e80b87de3330beafa9a554921c6",
+     "bytes": 2891,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/GRAMMAR_GROWTH_THEOREMS_V1.md",
+     "sha256": "15a131af0f95185b19db7325ed4aeebc2f483412cb75a9c322689e11b04a9e5a",
+     "bytes": 6342,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json",
+     "sha256": "95848277e3649ccafe9c54be3e88b40a3e0b12307cd326dbdf2a57ee3537656d",
+     "bytes": 2881,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/MANIFEST_V1.json",
+     "sha256": "d1b53cbdeda3053d270d3cd3d6cb8ec183c9b687e65edd184493a459fefd6889",
+     "bytes": 2775,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/ORACLE_RESULT_V1.json",
+     "sha256": "91328e12292414d3751779785125c0dc81cc3afa1bbffecaf1643e8c229df134",
+     "bytes": 1712,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/PARENT_LITERATURE_V1.md",
+     "sha256": "4bfc3360b7a982f984727f439174881a696032025ba2c359a9f8ccc9c5c38fcb",
+     "bytes": 4003,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/RECEIPTS_RUN_LOG.md",
+     "sha256": "d70db5c0019bc8dca8eb608e974a5b2207d72705e9fb05aaf3a18a2b66e08dec",
+     "bytes": 3664,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json",
+     "sha256": "bde6029b32374f04e74866f90bd01e9c0564d09d8db338f0039d6322eb980443",
+     "bytes": 25751,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/REUSE_AUDIT_V1.md",
+     "sha256": "a3384163a4c52965c9e064f08700795498707dad9113195fc3028dac4cc9f421",
+     "bytes": 4533,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/SCIENTIFIC_LEDGER_V1.json",
+     "sha256": "4b610c6f93f7efdfd8407f1f471f3adb5a754fc4fd8e7d7dc53031b33cd64b78",
+     "bytes": 5752,
+     "role": "RESULT_DATA"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/g0_grammar_growth_v1.py",
+     "sha256": "09a159457317ae79c9e85a19d9359bdfd08aad18f7572d2b44c1691bcf3c941e",
+     "bytes": 31661,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/independent_oracle_v1.py",
+     "sha256": "b4b288833f75dcf5178d4f5d1c3a9d4c06d850fcc8b3b55a346d3931d8540d23",
+     "bytes": 12486,
+     "role": "METHOD_CODE"
+    },
+    {
+     "path": "research/gmi-833-g0-grammar-growth-v1/test_g0_grammar_growth_v1.py",
+     "sha256": "43685734b63d50d53967b97f6cc0a94da5f92e3ccf485e694d0fff39fdcc6052",
+     "bytes": 13065,
+     "role": "TEST_CODE"
+    }
+   ]
+  },
+  {
+   "id": "progress-ledger",
+   "package": "research/gmi-833-progress-ledger-v1",
+   "pr": 970,
+   "child_issue": null,
+   "role_in_baseline": "Checkbox evidence map (toggle-only tick discipline) and the remaining-work queue across all #833 sections.",
+   "artifacts": [
+    {
+     "path": "research/gmi-833-progress-ledger-v1/CHECKBOX_EVIDENCE_V1.md",
+     "sha256": "3e9eb0fca937ebd30d64ea8450db343ba7c70a3d952073f765342a70bd7db69d",
+     "bytes": 7426,
+     "role": "NARRATIVE_RESULT_DOC"
+    },
+    {
+     "path": "research/gmi-833-progress-ledger-v1/REMAINING_WORK_V1.md",
+     "sha256": "c9e4143877e1b713b2f9babf575208dac18929ede5ab2959ea52910d35dae39b",
+     "bytes": 7008,
+     "role": "NARRATIVE_RESULT_DOC"
+    }
+   ]
+  }
+ ],
+ "assertion_dependencies": {
+  "A1_corpus_enumerated": [
+   "research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json",
+   "research/gmi-833-corpus-census-v1/AUDIT_V1.json",
+   "research/gmi-833-corpus-census-v1/FREEZE_V1.md"
+  ],
+  "A2_rag_strata_cover_corpus": [
+   "research/gmi-833-depgraph-adjudication-v1/MASTER_RAG_TABLE_V1.json",
+   "research/gmi-833-corpus-census-v1/AUDIT_V1.json"
+  ],
+  "A3_dependency_graph_acyclic_stated_scope": [
+   "research/gmi-833-depgraph-adjudication-v1/DEPENDENCY_GRAPH_V2.json",
+   "research/gmi-833-depgraph-adjudication-v1/CYCLE_REPORT_V1.json"
+  ],
+  "A4_duplicates_adjudicated_content_collapsed": [
+   "research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json"
+  ],
+  "A5_no_unsupported_overclaim_remaining": [
+   "research/gmi-833-depgraph-adjudication-v1/OVERSTRONG_ADJUDICATION_V1.json",
+   "research/gmi-833-corpus-audit-close-v1/FREEZE_V1.md",
+   "research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_V1.json",
+   "research/gmi-833-corpus-passes-v2-v1/PASS_L58_V1.md"
+  ],
+  "A6_maturity_scored_no_m5_m6_evidence": [
+   "research/gmi-833-maturity-rescore-v1/FREEZE_V1.md",
+   "research/gmi-833-maturity-rescore-v2-v1/FREEZE_V2.md",
+   "research/gmi-833-maturity-rescore-v2-v1/THEOREM_SCORES_V2.json",
+   "research/gmi-833-claim-discipline-v1/MATURE_RESCORE_BRIDGE.md"
+  ],
+  "A7_claim_discipline_complete_zero_gap": [
+   "research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json",
+   "research/gmi-833-claim-discipline-v1/RESULT_V2.json",
+   "research/gmi-833-claim-discipline-v1/SUCCESSOR_TRANCHE_V2.md"
+  ],
+  "A8_identification_passes_verdicts": [
+   "research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_V1.json",
+   "research/gmi-833-corpus-passes-v2-v1/FROZEN_PASSES_V1.md"
+  ],
+  "A9_revival_queue_live": [
+   "research/gmi-833-corpus-passes-v2-v1/REVIVAL_TICKETS_V1.json"
+  ],
+  "A10_terminology_migrated_paper_facing": [
+   "research/gmi-833-terminology-migration-v1/MIGRATION_LOG_V1.md",
+   "research/gmi-833-terminology-migration-v1/MIGRATION_LOG_V2.md",
+   "research/gmi-833-terminology-migration-v1/ACKNOWLEDGED_FINDINGS_V1.json"
+  ],
+  "A11_blind_recovery_v2_channels_closed": [
+   "research/gmi-833-blind-recovery-v2-v1/NEUTRAL_BATTERY_FREEZE_V1.json",
+   "research/gmi-833-blind-recovery-v2-v1/BASIS_GRID_V1.json",
+   "research/gmi-833-blind-recovery-v2-v1/SCREEN_RESULT_V1.json",
+   "research/gmi-833-blind-recovery-v2-v1/POSTHOC_RESULT_V2.json",
+   "research/gmi-833-blind-recovery-v2-v1/OPEN_GAPS.json"
+  ],
+  "A12_grammar_growth_green_registered_scope": [
+   "research/gmi-833-g0-grammar-growth-v1/MANIFEST_V1.json",
+   "research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json",
+   "research/gmi-833-g0-grammar-growth-v1/FROZEN_FIXTURES_V1.json",
+   "research/gmi-833-g0-grammar-growth-v1/ORACLE_RESULT_V1.json"
+  ],
+  "A13_progress_ledger_current": [
+   "research/gmi-833-progress-ledger-v1/CHECKBOX_EVIDENCE_V1.md",
+   "research/gmi-833-progress-ledger-v1/REMAINING_WORK_V1.md"
+  ],
+  "A14_ci_u_universal_re_earned": [
+   "research/gmi-833-corpus-passes-v2-v1/PASS_L58_V1.md",
+   "research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_V1.json"
+  ]
+ },
+ "verified_counts": {
+  "census_scientific_objects": 22553,
+  "census_files": 5351,
+  "census_dispositions": {
+   "AMBER": 18396,
+   "GREEN": 237,
+   "RED": 3920
+  },
+  "census_dependency_cycles": 0,
+  "duplicate_candidate_groups": 1652,
+  "duplicate_verdicts": {
+   "DUPLICATE": 1586,
+   "DISTINCT": 66
+  },
+  "content_collapse": {
+   "from": 22553,
+   "to": 17258,
+   "collapsed_away": 5295
+  },
+  "dependency_edges_by_layer": {
+   "file_local": 140,
+   "pointer_rollup": 28,
+   "parent_family_anchor": 60,
+   "external_literature": 73,
+   "corpus_package": 56
+  },
+  "dependency_edges_total": 357,
+  "cycle_report_union_cycles": 0,
+  "overstrong_population": 283,
+  "overstrong_verdicts": {
+   "PROPER": 283
+  },
+  "master_rag_strata": 39,
+  "theorem_scores_rows": 197,
+  "claim_discipline_objects_v2": 235,
+  "claim_discipline_registered_gap_v2": 0,
+  "claim_discipline_slots_v2": 1175,
+  "revival_tickets_total": 9,
+  "revival_tickets_closed": 3,
+  "revival_tickets_open": 6,
+  "terminology_edits_tranche1": 255,
+  "terminology_edits_tranche2": 217,
+  "terminology_aj_lane_residual_hits": 35,
+  "terminology_aj_lane_packages": 12,
+  "terminology_acknowledged_hits": 34,
+  "blind_recovery_open_gaps": 6,
+  "grammar_growth_theorems": [
+   "GRW-1",
+   "INV-1",
+   "REC-1",
+   "HLD-1",
+   "THR-1",
+   "NULL-1"
+  ]
+ },
+ "revival_ticket_register": {
+  "source": "research/gmi-833-corpus-passes-v2-v1/REVIVAL_TICKETS_V1.json",
+  "doctrine": "operator 2026-09-16: recursively fix negative results until completely green; aim for the best claim, never downgrade-as-closure. Every CONFIRMED RED/AMBER finding spawns a revival workstream (attribute -> lever -> re-test at ORIGINAL claim strength) or, where machinery is beyond this sweep's scope, this precise ticket. An honestly-owned ticket is acceptable; a downgrade-as-closure is not. Done-in-sweep items are marked DONE with their evidence.",
+  "total": 9,
+  "closed": [
+   {
+    "id": "REV-L58-CI-UNIVERSAL",
+    "status": "DONE_IN_SWEEP",
+    "evidence": "CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md rework; ci_universal_witness_v1.py GREEN; test_ci_universal_v1.py 9/9; test_interactions.py 27/27; MANIFEST audit_trail"
+   },
+   {
+    "id": "REV-L42-CONTENT-NORM-DETECTOR",
+    "status": "DONE_IN_SWEEP",
+    "evidence": "TERM_NORM_DUP_CANDIDATES_V1.json; register L42 section updated"
+   },
+   {
+    "id": "REV-L56-COGNITIVE-RESIDUAL",
+    "status": "DONE_IN_SWEEP",
+    "evidence": "the appended section, this PR"
+   }
+  ],
+  "open": [
+   {
+    "id": "REV-L47-NOVEL-INTELLIGENCE-W4",
+    "finding": "gmi-novel-intelligence-w4-v1 freeze document committed 89 min AFTER the final green result while claiming 'frozen before family-member search' (POST_HOC_SUSPECT, double-verified)",
+    "attribution": "custody stage: freeze-document authorship lagged the outcome; seed custody was prospective (seed literal + sha256 pre-existed in the WIP executor)",
+    "lever": "prospective replication: re-run the family-member search from the SAME pre-existing frozen seed under a NEW freeze document committed before the replication outcomes; if the replicated family law and held-out predictions match the original claims, prospective-ness is re-earned for the CONTENT (the original commit-order gap remains a permanent custody defect, recorded)",
+    "owner_lane": "the #592/#796 lineage lane (package composes after gmi-unseen-form-prediction-v1); not editable from this sweep (foreign lane)",
+    "retest_at_original_strength": "original W4 residual-quotient family-domain claim, now with demonstrably prospective freeze"
+   },
+   {
+    "id": "REV-L49-L53-SEARCHER-ACCOUNTING",
+    "finding": "gmi-section-e-searcher-comparison-v2: searcher over/under-cap verdicts rest entirely on one preregistered accounting; package itself states 'The preregistered accounting is not free'; no alternative-accounting run (UNAUDITED_COST_DEPENDENT + UNTESTED_SCALARIZATION_DEPENDENT, owner-verified)",
+    "attribution": "evidence stage: single accounting scalarization; the #863 R4 discipline was not applied",
+    "lever": "run the searcher comparison under at least two materially distinct reasonable accountings (e.g. arithmetic-op-dominant vs cache-dominant weightings of ACCOUNTING_FREEZE_E2) via the package's own witness; verdicts that flip = SEARCH/ACCOUNTING_SENSITIVE registered with the flip witness; verdicts that hold = strengthened to accounting-robust",
+    "owner_lane": "section-E lane (#715); the alternate-accounting replica is a new experiment in that package, beyond an identification sweep's write scope",
+    "retest_at_original_strength": "the original searcher-dominance claims, re-earned as accounting-robust or honestly re-characterized with the registered flip"
+   },
+   {
+    "id": "REV-L47-CUSTODY-GAPS",
+    "finding": "18 CUSTODY_NON_DEMONSTRABLE packages + 5 NEW tight-gap occurrences of the registered config-freeze-separation class (AJ9e 10s, AJ9h +14s, AJ12 12s, g0-interaction-channels 103s, useful-descendant 49s) + freeze texts claiming prospective registration while custody cannot demonstrate it (g0-grammar-growth, unseen-form-prediction, capability-held-freeze, capability-transfer-freeze, af-barrier)",
+    "attribution": "custody stage: single-commit landings and tight gaps destroy the metadata that would demonstrate prospective-ness",
+    "lever": "per-package prospective replication from the existing frozen seeds/configs (same pattern as REV-L47-NOVEL-INTELLIGENCE-W4), or amendment of the freeze texts to claim only what custody demonstrates",
+    "owner_lane": "per-package lanes; the 5 tight-gap occurrences extend INSTANCE-CONFIG-FREEZE-SEPARATION's scope and should be appended to that RAG instance by the audit lane",
+    "retest_at_original_strength": "each package's frozen claims, re-earned under demonstrable custody"
+   },
+   {
+    "id": "REV-L46-TWO-ROUTE-PROGRAMME",
+    "finding": "75 SINGLE_ROUTE packages: computational claims lack an independent implementation (16 TWO_ROUTE incl. 1 mirror-packet correction; arrivals axis 11 True/13 False/173 unregistered)",
+    "attribution": "evidence stage: second-implementation discipline (g0-* independent-oracle pattern) not applied in legacy corpus",
+    "lever": "per-package independent oracle computing the same claimed quantities (the #863/#875 two-route pattern), starting with the highest-claim packages (learning-law-selection 20 claims, developmental-uncertainty-transport 5, current-program-assay 5, capability-ceilings-f2-tranche3 5)",
+    "owner_lane": "per-package lanes + L34 registration lane (second_impl axis retrofit for the 173 legacy rows); this sweep supplies the population (P3_SCREENS_V1.json L46 dispositions)",
+    "retest_at_original_strength": "each claim verified by two materially distinct routes agreeing exactly"
+   },
+   {
+    "id": "REV-L45-073-PROOF-STRENGTHENING",
+    "finding": "GMI833_V2_LEGACY_073 (morphology-phase-rv Theorem 1): analytic support is a definitional rearrangement; substantive content lives in the 8x8 sweep witness (weakest-support caveat)",
+    "attribution": "proof stage: theorem statement is definitional; the phase-boundary content (Theorem 2's curve properties: monotonicity in R,V, crossing structure) is where a real analytic argument is plausibly available",
+    "lever": "prove Theorem 2's boundary-curve properties analytically (sign analysis of the boxed condition in (R,V); crossing uniqueness under the registered regularity), demoting the sweep to a declared control",
+    "owner_lane": "morphology-phase-rv lane; recorded in the register's borderline_caveat",
+    "retest_at_original_strength": "phase-diagram claims with genuine proofs (EV lift available from EV0)"
+   },
+   {
+    "id": "REV-L50-A2-SIGNATURE-PROGRAMME",
+    "finding": "108 packages (refined census; was 138 upper bound) define operators/primitives without A2 semantic-signature registration - the population where semantic target-encoding/macros cannot be excluded",
+    "attribution": "registration stage: A2 fingerprint machinery exists (#855) but is not applied beyond its fixtures",
+    "lever": "register Sigma-style signatures (11-field) for each package's primitive set and run the A2 fingerprint check; refines L48-SCREEN from 'cannot exclude' to clean/flagged dispositions",
+    "owner_lane": "L50/L34 lanes; the refined census (109 primitive-defining packages, anchors verified) ships in this PR",
+    "retest_at_original_strength": "corpus-wide no-smuggling claim at signature level"
+   }
+  ]
+ },
+ "open_obligations": {
+  "revival_tickets_open": [
+   "REV-L47-NOVEL-INTELLIGENCE-W4",
+   "REV-L49-L53-SEARCHER-ACCOUNTING",
+   "REV-L47-CUSTODY-GAPS",
+   "REV-L46-TWO-ROUTE-PROGRAMME",
+   "REV-L45-073-PROOF-STRENGTHENING",
+   "REV-L50-A2-SIGNATURE-PROGRAMME"
+  ],
+  "aj_lane_terminology_residual": {
+   "hits": 35,
+   "packages": 12,
+   "owner": "gmi-833-aj* lanes (per MIGRATION_LOG_V2.md; untouched by the non-aj migration)"
+  },
+  "l48_screen_refinement": {
+   "owner": "aj lane (AJ9 no-smuggling contract response; not the identification sweep's)",
+   "note": "identification screen only at this baseline; L48 remains unticked by the v2 sweep"
+  },
+  "blind_recovery_v2_open_gaps": [
+   {
+    "id": "V2-DAG-COST",
+    "severity": "critical",
+    "gap": "class-universal machines bounded, not recovered: tree cost model prices shared subconstructions at every use; revival lever = counted-once DAG cost model"
+   },
+   {
+    "id": "V2-K05-K11",
+    "severity": "critical",
+    "gap": "K05 symbolic-rewrite, K06 probabilistic (v1 shipped no adjudicator at all), K07-K11: machine models not defined in v2"
+   },
+   {
+    "id": "V2-BASIS-NEUTRALITY-BOUND",
+    "severity": "high",
+    "gap": "U_ORD completeness is within order-tests; full-unary tier ablation feasible only at |D|=3; the neutrality bound is stated, not eliminated"
+   },
+   {
+    "id": "V2-LEARNING",
+    "severity": "high",
+    "gap": "learning/experience-driven parameter update extensions remain unrecovered (as in v1)"
+   },
+   {
+    "id": "V2-PREDICTED-SELECTED",
+    "severity": "medium",
+    "gap": "no pre-search morphology-selection prediction registered; terminal not claimable"
+   },
+   {
+    "id": "V2-REAL-SCALE",
+    "severity": "medium",
+    "gap": "all scopes are finite batteries; no real-scale claim"
+   }
+  ],
+  "screened_not_adjudicated_states": "L49/L53 37 packages, L54/L55 5+5 sampled-out rows, and census-side 1,336 UNIVERSAL objects (L52 statement-side) remain explicit SCREENED-NOT-ADJUDICATED gap states in VERDICT_REGISTER_V1.json - recorded, never silently dropped",
+  "post_pin_arrivals": "any claim-bearing arrival after the pinned SHA enters as U-NEW until typed by the frozen mechanical re-run (see arrival_absorption_rule)"
+ },
+ "arrival_absorption_rule": {
+  "statement": "Enumerate arrivals mechanically: git diff --stat <pinned_head_sha>..<head> -- research/ restricted to new gmi-833-* directories (and new claim-bearing files in existing research/gmi-* packages). Every enumerated arrival is a U-NEW object of the baseline: it is listed, never silently dropped, and holds no baseline assertion until typed by the frozen mechanical re-run - census object extraction, maturity scoring under the frozen rubric, claim-discipline field registration, RAG strata assignment, and the identification-pass screens. Arrivals never block the freeze; they are absorbed by a numbered manifest supplement recording their typed status.",
+  "precedent": "research/gmi-833-blind-recovery-v2-v1 absorbed as the 235th claim-discipline object under this rule (RESULT_V2.json arrivals field, PR #974)",
+  "frozen_rule_sources": [
+   "research/gmi-833-claim-discipline-v1/FREEZE_V1.md (universe + mechanical enumeration)",
+   "research/gmi-833-maturity-rescore-v2-v1/FREEZE_V2.md (arrival scoring protocol)"
+  ]
+ },
+ "governance": {
+  "post_freeze_edit_rule": "No bound artifact may be edited in place after this freeze. Every change - a revival ticket closing, an arrival typed, a count moving - lands as a supplement: a NEW file research/gmi-833-theory-baseline-v1/SUPPLEMENT_<n>_<slug>.md (plus any new artifacts in the owning lane) and, when the binding changes, BASELINE_MANIFEST_V2.json. The pinned BASELINE_MANIFEST_V1.json and every file it binds stay byte-identical; tests/test_theory_baseline_v1.py enforces this and fails on drift.",
+  "supplement_pattern": "SUPPLEMENT_*_*.md + BASELINE_MANIFEST_V<n>.json",
+  "tamper_evidence": "tests/test_theory_baseline_v1.py re-derives every sha256 from the live tree",
+  "forbidden_promotions": [
+   "ALL_GMI_THEOREMS_TRUE",
+   "ONTOLOGICAL_COMPLETENESS",
+   "ALL_PARENTS_EXHAUSTED",
+   "ALL_OVERCLAIMS_REPAIRED",
+   "KNOWN_FAMILY_DERIVATION_COMPLETE",
+   "REAL_SCALE_VALIDATION_COMPLETE",
+   "COMPLETE_GMI",
+   "BASELINE_IMPLIES_THEOREM_TRUTH",
+   "REVIVAL_OBLIGATION_CLOSED_BY_BASELINE",
+   "SILENT_EDIT_OF_BOUND_ARTIFACT"
+  ]
+ }
+}

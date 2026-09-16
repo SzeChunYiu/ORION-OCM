@@ -1,0 +1,46 @@
+name: GMI 833 theory baseline v1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-833-theory-baseline-v1/**"
+      - "tests/test_theory_baseline_v1.py"
+      - ".github/workflows/gmi-833-theory-baseline-v1.yml"
+  push:
+    branches:
+      - "research/833-theory-baseline-v1"
+    paths:
+      - "research/gmi-833-theory-baseline-v1/**"
+      - "tests/test_theory_baseline_v1.py"
+      - ".github/workflows/gmi-833-theory-baseline-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: ./scripts/m0_install_dev.sh
+      - name: Tamper-evidence validator (normal mode)
+        run: python -m pytest -q tests/test_theory_baseline_v1.py
+      - name: Tamper-evidence validator (optimized mode)
+        run: python -m pytest -q -O tests/test_theory_baseline_v1.py
+      - name: Manifest builder determinism
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp research/gmi-833-theory-baseline-v1/BASELINE_MANIFEST_V1.json /tmp/manifest-ref.json
+          python -I -B research/gmi-833-theory-baseline-v1/build_manifest_v1.py > /tmp/build-out.txt
+          cmp /tmp/manifest-ref.json research/gmi-833-theory-baseline-v1/BASELINE_MANIFEST_V1.json
+          /usr/bin/git diff --stat -- research/gmi-833-theory-baseline-v1/BASELINE_MANIFEST_V1.json | grep -q . && {
+            echo "manifest rebuild not byte-identical" >&2; exit 1; }
+          tail -1 /tmp/build-out.txt
