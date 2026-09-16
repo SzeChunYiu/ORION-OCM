@@ -1,0 +1,56 @@
+{
+  "status": "GREEN",
+  "parent_g0_git_blob": "6c80e7b1ee0cceedb5dc48eaf28bd3011750d80a",
+  "primitive_classification": {
+    "READ": {
+      "status": "DERIVED",
+      "from": ["INPUT_TAKE", "REGISTER_WRITE", "CONTROL_ROUTE"]
+    },
+    "EMIT": {
+      "status": "DERIVED",
+      "from": ["REGISTER_READ", "OUTPUT_APPEND", "CONTROL_ROUTE"]
+    },
+    "INC": {
+      "status": "DERIVED",
+      "from": ["REGISTER_READ", "NATURAL_SUCCESSOR", "REGISTER_WRITE", "CONTROL_ROUTE"],
+      "premise": "registered natural-number carrier"
+    },
+    "DECJZ": {
+      "status": "DERIVED",
+      "from": ["REGISTER_READ", "ZERO_TEST", "CONDITIONAL_ROUTE", "POSITIVE_PREDECESSOR", "REGISTER_WRITE"],
+      "premise": "registered natural-number order/predecessor"
+    },
+    "HALT": {
+      "status": "PRESENTATION_ONLY",
+      "from": ["terminal/no-successor control convention"]
+    }
+  },
+  "two_label_programs": 121,
+  "parent_vs_micro_runs": 484,
+  "semantic_failures": 0,
+  "total_lower_micro_ops": 9003,
+  "static_microcode_bound": "<=5 micro-ops per G0 instruction",
+  "runtime_bound": "<=5 lower micro-ops per executed G0 step",
+  "persistent_space_overhead": "no new persistent register; O(1) scratch temporary/predicate",
+  "precision_boundary": "inherits G0 unit-cost exact-natural-register convention; bit complexity not silently claimed",
+  "alternate_relational_presentation_rows": 99,
+  "alternate_presentation_failures": 0,
+  "invariants": [
+    "protected I/O trace",
+    "terminal outcome",
+    "final registered values at bounded execution scope"
+  ],
+  "noninvariants": [
+    "surface code length",
+    "grammar reachability geometry",
+    "raw lower-level step count without compiler map"
+  ],
+  "forbidden_promotions": [
+    "G0_IS_OPERATIONAL_BOTTOM",
+    "G0_PRIMITIVES_ONTOLOGICALLY_IRREDUCIBLE",
+    "DESCRIPTION_LENGTH_PRESENTATION_INVARIANT",
+    "SEARCH_GEOMETRY_PRESENTATION_INVARIANT",
+    "UNIT_COST_NATURAL_ARITHMETIC_IS_PHYSICAL_LAW"
+  ],
+  "claim_ceiling": "AJ5_G0_COMPILED_FROM_LOWER_PROCESS_ROLES_AT_REGISTERED_BOUNDED_SCOPE"
+}
