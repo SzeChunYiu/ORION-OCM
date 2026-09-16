@@ -1,0 +1,38 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "source_issue": 875,
+  "claim_ceiling": "GMI_FINITE_GRAMMAR_BIAS_AND_REMINT_BOUNDARY_AT_REGISTERED_G0_SCOPE",
+  "forbidden_promotions": [
+    "UNBIASED_G0",
+    "UNIVERSAL_ALGORITHMIC_PRIOR",
+    "KOLMOGOROV_NEUTRALITY",
+    "GRAMMAR_REPRESENTATION_INVARIANT_UNIVERSALLY",
+    "SEARCH_REACHABILITY_INVARIANT_UNIVERSALLY",
+    "MORPHOLOGY_SELECTION_INVARIANT_UNDER_ARBITRARY_GRAMMAR",
+    "ALL_GRAMMARS_EQUIVALENT",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "# E. Universal architecture-neutral machine grammar",
+      "old": "- [ ] Quantify description-length bias induced by `G0`.",
+      "new": "- [x] Quantify description-length bias induced by `G0`. — ✅ #875 `gmi-833-g0-grammar-bias-v1` BIAS-1 at the registered finite G0 slice: 126 presentations collapse to 18 protected semantic classes; four classes have a one-instruction representative and fourteen first appear at length two, with exact nonuniform class multiplicities and bounded syntax masses. This is grammar-relative finite counting, not a universal algorithmic prior."
+    },
+    {
+      "anchor": "# E. Universal architecture-neutral machine grammar",
+      "old": "- [ ] Quantify reachability bias induced by `G0`.",
+      "new": "- [x] Quantify reachability bias induced by `G0`. — ✅ #875 BIAS-2: under the frozen mutation graph, all 126 presentations are reachable from one-label HALT with exact distance histogram `0:1, 1:15, 2:110`; semantic-class minimum distances are `0:1, 1:3, 2:14`. BFS, monotone wave expansion and an independent Floyd–Warshall oracle agree exactly; no claim is made for arbitrary search algorithms."
+    },
+    {
+      "anchor": "# E. Universal architecture-neutral machine grammar",
+      "old": "- [ ] Construct multiple semantically equivalent grammars with different syntax.",
+      "new": "- [x] Construct multiple semantically equivalent grammars with different syntax. — ✅ #875 REMINT-1/REMINT-2: all 24 surface-node remints of a four-presentation fixture preserve semantics/length/adjacency/starts and all registered bias statistics, while a separate `GA/GB` pair has the same semantic image `{ROOT,A,B}` but different code-length/search geometry."
+    },
+    {
+      "anchor": "# E. Universal architecture-neutral machine grammar",
+      "old": "- [ ] Test whether morphology conclusions survive grammar reminting.",
+      "new": "- [x] Test whether morphology conclusions survive grammar reminting. — ✅ #875: grammar-relative selection is invariant under certified isometric semantic grammar remints, but the same-semantics non-isometric `GA/GB` hostile reverses the registered diagnostic selection `A -> B`; therefore semantic equivalence alone does not imply description-, reachability-, or selection-invariance."
+    }
+  ]
+}
