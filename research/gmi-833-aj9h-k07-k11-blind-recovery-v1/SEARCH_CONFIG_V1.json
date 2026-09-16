@@ -1,0 +1,49 @@
+{
+  "schema": "AJ9H_GENERIC_HOLDOUT_CONFIG_V1",
+  "benchmark_access": false,
+  "family_labels_visible": false,
+  "tasks": {
+    "future_consequence": {
+      "states": ["s0", "s1", "term"],
+      "actions": ["a", "b"],
+      "horizon": 2,
+      "transitions": {
+        "s0,a": ["term", 2],
+        "s0,b": ["s1", 0],
+        "s1,a": ["term", 5],
+        "s1,b": ["term", 1]
+      },
+      "success": "choose b at s0 and a at s1"
+    },
+    "keyed_store": {
+      "records": [[[0,0],0], [[0,1],1], [[1,1],0]],
+      "queries": [[0,0],[0,1],[1,1]],
+      "success_outputs": [0,1,0],
+      "generic_ops": ["EQUAL", "HAMMING", "INDEX", "CHOOSE"]
+    },
+    "set_variation": {
+      "initial_descriptions": ["100", "011"],
+      "target": "111",
+      "score": {"000":0,"001":1,"010":1,"011":2,"100":2,"101":1,"110":1,"111":5},
+      "rounds": 2,
+      "generic_ops": ["KEEP_TOP_K", "COMPONENT_COPY_COMBINE", "EVALUATE"],
+      "capacities": [1,2]
+    },
+    "expression_output": {
+      "inputs": [[0,0],[0,1],[1,0],[1,1]],
+      "outputs": [0,1,1,0],
+      "terminals": ["x0","x1","0","1"],
+      "ops": ["NOT","AND","OR"],
+      "max_ops": 5
+    },
+    "persistent_change": {
+      "task1_words": ["ab","ab","ab","c"],
+      "task2_words": ["abab","abab","ababc"],
+      "base_symbols": ["a","b","c"],
+      "candidate_macro_max_len": 4,
+      "definition_cost": 2,
+      "success": "persistent admitted reusable operation lowers charged task2 description burden and is actually used"
+    }
+  },
+  "outcome_terminals": ["RECOVERED", "NOT_RECOVERED_AT_SCOPE"]
+}
