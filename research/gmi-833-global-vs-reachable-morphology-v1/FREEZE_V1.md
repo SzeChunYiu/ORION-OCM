@@ -1,14 +1,14 @@
-# GMI #833 — Global-vs-Reachable Morphology Selection Freeze V1
+# GMI #833 — Global-vs-Reachable Architecture-Choice Freeze V1
 
 Status: PRE-IMPLEMENTATION FREEZE
 Source issue: #874
 Master programme: #833
-Target checklist row: Section J — `Separate optimal morphology from reachable morphology.`
+Target checklist row: Section J — `Separate the optimal candidate architecture from the reachable one.`
 
 ## Frozen source
 
 - source `main`: `367e14e9296cf79924ce56d89fad34b3769acb5d`
-- branch: `research/874-global-vs-reachable-morphology-v1`
+- branch: the source branch carrying the tranche's frozen internal identifier (see the package directory name)
 
 All executable checker, hostile tests, result receipt, theorem note, manifest, reconciliation spec, and workflow must postdate this freeze commit.
 
@@ -26,7 +26,7 @@ The corrected V2 lifecycle receipt supersedes the historical V1 receipt and is t
 
 ## Frozen theorem target
 
-For a registered finite morphology set `M`, nonempty reachable subset `R ⊆ M`, and an exact scalar minimization objective `f`:
+For a registered finite candidate architecture set `M`, nonempty reachable subset `R ⊆ M`, and an exact scalar minimization objective `f`:
 
 1. `min_M f <= min_R f`.
 2. `min_R f = min_M f` iff `R` intersects `Argmin_M f`.
