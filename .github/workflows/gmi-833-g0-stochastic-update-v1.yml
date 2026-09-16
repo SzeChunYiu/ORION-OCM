@@ -1,0 +1,126 @@
+name: GMI 833 G0 stochastic update v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-stochastic-update-v1/**'
+      - '.github/workflows/gmi-833-g0-stochastic-update-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-stochastic-update-v1/**'
+      - '.github/workflows/gmi-833-g0-stochastic-update-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=e05a2849d3bf71b0130085d880c7607ce0f507fa
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-g0-stochastic-update-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-g0-stochastic-update-v1/stochastic_update_v1.py \
+            research/gmi-833-g0-stochastic-update-v1/independent_oracle_v1.py \
+            research/gmi-833-g0-stochastic-update-v1/test_stochastic_update_v1.py \
+            research/gmi-833-g0-stochastic-update-v1/RESULT_V1.json \
+            research/gmi-833-g0-stochastic-update-v1/ORACLE_RESULT_V1.json \
+            research/gmi-833-g0-stochastic-update-v1/CORE.md \
+            research/gmi-833-g0-stochastic-update-v1/STOCHASTIC_UPDATE_THEOREMS_V1.md \
+            research/gmi-833-g0-stochastic-update-v1/PARENT_LITERATURE_V1.md \
+            research/gmi-833-g0-stochastic-update-v1/MANIFEST_V1.json \
+            research/gmi-833-g0-stochastic-update-v1/ISSUE_833_RECONCILIATION_STOCHASTIC_UPDATE_V1.json \
+            .github/workflows/gmi-833-g0-stochastic-update-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-g0-stochastic-update-v1/test_stochastic_update_v1.py -v
+            python -I -O -B research/gmi-833-g0-stochastic-update-v1/stochastic_update_v1.py > /tmp/result.json
+            python -I -O -B research/gmi-833-g0-stochastic-update-v1/independent_oracle_v1.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-g0-stochastic-update-v1/test_stochastic_update_v1.py -v
+            python -I -B research/gmi-833-g0-stochastic-update-v1/stochastic_update_v1.py > /tmp/result.json
+            python -I -B research/gmi-833-g0-stochastic-update-v1/independent_oracle_v1.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-g0-stochastic-update-v1/RESULT_V1.json
+          cmp /tmp/oracle.json research/gmi-833-g0-stochastic-update-v1/ORACLE_RESULT_V1.json
+          echo 'fb555388a50632b067f62a5b744ce6faa54e63f508503a15c2dc6afee817ea38  research/gmi-833-g0-stochastic-update-v1/RESULT_V1.json' | sha256sum -c -
+          echo '2d349b216748ed5ee1995049306a5560644708a91c8731904530d1f6617adbe8  research/gmi-833-g0-stochastic-update-v1/ORACLE_RESULT_V1.json' | sha256sum -c -
+      - name: Validate exact theorem census
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-g0-stochastic-update-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          o=json.loads((root/'ORACLE_RESULT_V1.json').read_text())
+          if m['freeze_commit']!='e05a2849d3bf71b0130085d880c7607ce0f507fa': raise SystemExit('freeze mismatch')
+          if r['freeze_commit']!=m['freeze_commit'] or r['claim_ceiling']!=m['claim_ceiling']: raise SystemExit('authority mismatch')
+          if r['terminal']!='GMI_833_FINITE_STOCHASTIC_UPDATE_V1_ALL_GREEN' or o['terminal']!='GREEN': raise SystemExit('RED')
+          c=r['census']
+          expected={'row_family_count':6,'kernel_count':216,'law_preservation_checks':1296,'one_step_covariance_checks':7776,'composition_pair_checks':46656,'sequential_basis_checks':139968,'deterministic_specialization_checks':81}
+          for k,v in expected.items():
+              if c[k]!=v or o[k]!=v: raise SystemExit(f'{k} mismatch')
+          for k in ('law_preservation_failures','one_step_covariance_failures','composition_invalid_failures','sequential_basis_failures','composition_covariance_failures','identity_kernel_failures','deterministic_specialization_failures'):
+              if c[k]!=0 or o[k]!=0: raise SystemExit(f'{k} nonzero')
+          if c['composition_implementation_mismatches']!=0: raise SystemExit('composition implementation mismatch')
+          if not all(r['positive_controls'].values()): raise SystemExit('positive control failed')
+          if 'ACCEPTED' in r['hostile_results'].values(): raise SystemExit('hostile accepted')
+          if set(m['forbidden_promotions'])!=set(r['forbidden_promotions']): raise SystemExit('forbidden mismatch')
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-stochastic-update-v1/ISSUE_833_RECONCILIATION_STOCHASTIC_UPDATE_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned stochastic row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-stochastic-update-v1/ISSUE_833_RECONCILIATION_STOCHASTIC_UPDATE_V1.json
