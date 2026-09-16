@@ -1,0 +1,31 @@
+name: GMI 833 AJ9h known-family recovery
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj9h-k07-k11-blind-recovery-v1/**'
+      - '.github/workflows/gmi-833-aj9h-known-family-recovery-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AJ9h checker
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj9h-k07-k11-blind-recovery-v1/check_aj9h.py
+      - name: Assert result ceiling
+        run: |
+          python3 - <<'PY'
+          import json
+          p='research/gmi-833-aj9h-k07-k11-blind-recovery-v1/RESULT_V1.json'
+          r=json.load(open(p))
+          assert r['status']=='GREEN'
+          assert r['registered_family_count']==11
+          assert r['registered_families_recovered_at_their_declared_finite_scopes']==11
+          assert r['claim_ceiling']=='AJ9_ALL_11_REGISTERED_FAMILIES_RECOVERED_WITH_FAMILY_LABELS_HIDDEN_AT_DECLARED_FINITE_TASK_AND_BASIS_SCOPES'
+          assert 'COMPLETE_GMI' in r['forbidden_promotions']
+          PY
