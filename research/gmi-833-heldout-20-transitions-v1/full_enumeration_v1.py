@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from fractions import Fraction
 from itertools import product
+from math import lcm
 from typing import Callable, Iterable
 
 SEQUENCES = tuple(product((0, 1), repeat=3))
@@ -76,25 +77,39 @@ def objective(summary: Summary, p: Fraction, eta: Fraction, state_price: Fractio
     return eta * ((1 - p) * e0 + p * e1) + state_price * summary.state_bits
 
 
+def _integer_coefficients(p: Fraction, eta: Fraction, state_price: Fraction) -> tuple[int, int, int, int]:
+    if not (Fraction(0) <= p <= Fraction(1)) or eta <= 0 or state_price <= 0:
+        raise ValueError("invalid registered world")
+    coeffs = (eta * (1 - p) / 16, eta * p / 16, state_price)
+    scale = lcm(*(x.denominator for x in coeffs))
+    return (
+        int(coeffs[0] * scale),
+        int(coeffs[1] * scale),
+        int(coeffs[2] * scale),
+        scale,
+    )
+
+
 def search(universe: Iterable[Summary], p: Fraction, eta: Fraction, state_price: Fraction) -> dict[str, object]:
-    best: Fraction | None = None
+    a, b, c, scale = _integer_coefficients(p, eta, state_price)
+    best_int: int | None = None
     winner_ids: list[str] = []
     winner_state_bits: set[int] = set()
     evaluated = 0
     for summary in universe:
-        value = objective(summary, p, eta, state_price)
+        value_int = a * summary.error_now_count + b * summary.error_delay_count + c * summary.state_bits
         evaluated += 1
-        if best is None or value < best:
-            best = value
+        if best_int is None or value_int < best_int:
+            best_int = value_int
             winner_ids = [summary.surface_id]
             winner_state_bits = {summary.state_bits}
-        elif value == best:
+        elif value_int == best_int:
             winner_ids.append(summary.surface_id)
             winner_state_bits.add(summary.state_bits)
-    if best is None:
+    if best_int is None:
         raise AssertionError("empty candidate universe")
     return {
-        "best": best,
+        "best": Fraction(best_int, scale),
         "winner_ids": tuple(sorted(winner_ids)),
         "winner_state_bits": tuple(sorted(winner_state_bits)),
         "evaluated": evaluated,
