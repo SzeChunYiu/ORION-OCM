@@ -16,8 +16,8 @@ The E2 contribution is a bounded exact integration/certificate, not novelty for 
 
 - #868 / PR #873 owns `G0-reg-v1` operational semantics and the finite register grammar.
 - #863 owns the generic robustness requirements for alternate encodings/search/scalarizations.
-- #864 owns finite machine-state/presentation remint equivariance and explicitly does not imply search invariance.
+- #864 owns finite machine-state/presentation relabeling equivariance and explicitly does not imply search invariance.
 
 ## Residual owned here
 
-Exact finite `L/N/Q/d/A/R` census on the frozen G0 slice; grammar-node isometric-remint theorem/certificate; same-semantics non-isometric selection reversal; deterministic receipt/custody and scoped #833 reconciliation.
+Exact finite `L/N/Q/d/A/R` census on the frozen G0 slice; grammar-node isometric-relabeling theorem/certificate; same-semantics non-isometric choice reversal; deterministic receipt/custody and scoped #833 reconciliation.

@@ -1,4 +1,4 @@
-# GMI #833 E2 — finite grammar bias and remint boundary
+# GMI #833 E2 — finite grammar bias and presentation-relabeling boundary
 
 This capsule measures representation/search bias on one frozen 126-presentation slice of merged `G0-reg-v1`.
 
@@ -10,7 +10,7 @@ It separates three statements that must not be conflated:
 
 The exact result is conditional on the frozen semantic test set `(),(0,),(1,)`, step budget 6, instruction-count length, and mutation graph in `FREEZE_V1.md`.
 
-The capsule proves an invariance theorem only for **isometric semantic grammar remints**: bijections preserving semantic class, length, adjacency, and starts. It also provides a same-semantics counterexample where changing length/search geometry reverses the grammar-relative selection. Therefore semantic equivalence alone is not a representation/search-neutrality theorem.
+The capsule proves an invariance theorem only for **isometric semantic grammar relabelings**: bijections preserving semantic class, length, adjacency, and starts. It also provides a same-semantics counterexample where changing length/search geometry reverses the grammar-relative choice. Therefore semantic equivalence alone is not a representation/search-neutrality theorem.
 
 Claim ceiling:
 
