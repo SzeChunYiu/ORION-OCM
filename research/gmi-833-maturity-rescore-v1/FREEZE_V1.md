@@ -29,7 +29,7 @@ Maturity ladder (foundation M0–M6):
 ### Scoring rubric (frozen)
 
 1. **M-level requires the evidence named in the foundation doc.** M0 requires only a registered concept. M1 requires an EV1-or-above deductive theorem with explicit premises and falsifiers. M2 requires an EV2-or-above exact/computer-assisted certificate at a bounded declared universe. M3 requires P3/P4 architecture-prior-free **relative recovery** with the target-family naming/property/operator absent from search-visible inputs and family mapping post hoc (foundation §6). M4 requires a prospectively frozen held-out experiment (EV3). M5 requires disjoint/independent implementation replication (EV4). M6 requires real-scale prospective validation (EV5).
-2. **M-level ceiling is bounded by the package's EV.** `maturity_M > evidence_EV` is an automatic `MATURITY_EVIDENCE_MISMATCH` and fails the record. Concretely: an EV2 package can reach at most M2; an EV3/M4-style held-out package can reach M4 but no further; only EV5 evidence can ground M6.
+2. **M-level ceiling is bounded by the package's EV.** The foundation declares evidence level ORTHOGONAL to maturity, so the ceiling is per evidence class, not a one-to-one pairing: `EV0 -> at most M1` (definition/protocol cannot by itself license a theorem truth), `EV1 -> at most M2`, `EV2 -> at most M3`, `EV3 -> at most M4`, `EV4 -> at most M5`, and only `EV5` evidence can ground `M6`. A maturity above that ceiling is an automatic `MATURITY_EVIDENCE_MISMATCH` and fails the record. Concretely: an EV2 exact-finite package may carry an M3 label ONLY when the M3 requirement (P3/P4 relative recovery with family identity absent pre-search) is itself evidenced by the exact recovery — `gmi-833-g0-binary-recovery-v1` is the single such case; an EV3 held-out package can reach M4 but no further (M5 requires disjoint/independent-team replication, which an intra-package procedural dual-search is NOT); only EV5 evidence can ground M6.
 3. **M3 is never awarded to a package whose search saw the target family/name/property vector** (prior disclosure `P<=P2`), even if the package uses the word "derivation." Only `gmi-833-g0-binary-recovery-v1` claims `P3_RELATIVE` in its own ceiling, and the entire §-J package family (`finite-search-budget`, `search-law-morphology-change`, `global-vs-reachable`, `morphology-selection*`, `history-switching`, `heldout-20-transitions`) is derivational but prior-supplied — none can be M3.
 4. **Never inflate and never guess.** Most finite-enumeration results are M2 (exact witness/census) at best. If a result's maturity cannot be determined from its registered receipts, score it `"UNKNOWN"` and say so in the justification.
 5. **`maturity_M` may be below `evidence_EV`** (a package may hold EXACT/CENSUS evidence yet only claim a theorem); only the upward mismatch is a defect.
@@ -45,7 +45,7 @@ Additional mechanical rules (frozen):
 - **One primary theorem per package.** A package may register many theorems; the inclusion is the theorem that anchors the claim ceiling. Every other theorem is cited in `statement_excerpt` context and parents as needed, but only the primary is scored. This keeps the table one row per package.
 - **Package must exist at the frozen source SHA, in the `research/` tree, with the `gmi-833-` prefix.** A package missing or renamed after freeze is `FAIL_CLOSED` (the scorer errors; it does not silently skip).
 - **Excluded packages**: any `gmi-833-*` directory that has no registered claim ceiling and no registered theorem document is LISTED as excluded with a typed reason (see §7), never silently omitted.
-- The identical-name sibling directories that are NIETHER package nor claim (e.g. `.github/workflows` entries, and the `gmi-833-corpus-census-v1/AUDIT_V1.json` corpus audit object) are data, not primary theorems.
+- The identical-name sibling directories that are NEITHER package nor claim (e.g. `.github/workflows` entries, and the `gmi-833-corpus-census-v1/AUDIT_V1.json` corpus audit object) are data, not primary theorems.
 
 ## 4. Record schema (each row, `THEOREM_SCORES_V1.json`)
 
@@ -89,7 +89,7 @@ The scorer `rescore_v1.py` must hard-fail (non-zero exit, typed error) rather th
 
 ## 7. Frozen inclusion list (package → primary theorem anchor)
 
-Included packages (32 packages, one row each; lexicographic order):
+Included packages (29 packages — every `gmi-833-*` research directory at the frozen source SHA except the two typed exclusions below; one row each; lexicographic order; 29 included + 2 excluded = the 31 `gmi-833-*` directories present at `9f90fc4e`):
 
 | # | package | primary theorem anchor | scope/quantifier | EV evidence (registered receipts) |
 |---|---|---|---|---|
@@ -130,6 +130,13 @@ Excluded packages, with typed reasons (each is listed, none silently dropped):
 | `gmi-833-corpus-census-v1` | NO PRIMARY THEOREM — a corpus/provenance audit object (EV0-grade registration), not a result with a claim ceiling; its own audit discloses 22,553 objects of which only 237 are structurally GREEN and its maturity/evidence fields are wholesale UNKNOWN (per its frozen AUDIT_V1.json). |
 | `gmi-833-tranche-ab-ac-lit` | NO PRIMARY THEOREM — terminology authority / crosswalk package (`REGISTERED_TERMINOLOGY_AUTHORITY_V1`), registered receipts are terminological counts, not scientific theorems. |
 | `.github/workflows/gmi-833-*.yml` | NOT A RESEARCH PACKAGE — CI workflow definitions. |
+
+### Scope boundary recorded at freeze completion (coverage cross-check vs the frozen corpus census)
+
+The inclusion rule above is scoped to the `gmi-833-*` programme family at the frozen source SHA, and that scope is COMPLETE at the SHA: all 31 `gmi-833-*` research directories at `9f90fc4e` are either included (29) or typed-excluded (2). Two explicit out-of-scope populations remain for #833's "Re-score every major existing GMI result" row and are NOT silently dropped:
+
+1. **Legacy non-`gmi-833-*` GMI corpus.** The frozen corpus census (`gmi-833-corpus-census-v1`, frozen source `2fffb14447193cbfbed3224508a077f2d4f5d2dd`, result SHA `861b1ba1`) enumerated 22,553 scientific objects, of which 237 are GREEN EXPLICIT; 173 of those are claim-bearing (116 THEOREM, 33 LAW, 20 CLAIM, 2 COROLLARY, 2 PROPOSITION) spread over **25 legacy packages** (largest: `machine-intelligence-morphogenesis-v1` 93, `gmi-grand-unification-v1` 54). The census snapshot predates the 833 programme (only `gmi-833-foundation-v1`, 58 objects, is present in it), so the two tranches are disjoint: this rescore covers the 833 family, the census covers the legacy family. Rescoring the legacy GREEN claim mainline is **remaining work for a v2 tranche**; v1 does not score it and does not claim corpus-wide maturity closure (see forbidden promotions).
+2. **Post-freeze arrivals on `main`.** Packages merged after `9f90fc4e` are outside the frozen source and outside v1 (falsifier 6.5): as of `main` `aa131e6d` (2026-09-16) these are the 14 `gmi-833-aj*` lane packages plus `gmi-833-capability-abstention-v1`, `gmi-833-capability-bounds-interactions-v1`, `gmi-833-cognitive-reaudit-v1`, `gmi-833-developmental-potential-evolvability-v1`. A v2 refresh re-freezes the source SHA and re-runs the inclusion rule mechanically; it never edits scores to chase arrivals.
 
 ## 8. Falsifiers
 
