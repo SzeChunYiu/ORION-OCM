@@ -18,6 +18,7 @@ EVIDENCE = {
     "GENERATION": {"status":"SATISFIED_REGISTERED_SCOPE", "parents":["AJ4","AJ5"]},
     "DEVELOPMENT": {"status":"SATISFIED_REGISTERED_SCOPE", "parents":["AJ6","HSG"]},
     "RELEVANCE_CAPABILITY": {"status":"SATISFIED_REGISTERED_SCOPE", "parents":["AJ3","AJ8","GMI_CAPABILITY_PARENT"]},
+    "BOUNDED_ATLAS": {"status":"COMPLETE_REGISTERED_BOUND", "parents":["AJ11"], "terminal":"COMPLETE_GMI_ATLAS_AT_BOUND_B"},
     "SELECTION": {"status":"PROSPECTIVE_FINITE_SYNTHETIC_SCOPE", "parents":["PR902"], "real_system_gate":"OPEN_ISSUE_903"},
     "RECOVERY": {"status":"ALL_11_REGISTERED_FAMILIES_RECOVERED_FINITE_TASK_BASIS_SCOPE", "parents":["PR951"], "historical_ignorance":"NOT_CLAIMED"},
     "DISCOVERY": {"status":"UNKNOWN_CHANNEL_EXERCISED_PARENT_REDUCED_NO_NOVEL_FORM", "parents":["AJ10"], "novel_replication":"NOT_TRIGGERED"},
@@ -35,11 +36,14 @@ FORBIDDEN = [
     "COMPLETE_GMI_IN_ALL_CONCEIVABLE_PHYSICS",
 ]
 
+
 def earned_badges(e=EVIDENCE):
     earned=[]
-    if all(e[k]["status"].startswith("SATISFIED") or k in {"BOUNDARIES"} for k in ["FOUNDATION","GENERATION","DEVELOPMENT","RELEVANCE_CAPABILITY","BOUNDARIES"]):
+    core_keys=["FOUNDATION","GENERATION","DEVELOPMENT","RELEVANCE_CAPABILITY"]
+    if all(e[k]["status"]=="SATISFIED_REGISTERED_SCOPE" for k in core_keys) and e["BOUNDARIES"]["status"]=="EXPLICIT":
         earned.append(BADGES[0])
-    if earned and e["BOUNDARIES"]["status"]=="EXPLICIT":
+    if (BADGES[0] in earned and e["BOUNDED_ATLAS"]["status"]=="COMPLETE_REGISTERED_BOUND"
+            and e["BOUNDED_ATLAS"].get("terminal")=="COMPLETE_GMI_ATLAS_AT_BOUND_B"):
         earned.append(BADGES[1])
     if BADGES[1] in earned and e["RECOVERY"]["status"].startswith("ALL_11_REGISTERED_FAMILIES_RECOVERED"):
         earned.append(BADGES[2])
@@ -51,11 +55,13 @@ def earned_badges(e=EVIDENCE):
         earned.append(BADGES[5])
     return earned
 
+
 def audit_no_promotion(earned):
     assert BADGES[5] not in earned
     assert BADGES[4] not in earned
     assert EVIDENCE["EVIDENCE"]["real_system_gate"] != "SATISFIED"
     assert EVIDENCE["DISCOVERY"]["novel_replication"] != "REPLICATED"
+
 
 def main():
     earned=earned_badges()
