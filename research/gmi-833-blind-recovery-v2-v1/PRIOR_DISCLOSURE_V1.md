@@ -6,6 +6,19 @@ blindness argument for each. The audited v1 (PRs #931-#937) closed only the
 label/fingerprint channels; v2 closes task authorship and basis authorship as
 well, and upgrades the screen and adjudicator.
 
+ERRATUM (battery amendment, pre-outcome): the first frozen battery
+(blob df34a8224bf997e60ed8dc10f83ca2c9ef9d4f4f) contained a B_DELAY defect —
+delayed-copy outputs were misaligned with inputs (raw stream instead of the
+lag-delayed zero-prefix stream, mismatched horizons). Discovered during the
+first search execution (lag>=1 tasks uncomputable, machine search correctly
+returned nothing); NO outcome or adjudication ever consumed the defective
+battery. Amended generator formalizes the clean semantics (machine reads the
+raw stream from canonical initial state 0 = zero input history; outputs are
+the zero-prefix-delayed stream). Amended battery blob:
+b7b358b55435ac0932e7e72318e189b59e10e5cf. The amendment commit predates every
+committed outcome file (freeze custody in check_v2.py asserts outcome files
+absent at BOTH the original freeze commit and the amendment commit).
+
 ## Confirmed finding being answered (audit receipts on #931-#934)
 
 1. TASK AUTHORSHIP CHANNEL OPEN (v1): K01's task is XOR (`required_outputs

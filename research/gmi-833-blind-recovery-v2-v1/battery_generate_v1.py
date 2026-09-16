@@ -102,13 +102,16 @@ def delay_battery(l_max: int) -> dict:
     stream = de_bruijn(2, order)
     tasks = []
     for lag in range(0, l_max + 1):
-        padded = [0] * lag + stream          # canonical zero initial state
-        required = list(stream)              # y[t] = x[t - lag]
+        # The machine reads the RAW stream from canonical initial state 0,
+        # which encodes the zero input history x(-1..-lag) = 0; outputs are
+        # therefore the stream delayed by lag with a zero prefix:
+        # y[t] = 0 for t < lag, y[t] = x[t - lag] for t >= lag.
+        required = [0] * lag + stream[:len(stream) - lag]
         tasks.append({
             "task_id": f"DELAY_{lag:02d}",
             "lag": lag,
             "stream": list(stream),
-            "machine_inputs": padded,
+            "machine_inputs": list(stream),
             "required_outputs": required,
         })
     return {
