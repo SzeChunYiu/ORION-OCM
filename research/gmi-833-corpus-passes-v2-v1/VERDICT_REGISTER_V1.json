@@ -8,6 +8,18 @@
    "punctuation_relaxed_mask_extra_groups": 128
   },
   "population_note": "22,553 P1 objects; strict masked-hash equality outside crosswalk spans is a high-precision condition by construction; the corpus's migration history (pre/post edit snapshots never coexist) makes intra-snapshot terminology variants rare \u2014 1 candidate is consistent with that.",
+  "v2_revival": {
+   "classes": {
+    "CONTENT_NORM_DUP": 336,
+    "TERM_NORM_DUP": 182
+   },
+   "detector": "detector_l42_v2_v1.py (normalization mask: crosswalk classes + case/quote/punctuation/whitespace canonicalization; plants pass: case-variant + quote-variant flag, real-word difference silent)",
+   "duplicate_results": 0,
+   "groups": 518,
+   "remainder": "488 groups SCREENED-NOT-ADJUDICATED (echo class extrapolation)",
+   "revival_ticket": "REV-L42-CONTENT-NORM-DETECTOR (DONE_IN_SWEEP)",
+   "tier_s": "30 groups read (10 TERM + 20 CONTENT, seeded 833212): 30/30 DISTINCT - benign serialization/custody echoes (dual-format ledgers .md+.json of the same registry, receipts quoting sources, trailing-comma artifacts, repeated heading fragments, shared code constants)"
+  },
   "verdicts": [
    {
     "group": "AUTO-4FC94E5CDE28AFCF35C4 + AUTO-7FF685146604E42B2629",
@@ -150,6 +162,17 @@
    "PROSE_CITATION_HITS": 14
   },
   "finding": "the L50 screen is effectively a self-audit detector: the dominant hit class is the corpus's own anti-smuggling machinery (BANNED_MI_PRIMITIVES, FORBIDDEN_FAMILY_TOKENS, FORBIDDEN_MACROS, forbidden_symbol_substrings lists in 12 packages incl. the morph.py lineage), followed by literature citations (Vaswani et al.) and registry-path bookkeeping. No grammar or primitive file DEFINES a denylisted architecture operator.",
+  "refined_census_revival": {
+   "anchors": "aj9b (frozen primitive basis) IN; af-barrier (prose negation) OUT; robustness-controls A2-covered (strategy_signature)",
+   "counts": {
+    "a2_covered": 1,
+    "primitive_defining_packages": 109,
+    "unaudited_operator_surface": 108
+   },
+   "replaces": "the 138-package upper bound from the first-pass vocabulary-only rule",
+   "revival_ticket": "REV-L50-A2-SIGNATURE-PROGRAMME",
+   "rule": "primitive-defining file = vocabulary match (primitive|operator|instruction set|opcode|grammar|DSL) AND definition-like structure (OPS/PRIMITIVES/OPERATORS symbols, primitive basis/set phrases, opcode lists, def/class with operator-ish names) in the same file"
+  },
   "screen": "A1-style denylist (registered D1: transformer, self_attention, conv2d, lstm_gate, rag_retriever) normalized scan over primitive-defining files + A2-signature coverage census; 27 lexical-hit packages, 138 UNAUDITED_OPERATOR_SURFACE packages"
  },
  "L51_hidden_iid_stationarity": {
@@ -225,6 +248,35 @@
    }
   ]
  },
+ "L54_L55_encoding_search_sensitivity": {
+  "adjudication": "per pass: seeded sample of 30 of 35 (sorted list, random.Random(833212)) = 85.7% rate; 47 unique packages read; classification policy stated: complete censuses of frozen finite populations are traversal-independent (not search-derived); winner/recovery claims from searching a space are search-derived",
+  "calibration_anchors": "gmi-833-g0-grammar-bias-v1 (certify_isometric_remint + 24-permutation certificate + independent Floyd-Warshall oracle) and gmi-833-robustness-controls-v1 (encoding_audit + search_audit with materially distinct signatures) both read genuine and correctly UNFLAGGED by the control gate - no screen defect at anchors",
+  "confirmed_defects": 0,
+  "counts_L54": {
+   "ENCODING_DEPENDENT_UNCONTROLLED": 0,
+   "NOT_ENCODING_DEPENDENT": 29,
+   "REMINT_CONTROLLED": 1
+  },
+  "counts_L55": {
+   "NOT_SEARCH_DERIVED": 26,
+   "REPLICATED_DISTINCT": 4,
+   "SEARCH_SINGLE_ROUTE": 0
+  },
+  "false_positive_causes": "L54 regex fires on Python encoding='utf-8' (~2/3 of sample) and governance uses of 'relabel'; L55 fires on the enumerate() builtin, 'SEARCH'/'optimized' as names, and subject-matter terminology ('search ceiling')",
+  "positives": {
+   "L54": [
+    "gmi-reachability-refinement-v1 (claims live ON encoding dependence and it ships the controlling artifact: successor-order permutation census + explicit |dReach|<=1 bound test)"
+   ],
+   "L55": [
+    "gmi-causal-rung-repair-v1",
+    "gmi-hierarchical-chunking-repair-v1 (solver vs every-execution policy oracle vs independent materialized executor)",
+    "gmi-joint-relational-composition-v1 (solver census vs independent no-solver enumeration, field-for-field, 343 + 262,144 censuses)",
+    "gmi-weighted-transient-transfer-v1 (analytic geometric closed form vs absorbing-chain linear-equation oracle)"
+   ]
+  },
+  "remainder": "5 packages per pass excluded by the draw, SCREENED-NOT-ADJUDICATED",
+  "screen": "35 flagged packages per pass (encoding language without remint control; search executor without materially distinct replica)"
+ },
  "L56_parent_rediscovery": {
   "confirmed_defects": 0,
   "false_positive_cause": "mechanical haystack read only PARENT/SUBSUMPTION-named files; residuals live in THEOREM/CORE/FREEZE docs in this corpus.",
@@ -264,12 +316,20 @@
   ]
  },
  "L58_applied_downgrade": {
-  "action": "Section 2 reworded to registered 27x27 finite-classification scope (729 ordered / 351 unordered pairs) + mandatory joint-burden caveat (equalities are definitional classification criteria at registered scope, not proven resource accounting); Section 5 scope boundary aligned; PVR-3 no-interference scoped to Theorem IF's bounded finite scope; MANIFEST.json audit_trail entry (finding -> verdict -> new wording -> controls).",
-  "registered_defect": "#939 verdict table: OVERSTRONG \u2014 universal phrasing 'for any two capabilities' exceeds a pure 27x27 finite classification once the rules rest on unproven equalities (joint=sum / joint=max).",
+  "intermediate_state": "applied downgrade to 27x27 finite scope (commit b2b5a9d9); superseded as closure by the operator revival doctrine",
+  "registered_defect": "#939 verdict table: OVERSTRONG \u2014 universal phrasing \"for any two capabilities\" exceeds a pure 27x27 finite classification once the rules rest on unproven equalities (joint=sum / joint=max).",
+  "revival_chain": [
+   "DIAGNOSE: equalities hide two real premises \u2014 within-channel claim shareability (CE-1: disjoint claims in one channel give joint=7>max=4) and free-option accounting (CE-2: mandatory upkeep interferes); disjoint-channel additivity unobstructed.",
+   "LEVER: per-channel claim-SET structure Q_X(c); channel-wise accounting B(A)=sum_c |union of claims|.",
+   "RE-PROVE AT ORIGINAL STRENGTH: Theorem CI-U universal \u2014 Lemma A (disjoint => sum, unconditional), Lemma B (max<=joint<=sum with exact nested/disjoint/partial characterization, unconditional), Lemma C (free-option monotonicity by feasible-set inclusion); Corollary CI-A4 = registered 27x27 fully-shareable instance.",
+   "BOUNDARY: CE-1 + CE-2 labelled EARNED-BY-COUNTEREXAMPLE; complete obstruction list."
+  ],
   "target": "research/gmi-capability-interactions-unified-v1/CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md",
-  "verdict": "APPLIED",
-  "verification": "post-edit defect-clause check: 'for any two capabilities' 0 occurrences; 27x27 scoping present in header/Section 2/Section 5; caveat present twice; controls test_interactions.py 27/27 pass pre- and post-edit; custody check: no test or executor reads the .md."
+  "universal_claim_status": "RESTORED AND EARNED (strongest true claim; equalities proven conditional characterizations; no unconditional equality claims remain unproven)",
+  "verdict": "REVIVED_TO_STRONGEST_TRUE_CLAIM (universal restored; finite instance kept as Corollary CI-A4)",
+  "verification": "controls: test_interactions.py 27/27, test_ci_universal_v1.py 9/9 (python3 -I -B), ci_universal_witness_v1.py GREEN; custody: no executor reads the .md; defect-clause re-check: universal phrasing now rests on proven lemmas (A/B/C), equalities are proven iff-characterizations"
  },
  "note": "Adjudicated verdicts from the corpus identification passes v2. Every verdict cites its evidence. 'PASS_L4x.agent_adjudicated' sections were read by read-only subagents and their CONFIRMED-class rows spot-verified by the pass owner; verdicts marked SCREENED-NOT-ADJUDICATED are explicit gap states, never 'clear'.",
+ "revival_doctrine_note": "Operator correction 2026-09-16 applied: no downgrade-as-closure; every CONFIRMED RED/AMBER finding carries a revival workstream in REVIVAL_TICKETS_V1.json (DONE_IN_SWEEP where executed).",
  "schema": "GMI_833_CORPUS_PASSES_V2_VERDICT_REGISTER_V1"
 }

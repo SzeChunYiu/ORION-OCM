@@ -40,3 +40,9 @@ disposition itself is mechanical and fully populated.
 **Claim:** every computational package in the corpus now carries a two-route disposition at
 branch-base scope; the no-independent-implementation population is identified as
 75 SINGLE_ROUTE packages.
+
+## Revival update
+
+REV-L46-TWO-ROUTE-PROGRAMME filed: per-package independent oracles for the 75
+SINGLE_ROUTE packages (highest-claim first), + L34 lane retrofits the second_impl axis
+for the 173 legacy rows. This sweep supplies the fully-populated population.

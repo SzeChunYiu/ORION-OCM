@@ -27,3 +27,10 @@ status honest per protocol.
 **Claim:** the parent-containment comparison now exists; at the adjudicable population no
 claim is only a parent rediscovery; 173 legacy rows await parent registration (L34) to
 extend the comparison.
+
+## Revival update
+
+REV-L56-COGNITIVE-RESIDUAL DONE_IN_SWEEP: the residual section is now registered in
+gmi-833-cognitive-reaudit-v1/COGNITIVE_REAUDIT_THEOREMS_V1.md (parents acknowledged;
+scoped residual stated: MEMORY-1's iff-characterization + ATTENTION-1's exact threshold).
+No conflict with open PR #927 (touches only gmi-833-cognitive-reaudit-v2/).

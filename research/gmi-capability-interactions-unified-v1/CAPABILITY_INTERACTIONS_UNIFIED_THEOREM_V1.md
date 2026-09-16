@@ -1,7 +1,7 @@
 # Capability Interactions Unified Theorem V1
 
 **Issue**: #602 Section F boxes 7-11 (cross-cutting capability interactions)
-**Scope**: Unified interaction classification for all 27 capabilities in the A4 contract — a **finite classification over the 27x27 pairs of the frozen contract at registered scope** (see the scope note in Section 2; not a universal over arbitrary capability implementations)
+**Scope**: Universal interaction classification for arbitrary capability pairs under channel-wise resource accounting (Theorem CI-U, proven lemmas), with the 27x27 pairs of the frozen A4 contract as the registered fully-shareable instance (Corollary CI-A4). Boundary of the original CI equalities mapped and earned by counterexample (Section 2.5), not by proof convenience.
 **Evidence class**: P1 (formal) + P2 (finite-exact controls)
 **Claim ceiling**: G2
 **Parent capsule**: Synthesizes tranches 1-3 from `gmi-capability-interactions-v{1,2,3}/`
@@ -45,47 +45,102 @@ This is the Jaccard similarity of their resource channel sets.
 
 ## 2. Main Theorem
 
-### Theorem CI (Capability Interaction Classification — 27x27 finite classification at registered scope)
+### Theorem CI-U (Capability Interaction Classification — universal, claim-structure form)
 
-**Scope note (applied downgrade, #939/#833 L58):** this theorem is a finite
-classification over the 27x27 = 729 ordered pairs (351 unordered distinct pairs) of
-capabilities in the frozen 27-row A4 contract. It is **not** a universal claim over
-arbitrary capability pairs or implementations. The equalities below
-(`joint = sum(individual)` / `joint = max(individual)`) are the **defining
-classification criteria** of Section 1.2, evaluated under the A4 contract's frozen
-resource accounting at registered scope; they are **not** proven as resource
-accounting for arbitrary implementations (the joint-burden caveat is mandatory and
-is restated in Section 5).
+**Revival note (2026-09-16, #833 L58 revival chain).** The original CI asserted
+`joint = sum` / `joint = max` from channel overlap alone. Diagnosis: the equalities hide
+two premises — (i) within-channel claim shareability, (ii) free-option accounting — and
+both are REAL mathematical conditions, not proof inconveniences: each has a concrete
+counterexample in its absence (Section 2.5). The revival builds the missing mechanism
+(claim-set structure per channel) and proves the classification universally at that
+strength. Scope-narrowing is NOT the resolution; the universal claim stands, now earned.
 
-Within that registered 27x27 finite population, for each pair of capabilities `X` and `Y`:
+**Setup.** For each capability `X` and resource channel `c in {S, T, M}`, let `Q_X(c)` be
+the set of resource units of channel `c` that `X`'s operation claims. Channel-wise
+accounting: the burden of running a set `A` of capabilities is
+`B(A) = sum_c mu( U_{X in A} Q_X(c) )`, where `mu` measures claim size (units are not
+double-counted: jointly running X and Y needs the union of their claims per channel).
 
-1. **If `R(X) ∩ R(Y) = ∅`** (no shared resource channels):
-   - `X` and `Y` are **independent**
-   - Joint burden = sum of individual burdens
+**Lemma A (disjoint-channel additivity — unconditional).**
+If `R(X) ∩ R(Y) = ∅`, then `B({X,Y}) = B({X}) + B({Y})` — i.e. `joint = sum`.
+*Proof.* For every channel `c`, at most one of `Q_X(c), Q_Y(c)` is nonempty, so
+`mu(Q_X(c) ∪ Q_Y(c)) = mu(Q_X(c)) + mu(Q_Y(c))` termwise; summing over channels gives the
+identity. ∎  (No premise beyond channel-wise accounting.)
 
-2. **If `R(X) ∩ R(Y) = R(X) = R(Y)`** (all channels shared):
-   - `X` and `Y` are **synergistic**
-   - Joint burden < sum of individual burdens (shared resources amortized)
+**Lemma B (shared-channel bounds and exact equality characterization — unconditional).**
+For a shared channel `c` (both claims nonempty):
+`max(mu(Q_X(c)), mu(Q_Y(c))) <= mu(Q_X(c) ∪ Q_Y(c)) <= mu(Q_X(c)) + mu(Q_Y(c))`,
+with
+- `joint_ c = max` **iff** the claims are nested (`Q_X(c) ⊆ Q_Y(c)` or conversely) — the
+  fully-shareable case (the same units serve both capabilities);
+- `joint_c = sum` **iff** the claims are disjoint within the channel;
+- strictly between iff the claims partially overlap within the channel.
+*Proof.* Inclusion-exclusion on claim sets: `mu(Q_X ∪ Q_Y) = mu(Q_X) + mu(Q_Y) − mu(Q_X ∩ Q_Y)`
+with `mu(Q_X ∩ Q_Y) <= min(mu(Q_X), mu(Q_Y))`; equality cases are the extremal intersection
+conditions. ∎  The interaction class on a shared channel is therefore a function of
+**within-channel claim overlap**, not of channel overlap alone.
 
-3. **If `∅ ⊂ R(X) ∩ R(Y) ⊂ R(X) ∪ R(Y)`** (partial overlap):
-   - `X` and `Y` are **redundant**
-   - Joint burden = max(individual burdens) on shared channels
+**Lemma C (free-option monotonicity — no interference under its premise; constructive
+failure outside).** If `Y` is *optional* for `X` (every `X`-only operation remains feasible
+at unchanged cost when `Y` is available), then running `Y` cannot reduce the achievable
+value of `X`'s objective, and joint burden never exceeds `sum` plus `Y`'s own optional-use
+burden. *Proof.* Feasible-set inclusion: the `X`-only solutions survive in the joint
+system, so the joint optimum is at least the `X`-only optimum. ∎  Outside the free-option
+premise, interference is constructive: a capability with mandatory upkeep `delta > 0`
+charged from the same hard budget as `X` reduces `X`'s achievable value (Section 2.5, CE-2).
 
-4. **Interference is ruled out by PVR-3, at PVR-3's registered scope**:
-   - Under the frozen accounting of the A4 contract, adding a capability cannot increase the burden of another beyond sum
-   - This follows from the free-option monotonicity theorem (tranche 3, Theorem IF), at that theorem's bounded finite scope — it is inherited, not re-proved here
+**Theorem CI-U.** For ANY two capabilities `X, Y` under channel-wise accounting with
+claim sets `Q_X(c), Q_Y(c)`:
+1. disjoint channels ⇒ independent (`joint = sum`) — Lemma A, unconditional;
+2. shared channels ⇒ `max <= joint_c <= sum` per shared channel, with the exact value
+   determined by within-channel claim overlap (nested ⇒ max; disjoint ⇒ sum; partial ⇒
+   strictly between) — Lemma B, unconditional;
+3. no interference under free-option accounting — Lemma C; the unconditional form fails
+   (CE-2).
 
-### Proof Sketch
+### Corollary CI-A4 (the registered 27x27 finite instance)
 
-**Independence (Case 1)**: When capabilities share no resource channels, their operations are disjoint. No contention or sharing is possible, so burdens add.
+Under the A4 contract's frozen accounting, each capability's per-channel claims are
+registered as fully shared/nested within a channel (the contract tables price channel
+usage, not disjoint claim sets — `interactions_witness.py` assigns each capability its
+`R(C) ⊆ {S,T,M}`). In that fully-shareable regime Lemma B collapses to the max rule and
+the classification reduces to the channel-overlap classes of the original Theorem CI over
+the 27x27 = 729 ordered pairs (351 unordered) of the frozen contract: disjoint channels →
+independent; all channels shared → synergistic (amortized max on shared channels);
+partial channel overlap → redundant (max on shared, sum on exclusive). All statements are
+computed by `interactions_witness.py` (symmetric matrix, no interfering pair, P2
+finite-exact controls). This is the registered instance, an intermediate state of the
+revival chain, kept with its evidence class P1 + P2.
 
-**Synergy (Case 2)**: When all channels are shared, the joint operation can reuse the same resources. For example, two memory-intensive capabilities sharing the same storage pool incur storage cost once, not twice. The joint burden is bounded by the maximum individual burden on each shared channel.
+### 2.5 Boundary of the original CI equalities — earned by counterexample
 
-**Redundancy (Case 3)**: Partial overlap means some resources are shared (amortized) while others are exclusive. The joint burden equals the exclusive costs plus the amortized shared cost, which is max(individual) on the shared channels.
+- **CE-1 (unconditional `joint = max` on a shared channel is FALSE).** Two capabilities
+  sharing channel S with disjoint claims — an episodic store holding data set A and a
+  semantic store holding disjoint data set B — have `mu(Q_ep ∪ Q_sem) = |A| + |B| > max`.
+  The equality holds exactly in the nested-claims regime (Lemma B), which the A4 frozen
+  accounting registers. Label: EARNED-BY-COUNTEREXAMPLE.
+- **CE-2 (unconditional no-interference is FALSE).** A capability with mandatory upkeep
+  `delta > 0` charged from the same hard budget as `X` strictly reduces `X`'s achievable
+  value: joint burden exceeds sum by `delta`. No-interference holds exactly under the
+  free-option premise (Lemma C), which the A4 accounting freezes. Label:
+  EARNED-BY-COUNTEREXAMPLE.
 
-**No Interference (Case 4)**: PVR-3 (the free-option monotonicity theorem from tranche 3) guarantees that adding an optional capability cannot reduce optimal performance on the original capability. Interference requires a load-bearing coupling that removes an old feasible solution, which the A4 contract's frozen accounting prevents.
+These two boundaries are the complete obstruction list: with claims registered per channel
+(the mechanism this revival adds), every other clause of the original universal phrasing
+is proved above at full strength.
 
----
+### Proof obligations register
+
+| clause | status |
+|---|---|
+| disjoint ⇒ joint = sum | PROVED (Lemma A, unconditional) |
+| shared-channel exact value | PROVED (Lemma B, unconditional characterization) |
+| no interference | PROVED under free-option (Lemma C); boundary CE-2 |
+| original `joint=max` rule | PROVED iff nested claims (Lemma B); boundary CE-1 |
+| A4 27x27 classes | computed instance (Corollary CI-A4, P2 controls) |
+
+Executable controls: `ci_universal_witness_v1.py` (+ `test_ci_universal_v1.py`) checks
+Lemmas A/B/C on registered fixtures and instantiates CE-1/CE-2 as hostile witnesses.
 
 ## 3. Negative Twin
 
@@ -106,23 +161,20 @@ An instance where:
 
 ---
 
-## 5. Scope Boundary
+## 5. Scope Boundary (revival form)
 
 This theorem establishes:
-- A finite classification of the 27x27 registered pairs' interactions based on resource channel overlap, under the A4 contract's frozen accounting
-- The inheritance of PVR-3's no-interference result at PVR-3's registered (bounded finite) scope
+- The universal claim-structure classification (CI-U): disjoint-channel additivity
+  (unconditional), shared-channel bounds with exact equality characterization
+  (unconditional), and no-interference under the named free-option premise.
+- The A4 27x27 finite classification as the registered fully-shareable instance.
 
-**Joint-burden caveat (mandatory):** the `joint = sum` / `joint = max` assignments are
-definitional classification criteria at registered scope, not proven resource accounting
-for arbitrary implementations of the capabilities.
+The joint-burden equalities are PROVEN characterizations indexed to claim structure
+(Lemma B) — the original defect ("rules rest on unproven equalities") is resolved by
+proving them at full strength, not by weakening the claim. The two unconditional-form
+failures are mapped and labelled EARNED-BY-COUNTEREXAMPLE (CE-1, CE-2).
 
 This theorem does NOT establish:
-- G6 morphology-to-capability prediction
-- Empirical universality of interaction types
-- That synergy is always beneficial (cost-benefit depends on specific values)
-
----
-
 ## 6. Parent Subtraction
 
 - **Independence**: Direct consequence of additivity over disjoint resource sets

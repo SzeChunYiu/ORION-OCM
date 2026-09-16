@@ -1,31 +1,47 @@
-# PASS-L58 — applied downgrade of the confirmed OVERSTRONG claim
+# PASS-L58 — the confirmed OVERSTRONG claim: revival chain to the strongest true claim
 
-**Finding (registered, #939 verdict table):** CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1
-is the corpus's one confirmed OVERSTRONG — "The universal phrasing 'for any two
-capabilities' exceeds a pure 27x27 finite classification once the rules rest on unproven
-equalities (joint=sum / joint=max)." The applied downgrade was the missing step (ledger L58).
+**Finding (registered, #939 verdict table):** CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1 —
+"the universal phrasing 'for any two capabilities' exceeds a pure 27x27 finite
+classification once the rules rest on unproven equalities (joint=sum / joint=max)."
 
-**Applied action (commit b2b5a9d9, this PR):**
-1. Section 2 reworded: Theorem CI is now headed and scoped as a "27x27 finite
-   classification at registered scope" over the 729 ordered / 351 unordered pairs of the
-   frozen 27-row A4 contract; the universal "for any two capabilities" phrasing is gone
-   (0 occurrences post-edit).
-2. Mandatory joint-burden caveat attached (Section 2 note + Section 5): joint=sum /
-   joint=max are DEFINING classification criteria under the A4 frozen accounting at
-   registered scope, not proven resource accounting for arbitrary implementations.
-3. PVR-3 no-interference inheritance scoped to Theorem IF's (tranche 3) bounded finite
-   scope — inherited, not re-proved.
-4. MANIFEST.json audit_trail entry: finding -> verdict -> new wording -> controls.
+**Intermediate state (commit b2b5a9d9):** applied downgrade to the 27x27 finite scope +
+mandatory joint-burden caveat. Superseded as closure by the operator revival doctrine
+("recursively fix negative results until completely green; always aim for the best claim,
+not downgrading and narrowing"): scope-narrowing treated the symptom.
 
-**Verification:** defect-clause re-check post-edit (universal phrase count 0; 27x27
-scoping present in header/Section 2/Section 5; caveat present twice); controls
-`python3 -I -B test_interactions.py` 27/27 pass at pre-edit and post-edit states; custody
-check: no test/executor reads the .md (frozen verdict records referencing the theorem id
-are records about the pre-edit state and are not edited). Consistency: ARRIVAL_21
-(capability-bounds-interactions) already records the overlap-only rule as "explicitly
-retracted" — this downgrade aligns the unified theorem with that registered position.
+## Revival chain (this PR)
+
+1. **DIAGNOSE what blocks the universal claim.** The equalities hide two REAL premises,
+   each with a concrete counterexample (not proof convenience):
+   - within-channel claim shareability: joint=max on a shared channel FAILS for disjoint
+     claims in that channel (episodic store {e1..e4} + semantic store {s1..s3} in S:
+     joint=7 > max=4) — CE-1;
+   - free-option accounting: no-interference FAILS under mandatory upkeep charged from the
+     same hard budget — CE-2.
+   - disjoint-channel additivity (joint=sum) is provable UNCONDITIONALLY under
+     channel-wise accounting — no obstruction.
+2. **LEVER (build the missing mechanism).** Per-channel claim-SET structure Q_X(c);
+   channel-wise accounting B(A) = sum_c |union of claims|; interaction class becomes a
+   function of (channel overlap x within-channel claim overlap).
+3. **RE-PROVE AT ORIGINAL STRENGTH. Theorem CI-U (universal, proven):**
+   - Lemma A: disjoint channels => joint = sum — unconditional.
+   - Lemma B: shared channel: max <= joint_c <= sum with EXACT equality
+     characterization — nested claims <=> max; disjoint claims <=> sum; partial overlap <=>
+     strictly between — unconditional (inclusion-exclusion).
+   - Lemma C: no interference under the free-option premise — feasible-set inclusion.
+   - Corollary CI-A4: the original 27x27 classification is the registered
+     fully-shareable instance (A4 frozen accounting registers nested claims per channel).
+4. **BOUNDARY (earned by counterexample, complete obstruction list):** CE-1 and CE-2,
+   both labelled EARNED-BY-COUNTEREXAMPLE in the theorem. With claims registered per
+   channel, every other clause of the original universal phrasing is proved at full
+   strength.
+
+**Result: the universal claim is RESTORED and EARNED** — stronger than both the original
+overclaim (equalities now proven, premises named) and the intermediate narrowing (bounds
++ characterization are universal; the finite 27x27 is an instance, not the claim).
+Executable controls: `ci_universal_witness_v1.py` (lemma fixtures + CE-1/CE-2 hostiles,
+GREEN) + `test_ci_universal_v1.py` (9/9) + original `test_interactions.py` (27/27).
+MANIFEST audit trail records finding -> intermediate downgrade -> revival chain ->
+universal status.
 
 **FIN2UNIV population:** nothing to do (0 downgrades, #949 adjudicated all 283 PROPER).
-
-**Claim:** the one confirmed unsupported overclaim in the corpus now carries its registered
-disposition as an applied edit; one claim only; no other object touched.

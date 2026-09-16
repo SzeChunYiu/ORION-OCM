@@ -50,3 +50,12 @@ anti-encoding lists; (b) the <=138 no-signature packages are the population wher
 target-encoding cannot be excluded lexically. INSTANCE-AJ9-NOSMUGGLING-SCOPE (RED/HIGH,
 aj-lane) remains the one registered instance; no additional confirmed instance found at
 branch-base scope.
+
+## Revival updates (2026-09-16 doctrine)
+
+- REV-L49-L53-SEARCHER-ACCOUNTING filed for the one confirmed defect-of-omission
+  (alternate-accounting replica via the package's own witness; #863 R4 pattern).
+- REV-L50-A2-SIGNATURE-PROGRAMME filed; the A2-coverage census REFINED in-sweep from the
+  138 upper bound to **109 primitive-defining packages (108 unaudited, 1 A2-covered)**
+  with a definition-anchored rule (vocabulary AND definition structure in the same file);
+  anchors verified (aj9b in, af-barrier out, robustness-controls A2-covered).

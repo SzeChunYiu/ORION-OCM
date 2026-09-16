@@ -40,3 +40,14 @@ with its own plants; 128 groups is a tractable adjudication population.
 **Claim:** the "same result under different terminology" duplicate class now HAS a
 validated detector and a corpus-wide disposition at frozen-census scope; the class content
 itself is empty (1 candidate, DISTINCT) at this snapshot.
+
+## v2 revival (detector_l42_v2_v1.py) — the content-normalization class, built and adjudicated
+
+Per the revival doctrine (no finding left as a mere recommendation), the 128-group
+diagnostic was promoted to a validated detector: normalization mask (crosswalk classes +
+case/quote/punctuation/whitespace canonicalization), plants passing (case-variant +
+quote-variant real patterns flag; real-word difference stays silent).
+Run: **518 groups (182 TERM_NORM_DUP + 336 CONTENT_NORM_DUP)**. Tier-S 30-group read:
+**30/30 DISTINCT** — the class is benign serialization/custody echo (dual-format ledgers,
+receipts quoting sources, trailing commas, heading fragments). 0 duplicate results; 488
+groups SCREENED-NOT-ADJUDICATED. Ticket REV-L42-CONTENT-NORM-DETECTOR: DONE_IN_SWEEP.
