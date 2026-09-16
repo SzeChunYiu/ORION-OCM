@@ -1,0 +1,125 @@
+name: GMI 833 G0 register core v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-register-core-v1/**'
+      - '.github/workflows/gmi-833-g0-register-core-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-register-core-v1/**'
+      - '.github/workflows/gmi-833-g0-register-core-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=7201b1a56d7eb62de0d405da45142b77f30920da
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-g0-register-core-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-g0-register-core-v1/g0_register_core_v1.py \
+            research/gmi-833-g0-register-core-v1/test_g0_register_core_v1.py \
+            research/gmi-833-g0-register-core-v1/independent_oracle_v1.py \
+            research/gmi-833-g0-register-core-v1/RESULT_V1.json \
+            research/gmi-833-g0-register-core-v1/ORACLE_RESULT_V1.json \
+            research/gmi-833-g0-register-core-v1/G0_REGISTER_THEOREMS_V1.md \
+            research/gmi-833-g0-register-core-v1/PARENT_LITERATURE_V1.md \
+            research/gmi-833-g0-register-core-v1/CORE.md \
+            research/gmi-833-g0-register-core-v1/MANIFEST_V1.json \
+            research/gmi-833-g0-register-core-v1/ISSUE_833_RECONCILIATION_G0_V1.json \
+            .github/workflows/gmi-833-g0-register-core-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-g0-register-core-v1/test_g0_register_core_v1.py -v
+            python -I -O -B research/gmi-833-g0-register-core-v1/g0_register_core_v1.py > /tmp/result.json
+            python -I -O -B research/gmi-833-g0-register-core-v1/independent_oracle_v1.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-g0-register-core-v1/test_g0_register_core_v1.py -v
+            python -I -B research/gmi-833-g0-register-core-v1/g0_register_core_v1.py > /tmp/result.json
+            python -I -B research/gmi-833-g0-register-core-v1/independent_oracle_v1.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-g0-register-core-v1/RESULT_V1.json
+          cmp /tmp/oracle.json research/gmi-833-g0-register-core-v1/ORACLE_RESULT_V1.json
+          echo '0d977ae89d02998e5ee6ee2b545a79d884ca1663b4b032bfdddce2e6840873e2  research/gmi-833-g0-register-core-v1/RESULT_V1.json' | sha256sum -c -
+          echo '0207b95ebd4d069ff09faaea8d3955d55cef46ba4b4cf4bf10f8d9a1c3fb9252  research/gmi-833-g0-register-core-v1/ORACLE_RESULT_V1.json' | sha256sum -c -
+      - name: Validate theorem manifest and exact census
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-g0-register-core-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          o=json.loads((root/'ORACLE_RESULT_V1.json').read_text())
+          if m['freeze_commit'] != '7201b1a56d7eb62de0d405da45142b77f30920da': raise SystemExit('freeze mismatch')
+          if r['freeze_commit'] != m['freeze_commit']: raise SystemExit('receipt freeze mismatch')
+          if r['terminal'] != 'GMI_833_G0_REGISTER_CORE_V1_ALL_GREEN': raise SystemExit('receipt not green')
+          if r['claim_ceiling'] != m['claim_ceiling']: raise SystemExit('claim ceiling mismatch')
+          c=r['mealy_compiler_census']
+          if c['machines'] != 256 or c['words_per_machine'] != 15 or c['comparisons'] != 3840: raise SystemExit('Mealy census mismatch')
+          if c['behavior_mismatches'] or c['terminal_failures'] or c['overhead_or_resource_failures']: raise SystemExit('Mealy compiler failures')
+          if o != {'behavior_mismatches':0,'bound_failures':0,'comparisons':3840,'machines':256,'schema':'GMI833G0RegisterIndependentOracleV1','terminal':'GREEN','terminal_failures':0}: raise SystemExit('independent oracle mismatch')
+          if sum(v['programs_checked'] for v in r['bounded_absence_census'].values()) != 392: raise SystemExit('absence census size mismatch')
+          if any(v['violations'] for v in r['bounded_absence_census'].values()): raise SystemExit('relative-minimality hostile violation')
+          if r['counter_fragment_identity'] != {'comparisons':49,'mismatches':0,'programs':49}: raise SystemExit('counter fragment mismatch')
+          if set(r['forbidden_promotions']) != set(m['forbidden_promotions']): raise SystemExit('forbidden-promotion mismatch')
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-register-core-v1/ISSUE_833_RECONCILIATION_G0_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section E rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-register-core-v1/ISSUE_833_RECONCILIATION_G0_V1.json

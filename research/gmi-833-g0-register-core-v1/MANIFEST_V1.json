@@ -1,0 +1,42 @@
+{
+  "schema": "GMI_833_G0_REGISTER_CORE_MANIFEST_V1",
+  "issue": 868,
+  "parent_issue": 833,
+  "section": "E. Universal architecture-neutral machine grammar",
+  "source_main": "7b68b0681a44157aab4864a66266ba598cce0fbc",
+  "freeze_commit": "7201b1a56d7eb62de0d405da45142b77f30920da",
+  "claim_ceiling": "GMI_G0_REGISTER_CORE_AND_FINITE_EMBEDDINGS_AT_DECLARED_SCOPE",
+  "instruction_classes": ["READ", "INC", "DECJZ", "EMIT", "HALT"],
+  "relative_minimality_requirements": ["REQ-IN", "REQ-OUT", "REQ-GEN", "REQ-BRANCH", "REQ-TERM"],
+  "theorems": ["SEM-1", "RES-1", "RELMIN-1", "COMP-1", "REG-1", "COMP-2", "LOOP-1", "STORE-1"],
+  "exact_certificates": {
+    "normal_tests": 34,
+    "optimized_tests": 34,
+    "bounded_absence_programs": 392,
+    "bounded_absence_violations": 0,
+    "mealy_machines": 256,
+    "mealy_words_per_machine": 15,
+    "mealy_compiler_comparisons": 3840,
+    "mealy_behavior_mismatches": 0,
+    "independent_oracle_comparisons": 3840,
+    "counter_fragment_programs": 49,
+    "counter_fragment_mismatches": 0,
+    "result_sha256": "0d977ae89d02998e5ee6ee2b545a79d884ca1663b4b032bfdddce2e6840873e2",
+    "independent_oracle_sha256": "0207b95ebd4d069ff09faaea8d3955d55cef46ba4b4cf4bf10f8d9a1c3fb9252"
+  },
+  "proof_assistant": {
+    "claimed": false,
+    "reason": "Lean, Coq and Isabelle are not installed in the execution environment; this tranche uses analytic proofs, exact exhaustive certificates, and an independent interpreter oracle."
+  },
+  "forbidden_promotions": [
+    "UNIQUE_MINIMAL_UNIVERSAL_GRAMMAR",
+    "ARCHITECTURE_PRIOR_FREE_GRAMMAR",
+    "UNBIASED_SEARCH",
+    "ALL_COMPUTATIONAL_MODELS_EMBEDDED",
+    "NEURAL_MORPHOLOGY_DERIVED",
+    "PROBABILISTIC_MORPHOLOGY_DERIVED",
+    "GRAMMAR_REPRESENTATION_INVARIANT",
+    "MORPHOLOGY_SELECTION_INVARIANT",
+    "COMPLETE_GMI"
+  ]
+}
