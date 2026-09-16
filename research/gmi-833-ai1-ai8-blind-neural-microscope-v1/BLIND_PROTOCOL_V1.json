@@ -1,0 +1,22 @@
+{
+  "schema":"AI_BLIND_PROTOCOL_V1",
+  "freeze_precedes_implementation":true,
+  "blind_allowed_primitives":["X0","X1","CONST_-1","CONST_0","CONST_1","NEG","ADD","POS","COMPOSE"],
+  "forbidden_tokens":["neuron","neural","layer","mlp","dense","backprop","cnn","rnn","convolution","attention","transformer","mixture-of-experts","moe","target-architecture-id"],
+  "searches":["SEMANTIC_TREE_DP","STACK_STATE_BFS"],
+  "primary_task":"XOR/absolute-difference on two binary inputs",
+  "control_task":"identity x0",
+  "posthoc_fingerprint":["P1_parameter_liftable_reusable_numeric_transforms","P2_many_to_one_aggregation","P3_non_affine_transform","P4_repeated_composition","P5_distributed_mutable_numeric_state_after_generic_parameter_lift","P6_generic_DEV_updateability"],
+  "raw_resources":{
+    "COMPOSITION":[20,1,4],
+    "RULE":[2,3,1],
+    "TABLE":[100,"1/2",100]
+  },
+  "scalar_prediction":"C_H=build+H*per_use",
+  "heldout_horizons":[1,5,9,10,50,159,160,200],
+  "predicted_winners":[["RULE"],["RULE"],["RULE","COMPOSITION"],["COMPOSITION"],["COMPOSITION"],["COMPOSITION"],["COMPOSITION","TABLE"],["TABLE"]],
+  "switch_cost":4,
+  "rule_to_composition_switch_if":"H>11",
+  "composition_to_rule_switch_if":"H<7",
+  "claim_ceiling":"NN_D1_D2_D3_BLIND_RECOVERY_AT_REGISTERED_BINARY_TOY_SCOPE"
+}
