@@ -33,3 +33,31 @@ REGISTERED_GAP. Scan base SHA in RESULT_V1.json.
 **Standing rules honored:** no boilerplate registrations (cross-object duplicate
 check enforces it); every citation verified to exist; rescore packages untouched;
 checkbox ticked only with the residual precisely enumerated and owned.
+
+## Successor tranche v2 — parent-literature completion (closes the 8 gaps)
+
+- `SUCCESSOR_TRANCHE_V2.md` — v2 freeze: scope = exactly the 8 REGISTERED_GAP
+  slots, method (parent pinning at exact scope / honest status-marker resolution),
+  output contract, arrivals boundary, tranche falsifiers.
+- `authored_parent_pins_v2.py` — the 8 authored v2 registrations with outcomes,
+  bases, citations and the external-verification records (5 verifications).
+- `authored_arrival_v2.py` — the one post-v1 claim-bearing arrival
+  (gmi-833-blind-recovery-v2-v1, PR #974) absorbed under the frozen mechanical
+  rule: primary claim object with all five discipline fields EXTRACTED at
+  file:line.
+- `assemble_v2.py` -> `REGISTRATIONS_V2.json` — v1 (byte-intact, sha256 recorded)
+  + the 8 pins + the absorbed arrival; hostile checks: only the 8 slots change on
+  the shared 234 (drift-guarded against the recorded v1 reasons), the arrival is
+  the sole 235th object, cross-package citations resolve under research/, DERIVED
+  strings unique across the merged register, deterministic -I -B / -I -O -B.
+- `PARENT_LITERATURE_ANALYSIS_V2.md` — the literature analysis: per-object claim
+  reading, strongest parents at exact formal scope, delta statements, verification
+  records (incl. the TF-055/DoReMi source-row author-list correction — registered,
+  source untouched), arrivals boundary re-run (1 claim-bearing arrival absorbed).
+- `RESULT_V2.json` — v2 result: 8 gaps closed (6 PINNED_AT_SCOPE, 2 resolved as
+  claims), 0 PARENT_UNVERIFIED, 0 NOT_APPLICABLE, REGISTERED_GAP 8 -> 0.
+- `test_claim_discipline_v2.py` — v2 invariants (7 tests; v1's 6 stay green on the
+  unmodified v1 artifacts). 13/13 green.
+
+**v2 coverage:** 1175 slots (235 objects) = 390 CARRIED + 723 EXTRACTED +
+62 DERIVED + 0 REGISTERED_GAP.
