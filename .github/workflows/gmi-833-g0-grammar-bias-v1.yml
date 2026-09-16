@@ -1,0 +1,141 @@
+name: GMI 833 G0 grammar bias v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-grammar-bias-v1/**'
+      - '.github/workflows/gmi-833-g0-grammar-bias-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-grammar-bias-v1/**'
+      - '.github/workflows/gmi-833-g0-grammar-bias-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=f5195a8ae04cce0d96d0e005f5cd39c38a4717ef
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-g0-grammar-bias-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-g0-grammar-bias-v1/grammar_bias_v1.py \
+            research/gmi-833-g0-grammar-bias-v1/grammar_bias_core_v1.py \
+            research/gmi-833-g0-grammar-bias-v1/grammar_remint_v1.py \
+            research/gmi-833-g0-grammar-bias-v1/grammar_receipt_v1.py \
+            research/gmi-833-g0-grammar-bias-v1/independent_oracle_v1.py \
+            research/gmi-833-g0-grammar-bias-v1/test_grammar_bias_v1.py \
+            research/gmi-833-g0-grammar-bias-v1/RESULT_V1.json \
+            research/gmi-833-g0-grammar-bias-v1/ORACLE_RESULT_V1.json \
+            research/gmi-833-g0-grammar-bias-v1/GRAMMAR_BIAS_THEOREMS_V1.md \
+            research/gmi-833-g0-grammar-bias-v1/PARENT_LITERATURE_V1.md \
+            research/gmi-833-g0-grammar-bias-v1/CORE.md \
+            research/gmi-833-g0-grammar-bias-v1/MANIFEST_V1.json \
+            research/gmi-833-g0-grammar-bias-v1/ISSUE_833_RECONCILIATION_GRAMMAR_BIAS_V1.json \
+            .github/workflows/gmi-833-g0-grammar-bias-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify pinned G0 parent authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/gmi-833-g0-register-core-v1/MANIFEST_V1.json)" = cfe890b276cef0bdb2424877de878b9173547cf2
+          test "$(git hash-object research/gmi-833-g0-register-core-v1/RESULT_V1.json)" = 5d2948b9c04c84a46f6625e043753a489895478f
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-g0-grammar-bias-v1/test_grammar_bias_v1.py -v
+            python -I -O -B research/gmi-833-g0-grammar-bias-v1/grammar_bias_v1.py > /tmp/result.json
+            python -I -O -B research/gmi-833-g0-grammar-bias-v1/independent_oracle_v1.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-g0-grammar-bias-v1/test_grammar_bias_v1.py -v
+            python -I -B research/gmi-833-g0-grammar-bias-v1/grammar_bias_v1.py > /tmp/result.json
+            python -I -B research/gmi-833-g0-grammar-bias-v1/independent_oracle_v1.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-g0-grammar-bias-v1/RESULT_V1.json
+          cmp /tmp/oracle.json research/gmi-833-g0-grammar-bias-v1/ORACLE_RESULT_V1.json
+          echo '2d3216a9d07a14855845925c9d6f32537cb39a00a941794ea207627492b676ab  research/gmi-833-g0-grammar-bias-v1/RESULT_V1.json' | sha256sum -c -
+          echo '41ccfe2e37d86b611087264b1627599aaefd0615e5376c49cba1ee36d44740fe  research/gmi-833-g0-grammar-bias-v1/ORACLE_RESULT_V1.json' | sha256sum -c -
+      - name: Validate exact census and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-g0-grammar-bias-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          o=json.loads((root/'ORACLE_RESULT_V1.json').read_text())
+          if m['freeze_commit'] != 'f5195a8ae04cce0d96d0e005f5cd39c38a4717ef': raise SystemExit('freeze mismatch')
+          if r['freeze_commit'] != m['freeze_commit']: raise SystemExit('receipt freeze mismatch')
+          if r['claim_ceiling'] != m['claim_ceiling']: raise SystemExit('claim ceiling mismatch')
+          if r['terminal'] != 'GMI_833_G0_GRAMMAR_BIAS_V1_ALL_GREEN': raise SystemExit('receipt RED')
+          c=r['registered_slice']
+          expected={'presentation_count':126,'semantic_class_count':18,'undirected_edge_count':1275}
+          for k,v in expected.items():
+              if c[k] != v: raise SystemExit(f'{k} mismatch')
+          if c['presentation_distance_histogram'] != {'0':1,'1':15,'2':110}: raise SystemExit('distance histogram mismatch')
+          if c['class_shortest_length_histogram'] != {'1':4,'2':14}: raise SystemExit('length histogram mismatch')
+          if c['class_distance_histogram'] != {'0':1,'1':3,'2':14}: raise SystemExit('class distance mismatch')
+          if c['reachable_class_count_by_radius'] != {'0':1,'1':4,'2':18}: raise SystemExit('reachability count mismatch')
+          rem=r['isometric_remint_certificate']
+          if rem['certified'] != 24 or rem['certification_failures'] or rem['invariant_failures']: raise SystemExit('remint certificate mismatch')
+          h=r['nonisometric_same_semantics_hostile']
+          if not h['semantic_images_equal'] or h['selection_GA'] != 'A' or h['selection_GB'] != 'B': raise SystemExit('hostile did not reverse')
+          for k in ('presentation_count','semantic_class_count','undirected_edge_count','presentation_distance_histogram','class_multiplicity_histogram','class_shortest_length_histogram','class_distance_histogram'):
+              if o[k] != c[k]: raise SystemExit(f'oracle mismatch {k}')
+          if set(r['forbidden_promotions']) != set(m['forbidden_promotions']): raise SystemExit('forbidden promotions mismatch')
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-grammar-bias-v1/ISSUE_833_RECONCILIATION_GRAMMAR_BIAS_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section E2 rows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-g0-grammar-bias-v1/ISSUE_833_RECONCILIATION_GRAMMAR_BIAS_V1.json
