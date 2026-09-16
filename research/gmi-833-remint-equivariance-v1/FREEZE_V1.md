@@ -1,4 +1,4 @@
-# GMI #833 remint equivariance v1 — freeze
+# GMI #833 presentation-relabeling equivariance v1 — freeze
 
 Parent issue: #833. Programme comment: 5687604615.  
 Base main: `115145b60bae9d066d583a4c5d877ee59eb527ab` (TRANS-1/DIST-1 and TRANS-2 merged).
@@ -7,7 +7,7 @@ Base main: `115145b60bae9d066d583a4c5d877ee59eb527ab` (TRANS-1/DIST-1 and TRANS-
 
 At a finite deterministic registered scope, represent a mechanism by architecture-name-free semantic structure:
 
-- finite reachable state carrier and initial state;
+- finite reachable state set and initial state;
 - finite action alphabet;
 - protected output labels;
 - deterministic transition law;
@@ -15,17 +15,17 @@ At a finite deterministic registered scope, represent a mechanism by architectur
 - developmental/reachability edges;
 - raw lifecycle resource vector.
 
-A **presentation remint** is a bijection on state identifiers that transports every state-indexed semantic component and leaves the external action/output/intervention alphabets and raw resource vector unchanged.
+A **presentation relabeling** is a bijection on state identifiers that transports every state-indexed semantic component and leaves the external action/output/intervention alphabets and raw resource vector unchanged.
 
 Prove/check:
 
-1. valid remints form a finite groupoid under identity, inverse, and composition;
-2. a canonical presentation-independent mechanism fingerprint is invariant under every valid remint;
-3. two pure remints therefore land in the same registered morphology quotient class;
-4. a finite transformation graph whose endpoints are reminted mechanisms and whose transform burdens are unchanged has the same quotient-level directed shortest-burden matrix after canonicalization;
-5. non-bijective maps, resource mutation, output mutation, transition mutation, intervention mutation, developmental-edge mutation, and state-image escape fail the remint-preservation audit;
+1. valid relabelings form a finite groupoid under identity, inverse, and composition;
+2. a canonical presentation-independent mechanism fingerprint is invariant under every valid relabeling;
+3. two pure relabelings therefore land in the same registered mechanism quotient class;
+4. a finite transformation graph whose endpoints are relabeled mechanisms and whose transform burdens are unchanged has the same quotient-level directed shortest-burden matrix after canonicalization;
+5. non-bijective maps, resource mutation, output mutation, transition mutation, intervention mutation, developmental-edge mutation, and state-image escape fail the relabeling-preservation audit;
 6. syntax/name cleanliness is insufficient: a neutral rename coupled to any semantic mutation is RED;
-7. remint invariance does **not** imply search/reachability invariance when proposal order, encoding length, optimizer trajectory, or budget changes; that remains a separate gate.
+7. relabeling invariance does **not** imply search/reachability invariance when proposal order, encoding length, optimizer trajectory, or budget changes; that remains a separate gate.
 
 ## Frozen proof boundary
 
