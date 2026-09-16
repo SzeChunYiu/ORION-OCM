@@ -1,0 +1,26 @@
+{
+  "schema":"AJ9E_GENERIC_BOOLEAN_CONTROL_SEARCH_CONFIG_V1",
+  "task":{
+    "inputs":"all 8 triples (c,a,b)",
+    "required_output":"a when c=0; b when c=1",
+    "family_labels_hidden":true
+  },
+  "generic_primitives":{
+    "atoms":["C","A","B","CONST0","CONST1"],
+    "unary":["NOT"],
+    "binary":["AND","OR"]
+  },
+  "searches":[
+    {"id":"SIZE_LAYERED_BOOLEAN_EXPRESSION","max_operation_nodes":5},
+    {"id":"EXACT_DNF_CUBE_COVER","max_cubes":3}
+  ],
+  "presentations":["BOOLEAN_AST","DNF_CUBE_SET"],
+  "evaluation":{
+    "primary":"exact protected output over all 8 triples",
+    "raw_resource_vector":["operation_nodes","cube_count","literal_count","depth"],
+    "no_family_score":true
+  },
+  "forbidden":["family id/name","posthoc fingerprint","attention macro","query-key-value macro","softmax macro","dynamic-routing macro","selector/multiplexer macro","family-specific score"],
+  "allowed_terminal":["RECOVERED","NOT_RECOVERED_AT_SCOPE"],
+  "predicted_selected_claim_enabled":false
+}
