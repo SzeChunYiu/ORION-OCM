@@ -1,7 +1,7 @@
 # Capability Interactions Unified Theorem V1
 
 **Issue**: #602 Section F boxes 7-11 (cross-cutting capability interactions)
-**Scope**: Unified interaction classification for all 27 capabilities in the A4 contract
+**Scope**: Unified interaction classification for all 27 capabilities in the A4 contract — a **finite classification over the 27x27 pairs of the frozen contract at registered scope** (see the scope note in Section 2; not a universal over arbitrary capability implementations)
 **Evidence class**: P1 (formal) + P2 (finite-exact controls)
 **Claim ceiling**: G2
 **Parent capsule**: Synthesizes tranches 1-3 from `gmi-capability-interactions-v{1,2,3}/`
@@ -45,9 +45,19 @@ This is the Jaccard similarity of their resource channel sets.
 
 ## 2. Main Theorem
 
-### Theorem CI (Capability Interaction Classification)
+### Theorem CI (Capability Interaction Classification — 27x27 finite classification at registered scope)
 
-For any two capabilities `X` and `Y` from the 27-row A4 contract:
+**Scope note (applied downgrade, #939/#833 L58):** this theorem is a finite
+classification over the 27x27 = 729 ordered pairs (351 unordered distinct pairs) of
+capabilities in the frozen 27-row A4 contract. It is **not** a universal claim over
+arbitrary capability pairs or implementations. The equalities below
+(`joint = sum(individual)` / `joint = max(individual)`) are the **defining
+classification criteria** of Section 1.2, evaluated under the A4 contract's frozen
+resource accounting at registered scope; they are **not** proven as resource
+accounting for arbitrary implementations (the joint-burden caveat is mandatory and
+is restated in Section 5).
+
+Within that registered 27x27 finite population, for each pair of capabilities `X` and `Y`:
 
 1. **If `R(X) ∩ R(Y) = ∅`** (no shared resource channels):
    - `X` and `Y` are **independent**
@@ -61,9 +71,9 @@ For any two capabilities `X` and `Y` from the 27-row A4 contract:
    - `X` and `Y` are **redundant**
    - Joint burden = max(individual burdens) on shared channels
 
-4. **Interference is ruled out by PVR-3**:
+4. **Interference is ruled out by PVR-3, at PVR-3's registered scope**:
    - Under the frozen accounting of the A4 contract, adding a capability cannot increase the burden of another beyond sum
-   - This follows from the free-option monotonicity theorem (tranche 3, Theorem IF)
+   - This follows from the free-option monotonicity theorem (tranche 3, Theorem IF), at that theorem's bounded finite scope — it is inherited, not re-proved here
 
 ### Proof Sketch
 
@@ -99,8 +109,12 @@ An instance where:
 ## 5. Scope Boundary
 
 This theorem establishes:
-- A classification of pairwise interactions based on resource channel overlap
-- The guarantee that no pair interferes under PVR-3
+- A finite classification of the 27x27 registered pairs' interactions based on resource channel overlap, under the A4 contract's frozen accounting
+- The inheritance of PVR-3's no-interference result at PVR-3's registered (bounded finite) scope
+
+**Joint-burden caveat (mandatory):** the `joint = sum` / `joint = max` assignments are
+definitional classification criteria at registered scope, not proven resource accounting
+for arbitrary implementations of the capabilities.
 
 This theorem does NOT establish:
 - G6 morphology-to-capability prediction

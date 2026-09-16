@@ -3,7 +3,10 @@
   "issue": 602,
   "section": "F boxes 7-11",
   "description": "Unified interaction classification for all 27 A4 capabilities based on shared resource channels",
-  "evidence_class": ["P1", "P2"],
+  "evidence_class": [
+    "P1",
+    "P2"
+  ],
   "claim_ceiling": "G2",
   "parent_capsules": [
     "gmi-capability-interactions-v1",
@@ -21,5 +24,12 @@
     "CORE.md",
     "MANIFEST.json"
   ],
-  "run_test": "python3 -I -B research/gmi-capability-interactions-unified-v1/test_interactions.py -v"
+  "run_test": "python3 -I -B research/gmi-capability-interactions-unified-v1/test_interactions.py -v",
+  "audit_trail": {
+    "entry": "APPLIED_DOWNGRADE_OVERSTRONG_2026-09-16",
+    "finding": "#939 verdict table: OVERSTRONG \u2014 the universal phrasing \"for any two capabilities\" exceeds a pure 27x27 finite classification once the rules rest on unproven equalities (joint=sum / joint=max). Confirmed OVERSTRONG by #939/#949; carried as the corpus's one confirmed instance.",
+    "verdict_to_action": "#833 L58 applied downgrade: Section 2 reworded to the registered 27x27 finite-classification scope (729 ordered / 351 unordered pairs) + mandatory joint-burden caveat (definitional criteria, not proven resource accounting) + Section 5 scope boundary aligned + PVR-3 inheritance scoped to Theorem IF's bounded finite scope.",
+    "controls": "python3 -I -B test_interactions.py: 27/27 pass at pre-edit and post-edit states.",
+    "package": "gmi-833-corpus-passes-v2-v1 (PR: research(#833) corpus identification passes v2)"
+  }
 }
