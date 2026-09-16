@@ -1,8 +1,8 @@
-# GMI #833 Search-Law Morphology-Change Theorems V1
+# GMI #833 Search-Law Architecture-Change Theorems V1
 
 Status: **FINITE THEOREM / EXACT TWO-LAW CENSUS / HOSTILE-CLOSED AT REGISTERED SCOPE**  
 Source issue: #879  
-Master checklist: #833 Section J, exactly one row: `Derive when search law changes observed morphology.`  
+Master checklist: #833 Section J, exactly one row: `Derive when a search law changes the observed candidate architecture.`  
 Freeze: `619e44aca017d288435afce6e6f9765e675dde6a`  
 Source main: `6368cda406d8e3395283049abacb36129ae94637`
 
@@ -10,12 +10,12 @@ Claim ceiling:
 
 `GMI_FINITE_DETERMINISTIC_SEARCH_LAW_MORPHOLOGY_DISAGREEMENT_DERIVED_AT_REGISTERED_SCOPE`
 
-## 1. Independent review lenses and parent subtraction
+## 1. Independent review lenses and strongest-parent subsumption
 
 This tranche was checked under four roles:
 
 1. **Search theory:** verify charged completion-prefix semantics and the geometry induced by two completion schedules.
-2. **Optimization:** separate objective-value disagreement from morphology-identity disagreement.
+2. **Optimization:** separate objective-value disagreement from candidate-identity disagreement.
 3. **Algorithm selection / search bias:** keep dependence on the registered search law explicit and identify conditions under which it disappears.
 4. **Formal methods:** make ties, pre-evaluation terminals, rational thresholds, malformed laws, and objective-semantic mismatches fail closed.
 
@@ -26,7 +26,7 @@ Merged GMI parents already go further empirically:
 - #712 / E1 demonstrates finite-budget search and encoding dependence on one frozen target;
 - #724 / E2 compares multiple parent-owned search mechanisms on one world;
 - #877 derives the exact one-law finite-prefix incumbent and recovery threshold `B*`;
-- #864 explicitly keeps semantic remint invariance separate from search-order invariance.
+- #864 explicitly keeps semantic presentation-relabeling invariance separate from search-order invariance.
 
 The residual here is therefore narrow: an exact **two registered deterministic search-law** disagreement theorem with value/identity decomposition, threshold-cell geometry, and conditions for eventual agreement versus tie-persistent identity disagreement.
 
@@ -34,7 +34,7 @@ The residual here is therefore narrow: an exact **two registered deterministic s
 
 Let:
 
-- `M` be a finite nonempty morphology set;
+- `M` be a finite nonempty candidate architecture set;
 - `f:M->Q` be one exact scalar objective to minimize;
 - `L_j=(pi_j,c_j)` for `j in {1,2}` be complete deterministic search laws;
 - `pi_j` be a permutation of `M`;
@@ -65,7 +65,7 @@ is constant. Hence the cross-law identity-disagreement indicator can change only
 
 For one deterministic positive-cost law, no candidate changes completion status between two consecutive cumulative thresholds. Therefore its evaluated prefix and earliest-seen prefix argmin are constant on each interval between thresholds. Refining both laws' individual threshold partitions by their sorted union produces cells on which **both** prefixes are constant. Their selected identities, values, and disagreement classification are therefore constant on each joint cell. QED.
 
-This theorem concerns the observable selected morphology, not arbitrary internal states of a search algorithm.
+This theorem concerns the observable selected candidate architecture, not arbitrary internal states of a search algorithm.
 
 ## 4. SLM-2 — exact disagreement decomposition
 
@@ -82,11 +82,11 @@ If exactly one law has an incumbent, the machine-distinct classification is `DIS
 
 Equality of exact rational objective values is decidable. For two existing incumbents with different identities, either their values are equal or they are not. These cases partition all possibilities. If one incumbent does not exist, comparing its value would be ill-typed, so the availability case is separate. QED.
 
-This prevents a common promotion error: equal performance does not imply identical morphology.
+This prevents a common promotion error: equal performance does not imply an identical candidate architecture.
 
-## 5. SLM-3 — changing the search law need not change observed morphology
+## 5. SLM-3 — changing the search law need not change the observed candidate architecture
 
-Different registered search laws can induce the same observed morphology for one budget, many budgets, or every budget.
+Different registered search laws can induce the same observed candidate architecture for one budget, many budgets, or every budget.
 
 ### Exact witness
 
@@ -122,13 +122,13 @@ both laws select `m*`.
 
 ### Proof
 
-By #877 FSB-4, at `B>=B*_j`, law `j` has completed at least one global optimizer and therefore recovers the global optimum value. Since the global optimizer is unique, every prefix morphology attaining that value is `m*`. Thus both laws select `m*` once both recovery thresholds have been crossed. QED.
+By #877 FSB-4, at `B>=B*_j`, law `j` has completed at least one global optimizer and therefore recovers the global optimum value. Since the global optimizer is unique, every prefix candidate attaining that value is `m*`. Thus both laws select `m*` once both recovery thresholds have been crossed. QED.
 
 This is an identity theorem only because uniqueness is an explicit premise.
 
 ## 7. SLM-5 — global ties can preserve identity disagreement forever
 
-If the full-space global optimum is not unique, complete search need not erase morphology identity dependence.
+If the full-space global optimum is not unique, complete search need not erase candidate-identity dependence.
 
 ### Exact witness
 
@@ -206,29 +206,29 @@ The census is a bounded implementation certificate. SLM-1 through SLM-6 are fini
 
 ### #877
 
-#877 owns one-law finite-budget prefix selection, regret monotonicity, and the recovery threshold `B*`. This child imports those semantics and compares two laws; it does not re-claim FSB-1…FSB-6.
+#877 owns the one-law finite-budget prefix terminal, regret monotonicity, and the recovery threshold `B*`. This child imports those semantics and compares two laws; it does not re-claim FSB-1…FSB-6.
 
 ### #712 / #724
 
 These merged Section-E packages already demonstrate that search/encoding/searcher choice can change finite-budget recovery. Their stochastic/differentiable mechanisms remain **evidence only** here. SLM is not a stochastic-search theorem.
 
-### Algorithm-selection / anytime parents
+### Algorithm-choice / anytime parents
 
-Rice and anytime-computation theory already own the broad proposition that algorithm choice and computational resource allocation affect outcomes/quality. The GMI residual is only the exact morphology-observable integration and claim governance above.
+Rice and anytime-computation theory already own the broad proposition that algorithm choice and computational resource allocation affect outcomes/quality. The GMI residual is only the exact architecture-observable integration and claim governance above.
 
 ## 12. Falsifiers and fail-closed conditions
 
 The implementation rejects:
 
-- empty or duplicate morphology universes;
+- empty or duplicate candidate architecture universes;
 - incomplete, duplicate, or non-permutation search traces;
 - missing, extra, floating-point, or Boolean objective entries;
 - missing, extra, zero, negative, floating-point, or Boolean costs;
 - negative, floating-point, or Boolean budgets;
-- comparison of laws registered on different morphology universes;
+- comparison of laws registered on different candidate universes;
 - comparison under different objective semantics.
 
-Before any candidate completes, selection remains typed `NO_EVALUATED_CANDIDATE`; no morphology or objective value is fabricated.
+Before any candidate completes, the terminal remains typed `NO_EVALUATED_CANDIDATE`; no candidate or objective value is fabricated.
 
 A valid counterexample to SLM-1…SLM-6 under these exact premises would falsify this tranche.
 
@@ -236,13 +236,13 @@ A valid counterexample to SLM-1…SLM-6 under these exact premises would falsify
 
 This tranche alone does not establish:
 
-- that every search-law change changes morphology;
-- search-law-invariant morphology identity under global ties;
+- that every search-law change changes the observed candidate architecture;
+- search-law-invariant candidate identity under global ties;
 - a stochastic-search law theorem;
 - universal searcher dominance;
 - real optimizer convergence;
-- prospective held-out morphology transitions;
+- prospective held-out architecture transitions;
 - P3 recovery;
 - complete GMI.
 
-Its only earned conclusion is the finite deterministic two-law morphology-disagreement theorem at the registered scope.
+Its only earned conclusion is the finite deterministic two-law architecture-disagreement theorem at the registered scope.
