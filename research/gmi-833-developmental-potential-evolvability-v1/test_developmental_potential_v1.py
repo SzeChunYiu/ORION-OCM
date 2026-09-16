@@ -200,6 +200,17 @@ class DevelopmentalPotentialTests(unittest.TestCase):
             {"claim_ledgers": 5, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"},
         )
 
+    def test_manifest_and_reconciliation_are_exactly_scoped_to_pr(self):
+        self.assertEqual(
+            M.validate_package_contracts(),
+            {
+                "manifest_ok": True,
+                "reconciliation_ok": True,
+                "reconciliation_rows": 4,
+                "source_pr": 909,
+            },
+        )
+
     def test_receipt_is_green_and_byte_stable(self):
         receipt = M.build_receipt(M.audit_parents())
         self.assertEqual(receipt["verdict"], "GREEN")

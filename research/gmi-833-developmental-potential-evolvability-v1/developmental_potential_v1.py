@@ -429,6 +429,47 @@ def validate_ledgers() -> dict[str, object]:
     return {"claim_ledgers": 5, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"}
 
 
+def validate_package_contracts() -> dict[str, object]:
+    manifest = json.loads((HERE / "MANIFEST_V1.json").read_text())
+    reconciliation = json.loads((HERE / "ISSUE_833_RECONCILIATION_DEVELOPMENTAL_POTENTIAL_V1.json").read_text())
+    expected_rows = {
+        "- [ ] Formalize developmental potential separately from current capability.",
+        "- [ ] Define evolvability quantitatively.",
+        "- [ ] Derive conditions under which history improves future discovery rather than merely storing solutions.",
+        "- [ ] Distinguish solution capital from search-policy improvement.",
+    }
+    replacements = reconciliation.get("replacements", [])
+    manifest_ok = (
+        manifest.get("issue") == 908
+        and manifest.get("source_pr") == 909
+        and manifest.get("parent_issue") == 833
+        and manifest.get("freeze_commit") == "f7e3e07edd07a0edafbcb62d50f038cea6e11667"
+        and manifest.get("frozen_main") == "9f90fc4ef961b7e9adccf7438488d1a64b9e68be"
+        and manifest.get("claim_ceiling") == CLAIM_CEILING
+        and manifest.get("target_rows") == 4
+        and manifest.get("total_exhaustive_cases") == 1941
+        and tuple(manifest.get("forbidden_promotions", ())) == FORBIDDEN_PROMOTIONS
+    )
+    reconciliation_ok = (
+        reconciliation.get("schema") == "GMI_ISSUE_RECONCILIATION_V2"
+        and reconciliation.get("issue") == 833
+        and reconciliation.get("source_issue") == 908
+        and reconciliation.get("source_pr") == 909
+        and reconciliation.get("claim_ceiling") == CLAIM_CEILING
+        and tuple(reconciliation.get("forbidden_promotions", ())) == FORBIDDEN_PROMOTIONS
+        and len(replacements) == 4
+        and {row.get("old") for row in replacements} == expected_rows
+        and all(row.get("anchor") == "# L. Development, morphogenesis, and evolvability" for row in replacements)
+        and all(row.get("new", "").startswith("- [x]") and "PR #909 / #908" in row.get("new", "") for row in replacements)
+    )
+    return {
+        "manifest_ok": manifest_ok,
+        "reconciliation_ok": reconciliation_ok,
+        "reconciliation_rows": len(replacements),
+        "source_pr": reconciliation.get("source_pr"),
+    }
+
+
 def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, object]:
     parent_audit = parent_audit or {"all_ok": True, "rows": []}
     graph = developmental_potential(
@@ -479,6 +520,7 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
     )
     census = exhaustive_census()
     ledgers = validate_ledgers()
+    package_contracts = validate_package_contracts()
     expected_census = {
         "budgeted_potential_cases": 1512,
         "useful_mass_first_hit_cases": 105,
@@ -498,6 +540,12 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
         "policy_only_is_not_solution_reuse": policy_only["search_policy_capital"] and not policy_only["solution_capital"],
         "bounded_censuses_complete": census == expected_census,
         "scientific_ledgers_complete": ledgers == {"claim_ledgers": 5, "open_review_gaps": 1, "closure_level": "LOCALLY_CLOSED"},
+        "manifest_and_reconciliation_exact": package_contracts == {
+            "manifest_ok": True,
+            "reconciliation_ok": True,
+            "reconciliation_rows": 4,
+            "source_pr": 909,
+        },
     }
     return {
         "schema": "GMI833DevelopmentalPotentialEvolvabilityResultV1",
@@ -521,6 +569,7 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
             "policy_only": policy_only,
         },
         "scientific_ledger": ledgers,
+        "package_contracts": package_contracts,
         "checks": checks,
         "verdict": "GREEN" if all(checks.values()) else "RED",
     }
