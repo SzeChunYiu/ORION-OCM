@@ -44,6 +44,22 @@ class FiniteAxiomCoreV1Tests(unittest.TestCase):
         self.assertTrue(out["satisfies"])
         self.assertEqual(out["violated_axioms"], ())
 
+    def test_registered_realization_has_all_required_channels(self):
+        model = mod.base_model()
+        self.assertTrue(model["observations"])
+        self.assertTrue(model["messages"])
+        self.assertTrue(model["interventions"])
+        self.assertTrue(model["verifier_boundary"]["inputs"])
+        self.assertEqual(mod.check_ax2(model), ())
+        self.assertEqual(mod.validate_model(mod.hostile_model("AX-2-channels"))["violated_axioms"], ("AX-2",))
+
+    def test_all_five_typed_uncertainty_objects_are_registered(self):
+        uncertainty = mod.base_model()["uncertainty"]
+        expected = {"feasible", "confidence", "predictive", "latent", "selective"}
+        self.assertEqual(set(uncertainty), expected)
+        self.assertEqual({obj["kind"] for obj in uncertainty.values()}, expected)
+        self.assertEqual(mod.check_ax6(mod.base_model()), ())
+
     def test_protected_response_equivalence_is_derived(self):
         model = mod.base_model()
         quotient = mod.protected_response_quotient(model)
@@ -79,7 +95,7 @@ class FiniteAxiomCoreV1Tests(unittest.TestCase):
         self.assertEqual(mod.validate_model(mod.hostile_model("AX-5"))["violated_axioms"], ("AX-5",))
 
     def test_axiom_6_multiple_independent_hostiles(self):
-        for label in ("AX-6-outside", "AX-6-empty", "AX-6-predictive"):
+        for label in ("AX-6-outside", "AX-6-empty", "AX-6-predictive", "AX-6-latent", "AX-6-selective"):
             with self.subTest(label=label):
                 self.assertEqual(mod.validate_model(mod.hostile_model(label))["violated_axioms"], ("AX-6",))
 
@@ -89,6 +105,26 @@ class FiniteAxiomCoreV1Tests(unittest.TestCase):
         self.assertEqual(h["failures"], ())
         self.assertEqual(h["satisfying_cases"], 1)
         self.assertEqual(h["violation_histogram"]["NONE"], 1)
+
+    def test_all_issue_854_targeted_mutations_have_exact_attribution(self):
+        audit = mod.targeted_mutation_audit()
+        self.assertTrue(audit["all_exact"])
+        self.assertEqual(
+            set(audit["rows"]),
+            {
+                "negative_resource_coordinate",
+                "non_total_registered_transition",
+                "capability_ceiling_below_attained",
+                "confidence_set_outside_domain",
+                "empty_positive_coverage_confidence",
+                "illegal_finite_to_universal_scope",
+                "equivalence_relation_violation",
+                "development_edge_outside_carrier",
+                "registered_channel_non_total",
+                "latent_prior_not_normalized",
+                "selective_coverage_out_of_range",
+            },
+        )
 
     def test_dependency_graph_is_acyclic_and_definitions_are_not_axioms(self):
         graph = mod.dependency_graph()

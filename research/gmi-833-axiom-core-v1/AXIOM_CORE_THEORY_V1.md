@@ -33,7 +33,7 @@ Every registered finite behavioral specification has a nonempty finite instance 
 
 ### AX-2 — registered realization closure
 
-A finite realization has nonempty state/action/output carriers, an initial state in its carrier, and total closed registered transition/output tables over the declared state-action domain.
+A finite realization has nonempty state/action/output/observation/message/intervention carriers, an initial state in its carrier, total closed registered transition/output/observation tables, total registered communication and intervention-response channels, a nonempty verifier boundary, and a registered raw resource vector family.
 
 ### AX-3 — lifecycle resource admissibility
 
@@ -49,13 +49,13 @@ Capability contracts depend only on protected task/verifier/resource coordinates
 
 ### AX-6 — typed uncertainty admissibility
 
-Set-valued uncertainty candidates are subsets of registered domains. Confidence failure budgets lie in `[0,1]`; an empty confidence set cannot claim positive guaranteed coverage. Predictive laws have unique outcomes and normalized nonnegative probabilities.
+The uncertainty family contains five machine-distinct tagged constructors: feasible set, confidence set, predictive law, latent predictive model, and selective prediction. Set-valued candidates are subsets of registered domains. Confidence failure budgets lie in `[0,1]`; an empty confidence set cannot claim positive guaranteed coverage. Predictive laws, latent priors, and every latent kernel have unique finite domains and normalized nonnegative probabilities. Selective risk/error and coverage certificates lie in `[0,1]`.
 
 ## 4. Derived definitions/theorems
 
 ### DEF-1 — protected response equivalence
 
-Equality of complete registered protected-response profiles defines an equivalence relation. Reflexivity, symmetry and transitivity are inherited from equality; no separate equivalence axiom is required. The executable witness has quotient
+Equality of complete registered protected-response profiles defines an equivalence relation. Profiles include registered action outputs, observations, intervention responses, resource coordinates, and developmental relations. Reflexivity, symmetry and transitivity are inherited from equality; no separate equivalence axiom is required. The executable witness has quotient
 
 `{{s0,s1},{s2}}`,
 
@@ -120,7 +120,9 @@ Each AX-1…AX-6 has a single-mutation witness whose validator output names that
 
 These are bounded independence witnesses at the registered finite semantics, not universal logical-independence theorems.
 
-The hostile hypercube toggles seven independent defect bits (AX-1…AX-5 plus two distinct AX-6 defects), exhaustively checking all `2^7 = 128` combinations. Exactly one case—the all-clean assignment—satisfies all six axioms, and zero cases have incorrect violation attribution.
+The hostile hypercube retains the seven independent defect bits from #858 (AX-1…AX-5 plus two distinct AX-6 defects), exhaustively checking all `2^7 = 128` combinations. Exactly one case—the all-clean assignment—satisfies all six axioms, and zero cases have incorrect violation attribution.
+
+The issue-mandated targeted audit separately locks exact attribution for negative resource, non-total transition, attained score above ceiling, confidence outside domain, empty positive-coverage confidence, illegal finite-to-universal promotion, a corrupted equivalence relation, and a developmental edge outside its carrier. Because equivalence is derived and scope discipline is governance, those two hostiles correctly report `DEF-1` and `META-1`, not fictitious object-axiom failures. Three additional audit hostiles cover a missing communication entry, non-normalized latent prior, and out-of-range selective coverage.
 
 ## 9. Dependency graph
 
@@ -144,6 +146,7 @@ The registered result is falsified if any of the following occurs:
 - the explicit finite witness violates an object axiom;
 - a single-axiom hostile causes an unrelated axiom to fail without a documented dependency;
 - any of the 128 hostile combinations has incorrect violation attribution;
+- any mandated or audit-targeted mutation has inexact AX/DEF/META attribution;
 - the derived protected-response relation is not an equivalence;
 - the dependency graph is cyclic;
 - a governance hostile is misclassified as object inconsistency or vice versa;
