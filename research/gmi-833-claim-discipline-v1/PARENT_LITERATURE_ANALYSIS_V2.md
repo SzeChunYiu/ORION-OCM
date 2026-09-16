@@ -188,14 +188,25 @@ document, so the negations are genuine observables, not boilerplate.
 
 ## 9. Arrivals boundary (frozen mechanical rule, re-run this tranche)
 
-`git diff --stat ed736cd3..origin/main -- research/` (at ee423c67, re-run at
-ship): research/ arrivals since the v1 scan base are exactly (1) the claim-
-discipline v1 package itself (#972; standing typed self-exclusion) and (2)
-`gmi-833-progress-ledger-v1` (#970: CHECKBOX_EVIDENCE_V1.md + REMAINING_WORK_V1.md)
-— a checkbox-evidence/audit map with no primary theorem of its own: typed
-exclusion class of FREEZE_V1 §2 (audit/tracking object, NO PRIMARY THEOREM),
-enumerated, not silently dropped. **New claim-bearing arrivals absorbed: 0.**
-Universe unchanged: 234 objects / 1170 slots.
+`git diff --stat ed736cd3..origin/main -- research/`, re-run at ship after a
+fresh fetch (origin/main moved ee423c67 -> 003f416e mid-tranche; the rule was
+re-run at the newer base): research/ arrivals since the v1 scan base are exactly
+(1) the claim-discipline v1 package itself (#972; standing typed self-exclusion),
+(2) `gmi-833-progress-ledger-v1` (#970: CHECKBOX_EVIDENCE_V1.md +
+REMAINING_WORK_V1.md) — a checkbox-evidence/audit map with no primary theorem of
+its own: typed exclusion class of FREEZE_V1 §2, enumerated, not silently dropped —
+and (3) `gmi-833-blind-recovery-v2-v1` (#974) — **claim-bearing** (per-family
+RECOVERED / NOT_RECOVERED_AT_SCOPE terminals over a frozen neutral battery with
+all input channels closed): ABSORBED as the ninth U-NEW arrival. Its primary claim
+object (the separability recovery-boundary result, THEORY_V2.md:L28–L48) enters
+with all five discipline fields EXTRACTED at file:line (scope: THEORY_V2.md:L5,
+L20; assumptions: PRIOR_DISCLOSURE_V1.md:L3, L56 + NEUTRAL_BATTERY_FREEZE_V1.json:
+L3; falsifiers: THEORY_V2.md:L35 honest-failure class + POSTHOC_RESULT_V2.json:L2
+posthoc ordering + L31000 no-hardcoded-solution selftest; strongest parents:
+PARENT_LEDGER.md:L3, L6, L10 — aj9a no-smuggling contract, aj9b–g v1 series,
+#855 A2 fingerprint standard, assimilation-first; forbidden extrapolations:
+THEORY_V2.md:L139 DOES-NOT-PROVE list). **New claim-bearing arrivals absorbed: 1.**
+Universe: 234 -> 235 objects / 1175 slots.
 
 ## 10. Terminal state
 
@@ -204,4 +215,5 @@ scope, deltas stated, citations verified — one source-row citation corrected
 against the source without editing it), 2 resolved as claims
 (support-location / derivation). PARENT_UNVERIFIED: none. NOT_APPLICABLE: none
 (both status-marker objects turned out to be claims with locatable support or
-genuine observables). Residual REGISTERED_GAP count: 8 -> 0.
+genuine observables). Residual REGISTERED_GAP count: 8 -> 0 (at 235 objects /
+1175 slots: 390 CARRIED + 723 EXTRACTED + 62 DERIVED).

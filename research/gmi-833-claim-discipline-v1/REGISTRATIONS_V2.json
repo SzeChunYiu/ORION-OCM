@@ -11529,17 +11529,67 @@
      "source": "gmi-833-capability-ceiling-reaudit-v1"
     }
    }
+  },
+  {
+   "result_id": "GMI833_CD_NEW_gmi-833-blind-recovery-v2-v1",
+   "object_id": "BLIND_RECOVERY_V2_SEPARABILITY_RECOVERY_BOUNDARY_WITH_ALL_INPUT_CHANNELS_CLOSED_AT_REGISTERED_FINITE_SCOPE",
+   "package": "gmi-833-blind-recovery-v2-v1",
+   "tranche": "U-NEW",
+   "fields": {
+    "scope_quantifiers": {
+     "status": "EXTRACTED",
+     "content": [
+      "gmi-833-blind-recovery-v2-v1/THEORY_V2.md:L5: 'Can a family-hidden search recover a known machine-intelligence family's morphology when EVERY input channel - including the two the audited v1 left open, task authorship and basis authorship - is closed by a declared neutral rule? And what does the recovery boundary look like across a complete neutral battery rather than one authored task?'",
+      "gmi-833-blind-recovery-v2-v1/THEORY_V2.md:L20: 'v2 replaces the choice with a class: B_BOOL2 = ALL 16 two-input boolean functions ... B_DELAY = ALL lags ... B_LOCAL = ALL 256 elementary local rules; B_BOOL3 = ALL 256 three-input functions' (coverage-complete neutral battery; registered finite scopes)"
+     ],
+     "source": "authored_arrival_v2.ARRIVAL (post-v1 arrival absorbed under the frozen mechanical rule)"
+    },
+    "assumptions": {
+     "status": "EXTRACTED",
+     "content": [
+      "gmi-833-blind-recovery-v2-v1/PRIOR_DISCLOSURE_V1.md:L3: 'Frozen BEFORE any v2 search implementation, outcome, or adjudication. This manifest declares every input channel of the v2 protocol and states a blindness argument for each.'",
+      "gmi-833-blind-recovery-v2-v1/PRIOR_DISCLOSURE_V1.md:L56: '## Channel manifest and blindness arguments' (task source, primitive basis, fingerprint clauses, cost model, adjudicator thresholds - each frozen from a declared-in-advance neutral rule)",
+      "gmi-833-blind-recovery-v2-v1/NEUTRAL_BATTERY_FREEZE_V1.json:L3: B_BOOL2 battery class frozen (amended pre-outcome battery blob b7b358b55435ac0932e7e72318e189b59e10e5cf; no outcome or adjudication ever consumed the defective first battery - PRIOR_DISCLOSURE_V1.md:L9-L18 erratum, freeze custody asserted by check_v2.py:L53-L66)"
+     ],
+     "source": "authored_arrival_v2.ARRIVAL (post-v1 arrival absorbed under the frozen mechanical rule)"
+    },
+    "falsifiers": {
+     "status": "EXTRACTED",
+     "content": [
+      "gmi-833-blind-recovery-v2-v1/THEORY_V2.md:L35: 'Every linearly-separable function of two inputs (14 of 16) has a SINGLE-gate minimal construction and honestly FAILS the frozen K01 fingerprint - the protocol is not a rubber stamp' (a battery task of the honestly-failing separable class passing the frozen fingerprint would refute the measured boundary)",
+      "gmi-833-blind-recovery-v2-v1/POSTHOC_RESULT_V2.json:L2: 'adjudication_started_after_blind_outcomes_frozen': true (any adjudication preceding the frozen blind outcomes would refute the blindness ordering)",
+      "gmi-833-blind-recovery-v2-v1/POSTHOC_RESULT_V2.json:L31000: no_hardcoded_solution_selftest - battery_vector_literals_in_adjudicator must stay empty; any hardcoded expected solution/state encoding would refute the closed-channel claim"
+     ],
+     "source": "authored_arrival_v2.ARRIVAL (post-v1 arrival absorbed under the frozen mechanical rule)"
+    },
+    "strongest_parents": {
+     "status": "EXTRACTED",
+     "content": [
+      "gmi-833-blind-recovery-v2-v1/PARENT_LEDGER.md:L3: gmi-833-aj9a-known-family-benchmark-v1 (PR #931) - frozen benchmark + prospective no-smuggling contract; v2 keeps the frozen fingerprint clauses VERBATIM as the posthoc adjudication standard and closes the two channels that contract left open",
+      "gmi-833-blind-recovery-v2-v1/PARENT_LEDGER.md:L6: gmi-833-aj9b..aj9g blind-recovery v1 series (PRs #932-#937) - the audited v1; v2 reproduces the OR-task counterfactual with the REAL v1 adjudicator (motivation receipt), generalizes it to the complete battery, and repairs the adjudicator defects",
+      "gmi-833-blind-recovery-v2-v1/PARENT_LEDGER.md:L10: gmi-833-no-smuggling-audit-v1 (#855) - the A2 semantic fingerprint standard, wired in (screen_v2.py) rather than reimplemented as a lexical denylist alone"
+     ],
+     "source": "authored_arrival_v2.ARRIVAL (post-v1 arrival absorbed under the frozen mechanical rule)"
+    },
+    "forbidden_extrapolations": {
+     "status": "EXTRACTED",
+     "content": [
+      "gmi-833-blind-recovery-v2-v1/THEORY_V2.md:L139: 'DOES NOT PROVE: all-family recovery (K05-K08, K10, K11 out of scope; K09 untouched); learning/training extensions; PREDICTED_SELECTED (not claimed); that the order-test tier is the uniquely neutral basis (bounded by the U_ALL3 ablation where feasible); real-scale usefulness.'"
+     ],
+     "source": "authored_arrival_v2.ARRIVAL (post-v1 arrival absorbed under the frozen mechanical rule)"
+    }
+   }
   }
  ],
  "counts": {
-  "objects": 234,
-  "fields_registered": 1170,
+  "objects": 235,
+  "fields_registered": 1175,
   "registered_gap": 0,
   "by_status": {
    "CARRIED_SCORES_V1": 145,
    "CARRIED_SCORES_V2": 245,
    "DERIVED": 62,
-   "EXTRACTED": 718
+   "EXTRACTED": 723
   }
  },
  "v2_outcomes": [
@@ -11600,6 +11650,12 @@
    "verification": "two document-internal observables derived from the marker's own universals"
   }
  ],
+ "v2_arrival": {
+  "package": "gmi-833-blind-recovery-v2-v1",
+  "object_id": "BLIND_RECOVERY_V2_SEPARABILITY_RECOVERY_BOUNDARY_WITH_ALL_INPUT_CHANNELS_CLOSED_AT_REGISTERED_FINITE_SCOPE",
+  "rule": "frozen mechanical re-run: git diff --stat ed736cd3..origin/main -- research/",
+  "fields": "all five EXTRACTED at file:line (authored_arrival_v2.py)"
+ },
  "v2_verifications": {
   "randomized_convexification": "Wald/Blackwell-Girshick randomized-decision convexification: statement verified via Warwick APTS Statistical Inference notes ('the risk set is the convex hull of the rows of the risk matrix R'), Wikipedia 'Randomised decision rule' ('the risk set is the convex hull of the risks' of the deterministic rules), and G. Schwarz, Ways of Randomizing and the Problem of Their Equivalence (1974), Springer DOI 10.1007/BF02756820, which cites Blackwell & Girshick Sections 7.2 and 8.3 for randomized decision functions/risk sets. The primary books were NOT read (paywalled); section numbers are secondhand via Schwarz (1974). Verification scope recorded.",
   "pointwise_bayes": "Pointwise Bayes-action characterization ('a rule is Bayes iff per observation cell the action minimizes posterior expected loss'): verified via CMU 10-624 Lecture 3 notes, Georgia Tech ISyE Bayesian handout, Wikipedia 'Bayes estimator' (which cites Ferguson 1967 and Berger 1985 as the standard treatments). Ferguson ch. 1-2 / Berger ch. 4 cited at book+chapter level; exact theorem numbers not read from the primary texts. Verification scope recorded.",

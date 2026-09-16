@@ -27,6 +27,7 @@ from collections import Counter
 HERE = os.path.dirname(os.path.abspath(__file__))
 RESEARCH = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+from authored_arrival_v2 import ARRIVAL  # noqa: E402
 from authored_parent_pins_v2 import PINS_V2, OUTCOMES, VERIFICATIONS  # noqa: E402
 
 FIELDS = ["scope_quantifiers", "assumptions", "falsifiers", "strongest_parents", "forbidden_extrapolations"]
@@ -83,7 +84,7 @@ def main():
         obj["fields"][pin["field"]] = newfd
         changed.append((pin["object_id"], pin["field"], pin["outcome"]))
 
-    # deep compare v1 vs v2: only the 8 pinned slots differ
+    # deep compare v1 vs v2 (shared 234 objects): only the 8 pinned slots differ
     orig = json.loads(v1_bytes.decode())
     diffs = []
     for o_new, o_old in zip(reg["objects"], orig["objects"]):
@@ -92,6 +93,24 @@ def main():
             if o_new["fields"][f] != o_old["fields"][f]:
                 diffs.append((o_new["object_id"], f))
     assert sorted(diffs) == sorted((oid, fld) for oid, fld, _ in changed), diffs
+
+    # ---- arrivals absorption (frozen mechanical re-run rule, tranche freeze section 4)
+    arrival = json.loads(json.dumps(ARRIVAL))  # deep copy
+    for f, fd in arrival["fields"].items():
+        assert fd["status"] in ("EXTRACTED", "DERIVED"), (f, fd["status"])
+        assert fd.get("content"), f
+        missing_cites += citcheck_v2(fd["content"])
+        fd["source"] = "authored_arrival_v2.ARRIVAL (post-v1 arrival absorbed under the frozen mechanical rule)"
+    assert arrival["tranche"] == "U-NEW"
+    new_unew = [o for o in reg["objects"] if o["tranche"] == "U-NEW"]
+    assert len(new_unew) == 8, len(new_unew)
+    reg["objects"].append({
+        "result_id": arrival["result_id"],
+        "object_id": arrival["object_id"],
+        "package": arrival["package"],
+        "tranche": arrival["tranche"],
+        "fields": arrival["fields"],
+    })
 
     # counts
     status_counts = Counter()
@@ -130,6 +149,12 @@ def main():
             "by_status": dict(sorted(status_counts.items())),
         },
         "v2_outcomes": OUTCOMES,
+        "v2_arrival": {
+            "package": ARRIVAL["package"],
+            "object_id": ARRIVAL["object_id"],
+            "rule": "frozen mechanical re-run: git diff --stat ed736cd3..origin/main -- research/",
+            "fields": "all five EXTRACTED at file:line (authored_arrival_v2.py)",
+        },
         "v2_verifications": VERIFICATIONS,
     }
     with open(V2_PATH, "w") as fh:
@@ -140,6 +165,7 @@ def main():
     print("slots changed vs v1:", len(changed))
     for oid, fld, oc in changed:
         print("  PIN:", oid, "/", fld, "->", oc)
+    print("arrival absorbed:", arrival["package"], "->", arrival["object_id"])
     print("v1 sha256:", out["v1_baseline"]["sha256"])
     if missing_cites:
         print("MISSING CITATION PATHS:", missing_cites)

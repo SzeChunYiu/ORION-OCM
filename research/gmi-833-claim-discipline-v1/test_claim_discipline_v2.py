@@ -32,17 +32,25 @@ def test_v1_byte_intact_gap_count_still_8():
     assert len(gaps) == 8
 
 
-def test_v2_universe_identical_to_v1():
+def test_v2_universe_v1_plus_one_absorbed_arrival():
     v1, v2 = _v1(), _v2()
     ids1 = [o["result_id"] for o in v1["objects"]]
     ids2 = [o["result_id"] for o in v2["objects"]]
-    assert ids1 == ids2 and len(ids2) == 234
+    assert ids2[:234] == ids1 and len(ids2) == 235
+    arr = v2["objects"][234]
+    assert arr["tranche"] == "U-NEW"
+    assert arr["package"] == "gmi-833-blind-recovery-v2-v1"
+    unew = [o for o in v2["objects"] if o["tranche"] == "U-NEW"]
+    assert len(unew) == 9
+    for f in FIELDS:
+        fd = arr["fields"][f]
+        assert fd["status"] == "EXTRACTED" and fd["content"], (f, fd["status"])
 
 
 def test_v2_exactly_eight_slots_changed_all_pins():
     v1, v2 = _v1(), _v2()
     diffs = []
-    for o1, o2 in zip(v1["objects"], v2["objects"]):
+    for o1, o2 in zip(v1["objects"], v2["objects"][:234]):
         for f in FIELDS:
             if o1["fields"][f] != o2["fields"][f]:
                 diffs.append((o2["object_id"], f))
@@ -59,7 +67,7 @@ def test_v2_zero_registered_gap():
     gaps = [(o["object_id"], f) for o in v2["objects"] for f in FIELDS if o["fields"][f]["status"] == "REGISTERED_GAP"]
     assert gaps == []
     assert v2["counts"]["registered_gap"] == 0
-    assert v2["counts"]["fields_registered"] == 234 * 5
+    assert v2["counts"]["fields_registered"] == 235 * 5
 
 
 def test_v2_outcomes_terminal_and_typed():
