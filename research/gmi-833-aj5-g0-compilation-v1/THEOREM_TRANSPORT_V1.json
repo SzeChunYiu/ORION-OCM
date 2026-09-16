@@ -1,0 +1,48 @@
+{
+  "schema": "AJ5_THEOREM_TRANSPORT_V1",
+  "scope": "registered bounded G0 -> lower-process compiler and alternate relational presentation",
+  "results": [
+    {
+      "result": "G0 SEM-1 deterministic small-step protected behavior",
+      "transport": "SEMANTICALLY_INVARIANT_AT_REGISTERED_SCOPE",
+      "reason": "every checked G0 execution is simulated with identical terminal, output trace and final registered values"
+    },
+    {
+      "result": "G0 COMP-1 finite binary Mealy compiler correctness",
+      "transport": "TRANSPORTS_BY_COMPILER_COMPOSITION",
+      "reason": "Mealy -> G0 correctness composed with G0 -> lower-process semantic preservation",
+      "resource_note": "G0 step/code bounds acquire the registered <=5 lower-micro-op expansion factor; physical bit complexity remains unclaimed"
+    },
+    {
+      "result": "G0 REG-1 deterministic counter/register fragment embedding",
+      "transport": "TRANSPORTS_BY_COMPILER_COMPOSITION",
+      "reason": "the embedded G0 step semantics are preserved by the lower-process compiler"
+    },
+    {
+      "result": "G0 COMP-2 / LOOP-1 / STORE-1 behavioral composition, recurrence and storage witnesses",
+      "transport": "SEMANTICALLY_TRANSPORTS_WHERE_EXPRESSED_THROUGH_G0_EXECUTION",
+      "reason": "their protected executable traces are preserved; lower resource geometry must be re-accounted"
+    },
+    {
+      "result": "G0 RELMIN-1 five named instruction-class irredundancy",
+      "transport": "PRESENTATION_RELATIVE_NOT_SEMANTICALLY_TRANSPORTED",
+      "reason": "AJ5 explicitly synthesizes the named instruction roles from lower process operations; absence of a named opcode does not imply absence of the semantic role"
+    },
+    {
+      "result": "#875 G0 description-length and reachability bias",
+      "transport": "NOT_INVARIANT_WITHOUT_CERTIFIED_PRESENTATION_ISOMETRY",
+      "reason": "macro expansion changes surface length and search graph; earlier grammar-bias boundary is preserved rather than erased"
+    },
+    {
+      "result": "#875 certified isometric remint invariance",
+      "transport": "CONDITIONAL_ONLY",
+      "reason": "transfers only when the new lower presentation satisfies the registered semantics/length/adjacency/start-set isometry conditions; AJ5's compiler does not assert that"
+    },
+    {
+      "result": "#896 label-blindness under post-hoc family relabeling",
+      "transport": "SEMANTIC_LABEL_BLINDNESS_CAN_PERSIST_BUT_COST_SEARCH_CLAIMS_REQUIRE_REAUDIT",
+      "reason": "semantic labels do not enter the compiler, but lower code/resource/search geometry is newly introduced"
+    }
+  ],
+  "boundary": "semantic refinement transports behavioral theorems; it does not automatically transport presentation, code-length, cost, reachability or search-bias theorems"
+}
