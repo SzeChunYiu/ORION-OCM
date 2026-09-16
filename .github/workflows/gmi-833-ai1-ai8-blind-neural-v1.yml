@@ -29,13 +29,13 @@ jobs:
           test -z "$(git ls-tree -r --name-only "$F" research/gmi-833-ai1-ai8-blind-neural-microscope-v1/posthoc_analysis.py)"
       - name: Normal exact replay
         run: |
-          python3 -I -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/check_ai1_ai8.py > /tmp/normal.log
+          python3 -I -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/run_isolated.py > /tmp/normal.log
           cp research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RESULT_V1.json /tmp/normal.json
           tail -1 /tmp/normal.log
       - name: Optimized exact replay
         run: |
           rm research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RESULT_V1.json
-          python3 -I -O -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/check_ai1_ai8.py > /tmp/optimized.log
+          python3 -I -O -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/run_isolated.py > /tmp/optimized.log
           cmp /tmp/normal.json research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RESULT_V1.json
           tail -1 /tmp/optimized.log
       - name: Claim ceiling
