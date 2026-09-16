@@ -6,7 +6,7 @@ Concurrent #833 work subsequently merged PR #873 as main `367e14e9296cf79924ce56
 
 `GMI_G0_REGISTER_CORE_AND_FINITE_EMBEDDINGS_AT_DECLARED_SCOPE`.
 
-That result is now the current Section-E authority for the registered operational G0 core. It supplies a finite register/control language with `READ`, `INC`, `DECJZ`, `EMIT`, and `HALT`, exact small-step semantics, raw resource accounting, requirement-relative instruction-class irredundancy, and exact finite Mealy/counter embeddings. It explicitly retains a register/control representation prior and does not claim unique universal grammar, unbiased search, grammar-remint invariance, or independent morphology rediscovery.
+That result is now the current Section-E authority for the registered operational G0 core. It supplies a finite register/control language with `READ`, `INC`, `DECJZ`, `EMIT`, and `HALT`, exact small-step semantics, raw resource accounting, requirement-relative instruction-class irredundancy, and exact finite Mealy/counter embeddings. It explicitly retains a register/control representation prior and does not claim unique universal grammar, unbiased search, grammar presentation-relabeling invariance, or independent mechanism-structure rediscovery.
 
 ## Relationship of this tranche to G0-reg-v1
 
@@ -14,7 +14,7 @@ This tranche is **not** a competing universal G0 proposal and does not supersede
 
 Its NAND-only and NOR-only languages are bounded Boolean grammar twins used as an independent finite semantic microscope for one recovery question:
 
-> Given a binary sequence ecology and an optional generic one-bit state carrier, does architecture-name-free exhaustive/controlled search recover persistent state exactly when the behavioral requirement makes current-input-only realization impossible?
+> Given a binary sequence ecology and an optional generic one-bit state cell, does architecture-name-free exhaustive/controlled search recover persistent state exactly when the behavioral requirement makes current-input-only realization impossible?
 
 The NAND/NOR pair therefore serves the #833 alternate-encoding / grammar-twin / recovery-control programme. `G0-reg-v1` serves the broader operational Section-E register/control grammar programme.
 
@@ -23,7 +23,7 @@ The two results are consistent at their declared scopes:
 1. `G0-reg-v1` can embed finite binary Mealy transducers, which includes the semantic class of the recovered two-state delayed-copy transducer.
 2. This tranche does not claim the NAND/NOR surface syntax is the preferred or minimal G0 encoding.
 3. This tranche's positive result is recovery of an implementation-invariant **state property** under two low-level Boolean encodings, not a universality theorem.
-4. `G0-reg-v1` explicitly leaves grammar remints, alternate search algorithms, and morphology selection as separate obligations; this tranche supplies one small controlled experiment on precisely those axes.
+4. `G0-reg-v1` explicitly leaves grammar relabelings, alternate search algorithms, and structure choice as separate registered items; this tranche supplies one small controlled experiment on precisely those axes.
 5. Neither result licenses broad P3 known-form closure, universal search neutrality, or ontological completeness.
 
 ## Authority rule

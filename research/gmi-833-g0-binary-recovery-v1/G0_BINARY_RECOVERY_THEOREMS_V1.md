@@ -12,7 +12,7 @@ Two independent low-level Boolean grammar presentations are frozen:
 - `G_NAND`: variable wires plus the binary primitive `NAND`;
 - `G_NOR`: variable wires plus the binary primitive `NOR`.
 
-Both may instantiate an explicitly disclosed generic one-bit persistent state carrier. The state cell is not a recurrent-network macro or named historical architecture; it is a generic computational state primitive. Search sees no target family name, no recurrent gate, no delay operator, no expected next-state truth table and no architecture-specific property vector.
+Both may instantiate an explicitly disclosed generic one-bit persistent state cell. The state cell is not a recurrent-network macro or named historical architecture; it is a generic computational state primitive. Search sees no target family name, no recurrent gate, no delay operator, no expected next-state truth table and no architecture-specific property vector.
 
 The remaining priors are explicit rather than denied:
 
@@ -136,9 +136,9 @@ Since any candidate satisfying `DELAY1` for every sequence must in particular sa
 
 The machine certificate additionally executes the recovered candidate over every binary sequence of lengths 1 through 8: 510 sequences. That finite run is a regression certificate; the induction proof supplies the all-length result.
 
-The recovered semantic mechanism is identical under NAND and NOR. Its Boolean next/output functions are direct wires, so its resource vector is `(1,0)`: one state bit and zero primitive gates. The post-hoc morphology description is **one-bit persistent state / recurrence**. That label is assigned only after recovery.
+The recovered semantic mechanism is identical under NAND and NOR. Its Boolean next/output functions are direct wires, so its resource vector is `(1,0)`: one state bit and zero primitive gates. The post-hoc mechanism-structure description is **one-bit persistent state / recurrence**. That label is assigned only after recovery.
 
-## 5. RECOVER-1B — exposing state does not force state selection
+## 5. RECOVER-1B — exposing state does not force state choice
 
 The matched control `IDENTITY` requires
 
@@ -156,7 +156,7 @@ This control is load-bearing: without it, the `DELAY1` positive could be dismiss
 
 Forward and reverse enumeration of the complete candidate set produce the same semantic Pareto result on both tasks and both grammars. This is expected because the registered search is exhaustive and the scientific result is computed from the complete solution set rather than first-hit order.
 
-Nothing here proves finite-budget or heuristic-search invariance. NAND and NOR can assign different description lengths to other Boolean functions, and non-exhaustive search can therefore remain grammar-sensitive. GAUGE-1 already separates semantic remint invariance from search invariance; this tranche preserves that boundary.
+Nothing here proves finite-budget or heuristic-search invariance. NAND and NOR can assign different description lengths to other Boolean functions, and non-exhaustive search can therefore remain grammar-sensitive. GAUGE-1 already separates semantic relabeling invariance from search invariance; this tranche preserves that boundary.
 
 ## 7. What has actually been derived
 
@@ -180,7 +180,7 @@ This is stronger than representability and stronger than fitting a known recurre
 
 Functionally complete Boolean bases, Boolean circuit synthesis, finite-state transducers, indistinguishable-history lower bounds, and exhaustive model checking are parent mathematics/computer science. No novelty is claimed for NAND/NOR universality or one-bit delay machines.
 
-The GMI contribution of this tranche is the **controlled derivation protocol**: architecture identity absent, two disjoint low-level grammar presentations, an analytic necessity result, neutral exhaustive recovery, a state-removed negative twin, and a state-not-needed control under explicit Pareto resources.
+The GMI contribution of this tranche is the **controlled derivation protocol**: architecture identity absent, two disjoint low-level grammar presentations, an analytic necessity result, neutral exhaustive recovery, a state-removed matched negative control, and a state-not-needed control under explicit Pareto resources.
 
 ## 9. Falsifiers
 
