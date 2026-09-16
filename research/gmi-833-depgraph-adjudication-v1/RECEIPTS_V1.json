@@ -1,0 +1,117 @@
+{
+ "schema": "GMI_833_DEPGRAPH_ADJUDICATION_RECEIPTS_V1",
+ "worktree_head_at_generation": "f49c86b3372dd7c05391e89d9cb175bd6a70d48b",
+ "census_frozen_source_sha": "2fffb14447193cbfbed3224508a077f2d4f5d2dd",
+ "mined_at_sha": "f49c86b3372dd7c05391e89d9cb175bd6a70d48b",
+ "generator_runs": [
+  {
+   "command": "python3 research/gmi-833-depgraph-adjudication-v1/depgraph_miner_v1.py",
+   "exit": 0,
+   "stdout_tail": [
+    "A3 parent_family_anchor edges:    60 (children 19)",
+    "B external_literature edges:     73",
+    "C corpus_package edges:          56",
+    "programme parent mentions:       1",
+    "prose files scanned:             1130; named-only mentions: 86",
+    "sha256 DEPENDENCY_GRAPH_V2.json: 661ad9a57cf5e50d89aa1d3291f69e68795e117e52ffae5b72850c3b4aeea914"
+   ]
+  },
+  {
+   "command": "python3 research/gmi-833-depgraph-adjudication-v1/cycle_check_v1.py",
+   "exit": 0,
+   "stdout_tail": [
+    "file_local: nodes=162 edges=140 cycles=0 self_loops=0",
+    "pointer_rollup: nodes=30 edges=28 cycles=0 self_loops=0",
+    "parent_family_anchor: nodes=30 edges=60 cycles=0 self_loops=0",
+    "corpus_package: nodes=43 edges=56 cycles=0 self_loops=0",
+    "union: nodes=239 cycles=0 self_loops=0"
+   ]
+  },
+  {
+   "command": "python3 research/gmi-833-depgraph-adjudication-v1/duplicate_adjudication_v1.py",
+   "exit": 0,
+   "stdout_tail": [
+    "DUPID gaps: 857  verdicts: {'DISTINCT': 703, 'DUPLICATE': 154}",
+    "     703  B4_ID_COLLISION_CONTENT_DIFFERS",
+    "     108  B1_VERBATIM_REDECLARATION",
+    "      46  B3_POINTER_TO_SAME_CONTENT",
+    "content collapse: 7202 -> 1907 nodes (5295 collapsed away)",
+    "sha256 DUPLICATE_ADJUDICATION_V1.json: 1e0ab6bcd60f653ce97d17c295c1d05a979e39ef979be1124c726ebe6f624c7e"
+   ]
+  },
+  {
+   "command": "python3 research/gmi-833-depgraph-adjudication-v1/overstrong_adjudication_v1.py",
+   "exit": 0,
+   "stdout_tail": [
+    "      5  NO_UNIVERSAL_WORDING",
+    "      3  RECEIPT_CARRY_NOTE",
+    "      1  OPEN_GAP_LISTING",
+    "basis: {'mechanical_rule': 138, 'individual_read': 145}",
+    "downgrade list entries: 0",
+    "sha256 OVERSTRONG_ADJUDICATION_V1.json: 58d837804616ac0cb9c710b42a0c7a17718b44b4d13703becc4e26582469fcab"
+   ]
+  },
+  {
+   "command": "python3 research/gmi-833-depgraph-adjudication-v1/master_rag_v1.py",
+   "exit": 0,
+   "stdout_tail": [
+    "   [AMBER] INSTANCE-CONFIG-FREEZE-SEPARATION",
+    "   [AMBER] INSTANCE-CENSUS-FIN2UNIV-DETECTOR",
+    "   [AMBER] INSTANCE-CENSUS-DUPID-COLLISIONS",
+    "   [AMBER] INSTANCE-CENSUS-EMPTY-DEPENDENCY-FIELDS",
+    "   [AMBER] INSTANCE-AUDIT-CLOSE-TOOLING-UNCOMMITTED",
+    "sha256 MASTER_RAG_TABLE_V1.json: 83238bbc369105a2c41f038e242452e72c9aa4b34774b84ae53a8a6561ed8128"
+   ]
+  }
+ ],
+ "validation": {
+  "command": "python3 research/gmi-833-depgraph-adjudication-v1/test_depgraph_miner_v1.py",
+  "exit": 0,
+  "final_line": "ALL VALIDATION CHECKS PASSED"
+ },
+ "artifact_sha256": {
+  "DEPENDENCY_GRAPH_V2.json": "661ad9a57cf5e50d89aa1d3291f69e68795e117e52ffae5b72850c3b4aeea914",
+  "CYCLE_REPORT_V1.json": "d74fbc755774eaf445f0a6487e4f1ba387d697028209f712bd7b4c1ef19c41e6",
+  "DUPLICATE_ADJUDICATION_V1.json": "1e0ab6bcd60f653ce97d17c295c1d05a979e39ef979be1124c726ebe6f624c7e",
+  "OVERSTRONG_ADJUDICATION_V1.json": "58d837804616ac0cb9c710b42a0c7a17718b44b4d13703becc4e26582469fcab",
+  "MASTER_RAG_TABLE_V1.json": "83238bbc369105a2c41f038e242452e72c9aa4b34774b84ae53a8a6561ed8128"
+ },
+ "counts_reread_from_written_files": {
+  "dependency_edges_by_layer": {
+   "file_local": 140,
+   "pointer_rollup": 28,
+   "parent_family_anchor": 60,
+   "external_literature": 73,
+   "corpus_package": 56
+  },
+  "dependency_edges_total": 357,
+  "review_excluded_edges": 45,
+  "review_retyped_edges": 2,
+  "cycles": 0,
+  "self_loops": 0,
+  "duplicate_groups": 1652,
+  "duplicate_group_verdicts": {
+   "DUPLICATE": 1586,
+   "DISTINCT": 66
+  },
+  "dupid_verdicts": {
+   "DISTINCT": 703,
+   "DUPLICATE": 154
+  },
+  "content_collapse": {
+   "grouped_objects": 7202,
+   "content_nodes_after_collapse": 1907,
+   "collapsed_away": 5295,
+   "note": "a DUPLICATE group contributes 1 content node; DISTINCT/UNCERTAIN keep member count; objects in no group are unaffected"
+  },
+  "fin2univ_population": 283,
+  "fin2univ_verdicts": {
+   "PROPER": 283
+  },
+  "downgrade_list_entries": 0,
+  "rag_strata": 39,
+  "rag_objects": 22553,
+  "rag_content_collapsed": 17258,
+  "rag_corpus_instances": 6
+ }
+}
