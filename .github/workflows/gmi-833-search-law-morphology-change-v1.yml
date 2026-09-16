@@ -1,0 +1,130 @@
+name: GMI 833 search-law morphology change v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-search-law-morphology-change-v1/**'
+      - '.github/workflows/gmi-833-search-law-morphology-change-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-search-law-morphology-change-v1/**'
+      - '.github/workflows/gmi-833-search-law-morphology-change-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=619e44aca017d288435afce6e6f9765e675dde6a
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-search-law-morphology-change-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-search-law-morphology-change-v1/search_law_morphology_change_v1.py \
+            research/gmi-833-search-law-morphology-change-v1/test_search_law_morphology_change_v1.py \
+            research/gmi-833-search-law-morphology-change-v1/RESULT_V1.json \
+            research/gmi-833-search-law-morphology-change-v1/SEARCH_LAW_MORPHOLOGY_CHANGE_THEOREMS_V1.md \
+            research/gmi-833-search-law-morphology-change-v1/MANIFEST_V1.json \
+            research/gmi-833-search-law-morphology-change-v1/ISSUE_833_RECONCILIATION_SEARCH_LAW_MORPHOLOGY_CHANGE_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify exact parent objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            path="$1"; expected="$2"; actual="$(git rev-parse "HEAD:$path")"
+            test "$actual" = "$expected"
+            if [ ! -f "$path" ]; then mkdir -p "$(dirname "$path")"; git show "HEAD:$path" > "$path"; fi
+            test "$(git hash-object "$path")" = "$expected"
+          }
+          verify_parent research/gmi-833-finite-search-budget-morphology-v1/RESULT_V1.json 4ea315e651475cc8afcc39860a0d2ac621e9f571
+          verify_parent research/gmi-section-e-reachability-v1/RESULT_E1.json 369d3bd09279c4136ffeed469d0ffb0b6b5d443b
+          verify_parent research/gmi-section-e-searcher-comparison-v2/RESULT_E2.json 106653e98a2c0415720a10cb6c5f86a6c7243fe6
+      - name: Exact theorem and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-search-law-morphology-change-v1/test_search_law_morphology_change_v1.py -v
+            python -I -O -B research/gmi-833-search-law-morphology-change-v1/search_law_morphology_change_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-search-law-morphology-change-v1/test_search_law_morphology_change_v1.py -v
+            python -I -B research/gmi-833-search-law-morphology-change-v1/search_law_morphology_change_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-search-law-morphology-change-v1/RESULT_V1.json
+      - name: Check manifest, census, parents, and claim ceiling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-833-search-law-morphology-change-v1')
+          m=json.loads((root/'MANIFEST_V1.json').read_text())
+          r=json.loads((root/'RESULT_V1.json').read_text())
+          expected='GMI_FINITE_DETERMINISTIC_SEARCH_LAW_MORPHOLOGY_DISAGREEMENT_DERIVED_AT_REGISTERED_SCOPE'
+          assert m['source_main']==r['source_main']=='6368cda406d8e3395283049abacb36129ae94637'
+          assert m['freeze_commit']==r['freeze_commit']=='619e44aca017d288435afce6e6f9765e675dde6a'
+          assert m['claim_ceiling']==r['claim_ceiling']==expected
+          assert r['verdict']=='GREEN' and all(r['checks'].values())
+          assert r['census']['schedule_pairs']==47667
+          assert r['census']['budget_points']==237282
+          assert r['census']['failures']==[]
+          assert r['census']['value_disagreement_points']==47724
+          assert r['census']['equal_value_identity_disagreement_points']==56130
+          assert r['census']['changed_law_all_budget_agreement_worlds']==5220
+          assert r['census']['tied_complete_identity_disagreement_worlds']==14784
+          assert r['checks']['threshold_cells_piecewise_constant']
+          assert r['checks']['unique_global_eventual_agreement']
+          assert r['checks']['global_ties_can_preserve_identity_disagreement']
+          PY
+      - name: Check #833 exact reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-search-law-morphology-change-v1/ISSUE_833_RECONCILIATION_SEARCH_LAW_MORPHOLOGY_CHANGE_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply only earned #833 Section J row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-search-law-morphology-change-v1/ISSUE_833_RECONCILIATION_SEARCH_LAW_MORPHOLOGY_CHANGE_V1.json
