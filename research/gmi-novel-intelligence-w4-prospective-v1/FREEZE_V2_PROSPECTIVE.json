@@ -1,0 +1,76 @@
+{
+  "schema": "GMI_NOVEL_INTELLIGENCE_W4_PROSPECTIVE_FREEZE_V2",
+  "ticket": "REV-L47-NOVEL-INTELLIGENCE-W4",
+  "custody": {
+    "statement": "FREEZE_V2_PROSPECTIVE.md and this file are committed before any executor, test, or result of package gmi-novel-intelligence-w4-prospective-v1 exists in git; package CI enforces the add-order",
+    "parent_defect_permanent": {
+      "package": "gmi-novel-intelligence-w4-v1",
+      "verdict": "POST_HOC_SUSPECT (CONFIRMED, double-verified, re-verified on this branch)",
+      "result_first_add": "08c4d206 2026-09-15T16:54:44+02:00",
+      "freeze_first_add": "7ce73e5d 2026-09-15T18:23:27+02:00",
+      "gap_minutes": 89,
+      "mitigating_recorded": "freeze seed literal + sha256 pre-existed in the WIP executor at 08c4d206 (lines 29-30): seed custody was prospective, the freeze document was not"
+    }
+  },
+  "seeds": {
+    "inherited_literal": "GMI-NOVEL-INTELLIGENCE-W4-V1/RQM-FAMILY-RECURRENCE",
+    "inherited_sha256": "57ddb8d1195e0eba61e0527828882bce1f9e0da24a4474ef3a69b7c6c71789c9",
+    "prospective_literal": "GMI-NOVEL-INTELLIGENCE-W4-PROSPECTIVE-V2/REPLICATION-2026-09-16",
+    "prospective_sha256": "971e3ed3fec5568a588ff475badd1be77a0533bf6a99d0f9a2a99da5138f3110"
+  },
+  "family_ks": [2, 3, 4],
+  "fresh_k": 5,
+  "extended_heldout_ks": [6, 7, 8],
+  "negative_control_ks": [2, 3, 4, 5, 6, 7, 8],
+  "fixed_budget_B": 3,
+  "predictions": {
+    "family_law_F": {
+      "comment": "max_m(k)=k; C*(k)=2+k; flat=k+3; gap=1; needs_residual; pure predictor fails; fixed-budget verdicts per k",
+      "per_k": {
+        "2": {"max_m": 2, "C_star": 4, "flat": 5, "pure_predictor_succeeds": false, "fixed_budget_verdict": "OVERPROVISIONS__DOES_NOT_TRACK_MAX_M", "fixed_budget_recovers": true},
+        "3": {"max_m": 3, "C_star": 5, "flat": 6, "pure_predictor_succeeds": false, "fixed_budget_verdict": "LOCALLY_MATCHES_AT_B_ONLY", "fixed_budget_recovers": true},
+        "4": {"max_m": 4, "C_star": 6, "flat": 7, "pure_predictor_succeeds": false, "fixed_budget_verdict": "FAILS_RECOVERY", "fixed_budget_recovers": false}
+      },
+      "remint_preserves_law_and_recovery": true,
+      "upstream_compose_ok": true,
+      "all_w4_boxes_green": true
+    },
+    "fresh_k5": {"max_m": 5, "C_star": 7, "flat": 8, "pure_predictor_succeeds": false, "fixed_budget_recovers": false},
+    "extended_heldout": {
+      "derivation": "K_max = max{K : (K-1)*K^K <= 2^30 tuple-visit search budget} ; 8*9^9 ~ 3.14e9 > 2^30 > 7*8^8 ~ 1.18e8 => K_max = 8",
+      "per_k": {
+        "6": {"max_m": 6, "C_star": 8, "flat": 9, "pure_predictor_succeeds": false, "fixed_budget_recovers": false},
+        "7": {"max_m": 7, "C_star": 9, "flat": 10, "pure_predictor_succeeds": false, "fixed_budget_recovers": false},
+        "8": {"max_m": 8, "C_star": 10, "flat": 11, "pure_predictor_succeeds": false, "fixed_budget_recovers": false}
+      },
+      "wall_clock_abort_seconds": 3600,
+      "timeout_disposition": "ASSAY_TIMEOUT recorded as a charging fact; independent analytic route still covers the prediction"
+    },
+    "negative_control_G": {
+      "construction": "q_p=(0,)^k+(1,)^k ; q_o=(i%2 for i<k)+(2+(i%2) for i<k)",
+      "law_constant_in_k": {"max_m": 2, "C_star": 4, "flat": 5, "pure_predictor_succeeds": false, "fixed_budget_recovers": true},
+      "falsifies_instrument_if": "measured max_m == k on G(k) for any k (measurement stage refuted)"
+    },
+    "independent_route": {
+      "no_upstream_import": true,
+      "quantities": ["max_m", "C_star", "flat", "needs_residual", "pure_predictor_succeeds", "fixed_budget_recovers"],
+      "brute_force_tightness_rule": "enumerate all residual assignments over alphabet m-1 where (m-1)^(2k) <= 2^20 (k in {2,3,4,5}); require zero exact decoders below m",
+      "agreement": "exact on every shared quantity for F and G, k in {2..8}"
+    },
+    "determinism": {
+      "same_host_rerun_bit_identical": true,
+      "cross_host_bit_identical": true,
+      "receipt_content": "deterministic content only; runtime/env charged in RUNTIME_V1 records"
+    }
+  },
+  "decision_rule": {
+    "confirmed_iff": ["D1 rerun all_w4_boxes_green AND structured-equal to parent RESULT_V1.json on every semantic field", "D2 every registered F/fresh/extended prediction matches measured exactly", "D3 negative control shows the registered constant law on every k", "D4 independent route agrees exactly everywhere", "D5 same-host rerun and cross-host receipts byte-identical"],
+    "on_failure": "REFUTED at named stage (measurement | family_law | custody_protocol) -> revival chain (attribute one stage, lever, retest at original strength); terminal only with structural proof",
+    "on_confirm_claim_ceilings": [
+      "W4_RESIDUAL_QUOTIENT_STRUCTURAL_DOMAIN_AT_REGISTERED_FINITE_FAMILY_SCOPE",
+      "NOVEL_INTEL_LADDER_W2_W3_W4_GREEN_AT_EXACT_RQM_FAMILY_SCOPE"
+    ],
+    "non_claims": ["NEW_DOMAIN / J4", "NEW_FORM_OF_INTELLIGENCE_PROVEN", "atlas phase-hole occupancy", "P4 surviving-unseen-domain (J4 gate)"],
+    "scope_note": "extended held-out {6,7,8} and negative control corroborate the claim at registered scope F(k) in {2,3,4}; they do not widen it; F({2,3,4}) and k=5 legs restate the public parent registration (re-earning under custody, not blind); the blind surface is {6,7,8}, G, the independent route, and determinism"
+  }
+}
