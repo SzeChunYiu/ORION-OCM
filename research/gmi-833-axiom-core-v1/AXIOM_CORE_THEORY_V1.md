@@ -122,7 +122,7 @@ These are bounded independence witnesses at the registered finite semantics, not
 
 The hostile hypercube retains the seven independent defect bits from #858 (AX-1…AX-5 plus two distinct AX-6 defects), exhaustively checking all `2^7 = 128` combinations. Exactly one case—the all-clean assignment—satisfies all six axioms, and zero cases have incorrect violation attribution.
 
-The issue-mandated targeted audit separately locks exact attribution for negative resource, non-total transition, attained score above ceiling, confidence outside domain, empty positive-coverage confidence, illegal finite-to-universal promotion, a corrupted equivalence relation, and a developmental edge outside its carrier. Because equivalence is derived and scope discipline is governance, those two hostiles correctly report `DEF-1` and `META-1`, not fictitious object-axiom failures. Three additional audit hostiles cover a missing communication entry, non-normalized latent prior, and out-of-range selective coverage.
+The issue-mandated targeted audit separately locks exact attribution for negative resource, non-total transition, attained score above ceiling, confidence outside domain, empty positive-coverage confidence, illegal finite-to-universal promotion, a corrupted equivalence relation, and a developmental edge outside its version set. Because equivalence is derived and scope discipline is governance, those two hostiles correctly report `DEF-1` and `META-1`, not fictitious object-axiom failures. Three additional audit hostiles cover a missing communication entry, non-normalized latent prior, and out-of-range selective coverage.
 
 ## 9. Dependency graph
 
