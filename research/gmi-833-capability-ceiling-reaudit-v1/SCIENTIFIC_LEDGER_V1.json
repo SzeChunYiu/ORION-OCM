@@ -1,6 +1,6 @@
 {
   "architecture_independence_criterion": {
-    "boundary": "This is an exact audit of the pinned structured artifact, not proof that arbitrary future prose lacks hidden architectural commitments.",
+    "boundary": "The original pinned rows remain byte-custodied and are not silently rewritten. Architecture independence is claimed for the separate normalized 27-row contract at registered scope, not for every original phrase or arbitrary future prose.",
     "forbidden_family_tokens": [
       "transformer",
       "lstm",
@@ -18,6 +18,31 @@
       "softmax",
       "convolutional network"
     ],
+    "mechanism_prior_review_triggers": [
+      "compressed semantic store",
+      "production/circuit/policy",
+      "parametric state",
+      "world model",
+      "replay opportunity",
+      "offline replay channel",
+      "pvr-3",
+      "compositional code",
+      "holistic codebook",
+      "option/macro",
+      "model-based lookahead",
+      "bayesian or worst-case",
+      "back-door",
+      "do-calculus",
+      "twin network",
+      "abduction-action-prediction",
+      "surviving candidate set",
+      "agent model as retained state",
+      "copycat/contrarian/beauty-contest",
+      "beauty ladder",
+      "self-model representation",
+      "introspective evaluation",
+      "architecture edit"
+    ],
     "operational_fields": [
       "inputs",
       "allowed_info",
@@ -25,26 +50,28 @@
       "success_metric",
       "resource_metric"
     ],
-    "semantics": "External contract truth is unchanged by bijective reminting of an audit-only implementation label."
+    "semantics": "Each row receives an explicit semantic rationale. Original operational wording is either accepted as purely external or replaced field-by-field by a normalized inputs/information/behavior/success/resource contract. Token scans are diagnostics, never proof by themselves."
   },
   "capability_definitions": [
     {
       "canonical_source_row_sha256": "58c285d04becd4484de68e6c3618b69c630baf91ec2b936372d37aa56c90de70",
       "capability": "Perception",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-perception",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "current semantic cut c(X_t) and calibration context; no privileged future or oracle side channel",
         "inputs": "raw sensor stream X_t with declared sensor type, noise model, bandwidth and latency contract",
         "required_behaviour": "emit response r_t that distinguishes obligation-relevant equivalence classes of X_t under declared noise",
         "resource_metric": "sensor bandwidth, encoding bits |c|, and transformation cost tau for the perception map",
         "success_metric": "exact 0/1 correctness on the obligation partition, or L2/0-1 error within declared tolerance epsilon"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -52,26 +79,36 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "current semantic cut c(X_t) and calibration context; no privileged future or oracle side channel",
+        "inputs": "raw sensor stream X_t with declared sensor type, noise model, bandwidth and latency contract",
+        "required_behaviour": "emit response r_t that distinguishes obligation-relevant equivalence classes of X_t under declared noise",
+        "resource_metric": "sensor bandwidth, encoding bits |c|, and transformation cost tau for the perception map",
+        "success_metric": "exact 0/1 correctness on the obligation partition, or L2/0-1 error within declared tolerance epsilon"
+      },
+      "semantic_rationale": "Sensor, observation, response, error, bandwidth, and latency are external contract coordinates."
     },
     {
       "canonical_source_row_sha256": "78d62d17ccb4182e9784838bccde1f3cc41c74c7f490e7defc5b8d226daae304",
       "capability": "Selective attention",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-selective-attention",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "context-conditioned routing decision plus the selected source; no simultaneous full product",
         "inputs": "multi-source stream (x0,x1,context q) with finite access constraint (only one source exposed per step)",
         "required_behaviour": "route the obligation-relevant source for the current context q (achieve context-dependent accuracy above every fixed route)",
         "resource_metric": "routing decision cost c_r plus accessed source width versus exposure cost c_e(|U|-E|E_x|)",
         "success_metric": "exact accuracy on x_q obligation: 8/8 routed vs 6/8 best fixed source (GG55 census)"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -79,26 +116,36 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "context-conditioned routing decision plus the selected source; no simultaneous full product",
+        "inputs": "multi-source stream (x0,x1,context q) with finite access constraint (only one source exposed per step)",
+        "required_behaviour": "route the obligation-relevant source for the current context q (achieve context-dependent accuracy above every fixed route)",
+        "resource_metric": "routing decision cost c_r plus accessed source width versus exposure cost c_e(|U|-E|E_x|)",
+        "success_metric": "exact accuracy on x_q obligation: 8/8 routed vs 6/8 best fixed source (GG55 census)"
+      },
+      "semantic_rationale": "Selection among exposed sources is externally scored; no internal routing family is prescribed."
     },
     {
       "canonical_source_row_sha256": "cfc3b1b8601347f43e409a5ab77857df1325edb7f575081243ffe1510300823f",
       "capability": "Working memory",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-working-memory",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "bounded persistent state S_working carried through the delay; no external store access during delay",
         "inputs": "transient cue that must be retained across a short interference-filled delay before response",
         "required_behaviour": "maintain the cue distinction through the delay and emit it correctly at probe time despite interference",
         "resource_metric": "persistent state cardinality |S_working|, maintenance transformation cost, and interference susceptibility",
         "success_metric": "exact reproduction accuracy after delay, or within-tolerance recall; must degrade monotonically with load and interference"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -106,26 +153,36 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "bounded persistent state S_working carried through the delay; no external store access during delay",
+        "inputs": "transient cue that must be retained across a short interference-filled delay before response",
+        "required_behaviour": "maintain the cue distinction through the delay and emit it correctly at probe time despite interference",
+        "resource_metric": "persistent state cardinality |S_working|, maintenance transformation cost, and interference susceptibility",
+        "success_metric": "exact reproduction accuracy after delay, or within-tolerance recall; must degrade monotonically with load and interference"
+      },
+      "semantic_rationale": "Persistent-state cardinality and delayed cue response are functional channel requirements."
     },
     {
       "canonical_source_row_sha256": "698ee92d0be6266da38586ad827d4d231cbbdec1dcf1c42397d8114d7258f0a5",
       "capability": "Episodic memory",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-episodic-memory",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "episodic store plus cue-driven retrieval channel; no semantic summary alone suffices for the probe",
         "inputs": "autobiographical event (what, where, when, context) presented once with spatiotemporal tags",
         "required_behaviour": "reinstate the specific bound episode from a partial cue, distinguishing it from similar episodes",
         "resource_metric": "episodic entry count N_t, encoding/retrieval cost, and consolidation cost to long-term store",
         "success_metric": "cued recall precision and source discrimination (hit rate vs false reinstatement) on the obligation partition"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -133,26 +190,82 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "episodic store plus cue-driven retrieval channel; no semantic summary alone suffices for the probe",
+        "inputs": "autobiographical event (what, where, when, context) presented once with spatiotemporal tags",
+        "required_behaviour": "reinstate the specific bound episode from a partial cue, distinguishing it from similar episodes",
+        "resource_metric": "episodic entry count N_t, encoding/retrieval cost, and consolidation cost to long-term store",
+        "success_metric": "cued recall precision and source discrimination (hit rate vs false reinstatement) on the obligation partition"
+      },
+      "semantic_rationale": "The store and cue channel are registered information resources, not named implementation families."
     },
     {
       "canonical_source_row_sha256": "4e5335f4f82eced0ab88bba50b9ed835b0ea2f9beb685e01a1acf1f28ebcc544",
       "capability": "Semantic memory",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-semantic-memory",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
+        "allowed_info": "registered information derived from prior encounters, with individual episode identities unavailable at the category probe",
+        "inputs": "repeated encounters with category members carrying stable statistical regularities across episodes",
+        "required_behaviour": "answer held-out category and property probes by preserving regularities shared across prior encounters",
+        "resource_metric": "semantic code size, abstraction cost, and retrieval transformation tau",
+        "success_metric": "generalisation accuracy to held-out members and false-memory resistance on the semantic quotient"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "compressed semantic store"
+      ],
+      "original_operational_contract": {
         "allowed_info": "compressed semantic store abstracting away episode identity; no verbatim trace of each encounter retained",
         "inputs": "repeated encounters with category members carrying stable statistical regularities across episodes",
         "required_behaviour": "answer category-level probes (generalisation, property inference) by de-duplicating shared structure across episodes",
         "resource_metric": "semantic code size, abstraction cost, and retrieval transformation tau",
         "success_metric": "generalisation accuracy to held-out members and false-memory resistance on the semantic quotient"
       },
+      "semantic_rationale": "Compressed-store representation wording is projected to prior-encounter information with episode identities withheld and held-out category behavior."
+    },
+    {
+      "canonical_source_row_sha256": "9bcca26496306b22e426d023c52d9465856ab28c7af78bf7f3de63d1a5aa9323",
+      "capability": "Procedural memory",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour",
+        "resource_metric"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-procedural-memory",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "a retained response transformation accessible from the declared practice context; no declarative instruction-trace label is available at evaluation time",
+        "inputs": "repeated practice on a sensorimotor or cognitive skill under a stable transformation requirement",
+        "required_behaviour": "execute the practiced skill with lower online transformation cost and latency than before practice while retaining accuracy",
+        "resource_metric": "retained response-description size, practice/update cost, and online execution cost",
+        "success_metric": "execution latency and online tau reduction at matched accuracy; interference/transfer cost to other skills"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -160,26 +273,41 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "9bcca26496306b22e426d023c52d9465856ab28c7af78bf7f3de63d1a5aa9323",
-      "capability": "Procedural memory",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-procedural-memory",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "production/circuit/policy"
+      ],
+      "original_operational_contract": {
         "allowed_info": "compiled procedural routine (production/circuit/policy) retrieved without declarative recall of instruction traces",
         "inputs": "repeated practice on a sensorimotor or cognitive skill under a stable transformation requirement",
         "required_behaviour": "execute the skill faster and with lower online transformation cost after compilation, with retained accuracy",
         "resource_metric": "compiled code size, compilation (search) cost, and online execution cost",
         "success_metric": "execution latency and online tau reduction at matched accuracy; interference/transfer cost to other skills"
       },
+      "semantic_rationale": "The original parenthetical production/circuit/policy list prescribed realization examples and is removed."
+    },
+    {
+      "canonical_source_row_sha256": "077d7918745597b098602756dfeace066d0f86fc2f8e761be56debfe6b837442",
+      "capability": "Retrieval",
+      "changed_operational_fields": [
+        "required_behaviour",
+        "success_metric"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-retrieval",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "retrieval transformation over the store plus current cue; store coverage and reliability declared",
+        "inputs": "probe cue plus external/persistent store with residual obligation-relevant distinctions",
+        "required_behaviour": "return the obligation-relevant residual unavailable to the matched no-store-query baseline, within the registered query/response channel capacity",
+        "resource_metric": "index size, retrieval query cost tau_retrieve, and communication cut width",
+        "success_metric": "residual accuracy gain over a matched no-store-query baseline at declared store coverage, plus retrieval precision and recall"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -187,26 +315,43 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "077d7918745597b098602756dfeace066d0f86fc2f8e761be56debfe6b837442",
-      "capability": "Retrieval",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-retrieval",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "parametric state"
+      ],
+      "original_operational_contract": {
         "allowed_info": "retrieval transformation over the store plus current cue; store coverage and reliability declared",
         "inputs": "probe cue plus external/persistent store with residual obligation-relevant distinctions",
         "required_behaviour": "return the obligation-relevant residual that the parametric state alone lacks, within the retrieval cut capacity",
         "resource_metric": "index size, retrieval query cost tau_retrieve, and communication cut width",
         "success_metric": "residual accuracy gain over no-retrieval baseline at matched store coverage; retrieval precision/recall"
       },
+      "semantic_rationale": "The original parametric-state contrast privileged one realization decomposition and is replaced by a no-store-query baseline."
+    },
+    {
+      "canonical_source_row_sha256": "f55ecb483df3eb3cf5f856cd0d2ed4738c976f2b7190e5203b4ec0794637f7ee",
+      "capability": "Consolidation",
+      "changed_operational_fields": [
+        "allowed_info",
+        "inputs",
+        "required_behaviour",
+        "resource_metric"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-consolidation",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "registered access to accumulated traces during a declared consolidation phase and a metered transformation into a retained response summary",
+        "inputs": "accumulated traces plus a registered persistent retention carrier and a declared consolidation-access window",
+        "required_behaviour": "integrate trace information so later probes require fewer active response states while preserving the registered joint-retention obligations",
+        "resource_metric": "trace accesses, consolidation transformation cost, and resulting retained-description size",
+        "success_metric": "retention accuracy after consolidation at reduced active-state budget; CSR-1 minimum M*_t = N_t preserved"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -214,53 +359,39 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "f55ecb483df3eb3cf5f856cd0d2ed4738c976f2b7190e5203b4ec0794637f7ee",
-      "capability": "Consolidation",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-consolidation",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "offline replay channel",
+        "replay opportunity"
+      ],
+      "original_operational_contract": {
         "allowed_info": "offline replay channel and consolidation transformation that restructures traces into semantic/procedural form",
         "inputs": "episodic traces accumulated over episodes plus a stable long-term store with replay opportunity",
         "required_behaviour": "integrate traces so later retrieval needs fewer active states (saving t - ceil(log2 N_t)) while preserving joint retention",
         "resource_metric": "replay steps, consolidation transformation cost, and resulting long-term code size",
         "success_metric": "retention accuracy after consolidation at reduced active-state budget; CSR-1 minimum M*_t = N_t preserved"
       },
-      "operational_fields": [
-        "inputs",
-        "allowed_info",
-        "required_behaviour",
-        "success_metric",
-        "resource_metric"
-      ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "semantic_rationale": "The original offline-replay mechanism is generalized to registered trace access during a consolidation phase."
     },
     {
       "canonical_source_row_sha256": "35af1a5d214c72a086eb379fd8a81f955937d7b11d61cc058bc9135036d302b5",
       "capability": "Forgetting",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-forgetting",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "policy choosing which distinctions to merge/drop; no unbounded state expansion allowed",
         "inputs": "accumulated distinctions that outgrow the state budget or become obligation-irrelevant under drift",
         "required_behaviour": "drop exactly those distinctions whose loss costs least future obligation error, respecting the forgetting threshold",
         "resource_metric": "retained state cardinality after forgetting and relearning cost for dropped distinctions if they recur",
         "success_metric": "future expected loss after forgetting versus random or no-forgetting baseline at matched budget"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -268,26 +399,82 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "policy choosing which distinctions to merge/drop; no unbounded state expansion allowed",
+        "inputs": "accumulated distinctions that outgrow the state budget or become obligation-irrelevant under drift",
+        "required_behaviour": "drop exactly those distinctions whose loss costs least future obligation error, respecting the forgetting threshold",
+        "resource_metric": "retained state cardinality after forgetting and relearning cost for dropped distinctions if they recur",
+        "success_metric": "future expected loss after forgetting versus random or no-forgetting baseline at matched budget"
+      },
+      "semantic_rationale": "The choice of distinctions to retain is an externally scored decision under a state budget."
     },
     {
       "canonical_source_row_sha256": "b83c5c837c723c7a41c004d97c4330ece648178b62c0804fde2d79bf417d0e89",
       "capability": "Prediction",
+      "changed_operational_fields": [
+        "allowed_info",
+        "inputs",
+        "resource_metric"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-prediction",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
+        "allowed_info": "past and current registered observations plus metered persistent state; no future observation or protected outcome label",
+        "inputs": "a temporal stream with a registered next-observation or latent-consequence prediction obligation and declared context",
+        "required_behaviour": "emit the predictive response that minimises obligation-relevant surprise (next observation or latent consequence)",
+        "resource_metric": "retained predictive-description size, response-computation cost, and persistent-state maintenance cost",
+        "success_metric": "next-step predictive accuracy and calibration of forecast uncertainty on the registered stream"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "world model"
+      ],
+      "original_operational_contract": {
         "allowed_info": "predictive response representation (world model) plus current belief state; no oracle future observation",
         "inputs": "temporal stream with predictable suffix given a learned world model and current state estimate",
         "required_behaviour": "emit the predictive response that minimises obligation-relevant surprise (next observation or latent consequence)",
         "resource_metric": "model code size, inference tau, and belief-state maintenance cost",
         "success_metric": "next-step predictive accuracy and calibration of forecast uncertainty on the registered stream"
       },
+      "semantic_rationale": "World-model wording is projected to registered temporal inputs, predictive obligations, persistent state, and response-computation resources."
+    },
+    {
+      "canonical_source_row_sha256": "7e8b9e82c8c1a21b7aa8a424427b6b94083db959ea6897fd88ba2bb214702a7c",
+      "capability": "Abstraction/concept formation",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-abstraction-concept",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "a declared class-assignment action plus registered future reuse/payoff and naming-cost coordinates; no protected future labels",
+        "inputs": "instance stream where some distinctions are reusable across future obligations and others are idiosyncratic",
+        "required_behaviour": "emit an externally testable class name and boundary exactly when the registered reuse benefit exceeds the registered naming cost",
+        "resource_metric": "number of concepts retained, boundary description bits, and retrieval cost per use",
+        "success_metric": "reuse-weighted accuracy: concept-assisted future probe accuracy minus naming cost, versus no-concept baseline"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -295,26 +482,42 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "7e8b9e82c8c1a21b7aa8a424427b6b94083db959ea6897fd88ba2bb214702a7c",
-      "capability": "Abstraction/concept formation",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-abstraction-concept",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "pvr-3"
+      ],
+      "original_operational_contract": {
         "allowed_info": "naming/boundary decision that groups instances into a class when PVR-3 reuse threshold is crossed",
         "inputs": "instance stream where some distinctions are reusable across future obligations and others are idiosyncratic",
         "required_behaviour": "form a new concept (name + boundary) exactly when reuse amortises naming cost; place boundaries at the bang-bang optimum",
         "resource_metric": "number of concepts retained, boundary description bits, and retrieval cost per use",
         "success_metric": "reuse-weighted accuracy: concept-assisted future probe accuracy minus naming cost, versus no-concept baseline"
       },
+      "semantic_rationale": "The named PVR-3 rule is projected to its external reuse-benefit and naming-cost condition."
+    },
+    {
+      "canonical_source_row_sha256": "e8642139dabba3654656a6ae9e3569598c9f3460d895ca3d7dc6873d2c60c7f8",
+      "capability": "Compositional reasoning",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour",
+        "resource_metric"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-compositional-reasoning",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "declared primitive meanings and a registered composition rule; held-out product answers and a task-specific full product table are unavailable",
+        "inputs": "structured query whose meaning is a product of primitive meanings (e.g. a* -> b* with constraints)",
+        "required_behaviour": "produce the correct response for held-out combinations by applying the declared primitive semantics and composition rule",
+        "resource_metric": "description size of retained primitive information and metered cost of producing a composed response",
+        "success_metric": "accuracy on held-out compositions (systematic generalisation) and description-length saving versus holistic enumeration"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -322,26 +525,42 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "e8642139dabba3654656a6ae9e3569598c9f3460d895ca3d7dc6873d2c60c7f8",
-      "capability": "Compositional reasoning",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-compositional-reasoning",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "compositional code",
+        "holistic codebook"
+      ],
+      "original_operational_contract": {
         "allowed_info": "compositional code where each primitive's code is reused; no holistic codebook larger than the product",
         "inputs": "structured query whose meaning is a product of primitive meanings (e.g. a* -> b* with constraints)",
         "required_behaviour": "compose primitive answers into the correct product response without enumerating the full product table",
         "resource_metric": "codebook size (|primitives| not |product|) and composition transformation cost",
         "success_metric": "accuracy on held-out compositions (systematic generalisation) and description-length saving versus holistic enumeration"
       },
+      "semantic_rationale": "Internal code/codebook wording is replaced by primitive semantics, a composition rule, held-out behavior, and description cost."
+    },
+    {
+      "canonical_source_row_sha256": "2272ae3779a0333c11687b1282b8287f311ae52b56526603777ed0ebd4e76830",
+      "capability": "Hierarchical skill formation",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-hierarchical-skill",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "a registry of reusable callable subprocedures with declared entry, exit, and resource contracts",
+        "inputs": "action sequence where a contiguous subsequence recurs across tasks with shared dynamics",
+        "required_behaviour": "replace a recurring action subsequence by an externally equivalent reusable call when its measured reuse benefit exceeds its registration and invocation costs",
+        "resource_metric": "skill description size, skill retrieval cost, and retained state per level",
+        "success_metric": "planning and execution cost reduction across tasks versus flat search; skill reuse count and transfer"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -349,26 +568,42 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "2272ae3779a0333c11687b1282b8287f311ae52b56526603777ed0ebd4e76830",
-      "capability": "Hierarchical skill formation",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-hierarchical-skill",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "option/macro",
+        "pvr-3"
+      ],
+      "original_operational_contract": {
         "allowed_info": "skill library of retained sub-quotients; option/macro that compiles the subsequence into one decision",
         "inputs": "action sequence where a contiguous subsequence recurs across tasks with shared dynamics",
         "required_behaviour": "chunk the recurring subsequence into a skill when PVR-3 threshold is crossed; second-level chunking self-limits as C lowers",
         "resource_metric": "skill description size, skill retrieval cost, and retained state per level",
         "success_metric": "planning and execution cost reduction across tasks versus flat search; skill reuse count and transfer"
       },
+      "semantic_rationale": "Option/macro and chunking terminology is replaced by externally equivalent reusable callable-subprocedure semantics."
+    },
+    {
+      "canonical_source_row_sha256": "2bfa6530eb9cbc8fa21d82b7010a2effca512daaff4296c45c126b7081793d37",
+      "capability": "Planning",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-planning",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "registered current-state, action, transition-query, and goal information under a metered computation budget; no future-state oracle beyond that transition contract",
+        "inputs": "current state, action set, transition model, and goal predicate over future states (plus horizon/budget)",
+        "required_behaviour": "return a trajectory whose next action is optimal under the registered transition contract and request additional computation only when its registered decision value exceeds cost",
+        "resource_metric": "simulation steps tau, search frontier size, and model-query cost",
+        "success_metric": "goal attainment rate and action optimality under the model; planning-depth vs accuracy tradeoff"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -376,26 +611,40 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "2bfa6530eb9cbc8fa21d82b7010a2effca512daaff4296c45c126b7081793d37",
-      "capability": "Planning",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-planning",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "model-based lookahead"
+      ],
+      "original_operational_contract": {
         "allowed_info": "internal simulation (model-based lookahead) consuming tau; no oracle rollout beyond the declared model fidelity",
         "inputs": "current state, action set, transition model, and goal predicate over future states (plus horizon/budget)",
         "required_behaviour": "return a trajectory whose next action is optimal under the model and stop expanding when no expansion changes the action or pays (EVC <= 0)",
         "resource_metric": "simulation steps tau, search frontier size, and model-query cost",
         "success_metric": "goal attainment rate and action optimality under the model; planning-depth vs accuracy tradeoff"
       },
+      "semantic_rationale": "Model-based lookahead is replaced by registered transition-query access and an external trajectory/action obligation."
+    },
+    {
+      "canonical_source_row_sha256": "74dff830cdd890b2279ea2561100a4f3be2e321d6df7825de5c7e1f988d5fd73",
+      "capability": "Exploration/information seeking",
+      "changed_operational_fields": [
+        "allowed_info"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-exploration",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "a registered uncertainty or ambiguity description over the obligation-relevant quotient plus declared probe outcome and cost contracts",
+        "inputs": "uncertain world/task distribution with probes whose answers have declared cost and downstream value",
+        "required_behaviour": "select the probe whose expected reduction in obligation-relevant uncertainty minus resources is maximal (non-negative to act)",
+        "resource_metric": "probe execution cost, search/experiment budget, and time to decision",
+        "success_metric": "information gain per cost and downstream decision accuracy versus no-probe or random-probe baseline"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -403,26 +652,40 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "74dff830cdd890b2279ea2561100a4f3be2e321d6df7825de5c7e1f988d5fd73",
-      "capability": "Exploration/information seeking",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-exploration",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "bayesian or worst-case"
+      ],
+      "original_operational_contract": {
         "allowed_info": "probe proposal plus Bayesian or worst-case uncertainty measure over the obligation-relevant quotient",
         "inputs": "uncertain world/task distribution with probes whose answers have declared cost and downstream value",
         "required_behaviour": "select the probe whose expected reduction in obligation-relevant uncertainty minus resources is maximal (non-negative to act)",
         "resource_metric": "probe execution cost, search/experiment budget, and time to decision",
         "success_metric": "information gain per cost and downstream decision accuracy versus no-probe or random-probe baseline"
       },
+      "semantic_rationale": "Named Bayesian/worst-case method alternatives are replaced by a typed uncertainty/ambiguity contract."
+    },
+    {
+      "canonical_source_row_sha256": "4499016b3eff31a278dc21d5ae9ce3791710b6cc187007de7f3a6fe528b1e35a",
+      "capability": "Causal inference",
+      "changed_operational_fields": [
+        "allowed_info"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-causal-inference",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "the registered observational distribution, admissible intervention results, and declared causal-model assumptions; no privileged counterfactual labels",
+        "inputs": "observational distribution P(X,Y) plus admissible intervention set and declared graph class",
+        "required_behaviour": "distinguish P(Y|X) from P(Y|do(X)) and report identifiability correctly within the declared graph scope",
+        "resource_metric": "graph search cost and identification proof length",
+        "success_metric": "identification correctness on the registered SCM (CAU-5a tables) and sign/bound accuracy where identifiable"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -430,26 +693,41 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "4499016b3eff31a278dc21d5ae9ce3791710b6cc187007de7f3a6fe528b1e35a",
-      "capability": "Causal inference",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-causal-inference",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "back-door",
+        "do-calculus"
+      ],
+      "original_operational_contract": {
         "allowed_info": "causal identification machinery (back-door, do-calculus) and supported intervention evaluation; no privileged counterfactual labels",
         "inputs": "observational distribution P(X,Y) plus admissible intervention set and declared graph class",
         "required_behaviour": "distinguish P(Y|X) from P(Y|do(X)) and report identifiability correctly within the declared graph scope",
         "resource_metric": "graph search cost and identification proof length",
         "success_metric": "identification correctness on the registered SCM (CAU-5a tables) and sign/bound accuracy where identifiable"
       },
+      "semantic_rationale": "Back-door and do-calculus are proof procedures, so the normalized contract retains only inputs, assumptions, intervention semantics, and correct effects."
+    },
+    {
+      "canonical_source_row_sha256": "486327e49a8da6be1b7a996062079939c0d9956580a0cf858a88b4317da72e2e",
+      "capability": "Counterfactual reasoning",
+      "changed_operational_fields": [
+        "allowed_info"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-counterfactual-reasoning",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "the registered structural equations, exogenous-state constraints, intervention semantics, and response table; no unregistered counterfactual label",
+        "inputs": "observed outcome under an actual intervention plus the structural model and response table",
+        "required_behaviour": "compute P(Y_x' | x, y) or PN correctly where rung-3 is identifiable and abstain where only bounds exist",
+        "resource_metric": "counterfactual inference cost and model specification burden",
+        "success_metric": "counterfactual probability correctness on W5A/W5B (PN 1/2 vs 1) and bound soundness where not point-identified"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -457,26 +735,43 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "486327e49a8da6be1b7a996062079939c0d9956580a0cf858a88b4317da72e2e",
-      "capability": "Counterfactual reasoning",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-counterfactual-reasoning",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "abduction-action-prediction",
+        "twin network"
+      ],
+      "original_operational_contract": {
         "allowed_info": "counterfactual computation (twin network / abduction-action-prediction) within the declared response-table scope",
         "inputs": "observed outcome under an actual intervention plus the structural model and response table",
         "required_behaviour": "compute P(Y_x' | x, y) or PN correctly where rung-3 is identifiable and abstain where only bounds exist",
         "resource_metric": "counterfactual inference cost and model specification burden",
         "success_metric": "counterfactual probability correctness on W5A/W5B (PN 1/2 vs 1) and bound soundness where not point-identified"
       },
+      "semantic_rationale": "Twin-network and named inference-step wording is replaced by the information actually available to any solver."
+    },
+    {
+      "canonical_source_row_sha256": "a473c519501fece83e56f4544a8a01407a69386ee533db948670f1a18801bc42",
+      "capability": "Metacognition",
+      "changed_operational_fields": [
+        "allowed_info",
+        "inputs",
+        "required_behaviour"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-metacognition",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "quantities computed solely from that decision record, including registered confidence, error-risk, and value-of-computation coordinates",
+        "inputs": "a registered decision record containing still-possible worlds, adequate-action sets, available probes, and their declared costs",
+        "required_behaviour": "act only when the decision record supports a common adequate action, continue acquiring information only when registered expected decision gain exceeds cost, and choose the admissible strategy with best registered worst-case value",
+        "resource_metric": "metacognitive computation (EVC evaluation) and strategy-register evaluation cost",
+        "success_metric": "calibration (adequacy rate at each conf level equals that level) and decision accuracy per cost"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -484,26 +779,43 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "a473c519501fece83e56f4544a8a01407a69386ee533db948670f1a18801bc42",
-      "capability": "Metacognition",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-metacognition",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "surviving candidate set"
+      ],
+      "original_operational_contract": {
         "allowed_info": "derived confidence conf=|adequate|/|S|, error likelihood 1-conf, and expected value of cognition EVC",
         "inputs": "internal decision state: surviving candidate set S, adequate-action sets Gamma(w), pending probes and costs",
         "required_behaviour": "gate action with confidence=1 iff C(S) nonempty, continue probing iff EVC>0, and select among reasoning strategies by worst-case total value",
         "resource_metric": "metacognitive computation (EVC evaluation) and strategy-register evaluation cost",
         "success_metric": "calibration (adequacy rate at each conf level equals that level) and decision accuracy per cost"
       },
+      "semantic_rationale": "The internal surviving-candidate representation is projected to an external typed decision record."
+    },
+    {
+      "canonical_source_row_sha256": "5f836182f0955089f05865ce32818f16ca3669bfad5391a337b1c8258d857fa9",
+      "capability": "Social cognition / theory of mind",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour",
+        "resource_metric",
+        "success_metric"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-social-cognition",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "the registered action transcript, public context, and declared incentive/information constraints of the other participant; no private-state label",
+        "inputs": "observations of another agent's actions plus declared ecology of that agent's incentives and information",
+        "required_behaviour": "predict or best-respond to the other participant whenever distinct hidden response classes are separated by the registered transcript, and abstain when they are not",
+        "resource_metric": "stored transcript-response distinction count, response-computation cost, and registered interaction-depth cost",
+        "success_metric": "held-out response accuracy or joint payoff against a matched transcript-only baseline, with abstention scored under the declared rule"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -511,53 +823,40 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "5f836182f0955089f05865ce32818f16ca3669bfad5391a337b1c8258d857fa9",
-      "capability": "Social cognition / theory of mind",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-social-cognition",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "agent model as retained state",
+        "beauty ladder",
+        "copycat/contrarian/beauty-contest"
+      ],
+      "original_operational_contract": {
         "allowed_info": "agent model as retained state predicting the other's policy (copycat/contrarian/beauty-contest) plus belief hierarchy of bounded depth",
         "inputs": "observations of another agent's actions plus declared ecology of that agent's incentives and information",
         "required_behaviour": "predict and best-respond to the other's policy where opponent-type matters; recurse to the exact closure depth (e.g. beauty ladder depth 3)",
         "resource_metric": "agent-model state size, inference tau, and recursion depth cost",
         "success_metric": "joint payoff versus fixed-policy baseline; opponent-type prediction accuracy; recursion depth correctness"
       },
-      "operational_fields": [
-        "inputs",
-        "allowed_info",
-        "required_behaviour",
-        "success_metric",
-        "resource_metric"
-      ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "semantic_rationale": "Toy opponent families and retained agent-model machinery are removed in favor of transcript-factorization behavior."
     },
     {
       "canonical_source_row_sha256": "92b2eee502d409ba54d21ebe765ec5ecc7b5f035077e1d4cd14019d1937f212a",
       "capability": "Communication",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-communication",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "protocol over the shared semantic cut; messages conditioned on local observations and common ground",
         "inputs": "shared obligation and context plus a declared message channel with width/cost/noise contract",
         "required_behaviour": "implement the distributed semantic cut: send exactly the distinctions the joint obligation requires, no more and no fewer",
         "resource_metric": "message width (symbols), channel uses, and protocol description cost",
         "success_metric": "distributed task success rate at matched message width; information-theoretic efficiency (bits per required distinction)"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -565,26 +864,36 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "protocol over the shared semantic cut; messages conditioned on local observations and common ground",
+        "inputs": "shared obligation and context plus a declared message channel with width/cost/noise contract",
+        "required_behaviour": "implement the distributed semantic cut: send exactly the distinctions the joint obligation requires, no more and no fewer",
+        "resource_metric": "message width (symbols), channel uses, and protocol description cost",
+        "success_metric": "distributed task success rate at matched message width; information-theoretic efficiency (bits per required distinction)"
+      },
+      "semantic_rationale": "Messages, shared observations, receiver behavior, and channel resources are external protocol coordinates."
     },
     {
       "canonical_source_row_sha256": "94df74c16c29a4b135d89f7537265652489a64cbbd4498e0f8847f60c7a1c169",
       "capability": "Imitation",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-imitation",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "observation of expert behaviour plus a correspondence mapping between demonstrator and imitator action spaces",
         "inputs": "demonstration trajectory of an expert (state-action sequence) under a declared embodiment mapping",
         "required_behaviour": "reproduce the expert's policy (not just trajectory) in the imitator's embodiment, generalising beyond the demo states",
         "resource_metric": "demonstration count, correspondence search cost, and imitation learning compute",
         "success_metric": "policy fidelity on held-out states and task success after imitation versus from-scratch learning"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -592,26 +901,36 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "observation of expert behaviour plus a correspondence mapping between demonstrator and imitator action spaces",
+        "inputs": "demonstration trajectory of an expert (state-action sequence) under a declared embodiment mapping",
+        "required_behaviour": "reproduce the expert's policy (not just trajectory) in the imitator's embodiment, generalising beyond the demo states",
+        "resource_metric": "demonstration count, correspondence search cost, and imitation learning compute",
+        "success_metric": "policy fidelity on held-out states and task success after imitation versus from-scratch learning"
+      },
+      "semantic_rationale": "Demonstrations and embodiment correspondence are external input/output contracts."
     },
     {
       "canonical_source_row_sha256": "05c8ff435db6c66ec72816f4386c6a5fef05c25b784c5a65940890e61757aeb2",
       "capability": "Teaching",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-teaching",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "pedagogical actions (demonstration, instruction, scaffolding, feedback) selected to maximise learner's future obligation success",
         "inputs": "learner state estimate plus a teachable procedure whose learning curve and transfer are declared",
         "required_behaviour": "choose teaching interventions that minimise learner's time-to-mastery at matched teaching cost; respect n > 1 + S/(C-U) break-even",
         "resource_metric": "teaching actions/instructions sent and teacher planning cost",
         "success_metric": "learner sample efficiency and post-teaching transfer accuracy versus no-teaching or random-teaching baseline"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -619,26 +938,36 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "pedagogical actions (demonstration, instruction, scaffolding, feedback) selected to maximise learner's future obligation success",
+        "inputs": "learner state estimate plus a teachable procedure whose learning curve and transfer are declared",
+        "required_behaviour": "choose teaching interventions that minimise learner's time-to-mastery at matched teaching cost; respect n > 1 + S/(C-U) break-even",
+        "resource_metric": "teaching actions/instructions sent and teacher planning cost",
+        "success_metric": "learner sample efficiency and post-teaching transfer accuracy versus no-teaching or random-teaching baseline"
+      },
+      "semantic_rationale": "Pedagogical actions, learner outcomes, and teaching cost are externally registered."
     },
     {
       "canonical_source_row_sha256": "3cdb8ee9fc1b6d0e20a9ca664f179dfdfffd7a51999f299b4b1ad85b2e8e1ef1",
       "capability": "Cultural accumulation",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-cultural-accumulation",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "cultural store (artifacts, language, institutions) transmitted with declared fidelity; no unbounded individual memory assumed",
         "inputs": "population of learners plus a transmission channel with fidelity contract and generational turnover",
         "required_behaviour": "ratchet complexity across generations so the population's frontier exceeds any single lifetime's reachable set",
         "resource_metric": "population size, transmission fidelity overhead, and cultural store size",
         "success_metric": "generational increase in task complexity solved and retention of prior gains (no cultural loss)"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -646,26 +975,82 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "cultural store (artifacts, language, institutions) transmitted with declared fidelity; no unbounded individual memory assumed",
+        "inputs": "population of learners plus a transmission channel with fidelity contract and generational turnover",
+        "required_behaviour": "ratchet complexity across generations so the population's frontier exceeds any single lifetime's reachable set",
+        "resource_metric": "population size, transmission fidelity overhead, and cultural store size",
+        "success_metric": "generational increase in task complexity solved and retention of prior gains (no cultural loss)"
+      },
+      "semantic_rationale": "Population, transmission, store, and generational frontier are external system-level coordinates."
     },
     {
       "canonical_source_row_sha256": "d537eae1c7bba3ce20f40ab46b76cd625eacb38e99512e8e53e92e17cf2c638e",
       "capability": "Self-modeling",
+      "changed_operational_fields": [
+        "allowed_info",
+        "required_behaviour",
+        "resource_metric"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-self-modeling",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
+        "allowed_info": "registered self-observation data and metered retained information available before each declared self-probe",
+        "inputs": "own internal state and process traces plus a probe family over self-state",
+        "required_behaviour": "correctly predict own future responses and resource needs within the declared self-probe family",
+        "resource_metric": "self-observation cost, retained-information size, response-computation cost, and update frequency",
+        "success_metric": "self-prediction accuracy and resource-estimation calibration on the declared self-probe set"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "self-model representation"
+      ],
+      "original_operational_contract": {
         "allowed_info": "self-observation channel (interoception / execution trace) and a self-model representation with declared fidelity",
         "inputs": "own internal state and process traces plus a probe family over self-state",
         "required_behaviour": "maintain a self-model that correctly predicts own future responses and resource needs within the probe family",
         "resource_metric": "self-monitoring cost, self-model state size, and update frequency",
         "success_metric": "self-prediction accuracy and resource-estimation calibration on the declared self-probe set"
       },
+      "semantic_rationale": "Self-model representation wording is projected to self-observation inputs, retained information, predictive behavior, and metered costs."
+    },
+    {
+      "canonical_source_row_sha256": "a0fd459088ee7f4e7f80b83822175cef720e936a5b5069db37995dcf5e3ec878",
+      "capability": "Self-improvement",
+      "changed_operational_fields": [
+        "allowed_info",
+        "inputs"
+      ],
+      "disposition": "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED",
+      "extra_fields": [],
+      "id": "cap-self-improvement",
+      "malformed_fields": [],
+      "missing_fields": [],
+      "normalized_operational_contract": {
+        "allowed_info": "registered performance records, modification proposals, governed modification-channel responses, and verification outcomes; no unregistered implementation oracle",
+        "inputs": "own performance history plus a declared governed modification operator over the registered implementation description or version carrier",
+        "required_behaviour": "apply self-modifications that improve the capability frontier or resource efficiency and pass the verification gate",
+        "resource_metric": "self-modification search cost, verification cost, and risk of regression",
+        "success_metric": "frontier expansion or resource reduction after self-modification versus no-modification baseline at matched verification"
+      },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -673,53 +1058,39 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
-    },
-    {
-      "canonical_source_row_sha256": "a0fd459088ee7f4e7f80b83822175cef720e936a5b5069db37995dcf5e3ec878",
-      "capability": "Self-improvement",
-      "extra_fields": [],
-      "forbidden_family_tokens": [],
-      "id": "cap-self-improvement",
-      "implementation_remints_checked": 4,
-      "malformed_fields": [],
-      "missing_fields": [],
-      "note": "The generic phrase 'architecture edit' in self-improvement names an allowed intervention, not a required implementation family.",
-      "operational_contract": {
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [
+        "architecture edit",
+        "introspective evaluation"
+      ],
+      "original_operational_contract": {
         "allowed_info": "introspective evaluation and a governed self-modification channel with verification gate",
         "inputs": "own performance history plus a declared improvement operator (self-rewrite, hyperparameter update, architecture edit)",
         "required_behaviour": "apply self-modifications that improve the capability frontier or resource efficiency and pass the verification gate",
         "resource_metric": "self-modification search cost, verification cost, and risk of regression",
         "success_metric": "frontier expansion or resource reduction after self-modification versus no-modification baseline at matched verification"
       },
-      "operational_fields": [
-        "inputs",
-        "allowed_info",
-        "required_behaviour",
-        "success_metric",
-        "resource_metric"
-      ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "semantic_rationale": "Architecture-edit and introspective-evaluation wording is replaced by an opaque governed modification operator and explicit registered records/channel responses."
     },
     {
       "canonical_source_row_sha256": "46dda2a62420af81343d8ae1bc1321a8dd464dcaf2e5c8d1fcfb6d2e5ef6fd78",
       "capability": "Tool use",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-tool-use",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "tool-call channel plus tool inputs/outputs; internal state alone does not contain the tool's information or transformation",
         "inputs": "task requiring an external transformation (calculator, code executor, database, actuator) with declared tool contract",
         "required_behaviour": "compose with the tool so joint system achieves the obligation while internal tau is reduced by the tool's contribution",
         "resource_metric": "tool-call count, tool latency/cost, and tool-interface description overhead",
         "success_metric": "task success rate with tool versus without, at matched tool-call budget and communication cost"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -727,26 +1098,36 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "tool-call channel plus tool inputs/outputs; internal state alone does not contain the tool's information or transformation",
+        "inputs": "task requiring an external transformation (calculator, code executor, database, actuator) with declared tool contract",
+        "required_behaviour": "compose with the tool so joint system achieves the obligation while internal tau is reduced by the tool's contribution",
+        "resource_metric": "tool-call count, tool latency/cost, and tool-interface description overhead",
+        "success_metric": "task success rate with tool versus without, at matched tool-call budget and communication cost"
+      },
+      "semantic_rationale": "The tool is an external contracted transformation and the capability is scored on joint behavior and call resources."
     },
     {
       "canonical_source_row_sha256": "9eb5e1df01c202a65c003562aa2073fd50bd246af445cc9c5b439c1125ee0bda",
       "capability": "Coordination/collective cognition",
+      "changed_operational_fields": [],
+      "disposition": "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL",
       "extra_fields": [],
-      "forbidden_family_tokens": [],
       "id": "cap-coordination",
-      "implementation_remints_checked": 4,
       "malformed_fields": [],
       "missing_fields": [],
-      "note": "",
-      "operational_contract": {
+      "normalized_operational_contract": {
         "allowed_info": "collective state, joint action selection, and coordination protocol over the social-topology cut structure",
         "inputs": "population of agents with overlapping or coupled obligations and a declared social topology and communication contract",
         "required_behaviour": "achieve the coupled obligation that no single agent can achieve alone, with coordination cost correctly accounted",
         "resource_metric": "communication volume, coordination rounds, and collective state size",
         "success_metric": "collective success rate versus independent-agent baseline; coordination overhead and consensus quality"
       },
+      "normalized_residual_forbidden_family_tokens": [],
+      "normalized_residual_mechanism_prior_triggers": [],
+      "normalized_status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE",
       "operational_fields": [
         "inputs",
         "allowed_info",
@@ -754,8 +1135,16 @@
         "success_metric",
         "resource_metric"
       ],
-      "remint_invariant": true,
-      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+      "original_forbidden_family_tokens": [],
+      "original_mechanism_prior_triggers": [],
+      "original_operational_contract": {
+        "allowed_info": "collective state, joint action selection, and coordination protocol over the social-topology cut structure",
+        "inputs": "population of agents with overlapping or coupled obligations and a declared social topology and communication contract",
+        "required_behaviour": "achieve the coupled obligation that no single agent can achieve alone, with coordination cost correctly accounted",
+        "resource_metric": "communication volume, coordination rounds, and collective state size",
+        "success_metric": "collective success rate versus independent-agent baseline; coordination overhead and consensus quality"
+      },
+      "semantic_rationale": "Topology, messages, joint actions, collective success, and overhead are external multi-agent coordinates."
     }
   ],
   "ceilings": [
@@ -1099,6 +1488,7 @@
     }
   ],
   "issue": 918,
+  "normalized_contract_sha256": "2e84def145ca6bee6e5adaecae1b8dbfbb81489d3d2bfab7d80bf8d2c1b40145",
   "parent_issue": 833,
   "schema": "GMI833CapabilityCeilingReauditLedgerV1",
   "source_pr": 921

@@ -24,12 +24,18 @@ The row is architecture-independent at registered scope when:
 
 1. all eleven schema fields are present, no extra field is smuggled in, and the registered text contracts are well formed;
 2. `A` states externally testable inputs, information access, behavior, success, and resources;
-3. no operational field requires a named implementation family; and
-4. adjoining an audit-only implementation label and applying any bijective remint to that label leaves `A` unchanged.
+3. no operational field requires a named implementation family, internal representation, named solution procedure, or toy opponent family; and
+4. the truth conditions can be evaluated from the registered external coordinates without inspecting how a realization computes them.
 
-The executor checks those predicates for all 27 rows, records each canonical row digest, and pins the whole original JSON blob. All 27 pass. The phrase “architecture edit” in `cap-self-improvement` denotes an externally permitted intervention alongside self-rewrite and hyperparameter update; it does not require an architecture family. Functional terms such as policy, causal identification, message protocol, store, and query describe contract roles, not privileged implementations.
+Token absence and reminting an audit-only label do not prove items 3–4. The executor therefore requires a hand-authored semantic rationale for every ID, records the original and normalized operational tuples side by side, and fails unless every changed field is explicit.
 
-The result is intentionally bounded: absence of a fixed token list is not a semantic proof about arbitrary future prose. Source drift, a missing/malformed/extra field, a named implementation family in an operational field, or changed external semantics under remint falsifies the registered audit.
+Eleven original operational contracts are accepted as already external. Sixteen require normalized replacements:
+
+`cap-semantic-memory`, `cap-procedural-memory`, `cap-retrieval`, `cap-consolidation`, `cap-prediction`, `cap-abstraction-concept`, `cap-compositional-reasoning`, `cap-hierarchical-skill`, `cap-planning`, `cap-exploration`, `cap-causal-inference`, `cap-counterfactual-reasoning`, `cap-metacognition`, `cap-social-cognition`, `cap-self-modeling`, and `cap-self-improvement`.
+
+The repairs remove or generalize mechanism-bearing phrases such as compressed-store/world-model/self-model representations, production/circuit/policy, parametric-state decomposition, replay, PVR-3, compositional codebooks, option/macro, model-based lookahead, Bayesian/back-door/do-calculus/twin-network procedures, an internal surviving-candidate representation, toy social opponent families, introspective evaluation, and architecture edit. They replace them with external inputs, allowed information, response obligations, scoring, and metered resource coordinates. The resulting 27-row artifact is `ARCHITECTURE_NEUTRAL_CAPABILITY_CONTRACT_V1.json`.
+
+The original blob remains byte-pinned and is not retroactively declared architecture-independent. The result is intentionally bounded to the normalized contract and these semantic dispositions; it is not proof about arbitrary future prose. Source drift, an unledgered change, a residual mechanism prior, or a missing/malformed/extra field falsifies the registered audit.
 
 ## 3. Reproof inventory
 

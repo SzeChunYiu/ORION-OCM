@@ -36,16 +36,43 @@ class CapabilityCeilingReauditV1Tests(unittest.TestCase):
         self.assertTrue(all(not row["extra_fields"] for row in rows))
         self.assertTrue(all(not row["malformed_fields"] for row in rows))
 
-    def test_all_27_operational_contracts_pass_registered_architecture_audit(self):
+    def test_all_27_normalized_contracts_pass_registered_architecture_audit(self):
         rows = M.architecture_audit()
-        self.assertTrue(all(row["remint_invariant"] for row in rows))
-        self.assertTrue(all(row["implementation_remints_checked"] == 4 for row in rows))
-        self.assertTrue(all(not row["forbidden_family_tokens"] for row in rows))
-        self.assertTrue(all(row["status"] == "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE" for row in rows))
+        self.assertTrue(all(row["semantic_rationale"] for row in rows))
+        self.assertTrue(all(not row["normalized_residual_forbidden_family_tokens"] for row in rows))
+        self.assertTrue(all(not row["normalized_residual_mechanism_prior_triggers"] for row in rows))
+        self.assertTrue(all(row["normalized_status"] == "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_EXTERNAL_CONTRACT_SCOPE" for row in rows))
 
-    def test_self_improvement_architecture_edit_is_scoped_as_an_intervention(self):
+    def test_original_and_normalized_dispositions_are_explicit(self):
+        rows = M.architecture_audit()
+        original = [row for row in rows if row["disposition"] == "ORIGINAL_OPERATIONAL_CONTRACT_ACCEPTED_AS_EXTERNAL"]
+        normalized = [row for row in rows if row["disposition"] == "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED"]
+        self.assertEqual((len(original), len(normalized)), (11, 16))
+        self.assertTrue(all(not row["changed_operational_fields"] for row in original))
+        self.assertTrue(all(row["changed_operational_fields"] for row in normalized))
+
+    def test_self_improvement_architecture_edit_is_replaced_not_excused(self):
         row = next(row for row in M.architecture_audit() if row["id"] == "cap-self-improvement")
-        self.assertIn("allowed intervention", row["note"])
+        self.assertIn("architecture edit", row["original_operational_contract"]["inputs"])
+        self.assertNotIn("architecture edit", row["normalized_operational_contract"]["inputs"])
+        self.assertEqual(row["changed_operational_fields"], ["allowed_info", "inputs"])
+
+    def test_named_mechanism_priors_are_replaced_field_by_field(self):
+        rows = {row["id"]: row for row in M.architecture_audit()}
+        for row_id in (
+            "cap-procedural-memory", "cap-compositional-reasoning", "cap-hierarchical-skill",
+            "cap-exploration", "cap-causal-inference", "cap-counterfactual-reasoning",
+            "cap-social-cognition",
+        ):
+            with self.subTest(row_id=row_id):
+                self.assertEqual(rows[row_id]["disposition"], "NORMALIZED_OPERATIONAL_REPLACEMENT_REQUIRED")
+                self.assertTrue(rows[row_id]["changed_operational_fields"])
+
+    def test_normalized_contract_file_is_canonical_and_source_bound(self):
+        contract = M.normalized_capability_contract()
+        self.assertEqual(contract["source_contract_blob"], M.PINS["contract"][1])
+        self.assertEqual(len(contract["rows"]), 27)
+        self.assertEqual(M.canonical(contract), (HERE / "ARCHITECTURE_NEUTRAL_CAPABILITY_CONTRACT_V1.json").read_bytes())
 
     def test_exact_eleven_historical_ids_are_reconstructed(self):
         rows = M.ceiling_audit()
@@ -117,6 +144,9 @@ class CapabilityCeilingReauditV1Tests(unittest.TestCase):
         self.assertTrue(all(receipt["checks"].values()))
         self.assertEqual(receipt["counts"]["exact_census_cases"], 332)
         self.assertEqual(receipt["counts"]["capability_definitions_audited"], 27)
+        self.assertEqual(receipt["counts"]["original_operational_contracts_accepted_as_external"], 11)
+        self.assertEqual(receipt["counts"]["normalized_operational_replacements_required"], 16)
+        self.assertEqual(receipt["counts"]["normalized_architecture_independent_definitions"], 27)
         self.assertEqual(receipt["counts"]["ceilings_reproved"], 11)
         self.assertEqual(M.canonical(receipt), (HERE / "RESULT_V1.json").read_bytes())
         self.assertEqual(json.loads(M.canonical(receipt)), json.loads((HERE / "RESULT_V1.json").read_text()))
