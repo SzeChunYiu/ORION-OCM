@@ -272,7 +272,7 @@ def semantic_cost_layered_dp(atom_semantics, basis, targets,
                 c, e = all_known[t]
                 found[t] = {"cost": c, "expr": e, "semantics": list(t)}
         prev = new
-        if all(found[t] is not None for t in targets):
+        if targets and all(found[t] is not None for t in targets):
             out = {"targets": [found[t] for t in targets], "layers": layers,
                    "saturated": False, "cap_bound": False}
             break
@@ -496,7 +496,7 @@ def semantic_cost_layered_dp_fast(atom_semantics, basis, targets,
                 found[te] = {"cost": c, "expr": e,
                              "semantics": list(dec_check(te, n_rows, guard))}
         prev = newg
-        if all(found[te] is not None for te in target_enc):
+        if target_enc and all(found[te] is not None for te in target_enc):
             out = {"targets": [found[te] for te in target_enc],
                    "layers": layers, "saturated": False, "cap_bound": False,
                    "width_bound": False}

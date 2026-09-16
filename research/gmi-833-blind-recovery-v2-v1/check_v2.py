@@ -24,7 +24,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 PKG = "research/gmi-833-blind-recovery-v2-v1/"
-FREEZE_COMMIT = "3ee0c44522f842d6250cbdd2155892f73d29bfc8"
+FREEZE_COMMIT = "f7378c8e0a36d1206b99080f8f7b4ddde518e92d"  # post-rebase hash of the original freeze 3ee0c4452
 BATTERY_BLOB = "b7b358b55435ac0932e7e72318e189b59e10e5cf"  # amended (see erratum)
 FREEZE_FILES = ["README.md", "battery_generate_v1.py",
                 "NEUTRAL_BATTERY_FREEZE_V1.json", "BASIS_GRID_V1.json",
