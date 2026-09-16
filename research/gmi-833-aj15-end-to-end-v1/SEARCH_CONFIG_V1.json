@@ -1,0 +1,36 @@
+{
+  "schema":"AJ15_SEARCH_CONFIG_V1",
+  "bounded_parent":"research/gmi-833-aj9c-k02-blind-recovery-v1/RESULT_V1.json",
+  "unknown_parent":"research/gmi-833-aj10-prospective-unknown-v1/RESULT_V1.json",
+  "larger_task":{
+    "task_id":"TEMPORAL_A",
+    "alphabet_size":8,
+    "requirement":"emit previous symbol; initial previous symbol is 0",
+    "registered_max_states":8,
+    "protected_sequence_horizon":4
+  },
+  "negative_regime":{
+    "task_id":"CURRENT_B",
+    "alphabet_size":8,
+    "requirement":"emit current symbol",
+    "registered_max_states":8,
+    "protected_sequence_horizon":4,
+    "prediction":"resource-minimal exact solution uses one state; persistent multi-state organization is not selected under positive state price"
+  },
+  "blind_search_allowed_inputs":[
+    "alphabet",
+    "behavioral_requirement_oracle",
+    "max_state_count",
+    "protected_sequence_horizon",
+    "generic_output-row constraints",
+    "generic deterministic transition constraints"
+  ],
+  "blind_search_forbidden_tokens":["K02","recurrent","stateful","RNN","LSTM","GRU","hidden_state"],
+  "searches":[
+    "response-signature quotient synthesis",
+    "incremental deterministic constraint synthesis"
+  ],
+  "raw_candidate_space_definition":"for q states and m symbols, each q*m Mealy row chooses one of q*m (next-state,output) pairs",
+  "posthoc_family_matching":"only after blind search result is fixed",
+  "failure_terminal":"NOT_RECOVERED_AT_SCOPE"
+}
