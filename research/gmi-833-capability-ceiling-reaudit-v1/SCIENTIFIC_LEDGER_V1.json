@@ -1,0 +1,1105 @@
+{
+  "architecture_independence_criterion": {
+    "boundary": "This is an exact audit of the pinned structured artifact, not proof that arbitrary future prose lacks hidden architectural commitments.",
+    "forbidden_family_tokens": [
+      "transformer",
+      "lstm",
+      "gru",
+      "rnn",
+      "cnn",
+      "gnn",
+      "mlp",
+      "neural network",
+      "bayesian network",
+      "random forest",
+      "support vector machine",
+      "backpropagation",
+      "qkv",
+      "softmax",
+      "convolutional network"
+    ],
+    "operational_fields": [
+      "inputs",
+      "allowed_info",
+      "required_behaviour",
+      "success_metric",
+      "resource_metric"
+    ],
+    "semantics": "External contract truth is unchanged by bijective reminting of an audit-only implementation label."
+  },
+  "capability_definitions": [
+    {
+      "canonical_source_row_sha256": "58c285d04becd4484de68e6c3618b69c630baf91ec2b936372d37aa56c90de70",
+      "capability": "Perception",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-perception",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "current semantic cut c(X_t) and calibration context; no privileged future or oracle side channel",
+        "inputs": "raw sensor stream X_t with declared sensor type, noise model, bandwidth and latency contract",
+        "required_behaviour": "emit response r_t that distinguishes obligation-relevant equivalence classes of X_t under declared noise",
+        "resource_metric": "sensor bandwidth, encoding bits |c|, and transformation cost tau for the perception map",
+        "success_metric": "exact 0/1 correctness on the obligation partition, or L2/0-1 error within declared tolerance epsilon"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "78d62d17ccb4182e9784838bccde1f3cc41c74c7f490e7defc5b8d226daae304",
+      "capability": "Selective attention",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-selective-attention",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "context-conditioned routing decision plus the selected source; no simultaneous full product",
+        "inputs": "multi-source stream (x0,x1,context q) with finite access constraint (only one source exposed per step)",
+        "required_behaviour": "route the obligation-relevant source for the current context q (achieve context-dependent accuracy above every fixed route)",
+        "resource_metric": "routing decision cost c_r plus accessed source width versus exposure cost c_e(|U|-E|E_x|)",
+        "success_metric": "exact accuracy on x_q obligation: 8/8 routed vs 6/8 best fixed source (GG55 census)"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "cfc3b1b8601347f43e409a5ab77857df1325edb7f575081243ffe1510300823f",
+      "capability": "Working memory",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-working-memory",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "bounded persistent state S_working carried through the delay; no external store access during delay",
+        "inputs": "transient cue that must be retained across a short interference-filled delay before response",
+        "required_behaviour": "maintain the cue distinction through the delay and emit it correctly at probe time despite interference",
+        "resource_metric": "persistent state cardinality |S_working|, maintenance transformation cost, and interference susceptibility",
+        "success_metric": "exact reproduction accuracy after delay, or within-tolerance recall; must degrade monotonically with load and interference"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "698ee92d0be6266da38586ad827d4d231cbbdec1dcf1c42397d8114d7258f0a5",
+      "capability": "Episodic memory",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-episodic-memory",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "episodic store plus cue-driven retrieval channel; no semantic summary alone suffices for the probe",
+        "inputs": "autobiographical event (what, where, when, context) presented once with spatiotemporal tags",
+        "required_behaviour": "reinstate the specific bound episode from a partial cue, distinguishing it from similar episodes",
+        "resource_metric": "episodic entry count N_t, encoding/retrieval cost, and consolidation cost to long-term store",
+        "success_metric": "cued recall precision and source discrimination (hit rate vs false reinstatement) on the obligation partition"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "4e5335f4f82eced0ab88bba50b9ed835b0ea2f9beb685e01a1acf1f28ebcc544",
+      "capability": "Semantic memory",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-semantic-memory",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "compressed semantic store abstracting away episode identity; no verbatim trace of each encounter retained",
+        "inputs": "repeated encounters with category members carrying stable statistical regularities across episodes",
+        "required_behaviour": "answer category-level probes (generalisation, property inference) by de-duplicating shared structure across episodes",
+        "resource_metric": "semantic code size, abstraction cost, and retrieval transformation tau",
+        "success_metric": "generalisation accuracy to held-out members and false-memory resistance on the semantic quotient"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "9bcca26496306b22e426d023c52d9465856ab28c7af78bf7f3de63d1a5aa9323",
+      "capability": "Procedural memory",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-procedural-memory",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "compiled procedural routine (production/circuit/policy) retrieved without declarative recall of instruction traces",
+        "inputs": "repeated practice on a sensorimotor or cognitive skill under a stable transformation requirement",
+        "required_behaviour": "execute the skill faster and with lower online transformation cost after compilation, with retained accuracy",
+        "resource_metric": "compiled code size, compilation (search) cost, and online execution cost",
+        "success_metric": "execution latency and online tau reduction at matched accuracy; interference/transfer cost to other skills"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "077d7918745597b098602756dfeace066d0f86fc2f8e761be56debfe6b837442",
+      "capability": "Retrieval",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-retrieval",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "retrieval transformation over the store plus current cue; store coverage and reliability declared",
+        "inputs": "probe cue plus external/persistent store with residual obligation-relevant distinctions",
+        "required_behaviour": "return the obligation-relevant residual that the parametric state alone lacks, within the retrieval cut capacity",
+        "resource_metric": "index size, retrieval query cost tau_retrieve, and communication cut width",
+        "success_metric": "residual accuracy gain over no-retrieval baseline at matched store coverage; retrieval precision/recall"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "f55ecb483df3eb3cf5f856cd0d2ed4738c976f2b7190e5203b4ec0794637f7ee",
+      "capability": "Consolidation",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-consolidation",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "offline replay channel and consolidation transformation that restructures traces into semantic/procedural form",
+        "inputs": "episodic traces accumulated over episodes plus a stable long-term store with replay opportunity",
+        "required_behaviour": "integrate traces so later retrieval needs fewer active states (saving t - ceil(log2 N_t)) while preserving joint retention",
+        "resource_metric": "replay steps, consolidation transformation cost, and resulting long-term code size",
+        "success_metric": "retention accuracy after consolidation at reduced active-state budget; CSR-1 minimum M*_t = N_t preserved"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "35af1a5d214c72a086eb379fd8a81f955937d7b11d61cc058bc9135036d302b5",
+      "capability": "Forgetting",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-forgetting",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "policy choosing which distinctions to merge/drop; no unbounded state expansion allowed",
+        "inputs": "accumulated distinctions that outgrow the state budget or become obligation-irrelevant under drift",
+        "required_behaviour": "drop exactly those distinctions whose loss costs least future obligation error, respecting the forgetting threshold",
+        "resource_metric": "retained state cardinality after forgetting and relearning cost for dropped distinctions if they recur",
+        "success_metric": "future expected loss after forgetting versus random or no-forgetting baseline at matched budget"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "b83c5c837c723c7a41c004d97c4330ece648178b62c0804fde2d79bf417d0e89",
+      "capability": "Prediction",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-prediction",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "predictive response representation (world model) plus current belief state; no oracle future observation",
+        "inputs": "temporal stream with predictable suffix given a learned world model and current state estimate",
+        "required_behaviour": "emit the predictive response that minimises obligation-relevant surprise (next observation or latent consequence)",
+        "resource_metric": "model code size, inference tau, and belief-state maintenance cost",
+        "success_metric": "next-step predictive accuracy and calibration of forecast uncertainty on the registered stream"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "7e8b9e82c8c1a21b7aa8a424427b6b94083db959ea6897fd88ba2bb214702a7c",
+      "capability": "Abstraction/concept formation",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-abstraction-concept",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "naming/boundary decision that groups instances into a class when PVR-3 reuse threshold is crossed",
+        "inputs": "instance stream where some distinctions are reusable across future obligations and others are idiosyncratic",
+        "required_behaviour": "form a new concept (name + boundary) exactly when reuse amortises naming cost; place boundaries at the bang-bang optimum",
+        "resource_metric": "number of concepts retained, boundary description bits, and retrieval cost per use",
+        "success_metric": "reuse-weighted accuracy: concept-assisted future probe accuracy minus naming cost, versus no-concept baseline"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "e8642139dabba3654656a6ae9e3569598c9f3460d895ca3d7dc6873d2c60c7f8",
+      "capability": "Compositional reasoning",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-compositional-reasoning",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "compositional code where each primitive's code is reused; no holistic codebook larger than the product",
+        "inputs": "structured query whose meaning is a product of primitive meanings (e.g. a* -> b* with constraints)",
+        "required_behaviour": "compose primitive answers into the correct product response without enumerating the full product table",
+        "resource_metric": "codebook size (|primitives| not |product|) and composition transformation cost",
+        "success_metric": "accuracy on held-out compositions (systematic generalisation) and description-length saving versus holistic enumeration"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "2272ae3779a0333c11687b1282b8287f311ae52b56526603777ed0ebd4e76830",
+      "capability": "Hierarchical skill formation",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-hierarchical-skill",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "skill library of retained sub-quotients; option/macro that compiles the subsequence into one decision",
+        "inputs": "action sequence where a contiguous subsequence recurs across tasks with shared dynamics",
+        "required_behaviour": "chunk the recurring subsequence into a skill when PVR-3 threshold is crossed; second-level chunking self-limits as C lowers",
+        "resource_metric": "skill description size, skill retrieval cost, and retained state per level",
+        "success_metric": "planning and execution cost reduction across tasks versus flat search; skill reuse count and transfer"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "2bfa6530eb9cbc8fa21d82b7010a2effca512daaff4296c45c126b7081793d37",
+      "capability": "Planning",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-planning",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "internal simulation (model-based lookahead) consuming tau; no oracle rollout beyond the declared model fidelity",
+        "inputs": "current state, action set, transition model, and goal predicate over future states (plus horizon/budget)",
+        "required_behaviour": "return a trajectory whose next action is optimal under the model and stop expanding when no expansion changes the action or pays (EVC <= 0)",
+        "resource_metric": "simulation steps tau, search frontier size, and model-query cost",
+        "success_metric": "goal attainment rate and action optimality under the model; planning-depth vs accuracy tradeoff"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "74dff830cdd890b2279ea2561100a4f3be2e321d6df7825de5c7e1f988d5fd73",
+      "capability": "Exploration/information seeking",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-exploration",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "probe proposal plus Bayesian or worst-case uncertainty measure over the obligation-relevant quotient",
+        "inputs": "uncertain world/task distribution with probes whose answers have declared cost and downstream value",
+        "required_behaviour": "select the probe whose expected reduction in obligation-relevant uncertainty minus resources is maximal (non-negative to act)",
+        "resource_metric": "probe execution cost, search/experiment budget, and time to decision",
+        "success_metric": "information gain per cost and downstream decision accuracy versus no-probe or random-probe baseline"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "4499016b3eff31a278dc21d5ae9ce3791710b6cc187007de7f3a6fe528b1e35a",
+      "capability": "Causal inference",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-causal-inference",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "causal identification machinery (back-door, do-calculus) and supported intervention evaluation; no privileged counterfactual labels",
+        "inputs": "observational distribution P(X,Y) plus admissible intervention set and declared graph class",
+        "required_behaviour": "distinguish P(Y|X) from P(Y|do(X)) and report identifiability correctly within the declared graph scope",
+        "resource_metric": "graph search cost and identification proof length",
+        "success_metric": "identification correctness on the registered SCM (CAU-5a tables) and sign/bound accuracy where identifiable"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "486327e49a8da6be1b7a996062079939c0d9956580a0cf858a88b4317da72e2e",
+      "capability": "Counterfactual reasoning",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-counterfactual-reasoning",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "counterfactual computation (twin network / abduction-action-prediction) within the declared response-table scope",
+        "inputs": "observed outcome under an actual intervention plus the structural model and response table",
+        "required_behaviour": "compute P(Y_x' | x, y) or PN correctly where rung-3 is identifiable and abstain where only bounds exist",
+        "resource_metric": "counterfactual inference cost and model specification burden",
+        "success_metric": "counterfactual probability correctness on W5A/W5B (PN 1/2 vs 1) and bound soundness where not point-identified"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "a473c519501fece83e56f4544a8a01407a69386ee533db948670f1a18801bc42",
+      "capability": "Metacognition",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-metacognition",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "derived confidence conf=|adequate|/|S|, error likelihood 1-conf, and expected value of cognition EVC",
+        "inputs": "internal decision state: surviving candidate set S, adequate-action sets Gamma(w), pending probes and costs",
+        "required_behaviour": "gate action with confidence=1 iff C(S) nonempty, continue probing iff EVC>0, and select among reasoning strategies by worst-case total value",
+        "resource_metric": "metacognitive computation (EVC evaluation) and strategy-register evaluation cost",
+        "success_metric": "calibration (adequacy rate at each conf level equals that level) and decision accuracy per cost"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "5f836182f0955089f05865ce32818f16ca3669bfad5391a337b1c8258d857fa9",
+      "capability": "Social cognition / theory of mind",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-social-cognition",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "agent model as retained state predicting the other's policy (copycat/contrarian/beauty-contest) plus belief hierarchy of bounded depth",
+        "inputs": "observations of another agent's actions plus declared ecology of that agent's incentives and information",
+        "required_behaviour": "predict and best-respond to the other's policy where opponent-type matters; recurse to the exact closure depth (e.g. beauty ladder depth 3)",
+        "resource_metric": "agent-model state size, inference tau, and recursion depth cost",
+        "success_metric": "joint payoff versus fixed-policy baseline; opponent-type prediction accuracy; recursion depth correctness"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "92b2eee502d409ba54d21ebe765ec5ecc7b5f035077e1d4cd14019d1937f212a",
+      "capability": "Communication",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-communication",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "protocol over the shared semantic cut; messages conditioned on local observations and common ground",
+        "inputs": "shared obligation and context plus a declared message channel with width/cost/noise contract",
+        "required_behaviour": "implement the distributed semantic cut: send exactly the distinctions the joint obligation requires, no more and no fewer",
+        "resource_metric": "message width (symbols), channel uses, and protocol description cost",
+        "success_metric": "distributed task success rate at matched message width; information-theoretic efficiency (bits per required distinction)"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "94df74c16c29a4b135d89f7537265652489a64cbbd4498e0f8847f60c7a1c169",
+      "capability": "Imitation",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-imitation",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "observation of expert behaviour plus a correspondence mapping between demonstrator and imitator action spaces",
+        "inputs": "demonstration trajectory of an expert (state-action sequence) under a declared embodiment mapping",
+        "required_behaviour": "reproduce the expert's policy (not just trajectory) in the imitator's embodiment, generalising beyond the demo states",
+        "resource_metric": "demonstration count, correspondence search cost, and imitation learning compute",
+        "success_metric": "policy fidelity on held-out states and task success after imitation versus from-scratch learning"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "05c8ff435db6c66ec72816f4386c6a5fef05c25b784c5a65940890e61757aeb2",
+      "capability": "Teaching",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-teaching",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "pedagogical actions (demonstration, instruction, scaffolding, feedback) selected to maximise learner's future obligation success",
+        "inputs": "learner state estimate plus a teachable procedure whose learning curve and transfer are declared",
+        "required_behaviour": "choose teaching interventions that minimise learner's time-to-mastery at matched teaching cost; respect n > 1 + S/(C-U) break-even",
+        "resource_metric": "teaching actions/instructions sent and teacher planning cost",
+        "success_metric": "learner sample efficiency and post-teaching transfer accuracy versus no-teaching or random-teaching baseline"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "3cdb8ee9fc1b6d0e20a9ca664f179dfdfffd7a51999f299b4b1ad85b2e8e1ef1",
+      "capability": "Cultural accumulation",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-cultural-accumulation",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "cultural store (artifacts, language, institutions) transmitted with declared fidelity; no unbounded individual memory assumed",
+        "inputs": "population of learners plus a transmission channel with fidelity contract and generational turnover",
+        "required_behaviour": "ratchet complexity across generations so the population's frontier exceeds any single lifetime's reachable set",
+        "resource_metric": "population size, transmission fidelity overhead, and cultural store size",
+        "success_metric": "generational increase in task complexity solved and retention of prior gains (no cultural loss)"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "d537eae1c7bba3ce20f40ab46b76cd625eacb38e99512e8e53e92e17cf2c638e",
+      "capability": "Self-modeling",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-self-modeling",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "self-observation channel (interoception / execution trace) and a self-model representation with declared fidelity",
+        "inputs": "own internal state and process traces plus a probe family over self-state",
+        "required_behaviour": "maintain a self-model that correctly predicts own future responses and resource needs within the probe family",
+        "resource_metric": "self-monitoring cost, self-model state size, and update frequency",
+        "success_metric": "self-prediction accuracy and resource-estimation calibration on the declared self-probe set"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "a0fd459088ee7f4e7f80b83822175cef720e936a5b5069db37995dcf5e3ec878",
+      "capability": "Self-improvement",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-self-improvement",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "The generic phrase 'architecture edit' in self-improvement names an allowed intervention, not a required implementation family.",
+      "operational_contract": {
+        "allowed_info": "introspective evaluation and a governed self-modification channel with verification gate",
+        "inputs": "own performance history plus a declared improvement operator (self-rewrite, hyperparameter update, architecture edit)",
+        "required_behaviour": "apply self-modifications that improve the capability frontier or resource efficiency and pass the verification gate",
+        "resource_metric": "self-modification search cost, verification cost, and risk of regression",
+        "success_metric": "frontier expansion or resource reduction after self-modification versus no-modification baseline at matched verification"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "46dda2a62420af81343d8ae1bc1321a8dd464dcaf2e5c8d1fcfb6d2e5ef6fd78",
+      "capability": "Tool use",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-tool-use",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "tool-call channel plus tool inputs/outputs; internal state alone does not contain the tool's information or transformation",
+        "inputs": "task requiring an external transformation (calculator, code executor, database, actuator) with declared tool contract",
+        "required_behaviour": "compose with the tool so joint system achieves the obligation while internal tau is reduced by the tool's contribution",
+        "resource_metric": "tool-call count, tool latency/cost, and tool-interface description overhead",
+        "success_metric": "task success rate with tool versus without, at matched tool-call budget and communication cost"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    },
+    {
+      "canonical_source_row_sha256": "9eb5e1df01c202a65c003562aa2073fd50bd246af445cc9c5b439c1125ee0bda",
+      "capability": "Coordination/collective cognition",
+      "extra_fields": [],
+      "forbidden_family_tokens": [],
+      "id": "cap-coordination",
+      "implementation_remints_checked": 4,
+      "malformed_fields": [],
+      "missing_fields": [],
+      "note": "",
+      "operational_contract": {
+        "allowed_info": "collective state, joint action selection, and coordination protocol over the social-topology cut structure",
+        "inputs": "population of agents with overlapping or coupled obligations and a declared social topology and communication contract",
+        "required_behaviour": "achieve the coupled obligation that no single agent can achieve alone, with coordination cost correctly accounted",
+        "resource_metric": "communication volume, coordination rounds, and collective state size",
+        "success_metric": "collective success rate versus independent-agent baseline; coordination overhead and consensus quality"
+      },
+      "operational_fields": [
+        "inputs",
+        "allowed_info",
+        "required_behaviour",
+        "success_metric",
+        "resource_metric"
+      ],
+      "remint_invariant": true,
+      "status": "ARCHITECTURE_INDEPENDENT_AT_REGISTERED_CONTRACT_SCOPE"
+    }
+  ],
+  "ceilings": [
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "a1119e8dff88ae62f16af81b153c4da2934481b25943103b63e52b1de4d0c291",
+      "falsifier": "An exact in-scope controller with S<K states solves all K pairwise distinguishable obligations with zero error.",
+      "generalization_beyond_toy_finite_space": "For arbitrary history-class and state sets, zero-error separation induces an injection from obligation classes into registered persistent response states; hence |H/~| <= |Q|. Tight realization requires a chosen representative/code for each class.",
+      "historical_assumptions": [
+        "finite history quotient",
+        "no external memory or hidden side channel",
+        "future observations do not re-separate histories already merged by the controller",
+        "zero-error registered obligation"
+      ],
+      "historical_bound": "K <= S; equivalently the internal state identity carries at most log2(S) bits of distinction.",
+      "historical_box": "State-capacity -> memory ceiling theorem.",
+      "historical_negative_twin": "K=3 delayed labels with S=2 states.",
+      "historical_quantity": "K pairwise obligation-distinguishable history classes versus S available internal states.",
+      "historical_repo_reference": "research/machine-intelligence-morphogenesis-v1/GMI_FINITE_STATE_DERIVATION_V1.md",
+      "historical_theorem_sha256": "bc90edcf677e233b6acce256b07e7c1af8bf8b9666d5660aaa19ce75b20bd9ac",
+      "id": "F2_STATE_CAPACITY_MEMORY",
+      "nearest_hostile": "Three pairwise-separated history classes and two states.",
+      "reproof": "If two obligation-distinguishable classes share one complete registered persistent response state, their common continuation yields the same response and one obligation fails. Therefore the class-to-state map is injective.",
+      "status": "VALID_AFTER_UPGRADED_REPROOF",
+      "strongest_parent": "Myhill-Nerode theorem and distinguishing-set/state lower bounds."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "737e833e4ec115aa05773d6bfeffbf611cec8c7b1e70fd2ab237e56198a64bd9",
+      "falsifier": "A policy using only the registered observation achieves zero error while assigning different required actions inside one observation fiber.",
+      "generalization_beyond_toy_finite_space": "For arbitrary sets X,Z,A and maps O:X->Z and g:X->A, a zero-error decoder exists exactly when g factors through O, equivalently when g is constant on every O-fiber.",
+      "historical_assumptions": [
+        "finite deterministic observation map",
+        "complete pre-decision information channel is registered",
+        "no post-observation probe, intervention, memory, or side information refines the fiber",
+        "zero-error required action"
+      ],
+      "historical_bound": "The required-action partition may not split an observation fiber; independently conditionable latent distinctions are bounded by the observation quotient.",
+      "historical_box": "Observation quotient -> task distinguishability ceiling.",
+      "historical_negative_twin": "Two latent states share one observation but require different actions.",
+      "historical_quantity": "Observation equivalence classes induced by the complete registered pre-decision observation map.",
+      "historical_repo_reference": null,
+      "historical_theorem_sha256": "12b146ce91e111481c7ed851f07bc6f5c40ae7d3491e0753b174ef958a916c4d",
+      "id": "F2_OBSERVATION_QUOTIENT",
+      "nearest_hostile": "Two latent points share an observation but require different actions.",
+      "reproof": "Any decoder pi gives g=pi\u2218O and therefore equality on fibers. Conversely, fiber constancy defines pi on im(O); extending outside im(O) is irrelevant (or uses a default only when A is nonempty).",
+      "status": "VALID_AFTER_UPGRADED_REPROOF",
+      "strongest_parent": "Blackwell comparison/sufficiency; deterministic specialization of information garbling and data processing."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "0b989d094da6951161b8bda7c4c2ae759e957ab7832d1a4adfebb489cb7e95d6",
+      "falsifier": "An in-scope B-bit deterministic protocol coordinates K>2^B distinct required receiver actions with zero error.",
+      "generalization_beyond_toy_finite_space": "For arbitrary sender-class set K and registered message carrier M, distinct required receiver actions with no correlated side information require an injection K->M, so |K|<=|M|. The B-bit law is the finite specialization |M|=2^B.",
+      "historical_assumptions": [
+        "finite sender coordination classes",
+        "noiseless deterministic fixed-length one-way communication",
+        "receiver has no correlated side information about sender class",
+        "distinct classes require distinct receiver actions",
+        "zero-error coordination"
+      ],
+      "historical_bound": "B >= ceil(log2 K), or equivalently K <= 2^B distinct zero-error coordination classes.",
+      "historical_box": "Communication bandwidth -> coordination ceiling.",
+      "historical_negative_twin": "K=5 coordination classes over B=2 bits.",
+      "historical_quantity": "K sender classes requiring distinct receiver actions versus a B-bit fixed-length one-way transcript.",
+      "historical_repo_reference": null,
+      "historical_theorem_sha256": "123b540307c70726734bd0afb9055e2444f8f2ff83f340f02c87ed9f71ef5d66",
+      "id": "F2_COMMUNICATION_BANDWIDTH",
+      "nearest_hostile": "Five coordination classes and four messages.",
+      "reproof": "Classes mapped to the same receiver-visible message induce the same receiver action, contradicting distinct requirements. An injective code is sufficient when available.",
+      "status": "VALID_AFTER_UPGRADED_REPROOF",
+      "strongest_parent": "Deterministic communication complexity; transcript/protocol-tree counting lower bound."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "364ef90fbcfb97b46ba04e0d0331d9214f8e86cbd081bcea56692332773d11d7",
+      "falsifier": "A fixed in-scope B-bit threshold decoder realizes more than 2^B distinct boundary placements, or covers all N+1 placements when 2^B<N+1.",
+      "generalization_beyond_toy_finite_space": "For arbitrary code carrier C, response-profile set Y, and frozen decoder d:C->Y, the representable profiles are im(d). Covering T requires T subset im(d), equivalently a code preimage for every target; under ordinary choice-based cardinal comparison this gives |T|<=|C|. The old one-threshold/N-point/2^B statement is one finite corollary, not a universal precision ceiling.",
+      "historical_assumptions": [
+        "one-dimensional one-threshold classifier family on a fixed finite ordered probe set",
+        "architecture and threshold decoder/codebook are frozen across the target family",
+        "all boundary-selecting precision-bearing parameters are included in the B-bit code",
+        "no architecture growth, additional high-precision parameter, or task-specific decoder rewrite",
+        "zero-error representation of the registered threshold labeling"
+      ],
+      "historical_bound": "Representable boundary placements <= min(2^B,N+1); complete threshold-family coverage requires B >= ceil(log2(N+1)).",
+      "historical_box": "Precision -> representable decision-boundary ceiling.",
+      "historical_negative_twin": "N=4 probe points expose five threshold placements but B=2 supplies at most four decoded placements.",
+      "historical_quantity": "N ordered probe points, hence N+1 distinct one-threshold labelings, versus a frozen B-bit threshold code with at most 2^B decoded boundary placements.",
+      "historical_repo_reference": null,
+      "historical_theorem_sha256": "0b2fa1f17e69fd745c843fc5807e9a94f1a06a6a96eee80a72cc224d94a4c70f",
+      "id": "F2_PRECISION_BOUNDARY",
+      "nearest_hostile": "Five required profiles, four codes, fixed decoder.",
+      "reproof": "The decoder is a surjection C->im(d). Covering target family T requires selecting at least one preimage code for every target; this yields an injection T->C when finite or when the stated choice principle is available.",
+      "status": "NARROWED_AND_REPROVED_AS_ARCHITECTURE_NEUTRAL_CODE_CARRIER_BOUND",
+      "strongest_parent": "Finite hypothesis-class/cardinality counting under parameter quantization; bounded specialization of quantized-network expressivity."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "141f4ae4cb75100864b15320611ec9343dca779e4d255130ea6ac55e1158b949",
+      "falsifier": "An in-scope deterministic A-symbol, T-event update channel selects K>A^T pairwise target-distinct persistent successor states from the same initial state.",
+      "generalization_beyond_toy_finite_space": "For finite event horizon T and arbitrary registered update alphabets U_t, target-dependent successors selected from one initial state form an image of the transcript product. Under ordinary choice-based cardinal comparison their cardinal is bounded by \u03a0_t |U_t|. Constant finite alphabet A gives A^T.",
+      "historical_assumptions": [
+        "fixed initial persistent state",
+        "finite deterministic update alphabet of size A",
+        "at most T update events",
+        "all target-dependent persistent information enters only through the registered update symbols",
+        "no unmetered direct write, external memory mutation, target-correlated side channel, or architecture growth",
+        "zero-error target reachability"
+      ],
+      "historical_bound": "K <= A^T; equivalently T >= ceil(log_A K) when A>1.",
+      "historical_box": "Update channel -> plasticity ceiling.",
+      "historical_negative_twin": "A=2 update symbols for T=2 events expose four transcripts but K=5 distinct successor targets.",
+      "historical_quantity": "K pairwise target-distinct successor states versus an A-symbol persistent update alphabet used for T update events.",
+      "historical_repo_reference": null,
+      "historical_theorem_sha256": "0d646ebc790f72d55d41c6617f6ad1319150240128b4fd590f075aff4d8364ea",
+      "id": "F2_UPDATE_CHANNEL_PLASTICITY",
+      "nearest_hostile": "Five target-distinct successors through two binary updates.",
+      "reproof": "Target-independent dynamics map each update transcript to at most one successor. Thus successor selection factors through the transcript product; finite cardinality is bounded directly, while the arbitrary-set cardinal comparison uses the stated choice convention.",
+      "status": "VALID_AFTER_UPGRADED_REPROOF",
+      "strongest_parent": "Finite-alphabet reachability/counting in quantized control and finite-rate information-constrained optimization."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "f8cc86a8c04df2a7600070d06653d5ae5088e8ebbb40db667823d078185ce7b5",
+      "falsifier": "An exact in-scope protected map of rank R admits more than D-R linearly independent zero-forgetting update directions.",
+      "generalization_beyond_toy_finite_space": "For any finite-dimensional vector space V over any field and linear protected-response map L:V->W, exact protected directions are ker(L), with dim ker(L)=dim V-rank(L). Nonlinear claims are only local when L is an explicit derivative.",
+      "historical_assumptions": [
+        "fixed D-dimensional mutable vector space",
+        "protected old behavior is represented by an exact linear map P",
+        "retention requires P*Delta=0 exactly",
+        "plasticity is counted as the dimension of linearly independent admissible update directions",
+        "no architecture growth or auxiliary mutable state outside the registered D coordinates"
+      ],
+      "historical_bound": "plastic update dimension <= D-R, equivalently protected rank + independent plastic rank <= D.",
+      "historical_box": "Protected-state rank -> retention/plasticity frontier.",
+      "historical_negative_twin": "D=3 with rank(P)=2 leaves one protected null direction, so a two-dimensional independent plastic update family is impossible without changing protected outputs.",
+      "historical_quantity": "A D-dimensional mutable parameter vector and an exact linear protected-output map P of rank R.",
+      "historical_repo_reference": "research/machine-intelligence-morphogenesis-v1/GMI_INTERFERENCE_STABILITY_PLASTICITY_V1.md",
+      "historical_theorem_sha256": "aa64fb5f22232e331afbd9a3b7e91fc852febc2da16ddbaf6384fc3fe8611c94",
+      "id": "F2_PROTECTED_RANK_FRONTIER",
+      "nearest_hostile": "A rank-two protected map on dimension three cannot contain two independent protected update directions.",
+      "reproof": "Exact first-order retention is L(delta)=0, hence delta lies in ker(L); rank-nullity gives the dimension and a kernel basis attains it.",
+      "status": "NARROWED_TO_EXACT_LINEAR_OR_EXPLICIT_FIRST_ORDER_SCOPE",
+      "strongest_parent": "Rank-nullity theorem; output-preserving/null-space projection methods in continual learning."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "ee38d929f83422d04889bd99ba78d61ddfc8c4f12553d1069d57cd053a8f872f",
+      "falsifier": "An in-scope planner guarantees complete depth h after inspecting fewer than N(b,h) nodes.",
+      "generalization_beyond_toy_finite_space": "For any registered rooted tree and finite depth h, if every node through h can independently contain the sole decisive event and no pruning certificate, oracle, or merging exists, complete coverage has inspection-cardinality lower bound equal to the entire through-depth-h node set, even when levels are nonuniform or infinite. Sufficiency is set-theoretic; an operational exhaustive procedure additionally needs an enumeration/well-order and completion semantics.",
+      "historical_assumptions": [
+        "finite full b-ary tree and integer horizon h>=0",
+        "node inspection is the metered planning resource",
+        "any node through depth h may be adversarially decisive",
+        "no heuristic oracle, pruning certificate, state merging/transposition, or structural dominance rule",
+        "guarantee is complete worst-case coverage, not success on one lucky path"
+      ],
+      "historical_bound": "N(b,h) <= R. For b>1, h <= floor(log_b(R(b-1)+1))-1; for b=1, h <= R-1.",
+      "historical_box": "Planning resource -> reachable horizon bound.",
+      "historical_negative_twin": "A binary tree with R=14 cannot guarantee complete depth 3 because depth 3 contains 15 nodes including the root; R=15 is tight.",
+      "historical_quantity": "Full b-ary planning tree, exhaustive node-inspection budget R, and guaranteed complete horizon h.",
+      "historical_repo_reference": "research/machine-intelligence-morphogenesis-v1/GMI_PLANNING_STOPPING_RULE_V1.md",
+      "historical_theorem_sha256": "3fa4454d3bc314b0ccb88731fa807c8d9cbd9724475f537397e4469d27fdd221",
+      "id": "F2_PLANNING_RESOURCE_HORIZON",
+      "nearest_hostile": "Binary depth-two tree, six inspections for seven possible decisive nodes.",
+      "reproof": "Leaving node u unseen makes the no-event world indistinguishable from a world whose sole event is u. Hence every node must be included in the inspected set. The b-ary geometric sum and breadth-first sufficiency are regular finite corollaries.",
+      "status": "VALID_AFTER_UPGRADED_REPROOF",
+      "strongest_parent": "Uninformed tree-search branching-factor complexity / exhaustive search."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "289110675509a91498c64b91e8f373f66486cda9989c4ed440a1d48bc51b1ee1",
+      "falsifier": "An in-scope deterministic search guarantees the unique valid candidate for all placements with Q<N queries.",
+      "generalization_beyond_toy_finite_space": "For any candidate set C and queried subset Q with |Q|<|C|, if success requires receiving a positive certificate from the unique valid candidate, no strategy restricted to Q guarantees success. Querying all candidates is sufficient only with a traversal/enumeration and completion semantics. If success is mere identification under an exactly-one promise, the finite bound is N-1, so that interpretation of the historical N-query wording is explicitly retracted.",
+      "historical_assumptions": [
+        "finite candidate set with exactly one potentially valid location",
+        "validity membership oracle is exact",
+        "candidate identities are unstructured and checking one candidate gives no information about another",
+        "no generative shortcut, ordering promise, heuristic oracle, side information, or parallel unmetered verification",
+        "worst-case zero-error guarantee"
+      ],
+      "historical_bound": "Worst-case guaranteed verified-solution class size <= Q; complete guarantee over N candidates requires Q>=N.",
+      "historical_box": "Search budget -> reachable verified-solution class.",
+      "historical_negative_twin": "N=5 candidates with Q=4 queries; whichever four indices are checked, the fifth can be the unique valid candidate.",
+      "historical_quantity": "N unstructured candidates, one hidden valid candidate, and Q deterministic membership-verifier queries.",
+      "historical_repo_reference": null,
+      "historical_theorem_sha256": "c22c10aab9763bfb6b770ac9bf2eb342334e190a3d8e02535c8fdc5871684cb4",
+      "id": "F2_SEARCH_BUDGET_VERIFIED_CLASS",
+      "nearest_hostile": "Five candidates and four queries: direct verification can fail at the fifth, while identification succeeds under an exactly-one promise.",
+      "reproof": "A strict-subcardinality queried subset omits some c; placing the valid target at c yields only negative answers and no positive certificate. Under the finite exactly-one promise, N-1 negatives identify the sole unqueried point without directly verifying it.",
+      "status": "NARROWED_TO_DIRECT_POSITIVE_VERIFICATION",
+      "strongest_parent": "Deterministic decision-tree/query complexity for unstructured search."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "686394c7d3d71f9763ca056b8c4258d6d2625928404ffbd87739865efc799482",
+      "falsifier": "Under the registered exchangeable perfect-check model, measured exact enumeration disagrees with C(M-q,r)/C(M,r), or a q<M deterministic verifier guarantees zero false adoption against an adversarial single defect.",
+      "generalization_beyond_toy_finite_space": "For arbitrary coordinate set I, inspected set S, and probability law mu over defect subsets D, false-adoption probability is mu({D:D\u2229S=\u2205}). Distribution-free zero false adoption against singleton defects requires S=I. The hypergeometric ratio is the finite uniform-r-subset specialization.",
+      "historical_assumptions": [
+        "finite M obligation coordinates and 1<=r<=M defects",
+        "the r-defect set is uniformly distributed over all r-subsets for the probabilistic bound",
+        "q distinct checks are chosen without defect-location side information",
+        "each checked defect is detected perfectly",
+        "candidate is adopted iff no checked coordinate fails"
+      ],
+      "historical_bound": "P_FA(q;M,r)=C(M-q,r)/C(M,r). For r=1, P_FA=(M-q)/M. Worst-case adversarial zero-FA requires q=M.",
+      "historical_box": "Verification budget -> admissible false-adoption floor.",
+      "historical_negative_twin": "M=10, r=1, q=8 has exact false-adoption probability 2/10; full q=10 verification has probability 0.",
+      "historical_quantity": "M obligation coordinates, exactly r defective coordinates chosen uniformly among all r-subsets, and q distinct perfect checks without replacement.",
+      "historical_repo_reference": null,
+      "historical_theorem_sha256": "bde66ac832e4a38e89d96d222bcc257bec387efe9e9241f777095c0ff107ddca",
+      "id": "F2_VERIFICATION_BUDGET_FALSE_ADOPTION",
+      "nearest_hostile": "One unchecked coordinate hosts the sole adversarial defect.",
+      "reproof": "Adoption after perfect checks occurs exactly when the defect set avoids S, giving the measure identity. If i is unchecked, the singleton {i} defeats zero-FA; full coverage excludes every nonempty defect set.",
+      "status": "VALID_WITH_DISTRIBUTIONAL_AND_ADVERSARIAL_BRANCHES_SEPARATED",
+      "strongest_parent": "Acceptance sampling / hypergeometric sampling without replacement."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-3",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "8601a147f7da98de59ec5a337822f91b7b3bd0b9def4adec0a04f48e29b02a5f",
+      "falsifier": "An in-scope deterministic q-query protocol identifies K>A^q hypotheses with zero error, or a B-budget protocol with uniform cost c identifies more than A^floor(B/c) hypotheses without another information channel.",
+      "generalization_beyond_toy_finite_space": "For any finite-depth adaptive decision tree with outcome carrier A_v at node v, zero-error hypotheses inject into leaves. Thus distinguishability is bounded by the leaf-set cardinal; a uniform A-ary depth-q tree gives |H|<=|A|^q, for finite or infinite A.",
+      "historical_assumptions": [
+        "finite K latent hypotheses",
+        "deterministic noiseless active queries with at most A outcomes each",
+        "at most q acquired answers, or uniform positive query cost c under total budget B",
+        "no free side information, passive observation or intervention outcome carrying additional target information",
+        "zero-error identification; tightness only when the query family can implement a separating code"
+      ],
+      "historical_bound": "K <= A^q; equivalently q >= ceil(log_A K) for A>1. With uniform cost: K <= A^floor(B/c).",
+      "historical_box": "Information-acquisition budget -> uncertainty-resolution ceiling.",
+      "historical_negative_twin": "Five hypotheses with two binary queries expose at most four transcripts, so exact identification is impossible; three binary queries are sufficient in a rich separating-query family.",
+      "historical_quantity": "K latent hypotheses, at most A outcomes per active query, at most q queries (or total budget B with uniform per-query cost c).",
+      "historical_repo_reference": null,
+      "historical_theorem_sha256": "ec7cfd300aa9034f9cabd8b29e8e0835976a531312c3fcbee56f62ed21e5246b",
+      "id": "F2_INFORMATION_ACQUISITION_BUDGET",
+      "nearest_hostile": "Five hypotheses but only four transcript leaves.",
+      "reproof": "Two hypotheses ending at one transcript leaf are observationally identical and cannot receive distinct exact labels. Tightness requires the registered query family to realize a separating leaf code.",
+      "status": "VALID_AFTER_UPGRADED_REPROOF",
+      "strongest_parent": "Decision-tree leaf counting / twenty questions / finite source coding."
+    },
+    {
+      "architecture_argument_present": false,
+      "axiom_dependencies": [
+        "AX-1",
+        "AX-2",
+        "AX-5"
+      ],
+      "canonical_source_row_sha256": "5ce2e2ca43b2852d8107cda9eac34c8d5e296b6f24b7e8ce1df11451307ef434",
+      "falsifier": "A transcript-only decoder gives different correct responses to two models in the same transcript fiber, or fully identifies two hidden models with identical complete registered transcripts.",
+      "generalization_beyond_toy_finite_space": "For arbitrary hidden-model set Theta, transcript map tau, and required-response map g, exact task response is possible iff g factors through tau. Full model identification is possible iff tau is injective.",
+      "historical_assumptions": [
+        "finite registered hidden agent-model set",
+        "complete deterministic social transcript available before the held-out response is frozen",
+        "no direct hidden-state label, private-state access or unregistered diagnostic interaction",
+        "required held-out social response g is fixed prospectively",
+        "zero-error deterministic theorem scope"
+      ],
+      "historical_bound": "The held-out response partition cannot refine the transcript partition; full identifiable model classes <= number of distinct registered transcripts.",
+      "historical_box": "Social observation -> theory-of-mind identifiability ceiling.",
+      "historical_negative_twin": "Two hidden models produce the same observed action in the base context but require different held-out predictions; no transcript-only decoder can answer both. A registered diagnostic probe that makes their transcripts differ restores identifiability.",
+      "historical_quantity": "Finite hidden agent-model set Theta, registered social observation transcript tau(theta), and held-out required social response g(theta).",
+      "historical_repo_reference": "research/machine-intelligence-morphogenesis-v1/GMI_SOCIAL_AGENT_MODELS_V1.md",
+      "historical_theorem_sha256": "6193c3e9f30454695c8362e8f718f4856e65e119789da82cf3081b58a3cb140d",
+      "id": "F2_SOCIAL_OBSERVATION_IDENTIFIABILITY",
+      "nearest_hostile": "Two hidden models share a complete transcript but require different held-out responses.",
+      "reproof": "This is the arbitrary-set observation-factorization theorem applied to social transcripts; no named agent architecture is used.",
+      "status": "VALID_AFTER_UPGRADED_REPROOF",
+      "strongest_parent": "The F2 deterministic observation-quotient theorem (direct social-domain corollary), statistical identifiability, and inverse-planning/Bayesian theory-of-mind models that infer hidden goals/beliefs from observed actions."
+    }
+  ],
+  "historical_corrections": [
+    {
+      "correction": "Replace architecture-specific threshold wording at the general layer by the architecture-neutral frozen code-carrier image bound; retain the threshold theorem only as a finite corollary.",
+      "id": "F2_PRECISION_BOUNDARY"
+    },
+    {
+      "correction": "Require direct positive verification for the N-query theorem. Under an exactly-one promise, mere finite identification needs only N-1 negative queries.",
+      "id": "F2_SEARCH_BUDGET_VERIFIED_CLASS"
+    },
+    {
+      "correction": "Retain exact scope for linear maps and first-order scope only for explicit derivatives; do not infer global nonlinear retention.",
+      "id": "F2_PROTECTED_RANK_FRONTIER"
+    }
+  ],
+  "issue": 918,
+  "parent_issue": 833,
+  "schema": "GMI833CapabilityCeilingReauditLedgerV1",
+  "source_pr": 921
+}
