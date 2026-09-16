@@ -1,0 +1,102 @@
+{
+ "schema": "GMI833_CLAIM_DISCIPLINE_RESULT_V1",
+ "parent_issue": 833,
+ "checkbox": "line 34 - Require every result to state scope, quantifiers, assumptions, falsifiers, strongest parents, and forbidden extrapolations",
+ "scan_base_sha": "0e4beca1",
+ "objects": 233,
+ "universe": {
+  "U-V1": 29,
+  "U-LEGACY": 173,
+  "U-ARRIVALS": 24,
+  "U-NEW": 7
+ },
+ "field_slots": 1165,
+ "fields_registered": 1157,
+ "registered_gap": 8,
+ "by_field_status": {
+  "assumptions:CARRIED_SCORES_V1": 29,
+  "assumptions:DERIVED": 6,
+  "assumptions:EXTRACTED": 197,
+  "assumptions:REGISTERED_GAP": 1,
+  "falsifiers:CARRIED_SCORES_V1": 29,
+  "falsifiers:DERIVED": 26,
+  "falsifiers:EXTRACTED": 177,
+  "falsifiers:REGISTERED_GAP": 1,
+  "forbidden_extrapolations:CARRIED_SCORES_V1": 29,
+  "forbidden_extrapolations:CARRIED_SCORES_V2": 24,
+  "forbidden_extrapolations:DERIVED": 11,
+  "forbidden_extrapolations:EXTRACTED": 169,
+  "scope_quantifiers:CARRIED_SCORES_V1": 29,
+  "scope_quantifiers:CARRIED_SCORES_V2": 197,
+  "scope_quantifiers:EXTRACTED": 7,
+  "strongest_parents:CARRIED_SCORES_V1": 29,
+  "strongest_parents:CARRIED_SCORES_V2": 24,
+  "strongest_parents:DERIVED": 16,
+  "strongest_parents:EXTRACTED": 158,
+  "strongest_parents:REGISTERED_GAP": 6
+ },
+ "gaps": [
+  {
+   "object": "V0.2",
+   "package": "gmi-adaptive-row-confidence-v1",
+   "field": "assumptions",
+   "reason": "document preamble scoping sentence; invokes no premises (rescore v2: UNSCORED_WITH_REASON / SUPPORT_NOT_LOCATED - the census object is a preamble, not a claim statement)"
+  },
+  {
+   "object": "CD-1",
+   "package": "gmi-grand-unification-v1",
+   "field": "strongest_parents",
+   "reason": "no parent literature registered for this ledger row; registry section-H does not key CLAIM_LEDGER_V1.md"
+  },
+  {
+   "object": "CD-2",
+   "package": "gmi-grand-unification-v1",
+   "field": "strongest_parents",
+   "reason": "no parent literature registered for this ledger row; registry section-H does not key CLAIM_LEDGER_V1.md"
+  },
+  {
+   "object": "FORMAL_DERIVATION_INTEGRATION_V1",
+   "package": "gmi-grand-unification-v1",
+   "field": "strongest_parents",
+   "reason": "gap-queue integration row; no parent literature keyed"
+  },
+  {
+   "object": "GRAND_GMI_EMPIRICAL_PROGRAMME_COMPLETE",
+   "package": "gmi-grand-unification-v1",
+   "field": "strongest_parents",
+   "reason": "programme-level closure verdict row; no theorem parent exists to register"
+  },
+  {
+   "object": "READY_FORMAL",
+   "package": "gmi-grand-unification-v1",
+   "field": "strongest_parents",
+   "reason": "readiness status definition row; no parent literature keyed in the audit doc"
+  },
+  {
+   "object": "NON-FINAL",
+   "package": "machine-intelligence-morphogenesis-v1",
+   "field": "falsifiers",
+   "reason": "status-marker row: the sheet asserts its own non-finality with a per-sentence claim ceiling; no claim-specific observable exists without new analysis"
+  },
+  {
+   "object": "TF-055",
+   "package": "machine-intelligence-morphogenesis-v1",
+   "field": "strongest_parents",
+   "reason": "registry row: theorem column is \"-\"; only the MLX-13 experiment row exists (verified by extraction pass)"
+  }
+ ],
+ "bridge": "MATURE_RESCORE_BRIDGE.md - 7 G6 analytic proofs M0/EV0 -> M1/EV1 under the rescore-v2 rubric WITH registered falsifiers; corpus M0 48->41, M1 30->37 at frozen v2 scope",
+ "reported_not_fixed": [
+  "62 (scorer-reconciled) / 172 (raw string-level) census proof-mode disagreements - owned by rescore/depgraph successor lane",
+  "M0-M6 terminology collision in machine-intelligence-morphogenesis-v1 (FREEZE_V2 G4) - owned by terminology successor tranche"
+ ],
+ "determinism": "assemble_v1.py and scan_registers_v1.py byte-identical under -I -B / -I -O -B",
+ "forbidden_promotions": [
+  "BOILERPLATE_REGISTRATION",
+  "GAP_HIDDEN_AS_REGISTRATION",
+  "RESCORE_V2_EDITED_BY_BRIDGE",
+  "CHECKBOX_TICKED_WITH_UNENUMERATED_RESIDUAL",
+  "REGISTRATION_PROMOTED_TO_EVIDENCE"
+ ],
+ "slot_note": "scope and quantifiers share one registered field (scope_quantifier_class): 5 registered fields x 233 objects = 1165 slots"
+}

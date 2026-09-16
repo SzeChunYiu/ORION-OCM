@@ -25,16 +25,21 @@ sys.path.insert(0, HERE)
 from authored_g6_v1 import G6  # noqa: E402
 
 EVIDENCE = {
-    "mim_a": "/tmp/ev_mim_a.jsonl",
-    "mim_b": "/tmp/ev_mim_b.jsonl",
-    "ggu": "/tmp/ev_ggu.jsonl",
-    "small": "/tmp/ev_small.jsonl",
-    "arr24": "/tmp/ev_arr24.jsonl",
-    "new7": "/tmp/ev_new7.jsonl",
-    "mim_jsonl": "/tmp/ev_mim_jsonl.json",
+    "mim_a": os.path.join(HERE, "evidence", "ev_mim_a.jsonl"),
+    "mim_b": os.path.join(HERE, "evidence", "ev_mim_b.jsonl"),
+    "ggu": os.path.join(HERE, "evidence", "ev_ggu.jsonl"),
+    "small": os.path.join(HERE, "evidence", "ev_small.jsonl"),
+    "arr24": os.path.join(HERE, "evidence", "ev_arr24.jsonl"),
+    "new7": os.path.join(HERE, "evidence", "ev_new7.jsonl"),
+    "mim_jsonl": os.path.join(HERE, "evidence", "ev_mim_jsonl.json"),
 }
+try:
+    from authored_overrides_v1 import CROSSHAND_APPEND as _CHA
+    CROSSHAND = {tuple(k.split("|")): v for k, v in _CHA.items()}
+except ImportError:
+    CROSSHAND = {}
 FIELDS = ["scope_quantifiers", "assumptions", "falsifiers", "strongest_parents", "forbidden_extrapolations"]
-LEGACY = json.load(open("/tmp/legacy_objects.json"))
+LEGACY = json.load(open(os.path.join(HERE, "evidence", "census_locators_173.json")))
 GAP = json.load(open(os.path.join(HERE, "GAP_REGISTER_V1.json")))
 
 
@@ -100,10 +105,11 @@ def main():
     ev_rev = {r["id"]: r for r in ev.get("mim_jsonl", [])}
     authored = {o["object_id"]: o for o in G6}
     try:
-        from authored_overrides_v1 import OVERRIDES
+        from authored_overrides_v1 import ARRIVALS as OV_ARRIVALS
+        from authored_overrides_v1 import LEGACY as OV_LEGACY
     except ImportError:
-        OVERRIDES = {}
-    auth_by_obj = {o["object_id"]: o for o in OVERRIDES.get("objects", [])} if isinstance(OVERRIDES, dict) else {}
+        OV_ARRIVALS, OV_LEGACY = {}, []
+    auth_by_obj = {o["object_id"]: o for o in OV_LEGACY}
 
     v1 = json.load(open(os.path.join(RESEARCH, "gmi-833-maturity-rescore-v1", "THEOREM_SCORES_V1.json")))["records"]
     v2 = json.load(open(os.path.join(RESEARCH, "gmi-833-maturity-rescore-v2-v1", "THEOREM_SCORES_V2.json")))
@@ -123,6 +129,7 @@ def main():
     missing_cites = []
 
     def finish(rid, obj_id, pkg, tranche, fields):
+        nonlocal missing_cites
         for f in FIELDS:
             fdata = fields.get(f)
             if not fdata or not fdata.get("status"):
@@ -154,7 +161,7 @@ def main():
         finish(e["result_id"], e["result_id"], e["package"], "U-V1", fields)
 
     # ---- v2 objects ----
-    joinmap = json.load(open("/tmp/join_v2_census.json"))
+    joinmap = json.load(open(os.path.join(HERE, "evidence", "join_v2_census.json")))
     for e in v2:
         rid = e["result_id"]
         row = gaprow[rid]
@@ -176,12 +183,17 @@ def main():
             # evidence
             got = None
             if tranche == "U-ARRIVALS":
-                r = ev_by_pkg_arr.get(e["package"])
-                if r and f in ("assumptions", "falsifiers") and r.get(f):
-                    got = {"status": "EXTRACTED", "content": r[f], "source": e["package"]}
+                ov = OV_ARRIVALS.get(e["package"], {}).get(f)
+                if ov:
+                    got = ov
+                else:
+                    r = ev_by_pkg_arr.get(e["package"])
+                    if r and f in ("assumptions", "falsifiers") and r.get(f):
+                        got = {"status": "EXTRACTED", "content": r[f], "source": e["package"]}
             else:
+                evkey = {"scope_quantifiers": "scope", "strongest_parents": "parents", "forbidden_extrapolations": "forbidden"}.get(f, f)
                 for k, r in ev_by_id.get(obj_id, []):
-                    key = {"scope_quantifiers": "scope"}.get(f, f)
+                    key = evkey
                     if r.get(key):
                         got = {"status": "EXTRACTED", "content": r[key], "source": "%s:%s" % (e["package"], k)}
                         break
@@ -205,6 +217,11 @@ def main():
                         got = {"status": "EXTRACTED", "content": content, "source": "revival-ledger row " + rr["id"]}
             if got:
                 fields[f] = got
+                ch = CROSSHAND.get((obj_id, f))
+                if ch:
+                    fields[f] = dict(got)
+                    fields[f]["content"] = list(got.get("content", [])) + [ch]
+                    fields[f]["crosshand"] = "rescore-v2 quantifier-overreach, appended"
             else:
                 reason = ("no registration in package docs; not derivable without new analysis (S1=%s)" % row[f]) if obj_id not in ev_by_id and obj_id not in ev_rev else ("evidence pass found no in-package content for this field (S1=%s)" % row[f])
                 fields[f] = {"status": "REGISTERED_GAP", "reason": reason}
@@ -214,7 +231,7 @@ def main():
     for pkg, r in sorted(ev_by_pkg_new.items()):
         fields = {}
         for f in FIELDS:
-            key = "scope" if f == "scope_quantifiers" else f
+            key = {"scope_quantifiers": "scope", "strongest_parents": "parents", "forbidden_extrapolations": "forbidden"}.get(f, f)
             v = r.get(key)
             if isinstance(v, list) and v:
                 fields[f] = {"status": "EXTRACTED", "content": v, "source": pkg}
