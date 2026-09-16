@@ -1,0 +1,32 @@
+name: GMI 833 AJ11 bounded completeness
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj11-bounded-completeness-v1/**'
+      - '.github/workflows/gmi-833-aj11-bounded-completeness-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AJ11 checker
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj11-bounded-completeness-v1/check_aj11.py
+      - name: Verify complete atlas and boundary
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          p='research/gmi-833-aj11-bounded-completeness-v1/'
+          r=json.load(open(p+'RESULT_V1.json'))
+          a=json.load(open(p+'ATLAS_V1.json'))
+          blob=json.dumps(a,sort_keys=True,separators=(',',':')).encode()
+          assert hashlib.sha256(blob).hexdigest()==r['atlas_sha256']=='09a99f29d2d349d7f28855d3a32776667c65cd1a707ea89129fd77c3328a16ed'
+          assert len(a['rows'])==260 and a['scope']['operational_class_count']==148
+          assert r['bounded_terminal']=='COMPLETE_GMI_ATLAS_AT_BOUND_B'
+          assert r['forbidden_terminal']=='ALL_MACHINE_INTELLIGENCES_COMPLETELY_CLASSIFIED'
+          PY
