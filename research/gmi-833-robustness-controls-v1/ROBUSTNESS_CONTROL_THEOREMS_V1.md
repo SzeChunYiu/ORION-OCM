@@ -18,7 +18,7 @@ The following principles are parent mathematics/methodology rather than new GMI 
 
 The residual contribution here is a typed finite GMI control record, exact hostile witnesses, and fail-closed governance semantics.
 
-## 2. R1 — matched grammar negative twin
+## 2. R1 — matched grammar negative control
 
 Let `C+` be the finite candidate multiset visible to search. Let `m:C+->{0,1}` mark the predicted mechanism and let
 
@@ -26,7 +26,7 @@ Let `C+` be the finite candidate multiset visible to search. Let `m:C+->{0,1}` m
 
 be the registered *irrelevant/background search-capacity signature*: every feature of a mechanism-free candidate that is allowed to affect its search opportunity but is not the target mechanism itself.
 
-A negative twin `C-` is **matched** iff:
+A negative control `C-` is **matched** iff:
 
 1. `m(c)=0` for every `c in C-`;
 2. the multisets of background signatures agree exactly,
@@ -47,9 +47,9 @@ For any statistic `f:B->Q` depending only on registered background capacity,
 
 This theorem does **not** say the two total grammar spaces have identical cardinality, nor that removing the mechanism leaves search dynamics unchanged when search explicitly depends on target-containing candidates. Those are separate falsifiers.
 
-## 3. R2 — semantic remint / alternate encoding
+## 3. R2 — semantic relabeling / alternate encoding
 
-An encoding is a finite map `e:S->K` from surface identifiers `S` to canonical protected semantic classes `K`. Two encodings `e1:S1->K` and `e2:S2->K` form a valid remint pair when a bijection `phi:S1->S2` satisfies
+An encoding is a finite map `e:S->K` from surface identifiers `S` to canonical protected semantic classes `K`. Two encodings `e1:S1->K` and `e2:S2->K` form a valid relabeling pair when a bijection `phi:S1->S2` satisfies
 
 `e1(s) = e2(phi(s))` for all `s in S1`.
 
@@ -59,13 +59,13 @@ This is the finite commuting diagram
 
 A result is compared only after projection to `K`. Therefore surface equality is irrelevant; semantic equality is the invariant of interest.
 
-### R2 theorem — canonical invariance under a valid remint
+### R2 theorem — canonical invariance under a valid relabeling
 
-If a decision rule `A` is semantic, i.e. there exists `A_K` with `e(A(e)) = A_K(K-data)` independently of surface names, then two valid remints yield the same canonical result.
+If a decision rule `A` is semantic, i.e. there exists `A_K` with `e(A(e)) = A_K(K-data)` independently of surface names, then two valid relabelings yield the same canonical result.
 
 **Proof.** Both executions factor through the same canonical semantic data and the same `A_K`; applying `e1` and `e2` to the selected surface results yields the same element of `K`. QED.
 
-**Hostile.** A lexicographic surface-name tie break need not factor through `K`. The frozen remint changes the lexicographically first identifier while preserving semantics, producing canonical winners `A` and `B`; terminal `ENCODING_SENSITIVE`.
+**Hostile.** A lexicographic surface-name tie break need not factor through `K`. The frozen relabeling changes the lexicographically first identifier while preserving semantics, producing canonical winners `A` and `B`; terminal `ENCODING_SENSITIVE`.
 
 A non-bijective or non-semantics-preserving map is not evidence of encoding sensitivity. It is `CANNOT_AUDIT_ENCODING` because the comparison itself is invalid.
 
@@ -139,7 +139,7 @@ Therefore
 
 `CONTROL_REQUIREMENTS_SATISFIED` does **not** imply `ROBUST_AT_REGISTERED_CONTROLS`.
 
-The frozen sensitive fixture is the exact counterexample: all four controls are validly present, while the remint, alternate search, and alternate scalarization each change the canonical conclusion. This distinction is necessary so a scientifically valuable negative result is not treated as a missing control.
+The frozen sensitive fixture is the exact counterexample: all four controls are validly present, while the relabeling, alternate search, and alternate scalarization each change the canonical conclusion. This distinction is necessary so a scientifically valuable negative result is not treated as a missing control.
 
 ## 7. Missing-control completeness certificate
 
@@ -156,7 +156,7 @@ If the executor/tests/CI and exact #833 reconciliation are green, the strongest 
 Falsifiers include:
 
 - a grammar twin accepted despite changed mechanism-free background multiplicity or changed context;
-- a non-bijective/nonsemantic remint treated as invariance evidence;
+- a non-bijective/nonsemantic relabeling treated as invariance evidence;
 - two renamed instances of one search signature accepted as materially distinct algorithms;
 - unequal search budgets silently compared as algorithm invariance;
 - duplicate/nonpositive scalar weights accepted as alternate valid prices;

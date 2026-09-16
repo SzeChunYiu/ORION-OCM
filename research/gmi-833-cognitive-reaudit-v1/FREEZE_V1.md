@@ -40,8 +40,8 @@ Frozen parent blobs:
    separated-store implementation with the same protected profile are a required
    hostile twin.
 2. Selective processing is resource-rational only after exactness/admissibility
-   is enforced and only when its discovery/selection premium is smaller than the
-   materialization cost it avoids. Equal-size blind selection is a required
+   is enforced and only when its discovery/choice premium is smaller than the
+   materialization cost it avoids. Equal-size blind choice is a required
    negative control; high discovery cost must make full processing rational.
 3. At a finite static protected interface, the response-row quotient is the
    coarsest exact abstraction. Partial observations need not identify that

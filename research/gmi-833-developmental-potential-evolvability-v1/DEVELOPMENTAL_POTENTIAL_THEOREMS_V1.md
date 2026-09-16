@@ -7,13 +7,13 @@
 ## 1. Registered objects
 
 Fix an architecture-name-free external capability contract `c`, a finite
-developmental carrier `X`, current state `x0`, finite directed development
+developmental state set `X`, current state `x0`, finite directed development
 relation `Delta`, exact nonnegative vector edge costs, development law `D`, and
 coordinatewise budget `B`. Let `s_c(x)` be the protected capability score of
 state `x`. This is a finite registered microscope under the #833 foundation;
 it is not a universal model of development.
 
-Separately fix a finite descendant carrier `Z`, an exact proposal kernel `Q`
+Separately fix a finite descendant state set `Z`, an exact proposal kernel `Q`
 on `Z`, and a registered useful-descendant set `U subseteq Z`. Proposal mass,
 stored solutions, current capability, and reachable capability are kept as
 different typed objects.
@@ -86,7 +86,7 @@ serialized as a floating-point value.
 ## 4. HIST-1 — when history improves discovery
 
 Compare baseline kernel `Q0` with a history-conditioned kernel `QH` on the same
-carrier and useful set. Require `U` to be disjoint from the explicit stored
+state set and useful set. Require `U` to be disjoint from the explicit stored
 solution set, so direct recall cannot masquerade as search improvement. Let a
 proposal have exact raw burden vector `r>0`, let history-policy use have
 overhead vector `h>=0`, and let preregistered nonnegative prices `pi` give
@@ -152,12 +152,12 @@ The executable exhaustively verifies:
 - 300 history/overhead discovery comparisons; and
 - 24 target/storage capital-separation cases.
 
-Hostiles cover non-normalized kernels, out-of-carrier useful sets, zero mass,
-stored-target leakage, unmatched carriers, omitted/negative/misaligned resource
-charges, float/Boolean inputs, graph edges outside the carrier, and parent
+Hostiles cover non-normalized kernels, out-of-state-set useful sets, zero mass,
+stored-target leakage, unmatched state sets, omitted/negative/misaligned resource
+charges, float/Boolean inputs, graph edges outside the state set, and parent
 mutation. Normal and optimized execution must emit the same receipt bytes.
 
-## 7. Parent subtraction and boundary
+## 7. Strongest-parent subsumption and boundary
 
 Finite reachability/shortest paths, maxima over nested feasible sets, probability
 mass, the geometric distribution, and solution reuse versus meta-search are

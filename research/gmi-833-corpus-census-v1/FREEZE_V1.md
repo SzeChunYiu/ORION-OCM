@@ -109,9 +109,9 @@ Required checks:
 
 ## 8. Audit dispositions
 
-- **GREEN:** structural metadata/proof obligations for the declared registered scope are discharged and no material known gap remains for that audit row. GREEN does **not** mean the theorem is universally true or novel.
+- **GREEN:** structural metadata/proof requirements for the declared registered scope are discharged and no material known gap remains for that audit row. GREEN does **not** mean the theorem is universally true or novel.
 - **AMBER:** explicit unknown/manual semantic review/candidate duplicate or noncritical incomplete metadata.
-- **RED:** contradiction, critical missing dependency/scope/proof obligation, cycle, overclaim, laundering, or fail-closed integrity failure.
+- **RED:** contradiction, critical missing dependency/scope/proof requirement, cycle, overclaim, laundering, or fail-closed integrity failure.
 
 No aggregate GREEN may hide RED descendants.
 

@@ -40,13 +40,13 @@ The file/object records follow the W3C-PROV idea that entities and derivations/p
 
 Same-team deterministic replay is recorded as repeat/reproduction evidence only at its declared scope. `INDEPENDENT_REPLICATION` requires an independently responsible team/implementation according to the #833 constitution; the census may report its absence but cannot manufacture it from CI repetition.
 
-## Algorithm-selection parent boundary
+## Algorithm selection parent boundary
 
-When later GMI morphology-selection objects are audited, Rice-style problem/feature/algorithm/performance spaces are treated as a strongest-parent comparison. A GMI object is not novel merely because it renames those components ecology/morphology/performance.
+When later GMI architecture-choice objects are audited, Rice-style problem/feature/algorithm/performance spaces are treated as a strongest-parent comparison. A GMI object is not novel merely because it renames those components ecology/architecture/performance.
 
 ## RED / AMBER / GREEN
 
-`GREEN` means the row's **registered structural audit obligations** are discharged. `AMBER` means an explicit unresolved classification/semantic review remains. `RED` means a material integrity/proof/scope/dependency failure. An aggregate may not become GREEN while a critical RED descendant remains open.
+`GREEN` means the row's **registered structural audit requirements** are discharged. `AMBER` means an explicit unresolved classification/semantic review remains. `RED` means a material integrity/proof/scope/dependency failure. An aggregate may not become GREEN while a critical RED descendant remains open.
 
 ## Strong non-claims
 

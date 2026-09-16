@@ -28,7 +28,7 @@ The outcome experiment must enumerate exactly:
 - every one-bit persistent-state transducer whose next-state table is an arbitrary binary function of `(S,M,X)` and whose output table is an arbitrary binary function of `(S,M,X)` — `256*256 = 65,536` semantics;
 - total candidate universe: 65,552 semantics.
 
-Initial state is `S=0`. Candidate identifiers and enumeration order are scientifically irrelevant. The evaluator sees behavior and `state_bits`, not a morphology/family name.
+Initial state is `S=0`. Candidate identifiers and enumeration order are scientifically irrelevant. The evaluator sees behavior and `state_bits`, not an architecture/family name.
 
 ## Pre-outcome derivation
 
@@ -92,7 +92,7 @@ Two materially distinct search implementations must operate on the same candidat
 1. `FULL_ENUMERATION`: score every candidate and return the complete exact argmin set.
 2. `RISK_FRONTIER_BRANCH_BOUND`: independently construct candidate risk/state summaries, retain only objective-relevant nondominated summaries, use a valid lower bound to prune summaries that cannot beat the incumbent, and return the complete exact argmin property set.
 
-They must not call one another or share winner-selection code. Agreement is required on all 40 endpoint worlds (20 low-price + 20 high-price). Search-procedure names are disclosed only for robustness auditing; phenotype classification occurs after scoring.
+They must not call one another or share winner-choice code. Agreement is required on all 40 endpoint worlds (20 low-price + 20 high-price). Search-procedure names are disclosed only for robustness auditing; phenotype classification occurs after scoring.
 
 ## Required controls
 
@@ -101,7 +101,7 @@ They must not call one another or share winner-selection code. Agreement is requ
 - verify at least one one-bit candidate has `(error_now,error_delay)=(0,0)`;
 - freeze and check exact objective arithmetic with `Fraction`, no floating point;
 - outcome search must never receive `PERSISTENT_STATE`/`STATELESS` as candidate identifiers;
-- neutral surface remint of candidate IDs must not change endpoint property winners;
+- neutral surface relabeling of candidate IDs must not change endpoint property winners;
 - boundary twin at `lambda=lambda*` must preserve both property classes as a tie;
 - an intentionally incorrect shifted threshold must fail at least one held-out endpoint.
 

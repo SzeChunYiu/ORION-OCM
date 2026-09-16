@@ -76,7 +76,7 @@ Exact hostile:
 - `w_compute=(4,1)` selects `compute_light`;
 - `w_memory=(1,4)` selects `memory_light`.
 
-Thus a universal winner claim is invalid when only price-conditional selection is supported.
+Thus a universal winner claim is invalid when only price-conditional choice is supported.
 
 The auditor also rejects negative/malformed resource coordinates, target-specific score adjustments, nonpositive scalar weights, and target-privileged operations assigned zero cost.
 
@@ -110,7 +110,7 @@ Exact hostile: adding one score point solely because a candidate carries the tar
 
 ---
 
-## A6 — ecology-selection-bias audit
+## A6 — ecology-choice-bias audit
 
 For a known finite ecology frame `F` and sampled subset `S`, the auditor computes exact target-favoring prevalence
 
@@ -157,7 +157,7 @@ This tranche is falsified at its claimed scope by any of:
 - a registered semantic fingerprint match being declared clean after neutral renaming;
 - winner reversal not being surfaced under the registered scalarizations/search/evaluation metrics;
 - missing disclosure producing CLEAN;
-- known-frame one-sided ecology selection producing a general clean result;
+- known-frame one-sided ecology choice producing a general clean result;
 - normal and optimized executions disagreeing;
 - receipt regeneration changing bytes without an explicit new version.
 

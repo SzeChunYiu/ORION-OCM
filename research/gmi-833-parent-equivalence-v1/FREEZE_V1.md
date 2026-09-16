@@ -98,4 +98,4 @@ Forbidden promotions from this tranche alone:
 - `UNIVERSAL_STOCHASTIC_MINIMALITY`
 - `COMPLETE_GMI`
 
-No result on #844 terminology, #845 corpus census, G0 grammar, morphology selection, capability prediction, independent replication, or real-scale validation is claimed.
+No result on #844 terminology, #845 corpus census, G0 grammar, architecture choice, capability prediction, independent replication, or real-scale validation is claimed.

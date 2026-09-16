@@ -4,7 +4,7 @@
 
 The object is the registered finite G0 grammar audit object. It is not a theorem about all grammars or all notions of machine complexity.
 
-Parent results are subtracted rather than reclaimed. SyGuS makes the candidate expression language/grammar an explicit input to synthesis. Machine/coding choices are therefore part of the experimental/computational object, not an ignorable presentation detail. Standard Pareto optimization owns positive-weight dominance preservation. The merged #875 tranche already establishes finite G0 description/reachability bias and the difference between isometric remints and same-semantics non-isometric recodings. The merged #863 tranche owns the robustness-control requirement to vary encodings/search/scalarization.
+Parent results are subtracted rather than reclaimed. SyGuS makes the candidate expression language/grammar an explicit input to synthesis. Machine/coding choices are therefore part of the experimental/computational object, not an ignorable presentation detail. Standard Pareto optimization owns positive-weight dominance preservation. The merged #875 tranche already establishes finite G0 description/reachability bias and the difference between isometric relabelings and same-semantics non-isometric recodings. The merged #863 tranche owns the robustness-control requirement to vary encodings/search/scalarization.
 
 ## Definitions
 
@@ -12,7 +12,7 @@ For presentation `p`, raw cost is `rho(p)=(L(p),d(p))`, where `L>0` is registere
 
 `C_w(p)=w_L L(p)+w_d d(p)`.
 
-The post-hoc `family_label(p)` is not an argument of either `rho` or `C_w`. For semantic class `s`, `m_w(s)=min_{p in s} C_w(p)`. Selection returns the complete set of semantic classes that attain the global minimum; tied classes are never broken by names.
+The post-hoc `family_label(p)` is not an argument of either `rho` or `C_w`. For semantic class `s`, `m_w(s)=min_{p in s} C_w(p)`. Choice returns the complete set of semantic classes that attain the global minimum; tied classes are never broken by names.
 
 ## LABEL-1 — family-label blindness
 
@@ -26,9 +26,9 @@ The post-hoc `family_label(p)` is not an argument of either `rho` or `C_w`. For 
 
 **Statement.** Let `phi` be a bijection of presentation identities that preserves protected semantic class, raw `(L,d)` and transports the search adjacency relation exactly. Then every registered scalar cost, semantic-class minimum, raw Pareto relation and selected semantic-class set is invariant under `phi`.
 
-**Proof.** Raw-vector equality gives scalar-cost equality pointwise. Semantic preservation establishes a cost-preserving bijection within every class, hence class minima agree. Coordinatewise comparisons of identical raw vectors preserve Pareto relations. Global minima over equal class-minimum maps yield equal selected sets. Exact transport of adjacency establishes that the remint is a search-graph isometry rather than merely a semantic recoding. QED.
+**Proof.** Raw-vector equality gives scalar-cost equality pointwise. Semantic preservation establishes a cost-preserving bijection within every class, hence class minima agree. Coordinatewise comparisons of identical raw vectors preserve Pareto relations. Global minima over equal class-minimum maps yield equal selected sets. Exact transport of adjacency establishes that the relabeling is a search-graph isometry rather than merely a semantic recoding. QED.
 
-**Machine certificate.** The six base presentation identities are renamed through all `6!=720` bijections onto fresh syntax identities. Each transports the registered edge set and preserves all class minima/selection values for all weights. Raw-cost and edge mutations are required to terminate `NON_ISOMETRIC_REMINT`.
+**Machine certificate.** The six base presentation identities are renamed through all `6!=720` bijections onto fresh syntax identities. Each transports the registered edge set and preserves all class minima/choice values for all weights. Raw-cost and edge mutations are required to terminate `NON_ISOMETRIC_REMINT`.
 
 ## BIAS-1 — semantic coverage is insufficient for neutrality
 

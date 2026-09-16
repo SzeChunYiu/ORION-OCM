@@ -3,22 +3,22 @@
 Status: **LOCAL FORMAL CLOSURE — NOT PROSPECTIVE, REPLICATED, OR REAL-SYSTEM EVIDENCE**
 
 Parent: #892 / #833 Section J. The merged #893/#894 package owns the finite
-selection correspondence, uniqueness/Pareto conditions, and affine phase
+choice correspondence, uniqueness/Pareto conditions, and affine phase
 schema. #895 owns history/switching/hysteresis. This tranche targets only the
 two remaining formal rows: niche partitioning and resource repricing.
 
 ## 1. Protected scope
 
-Morphologies are finite protected computational-mechanism equivalence classes,
+Candidate architectures are finite protected computational-mechanism equivalence classes,
 not architecture-family names. Utilities, masses, qualities, raw resource
 vectors, and prices are exact integers/rationals. Prices and resources are
-nonnegative. Every niche uses one common nonempty morphology carrier.
+nonnegative. Every niche uses one common nonempty candidate-architecture set.
 
 ## 2. NICHE-1 — positive-mass local allocation
 
 Let `Z` be a finite niche set, `mu(z)>=0` its registered mass with
-`sum_z mu(z)>0`, and `u_z(m)` an exact local utility on common morphology
-carrier `M`. Define the complete local winner set
+`sum_z mu(z)>0`, and `u_z(m)` an exact local utility on the common candidate-architecture
+set `M`. Define the complete local winner set
 
 `W(z)=argmax_{m in M} u_z(m)`
 
@@ -27,7 +27,7 @@ and local-allocation support
 `Supp_local = union_{z:mu(z)>0} W(z)`.
 
 This definition preserves local ties. It never invents a tie-breaker and a
-zero-mass niche contributes no morphology.
+zero-mass niche contributes no candidate architecture.
 
 ### Theorem NICHE-1a — sufficient coexistence
 
@@ -90,7 +90,7 @@ On every connected cell of the complement of all pair hyperplanes, each
 pairwise difference is continuous affine and nonzero, so its sign is constant.
 Therefore the complete selected set is constant within each cell. A selected
 set can change only at a boundary; crossing a boundary need not change the
-global winner if another morphology remains superior.
+global winner if another candidate architecture remains superior.
 
 For one resource coordinate and unequal resource use, the exact candidate
 boundary is `(v_i-v_j)/(r_i-r_j)`. Equal resource use gives either
@@ -105,7 +105,7 @@ If `v_i>=v_j` and `r_i<=r_j` coordinatewise, then `q_i(p)>=q_j(p)` for every
 
 `q_i-q_j=(v_i-v_j)+p dot (r_j-r_i)>=0`.
 
-Thus a morphology that is weakly better in quality and weakly cheaper in every
+Thus a candidate architecture that is weakly better in quality and weakly cheaper in every
 registered resource cannot lose under nonnegative linear repricing. `□`
 
 ### Exact witnesses and census
@@ -122,7 +122,7 @@ strict sign change has its exact boundary inside that price interval.
 
 ## 4. Parent and claim boundary
 
-Exact Git objects pin #837, #847, #850, #876, and #893/#894. No selection,
+Exact Git objects pin #837, #847, #850, #876, and #893/#894. No choice,
 phase, history, switching, search-law, or finite-budget result is re-claimed.
 Only the two #892 rows may be reconciled.
 

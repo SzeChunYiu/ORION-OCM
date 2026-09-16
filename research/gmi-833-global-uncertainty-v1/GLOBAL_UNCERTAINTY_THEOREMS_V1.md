@@ -327,7 +327,7 @@ Thus `PredictiveLaw.epistemic_aleatoric_decomposition()` fails closed with `CANN
 
 Parent ownership: #750/#751 and the ordinary law of total variance. Hüllermeier & Waegeman (2021) and Kendall & Gal (2017) are taxonomy/application anchors, not novelty claims.
 
-## 9. Strongest-parent subtraction
+## 9. Strongest-parent subsumption
 
 | Residual in #851 | Strongest owner | What this tranche may claim | What it may not reclaim |
 |---|---|---|---|

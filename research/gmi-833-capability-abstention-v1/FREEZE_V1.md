@@ -11,7 +11,7 @@ This tranche targets exactly one proof-only row:
 It does not build or validate the full capability predictor, attach empirical
 calibration, predict real trained systems, or close any other Section K row.
 
-## Frozen parent subtraction
+## Frozen strongest-parent subsumption
 
 The tranche must pin and import the merged #837 foundation, #848 external
 capability contract, #851 typed uncertainty/query-identification contract,
@@ -22,7 +22,7 @@ logic are parent mathematics rather than novelty claims.
 Frozen parent blobs:
 
 - foundation result: `c0c574c4ec6e237d5fdafa694eac131399625a70`;
-- morphology/capability result: `bdc5c3cd42e312d8c7af52f7ba84220631a25f8a`;
+- mechanism-structure/capability result: `bdc5c3cd42e312d8c7af52f7ba84220631a25f8a`;
 - global uncertainty result: `9ab16cf59087214e093ace3b18c6d08fc79ab871`;
 - axiom-core result: `3366a3bc7236d286f8d123bf53e4e3b2d22ad7b9`;
 - capability-bounds result: `7ff80bab4a0b9e967e02cc6943bbe8828e3acea0`.
@@ -35,7 +35,7 @@ Frozen parent blobs:
 - exact rational score values and exact rational confidence failure budgets;
 - a point prediction is licensed only by a singleton query image.
 
-## Frozen theorem obligations
+## Frozen theorem acceptance items
 
 1. For nonempty survivor set `C` and capability query `q`, emit
    `IDENTIFIED(y)` iff `q[C]={y}`. If the image has multiple values, emit

@@ -1,4 +1,4 @@
-# GMI #833 prospective held-out morphology transition validation v1
+# GMI #833 prospective held-out architecture transition validation v1
 
 **Issue:** #901, child of #833 Section J  
 **Prediction freeze:** `FREEZE_V1.md`, commit `ddb3df7a44a6a4fb47fdc362a1fa02e34b7a3a75`  
@@ -68,7 +68,7 @@ The exact package requires:
 - stateless minimum delayed error exactly `8/16=1/2`;
 - a stateless `(error_now,error_delay)=(0,1/2)` witness;
 - a one-bit `(0,0)` risk witness;
-- neutral candidate-ID remint invariance on all 40 endpoints;
+- neutral candidate-ID relabeling invariance on all 40 endpoints;
 - 20 exact boundary ties;
 - 20/20 failures of the deliberately shifted threshold;
 - actual branch-bound pruning;
@@ -76,6 +76,6 @@ The exact package requires:
 
 ## 7. Claim boundary
 
-If all frozen predictions and controls are GREEN, this tranche licenses only a bounded M4-style statement: the previously derived morphology-selection law prospectively predicts 20 fresh binary finite-transducer transitions, and the transition property replicates across two materially distinct exact search procedures.
+If all frozen predictions and controls are GREEN, this tranche licenses only a bounded M4-style statement: the previously derived architecture-choice law prospectively predicts 20 fresh binary finite-transducer transitions, and the transition property replicates across two materially distinct exact search procedures.
 
-It does **not** license real-system transition validation, universal morphology prediction, all-known-form recovery, or complete GMI. The Section-J row requiring at least five real-system transitions remains open unless external/real-system evidence is supplied.
+It does **not** license real-system transition validation, universal architecture prediction, all-known-form recovery, or complete GMI. The Section-J row requiring at least five real-system transitions remains open unless external/real-system evidence is supplied.
