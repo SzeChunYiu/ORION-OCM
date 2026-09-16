@@ -1,0 +1,63 @@
+name: GMI 833 blind recovery v2
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-blind-recovery-v2-v1/**'
+      - 'research/gmi-833-aj9a-known-family-benchmark-v1/KNOWN_FAMILY_BENCHMARK_V1.json'
+      - 'research/gmi-833-no-smuggling-audit-v1/audit_core_v1.py'
+      - '.github/workflows/gmi-833-blind-recovery-v2-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-blind-recovery-v2-v1/**'
+      - 'research/gmi-833-aj9a-known-family-benchmark-v1/KNOWN_FAMILY_BENCHMARK_V1.json'
+      - 'research/gmi-833-no-smuggling-audit-v1/audit_core_v1.py'
+      - '.github/workflows/gmi-833-blind-recovery-v2-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  custody-screen-adjudication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze custody, screen, adjudication, recomputation bindings
+        run: |
+          set -euo pipefail
+          cd research/gmi-833-blind-recovery-v2-v1
+          python3 -B v1_counterfactual_or_task.py > /tmp/receipt.json
+          python3 -B screen_v2.py
+          python3 -B check_v2.py
+          python3 -B posthoc_adjudicate_v2.py
+          python3 - <<'EOF'
+          import json
+          from pathlib import Path
+          here = Path(".")
+          screen = json.loads((here/"SCREEN_RESULT_V1.json").read_text())
+          check = json.loads((here/"RESULT_V2.json").read_text())
+          post = json.loads((here/"POSTHOC_RESULT_V2.json").read_text())
+          receipt = json.loads((here/"MOTIVATION_RECEIPT_V1.json").read_text())
+          assert screen["screen_verdict"] == "CLEAN"
+          assert check["battery_blob_ok"], "battery blob drift"
+          assert check["battery_regeneration_deterministic"], "nondeterministic battery"
+          assert check["freeze_custody"]["implementation_absent_at_freeze"]
+          assert check["search_side_no_benchmark_reference"]
+          assert check["screen"]["clean"]
+          assert all(check["recomputation_bindings"].values()), check["recomputation_bindings"]
+          assert check["posthoc"]["selftest_pass"]
+          assert check["motivation_receipt"]["or_counterfactual_terminal"] == "NOT_RECOVERED_AT_SCOPE"
+          assert receipt["rows"]["OR_COUNTERFACTUAL"]["v1_terminal_would_be"] == "NOT_RECOVERED_AT_SCOPE"
+          assert receipt["rows"]["XOR_V1_ACTUAL"]["v1_terminal_would_be"] == "RECOVERED"
+          print("V2_ALL_GREEN", json.dumps({"terminals": check["posthoc"]["terminals"]}))
+          EOF
