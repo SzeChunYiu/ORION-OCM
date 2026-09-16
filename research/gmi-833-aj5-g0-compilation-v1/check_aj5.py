@@ -1,5 +1,5 @@
 from __future__ import annotations
-import hashlib, importlib.util, itertools, json
+import hashlib, importlib.util, itertools, json, sys
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
@@ -14,6 +14,7 @@ def load_parent():
     assert git_blob_sha(PARENT)==PARENT_BLOB
     spec=importlib.util.spec_from_file_location("g0_parent",PARENT)
     m=importlib.util.module_from_spec(spec); assert spec.loader is not None
+    sys.modules[spec.name]=m
     spec.loader.exec_module(m); return m
 
 def lower_execute(m, program, input_values=(), step_budget=8):
@@ -27,43 +28,42 @@ def lower_execute(m, program, input_values=(), step_budget=8):
             micro+=1; steps+=1
             return ("HALTED",tuple(out),tuple(sorted(regs.items())),steps,micro)
         if isinstance(ins,m.Read):
-            micro+=1; steps+=1 # INPUT_TAKE
+            micro+=1; steps+=1
             if pos>=len(inp):
                 return ("INPUT_UNDERFLOW",tuple(out),tuple(sorted(regs.items())),steps,micro)
             tmp=inp[pos]; pos+=1
-            micro+=1; regs[ins.register]=tmp # REG_WRITE
-            micro+=1; pc=ins.next_label # CONTROL_ROUTE
+            micro+=1; regs[ins.register]=tmp
+            micro+=1; pc=ins.next_label
             continue
         if isinstance(ins,m.Inc):
-            micro+=1; tmp=regs[ins.register] # REG_READ
-            micro+=1; tmp=tmp+1 # NAT_SUCCESSOR
-            micro+=1; regs[ins.register]=tmp # REG_WRITE
-            micro+=1; pc=ins.next_label # CONTROL_ROUTE
+            micro+=1; tmp=regs[ins.register]
+            micro+=1; tmp=tmp+1
+            micro+=1; regs[ins.register]=tmp
+            micro+=1; pc=ins.next_label
             steps+=1; continue
         if isinstance(ins,m.DecJz):
-            micro+=1; tmp=regs[ins.register] # REG_READ
-            micro+=1; iszero=(tmp==0) # ZERO_TEST
-            micro+=1 # CONDITIONAL_ROUTE
+            micro+=1; tmp=regs[ins.register]
+            micro+=1; iszero=(tmp==0)
+            micro+=1
             if iszero:
                 pc=ins.zero_label
             else:
-                micro+=1; tmp=tmp-1 # NAT_PREDECESSOR_ON_POSITIVE
-                micro+=1; regs[ins.register]=tmp # REG_WRITE
+                micro+=1; tmp=tmp-1
+                micro+=1; regs[ins.register]=tmp
                 pc=ins.nonzero_label
             steps+=1; continue
         if isinstance(ins,m.Emit):
-            micro+=1; tmp=regs[ins.register] # REG_READ
-            micro+=1; out.append(tmp) # OUTPUT_APPEND
-            micro+=1; pc=ins.next_label # CONTROL_ROUTE
+            micro+=1; tmp=regs[ins.register]
+            micro+=1; out.append(tmp)
+            micro+=1; pc=ins.next_label
             steps+=1; continue
         raise AssertionError("unexpected parent instruction")
 
 def one_step_micro(m,ins,r,inp):
-    inp=tuple(inp); micro=0
+    inp=tuple(inp)
     if isinstance(ins,m.Halt): return ("HALT",None,r,inp,(),1)
     if isinstance(ins,m.Read):
-        micro=1
-        if not inp:return ("UNDERFLOW",None,r,inp,(),micro)
+        if not inp:return ("UNDERFLOW",None,r,inp,(),1)
         return ("CONT",ins.next_label,inp[0],inp[1:],(),3)
     if isinstance(ins,m.Inc): return ("CONT",ins.next_label,r+1,inp,(),4)
     if isinstance(ins,m.DecJz):
