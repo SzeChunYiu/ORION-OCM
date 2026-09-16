@@ -26,7 +26,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 
-from neutral_search_v2 import Basis, expr_depth, expr_eval  # noqa: E402
+from neutral_search_v2 import (Basis, expr_canon, expr_depth,  # noqa: E402
+                               expr_eval)
 
 BENCH = ROOT / "gmi-833-aj9a-known-family-benchmark-v1" / "KNOWN_FAMILY_BENCHMARK_V1.json"
 BENCH_BLOB = "6b9ac3095c90d74e2717671a70ad7cc18955310c"
@@ -57,18 +58,43 @@ def nodes(e, parent=None):
 
 
 def support(e, rows, atom_names, basis):
-    """Atoms the expression value depends on (finite differences on rows)."""
+    """Atoms the expression value depends on (finite differences on rows).
+
+    Binary atoms: single-bit flips. Non-binary atoms (e.g. the integer
+    state cell): matched-row comparison over the row set, which spans the
+    full product domain for every v2 battery (asserted)."""
+    binary = all(v in (0, 1) for r in rows for v in r)
     deps = set()
-    base = [expr_eval(e, dict(zip(atom_names, r)), basis) for r in rows]
     for i, name in enumerate(atom_names):
-        for r in rows:
-            r2 = list(r)
-            r2[i] = 1 - r2[i]
-            v2 = expr_eval(e, dict(zip(atom_names, r2)), basis)
-            if expr_eval(e, dict(zip(atom_names, r)), basis) != v2:
+        if binary:
+            for r in rows:
+                r2 = list(r)
+                r2[i] = 1 - r2[i]
+                if expr_eval(e, dict(zip(atom_names, r)), basis) != \
+                        expr_eval(e, dict(zip(atom_names, r2)), basis):
+                    deps.add(name)
+                    break
+        else:
+            others = [j for j in range(len(atom_names)) if j != i]
+            groups = {}
+            for r in rows:
+                key = tuple(r[j] for j in others)
+                groups.setdefault(key, set()).add(r[i])
+            matched = any(len(vs) > 1 for vs in groups.values())
+            if not matched:
+                raise AssertionError(f"no matched rows for atom {name}")
+            dep = False
+            for key, vals in groups.items():
+                if len(vals) < 2:
+                    continue
+                envs = [dict(zip(atom_names, list(key[:i]) + [v] + list(key[i:])))
+                        for v in sorted(vals)]
+                outs = [expr_eval(e, env, basis) for env in envs]
+                if len(set(outs)) > 1:
+                    dep = True
+                    break
+            if dep:
                 deps.add(name)
-                break
-    del base
     return deps
 
 
@@ -147,6 +173,80 @@ def non_affine_witness(e, rows, atom_names, basis):
     return affine_fit(e, rows, atom_names, basis) is None
 
 
+REPS_CAP = 32  # per-semantics representative cap (machine-capacity bound;
+#               truncation is REPORTED per task, never silent)
+
+
+def enumerate_minimal_reps(atom_semantics, basis, targets, layer_cap=14):
+    """Enumerate ALL minimal-cost expressions per target semantics (up to
+    REPS_CAP representatives per semantics, truncation flagged). Deterministic
+    posthoc re-analysis over the frozen battery rows and basis only."""
+    from neutral_search_v2 import expr_key
+    n_rows = len(next(iter(atom_semantics.values())))
+    layer = {}
+    for name, sem in sorted(atom_semantics.items()):
+        layer.setdefault(sem, []).append(("atom", name))
+    for v in basis.constants:
+        layer.setdefault((v,) * n_rows, []).append(("const", v))
+    by_cost = {0: {sem: exprs for sem, exprs in layer.items()}}
+    best = {sem: (0, exprs) for sem, exprs in layer.items()}
+    target_t = {tuple(t): None for t in targets}
+    if all(t in best for t in target_t):
+        target_t = {t: best[t] for t in target_t}
+    for cost in range(1, layer_cap + 1):
+        if all(v is not None for v in target_t.values()):
+            break
+        cand = {}
+        # unary closure over the previous layer only (completeness preserved:
+        # every semantics was new exactly once)
+        for sem, exprs in by_cost.get(cost - 1, {}).items():
+            for name in basis.unary_names():
+                try:
+                    ns = tuple(basis.unaries[name][v] for v in sem)
+                except KeyError:
+                    continue
+                if any(v < -basis.guard or v > basis.guard for v in ns):
+                    continue
+                for e in exprs:
+                    cand.setdefault(ns, set()).add(expr_canon(("un", name, e)))
+        # cost-bucketed pairing: children costs sum to cost-1
+        for ca in range(0, cost):
+            cb = cost - 1 - ca
+            for sem_a, eas in by_cost.get(ca, {}).items():
+                for sem_b, ebs in by_cost.get(cb, {}).items():
+                    ns = tuple(x + y for x, y in zip(sem_a, sem_b))
+                    if any(v < -basis.guard or v > basis.guard for v in ns):
+                        continue
+                    for ea in eas:
+                        for eb in ebs:
+                            if expr_key(ea) > expr_key(eb):
+                                continue
+                            cand.setdefault(ns, set()).add(
+                                expr_canon(("add", ea, eb)))
+        new = {}
+        for ns, exprs in cand.items():
+            if ns in best:
+                continue
+            lst = sorted(exprs, key=expr_key)
+            new[ns] = lst[:REPS_CAP]
+            best[ns] = (cost, new[ns])
+        if not new:
+            break
+        by_cost[cost] = new
+        for t in target_t:
+            if target_t[t] is None and t in best:
+                target_t[t] = best[t]
+    out = {}
+    for t, v in target_t.items():
+        if v is None:
+            out[t] = None
+        else:
+            cost, exprs = v
+            out[t] = {"cost": cost, "representatives": exprs,
+                      "reps_capped": len(exprs) == REPS_CAP}
+    return out
+
+
 # ---------------------------------------------------------------------------
 # family adjudications
 # ---------------------------------------------------------------------------
@@ -171,28 +271,47 @@ def adjudicate_k01(bench, outcome, battery):
         e = tup(entry["expr"])
     else:
         # universal machine not reachable within frozen tree-model bounds:
-        # adjudicate the complete per-task distribution instead (honest scope)
+        # adjudicate the complete per-task distribution instead, over ALL
+        # minimal representatives per task (the DP's canonical choice is an
+        # arbitrary tie-break; the fingerprint is read existentially over the
+        # minimal class with the passing fraction reported)
         per_task_entries = outcome["runs"]["U_ORD_g3"]["per_task"]
+        rows_t = [list(r) for r in b2["per_task_tasks"][0]["inputs"]]
+        from neutral_search_v2 import rows_to_atom_semantics
+        atom_sem_t = rows_to_atom_semantics(rows_t, ["x0", "x1"])
+        targets_t = [tuple(t["required_outputs"]) for t in b2["per_task_tasks"]]
+        reps = enumerate_minimal_reps(atom_sem_t, basis, targets_t)
         per_task_results = []
-        for te in per_task_entries:
+        for te, tt in zip(per_task_entries, targets_t):
             if te["cost"] is None:
                 continue
-            et = tup(te["expr"])
-            rows_t = [list(r) for r in b2["per_task_tasks"][0]["inputs"]]
-            ge_r = skeleton_reuse_sites(et)
-            sites_t = mixing_sites(et, rows_t, ["x0", "x1"], basis)
-            depth_t = expr_depth(et)
-            nonaff_t = non_affine_witness(et, rows_t, ["x0", "x1"], basis)
-            checks_t = {
-                "C0_directed_acyclic_input_to_output": depth_t >= 2,
-                "C1_multiple_parameterized_mixing_sites": len(sites_t) >= 2,
-                "C2_non_affine_internal_transformation": nonaff_t,
-                "C3_reuse_same_construction_across_units": len(ge_r) >= 1,
-            }
+            rep_info = reps[tt]
+            rep_results = []
+            for et in rep_info["representatives"]:
+                ge_r = skeleton_reuse_sites(et)
+                sites_t = mixing_sites(et, rows_t, ["x0", "x1"], basis)
+                depth_t = expr_depth(et)
+                nonaff_t = non_affine_witness(et, rows_t, ["x0", "x1"], basis)
+                checks_t = {
+                    "C0_directed_acyclic_input_to_output": depth_t >= 2,
+                    "C1_multiple_parameterized_mixing_sites": len(sites_t) >= 2,
+                    "C2_non_affine_internal_transformation": nonaff_t,
+                    "C3_reuse_same_construction_across_units": len(ge_r) >= 1,
+                }
+                rep_results.append({"checks": checks_t,
+                                    "pass": all(checks_t.values()),
+                                    "expr": json.loads(json.dumps(et))})
+            n_pass = sum(1 for r in rep_results if r["pass"])
             per_task_results.append({
                 "task_id": te["task_id"], "cost": te["cost"],
-                "checks": checks_t,
-                "terminal": "RECOVERED" if all(checks_t.values())
+                "minimal_representatives": len(rep_results),
+                "representatives_truncated": rep_info["reps_capped"],
+                "representatives_passing": n_pass,
+                "passing_fraction": (n_pass / len(rep_results)
+                                     if rep_results else None),
+                "passing_examples": [r["expr"] for r in rep_results
+                                     if r["pass"]][:2],
+                "terminal": "RECOVERED" if n_pass > 0
                 else "NOT_RECOVERED_AT_SCOPE"})
         rec_ids = [r["task_id"] for r in per_task_results
                    if r["terminal"] == "RECOVERED"]
@@ -393,7 +512,7 @@ def adjudicate_k03(bench, outcome, battery):
     for rule in outcome["runs"]["per_rule"]["rules"]:
         tid = rule["task_id"]
         task = next(t for t in bl["per_rule_tasks"] if t["task_id"] == tid)
-        exprs = [tup(rule["sites"][str(s)]["expr"]) for s in range(W)]
+        exprs = [tup(rule["sites"][s]["expr"]) for s in range(W)]
 
         def out_bits(state):
             env = dict(zip(atom_names, state))

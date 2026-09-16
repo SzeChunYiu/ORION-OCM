@@ -28,18 +28,25 @@ unprivileged (v1 had exactly one threshold, under a neutral name).
 ## The central result (see RESULT_V2.json / POSTHOC_RESULT_V2.json for numbers)
 
 Under the complete neutral battery, per-task minimal constructions split by
-linear separability:
+linear separability, and the minimal class turns out to be TIE-FREE (the
+all-minimal-representative enumeration finds a UNIQUE minimal construction
+per task; no tie-break dependence):
 
 - Every linearly-separable function of two inputs (14 of 16) has a
   SINGLE-gate minimal construction and honestly FAILS the frozen K01
   fingerprint — the protocol is not a rubber stamp; the v1 OR counterfactual
   generalizes to the entire separable class.
-- The two non-separable functions (XOR, XNOR) have minimal constructions with
-  TWO order-test sites on a COMMON skeleton (GE_c(ADD(x0,x1)) at two cut
-  parameters, summed with negation) — parameterized aggregation sites +
-  reuse-of-construction + non-affine internal response + multi-stage
-  composition: the frozen K01 fingerprint is satisfied, RECOVERED, with no
-  author having selected the task (the class is complete by rule).
+- Of the two non-separable functions, XOR (BOOL2_0006, cost 6) has the
+  two-site construction GE+1(x0+x1) + NEG(GE+2(x0+x1)) — both order tests
+  on the SAME skeleton (parameterized reuse), satisfying all four frozen
+  clauses: RECOVERED, with no author having selected the task.
+- XNOR (BOOL2_0009, cost 6) — XOR's complement — does NOT: its unique
+  minimal construction necessarily wraps the second test's argument in
+  negation (GE_d(NEG(x0+x1))), breaking the shared skeleton, so the reuse
+  clause honestly fails. Complementation forces a shape asymmetry at
+  minimal cost under U_ORD; XNOR would need above-minimal cost to exhibit
+  reuse. The recovery boundary therefore lies WITHIN the non-separable
+  class — a finer result than the separability split alone.
 
 This QUANTIFIES the audit finding: the v1 task choice singled out the 12.5%
 of the neutral battery where the morphology is forced. Recovery under v2 is
@@ -74,6 +81,21 @@ matched-input/different-state/different-output witnesses. Lag 0 (identity) is
 expected to honestly fail the fingerprint (no state dependence) — the battery
 contains it by completeness, and the adjudicator reports it as
 NOT_RECOVERED_AT_SCOPE, showing the boundary again.
+
+## Measured terminals (POSTHOC_RESULT_V2.json)
+
+- K01: RECOVERED for BOOL2_0006 only (1/16; XNOR asymmetry above;
+  universal machine width/cap-bounded with complete no-solution
+  certificates).
+- K02: RECOVERED — lag 1 at cost 0 (the delay cell s'=x, y=s), lag 2 at
+  cost 6 (signed-state encoding); lag 0 honestly NOT_RECOVERED (no state
+  dependence); state interventions executed.
+- K03: RECOVERED for 251/256 rules; the five failures are exactly the
+  wiring-only rules (constants 0/255, identity 204, shifts 170/240) —
+  constructions with no transform to share.
+- K04: RECOVERED for the 4 canonical selector functions of 256
+  (content-dependent routing witnessed on the mux subclass;
+  canonical-representative scope).
 
 ## K03 (local/shared transform)
 

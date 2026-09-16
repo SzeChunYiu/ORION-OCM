@@ -133,20 +133,27 @@ def t2_delay(battery):
         l_max = int(math.floor(math.log2(2 * b_guard + 1)))
         assert l_max == l_max_expected, (l_max, l_max_expected)
         bat = delay_battery_by_rule(l_max)  # same frozen rule, derived battery
+        # guard-3 = primary tranche (pairing/DP cap 12); guard-8 = ablation
+        # with capacity-bounded cap 8 (34-row semantic table; documented)
+        DP_CAP = 12 if b_guard == 3 else 8
         basis = FastBasis("U_ORD", b_guard)
         domain = list(range(-b_guard, b_guard + 1))
         rows = [(s, x) for s in domain for x in (0, 1)]
         atom_sem = {"S": tuple(s for s, x in rows), "X": tuple(x for s, x in rows)}
-        dp = semantic_cost_layered_dp_fast(atom_sem, basis, [], layer_cap=12,
+        dp = semantic_cost_layered_dp_fast(atom_sem, basis, [], layer_cap=DP_CAP,
                                            return_known=True)
         known = dp["known"]
         by_cost = {}
         for k in known:
             by_cost.setdefault(k["cost"], []).append(k)
+        # pairing effort bound: 2M stream simulations per task (machine-
+        # capacity limit, reported as pairs_budget_exhausted when hit)
+        PAIRS_BUDGET = 2_000_000
         for task in bat["tasks"]:
             padded, required = task["machine_inputs"], task["required_outputs"]
             best = None
-            for total in range(0, 13):
+            budget_exhausted = False
+            for total in range(0, DP_CAP + 1):
                 pairs = 0
                 for cs in range(0, total + 1):
                     for es in by_cost.get(cs, []):
@@ -167,9 +174,15 @@ def t2_delay(battery):
                 if best:
                     best["pairs_enumerated"] = pairs
                     break
+                if pairs > PAIRS_BUDGET:
+                    budget_exhausted = True
+                    break
             out["runs"].append({
                 "guard": b_guard, "l_max": l_max, "task_id": task["task_id"],
-                "lag": task["lag"], "machine": best,
+                "lag": task["lag"],
+                "pairs_budget_exhausted": budget_exhausted,
+                "pairing_total_cost_cap": DP_CAP,
+                "machine": best,
                 "state_semantics_known": len(known),
                 "dp_layers": dp["layers"], "dp_saturated": dp["saturated"],
                 "dp_cap_bound": dp["cap_bound"]})

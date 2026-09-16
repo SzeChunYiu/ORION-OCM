@@ -129,7 +129,8 @@ def main():
     from battery_generate_v1 import delay_battery as _delay
     from neutral_search_v2 import (Basis as _Basis, FastBasis as _FBasis,
                                    rows_to_atom_semantics as _ras,
-                                   semantic_cost_layered_dp as _dp)
+                                   semantic_cost_layered_dp as _dp,
+                                   semantic_cost_layered_dp_fast as _dpf)
     from run_v2_tranches import simulate_state_machine as _sim
     recompute = {}
     t1 = json.loads((HERE / "BLIND_OUTCOME_V2_T1.json").read_text())
@@ -144,7 +145,7 @@ def main():
     basis3 = _FBasis("U_ORD", 3)
     rows3 = [(s, x) for s in range(-3, 4) for x in (0, 1)]
     asem = {"S": tuple(s for s, x in rows3), "X": tuple(x for s, x in rows3)}
-    dpk = _dp(asem, _Basis("U_ORD", 3), [], layer_cap=12, return_known=True)
+    dpk = _dpf(asem, _FBasis("U_ORD", 3), [], layer_cap=12, return_known=True)
     by_cost = {}
     for k in dpk["known"]:
         by_cost.setdefault(k["cost"], []).append(k)
