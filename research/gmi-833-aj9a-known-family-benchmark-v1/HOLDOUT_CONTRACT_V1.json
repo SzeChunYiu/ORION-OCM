@@ -1,0 +1,39 @@
+{
+  "schema": "AJ9_HOLDOUT_CONTRACT_V1",
+  "benchmark_git_blob": "6b9ac3095c90d74e2717671a70ad7cc18955310c",
+  "allowed_generator_inputs": [
+    "operational substrate/process primitives already earned by AJ1-AJ5",
+    "environment/task observations",
+    "behavioral requirements and verifier contract",
+    "raw resource budgets/prices",
+    "generic architecture-uncommitted search/development operators",
+    "random seed / search stopping rule"
+  ],
+  "forbidden_generator_inputs": [
+    "KNOWN_FAMILY_BENCHMARK_V1 contents",
+    "family_id or paper_name",
+    "posthoc_fingerprint clauses",
+    "family-specific target property vector",
+    "family-specific macro/operator",
+    "family-specific cost bonus/penalty",
+    "taxonomy label supplied to evaluator",
+    "post-outcome family classifier feedback into search"
+  ],
+  "required_separation": {
+    "generation_search_evaluation": "must execute without benchmark-family labels/fingerprints",
+    "posthoc_adjudication": "may read frozen benchmark only after candidate generation and capability/resource evaluation are frozen",
+    "selection_prediction": "if PREDICTED_SELECTED is claimed, the pre-search prediction must state an architecture-name-free structural pressure and operating regime before outcome reveal"
+  },
+  "outcome_semantics": {
+    "COMPILED": "family recipe/known target structure was deliberately constructed; not blind recovery",
+    "RECOVERED": "family-hidden search generated a candidate that passes the frozen posthoc fingerprint and observation tests",
+    "PREDICTED_SELECTED": "before search, GMI predicted architecture-name-free pressures/regime selecting that fingerprint; family-hidden search then recovered it",
+    "NOT_RECOVERED_AT_SCOPE": "registered search/evidence budget ended without a candidate satisfying the frozen fingerprint; must be preserved as a scientific result"
+  },
+  "minimum_search_robustness_for_flagship": [
+    "two materially different lower presentations or semantics-preserving encodings",
+    "two materially different search procedures under a common declared objective/budget frame",
+    "raw resource/Pareto accounting before optional scalarization"
+  ],
+  "reserved_for_AJ10": "UNKNOWN_MORPHOLOGY"
+}
