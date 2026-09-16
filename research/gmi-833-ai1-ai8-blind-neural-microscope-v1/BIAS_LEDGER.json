@@ -1,0 +1,31 @@
+{
+  "schema":"AI_BLIND_BIAS_LEDGER_V1",
+  "grammar_bias":{
+    "tree_basis":["binary inputs","constants -1/0/1","NEG","ADD","POS"],
+    "stack_basis":"same extensional primitive semantics, stack presentation",
+    "excluded":"multiplication is not primitive; architecture-family macros are forbidden",
+    "known_bias":"small integer arithmetic and positive-part nonlinearity strongly privilege piecewise-linear arithmetic programs"
+  },
+  "search_bias":{
+    "S1":"minimal primitive-size semantic dynamic programming",
+    "S2":"breadth-first stack-state search, max stack depth 3",
+    "known_bias":"both favor short exact programs; neither is a neutral distribution over all programs"
+  },
+  "ecology_bias":{
+    "primary":"2-bit XOR/absolute difference",
+    "control":"identity x0",
+    "known_bias":"tiny exact binary tasks are not representative of large-scale learning"
+  },
+  "resource_bias":{
+    "raw_vectors_primary":true,
+    "frozen_scalar":"build + H*per_use used only for one held-out regime prediction",
+    "known_bias":"registered costs are synthetic and not hardware calibration"
+  },
+  "evaluation_bias":{
+    "search_reward":"external exact task correctness + registered primitive/resource burden only",
+    "posthoc_morphology_classifier_in_reward":false,
+    "architecture_labels_visible_to_search":false
+  },
+  "stopping_bias":"exact satisfaction or frozen size/length budget",
+  "claim_boundary":"Architecture-uncommitted only relative to this disclosed bias ledger; not assumption-free/prior-free."
+}
