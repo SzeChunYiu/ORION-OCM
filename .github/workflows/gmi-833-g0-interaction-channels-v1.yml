@@ -1,0 +1,80 @@
+name: GMI 833 G0 interaction channels v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-interaction-channels-v1/**'
+      - '.github/workflows/gmi-833-g0-interaction-channels-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-interaction-channels-v1/**'
+      - '.github/workflows/gmi-833-g0-interaction-channels-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=d7d2c0dc99fefa3b175925d3c7884510086bee69
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-g0-interaction-channels-v1/FREEZE_V1.md"
+          for p in research/gmi-833-g0-interaction-channels-v1/interaction_channels_v1.py research/gmi-833-g0-interaction-channels-v1/independent_oracle_v1.py research/gmi-833-g0-interaction-channels-v1/test_interaction_channels_v1.py research/gmi-833-g0-interaction-channels-v1/RESULT_V1.json research/gmi-833-g0-interaction-channels-v1/ORACLE_RESULT_V1.json research/gmi-833-g0-interaction-channels-v1/CORE.md research/gmi-833-g0-interaction-channels-v1/INTERACTION_CHANNEL_THEOREMS_V1.md research/gmi-833-g0-interaction-channels-v1/PARENT_LITERATURE_V1.md research/gmi-833-g0-interaction-channels-v1/MANIFEST_V1.json research/gmi-833-g0-interaction-channels-v1/ISSUE_833_RECONCILIATION_INTERACTION_CHANNELS_V1.json .github/workflows/gmi-833-g0-interaction-channels-v1.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then echo "post-freeze artifact existed: $p" >&2; exit 1; fi
+          done
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then O=-O; else O=; fi
+          python -I $O -B research/gmi-833-g0-interaction-channels-v1/test_interaction_channels_v1.py -v
+          python -I $O -B research/gmi-833-g0-interaction-channels-v1/interaction_channels_v1.py > /tmp/result.json
+          python -I $O -B research/gmi-833-g0-interaction-channels-v1/independent_oracle_v1.py > /tmp/oracle.json
+          cmp /tmp/result.json research/gmi-833-g0-interaction-channels-v1/RESULT_V1.json
+          cmp /tmp/oracle.json research/gmi-833-g0-interaction-channels-v1/ORACLE_RESULT_V1.json
+          echo 'ea867eaa1ce7ddb49435dc6e51a7b82eeb2730a0cdc64402d9445ead74e504a0  research/gmi-833-g0-interaction-channels-v1/RESULT_V1.json' | sha256sum -c -
+          echo '6cd9963c08a01e36b428ea76a70f109e5d60fff2c0c7c2f6ebe555946c14511c  research/gmi-833-g0-interaction-channels-v1/ORACLE_RESULT_V1.json' | sha256sum -c -
+      - name: Validate exact census
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('research/gmi-833-g0-interaction-channels-v1')
+          m=json.loads((r/'MANIFEST_V1.json').read_text()); x=json.loads((r/'RESULT_V1.json').read_text()); o=json.loads((r/'ORACLE_RESULT_V1.json').read_text())
+          if x['terminal']!='GMI_833_INTERACTION_CHANNELS_V1_ALL_GREEN' or o['terminal']!='GREEN': raise SystemExit('RED')
+          c=x['census']
+          if (c['remint_checks'],c['remint_failures'],c['fifo_checks'],c['fifo_failures'],c['tool_checks'],c['tool_failures'])!=(72,0,24,0,6,0): raise SystemExit('census mismatch')
+          if any(c[k] for k in ('destination_isolation_failures','implicit_broadcast_failures','send_local_mutation_failures')): raise SystemExit('leak')
+          if not c['tool_composition_order_distinct'] or not all(x['separation'].values()) or 'ACCEPTED' in x['hostiles'].values(): raise SystemExit('boundary failure')
+          if o['tool_compositions']!=c['tool_compositions']: raise SystemExit('oracle mismatch')
+          if m['claim_ceiling']!=x['claim_ceiling'] or set(m['forbidden_promotions'])!=set(x['forbidden_promotions']): raise SystemExit('authority mismatch')
+          PY
+      - name: Check exact #833 reconciliation
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+        run: python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py --mode check --repository "$GITHUB_REPOSITORY" --spec research/gmi-833-g0-interaction-channels-v1/ISSUE_833_RECONCILIATION_INTERACTION_CHANNELS_V1.json
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Apply only earned E5 rows
+        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+        run: python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py --mode apply --repository "$GITHUB_REPOSITORY" --spec research/gmi-833-g0-interaction-channels-v1/ISSUE_833_RECONCILIATION_INTERACTION_CHANNELS_V1.json
