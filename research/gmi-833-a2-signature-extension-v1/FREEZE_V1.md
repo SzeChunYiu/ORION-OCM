@@ -147,3 +147,46 @@ DERIVED_SIGNATURES_NAME_BLIND_VALIDATED_ON_PLANTS
 CORPUS_SCREEN_108_PACKAGES_WITH_INDIVIDUAL_ADJUDICATION
 NO_CHANGE_TO_855_STANDARD_OR_974_SCREEN
 ```
+
+## Amendment A1 (2026-09-17, pre-execution)
+
+While authoring the P1/P2 plant bodies (before any screen execution against
+the corpus), four derivation rules in section 3 proved not mechanism-faithful
+enough to catch token-sparse smuggles. Corrections, all committed before the
+first run:
+
+1. **Structural tag rules** (3.3 addition). Three tags are additionally
+   derivable from structure when the lexicon is silent, because the structure
+   IS the mechanism:
+   - S1 `weighted_aggregate`: locality global AND a parameter-ish subscript
+     inside a for-loop over a collection (dense weighted aggregation written
+     as plain multiply-accumulate carries no lexicon token).
+   - S2 `population_selection`: stochastic AND iteration over a
+     population-named collection AND a max/min/sorted/select reduction.
+   - S3 `self_rewrite`: a subscript-assignment whose base is a program-text
+     name (`program|code|genome|instruction|expr|ops`) — writing one's own
+     program text is the mechanism, tokens or not.
+2. **state_access container rule refined** (3.2): a write is a subscript-
+   assignment/append on ANY name that is not a same-block local constructor
+   (`x = []/{}/list()/dict()/set()/tuple()`). This includes mutation of
+   passed-in parameters — the classic persistent-belief-state pattern
+   (`cells[i] = posterior[i]/s`) — while plain rebinding and local list
+   construction remain non-writes.
+3. **Lexicon gaps**: `verify` joins the verifier_access called-name tokens
+   (CEGIS bodies say `verify(`); retrieval prefix tokens fixed to
+   `retriev, similar, knn, rag, embedding, corpus` (external-store
+   vocabulary, so an external collection named `corpus` derives the tag).
+4. **content_dependent_routing selector lexicon** (3.2): branch tests on
+   data-derived selectors are matched for the frozen name set
+   `value, cond, score, fitness, output, gate, best, rank` in addition to the
+   subscript and route-by forms.
+
+P3's corpus clean leg is anchored on the registered aj9b frozen primitive
+basis (the refined-census IN-anchor) rather than only on
+`gmi-neutral-derivation-v1/neutral_machine.py`, which the registered
+definition-like-structure clause itself excludes (its grammar is an
+encode/execute dispatcher, not an OPS-style table). Both are reported.
+
+No family definition, required feature, census rule, anchor gate, plant
+protocol, or adjudication rule changes in this amendment.
+
