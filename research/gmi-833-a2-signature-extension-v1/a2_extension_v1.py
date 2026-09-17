@@ -115,7 +115,7 @@ DEFSTRUCT_RE = re.compile(
     r"|kind\s*==|opcode\s*==|\bop\s*==|operation\s*=="
     r"|\bdef\s+\w+"
     r"|\|\s*`[^`]{1,40}`\s*\|"
-    r"|(?:^|\n)\s*[-*]\s*`[a-z_][a-z0-9_]{0,20}`",
+    r"|(?-i:(?:^|\n)\s*[-*]\s*`[a-z_][a-z0-9_]{0,20}`)",
     re.I | re.M)
 A2_REGISTERED_ANCHOR = 'gmi-833-robustness-controls-v1'
 A2_SIGONLY_RE = re.compile(r'strategy_signature|Sigma\(', re.I)
