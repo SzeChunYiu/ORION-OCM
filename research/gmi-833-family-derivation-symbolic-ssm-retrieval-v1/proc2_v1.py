@@ -74,6 +74,29 @@ def rand_atom(rng, atom_names):
     return ["atom", rng.choice(atom_names)]
 
 
+def crossover(ga, gb, rng):
+    """Neutral recombination: for M_STREAM/M_ITER genomes, replace one
+    parent's cell expression (or the readout) by the other parent's
+    expression for the same slot; for equal-length expressions additionally
+    graft a random subtree. No new primitives; deterministic given rng."""
+    import copy
+    child = copy.deepcopy(ga)
+    if ga["model"] != gb["model"] or ga["model"] == "M_ITER" and             ga["input_cells"] != gb["input_cells"]:
+        return child
+    if ga["model"] == "M_STREAM":
+        slots = len(child["update"]) + 1  # + readout
+        si = rng.randrange(slots)
+        if si < len(child["update"]) and si < len(gb["update"]):
+            child["update"][si] = copy.deepcopy(gb["update"][si])
+        elif ga["cells"] == gb["cells"]:
+            child["readout"] = copy.deepcopy(gb["readout"])
+        return child
+    wi = rng.randrange(len(child["update"]))
+    if wi < len(gb["update"]):
+        child["update"][wi] = copy.deepcopy(gb["update"][wi])
+    return child
+
+
 def mutate_expr(e, rng, atom_names):
     """One primitive edit on a random node."""
     nodes = expr_nodes(e)
@@ -400,10 +423,14 @@ def evolve(taskset, seed, budget, cell_cap, genome="iter", n_in=0, steps=16,
     best = min(scored, key=lambda p: (p[0], repr(p[1])))
     while evals < budget:
         children = []
-        parents = [g for (f, g) in scored]  # population maintained below
+        parents_pool = [g for (f, g) in scored]  # population maintained below
         while len(children) < lam:
-            parent = rng.choice(parents)
-            child = mutate_genome(parent, rng, cell_cap, readout_only)
+            if len(parents_pool) >= 2 and rng.random() < 0.5:
+                pa, pb = rng.sample(parents_pool, 2)
+                child = crossover(pa, pb, rng)
+            else:
+                child = rng.choice(parents_pool)
+            child = mutate_genome(child, rng, cell_cap, readout_only)
             children.append(child)
         scored_children = [(fit(g), g) for g in children]
         evals += len(children)

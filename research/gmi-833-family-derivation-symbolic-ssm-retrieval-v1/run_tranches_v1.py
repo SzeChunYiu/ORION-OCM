@@ -33,9 +33,9 @@ V2_BAT_PATH = HERE.parent / "gmi-833-blind-recovery-v2-v1" / \
 V2_BAT = json.loads(V2_BAT_PATH.read_text())
 
 BUDGET_PRIMARY = int(os.environ.get("FDT_BUDGET_PRIMARY", 100_000))
-BUDGET_T3_PRIMARY = int(os.environ.get("FDT_BUDGET_T3_PRIMARY", 10_000_000))
+BUDGET_T3_PRIMARY = int(os.environ.get("FDT_BUDGET_T3_PRIMARY", 3_000_000))
 T3_PRIMARY_SEEDS = int(os.environ.get("FDT_T3_PRIMARY_SEEDS", 10))
-BUDGET_T3_NULL = int(os.environ.get("FDT_BUDGET_T3_NULL", 100_000))
+BUDGET_T3_NULL = int(os.environ.get("FDT_BUDGET_T3_NULL", 30_000))
 BUDGET_CROSSOVER = int(os.environ.get("FDT_BUDGET_CROSSOVER", 10_000))
 BUDGET_NULL = int(os.environ.get("FDT_BUDGET_NULL", 10_000))
 NULL_SEEDS = list(range(int(os.environ.get("FDT_NULL_SEEDS", 200))))

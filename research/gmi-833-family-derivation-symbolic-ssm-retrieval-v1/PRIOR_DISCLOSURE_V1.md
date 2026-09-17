@@ -341,6 +341,15 @@ flagged) and negative controls (the tranche basis MUST NOT be flagged).
   plateau is the standard remedy; no accuracy/cost trade-off constant is
   introduced. TR-3 ablations/order-fixed/probe budgets set to 10^6
   (primary stays 10^7 x 10 seeds pooled).
+- ERRATUM 6 (still pre-outcome): PROC2 gains NEUTRAL RECOMBINATION (child =
+  crossover of two plateau parents: same-slot cell-expression or readout
+  replacement; then one primitive mutation) with probability 1/2 per child —
+  the mutation-only drift sampled 738,163 distinct genomes at 10^6
+  evaluations without leaving the 8-error plateau, and recombination is the
+  standard neutral assembly operator (no new primitives, no family content).
+  TR-3 primary set to 10 seeds x 3x10^6 pooled (wall-clock bound of the
+  compute window); TR-3 nulls set to 3x10^4 per seed (the null statistic
+  needs only that null batteries do not crack; stated).
 
 ## Tranches and claim ceilings
 
