@@ -1,0 +1,175 @@
+name: GMI 833 G0 exec rank revival (E9)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-exec-rank-revival-v1/**'
+      - 'research/gmi-833-claim-discipline-v1/authored_e9_append.py'
+      - 'research/gmi-833-claim-discipline-v1/assemble_e9_append.py'
+      - 'research/gmi-833-claim-discipline-v1/REGISTRATIONS_E9_APPEND.json'
+      - 'research/gmi-833-g0-grammar-growth-v2/SCIENTIFIC_LEDGER_V2.json'
+      - 'research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json'
+      - '.github/workflows/gmi-833-g0-exec-rank-revival-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-exec-rank-revival-v1/**'
+      - 'research/gmi-833-claim-discipline-v1/**'
+      - 'research/gmi-833-g0-grammar-growth-v2/SCIENTIFIC_LEDGER_V2.json'
+      - '.github/workflows/gmi-833-g0-exec-rank-revival-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze1=79651e4877b719b7d5575e869ad1c3c7c0018c05
+          freeze2=a2bf8d26268947218fcae0f3bc4909b03bdeb62d
+          git cat-file -e "$freeze1^{commit}"
+          git cat-file -e "$freeze1:research/gmi-833-g0-exec-rank-revival-v1/FREEZE_E1.md"
+          git cat-file -e "$freeze1:research/gmi-833-g0-exec-rank-revival-v1/FROZEN_FIXTURES_E1.json"
+          git cat-file -e "$freeze2^{commit}"
+          for fc in "$freeze1" "$freeze2"; do
+            for p in \
+              research/gmi-833-g0-exec-rank-revival-v1/exec_rank_revival_v1.py \
+              research/gmi-833-g0-exec-rank-revival-v1/independent_oracle_v1.py \
+              research/gmi-833-g0-exec-rank-revival-v1/test_exec_rank_revival_v1.py \
+              research/gmi-833-g0-exec-rank-revival-v1/RESULT_E1.json \
+              research/gmi-833-g0-exec-rank-revival-v1/ORACLE_RESULT_E1.json \
+              research/gmi-833-g0-exec-rank-revival-v1/THEOREMS_E1.md \
+              research/gmi-833-g0-exec-rank-revival-v1/CORE.md \
+              research/gmi-833-g0-exec-rank-revival-v1/MANIFEST_E1.json \
+              research/gmi-833-g0-exec-rank-revival-v1/RECEIPTS_RUN_LOG.md \
+              .github/workflows/gmi-833-g0-exec-rank-revival-v1.yml; do
+              if git cat-file -e "$fc:$p" 2>/dev/null; then
+                echo "post-freeze artifact existed at $fc: $p" >&2
+                exit 1
+              fi
+            done
+          done
+          test "$(git show "$freeze2:research/gmi-833-g0-exec-rank-revival-v1/FROZEN_FIXTURES_E1.json" | git hash-object --stdin)" = \
+            "$(git hash-object research/gmi-833-g0-exec-rank-revival-v1/FROZEN_FIXTURES_E1.json)"
+      - name: Verify pinned parents and fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '12acccf68dd5e02ac0521737bc8239f550600e80b87de3330beafa9a554921c6  research/gmi-833-g0-grammar-growth-v1/FROZEN_FIXTURES_V1.json' | sha256sum -c -
+          echo 'bc81e7757962132f0418119a8d8799719f41da3d280541c724493df7e9eb4514  research/gmi-833-g0-grammar-growth-v2/FROZEN_FIXTURES_V2.json' | sha256sum -c -
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-g0-exec-rank-revival-v1/test_exec_rank_revival_v1.py -v
+            python -I -O -B research/gmi-833-g0-exec-rank-revival-v1/exec_rank_revival_v1.py > /tmp/result.json
+            python -I -O -B research/gmi-833-g0-exec-rank-revival-v1/independent_oracle_v1.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-g0-exec-rank-revival-v1/test_exec_rank_revival_v1.py -v
+            python -I -B research/gmi-833-g0-exec-rank-revival-v1/exec_rank_revival_v1.py > /tmp/result.json
+            python -I -B research/gmi-833-g0-exec-rank-revival-v1/independent_oracle_v1.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-g0-exec-rank-revival-v1/RESULT_E1.json
+          cmp /tmp/oracle.json research/gmi-833-g0-exec-rank-revival-v1/ORACLE_RESULT_E1.json
+      - name: Discipline append integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B research/gmi-833-claim-discipline-v1/assemble_e9_append.py > /tmp/append.json
+          python - <<'PY'
+          import json, hashlib, pathlib
+          root = pathlib.Path('research/gmi-833-claim-discipline-v1')
+          out = json.loads((root / 'REGISTRATIONS_E9_APPEND.json').read_text())
+          v2 = json.loads((root / 'REGISTRATIONS_V2.json').read_bytes())
+          meta = out['e9_append']
+          assert hashlib.sha256((root / 'REGISTRATIONS_V1.json').read_bytes()).hexdigest() == meta['v1_register_sha256']
+          assert hashlib.sha256((root / 'REGISTRATIONS_V2.json').read_bytes()).hexdigest() == meta['v2_register_sha256']
+          assert len(v2['objects']) + 0 == len(out['objects'])
+          diffs = [ (a['object_id'], [k for k in a['fields'] if a['fields'][k] != b['fields'].get(k)])
+                    for a, b in zip(v2['objects'], out['objects']) if a != b ]
+          assert diffs == [(meta['target_object_id'], [meta['target_field']])], diffs
+          print('E9 discipline append integrity: OK')
+          PY
+      - name: Validate receipt, claim ceiling, and headline integers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-g0-exec-rank-revival-v1')
+          r = json.loads((root / 'RESULT_E1.json').read_text())
+          m = json.loads(Path('research/gmi-833-g0-grammar-growth-v2/SCIENTIFIC_LEDGER_V2.json').read_text())
+          if r['terminal'] != 'GMI_833_E9_EXEC_RANK_REVIVAL_GREEN_AT_REGISTERED_SCOPE':
+              raise SystemExit('receipt RED')
+          failed = [k for k, v in r['checks'].items() if not v]
+          if failed:
+              raise SystemExit('failed checks: ' + str(failed))
+          if r['claim_ceiling'] != 'GMI_833_E9_EXEC_RANK_REVIVAL__BOTH_METRIC_RANK1_WITNESS_BY_NESTING_LADDER__EXACT_AFFINE_EXCHANGE_LAW__STRUCTURE_CLASSIFICATION_AT_REGISTERED_SCOPE':
+              raise SystemExit('claim ceiling mismatch')
+          for bad in ('RECURSIVE_LIBRARY_EXEC_OPTIMAL', 'SINGLE_JOINT_CHARGE_ACHIEVES_BOTH_METRIC_RANK1', 'UNIFORM_IN_RHO_RANK1'):
+              if bad not in r['forbidden_promotions']:
+                  raise SystemExit('missing forbidden promotion ' + bad)
+          c = r['corpora']
+          # EXR-1 headline: witness rank-1 under BOTH metrics everywhere
+          for cid in ('v1ref', 'c3', 'c4', 'c5', 'trap1', 'trap3'):
+              if not (c[cid]['ranks']['witness']['cb'] == 0 and c[cid]['ranks']['witness']['eb'] == 0):
+                  raise SystemExit('witness not both-rank-1 on ' + cid)
+          if c['v1ref']['ranks']['inv'] != {'cb': 0, 'eb': 19}:
+              raise SystemExit('v1ref fragility mismatch')
+          if not (c['v1ref']['witness']['breakeven'] == 314 and c['v1ref']['inv_breakeven'] == 164):
+              raise SystemExit('v1ref breakeven mismatch')
+          if c['v1ref']['inv_nets']['count_net'] != -48739 or c['v1ref']['inv_nets']['exec_net_rho1'] != -395484:
+              raise SystemExit('v1ref inv nets mismatch')
+          if c['v1ref']['witness']['nets']['exec_net_rho1'] != -396644:
+              raise SystemExit('witness exec net mismatch')
+          if c['v1ref']['space_argmin']['count']['net'] != -48739 or c['v1ref']['space_argmin']['exec']['net'] != -396644:
+              raise SystemExit('v1ref argmin mismatch')
+          if c['c3']['space_argmin']['count']['net'] != -31501345179969635:
+              raise SystemExit('c3 argmin mismatch')
+          if not (c['trap1']['ranks']['inv']['cb'] == 52 and c['trap1']['ranks']['inv']['eb'] == 49):
+              raise SystemExit('trap1 trap mismatch')
+          if not (c['trap3']['ranks']['inv']['cb'] == 33 and c['trap3']['ranks']['inv']['eb'] == 33):
+              raise SystemExit('trap3 trap mismatch')
+          # EXR-2: affine law exact everywhere it is defined
+          for cid in ('v1ref', 'c3', 'c4', 'c5'):
+              if not c[cid]['affine_checks'] or not all(x['exact'] for x in c[cid]['affine_checks']):
+                  raise SystemExit('affine law failed on ' + cid)
+          # EXR-4/EXR-5
+          if not r['charge_class_verdict']['none_universal']:
+              raise SystemExit('universal charge appeared')
+          for cid in c:
+              if not c[cid]['exec_mdl_degenerate']:
+                  raise SystemExit('exec-MDL not degenerate on ' + cid)
+          # ledger + discipline appends
+          rec = m.get('revival_records', [])
+          if not rec or rec[0]['id'] != 'REV-E9-1' or 'GAP-T2-2' not in rec[0]['closes_gap']:
+              raise SystemExit('ledger revival record missing')
+          o = json.loads((root / 'ORACLE_RESULT_E1.json').read_text())
+          if not o['all_ok']:
+              raise SystemExit('oracle RED')
+          print('E9 receipt validation: all invariants hold')
+          PY
+      - name: v1/v2 packages still green (appends must not break parents)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B research/gmi-833-g0-grammar-growth-v2/test_g0_grammar_growth_v2.py
+          python -I -B research/gmi-833-g0-grammar-growth-v1/test_g0_grammar_growth_v1.py
