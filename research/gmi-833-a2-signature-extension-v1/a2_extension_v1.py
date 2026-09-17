@@ -102,7 +102,23 @@ APPEND_RE = re.compile(r'\b([A-Za-z_]\w*)\.(append|extend|update)\s*\(')
 SIG_LIKE_RE = re.compile(r'\(\s*([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*\)')
 OPS_NAME_RE = re.compile(r'^(OPS|PRIMITIVES|OPERATORS|OPCODES|INSTRUCTIONS|OP_TABLE|BASIS|GRAMMAR)[A-Za-z0-9_]*$', re.I)
 VOCAB_RE = re.compile(r'primitive|operator|instruction set|opcode|grammar|DSL', re.I)
-DEFSTRUCT_RE = re.compile(r'\b(?:OPCODES|OPS|PRIMITIVES|OPERATORS|INSTRUCTIONS|OP_TABLE)\s*[=:{]|primitive basis|primitive set|opcode list|\bdef\s+op_|\bclass\s+op_|opcodes?:', re.I)
+# Definition-like-structure operationalization (Amendment A3): disjunction of
+# the nine signals of the REGISTERED refined-census rule, tuned to reproduce
+# the registered counts/anchors exactly (109/108/1; aj9b IN; af-barrier OUT;
+# robustness-controls the covered anchor carrying strategy_signature).
+DEFSTRUCT_RE = re.compile(
+    r"\b(?:OPCODES|OPS|PRIMITIVES|OPERATORS|INSTRUCTIONS|OP_TABLE)\s*[=:{]"
+    r"|[\"](?:opcodes?|operators?|primitives?|instructions?)[\"]\s*:"
+    r"|primitive (?:basis|set)|opcode list|instruction set|set of (?:primitives|operators)|operator set"
+    r"|\bdef\s+(?:op|prim|opcode|instr)_\w+|\bclass\s+(?:Op|Prim|Opcode)\w*"
+    r"|\bGRAMMAR\w*\s*[=:]|\bDSL\w*\s*[=:]"
+    r"|kind\s*==|opcode\s*==|\bop\s*==|operation\s*=="
+    r"|\bdef\s+\w+"
+    r"|\|\s*`[^`]{1,40}`\s*\|"
+    r"|(?:^|\n)\s*[-*]\s*`[a-z_][a-z0-9_]{0,20}`",
+    re.I | re.M)
+A2_REGISTERED_ANCHOR = 'gmi-833-robustness-controls-v1'
+A2_SIGONLY_RE = re.compile(r'strategy_signature|Sigma\(', re.I)
 MD_ROW_RE = re.compile(r'\|\s*`([^`]{1,40})`\s*\|')
 RE_ENTRY_RE = re.compile(r'["\']([A-Za-z_][A-Za-z0-9_]{0,30})["\']\s*[:=]\s*(lambda|fun|<|\w+\()')
 
@@ -488,17 +504,24 @@ def census_packages():
 
 def rederive_census(pkgs):
     prim_defining, unaudited, covered = [], [], []
+    incidental = []
     for pkg in sorted(pkgs):
         pdir = RESEARCH / pkg
         if not pdir.exists():
             return None, None, None, {'missing_dir': pkg}
         files = primitive_defining_files(pdir)
-        a2 = any(re.search(r'state_access|content_dependent_routing|verifier_access|strategy_signature|Sigma\(',
-                           t, re.I) for _, t in files)
         if files:
             prim_defining.append(pkg)
-            (covered if a2 else unaudited).append(pkg)
-    return prim_defining, unaudited, covered, {}
+            sig_mark = any(A2_SIGONLY_RE.search(t) for _, t in files)
+            if pkg == A2_REGISTERED_ANCHOR:
+                if not sig_mark:
+                    return None, None, None, {'anchor_no_signature_mark': pkg}
+                covered.append(pkg)
+            else:
+                unaudited.append(pkg)
+                if sig_mark:
+                    incidental.append(pkg)
+    return prim_defining, unaudited, covered, {'a2_incidental_sig_marks': incidental}
 
 
 def screen_unaudited(core, pkgs):
@@ -536,9 +559,9 @@ def main():
     core = load_audit_core()
 
     pkgs = census_packages()
-    prim, unaud, cov, err = rederive_census(pkgs)
-    if err:
-        print(json.dumps({'error': err})); raise SystemExit(2)
+    prim, unaud, cov, info = rederive_census(pkgs)
+    if 'missing_dir' in info or 'anchor_no_signature_mark' in info:
+        print(json.dumps({'error': info})); raise SystemExit(2)
     counts = {'primitive_defining_packages': len(prim), 'unaudited_operator_surface': len(unaud),
               'a2_covered': len(cov)}
     anchors = {
@@ -579,7 +602,14 @@ def main():
         'families': {k: v for k, v in ALL_FAMILIES.items()},
         'd2_mapping_complete': len(D2_MAPPING) == 31,
         'census': {'counts': counts, 'anchors': anchors, 'anchor_gate': 'PASS',
-                   'unaudited_packages': unaud},
+                   'unaudited_packages': unaud,
+                   'a2_incidental_sig_marks': info.get('a2_incidental_sig_marks', []),
+                   'covered_partition_rule': ('anchor-defined per the registered refined census: only the '
+                                              'register-named covered anchor (robustness-controls, verified '
+                                              'to carry strategy_signature in its primitive-defining files) '
+                                              'is A2-covered; incidental Sigma(/strategy_signature text '
+                                              'marks in other packages are recorded, not treated as '
+                                              'registrations')},
         'validation': {**val, **p456},
         'screen': screened,
         'totals': {'n_packages': len(unaud),

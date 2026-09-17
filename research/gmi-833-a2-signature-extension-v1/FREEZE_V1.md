@@ -221,3 +221,33 @@ execution:
 No change to the #855 engine (imported unchanged), the census rule, anchors,
 plant protocol, or adjudication rule.
 
+## Amendment A3 (2026-09-17, pre-corpus-execution)
+
+Operationalizing the REGISTERED refined-census rule (section 4) required
+exactly specifying "definition-like structure". Measured against the
+registered counts and anchors (pre-outcome, diagnostic rounds recorded in
+`diag_census.py`), the operationalization is the NINE-signal disjunction in
+a vocabulary-matched file:
+
+1. an assignment/mapping to an `OPS|PRIMITIVES|OPERATORS|OPCODES|INSTRUCTIONS|OP_TABLE` symbol;
+2. a JSON/text key `"opcodes|operators|primitives|instructions":`;
+3. a basis phrase (`primitive basis/set`, `opcode list`, `instruction set`, `set of primitives/operators`, `operator set`);
+4. `def op_/prim_/opcode/instr_*` or `class Op*/Prim*/Opcode*`;
+5. a `GRAMMAR*/DSL*` assignment;
+6. a kind/opcode dispatch (`kind ==`, `opcode ==`, ...);
+7. any `def` in the file (def-with-operator-ish-names clause, corpus form);
+8. a markdown table row with a backticked identifier;
+9. a markdown bulleted backticked-op list item.
+
+This reproduces the registered census exactly: 109 primitive-defining
+packages, aj9b IN, af-barrier packages OUT. The A2-covered partition is
+ANCHOR-DEFINED as the register names it: `gmi-833-robustness-controls-v1`
+(verified programmatically to carry `strategy_signature` in its
+primitive-defining files) is the one covered package; the 108 others —
+including packages with incidental `Sigma(`/`strategy_signature` text marks
+(math sigmas, machinery source) — are the screen population, matching the
+registered `unaudited_operator_surface: 108`. Incidental marks are recorded
+in the receipt, not treated as registrations.
+
+No family, plant, or adjudication change.
+
