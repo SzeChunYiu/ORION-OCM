@@ -1,0 +1,82 @@
+{
+  "schema": "REV_L47_MECHANICAL_SPECS_V1",
+  "note": "Per-package specification of the mechanical custody demonstration. Legs: L1 order (freeze first-add commit is a git ancestor of every cited outcome first-add commit); L2 separation (>120 s registered bar); L3 window immutability (frozen artifact unmodified between its first add and the last cited outcome first-add; post-outcome edits must all be typed corpus-wide sweeps or metadata-package edits); L4 content pins (blob identity across the window; recorded digest bindings hold on the live tree). Extra legs per package as listed.",
+  "typed_events": {
+    "1789415102": "capability-transfer-freeze digest canonicalization repair (24b9ffbfd): touches ONLY the freeze_digest line of TRANSFER_PREDICTIONS_V1.json; prediction rows byte-identical (diff reproduced in receipt); pre-any-outcome (no scoring artifact exists repo-wide).",
+    "1789558080": "corpus-wide terminology migration (interaction-channels/local renames).",
+    "1789561929": "corpus-wide terminology migration v2 (remaining 236 gate hits)."
+  },
+  "packages": [
+    {
+      "package": "gmi-833-aj9a-known-family-benchmark-v1",
+      "freeze": ["FREEZE_V1.md", "KNOWN_FAMILY_BENCHMARK_V1.json"],
+      "outcomes": [
+        {"pkg": "gmi-833-aj9b-k01-blind-recovery-v1", "file": "blind_search_v1.py"},
+        {"pkg": "gmi-833-aj9c-k02-blind-recovery-v1", "file": "blind_temporal_search_v1.py"},
+        {"pkg": "gmi-833-aj9d-k03-blind-recovery-v1", "file": "blind_site_search_v1.py"},
+        {"pkg": "gmi-833-aj9e-k04-blind-recovery-v1", "file": "blind_boolean_search_v1.py"},
+        {"pkg": "gmi-833-aj9f-k05-blind-recovery-v1", "file": "blind_term_search_v1.py"},
+        {"pkg": "gmi-833-aj9g-k06-blind-recovery-v1", "file": "blind_evidence_search_v1.py"},
+        {"pkg": "gmi-833-aj9h-k07-k11-blind-recovery-v1", "file": "blind_recovery_v1.py"}
+      ],
+      "claim": "registry committed before any AJ9 holdout implementation or outcome exists",
+      "extra_legs": ["repo_wide_earliest_holdout_impl"],
+      "blob_pin_files": ["KNOWN_FAMILY_BENCHMARK_V1.json"],
+      "self_test": "check_aj9a.py"
+    },
+    {
+      "package": "gmi-833-transform-geometry-v1",
+      "freeze": ["FREEZE_V1.md"],
+      "outcomes": [{"pkg": "gmi-833-transform-geometry-v1", "file": "RESULT_V1.json"}],
+      "claim": "frozen math objects + claim ceiling; no prospective-registration claim (explicit non-claims list)",
+      "extra_legs": [],
+      "blob_pin_files": ["FREEZE_V1.md"],
+      "self_test": "test_transform_geometry_v1.py"
+    },
+    {
+      "package": "gmi-833-remint-equivariance-v1",
+      "freeze": ["FREEZE_V1.md"],
+      "outcomes": [{"pkg": "gmi-833-remint-equivariance-v1", "file": "RESULT_V1.json"}],
+      "claim": "frozen finite-tranche fingerprint definitions; no prospective-registration claim",
+      "extra_legs": [],
+      "blob_pin_files": ["FREEZE_V1.md"],
+      "self_test": "test_remint_equivariance_v1.py"
+    },
+    {
+      "package": "gmi-833-pareto-topology-v1",
+      "freeze": ["FREEZE_V1.md"],
+      "outcomes": [{"pkg": "gmi-833-pareto-topology-v1", "file": "RESULT_V1.json"}],
+      "claim": "frozen Pareto-topology objects + claim ceiling; no prospective-registration claim",
+      "extra_legs": [],
+      "blob_pin_files": ["FREEZE_V1.md"],
+      "self_test": "test_pareto_topology_v1.py"
+    },
+    {
+      "package": "gmi-capability-held-freeze-v1",
+      "freeze": ["HELD_FAMILY_PREDICTIONS_V1.json"],
+      "outcomes": [
+        {"pkg": "gmi-capability-held-score-v1", "file": "HELD_FAMILY_SCORE_V1.json"}
+      ],
+      "claim": "prospective registration: predictions frozen before held outcomes computed",
+      "extra_legs": ["upstream_producer", "digest_binding"],
+      "upstream": {"pkg": "gmi-capability-predictor-dev-v1", "file": "dev_predictor_v1.py"},
+      "digest_binding": {
+        "artifact": "gmi-capability-held-score-v1/HELD_FAMILY_SCORE_V1.json",
+        "field": "freeze_digest or equivalent pinned digest equal to live HELD_FAMILY_PREDICTIONS_V1.json freeze_digest cee4b92e..."
+      },
+      "blob_pin_files": ["HELD_FAMILY_PREDICTIONS_V1.json"],
+      "self_test": "test_held_freeze_v1.py"
+    },
+    {
+      "package": "gmi-capability-transfer-freeze-v1",
+      "freeze": ["TRANSFER_PREDICTIONS_V1.json"],
+      "outcomes": [],
+      "claim": "prospective freeze; no held target outcome present (G2 until a later separate scoring artifact)",
+      "extra_legs": ["upstream_producer", "absence_of_outcomes"],
+      "upstream": {"pkg": "gmi-capability-predictor-dev-v1", "file": "dev_predictor_v1.py"},
+      "absence_of_outcomes": "no artifact outside census/metadata packages both references TRANSFER_PREDICTIONS_V1.json and computes/scores outcomes (repo-wide basename scan; consumer list enumerated in receipt)",
+      "blob_pin_files": ["TRANSFER_PREDICTIONS_V1.json"],
+      "self_test": "test_transfer_freeze_v1.py"
+    }
+  ]
+}
