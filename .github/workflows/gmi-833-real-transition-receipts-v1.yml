@@ -38,9 +38,17 @@ jobs:
           published=69be678dbc96259dd35e30e2953edbbb571151f8
           # squash merge + branch deletion removes pre-merge ancestry from main;
           # fetch the pinned custody commits explicitly so they stay verifiable
-          # on every run (GitHub allows fetching explicit object ids)
-          if ! git cat-file -e "$freeze^{commit}" 2>/dev/null; then
-            git fetch --quiet origin "$freeze" "$amendment" "$addendum"
+          # on every run (GitHub allows fetching explicit object ids). If any
+          # pinned object/path is missing or unresolvable in the runner's
+          # object store, refetch the pins ignoring local haves (repairs
+          # partial-store anomalies deterministically).
+          P1=research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md
+          P2=research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md
+          P3=research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md
+          if ! git cat-file -e "$freeze:$P1" 2>/dev/null \
+            || ! git cat-file -e "$amendment:$P2" 2>/dev/null \
+            || ! git cat-file -e "$addendum:$P3" 2>/dev/null; then
+            git fetch --refetch --quiet origin "$freeze" "$amendment" "$addendum"
           fi
           git cat-file -e "$freeze^{commit}"
           git cat-file -e "$freeze:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md"
