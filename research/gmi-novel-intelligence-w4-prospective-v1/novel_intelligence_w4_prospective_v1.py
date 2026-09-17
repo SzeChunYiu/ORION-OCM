@@ -106,7 +106,7 @@ def _deep_diff(a, b, path):
     # type: (object, object, str) -> List[str]
     if isinstance(a, dict) and isinstance(b, dict):
         out = []  # type: List[str]
-        for key in sorted(set(a) | set(b)):
+        for key in sorted(set(a) | set(b), key=str):
             if key not in a:
                 out.append("%s.%s: missing in rerun" % (path, key))
             elif key not in b:
@@ -131,6 +131,10 @@ def _deep_diff(a, b, path):
 def replication_leg(parent, parent_result_path):
     # type: (object, str) -> Dict[str, object]
     rerun = parent.run_campaign()
+    # Normalize through a JSON round-trip: the parent's receipt is the
+    # serialized artifact (string keys), and the in-memory campaign uses int
+    # keys for per-k details -- comparing like for like is the honest D1.
+    rerun = json.loads(json.dumps(rerun))
     with open(parent_result_path, "r", encoding="utf-8") as fh:
         original = json.load(fh)
     diffs = _deep_diff(rerun, original, "$")
