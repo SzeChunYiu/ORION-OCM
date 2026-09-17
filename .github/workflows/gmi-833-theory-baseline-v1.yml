@@ -43,6 +43,26 @@ jobs:
           # any change to the manifest must change this workflow in the same
           # commit (loud by design - see BASELINE_V1.md §5)
           echo "31de4041c0b6cb94152debbc4901041fb46626b9866122010a11df5319a62e97  $pkg/BASELINE_MANIFEST_V1.json" | shasum -a 256 -c -
+          # V2 supplement manifest anchor (same loud-change rule: any change
+          # to BASELINE_MANIFEST_V2.json must change this literal in the same
+          # commit). Builder refuses to run if V1 drifted from its anchor.
+          if [ -f "$pkg/BASELINE_MANIFEST_V2.json" ]; then
+            echo "b1941d8fd3b8b92e3521721854d5587e080af8f1dfd7aa39911ce28a92fd890a  $pkg/BASELINE_MANIFEST_V2.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V2.json (no supplements yet)"
+          fi
+          # V2 builder determinism: two same-checkout rebuilds byte-identical
+          if [ -f "$pkg/build_manifest_v2.py" ]; then
+            python -I -B "$pkg/build_manifest_v2.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V2.json" /tmp/v2-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V2.json"
+            python -I -O -B "$pkg/build_manifest_v2.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V2.json" /tmp/v2-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V2.json"
+            cmp /tmp/v2-rebuild-a.json /tmp/v2-rebuild-b.json
+            cmp /tmp/v2-rebuild-a.json "$pkg/BASELINE_MANIFEST_V2.json"
+            echo "V2 rebuild determinism + committed-equality: OK"
+          fi
           # determinism: two same-checkout rebuilds must be byte-identical
           # (arrivals_since_pin legitimately evolves with origin/main, so the
           # rebuild is compared against a second rebuild, not the commit).
