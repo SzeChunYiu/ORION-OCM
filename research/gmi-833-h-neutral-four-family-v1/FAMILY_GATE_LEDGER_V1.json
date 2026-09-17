@@ -1,0 +1,113 @@
+{
+  "schema": "GMI833HFamilyTenGateLedgerV1",
+  "gate_order": [
+    "property_prediction_from_ecology",
+    "p3_p4_lower_grammar_without_named_macros",
+    "neutral_recovery",
+    "negative_twin",
+    "lower_bound_where_possible",
+    "resource_crossover",
+    "heldout_frozen_prediction",
+    "remint",
+    "independent_search",
+    "real_scale_test"
+  ],
+  "evidence": {
+    "FROZEN": "FROZEN_OBLIGATIONS_V1.json + FROZEN_PREDICTIONS_V1.json at commit 32566daa",
+    "GRAMMAR": "neutral_four_family_v1.py::GRAMMAR + RESULT_V1.json::semantic_no_smuggling_audit",
+    "ORACLE": "independent_oracle_v1.py + ORACLE_RESULT_V1.json (source-separated; no primary-checker import)",
+    "STATE_RECOVERY": "RESULT_V1.json::sequence.positive",
+    "STATE_NEGATIVE": "RESULT_V1.json::sequence.negative",
+    "STATE_BOUND": "RESULT_V1.json::sequence.lower_bound",
+    "STATE_CROSSOVER": "RESULT_V1.json::sequence.cheap_state + expensive_state",
+    "STATE_REMINT": "RESULT_V1.json::sequence.remint + NEUTRAL_FOUR_FAMILY_THEOREMS_V1.md::NG-REMINT",
+    "LINEAR_RECOVERY": "RESULT_V1.json::selection.O1_POS + O1_DECISION",
+    "LINEAR_NEGATIVE": "RESULT_V1.json::selection.O1_NEG",
+    "LINEAR_BOUND": "RESULT_V1.json::lower_bounds.affine_law_count + affine_trits",
+    "LINEAR_CROSSOVER": "RESULT_V1.json::selection.O1_POS.storage + reuse",
+    "LINEAR_REMINT": "RESULT_V1.json::selection.O1_POS.remint + O1_DECISION.remint",
+    "LINK_RECOVERY": "RESULT_V1.json::selection.O2_POS",
+    "LINK_NEGATIVE": "RESULT_V1.json::selection.O2_NEG",
+    "LINK_BOUND": "RESULT_V1.json::lower_bounds.linked_distinct_laws",
+    "LINK_CROSSOVER": "RESULT_V1.json::selection.O2_POS.storage + reuse",
+    "LINK_REMINT": "RESULT_V1.json::selection.O2_POS.remint",
+    "LIFT_RECOVERY": "RESULT_V1.json::selection.O3_POS",
+    "LIFT_NEGATIVE": "RESULT_V1.json::selection.O3_NEG",
+    "LIFT_BOUND": "RESULT_V1.json::lower_bounds.bilinear_affine_law_count + bilinear_affine_trits",
+    "LIFT_CROSSOVER": "RESULT_V1.json::selection.O3_POS.storage + reuse",
+    "LIFT_REMINT": "RESULT_V1.json::selection.O3_POS.remint"
+  },
+  "families": [
+    {
+      "row": "finite-state/automata intelligence",
+      "gates": {
+        "property_prediction_from_ecology": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "p3_p4_lower_grammar_without_named_macros": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "GRAMMAR"},
+        "neutral_recovery": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "STATE_RECOVERY"},
+        "negative_twin": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "STATE_NEGATIVE"},
+        "lower_bound_where_possible": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "STATE_BOUND"},
+        "resource_crossover": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "STATE_CROSSOVER"},
+        "heldout_frozen_prediction": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "remint": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "STATE_REMINT"},
+        "independent_search": {"status": "SUPPORTED_SOURCE_SEPARATED_EXACT_SCOPE", "evidence": "ORACLE"},
+        "real_scale_test": {"status": "OPEN", "evidence": null}
+      },
+      "complete": false,
+      "issue_833_checkbox": "MUST_REMAIN_OPEN"
+    },
+    {
+      "row": "linear regression / linear classifiers",
+      "gates": {
+        "property_prediction_from_ecology": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "p3_p4_lower_grammar_without_named_macros": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "GRAMMAR"},
+        "neutral_recovery": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINEAR_RECOVERY"},
+        "negative_twin": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINEAR_NEGATIVE"},
+        "lower_bound_where_possible": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINEAR_BOUND"},
+        "resource_crossover": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINEAR_CROSSOVER"},
+        "heldout_frozen_prediction": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "remint": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINEAR_REMINT"},
+        "independent_search": {"status": "SUPPORTED_SOURCE_SEPARATED_EXACT_SCOPE", "evidence": "ORACLE"},
+        "real_scale_test": {"status": "OPEN", "evidence": null}
+      },
+      "complete": false,
+      "issue_833_checkbox": "MUST_REMAIN_OPEN"
+    },
+    {
+      "row": "GLMs",
+      "gates": {
+        "property_prediction_from_ecology": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "p3_p4_lower_grammar_without_named_macros": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "GRAMMAR"},
+        "neutral_recovery": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINK_RECOVERY"},
+        "negative_twin": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINK_NEGATIVE"},
+        "lower_bound_where_possible": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINK_BOUND"},
+        "resource_crossover": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINK_CROSSOVER"},
+        "heldout_frozen_prediction": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "remint": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LINK_REMINT"},
+        "independent_search": {"status": "SUPPORTED_SOURCE_SEPARATED_EXACT_SCOPE", "evidence": "ORACLE"},
+        "real_scale_test": {"status": "OPEN", "evidence": null}
+      },
+      "complete": false,
+      "issue_833_checkbox": "MUST_REMAIN_OPEN"
+    },
+    {
+      "row": "basis/kernel methods",
+      "gates": {
+        "property_prediction_from_ecology": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "p3_p4_lower_grammar_without_named_macros": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "GRAMMAR"},
+        "neutral_recovery": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LIFT_RECOVERY"},
+        "negative_twin": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LIFT_NEGATIVE"},
+        "lower_bound_where_possible": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LIFT_BOUND"},
+        "resource_crossover": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LIFT_CROSSOVER"},
+        "heldout_frozen_prediction": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "FROZEN"},
+        "remint": {"status": "SUPPORTED_AT_REGISTERED_EXACT_SCOPE", "evidence": "LIFT_REMINT"},
+        "independent_search": {"status": "SUPPORTED_SOURCE_SEPARATED_EXACT_SCOPE", "evidence": "ORACLE"},
+        "real_scale_test": {"status": "OPEN", "evidence": null}
+      },
+      "complete": false,
+      "issue_833_checkbox": "MUST_REMAIN_OPEN"
+    }
+  ],
+  "independent_search_scope": "source-separated direct formula/residual implementation; not independent-team replication",
+  "heldout_scope": "obligations and property predictions committed before checker implementation; exact finite only",
+  "verdict": "FOUR_FAMILY_ROWS_OPEN__SHARED_EXACT_GRAMMAR_RESULT_ELIGIBLE"
+}
