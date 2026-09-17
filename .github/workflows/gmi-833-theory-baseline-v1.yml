@@ -65,6 +65,24 @@ jobs:
           else
             echo "no BASELINE_MANIFEST_V4.json"
           fi
+          # V5 supplement manifest anchor (same loud-change rule). Builder
+          # determinism: two same-checkout rebuilds byte-identical.
+          if [ -f "$pkg/BASELINE_MANIFEST_V5.json" ]; then
+            echo "d22c650f130b0dd74d7f2decd4e6af85f11d87aed17cff344e95c6cb86177fd5  $pkg/BASELINE_MANIFEST_V5.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V5.json"
+          fi
+          if [ -f "$pkg/build_manifest_v5.py" ]; then
+            python -I -B "$pkg/build_manifest_v5.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V5.json" /tmp/v5-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V5.json"
+            python -I -O -B "$pkg/build_manifest_v5.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V5.json" /tmp/v5-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V5.json"
+            cmp /tmp/v5-rebuild-a.json /tmp/v5-rebuild-b.json
+            cmp /tmp/v5-rebuild-a.json "$pkg/BASELINE_MANIFEST_V5.json"
+            echo "V5 rebuild determinism + committed-equality: OK"
+          fi
           if [ -f "$pkg/build_manifest_v4.py" ]; then
             python -I -B "$pkg/build_manifest_v4.py" >/dev/null
             cp "$pkg/BASELINE_MANIFEST_V4.json" /tmp/v4-rebuild-a.json

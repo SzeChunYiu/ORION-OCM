@@ -1,0 +1,80 @@
+{
+ "schema": "GMI_833_CORPUS_PASSES_V2_VERDICT_REGISTER_APPEND_V1",
+ "subject": "appended to the disposition of research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_V1.json (L46 row) and PASS_L46_V1.md; neither frozen file is edited in place — this append carries the current state per the baseline post_freeze_edit_rule",
+ "prior_verdict": {
+  "package_population": "75 SINGLE_ROUTE packages of 231 (16 TWO_ROUTE / 75 SINGLE_ROUTE / 140 NO_COMPUTATION)",
+  "verdict": "REV-L46-TWO-ROUTE-PROGRAMME open: computational claims lack an independent implementation",
+  "evidence": "PASS_L46_V1.md mechanical tree screen + Tier-S verification (rate 100% agreement except one recorded mirror-packet correction)"
+ },
+ "revival_disposition": {
+  "status": "OPEN__TRANCHE_1_COMPLETE_8_OF_75_CONVERTED",
+  "package": "research/gmi-833-rev-l46-two-route-programme-v1 (programme) + in-package route-2 artifacts in the 8 converted packages",
+  "lever_executed": "per-package independent oracles computing the same claimed quantities (the #863/#875 two-route pattern), highest-claim-criticality first per the frozen mechanical ranking (GREEN-mainline blast radius, then comp_claims, then maturity)",
+  "custody_chain": {
+   "programme_freeze": "a27f61dbe (ranking + template + gate frozen before any conversion ran; RANKING_V1.json generated on billy-laptop, sha256 10b33cbb14c88cac560e82d9212f84bdcaa357b3833b8db795c528add45e9a4b)",
+   "conversions_1_3": "135926b4b",
+   "conversions_4_6": "f964bdfdb (pre-rebase hashes; rebased onto origin/main c459c06b8)",
+   "conversions_7_8": "454272ab1",
+   "execution_host": "billy-laptop (Linux, CPython 3.8.10, python3 -I -B), receipts sha256-verified on both hosts, nothing executed on the authoring Mac"
+  },
+  "outcome": {
+   "converted_two_route_converted": [
+    {"package": "gmi-formal-proof-audit-v1", "agreement_rows": 16, "receipt": "research/gmi-formal-proof-audit-v1/ORACLE_RESULT_L46_V1.json"},
+    {"package": "gmi-developmental-uncertainty-transport-v1", "agreement_rows": 57, "receipt": "research/gmi-developmental-uncertainty-transport-v1/ORACLE_RESULT_L46_V1.json"},
+    {"package": "gmi-capability-ceilings-v1", "agreement_rows": 81, "receipt": "research/gmi-capability-ceilings-v1/ORACLE_RESULT_L46_V1.json"},
+    {"package": "gmi-analog-semantics-closure-v1", "agreement_rows": 9, "receipt": "research/gmi-analog-semantics-closure-v1/ORACLE_RESULT_L46_V1.json"},
+    {"package": "gmi-uncertainty-composition-v1", "agreement_rows": 39, "receipt": "research/gmi-uncertainty-composition-v1/ORACLE_RESULT_L46_V1.json"},
+    {"package": "gmi-dependency-aware-uncertainty-composition-v1", "agreement_rows": 41, "receipt": "research/gmi-dependency-aware-uncertainty-composition-v1/ORACLE_RESULT_L46_V1.json"},
+    {"package": "gmi-learning-law-selection-v1", "agreement_rows": 23, "receipt": "research/gmi-learning-law-selection-v1/ORACLE_RESULT_L46_V1.json"}
+   ],
+   "converted_two_route_with_findings": [
+    {"package": "gmi-structural-threshold-repair-v1", "agreement_rows": 50,
+     "finding": "L46-F1: absolute BASE6 opcode price is interpreter-version-sensitive (route-2 raw count 7 on CPython 3.8 vs committed 6 on the CI interpreter); base-relative prices and all other opcode totals agree exactly",
+     "receipt": "research/gmi-structural-threshold-repair-v1/ORACLE_RESULT_L46_V1.json"}
+   ],
+   "claim_strengthening_notes": [
+    "learning-law-selection LLS-6 genericity strengthened from a two-vector probe to a binary-representation-uniqueness theorem covering the whole power-of-two price family",
+    "analog-semantics D1/D6 agreement extended beyond the 162-case certificate grid to non-vertex rational points via multi-affine axis-affinity",
+    "uncertainty-composition/transport union bounds equipped with worst-case probability-space witnesses exhibiting attainment under maximal dependence and discriminating the unsound independence product",
+    "every conversion upgrades the package's claims toward the M5 independent-replication rung; no claim was narrowed"
+   ]
+  },
+  "register_counts_after": {
+   "note": "population counts move only on a rescreen; the mechanical L46 screen recognizes in-package independent_oracle*.py / ORACLE_RESULT*.json (screen_p3_v1.py l46_two_route), so a rerun of the screen flips these 8 rows from SINGLE_ROUTE to TWO_ROUTE",
+   "single_route_before": 75,
+   "converted_this_tranche": 8,
+   "single_route_after_rescreen_expected": 67
+  }
+ },
+ "claim_discipline": {
+  "claim": "TRANCHE_1_TWO_ROUTE_CONVERSIONS_AT_REGISTERED_SCOPE",
+  "scope": "the 8 frozen packages' committed receipt quantities on the recorded execution host",
+  "quantifiers": "per claimed quantity, exact agreement (or the one registered finding)",
+  "assumptions": "route-1 committed receipts are the cross-check target; opcode-sensitive quantities additionally pin the interpreter (see L46-F1)",
+  "falsifiers": "any ORACLE_RESULT_L46_V1.json row disagreeing beyond the registered finding; a route-2 import resolving into a research/ package; a negative control that does not fire",
+  "strongest_parents": "#863 BFS-vs-Floyd-Warshall independent oracle; #875; W4 independent_route pattern; section-d two-stage replica (#991)",
+  "forbidden_extrapolations": "no universal-learning or physical-cost claim; no narrowing of any original claim; two-route agreement does not promote a package's claim ceiling",
+  "permanent_boundary": "the 16 pre-existing TWO_ROUTE packages and the mirror-packet correction stand as recorded"
+ },
+ "new_findings_routed": [
+  {"id": "L46-F1", "owner": "REV-L46 tranche 2", "note": "BASE6 interpreter pin for gmi-structural-threshold-repair-v1 (or restate as relative anchor)"}
+ ],
+ "remaining_for_tranche_2": {
+  "count": 67,
+  "head": [
+   "gmi-main566567-audit-v1 (rank 9; no in-package route-1 executor — source-binding archaeology)",
+   "gmi-threshold-task-frontier-v1 (green=1, M2/EV2)",
+   "gmi-useful-descendant-evolvability-v1 (green=1, M4/EV3)",
+   "gmi-capability-contract-v1 (green=1, M1/EV1)",
+   "gmi-current-program-assay-v1 (ticket-named, M systems effort)",
+   "gmi-developmental-predictions-v1 (comp=20)",
+   "gmi-theory-foundations-v1 (comp=12, foundation role)",
+   "gmi-capability-predictor-v1 (comp=4)",
+   "then descending RANKING_V1.json order"
+  ],
+  "collision_reentry": [
+   "gmi-novel-intelligence-w4-v1 (w4 family-cluster lane active)",
+   "gmi-morphology-phase-rv-v1 (w1 lane; PR #993 merged — reentry allowed once its lane closes)"
+  ]
+ }
+}
