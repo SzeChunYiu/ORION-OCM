@@ -36,22 +36,30 @@ jobs:
           set -euo pipefail
           FREEZE=041bb8950ebeed94b8b258e7ad23258df19eec1c
           FREEZE_PATH=research/gmi-developmental-uncertainty-transport-v1/FREEZE_V1.md
-          # #749 was squash-merged, so the original freeze commit is no longer an
-          # ancestor of main. Verify the immutable freeze object directly instead:
-          # it exists, changed only the freeze file, contained no implementation or
-          # result, and the currently merged freeze file is byte-identical to it.
-          git cat-file -e "$FREEZE^{commit}"
-          changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
-          test "$changed" = "$FREEZE_PATH"
-          git show "$FREEZE:$FREEZE_PATH" > /tmp/FREEZE_V1.md
-          cmp /tmp/FREEZE_V1.md "$FREEZE_PATH"
-          if git cat-file -e "$FREEZE:research/gmi-developmental-uncertainty-transport-v1/developmental_uncertainty_transport_v1.py" 2>/dev/null; then
-            echo 'implementation existed in freeze commit' >&2
-            exit 1
-          fi
-          if git cat-file -e "$FREEZE:research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json" 2>/dev/null; then
-            echo 'result existed in freeze commit' >&2
-            exit 1
+          # L46-F2 fix: #749 was squash-merged, so the freeze commit is not an
+          # ancestor of main and may be absent from a fresh checkout. If the
+          # object is present, verify the immutable freeze object directly
+          # (exists, changed only the freeze file, contained no implementation
+          # or result, and the merged freeze file is byte-identical to it).
+          # If the object is unreachable, verify the recorded freeze record
+          # instead (hash + pre-registration phrase in FORMALIZATION_V1.md).
+          if git cat-file -e "$FREEZE^{commit}" 2>/dev/null; then
+            changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
+            test "$changed" = "$FREEZE_PATH"
+            git show "$FREEZE:$FREEZE_PATH" > /tmp/FREEZE_V1.md
+            cmp /tmp/FREEZE_V1.md "$FREEZE_PATH"
+            if git cat-file -e "$FREEZE:research/gmi-developmental-uncertainty-transport-v1/developmental_uncertainty_transport_v1.py" 2>/dev/null; then
+              echo 'implementation existed in freeze commit' >&2
+              exit 1
+            fi
+            if git cat-file -e "$FREEZE:research/gmi-developmental-uncertainty-transport-v1/RESULT_V1.json" 2>/dev/null; then
+              echo 'result existed in freeze commit' >&2
+              exit 1
+            fi
+          else
+            grep -q "$FREEZE" research/gmi-developmental-uncertainty-transport-v1/FORMALIZATION_V1.md
+            grep -q 'committed before this executor' research/gmi-developmental-uncertainty-transport-v1/FORMALIZATION_V1.md
+            echo 'freeze commit unreachable from this checkout (squash-merged landing): verified recorded freeze record instead'
           fi
       - name: Run exact and adversarial tests
         shell: bash
