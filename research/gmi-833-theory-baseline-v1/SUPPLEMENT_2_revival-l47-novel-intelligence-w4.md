@@ -1,4 +1,10 @@
-# SUPPLEMENT 1 — REV-L47-NOVEL-INTELLIGENCE-W4 closed green (post_freeze_edit_rule)
+# SUPPLEMENT 2 — REV-L47-NOVEL-INTELLIGENCE-W4 closed green (post_freeze_edit_rule)
+
+> Renumbered 1 -> 2 (2026-09-17, register coherence): #989's
+> `SUPPLEMENT_1_revival-accounting-a2-signature.md` merged first and holds
+> the sequence's #1; this file's original `SUPPLEMENT_1_` name collided.
+> Content otherwise unchanged; the V2 self-binding path + workflow anchor
+> were updated in the same commit (loud-change rule).
 
 Branch `research/833-revival-w4-v1`. No V1-bound file was edited;
 `BASELINE_MANIFEST_V1.json` and everything it binds are byte-identical

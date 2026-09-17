@@ -37,7 +37,9 @@ implementation) → `THEOREMS_E1.md` (T-E1..T-E5) → `RESULT_E1.json`
 checks, 7 hostiles) → `SCIENTIFIC_LEDGER_V2.json:revival_records` (closes
 GAP-T2-2) → `../gmi-833-claim-discipline-v1/REGISTRATIONS_E9_APPEND.json`
 (METRIC_RELATIVE_RANK1 forbidden-extrapolation note) →
-`RECEIPTS_RUN_LOG.md`.
+`../gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V2.json:e9_note`
+(the note's post-correction home; the V1 file is frozen at its bound bytes)
+→ `RECEIPTS_RUN_LOG.md`.
 
 **Reproduce (stock CPython ≥3.8, stdlib only; CI reruns both modes):**
 

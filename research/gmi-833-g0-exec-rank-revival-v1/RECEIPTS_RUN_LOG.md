@@ -20,6 +20,7 @@ modules were verified on both sides before any run.
 | tests | billy-laptop | `python3 -I -B test_exec_rank_revival_v1.py -v` | 44 OK (≈12 s) |
 | discipline append | billy-laptop + repo | `python3 -I -B assemble_e9_append.py` | `REGISTRATIONS_E9_APPEND.json`; v1 sha `b6bd7503…`, v2 sha `90a278e1…`; exactly-one-diff asserted; `-O -B` byte-identical |
 | ledger + reconciliation appends | repo | `python3 -I -B design/append_ledger_and_reconciliation.py` | additive `revival_records` + `e9_note`; gap_closures untouched |
+| channel correction record (#988 repair + this PR) | repo | — | V1 reconciliation restored to bound sha `95848277…` (2881 B); e9_note lives on byte-preserved in `ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V2.json` (bound in BASELINE_MANIFEST_V2); append trio bound in V2; `MANIFEST_E1` `reconciliation_note` repointed; baseline validator 6/6 GREEN both modes |
 
 ## Custody
 
