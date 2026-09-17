@@ -1,0 +1,92 @@
+{
+  "schema": "REV_L47_RERUN_RECEIPT_V1",
+  "kind": "SECTION_D_STAGE_A",
+  "host": "billy-laptop-old",
+  "platform": "Linux-7.0.0-27-generic-x86_64-with-glibc2.43",
+  "python": "3.14.4",
+  "run_commit": "7a9219a6b5247d8baf7043940a9284ec4cf95b2a",
+  "freeze_note": "pre-registered decision rule in research/gmi-833-rev-l47-custody-gaps-v1/REV_FREEZE_V1.md (ancestor commit of run_commit)",
+  "utc_epoch": 1789641790,
+  "sample": {
+    "n": 16384,
+    "packed_bytes": 2048,
+    "packing": "MSB_FIRST_8",
+    "threshold": 224,
+    "ones_count": 14309,
+    "first_64_ones_count": 58,
+    "packed_sha256": "3b9734f239f093df4533cbbdbd23434ed4497598afdfb9dd5069ff84a789045d",
+    "authority_freeze_commit": "25657d9944077086cb1a68d568ba98c6c06dd25e",
+    "acquisition": "secrets.token_bytes(16384) on billy-laptop-old at run after stage-1 freeze 25657d994; single draw, no reroll",
+    "raw_sha256": "fccef573949120970b5fd9658e96e1443ec4f1ffab20ae74afe294bbacc4ff96"
+  },
+  "stage1_freeze_commit": "25657d9944077086cb1a68d568ba98c6c06dd25e",
+  "train_rows": [
+    {
+      "n": 2,
+      "persistent_cells_single_orientation": 2,
+      "migration_ops": 4,
+      "key_block_ops": 11,
+      "value_block_ops": 10
+    },
+    {
+      "n": 3,
+      "persistent_cells_single_orientation": 3,
+      "migration_ops": 6,
+      "key_block_ops": 15,
+      "value_block_ops": 13
+    },
+    {
+      "n": 4,
+      "persistent_cells_single_orientation": 4,
+      "migration_ops": 8,
+      "key_block_ops": 19,
+      "value_block_ops": 16
+    },
+    {
+      "n": 5,
+      "persistent_cells_single_orientation": 5,
+      "migration_ops": 10,
+      "key_block_ops": 23,
+      "value_block_ops": 19
+    }
+  ],
+  "training_receipt_sha256": "a559ca1ffcb6fded7bc9731ca273b7d04117bb462b7e57016e2e9d6dc477d016",
+  "affine_fits": {
+    "persistent_cells_single_orientation": {
+      "a": 1,
+      "b": 0
+    },
+    "migration_ops": {
+      "a": 2,
+      "b": 0
+    },
+    "key_block_ops": {
+      "a": 4,
+      "b": 3
+    },
+    "value_block_ops": {
+      "a": 3,
+      "b": 4
+    }
+  },
+  "validation_residuals": {
+    "persistent_cells_single_orientation": {
+      "n4": 0,
+      "n5": 0
+    },
+    "migration_ops": {
+      "n4": 0,
+      "n5": 0
+    },
+    "key_block_ops": {
+      "n4": 0,
+      "n5": 0
+    },
+    "value_block_ops": {
+      "n4": 0,
+      "n5": 0
+    }
+  },
+  "holdout_executed": false,
+  "note": "stage-2 freeze (commit B) must land before stage B"
+}

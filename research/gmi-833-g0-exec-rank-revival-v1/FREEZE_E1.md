@@ -213,6 +213,29 @@ signature (identity-die proof where drawable).
   the E9 revival record (additive `revival_records` list entry; existing keys
   untouched).
 
+### Amendment (2026-09-17, post-merge channel correction — merged #988)
+
+The two append channels above landed in the wrong places at merge (#981,
+commit `67133f0f`): the append artifacts were committed INTO the frozen
+closed-set package `research/gmi-833-claim-discipline-v1/`, and the v1
+reconciliation JSON was edited in place (additive `e9_note`, whole-file
+re-indent). Both are frozen, tamper-evident objects of
+`GMI_THEORY_BASELINE_V1`; `test_theory_baseline_v1.py` went RED on main,
+flagged by #989 and repaired by #988:
+
+- the V1-bound `ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json` is restored
+  byte-exact to its pin (sha256 `95848277…`, 2881 bytes); the reconciled
+  content lives on byte-preserved in the successor file
+  `ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V2.json`, bound in
+  `BASELINE_MANIFEST_V2.json` — the `e9_note` is NOT lost, only moved to the
+  sanctioned channel;
+- the E9 append trio stays in `research/gmi-833-claim-discipline-v1/` and is
+  now bound in `BASELINE_MANIFEST_V2.json`;
+- this package's `MANIFEST_E1.json` `reconciliation_note` pointer and the
+  narrative pointers here were corrected in the same repair (owning-lane
+  record: `SUPPLEMENT_3_exec-rank-e9-append-channel.md` in the baseline
+  package).
+
 ## 7. Receipt, oracle, CI
 
 `exec_rank_revival_v1.py` imports v1+v2 (same directory) and reuses their
