@@ -20,6 +20,8 @@ SAMPLE_SIZE = 1 << 12
 ISSUE = 982
 SOURCE_PR = 985
 FREEZE_COMMIT = "18615590d16af8c0e69e7e259dc2b96abe479832"
+ENTROPY_SOURCE = "Python secrets.randbelow backed by the host operating-system CSPRNG"
+ENTROPY_BOUNDARY = "provenance statement; host entropy quality is not cryptographically proved here"
 
 
 def canonical(value: Any) -> bytes:
@@ -60,8 +62,8 @@ def create_receipt() -> Mapping[str, Any]:
         "source_pr": SOURCE_PR,
         "freeze_commit": FREEZE_COMMIT,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "entropy_source": "Python secrets.randbelow backed by the host operating-system CSPRNG",
-        "entropy_boundary": "provenance statement; host entropy quality is not cryptographically proved here",
+        "entropy_source": ENTROPY_SOURCE,
+        "entropy_boundary": ENTROPY_BOUNDARY,
         "algorithm": "sparse_partial_fisher_yates_offsets_v1",
         "population_size": POPULATION_SIZE,
         "sample_size": SAMPLE_SIZE,
@@ -97,6 +99,14 @@ def validate_receipt(receipt: Mapping[str, Any]) -> Mapping[str, Any]:
         raise ValueError("wrong issue or pull-request binding")
     if receipt["freeze_commit"] != FREEZE_COMMIT:
         raise ValueError("wrong freeze binding")
+    try:
+        generated_at = datetime.fromisoformat(receipt["generated_at_utc"])
+    except (TypeError, ValueError):
+        raise ValueError("draw time is not an ISO-8601 timestamp")
+    if generated_at.tzinfo is None or generated_at.utcoffset() != timezone.utc.utcoffset(generated_at):
+        raise ValueError("draw time must be explicitly UTC")
+    if receipt["entropy_source"] != ENTROPY_SOURCE or receipt["entropy_boundary"] != ENTROPY_BOUNDARY:
+        raise ValueError("entropy provenance or its claim boundary changed")
     if receipt["algorithm"] != "sparse_partial_fisher_yates_offsets_v1":
         raise ValueError("wrong sampling algorithm")
     if type(receipt["population_size"]) is not int or receipt["population_size"] != POPULATION_SIZE:
