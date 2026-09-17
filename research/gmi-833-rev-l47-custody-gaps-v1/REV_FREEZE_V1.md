@@ -8,10 +8,24 @@ runner executes AT a commit that contains this freeze) plus host wall-clock
 timestamps of each run.
 
 **Tree pin.** The re-runs execute exactly the corpus files at commit
-`f0a2a237c9f30bbcc12d9824ca628116c44ddc80` (the tree this freeze commits
-onto; every re-run receipt additionally records `git status --porcelain`
+`2d3b0af6205d07eae794ef62078fc7119806e7e6` (the re-based triage commit;
+every re-run receipt additionally records `git status --porcelain`
 emptiness for the target package, proving the executed files equal the
 committed = pinned files).
+
+**Re-execution note (custody repair of this chain itself).** The first
+complete execution of this freeze chain ran at pre-rebase branch SHAs
+(freeze 25657d994, runner refinement 7a9219a6b, stage-2 artifacts
+b177bc76b, receipts commit 13f7cb3a5) and was fully green; those commits
+were orphaned when the branch was re-based onto main after #989 landed
+during PR creation. Orphaned-SHA receipts are unverifiable, so the whole
+chain is re-executed at the re-based commits; the first chain's receipts
+are retained unchanged under `reruns/archive-pre-rebase/` (orphaned-SHA
+provenance only). All SHAs cited by the canonical receipts resolve on the
+pushed branch; after a squash merge they resolve via `refs/pull/<N>/head`
+(the #980 custody-pin pattern). Receipts verify the freeze file's
+first-add commit is an ancestor of their run commit, in-repo, at run
+time.
 
 **Purpose.** 12 packages were triaged SUBSTANTIVE (TRIAGE_V1.json): the
 outcome-bearing artifact, or the search implementation their freeze text

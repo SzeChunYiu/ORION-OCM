@@ -87,15 +87,30 @@ def pkg_clean(pkg: str) -> bool:
 
 
 def base_receipt(kind: str) -> dict:
+    run_commit = git("rev-parse", "HEAD").strip()
+    freeze_adds = git("log", "--diff-filter=A", "--format=%H", "--",
+                      f"{PKG}/REV_FREEZE_V1.md").splitlines()
+    freeze_commit = freeze_adds[-1] if freeze_adds else None
+    ancestor = None
+    if freeze_commit:
+        ancestor = subprocess.run(
+            ["git", "-C", str(REPO), "merge-base", "--is-ancestor",
+             freeze_commit, run_commit],
+            capture_output=True).returncode == 0
     return {
         "schema": "REV_L47_RERUN_RECEIPT_V1",
         "kind": kind,
         "host": platform.node(),
         "platform": platform.platform(),
         "python": sys.version.split()[0],
-        "run_commit": git("rev-parse", "HEAD").strip(),
+        "run_commit": run_commit,
+        "rev_freeze_first_add_commit": freeze_commit,
+        "freeze_ancestor_of_run": ancestor,
         "freeze_note": "pre-registered decision rule in "
-                       f"{PKG}/REV_FREEZE_V1.md (ancestor commit of run_commit)",
+                       f"{PKG}/REV_FREEZE_V1.md (first-add commit must be an "
+                       "ancestor of run_commit - verified above; after any "
+                       "squash merge resolve these SHAs via refs/pull/<N>/head, "
+                       "the #980 custody-pin pattern)",
         "utc_epoch": int(time.time()),
     }
 
