@@ -1,0 +1,99 @@
+{
+  "schema": "REV_L47_CUSTODY_GAPS_TRIAGE_V1",
+  "ticket": "REV-L47-CUSTODY-GAPS",
+  "method": "Each of the 18 TIGHT_GAP_EXECUTOR packages (corpus-passes-v2 L47 screen, P3_SCREENS_V1.json) was adjudicated on the registered demonstrability bar of PASS_L47_V1.md (metadata separation >120 s with ordering and immutability). Two evidence layers beyond the screen were read: (1) per-package full add/modify timelines (triage_timeline_v1.json); (2) CROSS-PACKAGE first-add ordering of producers and consumers (triage_crosspkg_v1.json) - the screen was per-package and could not see these. Semantic layer (freeze-text claims, assay determinism, digest bindings) read per package and cited below. Class MECHANICAL = surviving git metadata demonstrates the package's own frozen claim once cross-package scope, blob pins and digest bindings are read (the screen flag is an artifact of per-package scope and of counting checker/generator .py files as outcome-bearing executors). Class SUBSTANTIVE = the outcome-bearing artifact (or the search implementation the freeze claims to predate) landed inside the 120 s window in the only surviving history; ordering is genuinely non-demonstrable -> prospective re-establishment (W4 pattern).",
+  "registered_bar_note": "The 120 s bar is the corpus screen's own registered demonstrability threshold (PROSPECTIVE_ORDERED vs TIGHT_GAP_EXECUTOR). This triage neither loosens nor tightens it; it applies the same bar to outcome-bearing artifacts and cross-package chains, which the screen did not read.",
+  "counts": {"mechanical": 6, "substantive": 12},
+  "packages": {
+    "gmi-833-aj9a-known-family-benchmark-v1": {
+      "class": "MECHANICAL",
+      "evidence": "FREEZE_V1.md:3 claims the registry was 'committed before any AJ9 holdout generator/search/evaluator implementation or outcome exists'. That claim is CROSS-PACKAGE and demonstrable: registry first-add aec01b0e4 ct 1789552743; repo-wide earliest holdout implementation of any kind is aj9b blind_search_v1.py ct 1789554211 (+1468 s), then aj9c +1894 s, aj9d +2185 s, aj9e +2468 s, aj9f +2695 s, aj9g +3027 s, aj9h +14519 s (repo-wide blind_*/aj9* first-add scan re-derived in the receipt). KNOWN_FAMILY_BENCHMARK_V1.json has exactly ONE commit (never modified); its git blob 6b9ac309... is pinned by every downstream RESULT (benchmark_blob field). The in-package tight .py (+58 s) is check_aj9a.py, a checker - not the holdout implementation the freeze governs.",
+      "repair": "custody_repair_v1.py mechanical receipt (order/separation/immobility/blob-pin + repo-wide earliest-implementation leg) + package self-test re-executed under remote custody."
+    },
+    "gmi-833-aj9b-k01-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:3 claims 'This freeze predates the holdout generator implementation, candidate outcome, and post-hoc family adjudication'. The generator (blind_search_v1.py) first-added +94 s, BLIND_OUTCOME_V1.json +127 s, posthoc +198 s - the implementation/outcome adjacency the freeze text itself claims did not happen is exactly what the surviving burst history cannot refute. check_aj9b.py's git custody (outcome files absent at freeze commit 5324b806) demonstrates file ordering but not implementation-postdating; the claim is non-demonstrable from metadata.",
+      "repair": "prospective re-establishment (W4): new pre-registered replica freeze, re-run frozen deterministic search + adjudication + checker under remote custody, equality receipt."
+    },
+    "gmi-833-aj9c-k02-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:3 'predates search implementation, candidate outcome, and post-hoc family adjudication'; blind_temporal_search_v1.py first-added +70 s, outcome +86 s - same non-demonstrable implementation adjacency.",
+      "repair": "prospective re-establishment, as aj9b."
+    },
+    "gmi-833-aj9d-k03-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:3 same claim; blind_site_search_v1.py +24 s, BLIND_OUTCOME_V1.json +38 s - tightest burst of the tranche.",
+      "repair": "prospective re-establishment, as aj9b."
+    },
+    "gmi-833-aj9e-k04-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:3 same claim; blind_boolean_search_v1.py +74 s, BLIND_OUTCOME +85 s.",
+      "repair": "prospective re-establishment, as aj9b."
+    },
+    "gmi-833-aj9f-k05-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:3-10 same claim (two generic procedures registered before outcomes); blind_term_search_v1.py +26 s, outcome +48 s.",
+      "repair": "prospective re-establishment, as aj9b."
+    },
+    "gmi-833-aj9h-k07-k11-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:3 claims freeze of five tasks 'before blind implementations/outcomes/post-hoc family adjudication'; blind_recovery_v1.py +119 s, BLIND_OUTCOME +174 s; weakest of the family (its checker runs no git custody legs at all).",
+      "repair": "prospective re-establishment, as aj9b."
+    },
+    "gmi-833-developmental-naturality-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "RESULT_V1.json first-added +93 s (inside window); freeze blob only later touched by the corpus-wide typed terminology migration. Freeze pins scope/base-main with claim ceiling; outcome adjacency non-demonstrable.",
+      "repair": "prospective re-establishment: pre-register decision rule (live output == committed RESULT byte-identical), re-run deterministic naturality assay (<0.1 s) under remote custody."
+    },
+    "gmi-833-heldout-20-transitions-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:6 claims freeze 'before any outcome-oracle/search implementation for this tranche exists'; both searchers first-added +90/+114 s (inside window) although RESULT landed +252 s. The claim is about the SEARCH IMPLEMENTATION, which is burst-adjacent - non-demonstrable.",
+      "repair": "prospective re-establishment: pre-register equality decision rule over the 20 frozen cases, re-run both searchers + certificate under remote custody (~10-40 s)."
+    },
+    "gmi-833-pareto-topology-v1": {
+      "class": "MECHANICAL",
+      "evidence": "No prospective-registration sentence in FREEZE_V1.md (freezes math objects + claim ceiling; reader-verified). RESULT_V1.json first-added +136 s (> 120 s registered bar), freeze commit is a true ancestor (merge-base --is-ancestor verified), freeze unmodified in the window (only the corpus-wide typed terminology migration v2 at ct 1789561929, hours later, after the outcome). The screen flag came from checker/test .py at +94/+116 s - not outcome-bearing.",
+      "repair": "custody_repair_v1.py mechanical receipt (window immutability + typed post-outcome sweep legs) + package self-test under remote custody."
+    },
+    "gmi-833-real-transition-protocol-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "RESULT_V1.json first-added +61 s (inside window); protocol validator assay deterministic (<0.01 s).",
+      "repair": "prospective re-establishment: pre-register equality rule (qualifying_count stays 0, all hostiles rejected), re-run under remote custody."
+    },
+    "gmi-833-remint-equivariance-v1": {
+      "class": "MECHANICAL",
+      "evidence": "No prospective-registration claim in FREEZE_V1.md. RESULT_V1.json +135 s (> bar), ancestor-ordered, freeze unmodified in window (only typed terminology migration later). Screen flag from checker .py at +60/+118 s.",
+      "repair": "mechanical receipt + package self-test under remote custody."
+    },
+    "gmi-833-transform-geometry-v1": {
+      "class": "MECHANICAL",
+      "evidence": "No prospective-registration claim in FREEZE_V1.md (explicit non-claims list). RESULT_V1.json +126 s (> bar), ancestor-ordered, freeze unmodified in window (typed terminology migration later). Screen flag from executor .py at +101 s.",
+      "repair": "mechanical receipt + package self-test under remote custody."
+    },
+    "gmi-capability-held-freeze-v1": {
+      "class": "MECHANICAL",
+      "evidence": "Claims prospective registration ('not scoring'; ceiling G2 until held outcomes computed). The outcome is CROSS-PACKAGE: gmi-capability-held-score-v1 (independent exact oracle, does not import the dev predictor) first-added +286 s after the freeze manifest, and its receipt hard-pins the consumed freeze digest cee4b92e... with a custody gate refusing any change. HELD_FAMILY_PREDICTIONS_V1.json has exactly ONE commit (d552841b7, never modified). Upstream producer (gmi-capability-predictor-dev-v1, the development-only predictor the freeze recomputes from) first-added 353 s before the freeze. The freeze is byte-re-derivable (test_stored_manifest_matches_prefit_predictor_exactly rebuilds it live). The in-package tight .py (+100 s) is the freeze's own generator/validator - the benign shape for a prospective registration (artifact + its recompute-checker land together; the OUTCOME lands separately, later).",
+      "repair": "custody_repair_v1.py mechanical receipt with upstream/downstream chain legs + digest-binding leg + package self-test and scorer self-test re-executed under remote custody."
+    },
+    "gmi-capability-transfer-freeze-v1": {
+      "class": "MECHANICAL",
+      "evidence": "Claims prospective freeze with 'No held target outcome is present in this PR'; ceiling G2 until a later scoring artifact. Repo-wide consumer scan (triage_crosspkg_v1.json + reader verification): NO artifact anywhere scores TRANSFER_PREDICTIONS_V1.json - the only referencers are census/metadata packages. Prediction rows immutable since first add 509345d54; the single later commit 24b9ffbfd (ct 1789415102, +41 s) touches ONLY the freeze_digest line (canonicalization repair; diff verified in receipt) - typed, pre-any-outcome (no outcome exists to this day). Upstream producer (predictor-dev) first-added 2318 s before the freeze. Digests recompute green live (test_transfer_freeze_v1.py).",
+      "repair": "custody_repair_v1.py mechanical receipt with absence-of-outcomes leg + upstream leg + typed digest-repair event + package self-test under remote custody."
+    },
+    "gmi-heldout-long-sequence-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V1.md:4 'PRE-OUTCOME FREEZE... no executor, result, winning expression'; :50 'Before implementing or running the held-out executor, predict:'. Executor +49 s, RESULT +64 s (inside window) - the pre-outcome claim (including its frozen predictions for n=17/31/63) is non-demonstrable in metadata.",
+      "repair": "prospective re-establishment: pre-register the v1 frozen predictions as the decision-rule targets, re-run the exact scorer over the frozen grammar under remote custody, compare."
+    },
+    "gmi-history-morphology-discovery-v1": {
+      "class": "SUBSTANTIVE",
+      "evidence": "RESULT_V1.json first-added +46 s (inside window). Freeze itself disclaims prospectivity ('authored calibration') but freezes arms/targets/controls/success rule 'to prevent changing... after execution' - that immutability-before-outcome property is what the burst cannot demonstrate.",
+      "repair": "prospective re-establishment: pre-register the frozen ranks (RESET [40,54], CONTINUED [5,6], SHUFFLED [16,20]) as decision-rule targets, re-run the three-arm sort under remote custody, compare."
+    },
+    "gmi-section-d-uncertainty-extrapolation-v5": {
+      "class": "SUBSTANTIVE",
+      "evidence": "FREEZE_V5.md:8-13 claims stage-1 pre-data authority 'must exist in Git history before: the uncertainty sample is acquired'. The sample artifact UNCERTAINTY_SAMPLE_V5.json first-added +51 s (inside window); TRAIN_V5.json +90 s; stage-2 freeze +114 s; RESULT +311 s. The pre-data link is the non-demonstrable one (the sample could have been drawn before the authority was written). Internal digest bindings (packed_sha256, TRAIN receipt sha) are strong but bind content, not the acquisition order.",
+      "repair": "prospective re-establishment (full two-stage replica): new stage-1 authority freeze citing the v5 law forms -> fresh random acquisition (secrets-based, no seed) under custody -> stage-2 fitted-coefficients+numeric-predictions freeze BEFORE n=17/31 execution -> execute under remote custody -> compare against the frozen v5 law claims."
+    }
+  }
+}

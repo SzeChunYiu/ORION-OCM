@@ -51,6 +51,24 @@ jobs:
           else
             echo "no BASELINE_MANIFEST_V2.json (no supplements yet)"
           fi
+          # V3 supplement manifest anchor (same loud-change rule). Builder
+          # refuses to run if V1 or V2 drifted from their anchors.
+          if [ -f "$pkg/BASELINE_MANIFEST_V3.json" ]; then
+            echo "dbf0a12e0e9927ce6239188fff280131530c66d56ac27b919967cff8c3795900  $pkg/BASELINE_MANIFEST_V3.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V3.json"
+          fi
+          if [ -f "$pkg/build_manifest_v3.py" ]; then
+            python -I -B "$pkg/build_manifest_v3.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V3.json" /tmp/v3-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V3.json"
+            python -I -O -B "$pkg/build_manifest_v3.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V3.json" /tmp/v3-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V3.json"
+            cmp /tmp/v3-rebuild-a.json /tmp/v3-rebuild-b.json
+            cmp /tmp/v3-rebuild-a.json "$pkg/BASELINE_MANIFEST_V3.json"
+            echo "V3 rebuild determinism + committed-equality: OK"
+          fi
           # V2 builder determinism: two same-checkout rebuilds byte-identical
           if [ -f "$pkg/build_manifest_v2.py" ]; then
             python -I -B "$pkg/build_manifest_v2.py" >/dev/null
