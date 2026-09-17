@@ -35,7 +35,9 @@ superseded for Section-H neutral-recovery authority.
 All four named family rows remain unchecked. Each lacks the required real-scale
 test, and the finite analogues do not establish training, statistical
 generalization, real numerical conditioning, real kernels, or independent-team
-replication. Only the explicitly finite shared-grammar row is reconciled.
+replication. The shared-grammar row was already closed by PRs #931–#937 and
+#951 before this package completed; PR #960 is a non-mutating independent
+corroboration and does not claim or rewrite that checkbox.
 
 Terminal:
 

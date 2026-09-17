@@ -79,5 +79,6 @@ that arbitrary grammar presentations have equal search cost.
 The exact prediction, grammar, recovery, negative, finite-bound, crossover,
 held-out, remint, and source-separated-search gates have artifact-level evidence.
 The real-scale gate is open for every named family. Hence all four family rows
-must remain unchecked, while the one-grammar/multiple-bounded-classes statement
-may close with its finite qualifier.
+must remain unchecked. The one-grammar/multiple-bounded-classes row was already
+closed by PRs #931–#937 and #951; this package only corroborates it at a separate
+registered finite scope and makes no Issue #833 mutation.

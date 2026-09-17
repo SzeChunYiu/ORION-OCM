@@ -589,8 +589,8 @@ def validate_artifacts() -> dict[str, object]:
         "target_encoded_parent_downgraded": parent.get("target_encoded_parent_terminal") == "CALIBRATION_ONLY__NOT_NEUTRAL_RECOVERY",
         "p0_closure_downgraded": parent.get("p0_terminal_disposition") == "SUPERSEDED_FOR_SECTION_H_NEUTRAL_RECOVERY_AUTHORITY",
         "family_rows_open": all(not row.get("close") for row in reconciliation.get("family_rows", [])),
-        "one_shared_replacement": len(replacement) == 1 and replacement[0].get("old") == "- [ ] Verify that the same neutral grammar can recover several families without per-family redesign.",
-        "direct_pr_reference": len(replacement) == 1 and "PR #960 / #434" in replacement[0].get("new", ""),
+        "no_issue_mutation": reconciliation.get("mutation_authorized") is False and replacement == [],
+        "preexisting_row_reference": reconciliation.get("audited_parent_row_contains") == "#931–#937 + #951",
         "scientific_claims": len(scientific.get("claims", [])),
         "manifest_source_pr": manifest.get("source_pr"),
         "oracle_green": oracle.get("verdict") == "GREEN" and oracle.get("imports_primary_checker") is False,
@@ -672,7 +672,7 @@ def build_receipt(parent_audit: dict[str, object] | None = None) -> dict[str, ob
         "source_separated_oracle_agrees": artifacts["oracle_green"] and artifacts["oracle_recovered"] == prediction["recovered"],
         "family_rows_fail_closed": gates["gate_count"] == 10 and gates["all_family_rows_open"],
         "parent_downgrades_registered": artifacts["target_encoded_parent_downgraded"] and artifacts["p0_closure_downgraded"],
-        "reconciliation_is_one_shared_row_only": artifacts["family_rows_open"] and artifacts["one_shared_replacement"] and artifacts["direct_pr_reference"],
+        "issue_audit_is_nonmutating": artifacts["family_rows_open"] and artifacts["no_issue_mutation"] and artifacts["preexisting_row_reference"],
         "package_contracts": artifacts["scientific_claims"] == 4 and artifacts["manifest_source_pr"] == 960,
     }
     return {

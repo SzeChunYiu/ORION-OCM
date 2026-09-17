@@ -137,11 +137,11 @@ class NeutralFourFamilyTests(unittest.TestCase):
         self.assertTrue(artifacts["target_encoded_parent_downgraded"])
         self.assertTrue(artifacts["p0_closure_downgraded"])
 
-    def test_reconciliation_changes_only_shared_row(self):
+    def test_issue_audit_is_nonmutating(self):
         artifacts = M.validate_artifacts()
         self.assertTrue(artifacts["family_rows_open"])
-        self.assertTrue(artifacts["one_shared_replacement"])
-        self.assertTrue(artifacts["direct_pr_reference"])
+        self.assertTrue(artifacts["no_issue_mutation"])
+        self.assertTrue(artifacts["preexisting_row_reference"])
 
     def test_contracts_reject_invalid_values(self):
         with self.assertRaises(ValueError):
