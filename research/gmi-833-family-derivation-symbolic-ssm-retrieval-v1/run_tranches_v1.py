@@ -282,10 +282,11 @@ def run_t3():
     primary = min(seed_runs, key=lambda r: (r["fitness"], r["seed"]))
     primary["seed_set"] = [r["seed"] for r in seed_runs]
     primary["seed_fitnesses"] = [list(r["fitness"]) for r in seed_runs]
+    BUDGET_T3_ABL = int(os.environ.get("FDT_BUDGET_T3_ABL", 1_000_000))
     abl = {}
     for (mu, lam) in ((8, 32), (32, 128)):
         abl["mu%d_lam%d" % (mu, lam)] = P2.evolve(
-            ts, 0, BUDGET_T3_PRIMARY, 8, genome="stream", mu=mu, lam=lam)
+            ts, 0, BUDGET_T3_ABL, 8, genome="stream", mu=mu, lam=lam)
     robust = []
     for s in range(1, 10):
         r = P2.evolve(ts, s, BUDGET_PRIMARY // 2, 8, genome="stream")
@@ -299,7 +300,7 @@ def run_t3():
 
     # order-fixed ablation battery (negative twin)
     rows_fixed = [r for r in rows if r["order"] == [1, 2]]
-    rfix = P2.evolve(_ep_taskset(rows_fixed), 0, BUDGET_PRIMARY, 8,
+    rfix = P2.evolve(_ep_taskset(rows_fixed), 0, BUDGET_T3_ABL, 8,
                      genome="stream")
     outs_f, legal_f, _ = M.batch_sim_stream(
         rfix["genome"], _ep_taskset(rows_fixed).S, np)
@@ -318,7 +319,7 @@ def run_t3():
                                     "stream": [order[0], v1, order[1], v2, q],
                                     "required_final_output":
                                         fa[q] if q in fa else 0})
-    probe = P2.evolve(_ep_taskset(rows_v3), 0, BUDGET_PRIMARY, 8,
+    probe = P2.evolve(_ep_taskset(rows_v3), 0, BUDGET_T3_ABL, 8,
                       genome="stream")
 
     # nulls (parallel)

@@ -400,20 +400,43 @@ def evolve(taskset, seed, budget, cell_cap, genome="iter", n_in=0, steps=16,
     best = min(scored, key=lambda p: (p[0], repr(p[1])))
     while evals < budget:
         children = []
+        parents = [g for (f, g) in scored]  # population maintained below
         while len(children) < lam:
-            parent = rng.choice(sorted(scored, key=lambda p: p[0])[:mu])[1]
+            parent = rng.choice(parents)
             child = mutate_genome(parent, rng, cell_cap, readout_only)
             children.append(child)
         scored_children = [(fit(g), g) for g in children]
         evals += len(children)
-        scored = sorted(scored + scored_children,
-                        key=lambda p: (p[0], repr(p[1])))[:mu * 4]
-        b = min(scored, key=lambda p: (p[0], repr(p[1])))
+        # NEUTRAL-DRIFT SELECTION: the next population is a uniform random
+        # sample among genomes tying the best error count (cost does not
+        # gate survival on the plateau, so structure can accumulate); the
+        # champion is tracked separately as the lexicographic
+        # (errors, cost) minimum ever seen.
+        union = scored + scored_children
+        best_err = min(f[0] for f, _ in union)
+        plateau = [g for f, g in union if f[0] == best_err]
+        if len(plateau) <= mu:
+            parents = plateau
+        else:
+            idxs = rng.sample(range(len(plateau)), mu)
+            parents = [plateau[i] for i in idxs]
+        # dedup population representatives to avoid convergence to clones
+        seen = set()
+        uniq = []
+        for g in parents:
+            k = repr(g)
+            if k not in seen:
+                seen.add(k)
+                uniq.append(g)
+        scored = [(fit(g), g) for g in uniq]
+        b = min([(f, g) for f, g in union], key=lambda p: (p[0], repr(p[1])))
         if (b[0], repr(b[1])) < (best[0], repr(best[1])):
             best = b
     return {"fitness": list(best[0]), "genome": best[1],
             "evals": evals, "seed": seed,
-            "distinct_genomes_evaluated": len(evaled)}
+            "distinct_genomes_evaluated": len(evaled),
+            "selection": "neutral-drift plateau sampling; champion "
+                         "lexicographic (errors, cost)"}
 
 
 # ---------------------------------------------------------------------------

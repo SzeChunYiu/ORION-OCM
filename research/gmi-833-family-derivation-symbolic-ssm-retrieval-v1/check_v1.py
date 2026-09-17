@@ -145,6 +145,14 @@ def check_screen():
 
 def check_outcomes():
     out = {}
+    rp = HERE / "REMINT_OUTCOME_V1.json"
+    if rp.exists():
+        rd = json.loads(rp.read_text())
+        out["REMINT"] = {"present": True,
+                         "blind_flag":
+                             rd.get("benchmark_or_family_data_used") is False}
+    else:
+        out["REMINT"] = {"present": False}
     for t in ("T1", "T2", "T3"):
         p = HERE / ("BLIND_OUTCOME_V1_%s.json" % t)
         if not p.exists():

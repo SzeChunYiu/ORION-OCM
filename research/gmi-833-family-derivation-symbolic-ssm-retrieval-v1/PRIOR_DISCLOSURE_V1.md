@@ -329,6 +329,18 @@ flagged) and negative controls (the tranche basis MUST NOT be flagged).
   no task-specific operators. The 8/56-error positional optimum that the
   earlier executions found IS the predicted order-completeness boundary
   machine and is reported as such.
+- ERRATUM 5 (still pre-outcome): PROC2 selection amended from strict
+  (mu+lambda) lexicographic survival to NEUTRAL-DRIFT PLATEAU SAMPLING: the
+  population is maintained as a uniform random sample among genomes tying
+  the best error count, while the champion is the lexicographic
+  (errors, cost) minimum ever seen. Rationale (mechanism, not tuning): the
+  earlier selection provably gates survival by cost on error plateaus, so
+  any cost-increasing partial construction is selected against before it
+  can complete — the discovery path itself is destroyed, which is a search-
+  machinery defect, not a property of the substrate. Neutral drift on the
+  plateau is the standard remedy; no accuracy/cost trade-off constant is
+  introduced. TR-3 ablations/order-fixed/probe budgets set to 10^6
+  (primary stays 10^7 x 10 seeds pooled).
 
 ## Tranches and claim ceilings
 
