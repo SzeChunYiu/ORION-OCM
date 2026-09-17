@@ -251,3 +251,31 @@ in the receipt, not treated as registrations.
 
 No family, plant, or adjudication change.
 
+## Amendment A4 (2026-09-17, pre-corpus-execution)
+
+The registered refined census is preserved only as rule text + counts
+(109/108/1) + three anchors; its package-level composition was never
+materialized. Operationalizing the rule reproduces the counts with the
+af-barrier anchor violated, or the anchors with counts 107/106/1 (the two
+boundary cases excluded by the is-gloss discriminator are af-barrier itself,
+correctly, and `gmi-section-d-uncertainty-extrap-v5`, whose bullets are
+dominance relations between candidate structures, not opcode definitions).
+Exact-composition reproduction is therefore not recoverable from the frozen
+artifacts, and the original section-4 gate is replaced by a STRONGER one:
+
+- **Anchor gate (unchanged)**: aj9b IN, af-barrier OUT, robustness-controls
+  A2-covered (verified programmatically) — else exit 2, no candidates.
+- **Superset screen**: the screen population is the UNION of the first-pass
+  138 `UNAUDITED_OPERATOR_SURFACE` packages (P3_SCREENS_V1.json) and the
+  operationalized unaudited set. Since the registered 108 was derived
+  in-sweep BY REFINING the 138 (PASS_L49_L50_L53_V1.md: "refined in-sweep
+  from the 138 upper bound"), the union is a PROVABLE superset of the
+  registered population. For a no-smuggling screen, over-inclusion is safe
+  (extra adjudication) and under-inclusion is a defect; the extension
+  therefore screens at least every package the registered census screens.
+- The operationalized counts (107/106/1) and the registered counts
+  (109/108/1) are both reported in the receipt with the deviation note; the
+  two-package composition gap is recorded, not silently reconciled.
+
+No family, plant, or adjudication change.
+
