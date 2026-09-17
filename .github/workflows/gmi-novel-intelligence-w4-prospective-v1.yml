@@ -1,0 +1,113 @@
+name: gmi-novel-intelligence-w4-prospective-v1
+
+on:
+  push:
+    paths:
+      - "research/gmi-novel-intelligence-w4-prospective-v1/**"
+      - "research/gmi-novel-intelligence-w4-v1/**"
+      - "research/gmi-unseen-form-prediction-v1/**"
+      - ".github/workflows/gmi-novel-intelligence-w4-prospective-v1.yml"
+  pull_request:
+    paths:
+      - "research/gmi-novel-intelligence-w4-prospective-v1/**"
+      - "research/gmi-novel-intelligence-w4-v1/**"
+      - "research/gmi-unseen-form-prediction-v1/**"
+      - ".github/workflows/gmi-novel-intelligence-w4-prospective-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  prospective-w4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: research/gmi-novel-intelligence-w4-prospective-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+      - name: Custody add-order (freeze precedes executor and result)
+        run: |
+          set -euo pipefail
+          first_add() { /usr/bin/git log --diff-filter=A --format=%H -- "$1" | tail -1; }
+          FREEZE_MD=$(first_add FREEZE_V2_PROSPECTIVE.md)
+          FREEZE_JSON=$(first_add FREEZE_V2_PROSPECTIVE.json)
+          EXEC=$(first_add novel_intelligence_w4_prospective_v1.py)
+          RESULT=$(first_add RESULT_V1.json)
+          test -n "$FREEZE_MD" && test -n "$FREEZE_JSON" && test -n "$EXEC" && test -n "$RESULT"
+          /usr/bin/git merge-base --is-ancestor "$FREEZE_MD" "$EXEC"
+          /usr/bin/git merge-base --is-ancestor "$FREEZE_JSON" "$EXEC"
+          /usr/bin/git merge-base --is-ancestor "$FREEZE_MD" "$RESULT"
+          echo "custody OK: freeze $FREEZE_MD precedes executor $EXEC and result $RESULT"
+      - name: Unit tests
+        run: python test_novel_intelligence_w4_prospective_v1.py -v
+      - name: CI-scope campaign (D1-D4 must hold; D5 pending by design)
+        run: |
+          set -euo pipefail
+          python novel_intelligence_w4_prospective_v1.py --scope ci --out /tmp/RESULT_CI.json
+          python - <<'PY'
+          import json
+          r = json.load(open("/tmp/RESULT_CI.json"))
+          f = r["decision_flags"]
+          assert all(f[k] is True for k in (
+              "D1_replication_structured_equal",
+              "D2_registered_predictions_match",
+              "D3_negative_control_constant_law",
+              "D4_independent_route_exact_agreement",
+          ))
+          assert f["D5_determinism_bit_identity"] is None
+          assert r["verdict"] == "PENDING_DETERMINISM"
+          c = r["counts"]
+          assert c["family_rows"] == 3 and c["fresh_rows"] == 1
+          assert c["agreement_rows"] == 8 and c["witnesses_run"] == 8
+          print("CI scope OK:", c)
+          PY
+      - name: Committed full receipt must be cleared and multihost-bound
+        run: |
+          set -euo pipefail
+          if [ ! -f RESULT_V1.json ]; then
+            echo "pre-run state: no RESULT_V1.json yet (receipts land after the off-Mac protocol run)"
+            exit 0
+          fi
+          if [ ! -f RECEIPT_MULTIHOST_V1.json ]; then
+            echo "pre-run state: no RECEIPT_MULTIHOST_V1.json yet"; exit 0
+          fi
+          python - <<'PY'
+          import hashlib, json
+          r = json.load(open("RESULT_V1.json"))
+          f = r["decision_flags"]
+          assert r["verdict"] == "PROSPECTIVE_CONTENT_CONFIRMED__SUSPICION_CLEARED"
+          assert all(f[k] is True for k in (
+              "D1_replication_structured_equal",
+              "D2_registered_predictions_match",
+              "D3_negative_control_constant_law",
+              "D4_independent_route_exact_agreement",
+              "D5_determinism_bit_identity",
+          ))
+          assert r["scope"] == "full"
+          plan_sha = hashlib.sha256(open("FREEZE_V2_PROSPECTIVE.json","rb").read()).hexdigest()
+          assert r["freeze_plan_sha256"] == plan_sha
+          c = r["counts"]
+          assert c["family_rows"] == 3 and c["fresh_rows"] == 1
+          assert c["extended_rows"] == 3
+          # frozen timeout disposition: search legs may exceed the registered
+          # 3600 s budget (charging fact; D4's two-route agreement covers the
+          # prediction). Realized: k=6 MATCH; k=7, k=8 ASSAY_TIMEOUT.
+          assert c["assay_timeouts_extended"] == 2
+          ext = r["registered_predictions"]["extended_heldout"]["rows"]
+          assert [(x["k"], x["status"]) for x in ext] == [
+              (6, "MATCH"), (7, "ASSAY_TIMEOUT"), (8, "ASSAY_TIMEOUT")]
+          assert c["control_rows"] == 7
+          assert c["agreement_rows"] == 14 and c["witnesses_run"] == 11
+          m = json.load(open("RECEIPT_MULTIHOST_V1.json"))
+          assert m["cross_host_bit_identical"] is True
+          assert m["host_count"] == 2 and m["D5_completed"] is True
+          result_sha = hashlib.sha256(open("RESULT_V1.json","rb").read()).hexdigest()
+          assert m["result_sha256"] == result_sha
+          print("full receipt OK:", r["verdict"], c)
+          PY

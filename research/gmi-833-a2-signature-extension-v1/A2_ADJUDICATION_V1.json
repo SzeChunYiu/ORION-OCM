@@ -1,0 +1,1059 @@
+{
+  "adjudications": [
+    {
+      "block_excerpt": "def evaluate(ops, state, x, ledger): validate(state) if type(x) is not int: raise ValueError(\"integer input required\") for op in ops: ledger.add(\"dispatch\", op=op, input=x) if op in PRIMITIVES: old = ",
+      "block_name": "evaluate",
+      "class": "B_EVALUATOR_INFRA",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 4,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "arithmetic",
+        "parameter_sharing": "none",
+        "recurrence": true,
+        "resource_class": "O(n)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "arithmetic"
+        ],
+        "types": "scalar,scalar,scalar,scalar->scalar",
+        "verifier_access": true
+      },
+      "family": "program_synthesis_search_macro",
+      "file": "gmi-capital-acquisition-repair-v1/machine_v1.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-capital-acquisition-repair-v1",
+      "reason": "the package evaluator executes an ops list on state; F4 targets a grammar PRIMITIVE that internally calls the verifier, this is the evaluator being called (shared ecology infrastructure, not a searched-grammar primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "class Machine: \"\"\"Executes primitive ops under a basis's cost algebra with a charged state. State cells are declared with a type ('bool' | 'fin' | 'fx'); stores are declared separately. \"\"\" def __init",
+      "block_name": "Machine",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": true,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-current-program-assay-v1/raw/native-df777cd7/core.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-current-program-assay-v1",
+      "reason": "the Machine class is the shared program executor (state cells + charged ops under a basis cost algebra) every searcher in the package runs on; executor/VM infrastructure, not a searched-grammar primitive; the basis STATE_CELL primitive is itself the frozen standard declared-admissible decomposed form",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "def opcode_contract(): \"\"\"The static layout this coordinate inherits from the STR repair unit.\"\"\" base = account(HEAD + \" return 0\\n\")[\"opcodes_per_call\"] require(base == 6, \"UNVERIFIABLE: opcode layo",
+      "block_name": "opcode_contract",
+      "class": "B_EVALUATOR_INFRA",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "state_io",
+        "parameter_sharing": "none",
+        "recurrence": true,
+        "resource_class": "O(n)",
+        "state_access": "read_write",
+        "stochasticity": false,
+        "tags_full": [
+          "state_io"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-delegation-cost-repair-v1/raw/grand_gmi_delegation_invariant_cost_checks_v1.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-delegation-cost-repair-v1",
+      "reason": "static-layout cost contract check (verification code, not a searched-grammar primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "def execute(program, entry, argument, chain=()): require(value_ok(argument), 'unresolved argument/implicit dispatch') require(entry in program.functions, 'entry must be a registered function') require",
+      "block_name": "execute",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 4,
+        "content_dependent_routing": false,
+        "locality": "neighborhood",
+        "mechanism_tag": "arithmetic",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": false,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io"
+        ],
+        "types": "scalar,scalar,scalar,scalar->scalar",
+        "verifier_access": false
+      },
+      "family": "translation_shared_local_kernel",
+      "file": "gmi-delegation-cost-repair-v1/typed_machine_v1.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-delegation-cost-repair-v1",
+      "reason": "typed-machine program executor (shared ecology infrastructure, not a searched-grammar primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "def execute(program, entry, argument, chain=()): require(value_ok(argument), 'unresolved argument/implicit dispatch') require(entry in program.functions, 'entry must be a registered function') require",
+      "block_name": "execute",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 4,
+        "content_dependent_routing": false,
+        "locality": "neighborhood",
+        "mechanism_tag": "arithmetic",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": false,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io"
+        ],
+        "types": "scalar,scalar,scalar,scalar->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-delegation-cost-repair-v1/typed_machine_v1.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-delegation-cost-repair-v1",
+      "reason": "typed-machine program executor (shared ecology infrastructure, not a searched-grammar primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "class Machine: \"\"\"Executes primitive ops under a basis's cost algebra with a charged state. State cells are declared with a type ('bool' | 'fin' | 'fx'); stores are declared separately. \"\"\" def __init",
+      "block_name": "Machine",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": true,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-fresh-ecology-evidence-v1/raw/branch_source/core.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-fresh-ecology-evidence-v1",
+      "reason": "the Machine class is the shared program executor (state cells + charged ops under a basis cost algebra) every searcher in the package runs on; executor/VM infrastructure, not a searched-grammar primitive; the basis STATE_CELL primitive is itself the frozen standard declared-admissible decomposed form",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "def solve(reg, workload, allowed): if type(workload) is not tuple or any(not reg.valid_token(t) for t in workload): raise ValueError(\"complete immutable workload required\") allowed = frozenset(allowed",
+      "block_name": "solve",
+      "class": "C_ANALYSIS_OR_HARNESS",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 3,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": false,
+        "tags_full": [
+          "arithmetic",
+          "weighted_aggregate"
+        ],
+        "types": "scalar,scalar,scalar->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-hierarchical-chunking-repair-v1/hierarchy_v1.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-hierarchical-chunking-repair-v1",
+      "reason": "workload solver (search harness, not a searched-grammar primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "class Machine: \"\"\"Executes primitive ops under a basis's cost algebra with a charged state. State cells are declared with a type ('bool' | 'fin' | 'fx'); stores are declared separately. \"\"\" def __init",
+      "block_name": "Machine",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": true,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-native-adjoint-repair-v1/corrected_source/gmi_microscope/core.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-native-adjoint-repair-v1",
+      "reason": "the Machine class is the shared program executor (state cells + charged ops under a basis cost algebra) every searcher in the package runs on; executor/VM infrastructure, not a searched-grammar primitive; the basis STATE_CELL primitive is itself the frozen standard declared-admissible decomposed form",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `E_sym5` | DENSE, KVSTORE, PROGRAM, TABLE | 1.500 fx | coefficient-witness-bearing (and memory) |",
+      "block_name": "E_sym5",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-native-adjoint-repair-v1/raw/pr551-grad-audit-20260913/raw/GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-native-adjoint-repair-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "class Machine: \"\"\"Executes primitive ops under a basis's cost algebra with a charged state. State cells are declared with a type ('bool' | 'fin' | 'fx'); stores are declared separately. \"\"\" def __init",
+      "block_name": "Machine",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": true,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-native-adjoint-repair-v1/raw/pr551-grad-audit-20260913/raw/gmi_microscope/core.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-native-adjoint-repair-v1",
+      "reason": "the Machine class is the shared program executor (state cells + charged ops under a basis cost algebra) every searcher in the package runs on; executor/VM infrastructure, not a searched-grammar primitive; the basis STATE_CELL primitive is itself the frozen standard declared-admissible decomposed form",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `DENSE` | 0.219 | 0.623 | 2.84\u00d7 | *confounded \u2014 see below* |",
+      "block_name": "DENSE",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-niche-frequency-repair-v1/raw/late-3afe1343/GMI_NEUTRAL_EMERGENCE_SELECTION_V1.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-niche-frequency-repair-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "class Machine: \"\"\"Executes primitive ops under a basis's cost algebra with a charged state. State cells are declared with a type ('bool' | 'fin' | 'fx'); stores are declared separately. \"\"\" def __init",
+      "block_name": "Machine",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": true,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-niche-frequency-repair-v1/raw/native/core.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-niche-frequency-repair-v1",
+      "reason": "the Machine class is the shared program executor (state cells + charged ops under a basis cost algebra) every searcher in the package runs on; executor/VM infrastructure, not a searched-grammar primitive; the basis STATE_CELL primitive is itself the frozen standard declared-admissible decomposed form",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `E_sym5` | DENSE, KVSTORE, PROGRAM, TABLE | 1.500 fx | coefficient-witness-bearing (and memory) |",
+      "block_name": "E_sym5",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-pr551-consumer-repair-v1/raw/pr551-6a4495bb/GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-pr551-consumer-repair-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `E_sym5` | DENSE, KVSTORE, PROGRAM, TABLE | 1.500 fx | coefficient-witness-bearing (and memory) |",
+      "block_name": "E_sym5",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-pr551-delta-70c4f676-v1/source_packet/raw/head/research/machine-intelligence-morphogenesis-v1/GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-pr551-delta-70c4f676-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| S1 | 0.9062 | 0.8646 | `half_events` | \u2713 | 1.75 fx | **TABLE** (27 \u2192 17 nodes, both DENSE nodes deleted) | {KV, TABLE} | \u2717 (V2: memory_V2 4/9 \u2014 S1, S2, S6, S7; program 1/9; coefficient 0/9) |",
+      "block_name": "half_events",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-pr551-delta-70c4f676-v1/source_packet/raw/head/research/machine-intelligence-morphogenesis-v1/GMI_K4_CLASS_RATE_REVIVAL_RV_377_140_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-pr551-delta-70c4f676-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| S6 | 0.9010 | 0.8698 | `extra_unseen_feedback` | \u2713 | 1.87 | **TABLE** (16 \u2192 8, both DENSE nodes deleted) | {KV, TABLE} | \u2717 (V2: memory_V2 4/9 \u2014 S1, S2, S6, S7; program 1/9; coefficient 0/9) |",
+      "block_name": "extra_unseen_feedback",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-pr551-delta-70c4f676-v1/source_packet/raw/head/research/machine-intelligence-morphogenesis-v1/GMI_K4_CLASS_RATE_REVIVAL_RV_377_140_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-pr551-delta-70c4f676-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| S7 | 0.9115 | 0.8542 | `half_events` | \u2713 | 1.50 | **TABLE** (18 \u2192 12, both DENSE nodes deleted) | {KV, TABLE} | \u2717 (V2: memory_V2 4/9 \u2014 S1, S2, S6, S7; program 1/9; coefficient 0/9) |",
+      "block_name": "half_events",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-pr551-delta-70c4f676-v1/source_packet/raw/head/research/machine-intelligence-morphogenesis-v1/GMI_K4_CLASS_RATE_REVIVAL_RV_377_140_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-pr551-delta-70c4f676-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "class Machine: \"\"\"Executes primitive ops under a basis's cost algebra with a charged state. State cells are declared with a type ('bool' | 'fin' | 'fx'); stores are declared separately. \"\"\" def __init",
+      "block_name": "Machine",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": true,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "gmi-pr551-delta-70c4f676-v1/source_packet/raw/head/research/machine-intelligence-morphogenesis-v1/gmi_microscope/core.py",
+      "kind": "B-PY-DEF",
+      "package": "gmi-pr551-delta-70c4f676-v1",
+      "reason": "the Machine class is the shared program executor (state cells + charged ops under a basis cost algebra) every searcher in the package runs on; executor/VM infrastructure, not a searched-grammar primitive; the basis STATE_CELL primitive is itself the frozen standard declared-admissible decomposed form",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `E_sym5` | DENSE, KVSTORE, PROGRAM, TABLE | 1.500 fx | coefficient-witness-bearing (and memory) |",
+      "block_name": "E_sym5",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "gmi-pr551-delta-70c4f676-v1/source_packet/raw/preappend745/research/machine-intelligence-morphogenesis-v1/GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "gmi-pr551-delta-70c4f676-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `E_sym5` | DENSE, KVSTORE, PROGRAM, TABLE | 1.500 fx | coefficient-witness-bearing (and memory) |",
+      "block_name": "E_sym5",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `G15_STEP_TWO_REACHED` | **TRUE** at registered scope (`E_sym5 | DENSE`) |",
+      "block_name": "G15_STEP_TWO_REACHED",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_COMPLETENESS_BOUNDARY_THEOREM_V1.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| 591 | 7 \u2192 6 | `DENSE` |",
+      "block_name": "DENSE",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_CP2_NORMAL_FORM_RV_377_115_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| 3 | `RV-377-011` | `007_NEGATIVE_NO_WINNER_AT_12000` | `B` (12 000+160), `S` (1), canonicalization | `d` of the update grammar (2) | **VACUOUS** | the quantified region is empty: `RV-377-015` measur",
+      "block_name": "RV-377-011",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": true,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_DG7_INDEX_AUDIT_V2.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| 13 | `RV-377-046` | `DENSE inadmissible in all 144 cells` (clause 7) | `L` (4), rule (4), `n_dev` (9), rows (4) | **`B`** \u2014 the record's own declared 16-trajectory `DENSE` training cap, which it lab",
+      "block_name": "RV-377-046",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_DG7_INDEX_AUDIT_V2.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| S1 | 0.9062 | 0.8646 | `half_events` | \u2713 | 1.75 fx | **TABLE** (27 \u2192 17 nodes, both DENSE nodes deleted) | {KV, TABLE} | \u2717 (V2: memory_V2 4/9 \u2014 S1, S2, S6, S7; program 1/9; coefficient 0/9) |",
+      "block_name": "half_events",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_K4_CLASS_RATE_REVIVAL_RV_377_140_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| S6 | 0.9010 | 0.8698 | `extra_unseen_feedback` | \u2713 | 1.87 | **TABLE** (16 \u2192 8, both DENSE nodes deleted) | {KV, TABLE} | \u2717 (V2: memory_V2 4/9 \u2014 S1, S2, S6, S7; program 1/9; coefficient 0/9) |",
+      "block_name": "extra_unseen_feedback",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_K4_CLASS_RATE_REVIVAL_RV_377_140_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| S7 | 0.9115 | 0.8542 | `half_events` | \u2713 | 1.50 | **TABLE** (18 \u2192 12, both DENSE nodes deleted) | {KV, TABLE} | \u2717 (V2: memory_V2 4/9 \u2014 S1, S2, S6, S7; program 1/9; coefficient 0/9) |",
+      "block_name": "half_events",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_K4_CLASS_RATE_REVIVAL_RV_377_140_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `DENSE` | 0.219 | 0.623 | 2.84\u00d7 | *confounded \u2014 see below* |",
+      "block_name": "DENSE",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_NEUTRAL_EMERGENCE_SELECTION_V1.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| **`E_sym5`** | **DENSE** | **0.9115** | **0.8542** | `half_events` | **\u2713** | **1.500** |",
+      "block_name": "half_events",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_RV_377_113_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `TF-035` | Unembedding and output softmax | `X-TMT11` | The ARGMAX token under any positive T_d, and the full ordering of logits: softmax is strictly monotone |",
+      "block_name": "TF-035",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_TRANSFORMER_MICROFEATURE_REGISTRY_V1.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `RV-377-056` | B2.3 fixed vs dynamic routing | `microscopes/results/STAGE_B2_03_ROUTING_V1.json` | 8 of 8 | minimal safe fixed budget = the union in every cell; dynamic never on the frontier at unit",
+      "block_name": "RV-377-056",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": "none",
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/GMI_TRANSFORMER_MICROFEATURE_REGISTRY_V1.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "def closure_depth(nvars: int, primitives: Sequence[str]) -> dict[int, int]: \"\"\"Minimum expression depth for every reachable Boolean function.\"\"\" depth: dict[int, int] = {variable_table(nvars, i): 0 fo",
+      "block_name": "closure_depth",
+      "class": "C_ANALYSIS_OR_HARNESS",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 2,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "none",
+        "parameter_sharing": "none",
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": false,
+        "tags_full": [],
+        "types": "scalar,scalar->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "machine-intelligence-morphogenesis-v1/adaptive_boolean_basis_census.py",
+      "kind": "B-PY-DEF",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "Boolean-closure census analysis over primitives (analysis code, not a grammar primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "| `E_sym5` | DENSE, KVSTORE, PROGRAM, TABLE | 1.500 fx | coefficient-witness-bearing (and memory) |",
+      "block_name": "E_sym5",
+      "class": "A_MD_RESULT_ROW_DENSE_LABEL",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": false,
+        "recurrence": false,
+        "resource_class": "O(1)",
+        "state_access": "none",
+        "stochasticity": false,
+        "tags_full": [
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "dense_feedforward_aggregate",
+      "file": "machine-intelligence-morphogenesis-v1/evidence/b6-corrected-20260913/authority/GMI_B6_DEVELOPMENTAL_MORPHOGENESIS_RV_377_180_FREEZE.md",
+      "kind": "B-MD-ROW",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "markdown result/registry table row; DENSE is the corpus morphology-memory class label (DENSE/KVSTORE/PROGRAM/TABLE), not a dense-layer operator definition; softmax appears in the parent-literature microfeature registry prose; no operator is defined",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "def run_candidate(cand, ecology, seed=0): M = Machine(bases.B0, seed=seed) for i in range(N_CELLS): M.declare(f\"c{i}\", \"fx\", 0) M.declare_store(\"st\") M.declare_program(8) train, all_x, target, events,",
+      "block_name": "run_candidate",
+      "class": "C_ANALYSIS_OR_HARNESS",
+      "derived_signature": {
+        "addressability": false,
+        "arity": 3,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "arithmetic",
+        "parameter_sharing": "none",
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": false,
+        "tags_full": [
+          "arithmetic"
+        ],
+        "types": "scalar,scalar,scalar->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "machine-intelligence-morphogenesis-v1/gmi_microscope/blind.py",
+      "kind": "B-PY-DEF",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "harness that instantiates a Machine and runs one candidate (not a grammar primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "class Machine: \"\"\"Executes primitive ops under a basis's cost algebra with a charged state. State cells are declared with a type ('bool' | 'fin' | 'fx'); stores are declared separately. \"\"\" def __init",
+      "block_name": "Machine",
+      "class": "B_EXECUTOR_VM_INFRA",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 0,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "weighted_aggregate",
+        "parameter_sharing": true,
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": true,
+        "tags_full": [
+          "arithmetic",
+          "comparison",
+          "state_io",
+          "weighted_aggregate"
+        ],
+        "types": "->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "machine-intelligence-morphogenesis-v1/gmi_microscope/core.py",
+      "kind": "B-PY-DEF",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "the Machine class is the shared program executor (state cells + charged ops under a basis cost algebra) every searcher in the package runs on; executor/VM infrastructure, not a searched-grammar primitive; the basis STATE_CELL primitive is itself the frozen standard declared-admissible decomposed form",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    },
+    {
+      "block_excerpt": "def synthesize(n: int, prices: dict[str, int]) -> dict: \"\"\"Positive-cost grammar shortest derivations over semantic truth tables.\"\"\" validate_prices(prices) size = 1 << (1 << n) mask = size - 1 distan",
+      "block_name": "synthesize",
+      "class": "C_ANALYSIS_OR_HARNESS",
+      "derived_signature": {
+        "addressability": true,
+        "arity": 3,
+        "content_dependent_routing": false,
+        "locality": "global",
+        "mechanism_tag": "synthesis_search",
+        "parameter_sharing": "none",
+        "recurrence": true,
+        "resource_class": "O(n^2)",
+        "state_access": "read_write",
+        "stochasticity": false,
+        "tags_full": [
+          "arithmetic",
+          "state_io",
+          "synthesis_search"
+        ],
+        "types": "scalar,scalar,scalar->scalar",
+        "verifier_access": false
+      },
+      "family": "recurrent_state_macro",
+      "file": "machine-intelligence-morphogenesis-v1/run_gmi_primitive_closure_v1.py",
+      "kind": "B-PY-DEF",
+      "package": "machine-intelligence-morphogenesis-v1",
+      "reason": "shortest-derivation search harness over the frozen grammar (the searcher, not a searched primitive)",
+      "verdict": "CONTEXT_NOT_GRAMMAR"
+    }
+  ],
+  "authority": {
+    "issue": 833,
+    "revival_ticket": "REV-L50-A2-SIGNATURE-PROGRAMME",
+    "screen_receipt": "A2_EXTENDED_SCREEN_V1.json sha256 e816752c15c1037248f7ed4a98b42d887181c9359f049113eb795eb533cab501"
+  },
+  "class_counts": {
+    "A_MD_RESULT_ROW_DENSE_LABEL": 21,
+    "B_EVALUATOR_INFRA": 2,
+    "B_EXECUTOR_VM_INFRA": 9,
+    "C_ANALYSIS_OR_HARNESS": 4
+  },
+  "n_flags": 36,
+  "rule": "CONFIRMED requires (i) derived-signature family match AND (ii) the flagged block is part of the package's searched grammar or evaluated operator set; parent-literature prose, ledger/citation echoes, executor/evaluator infrastructure, and analysis/search-harness code fail (ii)",
+  "schema": "GMI_833_A2_EXTENSION_ADJUDICATION_V1",
+  "verdict_counts": {
+    "CONFIRMED": 0,
+    "CONTEXT_NOT_GRAMMAR": 36
+  }
+}
