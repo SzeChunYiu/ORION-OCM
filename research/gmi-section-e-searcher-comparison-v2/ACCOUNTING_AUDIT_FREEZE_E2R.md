@@ -111,3 +111,16 @@ C-NAS_AT_OR_OVER_REVIVED (predicted)
 C-ORDERING_ACCOUNTING_ROBUST (predicted)
 NO_CHANGE_TO_FROZEN_E2_CONTENT
 ```
+
+## Erratum E1 (2026-09-17, after first witness run)
+
+The frozen prediction table above contains one arithmetic slip in a derived
+display constant: `A3 drift` cost is `26 * 499904/3125 = 12997504/3125`
+(not `12997424/3125`). No definition, cap, adjudication state, or claim-level
+rule changes; the predicted state (`within`, cap 8320) is unaffected by the
+80-unit slip. The first witness run (billy-laptop, 2026-09-17) flagged
+exactly this one cell and nothing else; the correction is recorded here as a
+dated post-outcome erratum so the pre-outcome document remains auditable
+in git history. All other 24 cost cells and all 25 state cells reproduced
+exactly on the first run.
+
