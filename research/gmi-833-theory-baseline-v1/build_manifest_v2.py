@@ -4,7 +4,7 @@ GMI_THEORY_BASELINE_V1 (REV-L47-NOVEL-INTELLIGENCE-W4 closure).
 
 Per the baseline post_freeze_edit_rule (BASELINE_MANIFEST_V1.json
 governance): no bound artifact is edited in place; every change lands as a
-supplement — a NEW file in the freeze package (SUPPLEMENT_1_*.md) plus new
+supplement — a NEW file in the freeze package (SUPPLEMENT_2_*.md) plus new
 owning-lane artifacts — and, when the binding changes, BASELINE_MANIFEST_V2.
 V1 and every file it binds stay byte-identical; this builder refuses to run
 if V1's manifest drifts from its recorded anchor.
@@ -104,7 +104,10 @@ UNBOUND_ARRIVALS_COMPONENT = {
 }
 
 SELF_BINDING_FILES = [
-    ("research/gmi-833-theory-baseline-v1/SUPPLEMENT_1_revival-l47-novel-intelligence-w4.md",
+    # Renumbered SUPPLEMENT_1 -> SUPPLEMENT_2 (2026-09-17): #989's
+    # non-binding supplement (revival-accounting-a2-signature) merged first
+    # and holds sequence #1; the original name collided in this directory.
+    ("research/gmi-833-theory-baseline-v1/SUPPLEMENT_2_revival-l47-novel-intelligence-w4.md",
      "FREEZE_PACKAGE_SUPPLEMENT"),
     ("research/gmi-833-theory-baseline-v1/build_manifest_v2.py",
      "FREEZE_PACKAGE_SELF"),
@@ -127,7 +130,7 @@ def main():
 
     # NOTE: no context-dependent fields (branch names differ between the
     # working branch and CI's detached HEAD); the branch is recorded in
-    # SUPPLEMENT_1 so the rebuild stays byte-identical everywhere.
+    # SUPPLEMENT_2 so the rebuild stays byte-identical everywhere.
     component = json.loads(json.dumps(APPEND_COMPONENT))
     for art in component["artifacts"]:
         sha, size = sha256_and_bytes(art["path"])
@@ -153,7 +156,7 @@ def main():
 
     manifest = {
         "schema": "GMI_833_THEORY_BASELINE_MANIFEST_V2_SUPPLEMENT",
-        "basis": "GMI_THEORY_BASELINE_V1 post-freeze supplement #1 (post_freeze_edit_rule)",
+        "basis": "GMI_THEORY_BASELINE_V1 post-freeze supplement #2 (post_freeze_edit_rule)",
         "v1_manifest_sha256_anchored": v1_sha,
         "supplement_of": "BASELINE_MANIFEST_V1.json (132 artifacts, byte-identical, still authoritative for everything it binds)",
         "bound_artifact_count": (
@@ -171,7 +174,7 @@ def main():
                 {
                     "id": "REV-L47-NOVEL-INTELLIGENCE-W4",
                     "status": "CLOSED_GREEN__CONTENT_PROSPECTIVELY_RE_EARNED",
-                    "evidence": "research/gmi-novel-intelligence-w4-prospective-v1 (freeze 56195abe precedes executor c1056b31/7438e4b3 precedes results; RESULT_V1.json verdict PROSPECTIVE_CONTENT_CONFIRMED__SUSPICION_CLEARED, D1-D5 all true; two-host bit-identical receipts; see SUPPLEMENT_1 and VERDICT_REGISTER_APPEND_REV_L47_W4_V1.json)",
+                    "evidence": "research/gmi-novel-intelligence-w4-prospective-v1 (freeze 56195abe precedes executor c1056b31/7438e4b3 precedes results; RESULT_V1.json verdict PROSPECTIVE_CONTENT_CONFIRMED__SUSPICION_CLEARED, D1-D5 all true; two-host bit-identical receipts; see SUPPLEMENT_2 and VERDICT_REGISTER_APPEND_REV_L47_W4_V1.json)",
                     "permanent_record": "the parent package's 89-minute freeze-after-result custody defect remains on its record; only prospective-ness of the CONTENT was re-earned",
                 }
             ],
