@@ -7,28 +7,100 @@
     "mechanical": 6,
     "substantive": 12,
     "mechanical_outcome": "6/6 MECHANICAL_CUSTODY_DEMONSTRATED (CUSTODY_REPAIR_RECEIPTS_V1.json; all legs L1 order, L2 separation >120s registered bar, L3 window immobility, L4 blob pins + per-package extra legs). Content legs re-executed under remote custody: 7/7 self-tests green on billy-old (py3.14) incl. the held-score consumer leg; aj9a's self-test surfaced a PRE-EXISTING audit defect (see new_findings) - its custody legs are unaffected and green.",
-    "substantive_outcome": "12/12 CLEARED_GREEN at original strength under prospective custody (pre-registered decision rules in REV_FREEZE_V1.md committed before any re-run; receipts reruns/billy-old/ executed at commits containing that freeze; 11/11 single-stage re-runs + the section-d two-stage replica with in-repo-verified custody chain freeze->sample->fit-freeze->run, fresh single-draw acquisition, U1-U7 all green on the fresh draw, X-legs exact). Multihost: 11/12 verdicts bit-agree on billy-laptop (py3.8); the 4 laptop disagreements are Python-version artifacts (zip strict=True is 3.10+; corpus CI pins 3.12), each green on billy-old (py3.14) - stderr evidence in reruns/billy-laptop/.",
+    "substantive_outcome": "12/12 CLEARED_GREEN at original strength under prospective custody (pre-registered decision rules in REV_FREEZE_V1.md, first-add commit 6061e111d, before any re-run; every canonical receipt verifies in-repo that the freeze first-add commit is an ancestor of its run commit; 11/11 single-stage re-runs + the section-d two-stage replica: canonical draw ones=14284 p_hat=0.871826, stage-2 freeze 92197fc42 committed before any n=17/31 execution, custody chain freeze->sample->fit-freeze-run ancestry verified in-repo at run time, U1-U7 all green on the fresh draw, X-legs exact; draws 1-3 recorded never evaluated). Multihost: 14/18 overlapping verdicts bit-agree on billy-laptop (py3.8); the 4 disagreements are Python-version artifacts (zip strict=True is 3.10+; corpus CI pins 3.12), each green on billy-old (py3.14). The first execution chain (fully green) ran at pre-rebase SHAs orphaned by a re-base after #989 landed mid-PR-creation; archived under reruns/archive-pre-re-base/ as provenance; the canonical chain was re-executed in full at re-based commits.",
     "permanent_record": "Per the W4 pattern: the ORIGINAL landing commit-order gaps of the 12 substantive packages remain recorded permanent custody defects (TRIAGE_V1.json); the replicas re-earn the CONTENT at original strength with the prospective receipts as the new strongest evidence. Nothing is retroactively cleansed."
   },
   "packages": {
-    "gmi-833-aj9a-known-family-benchmark-v1": {"class": "MECHANICAL", "verdict": "CUSTODY_DEMONSTRATED__CONTENT_DEFECT_ROUTED", "evidence": "registry first-add aec01b0e4 ct1789552743 precedes every repo-wide holdout implementation (+1468s..+14519s); registry blob 6b9ac309 single-commit; 4+extra legs green (CUSTODY_REPAIR_RECEIPTS_V1.json). Self-test ROOT-CAUSED pre-existing defect: audit walker skips string list elements -> 4/11 ops-hostiles evade MACRO_DENY; single-commit checker (present since landing); aj-lane owned, lever recorded; see new_findings."},
-    "gmi-833-aj9b-k01-blind-recovery-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "check_aj9b exit 0, rewritten RESULT parsed-identical to committed; reruns/billy-old + billy-laptop agree."},
-    "gmi-833-aj9c-k02-blind-recovery-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "check_aj9c exit 0, parsed-identical; both hosts."},
-    "gmi-833-aj9d-k03-blind-recovery-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "check_aj9d exit 0, parsed-identical (byte drift = landing serialization artifact, recorded); both hosts."},
-    "gmi-833-aj9e-k04-blind-recovery-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "check_aj9e exit 0, parsed-identical (serialization artifact); both hosts."},
-    "gmi-833-aj9f-k05-blind-recovery-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "check_aj9f exit 0, parsed-identical (serialization artifact); both hosts."},
-    "gmi-833-aj9h-k07-k11-blind-recovery-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "check_aj9h exit 0, parsed-identical; both hosts."},
-    "gmi-833-developmental-naturality-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "executor output parsed+byte equal committed RESULT; package test green; both hosts."},
-    "gmi-833-heldout-20-transitions-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "both frozen searchers + certificate reproduce committed RESULT parsed-identical (9.95s); laptop FAIL is zip(strict=True) py3.10+ artifact (stderr recorded); green on billy-old."},
-    "gmi-833-pareto-topology-v1": {"class": "MECHANICAL", "verdict": "CUSTODY_DEMONSTRATED", "evidence": "outcome +136s >120s, ancestor-ordered, window-immutable (typed terminology migration post-outcome only); self-test green (billy-old; laptop py3.8 artifact)."},
-    "gmi-833-real-transition-protocol-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "validator output equal committed RESULT (qualifying_count 0, hostiles rejected); test green; both hosts."},
-    "gmi-833-remint-equivariance-v1": {"class": "MECHANICAL", "verdict": "CUSTODY_DEMONSTRATED", "evidence": "outcome +135s >120s, ancestor-ordered, window-immobile; self-test green (billy-old; laptop py3.8 zip-strict artifact)."},
-    "gmi-833-transform-geometry-v1": {"class": "MECHANICAL", "verdict": "CUSTODY_DEMONSTRATED", "evidence": "outcome +126s >120s, ancestor-ordered, window-immobile; self-test green (billy-old; laptop py3.8 zip-strict artifact, root cause in receipt stderr)."},
-    "gmi-capability-held-freeze-v1": {"class": "MECHANICAL", "verdict": "CUSTODY_DEMONSTRATED", "evidence": "predictor-dev(+353s)->freeze->held-score(+286s) chain ancestor-ordered >120s at every leg; manifest single-commit; digest cee4b92e bound by scorer custody gate (verified live); self-test green both hosts."},
-    "gmi-capability-transfer-freeze-v1": {"class": "MECHANICAL", "verdict": "CUSTODY_DEMONSTRATED", "evidence": "no scoring artifact exists repo-wide (absence leg); prediction rows immutable since 509345d54 (only typed pre-outcome digest canonicalization 24b9ffbfd, freeze_digest line only, diff in receipt); upstream +2318s; self-test green both hosts."},
-    "gmi-heldout-long-sequence-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "frozen n={17,31,63} predictions all reproduced (winner add(s,x), ACCUMULATIVE_CARRY, exact-one-of-44 at every protected length); committed curated receipt claims all present+equal in raw output (claim_level_equality receipt); package test green; both hosts."},
-    "gmi-history-morphology-discovery-v1": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "frozen ranks RESET[40,54] CONTINUED[5,6] SHUFFLED[16,20] reproduced exactly; committed-minus-interpretation fully contained in live output; package test green; both hosts."},
-    "gmi-section-d-uncertainty-extrapolation-v5": {"class": "SUBSTANTIVE", "verdict": "CLEARED_GREEN", "evidence": "two-stage prospective replica: fresh single-draw sample (ones=14309, p_hat=0.873352) bound to stage-1 freeze 25657d994; training reproduces v5 receipt sha a559ca1f bit-exactly; stage-2 freeze b177bc76b committed before any n=17/31 execution (custody chain ancestry verified in-repo at run time); U1-U7 all green on the fresh draw (U4 switch set {4}; U6 first-64 control correctly fails to localize); X-legs exact incl. remints and hostile comparator; reruns/billy-old/section_d_stage_b.json."}
+    "gmi-833-aj9a-known-family-benchmark-v1": {
+      "class": "MECHANICAL",
+      "verdict": "CUSTODY_DEMONSTRATED__CONTENT_DEFECT_ROUTED",
+      "evidence": "registry first-add aec01b0e4 ct1789552743 precedes every repo-wide holdout implementation (+1468s..+14519s); registry blob 6b9ac309 single-commit; 4+extra legs green (CUSTODY_REPAIR_RECEIPTS_V1.json). Self-test ROOT-CAUSED pre-existing defect: audit walker skips string list elements -> 4/11 ops-hostiles evade MACRO_DENY; single-commit checker (present since landing); aj-lane owned, lever recorded; see new_findings."
+    },
+    "gmi-833-aj9b-k01-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "check_aj9b exit 0, rewritten RESULT parsed-identical to committed; reruns/billy-old + billy-laptop agree."
+    },
+    "gmi-833-aj9c-k02-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "check_aj9c exit 0, parsed-identical; both hosts."
+    },
+    "gmi-833-aj9d-k03-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "check_aj9d exit 0, parsed-identical (byte drift = landing serialization artifact, recorded); both hosts."
+    },
+    "gmi-833-aj9e-k04-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "check_aj9e exit 0, parsed-identical (serialization artifact); both hosts."
+    },
+    "gmi-833-aj9f-k05-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "check_aj9f exit 0, parsed-identical (serialization artifact); both hosts."
+    },
+    "gmi-833-aj9h-k07-k11-blind-recovery-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "check_aj9h exit 0, parsed-identical; both hosts."
+    },
+    "gmi-833-developmental-naturality-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "executor output parsed+byte equal committed RESULT; package test green; both hosts."
+    },
+    "gmi-833-heldout-20-transitions-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "both frozen searchers + certificate reproduce committed RESULT parsed-identical (9.95s); laptop FAIL is zip(strict=True) py3.10+ artifact (stderr recorded); green on billy-old."
+    },
+    "gmi-833-pareto-topology-v1": {
+      "class": "MECHANICAL",
+      "verdict": "CUSTODY_DEMONSTRATED",
+      "evidence": "outcome +136s >120s, ancestor-ordered, window-immutable (typed terminology migration post-outcome only); self-test green (billy-old; laptop py3.8 artifact)."
+    },
+    "gmi-833-real-transition-protocol-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "validator output equal committed RESULT (qualifying_count 0, hostiles rejected); test green; both hosts."
+    },
+    "gmi-833-remint-equivariance-v1": {
+      "class": "MECHANICAL",
+      "verdict": "CUSTODY_DEMONSTRATED",
+      "evidence": "outcome +135s >120s, ancestor-ordered, window-immobile; self-test green (billy-old; laptop py3.8 zip-strict artifact)."
+    },
+    "gmi-833-transform-geometry-v1": {
+      "class": "MECHANICAL",
+      "verdict": "CUSTODY_DEMONSTRATED",
+      "evidence": "outcome +126s >120s, ancestor-ordered, window-immobile; self-test green (billy-old; laptop py3.8 zip-strict artifact, root cause in receipt stderr)."
+    },
+    "gmi-capability-held-freeze-v1": {
+      "class": "MECHANICAL",
+      "verdict": "CUSTODY_DEMONSTRATED",
+      "evidence": "predictor-dev(+353s)->freeze->held-score(+286s) chain ancestor-ordered >120s at every leg; manifest single-commit; digest cee4b92e bound by scorer custody gate (verified live); self-test green both hosts."
+    },
+    "gmi-capability-transfer-freeze-v1": {
+      "class": "MECHANICAL",
+      "verdict": "CUSTODY_DEMONSTRATED",
+      "evidence": "no scoring artifact exists repo-wide (absence leg); prediction rows immutable since 509345d54 (only typed pre-outcome digest canonicalization 24b9ffbfd, freeze_digest line only, diff in receipt); upstream +2318s; self-test green both hosts."
+    },
+    "gmi-heldout-long-sequence-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "frozen n={17,31,63} predictions all reproduced (winner add(s,x), ACCUMULATIVE_CARRY, exact-one-of-44 at every protected length); committed curated receipt claims all present+equal in raw output (claim_level_equality receipt); package test green; both hosts."
+    },
+    "gmi-history-morphology-discovery-v1": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "frozen ranks RESET[40,54] CONTINUED[5,6] SHUFFLED[16,20] reproduced exactly; committed-minus-interpretation fully contained in live output; package test green; both hosts."
+    },
+    "gmi-section-d-uncertainty-extrapolation-v5": {
+      "class": "SUBSTANTIVE",
+      "verdict": "CLEARED_GREEN",
+      "evidence": "two-stage prospective replica (canonical chain): fresh single-draw sample (ones=14284, p_hat=0.871826) bound to freeze first-add 6061e111d; training reproduces v5 receipt sha a559ca1f bit-exactly; stage-2 freeze 92197fc42 committed before any n=17/31 execution (custody chain ancestry verified in-repo at run time); U1-U7 all green on the fresh draw (U4 switch set {4}; U6 first-64 control correctly fails to localize); X-legs exact incl. remints and hostile comparator; reruns/billy-old/section_d_stage_b.json"
+    }
   },
   "new_findings": [
     {
@@ -43,8 +115,14 @@
     }
   ],
   "hosts": {
-    "billy-old": {"python": "3.14.4", "role": "primary: all 18 verdicts + section-d replica stages A/B"},
-    "billy-laptop": {"python": "3.8.10", "role": "multihost agreement: 14/18 verdicts bit-agree; 4 disagreements are py>=3.10 zip-strict artifacts (stderr recorded), all green on primary"}
+    "billy-old": {
+      "python": "3.14.4",
+      "role": "primary: all 18 verdicts + section-d replica stages A/B (canonical chain; runs at commits d37b6e84a/ac266f9f8/92197fc42)"
+    },
+    "billy-laptop": {
+      "python": "3.8.10",
+      "role": "multihost agreement: 14/18 verdicts bit-agree; 4 disagreements are py>=3.10 zip-strict artifacts (stderr recorded), all green on primary"
+    }
   },
   "artifacts": {
     "triage": "TRIAGE_V1.json",

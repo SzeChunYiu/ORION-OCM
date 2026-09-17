@@ -33,12 +33,16 @@ tranche; PR references #833).
   chain all >280 s, digest-bound), capability-transfer-freeze (no outcome
   exists repo-wide; rows immutable; one typed pre-outcome digest
   canonicalization).
-- **Prospective re-establishment** (W4 pattern; freeze REV_FREEZE_V1.md at
-  25657d994 BEFORE any re-run; remote-host receipts reruns/billy-old +
+- **Prospective re-establishment** (W4 pattern; freeze REV_FREEZE_V1.md first-add 6061e111d BEFORE
+  any re-run - every receipt verifies the freeze-commit ancestry of its
+  run commit in-repo; remote-host receipts reruns/billy-old +
   reruns/billy-laptop): 12/12 CLEARED_GREEN at original strength,
   including the section-d two-stage replica with fresh single-draw
-  acquisition, stage-2 freeze b177bc76b before any n=17/31 execution, and
-  an in-repo-verified custody chain. Original landing commit-order gaps
+  acquisition, stage-2 freeze 92197fc42 before any n=17/31 execution, and
+  an in-repo-verified custody chain. (A first fully-green chain at
+pre-rebase SHAs was orphaned by a re-base after #989 landed
+mid-PR-creation; archived under reruns/archive-pre-rebase/ and the
+chain re-executed in full - see REV_FREEZE_V1.md re-execution note.) Original landing commit-order gaps
   remain recorded permanent defects (content re-earned, not cleansed).
 - **Verdicts + new finding routed**: VERDICTS_V1.json; AJ9A-AUDIT-WALKER-
   LIST-EVASION (pre-existing, root-caused, aj-lane owned, lever recorded).
