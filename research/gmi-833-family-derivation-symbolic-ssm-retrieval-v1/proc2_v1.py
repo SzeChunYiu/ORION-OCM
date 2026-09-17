@@ -23,7 +23,8 @@ except ImportError:  # pragma: no cover
     np = None
 
 from machinery_v1 import (DOMAIN, CONSTS, UNARIES, GUARD, expr_ops,
-                          batch_sim_iter, batch_sim_stream, machine_cost)
+                          expr_atoms, batch_sim_iter, batch_sim_stream,
+                          machine_cost)
 
 UNARY_NAMES = sorted(UNARIES)
 
@@ -84,16 +85,19 @@ def crossover(ga, gb, rng):
     if ga["model"] != gb["model"] or ga["model"] == "M_ITER" and             ga["input_cells"] != gb["input_cells"]:
         return child
     if ga["model"] == "M_STREAM":
+        if ga["cells"] != gb["cells"]:
+            return child  # atom ranges must match: only equal-cell crossover
         slots = len(child["update"]) + 1  # + readout
         si = rng.randrange(slots)
-        if si < len(child["update"]) and si < len(gb["update"]):
+        if si < len(child["update"]):
             child["update"][si] = copy.deepcopy(gb["update"][si])
-        elif ga["cells"] == gb["cells"]:
+        else:
             child["readout"] = copy.deepcopy(gb["readout"])
         return child
+    if len(ga["update"]) != len(gb["update"]):
+        return child
     wi = rng.randrange(len(child["update"]))
-    if wi < len(gb["update"]):
-        child["update"][wi] = copy.deepcopy(gb["update"][wi])
+    child["update"][wi] = copy.deepcopy(gb["update"][wi])
     return child
 
 
@@ -179,12 +183,30 @@ def expr_valid(e):
     return False
 
 
+def _atoms_in_range(e, n_stream_cells, n_total_cells, model):
+    for a in expr_atoms(e):
+        if a == "x":
+            if model != "M_STREAM":
+                return False
+            continue
+        if not a.startswith("s"):
+            return False
+        if int(a[1:]) >= n_total_cells:
+            return False
+    return True
+
+
 def genome_valid(g):
     if g["model"] == "M_ITER":
         exprs = g["update"]
-    else:
-        exprs = list(g["update"]) + [g["readout"]]
-    return all(expr_valid(e) for e in exprs)
+        total = g["input_cells"] + len(g["update"])
+        ok = all(expr_valid(e) for e in exprs) and all(
+            _atoms_in_range(e, 0, total, g["model"]) for e in exprs)
+        return ok and 0 <= g["output_cell"] < total
+    exprs = list(g["update"]) + [g["readout"]]
+    total = g["cells"]
+    return all(expr_valid(e) for e in exprs) and all(
+        _atoms_in_range(e, total, total, g["model"]) for e in exprs)
 
 
 def copy_subtree(source, target, rng):
