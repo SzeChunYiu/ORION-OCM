@@ -43,36 +43,32 @@ jobs:
           P1=research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md
           P2=research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md
           P3=research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md
-          if ! git cat-file -e "$freeze:$P1" 2>/dev/null \
-            || ! git cat-file -e "$amendment:$P2" 2>/dev/null \
-            || ! git cat-file -e "$addendum:$P3" 2>/dev/null; then
+          # NOTE: on partial-clone runners `cat-file -e <rev>:<path>` does not
+          # lazy-fetch missing blobs and misreports "path does not exist";
+          # `git show <rev>:<path>` triggers the on-demand blob fetch.
+          if ! git show "$freeze:$P1" > /dev/null 2>&1 \
+            || ! git show "$amendment:$P2" > /dev/null 2>&1 \
+            || ! git show "$addendum:$P3" > /dev/null 2>&1; then
             git fetch --quiet origin "+refs/pull/979/head:refs/remotes/origin/pr-979"
           fi
-          git cat-file -e "$freeze:$P1"
-          git cat-file -e "$amendment:$P2"
-          echo "=== custody diagnostics ==="
-          git cat-file -t "$addendum" || true
-          git rev-parse "$addendum^{commit}" || true
-          git ls-tree "$addendum" -- research/gmi-833-real-transition-receipts-v1/ || true
-          git ls-remote origin | grep -c "pull/979" || true
-          echo "=== end diagnostics ==="
-          git cat-file -e "$addendum:$P3"
+          git show "$freeze:$P1" > /dev/null
+          git show "$amendment:$P2" > /dev/null
+          git show "$addendum:$P3" > /dev/null
           git cat-file -e "$freeze^{commit}"
-          git cat-file -e "$freeze:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md"
           git cat-file -e "$amendment^{commit}"
-          git cat-file -e "$amendment:research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md"
           git cat-file -e "$addendum^{commit}"
-          git cat-file -e "$addendum:research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md"
           for p in \
             research/gmi-833-real-transition-receipts-v1/REAL_RUNS \
             research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json \
             research/gmi-833-real-transition-receipts-v1/RESULT_V1.json ; do
-            if git cat-file -e "$amendment:$p" 2>/dev/null || git cat-file -e "$addendum:$p" 2>/dev/null; then
+            # tree-level absence check: reliable on partial clones where blob
+            # lookups can false-negative
+            if [ -n "$(git ls-tree "$amendment" -- "$p")" ] || [ -n "$(git ls-tree "$addendum" -- "$p")" ]; then
               echo "post-freeze outcome artifact existed at freeze/amendment/addendum: $p" >&2
               exit 1
             fi
             for d in R07-frankenstein R08-dict-words R09-kernel-headers R10-stdlib-ast R11-programme-md R12-rearleft-wav; do
-              if git cat-file -e "$addendum:research/gmi-833-real-transition-receipts-v1/REAL_RUNS/$d/runs.json" 2>/dev/null; then
+              if [ -n "$(git ls-tree "$addendum" -- "research/gmi-833-real-transition-receipts-v1/REAL_RUNS/$d/runs.json")" ]; then
                 echo "V3 outcome existed at addendum: $d" >&2
                 exit 1
               fi
