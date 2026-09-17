@@ -190,3 +190,34 @@ encode/execute dispatcher, not an OPS-style table). Both are reported.
 No family definition, required feature, census rule, anchor gate, plant
 protocol, or adjudication rule changes in this amendment.
 
+## Amendment A2 (2026-09-17, pre-execution)
+
+Running the P1 plants against the frozen #855 engine (before any corpus
+screening) exposed an engine-semantics fact the original section-3 rules
+missed: `semantic()` treats every list-valued required feature as a
+**membership test against a scalar field value** (`f.get(k) in v`), and #974's
+real basis signatures declare `types` as a type-signature STRING
+(`"scalar,scalar->scalar"`), not a tag list — the 11-field schema's `types`
+means arity/type signature. Corrections, committed before the first corpus
+execution:
+
+1. **`types` is the derived type-signature string** (standard semantics):
+   `variadic -> "sequence->scalar"`, arity 0 -> `"->scalar"`, arity n ->
+   n comma-joined `scalar`s + `"->scalar"`, undeclared -> `"undeclared"`.
+   No fingerprint requires `types`.
+2. **Mechanism tags move to an explicit extension field** `mechanism_tag`
+   (scalar primary tag) with the full tag list in `tags_full`. The #855
+   engine only rejects MISSING schema fields (`SIG - set(f)`), so extra
+   feature fields are engine-legal and auditable. Primary-tag rule is
+   deterministic: alphabetically-first family tag if any family tag is
+   present, else alphabetically-first tag, else `none`.
+3. **Family requirements use `mechanism_tag` membership lists** — e.g. F1
+   requires `{"locality": "global", "recurrence": false,
+   "mechanism_tag": ["weighted_aggregate"]}`. Family definitions
+   (section 2) are unchanged in mechanism content; only the field carrying
+   the type anchor changes.
+4. P4's tagless filter reads `tags_full`.
+
+No change to the #855 engine (imported unchanged), the census rule, anchors,
+plant protocol, or adjudication rule.
+

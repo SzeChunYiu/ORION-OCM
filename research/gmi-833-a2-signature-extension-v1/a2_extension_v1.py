@@ -34,13 +34,15 @@ EXISTING_FAMILIES = {
     'recurrent_state_macro': {'recurrence': True, 'state_access': 'read_write'},
 }
 NEW_FAMILIES = {
-    'dense_feedforward_aggregate': {'locality': 'global', 'recurrence': False, 'types': ['weighted_aggregate']},
-    'stochastic_belief_update': {'state_access': 'read_write', 'types': ['belief_update']},
-    'population_selection_crossover': {'stochasticity': True, 'types': ['population_selection']},
+    'dense_feedforward_aggregate': {'locality': 'global', 'recurrence': False, 'mechanism_tag': ['weighted_aggregate']},
+    'stochastic_belief_update': {'state_access': 'read_write', 'mechanism_tag': ['belief_update']},
+    'population_selection_crossover': {'stochasticity': True, 'mechanism_tag': ['population_selection']},
     'program_synthesis_search_macro': {'verifier_access': True, 'recurrence': True},
-    'self_modification_macro': {'addressability': True, 'state_access': 'read_write', 'types': ['self_rewrite']},
-    'external_content_retrieval': {'content_dependent_routing': True, 'types': ['retrieval']},
+    'self_modification_macro': {'addressability': True, 'state_access': 'read_write', 'mechanism_tag': ['self_rewrite']},
+    'external_content_retrieval': {'content_dependent_routing': True, 'mechanism_tag': ['retrieval']},
 }
+FAMILY_TAGS = ['weighted_aggregate', 'belief_update', 'population_selection',
+               'synthesis_search', 'self_rewrite', 'retrieval']
 ALL_FAMILIES = {**EXISTING_FAMILIES, **NEW_FAMILIES}
 
 D2_MAPPING = {
@@ -289,12 +291,32 @@ def derive_signature(name: str, body: str):
         resource_class = 'O(1)'
 
     types = derive_types(body, locality, parameter_sharing)
+    # types: type-signature string (standard semantics per #974 usage);
+    # mechanism_tag: scalar primary tag (engine membership semantics); the
+    # engine permits extra feature fields beyond the frozen 11 (it only
+    # rejects missing ones), so the extension field is engine-legal.
+    family_present = sorted(t for t in types if t in FAMILY_TAGS)
+    if family_present:
+        primary = family_present[0]
+    elif types:
+        primary = sorted(types)[0]
+    else:
+        primary = 'none'
+    if arity == 'variadic':
+        type_sig = 'sequence->scalar'
+    elif arity == 'undeclared':
+        type_sig = 'undeclared'
+    elif arity == 0:
+        type_sig = '->scalar'
+    else:
+        type_sig = ','.join(['scalar'] * arity) + '->scalar'
     return {
-        'arity': arity, 'types': types, 'state_access': state_access, 'locality': locality,
+        'arity': arity, 'types': type_sig, 'state_access': state_access, 'locality': locality,
         'addressability': addressability, 'content_dependent_routing': content_dependent_routing,
         'parameter_sharing': parameter_sharing, 'recurrence': recurrence,
         'stochasticity': stochasticity, 'verifier_access': verifier_access,
         'resource_class': resource_class,
+        'mechanism_tag': primary, 'tags_full': types,
     }
 
 
@@ -366,21 +388,26 @@ NEUTRAL_NAMES = {'forward_map': 'apply', 'update_beliefs': 'update2', 'evolve': 
                  'search_step': 'mix', 'self_improve': 'combine', 'fetch_context': 'fetch'}
 
 CLEAN_V2_BASIS = [
-    ('ADD', {'arity': 2, 'types': ['arithmetic'], 'state_access': 'none', 'locality': 'local',
+    ('ADD', {'arity': 2, 'types': 'scalar,scalar->scalar', 'state_access': 'none', 'locality': 'local',
              'addressability': False, 'content_dependent_routing': False, 'parameter_sharing': 'none',
-             'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)'}),
-    ('NEG', {'arity': 1, 'types': ['arithmetic'], 'state_access': 'none', 'locality': 'local',
+             'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)',
+             'mechanism_tag': 'arithmetic', 'tags_full': ['arithmetic']}),
+    ('NEG', {'arity': 1, 'types': 'scalar->scalar', 'state_access': 'none', 'locality': 'local',
              'addressability': False, 'content_dependent_routing': False, 'parameter_sharing': 'none',
-             'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)'}),
-    ('GE_c', {'arity': 2, 'types': ['comparison'], 'state_access': 'none', 'locality': 'local',
+             'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)',
+             'mechanism_tag': 'arithmetic', 'tags_full': ['arithmetic']}),
+    ('GE_c', {'arity': 2, 'types': 'scalar,scalar->bool', 'state_access': 'none', 'locality': 'local',
               'addressability': False, 'content_dependent_routing': False, 'parameter_sharing': 'none',
-              'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)'}),
-    ('INPUT_ATOM', {'arity': 1, 'types': ['state_io'], 'state_access': 'read', 'locality': 'local',
+              'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)',
+              'mechanism_tag': 'comparison', 'tags_full': ['comparison']}),
+    ('INPUT_ATOM', {'arity': 1, 'types': 'scalar->scalar', 'state_access': 'read', 'locality': 'local',
                     'addressability': False, 'content_dependent_routing': False, 'parameter_sharing': 'none',
-                    'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)'}),
-    ('STATE_CELL', {'arity': 2, 'types': ['state_io'], 'state_access': 'read_write', 'locality': 'local',
+                    'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)',
+                    'mechanism_tag': 'state_io', 'tags_full': ['state_io']}),
+    ('STATE_CELL', {'arity': 2, 'types': 'scalar,scalar->scalar', 'state_access': 'read_write', 'locality': 'local',
                     'addressability': False, 'content_dependent_routing': False, 'parameter_sharing': 'none',
-                    'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)'}),
+                    'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(1)',
+                    'mechanism_tag': 'state_io', 'tags_full': ['state_io']}),
 ]
 
 
@@ -443,10 +470,9 @@ def run_p4_p5_p6(core, package_blocks):
     p6 = {c[0]: any(x['primitive'] == c[0] for x in f) for c in controls}
     # P4 sampled no-alarm
     rng = random.Random(833215)
-    fam_tags = {'weighted_aggregate', 'belief_update', 'population_selection', 'synthesis_search',
-                'self_rewrite', 'retrieval'}
+    fam_tags = set(FAMILY_TAGS)
     tagless = [(pkg, n, b) for pkg, blocks in package_blocks for (n, b, k) in blocks
-               if not (set(derive_signature(n, b)['types']) & fam_tags)]
+               if not (set(derive_signature(n, b)['tags_full']) & fam_tags)]
     sample = tagless if len(tagless) <= 200 else rng.sample(tagless, 200)
     f4, _ = match_families(core, [(n, derive_signature(n, b)) for _, n, b in sample], ALL_FAMILIES)
     return {'P6_existing_family_regression': p6,

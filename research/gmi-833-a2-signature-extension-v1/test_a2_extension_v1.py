@@ -47,13 +47,13 @@ class DerivationTests(unittest.TestCase):
 
     def test_p6_existing_family_regression_controls_fire(self):
         controls = [
-            ('mix', {'arity': 2, 'types': ['weighted_aggregate'], 'state_access': 'none', 'locality': 'global',
+            ('mix', {'arity': 2, 'types': 'sequence->scalar', 'state_access': 'none', 'locality': 'global',
                      'addressability': False, 'content_dependent_routing': True, 'parameter_sharing': 'none',
                      'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(n^2)'}),
-            ('local_apply', {'arity': 2, 'types': ['arithmetic'], 'state_access': 'none', 'locality': 'neighborhood',
+            ('local_apply', {'arity': 2, 'types': 'grid,kernel->grid', 'state_access': 'none', 'locality': 'neighborhood',
                              'addressability': False, 'content_dependent_routing': False, 'parameter_sharing': True,
                              'recurrence': False, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(n)'}),
-            ('cell_step', {'arity': 2, 'types': ['state_io'], 'state_access': 'read_write', 'locality': 'local',
+            ('cell_step', {'arity': 2, 'types': 'scalar,scalar->scalar', 'state_access': 'read_write', 'locality': 'local',
                            'addressability': False, 'content_dependent_routing': False, 'parameter_sharing': True,
                            'recurrence': True, 'stochasticity': False, 'verifier_access': False, 'resource_class': 'O(n)'}),
         ]
@@ -76,6 +76,17 @@ class DerivationTests(unittest.TestCase):
         self.assertEqual(findings, [])
         self.assertEqual(sig['locality'], 'local')
         self.assertEqual(sig['state_access'], 'none')
+        self.assertEqual(sig['types'], 'scalar,scalar->scalar')
+        self.assertNotIn(sig['mechanism_tag'], x.FAMILY_TAGS)
+
+    def test_types_field_is_type_signature_string(self):
+        # engine membership semantics: list-valued requirements test field
+        # membership, so mechanism tags must NOT live in `types` (a string)
+        _, body = x.PLANT_BODIES['dense_feedforward_aggregate']
+        sig = x.derive_signature('forward_map', body)
+        self.assertIsInstance(sig['types'], str)
+        self.assertEqual(sig['mechanism_tag'], 'weighted_aggregate')
+        self.assertIn('weighted_aggregate', sig['tags_full'])
 
 
 if __name__ == '__main__':
