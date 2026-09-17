@@ -111,6 +111,37 @@ jobs:
           assert r['claim_ceiling'] == 'GMI_REAL_SYSTEM_TRANSITION_VALIDATION_PROTOCOL_MACHINE_CHECKABLE'
           assert m['claim_ceiling'] == r['claim_ceiling']
           assert m['scientific_row_earned'] == r['scientific_row_earned']
+          assert r['scientific_row_earned'] is True
+          assert r['protocol_evaluation']['qualifying_count'] >= 5
           for forbidden in r['forbidden_promotions']:
               assert forbidden in m['forbidden_promotions']
           PY
+      - name: Reconciliation spec check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-real-transition-receipts-v1/ISSUE_833_RECONCILIATION_RECEIPTS_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply earned #833 Section-J real-systems row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-real-transition-receipts-v1/ISSUE_833_RECONCILIATION_RECEIPTS_V1.json

@@ -16,6 +16,7 @@ import hashlib
 import importlib.util
 import json
 import math
+import sys
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -325,7 +326,17 @@ def finite_certificate(pkg_dir: Path | None = None) -> dict[str, Any]:
 
 
 def main() -> None:
-    print(json.dumps(finite_certificate(), sort_keys=True, separators=(",", ":")))
+    cert = finite_certificate()
+    out = json.dumps(cert, sort_keys=True, separators=(",", ":"))
+    if "--write" in sys.argv:
+        here = Path(__file__).resolve().parent
+        runs_dir = here / "REAL_RUNS"
+        artifacts = build_eval_artifacts(runs_dir)
+        licensed, _ = licensed_systems(runs_dir)
+        (here / "RECEIPTS_V1.json").write_text(
+            json.dumps(build_receipts(runs_dir, artifacts, licensed[:5]), sort_keys=True, indent=1))
+        (here / "RESULT_V1.json").write_text(out + "\n")
+    print(out)
 
 
 if __name__ == "__main__":
