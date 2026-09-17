@@ -122,22 +122,46 @@ def cap_expr(e):
 
 
 def rewire(e, rng):
-    """Cost-neutral assembly move: point a random node's ADD-child at
+    """Cost-neutral assembly move: point a random ADD node's child at
     another random subtree of the same expression (no new nodes)."""
     nodes = expr_nodes(e)
-    if len(nodes) < 3:
+    adds = [p for p in nodes if isinstance(expr_get(e, p), list)
+            and expr_get(e, p)[0] == "add"]
+    if not adds:
         return e
-    p = rng.choice(nodes)
+    p = rng.choice(adds)
     node = expr_get(e, p)
-    if node[0] != "add":
-        return e
     side = rng.choice((1, 2))
-    qs = expr_nodes(node[side])
-    q = rng.choice(qs)
-    sub = expr_get(node, q)
+    sub_nodes = expr_nodes(node[side])
+    q = rng.choice(sub_nodes)
+    sub = expr_get(node[side], q)
     new_node = list(node)
     new_node[side] = sub
     return expr_set(e, p, new_node)
+
+
+def expr_valid(e):
+    """Structural validity: every node is a well-formed expression list."""
+    if not isinstance(e, list) or not e:
+        return False
+    t = e[0]
+    if t == "atom":
+        return isinstance(e[1], str)
+    if t == "const":
+        return isinstance(e[1], int)
+    if t == "un":
+        return isinstance(e[1], str) and expr_valid(e[2])
+    if t == "add":
+        return expr_valid(e[1]) and expr_valid(e[2])
+    return False
+
+
+def genome_valid(g):
+    if g["model"] == "M_ITER":
+        exprs = g["update"]
+    else:
+        exprs = list(g["update"]) + [g["readout"]]
+    return all(expr_valid(e) for e in exprs)
 
 
 def copy_subtree(source, target, rng):
@@ -363,10 +387,12 @@ def evolve(taskset, seed, budget, cell_cap, genome="iter", n_in=0, steps=16,
                 pop.append(rand_genome_stream(rng, cell_cap))
     evaled = {}
 
+    worst = (10 ** 9, 10 ** 9)
+
     def fit(g):
         key = repr(g)
         if key not in evaled:
-            evaled[key] = taskset.evaluate(g)
+            evaled[key] = taskset.evaluate(g) if genome_valid(g) else worst
         return evaled[key]
 
     scored = [(fit(g), g) for g in pop]
