@@ -10,7 +10,7 @@ screen_set = sorted(set(first_pass) | set(unaud))
 package_blocks = {pkg: x.extract_blocks_all(pkg) for pkg in screen_set}
 rng = random.Random(833215)
 fam_tags = set(x.FAMILY_TAGS)
-tagless = [(pkg, n, b) for pkg, blocks in package_blocks for (n, b, k) in blocks
+tagless = [(pkg, n, b) for pkg, blocks in package_blocks.items() for (n, b, k) in blocks
            if not (set(x.derive_signature(n, b)['tags_full']) & fam_tags)]
 sample = tagless if len(tagless) <= 200 else rng.sample(tagless, 200)
 f4, _ = x.match_families(core, [(n, x.derive_signature(n, b)) for _, n, b in sample], x.ALL_FAMILIES)
