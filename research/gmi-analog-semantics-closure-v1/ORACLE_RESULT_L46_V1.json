@@ -1,0 +1,139 @@
+{
+ "agreement": {
+  "exact_agreement_everywhere": true,
+  "rows": [
+   {
+    "agree": true,
+    "claim_id": "sampled_cases_162",
+    "route1_value": 162,
+    "route2_value": 162
+   },
+   {
+    "agree": true,
+    "claim_id": "d1d6_mismatches_0",
+    "route1_value": 0,
+    "route2_value": 0
+   },
+   {
+    "agree": true,
+    "claim_id": "invalid_intervals_0",
+    "route1_value": 0,
+    "route2_value": 0
+   },
+   {
+    "agree": true,
+    "claim_id": "d1d6_agreement_beyond_grid (route-2 extension)",
+    "route1_value": "not claimed (162 cases only)",
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "as1_euler_burden_T1_L1_C1_eps0.01",
+    "route1_value": 172,
+    "route2_value": 172
+   },
+   {
+    "agree": true,
+    "claim_id": "ledger_rows_2_green",
+    "route1_value": 2,
+    "route2_value": 2
+   },
+   {
+    "agree": true,
+    "claim_id": "schema_required_8",
+    "route1_value": 8,
+    "route2_value": 8
+   },
+   {
+    "agree": true,
+    "claim_id": "accounting_coordinates_cover_required_12",
+    "route1_value": true,
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "accounting_coordinates_count (reporting)",
+    "route1_value": 23,
+    "route2_value": 23
+   }
+  ],
+  "tolerances_declared": []
+ },
+ "counts": {
+  "agreement_rows": 9
+ },
+ "environment": {
+  "execution_host_record": "billy-laptop per VERDICT_REGISTER_APPEND_REV_L46_V1.json custody_chain; this receipt is host-independent by design so any clean checkout reproduces it byte-identically",
+  "flags": "-I -B"
+ },
+ "freeze": "FREEZE_L46_TWO_ROUTE_V1.md item 3",
+ "independence_audit": {
+  "imported_modules": [
+   "__future__",
+   "fractions",
+   "itertools",
+   "json",
+   "pathlib",
+   "sys"
+  ],
+  "no_package_imports": true,
+  "stdlib_only": true,
+  "violations": []
+ },
+ "negative_control": {
+  "description": "corrupted committed case count (163) must disagree \u2014 proves the comparison is not vacuous",
+  "passed": true
+ },
+ "package": "gmi-analog-semantics-closure-v1",
+ "route1": {
+  "algorithm_class": [
+   "162-case itertools.product enumeration comparing two interval encoders",
+   "float expm1/ceil Euler step bound",
+   "loop-accumulated case counting"
+  ],
+  "committed_receipt": "validate_closure quantities + committed ledger/schema/accounting JSONs",
+  "executor": "analog_semantics_closure_v1.py"
+ },
+ "route2": {
+  "algorithm_class": [
+   "multi-affine vertex-grid identity with monomial extraction; non-vertex extension by exact second differences",
+   "algebraic interval validity (2*delta >= 0), no enumeration",
+   "3^4*2 exponent arithmetic for the case count",
+   "exact rational truncated exponential series with explicit tail bound; ceiling decided by rational sandwiching (no floats)",
+   "set-algebra structural checks"
+  ],
+  "author_lineage": "derived from ANALOG_SEMANTICS_THEOREM_V1.md and the committed JSONs; route-1 source read only to classify its algorithm class",
+  "difference_table": {
+   "completeness_argument": {
+    "mechanism": "theorems over the family vs enumeration",
+    "route1": "all 162 registered cases checked",
+    "route2": "multi-affine identity + axis-affinity at probes (covers non-registered points too)"
+   },
+   "exploration_order": {
+    "mechanism": "route 2 proves more with less traversal",
+    "route1": "full cartesian product sweep",
+    "route2": "vertex grid then analytic extension beyond it"
+   },
+   "numerics": {
+    "mechanism": "different number representation",
+    "route1": "float expm1 and ceil",
+    "route2": "exact Fraction series with sandwiched ceilings"
+   },
+   "representation": {
+    "mechanism": "identity proofs vs instance comparisons",
+    "route1": "case tuples with interval pairs",
+    "route2": "algebraic identities over Fraction fields"
+   }
+  },
+  "executor": "independent_oracle_v1.py"
+ },
+ "schema": "GMI_833_REV_L46_ORACLE_RESULT_V1",
+ "source_sha256": {
+  "claim_spec_ANALOG_SEMANTICS_THEOREM_V1.md": "69bc6a200e43ce58abf73878dd925f5dfdab938850be126da189e6626cc4e1ab",
+  "crosscheck_l46_crosscheck_v1.py": "dfaa0d2f307d71ae3546a6ed881fd7d686e21d81f30fa374537ac4923085e8bc",
+  "route1_executor_analog_semantics_closure_v1.py": "3c8b9035bda13c78bed2cc2f61cf3cabd6eedadc049430f065170f0a6d295f0c",
+  "route2_independent_oracle_v1.py": "b02927ed80a5c0e9ce9d4043c0053f6be5c5a43f7b00448fb8467211b97cdb99"
+ },
+ "ticket": "REV-L46-TWO-ROUTE-PROGRAMME",
+ "verdict": "TWO_ROUTE_CONVERTED"
+}
