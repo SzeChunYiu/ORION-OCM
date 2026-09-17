@@ -1,4 +1,4 @@
-# SUPPLEMENT 2 — REV-L47-CUSTODY-GAPS closed green
+# SUPPLEMENT 4 — REV-L47-CUSTODY-GAPS closed green
 
 Per the post-freeze edit rule of BASELINE_MANIFEST_V1.json governance: this
 supplement records a revival-ticket closure. BASELINE_MANIFEST_V1.json, V2
@@ -58,7 +58,7 @@ chain re-executed in full - see REV_FREEZE_V1.md re-execution note.) Original la
   reruns/{billy-old,billy-laptop}/ receipts).
 - `research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_L47_REV_ADDENDUM_V1.json`
   (append-only addendum to the frozen verdict register).
-- `research/gmi-833-theory-baseline-v1/SUPPLEMENT_2_REV_L47_CUSTODY_GAPS.md`
+- `research/gmi-833-theory-baseline-v1/SUPPLEMENT_4_REV_L47_CUSTODY_GAPS.md`
   (this file).
 
 ## Register effect

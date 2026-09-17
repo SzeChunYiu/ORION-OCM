@@ -25,5 +25,5 @@ terminals.
   (AJ9A-AUDIT-WALKER-LIST-EVASION, aj-lane owned).
 
 Registers: corpus-passes `VERDICT_REGISTER_L47_REV_ADDENDUM_V1.json`
-(append-only); baseline `SUPPLEMENT_1_REV_L47_CUSTODY_GAPS.md`. Nothing on
+(append-only); baseline `SUPPLEMENT_4_REV_L47_CUSTODY_GAPS.md` + BASELINE_MANIFEST_V3 binding. Nothing on
 the frozen V1 registers was edited; no frozen corpus content was touched.

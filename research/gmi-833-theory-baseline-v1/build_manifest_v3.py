@@ -22,7 +22,7 @@ REPO = Path(__file__).resolve().parents[2]
 PKG = "research/gmi-833-theory-baseline-v1"
 
 V1_MANIFEST_ANCHOR = "31de4041c0b6cb94152debbc4901041fb46626b9866122010a11df5319a62e97"
-V2_MANIFEST_ANCHOR = "b1941d8fd3b8b92e3521721854d5587e080af8f1dfd7aa39911ce28a92fd890a"
+V2_MANIFEST_ANCHOR = "5d7bfcdd313622cf8bc0c53effa33783bac9d4a9d84ef9d7174615a3549ee264"
 
 CLOSURE_COMPONENT = {
     "id": "revival-l47-custody-gaps-closure",
@@ -46,7 +46,7 @@ CLOSURE_COMPONENT = {
 }
 
 SELF_BINDING_FILES = [
-    ("research/gmi-833-theory-baseline-v1/SUPPLEMENT_2_REV_L47_CUSTODY_GAPS.md",
+    ("research/gmi-833-theory-baseline-v1/SUPPLEMENT_4_REV_L47_CUSTODY_GAPS.md",
      "FREEZE_PACKAGE_SUPPLEMENT"),
     ("research/gmi-833-theory-baseline-v1/build_manifest_v3.py",
      "FREEZE_PACKAGE_SELF"),
@@ -83,7 +83,7 @@ def main():
 
     manifest = {
         "schema": "GMI_833_THEORY_BASELINE_MANIFEST_V3_SUPPLEMENT",
-        "basis": "GMI_THEORY_BASELINE_V1 post-freeze supplement #2 (post_freeze_edit_rule)",
+        "basis": "GMI_THEORY_BASELINE_V1 post-freeze supplement #4 (post_freeze_edit_rule; numbering per #992 renumber)",
         "v1_manifest_sha256_anchored": v1_sha,
         "v2_manifest_sha256_anchored": v2_sha,
         "supplement_of": (
@@ -113,7 +113,7 @@ def main():
                         "freeze-commit ancestry of its run commit, incl. the "
                         "section-d two-stage replica with stage-2 freeze "
                         "92197fc42 before any n=17/31 execution and an "
-                        "in-repo-verified custody chain; see SUPPLEMENT_2 and "
+                        "in-repo-verified custody chain; see SUPPLEMENT_4 and "
                         "VERDICT_REGISTER_L47_REV_ADDENDUM_V1.json)"
                     ),
                     "permanent_record": (
