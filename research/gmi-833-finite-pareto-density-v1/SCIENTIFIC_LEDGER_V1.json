@@ -1,0 +1,51 @@
+{
+  "schema": "GMI_833_FINITE_PARETO_DENSITY_SCIENTIFIC_LEDGER_V1",
+  "issue": 994,
+  "parent_issue": 833,
+  "claims": [
+    {
+      "id": "PARETO-1",
+      "statement": "Every nonempty finite set under the registered coordinatewise strict dominance relation has a nonempty unique maximal subset and an exact reduced rational frontier density.",
+      "scope": "Finite duplicate-free semantic/resource morphology sets with three maximized integer behavior coordinates and two minimized positive-integer resource coordinates.",
+      "assumptions": ["The candidate set is finite and nonempty", "All five coordinates are total and exact", "No scalarization or implicit tie-break is introduced"],
+      "dependencies": ["Merged PR #966 finite candidate space", "Elementary finite strict-order maximality"],
+      "falsifiers": ["Empty frontier on a nonempty set", "Dominance inside the frontier", "Nonfront point without a maximal dominator", "Primary and independent frontier routes disagree"],
+      "strongest_parent": "#966 supplied the exact finite morphology ingredients but did not define or measure Pareto-front density.",
+      "counterexample_methods": ["Exhaustive irreflexivity and transitivity replay", "All-pairs independent oriented-vector oracle", "Antichain and maximal-cover checks"],
+      "limits": ["No infinite-space density", "No objective-neutrality claim", "No unique scalar winner"]
+    },
+    {
+      "id": "QUOTIENT-DENSITY-1",
+      "statement": "Pareto density on the semantic/resource morphology quotient is invariant to presentation multiplicities, whereas presentation-weighted frontier density can change under duplicate injection.",
+      "scope": "Exact equality of the complete registered observation table and raw resource vector; finite presentation multisets.",
+      "assumptions": ["Morphology identity excludes syntax and presentation multiplicity", "Objectives factor through morphology", "The quotient set itself is unchanged"],
+      "dependencies": ["#966 QUOT-1/DESC-1", "PARETO-1"],
+      "falsifiers": ["Duplicate injection changes quotient density", "Front and dominated duplicates change the presentation estimator identically", "Morphology objectives depend on source spelling"],
+      "strongest_parent": "#966 proved a semantic quotient but did not establish which density estimator survives duplicate presentations.",
+      "counterexample_methods": ["Two-point strict-dominance hostile", "Frontier duplicate changes 1/2 to 2/3", "Dominated duplicate changes 1/2 to 1/3"],
+      "limits": ["Only multiplicity changes leaving the quotient fixed", "No invariance under changed semantics or resources", "No sampling estimator claim"]
+    },
+    {
+      "id": "REMINT-PARETO-1",
+      "statement": "Certified operation-token remints preserve every registered morphology point and therefore preserve its Pareto frontier and density.",
+      "scope": "All 5! certified surface-token bijections on every presentation in the complete cumulative (2,2) space.",
+      "assumptions": ["The remint is bijective", "The matching inverse decoder is used", "Protected observations and raw resources are unchanged"],
+      "dependencies": ["#966 DESC-1 remint factorization", "QUOTIENT-DENSITY-1"],
+      "falsifiers": ["Any decoded remint changes a morphology point", "A certified remint changes a behavior or resource coordinate", "Frontier factorization fails"],
+      "strongest_parent": "#966 established descriptor remint invariance; this claim propagates that invariance through the newly registered frontier functional.",
+      "counterexample_methods": ["All 120 remints over 576 presentations", "Exact morphology-point equality", "Density factorization through the quotient"],
+      "limits": ["Certified surface remints only", "No arbitrary grammar-redesign invariance", "No architecture-family inference"]
+    }
+  ],
+  "open_gaps": [
+    {"id": "F-LARGE-SAMPLING", "status": "OPEN", "reason": "No scalable large-budget sampler is implemented."},
+    {"id": "F-MILLION", "status": "OPEN", "reason": "No 10^6-candidate generation is executed."},
+    {"id": "F-HUNDRED-MILLION", "status": "OPEN", "reason": "No 10^8 generation or equivalent coverage proof is supplied."},
+    {"id": "F-REACHABILITY", "status": "OPEN", "reason": "Reachable fractions under each development/search law remain unmeasured."},
+    {"id": "F-CLUSTERING", "status": "OPEN", "reason": "No clustering is performed."},
+    {"id": "F-FAMILY-MAPPING", "status": "OPEN", "reason": "No post-hoc cluster-to-family mapping is performed."},
+    {"id": "F-UNKNOWN-CLASS", "status": "OPEN", "reason": "No UNKNOWN cluster class is exercised without a clustering study."},
+    {"id": "F-CLUSTER-STABILITY", "status": "OPEN", "reason": "No cluster partition exists to validate."},
+    {"id": "F-UNBOUNDED", "status": "OPEN", "reason": "All results are bounded to the registered finite microscope."}
+  ]
+}
