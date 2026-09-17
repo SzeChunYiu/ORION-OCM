@@ -1,0 +1,103 @@
+{
+  "schema": "GMI833MillionCandidateExecutionScientificLedgerV1",
+  "issue": 1006,
+  "parent_issue": 833,
+  "source_pr": 1007,
+  "freeze_commit": "52ae69d44aed49a649bfaabbb5cb0915e2be1275",
+  "claim_ceiling": "GMI_833_ONE_MILLION_DISTINCT_G0_CANDIDATES_GENERATED_AT_REGISTERED_FINITE_SCOPE",
+  "claims": [
+    {
+      "id": "MILLION-1",
+      "statement": "Exactly 1,000,000 distinct validated G0-fin-v1 candidate structures were explicitly generated and exactly rank-round-tripped under the frozen finite execution.",
+      "scope": "G0-fin-v1, StructuralBudget(8,4), exact #1003 global-SRSWOR rank transcript, registered replay seed",
+      "assumptions": [
+        "the pinned finite grammar and #1003 codec define the target population",
+        "rank uniqueness plus exact rank/unrank bijection implies canonical-structure uniqueness"
+      ],
+      "dependencies": [
+        "PR #966 finite G0 candidate space",
+        "PR #1003 exact scalable sampling design at head 05d13723b519d9de94f15b142cca0827d3725d6f"
+      ],
+      "falsifiers": [
+        "any generated count other than 1,000,000",
+        "a duplicate rank",
+        "any validation or exact rank-round-trip failure",
+        "independent replay disagreement"
+      ],
+      "strongest_parent": "PR #1003 implements but explicitly does not execute million-scale generation",
+      "counterexample_methods": [
+        "tamper rank, candidate, semantic, chunk-chain, checkpoint, or result fields",
+        "independently reconstruct all ranks and candidates without the executor"
+      ],
+      "limits": [
+        "finite registered grammar and budget only",
+        "not exhaustive and not 10^8-scale",
+        "architecture-neutral only relative to the disclosed G0 mechanism vocabulary"
+      ]
+    },
+    {
+      "id": "CUSTODY-1",
+      "statement": "The complete million-candidate execution is deterministically replayable and independently checked through 100 immutable chained chunk receipts.",
+      "scope": "the frozen #1006 transcript and receipt schemas",
+      "assumptions": [
+        "SHA-256 is used for custody/integrity, not mathematical uniqueness",
+        "the fixed counter stream is a replay device rather than physical randomness"
+      ],
+      "dependencies": [
+        "FROZEN_PROTOCOL_V1.json",
+        "independent_checker_v1.py"
+      ],
+      "falsifiers": [
+        "any rank/candidate/semantic digest mismatch",
+        "a broken prior-chain link",
+        "checkpoint or result aggregate disagreement"
+      ],
+      "strongest_parent": "PR #1003 provides a 4,096-candidate replay but no million-scale receipt",
+      "counterexample_methods": [
+        "field-level hostile mutations",
+        "independent full replay and deterministic spot digest"
+      ],
+      "limits": [
+        "custody does not establish unbiased physical randomness",
+        "hashes are evidence of byte identity, not semantic completeness"
+      ]
+    },
+    {
+      "id": "SEM-OBS-1",
+      "statement": "The registered million-candidate sample contains 600 protected semantic keys and inverse-Simpson effective semantic count 500000000000/158164266209 at the frozen interface.",
+      "scope": "sample only; inputs (), (0,), (1,); step cap 6",
+      "assumptions": [
+        "protected observation equality is interface-relative",
+        "inverse-Simpson is a sample diversity statistic"
+      ],
+      "dependencies": [
+        "PR #966 protected semantics",
+        "MILLION-1 generated sample"
+      ],
+      "falsifiers": [
+        "independent semantic histogram disagreement",
+        "a discovery-checkpoint mismatch",
+        "exact-rational recomputation mismatch"
+      ],
+      "strongest_parent": "PR #984 measures exact collapse only on much smaller finite censuses",
+      "counterexample_methods": [
+        "independent interpreter over every generated program",
+        "semantic receipt mutation hostiles"
+      ],
+      "limits": [
+        "not exact semantic-universe coverage",
+        "not a capability or known-family result",
+        "not transferable outside the registered interface without a new protocol"
+      ]
+    }
+  ],
+  "not_claimed": [
+    "10^8 candidate generation or equivalent effective coverage",
+    "unbounded, exhaustive, or semantic-universe coverage",
+    "unique or unbiased grammar",
+    "absolute architecture freedom",
+    "physical randomness",
+    "QD or open-ended search under #221",
+    "known-family recovery, capability, real-scale validation, or complete GMI"
+  ]
+}
