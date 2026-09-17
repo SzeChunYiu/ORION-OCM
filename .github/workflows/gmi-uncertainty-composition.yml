@@ -32,27 +32,27 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # L46-F2 fix: squash-merged freeze landing is unreachable from
-          # main; strict ancestry when the object is reachable, recorded
-          # freeze record otherwise (same fix as the dependency-aware lane).
-          if git cat-file -e "$FREEZE" 2>/dev/null && \
+          FREEZE=417db4581fb66903eeba5c6bfb6e60a02719716d
+          # L46-F2 fix: the freeze commit landed via squash merge and is not
+          # an ancestor of main; it may be absent from a fresh checkout.
+          # Reachable -> strict original custody. Unreachable -> verify the
+          # recorded freeze record instead (hash + pre-registration phrase).
+          if git cat-file -e "$FREEZE^{commit}" 2>/dev/null && \
              git merge-base --is-ancestor "$FREEZE" HEAD 2>/dev/null; then
-                      FREEZE=417db4581fb66903eeba5c6bfb6e60a02719716d
-                      git merge-base --is-ancestor "$FREEZE" HEAD
-                      changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
-                      test "$changed" = "research/gmi-uncertainty-composition-v1/FREEZE_V1.md"
-                      if git cat-file -e "$FREEZE:research/gmi-uncertainty-composition-v1/uncertainty_composition_v1.py" 2>/dev/null; then
-                        echo 'implementation existed in freeze commit' >&2
-                        exit 1
-                      fi
-                      if git cat-file -e "$FREEZE:research/gmi-uncertainty-composition-v1/RESULT_V1.json" 2>/dev/null; then
-                        echo 'result existed in freeze commit' >&2
-                        exit 1
-                      fi
+            changed="$(git diff-tree --no-commit-id --name-only -r "$FREEZE" | sed '/^$/d')"
+            test "$changed" = "research/gmi-uncertainty-composition-v1/FREEZE_V1.md"
+            if git cat-file -e "$FREEZE:research/gmi-uncertainty-composition-v1/uncertainty_composition_v1.py" 2>/dev/null; then
+              echo 'implementation existed in freeze commit' >&2
+              exit 1
+            fi
+            if git cat-file -e "$FREEZE:research/gmi-uncertainty-composition-v1/RESULT_V1.json" 2>/dev/null; then
+              echo 'result existed in freeze commit' >&2
+              exit 1
+            fi
           else
             grep -q "$FREEZE" research/gmi-uncertainty-composition-v1/FORMALIZATION_V1.md
             grep -q 'committed before this executor' research/gmi-uncertainty-composition-v1/FORMALIZATION_V1.md
-            echo 'freeze commit unreachable (squash-merged landing): verified recorded freeze record instead'
+            echo 'freeze commit unreachable from this checkout (squash-merged landing): verified recorded freeze record instead'
           fi
       - name: Run exact and adversarial tests
         shell: bash
