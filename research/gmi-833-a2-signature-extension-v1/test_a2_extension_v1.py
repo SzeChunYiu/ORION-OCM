@@ -10,7 +10,8 @@ class FamilyDefinitionTests(unittest.TestCase):
         self.assertEqual(len(x.ALL_FAMILIES), 9)
 
     def test_every_d2_class_mapped_to_a_family(self):
-        self.assertEqual(len(x.D2_MAPPING), 30)
+        # D2 denylist: 5 D1-core entries + 26 benchmark-family entries
+        self.assertEqual(len(x.D2_MAPPING), 31)
         for cls, fam in x.D2_MAPPING.items():
             self.assertIn(fam, x.ALL_FAMILIES)
 

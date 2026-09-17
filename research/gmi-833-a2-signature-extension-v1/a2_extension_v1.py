@@ -266,8 +266,9 @@ def derive_signature(name: str, body: str):
         sites = len({m.start() for m in re.finditer(r'\b(?:weight|weights|kernel|theta|params|table)\b|\bW\[|\bw\[', body)})
         parameter_sharing = bool(in_loop or sites >= 2)
 
-    # recurrence
-    recurrence = bool(re.search(r'\b' + re.escape(name) + r'\s*\(', body)) or \
+    # recurrence (self-call must not match the block's own def header)
+    body_wo_defs = re.sub(r'\bdef\s+\w+|\bclass\s+\w+', '', body)
+    recurrence = bool(re.search(r'\b' + re.escape(name) + r'\s*\(', body_wo_defs)) or \
         bool(re.search(r'\bwhile\s+\w', body) and writes) or \
         bool(RANGE_LOOP_RE.search(body) and writes)
 
@@ -550,7 +551,7 @@ def main():
                       'usage_precedent': '#974 gmi-833-blind-recovery-v2-v1 screen_v2.py',
                       'freeze': 'FREEZE_V1.md + Amendment A1 (pre-execution)'},
         'families': {k: v for k, v in ALL_FAMILIES.items()},
-        'd2_mapping_complete': len(D2_MAPPING) == 30,
+        'd2_mapping_complete': len(D2_MAPPING) == 31,
         'census': {'counts': counts, 'anchors': anchors, 'anchor_gate': 'PASS',
                    'unaudited_packages': unaud},
         'validation': {**val, **p456},
