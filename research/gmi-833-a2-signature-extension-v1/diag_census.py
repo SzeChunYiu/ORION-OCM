@@ -38,6 +38,7 @@ VARIANTS = {
     "grammar_assign": re.compile(r"\bGRAMMAR\w*\s*[=:]|\bDSL\w*\s*[=:]", re.I),
 }
 A2_RE = re.compile(r"state_access|content_dependent_routing|verifier_access|strategy_signature|Sigma\(", re.I)
+A2_SIGONLY = re.compile(r"strategy_signature|Sigma\(", re.I)
 
 stats = {}
 for pkg in sorted(pkgs):
@@ -50,6 +51,7 @@ for pkg in sorted(pkgs):
     row["n_vocab_files"] = len(vfs)
     files_by = {k: [t for t in vfs if VARIANTS[k].search(t)] for k in VARIANTS}
     row["a2_by"] = {k: any(A2_RE.search(t) for t in ts) for k, ts in files_by.items()}
+    row["a2sig_by"] = {k: any(A2_SIGONLY.search(t) for t in ts) for k, ts in files_by.items()}
     stats[pkg] = row
 
 with open("diag_census_out.json", "w") as fh:
@@ -75,8 +77,9 @@ combos = [
 for c in combos:
     prim = [p for p, r in stats.items() if r.get("n_vocab_files", 0) > 0 and any(r.get(k) for k in c)]
     cov = [p for p in prim if any(stats[p]["a2_by"].get(k) for k in c if stats[p].get(k))]
+    cov2 = [p for p in prim if any(stats[p]["a2sig_by"].get(k) for k in c if stats[p].get(k))]
     unaud = [p for p in prim if p not in cov]
-    mark = " <== MATCHES 109/108/1" if (len(prim), len(unaud), len(cov)) == (109, 108, 1) else ""
-    print(f"{'+'.join(c)}: prim={len(prim)} unaud={len(unaud)} cov={len(cov)}{mark}")
+    mark = " <== MATCHES 109/108/1" if (len(prim), len(prim) - len(cov2), len(cov2)) == (109, 108, 1) else ""
+    print(f"{'+'.join(c)}: prim={len(prim)} unaud={len(unaud)} cov={len(cov)} covsig={len(cov2)} unaudsig={len(prim)-len(cov2)}{mark}")
 print("robustness row:", stats.get("gmi-833-robustness-controls-v1"))
 print("aj9b row:", {k: v for k, v in stats.get("gmi-833-aj9b-k01-blind-recovery-v1", {}).items() if k != "n_vocab_files"})
