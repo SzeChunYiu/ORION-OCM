@@ -1,11 +1,13 @@
 # SUPPLEMENT 2 — REV-L47-CUSTODY-GAPS closed green
 
 Per the post-freeze edit rule of BASELINE_MANIFEST_V1.json governance: this
-supplement records a revival-ticket closure. BASELINE_MANIFEST_V1.json and
-every file it binds stay byte-identical; no binding change is made (no
-BASELINE_MANIFEST_V2 is cut — no bound artifact was added, removed or
-re-bound by this tranche; the new artifacts below are arrivals in the
-owning lane, typed per the arrival absorption rule).
+supplement records a revival-ticket closure. BASELINE_MANIFEST_V1.json, V2
+and every file they bind stay byte-identical. This tranche adds ONE new
+tracked file inside a frozen component (the corpus-passes closure record),
+so the binding changes and BASELINE_MANIFEST_V3.json is cut per the rule
+(deterministic builder build_manifest_v3.py, anchors V1+V2, workflow
+loud-change literal updated in the same commit); the revival package below
+is a new-lane arrival typed per the arrival absorption rule.
 
 ## Ticket
 
@@ -66,16 +68,16 @@ REV-L47-CUSTODY-GAPS; this supplement is the living record of its closure
 (the V1 JSON is byte-frozen and is not edited). The corpus-passes verdict
 register records the same closure via its L47 addendum.
 
-## Pre-existing validator red (NOT this tranche; routed)
+## Pre-existing validator red — RESOLVED upstream before this PR merged
 
-`test_theory_baseline_v1.py` is red on origin/main (67133f0fa, PR #981)
-independently of this tranche: PR #981 modified the baseline-bound
-artifact `research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_
-GRAMMAR_GROWTH_V1.json` (2881 -> 3265 bytes) after the manifest was pinned
-at c4def870, with no manifest re-cut. Evidence: sole drift among all 136
-bound artifacts; the only post-pin commit touching that file is 67133f0fa;
-validator output identical with and without this tranche's files (this
-tranche adds only NEW files; 0 bound files touched). Repair belongs to the
-baseline/g0-grammar-growth lane: restore the frozen bytes and move the
-#981 additions to an append artifact, or cut BASELINE_MANIFEST_V2.json
-with an explicit amendment recording the supersession.
+At tranche start `test_theory_baseline_v1.py` was red on main (67133f0fa,
+PR #981): PR #981 had modified the baseline-bound artifact
+`research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_
+GROWTH_V1.json` (2881 -> 3265 bytes) after the manifest pin, with no
+re-cut (sole drift among all 136 bound artifacts; diagnosed and routed by
+this tranche before the fix landed). The w4 lane's V2 supplement (#988)
+subsequently restored the V1 bytes exactly and bound the reconciled
+content byte-for-byte in the successor file ISSUE_833_RECONCILIATION_
+GRAMMAR_GROWTH_V2.json, fixing the red before this PR merged. With this
+tranche the validator is green: 6/6, all manifests V1-V3 anchored and
+byte-stable.
