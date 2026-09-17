@@ -1,0 +1,177 @@
+name: GMI 833 real transition receipts v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-real-transition-receipts-v1/**'
+      - '.github/workflows/gmi-833-real-transition-receipts-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-real-transition-receipts-v1/**'
+      - '.github/workflows/gmi-833-real-transition-receipts-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody (V1 freeze + V2 amendment + V3 addendum, squash-safe)
+        run: |
+          set -euo pipefail
+          freeze=cd6196aa5fd0edcdbcfb535ff2aecf7cd0870754
+          amendment=c3fbf5b119e6f5c8ca6b63db1793729f933bac6c
+          addendum=c03eb646e08e94ddcb5a8142465c697cc893832c
+          published=69be678dbc96259dd35e30e2953edbbb571151f8
+          # squash merge + branch deletion removes pre-merge ancestry from main.
+          # GitHub permanently retains the PR head ref (refs/pull/979/head),
+          # whose complete history contains every pinned custody commit with
+          # full trees; fetch it when the pins are not resolvable locally.
+          P1=research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md
+          P2=research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md
+          P3=research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md
+          # NOTE: blob reads are unreliable on partial-clone runner object
+          # stores (cat-file -e / git show misreport missing blobs as absent
+          # paths); every custody check below is TREE-LEVEL via ls-tree, whose
+          # blob-sha output pins content cryptographically without blob reads.
+          if ! git ls-tree "$freeze" -- "$P1" | grep -q . \
+            || ! git ls-tree "$amendment" -- "$P2" | grep -q . \
+            || ! git ls-tree "$addendum" -- "$P3" | grep -q .; then
+            git fetch --quiet origin "+refs/pull/979/head:refs/remotes/origin/pr-979"
+          fi
+          blob_of() { git ls-tree "$1" -- "$2" | awk '{print $3}'; }
+          V1=$(blob_of "$freeze" "$P1")
+          V2=$(blob_of "$amendment" "$P2")
+          V3=$(blob_of "$addendum" "$P3")
+          test "$V1" = 43497544080d3dc63492a22cd035ba795fbec7c9
+          test "$V2" = d263526d5717c545484f5a0b6d0686bb372622cf
+          test "$V3" = 50e13ea8cd12446a387f150f0268e38330a75cb8
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$amendment^{commit}"
+          git cat-file -e "$addendum^{commit}"
+          for p in \
+            research/gmi-833-real-transition-receipts-v1/REAL_RUNS \
+            research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json \
+            research/gmi-833-real-transition-receipts-v1/RESULT_V1.json ; do
+            # tree-level absence check: reliable on partial clones where blob
+            # lookups can false-negative
+            if [ -n "$(git ls-tree "$amendment" -- "$p")" ] || [ -n "$(git ls-tree "$addendum" -- "$p")" ]; then
+              echo "post-freeze outcome artifact existed at freeze/amendment/addendum: $p" >&2
+              exit 1
+            fi
+            for d in R07-frankenstein R08-dict-words R09-kernel-headers R10-stdlib-ast R11-programme-md R12-rearleft-wav; do
+              if [ -n "$(git ls-tree "$addendum" -- "research/gmi-833-real-transition-receipts-v1/REAL_RUNS/$d/runs.json")" ]; then
+                echo "V3 outcome existed at addendum: $d" >&2
+                exit 1
+              fi
+            done
+          done
+          # published-bytes binding: after squash publication the frozen custody
+          # files on main must remain byte-identical to their pinned commits
+          # (blob-sha equality at tree level; HEAD's tree is fully present)
+          git cat-file -e "$published^{commit}"
+          test "$(git rev-parse "HEAD:$P1")" = "$V1"
+          test "$(git rev-parse "HEAD:$P2")" = "$V2"
+          test "$(git rev-parse "HEAD:$P3")" = "$V3"
+      - name: Receipts tests and deterministic result
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-real-transition-receipts-v1/test_real_transition_receipts_v1.py -v
+            python -I -O -B research/gmi-833-real-transition-receipts-v1/real_transition_receipts_v1.py > /tmp/result.json
+          else
+            python -I -B research/gmi-833-real-transition-receipts-v1/test_real_transition_receipts_v1.py -v
+            python -I -B research/gmi-833-real-transition-receipts-v1/real_transition_receipts_v1.py > /tmp/result.json
+          fi
+          cmp /tmp/result.json research/gmi-833-real-transition-receipts-v1/RESULT_V1.json
+      - name: Receipt integrity and honest terminal
+        run: |
+          python -I -B - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          root = Path('research/gmi-833-real-transition-receipts-v1')
+          r = json.loads((root/'RESULT_V1.json').read_text())
+          receipts = json.loads((root/'RECEIPTS_V1.json').read_text())
+          assert r['verdict'] == 'GREEN' and all(r['checks'].values())
+          term = r['protocol_evaluation']['terminal']
+          n = r['protocol_evaluation']['qualifying_count']
+          if term == 'REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE':
+              assert n >= 5 and r['scientific_row_earned'] is True
+          else:
+              assert term == 'INSUFFICIENT_REAL_SYSTEM_EVIDENCE'
+              assert r['scientific_row_earned'] is False
+          # artifact hashes in receipts must bind the committed eval artifacts
+          for sysdir in sorted((root/'REAL_RUNS').iterdir()):
+              runs = json.loads((sysdir/'runs.json').read_text())
+              for rec in receipts:
+                  if rec['system_id'] != runs['system_id']:
+                      continue
+                  for setting, key in (('low','artifact_hash_before'), ('high','artifact_hash_after')):
+                      blob = (sysdir/('eval_%s.json' % setting)).read_bytes()
+                      assert hashlib.sha256(blob).hexdigest() == rec[key], (rec['system_id'], setting)
+          # every receipt claims real evidence with frozen predictions
+          for rec in receipts:
+              assert rec['evidence_kind'] == 'REAL_SYSTEM'
+              assert rec['prediction_frozen_before_outcome'] is True
+              assert rec['classification_blind_to_target_family'] is True
+              assert rec['protected_outcome_leakage'] is False
+          print('receipt integrity OK; terminal', term, 'qualifying', n)
+          PY
+      - name: Enforce non-promotion of forbidden claims
+        run: |
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-real-transition-receipts-v1')
+          r = json.loads((root/'RESULT_V1.json').read_text())
+          m = json.loads((root/'MANIFEST_V1.json').read_text())
+          assert r['claim_ceiling'] == 'GMI_REAL_SYSTEM_TRANSITION_VALIDATION_PROTOCOL_MACHINE_CHECKABLE'
+          assert m['claim_ceiling'] == r['claim_ceiling']
+          assert m['scientific_row_earned'] == r['scientific_row_earned']
+          assert r['scientific_row_earned'] is True
+          assert r['protocol_evaluation']['qualifying_count'] >= 5
+          for forbidden in r['forbidden_promotions']:
+              assert forbidden in m['forbidden_promotions']
+          PY
+      - name: Reconciliation spec check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode check \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-real-transition-receipts-v1/ISSUE_833_RECONCILIATION_RECEIPTS_V1.json
+
+  reconcile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply earned #833 Section-J real-systems row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+            --mode apply \
+            --repository "$GITHUB_REPOSITORY" \
+            --spec research/gmi-833-real-transition-receipts-v1/ISSUE_833_RECONCILIATION_RECEIPTS_V1.json

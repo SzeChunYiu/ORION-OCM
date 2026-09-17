@@ -1,0 +1,58 @@
+{
+  "schema": "GMI833HBlindObligationsV1",
+  "carrier": [0, 1, 2],
+  "arithmetic": "modulo_3",
+  "obligations": [
+    {
+      "id": "O0_POS",
+      "interface": "sequential_one_symbol",
+      "protected_traces": [
+        {"input": [], "output": []},
+        {"input": [0], "output": [0]},
+        {"input": [1], "output": [1]},
+        {"input": [2], "output": [2]},
+        {"input": [0, 0], "output": [0, 0]},
+        {"input": [0, 1], "output": [0, 1]},
+        {"input": [0, 2], "output": [0, 2]},
+        {"input": [1, 0], "output": [1, 1]},
+        {"input": [1, 1], "output": [1, 2]},
+        {"input": [1, 2], "output": [1, 0]},
+        {"input": [2, 0], "output": [2, 2]},
+        {"input": [2, 1], "output": [2, 0]},
+        {"input": [2, 2], "output": [2, 1]}
+      ]
+    },
+    {
+      "id": "O0_NEG",
+      "interface": "sequential_one_symbol",
+      "protected_traces": [
+        {"input": [], "output": []},
+        {"input": [0], "output": [0]},
+        {"input": [1], "output": [1]},
+        {"input": [2], "output": [2]},
+        {"input": [0, 0], "output": [0, 0]},
+        {"input": [0, 1], "output": [0, 1]},
+        {"input": [0, 2], "output": [0, 2]},
+        {"input": [1, 0], "output": [1, 0]},
+        {"input": [1, 1], "output": [1, 1]},
+        {"input": [1, 2], "output": [1, 2]},
+        {"input": [2, 0], "output": [2, 0]},
+        {"input": [2, 1], "output": [2, 1]},
+        {"input": [2, 2], "output": [2, 2]}
+      ]
+    },
+    {"id": "O1_POS", "interface": "one_symbol", "table": [1, 0, 2]},
+    {"id": "O1_DECISION", "interface": "one_symbol", "table": [1, 0, 0]},
+    {"id": "O1_NEG", "interface": "one_symbol", "table": [0, 1, 1]},
+    {"id": "O2_POS", "interface": "one_symbol", "table": [0, 1, 1]},
+    {"id": "O2_NEG", "interface": "one_symbol", "table": [1, 0, 2]},
+    {"id": "O3_POS", "interface": "two_symbol", "table": [0, 0, 0, 1, 2, 0, 2, 1, 0]},
+    {"id": "O3_NEG", "interface": "two_symbol", "table": [0, 1, 2, 1, 2, 0, 2, 0, 1]}
+  ],
+  "resource_regimes": [
+    {"id": "R_STORAGE", "description_price": 10, "serve_price": 1, "reuse": 1, "state_price": 1},
+    {"id": "R_REUSE", "description_price": 1, "serve_price": 1, "reuse": 100, "state_price": 1},
+    {"id": "R_STATE_CHEAP", "description_price": 1, "serve_price": 1, "reuse": 4, "state_price": 1},
+    {"id": "R_STATE_EXPENSIVE", "description_price": 1, "serve_price": 1, "reuse": 4, "state_price": 20}
+  ]
+}

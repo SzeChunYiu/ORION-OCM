@@ -1,0 +1,192 @@
+{
+ "schema": "GMI833G0GrammarGrowthScientificLedgerV2",
+ "issue": 897,
+ "parent_issue": 833,
+ "base_package": "research/gmi-833-g0-grammar-growth-v1",
+ "claims": [
+  {
+   "id": "DEPTH-1",
+   "closes_gap": "GAP-E8-1",
+   "statement": "Generational depth-3 formation exists in two shapes (c3 pure-run m3=(m2,m2); c4/c5 separator m3=(m2,c,m2)), each macro body literally referencing the previous generation, GRW-1-exact; under the frozen INV-1 rule formation SATURATES at depth 3 (separator-pair dominance gain(u c u) - gain(u) = P*n - b - 1 > 0 and run-internal k in {X/2, X} dominance; designed depth-4/5 corpora stop at 3), and the ceiling is rule-attributable (ADM-ALT smallest-body diagnostic reaches depth 7/9 on the same corpora at the same charges). Held-out burden reduction COMPOUNDS with depth only tier-conditionally: strictly decreasing to the matching generation, strictly regressing below it, controls strictly regressing throughout.",
+   "verdict": "CONFIRMED_TIER_CONDITIONAL_COMPOUNDING__FORMATION_SATURATES_AT_DEPTH_3_RULE_ATTRIBUTABLE",
+   "assumptions": [
+    "frozen {a,b,c}+concatenation grammar, INV-1 charged greedy admission unchanged from v1",
+    "tier suites frozen before any tranche-2 run; honest-failure clauses in fixtures",
+    "corpus mass per depth level is a derived output (f* bracket scans), not a tuned constant"
+   ],
+   "dependencies": [
+    "WIT-2",
+    "SAT-1 + T7 dominance inequalities",
+    "CMP-1 tier tables",
+    "ECON-1 f*/kappa* scans",
+    "ADM-ALT diagnostic"
+   ],
+   "falsifiers": [
+    "any depth-4 corpus under INV-1 (none found; c4/c5 designed for depth 4/5 stop at 3)",
+    "any tier whose burden series violates the monotone-then-regress pattern",
+    "oracle disagreement on any tier row or trace"
+   ],
+   "counterexample_methods": [
+    "depth-4/5 attempt corpora",
+    "N/L formation families",
+    "ADM-ALT rule-attribution diagnostic",
+    "per-tier prefix tables"
+   ],
+   "limits": "existence + mechanism at registered scope only; no claim that depth 3 is optimal for other rules (ADM-ALT goes deeper), no open-ended growth, no claim beyond the frozen cost model"
+  },
+  {
+   "id": "H2H-1",
+   "closes_gap": "GAP-E8-2",
+   "statement": "Neither compression-gated (INV-1) nor utility-gated (UTL-1) admission dominates under the same charged burden metric with the same nulls. Compression regresses against primitive-only search exactly when corpus compressibility diverges from held-out reuse (trap3: greedy 'abc' admission destroys the reusable 'ab' occurrence mass; net +43897 > 0, and 52/200 random nulls beat the compression arm on trap1 while 0/200 beat the utility arm). The utility gate forfeits deep-macro gains when the validation suite under-represents deep reuse (c3 + shallow V: compression better by 14939; with a deep V: exact tie). The g2-acquisition-economics warning is confirmed head-on and extended with the converse failure direction (validation-suiteness is a distinct axis).",
+   "verdict": "NO_DOMINANCE__COMPRESSION_FAILS_UNDER_UTILITY_MISMATCH__UTILITY_GATE_FAILS_UNDER_SHALLOW_VALIDATION",
+   "assumptions": [
+    "UTL-1 gate uses the frozen disjoint validation suites; V influencing admission is the gate's function, not leakage (HLK-2 hostile)",
+    "both arms charged fully (definition + maintenance) at kappa=1",
+    "same burden metric, same 200-seed null protocol per arm"
+   ],
+   "dependencies": [
+    "H2H-1 table",
+    "UTL-1 + ablations UTL-1p/UTL-1s",
+    "NULL-2 per-arm ensembles",
+    "trap3 mechanism check"
+   ],
+   "falsifiers": [
+    "a corpus where either rule dominates across all six registered corpora (none: ties on v1ref/c4/c5, split on c3/traps)",
+    "utility gate admitting the full chain under the shallow V (it does not)",
+    "leakage from eval suites into either arm (HLK-2: byte-identical libraries)"
+   ],
+   "counterexample_methods": [
+    "trap corpora (partial waste, total swallow)",
+    "shallow-vs-deep validation ablation",
+    "per-arm null ensembles"
+   ],
+   "limits": "six frozen corpora and one gate family at registered scope; no claim about optimal admission rules, no universal ranking of gates"
+  },
+  {
+   "id": "EXEC-1",
+   "closes_gap": "GAP-E8-3",
+   "statement": "Under the frozen EXEC-B per-op cost model (base token = 1 op, macro = rho + body cost; primary rho = 1), the v1 headline survives: H+ exec net -395484/-393054/-388194 at rho = 1/2/4 (count metric -48739), H- regression preserved, exact break-even rho-dagger = 164. The survival is cost-model-relative, not uniform: 19/200 equal-size nulls beat the true recursive library under EXEC-B(1) (flat 'abab' executes in 5 ops vs recursive m2 in 7), so the v1 net claim is robust while the v1 rank-1 null claim is cost-fragile. All head-to-head and tier verdicts agree in sign between count and exec metrics.",
+   "verdict": "V1_HEADLINE_SURVIVES_EXEC_COST__NET_ROBUST__RANK_COST_RELATIVE",
+   "assumptions": [
+    "EXEC-B frozen before implementation (no memoization, unit base cost, rho grid {1,2,4} + break-even scan to 1024)",
+    "enumerator unchanged (breadth-by-length, lexicographic); only the accounting changes"
+   ],
+   "dependencies": [
+    "T8 closed form + HEXEC-1 battery",
+    "EXEC-1R flagship re-run",
+    "exec tier/h2h tables",
+    "exec null ensemble"
+   ],
+   "falsifiers": [
+    "exec DP vs naive enumeration mismatch (none on the battery)",
+    "sign flip of any verdict between count and exec metrics at rho in grid (none)",
+    "break-even rho below the grid (it is 164)"
+   ],
+   "counterexample_methods": [
+    "naive-enumeration cross-check",
+    "rho grid + break-even scan",
+    "exec null ensemble"
+   ],
+   "limits": "one per-op cost family; no claim for arbitrary cost models (forbidden promotion EXEC_INVARIANT_ALL_RHO); rank conclusion specific to EXEC-B(1)"
+  }
+ ],
+ "gap_closures": {
+  "GAP-E8-1": "CLOSED_BY_DEPTH-1",
+  "GAP-E8-2": "CLOSED_BY_H2H-1",
+  "GAP-E8-3": "CLOSED_BY_EXEC-1"
+ },
+ "recursive_gap_verdict": "TRANCHE2_LOCALLY_CLOSED_WITH_NEW_GAPS_RECORDED",
+ "new_gaps": [
+  {
+   "id": "GAP-T2-1",
+   "claim_id": "DEPTH-1",
+   "premise": "ADM-ALT reaches depth 7/9 as a diagnostic",
+   "unresolved_assumption": "whether any depth-favoring admission rule also dominates on held-out burden after full charges",
+   "severity": "medium",
+   "status": "OPEN",
+   "evidence_needed": "charged head-to-head of depth-favoring admission vs INV-1/UTL-1 on the tiered suites"
+  },
+  {
+   "id": "GAP-T2-2",
+   "claim_id": "EXEC-1",
+   "premise": "rank fragility measured at rho=1 for the v1 fixture",
+   "unresolved_assumption": "the rho at which the recursive library loses rank-1 generally (flat-vs-recursive crossover law)",
+   "severity": "low",
+   "status": "OPEN",
+   "evidence_needed": "closed-form flat-vs-recursive exec crossover analysis across corpora"
+  }
+ ],
+ "revival_records": [
+  {
+   "id": "REV-E9-1",
+   "package": "gmi-833-g0-exec-rank-revival-v1",
+   "issue": 897,
+   "parent_issue": 833,
+   "lead": "GAP-E8-3 rank-fragility note: 19/200 exec-nulls beat the recursive library at rho=1 (v1ref), 0/200 under count",
+   "rung": "3 (structural frontier) with rung 1 closed negative earned-by-counterexample and rung 2 closed negative earned-by-construction for the frozen five-charge class",
+   "verdict": "RANK1_UNDER_BOTH_METRICS_RESTORED_ON_EVERY_BATTERY_CORPUS_BY_THE_NESTING_LADDER_WITNESS__EXACT_AFFINE_EXCHANGE_LAW__RECURSIVE_LIBRARY_COUNT_OPTIMAL_ONLY",
+   "headline": {
+    "v1ref": {
+     "inv": {
+      "cb": 0,
+      "eb": 19,
+      "breakeven": 164
+     },
+     "witness_flat_pair": {
+      "cb": 0,
+      "eb": 0,
+      "breakeven": 314,
+      "ties_identity_draws": 19
+     }
+    },
+    "c3_c4_c5": {
+     "inv": {
+      "cb": 0,
+      "eb": 0
+     },
+     "flat_rung": {
+      "cb": 0,
+      "eb": 0,
+      "strict_margins_c4_c5": true
+     }
+    },
+    "trap1": {
+     "inv": {
+      "cb": 52,
+      "eb": 49,
+      "breakeven": 5
+     },
+     "witness_ab_abab": {
+      "cb": 0,
+      "eb": 0,
+      "breakeven": 53,
+      "ties_identity_draws": 4
+     }
+    },
+    "trap3": {
+     "inv": {
+      "cb": 33,
+      "eb": 33,
+      "breakeven": 1
+     },
+     "witness_ab": {
+      "cb": 0,
+      "eb": 0,
+      "breakeven": 41,
+      "ties_identity_draws": 16
+     }
+    }
+   },
+   "theorems": [
+    "T-E1 dispatch decomposition opcost = |Expand| + rho*D; exec net affine in rho (closed-form break-evens)",
+    "T-E2 flattening invariance + exact exchange law Net_exec(flat,rho)-Net_exec(nested,rho) = -rho*dD*V + dK (37/37 pairs exact at rho 1,2,4)",
+    "T-E3 exec-MDL degeneracy (empty library uniquely optimal; exec benefit is enumeration-horizon-side)",
+    "T-E4 charge-class forcing: no Phi in {count, exec, max, sum, countdisp} invents a both-rank-1 library on all six corpora",
+    "T-E5 exec-argmin is flat on every battery corpus; rung-1 strongest claim FALSE earned-by-counterexample"
+   ],
+   "closes_gap": "GAP-T2-2 (closed-form flat-vs-recursive crossover: the T-E2 exchange law is affine in rho with exact per-corpus dD*V and dK; the recorded OPEN status of GAP-T2-2 is superseded by this record without editing it)",
+   "gap_t2_1_note": "GAP-T2-1 (depth-favoring admission head-to-head) remains open; out of E9 scope",
+   "discipline_append": "gmi-833-claim-discipline-v1/REGISTRATIONS_E9_APPEND.json (METRIC_RELATIVE_RANK1 note on the grammar-growth claim's forbidden_extrapolations)"
+  }
+ ]
+}
