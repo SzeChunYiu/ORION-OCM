@@ -29,23 +29,32 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Freeze custody (V1 freeze + V2 amendment)
+      - name: Freeze custody (V1 freeze + V2 amendment + V3 addendum)
         run: |
           set -euo pipefail
           freeze=cd6196aa5fd0edcdbcfb535ff2aecf7cd0870754
           amendment=c3fbf5b119e6f5c8ca6b63db1793729f933bac6c
+          addendum=c03eb646e08e94ddcb5a8142465c697cc893832c
           git cat-file -e "$freeze^{commit}"
           git cat-file -e "$freeze:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md"
           git cat-file -e "$amendment^{commit}"
           git cat-file -e "$amendment:research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md"
+          git cat-file -e "$addendum^{commit}"
+          git cat-file -e "$addendum:research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md"
           for p in \
             research/gmi-833-real-transition-receipts-v1/REAL_RUNS \
             research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json \
             research/gmi-833-real-transition-receipts-v1/RESULT_V1.json ; do
-            if git cat-file -e "$amendment:$p" 2>/dev/null; then
-              echo "post-freeze outcome artifact existed at amendment: $p" >&2
+            if git cat-file -e "$amendment:$p" 2>/dev/null || git cat-file -e "$addendum:$p" 2>/dev/null; then
+              echo "post-freeze outcome artifact existed at freeze/amendment/addendum: $p" >&2
               exit 1
             fi
+            for d in R07-frankenstein R08-dict-words R09-kernel-headers R10-stdlib-ast R11-programme-md R12-rearleft-wav; do
+              if git cat-file -e "$addendum:research/gmi-833-real-transition-receipts-v1/REAL_RUNS/$d/runs.json" 2>/dev/null; then
+                echo "V3 outcome existed at addendum: $d" >&2
+                exit 1
+              fi
+            done
           done
       - name: Receipts tests and deterministic result
         run: |
