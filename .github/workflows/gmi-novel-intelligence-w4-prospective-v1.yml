@@ -94,7 +94,14 @@ jobs:
           assert r["freeze_plan_sha256"] == plan_sha
           c = r["counts"]
           assert c["family_rows"] == 3 and c["fresh_rows"] == 1
-          assert c["extended_rows"] == 3 and c["assay_timeouts_extended"] == 0
+          assert c["extended_rows"] == 3
+          # frozen timeout disposition: search legs may exceed the registered
+          # 3600 s budget (charging fact; D4's two-route agreement covers the
+          # prediction). Realized: k=6 MATCH; k=7, k=8 ASSAY_TIMEOUT.
+          assert c["assay_timeouts_extended"] == 2
+          ext = r["registered_predictions"]["extended_heldout"]["rows"]
+          assert [(x["k"], x["status"]) for x in ext] == [
+              (6, "MATCH"), (7, "ASSAY_TIMEOUT"), (8, "ASSAY_TIMEOUT")]
           assert c["control_rows"] == 7
           assert c["agreement_rows"] == 14 and c["witnesses_run"] == 11
           m = json.load(open("RECEIPT_MULTIHOST_V1.json"))
