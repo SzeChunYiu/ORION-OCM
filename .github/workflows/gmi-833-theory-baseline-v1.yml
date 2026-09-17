@@ -58,6 +58,42 @@ jobs:
           else
             echo "no BASELINE_MANIFEST_V3.json"
           fi
+          # V4 supplement manifest anchor (same loud-change rule). Builder
+          # refuses to run if V1, V2 or V3 drifted from their anchors.
+          if [ -f "$pkg/BASELINE_MANIFEST_V4.json" ]; then
+            echo "05d35d9fe9fc92a61657d13050601f58b854795d2b318fa1b5998f8732bca736  $pkg/BASELINE_MANIFEST_V4.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V4.json"
+          fi
+          # V5 supplement manifest anchor (same loud-change rule). Builder
+          # determinism: two same-checkout rebuilds byte-identical.
+          if [ -f "$pkg/BASELINE_MANIFEST_V5.json" ]; then
+            echo "2e49df7bf71a7c2946ac9dd6be2b0193a4863234321653dd46c246eecd9cffbf  $pkg/BASELINE_MANIFEST_V5.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V5.json"
+          fi
+          if [ -f "$pkg/build_manifest_v5.py" ]; then
+            python -I -B "$pkg/build_manifest_v5.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V5.json" /tmp/v5-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V5.json"
+            python -I -O -B "$pkg/build_manifest_v5.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V5.json" /tmp/v5-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V5.json"
+            cmp /tmp/v5-rebuild-a.json /tmp/v5-rebuild-b.json
+            cmp /tmp/v5-rebuild-a.json "$pkg/BASELINE_MANIFEST_V5.json"
+            echo "V5 rebuild determinism + committed-equality: OK"
+          fi
+          if [ -f "$pkg/build_manifest_v4.py" ]; then
+            python -I -B "$pkg/build_manifest_v4.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V4.json" /tmp/v4-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V4.json"
+            python -I -O -B "$pkg/build_manifest_v4.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V4.json" /tmp/v4-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V4.json"
+            cmp /tmp/v4-rebuild-a.json /tmp/v4-rebuild-b.json
+            cmp /tmp/v4-rebuild-a.json "$pkg/BASELINE_MANIFEST_V4.json"
+            echo "V4 rebuild determinism + committed-equality: OK"
+          fi
           if [ -f "$pkg/build_manifest_v3.py" ]; then
             python -I -B "$pkg/build_manifest_v3.py" >/dev/null
             cp "$pkg/BASELINE_MANIFEST_V3.json" /tmp/v3-rebuild-a.json
