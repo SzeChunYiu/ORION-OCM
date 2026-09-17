@@ -1,0 +1,157 @@
+name: GMI 833 G0 grammar growth v2 (tranche 2)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-g0-grammar-growth-v2/**'
+      - '.github/workflows/gmi-833-g0-grammar-growth-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-g0-grammar-growth-v2/**'
+      - '.github/workflows/gmi-833-g0-grammar-growth-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody on PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze1=c08112e3a287ff3f95cded5473cd504ec74726ef
+          freeze2=1114b39124bc7669058a74108371278497ea683f
+          git cat-file -e "$freeze1^{commit}"
+          git cat-file -e "$freeze1:research/gmi-833-g0-grammar-growth-v2/FREEZE_V2.md"
+          git cat-file -e "$freeze1:research/gmi-833-g0-grammar-growth-v2/FROZEN_FIXTURES_V2.json"
+          git cat-file -e "$freeze2^{commit}"
+          for fc in "$freeze1" "$freeze2"; do
+            for p in \
+              research/gmi-833-g0-grammar-growth-v2/g0_grammar_growth_v2.py \
+              research/gmi-833-g0-grammar-growth-v2/independent_oracle_v2.py \
+              research/gmi-833-g0-grammar-growth-v2/test_g0_grammar_growth_v2.py \
+              research/gmi-833-g0-grammar-growth-v2/RESULT_V2.json \
+              research/gmi-833-g0-grammar-growth-v2/ORACLE_RESULT_V2.json \
+              research/gmi-833-g0-grammar-growth-v2/THEOREMS_V2.md \
+              research/gmi-833-g0-grammar-growth-v2/SCIENTIFIC_LEDGER_V2.json \
+              research/gmi-833-g0-grammar-growth-v2/CORE.md \
+              research/gmi-833-g0-grammar-growth-v2/MANIFEST_V2.json \
+              research/gmi-833-g0-grammar-growth-v2/RECEIPTS_RUN_LOG.md \
+              .github/workflows/gmi-833-g0-grammar-growth-v2.yml; do
+              if git cat-file -e "$fc:$p" 2>/dev/null; then
+                echo "post-freeze artifact existed at $fc: $p" >&2
+                exit 1
+              fi
+            done
+          done
+          test "$(git show "$freeze2:research/gmi-833-g0-grammar-growth-v2/FROZEN_FIXTURES_V2.json" | git hash-object --stdin)" = \
+            "$(git hash-object research/gmi-833-g0-grammar-growth-v2/FROZEN_FIXTURES_V2.json)"
+      - name: Verify pinned parents and fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/g2-utility-gated-parents-v2/RESULT.json)" = a88edfd9733ba229ad28ad304338f0a87db4c31a
+          echo '12acccf68dd5e02ac0521737bc8239f550600e80b87de3330beafa9a554921c6  research/gmi-833-g0-grammar-growth-v1/FROZEN_FIXTURES_V1.json' | sha256sum -c -
+          echo 'bde6029b32374f04e74866f90bd01e9c0564d09d8db338f0039d6322eb980443  research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json' | sha256sum -c -
+          echo 'bc81e7757962132f0418119a8d8799719f41da3d280541c724493df7e9eb4514  research/gmi-833-g0-grammar-growth-v2/FROZEN_FIXTURES_V2.json' | sha256sum -c -
+      - name: Exact and hostile tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B research/gmi-833-g0-grammar-growth-v2/test_g0_grammar_growth_v2.py -v
+            python -I -O -B research/gmi-833-g0-grammar-growth-v2/g0_grammar_growth_v2.py > /tmp/result.json
+            python -I -O -B research/gmi-833-g0-grammar-growth-v2/independent_oracle_v2.py > /tmp/oracle.json
+          else
+            python -I -B research/gmi-833-g0-grammar-growth-v2/test_g0_grammar_growth_v2.py -v
+            python -I -B research/gmi-833-g0-grammar-growth-v2/g0_grammar_growth_v2.py > /tmp/result.json
+            python -I -B research/gmi-833-g0-grammar-growth-v2/independent_oracle_v2.py > /tmp/oracle.json
+          fi
+          cmp /tmp/result.json research/gmi-833-g0-grammar-growth-v2/RESULT_V2.json
+          cmp /tmp/oracle.json research/gmi-833-g0-grammar-growth-v2/ORACLE_RESULT_V2.json
+      - name: Validate receipt, claim ceiling, and headline integers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-g0-grammar-growth-v2')
+          r = json.loads((root / 'RESULT_V2.json').read_text())
+          m = json.loads((root / 'SCIENTIFIC_LEDGER_V2.json').read_text())
+          if r['terminal'] != 'GMI_833_E8_TRANCHE2_GREEN_AT_REGISTERED_SCOPE':
+              raise SystemExit('receipt RED')
+          failed = [k for k, v in r['checks'].items() if not v]
+          if failed:
+              raise SystemExit('failed checks: ' + str(failed))
+          if r['claim_ceiling'] != 'GMI_833_E8_TRANCHE2_DEPTH3_FORMATION__TIER_CONDITIONAL_COMPOUNDING__ADMISSION_RULE_ECONOMICS__EXEC_COST_ROBUST_AT_REGISTERED_SCOPE':
+              raise SystemExit('claim ceiling mismatch')
+          for bad in ('DEPTH_4_PLUS_FORMED', 'UNIVERSAL_DEPTH_GROWTH', 'COMPRESSION_GATE_DOMINATES', 'UTILITY_GATE_DOMINATES', 'EXEC_INVARIANT_ALL_RHO'):
+              if bad not in r['forbidden_promotions']:
+                  raise SystemExit('missing forbidden promotion ' + bad)
+          # depth formation + saturation
+          ds = r['depth_section']
+          for cid in ('c3', 'c4', 'c5'):
+              if ds[cid]['max_depth'] != 3:
+                  raise SystemExit('depth mismatch ' + cid)
+          if not (r['adm_alt']['c4']['max_depth'] > 3 and r['adm_alt']['c5']['max_depth'] > 3):
+              raise SystemExit('adm-alt diagnostic did not go deeper')
+          # tier compounding headline
+          tt = r['tier_tables']['c3']
+          t3 = tt['cmp1']['tier_monotone_to_match_then_regression']['T3']['series']
+          if not (t3[0] == 31501343210481298 and t3[-1] == 1350):
+              raise SystemExit('c3 T3 series mismatch')
+          if tt['rows'][-1]['aggregate_net'] != -31501345179969279:
+              raise SystemExit('c3 aggregate net mismatch')
+          # head-to-head verdicts
+          h = r['head_to_head']
+          if h['trap3']['compression']['net_hplus_count'] != 43897 or h['trap3']['utility']['net_hplus_count'] != -17348:
+              raise SystemExit('trap3 h2h mismatch')
+          if not (h['c3']['compression']['net_hplus_count'] < h['c3']['utility']['net_hplus_count']):
+              raise SystemExit('c3 h2h direction mismatch')
+          if not (h['v1ref']['compression']['net_hplus_count'] == h['v1ref']['utility']['net_hplus_count'] == -48739):
+              raise SystemExit('v1ref tie mismatch')
+          # exec flagship
+          fe = r['v1_flagship_exec']
+          rows = {row['rho']: row['net_hplus'] for row in fe['rho_grid_rows']}
+          if rows != {1: -395484, 2: -393054, 4: -388194}:
+              raise SystemExit('exec grid mismatch')
+          if fe['breakeven_rho'] != 164:
+              raise SystemExit('exec breakeven mismatch')
+          true_exec = -395484
+          beating = sum(1 for x in r['v1_flagship_exec_null']['exec_nets_hplus'] if x < true_exec)
+          if beating != 19:
+              raise SystemExit('exec null beating count mismatch: ' + str(beating))
+          # nulls
+          for cid in ('c3', 'c4', 'c5'):
+              if r['nulls_ranks'][cid]['rank'] != 1 or r['nulls_ranks'][cid]['nulls_better'] != 0:
+                  raise SystemExit('null rank mismatch ' + cid)
+          # economics
+          ec = r['econ']
+          if not (ec['c3']['fstar_strict'] == 19 and ec['c4']['fstar_strict'] == 50 and ec['c5']['fstar_strict'] == 115):
+              raise SystemExit('fstar mismatch')
+          if not (ec['c3_kappa_star']['kappa_star'] == 1 and ec['c4_kappa_star']['kappa_star'] == 4 and ec['c5_kappa_star']['kappa_star'] == 4):
+              raise SystemExit('kappa star mismatch')
+          # ledger closures
+          if set(m['gap_closures'].values()) != {'CLOSED_BY_DEPTH-1', 'CLOSED_BY_H2H-1', 'CLOSED_BY_EXEC-1'}:
+              raise SystemExit('ledger closure mismatch')
+          o = json.loads((root / 'ORACLE_RESULT_V2.json').read_text())
+          if not o['all_ok']:
+              raise SystemExit('oracle RED')
+          print('tranche-2 receipt validation: all invariants hold')
+          PY
