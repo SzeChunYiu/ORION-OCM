@@ -1,15 +1,18 @@
-# SUPPLEMENT 2 — REV-L45-073-PROOF-STRENGTHENING (proof strengthened to full support at stated scope)
+# SUPPLEMENT 5 — REV-L45-073-PROOF-STRENGTHENING (proof strengthened to full support at stated scope)
 
-Post-freeze supplement #2 to GMI_THEORY_BASELINE_V1 per the
+Post-freeze supplement #5 to GMI_THEORY_BASELINE_V1 per the
 post_freeze_edit_rule (BASELINE_V1.md §5). No bound artifact is edited in
 place; this supplement + the new owning-lane package + the corpus-passes
-verdict-register append land together with `BASELINE_MANIFEST_V3.json`.
+verdict-register append land together with `BASELINE_MANIFEST_V4.json`
+(supplement/binding numbering is sequential across lanes; #991 took
+SUPPLEMENT_4 + BASELINE_MANIFEST_V3).
 
 ## What moved
 
 - Ticket: **REV-L45-073-PROOF-STRENGTHENING** (open -> closed:
   `CLOSED_GREEN__PROOF_STRENGTHENED_TO_FULL_SUPPORT_AT_STATED_SCOPE`).
-  Register counts after: 9 total / 5 closed / 4 open.
+  Register counts after: 9 total / 6 closed / 3 open (post-#991 the register
+read 5 closed / 4 open; this closure moves one more).
 - Target: legacy claim object `GMI833_V2_LEGACY_073_MORPHOLOGY_PHASE_RV_THEO`
   — the corpus's single weakest-support adjudication (the L45
   borderline_caveat: Theorem 1 a definitional rearrangement, substantive phase
@@ -57,8 +60,9 @@ unregistered cp·V term vs the boxed hinge kernel).
 - `research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_APPEND_REV_L45_073_V1.json`
   — resolves the L45 borderline_caveat and closes the ticket;
   VERDICT_REGISTER_V1.json / REVIVAL_TICKETS_V1.json stay byte-identical.
-- `BASELINE_MANIFEST_V3.json` (this supplement's binding): binds the append
-  record, the new package, and this supplement; anchors V1 + V2 manifests.
+- `BASELINE_MANIFEST_V4.json` (this supplement's binding): binds the append
+  record, the new package, and this supplement; anchors V1, V2 and V3
+  manifests (all byte-identical).
 - EV discipline: `evidence_EV` stays EV0 in the frozen THEOREM_SCORES_V2.json;
   the EV lift flagged in the ticket's retest note is AVAILABLE at the next
   maturity-rescore round (that lane owns the axis; no self-promotion here).
