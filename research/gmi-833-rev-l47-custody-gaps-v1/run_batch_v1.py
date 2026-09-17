@@ -288,8 +288,8 @@ def section_d_stage_a(out: Path) -> None:
     from fractions import Fraction
     import training_measure_v5 as tm
 
-    freeze_commit = git("log", "--format=%H", "-1", "--",
-                        f"{PKG}/REV_FREEZE_V1.md").strip()
+    freeze_commit = git("log", "--diff-filter=A", "--format=%H", "--",
+                        f"{PKG}/REV_FREEZE_V1.md").splitlines()[-1]
     raw = secrets.token_bytes(16384)
     bits = [1 if b < 224 else 0 for b in raw]
     ones = sum(bits)
