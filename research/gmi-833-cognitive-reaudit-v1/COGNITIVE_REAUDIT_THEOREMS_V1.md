@@ -46,3 +46,16 @@ does not create semantics, verify a quotient, or learn a concept from samples.
 The theorems are finite-interface, architecture-neutral statements. They do
 not establish anatomical modules, a unique attention mechanism, concept
 learning from partial data, or any later Section-M row.
+
+## Residual vs registered strongest parents (registered 2026-09-16, #833 L56)
+
+The parent mathematics is acknowledged and not claimed as new: observational
+equivalence / behavioural systems identification (MEMORY-1's equivalence frame),
+resource-rational computation under feasibility constraints (ATTENTION-1's cost frame),
+quotient/factorization theory and partial identification, amortized cost analysis, and
+the pinned historical packages. The scoped residual this package adds is the exact
+finite registered forms: MEMORY-1's iff-characterization of operational
+distinguishability at the frozen probe interface (distinguishable iff a probe response
+differs; anatomical non-identification as a consequence), and ATTENTION-1's exact
+selection-beats-full threshold `d_S - d_F < (n - |S|) c` with admissibility-before-cost
+ordering, each with exhaustive finite controls at the registered scope.
