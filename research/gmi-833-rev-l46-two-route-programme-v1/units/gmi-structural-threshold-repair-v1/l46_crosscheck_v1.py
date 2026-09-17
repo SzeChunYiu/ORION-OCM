@@ -47,9 +47,17 @@ def sha256(rel):
     return hashlib.sha256((HERE / rel).read_bytes()).hexdigest()
 
 
+def sha256_pkg(rel):
+    # type: (str) -> str
+    return hashlib.sha256((HERE / ".." / ".." / ".." /
+                           "gmi-structural-threshold-repair-v1" /
+                           rel).resolve().read_bytes()).hexdigest()
+
+
 def main():
     # type: () -> int
-    c = json.loads((HERE / "STRUCTURAL_THRESHOLD_REPAIR_RECEIPT_V1.json")
+    PKG = HERE / ".." / ".." / ".." / "gmi-structural-threshold-repair-v1"
+    c = json.loads((PKG / "STRUCTURAL_THRESHOLD_REPAIR_RECEIPT_V1.json")
                    .read_text(encoding="utf-8"))
     ind = audit_independence()
     o = oracle.oracle_quantities()
@@ -174,6 +182,7 @@ def main():
     receipt = {
         "schema": "GMI_833_REV_L46_ORACLE_RESULT_V1",
         "package": "gmi-structural-threshold-repair-v1",
+        "placement": "satellite unit (see L46-F3): the package is a frozen capsule external unit; in-package additions require the capsule wrapper lane repair (pre-existing main red since 2026-09-15) first",
         "ticket": "REV-L46-TWO-ROUTE-PROGRAMME",
         "route1": {
             "executor": "structural_threshold_*_v1.py (7-module family)",
@@ -230,15 +239,15 @@ def main():
         "counts": {"agreement_rows": len(rows)},
         "source_sha256": {
             "route1_executors_structural_threshold_costs_v1.py":
-                sha256("structural_threshold_costs_v1.py"),
+                sha256_pkg("structural_threshold_costs_v1.py"),
             "route1_executors_structural_threshold_analytic_v1.py":
-                sha256("structural_threshold_analytic_v1.py"),
+                sha256_pkg("structural_threshold_analytic_v1.py"),
             "route1_executors_structural_threshold_countercontrols_v1.py":
-                sha256("structural_threshold_countercontrols_v1.py"),
+                sha256_pkg("structural_threshold_countercontrols_v1.py"),
             "route2_independent_oracle_v1.py": sha256("independent_oracle_v1.py"),
             "crosscheck_l46_crosscheck_v1.py": sha256("l46_crosscheck_v1.py"),
-            "claim_spec_CORE.md": sha256("CORE.md"),
-            "committed_receipt": sha256("STRUCTURAL_THRESHOLD_REPAIR_RECEIPT_V1.json"),
+            "claim_spec_CORE.md": sha256_pkg("CORE.md"),
+            "committed_receipt": sha256_pkg("STRUCTURAL_THRESHOLD_REPAIR_RECEIPT_V1.json"),
         },
         "environment": {"flags": "-I -B",
                         "execution_host_record": ("billy-laptop per "

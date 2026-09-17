@@ -88,7 +88,7 @@ PROGRESS_COMPONENT = {
             "role": "TWO_ROUTE_RECEIPT_CONVERTED_41_ROWS",
         },
         {
-            "path": "research/gmi-structural-threshold-repair-v1/ORACLE_RESULT_L46_V1.json",
+            "path": "research/gmi-833-rev-l46-two-route-programme-v1/units/gmi-structural-threshold-repair-v1/ORACLE_RESULT_L46_V1.json",
             "role": "TWO_ROUTE_RECEIPT_WITH_FINDING_L46F1_50_ROWS",
         },
         {

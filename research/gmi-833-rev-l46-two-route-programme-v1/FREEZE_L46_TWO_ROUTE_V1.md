@@ -21,7 +21,7 @@ above, not per-package commit order.
 | 4 | gmi-analog-semantics-closure-v1 | 162-case product enumeration of twin encoders, float expm1 | multi-affine vertex identity + non-vertex extension, algebraic interval validity, exponent arithmetic, rational series w/ sandwiched ceiling (no floats) | exact, fail-closed, 9 rows |
 | 5 | gmi-uncertainty-composition-v1 | forward pair comprehension, pair-join, tuple enumeration | boolean incidence-matrix algebra (associativity identity), bitmask universe, LCM + nested witness, min==max characterization, explicit hostile spaces | exact, fail-closed, 39 rows |
 | 6 | gmi-dependency-aware-uncertainty-composition-v1 | DagCampaign state machine, forward tuple flow, tuple enumeration | full-assignment CSP model enumeration, topological DP w/ hash-join, bitmask registered family, inclusion-exclusion masses, Kahn cycle detection | exact, fail-closed, 41 rows |
-| 7 | gmi-structural-threshold-repair-v1 | source->opcode walker w/ linear count, flat grid loops, partial wrapper | opcode category-partition accounting, GF(2) + indicator identity, configuration search under contract prices, sign-change counting, midpoint convexity exclusion, cutpoint sweep, degree-sum-class arithmetic, 5^3-1 counting | exact, fail-closed, 50 rows (1 finding expected-then-observed) |
+| 7 | gmi-structural-threshold-repair-v1 (satellite unit, L46-F3) | source->opcode walker w/ linear count, flat grid loops, partial wrapper | opcode category-partition accounting, GF(2) + indicator identity, configuration search under contract prices, sign-change counting, midpoint convexity exclusion, cutpoint sweep, degree-sum-class arithmetic, 5^3-1 counting | exact, fail-closed, 50 rows (1 finding expected-then-observed) |
 | 8 | gmi-learning-law-selection-v1 | 128-set enumeration, per-set subset checks, two-vector generic probe | inclusion-exclusion (two independent counts of 36), binary-uniqueness family theorem for tie-freeness, arity-partition tie analysis, adversarial price constructions, projection-hiding witness | exact, fail-closed, 23 rows |
 
 ## Gate outcomes (G1–G5 per PROGRAMME_V1.md section 3)
@@ -44,6 +44,17 @@ receipts sha256-verified on both hosts.
   price pins an interpreter >=3.11 that CI uses). Disposition: package
   verdict TWO_ROUTE_WITH_FINDINGS; follow-up (tranche 2): pin the
   interpreter in the package ops doc or restate BASE6 as a relative anchor.
+
+## Placement constraint (L46-F3)
+
+The structural-threshold-repair route-2 artifacts live in
+`units/gmi-structural-threshold-repair-v1/` INSIDE this programme package,
+not in the original package: that package is a frozen capsule EXTERNAL UNIT
+(membership + manifest sha pinned by the capsule wrapper, a pre-existing
+main-red lane since 2026-09-15). In-package placement is deferred to
+tranche 2 behind that lane's repair. The crosscheck reads the original
+package's committed receipt read-only via a relative path; independence is
+unaffected.
 
 ## Execution custody
 

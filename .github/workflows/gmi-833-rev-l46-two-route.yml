@@ -21,9 +21,9 @@ on:
       - 'research/gmi-dependency-aware-uncertainty-composition-v1/independent_oracle_v1.py'
       - 'research/gmi-dependency-aware-uncertainty-composition-v1/l46_crosscheck_v1.py'
       - 'research/gmi-dependency-aware-uncertainty-composition-v1/test_independent_oracle_v1.py'
-      - 'research/gmi-structural-threshold-repair-v1/independent_oracle_v1.py'
-      - 'research/gmi-structural-threshold-repair-v1/l46_crosscheck_v1.py'
-      - 'research/gmi-structural-threshold-repair-v1/test_independent_oracle_v1.py'
+      - 'research/gmi-833-rev-l46-two-route-programme-v1/units/gmi-structural-threshold-repair-v1/independent_oracle_v1.py'
+      - 'research/gmi-833-rev-l46-two-route-programme-v1/units/gmi-structural-threshold-repair-v1/l46_crosscheck_v1.py'
+      - 'research/gmi-833-rev-l46-two-route-programme-v1/units/gmi-structural-threshold-repair-v1/test_independent_oracle_v1.py'
       - 'research/gmi-learning-law-selection-v1/independent_oracle_v1.py'
       - 'research/gmi-learning-law-selection-v1/l46_crosscheck_v1.py'
       - 'research/gmi-learning-law-selection-v1/test_independent_oracle_v1.py'
@@ -55,7 +55,12 @@ jobs:
       - name: Route-2 oracle tests (all 8 tranche-1 packages)
         run: |
           set -e
-          pkgs="gmi-formal-proof-audit-v1 gmi-developmental-uncertainty-transport-v1 gmi-capability-ceilings-v1 gmi-analog-semantics-closure-v1 gmi-uncertainty-composition-v1 gmi-dependency-aware-uncertainty-composition-v1 gmi-structural-threshold-repair-v1 gmi-learning-law-selection-v1"
+          pkgs="gmi-formal-proof-audit-v1 gmi-developmental-uncertainty-transport-v1 gmi-capability-ceilings-v1 gmi-analog-semantics-closure-v1 gmi-uncertainty-composition-v1 gmi-dependency-aware-uncertainty-composition-v1 gmi-learning-law-selection-v1"
+          units="gmi-structural-threshold-repair-v1"
+          for u in $units; do
+            echo "== unit: $u (satellite) =="
+            (cd "research/gmi-833-rev-l46-two-route-programme-v1/units/$u" && ${{ matrix.python_cmd }} -I -B test_independent_oracle_v1.py)
+          done
           for p in $pkgs; do
             echo "== $p =="
             (cd "research/$p" && ${{ matrix.python_cmd }} -I -B test_independent_oracle_v1.py)
