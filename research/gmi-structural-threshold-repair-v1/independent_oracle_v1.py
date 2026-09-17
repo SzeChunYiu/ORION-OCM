@@ -53,13 +53,18 @@ BASE_FORM = "def f(x):\n    a,b,c=x\n    return 0\n"
 def opcode_category_count(source):
     # type: (str) -> int
     """Total opcodes by summing a CATEGORY PARTITION of the instruction
-    stream (a different accounting organization than a single walk)."""
+    stream (a different accounting organization than a single walk).
+    RESUME and CACHE pseudo-ops are excluded per the registered flat
+    straight-line coordinate cost model (they are interpreter bookkeeping,
+    not contract opcodes)."""
     code = compile(source, "<l46>", "exec")
     fn_code = next(const for const in code.co_consts
                    if hasattr(const, "co_code"))
     cats = {"load": 0, "binop": 0, "call": 0, "ret": 0, "other": 0}
     for ins in dis.get_instructions(fn_code):
         name = ins.opname
+        if name in ("RESUME", "CACHE"):
+            continue
         if name.startswith("LOAD_") or name.startswith("STORE_"):
             cats["load"] += 1
         elif name.startswith("BINARY_") or name.startswith("UNARY_") or name.startswith("COMPARE"):

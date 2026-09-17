@@ -72,17 +72,24 @@ class TestIndependentOracle(unittest.TestCase):
         rc = subprocess.run([sys.executable, "-I", "-B",
                              str(HERE / "l46_crosscheck_v1.py")],
                             capture_output=True, text=True)
-        # Expected: ONE recorded finding (interpreter-sensitive absolute
-        # BASE6), everything else exact.
         receipt = json.loads((HERE / "ORACLE_RESULT_L46_V1.json").read_text())
-        self.assertEqual(rc.returncode, 2, rc.stdout + rc.stderr)
-        self.assertEqual(receipt["verdict"], "TWO_ROUTE_WITH_FINDINGS")
         disagrees = [r["claim_id"] for r in receipt["agreement"]["rows"]
                      if not r["agree"]]
-        self.assertEqual(disagrees, ["contract:base6_absolute_count (FINDING: "
-                                     "interpreter-version-sensitive)"])
         self.assertTrue(receipt["independence_audit"]["stdlib_only"])
         self.assertTrue(receipt["negative_control"]["passed"])
+        # The single possible disagreement is the recorded L46-F1 finding,
+        # which is interpreter-dependent: on CPython >= 3.11 the registered
+        # BASE6 reproduces (no disagreement, CONVERTED); on 3.8 the raw
+        # count is 7 and the finding fires exactly once.
+        if any("base6" in d for d in disagrees):
+            self.assertEqual(len(disagrees), 1)
+            self.assertIn("interpreter-version-sensitive", disagrees[0])
+            self.assertEqual(rc.returncode, 2)
+            self.assertEqual(receipt["verdict"], "TWO_ROUTE_WITH_FINDINGS")
+        else:
+            self.assertEqual(disagrees, [])
+            self.assertEqual(rc.returncode, 0)
+            self.assertEqual(receipt["verdict"], "TWO_ROUTE_CONVERTED")
 
 
 if __name__ == "__main__":
