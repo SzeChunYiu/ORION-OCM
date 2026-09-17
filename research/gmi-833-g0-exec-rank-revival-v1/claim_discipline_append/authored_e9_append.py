@@ -4,6 +4,10 @@ gmi-833-g0-exec-rank-revival-v1/FREEZE_E1.md).
 Appends the metric-conditionality note to the grammar-growth claim object's
 forbidden_extrapolations field. Consumed by assemble_e9_append.py; the v1/v2
 registers are never written.
+
+Lives in the owning lane (channel correction 2026-09-17, Supplement 2 of
+GMI_THEORY_BASELINE_V1): gmi-833-claim-discipline-v1 is a frozen closed-set
+package and must not gain files post-freeze.
 """
 
 TARGET_OBJECT_ID = (

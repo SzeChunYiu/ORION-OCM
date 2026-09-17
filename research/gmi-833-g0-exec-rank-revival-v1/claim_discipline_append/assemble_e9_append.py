@@ -8,6 +8,13 @@ forbidden_extrapolations.content gains the E9 metric-conditionality note
 the appended_source field). The v1 and v2 registers are never written; their
 sha256 is recorded and asserted unchanged.
 
+Channel correction (2026-09-17, Supplement 2 of GMI_THEORY_BASELINE_V1):
+this assembler originally lived in research/gmi-833-claim-discipline-v1/,
+which is a FROZEN closed-set package of the baseline; unregistered additions
+there fail test_theory_baseline_v1.py. It now lives in its owning lane
+(gmi-833-g0-exec-rank-revival-v1/claim_discipline_append/) and reads the
+frozen registers read-only. Output bytes are unchanged by the move.
+
 Hostile checks (fail closed):
   - v1 baseline integrity: exactly 234 objects, byte-sha recorded;
   - v2 register byte-sha recorded;
@@ -30,8 +37,9 @@ from authored_e9_append import (  # noqa: E402
     TARGET_OBJECT_ID, TARGET_PACKAGE, TARGET_FIELD, APPEND,
 )
 
-V1_PATH = os.path.join(HERE, "REGISTRATIONS_V1.json")
-V2_PATH = os.path.join(HERE, "REGISTRATIONS_V2.json")
+REG_DIR = os.path.normpath(os.path.join(HERE, "..", "..", "gmi-833-claim-discipline-v1"))
+V1_PATH = os.path.join(REG_DIR, "REGISTRATIONS_V1.json")
+V2_PATH = os.path.join(REG_DIR, "REGISTRATIONS_V2.json")
 OUT_PATH = os.path.join(HERE, "REGISTRATIONS_E9_APPEND.json")
 
 

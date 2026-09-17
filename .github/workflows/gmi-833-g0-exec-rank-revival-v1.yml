@@ -4,9 +4,6 @@ on:
   pull_request:
     paths:
       - 'research/gmi-833-g0-exec-rank-revival-v1/**'
-      - 'research/gmi-833-claim-discipline-v1/authored_e9_append.py'
-      - 'research/gmi-833-claim-discipline-v1/assemble_e9_append.py'
-      - 'research/gmi-833-claim-discipline-v1/REGISTRATIONS_E9_APPEND.json'
       - 'research/gmi-833-g0-grammar-growth-v2/SCIENTIFIC_LEDGER_V2.json'
       - 'research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json'
       - '.github/workflows/gmi-833-g0-exec-rank-revival-v1.yml'
@@ -14,7 +11,6 @@ on:
     branches: [main]
     paths:
       - 'research/gmi-833-g0-exec-rank-revival-v1/**'
-      - 'research/gmi-833-claim-discipline-v1/**'
       - 'research/gmi-833-g0-grammar-growth-v2/SCIENTIFIC_LEDGER_V2.json'
       - '.github/workflows/gmi-833-g0-exec-rank-revival-v1.yml'
   workflow_dispatch:
@@ -96,15 +92,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -I -B research/gmi-833-claim-discipline-v1/assemble_e9_append.py > /tmp/append.json
+          # Channel correction 2026-09-17 (theory-baseline Supplement 2): the
+          # append artifacts live in the owning lane package; the frozen
+          # gmi-833-claim-discipline-v1 registers are read-only inputs.
+          cp research/gmi-833-g0-exec-rank-revival-v1/claim_discipline_append/REGISTRATIONS_E9_APPEND.json /tmp/append_committed.json
+          python -I -B research/gmi-833-g0-exec-rank-revival-v1/claim_discipline_append/assemble_e9_append.py > /tmp/append.json
+          cmp /tmp/append_committed.json research/gmi-833-g0-exec-rank-revival-v1/claim_discipline_append/REGISTRATIONS_E9_APPEND.json
           python - <<'PY'
           import json, hashlib, pathlib
-          root = pathlib.Path('research/gmi-833-claim-discipline-v1')
+          root = pathlib.Path('research/gmi-833-g0-exec-rank-revival-v1/claim_discipline_append')
+          reg = pathlib.Path('research/gmi-833-claim-discipline-v1')
           out = json.loads((root / 'REGISTRATIONS_E9_APPEND.json').read_text())
-          v2 = json.loads((root / 'REGISTRATIONS_V2.json').read_bytes())
+          v2 = json.loads((reg / 'REGISTRATIONS_V2.json').read_bytes())
           meta = out['e9_append']
-          assert hashlib.sha256((root / 'REGISTRATIONS_V1.json').read_bytes()).hexdigest() == meta['v1_register_sha256']
-          assert hashlib.sha256((root / 'REGISTRATIONS_V2.json').read_bytes()).hexdigest() == meta['v2_register_sha256']
+          assert hashlib.sha256((reg / 'REGISTRATIONS_V1.json').read_bytes()).hexdigest() == meta['v1_register_sha256']
+          assert hashlib.sha256((reg / 'REGISTRATIONS_V2.json').read_bytes()).hexdigest() == meta['v2_register_sha256']
           assert len(v2['objects']) + 0 == len(out['objects'])
           diffs = [ (a['object_id'], [k for k in a['fields'] if a['fields'][k] != b['fields'].get(k)])
                     for a, b in zip(v2['objects'], out['objects']) if a != b ]

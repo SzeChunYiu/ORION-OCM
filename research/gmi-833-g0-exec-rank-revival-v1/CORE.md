@@ -35,8 +35,9 @@ metrics); trap3 {ab} −17,348/−117,867.
 implementation) → `THEOREMS_E1.md` (T-E1..T-E5) → `RESULT_E1.json`
 (terminal `GMI_833_E9_EXEC_RANK_REVIVAL_GREEN_AT_REGISTERED_SCOPE`, 16
 checks, 7 hostiles) → `SCIENTIFIC_LEDGER_V2.json:revival_records` (closes
-GAP-T2-2) → `../gmi-833-claim-discipline-v1/REGISTRATIONS_E9_APPEND.json`
-(METRIC_RELATIVE_RANK1 forbidden-extrapolation note) →
+GAP-T2-2) → `claim_discipline_append/REGISTRATIONS_E9_APPEND.json`
+(METRIC_RELATIVE_RANK1 forbidden-extrapolation note; relocated into this
+owning-lane package 2026-09-17 per theory-baseline Supplement 2) →
 `RECEIPTS_RUN_LOG.md`.
 
 **Reproduce (stock CPython ≥3.8, stdlib only; CI reruns both modes):**
