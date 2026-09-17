@@ -6,6 +6,16 @@
 **Source main:** `636a53fb9fdae949aad85131f44e5c78389839c3`
 **Status:** pre-implementation formalism/fixture/claim freeze
 
+**Custody amendment (second freeze commit, pre-implementation):** the design
+probe implemented Φ_countdisp as `|u|+κ+ρ·(#symbols present in the opcost
+table)`, which wrongly counts base symbols as dispatches; §2's frozen
+definition is `Φ_countdisp = |u|+κ+ρ·(#macro symbols in u)` and is unchanged.
+`FROZEN_FIXTURES_E1.json`'s informational `charge_paths.countdisp` rows were
+regenerated to the freeze-text-conformant values
+(`design/patch_fixtures_countdisp.py`; superseded probe values retained in
+the `charge_paths_countdisp_superseded_probe_values` field). No criterion,
+expectation or rule changed; the freeze text was always authoritative.
+
 This file freezes, before any E9 implementation exists on this branch, the rules,
 spaces, witnesses, nulls and criteria that repair the cost-fragility recorded in
 `SCIENTIFIC_LEDGER_V2.json` GAP-E8-3's rank note: under EXEC-B at ρ=1, 19/200
