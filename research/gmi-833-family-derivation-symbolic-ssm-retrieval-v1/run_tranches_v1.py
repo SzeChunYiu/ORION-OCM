@@ -257,6 +257,13 @@ def _one_ep_run(args):
                      mu=mu, lam=lam)
 
 
+_T3_TS = None
+
+
+def _one_t3_seed(sd):
+    return P2.evolve(_T3_TS, sd, BUDGET_T3_PRIMARY, 8, genome="stream")
+
+
 def run_t3():
     t0 = time.time()
     be = BAT["batteries"]["B_EP"]
@@ -268,8 +275,8 @@ def run_t3():
 
     # PROC2 primary = pooled best of T3_PRIMARY_SEEDS seeds at the full
     # budget (neutral seed-diversity axis; declared in errata 3-4)
-    def _one_t3_seed(sd):
-        return P2.evolve(ts, sd, BUDGET_T3_PRIMARY, 8, genome="stream")
+    global _T3_TS
+    _T3_TS = ts
     with mp.Pool(min(10, os.cpu_count() or 4)) as pool:
         seed_runs = pool.map(_one_t3_seed, range(T3_PRIMARY_SEEDS))
     primary = min(seed_runs, key=lambda r: (r["fitness"], r["seed"]))
