@@ -22,5 +22,8 @@ bars, designed negative controls, zero arbitrary constants (every threshold
 derived/ablated), sha256-pinned receipts; (4) claim-discipline fields for every new
 claim (235-object corpus standard).
 
-STATUS: scaffold — battery/basis/adjudicator freezes land in this package before
-any search outcome; see PRIOR_DISCLOSURE_V1.md (to be frozen pre-search).
+STATUS: FROZEN (pre-search). NEUTRAL_BATTERY_FREEZE_V1.json sha256
+9124444e7cd05aab8292672317b0cda5e362b2d9c6940261d78fcc67ac6386b3 is superseded
+by the B_CONTR rule-set amendment; the frozen battery's sha256 is recorded by
+the checker at the freeze commit. Search/adjudicator/screen/checker land only
+after this freeze commit (custody-asserted).
