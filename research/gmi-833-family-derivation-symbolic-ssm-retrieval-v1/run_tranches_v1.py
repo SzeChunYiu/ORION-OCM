@@ -136,48 +136,57 @@ def run_t2():
             "exhaust_stats": {"k1": s1, "k2": s2},
         }
 
-    # nulls (analytic resample from per-task results; statistic families)
-    rng_stat = {}
-    stats_true = {
-        "frac_gatefree_minimal": float(np.mean([
-            1.0 if (i in per_task and per_task[i]["gates"] == 0
-                    and i in gf) else 0.0 for i in range(2401)])),
-        "mean_min_cost": float(np.mean([per_task[i]["cost"] if i in per_task
-                                        else float("nan")
-                                        for i in range(2401)])),
-        "frac_affine": len(affine_ids) / 2401.0,
-        "frac_gatefree_realizable": len(gf) / 2401.0,
-    }
+    # nulls: equal-size random admission over the complete class, statistics
+    # computed with IDENTICAL conditioning for true battery and nulls
+    # (full-class fractions; resolved-conditioned fractions over the SAME
+    # resolved subset).
+    resolved = {i for i in per_task}
+
+    def stats_over(ids):
+        n = len(ids)
+        res = [i for i in ids if i in resolved]
+        return {
+            "frac_affine": float(sum(1 for i in ids if i in affine_ids)) / n,
+            "frac_gatefree_realizable":
+                float(sum(1 for i in ids if i in gf)) / n,
+            "frac_gatefree_minimal":
+                float(sum(1 for i in res
+                          if per_task[i]["gates"] == 0 and i in gf)) /
+                max(1, len(res)),
+            "mean_min_cost_resolved":
+                float(np.mean([per_task[i]["cost"] for i in res]))
+                if res else float("nan"),
+            "resolved_frac": len(res) / float(n),
+        }
+
+    true_ids = list(range(2401))
+    stats_true = stats_over(true_ids)
     null_draws = {k: [] for k in stats_true}
-    for s in NULL_SEEDS:
-        tts = P2.null_truth_tables(s, 2401)
+    for sd in NULL_SEEDS:
+        tts = P2.null_truth_tables(sd, 2401)
         ids = []
         for tt in tts:
-            # map truth table -> task id via targets (tables are unique keys)
-            key = tuple(tt)
-            trace = None
-            # find required outputs for this table
-            # (table order: f(0,0),f(0,1),f(1,0),f(1,1); windows enumerate all)
             trace = tuple(tt[2 * w[0] + w[1]] for w in bw["windows"])
-            ids.append(targets.get(trace))
-        ids_ok = [i for i in ids if i is not None and i in per_task]
-        null_draws["frac_gatefree_minimal"].append(float(np.mean([
-            1.0 if (per_task[i]["gates"] == 0 and i in gf) else 0.0
-            for i in ids_ok])) if ids_ok else 0.0)
-        null_draws["mean_min_cost"].append(float(np.mean([
-            per_task[i]["cost"] for i in ids_ok])) if ids_ok else float("nan"))
-        null_draws["frac_affine"].append(float(np.mean([
-            1.0 if i in affine_ids else 0.0 for i in ids_ok])) if ids_ok else 0.0)
-        null_draws["frac_gatefree_realizable"].append(float(np.mean([
-            1.0 if i in gf else 0.0 for i in ids_ok])) if ids_ok else 0.0)
+            i = targets.get(trace)
+            if i is not None:
+                ids.append(i)
+        st = stats_over(ids)
+        for k in stats_true:
+            null_draws[k].append(st[k])
     rng_stat = {
+        "definition": ("equal-size random admission with replacement from "
+                       "the complete 2401-table class; identical statistic "
+                       "conditioning for true and null batteries"),
         "true": stats_true,
         "nulls": null_draws,
         "null_beats_true": {k: int(sum(1 for v in null_draws[k]
-                                       if v > stats_true[k]))
+                                       if v is not None and
+                                       not (v != v) and v > stats_true[k]))
                             for k in stats_true},
         "empirical_rank_true": {k: int(1 + sum(1 for v in null_draws[k]
-                                               if v > stats_true[k]))
+                                               if v is not None and
+                                               not (v != v) and
+                                               v > stats_true[k]))
                                 for k in stats_true},
     }
 
