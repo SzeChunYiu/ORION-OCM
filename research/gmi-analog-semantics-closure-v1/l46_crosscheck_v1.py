@@ -169,9 +169,12 @@ def main():
             "claim_spec_ANALOG_SEMANTICS_THEOREM_V1.md":
                 sha256("ANALOG_SEMANTICS_THEOREM_V1.md"),
         },
-        "environment": {"host": platform.node(),
-                        "python": platform.python_version(),
-                        "flags": "-I -B"},
+        "environment": {"flags": "-I -B",
+                        "execution_host_record": ("billy-laptop per "
+                            "VERDICT_REGISTER_APPEND_REV_L46_V1.json "
+                            "custody_chain; this receipt is host-independent "
+                            "by design so any clean checkout reproduces it "
+                            "byte-identically")},
         "verdict": ("TWO_ROUTE_CONVERTED" if exact_agreement_everywhere
                     else "TWO_ROUTE_WITH_FINDINGS"),
         "freeze": "FREEZE_L46_TWO_ROUTE_V1.md item 3",
