@@ -1,0 +1,51 @@
+{
+ "schema": "GMI_833_CORPUS_PASSES_V2_VERDICT_REGISTER_APPEND_V1",
+ "subject": "REV-L45-073-PROOF-STRENGTHENING closure (resolution of the L45 borderline caveat — the corpus's single weakest-support adjudication; append to VERDICT_REGISTER_V1.json L45_analytic_comp_only.borderline_caveat and REVIVAL_TICKETS_V1.json; neither frozen file is edited in place)",
+ "prior_verdict": {
+  "result_id": "GMI833_V2_LEGACY_073_MORPHOLOGY_PHASE_RV_THEO",
+  "package": "gmi-morphology-phase-rv-v1",
+  "verdict": "ANALYTIC_SUPPORTED (with the single L45 weakest-support caveat)",
+  "evidence": "L45 borderline_caveat, VERDICT_REGISTER_V1.json: Theorem 1 proof a one-line definitional rearrangement (MORPHOLOGY_PHASE_RV_THEOREM_V1.md L84-86); held-out accuracy 100% by construction; substantive phase content living in the 8x8 sweep witness + 23 unittests; recorded for re-review at the census-refresh round",
+  "mitigating_recorded": "census class THEOREM / ANALYTIC_DEDUCTIVE / HELD_OUT with claim_evidence_gap DEGENERATE_HELDOUT_NO_DISCRIMINATIVE_POWER (maturity rescore V2, THEOREM_SCORES_V2.json row 073: maturity M0, EV0, DOWN_GENERATING)"
+ },
+ "revival_disposition": {
+  "status": "CLOSED_GREEN__PROOF_STRENGTHENED_TO_FULL_SUPPORT_AT_STATED_SCOPE",
+  "package": "research/gmi-morphology-phase-rv-proof-v2-v1",
+  "lever_executed": "the registered REV-L45-073 lever: prove Theorem 2's boundary-curve properties analytically (sign analysis of the boxed condition in (R,V); crossing uniqueness under the registered regularity), demoting the sweep to a declared control",
+  "diagnosis_confirmed": "support fell short of the stated claim in three ways: (1) Theorem 1's proof definitional (vacuous at theorem strength); (2) Theorem 2 + Corollaries 1-4 — the substantive phase-structure content — carried NO proofs (the 8x8 sweep stood in as computation-as-proof); (3) two assertions false as printed (boundary 'piecewise-linear, up to 2 segments' — actually piecewise reciprocal-affine, up to 3 segments; Corollary 2's R*(V) with a sign error and unstated branch conditions) plus a V1 doc-model vs witness-model mismatch (divisor kernel + unregistered cp*V term vs the boxed hinge kernel)",
+  "outcome": {
+   "verdict": "FULL_SUPPORT_AT_STATED_SCOPE__TWO_ASSERTIONS_CORRECTED_EARNED_BY_PROOF",
+   "theorem_structure": "MORPHOLOGY_PHASE_RV_BOUNDARY_THEOREM_V2.md: Lemma K1-K6 (kernel regularity), Lemma D1-D4 (pairwise difference), Lemma SC (single-crossing comparison), Proposition P1 (= V1 Theorem 1, honestly relabelled definitional), Theorem T2 (boundary = graph of continuous V*, piecewise reciprocal-affine, <=3 segments; V1 shape claim corrected), Theorem T3 (R-axis monotonicity, crossing existence/uniqueness, corrected two-branch R*(V) closed forms, R*(V) strictly decreasing in V), Corollary C3 (V-axis, corrected V*(R)), Corollary C1' (corner regimes proved under explicit regularity R+ incl. explicit R_0), Theorem T4 (exact three-morphology region predicates, E2 slope-order transitions, E3 crossing convexity, sandwich criterion, winner-sequence law), Proposition P5 (held-out determinism identity — honest, no discriminative power)",
+   "decision_flags": {
+    "D1_claim_components_all_proved": true,
+    "D2_false_assertions_corrected_not_downscoped": true,
+    "D3_two_route_independent_implementation": true,
+    "D4_sweep_demoted_to_declared_control": true,
+    "D5_no_new_arbitrary_constants": true
+   },
+   "receipt": {
+    "path": "research/gmi-morphology-phase-rv-proof-v2-v1/RECEIPT_TWO_ROUTE_V1.json",
+    "two_route_outcome": "route 1 (V1 witness argmin enumeration) vs route 2 (closed-form boundary predicates only): 64/64 exact-fraction agreement on the registered 8x8 grid; 145,600 ladder cells (res 40/120/360 over the registered domain plus claim-domain edges) with 0 disagreements; 5,000 fixed-seed random points 0 disagreements; exact-fraction control targets all match; sandwich nonemptiness proven for ALL R>0 in both instantiations by exact cell-endpoint evaluation (inf gaps 11/40 and 259/1164); bisection cross-checks at machine precision (<= 7.8e-12); 300 exact random-draw structural property checks, 0 violations",
+    "hosts": [
+     {"host": "billy-laptop", "python": "3.8.10", "battery": "ROUTE2_BATTERY_GREEN", "tests": "19/19"},
+     {"host": "billy-old", "python": "3.14.4", "battery": "ROUTE2_BATTERY_GREEN", "tests": "19/19"}
+    ],
+    "cross_host_bit_identical": true
+   }
+  }
+ },
+ "claim_discipline": {
+  "claim": "MORPHOLOGY_PHASE_RV_BOUNDARY_FULL_SUPPORT_AT_STATED_SCOPE (supersedes the support status of legacy object 073's statement; the statement itself is unchanged and now fully proved: R/V-parameterized burden, 2-morphology phase condition, corner regimes, held-out prediction protocol)",
+  "scope": "kernel-general burden family B_M = a_M + b_M V + alpha_r k(rho_M/R) covering BOTH V1 instantiations (doc hinge model and witness divisor model, registered cp), R in (0,inf), V in [0,1], at fixed ecology E; registered parameter point N=100, H=50, alpha_v=10, alpha_r=1, archetype vectors as registered in gmi-morphology-phase-rv-v1",
+  "quantifiers": "for every morphology pair with db != 0 the boundary is the graph of a continuous piecewise reciprocal-affine V*_ij with at most 3 segments (hinge) / 1 segment (divisor); under regularity rho_n > rho_s, db < 0, alpha_r > 0 and G(V) < 0 a unique R*(V) exists with explicit two-branch closed form and R*(V) strictly decreasing in V; V*_ij non-increasing in R; under R+ (b_n < b_p < b_s, rho_s < rho_p < rho_n) the winner sequence along V is a subsequence of (s, p, n) and the p-band is exactly (V*_sp, V*_pn), nonempty iff V*_sp < V*_pn; at the registered point the sandwich holds for ALL R > 0 in both instantiations (proved exactly)",
+  "assumptions": "V1 registered parameters held fixed; hypotheses H2/H3/R+ stated per theorem; no stochastic element (determinism by construction, cross-host bit-identical receipts)",
+  "falsifiers": "any route-1 vs route-2 winner disagreement (none in 199,664 checked cells); any closed-form vs bisection root deviation beyond machine precision (max 7.8e-12); any structural-property violation on exact random draws (0/300); any in-place edit of the V1 capsule (bound artifact, byte-pinned)",
+  "strongest_parents": "gmi-morphology-phase-rv-v1 (MORPHOLOGY_PHASE_RV_THEOREM_V1, the claim object itself); IDEALIZED_MORPHOLOGY_PHASE_THEOREM_V1 (information-theoretic baseline); PHASE_LAW_V1",
+  "forbidden_extrapolations": "no scope widening (statement unchanged from the V1 claim); no EV self-promotion — evidence_EV stays EV0 in the frozen THEOREM_SCORES_V2.json; EV lift to be applied by the next maturity-rescore round, which owns that axis; the held-out protocol may not be cited as discriminative evidence (P5: determinism identity); the corrected closed forms supersede V1's printed Corollary 2/3 formulas — those must not be cited in their printed form",
+  "caveat_resolution_note": "the L45 borderline_caveat ('Recorded for re-review at the census-refresh round') is resolved ahead of that round by this dedicated revival session, per operator doctrine 2026-09-16 (best claim: strengthen the proof at the claim's stated scope; no downgrading-as-closure)"
+ },
+ "register_counts_after": {
+  "revival_tickets": {"total": 9, "closed": 5, "open": 4},
+  "note": "REV-L45-073-PROOF-STRENGTHENING moves open -> closed; REVIVAL_TICKETS_V1.json and VERDICT_REGISTER_V1.json stay byte-identical (bound artifacts); this append + BASELINE_MANIFEST_V3.json revival_ticket_register_update carry the current state"
+ }
+}
