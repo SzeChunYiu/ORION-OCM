@@ -279,3 +279,18 @@ artifacts, and the original section-4 gate is replaced by a STRONGER one:
 
 No family, plant, or adjudication change.
 
+## Amendment A5 (2026-09-17, pre-corpus-execution)
+
+The P4 no-alarm control caught one over-fire before any corpus candidate was
+emitted: an existing-family (`recurrent_state_macro`) flag on a
+source-generator block whose only "state" is a local accumulator
+(`lines = ["def f(x):", ...]` then `lines += [...]`). A name assigned a
+collection literal — empty OR POPULATED — is a local construction, not
+persistent state. The Amendment A1 container rule is refined accordingly:
+`state_access` writes are subscript-assignments/appends on parameters,
+self-attributes, or names never constructed in-block; accumulator patterns
+(assign collection literal, then extend/augment) are local constructions.
+All six P1 plants still fire (their state writes are parameter mutations:
+`cells[i]`, `population[1:]`, `program[i]`, `code[...]`); the clean
+controls stay clean. No family, plant protocol, or adjudication change.
+

@@ -97,7 +97,7 @@ VERIFIER_CALL_RE = re.compile(r'\b(verifier|verify|oracle|exact_verify|fitness|e
 RANGE_LOOP_RE = re.compile(r'\bfor\s+\w+\s+in\s+(range\(|steps|epochs)', re.I)
 SUBSCRIPT_ASSIGN_RE = re.compile(r'^\s*([A-Za-z_]\w*)\s*\[(?:[^\[\]]|\[[^\]]*\])*\]\s*(?:[-+*/|&^]?=)', re.M)
 PLAIN_ASSIGN_RE = re.compile(r'^\s*([A-Za-z_]\w*)\s*=(?!=)', re.M)
-LOCAL_CTOR_RE = re.compile(r'^\s*([A-Za-z_]\w*)\s*=\s*(\[\]|\{\}|list\(\)|dict\(\)|set\(\)|tuple\(\))', re.M)
+LOCAL_CTOR_RE = re.compile(r'^\s*([A-Za-z_]\w*)\s*=\s*(\[\]|\{\}|list\(\)|dict\(\)|set\(\)|tuple\(\)|\[|\{)', re.M)
 APPEND_RE = re.compile(r'\b([A-Za-z_]\w*)\.(append|extend|update)\s*\(')
 SIG_LIKE_RE = re.compile(r'\(\s*([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*\)')
 OPS_NAME_RE = re.compile(r'^(OPS|PRIMITIVES|OPERATORS|OPCODES|INSTRUCTIONS|OP_TABLE|BASIS|GRAMMAR)[A-Za-z0-9_]*$', re.I)
