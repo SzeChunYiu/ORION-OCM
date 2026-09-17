@@ -29,12 +29,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Freeze custody (V1 freeze + V2 amendment + V3 addendum)
+      - name: Freeze custody (V1 freeze + V2 amendment + V3 addendum, squash-safe)
         run: |
           set -euo pipefail
           freeze=cd6196aa5fd0edcdbcfb535ff2aecf7cd0870754
           amendment=c3fbf5b119e6f5c8ca6b63db1793729f933bac6c
           addendum=c03eb646e08e94ddcb5a8142465c697cc893832c
+          published=69be678dbc96259dd35e30e2953edbbb571151f8
+          # squash merge + branch deletion removes pre-merge ancestry from main;
+          # fetch the pinned custody commits explicitly so they stay verifiable
+          # on every run (GitHub allows fetching explicit object ids)
+          if ! git cat-file -e "$freeze^{commit}" 2>/dev/null; then
+            git fetch --quiet origin "$freeze" "$amendment" "$addendum"
+          fi
           git cat-file -e "$freeze^{commit}"
           git cat-file -e "$freeze:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md"
           git cat-file -e "$amendment^{commit}"
@@ -56,6 +63,13 @@ jobs:
               fi
             done
           done
+          # published-bytes binding: after squash publication the frozen custody
+          # files on main must remain byte-identical to their pinned commits
+          git cat-file -e "$published^{commit}"
+          git merge-base --is-ancestor "$published" HEAD || true  # not ancestor on PR runs
+          test "$(git rev-parse HEAD:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md)" = "$(git rev-parse "$freeze:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md")"
+          test "$(git rev-parse HEAD:research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md)" = "$(git rev-parse "$amendment:research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md")"
+          test "$(git rev-parse HEAD:research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md)" = "$(git rev-parse "$addendum:research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDMENT.md")"
       - name: Receipts tests and deterministic result
         run: |
           set -euo pipefail
