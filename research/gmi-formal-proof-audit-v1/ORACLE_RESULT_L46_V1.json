@@ -1,0 +1,224 @@
+{
+ "agreement": {
+  "exact_agreement_everywhere": true,
+  "rows": [
+   {
+    "agree": true,
+    "claim_id": "closed_corpus_39",
+    "route1_value": 39,
+    "route2_value": 39
+   },
+   {
+    "agree": true,
+    "claim_id": "tag_counts_P1..P5_match_committed_rows",
+    "route1_value": {
+     "P1": 37,
+     "P2": 1,
+     "P3": 3,
+     "P4": 2,
+     "P5": 7
+    },
+    "route2_value": {
+     "P1": 37,
+     "P2": 1,
+     "P3": 3,
+     "P4": 2,
+     "P5": 7
+    }
+   },
+   {
+    "agree": true,
+    "claim_id": "p2_certificate_coverage",
+    "route1_value": [
+     "T602-14"
+    ],
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "p3_assumption_coverage",
+    "route1_value": [
+     "T602-12",
+     "T602-19",
+     "T602-32"
+    ],
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "p4_experiment_coverage",
+    "route1_value": [
+     "T602-12",
+     "T602-18"
+    ],
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "p5_consequence_coverage",
+    "route1_value": [
+     "T602-03",
+     "T602-08",
+     "T602-10",
+     "T602-14",
+     "T602-20",
+     "T602-31",
+     "T602-33"
+    ],
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "domains_quantified_counterexamples_present",
+    "route1_value": 39,
+    "route2_value": 39
+   },
+   {
+    "agree": true,
+    "claim_id": "p1_proof_modes_registered",
+    "route1_value": [
+     "DEFINITIONAL_GATE",
+     "EXECUTABLE_SCHEMA",
+     "FORMAL_DERIVATION_WITH_STRUCTURAL_GATE",
+     "PARENT_REDUCTION_CHECK"
+    ],
+    "route2_value": [
+     "DEFINITIONAL_GATE",
+     "EXECUTABLE_SCHEMA",
+     "FORMAL_DERIVATION_WITH_STRUCTURAL_GATE",
+     "PARENT_REDUCTION_CHECK"
+    ]
+   },
+   {
+    "agree": true,
+    "claim_id": "universal_limit_inventory",
+    "route1_value": 5,
+    "route2_value": 5
+   },
+   {
+    "agree": true,
+    "claim_id": "section_O_ledger_9_green",
+    "route1_value": 9,
+    "route2_value": 9
+   },
+   {
+    "agree": true,
+    "claim_id": "finite_schema:closure_conjunction",
+    "route1_value": true,
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "finite_schema:finite_eventual_periodicity",
+    "route1_value": true,
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "finite_schema:finite_extrapolation_countermodel",
+    "route1_value": true,
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "finite_schema:finite_factorization",
+    "route1_value": true,
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "finite_schema:integer_crossover",
+    "route1_value": true,
+    "route2_value": true
+   },
+   {
+    "agree": true,
+    "claim_id": "finite_schema:interaction_signs",
+    "route1_value": true,
+    "route2_value": true
+   }
+  ],
+  "tolerances_declared": []
+ },
+ "counts": {
+  "agreement_rows": 16
+ },
+ "environment": {
+  "flags": "-I -B",
+  "host": "billy",
+  "python": "3.8.10"
+ },
+ "freeze": "FREEZE_L46_TWO_ROUTE_V1.md item 1",
+ "independence_audit": {
+  "imported_modules": [
+   "__future__",
+   "fractions",
+   "itertools",
+   "json",
+   "pathlib",
+   "sys"
+  ],
+  "no_package_imports": true,
+  "stdlib_only": true,
+  "violations": []
+ },
+ "negative_control": {
+  "description": "corrupted committed value (theorems=40) must be detected as disagreement \u2014 proves the comparison is not vacuous",
+  "passed": true
+ },
+ "package": "gmi-formal-proof-audit-v1",
+ "route1": {
+  "algorithm_class": [
+   "exhaustive instance sweeps over full finite grids (itertools.product)",
+   "direct lambda point-evaluation",
+   "full trace listing + visited-set counting",
+   "registry validation against external closure files"
+  ],
+  "committed_receipt": "THEOREM_AUDIT_V1.json + FORMAL_PROOF_AUDIT_LEDGER_V1.json",
+  "executor": "formal_proof_audit_v1.py"
+ },
+ "route2": {
+  "algorithm_class": [
+   "division-algorithm quotient/remainder inequality chain (crossover)",
+   "affine witness construction + extremal bound (signs)",
+   "kernel-partition refinement + constructive canonical factor (factorization)",
+   "product-form zero-factor property + magnitude bound (extrapolation)",
+   "permutation-symmetry reduction to multiset family (conjunction)",
+   "Floyd two-pointer cycle detection + pigeonhole bound (periodicity)",
+   "arithmetic corpus construction + sorted bijection (inventory)"
+  ],
+  "author_lineage": "derived from FORMAL_PROOF_AUDIT_V1.md and the committed audit JSON structure; route-1 source read only to classify its algorithm class for this table",
+  "difference_table": {
+   "completeness_argument": {
+    "mechanism": "finite check justified by a general argument, not by coverage",
+    "route1": "checked every instance",
+    "route2": "division algorithm / pigeonhole / symmetry invariance proofs"
+   },
+   "exploration_order": {
+    "mechanism": "different traversal of the same finite domains",
+    "route1": "full cartesian sweeps in row-major order",
+    "route2": "boundary witnesses, representative elements, symmetry-reduced families"
+   },
+   "representation": {
+    "mechanism": "route 2 reasons on structure, route 1 on instances",
+    "route1": "predicate truth over enumerated grids",
+    "route2": "algebraic decompositions (quotient/remainder, partitions, product forms)"
+   },
+   "search_cost": {
+    "mechanism": "asymptotically and concretely different work profiles",
+    "route1": "O(grid) per schema (up to 2^8 factorization pairs x 4 candidates)",
+    "route2": "O(boundary) / O(n alpha(n)) union-find / O(mu+lam) detection"
+   }
+  },
+  "executor": "independent_oracle_v1.py"
+ },
+ "schema": "GMI_833_REV_L46_ORACLE_RESULT_V1",
+ "source_sha256": {
+  "claim_spec_FORMAL_PROOF_AUDIT_V1.md": "98ddb7712156bc6d1b12bd6f2b45dedb0219fe83d25c5c3dc64bf0e5d086a6cd",
+  "crosscheck_l46_crosscheck_v1.py": "ea328d70ec0feb768974b5a1f707b3ad1d0ffa7e5d5d6d0cd52c2acf77fa6e7c",
+  "route1_executor_formal_proof_audit_v1.py": "914c046471b60f1c7c2f2697e9be64af6695c92745051d2cae1be7ef478a7c37",
+  "route2_independent_oracle_v1.py": "300d530229c4066f11f508ad9fa9b08e30913f2a83e2b181937a5320819b616f"
+ },
+ "ticket": "REV-L46-TWO-ROUTE-PROGRAMME",
+ "verdict": "TWO_ROUTE_CONVERTED"
+}
