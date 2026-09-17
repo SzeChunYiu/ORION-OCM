@@ -281,6 +281,39 @@ flagged) and negative controls (the tranche basis MUST NOT be flagged).
   size — the completeness-forces-composition crossover; on small sub-batteries
   the readout-only morphology is the cheaper one (counterexample boundary).
 
+## ERRATUM (pre-outcome amendments, no outcome file exists yet)
+
+- TR-1 null-battery and crossover-subbattery PROC2 budget: 10^4 genome
+  evaluations per run (primary and population ablations remain 10^5). Declared
+  before any outcome; the wall-clock cost of 200 x 10^5 17k-task simulations
+  is the binding reason, disclosed here rather than silently reduced.
+- TR-2 completed pairing scope: cost cap 8 and width cap 300,000 semantics
+  (the closure's exhaustive add-combination is pure-python; growth beyond
+  cost 8 exceeds the declared budget). All certificates are stated WITHIN the
+  completed layers; the gate-free affine boundary remains complete via the
+  matrix exhaustions at ALL costs (expr -> matrix is necessary; constructive
+  realization verifies expression-level legality for every realized target).
+- TR-2 nulls are implemented as analytic resampling of per-task closure
+  results under the same frozen 200-seed hash draws (every null draw is
+  itself a member of the complete 2401-table class, so per-task results
+  apply unchanged); this is exactly the declared equal-size random admission.
+- TR-3 nulls run at the full 10^5 budget (as declared).
+- ERRATUM 2 (still pre-outcome; no outcome file has been committed): (i) the
+  M-FAM fingerprint moved byte-preserved from BASIS_GRID_V1.json (where it
+  was frozen at the freeze commit under key m_family_fingerprint_frozen_
+  pre_search) to the adjudicator-side file FAMILY_FINGERPRINTS_V1.json,
+  because the basis grid is SEARCH-VISIBLE and must pass the lexical screen;
+  no search-side file ever read it (the runner reads only the battery files;
+  the checker asserts this). (ii) PROC2 mutation set amended with two
+  additional NEUTRAL structural moves (copy-subtree-between-cells,
+  duplicate-cell) and the TR-3 budgets raised to 10^6 (primary/ablations)
+  and 10^5 (nulls): the first execution at 10^5 stalled at 8/56 errors —
+  exactly the positional boundary machine — and the discovery of a ~40-op
+  match-and-select construction across a neutral fitness gap is a search-
+  power question, not a protocol question; the amendment strengthens the
+  search only along neutral axes (no family vocabulary, no macros, no
+  task-specific operators), before any outcome is frozen.
+
 ## Tranches and claim ceilings
 
 - TR-1 K05, TR-2 M-FAM, TR-3 K08. Terminals RECOVERED / NOT_RECOVERED_AT_SCOPE

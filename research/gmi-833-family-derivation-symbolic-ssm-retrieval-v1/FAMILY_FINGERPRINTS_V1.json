@@ -1,0 +1,25 @@
+{
+ "census_row": "State-space models",
+ "custody": "frozen pre-search at freeze commit 98bd9369 inside BASIS_GRID_V1.json (key m_family_fingerprint_frozen_pre_search); moved byte-preserved to this posthoc-side file before any outcome; adjudicator-only.",
+ "equivalence_scope": "integer-affine recurrent state-space mechanism at declared finite scope",
+ "exclusions_near_neighbors": [
+  "lookup table indexed by the entire input history",
+  "one-step non-recurrent direct map",
+  "gate-free program with no persistent state"
+ ],
+ "family_id": "M-FAM",
+ "minimum_observation_tests": [
+  "superposition intervention executed on the recovered machine over battery streams",
+  "state-value history coefficient decomposition for at least one cell at one position"
+ ],
+ "parent_anchors": [
+  "linear state-space recurrence families (discretized linear filters; S4/Mamba-lineage census context)",
+  "v2 M_STATE recurrent model (k=1 special case)"
+ ],
+ "required": [
+  "the step map (state cells, input) -> (state cells, output) is affine over the integers: no order-test or other non-affine primitive occurs in any update or readout expression, gate-site count zero, persistent state dimension >= 1, the same transition applies at every stream position",
+  "input-output linearity under superposition: for all battery stream pairs u, v and canonical zero stream z, Y(u+v-z) = Y(u)+Y(v)-Y(z) elementwise on the battery horizon",
+  "at least one state cell at some battery position holds an integer combination with >= 2 nonzero history coefficients at distinct lags (superposed memory), or the task class forces pure-copy memory (delay class), in which case C3 is reported delay-degenerate"
+ ],
+ "schema": "FDT_FAMILY_FINGERPRINTS_V1"
+}
