@@ -34,6 +34,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # post-squash reachability repair (E9, 2026-09-17): the tranche-2
+          # PR branch was deleted after squash-merge, so the custody commits
+          # below are only reachable via the preserved PR head ref; fetching
+          # it restores the full custody check without weakening it.
+          git fetch origin "+refs/pull/978/head:refs/remotes/origin/pr-978" >/dev/null 2>&1 || true
           freeze1=c08112e3a287ff3f95cded5473cd504ec74726ef
           freeze2=1114b39124bc7669058a74108371278497ea683f
           git cat-file -e "$freeze1^{commit}"

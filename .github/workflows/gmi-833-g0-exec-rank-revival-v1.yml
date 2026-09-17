@@ -41,6 +41,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # future-proofing (same repair as tranche-2's workflow): after a
+          # squash-merge + branch delete, the custody commits below stay
+          # reachable via the preserved PR head ref; fetch it explicitly.
+          git fetch origin "+refs/pull/${{ github.event.pull_request.number }}/head:refs/remotes/origin/pr-head" >/dev/null 2>&1 || true
           freeze1=79651e4877b719b7d5575e869ad1c3c7c0018c05
           freeze2=a2bf8d26268947218fcae0f3bc4909b03bdeb62d
           git cat-file -e "$freeze1^{commit}"
