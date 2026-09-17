@@ -1,0 +1,335 @@
+{
+ "L42_term_duplicates": {
+  "candidates": 1,
+  "detector": "detector_l42_v1.py (masked-hash over crosswalk classes; validation plants a-d all pass: recall 20/20, no-alarm 0/200, #949 anchor 1652==1652, dupid sample 0/200)",
+  "diagnostic": {
+   "class": "content-normalization near-duplicates (case/quote/plural variants; e.g. LAW 1 uppercase in .py vs title case in .md; JSON-vs-Python quoting of the same path string) \u2014 an adjacent CONTENT-hash refinement class, not terminology variants",
+   "disposition": "reported as next-detector recommendation; not adjudicated here",
+   "punctuation_relaxed_mask_extra_groups": 128
+  },
+  "population_note": "22,553 P1 objects; strict masked-hash equality outside crosswalk spans is a high-precision condition by construction; the corpus's migration history (pre/post edit snapshots never coexist) makes intra-snapshot terminology variants rare \u2014 1 candidate is consistent with that.",
+  "v2_revival": {
+   "classes": {
+    "CONTENT_NORM_DUP": 336,
+    "TERM_NORM_DUP": 182
+   },
+   "detector": "detector_l42_v2_v1.py (normalization mask: crosswalk classes + case/quote/punctuation/whitespace canonicalization; plants pass: case-variant + quote-variant flag, real-word difference silent)",
+   "duplicate_results": 0,
+   "groups": 518,
+   "remainder": "488 groups SCREENED-NOT-ADJUDICATED (echo class extrapolation)",
+   "revival_ticket": "REV-L42-CONTENT-NORM-DETECTOR (DONE_IN_SWEEP)",
+   "tier_s": "30 groups read (10 TERM + 20 CONTENT, seeded 833212): 30/30 DISTINCT - benign serialization/custody echoes (dual-format ledgers .md+.json of the same registry, receipts quoting sources, trailing-comma artifacts, repeated heading fragments, shared code constants)"
+  },
+  "verdicts": [
+   {
+    "group": "AUTO-4FC94E5CDE28AFCF35C4 + AUTO-7FF685146604E42B2629",
+    "reason": "Heading-label collision ('## Ablation theorem' in gmi-capability-perturbations-v1 vs '## Negative-twin theorem' in gmi-capability-real-regime-v1); labels unified by crosswalk row R10 but the underlying theorems are different results in different packages; a label match is not a restatement.",
+    "unifying_row": "R10 (negative twin -> ablation)",
+    "verdict": "DISTINCT"
+   }
+  ]
+ },
+ "L44_enum_where_analytic": {
+  "closest_calls_resolved": [
+   {
+    "reason": "claims-table Scope column declares \"k=2..4, sizes 2..4 exhaustive microscope\"; sibling CLM-4 carries the construction theorem.",
+    "result_id": "GMI833_V2_LEGACY_025_CLM-5",
+    "verdict": "DECLARED_FINITE_ONLY"
+   },
+   {
+    "reason": "theorem doc: \"DERIVED + EXHAUSTIVELY ENUMERATED AT FINITE SCOPE\"; task-universality by construction (analytic).",
+    "result_id": "GMI833_V2_LEGACY_079_TT-1",
+    "verdict": "DECLARED_FINITE_ONLY"
+   },
+   {
+    "reason": "package carries TT-5 short analytic task-independent argument; n in 3..8 declared.",
+    "result_id": "GMI833_V2_LEGACY_053_PN-5",
+    "verdict": "DECLARED_FINITE_ONLY"
+   },
+   {
+    "reason": "tmt.py:429 claim ceiling: \"implementation checks ... on enumerated finite scopes\".",
+    "result_id": "GMI833_V2_LEGACY_173_X-TMT9",
+    "verdict": "DECLARED_FINITE_ONLY"
+   }
+  ],
+  "counts": {
+   "DECLARED_FINITE_ONLY": 49,
+   "ENUMERATION_SUBSTITUTED": 0,
+   "UNKNOWN": 0
+  },
+  "method": "full per-row read (all 49; mechanical pre-screen flagged 31; reads authoritative), agent-read with file evidence, closest calls spot-verified by pass owner",
+  "pattern_note": "every row declares its finite universe in scope_quantifier_class or the registered scope column/receipt ceiling (frozen-#939 declared pattern); arrivals 20-23 pair \"analytic theorem + exhaustive census\"; LEGACY_113 infinite case has a written geometric-series proof.",
+  "per_row_list": "see PASS_L44_L45_V1.md and the adjudication transcript; verdict distribution identical for all rows.",
+  "population": 49
+ },
+ "L45_analytic_comp_only": {
+  "borderline_caveat": [
+   {
+    "reason": "pre-screen flag (citation_md_count=0, MANIFEST-only citation). Theorem 1 proof exists and is non-computational BUT is a one-line definitional rearrangement (\"Direct from the winner criterion ... QED\" at MORPHOLOGY_PHASE_RV_THEOREM_V1.md L84-86); held-out accuracy 100% by construction (frozen deterministic parameters). Weakest analytic support in the set: if the genuine-proof bar excludes definitional tautologies, this is the single best COMPUTATION_ONLY candidate (substantive phase content lives in the 8x8 sweep witness + 23 unittests). Recorded for re-review at the census-refresh round.",
+    "result_id": "GMI833_V2_LEGACY_073_MORPHOLOGY_PHASE_RV_THEO",
+    "verdict": "ANALYTIC_SUPPORTED"
+   }
+  ],
+  "census_disagreement_notes": "LEGACY_047 and LEGACY_165 (census=COMPUTER_ASSISTED_EXHAUSTIVE) both carry fully written analytic proofs (halting-problem reduction; 3-line adversary argument) \u2014 census UNDER-credited analytic support in both; the 62-row disagreement table overstates computational support.",
+  "counts": {
+   "ANALYTIC_SUPPORTED": 63,
+   "COMPUTATION_ONLY": 0,
+   "UNKNOWN": 0
+  },
+  "general_observation": "22 grand-unification rows cite claim-ledger .md files (claim tables + enumeration receipts); in every case the package contains an authority theorem doc with genuine proof text, and receipts are framed as falsifiers/witnesses, not proofs.",
+  "method": "full per-row read: each row proof-bearing doc opened (priority: the 1 pre-screen flag + census-vs-observed disagreement rows); borderline row spot-verified by pass owner",
+  "population": 63
+ },
+ "L47_post_hoc": {
+  "adjudication": "2 exhaustive (RESULT_PRECEDES) + stratified 30 of 63 (proportional 9 tight / 21 single, random.Random(833212), sorted-list sampling; design stated by reader and reproducible); 33 flagged packages remain SCREENED-NOT-ADJUDICATED",
+  "confirmed": [
+   {
+    "action": "flagged for the owning lane; no edit made here (this package is outside the L58 single-claim exception)",
+    "evidence": "RESULT_V1.json (\"all_w4_boxes_green\") added 08c4d206 2026-09-15T16:54:44+02:00; FREEZE_V1.md added 7ce73e5d 18:23:27+02:00 (89 min later); git merge-base --is-ancestor confirms result commit is a true ancestor of the freeze commit; FREEZE_V1.md L3 claims \"Frozen **before** family-member search on this branch.\" \u2014 contradicted by custody.",
+    "mitigating": "the freeze seed literal + its sha256 pre-existed inside the WIP executor/result (novel_intelligence_w4_v1.py:29), so the SEED was prospective; the freeze DOCUMENT (family law, held-out predictions, non-claims) was not.",
+    "package": "gmi-novel-intelligence-w4-v1",
+    "verdict": "POST_HOC_SUSPECT (CONFIRMED, double-verified: reader + pass owner independent git verification)"
+   }
+  ],
+  "counts": {
+   "CUSTODY_NON_DEMONSTRABLE": 18,
+   "POST_HOC_SUSPECT": 1,
+   "PROSPECTIVE_DEMONSTRABLE": 11,
+   "TYPED_POST_HOC": 2,
+   "screen_false_positive": 1
+  },
+  "false_positive_cause": "FREEZE* basename rule matches typed post-execution manifests; prospective freezes named differently (e.g. GEOMETRY_PHASE_SCALING_FREEZE_V1.json) are missed by the executor-gap rule when they live in subdirs",
+  "overclaiming_freeze_texts": "freeze texts claiming prospective registration while custody cannot demonstrate it (gap states, not defects): g0-grammar-growth (\"committed before invention runs\"), unseen-form-prediction (\"stated before search\"), capability-held-freeze + capability-transfer-freeze generator claims, af-barrier-context",
+  "registered_instance_status": "INSTANCE-CONFIG-FREEZE-SEPARATION (#931 E2, AJ9b/c/d 12s/10s/13s) exactly reproduced and correctly attributed (sampled AJ9c/AJ9d marked REGISTERED, not new). NEW same-class occurrences beyond the registered scope: AJ9e (config->freeze 10 s), AJ9h (freeze->SEARCH_CONFIG +14 s), AJ12 (freeze->RESULT 12 s on source ref), g0-interaction-channels (freeze->executor 103 s on ref), useful-descendant (freeze->executor 49 s on ref).",
+  "screen": "git add-order audit over 231 packages: 2 RESULT_PRECEDES_FREEZE + 18 TIGHT_GAP_EXECUTOR + 45 SINGLE_COMMIT_FREEZE_RESULT flagged; 17 PROSPECTIVE_ORDERED; 149 NO_FREEZE_ARTIFACT (no prospective-ness claim to audit)",
+  "typed_post_hoc": [
+   "machine-intelligence-morphogenesis-v1 (screen false positive: FREEZE_V2_EXECUTED.json is a typed post-execution integrity manifest, schema TrackBFreezeV2Executed; no prospective claim)",
+   "gmi-833-aj10-prospective-unknown-v1 (typed post-freeze heldout registration +16 s, mainline transplant squash)"
+  ]
+ },
+ "L48_screen_grammar_encodes_target": {
+  "disposition": "same mechanical layer as L50 viewed through the grammar-encodes-target lens: (a) 27 denylist-hit packages adjudicated 0 leaks \u2014 no search grammar encodes a target architecture by name/operator; the four grammar-defining hit packages (cross-grammar-four-family, domain-registry, current-program-assay, native-adjoint-repair) all carry FORBIDDEN_* anti-encoding lists; (b) the A2-coverage census (<=138 packages defining primitives without semantic-signature registration) is the population where semantic target-encoding CANNOT be excluded lexically \u2014 registering signatures there is the standing coverage mechanism (L50/L34)",
+  "registered_instance_status": "INSTANCE-AJ9-NOSMUGGLING-SCOPE (RED/HIGH, aj-lane) remains the one registered grammar-target instance; this screen found no additional confirmed instance at branch-base scope",
+  "scope_note": "IDENTIFICATION SCREEN ONLY; the L48 residual (AJ9 no-smuggling contract response) is aj-lane and NOT touched or ticked here"
+ },
+ "L49_L53_cost_accounting": {
+  "adjudication": "stratified 30 of 67 (both=19, only49=3, only53=8; sorted lists, random.Random(833212), proportional); 37 flagged remain SCREENED-NOT-ADJUDICATED; calibration anchor gmi-833-g0-grammar-bias-v1 landed in-sample and read AUDITED/TESTED_SENSITIVE as predicted",
+  "confirmed": [
+   {
+    "evidence": "single frozen ACCOUNTING_FREEZE_E2.md; RESULTS_AND_PROOF_E2.md L81 itself states \"The preregistered accounting is not free:\"; searcher over/under-cap verdicts rest entirely on that one accounting; no alternative-accounting run or reversal test artifact (owner-verified).",
+    "package": "gmi-section-e-searcher-comparison-v2",
+    "verdict_L49": "UNAUDITED_COST_DEPENDENT",
+    "verdict_L53": "UNTESTED_SCALARIZATION_DEPENDENT"
+   }
+  ],
+  "counts_L49": {
+   "AUDITED": 13,
+   "NOT_COST_DEPENDENT": 16,
+   "UNAUDITED_COST_DEPENDENT": 1
+  },
+  "counts_L53": {
+   "NA_not_cost_dependent": 16,
+   "TESTED_SENSITIVE": 11,
+   "TESTED_STABLE": 2,
+   "UNTESTED_SCALARIZATION_DEPENDENT": 1
+  },
+  "extrapolation_note": "flag precision ~45% for real cost-dependence; indicative extrapolation 2-3 UNAUDITED among the 50 L49 flags and 2-3 UNTESTED among the 60 L53 flags; remainder of flags are cost-boundary prose, engineering-cost estimates, preserved raw sources",
+  "false_positive_cause": "cost/winner regexes fire on boundary prose (\"cost is not filled with zero\"), engineering budgets (GPU-h), threshold-function coefficients, and preserved parent copies",
+  "screen": "67 flagged packages (50 L49_flag cost-forces-winner / 60 L53_flag no-alt-scalarization, overlap 43); regex evidence booleans recorded per package in P3_SCREENS_V1.json",
+  "tested_sensitive_packages": [
+   "gmi-833-g0-grammar-bias-v1",
+   "gmi-memory-teaching-repair-v1",
+   "gmi-neutral-derivation-v1",
+   "gmi-parity-v6-evidence-v1",
+   "gmi-physical-resource-metering-v1",
+   "gmi-symbolic-selector-derivation-v1",
+   "gmi-833-foundation-v1",
+   "gmi-833-morphology-selection-schema-v1",
+   "gmi-833-developmental-potential-evolvability-v1",
+   "gmi-833-transform-geometry-v1",
+   "gmi-development-amortization-v1",
+   "gmi-resource-lifecycle-ledger-v1"
+  ]
+ },
+ "L50_macros_privileged_operators": {
+  "a2_coverage_census": "138 UNAUDITED_OPERATOR_SURFACE packages is an upper bound: 2/3 spot-checks genuine (aj5-g0-lowering primitive-status ledger; aj9b frozen primitive basis), 1 false positive (prose negation \"is not a primitive\" counted as a primitive file); a def-inclusion (AST-level) check is the registered refinement",
+  "adjudication": "all 27 lexical-hit packages read (exhaustive); census spot-checked 3/138",
+  "authority_self_hit_note": "audit packages' own freezes/quoting their denylist (no-smuggling-audit FREEZE, this package's screen) are authority artifacts, by-design self-skip in the original gate design",
+  "counts": {
+   "CANNOT_TELL": 0,
+   "CONFIRMED_LEAK": 0,
+   "DENYLIST_TOOLING_HITS": 12,
+   "PROSE_CITATION_HITS": 14
+  },
+  "finding": "the L50 screen is effectively a self-audit detector: the dominant hit class is the corpus's own anti-smuggling machinery (BANNED_MI_PRIMITIVES, FORBIDDEN_FAMILY_TOKENS, FORBIDDEN_MACROS, forbidden_symbol_substrings lists in 12 packages incl. the morph.py lineage), followed by literature citations (Vaswani et al.) and registry-path bookkeeping. No grammar or primitive file DEFINES a denylisted architecture operator.",
+  "refined_census_revival": {
+   "anchors": "aj9b (frozen primitive basis) IN; af-barrier (prose negation) OUT; robustness-controls A2-covered (strategy_signature)",
+   "counts": {
+    "a2_covered": 1,
+    "primitive_defining_packages": 109,
+    "unaudited_operator_surface": 108
+   },
+   "replaces": "the 138-package upper bound from the first-pass vocabulary-only rule",
+   "revival_ticket": "REV-L50-A2-SIGNATURE-PROGRAMME",
+   "rule": "primitive-defining file = vocabulary match (primitive|operator|instruction set|opcode|grammar|DSL) AND definition-like structure (OPS/PRIMITIVES/OPERATORS symbols, primitive basis/set phrases, opcode lists, def/class with operator-ish names) in the same file"
+  },
+  "screen": "A1-style denylist (registered D1: transformer, self_attention, conv2d, lstm_gate, rag_retriever) normalized scan over primitive-defining files + A2-signature coverage census; 27 lexical-hit packages, 138 UNAUDITED_OPERATOR_SURFACE packages"
+ },
+ "L51_hidden_iid_stationarity": {
+  "confirmed_defects": 0,
+  "false_positive_cause": "screen's registration-doc filter keyed on FREEZE/ASSUMPTION/RESULT/RECEIPT/README/CORE filenames; THEOREM/FORMALIZATION-named docs carry the registrations in this corpus.",
+  "flags": 7,
+  "population": 7196,
+  "residual_limitation": "word-level screening only; structural presupposition of iid/stationarity without the vocabulary is out of mechanical reach \u2014 feeds the L34 registration lane as the standing coverage mechanism.",
+  "verdicts": [
+   {
+    "object_id": "AUTO-ED0744E206B8F2F627EB",
+    "reason": "ADAPTIVE_ROW_CONFIDENCE_THEOREM_V1.md L3-4 Scope line declares 'stationary conditional row laws' as an explicit scope condition.",
+    "verdict": "REGISTERED_EXPLICIT"
+   },
+   {
+    "object_id": "AUTO-08D60214AEA617487C8F",
+    "reason": "F2_TRANCHE3 falsifier phrased 'Under the registered exchangeable perfect-check model'; F2 formalization (gmi-capability-ceilings-v1/FORMALIZATION_V1.md L17,L296) states the exchangeability premise.",
+    "verdict": "REGISTERED_EXPLICIT"
+   },
+   {
+    "object_id": "AUTO-1CECC6A3CA424BD630D6",
+    "reason": "Same exchangeable-model registration in F2_CEILINGS_V1.json + FORMALIZATION_V1.md L296.",
+    "verdict": "REGISTERED_EXPLICIT"
+   },
+   {
+    "object_id": "T602-19",
+    "reason": "Statement itself declares the premise: 'for iid bounded observations Xi in [0,1], fixed sample size N and fixed pre-data query'.",
+    "verdict": "REGISTERED_EXPLICIT"
+   },
+   {
+    "object_id": "PCA-1",
+    "reason": "PCA-1 fixes the premise in-statement: 'Fix a deterministic stationary policy... In this finite stationary scope'.",
+    "verdict": "REGISTERED_EXPLICIT"
+   },
+   {
+    "object_id": "AUTO-784E92C59EBC4FE4F67F",
+    "reason": "Governing theorem doc declares the premise: 'Obtain exactly N iid draws from each row... the union bound below only needs within-row iidness' (FINITE_DATA_MODEL_TRANSFER_THEOREM_V1.md L32,L41).",
+    "verdict": "REGISTERED_EXPLICIT"
+   },
+   {
+    "object_id": "AUTO-18029DAB25D10ACF7361",
+    "reason": "Executor takes the law as supplied input ('for a supplied finite iid law'), governed by the declared theorem premise.",
+    "verdict": "REGISTERED_EXPLICIT"
+   }
+  ]
+ },
+ "L52_hidden_finite_horizon": {
+  "census_universal_statement_side_only": 1336,
+  "census_universal_status": "SCREENED-NOT-ADJUDICATED (census objects carry no justification/evidence field; evidence-side horizon check not mechanically possible at P1 scope)",
+  "confirmed_defects": 0,
+  "false_positive_classes_recorded": [
+   "T-as-channel-variable",
+   "control-at-horizon-N",
+   "derived-termination-bound"
+  ],
+  "flags": 3,
+  "population_p2": 197,
+  "verdicts": [
+   {
+    "reason": "'T=2' is the compute-channel parameter value of a witness; T is an explicit parameter of the theorem statement (A^T bound), not a hidden time horizon.",
+    "result_id": "GMI833_V2_LEGACY_004_F2-U",
+    "verdict": "DECLARED_HORIZON"
+   },
+   {
+    "reason": "Statement quantifies over 'arbitrary finite history-dependent policies' \u2014 finiteness explicit; the horizon-two 390,625-kernel check is a control under the induction proof, not hidden support.",
+    "result_id": "GMI833_V2_LEGACY_022_CA-2",
+    "verdict": "DECLARED_HORIZON"
+   },
+   {
+    "reason": "Scope explicitly 'FINITE OPERATIONAL SCOPE'; the termination bound |S|*prod(floor(LB_i)+1) is a derived theorem output, not a hidden premise.",
+    "result_id": "GMI833_V2_LEGACY_087_COST-LABEL",
+    "verdict": "DECLARED_HORIZON"
+   }
+  ]
+ },
+ "L54_L55_encoding_search_sensitivity": {
+  "adjudication": "per pass: seeded sample of 30 of 35 (sorted list, random.Random(833212)) = 85.7% rate; 47 unique packages read; classification policy stated: complete censuses of frozen finite populations are traversal-independent (not search-derived); winner/recovery claims from searching a space are search-derived",
+  "calibration_anchors": "gmi-833-g0-grammar-bias-v1 (certify_isometric_remint + 24-permutation certificate + independent Floyd-Warshall oracle) and gmi-833-robustness-controls-v1 (encoding_audit + search_audit with materially distinct signatures) both read genuine and correctly UNFLAGGED by the control gate - no screen defect at anchors",
+  "confirmed_defects": 0,
+  "counts_L54": {
+   "ENCODING_DEPENDENT_UNCONTROLLED": 0,
+   "NOT_ENCODING_DEPENDENT": 29,
+   "REMINT_CONTROLLED": 1
+  },
+  "counts_L55": {
+   "NOT_SEARCH_DERIVED": 26,
+   "REPLICATED_DISTINCT": 4,
+   "SEARCH_SINGLE_ROUTE": 0
+  },
+  "false_positive_causes": "L54 regex fires on Python encoding='utf-8' (~2/3 of sample) and governance uses of 'relabel'; L55 fires on the enumerate() builtin, 'SEARCH'/'optimized' as names, and subject-matter terminology ('search ceiling')",
+  "positives": {
+   "L54": [
+    "gmi-reachability-refinement-v1 (claims live ON encoding dependence and it ships the controlling artifact: successor-order permutation census + explicit |dReach|<=1 bound test)"
+   ],
+   "L55": [
+    "gmi-causal-rung-repair-v1",
+    "gmi-hierarchical-chunking-repair-v1 (solver vs every-execution policy oracle vs independent materialized executor)",
+    "gmi-joint-relational-composition-v1 (solver census vs independent no-solver enumeration, field-for-field, 343 + 262,144 censuses)",
+    "gmi-weighted-transient-transfer-v1 (analytic geometric closed form vs absorbing-chain linear-equation oracle)"
+   ]
+  },
+  "remainder": "5 packages per pass excluded by the draw, SCREENED-NOT-ADJUDICATED",
+  "screen": "35 flagged packages per pass (encoding language without remint control; search executor without materially distinct replica)"
+ },
+ "L56_parent_rediscovery": {
+  "confirmed_defects": 0,
+  "false_positive_cause": "mechanical haystack read only PARENT/SUBSUMPTION-named files; residuals live in THEOREM/CORE/FREEZE docs in this corpus.",
+  "flags": 6,
+  "population": "24 P2 rows with named strongest_parents (173 rows are UNREGISTERED_IN_LEGACY_SOURCE \u2014 parent-registration gap feeding the in-flight L34 lane, not adjudicable here)",
+  "verdicts": [
+   {
+    "reason": "Row justification: 'governance spine object: exact validation of authority DAG, no material theorem claimed'; spine policy GMI_CONVERGENCE_SPINE_V1.md L54 moves novelty to integration layer. No mathematical claim to be a rediscovery of.",
+    "result_id": "GMI833_V2_ARRIVAL_01_ai0-convergence-spine-v1",
+    "verdict": "RESIDUAL_STATED"
+   },
+   {
+    "reason": "Statement is the two-independent-routes blind recovery result (generic prior/evidence multiplication vs integer-pair enumeration) at registered finite scope with explicit not-claimed list (THEORY.md L13) and second_impl=True; parents acknowledged; residual = the registered blind-recovery instance + two-route design.",
+    "result_id": "GMI833_V2_ARRIVAL_19_aj9g-k06-blind-recovery-v1",
+    "verdict": "RESIDUAL_STATED"
+   },
+   {
+    "reason": "CAPABILITY_ABSTENTION_THEOREM_V1.md L103: 'repository contribution is only the exact fail-closed adapter, exhaustive ...'.",
+    "result_id": "GMI833_V2_ARRIVAL_20_capability-abstention-v1",
+    "verdict": "RESIDUAL_STATED"
+   },
+   {
+    "reason": "CAPABILITY_BOUNDS_INTERACTIONS_THEOREMS_V1.md L168: 'standard parent mathematics. The contribution here is their exact integration ...'.",
+    "result_id": "GMI833_V2_ARRIVAL_21_capability-bounds-interactions-v1",
+    "verdict": "RESIDUAL_STATED"
+   },
+   {
+    "reason": "No residual line in any package doc; but MEMORY-1's iff-characterization and ATTENTION-1's exact threshold d_S-d_F < (n-|S|)c are concrete deltas beyond the registered parents (observational equivalence, resource-rational computation). Registration-quality finding, not a rediscovery; recommendation: state the residual explicitly (L34).",
+    "result_id": "GMI833_V2_ARRIVAL_22_cognitive-reaudit-v1",
+    "verdict": "RESIDUAL_PRESENT_UNSTATED"
+   },
+   {
+    "reason": "DEVELOPMENTAL_POTENTIAL_THEOREMS_V1.md L164: 'parent mathematics. The scoped contribution is their typed integration with the ...'.",
+    "result_id": "GMI833_V2_ARRIVAL_23_developmental-potential-evolvability-v1",
+    "verdict": "RESIDUAL_STATED"
+   }
+  ]
+ },
+ "L58_applied_downgrade": {
+  "intermediate_state": "applied downgrade to 27x27 finite scope (commit b2b5a9d9); superseded as closure by the operator revival doctrine",
+  "registered_defect": "#939 verdict table: OVERSTRONG \u2014 universal phrasing \"for any two capabilities\" exceeds a pure 27x27 finite classification once the rules rest on unproven equalities (joint=sum / joint=max).",
+  "revival_chain": [
+   "DIAGNOSE: equalities hide two real premises \u2014 within-channel claim shareability (CE-1: disjoint claims in one channel give joint=7>max=4) and free-option accounting (CE-2: mandatory upkeep interferes); disjoint-channel additivity unobstructed.",
+   "LEVER: per-channel claim-SET structure Q_X(c); channel-wise accounting B(A)=sum_c |union of claims|.",
+   "RE-PROVE AT ORIGINAL STRENGTH: Theorem CI-U universal \u2014 Lemma A (disjoint => sum, unconditional), Lemma B (max<=joint<=sum with exact nested/disjoint/partial characterization, unconditional), Lemma C (free-option monotonicity by feasible-set inclusion); Corollary CI-A4 = registered 27x27 fully-shareable instance.",
+   "BOUNDARY: CE-1 + CE-2 labelled EARNED-BY-COUNTEREXAMPLE; complete obstruction list."
+  ],
+  "target": "research/gmi-capability-interactions-unified-v1/CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md",
+  "universal_claim_status": "RESTORED AND EARNED (strongest true claim; equalities proven conditional characterizations; no unconditional equality claims remain unproven)",
+  "verdict": "REVIVED_TO_STRONGEST_TRUE_CLAIM (universal restored; finite instance kept as Corollary CI-A4)",
+  "verification": "controls: test_interactions.py 27/27, test_ci_universal_v1.py 9/9 (python3 -I -B), ci_universal_witness_v1.py GREEN; custody: no executor reads the .md; defect-clause re-check: universal phrasing now rests on proven lemmas (A/B/C), equalities are proven iff-characterizations"
+ },
+ "note": "Adjudicated verdicts from the corpus identification passes v2. Every verdict cites its evidence. 'PASS_L4x.agent_adjudicated' sections were read by read-only subagents and their CONFIRMED-class rows spot-verified by the pass owner; verdicts marked SCREENED-NOT-ADJUDICATED are explicit gap states, never 'clear'.",
+ "revival_doctrine_note": "Operator correction 2026-09-16 applied: no downgrade-as-closure; every CONFIRMED RED/AMBER finding carries a revival workstream in REVIVAL_TICKETS_V1.json (DONE_IN_SWEEP where executed).",
+ "schema": "GMI_833_CORPUS_PASSES_V2_VERDICT_REGISTER_V1"
+}
