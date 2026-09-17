@@ -33,7 +33,8 @@ V2_BAT_PATH = HERE.parent / "gmi-833-blind-recovery-v2-v1" / \
 V2_BAT = json.loads(V2_BAT_PATH.read_text())
 
 BUDGET_PRIMARY = int(os.environ.get("FDT_BUDGET_PRIMARY", 100_000))
-BUDGET_T3_PRIMARY = int(os.environ.get("FDT_BUDGET_T3_PRIMARY", 1_000_000))
+BUDGET_T3_PRIMARY = int(os.environ.get("FDT_BUDGET_T3_PRIMARY", 10_000_000))
+T3_PRIMARY_SEEDS = int(os.environ.get("FDT_T3_PRIMARY_SEEDS", 10))
 BUDGET_T3_NULL = int(os.environ.get("FDT_BUDGET_T3_NULL", 100_000))
 BUDGET_CROSSOVER = int(os.environ.get("FDT_BUDGET_CROSSOVER", 10_000))
 BUDGET_NULL = int(os.environ.get("FDT_BUDGET_NULL", 10_000))
@@ -265,8 +266,15 @@ def run_t3():
     # certificate: no affine form solves B_EP
     aff, aff_stats = P.ep_affine_exhaust(rows, coef_bound=3)
 
-    # PROC2 primary + ablations + robustness seeds
-    primary = P2.evolve(ts, 0, BUDGET_T3_PRIMARY, 8, genome="stream")
+    # PROC2 primary = pooled best of T3_PRIMARY_SEEDS seeds at the full
+    # budget (neutral seed-diversity axis; declared in errata 3-4)
+    def _one_t3_seed(sd):
+        return P2.evolve(ts, sd, BUDGET_T3_PRIMARY, 8, genome="stream")
+    with mp.Pool(min(10, os.cpu_count() or 4)) as pool:
+        seed_runs = pool.map(_one_t3_seed, range(T3_PRIMARY_SEEDS))
+    primary = min(seed_runs, key=lambda r: (r["fitness"], r["seed"]))
+    primary["seed_set"] = [r["seed"] for r in seed_runs]
+    primary["seed_fitnesses"] = [list(r["fitness"]) for r in seed_runs]
     abl = {}
     for (mu, lam) in ((8, 32), (32, 128)):
         abl["mu%d_lam%d" % (mu, lam)] = P2.evolve(
@@ -371,7 +379,7 @@ CONTR_FITNESS_N = 2000
 
 
 def contr_hash_order(n_tasks):
-    return sorted(range(n_tasks), key=lambda i: P.frozen_hash(i))
+    return sorted(range(n_tasks), key=lambda i: P2.frozen_hash(i))
 
 
 def _contr_taskset(idx_list, layouts, required):

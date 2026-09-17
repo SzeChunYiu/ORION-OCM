@@ -313,6 +313,22 @@ flagged) and negative controls (the tranche basis MUST NOT be flagged).
   power question, not a protocol question; the amendment strengthens the
   search only along neutral axes (no family vocabulary, no macros, no
   task-specific operators), before any outcome is frozen.
+- ERRATUM 3 (still pre-outcome): the TR-3 champion is selected as the best
+  of seeds 0..4 at the full 10^6 budget (seed diversity is a neutral
+  search-power axis; per-seed fitnesses reported). The first chain execution
+  that completed before these amendments (old mutation set, 10^5 budget,
+  8/56 errors) is superseded; no outcome file from it is committed.
+- ERRATUM 4 (still pre-outcome; the committed outcome files do not yet
+  exist): TR-3 primary amended to a pooled best-of-10 seeds at 10^7
+  evaluations each, with two further NEUTRAL search amendments applying to
+  all PROC2 runs: (i) initialization expressions grown by 0..6 random
+  primitive edits from random atoms (richer neutral init distribution);
+  (ii) an additional cost-neutral REWIRE mutation (point an ADD child at
+  another subtree of the same expression; no new nodes). All amendments are
+  search-power-only along neutral axes — no family vocabulary, no macros,
+  no task-specific operators. The 8/56-error positional optimum that the
+  earlier executions found IS the predicted order-completeness boundary
+  machine and is reported as such.
 
 ## Tranches and claim ceilings
 

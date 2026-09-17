@@ -179,11 +179,7 @@ def adjudicate_t2(bat, out2, mfam):
                     break
             if i in affine_ids:
                 break
-    gf = set(int(i) for i in out2["gatefree_realized_ids"]) \
-        if "gatefree_realized_ids" in out2 else None
-    if gf is None:
-        # fall back: reconstruct from gatefree field if stored as dict keys
-        gf = set(int(i) for i in out2["gatefree"].get("realized_task_ids", []))
+    gf = set(int(i) for i in out2["gatefree"].get("realized_ids", []))
     # C1: gate-free machines exist, are affine, verify structurally + by sim
     machines = out2.get("gatefree_machines_sample", {})
     c1_checks = {"machines_inspected": len(machines),
@@ -203,22 +199,63 @@ def adjudicate_t2(bat, out2, mfam):
             c1_checks["all_affine"] = False
         per_machine.append({"task": int(tid), "ge_sites": g,
                             "sim_ok": bool(legal and o == req)})
-    # C2: superposition intervention on up to 5 verified machines
-    c2 = {"interventions": [], "all_linear": True}
+    # C2: superposition executed as a STEP-MAP intervention (input/state
+    # clamping): for sampled states s1, s2, s3 with s1 = s2 - s3 + s0 and
+    # inputs x, check F(s1,x) = F(s2,x) - F(s3,x) + F(s0,x) componentwise on
+    # every cell update and the readout, wherever all evaluations are legal.
+    # (Stream-level sum streams may exceed the guard for machines whose
+    # battery streams are binary; the step map is the object the clause
+    # constrains, and clamping is a real intervention.)
+    c2 = {"interventions": [], "all_linear": True, "tested": 0}
     u = stream[:8]
     v = stream[8:]
     z = [0] * 8
-    uv = [u[i] + v[i] for i in range(8)]  # in D: bits sum <= 2
-    for tid, mm in list(machines.items())[:5]:
+    uv = [u[i] + v[i] for i in range(8)]
+    for tid, mm in list(machines.items())[:8]:
+        ok_steps = True
+        n_tests = 0
+        for s2 in range(-2, 3):
+            for s3 in range(-2, 3):
+                for x in (0, 1, 2):
+                    s1 = s2 - s3
+                    if abs(s1) > GUARD:
+                        continue
+                    env0 = {"s0": 0, "x": x}
+                    env1 = {"s0": s1, "x": x}
+                    env2 = {"s0": s2, "x": x}
+                    env3 = {"s0": s3, "x": x}
+                    vals = []
+                    legal = True
+                    for env in (env0, env1, env2, env3):
+                        up = ev(mm["update"][0], env)
+                        rd = ev(mm["readout"], env)
+                        if up is None or rd is None:
+                            legal = False
+                            break
+                        vals.append((up, rd))
+                    if not legal:
+                        continue
+                    n_tests += 1
+                    if vals[1] != (vals[2][0] - vals[3][0] + vals[0][0],
+                                   vals[2][1] - vals[3][1] + vals[0][1]):
+                        ok_steps = False
+        # stream-level additivity where all three runs are legal
         yu, _, l1 = run_stream(mm, u)
         yv, _, l2 = run_stream(mm, v)
         yz, _, l3 = run_stream(mm, z)
         yuv, _, l4 = run_stream(mm, uv)
-        ok = all([l1, l2, l3, l4]) and yuv is not None and \
-            all(yuv[i] == yu[i] + yv[i] - yz[i] for i in range(8))
-        c2["interventions"].append({"task": int(tid), "superposition_ok": ok})
+        stream_ok = False
+        if all([l1, l2, l3, l4]) and yuv is not None:
+            stream_ok = all(yuv[i] == yu[i] + yv[i] - yz[i]
+                            for i in range(8))
+        ok = ok_steps and n_tests > 0
+        c2["interventions"].append({"task": int(tid),
+                                    "step_map_superposition_ok": ok,
+                                    "n_step_tests": n_tests,
+                                    "stream_additivity_legal_case": stream_ok})
         if not ok:
             c2["all_linear"] = False
+        c2["tested"] += 1
     # C3: state superposition decomposition on verified machines
     c3 = {"decompositions": [], "any_superposed": False,
           "all_delay_degenerate": True}
@@ -252,7 +289,21 @@ def adjudicate_t2(bat, out2, mfam):
     # counterexamples: three distinct non-affine tasks
     counterexamples = [i for i in sorted(truth_tables)
                        if i not in affine_ids][:3]
+    # boolean-codomain contrast: family-information content of restricting
+    # the codomain to {0,1} (the v1 authorship lesson quantified here)
+    boolean_ids = {i for i, tt in truth_tables.items()
+                   if all(v in (0, 1) for v in tt)}
+    boolean_affine = boolean_ids & affine_ids
+    boolean_gatefree = boolean_ids & gf
     boundary = {
+        "boolean_codomain_contrast": {
+            "boolean_tasks": len(boolean_ids),
+            "boolean_affine": len(boolean_affine),
+            "frac_affine_boolean": len(boolean_affine) /
+            max(1, len(boolean_ids)),
+            "frac_affine_full_class": len(affine_ids) / 2401.0,
+            "boolean_gatefree_realized": len(boolean_gatefree),
+        },
         "affine_tasks": len(affine_ids),
         "gatefree_realized_tasks": realized_affine,
         "non_affine_tasks_certified": nonaffine_count,

@@ -106,7 +106,11 @@ def mutate_expr(e, rng, atom_names):
         if kind == "un":
             return expr_set(e, path, node[2])
         return expr_set(e, path, node[1])
-    # graft a fresh small subtree
+    # graft a fresh small subtree, or rewire within the expression
+    if rng.random() < 0.5:
+        e2 = rewire(e, rng)
+        if e2 is not None:
+            return e2
     fresh = rand_atom(rng, atom_names)
     if rng.random() < 0.5:
         fresh = ["un", rng.choice(UNARY_NAMES), fresh]
@@ -115,6 +119,25 @@ def mutate_expr(e, rng, atom_names):
 
 def cap_expr(e):
     return e if expr_size(e) <= SIZE_CAP else None
+
+
+def rewire(e, rng):
+    """Cost-neutral assembly move: point a random node's ADD-child at
+    another random subtree of the same expression (no new nodes)."""
+    nodes = expr_nodes(e)
+    if len(nodes) < 3:
+        return e
+    p = rng.choice(nodes)
+    node = expr_get(e, p)
+    if node[0] != "add":
+        return e
+    side = rng.choice((1, 2))
+    qs = expr_nodes(node[side])
+    q = rng.choice(qs)
+    sub = expr_get(node, q)
+    new_node = list(node)
+    new_node[side] = sub
+    return expr_set(e, p, new_node)
 
 
 def copy_subtree(source, target, rng):
@@ -250,19 +273,31 @@ def rand_genome_iter(rng, n_in, steps, cell_cap, readout_only=False):
     w = rng.randrange(1, min(3, cell_cap) + 1)
     atoms_in = ["s%d" % i for i in range(n_in)]
     if readout_only:
-        update = [rand_atom(rng, atoms_in)]
+        update = [grown_expr(rng, atoms_in) for _ in range(1)]
     else:
-        update = [rand_atom(rng, atoms_in + ["s%d" % i for i in range(n_in, n_in + w)])]
+        atoms = atoms_in + ["s%d" % i for i in range(n_in, n_in + w)]
+        update = [grown_expr(rng, atoms) for _ in range(w)]
     return {"model": "M_ITER", "input_cells": n_in, "update": update,
             "output_cell": n_in, "steps": steps, "rho": 1}
+
+
+def grown_expr(rng, atom_names, edits_poisson=6):
+    """Random expression grown by a small random number of primitive edits
+    from a random atom (neutral initialization distribution)."""
+    e = rand_atom(rng, atom_names)
+    for _ in range(rng.randrange(0, edits_poisson)):
+        e2 = mutate_expr(e, rng, atom_names)
+        if cap_expr(e2) is not None:
+            e = e2
+    return e
 
 
 def rand_genome_stream(rng, cell_cap):
     k = rng.randrange(1, min(3, cell_cap) + 1)
     atoms = ["s%d" % i for i in range(k)] + ["x"]
     return {"model": "M_STREAM", "cells": k,
-            "update": [rand_atom(rng, atoms) for _ in range(k)],
-            "readout": rand_atom(rng, atoms), "rho": 1}
+            "update": [grown_expr(rng, atoms) for _ in range(k)],
+            "readout": grown_expr(rng, atoms), "rho": 1}
 
 
 # ---------------------------------------------------------------------------

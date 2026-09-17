@@ -22,8 +22,23 @@ bars, designed negative controls, zero arbitrary constants (every threshold
 derived/ablated), sha256-pinned receipts; (4) claim-discipline fields for every new
 claim (235-object corpus standard).
 
-STATUS: FROZEN (pre-search). NEUTRAL_BATTERY_FREEZE_V1.json sha256
-9124444e7cd05aab8292672317b0cda5e362b2d9c6940261d78fcc67ac6386b3 is superseded
-by the B_CONTR rule-set amendment; the frozen battery's sha256 is recorded by
-the checker at the freeze commit. Search/adjudicator/screen/checker land only
-after this freeze commit (custody-asserted).
+STATUS: outcomes frozen on the compute host (billy-laptop), adjudicated
+posthoc; see BLIND_OUTCOME_V1_T1/T2/T3.json, REMINT_OUTCOME_V1.json,
+POSTHOC_RESULT_V1.json, CLAIMS_V1.json, RESULT_V1.json (checker).
+
+## Reproduce
+
+- battery regeneration (byte-deterministic):
+  `python3 -B battery_generate_v1.py`
+- search + certificates + nulls (compute host, numpy):
+  `python3 -B run_tranches_v1.py t2|t3|t1` then
+  `python3 -B run_remint_v1.py`
+- CI side (stdlib only): `python3 -B screen_v1.py &&
+  python3 -B posthoc_adjudicate_v1.py && python3 -B check_v1.py`
+
+## Custody
+
+Freeze commit 98bd9369 (prior disclosure + basis + batteries + generator +
+parent ledger; no implementation). Implementation landed only after the
+freeze; outcomes only after implementation; the adjudicator reads the frozen
+benchmark only after outcomes. Battery sha256 pinned in check_v1.py.
