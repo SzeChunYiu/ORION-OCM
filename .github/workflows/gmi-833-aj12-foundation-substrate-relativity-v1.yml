@@ -1,0 +1,31 @@
+name: GMI 833 AJ12 foundation substrate relativity
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj12-foundation-substrate-relativity-v1/**'
+      - '.github/workflows/gmi-833-aj12-foundation-substrate-relativity-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AJ12 checker
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj12-foundation-substrate-relativity-v1/check_aj12.py
+      - name: Assert relativity ceiling
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('research/gmi-833-aj12-foundation-substrate-relativity-v1/RESULT_V1.json'))
+          assert r['status']=='GREEN'
+          assert len(r['formalization_styles'])==2
+          assert r['composition_transfer_checks']==16
+          assert r['physical_hypercomputation'].startswith('EMPIRICAL_OPEN')
+          assert r['claim_ceiling']=='AJ12_FOUNDATION_STYLE_AND_COMPUTATIONAL_SUBSTRATE_RELATIVITY_AUDITED_AT_REGISTERED_CORE_SCOPE'
+          assert 'SELF_JUSTIFYING_ALL_TRUTH_FOUNDATION' in r['forbidden_promotions']
+          PY
