@@ -47,6 +47,62 @@ APPEND_COMPONENT = {
     ],
 }
 
+# Third-party post-freeze edit, restored + succeeded (post_freeze_edit_rule):
+# the grammar-growth lane's #897/#978 reconciliation edited the V1-bound
+# ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json in place on main (2881 ->
+# 3265 bytes) without a manifest supplement; their PR never triggered the
+# path-filtered baseline validator, so every later PR touching this package
+# inherited a red merge tree. The validator's design gives in-place edits of
+# V1-bound files NO supersession path ("every file it binds stays
+# byte-identical"), so this lane restored the V1 bytes exactly and preserved
+# the reconciled content byte-for-byte in the NEW successor file bound here.
+# No reconciliation content is authored or altered by this lane.
+RESTORED_SUCCESSOR_COMPONENT = {
+    "id": "grammar-growth-reconciliation-restored-successor",
+    "package": "research/gmi-833-g0-grammar-growth-v1",
+    "pr": None,
+    "child_issue": 897,
+    "role_in_baseline": (
+        "post-freeze edit of a V1-bound file restored to its bound bytes; "
+        "the reconciled content preserved in this NEW successor file "
+        "(byte-identical copy of main's post-#978 version), bound here per "
+        "the post_freeze_edit_rule; authored by the grammar-growth lane "
+        "(#897/#978), not by this lane"
+    ),
+    "artifacts": [
+        {
+            "path": "research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V2.json",
+            "role": "RECONCILIATION_TABLE_SUCCESSOR_RESTORED_FROM_MAIN",
+        }
+    ],
+}
+
+# Third-party new artifacts in a frozen component, bound here (same rule):
+# the claim-discipline lane landed an E9 registrations append (new files,
+# the sanctioned append shape) without a manifest binding; their PRs never
+# triggered the path-filtered baseline validator. Binding only — no content
+# authored or altered by this lane.
+UNBOUND_ARRIVALS_COMPONENT = {
+    "id": "claim-discipline-e9-append-bound",
+    "package": "research/gmi-833-claim-discipline-v1",
+    "pr": None,
+    "child_issue": None,
+    "role_in_baseline": (
+        "post-freeze new artifacts in a frozen component, bound here per "
+        "the post_freeze_edit_rule ('plus any new artifacts in the owning "
+        "lane ... and, when the binding changes, BASELINE_MANIFEST_V2'); "
+        "authored by the claim-discipline lane, not by this lane"
+    ),
+    "artifacts": [
+        {"path": "research/gmi-833-claim-discipline-v1/REGISTRATIONS_E9_APPEND.json",
+         "role": "CLAIM_DISCIPLINE_APPEND"},
+        {"path": "research/gmi-833-claim-discipline-v1/assemble_e9_append.py",
+         "role": "CLAIM_DISCIPLINE_APPEND_TOOL"},
+        {"path": "research/gmi-833-claim-discipline-v1/authored_e9_append.py",
+         "role": "CLAIM_DISCIPLINE_APPEND_TOOL"},
+    ],
+}
+
 SELF_BINDING_FILES = [
     ("research/gmi-833-theory-baseline-v1/SUPPLEMENT_1_revival-l47-novel-intelligence-w4.md",
      "FREEZE_PACKAGE_SUPPLEMENT"),
@@ -78,6 +134,18 @@ def main():
         art["sha256"] = sha
         art["bytes"] = size
 
+    absorbed = json.loads(json.dumps(RESTORED_SUCCESSOR_COMPONENT))
+    for art in absorbed["artifacts"]:
+        sha, size = sha256_and_bytes(art["path"])
+        art["sha256"] = sha
+        art["bytes"] = size
+
+    arrivals = json.loads(json.dumps(UNBOUND_ARRIVALS_COMPONENT))
+    for art in arrivals["artifacts"]:
+        sha, size = sha256_and_bytes(art["path"])
+        art["sha256"] = sha
+        art["bytes"] = size
+
     self_binding = []
     for rel, role in SELF_BINDING_FILES:
         sha, size = sha256_and_bytes(rel)
@@ -88,8 +156,11 @@ def main():
         "basis": "GMI_THEORY_BASELINE_V1 post-freeze supplement #1 (post_freeze_edit_rule)",
         "v1_manifest_sha256_anchored": v1_sha,
         "supplement_of": "BASELINE_MANIFEST_V1.json (132 artifacts, byte-identical, still authoritative for everything it binds)",
-        "bound_artifact_count": len(component["artifacts"]),
-        "components": [component],
+        "bound_artifact_count": (
+            len(component["artifacts"]) + len(absorbed["artifacts"])
+            + len(arrivals["artifacts"])
+        ),
+        "components": [component, absorbed, arrivals],
         "self_binding": self_binding,
         "revival_ticket_register_update": {
             "statement": (
@@ -132,8 +203,9 @@ def main():
     with open(out, "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=1, sort_keys=True)
         fh.write("\n")
-    print("wrote %s (%d bound artifact(s), %d self-binding file(s))" % (
-        out, len(component["artifacts"]), len(self_binding)))
+    print("wrote %s (%d bound artifact(s) in %d components, %d self-binding file(s))" % (
+        out, manifest["bound_artifact_count"],
+        len(manifest["components"]), len(self_binding)))
     return 0
 
 

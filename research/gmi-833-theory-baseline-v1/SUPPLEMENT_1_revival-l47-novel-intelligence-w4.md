@@ -74,3 +74,29 @@ supplement + `build_manifest_v2.py`. The workflow anchors V2's sha256
 (loud-change rule) and checks builder determinism. Post-squash custody refs:
 tags `rev-l47-w4-freeze-custody` (→ `56195abe`) and `rev-l47-w4-results`
 (→ results commit).
+
+## Third-party freeze violation restored + succeeded (disclosure)
+
+Main's grammar-growth reconciliation (#897/#978, landed after this branch's
+pin) edited the V1-bound
+`research/gmi-833-g0-grammar-growth-v1/ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V1.json`
+in place (2881 → 3265 bytes) without a manifest supplement — their PR never
+triggered the path-filtered baseline validator, so every later PR touching
+this package inherited a red merge tree (the tamper-evidence alarm firing
+exactly as designed). The validator's design gives in-place edits of
+V1-bound files **no** supersession path ("every file it binds stays
+byte-identical"), so this lane restored the V1 bytes exactly
+(`95848277…`/2881 verified against V1's record) and preserved the
+reconciled content **byte-for-byte** in the NEW successor file
+`ISSUE_833_RECONCILIATION_GRAMMAR_GROWTH_V2.json`, bound in V2 per the
+`post_freeze_edit_rule`. No reconciliation content was authored, altered,
+or lost by this lane. The owning lane's narrative obligation (their own
+supplement recording the change) remains theirs.
+
+Additionally, the claim-discipline lane's E9 registrations append (three
+NEW files in the frozen component — the sanctioned append shape, just
+unbound) is bound in V2 unchanged. Both defects were invisible on main
+because the path-filtered validator never ran on those lanes' PRs; any PR
+touching this package inherited the red tree. Root cause for both: path
+filters don't validate the whole frozen binding — closing that is the
+owning governance lane's call, recorded here as an open obligation.
