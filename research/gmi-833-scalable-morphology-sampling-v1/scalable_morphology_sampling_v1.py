@@ -408,6 +408,10 @@ def miss_probability(population: int, qualifying: int, sample: int) -> Fraction:
     return Fraction(comb(population - qualifying, sample), comb(population, sample))
 
 
+def hit_probability(population: int, qualifying: int, sample: int) -> Fraction:
+    return Fraction(1, 1) - miss_probability(population, qualifying, sample)
+
+
 def stratified_miss_probability(
     sizes: Sequence[int], qualifying: Sequence[int], allocation: Sequence[int]
 ) -> Fraction:
@@ -427,6 +431,12 @@ def stratified_miss_probability(
             return Fraction(0, 1)
         probability *= Fraction(comb(size - members, draws), comb(size, draws))
     return probability
+
+
+def stratified_hit_probability(
+    sizes: Sequence[int], qualifying: Sequence[int], allocation: Sequence[int]
+) -> Fraction:
+    return Fraction(1, 1) - stratified_miss_probability(sizes, qualifying, allocation)
 
 
 def _fraction_text(value: Fraction) -> str:
@@ -589,7 +599,9 @@ def build_result() -> dict[str, object]:
             "cross_stratum_second_order": "(m_h/H_h)*(m_g/H_g)",
             "stratified_ht_weight": "H_h/m_h",
             "subset_miss": "C(M-A,k)/C(M,k)",
+            "subset_hit": "1-C(M-A,k)/C(M,k)",
             "stratified_subset_miss": "product_h C(H_h-A_h,m_h)/C(H_h,m_h)",
+            "stratified_subset_hit": "1-product_h C(H_h-A_h,m_h)/C(H_h,m_h)",
         },
         "coverage_diagnostics": {
             "tiny_singleton_global_miss_exact": _fraction_text(singleton_miss),

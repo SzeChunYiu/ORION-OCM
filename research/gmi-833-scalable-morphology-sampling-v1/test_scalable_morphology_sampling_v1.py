@@ -93,6 +93,7 @@ class ProbabilityDesignTests(unittest.TestCase):
             (Fraction(2, 5), Fraction(1, 10)),
         )
         self.assertEqual(S.miss_probability(5, 1, 2), Fraction(3, 5))
+        self.assertEqual(S.hit_probability(5, 1, 2), Fraction(2, 5))
         self.assertEqual(S.miss_probability(5, 4, 2), Fraction(0, 1))
         self.assertEqual(S.miss_probability(5, 0, 2), Fraction(1, 1))
         self.assertEqual(
@@ -105,6 +106,10 @@ class ProbabilityDesignTests(unittest.TestCase):
         self.assertEqual(
             S.stratified_miss_probability((3, 4), (1, 1), (1, 2)),
             Fraction(2, 3) * Fraction(comb(3, 2), comb(4, 2)),
+        )
+        self.assertEqual(
+            S.stratified_hit_probability((3, 4), (1, 1), (1, 2)),
+            Fraction(2, 3),
         )
         self.assertEqual(S.stratified_miss_probability((3,), (3,), (1,)), Fraction(0, 1))
         for args in (
