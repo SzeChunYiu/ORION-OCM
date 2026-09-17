@@ -50,6 +50,12 @@ jobs:
           fi
           git cat-file -e "$freeze:$P1"
           git cat-file -e "$amendment:$P2"
+          echo "=== custody diagnostics ==="
+          git cat-file -t "$addendum" || true
+          git rev-parse "$addendum^{commit}" || true
+          git ls-tree "$addendum" -- research/gmi-833-real-transition-receipts-v1/ || true
+          git ls-remote origin | grep -c "pull/979" || true
+          echo "=== end diagnostics ==="
           git cat-file -e "$addendum:$P3"
           git cat-file -e "$freeze^{commit}"
           git cat-file -e "$freeze:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md"
