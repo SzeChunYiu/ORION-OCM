@@ -29,33 +29,63 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Freeze custody (V1 freeze + V2 amendment + V3 addendum)
+      - name: Freeze custody (V1 freeze + V2 amendment + V3 addendum, squash-safe)
         run: |
           set -euo pipefail
           freeze=cd6196aa5fd0edcdbcfb535ff2aecf7cd0870754
           amendment=c3fbf5b119e6f5c8ca6b63db1793729f933bac6c
           addendum=c03eb646e08e94ddcb5a8142465c697cc893832c
+          published=69be678dbc96259dd35e30e2953edbbb571151f8
+          # squash merge + branch deletion removes pre-merge ancestry from main.
+          # GitHub permanently retains the PR head ref (refs/pull/979/head),
+          # whose complete history contains every pinned custody commit with
+          # full trees; fetch it when the pins are not resolvable locally.
+          P1=research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md
+          P2=research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md
+          P3=research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md
+          # NOTE: blob reads are unreliable on partial-clone runner object
+          # stores (cat-file -e / git show misreport missing blobs as absent
+          # paths); every custody check below is TREE-LEVEL via ls-tree, whose
+          # blob-sha output pins content cryptographically without blob reads.
+          if ! git ls-tree "$freeze" -- "$P1" | grep -q . \
+            || ! git ls-tree "$amendment" -- "$P2" | grep -q . \
+            || ! git ls-tree "$addendum" -- "$P3" | grep -q .; then
+            git fetch --quiet origin "+refs/pull/979/head:refs/remotes/origin/pr-979"
+          fi
+          blob_of() { git ls-tree "$1" -- "$2" | awk '{print $3}'; }
+          V1=$(blob_of "$freeze" "$P1")
+          V2=$(blob_of "$amendment" "$P2")
+          V3=$(blob_of "$addendum" "$P3")
+          test "$V1" = 43497544080d3dc63492a22cd035ba795fbec7c9
+          test "$V2" = d263526d5717c545484f5a0b6d0686bb372622cf
+          test "$V3" = 50e13ea8cd12446a387f150f0268e38330a75cb8
           git cat-file -e "$freeze^{commit}"
-          git cat-file -e "$freeze:research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md"
           git cat-file -e "$amendment^{commit}"
-          git cat-file -e "$amendment:research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md"
           git cat-file -e "$addendum^{commit}"
-          git cat-file -e "$addendum:research/gmi-833-real-transition-receipts-v1/FREEZE_V3_ADDENDUM.md"
           for p in \
             research/gmi-833-real-transition-receipts-v1/REAL_RUNS \
             research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json \
             research/gmi-833-real-transition-receipts-v1/RESULT_V1.json ; do
-            if git cat-file -e "$amendment:$p" 2>/dev/null || git cat-file -e "$addendum:$p" 2>/dev/null; then
+            # tree-level absence check: reliable on partial clones where blob
+            # lookups can false-negative
+            if [ -n "$(git ls-tree "$amendment" -- "$p")" ] || [ -n "$(git ls-tree "$addendum" -- "$p")" ]; then
               echo "post-freeze outcome artifact existed at freeze/amendment/addendum: $p" >&2
               exit 1
             fi
             for d in R07-frankenstein R08-dict-words R09-kernel-headers R10-stdlib-ast R11-programme-md R12-rearleft-wav; do
-              if git cat-file -e "$addendum:research/gmi-833-real-transition-receipts-v1/REAL_RUNS/$d/runs.json" 2>/dev/null; then
+              if [ -n "$(git ls-tree "$addendum" -- "research/gmi-833-real-transition-receipts-v1/REAL_RUNS/$d/runs.json")" ]; then
                 echo "V3 outcome existed at addendum: $d" >&2
                 exit 1
               fi
             done
           done
+          # published-bytes binding: after squash publication the frozen custody
+          # files on main must remain byte-identical to their pinned commits
+          # (blob-sha equality at tree level; HEAD's tree is fully present)
+          git cat-file -e "$published^{commit}"
+          test "$(git rev-parse "HEAD:$P1")" = "$V1"
+          test "$(git rev-parse "HEAD:$P2")" = "$V2"
+          test "$(git rev-parse "HEAD:$P3")" = "$V3"
       - name: Receipts tests and deterministic result
         run: |
           set -euo pipefail
