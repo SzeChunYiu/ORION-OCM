@@ -32,7 +32,7 @@ hypothesis frozen before the enumeration that adjudicates it:
   with `0/200` random specifications from the same `3^12` space hitting any
   family;
 - **`MP-7`** the live corpus carries `0` informal `prior-free` flagship claims:
-  `87` occurrences over `448` files, all in `AUTHORITY 39`, `QUALIFIED_TERM 29`,
+  `88` occurrences over `453` files, all in `AUTHORITY 40`, `QUALIFIED_TERM 29`,
   `MIRROR 13`, `NEGATION 5`, `MENTION_NOT_USE 1`.
 
   Those counts are **corpus-timestamped** at `source_main`
