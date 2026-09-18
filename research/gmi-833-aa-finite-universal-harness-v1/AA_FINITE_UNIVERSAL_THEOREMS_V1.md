@@ -109,7 +109,12 @@ renumber the registered population.
 **Scope.** 8 planted positive objects and 14 declared-clean objects, all
 synthetic, all of shapes fixed in `FREEZE_V1.md` §4 before any number was read.
 
-**Statement.** Recall **8/8**. False alarms **0/14**. The clean classes are
+**Statement.** Recall **8/8**. False alarms **0/14** on the constructed clean
+set — and, more importantly, **0 alarms on 21548 real objects** of the frozen
+corpus that the predicate must leave alone: **331** `UNIVERSAL` claims carrying
+an analytic or mechanized warrant and **21217** non-`UNIVERSAL` objects, zero
+alarms on either. A constructed no-alarm set measures the author's imagination;
+this one measures the corpus. The clean classes are
 (i) `UNIVERSAL` with `ANALYTIC_DEDUCTIVE` or `MECHANIZED_PROOF` — a universal
 claim with an analytic warrant is exactly what the predicate must *not* flag —
 and (ii) every non-`UNIVERSAL` quantifier class paired with each finite
@@ -117,7 +122,8 @@ evidence mode. The no-alarm case is **falsifiable, not vacuous**: widening the
 evidence-mode set to include the analytic modes raises alarms on the same clean
 set, and the test asserts that it does.
 
-**Quantifiers.** Over all 22 synthetic objects.
+**Quantifiers.** Over all 22 synthetic objects, and over all 21548 real
+non-target objects.
 
 **Assumptions.** The declared-clean classes are genuinely clean *for this
 predicate*: a universal claim with an analytic proof is out of the predicate's
@@ -126,9 +132,9 @@ finding.
 
 **Dependencies.** FU-1 for the predicate under test. Independent of the corpus.
 
-**Falsifiers.** A single alarm on any declared-clean object; a planted positive
-the predicate misses; a widening perturbation that raises no alarm (which would
-show the clean set vacuous).
+**Falsifiers.** A single alarm on any declared-clean object, constructed or
+real; a planted positive the predicate misses; a widening perturbation that
+raises no alarm (which would show the clean set vacuous).
 
 **Strongest parents.** Standard detector validation practice (recall /
 false-alarm on labelled controls). Nothing methodological is claimed novel; the

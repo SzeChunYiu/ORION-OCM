@@ -74,8 +74,12 @@ DEFINITION_HEADING = re.compile(r"^(definition|definitions)\b", re.IGNORECASE)
 # identifier (`AAG-1`, `NS-2`, `RLG-T1`) or open with a result word - is
 # reported alongside it so the reader can see both bounds.
 RESULT_ID = re.compile(r"\b[A-Z][A-Z0-9]{0,7}-[A-Z0-9]{1,5}\b")
+# `claim` and `result` are deliberately NOT here: `## Claim ceiling` and
+# `## Results` are ordinary section headings in this corpus, and a fixture
+# built to test the false-positive class caught them being typed as named
+# results. A checker that cries wolf on its first real run gets switched off.
 RESULT_WORD = re.compile(
-    r"^\s*(?:\d+\.\s*)?(theorem|lemma|proposition|corollary|claim|result)\b",
+    r"^\s*(?:\d+\.\s*)?(theorem|lemma|proposition|corollary)\b",
     re.IGNORECASE,
 )
 
@@ -221,6 +225,7 @@ def census(root: Optional[Path] = None,
             for key in totals:
                 totals[key] += int(r["emits"][key])
     unparsed = sorted(f["path"] for f in theorem_files if f["count"] == 0)
+    identified_non_compliant = n_identified - n_identified_complete
     vendored = [f for f in theorem_files if f["vendored"]]
 
     exp_totals = {key: 0 for key, _ in EXPERIMENT_LEDGERS}
@@ -237,6 +242,7 @@ def census(root: Optional[Path] = None,
         "non_compliant_named_results": n_results - n_complete,
         "identified_named_results": n_identified,
         "identified_complete": n_identified_complete,
+        "identified_non_compliant": identified_non_compliant,
         "excluded_prefixes": list(exclude_prefixes),
         "unparsed_theorem_artifacts": len(unparsed),
         "unparsed_theorem_artifact_paths": unparsed,
@@ -280,6 +286,7 @@ def write_baseline(exclude_prefixes: Sequence[str] = ()) -> Dict[str, object]:
         "named_results": c["named_results"],
         "complete_named_results": c["complete_named_results"],
         "non_compliant_named_results": c["non_compliant_named_results"],
+        "identified_non_compliant": c["identified_non_compliant"],
         "emission_by_ledger": c["emission_by_ledger"],
         "experiment_files": c["experiment_files"],
         "entries": dict(sorted(entries.items())),
@@ -304,12 +311,23 @@ def gate(owned: Optional[Sequence[str]] = None,
     regressions = 0
     owned_set = set(owned) if owned is not None else None
 
+    # ENFORCEMENT SCOPE vs MEASUREMENT SCOPE.
+    # The census above uses the declared over-approximating predicate, which is
+    # right for the debt number: it can only overstate. Enforcement uses the
+    # conservative `identified` subset, because a lane that writes `## Scope`
+    # as a section heading in a new theorem note must not be failed for a
+    # reason that has nothing to do with ledger discipline. A gate that fires
+    # on work you did not do is a gate that gets switched off.
+    unidentified_new = 0
     for f in c["per_file"]:
         if owned_set is not None and f["path"] not in owned_set:
             continue
         for r in f["named_results"]:
             key = baseline_key(f["path"], r["result"])
             was = known.get(key)
+            if was is None and not r["identified"]:
+                unidentified_new += 1
+                continue
             if was is None:
                 new_results += 1
                 if not r["complete"]:
@@ -319,7 +337,7 @@ def gate(owned: Optional[Sequence[str]] = None,
                         "path": f["path"], "result": r["result"],
                         "missing": ",".join(missing),
                     })
-            elif was and not r["complete"]:
+            elif was and not r["complete"] and r["identified"]:
                 regressions += 1
                 missing = sorted(k for k, v in r["emits"].items() if not v)
                 violations.append({
@@ -332,14 +350,18 @@ def gate(owned: Optional[Sequence[str]] = None,
     # the whole corpus was scanned.
     debt_grew = False
     if owned_set is None:
-        debt_grew = c["non_compliant_named_results"] > base["non_compliant_named_results"]
+        # The ratchet binds the ENFORCED population. Binding it to the
+        # over-approximating measurement would fail any lane that adds a
+        # theorem note using `##` for section headings, which is the same
+        # false-positive class the enforcement scope above avoids.
+        debt_grew = c["identified_non_compliant"] > base["identified_non_compliant"]
         if debt_grew:
             violations.append({
                 "kind": "CORPUS_DEBT_GREW",
                 "path": "(corpus)",
-                "result": "non_compliant_named_results",
-                "missing": "%d > %d" % (c["non_compliant_named_results"],
-                                        base["non_compliant_named_results"]),
+                "result": "identified_non_compliant",
+                "missing": "%d > %d" % (c["identified_non_compliant"],
+                                        base["identified_non_compliant"]),
             })
 
     report = {
@@ -347,9 +369,15 @@ def gate(owned: Optional[Sequence[str]] = None,
         "scope": "owned-files" if owned_set is not None else "repo-wide",
         "baseline_non_compliant": base["non_compliant_named_results"],
         "live_non_compliant": c["non_compliant_named_results"],
+        "baseline_identified_non_compliant": base["identified_non_compliant"],
+        "live_identified_non_compliant": c["identified_non_compliant"],
         "baseline_named_results": base["named_results"],
         "live_named_results": c["named_results"],
         "new_named_results": new_results,
+        "new_headings_outside_enforcement_scope": unidentified_new,
+        "enforcement_scope": ("named results carrying a result identifier or a "
+                              "result word; section headings are measured but "
+                              "not enforced"),
         "regressions": regressions,
         "corpus_debt_grew": debt_grew,
         "violations": violations,

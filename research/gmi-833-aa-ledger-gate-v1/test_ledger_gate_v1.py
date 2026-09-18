@@ -117,6 +117,32 @@ exhibiting a counterexample; its strongest parent is well known, and the
 dependency on that parent is acknowledged in the prose above.
 """
 
+SECTION_HEADING_NOTE = """# A note that uses ## for sections as well as results
+
+## Scope
+
+Every tracked artifact at the pinned sha.
+
+## Claim ceiling
+
+Something modest.
+
+## XY-1 - a compliant named result
+
+**Statement.** Exact.
+
+**Assumptions.** One.
+
+**Dependencies.** One.
+
+**Falsifiers.** One.
+
+**Strongest parents.** One.
+"""
+
+SECTION_HEADING_NOTE_BAD = SECTION_HEADING_NOTE.replace(
+    "**Dependencies.** One.\n\n", "")
+
 CLEAN = """# Clean theorem note
 
 ## CLN-1 - a compliant named result
@@ -180,6 +206,7 @@ def gate_demo():
             "schema": "GMI_833_LEDGER_BASELINE_V1",
             "named_results": c["named_results"],
             "non_compliant_named_results": c["non_compliant_named_results"],
+            "identified_non_compliant": c["identified_non_compliant"],
             "entries": entries,
         }), encoding="utf-8")
 
@@ -205,6 +232,26 @@ def gate_demo():
         code, rep = A.gate(None, root, base_path)
         out["decoy"] = {"exit": code, "violations": len(rep["violations"]),
                         "kinds": sorted({v["kind"] for v in rep["violations"]})}
+
+        # (5) a new note that uses `##` for SECTION headings as well as for its
+        # one compliant named result must PASS: section headings are measured
+        # but not enforced. This is the false-positive class that would
+        # otherwise fail every other lane's theorem note.
+        q = root / "research" / "fixture-pkg" / "OTHER_THEOREMS_V1.md"
+        p.write_text(CLEAN, encoding="utf-8")
+        q.write_text(SECTION_HEADING_NOTE, encoding="utf-8")
+        code, rep = A.gate(None, root, base_path)
+        out["section_headings_pass"] = {
+            "exit": code, "violations": len(rep["violations"]),
+            "outside_enforcement": rep["new_headings_outside_enforcement_scope"]}
+
+        # (6) ... and the same note with its NAMED RESULT non-compliant fails.
+        q.write_text(SECTION_HEADING_NOTE_BAD, encoding="utf-8")
+        code, rep = A.gate(None, root, base_path)
+        out["section_headings_bad_result_fails"] = {
+            "exit": code, "violations": len(rep["violations"]),
+            "kinds": sorted({v["kind"] for v in rep["violations"]})}
+        q.unlink()
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     return out
@@ -223,6 +270,16 @@ def test_gate_can_fail():
     check("gate_names_regression_violation",
           "COMPLIANT_RESULT_REGRESSED" in demo["regression"]["kinds"],
           json.dumps(demo["regression"]))
+    # The false-positive class: section headings are measured, never enforced.
+    sp = demo["section_headings_pass"]
+    check("gate_does_not_fire_on_section_headings",
+          sp["exit"] == 0 and sp["violations"] == 0, json.dumps(sp))
+    check("section_headings_were_actually_seen",
+          sp["outside_enforcement"] >= 2, json.dumps(sp))
+    sb = demo["section_headings_bad_result_fails"]
+    check("gate_still_fires_on_the_named_result_in_that_note",
+          sb["exit"] != 0 and "NEW_RESULT_MISSING_LEDGER" in sb["kinds"],
+          json.dumps(sb))
     return demo
 
 

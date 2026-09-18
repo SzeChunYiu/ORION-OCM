@@ -12,7 +12,7 @@ tested it. This package tests it.
 |---|---|---|
 | FU-1 | two independent routes agree on the registered `FIN2UNIV` population | **283 records**, **269 distinct gap ids**, **269 distinct claim ids**, **182 source files**, over **22553** objects — agreeing by **set equality**, symmetric difference **0** |
 | FU-2 | integrity defect disclosed, not absorbed | 283 records collapse to **269** identities — **14 duplicates**, emitted per object *row* while the id is a function of `object_id`; 0 empty required cells; all 5 non-identifying columns constant |
-| FU-3 | recall and no-alarm | **8/8** planted positives detected, **0/14** alarms on declared-clean input, and the clean case is proven falsifiable (widening the modes raises alarms) |
+| FU-3 | recall and no-alarm | **8/8** planted positives detected, **0/14** alarms on constructed clean input **and 0 alarms on 21548 real non-target objects** (331 universal-with-analytic-warrant, 21217 non-universal), with the clean case proven falsifiable |
 | FU-4 | hostiles and null | **6/6** hostiles detected, each moving its own quantity; **0/200** randomized nulls reproduce the true set, max overlap **15/269** |
 
 Route B never opens the gap graph. It recovers the firing condition *and* the
@@ -40,4 +40,4 @@ python3 -I -B  research/gmi-833-aa-finite-universal-harness-v1/check_receipt_v1.
 ```
 
 Stdlib only. Exact arithmetic (`int` / `fractions.Fraction`); the test walks the
-whole receipt and fails on any float. 70 checks, both modes.
+whole receipt and fails on any float. 73 checks, both modes.

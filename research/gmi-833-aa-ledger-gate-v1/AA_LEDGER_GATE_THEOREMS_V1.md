@@ -24,7 +24,7 @@ emission counts are **assumptions 31**, **dependency 0**, **falsifier 93**,
 **strongest parent 59**. The dependency ledger AA03 demands has **no instance
 anywhere on `main`**, and neither does the experiment-ledger artifact class AA06
 names (**0** files). The conservative subset of headings that carry a result
-identifier or a result word is **1079** of the 2345; **6** theorem artifacts
+identifier or a theorem word is **1015** of the 2345; **6** theorem artifacts
 expose no level-2 heading at all and are reported in their own
 `unparsed_theorem_artifacts` category; **42** artifacts are vendored copies
 under a `raw/` path carrying **310** of the results, counted and disclosed
@@ -124,10 +124,25 @@ assumptions ledger listing the wrong assumptions passes this predicate.
 variants: a new non-compliant result (`NEW_RESULT_MISSING_LEDGER`), a compliant
 result that loses a ledger (`COMPLIANT_RESULT_REGRESSED`), and the prose decoy.
 Each broken variant also trips the monotone `CORPUS_DEBT_GREW` rule. On the live
-repository the gate exits **0** with **0** violations while seeing **4** new
+repository the gate exits **0** with **0** violations while seeing **17** new
 named results, and the disclosed debt is unchanged at **2345**. The
 demonstration runs inside the test module on every CI invocation, so "the gate
 can fail" is re-established on every run rather than asserted in prose.
+
+**Measurement scope is not enforcement scope, and the difference is the
+false-positive class.** The census uses the declared over-approximating
+predicate, which is right for the debt number because it can only overstate.
+**Enforcement** uses the conservative `identified` subset, and the monotone
+ratchet binds `identified_non_compliant` (**1015** at baseline), not the
+over-approximated **2345**. Without that split, any lane adding a theorem note
+that uses `##` for section headings would be failed for a reason with nothing
+to do with ledger discipline — the exact way a gate gets switched off. Two
+further fixtures hold the line: a new note containing `## Scope` and
+`## Claim ceiling` alongside one compliant `## XY-1` **passes** with 2 headings
+recorded outside enforcement scope, and the same note with `## XY-1`
+non-compliant **fails**. Building that fixture is what exposed `claim` and
+`result` as bad result-word triggers — `## Claim ceiling` was being typed as a
+named result — and they were removed.
 
 **Quantifiers.** Over the four fixtures and the whole live corpus.
 

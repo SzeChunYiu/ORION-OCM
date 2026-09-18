@@ -136,6 +136,38 @@ def declared_clean() -> List[Dict[str, str]]:
     return out
 
 
+def real_corpus_no_alarm(objects: Sequence[Dict[str, object]]) -> Dict[str, int]:
+    """The no-alarm case on REAL non-target objects, not a constructed set.
+
+    The constructed clean set is 14 objects. The frozen corpus carries
+    thousands of objects that the predicate must also leave alone: every
+    `UNIVERSAL` claim with an analytic or mechanized warrant, and every
+    non-`UNIVERSAL` claim whatever its evidence mode. This measures the alarm
+    count on that real population.
+    """
+    universal_analytic = 0
+    non_universal = 0
+    alarms_universal_analytic = 0
+    alarms_non_universal = 0
+    for obj in objects:
+        quant = str(obj["quantifier_class"])
+        mode = str(obj["proof_evidence_mode"])
+        if quant == FIN2UNIV_QUANTIFIER and mode in CLEAN_UNIVERSAL_MODES:
+            universal_analytic += 1
+            alarms_universal_analytic += int(predicate(quant, mode))
+        elif quant != FIN2UNIV_QUANTIFIER:
+            non_universal += 1
+            alarms_non_universal += int(predicate(quant, mode))
+    return {
+        "real_universal_with_analytic_or_mechanized_warrant": universal_analytic,
+        "alarms_on_them": alarms_universal_analytic,
+        "real_non_universal_objects": non_universal,
+        "alarms_on_them_non_universal": alarms_non_universal,
+        "real_clean_objects_total": universal_analytic + non_universal,
+        "real_alarms_total": alarms_universal_analytic + alarms_non_universal,
+    }
+
+
 def validate_detector() -> Dict[str, int]:
     pos = planted_positives()
     clean = declared_clean()
@@ -323,6 +355,7 @@ def main() -> Dict[str, object]:
         "registered_population": {k: v for k, v in pop.items()
                                   if k not in ("gap_ids", "claim_ids")},
         "validation": validation,
+        "real_corpus_no_alarm": real_corpus_no_alarm(objects),
         "hostiles": host,
         "hostiles_detected": sum(1 for h in host if h["detected"]),
         "hostiles_total": len(host),

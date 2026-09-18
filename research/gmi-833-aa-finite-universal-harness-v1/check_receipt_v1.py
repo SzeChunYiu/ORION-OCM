@@ -45,6 +45,7 @@ def build():
         "route_b": {k: v for k, v in b.items() if k not in ("gap_ids", "claim_ids")},
         "route_agreement": agree,
         "validation": a["validation"],
+        "real_corpus_no_alarm": a["real_corpus_no_alarm"],
         "hostiles": a["hostiles"],
         "hostiles_detected": a["hostiles_detected"],
         "hostiles_total": a["hostiles_total"],
@@ -82,7 +83,8 @@ def main(argv):
         return 1
     stored = json.loads(RECEIPT.read_text(encoding="utf-8"))
     diffs = []
-    for key in ("registered_population", "validation", "null", "route_agreement",
+    for key in ("registered_population", "validation", "real_corpus_no_alarm",
+                "null", "route_agreement",
                 "predicate", "hostiles_detected", "hostiles_total"):
         if stored.get(key) != live.get(key):
             diffs.append(key)

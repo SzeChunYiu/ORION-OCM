@@ -175,6 +175,14 @@ def test_recall_and_no_alarm(a):
     check("no_alarm_case_is_falsifiable", alarms > 0,
           "widening the mode set raised no alarm - the clean set is vacuous")
 
+    # The no-alarm case that matters is the REAL one.
+    r = a["real_corpus_no_alarm"]
+    check("real_corpus_zero_alarms", r["real_alarms_total"] == 0, json.dumps(r))
+    check("real_clean_population_is_large",
+          r["real_clean_objects_total"] > 1000, json.dumps(r))
+    check("real_universal_analytic_population_non_empty",
+          r["real_universal_with_analytic_or_mechanized_warrant"] > 0, json.dumps(r))
+
 
 def test_hostiles_all_detected_and_moved(a):
     host = a["hostiles"]
