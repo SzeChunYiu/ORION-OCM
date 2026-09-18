@@ -115,7 +115,7 @@ no constant outside the register is used.
 
 The exhaustive census over the whole `27`-element space of registered-shape
 likelihood tables finds this structure in exactly `2` of them, an exact rate of
-`2/27`; the sampled null fires on `15` of `200` draws, rate `3/40`; and the
+`2/27`; the sampled null fires on `22` of `200` draws, rate `11/100`; and the
 detector raises no alarm on the clean registered worlds `W_SPLIT`, `W_TRI` and
 `W_AGREE1`.
 

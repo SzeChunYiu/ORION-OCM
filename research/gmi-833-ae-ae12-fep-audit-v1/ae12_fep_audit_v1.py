@@ -668,6 +668,8 @@ def randomized_null(reg, worlds, dmax, trials):
     def make(pick):
         return World("null", w.S, w.O, None, [[str(x) for x in rr] for rr in pick])
 
+    # A 64-bit LCG read from its HIGH bits: the low bits of a power-of-two
+    # modulus LCG have period 2**k and would make the control degenerate.
     fired = 0
     precond = 0
     mags = []
@@ -675,8 +677,8 @@ def randomized_null(reg, worlds, dmax, trials):
     for _ in range(trials):
         pick = []
         for _i in range(len(w.S)):
-            state = (1103515245 * state + 12345) % (2 ** 31)
-            pick.append(rows[state % len(rows)])
+            state = (6364136223846793005 * state + 1442695040888963407) % (2 ** 64)
+            pick.append(rows[(state >> 33) % len(rows)])
         ww = make(pick)
         if predicted_outcomes(ww, d0) == predicted_outcomes(ww, d1):
             precond += 1

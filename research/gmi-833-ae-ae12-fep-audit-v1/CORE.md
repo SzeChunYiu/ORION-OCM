@@ -23,7 +23,7 @@ is an exact rational number of bits rather than a transcendental number.
 | `W_DISC1`: expected free energies | `(1, 0, 1)` bits — expected free energy picks `a1`, cardinality-`1` rate-distortion picks `a0`, CPC picks `a0` or `a1` over `45` weights, **no weight matches both** |
 | `W_AGREE1`: expected free energies | `(1, 3/2, 3)` bits — all three principles pick `b0` |
 | Markov blanket partitions | `4` on `SYS_MB_OK`, **`0`** on `SYS_MB_FAIL` |
-| null: exhaustive census of the registered-shape space | `2` of `27`, rate `2/27`; sampled `15` of `200`, rate `3/40`; `0` alarms on three clean worlds |
+| null: exhaustive census of the registered-shape space | `2` of `27`, rate `2/27`; sampled `22` of `200`, rate `11/100`; `0` alarms on three clean worlds |
 | hostiles | `5` of `5` proved potent, then proved detected |
 | prospective predictions | `6` confirmed, **`2` refuted and reported as refuted** |
 
