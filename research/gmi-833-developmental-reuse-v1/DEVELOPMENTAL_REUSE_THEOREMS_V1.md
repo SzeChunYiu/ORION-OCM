@@ -104,9 +104,17 @@ where `T⁺ = {w : ℓ1 < ℓ0}`, `T⁰ = {w : ℓ1 = ℓ0}`, and on `T⁰`
 Tax(w) = [Φ(n',ℓ0−1) − Φ(n,ℓ0−1)] + [rank_{n'}(p*) − rank_n(p*)]  >  0
 ```
 
-strictly whenever `n' > n` and `ℓ0 ≥ 2` (the lex-least hit program is unchanged
-when no macro shortens the target, and widening the alphabet inflates every
-enumerated prefix — #897 `T4`, generalised off its fixture). **A representation
+where `p*` is each grammar's own lex-least hit program. On the **registered**
+`T⁰` the two are the same program — `H−` was constructed to contain no `ab` or
+`ba`, so no macro-using program for those targets exists at all — and the rank
+difference is then exactly the re-indexing of one fixed program from base `n` to
+base `n'`, making `Tax(w) > 0` whenever `n' > n` and `ℓ0 ≥ 2` (#897 `T4`,
+generalised off its fixture). In general the two lex-least programs need **not**
+coincide even when `ℓ1 = ℓ0`: macros sort after base tokens but lexicographic
+order compares position-wise, so a same-length macro-using program such as
+`(a, m1, …)` can precede `(b, a, …)`. The formula above is stated with the two
+ranks kept separate for that reason, and `rep2_portfolio` computes `B1 − B0`
+directly rather than through the parenthetical. **A representation
 change reduces expected future search cost iff `Saving(T⁺) > Tax(T⁰) + K_total(L)`.**
 Per-target membership of `T⁺` in a guaranteed band is decided by REP-1 without
 computing ranks.
@@ -245,13 +253,14 @@ LCG seed per (dynamic, target). The only thing that varies is the dynamic.
 Charging consistency is verified by an independent instrumented counter on every
 cell.
 
-**Census ranking** (200 targets; more hits first, then fewer total evaluations):
+**Census ranking** (all 8 registered dynamics, 200 targets; more hits first,
+then fewer total evaluations; `RAND` is the null control, not a competitor):
 
 | ecology | ranking, best → worst |
 |---|---|
-| `OPAQUE` | ENUM · MUT · LS · GRAD · META · EVO · GP |
-| `GRADED` | GRAD · LS · GP · EVO · META · ENUM · MUT |
-| `DECEPTIVE` | ENUM · MUT · META · LS · GRAD · EVO · GP |
+| `OPAQUE` | ENUM · MUT · LS · GRAD · META · NAS · EVO · GP |
+| `GRADED` | GRAD · LS · GP · EVO · META · ENUM · MUT · NAS |
+| `DECEPTIVE` | ENUM · MUT · META · LS · GRAD · NAS · EVO · GP |
 
 Hits out of 200 — `OPAQUE`: ENUM 200, MUT 136, LS 133, GRAD 133, META 106,
 EVO 7, GP 4. `GRADED`: ENUM/EVO/GP/GRAD/LS/META 200, MUT 136; total evaluations
@@ -259,10 +268,13 @@ on hits: GRAD **3,075**, LS 20,003, GP 26,977, EVO 30,803, META 386,113,
 ENUM 662,841. `DECEPTIVE`: ENUM 200, MUT 136, META 73, LS 26, GRAD 12, EVO 2,
 GP 0.
 
-**Statement.** `ENUM` is best in `OPAQUE` and `DECEPTIVE` but 6th of 7 in
-`GRADED`; `GRAD` is best in `GRADED` but 4th and 5th elsewhere; `GP` is worst in
-`OPAQUE` and `DECEPTIVE` but 3rd in `GRADED`. **No dynamic is best in every
-ecology and none is worst in every ecology.**
+**Statement.** **No dynamic is best in every ecology and none is worst in every
+ecology.** `ENUM` is best in `OPAQUE` and `DECEPTIVE` but 6th of 8 in `GRADED`;
+`GRAD` is best in `GRADED` but 4th and 5th elsewhere; `GP` is worst in `OPAQUE`
+and `DECEPTIVE` but 3rd in `GRADED`; `NAS` is last in `GRADED` but 6th in the
+other two. `FREEZE_V1.md` §3 allowed the second half to carry "the exception
+recorded exactly"; no exception was needed — the measured
+`dynamics_worst_in_every_ecology` set is empty.
 
 **Falsifier.** A route disagreement on any cell; a dynamic dominating all others
 in all three ecologies.
@@ -305,14 +317,30 @@ no dynamic can use guidance under `OPAQUE` at all, so a 133-vs-129 difference in
 200 carries no information about guidance. The criterion was mis-specified, not
 the theory. The replacement is exact, mechanical and strictly stronger.
 
-### SD-2e (frame integrity: MUT is ecology-invariant)
+### SD-2e (frame integrity: the objective-blind dynamics are ecology-invariant)
 
-`MUT` never reads the objective, so its census row must be identical in all
-three ecologies. Measured: **136 hits and 393,223 evaluations in each** of
-`OPAQUE`, `GRADED`, `DECEPTIVE`. A difference would have proved an ecology leak
-in the common frame.
+`MUT` (a pure mutation random walk), `NAS` (enumeration under each pool grammar)
+and `RAND` never read the objective, so their census rows must be identical in
+all three ecologies. Measured: `MUT` **136 hits / 393,223 evaluations**, `NAS`
+**12 hits**, `RAND` **129 hits / 378,620 evaluations** — the same integers in
+`OPAQUE`, `GRADED` and `DECEPTIVE`. Any difference would have proved an ecology
+leak in the common frame.
 
 ### SD-2b (`GRADED`: separability, not gradients)
+
+**Scaling at every registered `ℓ`** (both sides closed-form, no simulation):
+
+| `ℓ` | `\|X\|` | `GRAD` worst case `1+ℓ(n−1)` | `ENUM` expected `(\|X\|+1)/2` | separation floor |
+|---|---|---|---|---|
+| 6 | 729 | 13 | 365 | **28×** |
+| 8 | 6,561 | 17 | 3,281 | **193×** |
+| 10 | 59,049 | 21 | 29,525 | **1,405×** |
+
+`GRAD`'s cost is **linear** in `ℓ`, `ENUM`'s expected cost **exponential**, so
+the separation floor grows without bound at registered scope. Route B verifies
+the bound **exhaustively over every start point** at `ℓ ∈ {6, 8}` (729 and 6,561
+sweeps); the 200-seed census is registered at `ℓ = 8` only.
+
 
 Hamming agreement is separable across positions, so exact coordinate descent
 fixes each position independently and hits in **at most `1 + ℓ(n−1) = 17`**
@@ -349,11 +377,14 @@ caveat on the result — it *is* the result.
 
 ## SD-3 (representation search and portfolios)
 
-**NAS is not a separate kind of search.** The `NAS` dynamic is two-level:
-propose a library, then enumerate under the grown grammar, charged `K_total` and
-both levels. REP-2 **predicted the sign for every pool member before it ran**,
-and matched on all four: on the registered target `bbbbbbbb` (no reuse
-structure) every pool library is pure tax —
+**NAS is not a separate kind of search.** The `NAS` dynamic runs **inside the
+same charged frame** as every other dynamic: one unit per enumerated program's
+expansion, with `K_total` charged up front before its inner search may run, and
+the budget split equally across the 4 registered pool libraries. Measured:
+**12/200 hits in each of the three ecologies** — identical, because `NAS` is
+objective-blind (SD-2e). In the burden frame REP-2 **predicted the sign for
+every pool member before it ran**, and matched on all four: on the registered
+target `bbbbbbbb` (no reuse structure) every pool library is pure tax —
 `{m1→ab}`, `{m1→bc}`, `{m1→cc}` each `6,560 → 43,690` with `K = 3`
 (`Δ = +37,133`), and `{m1→ab, m2→m1m1}` `6,560 → 195,312` with `K = 6`
 (`Δ = +188,758`), all `GUARANTEED_INCREASE`. Representation search is governed

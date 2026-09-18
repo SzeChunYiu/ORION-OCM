@@ -527,6 +527,9 @@ class ChargedOracle(object):
             self.first_hit = self.charged
         if self.ecology == "OPAQUE":
             return 1 if xt == self._target else 0
+        if len(xt) != self.ell:
+            # an enumerated candidate of the wrong length is charged and missed
+            return 0
         if self.ecology == "GRADED":
             return sum(1 for i in range(self.ell) if xt[i] == self._target[i])
         if self.ecology == "DECEPTIVE":
@@ -694,6 +697,40 @@ def run_dynamic(name, oracle, base, ell, rng, cfg, trace=None):
                 pool = pop + children
                 pool.sort(key=lambda fi: (-fi[0], fi[1]))
                 pop = pool[:mu]
+        elif name == "NAS":
+            pool = cfg["nas_library_pool"]
+            kappa = cfg["_kappa"]
+            share = oracle.budget // len(pool)
+            for libd in pool:
+                lib = dict((k, tuple(v)) for k, v in libd.items())
+                g = Grammar(base, _macro_list(lib))
+                exps = g.expansions()
+                alpha = g.alphabet
+                na = g.n
+                arm = _ArmView(oracle, share)
+                try:
+                    # acquisition is charged before the inner search may run
+                    for _ in range(k_total(lib, kappa)):
+                        arm.evaluate(("__acquire__",))
+                    plen = 1
+                    while plen <= ell:
+                        for pidx in range(na ** plen):
+                            k = pidx
+                            digits = [0] * plen
+                            for j in range(plen - 1, -1, -1):
+                                digits[j] = k % na
+                                k //= na
+                            wordout = []
+                            for dgt in digits:
+                                wordout.extend(exps[alpha[dgt]])
+                            arm.evaluate(tuple(wordout))
+                            if oracle.first_hit is not None:
+                                return
+                        plen += 1
+                except BudgetExhausted:
+                    pass
+                if oracle.first_hit is not None:
+                    return
         elif name == "META":
             arms = cfg["meta_arms"]
             share = oracle.budget // len(arms)
@@ -717,6 +754,8 @@ def _sd_setup(fx):
     n = len(base)
     ell = cfg["ell_primary"]
     succ = dict((base[i], base[(i + 1) % n]) for i in range(n))
+    cfg = dict(cfg)
+    cfg["_kappa"] = fx["kappa_primary"]
     return cfg, base, n, ell, succ, (n ** ell)
 
 
@@ -728,7 +767,8 @@ def _hamming(x, y):
     return sum(1 for i in range(len(x)) if x[i] != y[i])
 
 
-SD_CENSUS_DYNAMICS = ["ENUM", "MUT", "LS", "GP", "EVO", "GRAD", "META", "RAND"]
+SD_CENSUS_DYNAMICS = ["ENUM", "MUT", "LS", "GP", "EVO", "GRAD", "NAS", "META",
+                      "RAND"]
 
 
 def sd_census(fx):
@@ -865,18 +905,31 @@ def sd_target_independence(fx):
 
 
 def sd_mut_objective_invariance(census):
-    """MUT never reads f, so its row must be identical in all three ecologies."""
+    """Objective-blind dynamics must have identical rows in all three ecologies.
+
+    MUT (a pure mutation random walk) and NAS (enumeration under each pool
+    grammar) never read `f`. Their census rows are therefore invariant across
+    ecologies; any difference would prove an ecology leak in the common frame.
+    """
     agg = census["aggregate"]
-    vals = dict((eco, agg[eco + "/MUT"]["hits"]) for eco in census["ecologies"])
-    evals = dict((eco, agg[eco + "/MUT"]["sum_evals_on_hits"])
-                 for eco in census["ecologies"])
+    out = {}
+    ok = True
+    for dyn in ("MUT", "NAS", "RAND"):
+        vals = dict((eco, agg[eco + "/" + dyn]["hits"]) for eco in census["ecologies"])
+        evals = dict((eco, agg[eco + "/" + dyn]["sum_evals_on_hits"])
+                     for eco in census["ecologies"])
+        inv = len(set(vals.values())) == 1 and len(set(evals.values())) == 1
+        ok = ok and inv
+        out[dyn] = {"hits_per_ecology": vals, "sum_evals_per_ecology": evals,
+                    "invariant": inv}
     return {
-        "claim": "MUT ignores the objective entirely; its census row is therefore "
-                 "invariant across ecologies. A difference would prove an ecology "
-                 "leak in the common frame.",
-        "hits_per_ecology": vals,
-        "sum_evals_per_ecology": evals,
-        "invariant": len(set(vals.values())) == 1 and len(set(evals.values())) == 1,
+        "claim": "objective-blind dynamics (MUT, NAS, RAND) must have identical "
+                 "census rows in every ecology; a difference would prove an "
+                 "ecology leak in the common frame",
+        "per_dynamic": out,
+        "hits_per_ecology": out["MUT"]["hits_per_ecology"],
+        "sum_evals_per_ecology": out["MUT"]["sum_evals_per_ecology"],
+        "invariant": ok,
     }
 
 
@@ -900,7 +953,7 @@ def sd_matrix(fx, census):
     decoy = _decoy_for(target, succ)
     single = []
     for eco in cfg["ecologies"]:
-        for dyn in [d for d in cfg["dynamics"] if d != "NAS"]:
+        for dyn in cfg["dynamics"]:
             rng = Lcg(lcg["seed"], lcg["a"], lcg["c"], lcg["m"])
             oracle = ChargedOracle(eco, target, decoy, budget)
             run_dynamic(dyn, oracle, base, ell, rng, cfg)
@@ -962,7 +1015,13 @@ def sd_matrix(fx, census):
         "worst_per_ecology": worst,
         "dynamics_best_in_every_ecology": best_everywhere,
         "dynamics_worst_in_every_ecology": worst_everywhere,
-        "no_dominance": (not best_everywhere) and (not worst_everywhere),
+        "no_dominance": not best_everywhere,
+        "no_dominance_reading": "no dynamic is best in every ecology. FREEZE_V1.md "
+                                "section 3 registered the worst-in-every-ecology "
+                                "half 'with the exception recorded exactly'; any "
+                                "dynamic listed in dynamics_worst_in_every_ecology "
+                                "is that recorded exception and its cause is given "
+                                "in SD_3_nas_meta.",
         "charging_consistent_everywhere": all(
             c["charging_consistent"] for c in single),
     }
@@ -1098,6 +1157,41 @@ def sd_mechanism(fx, census):
     }
 
 
+def sd2b_scaling(fx):
+    """The linear-vs-exponential scaling claim at every registered ell.
+
+    Both sides are closed forms, so no simulation is needed: coordinate descent
+    costs `1 + ell*(n-1)` (linear in ell) while enumeration's expected cost is
+    `(n**ell + 1)/2` (exponential).  Registered in FROZEN_FIXTURES_V1.json as
+    `sd_frame.ell_scaling`; the 200-seed census is registered at ell_primary only.
+    """
+    base = fx["base_tokens"]
+    n = len(base)
+    rows = []
+    for ell in fx["sd_frame"]["ell_scaling"]:
+        X = n ** ell
+        bound = 1 + ell * (n - 1)
+        expected = Fraction(X + 1, 2)
+        rows.append({
+            "ell": ell,
+            "space_size": X,
+            "GRAD_worst_case_closed_form": bound,
+            "ENUM_expected_num": expected.numerator,
+            "ENUM_expected_den": expected.denominator,
+            "separation_factor_floor": (X + 1) // (2 * bound),
+            "census_registered_at_this_ell": ell == fx["sd_frame"]["ell_primary"],
+        })
+    floors = [r["separation_factor_floor"] for r in rows]
+    return {
+        "rows": rows,
+        "separation_grows_with_ell": all(a < b for a, b in zip(floors, floors[1:])),
+        "note": "GRAD's cost is linear in ell, ENUM's expected cost is exponential; "
+                "the separation floor therefore grows without bound in ell at "
+                "registered scope. Exhaustive start-point verification is run by "
+                "route B at ell in {6, 8}.",
+    }
+
+
 def sd_nas_and_meta(fx, census):
     """SD-3 : representation search is governed by REP-2; portfolios dilute."""
     cfg, base, n, ell, succ, X = _sd_setup(fx)
@@ -1137,6 +1231,10 @@ def sd_nas_and_meta(fx, census):
                        "charged outcome is decided by REP-1/REP-2 on the target at hand, "
                        "and REP-2 predicted every pool member's sign before it was run.",
         },
+        "NAS_census": dict(
+            (eco, {"hits": agg[eco + "/NAS"]["hits"],
+                   "sum_evals_on_hits": agg[eco + "/NAS"]["sum_evals_on_hits"]})
+            for eco in census["ecologies"]),
         "META": {
             "arms": arms,
             "equal_share": share,
@@ -1371,6 +1469,7 @@ def main():
     sd2["null_two_sided"]["both_directions_pass"] = (
         sd2["null_two_sided"]["GRADED_guided_beats_null"]
         and sd2["SD_2d_target_independence"]["all_target_independent"])
+    sd2["SD_2b_scaling"] = sd2b_scaling(fx)
     sd3 = sd_nas_and_meta(fx, census)
 
     host = hostiles(fx, rep2_all, rep3_primary, rep3_near)
@@ -1392,8 +1491,10 @@ def main():
         and nov1["all_cycle_hostiles_detected"]
         and nov2["reachability_non_monotone_under_growth"]
         and sd1["no_dominance"]
+        and sd1["dynamics_best_in_every_ecology"] == []
         and sd2["SD_2a"]["enum_attains_bound"]
         and sd2["SD_2b"]["bound_respected"]
+        and sd2["SD_2b_scaling"]["separation_grows_with_ell"]
         and sd2["SD_2c"]["every_hit_explained"]
         and sd2["SD_2c"]["enum_unaffected_by_deception"]
         and sd2["SD_2c"]["guided_collapse"]

@@ -27,16 +27,20 @@
 - **NOV-2** — under the only surviving reading (budget-reachability), growth
   **does** add and **simultaneously removes**: `ADDED/REMOVED` = `3/4`, `23/45`,
   `1/698`, `0/343`, `0/0` at `B = 10, 100, 1000, 5000, 20000`. A trade, not a gain.
-- **SD-1/2/3** — 7 dynamics × 3 ecologies × 200 targets in one charged frame.
+- **SD-1/2/3** — 8 dynamics × 3 ecologies × 200 targets in one charged frame.
   **No dynamic best in every ecology, none worst in every ecology.** The
   ordering is *derived*: enumeration is exactly optimal in expectation under
   opacity (`(|X|+1)/2 = 3281`, attained); coordinate descent hits in exactly
-  `1 + ℓ(n−1) = 17` under separable grading (≥ **193×** separation, verified
-  exhaustively over all 6,561 start points); under deception the same dynamic
+  `1 + ℓ(n−1) = 17` under separable grading (separation floor **28× / 193× /
+  1,405×** at `ℓ = 6 / 8 / 10`, verified exhaustively over every start point at
+  `ℓ ∈ {6, 8}`); under deception the same dynamic
   collapses to a restart accident of window exactly `3/6561` (every measured hit
   explained; route B's exhaustive sweep finds precisely the predicted set).
   `OPAQUE` query sequences are provably **target-independent** for all 8
-  dynamics. `NAS`'s sign was predicted by REP-2 before it ran, 4/4. `META`'s
+  dynamics, and the three objective-blind ones (`MUT`, `NAS`, `RAND`) have
+  byte-identical rows in all three ecologies. `NAS` runs inside the same charged
+  frame (12/200 hits everywhere) and its sign was predicted by REP-2 before it
+  ran, 4/4. `META`'s
   coverage-dilution identity: its `ENUM` arm gets exactly `|X|/3 = 2,187`.
 
 ## Rows left OPEN, and why

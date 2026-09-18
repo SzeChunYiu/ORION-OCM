@@ -61,7 +61,37 @@ Recorded because "validate the checker first" is not optional.
    frozen rule is sound (0 wrong strict signs) but incomplete; `REP-1b`
    completes it five-way. Recorded with provenance; the frozen statement is
    reported unchanged.
-4. **META evaluation accounting.** The first draft charged portfolio arms with
+4. **Two silent freeze deviations, found and corrected (not merely recorded).**
+   The first complete build (a) ran the SD census over 7 dynamics with `NAS`
+   filtered out and `RAND` substituted, although `FREEZE_V1.md` §3 and
+   `FROZEN_FIXTURES_V1.json:sd_frame.dynamics` register **8** dynamics including
+   `NAS`; and (b) never used `sd_frame.ell_scaling = [6, 8, 10]`, reporting only
+   `ell_primary = 8`. Both were deviations from the freeze that nothing in the
+   receipt disclosed. Corrected rather than excused: `NAS` now runs inside the
+   same charged frame (one unit per enumerated program's expansion, `K_total`
+   charged up front before its inner search may run), and `SD-2b` now emits the
+   closed-form scaling row at every registered `ell` with route B sweeping all
+   start points exhaustively wherever that is within the registered exhaustive
+   budget. A test now asserts `set(SD_CENSUS_DYNAMICS) − {RAND}` equals the
+   frozen dynamics list, so this class of drift cannot recur silently.
+5. **An inverted-grep CI gate that could never fail.** Two `! grep …` lines ran
+   under `set -eu`; bash does not exit on a command whose status is inverted
+   with `!`, so the stdlib-only check and the route-independence check were
+   no-ops whose step status came from the last line only. Replaced by explicit
+   `if grep …; then exit 1; fi` in separate steps. In a package whose discipline
+   is "validate the checker first", this was the one checker that had not been
+   validated.
+6. **Stale receipts produced by the verification workflow itself.** Syncing the
+   package directory Mac → laptop after a code change also pushed the *previously
+   committed* `RESULT_V1.json` / `ORACLE_RESULT_V1.json` over the laptop's freshly
+   generated ones, so a subsequent gate + test pass validated the new code against
+   **stale** receipts. Caught by md5-comparing the pulled receipts against the run
+   that produced them. Fixed by regenerating both receipts on the laptop from the
+   current code as the first step of a single `ldev_regen.sh` pass, and never
+   syncing receipts in the Mac → laptop direction afterwards. CI's byte-for-byte
+   `cmp` of a fresh executor run against the committed receipt is the standing
+   guard against this exact drift.
+7. **META evaluation accounting.** The first draft charged portfolio arms with
    placeholder evaluations. Replaced by `_ArmView`, which forwards every arm
    evaluation to the single shared charged oracle exactly once and cuts the arm
    off at its own share. No evaluation is free, and the audit counter confirms
@@ -83,6 +113,14 @@ targets, non-vacuously compared — is exact, mechanical and strictly stronger; 
 passes for all 8 dynamics. Both the failure and the replacement are in
 `RESULT_V1.json` under
 `SD_2_mechanism.null_two_sided.freeze_criterion_disposition`.
+
+## Determinism of the reported ranking
+
+Ties in the census ranking are broken by the frozen dynamics-list order, not
+arbitrarily. In `OPAQUE`, `LS` and `GRAD` produce byte-identical runs (133 hits,
+355,914 evaluations each): with a constant objective neither has an improver, so
+both degenerate to seeded restart sampling off the same seed stream. That
+coincidence is a consequence of SD-2d, not a collision in the frame.
 
 ## Two routes
 

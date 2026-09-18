@@ -369,14 +369,13 @@ def sd2a_exact(fx):
             "agrees_with_closed_form": total * 2 == (X + 1) * X}
 
 
-def sd2b_exhaustive(fx):
+def sd2b_exhaustive_at(fx, ell):
     """Coordinate descent under GRADED, over ALL 3**ell start points.
 
     Exhaustive, so this is a proof at scope rather than a 200-sample estimate.
     """
     base = fx["base_tokens"]
     n = len(base)
-    ell = fx["sd_frame"]["ell_primary"]
     X = n ** ell
     bound = 1 + ell * (n - 1)
     target = _idx_to_word((X - 1) // 2, base, ell)
@@ -409,9 +408,26 @@ def sd2b_exhaustive(fx):
                 worst = evals
         else:
             misses += 1
-    return {"start_points_swept": X, "derived_bound": bound,
+    return {"ell": ell, "start_points_swept": X, "derived_bound": bound,
             "worst_observed": worst, "misses": misses,
             "bound_respected": misses == 0 and worst <= bound}
+
+
+def sd2b_exhaustive(fx):
+    """Exhaustive verification at every registered scaling ell that is tractable."""
+    rows = []
+    for ell in fx["sd_frame"]["ell_scaling"]:
+        if len(fx["base_tokens"]) ** ell > 10000:
+            rows.append({"ell": ell, "skipped": "start-point sweep beyond the "
+                                                "registered exhaustive budget",
+                         "derived_bound": 1 + ell * (len(fx["base_tokens"]) - 1)})
+            continue
+        rows.append(sd2b_exhaustive_at(fx, ell))
+    primary = [r for r in rows if r.get("ell") == fx["sd_frame"]["ell_primary"]][0]
+    return {"rows": rows,
+            "primary": primary,
+            "all_swept_bounds_respected": all(
+                r["bound_respected"] for r in rows if "bound_respected" in r)}
 
 
 def sd2c_exhaustive(fx):
@@ -482,7 +498,7 @@ def main():
           and nov1["all_cycle_hostiles_detected"]
           and nov2["reachability_non_monotone_under_growth"]
           and a["agrees_with_closed_form"]
-          and b["bound_respected"]
+          and b["all_swept_bounds_respected"]
           and c["characterisation_exact"])
 
     out = {

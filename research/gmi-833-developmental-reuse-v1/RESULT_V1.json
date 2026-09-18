@@ -10075,6 +10075,17 @@
         "sum_evals_on_hits": 393223,
         "worst_evals_on_hits": 6518
       },
+      "DECEPTIVE/NAS": {
+        "hits": 12,
+        "mean_evals_on_hits_den": 12,
+        "mean_evals_on_hits_num": 28783,
+        "misses": 188,
+        "seeds": 200,
+        "sum_charged": 1262063,
+        "sum_distinct": 497957,
+        "sum_evals_on_hits": 28783,
+        "worst_evals_on_hits": 6503
+      },
       "DECEPTIVE/RAND": {
         "hits": 129,
         "mean_evals_on_hits_den": 129,
@@ -10162,6 +10173,17 @@
         "sum_distinct": 527584,
         "sum_evals_on_hits": 393223,
         "worst_evals_on_hits": 6518
+      },
+      "GRADED/NAS": {
+        "hits": 12,
+        "mean_evals_on_hits_den": 12,
+        "mean_evals_on_hits_num": 28783,
+        "misses": 188,
+        "seeds": 200,
+        "sum_charged": 1262063,
+        "sum_distinct": 497957,
+        "sum_evals_on_hits": 28783,
+        "worst_evals_on_hits": 6503
       },
       "GRADED/RAND": {
         "hits": 129,
@@ -10251,6 +10273,17 @@
         "sum_evals_on_hits": 393223,
         "worst_evals_on_hits": 6518
       },
+      "OPAQUE/NAS": {
+        "hits": 12,
+        "mean_evals_on_hits_den": 12,
+        "mean_evals_on_hits_num": 28783,
+        "misses": 188,
+        "seeds": 200,
+        "sum_charged": 1262063,
+        "sum_distinct": 497957,
+        "sum_evals_on_hits": 28783,
+        "worst_evals_on_hits": 6503
+      },
       "OPAQUE/RAND": {
         "hits": 129,
         "mean_evals_on_hits_den": 129,
@@ -10288,6 +10321,7 @@
         "META",
         "LS",
         "GRAD",
+        "NAS",
         "EVO",
         "GP"
       ],
@@ -10298,7 +10332,8 @@
         "EVO",
         "META",
         "ENUM",
-        "MUT"
+        "MUT",
+        "NAS"
       ],
       "OPAQUE": [
         "ENUM",
@@ -10306,6 +10341,7 @@
         "LS",
         "GRAD",
         "META",
+        "NAS",
         "EVO",
         "GP"
       ]
@@ -10384,6 +10420,16 @@
           "hit": false
         },
         {
+          "audit_calls": 6560,
+          "charged": 6560,
+          "charging_consistent": true,
+          "distinct_candidates": 2567,
+          "dynamic": "NAS",
+          "ecology": "OPAQUE",
+          "evals_to_hit": null,
+          "hit": false
+        },
+        {
           "audit_calls": 6561,
           "charged": 6561,
           "charging_consistent": true,
@@ -10452,6 +10498,16 @@
           "ecology": "GRADED",
           "evals_to_hit": 16,
           "hit": true
+        },
+        {
+          "audit_calls": 6560,
+          "charged": 6560,
+          "charging_consistent": true,
+          "distinct_candidates": 2567,
+          "dynamic": "NAS",
+          "ecology": "GRADED",
+          "evals_to_hit": null,
+          "hit": false
         },
         {
           "audit_calls": 2268,
@@ -10524,6 +10580,16 @@
           "hit": false
         },
         {
+          "audit_calls": 6560,
+          "charged": 6560,
+          "charging_consistent": true,
+          "distinct_candidates": 2567,
+          "dynamic": "NAS",
+          "ecology": "DECEPTIVE",
+          "evals_to_hit": null,
+          "hit": false
+        },
+        {
           "audit_calls": 6561,
           "charged": 6561,
           "charging_consistent": true,
@@ -10540,13 +10606,14 @@
       "target": "bbbbbbbb"
     },
     "no_dominance": true,
+    "no_dominance_reading": "no dynamic is best in every ecology. FREEZE_V1.md section 3 registered the worst-in-every-ecology half 'with the exception recorded exactly'; any dynamic listed in dynamics_worst_in_every_ecology is that recorded exception and its cause is given in SD_3_nas_meta.",
     "space_size": 6561,
     "worst_per_ecology": {
       "DECEPTIVE": [
         "GP"
       ],
       "GRADED": [
-        "MUT"
+        "NAS"
       ],
       "OPAQUE": [
         "GP"
@@ -10567,6 +10634,7 @@
         "LS": 551134,
         "META": 521763,
         "MUT": 527584,
+        "NAS": 497957,
         "RAND": 579226
       },
       "enum_attains_bound": true,
@@ -10582,6 +10650,7 @@
         "LS": 133,
         "META": 106,
         "MUT": 136,
+        "NAS": 12,
         "RAND": 129
       },
       "measured_mean_evals_on_hits": {
@@ -10613,6 +10682,10 @@
           393223,
           136
         ],
+        "NAS": [
+          28783,
+          12
+        ],
         "RAND": [
           378620,
           129
@@ -10632,6 +10705,39 @@
       "measured_worst": 17,
       "mechanism": "separability of the objective, NOT any property of gradient methods; the substrate has no differentiable structure",
       "separation_factor_floor": 193
+    },
+    "SD_2b_scaling": {
+      "note": "GRAD's cost is linear in ell, ENUM's expected cost is exponential; the separation floor therefore grows without bound in ell at registered scope. Exhaustive start-point verification is run by route B at ell in {6, 8}.",
+      "rows": [
+        {
+          "ENUM_expected_den": 1,
+          "ENUM_expected_num": 365,
+          "GRAD_worst_case_closed_form": 13,
+          "census_registered_at_this_ell": false,
+          "ell": 6,
+          "separation_factor_floor": 28,
+          "space_size": 729
+        },
+        {
+          "ENUM_expected_den": 1,
+          "ENUM_expected_num": 3281,
+          "GRAD_worst_case_closed_form": 17,
+          "census_registered_at_this_ell": true,
+          "ell": 8,
+          "separation_factor_floor": 193,
+          "space_size": 6561
+        },
+        {
+          "ENUM_expected_den": 1,
+          "ENUM_expected_num": 29525,
+          "GRAD_worst_case_closed_form": 21,
+          "census_registered_at_this_ell": false,
+          "ell": 10,
+          "separation_factor_floor": 1405,
+          "space_size": 59049
+        }
+      ],
+      "separation_grows_with_ell": true
     },
     "SD_2c": {
       "ENUM_hits": 200,
@@ -10693,6 +10799,12 @@
           "vacuous": false
         },
         {
+          "compared_prefix_length": 5454,
+          "dynamic": "NAS",
+          "query_sequences_identical": true,
+          "vacuous": false
+        },
+        {
           "compared_prefix_length": 2186,
           "dynamic": "META",
           "query_sequences_identical": true,
@@ -10709,13 +10821,54 @@
       "target_b": "bccccccc"
     },
     "SD_2e_mut_objective_invariance": {
-      "claim": "MUT ignores the objective entirely; its census row is therefore invariant across ecologies. A difference would prove an ecology leak in the common frame.",
+      "claim": "objective-blind dynamics (MUT, NAS, RAND) must have identical census rows in every ecology; a difference would prove an ecology leak in the common frame",
       "hits_per_ecology": {
         "DECEPTIVE": 136,
         "GRADED": 136,
         "OPAQUE": 136
       },
       "invariant": true,
+      "per_dynamic": {
+        "MUT": {
+          "hits_per_ecology": {
+            "DECEPTIVE": 136,
+            "GRADED": 136,
+            "OPAQUE": 136
+          },
+          "invariant": true,
+          "sum_evals_per_ecology": {
+            "DECEPTIVE": 393223,
+            "GRADED": 393223,
+            "OPAQUE": 393223
+          }
+        },
+        "NAS": {
+          "hits_per_ecology": {
+            "DECEPTIVE": 12,
+            "GRADED": 12,
+            "OPAQUE": 12
+          },
+          "invariant": true,
+          "sum_evals_per_ecology": {
+            "DECEPTIVE": 28783,
+            "GRADED": 28783,
+            "OPAQUE": 28783
+          }
+        },
+        "RAND": {
+          "hits_per_ecology": {
+            "DECEPTIVE": 129,
+            "GRADED": 129,
+            "OPAQUE": 129
+          },
+          "invariant": true,
+          "sum_evals_per_ecology": {
+            "DECEPTIVE": 378620,
+            "GRADED": 378620,
+            "OPAQUE": 378620
+          }
+        }
+      },
       "sum_evals_per_ecology": {
         "DECEPTIVE": 393223,
         "GRADED": 393223,
@@ -10732,6 +10885,7 @@
         "LS": 200,
         "META": 200,
         "MUT": 136,
+        "NAS": 12,
         "RAND": 129
       },
       "OPAQUE_enumeration_is_the_only_complete_dynamic": true,
@@ -10743,6 +10897,7 @@
         "LS": 133,
         "META": 106,
         "MUT": 136,
+        "NAS": 12,
         "RAND": 129
       },
       "OPAQUE_no_guided_dynamic_beats_null": false,
@@ -10871,6 +11026,20 @@
       ],
       "reading": "representation search is not a separate kind of search: its charged outcome is decided by REP-1/REP-2 on the target at hand, and REP-2 predicted every pool member's sign before it was run.",
       "target": "bbbbbbbb"
+    },
+    "NAS_census": {
+      "DECEPTIVE": {
+        "hits": 12,
+        "sum_evals_on_hits": 28783
+      },
+      "GRADED": {
+        "hits": 12,
+        "sum_evals_on_hits": 28783
+      },
+      "OPAQUE": {
+        "hits": 12,
+        "sum_evals_on_hits": 28783
+      }
     }
   },
   "claim_ceiling": "GMI_833_FINITE_EXACT_REPRESENTATION_CHANGE_CRITERION_GRAMMAR_GROWTH_NOVELTY_CHARACTERIZATION_AND_ECOLOGY_CONDITIONAL_SEARCH_DYNAMIC_COMPARISON_AT_REGISTERED_SCOPE",

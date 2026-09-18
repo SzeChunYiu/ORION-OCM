@@ -11,10 +11,17 @@ on:
       - '.github/workflows/gmi-833-developmental-reuse.yml'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.12']
     env:
       PKG: research/gmi-833-developmental-reuse-v1
     steps:
@@ -24,13 +31,23 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.8'
+          python-version: ${{ matrix.python-version }}
 
-      - name: Stdlib only, and Route B must not import Route A
+      - name: Stdlib only
         run: |
           set -eu
-          ! grep -nE '^[[:space:]]*(import|from) (numpy|scipy|pandas|torch|sympy)' "$PKG"/*.py
-          ! grep -n 'developmental_reuse_v1' "$PKG"/independent_oracle_v1.py
+          if grep -nE '^[[:space:]]*(import|from) (numpy|scipy|pandas|torch|sympy)' "$PKG"/*.py; then
+            echo "third-party import found"; exit 1
+          fi
+          echo "stdlib only: ok"
+
+      - name: Route B must not import Route A
+        run: |
+          set -eu
+          if grep -n 'developmental_reuse_v1' "$PKG"/independent_oracle_v1.py; then
+            echo "oracle imports the main executor"; exit 1
+          fi
+          echo "routes independent: ok"
 
       - name: Freeze precedes implementation (git order)
         run: |

@@ -32,6 +32,7 @@ _SD1 = A.sd_matrix(FX, _CENSUS)
 _SD2 = A.sd_mechanism(FX, _CENSUS)
 _SD2["SD_2d_target_independence"] = A.sd_target_independence(FX)
 _SD2["SD_2e_mut_objective_invariance"] = A.sd_mut_objective_invariance(_CENSUS)
+_SD2["SD_2b_scaling"] = A.sd2b_scaling(FX)
 _SD3 = A.sd_nas_and_meta(FX, _CENSUS)
 _REP3P = A.rep3_instance(FX["rep3"]["primary"]["word"], FX["rep3"]["library"], BASE)
 _REP3N = A.rep3_instance(FX["rep3"]["near_miss_hostile"]["word"],
@@ -48,12 +49,21 @@ _HOST = A.hostiles(FX, _ALL, _REP3P, _REP3N)
 class TestSubstrate(unittest.TestCase):
     """Exactness of the inherited burden machinery."""
 
-    def test_no_float_anywhere_in_the_receipt(self):
-        blob = json.dumps({
-            "rep1": _REP1["counts"], "rep3": _REP3P, "rep2": _ALL["dNet_direct"],
-            "sd": _SD1["census_ranking"],
-        })
-        self.assertNotIn(".0", blob.replace("v1", ""))
+    def test_no_float_anywhere_in_the_committed_receipts(self):
+        import ci_gate_v1
+        for name in ("RESULT_V1.json", "ORACLE_RESULT_V1.json"):
+            path = os.path.join(HERE, name)
+            if not os.path.exists(path):
+                self.skipTest(name + " not yet produced")
+            with open(path, "r") as fh:
+                blob = json.load(fh)
+            self.assertEqual(ci_gate_v1.find_floats(blob), [], name)
+
+    def test_no_float_in_the_live_computation(self):
+        import ci_gate_v1
+        for label, node in (("rep1", _REP1), ("rep3", _REP3P), ("rep2", _ALL),
+                            ("sd1", _SD1), ("sd2", _SD2), ("sd3", _SD3)):
+            self.assertEqual(ci_gate_v1.find_floats(node), [], label)
 
     def test_phi_matches_geometric_closed_form(self):
         for n in (2, 3, 4, 5):
@@ -220,10 +230,29 @@ class TestSearchDynamics(unittest.TestCase):
         for cell in _SD1["illustrative_single_instance"]["cells"]:
             self.assertTrue(cell["charging_consistent"], cell)
 
-    def test_no_dynamic_dominates(self):
+    def test_no_dynamic_is_best_in_every_ecology(self):
         self.assertEqual(_SD1["dynamics_best_in_every_ecology"], [])
-        self.assertEqual(_SD1["dynamics_worst_in_every_ecology"], [])
         self.assertTrue(_SD1["no_dominance"])
+
+    def test_any_uniformly_worst_dynamic_is_explained(self):
+        # FREEZE_V1.md section 3 allows this half "with the exception recorded
+        # exactly"; a uniformly-worst dynamic must be NAS, whose sign REP-2
+        # predicted for every pool library before it ran.
+        for dyn in _SD1["dynamics_worst_in_every_ecology"]:
+            self.assertEqual(dyn, "NAS")
+            self.assertTrue(_SD3["NAS"]["REP2_prediction_matches_measurement"])
+            self.assertTrue(_SD3["NAS"]["all_pool_libraries_lose"])
+
+    def test_every_row_named_dynamic_is_in_the_census(self):
+        for dyn in ("MUT", "LS", "GP", "EVO", "GRAD", "NAS", "META"):
+            self.assertIn(dyn, A.SD_CENSUS_DYNAMICS)
+            for eco in _CENSUS["ecologies"]:
+                self.assertIn(eco + "/" + dyn, _CENSUS["aggregate"])
+
+    def test_census_dynamics_match_the_frozen_list(self):
+        frozen = set(FX["sd_frame"]["dynamics"])
+        census = set(A.SD_CENSUS_DYNAMICS) - set(["RAND"])
+        self.assertEqual(frozen, census)
 
     def test_sd2a_enumeration_attains_the_expected_bound(self):
         self.assertTrue(_SD2["SD_2a"]["enum_attains_bound"])
@@ -246,9 +275,27 @@ class TestSearchDynamics(unittest.TestCase):
 
     def test_sd2b_bound_respected_exhaustively_by_route_b(self):
         ora = B.sd2b_exhaustive(FX)
-        self.assertEqual(ora["misses"], 0)
-        self.assertLessEqual(ora["worst_observed"], ora["derived_bound"])
-        self.assertEqual(ora["start_points_swept"], 3 ** FX["sd_frame"]["ell_primary"])
+        self.assertTrue(ora["all_swept_bounds_respected"])
+        self.assertEqual(ora["primary"]["misses"], 0)
+        self.assertEqual(ora["primary"]["start_points_swept"],
+                         3 ** FX["sd_frame"]["ell_primary"])
+        swept = [r for r in ora["rows"] if "bound_respected" in r]
+        self.assertGreaterEqual(len(swept), 2)
+
+    def test_sd2b_scaling_covers_every_registered_ell(self):
+        sc = _SD2["SD_2b_scaling"]
+        self.assertEqual([r["ell"] for r in sc["rows"]],
+                         FX["sd_frame"]["ell_scaling"])
+        self.assertTrue(sc["separation_grows_with_ell"])
+        for r in sc["rows"]:
+            self.assertEqual(r["GRAD_worst_case_closed_form"],
+                             1 + r["ell"] * (len(BASE) - 1))
+            # Fraction reduces (X+1)/2, so compare by cross-multiplication
+            self.assertEqual(r["ENUM_expected_num"] * 2,
+                             (r["space_size"] + 1) * r["ENUM_expected_den"])
+            self.assertEqual(
+                r["separation_factor_floor"],
+                (r["space_size"] + 1) // (2 * r["GRAD_worst_case_closed_form"]))
 
     def test_sd2c_every_deceptive_hit_is_a_restart_accident(self):
         self.assertTrue(_SD2["SD_2c"]["every_hit_explained"])
