@@ -1,0 +1,247 @@
+{
+  "schema": "GMI833HFamilyRequirementAdjudicationRulesV1",
+  "role": "FROZEN_PRE_IMPLEMENTATION_RULE_TABLE_FOR_ROUTE_A",
+  "source_main": "364f29f1b39557a863ce891529927cec8dadfd6f",
+  "requirements": {
+    "R01": "property prediction from specification/ecology",
+    "R02": "P3/P4 grammar",
+    "R03": "no family macros",
+    "R04": "neutral recovery",
+    "R05": "negative twin",
+    "R06": "lower bound where possible",
+    "R07": "resource crossover",
+    "R08": "held-out frozen prediction",
+    "R09": "remint",
+    "R10": "independent search",
+    "R11": "real-scale test"
+  },
+  "status_enum": [
+    "MET",
+    "MET_AT_NARROWER_SCOPE",
+    "MISSING_BUILDABLE",
+    "MISSING_STRUCTURAL",
+    "NOT_APPLICABLE",
+    "SCREENED_NOT_ADJUDICATED"
+  ],
+  "scopes": {
+    "SIGMA_4F": {
+      "package": "research/gmi-833-h-neutral-four-family-v1",
+      "grammar": "FiniteLowerProcessGrammarV1",
+      "grammar_digest": "465ee803c25b5a2c5d92ec559eb44fbdd0d19cf0feb76ad7c27591a08541d1e6",
+      "carrier": "{0,1,2} modulo 3",
+      "budget": "max_weighted_serve_cost=4",
+      "freeze_commit": "32566daa72ae723783a70638d5488533d70c8b86",
+      "protected_interface": "FROZEN_OBLIGATIONS_V1.json protected traces/tables",
+      "applies_to_rows": "rows bound by text to FAMILY_GATE_LEDGER_V1.json::families[].row"
+    },
+    "SIGMA_CENSUS": {
+      "package": "research/gmi-833-h-obstruction-census-v1",
+      "grammar": "leaves 0,1,x0,x1,x2,x3; operators NOT, XOR, AND; node-count cost",
+      "carrier": "{0,1}^8",
+      "budget": "node_budget B=3 (lower-bound enumeration through cost 5)",
+      "freeze_commit": "d2cbd897890e67a2866552b4df50b7583a2f3ceb",
+      "protected_interface": "all 256 points of {0,1}^8; observation ecology = 8 points where x0,x1,x2 vary and x3..x7=0",
+      "applies_to_rows": "all 43, by FROZEN_FAMILY_REGISTRY_V1.json machine id H01..H43"
+    },
+    "SIGMA_K": {
+      "package": "research/gmi-833-aj9a-known-family-benchmark-v1 and aj9b..aj9h",
+      "binding_to_named_rows": "NONE_FOUND_IN_CORPUS",
+      "forced_status": "SCREENED_NOT_ADJUDICATED"
+    }
+  },
+  "rules": [
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R01", "R08"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/FAMILY_GATE_LEDGER_V1.json:3 (gate_order) + research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json:206 (prediction_audit.all_match=true)",
+      "supporting": "research/gmi-833-h-neutral-four-family-v1/FROZEN_PREDICTIONS_V1.json added at 32566daa, before RESULT_V1.json at 944f85e2",
+      "scope_gap": "the frozen prediction is a structural-property name for a registered finite obligation over GF(3) at serve cost <= 4, not a property of the historical family named by the row; R01 and R08 share one evidence key (FROZEN) and are not independently witnessed at this scope",
+      "shared_evidence_with": ["R01", "R08"]
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R02"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json:69 (grammar.definition: terminals ARG/CONST, compositions ADD_MOD/MUL_MOD/ZERO_TEST, storage INDEXED_PARAMETER_READ, temporal DELAY_CELL)",
+      "scope_gap": "one lower grammar over GF(3) with weighted serve cost <= 4; neutrality is established over this grammar only, not over the grammar class the row implies"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R03"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json:479 (semantic_no_smuggling_audit.token_scan_clean=true, semantic_verdict=NO_TARGET_DEPENDENT_GENERATION_DETECTED, provenance_closed_over_registered_lower_ops=true) + research/gmi-833-h-neutral-four-family-v1/neutral_four_family_v1.py:458 (forbidden token list autom/regress/classifier/glm/kernel/basis/family)",
+      "scope_gap": "the token scan covers the serialized grammar for seven authored family-name substrings; it is an absence check on one grammar serialization, not a proof that no family macro exists"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R04"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/FAMILY_GATE_LEDGER_V1.json (families[].gates.neutral_recovery = SUPPORTED_AT_REGISTERED_EXACT_SCOPE) + research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json:206",
+      "scope_gap": "what is recovered is a post-hoc structural class (e.g. AFFINE_SHARED_RESPONSE, PERSISTENT_THREE_CLASS_FUTURE_RESPONSE_QUOTIENT), then mapped to the row name after recovery; claim ceiling ONE_LOWER_NEUTRAL_GRAMMAR_RECOVERS_FOUR_POSTHOC_STRUCTURAL_CLASSES_AT_REGISTERED_FINITE_SCOPE__FAMILY_GATES_REMAIN_OPEN"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R05"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/FROZEN_OBLIGATIONS_V1.json (O0_NEG, O1_NEG, O2_NEG, O3_NEG matched twins) + research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json (checks.static_negative_regimes_flip, checks.persistent_negative_rejected)",
+      "scope_gap": "the twin is a matched finite obligation table, not a matched real ecology for the named family"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R06"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json:156 (lower_bounds: state_count=3, affine_law_count=9, affine_trits=2, linked_distinct_laws=5, bilinear_affine_law_count=81, bilinear_affine_trits=4)",
+      "scope_gap": "exact counting bounds on the registered finite obligation space, not a complexity lower bound for the named family"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R07"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/FROZEN_OBLIGATIONS_V1.json (resource_regimes R_STORAGE/R_REUSE/R_STATE_CHEAP/R_STATE_EXPENSIVE) + research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json (checks.static_resource_crossovers, checks.state_price_reversal)",
+      "scope_gap": "four authored integer price regimes over the registered finite obligations; not a real resource curve"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R09"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json (checks.all_remints_roundtrip, checks.state_remint_transport) + research/gmi-833-h-neutral-four-family-v1/NEUTRAL_FOUR_FAMILY_THEOREMS_V1.md (NG-REMINT)",
+      "scope_gap": "remint invariance over the registered carrier permutations of GF(3), not over arbitrary presentations"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R10"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/independent_oracle_v1.py + research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json:96 (independent_search_audit.all_agree=true; checks.source_separated_oracle_agrees=true)",
+      "scope_gap": "source-separated second implementation inside one package by one author; this is independent SEARCH, not the independent REPLICATION that the corpus scores as M5 and holds zero instances of"
+    },
+    {
+      "sigma": "SIGMA_4F",
+      "requirements": ["R11"],
+      "status": "MISSING_BUILDABLE",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/RESULT_V1.json:56 (family_gate_ledger.open_gate = real_scale_test)",
+      "build": "execute a real-scale evaluation for this row and freeze it before outcome; the protocol skeleton exists unexecuted at research/gmi-real-scale-transfer-v1/REAL_SCALE_TRANSFER_PROTOCOL_V1.md (written for issue #602 Section T, not for #833 Section H rows)"
+    },
+
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R01", "R08"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-obstruction-census-v1/FROZEN_FAMILY_REGISTRY_V1.json:9 (target_contracts[].predicted_disposition) and :67 (predicted_counts) + research/gmi-833-h-obstruction-census-v1/obstruction_census_v1.py:417 (counts != registry['predicted_counts'] raises)",
+      "supporting": "FREEZE_V1.md and FROZEN_FAMILY_REGISTRY_V1.json added at d2cbd897 (2026-09-17 09:45:40 +0200); RESULT_V1.json added at f0734279 (2026-09-17 09:58:25 +0200) - freeze precedes outcome",
+      "scope_gap": "the frozen prediction is a disposition class for an authored hallmark contract (AUTHORED_POSTHOC_EVALUATION_PRIOR), not a property of the historical family; the prediction covers exactly the evaluated set, nothing is held out from it; R01 and R08 share one evidence key",
+      "shared_evidence_with": ["R01", "R08"]
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R02"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:8 (leaves 0,1,x0,x1,x2,x3; operators NOT, XOR, AND; node-count cost)",
+      "scope_gap": "one common Boolean grammar applied to all 43 rows without per-family redesign, at node budget B=3; neutrality holds over this grammar only"
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R03"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:16 ('Family names never occur in the grammar or search.')",
+      "scope_gap": "asserted of the census grammar and search; the row-to-contract registry is itself an authored post-hoc evaluation prior, disclosed as such"
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R04"],
+      "status_by_census_disposition": {
+        "RECOVERED_CONTROL": {
+          "status": "MET_AT_NARROWER_SCOPE",
+          "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:64 (H-POS: complete search uniquely recovers x0, NOT x0, x0 XOR x1, x0 AND x1 at minimum costs 1,2,3,3)",
+          "scope_gap": "what is recovered is the registered finite hallmark contract, not the named family; the registry's own boundary: 'a hallmark is neither a complete definition nor proof of full recovery/non-recovery of its historical family'"
+        },
+        "EXPRESSIVITY_OBSTRUCTION": {
+          "status": "MISSING_BUILDABLE",
+          "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:25 (H-EXP: every expression is invariant under flipping x4..x7, at every finite cost)",
+          "build": "register the missing channel as a grammar leaf (history state, stochastic source, update feedback, or external peer/tool) and re-run neutral recovery; channel-extension packages already exist for three of the four: research/gmi-833-g0-interaction-channels-v1, research/gmi-833-g0-stochastic-update-v1, research/gmi-833-g0-governed-self-change-v1. The obstruction is proved for the census grammar image and does not transport to another scope (FGS-2)."
+        },
+        "RESOURCE_OBSTRUCTION": {
+          "status": "MISSING_BUILDABLE",
+          "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:38 (H-RES: minimum grammar cost of x0 XOR x1 XOR x2 and x0 AND x1 AND x2 is exactly five, so both are absent from G_3 but expressible in the same grammar)",
+          "build": "raise the node budget from B=3 to B>=5 and re-run; the theorem itself states the target is expressible in the same grammar at cost five"
+        },
+        "IDENTIFIABILITY_OBSTRUCTION": {
+          "status": "MISSING_BUILDABLE",
+          "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:53 (H-ID: x3 = 0 on every point of the observation ecology, so constant zero has the same observation vector; with no registered tie-breaker the query image is not a singleton)",
+          "build": "extend the observation ecology to excite the registered context probe, or register a tie-breaker; the obstruction is a property of the 8-point ecology, not of the grammar"
+        }
+      }
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R05"],
+      "status": "MISSING_BUILDABLE",
+      "citation": "absence: no occurrence of 'negative' or 'twin' in research/gmi-833-h-obstruction-census-v1/{RESULT_V1.json,OBSTRUCTION_THEOREMS_V1.md,obstruction_census_v1.py,FROZEN_FAMILY_REGISTRY_V1.json}",
+      "build": "author a matched negative twin contract per row (a contract the row's family must NOT satisfy) and show the same search rejects it; the seven positive controls are cross-row controls, not per-row matched twins"
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R06"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:25 (H-EXP: outside the grammar image at every budget), :38 (H-RES: minimum cost exactly five), :53 (H-ID: minimum fit cost 1), :64 (H-POS: minimum costs 1,2,3,3) + RESULT_V1.json semantic_quotient layer sizes 6,4,12,24,50",
+      "scope_gap": "an exact node-cost bound on the registered hallmark contract under one Boolean grammar; not a complexity lower bound for the named family"
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R07"],
+      "status": "MISSING_BUILDABLE",
+      "citation": "absence: no occurrence of 'crossover', 'price' or 'regime' in research/gmi-833-h-obstruction-census-v1/{RESULT_V1.json,OBSTRUCTION_THEOREMS_V1.md,obstruction_census_v1.py,FROZEN_FAMILY_REGISTRY_V1.json}; the census carries one cost model (node count) and no price regimes",
+      "build": "add at least two integer price regimes under which the minimum-cost winner changes, as SIGMA_4F does with R_STORAGE/R_REUSE/R_STATE_CHEAP/R_STATE_EXPENSIVE"
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R09"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-obstruction-census-v1/OBSTRUCTION_THEOREMS_V1.md:86 (H-REMINT: reversing the candidate list and independently hash-ordering/reminting every candidate leaves every disposition unchanged) + obstruction_census_v1.py:366 (raises if a candidate remint changed a scientific result)",
+      "scope_gap": "presentation invariance of the candidate list under the registered remint modes, per target contract, not per named family"
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R10"],
+      "status": "MET_AT_NARROWER_SCOPE",
+      "citation": "research/gmi-833-h-obstruction-census-v1/ORACLE_RESULT_V1.json:2 ('tuple truth tables plus set-valued exact-cost closure; no primary import') covering all 11 target contracts and reproducing layer sizes 6,4,12,24,50",
+      "scope_gap": "source-separated second implementation inside one package by one author; independent SEARCH, not independent REPLICATION (M5, zero instances corpus-wide)"
+    },
+    {
+      "sigma": "SIGMA_CENSUS",
+      "requirements": ["R11"],
+      "status": "MISSING_BUILDABLE",
+      "citation": "research/gmi-833-h-obstruction-census-v1/RESULT_V1.json:485 (family_gate_audit.eligible_named_family_rows = 0, reason: 'this package supplies neither a complete ten-gate ledger nor real-scale evidence')",
+      "build": "execute a real-scale evaluation for this row and freeze it before outcome; FGS-3 forbids inferring real-scale behaviour from the finite census, but does not forbid running the test"
+    },
+
+    {
+      "sigma": "SIGMA_K",
+      "requirements": ["R02", "R03", "R04", "R10"],
+      "status": "SCREENED_NOT_ADJUDICATED",
+      "citation": "research/gmi-833-aj9h-k07-k11-blind-recovery-v1/RESULT_V1.json (registered_families_recovered_at_their_declared_finite_scopes = 11 of 11) + research/gmi-833-aj9h-k07-k11-blind-recovery-v1/BIAS_LEDGER_V1.json",
+      "reason_not_adjudicated": "no primary artifact in the corpus binds any K-family to any named Section H row. Verified two ways: (1) no file under research/gmi-833-aj9* or research/gmi-833-blind-recovery-v2-v1 contains any of the 43 named row texts; (2) the only corpus file mentioning K01..K11 alongside Section H text is research/gmi-833-checklist-mirror-v1/EVIDENCE_LEDGER_V1.json:1302, which attaches the K evidence to the AGGREGATE Section H row 'Verify that the same neutral grammar can recover several families without per-family redesign.', not to any named row.",
+      "forbidden": "promoting any SIGMA_K cell above SCREENED_NOT_ADJUDICATED"
+    }
+  ],
+  "structural_constraints_recorded_not_as_cells": [
+    {
+      "id": "FGS-4",
+      "citation": "research/gmi-833-h-family-gate-soundness-v1/H_FAMILY_GATE_SOUNDNESS_THEOREMS_V1.md:89-106 at commit 4abe5c4fd7a03b40082ef48ced6499a39b816e4f (PR #997, open)",
+      "statement": "There exist distinct hidden organizations with identical protected response profiles on every finite binary word; family identity does not follow from operational equivalence alone.",
+      "effect_on_this_ledger": "constrains the METHOD by which R04 may be certified (structural observables plus a disclosed evaluation prior are required); it does NOT make any cell MISSING_STRUCTURAL. Its own text: 'It does not block a scoped post-hoc family mapping when additional structural observables and the evaluation prior are disclosed.'"
+    },
+    {
+      "id": "FGS-3",
+      "citation": "research/gmi-833-h-family-gate-soundness-v1/H_FAMILY_GATE_SOUNDNESS_THEOREMS_V1.md:65-87 at commit 4abe5c4fd7a03b40082ef48ced6499a39b816e4f",
+      "statement": "For every finite binary observation prefix there are two total functions agreeing on all evidence and disagreeing at the first unobserved case.",
+      "effect_on_this_ledger": "R11 is MISSING_BUILDABLE, never MISSING_STRUCTURAL. What is structural is the INFERENCE from finite evidence to real scale, not the real-scale TEST."
+    },
+    {
+      "id": "FGS-2",
+      "citation": "research/gmi-833-h-family-gate-soundness-v1/H_FAMILY_GATE_SOUNDNESS_THEOREMS_V1.md:46-63 at commit 4abe5c4fd7a03b40082ef48ced6499a39b816e4f",
+      "statement": "Certificates at scopes sigma_j cannot be composed into eligibility at sigma* absent a registered transport theorem.",
+      "effect_on_this_ledger": "met-counts are reported PER SCOPE; any pooled count is labelled NON_GLUABLE_UNDER_FGS2 and is never used for a decidability verdict."
+    }
+  ]
+}
