@@ -44,7 +44,7 @@ def Phi(n, l):
 
 
 def ceil_div(a, b):
-    """Exact integer ceiling of a/b for b > 0.  No float, no math.ceil."""
+    """Exact integer ceiling of a/b for b > 0.  Pure integer floor-div."""
     return -((-a) // b)
 
 
@@ -938,7 +938,7 @@ def run_ind():
                       "gamma_w in {0,1}; LF-4 gives gammastar(2,k,6) >= 2 for "
                       "every k in 2..6, so no candidate can reach the "
                       "guaranteed-better band at any charge."),
-        "quantifiers": "forall_fin[U] over the printed candidate set (NOT forall[D])",
+        "quantifiers": "forall_fin[U] over the printed candidate set; deductive universality is NOT claimed",
         "evidence_level": ["EV1", "EV2"],
     }
 
@@ -986,7 +986,7 @@ def run_ind():
                       "inequality for l0 >= 2, so Theta_inv <= 0 for every "
                       "candidate and no nonnegative charge can satisfy "
                       "D + len(body) + kappa < Theta_inv."),
-        "quantifiers": "forall_fin[U] over the printed candidate set (NOT forall[D])",
+        "quantifiers": "forall_fin[U] over the printed candidate set; deductive universality is NOT claimed",
         "evidence_level": ["EV1", "EV2"],
     }
     independence = {

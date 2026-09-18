@@ -621,6 +621,30 @@ def score_real_systems(eco, run):
     return cells
 
 
+def divergence_report(eco, run):
+    """RV-3 diagnostic: how far the MEASURED resource/loss vector of a real
+    trained realization sits from the ANALYTIC vector a_i(E) that UL-11 ranks.
+    Exact rational ratios; no float."""
+    o2s = run["opaque_to_signature"]
+    out = {}
+    for oid, obs in sorted(run["measured"].items()):
+        sig = o2s[oid]
+        ana = eco["coefficient_vectors"].get(sig)
+        if ana is None:
+            continue
+        rows = {}
+        for i, k in enumerate(PRICE_KEYS):
+            a, b = ana[i], obs[i]
+            rows[k] = {"analytic": a, "measured": b,
+                       "ratio": (None if a == 0 else str(F(b, a))),
+                       "equal": a == b}
+        out[sig] = {"coords": rows,
+                    "loss_analytic": ana[NPRICE - 1],
+                    "loss_measured": obs[NPRICE - 1],
+                    "any_coord_differs": any(not r["equal"] for r in rows.values())}
+    return out
+
+
 def score_abstaining(eco, run):
     """A frozen-abstention ecology: every cell must abstain for the registered
     reason. The real systems are still measured and recorded."""
@@ -699,7 +723,7 @@ def ev1a_band(p, mean_first_hit):
             "in_band": bool(in_band)}
 
 
-def score_continual_v2(rec):
+def score_continual_v2(rec, tag="CL2"):
     """FREEZE_V2_REVIVAL.md scorer: adds the DP-1 budget ladder and the
     CENSORED terminal for EV-1A."""
     n = rec["N_prop"]
@@ -734,21 +758,21 @@ def score_continual_v2(rec):
     interior = (0 < rec["successes_Q0"] < n)
     ch = {}
     if fam == "POS":
-        ch["CL2-P1"] = bool(pH > p0)
-        ch["CL2-P2"] = (v_low == "HISTORY_STRICTLY_IMPROVES")
-        ch["CL2-P3"] = (v_high != "HISTORY_STRICTLY_IMPROVES")
-        ch["CL2-P4"] = (not sol_cap) and cap["status"] == "SEARCH_POLICY_CAPITAL"
-        ch["CL2-P5b"] = bool(rec["C_now_Q0"] == rec["C_now_QH"] and hdH > hd0)
+        ch[tag + "-P1"] = bool(pH > p0)
+        ch[tag + "-P2"] = (v_low == "HISTORY_STRICTLY_IMPROVES")
+        ch[tag + "-P3"] = (v_high != "HISTORY_STRICTLY_IMPROVES")
+        ch[tag + "-P4"] = (not sol_cap) and cap["status"] == "SEARCH_POLICY_CAPITAL"
+        ch[tag + "-P5b"] = bool(rec["C_now_Q0"] == rec["C_now_QH"] and hdH > hd0)
     else:
-        ch["CL2-P1"] = bool(pH <= p0)
-        ch["CL2-P2"] = (v_low != "HISTORY_STRICTLY_IMPROVES")
-        ch["CL2-P3"] = (v_high != "HISTORY_STRICTLY_IMPROVES")
-        ch["CL2-P4"] = True
-        ch["CL2-P5b"] = bool(hdH <= hd0)
-    ch["CL2-P5a"] = bool(rec["C_pot_Q0_B1"] <= rec["C_pot_Q0_B2"]
+        ch[tag + "-P1"] = bool(pH <= p0)
+        ch[tag + "-P2"] = (v_low != "HISTORY_STRICTLY_IMPROVES")
+        ch[tag + "-P3"] = (v_high != "HISTORY_STRICTLY_IMPROVES")
+        ch[tag + "-P4"] = True
+        ch[tag + "-P5b"] = bool(hdH <= hd0)
+    ch[tag + "-P5a"] = bool(rec["C_pot_Q0_B1"] <= rec["C_pot_Q0_B2"]
                          and rec["C_pot_QH_B1"] <= rec["C_pot_QH_B2"])
-    ch["CL2-P6"] = (ev.get("in_band") is True)
-    ch["CL2-P7"] = isinstance(pH, F)
+    ch[tag + "-P6"] = (ev.get("in_band") is True)
+    ch[tag + "-P7"] = isinstance(pH, F)
     return {"sequence_id": rec["sequence_id"], "family": fam,
             "source_sha256": rec["source_sha256"],
             "p0": str(p0), "pH": str(pH), "Ev_Q_U": str(pH),
@@ -842,6 +866,7 @@ def main():
         cells = (score_abstaining(e, r) if FROZEN_UL11[sid][0].startswith("ABSTAIN")
                  else score_real_systems(e, r))
         section_i[sid] = {"status": "SCORED", "cells": cells,
+                          "analytic_vs_measured": divergence_report(e, r),
                           "measured": {k: list(v) for k, v in
                                        sorted(r["measured"].items())},
                           "comparators_recorded_not_ranked": sorted(
@@ -858,7 +883,7 @@ def main():
         elif fn.startswith("cl2_"):
             section_l2[rec["sequence_id"]] = score_continual_v2(rec)
         elif fn.startswith("cl3_"):
-            section_l3[rec["sequence_id"]] = score_continual_v2(rec)
+            section_l3[rec["sequence_id"]] = score_continual_v2(rec, "CL3")
     tally = {"HIT": 0, "MISS": 0, "ABSTAIN_MATCHED": 0, "ABSTAIN_UNMATCHED": 0,
              "TIE_NONIDENTIFYING": 0}
     for sid, v in section_i.items():
@@ -875,6 +900,14 @@ def main():
     cl2_tally = tally_of(section_l2)
     cl3_tally = tally_of(section_l3)
     ecologies_scored = sum(1 for v in section_i.values() if v["status"] == "SCORED")
+    div_sig, div_tot, loss_diff = set(), 0, 0
+    for _sid, v in section_i.items():
+        for sg, d in v.get("analytic_vs_measured", {}).items():
+            div_tot += 1
+            if d["any_coord_differs"]:
+                div_sig.add(sg)
+            if d["loss_analytic"] != d["loss_measured"]:
+                loss_diff += 1
     cl_pos_qualifying = sum(
         1 for v in section_l.values()
         if v["family"] == "POS"
@@ -892,13 +925,56 @@ def main():
         return sum(1 for v in sec.values()
                    if v["family"] == "POS" and v["checks"].get("CL2-P1") is True)
 
+    # CL3-P8 matched control: same source, same U, same budget, same seeds;
+    # only the four sequence task offsets differ. Pairs are T0k <-> T1k.
+    matched = {}
+    for pid in sorted(section_l3):
+        if not pid.startswith("T0"):
+            continue
+        nid = "T1" + pid[2:]
+        if nid not in section_l3:
+            continue
+        pv, nv = section_l3[pid], section_l3[nid]
+        if pv["source_sha256"] != nv["source_sha256"]:
+            matched[pid] = {"status": "SOURCE_MISMATCH"}
+            continue
+        ok = F(pv["pH"]) > F(nv["pH"])
+        matched[pid] = {"pos": pid, "neg": nid,
+                        "source_sha256": pv["source_sha256"],
+                        "pH_pos": pv["pH"], "pH_neg": nv["pH"],
+                        "p0_pos": pv["p0"], "p0_neg": nv["p0"],
+                        "CL3-P8": bool(ok)}
+    for pid, mv in matched.items():
+        if "CL3-P8" in mv:
+            section_l3[pid]["checks"]["CL3-P8"] = mv["CL3-P8"]
+
+    # DP-1B is an EXISTENCE claim: there exist states with equal current
+    # capability and different headroom. Identified POST HOC from the frozen
+    # V3 record -- reported as an observation, never counted as a frozen hit.
+    dp1b = {"witnesses": [], "note": ("post-hoc census over the committed V3 "
+                                      "record; not a frozen prediction")}
+    for sid in sorted(section_l3):
+        v = section_l3[sid]
+        if v["C_now_Q0"] == v["C_now_QH"] and v["headroom_Q0_B2"] != v["headroom_QH_B2"]:
+            dp1b["witnesses"].append(
+                {"sequence_id": sid, "C_now": v["C_now_Q0"],
+                 "headroom_Q0_B2": v["headroom_Q0_B2"],
+                 "headroom_QH_B2": v["headroom_QH_B2"]})
+
     latest = section_l3 if section_l3 else section_l2
     lab = "V3" if section_l3 else "V2"
-    terminal_l = ("DEVELOPMENTAL_PREDICTIONS_VALIDATED_ON_REAL_CONTINUAL_SYSTEMS"
-                  if (latest and pos_qual(latest) >= 5
-                      and pos_direction_hits(latest) >= 5)
-                  else ("CONTINUAL_LEARNING_PREDICTIONS_EXECUTED_"
-                        "PARTIAL_DIRECTION_AGREEMENT_AT_%s" % lab))
+    mc_hits = sum(1 for v in matched.values() if v.get("CL3-P8") is True)
+    mc_pairs = len(matched)
+    cap_clean = sum(
+        1 for v in latest.values()
+        if v["capital"]["status"] != "CANNOT_IDENTIFY_STORED_SOLUTION_CONTAMINATION"
+    ) if latest else 0
+    if latest and mc_pairs >= 5 and mc_hits == mc_pairs and cap_clean == len(latest):
+        terminal_l = ("DEVELOPMENTAL_PREDICTIONS_VALIDATED_ON_REAL_CONTINUAL_"
+                      "SYSTEMS_AT_REGISTERED_SCOPE")
+    else:
+        terminal_l = ("CONTINUAL_LEARNING_PREDICTIONS_EXECUTED_"
+                      "PARTIAL_DIRECTION_AGREEMENT_AT_%s" % lab)
     res = {
         "schema": "GMI_833_REAL_DEVELOPMENTAL_VALIDATION_RESULT_V1",
         "claim_ceiling": ("GMI_833_REAL_SYSTEM_UPDATE_LAW_AND_DEVELOPMENTAL_"
@@ -922,6 +998,10 @@ def main():
                                        for n in PRICE_NAMES}} for e in ecos],
         "section_I": section_i,
         "section_I_tally": tally,
+        "section_I_divergence": {
+            "realizations_compared": div_tot,
+            "signatures_with_any_coordinate_divergence": sorted(div_sig),
+            "realizations_whose_measured_loss_differs_from_analytic": loss_diff},
         "section_I_terminal": terminal_i,
         "section_L_continual_v1": section_l,
         "section_L_continual_v2": section_l2,
@@ -936,6 +1016,15 @@ def main():
                                    if v["family"] == "POS") if latest else 0,
         "section_L_interior_baseline_count": sum(
             1 for v in latest.values() if v["baseline_mass_interior"]) if latest else 0,
+        "section_L_DP1B_posthoc_witnesses": dp1b,
+        "section_L_matched_control": matched,
+        "section_L_matched_control_hits": sum(
+            1 for v in matched.values() if v.get("CL3-P8") is True),
+        "section_L_matched_control_pairs": len(matched),
+        "section_L_capital_gate_clean": sum(
+            1 for v in latest.values()
+            if v["capital"]["status"] != "CANNOT_IDENTIFY_STORED_SOLUTION_CONTAMINATION"
+        ) if latest else 0,
         "section_L_terminal": terminal_l,
     }
     with open(outp, "w") as f:
@@ -947,6 +1036,8 @@ def main():
     print("section_I:", terminal_i, tally)
     print("section_L v1:", cl_tally, " v2:", cl2_tally, " v3:", cl3_tally)
     print("section_L:", terminal_l)
+    print("  matched control CL3-P8:", mc_hits, "/", mc_pairs,
+          " capital gate clean:", cap_clean, "/", len(latest) if latest else 0)
 
 
 if __name__ == "__main__":
