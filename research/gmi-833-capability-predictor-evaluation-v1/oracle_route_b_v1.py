@@ -234,6 +234,14 @@ GRIDS = {
         "h": ("NO_OBSERVATION", (1, 0), (2, 1)),
         "tau": (Fraction(3, 17), Fraction(8, 17), Fraction(11, 17), Fraction(1)),
     },
+    "SIGMA_REAL3": {
+        "mu": (Fraction(8, 17), Fraction(6, 17), Fraction(3, 17)),
+        "budgets": ((12, 1, 2, 9), (32, 2, 3, 10), (32, 2, 4, 10)),
+        "charges": ((0, 0, 0, 0), (1, 0, 0, 0)),
+        "d": (14, 20, 99), "b": (0, 8, 16, 24, 32),
+        "h": ("NO_OBSERVATION", (1, 0), (2, 1)),
+        "tau": (Fraction(3, 17), Fraction(8, 17), Fraction(11, 17), Fraction(1)),
+    },
     "SIGMA_REAL2": {
         "mu": (Fraction(8, 17), Fraction(6, 17), Fraction(3, 17)),
         "budgets": ((4, 1, 2, 7), (16, 2, 3, 8), (16, 2, 4, 8)),
@@ -270,6 +278,19 @@ def law_arch(machine):
     return bits
 
 
+def law_real3(machine):
+    mech, size, w, h = machine
+    capable = (mech == "GRU" and size >= 16)
+    bits = 0
+    if h & 1:
+        bits += 1
+    if (h & 2) and capable:
+        bits += 2
+    if (h & 4) and capable:
+        bits += 4
+    return bits
+
+
 def law_real2(machine):
     mech, size, w, h = machine
     capable = (mech == "GRU" and size >= 8 and w == 0)
@@ -296,7 +317,8 @@ def law_real(machine):
 
 
 LAWS = {"SIGMA_SYN": law_syn, "SIGMA_ARCH": law_arch,
-        "SIGMA_REAL": law_real, "SIGMA_REAL2": law_real2}
+        "SIGMA_REAL": law_real, "SIGMA_REAL2": law_real2,
+        "SIGMA_REAL3": law_real3}
 
 
 def cap_of(bits, mu, contract):
@@ -560,6 +582,11 @@ def main():
     if os.path.exists(path2):
         with open(path2) as handle:
             measured2 = json.load(handle)["measured_solved_bits"]
+    measured3 = None
+    path3 = os.path.join(HERE, "REAL_RUNS_V3", "REAL_MEASURED_V3.json")
+    if os.path.exists(path3):
+        with open(path3) as handle:
+            measured3 = json.load(handle)["measured_solved_bits"]
     out = {"schema": "GMI_833_K_EVAL_ROUTE_B_V1", "universes": []}
     out["universes"].append(run_universe("SIGMA_SYN", population_syn()))
     out["universes"].append(run_universe("SIGMA_ARCH", population_arch()))
@@ -575,6 +602,13 @@ def main():
     else:
         out["universes"].append(run_universe(
             "SIGMA_REAL2", population_real(measured2, sizes=(4, 16), r3base=7)))
+    if measured3 is None:
+        out["universes"].append({"universe": "SIGMA_REAL3",
+                                 "status": "OUTCOMES_UNAVAILABLE"})
+    else:
+        out["universes"].append(run_universe(
+            "SIGMA_REAL3", population_real(measured3, sizes=(12, 32), r3base=9,
+                                           threshold=16)))
     body = json.dumps(out, indent=2, sort_keys=True)
     with open(os.path.join(HERE, "ROUTE_B_RESULT_V1.json"), "w") as handle:
         handle.write(body)

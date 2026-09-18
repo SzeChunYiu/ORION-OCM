@@ -19,6 +19,7 @@ if HERE not in sys.path:
 
 import heldout_universes_v1 as hu          # noqa: E402
 import heldout_universes_v2 as hv          # noqa: E402
+import heldout_universes_v3 as hw          # noqa: E402
 import external_evaluator_v1 as ev         # noqa: E402
 import freeze_predictions_v1 as fp         # noqa: E402
 
@@ -343,6 +344,8 @@ def evaluate_universe(parent, spec, frozen, hostile=None):
                                              "sum_coverage": Fraction(0),
                                              "sum_point_coverage": Fraction(0),
                                              "min_coverage": None,
+                                             "min_point_coverage": None,
+                                             "point_violations": 0,
                                              "violations": 0,
                                              "nominal_lower": str(emission.uncertainty.coverage_lower),
                                              "abstentions": 0})
@@ -359,8 +362,14 @@ def evaluate_universe(parent, spec, frozen, hostile=None):
                                             if pkey not in cov_cache:
                                                 cov_cache[pkey] = coverage_under_faults(
                                                     cuts5, full, pmask, weights)
+                                            pcov = cov_cache[pkey]
                                             bucket["point_emissions"] += 1
-                                            bucket["sum_point_coverage"] += cov_cache[pkey]
+                                            bucket["sum_point_coverage"] += pcov
+                                            if (bucket["min_point_coverage"] is None
+                                                    or pcov < bucket["min_point_coverage"]):
+                                                bucket["min_point_coverage"] = pcov
+                                            if pcov < emission.uncertainty.coverage_lower:
+                                                bucket["point_violations"] += 1
                                         else:
                                             bucket["abstentions"] += 1
                                     idx += 1
@@ -432,6 +441,12 @@ def evaluate_universe(parent, spec, frozen, hostile=None):
             "min_empirical_coverage": str(bucket["min_coverage"]),
             "point_emissions": bucket["point_emissions"],
             "mean_point_coverage": str(pmean) if pmean is not None else None,
+            "min_point_coverage": (str(bucket["min_point_coverage"])
+                                   if bucket["min_point_coverage"] is not None else None),
+            "point_violations_below_nominal": bucket["point_violations"],
+            "point_calibration_error_min": (
+                str(bucket["min_point_coverage"] - nominal)
+                if bucket["min_point_coverage"] is not None else None),
             "calibration_error_mean": str(mean - nominal),
             "calibration_error_min": str(bucket["min_coverage"] - nominal),
             "violations_below_nominal": bucket["violations"],
@@ -744,8 +759,13 @@ def main():
         frozen = json.load(handle)
     with open(os.path.join(HERE, "FROZEN_PREDICTIONS_V2.json")) as handle:
         frozen_v2 = json.load(handle)
-    frozen["universes"] = list(frozen["universes"]) + list(frozen_v2["universes"])
+    with open(os.path.join(HERE, "FROZEN_PREDICTIONS_V3.json")) as handle:
+        frozen_v3 = json.load(handle)
+    frozen["universes"] = (list(frozen["universes"]) + list(frozen_v2["universes"])
+                           + list(frozen_v3["universes"]))
     parent_sha = hu.git_blob_sha(hu.PARENT_FILE)
+    with open(hu.PARENT_FILE, "rb") as handle:
+        parent_source_sha256 = hashlib.sha256(handle.read()).hexdigest()
     baseline = hu.code_fingerprint(parent)
     out = {
         "schema": "GMI_833_K_EVAL_RESULT_V1",
@@ -753,13 +773,17 @@ def main():
         "forbidden_promotions": list(FORBIDDEN_PROMOTIONS),
         "parent_file_blob_sha": parent_sha,
         "parent_blob_pin_ok": parent_sha == hu.PARENT_BLOB_SHA,
-        "parent_code_fingerprint": baseline[0],
-        "parent_code_objects": baseline[1],
+        "parent_source_sha256": parent_source_sha256,
         "freeze": {
             "frozen_parent_blob": frozen["parent_file_blob_sha"],
-            "frozen_code_fingerprint": frozen["parent_code_fingerprint_before"],
-            "code_fingerprint_matches_freeze":
-                frozen["parent_code_fingerprint_before"] == baseline[0],
+            "parent_blob_matches_freeze":
+                frozen["parent_file_blob_sha"] == parent_sha,
+            "bytecode_fingerprint_note": (
+                "the co_code digest recorded in FROZEN_PREDICTIONS_V1.json is "
+                "interpreter-version specific and is therefore NOT used as a "
+                "cross-run identity check; the in-process before/after co_code "
+                "comparison inside install_universe is the injection proof, and "
+                "the git blob sha is the cross-run identity of F"),
         },
         "universes": [],
         "curves": [],
@@ -767,7 +791,8 @@ def main():
     }
     frozen_by_name = dict((u["universe"], u) for u in frozen["universes"])
 
-    builders = (hu.sigma_syn, hu.sigma_arch, hu.sigma_real, hv.sigma_real2)
+    builders = (hu.sigma_syn, hu.sigma_arch, hu.sigma_real, hv.sigma_real2,
+                hw.sigma_real3)
     specs = []
     for builder in builders:
         spec = builder()
@@ -795,6 +820,20 @@ def main():
             parent, spec, frozen_by_name[spec["__name__"]]["curves"]))
 
     out["ood"] = ood_probe(parent, hu.sigma_syn())
+    syn_row = [u for u in out["universes"] if u["universe"] == "SIGMA_SYN"][0]
+    out["ood"]["in_universe_stratum"] = {
+        "universe": "SIGMA_SYN",
+        "input_world_pairs": syn_row["point_scoring"]["point_world_pairs"],
+        "soundness_violations": syn_row["point_scoring"]["soundness_violations"],
+        "note": "true realization inside the installed universe; KP-1B applies",
+    }
+    out["ood"]["out_of_universe_stratum"] = {
+        "population": out["ood"]["ood_population"],
+        "input_world_pairs": out["ood"]["input_ood_world_pairs"],
+        "wrong_points": out["ood"]["out_of_universe_wrong_points"],
+        "note": "true realization outside the installed universe; KP-1D applies, "
+                "a wrong point here is a registration boundary, not a soundness failure",
+    }
     out["controls"] = [controls(parent, hu.sigma_syn()), controls(parent, hu.sigma_arch())]
     hostile_calib = evaluate_universe(parent, hu.sigma_syn(), None,
                                       hostile="HE5_inflated_fault_law")

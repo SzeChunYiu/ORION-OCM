@@ -314,7 +314,8 @@ class Receipts(unittest.TestCase):
             self.assertEqual(row["predictions_sha256"], frozen[row["universe"]],
                              row["universe"])
             checked += 1
-        self.assertGreaterEqual(checked, 2, "route B covered fewer than two universes")
+        self.assertEqual(checked, 5,
+                         "route B must cover all five held-out universes")
 
     def test_no_soundness_violation_on_any_scored_universe(self):
         scored = 0
@@ -356,6 +357,12 @@ class Receipts(unittest.TestCase):
                 self.assertGreater(bucket["emissions"], 0, key)
                 self.assertEqual(bucket["violations_below_nominal"], 0, (row["universe"], key))
                 self.assertTrue(Fraction(bucket["min_empirical_coverage"])
+                                >= Fraction(bucket["nominal_lower_bound"]))
+                # the sharp gate: point emissions, where miscalibration would show
+                self.assertGreater(bucket["point_emissions"], 0, key)
+                self.assertEqual(bucket["point_violations_below_nominal"], 0,
+                                 (row["universe"], key))
+                self.assertTrue(Fraction(bucket["min_point_coverage"])
                                 >= Fraction(bucket["nominal_lower_bound"]))
                 self.assertIn("abstention_rate", bucket)
                 buckets += 1
@@ -400,6 +407,9 @@ class Receipts(unittest.TestCase):
         self.assertGreater(ood["input_ood_world_pairs"], 0)
         self.assertIn("out_of_universe_wrong_points", ood)
         self.assertIn("KP-1D", ood["attribution"])
+        self.assertEqual(ood["in_universe_stratum"]["soundness_violations"], 0)
+        self.assertGreater(ood["in_universe_stratum"]["input_world_pairs"], 0)
+        self.assertGreater(ood["out_of_universe_stratum"]["input_world_pairs"], 0)
 
     def test_qualitative_modes_are_stratified_by_order_class(self):
         for row in self.result["universes"]:
@@ -416,7 +426,7 @@ class Receipts(unittest.TestCase):
         self.assertIn("NO_REWRITE_OF_PARENT_ROWS_KP1_KP2_KP3",
                       self.result["forbidden_promotions"])
         self.assertTrue(self.result["parent_blob_pin_ok"])
-        self.assertTrue(self.result["freeze"]["code_fingerprint_matches_freeze"])
+        self.assertTrue(self.result["freeze"]["parent_blob_matches_freeze"])
 
 
 class RouteBIndependence(unittest.TestCase):

@@ -1,0 +1,96 @@
+{
+  "schema": "GMI_833_K_EVAL_SCIENTIFIC_LEDGER_V1",
+  "package": "gmi-833-capability-predictor-evaluation-v1",
+  "claim_ceiling": "GMI_833_HELDOUT_AND_OOD_EVALUATION_OF_THE_EXACT_CAPABILITY_PREDICTOR_AT_REGISTERED_FINITE_SCOPE",
+  "arithmetic": "exact Fraction/int only; no float appears in any claim",
+  "results": [
+    {
+      "id": "KE-0",
+      "claim": "F is the pinned parent function, unmodified; only the 23-name registration surface is rebound",
+      "receipt_keys": ["parent_blob_pin_ok", "freeze.parent_blob_matches_freeze"],
+      "routes": ["in-process co_code before/after comparison", "git blob sha"],
+      "falsifier": "a before/after co_code digest change, or a blob-sha mismatch",
+      "note": "the co_code digest recorded at freeze is interpreter-version specific (129 objects on CPython 3.13 vs 138 on 3.8) and is NOT a cross-run identity check"
+    },
+    {
+      "id": "KE-1",
+      "claim": "on a held-out synthetic machine species disjoint from the parent's universe, F emits points that equal the externally evaluated capability, or abstains",
+      "receipt_keys": ["universes[SIGMA_SYN].point_scoring", "universes[SIGMA_SYN].coverage", "universes[SIGMA_SYN].registration"],
+      "routes": ["route A: parent bitmask machinery + closed-form law", "route B: frozensets of realization records + independent simulators; sha256 equality on the frozen stream"],
+      "falsifier": "a point emission differing from the external capability of any consistent realization",
+      "power_guard": "abstention rate and per-threshold non-degeneracy reported alongside every hit count"
+    },
+    {
+      "id": "KE-2",
+      "claim": "the same holds on 128 machines drawn from four named architecture families whose names are provably not inputs",
+      "receipt_keys": ["universes[SIGMA_ARCH].point_scoring", "universes[SIGMA_ARCH].coverage"],
+      "routes": ["route A", "route B"],
+      "blindness": ["no string in any realization record", "ast reference audit with a planted-leak negative control", "24-permutation family-renaming invariance", "k is coarser than family identity (REC and CTR share k=1)"],
+      "falsifier": "any blindness check failing, or a wrong point",
+      "correction": "SUPPLEMENT_1_BLINDNESS_CORRECTION.md withdraws an ast-literal claim made in the frozen BLINDNESS_V1.md"
+    },
+    {
+      "id": "KE-3",
+      "claim": "on real trained systems, F is never wrong about a truthfully-registered world",
+      "receipt_keys": ["universes[SIGMA_REAL*].point_scoring.soundness_violations_on_truthfully_registered_worlds"],
+      "routes": ["route A", "route B (independent re-declaration, same measured receipts)"],
+      "falsifier": "a soundness violation on a truthfully-registered world",
+      "status": "positive; the issue row it would serve is NOT closed, see KE-3D"
+    },
+    {
+      "id": "KE-3D",
+      "kind": "BOUNDARY_EARNED_BY_COUNTEREXAMPLE",
+      "claim": "solvability of the protected tasks by SGD-trained systems at the registered budget is not a function of the registered structural coordinates",
+      "counterexamples": [
+        "(GRU,8,w=1) reaches 261/400 on parity where the V1 law predicts solved",
+        "(GRU,16,w=0) misses ones-mod-3 by 19/2000 where the V2 law predicts solved",
+        "(GRU,16,w=1) hits parity exactly where the V2 law predicts unsolved",
+        "(GRU,12,w=0) and (GRU,12,w=1) solve parity and ones-mod-3 exactly where the V3 law predicts unsolved"
+      ],
+      "truthfulness_sequence": ["19/32", "28/32", "26/32"],
+      "terminal": "the row 'Test predictor on real trained systems' is LEFT OPEN; pre-registered in FREEZE_V3_ADDENDUM.md section 6 before the V3 outcomes existed",
+      "forbidden": "a fourth law fitted to these counterexamples would be outcome tuning"
+    },
+    {
+      "id": "KE-4",
+      "claim": "the binding failure mode was emitted per input before any outcome oracle existed, and the confusion matrix is reported stratified by the KP-2D order class",
+      "receipt_keys": ["universes[*].qualitative_modes.confusion_matrix", "universes[*].qualitative_modes.by_order_stratum"],
+      "honest_reading": "on a truthfully-registered universe the predicted and externally attributed modes coincide by an algebraic identity, so the diagonal confirms bookkeeping only; the substantive evidence is the off-diagonal mass on the real-system universes",
+      "falsifier": "a replayed prediction stream whose sha256 differs from the frozen one"
+    },
+    {
+      "id": "KE-5",
+      "claim": "predicted capability as a function of the swept resource coordinate was frozen before outcomes and agrees per point",
+      "receipt_keys": ["curves[*].replay_mismatches", "curves[*].identified_points_exact_agreement"],
+      "falsifier": "a replayed curve point differing from the frozen one, or a vacuous census",
+      "forbidden": "no fitted summary and no error norm; exact per-point agreement only"
+    },
+    {
+      "id": "KE-6",
+      "claim": "exact empirical coverage under the registered 32-pattern fault law meets the U-2B nominal lower bound on every emission",
+      "receipt_keys": ["universes[*].calibration"],
+      "definition": "each of the typed-uncertainty source and the four registered relations fails independently at exactly its registered rate; on failure the true world need only satisfy the surviving cuts; coverage is summed over all 32 patterns with exact rational weights",
+      "guards": ["abstention rate reported beside every calibration figure", "point emissions gated separately with min and violation count", "FeasibleSet emissions carry no coverage number (U-1a) and are excluded rather than scored 1"],
+      "hostile": "HE5 inflated fault law (beta x 20) produces violations",
+      "falsifier": "any emission whose exact coverage falls below its own emitted coverage_lower",
+      "forbidden": "not asymptotic calibration, not conformal validity, not a claim about real distribution shift"
+    },
+    {
+      "id": "KE-7",
+      "claim": "the in-universe region over which soundness holds and the out-of-universe region where a wrong point is possible are separated exactly",
+      "receipt_keys": ["ood.in_universe_stratum", "ood.out_of_universe_stratum", "ood.wrong_points_by_relaxation"],
+      "definition": "a world is out-of-universe iff its realization is not a member of the installed universe; only expressivity, development reachability and observation can exclude such a world",
+      "attribution": "a wrong point on an out-of-universe world is KP-1D restated and is attributable to registration, not to F",
+      "falsifier": "a soundness violation in the in-universe stratum"
+    }
+  ],
+  "controls": {
+    "hostiles": ["HE1 shifted capability law", "HE2 no UNSATISFIED branch", "HE3 resource-pruned predictor (parent H4 replayed)", "HE4 label-reading encoder", "HE5 inflated fault law", "HE6 truncated identified set", "HE7 parent blob mutation", "HE8 freeze-order path typo (required-file negative control)"],
+    "null": "NULL_MODAL emits the modal externally-measured capability always; unsound on every point-emitting input, and on the head-to-head inputs where F emits a point the null is wrong on all of them and F on none"
+  },
+  "custody": {
+    "freeze_commit": "e46003d524d532989f73d2f37ebc7c136577a09d",
+    "freeze_commit_v2": "711903a1c35d84f547ce688cc67c047499ccc630",
+    "rule": "no outcome oracle, scorer, calibration routine, OOD probe, real-system runner, test or CI workflow is reachable from the freeze commit; CI asserts this with a required-file negative control"
+  }
+}
