@@ -124,7 +124,7 @@ assumptions ledger listing the wrong assumptions passes this predicate.
 variants: a new non-compliant result (`NEW_RESULT_MISSING_LEDGER`), a compliant
 result that loses a ledger (`COMPLIANT_RESULT_REGRESSED`), and the prose decoy.
 Each broken variant also trips the monotone `CORPUS_DEBT_GREW` rule. On the live
-repository the gate exits **0** with **0** violations while seeing **17** new
+repository the gate exits **0** with **0** violations while seeing **21** new
 named results, and the disclosed debt is unchanged at **2345**. The
 demonstration runs inside the test module on every CI invocation, so "the gate
 can fail" is re-established on every run rather than asserted in prose.

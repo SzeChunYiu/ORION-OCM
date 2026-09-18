@@ -13,7 +13,7 @@ measures the corpus, and stops the debt growing.
 |---|---|---|
 | LG-1 | corpus state at `source_main`, disclosed not discharged | **0 of 2345** named results in **329** theorem artifacts emit all four ledgers — assumptions **31**, dependency **0**, falsifier **93**, strongest parent **59**; conservative subset **1015/2345**; **6** unparsed artifacts in their own category; **42** vendored copies carrying **310** results |
 | LG-2 | exact predicate, two independent parsers, decoy rejected | agreement by **set equality** over **2315** `path::result` keys (route B uses no regex at all); the prose decoy emits **0** and is failed by the gate |
-| LG-3 | the gate is blocking and **proven able to fail** | clean fixture exit **0**/0 violations; new-result, regression and decoy fixtures all exit **1**; live repo exit **0** with **17** new results seen and debt unchanged at **2345** |
+| LG-3 | the gate is blocking and **proven able to fail** | clean fixture exit **0**/0 violations; new-result, regression and decoy fixtures all exit **1**; live repo exit **0** with **21** new results seen and debt unchanged at **2345** |
 | LG-4 | AA06's artifact class exists now | **0** experiment ledgers on `main` → **2** authored here, recall **2/2**, all **5** ledgers each; planted theorem recall **9/9** |
 | LG-5 | the vocabulary was read off the rows | **9/9** canonical labels occur in their own row text; **0/200** random row bindings satisfy all nine (max **7**, mean **79/25**) |
 

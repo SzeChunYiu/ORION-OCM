@@ -12,8 +12,8 @@ requirement to look; an unqueued object is not thereby correct.
 |---|---|---|
 | FD-1 | **AA19** — universal claim, warranted by a search that was run | queue **60 records / 57 ids / 37 files** over **22553** objects; recall **6/6**; **0 alarms on 21548 real clean objects** (331 universal-with-analytic-warrant, 21217 non-universal); overlap with AA21's `FIN2UNIV` **1** |
 | FD-2 | **AA31** — same-semantics grammar pair, exact rational divergence | the parent's whole **24**-member isometric family raises **0** alarms; its registered non-isometric pair is queued with **10** divergent cells in **2 of 3** semantic classes; `1/3` vs `333333/1000000` diverges, `2/6` vs `1/3` does not |
-| FD-3 | **AA37** — new-form claim with no parent-reduction ledger | **18** trigger, **8** identified, **5** cleared, **3** queued; **2344** real non-triggering results raise nothing; this tranche's own notes are a live cleared negative (**1** triggers, **0** queued) |
-| FD-4 | every text variant is measured, never used to queue | AA19 text variant **+14** (60 → 74); AA37 bare grep **233** vs tier 1's **8**, inflation **225**; **7/7** hostiles move their own quantity; null **0/200**, max overlap **2/57**, exact mean **2607/40** |
+| FD-3 | **AA37** — new-form claim with no parent-reduction ledger | **19** trigger, **9** identified, **6** cleared, **3** queued; **2347** real non-triggering results raise nothing; this tranche's own notes are a live cleared negative (**2** trigger, **0** queued) |
+| FD-4 | every text variant is measured, never used to queue | AA19 text variant **+14** (60 → 74); AA37 bare grep **236** vs tier 1's **9**, inflation **227**; **7/7** hostiles move their own quantity; null **0/200**, max overlap **2/57**, exact mean **2607/40** |
 
 Two independent routes agree on **every queue by set equality**. Route B never
 executes the grammar parent — it re-derives AA31 from the parent's **committed

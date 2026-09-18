@@ -5,7 +5,7 @@ Claim ceiling: `VALIDATED_REVIEW_QUEUE_DETECTOR_V1`.
 Every result below is an exact statement about explicitly named finite objects
 at `source_main = 5e57d4292266bccf435136e1f7d72caa32e920a0`: the **22553**
 registered scientific objects of `CORPUS_INDEX_V1.json`
-(blob `709159c53c6284366aaf1f05380f5fada8d81a98`), the **2362** named results of
+(blob `709159c53c6284366aaf1f05380f5fada8d81a98`), the **2366** named results of
 the tracked theorem artifacts, the registered grammar fixture of
 `gmi-833-g0-grammar-bias-v1` with its exhaustive **24**-member isometric family
 and its registered non-isometric pair, constructed fixtures, and 200 seeded
@@ -116,7 +116,7 @@ repository's grammars.
 
 ## FD-3 — AA37: a new-form claim carrying no parent-reduction ledger is queued
 
-**Scope.** The 2362 named results of the tracked theorem artifacts, plus three
+**Scope.** The 2366 named results of the tracked theorem artifacts, plus three
 constructed fixtures.
 
 **Statement.** Tier 1 is precise: a named result is a new-form claim when its
@@ -125,17 +125,17 @@ text uses the declared novelty vocabulary — the six novelty-ladder levels of
 `novel intelligence`, `novel mechanism`, `new computational class`,
 `predicted morphology`, `held-out architecture`, and AA37's own `new-form`,
 under a declared hyphen/space normalization — and it is queued when it emits
-**no strongest-parent ledger**. **18** results trigger tier 1, **8** of them
-carry a result identifier, **5** are cleared by a parent ledger and **3** are
-queued. The no-alarm population is real and large: **2344** named results do not
+**no strongest-parent ledger**. **19** results trigger tier 1, **9** of them
+carry a result identifier, **6** are cleared by a parent ledger and **3** are
+queued. The no-alarm population is real and large: **2347** named results do not
 trigger and none is queued. This tranche's own theorem notes are a **live
-cleared negative** — **1** triggers tier 1 and **0** are queued. On constructed
+cleared negative** — **2** trigger tier 1 and **0** are queued. On constructed
 fixtures, recall is **1/1** and clearing is **1/1**, and an off-topic result
 triggers **0** times. Tier 2, a bare `novel`/`new`/`first` grep, triggers
-**233** identified results — an inflation of **225** over tier 1 — and is
+**236** identified results — an inflation of **227** over tier 1 — and is
 reported for exactly that reason and never used to queue.
 
-**Quantifiers.** Over all 2362 named results and all three fixtures.
+**Quantifiers.** Over all 2366 named results and all three fixtures.
 
 **Assumptions.** Emitting a strongest-parent ledger is evidence that a parent
 reduction was *recorded*, never that the reduction is correct — the ledger gate
@@ -172,7 +172,7 @@ vocabulary at all.
 **Statement.** Each detector's loose variant is run once, only to publish the
 size of the gap between what it sees and what the detector queues. For AA19 the
 text variant adds **14** records (60 → 74); for AA37 the bare grep triggers
-**233** identified results against tier 1's **8**, an inflation of **225**. For
+**236** identified results against tier 1's **9**, an inflation of **227**. For
 AA31 no text variant exists: the comparison is arithmetic. Seven hostiles are
 detected and each moves its own quantity, including the two that show what
 loosening the AA19 predicate costs on the **real** corpus — dropping the
