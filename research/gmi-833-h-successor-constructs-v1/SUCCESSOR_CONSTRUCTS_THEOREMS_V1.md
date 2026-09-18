@@ -49,6 +49,15 @@ program whose head does not depend on both `S1` and `S2`.
 **Strongest parent.** Pearl 1988: the normalising constant as a sum over the
 same index set. Not claimed novel.
 
+**Assumptions.** The ecology supplies both argument and parameter channels;
+the task is form recovery, not parameter estimation. Exact agreement on all 24
+search rows is the criterion. The `G_S` stratum is the one written out in
+`FREEZE_V1_ADDENDUM.md` A5, with `ADD` as its only combining operation.
+
+**Dependencies.** The `G_H` enumeration of `FREEZE_V1.md` section 4 and the
+canonical forms of `FREEZE_V1_ADDENDUM.md` A4. No dependency on any other
+named result here, and none on any parent's number.
+
 ---
 
 ## `SC-2` — `STAGE`: depth two collapses under affinity and separates without it
@@ -78,6 +87,13 @@ cheaper `G_H` match; a recovered second stage affine in `U`.
 verification on the registered rows is done here, and only so that the twin is
 honest.
 
+**Assumptions.** The registered channels `A`, `M`, `Q` and the 48 registered
+rows; `w = 4`; exact rational arithmetic. Claim (i) is an identity over those
+rows, not an algebraic identity claimed for all channels.
+
+**Dependencies.** `SC-8` for the single unchanged grammar. Claim (iii) depends
+on the enumeration and the canonical forms, not on claims (i) or (ii).
+
 ---
 
 ## `SC-3` — `TIE`: the tying map is a group invariance, and it is necessary here
@@ -97,7 +113,7 @@ changes the untied fold is strictly positive and is reported exactly. (iii) No
 program that does has charged cost `5`, carries `tau_3`, and is classified
 `TIED_PARAMETER`.
 
-**Assumption for (i).** `p` divides `N`. For `p` not dividing `N` the shift by
+**Assumptions.** For claim (i), `p` divides `N`. For `p` not dividing `N` the shift by
 `p` does not preserve residues and the statement is not made.
 
 **Falsifier.** An invariant-row count below 48 at any `p | N`; a zero count in
@@ -106,6 +122,10 @@ injective.
 
 **Strongest parents.** Fukushima 1980; LeCun et al. 1989; Cohen and Welling
 2016. Group-equivariant weight sharing is theirs.
+
+**Dependencies.** The registered index set `I = 0..11` and the modulus list
+`(1, 2, 3, 4, 6, 12)` of `FREEZE_V1.md` section 4.3. Independent of every other
+named result here.
 
 ---
 
@@ -136,6 +156,10 @@ match; a cheaper `G_H` match; a recovered program with no `MUL` combiner.
 Bengio 2017. The triangular construction is theirs. The only move here is to
 keep the volume rational.
 
+**Dependencies.** The combining-operation extension of `FREEZE_V1.md` section
+4.5. Claims (i) and (ii) are independent of the search; claim (iv) depends on
+the enumeration and the canonical forms.
+
 ---
 
 ## `SC-5` — `REDUCE`: a reduction over the response space reaches a staircase that forward evaluation does not
@@ -162,6 +186,13 @@ make the tie-break hostile vacuous and fail the run.
 **Strongest parent.** LeCun et al. 2006. Inference as minimisation over the
 response space is theirs.
 
+**Assumptions.** `Y = (-6, -4, 0, 4, 6)` with the registered order; ties broken
+to the smallest `y`; the `SIGMA_D34` channels restricted to `{-1, 0, 1}` so the
+score lies in `[-12, 12]`, as registered in `FREEZE_V1_ADDENDUM.md` A7.
+
+**Dependencies.** The response-space reduction of `FREEZE_V1.md` section 4.5
+and the two pinned tie rows of section 5. Independent of `SC-1` to `SC-4`.
+
 ---
 
 ## `SC-6` — the null is a base rate over the grammar, not a permuted response
@@ -187,6 +218,22 @@ reported `BASE_RATE_DOMINATED` and that scope's `R04` is `NOT_EARNED`.
 **Falsifier.** A recovered class with base-rate count zero; a recovered class
 that is modal, unreported.
 
+**Assumptions.** The structural-class taxonomy and its priority list, fixed in
+`FREEZE_V1.md` section 4.10 before any outcome existed. A base rate is a
+property of that taxonomy: a coarser class inflates its own base rate, which is
+what `SC-6b` records at `SIGMA_D32`.
+
+**Dependencies.** The enumeration of `SC-8`; the recovered cost of each scope
+from `SC-1` to `SC-5`, which bounds the census.
+
+**Strongest parents.** The refused null is the response-permutation control of
+`gmi-833-h-real-scale-revival-v1`, whose own parent shipped one that nested the
+arm it was compared with. Permutation tests generally: Fisher, *The Design of
+Experiments*, Oliver and Boyd, 1935; Good, *Permutation, Parametric and
+Bootstrap Tests of Hypotheses*, Springer, 2005. The point made here is narrow:
+a permutation null is informative under a loss criterion and vacuous under an
+exact-agreement criterion.
+
 ---
 
 ## `SC-7` — `R08` is tested for discriminativeness, not assumed
@@ -207,6 +254,17 @@ coordinate.
 **Falsifier.** An `R08` marked earned at a scope whose search-only-match count
 is zero.
 
+**Assumptions.** Discriminativeness is measured among the search-slice
+matchers at the recovered cost. Costs below the recovered cost have no
+matchers, so that set is the whole set.
+
+**Dependencies.** The recovered cost and match set of `SC-1` to `SC-5`.
+
+**Strongest parents.** Held-out evaluation as a coordinate is standard; the
+residual here is only the applicability test, which is the hostile-vacuity
+discipline of `gmi-833-h-real-scale-revival-v1` `FREEZE_V1.md` section 9
+applied to a coordinate rather than to a hostile.
+
 ---
 
 ## `SC-8` — one grammar, five recoveries, no row closed
@@ -226,6 +284,18 @@ here**, and adding these coordinates to any parent's is
 **Falsifier.** A digest change; an undetected hostile; a vacuous hostile; a
 hostile raised on the true run; any row marked closed; any non-empty
 `replacements[]` without eleven coordinates at one `sigma`.
+
+**Assumptions.** One grammar digest computed from the frozen definition; one
+enumeration built before any ecology is loaded; twelve hostiles with the
+applicability conditions of `FREEZE_V1.md` section 10.
+
+**Dependencies.** All of `SC-1` to `SC-7`. Claim (iv) additionally depends on
+`HRL-1` and on PR #997 `FGS-2` for the prohibition it states, both cited and
+neither counted as evidence here.
+
+**Strongest parents.** `gmi-833-h-neutral-four-family-v1` for the one-grammar
+many-families form; `gmi-833-h-family-requirement-ledger-v1` `HRL-1` for the
+scope tuple. Neither supplies a number here.
 
 ---
 
@@ -248,15 +318,52 @@ shape:
   parameters, which reintroduces the rationalisation and control machinery this
   package deliberately does not need.
 
+**Assumptions.** The eleven-coordinate requirement list of issue #833 section
+H, read through `gmi-833-h-family-requirement-ledger-v1`'s identifiers.
+
+**Dependencies.** The coordinate ledger of `RESULT_V1.json` and the two-route
+agreement recorded in `ISSUE_833_RECONCILIATION_H3_V1.json`.
+
+**Falsifiers.** A row marked closed anywhere in this package; a coordinate
+listed as earned whose receipt field is not `true`; a residual that omits
+`R11`.
+
+**Strongest parents.** `gmi-833-h-family-requirement-ledger-v1` owns the
+per-row residual format; the residuals here are this package's own scopes and
+are not that package's row verdicts.
+
 ---
 
 # The numbers, as measured
+
+## `SC-9` — the measured values of `SC-1` to `SC-8`
+
+**Scope.** The run recorded in `RESULT_V1.json` and `ORACLE_RESULT_V1.json` at
+grammar digest
+`d7d30e46302a01415bf0508e801798ed457222c45c3a43b5c6d6acff005b6d51`.
+
+**Statement.** The tables below are the measured values of the results above.
+Every entry is an integer produced by the committed executor and reproduced by
+the source-separated oracle. Nothing here is a new claim; it is the evidence
+for the claims already stated.
+
+**Assumptions.** The registered ecologies, slices, budgets and cost model, all
+unchanged from the freeze. Exact `Fraction` and `int` arithmetic throughout.
+
+**Dependencies.** `SC-1` to `SC-8`. Route A and route B each produce these
+numbers independently; a test asserts their agreement.
+
+**Falsifiers.** Any entry that the two routes do not agree on; any entry that a
+fresh run does not reproduce; a grammar digest that differs before and after
+the run.
+
+**Strongest parents.** None. These are this package's own measurements.
 
 All from `RESULT_V1.json`, grammar digest
 `d7d30e46302a01415bf0508e801798ed457222c45c3a43b5c6d6acff005b6d51`, identical
 before and after every search, twin, null and hostile.
 
-## Enumeration (`R02`)
+### Enumeration (`R02`)
 
 | slot | leaves | budget | raw trees | semantic classes on the registered probe grid |
 |---|---|---|---|---|
@@ -269,7 +376,7 @@ before and after every search, twin, null and hostile.
 raw trees, never semantic representatives**, so the coarser probe grid used for
 the class count cannot drop a program that would have matched.
 
-## Recovery, per scope
+### Recovery, per scope
 
 | scope | row | recovered class | charged cost | syntactic matches | distinct up to commutativity and bank swap | `G_S` stratum |
 |---|---|---|---|---|---|---|
@@ -295,7 +402,7 @@ SIGMA_D34  r=1 L=1 p=12 kind=ARGMIN ops=ADD   bodies=MUL(ARG,PARAM) head=ABS(ADD
 program under commutativity of `ADD` and `MUL` together with exchange of the
 two fold banks. The recovery is not merely cheapest, it is unique.
 
-## Derived theorem outputs
+### Derived theorem outputs
 
 | result | measured |
 |---|---|
@@ -306,7 +413,7 @@ two fold banks. The recovery is not merely cheapest, it is unique.
 | `SC-4` flow round trip and determinant | **180 of 180** (row, probe point) pairs exact, determinant point-independent on all 180 |
 | `SC-5` response-space staircase | **5** distinct levels out of a response set of size **5** |
 
-## The null (`SC-6`), per scope
+### The null (`SC-6`), per scope
 
 Exact structural-class census of the whole well-formed enumeration up to each
 scope's recovered cost.
@@ -344,7 +451,7 @@ Nothing about `SIGMA_D32` is weakened by this: `SC-4` stands, the `G_S`
 exhaustion stands, the twin stands, and the row's residual simply includes
 `R04` as well.
 
-## `SC-7` — held-out discriminativeness, measured
+### `SC-7` — held-out discriminativeness, measured
 
 | scope | programs matching the search slice | of those, failing the held-out slice | `R08` |
 |---|---|---|---|
@@ -361,7 +468,7 @@ separated nothing among the search-slice matchers. Under an exact-agreement
 criterion at these costs, a held-out slice of 12 rows is not a discriminating
 instrument, and saying so is worth more than a coordinate.
 
-## `R07` resource crossovers, exact integers
+### `R07` resource crossovers, exact integers
 
 `table_cost(m) = m + 2^m`. `serve_cost` is the charged ops-plus-storage of the
 compact program at index-set size `m`.
@@ -385,7 +492,7 @@ two now agree at all five scopes; a test asserts the agreement so the defect
 cannot return silently. This is what a second route is for, and it is recorded
 rather than quietly repaired.
 
-## A registered prediction that failed, and its diagnosis
+### A registered prediction that failed, and its diagnosis
 
 `FREEZE_V1.md` section 8.6 predicted that the exact-match count would be at
 most `4` at every scope. At `SIGMA_D17` it is **8**. Reported as failed.
@@ -406,7 +513,7 @@ could have matched was removed by it.
 No coordinate rests on the failed prediction. `R04`'s applicability condition
 and modal rule are separate and both were evaluated as registered.
 
-## Coordinates earned, per scope
+### Coordinates earned, per scope
 
 `R10` is earned by the agreement of the two routes and is recorded in
 `ISSUE_833_RECONCILIATION_H3_V1.json`, which is written after both routes have

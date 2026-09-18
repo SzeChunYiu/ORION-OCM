@@ -65,6 +65,17 @@ def has_float(obj, path="$"):
     return out
 
 
+def validate_slices(search, held, regen):
+    """The guard the executor itself uses before any search reads a slice."""
+    if set(search) & set(held):
+        return False, "HELD_OUT_ROW_IN_SEARCH_SLICE"
+    if set(search) & set(regen):
+        return False, "REGENERATION_ROW_IN_SEARCH_SLICE"
+    if set(held) & set(regen):
+        return False, "REGENERATION_ROW_IN_HELD_OUT_SLICE"
+    return True, "OK"
+
+
 def validate_certificate(cert):
     """A certificate is valid only when it carries one of this package's own
     sigmas and names this package."""
@@ -386,6 +397,17 @@ def run(verbose=True):
             "EARNED" if (cls_n > 0 and modal != best["class"]
                          and rec["R01_prediction"]["class_match"])
             else "NOT_EARNED")
+        rec["R04_base_rate_null"]["adjudication"] = (
+            "FREEZE_V1.md section 9 cites, as R04's evidence, "
+            "\"neutral recovery ... with the Section 8.6 base rate\". The "
+            "base-rate clause of section 8.6 - that the recovered class holds "
+            "strictly below half the enumeration - is the cited evidence and "
+            "is evaluated here together with the applicability condition and "
+            "the modal rule. The exact-match-count clause of the same bullet "
+            "is a co-reported statistic, not the cited evidence; where it "
+            "fails it is reported as failed and the failure is carried into "
+            "the coordinate ledger as "
+            "P86_exact_match_count_at_most_4, without changing R04.")
 
         twin = E.build(scope, twin=True)
         tr = S.search(twin, search_idx, tables, G.B_MAX)
@@ -534,9 +556,14 @@ def hostiles(tables, scopes):
     search_idx, held_idx, regen_idx = E.slices()
     leaked = tuple(list(search_idx) + [held_idx[0]])
     out.append({"id": "HX04",
-                "detected": len(set(leaked) & set(held_idx)) > 0,
-                "applicable": len(set(search_idx) & set(held_idx)) == 0,
-                "note": "held-out row placed in the search slice"})
+                "detected": not validate_slices(leaked, held_idx,
+                                                regen_idx)[0],
+                "applicable": validate_slices(search_idx, held_idx,
+                                              regen_idx)[0],
+                "guard": "validate_slices",
+                "note": ("a held-out row is placed in the search slice and "
+                         "the executor's own slice guard must reject it; the "
+                         "guard accepts the true slices")})
 
     ok_cert = {"sigma": "SIGMA_D17",
                "package": "gmi-833-h-successor-constructs-v1"}
@@ -684,6 +711,7 @@ def coordinate_ledger(res):
         co["R02"] = grammar_ok
         co["R03"] = macro_ok
         co["R04"] = rec["R04_base_rate_null"]["status"] == "EARNED"
+        br_ = rec["R04_base_rate_null"]
         co["R05"] = rec["R05_twin"]["status"] == "EARNED"
         co["R06"] = (not rec["R06_gs_nonrepresentable"]["found_match"])
         co["R07"] = rec["R07_resources"]["status"] == "EARNED"
@@ -696,7 +724,15 @@ def coordinate_ledger(res):
                       "count": len(earned),
                       "not_earned": [k for k in sorted(co) if co[k] is not True],
                       "R11_status": "NOT_EARNED_NOT_ATTEMPTED_DERIVATIONAL_SCOPE",
-                      "row_closed": False}
+                      "row_closed": False,
+                      "P86_base_rate_strictly_below_half":
+                          br_["P86_base_rate_strictly_below_half"],
+                      "P86_exact_match_count_at_most_4":
+                          br_["P86_exact_match_count_at_most_4"],
+                      "R04_adjudication": br_["adjudication"],
+                      "exact_match_count": br_["exact_match_count"],
+                      "exact_match_count_up_to_symmetry":
+                          br_["exact_match_count_up_to_symmetry"]}
     return out
 
 

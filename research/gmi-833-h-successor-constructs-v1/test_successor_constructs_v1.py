@@ -190,6 +190,10 @@ def test_results():
               ob.get("heldout_pass") is True
               and ob.get("heldout_search_only")
               == rec["R08_heldout"]["search_only_matches"])
+        check("twoRoute.%s.match_count" % scope,
+              ob["recovered"]["n_matches"] == rec["n_matches_at_cost"],
+              "oracle=%s routeA=%s" % (ob["recovered"]["n_matches"],
+                                       rec["n_matches_at_cost"]))
         check("scope.%s.match_unique_up_to_symmetry" % scope,
               rec["match_equivalence"][
                   "distinct_up_to_commutativity_and_bank_swap"] == 1,
@@ -259,9 +263,49 @@ def test_no_parent_file_is_read():
                 continue
             for arg in list(node.args) + [k.value for k in node.keywords]:
                 for sub in ast.walk(arg):
-                    if isinstance(sub, ast.Str) and "gmi-833-h-" in sub.s:
-                        bad.append((fn, sub.s))
+                    val = None
+                    if isinstance(sub, ast.Constant) and isinstance(
+                            sub.value, str):
+                        val = sub.value
+                    if val is not None and "gmi-833-h-" in val:
+                        bad.append((fn, val))
     check("custody.no_parent_artifact_is_opened", not bad, str(bad))
+
+
+def test_reconciliation_derives_from_receipts():
+    """Every coordinate the reconciliation claims must be recomputable from
+    RESULT_V1.json plus the two-route agreement, with no other input."""
+    rec = load("ISSUE_833_RECONCILIATION_H3_V1.json")
+    res = load("RESULT_V1.json")
+    orc = load("ORACLE_RESULT_V1.json")
+    if rec is None or res is None or orc is None:
+        check("reconciliation.derivable", False, "missing artifact")
+        return
+    for row in rec.get("rows_examined", []):
+        sigma = row["sigma"]
+        co = res["coordinates"][sigma]
+        ra = res["scopes"][sigma]["recovered"]
+        ob = orc["scopes"][sigma]
+        agree = (ob.get("recovered") is not None
+                 and ob["recovered"]["render"] == ra["render"]
+                 and ob["recovered"]["cost"] == ra["cost"]
+                 and ob["recovered"]["class"] == ra["class"]
+                 and ob.get("gs_match_found") is False)
+        per = dict(co["per_requirement"])
+        per["R10"] = bool(agree)
+        earned = sorted(k for k in per if per[k] is True)
+        check("reconciliation.%s.coordinates_recomputed" % sigma,
+              earned == row["coordinates_earned"]
+              and len(earned) == row["coordinates_earned_count"],
+              "receipt=%s artifact=%s" % (earned, row["coordinates_earned"]))
+        check("reconciliation.%s.fields_match_receipt" % sigma,
+              row["recovered_class"] == ra["class"]
+              and row["recovered_charged_cost"] == ra["cost"]
+              and row["recovered_program"] == ra["render"]
+              and row["gs_exhaustion_verdict"]
+              == res["scopes"][sigma]["R06_gs_nonrepresentable"]["verdict"])
+        check("reconciliation.%s.left_unchanged" % sigma,
+              row["action"] == "LEFT_UNCHANGED")
 
 
 def test_theorems():
@@ -287,6 +331,7 @@ def main():
     test_results()
     test_forbidden_language()
     test_no_parent_file_is_read()
+    test_reconciliation_derives_from_receipts()
     test_reconciliation()
     test_theorems()
     sys.stdout.write("\n%d failures\n" % len(FAILURES))

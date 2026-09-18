@@ -92,7 +92,7 @@ five registered derivational scopes:
 2. it is **inside** `G_H` at an exactly stated minimal charged cost, recovered
    by a family-blind ascending-cost search whose every strictly cheaper
    competitor was enumerated and rejected,
-3. with a one-property negative twin per scope whose predicate is required to
+3. with a one-property matched negative control per scope whose predicate is required to
    flip, and a base-rate null over the grammar rather than the vacuous
    response-permutation null that an exact-agreement criterion would make
    content-free.

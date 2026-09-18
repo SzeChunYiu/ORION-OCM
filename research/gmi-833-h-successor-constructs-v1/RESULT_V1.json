@@ -93,6 +93,9 @@
  "closes_rows": [],
  "coordinates": {
   "SIGMA_D17": {
+   "P86_base_rate_strictly_below_half": true,
+   "P86_exact_match_count_at_most_4": false,
+   "R04_adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
    "R11_status": "NOT_EARNED_NOT_ATTEMPTED_DERIVATIONAL_SCOPE",
    "count": 8,
    "earned": [
@@ -105,6 +108,8 @@
     "R07",
     "R09"
    ],
+   "exact_match_count": 8,
+   "exact_match_count_up_to_symmetry": 1,
    "not_earned": [
     "R08",
     "R10",
@@ -126,6 +131,9 @@
    "row_closed": false
   },
   "SIGMA_D20": {
+   "P86_base_rate_strictly_below_half": true,
+   "P86_exact_match_count_at_most_4": true,
+   "R04_adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
    "R11_status": "NOT_EARNED_NOT_ATTEMPTED_DERIVATIONAL_SCOPE",
    "count": 8,
    "earned": [
@@ -138,6 +146,8 @@
     "R07",
     "R09"
    ],
+   "exact_match_count": 4,
+   "exact_match_count_up_to_symmetry": 1,
    "not_earned": [
     "R08",
     "R10",
@@ -159,6 +169,9 @@
    "row_closed": false
   },
   "SIGMA_D22": {
+   "P86_base_rate_strictly_below_half": true,
+   "P86_exact_match_count_at_most_4": true,
+   "R04_adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
    "R11_status": "NOT_EARNED_NOT_ATTEMPTED_DERIVATIONAL_SCOPE",
    "count": 8,
    "earned": [
@@ -171,6 +184,8 @@
     "R07",
     "R09"
    ],
+   "exact_match_count": 2,
+   "exact_match_count_up_to_symmetry": 1,
    "not_earned": [
     "R08",
     "R10",
@@ -192,6 +207,9 @@
    "row_closed": false
   },
   "SIGMA_D32": {
+   "P86_base_rate_strictly_below_half": true,
+   "P86_exact_match_count_at_most_4": true,
+   "R04_adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
    "R11_status": "NOT_EARNED_NOT_ATTEMPTED_DERIVATIONAL_SCOPE",
    "count": 7,
    "earned": [
@@ -203,6 +221,8 @@
     "R07",
     "R09"
    ],
+   "exact_match_count": 4,
+   "exact_match_count_up_to_symmetry": 1,
    "not_earned": [
     "R04",
     "R08",
@@ -225,6 +245,9 @@
    "row_closed": false
   },
   "SIGMA_D34": {
+   "P86_base_rate_strictly_below_half": true,
+   "P86_exact_match_count_at_most_4": true,
+   "R04_adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
    "R11_status": "NOT_EARNED_NOT_ATTEMPTED_DERIVATIONAL_SCOPE",
    "count": 8,
    "earned": [
@@ -237,6 +260,8 @@
     "R07",
     "R09"
    ],
+   "exact_match_count": 4,
+   "exact_match_count_up_to_symmetry": 1,
    "not_earned": [
     "R08",
     "R10",
@@ -284,8 +309,9 @@
    {
     "applicable": true,
     "detected": true,
+    "guard": "validate_slices",
     "id": "HX04",
-    "note": "held-out row placed in the search slice"
+    "note": "a held-out row is placed in the search slice and the executor's own slice guard must reject it; the guard accepts the true slices"
    },
    {
     "applicable": true,
@@ -356,7 +382,7 @@
    "vacuous": []
   }
  },
- "millis_total": 457431,
+ "millis_total": 444959,
  "package": "gmi-833-h-successor-constructs-v1",
  "route": "A",
  "schema": "GMI833HSuccessorConstructsResultV1",
@@ -382,6 +408,7 @@
    "R04_base_rate_null": {
     "P86_base_rate_strictly_below_half": true,
     "P86_exact_match_count_at_most_4": false,
+    "adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
     "applicable": true,
     "base_rate_dominated": false,
     "class_counts": {
@@ -799,7 +826,7 @@
     ],
     "syntactic_matches": 8
    },
-   "millis": 59886,
+   "millis": 58592,
    "n_held": 12,
    "n_matches_at_cost": 8,
    "n_regen": 12,
@@ -867,6 +894,7 @@
    "R04_base_rate_null": {
     "P86_base_rate_strictly_below_half": true,
     "P86_exact_match_count_at_most_4": true,
+    "adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
     "applicable": true,
     "base_rate_dominated": false,
     "class_counts": {
@@ -1156,7 +1184,7 @@
     ],
     "syntactic_matches": 4
    },
-   "millis": 328361,
+   "millis": 320836,
    "n_held": 12,
    "n_matches_at_cost": 4,
    "n_regen": 12,
@@ -1229,6 +1257,7 @@
    "R04_base_rate_null": {
     "P86_base_rate_strictly_below_half": true,
     "P86_exact_match_count_at_most_4": true,
+    "adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
     "applicable": true,
     "base_rate_dominated": false,
     "class_counts": {
@@ -1435,7 +1464,7 @@
     ],
     "syntactic_matches": 2
    },
-   "millis": 650,
+   "millis": 379,
    "n_held": 12,
    "n_matches_at_cost": 2,
    "n_regen": 12,
@@ -1499,6 +1528,7 @@
    "R04_base_rate_null": {
     "P86_base_rate_strictly_below_half": true,
     "P86_exact_match_count_at_most_4": true,
+    "adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
     "applicable": true,
     "base_rate_dominated": true,
     "class_counts": {
@@ -1782,7 +1812,7 @@
     ],
     "syntactic_matches": 4
    },
-   "millis": 1967,
+   "millis": 1674,
    "n_held": 12,
    "n_matches_at_cost": 4,
    "n_regen": 12,
@@ -1850,6 +1880,7 @@
    "R04_base_rate_null": {
     "P86_base_rate_strictly_below_half": true,
     "P86_exact_match_count_at_most_4": true,
+    "adjudication": "FREEZE_V1.md section 9 cites, as R04's evidence, \"neutral recovery ... with the Section 8.6 base rate\". The base-rate clause of section 8.6 - that the recovered class holds strictly below half the enumeration - is the cited evidence and is evaluated here together with the applicability condition and the modal rule. The exact-match-count clause of the same bullet is a co-reported statistic, not the cited evidence; where it fails it is reported as failed and the failure is carried into the coordinate ledger as P86_exact_match_count_at_most_4, without changing R04.",
     "applicable": true,
     "base_rate_dominated": false,
     "class_counts": {
@@ -2121,7 +2152,7 @@
     ],
     "syntactic_matches": 4
    },
-   "millis": 31328,
+   "millis": 30879,
    "n_held": 12,
    "n_matches_at_cost": 4,
    "n_regen": 12,

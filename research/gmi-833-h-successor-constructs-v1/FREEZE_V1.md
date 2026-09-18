@@ -241,7 +241,7 @@ channels `A_i in {-1,0,1}`, `P_i in {-1,0,1}` (drawn as `(s mod 3) - 1`, with
 genuine coarse quantisation of `-S`. Every other channel is drawn as in
 Section 5.
 
-### 5.2 The five negative twins, each moving exactly one property
+### 5.2 The five matched negative controls, each moving exactly one property
 
 | twin | scope | response `y` | the one property moved |
 |---|---|---|---|
@@ -401,11 +401,11 @@ extra operation, an extra leaf, or a hand-supplied candidate.
 | `R02` | `P3`/`P4` grammar | yes, Section 4 with exact raw and quotiented counts |
 | `R03` | no family macros | yes, Section 10 audit |
 | `R04` | neutral recovery | yes, Section 6 with the Section 8.6 base rate |
-| `R05` | negative twin | yes, Section 5.2 with applicability |
+| `R05` | matched negative control | yes, Section 5.2 with applicability |
 | `R06` | lower bound where possible | yes, minimality within the enumerated set at `B_MAX`, plus the five `G_S` non-representability exhaustions |
 | `R07` | resource crossover | yes, Section 4.7 cost model, exact crossovers |
 | `R08` | held-out frozen prediction | conditional on Section 8.7 |
-| `R09` | remint | yes, regeneration slice |
+| `R09` | independent regeneration | yes, regeneration slice |
 | `R10` | independent search | yes, source-separated oracle |
 | `R11` | real-scale test | **NOT EARNED, NOT ATTEMPTED, NOT ASSERTED** |
 
