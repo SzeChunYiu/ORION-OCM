@@ -1,0 +1,102 @@
+{
+  "claim_ceiling": "GMI_833_116570467_CANDIDATE_EXACT_CENSUS_AT_REGISTERED_FINITE_SCOPE",
+  "claims": [
+    {
+      "assumptions": [
+        "G0-fin-v1 and cumulative B=(5,1) define the target finite population",
+        "the registered mixed-radix instruction ordering is authoritative"
+      ],
+      "counterexample_methods": [
+        "skip or duplicate a rank and test closed-form interval moments",
+        "alter instruction ordering and compare the independent histogram"
+      ],
+      "dependencies": [
+        "PR #966 finite G0 candidate space",
+        "PR #1003 exact rank/unrank design",
+        "PR #1007 protected execution interface"
+      ],
+      "falsifiers": [
+        "candidate count differs from 116,570,467",
+        "any rank fails decode/validate/rerank",
+        "a stratum or chunk is incomplete",
+        "closed-form rank moments disagree"
+      ],
+      "id": "CENSUS-100M-1",
+      "limits": [
+        "finite registered grammar and B=(5,1) only",
+        "not 10^8 execution at B=(8,4)",
+        "not unbounded or all-machine coverage"
+      ],
+      "scope": "all G0-fin-v1 candidates with one register and one through five labels",
+      "statement": "Exactly 116,570,467 distinct finite candidates were decoded, validated, reranked, and protected-semantically evaluated in a complete census.",
+      "strongest_parent": "PR #1007 explicitly executed only a one-million SRSWOR sample"
+    },
+    {
+      "assumptions": [
+        "semantic equality is equality of the complete registered protected observation table",
+        "inverse-Simpson effective count is computed from exact census multiplicities"
+      ],
+      "counterexample_methods": [
+        "tamper a chunk histogram or the effective-count denominator",
+        "independently interpret every candidate through n=4"
+      ],
+      "dependencies": [
+        "CENSUS-100M-1",
+        "the protected interface (), (0,), (1,) at step cap 6"
+      ],
+      "falsifiers": [
+        "semantic histogram does not sum to the census count",
+        "committed histogram hash differs",
+        "independent small-budget histogram differs"
+      ],
+      "id": "SEM-CENSUS-1",
+      "limits": [
+        "complete only at the registered finite grammar/budget/interface",
+        "not completeness of all machine semantics",
+        "not the checklist row's alternative effective-coverage route"
+      ],
+      "scope": "the exact 116,570,467-candidate census at the frozen protected interface",
+      "statement": "The census has exactly 973 protected semantic classes and exact inverse-Simpson effective count 13588673776598089/3429058444270403.",
+      "strongest_parent": "PR #1007 reported only sample-relative semantic diagnostics"
+    },
+    {
+      "assumptions": [
+        "SHA-256 is a custody mechanism rather than a proof of collision impossibility",
+        "the source-separated Python oracle and compiled worker implement distinct routes"
+      ],
+      "counterexample_methods": [
+        "receipt predecessor, histogram, or count mutation",
+        "complete independent enumeration for n=1 through n=4"
+      ],
+      "dependencies": [
+        "FROZEN_PROTOCOL_V1.json",
+        "independent_oracle_v1.py"
+      ],
+      "falsifiers": [
+        "any chain link breaks",
+        "independent semantic or structural check disagrees"
+      ],
+      "id": "CUSTODY-100M-1",
+      "limits": [
+        "the independent semantic oracle is complete through n=4, not n=5",
+        "full n=5 independence is structural rather than a second semantic execution"
+      ],
+      "scope": "the registered execution receipts and committed result",
+      "statement": "All 120 chunk receipts form one validated chain; a source-separated oracle agrees on complete semantics through n=4 and full-scope structural totals.",
+      "strongest_parent": "none at this exact census scale"
+    }
+  ],
+  "freeze_commit": "e0391d214f6c837af367c59b4113152e9834764c",
+  "issue": 1008,
+  "not_claimed": [
+    "unbounded generation or all-machine/all-semantic exhaustion",
+    "10^8 execution at B=(8,4)",
+    "the alternative equivalent-effective-coverage route",
+    "unique/unbiased grammar or grammar neutrality",
+    "absolute architecture freedom or physical randomness",
+    "QD/open-ended search, family recovery, capability, real-scale validation, or complete GMI"
+  ],
+  "parent_issue": 833,
+  "schema": "GMI833HundredMillionCensusScientificLedgerV1",
+  "source_pr": 1009
+}
