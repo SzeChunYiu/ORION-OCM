@@ -399,3 +399,58 @@ produce byte-identical `PLEX_SCREEN_V1.json`, which is asserted in the test batt
 The pre-amendment trial numbers are recorded here for the record: first run 159 P-LEX
 packages / 1,934 blocks / 37 hits / 9 flagged; contaminated second run 159 / 1,970 / 71 / 10.
 The definitive numbers are whatever the post-A4 executor writes into `RESULT_V1.json`.
+
+---
+
+## Amendment A5 — separate class-indicator productions from measured cost gaps
+
+*Committed in its own commit before the re-run it governs. Defect found by review of the
+first committed run and fixed with a recorded amendment, as A4 was.*
+
+**The defect.** §2.1 computes target-exclusivity from the cost table, and hostile H1 proves
+that *this package's detector* never reads production names. Neither fact constrains the
+**adapter-supplied semantic classifier**. In `gmi-cross-grammar-four-family-v1` the package's
+own `classify()` assigns the phenotype by reading the production symbol
+(`SHARED_LOCAL_UPDATE if raw[...] == "shared"`, `"not_s" in raw`,
+`raw[0] in {"rows","leaves"}`, `raw[0] == "branches"`). Where `sem(p)` is a function of
+`leaves(p)`, both `dep(q) = {t}` and the unreachability of `t` after deleting `q` follow
+from the classifier's definition and carry **no cost content whatsoever**. Reporting such a
+hit as a measured cost gap would be an overclaim.
+
+**A5 (frozen).** For a Tier-1 hit with production set `Q` and target `t`, define
+
+```
+indicator(Q, t) := every presentation of class t uses some q in Q
+                AND no presentation of any other class uses any q in Q
+```
+
+`indicator` is computed from the incidence relation alone (still name-blind). Then:
+
+- `indicator(Q, t)` true  -> `encoding_kind = PRODUCTION_IS_CLASS_INDICATOR`
+- `indicator(Q, t)` false -> `encoding_kind = COST_MEASURED`
+
+and the primary dispositions split accordingly:
+
+- `ENCODES_COST_MEASURED__DISCLOSED_CHARGED` / `..__UNDISCLOSED`
+- `ENCODES_CLASS_INDICATOR__DISCLOSED_CHARGED` / `..__UNDISCLOSED`
+
+Both remain **encodings** — a grammar whose production *is* the class label is the strongest
+form of "the answer is in the primitive basis", which is what the row asks to identify — but
+the two kinds are never summed into one number and a class-indicator hit is never described
+as a measured cost gap. The headline separates them.
+
+**Hostile H7.** A detector variant that omits the `indicator` test must be shown to merge
+the two kinds (it reports every hit as `COST_MEASURED`).
+
+**A5 anchor:** `grammar_growth_G2` must be `COST_MEASURED` — the base-only encoding of every
+reuse-positive word uses neither `m1` nor `m2`, so not every target presentation uses the
+deleted set — while the six cross-grammar hits must be `PRODUCTION_IS_CLASS_INDICATOR`. The
+amendment fixes the test, not the outcome.
+
+**A5.2 — corpus population vs validation fixture.** `clean_control_NEUTRAL` is this
+package's own synthetic V3 fixture, not a merged corpus grammar. It stays in `load_all()`
+(removing it would break V3/V5), but every grammar instance now carries `corpus: true|false`
+and the receipt reports `population.corpus_*` counts separately from
+`population.validation_fixtures`. All published headline numbers are the **corpus** numbers.
+The first committed run's denominator ("14 instances from 5 packages, 12 targeted") included
+the fixture and is superseded by the corpus denominator.
