@@ -51,7 +51,17 @@ jobs:
           assert screen["screen_verdict"] == "CLEAN"
           assert check["battery_blob_ok"], "battery blob drift"
           assert check["battery_regeneration_deterministic"], "nondeterministic battery"
-          assert check["freeze_custody"]["implementation_absent_at_freeze"]
+          fc = check["freeze_custody"]
+          if fc.get("status") == "FREEZE_COMMIT_UNREACHABLE":
+              # Commit-order custody cannot be re-derived once the freeze
+              # commit is unreachable from any ref. Do not assert what was
+              # not checked; require the freeze files to be present and say
+              # plainly that the ordering rests on the audit done at merge.
+              assert fc["freeze_files_present_at_head"] == fc["freeze_files_expected"], fc
+              assert fc["ancestry_verified"] is False
+              print("freeze custody: UNREACHABLE COMMIT, files present, ordering not re-derived")
+          else:
+              assert fc["implementation_absent_at_freeze"], fc
           assert check["search_side_no_benchmark_reference"]
           assert check["screen"]["clean"]
           assert all(check["recomputation_bindings"].values()), check["recomputation_bindings"]
