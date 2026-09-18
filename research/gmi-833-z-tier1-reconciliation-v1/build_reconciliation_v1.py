@@ -224,8 +224,9 @@ def main():
         seen_old.add(old)
         text = old[len("- [ ] "):]
         new = "- [x] %s — ✅ %s %s: %s." % (text, pkg, ids, evidence)
-        replacements.append({"anchor": s["heading"], "old": old, "new": new,
-                             "subsection": sid, "package": pkg, "result_ids": ids})
+        replacements.append({"comment_id": COMMENT_ID, "anchor": s["heading"],
+                             "old": old, "new": new, "subsection": sid,
+                             "package": pkg, "result_ids": ids})
 
     unchecked_after = len([r for r in all_rows if r.startswith("- [ ] ")]) - len(replacements)
     doc = {
