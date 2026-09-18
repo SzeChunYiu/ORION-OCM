@@ -1,0 +1,400 @@
+{
+  "checks": {
+    "all_candidate_scalars_refuted": true,
+    "dependence_separates_from_prediction": true,
+    "existence_separates_from_accessibility": true,
+    "finite_sample_separates_from_asymptotic": true,
+    "marginal_nonuniformity_separates_from_dependence": true,
+    "minimality_search_complete": true,
+    "no_budget_independent_scalar": true,
+    "null_beaten": true,
+    "null_no_alarm_on_clean": true,
+    "prediction_implies_dependence_on_grid": true,
+    "prediction_separates_from_causation": true,
+    "prediction_separates_from_control": true,
+    "profile_object_bounded": true,
+    "profile_object_monotone": true
+  },
+  "claim_ceiling": "GMI_833_AE1_TASK_RELATIVE_EXPLOITABLE_STRUCTURE_SEPARATED_ON_REGISTERED_FINITE_WITNESS_ROSTER",
+  "freeze_commit": "a466dab4c464e0c697f4caf5a3cceb3a5d73278c",
+  "issue": 833,
+  "results": {
+    "accessibility_profiles": {
+      "W_DICT": {
+        "acc_base": "1/2",
+        "acc_full": "1",
+        "profile": {
+          "k0_d0": "1/2",
+          "k0_d1": "1/2",
+          "k0_d2": "1/2",
+          "k0_d3": "1/2",
+          "k1_d0": "1/2",
+          "k1_d1": "1",
+          "k1_d2": "1",
+          "k1_d3": "1",
+          "k2_d0": "1/2",
+          "k2_d1": "1",
+          "k2_d2": "1",
+          "k2_d3": "1",
+          "k3_d0": "1/2",
+          "k3_d1": "1",
+          "k3_d2": "1",
+          "k3_d3": "1"
+        }
+      },
+      "W_NOISY_DICT": {
+        "acc_base": "1/2",
+        "acc_full": "3/4",
+        "profile": {
+          "k0_d0": "1/2",
+          "k0_d1": "1/2",
+          "k0_d2": "1/2",
+          "k0_d3": "1/2",
+          "k1_d0": "1/2",
+          "k1_d1": "3/4",
+          "k1_d2": "3/4",
+          "k1_d3": "3/4",
+          "k2_d0": "1/2",
+          "k2_d1": "3/4",
+          "k2_d2": "3/4",
+          "k2_d3": "3/4",
+          "k3_d0": "1/2",
+          "k3_d1": "3/4",
+          "k3_d2": "3/4",
+          "k3_d3": "3/4"
+        }
+      },
+      "W_PARITY3": {
+        "acc_base": "1/2",
+        "acc_full": "1",
+        "profile": {
+          "k0_d0": "1/2",
+          "k0_d1": "1/2",
+          "k0_d2": "1/2",
+          "k0_d3": "1/2",
+          "k1_d0": "1/2",
+          "k1_d1": "1/2",
+          "k1_d2": "1/2",
+          "k1_d3": "1/2",
+          "k2_d0": "1/2",
+          "k2_d1": "1/2",
+          "k2_d2": "1/2",
+          "k2_d3": "1/2",
+          "k3_d0": "1/2",
+          "k3_d1": "1/2",
+          "k3_d2": "1/2",
+          "k3_d3": "1"
+        }
+      }
+    },
+    "candidate_scalars_refuted": {
+      "chi_squared": {
+        "U_W_NOISY_DICT": "3/4",
+        "U_W_PARITY3": "1/2",
+        "at_budget": "k1_d1",
+        "refuted": true,
+        "sigma_W_NOISY_DICT": "1/4",
+        "sigma_W_PARITY3": "1"
+      },
+      "full_information_gain": {
+        "U_W_NOISY_DICT": "3/4",
+        "U_W_PARITY3": "1/2",
+        "at_budget": "k1_d1",
+        "refuted": true,
+        "sigma_W_NOISY_DICT": "1/4",
+        "sigma_W_PARITY3": "1/2"
+      },
+      "l1_dependence": {
+        "U_W_NOISY_DICT": "3/4",
+        "U_W_PARITY3": "1/2",
+        "at_budget": "k1_d1",
+        "refuted": true,
+        "sigma_W_NOISY_DICT": "1/2",
+        "sigma_W_PARITY3": "1"
+      }
+    },
+    "causal_separation": {
+      "CAUSAL": false,
+      "PRED": true,
+      "interventional_gain": "0",
+      "joint": {
+        "0,0": "13/40",
+        "0,1": "7/40",
+        "1,0": "7/40",
+        "1,1": "13/40"
+      },
+      "observational_gain": "3/20",
+      "p_y1_do_x0": "1/2",
+      "p_y1_do_x1": "1/2",
+      "p_y1_given_x0": "7/20",
+      "p_y1_given_x1": "13/20"
+    },
+    "control_separation": {
+      "W_CTRL_NOPRED": {
+        "CTRL": true,
+        "PRED": false,
+        "acc_base": "1/2",
+        "acc_obs": "1/2",
+        "blind_utility": "1/4",
+        "control_gain": "1/4",
+        "informed_utility": "1/2",
+        "shape": [
+          2,
+          3,
+          2
+        ],
+        "utility_is_constant_in_y": false
+      },
+      "W_PRED_NOCTRL": {
+        "CTRL": false,
+        "PRED": true,
+        "acc_base": "1/2",
+        "acc_obs": "1",
+        "blind_utility": "1",
+        "control_gain": "0",
+        "informed_utility": "1",
+        "shape": [
+          2,
+          2,
+          2
+        ],
+        "utility_is_constant_in_y": false
+      }
+    },
+    "discoverability": {
+      "DISC_m0": false,
+      "DISC_m1": true,
+      "LEARN": true,
+      "asymptotic_accuracy": "1",
+      "hypothesis_family": "all 8 secrets s in GF(2)^3, uniform prior",
+      "learning_curve": {
+        "m0": "9/16",
+        "m1": "79/128",
+        "m2": "723/1024",
+        "m3": "6715/8192"
+      },
+      "marginalised_world_PRED": false,
+      "marginalised_world_acc_base": "9/16",
+      "marginalised_world_acc_obs": "9/16"
+    },
+    "distributional_separation": {
+      "W_DEP_NOPRED": {
+        "DEP": true,
+        "MARG_NONUNIF": false,
+        "PRED": false,
+        "acc_base": "4/5",
+        "acc_obs": "4/5",
+        "gain": "0",
+        "l1_dependence": "1/5",
+        "shape": [
+          2,
+          2
+        ]
+      },
+      "W_DEP_UNIFMARG": {
+        "DEP": true,
+        "MARG_NONUNIF": false,
+        "PRED": true,
+        "acc_base": "1/2",
+        "acc_obs": "1",
+        "gain": "1/2",
+        "l1_dependence": "1",
+        "shape": [
+          2,
+          2
+        ]
+      },
+      "W_IND_SKEW": {
+        "DEP": false,
+        "MARG_NONUNIF": true,
+        "PRED": false,
+        "acc_base": "1/2",
+        "acc_obs": "1/2",
+        "gain": "0",
+        "l1_dependence": "0",
+        "shape": [
+          2,
+          2
+        ]
+      },
+      "W_IND_UNIF": {
+        "DEP": false,
+        "MARG_NONUNIF": false,
+        "PRED": false,
+        "acc_base": "1/2",
+        "acc_obs": "1/2",
+        "gain": "0",
+        "l1_dependence": "0",
+        "shape": [
+          2,
+          2
+        ]
+      }
+    },
+    "existence_vs_accessibility": {
+      "ACC_at_k2_d2": false,
+      "ACC_at_k3_d3": true,
+      "PRED": true,
+      "acc_base": "1/2",
+      "acc_full_information": "1",
+      "best_acc_at_k2_d2": "1/2",
+      "best_acc_at_k3_d2": "1/2",
+      "best_acc_at_k3_d3": "1",
+      "world": "W_PARITY3"
+    },
+    "minimality": {
+      "grid_denominator": 8,
+      "max_shape": 4,
+      "separations": {
+        "DEP_without_MARG_NONUNIF": {
+          "minimal_shapes": [
+            [
+              2,
+              2
+            ]
+          ],
+          "pattern_MARG_DEP_PRED": [
+            false,
+            true,
+            true
+          ]
+        },
+        "DEP_without_PRED": {
+          "minimal_shapes": [
+            [
+              2,
+              2
+            ]
+          ],
+          "pattern_MARG_DEP_PRED": [
+            true,
+            true,
+            false
+          ]
+        },
+        "DEP_without_PRED_uniform_marginal": {
+          "minimal_shapes": [
+            [
+              2,
+              2
+            ]
+          ],
+          "pattern_MARG_DEP_PRED": [
+            false,
+            true,
+            false
+          ]
+        },
+        "MARG_NONUNIF_without_DEP": {
+          "minimal_shapes": [
+            [
+              2,
+              1
+            ]
+          ],
+          "pattern_MARG_DEP_PRED": [
+            true,
+            false,
+            false
+          ]
+        },
+        "PRED_without_MARG_NONUNIF": {
+          "minimal_shapes": [
+            [
+              2,
+              2
+            ]
+          ],
+          "pattern_MARG_DEP_PRED": [
+            false,
+            true,
+            true
+          ]
+        }
+      },
+      "shapes_admitting_PRED_without_DEP": [],
+      "shapes_searched": 16
+    },
+    "null": {
+      "detector": "accessibility gap: full-information Bayes gain is strictly positive while every rule admissible at junta arity k<=2 attains exactly the base rate",
+      "family": "uniform X on {0,1}^3, P(Y=1|x) an independent multiple of 1/8 drawn from a deterministic integer LCG",
+      "finding": "the unthresholded detector fires on 7 of 200 random worlds; every such hit is a genuine but small accessibility gap, the largest being 3/16, against the planted witness's 1/2",
+      "known_clean_worlds_flagged": [],
+      "largest_null_gap_magnitude": "3/16",
+      "magnitude_threshold": "1/4",
+      "no_alarm_case_holds": true,
+      "planted_positive_flagged": true,
+      "planted_positive_gap_magnitude": "1/2",
+      "random_world_gap_magnitudes": [
+        [
+          6,
+          "1/16"
+        ],
+        [
+          7,
+          "3/32"
+        ],
+        [
+          33,
+          "1/32"
+        ],
+        [
+          45,
+          "1/32"
+        ],
+        [
+          53,
+          "1/32"
+        ],
+        [
+          161,
+          "1/16"
+        ],
+        [
+          169,
+          "3/16"
+        ]
+      ],
+      "random_worlds_at_or_above_threshold": 0,
+      "random_worlds_flagged_unthresholded": 7,
+      "trials": 200
+    },
+    "profile_object": {
+      "bounded_by_full_information": true,
+      "ceiling_violations": [],
+      "definition": "S(W) := the map R -> max_{h in H_R} acc(h, W) on the frozen budget lattice R = (junta arity k, decision-tree depth d). Defined by the coordinates a rule may read and its branching depth; no architecture, layer or parameter count enters.",
+      "lattice_size": 16,
+      "monotone": true,
+      "monotonicity_violations": []
+    },
+    "reversal_genericity": {
+      "note": "reported for information only; one reversal already refutes every budget-independent scalar, and a high rate strengthens rather than weakens the AE1-5 conclusion",
+      "random_pairs_with_order_reversal": 114,
+      "trials": 200
+    },
+    "scalar_impossibility": {
+      "A_high": "1",
+      "A_low": "1/2",
+      "B_high": "3/4",
+      "B_low": "3/4",
+      "budget_high": "k3_d3",
+      "budget_low": "k1_d1",
+      "quantifier": "Refutes every BUDGET-INDEPENDENT sigma: W -> R claimed to satisfy sigma(W) >= sigma(W') => U(W,R) >= U(W',R) for all R in the frozen lattice. A scalar indexed by the pair (W,R) is NOT refuted; the positive disjunct below supplies exactly such a resource-indexed object.",
+      "reversal": true,
+      "world_A": "W_PARITY3",
+      "world_B": "W_NOISY_DICT"
+    }
+  },
+  "schema": "GMI_833_AE1_STRUCTURE_SEPARATION_RESULT_V1",
+  "section": "AE1",
+  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
+  "theorems": [
+    "AE1-1",
+    "AE1-2",
+    "AE1-3",
+    "AE1-4",
+    "AE1-5",
+    "AE1-6"
+  ],
+  "verdict": "GREEN"
+}

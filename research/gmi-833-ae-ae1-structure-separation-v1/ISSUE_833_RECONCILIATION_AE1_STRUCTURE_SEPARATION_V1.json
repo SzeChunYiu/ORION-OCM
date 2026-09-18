@@ -1,0 +1,66 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae1-structure-separation-v1",
+  "claim_ceiling": "GMI_833_AE1_TASK_RELATIVE_EXPLOITABLE_STRUCTURE_SEPARATED_ON_REGISTERED_FINITE_WITNESS_ROSTER",
+  "forbidden_promotions": [
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "UNIVERSAL_STRUCTURE_MEASURE",
+    "ARCHITECTURE_SELECTION_LAW",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "MINIMALITY_OVER_ALL_REAL_VALUED_JOINTS",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Define task-relative exploitable structure formally; do not equate it with low entropy, nonuniform marginals, low manifold dimension, or compressibility alone.",
+      "new": "- [x] Define task-relative exploitable structure formally; do not equate it with low entropy, nonuniform marginals, low manifold dimension, or compressibility alone. — ✅ `gmi-833-ae-ae1-structure-separation-v1` D-AE1/AE1-1..AE1-6: exploitable structure is defined as the achievability gap `U(W,T,R) = max_{h in H_R} score(h) − blind score` over a budget-indexed rule class naming coordinates and branching depth, never an architecture; exact witnesses separate it from each named surrogate — nonuniform marginal `(3/4,1/4)` with L1 dependence exactly `0`, L1 dependence `1/5` with Bayes gain exactly `0`, and full-information accuracy `1` with exactly `1/2` attainable at budget `(k,d)=(2,2)`.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Separate marginal nonuniformity from dependence.",
+      "new": "- [x] Separate marginal nonuniformity from dependence. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-1: `W_IND_SKEW` has `X`-marginal `(3/4,1/4)` and is exactly a product measure (L1 dependence `0`), while `W_DEP_UNIFMARG` has uniform marginals on both coordinates and is maximally dependent; over the exhaustive denominator-8 grid the minimal shapes are `(2,1)` and `(2,2)` respectively.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Separate statistical dependence from predictive dependence.",
+      "new": "- [x] Separate statistical dependence from predictive dependence. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-2: `W_DEP_NOPRED` = `[[9/20,1/20],[7/20,3/20]]` has L1 dependence `1/5 > 0` yet `acc_obs = acc_base = 4/5`, a Bayes gain of exactly `0`; the converse holds strictly — across all 16 shapes of the exhaustive denominator-8 grid, `0` admit a predictive world that is independent.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Separate predictive dependence from causal/control relevance.",
+      "new": "- [x] Separate predictive dependence from causal/control relevance. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-3/AE1-4: `W_PRED_NOCTRL` has Bayes gain `1/2` but control gain exactly `0` under a utility that is *not* constant in `Y`, while `W_CTRL_NOPRED` has Bayes gain exactly `0` and control gain `1/4`; and in the confounded model `Z→X`, `Z→Y` the observational gain is `3/20` while `P(y|do(x))` is `1/2` for both `x`, an interventional gain of exactly `0`.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Separate existence of structure from accessibility to a resource-bounded learner.",
+      "new": "- [x] Separate existence of structure from accessibility to a resource-bounded learner. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-5: `W_PARITY3` has base rate `1/2` and full-information accuracy exactly `1`, yet every rule admissible at `(k,d)=(2,2)` attains exactly `1/2` and so does every rule at `(3,2)` — reading all three coordinates does not help at depth two; only the single top budget `(3,3)` reaches `1`.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Separate finite-sample discoverability from asymptotic learnability.",
+      "new": "- [x] Separate finite-sample discoverability from asymptotic learnability. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-6: on the 8-secret `GF(2)^3` parity family the Bayes-optimal learner attains expected test accuracy `9/16`, `79/128`, `723/1024`, `6715/8192` at `m = 0,1,2,3` against an asymptotic optimum of `1`; at `m=0` this equals the secret-marginalised base rate `9/16` exactly, and even at `m=3` it is `6715/8192 < 1` because three uniform draws span `GF(2)^3` with probability only `21/64`.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Define an architecture-independent `structure available to agent A under resource budget R` object or prove why no single scalar can do this.",
+      "new": "- [x] Define an architecture-independent `structure available to agent A under resource budget R` object or prove why no single scalar can do this. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-5: both disjuncts. No *budget-independent* scalar works — `W_PARITY3` scores `1/2` vs `W_NOISY_DICT`'s `3/4` at budget `k1_d1` and `1` vs `3/4` at `k3_d3`, and the three named candidates are refuted individually (full-information gain `1/2` vs `1/4`, L1 dependence `1` vs `1/2`, chi-squared `1` vs `1/4`). The positive object is the architecture-independent profile `S(W): R ↦ max_{h∈H_R} acc(h,W)`, monotone with `0` violations over the 16-cell lattice and bounded by the full-information optimum with `0` violations.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE1 — Define `exploitable structure` without handwaving",
+      "old": "- [ ] Construct minimal counterexamples for every false equivalence above.",
+      "new": "- [x] Construct minimal counterexamples for every false equivalence above. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-1..AE1-4: every distributional separation carries a minimality certificate from an exhaustive sweep of all 16 shapes up to `4×4` over joints with probabilities multiples of `1/8` — minimal shape `(2,1)` for nonuniform-without-dependence and `(2,2)` for dependence-without-prediction and dependence-without-marginal-nonuniformity, with `0` shapes admitting prediction without dependence.",
+      "status": "EARNED"
+    }
+  ]
+}
