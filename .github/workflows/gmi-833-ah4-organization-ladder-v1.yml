@@ -56,11 +56,15 @@ jobs:
               sha = subprocess.check_output(
                   ['git', 'hash-object', pin['path']]).decode().strip()
               if sha != pin['blob_sha']:
-                  bad.append((pin['path'], pin['blob_sha'], sha))
+                  bad.append(('blob', pin['path'], pin['blob_sha'], sha))
+              if pin['path'].endswith('.json'):
+                  live = json.load(open(pin['path'])).get('claim_ceiling')
+                  if live != pin['claim_ceiling']:
+                      bad.append(('ceiling', pin['path'], pin['claim_ceiling'], live))
           if bad:
               print('PARENT PIN DRIFT', bad)
               sys.exit(1)
-          print('parent pins intact:', len(m['parent_pins']))
+          print('parent pins intact (blob and claim ceiling):', len(m['parent_pins']))
           PY
 
       - name: Snapshot the committed receipts before rerunning them
