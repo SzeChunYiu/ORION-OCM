@@ -1,0 +1,578 @@
+{
+ "IV_2": {
+  "T1_FULL_SCAN_CONTROL": {
+   "invariant": true,
+   "mismatches": 0,
+   "scans": 180
+  },
+  "T1_RENAME": {
+   "alarms": 0,
+   "instances": 200,
+   "invariant": true,
+   "multiset_breaks": 0
+  },
+  "T2_STATE_ENCODING": {
+   "invariant": true,
+   "machines_checked": 4472,
+   "sigma_breaks": 0
+  },
+  "T3_IO_CONJUGATION": {
+   "alarms": 0,
+   "candidates_checked": 65552,
+   "invariant": true,
+   "is_bijection": true,
+   "sigma_breaks": 0,
+   "worlds": 60
+  },
+  "T4_COMPILER": {
+   "invariant": true,
+   "machines_checked": 400,
+   "sigma_breaks": 0
+  },
+  "T5_UNIT": {
+   "distinct_p_mu_keys": 15,
+   "equivariance_breaks": 0,
+   "invariant": true,
+   "ladder": [
+    "1/7",
+    "1/2",
+    "2",
+    "3",
+    "11/5",
+    "100"
+   ],
+   "p_mu_determinism_breaks": 0,
+   "statement": "objective scales by c, lambda* scales by c, argmin class set unchanged; the prediction is a function of (p, mu) with mu = lambda/eta, and mu* = p/2",
+   "worlds": 60
+  }
+ },
+ "IV_4": {
+  "behavioural_equivalence": "identical 48-symbol output trace over 8 sequences x 2 modes x 3 timesteps",
+  "behaviourally_stateless_declared_stateful": 12544,
+  "behaviourally_stateless_not_dead_table": 8448,
+  "behaviourally_stateless_with_frozen_next_state": 272,
+  "consistent_declared_verdicts": 60,
+  "consistent_effective_verdicts_matching_declared": 60,
+  "declared_bits_is_a_semantic_invariant": false,
+  "freeze_hypothesis_4096": 4096,
+  "mixed_convention_flip_examples": [
+   {
+    "case": 1,
+    "consistent": [
+     "STATELESS"
+    ],
+    "mixed": [
+     "PERSISTENT_STATE",
+     "STATELESS"
+    ],
+    "tag": "high"
+   },
+   {
+    "case": 2,
+    "consistent": [
+     "STATELESS"
+    ],
+    "mixed": [
+     "PERSISTENT_STATE",
+     "STATELESS"
+    ],
+    "tag": "high"
+   },
+   {
+    "case": 3,
+    "consistent": [
+     "STATELESS"
+    ],
+    "mixed": [
+     "PERSISTENT_STATE",
+     "STATELESS"
+    ],
+    "tag": "high"
+   },
+   {
+    "case": 4,
+    "consistent": [
+     "STATELESS"
+    ],
+    "mixed": [
+     "PERSISTENT_STATE",
+     "STATELESS"
+    ],
+    "tag": "high"
+   }
+  ],
+  "mixed_convention_flips": 20,
+  "stateless_trace_count": 16,
+  "syntactic_count_undercounts": true,
+  "syntactic_dead_table_count": 4096
+ },
+ "IV_5": {
+  "dead_padding_definition": "every declared-stateless candidate is replaced by its behaviourally identical state-ignoring 16-bit encoding; the population's external behaviour is unchanged",
+  "declared_convention_moved_by_dead_padding": 40,
+  "effective_convention_invariant_under_dead_padding": true,
+  "effective_convention_is_consistent_with_declared": true,
+  "invariant_replacement": "bits_eff(u) = min declared bits over the behavioural class of u"
+ },
+ "IV_6a": {
+  "behavioural_classes": 21904,
+  "classes_by_min_description_length": {
+   "16": 21888,
+   "4": 16
+  },
+  "description_length_bits": {
+   "stateful_word": 16,
+   "stateless_word": 4
+  },
+  "largest_class_share_of_universe": "785/65552",
+  "multiplicity_max": 785,
+  "multiplicity_min": 1,
+  "multiplicity_ratio_max_over_min": "785",
+  "uniform_share_if_unbiased": "1/21904"
+ },
+ "IV_6b": {
+  "mutation_graph": "single-bit flips within a word, plus the canonical widen/narrow edge between a 4-bit stateless word and its zero-next-state dead-padded 16-bit encoding",
+  "nodes_reached_at_max_radius": 40198,
+  "radii": [
+   {
+    "ball_fraction_of_universe": "1/65552",
+    "ball_size": 1,
+    "declared_bias": "4096/4097",
+    "declared_stateless_in_ball": 1,
+    "declared_stateless_share_of_ball": "1",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "3312/4097",
+    "effective_stateless_in_ball": 1,
+    "effective_stateless_share_of_ball": "1",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 0
+   },
+   {
+    "ball_fraction_of_universe": "3/32776",
+    "ball_size": 6,
+    "declared_bias": "20479/24582",
+    "declared_stateless_in_ball": 5,
+    "declared_stateless_share_of_ball": "5/6",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "3312/4097",
+    "effective_stateless_in_ball": 6,
+    "effective_stateless_share_of_ball": "1",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 1
+   },
+   {
+    "ball_fraction_of_universe": "2/4097",
+    "ball_size": 32,
+    "declared_bias": "45035/131104",
+    "declared_stateless_in_ball": 11,
+    "declared_stateless_share_of_ball": "11/32",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "3312/4097",
+    "effective_stateless_in_ball": 32,
+    "effective_stateless_share_of_ball": "1",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 2
+   },
+   {
+    "ball_fraction_of_universe": "107/32776",
+    "ball_size": 214,
+    "declared_bias": "61241/876758",
+    "declared_stateless_in_ball": 15,
+    "declared_stateless_share_of_ball": "15/214",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "321608/438379",
+    "effective_stateless_in_ball": 198,
+    "effective_stateless_share_of_ball": "99/107",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 3
+   },
+   {
+    "ball_fraction_of_universe": "1147/65552",
+    "ball_size": 1147,
+    "declared_bias": "64405/4699259",
+    "declared_stateless_in_ball": 16,
+    "declared_stateless_share_of_ball": "16/1147",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "89768/151589",
+    "effective_stateless_in_ball": 899,
+    "effective_stateless_share_of_ball": "29/37",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 4
+   },
+   {
+    "ball_fraction_of_universe": "2173/32776",
+    "ball_size": 4346,
+    "declared_bias": "30603/8902781",
+    "declared_stateless_in_ball": 16,
+    "declared_stateless_share_of_ball": "8/2173",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "93596/217141",
+    "effective_stateless_in_ball": 2706,
+    "effective_stateless_share_of_ball": "33/53",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 5
+   },
+   {
+    "ball_fraction_of_universe": "5969/32776",
+    "ball_size": 11938,
+    "declared_bias": "26807/24454993",
+    "declared_stateless_in_ball": 16,
+    "declared_stateless_share_of_ball": "8/5969",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "6904748/24454993",
+    "effective_stateless_in_ball": 5658,
+    "effective_stateless_share_of_ball": "2829/5969",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 6
+   },
+   {
+    "ball_fraction_of_universe": "12367/32776",
+    "ball_size": 24734,
+    "declared_bias": "20409/50667599",
+    "declared_stateless_in_ball": 16,
+    "declared_stateless_share_of_ball": "8/12367",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "8330996/50667599",
+    "effective_stateless_in_ball": 8806,
+    "effective_stateless_share_of_ball": "4403/12367",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 7
+   },
+   {
+    "ball_fraction_of_universe": "20099/32776",
+    "ball_size": 40198,
+    "declared_bias": "12677/82345603",
+    "declared_stateless_in_ball": 16,
+    "declared_stateless_share_of_ball": "8/20099",
+    "declared_stateless_share_of_universe": "1/4097",
+    "effective_bias": "6833628/82345603",
+    "effective_stateless_in_ball": 11038,
+    "effective_stateless_share_of_ball": "5519/20099",
+    "effective_stateless_share_of_universe": "785/4097",
+    "radius": 8
+   }
+  ],
+  "start_word": "all-zero 4-bit stateless description",
+  "universe_nodes": 65552
+ },
+ "claim_ceiling": "GMI_833_Z3_FINITE_TRANSFORMATION_REGISTRY_INVARIANCE_EQUIVARIANCE_AND_THE_DECLARED_STATE_BIT_NON_INVARIANT_AT_REGISTERED_BINARY_TRANSDUCER_SCOPE",
+ "forbidden_promotions": [
+  "REPRESENTATION_INDEPENDENCE_IN_GENERAL",
+  "INVARIANCE_UNDER_ALL_RECODINGS",
+  "SEARCH_INVARIANCE_FROM_SEMANTIC_INVARIANCE",
+  "REAL_COMPILER_OR_HARDWARE_SUBSTRATE_INVARIANCE",
+  "GRAMMAR_NEUTRALITY",
+  "COMPLETE_TRANSFORMATION_REGISTRY",
+  "DECLARED_STATE_BIT_ACCOUNTING_IS_WRONG",
+  "FLAGSHIP_THEORY_FALSIFIED_BY_RECODING"
+ ],
+ "gates": {
+  "T1_full_scan_control_agrees": true,
+  "T1_rename_invariant": true,
+  "T2_state_encoding_invariant": true,
+  "T3_io_conjugation_invariant": true,
+  "T3_is_bijection": true,
+  "T4_compiler_invariant": true,
+  "T5_unit_equivariant": true,
+  "effective_convention_consistent": true,
+  "effective_convention_survives_dead_padding": true,
+  "grammar_bias_quantified": true,
+  "hostiles_all_moved": true,
+  "null_clean_case_multiset_preserved": true,
+  "null_clean_case_silent": true,
+  "null_revived_detector_complete": true,
+  "null_survivors_characterized": true,
+  "registry_complete": true,
+  "row4_branch1_conclusions_survive": true,
+  "row4_branch2_non_invariant_characterized": true,
+  "syntactic_count_undercounts_recorded": true
+ },
+ "hostiles": {
+  "H1_PSEUDO_RENAME": {
+   "clean": 0,
+   "hostile": 4,
+   "moved": true,
+   "quantity": "winner class set over 60 worlds"
+  },
+  "H2_ETA_ONLY": {
+   "clean": 0,
+   "hostile": 60,
+   "moved": true,
+   "quantity": "winner class set under eta-only rescaling"
+  },
+  "H3_DEAD_PADDING_MIXED": {
+   "clean": 0,
+   "hostile": 20,
+   "moved": true,
+   "quantity": "winner class set under mixed accounting/labelling conventions"
+  },
+  "H4_GRAMMAR_NON_ISO": {
+   "clean": [
+    {
+     "16": 21888,
+     "4": 16
+    },
+    40198
+   ],
+   "hostile": [
+    {
+     "16": 21904
+    },
+    39203
+   ],
+   "moved": true,
+   "quantity": "description-length histogram and reachable-ball size"
+  },
+  "H5_TRUNCATED_UNIVERSE": {
+   "clean": 0,
+   "hostile": 40,
+   "moved": true,
+   "quantity": "winner class set over 60 worlds"
+  }
+ },
+ "issue": 833,
+ "null": {
+  "clean_case_alarms": 0,
+  "clean_case_instances": 200,
+  "clean_case_multiset_breaks": 0,
+  "frozen_detector": "winner class set changes on at least one of the 60 registered worlds",
+  "frozen_detector_detected": 197,
+  "frozen_detector_survived": 3,
+  "revived_detector": "the frozen T1_RENAME registry invariant: the multiset of (bits, e_now, e_delay) must be preserved by a rename",
+  "revived_detector_detected": 200,
+  "revived_detector_survived": 0,
+  "seeds": 200,
+  "survivor_characterization": "every verdict-blind pseudo-rename holds the true stateless optimum error pair (0, N/2) among the 16 identifiers it moves into the declared-stateless slots, so the stateless class minimum is unchanged at every registered world while the stateful class minimum still contains (0,0); the blindness is a property of the verdict statistic, not of the transformation",
+  "survivor_characterization_verified": true,
+  "survivors": [
+   {
+    "holds_the_true_stateless_optimum_pair": true,
+    "seed": 7721,
+    "stateless_slot_pairs": [
+     [
+      0,
+      8
+     ],
+     [
+      0,
+      8
+     ],
+     [
+      0,
+      8
+     ],
+     [
+      0,
+      11
+     ],
+     [
+      3,
+      11
+     ],
+     [
+      4,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      10
+     ],
+     [
+      8,
+      10
+     ],
+     [
+      8,
+      11
+     ],
+     [
+      11,
+      11
+     ],
+     [
+      16,
+      8
+     ],
+     [
+      16,
+      10
+     ]
+    ],
+    "worlds_total": 60,
+    "worlds_where_slot_minimum_equals_true_stateless_minimum": 60
+   },
+   {
+    "holds_the_true_stateless_optimum_pair": true,
+    "seed": 7741,
+    "stateless_slot_pairs": [
+     [
+      0,
+      8
+     ],
+     [
+      0,
+      8
+     ],
+     [
+      0,
+      8
+     ],
+     [
+      0,
+      8
+     ],
+     [
+      4,
+      8
+     ],
+     [
+      6,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      10
+     ],
+     [
+      8,
+      10
+     ],
+     [
+      13,
+      10
+     ],
+     [
+      16,
+      8
+     ],
+     [
+      16,
+      8
+     ]
+    ],
+    "worlds_total": 60,
+    "worlds_where_slot_minimum_equals_true_stateless_minimum": 60
+   },
+   {
+    "holds_the_true_stateless_optimum_pair": true,
+    "seed": 7757,
+    "stateless_slot_pairs": [
+     [
+      0,
+      8
+     ],
+     [
+      0,
+      10
+     ],
+     [
+      0,
+      14
+     ],
+     [
+      3,
+      8
+     ],
+     [
+      3,
+      8
+     ],
+     [
+      6,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      10
+     ],
+     [
+      8,
+      11
+     ],
+     [
+      11,
+      12
+     ],
+     [
+      12,
+      8
+     ],
+     [
+      12,
+      8
+     ],
+     [
+      16,
+      8
+     ],
+     [
+      16,
+      8
+     ]
+    ],
+    "worlds_total": 60,
+    "worlds_where_slot_minimum_equals_true_stateless_minimum": 60
+   }
+  ]
+ },
+ "route": "A_simulation",
+ "schema": "GMI_833_Z3_INVARIANCE_RESULT_V1",
+ "section": "Z",
+ "source_main": "349c2e62c4ae01f52cf66f61e4dacdbdfcf10071",
+ "subsection": "Z3",
+ "universe": {
+  "N_scored_moments": 16,
+  "candidates": 65552,
+  "distinct_sigma": 146,
+  "stateful": 65536,
+  "stateless": 16
+ },
+ "verdict": "GREEN"
+}

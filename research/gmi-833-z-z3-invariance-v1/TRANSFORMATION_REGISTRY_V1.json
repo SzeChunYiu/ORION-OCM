@@ -1,0 +1,140 @@
+{
+ "complete": true,
+ "entries": [
+  {
+   "definition": "a bijection of the surface identifiers; sigma travels with the candidate",
+   "id": "T1_RENAME",
+   "observed_alarms": 0,
+   "ok": true,
+   "quantity": "winner class set over the 60 registered worlds",
+   "required": "must not move",
+   "row1_category": "renaming",
+   "status": "CLAIMED_IRRELEVANT"
+  },
+  {
+   "definition": "negation of the state label, with the start state transported",
+   "id": "T2_STATE_ENCODING",
+   "observed_alarms": 0,
+   "ok": true,
+   "quantity": "sigma = (bits, e_now, e_delay)",
+   "required": "must not move",
+   "row1_category": "equivalent state encodings",
+   "status": "CLAIMED_IRRELEVANT"
+  },
+  {
+   "definition": "simultaneous negation of input and output symbols, target negated with them",
+   "id": "T3_IO_CONJUGATION",
+   "observed_alarms": 0,
+   "ok": true,
+   "quantity": "sigma and the winner class set",
+   "required": "must not move",
+   "row1_category": "semantics-preserving recoding",
+   "status": "CLAIMED_IRRELEVANT"
+  },
+  {
+   "definition": "the composite T2 o T3 o T1: a different concrete encoding of the same transducer",
+   "id": "T4_COMPILER",
+   "observed_alarms": 0,
+   "ok": true,
+   "quantity": "sigma",
+   "required": "must not move",
+   "row1_category": "compiler/substrate changes",
+   "status": "CLAIMED_IRRELEVANT"
+  },
+  {
+   "definition": "common positive rational rescaling (eta, lambda) -> (c*eta, c*lambda)",
+   "id": "T5_UNIT",
+   "observed_alarms": 0,
+   "ok": true,
+   "quantity": "objective (scales by c), lambda* (scales by c), argmin class set (fixed)",
+   "required": "must scale, verdict must not move",
+   "row1_category": "unit changes",
+   "status": "CLAIMED_IRRELEVANT_EQUIVARIANT"
+  },
+  {
+   "definition": "an isometric relabeling of the description grammar: the bit permutation induced by T3 on description words, which preserves word length, permutes behavioural classes bijectively and maps single-bit-flip edges to single-bit-flip edges",
+   "id": "T6_GRAMMAR_ISO",
+   "observed_alarms": 0,
+   "ok": true,
+   "quantity": "description-length histogram and mutation adjacency",
+   "required": "must not move",
+   "row1_category": "equivalent grammar transformations",
+   "status": "CLAIMED_IRRELEVANT"
+  },
+  {
+   "definition": "see FREEZE_V1.md",
+   "id": "H1_PSEUDO_RENAME",
+   "observed_alarms": 4,
+   "ok": true,
+   "quantity": "winner class set over 60 worlds",
+   "required": "must move",
+   "row1_category": "(adversarial)",
+   "status": "DECLARED_RELEVANT"
+  },
+  {
+   "definition": "see FREEZE_V1.md",
+   "id": "H2_ETA_ONLY",
+   "observed_alarms": 60,
+   "ok": true,
+   "quantity": "winner class set under eta-only rescaling",
+   "required": "must move",
+   "row1_category": "(adversarial)",
+   "status": "DECLARED_RELEVANT"
+  },
+  {
+   "definition": "see FREEZE_V1.md",
+   "id": "H3_DEAD_PADDING_MIXED",
+   "observed_alarms": 20,
+   "ok": true,
+   "quantity": "winner class set under mixed accounting/labelling conventions",
+   "required": "must move",
+   "row1_category": "(adversarial)",
+   "status": "DECLARED_RELEVANT"
+  },
+  {
+   "definition": "see FREEZE_V1.md",
+   "id": "H4_GRAMMAR_NON_ISO",
+   "observed_alarms": [
+    {
+     "16": 21904
+    },
+    39203
+   ],
+   "ok": true,
+   "quantity": "description-length histogram and reachable-ball size",
+   "required": "must move",
+   "row1_category": "(adversarial)",
+   "status": "DECLARED_RELEVANT"
+  },
+  {
+   "definition": "see FREEZE_V1.md",
+   "id": "H5_TRUNCATED_UNIVERSE",
+   "observed_alarms": 40,
+   "ok": true,
+   "quantity": "winner class set over 60 worlds",
+   "required": "must move",
+   "row1_category": "(adversarial)",
+   "status": "DECLARED_RELEVANT"
+  }
+ ],
+ "issue": 833,
+ "note": "the registry is the set of transformations this package registers; it is not a claim that no other transformation exists",
+ "row1_categories_covered": [
+  "compiler/substrate changes",
+  "equivalent grammar transformations",
+  "equivalent state encodings",
+  "renaming",
+  "semantics-preserving recoding",
+  "unit changes"
+ ],
+ "row1_categories_required": [
+  "renaming",
+  "semantics-preserving recoding",
+  "compiler/substrate changes",
+  "equivalent grammar transformations",
+  "unit changes",
+  "equivalent state encodings"
+ ],
+ "schema": "GMI_833_Z3_TRANSFORMATION_REGISTRY_V1",
+ "subsection": "Z3"
+}
