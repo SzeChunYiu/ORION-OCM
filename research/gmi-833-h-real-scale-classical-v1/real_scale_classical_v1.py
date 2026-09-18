@@ -349,6 +349,38 @@ def resolve(scopes, controls):
          "tail_stateless": h1["arms"]["stateless_best"]["tail"]["errors"]})
     put("Q01d", controls["H01_null"]["stateful_strictly_better"] == 0,
         controls["H01_null"])
+    baseline = {
+        "held": {"selected": h1["winner"]["evaluation"]["held"]["errors"],
+                 "stateless": h1["arms"]["stateless_best"]["held"]["errors"],
+                 "majority_class": h1["arms"]["majority_class"]["held"]["errors"],
+                 "n": h1["winner"]["evaluation"]["held"]["n"]},
+        "tail": {"selected": h1["winner"]["evaluation"]["tail"]["errors"],
+                 "stateless": h1["arms"]["stateless_best"]["tail"]["errors"],
+                 "majority_class": h1["arms"]["majority_class"]["tail"]["errors"],
+                 "n": h1["winner"]["evaluation"]["tail"]["n"]},
+        "selected_beats_stateless_on_both_slices": bool(
+            h1["winner"]["evaluation"]["held"]["errors"]
+            < h1["arms"]["stateless_best"]["held"]["errors"]
+            and h1["winner"]["evaluation"]["tail"]["errors"]
+            < h1["arms"]["stateless_best"]["tail"]["errors"]),
+        "selected_beats_majority_class_on_both_slices": bool(
+            h1["winner"]["evaluation"]["held"]["errors"]
+            < h1["arms"]["majority_class"]["held"]["errors"]
+            and h1["winner"]["evaluation"]["tail"]["errors"]
+            < h1["arms"]["majority_class"]["tail"]["errors"]),
+        "scope_note":
+            "Q01a-Q01d, the predicates SIGMA_H01 closes on, all compare the "
+            "selected program against the blind-selected STATELESS program, and "
+            "that ordering holds on the frozen held-out slice and on the "
+            "temporally disjoint contiguous tail. The selected program's "
+            "advantage over the TRIVIAL majority-class baseline is NOT robust "
+            "across slices: it holds on the held-out slice and reverses on the "
+            "tail, where the majority-class rule makes fewer errors. The "
+            "closure is therefore of the state-versus-no-state predicate the "
+            "row registers, not of a claim that the learned automaton is the "
+            "best available predictor of this response.",
+    }
+    P["_scope_notes"] = {"held": True, "H01_vs_trivial_baseline": baseline}
 
     a2 = h2["winner"]["attributes"]
     put("Q02a", (h2["winner"]["class"] == "AFFINE_SCORE"
@@ -740,7 +772,10 @@ def main():
             "identical_across_scopes": sorted(set(
                 sc["grammar"]["grammar_digest"] for sc in scopes.values())),
         },
-        "predictions": preds,
+        "predictions": {k: v for k, v in preds.items()
+                        if not k.startswith("_")},
+        "scope_notes": {"H01_vs_trivial_baseline":
+                        preds["_scope_notes"]["H01_vs_trivial_baseline"]},
         "rows": rows,
         "hostiles": host,
         "hostiles_all_applicable": all(h["applicable"] for h in host),
@@ -813,8 +848,9 @@ def main():
     print(json.dumps({"verdict": result["verdict"],
                       "rows_closed": result["rows_closed"],
                       "rows_open": result["rows_open"],
-                      "predictions_failed": sorted(k for k in preds
-                                                   if not preds[k]["held"]),
+                      "predictions_failed": sorted(
+                          k for k in preds
+                          if not k.startswith("_") and not preds[k]["held"]),
                       "hostiles": "%d/%d detected, %d applicable"
                       % (sum(1 for h in host if h["detected"]), len(host),
                          sum(1 for h in host if h["applicable"]))},

@@ -43,8 +43,13 @@ decision-error count is **17,557 against the blind-selected stateless program's
 (`0/200`): a 27-error margin on 155,583 rows that is nevertheless entirely
 destroyed by permuting the order, which is what makes it sequence structure
 rather than noise. The order-destroyed twin ecology selects a stateless head.
-The contiguous-tail evaluation agrees (30,045 against 30,229 on 194,480 further
-rows). Both routes agree; the remint slice recovers the same class; the selected
+The contiguous-tail evaluation agrees on that comparison (30,045 against 30,229
+on 194,480 further rows). It must be said in the same breath that the selected
+automaton's advantage over the **trivial majority-class baseline** does not
+survive the slice change: 17,557 against 21,277 on the held-out slice, but
+30,045 against 25,695 on the tail, where the majority rule wins by 4,350. What
+closes is the state-versus-no-state predicate this row registers, not a claim
+that the automaton is the best predictor of word boundaries. Both routes agree; the remint slice recovers the same class; the selected
 expression is exactly minimal in the grammar; the table crossover is `m* = 5`.
 
 **`SIGMA_H02` recovered the affine score and is open on the null, not on the
@@ -123,6 +128,14 @@ python3 -u run_real_scale_v2.py H01|H02|H03|H04   # search, fit, exact evaluate
 python3 -u run_search_sample_v1.py                # survivors + real search sample
 python3 -u run_controls_v2.py                     # twins, nulls, automaton
 ```
+
+## A note on the committed logs
+
+`REAL_RUNS/logs_v2/` is the V2 run's stdout and stderr with one class of line
+removed: the LAPACK `DLASCL parameter number ... had an illegal value` warnings
+that route B's `lstsq` emits on candidate designs containing non-finite values
+(those candidates are discarded by the finiteness guard and never scored).
+Nothing else was altered, and no result line was touched.
 
 ## Custody
 

@@ -89,6 +89,19 @@ differences on a different grid.
 **Quantifiers.** For each closed row; the open rows are named with their
 recovered class and their single-stage attribution.
 
+**Scope of the `SIGMA_H01` closure, stated because the numbers require it.** The
+predicates that row closes on — `Q01a`–`Q01d` — compare the selected program
+against the blind-selected **stateless** program, and that ordering holds on
+both the frozen held-out slice (17,557 against 17,584) and the temporally
+disjoint contiguous tail (30,045 against 30,229). The selected program's
+advantage over the **trivial majority-class baseline** is not robust across
+slices: it holds on the held-out slice (17,557 against 21,277) and reverses on
+the tail, where the majority-class rule makes 30,045 − 25,695 = 4,350 fewer
+errors. What is closed is the state-versus-no-state predicate the row registers,
+at the registered scope; it is not a claim that the learned automaton is the
+best available predictor of this response, and the figures are in
+`RESULT_V1.json::scope_notes.H01_vs_trivial_baseline`.
+
 **Assumptions.** The search procedure of `FREEZE_V1_ECOLOGY_ADDENDUM.md` A8 as
 amended by `FREEZE_V1_SEARCH_AMENDMENT.md` and `FREEZE_V2_ADDENDUM.md` L1–L4;
 the ecology definitions of A1–A4; the loss at each scope being that scope's own
@@ -112,7 +125,12 @@ under its own exact-rational coordinate descent, and must agree on the winner's
 structural class. **It does not re-run the full 12,614-pair enumeration on the
 full search slice**, because it has no access to `D1`–`D3`; the independent
 re-derivation of the selection is therefore of the decisive comparison among the
-survivors, not of the screen that produced them. A second float optimiser inside
+survivors, not of the screen that produced them. At `SIGMA_H01` and
+`SIGMA_H02` the oracle's reduced-budget ranking reproduces the full-scale
+structural class; at `SIGMA_H03` it does not, selecting `AFFINE_SCORE` where the
+full search selected `NONLINEAR_LINK`, and that row does not close. `R10`'s
+support is therefore complete exactly where a row closes, and is stated at
+reduced budget everywhere. A second float optimiser inside
 stage 1 (`route B`) is recorded as a diagnostic only, including where it
 disagrees; `FREEZE_V1.md` Section 9 names the source-separated oracle as the
 `R10` route and that is what the gate reads.

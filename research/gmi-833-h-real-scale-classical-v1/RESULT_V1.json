@@ -1121,6 +1121,25 @@
   }
  },
  "schema": "GMI833HRealScaleClassicalResultV1",
+ "scope_notes": {
+  "H01_vs_trivial_baseline": {
+   "held": {
+    "majority_class": 21277,
+    "n": 155583,
+    "selected": 17557,
+    "stateless": 17584
+   },
+   "scope_note": "Q01a-Q01d, the predicates SIGMA_H01 closes on, all compare the selected program against the blind-selected STATELESS program, and that ordering holds on the frozen held-out slice and on the temporally disjoint contiguous tail. The selected program's advantage over the TRIVIAL majority-class baseline is NOT robust across slices: it holds on the held-out slice and reverses on the tail, where the majority-class rule makes fewer errors. The closure is therefore of the state-versus-no-state predicate the row registers, not of a claim that the learned automaton is the best available predictor of this response.",
+   "selected_beats_majority_class_on_both_slices": false,
+   "selected_beats_stateless_on_both_slices": true,
+   "tail": {
+    "majority_class": 25695,
+    "n": 194480,
+    "selected": 30045,
+    "stateless": 30229
+   }
+  }
+ },
  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
  "verdict": "GREEN",
  "verdict_meaning": "GREEN means the package is internally sound: every hostile fires and is caught, no hostile raises a false alarm on clean input, the exact arithmetic is reproduced from the committed real slices, custody order holds and no gate crosses a scope. It does NOT mean every row closed. rows_closed and rows_open are the scientific outcome and are reported as data; a row that failed a frozen prediction is reported open with its single-stage attribution, which is a result, not a defect."
