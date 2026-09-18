@@ -195,6 +195,236 @@ def oracle_reach(delta, histories, realizations, r):
         cur = nxt
 
 
+def oracle_law_table(realizations, histories, coords, delta, budgets,
+                     targets, charges):
+    """Build one law as an EXPLICIT TABLE over the registered grid. No closure,
+    no predicate composition: every triple is written out."""
+    tab = {}
+    for r in realizations:
+        for h in histories:
+            for b in budgets:
+                key = (r, h, tuple(b[c] for c in coords))
+                ch = charges.get(r, dict((c, Q(0)) for c in coords))
+                tgt = targets.get(r)
+                over = False
+                for c in coords:
+                    if ch[c] > b[c]:
+                        over = True
+                allowed = [r] + list(delta[(r, h)])
+                escapes = False
+                if tgt is not None:
+                    for t in tgt:
+                        if tgt[t] != 0 and t not in allowed:
+                            escapes = True
+                if tgt is None or over or escapes:
+                    tab[key] = ({r: Q(1)}, dict((c, Q(0)) for c in coords))
+                else:
+                    tab[key] = (dict(tgt), dict(ch))
+    return tab
+
+
+def oracle_laws():
+    realizations, histories, coords, delta, budgets = oracle_scope()
+
+    def c(a, b):
+        return {"c_alpha": Q(a), "c_beta": Q(b)}
+
+    spec = {
+        "identity": ({}, {}),
+        "step_r0_r1": ({"r0": {"r1": Q(1)}}, {"r0": c(1, 0)}),
+        "step_r1_r2": ({"r1": {"r2": Q(1)}}, {"r1": c(1, 0)}),
+        "split_r0": ({"r0": {"ra": Q(1, 2), "rb": Q(1, 2)}}, {"r0": c(0, 0)}),
+        "stage_two": ({"ra": {"ru": Q(1)}, "rb": {"rv": Q(1)}},
+                      {"ra": c(3, 0), "rb": c(0, 0)}),
+        "stage_three": ({"ru": {"rz": Q(1)}, "rv": {"rz": Q(1)}},
+                        {"ru": c(0, 0), "rv": c(5, 0)}),
+        "costly": ({"r0": {"r1": Q(1)}, "r1": {"r2": Q(1)}},
+                   {"r0": c(9, 9), "r1": c(9, 9)}),
+    }
+    return dict((k, oracle_law_table(realizations, histories, coords, delta,
+                                     budgets, t, ch))
+                for k, (t, ch) in spec.items())
+
+
+def oracle_decide(tab, grade):
+    """An independently written admissibility predicate. Walks the explicit
+    table and returns the list of violated clause names."""
+    realizations, histories, coords, delta, budgets = oracle_scope()
+    bad = []
+    for r in realizations:
+        for h in histories:
+            for b in budgets:
+                key = (r, h, tuple(b[c] for c in coords))
+                if key not in tab:
+                    bad.append("A1")
+                    continue
+                dist, charge = tab[key]
+                s = Q(0)
+                for t in dist:
+                    if not isinstance(dist[t], (int, Q)) or isinstance(dist[t], bool):
+                        bad.append("A1")
+                    elif dist[t] < 0:
+                        bad.append("A1")
+                    else:
+                        s += dist[t]
+                if s != 1:
+                    bad.append("A1")
+                if sorted(charge) != sorted(coords):
+                    bad.append("A2")
+                else:
+                    for cc in coords:
+                        if not isinstance(charge[cc], (int, Q)) or charge[cc] < 0:
+                            bad.append("A2")
+                    over = False
+                    for cc in coords:
+                        if charge[cc] > b[cc]:
+                            over = True
+                    if over:
+                        zero = True
+                        for cc in coords:
+                            if charge[cc] != 0:
+                                zero = False
+                        if not (zero and dist == {r: Q(1)}):
+                            bad.append("A3")
+                if grade == "ONE_STEP":
+                    allowed = [r] + list(delta[(r, h)])
+                else:
+                    allowed = sorted(oracle_reach(delta, histories,
+                                                  realizations, r))
+                for t in dist:
+                    if dist[t] != 0 and t not in allowed:
+                        bad.append("A4")
+    return sorted(set(bad))
+
+
+def oracle_mix_tables(t1, t2, lam, coords):
+    out = {}
+    for key in t1:
+        d1, c1 = t1[key]
+        d2, c2 = t2[key]
+        d = {}
+        for t in d1:
+            d[t] = d.get(t, Q(0)) + lam * d1[t]
+        for t in d2:
+            d[t] = d.get(t, Q(0)) + (1 - lam) * d2[t]
+        out[key] = (d, dict((c, lam * c1[c] + (1 - lam) * c2[c]) for c in coords))
+    return out
+
+
+def oracle_compose_tables(t2, t1):
+    """Compose two explicit tables. The second stage is looked up at the
+    residual budget, which may leave the registered grid, so the second law is
+    re-tabulated on demand from its own spec by direct arithmetic."""
+    realizations, histories, coords, delta, budgets = oracle_scope()
+    ext = "h1"
+    out = {}
+    for r in realizations:
+        for h in histories:
+            for b in budgets:
+                key = (r, h, tuple(b[c] for c in coords))
+                d1, c1 = t1[key]
+                resid = {}
+                neg = False
+                for c in coords:
+                    resid[c] = b[c] - c1[c]
+                    if resid[c] < 0:
+                        neg = True
+                if neg:
+                    resid = dict((c, Q(0)) for c in coords)
+                quiet = (d1 == {r: Q(1)}
+                         and all(c1[c] == 0 for c in coords))
+                d = {}
+                worst = dict((c, Q(0)) for c in coords)
+                for r1 in sorted(t for t in d1 if d1[t] != 0):
+                    h2 = h if quiet else ext
+                    k2 = (r1, h2, tuple(resid[c] for c in coords))
+                    if k2 in t2:
+                        d2, c2 = t2[k2]
+                    else:
+                        d2, c2 = oracle_stage_at(t2, r1, h2, resid)
+                    for t in d2:
+                        d[t] = d.get(t, Q(0)) + d1[r1] * d2[t]
+                    for c in coords:
+                        if c2[c] > worst[c]:
+                            worst[c] = c2[c]
+                out[key] = (d, dict((c, c1[c] + worst[c]) for c in coords))
+    return out
+
+
+def oracle_stage_at(tab, r, h, budget):
+    """Evaluate a tabulated law at an off-grid budget: take the behaviour it
+    shows at the largest registered budget it can afford, which for these laws
+    is fully determined by whether the charge fits."""
+    realizations, histories, coords, delta, budgets = oracle_scope()
+    big = (r, h, tuple(budgets[-1][c] for c in coords))
+    dist, charge = tab[big]
+    fits = True
+    for c in coords:
+        if charge[c] > budget[c]:
+            fits = False
+    if fits:
+        return dict(dist), dict(charge)
+    return {r: Q(1)}, dict((c, Q(0)) for c in coords)
+
+
+def oracle_closure_census():
+    """The IL-1 closure census, recomputed entirely from explicit tables."""
+    realizations, histories, coords, delta, budgets = oracle_scope()
+    laws = oracle_laws()
+    names = sorted(laws)
+    base = {}
+    for g in ("ONE_STEP", "CLOSURE"):
+        for n in names:
+            base[(g, n)] = oracle_decide(laws[n], g)
+    lam_grid = [Q(i, 6) for i in range(7)]
+    mix_cases = 0
+    mix_fail = []
+    for a in names:
+        for b in names:
+            for lam in lam_grid:
+                m = oracle_mix_tables(laws[a], laws[b], lam, coords)
+                for g in ("ONE_STEP", "CLOSURE"):
+                    mix_cases += 1
+                    bad = oracle_decide(m, g)
+                    if not base[(g, a)] and not base[(g, b)] and bad:
+                        mix_fail.append((a, b, str(lam), g, bad))
+    comp_cases = 0
+    comp_fail = []
+    for a in names:
+        for b in names:
+            comp = oracle_compose_tables(laws[a], laws[b])
+            comp_cases += 1
+            bad = oracle_decide(comp, "CLOSURE")
+            if not base[("CLOSURE", a)] and not base[("CLOSURE", b)] and bad:
+                comp_fail.append((a, b, bad))
+    one = oracle_compose_tables(laws["step_r1_r2"], laws["step_r0_r1"])
+    ident = laws["identity"]
+    left_id = oracle_compose_tables(laws["stage_two"], ident)
+    right_id = oracle_compose_tables(ident, laws["stage_two"])
+    two_sided = (left_id == laws["stage_two"] and right_id == laws["stage_two"])
+    return {"law_population": len(names),
+            "base_verdicts": dict(("%s|%s" % k, v) for k, v in base.items()),
+            "mixture_cases": mix_cases, "mixture_failures": mix_fail,
+            "composition_cases": comp_cases,
+            "closure_composition_failures": comp_fail,
+            "one_step_composite_clauses": oracle_decide(one, "ONE_STEP"),
+            "closure_composite_clauses": oracle_decide(one, "CLOSURE"),
+            "monoid_identity_two_sided": two_sided}
+
+
+def oracle_scope_fingerprint():
+    """A transcription fingerprint of the registered scope, so that Route A can
+    refuse if the two declarations ever drift apart."""
+    realizations, histories, coords, delta, budgets = oracle_scope()
+    items = ["R:" + ",".join(realizations), "H:" + ",".join(histories),
+             "C:" + ",".join(coords)]
+    for k in sorted(delta):
+        items.append("D:%s|%s->%s" % (k[0], k[1], ",".join(delta[k])))
+    for b in budgets:
+        items.append("B:" + ",".join("%s=%s" % (c, b[c]) for c in coords))
+    return ";".join(items)
+
+
 def oracle_one_step_counterexample():
     realizations, histories, coords, delta, budgets = oracle_scope()
     allowed = set(["r0"]) | set(delta[("r0", "h0")])
@@ -449,7 +679,9 @@ def build():
             "IL_4": "explicit directed-path enumeration (path sum), literal sweep and elimination simulation",
         },
         "IL_1": {"one_step_counterexample": oracle_one_step_counterexample(),
-                 "charge_subassociativity": oracle_charge_subassociativity()},
+                 "charge_subassociativity": oracle_charge_subassociativity(),
+                 "closure_census": oracle_closure_census(),
+                 "scope_fingerprint": oracle_scope_fingerprint()},
         "IL_23": oracle_il23(),
         "IL_4": oracle_il4(),
     }
@@ -464,6 +696,12 @@ def main():
     print("oracle IL-2/3 local table entries=%d per-order-uniform=%s"
           % (len(res["IL_23"]["local_table"]),
              res["IL_23"]["per_order_averages_all_equal"]))
+    cc = res["IL_1"]["closure_census"]
+    print("oracle IL-1 closure census: mixtures=%d failures=%d compositions=%d "
+          "failures=%d one_step_clauses=%s monoid=%s"
+          % (cc["mixture_cases"], len(cc["mixture_failures"]),
+             cc["composition_cases"], len(cc["closure_composition_failures"]),
+             cc["one_step_composite_clauses"], cc["monoid_identity_two_sided"]))
     print("oracle IL-1 one-step outside=%s inside-closure=%s charge strict=%s"
           % (res["IL_1"]["one_step_counterexample"]["outside_one_step"],
              res["IL_1"]["one_step_counterexample"]["inside_closure"],

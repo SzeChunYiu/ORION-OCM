@@ -939,7 +939,8 @@ def load_denylist():
     with open(os.path.join(HERE, "DENYLIST_V1.json")) as fh:
         d = json.load(fh)
     entries = []
-    for k in ("banned_mi_primitives", "no_smuggling_audit_entries", "section_i_additions"):
+    for k in ("banned_mi_primitives", "no_smuggling_audit_entries",
+              "section_i_additions"):
         entries.extend(d[k])
     return d, tuple(entries)
 
@@ -955,49 +956,98 @@ def normalize(s):
     t = "".join(out).lower()
     keep = []
     for ch in t:
-        keep.append(ch if (ch.isalnum()) else " ")
+        keep.append(ch if ch.isalnum() else " ")
     return "".join("".join(keep).split())
 
 
-def lexical_screen():
+def token_pool(path, fn):
+    if fn.endswith(".py"):
+        with open(path, "rb") as fh:
+            toks = list(tokenize.tokenize(fh.readline))
+        return [tk.string for tk in toks
+                if tk.type in (tokenize.NAME, tokenize.STRING, tokenize.COMMENT)]
+    with open(path) as fh:
+        return fh.read().split()
+
+
+def screen_files(filenames, suffixes):
+    """Occurrence-level lexical screen. Every file in the population is
+    screened; nothing is exempt as a whole except the two files that hold the
+    screened vocabulary by construction. A hit is tolerated only when an
+    allowlist entry names that exact (file, denylist entry) pair with a reason,
+    and every such allowance must actually be exercised, so a stale allowance
+    is itself a failure."""
     d, entries = load_denylist()
-    exempt = set(x["path"] for x in d["declared_exemptions"])
+    whole = dict((x["path"], x["reason"]) for x in d["whole_file_exemptions"])
+    allow = set((x["path"], x["deny_entry"]) for x in d["occurrence_allowlist"])
     deny = tuple((e, normalize(e)) for e in entries)
     screened = []
-    hits = []
-    tokens_screened = 0
-    for fn in sorted(os.listdir(HERE)):
-        if fn in exempt:
+    allowed_hits = []
+    unmatched = []
+    exercised = set()
+    tokens = 0
+    for fn in sorted(filenames):
+        if fn in whole or not fn.endswith(suffixes):
             continue
         path = os.path.join(HERE, fn)
         if not os.path.isfile(path):
             continue
-        if fn.endswith(".py"):
-            with open(path, "rb") as fh:
-                toks = list(tokenize.tokenize(fh.readline))
-            pool = []
-            for tk in toks:
-                if tk.type in (tokenize.NAME, tokenize.STRING, tokenize.COMMENT):
-                    pool.append(tk.string)
-        elif fn.endswith((".md", ".yml")):
-            with open(path) as fh:
-                pool = fh.read().split()
-        else:
-            continue
         screened.append(fn)
-        for item in pool:
-            tokens_screened += 1
+        for item in token_pool(path, fn):
+            tokens += 1
             nrm = normalize(item)
             for raw, nd in deny:
                 if nd and nd in nrm:
-                    hits.append({"file": fn, "token": item[:60], "deny_entry": raw})
+                    rec = {"file": fn, "token": item[:48], "deny_entry": raw}
+                    if (fn, raw) in allow:
+                        allowed_hits.append(rec)
+                        exercised.add((fn, raw))
+                    else:
+                        unmatched.append(rec)
+    stale = sorted(list(allow - exercised))
+    stale = [x for x in stale if x[0] in screened]
+    strict = d["strictly_clean_files"]["files"]
+    strict_violations = sorted(set(
+        (h["file"], h["deny_entry"]) for h in allowed_hits + unmatched
+        if h["file"] in strict))
+    strict_allowances = sorted(set(x for x in allow if x[0] in strict))
+    ok = (not unmatched and not stale and not strict_violations
+          and not strict_allowances)
     return {"screened_files": screened,
-            "declared_exemptions": sorted(exempt),
+            "whole_file_exemptions": sorted(whole),
             "denylist_version": d["version"],
             "denylist_entries": len(entries),
-            "tokens_screened": tokens_screened,
-            "hits": hits,
-            "verdict": "CLEAN_AT_REGISTERED_AUDIT_SCOPE" if not hits else "LEXICAL_LEAKAGE"}
+            "tokens_screened": tokens,
+            "hits_total": len(allowed_hits) + len(unmatched),
+            "hits_allowed_by_declared_occurrence": len(allowed_hits),
+            "hits_unmatched": unmatched,
+            "stale_allowances": stale,
+            "allowlist_size": len(allow),
+            "strictly_clean_files": strict,
+            "strictly_clean_violations": strict_violations,
+            "allowances_naming_a_strictly_clean_file": strict_allowances,
+            "verdict": "CLEAN_AT_REGISTERED_AUDIT_SCOPE" if ok
+            else "LEXICAL_LEAKAGE"}
+
+
+def lexical_screen():
+    return screen_files(os.listdir(HERE), (".py", ".md"))
+
+
+def scope_fingerprint():
+    """Transcription fingerprint of the registered scope. The oracle builds the
+    same string from its own independent declaration; a mismatch means the two
+    transcriptions have drifted and no agreement figure would mean anything."""
+    scope = make_scope()
+    coords = scope["coords"]
+    items = ["R:" + ",".join(scope["realizations"]),
+             "H:" + ",".join(scope["histories"]),
+             "C:" + ",".join(coords)]
+    for k in sorted(scope["delta"]):
+        items.append("D:%s|%s->%s" % (k[0], k[1], ",".join(scope["delta"][k])))
+    for b in scope["budgets"]:
+        items.append("B:" + ",".join("%s=%s" % (c, b[c]) for c in coords))
+    return ";".join(items)
 
 
 SIGNATURE_FIELDS = ("arity", "types", "state_access", "locality", "addressability",
@@ -1146,6 +1196,7 @@ def build_result():
         "claim_ceiling": "GMI_833_SECTION_I_UPDATE_LAW_SPACE_AND_CREDIT_ASSIGNMENT_REGIMES_AT_REGISTERED_FINITE_SCOPE",
         "route": "A_EXECUTOR",
         "IL_1": il1_certificate(),
+        "scope_fingerprint": scope_fingerprint(),
         "IL_23": il23_certificate(),
         "IL_23_boundary": equivariance_boundary_witness(),
         "IL_4": il4_certificate(),
@@ -1190,9 +1241,14 @@ def main():
                  g["order_census"]["argmin_includes_reverse_topological"],
                  g["order_census"]["argmin_is_a_mixed_order_only"]))
     nf = res["name_freedom"]
-    print("name-freedom: A1=%s (%d tokens, %d hits) A2=%s remint_invariant=%s"
-          % (nf["lexical_A1"]["verdict"], nf["lexical_A1"]["tokens_screened"],
-             len(nf["lexical_A1"]["hits"]), nf["semantic_A2"]["verdict"],
+    lx = nf["lexical_A1"]
+    print("name-freedom: A1=%s (%d files, %d tokens, %d hits all declared, "
+          "%d unmatched, %d stale, %d strict violations) A2=%s remint=%s"
+          % (lx["verdict"], len(lx["screened_files"]), lx["tokens_screened"],
+             lx["hits_allowed_by_declared_occurrence"],
+             len(lx["hits_unmatched"]), len(lx["stale_allowances"]),
+             len(lx["strictly_clean_violations"]),
+             nf["semantic_A2"]["verdict"],
              nf["opaque_token_remint"]["all_verdicts_invariant"]))
     print("wrote " + out)
     return 0

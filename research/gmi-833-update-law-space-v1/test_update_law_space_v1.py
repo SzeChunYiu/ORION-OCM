@@ -375,43 +375,94 @@ def test_nulls():
 def test_screens_and_receipts():
     lex = A.lexical_screen()
     check("A1_lexical_clean", lex["verdict"] == "CLEAN_AT_REGISTERED_AUDIT_SCOPE",
-          str(lex["hits"])[:200])
-    check("A1_screened_both_sources",
-          set(["update_law_space_v1.py", "oracle_update_law_space_v1.py",
-               "test_update_law_space_v1.py"]).issubset(set(lex["screened_files"])),
-          str(lex["screened_files"]))
+          str(lex["hits_unmatched"])[:200])
+    check("A1_no_unmatched_hit", not lex["hits_unmatched"])
+    check("A1_no_stale_allowance", not lex["stale_allowances"],
+          str(lex["stale_allowances"]))
+    check("A1_definition_files_absolutely_clean",
+          not lex["strictly_clean_violations"]
+          and not lex["allowances_naming_a_strictly_clean_file"],
+          str(lex["strictly_clean_violations"]))
+    for fn in ("update_law_space_v1.py", "oracle_update_law_space_v1.py",
+               "test_update_law_space_v1.py", "CORE.md"):
+        check("A1_screened_%s" % fn, fn in lex["screened_files"])
+    for fn in ("FREEZE_V1.md", "PARENT_OWNERSHIP_V1.md",
+               "UPDATE_LAW_SPACE_THEOREMS_V1.md"):
+        check("A1_prose_file_also_screened_%s" % fn, fn in lex["screened_files"])
+
+    # the generated receipts and the governance JSONs do not exist when the
+    # executor runs its own screen, so the test screens them here under the
+    # same occurrence-level rule
+    js = A.screen_files(os.listdir(HERE), (".json",))
+    check("A1_json_population_clean",
+          js["verdict"] == "CLEAN_AT_REGISTERED_AUDIT_SCOPE",
+          str(js["hits_unmatched"])[:200])
+    for fn in ("RESULT_V1.json", "ORACLE_RESULT_V1.json", "MANIFEST_V1.json",
+               "ISSUE_833_RECONCILIATION_I_CORE_V1.json"):
+        check("A1_json_screened_%s" % fn, fn in js["screened_files"],
+              str(js["screened_files"]))
+    check("A1_receipts_absolutely_clean",
+          not js["strictly_clean_violations"]
+          and not js["allowances_naming_a_strictly_clean_file"],
+          str(js["strictly_clean_violations"]))
+
     sem = A.semantic_screen()
     check("A2_semantic_clean", sem["verdict"] == "CLEAN_AT_REGISTERED_AUDIT_SCOPE",
           str(sem.get("findings")))
     rm = A.remint_certificate()
     check("remint_invariance", rm["all_verdicts_invariant"])
 
-    # re-screen the generated receipts, which do not exist when the executor
-    # runs its own screen
-    d, entries = A.load_denylist()
-    exempt = set(x["path"] for x in d["declared_exemptions"])
-    deny = tuple((e, A.normalize(e)) for e in entries)
-    hits = []
-    checked = []
-    for fn in sorted(os.listdir(HERE)):
-        if fn in exempt or not fn.endswith(".json"):
-            continue
-        checked.append(fn)
-        with open(os.path.join(HERE, fn)) as fh:
-            for tok in fh.read().split():
-                nrm = A.normalize(tok)
-                for raw, nd in deny:
-                    if nd and nd in nrm:
-                        hits.append((fn, tok[:40], raw))
-    check("A1_generated_receipts_clean", not hits, str(hits[:3]))
-    check("A1_generated_receipts_were_present", len(checked) >= 1, str(checked))
-
-    # the equivariance boundary is a real counterexample, and the orbit average
-    # restores the unconditional value
     bw = A.equivariance_boundary_witness()
     check("IL2_boundary_counterexample_is_real",
           bw["per_instance_beats_orbit_average"] and bw["orbit_average_restored"],
           str(bw))
+
+
+def test_transcription_and_oracle_closure_census():
+    """The two routes must be describing the SAME registered objects, and the
+    IL-1 closure census must be reproduced by the oracle's explicit tables."""
+    check("TRANSCRIPTION_scope_fingerprints_agree",
+          A.scope_fingerprint() == B.oracle_scope_fingerprint(),
+          "A=%s\nB=%s" % (A.scope_fingerprint()[:120],
+                           B.oracle_scope_fingerprint()[:120]))
+    ag = A.make_graphs()
+    bg = B.oracle_graphs()
+    check("TRANSCRIPTION_graph_sets_agree", sorted(ag) == sorted(bg))
+    for k in sorted(ag):
+        check("TRANSCRIPTION_graph_%s" % k, ag[k] == bg[k])
+    ap = dict(A.registered_paths())
+    bp = dict(B.oracle_paths())
+    check("TRANSCRIPTION_paths_agree", ap == bp)
+    check("TRANSCRIPTION_ratio_grid_agrees",
+          A.price_ratio_grid() == B.oracle_ratio_grid())
+
+    cc = B.oracle_closure_census()
+    ac = A.il1_certificate()
+    check("IL1_two_route_law_population",
+          cc["law_population"] == ac["law_population"] == 7)
+    check("IL1_two_route_mixture_census",
+          cc["mixture_cases"] == ac["mixture_cases"] == 686
+          and not cc["mixture_failures"] and not ac["mixture_failures"],
+          "A=%d B=%d" % (ac["mixture_cases"], cc["mixture_cases"]))
+    check("IL1_two_route_composition_census",
+          cc["composition_cases"] == ac["composition_cases"] == 49
+          and not cc["closure_composition_failures"]
+          and not ac["closure_composition_failures"],
+          "A=%d B=%d" % (ac["composition_cases"], cc["composition_cases"]))
+    check("IL1_two_route_one_step_clause",
+          cc["one_step_composite_clauses"] == ["A4"]
+          and not cc["closure_composite_clauses"]
+          and ac["one_step_composition_counterexample"]["one_step_verdict"]
+          == "INADMISSIBLE",
+          str(cc["one_step_composite_clauses"]))
+    check("IL1_two_route_monoid_identity",
+          cc["monoid_identity_two_sided"] and ac["monoid_identity_ok"])
+    for nm, v in ac["verdicts"].items():
+        bv = cc["base_verdicts"]
+        check("IL1_two_route_verdict_%s" % nm,
+              v["ONE_STEP"] == "ADMISSIBLE" and v["CLOSURE"] == "ADMISSIBLE"
+              and not bv["ONE_STEP|%s" % nm] and not bv["CLOSURE|%s" % nm],
+              str(bv.get("ONE_STEP|%s" % nm)))
 
 
 def test_freeze_precommitments():
@@ -445,6 +496,7 @@ def main():
     test_hostiles()
     test_nulls()
     test_screens_and_receipts()
+    test_transcription_and_oracle_closure_census()
     test_freeze_precommitments()
     print("checks passed: %d" % len(PASS))
     if FAILED:

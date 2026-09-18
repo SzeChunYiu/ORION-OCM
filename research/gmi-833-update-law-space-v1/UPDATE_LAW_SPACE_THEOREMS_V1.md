@@ -187,16 +187,32 @@ neutrality in general.
 
 **(a) A1 lexical.** Every `NAME`, `STRING` and `COMMENT` token of every Python
 source file in the package, plus every whitespace-delimited token of every
-non-exempt prose file, normalized by camel-case splitting, punctuation
-stripping and lower-casing, checked against a denylist of **26** entries
+prose file, normalized by camel-case splitting, punctuation stripping and
+lower-casing, checked against a denylist of **26** entries
 (`BANNED_MI_PRIMITIVES`, the no-smuggling audit's registered entries, and ten
-Section-I additions). Result: **7885 tokens screened, 0 hits**, verdict
-`CLEAN_AT_REGISTERED_AUDIT_SCOPE`. Exemptions are declared as explicit fields in
-`DENYLIST_V1.json`, never silently: the denylist itself, the freeze (which
-quotes the issue rows verbatim), `PARENT_OWNERSHIP_V1.md` (the one file where
-the named algorithm may be named), the hostile fixtures, this theorem note, and
-the reconciliation JSON. The generated receipts are re-screened by the test
-suite after they exist, which the executor cannot do for itself.
+Section-I additions). The executor screens the seven `.py` and `.md` files; the
+test suite screens the four `.json` files, which do not exist when the executor
+runs.
+
+The screen is **occurrence-level, not file-level**. Only two files are skipped
+whole, and both hold the screened vocabulary by construction: the denylist
+itself and the hostile fixtures. Every other file is screened in full,
+including this theorem note and the parent-ownership file — the two documents
+most able to hide a name. Where a hit is legitimate, `DENYLIST_V1.json` names
+the exact `(file, denylist entry)` pair together with a reason, and the screen
+fails on any hit that no allowance covers AND on any allowance that is never
+exercised, so a stale allowance is itself a failure.
+
+A stricter rule sits on top: the two route files, the test file, `CORE.md` and
+both generated receipts are declared **absolutely clean**. They must have zero
+hits and no allowance may name them. Prose and governance files may carry
+justified occurrences; the definitions, the routes and the receipts may not.
+The verdict is `CLEAN_AT_REGISTERED_AUDIT_SCOPE`: every hit declared at
+occurrence level, zero unmatched, zero stale, zero violations of the absolutely-
+clean rule. The exact token and hit counts and the receipt digests are recorded
+in `MANIFEST_V1.json` rather than here, because this file is itself inside the
+screened population and quoting its own token count would make the number
+self-referential.
 
 The screen was validated on real data before being trusted. On its first run
 against this package it flagged one genuine hit — a comment in the executor
@@ -274,12 +290,17 @@ it returns, so a second query at an already-queried successor returns a known
 value and cannot change the law's information state while still being charged.
 Any law with a repeat is strictly dominated by the law that deletes it.
 
-*(ii) Adaptivity buys nothing.* Among distinct queries, the only response that
-does not terminate the process is "not improving", and that response is
-identical at every non-improving successor. The law's information state after
-`t` non-terminating queries is therefore determined by `t` alone, so its next
-choice is a function of `t`: an adaptive strategy IS a fixed permutation of the
-successor indices.
+*(ii) No order rule changes the expectation.* A returned value can of course
+differ between two non-improving successors, so adaptivity is not vacuous in
+general. What makes it worthless HERE is the orbit measure: conditional on the
+queried prefix being entirely non-improving, the unqueried positions are
+**exchangeable** under the uniform measure on the `C(d,m)` placements. Any rule
+for choosing the next index — fixed, randomized, or adapting on the values
+already seen — therefore faces the same conditional probability of success at
+its next probe, so `E[T]` is identical for every rule. (Route B checks this
+computationally rather than taking it on trust: it evaluates the placement
+average separately for each of the `d!` fixed orders and finds all of them
+equal, for every one of the 21 registered `(d,m)` pairs.)
 
 *(iii) The expected first-marked position.* Fix any permutation. Under the orbit
 average the marked set is uniform over the `C(d,m)` placements, so
@@ -322,6 +343,19 @@ and with `ratio = price_sel / price_pt`:
 
 **Proof.** Immediate from IL-2a summed along the path, since both sides are
 exact rationals and `price_pt > 0`. QED.
+
+**Every directional law, not just the endpoint.** The comparison above is
+between the two pure families, but the row asks about every law that requires
+directional information. That is discharged by IL-1.2: the admissible space is
+closed under rational convex mixture and the mixture charge is the convex
+combination of the stage charges. Any law that buys direction at some steps and
+probes at others is exactly such a mixture, so its cost lies in the closed
+interval between `Cost_pt(P)` and `Cost_sel(P)` and is a monotone function of
+the mixing weight. Above `rho_star` the evaluative endpoint is the strict
+minimum of that interval, so no mixture — hence no law that uses the directional
+channel at all — can match it; below `rho_star` the same argument runs the other
+way. The two theorems are therefore statements about the whole family, not about
+two representatives.
 
 `rho_star(P)` is the **mean reciprocal improving density along the path**: the
 exact number of point-value probes that one directional query saves. This is the
@@ -584,9 +618,20 @@ oracle that imports nothing from Route A and shares no helper module with it
 tuple enumeration and fixed-point closure, IL-2/IL-3 by exhaustive enumeration
 over every placement and every probe order, and IL-4 Jacobians by explicit
 directed-path enumeration with sweep and elimination costs by literal
-simulation. The registered objects are transcribed independently in both files
-and cross-checked. Agreement: **3450/3450** verdicts, **21/21** probe-count
-entries, and every IL-4 field on all 7 graphs.
+simulation.
+
+The registered objects are transcribed independently in both files, and the
+transcriptions are cross-checked before any agreement figure is reported: a
+scope fingerprint built from each route's own declaration must match, and so
+must the graph set, every graph, the path set and the price grid. A drift there
+would make every agreement number meaningless, so it is checked rather than
+assumed.
+
+Agreement: the IL-1 closure census (**686** mixtures and **49** compositions,
+zero failures, the `A4` one-step clause, and the two-sided monoid) is
+recomputed by the oracle from explicit grid tables and an independently written
+admissibility predicate; **3450/3450** IL-2/IL-3 verdicts; **21/21**
+probe-count entries; and every IL-4 field on all 7 graphs.
 
 **Hostiles, all DETECTED** (`H1`-`H14`): non-normalized distribution; float
 probability; float price refused; support escaping the development closure;
@@ -610,9 +655,9 @@ dropped; and expected charge substituted for the worst-case budget guarantee
   lack power.
 
 **Determinism.** `RESULT_V1.json` is byte-identical under `python3 -I -B` and
-`python3 -I -O -B` (md5 `26d4feeb2f2ad234e17133a084ddffe1`). No claim is gated
-by a bare `assert`, which `-O` would erase. Total checks in the suite: **200**,
-all green.
+`python3 -I -O -B`; the digest is recorded in `MANIFEST_V1.json`. No claim is
+gated by a bare `assert`, which `-O` would erase. Total checks in the suite:
+**236**, all green.
 
 ---
 
