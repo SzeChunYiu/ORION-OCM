@@ -42,7 +42,8 @@ def git(args):
 
 
 def test_custody():
-    fz = git(["log", "--format=%ct", "-1", "--", "FREEZE_V1.md"])
+    fz = git(["log", "--diff-filter=A", "--format=%ct", "-1", "--",
+              "FREEZE_V1.md"])
     if fz is None or fz == "":
         check("custody.git_available", True, "(git unavailable, skipped)")
         return
@@ -57,6 +58,40 @@ def test_custody():
     check("custody.freeze_predates_every_implementation_artifact",
           worst is None or int(fz) <= worst,
           "freeze=%s earliest_impl=%s" % (fz, worst))
+
+
+SUBSTITUTIONS = (("negative twins", "matched negative controls"),
+                 ("negative twin", "matched negative control"),
+                 ("remint", "independent regeneration"))
+
+
+def test_freeze_unchanged_but_for_the_disclosed_substitution():
+    """A freeze may be re-worded only by the disclosed terminology
+    substitution. Anything else is a post-hoc edit."""
+    for fn in ("FREEZE_V1.md", "FREEZE_V1_ADDENDUM.md"):
+        birth = git(["log", "--diff-filter=A", "--format=%H", "-1", "--", fn])
+        if not birth:
+            check("freeze.%s.birth_commit_found" % fn, True,
+                  "(git unavailable, skipped)")
+            continue
+        try:
+            original = subprocess.check_output(
+                ["git", "show", "%s:./%s" % (birth, fn)], cwd=HERE,
+                stderr=subprocess.DEVNULL).decode()
+        except Exception as exc:
+            check("freeze.%s.birth_readable" % fn, False, str(exc))
+            continue
+        expected = original
+        for old, new in SUBSTITUTIONS:
+            expected = expected.replace(old, new)
+        current = open(os.path.join(HERE, fn)).read()
+        check("freeze.%s.only_disclosed_substitution" % fn,
+              expected == current,
+              "the committed freeze differs from its birth version by more "
+              "than the substitution disclosed in "
+              "TERMINOLOGY_SUBSTITUTION_V1.md")
+    check("freeze.substitution_is_disclosed",
+          os.path.exists(os.path.join(HERE, "TERMINOLOGY_SUBSTITUTION_V1.md")))
 
 
 def test_grammar():
@@ -325,6 +360,7 @@ def test_theorems():
 
 def main():
     test_custody()
+    test_freeze_unchanged_but_for_the_disclosed_substitution()
     test_grammar()
     test_slices()
     test_route_separation()

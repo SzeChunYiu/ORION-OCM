@@ -32,7 +32,7 @@ jobs:
         run: |
           set -eu
           P=research/gmi-833-h-successor-constructs-v1
-          FZ=$(git log --format=%ct -1 -- "$P/FREEZE_V1.md")
+          FZ=$(git log --diff-filter=A --format=%ct -1 -- "$P/FREEZE_V1.md")
           if [ -z "$FZ" ]; then echo "cannot read the freeze commit time"; exit 1; fi
           rc=0
           for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json "$P"/MANIFEST_V1.json "$P"/ISSUE_833_RECONCILIATION_H3_V1.json; do
