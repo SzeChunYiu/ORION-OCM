@@ -489,6 +489,14 @@
       "verdict": "PRE_EXISTING_DEBT_NOT_INTRODUCED_BY_THIS_LANE",
       "detail": "The ledger gate landed on main after this lane branched and requires every named result in a *THEOREMS*.md to emit assumptions, dependency, falsifier and strongest-parent ledgers. This lane merged main, found 20 of its own results non-compliant, and repaired all 20 -- the gate's owned-files check now reports 0 violations for AE4, AE7 and AE13. The job still fails, on a separate repo-wide self-test (real_repo_gate_green) whose only violations are 5 results in research/gmi-833-ag5-extension-lowering-v1/AG5_EXTENSION_THEOREMS_V1.md, merged into main by #1036. No path of this lane appears in that failure.",
       "recommendation_for_the_orchestrator": "the AG5 package needs the same four-ledger repair; until then the aa-ledger-gate job is red on every branch cut from main, exactly the shape #1032 fixed twice before for other gates."
+    },
+    {
+      "id": "SEC_AE3_FINDING_4",
+      "subject": "AE_SECTION_MAP_V1.md and AE_ROW_TIER_ASSIGNMENT_V1.json",
+      "claim_in_the_map": "the honest ceiling for Section AE is 106 of 122 rows",
+      "verdict": "ARITHMETICALLY_TRUE_BUT_STRUCTURALLY_MISLEADING",
+      "evidence": "106 = 122 minus the 16 tier-3 instrument-blocked rows, so it silently counts AE17's 7 tier-4 rows among the reachable ones. But tier 4 is not a tier a lane can pick up: those rows close only as one sweep over the receipts the other tranches emit, and the plan sequences them last. A lane reading the ceiling therefore has no cue that AE17 exists at all, and this lane's own first reconciliation duly declared 115 of 122 rows and left AE17 invisible. Found by review inside this lane and fixed here with a row_accounting block that must sum to 122.",
+      "recommendation": "state the ceiling as 106 reachable = 99 lane-closable + 7 ledger-sweep, and require every reconciliation in this section to carry a row_accounting block that sums to the section total. A count that does not have to add up is a count nobody checks."
     }
   ],
   "row_accounting": {
