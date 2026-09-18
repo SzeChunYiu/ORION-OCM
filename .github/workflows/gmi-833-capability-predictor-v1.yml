@@ -1,0 +1,78 @@
+name: GMI capability predictor, failure modes and total uncertainty (K #833)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-capability-predictor-v1/**'
+      - '.github/workflows/gmi-833-capability-predictor-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-capability-predictor-v1/**'
+      - '.github/workflows/gmi-833-capability-predictor-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  capability-predictor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-capability-predictor-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Route A executor (normal)
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-kpred-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -I -B "$PKG/capability_predictor_v1.py" > "$out/route_a.json"
+      - name: Route A executor (optimized) and byte-identity with the receipt
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-kpred-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -I -O -B "$PKG/capability_predictor_v1.py" > "$out/route_a_optimized.json"
+          cmp "$out/route_a.json" "$out/route_a_optimized.json"
+          cmp "$out/route_a.json" "$PKG/RESULT_V1.json"
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-kpred-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -I -B "$PKG/oracle_route_b_v1.py" > "$out/route_b.json"
+          python -I -O -B "$PKG/oracle_route_b_v1.py" > "$out/route_b_optimized.json"
+          cmp "$out/route_b.json" "$out/route_b_optimized.json"
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-kpred-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -I -B "$PKG/test_capability_predictor_v1.py" -v 2>&1 | tee "$out/tests.txt"
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/gmi-kpred-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -I -O -B "$PKG/test_capability_predictor_v1.py" -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Receipt verdict gate
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, sys
+          data = json.load(open("research/gmi-833-capability-predictor-v1/RESULT_V1.json"))
+          failed = sorted(k for k, v in data["checks"].items() if not v)
+          if failed or data["verdict"] != "GREEN":
+              print("RED checks:", failed)
+              sys.exit(1)
+          print("GREEN", data["terminal"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-capability-predictor-v1
+          path: '${{ runner.temp }}/gmi-kpred-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

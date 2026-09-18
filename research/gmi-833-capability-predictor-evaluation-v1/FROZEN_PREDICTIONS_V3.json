@@ -1,0 +1,2363 @@
+{
+  "amends": "FROZEN_PREDICTIONS_V1.json (SIGMA_REAL only; SIGMA_SYN and SIGMA_ARCH are untouched and their V1 results stand)",
+  "claim_ceiling": "GMI_833_HELDOUT_AND_OOD_EVALUATION_OF_THE_EXACT_CAPABILITY_PREDICTOR_AT_REGISTERED_FINITE_SCOPE",
+  "parent_code_fingerprint_before": "6213cb4aa049a7ee6f19baf34b117f5fbf067a7ae40cf95cd4c984b3abcc6197",
+  "parent_file_blob_sha": "7f1bb6808901be2291bf575ee3178247d14d01d4",
+  "real_system_protocol": {
+    "mu": [
+      "8/17",
+      "6/17",
+      "3/17"
+    ],
+    "protected_eval_windows": [
+      6000,
+      8000
+    ],
+    "registered_solved_bits": {
+      "GRU|12|0|1": 1,
+      "GRU|12|0|3": 1,
+      "GRU|12|0|5": 1,
+      "GRU|12|0|7": 1,
+      "GRU|12|1|1": 1,
+      "GRU|12|1|3": 1,
+      "GRU|12|1|5": 1,
+      "GRU|12|1|7": 1,
+      "GRU|32|0|1": 1,
+      "GRU|32|0|3": 3,
+      "GRU|32|0|5": 5,
+      "GRU|32|0|7": 7,
+      "GRU|32|1|1": 1,
+      "GRU|32|1|3": 3,
+      "GRU|32|1|5": 5,
+      "GRU|32|1|7": 7,
+      "MLP|12|0|1": 1,
+      "MLP|12|0|3": 1,
+      "MLP|12|0|5": 1,
+      "MLP|12|0|7": 1,
+      "MLP|12|1|1": 1,
+      "MLP|12|1|3": 1,
+      "MLP|12|1|5": 1,
+      "MLP|12|1|7": 1,
+      "MLP|32|0|1": 1,
+      "MLP|32|0|3": 1,
+      "MLP|32|0|5": 1,
+      "MLP|32|0|7": 1,
+      "MLP|32|1|1": 1,
+      "MLP|32|1|3": 1,
+      "MLP|32|1|5": 1,
+      "MLP|32|1|7": 1
+    },
+    "solved_band": "99/100",
+    "source": {
+      "bytes": 96311,
+      "path": "/usr/lib/python3.8/argparse.py",
+      "sha256": "cc1e3c3a7cb538c32270a77b6f62ac7e91ff5b5a9261607ccbb3e6afe57c44f7"
+    },
+    "systems": [
+      [
+        "MLP",
+        12,
+        0,
+        1
+      ],
+      [
+        "MLP",
+        12,
+        0,
+        3
+      ],
+      [
+        "MLP",
+        12,
+        0,
+        5
+      ],
+      [
+        "MLP",
+        12,
+        0,
+        7
+      ],
+      [
+        "MLP",
+        12,
+        1,
+        1
+      ],
+      [
+        "MLP",
+        12,
+        1,
+        3
+      ],
+      [
+        "MLP",
+        12,
+        1,
+        5
+      ],
+      [
+        "MLP",
+        12,
+        1,
+        7
+      ],
+      [
+        "MLP",
+        32,
+        0,
+        1
+      ],
+      [
+        "MLP",
+        32,
+        0,
+        3
+      ],
+      [
+        "MLP",
+        32,
+        0,
+        5
+      ],
+      [
+        "MLP",
+        32,
+        0,
+        7
+      ],
+      [
+        "MLP",
+        32,
+        1,
+        1
+      ],
+      [
+        "MLP",
+        32,
+        1,
+        3
+      ],
+      [
+        "MLP",
+        32,
+        1,
+        5
+      ],
+      [
+        "MLP",
+        32,
+        1,
+        7
+      ],
+      [
+        "GRU",
+        12,
+        0,
+        1
+      ],
+      [
+        "GRU",
+        12,
+        0,
+        3
+      ],
+      [
+        "GRU",
+        12,
+        0,
+        5
+      ],
+      [
+        "GRU",
+        12,
+        0,
+        7
+      ],
+      [
+        "GRU",
+        12,
+        1,
+        1
+      ],
+      [
+        "GRU",
+        12,
+        1,
+        3
+      ],
+      [
+        "GRU",
+        12,
+        1,
+        5
+      ],
+      [
+        "GRU",
+        12,
+        1,
+        7
+      ],
+      [
+        "GRU",
+        32,
+        0,
+        1
+      ],
+      [
+        "GRU",
+        32,
+        0,
+        3
+      ],
+      [
+        "GRU",
+        32,
+        0,
+        5
+      ],
+      [
+        "GRU",
+        32,
+        0,
+        7
+      ],
+      [
+        "GRU",
+        32,
+        1,
+        1
+      ],
+      [
+        "GRU",
+        32,
+        1,
+        3
+      ],
+      [
+        "GRU",
+        32,
+        1,
+        5
+      ],
+      [
+        "GRU",
+        32,
+        1,
+        7
+      ]
+    ],
+    "train_windows": [
+      0,
+      6000
+    ],
+    "training": {
+      "batch": 256,
+      "device": "cpu",
+      "epochs": 400,
+      "framework": "torch",
+      "loss": "BCEWithLogitsLoss",
+      "lr": "1/1000",
+      "optimizer": "Adam",
+      "seed_rule": "seed = 8317 + 101*mech_index + 17*size + 3*w + task_index",
+      "solved_rule": "exact accuracy Fraction(correct, total) == 1 on the protected split",
+      "threads": 1
+    },
+    "training_budget_unchanged_from_v1": true,
+    "word_length": 12
+  },
+  "schema": "GMI_833_K_EVAL_FROZEN_PREDICTIONS_V3",
+  "supersedes": null,
+  "universes": [
+    {
+      "counts": {
+        "conjunctive": 30758,
+        "dispositions": {
+          "CANNOT_IDENTIFY": 7376,
+          "IDENTIFIED": 10816,
+          "INCONSISTENT_REGISTERED_ASSUMPTIONS": 33648
+        },
+        "exceptions": 0,
+        "modes": {
+          "FM_ALIASING": 1924,
+          "FM_EXPRESSIVITY": 4464,
+          "FM_INCONSISTENT": 33648,
+          "FM_INFORMATION_CEILING": 4548,
+          "FM_NONE": 1776,
+          "FM_OBSERVED_SHORTFALL": 96,
+          "FM_REACHABILITY": 702,
+          "FM_RESOURCE": 4382,
+          "FM_SEARCH_BUDGET": 300
+        },
+        "no_crossing": 3700,
+        "order_free": 17382,
+        "sites": {
+          "SITE_CANNOT_IDENTIFY": 7376,
+          "SITE_IDENTIFIED": 10816,
+          "SITE_INCONSISTENT": 33648
+        }
+      },
+      "curves": [
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "3/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "8/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "11/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "1",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_v0",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "3/17",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "9/17"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_v0",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "8/17",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "9/17"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_v0",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "11/17",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "9/17"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_v0",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "1",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 32,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "0",
+                "3/17",
+                "6/17",
+                "9/17"
+              ],
+              "survivors": 32,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 3,
+            "tau": "3/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 3,
+            "tau": "8/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 3,
+            "tau": "11/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 3,
+            "tau": "1",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 20,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "3/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 16,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 20,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "8/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 16,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 20,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "11/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 16,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 20,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "1",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 16,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 16,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 24,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "3/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 24,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "8/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 24,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "11/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 24,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 7,
+            "tau": "1",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "8/17"
+              ],
+              "survivors": 24,
+              "value": "8/17"
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 1,
+            "k_index": 6,
+            "tau": "3/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 1,
+            "k_index": 6,
+            "tau": "8/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 1,
+            "k_index": 6,
+            "tau": "11/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 1,
+            "k_index": 6,
+            "tau": "1",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "INCONSISTENT_REGISTERED_ASSUMPTIONS",
+              "identified_set": [],
+              "survivors": 0,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 2,
+            "k_index": 7,
+            "tau": "3/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": "UNSATISFIED"
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 8,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 2,
+            "k_index": 7,
+            "tau": "8/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": "UNSATISFIED"
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 8,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 2,
+            "k_index": 7,
+            "tau": "11/17",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": "UNSATISFIED"
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 8,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 2,
+            "k_index": 7,
+            "tau": "1",
+            "u_id": "U0"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "IDENTIFIED",
+              "identified_set": [
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": "UNSATISFIED"
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 8,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 8,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 5,
+            "tau": "3/17",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 24,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 5,
+            "tau": "8/17",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 24,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 5,
+            "tau": "11/17",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 24,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        },
+        {
+          "case": {
+            "b": 32,
+            "charge_index": 0,
+            "contract": "E_full",
+            "d": 99,
+            "h_index": 0,
+            "k_index": 5,
+            "tau": "1",
+            "u_id": "U2"
+          },
+          "points": [
+            {
+              "budget": [
+                12,
+                1,
+                2,
+                9
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                3,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "UNSATISFIED"
+              ],
+              "survivors": 24,
+              "value": ""
+            },
+            {
+              "budget": [
+                32,
+                2,
+                4,
+                10
+              ],
+              "disposition": "CANNOT_IDENTIFY",
+              "identified_set": [
+                "8/17",
+                "11/17",
+                "14/17",
+                "1"
+              ],
+              "survivors": 24,
+              "value": ""
+            }
+          ],
+          "swept_coordinate": "R.budget"
+        }
+      ],
+      "disjointness": [
+        {
+          "base": "SIGMA_1",
+          "base_rho3_values": [
+            0
+          ],
+          "base_size": 32,
+          "collision_examples": [],
+          "descriptor_collisions": 0,
+          "disjoint": true,
+          "heldout_rho3_values": [
+            9,
+            10
+          ],
+          "heldout_size": 32,
+          "pairs_checked": 1024,
+          "separator_holds": true,
+          "structural_separator": "rho[3]: 0 on Sigma_1, {1,2} on SIGMA_SYN, {3,4} on SIGMA_ARCH",
+          "universe": "SIGMA_REAL3"
+        },
+        {
+          "base": "SIGMA_SYN",
+          "base_rho3_values": [
+            1,
+            2
+          ],
+          "base_size": 64,
+          "collision_examples": [],
+          "descriptor_collisions": 0,
+          "disjoint": true,
+          "heldout_rho3_values": [
+            9,
+            10
+          ],
+          "heldout_size": 32,
+          "pairs_checked": 2048,
+          "separator_holds": true,
+          "structural_separator": "rho[3]: 0 on Sigma_1, {1,2} on SIGMA_SYN, {3,4} on SIGMA_ARCH",
+          "universe": "SIGMA_REAL3"
+        },
+        {
+          "base": "SIGMA_ARCH",
+          "base_rho3_values": [
+            3,
+            4
+          ],
+          "base_size": 128,
+          "collision_examples": [],
+          "descriptor_collisions": 0,
+          "disjoint": true,
+          "heldout_rho3_values": [
+            9,
+            10
+          ],
+          "heldout_size": 32,
+          "pairs_checked": 4096,
+          "separator_holds": true,
+          "structural_separator": "rho[3]: 0 on Sigma_1, {1,2} on SIGMA_SYN, {3,4} on SIGMA_ARCH",
+          "universe": "SIGMA_REAL3"
+        },
+        {
+          "base": "SIGMA_REAL",
+          "base_rho3_values": [
+            5,
+            6
+          ],
+          "base_size": 32,
+          "collision_examples": [],
+          "descriptor_collisions": 0,
+          "disjoint": true,
+          "heldout_rho3_values": [
+            9,
+            10
+          ],
+          "heldout_size": 32,
+          "pairs_checked": 1024,
+          "separator_holds": true,
+          "structural_separator": "rho[3]: 0 on Sigma_1, {1,2} on SIGMA_SYN, {3,4} on SIGMA_ARCH",
+          "universe": "SIGMA_REAL3"
+        },
+        {
+          "base": "SIGMA_REAL2",
+          "base_rho3_values": [
+            7,
+            8
+          ],
+          "base_size": 32,
+          "collision_examples": [],
+          "descriptor_collisions": 0,
+          "disjoint": true,
+          "heldout_rho3_values": [
+            9,
+            10
+          ],
+          "heldout_size": 32,
+          "pairs_checked": 1024,
+          "separator_holds": true,
+          "structural_separator": "rho[3]: 0 on Sigma_1, {1,2} on SIGMA_SYN, {3,4} on SIGMA_ARCH",
+          "universe": "SIGMA_REAL3"
+        }
+      ],
+      "parent_code_unchanged": true,
+      "power": {
+        "abstention_rate": "461/3240",
+        "abstention_rate_among_answerable": "461/1137",
+        "abstentions": 7376,
+        "cannot_check": 0,
+        "grid_size": 51840,
+        "inconsistent": 33648,
+        "nondegenerate_cases_by_tau": {
+          "1": 20,
+          "11/17": 40,
+          "3/17": 942,
+          "8/17": 922
+        },
+        "point_emissions": 10816,
+        "point_emissions_by_tau": {
+          "1": 2704,
+          "11/17": 2704,
+          "3/17": 2704,
+          "8/17": 2704
+        },
+        "point_rate": "169/810"
+      },
+      "predictions_sha256": "92ca4ab905fa73b7c080ed32b7e6a1086fdab25d2ebc1dc47a456e5e60e9c9d1",
+      "spec_sha256": "0b89183603208321c27d2e97da087d1116584e25dee29f33b12dfea65e70bc80",
+      "universe": "SIGMA_REAL3"
+    }
+  ]
+}

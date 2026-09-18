@@ -1,0 +1,47 @@
+{
+  "schema": "GMI_833_AE10_USABLE_INFORMATION_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE10",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae10-usable-information-v1",
+  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
+  "freeze_commit": "4d76b41e5faa9f2a84d8f9f29b63d8c82ebeac72",
+  "claim_ceiling": "GMI_833_AE10_RESOURCE_BOUNDED_USABLE_INFORMATION_DEFINED_BOUNDED_AND_EXACTLY_SEPARATED_FROM_SHANNON_INFORMATION_AT_REGISTERED_FINITE_SCOPE",
+  "target_rows": 5,
+  "deferred_rows": 1,
+  "theorems": ["USE-1", "USE-2", "USE-3", "USE-4", "USE-5"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae10-usable-information-v1/ae10_usable_information_v1.py",
+    "B": "research/gmi-833-ae-ae10-usable-information-v1/independent_usable_oracle_v1.py",
+    "independence": "route B has no executable import of route A; the test parses route B's AST. Route A uses a subcube dynamic program and a closed-form GF(2) coset argument; route B builds every admissible decision tree explicitly and enumerates every (secret, training tuple, test point)."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; neither reproved nor extended"},
+    {"path": "research/gmi-833-ae-ae2-predictive-boundary-v1/RESULT_V1.json",
+     "blob_sha": "cd1e1d5f68342918c0b54583fc5f5b70eabe203c",
+     "claim_ceiling": "sibling AE2 receipt; AE10 reuses none of its code and earns no AE2 row"}
+  ],
+  "budget_lattice": {
+    "instantiated": ["junta_arity_k", "decision_tree_depth_d", "labelled_sample_budget_m", "observation_precision_p", "communication_bits_c"],
+    "declared_but_not_instantiated": ["time", "energy"],
+    "decoder_side_cells": 128,
+    "ordered_pairs_checked": 9000
+  },
+  "forbidden_promotions": [
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "CRYPTOGRAPHIC_HARDNESS_ASSUMED",
+    "COMPLEXITY_CLASS_SEPARATION",
+    "ENERGY_BUDGET_MEASURED",
+    "TIME_BUDGET_MEASURED",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "COMPLETE_GMI",
+    "NOVEL_INFORMATION_MEASURE"
+  ]
+}

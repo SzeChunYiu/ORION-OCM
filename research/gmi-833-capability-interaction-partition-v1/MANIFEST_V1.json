@@ -1,0 +1,124 @@
+{
+  "schema": "GMI_MANIFEST_V2",
+  "package": "gmi-833-capability-interaction-partition-v1",
+  "kind": "CORRECTION of a GREEN mainline object",
+  "issue_context": 833,
+  "closes_issue_rows": [],
+  "produces_reconciliation_json": false,
+  "receipt": "CORRECTION_NOTICE_V1.json",
+  "source_main": "c70dd24eeade46a3afe8322c1a0e0c16a648311e",
+  "freeze_commit": "c7bb5d099da3b949f10916be65ff1f54ce881eeb",
+  "freeze_file": "research/gmi-833-capability-interaction-partition-v1/FREEZE_V1.md",
+  "freeze_precedes_implementation": "verify with: git log --reverse --format='%h %s' -- research/gmi-833-capability-interaction-partition-v1",
+  "claim_ceiling": "G2",
+  "evidence_class": ["P1", "P2"],
+  "results": ["CIP-1", "CIP-1a", "CIP-2", "CIP-2b", "CIP-3", "CIP-4"],
+  "theorem_note": "CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md",
+  "parent_pins": [
+    {
+      "path": "research/gmi-capability-interactions-unified-v1/CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md",
+      "blob_sha_at_freeze": "a9a67f8ec06b87aa374f092a72fabc593178ecfe",
+      "claim_ceiling": "G2",
+      "role": "the corrected object: Theorem CI-U (Lemmas A/B/C, CE-1/CE-2) + Corollary CI-A4",
+      "disposition": "Lemmas A/B/C and CE-1/CE-2 SOUND and used unchanged; Section 1.2 table and Corollary CI-A4 label assignment CORRECTED"
+    },
+    {
+      "path": "research/gmi-capability-interactions-unified-v1/interactions_witness.py",
+      "blob_sha_at_freeze": "70de5ec72f936bf1c309f0b0024eedf5e18f1c98",
+      "claim_ceiling": "G2",
+      "role": "frozen 27-row A4 channel assignment (input data, used unchanged) and the defective interaction_type() classifier (reproduced as DATA, never imported for logic)"
+    },
+    {
+      "path": "research/gmi-capability-interactions-unified-v1/ci_universal_witness_v1.py",
+      "blob_sha_at_freeze": "7df48f8f98da1be0a571c81bbad8158c96bfc326",
+      "claim_ceiling": "G2",
+      "role": "Lemma A/B/C fixtures and CE-1/CE-2 hostiles; its lemma_b_bounds() already implements counting measure, which CIP-4 pins in the text"
+    },
+    {
+      "path": "research/gmi-capability-interactions-unified-v1/test_interactions.py",
+      "blob_sha_at_freeze": "f165184977a4f78467519315205d1db17df330fc",
+      "claim_ceiling": "G2",
+      "role": "shipped controls; assertions unchanged by this tranche, prose re-documented to say interaction_type() is a channel-overlap predicate"
+    },
+    {
+      "path": "research/gmi-capability-interactions-unified-v1/MANIFEST.json",
+      "blob_sha_at_freeze": "f7a86086da8719d361960c77372509abeeeb40b6",
+      "claim_ceiling": "G2",
+      "role": "shipped capsule manifest; scope and falsifier fields corrected by this tranche"
+    },
+    {
+      "path": "research/gmi-capability-interactions-unified-v1/CORE.md",
+      "blob_sha_at_freeze": "2f36bbdcc1c81c5bea9144d1cca2de7be8f70cb5",
+      "claim_ceiling": "G2",
+      "role": "shipped capsule index; classification sentence corrected by this tranche"
+    }
+  ],
+  "external_parents": [
+    {"doi": "10.1007/BF01588971", "cite": "Nemhauser, Wolsey & Fisher, Mathematical Programming 14(1):265-294, 1978", "owns": "submodular/coverage set functions; the cardinality-of-union bound"},
+    {"doi": "10.1007/978-3-642-68874-4_10", "cite": "Lovasz, in Mathematical Programming: The State of the Art, Springer, 1983, pp. 235-257", "owns": "canonical treatment of submodularity"},
+    {"doi": "10.1007/3-540-36478-1_2", "cite": "Edmonds (1970), reprinted in Combinatorial Optimization - Eureka, You Shrink!, LNCS, Springer, 2003, pp. 11-26", "owns": "foundational submodular-function framework"},
+    {"doi": "10.1145/1465482.1465560", "cite": "Amdahl, AFIPS '67 (Spring), 1967, p. 483", "owns": "shared-vs-exclusive resource decomposition"}
+  ],
+  "doi_verification": "All four DOIs resolved against the Crossref REST API during this tranche; title/author/year/pages match. No DOI is asserted for any other work.",
+  "routes": {
+    "A": "partition_witness_v1.py - burden classifier on the (max, joint, sum) lattice",
+    "B": "partition_oracle_v1.py route_b_census() - independent transcription of the A4 table, list de-duplication burdens (no set algebra), sign-vector lookup decision",
+    "C": "partition_oracle_v1.py route_c_closed_form() - closed-form combinatorial count over the five distinct channel signatures, no per-pair enumeration",
+    "agreement": "A == B pair-by-pair (351/351); A == B == C in aggregate"
+  },
+  "headline": {
+    "pairs": 351,
+    "def1_shipped_contradicts_section_1_2": 56,
+    "def2_non_unique_section_1_2_label": 287,
+    "corrected_counts": {"INDEPENDENT": 8, "REDUNDANT": 287, "PARTIAL_SHARING": 56, "INTERFERING": 0},
+    "shipped_counts": {"independent": 8, "synergistic": 161, "redundant": 182, "interfering": 0},
+    "labels_changed": 217
+  },
+  "hostiles": [
+    "a: a classifier admitting a pair into two classes (guardless REDUNDANT; and the shipped Section 1.2 map on real data)",
+    "b: a joint > sum pair a partition lacking INTERFERING cannot place (CE-2 triple)",
+    "c: the degenerate max = sum zero-burden pair",
+    "d: a non-strictly-positive mu breaking Lemma B's iff nested",
+    "e: an inadmissible burden functional with joint < max"
+  ],
+  "controls": [
+    "no-alarm: the 8 genuinely disjoint-channel pairs classify INDEPENDENT under both readings",
+    "no-alarm: on a nesting-closed (chain) contract the DEF-1 detector reports ZERO contradictions"
+  ],
+  "null": "200 seeded random classifiers over the 351 pairs: 0/200 fully justified; the CIP-1 classifier: 351/351",
+  "falsifiers": [
+    "an admissible burden triple landing in 0 or >=2 classes of CIP-1",
+    "a census disagreement between routes A, B and C",
+    "a disjoint-channel A4 pair not classified INDEPENDENT",
+    "a proof of joint = max => nested that does not use strict positivity of mu"
+  ],
+  "forbidden_promotions": [
+    "Do NOT delete the INTERFERING class (CE-2 shows interference is real outside free-option accounting).",
+    "Do NOT weaken Section 1.2 to prose, narrow Corollary CI-A4, or downgrade Theorem CI-U's universal claim.",
+    "Do NOT claim any #833 issue row from this tranche; do NOT edit the #833 issue body.",
+    "Do NOT raise the claim ceiling above G2.",
+    "Do NOT extend the 351-pair census beyond the frozen 27-row A4 contract under its registered fully-shareable/nested accounting.",
+    "Do NOT read CIP-2b's 'no interference' as a general statement about capability interaction; it is a statement about union accounting."
+  ],
+  "files": [
+    "FREEZE_V1.md",
+    "CORE.md",
+    "CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md",
+    "PARENT_OWNERSHIP_V1.md",
+    "partition_witness_v1.py",
+    "partition_oracle_v1.py",
+    "test_partition_v1.py",
+    "emit_receipts_v1.py",
+    "RESULT_V1.json",
+    "DELTA_TABLE_V1.md",
+    "CORRECTION_NOTICE_V1.json",
+    "MANIFEST_V1.json"
+  ],
+  "run": [
+    "python3 -I -B research/gmi-833-capability-interaction-partition-v1/partition_witness_v1.py",
+    "python3 -I -B research/gmi-833-capability-interaction-partition-v1/partition_oracle_v1.py",
+    "python3 -I -B research/gmi-833-capability-interaction-partition-v1/test_partition_v1.py -v",
+    "python3 -I -O -B research/gmi-833-capability-interaction-partition-v1/test_partition_v1.py -v"
+  ],
+  "ci": ".github/workflows/gmi-833-capability-interaction-partition.yml"
+}

@@ -1,0 +1,206 @@
+name: GMI 833 AG5 G0 extension lowering ledger
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-ag5-extension-lowering-v1/**'
+      - '.github/workflows/gmi-833-ag5-extension-lowering-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-ag5-extension-lowering-v1/**'
+      - '.github/workflows/gmi-833-ag5-extension-lowering-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          PKG=research/gmi-833-ag5-extension-lowering-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          C=$(git log --diff-filter=A --format=%ct -1 -- $PKG/ag5_extension_lowering_v1.py)
+          echo "freeze=$F executor=$C"
+          test -n "$F"
+          test -n "$C"
+          test "$F" -le "$C"
+          # after a squash merge both arrive together; the freeze must still be present in
+          # the commit that published the package
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
+          grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+
+      - name: Parent pins have not drifted
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, subprocess, sys
+          m = json.load(open('research/gmi-833-ag5-extension-lowering-v1/MANIFEST_V1.json'))
+          bad = []
+          for pin in m['parent_pins']:
+              sha = subprocess.check_output(
+                  ['git', 'hash-object', pin['path']]).decode().strip()
+              if sha != pin['blob_sha']:
+                  bad.append(('blob', pin['path'], pin['blob_sha'], sha))
+              if pin['path'].endswith('.json'):
+                  live = json.load(open(pin['path'])).get('claim_ceiling')
+                  if live != pin['claim_ceiling']:
+                      bad.append(('ceiling', pin['path'], pin['claim_ceiling'], live))
+          if bad:
+              print('PARENT PIN DRIFT', bad)
+              sys.exit(1)
+          print('parent pins intact (blob and claim ceiling):', len(m['parent_pins']))
+          PY
+
+      - name: Snapshot the committed receipts before rerunning them
+        run: |
+          set -euo pipefail
+          cp research/gmi-833-ag5-extension-lowering-v1/RESULT_V1.json /tmp/committed_result.json
+          cp research/gmi-833-ag5-extension-lowering-v1/ORACLE_RESULT_V1.json /tmp/committed_oracle.json
+          cp research/gmi-833-ag5-extension-lowering-v1/TEST_RESULT_V1.json /tmp/committed_test.json
+
+      - name: Route A -- constructive lowering into the AJ5 role basis
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ag5-extension-lowering-v1/ag5_extension_lowering_v1.py
+
+      - name: Route B -- independent oracle
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ag5-extension-lowering-v1/independent_oracle_v1.py
+
+      - name: Hostiles, nulls and the no-alarm case
+        run: python3 -I -O -B research/gmi-833-ag5-extension-lowering-v1/test_ag5_extension_lowering_v1.py
+
+      - name: Terminology gate on this package
+        run: python3 -I -B research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py research/gmi-833-ag5-extension-lowering-v1
+
+      - name: The committed receipts are byte-identical to the live run
+        run: |
+          set -euo pipefail
+          P=research/gmi-833-ag5-extension-lowering-v1
+          cmp /tmp/committed_result.json $P/RESULT_V1.json
+          cmp /tmp/committed_oracle.json $P/ORACLE_RESULT_V1.json
+          cmp /tmp/committed_test.json $P/TEST_RESULT_V1.json
+          echo 'committed receipts reproduce byte-for-byte'
+
+      - name: Receipts agree and say what the checklist says
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-ag5-extension-lowering-v1/'
+          a = json.load(open(P + 'RESULT_V1.json'))
+          b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          t = json.load(open(P + 'TEST_RESULT_V1.json'))
+          fail = []
+
+          compared = [0]
+
+          def eq(name, x, y):
+              compared[0] += 1
+              if x != y:
+                  fail.append('%s: A=%r B=%r' % (name, x, y))
+
+          if a['status'] != 'GREEN' or a['failed_gates']:
+              fail.append('route A not green: %r' % (a['failed_gates'],))
+          if t['status'] != 'GREEN' or t['findings']:
+              fail.append('tests not green: %r' % (t['findings'],))
+          if t['hostiles_detected'] != 13 or t['hostiles_declared'] != 13:
+              fail.append('hostiles: %r/%r' % (t['hostiles_detected'], t['hostiles_declared']))
+          if t['controls_clean'] != 13:
+              fail.append('controls: %r' % (t['controls_clean'],))
+
+          for k in ('update_checks', 'update_mismatches', 'compose_checks',
+                    'compose_mismatches', 'identity_mismatches', 'deterministic_checks',
+                    'deterministic_mismatches', 'transport_kernel_checks',
+                    'transport_kernel_mismatches', 'transport_distribution_checks',
+                    'transport_distribution_mismatches'):
+              eq('sto.' + k, a['stochastic'][k], b['stochastic'][k])
+          for k in ('checks', 'mismatches', 'resource_checks', 'resource_mismatches',
+                    'equivariance_checks', 'equivariance_mismatches'):
+              eq('gra.' + k, a['graph'][k], b['graph'][k])
+          eq('gra.differing_pairs', a['graph_structure_dependence']['differing_pairs'],
+             b['graph']['differing_pairs'])
+          eq('gra.state_graph_pairs', a['graph_structure_dependence']['state_graph_pairs'],
+             b['graph']['state_graph_pairs'])
+          for k in ('send_checks', 'send_mismatches', 'recv_checks', 'recv_mismatches',
+                    'apply_received_checks', 'apply_received_mismatches', 'call_checks',
+                    'call_mismatches', 'apply_external_checks', 'apply_external_mismatches',
+                    'fifo_checks', 'fifo_mismatches'):
+              eq('cha.' + k, a['channels'][k], b['channels'][k])
+          for k in ('inert_checks', 'inert_differences', 'forged_checks',
+                    'forged_rejected_with_tag_gate', 'forged_accepted_without_tag_gate'):
+              eq('tag.' + k, a['external_data_tag'][k], b['channels']['external_data_tag'][k])
+          for k in ('candidate_checks', 'terminal_mismatches', 'adopted', 'refused'):
+              eq('slf.' + k, a['self_change'][k], b['self_change'][k])
+          for k in ('controlled_pairs', 'terminal_witness_pairs', 'state_change_witness_pairs'):
+              eq('ext.' + k, a['adopt_externality'][k],
+                 b['self_change']['adopt_externality'][k])
+          for k in ('reproducing_subsets', 'predicted_reproducing_subsets',
+                    'prediction_matches', 'cases', 'guard_isolable'):
+              eq('nullbase.' + k, a['nulls']['adopt_guard_subsets_base_universe'][k],
+                 b['self_change']['base_null'][k])
+              eq('nullext.' + k, a['nulls']['adopt_guard_subsets_extended_universe'][k],
+                 b['self_change']['extended_null'][k])
+          for f in ('stochastic', 'graph', 'channels'):
+              eq('null.' + f, a['nulls'][f]['hits'], b['nulls'][f]['hits'])
+
+          # the numbers the checklist lines quote
+          if a['total_registered_checks'] != 54366:
+              fail.append('registered checks: %r' % (a['total_registered_checks'],))
+          if a['ledger_size'] != 21 or a['generator_count'] != 0:
+              fail.append('ledger: %r %r' % (a['ledger_size'], a['generator_count']))
+          if a['total_lowering_mismatches'] or a['total_resource_mismatches']:
+              fail.append('mismatches nonzero')
+          if a['externally_registered'] != ['ADOPT', 'APPLY_EXTERNAL', 'CALL', 'VERIFY']:
+              fail.append('externally registered: %r' % (a['externally_registered'],))
+          if a['resource_priced'] != ['NEIGHBOR_UPDATE']:
+              fail.append('resource priced: %r' % (a['resource_priced'],))
+          if a['adopt_externality']['terminal_witness_pairs'] != 27:
+              fail.append('externality witnesses')
+          if a['external_data_tag']['inert_differences'] != 0:
+              fail.append('tag not inert')
+          if a['graph_structure_dependence']['differing_pairs']['NEIGHBOR_UPDATE'] != 680:
+              fail.append('structure dependence')
+          if a['expansion_validation']['failure_count'] != 0 or a['operand_box'] != 16:
+              fail.append('expansion validation')
+          ext = a['nulls']['adopt_guard_subsets_extended_universe']
+          if ext['reproducing_subsets'] != 1 or not ext['prediction_matches']:
+              fail.append('guard null')
+          if ext['guard_isolable']['fresh'] is not False:
+              fail.append('replay guard isolability changed')
+          for k in ('G0_EXTENSIONS_ARE_THE_OPERATIONAL_BOTTOM',
+                    'UNIQUE_LOWEST_EXTENSION_BASIS', 'COMPLETE_GMI'):
+              if k not in a['forbidden_promotions']:
+                  fail.append('missing forbidden promotion ' + k)
+
+          if compared[0] != 56:
+              fail.append('cross-route quantities compared: %d, the published figure is 56' % compared[0])
+          if fail:
+              for f in fail:
+                  print('FAIL', f)
+              sys.exit(1)
+          print('AG5 receipts OK; 56 cross-route quantities compared and agreed')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ag5-extension-lowering-v1-${{ matrix.opt && 'opt' || 'normal' }}
+          path: |
+            research/gmi-833-ag5-extension-lowering-v1/RESULT_V1.json
+            research/gmi-833-ag5-extension-lowering-v1/ORACLE_RESULT_V1.json
+            research/gmi-833-ag5-extension-lowering-v1/TEST_RESULT_V1.json
+          if-no-files-found: error

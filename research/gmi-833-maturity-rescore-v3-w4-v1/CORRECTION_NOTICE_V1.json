@@ -1,0 +1,271 @@
+{
+ "schema": "GMI_CORRECTION_NOTICE_V1",
+ "package": "gmi-833-maturity-rescore-v3-w4-v1",
+ "claim_ceiling": "AUDIT_RELABEL_ONLY",
+ "source_main": "5126041da7ce608f69157f281ca492ac9618c8e4",
+ "freeze_commit": "b5c5de53c1b97d58d96c0d7e3b06346451c7aed4",
+ "closes_issue_rows": [],
+ "issue_rows_claimed": [],
+ "produces_reconciliation_json": false,
+ "no_row_earned": true,
+ "no_row_earned_note": "This tranche corrects two ALREADY-CLOSED rows of issue #833. It closes no new checkbox, earns no neighboring row, and edits no issue body. Item 9 of the #833 closure standard is deliberately replaced by this notice.",
+ "issue_context": {
+  "issue": 833,
+  "row_A": {
+   "text": "Identify assumptions introduced after observing outcomes",
+   "closed_by": "PR #976",
+   "status_after_this_notice": "STILL CLOSED. Its verdict was correct and is an INPUT here, not a question."
+  },
+  "row_B": {
+   "text": "Re-score every major existing GMI result on the maturity ladder",
+   "closed_by": "PR #938 / PR #948",
+   "status_after_this_notice": "STILL CLOSED. Its rule, protocol and arithmetic are sound; one score record it produced is corrected by delta, and one arrival its inclusion rule could not reach is added."
+  }
+ },
+ "corrected_object": {
+  "id": "GMI833_V2_LEGACY_074_W4-C",
+  "path": "research/gmi-833-maturity-rescore-v2-v1/THEOREM_SCORES_V2.json",
+  "blob_at_freeze": "0cfca31894960e24c1c12bb7bf05f9e13e63f4aa",
+  "package": "gmi-novel-intelligence-w4-v1",
+  "prior_disposition": "M4 / EV3, support_kind FROZEN_HELDOUT, individually_verified false, justification 'FROZEN_PRE_OUTCOME: support=FROZEN_HELDOUT; census=THEOREM/ANALYTIC_DEDUCTIVE; Freeze seeded pre-search; RESULT_V1.json all boxes green incl held-out k=5'",
+  "sound_and_untouched": [
+   "The v2 rubric, ceiling map, support-kind table and verification protocol -- imported here UNCHANGED.",
+   "The v2 census arithmetic: 197 rows distributing M0 48 / M1 30 / M2 89 / M3 6 / M4 23 / UNKNOWN 1, summing to 197 and matching the checklist line; M/EV cross-tab diagonal; M4 and EV3 the same 23 rows. This is a propagation failure, not a counting error.",
+   "The #976 L47 verdict itself, including its mitigating seed finding, reproduced independently here.",
+   "The W4-C theorem statement and its exact finite certificate: no claim is made that the mathematics is wrong.",
+   "research/gmi-novel-intelligence-w4-prospective-v1/FREEZE_V2_PROSPECTIVE.md's scientific disposition, including 'That commit-order defect is PERMANENT'."
+  ]
+ },
+ "defects": {
+  "DEF-1": {
+   "statement": "The row's M4 rests on support_kind FROZEN_HELDOUT, whose frozen defining condition in research/gmi-833-maturity-rescore-v2-v1/FREEZE_V2.md section 4 is '(freeze artifact precedes outcome)'. That condition is FALSE for this package: research/gmi-novel-intelligence-w4-v1/RESULT_V1.json is first added at 08c4d206 2026-09-15T16:54:44+02:00 and FREEZE_V1.md at 7ce73e5d 18:23:27+02:00, 89 minutes later, with the result commit a strict ancestor of the freeze commit and the reverse false. M4/EV3 were therefore not earned.",
+   "evidence_reverified_here": "git log --diff-filter=A for both files at source_main; git merge-base --is-ancestor in both directions (route A) and git rev-list --ancestry-path in both directions (route B).",
+   "why_the_v2_justification_did_not_catch_it": "It cited 'Freeze seeded pre-search' -- the MITIGATING fact that the seed literal and its sha256 pre-existed inside the WIP executor at novel_intelligence_w4_v1.py lines 29-30, which is true -- as though it discharged the requirement about the frozen held-out predictions. The seed was prospective; the freeze DOCUMENT carrying the family law, the held-out predictions and the non-claims was not. The row also carried individually_verified: false: it was never read.",
+   "corrected_to": {
+    "maturity_M": "M2",
+    "evidence_EV": "EV2",
+    "support_kind": "EXACT_FINITE_CERTIFICATE",
+    "individually_verified": true,
+    "delta_kind": "DOWN_GENERATING"
+   }
+  },
+  "DEF-2": {
+   "statement": "research/gmi-novel-intelligence-w4-prospective-v1 -- the revival package that re-earned prospectiveness under a genuinely pre-committed freeze -- is not scored at all. No row anywhere in THEOREM_SCORES_V2.json mentions POST_HOC, and substring 'novel-intelligence-w4' over all 197 full rows returns exactly one hit, the parent's.",
+   "root_cause_temporal": "The rescore merged at f4020d06 2026-09-16T14:58:50+02:00; the audit at c4def870 2026-09-16T19:04:05+02:00. The rescore could not have seen the verdict and was never refreshed.",
+   "root_cause_structural": "Recorded as gap G-NAME. The v2 arrivals inclusion rule filters by the directory-name glob gmi-833-*. A revival package that re-earns a property for a non-gmi-833-* parent can never enter the scored population through that glob, at any later date. This is what makes the class recur, and it is why the disproved parent kept its M4 while the package that re-earned one was missing.",
+   "corrected_to": {
+    "maturity_M": "M4",
+    "evidence_EV": "EV3",
+    "support_kind": "FROZEN_HELDOUT",
+    "individually_verified": true,
+    "delta_kind": "NEW_SCORE"
+   }
+  }
+ },
+ "repair": {
+  "method": "A v3 delta package that supersedes BY REFERENCE. THEOREM_SCORES_V2.json and every #938/#948/#976 artifact are frozen and are not edited; SCORES_V3_DELTA.json carries the two changed/added records and every other row is carried through unchanged. A test asserts this branch touches nothing outside this package and its workflow.",
+  "rule_applied": "The v2 support-kind table and ceiling map, imported unchanged. No level was hand-picked; the executor raises rather than guesses if a support kind falls outside the frozen table.",
+  "arrivals_admission": "v2's own gap-handling convention (section 3: 'recorded gap G1. Closest typed rule: ...'), applied to gap G-NAME. Exactly one package is admitted under it."
+ },
+ "census": {
+  "published": {
+   "M0": 48,
+   "M1": 30,
+   "M2": 89,
+   "M3": 6,
+   "M4": 23,
+   "UNKNOWN": 1,
+   "total": 197
+  },
+  "corrected": {
+   "M0": 48,
+   "M1": 30,
+   "M2": 90,
+   "M3": 6,
+   "M4": 23,
+   "UNKNOWN": 1,
+   "total": 198
+  },
+  "delta": {
+   "M0": 0,
+   "M1": 0,
+   "M2": 1,
+   "M3": 0,
+   "M4": 0,
+   "UNKNOWN": 0,
+   "total": 1
+  },
+  "published_EV": {
+   "EV0": 46,
+   "EV1": 30,
+   "EV2": 95,
+   "EV3": 23,
+   "UNKNOWN": 3,
+   "total": 197
+  },
+  "corrected_EV": {
+   "EV0": 46,
+   "EV1": 30,
+   "EV2": 96,
+   "EV3": 23,
+   "UNKNOWN": 3,
+   "total": 198
+  },
+  "M4_total_changes": false,
+  "M4_membership_left": [
+   "gmi-novel-intelligence-w4-v1"
+  ],
+  "M4_membership_entered": [
+   "gmi-novel-intelligence-w4-prospective-v1"
+  ],
+  "headline": "M4 holds at 23 while its membership swaps. This is not 'no change': the published 23 counted a package whose frozen held-out prediction the corpus itself had disproved and omitted the package that had re-earned one. The corrected 23 counts neither error. The count holds AND becomes true.",
+  "stated_alternative": "If the arrivals glob gmi-833-* is applied literally instead of through v2's closest-typed-rule convention, the arrival is excluded, M4 falls to 22, the headline does change, and the ladder is provably incomplete. Recorded, not hidden; the closest typed rule is primary."
+ },
+ "propagation_check": {
+  "question": "Does any other adverse verdict in the corpus-passes registers fail to reach the score of the package it bears on?",
+  "population": "all five VERDICT_REGISTER* files in research/gmi-833-corpus-passes-v2-v1",
+  "entries_checked": 30,
+  "outcomes": {
+   "UNREFLECTED": 3,
+   "OUT_OF_SCORED_POPULATION": 18,
+   "REFLECTED_OR_IMMATERIAL_TO_SCORE": 8,
+   "NOT_ADVERSE__SELF_TYPED_SCREEN_FALSE_POSITIVE": 1
+  },
+  "unreflected_distinct_packages": [
+   "gmi-833-g0-grammar-growth-v1",
+   "gmi-novel-intelligence-w4-v1"
+  ],
+  "unreflected_note": "gmi-novel-intelligence-w4-v1 is counted twice: once from L47_post_hoc.confirmed and once from the REV-L47-W4 append register's prior_verdict. After the v3 delta the checker flags zero for it.",
+  "out_of_scored_population_note": "This is the number a careless checker would have reported as defects. #976 screened 231 packages; the scores cover 173 census objects plus 24 gmi-833-* arrivals -- only 49 distinct packages. A package with an adverse verdict and no score row is not a scoring defect.",
+  "definition_frozen_before_running": "UNREFLECTED iff the package has a scored row at M4+ or on FROZEN_HELDOUT support AND no row for it mentions the finding in justification, verification_note, claim_evidence_gap or forbidden_extrapolations.",
+  "second_flag_adjudicated": {
+   "package": "gmi-833-g0-grammar-growth-v1",
+   "flagged_because": "named in L47_post_hoc.overclaiming_freeze_texts (a class the register itself types 'gap states, not defects') while scored M4/EV3 on FROZEN_HELDOUT without mentioning the gap",
+   "adjudication": "SCORE_SUSTAINED__FLAG_IS_A_SQUASH_ARTIFACT",
+   "evidence": "on origin branch research/833-g0-grammar-expansion-v1 the freeze commit 10f0ef37 contains exactly FREEZE_V1.md and FROZEN_FIXTURES_V1.json and strictly precedes the implementation commit 65073060; the only post-merge change to the freeze on main is PR #947's terminology migration, 2 lines added and 2 removed (two heading renames)",
+   "score_change_made_here": null,
+   "generalisable_finding": "L47's SINGLE_COMMIT_FREEZE_RESULT (45) and CUSTODY_NON_DEMONSTRABLE (18) classes are substantially artifacts of squash merging, not defects. The repair is the one gmi-novel-intelligence-w4-prospective-v1 already used: push custody tags for the freeze and results commits.",
+   "not_claimed": "The other 45 SINGLE_COMMIT_FREEZE_RESULT packages are UNCHECKED here. That is not the same as checked-and-fine."
+  }
+ },
+ "custody_caveat_stated_loudly": {
+  "subject": "gmi-novel-intelligence-w4-prospective-v1",
+  "finding": "Its custody HOLDS -- but not from main. PR #988 squash-merged the entire package into the single commit 103e4274, so main-only add-order forensics (the method #976 applied to 231 packages) returns INDETERMINATE for it, which is neither PASS nor FAIL.",
+  "where_it_is_demonstrable": "On the PR-#988 branch, anchored on origin by the pushed tags rev-l47-w4-freeze-custody -> 56195abe and rev-l47-w4-results -> 81d1b9c3. The commit 56195abe contains exactly FREEZE_V2_PROSPECTIVE.md and FREEZE_V2_PROSPECTIVE.json in the package directory and nothing else, and is a strict ancestor of the executor commit c1056b31 and the results commit 81d1b9c3, with the reverse false both ways.",
+  "bridge_to_source_main": "Blob identity of the freeze documents: ec68c133d35608b8632250944230ac5f930a481f (.md) and ae20c46f8895efea46da016697d1b0590647c702 (.json) at BOTH 56195abe and source_main. This is the load-bearing step that licenses reading branch evidence onto main, and it is checked mechanically.",
+  "verified_independently": "Not taken from the freeze's own text: git log --diff-filter=A and merge-base --is-ancestor both ways (route A), and rev-list --ancestry-path both ways (route B)."
+ },
+ "controls": {
+  "H1_synthetic_plant": {
+   "detected": true,
+   "must_be": true
+  },
+  "H2_real_plant_published_w4_row": {
+   "detected": true,
+   "extinguished_after_delta": true,
+   "must_be": true
+  },
+  "H3_no_alarm_capability_interactions_unified": {
+   "outcome": "REFLECTED_OR_IMMATERIAL_TO_SCORE",
+   "ok": true
+  },
+  "H3b_no_alarm_morphogenesis_12_m4_rows": {
+   "outcome": "NOT_ADVERSE__SELF_TYPED_SCREEN_FALSE_POSITIVE",
+   "ok": true
+  },
+  "H4_arithmetic_tamper": {
+   "detected": true,
+   "must_be": true
+  },
+  "H5_custody_predicate_returns_false_on_real_parent": {
+   "state": "OUTCOME_PRECEDES_FREEZE",
+   "ok": true
+  }
+ },
+ "null": {
+  "name_resolution_null": {
+   "design": "200 seeded draws; each takes a real scored package name and appends a suffix no package carries",
+   "seed": 8332026,
+   "flags": 0,
+   "must_be": 0,
+   "tests": "name resolution only",
+   "caveat": "a miss is guaranteed by construction; this is NOT evidence of selectivity"
+  },
+  "permutation_null": {
+   "design": "200 seeded draws; each re-points all 29 adverse entries at randomly chosen REAL scored packages and counts UNREFLECTED flags",
+   "seed": 83320261,
+   "true_flag_count": 3,
+   "permuted_flag_min": 0,
+   "permuted_flag_max": 9,
+   "permuted_flag_sum": 619,
+   "permuted_draws_at_or_above_true": 129,
+   "honest_negative": "The true count does NOT beat this null: 3 sits inside the bulk of the permuted distribution, and 129 of 200 random draws flag at least as many. About a fifth of the 49 scored packages hold an M4/FROZEN_HELDOUT row mentioning no finding, so a random re-pointing hits one about as often as the real register does. The flag COUNT is therefore not evidence on its own and is not offered as such. What carries the evidence is WHICH packages are flagged: hostile H2 (the checker flags the real W4 row as published, and zero after the delta), H3 and H3b (two real adverse packages that must NOT be flagged, one holding 12 M4/FROZEN_HELDOUT rows), and the downstream adjudication of every flag against the artifact."
+  }
+ },
+ "routes": {
+  "A_rescore_v3_w4": "table-driven classifier; dict-accumulation census; in-place delta; pure-python blob ids; merge-base ancestry; explicit register-section enumeration; 30 adverse entries",
+  "B_oracle_v3_w4": "imports nothing from A; fixed-key-list census raising on unexpected values; set-algebra delta over result_id; git hash-object blob ids; rev-list --ancestry-path both directions; schema-agnostic recursive register walk; 53 adverse package mentions discovered",
+  "agreement": "exact integer agreement on both distributions, both totals, the M4 membership swap, all three custody states, and the UNREFLECTED set. Route B never consults route A's section list, which is what justifies the claim that no register section was skipped."
+ },
+ "arithmetic": "integers only; no float appears in any claim. The test suite scans the emitted receipt recursively to prove it.",
+ "forbidden_promotions": [
+  "Do NOT restore gmi-novel-intelligence-w4-v1 to M4 on the strength of the prospective child. The commit-order defect is PERMANENT and stays on the parent's record forever.",
+  "Do NOT promote gmi-novel-intelligence-w4-prospective-v1 to M5/EV4 on the strength of the multi-host receipt: intra-package is not independent replication (v1 rule 2).",
+  "Do NOT re-open, re-litigate or soften the #976 L47 CONFIRMED verdict; it is an INPUT here.",
+  "Do NOT edit THEOREM_SCORES_V2.json or any other #938/#948/#976 artifact in place.",
+  "Do NOT widen the gap-G-NAME arrivals admission beyond the single revival package named in the freeze.",
+  "Do NOT alter the score of gmi-833-g0-grammar-growth-v1: its M4 was adjudicated here and SUSTAINED.",
+  "Do NOT read the 45 SINGLE_COMMIT_FREEZE_RESULT packages as cleared: they are UNCHECKED here.",
+  "Do NOT claim any #833 issue row from this tranche, and do NOT raise the claim ceiling above AUDIT_RELABEL_ONLY."
+ ],
+ "delta_table_file": "SCORES_V3_DELTA.json",
+ "receipts": {
+  "route_A": "RESULT_V1.json",
+  "route_B": "ORACLE_RESULT_V1.json"
+ },
+ "freeze_conformance_disclosures": {
+  "why_this_section_exists": "Self-disclosed refinements of FREEZE_V3_W4.md, recorded here rather than left for a reader to discover. Neither widens any claim; both are strictly more conservative than the frozen text.",
+  "D1_outcome_typing": {
+   "freeze_said": "P6 types every adverse verdict into exactly one of three outcomes: REFLECTED, UNREFLECTED, OUT_OF_SCORED_POPULATION.",
+   "delivered": "Five states. REFLECTED_OR_IMMATERIAL_TO_SCORE (defined in freeze section 4 but not named in P6's list) and NOT_ADVERSE__SELF_TYPED_SCREEN_FALSE_POSITIVE (not named in the freeze at all). REFLECTED itself is empty, count 0.",
+   "direction": "Strictly narrower than REFLECTED in both cases, so strictly more conservative: folding either into REFLECTED would assert that a finding IS reflected in a score, which neither case establishes.",
+   "why_NOT_ADVERSE_was_necessary": "Without it, machine-intelligence-morphogenesis-v1 -- which the register itself types a screen false positive, 'no prospective claim' -- would be treated as adverse and its 12 M4/FROZEN_HELDOUT rows would all flag. That is hostile H3b, and it is the single largest false-positive risk in this check.",
+   "counts": {
+    "REFLECTED": 0,
+    "REFLECTED_OR_IMMATERIAL_TO_SCORE": 8,
+    "UNREFLECTED": 3,
+    "OUT_OF_SCORED_POPULATION": 18,
+    "NOT_ADVERSE__SELF_TYPED_SCREEN_FALSE_POSITIVE": 1
+   }
+  },
+  "D2_downstream_adjudication": {
+   "freeze_said": "P6 defines the sweep's typing; section 6 requires that every finding be verified before it is reported.",
+   "delivered": "A downstream per-flag adjudication step (field W4R4_adjudication) that verifies each UNREFLECTED flag against the artifact. It does not alter the sweep's typing; it records whether a flag survives verification.",
+   "effect": "One of the two flagged packages, gmi-833-g0-grammar-growth-v1, does not survive: its M4 is SUSTAINED and nothing about it is changed. Without this step the package would have reported a cry-wolf finding."
+  }
+ },
+ "verification_scope": {
+  "read_in_full": [
+   "research/gmi-novel-intelligence-w4-v1/FREEZE_V1.md",
+   "research/gmi-novel-intelligence-w4-v1/FORMALIZATION_V1.md",
+   "research/gmi-novel-intelligence-w4-v1/MANIFEST.json",
+   "research/gmi-novel-intelligence-w4-v1/CORE.md",
+   "research/gmi-novel-intelligence-w4-prospective-v1/FREEZE_V2_PROSPECTIVE.md",
+   "research/gmi-novel-intelligence-w4-prospective-v1/FREEZE_V2_PROSPECTIVE.json",
+   "research/gmi-novel-intelligence-w4-prospective-v1/independent_route_v1.py",
+   "research/gmi-novel-intelligence-w4-prospective-v1/test_novel_intelligence_w4_prospective_v1.py",
+   "research/gmi-833-maturity-rescore-v2-v1/FREEZE_V2.md (sections 1-5)",
+   "research/gmi-833-corpus-passes-v2-v1/VERDICT_REGISTER_V1.json and all four append registers"
+  ],
+  "read_structurally_not_line_by_line": [
+   "research/gmi-novel-intelligence-w4-v1/novel_intelligence_w4_v1.py -- header read; the exactness claim rests on a MECHANICAL source scan for float literals/casts, random, numpy and sampling, re-run by the executor and asserted by a test, not on a line-by-line read",
+   "research/gmi-novel-intelligence-w4-v1/RESULT_V1.json and research/gmi-novel-intelligence-w4-prospective-v1/RESULT_V1.json -- every top-level key inspected; the large per-k arrays were not read element by element"
+  ],
+  "not_read": [
+   "the 45 SINGLE_COMMIT_FREEZE_RESULT packages of the L47 screen, other than gmi-833-g0-grammar-growth-v1: UNCHECKED, which is not the same as checked-and-fine"
+  ],
+  "mrw1_falsifier_iv_closed_by_enumeration": "Every one of the 7 files of gmi-novel-intelligence-w4-v1 on source_main was checked for first-add order, not a spot sample. CORE.md, RESULT_V1.json, the executor and its test are at 08c4d206; FREEZE_V1.md, FORMALIZATION_V1.md and MANIFEST.json are all at the later 7ce73e5d. CORE.md carries no held-out prediction -- it lists artifacts and the claim ceiling, and already cites FREEZE_V1.md as 'frozen before search' at a commit where that file does not yet exist. No second FROZEN_HELDOUT-bearing artifact precedes the outcome."
+ },
+ "ref_discipline": "The executor runs git history queries against HEAD rather than the SOURCE_MAIN literal so the checks also run on a PR head. That is sound exactly when SOURCE_MAIN is an ancestor of HEAD -- asserted by the executor and by a test -- and every pinned blob still matches, since the first-add commits being read are historical and cannot move under a descendant ref.",
+ "known_fragility_disclosed": "The g0 adjudication depends on the origin branch research/833-g0-grammar-expansion-v1, which is NOT tag-anchored. If that branch is deleted the adjudication degrades to NOT_ADJUDICABLE__BRANCH_OBJECTS_UNAVAILABLE and says so loudly; it deliberately does NOT gate this package's exit code, because it changes no score. The corpus-level fix is the repair this package recommends to others: push a custody tag anchoring 65073060."
+}

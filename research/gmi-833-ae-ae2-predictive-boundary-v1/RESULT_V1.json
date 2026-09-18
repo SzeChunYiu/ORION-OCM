@@ -1,0 +1,340 @@
+{
+  "checks": {
+    "PIB_1_no_learner_beats_base_rate": true,
+    "PIB_2_bound_is_tight": true,
+    "PIB_2_gain_bound_holds_everywhere": true,
+    "PIB_2_pinsker_chain_holds": true,
+    "PIB_3_brackets_valid": true,
+    "PIB_4_shannon_vs_accessible": true,
+    "PIB_5_chaos_valid": true,
+    "PIB_5_drift_valid": true,
+    "PIB_5_highent_cyclic_valid": true,
+    "PIB_5_lowent_iid_valid": true,
+    "null_beaten": true,
+    "null_no_alarm_on_clean": true
+  },
+  "claim_ceiling": "GMI_833_AE2_PREDICTIVE_INFORMATION_LEARNABILITY_BOUNDARY_PROVED_AND_EXACTLY_WITNESSED_AT_REGISTERED_FINITE_SCOPE",
+  "freeze_commit": "3901753eaa746cbe6ac3e18cd80034e728c1aead",
+  "issue": 833,
+  "results": {
+    "PIB_1_no_predictive_information": {
+      "hist1": {
+        "deterministic_rules": 4,
+        "exactly_independent": true,
+        "history_length": 1,
+        "losses": {
+          "asymmetric": {
+            "blind_optimal_risk": "7/10",
+            "improvement": "0",
+            "observation_conditioned_optimal_risk": "7/10"
+          },
+          "squared": {
+            "blind_optimal_risk": "3/10",
+            "improvement": "0",
+            "observation_conditioned_optimal_risk": "3/10"
+          },
+          "zero_one": {
+            "blind_optimal_risk": "3/10",
+            "improvement": "0",
+            "observation_conditioned_optimal_risk": "3/10"
+          }
+        },
+        "no_loss_improves": true,
+        "observation_alphabet": 2
+      },
+      "hist2": {
+        "deterministic_rules": 16,
+        "exactly_independent": true,
+        "history_length": 2,
+        "losses": {
+          "asymmetric": {
+            "blind_optimal_risk": "7/10",
+            "improvement": "0",
+            "observation_conditioned_optimal_risk": "7/10"
+          },
+          "squared": {
+            "blind_optimal_risk": "3/10",
+            "improvement": "0",
+            "observation_conditioned_optimal_risk": "3/10"
+          },
+          "zero_one": {
+            "blind_optimal_risk": "3/10",
+            "improvement": "0",
+            "observation_conditioned_optimal_risk": "3/10"
+          }
+        },
+        "no_loss_improves": true,
+        "observation_alphabet": 4
+      }
+    },
+    "PIB_2_bounded_predictive_information": {
+      "cases_attaining_equality_with_positive_gain": 15328,
+      "exhaustive_grid_cases": 670396,
+      "grid_denominator": 8,
+      "grid_max_shape": 4,
+      "performance_bound": "2*gain^2 <= D^2/2 <= I(X;Y) in nats, the second step by the parent-owned Csiszar-Kullback-Pinsker inequality",
+      "roster": {
+        "W_DEP_NOPRED": {
+          "MI_upper_le_chi_squared": true,
+          "chi_squared": "1/16",
+          "four_gain_sq_le_D_sq": true,
+          "gain": "0",
+          "l1_dependence": "1/5",
+          "mutual_information_nats_bracket": [
+            "108976550199490674696551286968841330980340793374550487604361577634282556931701476946876542117752371975404809685473204319472712232085533001923272129257693694460980967941306003899643149030062435133002848946887678183383446237234448273760313385841914990028659152344003/3360488142267297879310199469417713030474030714340341269993746106530761505446270101551620537647741004587966639802902866126124519254466500515081869412753275010880458749289985987538320193015410742293846578083841483477740667840105714958554017357528209686279296875000000",
+            "108976550199490674696551286968841330980340793374754671482219142410631062316400855214993438691635604428825402702541333136412029160857483731350252748118690834370613703223655789942340857684843171817942250401433317780542476465696315075363419373833550200380589453946243/3360488142267297879310199469417713030474030714340341269993746106530761505446270101551620537647741004587966639802902866126124519254466500515081869412753275010880458749289985987538320193015410742293846578083841483477740667840105714958554017357528209686279296875000000"
+          ],
+          "pinsker_D_sq_over_two_le_MI_lower": true,
+          "two_gain_le_D": true,
+          "two_gain_sq_le_MI_lower": true
+        },
+        "W_INDEP": {
+          "MI_upper_le_chi_squared": true,
+          "chi_squared": "0",
+          "four_gain_sq_le_D_sq": true,
+          "gain": "0",
+          "l1_dependence": "0",
+          "mutual_information_nats_bracket": [
+            "0",
+            "0"
+          ],
+          "pinsker_D_sq_over_two_le_MI_lower": true,
+          "two_gain_le_D": true,
+          "two_gain_sq_le_MI_lower": true
+        },
+        "W_MILD": {
+          "MI_upper_le_chi_squared": true,
+          "chi_squared": "1/4",
+          "four_gain_sq_le_D_sq": true,
+          "gain": "1/4",
+          "l1_dependence": "1/2",
+          "mutual_information_nats_bracket": [
+            "30141302565137991163509635396583123552638636404566510452168037960701546583133586948700449609295978786773510884454001367913703222220225513271859920501/230416890527573701306479469245390042057470007700816616696054607433241707451522999248607745161027862392183820916535808009939501062035560607910156250000",
+            "30141302565137991163509635396583123552638636404636511315495083389783071462788646607051051173582007302897646872106344225576037444175047544583469319741/230416890527573701306479469245390042057470007700816616696054607433241707451522999248607745161027862392183820916535808009939501062035560607910156250000"
+          ],
+          "pinsker_D_sq_over_two_le_MI_lower": true,
+          "two_gain_le_D": true,
+          "two_gain_sq_le_MI_lower": true
+        },
+        "W_TIGHT": {
+          "MI_upper_le_chi_squared": true,
+          "chi_squared": "1",
+          "four_gain_sq_le_D_sq": true,
+          "gain": "1/2",
+          "l1_dependence": "1",
+          "mutual_information_nats_bracket": [
+            "203829785790977432213121782208970139489955375237085519500821783378364096291467648/294064221146102839103997876738631312302532148423613118032219723758536837588011825",
+            "79085956886899243698691251497080414122102685592127832560714200996967397497097370899/114096917804687901572351176174588949173382473588361889796501252818312292984148588100"
+          ],
+          "pinsker_D_sq_over_two_le_MI_lower": true,
+          "two_gain_le_D": true,
+          "two_gain_sq_le_MI_lower": true
+        }
+      },
+      "theorem": "gain <= D/2, with D = sum |P(x,y) - P_X(x) P_Y(y)|",
+      "tightness_witness": "W_TIGHT: gain = 1/2, D = 1",
+      "violations": 0
+    },
+    "PIB_3_log_bracket": {
+      "additivity_holds": true,
+      "all_widths_below_1e-9": true,
+      "probes": [
+        {
+          "hi": "79085956886899243698691251497080414122102685592127832560714200996967397497097370899/114096917804687901572351176174588949173382473588361889796501252818312292984148588100",
+          "lo": "203829785790977432213121782208970139489955375237085519500821783378364096291467648/294064221146102839103997876738631312302532148423613118032219723758536837588011825",
+          "monotone": true,
+          "t": "2",
+          "width_below_1e-9": true
+        },
+        {
+          "hi": "52471648269024394069151882582871926136286820680457246367944205995261829146370457205898195275505357523453/129411007802493161480724443984163470508072580783957403751337471992099992235125682782381772994995117187500",
+          "lo": "135236206878928850693690419028020428186306238867157851463773726791911817279097640633023050969020108416/333533525264157632682279494804545027082661290680302586987983175237371114008055883459746837615966796875",
+          "monotone": true,
+          "t": "3/2",
+          "width_below_1e-9": true
+        },
+        {
+          "hi": "-203829785790977432213121782208970139489955375237085519500821783378364096291467648/294064221146102839103997876738631312302532148423613118032219723758536837588011825",
+          "lo": "-79085956886899243698691251497080414122102685592127832560714200996967397497097370899/114096917804687901572351176174588949173382473588361889796501252818312292984148588100",
+          "monotone": true,
+          "t": "1/2",
+          "width_below_1e-9": true
+        },
+        {
+          "hi": "9846916355461259158576519303362834290635388103838902697544608698914861541089048647714105847796041221676196314158403537/34228467111421147377428051034108098602419616290212523668759404163435835272692022153276883770592497645593118115675052200",
+          "lo": "12689325200336674173423349617735611199272407350307864300959547292416058686970423514997044227154733737001792544749312/44108849370388076517304189476943426034045897281201705758710572375561643392644358444944437848701672223702471798550325",
+          "monotone": true,
+          "t": "4/3",
+          "width_below_1e-9": true
+        },
+        {
+          "hi": "-35865590498566219026097073888154936710262772844542041628564163865893534040562218512740112711860026268820105387233489694697820875056770248019062001521697661824/340408266556372737263605570164566724291278999746377293794097719787729516978568551907558950450033031604457918719916750555981306435435825431897377340423703651025",
+          "lo": "-13915849113443692982125664668604115443581955863682312151882895579966691207738140782943163732201690192302200890246594001542754749093816767859679148421063507049967/132078407423872622058278961223851889025016251901594389992109915277639052587684598140132872774612816262529672463327699215720746896949100267576182408084397016597700",
+          "monotone": true,
+          "t": "9/10",
+          "width_below_1e-9": true
+        },
+        {
+          "hi": "13915849113443692982125664668604115443581955863682312151882895579966691207738140782943163732201690192302200890246594001542754749093816767859679148421063507049967/132078407423872622058278961223851889025016251901594389992109915277639052587684598140132872774612816262529672463327699215720746896949100267576182408084397016597700",
+          "lo": "35865590498566219026097073888154936710262772844542041628564163865893534040562218512740112711860026268820105387233489694697820875056770248019062001521697661824/340408266556372737263605570164566724291278999746377293794097719787729516978568551907558950450033031604457918719916750555981306435435825431897377340423703651025",
+          "monotone": true,
+          "t": "10/9",
+          "width_below_1e-9": true
+        }
+      ],
+      "series": "ln t = 2 atanh((t-1)/(t+1)), truncated at 48 terms with an exact rational remainder bound",
+      "terms": 48
+    },
+    "PIB_4_decoder_complexity": {
+      "acc_base": "1/2",
+      "accuracy_below_full_depth_equals_base_rate": true,
+      "best_accuracy_by_depth": {
+        "depth0": {
+          "dictator": "1/2",
+          "parity": "1/2"
+        },
+        "depth1": {
+          "dictator": "1",
+          "parity": "1/2"
+        },
+        "depth2": {
+          "dictator": "1",
+          "parity": "1/2"
+        },
+        "depth3": {
+          "dictator": "1",
+          "parity": "1"
+        }
+      },
+      "cryptographic_assumption_used": false,
+      "mutual_information_argument": "Y is a function of X and the Y-marginal is uniform, so I(X;Y) = H(Y) - H(Y|X) = 1 - 0 = 1 bit; no logarithm is evaluated",
+      "mutual_information_bits_exact": "1",
+      "proper_subset_uniformity_violations": 0,
+      "proper_subsets_checked": 7,
+      "target_determined_and_uniform": true,
+      "unconditional": true,
+      "world": "X uniform on {0,1}^3, Y = x_0 xor x_1 xor x_2"
+    },
+    "PIB_5_fixtures": {
+      "CHAOS_DOUBLING": {
+        "accuracy_beyond_horizon": "1/2",
+        "certainty_horizon": 4,
+        "deterministic_dynamics": true,
+        "per_step": [
+          {
+            "bayes_accuracy": "1",
+            "determined": true,
+            "t": 0
+          },
+          {
+            "bayes_accuracy": "1",
+            "determined": true,
+            "t": 1
+          },
+          {
+            "bayes_accuracy": "1",
+            "determined": true,
+            "t": 2
+          },
+          {
+            "bayes_accuracy": "1",
+            "determined": true,
+            "t": 3
+          },
+          {
+            "bayes_accuracy": "1/2",
+            "determined": false,
+            "t": 4
+          },
+          {
+            "bayes_accuracy": "1/2",
+            "determined": false,
+            "t": 5
+          },
+          {
+            "bayes_accuracy": "1/2",
+            "determined": false,
+            "t": 6
+          },
+          {
+            "bayes_accuracy": "1/2",
+            "determined": false,
+            "t": 7
+          }
+        ],
+        "states_enumerated": 256,
+        "world": "doubling map on 8-bit dyadic states, top 4 bits observed"
+      },
+      "DRIFT_INVERT": {
+        "historical_dependence_becomes_harmful": true,
+        "phase1_fitted_rule_accuracy_in_phase1": "1",
+        "phase1_fitted_rule_accuracy_in_phase2": "0",
+        "phase1_gain": "1/2",
+        "phase1_mutual_information_bits_exact": "1",
+        "phase2_base_rate": "1/2",
+        "phase2_gain": "1/2",
+        "phase2_mutual_information_bits_exact": "1",
+        "pooled_exactly_independent": true,
+        "pooled_l1_dependence": "0",
+        "pooled_mutual_information_nats_bracket": [
+          "0",
+          "0"
+        ],
+        "world": "two-phase source, Y = X then Y = 1 - X"
+      },
+      "HIGHENT_CYCLIC": {
+        "acc_base": "1/4",
+        "acc_obs": "1",
+        "marginal_entropy_bits_exact": "2",
+        "marginal_is_uniform": true,
+        "mutual_information_bits_exact": "2",
+        "predictive_gain": "3/4",
+        "target_determined_by_history": true,
+        "world": "X_t = X_{t-1} + 1 (mod 4), X uniform on Z_4"
+      },
+      "LOWENT_IID": {
+        "exactly_independent": true,
+        "l1_dependence": "0",
+        "marginal": [
+          "9/10",
+          "1/10"
+        ],
+        "marginal_entropy_nats_bracket": [
+          "956454284293449801403789377008051375702856763484709979161982223731776580447008991087301049574503338947071605990390055461673594392049285802397737770328095137389199502913507391513741879019769452781594256391652647601372194286681855697756679190248945288405376/2942185111626449937675656054808601941685810239532605105167740380127489055681037935528282148667955606316429438954045166535838330492085619090335057948081036996885206189273763608787938478763157610832825816926379738415066700866006344841889695384438600322110225",
+          "371104262330914902245597299246033036336053432340033958331304103451204255619763120184876564975173370746949139381664857819720404415586644742713648312751367549238624428223147240731899406770672342626590029722192575252843289749052904401798360525978947124804323619/1141567823311062575818154549265737553374094372938650780805083267489465753604242718984973473683166775250774622314169524615905272230929220207050002483855442354791460001438220280209720129760105153003136416967435338505045879936010461798653201809162176924978767300"
+        ],
+        "marginal_is_uniform": false,
+        "max_entropy_nats_bracket": [
+          "203829785790977432213121782208970139489955375237085519500821783378364096291467648/294064221146102839103997876738631312302532148423613118032219723758536837588011825",
+          "79085956886899243698691251497080414122102685592127832560714200996967397497097370899/114096917804687901572351176174588949173382473588361889796501252818312292984148588100"
+        ],
+        "mutual_information_is_exactly_zero": true,
+        "mutual_information_nats_bracket": [
+          "0",
+          "0"
+        ],
+        "predictive_gain": "0",
+        "world": "X_{t-1} -> X_t, i.i.d. Bernoulli(1/10)"
+      }
+    },
+    "null": {
+      "detector": "Y determined by X with uniform Y-marginal (I(X;Y) = 1 bit exactly) while no depth-2 decision tree beats the base rate",
+      "family": "Y a deterministic bitwise-random function of X on {0,1}^3",
+      "known_clean_flagged": [],
+      "planted_positive_flagged": true,
+      "random_worlds_flagged": 0,
+      "trials": 200
+    }
+  },
+  "schema": "GMI_833_AE2_PREDICTIVE_BOUNDARY_RESULT_V1",
+  "section": "AE2",
+  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
+  "theorems": [
+    "PIB-1",
+    "PIB-2",
+    "PIB-3",
+    "PIB-4",
+    "PIB-5"
+  ],
+  "verdict": "GREEN"
+}

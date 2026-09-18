@@ -1,0 +1,146 @@
+name: gmi-833-maturity-rescore-v3-w4-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-maturity-rescore-v3-w4-v1/**'
+      - '.github/workflows/gmi-833-maturity-rescore-v3-w4-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-maturity-rescore-v3-w4-v1/**'
+      - '.github/workflows/gmi-833-maturity-rescore-v3-w4-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  rescore-v3-w4:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with full history and tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Fetch the custody refs this package's checks depend on
+        run: |
+          set -u
+          git fetch --tags origin || true
+          git fetch origin \
+            'research/833-g0-grammar-expansion-v1:refs/remotes/origin/research/833-g0-grammar-expansion-v1' || true
+          echo "--- custody refs present? (NOT-CHECKED is reported, never silently passed) ---"
+          git rev-parse --verify --quiet 'rev-l47-w4-freeze-custody^{commit}' || echo "MISSING tag rev-l47-w4-freeze-custody"
+          git rev-parse --verify --quiet 'rev-l47-w4-results^{commit}'        || echo "MISSING tag rev-l47-w4-results"
+          git rev-parse --verify --quiet '65073060b1af5b7c863c883307ff5279c783892c^{commit}' || echo "MISSING g0 branch commit"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+
+      - name: Freeze must strictly precede every other file of this package
+        run: |
+          set -eu
+          PKG=research/gmi-833-maturity-rescore-v3-w4-v1
+          FZ=$(git log --diff-filter=A --format=%H -- "$PKG/FREEZE_V3_W4.md" | tail -1)
+          if [ -z "$FZ" ]; then echo "FAIL: no add commit for the freeze"; exit 1; fi
+          echo "freeze commit: $FZ"
+          rc=0
+          for f in $(git ls-tree -r --name-only HEAD -- "$PKG/"); do
+            case "$f" in *FREEZE_V3_W4.md) continue ;; esac
+            C=$(git log --diff-filter=A --format=%H -- "$f" | tail -1)
+            [ -z "$C" ] && continue
+            if [ "$C" = "$FZ" ]; then
+              echo "FAIL: $f shares the freeze commit"; rc=1; continue
+            fi
+            if ! git merge-base --is-ancestor "$FZ" "$C"; then
+              echo "FAIL: freeze does not precede $f (added at $C)"; rc=1
+            fi
+          done
+          [ "$rc" -eq 0 ] && echo "OK: freeze strictly precedes every other file of this package"
+          exit "$rc"
+
+      - name: This branch must not touch any frozen artifact
+        run: |
+          set -eu
+          BASE="${{ github.event.pull_request.base.sha }}"
+          if [ -z "$BASE" ]; then
+            git fetch origin main || true
+            BASE=$(git rev-parse origin/main 2>/dev/null || echo "")
+          fi
+          if [ -z "$BASE" ]; then echo "SKIP: no base ref available"; exit 0; fi
+          rc=0
+          for f in $(git diff --name-only "$BASE...HEAD"); do
+            case "$f" in
+              research/gmi-833-maturity-rescore-v3-w4-v1/*) ;;
+              .github/workflows/gmi-833-maturity-rescore-v3-w4-v1.yml) ;;
+              *) echo "FAIL: touched $f"; rc=1 ;;
+            esac
+          done
+          [ "$rc" -eq 0 ] && echo "OK: only this package and its workflow are touched"
+          exit "$rc"
+
+      - name: Route A — executor
+        working-directory: research/gmi-833-maturity-rescore-v3-w4-v1
+        run: python3 -I -B rescore_v3_w4.py
+
+      - name: Route B — independent oracle
+        working-directory: research/gmi-833-maturity-rescore-v3-w4-v1
+        run: python3 -I -B oracle_v3_w4.py
+
+      - name: Tests (hostiles H1-H5, null, two-route agreement)
+        working-directory: research/gmi-833-maturity-rescore-v3-w4-v1
+        run: python3 -I -O -B test_rescore_v3_w4.py
+
+      - name: Receipts must match what is committed
+        working-directory: research/gmi-833-maturity-rescore-v3-w4-v1
+        run: |
+          set -eu
+          if ! git diff --quiet -- RESULT_V1.json ORACLE_RESULT_V1.json SCORES_V3_DELTA.json; then
+            echo "FAIL: regenerated receipts differ from the committed ones"
+            git --no-pager diff --stat -- RESULT_V1.json ORACLE_RESULT_V1.json SCORES_V3_DELTA.json
+            exit 1
+          fi
+          echo "OK: receipts reproduce byte-identically"
+
+      - name: No row is claimed by this tranche
+        working-directory: research/gmi-833-maturity-rescore-v3-w4-v1
+        run: |
+          set -eu
+          if ls ISSUE_833_RECONCILIATION_*.json >/dev/null 2>&1; then
+            echo "FAIL: this correction package must not ship a reconciliation JSON"; exit 1
+          fi
+          python3 - <<'PY'
+          import json, sys
+          n = json.load(open("CORRECTION_NOTICE_V1.json"))
+          r = json.load(open("RESULT_V1.json"))
+          assert n["schema"] == "GMI_CORRECTION_NOTICE_V1", n["schema"]
+          assert n["closes_issue_rows"] == [], n["closes_issue_rows"]
+          assert n["issue_rows_claimed"] == [], n["issue_rows_claimed"]
+          assert n["no_row_earned"] is True
+          assert n["produces_reconciliation_json"] is False
+          assert r["closes_issue_rows"] == []
+          assert r["all_green"] is True, r["self_checks"]
+          # the notice's headline numbers must match the receipt exactly
+          d = r["W4R3_distribution"]
+          assert n["census"]["published"]["M4"] == d["M4_total_published"]
+          assert n["census"]["corrected"]["M4"] == d["M4_total_corrected"]
+          assert n["census"]["corrected"]["M2"] == d["corrected_M"]["M2"]
+          assert n["census"]["corrected"]["total"] == d["corrected_rows"]
+          assert n["census"]["M4_membership_left"] == d["M4_membership_left"]
+          assert n["census"]["M4_membership_entered"] == d["M4_membership_entered"]
+          assert n["propagation_check"]["entries_checked"] == r["W4R4_propagation"]["checked"]
+          assert n["propagation_check"]["outcomes"] == r["W4R4_propagation"]["counts"]
+          assert n["propagation_check"]["second_flag_adjudicated"]["adjudication"] == r["W4R4_adjudication"][0]["adjudication"]
+          # both nulls, including the honest negative
+          pn = r["null_permutation"]; nn = n["null"]["permutation_null"]
+          for k in ("true_flag_count", "permuted_flag_min", "permuted_flag_max",
+                    "permuted_flag_sum", "permuted_draws_at_or_above_true"):
+              assert nn[k] == pn[k], (k, nn[k], pn[k])
+          assert "honest_negative" in pn and "honest_negative" in nn
+          assert "caveat" in r["null_control"]
+          # the self-disclosed freeze refinements must match the delivered counts
+          dd = n["freeze_conformance_disclosures"]["D1_outcome_typing"]["counts"]
+          got = dict(r["W4R4_propagation"]["counts"]); got.setdefault("REFLECTED", 0)
+          assert dd == got, (dd, got)
+          print("OK: no row claimed; notice and receipt agree on every headline number")
+          PY

@@ -1,0 +1,123 @@
+{
+  "schema": "GMI833CapabilityPredictorScientificLedgerV1",
+  "claims": [
+    {
+      "id": "KP-1B",
+      "statement": "A point emission equals the capability of every realization consistent with the registered inputs.",
+      "assumptions": ["finite registered realization universe", "candidacy cuts are exact set restrictions", "the external capability functional is total on the universe", "exact rational scores"],
+      "dependencies": ["#913 ABSTAIN-1", "#851 U-4A exact query identification", "#848 CAP-1 external capability contract"],
+      "falsifiers": ["a point emitted for a multi-valued image", "a resource-inadmissible candidate pruned from the survivor set", "UNSATISFIED coerced to 0"],
+      "strongest_parent": "partial identification / identified sets and reject-option decision theory",
+      "counterexample_methods": ["10,960 forced-point refutations", "3,064 resource-prune soundness violations", "3,516 UNSATISFIED-coercion image changes"],
+      "limits": ["unconditional only over consistent worlds; the bridge to an actual system is KP-1D"]
+    },
+    {
+      "id": "KP-1C",
+      "statement": "A point is emitted iff the contract functional is constant on the nonempty survivor set; otherwise abstention is forced by an exhibited pair.",
+      "assumptions": ["nonempty finite survivor set", "registered total query"],
+      "dependencies": ["#913 forced-point counterexample theorem", "#851 U-4A/U-4B"],
+      "falsifiers": ["a constant image forced to abstain", "an abstention whose identified set omits a surviving value", "an abstention with no witness pair"],
+      "strongest_parent": "identified-set cardinality",
+      "counterexample_methods": ["10,960 witness pairs, one per abstention"],
+      "limits": ["query-relative: constancy of a coarser query does not require model identification"]
+    },
+    {
+      "id": "KP-2B",
+      "statement": "The ten frozen failure modes partition the registered input grid.",
+      "assumptions": ["the registered cut ladder and its order", "nonincreasing ceilings (KP-2A)"],
+      "dependencies": ["#848 CAP-2A supremum monotonicity", "#906 BUDGET-1", "#874 reachability separation", "#877 finite search prefix", "#851 U-3/U-4 terminals"],
+      "falsifiers": ["an input in two modes", "an input in no mode", "an alarm raised on the true taxonomy"],
+      "strongest_parent": "constrained-optimisation active-set reasoning and nested feasible classes",
+      "counterexample_methods": ["5,184 overlap-hostile inputs flagged", "3,529 gap-hostile inputs flagged", "0 alarms on the true taxonomy"],
+      "limits": ["the taxonomy is a partition of the registered grid, not of all possible systems"]
+    },
+    {
+      "id": "KP-2D",
+      "statement": "First-crossing attribution is order-dependent; the boundary is mapped by exhaustive order census plus a sharp counterexample.",
+      "assumptions": ["five registered cuts", "all 120 orders enumerated"],
+      "dependencies": ["KP-2A", "KP-2C"],
+      "falsifiers": ["order census not run", "order-sensitive count not reported", "no counterexample shipped"],
+      "strongest_parent": "the non-uniqueness of active constraints in conjunctive systems",
+      "counterexample_methods": ["6,347/8,640 order-sensitive inputs", "488 with a unique individually-binding lever", "sharp case: lever {Res}, labels {expressivity, reachability, resource}"],
+      "limits": ["EARNED_BY_COUNTEREXAMPLE: proven structural, not an implementation defect; KP-2C survives unconditionally once the order is registered"]
+    },
+    {
+      "id": "KP-3A",
+      "statement": "No code path emits a value without a typed uncertainty object.",
+      "assumptions": ["the reachable call graph of predict()", "validation by raise, never by assert"],
+      "dependencies": ["#851 U-1 constructor disjointness"],
+      "falsifiers": ["a reachable value-returning statement that is not an emit() call", "more than one carrier construction site", "any grid exception"],
+      "strongest_parent": "type-safe tagged sums",
+      "counterexample_methods": ["ast audit flags the planted bare-return hostile while the true module is clean", "four emit-contract refusals"],
+      "limits": ["structural over this module; not a claim about other packages"]
+    },
+    {
+      "id": "KP-3C",
+      "statement": "The emitted object contains the true capability in exactly 100,800/100,800 registered (input, consistent-world) pairs.",
+      "assumptions": ["exact candidacy restrictions", "every consistent world enumerated"],
+      "dependencies": ["#851 U-2A image composition", "#851 U-4B confidence image preservation"],
+      "falsifiers": ["a pair whose true value is outside the emitted object", "an identified set omitting a surviving value"],
+      "strongest_parent": "set image containment",
+      "counterexample_methods": ["identified-set truncation hostile fails 10,960/10,960"],
+      "limits": ["exact finite coverage, NOT an empirical calibration-error measurement"]
+    },
+    {
+      "id": "SCOPE",
+      "statement": "Exactly three Section K rows are reconciled at the frozen scope.",
+      "assumptions": ["FREEZE_V1.md, TAXONOMY_V1.md and SCOPE_V1.md precede every executable artifact in git order", "eight pinned parent result blobs"],
+      "dependencies": ["#833 maturity and claim-scope governance"],
+      "falsifiers": ["a second-tranche row reconciled", "a parent blob drift", "the receipt read as held-out, real-system, calibration-error or OOD evidence"],
+      "strongest_parent": "scientific claim-scope governance",
+      "counterexample_methods": ["parent-byte mutation detection", "explicit rows_not_earned_here list"],
+      "limits": ["the two routes are same-author and do not constitute independent replication (EV4 not claimed)"]
+    }
+  ],
+  "open_gaps": [
+    {
+      "id": "GAP-KPRED-REGISTRATION-TRUTHFULNESS",
+      "claim_id": "KP-1B",
+      "premise": "F observes only the registered constraints.",
+      "inference": "A point emission is sound over all consistent worlds.",
+      "unresolved_assumption": "The actual system satisfies every registered constraint.",
+      "possible_counterexample": "The exhibited KP-1D case: registered K_M excludes the true realization, whose capability is 1/2 while the sound emitted point is 0.",
+      "severity": "HIGH",
+      "owner_role": "registration auditor",
+      "parent_result": "Issue #833 Section K",
+      "evidence_needed": "A registration-validity check against an external ground truth, i.e. the held-out tranche.",
+      "status": "OPEN",
+      "materiality": "Bounds the interpretation of a point emission; cannot reverse the scoped theorem.",
+      "descendants": []
+    },
+    {
+      "id": "GAP-KPRED-SEARCH-OBJECTIVE-MISALIGNMENT",
+      "claim_id": "KP-2B",
+      "premise": "The registered search cut is a candidacy restriction only.",
+      "inference": "The search-budget mode attributes shortfall to the cost-feasible search prefix.",
+      "unresolved_assumption": "No selection or optimality rule is registered, so proxy/contract objective misalignment is out of scope.",
+      "possible_counterexample": "A registered search objective that is not the contract score would make the selected system's capability differ from the prefix ceiling.",
+      "severity": "MEDIUM",
+      "owner_role": "search-contract owner",
+      "parent_result": "#877 finite search budget",
+      "evidence_needed": "A registered selection rule plus a misalignment mode.",
+      "status": "OPEN",
+      "materiality": "Would add a mode; cannot break the present partition.",
+      "descendants": []
+    },
+    {
+      "id": "GAP-KPRED-INDEPENDENT-REVIEW",
+      "claim_id": "SCOPE",
+      "premise": "Internal proofs, two same-author routes, nine hostiles and a null control pass.",
+      "inference": "The tranche is locally closed.",
+      "unresolved_assumption": "No independent hostile reviewer and no disjoint-author replication has signed this tranche.",
+      "possible_counterexample": "A reviewer identifies an unregistered cut or an uncovered emission path.",
+      "severity": "HIGH",
+      "owner_role": "independent theorem reviewer",
+      "parent_result": "Issue #833 Section K",
+      "evidence_needed": "Independent review report and a disjoint implementation.",
+      "status": "OPEN",
+      "materiality": "Can change closure level; cannot silently promote the local result.",
+      "descendants": []
+    }
+  ],
+  "recursive_gap_verdict": "LOCALLY_CLOSED_WITH_INDEPENDENT_REVIEW_AND_HELD_OUT_TRANCHE_OPEN"
+}

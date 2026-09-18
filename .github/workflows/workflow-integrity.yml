@@ -1,0 +1,37 @@
+name: workflow-integrity
+
+# Guards a defect class that is invisible in the normal CI signal: a workflow
+# whose YAML does not parse is recorded by GitHub as a run that FAILED with
+# ZERO JOBS, and its run `name` is reported as the file path rather than the
+# workflow's declared name. Nothing inside it ever executes, so a package can
+# carry a full CI suite that has never run a single step.
+#
+# Two #833 packages hit this in one session, both from a heredoc body placed at
+# column 0 inside a `run: |` block scalar, which terminates the scalar.
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+      - 'research/gmi-833-workflow-integrity-v1/**'
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'research/gmi-833-workflow-integrity-v1/**'
+  workflow_dispatch:
+
+jobs:
+  parse-every-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install --quiet pyyaml
+
+      - name: every workflow parses and declares at least one job
+        run: python3 research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: the checker detects a planted unparseable workflow
+        run: python3 research/gmi-833-workflow-integrity-v1/check_workflows_v1.py --self-test

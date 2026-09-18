@@ -1,0 +1,51 @@
+{
+  "schema": "GMI_833_AE2_PREDICTIVE_BOUNDARY_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE2",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae2-predictive-boundary-v1",
+  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
+  "freeze_commit": "3901753eaa746cbe6ac3e18cd80034e728c1aead",
+  "claim_ceiling": "GMI_833_AE2_PREDICTIVE_INFORMATION_LEARNABILITY_BOUNDARY_PROVED_AND_EXACTLY_WITNESSED_AT_REGISTERED_FINITE_SCOPE",
+  "target_rows": 8,
+  "theorems": ["PIB-1", "PIB-2", "PIB-3", "PIB-4", "PIB-5"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae2-predictive-boundary-v1/ae2_predictive_boundary_v1.py",
+    "B": "research/gmi-833-ae-ae2-predictive-boundary-v1/independent_boundary_oracle_v1.py",
+    "independence": "route B has no executable import of route A; the test parses route B's AST and asserts this. Route A uses the min-over-actions identity, the atanh log series and a subcube dynamic program; route B enumerates every deterministic rule, uses the Mercator log series with a crude-bracket containment check, and builds every decision tree explicitly."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; neither reproved nor extended"},
+    {"path": "research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json",
+     "blob_sha": "ceb77f5beac99b5427d1350915b19df546495fb8",
+     "claim_ceiling": "sibling AE1 receipt; AE2 reuses none of its code and earns no AE1 row"}
+  ],
+  "finite_tags": {
+    "alphabets": "finite; |X| <= 8, |Y| <= 4",
+    "horizon": "finite; history length <= 2, doubling-map horizon 8 steps",
+    "samples": "not applicable; all quantities are population quantities",
+    "grid": "all joints on shapes up to 4x4 with probabilities multiples of 1/8",
+    "grid_cases": 670396,
+    "log_series_terms": {"route_A_atanh": 48, "route_B_mercator": 96},
+    "null_trials": 200
+  },
+  "forbidden_promotions": [
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "ALL_LEARNING_IS_COMPRESSION",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "COMPLETE_GMI",
+    "CRYPTOGRAPHIC_HARDNESS_ASSUMED",
+    "COMPLEXITY_CLASS_SEPARATION",
+    "INFINITE_HORIZON_EXTENSION",
+    "CONTINUOUS_STATE_EXTENSION",
+    "UNIVERSAL_LEARNER_IMPOSSIBILITY",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "ARCHITECTURE_SELECTION_LAW"
+  ]
+}
