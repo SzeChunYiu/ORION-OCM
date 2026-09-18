@@ -35,6 +35,15 @@ hypothesis frozen before the enumeration that adjudicates it:
   `87` occurrences over `448` files, all in `AUTHORITY 39`, `QUALIFIED_TERM 29`,
   `MIRROR 13`, `NEGATION 5`, `MENTION_NOT_USE 1`.
 
+  Those counts are **corpus-timestamped** at `source_main`
+  `5e57d4292266bccf435136e1f7d72caa32e920a0`: the audit scans every
+  `research/gmi-833-*` markdown file, so any lane that adds or removes a
+  `prior-free` token moves them, and this package's own documents are inside the
+  corpus it measures. What is stable, and what CI asserts
+  (`check_row3_verdict_v1.py`), is the **verdict** — `LIVE_FLAGSHIP` empty, the
+  classifier's planted positives all firing and its planted negatives all quiet
+  — not the arithmetic of the day.
+
 ## What it does not establish
 
 No universal no-free-lunch theorem, nothing about real or trained systems, no
