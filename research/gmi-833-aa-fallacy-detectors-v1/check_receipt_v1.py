@@ -83,6 +83,12 @@ def main(argv):
     diffs = [k for k in ("AA19_planted", "AA31_grammar_induced_artifacts",
                          "guard", "null", "route_agreement")
              if stored.get(k) != live.get(k)]
+    # AA37's planted fixtures are constructed and corpus-independent, so they
+    # are pinned by EQUALITY even though the tier-1 corpus figures beside them
+    # are not. A reconciliation line may quote these without a scope clause.
+    if stored["AA37_parent_reduction_after_new_form"]["planted"] != \
+            live["AA37_parent_reduction_after_new_form"]["planted"]:
+        diffs.append("AA37_parent_reduction_after_new_form.planted")
     a19 = live["AA19_representability_vs_reachability"]
     a37 = live["AA37_parent_reduction_after_new_form"]
     s19 = stored["AA19_representability_vs_reachability"]
