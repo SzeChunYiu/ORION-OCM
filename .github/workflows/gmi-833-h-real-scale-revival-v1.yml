@@ -95,23 +95,11 @@ jobs:
               echo "TWO-ROUTE FAILURE: the oracle imports $m"; exit 1
             fi
           done
-          python3 -I -B -c "import sys;sys.path.insert(0,'.');import independent_oracle_v1;
-sys.exit(1 if any(m in sys.modules for m in ('grammar_s_v1','run_real_scale_revival_v1','real_scale_revival_v1')) else 0)"
-          echo "two-route independence ok"
+          python3 -I -B ci_gates_v1.py two-route-namespace
 
       - name: no gate certificate may carry a foreign scope
-        run: |
-          set -eu
-          cd research/gmi-833-h-real-scale-revival-v1
-          python3 -I -B -c "
-import json,sys
-r=json.load(open('RESULT_V1.json'))
-own={'SIGMA_R02','SIGMA_R03','SIGMA_R04'}
-bad=[(k,g) for k,row in r['rows'].items() for g in row['gates']
-     if g['sigma'] not in own or g['sigma']!=row['sigma']]
-if bad:
-    print('FOREIGN SIGMA:',bad[:3]); sys.exit(1)
-print('every gate carries its own scope')"
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: python3 -I -B ci_gates_v1.py foreign-sigma
 
       - name: negative control - a wrong artifact path must fail loudly
         run: |
@@ -179,34 +167,17 @@ print('every gate carries its own scope')"
           done
           echo "source digests match FREEZE_V1.md section 4"
 
+      - name: the gates are validated before they are trusted
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: python3 -I -B ci_gates_v1.py selftest
+
       - name: the admissibility rule is inert or non-vacuous, never silent
         working-directory: research/gmi-833-h-real-scale-revival-v1
-        run: |
-          set -eu
-          python3 -I -B -c "
-import json,sys
-r=json.load(open('RESULT_V1.json'))
-bad=[k for k,v in r['admissibility_rule'].items() if not (v['inert'] or v['non_vacuous'])]
-if bad:
-    print('VACUOUS FILTER at', bad); sys.exit(1)
-print('the support-admissibility rule is inert or non-vacuous at every scope')"
+        run: python3 -I -B ci_gates_v1.py rule-vacuity
 
       - name: a row is closed only when eleven coordinates hold at one scope
         working-directory: research/gmi-833-h-real-scale-revival-v1
-        run: |
-          set -eu
-          python3 -I -B -c "
-import json,sys
-r=json.load(open('RESULT_V1.json'))
-rec=json.load(open('ISSUE_833_RECONCILIATION_H2_V1.json'))
-closed=set(r['rows_closed'])
-for k,row in r['rows'].items():
-    if row['complete'] and (row['supported']!=11 or not row['single_sigma']):
-        print('BAD CLOSURE',k); sys.exit(1)
-for e in rec['replacements']:
-    if e['old'].replace('- [ ] ','') not in closed:
-        print('RECONCILIATION CLAIMS AN OPEN ROW:', e['old']); sys.exit(1)
-print('%d row(s) closed, %d reported open' % (len(closed), len(r['rows_open'])))"
+        run: python3 -I -B ci_gates_v1.py closure-consistency
 
       - name: the analysis note closes nothing
         working-directory: research/gmi-833-h-real-scale-revival-v1
