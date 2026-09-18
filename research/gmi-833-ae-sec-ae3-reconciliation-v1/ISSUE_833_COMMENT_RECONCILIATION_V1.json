@@ -547,6 +547,12 @@
     "every_old_occurs_exactly_once_in_the_fetched_body": true,
     "every_old_occurs_UNDER_its_own_heading": true,
     "method": "for each row the heading index i and the row index j are taken from the same fetched body and the next '\\n### ' after i is located; the check is i < j < next_heading, so global uniqueness alone is never accepted as evidence of placement",
-    "rows_checked_positionally": 44
-  }
+    "rows_checked_positionally": 44,
+    "heading_levels_present_in_the_body": [
+      "###"
+    ],
+    "headings_of_any_level_between_an_anchor_and_its_row": 0,
+    "scope_caveat_checked": "the window is closed by searching for '\\n### ', which would not see a '## ' heading and would therefore run a section window past it. The body was re-scanned for headings of EVERY level (#{1,6}) and contains only '###', with none falling between any anchor and its row, so the window is exactly the section in all 44 cases rather than merely passing by luck."
+  },
+  "comment_body_bytes_note": "comment_body_bytes is a BYTE count (38536). An earlier revision of this file carried 38156 under the same key, which was a CHARACTER count of the same text -- the body contains multibyte UTF-8 (em dashes, check marks). The comment itself did not change: comment_body_md5_at_finalisation is unchanged across both revisions. Recorded so that a diff of the two revisions is not read as the comment having moved."
 }
