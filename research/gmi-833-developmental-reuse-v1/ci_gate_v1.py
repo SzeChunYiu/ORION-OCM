@@ -3,11 +3,56 @@
 """CI gate for gmi-833-developmental-reuse-v1: verdicts, hostiles, no floats,
 manifest/reconciliation consistency, scope discipline.  Stdlib only."""
 
+import ast
 import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+ROUTE_A_MODULE = "developmental_reuse_v1"
+
+
+def imported_modules(source, filename="<src>"):
+    """Module names actually IMPORTED by `source`, parsed with ast.
+
+    A substring grep cannot do this job: `independent_oracle_v1.py` names the
+    Route A module in its own docstring precisely to say it must not import it,
+    and a grep flags that as a violation. The first real run of the grep gate
+    did exactly that. Only real `import` / `from ... import` statements count.
+    """
+    names = set()
+    for node in ast.walk(ast.parse(source, filename=filename)):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                names.add(alias.name.split(".")[0])
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                names.add(node.module.split(".")[0])
+        elif isinstance(node, ast.Call):
+            func = node.func
+            target = None
+            if isinstance(func, ast.Name) and func.id == "__import__":
+                target = func
+            elif isinstance(func, ast.Attribute) and func.attr == "import_module":
+                target = func
+            if target is not None and node.args:
+                arg = node.args[0]
+                if isinstance(arg, ast.Str):
+                    names.add(arg.s.split(".")[0])
+                elif hasattr(ast, "Constant") and isinstance(arg, ast.Constant) \
+                        and isinstance(arg.value, str):
+                    names.add(arg.value.split(".")[0])
+                else:
+                    names.add("<DYNAMIC_IMPORT>")
+    return names
+
+
+def route_b_is_independent():
+    path = os.path.join(HERE, "independent_oracle_v1.py")
+    with open(path, "r") as fh:
+        mods = imported_modules(fh.read(), path)
+    return ROUTE_A_MODULE not in mods and "<DYNAMIC_IMPORT>" not in mods, mods
 
 
 def load(name):
@@ -83,11 +128,16 @@ def main():
     if set(res["rows_left_open"]) != open_rows:
         fails.append("receipt and manifest disagree on the open rows")
 
+    independent, mods = route_b_is_independent()
+    if not independent:
+        fails.append("Route B imports Route A (modules: %s)" % sorted(mods))
+
     if fails:
         sys.stderr.write("CI GATE FAILED:\n  " + "\n  ".join(fails) + "\n")
         return 1
     print("CI gate OK: verdicts green, hostiles detected, no floats, "
-          "manifest/reconciliation consistent, open rows not claimed")
+          "manifest/reconciliation consistent, open rows not claimed, "
+          "Route B independent of Route A (ast-checked)")
     return 0
 
 

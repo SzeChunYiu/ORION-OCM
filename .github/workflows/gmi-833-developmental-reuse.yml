@@ -41,14 +41,6 @@ jobs:
           fi
           echo "stdlib only: ok"
 
-      - name: Route B must not import Route A
-        run: |
-          set -eu
-          if grep -n 'developmental_reuse_v1' "$PKG"/independent_oracle_v1.py; then
-            echo "oracle imports the main executor"; exit 1
-          fi
-          echo "routes independent: ok"
-
       - name: Freeze precedes implementation (git order)
         run: |
           set -eu

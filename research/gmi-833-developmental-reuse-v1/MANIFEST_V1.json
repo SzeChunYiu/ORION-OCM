@@ -157,6 +157,12 @@
       "deviation": "two CI steps used `! grep ...` under `set -eu`, which cannot fail because bash does not exit on an inverted command status",
       "correction": "replaced by explicit `if grep ...; then exit 1; fi` in separate steps",
       "effect_on_claims": "none; the stdlib-only and route-independence gates are now able to fire"
+    },
+    {
+      "deviation": "once the inverted-grep no-op was fixed, the route-independence gate ran for real in CI and failed the build on the oracle's own DOCSTRING, which names the Route A module in order to state that it must not be imported",
+      "correction": "replaced the substring grep with an ast-based check in ci_gate_v1.py (Import / ImportFrom nodes plus __import__ and importlib.import_module calls, failing closed on an unresolvable dynamic import); the grep CI step was removed",
+      "guard_added": "six tests validate the checker in both directions: recall on four planted positives and the no-alarm case on the real oracle and on a docstring-only mention",
+      "effect_on_claims": "none; Route B never imported Route A. This was a checker false positive caught on the checker's first real run."
     }
   ]
 }

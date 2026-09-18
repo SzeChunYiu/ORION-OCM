@@ -369,6 +369,46 @@ class TestHostiles(unittest.TestCase):
         self.assertEqual(raised, A.RECURSIVE_LIBRARY_CYCLE)
 
 
+class TestRouteIndependenceChecker(unittest.TestCase):
+    """Validate the checker itself: recall on planted positives, no false alarm.
+
+    The first real run of the earlier substring-grep version failed the build on
+    the oracle's own docstring, which names the Route A module in order to say it
+    must not be imported. A checker that cries wolf on its first real run gets
+    switched off, so both directions are asserted here.
+    """
+
+    def setUp(self):
+        import ci_gate_v1
+        self.G = ci_gate_v1
+
+    def test_real_oracle_is_independent_and_raises_no_alarm(self):
+        ok, mods = self.G.route_b_is_independent()
+        self.assertTrue(ok, sorted(mods))
+        self.assertNotIn(self.G.ROUTE_A_MODULE, mods)
+
+    def test_docstring_mention_is_not_a_violation(self):
+        src = '"""this file must not import developmental_reuse_v1"""\nimport json\n'
+        self.assertNotIn(self.G.ROUTE_A_MODULE, self.G.imported_modules(src))
+
+    def test_planted_plain_import_is_detected(self):
+        src = "import developmental_reuse_v1 as A\n"
+        self.assertIn(self.G.ROUTE_A_MODULE, self.G.imported_modules(src))
+
+    def test_planted_from_import_is_detected(self):
+        src = "from developmental_reuse_v1 import phi\n"
+        self.assertIn(self.G.ROUTE_A_MODULE, self.G.imported_modules(src))
+
+    def test_planted_dynamic_import_is_detected(self):
+        src = ("import importlib\n"
+               "m = importlib.import_module('developmental_reuse_v1')\n")
+        self.assertIn(self.G.ROUTE_A_MODULE, self.G.imported_modules(src))
+
+    def test_unresolvable_dynamic_import_fails_closed(self):
+        src = "import importlib\nm = importlib.import_module(name)\n"
+        self.assertIn("<DYNAMIC_IMPORT>", self.G.imported_modules(src))
+
+
 class TestScopeDiscipline(unittest.TestCase):
     """The package must not overreach its own freeze."""
 

@@ -91,7 +91,19 @@ Recorded because "validate the checker first" is not optional.
    syncing receipts in the Mac → laptop direction afterwards. CI's byte-for-byte
    `cmp` of a fresh executor run against the committed receipt is the standing
    guard against this exact drift.
-7. **META evaluation accounting.** The first draft charged portfolio arms with
+7. **A route-independence gate that fired on its own documentation.** Once the
+   inverted-grep no-op (defect 5) was fixed, the gate ran for real in CI — and
+   failed the build on `independent_oracle_v1.py`'s **docstring**, which names
+   the Route A module precisely to state that it must not import it. A substring
+   grep cannot express "does not import". Replaced by an `ast`-based check in
+   `ci_gate_v1.py` that inspects `Import` / `ImportFrom` nodes and `__import__` /
+   `importlib.import_module` calls, and fails closed on an unresolvable dynamic
+   import. The checker is validated in both directions by tests: recall on four
+   planted positives (plain import, from-import, dynamic import, unresolvable
+   dynamic import) and the no-alarm case on the real oracle and on a
+   docstring-only mention. This is the "a false positive costs more than a miss"
+   rule caught in the act, on the checker's first real run.
+8. **META evaluation accounting.** The first draft charged portfolio arms with
    placeholder evaluations. Replaced by `_ArmView`, which forwards every arm
    evaluation to the single shared charged oracle exactly once and cuts the arm
    off at its own share. No evaluation is free, and the audit counter confirms
