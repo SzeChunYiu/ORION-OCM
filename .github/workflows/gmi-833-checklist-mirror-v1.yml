@@ -1,0 +1,64 @@
+name: gmi-833-checklist-mirror-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-checklist-mirror-v1/**'
+      - '.github/workflows/gmi-833-checklist-mirror-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-checklist-mirror-v1/**'
+      - '.github/workflows/gmi-833-checklist-mirror-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Tests including hostiles
+        run: |
+          python3 -I -B  research/gmi-833-checklist-mirror-v1/test_checklist_mirror_v1.py -v
+          python3 -I -O -B research/gmi-833-checklist-mirror-v1/test_checklist_mirror_v1.py -v
+
+      - name: Ledger is byte-exact and reproducible from the mirror
+        run: |
+          python3 -I -B research/gmi-833-checklist-mirror-v1/compact_body_v1.py \
+            research/gmi-833-checklist-mirror-v1/ISSUE_833_BODY_MIRROR.md \
+            "$RUNNER_TEMP/body.md" "$RUNNER_TEMP/ledger.json"
+          python3 - <<'PY'
+          import json, io, os
+          a = json.load(io.open('research/gmi-833-checklist-mirror-v1/EVIDENCE_LEDGER_V1.json', encoding='utf-8'))
+          b = json.load(io.open(os.path.join(os.environ['RUNNER_TEMP'], 'ledger.json'), encoding='utf-8'))
+          assert a['entries'] == b['entries'], 'committed ledger does not reproduce from the mirror'
+          assert a['row_count'] == 259 and a['checked'] == 167 and a['unchecked'] == 92, a['row_count']
+          print('ledger reproduces exactly:', a['row_count'], 'rows')
+          PY
+
+      - name: Artifact digests match the receipt
+        run: |
+          python3 - <<'PY'
+          import hashlib, io, json
+          res = json.load(io.open('research/gmi-833-checklist-mirror-v1/RESULT_V1.json', encoding='utf-8'))
+          bad = []
+          for name, want in res['artifact_sha256'].items():
+              got = hashlib.sha256(io.open('research/gmi-833-checklist-mirror-v1/' + name, 'rb').read()).hexdigest()
+              if got != want:
+                  bad.append((name, want, got))
+          assert not bad, bad
+          print('all %d artifact digests match' % len(res['artifact_sha256']))
+          PY
+
+      - name: Tamper alarm fires on induced drift
+        run: |
+          cp research/gmi-833-checklist-mirror-v1/ISSUE_833_BODY_MIRROR.md "$RUNNER_TEMP/orig.md"
+          printf '\n- [x] SMUGGLED ROW. — ✅ #0 fake.\n' >> research/gmi-833-checklist-mirror-v1/ISSUE_833_BODY_MIRROR.md
+          if python3 -I -B research/gmi-833-checklist-mirror-v1/test_checklist_mirror_v1.py >/dev/null 2>&1; then
+            echo "ALARM DID NOT FIRE on induced drift"; exit 1
+          fi
+          echo "tamper alarm fired as required"
+          cp "$RUNNER_TEMP/orig.md" research/gmi-833-checklist-mirror-v1/ISSUE_833_BODY_MIRROR.md
