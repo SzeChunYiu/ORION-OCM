@@ -8,7 +8,8 @@
   "gmi-833-aa-finite-universal-harness-v1": "5e57d4292266bccf435136e1f7d72caa32e920a0",
   "gmi-833-aa-ledger-gate-v1": "5e57d4292266bccf435136e1f7d72caa32e920a0",
   "gmi-833-ac-lanes-harness-v1": "5e57d4292266bccf435136e1f7d72caa32e920a0",
-  "gmi-833-ab-residual-definitions-v1": "5e57d4292266bccf435136e1f7d72caa32e920a0"
+  "gmi-833-ab-residual-definitions-v1": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "gmi-833-aa-fallacy-detectors-v1": "5e57d4292266bccf435136e1f7d72caa32e920a0"
  },
  "comment_bytes_at_build": 28361,
  "packages": [
@@ -17,7 +18,8 @@
   "gmi-833-aa-finite-universal-harness-v1",
   "gmi-833-aa-ledger-gate-v1",
   "gmi-833-ac-lanes-harness-v1",
-  "gmi-833-ab-residual-definitions-v1"
+  "gmi-833-ab-residual-definitions-v1",
+  "gmi-833-aa-fallacy-detectors-v1"
  ],
  "claim_ceilings": {
   "gmi-833-aa-gap-object-v1": "FINITE_EXACT_GOVERNANCE_INSTRUMENT_V1",
@@ -25,7 +27,8 @@
   "gmi-833-aa-finite-universal-harness-v1": "REGISTERED_DETECTOR_VALIDATED_V1",
   "gmi-833-aa-ledger-gate-v1": "RATCHETED_LEDGER_EMISSION_GATE_V1",
   "gmi-833-ac-lanes-harness-v1": "REGISTERED_LITERATURE_STRUCTURE_VERIFIED_V1",
-  "gmi-833-ab-residual-definitions-v1": "DECLARED_DEFINITION_ARTIFACT_V1"
+  "gmi-833-ab-residual-definitions-v1": "DECLARED_DEFINITION_ARTIFACT_V1",
+  "gmi-833-aa-fallacy-detectors-v1": "VALIDATED_REVIEW_QUEUE_DETECTOR_V1"
  },
  "forbidden_promotions": [
   "ALL_GAPS_CLOSED",
@@ -55,7 +58,16 @@
   "RICE_SUBSUMED",
   "LADDER_APPLIED",
   "CLAIM_IS_AT_LEVEL_N",
-  "NOVELTY_ESTABLISHED"
+  "NOVELTY_ESTABLISHED",
+  "QUEUED_CLAIM_IS_FALSE",
+  "UNQUEUED_CLAIM_IS_SOUND",
+  "DETECTOR_IS_SOUND",
+  "CORPUS_FREE_OF_FALLACY",
+  "NO_CONFUSION_REMAINS",
+  "GRAMMAR_BIAS_ELIMINATED",
+  "ALL_GRAMMARS_EQUIVALENT",
+  "SEARCH_REACHABILITY_INVARIANT_UNIVERSALLY",
+  "PARENT_REDUCTION_COMPLETE"
  ],
  "replacements": [
   {
@@ -481,6 +493,36 @@
    "new": "- [x] Record earliest/strongest known parent for each mathematical idea. — ✅ `gmi-833-ac-lanes-harness-v1 ACL-4`: **48/48** crosswalk rows now carry an earliest-or-strongest parent record with a dated or authored anchor — **40** in the frozen parent artifact and **8** (rows 16, 19, 21, 23, 34, 41, 47, 48, which cited the AB audit list or a sibling artifact rather than a parent) supplied in `AC_CROSSWALK_ADDENDUM_V1.md`. This is **presence and structure only**: the verification split is disclosed as **15 VERIFIED / 29 CITE-TF / 4 UNMARKED** and every supplied record is marked `CITE-TF`. **AC05 is explicitly not earned**; a hostile shows that promoting `CITE-TF` to verified would move the verified count 15 → 44 and it is refused.",
    "status": "EARNED",
    "apply_state": "PENDING"
+  },
+  {
+   "comment_id": 5684607872,
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "row_id": "AA19",
+   "package": "gmi-833-aa-fallacy-detectors-v1",
+   "old": "- [ ] Search for representability-vs-reachability confusion.",
+   "new": "- [x] Search for representability-vs-reachability confusion. — ✅ `gmi-833-aa-fallacy-detectors-v1 FD-1+FD-4`: a **metadata** detector, not a grep — an object is queued when its registered quantifier class is `UNIVERSAL` (what the class can represent) while its registered evidence mode is an experiment that was **run** (what a search reached). Queue **60 records / 57 distinct object ids / 37 source files** over **22553** objects, with two independent routes agreeing by **set equality**. Recall **6/6** on planted positives; **0 alarms on 21548 real declared-clean objects** — 331 universal claims with an analytic or mechanized warrant and 21217 non-universal — so the no-alarm case is measured on the corpus, not on a constructed set. Overlap with the `FIN2UNIV` population AA21 validated is **1**, checked rather than asserted. Hostiles price the loosenings on real data: dropping the quantifier conjunct moves clean alarms **0 → 1027**, widening to analytic warrants **0 → 331**, and a text-trigger variant adds **14** records. Null **0/200**, max overlap **2/57**. A queued object is a review requirement, never a refuted claim.",
+   "status": "EARNED",
+   "apply_state": "PENDING"
+  },
+  {
+   "comment_id": 5684607872,
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "row_id": "AA31",
+   "package": "gmi-833-aa-fallacy-detectors-v1",
+   "old": "- [ ] Search for grammar-induced morphology artifacts.",
+   "new": "- [x] Search for grammar-induced morphology artifacts. — ✅ `gmi-833-aa-fallacy-detectors-v1 FD-2`: an **exact rational** divergence test over same-semantics grammar pairs, instrumenting the frozen `gmi-833-g0-grammar-bias-v1`, which owns the underlying finding and is not re-derived. The parent's own exhaustive **24**-member isometric remint family — every relabelling of the registered fixture — raises **0** alarms, matching its certificate of 24 permutations with 0 invariant failures; its registered **non-isometric same-semantics** pair is queued with **10 divergent cells across 2 of the 3 semantic classes**. Exactness is load-bearing and asserted: `1/3` versus `333333/1000000` diverges while `2/6` versus `1/3` does not, so no float tolerance can hide a small artifact. Route B never executes the parent: it re-derives the divergence from the parent's committed receipt, and the two cell sets are identical.",
+   "status": "EARNED",
+   "apply_state": "PENDING"
+  },
+  {
+   "comment_id": 5684607872,
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "row_id": "AA37",
+   "package": "gmi-833-aa-fallacy-detectors-v1",
+   "old": "- [ ] Search for alternative known-parent reductions after every new-form claim.",
+   "new": "- [x] Search for alternative known-parent reductions after every new-form claim. — ✅ `gmi-833-aa-fallacy-detectors-v1 FD-3+FD-4`: a two-tier instrument over the **2362** named results of the tracked theorem artifacts, reusing the ledger predicate of `gmi-833-aa-ledger-gate-v1`. Tier 1 uses only the declared novelty vocabulary — the six novelty-ladder levels plus the crosswalk's `unseen form`, `novel intelligence`, `novel mechanism`, `new computational class`, `predicted morphology`, `held-out architecture` and AA37's own `new-form`, every term asserted by the guard to have a declared source. **18** results trigger, **8** carry a result identifier, **5** are cleared by a strongest-parent ledger and **3** are queued; **2344** non-triggering results raise nothing, and this tranche's own theorem notes are a **live cleared negative** (1 triggers, 0 queued). Constructed fixtures give recall **1/1**, clearing **1/1**, off-topic triggering **0**. Tier 2, a bare `novel`/`new` grep, triggers **233** identified results — an inflation of **225** — and is published for exactly that reason, never used to queue.",
+   "status": "EARNED",
+   "apply_state": "PENDING"
   }
  ],
  "not_closed": [
@@ -555,13 +597,6 @@
    "bucket": "NEW-SCIENCE"
   },
   {
-   "old": "- [ ] Search for representability-vs-reachability confusion.",
-   "reason": "[NEW-SCIENCE] representability-vs-reachability detector; strong parents already on main (gmi-833-global-vs-reachable-morphology-v1, gmi-833-finite-reachability-fractions-v1) make this the most tractable of the 22.",
-   "row_id": "AA19",
-   "anchor": "### AA. Recursive loophole / logic-gap closure",
-   "bucket": "NEW-SCIENCE"
-  },
-  {
    "old": "- [ ] Search for optimality-vs-selection confusion.",
    "reason": "[NEW-SCIENCE] optimality-vs-selection detector; parent gmi-833-morphology-selection-v1.",
    "row_id": "AA20",
@@ -632,13 +667,6 @@
    "bucket": "NEW-SCIENCE"
   },
   {
-   "old": "- [ ] Search for grammar-induced morphology artifacts.",
-   "reason": "[HARNESS] grammar-induced artifact: gmi-833-g0-grammar-bias-v1 is a frozen result on main; a harness that instruments it and reports the measured bias closes this row.",
-   "row_id": "AA31",
-   "anchor": "### AA. Recursive loophole / logic-gap closure",
-   "bucket": "HARNESS"
-  },
-  {
    "old": "- [ ] Search for benchmark/ecology selection bias.",
    "reason": "[NEW-SCIENCE] benchmark/ecology selection-bias detector; parent gmi-833-ecology-sampling-v1.",
    "row_id": "AA32",
@@ -672,13 +700,6 @@
    "row_id": "AA36",
    "anchor": "### AA. Recursive loophole / logic-gap closure",
    "bucket": "NEW-SCIENCE"
-  },
-  {
-   "old": "- [ ] Search for alternative known-parent reductions after every new-form claim.",
-   "reason": "[HARNESS] alternative known-parent reduction after every new-form claim: parents gmi-833-parent-equivalence-v1 and parent-absorption-v1 are on main; a harness that checks every new-form claim carries a parent-reduction record closes this.",
-   "row_id": "AA37",
-   "anchor": "### AA. Recursive loophole / logic-gap closure",
-   "bucket": "HARNESS"
   },
   {
    "old": "- [ ] Maintain a live `GMI_GAP_GRAPH` linking every claim to unresolved descendants.",
@@ -807,7 +828,7 @@
   }
  ],
  "apply_state_counts": {
-  "PENDING": 12,
+  "PENDING": 15,
   "ALREADY_APPLIED": 38
  },
  "apply_note": "Only entries with apply_state=PENDING are to be written to comment 5684607872; their `old` was verified byte-exact and occurring exactly once under its own `###` anchor against a fetch taken immediately before this file was finalized. Entries marked ALREADY_APPLIED are the prior tranche's, kept for provenance: their `new` is already live in the comment verbatim."
