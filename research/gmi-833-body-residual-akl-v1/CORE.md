@@ -58,6 +58,20 @@ preservation numbers, the census, the input total and all three positive control
 clause each targets. Scanner nulls: a control token absent from the corpus scores
 **0**, a control word that must occur scores **100,844**.
 
+## Two robustness properties the receipts depend on
+
+**The counted bytes are the frozen blobs.** Both routes read `source_main`
+through the git object store, not the worktree, so `RA-1` is reproducible at any
+HEAD. Checked by running with one in-scope file given three extra planted hits
+and another deleted from the worktree: both routes still return
+`2,710 / 704 / 2,645`.
+
+**The futurity verdict does not move when main does.** `FFA-1` clause 3 excludes
+any blob of this repository whatever its date — the freeze had qualified it *at
+the freeze commit*, which would have let a sibling lane's later commit pass as
+"exogenous" and made the verdict depend on the branch. The amended clause is
+strictly stronger; disclosed as deviation `D3`.
+
 ## A false positive caught in this package's own checker
 
 The first real run of the hash-pin index matched repo-root `README.md`,

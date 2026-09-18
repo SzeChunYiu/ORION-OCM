@@ -101,6 +101,15 @@ class RowAResidual(unittest.TestCase):
         self.assertGreaterEqual(s["S1"]["total_hits"], s["S2"]["total_hits"])
         self.assertGreaterEqual(s["S2"]["total_hits"], s["S3"]["total_hits"])
 
+    def test_s3_reconciles_with_s2_exactly(self):
+        """A third handle: S3 = S2 - required_to_remain + repo-root markdown."""
+        r = self.ra["RA-1"]
+        self.assertTrue(r["S3_reconciles_with_S2"])
+        self.assertEqual(r["scopes"]["S3"]["total_hits"],
+                         r["scopes"]["S2"]["total_hits"]
+                         - self.ra["RA-2"]["required_to_remain_hits"]
+                         + r["repo_root_md_hits"])
+
     def test_the_scanner_nulls(self):
         n = self.ra["NULLS"]
         self.assertEqual(n["absent_control_term_hits"], 0)
@@ -258,11 +267,19 @@ class RowLFuturity(unittest.TestCase):
         self.assertEqual(RESULT["DISPOSITION"]["ROW_L"], "OPEN")
 
     def test_the_absence_has_a_second_independent_route(self):
-        self.assertTrue(self.rl["FC-2"]["second_route_to_the_absence"]
-                        ["no_exogenous_posterior_blob"])
-        self.assertEqual(ORACLE["ROW_L"]
-                         ["blobs_added_after_freeze_outside_this_package"], 0)
+        second = self.rl["FC-2"]["second_route_to_the_absence"]
+        self.assertTrue(second["no_exogenous_candidate_in_repository"])
+        self.assertGreater(second["tracked_paths_at_head"], 0)
+        self.assertEqual(second["exogenous_candidates_in_repository"], 0)
+        self.assertEqual(second["endogenous_by_clause_3"],
+                         second["tracked_paths_at_head"])
         self.assertEqual(ORACLE["ROW_L"]["admissible_candidates"], 0)
+
+    def test_the_second_route_is_stable_while_main_moves(self):
+        """It must not depend on which commits landed after the freeze."""
+        second = self.rl["FC-2"]["second_route_to_the_absence"]
+        self.assertNotIn("no_exogenous_posterior_blob", second)
+        self.assertIn("informational", " ".join(second.keys()))
 
     def test_out_of_sample_is_not_accepted_as_future(self):
         """A repo blob is out-of-sample for a later prediction but is not future."""

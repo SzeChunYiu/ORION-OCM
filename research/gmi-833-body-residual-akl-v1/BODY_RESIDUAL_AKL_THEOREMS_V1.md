@@ -14,9 +14,13 @@ markdown file of this package, so that measuring the debt does not add to it.
 
 ## RA-1 — the residual of `ROW_A_TERM`, exactly, under three declared scopes
 
-**Scope.** Files tracked at `source_main`, read from the worktree with each
-blob's sha1 re-derived and compared to the frozen tree, so the bytes counted are
-provably the frozen bytes.
+**Scope.** Files tracked at `source_main`, with the bytes taken **from the git
+object store by blob sha**, never from the worktree. A worktree read would make
+every count depend on what main has merged since `source_main`: a file another
+lane modified would differ from its frozen blob and a deleted one would be
+missing. Validated: with one in-scope file deliberately given three extra hits
+and another deleted from the worktree, both routes still return exactly
+`2,710 / 704 / 2,645`.
 
 **Statement.**
 
@@ -31,6 +35,12 @@ The two largest concentrations in `S3` are `machine-intelligence-morphogenesis-v
 residual. The complete per-package and per-file table is in `RESULT_V1.json`
 (one package name there cannot be quoted in markdown without failing the
 repo-wide terminology gate, which is why this table stops at two).
+
+**A third handle on the same number.** The three scopes are not independent, and
+the identity `S3 = S2 - required_to_remain + repo-root markdown` must hold
+exactly: `2,730 - 21 + 1 = 2,710`. It is asserted in the receipt and in the
+tests, so a scope definition that silently gained or lost a file cannot pass
+unnoticed even if both routes made the same mistake.
 
 **Quantifiers.** For every file f in scope S, the count is the number of
 whole-word matches of the frozen parent gate's own pattern for this term,
@@ -255,8 +265,16 @@ reference to the measured outcome.
 iff all four clauses hold: (1) `C` carries a verifiable date; (2) that date is
 strictly later than the committer timestamp of the commit that froze `P`; (3) `C`
 is exogenous — not authored, generated, parameterized or chosen by this
-programme, and not reachable as a blob of this repository at the freeze; (4) the
-date evidence does not originate from an artifact this programme controls.
+programme, and **not a blob of this repository at all**; (4) the date evidence
+does not originate from an artifact this programme controls.
+
+**Clause 3 was amended after the freeze, and the amendment is disclosed.** The
+freeze wrote *not reachable as a blob of this repository at the freeze commit*.
+Read literally, a file another lane of this same programme commits an hour later
+would pass clause 3, which is plainly not what *exogenous to this programme*
+means, and it made the verdict depend on what main had merged. The qualifier is
+removed; the clause is now strictly stronger and no longer moves with the branch.
+Recorded as deviation `D3`.
 
 **Validated in both directions before any verdict was read.** Four fixtures, all
 four agreeing with their expectation: a constructed candidate satisfying all four
@@ -283,11 +301,12 @@ freeze at `1789747076`) and clause 3 (endogenous); the in-session candidate
 passes clause 2 and fails clause 3.
 
 **The absence is established a second, independent way.** Rather than arguing
-over the candidate list, the check is made exhaustive over the repository: the
-set of blobs introduced by any commit after the freeze contains **0** paths
-outside this package. Route B re-derives the same absence through a different git
-query — ISO committer dates and `rev-list` membership instead of epoch times and
-`--diff-filter=A --follow`.
+over the candidate list, the check is made exhaustive over the repository: **every
+one of the paths tracked at HEAD is a blob of this repository**, hence endogenous,
+hence fails clause 3 whatever its date, so the count of exogenous candidates
+reachable here is **0** by enumeration rather than by argument. That verdict does
+not move when main merges. Route B re-derives it through a different git query —
+`ls-files` and ISO committer dates instead of `ls-tree` and epoch times.
 
 **Why this is the honest disposition.** Futurity is a **custody** property, not a
 sampling property. Anything this lane authors, and anything pinned from a

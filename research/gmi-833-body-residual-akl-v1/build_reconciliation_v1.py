@@ -166,6 +166,18 @@ def main(argv):
                        "establishes is stronger and is what is reported: a census of "
                        "0 is a property of truthfulness, not of an instrument stuck "
                        "at 0."},
+            {"id": "D3", "materiality": "MEDIUM",
+             "what": "FREEZE_V1.md section 2.3 wrote FFA-1 clause 3 as `not "
+                     "reachable as a blob in this repository AT THE FREEZE COMMIT`.",
+             "measured": "read literally, a blob another lane of this same "
+                         "programme commits after the freeze would pass clause 3, "
+                         "and the exhaustive second route then depended on what main "
+                         "had merged.",
+             "effect": "the qualifier is removed: clause 3 now excludes any blob of "
+                       "this repository whatever its date. The amended clause is "
+                       "STRICTLY STRONGER, so it cannot have admitted anything the "
+                       "frozen clause rejected, and the verdict (0 admissible) is "
+                       "unchanged and no longer moves with the branch."},
         ],
         "issue_body_edited_by_this_package": False,
     }

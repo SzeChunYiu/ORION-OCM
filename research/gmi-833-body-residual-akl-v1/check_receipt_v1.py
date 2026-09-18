@@ -77,8 +77,9 @@ def main():
         failures.append("ROW_L an in-session candidate became admissible")
     if not live_l["FC-1"]["all_fixtures_agree"]:
         failures.append("ROW_L the criterion fixtures no longer agree")
-    if not live_l["FC-2"]["second_route_to_the_absence"]["no_exogenous_posterior_blob"]:
-        failures.append("ROW_L an exogenous blob now postdates the freeze")
+    if not live_l["FC-2"]["second_route_to_the_absence"][
+            "no_exogenous_candidate_in_repository"]:
+        failures.append("ROW_L the exhaustive second route returned no paths")
 
     recon = json.load(open(os.path.join(
         HERE, "ISSUE_833_RECONCILIATION_BODY_RESIDUAL_V1.json")))

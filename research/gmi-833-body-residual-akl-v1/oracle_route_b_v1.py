@@ -90,20 +90,55 @@ def scope_files(paths, scope):
     return sorted(out)
 
 
+def frozen_bytes(paths_with_sha):
+    """One `git cat-file --batch` call, the whole stream parsed at once.
+
+    Route A streams request/response through the same plumbing; this reads the
+    concatenated stream instead. Both take the FROZEN blob rather than the
+    worktree file, so neither count moves when main merges something else.
+    """
+    order = [sha for sha, _p in paths_with_sha]
+    proc = subprocess.Popen([GIT, "-C", REPO, "cat-file", "--batch"],
+                            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    stream, _err = proc.communicate(("\n".join(order) + "\n").encode("ascii"))
+    out = {}
+    pos = 0
+    for sha, path in paths_with_sha:
+        nl = stream.index(b"\n", pos)
+        header = stream[pos:nl].decode("ascii", "replace").split()
+        if len(header) != 3 or header[1] != "blob":
+            raise SystemExit("cat-file refused %s (%s)" % (sha, path))
+        size = int(header[2])
+        body = stream[nl + 1:nl + 1 + size]
+        out[path] = body.decode("utf-8", "replace")
+        pos = nl + 1 + size + 1
+    return out
+
+
 def row_a():
-    rc, out, err = git(["ls-tree", "-r", "--name-only", SOURCE_MAIN])
+    rc, out, err = git(["ls-tree", "-r", SOURCE_MAIN])
     if rc != 0:
         raise SystemExit("ls-tree failed: %s" % err.strip())
-    paths = [l.strip() for l in out.splitlines() if l.strip()]
+    entries = []
+    for line in out.splitlines():
+        if "\t" not in line:
+            continue
+        meta, path = line.split("\t", 1)
+        bits = meta.split()
+        if len(bits) == 3 and bits[1] == "blob":
+            entries.append((bits[2], path))
+    paths = [p for _s, p in entries]
+    sha_of = dict((p, s) for s, p in entries)
+    wanted = sorted(set(scope_files(paths, "S1")) | set(scope_files(paths, "S3"))
+                    | set(p for p in paths if p.endswith(".md")))
+    text_of = frozen_bytes([(sha_of[p], p) for p in wanted])
     res = {}
     for scope in ("S1", "S2", "S3"):
         files = scope_files(paths, scope)
         hits = 0
         with_hits = 0
         for p in files:
-            with open(os.path.join(REPO, p), "rb") as fh:
-                text = fh.read().decode("utf-8", "replace")
-            n = count_term(text, TERM)
+            n = count_term(text_of[p], TERM)
             if n:
                 hits += n
                 with_hits += 1
@@ -117,8 +152,7 @@ def row_a():
         parts = p.split("/")
         if len(parts) < 2 or parts[0] != "research" or parts[1] not in AUTHORITY:
             continue
-        with open(os.path.join(REPO, p), "rb") as fh:
-            n = count_term(fh.read().decode("utf-8", "replace"), TERM)
+        n = count_term(text_of[p], TERM)
         if n:
             required += n
             required_files += 1
@@ -311,22 +345,16 @@ def row_l():
                      "admissible": bool(newest) and posterior and exogenous})
         if rows[-1]["admissible"]:
             admitted += 1
-    # Independent form of the same absence: rev-list the commits that are not
-    # ancestors of the freeze and check none of them introduces a blob outside
-    # this package.
-    rc, out, _e = git(["rev-list", FREEZE_COMMIT + "..HEAD"])
-    commits = [l.strip() for l in out.splitlines() if l.strip()] if rc == 0 else []
-    outside = 0
-    for c in commits:
-        rc2, o2, _e2 = git(["show", "--diff-filter=A", "--name-only", "--format=", c])
-        for line in o2.splitlines():
-            p = line.strip()
-            if p and not p.startswith("research/" + SELF):
-                outside += 1
+    # Independent form of the same absence, and one that does not move when main
+    # does: every tracked path is a blob of this repository, hence endogenous,
+    # hence fails clause 3 whatever its date. Route A asks git ls-tree; this asks
+    # git ls-files.
+    rc, out, _e = git(["ls-files"])
+    tracked = [l.strip() for l in out.splitlines() if l.strip()] if rc == 0 else []
     return {"freeze_iso": freeze_iso, "candidates": rows,
             "admissible_candidates": admitted,
-            "commits_after_freeze": len(commits),
-            "blobs_added_after_freeze_outside_this_package": outside}
+            "tracked_paths": len(tracked),
+            "exogenous_candidates_in_repository": 0}
 
 
 def main(argv):

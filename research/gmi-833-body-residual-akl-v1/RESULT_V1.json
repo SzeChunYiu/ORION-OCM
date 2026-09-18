@@ -23,9 +23,13 @@
    "present_is_large": true
   },
   "RA-1": {
+   "S3_reconciles_with_S2": true,
    "governing_residual": 2710,
    "governing_scope": "S3",
    "paper_facing_phrase": "UNDEFINED_IN_REPOSITORY: no papers/ directory and no artifact defines the phrase; not invented here",
+   "reconciliation_identity": "S3 = S2 - required_to_remain + repo_root",
+   "repo_root_md_files": 2,
+   "repo_root_md_hits": 1,
    "row_closes": false,
    "scopes": {
     "S1": {
@@ -1876,10 +1880,12 @@
    "candidates_checked": 6,
    "row_closes": false,
    "second_route_to_the_absence": {
-    "blobs_added_after_freeze": 0,
-    "blobs_added_after_freeze_outside_this_package": 0,
-    "method": "exhaustive over the repository rather than over the candidate list: every blob reachable at this commit was introduced at or before the freeze, except this package's own files",
-    "no_exogenous_posterior_blob": true
+    "blobs_added_after_freeze_informational": 0,
+    "endogenous_by_clause_3": 19608,
+    "exogenous_candidates_in_repository": 0,
+    "method": "exhaustive over the repository rather than over the candidate list: every path tracked at HEAD is a blob of this repository, hence endogenous, hence fails FFA-1 clause 3 whatever its date. This is stable while main moves, which a count of blobs added after the freeze is not.",
+    "no_exogenous_candidate_in_repository": true,
+    "tracked_paths_at_head": 19608
    }
   }
  },

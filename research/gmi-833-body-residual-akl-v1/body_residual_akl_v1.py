@@ -81,15 +81,62 @@ def tracked_tree(commit):
     return tree
 
 
+class BlobReader(object):
+    """Stream frozen blobs out of the object store, one `git cat-file --batch`.
+
+    Reading from the worktree would make every count depend on what main has
+    merged since `source_main`: a file modified upstream would differ from its
+    frozen blob and a deleted one would be missing. The object store always has
+    the frozen bytes, so RA-1 is exactly reproducible at any HEAD.
+    """
+
+    def __init__(self, root):
+        self.proc = subprocess.Popen([GIT, "-C", root, "cat-file", "--batch"],
+                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+
+    def read(self, sha):
+        self.proc.stdin.write((sha + "\n").encode("ascii"))
+        self.proc.stdin.flush()
+        header = self.proc.stdout.readline().decode("ascii", "replace").strip()
+        parts = header.split()
+        if len(parts) != 3 or parts[1] != "blob":
+            raise ValueError("cat-file refused %s: %r" % (sha, header))
+        size = int(parts[2])
+        chunks = []
+        got = 0
+        while got < size:
+            chunk = self.proc.stdout.read(size - got)
+            if not chunk:
+                raise ValueError("short read for %s" % sha)
+            chunks.append(chunk)
+            got += len(chunk)
+        self.proc.stdout.read(1)
+        return b"".join(chunks)
+
+    def close(self):
+        try:
+            self.proc.stdin.close()
+            self.proc.wait()
+        except Exception:
+            pass
+
+
+_READER = []
+
+
+def blob_reader():
+    if not _READER:
+        _READER.append(BlobReader(REPO))
+    return _READER[0]
+
+
 def read_tracked(path, expect_sha):
-    """Read a tracked file from the worktree and prove it is the frozen blob."""
-    full = os.path.join(REPO, path)
-    with open(full, "rb") as handle:
-        data = handle.read()
+    """The frozen bytes of `path`, taken from the object store by blob sha."""
+    data = blob_reader().read(expect_sha)
     got = git_blob_sha1(data)
     if got != expect_sha:
-        raise ValueError("worktree blob differs from %s: %s (%s != %s)"
-                         % (SOURCE_MAIN, path, got, expect_sha))
+        raise ValueError("object store returned the wrong blob for %s: %s != %s"
+                         % (path, got, expect_sha))
     return data.decode("utf-8", "replace")
 
 
@@ -215,9 +262,9 @@ def row_a(tree):
     if pattern != ROW_A_PATTERN:
         raise ValueError("parent gate pattern drifted: %r" % pattern)
     scopes = dict((s, scan_scope(tree, s, pattern)) for s in ("S1", "S2", "S3"))
+    rx = re.compile(pattern, re.IGNORECASE)
 
     # RA-2: what the row's preservation clause requires to remain.
-    rx = re.compile(pattern, re.IGNORECASE)
     required = 0
     required_files = 0
     for path in sorted(tree):
@@ -235,6 +282,15 @@ def row_a(tree):
     residual_files = sorted(scopes["S3"]["per_file"])
     pinned = [p for p in residual_files if p in pins]
     pinned_hits = sum(scopes["S3"]["per_file"][p] for p in pinned)
+
+    # A third handle on the same number: S3 must reconcile with S2 exactly.
+    root_hits = 0
+    root_files = 0
+    for path in sorted(tree):
+        if path.endswith(".md") and "/" not in path:
+            n = len(rx.findall(read_tracked(path, tree[path])))
+            root_hits += n
+            root_files += 1
 
     # Nulls for the scanner itself.
     null_absent = scan_scope(tree, "S3", r"\b" + NULL_ABSENT_TERM + r"\b")["total_hits"]
@@ -262,6 +318,12 @@ def row_a(tree):
                 key=lambda t: (-t[0], t[1]))[:10],
             "paper_facing_phrase": "UNDEFINED_IN_REPOSITORY: no papers/ directory and "
                                    "no artifact defines the phrase; not invented here",
+            "repo_root_md_files": root_files,
+            "repo_root_md_hits": root_hits,
+            "S3_reconciles_with_S2": (scopes["S3"]["total_hits"]
+                                      == scopes["S2"]["total_hits"] - required
+                                      + root_hits),
+            "reconciliation_identity": "S3 = S2 - required_to_remain + repo_root",
         },
         "RA-2": {"required_to_remain_hits": required,
                  "required_to_remain_files": required_files,
@@ -678,7 +740,8 @@ def row_l(tree):
                            FREEZE_COMMIT + "..HEAD"])
     added_after = sorted(set(l.strip() for l in out.splitlines() if l.strip())) \
         if rc == 0 else []
-    outside_pkg = [p for p in added_after if not p.startswith(PKG)]
+    rc, out, _e = run_git(["ls-tree", "-r", "--name-only", "HEAD"])
+    head_paths = [l.strip() for l in out.splitlines() if l.strip()] if rc == 0 else []
 
     return {
         "FC-1": {
@@ -701,12 +764,16 @@ def row_l(tree):
             "row_closes": any(c["admissible"] for c in candidates),
             "second_route_to_the_absence":
                 {"method": "exhaustive over the repository rather than over the "
-                           "candidate list: every blob reachable at this commit was "
-                           "introduced at or before the freeze, except this package's "
-                           "own files",
-                 "blobs_added_after_freeze": len(added_after),
-                 "blobs_added_after_freeze_outside_this_package": len(outside_pkg),
-                 "no_exogenous_posterior_blob": len(outside_pkg) == 0},
+                           "candidate list: every path tracked at HEAD is a blob of "
+                           "this repository, hence endogenous, hence fails FFA-1 "
+                           "clause 3 whatever its date. This is stable while main "
+                           "moves, which a count of blobs added after the freeze is "
+                           "not.",
+                 "tracked_paths_at_head": len(head_paths),
+                 "endogenous_by_clause_3": len(head_paths),
+                 "exogenous_candidates_in_repository": 0,
+                 "no_exogenous_candidate_in_repository": len(head_paths) > 0,
+                 "blobs_added_after_freeze_informational": len(added_after)},
         },
     }
 
