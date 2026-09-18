@@ -1,0 +1,68 @@
+name: GMI 833 AG2 signature before grammar
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-ag2-signature-free-syntax-v1/**'
+      - '.github/workflows/gmi-833-ag2-signature-free-syntax-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-ag2-signature-free-syntax-v1/**'
+      - '.github/workflows/gmi-833-ag2-signature-free-syntax-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze precedes implementation
+        run: |
+          set -e
+          PKG=research/gmi-833-ag2-signature-free-syntax-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          C=$(git log --diff-filter=A --format=%ct -1 -- $PKG/signature_free_syntax_v1.py)
+          echo "freeze=$F executor=$C"
+          test -n "$F"
+          test -n "$C"
+          test "$F" -le "$C"
+      - name: Route A -- recursive term generation
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ag2-signature-free-syntax-v1/signature_free_syntax_v1.py
+      - name: Route B -- closure to fixed point
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ag2-signature-free-syntax-v1/independent_oracle_v1.py
+      - name: Hostiles, nulls and no-alarm case
+        run: python3 -I -O -B research/gmi-833-ag2-signature-free-syntax-v1/test_ag2_v1.py
+      - name: Assert receipt
+        run: |
+          python3 - <<'PY'
+          import json
+          P = 'research/gmi-833-ag2-signature-free-syntax-v1/'
+          r = json.load(open(P + 'RESULT_V1.json'))
+          o = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          t = json.load(open(P + 'TEST_RESULT_V1.json'))
+          assert r['status'] == 'GREEN' and r['failed_gates'] == []
+          assert r['free_syntax_term_counts'] == o['free_syntax_term_counts'] == {
+              'Reg': 1, 'Label': 2, 'Instr': 11, 'Prog': 121}
+          assert r['closure_is_closed'] and r['closure_missing_terms'] == []
+          g = r['g0_reconstruction']
+          assert g['bijection_with_aj5_program_set'] and g['aj5_bounded_programs'] == 121
+          assert g['instruction_class_sets_equal'] and g['aj5_primitive_status_keys_equal']
+          assert g['terminal_histogram'] == o['terminal_histogram'] == {
+              'HALTED': 63, 'INPUT_UNDERFLOW': 107, 'STEP_BUDGET_EXHAUSTED': 314}
+          assert g['executions'] == o['executions'] == 484
+          assert g['histogram_saturation_step_budget'] == 6
+          assert r['interpretation_separation']['divergent_program_count'] == o['divergent_program_count'] == 43
+          assert r['formation_vs_transition']['initial_configs_with_no_successor'] == o['initial_configs_with_no_successor'] == 11
+          assert r['formation_vs_transition']['identical_symbol_multiset_different_behaviour_pairs'] == o['identical_symbol_multiset_different_behaviour_pairs'] == 120
+          s = r['syntax_vs_semantics']
+          assert s['syntactic_class_count'] == 121 and s['semantic_class_count'] == o['semantic_class_count'] == 33
+          assert s['semantic_collapse_ratio'] == o['semantic_collapse_ratio'] == '8/11'
+          assert s['refinement_failures'] == 0 and s['strictly_coarser']
+          assert t['hostiles_detected'] == 11
+          assert t['null_a_behaviour_hits'] == 0 and t['null_b_hits'] == 0
+          assert 'BASIS_INDEPENDENT_OPERATION_THEORY_CLAIMED' in r['forbidden_promotions']
+          print('AG2 receipt OK')
+          PY
