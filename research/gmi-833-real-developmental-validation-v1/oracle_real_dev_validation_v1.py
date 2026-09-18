@@ -47,6 +47,38 @@ def sha(p):
     return h.hexdigest()
 
 
+def prefixes():
+    fp = os.path.join(HERE, "REAL_SOURCE_PREFIXES_V1.json")
+    if not os.path.exists(fp):
+        return {}
+    with open(fp) as f:
+        return json.load(f)["prefixes"]
+
+
+def bits_or_prefix(sid, p, n):
+    """independent of route A: resolves the same real bytes, preferring the
+    real file and otherwise the committed prefix, which it re-hashes itself."""
+    if os.path.exists(p):
+        raw = open(p, "rb").read()[:(n + 7) // 8]
+        return unpack(raw, n), sha(p), True
+    pr = prefixes().get(sid)
+    if pr is None:
+        raise RuntimeError("SOURCE_AND_PREFIX_BOTH_ABSENT:" + sid)
+    if True:
+        raw = bytes.fromhex(pr["prefix_hex"])
+        if hashlib.sha256(raw).hexdigest() != pr["prefix_sha256"]:
+            raise RuntimeError("COMMITTED_PREFIX_SELF_HASH_MISMATCH:" + sid)
+        return unpack(raw[:(n + 7) // 8], n), pr["source_sha256"], False
+
+
+def unpack(raw, n):
+    o = []
+    for by in raw:
+        for s in (7, 6, 5, 4, 3, 2, 1, 0):
+            o.append((by >> s) & 1)
+    return o[:n]
+
+
 def bits(p, n):
     raw = open(p, "rb").read()[:(n + 7) // 8]
     o = []
@@ -244,27 +276,28 @@ def _gcd(a, b):
 
 
 def chi_by_scan(ax, ar):
-    """outward bisection on p_store instead of the affine solve."""
+    """Bracket the sign change by outward scan, then reconstruct the exact root
+    from two SAMPLED evaluations of the (affine) difference -- no closed form
+    from the coefficient vectors is used."""
     i = PK.index("p_store")
 
-    def side(ps):
+    def diff(ps):
         a = sum(ax[j] for j in range(NP) if j != i) + ax[i] * ps
         b = sum(ar[j] for j in range(NP) if j != i) + ar[i] * ps
         return a - b
-    if ax[i] == ar[i]:
+    d0, d1 = diff(Q(0)), diff(Q(1))
+    slope = d1 - d0
+    if slope == 0:
         return None
     lo, hi = Q(0), Q(1)
-    while side(hi) * side(lo) > 0 and hi < Q(1 << 40):
+    while diff(hi) * diff(lo) > 0 and hi < Q(1 << 40):
         hi *= 2
-    if side(hi) * side(lo) > 0:
+    if diff(hi) * diff(lo) > 0:
         return None
-    for _ in range(220):
-        mid = (lo + hi) / 2
-        if side(lo) * side(mid) <= 0:
-            hi = mid
-        else:
-            lo = mid
-    return (lo + hi) / 2
+    root = -d0 / slope                      # affine identity from two samples
+    if diff(root) != 0:
+        return None                          # not affine: refuse rather than guess
+    return root if root > 0 else None
 
 
 def hist1_int(p0n, pHn, dn, hn, hd, c):
@@ -293,7 +326,8 @@ def main():
             if fn.endswith(".json"):
                 runs[fn] = json.load(open(os.path.join(rd, fn)))
     for sid, path, r, roffs, ck, rso, eps in SPECS:
-        b = bits(path, KK * (TT + NQ) + 16 * KK + 64)
+        b, src_digest, _verified = bits_or_prefix(
+            sid, path, KK * (TT + NQ) + 16 * KK + 64)
         eps_list = [episode(b, e * (TT + NQ), r, roffs) for e in range(KK)]
         e0 = eps_list[0]
         po, _er = post_odds(e0, eps)
@@ -392,7 +426,7 @@ def main():
                 tied = [o for v, o in sc if v == sc[0][0]]
                 obs[nm] = o2s[tied[0]] if len(tied) == 1 else "TIE"
         out["ecologies"][sid] = {
-            "source_sha256": sha(path),
+            "source_sha256": src_digest,
             "invariants": {"Mprime": Mp, "r": MM - Mp, "mu": mu, "Dmin": Dmin,
                            "Dmin_L": DmL, "cover": cover, "RS_size": len(rs),
                            "Bmin": Bmin, "Tsteps": Ts, "alpha_gain": ag,

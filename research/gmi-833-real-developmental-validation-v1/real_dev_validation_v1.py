@@ -71,12 +71,23 @@ STARTS = (4, 5, 6, 7, 3, 8, 2, 1, 0)   # registered ascent-start order
 BREADTH_GRID = (1, 2, 3, 4, 5, 6, 7, 8, 9)
 
 
-def sha256_file(path):
+def sha256_file(path):  # noqa: D401
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for blk in iter(lambda: f.read(1 << 20), b""):
             h.update(blk)
     return h.hexdigest()
+
+
+PREFIX_FILE = "REAL_SOURCE_PREFIXES_V1.json"
+
+
+def load_prefixes():
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), PREFIX_FILE)
+    if not os.path.exists(p):
+        return {}
+    with open(p) as f:
+        return json.load(f)["prefixes"]
 
 
 def bits_from_file(path, nbits):
@@ -416,13 +427,49 @@ ANCHORED = [
 
 
 def derive(sid, path, fallback, rule, roffs, ctxk, rs_offsets, eps):
-    used, fb = path, False
-    try:
-        open(used, "rb").close()
-    except OSError:
-        used, fb = fallback, True
+    """Prefer the real file. When it is absent (CI runners do not carry the
+    host's /usr tree or the fetched ebooks) fall back to the committed byte
+    PREFIX that the derivation actually consumes -- 80 bytes per ecology, bound
+    to the real file's full sha256 and carrying its own sha256, so anyone
+    holding the real file can verify the prefix is genuinely its prefix."""
     nbits = K * (T + NQ) + 16 * K + 64
-    bits = bits_from_file(used, nbits)
+    # Resolution order: the registered PRIMARY real file, then the committed
+    # byte prefix of that primary (the frozen table is bound to the primary),
+    # then the registered fallback. The fallback exists for a primary that
+    # fails at run time when no prefix is available.
+    prefs = load_prefixes()
+    used, fb, verified = path, False, True
+    bits = None
+    digest = None
+    if os.path.exists(path):
+        bits = bits_from_file(path, nbits)
+        digest = sha256_file(path)
+        pref = prefs.get(sid)
+        if pref is not None:
+            raw = open(path, "rb").read()[:pref["prefix_bytes"]]
+            if hashlib.sha256(raw).hexdigest() != pref["prefix_sha256"]:
+                raise RuntimeError("PREFIX_MISMATCH_AGAINST_REAL_FILE:" + sid)
+    elif sid in prefs:
+        pref = prefs[sid]
+        raw = bytes.fromhex(pref["prefix_hex"])
+        if hashlib.sha256(raw).hexdigest() != pref["prefix_sha256"]:
+            raise RuntimeError("COMMITTED_PREFIX_SELF_HASH_MISMATCH:" + sid)
+        need = (nbits + 7) // 8
+        if len(raw) < need:
+            raise RuntimeError("COMMITTED_PREFIX_TOO_SHORT:" + sid)
+        bits = []
+        for byte in raw[:need]:
+            for sh in (7, 6, 5, 4, 3, 2, 1, 0):
+                bits.append((byte >> sh) & 1)
+        bits = bits[:nbits]
+        digest = pref["source_sha256"]
+        verified = False
+    elif os.path.exists(fallback):
+        used, fb = fallback, True
+        bits = bits_from_file(used, nbits)
+        digest = sha256_file(used)
+    else:
+        raise RuntimeError("SOURCE_AND_PREFIX_BOTH_ABSENT:" + sid)
     eps_ = [build_episode(bits, ep * (T + NQ), rule, roffs) for ep in range(K)]
     env = eps_[0]
     post = posterior(env, eps)
@@ -509,8 +556,9 @@ def derive(sid, path, fallback, rule, roffs, ctxk, rs_offsets, eps):
     for name, price in ANCHORED:
         sel[name] = select(inv, vecs, price)
     return {"system_id": sid, "source_used": used, "fallback_used": fb,
+            "source_sha256_verified_from_file": verified,
             "rule": rule, "rule_offsets": list(roffs), "ctxk": ctxk, "eps": str(eps),
-            "source_sha256": sha256_file(used),
+            "source_sha256": digest,
             "invariants": inv, "losses": losses,
             "coefficient_vectors": {k: (None if v is None else list(v))
                                     for k, v in vecs.items()},
@@ -1030,6 +1078,24 @@ def main():
     with open(outp, "w") as f:
         json.dump(res, f, indent=1, sort_keys=True)
         f.write("\n")
+    # host-dependent provenance is kept OUT of the receipt so the receipt is
+    # byte-reproducible on any host, and written beside it instead.
+    vp = os.path.join(os.path.dirname(os.path.abspath(outp)),
+                      "SOURCE_VERIFICATION_V1.json")
+    try:
+        with open(vp, "w") as f:
+            json.dump({"schema": "GMI_833_SOURCE_VERIFICATION_V1",
+                       "verified_from_real_file": dict(
+                           (e["system_id"], e["source_sha256_verified_from_file"])
+                           for e in ecos),
+                       "fallback_used": dict(
+                           (e["system_id"], e["fallback_used"]) for e in ecos),
+                       "source_used": dict(
+                           (e["system_id"], e["source_used"]) for e in ecos)},
+                      f, indent=1, sort_keys=True)
+            f.write("\n")
+    except OSError:
+        pass
     print("freeze_reproduction_errors:", len(freeze_errors))
     for e in freeze_errors:
         print("  ", e)

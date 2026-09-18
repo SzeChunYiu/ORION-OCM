@@ -414,6 +414,9 @@ def run_oi4():
     n_insuff_strict = 0
     n_unnec = 0
     repaired_counterexamples = []
+    crit_false_pos = []
+    crit_false_neg = []
+    n_conj_under = 0
     n = n_lo
     while n <= n_hi:
         occ = o_lo
@@ -443,9 +446,24 @@ def run_oi4():
                                 n_unnec = n_unnec + 1
                                 if unnecessary is None:
                                     unnecessary = (n, occ, b, kap, l0, l1, gain, v)
-                            # repaired rule: gain > 0 AND gamma >= gammastar_inv(n,l0)
                             gs = gammastar_inv(n, l0)
-                            repaired = (gain > 0) and (gs is not None) and (gamma >= gs)
+                            crit = (gs is not None) and (gamma >= gs)
+                            if crit and v != "GUARANTEED_REDUCTION":
+                                crit_false_pos.append({
+                                    "n": n, "occ": occ, "b": b, "kappa": kap,
+                                    "l0": l0, "l1": l1,
+                                    "gammastar_inv": gs, "verdict": v})
+                            if (not crit) and v == "GUARANTEED_REDUCTION":
+                                crit_false_neg.append({
+                                    "n": n, "occ": occ, "b": b, "kappa": kap,
+                                    "l0": l0, "l1": l1,
+                                    "gammastar_inv": gs, "verdict": v})
+                            # the CONJOINED rule (gain>0 AND crit) can only ever
+                            # remove over-admissions: count what it still refuses
+                            if (gain <= 0) and v == "GUARANTEED_REDUCTION":
+                                n_conj_under = n_conj_under + 1
+                            # legacy sufficiency scan kept for continuity
+                            repaired = (gain > 0) and crit
                             if repaired and v != "GUARANTEED_REDUCTION":
                                 repaired_counterexamples.append({
                                     "n": n, "occ": occ, "b": b, "kappa": kap,
@@ -478,11 +496,21 @@ def run_oi4():
         }
 
     gs_table = {}
+    upward_violations = []
     n = n_lo
     while n <= n_hi:
         l0 = 1
         while l0 <= l_hi:
-            gs_table["n=%d|l0=%02d" % (n, l0)] = gammastar_inv(n, l0)
+            gs = gammastar_inv(n, l0)
+            gs_table["n=%d|l0=%02d" % (n, l0)] = gs
+            if gs is not None:
+                g = gs
+                while g <= l0 - 1:
+                    if band(n, l0, n + 1, l0 - g) != "GUARANTEED_REDUCTION":
+                        upward_violations.append({"n": n, "l0": l0,
+                                                  "gamma": g,
+                                                  "gammastar_inv": gs})
+                    g = g + 1
             l0 = l0 + 1
         n = n + 1
     gs_defined_min = None
@@ -516,18 +544,46 @@ def run_oi4():
                                                               "NOT_NECESSARY"),
         "not_necessary_witness_count": n_unnec,
         "repair_side_condition": (
-            "Replace `gain > 0` by `gain > 0 AND gamma >= gammastar_inv(n,l0)`, "
+            "#897's `gain > 0` must be REPLACED, not qualified. The "
+            "burden-frame criterion that is both NECESSARY and SUFFICIENT for "
+            "GUARANTEED_REDUCTION is `gamma >= gammastar_inv(n,l0)` alone, "
             "where gamma = l0 - l1 and gammastar_inv(n,l0) = min{ gamma in "
-            "0..l0-1 : Phi(n+1,l0-gamma) <= Phi(n,l0-1) }. By OI-2, "
-            "gammastar_inv(n,l0) >= 2 for every l0 >= 2, so the repaired rule "
-            "contains the gamma>=2 requirement. The matched refusal comes from "
-            "OI-3: refuse admission whenever gamma = 0 and l0 >= Lstar(n), and "
-            "whenever gamma = 1 and l0 >= Mstar(n), since those cells are "
-            "GUARANTEED_INCREASE at every nonnegative charge. Sufficiency for "
-            "*paying* still additionally requires OI-1's charge test "
-            "D(o) + len(body) + kappa < Theta_inv(o); the side-condition "
-            "repairs the SIGN of the burden change, not the charge account."
+            "0..l0-1 : Phi(n+1,l0-gamma) <= Phi(n,l0-1) } (None if no "
+            "admissible gamma works). Conjoining `gain > 0` would remove the "
+            "%d over-admissions but retain all %d UNDER-admissions -- cells "
+            "with gain <= 0 that are nonetheless GUARANTEED_REDUCTION, the "
+            "lex-first being (n=2,occ=1,b=1,kappa=0,l0=3,l1=1) -- because a "
+            "conjunct can only ever refuse more. By OI-2, gammastar_inv(n,l0) "
+            ">= 2 for every l0 >= 2, so the criterion CONTAINS the gamma>=2 "
+            "requirement. Its guaranteed-loss complement is OI-3's matched "
+            "refusal: refuse whenever gamma = 0 and l0 >= Lstar(n), and "
+            "whenever gamma = 1 and l0 >= Mstar(n). The criterion fixes the "
+            "SIGN of the burden change only; strict *payment* additionally "
+            "requires OI-1's charge test D(o) + len(body) + kappa < "
+            "Theta_inv(o)."
+            % (n_insuff, n_unnec)
         ),
+        "criterion_is_gamma_ge_gammastar_inv": True,
+        "criterion_false_positives": crit_false_pos,
+        "criterion_false_positive_count": len(crit_false_pos),
+        "criterion_false_negatives": crit_false_neg,
+        "criterion_false_negative_count": len(crit_false_neg),
+        "criterion_certificate_note": (
+            "gamma >= gammastar_inv(n,l0) is the GUARANTEED_REDUCTION "
+            "predicate re-parameterized in gamma, so the 0/0 false-positive / "
+            "false-negative counts CANNOT come out otherwise. This scan is NOT "
+            "independent empirical support for the criterion; what it actually "
+            "certifies is (a) that the predicate is upward-closed in gamma -- "
+            "gammastar_inv is a genuine threshold, not merely a first hit -- "
+            "and (b) that the two implementations (min-search vs direct band "
+            "evaluation) agree on all %d census cells." % cells
+        ),
+        "upward_closure_violations": upward_violations,
+        "upward_closure_violation_count": len(upward_violations),
+        "conjoined_rule_under_admissions": n_conj_under,
+        "conjoined_rule_note": (
+            "Cells with gain <= 0 that ARE GUARANTEED_REDUCTION and would "
+            "still be refused by `gain > 0 AND gamma >= gammastar_inv`."),
         "repaired_rule_counterexamples": repaired_counterexamples,
         "repaired_rule_counterexample_count": len(repaired_counterexamples),
         "gammastar_inv_table": gs_table,

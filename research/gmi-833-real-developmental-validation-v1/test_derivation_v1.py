@@ -237,10 +237,26 @@ class TestOI4(unittest.TestCase):
         self.assertEqual(2 * (3 - 1) - 3 - 0, 1)
         self.assertEqual(1 * (1 - 1) - 1 - 0, -1)
 
-    def test_repair_side_condition_has_no_counterexample(self):
+    def test_repair_criterion_is_necessary_and_sufficient(self):
         r = R("OI-4")
+        self.assertTrue(r["criterion_is_gamma_ge_gammastar_inv"])
+        self.assertEqual(r["criterion_false_positive_count"], 0)
+        self.assertEqual(r["criterion_false_negative_count"], 0)
+        self.assertEqual(r["upward_closure_violation_count"], 0)
         self.assertEqual(r["repaired_rule_counterexample_count"], 0)
-        self.assertEqual(r["repaired_rule_counterexamples"], [])
+
+    def test_conjoining_gain_would_not_repair_necessity(self):
+        """A conjunct can only refuse more: the under-admissions survive it."""
+        r = R("OI-4")
+        self.assertEqual(r["conjoined_rule_under_admissions"],
+                         r["not_necessary_witness_count"])
+        self.assertGreater(r["conjoined_rule_under_admissions"], 0)
+        self.assertIn("REPLACED, not qualified", r["repair_side_condition"])
+
+    def test_criterion_certificate_is_not_oversold(self):
+        r = R("OI-4")
+        self.assertIn("NOT", r["criterion_certificate_note"])
+        self.assertIn("upward-closed", r["criterion_certificate_note"])
 
     def test_gammastar_inv_is_at_least_two_where_defined(self):
         r = R("OI-4")

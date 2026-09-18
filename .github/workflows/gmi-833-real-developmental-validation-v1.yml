@@ -1,0 +1,62 @@
+name: gmi-833-real-developmental-validation-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-real-developmental-validation-v1/**'
+      - '.github/workflows/gmi-833-real-developmental-validation-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-real-developmental-validation-v1/**'
+      - '.github/workflows/gmi-833-real-developmental-validation-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      PKG: research/gmi-833-real-developmental-validation-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody gate -- freezes precede every implementation
+        run: python3 -I -B $PKG/check_freeze_order_v1.py .
+
+      - name: workflow integrity -- this file parses and declares jobs
+        run: python3 -I -B $PKG/check_self_workflow_v1.py .
+
+      - name: derivation route A
+        run: python3 -I -B $PKG/derivation_v1.py /tmp/derivation_a.json
+
+      - name: derivation route B (independent oracle)
+        run: python3 -I -B $PKG/oracle_derivation_v1.py /tmp/derivation_b.json
+
+      - name: derivation tests
+        run: python3 -I -B $PKG/test_derivation_v1.py
+
+      - name: derivation tests (-O)
+        run: python3 -I -O -B $PKG/test_derivation_v1.py
+
+      - name: derivation receipt is byte-identical to the committed one
+        run: python3 -I -B $PKG/check_byte_identical_v1.py $PKG/DERIVATION_RESULT_V1.json /tmp/derivation_a.json
+
+      - name: real-system route A -- reproduce frozen tables and score REAL_RUNS
+        run: python3 -I -B $PKG/real_dev_validation_v1.py /tmp/result_a.json
+
+      - name: real-system route B (independent oracle)
+        run: python3 -I -B $PKG/oracle_real_dev_validation_v1.py /tmp/result_b.json
+
+      - name: real-system receipt is byte-identical to the committed one
+        run: python3 -I -B $PKG/check_byte_identical_v1.py $PKG/RESULT_V1.json /tmp/result_a.json
+
+      - name: real-system tests
+        run: python3 -I -B $PKG/test_real_dev_validation_v1.py
+
+      - name: real-system tests (-O)
+        run: python3 -I -O -B $PKG/test_real_dev_validation_v1.py
