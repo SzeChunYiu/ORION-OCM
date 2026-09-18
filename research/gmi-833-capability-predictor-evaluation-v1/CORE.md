@@ -19,6 +19,7 @@ probe, real-system runner or test existed**, and `git log` proves the order:
 | `50451f23` | external evaluator, route B, scorer, tests, V1 real outcomes |
 | `711903a1` | `FREEZE_V2_AMENDMENT` — revival predictions, before V2 training |
 | `accc1aed` | V2 outcomes, `FREEZE_V3_ADDENDUM`, CI |
+| `f60377bd` | `FREEZE_V4_POWER_ADDENDUM` — `SIGMA_SYN2` / `SIGMA_ARCH2`, before their outcomes were computed |
 
 CI re-derives this order from the repository, and its gate carries a **negative
 control**: it fails if a file known to be present at the freeze is not found, so
@@ -29,10 +30,10 @@ failure class, checked rather than asserted.
 
 | row | result | headline |
 |---|---|---|
-| held-out synthetic species | KE-1 | `SIGMA_SYN`, 64 machines disjoint from `SIGMA_1`: 6,136 points, 14,408 abstentions, **0 soundness violations on 45,800 pairs**, coverage 234,240/234,240, law-vs-simulation 64/64 |
-| held-out known architectures | KE-2 | `SIGMA_ARCH`, 128 machines over 4 named families: 10,152 points, **0 violations on 121,920 pairs**, coverage 528,960/528,960, law-vs-simulation 128/128, family names blind under all **24** permutations |
+| held-out synthetic species | KE-1 | `SIGMA_SYN` (64 machines) and, after the power revival, `SIGMA_SYN2` (128 machines): **0 soundness violations** on 45,800 and 25,216 (input, consistent-world) pairs, of which **3,872 point emissions on `SIGMA_SYN2` are non-degenerate** (capability `4/11`, `5/11`, `9/11`); law-vs-simulation 64/64 and 128/128 |
+| held-out known architectures | KE-2 | `SIGMA_ARCH` (128 machines) and `SIGMA_ARCH2` (176, adding `FF 3`, `REC 6`, `CTR 3`): **0 violations** on 121,920 and 24,912 pairs, **2,400 non-degenerate points** (`4/13`, `7/13`, `11/13`); law-vs-simulation 128/128 and 176/176; family names blind under all **24** permutations |
 | predict qualitative failure | KE-4 | modes frozen per input before outcomes; confusion matrices stratified `ORDER_FREE` / `CONJUNCTIVE` / `NO_CROSSING` (19,880 / 28,304 / 3,656 on `SIGMA_SYN`), never pooled |
-| predict quantitative curves | KE-5 | 8 cases × 4 thresholds × 5 universes sweeping `R.budget`; **0 replay mismatches**, per-point exact agreement |
+| predict quantitative curves | KE-5 | 8 cases × 4 thresholds × 7 universes sweeping `R.budget`; **0 replay mismatches**, per-point exact agreement |
 | measure calibration error | KE-6 | exact coverage under the registered 32-pattern fault law: **0 violations** of `913/1000` and `863/1000`, minima `1191567620413/1224000000000` and `2380730729/2448000000`, each reported beside its abstention rate (`121/162`, `439/640`); inflated-fault hostile detected |
 | measure OOD failure | KE-7 | OOD defined structurally; 272 out-of-universe worlds; in-universe and out-of-universe strata reported side by side, **0 in-universe violations** |
 
@@ -59,16 +60,30 @@ A fourth law fitted to those counterexamples would be tuning to outcomes;
 `FREEZE_V3_ADDENDUM.md` section 6 pre-registered this terminal before the V3
 outcomes existed. The row stays open and is **not** closed on synthetic data.
 
+## A power defect I found in my own instrument, and fixed
+
+On `SIGMA_SYN` and `SIGMA_ARCH` **every** point `F` emitted was degenerate —
+`UNSATISFIED` or `0`. The soundness census over those points was true but weak.
+The defect is visible entirely prediction-side (a point-value census consults no
+outcome oracle), the failing stage is the observation coordinate rather than `F`
+— the abstentions were correct, the instrument was blunt — and the lever is a
+finer registered observation `obs = (1+w, ·, h mod 4)`. `FREEZE_V4_POWER_ADDENDUM.md`
+registers it on two new machine populations whose capabilities had never been
+measured, and the soundness census now rests on **6,272 non-degenerate point
+emissions across six distinct nonzero capability values**, not on degenerate ones.
+Reporting the original census without this would have been a hollow positive.
+
 ## The load-bearing design decisions
 
 1. **Universe injection.** A 23-name `REGISTRATION_SURFACE` is rebound; `F`'s
    code is proved unchanged in-process (sha256 over every `co_code`, before and
    after) and across runs (git blob sha). A surface with a missing or extra name
    is refused.
-2. **Five pairwise-disjoint populations** separated by one coordinate:
+2. **Seven pairwise-disjoint populations** separated by one coordinate:
    `rho[3] = 0` on `SIGMA_1`, `{1,2}` on `SIGMA_SYN`, `{3,4}` on `SIGMA_ARCH`,
-   `{5,6}` / `{7,8}` / `{9,10}` on the three real populations — each backed by an
-   exhaustive pairwise descriptor comparison with 0 collisions.
+   `{5,6}` / `{7,8}` / `{9,10}` on the three real populations, `{11,12}` on
+   `SIGMA_SYN2` and `{13,14}` on `SIGMA_ARCH2` — each backed by an exhaustive
+   pairwise descriptor comparison with 0 collisions.
 3. **The external evaluator never reads a registered table.** It *runs* each
    machine over the whole protected battery and compares exactly, and it scores
    an over-budget machine `UNSATISFIED` rather than deleting it — the parent's
@@ -81,23 +96,24 @@ outcomes existed. The row stays open and is **not** closed on synthetic data.
 `oracle_route_b_v1.py` imports nothing from this package or the parent. It
 re-declares the populations as `frozenset`s of realization records, writes its
 own simulators and its own longhand mode predicates, and reproduces the frozen
-51,840-row × 18-field prediction stream **by sha256 equality on all five
+51,840-row × 18-field prediction stream **by sha256 equality on all seven
 universes**:
 
 ```
 SIGMA_SYN   114e2cff47481f5b…   SIGMA_ARCH  ceb9ee6d00ee5818…
+SIGMA_SYN2  14b8127f1e242fc2…   SIGMA_ARCH2 e24e90d7849d716e…
 SIGMA_REAL  ffeb09a3d7ad6c0e…   SIGMA_REAL2 fd015ae2e8b220f8…
 SIGMA_REAL3 92ca4ab905fa73b7…
 ```
 
-It also independently reproduces registration truthfulness (64, 128, 19, 28, 26)
-and the soundness totals.
+Seven of seven match. Route B also independently reproduces registration
+truthfulness (64, 128, 128, 176, 19, 28, 26) and the soundness totals.
 
 ## Hostiles, all detected, and a null the result beats
 
 | id | planted defect | detection |
 |---|---|---|
-| HE1 | shift the capability law by `1/97` | soundness violations appear |
+| HE1 | complement every measured solved-set (a *scaling* of `mu` would leave a capability of 0 fixed, so the first version of this hostile was undetected and was replaced) | soundness violations appear |
 | HE2 | drop the `UNSATISFIED` branch from the external evaluator | soundness violations appear |
 | HE3 | prune the survivor set by resource admissibility (the parent's H4, replayed on held-out data) | pruned-predictor points become unsound |
 | HE4 | an encoder that reads `ARCH_LABELS[0]` | `ast` reference audit flags it |

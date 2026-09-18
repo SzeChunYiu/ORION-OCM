@@ -24,6 +24,7 @@ if HERE not in sys.path:
 import heldout_universes_v1 as hu  # noqa: E402
 import heldout_universes_v2 as hv  # noqa: E402
 import heldout_universes_v3 as hw  # noqa: E402
+import heldout_universes_v4 as hx  # noqa: E402
 
 UNSATISFIED = "UNSATISFIED"
 
@@ -108,6 +109,14 @@ def measure_universe(name):
         machines = hu.ARCH_MACHINES
         bits = tuple(measure_solved_bits(hu.arch_machine_answer, m) for m in machines)
         return machines, bits, hu.MU_ARCH, "SIMULATION"
+    if name == "SIGMA_SYN2":
+        machines = hx.SYN2_MACHINES
+        bits = tuple(measure_solved_bits(hx.syn2_machine_answer, m) for m in machines)
+        return machines, bits, hu.MU_SYN, "SIMULATION"
+    if name == "SIGMA_ARCH2":
+        machines = hx.ARCH2_MACHINES
+        bits = tuple(measure_solved_bits(hx.arch2_machine_answer, m) for m in machines)
+        return machines, bits, hu.MU_ARCH, "SIMULATION"
     if name == "SIGMA_REAL3":
         machines = hw.REAL3_MACHINES
         payload = load_real_measured(3)
@@ -140,6 +149,10 @@ def registered_bits(name):
         return tuple(hu.syn_solved_law(m) for m in hu.SYN_MACHINES)
     if name == "SIGMA_ARCH":
         return tuple(hu.arch_solved_law(m) for m in hu.ARCH_MACHINES)
+    if name == "SIGMA_SYN2":
+        return tuple(hx.syn2_solved_law(m) for m in hx.SYN2_MACHINES)
+    if name == "SIGMA_ARCH2":
+        return tuple(hx.arch2_solved_law(m) for m in hx.ARCH2_MACHINES)
     if name == "SIGMA_REAL":
         return tuple(hu.real_solved_law(m) for m in hu.REAL_MACHINES)
     if name == "SIGMA_REAL2":

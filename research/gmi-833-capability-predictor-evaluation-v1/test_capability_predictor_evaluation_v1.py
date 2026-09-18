@@ -20,6 +20,9 @@ if HERE not in sys.path:
 
 import heldout_universes_v1 as hu          # noqa: E402
 import external_evaluator_v1 as ev         # noqa: E402
+import heldout_universes_v2 as hv          # noqa: E402
+import heldout_universes_v3 as hw          # noqa: E402
+import heldout_universes_v4 as hx          # noqa: E402
 import oracle_route_b_v1 as rb             # noqa: E402
 
 GIT = "/usr/bin/git"
@@ -134,7 +137,9 @@ class ParentIntegrity(unittest.TestCase):
     def test_injection_never_changes_F(self):
         parent = hu.load_parent()
         before = hu.code_fingerprint(parent)
-        for builder in (hu.sigma_syn, hu.sigma_arch, hu.sigma_real):
+        for builder in (hu.sigma_syn, hu.sigma_arch, hu.sigma_real,
+                        hv.sigma_real2, hw.sigma_real3,
+                        hx.sigma_syn2, hx.sigma_arch2):
             spec = builder()
             clean = dict((k, v) for k, v in spec.items() if not k.startswith("__"))
             after = hu.install_universe(parent, clean)
@@ -153,12 +158,16 @@ class ParentIntegrity(unittest.TestCase):
 
 
 class Disjointness(unittest.TestCase):
-    def test_all_four_populations_are_pairwise_disjoint(self):
+    def test_all_eight_populations_are_pairwise_disjoint(self):
         parent = hu.load_parent()
         base = hu.sigma_1()
         pops = [("SIGMA_1", base), ("SIGMA_SYN", hu.SYN_RAW),
-                ("SIGMA_ARCH", hu.ARCH_RAW), ("SIGMA_REAL", hu.REAL_RAW)]
+                ("SIGMA_ARCH", hu.ARCH_RAW), ("SIGMA_REAL", hu.REAL_RAW),
+                ("SIGMA_REAL2", hv.REAL2_RAW), ("SIGMA_REAL3", hw.REAL3_RAW),
+                ("SIGMA_SYN2", hx.SYN2_RAW), ("SIGMA_ARCH2", hx.ARCH2_RAW)]
+        sizes = [len(p[1]) for p in pops]
         pairs = 0
+        checked = 0
         for i in range(len(pops)):
             for j in range(i + 1, len(pops)):
                 cert = hu.disjointness_certificate(pops[i][1], pops[i][0],
@@ -166,14 +175,21 @@ class Disjointness(unittest.TestCase):
                 self.assertTrue(cert["disjoint"], cert)
                 self.assertTrue(cert["separator_holds"], cert)
                 pairs += cert["pairs_checked"]
-        self.assertEqual(pairs, 32 * 64 + 32 * 128 + 32 * 32
-                         + 64 * 128 + 64 * 32 + 128 * 32)
+                checked += 1
+        expected = sum(sizes[i] * sizes[j] for i in range(len(sizes))
+                       for j in range(i + 1, len(sizes)))
+        self.assertEqual(checked, 28)
+        self.assertEqual(pairs, expected)
 
     def test_the_separator_really_separates(self):
         self.assertEqual(sorted(set(r[4][3] for r in hu.sigma_1())), [0])
         self.assertEqual(sorted(set(r[4][3] for r in hu.SYN_RAW)), [1, 2])
         self.assertEqual(sorted(set(r[4][3] for r in hu.ARCH_RAW)), [3, 4])
         self.assertEqual(sorted(set(r[4][3] for r in hu.REAL_RAW)), [5, 6])
+        self.assertEqual(sorted(set(r[4][3] for r in hv.REAL2_RAW)), [7, 8])
+        self.assertEqual(sorted(set(r[4][3] for r in hw.REAL3_RAW)), [9, 10])
+        self.assertEqual(sorted(set(r[4][3] for r in hx.SYN2_RAW)), [11, 12])
+        self.assertEqual(sorted(set(r[4][3] for r in hx.ARCH2_RAW)), [13, 14])
 
 
 class RegistrationLaw(unittest.TestCase):
@@ -190,6 +206,18 @@ class RegistrationLaw(unittest.TestCase):
             self.assertEqual(hu.arch_solved_law(machine),
                              ev.measure_solved_bits(hu.arch_machine_answer, machine),
                              machine)
+
+    def test_power_revival_laws_match_simulation(self):
+        for machine in hx.SYN2_MACHINES:
+            self.assertEqual(hx.syn2_solved_law(machine),
+                             ev.measure_solved_bits(hx.syn2_machine_answer, machine),
+                             machine)
+        for machine in hx.ARCH2_MACHINES:
+            self.assertEqual(hx.arch2_solved_law(machine),
+                             ev.measure_solved_bits(hx.arch2_machine_answer, machine),
+                             machine)
+        self.assertEqual(len(hx.SYN2_MACHINES), 128)
+        self.assertEqual(len(hx.ARCH2_MACHINES), 176)
 
     def test_a_planted_wrong_law_is_caught(self):
         def wrong(machine):
@@ -314,8 +342,8 @@ class Receipts(unittest.TestCase):
             self.assertEqual(row["predictions_sha256"], frozen[row["universe"]],
                              row["universe"])
             checked += 1
-        self.assertEqual(checked, 5,
-                         "route B must cover all five held-out universes")
+        self.assertEqual(checked, 7,
+                         "route B must cover all seven held-out universes")
 
     def test_no_soundness_violation_on_any_scored_universe(self):
         scored = 0
@@ -330,6 +358,11 @@ class Receipts(unittest.TestCase):
                 0, row["universe"])
             self.assertGreater(row["point_scoring"]["truthfully_registered_world_pairs"], 0,
                                "vacuous: no truthfully registered pair was scored")
+            if row["universe"] in ("SIGMA_SYN2", "SIGMA_ARCH2"):
+                # the power revival: the soundness census must not rest on
+                # degenerate points alone
+                self.assertGreater(row["point_scoring"]["nondegenerate_point_emissions"], 0,
+                                   row["universe"])
             if row["registration"]["truthful"]:
                 self.assertEqual(row["point_scoring"]["soundness_violations"], 0,
                                  row["universe"])
@@ -369,17 +402,24 @@ class Receipts(unittest.TestCase):
         self.assertGreaterEqual(buckets, 4)
 
     def test_hostiles_are_detected(self):
+        applicable = 0
         for block in self.result["controls"]:
             if block.get("status") == "OUTCOMES_UNAVAILABLE":
                 continue
             self.assertEqual(block["BASELINE"], 0, block["universe"])
-            self.assertGreater(block["HE1_shifted_capability_law"], 0, block["universe"])
+            if block["HE1_applicable"]:
+                self.assertGreater(block["HE1_complemented_capability_law"], 0,
+                                   block["universe"])
+                applicable += 1
             self.assertGreater(block["HE2_no_unsatisfied_branch"], 0, block["universe"])
             self.assertGreater(block["HE3_resource_pruned_predictor_violations"], 0,
                                block["universe"])
             self.assertGreater(block["HE6_truncated_identified_set_coverage_failures"], 0,
                                block["universe"])
             self.assertTrue(block["all_hostiles_detected"], block["universe"])
+        self.assertGreaterEqual(applicable, 2,
+                                "HE1 was vacuous on every universe: no non-degenerate "
+                                "point emission was scored anywhere")
 
     def test_null_control_is_beaten(self):
         for block in self.result["controls"]:
@@ -393,13 +433,23 @@ class Receipts(unittest.TestCase):
         self.assertTrue(self.result["HE5_inflated_fault_law"]["detected"])
 
     def test_curves_agree_point_by_point(self):
+        truthful = set(u["universe"] for u in self.result["universes"]
+                       if u.get("status") == "SCORED" and u["registration"]["truthful"])
+        checked = 0
         for row in self.result["curves"]:
             if row.get("status") != "SCORED":
                 continue
+            # the freeze-vs-replay identity holds on EVERY universe
             self.assertEqual(row["replay_mismatches"], 0, row["universe"])
+            if row["universe"] not in truthful:
+                # an untruthfully-registered universe may disagree; that is a
+                # bridge failure (KP-1D), reported, not gated
+                continue
             self.assertGreater(row["identified_points"], 0, "vacuous curve census")
             self.assertEqual(row["identified_points"],
                              row["identified_points_exact_agreement"], row["universe"])
+            checked += 1
+        self.assertGreaterEqual(checked, 4, "too few truthful curve censuses")
 
     def test_ood_strata_are_reported_separately(self):
         ood = self.result["ood"]
@@ -445,6 +495,11 @@ class RouteBIndependence(unittest.TestCase):
             self.assertNotIn("external_evaluator", name)
             self.assertNotIn("score_heldout", name)
             self.assertNotIn("freeze_predictions", name)
+
+    def test_route_b_power_revival_simulators_agree(self):
+        for machine in hx.SYN2_MACHINES:
+            self.assertEqual(rb.solved_by_simulation(rb.sim_syn2, machine),
+                             ev.measure_solved_bits(hx.syn2_machine_answer, machine))
 
     def test_route_b_simulators_agree_with_route_a(self):
         for machine in hu.SYN_MACHINES:

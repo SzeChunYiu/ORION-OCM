@@ -122,6 +122,23 @@ def sim_arch(machine, index, word):
     return 1 if state - 3 * (state // 3) == 0 else 0
 
 
+def sim_syn2(machine, index, word):
+    m, w, h, g = machine
+    if ((h >> index) & 1) == 0:
+        return 0
+    if index == 0:
+        return (word[-1] if word else 0) if w == 1 else 0
+    total = 0
+    for sym in word:
+        total += sym
+    state = total % m
+    if index == 1:
+        return state - 2 * (state // 2)
+    if g != 1:
+        return 0
+    return 1 if state - 3 * (state // 3) == 0 else 0
+
+
 def solved_by_simulation(sim, machine):
     bits = 0
     for index in range(3):
@@ -209,6 +226,41 @@ def population_real(measured, sizes=(2, 8), r3base=5, threshold=8):
     return out
 
 
+def population_syn2():
+    out = []
+    for m in (1, 2, 3, 6):
+        for w in (0, 1):
+            for h in range(8):
+                for g in (0, 1):
+                    k = 0 if m == 1 else (1 if m in (2, 3) else 2)
+                    rho = rho_vec(((0, m), (1, 1 + w), (2, 1 + bitcount(h)), (3, 11 + g)))
+                    out.append({"machine": (m, w, h, g),
+                                "sort": (rho[0], rho[3], m, w, h),
+                                "k": k, "rho": rho, "dev": m + bitcount(h) + w + g,
+                                "obs": (1 + w, m % 2, h & 3), "sim": sim_syn2})
+    return out
+
+
+def population_arch2():
+    params = {"FF": (1, 2, 3), "REC": (2, 3, 6), "CTR": (2, 3, 4), "STK": (1, 2)}
+    kmap = {"FF": 0, "REC": 1, "CTR": 1, "STK": 2}
+    out = []
+    for mech in ("FF", "REC", "CTR", "STK"):
+        for param in params[mech]:
+            for w in (0, 1):
+                for h in range(8):
+                    extra = 1 if mech in ("CTR", "STK") else 0
+                    rho = rho_vec(((0, param + extra), (1, 1 + w),
+                                   (2, 1 + bitcount(h)),
+                                   (3, 13 + (1 if mech in ("REC", "CTR") else 0))))
+                    out.append({"machine": (mech, param, w, h),
+                                "sort": (rho[0], rho[3], param, w, h),
+                                "k": kmap[mech], "rho": rho,
+                                "dev": param + bitcount(h) + w + kmap[mech],
+                                "obs": (1 + w, param % 2, h & 3), "sim": sim_arch})
+    return out
+
+
 GRIDS = {
     "SIGMA_SYN": {
         "mu": (Fraction(5, 11), Fraction(4, 11), Fraction(2, 11)),
@@ -233,6 +285,22 @@ GRIDS = {
         "d": (6, 10, 99), "b": (0, 8, 16, 24, 32),
         "h": ("NO_OBSERVATION", (1, 0), (2, 1)),
         "tau": (Fraction(3, 17), Fraction(8, 17), Fraction(11, 17), Fraction(1)),
+    },
+    "SIGMA_SYN2": {
+        "mu": (Fraction(5, 11), Fraction(4, 11), Fraction(2, 11)),
+        "budgets": ((2, 2, 2, 12), (3, 2, 3, 12), (6, 2, 4, 12)),
+        "charges": ((0, 0, 0, 0), (1, 0, 0, 0)),
+        "d": (4, 7, 99), "b": (0, 16, 32, 64, 128),
+        "h": ((2, 1, 1), (1, 0, 2), (2, 0, 3)),
+        "tau": (Fraction(2, 11), Fraction(5, 11), Fraction(7, 11), Fraction(9, 11)),
+    },
+    "SIGMA_ARCH2": {
+        "mu": (Fraction(7, 13), Fraction(4, 13), Fraction(2, 13)),
+        "budgets": ((2, 2, 2, 14), (3, 2, 3, 14), (5, 2, 4, 14)),
+        "charges": ((0, 0, 0, 0), (1, 0, 0, 0)),
+        "d": (4, 7, 99), "b": (0, 20, 40, 80, 160),
+        "h": ((2, 1, 1), (1, 0, 2), (2, 0, 3)),
+        "tau": (Fraction(2, 13), Fraction(6, 13), Fraction(11, 13), Fraction(1)),
     },
     "SIGMA_REAL3": {
         "mu": (Fraction(8, 17), Fraction(6, 17), Fraction(3, 17)),
@@ -278,6 +346,18 @@ def law_arch(machine):
     return bits
 
 
+def law_syn2(machine):
+    m, w, h, g = machine
+    bits = 0
+    if (h & 1) and w == 1:
+        bits += 1
+    if (h & 2) and m % 2 == 0:
+        bits += 2
+    if (h & 4) and m % 3 == 0 and g == 1:
+        bits += 4
+    return bits
+
+
 def law_real3(machine):
     mech, size, w, h = machine
     capable = (mech == "GRU" and size >= 16)
@@ -318,7 +398,8 @@ def law_real(machine):
 
 LAWS = {"SIGMA_SYN": law_syn, "SIGMA_ARCH": law_arch,
         "SIGMA_REAL": law_real, "SIGMA_REAL2": law_real2,
-        "SIGMA_REAL3": law_real3}
+        "SIGMA_REAL3": law_real3,
+        "SIGMA_SYN2": law_syn2, "SIGMA_ARCH2": law_arch}
 
 
 def cap_of(bits, mu, contract):
@@ -589,6 +670,8 @@ def main():
             measured3 = json.load(handle)["measured_solved_bits"]
     out = {"schema": "GMI_833_K_EVAL_ROUTE_B_V1", "universes": []}
     out["universes"].append(run_universe("SIGMA_SYN", population_syn()))
+    out["universes"].append(run_universe("SIGMA_SYN2", population_syn2()))
+    out["universes"].append(run_universe("SIGMA_ARCH2", population_arch2()))
     out["universes"].append(run_universe("SIGMA_ARCH", population_arch()))
     real_pop = population_real(measured)
     if measured is None:

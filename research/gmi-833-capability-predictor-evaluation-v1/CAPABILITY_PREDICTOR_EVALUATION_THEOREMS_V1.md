@@ -17,8 +17,9 @@ appears in any claim.
 `7f1bb6808901be2291bf575ee3178247d14d01d4`, with exactly the 23-name
 `REGISTRATION_SURFACE` rebound and nothing else.
 
-**Scope / quantifiers.** All five installations (`SIGMA_1` → `SIGMA_SYN`,
-`SIGMA_ARCH`, `SIGMA_REAL`, `SIGMA_REAL2`, `SIGMA_REAL3`).
+**Scope / quantifiers.** All seven installations (`SIGMA_SYN`, `SIGMA_ARCH`,
+`SIGMA_REAL`, `SIGMA_REAL2`, `SIGMA_REAL3`, `SIGMA_SYN2`, `SIGMA_ARCH2`),
+each replacing the parent's own `SIGMA_1`.
 
 **Evidence.** Two independent proofs. (i) In-process: `install_universe`
 captures a sha256 over the `co_code` of every function and method in the parent
@@ -67,10 +68,25 @@ on `SIGMA_SYN`.
 **Registration truthfulness.** The closed-form capability law agrees with
 brute-force simulation on **64/64** machines.
 
+**Power revival (`SIGMA_SYN2`).** On `SIGMA_SYN` every identified value is
+degenerate — `UNSATISFIED` (936 per threshold) or `0` (598) — so the census
+above, while true, is weak. That is a defect of the *instrument*, visible
+prediction-side with no outcome oracle consulted, and its single failing stage is
+the observation coordinate: `obs = (1+w, m mod 2)` cannot pin a survivor set down
+to machines sharing a nonzero capability, so `F` correctly abstains. The lever is
+the finer registered observation `obs = (1+w, m mod 2, h mod 4)`, applied in
+`FREEZE_V4_POWER_ADDENDUM.md` to a new 128-machine population carrying a new
+head-2 gate whose capabilities had never been measured. There `F` emits 7,200
+points of which **3,872 are non-degenerate**, taking three distinct nonzero
+capability values `4/11`, `5/11`, `9/11`, on 25,216 (input, consistent-world)
+pairs with **0 soundness violations**, and law-versus-simulation agrees on
+**128/128** machines.
+
 **Assumptions.** The registered universe is the true universe (KP-1D).
 
 **Falsifiers.** A point emission differing from the external capability of any
-consistent realization; law-versus-simulation disagreement on any machine.
+consistent realization; law-versus-simulation disagreement on any machine; a
+soundness census resting only on degenerate points.
 
 **Strongest parents.** KP-1A/1B/1C (#1012); Manski's identified sets; Chow's
 reject option.
@@ -103,7 +119,13 @@ the frozen `BLINDNESS_V1.md` was withdrawn as false, not narrowed.
 **Registration truthfulness.** The closed-form law — derived from the claim that
 a saturating counter with cap ≥ the word length tracks `ones(u)` exactly while a
 bounded window or a stack height does not — agrees with brute-force simulation
-on **128/128** machines.
+on **128/128** machines, and on **176/176** machines of the power-revival
+population `SIGMA_ARCH2`, which adds the parameters `FF 3`, `REC 6` and `CTR 3`.
+
+**Power revival (`SIGMA_ARCH2`).** Same diagnosis and lever as KE-1: on
+`SIGMA_ARCH2`, `F` emits 9,488 points of which **2,400 are non-degenerate**,
+taking `4/13`, `7/13` and `11/13`, on 24,912 pairs with **0 soundness
+violations**.
 
 **Falsifiers.** Any of the four blindness checks failing; law-versus-simulation
 disagreement; a wrong point.
@@ -121,14 +143,14 @@ counter systems at scale.
 
 **Statement.** Across three independently frozen populations of 32 real
 torch-trained systems each (96 systems, 288 trained heads, CPU, one thread,
-registered seeds, a sha256-pinned real source), `F` is **wrong on 0 of 161,632
+registered seeds, a sha256-pinned real source), `F` is **wrong on 0 of 143,352
 (input, truthfully-registered-world) pairs**:
 
 | population | truthfulness | truthful pairs | violations on them | untruthful pairs | bridge failures |
 |---|---:|---:|---:|---:|---:|
 | `SIGMA_REAL` (widths 2, 8) | 19/32 | 34,304 | **0** | 8,112 | 0 |
 | `SIGMA_REAL2` (widths 4, 16) | 28/32 | 63,664 | **0** | 1,152 | 128 |
-| `SIGMA_REAL3` (widths 12, 32) | 26/32 | see receipt | **0** | see receipt | see receipt |
+| `SIGMA_REAL3` (widths 12, 32) | 26/32 | 45,384 | **0** | 13,656 | 7,032 |
 
 **Scope / quantifiers.** Protected battery: length-12 binary words read off
 `/usr/lib/python3.8/argparse.py` (96,311 bytes, sha256
@@ -312,9 +334,11 @@ Two strata, reported side by side in `RESULT_V1.json` and never merged:
 - **in-universe** — 45,800 (input, world) pairs on `SIGMA_SYN`, **0 soundness
   violations**, as KP-1B requires. This is the region over which soundness was
   actively attacked and held.
-- **out-of-universe** — the exact count of (input, OOD-world) pairs, how many lie
-  inside the emitted identified set, and how many point emissions are wrong,
-  broken down by which coordinate was relaxed.
+- **out-of-universe** — 20,544 probed inputs and 859,008 (input, OOD-world)
+  pairs, of which 705,732 lie inside the emitted identified set and 44,172 point
+  emissions are wrong, broken down by which coordinate was relaxed: 22,240
+  modulus, 14,928 register, 7,004 head. 14,408 inputs abstain while consistent
+  out-of-universe worlds exist — the robustness result.
 
 **The attribution that matters.** A wrong point on an out-of-universe world is
 **not** a new finding: it is KP-1D restated, and it is attributable to

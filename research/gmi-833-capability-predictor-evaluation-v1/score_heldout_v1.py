@@ -20,6 +20,7 @@ if HERE not in sys.path:
 import heldout_universes_v1 as hu          # noqa: E402
 import heldout_universes_v2 as hv          # noqa: E402
 import heldout_universes_v3 as hw          # noqa: E402
+import heldout_universes_v4 as hx          # noqa: E402
 import external_evaluator_v1 as ev         # noqa: E402
 import freeze_predictions_v1 as fp         # noqa: E402
 
@@ -190,6 +191,9 @@ def evaluate_universe(parent, spec, frozen, hostile=None):
         "inputs_inconsistent": 0,
         "violating_inputs": [],
         "image_mismatch_inputs": 0,
+        "nondegenerate_points": 0,
+        "nondegenerate_point_pairs": 0,
+        "nondegenerate_point_hits": 0,
         "truthful_pairs": 0,
         "truthful_hits": 0,
         "truthful_violations": 0,
@@ -260,6 +264,10 @@ def evaluate_universe(parent, spec, frozen, hostile=None):
                                         good = pc(survivors_eff & point_mask)
                                         stats["hits"] += good
                                         bad = size - good
+                                        if fs(emission.value) not in ("0", UNSATISFIED):
+                                            stats["nondegenerate_points"] += 1
+                                            stats["nondegenerate_point_pairs"] += size
+                                            stats["nondegenerate_point_hits"] += good
                                         t_sub = survivors_eff & truthful_mask
                                         u_sub = survivors_eff & ~truthful_mask
                                         stats["truthful_pairs"] += pc(t_sub)
@@ -403,6 +411,9 @@ def evaluate_universe(parent, spec, frozen, hostile=None):
                 str(Fraction(stats["inputs_identified"], total_answerable))
                 if total_answerable else "0"),
             "registered_image_mismatch_inputs": stats["image_mismatch_inputs"],
+            "nondegenerate_point_emissions": stats["nondegenerate_points"],
+            "nondegenerate_point_world_pairs": stats["nondegenerate_point_pairs"],
+            "nondegenerate_point_hits": stats["nondegenerate_point_hits"],
             "truthfully_registered_world_pairs": stats["truthful_pairs"],
             "truthfully_registered_hits": stats["truthful_hits"],
             "soundness_violations_on_truthfully_registered_worlds":
@@ -657,12 +668,15 @@ def controls(parent, spec):
     _m, meas_bits, mu, source = ev.measure_universe(name)
     if meas_bits is None:
         return {"universe": name, "status": "OUTCOMES_UNAVAILABLE"}
-    mu_shift = (mu[0] + Fraction(1, 97), mu[1], mu[2])
+    # HE1: complement every measured solved-set.  Under both registered contracts
+    # cap(bits) + cap(7-bits) is a constant that no attainable capability equals,
+    # so EVERY machine's capability changes -- unlike a scaling of `mu`, which
+    # leaves a capability of 0 fixed.
     true_caps, shift_caps = {}, {}
     for contract in parent.CONTRACTS:
         true_caps[contract] = tuple(ev.measured_cap(meas_bits[i], mu, contract)
                                     for i in range(n))
-        shift_caps[contract] = tuple(ev.measured_cap(meas_bits[i], mu_shift, contract)
+        shift_caps[contract] = tuple(ev.measured_cap(7 - meas_bits[i], mu, contract)
                                      for i in range(n))
     mval, sval, nobud, modal = {}, {}, {}, {}
     for contract in parent.CONTRACTS:
@@ -679,7 +693,7 @@ def controls(parent, spec):
     out = {
         "universe": name,
         "BASELINE": 0,
-        "HE1_shifted_capability_law": 0,
+        "HE1_complemented_capability_law": 0,
         "HE2_no_unsatisfied_branch": 0,
         "HE3_resource_pruned_predictor_points": 0,
         "HE3_resource_pruned_predictor_violations": 0,
@@ -689,6 +703,7 @@ def controls(parent, spec):
         "NULL_MODAL_head_to_head_pairs": 0,
         "NULL_MODAL_head_to_head_violations": 0,
         "F_head_to_head_violations": 0,
+        "nondegenerate_points": 0,
     }
     for k_index in range(len(parent.K_M_VALUES)):
         for r_value in parent.R_VALUES:
@@ -715,9 +730,11 @@ def controls(parent, spec):
                                     survivors & mval[(contract, r_value)].get(mkey, 0))
                                 if emission.disposition == "IDENTIFIED":
                                     point = fs(emission.value)
+                                    if point not in ("0", UNSATISFIED):
+                                        out["nondegenerate_points"] += 1
                                     good = pc(survivors & mval[(contract, r_value)].get(point, 0))
                                     out["BASELINE"] += size - good
-                                    out["HE1_shifted_capability_law"] += size - pc(
+                                    out["HE1_complemented_capability_law"] += size - pc(
                                         survivors & sval[(contract, r_value)].get(point, 0))
                                     out["HE2_no_unsatisfied_branch"] += size - pc(
                                         survivors & nobud[(contract, r_value)].get(point, 0))
@@ -741,9 +758,15 @@ def controls(parent, spec):
                                         out["HE3_resource_pruned_predictor_points"] += 1
                                         out["HE3_resource_pruned_predictor_violations"] += (
                                             size - pc(survivors & mval[(contract, r_value)].get(pk, 0)))
+    # HE1 can only bite where a NON-DEGENERATE point is emitted: complementing the
+    # solved-set leaves a capability of 0 at 0 and never changes an UNSATISFIED
+    # verdict, so on a universe whose every point is degenerate the hostile is
+    # vacuous. That is recorded, not papered over -- it is exactly the power
+    # defect the V4 revival fixes.
+    out["HE1_applicable"] = out["nondegenerate_points"] > 0
     out["all_hostiles_detected"] = all((
         out["BASELINE"] == 0,
-        out["HE1_shifted_capability_law"] > 0,
+        (out["HE1_complemented_capability_law"] > 0) if out["HE1_applicable"] else True,
         out["HE2_no_unsatisfied_branch"] > 0,
         out["HE3_resource_pruned_predictor_violations"] > 0,
         out["HE6_truncated_identified_set_coverage_failures"] > 0,
@@ -761,8 +784,11 @@ def main():
         frozen_v2 = json.load(handle)
     with open(os.path.join(HERE, "FROZEN_PREDICTIONS_V3.json")) as handle:
         frozen_v3 = json.load(handle)
+    with open(os.path.join(HERE, "FROZEN_PREDICTIONS_V4.json")) as handle:
+        frozen_v4 = json.load(handle)
     frozen["universes"] = (list(frozen["universes"]) + list(frozen_v2["universes"])
-                           + list(frozen_v3["universes"]))
+                           + list(frozen_v3["universes"])
+                           + list(frozen_v4["universes"]))
     parent_sha = hu.git_blob_sha(hu.PARENT_FILE)
     with open(hu.PARENT_FILE, "rb") as handle:
         parent_source_sha256 = hashlib.sha256(handle.read()).hexdigest()
@@ -792,7 +818,7 @@ def main():
     frozen_by_name = dict((u["universe"], u) for u in frozen["universes"])
 
     builders = (hu.sigma_syn, hu.sigma_arch, hu.sigma_real, hv.sigma_real2,
-                hw.sigma_real3)
+                hw.sigma_real3, hx.sigma_syn2, hx.sigma_arch2)
     specs = []
     for builder in builders:
         spec = builder()
@@ -834,7 +860,8 @@ def main():
         "note": "true realization outside the installed universe; KP-1D applies, "
                 "a wrong point here is a registration boundary, not a soundness failure",
     }
-    out["controls"] = [controls(parent, hu.sigma_syn()), controls(parent, hu.sigma_arch())]
+    out["controls"] = [controls(parent, hx.sigma_syn2()), controls(parent, hx.sigma_arch2()),
+                       controls(parent, hu.sigma_syn()), controls(parent, hu.sigma_arch())]
     hostile_calib = evaluate_universe(parent, hu.sigma_syn(), None,
                                       hostile="HE5_inflated_fault_law")
     out["HE5_inflated_fault_law"] = {

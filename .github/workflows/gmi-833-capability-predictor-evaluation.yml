@@ -57,6 +57,13 @@ jobs:
             grep -qx "$INTRO" /tmp/after.txt \
               || { echo "$f was introduced at or before the freeze"; exit 1; }
           done
+          # each revival's outcomes must postdate its own freeze
+          for pair in "FROZEN_PREDICTIONS_V4.json:RESULT_V1.json"; do
+            FREEZE_F=${pair%%:*}
+            FF=$(git log --diff-filter=A --format=%H -- "$PKG/$FREEZE_F" | tail -1)
+            test -n "$FF" || { echo "no introducing commit for $FREEZE_F"; exit 1; }
+            grep -qx "$FF" /tmp/after.txt || { echo "$FREEZE_F predates the V1 freeze"; exit 1; }
+          done
           # the V2 revival must also postdate its own amendment
           V2INTRO=$(git log --diff-filter=A --format=%H -- "$PKG/REAL_RUNS_V2/REAL_MEASURED_V2.json" | tail -1)
           V2FREEZE=$(git log --diff-filter=A --format=%H -- "$PKG/FROZEN_PREDICTIONS_V2.json" | tail -1)
@@ -108,7 +115,8 @@ PY
           python3 - <<'PY'
 import hashlib, json, os, sys
 for path, key in (("REAL_RUNS/REAL_MEASURED_V1.json", "V1"),
-                  ("REAL_RUNS_V2/REAL_MEASURED_V2.json", "V2")):
+                  ("REAL_RUNS_V2/REAL_MEASURED_V2.json", "V2"),
+                  ("REAL_RUNS_V3/REAL_MEASURED_V3.json", "V3")):
     if not os.path.exists(path):
         print("missing (allowed only if the row is left open):", path)
         continue
