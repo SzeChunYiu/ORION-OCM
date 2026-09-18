@@ -377,3 +377,48 @@ Not established here: held-out synthetic species, held-out known architectures, 
 trained systems, pre-evaluation qualitative failure prediction, quantitative
 resource/capability curve prediction, empirical calibration error, out-of-distribution
 failure measurement, universal capability prediction, or complete GMI.
+
+---
+
+## Appendix — machine certificates (from `RESULT_V1.json`, after the census)
+
+Numbers below are produced by the frozen scope and are reproducible with the
+commands in `CORE.md`. They are recorded after the census; every predicate and
+threshold they test was fixed in `FREEZE_V1.md` / `TAXONOMY_V1.md` / `SCOPE_V1.md`
+before the executor existed.
+
+| item | value |
+|---|---|
+| registered realizations | 32 |
+| main grid inputs | 51,840 |
+| emissions: point / abstain / inconsistent / cannot-check | 10,640 / 10,960 / 30,240 / 0 |
+| semantics-defect sub-census (all `CANNOT_CHECK`) | 144 / 144 |
+| exceptions on the grid | 0 |
+| KP-1B soundness violations | 0 |
+| KP-1C forced-abstention witness pairs | 10,960 / 10,960 |
+| KP-2A ladder monotonicity violations | 0 |
+| KP-2B overlaps / gaps | 0 / 0 |
+| KP-2C unique-binding-cut violations | 0 |
+| mode counts | information ceiling 5,400; expressivity 216; resource 5,976; reachability 2,442; search budget 2,004; observed shortfall 1,410; aliasing 3,529; none 623; inconsistent 30,240; cannot-check 144 (sub-census) |
+| KP-2D order census | 8,640 inputs x 120 orders; 6,347 order-sensitive, 2,293 order-invariant |
+| KP-2D individually-binding levers | 0 levers 6,104; 1 lever 1,867; 2 levers 669; >=3 levers 0 |
+| KP-2D unique-lever cases | 1,379 order-invariant, 488 order-sensitive (the sharp counterexample class) |
+| KP-3A bare returns / carrier construction sites | 0 / 1 |
+| KP-3B confidence-budget mismatches | 0 |
+| KP-3B feasible sets carrying coverage | 0 |
+| KP-3B union bound vs independence product | 913/1000 vs 9152473869/10000000000 (product strictly larger, refused) |
+| KP-3C coverage | 100,800 / 100,800 = exactly 1 |
+| KP-4 null `NULL_MARGINAL` | 51,840 points, 51,840 soundness violations |
+| route agreement | both routes agree on all 51,840 inputs and on every aggregate |
+| tests | 35, green under `-B` and `-O -B` |
+
+**Why the order-sensitivity number is what it is.** 6,104 of the 8,640 order-census
+inputs have *no* single lever that restores attainability, which is exactly the
+conjunctive regime in which no order-free "the" binding cut can exist. The
+scientifically sharp part of the boundary is the 488 inputs that have a unique
+individually-binding lever and are *still* order-sensitive; the shipped
+counterexample is one of them (`K_M = {0}`, budget `(2,1,1)`, `B_dev = 2`,
+`B = 12`, `tau = 1/6`: the only individually-binding lever is `Res`, yet the 120
+orders produce the labels expressivity, reachability and resource). The
+individually-binding-cut decomposition is a post-first-census diagnostic; it adds
+reporting only and changes no frozen predicate.

@@ -1,0 +1,50 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "section": "K. Capability theory upgrade",
+  "package": "research/gmi-833-capability-predictor-v1",
+  "source_main": "c70dd24eeade46a3afe8322c1a0e0c16a648311e",
+  "freeze_commit": "f09288d920ea085e984a2f7ba191c777ee1871a2",
+  "claim_ceiling": "GMI_833_EXACT_CAPABILITY_PREDICTOR_FAILURE_TAXONOMY_AND_TOTAL_UNCERTAINTY_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "CALIBRATION_FROM_FEASIBILITY_ALONE",
+    "CAPABILITY_PREDICTOR_EMPIRICALLY_VALIDATED",
+    "COMPLETE_GMI",
+    "EMPIRICAL_CALIBRATION_ERROR_MEASURED",
+    "HELD_OUT_PREDICTOR_VALIDATION",
+    "KNOWN_ARCHITECTURE_VALIDATION",
+    "ONTOLOGICAL_COMPLETENESS",
+    "OOD_FAILURE_MEASURED",
+    "QUALITATIVE_FAILURE_PREDICTED_BEFORE_EVALUATION",
+    "QUANTITATIVE_RESOURCE_CURVE_PREDICTION",
+    "REAL_SYSTEM_CAPABILITY_VALIDATION",
+    "UNIVERSAL_CAPABILITY_PREDICTION",
+    "UNIVERSAL_UNCERTAINTY_CALIBRATION"
+  ],
+  "rows_not_earned_here": [
+    "- [ ] Test predictor on held-out synthetic machine species.",
+    "- [ ] Test predictor on held-out known architectures.",
+    "- [ ] Test predictor on real trained systems.",
+    "- [ ] Predict qualitative failure before evaluation.",
+    "- [ ] Predict quantitative resource/capability curves before evaluation.",
+    "- [ ] Measure calibration error.",
+    "- [ ] Measure out-of-distribution failure."
+  ],
+  "replacements": [
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "old": "- [ ] Derive failure modes prospectively.",
+      "new": "- [x] Derive failure modes prospectively. — ✅ gmi-833-capability-predictor-v1 KP-2A/KP-2B/KP-2C/KP-2D: a ten-mode taxonomy derived from the registered cut ladder (expressivity, resource, reachability, search budget, evidence) plus the two typed non-answers was frozen in TAXONOMY_V1.md at commit f09288d9 before any executor existed, and partitions all 51,840 registered inputs with 0 overlaps, 0 gaps and 0 unique-binding-cut violations; every mode is non-empty (information ceiling 5,400, expressivity 216, resource 5,976, reachability 2,442, search budget 2,004, observed shortfall 1,410, aliasing 3,529, none 623, inconsistent 30,240, plus 144 cannot-check in the semantics sub-census). Order dependence is earned by counterexample: 6,347/8,640 inputs change attribution across all 120 cut orders, 488 of them with a unique individually-binding lever. Two independent routes agree on every input. This derives and freezes the taxonomy; it does not predict failure of any evaluated system."
+    },
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "old": "- [ ] Build `C_hat = F(M,E,R,H,D,U)` capability predictor.",
+      "new": "- [x] Build `C_hat = F(M,E,R,H,D,U)` capability predictor. — ✅ gmi-833-capability-predictor-v1 KP-1A/KP-1B/KP-1C: `F` is an exact, total, deterministic function of the six registered objects on a frozen 51,840-input grid over 32 registered realizations — 10,640 points, 10,960 abstentions, 30,240 inconsistent, 0 exceptions — with 0 soundness violations, because a point is emitted iff the contract image `q_(E,R)[C]` is a singleton (ABSTAIN-1) and `R` scores infeasible candidates `UNSATISFIED` inside the image instead of deleting them from the survivor set; all 10,960 abstentions exhibit two survivors with different verdicts, so abstention is forced. The NULL_MARGINAL control emits 51,840 points with 51,840 soundness violations. Two materially independent routes agree on all 51,840 inputs."
+    },
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "old": "- [ ] Attach uncertainty/calibration to every capability prediction.",
+      "new": "- [x] Attach uncertainty/calibration to every capability prediction. — ✅ gmi-833-capability-predictor-v1 KP-3A/KP-3B/KP-3C: all 51,840 emissions leave through a single `emit` site proved sole by an `ast` call-graph audit (0 bare returns, 1 construction site) and every one carries a #851 U-1 typed object; 0 feasible sets carry a coverage number, and every confidence emission carries the U-2B dependence-safe budget `1-alpha-37/1000` (913/1000 and 863/1000) while the independence product 9152473869/10000000000 is refused as strictly larger (0 budget mismatches). Coverage is exact at finite scope: the emitted object contains the true capability in 100,800/100,800 (input, consistent-world) pairs. Empirical calibration error is not measured here."
+    }
+  ]
+}
