@@ -37,7 +37,7 @@ executor with `REGIMES_D1_OFF=1`.
 
 **Exposure: MEASURED, and it is LARGE.** `D1_SENSITIVITY_V1.json` records the
 leaf-field diff between the shipped receipt and the deviation-free re-run:
-**1034 of 7028 certificate leaf fields change**. That is an order of magnitude
+**1036 of 7028 certificate leaf fields change**. That is an order of magnitude
 more exposure than the direct parent's D1 (1 of 774), and it is stated plainly
 rather than softened.
 
@@ -48,7 +48,12 @@ diffed, and any of them that moves is listed in
 `sensitivity_test.threshold_values_changed`, `.converse_fields_changed`,
 `.compatibility_fields_changed` and `.hostile_fields_changed`. **Read those four
 lists before reading any claim in the theorem note**: a claim whose field
-appears there is a claim that depends on D1. The bulk of the 1034 changed fields
+appears there is a claim that depends on D1. As shipped, three of those four
+lists are EMPTY — 82 threshold values, 73 converse fields and 205 compatibility
+fields are all invariant to D1 — and the fourth contains exactly two entries,
+`/hostiles/7/detail` and `/hostiles/9/detail`, which are the human-readable
+charge strings of `HR-08` and `HR-10`. **No `detected` flag moves: all 14
+hostiles are detected under both charges.** The bulk of the 1036 changed fields
 are the ascent-dependent census — cell counts, reachability verdicts, anchored
 price sets and recovery counts — which is exactly what a change to the ascent
 charge should move.

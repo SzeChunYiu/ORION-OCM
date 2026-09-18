@@ -20,6 +20,9 @@ jobs:
         working-directory: research/gmi-833-update-law-regimes-v1
     steps:
       - uses: actions/checkout@v4
+        with:
+          # full history: the freeze-ancestry gate below walks git log
+          fetch-depth: 0
 
       - name: freeze precedes implementation
         working-directory: .
@@ -76,3 +79,7 @@ print("D1 exposure:", d["sensitivity_test"]["fields_changed"], "of",
 PY
           git -C . diff --exit-code -- D1_SENSITIVITY_V1.json || \
             (echo "FAIL: committed D1 sensitivity does not reproduce"; exit 1)
+          # the deviation-free re-run must leave every other receipt untouched
+          git -C . diff --exit-code -- .
+          test -z "$(git -C . status --porcelain -- .)"
+

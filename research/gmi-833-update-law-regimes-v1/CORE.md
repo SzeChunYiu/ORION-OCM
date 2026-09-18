@@ -81,7 +81,7 @@ flips. The seven mechanism names appear in exactly one file,
 | `SIG-R` / `SIG-L` witnessed anywhere | **never**, on either grid |
 | held-out predictions | HO-P1 HIT 10/10, HO-P3 HIT, HO-P4 HIT, **HO-P2 MISS** (260 mismatches, 260/260 attributed, 0 unattributed) |
 | `select_v2` revival on held-out | 794 agreements, **0 disagreements** |
-| name-freedom screen | CLEAN_AT_REGISTERED_AUDIT_SCOPE, 36,129 tokens, 47 denylist entries, 0 unmatched, 0 stale |
+| name-freedom screen | CLEAN_AT_REGISTERED_AUDIT_SCOPE, 37,010 tokens, 47 denylist entries, 0 unmatched, 0 stale |
 | check suite | **329 checks, 329 green** |
 | hostiles detected | **14 / 14** |
 | two-route agreement | scope fingerprint, every invariant, every coefficient vector, every threshold, every cell count |
