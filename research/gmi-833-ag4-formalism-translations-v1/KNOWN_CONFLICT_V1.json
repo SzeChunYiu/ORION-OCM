@@ -10,6 +10,17 @@
   "rule": "FAIL if a markdown file added by the pull request contains a banned term."
  },
  "issue": 833,
+ "measured_on_this_branch": {
+  "clean_markdown_files_added_by_this_branch": 10,
+  "command": "python3 -I -B research/gmi-833-ab-terminology-harness-v1/terminology_ratchet_v1.py --owned-files <this PR's markdown>",
+  "new_files_with_hits": 2,
+  "note": "both hits are verbatim issue quotations inside fenced blocks of pre-implementation freezes; every other markdown file this branch adds is clean",
+  "regressions": 0,
+  "the_two_files": [
+   "research/gmi-833-emergence-conditions-v1/FREEZE_V1.md",
+   "research/gmi-833-ag4-formalism-translations-v1/FREEZE_V1.md"
+  ]
+ },
  "package": "gmi-833-ag4-formalism-translations-v1",
  "recorded_at_source_main": "50f833cc4bc3cadcefd44eca14fa58f73f815587",
  "related": "research/gmi-833-emergence-conditions-v1/KNOWN_CONFLICT_V1.json records the same conflict on the AG7 row",
