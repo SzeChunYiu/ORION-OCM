@@ -272,3 +272,44 @@ CORPUS_WIDE_COST_ROUTE_COMPLETE
 The row asks to **identify**, not to prove neutrality. A 0-confirmed-leak outcome is written
 as "identified population, adjudicated, with proven detector power", never as "no grammar
 encodes its target".
+
+---
+
+## Amendment A1 — production vocabulary is the STRING-valued atom set
+
+*Committed before the adapters, the executor, the oracle and any run. Reason for the
+amendment rather than a silent change: §5 requires it, and the #976 138→109 precedent
+requires in-sweep refinements to be logged with anchors.*
+
+§2 defined `leaves(p)` as "the finite multiset of productions (atomic vocabulary symbols)
+occurring in `p`'s registered serialization". Applied literally to this corpus's
+table-enumerating grammars, that admits **integers** as productions (a state-count `2`, a
+weight `-1`). Deleting an integer is a *range restriction*, not a semantics-preserving
+re-encoding of a production set, and it would manufacture vacuous `TARGET_IS_A_PRIMITIVE`
+hits (e.g. "the recurrent-state class needs state-count ≥ 2").
+
+**A1 (frozen).** `P(G)` = the **string-valued** atomic symbols of the grammar's own
+serialization — its *named* productions. Numeric atoms are parameters, not productions.
+
+Consequences, all reported explicitly rather than hidden:
+
+- A grammar whose vocabulary is purely numeric is dispositioned
+  `R1_NOT_APPLICABLE:NUMERIC_PARAMETER_SPACE` at the R1 layer and remains fully in scope
+  for **R2** and **R3**. It is *not* silently dropped, and `R1_NOT_APPLICABLE` is a
+  distinct field from "checked and clean".
+- A grammar whose presentations carry no production structure at all (a bare cost table,
+  e.g. #891's registered 6-presentation object) is dispositioned
+  `R1_NOT_APPLICABLE:NO_PRODUCTION_STRUCTURE`; adapters for such grammars MUST emit
+  `leaves = ()` and MUST NOT emit the presentation identity as a pseudo-production.
+  Emitting presentation identities as productions would make every singleton class a
+  trivial Tier-1 hit; the test battery contains this as **hostile H6**.
+- `n_presentations_using(q)` and `n_target_presentations` are recorded on every Tier-1 hit
+  so a reader can judge how thin the witness is.
+- A production qualifies only when `|P(G)| >= 2`.
+
+**A1 anchors, verified before the corpus run:** in `gmi-cross-grammar-four-family-v1`, the
+`local`, `routing` and `storage` grammars must retain a non-empty string vocabulary
+(`shared/site/triple/configuration`, `from_input/read/branches`,
+`weighted/rows/expression/leaves`), while the `state` grammar A (pure integer tables) must
+land in `R1_NOT_APPLICABLE:NUMERIC_PARAMETER_SPACE` and the `state` grammar B (string
+expressions `zero/one/s/not_s`) must stay in R1 scope.
