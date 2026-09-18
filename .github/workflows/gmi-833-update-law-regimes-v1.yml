@@ -70,13 +70,18 @@ jobs:
         run: |
           set -e
           python3 -I -B measure_d1_sensitivity_v1.py
+          # NOTE: this heredoc body is indented to the YAML block indent.
+          # YAML strips exactly that indent, so python receives it at column 0.
+          # Written at column 0 here it would terminate the block scalar and
+          # make the whole workflow unparseable, which is what it did before.
           python3 - <<'PY'
-import json
-d = json.load(open("D1_SENSITIVITY_V1.json"))
-assert d["sensitivity_test"]["certificate_leaf_fields"] > 0
-print("D1 exposure:", d["sensitivity_test"]["fields_changed"], "of",
-      d["sensitivity_test"]["certificate_leaf_fields"])
-PY
+          import json
+          d = json.load(open("D1_SENSITIVITY_V1.json"))
+          if d["sensitivity_test"]["certificate_leaf_fields"] <= 0:
+              raise SystemExit("FAIL: no certificate leaf fields counted")
+          print("D1 exposure:", d["sensitivity_test"]["fields_changed"], "of",
+                d["sensitivity_test"]["certificate_leaf_fields"])
+          PY
           git -C . diff --exit-code -- D1_SENSITIVITY_V1.json || \
             (echo "FAIL: committed D1 sensitivity does not reproduce"; exit 1)
           # the deviation-free re-run must leave every other receipt untouched
