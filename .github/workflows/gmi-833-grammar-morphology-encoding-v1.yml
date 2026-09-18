@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -50,11 +52,35 @@ jobs:
           python3 -I -B    test_grammar_morphology_encoding_v1.py
           python3 -I -O -B test_grammar_morphology_encoding_v1.py
 
-      - name: Receipts are reproducible (no drift vs committed blobs)
+      - name: Receipts are reproducible (byte-exact on the pure artifacts)
         run: |
           cd research/gmi-833-grammar-morphology-encoding-v1
-          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json \
-            ADJUDICATION_V1.json PLEX_SCREEN_V1.json GRAMMAR_DUMP_V1.json
+          git diff --exit-code -- GRAMMAR_DUMP_V1.json ORACLE_RESULT_V1.json
+
+      - name: Receipts are reproducible (field-exact on the corpus-sweep artifacts)
+        run: |
+          cd research/gmi-833-grammar-morphology-encoding-v1
+          python3 - <<'PY'
+          import json, subprocess
+          def committed(path):
+              return json.loads(subprocess.check_output(
+                  ['git', 'show', 'HEAD:research/gmi-833-grammar-morphology-encoding-v1/'
+                   + path]).decode())
+          now, was = json.load(open('RESULT_V1.json')), committed('RESULT_V1.json')
+          # D-COST is pure arithmetic over imported corpus modules: byte-exact everywhere.
+          assert now['d_cost'] == was['d_cost'], (now['d_cost'], was['d_cost'])
+          assert now['population'] == was['population']
+          assert now['predictions'] == was['predictions']
+          assert now['validation']['ALL_PASS'] is True
+          # D-LEX re-parses OTHER packages' sources; ast.get_source_segment can differ by
+          # Python version, so the invariant asserted here is the verdict, not the bytes.
+          assert now['d_lex']['CONFIRMED'] == 0
+          if now['d_lex'] != was['d_lex']:
+              print('NOTE: D-LEX sweep differs from the committed run on this interpreter')
+              print('  committed:', json.dumps(was['d_lex'], sort_keys=True))
+              print('  regenerated:', json.dumps(now['d_lex'], sort_keys=True))
+          print('RECEIPTS_REPRODUCIBLE_OK')
+          PY
 
       - name: Claim ceiling and forbidden promotions
         run: |

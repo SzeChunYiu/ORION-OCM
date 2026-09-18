@@ -418,10 +418,17 @@ ADAPTERS = (
 )
 
 
+SELF_PKG = "gmi-833-grammar-morphology-encoding-v1"
+
+
 def load_all() -> List[Dict[str, object]]:
     out = []  # type: List[Dict[str, object]]
     for _pkg, fn in ADAPTERS:
         out.extend(fn())
+    for g in out:
+        # Amendment A5.2: the synthetic V3 fixture is never part of a published
+        # corpus denominator.
+        g["corpus"] = g["package"] != SELF_PKG
     out.sort(key=lambda g: g["grammar_id"])
     return out
 

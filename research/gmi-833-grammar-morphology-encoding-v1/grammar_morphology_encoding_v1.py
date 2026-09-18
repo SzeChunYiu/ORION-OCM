@@ -101,6 +101,23 @@ def dep_classes(base: Dict[str, Optional[int]],
     return frozenset(s for s in base if base[s] != after[s])
 
 
+def is_class_indicator(pres: Sequence[Dict[str, object]], target: str,
+                       q: Set[str]) -> bool:
+    """Amendment A5: does Q simply mark class `target`?
+
+    True when every presentation of `target` uses some production of Q and no presentation
+    of any other class does. Then `dep(Q) = {target}` follows from the audited package's own
+    classifier reading the production symbol, and the hit carries no cost content.
+    Computed from the incidence relation only -- still name-blind.
+    """
+    tgt = [p for p in pres if p["sem"] == target]
+    if not tgt:
+        return False
+    if not all(set(p["leaves"]) & q for p in tgt):
+        return False
+    return not any(set(p["leaves"]) & q for p in pres if p["sem"] != target)
+
+
 def r1_probe(pres: Sequence[Dict[str, object]], target: str,
              q: Set[str], via: str) -> Optional[Dict[str, object]]:
     """One R1 deletion probe. Returns a Tier-1 hit record or None."""
@@ -136,6 +153,12 @@ def r1_probe(pres: Sequence[Dict[str, object]], target: str,
         "n_semantic_classes": len(universe),
         "UNIQUE_REALIZATION": n_target == 1,
         "SINGLE_CLASS_INSTANCE": len(universe) == 1,
+        "encoding_kind": ("PRODUCTION_IS_CLASS_INDICATOR"
+                          if is_class_indicator(pres, target, q) else "COST_MEASURED"),
+        # How thin the COST_MEASURED verdict is: presentations of OTHER classes that use Q.
+        # 0 means the production marks the target class exactly (an indicator).
+        "indicator_margin": sum(1 for p in pres
+                                if p["sem"] != target and set(p["leaves"]) & q),
     }
 
 
@@ -579,6 +602,18 @@ def run_validation(grammars: Sequence[Dict[str, object]]) -> Dict[str, object]:
         "DETECTED" if (real_n == 0 and pseudo_n > 0) else "NOT_DETECTED")
     hostiles["_H6_counts"] = "GA real=%d pseudo=%d" % (real_n, pseudo_n)
 
+    # H7 a detector variant omitting the A5 indicator test merges the two encoding kinds.
+    all_hits = []
+    for gg in grammars:
+        if gg["declared_target"] is None:
+            continue
+        all_hits.extend(r1_hits(gg)[0])
+    kinds = set(h["encoding_kind"] for h in all_hits)
+    hostiles["H7_MISSING_INDICATOR_TEST"] = (
+        "DETECTED" if kinds == set(["COST_MEASURED", "PRODUCTION_IS_CLASS_INDICATOR"])
+        else "NOT_DETECTED")
+    hostiles["_H7_counts"] = "hits=%d kinds=%s" % (len(all_hits), sorted(kinds))
+
     val["V4_hostiles"] = {
         "results": hostiles,
         "pass": all(v == "DETECTED" for k, v in hostiles.items()
@@ -618,6 +653,7 @@ def adjudicate(g: Dict[str, object], hits: List[Dict[str, object]],
     target = g["declared_target"]
     if target is None:
         return {"grammar_id": gid, "package": g["package"],
+                "corpus": bool(g.get("corpus", True)),
                 "disposition": "NO_DECLARED_TARGET",
                 "reason": "the package declares no target morphology to recover; it is "
                           "screened, not cleared",
@@ -633,6 +669,7 @@ def adjudicate(g: Dict[str, object], hits: List[Dict[str, object]],
         return {"grammar_id": gid, "package": g["package"],
                 "source_citation": g["source_citation"],
                 "declared_target": target, "target_citation": g["target_citation"],
+                "corpus": bool(g.get("corpus", True)),
                 "disposition": "SCREENED_NOT_ADJUDICATED:" + blocking[0].split(":", 1)[1],
                 "reason": "the R1 production layer does not apply to this grammar "
                           "(Amendment A1); it is screened at the R1 route and remains in "
@@ -653,7 +690,9 @@ def adjudicate(g: Dict[str, object], hits: List[Dict[str, object]],
     else:
         disclosed = bool(g["disclosure"]["declared"] and g["disclosure"]["charged"]
                          and g["disclosure"]["evidence"])
-        disp = "ENCODES_DISCLOSED_CHARGED" if disclosed else "ENCODES_UNDISCLOSED"
+        measured = any(h["encoding_kind"] == "COST_MEASURED" for h in real)
+        disp = ("ENCODES_COST_MEASURED__" if measured else "ENCODES_CLASS_INDICATOR__") + (
+            "DISCLOSED_CHARGED" if disclosed else "UNDISCLOSED")
         kinds = sorted(set(h["kind"] for h in real))
         reason = ("target-exclusive production(s) %s: deleting them changes the minimum "
                   "description cost of the declared target %s and of NO other semantic "
@@ -668,6 +707,8 @@ def adjudicate(g: Dict[str, object], hits: List[Dict[str, object]],
         "tier1_hits": real, "vacuous_hits": vacuous, "notes": notes,
         "tier2_decisive_selection_flip_via_R1": any(
             h["tier2_decisive_selection_flip"] for h in real),
+        "encoding_kinds": sorted(set(h["encoding_kind"] for h in real)),
+        "corpus": bool(g.get("corpus", True)),
         "disclosure_evidence": g["disclosure"]["evidence"],
         "n_presentations": len(g["presentations"]),
         "n_semantic_classes": len(classes_of(g["presentations"])),
@@ -696,12 +737,15 @@ def build() -> Tuple[Dict[str, object], Dict[str, object], Dict[str, object]]:
     lex = d_lex_screen()
     lex_adj = d_lex_adjudicate(lex)
 
-    def n(disp_prefix: str) -> int:
-        return sum(1 for a in adjud if a["disposition"].startswith(disp_prefix))
+    corpus_rows = [a for a in adjud if a.get("corpus", True)]
+    encodes = [a for a in corpus_rows if a["disposition"].startswith("ENCODES")]
+    undisclosed = [a for a in corpus_rows if a["disposition"].endswith("UNDISCLOSED")]
+    with_target = [a for a in corpus_rows if a["disposition"] != "NO_DECLARED_TARGET"]
+    cost_measured = [a for a in encodes if "COST_MEASURED" in a["disposition"]]
+    indicator = [a for a in encodes if "CLASS_INDICATOR" in a["disposition"]]
 
-    encodes = [a for a in adjud if a["disposition"].startswith("ENCODES")]
-    undisclosed = [a for a in adjud if a["disposition"] == "ENCODES_UNDISCLOSED"]
-    with_target = [a for a in adjud if a["disposition"] != "NO_DECLARED_TARGET"]
+    def cn(prefix):
+        return sum(1 for a in corpus_rows if a["disposition"].startswith(prefix))
 
     # Detector agreement table (freeze s7a).
     lex_flagged = set(lex["flagged_packages"])
@@ -722,22 +766,33 @@ def build() -> Tuple[Dict[str, object], Dict[str, object], Dict[str, object]]:
         "row": "- [ ] Identify search grammars that encode the target morphology.",
         "validation": validation,
         "population": {
-            "P_COST_grammar_instances": len(grammars),
-            "P_COST_packages": sorted(set(g["package"] for g in grammars)),
-            "with_declared_target": len(with_target),
-            "no_declared_target": n("NO_DECLARED_TARGET"),
+            "corpus_grammar_instances": len(corpus_rows),
+            "corpus_packages": sorted(set(g["package"] for g in grammars
+                                          if g.get("corpus", True))),
+            "corpus_with_declared_target": len(with_target),
+            "corpus_no_declared_target": cn("NO_DECLARED_TARGET"),
+            "validation_fixtures": len(grammars) - len(corpus_rows),
+            "total_instances_loaded": len(grammars),
             "P_LEX_packages": lex["n_population"],
             "P_LEX_blocks": lex["n_blocks"],
         },
         "d_cost": {
-            "ENCODES_DISCLOSED_CHARGED": n("ENCODES_DISCLOSED_CHARGED"),
+            "scope": "CORPUS_INSTANCES_ONLY (the synthetic V3 fixture is excluded, A5.2)",
+            "ENCODES_COST_MEASURED__DISCLOSED_CHARGED":
+                cn("ENCODES_COST_MEASURED__DISCLOSED_CHARGED"),
+            "ENCODES_CLASS_INDICATOR__DISCLOSED_CHARGED":
+                cn("ENCODES_CLASS_INDICATOR__DISCLOSED_CHARGED"),
             "ENCODES_UNDISCLOSED": len(undisclosed),
-            "NEUTRAL_AT_REGISTERED_SCOPE": n("NEUTRAL_AT_REGISTERED_SCOPE"),
-            "SCREENED_NOT_ADJUDICATED": n("SCREENED_NOT_ADJUDICATED"),
-            "NO_DECLARED_TARGET": n("NO_DECLARED_TARGET"),
-            "tier1_kinds": sorted(set(h["kind"] for a in adjud for h in a.get("tier1_hits", []))),
-            "tier2_via_R1": sorted(a["grammar_id"] for a in adjud
+            "ENCODES_total": len(encodes),
+            "NEUTRAL_AT_REGISTERED_SCOPE": cn("NEUTRAL_AT_REGISTERED_SCOPE"),
+            "SCREENED_NOT_ADJUDICATED": cn("SCREENED_NOT_ADJUDICATED"),
+            "NO_DECLARED_TARGET": cn("NO_DECLARED_TARGET"),
+            "tier1_kinds": sorted(set(h["kind"] for a in corpus_rows
+                                      for h in a.get("tier1_hits", []))),
+            "tier2_via_R1": sorted(a["grammar_id"] for a in corpus_rows
                                    if a.get("tier2_decisive_selection_flip_via_R1")),
+            "cost_measured_grammars": sorted(a["grammar_id"] for a in cost_measured),
+            "class_indicator_grammars": sorted(a["grammar_id"] for a in indicator),
             "encoding_grammars": sorted(a["grammar_id"] for a in encodes),
         },
         "d_lex": {

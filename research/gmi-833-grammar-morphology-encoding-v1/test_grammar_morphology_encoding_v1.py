@@ -205,8 +205,59 @@ class OracleAgreement(unittest.TestCase):
                 for f in ("via", "productions", "kind", "mu_target_before",
                           "mu_target_after", "dep", "argmin_before", "argmin_after",
                           "tier2_decisive_selection_flip", "n_presentations_using",
-                          "n_target_presentations"):
+                          "n_target_presentations", "encoding_kind",
+                          "indicator_margin"):
                     self.assertEqual(a[f], b[f], "%s %s" % (g["grammar_id"], f))
+
+
+class A5ClassIndicator(unittest.TestCase):
+    def test_growth_library_is_cost_measured(self):
+        hits, _ = E.r1_hits(BY_ID["grammar_growth_G2"])
+        self.assertTrue(hits)
+        for h in hits:
+            self.assertEqual(h["encoding_kind"], "COST_MEASURED", h["productions"])
+
+    def test_cross_grammar_hits_are_class_indicators(self):
+        """Five of the six cross-grammar hits are pure class indicators (margin 0)."""
+        for gid in ("cross_grammar_local_A", "cross_grammar_local_B",
+                    "cross_grammar_state_B", "cross_grammar_storage_A",
+                    "cross_grammar_storage_B"):
+            hits, _ = E.r1_hits(BY_ID[gid])
+            self.assertTrue(hits, gid)
+            for h in hits:
+                self.assertEqual(h["encoding_kind"], "PRODUCTION_IS_CLASS_INDICATOR", gid)
+                self.assertEqual(h["indicator_margin"], 0, gid)
+
+    def test_routing_B_is_cost_measured_on_a_thin_margin(self):
+        """`branches` also appears in one FIXED_READ presentation (the all-equal-leaves
+        candidate), so it does NOT mark the target class exactly. The A5 test is decided
+        by incidence, and the margin is published so a reader can see how thin it is."""
+        hits, _ = E.r1_hits(BY_ID["cross_grammar_routing_B"])
+        self.assertEqual(len(hits), 1)
+        self.assertEqual(hits[0]["encoding_kind"], "COST_MEASURED")
+        self.assertEqual(hits[0]["indicator_margin"], 1)
+        self.assertEqual(hits[0]["kind"], "TARGET_IS_A_PRIMITIVE")
+
+    def test_growth_margin_is_wide(self):
+        hits, _ = E.r1_hits(BY_ID["grammar_growth_G2"])
+        for h in hits:
+            self.assertEqual(h["encoding_kind"], "COST_MEASURED")
+            self.assertEqual(h["indicator_margin"], 0)
+            self.assertEqual(h["kind"], "TARGET_SPECIFIC_SHORTCUT")
+
+    def test_indicator_is_computed_from_incidence_not_names(self):
+        pres = [{"pid": "a", "leaves": ["zzz"], "cost": 1, "sem": "T"},
+                {"pid": "b", "leaves": ["zzz"], "cost": 2, "sem": "T"},
+                {"pid": "c", "leaves": ["w"], "cost": 3, "sem": "U"}]
+        self.assertTrue(E.is_class_indicator(pres, "T", set(["zzz"])))
+        pres2 = pres + [{"pid": "d", "leaves": ["k"], "cost": 9, "sem": "T"}]
+        self.assertFalse(E.is_class_indicator(pres2, "T", set(["zzz"])))
+
+    def test_fixture_is_not_in_the_corpus_population(self):
+        self.assertFalse(BY_ID["clean_control_NEUTRAL"]["corpus"])
+        for gid, g in sorted(BY_ID.items()):
+            if gid != "clean_control_NEUTRAL":
+                self.assertTrue(g["corpus"], gid)
 
 
 class Receipt(unittest.TestCase):
@@ -251,6 +302,25 @@ class Receipt(unittest.TestCase):
                                  row.get("notes", []))
                 self.assertNotIn("R1_NOT_APPLICABLE:NUMERIC_PARAMETER_SPACE",
                                  row.get("notes", []))
+
+    def test_headline_counts_exclude_the_fixture(self):
+        pop = self.r["population"]
+        self.assertEqual(pop["validation_fixtures"], 1)
+        self.assertEqual(pop["corpus_grammar_instances"],
+                         pop["total_instances_loaded"] - 1)
+        self.assertNotIn("gmi-833-grammar-morphology-encoding-v1", pop["corpus_packages"])
+
+    def test_encoding_kinds_are_never_summed(self):
+        dc = self.r["d_cost"]
+        self.assertEqual(
+            dc["ENCODES_total"],
+            dc["ENCODES_COST_MEASURED__DISCLOSED_CHARGED"]
+            + dc["ENCODES_CLASS_INDICATOR__DISCLOSED_CHARGED"]
+            + dc["ENCODES_UNDISCLOSED"])
+        self.assertTrue(dc["cost_measured_grammars"])
+        self.assertTrue(dc["class_indicator_grammars"])
+        self.assertEqual(set(dc["cost_measured_grammars"])
+                         & set(dc["class_indicator_grammars"]), set())
 
     def test_authority_self_skip_recorded(self):
         self.assertEqual(self.r["d_lex"]["authority_self_skip"],

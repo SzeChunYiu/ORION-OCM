@@ -1,11 +1,24 @@
 {
   "claim_ceiling": "GMI_833_SEARCH_GRAMMAR_TARGET_ENCODING_IDENTIFICATION_AT_REGISTERED_SCOPE",
   "d_cost": {
-    "ENCODES_DISCLOSED_CHARGED": 7,
+    "ENCODES_CLASS_INDICATOR__DISCLOSED_CHARGED": 5,
+    "ENCODES_COST_MEASURED__DISCLOSED_CHARGED": 2,
     "ENCODES_UNDISCLOSED": 0,
-    "NEUTRAL_AT_REGISTERED_SCOPE": 1,
+    "ENCODES_total": 7,
+    "NEUTRAL_AT_REGISTERED_SCOPE": 0,
     "NO_DECLARED_TARGET": 2,
     "SCREENED_NOT_ADJUDICATED": 4,
+    "class_indicator_grammars": [
+      "cross_grammar_local_A",
+      "cross_grammar_local_B",
+      "cross_grammar_state_B",
+      "cross_grammar_storage_A",
+      "cross_grammar_storage_B"
+    ],
+    "cost_measured_grammars": [
+      "cross_grammar_routing_B",
+      "grammar_growth_G2"
+    ],
     "encoding_grammars": [
       "cross_grammar_local_A",
       "cross_grammar_local_B",
@@ -15,6 +28,7 @@
       "cross_grammar_storage_B",
       "grammar_growth_G2"
     ],
+    "scope": "CORPUS_INSTANCES_ONLY (the synthetic V3 fixture is excluded, A5.2)",
     "tier1_kinds": [
       "TARGET_IS_A_PRIMITIVE",
       "TARGET_SPECIFIC_SHORTCUT"
@@ -71,18 +85,19 @@
   },
   "parent_issue": 833,
   "population": {
-    "P_COST_grammar_instances": 14,
-    "P_COST_packages": [
+    "P_LEX_blocks": 1923,
+    "P_LEX_packages": 158,
+    "corpus_grammar_instances": 13,
+    "corpus_no_declared_target": 2,
+    "corpus_packages": [
       "gmi-833-g0-cost-privilege-v1",
       "gmi-833-g0-grammar-bias-v1",
       "gmi-833-g0-grammar-growth-v1",
-      "gmi-833-grammar-morphology-encoding-v1",
       "gmi-cross-grammar-four-family-v1"
     ],
-    "P_LEX_blocks": 1923,
-    "P_LEX_packages": 158,
-    "no_declared_target": 2,
-    "with_declared_target": 12
+    "corpus_with_declared_target": 11,
+    "total_instances_loaded": 14,
+    "validation_fixtures": 1
   },
   "predictions": {
     "PRED_1_891_anchor": true,
@@ -258,7 +273,9 @@
         "H4_NAME_TIE_BREAK": "DETECTED",
         "H5_NON_ISOMETRIC_R3": "DETECTED",
         "H6_PSEUDO_PRODUCTION_IDS": "DETECTED",
-        "_H6_counts": "GA real=0 pseudo=1"
+        "H7_MISSING_INDICATOR_TEST": "DETECTED",
+        "_H6_counts": "GA real=0 pseudo=1",
+        "_H7_counts": "hits=8 kinds=['COST_MEASURED', 'PRODUCTION_IS_CLASS_INDICATOR']"
       }
     },
     "V5_null": {

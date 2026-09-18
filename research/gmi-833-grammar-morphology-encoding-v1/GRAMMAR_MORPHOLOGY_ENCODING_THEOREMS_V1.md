@@ -1,8 +1,10 @@
 # GME theorems — search grammars that encode the target morphology
 
-Scope object: the frozen `P-COST` population of §4.2 of `FREEZE_V1.md` — 14 grammar
-instances mechanically extracted from 5 merged corpus packages, each with its declared
-target morphology quoted verbatim from the owning package. All arithmetic is exact integer
+Scope object: the frozen `P-COST` population of §4.2 of `FREEZE_V1.md` — 13 grammar
+instances mechanically extracted from 4 merged corpus packages (plus one synthetic
+clean-control fixture used only for validation and excluded from every denominator,
+Amendment A5.2), each with its declared target morphology quoted verbatim from the owning
+package. All arithmetic is exact integer
 arithmetic; no float appears in any statement or receipt.
 
 Every result below is **at registered scope**. None of them is a statement about all
@@ -71,7 +73,7 @@ coverage preserved exactly) under which the selected class changes. In particula
 registered #891 pair is re-found: `GA` selects `ALPHA` and `GB` selects `BETA` at
 `w = (1,1)` with identical coverage `{ALPHA, BETA}`.
 
-**Machine certificate.** 14 instances, 55 admissible remints, 3 instances exhibiting a
+**Machine certificate.** 55 admissible remints over the loaded instances, 3 exhibiting a
 selection reversal, including `cost_privilege_GA` — the mandatory V1 anchor.
 
 **Status.** This is a **reproduction of the registered boundary**, not a discovery. A
@@ -91,7 +93,7 @@ class, cost and leaf-structure preserved), the Tier-1 hit set is unchanged. (ii)
 registered clean control grammar — every class realized over the same vocabulary at the
 same costs — produces 0 hits.
 
-**Machine certificate.** V3: 10 relabelings x 12 targeted instances, all invariant;
+**Machine certificate.** V3: 10 relabelings per targeted instance, all invariant;
 clean control 0 hits. V5: 204 randomized isometry controls, 0 spurious changes.
 
 **Falsifier.** Any flag on the clean control, or any hit-set change under an isometry.
@@ -100,47 +102,85 @@ clean control 0 hits. V5: 204 randomized isometry controls, 0 spurious changes.
 
 ## GME-5 — the identified population (the row's answer)
 
-**Statement.** Over the frozen `P-COST` population of 14 grammar instances from 5 packages
-(12 carrying a declared target), the grammars that **encode their declared target
-morphology** in the sense of GME-2 are exactly these **7**:
+**Scope.** 13 grammar instances from **4 merged corpus packages**, 11 carrying a declared
+target. (This package's own synthetic clean-control fixture is loaded for validation V3/V5
+and is excluded from every denominator below — Amendment A5.2.)
 
-| grammar instance | production(s) | kind | mu(t) before -> after | Tier-2 flip |
-|---|---|---|---|---|
-| `cross_grammar_local_A` | `shared` | TARGET_IS_A_PRIMITIVE | 8 -> none | yes (SHARED_LOCAL_UPDATE -> SITE_SPECIFIC_UPDATE) |
-| `cross_grammar_local_B` | `shared` | TARGET_IS_A_PRIMITIVE | 1 -> none | yes (SHARED_LOCAL_UPDATE -> SITE_SPECIFIC_UPDATE) |
-| `cross_grammar_routing_B` | `branches` | TARGET_IS_A_PRIMITIVE | 3 -> none | no |
-| `cross_grammar_state_B` | `not_s` | TARGET_IS_A_PRIMITIVE | 1 -> none | no |
-| `cross_grammar_storage_A` | `rows` | TARGET_IS_A_PRIMITIVE | 8 -> none | no |
-| `cross_grammar_storage_B` | `leaves` | TARGET_IS_A_PRIMITIVE | 8 -> none | no |
-| `grammar_growth_G2` | `m2` (R1a); `{m1,m2}` (R1b) | TARGET_SPECIFIC_SHORTCUT | 2 -> 3; 2 -> 5 | yes (REUSE_POSITIVE -> UNRELATED_CONTROL) |
+**Statement.** The corpus grammars that **encode their declared target morphology** in the
+sense of GME-2 are exactly these **7**, and they split into two kinds that are never summed:
 
-All 7 are `ENCODES_DISCLOSED_CHARGED`: the owning package declares the target-specific
-production and charges it — cross-grammar replication with matched negative twin ecologies
-(8/8 positive/twin flips) for the six cross-grammar instances; `K_total = 6` at `kappa = 1`
-with a preserved H- negative control and a 0/200 randomized-admission null for the grown
-library. **`ENCODES_UNDISCLOSED` = 0.** No confirmed leak.
+### (a) Measured cost gap — 2 instances, only one of them a finite strict rise
 
-`grammar_growth_G2` is the only `TARGET_SPECIFIC_SHORTCUT` — the only case where a genuine
-semantics-preserving re-encoding exists and is strictly more expensive: unfolding the whole
-invented composite layer `{m1, m2}` raises the target's minimum description cost from
-**2 to 5** and moves the selected class from `REUSE_POSITIVE` to `UNRELATED_CONTROL`, while
-changing the minimum of no other class. The invented library is used by the reuse-positive
-population and by nothing else.
+| grammar instance | production set | kind | mu(t) before -> after | indicator margin | Tier-2 flip |
+|---|---|---|---|---|---|
+| `grammar_growth_G2` (#897) | `m2` (R1a) | TARGET_SPECIFIC_SHORTCUT | 2 -> 3 | 0 | no |
+| `grammar_growth_G2` (#897) | `{m1, m2}` (R1b full unfold) | TARGET_SPECIFIC_SHORTCUT | **2 -> 5** | 0 | **yes** (REUSE_POSITIVE -> UNRELATED_CONTROL) |
+| `cross_grammar_routing_B` | `branches` | TARGET_IS_A_PRIMITIVE | 3 -> none | 1 | no |
+
+`grammar_growth_G2` is the **only** case in the corpus where a genuine semantics-preserving
+re-encoding exists and is strictly dearer. The deleted set is not a class indicator: the
+base-only encoding of every reuse-positive word uses neither `m1` nor `m2`, so the target
+stays reachable and the 2 -> 5 rise is a real cost measurement over 181 target presentations.
+Unfolding the invented composite layer changes the minimum of the target class and of no
+other class, and moves the selected class. Disposition
+`ENCODES_COST_MEASURED__DISCLOSED_CHARGED`: the package charges `K_total = 6` at
+`kappa = 1`, preserves an H- negative control, and beats a 0/200 randomized-admission null.
+
+`cross_grammar_routing_B` passes the A5 indicator test **on a margin of one**: `branches`
+also appears in a single `FIXED_READ` presentation (the all-equal-leaves candidate, which
+`classify()` sends to the other class), so the production does not mark the target class
+exactly. Its `mu` gap is still a coverage loss rather than a finite number. The margin is
+published on the hit so the thinness is visible rather than hidden behind a verdict.
+
+### (b) Production is the class label — 5 instances (indicator margin 0)
+
+| grammar instance | production | n target presentations |
+|---|---|---|
+| `cross_grammar_local_A` | `shared` | 1 |
+| `cross_grammar_local_B` | `shared` | 1 |
+| `cross_grammar_state_B` | `not_s` | 4 |
+| `cross_grammar_storage_A` | `rows` | 2 |
+| `cross_grammar_storage_B` | `leaves` | 2 |
+
+For these, `gmi-cross-grammar-four-family-v1`'s own post-run `classify()` assigns the
+phenotype **by reading the production symbol** (`SHARED_LOCAL_UPDATE if raw[...] ==
+"shared"`, `"not_s" in raw`, `raw[0] in {"rows","leaves"}`), so
+`sem(p)` is a function of `leaves(p)` and target-exclusivity follows from the classifier's
+definition. The name-blind `indicator(Q, t)` test of Amendment A5 separates them: every
+target presentation uses `Q` and no other class's does.
+
+**These are still encodings** — indeed the strongest form of "the answer is in the primitive
+basis": the morphology taxonomy *is* the grammar's vocabulary, so the target is reachable
+only through a production nothing else uses. But **no cost gap is measured**, and this
+package never reports one for them. Disposition
+`ENCODES_CLASS_INDICATOR__DISCLOSED_CHARGED`: the package discloses the design (two
+independently structured grammars, candidate spaces not in one-to-one correspondence, no
+shared evaluator) and controls it with matched negative twin ecologies (8/8 positive/twin
+flips).
+
+### The rest of the corpus population
+
+**`ENCODES_UNDISCLOSED` = 0.** No confirmed leak.
+
+**Zero corpus grammars came out `NEUTRAL_AT_REGISTERED_SCOPE`.** The only NEUTRAL row is the
+synthetic fixture, which is exactly what it is there to be.
 
 **Screened, not cleared** (§4.3): 3 instances `NO_PRODUCTION_STRUCTURE`
 (`cost_privilege_GA`, `cost_privilege_GB`, `cross_grammar_state_A`), 1
 `NUMERIC_PARAMETER_SPACE` (`cross_grammar_routing_A`), 2 `NO_DECLARED_TARGET`
-(`cost_privilege_REGISTERED`, `grammar_bias_G0_slice`). These are **not** clean verdicts.
+(`cost_privilege_REGISTERED`, `grammar_bias_G0_slice`). These are **not** clean verdicts;
+the R1 production route simply does not reach them.
 
 **Detector power is proven, not assumed** (V1-V5): the #891 anchor is re-found, planted
 target-specific shortcuts in real corpus grammars are caught 11/11, the clean control and
-204 randomized isometry controls raise 0 alarms, and all six hostile detector variants are
-detected.
+204 randomized isometry controls raise 0 alarms, and all seven hostile detector variants —
+including H7, a variant omitting the A5 indicator test — are detected. H7 is a live check,
+not a formality: it passes precisely because the population really does contain both kinds.
 
-**Forbidden extrapolation.** This is an identification over an extractable population. It
-is NOT a claim that no other corpus grammar encodes its target; the cost route reaches only
+**Forbidden extrapolation.** This is an identification over an extractable population. It is
+NOT a claim that no other corpus grammar encodes its target; the cost route reaches only
 grammars whose `(presentations, cost, semantic class, declared target)` tuple is
-mechanically recoverable.
+mechanically recoverable, and 4 of the 11 targeted instances are not reached by R1 at all.
 
 ---
 
@@ -227,3 +267,11 @@ Both deviations point the same way: the R1 production route reaches only grammar
 named production vocabulary, and two of the four cross-grammar A-side instances do not have
 one. That is a coverage limit of this pass, filed as `REV-B48-COST-ROUTE-COVERAGE`, not a
 clean verdict on those grammars.
+
+**Amendment A5's own anchor also deviated, in the interesting direction.** A5 predicted all
+six cross-grammar hits would be `PRODUCTION_IS_CLASS_INDICATOR`. Five are, at margin 0.
+`cross_grammar_routing_B` is not: `branches` also occurs in one `FIXED_READ` presentation
+(the all-equal-leaves candidate), so it does not mark the target class exactly and the
+incidence test returns `COST_MEASURED` on a margin of 1. The test was frozen before the run
+and decided the case against the amendment's own expectation; the margin is published on the
+hit rather than rounded away.

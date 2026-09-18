@@ -14,14 +14,26 @@ minimum then strictly rises (`TARGET_SPECIFIC_SHORTCUT`) or becomes unreachable
 (`TARGET_IS_A_PRIMITIVE`). Exclusivity is computed from cost tables, never from names.
 
 **Headline (all exact integers; every number reproducible from `RESULT_V1.json`).**
-Over 14 grammar instances from 5 merged packages (12 with a declared target):
-**7 encode their declared target, all `ENCODES_DISCLOSED_CHARGED`, 0 `ENCODES_UNDISCLOSED`.**
-3 of the 7 also flip the selected class (Tier-2). The only `TARGET_SPECIFIC_SHORTCUT` is
-`gmi-833-g0-grammar-growth-v1`: unfolding the invented composite layer `{m1, m2}` raises
-`mu(REUSE_POSITIVE)` **2 -> 5** and moves the selection to `UNRELATED_CONTROL`, while
-changing no other class's minimum. 4 instances are `SCREENED_NOT_ADJUDICATED`
-(3 `NO_PRODUCTION_STRUCTURE`, 1 `NUMERIC_PARAMETER_SPACE`) and 2 are `NO_DECLARED_TARGET` —
-screened, **not** cleared.
+Over **13 corpus grammar instances from 4 merged packages** (11 with a declared target; this
+package's own synthetic clean-control fixture is loaded for validation and excluded from
+every denominator): **7 encode their declared target, 0 `ENCODES_UNDISCLOSED`.**
+
+The 7 split into two kinds that are never summed (Amendment A5), because for some of them
+the audited package's own classifier assigns the phenotype *by reading the production
+symbol*, which makes target-exclusivity definitional rather than a cost finding:
+
+- **2 `COST_MEASURED`.** `gmi-833-g0-grammar-growth-v1` is the only measured **finite**
+  gap: unfolding the invented composite layer `{m1, m2}` raises `mu(REUSE_POSITIVE)`
+  **2 -> 5** over 181 target presentations and moves the selection to `UNRELATED_CONTROL`,
+  while changing no other class's minimum. `cross_grammar_routing_B` (`branches`) qualifies
+  on an indicator margin of **1** — published on the hit so the thinness is visible.
+- **5 `PRODUCTION_IS_CLASS_INDICATOR`** (margin 0): `shared` x2, `not_s`, `rows`, `leaves`.
+  Still encodings — the morphology taxonomy *is* the grammar's vocabulary, the strongest
+  form of "the answer is in the primitive basis" — but no cost gap is measured or claimed.
+
+**Zero corpus grammars came out `NEUTRAL`**; the single NEUTRAL row is the synthetic fixture.
+4 instances are `SCREENED_NOT_ADJUDICATED` (3 `NO_PRODUCTION_STRUCTURE`, 1
+`NUMERIC_PARAMETER_SPACE`) and 2 are `NO_DECLARED_TARGET` — screened, **not** cleared.
 
 Lexical route over 158 packages / 1,923 blocks: **37 hits, all 37 adjudicated with written
 reasons, 0 CONFIRMED** (PARENT_LITERATURE_ATLAS 19, AUDIT_RECORD_ECHO 10,
@@ -35,7 +47,8 @@ is the row's real finding.
 **Detector power is proven, not assumed.** V1 re-finds #891's registered `GA/GB`
 counterexample (ALPHA -> BETA at `w = (1,1)`, equal coverage); V2 catches 11/11 shortcuts
 planted into real corpus grammars; V3 raises 0 alarms on the clean control and is invariant
-under every isometric relabeling; V4 detects all 6 hostile detector variants; V5 runs 204
+under every isometric relabeling; V4 detects all 7 hostile detector variants (including one that omits the A5 indicator
+test); V5 runs 204
 randomized isometry controls with 0 spurious changes. The executor **refuses to emit any
 finding** unless V1-V5 all pass.
 
@@ -54,13 +67,16 @@ this package's claim is its exact complement — the identified, adjudicated pop
 cd research/gmi-833-grammar-morphology-encoding-v1
 python3 -I -B    grammar_morphology_encoding_v1.py    # writes RESULT/ADJUDICATION/PLEX/DUMP
 python3 -I -B    independent_oracle_v1.py             # writes ORACLE_RESULT_V1.json
-python3 -I -B    test_grammar_morphology_encoding_v1.py   # 34 tests
-python3 -I -O -B test_grammar_morphology_encoding_v1.py   # 34 tests
+python3 -I -B    test_grammar_morphology_encoding_v1.py   # 42 tests
+python3 -I -O -B test_grammar_morphology_encoding_v1.py   # 42 tests
 ```
 
 The executor takes about a minute (the corpus-wide lexical sweep dominates); the oracle and
 the tests are instantaneous. Runs were executed on laptop-billy (python3 3.8.10), never on
-the Mac.
+the Mac. Cross-version reproducibility was checked there: 3.8.10 and 3.9 produce
+byte-identical `GRAMMAR_DUMP_V1.json`, `PLEX_SCREEN_V1.json` and `RESULT_V1.json`. CI holds
+the pure artifacts byte-exact and the corpus-sweep artifacts field-exact, because the
+lexical route re-parses other packages' sources through a Python-version-dependent AST.
 
 **Claim ceiling:** `GMI_833_SEARCH_GRAMMAR_TARGET_ENCODING_IDENTIFICATION_AT_REGISTERED_SCOPE`.
 Forbidden promotions are listed in `MANIFEST_V1.json` and asserted by the test battery. In

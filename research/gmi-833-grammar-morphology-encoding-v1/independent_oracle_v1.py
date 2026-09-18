@@ -78,7 +78,16 @@ def probe(pres, universe, inc, target, qs, via):
     if mt is not None and mt <= base_mu[target]:
         return None
     n_target = len([p for p in pres if p["sem"] == target])
+    tset = set(qs)
+    tgt_rows = [p for p in pres if p["sem"] == target]
+    oth_rows = [p for p in pres if p["sem"] != target]
+    indicator = (bool(tgt_rows)
+                 and len([p for p in tgt_rows if tset & set(p["leaves"])]) == len(tgt_rows)
+                 and len([p for p in oth_rows if tset & set(p["leaves"])]) == 0)
     return {
+        "encoding_kind": ("PRODUCTION_IS_CLASS_INDICATOR" if indicator
+                          else "COST_MEASURED"),
+        "indicator_margin": len([p for p in oth_rows if tset & set(p["leaves"])]),
         "via": via, "productions": sorted(qs),
         "kind": "TARGET_IS_A_PRIMITIVE" if mt is None else "TARGET_SPECIFIC_SHORTCUT",
         "mu_target_before": base_mu[target], "mu_target_after": mt,
@@ -135,11 +144,14 @@ def run(g):
                 if hits else "NEUTRAL_AT_REGISTERED_SCOPE")
     else:
         d = g["disclosure"]
-        disp = ("ENCODES_DISCLOSED_CHARGED"
-                if (d["declared"] and d["charged"] and d["evidence"])
-                else "ENCODES_UNDISCLOSED")
+        measured = len([h for h in real if h["encoding_kind"] == "COST_MEASURED"]) > 0
+        disp = ("ENCODES_COST_MEASURED__" if measured else "ENCODES_CLASS_INDICATOR__") + (
+            "DISCLOSED_CHARGED" if (d["declared"] and d["charged"] and d["evidence"])
+            else "UNDISCLOSED")
     return {
         "grammar_id": g["grammar_id"], "disposition": disp,
+        "corpus": bool(g.get("corpus", True)),
+        "encoding_kinds": sorted(set(h["encoding_kind"] for h in real)),
         "n_tier1_hits": len(real),
         "tier1_kinds": sorted(set(h["kind"] for h in real)),
         "tier2_decisive_selection_flip_via_R1": any(
