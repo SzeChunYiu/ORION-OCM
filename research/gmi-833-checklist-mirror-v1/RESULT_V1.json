@@ -3,14 +3,14 @@
   "issue": 833,
   "claim_ceiling": "GMI_833_CHECKLIST_CUSTODY_MIRROR_AND_SAFE_WRITE_PROTOCOL_AT_OBSERVED_BODY_STATE",
   "observed_body": {
-    "fetched_utc": "2026-09-18",
-    "sha256": "9d7b0219f370fce69da8061b9eba88684bd0edb743549a6d99069b282430d8e5",
-    "chars": 64031,
+    "fetched_utc": "2026-09-18T02:5x",
+    "sha256": "f39f94c9f4fb05dfe7937adad9fdb6b7517caaa00342d2f774a824fb62afe5e4",
+    "chars": 65115,
     "github_limit": 65536,
-    "headroom_chars": 1505,
+    "headroom_chars": 421,
     "rows": 259,
-    "checked": 167,
-    "unchecked": 92,
+    "checked": 169,
+    "unchecked": 90,
     "sections": [
       "# A. Scientific constitution and claim discipline",
       "# B. Full corpus scientific audit",
@@ -25,7 +25,8 @@
       "# K. Capability theory upgrade",
       "# L. Development, morphogenesis, and evolvability",
       "# M. Cognitive-function derivation upgrade"
-    ]
+    ],
+    "note": "refreshed from the live body after the concurrent lane closed two further rows; headroom fell 1505 -> 421, confirming the D2 projection in real time"
   },
   "defect_D1_truncation": {
     "detected": true,
@@ -40,18 +41,19 @@
     "reconstruction_refused": true
   },
   "defect_D2_ceiling": {
-    "headroom_chars": 1505,
-    "evidence_chars_on_checked_rows": 45907,
-    "mean_evidence_chars": 274.9,
+    "headroom_chars": 421,
+    "evidence_chars_on_checked_rows": 46982,
+    "mean_evidence_chars": 278.0,
     "max_evidence_chars": 995,
-    "closures_admitted_before_ceiling_at_mean_rate": 5,
-    "rows_still_open": 92
+    "closures_admitted_before_ceiling_at_mean_rate": 1,
+    "rows_still_open": 90,
+    "realized": "between freeze and refresh the concurrent lane closed 2 rows and headroom fell from 1505 to 421"
   },
   "remedy": {
-    "compacted_chars": 24035,
-    "chars_reclaimed": 39996,
-    "headroom_after": 41501,
-    "closures_admitted_after_at_mean_rate": 150,
+    "compacted_chars": 24131,
+    "chars_reclaimed": 40984,
+    "headroom_after": 41405,
+    "closures_admitted_after_at_mean_rate": 148,
     "invariants_enforced": [
       "I1 row text invariant",
       "I2 disposition invariant",
@@ -63,7 +65,7 @@
   },
   "tests": {
     "suite": "test_checklist_mirror_v1.py",
-    "cases": 21,
+    "cases": 23,
     "hostiles_detected": 10,
     "modes": [
       "python3 -I -B",
@@ -72,12 +74,12 @@
     "result": "PASS"
   },
   "artifact_sha256": {
-    "ISSUE_833_BODY_MIRROR.md": "9d7b0219f370fce69da8061b9eba88684bd0edb743549a6d99069b282430d8e5",
-    "EVIDENCE_LEDGER_V1.json": "1e08302cfbfdc175285af82fa8e8365a74a6ed61f966810e4b1ad38d4dbe320c",
+    "ISSUE_833_BODY_MIRROR.md": "f39f94c9f4fb05dfe7937adad9fdb6b7517caaa00342d2f774a824fb62afe5e4",
+    "EVIDENCE_LEDGER_V1.json": "e902867c57bb84fb2b98a3ac466e69967acb929faf91278252f67554d89068e4",
     "checklist_core_v1.py": "8369e8a6d8a5de3c9fd49a0631f117408179a71f0eeac67830683c95a96bfd16",
     "issue_body_safe_write_v1.py": "a3017e7b509b2102ca5c50b2ee85f9bc4bb4ed15f60f2ff2d7e20d84bdb17a90",
     "compact_body_v1.py": "1584095a11772e6bebd26185611bfee5edcd7610ddd5358633a30a8af7b02183",
-    "test_checklist_mirror_v1.py": "34ae01c749d673729adb5ff9d533a58cd060165f981751fe96dcf0e5a45097cf"
+    "test_checklist_mirror_v1.py": "0d8976f91606ee7d6bf847fc963891cd0470cf0b01cae6570e41a5b64d02fd70"
   },
   "scientific_rows_closed": [],
   "explicit_non_claims": [
@@ -85,5 +87,14 @@
     "does not assert D1 was caused by D2",
     "makes no scientific claim about GMI",
     "a verified write proves intent-matching, not the caller's scientific claim"
-  ]
+  ],
+  "freeze_time_measurement": {
+    "note": "the state at FREEZE_V1.md; retained immutably as the measurement that motivated this package",
+    "sha256": "9d7b0219f370fce69da8061b9eba88684bd0edb743549a6d99069b282430d8e5",
+    "chars": 64031,
+    "headroom_chars": 1505,
+    "checked": 167,
+    "unchecked": 92,
+    "closures_admitted_before_ceiling_at_mean_rate": 5
+  }
 }

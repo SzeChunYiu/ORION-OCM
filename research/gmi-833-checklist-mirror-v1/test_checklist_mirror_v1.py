@@ -145,14 +145,46 @@ class TestCompaction(unittest.TestCase):
     def setUp(self):
         self.body = core.read_text(MIRROR)
 
-    def test_mirror_matches_frozen_measurements(self):
+    def test_mirror_is_self_consistent_with_the_committed_receipt(self):
+        """The mirror, the ledger and the receipt must describe the same body.
+
+        Asserting hardcoded lengths would break every time the live body moves;
+        asserting mutual consistency catches the thing that actually matters -
+        a mirror refreshed without regenerating the ledger beside it.
+        """
+        import json, io as _io
+        res = json.load(_io.open(os.path.join(HERE, "RESULT_V1.json"), encoding="utf-8"))
+        led = json.load(_io.open(os.path.join(HERE, "EVIDENCE_LEDGER_V1.json"), encoding="utf-8"))
         rows, defect = core.parse(self.body)
-        self.assertEqual(len(self.body), 64031)
-        self.assertEqual(len(rows), 259)
-        self.assertEqual(sum(1 for r in rows if r["checked"]), 167)
-        self.assertEqual(sum(1 for r in rows if not r["checked"]), 92)
+        ob = res["observed_body"]
+        self.assertEqual(len(self.body), ob["chars"])
+        self.assertEqual(core.body_sha256(self.body), ob["sha256"])
+        self.assertEqual(len(rows), ob["rows"])
+        self.assertEqual(sum(1 for r in rows if r["checked"]), ob["checked"])
+        self.assertEqual(sum(1 for r in rows if not r["checked"]), ob["unchecked"])
+        self.assertEqual(led["row_count"], ob["rows"])
+        self.assertEqual(led["checked"], ob["checked"])
+        self.assertEqual(led["source_body_sha256"], ob["sha256"])
+        self.assertEqual(core.BODY_LIMIT - len(self.body), ob["headroom_chars"])
+
+    def test_the_D1_truncation_defect_is_still_present_and_recorded(self):
+        _, defect = core.parse(self.body)
+        import json, io as _io
+        res = json.load(_io.open(os.path.join(HERE, "RESULT_V1.json"), encoding="utf-8"))
         self.assertEqual(defect, u"- [")
-        self.assertEqual(core.BODY_LIMIT - len(self.body), 1505)
+        self.assertTrue(res["defect_D1_truncation"]["detected"])
+        self.assertEqual(res["defect_D1_truncation"]["verbatim_tail_token"], defect)
+        self.assertFalse(res["defect_D1_truncation"]["recovered"])
+        self.assertTrue(res["defect_D1_truncation"]["reconstruction_refused"])
+
+    def test_freeze_time_measurement_is_retained_immutably(self):
+        import json, io as _io
+        res = json.load(_io.open(os.path.join(HERE, "RESULT_V1.json"), encoding="utf-8"))
+        ft = res["freeze_time_measurement"]
+        self.assertEqual(ft["chars"], 64031)
+        self.assertEqual(ft["headroom_chars"], 1505)
+        self.assertEqual(ft["checked"], 167)
+        self.assertEqual(ft["unchecked"], 92)
 
     def test_compaction_preserves_signature_and_recovers_headroom(self):
         rows, _ = core.parse(self.body)
@@ -169,7 +201,8 @@ class TestCompaction(unittest.TestCase):
         _, ledger = comp.compact(self.body)
         by_key = dict((e["key"], e["evidence"]) for e in ledger["entries"])
         checked = [r for r in rows if r["checked"]]
-        self.assertEqual(len(checked), 167)
+        self.assertEqual(len(checked), sum(1 for r in rows if r["checked"]))
+        self.assertGreaterEqual(len(checked), 167)
         for r in checked:
             self.assertEqual(by_key[r["key"]], r["evidence"])
 
