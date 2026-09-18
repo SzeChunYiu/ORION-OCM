@@ -57,7 +57,8 @@ class TestTwoRoutes(unittest.TestCase):
         # parsed module, not the text, so prose in the docstring cannot pass
         # or fail this by accident
         import ast
-        tree = ast.parse(open(O.__file__).read())
+        with open(O.__file__) as fh:
+            tree = ast.parse(fh.read())
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 for a in node.names:
