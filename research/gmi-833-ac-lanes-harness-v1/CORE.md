@@ -35,7 +35,7 @@ A first draft tested AC04 with a list of instruction verbs and reported **9**
 violations; **7** were wrong, because the list lacked `prefer`, `adopt` and
 `map`. Widening a vocabulary until violations vanish is outcome tuning. The
 shipped test is structural — the parent document's own convention puts the
-selection rule in a parenthetical — and reports **2**. AC03 has the mirror
+term-choice rule in a parenthetical — and reports **2**. AC03 has the mirror
 story: a single-witness test flagged 12 rows, most of them morphological
 variants (`bisimulation` vs `bisimilarity`); the shipped two-witness test
 reports **0**.

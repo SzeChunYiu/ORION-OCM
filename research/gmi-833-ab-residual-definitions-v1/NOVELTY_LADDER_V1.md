@@ -156,7 +156,7 @@ check.
 
 **Falsifier.** A parent that attains the profile under some allocation; an
 evaluation set chosen after the measurements (which makes the profile a
-post-selection artifact, AA33); or a profile that is a scalarization in
+post-hoc selection artifact, AA33); or a profile that is a scalarization in
 disguise (AA29).
 
 **Parent literature.** Pareto dominance: Pareto, V., *Manuale di economia

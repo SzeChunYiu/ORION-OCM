@@ -99,10 +99,10 @@ distinct synonyms; the other **8** are outside the antecedent.
 **Statement.** AC04 requires the cross-field synonyms to be stated *and* one
 primary paper term chosen. **38 of 40** are resolved by the frozen crosswalk —
 either the proposed term is a single term, or the migration column carries a
-parenthetical, which is the parent document's own convention for a selection
+parenthetical, which is the parent document's own convention for a term-choice
 rule. The remaining **2** (row 23 `niche`, row 33 `parent subtraction`) offer a
 menu of three or four alternatives under a bare `PAPER-RENAME` with no
-instruction at all; a primary term and an explicit selection rule for each is
+instruction at all; a primary term and an explicit term-choice rule for each is
 supplied in `AC_CROSSWALK_ADDENDUM_V1.md`. **40/40** resolved, **0** unresolved.
 
 **Quantifiers.** For every row in the antecedent.
@@ -121,7 +121,7 @@ parenthetical that the addendum does not cover — hostile H3 strips a
 parenthetical and moves the count 38 → 37.
 
 **Strongest parents.** The crosswalk owns 38 of the 40 resolutions and the
-selection-rule convention. The residual is the audit and the two supplied rules.
+term-choice-rule convention. The residual is the audit and the two supplied rules.
 
 **Forbidden extrapolations.** A stated primary term is not a migrated corpus.
 AB02's corpus debt is untouched here.

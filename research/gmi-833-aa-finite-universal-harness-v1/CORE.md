@@ -27,7 +27,7 @@ universal wording. On the real corpus that moves the flagged count
 **283 → 351**: **68** objects read universally but are not registered
 universal. That is the exact size of the gap between a metadata predicate and a
 text predicate — and it is why AA16–AA20 and AA22–AA37 stay open. A flag here
-is a review obligation, never a refuted claim.
+is a review requirement, never a refuted claim.
 
 ## Reproduce
 

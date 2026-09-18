@@ -14,18 +14,18 @@ AC06 asks for and what is supplied here is the *presence of an
 earliest-or-strongest parent record per idea*, with its verification status
 disclosed.
 
-## Part 1 — AC04 selection rules for the two rows that state none
+## Part 1 — AC04 term-choice rules for the two rows that state none
 
 AC04: *"When terminology differs across fields, state the cross-field synonyms
 and choose one primary paper term."* Two crosswalk rows offer a menu of
 cross-field synonyms with no instruction for choosing among them: their
 migration rule is a bare `PAPER-RENAME` with no parenthetical. The parent's own
-convention is that the parenthetical carries the selection rule, so these two
+convention is that the parenthetical carries the term-choice rule, so these two
 rows state no primary term. The rules below close that, in the parent's format.
 
-| # | legacy GMI term | primary paper term | selection rule (migration parenthetical supplied here) |
+| # | legacy GMI term | primary paper term | term-choice rule (migration parenthetical supplied here) |
 |---|---|---|---|
-| 23 | niche | **region of instance space** | PAPER-RENAME (primary term: *region of instance space*; use *operating regime* only when the region is indexed by a resource/control parameter rather than by instances, and *domain of competence* only when quoting the algorithm-selection literature. Never the ecological reading without a stated instance space.) |
+| 23 | niche | **region of instance space** | PAPER-RENAME (primary term: *region of instance space*; use *operating regime* only when the region is indexed by a resource or control parameter rather than by instances, and *domain of competence* only when quoting the algorithm-selection literature. Never the ecological reading without a stated instance space.) |
 | 33 | parent subtraction | **comparison to strongest baselines** | PAPER-RENAME (primary term: *comparison to strongest baselines*; use *subsumption analysis* when the parent is shown to entail the result, *reduction* when an explicit reduction is exhibited, and *ablation* only for a component removed from the authors' own system. Never *parent subtraction* in paper-facing text.) |
 
 ## Part 2 — AC06 earliest/strongest parent records for the eight rows that carry none

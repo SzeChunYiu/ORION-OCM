@@ -34,7 +34,7 @@ the file cites Rice's DOI.
 role is Rice's and only a named residual is not. Two of the three residuals
 (grammar-induced structure of `A`; refusing to scalarize `R^n`) are owned by
 other packages on `main` and are credited, not claimed; the third — that a
-selection map whose codomain includes candidates absent from the fitting
+algorithm selection map whose codomain includes candidates absent from the fitting
 portfolio needs its own identifiability argument — is stated as a **gap with no
 result behind it**.
 
