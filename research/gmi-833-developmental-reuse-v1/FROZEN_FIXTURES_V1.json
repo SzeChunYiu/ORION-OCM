@@ -1,0 +1,136 @@
+{
+  "schema": "GMI833DevelopmentalReuseFrozenFixturesV1",
+  "issue": 833,
+  "section": "L",
+  "source_main": "bfb7d8c296a60c0bc76632ed69551540644e74e6",
+  "base_tokens": ["a", "b", "c"],
+  "base_token_order": ["a", "b", "c"],
+  "kappa_primary": 1,
+  "kappa_note": "inherited verbatim from gmi-833-g0-grammar-growth-v1 (#897), which derives kappa=1 by its frozen grid rule; not re-derived here",
+
+  "rep1_census": {
+    "n_values": [2, 3, 4],
+    "n_prime_offsets": [1, 2, 3],
+    "ell0_max": 12,
+    "ell1_range_rule": "1 <= ell1 <= ell0"
+  },
+
+  "rep3": {
+    "selection_rule": "c-padded word over {a,b,c} of the registered length containing exactly one greedy non-overlapping occurrence of 'ab', placed after the registered prefix of 'c'; chosen by rule before any burden was computed",
+    "library": {"m1": ["a", "b"]},
+    "primary": {
+      "id": "w_star11",
+      "word": "cccccabcccc",
+      "length": 11,
+      "expected_ell0": 11,
+      "expected_ell1": 10,
+      "n": 3,
+      "n_prime": 4,
+      "predicted_band": "GUARANTEED_INCREASE"
+    },
+    "near_miss_hostile": {
+      "id": "w_near10",
+      "word": "ccccabcccc",
+      "length": 10,
+      "expected_ell0": 10,
+      "expected_ell1": 9,
+      "n": 3,
+      "n_prime": 4,
+      "predicted_band": "RANK_DECIDED"
+    }
+  },
+
+  "rep2": {
+    "library": {"m1": ["a", "b"], "m2": ["m1", "m1"]},
+    "library_source": "research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json (INV-1 registered library)",
+    "k_total_expected": 6,
+    "heldout_reuse_positive": [
+      "abababab", "ababab", "ababc", "cabab", "babab", "ababcc",
+      "cabcab", "ababcab", "abababc", "ababababab", "aababab", "cababab"
+    ],
+    "heldout_unrelated_control": [
+      "acb", "cca", "caa", "ccb", "bbc", "bcb",
+      "cbc", "cac", "aca", "acca", "caac", "cbbc"
+    ],
+    "heldout_source": "research/gmi-833-g0-grammar-growth-v1/FROZEN_FIXTURES_V1.json (verbatim reuse; NOT re-authored)",
+    "parent_published_integers_to_reproduce": {
+      "hplus_burden_g0": 50052,
+      "hplus_burden_g1": 1307,
+      "k_total": 6,
+      "hplus_net": -48739,
+      "hminus_burden_g0": 538,
+      "hminus_burden_g1": 1710,
+      "hminus_net": 1178
+    },
+    "capital_boundary": {
+      "id": "L_sol",
+      "target": "ababababab",
+      "library_rule": "single macro whose body is the whole target word w* over the base alphabet",
+      "requirement": "REP-1 band on w* must be GUARANTEED_REDUCTION; REP-2 must reject L_sol on the registered distribution"
+    },
+    "no_reuse_hostile": {
+      "id": "H-NOREUSE",
+      "library": {"m1": ["c", "c", "c"]},
+      "requirement": "Saving(T+) == 0 and dNet > 0 strictly on the registered distribution"
+    }
+  },
+
+  "nov2": {
+    "lmax": 6,
+    "library": {"m1": ["a", "b"], "m2": ["m1", "m1"]},
+    "budget_grid": [10, 100, 1000, 5000, 20000],
+    "requirement": "ADDED(B) and REMOVED(B) both nonempty for at least one registered B; exact counts reported at every B"
+  },
+
+  "nov1": {
+    "libraries_checked": [
+      {"m1": ["a", "b"]},
+      {"m1": ["a", "b"], "m2": ["m1", "m1"]},
+      {"m1": ["a", "b"], "m2": ["m1", "m1"], "m3": ["m2", "c", "m2"]}
+    ],
+    "cycle_hostiles": [
+      {"m1": ["m1", "a"]},
+      {"m1": ["m2", "a"], "m2": ["m1", "b"]},
+      {"m1": ["m2"], "m2": ["m3"], "m3": ["m1"]}
+    ],
+    "expressibility_check_lmax": 6
+  },
+
+  "sd_frame": {
+    "ell_primary": 8,
+    "ell_scaling": [6, 8, 10],
+    "alphabet_size": 3,
+    "budget_rule": "B_eval = 3**ell (one full sweep's worth of evaluations)",
+    "target_word_rule": "the lexicographically-median word of Sigma^ell under a<b<c, i.e. index (3**ell - 1)//2",
+    "decoy_word_rule": "position-wise successor of the target modulo the base alphabet order, giving Hamming distance exactly ell",
+    "population_mu": 8,
+    "population_lambda": 32,
+    "ls_restart": "restart from a fresh seeded uniform point on reaching a strict local optimum",
+    "meta_shares": [1, 1, 1],
+    "meta_arms": ["ENUM", "LS", "EVO"],
+    "nas_library_pool": [
+      {"m1": ["a", "b"]},
+      {"m1": ["b", "c"]},
+      {"m1": ["a", "b"], "m2": ["m1", "m1"]},
+      {"m1": ["c", "c"]}
+    ],
+    "dynamics": ["ENUM", "MUT", "LS", "GP", "EVO", "GRAD", "NAS", "META"],
+    "ecologies": ["OPAQUE", "GRADED", "DECEPTIVE"],
+    "lcg": {"a": 1103515245, "c": 12345, "m": 2147483648, "seed": 20260918},
+    "null": {
+      "control": "RAND",
+      "seeds": [1, 200],
+      "two_sided_requirement": {
+        "GRADED": "guided dynamics must beat the RAND control",
+        "OPAQUE": "guided dynamics must NOT beat the RAND control"
+      }
+    }
+  },
+
+  "frame_hostiles": [
+    "H-UNCHARGED", "H-BUDGET", "H-TARGET", "H-ORACLE-PEEK",
+    "H-CYCLE", "H-NEARMISS", "H-CAPITAL", "H-NOREUSE", "H-RANKFLIP"
+  ],
+
+  "no_alarm_obligation": "the frame validator and the REP-1 band classifier must be asserted SILENT on every clean registered instance; a checker that fires on clean data is a defect"
+}
