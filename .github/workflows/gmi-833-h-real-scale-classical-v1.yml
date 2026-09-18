@@ -1,0 +1,124 @@
+name: GMI 833 Section H real-scale classical families v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-h-real-scale-classical-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-classical-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-h-real-scale-classical-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-classical-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody - the freeze must predate every implementation artifact
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-classical-v1
+          FZ=$(git log --format=%ct -1 -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze commit time"; exit 1; fi
+          for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json "$P"/MANIFEST_V1.json; do
+            T=$(git log --format=%ct -1 --diff-filter=A -- "$f")
+            if [ -z "$T" ]; then echo "cannot read add time for $f"; exit 1; fi
+            if [ "$T" -lt "$FZ" ]; then echo "CUSTODY FAILURE: $f predates FREEZE_V1.md"; exit 1; fi
+          done
+          echo "custody ok: FREEZE_V1.md at $FZ predates every implementation artifact"
+
+      - name: custody - the revival addendum must predate every V2 receipt
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-classical-v1
+          A=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V2_ADDENDUM.md")
+          if [ -z "$A" ]; then echo "cannot read the V2 addendum add time"; exit 1; fi
+          for f in "$P"/REAL_RUNS/*.json; do
+            T=$(git log --format=%ct -1 --diff-filter=A -- "$f")
+            if [ -z "$T" ]; then echo "cannot read add time for $f"; exit 1; fi
+            if [ "$T" -lt "$A" ]; then echo "CUSTODY FAILURE: $f predates FREEZE_V2_ADDENDUM.md"; exit 1; fi
+          done
+          echo "V2 custody ok"
+
+      - name: two-route independence - the oracle must not import the executor
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-classical-v1
+          for m in grammar_v1 grammar_v2 run_real_scale_v1 run_real_scale_v2 real_scale_classical_v1; do
+            if grep -Eq "^[[:space:]]*(import|from)[[:space:]]+$m\b" independent_oracle_v1.py; then
+              echo "TWO-ROUTE FAILURE: the oracle imports $m"; exit 1
+            fi
+          done
+          echo "two-route independence ok"
+
+      - name: negative control - a wrong artifact path must fail loudly
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-classical-v1
+          if python3 -I -B -c "import sys;sys.path.insert(0,'.');import real_scale_classical_v1 as C;C.RUNS='NO_SUCH_DIR';C.load('scope_H02.json')" 2>&1 | grep -q 'MISSING REAL_RUN ARTIFACT'; then
+            echo "negative control ok: a wrong path fails loudly"
+          else
+            echo "NEGATIVE CONTROL FAILURE: a wrong path did not fail"; exit 1
+          fi
+
+      - name: set interpreter flags
+        run: |
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            echo "PYFLAGS=-I -O -B" >> "$GITHUB_ENV"
+          else
+            echo "PYFLAGS=-I -B" >> "$GITHUB_ENV"
+          fi
+
+      - name: route B - source-separated oracle
+        working-directory: research/gmi-833-h-real-scale-classical-v1
+        run: python3 $PYFLAGS independent_oracle_v1.py
+
+      - name: route A - deterministic exact checker and eleven-gate ledger
+        working-directory: research/gmi-833-h-real-scale-classical-v1
+        run: python3 $PYFLAGS real_scale_classical_v1.py
+
+      - name: tests
+        working-directory: research/gmi-833-h-real-scale-classical-v1
+        run: python3 $PYFLAGS test_real_scale_classical_v1.py -v
+
+      - name: receipts are deterministic and match what was committed
+        working-directory: research/gmi-833-h-real-scale-classical-v1
+        run: |
+          set -eu
+          python3 -I -B real_scale_classical_v1.py > /dev/null
+          A=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          python3 -I -O -B real_scale_classical_v1.py > /dev/null
+          B=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          if [ "$A" != "$B" ]; then echo "NON-DETERMINISTIC RECEIPT: $A vs $B"; exit 1; fi
+          echo "deterministic across both modes: $A"
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json
+
+      - name: real sources are still bound by the digests the freeze registered
+        working-directory: research/gmi-833-h-real-scale-classical-v1
+        run: |
+          set -eu
+          for D in f6c94d35691b9c356f7e5072f94d23f127b168cf9b04f0f5b26e0cb1f6ef4414 \
+                   a9f677295dcb2d102bb43b86cbad70babe208c1a5fd38a2ae4d8a05f7fdb7a7a \
+                   41607de5c1577303abc83cccfd29e5d12e6c180689d9fc3d98eac3f97dec9ec9; do
+            if ! grep -q "$D" REAL_RUNS/sources.json; then
+              echo "SOURCE DIGEST DRIFT: $D not in REAL_RUNS/sources.json"; exit 1
+            fi
+          done
+          echo "source digests match FREEZE_V1.md section 4"

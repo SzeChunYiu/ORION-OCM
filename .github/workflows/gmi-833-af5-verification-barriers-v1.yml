@@ -1,0 +1,67 @@
+name: gmi-833-af5-verification-barriers-v1
+on:
+  pull_request:
+    paths: ['research/gmi-833-af5-verification-barriers-v1/**','.github/workflows/gmi-833-af5-verification-barriers-v1.yml']
+  push:
+    branches: [main]
+    paths: ['research/gmi-833-af5-verification-barriers-v1/**','.github/workflows/gmi-833-af5-verification-barriers-v1.yml']
+permissions: {contents: read}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=397b6bd3e78e59ffb359291c2e9ecb75f7e73061
+          P=research/gmi-833-af5-verification-barriers-v1/FREEZE_V1.md
+          git merge-base --is-ancestor "$F" HEAD
+          test "$(git show --pretty='' --name-only "$F" | sed '/^$/d')" = "$P"
+          for x in af5_verification_barriers_v1.py independent_oracle_v1.py test_af5_verification_barriers_v1.py RESULT_V1.json FORMALIZATION_V1.md; do
+            ! git cat-file -e "$F:research/gmi-833-af5-verification-barriers-v1/$x" 2>/dev/null
+          done
+      - name: Parent pins
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD:research/gmi-833-af-barrier-context-v1/GMI_BARRIER_PARENT_LEDGER_V1.json)" = 8089a47975ae6ca0489c5198b6a56c14da8d9b65
+          test "$(git rev-parse HEAD:research/gmi-833-af-barrier-context-v1/FORMALIZATION_V1.md)" = de2f2552bb6d5787317921f9c42c82dab2df1952
+          test "$(git rev-parse HEAD:research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json)" = 5b94d66a8d8d2196a518fd7ac8d1da83663e42a4
+      - name: Main and oracle replay
+        working-directory: research/gmi-833-af5-verification-barriers-v1
+        run: |
+          python3 -I -B af5_verification_barriers_v1.py --output /tmp/r1.json >/tmp/r1.out
+          python3 -I -O -B af5_verification_barriers_v1.py --output /tmp/r2.json >/tmp/r2.out
+          cmp RESULT_V1.json /tmp/r1.json && cmp /tmp/r1.json /tmp/r2.json
+          python3 -I -B independent_oracle_v1.py --output /tmp/o1.json >/tmp/o1.out
+          python3 -I -O -B independent_oracle_v1.py --output /tmp/o2.json >/tmp/o2.out
+          cmp ORACLE_RESULT_V1.json /tmp/o1.json && cmp /tmp/o1.json /tmp/o2.json
+      - name: Hostiles normal and optimized
+        working-directory: research/gmi-833-af5-verification-barriers-v1
+        run: |
+          python3 -I -B test_af5_verification_barriers_v1.py
+          python3 -I -O -B test_af5_verification_barriers_v1.py
+      - name: Reconciliation check only
+        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+        working-directory: research/gmi-833-af5-verification-barriers-v1
+        run: |
+          python3 -I -B check_reconciliation_v1.py --mode static-check
+          python3 -I -B check_reconciliation_v1.py --mode remote-check
+      - name: Scientific boundary assertions
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('research/gmi-833-af5-verification-barriers-v1/RESULT_V1.json'))
+          assert r['parent_no_go']['ownership']=='PARENT_OWNED_NOT_PROVED_BY_EXECUTOR'
+          assert r['abstract_coarse']['status']=='UNKNOWN_FALSE_ALARM_POSSIBLE'
+          assert r['cegar']['status']=='CEGAR_REFINED_CERTIFIABLE'
+          assert r['bounded']['k3']['unbounded_safety_proved'] is False
+          assert r['property_test']['exact_decider'] is False
+          assert r['property_test']['exact_reject_probability']=='13/14'
+          assert r['verification_selection'][1]['argmin']==['DIRECT_REPLAY','CERTIFICATE_EMITTER']
+          PY

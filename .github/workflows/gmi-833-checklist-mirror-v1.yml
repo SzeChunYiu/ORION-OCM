@@ -35,7 +35,15 @@ jobs:
           a = json.load(io.open('research/gmi-833-checklist-mirror-v1/EVIDENCE_LEDGER_V1.json', encoding='utf-8'))
           b = json.load(io.open(os.path.join(os.environ['RUNNER_TEMP'], 'ledger.json'), encoding='utf-8'))
           assert a['entries'] == b['entries'], 'committed ledger does not reproduce from the mirror'
-          assert a['row_count'] == 259 and a['checked'] == 167 and a['unchecked'] == 92, a['row_count']
+          # Assert mutual consistency, not frozen counts. The live body moves as
+          # rows close, so hardcoding 167/92 here fails on every legitimate
+          # refresh -- which is the pressure that gets an assertion deleted
+          # rather than fixed. What must hold is that the ledger describes the
+          # mirror beside it, and that the row set never shrinks.
+          assert a['row_count'] == b['row_count'], (a['row_count'], b['row_count'])
+          assert a['checked'] == b['checked'] and a['unchecked'] == b['unchecked']
+          assert a['checked'] + a['unchecked'] == a['row_count'], a['row_count']
+          assert a['row_count'] >= 259, ('rows lost from the body', a['row_count'])
           print('ledger reproduces exactly:', a['row_count'], 'rows')
           PY
 

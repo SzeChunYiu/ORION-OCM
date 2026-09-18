@@ -1,0 +1,82 @@
+name: GMI 833 AG/AH structural map and citation audit
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-agah-map-v1/**'
+      - '.github/workflows/gmi-833-agah-map-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-agah-map-v1/**'
+      - '.github/workflows/gmi-833-agah-map-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze precedes implementation
+        run: |
+          set -e
+          PKG=research/gmi-833-agah-map-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          C=$(git log --diff-filter=A --format=%ct -1 -- $PKG/citation_audit_v1.py)
+          echo "freeze=$F executor=$C"
+          test -n "$F"
+          test -n "$C"
+          test "$F" -le "$C"
+      - name: Route A -- citation admissibility auditor
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-agah-map-v1/citation_audit_v1.py
+      - name: Route B -- independent oracle
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-agah-map-v1/independent_oracle_v1.py
+      - name: Hostiles, null and no-alarm case
+        run: python3 -I -O -B research/gmi-833-agah-map-v1/test_agah_map_v1.py
+      - name: Assert receipt
+        run: |
+          python3 - <<'PY'
+          import json
+          r = json.load(open('research/gmi-833-agah-map-v1/RESULT_V1.json'))
+          o = json.load(open('research/gmi-833-agah-map-v1/ORACLE_RESULT_V1.json'))
+          t = json.load(open('research/gmi-833-agah-map-v1/TEST_RESULT_V1.json'))
+          assert r['status'] == 'GREEN' and r['failed_gates'] == []
+          assert all(v == 0 for v in r['violations'].values()), r['violations']
+          assert r['rows_mapped'] == 75 and r['citations_audited'] == 40
+          assert r['receipt_fields_verified'] == 185 == o['fields_checked']
+          assert r['distinct_parent_packages_cited'] == o['distinct_packages'] == 20
+          assert o['rows_closed'] == 55 and o['rows_open'] == 20
+          assert t['hostiles_detected'] == 11 and t['null_admissible'] == 0
+          assert r['claim_ceiling'].startswith('AGAH_STRUCTURAL_MAP_AND_PARENT_CITATION_ADMISSIBILITY')
+          assert 'PARENT_CITATION_PROVES_ROW_CONTENT' in r['forbidden_promotions']
+          print('AGAH map receipt OK')
+          PY
+      - name: Reconciliation rows are byte-exact against the pinned row set
+        run: |
+          python3 - <<'PY'
+          import json
+          rows = json.load(open('research/gmi-833-agah-map-v1/AGAH_ROWS_V1.json'))
+          rec = json.load(open('research/gmi-833-agah-map-v1/ISSUE_833_COMMENT_RECONCILIATION_V1.json'))
+          pinned = {}
+          for r in rows:
+              pinned.setdefault((r['cid'], r['row']), r['anchor'])
+          assert len(rows) == 75
+          seen = set()
+          for rp in rec['replacements']:
+              k = (rp['comment_id'], rp['old'])
+              assert k in pinned, rp['old']
+              assert pinned[k] == rp['anchor']
+              assert rp['old'][6:] in rp['new']
+              assert rp['new'].startswith('- [x] ')
+              assert k not in seen
+              seen.add(k)
+          for rp in rec['not_closed']:
+              k = (rp['comment_id'], rp['old'])
+              assert k in pinned and k not in seen
+              seen.add(k)
+          assert len(seen) == 75, len(seen)
+          assert len(rec['replacements']) == 55 and len(rec['not_closed']) == 20
+          print('reconciliation covers all 75 rows exactly once')
+          PY
