@@ -63,8 +63,10 @@ key = Counter((r["comment_id"], r["anchor"], r["old"]) for r in reps + nots)
 assert all(v == 1 for v in key.values()), [k for k, v in key.items() if v > 1]
 assert len(reps) + len(nots) == 104
 
+src = json.load(io.open(os.path.join(HERE, "ADJUDICATION_V2.json"), encoding="utf-8"))
 out = {"schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1", "issue": 833,
-       "round": 2, "source_main": os.environ.get("GMI833_MAIN", "349c2e62"),
+       "already_closed_upstream": src["already_closed_upstream"],
+       "round": 2, "source_main": os.environ.get("GMI833_MAIN", "0fb55057"),
        "supersedes": "research/gmi-833-comment-evidence-propagation-v1/ISSUE_833_COMMENT_RECONCILIATION_V1.json",
        "replacements": reps, "not_marked": nots}
 dest = os.path.join(HERE, "ISSUE_833_COMMENT_RECONCILIATION_V1.json")

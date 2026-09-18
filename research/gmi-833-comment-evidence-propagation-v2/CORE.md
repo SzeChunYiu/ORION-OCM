@@ -66,7 +66,10 @@ process, and the process it constrains does not exist on `main`.**
 ## Reproduce
 
 ```bash
-GMI833_FETCH=/tmp/claude-501/prop2/final \
+# 1. re-derive the 104 adjudications (asserts each bulk reason lands in its own section)
+python3 -I -B research/gmi-833-comment-evidence-propagation-v2/derive_adjudication_v1.py
+# 2. emit against a FRESH fetch of the four comment bodies into $GMI833_FETCH/c_<id>.md
+GMI833_FETCH=/tmp/claude-501/prop2/final GMI833_MAIN=0fb55057 \
   python3 -I -B research/gmi-833-comment-evidence-propagation-v2/build_reconciliation_v1.py
 python3 -I -B research/gmi-833-comment-evidence-propagation-v2/validate_citations_v1.py
 python3 -I -B research/gmi-833-comment-evidence-propagation-v2/calibrate_v1.py
@@ -76,6 +79,10 @@ python3 -I -B research/gmi-833-comment-evidence-propagation-v2/calibrate_v1.py
   byte-exact and appears **exactly once** in the live comment, every open row is adjudicated
   exactly once, and each `(comment_id, anchor, old)` triple is unique across the emission.
   Rows are keyed on the exact `old` text, never a line number.
+- `derive_adjudication_v1.py` asserts section-label containment on all 73 bulk-assigned
+  reasons: an off-by-one in any index range would otherwise pass every downstream gate,
+  since `old` and `anchor` would stay byte-exact and unique while carrying a neighbouring
+  section's reason.
 - `validate_citations_v1.py`: **36/36** evidence citations resolve; **5/5** planted bad
   citations are caught (missing file, bogus JSON key, two bogus markdown anchors, bogus
   ledger id).
