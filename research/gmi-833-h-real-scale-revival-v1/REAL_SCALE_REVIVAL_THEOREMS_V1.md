@@ -84,7 +84,10 @@ enumerated set, and what is recovered is an unweighted per-input lifting with a
 scalar head coefficient. `R05` at this scope rests on the cross-ecology matched
 control alone; no randomised control was registered here, and none is claimed.
 
+**Dependencies.** `grammar_s_v1.py` for the enumeration, the semantic quotient, the post-hoc classifier and the charged cost model; `FREEZE_V1.md` sections 3 to 8; `FREEZE_V1_ARITHMETIC_ADDENDUM.md` for the rationalisation operator; `FREEZE_V2_ADDENDUM.md` sections 3 to 5; `FREEZE_V3_ADDENDUM.md` section 2 for the out-of-sample ranking. It depends on no artifact of any parent package. Receipt: `REAL_RUNS/scope_R04.json`, `RESULT_V1.json` rows `R04`.
+
 ---
+
 
 ## `RSR-1` — at `SIGMA_R02` the class is recovered and the expression is not identified
 
@@ -148,7 +151,16 @@ real-scale thresholds of 438,739 fitted and 87,747 held-out rows. Eight of
 eleven closes nothing. It is recorded so a successor lane knows exactly what
 remains.
 
+**Assumptions.** The `D2` digest holds at run time; the slice rule of `FREEZE_V1.md` section 4; the fixed-denominator rationalisation; the out-of-sample ranking of the V3 addendum. The claim that the head is unidentified assumes only that the reported out-of-sample losses are the ones the registered procedure produces, which the committed receipt replays exactly.
+
+**Dependencies.** `grammar_s_v1.py` for the enumeration, the semantic quotient, the post-hoc classifier and the charged cost model; `FREEZE_V1.md` sections 3 to 8; `FREEZE_V1_ARITHMETIC_ADDENDUM.md` for the rationalisation operator; `FREEZE_V2_ADDENDUM.md` sections 3 to 5; `FREEZE_V3_ADDENDUM.md` section 2 for the out-of-sample ranking. It depends on no artifact of any parent package. Receipt: `REAL_RUNS/scope_R02.json`, `REAL_RUNS/controls.json`, `RESULT_V1.json` rows `R02`.
+
+**Falsifiers.** A chosen class other than `AFFINE_SCORE` at this scope, which would make the failure a class failure rather than an expression failure; a top-eight out-of-sample spread wide enough to identify one head, which would make the expression identifiable after all; a non-zero fitted intercept, which would give the ecology an intercept to recover.
+
+**Strongest parents.** Legendre 1805 and Gauss 1809 for least squares; Makhoul 1975 for linear prediction of a sampled waveform; Koza 1992 and Schmidt & Lipson 2009 for search over an expression grammar. The identifiability observation is elementary and is not claimed novel.
+
 ---
+
 
 ## `RSR-2` — a control is evidence only when it is certified to have bitten
 
@@ -184,7 +196,14 @@ inside the band.
 package's informative diagnostic is not imported here and is not offered as a
 falsifier, there or here.
 
+**Assumptions.** The permutation is drawn under the registered seed 20260918; the fit and held-out slices are disjoint by the rule of `FREEZE_V1.md` section 4; the refit uses the same routine and the same rationalisation as the arm it is compared with.
+
+**Dependencies.** `grammar_s_v1.py` for the enumeration, the semantic quotient, the post-hoc classifier and the charged cost model; `FREEZE_V1.md` sections 3 to 8; `FREEZE_V1_ARITHMETIC_ADDENDUM.md` for the rationalisation operator; `FREEZE_V2_ADDENDUM.md` sections 3 to 5; `FREEZE_V3_ADDENDUM.md` section 2 for the out-of-sample ranking. It depends on no artifact of any parent package. Receipt: `REAL_RUNS/controls.json`, `RESULT_V1.json` prediction `Q2d`.
+
+**Strongest parents.** Permutation testing is classical and is not claimed novel. That an unconstrained least-squares fit nests the intercept-only model is textbook regression, not a finding here.
+
 ---
+
 
 ## `RSR-4` — at `SIGMA_R03B` the link's admissibility is recovered and the link itself is not
 
@@ -235,7 +254,16 @@ reported rather than iterated. `ECOLOGY_ITERATION_UNTIL_POSITIVE` is in
 `forbidden_promotions` and the first-run receipts remain committed under
 `REAL_RUNS_V1/`.
 
+**Assumptions.** The `D3` digest holds at run time; the ecology's pre-fit admissibility condition is checked on the fit slice only and before any arm exists; the two fitted arms use the same design, the same slices and the same rationalisation.
+
+**Dependencies.** `grammar_s_v1.py` for the enumeration, the semantic quotient, the post-hoc classifier and the charged cost model; `FREEZE_V1.md` sections 3 to 8; `FREEZE_V1_ARITHMETIC_ADDENDUM.md` for the rationalisation operator; `FREEZE_V2_ADDENDUM.md` sections 3 to 5; `FREEZE_V3_ADDENDUM.md` section 2 for the out-of-sample ranking. It depends on no artifact of any parent package. Receipt: `REAL_RUNS/scope_R03.json`, `REAL_RUNS_V1/scope_R03.json` for the first outcome, `RESULT_V1.json` rows `R03`.
+
+**Falsifiers.** A chosen class of `NONLINEAR_LINK` under the registered procedure, which would close the row; a regeneration that recovers the same class as the main run, which would remove the instability this result reports; a log-link arm that is not strictly closer on a majority of held-out rows, or that emits a negative predicted mean, either of which would falsify the part that held.
+
+**Strongest parents.** Nelder & Wedderburn 1972 and McCullagh & Nelder 1989 for the link and for the admissibility argument; Cameron & Trivedi 2013 for over-dispersion and exposure. The negative result is about a search procedure, not about generalized linear models, which are theirs and are not in question.
+
 ---
+
 
 ## `RSR-5` — the boundary of lifted-basis recovery, earned by two counterexamples
 
@@ -266,7 +294,16 @@ on the ecology alone.
 **Label.** `EARNED_BY_COUNTEREXAMPLE`. A boundary, not an impossibility: both
 obstructions name their own removal.
 
+**Assumptions.** Both counterexamples are read from committed receipts: the parent's own `RESULT_V1.json` for (1), read as a published outcome and not as evidence for any gate here, and this package's `REAL_RUNS_V1/scope_R04.json` for (2). The zero-frame count is a property of the `D2` bytes under their registered digest.
+
+**Dependencies.** `grammar_s_v1.py` for the enumeration, the semantic quotient, the post-hoc classifier and the charged cost model; `FREEZE_V1.md` sections 3 to 8; `FREEZE_V1_ARITHMETIC_ADDENDUM.md` for the rationalisation operator; `FREEZE_V2_ADDENDUM.md` sections 3 to 5; `FREEZE_V3_ADDENDUM.md` section 2 for the out-of-sample ranking. It depends on no artifact of any parent package. Receipts: `REAL_RUNS_V1/scope_R04.json` and `REAL_RUNS/scope_R04.json`.
+
+**Falsifiers.** A lifted basis recovered on an ecology whose response is not additive in any per-input transform the grammar contains, which would show the condition is not necessary; a grammar extension that recovers a lifted basis on the `x_i >= 0` response without changing the response, which would move the boundary from the pair to the ecology alone.
+
+**Strongest parents.** Aizerman, Braverman and Rozonoer 1964 for the lifted feature map. The boundary itself is this package's, earned by counterexample and claimed no more widely than the two ecologies that produced it.
+
 ---
+
 
 ## `RSR-7` — an in-sample ranking stage rewards capacity, measurably
 
@@ -299,7 +336,12 @@ the in-sample ordering.
 **Strongest parents.** Out-of-sample model comparison is classical; Rissanen
 1978 for the description-length view of the same problem. Not claimed novel.
 
+**Assumptions.** Both arms are fitted by the same generic routine with the same ridge and the same convergence budget; the 100,000-row comparison slice is disjoint from the 87,747-row search slice by the rule of `FREEZE_V1.md` section 4.
+
+**Dependencies.** `grammar_s_v1.py` for the enumeration, the semantic quotient, the post-hoc classifier and the charged cost model; `FREEZE_V1.md` sections 3 to 8; `FREEZE_V1_ARITHMETIC_ADDENDUM.md` for the rationalisation operator; `FREEZE_V2_ADDENDUM.md` sections 3 to 5; `FREEZE_V3_ADDENDUM.md` section 2 for the out-of-sample ranking. It depends on no artifact of any parent package. The measurement itself is reproduced by refitting the two named candidates on the two named slices; the corrected ranking is what every receipt under `REAL_RUNS/` was produced by.
+
 ---
+
 
 ## `RSR-6` — no certificate here rests on a parent's
 
@@ -317,3 +359,12 @@ ten of eleven for these rows. The tempting move — supply the eleventh at a new
 scope and declare the conjunction — is exactly what `FGS-2` forbids, so the
 absence of any imported certificate is part of what makes the one closure here
 admissible, and is therefore recorded rather than assumed.
+
+**Assumptions.** The gate ledger in `RESULT_V1.json` is the complete set of certificates this package emits; the checker's own reachable paths are confined to the package directory, which a test asserts by scanning its string literals.
+
+**Dependencies.** `RESULT_V1.json` for the certificates; `test_real_scale_revival_v1.py` and `ci_gates_v1.py` for the assertions; `PARENT_LEDGER.md` for what is taken from each parent and what is not. It depends on no parent certificate, which is the content of the result.
+
+**Falsifiers.** Any gate certificate carrying a scope other than its own row's; any evidence string naming a parent scope or a parent artifact; any path in the checker that reaches outside the package directory. A registered hostile, `H_PARENT_GATE_IMPORT`, plants each of the first two and is caught.
+
+**Strongest parents.** `gmi-833-h-family-requirement-ledger-v1` `HRL-1` and PR #997 `FGS-2`, which establish the scope-gluing no-go this result complies with.
+
