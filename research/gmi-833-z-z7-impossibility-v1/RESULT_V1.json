@@ -187,65 +187,108 @@
   }
  },
  "IM_4": {
-  "C1": {
-   "attained_min": 8,
-   "bound": 8,
-   "claim": "e_delay >= 8",
-   "family": "bits=0",
-   "label": "[DERIVED-AT-FREEZE]",
-   "tight": true,
-   "valid": true,
-   "violations": 0
+  "ceilings": {
+   "C1": {
+    "attained_min": 8,
+    "bound": 8,
+    "claim": "e_delay >= 8",
+    "direction": "lower",
+    "family": "bits=0",
+    "kind": "FORBIDDING_BOUND",
+    "label": "[DERIVED-AT-FREEZE]",
+    "range": [
+     0,
+     16
+    ],
+    "tight": true,
+    "valid": true,
+    "violations": 0
+   },
+   "C2": {
+    "claim": "weighted risk >= p/2 for every p",
+    "direction": "lower",
+    "family": "bits=0",
+    "kind": "FORBIDDING_BOUND",
+    "label": "[DERIVED-AT-FREEZE]",
+    "probe_p": [
+     "1/5",
+     "2/5",
+     "1/2",
+     "3/5",
+     "4/5"
+    ],
+    "range": [
+     "0",
+     "1"
+    ],
+    "tight": true,
+    "valid": true,
+    "violations": 0
+   },
+   "C3": {
+    "attained_min": "0",
+    "claim": "weighted risk >= 0, attained",
+    "direction": "lower",
+    "family": "bits<=1",
+    "kind": "NON_BINDING",
+    "label": "[DERIVED-AT-FREEZE]",
+    "range": [
+     "0",
+     "1"
+    ],
+    "retained_as": "attained minimum, not a forbidding bound",
+    "tight": true,
+    "valid": true
+   },
+   "C4": {
+    "K4": 16,
+    "claim": "min(e_now, e_delay) <= K4",
+    "direction": "upper",
+    "family": "bits=1",
+    "kind": "NON_BINDING",
+    "label": "[UNCOMPUTED]",
+    "range": [
+     0,
+     16
+    ],
+    "retained_as": "non-binding: both error counts lie in [0,16] by construction, so this bound cannot be violated",
+    "tight": true,
+    "valid": true,
+    "violations": 0
+   },
+   "C5": {
+    "K5": 143,
+    "claim": "|S_1| = K5",
+    "family": "bits=1",
+    "kind": "MEASURED_IDENTITY",
+    "label": "[UNCOMPUTED]",
+    "retained_as": "measured identity: the right-hand side is defined as the measured quantity, so it cannot fail"
+   },
+   "C6": {
+    "claim": "min J = min(eta*p/2, lambda) at every registered world",
+    "direction": "lower",
+    "family": "whole universe",
+    "kind": "FORBIDDING_BOUND",
+    "label": "[DERIVED-AT-FREEZE]",
+    "tight": true,
+    "valid": true,
+    "violations": 0,
+    "worlds": 60
+   }
   },
-  "C2": {
-   "claim": "weighted risk >= p/2 for every p",
-   "family": "bits=0",
-   "label": "[DERIVED-AT-FREEZE]",
-   "probe_p": [
-    "1/5",
-    "2/5",
-    "1/2",
-    "3/5",
-    "4/5"
-   ],
-   "tight": true,
-   "valid": true,
-   "violations": 0
-  },
-  "C3": {
-   "attained_min": "0",
-   "claim": "weighted risk >= 0, attained",
-   "family": "bits<=1",
-   "label": "[DERIVED-AT-FREEZE]",
-   "tight": true,
-   "valid": true
-  },
-  "C4": {
-   "K4": 16,
-   "claim": "min(e_now, e_delay) <= K4",
-   "family": "bits=1",
-   "label": "[UNCOMPUTED]",
-   "tight": true,
-   "valid": true,
-   "violations": 0
-  },
-  "C5": {
-   "K5": 143,
-   "claim": "|S_1| = K5",
-   "family": "bits=1",
-   "label": "[UNCOMPUTED]",
-   "tight": true,
-   "valid": true
-  },
-  "C6": {
-   "claim": "min J = min(eta*p/2, lambda) at every registered world",
-   "family": "whole universe",
-   "label": "[DERIVED-AT-FREEZE]",
-   "tight": true,
-   "valid": true,
-   "violations": 0,
-   "worlds": 60
-  }
+  "forbidding_bounds": [
+   "C1",
+   "C2",
+   "C6"
+  ],
+  "not_counted_as_ceilings": [
+   "C3",
+   "C4",
+   "C5"
+  ],
+  "note": "only FORBIDDING_BOUND entries are counted as prospectively frozen capability ceilings and gated valid-and-tight; a bound at the boundary of its quantity's a priori range forbids nothing",
+  "vacuity_check_no_alarm": true,
+  "vacuity_check_recall": true
  },
  "IM_5": {
   "exhaustive_over_universe": true,
@@ -371,23 +414,24 @@
   "ZERO_STATE_MEANS_ZERO_MEMORY_IN_GENERAL"
  ],
  "gates": {
-  "C1_valid_and_tight": true,
-  "C2_valid_and_tight": true,
-  "C3_valid_and_tight": true,
-  "C4_valid_and_tight": true,
-  "C6_valid_and_tight": true,
+  "C4_is_flagged_non_binding": true,
+  "C5_is_flagged_identity": true,
   "Q1_confirmed": true,
   "Q2_confirmed": true,
   "S0_is_three_points": true,
+  "at_least_three_forbidding_ceilings": true,
   "every_refutation_has_a_valid_witness": true,
   "failure_is_uniform_at_bits_0": true,
   "families_cover_universe": true,
+  "forbidding_ceilings_valid_and_tight": true,
   "grid_fully_classified": true,
   "hostiles_all_moved": true,
   "naive_hypothesis_adjudicated": true,
   "resource_dependent": true,
   "structural_family_impossibility_separated": true,
   "tightness_discriminates": true,
+  "vacuity_check_no_alarm": true,
+  "vacuity_check_recall": true,
   "witness_soundness_complete": true,
   "zero_error_delay_impossible_at_bits_0": true
  },
@@ -399,10 +443,16 @@
    "quantity": "violation count for the C1 bound"
   },
   "H2_VACUOUS_CEILING": {
-   "clean": true,
-   "hostile": false,
+   "clean": [
+    true,
+    "FORBIDDING_BOUND"
+   ],
+   "hostile": [
+    false,
+    "NON_BINDING"
+   ],
    "moved": true,
-   "quantity": "tightness flag for the C1 bound"
+   "quantity": "tightness flag and vacuity class for the C1 bound"
   },
   "H3_TRUNCATED_UNIVERSE": {
    "clean": [
@@ -433,19 +483,25 @@
    "hostile": false,
    "moved": true,
    "quantity": "witness_violates_hypothesis flag on the Q4 register entry"
+  },
+  "H6_VACUOUS_UPPER_CEILING": {
+   "clean": "FORBIDDING_BOUND",
+   "hostile": "NON_BINDING",
+   "moved": true,
+   "quantity": "vacuity class of an upper bound at the range maximum"
   }
  },
  "issue": 833,
  "null": {
   "claim_form": "no candidate with bits <= b attains e_now <= x and e_delay <= y",
-  "frozen_ceilings_checked": 5,
-  "frozen_ceilings_tight": 5,
+  "frozen_ceilings_checked": 3,
+  "frozen_ceilings_tight": 3,
   "frozen_probe_claims": 2,
   "frozen_probe_tight": 2,
   "random_true": 47,
   "random_true_and_tight": 6,
   "seeds": 200,
-  "tightness_discrimination": "frozen ceilings tight 5/5; random claims true-and-tight 6/200",
+  "tightness_discrimination": "frozen forbidding ceilings tight 3/3; random claims true-and-tight 6/200",
   "witness_required": 153,
   "witness_soundness_complete": true,
   "witness_supplied": 153

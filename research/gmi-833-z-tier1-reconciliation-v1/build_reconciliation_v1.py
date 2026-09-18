@@ -104,11 +104,13 @@ CLOSURES = [
   "including the uncomputed modal profile (8,8) at multiplicity 14664 of 65536 -- and the "
   "deliberately naive scarcity hypothesis Q4 refuted"),
  ("Z7", 3, Z7, "IM-4",
-  "six ceilings frozen before evaluation, each checked valid AND tight: C1 e_delay >= 8 "
-  "with minimum 8 and 0 violations, C2 risk >= p/2 with equality at all 5 p rungs, C3 "
-  "risk >= 0 attained, C4 K4 = 16, C5 |S_1| = 143, C6 min J = min(eta*p/2, lambda) with 0 "
-  "violations over 60 worlds -- and a vacuous-ceiling hostile confirming the tightness "
-  "test can fail"),
+  "six bounds frozen before evaluation and classified by whether they can be violated at "
+  "all: three genuine forbidding ceilings -- C1 e_delay >= 8 with minimum 8 and 0 "
+  "violations, C2 risk >= p/2 with equality at all 5 p rungs, and C6 min J = "
+  "min(eta*p/2, lambda) with 0 violations over 60 worlds -- each valid AND tight, while "
+  "C3, C4 and C5 are retained but not counted (C4's min(e_now,e_delay) <= 16 cannot be "
+  "violated by any candidate) by a vacuity check validated to fire on C4 and on the two "
+  "vacuous-ceiling hostiles and to stay silent on C1, C2 and C6"),
  ("Z7", 4, Z7, "IM-5",
   "every prediction tested exhaustively against all 65552 candidates plus six named "
   "structural families (16, 4096, 512, 4096, 61440, 256), which also yields a "
@@ -120,7 +122,8 @@ CLOSURES = [
   "(nxt = 68, table = 13, e_now = 16, e_delay = 0, re-scored by both routes), names the "
   "failed assumption that one state bit must be shared between the two channels, and "
   "records the repair and its claim-ceiling consequence; the null gives 153/153 witness "
-  "soundness and 6/200 random claims true-and-tight against 5/5 frozen ceilings"),
+  "soundness and 6/200 random claims true-and-tight against 3/3 frozen forbidding "
+  "ceilings"),
 ]
 
 NOT_CLOSED = [

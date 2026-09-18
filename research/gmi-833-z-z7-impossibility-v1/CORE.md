@@ -19,9 +19,12 @@ that adjudicates it:
 - **frozen qualitative failure modes** `IM-3`: `Q1`, `Q2`, `Q3`, `Q5` confirmed;
   the `[NAIVE]` scarcity hypothesis `Q4` **refuted** with an explicit witness
   (`nxt = 68`, `table = 13`, `(e_now, e_delay) = (16, 0)`);
-- **frozen capability ceilings** `IM-4`: `C1`–`C4`, `C6` each valid **and** tight;
-  `C4 = 16` and `C5 = 143` had their form frozen and their value measured, and
-  are labelled so;
+- **frozen capability ceilings** `IM-4`: three genuine forbidding ceilings —
+  `C1` (`e_delay >= 8`), `C2` (risk `>= p/2` for every `p`) and `C6`
+  (`min J = min(eta*p/2, lambda)`) — each valid **and** tight. `C3`, `C4` and
+  `C5` are retained but **not** counted: a vacuity check, validated to fire on
+  `C4` and the `H2`/`H6` hostiles and to stay silent on the three genuine ones,
+  classifies `C3` and `C4` as `NON_BINDING` and `C5` as a `MEASURED_IDENTITY`;
 - **broad families** `IM-5`: all `65552` candidates plus six named structural
   families, with a structural finding — the Moore family cannot reach fewer than
   `8` copy-channel errors (frontier `{(8,0)}`) while the Mealy family reaches `0`
@@ -57,6 +60,13 @@ python3 -I -O -B research/gmi-833-z-z7-impossibility-v1/test_z7_impossibility_v1
 Stdlib only. Both routes run in under two seconds on one core.
 
 ## The instrument failed first
+
+`C4` claims `min(e_now, e_delay) <= 16` over quantities that lie in `[0, 16]` by
+construction, so it cannot be violated by any candidate — its `0` violations were
+guaranteed before the enumeration ran, and the first receipt reported it valid
+and tight because tightness-as-attainment cannot detect a vacuous *upper* bound.
+`C5` was a measured identity with hardcoded verdict literals. A vacuity check was
+added and validated before its verdicts were used. See `FREEZE_V1_AMENDMENT_2.md`.
 
 The freeze states the cost grid has `19200` cells; the frozen axes give `7680`,
 and the stated total was an arithmetic slip. The always-infeasible target set was

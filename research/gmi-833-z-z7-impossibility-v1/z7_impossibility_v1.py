@@ -200,6 +200,26 @@ def blob_sha(path):
     return hashlib.sha1(("blob %d\0" % len(data)).encode("ascii") + data).hexdigest()
 
 
+
+# ------------------------------------------------------------ vacuity check
+def bound_kind(direction, K, lo, hi):
+    """Classify a bound by whether it can be violated at all.
+
+    `direction` is 'lower' for a claim `q >= K` and 'upper' for `q <= K`, over a
+    quantity whose a priori range is [lo, hi]. A bound sitting at the boundary of
+    that range forbids nothing: no candidate in any universe can violate it, so
+    its zero violations are guaranteed before the data is looked at.
+
+    Tightness-as-attainment detects this for lower bounds only -- for an upper
+    bound at the range maximum, attained and vacuous coincide -- which is why the
+    check is explicit. It is validated in the receipt: it must fire on C4 and on
+    the H2 hostile, and stay silent on C1, C2 and C6.
+    """
+    if direction == "lower":
+        return "NON_BINDING" if K <= lo else "FORBIDDING_BOUND"
+    return "NON_BINDING" if K >= hi else "FORBIDDING_BOUND"
+
+
 # ------------------------------------------------------------------ the run
 def main():
     universe = build_universe()
@@ -387,24 +407,53 @@ def main():
                   for t in triples[1]])
         if mn != min(w["eta"] * w["p"] / 2, w["lam"]):
             c6_bad += 1
-    rep["IM_4"] = {
-        "C1": dict(c1, family="bits=0", claim="e_delay >= 8", label="[DERIVED-AT-FREEZE]"),
+    ceilings = {
+        "C1": dict(c1, family="bits=0", claim="e_delay >= 8", direction="lower",
+                   range=[0, 16], label="[DERIVED-AT-FREEZE]",
+                   kind=bound_kind("lower", 8, 0, 16)),
         "C2": {"family": "bits=0", "claim": "weighted risk >= p/2 for every p",
-               "label": "[DERIVED-AT-FREEZE]", "probe_p": list(GRID_P),
-               "violations": c2_bad, "valid": c2_bad == 0, "tight": c2_tight_all},
+               "direction": "lower", "range": ["0", "1"], "label": "[DERIVED-AT-FREEZE]",
+               "probe_p": list(GRID_P), "violations": c2_bad, "valid": c2_bad == 0,
+               "tight": c2_tight_all,
+               "kind": ("FORBIDDING_BOUND"
+                        if all(Fraction(x) / 2 > 0 for x in GRID_P) else "NON_BINDING")},
         "C3": {"family": "bits<=1", "claim": "weighted risk >= 0, attained",
-               "label": "[DERIVED-AT-FREEZE]", "attained_min": fs(c3_min),
-               "valid": c3_min >= 0, "tight": c3_min == 0},
+               "direction": "lower", "range": ["0", "1"], "label": "[DERIVED-AT-FREEZE]",
+               "attained_min": fs(c3_min), "valid": c3_min >= 0, "tight": c3_min == 0,
+               "kind": bound_kind("lower", Fraction(0), Fraction(0), Fraction(1)),
+               "retained_as": "attained minimum, not a forbidding bound"},
         "C4": {"family": "bits=1", "claim": "min(e_now, e_delay) <= K4",
-               "label": "[UNCOMPUTED]", "K4": k4, "violations": k4_viol,
-               "valid": k4_viol == 0,
-               "tight": any(min(r[3], r[4]) == k4 for r in st1)},
+               "direction": "upper", "range": [0, 16], "label": "[UNCOMPUTED]",
+               "K4": k4, "violations": k4_viol, "valid": k4_viol == 0,
+               "tight": any(min(r[3], r[4]) == k4 for r in st1),
+               "kind": bound_kind("upper", k4, 0, 16),
+               "retained_as": ("non-binding: both error counts lie in [0,16] by "
+                               "construction, so this bound cannot be violated")},
         "C5": {"family": "bits=1", "claim": "|S_1| = K5", "label": "[UNCOMPUTED]",
-               "K5": k5, "valid": True, "tight": True},
+               "K5": k5, "kind": "MEASURED_IDENTITY",
+               "retained_as": ("measured identity: the right-hand side is defined as "
+                               "the measured quantity, so it cannot fail")},
         "C6": {"family": "whole universe",
                "claim": "min J = min(eta*p/2, lambda) at every registered world",
-               "label": "[DERIVED-AT-FREEZE]", "worlds": len(worlds),
-               "violations": c6_bad, "valid": c6_bad == 0, "tight": c6_bad == 0},
+               "direction": "lower", "label": "[DERIVED-AT-FREEZE]",
+               "worlds": len(worlds), "violations": c6_bad, "valid": c6_bad == 0,
+               "tight": c6_bad == 0, "kind": "FORBIDDING_BOUND"},
+    }
+    forbidding = sorted([k for k in ceilings if ceilings[k]["kind"] == "FORBIDDING_BOUND"])
+    non_binding = sorted([k for k in ceilings if ceilings[k]["kind"] != "FORBIDDING_BOUND"])
+    # validate the vacuity check on real data before its verdicts are used
+    vac_recall = [bound_kind("upper", 16, 0, 16) == "NON_BINDING",
+                  bound_kind("lower", 0, 0, 16) == "NON_BINDING"]
+    vac_noalarm = [ceilings[k]["kind"] == "FORBIDDING_BOUND" for k in ("C1", "C2", "C6")]
+    rep["IM_4"] = {
+        "ceilings": ceilings,
+        "forbidding_bounds": forbidding,
+        "not_counted_as_ceilings": non_binding,
+        "vacuity_check_recall": all(vac_recall),
+        "vacuity_check_no_alarm": all(vac_noalarm),
+        "note": ("only FORBIDDING_BOUND entries are counted as prospectively frozen "
+                 "capability ceilings and gated valid-and-tight; a bound at the "
+                 "boundary of its quantity's a priori range forbids nothing"),
     }
 
     # ---- IM-5 broad families against the predictions
@@ -492,9 +541,17 @@ def main():
         "moved": c1["violations"] == 0 and h1["violations"] == 16}
     h2 = lower_ceiling(st0, 4, 0)
     hostiles["H2_VACUOUS_CEILING"] = {
-        "quantity": "tightness flag for the C1 bound",
-        "clean": c1["tight"], "hostile": h2["tight"],
-        "moved": c1["tight"] is True and h2["tight"] is False}
+        "quantity": "tightness flag and vacuity class for the C1 bound",
+        "clean": [c1["tight"], bound_kind("lower", 8, 0, 16)],
+        "hostile": [h2["tight"], bound_kind("lower", 0, 0, 16)],
+        "moved": (c1["tight"] is True and h2["tight"] is False
+                  and bound_kind("lower", 0, 0, 16) == "NON_BINDING")}
+    hostiles["H6_VACUOUS_UPPER_CEILING"] = {
+        "quantity": "vacuity class of an upper bound at the range maximum",
+        "clean": bound_kind("upper", 15, 0, 16),
+        "hostile": bound_kind("upper", 16, 0, 16),
+        "moved": (bound_kind("upper", 15, 0, 16) == "FORBIDDING_BOUND"
+                  and bound_kind("upper", 16, 0, 16) == "NON_BINDING")}
     S1_cut = attained_pairs(st0)
     infeasible_cut = 0
     for ps in GRID_P:
@@ -580,8 +637,8 @@ def main():
                      (not claim_is_true(pairs, x, y + 1))
             if weaker:
                 frozen_tight += 1
-    ceilings_tight = len([k for k in ("C1", "C2", "C3", "C4", "C6")
-                          if rep["IM_4"][k]["tight"]])
+    ceilings_tight = len([k for k in forbidding
+                          if rep["IM_4"]["ceilings"][k]["tight"]])
     rep["null"] = {
         "seeds": len(NULL_SEEDS),
         "claim_form": "no candidate with bits <= b attains e_now <= x and e_delay <= y",
@@ -592,11 +649,11 @@ def main():
         "random_true_and_tight": random_tight,
         "frozen_probe_claims": frozen_total,
         "frozen_probe_tight": frozen_tight,
-        "frozen_ceilings_checked": 5,
+        "frozen_ceilings_checked": len(forbidding),
         "frozen_ceilings_tight": ceilings_tight,
         "tightness_discrimination":
-            ("frozen ceilings tight %d/5; random claims true-and-tight %d/%d"
-             % (ceilings_tight, random_tight, len(NULL_SEEDS))),
+            ("frozen forbidding ceilings tight %d/%d; random claims true-and-tight "
+             "%d/%d" % (ceilings_tight, len(forbidding), random_tight, len(NULL_SEEDS))),
     }
 
     gates = {
@@ -610,11 +667,13 @@ def main():
         "Q2_confirmed": Q["Q2"]["verdict"] == "CONFIRMED",
         "naive_hypothesis_adjudicated": Q["Q4"]["verdict"] in ("CONFIRMED", "REFUTED"),
         "every_refutation_has_a_valid_witness": rep["IM_6"]["all_witnesses_violate"],
-        "C1_valid_and_tight": rep["IM_4"]["C1"]["valid"] and rep["IM_4"]["C1"]["tight"],
-        "C2_valid_and_tight": rep["IM_4"]["C2"]["valid"] and rep["IM_4"]["C2"]["tight"],
-        "C3_valid_and_tight": rep["IM_4"]["C3"]["valid"] and rep["IM_4"]["C3"]["tight"],
-        "C4_valid_and_tight": rep["IM_4"]["C4"]["valid"] and rep["IM_4"]["C4"]["tight"],
-        "C6_valid_and_tight": rep["IM_4"]["C6"]["valid"] and rep["IM_4"]["C6"]["tight"],
+        "forbidding_ceilings_valid_and_tight":
+            all(ceilings[k]["valid"] and ceilings[k]["tight"] for k in forbidding),
+        "at_least_three_forbidding_ceilings": len(forbidding) >= 3,
+        "vacuity_check_recall": rep["IM_4"]["vacuity_check_recall"],
+        "vacuity_check_no_alarm": rep["IM_4"]["vacuity_check_no_alarm"],
+        "C4_is_flagged_non_binding": ceilings["C4"]["kind"] == "NON_BINDING",
+        "C5_is_flagged_identity": ceilings["C5"]["kind"] == "MEASURED_IDENTITY",
         "families_cover_universe":
             famrep["F_STATELESS"]["size"] + famrep["F_MOORE"]["size"]
             + famrep["F_MEALY_PURE"]["size"] == len(universe),
@@ -644,6 +703,7 @@ def main():
     print("  grid cells:", total_cells, "infeasible:", infeasible)
     print("  |S0| =", len(S0), " |S1| =", len(S1))
     print("  Q verdicts:", dict([(k, Q[k]["verdict"]) for k in sorted(Q)]))
+    print("  forbidding ceilings:", forbidding, " not counted:", non_binding)
     return 0 if rep["verdict"] == "GREEN" else 1
 
 

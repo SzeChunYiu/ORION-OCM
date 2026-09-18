@@ -46,8 +46,8 @@ is unchanged.
 and a direct full scan of the permuted `65552`-candidate list on three seeds x
 `60` worlds agrees on every verdict. `T3` applied to the whole universe: `0`
 `sigma` breaks, `0` verdict alarms, and it is a bijection of the universe
-(`conj_counts == base_counts`). `T2` on a `4420`-machine sample and `T4` on
-`400`: `0` breaks. Both routes agree.
+(`conj_counts == base_counts`). `T2` and `T4` applied to the whole
+universe (`65536` machines each): `0` breaks. Both routes agree.
 
 **Assumptions.** `T2` acts on the pair (machine, start state); the registered
 universe fixes the start to `0`, so `T2` maps a machine started at `0` to its

@@ -73,6 +73,12 @@ class TestReceipts(unittest.TestCase):
         need(inv["T1_FULL_SCAN_CONTROL"]["mismatches"] == 0,
              "the reduced decision disagrees with a direct scan of the permuted list")
         need(inv["T2_STATE_ENCODING"]["sigma_breaks"] == 0, "state relabeling moved sigma")
+        need(inv["T2_STATE_ENCODING"]["exhaustive"] is True,
+             "T2 was sampled where the freeze promises the whole universe")
+        need(inv["T4_COMPILER"]["exhaustive"] is True,
+             "T4 was sampled where the freeze promises the whole universe")
+        need(inv["T2_STATE_ENCODING"]["machines_checked"] == 65536, "T2 coverage")
+        need(inv["T4_COMPILER"]["machines_checked"] == 65536, "T4 coverage")
         need(inv["T3_IO_CONJUGATION"]["sigma_breaks"] == 0, "conjugation moved sigma")
         need(inv["T3_IO_CONJUGATION"]["is_bijection"] is True,
              "conjugation is not a bijection of the universe")

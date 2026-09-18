@@ -88,17 +88,42 @@ class TestReceipts(unittest.TestCase):
         need(q["Q2"]["evidence"].endswith("[0, 8, 16]"), "e_now value set changed")
 
     def test_ceilings_valid_and_tight(self):
-        for cid in ("C1", "C2", "C3", "C4", "C6"):
-            c = self.a["IM_4"][cid]
+        im4 = self.a["IM_4"]
+        need(len(im4["forbidding_bounds"]) >= 3,
+             "fewer than three genuine forbidding ceilings: %s" % im4["forbidding_bounds"])
+        for cid in im4["forbidding_bounds"]:
+            c = im4["ceilings"][cid]
             need(c["valid"] is True, "%s is not valid" % cid)
             need(c["tight"] is True,
                  "%s is valid but slack; a ceiling that cannot be approached "
                  "tests nothing" % cid)
-        need(self.a["IM_4"]["C1"]["attained_min"] == self.b["IM_4"]["C1_attained_min"],
+        need(im4["ceilings"]["C1"]["attained_min"] == self.b["IM_4"]["C1_attained_min"],
              "C1 minimum disagrees")
-        need(self.a["IM_4"]["C4"]["K4"] == self.b["IM_4"]["C4_K4"], "K4 disagrees")
-        need(self.a["IM_4"]["C5"]["K5"] == self.b["IM_4"]["C5_K5"], "K5 disagrees")
+        need(im4["ceilings"]["C4"]["K4"] == self.b["IM_4"]["C4_K4"], "K4 disagrees")
+        need(im4["ceilings"]["C5"]["K5"] == self.b["IM_4"]["C5_K5"], "K5 disagrees")
         need(self.b["IM_4"]["C6_violations"] == 0, "route B finds C6 violations")
+
+    def test_vacuous_bounds_are_flagged_and_not_counted(self):
+        im4 = self.a["IM_4"]
+        need(im4["vacuity_check_recall"] is True,
+             "the vacuity check does not fire on a bound at the range boundary")
+        need(im4["vacuity_check_no_alarm"] is True,
+             "the vacuity check fires on a genuine forbidding bound")
+        need(im4["ceilings"]["C4"]["kind"] == "NON_BINDING",
+             "C4 claims min(e_now, e_delay) <= 16 over quantities that lie in [0,16] "
+             "by construction; it cannot be violated and must not be counted")
+        need(im4["ceilings"]["C5"]["kind"] == "MEASURED_IDENTITY",
+             "C5's right-hand side is defined as the measured quantity")
+        for cid in ("C3", "C4", "C5"):
+            need(cid in im4["not_counted_as_ceilings"],
+                 "%s is still counted as a ceiling" % cid)
+        for cid in ("C1", "C2", "C6"):
+            need(cid in im4["forbidding_bounds"], "%s lost its forbidding status" % cid)
+        # the check must be exercised live, not merely read from the receipt
+        need(A.bound_kind("upper", 16, 0, 16) == "NON_BINDING", "live recall (upper)")
+        need(A.bound_kind("lower", 0, 0, 16) == "NON_BINDING", "live recall (lower)")
+        need(A.bound_kind("upper", 15, 0, 16) == "FORBIDDING_BOUND", "live no-alarm (upper)")
+        need(A.bound_kind("lower", 8, 0, 16) == "FORBIDDING_BOUND", "live no-alarm (lower)")
 
     def test_families_agree_and_cover(self):
         fa = self.a["IM_5"]["families"]
@@ -155,8 +180,14 @@ class TestReceipts(unittest.TestCase):
                  "hostile %s did not move its quantity: %r" % (hid, h))
         need(self.a["hostiles"]["H1_WRONG_CEILING"]["hostile"] == 16,
              "the wrong ceiling must be violated by all 16 stateless candidates")
-        need(self.a["hostiles"]["H2_VACUOUS_CEILING"]["hostile"] is False,
-             "a vacuous ceiling was reported tight")
+        need(self.a["hostiles"]["H2_VACUOUS_CEILING"]["hostile"]
+             == [False, "NON_BINDING"],
+             "the vacuous lower ceiling was reported tight or binding: %r"
+             % (self.a["hostiles"]["H2_VACUOUS_CEILING"]["hostile"],))
+        need(self.a["hostiles"]["H6_VACUOUS_UPPER_CEILING"]["hostile"] == "NON_BINDING",
+             "an upper bound at the range maximum was not flagged non-binding")
+        need(self.a["hostiles"]["H6_VACUOUS_UPPER_CEILING"]["clean"] == "FORBIDDING_BOUND",
+             "the upper-bound no-alarm case was flagged")
 
     def test_null(self):
         n = self.a["null"]
@@ -165,7 +196,8 @@ class TestReceipts(unittest.TestCase):
              % (n["witness_required"] - n["witness_supplied"], n["witness_required"]))
         need(n["witness_required"] > 0, "the null produced no false claims at all")
         need(n["frozen_ceilings_tight"] == n["frozen_ceilings_checked"],
-             "not every frozen ceiling is tight")
+             "not every frozen forbidding ceiling is tight")
+        need(n["frozen_ceilings_checked"] >= 3, "fewer than three forbidding ceilings")
         need(n["random_true_and_tight"] * 10 < n["seeds"],
              "random impossibility claims are as tight as the frozen ones "
              "(%d/%d), so tightness does not discriminate"

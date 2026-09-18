@@ -93,25 +93,35 @@ exercised on a real refutation rather than a planted one.
 
 ## `IM-4` — prospectively frozen quantitative capability ceilings
 
-Every ceiling is checked twice: **valid** (no candidate in the named family beats
-it) and **tight** (attained by an exhibited witness). A valid but slack ceiling is
-reported as slack, not as a result, because a bound that cannot be approached
-tests nothing.
+Six bounds were frozen before evaluation. Each is classified by whether it can be
+violated at all, because tightness-as-attainment detects vacuity only for a
+*lower* bound: for an upper bound sitting at the top of its quantity's a priori
+range, attained and vacuous coincide and the check goes silent. The classifier is
+validated on real data — it must fire on `C4` and on the `H2`/`H6` hostiles and
+stay silent on `C1`, `C2`, `C6` — and both the recall and the no-alarm case are
+gated.
+
+**Three genuine forbidding ceilings**, each valid (no violation on the exhaustive
+scan) and tight (attained by an exhibited witness):
 
 | id | family | ceiling | valid | tight |
 |---|---|---|---|---|
-| `C1` | `bits = 0` | `e_delay >= 8` | yes, `0` violations | yes, minimum `= 8` |
-| `C2` | `bits = 0` | weighted risk `>= p/2` for every `p` | yes over the `5`-rung `p` ladder | yes, equality at every rung |
-| `C3` | `bits <= 1` | weighted risk `>= 0` | yes | yes, attained at `0` |
-| `C4` | `bits = 1` | `min(e_now, e_delay) <= 16` | yes, `0` violations | yes, attained |
-| `C5` | `bits = 1` | `|S_1| = 143` | measured | measured |
-| `C6` | whole universe | `min J = min(eta*p/2, lambda)` | yes, `0` violations over `60` worlds | yes |
+| `C1` | `bits = 0` | `e_delay >= 8` | `0` violations | minimum `= 8` |
+| `C2` | `bits = 0` | weighted risk `>= p/2` for every `p` | `0` violations over the `5`-rung `p` ladder | equality at every rung |
+| `C6` | whole universe | `min J = min(eta*p/2, lambda)` | `0` violations over `60` worlds | exact |
 
-`C4` and `C5` had their *form* frozen and their *value* measured; the receipt
-labels them `[UNCOMPUTED]` so no reader mistakes a measured constant for a
-predicted one.
+**Three retained but not counted as ceilings:**
 
----
+| id | claim | classification | why |
+|---|---|---|---|
+| `C3` | weighted risk `>= 0` | `NON_BINDING` | the bound sits at the range minimum; what survives is the attained minimum, exactly `0` |
+| `C4` | `min(e_now, e_delay) <= 16` | `NON_BINDING` | both error counts lie in `[0, 16]` by construction, so no candidate in any universe can violate it; its `0` violations were guaranteed before the enumeration ran |
+| `C5` | `\|S_1\| = 143` | `MEASURED_IDENTITY` | the right-hand side is defined as the measured quantity |
+
+`C4` was reported valid-and-tight by the first receipt and the gate passed. It is
+reclassified in `FREEZE_V1_AMENDMENT_2.md`, committed before the corrected
+receipt. Row 4 closes on `C1`, `C2` and `C6` — three ceilings that could have
+failed and did not — not on a count that includes a tautology.
 
 ## `IM-5` — broad families, and a structural impossibility inside one of them
 
@@ -172,7 +182,7 @@ candidate with `bits <= b` attains `e_now <= x` and `e_delay <= y`*:
 - **witness soundness `153/153`**: every claim the scan declared false came with
   an explicit counterexample candidate, and every one of them was re-verified.
 - **tightness discrimination**: `47/200` random claims are true, but only
-  `6/200` are true *and* tight, against `5/5` for the frozen ceilings.
+  `6/200` are true *and* tight, against `3/3` for the frozen forbidding ceilings.
 
 Tightness, not truth, is what separates a registered ceiling from a random one: a
 random true claim is usually slack, and a slack bound is not a capability ceiling.

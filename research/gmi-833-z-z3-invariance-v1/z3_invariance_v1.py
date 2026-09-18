@@ -342,18 +342,24 @@ def main():
                                    "mismatches": full_scan_mismatch,
                                    "invariant": full_scan_mismatch == 0}
 
-    # T2 state encoding (with the start state transported)
+    # T2 state encoding (with the start state transported), whole universe.
+    # One extra pass computes sigma at start state 1 for every machine, after
+    # which the T2 and T4 checks are lookups rather than re-simulations.
+    sigma_start1 = {}
+    for nxt in range(256):
+        for table in range(256):
+            sigma_start1[(nxt, table)] = stateful_sigma(nxt, table, 1)
     t2_sigma_breaks = 0
-    for nxt in range(0, 256, 3):
-        for table in range(0, 256, 5):
-            s_src = stateful_sigma(nxt, table, 0)
-            nn, nt = t2_state_relabel(nxt, table)
-            s_dst = stateful_sigma(nn, nt, 1)
-            if s_src != s_dst:
-                t2_sigma_breaks += 1
-    inv["T2_STATE_ENCODING"] = {"machines_checked": len(range(0, 256, 3)) * len(range(0, 256, 5)),
+    t2_checked = 0
+    for idx in range(16, len(uni)):
+        nxt, table = uni[idx][2], uni[idx][3]
+        t2_checked += 1
+        if sigma_start1[t2_state_relabel(nxt, table)] != sigma_of[idx]:
+            t2_sigma_breaks += 1
+    inv["T2_STATE_ENCODING"] = {"machines_checked": t2_checked,
+                                "exhaustive": t2_checked == 65536,
                                 "sigma_breaks": t2_sigma_breaks,
-                                "invariant": t2_sigma_breaks == 0}
+                                "invariant": t2_sigma_breaks == 0 and t2_checked == 65536}
 
     # T3 I/O conjugation over the whole universe
     t3_breaks = 0
@@ -385,22 +391,20 @@ def main():
                                 "is_bijection": conj_counts == base_counts,
                                 "invariant": t3_breaks == 0 and t3_alarms == 0}
 
-    # T4 compiler = T2 o T3 o T1 on a sample
+    # T4 compiler = T2 o T3 o T1, whole universe. T1 contributes no sigma change
+    # by construction and is covered exhaustively by the multiset check above.
     t4_breaks = 0
     t4_checked = 0
-    rnd = random.Random(7411)
-    for _k in range(400):
-        nxt = rnd.randrange(256)
-        table = rnd.randrange(256)
-        src = stateful_sigma(nxt, table, 0)
-        n1, t1 = t3_io_conjugate(nxt, table)
-        n2, t2 = t2_state_relabel(n1, t1)
-        dst = stateful_sigma(n2, t2, 1)
+    for idx in range(16, len(uni)):
+        nxt, table = uni[idx][2], uni[idx][3]
+        n1, t1c = t3_io_conjugate(nxt, table)
         t4_checked += 1
-        if src != dst:
+        if sigma_start1[t2_state_relabel(n1, t1c)] != sigma_of[idx]:
             t4_breaks += 1
-    inv["T4_COMPILER"] = {"machines_checked": t4_checked, "sigma_breaks": t4_breaks,
-                          "invariant": t4_breaks == 0}
+    inv["T4_COMPILER"] = {"machines_checked": t4_checked,
+                          "exhaustive": t4_checked == 65536,
+                          "sigma_breaks": t4_breaks,
+                          "invariant": t4_breaks == 0 and t4_checked == 65536}
 
     # ------------------------------------------------- IV-2b equivariance (T5)
     eq_rows = []
