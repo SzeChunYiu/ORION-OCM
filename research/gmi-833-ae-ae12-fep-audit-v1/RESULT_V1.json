@@ -1,0 +1,873 @@
+{
+  "bounds": [
+    {
+      "attained_by": "the exact Bayes posterior at o0, which attains F = 2 bits",
+      "bound_value": "2",
+      "kind": "lower",
+      "name": "EVIDENCE_LOWER_BOUND_ON_FREE_ENERGY_W_SPLIT_o0",
+      "range_derivation": "F(q,o) = KL(q||P0) - E_q[log2 L(o|s)]; both terms are non-negative and each is at most DMAX bits because every non-zero registered mass is at least 2**-DMAX, so by definition F lies in [0, 2*DMAX] independently of any result on this roster",
+      "range_hi": "8",
+      "range_lo": "0",
+      "relaxed_class": "q relaxed from a probability distribution to a non-negative sub-probability vector",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": "the all-zero sub-probability vector, which gives F = 0 < 2"
+    },
+    {
+      "attained_by": "every preference prior in the registered family: the gap is exactly 1 bit for all of them",
+      "bound_value": "1",
+      "kind": "lower",
+      "name": "AMBIGUITY_GAP_LOWER_BOUND_W_AMB",
+      "range_derivation": "G(a) = KL(Pa(o)||C) + E[H(L(.|s))]; each summand lies in [0, DMAX] by the same minimum-mass argument, so a difference of two expected free energies lies in [-2*DMAX, 2*DMAX] by definition",
+      "range_hi": "8",
+      "range_lo": "-8",
+      "relaxed_class": "expected free energy relaxed to its risk term alone",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": "the risk-only functional (expected free energy with the ambiguity term deleted), whose gap is exactly 0"
+    }
+  ],
+  "checks": {
+    "all_hostiles_potent_then_detected": true,
+    "every_bound_falsifiable": true,
+    "every_prediction_reported": true,
+    "every_refutation_carries_exact_values_and_diagnosis": true,
+    "every_registered_probability_dyadic": true,
+    "markov_blanket_predicate_separates": true,
+    "mean_field_excess_is_exactly_one_bit": true,
+    "misspecification_breaks_the_equality": true,
+    "no_preference_prior_reproduces_utility_order": true,
+    "null_rate_reported_and_no_alarm": true,
+    "perception_equals_bayes_on_full_family": true,
+    "register_digest_verified": true,
+    "three_selectors_agree_on_W_AGREE1": true,
+    "three_selectors_discriminate_on_W_DISC1": true
+  },
+  "claim_ceiling": "GMI_833_AE12_FEP_ACTIVE_INFERENCE_PARENT_BOUNDARY_FIXED_ON_REGISTERED_FINITE_DYADIC_ROSTER",
+  "forbidden_promotions": [
+    "ACTIVE_INFERENCE_EQUALS_BAYESIAN_INFERENCE_UNCONDITIONALLY",
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "FEP_UNIVERSAL_FOR_LIVING_SYSTEMS",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "GMI_NOVEL_OVER_ACTIVE_INFERENCE",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MARKOV_BLANKET_EXISTS_FOR_EVERY_SYSTEM",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "WORLD_MODEL_ALWAYS_REQUIRED"
+  ],
+  "freeze_commit": "eb9a2ad7df9ff3dd9135413d5907ef35aacaa3ab",
+  "hostiles": [
+    {
+      "detected": true,
+      "name": "H_POSTERIOR_OFFSET",
+      "perturbed_value": [
+        "1/2",
+        "0",
+        "1/2"
+      ],
+      "perturbs": "the claimed Bayes posterior on W_TRI",
+      "potent": true,
+      "true_value": [
+        "1/2",
+        "1/2",
+        "0"
+      ]
+    },
+    {
+      "detected": true,
+      "name": "H_AMBIGUITY_DROP",
+      "perturbed_value": "0",
+      "perturbs": "the ambiguity term of W_AMB action a0",
+      "potent": true,
+      "true_value": "1"
+    },
+    {
+      "detected": true,
+      "name": "H_DYADIC_BREAK",
+      "perturbed_value": "entry 1/3 is not a power of 1/2",
+      "perturbs": "one likelihood entry of W_SPLIT to 1/3",
+      "potent": true,
+      "true_value": "every entry dyadic"
+    },
+    {
+      "detected": true,
+      "name": "H_MEANFIELD_WIDEN",
+      "perturbed_value": "1",
+      "perturbs": "Q_mf to include a non-product distribution",
+      "potent": true,
+      "true_value": "2"
+    },
+    {
+      "detected": true,
+      "name": "H_BLANKET_RELAX",
+      "perturbed_value": "True",
+      "perturbs": "the conditional-independence tolerance of the blanket predicate",
+      "potent": true,
+      "true_value": "False"
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "null": {
+    "control_firing_rate": "3/40",
+    "controls_firing": 15,
+    "controls_meeting_the_identical_outcome_precondition": 35,
+    "detector": "identical predicted outcome distributions with a non-zero ambiguity gap, so the expected-free-energy order is pinned independently of the preference prior",
+    "exhaustive_controls_firing": 2,
+    "exhaustive_firing_rate": "2/27",
+    "exhaustive_space_size": 27,
+    "known_clean_worlds_flagged": [],
+    "known_clean_worlds_tested": [
+      "W_SPLIT",
+      "W_TRI",
+      "W_AGREE1"
+    ],
+    "largest_null_gap_bits": "1",
+    "no_alarm_on_clean": true,
+    "planted_positive_fires": true,
+    "planted_positive_gap_bits": "1",
+    "sampler": "uniform over dyadic likelihood tables on the registered shape with the per-outcome dyadic-marginal constraint",
+    "trials": 200
+  },
+  "package": "gmi-833-ae-ae12-fep-audit-v1",
+  "predictions_confirmed": 6,
+  "predictions_refuted": 2,
+  "prospective_predictions": [
+    {
+      "claim": "on every registered world and every observation, with Q = Q_full and a correctly specified model, the F-minimizer equals the exact Bayes posterior and min F equals -log2 P(o) exactly",
+      "id": "AE12-P1",
+      "verdict": "CONFIRMED"
+    },
+    {
+      "claim": "on W_CORR the mean-field minimum free energy exceeds the unrestricted minimum by exactly 1 bit",
+      "id": "AE12-P2",
+      "verdict": "CONFIRMED"
+    },
+    {
+      "claim": "on W_TRI_MIS at o0 the model posterior is (1/2,0,1/2) and the true posterior is (1/2,1/2,0); they differ",
+      "id": "AE12-P3",
+      "verdict": "CONFIRMED"
+    },
+    {
+      "claim": "on W_AMB, for EVERY C in the registered dyadic family, G(a0) - G(a1) = 1 bit exactly while EU(a0) - EU(a1) = 1/2 exactly, so no preference prior makes expected free energy reproduce the utility ordering",
+      "diagnosis": {
+        "earned_instead": "the ambiguity term is preference-independent, so the expected-free-energy order on W_AMB is pinned at a gap of exactly 1 bit for EVERY preference distribution whatsoever, dyadic or not, because the two actions induce identical predicted outcome distributions and the risk terms cancel; the permutations of the registered utility values that strictly prefer a0 are therefore utility orders no preference prior can reproduce. This is a stronger statement than the registered one, quantified over all preference distributions rather than over the registered dyadic family.",
+        "exact_values": {
+          "efe_difference_over_all_C": [
+            "1"
+          ],
+          "registered_utility_difference": "0",
+          "registered_utility_expected_values": [
+            "1/2",
+            "1/2"
+          ]
+        },
+        "stage_attributed": "the registered utility vector, not the audit",
+        "why": "the registered utility gives a0 and a1 the SAME expected utility, so the predicted difference of 1/2 is wrong; the expected-free-energy half of the prediction holds exactly."
+      },
+      "id": "AE12-P4",
+      "verdict": "REFUTED"
+    },
+    {
+      "claim": "on W_DISC1 expected free energy selects a1, cardinality-1 rate-distortion control selects a0, and the CPC family selects all three of a0, a1 and a2 as lambda ranges over the AE8 grid",
+      "diagnosis": {
+        "earned_instead": "the three principles still discriminate on W_DISC1: expected free energy chooses a1, cardinality-1 rate-distortion control chooses a0, and no weight in the 45-point grid makes the CPC family agree with both. That is the discrimination the row asks for; only the claim that all three actions are reachable by CPC is refuted.",
+        "exact_values": {
+          "cpc_choices_over_grid": [
+            "a0",
+            "a1"
+          ],
+          "expected_free_energy_choice": "a1",
+          "rate_distortion_cardinality_1_choice": "a0",
+          "term_vector_dominations": [
+            "a2 dominated by a1"
+          ]
+        },
+        "stage_attributed": "the registered cost and utility vectors of W_DISC1, not the audit",
+        "why": "under the registered utility, a1 and a2 have exactly equal predictive loss and equal control regret while a2 costs strictly more, so a2 is term-vector dominated and no weight in the grid can select it."
+      },
+      "id": "AE12-P5",
+      "verdict": "REFUTED"
+    },
+    {
+      "claim": "on W_AGREE1 all three selectors choose b0",
+      "id": "AE12-P6",
+      "verdict": "CONFIRMED"
+    },
+    {
+      "claim": "MARKOV_BLANKET_EXISTS is True on SYS_MB_OK and False on SYS_MB_FAIL under an exhaustive search over all partitions into non-empty internal, blanket and external sets",
+      "id": "AE12-P7",
+      "verdict": "CONFIRMED"
+    },
+    {
+      "claim": "the parent-sufficiency terminal fires for perception-as-Bayes at the registered scope, so no novelty is claimed there",
+      "id": "AE12-P8",
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "refutation_policy": "a refuted prediction is reported with its exact values, a single-stage attribution and the statement that was actually earned; neither the register nor the freeze is edited after the fact",
+  "register_digest": "d117030877cd1f8bc264aa22059392cf836ce29ad7b252a86dc3863bb6d36f9d",
+  "results": {
+    "agreement_task_W_AGREE1": {
+      "actions": [
+        "b0",
+        "b1",
+        "b2"
+      ],
+      "all_three_agree": true,
+      "control_regret": [
+        "0",
+        "1/2",
+        "1"
+      ],
+      "cost_bits": [
+        "1",
+        "3",
+        "5"
+      ],
+      "cpc_choice_by_lambda": {
+        "0,0,1": "b0",
+        "0,1,0": "b0",
+        "0,1/2,1/2": "b0",
+        "0,1/4,3/4": "b0",
+        "0,1/8,7/8": "b0",
+        "0,3/4,1/4": "b0",
+        "0,3/8,5/8": "b0",
+        "0,5/8,3/8": "b0",
+        "0,7/8,1/8": "b0",
+        "1,0,0": "b0",
+        "1/2,0,1/2": "b0",
+        "1/2,1/2,0": "b0",
+        "1/2,1/4,1/4": "b0",
+        "1/2,1/8,3/8": "b0",
+        "1/2,3/8,1/8": "b0",
+        "1/4,0,3/4": "b0",
+        "1/4,1/2,1/4": "b0",
+        "1/4,1/4,1/2": "b0",
+        "1/4,1/8,5/8": "b0",
+        "1/4,3/4,0": "b0",
+        "1/4,3/8,3/8": "b0",
+        "1/4,5/8,1/8": "b0",
+        "1/8,0,7/8": "b0",
+        "1/8,1/2,3/8": "b0",
+        "1/8,1/4,5/8": "b0",
+        "1/8,1/8,3/4": "b0",
+        "1/8,3/4,1/8": "b0",
+        "1/8,3/8,1/2": "b0",
+        "1/8,5/8,1/4": "b0",
+        "1/8,7/8,0": "b0",
+        "3/4,0,1/4": "b0",
+        "3/4,1/4,0": "b0",
+        "3/4,1/8,1/8": "b0",
+        "3/8,0,5/8": "b0",
+        "3/8,1/2,1/8": "b0",
+        "3/8,1/4,3/8": "b0",
+        "3/8,1/8,1/2": "b0",
+        "3/8,3/8,1/4": "b0",
+        "3/8,5/8,0": "b0",
+        "5/8,0,3/8": "b0",
+        "5/8,1/4,1/8": "b0",
+        "5/8,1/8,1/4": "b0",
+        "5/8,3/8,0": "b0",
+        "7/8,0,1/8": "b0",
+        "7/8,1/8,0": "b0"
+      },
+      "cpc_choices_over_grid": [
+        "b0"
+      ],
+      "expected_free_energy_bits": [
+        "1",
+        "3/2",
+        "3"
+      ],
+      "expected_free_energy_choice": "b0",
+      "expected_utility": [
+        "1",
+        "1/2",
+        "0"
+      ],
+      "grid_size": 45,
+      "no_lambda_agrees_with_both_efe_and_rd": false,
+      "predictive_loss": [
+        "0",
+        "1/2",
+        "1/2"
+      ],
+      "rate_distortion_cardinality_1_choice": "b0",
+      "term_vector_dominations": [
+        "b1 dominated by b0",
+        "b2 dominated by b0",
+        "b2 dominated by b1"
+      ]
+    },
+    "criticism_table": [
+      {
+        "criticism": "claimed equivalences of the free energy principle hold only under conditions that are not automatic",
+        "doi": "10.3390/e23030293",
+        "evaluated": false,
+        "evidence": "on W_CORR the mean-field minimiser is not the exact posterior",
+        "id": "CRIT-1",
+        "registered_predicate": "FEP_EQUALS_BAYES_UNDER_RESTRICTED_FAMILY",
+        "source": "Biehl, Pollock, Kanai (2021), Entropy 23(3):293"
+      },
+      {
+        "criticism": "the particular partition the principle presumes need not exist",
+        "doi": "10.1016/j.plrev.2021.11.001",
+        "evaluated": false,
+        "evidence": "exhaustive search over all partitions of SYS_MB_FAIL finds none",
+        "id": "CRIT-2",
+        "registered_predicate": "MARKOV_BLANKET_EXISTS",
+        "source": "Aguilera, Millidge, Tschantz, Buckley (2022), Physics of Life Reviews 40:24-50"
+      },
+      {
+        "criticism": "a blanket read off a statistical factorisation is not automatically a boundary of an agent",
+        "doi": "10.1017/S0140525X21002351",
+        "evaluated": true,
+        "evidence": "SYS_MB_OK admits a blanket, SYS_MB_FAIL does not; existence is a property of the joint, not of the system being an agent",
+        "id": "CRIT-3",
+        "registered_predicate": "MARKOV_BLANKET_EXISTS",
+        "source": "Bruineberg, Dolega, Dewhurst, Baltieri (2022), Behavioral and Brain Sciences 45:e183"
+      },
+      {
+        "criticism": "expected free energy is presented as subsuming expected utility once preferences are encoded as a prior",
+        "doi": "10.1162/NECO_a_00912",
+        "evaluated": false,
+        "evidence": "on W_AMB the ambiguity term is preference-independent, so no registered preference prior reproduces the utility order",
+        "id": "CRIT-4",
+        "registered_predicate": "EFE_RECOVERS_UTILITY_ORDERING",
+        "source": "Friston, FitzGerald, Rigoli, Schwartenbeck, Pezzulo (2017), Neural Computation 29(1):1-49"
+      }
+    ],
+    "discriminating_task_W_DISC1": {
+      "actions": [
+        "a0",
+        "a1",
+        "a2"
+      ],
+      "all_three_agree": false,
+      "control_regret": [
+        "0",
+        "1/2",
+        "1/2"
+      ],
+      "cost_bits": [
+        "4",
+        "1",
+        "2"
+      ],
+      "cpc_choice_by_lambda": {
+        "0,0,1": "a0",
+        "0,1,0": "a0",
+        "0,1/2,1/2": "a0",
+        "0,1/4,3/4": "a0",
+        "0,1/8,7/8": "a0",
+        "0,3/4,1/4": "a0",
+        "0,3/8,5/8": "a0",
+        "0,5/8,3/8": "a0",
+        "0,7/8,1/8": "a0",
+        "1,0,0": "a1",
+        "1/2,0,1/2": "a1",
+        "1/2,1/2,0": "a1",
+        "1/2,1/4,1/4": "a1",
+        "1/2,1/8,3/8": "a1",
+        "1/2,3/8,1/8": "a1",
+        "1/4,0,3/4": "a1",
+        "1/4,1/2,1/4": "a1",
+        "1/4,1/4,1/2": "a1",
+        "1/4,1/8,5/8": "a1",
+        "1/4,3/4,0": "a1",
+        "1/4,3/8,3/8": "a1",
+        "1/4,5/8,1/8": "a1",
+        "1/8,0,7/8": "a0",
+        "1/8,1/2,3/8": "a0",
+        "1/8,1/4,5/8": "a0",
+        "1/8,1/8,3/4": "a0",
+        "1/8,3/4,1/8": "a0",
+        "1/8,3/8,1/2": "a0",
+        "1/8,5/8,1/4": "a0",
+        "1/8,7/8,0": "a0",
+        "3/4,0,1/4": "a1",
+        "3/4,1/4,0": "a1",
+        "3/4,1/8,1/8": "a1",
+        "3/8,0,5/8": "a1",
+        "3/8,1/2,1/8": "a1",
+        "3/8,1/4,3/8": "a1",
+        "3/8,1/8,1/2": "a1",
+        "3/8,3/8,1/4": "a1",
+        "3/8,5/8,0": "a1",
+        "5/8,0,3/8": "a1",
+        "5/8,1/4,1/8": "a1",
+        "5/8,1/8,1/4": "a1",
+        "5/8,3/8,0": "a1",
+        "7/8,0,1/8": "a1",
+        "7/8,1/8,0": "a1"
+      },
+      "cpc_choices_over_grid": [
+        "a0",
+        "a1"
+      ],
+      "expected_free_energy_bits": [
+        "1",
+        "0",
+        "1"
+      ],
+      "expected_free_energy_choice": "a1",
+      "expected_utility": [
+        "1",
+        "1/2",
+        "1/2"
+      ],
+      "grid_size": 45,
+      "no_lambda_agrees_with_both_efe_and_rd": true,
+      "predictive_loss": [
+        "0",
+        "1/2",
+        "1/2"
+      ],
+      "rate_distortion_cardinality_1_choice": "a0",
+      "term_vector_dominations": [
+        "a2 dominated by a1"
+      ]
+    },
+    "markov_blanket": {
+      "SYS_MB_FAIL": {
+        "exists": false,
+        "partition_count": 0,
+        "partitions": []
+      },
+      "SYS_MB_OK": {
+        "exists": true,
+        "partition_count": 4,
+        "partitions": [
+          [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          [
+            [
+              1
+            ],
+            [
+              0
+            ],
+            [
+              2
+            ]
+          ],
+          [
+            [
+              2
+            ],
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ],
+          [
+            [
+              2
+            ],
+            [
+              1
+            ],
+            [
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    "mean_field_restriction": {
+      "argmin_full": [
+        "1/2",
+        "0",
+        "0",
+        "1/2"
+      ],
+      "argmin_mean_field": [
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "exact_posterior": [
+        "1/2",
+        "0",
+        "0",
+        "1/2"
+      ],
+      "full_family_size": 35,
+      "mean_field_excess_bits": "1",
+      "mean_field_family_size": 9,
+      "min_free_energy_full_bits": "1",
+      "min_free_energy_mean_field_bits": "2",
+      "observation": "o0",
+      "posterior_is_a_product": false
+    },
+    "misspecification": {
+      "observations_with_differing_posteriors": 2,
+      "per_observation": {
+        "o0": {
+          "argmin_equals_model_posterior": true,
+          "argmin_equals_true_posterior": false,
+          "argmin_under_model": [
+            "1/2",
+            "0",
+            "1/2"
+          ],
+          "model_posterior": [
+            "1/2",
+            "0",
+            "1/2"
+          ],
+          "posteriors_differ": true,
+          "true_posterior": [
+            "1/2",
+            "1/2",
+            "0"
+          ]
+        },
+        "o1": {
+          "argmin_equals_model_posterior": true,
+          "argmin_equals_true_posterior": false,
+          "argmin_under_model": [
+            "1/2",
+            "1/2",
+            "0"
+          ],
+          "model_posterior": [
+            "1/2",
+            "1/2",
+            "0"
+          ],
+          "posteriors_differ": true,
+          "true_posterior": [
+            "1/2",
+            "0",
+            "1/2"
+          ]
+        }
+      }
+    },
+    "parent_sufficiency": [
+      {
+        "exact_equality": "the free-energy minimiser equals the exact Bayes posterior and the minimum equals the surprisal -log2 P(o) on every registered (world, observation) pair",
+        "novelty_claimed": false,
+        "owner": "variational inference / active inference (Jordan et al. 1999; Friston et al. 2017)",
+        "scope": "perception as exact Bayesian inference on the registered dyadic worlds, with the full dyadic variational family and a correctly specified generative model",
+        "terminal": "PARENT_SUFFICIENT"
+      }
+    ],
+    "perception_audit": {
+      "W_CORR": {
+        "family_size": 35,
+        "per_observation": {
+          "o0": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "1/2",
+              "0",
+              "0",
+              "1/2"
+            ],
+            "evidence": "1/2",
+            "exact_posterior": [
+              "1/2",
+              "0",
+              "0",
+              "1/2"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "1",
+            "surprisal_bits": "1"
+          },
+          "o1": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "0",
+              "1/2",
+              "1/2",
+              "0"
+            ],
+            "evidence": "1/2",
+            "exact_posterior": [
+              "0",
+              "1/2",
+              "1/2",
+              "0"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "1",
+            "surprisal_bits": "1"
+          }
+        }
+      },
+      "W_SPLIT": {
+        "family_size": 3,
+        "per_observation": {
+          "o0": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "1",
+              "0"
+            ],
+            "evidence": "1/4",
+            "exact_posterior": [
+              "1",
+              "0"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "2",
+            "surprisal_bits": "2"
+          },
+          "o1": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "1/2",
+              "1/2"
+            ],
+            "evidence": "1/4",
+            "exact_posterior": [
+              "1/2",
+              "1/2"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "2",
+            "surprisal_bits": "2"
+          },
+          "o2": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "1/2",
+              "1/2"
+            ],
+            "evidence": "1/4",
+            "exact_posterior": [
+              "1/2",
+              "1/2"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "2",
+            "surprisal_bits": "2"
+          },
+          "o3": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "0",
+              "1"
+            ],
+            "evidence": "1/4",
+            "exact_posterior": [
+              "0",
+              "1"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "2",
+            "surprisal_bits": "2"
+          }
+        }
+      },
+      "W_TRI": {
+        "family_size": 9,
+        "per_observation": {
+          "o0": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "1/2",
+              "1/2",
+              "0"
+            ],
+            "evidence": "1/2",
+            "exact_posterior": [
+              "1/2",
+              "1/2",
+              "0"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "1",
+            "surprisal_bits": "1"
+          },
+          "o1": {
+            "argmin_equals_posterior": true,
+            "argmin_q": [
+              "1/2",
+              "0",
+              "1/2"
+            ],
+            "evidence": "1/2",
+            "exact_posterior": [
+              "1/2",
+              "0",
+              "1/2"
+            ],
+            "min_equals_surprisal": true,
+            "min_free_energy_bits": "1",
+            "surprisal_bits": "1"
+          }
+        }
+      }
+    },
+    "preference_prior_nonexistence": {
+      "actions": [
+        "a0",
+        "a1"
+      ],
+      "ambiguity_bits": [
+        "1",
+        "0"
+      ],
+      "ambiguity_gap_a0_minus_a1_bits": "1",
+      "efe_choice_over_all_C": [
+        "a1"
+      ],
+      "efe_difference_a0_minus_a1_over_all_C": [
+        "1"
+      ],
+      "no_preference_prior_reproduces_utility_order": true,
+      "predicted_outcome_distributions": [
+        [
+          "1/2",
+          "1/2"
+        ],
+        [
+          "1/2",
+          "1/2"
+        ]
+      ],
+      "predicted_outcomes_identical": true,
+      "preference_family_size": 1,
+      "registered_utility": [
+        "1/2",
+        "1",
+        "0"
+      ],
+      "registered_utility_difference": "0",
+      "registered_utility_expected_values": [
+        "1/2",
+        "1/2"
+      ],
+      "registered_utility_order": "a0=a1",
+      "risk_terms_cancel_for_every_preference_distribution": true,
+      "strict_contradiction_witnesses": [
+        [
+          "1",
+          "0",
+          "1/2"
+        ],
+        [
+          "1",
+          "1/2",
+          "0"
+        ]
+      ],
+      "utility_orders_no_preference_prior_can_reproduce": 4,
+      "utility_permutations": [
+        {
+          "expected_utility": [
+            "0",
+            "3/4"
+          ],
+          "expected_utility_difference": "-3/4",
+          "expected_utility_order": "a0<a1",
+          "reproducible_by_some_preference_prior": true,
+          "utility_over_states": [
+            "0",
+            "1",
+            "1/2"
+          ]
+        },
+        {
+          "expected_utility": [
+            "0",
+            "3/4"
+          ],
+          "expected_utility_difference": "-3/4",
+          "expected_utility_order": "a0<a1",
+          "reproducible_by_some_preference_prior": true,
+          "utility_over_states": [
+            "0",
+            "1/2",
+            "1"
+          ]
+        },
+        {
+          "expected_utility": [
+            "1",
+            "1/4"
+          ],
+          "expected_utility_difference": "3/4",
+          "expected_utility_order": "a0>a1",
+          "reproducible_by_some_preference_prior": false,
+          "utility_over_states": [
+            "1",
+            "0",
+            "1/2"
+          ]
+        },
+        {
+          "expected_utility": [
+            "1",
+            "1/4"
+          ],
+          "expected_utility_difference": "3/4",
+          "expected_utility_order": "a0>a1",
+          "reproducible_by_some_preference_prior": false,
+          "utility_over_states": [
+            "1",
+            "1/2",
+            "0"
+          ]
+        },
+        {
+          "expected_utility": [
+            "1/2",
+            "1/2"
+          ],
+          "expected_utility_difference": "0",
+          "expected_utility_order": "a0=a1",
+          "reproducible_by_some_preference_prior": false,
+          "utility_over_states": [
+            "1/2",
+            "0",
+            "1"
+          ]
+        },
+        {
+          "expected_utility": [
+            "1/2",
+            "1/2"
+          ],
+          "expected_utility_difference": "0",
+          "expected_utility_order": "a0=a1",
+          "reproducible_by_some_preference_prior": false,
+          "utility_over_states": [
+            "1/2",
+            "1",
+            "0"
+          ]
+        }
+      ]
+    }
+  },
+  "schema": "GMI_833_AE12_FEP_AUDIT_RESULT_V1",
+  "section": "AE12",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "verdict": "GREEN"
+}
