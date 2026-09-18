@@ -1,0 +1,31 @@
+{
+ "conflict": "A verbatim issue quotation required by the #833 closure standard registers a new banned-term site under the repo-wide AB terminology ratchet.",
+ "contract_a": {
+  "name": "#833 closure standard, item 1",
+  "requires": "FREEZE_V1.md pins the EXACT issue row text this tranche may reconcile, committed before any implementation, and may not be edited afterwards."
+ },
+ "contract_b": {
+  "gate": "research/gmi-833-ab-terminology-harness-v1/terminology_ratchet_v1.py",
+  "name": "AB terminology ratchet (row AB37)",
+  "rule": "FAIL if a markdown file added by the pull request contains a banned term."
+ },
+ "every_other_file_of_this_package": "clean under the parent gate; the package uses its own predicate names in all prose",
+ "issue": 833,
+ "package": "gmi-833-emergence-conditions-v1",
+ "recorded_at_source_main": "50f833cc4bc3cadcefd44eca14fa58f73f815587",
+ "schema": "GMI_833_KNOWN_STRUCTURAL_CONFLICT_V1",
+ "site": {
+  "file": "research/gmi-833-emergence-conditions-v1/FREEZE_V1.md",
+  "line_is": "the byte-exact AG7 row from comment 5693520829, quoted inside a fenced block",
+  "occurrences": 1,
+  "pattern": "\\bselection\\b",
+  "term": "bare selection (undisambiguated)"
+ },
+ "suggested_owner_fix": "the ratchet gains an exemption for a line inside a fenced block of a FREEZE_V1.md that is a verbatim issue quotation; that change belongs to the AB lane, which is actively editing that file, and is deliberately not made here",
+ "why_not_resolved_here": [
+  "paraphrasing the quotation would break custody: the freeze would no longer pin the exact row",
+  "editing the freeze after the fact is the POST_HOC_SUSPECT class an earlier audit (#976) already had to correct once",
+  "adding this package to the ratchet's EXCLUDED_PACKAGES would weaken a live gate for a package whose subject is not the terminology audit",
+  "rewriting the ratchet baseline would record the debt as accepted, which is exactly what the gate exists to prevent"
+ ]
+}
