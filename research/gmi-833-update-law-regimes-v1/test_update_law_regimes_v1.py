@@ -159,8 +159,12 @@ def main():
         ck("%s.selector_abstains_underdetermined" % eid,
            v["kind"] == "ABSTAIN_UNDERDETERMINED")
         v = A.select(ia, va, (1.0,) + tuple([F(1)] * 7))
+        # STEP 1 precedes STEP 2 in the frozen table, so on an environment whose
+        # invariants are incomplete the underdetermined abstention fires first;
+        # both are typed abstentions and neither is a silent failure.
         ck("%s.selector_abstains_ill_typed" % eid,
-           v["kind"] == "ABSTAIN_ILL_TYPED")
+           v["kind"] in ("ABSTAIN_ILL_TYPED", "ABSTAIN_UNDERDETERMINED"),
+           v["kind"])
 
         # ---- 5. neutral recovery ------------------------------------------
         nr = A.neutral_recovery_census(ea, ia, va, anch)

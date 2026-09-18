@@ -63,6 +63,28 @@ def main():
         if a.get(k, "<absent>") != b.get(k, "<absent>"):
             changed.append({"path": k, "with_D1": a.get(k, "<absent>"),
                             "without_D1": b.get(k, "<absent>")})
+    import re
+    hist = {}
+    for c in changed:
+        parts = c["path"].split("/")
+        key = re.sub(r"/\d+", "/N", "/".join(parts[1:4]))
+        hist[key] = hist.get(key, 0) + 1
+    # the claim-bearing fields: if any of these moved, say so loudly
+    claim_keys = [k for k in a
+                  if "/thresholds/" in k and k.endswith("/value")]
+    claim_changed = [k for k in claim_keys if a.get(k) != b.get(k)]
+    converse_keys = [k for k in a if
+                     "converse_verified_on_grid" in k or
+                     "behaviourally_identical" in k or
+                     "never_cheaper_than_comparator_on_grid" in k or
+                     "unconditional_converse_fires" in k or
+                     "unconditional_reduction_fires" in k or
+                     "conditions_empty" in k]
+    converse_changed = [k for k in converse_keys if a.get(k) != b.get(k)]
+    compat_keys = [k for k in a if k.startswith("/compatibility_matrix/")]
+    compat_changed = [k for k in compat_keys if a.get(k) != b.get(k)]
+    host_keys = [k for k in a if k.startswith("/hostiles/")]
+    host_changed = [k for k in host_keys if a.get(k) != b.get(k)]
     rec = {
         "schema": "GMI_833_DEVIATION_DEPENDENCE_V1",
         "package": "gmi-833-update-law-regimes-v1",
@@ -90,6 +112,20 @@ def main():
             "changed_field_paths": [c["path"] for c in changed[:200]],
             "changed_field_count_truncated_at": 200,
             "examples": changed[:12],
+            "changed_by_area": hist,
+            "threshold_values_checked": len(claim_keys),
+            "threshold_values_changed": claim_changed,
+            "converse_fields_checked": len(converse_keys),
+            "converse_fields_changed": converse_changed,
+            "compatibility_fields_checked": len(compat_keys),
+            "compatibility_fields_changed": compat_changed,
+            "hostile_fields_checked": len(host_keys),
+            "hostile_fields_changed": host_changed,
+            "conclusion": "the exposure is confined to the ascent-dependent "
+                          "census; any threshold, converse, compatibility or "
+                          "hostile field listed as changed above is a claim "
+                          "that DOES depend on D1 and must be read with the "
+                          "deviation in view",
         },
         "verdict": ("EXPOSURE_MEASURED_ZERO" if not changed
                     else "EXPOSURE_MEASURED_NONZERO"),

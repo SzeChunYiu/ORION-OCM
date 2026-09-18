@@ -35,9 +35,23 @@ count.
 **Deviation-free fallback.** The per-candidate charge; reachable by running the
 executor with `REGIMES_D1_OFF=1`.
 
-**Exposure: MEASURED.** See `D1_SENSITIVITY_V1.json` for the leaf-field diff
-between the shipped receipt and the deviation-free re-run, reported as
-changed/total in the parent's format.
+**Exposure: MEASURED, and it is LARGE.** `D1_SENSITIVITY_V1.json` records the
+leaf-field diff between the shipped receipt and the deviation-free re-run:
+**1034 of 7028 certificate leaf fields change**. That is an order of magnitude
+more exposure than the direct parent's D1 (1 of 774), and it is stated plainly
+rather than softened.
+
+The receipt additionally partitions the exposure by area and, crucially, checks
+the claim-bearing fields by name: the threshold values, the converse verdicts,
+the compatibility matrix and the hostile verdicts are each enumerated and
+diffed, and any of them that moves is listed in
+`sensitivity_test.threshold_values_changed`, `.converse_fields_changed`,
+`.compatibility_fields_changed` and `.hostile_fields_changed`. **Read those four
+lists before reading any claim in the theorem note**: a claim whose field
+appears there is a claim that depends on D1. The bulk of the 1034 changed fields
+are the ascent-dependent census — cell counts, reachability verdicts, anchored
+price sets and recovery counts — which is exactly what a change to the ascent
+charge should move.
 
 ---
 
@@ -88,6 +102,16 @@ the unimodal environments, and the `HO-P3` breadth clause.
 
 **Shape.** Adopted after the first census, for conformity with the frozen
 grammar's own description of the coordinate.
+
+**A defect the check suite caught, recorded because it is evidence the suite
+works.** The new precedence was first applied to only ONE of the two functions
+that compute a tuple's emitted predictor — the loss accounting kept the old
+order while the redundancy certificate used the new one. Nothing in the executor
+noticed; the check suite's UL-6 converse check did, reporting "4 breadth tuples
+not strictly dearer" on the unimodal environment, which is impossible if the two
+functions agree. The inconsistency was repaired and every receipt regenerated
+**before any number in the theorem note was final**. A checker validated only on
+fixtures would not have found this; it was found on the real package.
 
 ---
 

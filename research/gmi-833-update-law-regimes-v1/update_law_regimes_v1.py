@@ -421,15 +421,13 @@ def tuple_predictor_loss(env, inv, g):
                 if tpos >= store:
                     return 0                      # not retained
                 return env["target"][env["train"][tpos]]
-        elif breadth >= 2:
-            idx, _ = breadth_terminal(env, breadth)
-            pred = lambda z, c=env["H"][idx]: c[z]
         elif carry >= 2:
             pred = lambda z, p=post: weighted_prediction(env, p, z)
         elif carry == 1:
             pred = lambda z, c=env["H"][best_index(post)]: c[z]
         else:
-            pred = lambda z: 0                    # registered default
+            idx, _ = breadth_terminal(env, breadth)
+            pred = lambda z, c=env["H"][idx]: c[z]
         total += sum(1 for z in env["Qset"] if pred(z) != env["target"][z])
     return total
 

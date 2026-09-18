@@ -203,10 +203,17 @@ form is the crossover hyperplane with exact integer normal, reported per pair in
 the receipt.
 
 **Certificate.** On the parent's own 46-ratio grid the trichotomy is exhaustive
-and exclusive on every usable environment: **0 trichotomy failures**. `SIG-X` is
-`WITNESSED` — it is the strict argmin of the seven at an explicit registered
-price — on `D1, D2, D4, D5, D6`, and both routes agree on every `chi*`, route B
-locating it by outward scan and bracket without ever consulting the closed form.
+and exclusive on every usable environment: **0 trichotomy failures** in
+`46 x 5 = 230` cases. **That grid does not straddle `chi*`** — its largest ratio
+is `12` and the smallest registered `chi*` is `109/6`, so the retrieval law is
+cheaper in all `46/46` cases on every environment, with `0` exact ties. The
+crossover is straddled instead by the anchored probes of section 6.3, which
+place a price at `chi*/2`, at `chi*` and at `2 chi*` by construction. Reporting
+the 46-ratio grid as though it exhibited all three verdicts would be an
+overstatement, and it is not made. `SIG-X` is `WITNESSED` — the strict argmin of
+the seven at an explicit registered price — on `D1, D2, D4, D5, D6`, and both
+routes agree on every `chi*`, route B locating it by outward scan and bracket
+without ever consulting the closed form.
 
 ### 5.3 UL-4 — production compression (`SIG-R`), and its boundary
 
@@ -228,6 +235,10 @@ environment (`-137/2, -102, -108, -155/4, -155/4`): no positive construction
 price makes compression win, and on `D1`, `D5` and `D6` `SIG-R` carries a
 `DOMINATED_EVERYWHERE` certificate — a coordinatewise dominator, which is an
 unconditional statement over all positive prices, not a grid observation.
+**`SIG-R` is `WITNESSED` on no registered environment, and `SIG-L` on none
+either**: neither regime is the strict argmin at any registered price, on either
+grid. The row is closed on a mapped boundary plus the bound below, never on a
+witnessed positive.
 
 **The adjacent scoped positive, and it is the sharper statement.** Solving the
 same frozen inequality for the discovery charge gives `disc*(E)`, the largest
@@ -239,6 +250,7 @@ largest production space at which the condition is satisfiable at all:
 |---|---|---|---|
 | `D1` | 288 | **10** | 5/2 |
 | `D2` | 432 | **20** | 10/3 |
+| `D3` | 288 | undetermined | undetermined |
 | `D4` | 432 | **0** | 0 |
 | `D5` | 144 | **0** | 0 |
 | `D6` | 144 | **0** | 0 |
@@ -249,7 +261,12 @@ size of the space the productions are discovered in**, and the registered
 answer is a threshold on `disc`, not on `p_build`. On `D4`, `D5` and `D6`
 `disc* = 0`: no discovery charge at all, not even zero, makes compression win
 there, because the retrieval law is cheaper for reasons independent of
-discovery. That is reported, not smoothed.
+discovery. And where the bound IS positive it is thin — at most `5/2` and `10/3`
+productions, against a registered space of 72. **So the condition favouring
+production compression is satisfiable at registered scope on no environment**,
+and the row is closed on the exhibited bound and the unconditional
+`DOMINATED_EVERYWHERE` certificates, not on a positive regime. That is reported,
+not smoothed.
 
 **Falsifier.** A registered `E` where the compression law wins at a positive
 price while `disc > disc*`, or loses while `disc < disc*`.
@@ -440,11 +457,11 @@ looking at an outcome. It yields 82 to 189 prices per environment.
 | env | anchored prices | `SIG-W` | `SIG-X` | `SIG-R` | `SIG-L` | `SIG-P` | `SIG-T` | `SIG-S` | ties | partition failures |
 |---|---|---|---|---|---|---|---|---|---|---|
 | `D1` | 187 | 0 | 106 | 0 | 0 | 25 | 36 | 14 | 6 | **0** |
-| `D2` | 154 | 0 | 72 | 0 | 0 | 12 | 57 | 7 | 6 | **0** |
+| `D2` | 145 | 0 | 70 | 0 | 0 | 12 | 50 | 7 | 6 | **0** |
 | `D3` | 82 | — | — | — | — | — | — | — | 0 | **0** |
 | `D4` | 142 | 3 | 106 | 0 | 0 | 14 | 16 | 0 | 3 | **0** |
-| `D5` | 175 | 0 | 158 | 0 | 0 | 0 | 16 | 0 | 1 | **0** |
-| `D6` | 189 | 0 | 170 | 0 | 0 | 0 | 18 | 0 | 1 | **0** |
+| `D5` | 167 | 0 | 150 | 0 | 0 | 0 | 16 | 0 | 1 | **0** |
+| `D6` | 193 | 0 | 175 | 0 | 0 | 0 | 17 | 0 | 1 | **0** |
 
 `D3` is entirely `ABSTAIN_UNDERDETERMINED`: no consistent covering production set
 exists there, so two of the seven coefficient vectors are undefined and the
@@ -499,7 +516,16 @@ returns a regime that is vacuous on that environment, the case is classified
 `VACUOUS_REGIME` and counted separately rather than scored as agreement — the
 counts are in the receipt. Under `select_v2` (section 8) the derivation set
 scores **0 disagreements on every environment on both grids**, with 2187/2187
-agreement on the frozen grid for four of the six.
+agreement on the frozen grid on `D1`, `D2`, `D4` and `D6` and 2133/2187 on `D5`.
+
+One case deserves naming because it is the same defect the held-out test found:
+on `D1` and `D2` the `SIG-S` regime is `WITNESSED` — its canonical
+representative is the strict argmin of the seven at 14 and 7 anchored prices —
+while `SIG-S` is simultaneously **vacuous**, because that canonical
+representative is itself redundant and no non-redundant law in the grammar
+carries the signature. A regime can therefore win the seven-way comparison
+without any law existing that realizes it non-redundantly. That is precisely
+what `select_v2` repairs.
 
 **Null.** Against 200 randomized regime assignments on the anchored prices: the
 true selector scores **131/131** hits, the best null scores **33**, and **0/200**
@@ -516,20 +542,23 @@ Predictions `HO-P1` to `HO-P4` are in the freeze commit; the held-out
 environments `X1`..`X6` are built over a different instance set and a
 structurally different candidate table and are used in no derivation.
 
-- **`HO-P1` HIT.** On every defined held-out threshold the closed form equals,
+- **`HO-P1` HIT, 10/10 checks.** On every defined held-out threshold the closed
+  form equals,
   exactly, the crossover located independently by rational bisection on the two
   charges, the bisection never consulting the closed form. Scoring convention
   disclosed as deviation D2.
 - **`HO-P3` HIT.** Both unconditional converses hold on the held-out set: on the
-  held-out environments with `alpha_gain <= 0` the weighting law is strictly
-  dearer than the point summary at every one of the 2187 registered prices, and
-  on the unimodal held-out environment every breadth-`>= 2` tuple is strictly
-  dearer than its breadth-1 counterpart. Scoring convention disclosed as
+  **five** held-out environments with `alpha_gain <= 0` (`X1`, `X3`, `X4`, `X5`,
+  `X6`) the weighting law is strictly dearer than the point summary at every one
+  of the 2187 registered prices — **0 violations in 5 x 2187 = 10,935 checks** —
+  and on the unimodal held-out environment `X6` every breadth-`>= 2` tuple is
+  strictly dearer than its breadth-1 counterpart in **157,464 comparisons, 0
+  violations**. Scoring convention disclosed as
   deviation D3.
 - **`HO-P4` HIT**, as stated, with no convention change: the held-out set does
   produce `DOMINATED_EVERYWHERE` certificates, so the empty-cell finding is not
   an artefact of the derivation set.
-- **`HO-P2` MISS, with 267 mismatches of which 267 are attributed and 0 are
+- **`HO-P2` MISS, with 260 mismatches of which 260 are attributed and 0 are
   unattributed — and the miss is the most useful thing the held-out set did.**
   The frozen selector ranks **canonical** representatives. A canonical
   representative can itself be redundant — a wasted structural coordinate — and
@@ -549,7 +578,7 @@ representative. Its soundness proof is unchanged, and by UL-9 it is *strictly
 more* sound: ranking a redundant representative is ranking a law that is
 dominated at every price. Its held-out agreement is reported in the receipt
 under `heldout.HO_P2.repair_select_v2`. On the held-out set `select_v2`
-scores **803 agreements and 0 disagreements**. `select_v2` is a **post-freeze
+scores **794 agreements and 0 disagreements**. `select_v2` is a **post-freeze
 repair whose necessity was exposed by this held-out miss**, which is exactly
 what a held-out test is for; it is disclosed as deviation D8, the row
 `Build a prospective learning-law selector` is claimed on the FROZEN selector,

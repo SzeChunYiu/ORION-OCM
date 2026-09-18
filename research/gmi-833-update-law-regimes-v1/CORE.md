@@ -30,8 +30,12 @@ flips. The seven mechanism names appear in exactly one file,
   retrieval law stores exactly the retrieved set; the crossover against
   compression is `chi*`, exact.
 - **UL-4** — production compression pays exactly below `disc*`, a bound on the
-  size of the space the productions are searched in. At the registered space it
-  is not satisfiable, with a coordinatewise `DOMINATED_EVERYWHERE` certificate.
+  size of the space the productions are searched in: 10 and 20 on two
+  environments (at most 5/2 and 10/3 productions) and **0** on the other three.
+  At the registered 72-production space the condition is satisfiable nowhere,
+  three environments carry a coordinatewise `DOMINATED_EVERYWHERE` certificate,
+  and the regime is witnessed on none. The row closes on the mapped boundary and
+  the exhibited bound, not on a positive regime.
 - **UL-5** — reuse-indexed construction, closed BY RECONCILIATION TO #897, whose
   lifecycle threshold `Hocc*Delta > Kdef` is restated in these coordinates.
 - **UL-6** — breadth beats the single incumbent exactly below
@@ -67,11 +71,18 @@ flips. The seven mechanism names appear in exactly one file,
 | UL-2 converse violations (`D2`, `D3`) | 0 of 2187 prices each |
 | UL-7 pointwise reduction at `r=0` | 32 inputs checked, **0 mismatches** |
 | UL-8 prices where the change is not strictly dearer | **0 of 2187**, every environment |
+| UL-6 held-out unimodal breadth comparisons | **157,464**, 0 violations |
 | compatibility matrix | 16 COMPATIBLE / 5 EXCLUSIVE of 21 |
 | argmin partition failures, frozen grid and anchored | **0** everywhere |
 | selector soundness / mixture-hull violations | **0 / 0** everywhere |
 | blind-search regime disagreements | **0** everywhere, both grids, both routes |
 | nulls | true 131/131 hits, best null 33, **0/200** reach it; **0/200** foreign thresholds locate the target crossover |
+| `disc*` on `D1`, `D2` / on `D4`, `D5`, `D6` | 10, 20 (at most 5/2 and 10/3 productions) / **0** |
+| `SIG-R` / `SIG-L` witnessed anywhere | **never**, on either grid |
+| held-out predictions | HO-P1 HIT 10/10, HO-P3 HIT, HO-P4 HIT, **HO-P2 MISS** (260 mismatches, 260/260 attributed, 0 unattributed) |
+| `select_v2` revival on held-out | 794 agreements, **0 disagreements** |
+| name-freedom screen | CLEAN_AT_REGISTERED_AUDIT_SCOPE, 36,129 tokens, 47 denylist entries, 0 unmatched, 0 stale |
+| check suite | **329 checks, 329 green** |
 | hostiles detected | **14 / 14** |
 | two-route agreement | scope fingerprint, every invariant, every coefficient vector, every threshold, every cell count |
 
