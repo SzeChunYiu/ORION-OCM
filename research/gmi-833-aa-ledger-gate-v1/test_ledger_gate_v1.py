@@ -318,7 +318,11 @@ def _owned_paths():
 
 def test_gate_is_green_on_the_real_repo():
     owned = _owned_paths()
-    code, rep = A.gate(None, None, owned)
+    # gate(owned, root, baseline_path): `owned` is the FIRST positional.
+    # Passing it third handed a list where a Path was expected and the
+    # suite died with AttributeError on every pull request, which is the
+    # only context where _owned_paths() returns a list at all.
+    code, rep = A.gate(owned, None, None)
     check("real_repo_gate_green", code == 0,
           json.dumps({"owned_scope": "PR diff" if owned is not None else "repo-wide",
                       "violations": rep["violations"][:5]}))

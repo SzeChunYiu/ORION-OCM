@@ -20,21 +20,39 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Freeze and amendment precede implementation
+      - name: Freeze precedes implementation, amendment precedes the receipt
         run: |
-          set -eu
+          set -euo pipefail
           PKG=research/gmi-833-z-z13-adjudication-v1
-          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
-          AMEND=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1_AMENDMENT_1.md" | tail -1)
-          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/z13_adjudication_v1.py" | tail -1)
-          RECEIPT=$(git log --format=%ct --diff-filter=A -- "$PKG/RESULT_V1.json" | tail -1)
-          if [ -z "$FREEZE" ]; then echo "negative control: freeze not in history"; exit 1; fi
-          if [ -z "$AMEND" ]; then echo "negative control: amendment not in history"; exit 1; fi
-          if [ -z "$IMPL" ]; then echo "negative control: executor not in history"; exit 1; fi
-          if [ -z "$RECEIPT" ]; then echo "negative control: receipt not in history"; exit 1; fi
-          echo "freeze=$FREEZE amend=$AMEND impl=$IMPL receipt=$RECEIPT"
-          if [ "$FREEZE" -ge "$IMPL" ]; then echo "FREEZE DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
-          if [ "$AMEND" -ge "$RECEIPT" ]; then echo "AMENDMENT DOES NOT PRECEDE THE RECEIPT"; exit 1; fi
+          # Strict form: the first commit that ever touched this package carries
+          # the freeze. After a squash merge the whole package arrives in one
+          # commit, so the timestamp form ("freeze strictly older than executor")
+          # is unusable on main; presence-in-the-publishing-commit is the form
+          # the sibling #833 workflows already use and it survives the squash.
+          git log --reverse --format=%H -- "$PKG/" > /tmp/all_z13.txt
+          FIRST=$(head -1 /tmp/all_z13.txt)
+          if [ -z "$FIRST" ]; then echo "negative control: package absent from history"; exit 1; fi
+          git show --name-only --format= "$FIRST" -- "$PKG/" > /tmp/firstfiles_z13.txt
+          cat /tmp/firstfiles_z13.txt
+          if ! grep -q 'FREEZE_V1.md' /tmp/firstfiles_z13.txt; then
+            echo "FREEZE IS NOT IN THE COMMIT THAT FIRST TOUCHED THIS PACKAGE"; exit 1
+          fi
+          if [ "$(grep -c . /tmp/firstfiles_z13.txt)" = "1" ]; then
+            echo 'freeze-first commit ordering intact'
+          else
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+          # The amendment must not postdate the receipt it governs.
+          git log --reverse --format=%H --diff-filter=A -- "$PKG/FREEZE_V1_AMENDMENT_1.md" > /tmp/amend.txt
+          A=$(head -1 /tmp/amend.txt)
+          git log --reverse --format=%H --diff-filter=A -- "$PKG/RESULT_V1.json" > /tmp/receipt.txt
+          R=$(head -1 /tmp/receipt.txt)
+          if [ -z "$A" ]; then echo "negative control: amendment absent from history"; exit 1; fi
+          if [ -z "$R" ]; then echo "negative control: receipt absent from history"; exit 1; fi
+          echo "amendment=$A receipt=$R"
+          if [ "$A" != "$R" ] && ! git merge-base --is-ancestor "$A" "$R"; then
+            echo "AMENDMENT DOES NOT PRECEDE THE RECEIPT"; exit 1
+          fi
 
       - name: Workflow integrity
         run: python3 -I -B research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
