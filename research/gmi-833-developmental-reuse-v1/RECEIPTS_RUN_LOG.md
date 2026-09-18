@@ -157,7 +157,37 @@ independently by both.
   characterisation — Route B's exhaustive sweep finds the hitting start-point
   set is *precisely* the predicted 3-element set out of 6,561.
 
-## Hostiles (all detected; checker asserted silent on clean data)
+## Hostiles
 
-`H-NEARMISS`, `H-CYCLE`, `H-UNCHARGED`, `H-BUDGET`, `H-TARGET`,
-`H-ORACLE-PEEK`, `H-CAPITAL`, `H-NOREUSE`, `H-RANKFLIP`.
+All nine are exercised and reported, but they are **not all of the same kind**,
+and saying so is part of the record:
+
+**Six substantive detections** — each could fail and would fail if the thing it
+guards were broken:
+
+- `H-NEARMISS` — the REP-1 classifier must refuse to guarantee a sign at the
+  overlapping-bracket instance, and does (`RANK_DECIDED`).
+- `H-CYCLE` — a cyclic library must return `RECURSIVE_LIBRARY_CYCLE` with the
+  grammar unchanged, on both routes.
+- `H-UNCHARGED` — an evaluation that skips the charge counter is caught by an
+  *independent* audit counter (`audit_calls != charged`).
+- `H-CAPITAL` — the solution-capital library must be accepted per target and
+  rejected on the distribution (`−36,890` vs `+18,139`).
+- `H-NOREUSE` — a library whose body occurs in no target must yield
+  `Saving = 0` and `ΔNet > 0` (`+437,558`).
+- `H-RANKFLIP` — dropping the rank term must produce a two-route disagreement.
+
+**Three constructive demonstrations, honestly labelled** — `H-BUDGET`,
+`H-TARGET` and `H-ORACLE-PEEK` construct an over-budgeted oracle, a
+wrong-target oracle and a direct target read, then assert the resulting
+inequality. Those assertions are arithmetic identities of the construction: they
+show *what the frame forbids* and cannot themselves fail. They are recorded as
+demonstrations, not as detectors, and they are not what `all_detected` rests on.
+Turning them into real detectors means a shared `validate_frame(oracle,
+registered)` guard inside the executor, which would regenerate both receipts;
+that is a queued improvement, not a silent claim. The six substantive hostiles
+above carry the hostile obligation.
+
+**No-alarm obligation:** the checker is asserted silent on every clean
+registered instance (`no_alarm_ok`), and the route-independence checker is
+validated in both directions by six dedicated tests.

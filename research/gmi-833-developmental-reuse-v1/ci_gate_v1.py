@@ -38,10 +38,13 @@ def imported_modules(source, filename="<src>"):
                 target = func
             if target is not None and node.args:
                 arg = node.args[0]
-                if isinstance(arg, ast.Str):
-                    names.add(arg.s.split(".")[0])
-                elif hasattr(ast, "Constant") and isinstance(arg, ast.Constant) \
-                        and isinstance(arg.value, str):
+                # `ast.parse` emits `Constant` for string literals on every
+                # version this package runs on (3.8+). The deprecated `ast.Str`
+                # alias is NOT referenced: it is scheduled for removal, and
+                # touching it would raise AttributeError on a runner that has
+                # dropped it - killing the gate on exactly the Python version
+                # the check was added to protect.
+                if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
                     names.add(arg.value.split(".")[0])
                 else:
                     names.add("<DYNAMIC_IMPORT>")
@@ -127,6 +130,14 @@ def main():
                 fails.append("open row claimed in a replacement: " + orow)
     if set(res["rows_left_open"]) != open_rows:
         fails.append("receipt and manifest disagree on the open rows")
+
+    # the receipt carries the abbreviated freeze commit; the manifest carries the
+    # full sha for custody, and the two must agree
+    full = man.get("freeze_commit_full", "")
+    if len(full) != 40 or not full.startswith(res.get("freeze_commit", "x" * 41)):
+        fails.append("freeze commit custody: receipt %r is not a prefix of "
+                     "manifest freeze_commit_full %r"
+                     % (res.get("freeze_commit"), full))
 
     independent, mods = route_b_is_independent()
     if not independent:

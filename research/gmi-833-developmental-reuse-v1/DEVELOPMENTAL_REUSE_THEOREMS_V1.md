@@ -303,10 +303,11 @@ matches ENUM's coverage.
 Under `OPAQUE` the objective is constant off the target, so a dynamic's next
 query is a function of its query history and seed **only** — it cannot depend on
 the target. **Mechanical check:** the same dynamic, same seed, two different
-targets emits **byte-identical** query sequences up to the first hit, for all 8
-dynamics, with non-vacuous comparison prefixes (ENUM 2,186; MUT 2,155; LS 932;
-GP 6,561; EVO 6,561; GRAD 932; META 2,186; RAND 6,561). Hit counts under
-`OPAQUE` are therefore a pure **coverage lottery**.
+targets (`accccccc`, `bccccccc`) emits **byte-identical** query sequences up to
+the first hit, for all **9** census rows — the 8 registered dynamics plus the
+`RAND` control — with non-vacuous comparison prefixes (ENUM 2,186; MUT 2,155;
+LS 932; GP 6,561; EVO 6,561; GRAD 932; NAS 5,454; META 2,186; RAND 6,561). Hit
+counts under `OPAQUE` are therefore a pure **coverage lottery**.
 
 *This test replaces a registered criterion that failed.* `FREEZE_V1.md` §5 froze
 "`OPAQUE`: guided dynamics must NOT beat the RAND control". Measured: GRAD 133,
