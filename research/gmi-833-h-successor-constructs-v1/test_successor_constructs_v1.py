@@ -1,0 +1,241 @@
+"""Tests for gmi-833-h-successor-constructs-v1.
+
+Run:  python3 -I -B test_successor_constructs_v1.py
+      python3 -I -O -B test_successor_constructs_v1.py
+Stdlib only, no third-party test runner.
+"""
+from fractions import Fraction as Q
+import ast
+import json
+import os
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+PKG = "research/gmi-833-h-successor-constructs-v1"
+FAILURES = []
+
+
+def check(name, cond, detail=""):
+    if cond:
+        sys.stdout.write("ok   %s\n" % name)
+    else:
+        sys.stdout.write("FAIL %s %s\n" % (name, detail))
+        FAILURES.append(name)
+
+
+def load(fname):
+    path = os.path.join(HERE, fname)
+    if not os.path.exists(path):
+        return None
+    with open(path) as fh:
+        return json.load(fh)
+
+
+def git(args):
+    try:
+        out = subprocess.check_output(["git"] + args, cwd=HERE,
+                                      stderr=subprocess.DEVNULL)
+        return out.decode().strip()
+    except Exception:
+        return None
+
+
+def test_custody():
+    fz = git(["log", "--format=%ct", "-1", "--", "FREEZE_V1.md"])
+    if fz is None or fz == "":
+        check("custody.git_available", True, "(git unavailable, skipped)")
+        return
+    worst = None
+    for fn in sorted(os.listdir(HERE)):
+        if not (fn.endswith(".py") or fn.endswith(".json")):
+            continue
+        ts = git(["log", "--diff-filter=A", "--format=%ct", "-1", "--", fn])
+        if ts:
+            if worst is None or int(ts) < worst:
+                worst = int(ts)
+    check("custody.freeze_predates_every_implementation_artifact",
+          worst is None or int(fz) <= worst,
+          "freeze=%s earliest_impl=%s" % (fz, worst))
+
+
+def test_grammar():
+    sys.path.insert(0, HERE)
+    import grammar_h_v1 as G
+    import search_engine_v1 as S
+    d1 = G.digest()
+    d2 = G.digest()
+    check("grammar.digest_stable", d1 == d2)
+    check("grammar.macro_surface_clean", G.macro_audit()["clean"])
+    heads = G.all_trees(G.HEAD_BUDGET, G.HEAD_LEAVES)
+    bodies = G.all_trees(G.BODY_BUDGET, G.BODY_LEAVES)
+    check("grammar.provenance_closed", G.provenance_closed(heads + bodies))
+    check("grammar.no_new_operation",
+          set(G.UNARY_OPS) == set(("NEG", "ABS", "STEP", "RECIP"))
+          and set(G.BINARY_OPS) == set(("ADD", "MUL")))
+    raised = False
+    try:
+        G.classify({"r": 1, "L": 1, "p": 12, "kind": "NONE", "ops": ("ADD",),
+                    "family": "Energy-based systems."},
+                   {"dep_S1": True, "dep_S2": False, "dep_STATE": False,
+                    "dep_RESP": False, "aff_S1": True, "aff_S2": True},
+                   {"aff_ARG": True}, None)
+    except TypeError:
+        raised = True
+    check("grammar.classifier_refuses_family_label", raised)
+    check("grammar.class_priority_frozen",
+          G.CLASS_PRIORITY[0] == "RESPONSE_SPACE_SEARCH"
+          and G.CLASS_PRIORITY[-1] == "AFFINE_SCORE"
+          and len(G.CLASS_PRIORITY) == 11)
+
+
+def test_slices():
+    sys.path.insert(0, HERE)
+    import ecologies_v1 as E
+    s, h, r = E.slices()
+    check("slices.disjoint",
+          not (set(s) & set(h)) and not (set(s) & set(r))
+          and not (set(h) & set(r)))
+    check("slices.cover", len(s) + len(h) + len(r) == E.N_ROWS)
+    d34 = E.build("SIGMA_D34")
+    ties = set(E.tie_rows(d34))
+    check("slices.tie_rows_present_in_search_and_heldout",
+          bool(ties & set(s)) and bool(ties & set(h)), str(sorted(ties)))
+
+
+def test_route_separation():
+    src = open(os.path.join(HERE, "independent_oracle_v1.py")).read()
+    tree = ast.parse(src)
+    imported = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for a in node.names:
+                imported.add(a.name.split(".")[0])
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                imported.add(node.module.split(".")[0])
+    route_a = set(["grammar_h_v1", "ecologies_v1", "search_engine_v1",
+                   "successor_constructs_v1"])
+    check("routeB.ast_no_route_a_import", not (imported & route_a),
+          str(sorted(imported & route_a)))
+    for m in route_a:
+        sys.modules.pop(m, None)
+    sys.path.insert(0, HERE)
+    import independent_oracle_v1  # noqa: F401
+    leaked = [m for m in route_a if m in sys.modules]
+    check("routeB.sys_modules_clean", not leaked, str(leaked))
+
+
+def test_results():
+    res = load("RESULT_V1.json")
+    orc = load("ORACLE_RESULT_V1.json")
+    check("result.present", res is not None)
+    check("oracle.present", orc is not None)
+    if res is None or orc is None:
+        return
+    check("result.float_clean", res.get("float_clean") is True,
+          str(res.get("float_scan"))[:200])
+    check("result.grammar_unchanged", res.get("P00_grammar_unchanged") is True)
+    hs = res["hostiles"]["summary"]
+    check("hostiles.all_detected", hs["all_detected"], str(hs["undetected"]))
+    check("hostiles.none_vacuous", hs["all_applicable"], str(hs["vacuous"]))
+    check("hostiles.count_is_twelve", hs["n"] == 12, str(hs["n"]))
+    for scope, rec in sorted(res["scopes"].items()):
+        check("scope.%s.recovered" % scope, rec.get("recovered") is not None)
+        if rec.get("recovered") is None:
+            continue
+        check("scope.%s.sigma_is_own" % scope,
+              rec["sigma"] in ("SIGMA_D17", "SIGMA_D20", "SIGMA_D22",
+                               "SIGMA_D32", "SIGMA_D34"))
+        o = orc["scopes"].get(scope, {}).get("recovered")
+        check("twoRoute.%s.render" % scope,
+              o is not None and o["render"] == rec["recovered"]["render"],
+              str(o))
+        check("twoRoute.%s.cost" % scope,
+              o is not None and o["cost"] == rec["recovered"]["cost"])
+        check("twoRoute.%s.class" % scope,
+              o is not None and o["class"] == rec["recovered"]["class"])
+        check("twoRoute.%s.ecology_digest" % scope,
+              orc["scopes"][scope]["ecology_digest"] == rec["ecology_digest"])
+        check("twoRoute.%s.gs_nonrepresentable" % scope,
+              orc["scopes"][scope]["gs_match_found"] is False
+              and rec["R06_gs_nonrepresentable"]["found_match"] is False)
+    for scope, co in sorted(res["coordinates"].items()):
+        check("coordinates.%s.R11_not_earned" % scope,
+              co.get("per_requirement", {}).get("R11") is False
+              or co.get("count") == 0)
+        check("coordinates.%s.row_not_closed" % scope,
+              co.get("row_closed") is False or co.get("count") == 0)
+
+
+def test_forbidden_language():
+    banned = ("INDEPENDENT_TEAM_REPLICATION_ACHIEVED", "MATURITY_M5_REACHED",
+              "REAL_SCALE_CERTIFIED", "ROW_CLOSED_AT_ELEVEN")
+    for fn in ("RESULT_V1.json", "ORACLE_RESULT_V1.json",
+               "ISSUE_833_RECONCILIATION_H3_V1.json"):
+        path = os.path.join(HERE, fn)
+        if not os.path.exists(path):
+            continue
+        text = open(path).read()
+        for b in banned:
+            check("language.%s.no_%s" % (fn, b), b not in text)
+
+
+def test_reconciliation():
+    rec = load("ISSUE_833_RECONCILIATION_H3_V1.json")
+    if rec is None:
+        check("reconciliation.present", False)
+        return
+    check("reconciliation.schema",
+          rec.get("schema") == "GMI_ISSUE_RECONCILIATION_V2")
+    check("reconciliation.issue", rec.get("issue") == 833)
+    check("reconciliation.anchor_is_section_header",
+          str(rec.get("anchor", "")).startswith("# H."))
+    check("reconciliation.forbidden_promotions_present",
+          isinstance(rec.get("forbidden_promotions"), list)
+          and "CROSS_SCOPE_GATE_COMPOSITION" in rec["forbidden_promotions"]
+          and "REAL_SCALE_CLAIM" in rec["forbidden_promotions"])
+    res = load("RESULT_V1.json")
+    reps = rec.get("replacements", [])
+    if reps:
+        ok = False
+        if res is not None:
+            for scope, co in res["coordinates"].items():
+                if co.get("count") == 11:
+                    ok = True
+        check("reconciliation.replacements_require_eleven_coordinates", ok)
+    else:
+        check("reconciliation.replacements_empty_is_declared",
+              rec.get("closes_rows") == [])
+
+
+def test_theorems():
+    res = load("RESULT_V1.json")
+    if res is None:
+        return
+    th = res["theorems"]
+    check("theorem.SC2_collapse", th["SC2_collapse_affine_depth2"]["holds"])
+    check("theorem.SC2b_nonlinear_breaks_collapse",
+          th["SC2b_nonlinear_stage_breaks_collapse"]["holds"])
+    check("theorem.SC3_shift_invariance",
+          th["SC3_tied_fold_shift_invariance"]["holds"])
+    check("theorem.SC4_flow_bijection",
+          th["SC4_flow_bijection_and_jacobian"]["holds"])
+    check("theorem.SC5_staircase", th["SC5_response_space_staircase"]["holds"])
+
+
+def main():
+    test_custody()
+    test_grammar()
+    test_slices()
+    test_route_separation()
+    test_results()
+    test_forbidden_language()
+    test_reconciliation()
+    test_theorems()
+    sys.stdout.write("\n%d failures\n" % len(FAILURES))
+    return 1 if FAILURES else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
