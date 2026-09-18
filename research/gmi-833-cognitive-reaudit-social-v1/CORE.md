@@ -21,6 +21,14 @@ hedge.
 | `TCH-1..3`/`NONID-4` | imitation = learner's charge falls because of the demonstration; teaching = the demonstrator pays to cause that fall | jointly worth it **iff** `n * Delta > D`; omitting `D` strictly enlarges the worthwhile set (`450` vs `352`, `98` artifacts) | a concurrent cause: `200/200` pre/post false alarms against `0/200` with a control arm |
 | `CUL-1..3`/`NONID-5` | generation `n+1` exceeds generation `n`'s starting capability *through transmission* | ratchets **iff** `lambda * a_n < g`, exact ceiling `a* = g / lambda`; transmission is identified by a charged margin `(r - t) * phi * a_n`, and **never** by the trajectory | independent re-derivation reproducing every trajectory exactly — all `270` triples |
 
+`RESULT_V1.json` keeps two counts apart on purpose. **`hostiles_detected`** are
+deliberately broken variants that are actually computed and caught by
+disagreement with the honest route — a non-strict threshold, a behaviour-reader
+secretly reading hidden state, a free-labour verdict, a pre/post detector with no
+control arm, a claimed separation at `t = r = k`. **`aliasing_regimes_witnessed`**
+are censuses of the registered instances in which the twin exists; no detector
+could have failed to fire on them, and they are not reported as detections.
+
 Where a probe cannot separate two hypotheses the executor emits the registered
 typed abstention (`CANNOT_IDENTIFY_FROM_ALLOCATION_TRACE`,
 `CANNOT_IDENTIFY_FROM_SCORE_ALONE`, `CANNOT_IDENTIFY_FROM_COORDINATION_ALONE`,
@@ -41,7 +49,7 @@ and holds no decision rule.
 
 ```
 mc1 random policy beats the backward-induction optimum   0/200
-mc2 false alarms on a sufficient channel                 0/162
+mc2 false alarms on a sufficient channel                 0/162  (of 200 drawn, 162 had a sufficient channel)
 mc2 recall on planted separating ecologies             200/200
 mc3 two-route disagreements on strict pay                0/200
 mc3 useless channel declared paying                      0/200
@@ -60,7 +68,7 @@ python3 -I -O -B research/gmi-833-cognitive-reaudit-social-v1/test_cognitive_rea
 ```
 
 Both executor modes must write a byte-identical `RESULT_V1.json`
-(`md5 05ec31f365103dfb0130ee6bfb530ee4`). Stdlib only; exact `Fraction`
+(`md5 398e9eb802d0fd67f02ee7936a878ca1`). Stdlib only; exact `Fraction`
 arithmetic throughout; no float literal exists in any file and a test enforces it.
 Parent blobs are pinned in `MANIFEST_V1.json` and re-checked at run time — parent
 drift is a red result.

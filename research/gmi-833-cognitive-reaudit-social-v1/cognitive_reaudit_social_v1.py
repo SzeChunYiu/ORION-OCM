@@ -278,6 +278,7 @@ def route_a_fixed_schedule_twin(
 def run_mc1() -> Dict[str, object]:
     voc_cases = 0
     voc_worth_true = 0
+    voc_by_depth = {}
     voc_nonnegative = 0
     voc_equal_price = 0
     allocation_cases = 0
@@ -309,6 +310,12 @@ def run_mc1() -> Dict[str, object]:
                 scope, path, F(0) if not path else route_a_retained_best(scope, path[:len(path)])
             )
             voc_cases += 1
+            depth_cell = voc_by_depth.setdefault(len(path), {"nodes": 0, "ties": 0, "worth": 0})
+            depth_cell["nodes"] += 1
+            if worth:
+                depth_cell["worth"] += 1
+            if improvement == scope["price"][path]:
+                depth_cell["ties"] += 1
             if worth != worth_b:
                 voc_mismatch += 1
             if step_value - stop_value != improvement - scope["price"][path]:
@@ -395,6 +402,7 @@ def run_mc1() -> Dict[str, object]:
             "voc_threshold_two_route_cases": voc_cases,
             "voc_worth_true": voc_worth_true,
             "voc_exact_tie_cases": voc_equal_price,
+            "voc_by_node_depth": dict((str(k), v) for k, v in sorted(voc_by_depth.items())),
             "aliasing_instances": len(instance_scopes),
             "aliasing_schedule_space": schedule_space,
             "aliasing_matching_schedules": len(matches_b),
@@ -649,7 +657,9 @@ def run_mc2() -> Dict[str, object]:
         },
         "hostiles_detected": {
             "H2a_channel_ignoring_behaviour_reader": hostile_ignore_channel_detected,
-            "H2b_tom_claimed_on_sufficient_channel": behaviour_reader_matches,
+        },
+        "aliasing_regimes_witnessed": {
+            "H2b_behaviour_reader_matches_mentalizer": behaviour_reader_matches,
         },
         "largest_gap_witness": max_gap_witness,
         "abstention": ABSTENTIONS["MC-2"],
@@ -779,7 +789,9 @@ def run_mc3() -> Dict[str, object]:
         },
         "hostiles_detected": {
             "H3a_non_strict_pay_rule": hostile_nonstrict_pay_detected,
-            "H3b_coordination_from_shared_observation": shared_observation_alias,
+        },
+        "aliasing_regimes_witnessed": {
+            "H3b_shared_observation_reproduces_coordination": shared_observation_alias,
         },
         "abstention": ABSTENTIONS["MC-3"],
         "demarcation": (
@@ -965,9 +977,20 @@ def run_mc4() -> Dict[str, object]:
         },
         "hostiles_detected": {
             "H4a_free_labour_verdicts": free_labour_artifacts,
-            "H4b_failed_teaching_is_not_teaching": cells["failed_teaching"],
             "H4c_prepost_detector_false_alarms": naive_false_alarms,
         },
+        "aliasing_regimes_witnessed": {
+            "H4b_failed_teaching": cells["failed_teaching"],
+        },
+        "route_independence_caveat": (
+            "TCH-2 is an algebraic identity: route A evaluates n*(L_ctrl-L_demo) > D "
+            "and route B evaluates D + n*L_demo < n*L_ctrl. These are the same "
+            "inequality rearranged, so MC-4's two routes are NOT materially "
+            "independent in the sense the other four rows satisfy. The zero "
+            "mismatch count is a transcription check, not corroboration. MC-4's "
+            "real independent evidence is TCH-1's exhaustive four-cell enumeration "
+            "and NONID-4's two-armed detector validation on real registered data."
+        ),
         "control_arm_detector": {
             "false_alarms_on_concurrent_cause": control_arm_alarms,
             "recall_on_planted_imitation": planted_detected,
@@ -1169,8 +1192,11 @@ def run_mc5() -> Dict[str, object]:
             "cost_separation": separation_mismatch,
         },
         "hostiles_detected": {
-            "H5a_trajectory_claimed_to_identify_transmission": triples,
-            "H5b_equal_unit_cost_claimed_to_separate": indistinguishable_cost_cases,
+            "H5b_equal_cost_separation_claim_refuted": boundary_cases,
+        },
+        "aliasing_regimes_witnessed": {
+            "H5a_rederivation_twin_reproduces_trajectory": triples,
+            "H5c_indistinguishable_cost_regimes": indistinguishable_cost_cases,
         },
         "abstention": ABSTENTIONS["MC-5"],
         "demarcation": (

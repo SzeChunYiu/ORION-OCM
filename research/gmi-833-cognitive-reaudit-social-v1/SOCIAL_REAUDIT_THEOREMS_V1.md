@@ -182,6 +182,15 @@ the ecology, not about the machine's insides.
   `{0,1,2}`, prices in `{1,2}`, outcome laws in `{(1/2,1/2),(1/3,2/3),(2/3,1/3)}`;
   `8748` scopes, `26244` VOC threshold cases, `8748` optimal-allocation cases,
   a `125`-schedule exhaustive aliasing space over `3` registered instances.
+- Tie census, split by node depth and independently recounted by a standalone
+  enumeration that decides ties only by comparing two concrete policies and never
+  touches the threshold formula: root nodes `8748` with `1296` exact ties and
+  `1782` worth-taking; depth-1 nodes `17496` with `1188` exact ties and `1188`
+  worth-taking; totals `2484` ties and `2970` worth-taking. Both depths
+  contribute, so the tie census spans the whole registered decision set rather
+  than one distinguished node. The split is carried in `RESULT_V1.json` under
+  `rows["MC-1"].census.voc_by_node_depth` so the figure is recountable from the
+  receipt alone.
 - Falsifiers: a float in any decision; a VOC verdict disagreeing with the
   brute-forced two-policy comparison; a negative expected improvement; a
   deterministic allocator with no twin; a latent-draw allocator with a twin.
@@ -455,6 +464,18 @@ Absent the control arm the sound verdict is `CANNOT_IDENTIFY_WITHOUT_CONTROL_ARM
 - Falsifiers: a joint-worth verdict disagreeing with direct total-charge
   comparison; a violation of the TCH-3 containment; an empty difference set; a
   `FAILED_TEACHING` instance counted as teaching; a control-arm false alarm.
+- **Route-independence limitation, stated rather than papered over.** TCH-2 is an
+  algebraic identity. Route A evaluates `n * (L_ctrl - L_demo) > D`; route B
+  evaluates `D + n * L_demo < n * L_ctrl`. These are the same inequality
+  rearranged, so MC-4's two routes are **not materially independent** in the sense
+  the other four rows satisfy (enumeration against closed form, iteration against
+  fixed point). The zero mismatch count on this row is a transcription check, not
+  corroboration, and the `1080`-instance grid is small enough that it would not be
+  informative even if it were. MC-4's genuinely independent evidence is elsewhere:
+  TCH-1's exhaustive four-cell enumeration, TCH-3's containment census over every
+  instance, and NONID-4's two-armed detector validation on `400` real registered
+  instances with both the alarm and the no-alarm case asserted. The receipt
+  carries this caveat verbatim under `rows["MC-4"].route_independence_caveat`.
 - Strongest parents: Bandura's social-learning treatment of observational
   acquisition; Tomasello, Kruger and Ratner (1993) on the imitation/instruction
   distinction; Csibra and Gergely (2009) on natural pedagogy; the machine-teaching
@@ -602,6 +623,21 @@ The five rows share one finding, and it is the finding a *re-audit* is for:
 
 That is a positive theorem, stated as one. It is also the reason each row ships a
 registered typed abstention rather than a guess.
+
+**Detections and witnesses are counted separately.** `RESULT_V1.json` reports
+`hostiles_detected` only for deliberately broken variants that are actually
+computed and caught by disagreement with the honest route: the non-strict VOC
+threshold (`2484`), the fixed-schedule twin falsely claimed for the latent-draw
+allocator (exhaustive search over all `125` schedules returns `0`), the
+behaviour-reader secretly reading hidden state (`3996`), the non-strict pay rule
+(`15895`), free-labour teaching verdicts (`98`), the pre/post imitation detector
+(`200/200` against the control arm's `0/200`), and the claim that equal unit costs
+separate (refuted on all `6480` boundary cases). Census counts of the registered
+instances in which a twin merely exists — `15267` matched behaviour-readers,
+`20950` shared-observation aliases, `525` failed-teaching instances, `270`
+re-derivation twins, `1530` indistinguishable cost regimes — are reported
+separately as `aliasing_regimes_witnessed`, because no detector could have failed
+to fire on them and calling them detections would overstate what was tested.
 
 **Not established here, at any strength:** any claim about human or animal
 cognition; any empirical validation; any architecture, module or anatomy; any

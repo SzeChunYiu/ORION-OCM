@@ -100,6 +100,18 @@
         "aliasing_schedule_space": 125,
         "deliberation_scopes": 8748,
         "optimal_allocation_two_route_cases": 8748,
+        "voc_by_node_depth": {
+          "0": {
+            "nodes": 8748,
+            "ties": 1296,
+            "worth": 1782
+          },
+          "1": {
+            "nodes": 17496,
+            "ties": 1188,
+            "worth": 1188
+          }
+        },
         "voc_exact_tie_cases": 2484,
         "voc_threshold_two_route_cases": 26244,
         "voc_worth_true": 2970
@@ -124,6 +136,9 @@
     },
     "MC-2": {
       "abstention": "CANNOT_IDENTIFY_FROM_SCORE_ALONE",
+      "aliasing_regimes_witnessed": {
+        "H2b_behaviour_reader_matches_mentalizer": 15267
+      },
       "census": {
         "behaviour_reader_matches_mentalizer": 15267,
         "ecologies": 19263,
@@ -145,8 +160,7 @@
         "sufficient_channel_gap": "0/1"
       },
       "hostiles_detected": {
-        "H2a_channel_ignoring_behaviour_reader": 3996,
-        "H2b_tom_claimed_on_sufficient_channel": 15267
+        "H2a_channel_ignoring_behaviour_reader": 3996
       },
       "largest_gap_witness": {
         "behaviour_reader_value": "1/1",
@@ -185,6 +199,9 @@
     },
     "MC-3": {
       "abstention": "CANNOT_IDENTIFY_FROM_COORDINATION_ALONE",
+      "aliasing_regimes_witnessed": {
+        "H3b_shared_observation_reproduces_coordination": 20950
+      },
       "census": {
         "channel_instances": 93075,
         "exact_tie_price_cases": 15895,
@@ -196,8 +213,7 @@
       "demarcation": "ecology-generator variation of communication topology and price is owned by #959 / #957; this is the capability-side derivation",
       "external_definition": "a charged channel whose use changes the jointly achievable score",
       "hostiles_detected": {
-        "H3a_non_strict_pay_rule": 15895,
-        "H3b_coordination_from_shared_observation": 20950
+        "H3a_non_strict_pay_rule": 15895
       },
       "results": [
         "COM-1",
@@ -215,6 +231,9 @@
     },
     "MC-4": {
       "abstention": "CANNOT_IDENTIFY_WITHOUT_CONTROL_ARM",
+      "aliasing_regimes_witnessed": {
+        "H4b_failed_teaching": 525
+      },
       "census": {
         "cells": {
           "failed_teaching": 525,
@@ -247,7 +266,6 @@
       },
       "hostiles_detected": {
         "H4a_free_labour_verdicts": 98,
-        "H4b_failed_teaching_is_not_teaching": 525,
         "H4c_prepost_detector_false_alarms": 200
       },
       "results": [
@@ -256,6 +274,7 @@
         "TCH-3",
         "NONID-4"
       ],
+      "route_independence_caveat": "TCH-2 is an algebraic identity: route A evaluates n*(L_ctrl-L_demo) > D and route B evaluates D + n*L_demo < n*L_ctrl. These are the same inequality rearranged, so MC-4's two routes are NOT materially independent in the sense the other four rows satisfy. The zero mismatch count is a transcription check, not corroboration. MC-4's real independent evidence is TCH-1's exhaustive four-cell enumeration and NONID-4's two-armed detector validation on real registered data.",
       "row": "Re-audit imitation and teaching.",
       "two_route_mismatches": {
         "cell_classification": 0,
@@ -265,6 +284,10 @@
     },
     "MC-5": {
       "abstention": "CANNOT_IDENTIFY_FROM_CAPABILITY_TRAJECTORY",
+      "aliasing_regimes_witnessed": {
+        "H5a_rederivation_twin_reproduces_trajectory": 270,
+        "H5c_indistinguishable_cost_regimes": 1530
+      },
       "census": {
         "cost_separation_cases": 58320,
         "cost_vectors_per_triple": 27,
@@ -282,8 +305,7 @@
       "demarcation": "within-lifetime library formation and reuse transfer are owned by #897 (gmi-833-g0-grammar-growth-v1); this row is inter-generational transmission between populations",
       "external_definition": "generation n+1's achievable capability strictly exceeds generation n's starting capability through a transmission channel rather than through re-derivation",
       "hostiles_detected": {
-        "H5a_trajectory_claimed_to_identify_transmission": 270,
-        "H5b_equal_unit_cost_claimed_to_separate": 1530
+        "H5b_equal_cost_separation_claim_refuted": 6480
       },
       "results": [
         "CUL-1",
