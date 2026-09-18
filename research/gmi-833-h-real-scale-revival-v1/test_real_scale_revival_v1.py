@@ -344,6 +344,29 @@ class Reconciliation(unittest.TestCase):
             for ch in "0123456789":
                 self.assertNotIn(ch + "." , parts[1])
 
+    def test_the_read_first_file_states_the_gate_counts_the_result_holds(self):
+        """CORE.md is read first, so a stale count there is an overstated claim.
+
+        It shipped saying 9 of 11 for a row the result scores at 8. Nothing
+        checked it, so this does.
+        """
+        import re
+        with open(os.path.join(HERE, "CORE.md"), encoding="utf-8") as fh:
+            core = fh.read()
+        rows = dict((r["row"], r) for r in self.result["rows"].values())
+        seen = 0
+        for line in core.split("\n"):
+            m = re.match(r"^\| `([^`]+)` \| `([A-Z0-9_]+)` \| \*\*(closed|open)\*\*, (\d+) of 11", line)
+            if not m:
+                continue
+            row, sigma, state, count = m.group(1), m.group(2), m.group(3), int(m.group(4))
+            self.assertIn(row, rows, row)
+            self.assertEqual(rows[row]["sigma"], sigma, row)
+            self.assertEqual(rows[row]["supported"], count, row)
+            self.assertEqual(rows[row]["complete"], state == "closed", row)
+            seen += 1
+        self.assertEqual(seen, len(rows), "CORE.md must state every row")
+
     def test_no_row_outside_the_freeze_is_touched(self):
         allowed = set(r.replace("- [ ] ", "") for r in ROWS)
         for entry in self.recon["replacements"]:

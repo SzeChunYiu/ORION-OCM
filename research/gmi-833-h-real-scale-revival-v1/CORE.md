@@ -17,7 +17,7 @@ that no gate certificate carries a scope other than its own.
 | row | scope | outcome |
 |---|---|---|
 | `Basis/kernel methods.` | `SIGMA_R04B` | **closed**, 11 of 11 — `RSR-3` |
-| `Linear regression / linear classifiers.` | `SIGMA_R02` | **open**, 9 of 11 — `RSR-1` |
+| `Linear regression / linear classifiers.` | `SIGMA_R02` | **open**, 8 of 11 — `RSR-1` |
 | `GLMs.` | `SIGMA_R03B` | **open**, 8 of 11 — `RSR-4` |
 
 One closure and two reported negatives, each diagnosed to a single stage. The
