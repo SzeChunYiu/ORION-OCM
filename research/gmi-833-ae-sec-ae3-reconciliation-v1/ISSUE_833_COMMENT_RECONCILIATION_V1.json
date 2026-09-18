@@ -488,7 +488,40 @@
       "subject": "gmi-833-aa-ledger-gate-v1 repo-wide self-test versus debt already on main",
       "verdict": "PRE_EXISTING_DEBT_NOT_INTRODUCED_BY_THIS_LANE",
       "detail": "The ledger gate landed on main after this lane branched and requires every named result in a *THEOREMS*.md to emit assumptions, dependency, falsifier and strongest-parent ledgers. This lane merged main, found 20 of its own results non-compliant, and repaired all 20 -- the gate's owned-files check now reports 0 violations for AE4, AE7 and AE13. The job still fails, on a separate repo-wide self-test (real_repo_gate_green) whose only violations are 5 results in research/gmi-833-ag5-extension-lowering-v1/AG5_EXTENSION_THEOREMS_V1.md, merged into main by #1036. No path of this lane appears in that failure.",
-      "recommendation_for_the_orchestrator": "the AG5 package needs the same four-ledger repair; until then the aa-ledger-gate job is red on every branch cut from main, exactly the shape #1032 fixed twice before for other gates."
+      "recommendation_for_the_orchestrator": "two separate repairs are needed and neither is a research lane's to make. (1) AG5 needs the same four-ledger repair this lane applied to its own 20 results. (2) receipt_debt_never_grew compares live main against a baseline frozen at 2345; either re-baseline it whenever main legitimately grows, or scope it to the branch's owned files the way the gate's own primary check already is. Until both are done the aa-ledger-gate job is red on every branch cut from main regardless of what that branch contains.",
+      "re_verified_on_run": {
+        "run": "35379053733",
+        "job": "105710599878",
+        "method": "the job's own log was downloaded by job id and read; a control pattern that must match ('research/') returned 169 lines, so the searches are known to work rather than merely returning nothing",
+        "owned_files_verdict": {
+          "passed": true,
+          "regressions": 0,
+          "violations": 0,
+          "new_named_results": 20,
+          "corpus_debt_grew": false,
+          "reading": "this lane's 20 new named results add zero ledger debt"
+        },
+        "failures": 2,
+        "failure_1": {
+          "test": "real_repo_gate_green",
+          "violations": 5,
+          "all_in_path": "research/gmi-833-ag5-extension-lowering-v1/AG5_EXTENSION_THEOREMS_V1.md",
+          "results": [
+            "AG5X-1",
+            "AG5X-2",
+            "AG5X-3",
+            "AG5X-4",
+            "AG5X-5"
+          ],
+          "lane_paths_in_this_failure": 0
+        },
+        "failure_2": {
+          "test": "receipt_debt_never_grew",
+          "measured": "2374 > 2345",
+          "mechanism": "a SECOND and distinct mechanism, not previously named here. This test compares a repo-wide count of non-compliant named results against a FROZEN baseline of 2345 taken when the gate landed. Main has since grown to 2415 named results of which 2374 are non-compliant. The baseline is frozen while main keeps merging, so the test ratchets against the whole corpus rather than against the branch, and NO single lane can clear it: this lane's own 20 additions are compliant and the gate says so on the same run (corpus_debt_grew false under owned-files scope, while the repo-wide test reports growth). The two scopes disagree by construction.",
+          "lane_contribution_to_the_growth": 0
+        }
+      }
     },
     {
       "id": "SEC_AE3_FINDING_4",
