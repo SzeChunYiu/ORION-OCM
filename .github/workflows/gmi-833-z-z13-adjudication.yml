@@ -1,4 +1,5 @@
 name: gmi-833-z-z13-adjudication
+
 on:
   push:
     paths:
@@ -8,18 +9,78 @@ on:
     paths:
       - 'research/gmi-833-z-z13-adjudication-v1/**'
       - '.github/workflows/gmi-833-z-z13-adjudication.yml'
+  workflow_dispatch:
+
 jobs:
-  adjudicate:
-    runs-on: [self-hosted, Linux, X64, pm-ci]
+  z13:
+    name: Z13 adjudication of Z13-P1
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Route A
-        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/z13_adjudication_v1.py
-      - name: Route B
+        with:
+          fetch-depth: 0
+
+      - name: Freeze and amendment precede implementation
+        run: |
+          set -eu
+          PKG=research/gmi-833-z-z13-adjudication-v1
+          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
+          AMEND=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1_AMENDMENT_1.md" | tail -1)
+          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/z13_adjudication_v1.py" | tail -1)
+          RECEIPT=$(git log --format=%ct --diff-filter=A -- "$PKG/RESULT_V1.json" | tail -1)
+          if [ -z "$FREEZE" ]; then echo "negative control: freeze not in history"; exit 1; fi
+          if [ -z "$AMEND" ]; then echo "negative control: amendment not in history"; exit 1; fi
+          if [ -z "$IMPL" ]; then echo "negative control: executor not in history"; exit 1; fi
+          if [ -z "$RECEIPT" ]; then echo "negative control: receipt not in history"; exit 1; fi
+          echo "freeze=$FREEZE amend=$AMEND impl=$IMPL receipt=$RECEIPT"
+          if [ "$FREEZE" -ge "$IMPL" ]; then echo "FREEZE DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
+          if [ "$AMEND" -ge "$RECEIPT" ]; then echo "AMENDMENT DOES NOT PRECEDE THE RECEIPT"; exit 1; fi
+
+      - name: Workflow integrity
+        run: python3 -I -B research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: Route B oracle
         run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/independent_z13_oracle_v1.py
-      - name: Tests
+
+      - name: Route A executor
+        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/z13_adjudication_v1.py
+
+      - name: Receipts are byte-stable
+        run: |
+          set -eu
+          git diff --exit-code -- research/gmi-833-z-z13-adjudication-v1/RESULT_V1.json
+          git diff --exit-code -- research/gmi-833-z-z13-adjudication-v1/ORACLE_RESULT_V1.json
+
+      - name: Tests (normal mode)
         run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/test_z13_adjudication_v1.py -v
-      - name: Tests under -O
+
+      - name: Tests (optimized mode)
         run: python3 -I -O -B research/gmi-833-z-z13-adjudication-v1/test_z13_adjudication_v1.py -v
-      - name: Receipts must be byte-stable
-        run: git diff --exit-code -- research/gmi-833-z-z13-adjudication-v1/RESULT_V1.json research/gmi-833-z-z13-adjudication-v1/ORACLE_RESULT_V1.json
+
+      - name: Verdict gate
+        run: |
+          set -eu
+          python3 -I -B - research/gmi-833-z-z13-adjudication-v1/RESULT_V1.json <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              r = json.load(fh)
+          if r["verdict"] != "MISS":
+              sys.exit("verdict drifted to %s; a MISS may not be repaired into a HIT" % r["verdict"])
+          if r["HIT_conditions"]["H1_lower_endpoint"] is not True:
+              sys.exit("H-1 must stay confirmed")
+          for k in ("H2_upper_endpoint", "H3_minimiser_satisfies_Pa_Pb_Pc",
+                    "H4_Pd_nonvacuous", "H5_negative_ecology"):
+              if r["HIT_conditions"][k] is not False:
+                  sys.exit("%s drifted; the published refutation must stand" % k)
+          if r["P_d_status"] != "VACUOUSLY_TRUE":
+              sys.exit("P-d vacuity status drifted")
+          if not r["hostiles_all_detected"]:
+              sys.exit("an inert hostile is a defect of this package")
+          if not r["no_alarm_control"]["silent_as_required"]:
+              sys.exit("the no-alarm control fired")
+          if r["null"]["nulls_reaching_all_worlds"] != 0:
+              sys.exit("the null was not beaten")
+          print("Z13 verdict MISS, published;",
+                r["thresholds"]["H1_lower_endpoint_matches_frozen"], "/",
+                r["thresholds"]["H2_upper_endpoint_matches_frozen"])
+          PY

@@ -1,4 +1,5 @@
 name: gmi-833-z-z1-master-principle
+
 on:
   push:
     paths:
@@ -8,18 +9,79 @@ on:
     paths:
       - 'research/gmi-833-z-z1-master-principle-v1/**'
       - '.github/workflows/gmi-833-z-z1-master-principle.yml'
+  workflow_dispatch:
+
 jobs:
-  principle:
-    runs-on: [self-hosted, Linux, X64, pm-ci]
+  z1:
+    name: Z1 marginal value principle
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Route A
-        run: python3 -I -B research/gmi-833-z-z1-master-principle-v1/z1_master_principle_v1.py
-      - name: Route B
+        with:
+          fetch-depth: 0
+
+      - name: Freeze and amendment precede implementation
+        run: |
+          set -eu
+          PKG=research/gmi-833-z-z1-master-principle-v1
+          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
+          AMEND=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1_AMENDMENT_1.md" | tail -1)
+          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/z1_master_principle_v1.py" | tail -1)
+          RECEIPT=$(git log --format=%ct --diff-filter=A -- "$PKG/RESULT_V1.json" | tail -1)
+          if [ -z "$FREEZE" ]; then echo "negative control: freeze not in history"; exit 1; fi
+          if [ -z "$AMEND" ]; then echo "negative control: amendment not in history"; exit 1; fi
+          if [ -z "$IMPL" ]; then echo "negative control: executor not in history"; exit 1; fi
+          if [ -z "$RECEIPT" ]; then echo "negative control: receipt not in history"; exit 1; fi
+          echo "freeze=$FREEZE amend=$AMEND impl=$IMPL receipt=$RECEIPT"
+          if [ "$FREEZE" -ge "$IMPL" ]; then echo "FREEZE DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
+          if [ "$AMEND" -ge "$RECEIPT" ]; then echo "AMENDMENT DOES NOT PRECEDE THE RECEIPT"; exit 1; fi
+
+      - name: Workflow integrity
+        run: python3 -I -B research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: Route B oracle
         run: python3 -I -B research/gmi-833-z-z1-master-principle-v1/independent_compression_oracle_v1.py
-      - name: Tests
+
+      - name: Route A executor
+        run: python3 -I -B research/gmi-833-z-z1-master-principle-v1/z1_master_principle_v1.py
+
+      - name: Receipts are byte-stable
+        run: |
+          set -eu
+          git diff --exit-code -- research/gmi-833-z-z1-master-principle-v1/RESULT_V1.json
+          git diff --exit-code -- research/gmi-833-z-z1-master-principle-v1/ORACLE_RESULT_V1.json
+
+      - name: Tests (normal mode)
         run: python3 -I -B research/gmi-833-z-z1-master-principle-v1/test_z1_master_principle_v1.py -v
-      - name: Tests under -O
+
+      - name: Tests (optimized mode)
         run: python3 -I -O -B research/gmi-833-z-z1-master-principle-v1/test_z1_master_principle_v1.py -v
-      - name: Receipts must be byte-stable
-        run: git diff --exit-code -- research/gmi-833-z-z1-master-principle-v1/RESULT_V1.json research/gmi-833-z-z1-master-principle-v1/ORACLE_RESULT_V1.json
+
+      - name: Verdict gate
+        run: |
+          set -eu
+          python3 -I -B - research/gmi-833-z-z1-master-principle-v1/RESULT_V1.json <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              r = json.load(fh)
+          if not r["IC_1_all_corollaries_hold"]:
+              sys.exit("a corollary of IC-1 failed")
+          if not r["nonvacuity"]["W_NONVACUITY_holds"]:
+              sys.exit("separation population has no shared profiles: the claim would be vacuous")
+          if not r["W_NOALARM_holds"]:
+              sys.exit("no law is compressible: the separator separates everything and is broken")
+          if r["incompressible_laws"] != ["L_DEGENERACY", "L_DISTINCT", "L_MDL", "L_REACH"]:
+              sys.exit("separation set drifted: %s" % r["incompressible_laws"])
+          for name in r["incompressible_laws"]:
+              w = r["incompressibility"][name]["separation_witness"]
+              if w is None:
+                  sys.exit("%s claimed incompressible with no exhibited witness" % name)
+              if w["profile"]["E0"] == w["profile"]["E1"]:
+                  sys.exit("%s witness is degenerate" % name)
+          if not r["null"]["identified"]:
+              sys.exit("IC-1 is not identified inside its declared law family")
+          if not r["hostiles_all_detected"]:
+              sys.exit("an inert hostile is a defect of this package")
+          print("Z1 OK; raw pair", r["compression"]["raw_pair_IC_1"],
+                "ladder", r["head_to_head"]["IC_1_on_ladder"])
+          PY
