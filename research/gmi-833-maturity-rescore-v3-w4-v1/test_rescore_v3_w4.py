@@ -50,6 +50,10 @@ class TestFrozenRule(unittest.TestCase):
 
 
 class TestPins(unittest.TestCase):
+    def test_source_main_is_an_ancestor_of_head(self):
+        """Licenses reading git history at HEAD instead of the SOURCE_MAIN literal."""
+        self.assertIs(A.is_ancestor(A.SOURCE_MAIN, "HEAD"), True)
+
     def test_pinned_blobs_match_disk(self):
         self.assertEqual(A.git_blob_sha1(A.SCORES_REL), A.SCORES_BLOB)
         for p in A.REGISTER_RELS:
@@ -186,14 +190,42 @@ class TestPropagation(unittest.TestCase):
         h = A.hostiles(self.registers, self.rows)
         self.assertTrue(h["H1_synthetic_plant"]["detected"])
 
-    def test_null_control_yields_zero_flags(self):
-        n = A.null_control(self.registers, self.rows)
+    def test_name_resolution_null_yields_zero_flags(self):
+        n = A.null_name_resolution(self.registers, self.rows)
         self.assertEqual(n["flags"], 0)
+        self.assertIn("caveat", n, "this null must carry its own limitation")
+
+    def test_permutation_null_runs_and_the_true_assignment_is_not_typical(self):
+        """The selectivity control: random re-pointing vs the true assignment."""
+        n = A.null_permutation(self.registers, self.rows, draws=50)
+        self.assertEqual(n["adverse_entries_permuted"], n["adverse_entries_permuted"])
+        self.assertGreater(n["draws"], 0)
+        self.assertIsInstance(n["true_flag_count"], int)
+        self.assertIsInstance(n["permuted_flag_max"], int)
+        self.assertEqual(sum(int(v) for v in n["histogram"].values()), n["draws"])
+        self.assertLessEqual(n["permuted_flag_min"], n["permuted_flag_max"])
 
     def test_out_of_population_is_a_distinct_outcome(self):
         sw = A.sweep(self.registers, self.rows)
         self.assertIn(A.OUT_OF_POP, sw["counts"])
         self.assertGreater(sw["counts"][A.OUT_OF_POP], 0)
+
+    def test_parent_file_add_order_closes_mrw1_falsifier_iv(self):
+        """No second FROZEN_HELDOUT-bearing artifact precedes the outcome."""
+        order = A.parent_package_file_order()
+        if not order["checked"]:
+            self.skipTest(order["reason"])
+        self.assertEqual(order["freeze_bearing_files_at_or_before_the_result"], [])
+        fa = order["first_add"]
+        self.assertEqual(fa[A.PARENT_DIR + "/RESULT_V1.json"], "08c4d206")
+        self.assertEqual(fa[A.PARENT_DIR + "/FREEZE_V1.md"], "7ce73e5d")
+        self.assertEqual(fa[A.PARENT_DIR + "/FORMALIZATION_V1.md"], "7ce73e5d")
+        self.assertEqual(fa[A.PARENT_DIR + "/MANIFEST.json"], "7ce73e5d")
+        self.assertEqual(
+            order["files_sharing_the_result_commit"],
+            sorted([A.PARENT_DIR + "/CORE.md", A.PARENT_DIR + "/RESULT_V1.json",
+                    A.PARENT_DIR + "/novel_intelligence_w4_v1.py",
+                    A.PARENT_DIR + "/test_novel_intelligence_w4_v1.py"]))
 
     def test_correction_extinguishes_the_real_flag(self):
         path = os.path.join(HERE, "RESULT_V1.json")

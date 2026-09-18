@@ -184,7 +184,71 @@ checked-and-fine.
 | H3b no-alarm, real | `machine-intelligence-morphogenesis-v1` is self-typed a screen false positive and holds 12 `M4`/`FROZEN_HELDOUT` rows; treating it as adverse would produce 12 false positives at once | classified `NOT_ADVERSE` |
 | H4 arithmetic tamper | a distribution not summing to the row count must be flagged | detected |
 | H5 custody hostile, real | the custody predicate must be able to return FALSE — proved on the parent package | returns `OUTCOME_PRECEDES_FREEZE` |
-| NULL | 200 seeded randomised register-to-score package pairings | 0 flags |
+| name-resolution NULL | 200 seeded draws of a real package name plus a suffix no package carries | 0 flags — **but a miss is guaranteed by construction; this is not evidence of selectivity** |
+| permutation NULL | 200 seeded draws re-pointing all 29 adverse entries at random *real* scored packages | true 3; permuted 0–9; **129 of 200 draws flag at least as many** |
+
+**The permutation null is an honest negative and is reported as one.** The true flag count
+does not beat it: about a fifth of the 49 scored packages hold an `M4`/`FROZEN_HELDOUT` row
+mentioning no finding, so a random re-pointing hits one about as often as the real register
+does. The flag *count* therefore carries no evidence on its own and is not offered as such.
+What carries the evidence is *which* packages are flagged — H2 on real data, the two real
+no-alarm cases, and the downstream adjudication of every flag against the artifact.
+
+## 6b. What was actually read, and what was not
+
+Read in full: the parent's `FREEZE_V1.md` (its L3 is verbatim *"Frozen **before**
+family-member search on this branch."*, and it carries the family law, the held-out `k=5`
+predictions and the explicit non-claims), `FORMALIZATION_V1.md` (theorems W4-A/B/C and the
+eight-box ledger), `MANIFEST.json` and `CORE.md`; the arrival's `FREEZE_V2_PROSPECTIVE.md`
+and `.json`, `independent_route_v1.py` (fiber refinement, first-occurrence canonical
+labeling, pigeonhole bound, budgeted brute-force witness — it imports neither the V6 witness
+nor the parent executor) and its test file; `FREEZE_V2.md` §§1–5; and all five verdict
+registers.
+
+Read structurally rather than line by line: `novel_intelligence_w4_v1.py` — its header was
+read, and the exactness claim rests on a **mechanical** source scan for float
+literals/casts, `random`, `numpy` and sampling, re-run by the executor and asserted by a
+test. The two `RESULT_V1.json` files — every top-level key inspected, the large per-`k`
+arrays not read element by element.
+
+Not read, and therefore UNCHECKED rather than checked-and-fine: the other 45
+`SINGLE_COMMIT_FREEZE_RESULT` packages of the L47 screen.
+
+**MRW-1's falsifier (iv) is closed by enumeration, not spot check.** All 7 files of the
+parent package on `source_main` were checked for first-add order: `CORE.md`,
+`RESULT_V1.json`, the executor and its test at `08c4d206`; `FREEZE_V1.md`,
+`FORMALIZATION_V1.md` and `MANIFEST.json` all at the later `7ce73e5d`. `CORE.md` carries no
+held-out prediction — it lists artifacts and the claim ceiling, and it already cites
+`FREEZE_V1.md` as "frozen before search" at a commit where that file does not yet exist.
+
+## 6c. Self-disclosed refinements of the freeze
+
+Neither widens any claim; both are strictly more conservative than the frozen text.
+
+- **Outcome typing.** Freeze P6 names three outcomes; five are delivered.
+  `REFLECTED_OR_IMMATERIAL_TO_SCORE` is defined in freeze §4 but not listed in P6;
+  `NOT_ADVERSE__SELF_TYPED_SCREEN_FALSE_POSITIVE` is not named in the freeze at all.
+  Both are strictly narrower than `REFLECTED`, which is itself empty (count 0). Without
+  `NOT_ADVERSE`, `machine-intelligence-morphogenesis-v1` — which the register itself types a
+  screen false positive — would be treated as adverse and all 12 of its `M4`/`FROZEN_HELDOUT`
+  rows would flag. That is hostile H3b, the largest false-positive risk in this check.
+- **Downstream adjudication.** A per-flag verification step was added (`W4R4_adjudication`).
+  It does not alter the sweep's typing; it records whether a flag survives verification
+  against the artifact. One of two flags did not survive, and the corresponding score was
+  left untouched.
+
+## 6d. Known fragility, disclosed
+
+The g0 adjudication depends on the origin branch `research/833-g0-grammar-expansion-v1`,
+which is **not** tag-anchored. If that branch is deleted the adjudication degrades to
+`NOT_ADJUDICABLE__BRANCH_OBJECTS_UNAVAILABLE` and says so loudly; it deliberately does not
+gate this package's exit code, because it changes no score. The corpus-level fix is the
+repair this package recommends to others: push a custody tag anchoring `65073060`.
+
+Git history queries run against `HEAD` rather than the `source_main` literal so the checks
+also run on a PR head. That is sound exactly when `source_main` is an ancestor of `HEAD` —
+asserted by the executor and by a test — and every pinned blob still matches, since the
+first-add commits being read are historical and cannot move under a descendant ref.
 
 ## 7. Two materially independent routes
 

@@ -130,5 +130,17 @@ jobs:
           assert n["census"]["M4_membership_entered"] == d["M4_membership_entered"]
           assert n["propagation_check"]["entries_checked"] == r["W4R4_propagation"]["checked"]
           assert n["propagation_check"]["outcomes"] == r["W4R4_propagation"]["counts"]
+          assert n["propagation_check"]["second_flag_adjudicated"]["adjudication"] == r["W4R4_adjudication"][0]["adjudication"]
+          # both nulls, including the honest negative
+          pn = r["null_permutation"]; nn = n["null"]["permutation_null"]
+          for k in ("true_flag_count", "permuted_flag_min", "permuted_flag_max",
+                    "permuted_flag_sum", "permuted_draws_at_or_above_true"):
+              assert nn[k] == pn[k], (k, nn[k], pn[k])
+          assert "honest_negative" in pn and "honest_negative" in nn
+          assert "caveat" in r["null_control"]
+          # the self-disclosed freeze refinements must match the delivered counts
+          dd = n["freeze_conformance_disclosures"]["D1_outcome_typing"]["counts"]
+          got = dict(r["W4R4_propagation"]["counts"]); got.setdefault("REFLECTED", 0)
+          assert dd == got, (dd, got)
           print("OK: no row claimed; notice and receipt agree on every headline number")
           PY

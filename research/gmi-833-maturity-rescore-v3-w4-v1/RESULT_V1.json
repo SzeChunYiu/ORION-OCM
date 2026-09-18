@@ -41,6 +41,36 @@
   "m3_refused_because": "the P3/P4 architecture-prior-free condition is not evidenced: the family F(k) is registered by this package itself, so the search saw the target family. v2 expected the M3 carve-out only for the aj9* blind-recovery family.",
   "maturity_M": "M2",
   "package": "gmi-novel-intelligence-w4-v1",
+  "package_file_add_order": {
+   "checked": true,
+   "files": [
+    "research/gmi-novel-intelligence-w4-v1/CORE.md",
+    "research/gmi-novel-intelligence-w4-v1/FORMALIZATION_V1.md",
+    "research/gmi-novel-intelligence-w4-v1/FREEZE_V1.md",
+    "research/gmi-novel-intelligence-w4-v1/MANIFEST.json",
+    "research/gmi-novel-intelligence-w4-v1/RESULT_V1.json",
+    "research/gmi-novel-intelligence-w4-v1/novel_intelligence_w4_v1.py",
+    "research/gmi-novel-intelligence-w4-v1/test_novel_intelligence_w4_v1.py"
+   ],
+   "files_sharing_the_result_commit": [
+    "research/gmi-novel-intelligence-w4-v1/CORE.md",
+    "research/gmi-novel-intelligence-w4-v1/RESULT_V1.json",
+    "research/gmi-novel-intelligence-w4-v1/novel_intelligence_w4_v1.py",
+    "research/gmi-novel-intelligence-w4-v1/test_novel_intelligence_w4_v1.py"
+   ],
+   "first_add": {
+    "research/gmi-novel-intelligence-w4-v1/CORE.md": "08c4d206",
+    "research/gmi-novel-intelligence-w4-v1/FORMALIZATION_V1.md": "7ce73e5d",
+    "research/gmi-novel-intelligence-w4-v1/FREEZE_V1.md": "7ce73e5d",
+    "research/gmi-novel-intelligence-w4-v1/MANIFEST.json": "7ce73e5d",
+    "research/gmi-novel-intelligence-w4-v1/RESULT_V1.json": "08c4d206",
+    "research/gmi-novel-intelligence-w4-v1/novel_intelligence_w4_v1.py": "08c4d206",
+    "research/gmi-novel-intelligence-w4-v1/test_novel_intelligence_w4_v1.py": "08c4d206"
+   },
+   "freeze_bearing_files_at_or_before_the_result": [],
+   "note": "The only package files present at the result commit are CORE.md, RESULT_V1.json, the executor and its test. CORE.md carries no held-out prediction: it lists artifacts and the claim ceiling, and it already cites FREEZE_V1.md as 'frozen before search' at a commit where that file does not yet exist. FREEZE_V1.md, FORMALIZATION_V1.md and MANIFEST.json are all first added at the later commit. No second FROZEN_HELDOUT-bearing artifact precedes the outcome.",
+   "result_commit": "08c4d206"
+  },
   "prior_free_recovery": false,
   "prior_standing": "v2 row GMI833_V2_LEGACY_074_W4-C: M4/EV3, support FROZEN_HELDOUT, individually_verified=false",
   "result_id": "GMI833_V2_LEGACY_074_W4-C",
@@ -53,7 +83,7 @@
   "support_kind": "EXACT_FINITE_CERTIFICATE",
   "theorem_name": "W4-C",
   "tranche": "LEGACY_173",
-  "verification_note": "v3-W4 adjudicator full read of FORMALIZATION_V1.md (W4-C statement), RESULT_V1.json (all boxes, held-out k=5), novel_intelligence_w4_v1.py (exactness scan), FREEZE_V1.md (the falsified prospectiveness claim), plus independent git custody re-verification. The v2 row was individually_verified=false; this one is not."
+  "verification_note": "v3-W4 adjudicator read, in full, of FREEZE_V1.md (its L3 reads verbatim 'Frozen **before** family-member search on this branch.'; it carries the family law, the held-out k=5 predictions and the explicit non-claims) and of FORMALIZATION_V1.md (theorems W4-A/W4-B/W4-C and the eight-box ledger); of RESULT_V1.json (all boxes, held-out k=5) and MANIFEST.json and CORE.md; and a source scan of novel_intelligence_w4_v1.py for float/RNG/sampling (the file was read at its header and scanned mechanically, not read line by line). Custody re-verified independently from git, both directions, over EVERY file of the package. The v2 row was individually_verified=false; this one is not."
  },
  "W4R2_arrival_score": {
   "admitted_under": "v2 section 3 'closest typed rule' convention; recorded gap G-NAME: the Gap 2 arrivals rule filters by the directory name glob gmi-833-*, which no revival package for a non-833-named parent can ever satisfy.",
@@ -149,7 +179,7 @@
   "support_kind": "FROZEN_HELDOUT",
   "theorem_name": "W4P-REPLICATION (registered prospective prediction set of FREEZE_V2_PROSPECTIVE, decision flags D1-D5)",
   "tranche": "ARRIVALS_V3_W4",
-  "verification_note": "v3-W4 adjudicator full read of FREEZE_V2_PROSPECTIVE.md/.json, RESULT_V1.json, RECEIPT_MULTIHOST_V1.json, independent_route_v1.py and the package tests, plus independent git custody verification both ways (git log --diff-filter=A and merge-base --is-ancestor) rather than trusting the freeze's own text."
+  "verification_note": "v3-W4 adjudicator read of FREEZE_V2_PROSPECTIVE.md and .json (custody statement, inherited + new seeds, registered predictions, decision rule D1-D5), RESULT_V1.json (verdict, D1-D5, counts, registered_predictions), RECEIPT_MULTIHOST_V1.json (2 hosts, py3.8.10 + py3.14.4, one result sha256), independent_route_v1.py in full (fiber refinement, first-occurrence canonical labeling, pigeonhole bound, budgeted brute-force witness; it imports neither the V6 witness nor the parent executor) and test_novel_intelligence_w4_prospective_v1.py in full (freeze-custody tests, hand-checked F(2), negative-control constant law, budget-declining witness, planted-defect checker validation). Custody verified independently from git both directions rather than trusting the freeze's own text."
  },
  "W4R3_distribution": {
   "M4_membership_entered": [
@@ -392,11 +422,40 @@
   }
  },
  "no_row_earned": true,
+ "non_gating_reports": {
+  "g0_adjudication_actually_ran": true,
+  "why_not_gating": "depends on origin branch research/833-g0-grammar-expansion-v1, which is not tag-anchored; a deleted branch must degrade to NOT-CHECKED, loudly, not red this package's CI"
+ },
  "null_control": {
+  "caveat": "a miss is guaranteed by construction here; this control is not evidence of selectivity",
   "draws": 200,
   "flags": 0,
   "must_be": 0,
-  "seed": 8332026
+  "seed": 8332026,
+  "tests": "name resolution only"
+ },
+ "null_permutation": {
+  "adverse_entries_permuted": 29,
+  "draws": 200,
+  "histogram": {
+   "0": 8,
+   "1": 22,
+   "2": 41,
+   "3": 53,
+   "4": 44,
+   "5": 19,
+   "6": 8,
+   "7": 4,
+   "9": 1
+  },
+  "honest_negative": "The true count does NOT beat this null: it sits inside the bulk of the permuted distribution. Roughly a fifth of the 49 scored packages hold an M4/FROZEN_HELDOUT row that mentions no finding, so a random re-pointing hits one about as often as the real register does. The flag COUNT is therefore not evidence of anything on its own, and is not offered as such. What carries the evidence is WHICH packages are flagged, and that rests on the real controls: H2 (the checker flags the real W4 row as published and flags zero after the delta), H3 and H3b (two real packages with adverse verdicts that must NOT be flagged, one of them holding 12 M4/FROZEN_HELDOUT rows), and the downstream adjudication of every flag against the artifact.",
+  "permuted_draws_at_or_above_true": 129,
+  "permuted_flag_max": 9,
+  "permuted_flag_min": 0,
+  "permuted_flag_sum": 619,
+  "reading": "the true assignment flags 3 of 29 adverse entries; a random re-pointing flags between 0 and 9, and 129 of 200 random draws flag at least as many. Exact integers; no threshold and no p-value is claimed.",
+  "seed": 83320261,
+  "true_flag_count": 3
  },
  "package": "gmi-833-maturity-rescore-v3-w4-v1",
  "pins": {
@@ -427,7 +486,9 @@
     "pinned": "0cfca31894960e24c1c12bb7bf05f9e13e63f4aa"
    }
   },
-  "source_main": "5126041da7ce608f69157f281ca492ac9618c8e4"
+  "ref_note": "git history queries below run against HEAD, not against the SOURCE_MAIN literal, so that the checks also run on a PR head. That is sound exactly when SOURCE_MAIN is an ancestor of HEAD (checked above) and every pinned blob still matches (checked above): the first-add commits being read are historical and cannot move under a descendant ref.",
+  "source_main": "5126041da7ce608f69157f281ca492ac9618c8e4",
+  "source_main_is_ancestor_of_head": true
  },
  "produces_correction_notice": "CORRECTION_NOTICE_V1.json",
  "produces_reconciliation_json": false,
@@ -462,7 +523,6 @@
   "corrected_EV_sums": true,
   "corrected_M_sums": true,
   "correction_extinguishes_w4_flag": true,
-  "g0_adjudication_actually_ran": true,
   "g0_flag_adjudicated_not_left_dangling": true,
   "no_float_in_claims": true,
   "null_zero": true,

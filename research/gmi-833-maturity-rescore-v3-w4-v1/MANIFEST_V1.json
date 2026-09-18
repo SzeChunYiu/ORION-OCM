@@ -150,9 +150,22 @@
   "H5 custody predicate returns FALSE on the real parent package"
  ],
  "null": {
-  "design": "200 seeded randomised register-to-score package pairings",
-  "seed": 8332026,
-  "flags": 0
+  "name_resolution_null": {
+   "design": "200 seeded draws of a real scored package name plus a suffix no package carries",
+   "seed": 8332026,
+   "flags": 0,
+   "must_be": 0,
+   "caveat": "a miss is guaranteed by construction; NOT evidence of selectivity"
+  },
+  "permutation_null": {
+   "design": "200 seeded draws re-pointing all 29 adverse entries at random REAL scored packages",
+   "seed": 83320261,
+   "true_flag_count": 3,
+   "permuted_flag_min": 0,
+   "permuted_flag_max": 9,
+   "permuted_draws_at_or_above_true": 129,
+   "honest_negative": "the true count does NOT beat this null; the flag COUNT is not evidence on its own. Selectivity evidence is H2/H3/H3b on real data plus the downstream per-flag adjudication."
+  }
  },
  "forbidden_promotions": [
   "Do NOT restore gmi-novel-intelligence-w4-v1 to M4 on the strength of the prospective child. The commit-order defect is PERMANENT and stays on the parent's record forever.",
@@ -163,5 +176,6 @@
   "Do NOT alter the score of gmi-833-g0-grammar-growth-v1: its M4 was adjudicated here and SUSTAINED.",
   "Do NOT read the 45 SINGLE_COMMIT_FREEZE_RESULT packages as cleared: they are UNCHECKED here.",
   "Do NOT claim any #833 issue row from this tranche, and do NOT raise the claim ceiling above AUDIT_RELABEL_ONLY."
- ]
+ ],
+ "disclosures": "See CORRECTION_NOTICE_V1.json fields freeze_conformance_disclosures, verification_scope, ref_discipline and known_fragility_disclosed."
 }
