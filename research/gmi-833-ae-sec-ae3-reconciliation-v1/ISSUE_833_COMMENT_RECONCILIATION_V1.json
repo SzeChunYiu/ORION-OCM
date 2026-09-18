@@ -5,8 +5,8 @@
   "section": "AE",
   "lane": "sec-ae3",
   "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
-  "comment_body_fetched_at_finalisation": true,
-  "comment_body_bytes": 38156,
+  "comment_body_fetched_at_finalisation": "2026-09-18T18:13:15Z",
+  "comment_body_bytes": 38536,
   "rows_closed_by_this_lane": 21,
   "packages": [
     {
@@ -36,106 +36,127 @@
   ],
   "replacements": [
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Formalize the task-relevant representation problem using established Information Bottleneck / rate-distortion terminology where applicable.",
       "new": "- [x] Formalize the task-relevant representation problem using established Information Bottleneck / rate-distortion terminology where applicable. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-1: `L_beta(T) = I(T;X) − beta·I(T;Y)` minimised over **all 4140** deterministic encoders of an 8-atom support, with a machine-readable crosswalk of **6** entries each carrying a citation — the bottleneck itself (Tishby, Pereira & Bialek 1999, arXiv:physics/0004057), its deterministic hard-partition variant (Strouse & Schwab 2017, doi:10.1162/NECO_a_00961), rate-distortion (Shannon 1959; Cover & Thomas 2006), minimal sufficient statistics (Lehmann & Scheffé 1950, doi:10.1214/aoms/1177729695), decisions and actions (Tishby & Polani 2011, doi:10.1007/978-1-4419-1452-1_19) and rational inattention (Sims 2003, doi:10.1016/S0304-3932(03)00029-1). The scope restriction is a checked receipt field, not an implication: `stochastic_encoders_optimised: false`. Every entropy is an exact rational combination of prime logarithms and **no logarithm is ever evaluated** — `H(Y)` for the AND world is reported as `2*log2(2) − 3/4*log2(3)`."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Determine when a GMI minimal behavioral/predictive state is equivalent to, refines, or is incomparable with an IB-optimal representation.",
       "new": "- [x] Determine when a GMI minimal behavioral/predictive state is equivalent to, refines, or is incomparable with an IB-optimal representation. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-2: the relation is classified at **every** point of a 9-point exact rational tradeoff ladder for **7** registered worlds. Two of the four relations occur — `EQUAL` **44** times and `GMI_STRICTLY_REFINES` **41** — and the other two are exactly **0** and are reported as such. The answer is a threshold, not a hedge: `T_GMI` becomes IB-optimal at `beta = 1` for six worlds and only at `beta = 6` for the exactly rational noisy channel, because a channel caps `I(T;Y)` strictly below `H(Y)` so the full predictive state has to be weighted far more heavily before it pays for its own description. Below the threshold the optimum is a **strict coarsening** of `T_GMI`."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Prove smallest counterexamples preventing unqualified identification.",
       "new": "- [x] Prove smallest counterexamples preventing unqualified identification. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-3: the smallest support carrying a counterexample at a **non-degenerate** tradeoff is **2**, witnessed by the registered channel `(0, 1/4)` at `beta = 1`, where `T_GMI = 01` and the IB optimum is the one-block encoder `00`; minimality holds because support size 1 is vacuous, so every strictly smaller size is exhausted by construction. Separately, the **stronger** counterexample kind — an IB optimum *incomparable* with `T_GMI` — is shown **not to exist** at this scope: **0** instances over support sizes 2, 3, 4, 5 and 6 searched exhaustively across all partitions, all deterministic targets and the whole ladder, and **0** over the registered 8-atom worlds. That negative is kept, labelled `EARNED_BY_EXHAUSTION`, and the general statement is recorded as a **conjecture**, not a theorem."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Distinguish `retain information about Y` from `retain information required for action/control under utility U`.",
       "new": "- [x] Distinguish `retain information about Y` from `retain information required for action/control under utility U`. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-4: within a fixed capacity class the encoder carrying strictly **more** information about `Y` — strictly smaller `H(Y|T)`, compared by the exact prime-log sign test — is strictly **worse** for control value under the registered utility in **162,242** encoder pairs, and the ordering **reverses** in **280,779**. Both directions are counted over **8** capacity classes, so the finding is that the two objectives induce genuinely different orderings rather than that one dominates; `IB_OPTIMAL_IMPLIES_CONTROL_OPTIMAL` is a registered forbidden promotion."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Derive conditions under which forgetting task-irrelevant information is optimal under resource constraints.",
       "new": "- [x] Derive conditions under which forgetting task-irrelevant information is optimal under resource constraints. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-5: merging two atoms costs no relevant information **iff** they carry the same conditional law `p(Y|x)`, while capacity `I(T;X)` strictly falls — so under any capacity constraint the merge is optimal. The criterion is checked against the exact conditional entropy on **every** pairwise merge with **0** mismatches, and both sides are non-vacuous: **12** free merges against **16** costly ones. The costly count is what forbids `FORGETTING_IS_ALWAYS_OPTIMAL`."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Derive conditions under which apparently irrelevant information must be retained because of future task uncertainty, transfer, revision, causal intervention, or verifier needs.",
       "new": "- [x] Derive conditions under which apparently irrelevant information must be retained because of future task uncertainty, transfer, revision, causal intervention, or verifier needs. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-6: all **five** named mechanisms are separately instantiated and **all five are WITNESSED**, each by a distinction provably irrelevant to the present target and necessary under that mechanism — a registered future target, a transfer target, a target revised on half the support, a confounded model whose observational and interventional contrasts differ **exactly** so an encoder that keeps the treatment and drops the confounder cannot answer the interventional query, and a verification predicate that reads a coordinate the answer does not. Silence about a mechanism is a package defect; the receipt carries a `WITNESSED` / `NOT_WITNESSED` verdict for each."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Quantify representation-capacity vs predictive/control distortion frontiers.",
       "new": "- [x] Quantify representation-capacity vs predictive/control distortion frontiers. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-7: over all 4140 encoders the predictive frontier (capacity against `H(Y|T)`) has **11** members at the exact points `(1, 2), (2, 1), (3, 1/2), (4, 0)` and the control frontier (capacity against `V_full − V(T)`) has **8** at `(1, 3/8), (2, 1/4), (3, 1/8), (4, 0)`; they **differ**, and exactly **5** encoders lie on both — the overlap is counted rather than assumed. The linear sweep used to build them is verified against the quadratic domination definition on a registered slice, so the speed-up is checked, not asserted."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
       "old": "- [ ] Add held-out crossover predictions as memory/compute/precision prices change.",
       "new": "- [x] Add held-out crossover predictions as memory/compute/precision prices change. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-8: five predictions `Q1`–`Q5` were written into `FREEZE_V1.md` at commit `c05f8f4c` **before** any executor, oracle or receipt blob of this package existed, and **all five HELD** when evaluated over **every** registered world, as the frozen statements say. `Q1` monotone coarsening: **0** violations. `Q2`: **1** world shows ≥3 distinct selected encoders. `Q3`: **0** transitions fall outside the exact difference-quotient bracket, checked per transition from the two encoders that actually changed. `Q4`: **0** failures above the maximal gain. `Q5`: **2** worlds have an encoder that is IB-optimal at some ladder `beta` and selected at **no** price, so IB-optimality and price-optimality are not the same ordering. The price ladder is the one frozen and was not adjusted after a verdict was seen."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE7 — From prediction to control",
       "old": "- [ ] Prove that prediction alone is insufficient for general intelligence by constructing same-predictive/different-control-relevance examples.",
       "new": "- [x] Prove that prediction alone is insufficient for general intelligence by constructing same-predictive/different-control-relevance examples. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-1: two sensors with **identical predictive content** — equal block masses and equal conditional laws, cell by cell as exact rationals, for **every** one of the 6 registered targets, so no predictor under any loss can tell them apart — have control values `1` and `1/2` under `U_hidden_coordinate`, a gap of exactly `1/2`. Over the full census of **4140** sensors (**712** distinct predictive profiles) there are **10,980** such same-predictive/different-control pairs; the contrast is reported too — under `U_visible_coordinate`, whose optima are measurable in the registered targets, the count is exactly **0**. The claim is scoped to the registered target suite and utility family, and `PREDICTION_INSUFFICIENT_FOR_INTELLIGENCE_IN_GENERAL` is a registered forbidden promotion."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE7 — From prediction to control",
       "old": "- [ ] Formalize control-relevant sufficient state / action equivalence under a utility or behavioral specification.",
       "new": "- [x] Formalize control-relevant sufficient state / action equivalence under a utility or behavioral specification. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-2: `T` is control-sufficient iff `V(T) = V_full` with `V` exact rational; **225 / 225 / 208 / 221** of the 4140 sensors are control-sufficient for the four registered utilities, and the **coarsest** such sensor is computed by exhaustive minimisation rather than asserted — it is unique for two utilities and **not** unique for the other two (**3** and **8** minimal elements, all reported). The action-equivalence criterion — a block is free iff its states share an optimal action — matches the exact value function on **every** pairwise merge, **0** mismatches across all four utilities, and is proved **not** to be a pairwise-local property: **1** triple `(0,1,2)` is pairwise compatible yet has empty common optimum, so Helly fails and a pairwise checker is unsound."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE7 — From prediction to control",
       "old": "- [ ] Relate to POMDP belief states, sufficient information states, rate-distortion control and bounded rationality; subtract parent mathematics.",
       "new": "- [x] Relate to POMDP belief states, sufficient information states, rate-distortion control and bounded rationality; subtract parent mathematics. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-3: a machine-readable crosswalk of **5** entries, each carrying a DOI — belief-state sufficiency (Åström 1965, doi:10.1016/0022-247X(65)90154-X; Smallwood & Sondik 1973, doi:10.1287/opre.21.5.1071), MDP bisimulation/model minimisation (Givan, Dean & Greig 2003, doi:10.1016/S0004-3702(02)00376-4), rate-distortion control and information-theoretic bounded rationality (Tishby & Polani 2011, doi:10.1007/978-1-4419-1452-1_19; Ortega & Braun 2013, doi:10.1098/rspa.2012.0683), value of information (Howard 1966, doi:10.1109/TSSC.1966.300074) and rational inattention (Sims 2003, doi:10.1016/S0304-3932(03)00029-1). **3** entries terminate `PARENT_SUFFICIENT`, recorded as successes; the named residual is the exhaustive 4140-sensor census with counts in both directions and the priced ladder."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE7 — From prediction to control",
       "old": "- [ ] Derive value-of-information conditions for when sensing/remembering/computing additional information is worth its resource cost.",
       "new": "- [x] Derive value-of-information conditions for when sensing/remembering/computing additional information is worth its resource cost. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-4: acquire the finer sensor iff `VoI(T,T') > price · (cost(T) − cost(T'))`. Over **163,754** comparable sensor pairs, **26,790** have value of information exactly `0` and **136,964** strictly positive, and the exact break-even prices form **71** distinct rationals spanning `0` to `9/64`. The full-versus-blind probe has `VoI = 9/64` over a cost increment of `7`, break-even `9/448`: strictly below it the fine sensor wins (`85/128` vs `71/128`), **at** it the two are exactly tied (`71/128` vs `71/128`) — the tie is reported, not skipped — and strictly above it the blind sensor wins (`57/128` vs `71/128`)."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE7 — From prediction to control",
       "old": "- [ ] Derive when an agent should compress observations more aggressively because actions are insensitive to distinctions.",
       "new": "- [x] Derive when an agent should compress observations more aggressively because actions are insensitive to distinctions. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-5: merging a set of states costs no control value **iff** the intersection of their optimal-action sets is non-empty. The criterion is verified against the exact value function on every one of the **28** pairwise merges for each utility — **0** mismatches — and is non-vacuous in both directions: **12 / 12 / 13 / 14** free pairs against **16 / 16 / 15 / 14** costly ones for the four registered utilities."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE7 — From prediction to control",
       "old": "- [ ] Derive when control requires preserving distinctions that pure prediction would discard.",
       "new": "- [x] Derive when control requires preserving distinctions that pure prediction would discard. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-6, the exact converse of PC-5: **4** state pairs are invisible to **all 6** registered targets, and **4 of 4** of them are strictly control-relevant under `U_hidden_coordinate` — merging `{0,4}` drops `V` from `1` to `7/8` — while under `U_visible_coordinate` the count is exactly **0**. The boundary of the witness is measured rather than hidden: adding `Y_b2` or `Y_parity` destroys the redundancy entirely (**0** surviving pairs), but adding `Y_majority` does **not** — **2** pairs survive, because on the four states with `b0 = b1` the majority is pinned by `b0`."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE7 — From prediction to control",
       "old": "- [ ] Prospectively predict policy/representation transitions under changing information-processing prices.",
       "new": "- [x] Prospectively predict policy/representation transitions under changing information-processing prices. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-7: five predictions `R1`–`R5` were written into `FREEZE_V1.md` at commit `65b45210` **before** any executor, oracle or receipt blob existed, and **all five HELD**. `R1` monotone coarsening: **0** nesting violations over 33 price points × 4 problems. `R2`: **2** problems show ≥3 distinct selected sensors. `R3`: **0** transitions fall outside the **121**-element exact set of difference quotients `(V(T)−V(T'))/(cost(T)−cost(T'))`. `R4`: **0** failures — above the maximal gain the blind sensor is selected everywhere. `R5`: **4 of 4** problems select a control-sufficient sensor that is **not** predictively sufficient for some registered target, so the priced control order is not the predictive order. The ladder is proved non-vacuous (every problem moves, two move three times)."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE13 — Causality and intervention",
       "old": "- [ ] Prove that observational compression/prediction does not generally identify causal structure.",
       "new": "- [x] Prove that observational compression/prediction does not generally identify causal structure. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-1: over the complete census of **547,625** SCMs — all **25** labelled DAGs on three binary variables, every CPT drawn from the frozen grid `{0, 1/4, 1/2, 3/4, 1}` — the 25 DAGs fall into **11** Markov equivalence classes, and **all 7** classes containing more than one DAG carry an exhibited witness: two parameterisations of **different** DAGs whose observational joints agree on **all 8 atoms** as exact rationals and whose interventional answers differ. **80,788,144** such cross-DAG disagreeing pairs exist over **26,601** joints realised by two or more DAGs of one class. The quantifier is kept: the **4** singleton classes **are** identified, and they are reported with count `0` rather than omitted — the claim is *not generally identified*, never *never identified*."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE13 — Causality and intervention",
       "old": "- [ ] Construct observationally equivalent worlds with different intervention consequences.",
       "new": "- [x] Construct observationally equivalent worlds with different intervention consequences. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-2: `A → C` against `C → A` with `B` isolated, `P(A=1) = 1/2`, `P(C=1|A=1) = 3/4`, `P(C=1|A=0) = 1/4`. The observational joint `(3/16, 1/16, 3/16, 1/16, 1/16, 3/16, 1/16, 3/16)` sums exactly to `1` and is reproduced by exactly **1** parameterisation of the other DAG, found by exhaustive search over the frozen grid. The registered answers then separate completely: `ACE_A_on_C` is `1/2` under one member and `0` under the other, `ACE_C_on_A` is `0` and `1/2` — the identification interval of each is the full `[0, 1/2]` while the observational joint is identical cell by cell."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE13 — Causality and intervention",
       "old": "- [ ] Define when interventions are required for the behavioral specification.",
       "new": "- [x] Define when interventions are required for the behavioral specification. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-3: interventions are required for a specification `(query, tolerance)` **iff** the half-width of that query's identification interval over the observational equivalence class exceeds the tolerance. The rule is tested on both sides and **at** the boundary: with worst-case half-width `1/2`, at tolerance `31/64` interventions are required, at exactly `1/2` they are **not**, and at `33/64` they are not — the flip is verified at the exact rational threshold rather than sampled around it. Per query, **5,356** of **26,601** joint groups have a non-degenerate interval and **21,245** are identified observationally; the four registered queries give identical counts, as the relabelling symmetry of the full census forces."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE13 — Causality and intervention",
       "old": "- [ ] Derive the value of intervention under resource cost.",
       "new": "- [x] Derive the value of intervention under resource cost. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-4: the value of an atomic intervention is exactly half the identification-interval width, since the experiment answers its own query exactly; acquire iff that exceeds the price. The worst case over the census is `1/2`. Intervention is **not** universally worth its cost, and this is exhibited rather than conceded: **84,980** query-group specifications have value of intervention exactly `0`, and a named one is carried in the receipt — `ACE_C_on_A` on a joint realised by all **25** DAGs, identified answer `0`, interval width `0`."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE13 — Causality and intervention",
       "old": "- [ ] Distinguish predictive state from causal/control state.",
       "new": "- [x] Distinguish predictive state from causal/control state. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-5: on the registered confounded subfamily `B → A`, `B → C`, `A → C`, the predictive state (the partition of the four `(A,B)` contexts by `p(C=1|A,B)`) and the causal/control state (the partition by the full interventional response vector `(p(C=1|do(A=0)), p(C=1|do(A=1)))` at that context) are different objects: over the **2,187** strictly positive models (**75,938** excluded for a zero atom, reported not dropped) the relation is `INCOMPARABLE` **1,458** times, `PREDICTIVE_STRICTLY_REFINES` **486**, `EQUAL` **243**, and `CAUSAL_STRICTLY_REFINES` **0** — the last a **proved** zero, not an unobserved one: the causal state separates only the two values of the context, so for it to refine the predictive partition strictly the predictive partition would have to be trivial, and then the causal one is trivial too and the relation is `EQUAL`."
     },
     {
+      "comment_id": 5692689542,
       "anchor": "### AE13 — Causality and intervention",
       "old": "- [ ] Relate to causal-state, causal-representation-learning and causal-inference parents precisely.",
       "new": "- [x] Relate to causal-state, causal-representation-learning and causal-inference parents precisely. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-6: **6** crosswalk entries, each with a citation — truncated factorisation and do-calculus (Pearl 1995, doi:10.1093/biomet/82.4.669; Pearl 2009, doi:10.1017/CBO9780511803161), Markov equivalence (Verma & Pearl 1990; Andersson, Madigan & Perlman 1997, doi:10.1214/aos/1031833662), partial identification (Balke & Pearl 1997, doi:10.1080/01621459.1997.10474074), experimental design (Hauser & Bühlmann 2014, doi:10.1111/rssb.12071), causal representation learning (Schölkopf et al. 2021, doi:10.1109/JPROC.2021.3058954) — with **3** `PARENT_SUFFICIENT` terminals recorded as successes. The entry that matters most is the sixth: the computational-mechanics `causal state` (Shalizi & Crutchfield 2001, doi:10.1023/A:1010388907793) is a **purely predictive** equivalence class of histories with no interventional content and is **not** the Pearlian causal structure; `COMPUTATIONAL_MECHANICS_CAUSAL_STATE_IS_PEARLIAN_CAUSAL_STATE` is a registered forbidden promotion and CI-5 measures how far apart the two notions actually sit."
@@ -275,56 +296,162 @@
       "status": "OPEN",
       "reason_category": "TIER_1_NOT_ATTEMPTED_IN_THIS_LANE",
       "rows": 6,
-      "reason": "not attempted in this lane"
+      "reason": "not attempted in this lane",
+      "rows_meant": [
+        "- [ ] Audit Free Energy Principle / active inference as a strongest-parent candidate for perception-learning-action unification.",
+        "- [ ] State exact assumptions needed for any claimed equivalence with Bayesian inference/predictive coding/control.",
+        "- [ ] Include published technical counterexamples/criticisms; do not inherit universal FEP claims uncritically.",
+        "- [ ] Construct finite discriminating tasks where GMI/CPC, rate-distortion control and an active-inference formulation differ.",
+        "- [ ] Compare predictive and control behavior prospectively.",
+        "- [ ] If GMI is reducible to an established FEP/active-inference formulation at a scope, mark parent sufficiency rather than novelty."
+      ]
     },
     {
       "anchor": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
       "status": "OPEN",
       "reason_category": "TIER_1_NOT_ATTEMPTED_IN_THIS_LANE",
       "rows": 6,
-      "reason": "not attempted in this lane"
+      "reason": "not attempted in this lane",
+      "rows_meant": [
+        "- [ ] Give architecture-independent operational definitions of memorization, interpolation, extrapolation, systematic generalization, analogy, planning/inference and reasoning.",
+        "- [ ] Determine which are reducible to prediction under a registered specification and which require additional search/composition/control machinery.",
+        "- [ ] Construct matched tasks where predictive accuracy is equal but reasoning/compositional capability differs.",
+        "- [ ] Construct matched tasks where compression is equal but transfer differs.",
+        "- [ ] Test whether GMI predicts which additional computational mechanisms are required.",
+        "- [ ] Forbid the blanket claim that memory/generalization/analogy/reasoning are `the same mechanism at different scales` unless a formal reduction theorem is earned."
+      ]
     },
     {
       "anchor": "### AE15 — World-model necessity boundary",
       "status": "OPEN",
       "reason_category": "TIER_1_NOT_ATTEMPTED_IN_THIS_LANE",
       "rows": 6,
-      "reason": "not attempted in this lane"
+      "reason": "not attempted in this lane",
+      "rows_meant": [
+        "- [ ] Define `world model` operationally and distinguish explicit generative model, predictive state, value representation, reactive policy and cached skill.",
+        "- [ ] Construct tasks solvable optimally without an explicit world model.",
+        "- [ ] Construct tasks where a model is provably necessary under the registered interface/resource assumptions.",
+        "- [ ] Derive model-based vs model-free/retrieval/reactive phase boundaries.",
+        "- [ ] Test whether latent variables recovered by a model correspond to identifiable world factors or merely predictive coordinates.",
+        "- [ ] Forbid claims that successful intelligence necessarily reconstructs human-interpretable latent variables."
+      ]
     },
     {
       "anchor": "### AE6 — Manifold hypothesis and geometric structure",
       "status": "OPEN",
       "reason_category": "TIER_1_NOT_ATTEMPTED_IN_THIS_LANE",
       "rows": 6,
-      "reason": "not attempted in this lane"
+      "reason": "not attempted in this lane",
+      "rows_meant": [
+        "- [ ] Replace loose `data lie on a manifold` language with a hierarchy: low intrinsic dimension, union/stratification of manifolds, sparse/compositional latent structure, symmetry/orbit structure, graph/topological structure, and non-geometric algorithmic structure.",
+        "- [ ] Construct learnable distributions that violate a smooth-manifold assumption.",
+        "- [ ] Construct low-dimensional manifolds that are statistically/causally useless for the target task.",
+        "- [ ] Derive when locality/smoothness should favor local/shared operators.",
+        "- [ ] Derive when symmetry/equivariance should favor parameter sharing.",
+        "- [ ] Derive when compositional latent factors should favor modular/hierarchical representations."
+      ],
+      "note": "this section is split across tiers; the tier-1 rows this lane did not attempt are listed explicitly so the orchestrator does not have to re-derive which of the section's rows are meant. Its tier-3 rows are listed separately under INSTRUMENT_REQUIRED."
     },
     {
       "anchor": "### AE11 — Thermodynamics and physical information processing",
       "status": "OPEN",
       "reason_category": "TIER_1_NOT_ATTEMPTED_IN_THIS_LANE",
       "rows": 5,
-      "reason": "not attempted in this lane"
+      "reason": "not attempted in this lane",
+      "rows_meant": [
+        "- [ ] Keep Shannon entropy, algorithmic complexity, statistical-mechanical entropy and thermodynamic entropy formally distinct.",
+        "- [ ] Define exactly which GMI resource claims are logical/computational and which are physical/energetic.",
+        "- [ ] Audit Landauer-style lower bounds and their assumptions; do not infer whole-system energy from bit erasure alone.",
+        "- [ ] Model nonequilibrium maintenance only where a physical system boundary/dynamics are registered.",
+        "- [ ] Compare logical irreversibility with physical dissipation at the correct scope."
+      ],
+      "note": "this section is split across tiers; the tier-1 rows this lane did not attempt are listed explicitly so the orchestrator does not have to re-derive which of the section's rows are meant. Its tier-3 rows are listed separately under INSTRUMENT_REQUIRED."
     },
     {
       "anchor": "### AE9 — Learning as representation restructuring",
       "status": "OPEN",
       "reason_category": "TIER_1_NOT_ATTEMPTED_IN_THIS_LANE",
       "rows": 3,
-      "reason": "not attempted in this lane"
+      "reason": "not attempted in this lane",
+      "rows_meant": [
+        "- [ ] Define measurable representation-change quantities during learning that do not depend on neural architecture names.",
+        "- [ ] Distinguish smooth quantitative improvement from genuine qualitative computational transition.",
+        "- [ ] Re-audit `emergence` terminology: thresholded metric artifact vs phase-like internal reorganization vs grokking-like delayed generalization."
+      ],
+      "note": "this section is split across tiers; the tier-1 rows this lane did not attempt are listed explicitly so the orchestrator does not have to re-derive which of the section's rows are meant. Its tier-3 rows are listed separately under INSTRUMENT_REQUIRED."
     },
     {
       "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
       "status": "OPEN",
       "reason_category": "TIER_1_NOT_ATTEMPTED_IN_THIS_LANE",
       "rows": 8,
-      "reason": "blocked by the committed plan: AE8's last row must wait until AE3, AE4, AE7, AE10 and AE12 have each fixed their parent boundary. AE7 and AE10 are fixed; AE3 is in flight on an unmerged branch and AE4 and AE12 are not"
+      "reason": "blocked by the committed plan: AE8's last row must wait until AE3, AE4, AE7, AE10 and AE12 have each fixed their parent boundary. AE7 and AE10 are fixed; AE3 is in flight on an unmerged branch and AE4 and AE12 are not",
+      "rows_meant": [
+        "- [ ] Formalize candidate CPC principle(s) without choosing weights post hoc.",
+        "- [ ] Determine whether CPC is a theorem, variational principle, decomposition, heuristic, or merely descriptive slogan.",
+        "- [ ] Search for a minimal objective that reproduces multiple existing GMI laws as corollaries.",
+        "- [ ] Prove which GMI phenomena cannot be reduced to CPC without additional terms (verification, development, communication, history, uncertainty, etc.).",
+        "- [ ] Compare CPC against alternative master principles: MDL, rate-distortion, bounded rationality, predictive information, free-energy/active-inference formulations, control-as-inference, algorithm selection and resource-rational computation.",
+        "- [ ] Construct preregistered worlds where these principles make different predictions.",
+        "- [ ] Preserve observational equivalence where no discriminating experiment exists.",
+        "- [ ] Do not call CPC the GMI master law unless it beats the bag-of-laws baseline and survives parent discrimination."
+      ]
+    },
+    {
+      "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+      "row": "- [ ] Every AE theorem/result emits assumptions, strongest parents, counterexamples, falsifiers, prior disclosures and unresolved descendants into the #833 gap graph.",
+      "status": "OPEN",
+      "reason_category": "TIER_4_LEDGER_SWEEP_NOT_YET_AUDITABLE",
+      "reason": "AE17's rows are obligations ON the other tranches, not independent results: they close as one sweep over the receipts emitted by the section's other packages, and the committed plan sequences that sweep last, 'only once there is enough to audit'. With 59 of 122 rows closed the corpus is not yet complete enough for the sweep to be honest, so the rows stay OPEN rather than being marked against a partial corpus."
+    },
+    {
+      "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+      "row": "- [ ] Every proposed scalar `structure/intelligence/information` measure must be attacked with at least two non-isomorphic counterexample families.",
+      "status": "OPEN",
+      "reason_category": "TIER_4_LEDGER_SWEEP_NOT_YET_AUDITABLE",
+      "reason": "AE17's rows are obligations ON the other tranches, not independent results: they close as one sweep over the receipts emitted by the section's other packages, and the committed plan sequences that sweep last, 'only once there is enough to audit'. With 59 of 122 rows closed the corpus is not yet complete enough for the sweep to be honest, so the rows stay OPEN rather than being marked against a partial corpus."
+    },
+    {
+      "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+      "row": "- [ ] Every positive unification claim must include a nearest negative theorem/counterexample.",
+      "status": "OPEN",
+      "reason_category": "TIER_4_LEDGER_SWEEP_NOT_YET_AUDITABLE",
+      "reason": "AE17's rows are obligations ON the other tranches, not independent results: they close as one sweep over the receipts emitted by the section's other packages, and the committed plan sequences that sweep last, 'only once there is enough to audit'. With 59 of 122 rows closed the corpus is not yet complete enough for the sweep to be honest, so the rows stay OPEN rather than being marked against a partial corpus."
+    },
+    {
+      "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+      "row": "- [ ] Every finite theorem must retain explicit finite/sample/horizon tags.",
+      "status": "OPEN",
+      "reason_category": "TIER_4_LEDGER_SWEEP_NOT_YET_AUDITABLE",
+      "reason": "AE17's rows are obligations ON the other tranches, not independent results: they close as one sweep over the receipts emitted by the section's other packages, and the committed plan sequences that sweep last, 'only once there is enough to audit'. With 59 of 122 rows closed the corpus is not yet complete enough for the sweep to be honest, so the rows stay OPEN rather than being marked against a partial corpus."
+    },
+    {
+      "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+      "row": "- [ ] Every architecture-selection claim must pass #833 D controls: matched negative twin, semantic remint, alternate search and Pareto/resource sensitivity.",
+      "status": "OPEN",
+      "reason_category": "TIER_4_LEDGER_SWEEP_NOT_YET_AUDITABLE",
+      "reason": "AE17's rows are obligations ON the other tranches, not independent results: they close as one sweep over the receipts emitted by the section's other packages, and the committed plan sequences that sweep last, 'only once there is enough to audit'. With 59 of 122 rows closed the corpus is not yet complete enough for the sweep to be honest, so the rows stay OPEN rather than being marked against a partial corpus."
+    },
+    {
+      "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+      "row": "- [ ] Every parent-overlap finding updates the terminology/subsumption ledger.",
+      "status": "OPEN",
+      "reason_category": "TIER_4_LEDGER_SWEEP_NOT_YET_AUDITABLE",
+      "reason": "AE17's rows are obligations ON the other tranches, not independent results: they close as one sweep over the receipts emitted by the section's other packages, and the committed plan sequences that sweep last, 'only once there is enough to audit'. With 59 of 122 rows closed the corpus is not yet complete enough for the sweep to be honest, so the rows stay OPEN rather than being marked against a partial corpus."
+    },
+    {
+      "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+      "row": "- [ ] Reopen any green AE row if a material descendant gap is discovered.",
+      "status": "OPEN",
+      "reason_category": "TIER_4_LEDGER_SWEEP_NOT_YET_AUDITABLE",
+      "reason": "AE17's rows are obligations ON the other tranches, not independent results: they close as one sweep over the receipts emitted by the section's other packages, and the committed plan sequences that sweep last, 'only once there is enough to audit'. With 59 of 122 rows closed the corpus is not yet complete enough for the sweep to be honest, so the rows stay OPEN rather than being marked against a partial corpus."
     }
   ],
   "honest_ceiling": {
     "total_rows": 122,
     "closable_without_new_instruments": 106,
     "instrument_blocked": 16,
-    "note": "the 16 Tier-3 rows are left OPEN with the instrument named. They are not narrowed to fit a finite construction."
+    "note": "the 16 Tier-3 rows are left OPEN with the instrument named. They are not narrowed to fit a finite construction. The 106 includes AE17's 7 tier-4 sweep rows, which are reachable but sequenced last and are declared OPEN here."
   },
   "note": "The orchestrator applies all issue-comment writes. This lane edits no issue body and no comment. Every `old` string was verified to occur exactly once in the comment body fetched immediately before finalisation.",
   "lane_findings": [
@@ -363,5 +490,22 @@
       "detail": "The ledger gate landed on main after this lane branched and requires every named result in a *THEOREMS*.md to emit assumptions, dependency, falsifier and strongest-parent ledgers. This lane merged main, found 20 of its own results non-compliant, and repaired all 20 -- the gate's owned-files check now reports 0 violations for AE4, AE7 and AE13. The job still fails, on a separate repo-wide self-test (real_repo_gate_green) whose only violations are 5 results in research/gmi-833-ag5-extension-lowering-v1/AG5_EXTENSION_THEOREMS_V1.md, merged into main by #1036. No path of this lane appears in that failure.",
       "recommendation_for_the_orchestrator": "the AG5 package needs the same four-ledger repair; until then the aa-ledger-gate job is red on every branch cut from main, exactly the shape #1032 fixed twice before for other gates."
     }
-  ]
+  ],
+  "row_accounting": {
+    "section_rows_total": 122,
+    "closed_by_earlier_lanes": 38,
+    "closed_by_this_lane": 21,
+    "open_instrument_required": 16,
+    "open_tier1_not_attempted_in_this_lane": 40,
+    "open_tier4_ledger_sweep": 7,
+    "sums_to_total": true,
+    "note": "every one of the 122 rows is now either closed or carries a stated reason; the tier-4 sweep rows were previously accounted for inside the 106 ceiling without appearing in not_closed."
+  },
+  "comment_body_md5_at_finalisation": "af1624aadfef6f22b8d6c2ad87f8de4a",
+  "verification": {
+    "every_old_occurs_exactly_once_in_the_fetched_body": true,
+    "every_old_occurs_UNDER_its_own_heading": true,
+    "method": "for each row the heading index i and the row index j are taken from the same fetched body and the next '\\n### ' after i is located; the check is i < j < next_heading, so global uniqueness alone is never accepted as evidence of placement",
+    "rows_checked_positionally": 44
+  }
 }
