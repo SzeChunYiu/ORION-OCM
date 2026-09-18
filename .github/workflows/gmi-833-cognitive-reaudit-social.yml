@@ -1,0 +1,126 @@
+name: GMI 833 Section-M social/metacognitive re-audit v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-cognitive-reaudit-social-v1/**'
+      - '.github/workflows/gmi-833-cognitive-reaudit-social.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-cognitive-reaudit-social-v1/**'
+      - '.github/workflows/gmi-833-cognitive-reaudit-social.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze custody -- the freeze must predate every implementation artifact
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=f2f0c0a87e04c9889dcc13423c51b1979f2e4828
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-cognitive-reaudit-social-v1/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-cognitive-reaudit-social-v1/registered_scopes_v1.py \
+            research/gmi-833-cognitive-reaudit-social-v1/route_b_oracle_v1.py \
+            research/gmi-833-cognitive-reaudit-social-v1/cognitive_reaudit_social_v1.py \
+            research/gmi-833-cognitive-reaudit-social-v1/test_cognitive_reaudit_social_v1.py \
+            research/gmi-833-cognitive-reaudit-social-v1/RESULT_V1.json \
+            research/gmi-833-cognitive-reaudit-social-v1/MANIFEST_V1.json \
+            research/gmi-833-cognitive-reaudit-social-v1/SOCIAL_REAUDIT_THEOREMS_V1.md \
+            research/gmi-833-cognitive-reaudit-social-v1/PARENT_OWNERSHIP_V1.md \
+            research/gmi-833-cognitive-reaudit-social-v1/CORE.md \
+            research/gmi-833-cognitive-reaudit-social-v1/ISSUE_833_RECONCILIATION_SOCIAL_V1.json; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "POST_HOC_SUSPECT: artifact already existed at the freeze commit: $p" >&2
+              exit 1
+            fi
+          done
+
+      - name: No float literal anywhere in the package
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import ast, pathlib, sys
+          root = pathlib.Path("research/gmi-833-cognitive-reaudit-social-v1")
+          bad = []
+          for path in sorted(root.glob("*.py")):
+              tree = ast.parse(path.read_text(encoding="utf-8"))
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Constant) and isinstance(node.value, float):
+                      bad.append("%s:%d %r" % (path, node.lineno, node.value))
+          if bad:
+              sys.stderr.write("float literals found:\n" + "\n".join(bad) + "\n")
+              raise SystemExit(1)
+          print("no float literal in any package source file")
+          PY
+
+      - name: Exact executor, two routes, hostiles and nulls
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-cognitive-reaudit-social-v1
+          cp "$pkg/RESULT_V1.json" /tmp/committed_result.json
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_cognitive_reaudit_social_v1.py" -v
+            python -I -O -B "$pkg/cognitive_reaudit_social_v1.py"
+          else
+            python -I -B "$pkg/test_cognitive_reaudit_social_v1.py" -v
+            python -I -B "$pkg/cognitive_reaudit_social_v1.py"
+          fi
+          cmp /tmp/committed_result.json "$pkg/RESULT_V1.json"
+
+      - name: Reconciliation spec is structurally valid and touches only the five owned rows
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json, pathlib
+          spec = json.loads(pathlib.Path(
+              "research/gmi-833-cognitive-reaudit-social-v1/"
+              "ISSUE_833_RECONCILIATION_SOCIAL_V1.json").read_text(encoding="utf-8"))
+          assert spec["schema"] == "GMI_ISSUE_RECONCILIATION_V2", spec["schema"]
+          assert spec["issue"] == 833
+          owned = {
+              "- [ ] Re-audit metacognition and value of computation.",
+              "- [ ] Re-audit social cognition/theory of mind.",
+              "- [ ] Re-audit communication.",
+              "- [ ] Re-audit imitation and teaching.",
+              "- [ ] Re-audit cultural accumulation.",
+          }
+          forbidden = {
+              "- [ ] Re-audit hierarchical skills/chunking.",
+              "- [ ] Re-audit planning and stopping.",
+              "- [ ] Re-audit causal cognition/intervention/counterfactuals.",
+          }
+          seen = set()
+          for entry in spec["replacements"]:
+              assert entry["anchor"] == "# M. Cognitive-function derivation upgrade"
+              assert entry["old"] in owned, "not an owned row: %r" % entry["old"]
+              assert entry["old"] not in forbidden
+              assert entry["new"].startswith("- [x] ")
+              assert entry["old"][len("- [ ] "):] in entry["new"]
+              seen.add(entry["old"])
+          assert seen == owned, "expected exactly the five owned rows"
+          assert spec["forbidden_promotions"]
+          print("reconciliation spec ok: %d rows, all owned" % len(seen))
+          PY
