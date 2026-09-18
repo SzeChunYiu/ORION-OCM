@@ -20,8 +20,8 @@ import real_scale_classical_v1 as C        # noqa: E402
 import independent_oracle_v1 as O          # noqa: E402
 
 RUNS = os.path.join(HERE, "REAL_RUNS")
-EXACT_FILES = ("grammar_v1.py", "real_scale_classical_v1.py",
-               "independent_oracle_v1.py")
+EXACT_FILES = ("grammar_v1.py", "grammar_v2.py",
+               "real_scale_classical_v1.py", "independent_oracle_v1.py")
 
 
 def jload(p):
@@ -35,10 +35,14 @@ class Grammar(unittest.TestCase):
         self.assertEqual(len(G.grammar_digest()), 64)
 
     def test_enumeration_matches_independent_closed_form(self):
+        import grammar_v2 as G2
         nb, _ = O.cardinality(G.BODY_MAX_NODES, len(G.BODY_LEAVES))
-        nh, _ = O.cardinality(G.HEAD_MAX_NODES, len(G.HEAD_LEAVES))
-        self.assertEqual(len(G.enumerate_exprs(G.BODY_MAX_NODES, G.BODY_LEAVES)), nb)
-        self.assertEqual(len(G.enumerate_exprs(G.HEAD_MAX_NODES, G.HEAD_LEAVES)), nh)
+        nh, _ = O.cardinality(G2.HEAD_MAX_NODES, len(G.HEAD_LEAVES))
+        braw, hraw = G2.raw_sets()
+        self.assertEqual(len(braw), nb)
+        self.assertEqual(len(hraw), nh)
+        self.assertEqual(nb, 116)
+        self.assertEqual(nh, 8155)
 
     def test_quotient_is_a_refinement(self):
         raw = G.enumerate_exprs(G.BODY_MAX_NODES, G.BODY_LEAVES)
@@ -136,6 +140,20 @@ class Receipts(unittest.TestCase):
         cls.res = jload(os.path.join(HERE, "RESULT_V1.json"))
         cls.orc = jload(os.path.join(HERE, "ORACLE_RESULT_V1.json"))
 
+    def test_verdict_is_about_integrity_not_about_closure(self):
+        self.assertIn(self.res["verdict"], ("GREEN", "RED"))
+        if self.res["verdict"] == "GREEN":
+            for k, v in self.res["integrity"].items():
+                self.assertTrue(v, k)
+
+    def test_one_number_per_quantity(self):
+        g = self.res["grammar"]
+        rec = jload(os.path.join(RUNS, "scope_H02.json"))
+        self.assertEqual(g["candidate_pairs_searched"], rec["grammar"]["pairs"])
+        self.assertEqual(g["head_denotation_classes_searched"],
+                         rec["grammar"]["head_kept_total"])
+        self.assertEqual(len(g["identical_across_scopes"]), 1)
+
     def test_schema_and_ceiling(self):
         self.assertEqual(self.res["schema"], "GMI833HRealScaleClassicalResultV1")
         self.assertEqual(self.res["claim_ceiling"], C.CLAIM_CEILING)
@@ -182,6 +200,8 @@ class Receipts(unittest.TestCase):
         for h in self.res["hostiles"]:
             self.assertTrue(h["applicable"], h["hostile"] + " is vacuous")
             self.assertTrue(h["detected"], h["hostile"] + " was not detected")
+            self.assertTrue(h["clean_no_alarm"],
+                            h["hostile"] + " raised a false alarm on clean input")
 
     def test_nulls(self):
         self.assertEqual(self.res["nulls"]["H01_order_randomised"]

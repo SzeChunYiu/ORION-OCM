@@ -182,6 +182,40 @@ def main():
           % (lower, N_NULL))
     res["H02_true_affine_sse"] = rec2["winner"]["evaluation"]["held"].get("sse")
 
+    # ---- SIGMA_H02: exact sign-decision errors of the selected arm ---------
+    bw = R.parse_expr(rec2["winner"]["body"])
+    hw = R.parse_expr(rec2["winner"]["head"])
+    rsw = rec2["winner"]["attributes"]["reads_state"]
+    Pw = [frac(x) for x in rec2["winner"]["params"]]
+    Bw = frac(rec2["winner"]["bias"])
+    res["H02_sign_decisions"] = {}
+    for slot in ("held", "tail"):
+        idx = sl2[slot]
+        Xs = eco2["Xi"][idx]
+        Ys = eco2["yi"][idx]
+        q = eco2["xden"]
+        st = F(0)
+        err = 0
+        pos = 0
+        for t in range(len(idx)):
+            row = Xs[t]
+            tot = F(0)
+            for j in range(len(row)):
+                tot += G.ev(bw, {"ARG": F(int(row[j]), q), "PARAM": Pw[j]})
+            out = G.ev(hw, {"S": tot, "BIAS": Bw, "STATE": st})
+            if rsw:
+                st = out
+            if out > 0:
+                pos += 1
+            if (1 if out > 0 else 0) != (1 if int(Ys[t]) > 0 else 0):
+                err += 1
+        res["H02_sign_decisions"][slot] = {
+            "n": int(len(idx)), "errors": err, "predicted_positive": pos,
+            "majority_sign_errors": rec2["arms"]["majority_sign"][slot]["errors"]}
+        print("H02 sign decisions %s: winner %d vs majority %d of %d"
+              % (slot, err, rec2["arms"]["majority_sign"][slot]["errors"],
+                 len(idx)))
+
     with open(os.path.join(OUT, "controls.json"), "w") as f:
         json.dump(res, f, indent=1, sort_keys=True)
     print("WROTE controls.json")

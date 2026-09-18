@@ -286,6 +286,119 @@ def crossover(nb, nh, state, m_max=64):
     return None
 
 
+# ---- independent re-ranking of the committed survivor set -------------------
+# FREEZE_V1.md section 9: the oracle must re-derive every selection. It has no
+# access to D1-D3, so it re-ranks the committed survivors on the committed real
+# search-slice sample, with its own arithmetic, its own evaluator and its own
+# optimiser schedule, and must agree on the winner's structural class.
+
+GRID_K = (-4, -3, -2, -1, 1, 2, 3, 4)
+SWEEPS = 2
+
+
+def _rows_of(rec):
+    if "syms" in rec:
+        return None, rec["syms"], [Q(int(v)) for v in rec["y"]]
+    xd = rec["xden"]
+    rows = []
+    for r in rec["Xi"]:
+        rows.append([Q(int(v), xd[j] if isinstance(xd, list) else xd)
+                     for j, v in enumerate(r)])
+    return rows, None, [Q(int(v), rec["yden"]) for v in rec["yi"]]
+
+
+def _predict_all(b, h, rs, rows, syms, P, B, d):
+    out = []
+    st = ZERO
+    if syms is not None:
+        base = ZERO
+        for j in range(d):
+            base = qadd(base, ev(b, {"ARG": ZERO, "PARAM": P[j]}))
+        pre = [qadd(qsub(base, ev(b, {"ARG": ZERO, "PARAM": P[k]})),
+                    ev(b, {"ARG": ONE, "PARAM": P[k]})) for k in range(d)]
+        for c in syms:
+            v = ev(h, {"S": pre[c], "BIAS": B, "STATE": st})
+            out.append(v)
+            if rs:
+                st = v
+        return out
+    for r in rows:
+        acc = ZERO
+        for j in range(d):
+            acc = qadd(acc, ev(b, {"ARG": r[j], "PARAM": P[j]}))
+        v = ev(h, {"S": acc, "BIAS": B, "STATE": st})
+        out.append(v)
+        if rs:
+            st = v
+    return out
+
+
+def _loss(kind, preds, ys):
+    if kind == "decision":
+        n = 0
+        for p, y in zip(preds, ys):
+            if (1 if qgt0(p) else 0) != y[0]:
+                n += 1
+        return Q(n, len(ys))
+    tot = ZERO
+    for p, y in zip(preds, ys):
+        r = qsub(p, y)
+        tot = qadd(tot, qmul(r, r) if kind == "squared" else qabs(r))
+    return Q(tot[0], tot[1] * len(ys))
+
+
+def rerank(rec):
+    d = rec["d"]
+    kind = rec["loss"]
+    rows, syms, ys = _rows_of(rec)
+    out = []
+    for sv in rec["survivors"]:
+        b, h = parse(sv["body"]), parse(sv["head"])
+        rs = varies_in(h, "STATE", ["S", "BIAS"])
+        P = [ZERO] * d
+        B = ZERO
+        best = _loss(kind, _predict_all(b, h, rs, rows, syms, P, B, d), ys)
+        step = ONE
+        for _ in range(SWEEPS):
+            for j in range(d + 1):
+                cur = P[j] if j < d else B
+                for k in GRID_K:
+                    v = qadd(cur, qmul(Q(k), step))
+                    if j < d:
+                        P[j] = v
+                    else:
+                        B = v
+                    L = _loss(kind, _predict_all(b, h, rs, rows, syms, P, B, d), ys)
+                    if qlt(L, best):
+                        best, cur = L, v
+                    if j < d:
+                        P[j] = cur
+                    else:
+                        B = cur
+            step = Q(step[0], step[1] * 2)
+        out.append({"body": sv["body"], "head": sv["head"],
+                    "loss": qstr(best),
+                    "nodes": nodes(b) + nodes(h)})
+    import functools
+
+    def cmp(a, b):
+        x, y = qparse(a["loss"]), qparse(b["loss"])
+        if qlt(x, y):
+            return -1
+        if qlt(y, x):
+            return 1
+        for k in ("nodes", "body", "head"):
+            if a[k] < b[k]:
+                return -1
+            if a[k] > b[k]:
+                return 1
+        return 0
+    out.sort(key=functools.cmp_to_key(cmp))
+    return out
+
+
+
+
 def main():
     scopes = {}
     for rid in ("H01", "H02", "H03", "H04"):
@@ -297,7 +410,7 @@ def main():
     out = {"schema": "GMI833HRealScaleClassicalOracleV1", "rows": {},
            "disagreements": []}
     nb_raw, _ = cardinality(3, 4)
-    nh_raw, _ = cardinality(4, 5)
+    nh_raw, _ = cardinality(5, 5)   # FREEZE_V2_ADDENDUM.md lever L3
     out["grammar_cardinality"] = {"body_raw": nb_raw, "head_raw": nh_raw}
     for rid, rec in scopes.items():
         cl = classify(rec["winner"]["body"], rec["winner"]["head"])
@@ -323,6 +436,30 @@ def main():
         out["rows"][rid] = {"class": cl["class"], "attributes": cl,
                             "replay": rp, "committed_partial": want,
                             "crossover_m": m, "agreement": agree}
+    out["rerank"] = {}
+    for rid in ("H01", "H02", "H03", "H04"):
+        sp = os.path.join(RUNS, "search_sample_%s.json" % rid)
+        if not os.path.exists(sp):
+            out["disagreements"].append("%s:search_sample_missing" % rid)
+            continue
+        with open(sp) as f:
+            srec = json.load(f)
+        rk = rerank(srec)
+        cl = classify(rk[0]["body"], rk[0]["head"])["class"]
+        agree = (cl == srec["primary_winner_class"])
+        if not agree:
+            out["disagreements"].append("%s:rerank_class" % rid)
+        out["rerank"][rid] = {
+            "oracle_winner": {"body": rk[0]["body"], "head": rk[0]["head"],
+                              "class": cl},
+            "primary_winner": srec["primary_ranking"][0],
+            "primary_winner_class": srec["primary_winner_class"],
+            "agrees_on_class": agree,
+            "agrees_on_expression": bool(
+                rk[0]["body"] == srec["primary_ranking"][0]["body"]
+                and rk[0]["head"] == srec["primary_ranking"][0]["head"]),
+            "n_sample": srec["n_sample"], "survivors": len(srec["survivors"]),
+            "ranking": rk}
     p = ctl["H01_automaton"]
     out["H01_independent"] = {
         "stateful_beats_stateless_on_held":

@@ -241,7 +241,7 @@ def run_scope_v2(name, eco, verify_rows):
         v["yden"] = int(eco["yden"])
         v["partial_sse"] = vstat["sse"]
     rec["verification"] = v
-    return rec, sl, b, h, cls, params, bias
+    return rec, sl, b, h, cls, params, bias, ranked
 
 
 # ------------------------- streaming exact evaluation ------------------------
@@ -413,15 +413,30 @@ def arms_H04_v2(eco, sl):
 
 
 def arms_H01_v2(eco, sl, ranked):
+    """The registered stateless comparison arm.
+
+    Preferred: the best stateless survivor of the same blind ranking. If the
+    ranking contains no stateless survivor at all, the canonical stateless
+    program MUL(ARG,PARAM) | ADD(S,BIAS) is fitted instead and labelled as such,
+    so the comparison arm always exists.
+    """
     stateless = None
     for r in ranked:
         if not r["reads_state"]:
             stateless = r
             break
+    if stateless is None:
+        stateless = {"body": G.render(R.AFFINE_BODY),
+                     "head": G.render(R.AFFINE_HEAD),
+                     "source": "CANONICAL_STATELESS_FALLBACK"}
+    else:
+        stateless = dict(stateless)
+        stateless["source"] = "BEST_STATELESS_SURVIVOR_OF_THE_SAME_RANKING"
     b2, h2 = R.parse_expr(stateless["body"]), R.parse_expr(stateless["head"])
     p2, bi2, how2 = R.fit_arm(b2, h2, False, eco, sl["fit"], "decision")
     arms = {"stateless_best": {"body": stateless["body"],
                                "head": stateless["head"],
+                               "source": stateless["source"],
                                "params": [R.fs(x) for x in p2],
                                "bias": R.fs(bi2), "fit_route": how2}}
     for slot in ("held", "tail"):
@@ -474,9 +489,10 @@ def main():
         else:
             eco = reorder(R.ecology_H04(pcm))
         vr = 4000 if name in ("H01", "H03") else 1200
-        rec, sl, b, h, cls, params, bias = run_scope_v2("SIGMA_" + name, eco, vr)
+        rec, sl, b, h, cls, params, bias, ranked_all = run_scope_v2(
+            "SIGMA_" + name, eco, vr)
         if name == "H01":
-            rec["arms"] = arms_H01_v2(eco, sl, rec["search"]["ranked_top10"])
+            rec["arms"] = arms_H01_v2(eco, sl, ranked_all)
         elif name == "H02":
             rec["arms"] = arms_H02_v2(eco, sl)
         elif name == "H03":
