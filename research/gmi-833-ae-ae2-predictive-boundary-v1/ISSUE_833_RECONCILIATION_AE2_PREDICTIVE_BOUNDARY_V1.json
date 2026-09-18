@@ -1,0 +1,67 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae2-predictive-boundary-v1",
+  "claim_ceiling": "GMI_833_AE2_PREDICTIVE_INFORMATION_LEARNABILITY_BOUNDARY_PROVED_AND_EXACTLY_WITNESSED_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "CRYPTOGRAPHIC_HARDNESS_ASSUMED",
+    "COMPLEXITY_CLASS_SEPARATION",
+    "INFINITE_HORIZON_EXTENSION",
+    "CONTINUOUS_STATE_EXTENSION",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Prove a no-predictive-information boundary: if the registered future target is independent of all allowed history/observations, no learner can improve prediction beyond the Bayes/base-rate optimum.",
+      "new": "- [x] Prove a no-predictive-information boundary: if the registered future target is independent of all allowed history/observations, no learner can improve prediction beyond the Bayes/base-rate optimum. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-1: proved for every loss and every rule — by independence, `E[L(h(X),Y)] = Σ_x P_X(x) Σ_a h(a|x) Σ_y P_Y(y)L(a,y) ≥ min_a E[L(a,Y)]`, attained by the constant rule, with randomized rules covered by convexity; verified exactly on i.i.d. Bernoulli(3/10) sources whose observation is the whole history at lengths 1 and 2 (4 and 16 deterministic rules enumerated in full), where the improvement is exactly `0` under all three registered losses.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Generalize from exact independence to bounded predictive information and derive performance bounds where possible.",
+      "new": "- [x] Generalize from exact independence to bounded predictive information and derive performance bounds where possible. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-2: with `D = Σ|P(x,y) − P_X(x)P_Y(y)|`, `gain ≤ D/2` — verified on **670,396** exhaustive grid cases with **0** violations and **15,328** attaining equality, tight witness `gain = 1/2`, `D = 1`; chaining the parent-owned Csiszár–Kullback–Pinsker inequality `I(X;Y) ≥ D²/2` gives the performance bound `2·gain² ≤ I(X;Y)` in nats, asserted only in exact rational form.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Distinguish mutual information from usable/accessible information under computational/resource constraints.",
+      "new": "- [x] Distinguish mutual information from usable/accessible information under computational/resource constraints. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-4: on `Y = x_0⊕x_1⊕x_2` the learner sees all of `x` and `I(X;Y) = 1` bit exactly, yet the best decision tree attains exactly the base rate `1/2` at depths 0, 1 and 2 and only reaches `1` at depth 3; the dictator `Y = x_0` carries exactly the same one bit and is decoded perfectly at depth 1.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Construct a source with high mutual information but computationally inaccessible dependence and show why Shannon information alone does not guarantee practical intelligence.",
+      "new": "- [x] Construct a source with high mutual information but computationally inaccessible dependence and show why Shannon information alone does not guarantee practical intelligence. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-4: the source is `Y = x_0⊕x_1⊕x_2` with full observation of `x`, `I(X;Y) = 1` bit (maximal for a binary target) and exactly base-rate accuracy `1/2` for every decoder of branching depth below 3; the separation is **unconditional** — it rests on the machine-checked fact that for all `7` proper coordinate subsets `(x_S, y)` is exactly uniform (`0` violations), not on any cryptographic hardness assumption.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Construct low-entropy/nonuniform but temporally independent controls.",
+      "new": "- [x] Construct low-entropy/nonuniform but temporally independent controls. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `LOWENT_IID`: i.i.d. Bernoulli(1/10) — marginal `(9/10, 1/10)` is nonuniform while the pair `(X_{t−1}, X_t)` is exactly a product measure, so L1 dependence, mutual information and predictive gain are all exactly `0`.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Construct high-entropy but strongly predictable structured controls.",
+      "new": "- [x] Construct high-entropy but strongly predictable structured controls. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `HIGHENT_CYCLIC`: `X_t = X_{t−1} + 1 (mod 4)` with `X` uniform on `Z_4` — marginal entropy is `2` bits exactly, the maximum on four letters, while `acc_base = 1/4`, `acc_obs = 1` and the predictive gain is `3/4`.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Add nonstationary/drifting sources where historical dependence ceases to be useful.",
+      "new": "- [x] Add nonstationary/drifting sources where historical dependence ceases to be useful. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `DRIFT_INVERT`: phases `Y = X` then `Y = 1 − X`, equiprobable — each phase carries `1` bit, the pooled joint is **exactly** independent (L1 dependence `0`), and the phase-1 rule scores `1` in phase 1 and exactly `0` in phase 2 against a base rate of `1/2`, so historical dependence becomes harmful rather than merely useless.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE2 — Information-theoretic learnability boundary",
+      "old": "- [ ] Add chaotic deterministic systems where microscopic predictability is horizon-limited.",
+      "new": "- [x] Add chaotic deterministic systems where microscopic predictability is horizon-limited. — ✅ `gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `CHAOS_DOUBLING`: `x_{t+1} = 2x_t (mod 1)` on `8`-bit dyadic states with the top `4` bits observed, all `256` states enumerated — the next symbol is determined with certainty for exactly `4` steps and the Bayes accuracy is exactly `1/2` from step `4` onward.",
+      "status": "EARNED"
+    }
+  ]
+}
