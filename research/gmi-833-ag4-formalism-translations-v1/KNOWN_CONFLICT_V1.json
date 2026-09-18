@@ -1,0 +1,30 @@
+{
+ "conflict": "A verbatim issue quotation required to fix the scope of the row registers a banned-term site under the repo-wide AB terminology ratchet.",
+ "contract_a": {
+  "name": "#833 closure standard, item 1",
+  "requires": "FREEZE_V1.md pins the exact issue text this tranche may reconcile, committed before any implementation, and may not be edited afterwards."
+ },
+ "contract_b": {
+  "gate": "research/gmi-833-ab-terminology-harness-v1/terminology_ratchet_v1.py",
+  "name": "AB terminology ratchet (row AB37)",
+  "rule": "FAIL if a markdown file added by the pull request contains a banned term."
+ },
+ "issue": 833,
+ "package": "gmi-833-ag4-formalism-translations-v1",
+ "recorded_at_source_main": "50f833cc4bc3cadcefd44eca14fa58f73f815587",
+ "related": "research/gmi-833-emergence-conditions-v1/KNOWN_CONFLICT_V1.json records the same conflict on the AG7 row",
+ "schema": "GMI_833_KNOWN_STRUCTURAL_CONFLICT_V1",
+ "site": {
+  "file": "research/gmi-833-ag4-formalism-translations-v1/FREEZE_V1.md",
+  "line_is": "line A of the six-family block of comment 5693520829, quoted byte-exactly inside a fenced block because it is what fixes the meaning of the row's phrase 'the applicable finite specializations'",
+  "occurrences": 1,
+  "pattern": "\\bcarrier(?:s)?\\b",
+  "term": "bare carrier"
+ },
+ "suggested_owner_fix": "the ratchet gains an exemption for a line inside a fenced block of a FREEZE_V1.md that is a verbatim issue quotation; that change belongs to the AB lane and is deliberately not made here",
+ "why_not_resolved_here": [
+  "paraphrasing the block would leave the row's scope unpinned, and the adjudication's ten specializations are justified against it",
+  "editing the freeze after the fact is the POST_HOC_SUSPECT class an earlier audit (#976) already had to correct once",
+  "every other file of this package uses its own wording and is clean under the parent gate"
+ ]
+}
