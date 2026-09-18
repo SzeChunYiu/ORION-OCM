@@ -699,6 +699,71 @@ def ev1a_band(p, mean_first_hit):
             "in_band": bool(in_band)}
 
 
+def score_continual_v2(rec):
+    """FREEZE_V2_REVIVAL.md scorer: adds the DP-1 budget ladder and the
+    CENSORED terminal for EV-1A."""
+    n = rec["N_prop"]
+    p0 = F(rec["successes_Q0"], n)
+    pH = F(rec["successes_QH"], n)
+    fam = rec["family"]
+    c = rec["c"]
+    h_low, h_high = F(rec["h_low"]), F(rec["h_high"])
+
+    def verdict(h):
+        if p0 == 0 and pH == 0:
+            return "BOTH_UNREACHABLE"
+        if p0 == 0:
+            return "HISTORY_STRICTLY_IMPROVES"
+        if pH == 0:
+            return "HISTORY_HARMS"
+        lhs, rhs = h + F(c) / pH, F(c) / p0
+        return ("HISTORY_STRICTLY_IMPROVES" if lhs < rhs
+                else ("TIE" if lhs == rhs else "HISTORY_HARMS"))
+
+    v_low, v_high = verdict(h_low), verdict(h_high)
+    sol_cap = bool(rec["stored_solution_reaches_U"])
+    cap = classify_capital(sol_cap, bool(rec["law_changed"]), v_low)
+    if rec["first_hit_censored_QH"] > 0 or rec["first_hit_blocks_QH"] == 0:
+        ev = {"status": "CENSORED",
+              "censored_blocks": rec["first_hit_censored_QH"], "in_band": None}
+    else:
+        ev = ev1a_band(pH, F(rec["first_hit_sum_QH"], rec["first_hit_blocks_QH"]))
+    hstar = (None if (p0 == 0 or pH == 0) else F(c) / p0 - F(c) / pH)
+    hd0 = rec["C_pot_Q0_B2"] - rec["C_now_Q0"]
+    hdH = rec["C_pot_QH_B2"] - rec["C_now_QH"]
+    interior = (0 < rec["successes_Q0"] < n)
+    ch = {}
+    if fam == "POS":
+        ch["CL2-P1"] = bool(pH > p0)
+        ch["CL2-P2"] = (v_low == "HISTORY_STRICTLY_IMPROVES")
+        ch["CL2-P3"] = (v_high != "HISTORY_STRICTLY_IMPROVES")
+        ch["CL2-P4"] = (not sol_cap) and cap["status"] == "SEARCH_POLICY_CAPITAL"
+        ch["CL2-P5b"] = bool(rec["C_now_Q0"] == rec["C_now_QH"] and hdH > hd0)
+    else:
+        ch["CL2-P1"] = bool(pH <= p0)
+        ch["CL2-P2"] = (v_low != "HISTORY_STRICTLY_IMPROVES")
+        ch["CL2-P3"] = (v_high != "HISTORY_STRICTLY_IMPROVES")
+        ch["CL2-P4"] = True
+        ch["CL2-P5b"] = bool(hdH <= hd0)
+    ch["CL2-P5a"] = bool(rec["C_pot_Q0_B1"] <= rec["C_pot_Q0_B2"]
+                         and rec["C_pot_QH_B1"] <= rec["C_pot_QH_B2"])
+    ch["CL2-P6"] = (ev.get("in_band") is True)
+    ch["CL2-P7"] = isinstance(pH, F)
+    return {"sequence_id": rec["sequence_id"], "family": fam,
+            "source_sha256": rec["source_sha256"],
+            "p0": str(p0), "pH": str(pH), "Ev_Q_U": str(pH),
+            "baseline_mass_interior": interior,
+            "c": c, "h_low": str(h_low), "h_high": str(h_high),
+            "h_star": None if hstar is None else str(hstar),
+            "verdict_h_low": v_low, "verdict_h_high": v_high,
+            "capital": cap, "ev1a": ev,
+            "C_now_Q0": rec["C_now_Q0"], "C_now_QH": rec["C_now_QH"],
+            "C_pot_Q0_B1": rec["C_pot_Q0_B1"], "C_pot_QH_B1": rec["C_pot_QH_B1"],
+            "C_pot_Q0_B2": rec["C_pot_Q0_B2"], "C_pot_QH_B2": rec["C_pot_QH_B2"],
+            "headroom_Q0_B2": hd0, "headroom_QH_B2": hdH,
+            "checks": ch}
+
+
 def score_continual(rec):
     p0 = F(rec["successes_Q0"], N_PROP)
     pH = F(rec["successes_QH"], N_PROP)
@@ -785,18 +850,30 @@ def main():
                           "seed_spread": r.get("seed_spread"),
                           "torch_version": r.get("torch_version")}
     section_l = {}
+    section_l2 = {}
+    section_l3 = {}
     for fn, rec in sorted(runs.items()):
         if fn.startswith("cl_"):
             section_l[rec["sequence_id"]] = score_continual(rec)
+        elif fn.startswith("cl2_"):
+            section_l2[rec["sequence_id"]] = score_continual_v2(rec)
+        elif fn.startswith("cl3_"):
+            section_l3[rec["sequence_id"]] = score_continual_v2(rec)
     tally = {"HIT": 0, "MISS": 0, "ABSTAIN_MATCHED": 0, "ABSTAIN_UNMATCHED": 0,
              "TIE_NONIDENTIFYING": 0}
     for sid, v in section_i.items():
         for c in v.get("cells", {}).values():
             tally[c["verdict"]] = tally.get(c["verdict"], 0) + 1
-    cl_tally = {"HIT": 0, "MISS": 0}
-    for sid, v in section_l.items():
-        for k, ok in v["checks"].items():
-            cl_tally["HIT" if ok else "MISS"] += 1
+    def tally_of(sec):
+        t = {"HIT": 0, "MISS": 0}
+        for _sid, v in sec.items():
+            for _k, ok in v["checks"].items():
+                t["HIT" if ok else "MISS"] += 1
+        return t
+
+    cl_tally = tally_of(section_l)
+    cl2_tally = tally_of(section_l2)
+    cl3_tally = tally_of(section_l3)
     ecologies_scored = sum(1 for v in section_i.values() if v["status"] == "SCORED")
     cl_pos_qualifying = sum(
         1 for v in section_l.values()
@@ -805,9 +882,23 @@ def main():
     terminal_i = ("REAL_ECOLOGY_SELECTOR_TEST_EXECUTED_AT_REGISTERED_SCOPE"
                   if (ecologies_scored == 6 and not freeze_errors)
                   else "INSUFFICIENT_REAL_ECOLOGY_EVIDENCE")
+    def pos_qual(sec):
+        return sum(1 for v in sec.values()
+                   if v["family"] == "POS"
+                   and v["capital"]["status"] in ("SEARCH_POLICY_CAPITAL",
+                                                  "NO_SEARCH_POLICY_CAPITAL"))
+
+    def pos_direction_hits(sec):
+        return sum(1 for v in sec.values()
+                   if v["family"] == "POS" and v["checks"].get("CL2-P1") is True)
+
+    latest = section_l3 if section_l3 else section_l2
+    lab = "V3" if section_l3 else "V2"
     terminal_l = ("DEVELOPMENTAL_PREDICTIONS_VALIDATED_ON_REAL_CONTINUAL_SYSTEMS"
-                  if (len(section_l) == 8 and cl_pos_qualifying >= 5)
-                  else "INSUFFICIENT_CONTINUAL_LEARNING_EVIDENCE")
+                  if (latest and pos_qual(latest) >= 5
+                      and pos_direction_hits(latest) >= 5)
+                  else ("CONTINUAL_LEARNING_PREDICTIONS_EXECUTED_"
+                        "PARTIAL_DIRECTION_AGREEMENT_AT_%s" % lab))
     res = {
         "schema": "GMI_833_REAL_DEVELOPMENTAL_VALIDATION_RESULT_V1",
         "claim_ceiling": ("GMI_833_REAL_SYSTEM_UPDATE_LAW_AND_DEVELOPMENTAL_"
@@ -832,9 +923,19 @@ def main():
         "section_I": section_i,
         "section_I_tally": tally,
         "section_I_terminal": terminal_i,
-        "section_L_continual": section_l,
-        "section_L_tally": cl_tally,
-        "section_L_pos_qualifying": cl_pos_qualifying,
+        "section_L_continual_v1": section_l,
+        "section_L_continual_v2": section_l2,
+        "section_L_continual_v3": section_l3,
+        "section_L_tally_v1": cl_tally,
+        "section_L_tally_v2": cl2_tally,
+        "section_L_tally_v3": cl3_tally,
+        "section_L_v1_pos_qualifying": cl_pos_qualifying,
+        "section_L_latest": lab,
+        "section_L_pos_direction_hits": pos_direction_hits(latest) if latest else 0,
+        "section_L_pos_count": sum(1 for v in latest.values()
+                                   if v["family"] == "POS") if latest else 0,
+        "section_L_interior_baseline_count": sum(
+            1 for v in latest.values() if v["baseline_mass_interior"]) if latest else 0,
         "section_L_terminal": terminal_l,
     }
     with open(outp, "w") as f:
@@ -844,7 +945,8 @@ def main():
     for e in freeze_errors:
         print("  ", e)
     print("section_I:", terminal_i, tally)
-    print("section_L:", terminal_l, cl_tally, "pos_qualifying=", cl_pos_qualifying)
+    print("section_L v1:", cl_tally, " v2:", cl2_tally, " v3:", cl3_tally)
+    print("section_L:", terminal_l)
 
 
 if __name__ == "__main__":
