@@ -11,9 +11,9 @@ scope — including three places where it is weaker than the wording suggests.
 |---|---|
 | registered systems rebuilt from the AJ4 definition | `260` = 4 cell-free + 256 one-cell |
 | behavioural classes, by reachable product exploration | `148`, sizes `{1: 144, 29: 4}` — matching the merged AJ4 numbers |
-| transitions separating on visible behaviour | `3 of 8` (`L1->L2`, `L2->L3`, and no others) |
+| transitions separating on visible behaviour | `2 of 8` — `L1->L2` and `L2->L3`, and no others |
 | transitions separating only relative to a declared external boundary | `2` (`L5->L6`, `L6->L7`) |
-| transitions separating only on the description | `3` (`L0->L1`, `L3->L4`, `L7->L8`) |
+| transitions separating only on the description | `4` — `L0->L1`, `L3->L4`, `L4->L5`, `L7->L8` |
 | intermediate layer between `L1` and `L2` | `112` systems hold a state cell whose distinction never reaches the word behaviour |
 | systems that pass `I2` but fail `I1` | `14` — the ladder is **not** cumulative at its base |
 | irreducible composites | `15,680` of `67,600` |
@@ -30,7 +30,7 @@ scope — including three places where it is weaker than the wording suggests.
 2. **The base is not cumulative.** 14 systems are history-dependent without reusing any local
    transition effect, so "at level `k`" cannot be read as "satisfies `I1 … Ik`". The ladder is a
    partial order at this scope. `LADDER_IS_TOTAL_ORDER` is forbidden for that reason.
-3. **Five of the eight transitions are not behavioural.** `L3->L4` is exhibited to collapse: the
+3. **Six of the eight transitions are not behavioural.** `L3->L4` is exhibited to collapse: the
    adaptive witness is re-described as a plain transducer over `(state, experience)` and the
    re-description reproduces it on all 62 registered words. `L5->L6` and `L6->L7` separate only
    while the external value is held outside the visible input, and the exhibit is two runs with

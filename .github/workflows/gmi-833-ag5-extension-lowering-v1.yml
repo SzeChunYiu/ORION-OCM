@@ -155,6 +155,8 @@ jobs:
               eq('null.' + f, a['nulls'][f]['hits'], b['nulls'][f]['hits'])
 
           # the numbers the checklist lines quote
+          if a['total_registered_checks'] != 54366:
+              fail.append('registered checks: %r' % (a['total_registered_checks'],))
           if a['ledger_size'] != 21 or a['generator_count'] != 0:
               fail.append('ledger: %r %r' % (a['ledger_size'], a['generator_count']))
           if a['total_lowering_mismatches'] or a['total_resource_mismatches']:

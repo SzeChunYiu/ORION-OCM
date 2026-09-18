@@ -1517,8 +1517,17 @@ def main():
     if voids:
         failed.append("GATE_LEDGER_VOID")
 
+    total_checks = (sto["update_checks"] + sto["compose_checks"]
+                    + sto["transport_kernel_checks"] + sto["transport_distribution_checks"]
+                    + sto["deterministic_checks"]
+                    + gra["checks"] + gra["resource_checks"] + gra["equivariance_checks"]
+                    + cha["send_checks"] + cha["recv_checks"] + cha["apply_received_checks"]
+                    + cha["call_checks"] + cha["apply_external_checks"] + cha["fifo_checks"]
+                    + slf["candidate_checks"])
+
     receipt = {
         "schema": "GMI833AG5ExtensionLoweringReceiptV1",
+        "total_registered_checks": total_checks,
         "package": "gmi-833-ag5-extension-lowering-v1",
         "issue": 833,
         "sections": ["AG2", "AG5"],

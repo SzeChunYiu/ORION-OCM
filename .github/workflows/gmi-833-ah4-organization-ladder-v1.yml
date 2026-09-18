@@ -170,6 +170,11 @@ jobs:
               'I8_NEW_EFFECTIVE_UNIT': 'SEPARATING_ONLY_ON_DESCRIPTION'}
           if a['verdicts'] != want_verdicts:
               fail.append('verdicts: %r' % (a['verdicts'],))
+          want_counts = {'SEPARATING_ON_VISIBLE_BEHAVIOUR': 2,
+                         'SEPARATING_ONLY_ON_DESCRIPTION': 4,
+                         'SEPARATING_UNDER_DECLARED_EXTERNAL_BOUNDARY': 2}
+          if a['verdict_counts'] != want_counts:
+              fail.append('verdict counts: %r' % (a['verdict_counts'],))
           want_nn = {'I1_MOTIF_REUSE': 2, 'I2_HISTORY_DEPENDENCE': 1,
                      'I3_IRREDUCIBLE_COMPOSITION': 1,
                      'I4_EXPERIENCE_CONDITIONED_UPDATE': 7,

@@ -31,7 +31,7 @@ novel.
 
 ---
 
-## AH4L-2 — Only three of the eight transitions separate on visible behaviour
+## AH4L-2 — Only two of the eight transitions separate on visible behaviour
 
 **Statement.** Sorting each invariant by what it can see:
 
@@ -66,9 +66,11 @@ identical internal state and identical visible input whose outcomes differ — `
 identical outcomes. `I7` exhibits a state reachable in 23 steps with the transfer channel and
 only 22 without, with the acquired distinction named.
 
-**Reading.** At this scope the ladder is not eight behavioural levels. Three transitions are
-behavioural, two are relative to a declared internal/external boundary and collapse when that
-boundary is absorbed into the input, and three are distinctions of description. That is a
+**Reading.** At this scope the ladder is not eight behavioural levels. Two transitions are
+behavioural (`L1->L2` and `L2->L3`), two are relative to a declared internal/external boundary
+and collapse when that boundary is absorbed into the input, and four are distinctions of
+description. The counts are published in the receipt as `verdict_counts` so the claim is read
+off a measurement. That is a
 statement about the registered scope, not a claim that the higher levels are empty.
 
 **Forbidden extrapolation.** `PERIODIC_TABLE_OF_MI_COMPLETE`,

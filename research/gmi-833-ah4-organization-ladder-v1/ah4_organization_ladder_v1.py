@@ -953,6 +953,8 @@ def main():
         "i7": m["i7"], "i7_negative": m["i7_negative"],
         "i8": m["i8"], "i8_negative": m["i8_negative"],
         "verdicts": verdicts,
+        "verdict_counts": dict((v, sum(1 for x in verdicts.values() if x == v))
+                               for v in sorted(set(verdicts.values()))),
         "nearest_negatives": nn,
         "level_capability_inversions": inversions,
         "level_capability_inversion_example": inversion_example,
