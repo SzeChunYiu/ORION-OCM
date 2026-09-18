@@ -103,12 +103,28 @@ def main(argv):
                      rl["FC-2"]["candidates_checked"])),
     }
 
+    short = {
+        "ROW_A": ("the corpus-mutating verb is not discharged: %d sites remain in "
+                  "%d of %d flagship files at source_main."
+                  % (ra["RA-1"]["governing_residual"],
+                     ra["RA-1"]["scopes"]["S3"]["files_with_hits"],
+                     ra["RA-1"]["scopes"]["S3"]["files_scanned"])),
+        "ROW_K": ("a bridge truthful by construction yields %d non-degenerate "
+                  "predictions on %d inputs; obstruction proven structural at this "
+                  "scope." % (rk["BR-2"]["non_degenerate_total"],
+                              rk["BR-2"]["inputs_total"])),
+        "ROW_L": ("futurity is custody: %d of %d in-session candidates pass FFA-1, "
+                  "and nothing authored or pinned here is future."
+                  % (rl["FC-2"]["admissible_candidates"],
+                     rl["FC-2"]["candidates_checked"])),
+    }
     left_open = []
     for rid in ("ROW_A", "ROW_K", "ROW_L"):
         row = ROWS["rows"][rid]
         locate(body, row["anchor"], row["old"])
         left_open.append({"row": row["old"], "anchor": row["anchor"],
-                          "row_id": rid, "reason": evidence[rid]})
+                          "row_id": rid, "reason_short": short[rid],
+                          "reason": evidence[rid]})
 
     for rid in ("ROW_M1", "ROW_M2", "ROW_M3"):
         text = ROWS["out_of_scope_rows"][rid]

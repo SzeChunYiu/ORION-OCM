@@ -16,6 +16,7 @@ string. Run:  python3 -I -B body_residual_akl_v1.py [--out RESULT_V1.json]
 """
 
 from fractions import Fraction
+import atexit
 import hashlib
 import importlib.util
 import json
@@ -117,6 +118,7 @@ class BlobReader(object):
         try:
             self.proc.stdin.close()
             self.proc.wait()
+            self.proc.stdout.close()
         except Exception:
             pass
 
@@ -126,7 +128,9 @@ _READER = []
 
 def blob_reader():
     if not _READER:
-        _READER.append(BlobReader(REPO))
+        reader = BlobReader(REPO)
+        _READER.append(reader)
+        atexit.register(reader.close)
     return _READER[0]
 
 

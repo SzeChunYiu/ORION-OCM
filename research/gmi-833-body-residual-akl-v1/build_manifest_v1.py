@@ -1,7 +1,7 @@
 """Regenerate MANIFEST_V1.json: parent pins as path + blob sha + claim ceiling."""
-import hashlib
 import json
 import os
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -60,13 +60,36 @@ FORBIDDEN = [
 ]
 
 
-def blob_sha(path):
-    with open(os.path.join(REPO, path), "rb") as fh:
-        data = fh.read()
-    return hashlib.sha1(("blob %d\0" % len(data)).encode("ascii") + data).hexdigest()
+def frozen_tree():
+    """path -> blob sha at SOURCE_MAIN, straight from ls-tree.
+
+    Hashing the worktree file would make a pin LABELLED source_main follow
+    whatever HEAD happens to be: regenerate after main moves a parent and the
+    pin silently re-points while still claiming the frozen commit. A pin that
+    follows HEAD is not a pin.
+    """
+    git = "/usr/bin/git" if os.path.exists("/usr/bin/git") else "git"
+    proc = subprocess.Popen([git, "-C", REPO, "ls-tree", "-r", SOURCE_MAIN],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = proc.communicate()
+    if proc.returncode != 0:
+        raise SystemExit("ls-tree failed: %s" % err.decode("utf-8", "replace"))
+    tree = {}
+    for line in out.decode("utf-8", "replace").splitlines():
+        if "\t" not in line:
+            continue
+        meta, path = line.split("\t", 1)
+        bits = meta.split()
+        if len(bits) == 3 and bits[1] == "blob":
+            tree[path] = bits[2]
+    return tree
 
 
 def main():
+    tree = frozen_tree()
+    missing = [p for p, _c, _w in PARENTS if p not in tree]
+    if missing:
+        raise SystemExit("parent not tracked at %s: %r" % (SOURCE_MAIN, missing))
     doc = {
         "schema": "GMI_833_BODY_RESIDUAL_AKL_MANIFEST_V1",
         "issue": 833,
@@ -80,7 +103,9 @@ def main():
                               "ROW_M2": "issue #926 / draft PR #927",
                               "ROW_M3": "issue #926 / draft PR #927"},
         "issue_body_is_never_edited_by_this_package": True,
-        "parents": [{"path": p, "blob_sha": blob_sha(p), "claim_ceiling": c,
+        "pins_taken_from": "git ls-tree -r " + SOURCE_MAIN + " (the frozen tree, "
+                           "never the worktree)",
+        "parents": [{"path": p, "blob_sha": tree[p], "claim_ceiling": c,
                      "owns": why} for p, c, why in PARENTS],
         "forbidden_promotions": FORBIDDEN,
     }

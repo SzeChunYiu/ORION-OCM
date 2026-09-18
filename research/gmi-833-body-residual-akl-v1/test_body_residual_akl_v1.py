@@ -306,6 +306,12 @@ class CustodyAndScope(unittest.TestCase):
         frozen = sorted(ROWS["rows"][k]["old"] for k in ROWS["rows"])
         self.assertEqual(left, frozen)
 
+    def test_every_open_row_carries_a_short_reason_too(self):
+        for r in RECON["rows_deliberately_left_open"]:
+            self.assertIn("reason_short", r, r["row_id"])
+            self.assertLessEqual(len(r["reason_short"]), 200, r["row_id"])
+            self.assertGreater(len(r["reason_short"]), 20, r["row_id"])
+
     def test_the_reconciliation_closes_no_row(self):
         self.assertEqual(RECON["replacements"], [])
         self.assertEqual(RECON["schema"], "GMI_ISSUE_RECONCILIATION_V2")
@@ -338,16 +344,19 @@ class CustodyAndScope(unittest.TestCase):
         for rid in ("RA-1", "RA-2", "RA-3", "BR-1", "BR-2", "BR-3", "FC-1", "FC-2"):
             self.assertIn(rid, text, rid)
 
-    def test_manifest_pins_every_parent_it_uses(self):
+    def test_manifest_pins_every_parent_at_the_frozen_tree(self):
+        """A pin must be taken at source_main, not at whatever HEAD happens to be."""
         man = json.load(open(os.path.join(HERE, "MANIFEST_V1.json")))
         self.assertEqual(man["source_main"], A.SOURCE_MAIN)
         self.assertEqual(man["freeze_commit"], A.FREEZE_COMMIT)
         self.assertGreater(len(man["parents"]), 3)
+        tree = A.tracked_tree(A.SOURCE_MAIN)
         for parent in man["parents"]:
-            self.assertTrue(os.path.exists(os.path.join(REPO, parent["path"])),
-                            parent["path"])
-            self.assertEqual(A.git_blob_sha1(
-                open(os.path.join(REPO, parent["path"]), "rb").read()),
+            self.assertIn(parent["path"], tree, parent["path"])
+            self.assertEqual(tree[parent["path"]], parent["blob_sha"], parent["path"])
+            # and the pinned object must still be present and hash to its pin
+            self.assertEqual(
+                A.git_blob_sha1(A.blob_reader().read(parent["blob_sha"])),
                 parent["blob_sha"], parent["path"])
 
 
