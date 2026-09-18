@@ -21,6 +21,14 @@ probe, real-system runner or test existed**, and `git log` proves the order:
 | `accc1aed` | V2 outcomes, `FREEZE_V3_ADDENDUM`, CI |
 | `f60377bd` | `FREEZE_V4_POWER_ADDENDUM` — `SIGMA_SYN2` / `SIGMA_ARCH2`, before their outcomes were computed |
 
+The V4 stratum is the weaker one and is labelled as such rather than blurred into
+the others: `SIGMA_SYN2` / `SIGMA_ARCH2` predictions were committed before their
+outcomes were computed, but the external evaluator already existed at `50451f23`
+(`FREEZE_V4_POWER_ADDENDUM.md` section 4). Since every non-degenerate emission in
+KE-1 and KE-2 comes from those two populations, that caveat travels with the
+headline numbers. CI gates the V4 ordering explicitly rather than leaving it to
+the prose.
+
 CI re-derives this order from the repository, and its gate carries a **negative
 control**: it fails if a file known to be present at the freeze is not found, so
 a path typo cannot make it vacuously green. That is the #976 `POST_HOC_SUSPECT`

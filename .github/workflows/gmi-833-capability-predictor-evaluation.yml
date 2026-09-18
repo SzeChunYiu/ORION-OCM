@@ -53,6 +53,21 @@ jobs:
             test -n "$INTRO" || { echo "no introducing commit for $f"; exit 1; }
             grep -qx "$INTRO" /tmp/after.txt || { echo "$f was introduced at or before the freeze"; exit 1; }
           done
+          echo "--- the V4 power revival: its freeze must precede the receipt that scores it ---"
+          # SIGMA_SYN2 / SIGMA_ARCH2 outcomes come from external_evaluator_v1.py, which
+          # already existed at the V1 implementation commit.  FREEZE_V4_POWER_ADDENDUM.md
+          # section 4 discloses that this stratum's custody is weaker than V1's: the claim
+          # is only that the predictions were committed before their outcomes were computed.
+          # This gate enforces exactly that and nothing stronger.
+          V4FZ=$(git log --diff-filter=A --format=%H -- "$PKG/FROZEN_PREDICTIONS_V4.json" | tail -1)
+          V4RES=$(git log --diff-filter=A --format=%H -- "$PKG/RESULT_V1.json" | tail -1)
+          test -n "$V4FZ" -a -n "$V4RES" || { echo "missing V4 freeze or RESULT_V1.json"; exit 1; }
+          git merge-base --is-ancestor "$V4FZ" "$V4RES" > /dev/null 2>&1 && V4OK=1 || V4OK=0
+          git rev-list "$V4FZ..HEAD" > /tmp/after_v4.txt
+          if [ "$V4OK" != "1" ] && ! grep -qx "$V4RES" /tmp/after_v4.txt; then
+            echo "the V4 receipt does not postdate the V4 freeze"; exit 1
+          fi
+          echo "  ok: RESULT_V1.json ($V4RES) postdates FROZEN_PREDICTIONS_V4.json ($V4FZ)"
           echo "--- each revival's outcomes must postdate its own freeze ---"
           for pair in "FROZEN_PREDICTIONS_V2.json:REAL_RUNS_V2/REAL_MEASURED_V2.json" "FROZEN_PREDICTIONS_V3.json:REAL_RUNS_V3/REAL_MEASURED_V3.json"; do
             FZ=${pair%%:*}
