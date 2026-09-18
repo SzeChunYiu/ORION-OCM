@@ -234,9 +234,9 @@ transducer universe with the `3^12` null attached.
 
 ## `MP-7` — the flagship corpus carries no informal `prior-free` claim
 
-**Statement.** Over `445` markdown files under `research/gmi-833-*` at
+**Statement.** Over `448` markdown files under `research/gmi-833-*` at
 `source_main` `5e57d4292266bccf435136e1f7d72caa32e920a0`, the token `prior-free`
-occurs `77` times, classified as `AUTHORITY 29`, `QUALIFIED_TERM 29`,
+occurs `87` times, classified as `AUTHORITY 39`, `QUALIFIED_TERM 29`,
 `MIRROR 13`, `NEGATION 5`, `MENTION_NOT_USE 1`, and `LIVE_FLAGSHIP 0`.
 
 **Parent ownership.** The corpus edit that produced this state belongs to
