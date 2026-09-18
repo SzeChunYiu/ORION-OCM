@@ -1,0 +1,377 @@
+{
+ "H01_independent": {
+  "null_violations": 0,
+  "stateful_beats_stateless_on_held": true,
+  "twin_selects_stateless": true
+ },
+ "H02_independent": {
+  "null_violations": 98
+ },
+ "all_agree": true,
+ "disagreements": [],
+ "grammar_cardinality": {
+  "body_raw": 116,
+  "head_raw": 8155
+ },
+ "rerank": {
+  "H01": {
+   "agrees_on_class": true,
+   "agrees_on_expression": true,
+   "n_sample": 200,
+   "oracle_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "class": "PERSISTENT_STATE",
+    "head": "ADD(NEG(STEP(STATE)),S)"
+   },
+   "primary_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "head": "ADD(NEG(STEP(STATE)),S)",
+    "loss": 0.075,
+    "nodes": 8
+   },
+   "primary_winner_class": "PERSISTENT_STATE",
+   "ranking": [
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(NEG(STEP(STATE)),S)",
+     "loss": "3/40",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "NEG(ADD(S,STEP(STATE)))",
+     "loss": "3/40",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "STEP(ADD(NEG(STATE),S))",
+     "loss": "3/40",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "STEP(NEG(ADD(S,STATE)))",
+     "loss": "3/40",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ABS(ADD(ABS(BIAS),S))",
+     "loss": "2/25",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ABS(ADD(ABS(S),BIAS))",
+     "loss": "2/25",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ABS(ADD(BIAS,NEG(S)))",
+     "loss": "2/25",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(NEG(ABS(STATE)),S)",
+     "loss": "2/25",
+     "nodes": 8
+    }
+   ],
+   "survivors": 8
+  },
+  "H02": {
+   "agrees_on_class": true,
+   "agrees_on_expression": true,
+   "n_sample": 200,
+   "oracle_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "class": "AFFINE_SCORE",
+    "head": "S"
+   },
+   "primary_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "head": "S",
+    "loss": 0.003418508378090337,
+    "nodes": 4
+   },
+   "primary_winner_class": "AFFINE_SCORE",
+   "ranking": [
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "S",
+     "loss": "2936476337/858993459200",
+     "nodes": 4
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "NEG(S)",
+     "loss": "2936476337/858993459200",
+     "nodes": 5
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(BIAS,NEG(S))",
+     "loss": "2936476337/858993459200",
+     "nodes": 7
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(ADD(BIAS,BIAS),S)",
+     "loss": "2936476337/858993459200",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(ADD(S,S),S)",
+     "loss": "4972069391/858993459200",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(S,S)",
+     "loss": "64808817/10737418240",
+     "nodes": 6
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "NEG(ADD(S,S))",
+     "loss": "64808817/10737418240",
+     "nodes": 7
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(ADD(BIAS,S),S)",
+     "loss": "64808817/10737418240",
+     "nodes": 8
+    }
+   ],
+   "survivors": 8
+  },
+  "H03": {
+   "agrees_on_class": true,
+   "agrees_on_expression": true,
+   "n_sample": 200,
+   "oracle_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "class": "AFFINE_SCORE",
+    "head": "NEG(S)"
+   },
+   "primary_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "head": "NEG(S)",
+    "loss": 1.155,
+    "nodes": 5
+   },
+   "primary_winner_class": "AFFINE_SCORE",
+   "ranking": [
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "NEG(S)",
+     "loss": "231/200",
+     "nodes": 5
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(BIAS,S)",
+     "loss": "231/200",
+     "nodes": 6
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(BIAS,NEG(S))",
+     "loss": "231/200",
+     "nodes": 7
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(NEG(BIAS),S)",
+     "loss": "231/200",
+     "nodes": 7
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "NEG(ADD(BIAS,S))",
+     "loss": "231/200",
+     "nodes": 7
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(ADD(BIAS,BIAS),S)",
+     "loss": "231/200",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(ADD(BIAS,S),S)",
+     "loss": "231/200",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(ADD(BIAS,C1),S)",
+     "loss": "34321/25600",
+     "nodes": 8
+    }
+   ],
+   "survivors": 8
+  },
+  "H04": {
+   "agrees_on_class": true,
+   "agrees_on_expression": true,
+   "n_sample": 200,
+   "oracle_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "class": "NONLINEAR_LINK",
+    "head": "MUL(S,S)"
+   },
+   "primary_winner": {
+    "body": "MUL(ARG,PARAM)",
+    "head": "MUL(S,S)",
+    "loss": 5.7778494814693154e-05,
+    "nodes": 6
+   },
+   "primary_winner_class": "NONLINEAR_LINK",
+   "ranking": [
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "MUL(S,S)",
+     "loss": "6821280683589112809/118059162071741130342400",
+     "nodes": 6
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "ADD(BIAS,MUL(S,S))",
+     "loss": "6821280683589112809/118059162071741130342400",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "MUL(ADD(BIAS,S),S)",
+     "loss": "6821280683589112809/118059162071741130342400",
+     "nodes": 8
+    },
+    {
+     "body": "MUL(ARG,PARAM)",
+     "head": "MUL(ADD(S,STATE),S)",
+     "loss": "14893639912352381017818878560947361401152238184050482469105338490188825644173010943444318451089905055274416728972702924082323512409204267555770119574814937208158396437258786312163299342529393729994495483518989614328362555453689063173783819646541647616014091381749277754743107021348361513774842301543419482082417325948513/158126760396336420587886989624154146132466132628236029966329185958929952787496364759344049766747753511864904581497509305773288076082651153802354218703701960876185487716067469815989771673510325266593568498806832084814068346425541170795393246600905903391257856650280288712760480168148830103270568366129692393209146672729292800",
+     "nodes": 8
+    },
+    {
+     "body": "ABS(ARG)",
+     "head": "MUL(ABS(S),BIAS)",
+     "loss": "40651327846102316449/118059162071741130342400",
+     "nodes": 6
+    },
+    {
+     "body": "ABS(ARG)",
+     "head": "MUL(ABS(S),NEG(BIAS))",
+     "loss": "40651327846102316449/118059162071741130342400",
+     "nodes": 7
+    },
+    {
+     "body": "ABS(ARG)",
+     "head": "MUL(ADD(BIAS,BIAS),S)",
+     "loss": "40651327846102316449/118059162071741130342400",
+     "nodes": 7
+    },
+    {
+     "body": "NEG(ABS(ARG))",
+     "head": "ADD(MUL(BIAS,S),S)",
+     "loss": "40651327846102316449/118059162071741130342400",
+     "nodes": 8
+    }
+   ],
+   "survivors": 8
+  }
+ },
+ "rows": {
+  "H01": {
+   "agreement": {
+    "body_raw": true,
+    "class": true,
+    "crossover": true,
+    "head_raw": true,
+    "replay": true
+   },
+   "attributes": {
+    "body_affine_in_arg": true,
+    "class": "PERSISTENT_STATE",
+    "head_affine_in_s": true,
+    "reads_state": true
+   },
+   "class": "PERSISTENT_STATE",
+   "committed_partial": 478,
+   "crossover_m": 5,
+   "replay": {
+    "errors": 478
+   }
+  },
+  "H02": {
+   "agreement": {
+    "body_raw": true,
+    "class": true,
+    "crossover": true,
+    "head_raw": true,
+    "replay": true
+   },
+   "attributes": {
+    "body_affine_in_arg": true,
+    "class": "AFFINE_SCORE",
+    "head_affine_in_s": true,
+    "reads_state": false
+   },
+   "class": "AFFINE_SCORE",
+   "committed_partial": "1874261802738132102180479/268435456000000000000000000",
+   "crossover_m": 5,
+   "replay": {
+    "sse": "1874261802738132102180479/268435456000000000000000000"
+   }
+  },
+  "H03": {
+   "agreement": {
+    "body_raw": true,
+    "class": true,
+    "crossover": true,
+    "head_raw": true,
+    "replay": true
+   },
+   "attributes": {
+    "body_affine_in_arg": true,
+    "class": "NONLINEAR_LINK",
+    "head_affine_in_s": false,
+    "reads_state": false
+   },
+   "class": "NONLINEAR_LINK",
+   "committed_partial": "25586441/1521",
+   "crossover_m": 5,
+   "replay": {
+    "sse": "25586441/1521"
+   }
+  },
+  "H04": {
+   "agreement": {
+    "body_raw": true,
+    "class": true,
+    "crossover": true,
+    "head_raw": true,
+    "replay": true
+   },
+   "attributes": {
+    "body_affine_in_arg": true,
+    "class": "NONLINEAR_LINK",
+    "head_affine_in_s": false,
+    "reads_state": false
+   },
+   "class": "NONLINEAR_LINK",
+   "committed_partial": "174555896802753749561255/1208925819614629174706176",
+   "crossover_m": 5,
+   "replay": {
+    "sse": "174555896802753749561255/1208925819614629174706176"
+   }
+  }
+ },
+ "schema": "GMI833HRealScaleClassicalOracleV1"
+}
