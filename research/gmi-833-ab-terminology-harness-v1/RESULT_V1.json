@@ -1,0 +1,837 @@
+{
+  "banned_terms": 26,
+  "banned_with_replacement": 26,
+  "claim_ceiling": "REGISTERED_TERMINOLOGY_AUDIT_VERIFIED_V1",
+  "corpus_state": {
+    "baseline_files_scanned": 2572,
+    "baseline_files_with_hits": 1400,
+    "baseline_total_hits": 9703,
+    "disclosure": "the AB audit clause is earned; the corpus-state clause is NOT - 9703 banned-term sites remain in 1400 of 2572 flagship files and are now ratcheted so the number can only fall.",
+    "flagship_scope": "every markdown under research/ plus repo-root markdown, minus 4 declared authority/migration packages",
+    "instrument": "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py (frozen parent gate)"
+  },
+  "crosswalk_rows": 48,
+  "extension_rows": 4,
+  "forbidden_promotions": [
+    "CORPUS_TERMINOLOGY_CLEAN",
+    "MIGRATION_COMPLETE",
+    "ALL_PARENTS_EXHAUSTED",
+    "CITATIONS_VERIFIED"
+  ],
+  "hostiles": [
+    {
+      "detected": true,
+      "id": "HB1",
+      "perturbation": "strip 'instance space' from the ecology crosswalk row",
+      "quantity": "AB05 total_covered"
+    },
+    {
+      "detected": true,
+      "id": "HB2",
+      "perturbation": "blank the citations cell of the niche row",
+      "quantity": "AB06 citations_nonempty"
+    },
+    {
+      "detected": true,
+      "id": "HB3",
+      "perturbation": "replace the evolvability match verdict with free text",
+      "quantity": "AB22 match_verdicts"
+    },
+    {
+      "detected": true,
+      "id": "HB4",
+      "perturbation": "delete the carrier row entirely",
+      "quantity": "AB18 parent_rows_found 1->0"
+    },
+    {
+      "detected": true,
+      "id": "HB5",
+      "perturbation": "remove the cognitive operational-criterion evidence",
+      "quantity": "AB28 verdict EARNED->OPEN"
+    },
+    {
+      "detected": true,
+      "id": "HB6",
+      "perturbation": "raise a tracked file's banned-term count",
+      "quantity": "ratchet regressions 0->1"
+    },
+    {
+      "detected": true,
+      "id": "HB7",
+      "perturbation": "introduce a new file carrying banned terms",
+      "quantity": "ratchet new_files_with_hits 0->1"
+    },
+    {
+      "detected": true,
+      "id": "HB8",
+      "no_alarm_asserted": "clean prose scores 0",
+      "perturbation": "end-to-end: write a real markdown file with remint/obligation/machine species",
+      "quantity": "gate total_hits 0->3+"
+    },
+    {
+      "detected": true,
+      "id": "HB9",
+      "note": "a document merely containing 'grammar' and 'bias' fails the AB13 predicate",
+      "perturbation": "a receipt naming grammar bias whose two grammars have IDENTICAL exact bias profiles",
+      "quantity": "distinct_bias_profiles 3->1"
+    },
+    {
+      "detected": true,
+      "id": "HB10",
+      "note": "the AB28 predicate rejects assertion without an executable criterion",
+      "perturbation": "prose saying 'operational criteria' with no iff criterion, no named results, no non-correspondence statement",
+      "quantity": "named_results 4->0"
+    },
+    {
+      "detected": true,
+      "id": "HB11",
+      "note": "scoping, not blindness: the unowned file is reported informationally",
+      "perturbation": "a new file with banned terms added by ANOTHER lane",
+      "quantity": "new_files_with_hits 2->1 under --owned-files"
+    }
+  ],
+  "issue": 833,
+  "null": {
+    "design": "200 randomized crosswalk tables (seed 83352): every substantive cell replaced by random tokens, legacy cell kept so the row is still found",
+    "earned": 0,
+    "of": 200,
+    "true_result_rows_earned": 34
+  },
+  "package": "gmi-833-ab-terminology-harness-v1",
+  "parent_covered_total": 149,
+  "parent_package_evidence": {
+    "AB13": {
+      "bias_is_measured_not_asserted": true,
+      "ceiling_names_grammar_bias": true,
+      "claim_ceiling": "GMI_FINITE_GRAMMAR_BIAS_AND_REMINT_BOUNDARY_AT_REGISTERED_G0_SCOPE",
+      "distinct_bias_profiles": 3,
+      "forbids_unbiased": true,
+      "grammars_compared": 3,
+      "path": "research/gmi-833-g0-grammar-bias-v1/RESULT_V1.json",
+      "present": true
+    },
+    "AB28": {
+      "named_results": [
+        "adopt 1",
+        "attention 1",
+        "concept 1",
+        "memory 1"
+      ],
+      "non_correspondence_scope": true,
+      "operational_criterion": true,
+      "path": "research/gmi-833-cognitive-reaudit-v1/COGNITIVE_REAUDIT_THEOREMS_V1.md",
+      "present": true
+    }
+  },
+  "ratchet_scope_policy": "On pull_request the gate runs with --owned-files (the PR's own markdown diff): a lane is failed for banned terms in files it added or grew, never for another lane's. On push to main the strict repo-wide rule applies.",
+  "required_terms_total": 153,
+  "route": "A",
+  "route_agreement": {
+    "agree": true,
+    "note": "route B covers only the crosswalk-row subset (140 of 153 required terms); the remaining 13 belong to AB01/AB36/AB37 whose evidence is not a crosswalk row.",
+    "parent_covered": [
+      149,
+      136
+    ],
+    "shared_subset": "the 30 CROSSWALK_ROW rows"
+  },
+  "routes": {
+    "A": "ab_harness_v1.py (9-column table parse, per-cell coverage, regex normalization)",
+    "B": "independent_ab_oracle_v1.py (character-level pipe splitter, whole-substantive-line search, own translation-table normalization; imports nothing from A)"
+  },
+  "rows": [
+    {
+      "crosswalk_term": null,
+      "evidence_kind": "CROSSWALK_COLUMNS",
+      "missing": [],
+      "parent_covered": 8,
+      "required": 8,
+      "row_id": "AB01",
+      "rows_in_crosswalk": 48,
+      "total_covered": 8,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "morphology",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 7,
+      "parent_rows_found": 1,
+      "required": 7,
+      "row_id": "AB03",
+      "supplied_by_this_package": [],
+      "total_covered": 7,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "machine species",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 1,
+      "match_verdicts": [
+        "partial",
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB04",
+      "supplied_by_this_package": [
+        "algorithm class | configuration class"
+      ],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "ecology",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB05",
+      "supplied_by_this_package": [],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "niche",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 1,
+      "required": 4,
+      "row_id": "AB06",
+      "supplied_by_this_package": [],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "selection",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB07",
+      "supplied_by_this_package": [],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "phase law / phase diagram",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 1,
+      "required": 4,
+      "row_id": "AB09",
+      "supplied_by_this_package": [],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": [
+        "prior-free",
+        "architecture-prior-free"
+      ],
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial",
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 2,
+      "required": 4,
+      "row_id": "AB10",
+      "supplied_by_this_package": [],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "inductive bias",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 1,
+      "parent_rows_found": 1,
+      "required": 1,
+      "row_id": "AB11",
+      "supplied_by_this_package": [],
+      "total_covered": 1,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "hypothesis class / possibility space",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 1,
+      "match_verdicts": [
+        "exact",
+        "non"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 3,
+      "parent_rows_found": 1,
+      "required": 4,
+      "row_id": "AB12",
+      "supplied_by_this_package": [
+        "possibility space"
+      ],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "DSL/grammar",
+      "evidence_kind": "CROSSWALK_ROW+PARENT_PACKAGE",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 6,
+      "parent_package": {
+        "bias_is_measured_not_asserted": true,
+        "ceiling_names_grammar_bias": true,
+        "claim_ceiling": "GMI_FINITE_GRAMMAR_BIAS_AND_REMINT_BOUNDARY_AT_REGISTERED_G0_SCOPE",
+        "distinct_bias_profiles": 3,
+        "forbids_unbiased": true,
+        "grammars_compared": 3,
+        "path": "research/gmi-833-g0-grammar-bias-v1/RESULT_V1.json",
+        "present": true
+      },
+      "parent_rows_found": 1,
+      "required": 6,
+      "row_id": "AB13",
+      "supplied_by_this_package": [],
+      "total_covered": 6,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "neutral search",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 1,
+      "required": 4,
+      "row_id": "AB14",
+      "supplied_by_this_package": [],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "remint",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB15",
+      "supplied_by_this_package": [],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "negative twin",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB16",
+      "supplied_by_this_package": [],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "parent subtraction",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB17",
+      "supplied_by_this_package": [],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "carrier",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB18",
+      "supplied_by_this_package": [],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "quotient",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact retain"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 1,
+      "required": 4,
+      "row_id": "AB19",
+      "supplied_by_this_package": [],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "capability ceiling",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 5,
+      "row_id": "AB20",
+      "supplied_by_this_package": [],
+      "total_covered": 5,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "development",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 7,
+      "parent_rows_found": 1,
+      "required": 7,
+      "row_id": "AB21",
+      "supplied_by_this_package": [],
+      "total_covered": 7,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "evolvability",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 3,
+      "parent_rows_found": 1,
+      "required": 3,
+      "row_id": "AB22",
+      "supplied_by_this_package": [],
+      "total_covered": 3,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "open-ended",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 1,
+      "parent_rows_found": 1,
+      "required": 1,
+      "row_id": "AB23",
+      "supplied_by_this_package": [],
+      "total_covered": 1,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "novel intelligence",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 1,
+      "match_verdicts": [
+        "partial",
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 6,
+      "row_id": "AB24",
+      "supplied_by_this_package": [
+        "novel implementation"
+      ],
+      "total_covered": 6,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "unseen form",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 1,
+      "required": 4,
+      "row_id": "AB26",
+      "supplied_by_this_package": [],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "cognition terms",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 8,
+      "parent_rows_found": 1,
+      "required": 8,
+      "row_id": "AB27",
+      "supplied_by_this_package": [],
+      "total_covered": 8,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "cognition terms",
+      "evidence_kind": "CROSSWALK_ROW+PARENT_PACKAGE",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 1,
+      "parent_package": {
+        "named_results": [
+          "adopt 1",
+          "attention 1",
+          "concept 1",
+          "memory 1"
+        ],
+        "non_correspondence_scope": true,
+        "operational_criterion": true,
+        "path": "research/gmi-833-cognitive-reaudit-v1/COGNITIVE_REAUDIT_THEOREMS_V1.md",
+        "present": true
+      },
+      "parent_rows_found": 1,
+      "required": 1,
+      "row_id": "AB28",
+      "supplied_by_this_package": [],
+      "total_covered": 1,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "causal terms",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 3,
+      "parent_rows_found": 1,
+      "required": 3,
+      "row_id": "AB29",
+      "supplied_by_this_package": [],
+      "total_covered": 3,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "uncertainty terms",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 7,
+      "parent_rows_found": 1,
+      "required": 7,
+      "row_id": "AB30",
+      "supplied_by_this_package": [],
+      "total_covered": 7,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "verification",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 1,
+      "match_verdicts": [
+        "partial",
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 5,
+      "parent_rows_found": 1,
+      "required": 6,
+      "row_id": "AB31",
+      "supplied_by_this_package": [
+        "verifier feedback"
+      ],
+      "total_covered": 6,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": [
+        "proof",
+        "proof (computer-assisted)",
+        "proof (finite enumeration)"
+      ],
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial",
+        "exact",
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 3,
+      "parent_rows_found": 3,
+      "required": 3,
+      "row_id": "AB32",
+      "supplied_by_this_package": [],
+      "total_covered": 3,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "derive",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 6,
+      "parent_rows_found": 1,
+      "required": 6,
+      "row_id": "AB33",
+      "supplied_by_this_package": [],
+      "total_covered": 6,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "predict",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "exact"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 3,
+      "parent_rows_found": 1,
+      "required": 3,
+      "row_id": "AB34",
+      "supplied_by_this_package": [],
+      "total_covered": 3,
+      "verdict": "EARNED"
+    },
+    {
+      "citations_nonempty": true,
+      "crosswalk_term": "discover",
+      "evidence_kind": "CROSSWALK_ROW",
+      "extension_rows_found": 0,
+      "match_verdicts": [
+        "partial"
+      ],
+      "migration_rule_nonempty": true,
+      "missing": [],
+      "parent_covered": 4,
+      "parent_rows_found": 1,
+      "required": 4,
+      "row_id": "AB35",
+      "supplied_by_this_package": [],
+      "total_covered": 4,
+      "verdict": "EARNED"
+    },
+    {
+      "banned_terms": 26,
+      "banned_with_replacement": 26,
+      "crosswalk_term": "banned list",
+      "evidence_kind": "ARTIFACT",
+      "missing": [],
+      "parent_covered": 3,
+      "required": 3,
+      "row_id": "AB36",
+      "total_covered": 3,
+      "verdict": "EARNED"
+    },
+    {
+      "crosswalk_term": "ci gate",
+      "evidence_kind": "ARTIFACT",
+      "missing": [],
+      "parent_covered": 2,
+      "repo_wide_blocking_gate": true,
+      "required": 2,
+      "row_id": "AB37",
+      "total_covered": 2,
+      "verdict": "EARNED"
+    }
+  ],
+  "rows_checked": 34,
+  "rows_earned": 34,
+  "rows_not_reconciled": {
+    "AB02": "corpus-mutating verb 'Replace'; 2695 'obligation' sites remain in the flagship scope at source_main",
+    "AB08": "no artifact enumerates Rice's five components (problem/feature/algorithm/performance space + selection mapping) as an explicit parent subtraction",
+    "AB25": "the six novelty-ladder levels are named but not operationally defined"
+  },
+  "rows_open": 0,
+  "rows_reconciled": [
+    "AB01",
+    "AB03",
+    "AB04",
+    "AB05",
+    "AB06",
+    "AB07",
+    "AB09",
+    "AB10",
+    "AB11",
+    "AB12",
+    "AB13",
+    "AB14",
+    "AB15",
+    "AB16",
+    "AB17",
+    "AB18",
+    "AB19",
+    "AB20",
+    "AB21",
+    "AB22",
+    "AB23",
+    "AB24",
+    "AB26",
+    "AB27",
+    "AB28",
+    "AB29",
+    "AB30",
+    "AB31",
+    "AB32",
+    "AB33",
+    "AB34",
+    "AB35",
+    "AB36",
+    "AB37"
+  ],
+  "schema": "GMI_AB_HARNESS_RESULT_V1",
+  "section": "AB",
+  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
+  "tests": {
+    "count": 22,
+    "file": "test_ab_harness_v1.py",
+    "modes": [
+      "python3 -I -B",
+      "python3 -I -O -B"
+    ],
+    "result": "22/22 OK in both modes"
+  },
+  "total_covered_total": 153
+}

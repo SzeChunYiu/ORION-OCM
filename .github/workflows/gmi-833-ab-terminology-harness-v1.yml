@@ -1,0 +1,83 @@
+name: GMI 833 AB terminology harness + repo-wide ratcheting terminology gate
+
+on:
+  pull_request:
+    paths:
+      - 'research/**'
+      - '*.md'
+      - '.github/workflows/gmi-833-ab-terminology-harness-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/**'
+      - '*.md'
+      - '.github/workflows/gmi-833-ab-terminology-harness-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  ab-terminology-harness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-ab-terminology-harness-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
+          cat /tmp/firstfiles.txt
+          test "$(grep -c . /tmp/firstfiles.txt)" = "1"
+          grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+      - name: Route A harness
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/ab_harness_v1.py" | tee /tmp/ab_routeA.json
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_ab_oracle_v1.py" | tee /tmp/ab_routeB.json
+      - name: Repo-wide ratcheting terminology gate (BLOCKING, row AB37)
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git diff --name-only --diff-filter=ACMR \
+              "origin/${{ github.base_ref }}...HEAD" -- '*.md' > /tmp/owned.txt || true
+            wc -l /tmp/owned.txt
+            python3 -I -B "$PKG/terminology_ratchet_v1.py" --owned-files /tmp/owned.txt 2>&1 | tee /tmp/ab_ratchet.txt
+          else
+            python3 -I -B "$PKG/terminology_ratchet_v1.py" 2>&1 | tee /tmp/ab_ratchet.txt
+          fi
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_ab_harness_v1.py" 2>&1 | tee /tmp/ab_tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_ab_harness_v1.py" 2>&1 | tee /tmp/ab_tests-O.txt
+      - name: Receipt matches the live run
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ab-terminology-harness-v1
+          path: |
+            /tmp/ab_routeA.json
+            /tmp/ab_routeB.json
+            /tmp/ab_ratchet.txt
+            /tmp/ab_tests.txt
+            /tmp/ab_tests-O.txt
+          if-no-files-found: error
