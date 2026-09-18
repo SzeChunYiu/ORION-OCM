@@ -1,0 +1,86 @@
+name: GMI 833 AG/AH/AJ/AF reconciliation
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-sec-agaj-reconciliation-v1/**'
+      - 'research/gmi-833-ag5-extension-lowering-v1/**'
+      - 'research/gmi-833-ah4-organization-ladder-v1/**'
+      - 'research/gmi-833-ah7-data-varied-choice-v1/**'
+      - 'research/gmi-833-aj9-holdout-source-audit-v1/**'
+      - '.github/workflows/gmi-833-sec-agaj-reconciliation-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-sec-agaj-reconciliation-v1/**'
+      - 'research/gmi-833-ag5-extension-lowering-v1/**'
+      - 'research/gmi-833-ah4-organization-ladder-v1/**'
+      - 'research/gmi-833-ah7-data-varied-choice-v1/**'
+      - 'research/gmi-833-aj9-holdout-source-audit-v1/**'
+      - '.github/workflows/gmi-833-sec-agaj-reconciliation-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebuild and verify against the committed comment snapshots
+        run: |
+          set -euo pipefail
+          P=research/gmi-833-sec-agaj-reconciliation-v1
+          cp $P/ISSUE_833_COMMENT_RECONCILIATION_V1.json /tmp/committed.json
+          python3 -I -B $P/build_reconciliation_v1.py --offline $P
+          cmp /tmp/committed.json $P/ISSUE_833_COMMENT_RECONCILIATION_V1.json
+          echo 'the committed reconciliation rebuilds byte-for-byte'
+
+      - name: Every closed row cites a green package with intact pins
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-sec-agaj-reconciliation-v1/'
+          d = json.load(open(P + 'ISSUE_833_COMMENT_RECONCILIATION_V1.json'))
+          v = d['verification']
+          fail = []
+          if v['status'] != 'GREEN' or v['problems']:
+              fail.append('verification: %r' % (v['problems'],))
+          if v['unaccounted_open_rows']:
+              fail.append('unaccounted open rows: %r' % (v['unaccounted_open_rows'],))
+          if v['replacements'] + v['not_closed'] != v['open_rows_in_scope']:
+              fail.append('rows do not add up: %d + %d != %d'
+                          % (v['replacements'], v['not_closed'], v['open_rows_in_scope']))
+          seen = set()
+          for r in d['replacements']:
+              key = (r['comment_id'], r['old'])
+              if key in seen:
+                  fail.append('duplicate row: %r' % (r['old'][:50],))
+              seen.add(key)
+              if not r['new'].startswith('- [x] '):
+                  fail.append('new is not checked: %r' % (r['old'][:50],))
+              if ' — ✅ ' not in r['new']:
+                  fail.append('new carries no evidence suffix: %r' % (r['old'][:50],))
+              if not r['cites']:
+                  fail.append('no citation: %r' % (r['old'][:50],))
+          for e in d['not_closed']:
+              if not e.get('reason'):
+                  fail.append('not_closed without a reason: %r' % (e['old'][:50],))
+          cbu = d['checked_but_unsupported']
+          if len(cbu) != 1 or cbu[0]['verdict'] != 'CHECKED_BUT_UNSUPPORTED':
+              fail.append('checked_but_unsupported: %r' % (cbu,))
+          if not cbu[0].get('this_tranche_did_not_uncheck_it'):
+              fail.append('the determination must state that nothing was un-checked')
+          if fail:
+              for f in fail:
+                  print('FAIL', f)
+              sys.exit(1)
+          print('reconciliation OK: %d closed, %d open with reasons, 1 flagged'
+                % (v['replacements'], v['not_closed']))
+          PY

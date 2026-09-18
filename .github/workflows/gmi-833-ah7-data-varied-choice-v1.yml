@@ -1,0 +1,184 @@
+name: GMI 833 AH7 data axis
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-ah7-data-varied-choice-v1/**'
+      - '.github/workflows/gmi-833-ah7-data-varied-choice-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-ah7-data-varied-choice-v1/**'
+      - '.github/workflows/gmi-833-ah7-data-varied-choice-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          PKG=research/gmi-833-ah7-data-varied-choice-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          C=$(git log --diff-filter=A --format=%ct -1 -- $PKG/ah7_data_varied_choice_v1.py)
+          echo "freeze=$F executor=$C"
+          test -n "$F"
+          test -n "$C"
+          test "$F" -le "$C"
+          # after a squash merge both arrive together; the freeze must still be present in
+          # the commit that published the package
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
+          grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+
+      - name: Parent pins have not drifted
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, subprocess, sys
+          m = json.load(open('research/gmi-833-ah7-data-varied-choice-v1/MANIFEST_V1.json'))
+          bad = []
+          for pin in m['parent_pins']:
+              sha = subprocess.check_output(
+                  ['git', 'hash-object', pin['path']]).decode().strip()
+              if sha != pin['blob_sha']:
+                  bad.append(('blob', pin['path'], pin['blob_sha'], sha))
+              if pin['path'].endswith('.json'):
+                  live = json.load(open(pin['path'])).get('claim_ceiling')
+                  if live != pin['claim_ceiling']:
+                      bad.append(('ceiling', pin['path'], pin['claim_ceiling'], live))
+          if bad:
+              print('PARENT PIN DRIFT', bad)
+              sys.exit(1)
+          print('parent pins intact (blob and claim ceiling):', len(m['parent_pins']))
+          PY
+
+      - name: Snapshot the committed receipts before rerunning them
+        run: |
+          set -euo pipefail
+          cp research/gmi-833-ah7-data-varied-choice-v1/RESULT_V1.json /tmp/committed_result.json
+          cp research/gmi-833-ah7-data-varied-choice-v1/ORACLE_RESULT_V1.json /tmp/committed_oracle.json
+          cp research/gmi-833-ah7-data-varied-choice-v1/TEST_RESULT_V1.json /tmp/committed_test.json
+
+      - name: Route A -- data axis with the other inputs fixed
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ah7-data-varied-choice-v1/ah7_data_varied_choice_v1.py
+
+      - name: Route B -- independent oracle
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ah7-data-varied-choice-v1/independent_oracle_v1.py
+
+      - name: Hostiles, nulls and the no-alarm case
+        run: python3 -I -O -B research/gmi-833-ah7-data-varied-choice-v1/test_ah7_data_varied_choice_v1.py
+
+      - name: Terminology gate on this package
+        run: python3 -I -B research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py research/gmi-833-ah7-data-varied-choice-v1
+
+      - name: The committed receipts are byte-identical to the live run
+        run: |
+          set -euo pipefail
+          P=research/gmi-833-ah7-data-varied-choice-v1
+          cmp /tmp/committed_result.json $P/RESULT_V1.json
+          cmp /tmp/committed_oracle.json $P/ORACLE_RESULT_V1.json
+          cmp /tmp/committed_test.json $P/TEST_RESULT_V1.json
+          echo 'committed receipts reproduce byte-for-byte'
+
+      - name: Receipts agree and say what the checklist says
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-ah7-data-varied-choice-v1/'
+          a = json.load(open(P + 'RESULT_V1.json'))
+          b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          t = json.load(open(P + 'TEST_RESULT_V1.json'))
+          fail = []
+          compared = [0]
+
+          def eq(name, x, y):
+              compared[0] += 1
+              if x != y:
+                  fail.append('%s: A=%r B=%r' % (name, x, y))
+
+          if a['status'] != 'GREEN' or a['failed_gates']:
+              fail.append('route A not green: %r' % (a['failed_gates'],))
+          if t['status'] != 'GREEN' or t['findings']:
+              fail.append('tests not green: %r' % (t['findings'],))
+          if t['hostiles_detected'] != 10 or t['controls_clean'] != 10:
+              fail.append('hostiles: %r/%r' % (t['hostiles_detected'], t['controls_clean']))
+          for k in ('possibility_space_size', 'registered_datasets', 'distinct_chosen_sets',
+                    'targets_whose_chosen_set_moves_with_coverage_alone',
+                    'disjoint_chosen_set_pairs', 'disjoint_pairs_sharing_one_target',
+                    'monotone_narrowing_checks', 'monotone_narrowing_failures',
+                    'chosen_set_is_a_singleton_for_every_registered_dataset',
+                    'null_realizable_pairs', 'null_realizable_pairs_with_identical_answer',
+                    'null_realizable_distinct_answers'):
+              eq(k, a[k], b[k])
+          pa = dict((k, (v['chosen'], v['consistent'], v['observations']))
+                    for k, v in a['per_dataset'].items())
+          pb = dict((k, (v['chosen'], v['consistent'], v['observations']))
+                    for k, v in b['per_dataset'].items())
+          eq('per_dataset', pa, pb)
+          if a['possibility_space_size'] != 260 or a['registered_datasets'] != 20:
+              fail.append('scope: %r %r' % (a['possibility_space_size'],
+                                            a['registered_datasets']))
+          if not a['fixed_input_fingerprint_identical_across_datasets']:
+              fail.append('the fixed inputs were not fixed')
+          if a['scalarization_used']:
+              fail.append('scalarization used')
+          if a['distinct_chosen_sets'] != 7:
+              fail.append('distinct answers: %r' % (a['distinct_chosen_sets'],))
+          if sorted(a['targets_whose_chosen_set_moves_with_coverage_alone']) != \
+                  ['DELAY1', 'PARITY']:
+              fail.append('coverage-only moves: %r'
+                          % (a['targets_whose_chosen_set_moves_with_coverage_alone'],))
+          if a['disjoint_chosen_set_pairs'] != 162 or a['disjoint_pairs_sharing_one_target'] != 10:
+              fail.append('disjoint: %r %r' % (a['disjoint_chosen_set_pairs'],
+                                               a['disjoint_pairs_sharing_one_target']))
+          if a['order_invariance_failures'] or a['monotone_narrowing_failures']:
+              fail.append('construction properties failed')
+          if a['null_realizable_pairs_with_identical_answer'] != 18:
+              fail.append('null: %r' % (a['null_realizable_pairs_with_identical_answer'],))
+          if a['null_arbitrary_label_datasets_unrealizable'] != 183:
+              fail.append('arbitrary-label null: %r'
+                          % (a['null_arbitrary_label_datasets_unrealizable'],))
+          for key, want in (('DELAY1|LEN1', ['S000']), ('DELAY1|UPTO2', ['M051']),
+                            ('DELAY1|LEN3', ['M043']), ('DELAY1|ALL', ['M043']),
+                            ('PARITY|LEN1', ['S001']), ('PARITY|UPTO2', ['M066']),
+                            ('PARITY|ALL', ['M064'])):
+              if a['per_dataset'][key]['chosen'] != want:
+                  fail.append('%s: %r' % (key, a['per_dataset'][key]['chosen']))
+          for k in ('DATA_CREATES_THE_POSSIBILITY_SPACE', 'MORE_DATA_IS_ALWAYS_BETTER',
+                    'COMPLETE_GMI'):
+              if k not in a['forbidden_promotions']:
+                  fail.append('missing forbidden promotion ' + k)
+          if compared[0] != 13:
+              fail.append('cross-route quantities compared: %d, the published figure is 13' % compared[0])
+          if fail:
+              for f in fail:
+                  print('FAIL', f)
+              sys.exit(1)
+          print('AH7 receipts OK; 13 cross-route quantities compared and agreed')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ah7-data-varied-choice-v1-${{ matrix.opt && 'opt' || 'normal' }}
+          path: |
+            research/gmi-833-ah7-data-varied-choice-v1/RESULT_V1.json
+            research/gmi-833-ah7-data-varied-choice-v1/ORACLE_RESULT_V1.json
+            research/gmi-833-ah7-data-varied-choice-v1/TEST_RESULT_V1.json
+          if-no-files-found: error
