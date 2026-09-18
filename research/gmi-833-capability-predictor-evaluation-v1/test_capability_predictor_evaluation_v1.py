@@ -327,6 +327,10 @@ class Receipts(unittest.TestCase):
         self.result = load("RESULT_V1.json")
         self.routeb = load("ROUTE_B_RESULT_V1.json")
         self.frozen = load("FROZEN_PREDICTIONS_V1.json")
+        for extra in ("FROZEN_PREDICTIONS_V2.json", "FROZEN_PREDICTIONS_V3.json",
+                      "FROZEN_PREDICTIONS_V4.json"):
+            self.frozen["universes"] = (list(self.frozen["universes"])
+                                        + list(load(extra)["universes"]))
 
     def test_prediction_replay_matches_the_freeze(self):
         for row in self.result["prediction_replay"]:

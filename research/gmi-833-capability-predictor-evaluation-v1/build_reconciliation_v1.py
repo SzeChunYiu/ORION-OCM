@@ -41,7 +41,8 @@ def main():
     routeb = load("ROUTE_B_RESULT_V1.json")
     frozen = [load("FROZEN_PREDICTIONS_V1.json"),
               load("FROZEN_PREDICTIONS_V2.json"),
-              load("FROZEN_PREDICTIONS_V3.json")]
+              load("FROZEN_PREDICTIONS_V3.json"),
+              load("FROZEN_PREDICTIONS_V4.json")]
     uni = dict((u["universe"], u) for u in result["universes"])
     cur = dict((c["universe"], c) for c in result["curves"])
     rbu = dict((u["universe"], u) for u in routeb["universes"])
@@ -58,7 +59,8 @@ def main():
 
     # ---- exact figures, all read from the receipts -----------------------
     f = {}
-    for key, row in (("syn", syn), ("arch", arch)):
+    syn2, arch2 = uni["SIGMA_SYN2"], uni["SIGMA_ARCH2"]
+    for key, row in (("syn", syn), ("arch", arch), ("syn2", syn2), ("arch2", arch2)):
         ps, cov = row["point_scoring"], row["coverage"]
         f[key] = {
             "points": ps["inputs_identified"],
@@ -71,6 +73,9 @@ def main():
             "law": row["registration"]["law_matches_simulation"],
             "machines": row["registration"]["machines"],
             "abst_rate": ps["abstention_rate_among_answerable"],
+            "nondeg": ps["nondegenerate_point_emissions"],
+            "nondeg_pairs": ps["nondegenerate_point_world_pairs"],
+            "nondeg_hits": ps["nondegenerate_point_hits"],
         }
 
     truthful_pairs = sum(uni[n]["point_scoring"]["truthfully_registered_world_pairs"]
@@ -103,41 +108,53 @@ def main():
     lines = {}
     lines["syn"] = (
         "- [x] Test predictor on held-out synthetic machine species. "
-        "— ✅ %s KE-1: on `SIGMA_SYN`, %d modular head machines disjoint from the "
-        "parent's `SIGMA_1` by the separating coordinate `rho[3]` (%d×32 descriptor pairs, "
-        "0 collisions), the UNMODIFIED parent `F` was run on a frozen grid of %d registered "
-        "inputs whose complete prediction stream was bound by sha256 at commit e46003d5 "
-        "before any outcome oracle existed — %d point emissions, %d abstentions, %d "
-        "inconsistent, 0 exceptions — and against externally evaluated capability "
-        "obtained by running every machine over the whole protected battery it is wrong on "
-        "**0 of %d (input, consistent-world) pairs**, with the emitted object containing the "
-        "true value on %d/%d pairs; the closed-form capability law agrees with brute-force "
-        "simulation on %d/%d machines, abstention among answerable inputs is `%s` so the "
-        "census is not satisfied by silence, and route B reproduces the frozen stream's "
-        "sha256 byte-exactly without importing `F` or this package."
-        % (PKG, f["syn"]["machines"], f["syn"]["machines"], syn["grid_size"],
-           f["syn"]["points"], f["syn"]["abstain"], f["syn"]["incons"], f["syn"]["pairs"],
-           f["syn"]["cov_hits"], f["syn"]["cov_pairs"], f["syn"]["law"],
-           f["syn"]["machines"], f["syn"]["abst_rate"]))
+        "— ✅ %s KE-1: two held-out synthetic species, `SIGMA_SYN` (%d modular head "
+        "machines) and the power-revival population `SIGMA_SYN2` (%d machines with a new "
+        "head-2 gate), each disjoint from the parent's `SIGMA_1` and from every other "
+        "registered population by the separating coordinate `rho[3]` with 0 descriptor "
+        "collisions on all 28 pairwise comparisons, were run through the UNMODIFIED parent "
+        "`F` on frozen grids of %d inputs each whose complete prediction streams were bound "
+        "by sha256 before any outcome oracle existed (commits e46003d5 and f60377bd); "
+        "against externally evaluated capability obtained by RUNNING every machine over the "
+        "whole protected battery, `F` is wrong on **0 of %d and 0 of %d (input, "
+        "consistent-world) pairs**, and on `SIGMA_SYN2` **%d of its %d point emissions are "
+        "non-degenerate** — taking the capability values 4/11, 5/11 and 9/11 over %d pairs — "
+        "which matters because on `SIGMA_SYN` every identified value was degenerate "
+        "(`UNSATISFIED` or 0), a power defect of the instrument that this tranche found "
+        "prediction-side and fixed with a finer registered observation rather than reporting "
+        "as a positive; the closed-form capability law agrees with brute-force simulation on "
+        "%d/%d and %d/%d machines, abstention among answerable inputs is `%s` so silence is "
+        "never scored as success, and route B reproduces both frozen streams' sha256 "
+        "byte-exactly without importing `F` or this package."
+        % (PKG, f["syn"]["machines"], f["syn2"]["machines"], syn["grid_size"],
+           f["syn"]["pairs"], f["syn2"]["pairs"], f["syn2"]["nondeg"], f["syn2"]["points"],
+           f["syn2"]["nondeg_pairs"], f["syn"]["law"], f["syn"]["machines"],
+           f["syn2"]["law"], f["syn2"]["machines"], f["syn"]["abst_rate"]))
     lines["arch"] = (
         "- [x] Test predictor on held-out known architectures. "
-        "— ✅ %s KE-2: on `SIGMA_ARCH`, %d machines drawn from four named mechanism "
+        "— ✅ %s KE-2: two held-out populations drawn from four named mechanism "
         "families (`FF` window, `REC` recurrent accumulator, `CTR` saturating counter, `STK` "
-        "bounded stack) disjoint from both `SIGMA_1` and `SIGMA_SYN`, `F` emits %d points and "
-        "abstains %d times over %d frozen inputs and is wrong on **0 of %d pairs**, coverage "
-        "%d/%d, closed-form law versus simulation %d/%d; family names are blind structurally, "
-        "not by convention — no realization record contains any string, an `ast` reference "
+        "bounded stack) — `SIGMA_ARCH` (%d machines) and `SIGMA_ARCH2` (%d, adding the "
+        "parameters FF 3, REC 6 and CTR 3) — are disjoint from every other registered "
+        "population, and `F` is wrong on **0 of %d and 0 of %d (input, consistent-world) "
+        "pairs**, with **%d of `SIGMA_ARCH2`'s %d point emissions non-degenerate** (4/13, "
+        "7/13, 11/13) over %d pairs; the closed-form law — derived from the claim that a "
+        "saturating counter with cap at least the word length tracks the ones-count exactly "
+        "while a bounded window or a stack height does not — agrees with brute-force "
+        "simulation on %d/%d and %d/%d machines; and the family NAME is blind structurally, "
+        "not by convention: no realization record contains any string, an `ast` reference "
         "audit over the encoder and all five mask builders finds no path to the label list "
         "(negative control: a planted `ARCH_LABELS[0]` encoder is flagged), rebuilding the "
-        "universe under all 24 permutations of the family names reproduces it exactly, and `k` "
-        "is strictly coarser than family identity since `REC` and `CTR` share `k=1`."
-        % (PKG, f["arch"]["machines"], f["arch"]["points"], f["arch"]["abstain"],
-           arch["grid_size"], f["arch"]["pairs"], f["arch"]["cov_hits"],
-           f["arch"]["cov_pairs"], f["arch"]["law"], f["arch"]["machines"]))
+        "universe under all 24 permutations of the family names reproduces it exactly, and "
+        "`k` is strictly coarser than family identity since `REC` and `CTR` share `k=1`."
+        % (PKG, f["arch"]["machines"], f["arch2"]["machines"], f["arch"]["pairs"],
+           f["arch2"]["pairs"], f["arch2"]["nondeg"], f["arch2"]["points"],
+           f["arch2"]["nondeg_pairs"], f["arch"]["law"], f["arch"]["machines"],
+           f["arch2"]["law"], f["arch2"]["machines"]))
     lines["qual"] = (
         "- [x] Predict qualitative failure before evaluation. "
         "— ✅ %s KE-4: the binding mode of the parent's ten-mode KP-2 taxonomy was "
-        "emitted for every one of 5×%d registered inputs and bound by sha256 in the freeze "
+        "emitted for every one of 7×%d registered inputs and bound by sha256 in the freeze "
         "commit before any outcome oracle existed, together with a per-case KP-2D order class "
         "fixed at the same moment (`SIGMA_SYN` %d order-free / %d conjunctive / %d "
         "no-crossing; `SIGMA_ARCH` %d / %d / %d), and the externally attributed mode — "
@@ -253,7 +270,7 @@ def main():
         assert " — ✅ " in row["new"], row["old"]
         sys.stdout.write("  %-70s new=%d chars\n" % (row["old"][6:], len(row["new"])))
     assert len(payload["replacements"]) == 6
-    assert routes_agree == 5, routes_agree
+    assert routes_agree == 7, routes_agree
     assert truthful_viol == 0, truthful_viol
 
     body = json.dumps(payload, indent=2, sort_keys=True)

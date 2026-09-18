@@ -1,0 +1,62 @@
+{
+  "claim_ceiling": "GMI_833_HELDOUT_AND_OOD_EVALUATION_OF_THE_EXACT_CAPABILITY_PREDICTOR_AT_REGISTERED_FINITE_SCOPE",
+  "evidence": {
+    "freeze_commit": "e46003d524d532989f73d2f37ebc7c136577a09d",
+    "result": "research/gmi-833-capability-predictor-evaluation-v1/RESULT_V1.json",
+    "route_b_result": "research/gmi-833-capability-predictor-evaluation-v1/ROUTE_B_RESULT_V1.json",
+    "route_b_universes_reproducing_the_frozen_sha256": 7
+  },
+  "forbidden_promotions": [
+    "NO_UNIVERSAL_CAPABILITY_PREDICTION_CLAIM",
+    "NO_CLAIM_BEYOND_THE_REGISTERED_HELDOUT_UNIVERSES",
+    "NO_CLAIM_THAT_REAL_TRAINING_OUTCOMES_GENERALISE_BEYOND_THE_PINNED_SOURCE",
+    "NO_PROMOTION_OF_FINITE_EXACT_COVERAGE_TO_ASYMPTOTIC_CALIBRATION",
+    "NO_REWRITE_OF_PARENT_ROWS_KP1_KP2_KP3"
+  ],
+  "issue": 833,
+  "package": "gmi-833-capability-predictor-evaluation-v1",
+  "replacements": [
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "new": "- [x] Test predictor on held-out synthetic machine species. \u2014 \u2705 gmi-833-capability-predictor-evaluation-v1 KE-1: two held-out synthetic species, `SIGMA_SYN` (64 modular head machines) and the power-revival population `SIGMA_SYN2` (128 machines with a new head-2 gate), each disjoint from the parent's `SIGMA_1` and from every other registered population by the separating coordinate `rho[3]` with 0 descriptor collisions on all 28 pairwise comparisons, were run through the UNMODIFIED parent `F` on frozen grids of 51840 inputs each whose complete prediction streams were bound by sha256 before any outcome oracle existed (commits e46003d5 and f60377bd); against externally evaluated capability obtained by RUNNING every machine over the whole protected battery, `F` is wrong on **0 of 45800 and 0 of 25216 (input, consistent-world) pairs**, and on `SIGMA_SYN2` **3872 of its 7200 point emissions are non-degenerate** \u2014 taking the capability values 4/11, 5/11 and 9/11 over 13472 pairs \u2014 which matters because on `SIGMA_SYN` every identified value was degenerate (`UNSATISFIED` or 0), a power defect of the instrument that this tranche found prediction-side and fixed with a finer registered observation rather than reporting as a positive; the closed-form capability law agrees with brute-force simulation on 64/64 and 128/128 machines, abstention among answerable inputs is `1801/2568` so silence is never scored as success, and route B reproduces both frozen streams' sha256 byte-exactly without importing `F` or this package.",
+      "old": "- [ ] Test predictor on held-out synthetic machine species."
+    },
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "new": "- [x] Test predictor on held-out known architectures. \u2014 \u2705 gmi-833-capability-predictor-evaluation-v1 KE-2: two held-out populations drawn from four named mechanism families (`FF` window, `REC` recurrent accumulator, `CTR` saturating counter, `STK` bounded stack) \u2014 `SIGMA_ARCH` (128 machines) and `SIGMA_ARCH2` (176, adding the parameters FF 3, REC 6 and CTR 3) \u2014 are disjoint from every other registered population, and `F` is wrong on **0 of 121920 and 0 of 24912 (input, consistent-world) pairs**, with **2400 of `SIGMA_ARCH2`'s 9488 point emissions non-degenerate** (4/13, 7/13, 11/13) over 5408 pairs; the closed-form law \u2014 derived from the claim that a saturating counter with cap at least the word length tracks the ones-count exactly while a bounded window or a stack height does not \u2014 agrees with brute-force simulation on 128/128 and 176/176 machines; and the family NAME is blind structurally, not by convention: no realization record contains any string, an `ast` reference audit over the encoder and all five mask builders finds no path to the label list (negative control: a planted `ARCH_LABELS[0]` encoder is flagged), rebuilding the universe under all 24 permutations of the family names reproduces it exactly, and `k` is strictly coarser than family identity since `REC` and `CTR` share `k=1`.",
+      "old": "- [ ] Test predictor on held-out known architectures."
+    },
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "new": "- [x] Predict qualitative failure before evaluation. \u2014 \u2705 gmi-833-capability-predictor-evaluation-v1 KE-4: the binding mode of the parent's ten-mode KP-2 taxonomy was emitted for every one of 7\u00d751840 registered inputs and bound by sha256 in the freeze commit before any outcome oracle existed, together with a per-case KP-2D order class fixed at the same moment (`SIGMA_SYN` 8577 order-free / 8311 conjunctive / 3656 no-crossing; `SIGMA_ARCH` 10586 / 12470 / 3776), and the externally attributed mode \u2014 recomputed from measured capabilities by the independent evaluator \u2014 is reported as a confusion matrix stratified by that class and never pooled, since scoring a conjunctive case as a miss would measure the ambiguity KP-2D already proved; on the truthfully-registered universes agreement is exact but co-extensive with registration truthfulness by an algebraic identity, so the substantive evidence is the 14594 off-diagonal attributions on the real-system universes where registration fails, which is the measured cost of a bridge failure rather than of the taxonomy.",
+      "old": "- [ ] Predict qualitative failure before evaluation."
+    },
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "new": "- [x] Predict quantitative resource/capability curves before evaluation. \u2014 \u2705 gmi-833-capability-predictor-evaluation-v1 KE-5: 672 swept points \u2014 8 registered curve cases \u00d7 4 thresholds \u00d7 7 held-out universes, each sweeping the resource coordinate `R.budget` across all three registered budgets \u2014 had their predicted disposition, point and identified set frozen in `FROZEN_PREDICTIONS_V1/V2/V3.json` before any outcome oracle existed; the replay reproduces every frozen curve point with **0 mismatches**, and of the 92 swept points where `F` emits a point the externally evaluated capability agrees exactly on **76**, reported as per-point exact agreement with no fitted summary and no error norm.",
+      "old": "- [ ] Predict quantitative resource/capability curves before evaluation."
+    },
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "new": "- [x] Measure calibration error. \u2014 \u2705 gmi-833-capability-predictor-evaluation-v1 KE-6: the parent proved exact finite coverage with all registered relations assumed good and explicitly did not claim empirical calibration; this measures exact coverage under the registered fault law in which the typed-uncertainty source and each of the four registered relations `M`,`D`,`B`,`H` fails at exactly its rate (`alpha`,1/100,1/200,1/500,1/50), enumerating all 32 fault patterns with exact rational weights \u2014 against the U-2B bounds `913/1000` and `863/1000` the minimum empirical coverage over 5184 and 7680 emissions is `1191567620413/1224000000000` and `2380730729/2448000000` with **0 violations** and **0 point-emission violations** (minima `1191567620413/1224000000000`, `2380730729/2448000000` over 1312 and 2412 point emissions), every figure reported beside its abstention rate (`121/162`, `439/640`) so that silence cannot masquerade as calibration, FeasibleSet emissions excluded rather than scored 1 because U-1a carries no probability premise, and the hostile that inflates every `beta` twenty-fold does produce violations.",
+      "old": "- [ ] Measure calibration error."
+    },
+    {
+      "anchor": "# K. Capability theory upgrade",
+      "new": "- [x] Measure out-of-distribution failure. \u2014 \u2705 gmi-833-capability-predictor-evaluation-v1 KE-7: out-of-distribution is defined structurally \u2014 a world is out-of-universe iff its realization is not a member of the installed universe, and only the three cuts that are properties of the world can exclude it \u2014 giving `SIGMA_OOD`, 272 worlds built by relaxing each generator coordinate of `SIGMA_SYN` one at a time (head, modulus, register); the two strata are reported side by side and never merged: in-universe, soundness was actively attacked over **45800 (input, world) pairs with 0 violations**, while out-of-universe, across 20544 probed inputs and 859008 (input, OOD-world) pairs, 705732 lie inside the emitted identified set and 44172 point emissions are wrong \u2014 and per KP-1D that is the parent's declared registration boundary restated, attributable to registration and not a soundness failure of `F`.",
+      "old": "- [ ] Measure out-of-distribution failure."
+    }
+  ],
+  "rows_deliberately_left_open": [
+    {
+      "adjacent_scoped_positive": {
+        "id": "KE-3",
+        "soundness_violations_on_them": 0,
+        "truthfully_registered_world_pairs": 143352
+      },
+      "old": "- [ ] Test predictor on real trained systems.",
+      "reason": "KE-3D, a boundary EARNED BY COUNTEREXAMPLE: three registration laws were frozen prospectively on three disjoint populations of real trained systems and all three were falsified by their own pre-registered falsifiers; truthfulness went 19/32 -> 28/32 -> 26/32, not monotone. F itself is wrong on 0 of 143352 (input, truthfully-registered-world) pairs across all three populations, but the bridge premise KP-1D names is not attainable from the registered structural coordinates at this scope. The row is not closed on synthetic data, and a fourth law fitted to those counterexamples would be outcome tuning; the terminal was pre-registered in FREEZE_V3_ADDENDUM.md section 6 before the V3 outcomes existed."
+    }
+  ],
+  "schema": "GMI_ISSUE_RECONCILIATION_V2"
+}
