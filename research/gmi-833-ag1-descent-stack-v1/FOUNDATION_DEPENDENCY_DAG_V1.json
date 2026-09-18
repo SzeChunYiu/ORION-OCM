@@ -1,0 +1,1021 @@
+{
+ "arrow_vocabulary": [
+  "DERIVATION",
+  "FREE_CONSTRUCTION",
+  "INTERPRETATION_MODEL",
+  "COMPILATION",
+  "DEVELOPMENT",
+  "SELECTION",
+  "MUTUAL_INTERPRETATION"
+ ],
+ "assumption_classes": [
+  "MATHEMATICAL_FOUNDATION",
+  "LOGIC/METATHEORY",
+  "PHYSICAL_SUBSTRATE_LAW",
+  "RESOURCE_MODEL",
+  "VALUE/REQUIREMENT_INPUT"
+ ],
+ "divergence_profile": {
+  "SYS_FROZEN": {
+   "F0": "FND_SET_RELATION",
+   "F1": "OPF_PROCESS_FRAME",
+   "F2": "THR_OPERATIONAL_EQUIVALENCE",
+   "F3": "PRS_AJ5_ROLE_BASIS",
+   "F4": "GRM_G0",
+   "F5": "MDL_AJ4_ORGANIZATIONS",
+   "F6": "DEV_NONE__FROZEN_EDIT_SET",
+   "F7": "MRP_CLASS_SINGLETON",
+   "F8": "CAP_BEST_IDENTITY_ERROR=1/2",
+   "F9": "SEL_NOT_PREFERRED"
+  },
+  "SYS_ONE_EDIT": {
+   "F0": "FND_SET_RELATION",
+   "F1": "OPF_PROCESS_FRAME",
+   "F2": "THR_OPERATIONAL_EQUIVALENCE",
+   "F3": "PRS_AJ5_ROLE_BASIS",
+   "F4": "GRM_G0",
+   "F5": "MDL_AJ4_ORGANIZATIONS",
+   "F6": "DEV_ONE_EDIT_LAW",
+   "F7": "MRP_CLASS_REACHABLE_SET",
+   "F8": "CAP_BEST_IDENTITY_ERROR=0",
+   "F9": "SEL_PREFERRED_UNDER_IDENTITY_REQUIREMENT"
+  },
+  "capability_at_divergence": {
+   "SYS_FROZEN": "1/2",
+   "SYS_ONE_EDIT": "0"
+  },
+  "capability_meaning": "best achievable identity-task error after development; exact rationals",
+  "expected_first_divergence_layer": "F6",
+  "layers": [
+   "F0",
+   "F1",
+   "F2",
+   "F3",
+   "F4",
+   "F5",
+   "F6",
+   "F7",
+   "F8",
+   "F9"
+  ],
+  "pair_id": "SAME_CURRENT_ORGANIZATION__DIFFERENT_DEVELOPMENTAL_CONTEXT",
+  "source": {
+   "fields": [
+    "current_organization_same",
+    "same_current_capability_different_future_pairs",
+    "frozen_future_best_identity_error",
+    "one_edit_future_best_identity_error"
+   ],
+   "package": "gmi-833-aj6-hst-layer-map-v1"
+  },
+  "systems": [
+   "SYS_FROZEN",
+   "SYS_ONE_EDIT"
+  ]
+ },
+ "edge_semantics": "edge {from,to,kind} reads: `from` is obtained from `to` by `kind`. No non-MUTUAL_INTERPRETATION edge may point UP a layer. A cross-layer arrow F_i->F_j has layer(from) strictly above layer(to); an intra-layer refinement (same layer, e.g. AJ3 refining AJ2) must carry \"intra_layer\": true and is not a foundation-descent arrow. MUTUAL_INTERPRETATION edges must be symmetric and same-layer.",
+ "edges": [
+  {
+   "from": "FND_SET_RELATION",
+   "kind": "MUTUAL_INTERPRETATION",
+   "to": "FND_TYPED_ALGEBRAIC",
+   "witness": {
+    "field": "composition_transfer_checks",
+    "package": "gmi-833-aj12-foundation-substrate-relativity-v1"
+   }
+  },
+  {
+   "from": "FND_TYPED_ALGEBRAIC",
+   "kind": "MUTUAL_INTERPRETATION",
+   "to": "FND_SET_RELATION",
+   "witness": {
+    "field": "theorem_invariance",
+    "package": "gmi-833-aj12-foundation-substrate-relativity-v1"
+   }
+  },
+  {
+   "from": "OPF_PROCESS_FRAME",
+   "kind": "DERIVATION",
+   "to": "FND_SET_RELATION",
+   "witness": {
+    "field": "formalization_styles",
+    "package": "gmi-833-aj12-foundation-substrate-relativity-v1"
+   }
+  },
+  {
+   "from": "OPF_PROCESS_FRAME",
+   "kind": "DERIVATION",
+   "to": "FND_TYPED_ALGEBRAIC",
+   "witness": {
+    "field": "formalization_styles",
+    "package": "gmi-833-aj12-foundation-substrate-relativity-v1"
+   }
+  },
+  {
+   "from": "ADM_S",
+   "kind": "DERIVATION",
+   "to": "PHY_SUBSTRATE_LAW",
+   "witness": {
+    "field": "substrate_admissibility_twin",
+    "package": "gmi-833-aj1-operational-process-base-v1"
+   }
+  },
+  {
+   "from": "OBS_S",
+   "kind": "DERIVATION",
+   "to": "FND_SET_RELATION",
+   "witness": {
+    "field": "relative_irredundancy_removals",
+    "package": "gmi-833-aj1-operational-process-base-v1"
+   }
+  },
+  {
+   "from": "SUB_STANDARD_EFFECTIVE",
+   "kind": "DERIVATION",
+   "to": "PHY_SUBSTRATE_LAW",
+   "witness": {
+    "field": "standard_effective_substrate",
+    "package": "gmi-833-aj12-foundation-substrate-relativity-v1"
+   }
+  },
+  {
+   "from": "THR_OPERATIONAL_EQUIVALENCE",
+   "kind": "DERIVATION",
+   "to": "OPF_PROCESS_FRAME",
+   "witness": {
+    "field": "response_tables_exhausted",
+    "package": "gmi-833-aj2-operational-equivalence-v1"
+   }
+  },
+  {
+   "from": "THR_OPERATIONAL_EQUIVALENCE",
+   "kind": "DERIVATION",
+   "to": "OBS_S",
+   "witness": {
+    "field": "effect_role",
+    "package": "gmi-833-aj2-operational-equivalence-v1"
+   }
+  },
+  {
+   "from": "THR_DISTINGUISHABILITY",
+   "intra_layer": true,
+   "kind": "DERIVATION",
+   "to": "THR_OPERATIONAL_EQUIVALENCE",
+   "witness": {
+    "field": "claim_ceiling",
+    "package": "gmi-833-aj3-distinguishability-v1"
+   }
+  },
+  {
+   "from": "THR_PARENT_EQUIVALENCE_BOUNDARY",
+   "intra_layer": true,
+   "kind": "DERIVATION",
+   "to": "THR_OPERATIONAL_EQUIVALENCE",
+   "witness": {
+    "field": "parent_map",
+    "package": "gmi-833-parent-equivalence-v1"
+   }
+  },
+  {
+   "from": "THR_STOCHASTIC_KERNELS",
+   "kind": "DERIVATION",
+   "to": "OPF_PROCESS_FRAME",
+   "witness": {
+    "field": "census",
+    "package": "gmi-833-g0-stochastic-update-v1"
+   }
+  },
+  {
+   "from": "THR_TYPED_INTERACTION",
+   "kind": "DERIVATION",
+   "to": "OPF_PROCESS_FRAME",
+   "witness": {
+    "field": "census",
+    "package": "gmi-833-g0-interaction-channels-v1"
+   }
+  },
+  {
+   "from": "THR_LOCAL_GLOBAL_GRAPH",
+   "kind": "DERIVATION",
+   "to": "OPF_PROCESS_FRAME",
+   "witness": {
+    "field": "equivariance_census",
+    "package": "gmi-833-g0-local-graph-ops-v1"
+   }
+  },
+  {
+   "from": "PRS_AJ5_ROLE_BASIS",
+   "kind": "DERIVATION",
+   "to": "OPF_PROCESS_FRAME",
+   "witness": {
+    "field": "presentations",
+    "package": "gmi-833-aj5-g0-lowering-v1"
+   }
+  },
+  {
+   "from": "PRS_AJ5_ROLE_BASIS",
+   "kind": "DERIVATION",
+   "to": "THR_TYPED_INTERACTION",
+   "witness": {
+    "field": "semantic_invariants",
+    "package": "gmi-833-aj5-g0-lowering-v1"
+   }
+  },
+  {
+   "from": "SIG_G0",
+   "intra_layer": true,
+   "kind": "DERIVATION",
+   "to": "PRS_AJ5_ROLE_BASIS",
+   "witness": {
+    "field": "primitive_status",
+    "package": "gmi-833-aj5-g0-lowering-v1"
+   }
+  },
+  {
+   "from": "GRM_G0",
+   "kind": "FREE_CONSTRUCTION",
+   "to": "SIG_G0",
+   "witness": {
+    "field": "g0_reconstruction",
+    "package": "gmi-833-ag2-signature-free-syntax-v1"
+   }
+  },
+  {
+   "from": "MDL_G0_LOWERED",
+   "kind": "COMPILATION",
+   "to": "GRM_G0",
+   "witness": {
+    "field": "semantic_execution_cases",
+    "package": "gmi-833-aj5-g0-lowering-v1"
+   }
+  },
+  {
+   "from": "MDL_G0_LOWERED",
+   "kind": "INTERPRETATION_MODEL",
+   "to": "PRS_AJ5_ROLE_BASIS",
+   "witness": {
+    "field": "functional_lowering_mismatches",
+    "package": "gmi-833-aj5-g0-lowering-v1"
+   }
+  },
+  {
+   "from": "MDL_AJ4_ORGANIZATIONS",
+   "kind": "INTERPRETATION_MODEL",
+   "to": "OPF_PROCESS_FRAME",
+   "witness": {
+    "field": "finite_machine_space",
+    "package": "gmi-833-aj4-process-organizations-v1"
+   }
+  },
+  {
+   "from": "MDL_AJ4_ORGANIZATIONS",
+   "kind": "INTERPRETATION_MODEL",
+   "to": "ADM_S",
+   "witness": {
+    "field": "delay_status",
+    "package": "gmi-833-aj4-process-organizations-v1"
+   }
+  },
+  {
+   "from": "MDL_NEGATIVE_CONTROLS",
+   "intra_layer": true,
+   "kind": "INTERPRETATION_MODEL",
+   "to": "MDL_AJ4_ORGANIZATIONS",
+   "witness": {
+    "field": "negative_controls",
+    "package": "gmi-833-aj8-intelligence-boundary-v1"
+   }
+  },
+  {
+   "from": "DEV_HST_SIGMA",
+   "kind": "DEVELOPMENT",
+   "to": "MDL_AJ4_ORGANIZATIONS",
+   "witness": {
+    "field": "contextual_lift",
+    "package": "gmi-833-aj6-hst-layer-map-v1"
+   }
+  },
+  {
+   "from": "DEV_GOVERNED_SELF_CHANGE",
+   "kind": "DEVELOPMENT",
+   "to": "MDL_G0_LOWERED",
+   "witness": {
+    "field": "census",
+    "package": "gmi-833-g0-governed-self-change-v1"
+   }
+  },
+  {
+   "from": "DEV_GRAMMAR_GROWTH",
+   "kind": "DEVELOPMENT",
+   "to": "GRM_G0",
+   "witness": {
+    "field": "claim_ceiling",
+    "package": "gmi-833-g0-grammar-growth-v1"
+   }
+  },
+  {
+   "from": "MRP_AJ11_ATLAS",
+   "kind": "DERIVATION",
+   "to": "MDL_AJ4_ORGANIZATIONS",
+   "witness": {
+    "field": "bounded_scope",
+    "package": "gmi-833-aj11-bounded-completeness-v1"
+   }
+  },
+  {
+   "from": "MRP_AJ11_ATLAS",
+   "kind": "DEVELOPMENT",
+   "to": "DEV_HST_SIGMA",
+   "witness": {
+    "field": "development_all_260_reachable",
+    "package": "gmi-833-aj11-bounded-completeness-v1"
+   }
+  },
+  {
+   "from": "MRP_AJ9_FAMILIES",
+   "intra_layer": true,
+   "kind": "DERIVATION",
+   "to": "MRP_AJ11_ATLAS",
+   "witness": {
+    "field": "registered_families_recovered_at_their_declared_finite_scopes",
+    "package": "gmi-833-aj9h-k07-k11-blind-recovery-v1"
+   }
+  },
+  {
+   "from": "CAP_AJ8_BOUNDARY",
+   "kind": "DERIVATION",
+   "to": "MRP_AJ11_ATLAS",
+   "witness": {
+    "field": "capability_vector_histogram",
+    "package": "gmi-833-aj11-bounded-completeness-v1"
+   }
+  },
+  {
+   "from": "CAP_AJ8_BOUNDARY",
+   "kind": "DEVELOPMENT",
+   "to": "DEV_HST_SIGMA",
+   "witness": {
+    "field": "same_current_capability_different_future_pairs",
+    "package": "gmi-833-aj6-hst-layer-map-v1"
+   }
+  },
+  {
+   "from": "CAP_AJ8_BOUNDARY",
+   "kind": "DERIVATION",
+   "to": "MDL_NEGATIVE_CONTROLS",
+   "witness": {
+    "field": "identity_scores",
+    "package": "gmi-833-aj8-intelligence-boundary-v1"
+   }
+  },
+  {
+   "from": "CAP_PREDICTOR",
+   "intra_layer": true,
+   "kind": "DERIVATION",
+   "to": "CAP_AJ8_BOUNDARY",
+   "witness": {
+    "field": "claim_ceiling",
+    "package": "gmi-833-capability-predictor-v1"
+   }
+  },
+  {
+   "from": "SEL_REQ_PROVENANCE",
+   "kind": "SELECTION",
+   "to": "VAL_REQUIREMENT_INPUT",
+   "witness": {
+    "field": "objective_source_types",
+    "package": "gmi-833-aj7-objective-provenance-v1"
+   }
+  },
+  {
+   "from": "SEL_MORPHOLOGY_PARETO",
+   "kind": "SELECTION",
+   "to": "CAP_PREDICTOR",
+   "witness": {
+    "field": "census",
+    "package": "gmi-833-morphology-selection-v1"
+   }
+  },
+  {
+   "from": "SEL_MORPHOLOGY_PARETO",
+   "intra_layer": true,
+   "kind": "SELECTION",
+   "to": "SEL_REQ_PROVENANCE",
+   "witness": {
+    "field": "provenance_records",
+    "package": "gmi-833-aj7-objective-provenance-v1"
+   }
+  },
+  {
+   "from": "SEL_MORPHOLOGY_PARETO",
+   "kind": "SELECTION",
+   "to": "RES_COST_MODEL",
+   "witness": {
+    "field": "witness",
+    "package": "gmi-833-morphology-selection-v1"
+   }
+  }
+ ],
+ "g0_demotion": {
+  "evidence": {
+   "fields": [
+    "primitive_status",
+    "semantic_execution_cases",
+    "dynamic_time_bound"
+   ],
+   "package": "gmi-833-aj5-g0-lowering-v1"
+  },
+  "forbidden_layers": [
+   "F0",
+   "F1",
+   "F2"
+  ],
+  "node": "GRM_G0",
+  "required_layer": "F4",
+  "statement": "G0 is the free syntax generated from the signature Sigma_G0 at F4 and is compiled down to the AJ5 role basis at F3; it is not the bottom substrate."
+ },
+ "issue": 833,
+ "layers": [
+  {
+   "id": "F0",
+   "name": "MATHEMATICAL FOUNDATION / META-THEORY"
+  },
+  {
+   "id": "F1",
+   "name": "SEMANTIC / PROCESS UNIVERSE"
+  },
+  {
+   "id": "F2",
+   "name": "ALGEBRAIC / PROCESS THEORY"
+  },
+  {
+   "id": "F3",
+   "name": "SIGNATURE / PRESENTATION"
+  },
+  {
+   "id": "F4",
+   "name": "FREE SYNTAX / TERM ALGEBRA / GRAMMAR"
+  },
+  {
+   "id": "F5",
+   "name": "MACHINE REALIZATION / MODEL"
+  },
+  {
+   "id": "F6",
+   "name": "DEVELOPMENTAL DYNAMICS"
+  },
+  {
+   "id": "F7",
+   "name": "MACHINE-INTELLIGENCE MORPHOLOGY / SPECIES"
+  },
+  {
+   "id": "F8",
+   "name": "DEVELOPMENTAL CAPABILITY RESPONSE"
+  },
+  {
+   "id": "F9",
+   "name": "DATA/TASK-CONDITIONED SELECTION"
+  }
+ ],
+ "lowering_vocabulary": [
+  "DERIVED",
+  "RESOURCE_IRREDUCIBLE_AT_SCOPE",
+  "SEMANTICALLY_IRREDUCIBLE_AT_SCOPE",
+  "PRESENTATION_ONLY",
+  "UNKNOWN"
+ ],
+ "nodes": [
+  {
+   "ai0_node": null,
+   "id": "FND_SET_RELATION",
+   "introduced_from_layer": null,
+   "layer": "F0",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [
+    {
+     "assumption": "finite carriers and extensional equality",
+     "class": "MATHEMATICAL_FOUNDATION"
+    },
+    {
+     "assumption": "classical decidable finite reasoning",
+     "class": "LOGIC/METATHEORY"
+    }
+   ],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj12-foundation-substrate-relativity-v1",
+   "primitive": false,
+   "title": "Finite-set / functional-relation formalization style"
+  },
+  {
+   "ai0_node": null,
+   "id": "FND_TYPED_ALGEBRAIC",
+   "introduced_from_layer": null,
+   "layer": "F0",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [
+    {
+     "assumption": "finite carriers and extensional equality",
+     "class": "MATHEMATICAL_FOUNDATION"
+    },
+    {
+     "assumption": "classical decidable finite reasoning",
+     "class": "LOGIC/METATHEORY"
+    }
+   ],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj12-foundation-substrate-relativity-v1",
+   "primitive": false,
+   "title": "Explicit typed objects and typed process records formalization style"
+  },
+  {
+   "ai0_node": null,
+   "id": "MTB_GODEL_TARSKI",
+   "introduced_from_layer": null,
+   "layer": "F0",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [
+    {
+     "assumption": "object-language/metalanguage separation for sufficiently expressive languages",
+     "class": "LOGIC/METATHEORY"
+    },
+    {
+     "assumption": "consistency and effectiveness conditions of the incompleteness theorems",
+     "class": "LOGIC/METATHEORY"
+    }
+   ],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj12-foundation-substrate-relativity-v1",
+   "primitive": false,
+   "title": "Goedel incompleteness and Tarski object/metalanguage boundary"
+  },
+  {
+   "ai0_node": null,
+   "id": "PHY_SUBSTRATE_LAW",
+   "introduced_from_layer": null,
+   "layer": "F0",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [
+    {
+     "assumption": "which mathematical processes are physically or computationally admitted",
+     "class": "PHYSICAL_SUBSTRATE_LAW"
+    }
+   ],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj12-foundation-substrate-relativity-v1",
+   "primitive": false,
+   "title": "Declared physical/computational admissibility law"
+  },
+  {
+   "ai0_node": null,
+   "id": "RES_COST_MODEL",
+   "introduced_from_layer": null,
+   "layer": "F0",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [
+    {
+     "assumption": "unit and vector costs charged to a process",
+     "class": "RESOURCE_MODEL"
+    }
+   ],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj12-foundation-substrate-relativity-v1",
+   "primitive": false,
+   "title": "Declared resource/cost model"
+  },
+  {
+   "ai0_node": null,
+   "id": "VAL_REQUIREMENT_INPUT",
+   "introduced_from_layer": null,
+   "layer": "F0",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [
+    {
+     "assumption": "what outcomes count as successful or preferred",
+     "class": "VALUE/REQUIREMENT_INPUT"
+    }
+   ],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj12-foundation-substrate-relativity-v1",
+   "primitive": false,
+   "title": "Declared protected task/utility input"
+  },
+  {
+   "ai0_node": "AJ_PROCESS_BOTTOM",
+   "id": "OPF_PROCESS_FRAME",
+   "introduced_from_layer": null,
+   "layer": "F1",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj1-operational-process-base-v1",
+   "primitive": false,
+   "title": "AJ1 typed operational process frame O_S=(Obj,Proc,compose,tensor,I,id,Adm_S,Obs_S)"
+  },
+  {
+   "ai0_node": null,
+   "id": "ADM_S",
+   "introduced_from_layer": "F0",
+   "layer": "F1",
+   "lowering_status": "SEMANTICALLY_IRREDUCIBLE_AT_SCOPE",
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj1-operational-process-base-v1",
+   "primitive": true,
+   "title": "Substrate admissibility predicate Adm_S"
+  },
+  {
+   "ai0_node": null,
+   "id": "OBS_S",
+   "introduced_from_layer": "F0",
+   "layer": "F1",
+   "lowering_status": "SEMANTICALLY_IRREDUCIBLE_AT_SCOPE",
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj1-operational-process-base-v1",
+   "primitive": true,
+   "title": "Registered operational observation map Obs_S"
+  },
+  {
+   "ai0_node": null,
+   "id": "SUB_STANDARD_EFFECTIVE",
+   "introduced_from_layer": null,
+   "layer": "F1",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj12-foundation-substrate-relativity-v1",
+   "primitive": false,
+   "title": "Standard effective (Turing) computational substrate baseline"
+  },
+  {
+   "ai0_node": "AJ_PROCESS_BOTTOM",
+   "id": "THR_OPERATIONAL_EQUIVALENCE",
+   "introduced_from_layer": null,
+   "layer": "F2",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj2-operational-equivalence-v1",
+   "primitive": false,
+   "title": "AJ2 contextual operational equivalence and state reconstruction"
+  },
+  {
+   "ai0_node": "AJ_PROCESS_BOTTOM",
+   "id": "THR_DISTINGUISHABILITY",
+   "introduced_from_layer": null,
+   "layer": "F2",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj3-distinguishability-v1",
+   "primitive": false,
+   "title": "AJ3 distinguishability, resource access and decision relevance"
+  },
+  {
+   "ai0_node": null,
+   "id": "THR_PARENT_EQUIVALENCE_BOUNDARY",
+   "introduced_from_layer": null,
+   "layer": "F2",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-parent-equivalence-v1",
+   "primitive": false,
+   "title": "Myhill-Nerode / bisimulation / PSR equivalence boundaries"
+  },
+  {
+   "ai0_node": null,
+   "id": "THR_STOCHASTIC_KERNELS",
+   "introduced_from_layer": null,
+   "layer": "F2",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-g0-stochastic-update-v1",
+   "primitive": false,
+   "title": "Exact finite stochastic-kernel process theory"
+  },
+  {
+   "ai0_node": null,
+   "id": "THR_TYPED_INTERACTION",
+   "introduced_from_layer": null,
+   "layer": "F2",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-g0-interaction-channels-v1",
+   "primitive": false,
+   "title": "Typed interaction/channel process theory"
+  },
+  {
+   "ai0_node": null,
+   "id": "THR_LOCAL_GLOBAL_GRAPH",
+   "introduced_from_layer": null,
+   "layer": "F2",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-g0-local-graph-ops-v1",
+   "primitive": false,
+   "title": "Local/global graph operator semantics"
+  },
+  {
+   "ai0_node": "G0_PRESENTATION",
+   "id": "PRS_AJ5_ROLE_BASIS",
+   "introduced_from_layer": null,
+   "layer": "F3",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj5-g0-lowering-v1",
+   "primitive": false,
+   "title": "AJ5 lower operational role basis (NEXT_INPUT/LOAD/STORE/SUCC/IS_ZERO/PRED_POS/SELECT/APPEND_OUTPUT/TERMINAL)"
+  },
+  {
+   "ai0_node": null,
+   "id": "SIG_G0",
+   "introduced_from_layer": null,
+   "layer": "F3",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-ag2-signature-free-syntax-v1",
+   "primitive": false,
+   "title": "Many-sorted signature Sigma_G0=(Sorts,Ops,arity) presenting the G0 instruction language"
+  },
+  {
+   "ai0_node": "G0_PRESENTATION",
+   "id": "GRM_G0",
+   "introduced_from_layer": null,
+   "layer": "F4",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-g0-register-core-v1",
+   "primitive": false,
+   "title": "G0 free syntax / term algebra over Sigma_G0 (registered machine-generation grammar)"
+  },
+  {
+   "ai0_node": null,
+   "id": "GRM_G0_EXTENSIONS_UNADJUDICATED",
+   "introduced_from_layer": "F2",
+   "layer": "F4",
+   "lowering_status": "UNKNOWN",
+   "metatheoretic_assumptions": [
+    {
+     "assumption": "admissibility of stochastic, local and concurrent operations at the registered substrate",
+     "class": "PHYSICAL_SUBSTRATE_LAW"
+    },
+    {
+     "assumption": "cost charged to each extension operator is presentation-relative",
+     "class": "RESOURCE_MODEL"
+    }
+   ],
+   "open_rows": [
+    "AG2:audit-every-G0-instruction",
+    "AG5:stochastic",
+    "AG5:communication-tool",
+    "AG5:governed-self-change"
+   ],
+   "owner_package": "gmi-833-g0-stochastic-update-v1",
+   "primitive": true,
+   "title": "Registered G0 extension operator families (stochastic / local-graph / channel-tool / governed-self-change) whose AG5 lowering status is not yet adjudicated"
+  },
+  {
+   "ai0_node": "G0_PRESENTATION",
+   "id": "MDL_G0_LOWERED",
+   "introduced_from_layer": null,
+   "layer": "F5",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj5-g0-lowering-v1",
+   "primitive": false,
+   "title": "AJ5 two-presentation lowered realization of G0 (P-FUN functional, P-REL relational)"
+  },
+  {
+   "ai0_node": "AJ_MACHINE_ORG",
+   "id": "MDL_AJ4_ORGANIZATIONS",
+   "introduced_from_layer": null,
+   "layer": "F5",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj4-process-organizations-v1",
+   "primitive": false,
+   "title": "AJ4 finite process organizations / bounded machine space (260 presentations, 148 operational classes)"
+  },
+  {
+   "ai0_node": null,
+   "id": "MDL_NEGATIVE_CONTROLS",
+   "introduced_from_layer": null,
+   "layer": "F5",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj8-intelligence-boundary-v1",
+   "primitive": false,
+   "title": "AJ8 registered non-developmental negative-control realizations (fixed lookup, fixed calculator, passive memory, random dynamics, universal interpreter)"
+  },
+  {
+   "ai0_node": "HSG_DEV",
+   "id": "DEV_HST_SIGMA",
+   "introduced_from_layer": null,
+   "layer": "F6",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj6-hst-layer-map-v1",
+   "primitive": false,
+   "title": "HST/HSG developmental context Sigma=(S,O,M,L,Q,H,E,R,V,C) over process organizations"
+  },
+  {
+   "ai0_node": null,
+   "id": "DEV_GOVERNED_SELF_CHANGE",
+   "introduced_from_layer": null,
+   "layer": "F6",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-g0-governed-self-change-v1",
+   "primitive": false,
+   "title": "Finite governed self-change: proposal + external verifier admission + receipt-bound adoption"
+  },
+  {
+   "ai0_node": null,
+   "id": "DEV_GRAMMAR_GROWTH",
+   "introduced_from_layer": null,
+   "layer": "F6",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-g0-grammar-growth-v1",
+   "primitive": false,
+   "title": "Conservative recursive library/macro growth over the registered grammar"
+  },
+  {
+   "ai0_node": null,
+   "id": "MRP_AJ11_ATLAS",
+   "introduced_from_layer": null,
+   "layer": "F7",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj11-bounded-completeness-v1",
+   "primitive": false,
+   "title": "AJ11 complete bounded GMI atlas at bound B (148 operational classes over 260 presentations)"
+  },
+  {
+   "ai0_node": null,
+   "id": "MRP_AJ9_FAMILIES",
+   "introduced_from_layer": null,
+   "layer": "F7",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj9h-k07-k11-blind-recovery-v1",
+   "primitive": false,
+   "title": "AJ9 eleven registered machine-intelligence families recovered with family labels hidden"
+  },
+  {
+   "ai0_node": "CAPABILITY_CORE",
+   "id": "CAP_AJ8_BOUNDARY",
+   "introduced_from_layer": null,
+   "layer": "F8",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj8-intelligence-boundary-v1",
+   "primitive": false,
+   "title": "AJ8 fixed-control vs developmental capability boundary"
+  },
+  {
+   "ai0_node": "CAPABILITY_CORE",
+   "id": "CAP_PREDICTOR",
+   "introduced_from_layer": null,
+   "layer": "F8",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-capability-predictor-v1",
+   "primitive": false,
+   "title": "Developmental capability/resource response predictor"
+  },
+  {
+   "ai0_node": "REQ_PROVENANCE",
+   "id": "SEL_REQ_PROVENANCE",
+   "introduced_from_layer": null,
+   "layer": "F9",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-aj7-objective-provenance-v1",
+   "primitive": false,
+   "title": "AJ7 objective underdetermination and requirement-source provenance"
+  },
+  {
+   "ai0_node": "SEL_MORPHOLOGY",
+   "id": "SEL_MORPHOLOGY_PARETO",
+   "introduced_from_layer": null,
+   "layer": "F9",
+   "lowering_status": null,
+   "metatheoretic_assumptions": [],
+   "open_rows": [],
+   "owner_package": "gmi-833-morphology-selection-v1",
+   "primitive": false,
+   "title": "Finite niche / resource-repricing Pareto selection over reachable morphologies"
+  }
+ ],
+ "parent_pins": {
+  "gmi-833-ag2-signature-free-syntax-v1": {
+   "blob_sha": "7e2b6b53bdd96c4243de67581be1626ee309ef04",
+   "path": "research/gmi-833-ag2-signature-free-syntax-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj1-operational-process-base-v1": {
+   "blob_sha": "d34faf495072c288a8e10a31ce8c0e835d558a09",
+   "path": "research/gmi-833-aj1-operational-process-base-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj11-bounded-completeness-v1": {
+   "blob_sha": "31fe79b2bd4b4055723b734a48ff6f892aedc48c",
+   "path": "research/gmi-833-aj11-bounded-completeness-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj12-foundation-substrate-relativity-v1": {
+   "blob_sha": "8ae1ed5c051d07d2caff1366eb3bae31bba65862",
+   "path": "research/gmi-833-aj12-foundation-substrate-relativity-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj2-operational-equivalence-v1": {
+   "blob_sha": "e2e7d12bb4a9bdf78980aae8f6f10f1ff87b1ea2",
+   "path": "research/gmi-833-aj2-operational-equivalence-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj3-distinguishability-v1": {
+   "blob_sha": "df098d69060dea00867cbb30c82a1b7b6e47f68e",
+   "path": "research/gmi-833-aj3-distinguishability-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj4-process-organizations-v1": {
+   "blob_sha": "9b2bfd33f2392f82ac3d37cf7f17c1ff6b498ec4",
+   "path": "research/gmi-833-aj4-process-organizations-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj5-g0-lowering-v1": {
+   "blob_sha": "24b62f615f2d61d190d666a4d994dde3be2418f6",
+   "path": "research/gmi-833-aj5-g0-lowering-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj6-hst-layer-map-v1": {
+   "blob_sha": "3a5f5f4a3033ab7d9726a0e0b6cd05bb2b36a8ba",
+   "path": "research/gmi-833-aj6-hst-layer-map-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj7-objective-provenance-v1": {
+   "blob_sha": "11c9826915fb670cbde0ce3f25a415307f7a7826",
+   "path": "research/gmi-833-aj7-objective-provenance-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj8-intelligence-boundary-v1": {
+   "blob_sha": "f165192b253a019dc19e6c65ff939e94347596df",
+   "path": "research/gmi-833-aj8-intelligence-boundary-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj9h-k07-k11-blind-recovery-v1": {
+   "blob_sha": "671e7b81e76bf54f22c87e94f0d55d9785871691",
+   "path": "research/gmi-833-aj9h-k07-k11-blind-recovery-v1/RESULT_V1.json"
+  },
+  "gmi-833-capability-predictor-v1": {
+   "blob_sha": "6606f95182394cccf29b20e94b93bffa064ef5de",
+   "path": "research/gmi-833-capability-predictor-v1/RESULT_V1.json"
+  },
+  "gmi-833-g0-governed-self-change-v1": {
+   "blob_sha": "895e2b144e0613f9e1e9bc1fba28ef41e50f324c",
+   "path": "research/gmi-833-g0-governed-self-change-v1/RESULT_V1.json"
+  },
+  "gmi-833-g0-grammar-growth-v1": {
+   "blob_sha": "f2a1910ff0c901909d1b54f8aecc5a2f9bd37544",
+   "path": "research/gmi-833-g0-grammar-growth-v1/RESULT_V1.json"
+  },
+  "gmi-833-g0-interaction-channels-v1": {
+   "blob_sha": "ba164590ee644998273120810be9ce4b09e57f92",
+   "path": "research/gmi-833-g0-interaction-channels-v1/RESULT_V1.json"
+  },
+  "gmi-833-g0-local-graph-ops-v1": {
+   "blob_sha": "e39a058300b17515f12945dd2a9bf021499dde6b",
+   "path": "research/gmi-833-g0-local-graph-ops-v1/RESULT_V1.json"
+  },
+  "gmi-833-g0-register-core-v1": {
+   "blob_sha": "5d2948b9c04c84a46f6625e043753a489895478f",
+   "path": "research/gmi-833-g0-register-core-v1/RESULT_V1.json"
+  },
+  "gmi-833-g0-stochastic-update-v1": {
+   "blob_sha": "c85ac8d8cf37c80ff3eaaaf2b993d5f9fb22d4f0",
+   "path": "research/gmi-833-g0-stochastic-update-v1/RESULT_V1.json"
+  },
+  "gmi-833-morphology-selection-v1": {
+   "blob_sha": "6511cba495ea33ea5c9f1adaa75bedf81baddc9b",
+   "path": "research/gmi-833-morphology-selection-v1/RESULT_V1.json"
+  },
+  "gmi-833-parent-equivalence-v1": {
+   "blob_sha": "7f6ee1c2d6e3e1bc24e66b192abffcc2d0a23ed3",
+   "path": "research/gmi-833-parent-equivalence-v1/RESULT_V1.json"
+  }
+ },
+ "schema": "FOUNDATION_DEPENDENCY_DAG_V1",
+ "sections": [
+  "AG1",
+  "AG7",
+  "AG8"
+ ]
+}
