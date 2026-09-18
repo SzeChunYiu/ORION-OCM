@@ -110,8 +110,6 @@ mark(AF, 108, AFP, [AFP+"/RESULT_V1.json#af3.transition_records", AFP+"/RESULT_V
      "all four transition records carry a non-empty `nearest_residual_barrier` and `solved_forever_allowed: false`, with SOLVED_FOREVER in `forbidden_promotions`")
 mark(AF, 153, AFP, [AFP+"/GMI_BARRIER_PARENT_LEDGER_V1.json#CHARIKAR_PABBARAJU_TEWARI_2026_LIST_ID", AFP+"/RESULT_V1.json#af3.transition_records[F7_LIST_OUTPUT]"],
      "the 2026 result is pinned as a parent (Charikar, Pabbaraju & Tewari, COLT/PMLR 336 (2026)) and instantiated as transition record `F7_LIST_OUTPUT`: LANGUAGE_IDENTIFICATION under POSITIVE_TEXT moves from `NOT_IDENTIFIABLE_AT_SCOPE` to `IDENTIFIABLE_IN_LIMIT` with the only changed axis `V` (SINGLE_ANSWER_OUTPUT -> FINITE_LIST_OUTPUT), nearest residual barrier 'single-answer identification is not thereby established'")
-mark(AF, 165, AFP, [AFP+"/GMI_BARRIER_PARENT_LEDGER_V1.json#SIEGELMANN_SONTAG_ANALOG_POWER", A12+"/RESULT_V1.json#alternative_substrate_witnesses.exact_real_parameter"],
-     "the ledger pins Siegelmann-Sontag analog power at its exact assumptions with residual 'AF classifies target-correlated arbitrary-real initialization as imported information/advice', and AJ12 supplies the exact charged witness: the rational `62/81` carries advice bits [1,0,1,1] recovered by exact ternary-digit readout, provenance `IMPORTED_EXACT_PRECISION_ADVICE` (`check_aj12.py` re-run on laptop-billy, exit 0)")
 mark(AF, 167, A12, [A12+"/RESULT_V1.json#physical_hypercomputation", A12+"/FREEZE_V1.md#Alternative substrate/accounting boundary"],
      "the receipt records `physical_hypercomputation: EMPIRICAL_OPEN__NO_REPRODUCIBLE_EVIDENCE_REGISTERED_HERE` and the freeze makes it mandatory: '`PHYSICAL_HYPERCOMPUTATION_OPEN` is mandatory absent reproducible physical evidence', with PHYSICAL_HYPERCOMPUTATION_PROVED in forbidden_promotions")
 mark(AF, 169, AFP, [AFP+"/RESULT_V1.json#forbidden_promotions", AFP+"/FORMALIZATION_V1.md#1. AF0"],
@@ -139,6 +137,7 @@ skip(AF, 154, "PARTIAL", "AF3 registers INTERACTION_OR_QUERY as a transition cla
 skip(AF, 155, "NO_EVIDENCE", "The 21-row parent ledger contains Blackwell, Le Cam, information bottleneck/rate-distortion and bounded optimality, but no DEC/decision-estimation-coefficient or information-ratio parent, and no interactive-learnability parent map.")
 skip(AF, 163, "PARTIAL", "FORMALIZATION_V1.md section 1 names the dimensions (precision, preparation, noise, readout, repeatability, time, energy, space, error contracts) when distinguishing physical theses from mathematical ones, but no registered `S_phys` object is defined with those coordinates anywhere on main.")
 skip(AF, 164, "PARTIAL", "Only one proposal is audited at its exact assumptions (SIEGELMANN_SONTAG_ANALOG_POWER in the ledger, plus AJ12's oracle/advice and exact-real regimes). No audit of the other major hypercomputation/analog/oracle proposals exists.")
+skip(AF, 165, "PARTIAL", "The ledger row SIEGELMANN_SONTAG_ANALOG_POWER pins the real-weight/advice relation at its exact assumptions, and AJ12 charges the mathematical advice content exactly (62/81 -> bits [1,0,1,1], provenance IMPORTED_EXACT_PRECISION_ADVICE). But that same ledger row's own af_residual ends 'AF7 retains physical question', i.e. the cited artifact disclaims AF7 closure; and the row also asks for readout assumptions to be measured/charged, which needs the S_phys contract of row 163 that does not exist on main. Held to the same self-disclaimer rule applied to AI0 rows 41/44.")
 skip(AF, 166, "NO_EVIDENCE", "No precision/noise hostile exists. AJ12's real-parameter witness assumes exact ternary-digit readout; nothing constructs the finite operational contract under which apparent super-Turing power disappears.")
 skip(AF, 168, "PARTIAL", "The mechanism exists - AF3 types SUBSTRATE_EXPANSION as a displacement and recomputes status with a nearest residual barrier rather than declaring a theorem broken (F7_ORACLE_RELATIVIZATION) - but no physical-substrate instance, and no `Comp(S)` object to update (that object is in the open PR #971).")
 skip(AF, 178, "PARTIAL", "AJ11's atlas rows carry candidate_id, presentation, operational_class, capability_exact, resources and development_distance_from_S00. Missing from the row's required schema: provenance and barrier status are absent, and development is recorded as a shortest distance scalar, not as developmental edges. Also the atlas is not committed - only its canonical SHA-256 is pinned.")
@@ -221,7 +220,10 @@ for c, n, pkg, ev, sent in MARK:
     cnt = bodies[c].count(old)
     assert cnt == 1, "old not unique (%d) in %s: %r" % (cnt, c, old)
     new = "- [x] " + old[6:] + " — ✅ `" + pkg.split("/")[-1] + "` " + sent + "."
-    reps.append({"comment_id": c, "anchor": anchor_for(c, n), "old": old, "new": new,
+    anc = anchor_for(c, n)
+    acnt = bodies[c].count(anc)
+    assert acnt == 1, "anchor not unique (%d) in %s: %r" % (acnt, c, anc)
+    reps.append({"comment_id": c, "anchor": anc, "old": old, "new": new,
                  "evidence_paths": ev, "status": "EARNED_BY_MERGED_EVIDENCE"})
 
 nots = []
