@@ -374,3 +374,28 @@ union is taken over the package's OWN registered ecologies only; no ecology is i
 `TARGET_IS_A_PRIMITIVE` (coverage lost) and `TARGET_SPECIFIC_SHORTCUT` (coverage retained,
 finite strict rise) stay distinct in every table. Only the latter is a strict-inequality
 witness in the row's literal wording; the former is reported as the limit case, labelled.
+
+---
+
+## Amendment A4 — authority-self-skip (this package is excluded from P-LEX)
+
+*Committed before the definitive recorded run; no result blob is committed at this point.*
+
+**Defect observed in a pre-registration trial run and fixed here rather than silently.**
+`P-LEX` is defined in §4.1 as "every package under `research/` that is def-anchored and
+whose vocabulary hit includes a grammar/DSL token". This package lives under `research/`,
+so once its own `RESULT_V1.json` / `ADJUDICATION_V1.json` / `PLEX_SCREEN_V1.json` existed on
+disk, the sweep scanned them and the counts changed (37 hits over 9 packages became 71 over
+10, purely because the auditor had already run once). A screen whose output depends on
+whether its own output already exists is not a measurement.
+
+**A4 (frozen).** `gmi-833-grammar-morphology-encoding-v1` is excluded from `P-LEX` as an
+**authority-self-skip**, recorded in the receipt field `authority_self_skip`. This is the
+same by-design gate #976 applied to the denylist owners' own freezes. The exclusion is
+reported, never silent, and the executor must be **idempotent**: two consecutive runs must
+produce byte-identical `PLEX_SCREEN_V1.json`, which is asserted in the test battery
+(`test_plex_screen_is_idempotent`).
+
+The pre-amendment trial numbers are recorded here for the record: first run 159 P-LEX
+packages / 1,934 blocks / 37 hits / 9 flagged; contaminated second run 159 / 1,970 / 71 / 10.
+The definitive numbers are whatever the post-A4 executor writes into `RESULT_V1.json`.
