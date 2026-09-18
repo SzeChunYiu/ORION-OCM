@@ -1,0 +1,105 @@
+name: GMI 833 body residual rows A/K/L
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-body-residual-akl-v1/**'
+      - '.github/workflows/gmi-833-body-residual-akl-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-body-residual-akl-v1/**'
+      - '.github/workflows/gmi-833-body-residual-akl-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  body-residual-akl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-body-residual-akl-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes every implementation and receipt
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_freeze_order_v1.py" . 2>&1 | tee /tmp/akl_freeze.txt
+      - name: Route A executor
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/body_residual_akl_v1.py" --out /tmp/akl_routeA.json
+      - name: Route B independent oracle (smoke; the receipt carries 12 worlds, 200 seeds)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/oracle_route_b_v1.py" --worlds 4 --null-seeds 8 \
+            --out /tmp/akl_routeB.json
+          python3 - <<'PY'
+          import json
+          live = json.load(open('/tmp/akl_routeB.json'))
+          rec = json.load(open('research/gmi-833-body-residual-akl-v1/'
+                               'ORACLE_RESULT_V1.json'))
+          bad = []
+          for scope in ('S1', 'S2', 'S3'):
+              for key in ('files_scanned', 'files_with_hits', 'total_hits'):
+                  if live['ROW_A'][scope][key] != rec['ROW_A'][scope][key]:
+                      bad.append('%s.%s' % (scope, key))
+          for name in ('SIGMA_REAL', 'SIGMA_REAL2', 'SIGMA_REAL3'):
+              for key in ('inputs', 'world_invariant_non_degenerate',
+                          'fitted_law_positive_control_non_degenerate'):
+                  if live['ROW_K'][name][key] != rec['ROW_K'][name][key]:
+                      bad.append('%s.%s' % (name, key))
+          if live['ROW_K']['TOTAL'] != rec['ROW_K']['TOTAL']:
+              bad.append('TOTAL')
+          if bad:
+              raise SystemExit('route B smoke disagrees with the receipt: %r' % bad)
+          print('route B smoke agrees with the committed 12-world receipt')
+          PY
+      - name: Receipt matches a live re-derivation
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py" 2>&1 | tee /tmp/akl_receipt.txt
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_body_residual_akl_v1.py" -v 2>&1 | tee /tmp/akl_tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_body_residual_akl_v1.py" -v 2>&1 \
+            | tee /tmp/akl_tests-O.txt
+      - name: This package never edits the issue body and closes no row
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          d = json.load(open('research/gmi-833-body-residual-akl-v1/'
+                             'ISSUE_833_RECONCILIATION_BODY_RESIDUAL_V1.json'))
+          assert d['schema'] == 'GMI_ISSUE_RECONCILIATION_V2', d['schema']
+          assert d['replacements'] == [], d['replacements']
+          assert len(d['rows_deliberately_left_open']) == 3
+          assert d['issue_body_edited_by_this_package'] is False
+          blob = json.dumps(d)
+          assert '#927' not in blob
+          print('reconciliation: 0 replacements, 3 rows left open, no section M row')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-body-residual-akl-v1
+          path: |
+            /tmp/akl_freeze.txt
+            /tmp/akl_routeA.json
+            /tmp/akl_routeB.json
+            /tmp/akl_receipt.txt
+            /tmp/akl_tests.txt
+            /tmp/akl_tests-O.txt
+          if-no-files-found: error

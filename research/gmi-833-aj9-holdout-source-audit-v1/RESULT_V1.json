@@ -1,0 +1,794 @@
+{
+  "blind_files_scanned": 21,
+  "claim_ceiling": "AJ9_HOLDOUT_BLIND_SOURCE_AUDITED_AGAINST_THE_FROZEN_FORBIDDEN_INPUT_LIST",
+  "control_family_hits_in_posthoc": 237,
+  "coverage_gaps": [
+    {
+      "gap": "NO_FREEZE_FILE",
+      "package": "gmi-833-aj9g-k06-blind-recovery-v1"
+    }
+  ],
+  "failed_gates": [],
+  "forbidden_input_classes_source": "gmi-833-aj9a-known-family-benchmark-v1/HOLDOUT_CONTRACT_V1.json forbidden_generator_inputs",
+  "forbidden_promotions": [
+    "ALL_HOLDOUTS_PROVEN_BLIND",
+    "BLIND_SEARCH_IS_UNBIASED",
+    "NO_LEAKAGE_OF_ANY_KIND",
+    "RECOVERY_IS_CONFIRMED_BY_THIS_AUDIT",
+    "COMPLETE_GMI"
+  ],
+  "holdouts_audited": 7,
+  "issue": 833,
+  "no_alarm": {
+    "blind_files_scanned": 21,
+    "violations": 0
+  },
+  "package": "gmi-833-aj9-holdout-source-audit-v1",
+  "per_holdout": {
+    "gmi-833-aj9b-k01-blind-recovery-v1": {
+      "blind_artifacts": [
+        "BLIND_OUTCOME_V1.json",
+        "SEARCH_CONFIG_V1.json",
+        "blind_search_v1.py"
+      ],
+      "control_family_hits_in_posthoc": 39,
+      "exemptions": [
+        {
+          "class": "BENCHMARK_REFERENCE",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 3,
+          "pattern": "KNOWN_FAMILY_BENCHMARK_V1.json",
+          "text": "\"benchmark_blob_required_after_generation_only\": \"6b9ac3095c90d74e2717671a70ad7cc18955310c\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 7,
+          "pattern": "search",
+          "text": "\"meaning_hidden_from_search\": true"
+        }
+      ],
+      "posthoc_artifacts": [
+        "POSTHOC_RESULT_V1.json",
+        "check_aj9b.py",
+        "posthoc_adjudicate_v1.py"
+      ],
+      "review": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 6,
+          "pattern": "search",
+          "text": "\"search_1\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 15,
+          "pattern": "search",
+          "text": "\"search_2\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 24,
+          "pattern": "search",
+          "text": "\"status\": \"SEARCH_COMPLETE\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 2,
+          "pattern": "search",
+          "text": "\"schema\": \"AJ9B_BLIND_SEARCH_CONFIG_V1\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_search_v1.py",
+          "line": 48,
+          "pattern": "search",
+          "text": "def size_layered_search():"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_search_v1.py",
+          "line": 93,
+          "pattern": "program",
+          "text": "if len(stack)!=1: raise ValueError(\"bad postfix program\")"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_search_v1.py",
+          "line": 144,
+          "pattern": "search",
+          "text": "a=size_layered_search(); b=semantic_cost_closure()"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_search_v1.py",
+          "line": 151,
+          "pattern": "search",
+          "text": "\"status\":\"SEARCH_COMPLETE\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_search_v1.py",
+          "line": 154,
+          "pattern": "search",
+          "text": "\"search_1\":{\"id\":\"SIZE_LAYERED_SYNTAX_ENUMERATION\",\"presentation\":\"TREE_AST\",**a},"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_search_v1.py",
+          "line": 155,
+          "pattern": "search",
+          "text": "\"search_2\":{\"id\":\"SEMANTIC_COST_CLOSURE\",\"presentation\":\"POSTFIX_STACK_ENCODING\",**b},"
+        }
+      ],
+      "violations": []
+    },
+    "gmi-833-aj9c-k02-blind-recovery-v1": {
+      "blind_artifacts": [
+        "BLIND_OUTCOME_V1.json",
+        "SEARCH_CONFIG_V1.json",
+        "blind_temporal_search_v1.py"
+      ],
+      "control_family_hits_in_posthoc": 32,
+      "exemptions": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 27,
+          "pattern": "recurrent",
+          "text": "\"forbidden\":[\"family ids/names\",\"family fingerprint\",\"recurrent macro\",\"named recurrent architecture\",\"family-specific score\"],"
+        }
+      ],
+      "posthoc_artifacts": [
+        "POSTHOC_RESULT_V1.json",
+        "check_aj9c.py",
+        "posthoc_adjudicate_v1.py"
+      ],
+      "review": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 5,
+          "pattern": "search",
+          "text": "\"search_1\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 14,
+          "pattern": "search",
+          "text": "\"search_2\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 15,
+          "pattern": "search",
+          "text": "\"id\": \"CONSTRAINT_FILTER_SEARCH\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 22,
+          "pattern": "search",
+          "text": "\"status\": \"SEARCH_COMPLETE\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 2,
+          "pattern": "search",
+          "text": "\"schema\":\"AJ9C_BLIND_TEMPORAL_SEARCH_CONFIG_V1\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 19,
+          "pattern": "search",
+          "text": "{\"id\":\"CONSTRAINT_FILTER_SEARCH\",\"budget\":260}"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_temporal_search_v1.py",
+          "line": 69,
+          "pattern": "search",
+          "text": "def constraint_filter_search():"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_temporal_search_v1.py",
+          "line": 98,
+          "pattern": "search",
+          "text": "a=full_table_enumeration(); b=constraint_filter_search()"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_temporal_search_v1.py",
+          "line": 106,
+          "pattern": "search",
+          "text": "\"status\":\"SEARCH_COMPLETE\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_temporal_search_v1.py",
+          "line": 109,
+          "pattern": "search",
+          "text": "\"search_1\":{\"id\":\"FULL_TABLE_ENUMERATION\",\"presentation\":\"ROW_TABLE\",\"candidate_count\":a[\"candidate_count\"],\"zero_cell_exact\":a[\"zero_cell_exact\"],\"one_cell_exa"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_temporal_search_v1.py",
+          "line": 110,
+          "pattern": "search",
+          "text": "\"search_2\":{\"id\":\"CONSTRAINT_FILTER_SEARCH\",\"presentation\":\"PACKED_BITSTRING\",\"visited_partial_nodes\":b[\"visited_partial_nodes\"],\"pruned_partial_nodes\":b[\"prune"
+        }
+      ],
+      "violations": []
+    },
+    "gmi-833-aj9d-k03-blind-recovery-v1": {
+      "blind_artifacts": [
+        "BLIND_OUTCOME_V1.json",
+        "SEARCH_CONFIG_V1.json",
+        "blind_site_search_v1.py"
+      ],
+      "control_family_hits_in_posthoc": 52,
+      "exemptions": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 24,
+          "pattern": "local",
+          "text": "\"forbidden\":[\"family id/name\",\"posthoc family fingerprint\",\"convolution macro\",\"local operator macro\",\"weight-sharing macro\",\"translation-equivariance bonus\",\"f"
+        }
+      ],
+      "posthoc_artifacts": [
+        "POSTHOC_RESULT_V1.json",
+        "check_aj9d.py",
+        "posthoc_adjudicate_v1.py"
+      ],
+      "review": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 13,
+          "pattern": "search",
+          "text": "\"search_1\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 23,
+          "pattern": "search",
+          "text": "\"search_2\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 25,
+          "pattern": "synthesis",
+          "text": "\"id\": \"MINIMUM_DEPENDENCY_SYNTHESIS\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 31,
+          "pattern": "local",
+          "text": "\"presentation\": \"SUBSET_PLUS_LOCAL_TABLE\""
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 33,
+          "pattern": "search",
+          "text": "\"status\": \"SEARCH_COMPLETE\""
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 2,
+          "pattern": "search",
+          "text": "\"schema\":\"AJ9D_GENERIC_SITE_SEARCH_CONFIG_V1\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 16,
+          "pattern": "synthesis",
+          "text": "{\"id\":\"MINIMUM_DEPENDENCY_SYNTHESIS\",\"rule\":\"enumerate input subsets by cardinality then truth tables on the subset; return first exact semantics\"}"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 18,
+          "pattern": "local",
+          "text": "\"presentations\":[\"GLOBAL_TRUTH_VECTOR\",\"SUBSET_PLUS_LOCAL_TABLE\"],"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 22,
+          "pattern": "search",
+          "text": "def full_global_truth_search():"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 48,
+          "pattern": "search",
+          "text": "def minimum_dependency_search():"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 70,
+          "pattern": "search",
+          "text": "a=full_global_truth_search(); b=minimum_dependency_search()"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 82,
+          "pattern": "search",
+          "text": "\"status\":\"SEARCH_COMPLETE\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 84,
+          "pattern": "search",
+          "text": "\"search_1\":{\"id\":\"FULL_GLOBAL_TRUTH_TABLE_ENUMERATION\",\"presentation\":\"GLOBAL_TRUTH_VECTOR\",**a},"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 85,
+          "pattern": "local",
+          "text": "\"search_2\":{\"id\":\"MINIMUM_DEPENDENCY_SYNTHESIS\",\"presentation\":\"SUBSET_PLUS_LOCAL_TABLE\",**b},"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 85,
+          "pattern": "search",
+          "text": "\"search_2\":{\"id\":\"MINIMUM_DEPENDENCY_SYNTHESIS\",\"presentation\":\"SUBSET_PLUS_LOCAL_TABLE\",**b},"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_site_search_v1.py",
+          "line": 85,
+          "pattern": "synthesis",
+          "text": "\"search_2\":{\"id\":\"MINIMUM_DEPENDENCY_SYNTHESIS\",\"presentation\":\"SUBSET_PLUS_LOCAL_TABLE\",**b},"
+        }
+      ],
+      "violations": []
+    },
+    "gmi-833-aj9e-k04-blind-recovery-v1": {
+      "blind_artifacts": [
+        "BLIND_OUTCOME_V1.json",
+        "SEARCH_CONFIG_V1.json",
+        "blind_boolean_search_v1.py"
+      ],
+      "control_family_hits_in_posthoc": 31,
+      "exemptions": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 23,
+          "pattern": "attention",
+          "text": "\"forbidden\":[\"family id/name\",\"posthoc fingerprint\",\"attention macro\",\"query-key-value macro\",\"softmax macro\",\"dynamic-routing macro\",\"selector/multiplexer macr"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 23,
+          "pattern": "dynamic",
+          "text": "\"forbidden\":[\"family id/name\",\"posthoc fingerprint\",\"attention macro\",\"query-key-value macro\",\"softmax macro\",\"dynamic-routing macro\",\"selector/multiplexer macr"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 23,
+          "pattern": "routing",
+          "text": "\"forbidden\":[\"family id/name\",\"posthoc fingerprint\",\"attention macro\",\"query-key-value macro\",\"softmax macro\",\"dynamic-routing macro\",\"selector/multiplexer macr"
+        }
+      ],
+      "posthoc_artifacts": [
+        "POSTHOC_RESULT_V1.json",
+        "check_aj9e.py",
+        "posthoc_adjudicate_v1.py"
+      ],
+      "review": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 6,
+          "pattern": "search",
+          "text": "\"search_1\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 15,
+          "pattern": "search",
+          "text": "\"search_2\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 24,
+          "pattern": "search",
+          "text": "\"status\": \"SEARCH_COMPLETE\""
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 2,
+          "pattern": "control",
+          "text": "\"schema\":\"AJ9E_GENERIC_BOOLEAN_CONTROL_SEARCH_CONFIG_V1\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 2,
+          "pattern": "search",
+          "text": "\"schema\":\"AJ9E_GENERIC_BOOLEAN_CONTROL_SEARCH_CONFIG_V1\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_boolean_search_v1.py",
+          "line": 32,
+          "pattern": "search",
+          "text": "def size_layered_expression_search():"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_boolean_search_v1.py",
+          "line": 85,
+          "pattern": "search",
+          "text": "a=size_layered_expression_search(); b=exact_dnf_cube_cover()"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_boolean_search_v1.py",
+          "line": 95,
+          "pattern": "search",
+          "text": "\"schema\":\"AJ9E_BLIND_BOOLEAN_OUTCOME_V1\",\"status\":\"SEARCH_COMPLETE\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_boolean_search_v1.py",
+          "line": 97,
+          "pattern": "search",
+          "text": "\"search_1\":{\"id\":\"SIZE_LAYERED_BOOLEAN_EXPRESSION\",\"presentation\":\"BOOLEAN_AST\",**a},"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_boolean_search_v1.py",
+          "line": 98,
+          "pattern": "search",
+          "text": "\"search_2\":{\"id\":\"EXACT_DNF_CUBE_COVER\",\"presentation\":\"DNF_CUBE_SET\",**b},"
+        }
+      ],
+      "violations": []
+    },
+    "gmi-833-aj9f-k05-blind-recovery-v1": {
+      "blind_artifacts": [
+        "BLIND_OUTCOME_V1.json",
+        "SEARCH_CONFIG_V1.json",
+        "blind_term_search_v1.py"
+      ],
+      "control_family_hits_in_posthoc": 34,
+      "exemptions": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 20,
+          "pattern": "rewrite",
+          "text": "\"forbidden\":[\"family id/name\",\"posthoc fingerprint\",\"symbolic solver macro\",\"rewrite-engine macro\",\"theorem prover macro\",\"family-specific score\"],"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 20,
+          "pattern": "symbolic",
+          "text": "\"forbidden\":[\"family id/name\",\"posthoc fingerprint\",\"symbolic solver macro\",\"rewrite-engine macro\",\"theorem prover macro\",\"family-specific score\"],"
+        }
+      ],
+      "posthoc_artifacts": [
+        "POSTHOC_RESULT_V1.json",
+        "check_aj9f.py",
+        "posthoc_adjudicate_v1.py"
+      ],
+      "review": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 5,
+          "pattern": "search",
+          "text": "\"search_1\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 9,
+          "pattern": "search",
+          "text": "\"id\": \"FIFO_FRONTIER_SEARCH\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 19,
+          "pattern": "search",
+          "text": "\"search_2\": {"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 33,
+          "pattern": "search",
+          "text": "\"status\": \"SEARCH_COMPLETE\""
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 2,
+          "pattern": "search",
+          "text": "\"schema\":\"AJ9F_GENERIC_COMPOSITIONAL_STATE_SEARCH_CONFIG_V1\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 8,
+          "pattern": "local",
+          "text": "\"legal_local_transforms\":[\"N(E,x)->x\",\"N(x,E)->x\"],"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 12,
+          "pattern": "search",
+          "text": "{\"id\":\"FIFO_FRONTIER_SEARCH\",\"presentation\":\"NESTED_TUPLE\"},"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 11,
+          "pattern": "local",
+          "text": "def local_options(t):"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 18,
+          "pattern": "local",
+          "text": "for nl,tag in local_options(left): out.append(((\"N\",nl,right),\"L/\"+tag))"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 19,
+          "pattern": "local",
+          "text": "for nr,tag in local_options(right): out.append(((\"N\",left,nr),\"R/\"+tag))"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 23,
+          "pattern": "search",
+          "text": "def fifo_frontier_search():"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 26,
+          "pattern": "local",
+          "text": "branching_at_start=len(local_options(START))"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 32,
+          "pattern": "local",
+          "text": "for nxt,tag in local_options(term):"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 54,
+          "pattern": "local",
+          "text": "return [(to_prefix(nxt),tag) for nxt,tag in reversed(local_options(t))]"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 87,
+          "pattern": "search",
+          "text": "a=fifo_frontier_search(); b=depth_limited_iteration()"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 93,
+          "pattern": "search",
+          "text": "result={\"schema\":\"AJ9F_BLIND_TERM_OUTCOME_V1\",\"status\":\"SEARCH_COMPLETE\","
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 94,
+          "pattern": "search",
+          "text": "\"search_1\":{\"id\":\"FIFO_FRONTIER_SEARCH\",\"presentation\":\"NESTED_TUPLE\",**a},"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_term_search_v1.py",
+          "line": 95,
+          "pattern": "search",
+          "text": "\"search_2\":{\"id\":\"DEPTH_LIMITED_ITERATION\",\"presentation\":\"PREFIX_TOKEN_SEQUENCE\",**b},"
+        }
+      ],
+      "violations": []
+    },
+    "gmi-833-aj9g-k06-blind-recovery-v1": {
+      "blind_artifacts": [
+        "BLIND_OUTCOME_V1.json",
+        "SEARCH_CONFIG_V1.json",
+        "blind_evidence_search_v1.py"
+      ],
+      "control_family_hits_in_posthoc": 9,
+      "exemptions": [
+        {
+          "class": "FAMILY_ID",
+          "file": "SEARCH_CONFIG_V1.json",
+          "line": 10,
+          "pattern": "K06",
+          "text": "\"forbidden\":[\"family id/name\",\"Bayes macro\",\"posterior macro\",\"K06 fingerprint\",\"family-specific score\"],"
+        }
+      ],
+      "posthoc_artifacts": [
+        "POSTHOC_RESULT_V1.json",
+        "check_aj9g.py"
+      ],
+      "review": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "BLIND_OUTCOME_V1.json",
+          "line": 8,
+          "pattern": "search",
+          "text": "\"status\":\"SEARCH_COMPLETE\""
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_evidence_search_v1.py",
+          "line": 15,
+          "pattern": "search",
+          "text": "# independent finite integer-weight search for the minimum positive pair matching required odds"
+        },
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_evidence_search_v1.py",
+          "line": 22,
+          "pattern": "search",
+          "text": "out={'schema':'AJ9G_BLIND_EVIDENCE_OUTCOME_V1','registry_data_used':False,'status':'SEARCH_COMPLETE','evidence':{}}"
+        }
+      ],
+      "violations": []
+    },
+    "gmi-833-aj9h-k07-k11-blind-recovery-v1": {
+      "blind_artifacts": [
+        "BLIND_OUTCOME_V1.json",
+        "SEARCH_CONFIG_V1.json",
+        "blind_recovery_v1.py"
+      ],
+      "control_family_hits_in_posthoc": 40,
+      "exemptions": [],
+      "posthoc_artifacts": [
+        "POSTHOC_RESULT_V1.json",
+        "check_aj9h.py",
+        "posthoc_adjudicate_v1.py"
+      ],
+      "review": [
+        {
+          "class": "NAME_TOKEN",
+          "file": "blind_recovery_v1.py",
+          "line": 7,
+          "pattern": "search",
+          "text": "CFG = json.loads((HERE / \"SEARCH_CONFIG_V1.json\").read_text())"
+        }
+      ],
+      "violations": []
+    }
+  },
+  "planted_positive_recall": [
+    {
+      "class": "benchmark_contents",
+      "detected": true,
+      "hit_classes": [
+        "BENCHMARK_REFERENCE"
+      ],
+      "review_only": false
+    },
+    {
+      "class": "family_id",
+      "detected": true,
+      "hit_classes": [
+        "FAMILY_ID"
+      ],
+      "review_only": false
+    },
+    {
+      "class": "paper_name",
+      "detected": true,
+      "hit_classes": [
+        "NAME_TOKEN",
+        "PAPER_NAME"
+      ],
+      "review_only": false
+    },
+    {
+      "class": "fingerprint_clause",
+      "detected": true,
+      "hit_classes": [
+        "FINGERPRINT_CLAUSE"
+      ],
+      "review_only": false
+    },
+    {
+      "class": "target_property_vector",
+      "detected": true,
+      "hit_classes": [
+        "OBSERVATION_CLAUSE"
+      ],
+      "review_only": false
+    },
+    {
+      "class": "family_specific_macro",
+      "detected": true,
+      "hit_classes": [
+        "NAME_TOKEN"
+      ],
+      "review_only": false
+    },
+    {
+      "class": "family_cost_bonus",
+      "detected": true,
+      "hit_classes": [
+        "FAMILY_ID"
+      ],
+      "review_only": false
+    },
+    {
+      "class": "parent_anchor_in_search",
+      "detected": true,
+      "hit_classes": [
+        "PARENT_ANCHOR"
+      ],
+      "review_only": false
+    }
+  ],
+  "planted_positives_declared": 8,
+  "planted_positives_detected": 8,
+  "posthoc_files_scanned": 20,
+  "review_hits": 69,
+  "schema": "GMI833AJ9HoldoutSourceAuditReceiptV1",
+  "section": "AJ9",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "status": "GREEN",
+  "violations": 0,
+  "vocabulary": {
+    "benchmark_blob": "6b9ac3095c90d74e2717671a70ad7cc18955310c",
+    "blob_matches_pin": true,
+    "exclusion_clauses": 33,
+    "family_ids": 11,
+    "fingerprint_clauses": 35,
+    "multiword_names": 11,
+    "name_tokens": 27,
+    "observation_clauses": 24,
+    "paper_names": 11,
+    "parent_anchors": 25
+  }
+}
