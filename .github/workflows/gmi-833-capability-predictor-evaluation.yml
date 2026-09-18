@@ -16,10 +16,12 @@ on:
 jobs:
   evaluate:
     runs-on: ubuntu-latest
+    env:
+      PKG: research/gmi-833-capability-predictor-evaluation-v1
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0          # the freeze-order gate needs real history
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -28,101 +30,82 @@ jobs:
       - name: Freeze order (the #976 POST_HOC_SUSPECT gate)
         run: |
           set -eu
-          PKG=research/gmi-833-capability-predictor-evaluation-v1
           FREEZE=$(awk '{print $1; exit}' "$PKG/FREEZE_COMMIT.txt")
           echo "freeze commit: $FREEZE"
           git ls-tree -r --name-only "$FREEZE" -- "$PKG/" > /tmp/at_freeze.txt
           test -s /tmp/at_freeze.txt
-          # negative control first: a path typo must not make this vacuously green
-          for good in FREEZE_V1.md SCOPE_V1.md heldout_universes_v1.py \
-                      freeze_predictions_v1.py FROZEN_PREDICTIONS_V1.json; do
-            grep -qx "$PKG/$good" /tmp/at_freeze.txt \
-              || { echo "NEGATIVE CONTROL FAILED: $good absent at the freeze"; exit 1; }
+          echo "--- negative control: these MUST be present at the freeze ---"
+          for good in FREEZE_V1.md SCOPE_V1.md BLINDNESS_V1.md heldout_universes_v1.py freeze_predictions_v1.py FROZEN_PREDICTIONS_V1.json; do
+            grep -qx "$PKG/$good" /tmp/at_freeze.txt || { echo "NEGATIVE CONTROL FAILED: $good absent at the freeze"; exit 1; }
+            echo "  present: $good"
           done
-          for bad in external_evaluator_v1.py oracle_route_b_v1.py score_heldout_v1.py \
-                     real_systems_run_v1.py real_systems_run_v2.py \
-                     test_capability_predictor_evaluation_v1.py RESULT_V1.json \
-                     ROUTE_B_RESULT_V1.json; do
+          echo "--- these must NOT be reachable from the freeze ---"
+          for bad in external_evaluator_v1.py oracle_route_b_v1.py score_heldout_v1.py real_systems_run_v1.py real_systems_run_v2.py real_systems_run_v3.py test_capability_predictor_evaluation_v1.py RESULT_V1.json ROUTE_B_RESULT_V1.json REAL_RUNS; do
             if grep -q "$PKG/$bad" /tmp/at_freeze.txt; then
-              echo "IMPLEMENTATION ARTIFACT REACHABLE FROM THE FREEZE: $bad"; exit 1
+              echo "IMPLEMENTATION OR OUTCOME ARTIFACT AT THE FREEZE: $bad"
+              exit 1
             fi
+            echo "  absent: $bad"
           done
-          if grep -q "$PKG/REAL_RUNS" /tmp/at_freeze.txt; then
-            echo "OUTCOME ARTIFACT REACHABLE FROM THE FREEZE: REAL_RUNS"; exit 1
-          fi
           git rev-list "$FREEZE..HEAD" > /tmp/after.txt
-          for f in score_heldout_v1.py external_evaluator_v1.py oracle_route_b_v1.py; do
+          for f in score_heldout_v1.py external_evaluator_v1.py oracle_route_b_v1.py FROZEN_PREDICTIONS_V4.json; do
             INTRO=$(git log --diff-filter=A --format=%H -- "$PKG/$f" | tail -1)
             test -n "$INTRO" || { echo "no introducing commit for $f"; exit 1; }
-            grep -qx "$INTRO" /tmp/after.txt \
-              || { echo "$f was introduced at or before the freeze"; exit 1; }
+            grep -qx "$INTRO" /tmp/after.txt || { echo "$f was introduced at or before the freeze"; exit 1; }
           done
-          # each revival's outcomes must postdate its own freeze
-          for pair in "FROZEN_PREDICTIONS_V4.json:RESULT_V1.json"; do
-            FREEZE_F=${pair%%:*}
-            FF=$(git log --diff-filter=A --format=%H -- "$PKG/$FREEZE_F" | tail -1)
-            test -n "$FF" || { echo "no introducing commit for $FREEZE_F"; exit 1; }
-            grep -qx "$FF" /tmp/after.txt || { echo "$FREEZE_F predates the V1 freeze"; exit 1; }
+          echo "--- each revival's outcomes must postdate its own freeze ---"
+          for pair in "FROZEN_PREDICTIONS_V2.json:REAL_RUNS_V2/REAL_MEASURED_V2.json" "FROZEN_PREDICTIONS_V3.json:REAL_RUNS_V3/REAL_MEASURED_V3.json"; do
+            FZ=${pair%%:*}
+            OUT=${pair##*:}
+            FZC=$(git log --diff-filter=A --format=%H -- "$PKG/$FZ" | tail -1)
+            OUTC=$(git log --diff-filter=A --format=%H -- "$PKG/$OUT" | tail -1)
+            test -n "$FZC" -a -n "$OUTC" || { echo "missing $FZ or $OUT"; exit 1; }
+            git rev-list "$FZC..HEAD" | grep -qx "$OUTC" || { echo "$OUT predates its freeze $FZ"; exit 1; }
+            echo "  ok: $OUT postdates $FZ"
           done
-          # the V2 revival must also postdate its own amendment
-          V2INTRO=$(git log --diff-filter=A --format=%H -- "$PKG/REAL_RUNS_V2/REAL_MEASURED_V2.json" | tail -1)
-          V2FREEZE=$(git log --diff-filter=A --format=%H -- "$PKG/FROZEN_PREDICTIONS_V2.json" | tail -1)
-          if [ -n "$V2INTRO" ] && [ -n "$V2FREEZE" ]; then
-            git rev-list "$V2FREEZE..HEAD" | grep -qx "$V2INTRO" \
-              || { echo "V2 outcomes predate the V2 freeze"; exit 1; }
-          fi
 
       - name: Parent blob pin
         run: |
           set -eu
           ACTUAL=$(git rev-parse HEAD:research/gmi-833-capability-predictor-v1/capability_predictor_v1.py)
-          PINNED=$(python3 - <<'PY'
-import re
-src = open('research/gmi-833-capability-predictor-evaluation-v1/heldout_universes_v1.py').read()
-print(re.search(r'PARENT_BLOB_SHA = "([0-9a-f]{40})"', src).group(1))
-PY
-)
+          PINNED=$(sed -n 's/^PARENT_BLOB_SHA = "\([0-9a-f]\{40\}\)".*/\1/p' "$PKG/heldout_universes_v1.py")
           echo "actual=$ACTUAL pinned=$PINNED"
+          test -n "$PINNED"
           test "$ACTUAL" = "$PINNED"
 
       - name: Route B (materially independent oracle)
         run: |
           set -eu
-          cd research/gmi-833-capability-predictor-evaluation-v1
+          cd "$PKG"
           python3 -I -B oracle_route_b_v1.py > /tmp/route_b.json
-          python3 -c "import sys;a=open('/tmp/route_b.json').read();b=open('ROUTE_B_RESULT_V1.json').read();sys.exit(0 if a==b else 1)"
+          cmp /tmp/route_b.json ROUTE_B_RESULT_V1.json
 
-      - name: Canonical executor
+      - name: Canonical executor, both modes
         run: |
           set -eu
-          cd research/gmi-833-capability-predictor-evaluation-v1
+          cd "$PKG"
           python3 -I -B score_heldout_v1.py > /tmp/result_a.json
-          python3 -c "import sys;a=open('/tmp/result_a.json').read();b=open('RESULT_V1.json').read();sys.exit(0 if a==b else 1)"
+          cmp /tmp/result_a.json RESULT_V1.json
           python3 -I -O -B score_heldout_v1.py > /tmp/result_o.json
           cmp /tmp/result_a.json /tmp/result_o.json
+
+      - name: Reconciliation is rebuilt from the receipts
+        run: |
+          set -eu
+          cd "$PKG"
+          cp ISSUE_833_RECONCILIATION_KEVAL_V1.json /tmp/recon_committed.json
+          python3 -I -B build_reconciliation_v1.py
+          cmp ISSUE_833_RECONCILIATION_KEVAL_V1.json /tmp/recon_committed.json
 
       - name: Receipt gates
         run: |
           set -eu
-          cd research/gmi-833-capability-predictor-evaluation-v1
+          cd "$PKG"
           python3 -I -B  test_capability_predictor_evaluation_v1.py -v
           python3 -I -O -B test_capability_predictor_evaluation_v1.py -v
 
       - name: Real-system receipt integrity
         run: |
           set -eu
-          cd research/gmi-833-capability-predictor-evaluation-v1
-          python3 - <<'PY'
-import hashlib, json, os, sys
-for path, key in (("REAL_RUNS/REAL_MEASURED_V1.json", "V1"),
-                  ("REAL_RUNS_V2/REAL_MEASURED_V2.json", "V2"),
-                  ("REAL_RUNS_V3/REAL_MEASURED_V3.json", "V3")):
-    if not os.path.exists(path):
-        print("missing (allowed only if the row is left open):", path)
-        continue
-    payload = json.load(open(path))
-    assert payload["source"]["sha256"] == payload["source_sha256_verified"], path
-    assert payload["protected_eval_items"] > 0, path
-    assert len(payload["measured_solved_bits"]) == 32, path
-    print(key, "receipt ok", hashlib.sha256(open(path,'rb').read()).hexdigest()[:16])
-PY
+          cd "$PKG"
+          python3 check_real_receipts_v1.py

@@ -11,6 +11,12 @@
   "freeze_commit": "e46003d524d532989f73d2f37ebc7c136577a09d",
   "freeze_commit_v2_amendment": "711903a1c35d84f547ce688cc67c047499ccc630",
   "freeze_commit_v2_amendment_note": "SIGMA_REAL2 predictions frozen here, before any V2 training run existed",
+  "freeze_commits": {
+    "v1_e46003d5": "3 x 51,840 predictions, order classes, curves, real-system protocol",
+    "v2_711903a1": "SIGMA_REAL2 revival predictions, before V2 training",
+    "v3_accc1aed": "FREEZE_V3_ADDENDUM and SIGMA_REAL3 predictions, before V3 training",
+    "v4_f60377bd": "FREEZE_V4_POWER_ADDENDUM, SIGMA_SYN2 / SIGMA_ARCH2, before their outcomes were computed"
+  },
   "held_out_populations": [
     {
       "name": "SIGMA_SYN",
@@ -47,6 +53,33 @@
         8
       ],
       "size": 32
+    },
+    {
+      "name": "SIGMA_REAL3",
+      "outcomes": "torch CPU training, REAL_RUNS_V3/",
+      "rho3": [
+        9,
+        10
+      ],
+      "size": 32
+    },
+    {
+      "name": "SIGMA_SYN2",
+      "outcomes": "simulation; power revival, non-degenerate identification",
+      "rho3": [
+        11,
+        12
+      ],
+      "size": 128
+    },
+    {
+      "name": "SIGMA_ARCH2",
+      "outcomes": "simulation; power revival, non-degenerate identification",
+      "rho3": [
+        13,
+        14
+      ],
+      "size": 176
     }
   ],
   "issue": 833,
@@ -96,11 +129,15 @@
     }
   ],
   "reproduce": [
+    "python3 -I -B  research/gmi-833-capability-predictor-evaluation-v1/build_reconciliation_v1.py",
     "python3 -I -B  research/gmi-833-capability-predictor-evaluation-v1/oracle_route_b_v1.py",
     "python3 -I -B  research/gmi-833-capability-predictor-evaluation-v1/score_heldout_v1.py",
     "python3 -I -O -B research/gmi-833-capability-predictor-evaluation-v1/score_heldout_v1.py",
     "python3 -I -B  research/gmi-833-capability-predictor-evaluation-v1/test_capability_predictor_evaluation_v1.py -v",
     "python3 -I -O -B research/gmi-833-capability-predictor-evaluation-v1/test_capability_predictor_evaluation_v1.py -v"
+  ],
+  "rows_left_open": [
+    "Test predictor on real trained systems. -- KE-3D, boundary earned by counterexample"
   ],
   "schema": "GMI_833_K_EVAL_MANIFEST_V1",
   "section_anchor": "# K. Capability theory upgrade",
