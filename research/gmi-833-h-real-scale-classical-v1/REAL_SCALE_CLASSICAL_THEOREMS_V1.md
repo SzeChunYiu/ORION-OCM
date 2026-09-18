@@ -209,6 +209,42 @@ of them is a `BLOCKED_STRUCTURAL` obstruction, which is consistent with PR
 expressible; an exchangeable presentation at `SIGMA_H02` under which the search
 still prefers a stateful head; a squared-error search that recovers a link.
 
+**Three further boundaries the V2 pass exposed, reported as results.**
+
+4. **A control that nests the model it falsifies is a vacuous null.** The
+   registered `SIGMA_H02` null asks that no row-permuted design control beat the
+   best constant arm. 98 of 200 did. A least-squares control on a permuted
+   design contains the constant arm as the all-slopes-zero point, so on 294,832
+   fit rows and 33 parameters the two differ by a relative `1e-4` — the control
+   distribution has median `1.000032` of the constant arm's held-out SSE and
+   range `0.99067`–`1.01085` — and the criterion is a coin flip by
+   construction. This is the same defect class as a hostile that cannot fire,
+   and the correct response is to report the registered falsifier as not met and
+   the row as open, not to substitute the informative comparison. On the
+   identical 200 controls under the identical seed, **0 of 200 beat the selected
+   arm**, which sits at `0.000967` of the constant arm's held-out SSE; that
+   figure is recorded as a labelled diagnostic and closes no row.
+5. **A link can be admissible without being more accurate.** At `SIGMA_H03` the
+   log-link arm emits no negative predicted mean where the identity-link arm
+   emits 8,336 on the held-out slice, and yet it is strictly closer on only
+   13,937 of 41,695 rows and carries `2.77x` the exact squared error. On a
+   response that is zero on 77.7% of rows, a closeness criterion rewards an arm
+   that can predict exactly zero, and a log link cannot reach zero. Reproduced
+   in V1 and V2, on the held-out slice and on the contiguous tail.
+6. **Non-affinity in the head is not non-affinity in the body.** At `SIGMA_H04`
+   the blind search selected a squared linear score, `MUL(ADD(BIAS,S),S)` — in
+   the inputs a degree-two polynomial, and in that broad sense a basis
+   expansion — but the registered classifier assigns `LIFTED_BASIS` only when
+   the **body** is non-affine in `ARG`, and here the body is `MUL(ARG,PARAM)`.
+   `Q04a` is therefore falsified and the row stays open. The classifier's
+   priority was fixed before any outcome existed and is **not** re-read
+   afterwards to rescue the row; a reader who thinks a squared score should
+   count as a lifted basis is disagreeing with the registered predicate, which
+   is exactly the falsifier this result names. The performance side is
+   unaffected and is reported: the selected arm reaches 44.6% of the affine
+   arm's held-out squared error and the landmark kernel arm beats the affine arm
+   at every landmark count, 35.7% at `q = 64`, first cost crossover `q* = 2`.
+
 ---
 
 ## What none of these results says

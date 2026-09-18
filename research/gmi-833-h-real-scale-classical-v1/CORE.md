@@ -25,6 +25,65 @@ size. It licenses nothing about frontier models, no other data, no other
 ecology, no transport to another scope, and neither `M5` nor independent-team
 replication.
 
+## Outcome — one row closed, three reported open
+
+| row | scope | predicted class | recovered class | gates | verdict |
+|---|---|---|---|---|---|
+| Finite-state/automata intelligence. | `SIGMA_H01` | `PERSISTENT_STATE` | `PERSISTENT_STATE` | **11/11** | **CLOSED** |
+| Linear regression / linear classifiers. | `SIGMA_H02` | `AFFINE_SCORE` | `AFFINE_SCORE` | 10/11 | open on `R05` |
+| GLMs. | `SIGMA_H03` | `NONLINEAR_LINK` | `NONLINEAR_LINK` | 10/11 | open on `R08` |
+| Basis/kernel methods. | `SIGMA_H04` | `LIFTED_BASIS` | `NONLINEAR_LINK` | 9/11 | open on `R01`,`R04` |
+
+**`SIGMA_H01` closes.** On 466,750 fit and 155,583 held-out real rows of the
+sha256-bound Debian lexicon, the blind search selected
+`MUL(ARG,PARAM) | ADD(NEG(STEP(STATE)),S)` — a program whose delay cell makes it
+an exact five-state automaton over the 27-symbol alphabet. Its exact held-out
+decision-error count is **17,557 against the blind-selected stateless program's
+17,584**, and **17,584 is not beaten in any of 200 order-randomised controls**
+(`0/200`): a 27-error margin on 155,583 rows that is nevertheless entirely
+destroyed by permuting the order, which is what makes it sequence structure
+rather than noise. The order-destroyed twin ecology selects a stateless head.
+The contiguous-tail evaluation agrees (30,045 against 30,229 on 194,480 further
+rows). Both routes agree; the remint slice recovers the same class; the selected
+expression is exactly minimal in the grammar; the table crossover is `m* = 5`.
+
+**`SIGMA_H02` recovered the affine score and is open on the null, not on the
+science.** The selected affine arm's exact held-out squared error is **967 parts
+per million of the best constant arm's** (546 ppm on the tail), and its exact
+sign-decision error count is **16,708 against the majority-sign arm's 45,121**.
+The registered null was nevertheless not met: 98 of 200 row-permuted design
+controls beat the constant arm — because a least-squares control on a permuted
+design **nests** the constant arm, so the two are indistinguishable up to a
+relative `1e-4` and the comparison is a coin flip by construction. That is a
+vacuous null, the same defect class as a hostile that cannot fire, and its
+outcome carries no information either way. `REAL_RUNS/null_diagnostic_H02.json`
+records the informative comparison on the identical 200 controls under the
+identical seed — **0 of 200 beat the selected arm** — and is labelled
+diagnostic-only. It is **not** substituted for the registered null and closes no
+row: `R05` at `SIGMA_H02` is reported open.
+
+**`SIGMA_H03` recovered the link and is open on the held-out comparison.** Under
+the closeness criterion that A3 froze as that scope's protected interface, the
+blind search selected `RECIP(ADD(ABS(S),S))` — a non-affine head that is zero
+for `S <= 0` and `1/(2S)` above, so a strictly non-negative link, on a response
+that is zero on 77.7% of rows. The registered `Q03c` held decisively: the
+identity-link arm emits **8,336 negative predicted means** on the held-out slice
+and the log-link arm **0**. `Q03b` failed: the log-link arm is strictly closer on
+only **13,937 of 41,695** rows against the identity-link arm's 27,758, and its
+exact SSE is **2.77x** the identity link's — reproduced in V1 and V2, held and
+tail. At real scale on this ecology the link's advantage is admissibility, not
+point accuracy. `R08` is open.
+
+**`SIGMA_H04` did not recover the predicted class.** The blind search selected
+`MUL(ARG,PARAM) | MUL(ADD(BIAS,S),S)` — a squared linear score. The non-affinity
+is in the **head**, so the registered classifier, whose priority puts a
+non-affine body first, returns `NONLINEAR_LINK` and not `LIFTED_BASIS`. The
+performance side of the row is strong — the selected arm is at 44.6% of the
+affine arm's held-out SSE, and the landmark kernel arm beats the affine arm at
+every landmark count, reaching 35.7% at `q = 64`, with the first cost crossover
+at `q* = 2` — but `Q04a` as frozen was falsified and the classifier is not
+re-read after the fact to rescue it. `R01` and `R04` are open.
+
 ## Real sources
 
 | id | source | size | sha256 |

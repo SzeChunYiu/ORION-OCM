@@ -1,9 +1,12 @@
 {
  "claim_ceiling": "REAL_SCALE_ELEVEN_GATE_DERIVATION_OF_NAMED_CLASSICAL_FAMILY_AT_REGISTERED_SCOPE",
  "custody": {
+  "freeze_commit": "0cf9e1e65354b03daf633e36e1dabadb998dcdfa",
   "freeze_order_readable": true,
-  "freeze_precedes_results": false,
-  "note": "result artifact not yet committed"
+  "freeze_precedes_results": true,
+  "freeze_time": 1789712238,
+  "result_commit": "7c68fc489bf2856a6359b783c7bd985f08832cac",
+  "result_time": 1789721790
  },
  "forbidden_promotions": [
   "CROSS_SCOPE_GATE_COMPOSITION",
@@ -80,8 +83,8 @@
   },
   {
    "applicable": true,
-   "clean_no_alarm": false,
-   "detected": false,
+   "clean_no_alarm": true,
+   "detected": true,
    "hostile": "HE7_FREEZE_ORDER",
    "note": "the freeze commit must strictly precede every result artifact"
   },
@@ -108,8 +111,8 @@
   }
  ],
  "hostiles_all_applicable": true,
- "hostiles_all_detected": false,
- "hostiles_no_alarm_on_clean": false,
+ "hostiles_all_detected": true,
+ "hostiles_no_alarm_on_clean": true,
  "independent_search": {
   "gate_route": "source-separated oracle (FREEZE_V1.md section 9); it imports no module of this package, re-derives the structural classification, the exact held-out arithmetic, the grammar cardinality, the minimality and the cost crossovers, and re-ranks the committed survivor set (top 8 of the frozen screen) on 200 committed real search-slice rows with its own exact-rational optimiser. It does NOT re-run the full candidate enumeration on the full search slice: it has no access to D1-D3. The independent re-derivation of the selection is of the decisive comparison among the survivors, not of the screen that produced them.",
   "oracle_all_agree": true,
@@ -405,12 +408,12 @@
   }
  },
  "integrity": {
-  "custody_order_holds": false,
+  "custody_order_holds": true,
   "exact_replay_matches_every_scope": true,
   "grammar_digest_identical_across_scopes": true,
   "hostiles_all_applicable": true,
-  "hostiles_all_detected": false,
-  "hostiles_no_alarm_on_clean": false,
+  "hostiles_all_detected": true,
+  "hostiles_no_alarm_on_clean": true,
   "no_closed_row_mixes_scopes": true,
   "no_gate_imported_from_another_scope": true,
   "oracle_agrees": true
@@ -446,7 +449,7 @@
    "controls": 200,
    "seconds": 75.6
   },
-  "no_alarm_on_true_run": false
+  "no_alarm_on_true_run": true
  },
  "predictions": {
   "Q00": {
@@ -637,7 +640,7 @@
  },
  "rows": {
   "H01": {
-   "complete": false,
+   "complete": true,
    "exact_replay": {
     "committed_partial": 478,
     "matches": true,
@@ -1079,9 +1082,10 @@
    "supported": 9
   }
  },
- "rows_closed": [],
+ "rows_closed": [
+  "H01"
+ ],
  "rows_open": [
-  "H01",
   "H02",
   "H03",
   "H04"
@@ -1118,6 +1122,6 @@
  },
  "schema": "GMI833HRealScaleClassicalResultV1",
  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
- "verdict": "RED",
+ "verdict": "GREEN",
  "verdict_meaning": "GREEN means the package is internally sound: every hostile fires and is caught, no hostile raises a false alarm on clean input, the exact arithmetic is reproduced from the committed real slices, custody order holds and no gate crosses a scope. It does NOT mean every row closed. rows_closed and rows_open are the scientific outcome and are reported as data; a row that failed a frozen prediction is reported open with its single-stage attribution, which is a result, not a defect."
 }

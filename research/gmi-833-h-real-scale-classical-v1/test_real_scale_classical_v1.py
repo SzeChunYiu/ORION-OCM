@@ -203,12 +203,30 @@ class Receipts(unittest.TestCase):
             self.assertTrue(h["clean_no_alarm"],
                             h["hostile"] + " raised a false alarm on clean input")
 
-    def test_nulls(self):
+    def test_h01_null_holds(self):
         self.assertEqual(self.res["nulls"]["H01_order_randomised"]
                          ["stateful_strictly_better"], 0)
-        self.assertEqual(self.res["nulls"]["H02_row_permuted_design"]
-                         ["control_beats_constant"], 0)
+        self.assertEqual(self.res["nulls"]["H01_order_randomised"]["controls"],
+                         200)
+
+    def test_no_alarm_on_the_true_run(self):
         self.assertTrue(self.res["nulls"]["no_alarm_on_true_run"])
+
+    def test_a_failed_null_leaves_its_row_open(self):
+        """The SIGMA_H02 registered null was not met. The package must say so
+        and must not close that row, and the diagnostic must not stand in for
+        it."""
+        n = self.res["nulls"]["H02_row_permuted_design"]["control_beats_constant"]
+        if n == 0:
+            self.skipTest("the registered H02 null was met")
+        self.assertFalse(self.res["predictions"]["Q02d"]["held"])
+        self.assertNotIn("H02", self.res["rows_closed"])
+        self.assertIn("R05_negative_twin", self.res["rows"]["H02"]["open_gates"])
+        d = self.res["nulls"]["H02_null_diagnostic"]
+        self.assertTrue(d["closes_no_row"])
+        self.assertTrue(d["status"].startswith("DIAGNOSTIC_ONLY"))
+        self.assertFalse(d["registered_criterion_met"])
+        self.assertEqual(d["controls_beating_the_selected_arm"], 0)
 
     def test_exact_replay_matches_between_primary_and_oracle(self):
         self.assertTrue(self.orc["all_agree"], self.orc["disagreements"])
