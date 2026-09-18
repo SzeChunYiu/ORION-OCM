@@ -125,16 +125,54 @@ def main(argv):
         print("MISSING RECEIPT")
         return 1
     stored = json.loads(RECEIPT.read_text(encoding="utf-8"))
+
+    # PINNED quantities: equality. The baseline is a frozen picture of
+    # source_main and the validation apparatus is self-contained, so any drift
+    # in these is a defect.
     diffs = []
-    for key in ("baseline", "live_census", "route_b", "route_agreement",
-                "guard", "row_binding_null", "planted_positives",
+    for key in ("baseline", "guard", "row_binding_null", "planted_positives",
                 "gate_failure_demonstration"):
         if stored.get(key) != live.get(key):
             diffs.append(key)
-    if diffs:
-        print("RECEIPT DRIFT in: %s" % ", ".join(diffs))
+
+    # LIVE quantities: the theorem corpus is a shared surface that other lanes
+    # extend, so demanding equality here would make this check fail on main for
+    # a reason that has nothing to do with this package. Assert it
+    # NON-VACUOUSLY instead, and print the live number.
+    a = live["live_census"]
+    b = live["route_b"]
+    stored_live = stored["live_census"]
+    live_checks = [
+        ("theorem corpus did not shrink below the receipt",
+         a["theorem_files"] >= stored_live["theorem_files"]),
+        ("named results did not shrink below the receipt",
+         a["named_results"] >= stored_live["named_results"]),
+        ("ledger debt never grew past the frozen baseline",
+         a["non_compliant_named_results"] <= stored["baseline"]["non_compliant_named_results"]),
+        ("every planted positive is still complete",
+         a["complete_named_results"] >= stored_live["complete_named_results"]),
+        ("the experiment-ledger class is still populated",
+         a["experiment_files"] >= 2 and a["experiment_complete"] == a["experiment_files"]),
+        ("routes still agree on the live corpus",
+         all(a[k] == b[k] for k in ("theorem_files", "named_results",
+                                    "complete_named_results",
+                                    "non_compliant_named_results"))
+         and live["route_agreement"]["per_result_maps_identical"]),
+    ]
+    print("live corpus now: %d theorem artifacts, %d named results, "
+          "%d complete, %d non-compliant (frozen baseline %d)"
+          % (a["theorem_files"], a["named_results"], a["complete_named_results"],
+             a["non_compliant_named_results"],
+             stored["baseline"]["non_compliant_named_results"]))
+    failed_live = [label for label, ok in live_checks if not ok]
+
+    if diffs or failed_live:
+        if diffs:
+            print("RECEIPT DRIFT in pinned section(s): %s" % ", ".join(diffs))
+        for label in failed_live:
+            print("LIVE ASSERTION FAILED: %s" % label)
         return 1
-    print("receipt matches the live two-route run")
+    print("receipt matches: pinned quantities exact, live corpus assertions hold")
     return 0
 
 
