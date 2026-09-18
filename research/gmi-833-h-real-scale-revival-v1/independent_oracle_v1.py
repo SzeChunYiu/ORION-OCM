@@ -22,7 +22,7 @@ WHERE = os.path.dirname(os.path.abspath(__file__))
 ARTIFACTS = os.path.join(WHERE, "REAL_RUNS")
 
 KEYS = ("R02", "R03", "R04")
-EXPECT_SIGMA = {"R02": "SIGMA_R02", "R03": "SIGMA_R03", "R04": "SIGMA_R04"}
+EXPECT_SIGMA = {"R02": "SIGMA_R02", "R03": "SIGMA_R03B", "R04": "SIGMA_R04B"}
 GRID = (F(-2), F(-1), F(-1, 2), F(0), F(1, 2), F(1), F(2))
 LINE = (F(-2), F(-1), F(0), F(1), F(2))
 
@@ -263,7 +263,8 @@ def solve_normal(A, rhs):
     return [M[i][n] / M[i][i] for i in range(n)]
 
 
-def fit_candidate(body_text, head_text, stateful, rows, ys, d):
+def fit_candidate(body_text, head_text, stateful, rows, ys, d, admiss=None,
+                  floor=None, score_rows=None, score_ys=None):
     body = parse(body_text)
     head = parse(head_text)
 
@@ -293,7 +294,9 @@ def fit_candidate(body_text, head_text, stateful, rows, ys, d):
         sol = solve_normal(A, rhs)
         if sol is None:
             return None
-        return squared(predict(sol[:d], sol[d]), ys)
+        return (admissibility(body, head, stateful, sol[:d], sol[d], admiss, floor),
+                out_of_sample(body, head, stateful, sol[:d], sol[d],
+                              score_rows, score_ys, rows, ys, predict))
     params = [0.0] * d
     bias = 0.0
     best = squared(predict(params, bias), ys)
@@ -321,20 +324,57 @@ def fit_candidate(body_text, head_text, stateful, rows, ys, d):
             else:
                 bias = cur
         step *= 0.5
-    return best
+    return (admissibility(body, head, stateful, params, bias, admiss, floor),
+            out_of_sample(body, head, stateful, params, bias,
+                          score_rows, score_ys, rows, ys, predict))
+
+
+def out_of_sample(body, head, stateful, params, bias, score_rows, score_ys,
+                  rows, ys, predict):
+    """FREEZE_V3_ADDENDUM.md section 2: score on rows the fit has not seen."""
+    if score_rows is None:
+        return squared(predict(params, bias), ys)
+    folds = fold_values(body, score_rows, params)
+    return squared(head_values(head, folds, bias, stateful), score_ys)
+
+
+def admissibility(body, head, stateful, params, bias, admiss, floor):
+    """FREEZE_V2_ADDENDUM.md section 3, re-implemented here from that text."""
+    if floor is None or not admiss:
+        return 0
+    carried = 0.0
+    for raw in admiss:
+        acc = 0.0
+        for j, cell in enumerate(raw):
+            acc += float_eval(body, {"ARG": cell, "PARAM": params[j]})
+        got = float_eval(head, {"S": acc, "BIAS": bias, "STATE": carried})
+        if stateful:
+            carried = got
+        if got != got or got < floor:
+            return 1
+    return 0
 
 
 def rerank(rec):
     block = rec["search_sample"]
     rows, ys = sample_design(block)
     d = block["d"]
+    floor = block.get("support_floor")
+    xden = block["xden"]
+    admiss = [[float(cell) / float(xden[j]) for j, cell in enumerate(raw)]
+              for raw in block.get("Xa", [])]
+    srows = [[float(cell) / float(xden[j]) for j, cell in enumerate(raw)]
+             for raw in block["Xs"]]
+    sys_ = [float(v) / float(block["yden"]) for v in block["ys"]]
     table = []
     for entry in block["survivors"]:
         stateful = varies_with(parse(entry["head"]), "STATE", ["S", "BIAS"])
-        got = fit_candidate(entry["body"], entry["head"], stateful, rows, ys, d)
+        got = fit_candidate(entry["body"], entry["head"], stateful, rows, ys, d,
+                            admiss, floor, srows, sys_)
         if got is None:
             continue
-        table.append((got, count_nodes(parse(entry["body"]))
+        bad, loss = got
+        table.append((bad, loss, count_nodes(parse(entry["body"]))
                       + count_nodes(parse(entry["head"])),
                       entry["body"], entry["head"]))
     table.sort()
@@ -355,8 +395,11 @@ def main():
         klass = structural_class(rec["chosen"]["body"], rec["chosen"]["head"])
         class_ok = (klass == rec["chosen"]["class"])
         table = rerank(rec)
-        top_ok = bool(table and table[0][2] == rec["chosen"]["body"]
-                      and table[0][3] == rec["chosen"]["head"])
+        # FREEZE_V3_ADDENDUM.md section 5: route B reproduces the primary's own
+        # ranking on the committed block, not the full-scale ranking.
+        want = rec["search_sample"]["primary_ranking_on_this_block"]
+        top_ok = bool(table and want and table[0][3] == want[0]["body"]
+                      and table[0][4] == want[0]["head"])
         stateful = bool(rec["chosen"]["attributes"]["reads_state"])
         m_star = rec["crossover"]["m_star"]
         cross_ok = True
@@ -376,7 +419,11 @@ def main():
             "recomputed_partial_decision_errors": got_errors,
             "class_rederived": klass,
             "class_matches": bool(class_ok),
-            "independent_top1": (list(table[0][2:]) if table else None),
+            "independent_top1": (list(table[0][3:]) if table else None),
+            "primary_top1_on_this_block": ([want[0]["body"], want[0]["head"]]
+                                           if want else None),
+            "block_rows": rec["search_sample"]["rows"],
+            "independent_top1_inadmissible": (table[0][0] if table else None),
             "independent_top1_matches": top_ok,
             "survivors_reranked": len(table),
             "crossover_arithmetic_ok": bool(cross_ok),

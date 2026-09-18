@@ -1,0 +1,218 @@
+name: GMI 833 Section H real-scale revival v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-h-real-scale-revival-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-revival-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-h-real-scale-revival-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-revival-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody - the freeze must predate every implementation artifact
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-revival-v1
+          FZ=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze add time"; exit 1; fi
+          AD=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1_ARITHMETIC_ADDENDUM.md")
+          if [ -z "$AD" ]; then echo "cannot read the addendum add time"; exit 1; fi
+          for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json \
+                   "$P"/MANIFEST_V1.json "$P"/REAL_RUNS_V1/*.json "$P"/REAL_RUNS/*.json; do
+            T=$(git log --format=%ct -1 --diff-filter=A -- "$f")
+            if [ -z "$T" ]; then echo "cannot read add time for $f"; exit 1; fi
+            if [ "$T" -lt "$FZ" ]; then echo "CUSTODY FAILURE: $f predates FREEZE_V1.md"; exit 1; fi
+            if [ "$T" -lt "$AD" ]; then echo "CUSTODY FAILURE: $f predates the arithmetic addendum"; exit 1; fi
+          done
+          echo "custody ok: the freeze and its addendum predate every implementation artifact"
+
+      - name: custody - each revival addendum predates the receipts it governs
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-revival-v1
+          V2=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V2_ADDENDUM.md")
+          V3=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V3_ADDENDUM.md")
+          V1R=$(git log --format=%ct -1 --diff-filter=A -- "$P/REAL_RUNS_V1/scope_R02.json")
+          if [ -z "$V2" ] || [ -z "$V3" ] || [ -z "$V1R" ]; then
+            echo "cannot read an addendum or first-run add time"; exit 1
+          fi
+          if [ "$V2" -lt "$V1R" ]; then
+            echo "CUSTODY FAILURE: the revival addendum predates the run it diagnoses"; exit 1
+          fi
+          for f in "$P"/REAL_RUNS/*.json; do
+            T=$(git log --format=%ct -1 --diff-filter=A -- "$f")
+            if [ -z "$T" ]; then echo "cannot read add time for $f"; exit 1; fi
+            if [ "$T" -lt "$V2" ] || [ "$T" -lt "$V3" ]; then
+              echo "CUSTODY FAILURE: $f predates an addendum that governs it"; exit 1
+            fi
+          done
+          echo "custody ok: V2 postdates the run it diagnoses, and the corrected receipts postdate both addenda"
+
+      - name: custody - survives its own publication by squash merge
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-revival-v1
+          FIRST=$(git log --reverse --format=%H -- "$P" | head -n 1)
+          N=$(git show --name-only --format= "$FIRST" -- "$P" | grep -c . || true)
+          if [ "$N" = "1" ]; then
+            git show --name-only --format= "$FIRST" -- "$P" | grep -q 'FREEZE_V1.md$' \
+              || { echo "CUSTODY FAILURE: the first commit is not the freeze"; exit 1; }
+            echo "custody ok: the package opened with FREEZE_V1.md alone"
+          else
+            git show --name-only --format= "$FIRST" -- "$P" | grep -q 'FREEZE_V1.md$' \
+              || { echo "CUSTODY FAILURE: the publishing commit carries no freeze"; exit 1; }
+            echo "custody ok: published by squash, and the freeze is in that commit"
+          fi
+
+      - name: two-route independence - the oracle must not import the executor
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-revival-v1
+          for m in grammar_s_v1 run_real_scale_revival_v1 real_scale_revival_v1; do
+            if grep -Eq "^[[:space:]]*(import|from)[[:space:]]+$m\b" independent_oracle_v1.py; then
+              echo "TWO-ROUTE FAILURE: the oracle imports $m"; exit 1
+            fi
+          done
+          python3 -I -B -c "import sys;sys.path.insert(0,'.');import independent_oracle_v1;
+sys.exit(1 if any(m in sys.modules for m in ('grammar_s_v1','run_real_scale_revival_v1','real_scale_revival_v1')) else 0)"
+          echo "two-route independence ok"
+
+      - name: no gate certificate may carry a foreign scope
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-revival-v1
+          python3 -I -B -c "
+import json,sys
+r=json.load(open('RESULT_V1.json'))
+own={'SIGMA_R02','SIGMA_R03','SIGMA_R04'}
+bad=[(k,g) for k,row in r['rows'].items() for g in row['gates']
+     if g['sigma'] not in own or g['sigma']!=row['sigma']]
+if bad:
+    print('FOREIGN SIGMA:',bad[:3]); sys.exit(1)
+print('every gate carries its own scope')"
+
+      - name: negative control - a wrong artifact path must fail loudly
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-revival-v1
+          if python3 -I -B -c "import sys;sys.path.insert(0,'.');import real_scale_revival_v1 as C;C.RUNS='NO_SUCH_DIR';C.load('sources.json')" 2>&1 | grep -q 'MISSING REAL_RUN ARTIFACT'; then
+            echo "negative control ok: a wrong path fails loudly"
+          else
+            echo "NEGATIVE CONTROL FAILURE: a wrong path did not fail"; exit 1
+          fi
+
+      - name: negative control - the custody checker itself must be able to fail
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-revival-v1
+          T=$(git log --format=%ct -1 --diff-filter=A -- "$P/NO_SUCH_FILE.md" || true)
+          if [ -n "$T" ]; then echo "NEGATIVE CONTROL FAILURE: a nonexistent path produced a time"; exit 1; fi
+          echo "negative control ok: a nonexistent path yields no add time, so a path typo fails closed"
+
+      - name: set interpreter flags
+        run: |
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            echo "PYFLAGS=-I -O -B" >> "$GITHUB_ENV"
+          else
+            echo "PYFLAGS=-I -B" >> "$GITHUB_ENV"
+          fi
+
+      - name: route B - source-separated oracle
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: python3 $PYFLAGS independent_oracle_v1.py
+
+      - name: route A - deterministic exact checker and eleven-coordinate ledger
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: python3 $PYFLAGS real_scale_revival_v1.py
+
+      - name: tests
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: python3 $PYFLAGS test_real_scale_revival_v1.py -v
+
+      - name: receipts are deterministic and match what was committed
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: |
+          set -eu
+          python3 -I -B independent_oracle_v1.py > /dev/null
+          python3 -I -B real_scale_revival_v1.py > /dev/null
+          A=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          python3 -I -O -B real_scale_revival_v1.py > /dev/null
+          B=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          if [ "$A" != "$B" ]; then echo "NON-DETERMINISTIC RECEIPT: $A vs $B"; exit 1; fi
+          echo "deterministic across both modes: $A"
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json
+
+      - name: real sources are still bound by the digests the freeze registered
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: |
+          set -eu
+          for D in a9f677295dcb2d102bb43b86cbad70babe208c1a5fd38a2ae4d8a05f7fdb7a7a \
+                   41607de5c1577303abc83cccfd29e5d12e6c180689d9fc3d98eac3f97dec9ec9; do
+            if ! grep -q "$D" REAL_RUNS/sources.json; then
+              echo "SOURCE DIGEST DRIFT: $D not in REAL_RUNS/sources.json"; exit 1
+            fi
+            if ! grep -q "$D" FREEZE_V1.md; then
+              echo "SOURCE DIGEST DRIFT: $D not in FREEZE_V1.md"; exit 1
+            fi
+          done
+          echo "source digests match FREEZE_V1.md section 4"
+
+      - name: the admissibility rule is inert or non-vacuous, never silent
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: |
+          set -eu
+          python3 -I -B -c "
+import json,sys
+r=json.load(open('RESULT_V1.json'))
+bad=[k for k,v in r['admissibility_rule'].items() if not (v['inert'] or v['non_vacuous'])]
+if bad:
+    print('VACUOUS FILTER at', bad); sys.exit(1)
+print('the support-admissibility rule is inert or non-vacuous at every scope')"
+
+      - name: a row is closed only when eleven coordinates hold at one scope
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: |
+          set -eu
+          python3 -I -B -c "
+import json,sys
+r=json.load(open('RESULT_V1.json'))
+rec=json.load(open('ISSUE_833_RECONCILIATION_H2_V1.json'))
+closed=set(r['rows_closed'])
+for k,row in r['rows'].items():
+    if row['complete'] and (row['supported']!=11 or not row['single_sigma']):
+        print('BAD CLOSURE',k); sys.exit(1)
+for e in rec['replacements']:
+    if e['old'].replace('- [ ] ','') not in closed:
+        print('RECONCILIATION CLAIMS AN OPEN ROW:', e['old']); sys.exit(1)
+print('%d row(s) closed, %d reported open' % (len(closed), len(r['rows_open'])))"
+
+      - name: the analysis note closes nothing
+        working-directory: research/gmi-833-h-real-scale-revival-v1
+        run: |
+          set -eu
+          if grep -q '^- \[x\]' SECTION_H_RESIDUAL_OBSTRUCTION_V1.md; then
+            echo "SCOPE FAILURE: the analysis note carries a closure marker"; exit 1
+          fi
+          echo "the analysis note closes nothing"

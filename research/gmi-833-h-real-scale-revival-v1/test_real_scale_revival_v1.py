@@ -18,7 +18,7 @@ import real_scale_revival_v1 as C
 
 PRIMARY = ("grammar_s_v1", "run_real_scale_revival_v1", "real_scale_revival_v1")
 SCOPES = ("R02", "R03", "R04")
-OWN_SIGMA = set(["SIGMA_R02", "SIGMA_R03", "SIGMA_R04"])
+OWN_SIGMA = set(["SIGMA_R02", "SIGMA_R03B", "SIGMA_R04B"])
 ROWS = ("- [ ] Linear regression / linear classifiers.",
         "- [ ] GLMs.",
         "- [ ] Basis/kernel methods.")
@@ -64,11 +64,22 @@ class TwoRoutes(unittest.TestCase):
             self.assertTrue(oracle["scopes"][key]["agrees"], key)
 
     def test_the_checker_reads_no_parent_result_file(self):
-        text = read("real_scale_revival_v1.py")
-        for needle in ("gmi-833-h-neutral-four-family-v1",
-                       "gmi-833-h-real-scale-classical-v1",
-                       "gmi-833-h-family-requirement-ledger-v1"):
-            self.assertNotIn(needle + "/RESULT", text)
+        # The checker may not reach outside its own package directory. A
+        # parent package name appears once, as the PAYLOAD of the
+        # H_PARENT_GATE_IMPORT hostile; that is data handed to a detector, not
+        # a path, so the check is on reachable paths, not on the name.
+        tree = ast.parse(read("real_scale_revival_v1.py"))
+        literals = [n.value for n in ast.walk(tree)
+                    if isinstance(n, ast.Constant) and isinstance(n.value, str)]
+        for text in literals:
+            self.assertNotIn("research/", text)
+            self.assertNotIn("..", text)
+        roots = set()
+        for node in ast.walk(tree):
+            if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                    and node.func.id == "open"):
+                roots.add(ast.dump(node.args[0])[:24])
+        self.assertTrue(roots)
 
 
 class Custody(unittest.TestCase):
@@ -84,6 +95,18 @@ class Custody(unittest.TestCase):
         text = read("FREEZE_V1_ARITHMETIC_ADDENDUM.md")
         self.assertIn("No prediction of section 8 changes.", text)
         self.assertIn("Fraction(round(x * 10**9), 10**9)", text)
+
+    def test_the_revival_addendum_states_the_stopping_rule(self):
+        text = read("FREEZE_V2_ADDENDUM.md")
+        self.assertIn("is **not** attempted a third time in this package", text)
+        self.assertIn("ECOLOGY_ITERATION_UNTIL_POSITIVE", text)
+        self.assertIn("REAL_RUNS_V1/", text)
+
+    def test_the_first_run_receipts_are_still_committed(self):
+        self.assertTrue(os.path.isdir(os.path.join(HERE, "REAL_RUNS_V1")))
+        for key in SCOPES:
+            self.assertTrue(os.path.isfile(os.path.join(
+                HERE, "REAL_RUNS_V1", "scope_%s.json" % key)))
 
     def test_the_obstruction_note_closes_nothing(self):
         text = read("SECTION_H_RESIDUAL_OBSTRUCTION_V1.md")
@@ -124,6 +147,22 @@ class Scopes(unittest.TestCase):
         for key in SCOPES:
             self.assertGreaterEqual(self.result["scale"][key]["n_fit"], 100000)
             self.assertGreaterEqual(self.result["scale"][key]["n_held"], 20000)
+
+    def test_the_admissibility_rule_is_inert_or_non_vacuous_everywhere(self):
+        for key in SCOPES:
+            rule = self.result["admissibility_rule"][key]
+            self.assertTrue(rule["inert"] or rule["non_vacuous"], key)
+            if rule["non_vacuous"]:
+                self.assertGreater(rule["demoted_on_fit_slice"], 0)
+                self.assertLess(rule["demoted_on_fit_slice"], rule["enumerated"])
+        self.assertTrue(self.result["admissibility_rule_never_vacuous"])
+
+    def test_the_rule_is_inert_where_the_support_is_two_sided(self):
+        rule = self.result["admissibility_rule"]["R02"]
+        self.assertTrue(rule["inert"])
+        self.assertEqual(rule["demoted_on_fit_slice"], 0)
+        detail = self.result["predictions"]["Q2h"]["detail"]
+        self.assertTrue(detail["rule"]["inert"])
 
     def test_every_hostile_is_applicable_and_detected(self):
         for hostile in self.result["hostiles"]:

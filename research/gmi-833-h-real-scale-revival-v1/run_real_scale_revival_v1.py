@@ -30,7 +30,8 @@ RUNS = os.path.join(HERE, "REAL_RUNS")
 RAT_DEN = 10 ** 9              # FREEZE_V1.md section 6
 SEED = 20260918                # FREEZE_V1.md section 8, P2d
 SCREEN_ROWS = 400
-SEARCH_ROWS = 20000
+ORACLE_ROWS = 1500
+RANK_SPLIT = 7  # tenths of the search slice used to fit the ranking stage
 KEEP = 40
 SWEEPS = 6
 N_CONTROLS = 200
@@ -39,7 +40,10 @@ VERIFY_ROWS = 1500
 D2_DIGEST = "a9f677295dcb2d102bb43b86cbad70babe208c1a5fd38a2ae4d8a05f7fdb7a7a"
 D3_DIGEST = "41607de5c1577303abc83cccfd29e5d12e6c180689d9fc3d98eac3f97dec9ec9"
 
-SCOPES = {"R02": "SIGMA_R02", "R03": "SIGMA_R03", "R04": "SIGMA_R04"}
+SCOPES = {"R02": "SIGMA_R02", "R03": "SIGMA_R03B", "R04": "SIGMA_R04B"}
+# FREEZE_V2_ADDENDUM.md section 3: the one-sided registered response support.
+# None means the support is two-sided and the admissibility rule is inert.
+SUPPORT_FLOOR = {"R02": None, "R03": 0, "R04": 0}
 
 
 def sha_bytes(b):
@@ -114,10 +118,10 @@ def ecology_F04(pcm):
     n = len(pcm) - 33
     idx = np.arange(n)[:, None] + np.arange(1, d + 1)[None, :]
     X = pcm[idx]
-    nonneg = (pcm >= 0).astype(np.int64)
-    cs = np.concatenate([[0], np.cumsum(nonneg)])
+    positive = (pcm > 0).astype(np.int64)
+    cs = np.concatenate([[0], np.cumsum(positive)])
     y = cs[32:32 + n] - cs[0:n]
-    return {"name": "F04", "X": X, "y": y, "d": d,
+    return {"name": "F04b", "X": X, "y": y, "d": d,
             "xden": (32768,) * d, "yden": 32, "loss": "squared"}
 
 
@@ -539,32 +543,63 @@ def decision_errors(pred, ys):
     return n
 
 
-def affine_int_sse(eco, idx, params, bias):
-    """Exact squared error of the pure affine program by integer accumulation.
+def head_affine_coefficients(head):
+    """(h_s, h_b, h_0) with HEAD(S,BIAS,0) = h_s*S + h_b*BIAS + h_0, exactly.
 
-    pred_i = (sum_j X_ij * a_j + b * xden) / (xden * RAT_DEN),  a_j, b integers
-    y_i    = Y_i / yden
+    Valid only for a HEAD that is jointly affine in S and BIAS and reads no
+    STATE; the caller checks that on the frozen probe grid and refuses
+    otherwise, so the decomposition is never assumed.
+    """
+    z = G.value(head, {"S": Q(0), "BIAS": Q(0), "STATE": Q(0)})
+    hs = G.value(head, {"S": Q(1), "BIAS": Q(0), "STATE": Q(0)}) - z
+    hb = G.value(head, {"S": Q(0), "BIAS": Q(1), "STATE": Q(0)}) - z
+    for a in (Q(-2), Q(3, 2), Q(2)):
+        for b in (Q(-1), Q(1, 2), Q(2)):
+            if G.value(head, {"S": a, "BIAS": b, "STATE": Q(0)}) != hs * a + hb * b + z:
+                return None
+    return hs, hb, z
+
+
+def affine_int_sse(eco, idx, params, bias, head=None):
+    """Exact squared error of a linear-score program by integer accumulation.
+
+    BODY is semantically MUL(ARG,PARAM) and HEAD is jointly affine in S and
+    BIAS, so pred_i = h_s * (sum_j X_ij a_j)/(xden*RAT_DEN) + h_b*b/RAT_DEN + h_0.
     Every xden is equal within a scope, so one common denominator suffices.
     """
     den = eco["xden"]
     if len(set(den)) != 1:
         return None
     xd = den[0]
+    if head is None:
+        hs, hb, h0 = Q(1), Q(1), Q(0)
+    else:
+        got = head_affine_coefficients(head)
+        if got is None:
+            return None
+        hs, hb, h0 = got
     a = np.array([int(p.numerator) * (RAT_DEN // int(p.denominator))
                   for p in params], dtype=np.int64)
-    b = int(bias.numerator) * (RAT_DEN // int(bias.denominator))
-    M = _lcm(xd * RAT_DEN, eco["yden"])
-    f_pred = M // (xd * RAT_DEN)
-    f_y = M // eco["yden"]
+    b = Q(bias)
+    M = _lcm(_lcm(xd * RAT_DEN * hs.denominator,
+                  RAT_DEN * hb.denominator * b.denominator),
+             _lcm(eco["yden"], h0.denominator))
     X = eco["X"][idx]
     Y = eco["y"][idx]
     lin = X.dot(a)
     if np.abs(lin).max() > 2 ** 62:
         raise ValueError("integer overflow guard tripped in affine_int_sse")
-    num = (lin + b * xd) * f_pred - Y * f_y
+    k_lin = Q(hs, xd * RAT_DEN) * M
+    k_const = (hb * b + h0) * M
+    k_y = Q(M, eco["yden"])
+    if (k_lin.denominator != 1 or k_const.denominator != 1
+            or k_y.denominator != 1):
+        return None
+    kl, kc, ky = int(k_lin), int(k_const), int(k_y)
     total = 0
-    for v in num.tolist():
-        total += v * v
+    for v, yv in zip(lin.tolist(), Y.tolist()):
+        d = v * kl + kc - yv * ky
+        total += d * d
     return Q(total, M * M)
 
 
@@ -589,7 +624,10 @@ _CTX = {}
 def _screen_one_body(br):
     body, heads = _CTX["by_body"][br]
     X, y, d, sweeps = _CTX["X"], _CTX["y"], _CTX["d"], _CTX["sweeps"]
+    floor = _CTX["floor"]
+    Xa = _CTX["Xa"]
     plan = SPlan(body, X)
+    plan_a = SPlan(body, Xa) if floor is not None else None
     res = []
     for h in heads:
         stateful = G.depends_on(h, "STATE", ["S", "BIAS"])
@@ -597,12 +635,19 @@ def _screen_one_body(br):
             p, bi, L, how = fit_plan(plan, h, stateful, y, d, sweeps)
         except (ValueError, FloatingPointError, np.linalg.LinAlgError):
             continue
-        res.append((L, G.nodes(body) + G.nodes(h), br, G.show(h),
+        demoted = 0
+        if floor is not None:
+            try:
+                pa = predict_plan(plan_a, h, stateful, p, bi)
+                demoted = 0 if np.all(np.isfinite(pa)) and pa.min() >= floor else 1
+            except (ValueError, FloatingPointError, np.linalg.LinAlgError):
+                demoted = 1
+        res.append((demoted, L, G.nodes(body) + G.nodes(h), br, G.show(h),
                     body, h, bool(stateful)))
     return res
 
 
-def screen(pairs, X, y, d, sweeps):
+def screen(pairs, X, y, d, sweeps, Xa=None, floor=None):
     """Family-blind scoring of every enumerated pair, grouped by BODY.
 
     The grouping is an arithmetic saving only: the fold value depends on BODY
@@ -613,7 +658,8 @@ def screen(pairs, X, y, d, sweeps):
     for (b, h) in pairs:
         by_body.setdefault(G.show(b), (b, []))[1].append(h)
     _CTX.clear()
-    _CTX.update({"by_body": by_body, "X": X, "y": y, "d": d, "sweeps": sweeps})
+    _CTX.update({"by_body": by_body, "X": X, "y": y, "d": d, "sweeps": sweeps,
+                 "Xa": Xa, "floor": floor})
     names = sorted(by_body)
     t0 = time.time()
     if WORKERS > 1:
@@ -634,34 +680,104 @@ def screen(pairs, X, y, d, sweeps):
             print("    screened body %d/%d (%.0fs)" % (k + 1, len(names),
                                                        time.time() - t0))
     scored = [t for chunk in chunks for t in chunk]
-    scored.sort(key=lambda t: (t[0], t[1], t[2], t[3]))
+    scored.sort(key=lambda t: (t[0], t[1], t[2], t[3], t[4]))
     return scored
 
 
-def run_search(pairs, eco, idx, tag):
+def run_search(pairs, eco, idx, fit_idx, floor, tag):
+    """Family-blind search.
+
+    Screen: every enumerated pair, fitted and scored in sample on a small block
+    of the ranking-fit part. A coarse prefilter; it decides nothing alone.
+
+    Rank (FREEZE_V3_ADDENDUM.md): the survivors are refitted on the ranking-fit
+    part of the search slice and scored on the ranking-score part, which they
+    have not seen. The held-out slice is never touched.
+
+    Support-admissibility (FREEZE_V2_ADDENDUM.md) is measured on fit-slice rows
+    and is inert where the registered response support is two-sided.
+    """
     d = eco["d"]
     t0 = time.time()
-    Xs, ys = design(eco, idx[:SCREEN_ROWS])
-    scored = screen(pairs, Xs, ys, d, 2)
+    cut = len(idx) * RANK_SPLIT // 10
+    rank_fit = idx[:cut]
+    rank_score = idx[cut:]
+    Xs, ys = design(eco, rank_fit[:SCREEN_ROWS])
+    Xa = None
+    if floor is not None:
+        Xa, _ = design(eco, fit_idx[:SCREEN_ROWS])
+    scored = screen(pairs, Xs, ys, d, 2, Xa, floor)
+    demoted = sum(1 for t in scored if t[0])
     kept = scored[:KEEP]
-    Xf, yf = design(eco, idx[:SEARCH_ROWS])
-    plans = {}
+
+    Xf, yf = design(eco, rank_fit)
+    Xv, yv = design(eco, rank_score)
+    Xaf = None
+    if floor is not None:
+        Xaf, _ = design(eco, fit_idx[:len(rank_fit)])
     ranked = []
-    for (_, _, br, hr, b, h, st) in kept:
-        if br not in plans:
-            plans[br] = SPlan(b, Xf)
+    ob = {"rows": 0}
+    Xo, yo = design(eco, rank_fit[:ORACLE_ROWS])
+    Xp, yp = design(eco, rank_score[:ORACLE_ROWS])
+    Xoa = None
+    if floor is not None:
+        Xoa, _ = design(eco, fit_idx[:ORACLE_ROWS])
+    oracle_rank = []
+    for (_, _, _, br, hr, b, h, st) in kept:
+        plan_f = SPlan(b, Xf)
+        plan_v = SPlan(b, Xv)
+        plan_a = SPlan(b, Xaf) if floor is not None else None
         try:
-            p, bi, L, how = fit_plan(plans[br], h, st, yf, d)
+            p, bi, L_in, how = fit_plan(plan_f, h, st, yf, d)
+            L = loss_of(predict_plan(plan_v, h, st, p, bi), yv)
         except (ValueError, FloatingPointError, np.linalg.LinAlgError):
             continue
-        ranked.append({"loss": L, "body": br, "head": hr,
+        if not np.isfinite(L):
+            continue
+        bad = 0
+        if floor is not None:
+            try:
+                pa = predict_plan(plan_a, h, st, p, bi)
+                bad = 0 if np.all(np.isfinite(pa)) and pa.min() >= floor else 1
+            except (ValueError, FloatingPointError, np.linalg.LinAlgError):
+                bad = 1
+        ranked.append({"inadmissible": bad, "loss": L, "in_sample_loss": L_in,
+                       "body": br, "head": hr,
                        "nodes": G.nodes(b) + G.nodes(h),
                        "reads_state": bool(st), "fit_route": how})
-    ranked.sort(key=lambda r: (r["loss"], r["nodes"], r["body"], r["head"]))
-    print("[%s] screened %d kept %d in %.1fs; chosen %s | %s loss=%.6g"
-          % (tag, len(scored), len(kept), time.time() - t0,
+        # the same computation on the block the oracle is given
+        try:
+            po, bo, Lo_in, _ = fit_plan(SPlan(b, Xo), h, st, yo, d)
+            Lo = loss_of(predict_plan(SPlan(b, Xp), h, st, po, bo), yp)
+            bo_bad = 0
+            if floor is not None:
+                pa = predict_plan(SPlan(b, Xoa), h, st, po, bo)
+                bo_bad = 0 if np.all(np.isfinite(pa)) and pa.min() >= floor else 1
+            if np.isfinite(Lo):
+                oracle_rank.append({"inadmissible": bo_bad, "loss": Lo,
+                                    "body": br, "head": hr,
+                                    "nodes": G.nodes(b) + G.nodes(h)})
+        except (ValueError, FloatingPointError, np.linalg.LinAlgError):
+            pass
+    ranked.sort(key=lambda r: (r["inadmissible"], r["loss"], r["nodes"],
+                               r["body"], r["head"]))
+    oracle_rank.sort(key=lambda r: (r["inadmissible"], r["loss"], r["nodes"],
+                                    r["body"], r["head"]))
+    rule = {"support_floor": floor, "enumerated": len(scored),
+            "demoted_on_fit_slice": demoted,
+            "inert": bool(floor is None),
+            "non_vacuous": bool(floor is not None and 0 < demoted < len(scored)),
+            "ranked_demoted": sum(1 for r in ranked if r["inadmissible"])}
+    budget = {"screen_rows": SCREEN_ROWS, "keep": KEEP, "sweeps": SWEEPS,
+              "rank_fit_rows": int(len(rank_fit)),
+              "rank_score_rows": int(len(rank_score)),
+              "oracle_block_rows": ORACLE_ROWS,
+              "rank_split_tenths": RANK_SPLIT}
+    print("[%s] screened %d (demoted %d) kept %d in %.1fs; chosen %s | %s "
+          "out_of_sample_loss=%.6g"
+          % (tag, len(scored), demoted, len(kept), time.time() - t0,
              ranked[0]["body"], ranked[0]["head"], ranked[0]["loss"]))
-    return ranked, scored
+    return ranked, scored, rule, budget, oracle_rank, (rank_fit, rank_score)
 
 
 def parse_tree(s):
@@ -717,7 +833,11 @@ def run_scope(key, eco):
     if key == "R03":
         rec["admissibility"] = admissibility_F03(eco, sl["fit"])
 
-    ranked, scored = run_search(pairs, eco, sl["search"], key)
+    floor = SUPPORT_FLOOR[key]
+    ranked, scored, rule, budget, orank, parts = run_search(
+        pairs, eco, sl["search"], sl["fit"], floor, key)
+    rec["admissibility_rule"] = rule
+    rec["search_budget"] = budget
     w = ranked[0]
     body, head = parse_tree(w["body"]), parse_tree(w["head"])
     attrs = G.classify(body, head)
@@ -725,7 +845,8 @@ def run_scope(key, eco):
                      "class": attrs["class"], "attributes": attrs,
                      "search_loss": w["loss"], "search_fit_route": w["fit_route"]}
     rec["search"] = {"ranked_top10": ranked[:10],
-                     "screen_top20": [{"loss": s[0], "body": s[2], "head": s[3]}
+                     "screen_top20": [{"loss": s[1], "body": s[3], "head": s[4],
+                                       "inadmissible": s[0]}
                                       for s in scored[:20]]}
 
     params_f, bias_f, route = fit_on(eco, sl["fit"], body, head, attrs["reads_state"])
@@ -740,6 +861,13 @@ def run_scope(key, eco):
     ev = exact_evaluate(eco, sl["held"], body, head, attrs["reads_state"],
                         params, bias, want_decisions=(key == "R02"))
     rec["chosen"]["held_out"] = ev
+    if (G.meaning(body, G.body_grid()) == G.meaning(AFFINE_BODY, G.body_grid())
+            and not attrs["reads_state"]
+            and head_affine_coefficients(head) is not None):
+        alt = affine_int_sse(eco, sl["held"], params, bias, head)
+        if alt is not None:
+            ev["sse_second_route"] = qstr(alt)
+            ev["two_routes_agree"] = bool(qstr(alt) == ev["sse"])
     print("[%s] class=%s held n=%d sse=%s (%.1fs)"
           % (key, attrs["class"], ev["n"], ev["sse"][:44], time.time() - t_ev))
 
@@ -769,7 +897,8 @@ def run_scope(key, eco):
             G.table_cost(m_star - 1) if m_star > 1 else None)
 
     # R09 independent regeneration on disjoint slices
-    ranked2, _ = run_search(pairs, eco, sl["regen_fit"], key + "/regen")
+    ranked2, _, rule2, _, _, _ = run_search(
+        pairs, eco, sl["regen_fit"], sl["regen_fit"], floor, key + "/regen")
     w2 = ranked2[0]
     b2, h2 = parse_tree(w2["body"]), parse_tree(w2["head"])
     a2 = G.classify(b2, h2)
@@ -778,7 +907,8 @@ def run_scope(key, eco):
                            "class_matches": bool(a2["class"] == attrs["class"]),
                            "expression_matches": bool(w2["body"] == w["body"]
                                                       and w2["head"] == w["head"]),
-                           "n_rows": int(len(sl["regen_fit"]))}
+                           "n_rows": int(len(sl["regen_fit"])),
+                           "admissibility_rule": rule2}
     print("[%s] regeneration class=%s matches=%s"
           % (key, a2["class"], rec["regeneration"]["class_matches"]))
 
@@ -794,14 +924,28 @@ def run_scope(key, eco):
     if key == "R02":
         rec["replay"]["partial_decision_errors"] = decision_errors(vpred, vys)
 
-    sample_idx = sl["search"][:SCREEN_ROWS]
+    # FREEZE_V3_ADDENDUM.md section 5: the block route B re-ranks on, plus the
+    # primary's own ranking of the same survivors on exactly that block.
+    rank_fit, rank_score = parts
+    ob_fit = rank_fit[:ORACLE_ROWS]
+    ob_score = rank_score[:ORACLE_ROWS]
+    ob_admiss = sl["fit"][:ORACLE_ROWS]
     rec["search_sample"] = {
-        "rows": int(len(sample_idx)), "d": eco["d"],
+        "rows": int(len(ob_fit)), "d": eco["d"],
         "xden": list(eco["xden"]), "yden": int(eco["yden"]),
-        "X": [[int(v) for v in eco["X"][i]] for i in sample_idx],
-        "y": [int(eco["y"][i]) for i in sample_idx],
-        "survivors": [{"body": t[2], "head": t[3], "screen_loss": t[0]}
-                      for t in scored[:KEEP]]}
+        "support_floor": floor,
+        "X": [[int(v) for v in eco["X"][i]] for i in ob_fit],
+        "y": [int(eco["y"][i]) for i in ob_fit],
+        "Xs": [[int(v) for v in eco["X"][i]] for i in ob_score],
+        "ys": [int(eco["y"][i]) for i in ob_score],
+        "Xa": ([[int(v) for v in eco["X"][i]] for i in ob_admiss]
+               if floor is not None else []),
+        "survivors": [{"body": t[3], "head": t[4], "screen_loss": t[1],
+                       "inadmissible": t[0]} for t in scored[:KEEP]],
+        "primary_ranking_on_this_block": orank[:10],
+        "note": ("route B re-ranks these survivors on these rows and must "
+                 "reproduce primary_ranking_on_this_block; the full-scale "
+                 "ranking is not re-derived by route B")}
 
     rec["grammar_digest_after"] = G.digest()
     rec["grammar_digest_unchanged"] = bool(digest_before == rec["grammar_digest_after"])
@@ -962,7 +1106,7 @@ def arms_R04(eco, sl, body, head, stateful, params, bias, chosen_eval):
     pa = [rationalise(v) for v in pa_f]
     ba = rationalise(ba_f)
     aff = exact_evaluate(eco, sl["held"], AFFINE_BODY, AFFINE_HEAD, False, pa, ba)
-    aff_int = affine_int_sse(eco, sl["held"], pa, ba)
+    aff_int = affine_int_sse(eco, sl["held"], pa, ba, AFFINE_HEAD)
     out = {"affine": {"body": G.show(AFFINE_BODY), "head": G.show(AFFINE_HEAD),
                       "n": aff["n"], "held_sse": aff["sse"], "fit_route": route,
                       "held_sse_second_route": qstr(aff_int),
@@ -977,7 +1121,7 @@ def arms_R04(eco, sl, body, head, stateful, params, bias, chosen_eval):
             body, head, eco["d"], stateful)
         out["landmark"]["landmark_cost_at_q_star_minus_1"] = (
             G.landmark_cost(q_star - 1, eco["d"]) if q_star > 1 else None)
-        Xf, yf = design(eco, sl["fit"][:SEARCH_ROWS])
+        Xf, yf = design(eco, sl["fit"][:20000])
         step = max(1, Xf.shape[0] // q_star)
         L = Xf[[j * step for j in range(q_star)]]
         K = np.exp(-((Xf[:, None, :] - L[None, :, :]) ** 2).sum(axis=2))
@@ -1005,14 +1149,19 @@ def controls_R02(eco, sl, body, head, stateful, chosen_sse):
     so the fast path is checked rather than trusted.
     """
     grid = G.body_grid()
-    hgrid = G.head_grid()
-    if (G.meaning(body, grid) != G.meaning(AFFINE_BODY, grid)
-            or G.meaning(head, hgrid) != G.meaning(AFFINE_HEAD, hgrid)):
-        raise SystemExit("CONTROL PATH REFUSED: the chosen program is not the "
-                         "pure affine one, so P2a already failed")
+    if G.meaning(body, grid) != G.meaning(AFFINE_BODY, grid):
+        raise SystemExit("CONTROL PATH REFUSED: the chosen BODY is not the "
+                         "linear score MUL(ARG,PARAM)")
+    if stateful or head_affine_coefficients(head) is None:
+        raise SystemExit("CONTROL PATH REFUSED: the chosen HEAD is not jointly "
+                         "affine in S and BIAS without STATE")
     Xf, yf = design(eco, sl["fit"])
     d = eco["d"]
-    Z = np.concatenate([Xf, np.ones((Xf.shape[0], 1))], axis=1)
+    plan_f = SPlan(body, Xf)
+    base, Z = joint_affine(plan_f, head, stateful, len(yf), d)
+    if Z is None:
+        raise SystemExit("CONTROL PATH REFUSED: the chosen program is not "
+                         "jointly affine in its parameters")
     A = Z.T.dot(Z) + 1e-8 * np.eye(d + 1)
     const = rationalise(float(yf.mean()))
     const_sse = const_int_sse(eco, sl["held"], const)
@@ -1026,14 +1175,17 @@ def controls_R02(eco, sl, body, head, stateful, chosen_sse):
     for k in range(N_CONTROLS):
         perm = rs.permutation(yf.shape[0])
         yp = yf[perm]
-        v = np.linalg.solve(A, Z.T.dot(yp))
+        v = np.linalg.solve(A, Z.T.dot(yp - base))
         if k == 0:
-            pg, bg, Lg, route = generic_fit(body, head, stateful, Xf, yp, d)
-            if not np.allclose(np.concatenate([pg, [bg]]), v, rtol=1e-6, atol=1e-8):
-                raise SystemExit("CONTROL FAST PATH DISAGREES WITH generic_fit")
+            pg, bg, Lg, route = fit_plan(plan_f, head, stateful, yp, d)
+            got = predict_plan(plan_f, head, stateful, v[:d], float(v[d]))
+            want = predict_plan(plan_f, head, stateful, pg, bg)
+            if not np.allclose(got, want, rtol=1e-6,
+                               atol=1e-8 * max(1.0, float(np.abs(want).max()))):
+                raise SystemExit("CONTROL FAST PATH DISAGREES WITH fit_plan")
         pq = [rationalise(x) for x in v[:d]]
         bq = rationalise(float(v[d]))
-        s = affine_int_sse(eco, sl["held"], pq, bq)
+        s = affine_int_sse(eco, sl["held"], pq, bq, head)
         if lo <= s <= hi:
             in_band += 1
         if s < chosen_sse:
@@ -1062,7 +1214,29 @@ def controls_R02(eco, sl, body, head, stateful, chosen_sse):
 
 # ------------------------------------------------------------------ main ----
 
+def controls_only():
+    """Re-run only the P2d controls against the committed SIGMA_R02 receipt."""
+    pcm, texts, sources = load_sources()
+    eco = ecology_F02(pcm)
+    sl = slices(len(eco["y"]))
+    with open(os.path.join(RUNS, "scope_R02.json")) as fh:
+        rec = json.load(fh)
+    body = parse_tree(rec["chosen"]["body"])
+    head = parse_tree(rec["chosen"]["head"])
+    stateful = bool(rec["chosen"]["attributes"]["reads_state"])
+    c = controls_R02(eco, sl, body, head, stateful,
+                     Q(rec["chosen"]["held_out"]["sse"]))
+    with open(os.path.join(RUNS, "controls.json"), "w") as fh:
+        json.dump(c, fh, indent=1, sort_keys=True)
+    print("controls: in_band=%d/%d applicable=%s beating=%d"
+          % (c["in_band"], c["controls"], c["applicable"],
+             c["controls_beating_the_chosen_arm"]))
+
+
 def main():
+    if "--controls-only" in sys.argv:
+        controls_only()
+        return
     os.makedirs(RUNS, exist_ok=True)
     pcm, texts, sources = load_sources()
     with open(os.path.join(RUNS, "sources.json"), "w") as fh:
