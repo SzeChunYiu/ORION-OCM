@@ -1,0 +1,114 @@
+{
+  "freeze_commit": "b472903bddaeb78651f7cee32fe5bd3fc3ba4a6e",
+  "hostiles": [
+    {
+      "name": "H_PARTITION_RELABEL",
+      "perturbs": "the code set by an injection; the markers must NOT move (an inverted hostile: the checker must stay silent)"
+    },
+    {
+      "name": "H_INVARIANCE_INFLATE",
+      "perturbs": "the subgroup search so a non-invariant partition is scored as invariant"
+    },
+    {
+      "name": "H_ARITY_CAP",
+      "perturbs": "the readout arity cap so the jump trajectory stops jumping"
+    },
+    {
+      "name": "H_THRESHOLD_K",
+      "perturbs": "the exact-match exponent so the artifact knee moves"
+    },
+    {
+      "name": "H_TRAIN_LEAK",
+      "perturbs": "the held-out set of TRAJ_GROK so a training point leaks in"
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae9-transition-markers-v1",
+  "prospective_predictions": [
+    {
+      "claim": "two materially different learners inducing the same partition yield exactly equal values on every marker, and an arbitrary injective re-encoding of the code set leaves every marker exactly unchanged, while a genuine change of partition moves at least one marker",
+      "id": "AE9-P1"
+    },
+    {
+      "claim": "on TRAJ_SMOOTH exact accuracy strictly increases while every structural invariant is constant; on TRAJ_JUMP exact accuracy is at the base rate until m* and then jumps, and READOUT_ARITY jumps in the same step",
+      "id": "AE9-P2"
+    },
+    {
+      "claim": "the thresholded-metric-artifact witness has exactly smooth underlying accuracy increments and a sharp knee only after the registered exact-match transform, with every structural invariant constant throughout",
+      "id": "AE9-P3"
+    },
+    {
+      "claim": "the emergence classifier attains full recall on the three planted positives and raises no alarm on the clean smooth trajectory, with its exact confusion counts reported over the roster and over the 200-trial randomized null",
+      "id": "AE9-P4"
+    },
+    {
+      "claim": "every claim of the package is scoped to the registered non-neural systems and no artifact asserts NEURAL_RESULT_FROM_NON_NEURAL_ROSTER",
+      "id": "AE9-P5"
+    }
+  ],
+  "registered_constants": {
+    "accuracy_convention": "the exact rational expectation over ALL m-subsets of the registered sample space, never a sampled estimate",
+    "exact_match_k": 8,
+    "graded_quantities": [
+      "SEPARABILITY",
+      "USABLE"
+    ],
+    "learners": [
+      "GF2_ELIMINATION",
+      "GREEDY_DECISION_LIST",
+      "EXACT_LOOKUP"
+    ],
+    "markers": [
+      "CELLS",
+      "REFINEMENT",
+      "SEPARABILITY",
+      "INVARIANCE",
+      "READOUT_ARITY",
+      "USABLE"
+    ],
+    "n": 4,
+    "null_trials": 200,
+    "readout_budget": {
+      "junta_arity": 2,
+      "tree_depth": 2
+    },
+    "sample_range": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "structural_invariants": [
+      "CELLS",
+      "INVARIANCE",
+      "READOUT_ARITY"
+    ],
+    "tie_break": "lexicographic by registered name, ascending"
+  },
+  "roster": {
+    "TRAJ_GROK": "exact training accuracy 1 from a frozen small m while exact held-out accuracy stays at the base rate until a later m**, then jumps",
+    "TRAJ_JUMP": "exact accuracy at the base rate until a frozen m*, then a jump, with READOUT_ARITY jumping in the same step",
+    "TRAJ_SMOOTH": "exact accuracy strictly increasing in m with every structural invariant constant",
+    "emergence_classes": [
+      "THRESHOLDED_METRIC_ARTIFACT",
+      "PHASE_LIKE_REORGANIZATION",
+      "GROKKING_DELAYED_GENERALIZATION"
+    ],
+    "trajectories": [
+      "TRAJ_SMOOTH",
+      "TRAJ_JUMP",
+      "TRAJ_GROK"
+    ]
+  },
+  "schema": "GMI_833_PROSPECTIVE_REGISTER_V1",
+  "section": "AE9",
+  "self_digest_note": "sha256 of json.dumps(self without self_digest_sha256 and self_digest_note, sort_keys=True, separators=(\",\",\":\")) encoded utf-8",
+  "self_digest_sha256": "9f90dc2ec012b41a26a9fcc3d1e363fb215e456580432ae6bf2c0c2f554cc883",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3"
+}
