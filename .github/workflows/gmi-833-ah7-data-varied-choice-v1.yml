@@ -105,6 +105,13 @@ jobs:
           b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
           t = json.load(open(P + 'TEST_RESULT_V1.json'))
           fail = []
+          compared = [0]
+
+          def eq(name, x, y):
+              compared[0] += 1
+              if x != y:
+                  fail.append('%s: A=%r B=%r' % (name, x, y))
+
           if a['status'] != 'GREEN' or a['failed_gates']:
               fail.append('route A not green: %r' % (a['failed_gates'],))
           if t['status'] != 'GREEN' or t['findings']:
@@ -118,14 +125,12 @@ jobs:
                     'chosen_set_is_a_singleton_for_every_registered_dataset',
                     'null_realizable_pairs', 'null_realizable_pairs_with_identical_answer',
                     'null_realizable_distinct_answers'):
-              if a[k] != b[k]:
-                  fail.append('%s: A=%r B=%r' % (k, a[k], b[k]))
+              eq(k, a[k], b[k])
           pa = dict((k, (v['chosen'], v['consistent'], v['observations']))
                     for k, v in a['per_dataset'].items())
           pb = dict((k, (v['chosen'], v['consistent'], v['observations']))
                     for k, v in b['per_dataset'].items())
-          if pa != pb:
-              fail.append('per-dataset answers differ')
+          eq('per_dataset', pa, pb)
           if a['possibility_space_size'] != 260 or a['registered_datasets'] != 20:
               fail.append('scope: %r %r' % (a['possibility_space_size'],
                                             a['registered_datasets']))
@@ -159,11 +164,13 @@ jobs:
                     'COMPLETE_GMI'):
               if k not in a['forbidden_promotions']:
                   fail.append('missing forbidden promotion ' + k)
+          if compared[0] != 13:
+              fail.append('cross-route quantities compared: %d, the published figure is 13' % compared[0])
           if fail:
               for f in fail:
                   print('FAIL', f)
               sys.exit(1)
-          print('AH7 data-axis receipts OK; both routes agree on all 20 answers')
+          print('AH7 receipts OK; 13 cross-route quantities compared and agreed')
           PY
 
       - uses: actions/upload-artifact@v4

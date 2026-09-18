@@ -106,7 +106,10 @@ jobs:
           t = json.load(open(P + 'TEST_RESULT_V1.json'))
           fail = []
 
+          compared = [0]
+
           def eq(name, x, y):
+              compared[0] += 1
               if x != y:
                   fail.append('%s: A=%r B=%r' % (name, x, y))
 
@@ -183,11 +186,13 @@ jobs:
               if k not in a['forbidden_promotions']:
                   fail.append('missing forbidden promotion ' + k)
 
+          if compared[0] != 56:
+              fail.append('cross-route quantities compared: %d, the published figure is 56' % compared[0])
           if fail:
               for f in fail:
                   print('FAIL', f)
               sys.exit(1)
-          print('AG5 extension lowering receipts OK; 56 cross-route quantities agree')
+          print('AG5 receipts OK; 56 cross-route quantities compared and agreed')
           PY
 
       - uses: actions/upload-artifact@v4
