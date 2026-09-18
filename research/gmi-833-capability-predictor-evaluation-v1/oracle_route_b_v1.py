@@ -189,15 +189,15 @@ def population_arch():
     return out
 
 
-def population_real(measured):
+def population_real(measured, sizes=(2, 8), r3base=5, threshold=8):
     out = []
     for mech in ("MLP", "GRU"):
-        for size in (2, 8):
+        for size in sizes:
             for w in (0, 1):
                 for h in (1, 3, 5, 7):
-                    k = 0 if mech == "MLP" else (1 if size < 8 else 2)
+                    k = 0 if mech == "MLP" else (1 if size < threshold else 2)
                     rho = rho_vec(((0, size), (1, 1 + w), (2, 1 + bitcount(h)),
-                                   (3, 5 + (1 if mech == "GRU" else 0))))
+                                   (3, r3base + (1 if mech == "GRU" else 0))))
                     key = "%s|%d|%d|%d" % (mech, size, w, h)
                     out.append({"machine": (mech, size, w, h),
                                 "sort": (rho[0], rho[3], size, w, h),
@@ -234,6 +234,14 @@ GRIDS = {
         "h": ("NO_OBSERVATION", (1, 0), (2, 1)),
         "tau": (Fraction(3, 17), Fraction(8, 17), Fraction(11, 17), Fraction(1)),
     },
+    "SIGMA_REAL2": {
+        "mu": (Fraction(8, 17), Fraction(6, 17), Fraction(3, 17)),
+        "budgets": ((4, 1, 2, 7), (16, 2, 3, 8), (16, 2, 4, 8)),
+        "charges": ((0, 0, 0, 0), (1, 0, 0, 0)),
+        "d": (8, 14, 99), "b": (0, 8, 16, 24, 32),
+        "h": ("NO_OBSERVATION", (1, 0), (2, 1)),
+        "tau": (Fraction(3, 17), Fraction(8, 17), Fraction(11, 17), Fraction(1)),
+    },
 }
 
 
@@ -262,6 +270,19 @@ def law_arch(machine):
     return bits
 
 
+def law_real2(machine):
+    mech, size, w, h = machine
+    capable = (mech == "GRU" and size >= 8 and w == 0)
+    bits = 0
+    if h & 1:
+        bits += 1
+    if (h & 2) and capable:
+        bits += 2
+    if (h & 4) and capable:
+        bits += 4
+    return bits
+
+
 def law_real(machine):
     mech, size, w, h = machine
     bits = 0
@@ -274,7 +295,8 @@ def law_real(machine):
     return bits
 
 
-LAWS = {"SIGMA_SYN": law_syn, "SIGMA_ARCH": law_arch, "SIGMA_REAL": law_real}
+LAWS = {"SIGMA_SYN": law_syn, "SIGMA_ARCH": law_arch,
+        "SIGMA_REAL": law_real, "SIGMA_REAL2": law_real2}
 
 
 def cap_of(bits, mu, contract):
@@ -314,7 +336,7 @@ def run_universe(name, population, measured_table=None):
     mu = grid["mu"]
     law = LAWS[name]
     for rec in population:
-        if name == "SIGMA_REAL":
+        if name.startswith("SIGMA_REAL"):
             rec["bits"] = law(rec["machine"])
             rec["measured"] = rec.get("measured_bits")
         else:
@@ -533,6 +555,11 @@ def main():
     if os.path.exists(path):
         with open(path) as handle:
             measured = json.load(handle)["measured_solved_bits"]
+    measured2 = None
+    path2 = os.path.join(HERE, "REAL_RUNS_V2", "REAL_MEASURED_V2.json")
+    if os.path.exists(path2):
+        with open(path2) as handle:
+            measured2 = json.load(handle)["measured_solved_bits"]
     out = {"schema": "GMI_833_K_EVAL_ROUTE_B_V1", "universes": []}
     out["universes"].append(run_universe("SIGMA_SYN", population_syn()))
     out["universes"].append(run_universe("SIGMA_ARCH", population_arch()))
@@ -542,6 +569,12 @@ def main():
                                  "status": "OUTCOMES_UNAVAILABLE"})
     else:
         out["universes"].append(run_universe("SIGMA_REAL", real_pop))
+    if measured2 is None:
+        out["universes"].append({"universe": "SIGMA_REAL2",
+                                 "status": "OUTCOMES_UNAVAILABLE"})
+    else:
+        out["universes"].append(run_universe(
+            "SIGMA_REAL2", population_real(measured2, sizes=(4, 16), r3base=7)))
     body = json.dumps(out, indent=2, sort_keys=True)
     with open(os.path.join(HERE, "ROUTE_B_RESULT_V1.json"), "w") as handle:
         handle.write(body)

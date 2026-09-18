@@ -22,6 +22,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 import heldout_universes_v1 as hu  # noqa: E402
+import heldout_universes_v2 as hv  # noqa: E402
 
 UNSATISFIED = "UNSATISFIED"
 
@@ -77,9 +78,15 @@ def extcap(rho, bits, mu, contract, budget, charge):
 REAL_RUNS_DIR = os.path.join(HERE, "REAL_RUNS")
 
 
-def load_real_measured():
+REAL_RUNS_V2_DIR = os.path.join(HERE, "REAL_RUNS_V2")
+
+
+def load_real_measured(version=1):
     """Measured solved-sets of the real trained systems, from the receipts."""
-    path = os.path.join(REAL_RUNS_DIR, "REAL_MEASURED_V1.json")
+    if version == 2:
+        path = os.path.join(REAL_RUNS_V2_DIR, "REAL_MEASURED_V2.json")
+    else:
+        path = os.path.join(REAL_RUNS_DIR, "REAL_MEASURED_V1.json")
     if not os.path.exists(path):
         return None
     with open(path) as handle:
@@ -97,9 +104,17 @@ def measure_universe(name):
         machines = hu.ARCH_MACHINES
         bits = tuple(measure_solved_bits(hu.arch_machine_answer, m) for m in machines)
         return machines, bits, hu.MU_ARCH, "SIMULATION"
+    if name == "SIGMA_REAL2":
+        machines = hv.REAL2_MACHINES
+        payload = load_real_measured(2)
+        if payload is None:
+            return machines, None, hu.MU_REAL, "UNAVAILABLE"
+        table = payload["measured_solved_bits"]
+        bits = tuple(table["|".join(str(x) for x in m)] for m in machines)
+        return machines, bits, hu.MU_REAL, "REAL_TRAINING_V2"
     if name == "SIGMA_REAL":
         machines = hu.REAL_MACHINES
-        payload = load_real_measured()
+        payload = load_real_measured(1)
         if payload is None:
             return machines, None, hu.MU_REAL, "UNAVAILABLE"
         table = payload["measured_solved_bits"]
@@ -115,6 +130,8 @@ def registered_bits(name):
         return tuple(hu.arch_solved_law(m) for m in hu.ARCH_MACHINES)
     if name == "SIGMA_REAL":
         return tuple(hu.real_solved_law(m) for m in hu.REAL_MACHINES)
+    if name == "SIGMA_REAL2":
+        return tuple(hv.real2_solved_law(m) for m in hv.REAL2_MACHINES)
     raise ValueError("unregistered universe: %r" % (name,))
 
 

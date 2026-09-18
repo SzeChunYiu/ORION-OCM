@@ -18,6 +18,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 import heldout_universes_v1 as hu          # noqa: E402
+import heldout_universes_v2 as hv          # noqa: E402
 import external_evaluator_v1 as ev         # noqa: E402
 import freeze_predictions_v1 as fp         # noqa: E402
 
@@ -741,6 +742,9 @@ def main():
     parent = hu.load_parent()
     with open(os.path.join(HERE, "FROZEN_PREDICTIONS_V1.json")) as handle:
         frozen = json.load(handle)
+    with open(os.path.join(HERE, "FROZEN_PREDICTIONS_V2.json")) as handle:
+        frozen_v2 = json.load(handle)
+    frozen["universes"] = list(frozen["universes"]) + list(frozen_v2["universes"])
     parent_sha = hu.git_blob_sha(hu.PARENT_FILE)
     baseline = hu.code_fingerprint(parent)
     out = {
@@ -763,7 +767,7 @@ def main():
     }
     frozen_by_name = dict((u["universe"], u) for u in frozen["universes"])
 
-    builders = (hu.sigma_syn, hu.sigma_arch, hu.sigma_real)
+    builders = (hu.sigma_syn, hu.sigma_arch, hu.sigma_real, hv.sigma_real2)
     specs = []
     for builder in builders:
         spec = builder()

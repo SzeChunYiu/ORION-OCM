@@ -1,0 +1,120 @@
+name: gmi-833-capability-predictor-evaluation
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-capability-predictor-evaluation-v1/**'
+      - 'research/gmi-833-capability-predictor-v1/**'
+      - '.github/workflows/gmi-833-capability-predictor-evaluation.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-capability-predictor-evaluation-v1/**'
+      - 'research/gmi-833-capability-predictor-v1/**'
+      - '.github/workflows/gmi-833-capability-predictor-evaluation.yml'
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # the freeze-order gate needs real history
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Freeze order (the #976 POST_HOC_SUSPECT gate)
+        run: |
+          set -eu
+          PKG=research/gmi-833-capability-predictor-evaluation-v1
+          FREEZE=$(awk '{print $1; exit}' "$PKG/FREEZE_COMMIT.txt")
+          echo "freeze commit: $FREEZE"
+          git ls-tree -r --name-only "$FREEZE" -- "$PKG/" > /tmp/at_freeze.txt
+          test -s /tmp/at_freeze.txt
+          # negative control first: a path typo must not make this vacuously green
+          for good in FREEZE_V1.md SCOPE_V1.md heldout_universes_v1.py \
+                      freeze_predictions_v1.py FROZEN_PREDICTIONS_V1.json; do
+            grep -qx "$PKG/$good" /tmp/at_freeze.txt \
+              || { echo "NEGATIVE CONTROL FAILED: $good absent at the freeze"; exit 1; }
+          done
+          for bad in external_evaluator_v1.py oracle_route_b_v1.py score_heldout_v1.py \
+                     real_systems_run_v1.py real_systems_run_v2.py \
+                     test_capability_predictor_evaluation_v1.py RESULT_V1.json \
+                     ROUTE_B_RESULT_V1.json; do
+            if grep -q "$PKG/$bad" /tmp/at_freeze.txt; then
+              echo "IMPLEMENTATION ARTIFACT REACHABLE FROM THE FREEZE: $bad"; exit 1
+            fi
+          done
+          if grep -q "$PKG/REAL_RUNS" /tmp/at_freeze.txt; then
+            echo "OUTCOME ARTIFACT REACHABLE FROM THE FREEZE: REAL_RUNS"; exit 1
+          fi
+          git rev-list "$FREEZE..HEAD" > /tmp/after.txt
+          for f in score_heldout_v1.py external_evaluator_v1.py oracle_route_b_v1.py; do
+            INTRO=$(git log --diff-filter=A --format=%H -- "$PKG/$f" | tail -1)
+            test -n "$INTRO" || { echo "no introducing commit for $f"; exit 1; }
+            grep -qx "$INTRO" /tmp/after.txt \
+              || { echo "$f was introduced at or before the freeze"; exit 1; }
+          done
+          # the V2 revival must also postdate its own amendment
+          V2INTRO=$(git log --diff-filter=A --format=%H -- "$PKG/REAL_RUNS_V2/REAL_MEASURED_V2.json" | tail -1)
+          V2FREEZE=$(git log --diff-filter=A --format=%H -- "$PKG/FROZEN_PREDICTIONS_V2.json" | tail -1)
+          if [ -n "$V2INTRO" ] && [ -n "$V2FREEZE" ]; then
+            git rev-list "$V2FREEZE..HEAD" | grep -qx "$V2INTRO" \
+              || { echo "V2 outcomes predate the V2 freeze"; exit 1; }
+          fi
+
+      - name: Parent blob pin
+        run: |
+          set -eu
+          ACTUAL=$(git rev-parse HEAD:research/gmi-833-capability-predictor-v1/capability_predictor_v1.py)
+          PINNED=$(python3 - <<'PY'
+import re
+src = open('research/gmi-833-capability-predictor-evaluation-v1/heldout_universes_v1.py').read()
+print(re.search(r'PARENT_BLOB_SHA = "([0-9a-f]{40})"', src).group(1))
+PY
+)
+          echo "actual=$ACTUAL pinned=$PINNED"
+          test "$ACTUAL" = "$PINNED"
+
+      - name: Route B (materially independent oracle)
+        run: |
+          set -eu
+          cd research/gmi-833-capability-predictor-evaluation-v1
+          python3 -I -B oracle_route_b_v1.py > /tmp/route_b.json
+          python3 -c "import sys;a=open('/tmp/route_b.json').read();b=open('ROUTE_B_RESULT_V1.json').read();sys.exit(0 if a==b else 1)"
+
+      - name: Canonical executor
+        run: |
+          set -eu
+          cd research/gmi-833-capability-predictor-evaluation-v1
+          python3 -I -B score_heldout_v1.py > /tmp/result_a.json
+          python3 -c "import sys;a=open('/tmp/result_a.json').read();b=open('RESULT_V1.json').read();sys.exit(0 if a==b else 1)"
+          python3 -I -O -B score_heldout_v1.py > /tmp/result_o.json
+          cmp /tmp/result_a.json /tmp/result_o.json
+
+      - name: Receipt gates
+        run: |
+          set -eu
+          cd research/gmi-833-capability-predictor-evaluation-v1
+          python3 -I -B  test_capability_predictor_evaluation_v1.py -v
+          python3 -I -O -B test_capability_predictor_evaluation_v1.py -v
+
+      - name: Real-system receipt integrity
+        run: |
+          set -eu
+          cd research/gmi-833-capability-predictor-evaluation-v1
+          python3 - <<'PY'
+import hashlib, json, os, sys
+for path, key in (("REAL_RUNS/REAL_MEASURED_V1.json", "V1"),
+                  ("REAL_RUNS_V2/REAL_MEASURED_V2.json", "V2")):
+    if not os.path.exists(path):
+        print("missing (allowed only if the row is left open):", path)
+        continue
+    payload = json.load(open(path))
+    assert payload["source"]["sha256"] == payload["source_sha256_verified"], path
+    assert payload["protected_eval_items"] > 0, path
+    assert len(payload["measured_solved_bits"]) == 32, path
+    print(key, "receipt ok", hashlib.sha256(open(path,'rb').read()).hexdigest()[:16])
+PY

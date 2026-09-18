@@ -1,0 +1,108 @@
+{
+  "claim_ceiling": "GMI_833_HELDOUT_AND_OOD_EVALUATION_OF_THE_EXACT_CAPABILITY_PREDICTOR_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "NO_UNIVERSAL_CAPABILITY_PREDICTION_CLAIM",
+    "NO_CLAIM_BEYOND_THE_REGISTERED_HELDOUT_UNIVERSES",
+    "NO_CLAIM_THAT_REAL_TRAINING_OUTCOMES_GENERALISE_BEYOND_THE_PINNED_SOURCE",
+    "NO_PROMOTION_OF_FINITE_EXACT_COVERAGE_TO_ASYMPTOTIC_CALIBRATION",
+    "NO_REWRITE_OF_PARENT_ROWS_KP1_KP2_KP3",
+    "NO_CLAIM_THAT_A_TRUTHFUL_REGISTRATION_IS_ESTABLISHED_FOR_ARBITRARY_TRAINED_SYSTEMS"
+  ],
+  "freeze_commit": "e46003d524d532989f73d2f37ebc7c136577a09d",
+  "freeze_commit_v2_amendment": "711903a1c35d84f547ce688cc67c047499ccc630",
+  "freeze_commit_v2_amendment_note": "SIGMA_REAL2 predictions frozen here, before any V2 training run existed",
+  "held_out_populations": [
+    {
+      "name": "SIGMA_SYN",
+      "outcomes": "simulation of the protected battery",
+      "rho3": [
+        1,
+        2
+      ],
+      "size": 64
+    },
+    {
+      "name": "SIGMA_ARCH",
+      "outcomes": "simulation of the protected battery",
+      "rho3": [
+        3,
+        4
+      ],
+      "size": 128
+    },
+    {
+      "name": "SIGMA_REAL",
+      "outcomes": "torch CPU training, REAL_RUNS/",
+      "rho3": [
+        5,
+        6
+      ],
+      "size": 32
+    },
+    {
+      "name": "SIGMA_REAL2",
+      "outcomes": "torch CPU training, REAL_RUNS_V2/",
+      "rho3": [
+        7,
+        8
+      ],
+      "size": 32
+    }
+  ],
+  "issue": 833,
+  "package": "gmi-833-capability-predictor-evaluation-v1",
+  "parent_pins": [
+    {
+      "blob_sha": "7f1bb6808901be2291bf575ee3178247d14d01d4",
+      "claim_ceiling": "GMI_833_EXACT_CAPABILITY_PREDICTOR_FAILURE_TAXONOMY_AND_TOTAL_UNCERTAINTY_AT_REGISTERED_FINITE_SCOPE",
+      "path": "research/gmi-833-capability-predictor-v1/capability_predictor_v1.py",
+      "role": "F itself; never modified, only its registration surface is rebound"
+    },
+    {
+      "blob_sha": "587782539b2b7ba713a846616ea4b15ede0f22b0",
+      "claim_ceiling": "GMI_833_EXACT_CAPABILITY_PREDICTOR_FAILURE_TAXONOMY_AND_TOTAL_UNCERTAINTY_AT_REGISTERED_FINITE_SCOPE",
+      "path": "research/gmi-833-capability-predictor-v1/CAPABILITY_PREDICTOR_THEOREMS_V1.md",
+      "role": "KP-1A/1B/1C, KP-2A/2B/2C, KP-3A/3B/3C and the boundaries KP-1D, KP-2D"
+    },
+    {
+      "blob_sha": "6606f95182394cccf29b20e94b93bffa064ef5de",
+      "claim_ceiling": "GMI_833_EXACT_CAPABILITY_PREDICTOR_FAILURE_TAXONOMY_AND_TOTAL_UNCERTAINTY_AT_REGISTERED_FINITE_SCOPE",
+      "path": "research/gmi-833-capability-predictor-v1/RESULT_V1.json",
+      "role": "the parent receipt this tranche extends to held-out universes"
+    },
+    {
+      "blob_sha": "480ead371de0b8d957a9ae86cbb0e85ae0c09e00",
+      "claim_ceiling": "GMI_GLOBAL_UNCERTAINTY_AND_ABSTENTION_CONTRACT_AT_REGISTERED_FINITE_SCOPE",
+      "path": "research/gmi-833-global-uncertainty-v1/GLOBAL_UNCERTAINTY_THEOREMS_V1.md",
+      "role": "U-1 constructors, U-2B dependence-safe composition, U-4A/U-4B query identification"
+    },
+    {
+      "blob_sha": "e6960307a28898ba532913b9b3879fd5c7cf58b8",
+      "claim_ceiling": "GMI_20_HELDOUT_BINARY_MORPHOLOGY_TRANSITIONS_AND_INDEPENDENT_SEARCH_REPLICATION_AT_REGISTERED_FINITE_SCOPE",
+      "path": "research/gmi-833-heldout-20-transitions-v1/CORE.md",
+      "role": "custody precedent: predictions frozen before either outcome oracle existed"
+    },
+    {
+      "blob_sha": "a7ee5b9deeb15a186036a03d35740ff4c9cb104e",
+      "claim_ceiling": "REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE",
+      "path": "research/gmi-833-real-transition-receipts-v1/CORE.md",
+      "role": "real-system protocol and the V2/V3 registered-revival pattern"
+    },
+    {
+      "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+      "claim_ceiling": "GMI_833_THEORY_BASELINE",
+      "path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+      "role": "present, 12351 bytes; verified two independent ways (git ls-tree and git show) because the parent package's SUPPLEMENT_1 had wrongly recorded it as missing"
+    }
+  ],
+  "reproduce": [
+    "python3 -I -B  research/gmi-833-capability-predictor-evaluation-v1/oracle_route_b_v1.py",
+    "python3 -I -B  research/gmi-833-capability-predictor-evaluation-v1/score_heldout_v1.py",
+    "python3 -I -O -B research/gmi-833-capability-predictor-evaluation-v1/score_heldout_v1.py",
+    "python3 -I -B  research/gmi-833-capability-predictor-evaluation-v1/test_capability_predictor_evaluation_v1.py -v",
+    "python3 -I -O -B research/gmi-833-capability-predictor-evaluation-v1/test_capability_predictor_evaluation_v1.py -v"
+  ],
+  "schema": "GMI_833_K_EVAL_MANIFEST_V1",
+  "section_anchor": "# K. Capability theory upgrade",
+  "source_main": "5126041da7ce608f69157f281ca492ac9618c8e4"
+}
