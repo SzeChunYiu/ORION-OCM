@@ -313,3 +313,32 @@ Consequences, all reported explicitly rather than hidden:
 `weighted/rows/expression/leaves`), while the `state` grammar A (pure integer tables) must
 land in `R1_NOT_APPLICABLE:NUMERIC_PARAMETER_SPACE` and the `state` grammar B (string
 expressions `zero/one/s/not_s`) must stay in R1 scope.
+
+---
+
+## Amendment A2 — R1 covers the FULL macro unfold, not only single deletions
+
+*Committed before the adapters, the executor, the oracle and any run.*
+
+§3 defined **R1 `PRODUCTION_DELETION`** as `G\q` for every single production `q`. That is too
+narrow for library-growth grammars, where the semantics-preserving alternative named by the
+row ("a semantics-preserving re-encoding into base productions") deletes the whole composite
+layer at once: with `m1 -> a b` and `m2 -> m1 m1`, deleting `m1` alone leaves `m2`-encodings
+intact, so a single-deletion-only R1 would systematically MISS the very class of encoding the
+row is about. A detector that misses its headline class is broken, so the generator is
+widened before it is run, not after it returns nothing.
+
+**A2 (frozen).** R1 is the union of two sub-generators, both reported separately:
+
+- **R1a `SINGLE_PRODUCTION_DELETION`** — `G\q`, one `q` at a time (as originally frozen).
+- **R1b `FULL_MACRO_UNFOLD`** — `G\Q` where `Q` is the grammar's whole **composite**
+  production set (productions carrying a registered expansion into other productions).
+  `dep(Q)` is computed for the set exactly as `dep(q)` is for a single production, and
+  `Q` is **target-exclusive** iff `dep(Q) = {t}`.
+
+A Tier-1 hit records which sub-generator produced it (`via: R1a | R1b | R2`). `Q = ∅` yields
+`R1_NOT_APPLICABLE:NO_COMPOSITE_PRODUCTIONS`, again a distinct field from "checked and clean".
+
+**A2 anchor, verified before the corpus run:** `gmi-833-g0-grammar-growth-v1` has
+`Q = {m1, m2}` and must be reachable by R1b. Whether it flags, and at which tier, is left to
+the run — the amendment fixes the generator, never the outcome.
