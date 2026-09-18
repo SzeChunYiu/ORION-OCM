@@ -47,5 +47,6 @@ AG2 also claims no uniqueness for `Sigma_G0`. Many signatures present the same f
    registered-program bijection.
 3. An **independent reproduction of AJ5's published terminal histogram** (`63/107/314` over 484
    executions) from a separately written interpreter, together with the **boundary** on what that
-   cross-check proves: the histogram saturates at step budget 6 and is reproduced by 8/200
-   randomized opcode-role permutations, so it does not identify the semantics on its own.
+   cross-check proves: the histogram saturates at step budget 6 and is reproduced by 8 of 195
+   non-identity randomized opcode-role permutations, so it does not identify the semantics on its
+   own.

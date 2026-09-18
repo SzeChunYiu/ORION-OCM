@@ -119,11 +119,13 @@ of `g0_register_core_v1.py`.
 **Boundary earned by counterexample (do not omit).** The terminal histogram **saturates at step
 budget 6**: budgets 6 through 13 all give `63/107/314`. Matching AJ5's histogram therefore
 identifies the step budget only up to `>= 6`, and a budget-7 hostile is structurally invisible to
-this gate. Independently, **8 of 200** randomized opcode-role permutations reproduce the histogram,
+this gate. Independently, **8 of 195** randomized opcode-role permutations reproduce the histogram
+(200 draws, 5 identity permutations excluded because the identity is the true semantics, not a null),
 so the histogram alone does **not** identify the semantics. The identification claim therefore
 rests on the full behaviour map (terminal status, output and final register for each of the 121
-programs on each of the 4 words), which **0 of 200** randomized semantics reproduce and on which
-the two independent routes agree exactly.
+programs on each of the 4 words), which **0 of those 195** randomized semantics reproduce and on
+which the two independent routes agree exactly. The independent syntactic null (randomized
+arities over the same operator names) is **0 of 200** draws.
 
 **Quantifiers.** For all 121 terms and all 4 words, the two routes agree on the full behaviour
 record; the aggregate histogram equals AJ5's.

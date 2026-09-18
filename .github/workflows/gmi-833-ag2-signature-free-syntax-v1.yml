@@ -63,6 +63,10 @@ jobs:
           assert s['refinement_failures'] == 0 and s['strictly_coarser']
           assert t['hostiles_detected'] == 11
           assert t['null_a_behaviour_hits'] == 0 and t['null_b_hits'] == 0
+          assert t['null_a_draws'] == 200
+          assert t['null_a_identity_draws_excluded'] == 5
+          assert t['null_a_live_trials'] == 195
+          assert t['null_a_histogram_hits'] == 8
           assert 'BASIS_INDEPENDENT_OPERATION_THEORY_CLAIMED' in r['forbidden_promotions']
           print('AG2 receipt OK')
           PY

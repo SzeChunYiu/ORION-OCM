@@ -59,6 +59,10 @@ receipt exhaustively into a `{dot-path -> canonical-json}` map and does plain lo
 the forbidden set by collecting every string under any key whose name begins with `forbidden`.
 Route B imports nothing from route A. All shared quantities agree.
 
+Route B's forbidden harvest is a strict **superset** of route A's fixed key list, so agreement at
+zero means neither found a conflict under the broader rule. The two routes are not distinguished by
+this corpus, where no receipt uses a `forbidden`-prefixed key outside route A's list.
+
 ---
 
 ## RA-2 — bucket classification of all 75 rows

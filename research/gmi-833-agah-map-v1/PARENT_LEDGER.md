@@ -40,5 +40,5 @@ disclosure discipline of `gmi-833-claim-discipline-v1` and `gmi-833-no-smuggling
      do not exist in the cited receipts — including `objective_sources`, which lives under the
      `aj7` key of a *different* package than `gmi-833-aj7-objective-provenance-v1`, where the field
      is `objective_source_types`;
-   - AJ5's published terminal histogram saturates at step budget 6 and is reproduced by 8/200
-     randomized opcode-role permutations, so it does not identify the semantics on its own.
+   - AJ5's published terminal histogram saturates at step budget 6 and is reproduced by 8 of 195
+     non-identity randomized opcode-role permutations, so it does not identify the semantics on its own.

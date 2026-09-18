@@ -212,6 +212,7 @@ def main():
     null_a_behaviour_hits = 0
     opcodes = ["read", "inc", "emit", "decjz", "halt"]
     identity_draws = 0
+    null_a_trials = 0
     for _ in range(200):
         seed = (1103515245 * seed + 12345) % (2 ** 31)
         perm = list(opcodes)
@@ -222,8 +223,10 @@ def main():
             perm[i], perm[j] = perm[j], perm[i]
         role = dict(zip(opcodes, perm))
         if all(role[o] == o for o in opcodes):
+            # the identity permutation is the true semantics, not a null draw
             identity_draws += 1
             continue
+        null_a_trials += 1
         h = {}
         beh = {}
         for p in progs:
@@ -256,12 +259,15 @@ def main():
             null_b_hits += 1
 
     check("NULL_A_BEHAVIOUR_ZERO", null_a_behaviour_hits == 0,
-          "hits=%d/200" % null_a_behaviour_hits)
+          "hits=%d/%d live trials" % (null_a_behaviour_hits, null_a_trials))
     # The histogram-only null is RECORDED, never gated: its measured value is
     # the evidence about how much the AJ5 histogram cross-check discriminates.
     check("NULL_A_HISTOGRAM_RECORDED", isinstance(null_a_hist_hits, int))
-    check("NULL_A_IDENTITY_DRAWS_EXCLUDED", identity_draws >= 0)
-    check("NULL_B_ZERO", null_b_hits == 0, "hits=%d/200" % null_b_hits)
+    check("NULL_A_DENOMINATOR_IS_LIVE_TRIALS", null_a_trials + identity_draws == 200
+          and null_a_trials == 195,
+          "draws=200 identity=%d live=%d" % (identity_draws, null_a_trials))
+
+    check("NULL_B_ZERO", null_b_hits == 0, "hits=%d/200 draws" % null_b_hits)
 
     # ---------------- no-alarm case on the true objects --------------------
     ok_all = True
@@ -280,7 +286,9 @@ def main():
     summary = {"tests": "PASS", "hostiles_detected": len(detected),
                "null_a_behaviour_hits": null_a_behaviour_hits,
                "null_a_histogram_hits": null_a_hist_hits,
-               "null_a_identity_draws": identity_draws,
+               "null_a_draws": 200,
+               "null_a_identity_draws_excluded": identity_draws,
+               "null_a_live_trials": null_a_trials,
                "null_b_hits": null_b_hits, "routes": 2,
                "histogram_saturation_step_budget":
                    res["g0_reconstruction"]["histogram_saturation_step_budget"]}

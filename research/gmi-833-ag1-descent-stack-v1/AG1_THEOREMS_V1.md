@@ -129,7 +129,9 @@ is not sufficient for intelligence.
 **Quantifiers.** For the registered pair; existence, not universality.
 
 **Assumptions.** The capability coordinate is the registered identity task at AJ6's scope; the pair
-is one of AJ6's 51.
+is one of AJ6's 51. The `F0`-`F5` identity of the pair is **registered from AJ6's receipt** -- it
+rests on AJ6's `current_organization_same: true` together with this package's layer assignment. It
+is not independently re-verified layer by layer here, and the claim must not be read as such.
 
 **Falsifiers.** A divergence at any layer below `F6` for a pair declared identical through `F5`; a
 mismatch with AJ6's pinned values.
