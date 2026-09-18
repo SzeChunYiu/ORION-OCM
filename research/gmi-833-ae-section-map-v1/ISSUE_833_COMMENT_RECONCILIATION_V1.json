@@ -26,7 +26,8 @@
   ],
   "rows_total_in_comment": 122,
   "rows_closed": 21,
-  "rows_remaining": 100,
+  "rows_declared_not_closed": 1,
+  "rows_not_attempted": 100,
   "replacements": [
     {
       "comment_id": 5692689542,
@@ -81,7 +82,7 @@
       "comment_id": 5692689542,
       "anchor": "### AE1 — Define `exploitable structure` without handwaving",
       "old": "- [ ] Construct minimal counterexamples for every false equivalence above.",
-      "new": "- [x] Construct minimal counterexamples for every false equivalence above. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-1..AE1-4: every distributional separation carries a minimality certificate from an exhaustive sweep of all 16 shapes up to `4×4` over joints with probabilities multiples of `1/8` — minimal shape `(2,1)` for nonuniform-without-dependence and `(2,2)` for dependence-without-prediction and dependence-without-marginal-nonuniformity, with `0` shapes admitting prediction without dependence.",
+      "new": "- [x] Construct minimal counterexamples for every false equivalence above. — ✅ `gmi-833-ae-ae1-structure-separation-v1` AE1-8: every separation in rows 2-6 carries an exhaustive minimality certificate. Distributional (rows 2-3): all 16 shapes up to `4×4` on the denominator-8 grid — minimal shape `(2,1)` for nonuniform-without-dependence, `(2,2)` for dependence-without-prediction, and `0` shapes admitting prediction without dependence. Control (row 4): all shapes `(|X|,|Y|,|A|)` up to `(3,3,2)` over denominator-6 joints and every 0/1 utility, 45,748 cases — minimal `(2,2,2)` for prediction-without-control and `(2,3,2)` for control-without-prediction, both matching the shipped witnesses, once single-action worlds are excluded as vacuous. Causal (row 4): minimal `(|Z|,|X|,|Y|) = (2,2,2)`, matching the shipped confounded triple. Accessibility (row 5) and finite-sample (row 6) are reported **against** the shipped witnesses: two coordinates already suffice for the plain accessibility gap and one coordinate for the zero-sample gap, so `W_PARITY3` and the 3-coordinate family are declared non-minimal in the receipt — `W_PARITY3` is minimal for the strictly stronger pattern in which every coordinate is reachable within the depth budget and the rule is still at the base rate, which is what the AE1-5 claim rests on. Route B independently verifies existence at every claimed minimum and absence at every strictly smaller shape.",
       "status": "EARNED"
     },
     {
@@ -151,7 +152,7 @@
       "comment_id": 5692689542,
       "anchor": "### AE10 — Resource-bounded usable information",
       "old": "- [ ] Show exact examples where Shannon mutual information is identical but achievable task performance differs because decoding/search cost differs.",
-      "new": "- [x] Show exact examples where Shannon mutual information is identical but achievable task performance differs because decoding/search cost differs. — ✅ `gmi-833-ae-ae10-usable-information-v1` USE-3: at the identical budget `k1_d1_p3_c2`, `W_PARITY3` and `W_DICTATOR` both have `Y` determined by `X` with a uniform `Y`-marginal — so `I(X;Y) = 1` bit **exactly** for both — yet `U = 0` versus `U = 1/2`, a difference of `1/2` attributable to decoder branching cost alone; on the search axis a **single fixed** world (`Y = ⟨s,x⟩`, `s` uniform over the 7 nonzero secrets) holds information identical by identity while accuracy moves `5/8 → 43/64 → 383/512 → 3463/4096` as the sample budget goes `0→3`.",
+      "new": "- [x] Show exact examples where Shannon mutual information is identical but achievable task performance differs because decoding/search cost differs. — ✅ `gmi-833-ae-ae10-usable-information-v1` USE-3: at the identical budget `k3_d2_p3_c2` — where junta arity and precision are unrestricted so only the decoder's branching depth binds — `W_PARITY3` and `W_DICTATOR` both have `Y` determined by `X` with a uniform `Y`-marginal — so `I(X;Y) = 1` bit **exactly** for both — yet `U = 0` versus `U = 1/2`, a difference of `1/2` attributable to decoder branching cost alone; on the search axis a **single fixed** world (`Y = ⟨s,x⟩`, `s` uniform over the 7 nonzero secrets) holds information identical by identity while accuracy moves `5/8 → 43/64 → 383/512 → 3463/4096` as the sample budget goes `0→3`.",
       "status": "EARNED"
     },
     {
@@ -180,10 +181,7 @@
     {
       "old": "- [ ] Determine whether GMI morphology selection is better predicted by raw information, usable information, or a vector of resource-conditioned sufficient statistics.",
       "reason": "requires pinned GMI morphology-selection receipts; deferred to the morphology sweep package described in research/gmi-833-ae-section-map-v1/AE_SECTION_MAP_V1.md. No part of it is claimed here."
-    },
-    {
-      "old": "<the remaining 100 unchecked rows of comment 5692689542>",
-      "reason": "not attempted this round. The batching plan, the tier classification (finite-construction / morphology-blocked / instrument-blocked / ledger) and the per-package row allocation are in research/gmi-833-ae-section-map-v1/AE_SECTION_MAP_V1.md. AE9, AE16, AE11 rows 6-7 and AE6's real-dataset half are instrument-blocked and should stay OPEN rather than be marked."
     }
-  ]
+  ],
+  "rows_not_attempted_note": "Every entry of `not_closed` above carries a byte-exact `old` present in the live comment. The remaining 100 rows were simply not attempted this round and are deliberately NOT listed here as pseudo-rows. Their tier assignment is in research/gmi-833-ae-section-map-v1/AE_ROW_TIER_ASSIGNMENT_V1.json and the package allocation is in AE_SECTION_MAP_V1.md. Of them, 16 are instrument-blocked (AE16 entire, four AE9 measurement rows, three AE11 physical rows, AE6's real-dataset test) and should stay OPEN rather than be marked."
 }

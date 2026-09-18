@@ -38,7 +38,8 @@ implies the other.
 **Minimality.** Over the frozen grid (all joints with probabilities multiples of
 `1/8`, all shapes up to `4x4`, 16 shapes searched exhaustively), the minimal
 shape realizing `MARG_NONUNIF and not DEP` is `(2,1)` and the minimal shape
-realizing `DEP and not MARG_NONUNIF` is `(2,2)`.
+realizing `DEP and not MARG_NONUNIF` is `(2,2)`. See AE1-8 for the full
+certificate table covering rows 4-6 as well.
 
 **Falsifier.** A product measure with a nonuniform marginal that the DEP
 predicate flags, or a shape smaller than the reported minimum realizing the
@@ -207,6 +208,50 @@ complexity of learning parities; parent-owned.
 
 ---
 
+## AE1-8 — minimality certificates for every separation in rows 2-6
+
+Row 8 asks for minimal counterexamples for *every* false equivalence in rows
+2-6. Each certificate is two-sided: a witness exists at the claimed minimum,
+and none exists at any strictly smaller shape. Route B verifies both sides
+independently.
+
+| separation | grid searched | minimal shape | shipped witness |
+|---|---|---|---|
+| nonuniform marginal vs dependence | 16 shapes to `4x4`, denominator 8 | `(2,1)` | — |
+| dependence vs prediction | same | `(2,2)` | `W_DEP_NOPRED` at `(2,2)` |
+| prediction vs control | shapes to `(3,3,2)`, denominator 6, all 0/1 utilities, 45,748 cases | `(2,2,2)` | `W_PRED_NOCTRL` at `(2,2,2)` — **minimal** |
+| control vs prediction | same | `(2,3,2)` | `W_CTRL_NOPRED` at `(2,3,2)` — **minimal** |
+| prediction vs causation | `(\|Z\|,\|X\|,\|Y\|)` to `(2,2,2)`, denominator 4 | `(2,2,2)` | confounded triple at `(2,2,2)` — **minimal** |
+| existence vs accessibility | all deterministic targets on 1-3 coordinates | `n = 2` | `W_PARITY3` at `n = 3` — **not minimal** |
+| finite-sample vs asymptotic | all-secret families on 1-3 coordinates | `n = 1` | 3-coordinate family — **not minimal** |
+
+**Two non-degeneracy exclusions**, both stated rather than assumed. The arity-0
+rule class contains only constant rules, so it attains the base rate for
+trivial reasons; it is excluded, and the accessibility sweep requires arity at
+least 1. A single-action world offers no choice, so its control gain is zero
+for trivial reasons; the control minima are reported both unrestricted (which
+gives the degenerate `(2,2,1)`) and at two or more actions.
+
+**The two non-minimal witnesses are declared as such in the receipt**, and the
+reason each is kept is recorded:
+
+- `W_PARITY3` is not minimal for the plain accessibility gap — two coordinates
+  already suffice. It **is** the minimal witness of the strictly stronger
+  pattern in which *every* coordinate is reachable within the depth budget
+  (a depth-`d` tree can query up to `2^d - 1` coordinates, and `2^2 - 1 >= 3`)
+  and the best rule is still at the base rate. That stronger pattern is
+  realizable only at `n = 3`, and it is precisely the property the AE1-5 claim
+  rests on: `best_acc_at_k3_d2 = 1/2`.
+- The 3-coordinate secret family is not minimal for the zero-sample gap — one
+  coordinate already exhibits it. It is used for the quantitative learning
+  curve, not as a minimality claim.
+
+**Scope.** Minimality is claimed only at the frozen finite grids above and
+under the stated product orders. It is never a claim about all real-valued
+joints, utilities or mechanisms.
+
+---
+
 ## AE1-7 — the separations are simultaneous, not sequential
 
 The receipt's `distributional_separation` table gives all three distributional
@@ -222,6 +267,9 @@ exactly the base rate. Validation on real (not fixture) data:
 - recall on the planted positive: fires on `W_PARITY3`, gap magnitude `1/2`;
 - no-alarm on known-clean worlds: `W_DICT` and `W_NOISY_DICT` are **not**
   flagged;
+- **primary, threshold-free**: the planted witness's gap magnitude `1/2`
+  strictly exceeds `3/16`, the largest magnitude any of the 200 random worlds
+  attains. This comparison carries the result and involves no threshold;
 - null: over `200` random worlds from the registered family the detector fires
   `7` times. Those seven are **not** false positives — each is a genuine but
   small accessibility gap, and all seven magnitudes are reported individually
@@ -238,7 +286,7 @@ Nothing here licenses `INTELLIGENCE_EQUALS_COMPRESSION`,
 `MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE`,
 `UNIVERSAL_STRUCTURE_MEASURE`, `ARCHITECTURE_SELECTION_LAW`,
 `GMI_MORPHOLOGY_PREDICTION`, `MINIMALITY_OVER_ALL_REAL_VALUED_JOINTS`, or
-`COMPLETE_GMI`. Minimality is claimed only over the frozen denominator-8 grid
-and shapes up to `4x4`. The budget lattice is the frozen two-dimensional one;
+`COMPLETE_GMI`. Minimality is claimed only over the frozen grids of AE1-8 and
+under the stated product orders. The budget lattice is the frozen two-dimensional one;
 memory, precision, communication, time and energy budgets are **not**
 instantiated here.

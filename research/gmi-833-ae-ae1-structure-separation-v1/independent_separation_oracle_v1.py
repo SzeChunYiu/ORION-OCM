@@ -347,3 +347,197 @@ def oracle_minimal_shapes(rmap, pattern):
         if not any((o != s and o[0] <= s[0] and o[1] <= s[1]) for o in hits):
             minimal.append(s)
     return sorted(minimal)
+
+
+# ==========================================================================
+# Independent verification of the AE1 minimality claims (rows 4-6).
+#
+# These do not recompute the full realizability lists; they verify the CLAIM,
+# which is two-sided: a witness exists at each claimed minimal shape, and no
+# witness exists at any strictly smaller shape.  Every predicate here is
+# evaluated with Fractions through the enumerative route-B primitives above
+# (explicit policy enumeration, explicit decision-tree construction), never
+# with the integer argmax algebra route A uses.
+# ==========================================================================
+
+def _oracle_comps(total, parts):
+    if parts == 1:
+        yield (total,)
+        return
+    for first in range(total + 1):
+        for rest in _oracle_comps(total - first, parts - 1):
+            yield (first,) + rest
+
+
+def oracle_control_witness_exists(a, b, c, want, den=6, min_actions=1):
+    """want is 'PRED_NO_CTRL' or 'CTRL_NO_PRED'."""
+    if c < min_actions:
+        return False
+    xs = list(range(a))
+    ys = list(range(b))
+    acts = list(range(c))
+    for code in range(2 ** (b * c)):
+        U = {}
+        nonconst = False
+        for act in acts:
+            for y in ys:
+                U[(act, y)] = F((code >> (act * b + y)) & 1)
+            if any(U[(act, y)] != U[(act, ys[0])] for y in ys):
+                nonconst = True
+        for comp in _oracle_comps(den, a * b):
+            P = {}
+            i = 0
+            for x in xs:
+                for y in ys:
+                    P[(x, y)] = F(comp[i], den)
+                    i += 1
+            pred = oracle_acc_obs(P, xs, ys) > oracle_acc_base(P, xs, ys)
+            blind, best = oracle_control(P, xs, ys, acts, U)
+            ctrl = best > blind
+            if want == 'PRED_NO_CTRL' and pred and not ctrl and nonconst:
+                return True
+            if want == 'CTRL_NO_PRED' and ctrl and not pred:
+                return True
+    return False
+
+
+def oracle_verify_minimal_control(claimed, want, maxes=(3, 3, 2),
+                                  min_actions=2):
+    """(exists_at_each_claimed, no_witness_strictly_below)."""
+    exists = all(oracle_control_witness_exists(a, b, c, want,
+                                               min_actions=min_actions)
+                 for (a, b, c) in claimed)
+    below_clean = True
+    for a in range(1, maxes[0] + 1):
+        for b in range(1, maxes[1] + 1):
+            for c in range(min_actions, maxes[2] + 1):
+                strictly_below = any(
+                    a <= A and b <= B and c <= C and (a, b, c) != (A, B, C)
+                    for (A, B, C) in claimed)
+                if strictly_below and oracle_control_witness_exists(
+                        a, b, c, want, min_actions=min_actions):
+                    below_clean = False
+    return exists, below_clean
+
+
+def oracle_causal_witness_exists(nz, nx, ny, den=4):
+    conds_x = list(_oracle_comps(den, nx))
+    conds_y = list(_oracle_comps(den, ny))
+    for pz in _oracle_comps(den, nz):
+        for xs in _oracle_tuples(conds_x, nz):
+            for ys in _oracle_tuples(conds_y, nz):
+                P = {}
+                for x in range(nx):
+                    for y in range(ny):
+                        P[(x, y)] = sum(
+                            (F(pz[z], den) * F(xs[z][x], den)
+                             * F(ys[z][y], den) for z in range(nz)), F(0))
+                dom = list(range(nx))
+                cod = list(range(ny))
+                if oracle_acc_obs(P, dom, cod) > oracle_acc_base(P, dom, cod):
+                    return True
+    return False
+
+
+def _oracle_tuples(pool, k):
+    out = [()]
+    for _ in range(k):
+        out = [t + (p,) for t in out for p in pool]
+    return out
+
+
+def oracle_verify_minimal_causal(claimed, maxes=(2, 2, 2)):
+    exists = all(oracle_causal_witness_exists(*s) for s in claimed)
+    below_clean = True
+    for nz in range(1, maxes[0] + 1):
+        for nx in range(1, maxes[1] + 1):
+            for ny in range(1, maxes[2] + 1):
+                strictly_below = any(
+                    nz <= Z and nx <= X and ny <= Y and (nz, nx, ny) != (Z, X, Y)
+                    for (Z, X, Y) in claimed)
+                if strictly_below and oracle_causal_witness_exists(
+                        nz, nx, ny):
+                    below_clean = False
+    return exists, below_clean
+
+
+_ORACLE_N_TREES = {}
+
+
+def _oracle_trees_n(n, depth):
+    """Explicit bottom-up trees on n coordinates: (table, queried coord set)."""
+    key = (n, depth)
+    if key in _ORACLE_N_TREES:
+        return _ORACLE_N_TREES[key]
+    N = 2 ** n
+    if depth == 0:
+        out = set((tuple(leaf for _ in range(N)), frozenset())
+                  for leaf in (0, 1))
+        _ORACLE_N_TREES[key] = out
+        return out
+    prev = _oracle_trees_n(n, depth - 1)
+    out = set(prev)
+    items = sorted(prev)
+    for i in range(n):
+        for (t0, u0) in items:
+            for (t1, u1) in items:
+                tab = tuple(t1[x] if (x >> i) & 1 else t0[x]
+                            for x in range(N))
+                out.add((tab, frozenset([i]) | u0 | u1))
+    _ORACLE_N_TREES[key] = out
+    return out
+
+
+def oracle_best_acc_n(target, n, k, d):
+    N = 2 ** n
+    best = 0
+    for (tab, used) in _oracle_trees_n(n, d):
+        if len(used) > k:
+            continue
+        hit = sum(1 for x in range(N) if tab[x] == target[x])
+        if hit > best:
+            best = hit
+    return F(best, N)
+
+
+def oracle_accessibility_minimal_n(pattern, nmax=3):
+    """pattern in {'arity', 'depth', 'allread'}; returns the minimal n."""
+    for n in range(1, nmax + 1):
+        N = 2 ** n
+        for code in range(2 ** N):
+            target = [(code >> j) & 1 for j in range(N)]
+            ones = sum(target)
+            base = F(max(ones, N - ones), N)
+            if base >= 1:
+                continue
+            if pattern == 'arity':
+                for k in range(1, n):
+                    if oracle_best_acc_n(target, n, k, n) == base:
+                        return n
+            else:
+                for d in range(1, n):
+                    if oracle_best_acc_n(target, n, n, d) == base:
+                        if pattern == 'depth':
+                            return n
+                        if (2 ** d) - 1 >= n:
+                            return n
+    return None
+
+
+def oracle_discoverability_minimal_n(nmax=3):
+    """Minimal n at which the zero-sample learner sits exactly at the
+    secret-marginalised base rate, verified through the enumerative curve."""
+    for n in range(1, nmax + 1):
+        N = 2 ** n
+        P = {}
+        for x in range(N):
+            ones = sum(1 for s in range(N)
+                       if bin(s & x).count("1") % 2 == 1)
+            P[(x, 1)] = F(1, N) * F(ones, N)
+            P[(x, 0)] = F(1, N) * F(N - ones, N)
+        dom = list(range(N))
+        base = oracle_acc_base(P, dom, [0, 1])
+        obs = oracle_acc_obs(P, dom, [0, 1])
+        if obs == base:
+            return n
+    return None

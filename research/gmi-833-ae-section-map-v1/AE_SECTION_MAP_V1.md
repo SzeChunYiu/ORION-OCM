@@ -34,44 +34,76 @@ in this tranche use the live three-hash form.
 
 ## Row taxonomy
 
-Sorting by what a row actually costs, rather than by subsection:
+Every one of the 122 rows is assigned to exactly one tier. The per-row
+assignment is committed as `AE_ROW_TIER_ASSIGNMENT_V1.json` in this directory,
+so the table below is auditable rather than a hand-wave. The tier totals sum to
+122 by construction.
 
-**Tier 1 — closable with finite exact-rational constructions (no new instrument).**
-The spine of AE1, AE2, AE3, AE4, AE5, AE7, AE10, AE13, AE14, AE15, and the
-derivation rows of AE6 and AE8. These read `prove`, `construct the smallest
-counterexample`, `separate X from Y`, `derive the conditions under which ...`.
-Each is a finite object plus an exact verification, exactly the shape the first
-two tranches used. Approximately **72** rows.
+| subsection | rows | T1 finite construction | T2 morphology receipts | T3 instrument-blocked | T4 ledger |
+|---|---:|---:|---:|---:|---:|
+| AE1 | 8 | 8 | 0 | 0 | 0 |
+| AE2 | 8 | 8 | 0 | 0 | 0 |
+| AE3 | 8 | 8 | 0 | 0 | 0 |
+| AE4 | 8 | 8 | 0 | 0 | 0 |
+| AE5 | 6 | 5 | 1 | 0 | 0 |
+| AE6 | 8 | 6 | 1 | 1 | 0 |
+| AE7 | 7 | 7 | 0 | 0 | 0 |
+| AE8 | 8 | 8 | 0 | 0 | 0 |
+| AE9 | 7 | 3 | 0 | 4 | 0 |
+| AE10 | 6 | 5 | 1 | 0 | 0 |
+| AE11 | 8 | 5 | 0 | 3 | 0 |
+| AE12 | 6 | 6 | 0 | 0 | 0 |
+| AE13 | 7 | 6 | 1 | 0 | 0 |
+| AE14 | 6 | 6 | 0 | 0 | 0 |
+| AE15 | 6 | 6 | 0 | 0 | 0 |
+| AE16 | 8 | 0 | 0 | 8 | 0 |
+| AE17 | 7 | 0 | 0 | 0 | 7 |
+| **total** | **122** | **95** | **4** | **16** | **7** |
 
-**Tier 2 — blocked on a pinned morphology dataset, not on science.**
-Every row of the form *does GMI morphology selection predict X*. These are
-scattered — AE6 last row, AE7 last row, AE8 two rows, AE9 last row, AE10 row 5,
-AE13 last row, AE14 row 5, AE15 row 5. They do not need new mathematics; they
-need registered morphology-selection receipts pinned by blob sha. The repo
-already carries them: `research/gmi-833-finite-morphology-metrics-v1`,
+**Tier 1 — closable with finite exact-rational constructions (95 rows).** The
+spine of the section: `prove`, `construct the smallest counterexample`,
+`separate X from Y`, `derive the conditions under which ...`. Each is a finite
+object plus an exact verification, the shape the first three tranches used.
+**21 are already closed**, leaving **74**.
+
+**Tier 2 — blocked on pinned morphology receipts, not on science (4 rows).**
+AE5's *which quantity predicts morphology/resource cost under GMI*, AE6's
+*derive when manifold assumptions fail and another morphology should be
+selected*, AE10's *raw versus usable information versus a resource-conditioned
+vector*, and AE13's *does causal structure change selected morphology*. These
+need no new mathematics, only registered morphology-selection receipts pinned
+by blob sha — and the repo already carries them on `main`:
+`research/gmi-833-finite-morphology-metrics-v1`,
 `research/gmi-833-morphology-selection-v1`,
 `research/gmi-833-finite-candidate-space-v1`,
-`research/gmi-833-global-vs-reachable-morphology-v1`. **One** later package that
-pins those blobs and runs the structure-measure-versus-selection comparison
-closes this family together. Approximately **11** rows, and the highest-leverage
-single observation in this map.
+`research/gmi-833-global-vs-reachable-morphology-v1`. **One** package pinning
+those blobs and running a single structure-measure-versus-selection comparison
+closes all four at once. It is small, and it is the only place in the section
+where four rows fall to one piece of work.
 
-**Tier 3 — genuinely instrument-blocked.** AE9's training-time representational
-measurements (effective rank, circuit/path usage, grokking-style delayed
-generalization) require real training runs; AE11's energy rows require hardware
-measurement; AE16 requires real datasets spanning vision, language, sequential
-control and a scientific domain. These stay **OPEN with a stated instrument
-requirement**. Marking them without the instrument would be a shallow mark, and
-AE9/AE11/AE16 are precisely where the AE closure rule's `real-system test` arrow
-lives. Approximately **21** rows.
+**Tier 3 — genuinely instrument-blocked (16 rows).** All 8 of AE16 (real
+datasets spanning vision, language, sequential control and a scientific
+domain — every row of that subsection presupposes the corpus); 4 of AE9
+(training-time representational measurement, prospective marker freezing
+against observed capability onset, and the non-neural comparison); 3 of AE11
+(hardware energy measurement, the information-savings-to-energy-savings test,
+and the biological separation); and AE6's prospective test on real datasets.
+These should stay **OPEN with a stated instrument requirement**. Marking them
+without the instrument would be exactly the shallow mark this tranche is meant
+to avoid, and they are where the AE closure rule's `real-system test` arrow
+lives.
 
-**Tier 4 — meta/ledger rows (AE17).** These are obligations *on* the other
-tranches: emit assumptions and counterexamples into the gap graph, attack every
-scalar with two non-isomorphic counterexample families, pair every positive with
-a nearest negative, carry finite tags, pass the #833 D controls, update the
-subsumption ledger, reopen on descendant gaps. They close only once enough
-Tier-1 packages exist to have something to audit, and they close **as a sweep**
-over the emitted receipts rather than one at a time. **7** rows, last.
+Note that AE9 is **not** wholesale blocked: its definitional row (measurable
+representation-change quantities that do not depend on architecture names), its
+smooth-versus-qualitative-transition row and its `emergence` re-audit are
+Tier 1 and can be earned on finite non-neural systems.
+
+**Tier 4 — AE17's 7 ledger rows.** Obligations *on* the other tranches: emit
+assumptions and counterexamples into the gap graph, attack every scalar with
+two non-isomorphic counterexample families, pair every positive with a nearest
+negative, carry finite tags, pass the #833 D controls, update the subsumption
+ledger, reopen on descendant gaps. They close as a **sweep** over the emitted
+receipts, and only once there is enough to audit.
 
 ## Cheap obligations versus genuine science
 
@@ -116,72 +148,41 @@ AE10's freeze names its five target rows and the one row it explicitly does
 **not** close, so the deferral was declared before the result existed rather
 than after.
 
-## Batching plan for the remaining 106
+## Batching plan for the remaining 101
 
-Ordered by dependency, not by row number. Each entry is one package.
+Ordered by dependency. Each entry is one package; the row counts are Tier-1
+counts from the table above unless noted, and they sum exactly.
 
-1. `gmi-833-ae-ae3-compression-learning-v1` — **8 rows**. Three compression
-   notions separated exactly; a corpus that compresses whose code is useless for
-   the target; a useful predictor that is not the shortest description under the
-   registered coding language; the Kolmogorov uncomputability boundary stated as
-   a forbidden promotion rather than a claim; computable surrogates with their
-   language dependence measured across at least two universal-machine remints.
-2. `gmi-833-ae-ae4-information-bottleneck-v1` — **8 rows**. Requires AE3's
-   coding-language registry. Determines, on finite worlds, when a GMI minimal
-   predictive state equals, refines, or is incomparable with an IB-optimal
-   representation, with the smallest counterexample blocking unqualified
-   identification.
-3. `gmi-833-ae-ae5-causal-state-audit-v1` — **6 rows**. Mostly a parent-ownership
-   audit against computational mechanics: build processes where predictive-state
-   cardinality, linear predictive rank, causal-state entropy and description
-   length disagree, then say plainly which GMI state-complexity results are
-   already parent-owned. Expect `PARENT_SUFFICIENT` terminals here, which are
-   successes, not failures.
-4. `gmi-833-ae-ae7-prediction-to-control-v1` — **6 rows** (row 7 to the morphology
-   sweep). Extends AE1's control witnesses to a POMDP-style sufficient-state
-   formalization with value-of-information conditions under resource cost.
-5. `gmi-833-ae-ae13-causality-intervention-v1` — **6 rows** (row 7 to the
-   morphology sweep). Extends AE1's confounded triple to a full observational
-   equivalence class with differing intervention consequences.
-6. `gmi-833-ae-ae15-world-model-necessity-v1` — **6 rows**. Tasks solvable
-   optimally with no explicit model; tasks where a model is provably necessary
-   under the registered interface; the model-based/model-free phase boundary.
-7. `gmi-833-ae-ae14-generalization-taxonomy-v1` — **5 rows** (row 5 to the
-   morphology sweep). Operational definitions plus matched tasks with equal
-   predictive accuracy and different compositional capability. Row 6 is a
-   *forbid* row and closes by the registered forbidden-promotion list.
-8. `gmi-833-ae-ae6-geometric-structure-v1` — **7 rows** (row 8 to the morphology
-   sweep, and its `real datasets` half to Tier 3). The manifold hierarchy,
-   learnable non-manifold distributions, useless low-dimensional manifolds, and
-   the locality/symmetry/compositionality derivations.
-9. `gmi-833-ae-ae12-fep-audit-v1` — **6 rows**. Free-energy/active-inference
-    parent audit with published technical criticisms, and finite discriminating
-    tasks against rate-distortion control.
-10. `gmi-833-ae-ae11-thermo-separation-v1` — **5 rows** (rows 6, 7 and the
-    biological row to Tier 3). Keeps Shannon, algorithmic, statistical-mechanical
-    and thermodynamic entropy formally distinct and audits Landauer-style bounds
-    and their assumptions; claims nothing energetic without measurement.
-11. `gmi-833-ae-morphology-sweep-v1` — **11 rows**, the Tier-2 family, closed
-    together. Pins the existing morphology receipts by blob sha and runs one
-    comparison of raw information, usable information and a resource-conditioned
-    vector against selected morphology.
-12. `gmi-833-ae-ae8-cpc-discrimination-v1` — **8 rows**. Last of the science
-    packages: needs AE3, AE4, AE7, AE10 and AE12 settled first. The verdict on
-    whether CPC is a theorem, a variational principle, a decomposition or a
-    slogan, plus preregistered worlds where the candidate master principles
-    disagree, plus preserved observational equivalence where no discriminating
-    experiment exists.
-13. `gmi-833-ae-ae17-recursive-ledger-v1` — **7 rows**, a sweep over everything
-    emitted by 1-13.
-14. **Not closed this programme without new instruments**: AE9 (7 rows), AE16
-    (8 rows), AE11 rows 6-7 and the biological row, AE6's real-dataset half.
-    These should be filed with an explicit instrument requirement rather than
-    marked.
+| # | package | rows | notes |
+|---:|---|---:|---|
+| 1 | `gmi-833-ae-ae3-compression-learning-v1` | 8 | three compression notions separated exactly; a corpus that compresses whose code is useless for the task; a useful predictor that is not the shortest description; the Kolmogorov uncomputability boundary stated as a forbidden promotion, not a claim; computable surrogates with their language dependence measured across at least two universal-machine remints |
+| 2 | `gmi-833-ae-ae4-information-bottleneck-v1` | 8 | needs AE3's coding-language registry. When a GMI minimal predictive state equals, refines, or is incomparable with an IB optimum, with the smallest counterexample blocking unqualified identification |
+| 3 | `gmi-833-ae-ae5-causal-state-audit-v1` | 5 | a parent-ownership audit against computational mechanics. Expect `PARENT_SUFFICIENT` terminals — those are successes |
+| 4 | `gmi-833-ae-ae7-prediction-to-control-v1` | 7 | extends AE1's control witnesses to POMDP-style sufficient states with value-of-information conditions under resource cost |
+| 5 | `gmi-833-ae-ae13-causality-intervention-v1` | 6 | extends AE1's confounded triple to a full observational-equivalence class with differing intervention consequences |
+| 6 | `gmi-833-ae-ae15-world-model-necessity-v1` | 6 | tasks solvable with no explicit model; tasks where a model is provably necessary; the model-based/model-free phase boundary |
+| 7 | `gmi-833-ae-ae14-generalization-taxonomy-v1` | 6 | operational definitions plus matched tasks with equal predictive accuracy and different compositional capability; the `forbid` row closes by the registered forbidden-promotion list |
+| 8 | `gmi-833-ae-ae6-geometric-structure-v1` | 6 | the manifold hierarchy, learnable non-manifold distributions, useless low-dimensional manifolds, and the locality/symmetry/compositionality derivations |
+| 9 | `gmi-833-ae-ae12-fep-audit-v1` | 6 | free-energy/active-inference parent audit with published technical criticisms, and finite discriminating tasks against rate-distortion control |
+| 10 | `gmi-833-ae-ae11-thermo-separation-v1` | 5 | keeps Shannon, algorithmic, statistical-mechanical and thermodynamic entropy distinct and audits Landauer-style bounds; claims nothing energetic without measurement |
+| 11 | `gmi-833-ae-ae9-transition-markers-v1` | 3 | the non-neural half of AE9: architecture-independent representation-change quantities, smooth-versus-qualitative transitions, and the `emergence` re-audit |
+| 12 | `gmi-833-ae-morphology-sweep-v1` | 4 (T2) | pins the existing morphology receipts by blob sha and runs one comparison of raw information, usable information and a resource-conditioned vector against selected morphology. Closes AE5, AE6, AE10 and AE13's morphology rows together |
+| 13 | `gmi-833-ae-ae8-cpc-discrimination-v1` | 8 | last of the science packages: needs 1, 2, 4, 9 and this tranche's AE10 settled first |
+| 14 | `gmi-833-ae-ae17-recursive-ledger-v1` | 7 (T4) | a sweep over everything emitted by 1-13 |
+| | **total** | **85** | |
 
-Running total if entries 1-13 land on top of this tranche:
-`21 + 8 + 8 + 6 + 6 + 6 + 6 + 5 + 7 + 6 + 5 + 11 + 8 + 7` = **110** of 122,
-with the remaining 12 rows openly instrument-blocked. That is the honest ceiling for AE without real training
-runs, hardware energy measurement and a four-domain dataset programme.
+`21 + 85 = 106`. The remaining **16** are Tier 3 and stay OPEN with a stated
+instrument requirement: AE16 entire (8), AE9's four measurement rows, AE11's
+three physical rows, AE6's real-dataset test. **106 of 122 is the honest
+ceiling for AE** without real training runs, hardware energy measurement and a
+four-domain dataset programme.
+
+The hardest single row in the section is AE8's last — *do not call CPC the GMI
+master law unless it beats the bag-of-laws baseline and survives parent
+discrimination*. It is a comparison against every other master principle, and
+should be attempted only after AE3, AE4, AE7, AE10 and AE12 have each fixed
+their own parent boundary; otherwise the comparison has nothing stable to stand
+on.
 
 ## Machine-readable output
 

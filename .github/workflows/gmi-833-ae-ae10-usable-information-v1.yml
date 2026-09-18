@@ -103,6 +103,7 @@ jobs:
           d = res['USE_3_equal_shannon_separation']['decoding_cost_pair']
           assert d['mutual_information_bits_exact_both'] == '1'
           assert d['U_A'] == '0' and d['U_B'] == '1/2'
+          assert d['budget'] == 'k3_d2_p3_c2'
           s = res['USE_3_equal_shannon_separation']['search_cost_same_world']
           assert s['curve']['m0'] == '5/8'
           assert s['curve']['m3'] == '3463/4096'

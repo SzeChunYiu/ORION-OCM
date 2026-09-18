@@ -491,12 +491,26 @@ def build():
             target_determined_and_uniform(par)
             and target_determined_and_uniform(dic)),
         "mutual_information_bits_exact_both": "1",
-        "budget": "k1_d1_p3_c2",
-        "U_A": str(usable_information(par, (1, 1, 0, 3, 2))),
-        "U_B": str(usable_information(dic, (1, 1, 0, 3, 2))),
-        "difference": str(usable_information(dic, (1, 1, 0, 3, 2))
-                          - usable_information(par, (1, 1, 0, 3, 2))),
-        "attribution": "decoder branching cost, at equal Shannon information",
+        "budget": "k3_d2_p3_c2",
+        "budget_rationale": (
+            "junta arity is UNRESTRICTED at k=3, so the only binding "
+            "constraint is the decoder's branching depth; a budget such as "
+            "k1_d1 would also restrict how many coordinates may be read and "
+            "would mislabel an arity effect as a depth effect"),
+        "U_A": str(usable_information(par, (3, 2, 0, 3, 2))),
+        "U_B": str(usable_information(dic, (3, 2, 0, 3, 2))),
+        "difference": str(usable_information(dic, (3, 2, 0, 3, 2))
+                          - usable_information(par, (3, 2, 0, 3, 2))),
+        "attribution": ("decoder branching depth alone, at unrestricted arity "
+                        "and unrestricted precision, with equal Shannon "
+                        "information"),
+        "arity_restricted_budget_for_reference": {
+            "budget": "k1_d1_p3_c2",
+            "U_A": str(usable_information(par, (1, 1, 0, 3, 2))),
+            "U_B": str(usable_information(dic, (1, 1, 0, 3, 2))),
+            "note": "both arity and depth bind here, so it is reported only "
+                    "for reference and is not the headline claim",
+        },
     }
     # search cost at IDENTICAL Shannon information: one fixed world, the
     # sample budget m alone varies, so the mutual information is identical by

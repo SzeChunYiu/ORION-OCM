@@ -54,9 +54,16 @@
       "decoding_cost_pair": {
         "U_A": "0",
         "U_B": "1/2",
-        "attribution": "decoder branching cost, at equal Shannon information",
+        "arity_restricted_budget_for_reference": {
+          "U_A": "0",
+          "U_B": "1/2",
+          "budget": "k1_d1_p3_c2",
+          "note": "both arity and depth bind here, so it is reported only for reference and is not the headline claim"
+        },
+        "attribution": "decoder branching depth alone, at unrestricted arity and unrestricted precision, with equal Shannon information",
         "both_determined_and_uniform": true,
-        "budget": "k1_d1_p3_c2",
+        "budget": "k3_d2_p3_c2",
+        "budget_rationale": "junta arity is UNRESTRICTED at k=3, so the only binding constraint is the decoder's branching depth; a budget such as k1_d1 would also restrict how many coordinates may be read and would mislabel an arity effect as a depth effect",
         "difference": "1/2",
         "mutual_information_bits_exact_both": "1",
         "world_A": "W_PARITY3",

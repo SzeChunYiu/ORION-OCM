@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import ae1_structure_separation_v1 as A          # noqa: E402
 import independent_separation_oracle_v1 as O     # noqa: E402
+import minimality_sweeps_v1 as MS                # noqa: E402
 
 RES = A.build()
 R = RES["results"]
@@ -195,8 +196,8 @@ class TestNamedResults(unittest.TestCase):
             self.assertTrue(R["candidate_scalars_refuted"][name]["refuted"],
                             name)
 
-    def test_minimality(self):
-        m = R["minimality"]
+    def test_minimality_distributional(self):
+        m = R["minimality"]["distributional"]
         self.assertEqual(m["shapes_searched"], 16)
         self.assertEqual(m["shapes_admitting_PRED_without_DEP"], [])
         self.assertEqual(
@@ -205,10 +206,62 @@ class TestNamedResults(unittest.TestCase):
         self.assertEqual(
             m["separations"]["DEP_without_PRED"]["minimal_shapes"], [[2, 2]])
 
+    def test_minimality_covers_rows_4_to_6(self):
+        m = R["minimality"]
+        self.assertEqual(
+            m["control_row4"]["PRED_without_CTRL_nonconstant_utility"][
+                "minimal_shapes_at_least_two_actions"], [[2, 2, 2]])
+        self.assertEqual(
+            m["control_row4"]["CTRL_without_PRED"][
+                "minimal_shapes_at_least_two_actions"], [[2, 3, 2]])
+        self.assertEqual(
+            m["causal_row4"]["PRED_with_zero_interventional_gain"][
+                "minimal_shapes"], [[2, 2, 2]])
+        self.assertEqual(m["accessibility_row5"]["arity_gap"]["minimal_n"], 2)
+        self.assertEqual(
+            m["accessibility_row5"][
+                "depth_gap_with_every_coordinate_reachable"]["minimal_n"], 3)
+        self.assertEqual(m["discoverability_row6"]["minimal_n"], 1)
+
+    def test_non_minimal_witnesses_are_declared_as_such(self):
+        """The two witnesses that are NOT minimal must say so in the receipt;
+        silently keeping them would narrow row 8's stated meaning."""
+        w = R["minimality"]["witness_minimality_status"]
+        self.assertFalse(w["W_PARITY3"]["minimal_for_plain_arity_gap"])
+        self.assertTrue(
+            w["W_PARITY3"]["minimal_for_every_coordinate_reachable_gap"])
+        self.assertIn("NOT the minimal", w["W_PARITY3"]["honest_note"])
+        self.assertFalse(w["parity_family_n3"]["minimal"])
+        self.assertEqual(
+            w["parity_family_n3"]["minimal_n_for_zero_sample_gap"], 1)
+
+    def test_minimality_claims_agree_with_the_oracle(self):
+        ex, below = O.oracle_verify_minimal_control([(2, 2, 2)],
+                                                    "PRED_NO_CTRL")
+        self.assertTrue(ex)
+        self.assertTrue(below)
+        ex, below = O.oracle_verify_minimal_control([(2, 3, 2)],
+                                                    "CTRL_NO_PRED")
+        self.assertTrue(ex)
+        self.assertTrue(below)
+        ex, below = O.oracle_verify_minimal_causal([(2, 2, 2)])
+        self.assertTrue(ex)
+        self.assertTrue(below)
+        self.assertEqual(O.oracle_accessibility_minimal_n("arity"),
+                         R["minimality"]["accessibility_row5"][
+                             "arity_gap"]["minimal_n"])
+        self.assertEqual(O.oracle_accessibility_minimal_n("allread"),
+                         R["minimality"]["accessibility_row5"][
+                             "depth_gap_with_every_coordinate_reachable"][
+                                 "minimal_n"])
+        self.assertEqual(O.oracle_discoverability_minimal_n(),
+                         R["minimality"]["discoverability_row6"]["minimal_n"])
+
     def test_null(self):
         n = R["null"]
         self.assertTrue(n["planted_positive_flagged"])
         self.assertEqual(n["known_clean_worlds_flagged"], [])
+        self.assertTrue(n["witness_exceeds_largest_null_gap"])
         self.assertEqual(n["random_worlds_at_or_above_threshold"], 0)
         self.assertEqual(n["largest_null_gap_magnitude"], "3/16")
         self.assertEqual(n["planted_positive_gap_magnitude"], "1/2")
@@ -312,7 +365,8 @@ class TestHostiles(unittest.TestCase):
         # POTENCY: the realizability map really changes
         self.assertNotEqual(small, full)
         # DETECTION: the frozen grid denominator is the one in the receipt
-        self.assertEqual(R["minimality"]["grid_denominator"], 8)
+        self.assertEqual(R["minimality"]["distributional"][
+            "grid_denominator"], 8)
 
     def test_H9_vacuous_hostile_is_itself_caught(self):
         """A perturbation preserving product form moves nothing: proving that

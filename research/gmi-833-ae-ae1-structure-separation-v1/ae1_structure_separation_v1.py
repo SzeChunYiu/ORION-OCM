@@ -13,8 +13,13 @@ The independent oracle (independent_separation_oracle_v1.py) shares no import
 with this module and recomputes everything by explicit enumeration.
 """
 import json
+import os
 import sys
 from fractions import Fraction as F
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import minimality_sweeps_v1 as MS
 
 CLAIM_CEILING = (
     "GMI_833_AE1_TASK_RELATIVE_EXPLOITABLE_STRUCTURE_SEPARATED_"
@@ -728,7 +733,6 @@ def build():
         "DEP_without_MARG_NONUNIF": (False, True, True),
         "DEP_without_PRED": (True, True, False),
         "DEP_without_PRED_uniform_marginal": (False, True, False),
-        "PRED_without_MARG_NONUNIF": (False, True, True),
     }
     mins = {}
     for label, pat in sorted(patterns.items()):
@@ -739,12 +743,73 @@ def build():
     # PRED never occurs without DEP -- the exhaustive grid must confirm it
     pred_without_dep = sorted(
         [list(s) for s in rmap if any(p[2] and not p[1] for p in rmap[s])])
+    ctrl_min = MS.control_minimality()
+    causal_min = MS.causal_minimality()
+    acc_min = MS.accessibility_minimality()
+    disc_min = MS.discoverability_minimality()
     res["minimality"] = {
-        "grid_denominator": GRID_DEN,
-        "max_shape": MAX_SHAPE,
-        "shapes_searched": len(rmap),
-        "separations": mins,
-        "shapes_admitting_PRED_without_DEP": pred_without_dep,
+        "scope_note": (
+            "minimality is claimed only at the frozen finite grids declared "
+            "below and under the stated product orders; it is never a claim "
+            "about all real-valued parameters"),
+        "distributional": {
+            "grid_denominator": GRID_DEN,
+            "max_shape": MAX_SHAPE,
+            "shapes_searched": len(rmap),
+            "separations": mins,
+            "shapes_admitting_PRED_without_DEP": pred_without_dep,
+        },
+        "control_row4": ctrl_min,
+        "causal_row4": causal_min,
+        "accessibility_row5": acc_min,
+        "discoverability_row6": disc_min,
+        "witness_minimality_status": {
+            "W_PRED_NOCTRL": {
+                "shape_XYA": [2, 2, 2],
+                "minimal_at_two_or_more_actions": (
+                    [2, 2, 2] in ctrl_min[
+                        "PRED_without_CTRL_nonconstant_utility"][
+                            "minimal_shapes_at_least_two_actions"]),
+            },
+            "W_CTRL_NOPRED": {
+                "shape_XYA": [2, 3, 2],
+                "minimal_at_two_or_more_actions": (
+                    [2, 3, 2] in ctrl_min["CTRL_without_PRED"][
+                        "minimal_shapes_at_least_two_actions"]),
+            },
+            "causal_triple": {
+                "shape_ZXY": [2, 2, 2],
+                "minimal": ([2, 2, 2] in causal_min[
+                    "PRED_with_zero_interventional_gain"]["minimal_shapes"]),
+            },
+            "W_PARITY3": {
+                "coordinates": 3,
+                "minimal_for_plain_arity_gap": (
+                    acc_min["arity_gap"]["minimal_n"] == 3),
+                "minimal_n_for_plain_arity_gap": acc_min["arity_gap"][
+                    "minimal_n"],
+                "minimal_for_every_coordinate_reachable_gap": (
+                    acc_min["depth_gap_with_every_coordinate_reachable"][
+                        "minimal_n"] == 3),
+                "honest_note": (
+                    "W_PARITY3 is NOT the minimal witness of the plain "
+                    "accessibility gap -- two coordinates already suffice. It "
+                    "IS the minimal witness of the strictly stronger pattern "
+                    "in which every coordinate is reachable within the depth "
+                    "budget and the best rule is still at the base rate, "
+                    "which is the property the AE1-5 claim actually rests on "
+                    "(best_acc_at_k3_d2 = 1/2)."),
+            },
+            "parity_family_n3": {
+                "coordinates": 3,
+                "minimal_n_for_zero_sample_gap": disc_min["minimal_n"],
+                "minimal": (disc_min["minimal_n"] == 3),
+                "honest_note": (
+                    "one coordinate already exhibits the zero-sample gap. The "
+                    "three-coordinate family is used for the quantitative "
+                    "learning curve, not as a minimality claim."),
+            },
+        },
     }
 
     # --- null --------------------------------------------------------------
@@ -765,7 +830,17 @@ def build():
         "random_worlds_flagged_unthresholded": null_raw,
         "random_world_gap_magnitudes": null_roster,
         "largest_null_gap_magnitude": str(null_max),
-        "magnitude_threshold": str(NULL_MAGNITUDE_THRESHOLD),
+        "primary_comparison": (
+            "threshold-free: the planted witness's gap magnitude strictly "
+            "exceeds the largest magnitude any of the 200 random worlds "
+            "attains"),
+        "witness_exceeds_largest_null_gap": (witness_mag > null_max),
+        "magnitude_threshold_note": (
+            "the 1/4 threshold below was chosen after the null magnitudes "
+            "were seen and is reported as an illustration only; no claim in "
+            "this package depends on it, and the threshold-free comparison "
+            "above carries the result"),
+        "magnitude_threshold_illustrative": str(NULL_MAGNITUDE_THRESHOLD),
         "random_worlds_at_or_above_threshold": null_big,
         "planted_positive_flagged": recall_true,
         "planted_positive_gap_magnitude": str(witness_mag),
@@ -829,12 +904,24 @@ def build():
         "profile_object_monotone": res["profile_object"]["monotone"],
         "profile_object_bounded": res["profile_object"][
             "bounded_by_full_information"],
-        "null_beaten": (null_big == 0 and recall_true
-                        and witness_mag > null_max),
+        "null_beaten": (recall_true and witness_mag > null_max),
+        "null_threshold_free_margin": (witness_mag > null_max),
         "null_no_alarm_on_clean": (clean_alarms == []),
         "all_candidate_scalars_refuted": all(
             refuted[n]["refuted"] for n in CANDIDATE_SCALARS),
         "minimality_search_complete": (len(rmap) == MAX_SHAPE * MAX_SHAPE),
+        "minimality_covers_every_separation": all([
+            res["minimality"]["witness_minimality_status"][
+                "W_PRED_NOCTRL"]["minimal_at_two_or_more_actions"],
+            res["minimality"]["witness_minimality_status"][
+                "W_CTRL_NOPRED"]["minimal_at_two_or_more_actions"],
+            res["minimality"]["witness_minimality_status"][
+                "causal_triple"]["minimal"],
+            acc_min["arity_gap"]["minimal_n"] is not None,
+            acc_min["depth_gap_with_every_coordinate_reachable"][
+                "minimal_n"] == 3,
+            disc_min["minimal_n"] is not None,
+        ]),
     }
 
     return {
@@ -844,7 +931,8 @@ def build():
         "source_main": SOURCE_MAIN,
         "freeze_commit": FREEZE_COMMIT,
         "claim_ceiling": CLAIM_CEILING,
-        "theorems": ["AE1-1", "AE1-2", "AE1-3", "AE1-4", "AE1-5", "AE1-6"],
+        "theorems": ["AE1-1", "AE1-2", "AE1-3", "AE1-4", "AE1-5", "AE1-6",
+                     "AE1-8"],
         "results": res,
         "checks": checks,
         "verdict": "GREEN" if all(checks.values()) else "RED",

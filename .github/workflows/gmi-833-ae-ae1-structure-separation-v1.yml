@@ -44,6 +44,7 @@ jobs:
             "$pkg/RESULT_V1.json" \
             "$pkg/MANIFEST_V1.json" \
             "$pkg/AE1_THEOREMS_V1.md" \
+            "$pkg/minimality_sweeps_v1.py" \
             "$pkg/ISSUE_833_RECONCILIATION_AE1_STRUCTURE_SEPARATION_V1.json"; do
             if git cat-file -e "$freeze:$p" 2>/dev/null; then
               echo "post-freeze artifact already existed at the freeze: $p" >&2
@@ -108,10 +109,27 @@ jobs:
           assert res['discoverability']['learning_curve']['m3'] == '6715/8192'
           assert res['scalar_impossibility']['reversal'] is True
           assert res['profile_object']['monotone'] is True
-          assert res['minimality']['shapes_admitting_PRED_without_DEP'] == []
+          mn = res['minimality']
+          assert mn['distributional'][
+              'shapes_admitting_PRED_without_DEP'] == []
+          assert mn['control_row4'][
+              'PRED_without_CTRL_nonconstant_utility'][
+                  'minimal_shapes_at_least_two_actions'] == [[2, 2, 2]]
+          assert mn['control_row4']['CTRL_without_PRED'][
+              'minimal_shapes_at_least_two_actions'] == [[2, 3, 2]]
+          assert mn['causal_row4']['PRED_with_zero_interventional_gain'][
+              'minimal_shapes'] == [[2, 2, 2]]
+          assert mn['accessibility_row5']['arity_gap']['minimal_n'] == 2
+          assert mn['accessibility_row5'][
+              'depth_gap_with_every_coordinate_reachable']['minimal_n'] == 3
+          assert mn['discoverability_row6']['minimal_n'] == 1
+          ws = mn['witness_minimality_status']
+          assert ws['W_PARITY3']['minimal_for_plain_arity_gap'] is False
+          assert ws['parity_family_n3']['minimal'] is False
           assert res['null']['random_worlds_at_or_above_threshold'] == 0
           assert res['null']['known_clean_worlds_flagged'] == []
           assert res['null']['largest_null_gap_magnitude'] == '3/16'
+          assert res['null']['witness_exceeds_largest_null_gap'] is True
           assert res['null']['planted_positive_gap_magnitude'] == '1/2'
           print('AE1 manifest and named numbers OK')
           PY

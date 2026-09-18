@@ -36,17 +36,32 @@ decision tree bottom-up by explicit composition, and enumerates every
 route A; the test asserts this by parsing route B's AST. The two agree on every
 value, including the entire 16-shape realizability map.
 
+**Minimality (row 8).** Every separation in rows 2-6 carries a two-sided
+certificate — a witness at the claimed minimum, and none strictly below — with
+route B verifying both sides independently. Distributional: 16 shapes to `4x4`
+on the denominator-8 grid. Control: shapes to `(3,3,2)`, denominator-6 joints,
+every 0/1 utility, **45,748** cases, minimal `(2,2,2)` and `(2,3,2)`, both
+matching the shipped witnesses. Causal: minimal `(2,2,2)`, matching. For
+accessibility and finite-sample the sweep reports **against** the shipped
+witnesses: two coordinates already suffice for the plain accessibility gap and
+one for the zero-sample gap, so `W_PARITY3` and the 3-coordinate family are
+declared non-minimal in the receipt. `W_PARITY3` is minimal for the strictly
+stronger pattern where every coordinate is reachable within the depth budget
+and the rule is still at the base rate — the property AE1-5 actually uses.
+
 **Null.** Detector: full-information gain positive while every rule at junta
 arity `k <= 2` attains exactly the base rate. It fires on the planted positive
 (`W_PARITY3`, gap `1/2`), does **not** fire on the known-clean `W_DICT` or
 `W_NOISY_DICT`, and fires on `7` of `200` random worlds — all seven genuine but
-tiny gaps (largest `3/16`), listed individually in the receipt. At the frozen
-magnitude threshold `1/4`, `0` of `200` random worlds fire.
+tiny gaps (largest `3/16`), listed individually in the receipt. The primary
+comparison is threshold-free: the witness's `1/2` strictly exceeds the largest
+null magnitude `3/16`. A `1/4` threshold, at which `0` of `200` fire, is
+reported as illustration only — it was chosen after the magnitudes were seen.
 
 Claim ceiling:
 `GMI_833_AE1_TASK_RELATIVE_EXPLOITABLE_STRUCTURE_SEPARATED_ON_REGISTERED_FINITE_WITNESS_ROSTER`.
-Minimality is claimed only over the frozen denominator-8 grid and shapes up to
-`4x4`. The budget lattice is the frozen `(junta arity, tree depth)` pair;
+Minimality is claimed only over the frozen grids listed above and under the
+stated product orders. The budget lattice is the frozen `(junta arity, tree depth)` pair;
 memory, precision, communication, time and energy budgets are **not**
 instantiated here.
 

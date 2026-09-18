@@ -73,13 +73,15 @@ ceiling; nothing new is claimed.
 **Decoding cost.** `W_PARITY3` (`Y = x_0 xor x_1 xor x_2`) and `W_DICTATOR`
 (`Y = x_2`) both have `Y` determined by `X` with a uniform `Y`-marginal, so
 `I(X;Y) = 1` bit **exactly** for both, by a counting argument with no logarithm
-evaluated. At the identical budget `k1_d1_p3_c2`,
+evaluated. At the identical budget `k3_d2_p3_c2`,
 
     U(W_PARITY3) = 0        U(W_DICTATOR) = 1/2        difference = 1/2.
 
-The difference is attributable to decoder branching cost alone: the information
-content is identical, the observation is unrestricted, and only the decoder's
-depth budget separates them.
+Junta arity is **unrestricted** at `k = 3` and precision is unrestricted at
+`p = 3`, so the only binding constraint is the decoder's branching depth. That
+is the point of choosing this budget over a tighter one such as `k1_d1`, where
+arity binds too and a depth claim would silently be carrying an arity effect;
+the `k1_d1` values are reported in the receipt for reference only.
 
 **Search cost.** Here the mutual information is identical **by identity**, not
 by coincidence: one fixed world — `Y = <s, x>` with `s` uniform over the seven
@@ -105,8 +107,8 @@ An auxiliary comparison against a two-candidate family is reported and
 **explicitly labelled as not an equal-Shannon comparison**, since a different
 candidate set is a different world.
 
-**Falsifier.** A rule at `k1_d1_p3_c2` beating the base rate on `W_PARITY3`, or
-a learner beating the tabulated accuracy at some `m`.
+**Falsifier.** A depth-2 rule of unrestricted arity beating the base rate on
+`W_PARITY3`, or a learner beating the tabulated accuracy at some `m`.
 
 ---
 

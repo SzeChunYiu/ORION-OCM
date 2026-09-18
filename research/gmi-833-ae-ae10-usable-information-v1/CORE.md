@@ -17,7 +17,7 @@ field so the omission cannot pass as a measurement.
 |---|---|
 | `USE-1` monotonicity | **9,000** ordered budget pairs across 3 worlds, **0** violations; rule-class inclusion checked separately |
 | `USE-2` full-information ceiling | **0** violations; equality attained at the top for every world |
-| `USE-3` decoding cost | two worlds, `I(X;Y) = 1` bit **exactly** for both, `U = 0` vs `1/2` at the identical budget `k1_d1_p3_c2` |
+| `USE-3` decoding cost | two worlds, `I(X;Y) = 1` bit **exactly** for both, `U = 0` vs `1/2` at the identical budget `k3_d2_p3_c2`, where junta arity is unrestricted so only branching depth binds |
 | `USE-3` search cost | one **fixed** world, information identical by identity, accuracy `5/8 → 43/64 → 383/512 → 3463/4096` as `m` goes 0→3 |
 | `USE-4` unconditional fixture | all `7` proper coordinate subsets exactly uniform, **0** violations; `U = 0` at arity 2, `1/2` at arity 3 |
 | `USE-5` crosswalk | 4 parent mappings, each with a citation, in the machine-readable receipt |

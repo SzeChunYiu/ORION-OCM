@@ -100,9 +100,16 @@ class TestNamedResults(unittest.TestCase):
         d = R["USE_3_equal_shannon_separation"]["decoding_cost_pair"]
         self.assertTrue(d["both_determined_and_uniform"])
         self.assertEqual(d["mutual_information_bits_exact_both"], "1")
+        self.assertEqual(d["budget"], "k3_d2_p3_c2")
         self.assertEqual(d["U_A"], "0")
         self.assertEqual(d["U_B"], "1/2")
         self.assertEqual(d["difference"], "1/2")
+        # the headline budget must leave arity unrestricted, otherwise a depth
+        # claim would be carrying an arity effect
+        self.assertEqual(A.usable_information(A.WORLDS["W_PARITY3"],
+                                              (3, 2, 0, 3, 2)), F(0))
+        self.assertEqual(A.usable_information(A.WORLDS["W_DICTATOR"],
+                                              (3, 2, 0, 3, 2)), F(1, 2))
 
     def test_USE3_search_cost(self):
         s = R["USE_3_equal_shannon_separation"]["search_cost_same_world"]
