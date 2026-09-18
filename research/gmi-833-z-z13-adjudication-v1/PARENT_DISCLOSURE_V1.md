@@ -48,7 +48,7 @@ the residual visible.
 1. The exact one-bit delay-2 floor `5/16` in this universe, and the fact that the
    `4` next-state functions attaining it are disjoint from the `2` attaining a
    zero delay-1 error (`ZA-1`, `ZA-3`).
-2. The demonstration that a selection threshold above two resource levels is a
+2. The demonstration that a model selection threshold above two resource levels is a
    **marginal** and not a level, with the exact excess `eta*p2/8` by which
    `Z13-P1` overstates it, and the identification of the marginal law as the
    unique member of its declared family reproducing the enumeration (`ZA-2`).

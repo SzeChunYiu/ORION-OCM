@@ -48,7 +48,7 @@ floors appear again in this package's own receipt.
 ## The residual contribution of this tranche
 
 1. The exact demonstration, on enumerated finite universes, that four separately
-   registered GMI selection laws are the **same** corollary of one principle with
+   registered GMI model selection laws are the **same** corollary of one principle with
    **zero** free theoretical constants — and the exact identification of that
    principle as the unique member of its declared law family reproducing the
    enumeration (`IC-2`).

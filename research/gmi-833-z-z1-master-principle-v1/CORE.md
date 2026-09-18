@@ -5,12 +5,12 @@ rows `1`, `3`, `4`, `5` and `6`.
 
 Row `2` is **deliberately left open** and `FREEZE_V1.md` §7 forbids this package
 from touching it: it quantifies over eight named law families and no canonical
-register of those families exists on `main`. Classifying only the morphology and
+register of those families exists on `main`. Classifying only the architecture and
 capability entries would be closure by narrowing.
 
 ## What it establishes
 
-- **`IC-1`, the Marginal Value Principle**: selection thresholds are the
+- **`IC-1`, the Marginal Value Principle**: model selection thresholds are the
   supporting slopes of the lower convex envelope of the resource-error profile —
   **marginal** error masses, never error levels. Zero free theoretical constants.
 - **`IC-1a`..`IC-1d`**: `lambda* = eta*p/2`, `lambda*(A) = eta*p*(1 - 1/A)`,
@@ -73,6 +73,6 @@ run exhibited: they were drawn from the `p = 0` slice, where the profile is
 `(0, 0)` and nothing is being selected at all — a separation over a degenerate
 range. `FREEZE_V1_AMENDMENT_1.md`, committed before this receipt, narrows the
 separation population to `E(0) > E(1)`; every witness now comes from an instance
-on which `IC-1` makes a real selection. A third: the hostile that strips `eta`
+on which `IC-1` makes a real model selection. A third: the hostile that strips `eta`
 from the profile key shows the key is load-bearing — without it the `102` groups
 over-merge into `59` and the separation test would report spurious splits.

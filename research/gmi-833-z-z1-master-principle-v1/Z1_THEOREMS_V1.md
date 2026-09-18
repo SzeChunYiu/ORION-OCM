@@ -19,20 +19,21 @@ cost `C_lambda = eta*sum_m p_m*r_m + lambda*rho`, define
 2. level `k` is the strict minimiser exactly on `(Delta_{k+1}, Delta_k)` with
    `Delta_k = E(k-1) - E(k)` taken along the envelope, and that interval is
    non-empty exactly when `k` is an envelope vertex;
-3. **every selection threshold is a marginal error mass and never an error level.**
+3. **every model selection threshold is a marginal error mass and never an error level.**
 
-- quantifiers: for all instances of the declared population.
-- assumptions: additive cost, linear resource price, finite candidate set, a
-  declared accounting the instance supplies.
-- falsifier: a registered selection threshold that is an error level and provably
-  not a marginal. `Z13-P1`'s upper threshold is exactly such a candidate, and
-  clause 3 is what convicts it.
-- strongest parents: Lagrangian scalarisation and the lower convex envelope of
-  the achievable rate-distortion set; see `PARENT_DISCLOSURE_V1.md`. **The
-  mathematics is not novel.** What is established here is that the registered GMI
-  selection laws are its corollaries, exactly, on enumerated finite universes.
-- forbidden extrapolation: nothing is claimed for non-additive costs, non-linear
-  resource prices, infinite candidate sets, or any real system.
+**Quantifiers.** For all instances of the declared union population and all `lambda >= 0`.
+
+**Assumptions.** Additive cost, linear resource price, finite candidate set, and a declared accounting the instance supplies.
+
+**Dependencies.** The enumerated floors of `IC-1a`-`IC-1d`; the declared population of `FREEZE_V1.md` §4.
+
+**Falsifiers.** A registered model selection threshold that is an error level and provably not a marginal. `Z13-P1`'s upper threshold is exactly such a candidate and clause 3 convicts it.
+
+**Strongest parents.** Lagrangian scalarisation over a lower convex envelope: Everett 1963, Geoffrion 1968, Berger 1971, Rissanen 1978, Dantzig 1957, Russell and Subramanian 1994. **The mathematics is not novel.**
+
+**Forbidden extrapolations.** `MVP_CLAIMED_AS_NOVEL_MATHEMATICS`; nothing is claimed for non-additive costs, non-linear resource prices, infinite candidate sets or real systems.
+
+---
 
 ## `IC-1a` .. `IC-1d` — the corollaries, all exact
 
@@ -48,6 +49,20 @@ That coincidence is stated rather than hidden: it is precisely why clause 3 is n
 idle, and why a level-valued threshold survived undetected until a three-level
 ladder existed.
 
+**Quantifiers.** For all `eta in {1,2,3}`, all `p` over eighths, all seven declared input laws and `A in {2,3,4}`; and for all 135 ladder worlds.
+
+**Assumptions.** Uniform i.i.d. symbols except where an input law is declared; the scored windows of each parent universe.
+
+**Dependencies.** `IC-1`; the re-enumerated floors (16, 729 and 65536 tables; seven input laws; the three-mode ladder).
+
+**Falsifiers.** One instance where the envelope marginal differs from the enumerated threshold. `0` were found.
+
+**Strongest parents.** `gmi-833-z-z5-critical-phenomena-v1` `CP-2`/`CP-5`; `gmi-833-z-z6-discrimination-v1` `DS-5`; `gmi-833-z-z13-property-prediction-freeze-v1`.
+
+**Forbidden extrapolations.** `RESULT_EXTENDED_BEYOND_THE_DECLARED_UNION_POPULATION`.
+
+---
+
 ## `IC-2` — identification
 
 Within the declared two-parameter law family `eta*p*(a + b*R0)`, `a, b in k/16`,
@@ -57,9 +72,22 @@ instances: `(a, b) = (0, 1)`, which is `IC-1`. Within the ladder family
 endpoint on all `135` worlds: `(a, b) = (1/2, 3/16)`, which is `IC-1`'s marginal
 pair. `Z13-P1`'s level-valued pair `(1/2, 5/16)` scores `27/135`.
 
-- falsifier: a second law in either grid scoring perfectly.
 - this is an identification statement over a declared family, **not** a claim that
   no law outside that family fits.
+
+**Quantifiers.** For all 289 laws of each declared two-parameter family.
+
+**Assumptions.** The coefficient grid `k/16`; the declared families `eta*p*(a + b*R0)` and `eta*(a*p1 + b*p2)`.
+
+**Dependencies.** `IC-1`; the enumerated thresholds of `IC-1a`-`IC-1d`.
+
+**Falsifiers.** A second law in either grid scoring perfectly.
+
+**Strongest parents.** Identifiability arguments in model selection; no external result is borrowed.
+
+**Forbidden extrapolations.** `IDENTIFICATION_CLAIMED_OUTSIDE_THE_DECLARED_LAW_FAMILY` - nothing is claimed about laws outside the two declared grids.
+
+---
 
 ## `IC-3` — incompressibility, with exhibited witnesses
 
@@ -97,9 +125,19 @@ grammar indexes them, nor how they sit in the grammar's edit neighbourhood. Ever
 separated law reads one of those three, so no function of `E(.)` can reproduce it.
 The witnesses make that argument concrete rather than merely plausible.
 
-- forbidden extrapolation: incompressibility is established for these four named
-  laws over this population. It is **not** a general claim that grammar-level laws
-  are never MVP-derivable.
+**Quantifiers.** For all 264 non-degenerate instances and all 75 shared-profile groups.
+
+**Assumptions.** MVP content is the declared accounting plus the profile `E(.)`; the separation population excludes degenerate instances per `FREEZE_V1_AMENDMENT_1.md`.
+
+**Dependencies.** `IC-1`; the enumerated profiles; `FREEZE_V1_AMENDMENT_1.md`.
+
+**Falsifiers.** A function of `E(.)` alone reproducing any of the four separated laws; or a shared-profile group split by `L_THRESHOLD` or `L_ARGMIN_BUDGET`.
+
+**Strongest parents.** Sufficiency and information-equivalence arguments; the Z3 invariance and Z4 quotient packages, which own the grammar-level quantities being separated.
+
+**Forbidden extrapolations.** `INCOMPRESSIBILITY_CLAIMED_WITHOUT_AN_EXHIBITED_WITNESS_PAIR`; `SEPARATION_CLAIMED_ON_A_DEGENERATE_INSTANCE`; no general claim that grammar-level laws are never MVP-derivable.
+
+---
 
 ## `IC-4` — compression and arbitrary constants
 
@@ -115,6 +153,20 @@ The witnesses make that argument concrete rather than merely plausible.
   `ARBITRARY_UNDER_IC-1`: the `5/16` level in `Z13-P1`'s upper threshold, which
   `IC-1` clause 3 forbids.
 
+**Quantifiers.** For all 567 declared cells and for every numeric constant occurring in the registered closed forms examined.
+
+**Assumptions.** The cell rule of one cell per `(instance, adjacent-threshold-pair)`, fixed in `FREEZE_V1.md` §4 before it was computed.
+
+**Dependencies.** `IC-1`, `IC-1a`-`IC-1d`; the enumerated floors that make each constant a computed value.
+
+**Falsifiers.** A constant classified `COMPUTED_VALUE_OF_E` that is not reproducible from the enumeration; a constant in class `ARBITRARY` that is missed.
+
+**Strongest parents.** Minimum description length as the parent notion of theory compression (Rissanen 1978; Grunwald 2007).
+
+**Forbidden extrapolations.** `COMPRESSION_RATIO_REPORTED_WITHOUT_ITS_RAW_PAIR`.
+
+---
+
 ## `IC-5` — head to head
 
 | theory | two-level population | ladder |
@@ -128,3 +180,17 @@ The witnesses make that argument concrete rather than merely plausible.
 The load-bearing comparison is the ladder, where level and marginal separate. One
 principle with zero free constants covers both slices; the bag needs four members
 and five constants and still fails on `135 - 27 = 108` ladder worlds.
+
+**Quantifiers.** For all 297 two-level instances and all 135 ladder worlds.
+
+**Assumptions.** Each bag member is evaluated literally, both inside and outside its registered scope.
+
+**Dependencies.** `IC-1`-`IC-4`; the parents' own published out-of-scope failures, which are reproduced rather than re-derived favourably.
+
+**Falsifiers.** A bag member outscoring `IC-1` anywhere on the declared population.
+
+**Strongest parents.** The four registered closed forms themselves.
+
+**Forbidden extrapolations.** The two-level cell for `IC-1` is `TAUTOLOGICAL_AT_TWO_LEVELS` and carries no weight.
+
+---
