@@ -1,0 +1,299 @@
+{
+  "NOV_1_by_construction": {
+    "all_add_zero_expressive_power": true,
+    "all_cycle_hostiles_detected": true,
+    "cycle_hostiles": [
+      {
+        "code": "RECURSIVE_LIBRARY_CYCLE",
+        "detected": true,
+        "library": {
+          "m1": [
+            "m1",
+            "a"
+          ]
+        }
+      },
+      {
+        "code": "RECURSIVE_LIBRARY_CYCLE",
+        "detected": true,
+        "library": {
+          "m1": [
+            "m2",
+            "a"
+          ],
+          "m2": [
+            "m1",
+            "b"
+          ]
+        }
+      },
+      {
+        "code": "RECURSIVE_LIBRARY_CYCLE",
+        "detected": true,
+        "library": {
+          "m1": [
+            "m2"
+          ],
+          "m2": [
+            "m3"
+          ],
+          "m3": [
+            "m1"
+          ]
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "expansion_set_equals_sigma_plus": true,
+        "library": {
+          "m1": [
+            "a",
+            "b"
+          ]
+        },
+        "only_base_tokens_in_expansions": true
+      },
+      {
+        "expansion_set_equals_sigma_plus": true,
+        "library": {
+          "m1": [
+            "a",
+            "b"
+          ],
+          "m2": [
+            "m1",
+            "m1"
+          ]
+        },
+        "only_base_tokens_in_expansions": true
+      },
+      {
+        "expansion_set_equals_sigma_plus": true,
+        "library": {
+          "m1": [
+            "a",
+            "b"
+          ],
+          "m2": [
+            "m1",
+            "m1"
+          ],
+          "m3": [
+            "m2",
+            "c",
+            "m2"
+          ]
+        },
+        "only_base_tokens_in_expansions": true
+      }
+    ],
+    "sigma_plus_size": 1092
+  },
+  "NOV_2_by_enumeration": {
+    "ADDED_nonempty_at_some_budget": true,
+    "REMOVED_nonempty_at_some_budget": true,
+    "reachability_non_monotone_under_growth": true,
+    "rows": [
+      {
+        "added_count": 3,
+        "added_examples": [
+          "aab",
+          "aabab",
+          "abab"
+        ],
+        "budget": 10,
+        "reach_G0": 10,
+        "reach_G1": 9,
+        "removed_count": 4,
+        "removed_examples": [
+          "ba",
+          "bb",
+          "bc",
+          "ca"
+        ]
+      },
+      {
+        "added_count": 23,
+        "added_examples": [
+          "aaabab",
+          "aabab",
+          "aababa",
+          "aababb",
+          "aababc",
+          "ababa"
+        ],
+        "budget": 100,
+        "reach_G0": 100,
+        "reach_G1": 78,
+        "removed_count": 45,
+        "removed_examples": [
+          "aaaa",
+          "aaac",
+          "aaca",
+          "aacb",
+          "aacc",
+          "abaa"
+        ]
+      },
+      {
+        "added_count": 1,
+        "added_examples": [
+          "ccabab"
+        ],
+        "budget": 1000,
+        "reach_G0": 1000,
+        "reach_G1": 303,
+        "removed_count": 698,
+        "removed_examples": [
+          "aaaaaa",
+          "aaaaac",
+          "aaaaca",
+          "aaaacb",
+          "aaaacc",
+          "aaacaa"
+        ]
+      },
+      {
+        "added_count": 0,
+        "added_examples": [],
+        "budget": 5000,
+        "reach_G0": 1092,
+        "reach_G1": 749,
+        "removed_count": 343,
+        "removed_examples": [
+          "acaaaa",
+          "acaaac",
+          "acaaca",
+          "acaacb",
+          "acaacc",
+          "acacaa"
+        ]
+      },
+      {
+        "added_count": 0,
+        "added_examples": [],
+        "budget": 20000,
+        "reach_G0": 1092,
+        "reach_G1": 1092,
+        "removed_count": 0,
+        "removed_examples": []
+      }
+    ]
+  },
+  "REP_1_extreme_rank_check": {
+    "counts": {
+      "GUARANTEED_INCREASE": 167,
+      "GUARANTEED_REDUCTION": 359,
+      "RANK_DECIDED": 176
+    },
+    "extreme_rank_violations": [],
+    "frozen_guaranteed_bands_never_assert_a_wrong_strict_sign": true,
+    "note": "the weak-boundary cells are sound under the frozen rule (it merely declines to decide them); REP-1b classifies them exactly.",
+    "rank_decided_cells_with_both_signs_realisable": 172,
+    "sound": true,
+    "weak_boundary_cells_frozen_rule_leaves_in_RANK_DECIDED": [
+      [
+        "WEAK_REDUCTION_OR_EQUALITY",
+        2,
+        3,
+        2,
+        1
+      ],
+      [
+        "WEAK_INCREASE_OR_EQUALITY",
+        2,
+        5,
+        2,
+        2
+      ],
+      [
+        "WEAK_REDUCTION_OR_EQUALITY",
+        3,
+        4,
+        2,
+        1
+      ],
+      [
+        "WEAK_REDUCTION_OR_EQUALITY",
+        4,
+        5,
+        2,
+        1
+      ]
+    ]
+  },
+  "REP_2_by_enumeration": {
+    "heldout_reuse_positive": {
+      "K_total": 6,
+      "burden_G0_total": 50052,
+      "burden_G1_total": 1307,
+      "dNet": -48739
+    },
+    "heldout_unrelated_control": {
+      "K_total": 6,
+      "burden_G0_total": 538,
+      "burden_G1_total": 1710,
+      "dNet": 1178
+    },
+    "parent_integers_reproduced_by_enumeration": true
+  },
+  "REP_3_by_enumeration": {
+    "near_miss_hostile": {
+      "B_G0_enumerated": 88005,
+      "B_G1_enumerated": 262399,
+      "band": "RANK_DECIDED",
+      "burden_increases": true,
+      "delta": 174394,
+      "ell0": 10,
+      "ell1": 9,
+      "rank_free_ceiling_G0": 88572,
+      "rank_free_floor_G1": 87381,
+      "word": "ccccabcccc"
+    },
+    "primary": {
+      "B_G0_enumerated": 265152,
+      "B_G1_enumerated": 1048831,
+      "band": "GUARANTEED_INCREASE",
+      "burden_increases": true,
+      "delta": 783679,
+      "ell0": 11,
+      "ell1": 10,
+      "rank_free_ceiling_G0": 265719,
+      "rank_free_floor_G1": 349525,
+      "word": "cccccabcccc"
+    }
+  },
+  "SD_2a_exact": {
+    "X": 6561,
+    "agrees_with_closed_form": true,
+    "closed_form_den": 2,
+    "closed_form_num": 6562,
+    "mean_den": 6561,
+    "mean_num": 21526641,
+    "sum_over_all_targets": 21526641
+  },
+  "SD_2b_exhaustive": {
+    "bound_respected": true,
+    "derived_bound": 17,
+    "misses": 0,
+    "start_points_swept": 6561,
+    "worst_observed": 17
+  },
+  "SD_2c_exhaustive": {
+    "characterisation_exact": true,
+    "hit_fraction_den": 6561,
+    "hit_fraction_num": 3,
+    "hit_start_points": 3,
+    "predicted_start_points": 3,
+    "predicted_window_size": 3,
+    "start_points_swept": 6561
+  },
+  "issue": 833,
+  "package": "gmi-833-developmental-reuse-v1",
+  "route": "B_literal_enumeration_and_exhaustive_sweep",
+  "schema": "GMI833DevelopmentalReuseOracleV1",
+  "section": "L",
+  "source_main": "bfb7d8c296a60c0bc76632ed69551540644e74e6",
+  "verdict": "ORACLE_AGREES"
+}
