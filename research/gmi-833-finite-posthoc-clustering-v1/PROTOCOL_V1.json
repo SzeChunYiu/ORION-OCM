@@ -1,0 +1,73 @@
+{
+  "schema": "GMI_833_FINITE_POSTHOC_CLUSTERING_PROTOCOL_V1",
+  "issue": 998,
+  "parent_issue": 833,
+  "source_prs": [966, 984],
+  "source_main": "5aaebc5a7bab7825f30c007d9fd5cd4e34f5118e",
+  "carrier": {
+    "budget": [2, 2],
+    "expected_presentations": 576,
+    "expected_distinct_morphologies": 47,
+    "protected_input_words": [[], [0], [1]],
+    "step_cap": 6
+  },
+  "causal_order": [
+    "generate_all_presentations",
+    "evaluate_all_presentations",
+    "retain_candidate_memberships",
+    "form_distinct_morphology_carrier",
+    "cluster_without_taxonomy",
+    "select_medoid_without_taxonomy",
+    "load_reference_registry_posthoc",
+    "map_or_emit_UNKNOWN"
+  ],
+  "clusterer": {
+    "kind": "CONNECTED_COMPONENTS_OF_CLOSED_DISTANCE_THRESHOLD_GRAPH",
+    "weights": ["5/1", "3/1", "2/1"],
+    "edge_threshold": "15/2",
+    "medoid": "MINIMUM_WITHIN_COMPONENT_TOTAL_DISTANCE_THEN_CANONICAL_RECORD",
+    "cluster_id": "SORTED_MEDOID_THEN_SORTED_MEMBER_CANONICAL_RECORDS"
+  },
+  "posthoc_registry": [
+    {
+      "family": "INPUT_GATED_STUTTER",
+      "observations": [["BLOCKED_INPUT", []], ["STEP_LIMIT", []], ["BLOCKED_INPUT", []]]
+    },
+    {
+      "family": "QUIESCENT_TERMINATOR",
+      "observations": [["HALTED", []], ["HALTED", []], ["HALTED", []]]
+    },
+    {
+      "family": "ZERO_STREAM_LOOP",
+      "observations": [["STEP_LIMIT", [0, 0, 0, 0, 0, 0]], ["STEP_LIMIT", [0, 0, 0, 0, 0, 0]], ["STEP_LIMIT", [0, 0, 0, 0, 0, 0]]]
+    },
+    {
+      "family": "ZERO_EMITTING_TERMINATOR",
+      "observations": [["HALTED", [0]], ["HALTED", [0]], ["HALTED", [0]]]
+    }
+  ],
+  "mapping_rule": "EXACTLY_ONE_EXACT_MEDOID_FINGERPRINT_MATCH_ELSE_UNKNOWN",
+  "unknown_label": "UNKNOWN",
+  "stability": {
+    "certified_surface_remints": 120,
+    "perturbed_weights": ["501/100", "299/100", "201/100"],
+    "parent_pairwise_bound": "9/100",
+    "partition_requires_strict_threshold_margin": true,
+    "medoid_requires_certified_aggregate_margin_or_componentwise_tie": true
+  },
+  "claim_ceiling": "FINITE_POSTHOC_CLUSTERING_BLIND_REFERENCE_MAPPING_UNKNOWN_AND_STABILITY_AT_REGISTERED_966_984_SCOPE",
+  "forbidden_promotions": [
+    "LARGE_SCALE_CLUSTERING_VALIDITY",
+    "UNIVERSAL_NATURAL_UNIQUE_OR_UNBIASED_TAXONOMY",
+    "KNOWN_FAMILY_RECOVERY_BEYOND_FOUR_SUPPLIED_FINGERPRINTS",
+    "LITERAL_HISTORICAL_IGNORANCE",
+    "ARCHITECTURE_PRIOR_FREE_DISCOVERY",
+    "CLUSTER_TRUTH_OR_UNIQUENESS",
+    "ARBITRARY_THRESHOLD_METRIC_OR_GRAMMAR_ROBUSTNESS",
+    "MORPHOLOGY_ZOO_COMPLETION",
+    "NEURAL_FAMILY_CLOSURE",
+    "NEW_FORM_OF_INTELLIGENCE",
+    "COMPLETE_GMI",
+    "ONTOLOGICAL_COMPLETENESS"
+  ]
+}
