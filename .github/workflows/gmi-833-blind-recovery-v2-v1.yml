@@ -61,3 +61,24 @@ jobs:
           assert receipt["rows"]["XOR_V1_ACTUAL"]["v1_terminal_would_be"] == "RECOVERED"
           print("V2_ALL_GREEN", json.dumps({"terminals": check["posthoc"]["terminals"]}))
           EOF
+
+      - name: aj9a benchmark checker runs and matches its committed receipt
+        run: |
+          set -eu
+          P=research/gmi-833-aj9a-known-family-benchmark-v1
+          # This checker asserts it rejects all 11 hostile configs, but nothing
+          # executed it: the workflow watched its JSON but never ran it. Its
+          # walk() surfaced only dict-held strings, so list-held operator names
+          # -- exactly how generic_ops is supplied -- escaped the macro denylist
+          # and four hostiles went undetected while the receipt still read GREEN.
+          python3 -I -B "$P/check_aj9a.py" > /tmp/aj9a_now.json
+          python3 - <<'PY'
+          import json, pathlib
+          new = json.loads(pathlib.Path("/tmp/aj9a_now.json").read_text().strip().splitlines()[-1])
+          old = json.loads(pathlib.Path("research/gmi-833-aj9a-known-family-benchmark-v1/RESULT_V1.json").read_text())
+          assert new["hostile_configs_checked"] == 11, new["hostile_configs_checked"]
+          assert new["hostile_configs_rejected"] == 11, new["hostile_configs_rejected"]
+          diff = {k for k in set(new) | set(old) if new.get(k) != old.get(k)}
+          assert not diff, sorted(diff)
+          print("aj9a: 11/11 hostiles rejected, receipt reproduces exactly")
+          PY
