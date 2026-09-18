@@ -1,0 +1,54 @@
+{
+  "schema": "GMI_OPEN_GAP_SCHEMA_V1",
+  "issue": 833,
+  "row": "AA01",
+  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
+  "note": "Normative machine-readable OPEN_GAP object. The nine names below are taken verbatim from the AA01 row text and each is bound to exactly one storage key. The binding is a total injection: no two AA01 names share a storage key.",
+  "open_gap_fields": [
+    {"aa01_name": "claim",                   "key": "claim_id",                "type": "string", "nonempty": true},
+    {"aa01_name": "premise",                 "key": "premise",                 "type": "string", "nonempty": true},
+    {"aa01_name": "inference",               "key": "inference",               "type": "string", "nonempty": true},
+    {"aa01_name": "unresolved assumption",   "key": "unresolved_assumption",   "type": "string", "nonempty": true},
+    {"aa01_name": "possible counterexample", "key": "possible_counterexample", "type": "string", "nonempty": true},
+    {"aa01_name": "severity",                "key": "severity",                "type": "string", "nonempty": true},
+    {"aa01_name": "owner",                   "key": "owner_role",              "type": "string", "nonempty": true},
+    {"aa01_name": "parent result",           "key": "parent_result",           "type": "string", "nonempty": true},
+    {"aa01_name": "evidence needed",         "key": "evidence_needed",         "type": "string", "nonempty": true}
+  ],
+  "identity_fields": [
+    {"key": "id", "type": "string", "nonempty": true, "unique_hint": "ids may repeat when two distinct findings share a content hash; uniqueness is measured, not required"}
+  ],
+  "governance_fields": [
+    {"key": "status",       "type": "string", "nonempty": true},
+    {"key": "materiality",  "type": "string", "nonempty": true},
+    {"key": "descendants",  "type": "list",   "nonempty": false}
+  ],
+  "severity_rank": {"INFO": 0, "MINOR": 1, "MAJOR": 2, "CRITICAL": 3},
+  "evidence_mode_rank": {"ASSERTED": 0, "FINITE_EXACT": 1, "HOSTILE_CHECKED": 2, "INDEPENDENTLY_REPLICATED": 3},
+  "scope_rank": {"LOCAL": 0, "PACKAGE": 1, "SECTION": 2, "FLAGSHIP": 3},
+  "blast_rank_cap": 3,
+  "materiality_index": "M = severity_rank + (3 - evidence_mode_rank) + scope_rank + min(blast_count, 3); integer, range 0..12",
+  "materiality_grades": [
+    {"grade": "IMMATERIAL", "lo": 0, "hi": 2},
+    {"grade": "MINOR",      "lo": 3, "hi": 5},
+    {"grade": "MATERIAL",   "lo": 6, "hi": 8},
+    {"grade": "CRITICAL",   "lo": 9, "hi": 12}
+  ],
+  "recursion_threshold": {"grade": "MATERIAL", "index": 6,
+    "stop_rule": "AA08/AA09 recursion may stop only when every successor gap emitted by the repair has materiality_index < 6. The threshold is a declared total function of (severity, evidence_mode, scope, blast) and is not a per-gap judgement."},
+  "repair_delta_fields": [
+    {"key": "closed_gap_id",          "type": "string", "nonempty": true},
+    {"key": "repair_description",     "type": "string", "nonempty": true},
+    {"key": "new_assumptions",        "type": "list",   "nonempty": false},
+    {"key": "new_gaps",               "type": "list",   "nonempty": false},
+    {"key": "interrogation_answered", "type": "bool",   "nonempty": true},
+    {"key": "closure_grade_awarded",  "type": "string", "nonempty": true}
+  ],
+  "closure_grades": [
+    {"grade": "LOCALLY_CLOSED",    "requires": ["local_checks_pass", "independent_route"]},
+    {"grade": "HOSTILE_CLOSED",    "requires": ["local_checks_pass", "independent_route", "hostiles_detected"]},
+    {"grade": "REPLICATED_CLOSED", "requires": ["local_checks_pass", "independent_route", "hostiles_detected", "independent_replication"]},
+    {"grade": "REAL_SCALE_CLOSED", "requires": ["local_checks_pass", "independent_route", "hostiles_detected", "independent_replication", "real_scale_run"]}
+  ],
+  "bare_closed_rule": "The token 'closed' (word-bounded, case-insensitive) used as a scientific verdict must be immediately prefixed by one of LOCALLY_, HOSTILE_, REPLICATED_, REAL_SCALE_. Any other occurrence in a scientific verdict position is a bare-closed violation."
+}

@@ -1,0 +1,70 @@
+name: GMI 833 AA gap-object schema, materiality threshold and closure grades
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aa-gap-object-v1/**'
+      - 'research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json'
+      - '.github/workflows/gmi-833-aa-gap-object-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-aa-gap-object-v1/**'
+      - 'research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json'
+      - '.github/workflows/gmi-833-aa-gap-object-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  aa-gap-object:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- research/gmi-833-aa-gap-object-v1/ | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- research/gmi-833-aa-gap-object-v1/ > /tmp/firstfiles.txt
+          cat /tmp/firstfiles.txt
+          test "$(grep -c . /tmp/firstfiles.txt)" = "1"
+          grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+      - name: Route A executor
+        run: |
+          set -euo pipefail
+          python3 -I -B research/gmi-833-aa-gap-object-v1/gap_object_v1.py --scan | tee /tmp/routeA.json
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B research/gmi-833-aa-gap-object-v1/independent_oracle_v1.py | tee /tmp/routeB.json
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B research/gmi-833-aa-gap-object-v1/test_gap_object_v1.py 2>&1 | tee /tmp/tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B research/gmi-833-aa-gap-object-v1/test_gap_object_v1.py 2>&1 | tee /tmp/tests-O.txt
+      - name: Receipt matches the live run
+        run: |
+          set -euo pipefail
+          python3 -I -B research/gmi-833-aa-gap-object-v1/check_receipt_v1.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-aa-gap-object-v1
+          path: |
+            /tmp/routeA.json
+            /tmp/routeB.json
+            /tmp/tests.txt
+            /tmp/tests-O.txt
+          if-no-files-found: error
