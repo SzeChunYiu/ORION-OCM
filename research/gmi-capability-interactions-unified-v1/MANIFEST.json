@@ -2,7 +2,7 @@
   "capsule": "gmi-capability-interactions-unified-v1",
   "issue": 602,
   "section": "F boxes 7-11",
-  "description": "Unified interaction classification for all 27 A4 capabilities based on shared resource channels",
+  "description": "Unified interaction classification for all 27 A4 capabilities. CORRECTED 2026-09-18 by gmi-833-capability-interaction-partition-v1: the shipped classification was assigned from shared resource channels alone and contradicted the theorem's own Section 1.2 burden definitions on 56 of 351 pairs; Section 1.2 itself did not partition (287 of 351).",
   "evidence_class": [
     "P1",
     "P2"
@@ -15,8 +15,8 @@
     "gmi-capability-contract-v1"
   ],
   "theorem": "CI-U (universal claim-structure classification; Lemma A/B/C) + Corollary CI-A4 (registered 27x27 instance)",
-  "scope": "All 27 capabilities from the 27-row A4 contract, pairwise interaction via resource channel overlap",
-  "falsifier": "An interfering pair (joint > sum) under A4 frozen accounting, or a pair with no shared channels that is not independent",
+  "scope": "All 27 capabilities from the 27-row A4 contract, pairwise interaction. The class is determined by the BURDEN triple (max, joint, sum), not by channel overlap; the decisive channel-level invariant is NESTING. Corrected census: INDEPENDENT 8, REDUNDANT 287, PARTIAL_SHARING 56, INTERFERING 0 (351 unordered pairs).",
+  "falsifier": "An A4 pair with joint > sum under union accounting; a pair with no shared channels that is not INDEPENDENT; a pair with nested nonempty channel sets that is not REDUNDANT; a pair with intersecting non-nested channel sets that is not PARTIAL_SHARING; an admissible burden triple landing in zero or in two or more of the four CIP-1 classes.",
   "files": [
     "CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md",
     "interactions_witness.py",
@@ -40,5 +40,18 @@
     "universal_claim_status": "RESTORED AND EARNED (strongest true claim: universal bounds + exact characterization + premise-indexed no-interference); the finite 27x27 remains the registered instance",
     "controls": "python3 -I -B test_interactions.py 27/27; python3 -I -B test_ci_universal_v1.py 9/9; python3 ci_universal_witness_v1.py GREEN (lemma fixtures + CE-1/CE-2 hostiles)",
     "package": "gmi-833-corpus-passes-v2-v1 (PR: research(#833) corpus identification passes v2 \u2014 revival doctrine applied)"
+  },
+  "correction": {
+    "date": "2026-09-18",
+    "package": "gmi-833-capability-interaction-partition-v1",
+    "receipt": "research/gmi-833-capability-interaction-partition-v1/CORRECTION_NOTICE_V1.json",
+    "defects": {
+      "DEF-1": "56/351 shipped labels contradict Section 1.2's own defining condition.",
+      "DEF-2": "287/351 pairs satisfy more than one Section 1.2 label; the taxonomy did not partition.",
+      "DEF-3": "verify_no_interference() is vacuous: interaction_type() has no 'interfering' return path."
+    },
+    "sound_and_unchanged": "Lemmas A, B, C and the counterexamples CE-1 / CE-2.",
+    "labels_changed": 217,
+    "delta_table": "research/gmi-833-capability-interaction-partition-v1/DELTA_TABLE_V1.md"
   }
 }
