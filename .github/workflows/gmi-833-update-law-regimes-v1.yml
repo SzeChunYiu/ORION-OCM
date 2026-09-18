@@ -1,0 +1,78 @@
+name: gmi-833-update-law-regimes-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-update-law-regimes-v1/**'
+      - '.github/workflows/gmi-833-update-law-regimes-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-update-law-regimes-v1/**'
+      - '.github/workflows/gmi-833-update-law-regimes-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  regimes:
+    runs-on: [self-hosted, Linux, X64, pm-ci]
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: research/gmi-833-update-law-regimes-v1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: freeze precedes implementation
+        working-directory: .
+        run: |
+          set -e
+          PKG=research/gmi-833-update-law-regimes-v1
+          FREEZE=$(git log --reverse --format=%H -- "$PKG/FREEZE_V1.md" | head -1)
+          IMPL=$(git log --reverse --format=%H -- "$PKG/update_law_regimes_v1.py" | head -1)
+          echo "freeze  $FREEZE"
+          echo "impl    $IMPL"
+          test -n "$FREEZE"
+          test -n "$IMPL"
+          if [ "$FREEZE" = "$IMPL" ]; then
+            echo "FAIL: freeze and implementation share a commit"; exit 1
+          fi
+          # the freeze commit must be an ancestor of the first implementation commit
+          git merge-base --is-ancestor "$FREEZE" "$IMPL"
+
+      - name: route B (oracle)
+        run: python3 -I -B oracle_update_law_regimes_v1.py
+
+      - name: route A (executor)
+        run: python3 -I -B update_law_regimes_v1.py
+
+      - name: receipts are byte-reproducible
+        run: |
+          set -e
+          cp RESULT_V1.json /tmp/a1.json
+          cp ORACLE_RESULT_V1.json /tmp/b1.json
+          python3 -I -O -B update_law_regimes_v1.py
+          python3 -I -O -B oracle_update_law_regimes_v1.py
+          cmp /tmp/a1.json RESULT_V1.json
+          cmp /tmp/b1.json ORACLE_RESULT_V1.json
+
+      - name: receipts match the committed ones
+        working-directory: .
+        run: git diff --exit-code -- research/gmi-833-update-law-regimes-v1
+
+      - name: checks
+        run: |
+          python3 -I -B  test_update_law_regimes_v1.py
+          python3 -I -O -B test_update_law_regimes_v1.py
+
+      - name: D1 exposure is measured, not asserted
+        run: |
+          set -e
+          python3 -I -B measure_d1_sensitivity_v1.py
+          python3 - <<'PY'
+import json
+d = json.load(open("D1_SENSITIVITY_V1.json"))
+assert d["sensitivity_test"]["certificate_leaf_fields"] > 0
+print("D1 exposure:", d["sensitivity_test"]["fields_changed"], "of",
+      d["sensitivity_test"]["certificate_leaf_fields"])
+PY
+          git -C . diff --exit-code -- D1_SENSITIVITY_V1.json || \
+            (echo "FAIL: committed D1 sensitivity does not reproduce"; exit 1)

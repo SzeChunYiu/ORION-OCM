@@ -983,6 +983,115 @@ def select(inv, vecs, price):
             "charge": str(best)}
 
 
+_CLASS_CACHE = {}
+
+
+def class_minimal_vectors(env, inv, price):
+    """The charge-minimal NON-REDUNDANT law of each signature class at `price`.
+
+    UL-9 says a redundant law is strictly dominated by a behaviourally
+    identical law with a lower charge, so ranking a redundant representative is
+    unsound.  This is the repair the held-out miss on HO-P2 exposed; see
+    SUPPLEMENT_1 deviation D8.
+    """
+    vac, live, _tot = regime_vacuity(env, inv)
+    key = env["id"]
+    if key not in _CLASS_CACHE:
+        by_sig = dict((sid, []) for sid in REGIME_IDS)
+        for g in live:
+            sigs = tuple_signature_set(g, inv)
+            if not sigs:
+                continue
+            vec = tuple_vector(env, inv, g)
+            for sid in sigs:
+                by_sig[sid].append(vec)
+        _CLASS_CACHE[key] = by_sig
+    by_sig = _CLASS_CACHE[key]
+    out = {}
+    for sid in REGIME_IDS:
+        best = None
+        bestvec = None
+        for vec in by_sig[sid]:
+            c = charge(vec, price)
+            if best is None or c < best:
+                best, bestvec = c, vec
+        out[sid] = bestvec
+    return out, vac
+
+
+def select_v2(env, inv, price):
+    for k in REQUIRED_KEYS:
+        if inv.get(k) is None:
+            return {"kind": "ABSTAIN_UNDERDETERMINED", "missing": k}
+    for x in price:
+        if not isinstance(x, F) or x <= 0:
+            return {"kind": "ABSTAIN_ILL_TYPED"}
+    vecs, vac = class_minimal_vectors(env, inv, price)
+    live_ids = [r for r in REGIME_IDS if vecs[r] is not None]
+    if not live_ids:
+        return {"kind": "ABSTAIN_UNDERDETERMINED",
+                "missing": "every registered signature class is vacuous"}
+    best, tied = None, []
+    for rid in live_ids:
+        c = charge(vecs[rid], price)
+        if best is None or c < best:
+            best, tied = c, [rid]
+        elif c == best:
+            tied.append(rid)
+    if len(tied) == 1:
+        return {"kind": "REGIME", "regime": tied[0], "charge": str(best)}
+    return {"kind": "ABSTAIN_TIE", "tied": sorted(tied), "charge": str(best)}
+
+
+def recovery_v2(env, inv, prices):
+    """The same blind enumeration, scored against select_v2."""
+    vac, live, tot = regime_vacuity(env, inv)
+    sigset = dict((g, tuple_signature_set(g, inv)) for g in live)
+    carriers = tuple(g for g in live if sigset[g])
+    table = dict((g, tuple_vector(env, inv, g)) for g in carriers)
+    uniq = {}
+    for g in carriers:
+        uniq.setdefault(table[g], []).append(g)
+    uniq_items = tuple(uniq.items())
+    agree = tie_agree = under = 0
+    disagree = []
+    for price in prices:
+        v = select_v2(env, inv, price)
+        if v["kind"] != "REGIME" and v["kind"] != "ABSTAIN_TIE":
+            under += 1
+            continue
+        ip = int_price(price)
+        best, bt = None, []
+        for vec, gs in uniq_items:
+            c = idot(vec, ip) if ip is not None else charge(vec, price)
+            if best is None or c < best:
+                best, bt = c, list(gs)
+            elif c == best:
+                bt.extend(gs)
+        found = set()
+        for g in bt:
+            found |= sigset[g]
+        if v["kind"] == "REGIME":
+            if v["regime"] in found:
+                agree += 1
+            else:
+                disagree.append({"price": [str(x) for x in price],
+                                 "selector_v2": v["regime"],
+                                 "blind_argmin_signatures": sorted(found)})
+        else:
+            if set(v["tied"]) & found:
+                tie_agree += 1
+            else:
+                disagree.append({"price": [str(x) for x in price],
+                                 "selector_v2_tied": v["tied"],
+                                 "blind_argmin_signatures": sorted(found)})
+    return {"cases": len(prices), "agreements": agree,
+            "tie_agreements": tie_agree, "disagreements": disagree,
+            "abstentions": under,
+            "vacuous_regimes": sorted(r for r in REGIME_IDS
+                                      if vac[r]["vacuous"])}
+
+
 MIX_GRID = (F(0), F(1, 3), F(1, 2), F(2, 3), F(1))
 
 
@@ -1107,7 +1216,19 @@ def tuple_signature(g, inv):
     return BASELINE_ID if g[0] == 1 else NULL_ID
 
 
+_VAC_CACHE = {}
+
+
 def regime_vacuity(env, inv):
+    key = env["id"]
+    if key in _VAC_CACHE:
+        return _VAC_CACHE[key]
+    out = _regime_vacuity(env, inv)
+    _VAC_CACHE[key] = out
+    return out
+
+
+def _regime_vacuity(env, inv):
     """UL-9 applied to the seven registered representatives: a signature whose
     canonical representative is redundant has NO non-redundant law at all in the
     registered grammar, so the conditions favouring it are EMPTY."""
@@ -1143,7 +1264,8 @@ def neutral_recovery_census(env, inv, vecs, prices=JOINT_PRICES):
     for g in carriers:
         uniq.setdefault(table[g], []).append(g)
     uniq_items = tuple(uniq.items())
-    agree = vacuous = under = tie_agree = off_regime = 0
+    live_set = set(live_tuples)
+    agree = vacuous = under = tie_agree = off_regime = redundant_rep = 0
     disagree = []
     tie_disagree = []
     for price in prices:
@@ -1169,6 +1291,8 @@ def neutral_recovery_census(env, inv, vecs, prices=JOINT_PRICES):
         if v["kind"] == "REGIME":
             if vac[v["regime"]]["vacuous"]:
                 vacuous += 1
+            elif representative_tuples(inv).get(v["regime"]) not in live_set:
+                redundant_rep += 1
             elif v["regime"] in found:
                 agree += 1
             else:
@@ -1191,6 +1315,7 @@ def neutral_recovery_census(env, inv, vecs, prices=JOINT_PRICES):
             "regime_agreements": agree, "regime_disagreements": disagree,
             "tie_agreements": tie_agree, "tie_disagreements": tie_disagree,
             "vacuous_regime_selected": vacuous,
+            "redundant_representative_selected": redundant_rep,
             "no_carrier_cases": off_regime,
             "abstain_underdetermined": under}
 
@@ -1243,6 +1368,10 @@ def heldout_evaluation():
     p4_any = False
     p2_agree = 0
     p2_disagree = []
+    p2v2_agree = 0
+    p2v2_dis = 0
+    p2v2_detail = []
+    p2_redundant = 0
     for env in envs:
         inv = invariants(env)
         vecs = coefficient_vectors(env, inv)
@@ -1319,6 +1448,17 @@ def heldout_evaluation():
             dd = dict(d)
             dd["env"] = env["id"]
             p2_disagree.append(dd)
+        p2_redundant += nr["redundant_representative_selected"]
+        r2 = recovery_v2(env, inv, anch)
+        p2v2_agree += r2["agreements"] + r2["tie_agreements"]
+        p2v2_dis += len(r2["disagreements"])
+        p2v2_detail.append({"env": env["id"], "agreements": r2["agreements"],
+                            "tie_agreements": r2["tie_agreements"],
+                            "disagreements": len(r2["disagreements"]),
+                            "abstentions": r2["abstentions"]})
+        rec["recovery_v2"] = p2v2_detail[-1]
+        rec["redundant_representative_selected"] = \
+            nr["redundant_representative_selected"]
         if any(r["verdict"] == "DOMINATED_EVERYWHERE" for r in reach.values()):
             p4_any = True
         rec["thresholds"] = th
@@ -1345,8 +1485,37 @@ def heldout_evaluation():
                              else "MISS"},
         "HO_P2": {"prediction": "selector regime equals blind argmin signature "
                                 "in every regime case",
-                  "agreements": p2_agree, "disagreements": p2_disagree,
-                  "verdict": "HIT" if not p2_disagree else "MISS"},
+                  "agreements": p2_agree,
+                  "mismatches_as_stated":
+                      len(p2_disagree) + p2_redundant,
+                  "of_which_redundant_representative": p2_redundant,
+                  "of_which_unattributed": len(p2_disagree),
+                  "disagreements": p2_disagree[:20],
+                  "verdict": ("HIT" if (not p2_disagree and not p2_redundant)
+                              else "MISS"),
+                  "verdict_note": "scored against the prediction EXACTLY as "
+                                  "frozen: any case where the frozen selector's "
+                                  "regime is not what the blind search returns "
+                                  "is a mismatch, including the cases whose "
+                                  "cause is the redundant-representative stage",
+                  "single_stage_attribution":
+                      "the FROZEN selector ranks CANONICAL representatives; a "
+                      "canonical representative can itself be redundant (a "
+                      "wasted structural coordinate), and the blind search "
+                      "ranges only over non-redundant laws, so it can never "
+                      "return that law.  The thresholds and the search are not "
+                      "implicated.",
+                  "repair_select_v2": {
+                      "description": "rank the charge-minimal NON-REDUNDANT "
+                                     "law of each signature class instead of "
+                                     "the canonical representative",
+                      "agreements": p2v2_agree,
+                      "disagreements": p2v2_dis,
+                      "per_environment": p2v2_detail,
+                      "verdict": "HIT" if p2v2_dis == 0 else "MISS",
+                      "disclosure": "select_v2 is a POST-FREEZE repair whose "
+                                    "necessity was exposed by this held-out "
+                                    "miss; see SUPPLEMENT_1 deviation D8"}},
         "HO_P3": {"prediction": "the unconditional converses hold on held-out",
                   "detail": p3_detail,
                   "verdict": "HIT" if p3_ok else "MISS"},
@@ -1515,7 +1684,8 @@ def nulls(records):
         ipn = int_price(pr)
         best, bt = None, []
         for g in tuples:
-            c = idot(table[g], ipn)
+            c = (idot(table[g], ipn) if ipn is not None
+                 else charge(table[g], pr))
             if best is None or c < best:
                 best, bt = c, [g]
             elif c == best:
@@ -1721,6 +1891,8 @@ def main():
         nr = neutral_recovery_census(env, inv, vecs)
         anr = neutral_recovery_census(env, inv, vecs, anch)
         asnd = selector_soundness_census(inv, vecs, anch)
+        rv2 = recovery_v2(env, inv, anch)
+        rv2f = recovery_v2(env, inv, JOINT_PRICES)
         per_env.append({
             "env": env["id"], "invariants": inv,
             "representative_tuples": dict(
@@ -1748,6 +1920,17 @@ def main():
                 "non_redundant_tuples": anr["non_redundant_tuples"],
                 "regime_vacuity": anr["regime_vacuity"],
                 "abstain_underdetermined": anr["abstain_underdetermined"]},
+            "recovery_v2_anchored": {
+                "cases": rv2["cases"], "agreements": rv2["agreements"],
+                "tie_agreements": rv2["tie_agreements"],
+                "disagreements": rv2["disagreements"],
+                "abstentions": rv2["abstentions"],
+                "vacuous_regimes": rv2["vacuous_regimes"]},
+            "recovery_v2_frozen_grid": {
+                "cases": rv2f["cases"], "agreements": rv2f["agreements"],
+                "tie_agreements": rv2f["tie_agreements"],
+                "disagreements": len(rv2f["disagreements"]),
+                "abstentions": rv2f["abstentions"]},
             "reachability": reachability(vecs, cen),
             "crossover_hyperplanes": crossover_hyperplanes(vecs),
             "selector_soundness": selector_soundness_census(inv, vecs),
