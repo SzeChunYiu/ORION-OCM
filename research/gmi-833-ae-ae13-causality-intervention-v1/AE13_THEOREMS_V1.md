@@ -41,6 +41,8 @@ equivalence characterisation itself.
 `LATENT_CONFOUNDER_GENERAL_CASE_PROVED`,
 `CONTINUOUS_VARIABLE_EXTENSION_PROVED`.
 
+**Dependencies.** the frozen CPT grid and the 25-DAG enumeration of this package. No sibling receipt is consumed; the Tier-2 row earned elsewhere is explicitly not re-closed.
+
 ---
 
 ## CI-2 — the named equivalence class, enumerated exhaustively
@@ -56,6 +58,12 @@ identification interval of each is the whole `[0, 1/2]`.
 **Falsifier.** A member of the class whose answer falls outside the reported
 interval. The interval is min/max over the exhaustively enumerated class, so
 none exists at this scope.
+
+**Assumptions.** causal sufficiency; the frozen rational grid; single-variable atomic interventions.
+
+**Dependencies.** CI-1's equivalence classification and the same truncated-factorisation operator.
+
+**Strongest parents.** Verma & Pearl 1990 for the equivalence; Pearl 1995 and 2009 for the interventional distribution.
 
 ---
 
@@ -77,6 +85,14 @@ invariant under every relabelling of `{A, B, C}` and the six ordered variable
 pairs form a single orbit, so the equality is a consistency check on the census
 rather than a coincidence.
 
+**Assumptions.** the specification is a query plus an exactly rational tolerance; the best observational answer is the interval midpoint, so the worst-case error is the half-width.
+
+**Dependencies.** the identification intervals of CI-2, computed over the census of CI-1.
+
+**Falsifiers.** a specification whose verdict does not flip at the computed half-width, or a class member whose answer falls outside the reported interval.
+
+**Strongest parents.** partial identification and bounds on causal effects (Manski 1990; Balke & Pearl 1997).
+
 ---
 
 ## CI-4 — the value of intervention, and its zero
@@ -90,6 +106,14 @@ specifications have value of intervention exactly `0`, and one is **named** in
 the receipt: `ACE_C_on_A` on a joint realised by all **25** DAGs, identified
 answer `0`, interval width `0`. `INTERVENTION_ALWAYS_WORTH_ITS_COST` is a
 registered forbidden promotion, and the exhibited zero is what forbids it.
+
+**Assumptions.** an atomic intervention answers its own query exactly, so the interventional regret is `0`; the price is a declared abstract unit, not a measured experimental cost.
+
+**Dependencies.** CI-3's requirement rule and the same interval widths.
+
+**Falsifiers.** a specification acquired at a price above its computed value, or a claim that intervention always pays — refuted here by an exhibited specification whose value is exactly `0`.
+
+**Strongest parents.** experimental design for causal discovery (Eberhardt, Glymour & Scheines 2005; Hauser & Buhlmann 2014); value of information (Howard 1966).
 
 ---
 
@@ -120,6 +144,14 @@ strict. No search could have found one.
 **Forbidden extrapolation.** Reading this as a claim that prediction never helps
 control. It says only that the two sufficiency notions are distinct partitions.
 
+**Assumptions.** strict positivity of the observational joint, so every conditional is defined; the exclusions are counted and reported rather than dropped silently.
+
+**Dependencies.** the truncated-factorisation operator of CI-1; the registered confounded subfamily. No other result of this package is consumed.
+
+**Falsifiers.** a model in which the causal state strictly refines the predictive one — proved impossible at this scope by the structural argument above, so a single instance would refute the proof, not merely the count.
+
+**Strongest parents.** causal representation learning (Scholkopf et al. 2021) for the general programme; Pearl 2009 for the interventional object.
+
 ---
 
 ## CI-6 — strongest-parent audit, and the conflation this row exists to prevent
@@ -134,6 +166,14 @@ content and is **not** the Pearlian causal structure. Sibling package
 this package earns the interventional ones, and
 `COMPUTATIONAL_MECHANICS_CAUSAL_STATE_IS_PEARLIAN_CAUSAL_STATE` is a registered
 forbidden promotion so the two cannot be silently merged later.
+
+**Assumptions.** that the cited parents say what the crosswalk records; each entry carries a citation.
+
+**Dependencies.** published literature only.
+
+**Falsifiers.** an entry whose parent does not own the attributed notion; a symbol of this package with no entry; any place in the receipt where the two senses of `causal state` are used interchangeably.
+
+**Strongest parents.** Pearl 1995/2009; Verma & Pearl 1990; Spirtes, Glymour & Scheines 2000; Peters, Janzing & Scholkopf 2017; Scholkopf et al. 2021; Shalizi & Crutchfield 2001.
 
 ---
 

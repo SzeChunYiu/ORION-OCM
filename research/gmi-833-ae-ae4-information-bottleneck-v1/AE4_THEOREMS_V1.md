@@ -30,6 +30,14 @@ forbidden promotion. Reading one as the other is a detected hostile.
 
 Six crosswalk entries map every symbol onto a parent with a citation.
 
+**Assumptions.** deterministic encoders, so `I(T;X) = H(T)`; a uniform exact prior; exactly rational world laws.
+
+**Dependencies.** published literature and the frozen scope. No computation of this package feeds it.
+
+**Falsifiers.** a symbol introduced with no crosswalk entry; a receipt that optimises over stochastic encoders while carrying `stochastic_encoders_optimised: false`.
+
+**Strongest parents.** Tishby, Pereira & Bialek 1999; Strouse & Schwab 2017; Shannon 1959; Lehmann & Scheffe 1950.
+
 ---
 
 ## IB-2 — identification holds only above an exact tradeoff threshold
@@ -53,6 +61,12 @@ checks reject a `None` threshold, so a ladder too short to reach the regime is
 caught rather than silently reported.
 
 **Forbidden extrapolation.** `GMI_PREDICTIVE_STATE_IS_THE_IB_OPTIMUM`.
+
+**Assumptions.** the frozen tradeoff ladder reaches past the threshold for every registered world — asserted as a check, so a ladder too short is caught rather than reported as a missing threshold.
+
+**Dependencies.** IB-1's objective and the exact prime-log order; the 4140-encoder enumeration.
+
+**Strongest parents.** the deterministic information bottleneck (Strouse & Schwab 2017); minimal sufficient statistics (Lehmann & Scheffe 1950).
 
 ---
 
@@ -85,6 +99,14 @@ initially too weak. Deleting either and presenting only the third would be the
 post-hoc pattern this programme exists to prevent; the revival chain is a
 recorded field of the receipt.
 
+**Assumptions.** exhaustive enumeration at each support size; deterministic targets for the absence result and registered rational channels for the counterexample, both declared.
+
+**Dependencies.** IB-2's classification machinery, re-run at each smaller support size.
+
+**Falsifiers.** an incomparable IB optimum at any support size up to 6 — none exists; or a counterexample at a support size smaller than the reported one, which is vacuous since size 1 carries no distinction.
+
+**Strongest parents.** none owns the minimality statement; the objects compared are Tishby, Pereira & Bialek 1999 and Lehmann & Scheffe 1950.
+
 ---
 
 ## IB-4 — relevance for `Y` and relevance for action are different orderings
@@ -96,6 +118,14 @@ directions are counted over the census, so the claim is that the two objectives
 induce genuinely different orderings, not that one dominates.
 
 **Forbidden extrapolation.** `IB_OPTIMAL_IMPLIES_CONTROL_OPTIMAL`.
+
+**Assumptions.** the registered exactly rational utility over a finite action set; capacity classes defined by block count.
+
+**Dependencies.** IB-1's conditional entropies and a control value computed in this package. Independent of IB-3.
+
+**Falsifiers.** a capacity class in which the two orderings coincide everywhere — reported as a count, so a zero would be visible.
+
+**Strongest parents.** Tishby & Polani 2011; Sims 2003.
 
 ---
 
@@ -109,6 +139,14 @@ The criterion is checked against the exact conditional entropy on **every**
 pairwise merge, with zero mismatches, and both sides are witnessed: free merges
 and costly merges are both non-zero and both exhibited.
 `FORBIDDEN: FORGETTING_IS_ALWAYS_OPTIMAL` — the costly count is what forbids it.
+
+**Assumptions.** a capacity constraint that is strictly decreasing in block count, so a free merge is never rejected on capacity grounds.
+
+**Dependencies.** IB-1's conditional entropy only.
+
+**Falsifiers.** a merge of two atoms with equal conditional law that strictly loses relevance, or an unequal pair whose merge is free — the criterion is checked against the exact entropy on every pairwise merge and both counts are reported.
+
+**Strongest parents.** sufficiency and data processing (Lehmann & Scheffe 1950; Cover & Thomas 2006).
 
 ---
 
@@ -130,6 +168,14 @@ real confounding — both contrasts came out `0`. That is recorded: a mechanism
 whose model cannot move the quantity witnesses nothing. AE13 earns the causal
 rows; this entry witnesses only the retention mechanism.
 
+**Assumptions.** each mechanism is instantiated by a registered object — a future target, a transfer target, a revision, a confounded model, a verification predicate — and the instantiation is what is witnessed, not the mechanism in general.
+
+**Dependencies.** IB-1's world tables. The causal entry is self-contained and consumes no AE13 result; AE13 earns the causal rows.
+
+**Falsifiers.** a mechanism whose model cannot move its own quantity witnesses nothing — this occurred once and is recorded rather than quietly repaired.
+
+**Strongest parents.** transfer and continual learning for the first three; Pearl 2009 for the fourth; proof-checking and certificate verification for the fifth.
+
 ---
 
 ## IB-7 — two frontiers, reported separately
@@ -140,6 +186,14 @@ reported separately, with the size of each, the exact points of each, and the
 count of encoders lying on **both**. The sweep used to compute them is verified
 against the quadratic domination definition on a registered slice, so the
 speed-up is checked rather than assumed.
+
+**Assumptions.** capacity measured by block count; the two distortions measured against the registered target and the registered utility respectively.
+
+**Dependencies.** IB-1's conditional entropies and IB-4's control values.
+
+**Falsifiers.** an encoder dominated in both coordinates that is nonetheless reported on a frontier — the linear sweep is verified against the quadratic domination test on a registered slice.
+
+**Strongest parents.** rate-distortion theory (Shannon 1959; Berger 1971; Cover & Thomas 2006).
 
 ---
 
@@ -158,3 +212,11 @@ between ladder prices `lo` and `hi`, the exact crossing price
 `(gain(a) - gain(b)) / (cost(a) - cost(b))` must lie in `(lo, hi]`. That is the
 same statement as membership in the pairwise difference-quotient set, computed
 from the two encoders that actually changed.
+
+**Assumptions.** the frozen price ladder and the block-count capacity cost; ties resolved to the coarsest member, a declared rule.
+
+**Dependencies.** IB-4's control values and IB-2's optima. The five statements were frozen before any of those numbers existed.
+
+**Falsifiers.** any re-refinement as the price rises; a transition price outside the exact crossing bracket; a world keeping a non-trivial encoder above the maximal gain; an IB order that coincides with the price order everywhere.
+
+**Strongest parents.** rational inattention (Sims 2003) and resource-rational analysis; the ladder instantiates them and extends neither.

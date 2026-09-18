@@ -42,6 +42,8 @@ different sufficiency requirements is parent-owned.
 What is proved is insufficiency **at the registered scope**, not a claim about
 intelligence as such.
 
+**Dependencies.** the registered target suite and utility family of `FREEZE_V1.md`; the uniform prior; exhaustive enumeration of all 4140 sensors. No sibling package, and no result of AE1, AE10 or AE13, is consumed.
+
 ---
 
 ## PC-2 — control sufficiency, its coarsest witnesses, and the Helly failure
@@ -73,6 +75,10 @@ Greig 2003); state aggregation. `PARENT_SUFFICIENT` on the sufficiency notion.
 and its converse; both are refuted at this scope and neither may be promoted to
 a general law.
 
+**Assumptions.** finite state set; uniform exact prior; expected-utility control over a finite action set; refinement never decreases `V`, so the control-sufficient set is upward closed and its minimal elements are well defined.
+
+**Dependencies.** the same 4140-sensor enumeration as PC-1 and the registered utilities. Nothing outside this package.
+
 ---
 
 ## PC-3 — strongest-parent audit
@@ -86,6 +92,14 @@ priced ladder with prospectively frozen predictions. Nothing else is claimed
 novel.
 
 **Forbidden extrapolations.** `POMDP_BELIEF_SUFFICIENCY_REPROVED`.
+
+**Assumptions.** that the cited parents say what the crosswalk records them as saying; each entry carries a DOI so the reader can check.
+
+**Dependencies.** published literature only; no computation of this package feeds it.
+
+**Falsifiers.** a crosswalk entry whose cited parent does not in fact own the notion attributed to it, or a symbol introduced by this package with no entry.
+
+**Strongest parents.** Astrom 1965; Smallwood & Sondik 1973; Givan, Dean & Greig 2003; Howard 1966; Tishby & Polani 2011; Sims 2003.
 
 ---
 
@@ -108,6 +122,10 @@ the computed break-even; a pair with positive value of information at zero cost
 increment that is nonetheless not acquired.
 
 **Strongest parents.** Howard 1966. `PARENT_SUFFICIENT` on the quantity.
+
+**Assumptions.** sensing cost is non-decreasing in refinement; the price is a declared abstract resource unit and not a measured energy or wall-clock cost.
+
+**Dependencies.** the exact values `V(T)` of PC-2 and the registered cost function. Nothing else.
 
 ---
 
@@ -133,6 +151,12 @@ target suite extension under which the count does not change (this occurs and
 is reported: `Y_majority`).
 
 **Forbidden extrapolations.** `PREDICTIVE_SUFFICIENCY_IMPLIES_CONTROL_SUFFICIENCY`.
+
+**Assumptions.** finite action set; the registered target suite is exactly the functions of `(b0,b1)`, so the third coordinate is predictively invisible by construction and that construction is asserted as a checked receipt field.
+
+**Dependencies.** PC-2's exact value function; the registered target suite. The boundary measurement additionally uses the probe targets, which are registered as probes and close no row.
+
+**Strongest parents.** state aggregation and bisimulation for MDPs (Givan, Dean & Greig 2003); the POMDP sufficiency literature for the converse direction.
 
 ---
 
@@ -164,3 +188,9 @@ above the maximal gain.
 **Forbidden extrapolations.** `ENERGY_OR_TIME_PRICE_MEASURED` — the price is a
 declared abstract resource unit, not a measured energy or wall-clock cost;
 `ARCHITECTURE_SELECTION_LAW`; `GMI_MORPHOLOGY_PREDICTION`.
+
+**Assumptions.** the price ladder and the cost function of `FREEZE_V1.md`; ties in the priced argmax resolved to the coarsest member, a rule declared in the freeze and reported with the whole tie set.
+
+**Dependencies.** PC-2's values and PC-4's cost increments. The predictions were frozen before any of those numbers existed.
+
+**Strongest parents.** rate-distortion control and resource-rational analysis (Tishby & Polani 2011; Ortega & Braun 2013; Lieder & Griffiths 2020). The priced ladder instantiates them; it does not extend them.
