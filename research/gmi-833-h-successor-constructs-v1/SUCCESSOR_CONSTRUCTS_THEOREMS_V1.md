@@ -247,3 +247,179 @@ shape:
   **form** from supplied parameter channels; a real-scale scope must also fit
   parameters, which reintroduces the rationalisation and control machinery this
   package deliberately does not need.
+
+---
+
+# The numbers, as measured
+
+All from `RESULT_V1.json`, grammar digest
+`d7d30e46302a01415bf0508e801798ed457222c45c3a43b5c6d6acff005b6d51`, identical
+before and after every search, twin, null and hostile.
+
+## Enumeration (`R02`)
+
+| slot | leaves | budget | raw trees | semantic classes on the registered probe grid |
+|---|---|---|---|---|
+| `BODY` | `ARG PARAM C0 C1` | 3 | 116 | 34 |
+| `BODY2` | `U PARAM2 C0 C1` | 4 | 756 | 102 |
+| `HEAD` | `S1 S2 BIAS STATE RESP C0 C1` | 4 | 1869 | 406 |
+| `G_S` head | `S1 BIAS STATE C0 C1` | 4 | 1075 | — |
+
+180 structural configurations `(L, r, ops, p, kind)`. **The search enumerates
+raw trees, never semantic representatives**, so the coarser probe grid used for
+the class count cannot drop a program that would have matched.
+
+## Recovery, per scope
+
+| scope | row | recovered class | charged cost | syntactic matches | distinct up to commutativity and bank swap | `G_S` stratum |
+|---|---|---|---|---|---|---|
+| `SIGMA_D17` | H17 | `NORMALISED_RATIO` | 9 | 8 | **1** | no match at cost ≤ 10, 124,700 programs examined |
+| `SIGMA_D20` | H20 | `LAYERED_NONLINEAR` | 9 | 4 | **1** | no match, 124,700 examined |
+| `SIGMA_D22` | H22 | `TIED_PARAMETER` (`p = 3`) | 5 | 2 | **1** | no match, 124,700 examined |
+| `SIGMA_D32` | H32 | `MULTIPLICATIVE_ACCUMULATION` | 6 | 4 | **1** | no match, 124,700 examined |
+| `SIGMA_D34` | H34 | `RESPONSE_SPACE_SEARCH` (`ARGMIN`) | 8 | 4 | **1** | no match, 124,700 examined |
+
+Every `R01` prediction of `FREEZE_V1.md` section 8 held on all three counts —
+class name, charged cost, and tree predicates — at all five scopes. The
+recovered programs:
+
+```
+SIGMA_D17  r=2 L=1 p=12 kind=NONE ops=ADD+ADD bodies=ARG|MUL(ARG,PARAM) head=MUL(RECIP(S1),S2)
+SIGMA_D20  r=1 L=2 p=12 kind=NONE ops=ADD+ADD bodies=MUL(ARG,PARAM) body2=MUL(PARAM2,STEP(U)) head=S1
+SIGMA_D22  r=1 L=1 p=3  kind=NONE ops=ADD     bodies=MUL(ARG,PARAM) head=S1
+SIGMA_D32  r=2 L=1 p=12 kind=NONE ops=ADD+MUL bodies=ARG|PARAM      head=MUL(S1,S2)
+SIGMA_D34  r=1 L=1 p=12 kind=ARGMIN ops=ADD   bodies=MUL(ARG,PARAM) head=ABS(ADD(RESP,S1))
+```
+
+**Uniqueness.** At every scope the whole match set collapses to exactly one
+program under commutativity of `ADD` and `MUL` together with exchange of the
+two fold banks. The recovery is not merely cheapest, it is unique.
+
+## Derived theorem outputs
+
+| result | measured |
+|---|---|
+| `SC-2` collapse, affine second stage | identity holds on **48 of 48** rows |
+| `SC-2b` separation, `STEP` second stage | identity fails on **48 of 48** rows |
+| `SC-3` tied-fold shift invariance | **48 of 48** rows invariant at every `p` in `{1, 2, 3, 4, 6}` |
+| `SC-3` untied fold under the same shift | changes on **47 of 48** rows |
+| `SC-4` flow round trip and determinant | **180 of 180** (row, probe point) pairs exact, determinant point-independent on all 180 |
+| `SC-5` response-space staircase | **5** distinct levels out of a response set of size **5** |
+
+## The null (`SC-6`), per scope
+
+Exact structural-class census of the whole well-formed enumeration up to each
+scope's recovered cost.
+
+| scope | enumerated total | count of the recovered class | modal class | verdict |
+|---|---|---|---|---|
+| `SIGMA_D17` | 6,373,776 | 46,944 | `MULTIPLICATIVE_ACCUMULATION` | `R04` earned |
+| `SIGMA_D20` | 6,373,776 | 114,696 | `MULTIPLICATIVE_ACCUMULATION` | `R04` earned |
+| `SIGMA_D22` | 22,124 | 1,835 | `MULTIPLICATIVE_ACCUMULATION` | `R04` earned |
+| `SIGMA_D32` | 105,232 | 52,360 | `MULTIPLICATIVE_ACCUMULATION` | **`R04` NOT EARNED — `BASE_RATE_DOMINATED`** |
+| `SIGMA_D34` | 1,586,992 | 183,040 | `MULTIPLICATIVE_ACCUMULATION` | `R04` earned |
+
+The applicability condition held everywhere: every recovered class has a
+strictly positive base-rate count, so the null was never vacuous.
+
+### `SC-6b` — `SIGMA_D32` fails its own null, and why
+
+`MULTIPLICATIVE_ACCUMULATION` is the modal class of the enumeration at every
+recovered cost, because the classifier's rule 2 fires on **any** fold whose
+combining operation is `MUL`, and half of all combiner assignments have one. At
+`SIGMA_D32` the recovered class *is* that class, so the recovery is
+`BASE_RATE_DOMINATED` and `R04` is reported **not earned** — even though the
+`R01` prediction held exactly and the recovered program is unique.
+
+**Single-stage attribution.** The classifier, not the ecology, not the grammar,
+not the search. The class `MULTIPLICATIVE_ACCUMULATION` is too coarse: it
+counts a program in which the `MUL`-combining fold is never read by the head.
+
+**The lever, named and not applied here.** A finer class that requires the
+`MUL`-combining bank to be one the head depends on. Applying it now would be
+tuning a classifier after seeing its verdict, which is exactly the move this
+programme forbids. It belongs in a successor freeze, registered before any run.
+
+Nothing about `SIGMA_D32` is weakened by this: `SC-4` stands, the `G_S`
+exhaustion stands, the twin stands, and the row's residual simply includes
+`R04` as well.
+
+## `SC-7` — held-out discriminativeness, measured
+
+| scope | programs matching the search slice | of those, failing the held-out slice | `R08` |
+|---|---|---|---|
+| `SIGMA_D17` | 8 | 0 | not earned |
+| `SIGMA_D20` | 4 | 0 | not earned |
+| `SIGMA_D22` | 2 | 0 | not earned |
+| `SIGMA_D32` | 4 | 0 | not earned |
+| `SIGMA_D34` | 4 | 0 | not earned |
+
+The recovered program reproduces every held-out row exactly at all five
+scopes. That is in the receipt. It is **not** enough to earn `R08` under the
+rule registered in `FREEZE_V1.md` section 8.7, because the held-out slice
+separated nothing among the search-slice matchers. Under an exact-agreement
+criterion at these costs, a held-out slice of 12 rows is not a discriminating
+instrument, and saying so is worth more than a coordinate.
+
+## `R07` resource crossovers, exact integers
+
+`table_cost(m) = m + 2^m`. `serve_cost` is the charged ops-plus-storage of the
+compact program at index-set size `m`.
+
+| scope | serve cost at `N = 12` | `m*`: first `m` where the tabulated alternative costs strictly more | construct-specific |
+|---|---|---|---|
+| `SIGMA_D17` | 91 | 6 | — |
+| `SIGMA_D20` | 267 | 8 | two-stage parameter storage `m·w + w` beats `2^m` from `m = 5` |
+| `SIGMA_D22` | 54 | 5 | tied slots 3 against untied 12; untied storage exceeds tied from `m = 4` |
+| `SIGMA_D32` | 66 | 5 | — |
+| `SIGMA_D34` | 82 | 6 | — |
+
+`table_cost(12) = 4108` at every scope.
+
+**A bug route B caught.** Route A first charged an untied program a constant
+`p` parameter slots at every deployment size, because it compared the tying
+modulus against the varying size instead of against the registered index-set
+size `N = 12`. Route B, which compares against the registered size, returned
+`m* = 5` at `SIGMA_D32` where route A returned `6`. Route A is fixed and the
+two now agree at all five scopes; a test asserts the agreement so the defect
+cannot return silently. This is what a second route is for, and it is recorded
+rather than quietly repaired.
+
+## A registered prediction that failed, and its diagnosis
+
+`FREEZE_V1.md` section 8.6 predicted that the exact-match count would be at
+most `4` at every scope. At `SIGMA_D17` it is **8**. Reported as failed.
+
+**Single-stage attribution.** The prediction, not the evidence. The eight
+matches are the eight syntactic spellings of **one** program: `MUL` is
+commutative in the body, `MUL` is commutative in the head, and the two fold
+banks can be exchanged with `S1` and `S2` — `2 × 2 × 2 = 8`. Up to that
+symmetry the count is `1`, which is the quantity the prediction was reaching
+for and stated badly.
+
+**The lever, named.** Register the match count up to the commutativity and
+bank-exchange quotient, not the syntactic count. The quotient is now computed
+and reported at every scope (`match_equivalence` in the receipt); it is a
+**reporting** quantity and the search does not use it, so no program that
+could have matched was removed by it.
+
+No coordinate rests on the failed prediction. `R04`'s applicability condition
+and modal rule are separate and both were evaluated as registered.
+
+## Coordinates earned, per scope
+
+`R10` is earned by the agreement of the two routes and is recorded in
+`ISSUE_833_RECONCILIATION_H3_V1.json`, which is written after both routes have
+run.
+
+| scope | earned | not earned |
+|---|---|---|
+| `SIGMA_D17` | `R01 R02 R03 R04 R05 R06 R07 R09 R10` | `R08 R11` |
+| `SIGMA_D20` | `R01 R02 R03 R04 R05 R06 R07 R09 R10` | `R08 R11` |
+| `SIGMA_D22` | `R01 R02 R03 R04 R05 R06 R07 R09 R10` | `R08 R11` |
+| `SIGMA_D32` | `R01 R02 R03 R05 R06 R07 R09 R10` | `R04 R08 R11` |
+| `SIGMA_D34` | `R01 R02 R03 R04 R05 R06 R07 R09 R10` | `R08 R11` |
+
+**No row closes.** Eleven coordinates at one `sigma` is the bar; nine is not
+ten and ten is not eleven, and coordinates earned here do not compose with any
+parent's.

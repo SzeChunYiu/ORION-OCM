@@ -325,19 +325,25 @@ def serve_cost(flags, bodies, body2, head, n_index, w_stage, y_size):
     """Charged serve cost at deployment size. Integers only.
 
     ops   = per-index body evaluations + per-index combines + head evaluations
-    store = parameter slots + fold accumulators + output (+ delay cell)
+    store = parameter slots + fold accumulators + output
+
+    The parameter-slot count is the deployment size `n_index` when the tying
+    map is the identity — that is, when `p` equals the registered index-set
+    size `N_INDEX` — and `p` otherwise. Comparing `p` against the varying
+    `n_index` instead would charge an untied program a constant `p` slots at
+    every deployment size; route B caught exactly that and it is fixed here.
     """
     ops = 0
     store = 0
     if flags["L"] == 2:
         ops += n_index * w_stage * nodes(bodies[0]) + n_index * w_stage
         ops += w_stage * nodes(body2) + w_stage
-        store += (n_index if flags["p"] == n_index else flags["p"]) * w_stage
+        store += (n_index if flags["p"] == N_INDEX else flags["p"]) * w_stage
         store += w_stage + 1
     else:
         for b in bodies:
             ops += n_index * nodes(b) + n_index
-        store += (n_index if flags["p"] == n_index else flags["p"])
+        store += (n_index if flags["p"] == N_INDEX else flags["p"])
         store += flags["r"]
     reps = y_size if flags["kind"] != "NONE" else 1
     ops += reps * nodes(head)

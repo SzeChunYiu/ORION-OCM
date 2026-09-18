@@ -38,6 +38,27 @@ rejected every strictly cheaper program. The parent's *assertion* that `G_S`
 cannot express these families is now a machine-checked exhaustion at a stated
 budget.
 
+| scope | row | recovered | cost | unique up to commutativity | `G_S` at cost <= 10 |
+|---|---|---|---|---|---|
+| `SIGMA_D17` | H17 | `NORMALISED_RATIO` | 9 | yes (8 spellings, 1 program) | no match, 124,700 examined |
+| `SIGMA_D20` | H20 | `LAYERED_NONLINEAR` | 9 | yes (4 -> 1) | no match |
+| `SIGMA_D22` | H22 | `TIED_PARAMETER`, `p = 3` | 5 | yes (2 -> 1) | no match |
+| `SIGMA_D32` | H32 | `MULTIPLICATIVE_ACCUMULATION` | 6 | yes (4 -> 1) | no match |
+| `SIGMA_D34` | H34 | `RESPONSE_SPACE_SEARCH`, `ARGMIN` | 8 | yes (4 -> 1) | no match |
+
+Every `R01` prediction frozen before any code held on all three counts: class
+name, charged cost, and tree predicates. All twelve hostiles were detected and
+none was vacuous.
+
+**Coordinates**: nine of eleven at `SIGMA_D17`, `SIGMA_D20`, `SIGMA_D22`,
+`SIGMA_D34`; eight of eleven at `SIGMA_D32`. `R08` is not earned anywhere —
+the held-out slice separated 0 of the search-slice matchers, so it
+discriminates nothing, and the freeze says that means `NOT_EARNED` even though
+the recovered program reproduces every held-out row exactly. `R04` is not
+earned at `SIGMA_D32` — its recovered class is the modal class of the
+enumeration, which the freeze calls `BASE_RATE_DOMINATED`. `R11` is refused
+everywhere. These are at **new** scopes and do not add to any parent's.
+
 Numbers live in `RESULT_V1.json`. Named results live in
 `SUCCESSOR_CONSTRUCTS_THEOREMS_V1.md`.
 

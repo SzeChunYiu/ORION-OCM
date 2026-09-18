@@ -136,6 +136,15 @@ def test_results():
     check("result.float_clean", res.get("float_clean") is True,
           str(res.get("float_scan"))[:200])
     check("result.grammar_unchanged", res.get("P00_grammar_unchanged") is True)
+    check("twoRoute.enumeration_counts",
+          orc["enumeration"]["body"] == res["R02_grammar"]["raw_counts"]["body"]
+          and orc["enumeration"]["body2"]
+          == res["R02_grammar"]["raw_counts"]["body2"]
+          and orc["enumeration"]["head"]
+          == res["R02_grammar"]["raw_counts"]["head"]
+          and orc["enumeration"]["gs_head"]
+          == res["R02_grammar"]["raw_counts"]["gs_head"],
+          "reverse-polish enumeration must agree with node-tier enumeration")
     hs = res["hostiles"]["summary"]
     check("hostiles.all_detected", hs["all_detected"], str(hs["undetected"]))
     check("hostiles.none_vacuous", hs["all_applicable"], str(hs["vacuous"]))
@@ -160,6 +169,31 @@ def test_results():
         check("twoRoute.%s.gs_nonrepresentable" % scope,
               orc["scopes"][scope]["gs_match_found"] is False
               and rec["R06_gs_nonrepresentable"]["found_match"] is False)
+        ob = orc["scopes"][scope]
+        ta = rec["R05_twin"].get("recovered")
+        tb = ob.get("twin")
+        check("twoRoute.%s.twin" % scope,
+              ta is not None and tb is not None
+              and ta["render"] == tb["render"] and ta["cost"] == tb["cost"]
+              and ta["class"] == tb["class"])
+        ra = rec["R09_remint"].get("recovered")
+        rb = ob.get("remint")
+        check("twoRoute.%s.remint" % scope,
+              ra is not None and rb is not None
+              and ra["render"] == rb["render"] and ra["cost"] == rb["cost"]
+              and ra["class"] == rb["class"])
+        check("twoRoute.%s.table_crossover" % scope,
+              ob.get("crossover_m") == rec["R07_resources"]["table_crossover_m"],
+              "oracle=%s routeA=%s" % (ob.get("crossover_m"),
+                                       rec["R07_resources"]["table_crossover_m"]))
+        check("twoRoute.%s.heldout_counts" % scope,
+              ob.get("heldout_pass") is True
+              and ob.get("heldout_search_only")
+              == rec["R08_heldout"]["search_only_matches"])
+        check("scope.%s.match_unique_up_to_symmetry" % scope,
+              rec["match_equivalence"][
+                  "distinct_up_to_commutativity_and_bank_swap"] == 1,
+              str(rec["match_equivalence"]["keys"]))
     for scope, co in sorted(res["coordinates"].items()):
         check("coordinates.%s.R11_not_earned" % scope,
               co.get("per_requirement", {}).get("R11") is False
@@ -209,6 +243,27 @@ def test_reconciliation():
               rec.get("closes_rows") == [])
 
 
+def test_no_parent_file_is_read():
+    """The checker must not read any parent package's artifact."""
+    bad = []
+    for fn in sorted(os.listdir(HERE)):
+        if not fn.endswith(".py"):
+            continue
+        tree = ast.parse(open(os.path.join(HERE, fn)).read())
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            fname = getattr(node.func, "id", None) or getattr(
+                node.func, "attr", None)
+            if fname not in ("open", "load", "loads", "read_text"):
+                continue
+            for arg in list(node.args) + [k.value for k in node.keywords]:
+                for sub in ast.walk(arg):
+                    if isinstance(sub, ast.Str) and "gmi-833-h-" in sub.s:
+                        bad.append((fn, sub.s))
+    check("custody.no_parent_artifact_is_opened", not bad, str(bad))
+
+
 def test_theorems():
     res = load("RESULT_V1.json")
     if res is None:
@@ -231,6 +286,7 @@ def main():
     test_route_separation()
     test_results()
     test_forbidden_language()
+    test_no_parent_file_is_read()
     test_reconciliation()
     test_theorems()
     sys.stdout.write("\n%d failures\n" % len(FAILURES))
