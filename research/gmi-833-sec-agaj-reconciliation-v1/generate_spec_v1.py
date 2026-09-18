@@ -5,7 +5,8 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "RECONCILIATION_S
 CIDS = {"AG": 5693520829, "AH": 5693590252, "AJ": 5693954852, "AF": 5693269426}
 bodies = {}
 for name, cid in CIDS.items():
-    bodies[cid] = open(os.path.join(SNAP, "COMMENT_SNAPSHOT_%d.md" % cid), encoding="utf-8").read()
+    bodies[cid] = json.load(open(os.path.join(SNAP, "COMMENT_SNAPSHOT_%d.json" % cid),
+                                encoding="utf-8"))["body"]
 
 def line_of(cid, n):
     return bodies[cid].split("\n")[n-1]

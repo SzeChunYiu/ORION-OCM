@@ -44,8 +44,11 @@ FORBIDDEN_KEYS = ("forbidden_promotions", "forbidden_promotion", "forbidden_term
 
 def fetch(comment_id, offline):
     if offline:
-        for name in ("COMMENT_SNAPSHOT_%d.md" % comment_id,
-                     "f_%d.md" % comment_id, "c_%d.md" % comment_id):
+        js = os.path.join(offline, "COMMENT_SNAPSHOT_%d.json" % comment_id)
+        if os.path.exists(js):
+            with open(js, "rb") as fh:
+                return json.loads(fh.read().decode("utf-8"))["body"]
+        for name in ("f_%d.md" % comment_id, "c_%d.md" % comment_id):
             path = os.path.join(offline, name)
             if os.path.exists(path):
                 with open(path, "rb") as fh:

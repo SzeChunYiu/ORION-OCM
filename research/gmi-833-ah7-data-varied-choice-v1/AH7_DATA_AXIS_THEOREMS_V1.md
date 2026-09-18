@@ -73,8 +73,8 @@ rule is kept because it is the correct general discipline, not because it bites 
 Dropping a price coordinate likewise moves **0 of 20**.
 
 **An arbitrary-label null is uninformative here.** Of 200 datasets built by assigning random
-outputs to four random words, **200** are consistent with no system at all. A null built that
-way would compare empty answers with empty answers. The informative null draws realizable
+outputs to four random words, **183** are consistent with no system at all. A null built that
+way would mostly compare empty answers with empty answers. The informative null draws realizable
 datasets — a random member of the space, then a random sample of its own behaviour — and over
 200 such pairs only **18** share an answer, across **93** distinct answers. That is the number
 that says the data axis is informative rather than an artefact.

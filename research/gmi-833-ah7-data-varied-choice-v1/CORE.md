@@ -38,9 +38,9 @@ requirement, same horizon — three different preferred forms, from data alone.
   non-domination front. The preferred set is a singleton for every registered dataset. The
   no-scalarization rule is kept because it is the right general discipline, not because it bites
   at this scope.
-- **An arbitrary-label null is uninformative here.** `200 / 200` datasets built from random
-  outputs are consistent with no system at all, so such a null would compare empty answers with
-  empty answers. The realizable null is the one that carries the finding.
+- **An arbitrary-label null is uninformative here.** `183 / 200` datasets built from random
+  outputs are consistent with no system at all, so such a null would mostly compare empty
+  answers with empty answers. The realizable null is the one that carries the finding.
 
 ## Evidence
 
