@@ -149,3 +149,35 @@ worst-case budget clause, the closed forms `rho_local = (d+1)/(m+1)` and
 `sigma_star = (n-p)E/(N-w)`, the IL-2/IL-3 price and ecology grid, the
 two-route requirement, all fourteen hostiles and the second null control are
 shipped exactly as frozen.
+
+---
+
+## D1 sensitivity receipt — added on review, measured not asserted
+
+The D1 entry above states that an auditor who rejects the quiet-step clause is
+left with "left identity only" and that "nothing else in the package moves".
+That was an inspection claim. It has since been **measured**.
+
+**Method.** The executor was re-run on laptop-billy with the clause forced off —
+the single line `quiet = is_noop(d1, c1, r, coords)` replaced by `quiet = False`
+— and every leaf field of the resulting `RESULT_V1.json` was diffed against the
+shipped run.
+
+**Result.**
+
+| | |
+| --- | --- |
+| certificate leaf fields compared | 774 |
+| fields that change when D1 is disabled | **1** |
+| the changed field | `/IL_1/monoid_identity_ok`, `true` → `false` |
+| stdout summary diff | 0 lines |
+
+The 686/686 mixture census, the 49/49 composition-closure census, the
+3,450-case IL-2/IL-3 grid and every IL-4 field are **invariant** to the clause.
+The composition operator itself is modified by D1, so closure was the field most
+at risk of moving with it; it does not move.
+
+**Reading.** The exposure created by the post-hoc adoption is exactly one
+boolean. An auditor who rejects D1 strikes `monoid_identity_ok` and the
+two-sided half of IL-1.4, and nothing else in the package changes value. The
+IL-1 row in #833 now carries this disclosure inline rather than only here.

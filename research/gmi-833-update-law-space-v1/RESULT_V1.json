@@ -1215,5 +1215,29 @@
   "route": "A_EXECUTOR",
   "schema": "GMI833SectionIUpdateLawSpaceResultV1",
   "scope_fingerprint": "R:r0,r1,r2,ra,rb,ru,rv,rz,rq;H:h0,h1,h2;C:c_alpha,c_beta;D:r0|h0->r1;D:r0|h1->ra,rb;D:r0|h2->;D:r1|h0->;D:r1|h1->r2;D:r1|h2->;D:r2|h0->;D:r2|h1->;D:r2|h2->;D:ra|h0->;D:ra|h1->ru;D:ra|h2->;D:rb|h0->;D:rb|h1->rv;D:rb|h2->;D:rq|h0->;D:rq|h1->;D:rq|h2->;D:ru|h0->;D:ru|h1->rz;D:ru|h2->;D:rv|h0->;D:rv|h1->rz;D:rv|h2->;D:rz|h0->;D:rz|h1->;D:rz|h2->;B:c_alpha=0,c_beta=0;B:c_alpha=1,c_beta=1;B:c_alpha=9,c_beta=9",
-  "section": "I"
+  "section": "I",
+  "deviation_dependence": {
+    "schema": "GMI_833_DEVIATION_DEPENDENCE_V1",
+    "deviation": "D1",
+    "deviation_description": "composition's quiet-step clause, adopted after the first run returned monoid_identity_ok=false; derived from AX-3, registered before this tranche",
+    "dependent_results": [
+      "IL-1.4 two-sided monoid identity"
+    ],
+    "deviation_free_fallback": "left identity only",
+    "sensitivity_test": {
+      "method": "re-ran the executor with the quiet-step clause forced off (quiet = False) and diffed every leaf field of RESULT_V1.json",
+      "host": "laptop-billy",
+      "certificate_leaf_fields": 774,
+      "fields_changed": 1,
+      "changed_fields": [
+        {
+          "path": "/IL_1/monoid_identity_ok",
+          "with_D1": true,
+          "without_D1": false
+        }
+      ],
+      "stdout_summary_diff_lines": 0,
+      "conclusion": "the D1 exposure is exactly one boolean; the 686/686 mixture census, the 49/49 composition-closure census, the 3450-case IL-2/IL-3 grid and every IL-4 field are invariant to the clause"
+    }
+  }
 }
