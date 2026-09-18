@@ -404,14 +404,14 @@ before the executor existed.
 | KP-2D individually-binding levers | 0 levers 6,104; 1 lever 1,867; 2 levers 669; >=3 levers 0 |
 | KP-2D unique-lever cases | 1,379 order-invariant, 488 order-sensitive (the sharp counterexample class) |
 | KP-3A bare returns / carrier construction sites | 0 / 1 |
-| KP-3B confidence-budget mismatches | 0 |
+| KP-3B confidence emissions / budget mismatches | 34,560 / 0 (budget cross-checked against route B on every input) |
 | KP-3B feasible sets carrying coverage | 0 |
 | KP-3B union bound vs independence product | 913/1000 vs 9152473869/10000000000 (product strictly larger, refused) |
 | KP-3C coverage | 100,800 / 100,800 = exactly 1 |
 | KP-4 null `NULL_MARGINAL` | 51,840 points, 51,840 soundness violations; head to head on the 10,640 inputs where `F` emits a point, 10,640 null violations against 0 |
 | route agreement | both routes agree on all 51,840 inputs for disposition, identified set, failure mode and composed budget, and on every aggregate they both compute |
 | single-route items (route A only) | the 120-order census, the null control, the nine hostiles, the `ast` funnel audit |
-| tests | 35, green under `-B` and `-O -B` |
+| tests | 37, green under `-B` and `-O -B`; 31 receipt gates green |
 
 **Why the order-sensitivity number is what it is.** 6,104 of the 8,640 order-census
 inputs have *no* single lever that restores attainability, which is exactly the

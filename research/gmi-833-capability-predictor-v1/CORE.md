@@ -13,7 +13,12 @@ Claim ceiling:
 |---|---|---|
 | Build `C_hat = F(M,E,R,H,D,U)` | KP-1A/1B/1C (+KP-1D boundary) | exact total deterministic `F` on 51,840 inputs: 10,640 points, 10,960 abstentions, 30,240 inconsistent, 0 exceptions, **0 soundness violations** |
 | Derive failure modes prospectively | KP-2A/2B/2C (+KP-2D boundary) | ten modes frozen before the executor; **0 overlaps, 0 gaps, 0 unique-binding-cut violations**; all ten non-empty |
-| Attach uncertainty/calibration | KP-3A/3B/3C | single `emit` site (0 bare returns), 0 feasible sets carrying coverage, U-2B budget exact, coverage **100,800/100,800** |
+| Attach uncertainty/calibration | KP-3A/3B/3C | single `emit` site (0 bare returns), 0 feasible sets carrying coverage, U-2B budget exact on 34,560 confidence emissions (cross-route), coverage **100,800/100,800** |
+
+All 31 receipt gates are green, and three of them exist only to stop a vacuous
+certificate: the soundness gate requires points to have actually been emitted, the
+budget gate requires confidence emissions to exist, and the partition gate requires
+every mode to be non-empty.
 
 ## The load-bearing design decision
 
@@ -77,7 +82,7 @@ python3 -I -O -B research/gmi-833-capability-predictor-v1/test_capability_predic
 
 Stdlib only, exact `Fraction`/`int` arithmetic, no floats in any claim. The
 executor takes about 15 s and the 37 tests about 35 s on a laptop-class CPU.
-Route A md5: `9f4c0d0c5910fa081fa10dc4e371effc` (both modes, at the pinned parents).
+Route A md5: `c6208015e1ef136c11494da24478ebb7` (both modes, at the pinned parents).
 
 ## What the second route does and does not cover
 

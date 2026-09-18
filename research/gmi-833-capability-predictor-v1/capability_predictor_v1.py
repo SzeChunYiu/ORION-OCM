@@ -575,6 +575,7 @@ def main_census():
     coverage_hits = 0
     forced_abstention_witnesses = 0
     budget_mismatches = 0
+    confidence_emissions = 0
     feasible_with_coverage = 0
     monotonicity_violations = 0
     unsatisfied_in_image = 0
@@ -620,6 +621,7 @@ def main_census():
         if unc.kind == "FEASIBLE_SET" and unc.coverage_lower is not None:
             feasible_with_coverage += 1
         if unc.kind == "CONFIDENCE_SET":
+            confidence_emissions += 1
             expected = Fraction(1) - unc.alpha - BETA_SUM
             if expected < 0:
                 expected = Fraction(0)
@@ -674,6 +676,7 @@ def main_census():
         if coverage_pairs else None,
         "forced_abstention_witnesses": forced_abstention_witnesses,
         "forced_abstention_example": abstention_example,
+        "confidence_emissions": confidence_emissions,
         "confidence_budget_mismatches": budget_mismatches,
         "feasible_sets_carrying_coverage": feasible_with_coverage,
         "inputs_with_unsatisfied_in_image": unsatisfied_in_image,
@@ -1234,14 +1237,20 @@ def build_receipt():
     checks = {
         "grid_size_matches_frozen_scope": census["grid_size"] == 51840,
         "semantics_subcensus_size": semantics["cases"] == 144,
+        "semantics_all_cannot_check": semantics["cannot_check"] == semantics["cases"],
+        "semantics_reasons_exact": semantics["wrong_reason"] == 0,
+        "semantics_uncertainty_attached":
+            semantics["uncertainty_attached"] == semantics["cases"],
         "order_census_size": orders["inputs"] == 8640 and orders["orders"] == 120,
         "no_exceptions": census["exceptions"] == 0,
         "kp1a_total": (sum(census["dispositions"].values()) == census["grid_size"]),
         "kp1b_zero_soundness_violations": census["soundness_violations"] == 0,
+        "kp1b_certificate_not_vacuous": census["dispositions"]["IDENTIFIED"] > 0,
         "kp1c_forced_abstention_witnessed":
             census["forced_abstention_witnesses"] == census["dispositions"]["CANNOT_IDENTIFY"],
         "kp2a_ladder_monotone": census["ladder_monotonicity_violations"] == 0,
         "kp2b_partition": census["taxonomy_overlaps"] == 0 and census["taxonomy_gaps"] == 0,
+        "kp2b_certificate_not_vacuous": census["modes_empty"] == [],
         "kp2b_modes_sum_to_grid": sum(census["mode_counts"].values()) == census["grid_size"],
         "kp2c_unique_binding_cut": census["kp2c_violations"] == 0,
         "kp2d_order_census_consistent":
@@ -1255,6 +1264,7 @@ def build_receipt():
         "kp3a_emit_funnel": funnel["funnel_ok"],
         "kp3a_single_construction_site": funnel["carrier_construction_functions"] == ["emit"],
         "kp3b_budget_exact": census["confidence_budget_mismatches"] == 0,
+        "kp3b_certificate_not_vacuous": census["confidence_emissions"] > 0,
         "kp3b_feasible_sets_bare": census["feasible_sets_carrying_coverage"] == 0,
         "kp3c_exact_coverage_one": census["coverage_fraction"] == "1",
         "kp4_null_strictly_beaten": null["predictor_strictly_beats_null"],
