@@ -342,3 +342,35 @@ A Tier-1 hit records which sub-generator produced it (`via: R1a | R1b | R2`). `Q
 **A2 anchor, verified before the corpus run:** `gmi-833-g0-grammar-growth-v1` has
 `Q = {m1, m2}` and must be reachable by R1b. Whether it flags, and at which tier, is left to
 the run — the amendment fixes the generator, never the outcome.
+
+---
+
+## Amendment A3 — presentation set for multi-ecology grammars; two hit markers
+
+*Committed before the executor, the oracle and any run. The adapters exist at this point
+only as a loader that prints instance shapes; no detector, no `mu`, no hit, no result blob.*
+
+**A3.1 — union of the package's own registered ecologies.** For a package that searches ONE
+grammar under SEVERAL registered ecologies (a positive ecology and its matched negative
+twin), the presentation set of the grammar instance is the union of the candidates that are
+exact for **each** registered ecology, deduplicated by candidate, each classified by the
+package's own post-run classifier.
+
+Reason: restricting to the positive ecology alone collapses several corpus grammars to a
+single semantic class, where "strictly lower cost than a semantically equivalent
+alternative" has no alternative to compare against and target-exclusivity is vacuous. The
+union is the grammar's own registered morphology-vs-morphology cost geometry — the object
+#891's BIAS-1 is about — and it is what makes the row's question answerable at all. The
+union is taken over the package's OWN registered ecologies only; no ecology is invented.
+
+**A3.2 — two mandatory markers on every Tier-1 hit** (recorded fields, never silent):
+
+- `UNIQUE_REALIZATION` — the target class has exactly one presentation. The cost comparison
+  is then a limit (coverage loss), not a finite strict inequality.
+- `SINGLE_CLASS_INSTANCE` — the instance has exactly one semantic class, so exclusivity is
+  vacuous. Such a hit is NOT counted in the confirmed population; it is reported under
+  `SCREENED_NOT_ADJUDICATED:VACUOUS_EXCLUSIVITY_SINGLE_CLASS`.
+
+`TARGET_IS_A_PRIMITIVE` (coverage lost) and `TARGET_SPECIFIC_SHORTCUT` (coverage retained,
+finite strict rise) stay distinct in every table. Only the latter is a strict-inequality
+witness in the row's literal wording; the former is reported as the limit case, labelled.
