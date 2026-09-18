@@ -343,7 +343,25 @@
       "recommendation_for_the_orchestrator": "either exempt FREEZE_V1.md from the paper-facing scope of the ratchet (a freeze is a custody document, not paper-facing prose), or add the verbatim-issue-row and sibling-package-path cases to the gate's exception mechanism. A research lane cannot fix this without editing another package's gate configuration or tampering with its own freeze.",
       "hits_remaining": 7,
       "hits_removed_by_this_lane": 19,
-      "regressions_introduced": 0
+      "regressions_introduced": 0,
+      "measured_after_repair": {
+        "new_files_with_hits_before": 11,
+        "new_files_with_hits_after": 2,
+        "banned_term_sites_before": 26,
+        "banned_term_sites_after": 7,
+        "regressions": 0,
+        "remaining_files": [
+          "research/gmi-833-ae-ae13-causality-intervention-v1/FREEZE_V1.md",
+          "research/gmi-833-ae-ae4-information-bottleneck-v1/FREEZE_V1.md"
+        ]
+      }
+    },
+    {
+      "id": "SEC_AE3_FINDING_3",
+      "subject": "gmi-833-aa-ledger-gate-v1 repo-wide self-test versus debt already on main",
+      "verdict": "PRE_EXISTING_DEBT_NOT_INTRODUCED_BY_THIS_LANE",
+      "detail": "The ledger gate landed on main after this lane branched and requires every named result in a *THEOREMS*.md to emit assumptions, dependency, falsifier and strongest-parent ledgers. This lane merged main, found 20 of its own results non-compliant, and repaired all 20 -- the gate's owned-files check now reports 0 violations for AE4, AE7 and AE13. The job still fails, on a separate repo-wide self-test (real_repo_gate_green) whose only violations are 5 results in research/gmi-833-ag5-extension-lowering-v1/AG5_EXTENSION_THEOREMS_V1.md, merged into main by #1036. No path of this lane appears in that failure.",
+      "recommendation_for_the_orchestrator": "the AG5 package needs the same four-ledger repair; until then the aa-ledger-gate job is red on every branch cut from main, exactly the shape #1032 fixed twice before for other gates."
     }
   ]
 }
