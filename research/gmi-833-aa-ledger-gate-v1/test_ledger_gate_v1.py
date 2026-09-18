@@ -295,13 +295,21 @@ def _owned_paths():
     matters: "A gate that fires on work you did not do is a gate that gets
     switched off."
     """
-    base = os.environ.get("GITHUB_BASE_REF")
-    if not base:
+    # Use the EXACT base sha GitHub provides, not origin/<ref>.
+    #
+    # In a pull_request checkout HEAD is a merge ref and `origin/<base>` is not
+    # a reliable anchor: the three-dot diff then reports files the branch never
+    # authored. It did exactly that here, attributing five AG5 theorem results
+    # to a branch that only edited a test file, while correctly reporting its
+    # scope as "PR diff". A scoped gate that scopes to the wrong set is worse
+    # than an unscoped one, because the label says it is safe.
+    base_sha = os.environ.get("PR_BASE_SHA") or ""
+    if not base_sha:
         return None
     try:
         out = subprocess.run(
             ["/usr/bin/git", "diff", "--name-only", "--diff-filter=ACMR",
-             "origin/%s...HEAD" % base],
+             base_sha, "HEAD"],
             capture_output=True, text=True, check=True).stdout
     except Exception:
         return None
