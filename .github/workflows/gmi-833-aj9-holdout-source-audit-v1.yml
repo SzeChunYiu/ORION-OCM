@@ -1,0 +1,152 @@
+name: GMI 833 AJ9 holdout blind-source audit
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-aj9-holdout-source-audit-v1/**'
+      - 'research/gmi-833-aj9*-v1/**'
+      - '.github/workflows/gmi-833-aj9-holdout-source-audit-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj9-holdout-source-audit-v1/**'
+      - 'research/gmi-833-aj9*-v1/**'
+      - '.github/workflows/gmi-833-aj9-holdout-source-audit-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          PKG=research/gmi-833-aj9-holdout-source-audit-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          C=$(git log --diff-filter=A --format=%ct -1 -- $PKG/aj9_holdout_source_audit_v1.py)
+          echo "freeze=$F executor=$C"
+          test -n "$F"
+          test -n "$C"
+          test "$F" -le "$C"
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/ff.txt
+          grep -q 'FREEZE_V1.md' /tmp/ff.txt
+
+      - name: Parent pins have not drifted
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, subprocess, sys
+          m = json.load(open('research/gmi-833-aj9-holdout-source-audit-v1/MANIFEST_V1.json'))
+          bad = []
+          for pin in m['parent_pins']:
+              sha = subprocess.check_output(['git', 'hash-object', pin['path']]).decode().strip()
+              if sha != pin['blob_sha']:
+                  bad.append(('blob', pin['path'], pin['blob_sha'], sha))
+              live = json.load(open(pin['path'])).get('claim_ceiling')
+              if live != pin['claim_ceiling']:
+                  bad.append(('ceiling', pin['path'], pin['claim_ceiling'], live))
+          v = m['vocabulary_source']
+          sha = subprocess.check_output(['git', 'hash-object', v['path']]).decode().strip()
+          if sha != v['blob_sha'] or sha != v['pinned_in_holdout_contract']:
+              bad.append(('vocabulary', v['path'], v['blob_sha'], sha))
+          if bad:
+              print('PIN DRIFT', bad)
+              sys.exit(1)
+          print('pins intact:', len(m['parent_pins']) + 1)
+          PY
+
+      - name: Route A -- line scan
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj9-holdout-source-audit-v1/aj9_holdout_source_audit_v1.py
+
+      - name: Route B -- tokenizer and JSON tree walk
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-aj9-holdout-source-audit-v1/independent_oracle_v1.py
+
+      - name: Hostiles, recall and the no-alarm case
+        run: python3 -I -O -B research/gmi-833-aj9-holdout-source-audit-v1/test_aj9_holdout_source_audit_v1.py
+
+      - name: Terminology gate on this package
+        run: python3 -I -B research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py research/gmi-833-aj9-holdout-source-audit-v1
+
+      - name: Receipts agree and say what the checklist says
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-aj9-holdout-source-audit-v1/'
+          a = json.load(open(P + 'RESULT_V1.json'))
+          b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          t = json.load(open(P + 'TEST_RESULT_V1.json'))
+          fail = []
+          if a['status'] != 'GREEN' or a['failed_gates']:
+              fail.append('route A not green: %r' % (a['failed_gates'],))
+          if t['status'] != 'GREEN' or t['findings']:
+              fail.append('tests not green: %r' % (t['findings'],))
+          if t['hostiles_detected'] != 13 or t['controls_clean'] != 13:
+              fail.append('hostiles: %r/%r' % (t['hostiles_detected'], t['controls_clean']))
+          if a['violations'] != 0 or b['violation_count'] != 0:
+              fail.append('violations: %r %r' % (a['violations'], b['violation_count']))
+          if a['planted_positives_detected'] != 8 or b['planted_positives_detected'] != 8:
+              fail.append('recall: %r %r' % (a['planted_positives_detected'],
+                                             b['planted_positives_detected']))
+          if a['control_family_hits_in_posthoc'] <= 0 or b['control_family_hits_in_posthoc'] <= 0:
+              fail.append('the scan was not proven to work')
+          if a['blind_files_scanned'] != 21 or b['blind_files_scanned'] != 21:
+              fail.append('blind coverage: %r %r' % (a['blind_files_scanned'],
+                                                     b['blind_files_scanned']))
+          if a['holdouts_audited'] != 7:
+              fail.append('holdouts: %r' % (a['holdouts_audited'],))
+          ta = set()
+          for pkg, e in a['per_holdout'].items():
+              for r in e['review']:
+                  ta.add((pkg, r['file'], r['pattern']))
+          tb = set(tuple(x) for x in b['review_triples'])
+          if ta != tb:
+              fail.append('review triples differ: only A %r only B %r'
+                          % (sorted(ta - tb)[:3], sorted(tb - ta)[:3]))
+          if len(ta) != 28:
+              fail.append('review triple count: %d' % len(ta))
+          ea = set()
+          for pkg, e in a['per_holdout'].items():
+              for x in e['exemptions']:
+                  ea.add((pkg, x['file'], x['pattern']))
+          eb = set(tuple(x) for x in b['exemption_triples'])
+          if ea != eb or len(ea) != 10:
+              fail.append('exemption triples: A %d B %d' % (len(ea), len(eb)))
+          if a['coverage_gaps'] != b['coverage_gaps']:
+              fail.append('coverage gaps differ')
+          if [g['gap'] for g in a['coverage_gaps']] != ['NO_FREEZE_FILE']:
+              fail.append('coverage gaps changed: %r' % (a['coverage_gaps'],))
+          for k in ('ALL_HOLDOUTS_PROVEN_BLIND', 'NO_LEAKAGE_OF_ANY_KIND',
+                    'RECOVERY_IS_CONFIRMED_BY_THIS_AUDIT'):
+              if k not in a['forbidden_promotions']:
+                  fail.append('missing forbidden promotion ' + k)
+          if fail:
+              for f in fail:
+                  print('FAIL', f)
+              sys.exit(1)
+          print('AJ9 audit receipts OK; both routes agree on review and exemption triples')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-aj9-holdout-source-audit-v1-${{ matrix.opt && 'opt' || 'normal' }}
+          path: |
+            research/gmi-833-aj9-holdout-source-audit-v1/RESULT_V1.json
+            research/gmi-833-aj9-holdout-source-audit-v1/ORACLE_RESULT_V1.json
+            research/gmi-833-aj9-holdout-source-audit-v1/TEST_RESULT_V1.json
+          if-no-files-found: error
