@@ -1,7 +1,20 @@
-"""Capability interactions unified witness: pairwise resource overlap for all 27 A4 capabilities.
+"""Capability interactions unified witness: pairwise resource CHANNEL OVERLAP for all 27
+A4 capabilities.
 
-Classifies each pair as independent / redundant / synergistic based on shared
-resource channels.  Verifies PVR-3 guarantees no interfering pair.
+CORRECTION NOTICE (2026-09-18, gmi-833-capability-interaction-partition-v1).
+`interaction_type()` below is a CHANNEL-OVERLAP PREDICATE, not a burden classification.
+Its three return strings were previously read as the four burden-relation types of
+Section 1.2 of CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md. That reading was wrong:
+on the real 27-capability contract 56 of the 351 unordered pairs carried a label that
+contradicts Section 1.2's own defining condition. `verify_no_interference()` below is
+VACUOUS (`interaction_type()` has no "interfering" return path, so it cannot return
+False).
+
+This file is retained UNCHANGED in behaviour as the historical artefact and as the
+frozen source of the A4 channel assignment. For the corrected burden classification and
+the corrected 27x27 census, use
+    research/gmi-833-capability-interaction-partition-v1/partition_witness_v1.py
+    research/gmi-833-capability-interaction-partition-v1/DELTA_TABLE_V1.md
 """
 
 from __future__ import annotations
@@ -69,13 +82,29 @@ def jaccard_overlap(a: FrozenSet[str], b: FrozenSet[str]) -> float:
 
 
 def interaction_type(channels_x: FrozenSet[str], channels_y: FrozenSet[str]) -> str:
-    """Classify the interaction between two capabilities.
+    """CHANNEL-OVERLAP PREDICATE (historical). NOT a burden classification.
 
-    - independent:  no shared resource channels  (overlap = 0)
-    - synergistic:  all channels shared           (overlap = 1, both use same)
-    - redundant:    partial overlap               (0 < overlap < 1)
+    Returns a purely set-theoretic signature of the two channel sets:
 
-    Under PVR-3, interfering pairs (joint > sum) are ruled out.
+    - "independent":  no shared resource channels  (overlap = 0)
+    - "synergistic":  channel sets are equal       (overlap = 1)
+    - "redundant":    any other intersection       (0 < overlap < 1)
+
+    CORRECTED 2026-09-18. Do NOT read these strings as the Section 1.2 burden types.
+    Under the A4 registered accounting the burden classes are:
+
+        equal channel sets       -> REDUNDANT        (joint = max < sum)   161 pairs
+        nested, proper           -> REDUNDANT        (joint = max < sum)   126 pairs
+        intersecting, not nested -> PARTIAL_SHARING  (max < joint < sum)    56 pairs
+        disjoint                 -> INDEPENDENT      (joint = sum)           8 pairs
+
+    The "redundant" return above conflates the middle two rows; on the 56 non-nested
+    pairs its Section 1.2 condition `joint = max` is FALSE (e.g. cap-perception {S,T} x
+    cap-communication {S,M}: max = 2, joint = 3, sum = 4). The decisive invariant is
+    NESTING, which this predicate cannot see.
+
+    Use partition_witness_v1.classify() in
+    research/gmi-833-capability-interaction-partition-v1/ for the burden classes.
     """
     shared = channels_x & channels_y
     if not shared:
@@ -115,12 +144,14 @@ def verify_no_interference(
     channels: Dict[str, FrozenSet[str]] = RESOURCE_CHANNELS,
     ids: Tuple[str, ...] = CAPABILITY_IDS,
 ) -> bool:
-    """Verify that no pair of capabilities is classified as interfering.
+    """VACUOUS (DEF-3, corrected 2026-09-18): interaction_type() has no "interfering"
+    return path, so this function cannot return False and proves nothing.
 
-    Under the A4 contract's frozen accounting, adding an optional capability
-    cannot increase the burden of another beyond sum (PVR-3 / free-option
-    monotonicity).  This function asserts that our classification is
-    consistent with this guarantee.
+    Retained unchanged as the historical artefact. The non-vacuous replacement is
+    Theorem CIP-2b in gmi-833-capability-interaction-partition-v1: under union
+    accounting joint <= sum by subadditivity of mu, checked on all 351 pairs by a
+    classifier that computes joint and sum and HAS a reachable INTERFERING branch
+    (partition_witness_v1.union_accounting_is_subadditive).
     """
     for i in ids:
         for j in ids:

@@ -6,6 +6,34 @@
 **Claim ceiling**: G2
 **Parent capsule**: Synthesizes tranches 1-3 from `gmi-capability-interactions-v{1,2,3}/`
 
+> ## CORRECTION NOTICE (2026-09-18)
+>
+> Sections 1.2, 3, 4 and Corollary CI-A4 of this document **were wrong** and have been
+> corrected in place by `research/gmi-833-capability-interaction-partition-v1/`
+> (Theorems CIP-1 .. CIP-4, receipt `CORRECTION_NOTICE_V1.json`). Measured on this
+> document's own 27-capability A4 contract, 351 unordered pairs:
+>
+> - **DEF-1 — 56 / 351** shipped labels were FALSE by Section 1.2's own defining condition.
+>   Witness: `cap-perception` ({S,T}) x `cap-communication` ({S,M}) was labelled `redundant`,
+>   defined `joint = max`, while `B(X)=2, B(Y)=2, max=2, joint=3, sum=4`.
+> - **DEF-2 — 287 / 351** pairs satisfied more than one Section 1.2 label: the four
+>   conditions did not partition, because `Redundant` (`joint = max`) is a strict sub-case of
+>   `Synergistic` (`joint < sum`) whenever `max < sum`.
+> - **DEF-3** — `interactions_witness.verify_no_interference()` was **vacuous**:
+>   `interaction_type()` has no `"interfering"` return path, so it could never return `False`,
+>   yet Section 3 and `MANIFEST.json`'s falsifier rested on it.
+>
+> Root cause: Section 1.2 defines the four types by **burden** relations, while
+> `interactions_witness.py:interaction_type()` assigned those same names from **channel-set
+> overlap alone**, never computing a burden.
+>
+> **Lemmas A, B and C and the counterexamples CE-1 / CE-2 are SOUND and are unchanged.** The
+> defect was confined to the naming/classification layer. The corrected census is
+> `INDEPENDENT 8, REDUNDANT 287, PARTIAL_SHARING 56, INTERFERING 0` against the shipped
+> `independent 8, synergistic 161, redundant 182, interfering 0` — **217 of 351 labels
+> change**; every changed pair is named in
+> `research/gmi-833-capability-interaction-partition-v1/DELTA_TABLE_V1.md`.
+
 ---
 
 ## 1. Definitions
@@ -20,16 +48,41 @@ Each capability `C_i` in the 27-row A4 contract consumes resources from a finite
 
 Let `R(C_i) ⊆ {S, T, M}` denote the resource channels consumed by capability `C_i`.
 
-### 1.2 Interaction Types
+### 1.2 Interaction Types (CORRECTED — Theorem CIP-1)
 
-Given two capabilities `X` and `Y`, their **joint burden** under simultaneous activation is classified as:
+Given two capabilities `X` and `Y`, write `B(X), B(Y) >= 0` for their individual burdens, `J`
+for the joint burden under the ambient accounting, and
+
+```
+m = max(B(X), B(Y))        s = B(X) + B(Y)
+```
+
+**Admissibility.** `(N)` non-negativity: `B(X), B(Y) >= 0`, hence `m <= s`. `(M)` monotonicity:
+`J >= m` — the joint system must satisfy both capabilities' claim sets, so its feasible set is
+contained in each single-capability feasible set (Lemma C's inclusion argument). A functional
+with `J < m` is inadmissible and is rejected, not classified.
 
 | Type | Condition | Meaning |
 |------|-----------|---------|
-| **Independent** | `joint = sum(individual)` | No shared resource contention |
-| **Redundant** | `joint = max(individual)` | Shared resources overlap; joint cost equals the more expensive |
-| **Synergistic** | `joint < sum(individual)` | Shared resources enable cheaper joint operation |
-| **Interfering** | `joint > sum(individual)` | Resource contention creates super-additive cost |
+| **INDEPENDENT** | `J = s` | no shared resource contention; also the degenerate case in which one capability has zero burden (`m = s`) |
+| **REDUNDANT** | `J = m` **and** `m < s` | fully shared: the joint cost equals the more expensive capability alone, and that is a strict saving |
+| **PARTIAL_SHARING** | `m < J < s` | partly shared: cheaper than running both, dearer than the more expensive alone |
+| **INTERFERING** | `J > s` | resource contention creates super-additive cost |
+
+**Theorem CIP-1.** On the admissible region, **exactly one** of the four classes applies
+(proof: trichotomy on `J` vs `s`; if `J < s` then `m <= J < s` by `(M)`, so `m < s` and the
+`REDUNDANT` guard is met, and `J = m` or `m < J` splits the remaining two classes). The
+`m < s` guard is what makes the classes disjoint at the degenerate point `m = s`, where
+`INDEPENDENT` and an unguarded `REDUNDANT` would otherwise both hold; it costs no
+exhaustiveness, because `(M)` makes the `J < s` branch vacuous when `m = s`.
+
+**Nothing is deleted.** The former `Synergistic` condition survives verbatim as the named
+aggregate `SAVING := { J < s } = REDUNDANT (disjoint union) PARTIAL_SHARING` (Corollary
+CIP-1a). `INTERFERING` is retained: CE-2 (Section 2.5) constructs an accounting in which it
+is nonempty, so deleting it would make the taxonomy non-exhaustive there.
+
+Full statement, proofs, scope and falsifiers:
+`research/gmi-833-capability-interaction-partition-v1/CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md`.
 
 ### 1.3 Resource Overlap
 
@@ -68,6 +121,16 @@ If `R(X) ∩ R(Y) = ∅`, then `B({X,Y}) = B({X}) + B({Y})` — i.e. `joint = su
 identity. ∎  (No premise beyond channel-wise accounting.)
 
 **Lemma B (shared-channel bounds and exact equality characterization — unconditional).**
+
+*Measure hypothesis (pinned 2026-09-18, Theorem CIP-4).* `mu` is **counting measure on a
+finite unit set** — equivalently, `mu` is additive, non-negative and **strictly positive**:
+`mu(A) = 0 => A = empty`. This is what the implementation computes (`len(qx | qy)`), and the
+`iff` characterizations below need it: the `if` directions (nested => max, disjoint => sum)
+hold for any monotone additive `mu`, but the converses do not. Counterexample: on
+`U = {u1,u2,u3}` with `mu({u1}) = mu({u2}) = 1` and `mu({u3}) = 0`, take `Q_X = {u1}`,
+`Q_Y = {u3}`; then `mu(Q_X u Q_Y) = 1 = max(1, 0)` while the claims are NOT nested. So
+strict positivity is load-bearing, not decoration.
+
 For a shared channel `c` (both claims nonempty):
 `max(mu(Q_X(c)), mu(Q_Y(c))) <= mu(Q_X(c) ∪ Q_Y(c)) <= mu(Q_X(c)) + mu(Q_Y(c))`,
 with
@@ -100,17 +163,44 @@ claim sets `Q_X(c), Q_Y(c)`:
 
 ### Corollary CI-A4 (the registered 27x27 finite instance)
 
+**CORRECTED 2026-09-18 (Theorem CIP-2).** The previous text assigned the four class names
+from channel-set overlap alone. That was wrong: the labels contradicted Section 1.2's own
+definitions on **56 of 351** pairs (DEF-1), and Section 1.2 did not partition on **287 of
+351** (DEF-2).
+
 Under the A4 contract's frozen accounting, each capability's per-channel claims are
-registered as fully shared/nested within a channel (the contract tables price channel
-usage, not disjoint claim sets — `interactions_witness.py` assigns each capability its
-`R(C) ⊆ {S,T,M}`). In that fully-shareable regime Lemma B collapses to the max rule and
-the classification reduces to the channel-overlap classes of the original Theorem CI over
-the 27x27 = 729 ordered pairs (351 unordered) of the frozen contract: disjoint channels →
-independent; all channels shared → synergistic (amortized max on shared channels);
-partial channel overlap → redundant (max on shared, sum on exclusive). All statements are
-computed by `interactions_witness.py` (symmetric matrix, no interfering pair, P2
-finite-exact controls). This is the registered instance, an intermediate state of the
-revival chain, kept with its evidence class P1 + P2.
+registered as fully shared/nested within a channel (the contract tables price channel usage,
+not disjoint claim sets — `interactions_witness.py` assigns each capability its
+`R(C) ⊆ {S,T,M}`). With `mu` = counting measure this gives, for every pair,
+
+```
+B(X) = |R(X)|      J = |R(X) ∪ R(Y)|      s = |R(X)| + |R(Y)|      m = max(|R(X)|, |R(Y)|)
+```
+
+and the CIP-1 classes over the 27x27 = 729 ordered pairs (351 unordered) of the frozen
+contract are:
+
+| class | condition on the channel sets | pairs |
+|---|---|---:|
+| `INDEPENDENT` | `R(X) ∩ R(Y) = ∅` | **8** |
+| `REDUNDANT` | nested (`R(X) ⊆ R(Y)` or conversely), both nonempty — equal sets included | **287** |
+| `PARTIAL_SHARING` | intersecting but **not** nested | **56** |
+| `INTERFERING` | — (provably empty under union accounting, Theorem CIP-2b) | **0** |
+
+against the previously shipped `independent 8, synergistic 161, redundant 182,
+interfering 0`. **217 of 351 labels change.** The decisive channel-level invariant is
+**nesting**, not channel overlap: the old rule could not distinguish `R(X) ⊆ R(Y)` from a
+non-nested intersection, and those are exactly the 56 pairs it got wrong (Theorem CIP-3).
+Every changed pair is named in
+`research/gmi-833-capability-interaction-partition-v1/DELTA_TABLE_V1.md`; all 351 rows are in
+`RESULT_V1.json`, computed by three materially independent routes that agree exactly.
+
+`interactions_witness.py:interaction_type()` is retained unchanged as the historical
+**channel-overlap predicate** (its docstring now says so); it is NOT a burden classification.
+The burden classification is
+`research/gmi-833-capability-interaction-partition-v1/partition_witness_v1.py`.
+
+This is the registered instance, kept with its evidence class P1 + P2.
 
 ### 2.5 Boundary of the original CI equalities — earned by counterexample
 
@@ -136,28 +226,52 @@ is proved above at full strength.
 | disjoint ⇒ joint = sum | PROVED (Lemma A, unconditional) |
 | shared-channel exact value | PROVED (Lemma B, unconditional characterization) |
 | no interference | PROVED under free-option (Lemma C); boundary CE-2 |
-| original `joint=max` rule | PROVED iff nested claims (Lemma B); boundary CE-1 |
-| A4 27x27 classes | computed instance (Corollary CI-A4, P2 controls) |
+| original `joint=max` rule | PROVED iff nested claims (Lemma B, under strictly positive `mu` — CIP-4); boundary CE-1 |
+| Section 1.2 taxonomy partitions | PROVED (Theorem CIP-1); was FALSE as previously stated (DEF-2, 287/351) |
+| degenerate `max = sum` case | PROVED (CIP-1, the `m < s` guard) |
+| A4 27x27 classes | computed instance, CORRECTED (Corollary CI-A4 / Theorem CIP-2; three independent routes, P2 controls) |
+| no interference on the A4 instance | PROVED non-vacuously (Theorem CIP-2b); the previous `verify_no_interference()` check was vacuous (DEF-3) |
 
 Executable controls: `ci_universal_witness_v1.py` (+ `test_ci_universal_v1.py`) checks
 Lemmas A/B/C on registered fixtures and instantiates CE-1/CE-2 as hostile witnesses.
 
-## 3. Negative Twin
+## 3. Negative Twin (CORRECTED — Theorem CIP-2b)
 
 The **negative twin** of the interaction classification is:
 
-- Two capabilities that **interfere** (joint > sum)
-- This is ruled out by PVR-3 under the A4 contract's frozen accounting
-- Interference would require a mandatory maintenance cost from the same hard budget with no compensating benefit
+- Two capabilities that **interfere** (`joint > sum`).
+- Under the A4 contract's frozen **union accounting** this is provably empty, not merely
+  ruled out by fiat: `J = Σ_c mu(Q_X(c) ∪ Q_Y(c)) <= Σ_c [mu(Q_X(c)) + mu(Q_Y(c))] = s` by
+  subadditivity of `mu`. Verified by direct computation on all 351 pairs, non-vacuously — the
+  classifier computes `J` and `s` and has a reachable `INTERFERING` branch, exercised by the
+  CE-2 hostile.
+- **The previous check was vacuous (DEF-3).** `interactions_witness.verify_no_interference()`
+  calls `interaction_type()`, which has no `"interfering"` return path, so it could never
+  return `False`. It proved nothing; Theorem CIP-2b replaces it.
+- Interference is nonetheless REAL outside union / free-option accounting: a mandatory
+  maintenance cost charged from the same hard budget with no compensating benefit produces
+  `J > s` (CE-2). That is why `INTERFERING` remains a class of the CIP-1 partition.
 
 ---
 
 ## 4. Falsifier
 
+**CORRECTED 2026-09-18.** The third clause below previously read "two capabilities with full
+resource overlap are not synergistic", which the corrected classification *satisfies*: equal
+channel sets give `J = m < s`, i.e. `REDUNDANT`, and the old clause would therefore have
+fired on the repair. It is replaced by the falsifiers the corrected statement actually risks.
+
 An instance where:
-- Two capabilities from the A4 contract interfere (joint > sum) under the declared resource channels, OR
-- Two capabilities with no shared resource channels are not independent, OR
-- Two capabilities with full resource overlap are not synergistic
+- Two capabilities from the A4 contract interfere (`joint > sum`) under the declared resource
+  channels and union accounting, OR
+- Two capabilities with no shared resource channels are not `INDEPENDENT`, OR
+- Two capabilities with identical (or nested, both nonempty) channel sets are not
+  `REDUNDANT`, OR
+- Two capabilities whose channel sets intersect without nesting are not `PARTIAL_SHARING`, OR
+- An admissible burden triple `(m, J, s)` that lands in zero or in two or more of the four
+  CIP-1 classes, OR
+- A disagreement between the three independent census routes of
+  `gmi-833-capability-interaction-partition-v1`.
 
 ---
 
@@ -177,10 +291,16 @@ failures are mapped and labelled EARNED-BY-COUNTEREXAMPLE (CE-1, CE-2).
 This theorem does NOT establish:
 ## 6. Parent Subtraction
 
-- **Independence**: Direct consequence of additivity over disjoint resource sets
-- **Synergy**: Amortization over shared resources (well-known in resource pooling)
-- **Redundancy**: Maximum over shared channels with exclusive additions
-- **PVR-3 (no interference)**: Free-option monotonicity from tranche 3
+- **`INDEPENDENT`**: direct consequence of additivity over disjoint resource sets
+- **`REDUNDANT`** (`J = m < s`): amortization over shared resources, the nested-claims case
+  (well-known in resource pooling). *The previous gloss "maximum over shared channels with
+  exclusive additions" described `PARTIAL_SHARING`'s arithmetic, not this class.*
+- **`PARTIAL_SHARING`** (`m < J < s`): maximum on the shared channels **plus** the sum of the
+  exclusive ones — the genuinely mixed case the old three-name taxonomy had no slot for
+- **`INTERFERING`** (`J > s`): retained; empty under union accounting (CIP-2b), nonempty under
+  CE-2 accounting
+- **PVR-3 (no interference)**: free-option monotonicity from tranche 3; see the corrected
+  Section 3
 
 The GMI contribution is the architecture-independent registration of all 27×27 pairwise interactions under one formal framework with explicit falsifiers.
 

@@ -1,0 +1,204 @@
+{
+  "census": {
+    "channel_relation_counts": {
+      "disjoint": 8,
+      "equal": 161,
+      "nested-proper": 126,
+      "non-nested-overlap": 56
+    },
+    "corrected": {
+      "INDEPENDENT": 8,
+      "INTERFERING": 0,
+      "PARTIAL_SHARING": 56,
+      "REDUNDANT": 287
+    },
+    "labels_changed": 217,
+    "pairs": 351,
+    "shipped": {
+      "independent": 8,
+      "redundant": 182,
+      "synergistic": 161
+    }
+  },
+  "claim_ceiling": "G2",
+  "closes_issue_rows": [],
+  "controls": {
+    "no_alarm_chain_contract_zero_def1": {
+      "ok": true,
+      "pairs": 6
+    },
+    "no_alarm_disjoint_pairs": {
+      "ok": true,
+      "pairs": 8
+    }
+  },
+  "corrected_object": {
+    "blob_at_freeze": "a9a67f8ec06b87aa374f092a72fabc593178ecfe",
+    "id": "CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1",
+    "path": "research/gmi-capability-interactions-unified-v1/CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1.md",
+    "prior_disposition": "GREEN on mainline; confirmed OVERSTRONG by the #939 verdict table, then revived under the #976 L58 revival chain (commit c4def870).",
+    "sound_and_untouched": [
+      "Lemma A (disjoint channels => joint = sum) \u2014 unconditional, correct.",
+      "Lemma B bounds and the nested/disjoint/partial equality characterization \u2014 correct under counting measure on a finite unit set (what the code implements).",
+      "Lemma C (free-option monotonicity by feasible-set inclusion) \u2014 correct.",
+      "CE-1 and CE-2 \u2014 correct, and CE-2 is the reason INTERFERING is retained in the repaired partition."
+    ],
+    "theorem": "CI-U (Lemmas A/B/C) + Corollary CI-A4 (27x27 registered instance)"
+  },
+  "defects": {
+    "DEF-1": {
+      "count": 56,
+      "exact_characterization": "The DEF-1 set is exactly the PARTIAL_SHARING class {max < joint < sum}.",
+      "of": 351,
+      "statement": "Corollary CI-A4's labels are assigned from channel-set overlap alone, never from a burden. On the real 27-capability A4 contract, that makes the shipped label FALSE by Section 1.2's own defining condition for these pairs.",
+      "worked_example": {
+        "B_x": 2,
+        "B_y": 2,
+        "channels_x": "S,T",
+        "channels_y": "S,M",
+        "corrected_class": "PARTIAL_SHARING",
+        "joint": 3,
+        "max": 2,
+        "shipped_label": "redundant",
+        "shipped_label_definition": "joint = max(individual)",
+        "sum": 4,
+        "why_false": "max = 2 but joint = 3, so joint = max is FALSE.",
+        "x": "cap-perception",
+        "y": "cap-communication"
+      }
+    },
+    "DEF-2": {
+      "count": 287,
+      "exact_characterization": "The DEF-2 set is exactly the REDUNDANT class {joint = max < sum}.",
+      "of": 351,
+      "statement": "Section 1.2's four conditions do not partition: Redundant (joint = max) is a strict sub-case of Synergistic (joint < sum) whenever max < sum, so a pair can satisfy more than one label."
+    },
+    "DEF-3": {
+      "repair": "CIP-2b replaces it with a proved, non-vacuous statement: under union accounting joint <= sum always, so INTERFERING is provably EMPTY on the A4 instance; the new classifier computes joint and sum and has a reachable INTERFERING branch, exercised by the CE-2 hostile.",
+      "statement": "interactions_witness.verify_no_interference() is VACUOUS: interaction_type() has no 'interfering' return path, so the function cannot return False. Section 3 (Negative Twin) and MANIFEST.json's falsifier both rested on it."
+    }
+  },
+  "delta_table": [
+    {
+      "changed": false,
+      "channel_relation": "disjoint",
+      "corrected_class": "INDEPENDENT",
+      "pairs": 8,
+      "shipped_label": "independent"
+    },
+    {
+      "changed": false,
+      "channel_relation": "nested-proper",
+      "corrected_class": "REDUNDANT",
+      "pairs": 126,
+      "shipped_label": "redundant"
+    },
+    {
+      "changed": true,
+      "channel_relation": "non-nested-overlap",
+      "corrected_class": "PARTIAL_SHARING",
+      "pairs": 56,
+      "shipped_label": "redundant"
+    },
+    {
+      "changed": true,
+      "channel_relation": "equal",
+      "corrected_class": "REDUNDANT",
+      "pairs": 161,
+      "shipped_label": "synergistic"
+    }
+  ],
+  "delta_table_file": "DELTA_TABLE_V1.md",
+  "forbidden_promotions": [
+    "Do NOT delete the INTERFERING class (CE-2 shows interference is real outside free-option accounting).",
+    "Do NOT weaken Section 1.2 to prose, narrow Corollary CI-A4, or downgrade Theorem CI-U's universal claim.",
+    "Do NOT claim any #833 issue row from this tranche.",
+    "Do NOT raise the claim ceiling above G2.",
+    "Do NOT extend the A4 census beyond the registered fully-shareable/nested accounting of the frozen 27-row contract."
+  ],
+  "freeze_commit": "c7bb5d099da3b949f10916be65ff1f54ce881eeb",
+  "hostiles_detected": {
+    "a_double_class": {
+      "detail": "A1 guardless-REDUNDANT failures=13; A2 shipped-1.2 multi-label A4 pairs=287",
+      "detected": true
+    },
+    "b_missing_interfering": {
+      "detail": "CE-2 triple B(X)=8 B(Y)=3 joint=13 sum=11: 3-class map places it in 0 classes; CIP-1 places it in ['INTERFERING']",
+      "detected": true
+    },
+    "c_degenerate_zero_burden": {
+      "detail": "zero-burden triple (3,0,3): max=sum=3; guardless map -> ['INDEPENDENT', 'REDUNDANT'] ; CIP-1 -> ['INDEPENDENT']",
+      "detected": true
+    },
+    "d_non_strictly_positive_mu": {
+      "detail": "counting measure: iff holds = True ; measure with mu(u3)=0: iff holds = False, counterexample Qx={u1} Qy={u3}",
+      "detected": true
+    },
+    "e_inadmissible_functional": {
+      "detail": "triple (4,2,3): joint<max; classify raises Inadmissible=True; predicates holding=[]",
+      "detected": true
+    }
+  },
+  "issue_context": 833,
+  "issue_rows_claimed": "NONE \u2014 this tranche closes no #833 checkbox. No neighbouring row is earned here.",
+  "null": {
+    "good": 0,
+    "trials": 200
+  },
+  "package": "gmi-833-capability-interaction-partition-v1",
+  "per_pair_file": "RESULT_V1.json",
+  "produces_reconciliation_json": false,
+  "repair": {
+    "CIP-1": "Exact partition theorem on the (max, joint, sum) lattice: INDEPENDENT (joint = sum), REDUNDANT (joint = max and max < sum), PARTIAL_SHARING (max < joint < sum), INTERFERING (joint > sum). Proved mutually exclusive and jointly exhaustive on the admissible region fixed by axioms (N) non-negativity and (M) monotonicity joint >= max, including the degenerate max = sum case.",
+    "CIP-2": "Burden-based classifier and the corrected 351-pair census, with a complete per-pair delta table.",
+    "CIP-2b": "Under union accounting INTERFERING is provably empty (replaces the vacuous check).",
+    "CIP-3": "Exact correspondence-and-divergence with the channel-overlap predicate, EARNED-BY-COUNTEREXAMPLE.",
+    "CIP-4": "Lemma B precision: mu pinned to counting measure on a finite unit set (strict positivity), with an explicit counterexample showing `iff nested` fails without it.",
+    "nothing_deleted": "INTERFERING is retained (CE-2). The original Synergistic condition survives as the named aggregate SAVING = {joint < sum} = REDUNDANT (disjoint union) PARTIAL_SHARING. No scope was narrowed and no claim ceiling lowered."
+  },
+  "routes": {
+    "A_partition_witness_v1": {
+      "counts": {
+        "INDEPENDENT": 8,
+        "INTERFERING": 0,
+        "PARTIAL_SHARING": 56,
+        "REDUNDANT": 287
+      },
+      "pairs": 351
+    },
+    "B_partition_oracle_v1_enumeration": {
+      "counts": {
+        "INDEPENDENT": 8,
+        "INTERFERING": 0,
+        "PARTIAL_SHARING": 56,
+        "REDUNDANT": 287
+      },
+      "pairs": 351
+    },
+    "C_partition_oracle_v1_closed_form": {
+      "counts": {
+        "INDEPENDENT": 8,
+        "INTERFERING": 0,
+        "PARTIAL_SHARING": 56,
+        "REDUNDANT": 287
+      },
+      "pairs": 351,
+      "relation_counts": {
+        "disjoint": 8,
+        "equal": 161,
+        "nested-proper": 126,
+        "non-nested-overlap": 56
+      },
+      "signature_tally": {
+        "MS": 2,
+        "MST": 2,
+        "MT": 1,
+        "ST": 18,
+        "T": 4
+      }
+    },
+    "agreement": "EXACT (A == B pair-by-pair; A == B == C in aggregate)"
+  },
+  "schema": "GMI_CORRECTION_NOTICE_V1",
+  "source_main": "c70dd24eeade46a3afe8322c1a0e0c16a648311e"
+}
