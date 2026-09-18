@@ -52,6 +52,14 @@ coalgebras for the powerset functor is a parent result and is recovered here, no
 `UNIQUE_LOWEST_PROCESS_FORMALISM`, `THE_SIX_FAMILIES_ARE_EXHAUSTIVE`,
 `TRANSLATION_PRESERVES_COST`.
 
+**Assumptions.** Each family is kept at its own full registered range; behaviour is compared in
+the coarsest class the pair spans; the window is `W = 4` and the executor proves it sufficient
+by recomputing at `W - 1`.
+
+**Dependency.** Depends on nothing outside `FREEZE_V1.md` sections 2 to 4. The two pairs already
+translated on `main` are cited rather than consumed: the adjudication recomputes them from
+scratch.
+
 ---
 
 ## `AG4T-2` — the obstruction map is closed, and every partial verdict lands in it
@@ -86,6 +94,16 @@ joint behaviour differs. Serial composition therefore does not determine the ten
 
 **Falsifier.** A partial translation needing an obstruction outside the eight.
 
+**Assumptions.** The eight tokens were fixed before any run. A partial verdict that needs a
+ninth is a `RED` result, never a new name.
+
+**Dependency.** Depends on `AG4T-1`: a token is attached to a translation only where that
+translation is not total.
+
+**Strongest parents.** Every obstruction is a classical fact about the formalisms concerned —
+functionality, totality, the distribution monad, arity, and the independence of the tensor from
+composition. The residual is only that each partial verdict at this scope lands on one of them.
+
 ---
 
 ## `AG4T-3` — two residuals that are not barriers
@@ -110,6 +128,15 @@ definition of the token keeps it out of the obstruction column.
 **Falsifiers.** A `D`-object with a unique behaviour under every labelling; a set of kernels in
 bijection with their supports.
 
+**Assumptions.** A fibre is not a barrier: a translation blocked by neither is total, and the
+fibre is reported as a count rather than entered in the obstruction column.
+
+**Dependency.** Depends on `AG4T-2` for the distinction between an obstruction and a residual.
+
+**Strongest parents.** That a monoid carries no preferred generating family, and that a kernel's
+support forgets its weights, are classical. The exact fibre sizes over this universe are the
+residual.
+
 ---
 
 ## `AG4T-4` — the anti-flattening control
@@ -133,6 +160,15 @@ permits — and against any unique-bottom reading.
 
 **Falsifier.** A run in which the flattened universe does not become mutually total, which would
 mean the flattening was not a flattening.
+
+**Assumptions.** The common deterministic core is the one every family contains: total,
+functional, arity one. Nothing else is removed.
+
+**Dependency.** Depends on `AG4T-1`: the control is the same adjudication re-run over a
+restricted object set.
+
+**Strongest parents.** None external. The control is a property of this package's own method,
+not a borrowed result.
 
 ---
 

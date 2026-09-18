@@ -51,6 +51,10 @@ order between them as strengths of presentation equivalence, computed rather tha
 **Forbidden extrapolations.** `PRESENTATION_EQUIVALENCE_IS_SOLVED`,
 `UNIQUE_PRESENTATION_EQUIVALENCE_STRENGTH`, `LATTICE_IS_COMPLETE_FOR_ALL_PRESENTATIONS`.
 
+**Dependency.** Depends on nothing outside `FREEZE_V1.md` section 2's level definitions and
+section 3's universe. No merged parent's numbers enter the order; the parent packages are used
+only in `AG3L-5`, to place the witness kinds they own.
+
 ---
 
 ## `AG3L-2` — bounded mutual simulation is not by itself semantics preserving
@@ -75,6 +79,18 @@ however tightly charged, does not imply it.
 
 **Falsifier.** A run in which `l3_raw_clause_cross_object_pairs` is `0`.
 
+**Assumptions.** The frozen section-2 compiler clause read literally, together with the frozen
+section-1 requirement that every strength imply equality of the presented object. No third
+reading is used, and section 1 governs where the two conflict.
+
+**Dependency.** Depends on `AG3L-1` only for the definitions of the compared behaviours. The
+count is computed over the same universe and does not depend on the order between the levels.
+
+**Strongest parents.** Compiler correctness stated up to a simulation relation with a charged
+cost (McCarthy and Painter; Milner) owns the clause itself. The residual here is only the
+measurement: that simulating the generators, however tightly charged, does not preserve an
+externally indexed behaviour.
+
 ---
 
 ## `AG3L-3` — compiler equivalence at a fixed overhead is a tolerance, not an equivalence
@@ -98,6 +114,17 @@ transitive closure `L3*(k)` is an equivalence relation and has a place in a latt
 equivalences. Every order statement above is made about `L3*`, never about `L3`.
 
 **Falsifier.** A run finding no non-transitive triple at `k = 1`.
+
+**Assumptions.** Overhead is charged multiplicatively per external program, as section 2 fixes,
+and the registered ladder is `k in {1, 2, 3, 5}`. Transitivity is asked of the relation itself,
+never of its closure.
+
+**Dependency.** Depends on `AG3L-2`: the relation whose transitivity is in question is the
+section-1-conformant level, not the raw clause.
+
+**Strongest parents.** Tolerance relations, and the fact that bounded simulations compose only
+at a worse bound, are classical. No owner is claimed for the observation; only its exact
+exhibition on this universe is new.
 
 ---
 
@@ -136,6 +163,15 @@ holds at strength `s` or above" has to name which of the two middle branches it 
 **Falsifiers.** A generated sublattice of any size other than five; a run in which the join of
 `L2` and `L3*(1)` is not `L4`; a `k*` other than `2`.
 
+**Assumptions.** The compiler level enters only through its transitive closure, per `AG3L-3`.
+Meet is intersection and join is the transitive closure of the union, as section 4 fixes.
+
+**Dependency.** Depends on `AG3L-1` for the order and on `AG3L-3` for the closure being the
+object that has a place in a lattice of equivalences.
+
+**Strongest parents.** The partition lattice, its meet and its join are classical lattice theory
+(Ore, 1942). The size and shape of the generated sublattice over this universe is the residual.
+
 ---
 
 ## `AG3L-5` — exact placement of every registered witness, and the missing fourth witness
@@ -169,6 +205,17 @@ reproduce the placement.
 
 **Falsifier.** Any witness certified at a level it does not satisfy, or a null draw that
 reproduces the placement.
+
+**Assumptions.** Each parent witness is placed by the defining property its own receipt
+certifies; the executable placement is of a registered analogue inside this universe, and the
+two statements are reported separately rather than merged.
+
+**Dependency.** Depends on `AG3L-1` for the levels and on `AG3L-4` for what an exact level means
+when two levels are incomparable.
+
+**Strongest parents.** `gmi-833-g0-grammar-bias-v1` owns the relabeling witness,
+`gmi-833-aj5-g0-lowering-v1` the charged-overhead lowering, `gmi-833-parent-equivalence-v1`
+model equivalence. Only the constructed term-equivalence witness is new.
 
 ---
 

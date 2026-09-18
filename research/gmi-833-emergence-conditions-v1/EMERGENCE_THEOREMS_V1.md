@@ -32,6 +32,17 @@ first operation splits `4` groups at once.
 
 **Falsifier.** A predicate whose value changes when the program text is withheld.
 
+**Assumptions.** A finite substrate, an integer price vector, a finite task family with an exact
+requirement, and a length bound. Every predicate is a function of the registered trace alone,
+and cost is the worst case over the family's instances.
+
+**Dependency.** Depends on nothing outside `FREEZE_V1.md` sections 1 to 4.
+
+**Strongest parents.** Bounded rationality (Simon) and the value of computation (Russell and
+Wefald) own the idea that a resource account shapes the procedure a bounded agent adopts. The
+residual is that the condition here is decidable by exhaustive enumeration and carries an exact
+integer margin.
+
 ---
 
 ## `EC-2` — the structural condition behind a forced verdict is blind-cover impossibility
@@ -47,6 +58,15 @@ names the behaviour, and the price vector plays no part in the statement.
 
 **Falsifier.** A forced verdict accompanied by a predicate-free blind cover.
 
+**Assumptions.** The family's instances are distinguishable only through the registered trace,
+and a blind cover is a conforming program whose trace is constant across them.
+
+**Dependency.** Depends on `EC-1` for the verdict vocabulary.
+
+**Strongest parents.** The value of information (Howard; Lindley) owns the question of when an
+observation has to be made at all. The residual is the exhaustive blind-cover count behind every
+forced verdict.
+
 ---
 
 ## `EC-3` — the flat-pricing control, stated and NOT exercised
@@ -59,6 +79,18 @@ minimum-cost set is all of `Sol`, so `M` is forced only when `c*_notM` is infini
 times in thirteen families, so the gate that runs this control passes **vacuously** and `EC-3`
 is published as stated but **not exercised**. The receipt says so in a dedicated field
 (`ec3_exercised: false`) rather than letting a vacuous pass read as evidence.
+
+**Assumptions.** Flat pricing assigns every conforming program the same cost; nothing else about
+the substrate or the family changes.
+
+**Dependency.** Depends on `EC-1` for the vocabulary and, for whether it can be exercised at
+all, on `EM-4`.
+
+**Falsifier.** An `EMERGES_BY_PRICE` verdict that survives flat pricing. At this scope there is
+no such verdict to test, which is itself reported rather than passed over.
+
+**Strongest parents.** Ablating the cost model is ordinary practice and no owner is claimed;
+what is recorded here is only that the ablation has nothing to act on at this scope.
 
 ---
 
@@ -100,6 +132,16 @@ acquisition and `-1` for symbolic rewriting.
 this package, and so is its converse: nothing here shows that price never matters at a larger
 scope. It shows that it decided nothing in thirteen exhaustively enumerated finite families.
 
+**Assumptions.** The thirteen registered families and their frozen requirements, the worst-case
+accounting of section 2, and the summed accounting run beside it as a declared variant.
+
+**Dependency.** Depends on `EC-1` for the verdicts and on `EM-6` for knowing which families'
+verdicts were settled by their own requirement rather than by the substrate.
+
+**Strongest parents.** No parent claims that price never decides; none is contradicted either.
+The value-of-computation literature (Russell and Wefald; Horvitz) predicts that price can
+decide, and this scope is a region where it does not.
+
 ---
 
 ## `EM-5` — the two boundaries with no prior coverage are forced, not named
@@ -130,6 +172,18 @@ registered forbidden promotions.
 **Falsifier.** One conforming program of length at most `5` over `B0` that meets either family's
 requirement and fails the predicate.
 
+**Assumptions.** The substrate names none of the thirteen behaviours, checked by the neutrality
+detector, and the two families' requirements carry no behaviour clause, checked by the
+stripped-requirement run of `EM-6`.
+
+**Dependency.** Depends on `EC-2` for what a forced verdict means structurally and on `EM-6` for
+the restriction to families whose requirement is a plain input-to-output specification.
+
+**Strongest parents.** `gmi-833-aj8-intelligence-boundary-v1` owns the registered negative
+controls this result must not contradict; metareasoning as a subject is owned by Russell and
+Wefald, and endogenous experiment choice by the sequential-design literature (Chernoff). The
+residual is the exhaustive forcing count on a neutral substrate.
+
 ---
 
 ## `EM-6` — five of the thirteen frozen requirements entail their own predicate
@@ -153,6 +207,15 @@ requirement carries no behaviour clause — `ADAPTATION`, `ROUTING`, `METAREASON
 `ENDOGENOUS_EXPERIMENT_CHOICE`.
 
 **Falsifier.** A stripped run in which the behaviour remains forced.
+
+**Assumptions.** A requirement entails its predicate when the full run admits no conforming
+program that fails the predicate while the run with the behaviour clause removed does.
+
+**Dependency.** Depends on `EC-1` for the verdicts; `EM-4` and `EM-5` both depend on this result
+for their scope.
+
+**Strongest parents.** None external. This is a self-audit of the freeze's own section-5
+wording.
 
 ---
 
@@ -186,6 +249,17 @@ rather than argued:
 
 **Falsifier.** Any program found by the enumeration that contradicts a `NOT_EXPRESSIBLE`
 verdict.
+
+**Assumptions.** Non-expressibility is asserted only where the exhaustive enumeration produced
+no program satisfying the predicate; each revival adds exactly one generic operation and changes
+nothing else.
+
+**Dependency.** Depends on `EC-1` for the `NOT_EXPRESSIBLE` verdict and on `EM-6` for which of
+the four verdicts were settled by their own requirement.
+
+**Strongest parents.** Register machines and their instruction decomposition (Minsky) own the
+substrate's shape; `gmi-833-aj5-g0-lowering-v1` owns the generic role basis its operation names
+follow. The residual is the exhaustive impossibility proof and the one-operation recovery.
 
 ---
 
