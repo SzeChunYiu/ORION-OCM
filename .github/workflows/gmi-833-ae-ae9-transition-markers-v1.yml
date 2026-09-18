@@ -1,0 +1,317 @@
+name: GMI 833 AE9 transition markers v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae9-transition-markers-v1/**'
+      - '.github/workflows/gmi-833-ae-ae9-transition-markers-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae9-transition-markers-v1/**'
+      - '.github/workflows/gmi-833-ae-ae9-transition-markers-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=b472903bddaeb78651f7cee32fe5bd3fc3ba4a6e
+          pkg=research/gmi-833-ae-ae9-transition-markers-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/ae9_transition_markers_v1.py" \
+            "$pkg/independent_marker_oracle_v1.py" \
+            "$pkg/test_ae9_transition_markers_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/CORE.md" \
+            "$pkg/AE9_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE9_TRANSITION_MARKERS_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Register custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          register=fb1edbf03268b2b0140a96a56cb7f656f351d2f5
+          pkg=research/gmi-833-ae-ae9-transition-markers-v1
+          git cat-file -e "$register^{commit}"
+          git cat-file -e "$register:$pkg/PROSPECTIVE_REGISTER_V1.json"
+          for p in \
+            "$pkg/ae9_transition_markers_v1.py" \
+            "$pkg/independent_marker_oracle_v1.py" \
+            "$pkg/test_ae9_transition_markers_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/AE9_THEOREMS_V1.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE9_TRANSITION_MARKERS_V1.json"; do
+            if git cat-file -e "$register:$p" 2>/dev/null; then
+              echo "implementation blob predates the register: $p" >&2
+              exit 1
+            fi
+          done
+          echo "register commit precedes every implementation blob"
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            test "$actual" = "$2"
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+      - name: Exact marker tests, hostiles and null
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae9-transition-markers-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_ae9_transition_markers_v1.py" -v
+            python -I -O -B "$pkg/ae9_transition_markers_v1.py" > /tmp/ae9.json
+          else
+            python -I -B "$pkg/test_ae9_transition_markers_v1.py" -v
+            python -I -B "$pkg/ae9_transition_markers_v1.py" > /tmp/ae9.json
+          fi
+          cmp /tmp/ae9.json "$pkg/RESULT_V1.json"
+      - name: Check manifest, claim ceiling and named numbers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from fractions import Fraction
+          from pathlib import Path
+
+          failures = []
+
+          def need(condition, label):
+              if not condition:
+                  failures.append(label)
+
+          root = Path('research/gmi-833-ae-ae9-transition-markers-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          expected = ('GMI_833_AE9_ARCHITECTURE_INDEPENDENT_TRANSITION_MARKERS_'
+                      'DEFINED_AND_EMERGENCE_CLASSES_SEPARATED_ON_NON_NEURAL_'
+                      'REGISTERED_SYSTEMS')
+          need(m['claim_ceiling'] == r['claim_ceiling'] == expected,
+               'claim ceiling')
+          need(m['source_main'] == r['source_main'] ==
+               '0dcdec54fbece041ee2b7cd1f630469ad85d19d3', 'source main')
+          need(m['freeze_commit'] == r['freeze_commit'] ==
+               'b472903bddaeb78651f7cee32fe5bd3fc3ba4a6e', 'freeze commit')
+          need(m['register_commit'] == r['register_commit'] ==
+               'fb1edbf03268b2b0140a96a56cb7f656f351d2f5', 'register commit')
+          need(m['register_digest'] == r['register_digest'] ==
+               '9f90dc2ec012b41a26a9fcc3d1e363fb215e456580432ae6bf2c0c2f554cc883',
+               'register digest')
+          need(r['verdict'] == 'GREEN', 'verdict')
+          need(all(r['checks'].values()), 'checks')
+          need(r['issue'] == 833 and r['issue_comment_id'] == 5692689542,
+               'issue coordinates')
+
+          res = r['results']
+          ai = res['architecture_independence']
+          need(ai['same_partition_two_learners'][
+              'induced_partitions_equal'] is True, 'same partition')
+          need(ai['same_partition_two_learners'][
+              'markers_exactly_equal'] is True, 'equal markers')
+          need(ai['same_partition_two_learners']['markers'] == {
+              'CELLS': 2, 'INVARIANCE': 4, 'READOUT_ARITY': 2,
+              'SEPARABILITY': '1', 'USABLE': '1'}, 'marker vector')
+          need(ai['injective_reencoding'][
+              'code_set_actually_changed'] is True, 'relabel potency')
+          need(ai['injective_reencoding'][
+              'every_marker_unchanged'] is True, 'relabel silence')
+          need(ai['distinct_partitions_move_a_marker'][
+              'pairs_tested'] == 15, 'pairs tested')
+          need(ai['distinct_partitions_move_a_marker'][
+              'every_pair_moves_REFINEMENT'] is True, 'refinement separates')
+
+          row3 = res['row3_smooth_versus_qualitative']
+          need(row3['smooth']['accuracy'] == [
+              '1/2', '17/32', '9/16', '19/32', '5/8', '21/32', '11/16',
+              '23/32', '3/4'], 'smooth accuracy')
+          need(row3['smooth']['per_step_increments'] == ['1/32'] * 8,
+               'smooth increments')
+          need(row3['smooth']['structural_tuple'] == [16, 24, 2],
+               'smooth structural tuple')
+          need(row3['smooth']['structural_profile_constant'] is True,
+               'smooth invariants constant')
+          need(row3['jump']['accuracy'][:5] == ['1/2'] * 5, 'jump base rate')
+          need(row3['jump']['accuracy'][5] == '11/14', 'jump at m star')
+          need(row3['jump']['m_star_accuracy'] == 5, 'm star accuracy')
+          need(row3['jump']['m_star_structural'] == 5, 'm star structural')
+          need(row3['jump']['m_star_heldout'] == 5, 'm star heldout')
+          need(row3['jump']['same_step'] is True, 'same step')
+          need(row3['jump']['readout_arity_by_m'][4] == ['NONE'],
+               'arity before')
+          need('2' in row3['jump']['readout_arity_by_m'][5], 'arity at m star')
+          need(row3['jump']['invariance_before'] == 6, 'invariance before')
+          need(row3['jump']['jump_magnitude_heldout'] == '2/7', 'jump size')
+
+          row4 = res['row4_emergence_reaudit']
+          need(row4['exact_match_k'] == 8, 'exact match k')
+          need(row4['underlying_increment_spread'] == '0', 'spread')
+          need(row4['transformed_increments_strictly_increasing'] is True,
+               'knee')
+          need(row4['knee_ratio_last_over_first'] ==
+               '6352865779/536158029', 'knee ratio')
+          need(row4['structural_profile_constant_throughout'] is True,
+               'artifact invariants constant')
+          need(row4['classifier_on_transformed_curve_raises_no_alarm'] is True,
+               'no alarm on transformed curve')
+          need(row4['witness_classes'] == {
+              'TRAJ_SMOOTH': 'THRESHOLDED_METRIC_ARTIFACT',
+              'TRAJ_JUMP': 'PHASE_LIKE_REORGANIZATION',
+              'TRAJ_GROK': 'GROKKING_DELAYED_GENERALIZATION'}, 'classes')
+          val = row4['classifier_validation']
+          need(val['recall'] == 3 and val['planted_positives'] == 3, 'recall')
+          need(val['no_alarm_on_clean_smooth_trajectory'] is True,
+               'no alarm on smooth')
+
+          grok = res['trajectories']['TRAJ_GROK']
+          need(grok['acc_train'] == ['1'] * 9, 'grok train accuracy')
+          need(grok['acc_heldout'][:5] == ['1/2'] * 5, 'grok heldout flat')
+          need(grok['acc_heldout'][5] == '11/14', 'grok heldout onset')
+
+          nul = r['null']
+          need(nul['trials'] == 200, 'null trials')
+          need(nul['alarms'] == 5, 'null alarms')
+          need(nul['alarms_on_affine_draws'] == 1, 'null genuine positives')
+          need(nul['false_alarms_on_non_affine_draws'] == 4, 'null false alarms')
+          need(nul['largest_false_alarm_magnitude'] == '1/7',
+               'largest false alarm')
+          need(nul['planted_witness_magnitude'] == '2/7', 'witness magnitude')
+          need(nul['witness_exceeds_largest_false_alarm'] is True,
+               'threshold-free comparison')
+          need(nul['known_clean_witnesses_flagged'] == [], 'clean witness')
+
+          need(len(r['bounds']) == 5, 'bound count')
+          for b in r['bounds']:
+              lo = Fraction(b['range_lo'])
+              hi = Fraction(b['range_hi'])
+              v = Fraction(b['bound_value'])
+              vac = (v >= hi) if b['kind'] == 'upper' else (v <= lo)
+              need(vac == b['vacuous'] and not b['vacuous'],
+                   'vacuity ' + b['id'])
+              w = Fraction(b['violated_by']['value'])
+              need((w > v) if b['kind'] == 'upper' else (w < v),
+                   'violated_by ' + b['id'])
+
+          need(len(r['hostiles']) == 5, 'hostile count')
+          for h in r['hostiles']:
+              need(h['potency'] is True, 'potency ' + h['name'])
+              if h['inverted']:
+                  need(h['silence'] is True, 'silence ' + h['name'])
+              else:
+                  need(h['detected'] is True, 'detection ' + h['name'])
+
+          need(len(r['prospective_predictions']) == 5, 'prediction count')
+          for p in r['prospective_predictions']:
+              need(p['verdict'] in ('CONFIRMED', 'REFUTED'),
+                   'verdict ' + p['id'])
+          need('all_predictions_confirmed' not in r['checks'],
+               'a refuted prediction must not suppress the receipt')
+          summ = r['prospective_prediction_summary']
+          need(summ['registered'] == summ['reported'] == 5,
+               'prediction summary')
+          need(summ['confirmed'] + summ['refuted'] == 5,
+               'prediction summary totals')
+          for b in r['bounds']:
+              need(b['status'] in ('FALSIFIABLE_BOUND', 'UNFALSIFIED_BOUND'),
+                   'bound status ' + b['id'])
+              need((b['status'] == 'FALSIFIABLE_BOUND') ==
+                   ('violated_by' in b), 'bound status match ' + b['id'])
+          conf = nul['confusion_over_null']
+          need(conf['true_positive'] + conf['false_negative'] ==
+               nul['affine_draws'], 'null positives')
+          need(conf['true_positive'] + conf['false_positive'] ==
+               nul['alarms'], 'null alarms')
+          need(sum([conf['true_positive'], conf['false_negative'],
+                    conf['false_positive'], conf['true_negative']]) == 200,
+               'null confusion total')
+          names = [f['name'] for f in r['forbidden_promotions']]
+          need('NEURAL_RESULT_FROM_NON_NEURAL_ROSTER' in names,
+               'neural promotion registered')
+          need('TRANSITION_MARKER_PREDICTS_CAPABILITY_ONSET' in names,
+               'onset promotion registered')
+          need(len(m['rows_left_open']) == 4, 'rows left open')
+          for row in m['rows_left_open']:
+              need(len(row['instrument_required']) > 40,
+                   'instrument for ' + row['row'][:40])
+
+          if failures:
+              raise SystemExit('AE9 named-number check failed: '
+                               + '; '.join(failures))
+          print('AE9 manifest and named numbers OK')
+          PY
+      - name: Check reconciliation rows are byte-exact and unique
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+
+          failures = []
+
+          def need(condition, label):
+              if not condition:
+                  failures.append(label)
+
+          root = Path('research/gmi-833-ae-ae9-transition-markers-v1')
+          spec = json.loads((
+              root /
+              'ISSUE_833_RECONCILIATION_AE9_TRANSITION_MARKERS_V1.json'
+          ).read_text())
+          need(spec['schema'] == 'GMI_ISSUE_RECONCILIATION_V2', 'schema')
+          need(spec['issue'] == 833, 'issue')
+          need(spec['issue_comment_id'] == 5692689542, 'comment id')
+          need(len(spec['replacements']) == 3, 'replacement count')
+          need(len(spec['not_closed']) == 4, 'not closed count')
+          seen = set()
+          for rep in spec['replacements']:
+              need(rep['old'].startswith('- [ ] '), 'old prefix')
+              need(rep['new'].startswith('- [x] '), 'new prefix')
+              need(rep['new'][6:].startswith(rep['old'][6:]), 'new extends old')
+              need(rep['old'] not in seen, 'duplicate row')
+              seen.add(rep['old'])
+              need(rep['anchor'] ==
+                   '### AE9 — Learning as representation restructuring',
+                   'anchor')
+              need('gmi-833-ae-ae9-transition-markers-v1' in rep['new'],
+                   'package named')
+          for row in spec['not_closed']:
+              need(row['row'].startswith('- [ ] '), 'open row stays unchecked')
+              need(row['status'] == 'OPEN', 'open status')
+              need(len(row['instrument_required']) > 40, 'instrument stated')
+          if failures:
+              raise SystemExit('AE9 reconciliation check failed: '
+                               + '; '.join(failures))
+          print('AE9 reconciliation spec OK')
+          PY
