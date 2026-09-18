@@ -1,0 +1,954 @@
+{
+ "checks": {
+  "E_le_C_mu_on_every_member": true,
+  "all_hostiles_detected": true,
+  "all_hostiles_potent": true,
+  "at_least_eleven_of_twelve_ordered_pairs_disagree": true,
+  "determined_directions_are_covered_by_a_proved_bound": true,
+  "every_member_is_dyadic": true,
+  "every_unordered_quantity_pair_is_non_equivalent": true,
+  "excess_entropy_subset_nonempty": true,
+  "family_enumerated_exhaustively": true,
+  "horizon_1_counterexample_exists": true,
+  "horizon_truncation_loses_information": true,
+  "no_logarithm_evaluated": true,
+  "no_unqualified_infinite_horizon_claim": true,
+  "non_uniform_state_masses_exist": true,
+  "null_no_alarm_on_true_family": true,
+  "null_shuffle_never_matches": true,
+  "parent_sufficiency_recorded_not_novelty": true,
+  "parents_exactly_pinned": true,
+  "refinement_is_monotone": true,
+  "registered_family_nonempty": true,
+  "residual_is_named": true,
+  "some_pairs_also_reverse_strict_order": true
+ },
+ "claim_ceiling": "GMI_833_AE5_PREDICTIVE_STATE_PARENT_OWNERSHIP_AUDITED_ON_A_REGISTERED_FINITE_DYADIC_PROCESS_FAMILY",
+ "forbidden_promotions": [
+  "INFINITE_HORIZON_EQUIVALENCE_PROVED",
+  "STATIONARY_ERGODIC_PROCESS_THEOREM",
+  "NON_DYADIC_ENTROPY_COMPARISON",
+  "CONTINUOUS_STATE_EPSILON_MACHINE",
+  "GMI_STATE_COMPLEXITY_NOVELTY",
+  "UNIVERSAL_PREDICTOR_MINIMALITY",
+  "COMPLETE_GMI"
+ ],
+ "freeze_commit": "c69062ee7c7c9bee9aa1534fe5c88de58b7f50d5",
+ "harness": {
+  "dyadicity": "every causal state is a coset of a GF(2) subspace of the seed space, so every mass is a power of 1/2 and every entropy is the exact rational sum 2^-a * a",
+  "family_size": 2019,
+  "horizon": 1,
+  "prefix_len": 2,
+  "process_family": "length-4 binary GF(2)-linear-plus-fresh processes; each step is a fresh fair coin or a GF(2) combination of earlier steps",
+  "split": 2
+ },
+ "hostiles": [
+  {
+   "detected": true,
+   "hostile_classes": 1,
+   "id": "H1_horizon_truncation_passed_off_as_full",
+   "perturbation_moved_its_quantity": true,
+   "true_classes": 2
+  },
+  {
+   "detected": true,
+   "id": "H2_non_dyadic_entropy",
+   "perturbation_moved_its_quantity": true
+  },
+  {
+   "clean_alarms": [],
+   "detected": true,
+   "id": "H3_infinite_horizon_claim",
+   "perturbation_moved_its_quantity": true,
+   "planted_alarms": [
+    "$.results.AE5_6.infinite_horizon_equivalence"
+   ]
+  },
+  {
+   "detected": true,
+   "id": "H4_rank_identified_with_state_count",
+   "perturbation_moved_its_quantity": true,
+   "witness": {
+    "S": 3,
+    "proc": [
+     "F",
+     "F",
+     "F",
+     "F",
+     "F",
+     "F",
+     "F"
+    ],
+    "rank": 1
+   }
+  },
+  {
+   "detected": true,
+   "id": "H5_parent_blob_tamper",
+   "perturbation_moved_its_quantity": true
+  }
+ ],
+ "issue": 833,
+ "issue_comment_id": 5692689542,
+ "null": {
+  "detector": "E <= C_mu on every member of the registered family",
+  "shuffle_trials": 200,
+  "shuffle_trials_matching": 0,
+  "true_family_alarms": 0
+ },
+ "parent_audit": {
+  "all_ok": true,
+  "rows": [
+   {
+    "actual_blob": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+    "blob_ok": true,
+    "claim_ok": true,
+    "expected_blob": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+    "name": "theory_baseline",
+    "path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md"
+   },
+   {
+    "actual_blob": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+    "blob_ok": true,
+    "claim_ok": true,
+    "expected_blob": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+    "name": "foundation",
+    "path": "research/gmi-833-foundation-v1/RESULT_V1.json"
+   },
+   {
+    "actual_blob": "ceb77f5beac99b5427d1350915b19df546495fb8",
+    "blob_ok": true,
+    "claim_ok": true,
+    "expected_blob": "ceb77f5beac99b5427d1350915b19df546495fb8",
+    "name": "structure_separation",
+    "path": "research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json"
+   },
+   {
+    "actual_blob": "cd1e1d5f68342918c0b54583fc5f5b70eabe203c",
+    "blob_ok": true,
+    "claim_ok": true,
+    "expected_blob": "cd1e1d5f68342918c0b54583fc5f5b70eabe203c",
+    "name": "predictive_boundary",
+    "path": "research/gmi-833-ae-ae2-predictive-boundary-v1/RESULT_V1.json"
+   },
+   {
+    "actual_blob": "69aafebec4016f539c46b1f71546f740a8018421",
+    "blob_ok": true,
+    "claim_ok": true,
+    "expected_blob": "69aafebec4016f539c46b1f71546f740a8018421",
+    "name": "usable_information",
+    "path": "research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json"
+   }
+  ]
+ },
+ "results": {
+  "AE5_1_horizon_scope": {
+   "applicable_scope": "horizon-H equivalence identifies with causal states only at H >= H*; at H = 1 it is strictly coarser on the witness above, so the identification must be qualified by horizon",
+   "definition": "two histories are GMI horizon-H equivalent iff they induce the same conditional distribution over the next H symbols",
+   "distinct_refinement_sequences": 3,
+   "horizon_1_counterexample": {
+    "classes_by_horizon": [
+     1,
+     2
+    ],
+    "horizon_1_is_strictly_coarser": true,
+    "proc": [
+     "F",
+     "F",
+     "F",
+     "F",
+     "F",
+     "0",
+     "0"
+    ]
+   },
+   "refinement_is_monotone_on_every_member": true,
+   "relation_to_parent": "at horizon H this is exactly the causal-state partition of Crutchfield & Young truncated to horizon H",
+   "stabilisation_horizon_histogram": {
+    "1": 1863,
+    "2": 156
+   }
+  },
+  "AE5_2_statistical_complexity_and_excess_entropy": {
+   "E_le_C_mu_holds_on": 1527,
+   "E_le_C_mu_holds_on_all": true,
+   "distinct_C_mu_values": [
+    "0",
+    "1",
+    "3/2"
+   ],
+   "distinct_E_values": [
+    "0",
+    "1",
+    "1/2"
+   ],
+   "distinct_S_values": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "distinct_rank_values": [
+    1,
+    2
+   ],
+   "every_member_is_dyadic": true,
+   "excluded_for_non_dyadic_state_masses": 168,
+   "family_size": 2019,
+   "members_with_exactly_computable_excess_entropy": 1527,
+   "no_logarithm_evaluated": true,
+   "non_uniform_state_mass_witness": {
+    "C_mu": "3/2",
+    "S_at_prefix2": 3,
+    "proc": [
+     "F",
+     "F",
+     "F",
+     "F",
+     "F",
+     "0",
+     "1"
+    ],
+    "state_masses": [
+     "1/4",
+     "1/4",
+     "1/2"
+    ],
+    "state_masses_are_non_uniform": true
+   },
+   "roster": [
+    {
+     "C_mu": "0",
+     "DL": 7,
+     "E": "0",
+     "S": 3,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F"
+     ],
+     "rank": 1
+    },
+    {
+     "C_mu": "1",
+     "DL": 9,
+     "E": "NOT_EXACTLY_COMPUTABLE",
+     "S": 5,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "0",
+      "0"
+     ],
+     "rank": 2
+    },
+    {
+     "C_mu": "3/2",
+     "DL": 9,
+     "E": "1/2",
+     "S": 6,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "0",
+      "1"
+     ],
+     "rank": 2
+    },
+    {
+     "C_mu": "1",
+     "DL": 9,
+     "E": "NOT_EXACTLY_COMPUTABLE",
+     "S": 4,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "0",
+      "F",
+      "0"
+     ],
+     "rank": 2
+    },
+    {
+     "C_mu": "3/2",
+     "DL": 10,
+     "E": "NOT_EXACTLY_COMPUTABLE",
+     "S": 6,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "0",
+      "0",
+      "1"
+     ],
+     "rank": 2
+    },
+    {
+     "C_mu": "0",
+     "DL": 11,
+     "E": "0",
+     "S": 3,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "rank": 1
+    },
+    {
+     "C_mu": "1",
+     "DL": 11,
+     "E": "1",
+     "S": 5,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "0",
+      "0",
+      "1",
+      "1"
+     ],
+     "rank": 2
+    },
+    {
+     "C_mu": "1",
+     "DL": 11,
+     "E": "1",
+     "S": 4,
+     "proc": [
+      "F",
+      "F",
+      "F",
+      "0",
+      "1",
+      "0",
+      "1"
+     ],
+     "rank": 2
+    },
+    {
+     "C_mu": "0",
+     "DL": 7,
+     "E": "0",
+     "S": 4,
+     "proc": [
+      "F",
+      "F",
+      "0",
+      "F",
+      "F",
+      "F",
+      "F"
+     ],
+     "rank": 1
+    },
+    {
+     "C_mu": "1",
+     "DL": 8,
+     "E": "NOT_EXACTLY_COMPUTABLE",
+     "S": 5,
+     "proc": [
+      "F",
+      "F",
+      "0",
+      "F",
+      "F",
+      "0",
+      "F"
+     ],
+     "rank": 2
+    }
+   ],
+   "strict_crypticity_witness": {
+    "C_mu": "3/2",
+    "E": "1/2",
+    "crypticity": "1",
+    "proc": [
+     "F",
+     "F",
+     "F",
+     "F",
+     "F",
+     "0",
+     "1"
+    ]
+   },
+   "tree_processes_enumerated": 2187
+  },
+  "AE5_3_parent_ownership_audit": {
+   "novelty_claimed_for_gmi_state_complexity": false,
+   "parent_sufficient_is_a_success_terminal": true,
+   "residual": "the horizon-indexed refinement sequence and the resource-priced selection of a predictor; the latter is exercised by research/gmi-833-ae-morphology-sweep-v1 in this same tranche",
+   "rows": [
+    {
+     "gmi_statement": "the GMI minimal sufficient predictive state is the coarsest partition of histories preserving the conditional future",
+     "name": "minimality_of_the_predictive_state",
+     "parent": "Shalizi & Crutchfield 2001, doi:10.1023/A:1010388907793, Theorem 1 (causal states are the minimal sufficient statistic of the past for the future) and Theorem 3 (minimality of the epsilon-machine among prescient rivals)",
+     "verdict": "PARENT_SUFFICIENT"
+    },
+    {
+     "gmi_statement": "GMI state complexity equals the entropy of the minimal predictive partition",
+     "name": "state_complexity_is_an_entropy_of_the_minimal_partition",
+     "parent": "Crutchfield & Young 1989, doi:10.1103/PhysRevLett.63.105 (statistical complexity C_mu = H[S])",
+     "verdict": "PARENT_SUFFICIENT"
+    },
+    {
+     "gmi_statement": "the information the past carries about the future is bounded by the state complexity",
+     "name": "predictive_information_bound",
+     "parent": "Crutchfield & Feldman 2003, doi:10.1063/1.1530990 (E <= C_mu, with crypticity chi = C_mu - E); Bialek, Nemenman & Tishby 2001, doi:10.1162/089976601753195969 (predictive information)",
+     "verdict": "PARENT_SUFFICIENT"
+    },
+    {
+     "gmi_statement": "a linear (observable-operator) model can have rank below the causal state count",
+     "name": "linear_predictive_rank_is_not_the_state_count",
+     "parent": "Jaeger 2000, doi:10.1162/089976600300015411 (observable operator models); Hsu, Kakade & Zhang 2012, doi:10.1016/j.jcss.2011.12.025",
+     "verdict": "PARENT_SUFFICIENT"
+    },
+    {
+     "gmi_statement": "the horizon-indexed refinement sequence of GMI predictive equivalence, and the selection of a predictor under an explicit resource price",
+     "name": "horizon_truncated_equivalence_and_resource_priced_selection",
+     "parent": "no parent located: computational mechanics works at the semi-infinite future and does not price predictors",
+     "verdict": "RESIDUAL"
+    }
+   ],
+   "verdict_counts": {
+    "PARENT_SUFFICIENT": 4,
+    "RESIDUAL": 1
+   }
+  },
+  "AE5_4_four_quantity_disagreement": {
+   "all_pairs_disagree": false,
+   "determined_directions": [
+    "C_mu_vs_rank"
+   ],
+   "disagreement_criterion": "q1 does not determine q2: two members share a q1 value and differ in q2",
+   "every_unordered_pair_is_non_equivalent": true,
+   "matrix": {
+    "C_mu_vs_DL": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "DL_a": "7",
+      "DL_b": "11",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      "shared_C_mu": "0"
+     },
+     "order_reversal_exists": true,
+     "strict_order_reversal": {
+      "C_mu_a": "0",
+      "C_mu_b": "1",
+      "DL_a": "7",
+      "DL_b": "6",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "0",
+       "F",
+       "F",
+       "F",
+       "0",
+       "F",
+       "F"
+      ]
+     }
+    },
+    "C_mu_vs_S": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "S_a": "3",
+      "S_b": "4",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "0",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "shared_C_mu": "0"
+     },
+     "order_reversal_exists": false,
+     "strict_order_reversal": null
+    },
+    "C_mu_vs_rank": {
+     "disagree": false,
+     "equal_value_disagreement": null,
+     "order_reversal_exists": false,
+     "strict_order_reversal": null
+    },
+    "DL_vs_C_mu": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "C_mu_a": "3/2",
+      "C_mu_b": "0",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "1"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0",
+       "F"
+      ],
+      "shared_DL": "10"
+     },
+     "order_reversal_exists": true,
+     "strict_order_reversal": {
+      "C_mu_a": "1",
+      "C_mu_b": "0",
+      "DL_a": "9",
+      "DL_b": "11",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "0"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0"
+      ]
+     }
+    },
+    "DL_vs_S": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "S_a": "6",
+      "S_b": "4",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "1"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0",
+       "F"
+      ],
+      "shared_DL": "10"
+     },
+     "order_reversal_exists": true,
+     "strict_order_reversal": {
+      "DL_a": "9",
+      "DL_b": "11",
+      "S_a": "5",
+      "S_b": "3",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "0"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0"
+      ]
+     }
+    },
+    "DL_vs_rank": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "1"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0",
+       "F"
+      ],
+      "rank_a": "2",
+      "rank_b": "1",
+      "shared_DL": "10"
+     },
+     "order_reversal_exists": true,
+     "strict_order_reversal": {
+      "DL_a": "9",
+      "DL_b": "11",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "0"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      "rank_a": "2",
+      "rank_b": "1"
+     }
+    },
+    "S_vs_C_mu": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "C_mu_a": "1",
+      "C_mu_b": "0",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "F",
+       "0"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "0",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "shared_S": "4"
+     },
+     "order_reversal_exists": false,
+     "strict_order_reversal": null
+    },
+    "S_vs_DL": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "DL_a": "7",
+      "DL_b": "11",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      "shared_S": "3"
+     },
+     "order_reversal_exists": true,
+     "strict_order_reversal": {
+      "DL_a": "7",
+      "DL_b": "6",
+      "S_a": "3",
+      "S_b": "4",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "0",
+       "F",
+       "F",
+       "F",
+       "0",
+       "F",
+       "F"
+      ]
+     }
+    },
+    "S_vs_rank": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "F",
+       "0"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "0",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "rank_a": "2",
+      "rank_b": "1",
+      "shared_S": "4"
+     },
+     "order_reversal_exists": false,
+     "strict_order_reversal": null
+    },
+    "rank_vs_C_mu": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "C_mu_a": "1",
+      "C_mu_b": "3/2",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "0"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "0",
+       "1"
+      ],
+      "shared_rank": "2"
+     },
+     "order_reversal_exists": false,
+     "strict_order_reversal": null
+    },
+    "rank_vs_DL": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "DL_a": "7",
+      "DL_b": "11",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "F",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      "shared_rank": "1"
+     },
+     "order_reversal_exists": true,
+     "strict_order_reversal": {
+      "DL_a": "7",
+      "DL_b": "6",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "0",
+       "F",
+       "F",
+       "F",
+       "0",
+       "F",
+       "F"
+      ],
+      "rank_a": "1",
+      "rank_b": "2"
+     }
+    },
+    "rank_vs_S": {
+     "disagree": true,
+     "equal_value_disagreement": {
+      "S_a": "3",
+      "S_b": "4",
+      "proc_a": [
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "proc_b": [
+       "F",
+       "F",
+       "0",
+       "F",
+       "F",
+       "F",
+       "F"
+      ],
+      "shared_rank": "1"
+     },
+     "order_reversal_exists": false,
+     "strict_order_reversal": null
+    }
+   },
+   "ordered_pairs": 12,
+   "ordered_pairs_disagreeing": 11,
+   "ordered_pairs_with_a_strict_order_reversal": 6,
+   "quantities": [
+    "predictive-state cardinality |S|",
+    "rational Hankel (observable-operator) rank",
+    "causal-state entropy C_mu (exact dyadic)",
+    "registered generative description length"
+   ],
+   "rank_le_state_count_verified_on_every_member": true,
+   "unordered_non_equivalence": {
+    "C_mu_and_DL": true,
+    "S_and_C_mu": true,
+    "S_and_DL": true,
+    "S_and_rank": true,
+    "rank_and_C_mu": true,
+    "rank_and_DL": true
+   },
+   "why_those_directions_are_determined": "the Hankel rank at split k is bounded by the number of causal states at prefix length k (Carlyle-Paz / Fliess; Jaeger 2000, doi:10.1162/089976600300015411), and for exactly-dyadic uniform state masses C_mu = log2 of that count.  At L = 3 the registered split admits at most 2 causal states, so rank is in {1,2} and C_mu = 0 forces rank = 1.  The determined direction is therefore a PROVED structural bound at this scope, not an unexamined gap; the reverse direction still disagrees, so the quantities remain non-equivalent."
+  },
+  "AE5_6_finite_horizon_gap_preservation": {
+   "claim_is_finite_horizon_only": true,
+   "forbidden_promotion": "INFINITE_HORIZON_EQUIVALENCE_PROVED",
+   "gap_alarm_paths": [],
+   "gap_alarms_on_this_receipt": 0,
+   "horizon_truncation_loses_information": true,
+   "infinite_horizon_assumptions_that_would_be_required_open": [
+    "stationarity of the process",
+    "ergodicity, for the empirical measure to identify the law",
+    "measurability of the semi-infinite future sigma-algebra",
+    "existence of the causal-state partition as a measurable partition (Shalizi & Crutchfield 2001, Section 4)",
+    "a dominating measure making conditional distributions well defined almost surely"
+   ],
+   "none_of_these_are_assumed_here_not_claimed": true,
+   "registered_horizon": 3,
+   "truncation_witness": {
+    "classes_at_horizon_1": 1,
+    "classes_at_horizon_2": 2,
+    "proc": [
+     "F",
+     "F",
+     "F",
+     "F",
+     "F",
+     "F",
+     "0"
+    ]
+   }
+  }
+ },
+ "row_closed_elsewhere": "AE5 row 5 (which quantity predicts morphology/resource cost) is closed by research/gmi-833-ae-morphology-sweep-v1 SWEEP-6 in this same tranche",
+ "rows_closed": 5,
+ "schema": "GMI_833_AE5_CAUSAL_STATE_AUDIT_RESULT_V1",
+ "source_main": "349c2e62c4ae01f52cf66f61e4dacdbdfcf10071",
+ "verdict": "GREEN"
+}
