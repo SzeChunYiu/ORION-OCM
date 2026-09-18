@@ -17,6 +17,10 @@ from fractions import Fraction
 from itertools import product
 
 sys.setrecursionlimit(200000)
+if hasattr(sys, "set_int_max_str_digits"):
+    # Python 3.11+ caps int->str conversion; AG6B-6 publishes an exact 7322-digit
+    # integer, so the cap is raised rather than the integer being truncated.
+    sys.set_int_max_str_digits(20000)
 
 SOURCE_MAIN = "50f833cc4bc3cadcefd44eca14fa58f73f815587"
 FREEZE_COMMIT = "243ec345"

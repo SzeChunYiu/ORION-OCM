@@ -1,5 +1,21 @@
 {
  "branch": "research/833-derive-bases",
+ "ci_note": {
+  "cause": "Two #833 contracts are in direct conflict. The closure standard requires a pre-implementation freeze to pin the EXACT issue row text and never to be edited afterwards; the terminology gate bans the word 'morphology' in any markdown file a PR adds. The AG6 row contains that word, so quoting it as required is itself the violation.",
+  "check": "ab-terminology-harness (row AB37 repo-wide ratcheting terminology gate)",
+  "kind": "CROSS_LANE_GATE_CONFLICT_NOT_REPAIRED_HERE",
+  "line": "research/gmi-833-ag6-universal-bases-v1/FREEZE_V1.md line 27, the verbatim issue row '- [ ] Test whether the same higher MI morphology/capability laws survive across these bases after resource normalization.'",
+  "owner": "the AB terminology lane; the fix is an exception for verbatim #833 checklist rows, validated for recall on a planted genuine use and for the no-alarm case.",
+  "status": "RED for this branch, for exactly one line",
+  "systemic": "research/gmi-833-ab-terminology-harness-v1/TERMINOLOGY_BASELINE_V1.json already carries 41 committed FREEZE_V1.md files with the same 'bare morphology' hit; they pass only because they predate the baseline.",
+  "what_this_tranche_deliberately_did_not_do": "Edit the committed freeze, and edit research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py or research/gmi-833-ab-terminology-harness-v1/TERMINOLOGY_BASELINE_V1.json, which belong to the AB lane and are being actively worked by another lane.",
+  "what_this_tranche_did": "Removed every banned-term hit it could honestly remove from its own prose (AG6_THEOREMS_V1.md 'obligation' -> 'requirement'; CORE.md 'morphology' -> 'architecture'), leaving exactly one hit, which is the unmodifiable quoted row."
+ },
+ "ci_status": {
+  "GMI 833 AG6 three universal bases": "repaired in this branch: Python 3.11+ int->str digit cap raised so the exact 7322-digit obstruction integer can be published",
+  "aa-ledger-gate": "repaired in this branch: all seven AG6B results now emit assumptions/dependency/falsifier/strongest-parent ledgers; the gate passes locally with 0 violations, 0 regressions, corpus_debt_grew false",
+  "ab-terminology-harness": "see ci_note"
+ },
  "claim_ceilings": {
   "gmi-833-ag6-universal-bases-v1": "GMI_AG6_THREE_UNIVERSAL_BASES_AT_REGISTERED_FINITE_SCOPE_WITH_BASIS_RELATIVE_COST"
  },

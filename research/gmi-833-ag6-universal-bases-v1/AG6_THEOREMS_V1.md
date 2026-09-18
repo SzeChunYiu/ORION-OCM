@@ -31,6 +31,11 @@ transducers, not: for all computable functions.
 over Church booleans, and the output is read by the frozen `PAIRIFY`/`NILP` probe sequence. A
 different convention is a different basis package and may charge differently.
 
+**Dependencies.** The frozen frame of `FREEZE_V1.md` sections 2.1–2.3 (the 256 machines, the 15
+words, the 3840 tasks); the Church fold-list encoding and the `PAIRIFY`/`NILP` decode declared in
+2.7; the 200,000-contraction budget. No parent receipt is consumed: this result is constructed here
+in full, and the only thing it reads from outside is the definition of `MEALY_2x2`.
+
 **Falsifiers.** One `(m, w)` pair whose decode differs from `out_m(w)`; a decode that returns
 neither `K` nor `K (S K K)` for a bit position; a task that exhausts the 200,000-contraction budget.
 
@@ -62,6 +67,18 @@ rule. The rule is therefore **one-sided**: radius 1, with a measured dependence 
 window coordinates.
 
 **Quantifiers.** For all 256 machines, for all 15 words, on the declared tape layout.
+
+**Assumptions.** The tape layout is part of the basis package: `|w| + 1` cells, the input word on
+the input track, the head on cell 0 in state `q0`, quiescent boundaries, and the output read off the
+output track of cells `0 .. |w|-1` at the terminal configuration. The rule is total on `Sigma^3` with
+a declared tie-break for the configuration in which a cell both carries a live head and receives one
+from the left; that configuration is unreachable in any registered run. The artifact is the rule on
+its own least closed alphabet, not on a universal alphabet.
+
+**Dependencies.** The frozen frame of `FREEZE_V1.md` 2.1–2.3; the alphabet-closure definition in
+this file; `gmi-833-ag5-extension-lowering-v1`'s `RESULT_V1.json` (blob
+`8f115342ab64a9a85306442ab0811e1c564d709c`) for the `NEIGHBOR_UPDATE` 680/756 against 0/756 contrast
+that this result's locality measurement is modelled on. The AG5 figure is cited, not recomputed.
 
 **Falsifiers.** A task whose output track differs from `out_m(w)`; a live head after the sweep cap;
 a reachable cell value outside `Sigma_m`; a locality violation on the factorization checker.
@@ -97,6 +114,14 @@ lower bounds. Every bound published by this package carries its class.
 **Assumptions.** A step is basis-relative in wall-clock terms. No claim is made that one `CMB`
 contraction and one `CEL` sweep cost the same. `CROSS_BASIS_COST_UNIT_COMMENSURABLE` is forbidden.
 
+**Dependencies.** AG6B-1 and AG6B-2 for the artifacts; `FREEZE_V1.md` 2.6 for what is held fixed
+and 6 for the bound-classification contract. Nothing outside this package is consumed.
+
+**Strongest parents.** `gmi-833-aj5-g0-lowering-v1` owns the practice of charging compiler overhead
+explicitly (`lower_ops <= 5*G0_steps`), which this table follows in per-basis form; AG5 owns the
+principle that charged instruction counts do not transfer between accountings, which is why every
+row here is basis-relative and `CROSS_BASIS_COST_UNIT_COMMENSURABLE` is forbidden.
+
 **Falsifiers.** A task exceeding its attained bound; a bound whose class is wrong under the
 classifier; a task hitting a budget cap.
 
@@ -131,6 +156,21 @@ simple.
 `CEL`-untied pairs vanish and `tau_a` against `CEL` is `0/1` with `tau_restricted` undefined. The
 cellular basis's time cost carries no information about which machine it is running.
 
+**Assumptions.** Size is counted as one unit per occurrence of a symbol of that basis's own declared
+signature in the canonical serialization of the artifact: for `REG`, the opcode and operands of each
+instruction plus the register list and start label; for `CMB`, the nodes of the term; for `CEL`, the
+alphabet plus four units per entry of the rule's support over that alphabet. These are three
+different units and are never added together. The `CMB` column depends on which bracket abstraction
+is charged — which is why both are computed.
+
+**Dependencies.** AG6B-1, AG6B-2 and AG6B-3; Kendall's five counts as defined in this package;
+`FREEZE_V1.md` 2.6–2.7 for the held-fixed/varies split.
+
+**Strongest parents.** Turner 1979 owns optimized bracket abstraction and therefore owns the fact
+that "the size of a combinator term" is an algorithm-relative quantity;
+`gmi-833-ag2-signature-free-syntax-v1` owns the reading in which a grammar is the free algebra over
+a signature, which is what makes "size in the basis's own signature" a well-posed notion at all.
+
 **Falsifiers.** A cross-basis comparison with zero discordant pairs; a nonzero discordant count
 between the two abstraction algorithms; a size that violates the `REG` closed form.
 
@@ -161,9 +201,22 @@ the node cap of `50,000` in every probe. That figure is published as
 
 **Reading.** The register and cellular bases are path-shaped: one successor, no choice, no
 confluence question to ask. The combinatory basis is a lattice: up to 217 redexes at once, hundreds
-of branch points, and a confluence obligation that the register and cellular bases never incur.
+of branch points, and a confluence requirement that the register and cellular bases never incur.
 This is a geometric difference, not a cost difference, and it survives any resource normalization
 because it does not mention resources.
+
+**Assumptions.** The corridor is the deterministic run of the frozen probes together with every
+one-step successor of every corridor configuration under the basis's *full* one-step relation. For
+`CMB` that means contraction of any redex, not only the leftmost-outermost one; for `REG` and `CEL`
+the full relation coincides with the deterministic one, which is itself the measured content of
+their out-degree-1 rows. Configuration identity is syntactic in every basis.
+
+**Dependencies.** AG6B-1 and AG6B-2 for the artifacts; `FREEZE_V1.md` 2.11 for the probe set, the
+corridor cap and the node cap; `FREEZE_V1.md` 6 for the `LOWER_BOUND_ONLY` class.
+
+**Strongest parents.** Church and Rosser 1936 own confluence; what is measured here is the
+registered-scope instance, not a new proof of it. Hedlund 1969 owns the characterization that makes
+the cellular basis's one-step relation a block map and therefore deterministic by construction.
 
 **Falsifiers.** A branching configuration with two successors of different normal forms; an
 out-degree above 1 in `REG` or `CEL`; a corridor that reaches its cap.
@@ -202,6 +255,22 @@ The register basis is moderately robust, the combinatory basis is the most britt
 the cellular basis is almost entirely inert because its artifact is dominated by rule entries the
 registered runs never reach. "One edit" is basis-relative; that is the declared description bias,
 not a hidden assumption.
+
+**Assumptions.** An artifact is a finite list of typed slots with finite admissible domains, and one
+edit replaces exactly one slot's value by a different admissible value of that slot. The slot
+structure is basis-relative — instruction fields, term leaves, rule-table entries — and that is the
+declared description bias, not a hidden assumption. `viable` means the edited artifact realizes some
+member of `MEALY_2x2`, which is a weaker condition than realizing the original machine because the
+256 machines induce only 148 distinct behaviours on `W`.
+
+**Dependencies.** AG6B-1 and AG6B-2 for the artifacts; `FREEZE_V1.md` 2.10 for the search model and
+the pre-registered subsample `S16`, fixed before any measurement; the exact cellular alphabet sizes
+from AG6B-2 for the cardinality argument.
+
+**Strongest parents.** von Neumann 1966 and Codd 1968 own the cellular rule-table presentation whose
+size drives the obstruction. No parent is claimed for the one-edit landscape itself; it is an
+operationalization declared in the freeze, and its adequacy as a reading of "developmental search
+burden" is stated rather than proved.
 
 **Falsifiers.** A preserving edit to an unused cellular entry; a neighbourhood count that includes
 the identity edit; a `viable` artifact whose behaviour is not in the registered behaviour index.
@@ -256,6 +325,19 @@ exact: the same machine has the same capability in all three. What fails to tran
 and carries no information about that; the description bias of the basis does. This is the AG6
 thesis — universality is a lower-bound null — in its quantified form, and it is a negative about
 transfer, not about the bases.
+
+**Assumptions.** The capability battery is the frozen three-task one and nothing else; a different
+battery is a different law object. Domination is the standard strict rule of `FREEZE_V1.md` 2.9, so
+points tying on both coordinates are mutually undominated and both sit on the frontier. The cost
+coordinate carrying the verdict is charged artifact size, because the step coordinate is constant in
+the cellular basis and its frontier there degenerates to `argmax Q`.
+
+**Dependencies.** AG6B-1 and AG6B-2 for exact realization, which is what makes `Q` basis-independent
+and the three bases comparable at all; AG6B-4 for the cost vectors;
+`research/machine-intelligence-morphogenesis-v1/PHASE_LAW_V1.md` (blob
+`45c3069e0bafad79de0b6b4f2572ea4f24a38a13`) for the shape of the law object;
+`gmi-833-aj12-foundation-substrate-relativity-v1` (blob
+`8ae1ed5c051d07d2caff1366eb3bae31bba65862`) for the relativity discipline this test instantiates.
 
 **Falsifiers.** Two bases with equal frontiers on the size coordinate; a frontier that moves under a
 uniform strictly increasing normalization; a frontier of size 1 or 256; a cost coordinate that is

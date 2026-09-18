@@ -54,7 +54,7 @@ The same capability battery `Q` transfers across the three bases exactly, becaus
 exact. What does not transfer is which machines are worth building. The Pareto-undominated set over
 `(capability, charged size)` is `{0,1,2,3}` in the register basis, `{3,7,11,15}` in the combinatory
 basis, and a 16-element set in the cellular basis: three bases, three different answers to "which
-morphology sits on the frontier".
+architecture sits on the frontier".
 
 That verdict cannot be blamed on the accounting. The frontier depends on cost only through the
 within-basis *ordering* of cost, so it is invariant under every strictly increasing normalization
