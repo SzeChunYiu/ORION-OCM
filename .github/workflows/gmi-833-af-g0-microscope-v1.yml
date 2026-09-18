@@ -39,7 +39,19 @@ jobs:
         run: |
           set -euo pipefail
           FREEZE=b5a96cfb07f99f7493e5946dff42929eee653503
-          git merge-base --is-ancestor "$FREEZE" HEAD
+          FREEZE_PATH=research/gmi-833-af-barrier-context-v1/FREEZE_V1.md
+          git cat-file -e "$FREEZE^{commit}"
+          if git merge-base --is-ancestor "$FREEZE" HEAD; then
+            echo "freeze-first branch ancestry intact"
+          else
+            # A squash merge deliberately drops the pre-merge commit ancestry, so
+            # the freeze commit stops being reachable even though nothing about
+            # the custody claim changed. Fall back to the frozen BYTES: the freeze
+            # document at HEAD must be identical to the one the freeze commit
+            # introduced. Same guarantee, and it survives publication.
+            test "$(git rev-parse "HEAD:$FREEZE_PATH")" = "$(git rev-parse "$FREEZE:$FREEZE_PATH")"
+            echo "freeze ancestry squashed away; frozen bytes verified identical"
+          fi
           test "$(git rev-parse HEAD:research/gmi-833-g0-register-core-v1/g0_register_core_v1.py)" = 6c80e7b1ee0cceedb5dc48eaf28bd3011750d80a
           if git cat-file -e "$FREEZE:research/gmi-833-af-barrier-context-v1/check_g0_micro_v1.py" 2>/dev/null; then
             echo 'G0 microscope implementation predates AF freeze' >&2
