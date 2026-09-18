@@ -1,0 +1,55 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae10-usable-information-v1",
+  "claim_ceiling": "GMI_833_AE10_RESOURCE_BOUNDED_USABLE_INFORMATION_DEFINED_BOUNDED_AND_EXACTLY_SEPARATED_FROM_SHANNON_INFORMATION_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "CRYPTOGRAPHIC_HARDNESS_ASSUMED",
+    "COMPLEXITY_CLASS_SEPARATION",
+    "ENERGY_BUDGET_MEASURED",
+    "TIME_BUDGET_MEASURED",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "NOVEL_INFORMATION_MEASURE",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "### AE10 — Resource-bounded usable information",
+      "old": "- [ ] Define `usable information` relative to allowed computation, memory, communication, precision, time and energy budgets.",
+      "new": "- [x] Define `usable information` relative to allowed computation, memory, communication, precision, time and energy budgets. — ✅ `gmi-833-ae-ae10-usable-information-v1` D-AE10: `U(W,T,R)` = best expected score over the rules admissible at budget `R`, minus the best blind score — exact rational, task-relative, defined by the rule class and never by an architecture; the frozen lattice is `(junta arity k, tree depth d, sample budget m, precision p, communication bits c)` with `128` decoder-side cells, and time and energy are **declared but not instantiated**, recorded as a checked receipt field rather than passed off as measured.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE10 — Resource-bounded usable information",
+      "old": "- [ ] Show exact examples where Shannon mutual information is identical but achievable task performance differs because decoding/search cost differs.",
+      "new": "- [x] Show exact examples where Shannon mutual information is identical but achievable task performance differs because decoding/search cost differs. — ✅ `gmi-833-ae-ae10-usable-information-v1` USE-3: at the identical budget `k1_d1_p3_c2`, `W_PARITY3` and `W_DICTATOR` both have `Y` determined by `X` with a uniform `Y`-marginal — so `I(X;Y) = 1` bit **exactly** for both — yet `U = 0` versus `U = 1/2`, a difference of `1/2` attributable to decoder branching cost alone; on the search axis a **single fixed** world (`Y = ⟨s,x⟩`, `s` uniform over the 7 nonzero secrets) holds information identical by identity while accuracy moves `5/8 → 43/64 → 383/512 → 3463/4096` as the sample budget goes `0→3`.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE10 — Resource-bounded usable information",
+      "old": "- [ ] Derive monotonicity/bounds as resource budgets relax.",
+      "new": "- [x] Derive monotonicity/bounds as resource budgets relax. — ✅ `gmi-833-ae-ae10-usable-information-v1` USE-1/USE-2: `U` is monotone on the frozen lattice — **9,000** ordered budget pairs across 3 worlds with **0** violations, with the rule-class inclusion premise itself checked rather than assumed — and is bounded above by the full-information gap with **0** violations, equality attained at the lattice top for every registered world.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE10 — Resource-bounded usable information",
+      "old": "- [ ] Relate to computationally constrained information measures / bounded rationality literature rather than inventing duplicate terminology.",
+      "new": "- [x] Relate to computationally constrained information measures / bounded rationality literature rather than inventing duplicate terminology. — ✅ `gmi-833-ae-ae10-usable-information-v1` USE-5: a machine-readable crosswalk in the receipt maps `U` onto predictive V-information (Xu et al., ICLR 2020, arXiv:2002.10689) as an instance with `V = H_R` and 0-1 loss, the budget lattice onto bounded rationality and resource-rational analysis (Simon 1955, doi:10.2307/1884852; Lieder & Griffiths 2020, doi:10.1017/S0140525X1900061X), the exists-but-not-extractable phenomenon onto HILL pseudoentropy (Håstad et al. 1999, doi:10.1137/S0097539793244708) and the ceiling onto the data-processing/rate-distortion bound (Cover & Thomas 2006) — all four entries carry citations and no duplicate term is introduced without one.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE10 — Resource-bounded usable information",
+      "old": "- [ ] Add adversarial cryptographic/pseudorandom-style fixtures only at a mathematically defensible scope to separate information existence from feasible extraction.",
+      "new": "- [x] Add adversarial cryptographic/pseudorandom-style fixtures only at a mathematically defensible scope to separate information existence from feasible extraction. — ✅ `gmi-833-ae-ae10-usable-information-v1` USE-4: the fixture is `Y = x_0⊕x_1⊕x_2`, for which all `7` proper coordinate subsets give an exactly uniform `(x_S, y)` (**0** violations), so `U = 0` at junta arity 2 and `1/2` at arity 3; the separation is **unconditional** — the receipt records `cryptographic_assumption_used: false` and `is_a_complexity_class_separation: false`, so no hardness conjecture is smuggled in.",
+      "status": "EARNED"
+    }
+  ],
+  "not_closed": [
+    {
+      "old": "- [ ] Determine whether GMI morphology selection is better predicted by raw information, usable information, or a vector of resource-conditioned sufficient statistics.",
+      "reason": "requires pinned GMI morphology-selection receipts; deferred to the morphology sweep package described in research/gmi-833-ae-section-map-v1/AE_SECTION_MAP_V1.md. No part of it is claimed here."
+    }
+  ]
+}

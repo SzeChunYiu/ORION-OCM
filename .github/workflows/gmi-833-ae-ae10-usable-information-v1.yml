@@ -1,0 +1,152 @@
+name: GMI 833 AE10 usable information v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae10-usable-information-v1/**'
+      - '.github/workflows/gmi-833-ae-ae10-usable-information-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae10-usable-information-v1/**'
+      - '.github/workflows/gmi-833-ae-ae10-usable-information-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=4d76b41e5faa9f2a84d8f9f29b63d8c82ebeac72
+          pkg=research/gmi-833-ae-ae10-usable-information-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/ae10_usable_information_v1.py" \
+            "$pkg/independent_usable_oracle_v1.py" \
+            "$pkg/test_ae10_usable_information_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/AE10_THEOREMS_V1.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE10_USABLE_INFORMATION_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            test "$actual" = "$2"
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-ae-ae2-predictive-boundary-v1/RESULT_V1.json cd1e1d5f68342918c0b54583fc5f5b70eabe203c
+      - name: Exact usable-information tests and hostiles
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae10-usable-information-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_ae10_usable_information_v1.py" -v
+            python -I -O -B "$pkg/ae10_usable_information_v1.py" > /tmp/ae10.json
+          else
+            python -I -B "$pkg/test_ae10_usable_information_v1.py" -v
+            python -I -B "$pkg/ae10_usable_information_v1.py" > /tmp/ae10.json
+          fi
+          cmp /tmp/ae10.json "$pkg/RESULT_V1.json"
+      - name: Check manifest, claim ceiling and named numbers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae10-usable-information-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          expected = ('GMI_833_AE10_RESOURCE_BOUNDED_USABLE_INFORMATION_DEFINED_'
+                      'BOUNDED_AND_EXACTLY_SEPARATED_FROM_SHANNON_INFORMATION_'
+                      'AT_REGISTERED_FINITE_SCOPE')
+          assert m['claim_ceiling'] == r['claim_ceiling'] == expected
+          assert m['source_main'] == r['source_main'] == (
+              '91c6d2876ba80c517a186e28fce3bdbe4e3fc218')
+          assert m['freeze_commit'] == r['freeze_commit'] == (
+              '4d76b41e5faa9f2a84d8f9f29b63d8c82ebeac72')
+          assert r['verdict'] == 'GREEN' and all(r['checks'].values())
+          res = r['results']
+          u1 = res['USE_1_monotonicity']
+          assert u1['monotone'] and u1['violations'] == []
+          assert u1['lattice_cells'] == 128
+          assert u1['ordered_pairs_checked'] == 9000
+          assert res['USE_2_ceiling']['bounded']
+          assert res['USE_2_ceiling']['violations'] == []
+          d = res['USE_3_equal_shannon_separation']['decoding_cost_pair']
+          assert d['mutual_information_bits_exact_both'] == '1'
+          assert d['U_A'] == '0' and d['U_B'] == '1/2'
+          s = res['USE_3_equal_shannon_separation']['search_cost_same_world']
+          assert s['curve']['m0'] == '5/8'
+          assert s['curve']['m3'] == '3463/4096'
+          assert s['strictly_increasing'] is True
+          u4 = res['USE_4_unconditional_fixture']
+          assert u4['proper_subsets_checked'] == 7
+          assert u4['uniformity_violations'] == 0
+          assert u4['usable_information_at_k2_d3_p3_c2'] == '0'
+          assert u4['usable_information_at_k3_d3_p3_c2'] == '1/2'
+          assert u4['cryptographic_assumption_used'] is False
+          assert u4['is_a_complexity_class_separation'] is False
+          assert len(res['USE_5_terminology_crosswalk']) >= 4
+          assert res['definition']['declared_but_not_instantiated'] == [
+              'time', 'energy']
+          assert res['null']['random_worlds_flagged'] == 0
+          assert res['null']['known_clean_flagged'] == []
+          assert 'morphology' in r['row_not_closed']
+          print('AE10 manifest and named numbers OK')
+          PY
+      - name: Check reconciliation rows are byte-exact and unique
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae10-usable-information-v1')
+          spec = json.loads((
+              root /
+              'ISSUE_833_RECONCILIATION_AE10_USABLE_INFORMATION_V1.json'
+          ).read_text())
+          assert spec['schema'] == 'GMI_ISSUE_RECONCILIATION_V2'
+          assert spec['issue'] == 833
+          assert spec['issue_comment_id'] == 5692689542
+          assert len(spec['replacements']) == 5
+          assert len(spec['not_closed']) == 1
+          seen = set()
+          for rep in spec['replacements']:
+              assert rep['old'].startswith('- [ ] ')
+              assert rep['new'].startswith('- [x] ')
+              assert rep['new'][6:].startswith(rep['old'][6:])
+              assert rep['old'] not in seen
+              seen.add(rep['old'])
+              assert rep['anchor'].startswith('### AE10 ')
+          assert spec['not_closed'][0]['old'] not in seen
+          print('AE10 reconciliation spec OK')
+          PY
