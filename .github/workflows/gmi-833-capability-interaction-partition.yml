@@ -1,0 +1,109 @@
+name: gmi-833-capability-interaction-partition
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-capability-interaction-partition-v1/**'
+      - 'research/gmi-capability-interactions-unified-v1/**'
+      - '.github/workflows/gmi-833-capability-interaction-partition.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-capability-interaction-partition-v1/**'
+      - 'research/gmi-capability-interactions-unified-v1/**'
+      - '.github/workflows/gmi-833-capability-interaction-partition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  partition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0          # the freeze-order check needs full history
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -eu
+          cd "$GITHUB_WORKSPACE"
+          first=$(git log --reverse --format='%H %s' -- research/gmi-833-capability-interaction-partition-v1 | head -1)
+          echo "first commit touching the package: $first"
+          case "$first" in
+            *FREEZE_V1*) echo "OK: FREEZE_V1 is the first commit" ;;
+            *) echo "FAIL: first package commit is not the freeze"; exit 1 ;;
+          esac
+
+      - name: ROUTE A — partition witness
+        run: python3 -I -B research/gmi-833-capability-interaction-partition-v1/partition_witness_v1.py
+
+      - name: ROUTE B + C — independent oracle
+        run: python3 -I -B research/gmi-833-capability-interaction-partition-v1/partition_oracle_v1.py
+
+      - name: Controls (assertions on)
+        run: python3 -I -B research/gmi-833-capability-interaction-partition-v1/test_partition_v1.py -v
+
+      - name: Controls (-O, assertions stripped)
+        run: python3 -I -O -B research/gmi-833-capability-interaction-partition-v1/test_partition_v1.py -v
+
+      - name: Receipts are reproducible byte-for-byte
+        run: |
+          set -eu
+          cd research/gmi-833-capability-interaction-partition-v1
+          for f in RESULT_V1.json DELTA_TABLE_V1.md CORRECTION_NOTICE_V1.json; do
+            cp "$f" "/tmp/$f.committed"
+          done
+          python3 -I -B emit_receipts_v1.py
+          for f in RESULT_V1.json DELTA_TABLE_V1.md CORRECTION_NOTICE_V1.json; do
+            diff -u "/tmp/$f.committed" "$f" > "/tmp/$f.diff" || { echo "FAIL: $f is not reproducible"; cat "/tmp/$f.diff"; exit 1; }
+            echo "OK reproducible: $f"
+          done
+
+      - name: Headline numbers pinned
+        run: |
+          set -eu
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/gmi-833-capability-interaction-partition-v1/CORRECTION_NOTICE_V1.json"))
+          c = d["census"]
+          assert c["pairs"] == 351, c
+          assert c["corrected"] == {"INDEPENDENT": 8, "REDUNDANT": 287,
+                                    "PARTIAL_SHARING": 56, "INTERFERING": 0}, c
+          assert c["shipped"] == {"independent": 8, "synergistic": 161, "redundant": 182}, c
+          assert c["labels_changed"] == 217, c
+          assert d["defects"]["DEF-1"]["count"] == 56
+          assert d["defects"]["DEF-2"]["count"] == 287
+          assert d["closes_issue_rows"] == []
+          assert d["produces_reconciliation_json"] is False
+          for k, v in d["hostiles_detected"].items():
+              assert v["detected"] is True, (k, v)
+          print("headline OK: DEF-1 56/351, DEF-2 287/351, census 8/287/56/0, 217 changed")
+          PY
+
+      - name: No reconciliation JSON is produced by this tranche
+        run: |
+          set -eu
+          if ls research/gmi-833-capability-interaction-partition-v1/ISSUE_833_RECONCILIATION_*.json >/dev/null 2>&1; then
+            echo "FAIL: this tranche must not claim an issue row"; exit 1
+          fi
+          echo "OK: no reconciliation JSON"
+
+      - name: Shipped package still green
+        run: |
+          set -eu
+          python3 -I -B research/gmi-capability-interactions-unified-v1/test_interactions.py
+          python3 -I -B research/gmi-capability-interactions-unified-v1/test_ci_universal_v1.py
+          python3 -I -B research/gmi-capability-interactions-unified-v1/ci_universal_witness_v1.py
+
+      - name: Source custody (nothing regenerated in place)
+        if: always()
+        run: git diff --exit-code
