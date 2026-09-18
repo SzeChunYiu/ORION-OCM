@@ -91,8 +91,14 @@ def census_presence_profile():
     ) and "predicted_counts" in registry and 'registry["predicted_counts"]' in source
     profile["R01"] = ("MET_AT_NARROWER_SCOPE" if has_prediction else "MISSING_BUILDABLE",
                       "registry predicted_disposition for every target contract and an executor equality assertion")
-    profile["R08"] = (profile["R01"][0],
-                      "same frozen-before-implementation prediction; nothing is held out from the evaluated set")
+    # R08 is NOT inherited from R01: Route B asks whether the census package asserts a
+    # held-out gate at all. It never uses the word, and the frozen prediction's domain is
+    # exactly the evaluated contract set, so nothing is held out from it.
+    census_blob = (json.dumps(result) + json.dumps(registry) + theorems + source).lower()
+    asserts_heldout = ("heldout" in census_blob) or ("held-out" in census_blob) or ("held out" in census_blob)
+    profile["R08"] = ("MET_AT_NARROWER_SCOPE" if asserts_heldout else "MISSING_BUILDABLE",
+                      "the census package asserts no held-out prediction gate; the frozen "
+                      "prediction's domain is exactly the evaluated contract set")
 
     has_grammar = "leaves" in result["scope"] and "operators" in result["scope"]
     profile["R02"] = ("MET_AT_NARROWER_SCOPE" if has_grammar else "MISSING_BUILDABLE",
@@ -162,6 +168,9 @@ def four_family_profile():
                 raise RouteBError("unknown gate name " + gate_name)
             cells[requirement] = (status, "FAMILY_GATE_LEDGER_V1.json::families[%d].gates.%s = %s"
                                   % (index, gate_name, gate["status"]))
+            # Each SIGMA_4F gate is witnessed by its own named field, so R01 and R08 do not
+            # share a citation string even though they share the FROZEN evidence key
+            # (soundness observation HRL-5.1).
         by_ordinal[index] = {"row": entry["row"], "cells": cells,
                              "complete": entry.get("complete"),
                              "checkbox": entry.get("issue_833_checkbox")}

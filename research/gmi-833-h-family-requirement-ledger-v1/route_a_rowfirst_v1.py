@@ -65,7 +65,41 @@ def load_rules():
     return read_json(os.path.join(HERE, "ADJUDICATION_RULES_V1.json"))
 
 
-def build_rule_index(rules):
+def load_corrections():
+    """Post-freeze corrections, applied as an OVERLAY.
+
+    ADJUDICATION_RULES_V1.json is a frozen artifact and is never edited; a defect found
+    after the freeze is recorded in ADJUDICATION_CORRECTION_V1.json and applied here.
+    """
+    path = os.path.join(HERE, "ADJUDICATION_CORRECTION_V1.json")
+    if not os.path.exists(path):
+        return {}
+    overlay = {}
+    for record in read_json(path)["corrections"]:
+        key = (record["cell"]["sigma"], record["cell"]["requirement"])
+        overlay[key] = record
+    return overlay
+
+
+def apply_correction(rule, overlay_record):
+    """Return a rule-shaped dict with the correction applied."""
+    corrected = dict(rule) if rule else {}
+    corrected["status"] = overlay_record["now"]
+    for field in ("citation", "scope_gap", "build"):
+        if field in overlay_record:
+            corrected[field] = overlay_record[field]
+        elif overlay_record["now"] == "MISSING_BUILDABLE" and field == "scope_gap":
+            corrected.pop("scope_gap", None)
+    if overlay_record["now"] != "MET_AT_NARROWER_SCOPE":
+        corrected.pop("scope_gap", None)
+    if overlay_record["now"] != "MISSING_BUILDABLE":
+        corrected.pop("build", None)
+    corrected.pop("supporting", None)
+    corrected["corrected_by"] = overlay_record["id"]
+    return corrected
+
+
+def build_rule_index(rules, overlay=None):
     """(sigma, requirement) -> rule, plus the dispositional R04 rule at SIGMA_CENSUS."""
     flat = {}
     dispositional = {}
@@ -80,6 +114,9 @@ def build_rule_index(rules):
             if key in flat:
                 raise RouteAError("duplicate rule for %s" % (key,))
             flat[key] = rule
+    if overlay:
+        for key, record in overlay.items():
+            flat[key] = apply_correction(flat.get(key), record)
     return flat, dispositional
 
 
@@ -123,7 +160,7 @@ def _cell(row, requirement, sigma, status, rule, extra=None):
 
 def build(k_edges_by_row_id=None, row_id_by_text=None):
     rules = load_rules()
-    flat, dispositional = build_rule_index(rules)
+    flat, dispositional = build_rule_index(rules, load_corrections())
     open_rows, closed_rows = read_rows()
     ff_bound, gate_order = four_family_rows()
     cn_bound = census_rows()

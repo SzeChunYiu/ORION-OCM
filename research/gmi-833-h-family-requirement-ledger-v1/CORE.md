@@ -37,20 +37,22 @@ gluing):
 | met of 11 | rows |
 |---|---|
 | **10** | 4 — `H01` finite-state/automata, `H02` linear regression/classifiers, `H03` GLMs, `H04` basis/kernel |
-| **8** | 5 — `H17` Bayesian, `H20` feed-forward NN, `H22` CNN, `H32` flow-like transport, `H34` energy-based |
-| **7** | 34 — every remaining row |
-| 0–6, 9, 11 | 0 |
+| **7** | 5 — `H17` Bayesian, `H20` feed-forward NN, `H22` CNN, `H32` flow-like transport, `H34` energy-based |
+| **6** | 34 — every remaining row |
+| 0–5, 8, 9, 11 | 0 |
 
 Residual dominance, rows missing the requirement out of 43:
-`R11` real-scale **43**, `R05` negative twin **39**, `R07` resource crossover **39**,
-`R04` neutral recovery **34**, and `R01 R02 R03 R06 R08 R09 R10` **0**.
+`R11` real-scale **43**, then a **three-way second tier at 39 each** — `R05` negative twin,
+`R07` resource crossover, `R08` held-out frozen prediction — then `R04` neutral recovery
+**34**, and `R01 R02 R03 R06 R09 R10` **0**.
 
 **The correction the numbers force.** `real-scale test` is indeed universal. But
 `independent search` is **not** in the residual at all: it is met at narrower scope at every
 row via the source-separated oracles. The zero-instance corpus tier is `M5` independent
 **replication** ("no disjoint-team replication",
 `gmi-833-maturity-rescore-v2-v1/MATURITY_RESCORE_V2.md:14`), which is a different coordinate.
-The true second and third tiers are `negative twin` and `resource crossover`.
+The residual is also **broader** than the tidy expectation: the second tier is three-way
+(`negative twin`, `resource crossover`, `held-out frozen prediction`), not one requirement.
 
 ## HRL-2 — the two enumerations do not line up
 
@@ -71,7 +73,7 @@ The true second and third tiers are `negative twin` and `resource crossover`.
 ```bash
 cd research/gmi-833-h-family-requirement-ledger-v1
 python3 -I -B  h_family_requirement_ledger_v1.py        # writes LEDGER_V1.json + RESULT_V1.json
-python3 -I -O -B test_h_family_requirement_ledger_v1.py # 29 tests
+python3 -I -O -B test_h_family_requirement_ledger_v1.py # 34 tests
 ```
 
 Stdlib only, Python 3.8 compatible, integers only (an exact LCG supplies the null; no
@@ -80,16 +82,24 @@ Stdlib only, Python 3.8 compatible, integers only (an exact LCG supplies the nul
 ## Receipts
 
 - 649 cells: 473 at `SIGMA_CENSUS`, 44 at `SIGMA_4F`, 132 at `SIGMA_K`.
-  `MET 0 | MET_AT_NARROWER_SCOPE 348 | MISSING_BUILDABLE 169 | MISSING_STRUCTURAL 0 |
-  NOT_APPLICABLE 0 | SCREENED_NOT_ADJUDICATED 132`.
+  `MET 0 | MET_AT_NARROWER_SCOPE 305 | MISSING_BUILDABLE 212 | MISSING_STRUCTURAL 0 |
+  NOT_APPLICABLE 0 | SCREENED_NOT_ADJUDICATED 132`. `hrl1_canonical_status` additionally
+  gives exactly one status per (row, requirement) — 473 entries, each naming its scope.
 - **Two materially independent routes.** Route A row-first from the issue text via a rule
   table frozen before any executor; Route B artifact-first from the packages' own status
   strings, by machine id and ordinal, importing neither Route A nor the rule table. Round 1
   disagreed on **43 cells of coverage** (zero status disagreements on 606 shared cells),
   recorded verbatim in `ROUTE_RECONCILIATION_ROUND1_V1.json` **before** resolution; Round 2
   agrees on all 649.
-- **Hostiles 8/8 detected**, including a fabricated `CLOSABLE_NOW` row, an `FGS-2` scope
-  glue, a `SIGMA_K` promotion, an unqualified `MET`, and the `FGS-3` over-read.
+- **Hostiles 9/9 detected**, including a fabricated `CLOSABLE_NOW` row, an `FGS-2` scope
+  glue, a `SIGMA_K` promotion, an unqualified `MET`, the `FGS-3` over-read, and two
+  requirements counted met on one and the same citation string.
+- **A post-freeze self-correction.** This package's own frozen rule (`FREEZE_V1.md` §4)
+  caught a defect in this package's own rule table: `R01` and `R08` at `SIGMA_CENSUS` were
+  counted met on one shared citation, in a package that never asserts a held-out gate.
+  `R08` at `SIGMA_CENSUS` is corrected to `MISSING_BUILDABLE`; the frozen table is not edited
+  (`ADJUDICATION_CORRECTION_V1.json` is an overlay), and the ninth hostile now rejects the
+  shape. This moved the residual's second tier from one requirement to three.
 - **Null 0/200**: 200 randomized control ledgers all rejected; the true ledger accepted.
 - **Extractor validated on real data first**: four rows read by hand from the primary
   artifacts are reproduced cell for cell, including two **no-alarm** rows (`H20`, `H25`) that

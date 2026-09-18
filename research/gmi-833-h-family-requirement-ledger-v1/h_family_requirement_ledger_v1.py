@@ -253,6 +253,20 @@ def check(rows, cells, kmapping):
         if len(pooled) == len(REQUIREMENTS) and not any(len(m) == len(REQUIREMENTS) for m in per_sigma_met):
             violations.append("SCOPE_GLUE:" + row)
 
+    # two requirements at the same (row, sigma) may not both be non-MISSING on one and the
+    # same citation string: that is double counting one witness (HOSTILE_SHARED_CITATION_DOUBLE_COUNT)
+    by_citation = {}
+    for cell in cells:
+        citation = cell.get("citation")
+        if not citation or cell["status"].startswith("MISSING") or cell["status"] == "SCREENED_NOT_ADJUDICATED":
+            continue
+        key = (cell["row"], cell["sigma"], citation)
+        by_citation.setdefault(key, set()).add(cell["requirement"])
+    for key, requirements in by_citation.items():
+        if len(requirements) > 1:
+            violations.append("SHARED_CITATION_DOUBLE_COUNT:%s/%s/%s"
+                              % (key[0], key[1], ",".join(sorted(requirements))))
+
     for edge in kmapping["edges"]:
         if edge["provenance"] != "AGENT_CONSTRUCTED_UNADJUDICATED":
             violations.append("K_EDGE_PROVENANCE:" + edge["k_family"] + "->" + edge["h_id"])
@@ -317,6 +331,23 @@ def hostiles(rows, cells, kmapping):
             cell.pop("citation", None)
             break
     results.append(("HOSTILE_NA_WITHOUT_PROOF", check(rows, h, kmapping)))
+
+    # two requirements at one (row, sigma) counted met on one and the same citation
+    h = _clone(cells)
+    target_row = rows[0]
+    donor = None
+    for cell in h:
+        if cell["row"] == target_row and cell["sigma"] == "SIGMA_CENSUS" \
+                and cell["requirement"] == "R01" and cell.get("citation"):
+            donor = cell["citation"]
+            break
+    for cell in h:
+        if cell["row"] == target_row and cell["sigma"] == "SIGMA_CENSUS" and cell["requirement"] == "R08":
+            cell["status"] = "MET_AT_NARROWER_SCOPE"
+            cell["citation"] = donor
+            cell["scope_gap"] = "fabricated"
+            break
+    results.append(("HOSTILE_SHARED_CITATION_DOUBLE_COUNT", check(rows, h, kmapping)))
 
     detected = dict((name, len(v) > 0) for name, v in results)
     return {
@@ -416,6 +447,35 @@ def residual_dominance(cells, rows, per_row):
     return missing
 
 
+def canonical_status(cells, rows, per_row):
+    """Exactly one status per (row, requirement): 473 entries, taken at the row's best
+    single covering scope. Scope is carried on every entry - FGS-2 forbids composing
+    across scopes, so the canonical view is a projection, never a merge."""
+    counts = per_sigma_counts(cells, rows)
+    index = dict(((c["row"], c["requirement"], c["sigma"]), c) for c in cells)
+    canonical = {}
+    total = 0
+    for row in rows:
+        sigma = per_row[row]["best_sigma"]
+        entry = {}
+        for requirement in REQUIREMENTS:
+            if sigma is None:
+                entry[requirement] = {"status": "SCREENED_NOT_ADJUDICATED", "sigma": None,
+                                      "why": "no single scope covers all eleven coordinates"}
+            else:
+                cell = index[(row, requirement, sigma)]
+                record = {"status": cell["status"], "sigma": sigma}
+                for field in ("citation", "scope_gap", "build"):
+                    if field in cell:
+                        record[field] = cell[field]
+                entry[requirement] = record
+            total += 1
+        canonical[row] = entry
+    if total != len(rows) * len(REQUIREMENTS):
+        raise LedgerError("canonical map is not total")
+    return canonical
+
+
 def status_totals(cells):
     totals = dict((s, 0) for s in STATUS_ENUM)
     by_sigma = {}
@@ -493,13 +553,29 @@ def main():
             "R11": "real-scale test",
         },
         "hrl1_matrix": cells,
+        "hrl1_canonical_status": canonical_status(cells, rows, per_row),
+        "hrl1_canonical_status_note": (
+            "Exactly one status per (row, requirement) - 43 x 11 = 473 entries - projected "
+            "onto the row's best single covering scope. Every entry names its scope: FGS-2 "
+            "forbids composing certificates across scopes, so this is a projection of "
+            "hrl1_matrix, never a merge of it."
+        ),
         "hrl2_family_to_evidence_map": {
             "named_row_to_census_contract": contract_by_row,
             "distinct_census_contracts": distinct_contracts,
             "distinct_census_contract_count": len(distinct_contracts),
             "named_rows": len(contract_by_row),
             "k_family_to_named_row_candidates": kmapping,
-            "k_binding_absence_verification": absence,
+            "k_binding_absence_verification": {
+                "absence_established": absence["absence_established"],
+                "way1_verbatim_row_text_hits": absence["way1_verbatim_row_text_hits"],
+                "way2_section_h_mention_hits": absence["way2_section_h_mention_hits"],
+                "control_pattern_fired": absence["control_pattern_hits"] > 0,
+                "note": ("file and hit COUNTS are deliberately not committed here: they depend "
+                         "on nine sibling packages another lane may add files to, and this "
+                         "package's CI compares the committed receipt against a fresh run. "
+                         "The counts are printed by the executor and asserted by the test."),
+            },
             "provenance_note": (
                 "The named-row-to-census-contract map is EVIDENCE-BACKED: it is read verbatim "
                 "from research/gmi-833-h-obstruction-census-v1/FROZEN_FAMILY_REGISTRY_V1.json. "
@@ -541,6 +617,9 @@ def main():
         "hostiles": hostile_report,
         "null": null_report,
         "extractor_validation": validation,
+        "k_binding_absence_established": absence["absence_established"],
+        "adjudication_corrections_applied": [c["id"] for c in
+                                             route_b.read_json(os.path.join(HERE, "ADJUDICATION_CORRECTION_V1.json"))["corrections"]],
         "frozen_predictions": dict((k, {"held": v[0], "observed": v[1]}) for k, v in predictions.items()),
         "all_frozen_predictions_held": all(v[0] for v in predictions.values()),
         "structural_constraints": route_a.load_rules()["structural_constraints_recorded_not_as_cells"],
@@ -564,6 +643,8 @@ def main():
     print("null: %d/%d controls accepted; true ledger accepted: %s"
           % (null_report["controls_accepted"], null_report["trials"], null_report["true_ledger_accepted"]))
     print("extractor validation ok:", validation["all_ok"])
+    print("K-binding absence: established=%s files_scanned=%d control_hits=%d"
+          % (absence["absence_established"], absence["files_scanned"], absence["control_pattern_hits"]))
     print("frozen predictions held:", result["all_frozen_predictions_held"],
           json.dumps(dict((k, v[1]) for k, v in predictions.items()), sort_keys=True))
     if violations:

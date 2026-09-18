@@ -30,8 +30,12 @@ build. The matrix contains **649** cells: 473 at `SIGMA_CENSUS` (all 43 rows x 1
 requirements), 44 at `SIGMA_4F` (4 rows x 11), and 132 at `SIGMA_K` (33 rows x the 4
 requirements a blind recovery would bear on).
 
-**Observed status totals.** `MET 0`, `MET_AT_NARROWER_SCOPE 348`, `MISSING_BUILDABLE 169`,
+**Observed status totals.** `MET 0`, `MET_AT_NARROWER_SCOPE 305`, `MISSING_BUILDABLE 212`,
 `MISSING_STRUCTURAL 0`, `NOT_APPLICABLE 0`, `SCREENED_NOT_ADJUDICATED 132`.
+
+`LEDGER_V1.json` additionally carries `hrl1_canonical_status`: exactly one status per
+(row, requirement) — 473 entries — projected onto each row's best single covering scope, with
+the scope named on every entry. It is a projection of the matrix, never a merge of it.
 
 **Scope.** This is a statement about the corpus's contents at one commit. It does not claim
 the adjudication is the only defensible one; it claims the adjudication rule was frozen
@@ -119,9 +123,9 @@ coordinates** (no gluing), the distribution over the 43 rows is:
 | met of 11 | rows |
 |---|---|
 | 10 | **4** (`H01` finite-state/automata, `H02` linear regression/classifiers, `H03` GLMs, `H04` basis/kernel — the four with `SIGMA_4F` evidence) |
-| 8 | **5** (`H17` Bayesian, `H20` feed-forward NN, `H22` CNN, `H32` flow-like transport, `H34` energy-based — the `RECOVERED_CONTROL` rows outside the four) |
-| 7 | **34** (every remaining row) |
-| 0–6, 9, 11 | **0** |
+| 7 | **5** (`H17` Bayesian, `H20` feed-forward NN, `H22` CNN, `H32` flow-like transport, `H34` energy-based — the `RECOVERED_CONTROL` rows outside the four) |
+| 6 | **34** (every remaining row) |
+| 0–5, 8, 9, 11 | **0** |
 
 **Residual dominance** (rows at which the requirement is not met, out of 43):
 
@@ -130,8 +134,9 @@ coordinates** (no gluing), the distribution over the 43 rows is:
 | `R11` real-scale test | **43** |
 | `R05` negative twin | **39** |
 | `R07` resource crossover | **39** |
+| `R08` held-out frozen prediction | **39** |
 | `R04` neutral recovery | **34** |
-| `R01 R02 R03 R06 R08 R09 R10` | **0** |
+| `R01 R02 R03 R06 R09 R10` | **0** |
 
 **The correction.** The expectation that the residual concentrates in `real-scale test`
 **and** `independent search`/replication is **half right and half wrong**, and the wrong half
@@ -150,7 +155,7 @@ third tiers are `negative twin` and `resource crossover`, each missing at 39/43 
 supplied at `SIGMA_4F` for the four rows that have it and at no scope for the other 39.
 
 **A note on gluing.** The pooled, scope-blind distribution is **identical** to the per-scope
-one (`{10: 4, 8: 5, 7: 34}`), because on all four rows where both scopes carry evidence the
+one (`{10: 4, 7: 5, 6: 34}`), because on all four rows where both scopes carry evidence the
 `SIGMA_4F` met-set strictly contains the `SIGMA_CENSUS` met-set. `FGS-2` gluing would
 therefore not even change the numbers here — but the ledger still refuses it, and the pooled
 figure is emitted only under the label `NON_GLUABLE_UNDER_FGS2`.
@@ -255,6 +260,24 @@ Recorded because they bear on whether the met cells are as strong as their count
    `36a48725f2ff02212b5297ee4b712d11`). Per the corpus's own frozen rule this licenses
    **neither `EV4` nor `M5`**: intra-package is not independent replication.
 
+6. **The freeze caught its own rule table.** `FREEZE_V1.md` §4 requires two requirements
+   split out of one gate to carry distinct citations, "where only one citation exists, at
+   most one of the two cells may be non-`MISSING`". `ADJUDICATION_RULES_V1.json` then gave
+   `R01` and `R08` at `SIGMA_CENSUS` one rule, one citation and an explicit
+   `shared_evidence_with: [R01, R08]`, and counted both met — the forbidden shape, applied to
+   a different pair. Two facts settle it: the census package never uses the words `heldout`
+   or `held-out` anywhere, so unlike `SIGMA_4F` (where `FAMILY_GATE_LEDGER_V1.json` carries a
+   named `heldout_frozen_prediction` field its own authors set to `SUPPORTED_*`) the cell was
+   this package's construction rather than the artifact's assertion; and the frozen rule's own
+   `scope_gap` already said "the prediction covers exactly the evaluated set, nothing is held
+   out from it". `R08` at `SIGMA_CENSUS` is corrected to `MISSING_BUILDABLE`. The frozen table
+   is **not** edited — that would destroy the custody the freeze exists to establish; the
+   defect and its resolution are recorded in `ADJUDICATION_CORRECTION_V1.json` and applied as
+   an overlay, and a ninth hostile
+   (`HOSTILE_SHARED_CITATION_DOUBLE_COUNT`: two requirements at one `(row, sigma)` counted met
+   on one and the same citation string) now rejects the shape outright, with a no-alarm
+   assertion on the true ledger.
+
 ## Strongest parents and the residual contribution
 
 - `research/gmi-833-h-neutral-four-family-v1` owns the ten-gate ledger form and 4 rows of it.
@@ -270,4 +293,6 @@ Not claimed novel: the gate list, the obstruction theorems, the soundness theore
 blind recoveries, the maturity ladder. The residual contribution is (i) the per-row,
 per-requirement, scope-indexed status matrix over all 43 open rows, (ii) the evidence-backed
 43-to-10 contract collapse and the verified absence of any K-to-row binding, and (iii) the
-`R10`-versus-`M5` correction to the expected residual.
+`R10`-versus-`M5` correction to the expected residual, and (iv) the finding that the residual
+is broader than expected — a three-way second tier at 39/43 rather than a single second
+coordinate.

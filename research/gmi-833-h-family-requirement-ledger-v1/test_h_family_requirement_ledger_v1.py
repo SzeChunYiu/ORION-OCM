@@ -229,7 +229,7 @@ class TestHostilesAndNull(unittest.TestCase):
         rows, _ = route_a.read_rows()
         report = L.hostiles(rows, cells, km)
         self.assertTrue(report["all_detected"], json.dumps(report, indent=1)[:3000])
-        self.assertEqual(report["count"], 8)
+        self.assertEqual(report["count"], 9)
 
     def test_null_beats_zero_of_two_hundred(self):
         _, _, km, _, _, _, cells = Fixture.get()
@@ -238,10 +238,72 @@ class TestHostilesAndNull(unittest.TestCase):
         self.assertEqual(report["controls_accepted"], 0)
         self.assertTrue(report["true_ledger_accepted"])
 
+    def test_shared_citation_double_count_is_rejected(self):
+        """The check that would have caught correction C1 before it shipped."""
+        _, _, km, _, _, _, cells = Fixture.get()
+        rows, _ = route_a.read_rows()
+        variant = [dict(c) for c in cells]
+        donor = None
+        for cell in variant:
+            if cell["row"] == rows[0] and cell["sigma"] == "SIGMA_CENSUS" \
+                    and cell["requirement"] == "R01":
+                donor = cell.get("citation")
+                break
+        self.assertTrue(donor)
+        for cell in variant:
+            if cell["row"] == rows[0] and cell["sigma"] == "SIGMA_CENSUS" \
+                    and cell["requirement"] == "R08":
+                cell["status"] = "MET_AT_NARROWER_SCOPE"
+                cell["citation"] = donor
+                cell["scope_gap"] = "fabricated"
+                break
+        violations = L.check(rows, variant, km)
+        self.assertTrue(any(v.startswith("SHARED_CITATION_DOUBLE_COUNT") for v in violations), violations)
+
+    def test_no_alarm_the_true_ledger_has_no_shared_citation_double_count(self):
+        _, _, km, _, _, _, cells = Fixture.get()
+        rows, _ = route_a.read_rows()
+        violations = L.check(rows, cells, km)
+        self.assertEqual([v for v in violations if v.startswith("SHARED_CITATION")], [])
+
     def test_true_ledger_is_accepted(self):
         _, _, km, _, _, _, cells = Fixture.get()
         rows, _ = route_a.read_rows()
         self.assertEqual(L.check(rows, cells, km), [])
+
+
+class TestCanonicalStatus(unittest.TestCase):
+    def test_canonical_map_is_total_at_473_entries(self):
+        _, _, _, _, _, _, cells = Fixture.get()
+        rows, _ = route_a.read_rows()
+        per_row = L.residual(cells, rows)
+        canonical = L.canonical_status(cells, rows, per_row)
+        self.assertEqual(len(canonical), 43)
+        total = sum(len(v) for v in canonical.values())
+        self.assertEqual(total, 473)
+        for row, entry in canonical.items():
+            for requirement, record in entry.items():
+                self.assertIn(record["status"], L.STATUS_ENUM)
+                self.assertIn("sigma", record)
+
+
+class TestCorrection(unittest.TestCase):
+    def test_frozen_rule_table_is_not_edited_and_the_correction_is_an_overlay(self):
+        rules = route_b.read_json(os.path.join(HERE, "ADJUDICATION_RULES_V1.json"))
+        correction = route_b.read_json(os.path.join(HERE, "ADJUDICATION_CORRECTION_V1.json"))
+        self.assertTrue(correction["frozen_table_is_unmodified"])
+        # the frozen table still carries the defective shared rule, verbatim
+        shared = [r for r in rules["rules"]
+                  if r.get("sigma") == "SIGMA_CENSUS" and r.get("requirements") == ["R01", "R08"]]
+        self.assertEqual(len(shared), 1)
+        self.assertEqual(shared[0]["status"], "MET_AT_NARROWER_SCOPE")
+
+    def test_r08_is_missing_at_census_and_met_at_four_family(self):
+        _, _, _, _, _, _, cells = Fixture.get()
+        census = set(c["status"] for c in cells if c["requirement"] == "R08" and c["sigma"] == "SIGMA_CENSUS")
+        four = set(c["status"] for c in cells if c["requirement"] == "R08" and c["sigma"] == "SIGMA_4F")
+        self.assertEqual(census, set(["MISSING_BUILDABLE"]))
+        self.assertEqual(four, set(["MET_AT_NARROWER_SCOPE"]))
 
 
 class TestFrozenPredictions(unittest.TestCase):

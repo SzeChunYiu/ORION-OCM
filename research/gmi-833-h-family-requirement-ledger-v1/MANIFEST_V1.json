@@ -99,13 +99,24 @@
     "EV4_OR_M5_FROM_THE_TWO_HOST_BIT_IDENTICAL_RECEIPT"
   ],
   "receipts": {
-    "RESULT_V1.json_md5": "f2e5a0015a18912c9ca3e42e134a2530",
-    "LEDGER_V1.json_md5": "36a48725f2ff02212b5297ee4b712d11",
+    "RESULT_V1.json_md5": "4b744695e49adf99068150c32e1c32f9",
+    "LEDGER_V1.json_md5": "2141a9f1d00dc10fba5fdbab20b2c0a5",
     "hosts": [
       "Darwin (this checkout), CPython 3.13",
       "laptop-billy Linux x86_64, CPython 3.8.10"
     ],
     "bit_identical_across_hosts": true,
     "does_not_license": "EV4 / M5 - intra-package is not independent replication (maturity rescore v1 rule 2)"
+  },
+  "post_freeze_correction": {
+    "artifact": "ADJUDICATION_CORRECTION_V1.json",
+    "frozen_table_unmodified": true,
+    "corrections": [
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "effect": "R08 at SIGMA_CENSUS moved MET_AT_NARROWER_SCOPE -> MISSING_BUILDABLE; HRL-4 verdict counts unchanged; HRL-3 second tier became three-way at 39/43.",
+    "why_overlay_not_edit": "ADJUDICATION_RULES_V1.json was committed in the pre-implementation freeze commit d2a3a4bd; editing it after the fact would destroy the custody the freeze establishes."
   }
 }
