@@ -73,6 +73,12 @@ python3 -I -O -B test_successor_constructs_v1.py
 ```
 
 Stdlib only, exact `Fraction` arithmetic, no float anywhere, no data files.
+Route A produced byte-identical recovered programs, costs, classes, ecology
+digests, crossovers, base-rate counts, coordinates, hostile verdicts and
+theorem outputs under CPython **3.8.10** and **3.9** on the same host; the CI
+job runs it again on **3.11** and fails if the committed receipts are not
+reproduced. Two interpreter versions on one host is version portability, not
+independent replication, and is not claimed as one.
 Route B enumerates reverse-polish token sequences and interprets trees
 recursively; route A builds trees by node tiers and evaluates compiled
 closures. Non-import is enforced by an `ast` scan and a `sys.modules`
