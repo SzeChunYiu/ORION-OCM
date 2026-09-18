@@ -1,0 +1,76 @@
+name: gmi-833-grammar-morphology-encoding-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-grammar-morphology-encoding-v1/**'
+      - '.github/workflows/gmi-833-grammar-morphology-encoding-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-grammar-morphology-encoding-v1/**'
+      - '.github/workflows/gmi-833-grammar-morphology-encoding-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Freeze precedes implementation (git order)
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          FREEZE=$(git log --diff-filter=A --format=%H -- \
+            research/gmi-833-grammar-morphology-encoding-v1/FREEZE_V1.md | tail -1)
+          IMPL=$(git log --diff-filter=A --format=%H -- \
+            research/gmi-833-grammar-morphology-encoding-v1/grammar_morphology_encoding_v1.py | tail -1)
+          echo "freeze=$FREEZE impl=$IMPL"
+          test -n "$FREEZE"
+          test -n "$IMPL"
+          git merge-base --is-ancestor "$FREEZE" "$IMPL"
+          echo "FREEZE_PRECEDES_IMPLEMENTATION_OK"
+
+      - name: Executor (regenerates every receipt)
+        run: |
+          cd research/gmi-833-grammar-morphology-encoding-v1
+          python3 -I -B grammar_morphology_encoding_v1.py > /dev/null
+
+      - name: Independent oracle (route 2)
+        run: |
+          cd research/gmi-833-grammar-morphology-encoding-v1
+          python3 -I -B independent_oracle_v1.py > /dev/null
+
+      - name: Test battery
+        run: |
+          cd research/gmi-833-grammar-morphology-encoding-v1
+          python3 -I -B    test_grammar_morphology_encoding_v1.py
+          python3 -I -O -B test_grammar_morphology_encoding_v1.py
+
+      - name: Receipts are reproducible (no drift vs committed blobs)
+        run: |
+          cd research/gmi-833-grammar-morphology-encoding-v1
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json \
+            ADJUDICATION_V1.json PLEX_SCREEN_V1.json GRAMMAR_DUMP_V1.json
+
+      - name: Claim ceiling and forbidden promotions
+        run: |
+          cd research/gmi-833-grammar-morphology-encoding-v1
+          python3 - <<'PY'
+          import json
+          r = json.load(open('RESULT_V1.json'))
+          m = json.load(open('MANIFEST_V1.json'))
+          assert r['claim_ceiling'] == m['claim_ceiling']
+          assert set(m['forbidden_promotions']) <= set(r['forbidden_promotions'])
+          assert r['validation']['ALL_PASS'] is True
+          assert r['d_lex']['CONFIRMED'] == 0
+          assert r['parent_boundary']['issue'] == 891
+          assert 'NOT_OVERTURNED' in r['parent_boundary']['status']
+          blob = open('GRAMMAR_MORPHOLOGY_ENCODING_THEOREMS_V1.md').read()
+          for bad in m['forbidden_promotions']:
+              assert ('%s is proved' % bad) not in blob
+          print('CLAIM_DISCIPLINE_OK')
+          PY
