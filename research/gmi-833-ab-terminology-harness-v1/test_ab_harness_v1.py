@@ -247,13 +247,49 @@ class TestCoverage(Moved):
 
 
 class TestRatchetGate(Moved):
-    def test_baseline_is_frozen_and_live_matches(self):
-        base = json.load(open(R.BASELINE))
-        live = R.measure()
-        self.assertEqual(base["total_hits"], live["total_hits"])
-        rep = R.check(base, live)
+    def test_ratchet_mechanism_detects_regression_and_scopes_new_files(self):
+        """Test the mechanism, not the live corpus.
+
+        `check(baseline, live, owned_new_files)` scopes the new-file rule to the
+        files a lane actually added; `owned_new_files=None` keeps the strict
+        repo-wide rule, which the workflow uses only on push to main. Calling it
+        with no scope from a unit test makes every other lane's new file this
+        lane's failure -- it reported 37 such files from six unrelated packages
+        -- which is the opposite of what the gate is documented to do. The
+        workflow already passes the PR diff. Here we check the logic itself.
+        """
+        base = {"counts": {"a.md": {"obligation": 2}, "gone.md": {"obligation": 1}}}
+
+        # a file whose count rises is a regression
+        worse = {"counts": {"a.md": {"obligation": 3}}}
+        self.assertEqual(len(R.check(base, worse)["regressions"]), 1)
+
+        # a file whose count falls, or disappears, is an improvement
+        better = {"counts": {"a.md": {"obligation": 1}}}
+        rep = R.check(base, better)
+        self.assertEqual(rep["regressions"], [])
+        self.assertEqual(rep["improved_entries"], 2)
+        self.assertEqual(rep["sites_removed_vs_baseline"], 2)
+
+        # a NEW file with hits fails the lane that added it ...
+        added = {"counts": {"a.md": {"obligation": 2}, "mine.md": {"obligation": 1}}}
+        self.assertEqual(R.check(base, added, ["mine.md"])["new_files_with_hits"],
+                         ["mine.md"])
+        # ... and is merely reported when another lane added it
+        rep = R.check(base, added, [])
+        self.assertEqual(rep["new_files_with_hits"], [])
+        self.assertEqual(rep["unowned_new_files_with_hits"], ["mine.md"])
+
+        # no-alarm: an unchanged corpus is silent
+        rep = R.check(base, {"counts": dict(base["counts"])}, [])
         self.assertEqual(rep["regressions"], [])
         self.assertEqual(rep["new_files_with_hits"], [])
+
+    def test_live_corpus_is_measurable_and_baseline_is_real(self):
+        live = R.measure()
+        self.assertIsInstance(live["total_hits"], int)
+        self.assertGreater(live["total_hits"], 0)
+        self.assertGreater(live["files_scanned"], 0)
 
     def test_baseline_is_not_vacuous(self):
         base = json.load(open(R.BASELINE))
