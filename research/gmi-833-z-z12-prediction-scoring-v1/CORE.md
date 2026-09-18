@@ -86,6 +86,22 @@ python3 -I -O -B research/gmi-833-z-z12-prediction-scoring-v1/test_z12_predictio
 
 25 tests, stdlib only, verified on CPython 3.8.10 and 3.13.
 
+## Disclosed scope note — the `POP_K` alphabet rule
+
+`FREEZE_V1.md` wrote "`A` the registered alphabet" without fixing the alphabet
+for the capability population. The implementation registers it as **the union of
+every `identified_set` and `external_values` appearing in that universe's own
+records**, which is derived from the same data being scored and is therefore
+disclosed rather than left implicit. It is the denominator of `VAC-1`, since a
+record is vacuous only when `S_i = A`.
+
+The measured result is robust to the choice in the only direction that matters:
+any **larger** alphabet (for example the predictor's full declared value
+alphabet) makes `S_i = A` strictly harder to satisfy, so a vacuity count of `0`
+under the union rule remains `0` under any superset rule. A smaller alphabet is
+not admissible, because it would exclude values the pinned records actually
+contain.
+
 ## What this package does NOT claim
 
 It does not claim any scored prediction is true beyond its own lane's frozen
