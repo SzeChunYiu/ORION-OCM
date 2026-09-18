@@ -1,0 +1,62 @@
+name: GMI 833 AF1 G0 row determination
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-af1-g0-row-determination-v1/**'
+      - 'research/gmi-833-af-barrier-context-v1/**'
+      - '.github/workflows/gmi-833-af1-g0-row-determination-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-af1-g0-row-determination-v1/**'
+      - 'research/gmi-833-af-barrier-context-v1/**'
+      - '.github/workflows/gmi-833-af1-g0-row-determination-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  determine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Re-derive the determination
+        run: python3 -I -B research/gmi-833-af1-g0-row-determination-v1/independent_check_v1.py
+      - name: Re-derive it again with assertions stripped
+        run: python3 -I -O -B research/gmi-833-af1-g0-row-determination-v1/independent_check_v1.py
+      - name: The verdict has not changed
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open('research/gmi-833-af1-g0-row-determination-v1/'
+                             'AF1_DETERMINATION_RESULT_V1.json'))
+          fail = []
+          if d['verdict'] != 'CHECKED_BUT_UNSUPPORTED':
+              fail.append('verdict changed: %r' % (d['verdict'],))
+          if d['findings']:
+              fail.append('findings: %r' % (d['findings'],))
+          if d['literal_converse']['witness_found']:
+              fail.append('literal converse became satisfiable')
+          if not d['post_development_projection_converse']['witness_found']:
+              fail.append('projection converse witness lost')
+          scan = d['merged_af_package_scan']
+          if sum(scan['target_hits'].values()):
+              fail.append('merged AF package now references the G0 interpreter: %r'
+                          % (scan['target_hits'],))
+          if len(scan['g0_mentions']) != 1:
+              fail.append('G0 mention count changed: %d' % len(scan['g0_mentions']))
+          st = d['merged_reconciliation_state']
+          if not st['row_is_auto_reconciled'] or st['row_is_deferred']:
+              fail.append('the row moved; the repair may have landed - re-read this file')
+          if fail:
+              for f in fail:
+                  print('FAIL', f)
+              sys.exit(1)
+          print('AF1 determination stands: checked on the comment, unsupported on main')
+          PY
