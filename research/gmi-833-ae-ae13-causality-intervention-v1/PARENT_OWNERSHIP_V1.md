@@ -44,6 +44,6 @@ parent-owned**. Three of the six crosswalk entries terminate
 ## What is explicitly NOT claimed
 
 No latent-confounder result. No multi-variable interventions. No continuous
-variables. No impossibility of causal discovery. No morphology or architecture
-selection law — the Tier-2 morphology row of AE13 is already earned by
-`gmi-833-ae-morphology-sweep-v1` and is explicitly not re-closed here.
+variables. No impossibility of causal discovery. No architecture-selection law —
+AE13's Tier-2 row is already earned by the sibling sweep package named in
+`MANIFEST_V1.json`, and is explicitly not re-closed here.

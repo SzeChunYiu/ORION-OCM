@@ -122,7 +122,7 @@ control. It says only that the two sufficiency notions are distinct partitions.
 
 ---
 
-## CI-6 — parent subtraction, and the conflation this row exists to prevent
+## CI-6 — strongest-parent audit, and the conflation this row exists to prevent
 
 Six crosswalk entries, each with a citation, **3** terminating
 `PARENT_SUFFICIENT` (recorded as successes). The sixth entry is the substantive

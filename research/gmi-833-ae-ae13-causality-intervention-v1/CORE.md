@@ -50,10 +50,11 @@ singleton, **20/20** recall on planted models whose `C → A` twin is verified t
 exist rather than assumed. An earlier planted family gave `6/81` and was
 discarded as not actually planted.
 
-**Row not closed.** *Test whether causal structure changes selected morphology
-relative to observational prediction alone* is Tier 2 and is already earned by
-`gmi-833-ae-morphology-sweep-v1` `SWEEP-5`. This tranche neither re-closes it
-nor depends on it.
+**Row not closed.** AE13's Tier-2 row — the one asking whether causal structure
+changes the selected architecture relative to observational prediction alone — is
+already earned by `SWEEP-5` of the sibling sweep package named in
+`MANIFEST_V1.json` and in this package's freeze. This tranche neither re-closes
+it nor depends on it.
 
 ## Reproduce
 

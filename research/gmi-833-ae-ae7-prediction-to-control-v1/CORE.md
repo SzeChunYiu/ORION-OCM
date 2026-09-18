@@ -14,7 +14,7 @@ logarithm anywhere in either route.
 | `PC-1` same predictive, different control | **10,980** sensor pairs with identical predictive profiles and different control value; **712** distinct profiles over 4140 sensors; named witness `1` vs `1/2`; the contrast case reports exactly **0** |
 | `PC-2` control sufficiency | **225 / 225 / 208 / 221** control-sufficient sensors; coarsest unique for two utilities, **3** and **8** minimal elements for the others; criterion matches the exact value function with **0** mismatches |
 | `PC-2` Helly failure | **1** pairwise-compatible triple `(0,1,2)` with empty common optimum — mergeability is not a pairwise property |
-| `PC-3` parent subtraction | **5** crosswalk entries, every one with a DOI; **3** `PARENT_SUFFICIENT` terminals recorded as successes |
+| `PC-3` strongest-parent audit | **5** crosswalk entries, every one with a DOI; **3** `PARENT_SUFFICIENT` terminals recorded as successes |
 | `PC-4` value of information | **163,754** comparable pairs; **26,790** with `VoI = 0`, **136,964** positive; **71** exact break-even prices in `[0, 9/64]`; the probe gives strict win below, exact tie **at**, strict loss above |
 | `PC-5` free merges | **12 / 12 / 13 / 14** free state pairs against **16 / 16 / 15 / 14** costly ones |
 | `PC-6` control-relevant, predictively invisible | **4** pairs invisible to all 6 targets; **4 of 4** control-relevant under the hidden-coordinate utility (`V: 1 → 7/8`), **0** under the visible one |
@@ -24,8 +24,8 @@ logarithm anywhere in either route.
 `65b45210`, and the workflow proves the ordering by asserting that no executor,
 oracle, test, receipt or reconciliation path resolves at that commit. They are
 recorded with verdicts and numbers, and the ladder is proved non-vacuous —
-every problem moves its selection at least once, two move twice — so `R1` is not
-holding by having nothing to say.
+every problem moves its chosen sensor at least once, two move twice — so `R1` is
+not holding by having nothing to say.
 
 **The boundary that was measured rather than rounded.** `PC-6`'s witness rests
 on a registered target suite that cannot see the third coordinate. Enlarging

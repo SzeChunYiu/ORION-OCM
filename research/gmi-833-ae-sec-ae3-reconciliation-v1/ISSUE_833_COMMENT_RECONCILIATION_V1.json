@@ -326,5 +326,24 @@
     "instrument_blocked": 16,
     "note": "the 16 Tier-3 rows are left OPEN with the instrument named. They are not narrowed to fit a finite construction."
   },
-  "note": "The orchestrator applies all issue-comment writes. This lane edits no issue body and no comment. Every `old` string was verified to occur exactly once in the comment body fetched immediately before finalisation."
+  "note": "The orchestrator applies all issue-comment writes. This lane edits no issue body and no comment. Every `old` string was verified to occur exactly once in the comment body fetched immediately before finalisation.",
+  "lane_findings": [
+    {
+      "id": "SEC_AE3_FINDING_1",
+      "subject": "AE_SECTION_MAP_V1.md",
+      "claim_in_the_map": "the AE4 package needs AE3's coding-language registry",
+      "verdict": "NOT_LOAD_BEARING",
+      "evidence": "all eight AE4 rows are Information-Bottleneck / rate-distortion requirements; none consumes a prefix code, a program length or a description-length registry. Declared in AE4's FREEZE_V1.md before any implementation blob existed. This is the second instance of the defect the sibling sweep lane first recorded: a map statement about what a package needs that does not survive opening the rows."
+    },
+    {
+      "id": "SEC_AE3_FINDING_2",
+      "subject": "gmi-833-ab-terminology-harness-v1 repo-wide ratchet versus the #833 freeze standard",
+      "verdict": "STRUCTURAL_CONFLICT_NO_LANE_CAN_RESOLVE_ALONE",
+      "detail": "The AB ratchet fails a PR when any NEW paper-facing .md carries a banned term. This lane removed every avoidable hit from its prose; 7 remain and ALL of them are inside committed FREEZE_V1.md files, which the #833 custody model forbids editing once results exist. Two of the seven are unavoidable in principle: one is a VERBATIM quotation of an issue row whose own text contains a banned term (the #833 standard requires that quotation to be byte-exact), and one is the literal on-disk path of a sibling package whose directory name contains the term. The remaining five are this lane's own prose inside AE4's freeze, avoidable only if the banned-term list is consulted BEFORE the freeze is written.",
+      "recommendation_for_the_orchestrator": "either exempt FREEZE_V1.md from the paper-facing scope of the ratchet (a freeze is a custody document, not paper-facing prose), or add the verbatim-issue-row and sibling-package-path cases to the gate's exception mechanism. A research lane cannot fix this without editing another package's gate configuration or tampering with its own freeze.",
+      "hits_remaining": 7,
+      "hits_removed_by_this_lane": 19,
+      "regressions_introduced": 0
+    }
+  ]
 }

@@ -153,7 +153,7 @@ They are evaluated over **every** registered world, as the frozen statements say
 one world would under-implement the freeze rather than test it. The price ladder
 is the one frozen and is **not** adjusted after a verdict is seen.
 
-`Q3` is checked per transition: for a selection change from encoder `a` to `b`
+`Q3` is checked per transition: where the chosen encoder changes from `a` to `b`
 between ladder prices `lo` and `hi`, the exact crossing price
 `(gain(a) - gain(b)) / (cost(a) - cost(b))` must lie in `(lo, hi]`. That is the
 same statement as membership in the pairwise difference-quotient set, computed

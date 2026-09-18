@@ -49,5 +49,5 @@ does not engineer past it.
 
 No general-intelligence claim. No infinite-horizon or continuous-state
 extension. No energy or wall-clock measurement — the price is a declared
-abstract unit. No morphology or architecture selection law. The registered
-forbidden promotions in `MANIFEST_V1.json` name each of these.
+abstract unit. No architecture-selection law. The registered forbidden
+promotions in `MANIFEST_V1.json` name each of these.

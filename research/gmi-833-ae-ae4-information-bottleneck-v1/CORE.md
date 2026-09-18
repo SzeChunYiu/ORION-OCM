@@ -63,7 +63,7 @@ where the one-block encoder provably wins.
 
 **A correction to the section map.** The map says this package "needs AE3's
 coding-language registry". Read against the eight row texts it is **not
-load-bearing** — every row is an IB/rate-distortion obligation and none consumes
+load-bearing** — every row is an IB/rate-distortion requirement and none consumes
 a prefix code or a description length. The correction is in `FREEZE_V1.md`,
 written before any implementation blob existed.
 

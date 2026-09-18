@@ -55,16 +55,14 @@ The IB optimum here is over **deterministic** encoders.
 `IB_OPTIMUM_OVER_STOCHASTIC_ENCODERS_PROVED` is a registered forbidden
 promotion and the receipt carries `stochastic_encoders_optimised: false` as a
 checked field. No continuous or infinite-support extension. No rate-distortion
-theorem is reproved. No energy or wall-clock price is measured. No architecture
-or morphology selection law.
+theorem is reproved. No energy or wall-clock price is measured. No architecture-selection law.
 
 ## A correction to the section map, declared before implementation
 
 `AE_SECTION_MAP_V1.md` says the AE4 package "needs AE3's coding-language
 registry". Read against AE4's eight row texts that dependency is **not
-load-bearing**: every row is an IB/rate-distortion obligation and none consumes
+load-bearing**: every row is an IB/rate-distortion requirement and none consumes
 a prefix code, a program length or a description-length registry. The
 correction is in `FREEZE_V1.md`, written before any implementation blob existed,
-and it is the second instance of the same defect the morphology-sweep lane
-found — a map claim about what a package needs that does not survive opening
-the rows.
+and it is the second instance of the same defect the sibling sweep lane found —
+a map claim about what a package needs that does not survive opening the rows.

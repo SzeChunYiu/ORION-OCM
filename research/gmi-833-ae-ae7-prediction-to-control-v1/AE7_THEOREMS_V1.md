@@ -75,7 +75,7 @@ a general law.
 
 ---
 
-## PC-3 — parent subtraction
+## PC-3 — strongest-parent audit
 
 **Statement.** Every symbol this package introduces maps onto a named parent
 with a DOI; **3** of the **5** crosswalk entries terminate `PARENT_SUFFICIENT`.
@@ -103,8 +103,8 @@ equal, above it the blind sensor strictly wins. The tie is reported rather
 than skipped, because a threshold claim that never exhibits its equality case
 has not been tested at the boundary.
 
-**Falsifiers.** A comparable pair whose selection flips at a price outside the
-computed break-even; a pair with positive value of information at zero cost
+**Falsifiers.** A comparable pair whose chosen sensor flips at a price outside
+the computed break-even; a pair with positive value of information at zero cost
 increment that is nonetheless not acquired.
 
 **Strongest parents.** Howard 1966. `PARENT_SUFFICIENT` on the quantity.
@@ -145,14 +145,14 @@ ordering by asserting that none of those paths resolves at the freeze commit.
 
 | id | prediction | outcome |
 |---|---|---|
-| `R1` | selection is monotone coarsening in price, no re-refinement | **HELD**, `0` violations over 33 prices × 4 problems |
+| `R1` | the chosen sensor coarsens monotonically in price, no re-refinement | **HELD**, `0` violations over 33 prices × 4 problems |
 | `R2` | some problem shows ≥ 3 distinct selected sensors | **HELD**, `2` problems |
 | `R3` | every transition price is bracketed by a difference quotient of the registered family | **HELD**, `0` outside a **121**-element exact set |
 | `R4` | above the maximal gain the blind sensor is selected everywhere | **HELD**, `0` failures |
 | `R5` | the priced control order is not the predictive order | **HELD**, `4 of 4` problems |
 
-**Non-vacuity.** `R1` would hold trivially if the selection never moved. Every
-registered problem changes its selection at least once and two change it twice,
+**Non-vacuity.** `R1` would hold trivially if the chosen sensor never moved.
+Every registered problem changes its sensor at least once and two change twice,
 and the test asserts this, so the monotonicity claim has something to be
 monotone about. A hostile with an inverted sensing cost breaks `R1`, proving
 the check has teeth.
