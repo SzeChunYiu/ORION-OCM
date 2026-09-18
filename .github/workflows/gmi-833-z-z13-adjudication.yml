@@ -1,0 +1,25 @@
+name: gmi-833-z-z13-adjudication
+on:
+  push:
+    paths:
+      - 'research/gmi-833-z-z13-adjudication-v1/**'
+      - '.github/workflows/gmi-833-z-z13-adjudication.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z13-adjudication-v1/**'
+      - '.github/workflows/gmi-833-z-z13-adjudication.yml'
+jobs:
+  adjudicate:
+    runs-on: [self-hosted, Linux, X64, pm-ci]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Route A
+        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/z13_adjudication_v1.py
+      - name: Route B
+        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/independent_z13_oracle_v1.py
+      - name: Tests
+        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/test_z13_adjudication_v1.py -v
+      - name: Tests under -O
+        run: python3 -I -O -B research/gmi-833-z-z13-adjudication-v1/test_z13_adjudication_v1.py -v
+      - name: Receipts must be byte-stable
+        run: git diff --exit-code -- research/gmi-833-z-z13-adjudication-v1/RESULT_V1.json research/gmi-833-z-z13-adjudication-v1/ORACLE_RESULT_V1.json

@@ -1,0 +1,25 @@
+name: gmi-833-z-z1-master-principle
+on:
+  push:
+    paths:
+      - 'research/gmi-833-z-z1-master-principle-v1/**'
+      - '.github/workflows/gmi-833-z-z1-master-principle.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z1-master-principle-v1/**'
+      - '.github/workflows/gmi-833-z-z1-master-principle.yml'
+jobs:
+  principle:
+    runs-on: [self-hosted, Linux, X64, pm-ci]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Route A
+        run: python3 -I -B research/gmi-833-z-z1-master-principle-v1/z1_master_principle_v1.py
+      - name: Route B
+        run: python3 -I -B research/gmi-833-z-z1-master-principle-v1/independent_compression_oracle_v1.py
+      - name: Tests
+        run: python3 -I -B research/gmi-833-z-z1-master-principle-v1/test_z1_master_principle_v1.py -v
+      - name: Tests under -O
+        run: python3 -I -O -B research/gmi-833-z-z1-master-principle-v1/test_z1_master_principle_v1.py -v
+      - name: Receipts must be byte-stable
+        run: git diff --exit-code -- research/gmi-833-z-z1-master-principle-v1/RESULT_V1.json research/gmi-833-z-z1-master-principle-v1/ORACLE_RESULT_V1.json
