@@ -1,0 +1,241 @@
+{
+  "baseline": {
+    "complete_named_results": 0,
+    "emission_by_ledger": {
+      "assumptions": 31,
+      "dependency": 0,
+      "falsifier": 93,
+      "strongest_parent": 59
+    },
+    "excluded_prefixes": [
+      "research/gmi-833-aa-finite-universal-harness-v1/",
+      "research/gmi-833-aa-ledger-gate-v1/",
+      "research/gmi-833-ac-lanes-harness-v1/",
+      "research/gmi-833-ab-residual-definitions-v1/"
+    ],
+    "experiment_files": 0,
+    "identified_named_results": 1015,
+    "named_results": 2345,
+    "non_compliant_named_results": 2345,
+    "theorem_files": 329,
+    "unparsed_theorem_artifacts": 6
+  },
+  "claim_ceiling": "RATCHETED_LEDGER_EMISSION_GATE_V1",
+  "forbidden_promotions": [
+    "CORPUS_LEDGERS_COMPLETE",
+    "ALL_THEOREMS_COMPLIANT",
+    "LEDGER_DEBT_CLEARED",
+    "LEDGER_CONTENTS_VERIFIED",
+    "ASSUMPTIONS_EXHAUSTED",
+    "ALL_FALSIFIERS_KNOWN",
+    "ALL_PARENTS_EXHAUSTED",
+    "RECURSION_EXHAUSTED",
+    "NO_MATERIAL_GAP_REMAINS",
+    "ANALYTIC_PROOF"
+  ],
+  "gate_failure_demonstration": {
+    "clean": {
+      "exit": 0,
+      "violations": 0
+    },
+    "decoy": {
+      "exit": 1,
+      "kinds": [
+        "CORPUS_DEBT_GREW",
+        "NEW_RESULT_MISSING_LEDGER"
+      ],
+      "violations": 2
+    },
+    "new_bad": {
+      "exit": 1,
+      "kinds": [
+        "CORPUS_DEBT_GREW",
+        "NEW_RESULT_MISSING_LEDGER"
+      ],
+      "violations": 2
+    },
+    "regression": {
+      "exit": 1,
+      "kinds": [
+        "COMPLIANT_RESULT_REGRESSED",
+        "CORPUS_DEBT_GREW"
+      ],
+      "violations": 2
+    },
+    "section_headings_bad_result_fails": {
+      "exit": 1,
+      "kinds": [
+        "CORPUS_DEBT_GREW",
+        "NEW_RESULT_MISSING_LEDGER"
+      ],
+      "violations": 2
+    },
+    "section_headings_pass": {
+      "exit": 0,
+      "outside_enforcement": 2,
+      "violations": 0
+    }
+  },
+  "gate_on_the_real_repo": {
+    "corpus_debt_grew": false,
+    "exit": 0,
+    "new_named_results": 21,
+    "regressions": 0,
+    "violations": 0
+  },
+  "guard": {
+    "aa06_ledger_count": 5,
+    "labels_checked": 9,
+    "labels_occurring_in_their_row": 9,
+    "passed": true,
+    "per_label": {
+      "assumptions": {
+        "canonical_label": "assumptions",
+        "occurs_in_row_text": true,
+        "row": "AA02"
+      },
+      "cost_model": {
+        "canonical_label": "cost model",
+        "occurs_in_row_text": true,
+        "row": "AA06"
+      },
+      "dependency": {
+        "canonical_label": "dependency",
+        "occurs_in_row_text": true,
+        "row": "AA03"
+      },
+      "evaluation": {
+        "canonical_label": "evaluation",
+        "occurs_in_row_text": true,
+        "row": "AA06"
+      },
+      "falsifier": {
+        "canonical_label": "falsifier",
+        "occurs_in_row_text": true,
+        "row": "AA04"
+      },
+      "leakage": {
+        "canonical_label": "leakage",
+        "occurs_in_row_text": true,
+        "row": "AA06"
+      },
+      "sampling_bias": {
+        "canonical_label": "sampling bias",
+        "occurs_in_row_text": true,
+        "row": "AA06"
+      },
+      "search_space": {
+        "canonical_label": "search space",
+        "occurs_in_row_text": true,
+        "row": "AA06"
+      },
+      "strongest_parent": {
+        "canonical_label": "strongest parent",
+        "occurs_in_row_text": true,
+        "row": "AA05"
+      }
+    }
+  },
+  "issue": 833,
+  "live_census": {
+    "complete_named_results": 21,
+    "emission_by_ledger": {
+      "assumptions": 52,
+      "dependency": 21,
+      "falsifier": 114,
+      "strongest_parent": 80
+    },
+    "experiment_complete": 2,
+    "experiment_emission_by_ledger": {
+      "cost_model": 2,
+      "evaluation": 2,
+      "leakage": 2,
+      "sampling_bias": 2,
+      "search_space": 2
+    },
+    "experiment_files": 2,
+    "identified_complete": 21,
+    "identified_named_results": 1036,
+    "named_results": 2366,
+    "non_compliant_named_results": 2345,
+    "theorem_files": 334,
+    "unparsed_theorem_artifacts": 6,
+    "vendored_named_results": 310,
+    "vendored_theorem_artifacts": 42
+  },
+  "named_results": {
+    "LG-1": "at source_main, 0 of 2345 named results in 329 theorem artifacts emit all four theorem ledgers",
+    "LG-2": "the emission predicate rejects the prose-mention decoy, and both routes agree per named result by set equality",
+    "LG-3": "the ratchet is blocking and demonstrably fails on a new non-compliant result, on a regression and on the decoy",
+    "LG-4": "AA06's experiment-ledger artifact class had no instance on main; the planted positives are detected",
+    "LG-5": "every canonical ledger label occurs in its own AA row text; 0/200 random row bindings satisfy the guard"
+  },
+  "package": "gmi-833-aa-ledger-gate-v1",
+  "planted_positives": {
+    "experiment_ledger_artifacts": 2,
+    "experiment_ledger_artifacts_complete": 2,
+    "theorem_named_results": 9,
+    "theorem_named_results_complete": 9
+  },
+  "route_agreement": {
+    "compared_by": "set equality over (path::result) -> complete",
+    "duplicate_note": "headings that repeat verbatim inside one theorem artifact collapse to one key; disclosed, not de-duplicated in the counts",
+    "duplicate_result_keys": 34,
+    "keys": 2332,
+    "per_result_maps_identical": true
+  },
+  "route_b": {
+    "complete_named_results": 21,
+    "emission_by_ledger": {
+      "assumptions": 52,
+      "dependency": 21,
+      "falsifier": 114,
+      "strongest_parent": 80
+    },
+    "experiment_complete": 2,
+    "experiment_emission_by_ledger": {
+      "cost_model": 2,
+      "evaluation": 2,
+      "leakage": 2,
+      "sampling_bias": 2,
+      "search_space": 2
+    },
+    "experiment_files": 2,
+    "named_results": 2366,
+    "non_compliant_named_results": 2345,
+    "theorem_files": 334,
+    "unparsed_theorem_artifacts": 6
+  },
+  "row_binding_null": {
+    "labels": 9,
+    "max_random_satisfied": 7,
+    "mean_random_satisfied_exact": "79/25",
+    "random_bindings_fully_satisfied": 0,
+    "seed": 8330206,
+    "trials": 200,
+    "true_binding_satisfied": 9
+  },
+  "rows": [
+    "AA02",
+    "AA03",
+    "AA04",
+    "AA05",
+    "AA06"
+  ],
+  "schema": "GMI_833_AA_LEDGER_GATE_RESULT_V1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "vocabulary_null_diagnostic": {
+    "best_random_complete": 3,
+    "group_sizes": [
+      2,
+      3,
+      4,
+      4
+    ],
+    "pool_size": 60,
+    "random_vocabularies_matching_or_beating_truth": 0,
+    "seed": 8330206,
+    "trials": 200,
+    "true_complete_named_results": 21
+  }
+}

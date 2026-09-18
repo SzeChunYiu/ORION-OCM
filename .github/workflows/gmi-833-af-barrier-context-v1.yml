@@ -32,9 +32,20 @@ jobs:
         run: |
           set -euo pipefail
           FREEZE=b5a96cfb07f99f7493e5946dff42929eee653503
+          PUBLISHED=73e0d11db775f951847ceb8dfe38dc5fdc2a0f96
+          PATH_IN_REPO=research/gmi-833-af-barrier-context-v1/FREEZE_V1.md
           git cat-file -e "$FREEZE^{commit}"
-          git merge-base --is-ancestor "$FREEZE" HEAD
-          test "$(git show --pretty='' --name-only "$FREEZE" | sed '/^$/d')" = "research/gmi-833-af-barrier-context-v1/FREEZE_V1.md"
+          test "$(git show --pretty='' --name-only "$FREEZE" | sed '/^$/d')" = "$PATH_IN_REPO"
+          if git merge-base --is-ancestor "$FREEZE" HEAD; then
+            echo "freeze-first branch ancestry intact"
+          else
+            # Squash merge intentionally removes the pre-merge commit ancestry.
+            # After publication, bind custody to the published squash commit and
+            # require the frozen bytes to remain exactly identical.
+            git cat-file -e "$PUBLISHED^{commit}"
+            git merge-base --is-ancestor "$PUBLISHED" HEAD
+            test "$(git rev-parse "HEAD:$PATH_IN_REPO")" = "$(git rev-parse "$FREEZE:$PATH_IN_REPO")"
+          fi
       - name: Parent Git-blob pins
         shell: bash
         run: |

@@ -73,3 +73,52 @@ python3 -I -O -B research/gmi-833-checklist-mirror-v1/test_checklist_mirror_v1.p
 ```
 
 Claim ceiling: `GMI_833_CHECKLIST_CUSTODY_MIRROR_AND_SAFE_WRITE_PROTOCOL_AT_OBSERVED_BODY_STATE`.
+
+---
+
+# The other 707 checkboxes
+
+Sections A–M live in the issue **body**. Sections **Z and AA–AJ live in ten issue
+comments**, holding a further **707 rows of which only 51 were marked**. They were
+missed entirely until 2026-09-18, so every "N of 259" figure reported before that
+described the body alone, not the programme.
+
+| location | closed | open | total |
+| --- | --- | --- | --- |
+| body, sections A–M | 195 | 64 | 259 |
+| comments, sections Z and AA–AJ | 51 | 656 | 707 |
+| **total** | **246** | **720** | **966** |
+
+Why the mistake was easy to make and hard to catch: the body ends mid-token in a
+bare `- [`, which looks exactly like truncation. It is not. GitHub retains **52**
+stored revisions of this body and every one of them — including the oldest — ends
+at section M, so nothing was ever lost from it. The later sections were simply
+never in it.
+
+## Custody
+
+`comments/comment_<id>.md` mirrors each comment byte-exact, and
+`COMMENT_LEDGER_V1.json` records per comment: id, sha256, length, sections, and
+checked/unchecked counts.
+
+## Writing to a comment
+
+`comment_safe_write_v1.py` is the mandatory path, with the same contract as the
+body writer: re-fetch the live comment immediately before writing, apply the
+declared replacements to *that* fetch, refuse unless every changed line was
+declared, then read back and compare. Additional to the body writer, it resolves
+each row under its section **anchor** and refuses when the row is ambiguous within
+that section — comment checklists repeat similar row text across subsections far
+more than the body does.
+
+Plans use schema `GMI_ISSUE_COMMENT_RECONCILIATION_V1`, with a `comment_id` on
+every replacement.
+
+```bash
+python3 -I -B research/gmi-833-checklist-mirror-v1/comment_safe_write_v1.py PLAN.json
+python3 -I -B research/gmi-833-checklist-mirror-v1/comment_safe_write_v1.py PLAN.json --apply
+```
+
+Seven hostiles are exercised against the real mirrored AJ comment: stale `old`,
+undeclared collateral edit, un-checking a closed row, over-limit result, wrong
+schema, missing `comment_id`, and the happy path as the no-alarm control.
