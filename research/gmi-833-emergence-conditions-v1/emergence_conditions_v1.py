@@ -499,6 +499,18 @@ STRIPPED = {
     "PROBABILISTIC_STATE": None,
     "LEARNING_LAWS": None,
     "SELF_MODIFICATION": req_map([((1,), (1,))]),
+    # The four HEADLINE families are entered as controls, so that "their requirement
+    # carries no behaviour clause" is MEASURED and not merely asserted.  Three of them
+    # (ADAPTATION, METAREASONING, ROUTING) are stated as a bare input->output table, so
+    # the stripped requirement IS the frozen requirement and `None` re-runs it unchanged;
+    # a False entails-flag for those is the mechanical statement that the table alone
+    # admits no predicate-avoiding solution.  ENDOGENOUS_EXPERIMENT_CHOICE is NOT of that
+    # shape -- frozen `req_endogenous` adds the clause `word[0] not in res["out"]` on top
+    # of its table -- so it is stripped to the table alone and genuinely re-searched.
+    "ADAPTATION": None,
+    "METAREASONING": None,
+    "ROUTING": None,
+    "ENDOGENOUS_EXPERIMENT_CHOICE": req_map([((0, 1), (1,)), ((1, 1), (2,))]),
 }
 
 VARIANTS = {
@@ -752,7 +764,11 @@ def publish(base):
 def stripped_runs(pub):
     """Does the frozen requirement itself entail the predicate?  Re-run each family
     whose requirement carries a behaviour clause with that clause removed and see
-    whether a conforming program that AVOIDS the behaviour then appears."""
+    whether a conforming program that AVOIDS the behaviour then appears.  The four
+    headline families are re-run here too, as controls: for them the stripped and the
+    frozen requirement coincide (ADAPTATION, METAREASONING, ROUTING) or differ only by
+    a clause this run tests (ENDOGENOUS_EXPERIMENT_CHOICE), so a False entails-flag is
+    a measurement rather than an assumption.  `stripped_is_frozen` records which."""
     out = {}
     for name, req in sorted(STRIPPED.items()):
         spec = dict(EXPERIMENTS[name])
@@ -768,6 +784,7 @@ def stripped_runs(pub):
         out[name] = {"stripped_verdict": e["verdict"], "stripped_delta": e["delta"],
                      "stripped_solutions": e["solutions"],
                      "full_verdict": pub[name]["verdict"],
+                     "stripped_is_frozen": req is None,
                      "requirement_entails_predicate": entails}
     return out
 

@@ -22,6 +22,7 @@ admits a cover that avoids it.
 | `ENDOGENOUS_EXPERIMENT_CHOICE` | forced: `1,648 / 1,648`, `c*_M = 3`, `0` blind covers |
 | `DOES_NOT_EMERGE` margins | reusable-operator acquisition `-2`, symbolic rewriting `-1` |
 | frozen requirements that entail their own predicate | `5 / 13`, disclosed with their stripped verdicts |
+| the four headline families run as entails-controls | `4 / 4` return `false`; `ENDOGENOUS`'s one extra clause is inert (`1,648` either way) |
 | trace groups whose predicate value splits (extensionality) | `0` |
 | route A / route B disagreements | `0` |
 

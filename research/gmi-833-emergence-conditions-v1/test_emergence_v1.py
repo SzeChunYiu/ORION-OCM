@@ -138,6 +138,37 @@ def test_receipts_agree():
           all(a["behaviours"][k]["blind_and_predicate_free"] == 0
               for k in a["behaviours"]
               if a["behaviours"][k]["verdict"] == "FORCED_BY_REQUIREMENT"))
+
+    # EM-5 rests on the four headline families surviving the entails-control, so the
+    # control must be present for each of them and must not have been silently skipped.
+    strip = a["stripped_requirements"]
+    for k in ("ADAPTATION", "ROUTING", "METAREASONING",
+              "ENDOGENOUS_EXPERIMENT_CHOICE"):
+        check("%s is entered into the entails-control" % k, k in strip)
+        if k not in strip:
+            continue
+        check("%s does not have its predicate entailed by its requirement" % k,
+              strip[k]["requirement_entails_predicate"] is False)
+        # Where the stripped requirement IS the frozen one, the control run must
+        # reproduce the published, two-route-agreed figures exactly. This is what ties
+        # the single-route control back to the cross-checked result.
+        if strip[k]["stripped_is_frozen"]:
+            check("control reproduces the published verdict for %s" % k,
+                  strip[k]["stripped_verdict"] == a["behaviours"][k]["verdict"])
+            check("control reproduces the published solution count for %s" % k,
+                  strip[k]["stripped_solutions"] == a["behaviours"][k]["solutions"])
+    if "ENDOGENOUS_EXPERIMENT_CHOICE" in strip:
+        e = strip["ENDOGENOUS_EXPERIMENT_CHOICE"]
+        check("the experiment-choice clause is genuinely stripped",
+              e["stripped_is_frozen"] is False)
+        check("the experiment-choice clause is inert on this universe",
+              e["stripped_solutions"]
+              == a["behaviours"]["ENDOGENOUS_EXPERIMENT_CHOICE"]["solutions"]
+              and e["stripped_verdict"]
+              == a["behaviours"]["ENDOGENOUS_EXPERIMENT_CHOICE"]["verdict"])
+    check("exactly five frozen requirements entail their own predicate",
+          sum(1 for v in strip.values()
+              if v["requirement_entails_predicate"]) == 5)
     check("every predicate is extensional",
           all(e["extensionality"]["groups_with_split_verdict"] == 0
               for e in a["behaviours"].values()))

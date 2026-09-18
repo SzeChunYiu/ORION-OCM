@@ -66,11 +66,25 @@ lexicographically first is a two-state pair whose programs are `(empty, empty)` 
 `(empty, f1)`: each side simulates the other's actions within the bound while their
 behaviours differ at the first letter.
 
-**Why this is not a repair after the fact.** `FREEZE_V1.md` section 1 requires, before any
-run, that *every* strength imply equality of the presented object. Section 2's clause does not
-deliver that. The two frozen clauses conflict; section 1 is the governing one, so the level
-placed in the order is `L3(k) = L3raw(k) AND L4`, and `L3raw` is published with its exact
-failure count and counterexample rather than quietly replaced.
+**The frozen falsifier that fired, and what was done about it.** Section 6's third bullet says
+that if any level relates a pair whose behaviours differ, "that level's definition is wrong and
+the level is withdrawn, not repaired after the fact". On `L3raw` that antecedent is true, and
+**this instruction was not followed**: `L3` was intersected with `L4` and shipped. That decision
+is recorded, not glossed — `RESULT_V1.json` carries it as `frozen_clause_conflicts` entry
+`AG3-FC-1` with `s6_instruction_followed: false` and `audit_shape_disclosed:
+"POST_HOC_SUSPECT"`, and `MANIFEST_V1.json` repeats it. An auditor diffing section 6 against
+this result is meant to find the disclosure already there.
+
+Section 1 outranks section 6 here for two reasons, both stated in terms of the frozen text.
+First, section 6's antecedent — "any level relates a pair whose behaviours differ" — is exactly
+the negation of section 1's requirement, so the falsifier presupposes section 1 and cannot be
+turned against it. Second, withdrawal is the larger departure: section 1 requires a
+compiler-strength relation to exist *and* to imply object equality, so deleting the level would
+violate section 1 as well, and would leave the row's fourth-strength question with three
+registered strengths and no answer. The intersection, by contrast, is a **subset** of the frozen
+`L3raw`: it removes only pairs section 1 forbade in advance and adds no relation the freeze did
+not already license. `L3raw` is published with its exact failure count and counterexample rather
+than quietly replaced, and `FREEZE_V1.md` is byte-unmodified since its freeze commit `cc4444ff`.
 
 **Consequence for the row.** "Semantics-preserving compiler equivalence with overhead" is not
 the conjunction of two independent conditions that happen to travel together. Semantics

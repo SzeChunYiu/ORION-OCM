@@ -159,9 +159,18 @@ contain no behaviour word.
 Every one of the `132` programs that meets the metareasoning family's requirement contains a
 branch whose two outcomes lead to executed suffixes of different cost, and every one of the
 `1,648` that meets the experiment-choice requirement makes an observation it never emits and
-whose value changes the rest of its trace. The requirement in each case is a plain
-input-to-output specification with no behaviour clause: this is confirmed mechanically by the
-stripped-requirement run, which leaves both untouched.
+whose value changes the rest of its trace.
+
+Neither forcing is an artifact of the requirement, and that is measured rather than assumed.
+The metareasoning requirement is a bare input-to-output table, so its stripped requirement *is*
+its frozen requirement; the control re-runs it and returns `FORCED_BY_REQUIREMENT` with
+`requirement_entails_predicate: false`, which is the statement that the table alone admits no
+predicate-avoiding conforming program. The experiment-choice requirement is **not** bare —
+frozen `req_endogenous` adds the clause `word[0] not in out` on top of its table — so it is
+stripped to the table alone and genuinely re-searched. That search returns the same `1,648`
+conforming programs and the same verdict, so the extra clause is **inert on this universe** and
+cannot be what forces the predicate. The same control returns `false` for the other two
+headline families, `ADAPTATION` (`882` conforming) and `ROUTING` (`154`).
 
 **What this does and does not say.** It says the behaviour is not a primitive and was not
 named: it appears in every conforming program of a neutral substrate. It does **not** say the
@@ -173,8 +182,10 @@ registered forbidden promotions.
 requirement and fails the predicate.
 
 **Assumptions.** The substrate names none of the thirteen behaviours, checked by the neutrality
-detector, and the two families' requirements carry no behaviour clause, checked by the
-stripped-requirement run of `EM-6`.
+detector, and neither family's requirement is what forces its predicate, checked by the
+stripped-requirement control of `EM-6`: both come out `requirement_entails_predicate: false`,
+metareasoning because its requirement has no clause to remove and experiment choice because
+removing its one extra clause changes neither the solution set nor the verdict.
 
 **Dependency.** Depends on `EC-2` for what a forced verdict means structurally and on `EM-6` for
 the restriction to families whose requirement is a plain input-to-output specification.
@@ -202,11 +213,27 @@ was doing:
 
 For the first three the forced verdict is an artifact of the requirement, not a fact about the
 substrate: with the clause removed a behaviour-free program is one unit cheaper. This is
-published rather than buried, and it is why `EM-5` is stated only over the four families whose
-requirement carries no behaviour clause — `ADAPTATION`, `ROUTING`, `METAREASONING` and
-`ENDOGENOUS_EXPERIMENT_CHOICE`.
+published rather than buried, and it is why `EM-5` is stated only over families that survive
+this control.
 
-**Falsifier.** A stripped run in which the behaviour remains forced.
+The four headline families are entered into the same control, so that surviving it is a
+measurement and not an omission. `ADAPTATION`, `ROUTING` and `METAREASONING` are stated as bare
+input-to-output tables, so their stripped requirement is their frozen one (`stripped_is_frozen:
+true`) and the control reports that the table alone admits no predicate-avoiding program.
+`ENDOGENOUS_EXPERIMENT_CHOICE` does carry an extra clause — `word[0] not in out` — and is
+therefore genuinely re-searched without it; the count is unchanged at `1,648` conforming
+programs, so the clause is inert on this universe. All four return
+`requirement_entails_predicate: false`, which is why the count above is `5 / 13` and not more.
+
+| control family | stripped requirement | conforming | stripped verdict | entails |
+|---|---|---|---|---|
+| `ADAPTATION` | frozen (no clause) | `882` | `FORCED_BY_REQUIREMENT` | `false` |
+| `ROUTING` | frozen (no clause) | `154` | `FORCED_BY_REQUIREMENT` | `false` |
+| `METAREASONING` | frozen (no clause) | `132` | `FORCED_BY_REQUIREMENT` | `false` |
+| `ENDOGENOUS_EXPERIMENT_CHOICE` | table only, clause dropped | `1,648` | `FORCED_BY_REQUIREMENT` | `false` |
+
+**Falsifier.** A stripped run in which one of the five behaviours above remains forced, or one
+in which any of the four control families flips to `requirement_entails_predicate: true`.
 
 **Assumptions.** A requirement entails its predicate when the full run admits no conforming
 program that fails the predicate while the run with the behaviour clause removed does.

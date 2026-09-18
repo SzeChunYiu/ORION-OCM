@@ -107,5 +107,24 @@
    "reason": "the executor searched the registered universe for a pair in L4 and in no registered L3(k) and found none; L3*(2) = L4 on this universe is published in its place"
   }
  ],
- "workflow": ".github/workflows/gmi-833-ag3-presentation-equivalence-v1.yml"
+ "workflow": ".github/workflows/gmi-833-ag3-presentation-equivalence-v1.yml",
+ "frozen_clause_conflicts": [
+  {
+   "id": "AG3-FC-1",
+   "clauses": [
+    "FREEZE_V1.md S1 (The object being presented), final sentence",
+    "FREEZE_V1.md S2 (The four strengths), the L3(k) compiler clause",
+    "FREEZE_V1.md S6 (Falsifiers), third bullet"
+   ],
+   "conflict": "S1 requires every strength to imply equality of the presented semantic object; the S2 L3(k) clause read alone relates 367372 pairs on the registered universe whose behaviours differ. The two frozen clauses are jointly unsatisfiable.",
+   "s6_instruction": "that level's definition is wrong and the level is withdrawn, not repaired after the fact",
+   "s6_instruction_followed": false,
+   "governing_clause": "FREEZE_V1.md S1",
+   "resolution": "L3(k) is published as L3raw(k) intersect L4; the raw clause's failure is published as named result AG3L-2 with a two-state counterexample",
+   "why_s1_outranks_s6": "S6's antecedent is the negation of S1's requirement, so S6 presupposes S1 and cannot be applied against it; the intersection is a subset of the frozen L3raw and adds no relation the freeze did not license, whereas withdrawal would delete a strength S1 itself requires and leave the row's fourth-strength question unanswered.",
+   "not_a_freeze_edit": "FREEZE_V1.md is byte-unmodified since freeze commit cc4444ff",
+   "audit_shape_disclosed": "POST_HOC_SUSPECT",
+   "receipt_field": "RESULT_V1.json frozen_clause_conflicts"
+  }
+ ]
 }

@@ -743,6 +743,40 @@ def main():                                                    # noqa: C901
             "COMPILER_MAKES_SEARCH_BIAS_INVARIANT", "LATTICE_IS_COMPLETE_FOR_ALL_PRESENTATIONS",
             "BASIS_INDEPENDENT_OPERATION_THEORY_CLAIMED", "THEORY_INVARIANCE_PROVEN_FOR_GMI",
             "ALL_PRESENTATIONS_ENUMERATED", "COMPLETE_GMI"],
+        "frozen_clause_conflicts": [{
+            "id": "AG3-FC-1",
+            "clauses": ["FREEZE_V1.md S1 (The object being presented), final sentence",
+                        "FREEZE_V1.md S2 (The four strengths), the L3(k) compiler clause",
+                        "FREEZE_V1.md S6 (Falsifiers), third bullet"],
+            "conflict": ("S1 requires every strength to imply equality of the presented "
+                         "semantic object. The S2 L3(k) clause, read on its own, relates "
+                         "pairs whose behaviours differ, so S2 as written cannot satisfy "
+                         "S1. The two frozen clauses are jointly unsatisfiable; this was "
+                         "discovered by running the frozen definitions, not assumed."),
+            "measured_evidence": {
+                "raw_clause_cross_object_pairs": raw_cross,
+                "counterexample": raw_example},
+            "s6_instruction": ("that level's definition is wrong and the level is "
+                               "withdrawn, not repaired after the fact"),
+            "s6_instruction_followed": False,
+            "governing_clause": "FREEZE_V1.md S1",
+            "resolution": "L3(k) is published as L3raw(k) intersect L4",
+            "why_s1_outranks_s6": (
+                "S6 is a conditional instruction whose antecedent is 'any level relates a "
+                "pair whose behaviours differ'. That antecedent is exactly the negation of "
+                "the S1 requirement, so S6 presupposes S1 and cannot be applied against it. "
+                "Withdrawing the level would also withdraw S1's own requirement that a "
+                "compiler-strength relation exist and imply object equality, leaving the "
+                "frozen lattice with three of its four registered strengths and no answer "
+                "to the row's fourth-strength question -- a strictly larger departure from "
+                "the freeze than intersecting with the clause S1 already mandates. The "
+                "intersection adds no new relation: it only removes pairs that S1 forbade "
+                "in advance, so the published L3 is a subset of the frozen L3raw and "
+                "cannot relate anything the freeze did not already license."),
+            "not_a_freeze_edit": ("FREEZE_V1.md is unmodified since its freeze commit; the "
+                                  "raw S2 clause and its failure are published as named "
+                                  "result AG3L-2 with the counterexample above."),
+            "audit_shape_disclosed": "POST_HOC_SUSPECT"}],
         "scope_note": ("The order is computed over one registered finite universe of "
                        "presentations. No level of this order transfers instruction "
                        "description length, micro-step cost, mutation distance or "
