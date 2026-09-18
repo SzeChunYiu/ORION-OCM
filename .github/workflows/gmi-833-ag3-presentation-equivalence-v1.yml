@@ -1,0 +1,132 @@
+name: GMI 833 AG3 presentation-equivalence strength order
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ag3-presentation-equivalence-v1/**'
+      - '.github/workflows/gmi-833-ag3-presentation-equivalence-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ag3-presentation-equivalence-v1/**'
+      - '.github/workflows/gmi-833-ag3-presentation-equivalence-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ag3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-ag3-presentation-equivalence-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/ag3_first.txt
+          git show --name-only --format= "$(cat /tmp/ag3_first.txt)" -- "$PKG/" \
+            > /tmp/ag3_firstfiles.txt
+          cat /tmp/ag3_firstfiles.txt
+          grep -q 'FREEZE_V1.md' /tmp/ag3_firstfiles.txt
+          if [ "$(grep -c . /tmp/ag3_firstfiles.txt)" = "1" ]; then
+            echo 'freeze-first commit ordering intact'
+          else
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+
+      - name: Snapshot the committed receipts before anything reruns
+        run: |
+          set -euo pipefail
+          cp "$PKG/RESULT_V1.json" /tmp/ag3_committed_result.json
+          cp "$PKG/ORACLE_RESULT_V1.json" /tmp/ag3_committed_oracle.json
+
+      - name: No float may enter a claim
+        run: |
+          set -euo pipefail
+          ! grep -nE '\bfloat\(|[0-9]\.[0-9]|/ *[0-9]+\.0' "$PKG"/*.py
+
+      - name: Route A
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/ag3_presentation_equivalence_v1.py" | tee /tmp/ag3_routeA.json
+
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_oracle_v1.py" | tee /tmp/ag3_routeB.json
+
+      - name: Route B imports neither route A nor a parent
+        run: |
+          set -euo pipefail
+          ! grep -nE 'ag3_presentation_equivalence_v1|gmi-833-(aj5|g0|parent|ag2)' \
+            "$PKG/independent_oracle_v1.py"
+
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_ag3_v1.py" | tee /tmp/ag3_tests.txt
+
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_ag3_v1.py" | tee /tmp/ag3_tests-O.txt
+
+      - name: The committed receipts match the live run, and the two routes agree
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-ag3-presentation-equivalence-v1/'
+          fresh_a = json.load(open(P + 'RESULT_V1.json'))
+          fresh_b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          old_a = json.load(open('/tmp/ag3_committed_result.json'))
+          old_b = json.load(open('/tmp/ag3_committed_oracle.json'))
+          bad = []
+          keys = ('status', 'failed_gates', 'universe_size', 'comparable_pairs',
+                  'level_classes', 'level_related_pairs', 'k_star_l2_inside_l3',
+                  'generated_sublattice_size', 'generated_sublattice_new_elements',
+                  'l3_raw_clause_cross_object_pairs', 'l3_tolerance_edges',
+                  'incomparable_pairs', 'level_equalities_on_this_universe',
+                  'l3_certificates_checked', 'l3_certificates_invalid')
+          for k in keys:
+              if fresh_a[k] != old_a[k]:
+                  bad.append('receipt drift: ' + k)
+          shared = ('universe_size', 'comparable_pairs', 'level_classes',
+                    'level_related_pairs', 'k_star_l2_inside_l3',
+                    'l3_tolerance_edges', 'generated_sublattice_size',
+                    'l3_raw_clause_cross_object_pairs',
+                    'level_equalities_on_this_universe')
+          for k in shared:
+              if fresh_a[k] != fresh_b[k]:
+                  bad.append('route disagreement: ' + k)
+          if sorted(fresh_a['incomparable_pairs']) != sorted(fresh_b['incomparable_pairs']):
+              bad.append('route disagreement: incomparable_pairs')
+          if fresh_b != old_b:
+              bad.append('oracle receipt drift')
+          if fresh_a['status'] != 'GREEN' or fresh_a['failed_gates']:
+              bad.append('route A not GREEN')
+          print(json.dumps({'problems': bad}, indent=1))
+          sys.exit(1 if bad else 0)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ag3-presentation-equivalence-v1
+          path: |
+            /tmp/ag3_routeA.json
+            /tmp/ag3_routeB.json
+            /tmp/ag3_tests.txt
+            /tmp/ag3_tests-O.txt
+          if-no-files-found: error

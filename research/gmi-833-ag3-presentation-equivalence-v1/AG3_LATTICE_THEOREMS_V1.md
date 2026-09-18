@@ -1,0 +1,182 @@
+# AG3 named results — the presentation-equivalence strength order
+
+Scope for every result below: the registered finite universe `U` of `2,548` presentations
+fixed in `FREEZE_V1.md` section 3 (`n in {2,3}`, two distinct unary symbols drawn from the
+frozen generating set, external programs of length at most `2`, two observation regimes),
+`1,621,802` comparable pairs. Nothing here is asserted beyond that universe.
+
+---
+
+## `AG3L-1` — the four named strengths, and the order they actually stand in
+
+**Statement.** The four strengths named by the AG3 row are realized as the relations `L1`
+(syntactic renaming), `L2` (definitional/term equivalence), `L3(k)` (semantics-preserving
+compiler equivalence at overhead factor `k`) and `L4` (model equivalence), defined in
+`FREEZE_V1.md` section 2. On `U` they relate `1,762`, `29,470`, `297,166` (`k = 1`, after
+transitive closure) and `297,358` pairs and cut `U` into `1,152`, `219`, `107` and `91`
+classes respectively. The order is
+
+```text
+L1  <  L2   <  L4
+L1  <  L3*(1) <  L4
+L2  and  L3*(1)  are INCOMPARABLE
+```
+
+every `<` certified by an explicit separating pair and the incomparability by a pair in each
+direction.
+
+**Quantifiers.** For all ordered pairs of `U` sharing an observation regime.
+
+**Assumptions.** Deterministic total unary presentations; a fixed two-letter external
+alphabet; start state `0`; the two frozen observation regimes.
+
+**What the separators are.** `L2 \ L1` is `W-RENAME`, a definitional extension:
+`Sigma = (succ, id)` with `prog(b) = f0 f0` against `Sigma = (succ, pred)` with `prog(b) = f1`.
+The generated transformation monoid is `{id, succ, pred}` on both sides and both external
+actions agree, so the two present the same object by mutual term-definability, yet no
+arity-preserving symbol bijection carries a length-`2` program onto a length-`1` one.
+`L3*(1) \ L2` is `W-STATESPACE`, a two-state presentation against a three-state one with the
+same presented object. `L2 \ L3*(1)` is `W-OVERHEAD`, term-equivalent but needing two `pred`
+steps to compile one `succ` step under full observation.
+
+**Falsifiers.** A separating pair that fails to verify; any pair related by `L1` or `L2`
+whose presented objects differ (measured: `0` and `0`); a computed order in which `L2` and
+`L3*(1)` become comparable.
+
+**Strongest parents.** Birkhoff's free algebras over a signature and Lawvere's
+presentation-independent algebraic theories own `L2`; Nerode/Myhill and Park/Milner own `L4`;
+compiler correctness up to a simulation relation owns `L3`. What is new here is only the
+order between them as strengths of presentation equivalence, computed rather than asserted.
+
+**Forbidden extrapolations.** `PRESENTATION_EQUIVALENCE_IS_SOLVED`,
+`UNIQUE_PRESENTATION_EQUIVALENCE_STRENGTH`, `LATTICE_IS_COMPLETE_FOR_ALL_PRESENTATIONS`.
+
+---
+
+## `AG3L-2` — bounded mutual simulation is not by itself semantics preserving
+
+**Statement.** The compiler clause of `FREEZE_V1.md` section 2, read on its own — injective
+observation-preserving encodings in both directions plus bounded-overhead simulation of each
+external action — relates `367,372` pairs of `U` that present **different** objects. The
+lexicographically first is a two-state pair whose programs are `(empty, empty)` and
+`(empty, f1)`: each side simulates the other's actions within the bound while their
+behaviours differ at the first letter.
+
+**Why this is not a repair after the fact.** `FREEZE_V1.md` section 1 requires, before any
+run, that *every* strength imply equality of the presented object. Section 2's clause does not
+deliver that. The two frozen clauses conflict; section 1 is the governing one, so the level
+placed in the order is `L3(k) = L3raw(k) AND L4`, and `L3raw` is published with its exact
+failure count and counterexample rather than quietly replaced.
+
+**Consequence for the row.** "Semantics-preserving compiler equivalence with overhead" is not
+the conjunction of two independent conditions that happen to travel together. Semantics
+preservation has to be stated over the presented object; mutual simulation of the generators,
+however tightly charged, does not imply it.
+
+**Falsifier.** A run in which `l3_raw_clause_cross_object_pairs` is `0`.
+
+---
+
+## `AG3L-3` — compiler equivalence at a fixed overhead is a tolerance, not an equivalence
+
+**Statement.** `L3(1)` is reflexive and symmetric but **not transitive** on `U`. The executor
+publishes the explicit triple
+
+```text
+P = (n=3, Sigma=(id, succ),   prog=(f1, f1 f1))
+Q = (n=3, Sigma=(succ, pred), prog=(f0, f0 f0))
+R = (n=3, Sigma=(succ, pred), prog=(f0, f1))
+```
+
+with `P ~3(1) Q`, `Q ~3(1) R` and not `P ~3(1) R`. For `k in {2, 3, 5}` no such triple exists
+on `U`, so at those factors transitivity is **not exhibited at this scope** and is not
+asserted.
+
+**Mechanism.** Composing a compiler of overhead `k` with another of overhead `k` gives `k^2`,
+not `k`. A charged overhead therefore does not close under composition, and only the
+transitive closure `L3*(k)` is an equivalence relation and has a place in a lattice of
+equivalences. Every order statement above is made about `L3*`, never about `L3`.
+
+**Falsifier.** A run finding no non-transitive triple at `k = 1`.
+
+---
+
+## `AG3L-4` — the strength lattice
+
+**Statement.** The sublattice of the partition lattice on `U` generated by
+`{L1, L2, L3*(1), L3*(2), L3*(3), L3*(5), L4}` under meet = intersection and
+join = transitive closure of union has exactly **five** elements:
+
+```text
+            L4
+           /  \
+         L2    L3*(1)
+           \  /
+        L2 AND L3*(1)
+             |
+            L1
+```
+
+Exactly one element is new, the meet `L2 AND L3*(1)`; the join of the two incomparable levels
+is `L4` itself. The lattice is therefore **not** a chain: the AG3 row's four strengths do not
+line up in a single order of severity, and any claim of the form "presentation equivalence
+holds at strength `s` or above" has to name which of the two middle branches it means.
+
+**Two exact constants.**
+
+- `k* = 2`: the least registered overhead factor at which definitional/term equivalence sits
+  inside compiler equivalence on `U`. Below it the two are incomparable.
+- The ladder saturates at `k = 2`: `L3*(2) = L3*(3) = L3*(5) = L4` on `U`, `297,358` pairs and
+  `91` classes each. The merged parent `gmi-833-aj5-g0-lowering-v1`'s bound
+  `lower_ops <= 5 * G0_steps` therefore sits at a factor that is **not strict at this scope**,
+  and the strictness claim `L3*(5) < L4` that `FREEZE_V1.md` section 3 allowed for is
+  **withdrawn**: the executor searched `U` for a pair in `L4` and in no registered `L3(k)` and
+  found none. Whether the factor is strict on a universe with longer programs is open.
+
+**Falsifiers.** A generated sublattice of any size other than five; a run in which the join of
+`L2` and `L3*(1)` is not `L4`; a `k*` other than `2`.
+
+---
+
+## `AG3L-5` — exact placement of every registered witness, and the missing fourth witness
+
+**Statement.** Each witness kind is placed at the levels it satisfies and certified to fail at
+every strictly finer level. The placement is exact, not merely sufficient.
+
+| witness | kind | minimal level(s) | fails at |
+|---|---|---|---|
+| `PW-RELABEL` | the relabeling kind of `gmi-833-g0-grammar-bias-v1` (24 certified isometric relabelings, 0 invariant failures) | `L1` | nothing finer exists |
+| `W-RENAME` | definitional/term equivalence — **built here** | `L2` | `L1` |
+| `W-STATESPACE` | a state-space change with a charged overhead | `L3(1)` | `L1`, `L2` |
+| `PW-COMPILER` | the charged-overhead lowering kind of `gmi-833-aj5-g0-lowering-v1` | `L3(1)` | `L1`, `L2` |
+| `W-OVERHEAD` | term equivalence that overhead `1` cannot buy | `L2` | `L1`, `L3(1)` |
+
+**The fourth strength.** Of the four named strengths, `L2` was the one with no witness in the
+merged corpus. It was **constructed**, not shown impossible: `W-RENAME` is a definitional
+extension in the classical sense — the second presentation adds `pred` as a symbol for the
+`succ`-term `succ succ`, which changes the presentation and changes nothing about the presented
+object. Its exact level is `L2`: it is certified in `L2` and certified out of `L1`.
+
+**On "stronger categorical/model equivalence".** The row's last phrase splits. Read as clone
+or Lawvere-theory isomorphism it is `L2`, and the reading is only a presentation equivalence
+once the external-action condition is added: clone equality **alone** relates `219,618` pairs
+of `U` of which `168,900` present different objects. Read as model equivalence it is `L4`,
+which is the coarsest, not the finest, of the four. Both readings are reported; neither is
+smuggled into the other.
+
+**Null.** `0 / 200` random level assignments and `0 / 200` randomized interpretation tables
+reproduce the placement.
+
+**Falsifier.** Any witness certified at a level it does not satisfy, or a null draw that
+reproduces the placement.
+
+---
+
+## The boundary this package does not cross
+
+`gmi-833-aj5-g0-lowering-v1` records that instruction description length, micro-step cost,
+grammar mutation distance and search/reachability geometry do **not** transfer across a
+semantics-preserving lowering. Nothing here repairs that. `L3` exists in this order precisely
+because those quantities are charged as an overhead factor rather than carried, and
+`COMPILER_MAKES_SEARCH_BIAS_INVARIANT` remains a forbidden promotion of this package as it is
+of its parent.
