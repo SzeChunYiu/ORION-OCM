@@ -1,0 +1,41 @@
+{
+ "schema": "GMI_MORPHOLOGY_PHASE_RV_PROOF_V2_RECEIPT_TWO_ROUTE_V1",
+ "ticket": "REV-L45-073-PROOF-STRENGTHENING",
+ "claim": "MORPHOLOGY_PHASE_RV_BOUNDARY_THEOREM_V2: full analytic support at the claim's stated scope (kernel-general boundary theorems T2-T4, corrected closed forms, sandwich criterion); sweep demoted to declared control",
+ "commands": [
+  "python3 -I -B test_phase_rv_proof_v2.py -v  (19/19 OK on both hosts)",
+  "python3 -I -B phase_rv_boundary_route2.py --emit-receipt <path>  (ROUTE2_BATTERY_GREEN on both hosts)",
+  "python3 -I -B test_phase_rv.py -v  (route-1 declared control: 23/23 OK, billy-laptop)"
+ ],
+ "file_sha256": {
+  "phase_rv_boundary_route2.py": "e7f8562927eb2e2afb8a66fac583db5da81c0ffcd1f3d0bd59658d5e7f51153d",
+  "test_phase_rv_proof_v2.py": "ade314ed0f0448f0ef2ff0a1b7d1cfc128d5f8ea6888bf0e8bcec09eecc943ee",
+  "MORPHOLOGY_PHASE_RV_BOUNDARY_THEOREM_V2.md": "fb30bcd4ada63a7931b41064172c83cdcf6098cc2d53696c6de7898324696d40",
+  "route1_witness_phase_rv_witness.py": "a4bf09204d2954bf6de7f983b47fe4ad14bfa2ce88e4119004a8424b8535ea18"
+ },
+ "battery_sha256_both_hosts": "dc6361f29cd343003d2579ce0b395b0af060592b66fd19ca1397951bb19858e3",
+ "cross_host_bit_identical": true,
+ "hosts": [
+  {"host": "billy-laptop", "platform": "linux", "python": "3.8.10", "battery": "ROUTE2_BATTERY_GREEN", "tests": "19/19"},
+  {"host": "billy-old", "platform": "linux", "python": "3.14.4", "battery": "ROUTE2_BATTERY_GREEN", "tests": "19/19"}
+ ],
+ "two_route_outcome": {
+  "route_1": "V1 witness argmin enumeration (gmi-morphology-phase-rv-v1/phase_rv_witness.py, byte-identical sha on both hosts)",
+  "route_2": "closed-form boundary predicates only (T2/T3(iv)/T4(i)); no argmin, no three-burden comparison",
+  "winner_agreement": {
+   "registered_8x8_exact": {"agree": 64, "disagree": 0, "boundary_cells": 0, "winners": ["neural", "probabilistic", "symbolic"]},
+   "ladder_res_40_domain_edges": {"agree": 1600, "disagree": 0, "boundary_or_knife_edge": 0},
+   "ladder_res_120": {"agree": 14400, "disagree": 0, "boundary_or_knife_edge": 0},
+   "ladder_res_360": {"agree": 129600, "disagree": 0, "boundary_or_knife_edge": 0},
+   "random_seed42_n5000": {"agree": 5000, "disagree": 0, "boundary": 0}
+  },
+  "exact_fraction_targets_all_match": true,
+  "sandwich_for_all_R_exact": {
+   "instantiation_D_hng": {"holds": true, "inf_gap": "11/40"},
+   "instantiation_W_div": {"holds": true, "inf_gap": "259/1164"}
+  },
+  "bisection_cross_check_max_dev": {"v_star": 4.440892098500626e-16, "r_star": 7.73070496506989e-12},
+  "structural_property_draws": {"draws": 300, "skipped": 1, "violations": 0}
+ },
+ "verdict": "FULL_SUPPORT_AT_STATED_SCOPE__TWO_ASSERTIONS_CORRECTED_EARNED_BY_PROOF__ROUTE2_GREEN_BOTH_HOSTS"
+}

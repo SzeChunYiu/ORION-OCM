@@ -1,0 +1,665 @@
+{
+  "axes": [
+    {
+      "id": "observability",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "observation_partition": [
+              [
+                0,
+                1
+              ]
+            ],
+            "required_pair": [
+              0,
+              1
+            ],
+            "states": [
+              0,
+              1
+            ]
+          },
+          "token": "o7q"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "observation_partition": [
+              [
+                0
+              ],
+              [
+                1
+              ]
+            ],
+            "required_pair": [
+              0,
+              1
+            ],
+            "states": [
+              0,
+              1
+            ]
+          },
+          "token": "o7r"
+        }
+      ],
+      "parent_row": "Vary observability.",
+      "probe": "required_states_are_distinguishable",
+      "semantic_quantity": "partition separation of the required state pair"
+    },
+    {
+      "id": "recurrence",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "states": [
+              0,
+              1
+            ],
+            "transition_edges": [
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "token": "r2m"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "states": [
+              0,
+              1
+            ],
+            "transition_edges": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          },
+          "token": "r2n"
+        }
+      ],
+      "parent_row": "Vary recurrence.",
+      "probe": "transition_graph_contains_a_cycle",
+      "semantic_quantity": "directed-cycle existence"
+    },
+    {
+      "id": "uncertainty_noise",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "integer_weights": [
+              1,
+              1
+            ],
+            "outcomes": [
+              0,
+              1
+            ]
+          },
+          "token": "u4c"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "integer_weights": [
+              0,
+              1
+            ],
+            "outcomes": [
+              0,
+              1
+            ]
+          },
+          "token": "u4d"
+        }
+      ],
+      "parent_row": "Vary uncertainty/noise.",
+      "probe": "registered_transition_is_single_outcome",
+      "semantic_quantity": "positive-probability transition-support cardinality"
+    },
+    {
+      "id": "causal_intervention_access",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "causes": [
+              0,
+              1
+            ],
+            "intervenable_causes": [],
+            "observational_images": [
+              0,
+              0
+            ]
+          },
+          "token": "c9a"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "causes": [
+              0,
+              1
+            ],
+            "intervenable_causes": [
+              0
+            ],
+            "observational_images": [
+              0,
+              0
+            ]
+          },
+          "token": "c9b"
+        }
+      ],
+      "parent_row": "Vary causal ambiguity/intervention access.",
+      "probe": "ambiguous_cause_can_be_intervened_on",
+      "semantic_quantity": "intervention access under observational aliasing"
+    },
+    {
+      "id": "compositional_structure",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "factor_scopes": [
+              [
+                0,
+                1
+              ]
+            ],
+            "variables": [
+              0,
+              1
+            ]
+          },
+          "token": "p3f"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "factor_scopes": [
+              [
+                0
+              ],
+              [
+                1
+              ]
+            ],
+            "variables": [
+              0,
+              1
+            ]
+          },
+          "token": "p3g"
+        }
+      ],
+      "parent_row": "Vary compositional structure.",
+      "probe": "two_disjoint_components_are_exposed",
+      "semantic_quantity": "nontrivial disjoint factorization"
+    },
+    {
+      "id": "spatial_locality",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "influence_edges": [
+              [
+                0,
+                2
+              ]
+            ],
+            "radius": 1,
+            "sites": [
+              0,
+              1,
+              2
+            ]
+          },
+          "token": "s8j"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "influence_edges": [
+              [
+                0,
+                1
+              ]
+            ],
+            "radius": 1,
+            "sites": [
+              0,
+              1,
+              2
+            ]
+          },
+          "token": "s8k"
+        }
+      ],
+      "parent_row": "Vary spatial/locality structure.",
+      "probe": "all_effects_respect_registered_radius",
+      "semantic_quantity": "maximum interaction distance relative to radius"
+    },
+    {
+      "id": "symmetry_equivariance",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "outcome_by_point": [
+              0,
+              1
+            ],
+            "points": [
+              0,
+              1
+            ],
+            "swap": [
+              1,
+              0
+            ]
+          },
+          "token": "y5t"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "outcome_by_point": [
+              1,
+              1
+            ],
+            "points": [
+              0,
+              1
+            ],
+            "swap": [
+              1,
+              0
+            ]
+          },
+          "token": "y5u"
+        }
+      ],
+      "parent_row": "Vary symmetry/equivariance.",
+      "probe": "outcome_is_invariant_under_registered_swap",
+      "semantic_quantity": "invariance of the outcome table under a nonidentity permutation"
+    },
+    {
+      "id": "communication_topology",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "agents": [
+              0,
+              1
+            ],
+            "directed_links": [],
+            "required_route": [
+              0,
+              1
+            ]
+          },
+          "token": "t1h"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "agents": [
+              0,
+              1
+            ],
+            "directed_links": [
+              [
+                0,
+                1
+              ]
+            ],
+            "required_route": [
+              0,
+              1
+            ]
+          },
+          "token": "t1i"
+        }
+      ],
+      "parent_row": "Vary communication topology.",
+      "probe": "message_path_exists_from_sender_to_receiver",
+      "semantic_quantity": "directed reachability in the communication graph"
+    },
+    {
+      "id": "multi_agent_payoff_relation",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "joint_choices": [
+              0,
+              1
+            ],
+            "payoff_agent_0": [
+              1,
+              0
+            ],
+            "payoff_agent_1": [
+              0,
+              1
+            ]
+          },
+          "token": "a6v"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "joint_choices": [
+              0,
+              1
+            ],
+            "payoff_agent_0": [
+              1,
+              0
+            ],
+            "payoff_agent_1": [
+              1,
+              0
+            ]
+          },
+          "token": "a6w"
+        }
+      ],
+      "parent_row": "Vary multi-agent competition/cooperation.",
+      "probe": "agents_share_an_optimal_joint_choice",
+      "semantic_quantity": "intersection of individual payoff-maximizing joint choices"
+    },
+    {
+      "id": "verification_availability_cost",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "verification_budget": 2,
+            "verification_cost": 3,
+            "verifier_available": true
+          },
+          "token": "v0p"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "verification_budget": 2,
+            "verification_cost": 1,
+            "verifier_available": true
+          },
+          "token": "v0q"
+        }
+      ],
+      "parent_row": "Vary verification availability/cost.",
+      "probe": "verification_is_available_within_budget",
+      "semantic_quantity": "verification availability and price relative to budget"
+    },
+    {
+      "id": "memory_price",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 3
+          },
+          "token": "m4x"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 1
+          },
+          "token": "m4y"
+        }
+      ],
+      "parent_row": "Vary memory price.",
+      "probe": "required_memory_is_affordable",
+      "semantic_quantity": "memory expenditure relative to budget"
+    },
+    {
+      "id": "compute_price",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 3
+          },
+          "token": "k2e"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 1
+          },
+          "token": "k2f"
+        }
+      ],
+      "parent_row": "Vary compute price.",
+      "probe": "required_compute_is_affordable",
+      "semantic_quantity": "compute expenditure relative to budget"
+    },
+    {
+      "id": "communication_price",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 3
+          },
+          "token": "q8s"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 1
+          },
+          "token": "q8t"
+        }
+      ],
+      "parent_row": "Vary communication price.",
+      "probe": "required_communication_is_affordable",
+      "semantic_quantity": "communication expenditure relative to budget"
+    },
+    {
+      "id": "energy_price",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 3
+          },
+          "token": "e1l"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "budget": 2,
+            "required_units": 1,
+            "unit_price": 1
+          },
+          "token": "e1m"
+        }
+      ],
+      "parent_row": "Vary energy price.",
+      "probe": "required_energy_is_affordable",
+      "semantic_quantity": "energy expenditure relative to budget"
+    },
+    {
+      "id": "developmental_horizon",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "available_steps": 1,
+            "required_steps": 2
+          },
+          "token": "d7b"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "available_steps": 2,
+            "required_steps": 2
+          },
+          "token": "d7c"
+        }
+      ],
+      "parent_row": "Vary developmental horizon.",
+      "probe": "required_developmental_sequence_fits_horizon",
+      "semantic_quantity": "available developmental steps relative to required steps"
+    },
+    {
+      "id": "nonstationarity_drift",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "calibration_target": [
+              0,
+              1
+            ],
+            "epochs": [
+              0,
+              1
+            ]
+          },
+          "token": "n3r"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "calibration_target": [
+              1,
+              1
+            ],
+            "epochs": [
+              0,
+              1
+            ]
+          },
+          "token": "n3s"
+        }
+      ],
+      "parent_row": "Vary nonstationarity/drift.",
+      "probe": "calibration_is_stable_across_epochs",
+      "semantic_quantity": "cross-epoch equality of the calibration target"
+    },
+    {
+      "id": "embodiment_sensor_action_constraints",
+      "levels": [
+        {
+          "expected_probe": false,
+          "payload": {
+            "available_pairs": [
+              [
+                "sensor_0",
+                "action_1"
+              ]
+            ],
+            "required_pair": [
+              "sensor_0",
+              "action_0"
+            ]
+          },
+          "token": "b9z"
+        },
+        {
+          "expected_probe": true,
+          "payload": {
+            "available_pairs": [
+              [
+                "sensor_0",
+                "action_0"
+              ]
+            ],
+            "required_pair": [
+              "sensor_0",
+              "action_0"
+            ]
+          },
+          "token": "b9a"
+        }
+      ],
+      "parent_row": "Vary embodiment/sensor-action constraints.",
+      "probe": "required_sensor_action_pair_is_available",
+      "semantic_quantity": "membership of the required sensor-action pair in the embodied interface"
+    }
+  ],
+  "axis_count": 17,
+  "claim_boundary": "A complete finite product over the registered carriers, not a sample or a complete universe of ecologies.",
+  "forbidden_operational_family_phrases": [
+    "finite state automata",
+    "linear regression",
+    "linear classifier",
+    "generalized linear model",
+    "kernel method",
+    "nearest neighbor",
+    "associative memory",
+    "retrieval augmented",
+    "decision tree",
+    "symbolic logic",
+    "program synthesis",
+    "dynamic programming",
+    "model free reinforcement learning",
+    "model based reinforcement learning",
+    "bayesian inference",
+    "probabilistic graphical model",
+    "particle inference",
+    "feed forward neural network",
+    "backpropagation",
+    "convolutional neural network",
+    "recurrent neural network",
+    "long short term memory",
+    "gated recurrent unit",
+    "attention mechanism",
+    "transformer",
+    "graph neural network",
+    "state space model",
+    "mixture of experts",
+    "autoregressive generative",
+    "latent variable generative",
+    "diffusion model",
+    "energy based model",
+    "evolutionary algorithm",
+    "cellular automaton",
+    "neuro symbolic",
+    "meta learning"
+  ],
+  "issue": 957,
+  "parent_issue": 833,
+  "schema": "GMI833EcologyAxisRegistryV1",
+  "source_pr": 959
+}

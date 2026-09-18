@@ -1,0 +1,74 @@
+name: gmi-833-developmental-reuse-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-developmental-reuse-v1/**'
+      - '.github/workflows/gmi-833-developmental-reuse.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-developmental-reuse-v1/**'
+      - '.github/workflows/gmi-833-developmental-reuse.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.12']
+    env:
+      PKG: research/gmi-833-developmental-reuse-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Stdlib only
+        run: |
+          set -eu
+          if grep -nE '^[[:space:]]*(import|from) (numpy|scipy|pandas|torch|sympy)' "$PKG"/*.py; then
+            echo "third-party import found"; exit 1
+          fi
+          echo "stdlib only: ok"
+
+      - name: Freeze precedes implementation (git order)
+        run: |
+          set -eu
+          FREEZE=$(git log --reverse --format=%H -- "$PKG"/FREEZE_V1.md | head -1)
+          IMPL=$(git log --reverse --format=%H -- "$PKG"/developmental_reuse_v1.py | head -1)
+          echo "freeze=$FREEZE impl=$IMPL"
+          test -n "$FREEZE"
+          test -n "$IMPL"
+          test "$FREEZE" != "$IMPL"
+          git merge-base --is-ancestor "$FREEZE" "$IMPL"
+
+      - name: Executor reproduces RESULT_V1.json byte-for-byte
+        run: |
+          set -eu
+          python3 -I -B "$PKG"/developmental_reuse_v1.py > /tmp/result.json
+          cmp /tmp/result.json "$PKG"/RESULT_V1.json
+
+      - name: Oracle reproduces ORACLE_RESULT_V1.json byte-for-byte
+        run: |
+          set -eu
+          python3 -I -B "$PKG"/independent_oracle_v1.py > /tmp/oracle.json
+          cmp /tmp/oracle.json "$PKG"/ORACLE_RESULT_V1.json
+
+      - name: Tests (assertions on)
+        run: python3 -I -B "$PKG"/test_developmental_reuse_v1.py -v
+
+      - name: Tests (optimized mode)
+        run: python3 -I -O -B "$PKG"/test_developmental_reuse_v1.py -v
+
+      - name: Claim-discipline gate
+        run: python3 -I -B "$PKG"/ci_gate_v1.py

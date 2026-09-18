@@ -1,0 +1,647 @@
+{
+  "checks": {
+    "all_candidate_scalars_refuted": true,
+    "dependence_separates_from_prediction": true,
+    "existence_separates_from_accessibility": true,
+    "finite_sample_separates_from_asymptotic": true,
+    "marginal_nonuniformity_separates_from_dependence": true,
+    "minimality_covers_every_separation": true,
+    "minimality_search_complete": true,
+    "no_budget_independent_scalar": true,
+    "null_beaten": true,
+    "null_no_alarm_on_clean": true,
+    "null_threshold_free_margin": true,
+    "prediction_implies_dependence_on_grid": true,
+    "prediction_separates_from_causation": true,
+    "prediction_separates_from_control": true,
+    "profile_object_bounded": true,
+    "profile_object_monotone": true
+  },
+  "claim_ceiling": "GMI_833_AE1_TASK_RELATIVE_EXPLOITABLE_STRUCTURE_SEPARATED_ON_REGISTERED_FINITE_WITNESS_ROSTER",
+  "freeze_commit": "a466dab4c464e0c697f4caf5a3cceb3a5d73278c",
+  "issue": 833,
+  "results": {
+    "accessibility_profiles": {
+      "W_DICT": {
+        "acc_base": "1/2",
+        "acc_full": "1",
+        "profile": {
+          "k0_d0": "1/2",
+          "k0_d1": "1/2",
+          "k0_d2": "1/2",
+          "k0_d3": "1/2",
+          "k1_d0": "1/2",
+          "k1_d1": "1",
+          "k1_d2": "1",
+          "k1_d3": "1",
+          "k2_d0": "1/2",
+          "k2_d1": "1",
+          "k2_d2": "1",
+          "k2_d3": "1",
+          "k3_d0": "1/2",
+          "k3_d1": "1",
+          "k3_d2": "1",
+          "k3_d3": "1"
+        }
+      },
+      "W_NOISY_DICT": {
+        "acc_base": "1/2",
+        "acc_full": "3/4",
+        "profile": {
+          "k0_d0": "1/2",
+          "k0_d1": "1/2",
+          "k0_d2": "1/2",
+          "k0_d3": "1/2",
+          "k1_d0": "1/2",
+          "k1_d1": "3/4",
+          "k1_d2": "3/4",
+          "k1_d3": "3/4",
+          "k2_d0": "1/2",
+          "k2_d1": "3/4",
+          "k2_d2": "3/4",
+          "k2_d3": "3/4",
+          "k3_d0": "1/2",
+          "k3_d1": "3/4",
+          "k3_d2": "3/4",
+          "k3_d3": "3/4"
+        }
+      },
+      "W_PARITY3": {
+        "acc_base": "1/2",
+        "acc_full": "1",
+        "profile": {
+          "k0_d0": "1/2",
+          "k0_d1": "1/2",
+          "k0_d2": "1/2",
+          "k0_d3": "1/2",
+          "k1_d0": "1/2",
+          "k1_d1": "1/2",
+          "k1_d2": "1/2",
+          "k1_d3": "1/2",
+          "k2_d0": "1/2",
+          "k2_d1": "1/2",
+          "k2_d2": "1/2",
+          "k2_d3": "1/2",
+          "k3_d0": "1/2",
+          "k3_d1": "1/2",
+          "k3_d2": "1/2",
+          "k3_d3": "1"
+        }
+      }
+    },
+    "candidate_scalars_refuted": {
+      "chi_squared": {
+        "U_W_NOISY_DICT": "3/4",
+        "U_W_PARITY3": "1/2",
+        "at_budget": "k1_d1",
+        "refuted": true,
+        "sigma_W_NOISY_DICT": "1/4",
+        "sigma_W_PARITY3": "1"
+      },
+      "full_information_gain": {
+        "U_W_NOISY_DICT": "3/4",
+        "U_W_PARITY3": "1/2",
+        "at_budget": "k1_d1",
+        "refuted": true,
+        "sigma_W_NOISY_DICT": "1/4",
+        "sigma_W_PARITY3": "1/2"
+      },
+      "l1_dependence": {
+        "U_W_NOISY_DICT": "3/4",
+        "U_W_PARITY3": "1/2",
+        "at_budget": "k1_d1",
+        "refuted": true,
+        "sigma_W_NOISY_DICT": "1/2",
+        "sigma_W_PARITY3": "1"
+      }
+    },
+    "causal_separation": {
+      "CAUSAL": false,
+      "PRED": true,
+      "interventional_gain": "0",
+      "joint": {
+        "0,0": "13/40",
+        "0,1": "7/40",
+        "1,0": "7/40",
+        "1,1": "13/40"
+      },
+      "observational_gain": "3/20",
+      "p_y1_do_x0": "1/2",
+      "p_y1_do_x1": "1/2",
+      "p_y1_given_x0": "7/20",
+      "p_y1_given_x1": "13/20"
+    },
+    "control_separation": {
+      "W_CTRL_NOPRED": {
+        "CTRL": true,
+        "PRED": false,
+        "acc_base": "1/2",
+        "acc_obs": "1/2",
+        "blind_utility": "1/4",
+        "control_gain": "1/4",
+        "informed_utility": "1/2",
+        "shape": [
+          2,
+          3,
+          2
+        ],
+        "utility_is_constant_in_y": false
+      },
+      "W_PRED_NOCTRL": {
+        "CTRL": false,
+        "PRED": true,
+        "acc_base": "1/2",
+        "acc_obs": "1",
+        "blind_utility": "1",
+        "control_gain": "0",
+        "informed_utility": "1",
+        "shape": [
+          2,
+          2,
+          2
+        ],
+        "utility_is_constant_in_y": false
+      }
+    },
+    "discoverability": {
+      "DISC_m0": false,
+      "DISC_m1": true,
+      "LEARN": true,
+      "asymptotic_accuracy": "1",
+      "hypothesis_family": "all 8 secrets s in GF(2)^3, uniform prior",
+      "learning_curve": {
+        "m0": "9/16",
+        "m1": "79/128",
+        "m2": "723/1024",
+        "m3": "6715/8192"
+      },
+      "marginalised_world_PRED": false,
+      "marginalised_world_acc_base": "9/16",
+      "marginalised_world_acc_obs": "9/16"
+    },
+    "distributional_separation": {
+      "W_DEP_NOPRED": {
+        "DEP": true,
+        "MARG_NONUNIF": false,
+        "PRED": false,
+        "acc_base": "4/5",
+        "acc_obs": "4/5",
+        "gain": "0",
+        "l1_dependence": "1/5",
+        "shape": [
+          2,
+          2
+        ]
+      },
+      "W_DEP_UNIFMARG": {
+        "DEP": true,
+        "MARG_NONUNIF": false,
+        "PRED": true,
+        "acc_base": "1/2",
+        "acc_obs": "1",
+        "gain": "1/2",
+        "l1_dependence": "1",
+        "shape": [
+          2,
+          2
+        ]
+      },
+      "W_IND_SKEW": {
+        "DEP": false,
+        "MARG_NONUNIF": true,
+        "PRED": false,
+        "acc_base": "1/2",
+        "acc_obs": "1/2",
+        "gain": "0",
+        "l1_dependence": "0",
+        "shape": [
+          2,
+          2
+        ]
+      },
+      "W_IND_UNIF": {
+        "DEP": false,
+        "MARG_NONUNIF": false,
+        "PRED": false,
+        "acc_base": "1/2",
+        "acc_obs": "1/2",
+        "gain": "0",
+        "l1_dependence": "0",
+        "shape": [
+          2,
+          2
+        ]
+      }
+    },
+    "existence_vs_accessibility": {
+      "ACC_at_k2_d2": false,
+      "ACC_at_k3_d3": true,
+      "PRED": true,
+      "acc_base": "1/2",
+      "acc_full_information": "1",
+      "best_acc_at_k2_d2": "1/2",
+      "best_acc_at_k3_d2": "1/2",
+      "best_acc_at_k3_d3": "1",
+      "world": "W_PARITY3"
+    },
+    "minimality": {
+      "accessibility_row5": {
+        "arity_gap": {
+          "minimal_n": 2,
+          "realizable_n_k": [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ]
+        },
+        "coordinate_range": [
+          1,
+          3
+        ],
+        "depth_gap_at_full_arity": {
+          "minimal_n": 2,
+          "realizable_n_d": [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ]
+        },
+        "depth_gap_with_every_coordinate_reachable": {
+          "definition": "a depth-d tree can query up to 2^d - 1 distinct coordinates; this pattern requires 2^d - 1 >= n, so no coordinate is hidden from the budget, and the best rule is STILL at the base rate",
+          "minimal_n": 3,
+          "realizable_n_d": [
+            [
+              3,
+              2
+            ]
+          ]
+        },
+        "nontrivial_budget_requirement": "junta arity at least 1",
+        "targets_examined": 270
+      },
+      "causal_row4": {
+        "PRED_with_zero_interventional_gain": {
+          "minimal_shapes": [
+            [
+              2,
+              2,
+              2
+            ]
+          ],
+          "realizable_shapes": [
+            [
+              2,
+              2,
+              2
+            ]
+          ]
+        },
+        "cases_examined": 970,
+        "grid_denominator": 4,
+        "interventional_gain_is_zero_by_construction": true,
+        "max_shape_ZXY": [
+          2,
+          2,
+          2
+        ],
+        "shapes_searched": 8,
+        "structure": "Z -> X, Z -> Y, no X -> Y edge"
+      },
+      "control_row4": {
+        "CTRL_without_PRED": {
+          "minimal_shapes_any_action_count": [
+            [
+              2,
+              3,
+              2
+            ]
+          ],
+          "minimal_shapes_at_least_two_actions": [
+            [
+              2,
+              3,
+              2
+            ]
+          ],
+          "realizable_shapes": [
+            [
+              2,
+              3,
+              2
+            ],
+            [
+              3,
+              3,
+              2
+            ]
+          ]
+        },
+        "PRED_without_CTRL_nonconstant_utility": {
+          "minimal_shapes_any_action_count": [
+            [
+              2,
+              2,
+              1
+            ]
+          ],
+          "minimal_shapes_at_least_two_actions": [
+            [
+              2,
+              2,
+              2
+            ]
+          ],
+          "realizable_shapes": [
+            [
+              2,
+              2,
+              1
+            ],
+            [
+              2,
+              2,
+              2
+            ],
+            [
+              2,
+              3,
+              1
+            ],
+            [
+              2,
+              3,
+              2
+            ],
+            [
+              3,
+              2,
+              1
+            ],
+            [
+              3,
+              2,
+              2
+            ],
+            [
+              3,
+              3,
+              1
+            ],
+            [
+              3,
+              3,
+              2
+            ]
+          ]
+        },
+        "cases_examined": 45748,
+        "grid_denominator": 6,
+        "max_shape_XYA": [
+          3,
+          3,
+          2
+        ],
+        "nondegeneracy_requirement": "at least two actions. A single-action world offers no choice, so its control gain is zero for trivial reasons and every world would be a vacuous witness -- the same exclusion applied to the arity-0 rule class in the accessibility sweep. Both the unrestricted and the non-degenerate minima are reported.",
+        "shapes_searched": 18
+      },
+      "discoverability_row6": {
+        "coordinate_range": [
+          1,
+          3
+        ],
+        "minimal_n": 1,
+        "per_n": {
+          "n1": {
+            "asymptotic": "1",
+            "marginalised_PRED": false,
+            "marginalised_acc_base": "3/4",
+            "marginalised_acc_obs": "3/4",
+            "zero_sample_learner": "3/4"
+          },
+          "n2": {
+            "asymptotic": "1",
+            "marginalised_PRED": false,
+            "marginalised_acc_base": "5/8",
+            "marginalised_acc_obs": "5/8",
+            "zero_sample_learner": "5/8"
+          },
+          "n3": {
+            "asymptotic": "1",
+            "marginalised_PRED": false,
+            "marginalised_acc_base": "9/16",
+            "marginalised_acc_obs": "9/16",
+            "zero_sample_learner": "9/16"
+          }
+        },
+        "realizable_n": [
+          1,
+          2,
+          3
+        ]
+      },
+      "distributional": {
+        "grid_denominator": 8,
+        "max_shape": 4,
+        "separations": {
+          "DEP_without_MARG_NONUNIF": {
+            "minimal_shapes": [
+              [
+                2,
+                2
+              ]
+            ],
+            "pattern_MARG_DEP_PRED": [
+              false,
+              true,
+              true
+            ]
+          },
+          "DEP_without_PRED": {
+            "minimal_shapes": [
+              [
+                2,
+                2
+              ]
+            ],
+            "pattern_MARG_DEP_PRED": [
+              true,
+              true,
+              false
+            ]
+          },
+          "DEP_without_PRED_uniform_marginal": {
+            "minimal_shapes": [
+              [
+                2,
+                2
+              ]
+            ],
+            "pattern_MARG_DEP_PRED": [
+              false,
+              true,
+              false
+            ]
+          },
+          "MARG_NONUNIF_without_DEP": {
+            "minimal_shapes": [
+              [
+                2,
+                1
+              ]
+            ],
+            "pattern_MARG_DEP_PRED": [
+              true,
+              false,
+              false
+            ]
+          }
+        },
+        "shapes_admitting_PRED_without_DEP": [],
+        "shapes_searched": 16
+      },
+      "scope_note": "minimality is claimed only at the frozen finite grids declared below and under the stated product orders; it is never a claim about all real-valued parameters",
+      "witness_minimality_status": {
+        "W_CTRL_NOPRED": {
+          "minimal_at_two_or_more_actions": true,
+          "shape_XYA": [
+            2,
+            3,
+            2
+          ]
+        },
+        "W_PARITY3": {
+          "coordinates": 3,
+          "honest_note": "W_PARITY3 is NOT the minimal witness of the plain accessibility gap -- two coordinates already suffice. It IS the minimal witness of the strictly stronger pattern in which every coordinate is reachable within the depth budget and the best rule is still at the base rate, which is the property the AE1-5 claim actually rests on (best_acc_at_k3_d2 = 1/2).",
+          "minimal_for_every_coordinate_reachable_gap": true,
+          "minimal_for_plain_arity_gap": false,
+          "minimal_n_for_plain_arity_gap": 2
+        },
+        "W_PRED_NOCTRL": {
+          "minimal_at_two_or_more_actions": true,
+          "shape_XYA": [
+            2,
+            2,
+            2
+          ]
+        },
+        "causal_triple": {
+          "minimal": true,
+          "shape_ZXY": [
+            2,
+            2,
+            2
+          ]
+        },
+        "parity_family_n3": {
+          "coordinates": 3,
+          "honest_note": "one coordinate already exhibits the zero-sample gap. The three-coordinate family is used for the quantitative learning curve, not as a minimality claim.",
+          "minimal": false,
+          "minimal_n_for_zero_sample_gap": 1
+        }
+      }
+    },
+    "null": {
+      "detector": "accessibility gap: full-information Bayes gain is strictly positive while every rule admissible at junta arity k<=2 attains exactly the base rate",
+      "family": "uniform X on {0,1}^3, P(Y=1|x) an independent multiple of 1/8 drawn from a deterministic integer LCG",
+      "finding": "the unthresholded detector fires on 7 of 200 random worlds; every such hit is a genuine but small accessibility gap, the largest being 3/16, against the planted witness's 1/2",
+      "known_clean_worlds_flagged": [],
+      "largest_null_gap_magnitude": "3/16",
+      "magnitude_threshold_illustrative": "1/4",
+      "magnitude_threshold_note": "the 1/4 threshold below was chosen after the null magnitudes were seen and is reported as an illustration only; no claim in this package depends on it, and the threshold-free comparison above carries the result",
+      "no_alarm_case_holds": true,
+      "planted_positive_flagged": true,
+      "planted_positive_gap_magnitude": "1/2",
+      "primary_comparison": "threshold-free: the planted witness's gap magnitude strictly exceeds the largest magnitude any of the 200 random worlds attains",
+      "random_world_gap_magnitudes": [
+        [
+          6,
+          "1/16"
+        ],
+        [
+          7,
+          "3/32"
+        ],
+        [
+          33,
+          "1/32"
+        ],
+        [
+          45,
+          "1/32"
+        ],
+        [
+          53,
+          "1/32"
+        ],
+        [
+          161,
+          "1/16"
+        ],
+        [
+          169,
+          "3/16"
+        ]
+      ],
+      "random_worlds_at_or_above_threshold": 0,
+      "random_worlds_flagged_unthresholded": 7,
+      "trials": 200,
+      "witness_exceeds_largest_null_gap": true
+    },
+    "profile_object": {
+      "bounded_by_full_information": true,
+      "ceiling_violations": [],
+      "definition": "S(W) := the map R -> max_{h in H_R} acc(h, W) on the frozen budget lattice R = (junta arity k, decision-tree depth d). Defined by the coordinates a rule may read and its branching depth; no architecture, layer or parameter count enters.",
+      "lattice_size": 16,
+      "monotone": true,
+      "monotonicity_violations": []
+    },
+    "reversal_genericity": {
+      "note": "reported for information only; one reversal already refutes every budget-independent scalar, and a high rate strengthens rather than weakens the AE1-5 conclusion",
+      "random_pairs_with_order_reversal": 114,
+      "trials": 200
+    },
+    "scalar_impossibility": {
+      "A_high": "1",
+      "A_low": "1/2",
+      "B_high": "3/4",
+      "B_low": "3/4",
+      "budget_high": "k3_d3",
+      "budget_low": "k1_d1",
+      "quantifier": "Refutes every BUDGET-INDEPENDENT sigma: W -> R claimed to satisfy sigma(W) >= sigma(W') => U(W,R) >= U(W',R) for all R in the frozen lattice. A scalar indexed by the pair (W,R) is NOT refuted; the positive disjunct below supplies exactly such a resource-indexed object.",
+      "reversal": true,
+      "world_A": "W_PARITY3",
+      "world_B": "W_NOISY_DICT"
+    }
+  },
+  "schema": "GMI_833_AE1_STRUCTURE_SEPARATION_RESULT_V1",
+  "section": "AE1",
+  "source_main": "91c6d2876ba80c517a186e28fce3bdbe4e3fc218",
+  "theorems": [
+    "AE1-1",
+    "AE1-2",
+    "AE1-3",
+    "AE1-4",
+    "AE1-5",
+    "AE1-6",
+    "AE1-8"
+  ],
+  "verdict": "GREEN"
+}

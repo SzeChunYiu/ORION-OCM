@@ -1,0 +1,86 @@
+name: GMI 833 Section I update-law space v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-update-law-space-v1/**'
+      - '.github/workflows/gmi-833-update-law-space-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-update-law-space-v1/**'
+      - '.github/workflows/gmi-833-update-law-space-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody — the freeze must predate every implementation artifact
+        run: |
+          set -eu
+          P=research/gmi-833-update-law-space-v1
+          FZ=$(git log --format=%ct -1 -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze commit time"; exit 1; fi
+          for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json "$P"/MANIFEST_V1.json; do
+            T=$(git log --format=%ct -1 -- "$f")
+            if [ -z "$T" ]; then echo "cannot read commit time for $f"; exit 1; fi
+            if [ "$T" -lt "$FZ" ]; then echo "CUSTODY FAILURE: $f predates FREEZE_V1.md"; exit 1; fi
+          done
+          echo "custody ok: FREEZE_V1.md at $FZ predates every implementation artifact"
+
+      - name: two-route independence — the oracle must not reference the executor
+        run: |
+          set -eu
+          cd research/gmi-833-update-law-space-v1
+          if grep -q 'update_law_space_v1' oracle_update_law_space_v1.py; then
+            echo "TWO-ROUTE FAILURE: the oracle references the executor"; exit 1
+          fi
+          echo "two-route independence ok"
+
+      - name: set interpreter flags
+        run: |
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            echo "PYFLAGS=-I -O -B" >> "$GITHUB_ENV"
+          else
+            echo "PYFLAGS=-I -B" >> "$GITHUB_ENV"
+          fi
+
+      - name: route A executor
+        working-directory: research/gmi-833-update-law-space-v1
+        run: python3 $PYFLAGS update_law_space_v1.py
+
+      - name: route B independent oracle
+        working-directory: research/gmi-833-update-law-space-v1
+        run: python3 $PYFLAGS oracle_update_law_space_v1.py
+
+      - name: tests (236 checks, two-route agreement, 14 hostiles, nulls)
+        working-directory: research/gmi-833-update-law-space-v1
+        run: python3 $PYFLAGS test_update_law_space_v1.py
+
+      - name: receipts are deterministic and match what was committed
+        working-directory: research/gmi-833-update-law-space-v1
+        run: |
+          set -eu
+          python3 -I -B update_law_space_v1.py > /dev/null
+          A=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          python3 -I -O -B update_law_space_v1.py > /dev/null
+          B=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          if [ "$A" != "$B" ]; then echo "NON-DETERMINISTIC RECEIPT: $A vs $B"; exit 1; fi
+          echo "deterministic across both modes: $A"
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json

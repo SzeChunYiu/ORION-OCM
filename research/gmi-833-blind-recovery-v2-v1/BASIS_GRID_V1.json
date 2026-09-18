@@ -1,0 +1,59 @@
+{
+  "schema": "V2_BASIS_GRID_V1",
+  "status": "FROZEN_BEFORE_V2_RECOVERY_TRANCHES",
+  "selection_rule": "each tier is declared by a symmetry/completeness rule stated in PRIOR_DISCLOSURE_V1.md CH2; no tier member is chosen, removed, or tuned with reference to any family morphology",
+  "atoms_tier": {
+    "rule": "the task inputs themselves plus the minimal sign-symmetric constant set",
+    "constants": [-1, 0, 1],
+    "inputs": "all battery input channels, by name from the battery freeze"
+  },
+  "binary_tier": {
+    "rule": "the single group law of the integer value domain (weakest structural assumption permitting signal mixing)",
+    "primary": ["ADD"],
+    "ablations": ["ADD"],
+    "forbidden_examples": ["MUL", "XOR gate", "min/max macro", "any two-signal comparison macro"]
+  },
+  "unary_tier": {
+    "primary": {
+      "id": "U_ORD",
+      "rule": "the complete set of one-sided order tests over the value domain D at every cut point, plus sign negation",
+      "members": ["NEG"] + ["GE_c for every c in D"],
+      "example_members_at_D_3": ["NEG", "GE_-3", "GE_-2", "GE_-1", "GE_0", "GE_1", "GE_2", "GE_3"],
+      "semantics": "GE_c(v) = 1 if v >= c else 0 (pointwise over the row tuple); NEG(v) = -v"
+    },
+    "ablations": [
+      {
+        "id": "U_ALL3",
+        "rule": "ALL total unary maps D->D (fully complete tier); feasible only where |D|=3, i.e. guard [-1,1]",
+        "member_count": 27
+      },
+      {
+        "id": "U_V1",
+        "rule": "v1's audited coercive baseline {NEG, POS}; retained for CONTRAST ONLY; recovery claims may not rest on it",
+        "members": ["NEG", "POS"]
+      }
+    ]
+  },
+  "value_guard": {
+    "primary": [-3, 3],
+    "derivation": "smallest symmetric interval containing all signed sums of the atom constants and any two input bits (equals v1's guard for comparability)",
+    "ablations": [[-2, 2], [-4, 4]]
+  },
+  "cost_model": {
+    "rule": "uniform cost 1 per operator application, 0 per atom; multi-output machine cost = sum of output-port costs; no cross-port sharing credit (conservative for reuse claims)",
+    "search": "cost-layered dynamic programming over the semantic quotient (exhaustive per layer, dedup by exact I/O semantics); first layer containing the target = complete no-solution-below-cost certificate; termination = target found or layer saturation (no new semantics)",
+    "layer_safety_cap": 16,
+    "layer_cap_derivation": "2x the largest minimal cost (7) observed across all v1 tranches; expected never to bind before saturation; outcomes must report whether it bound"
+  },
+  "search_procedures_for_flagship_robustness": [
+    {
+      "id": "SEMANTIC_COST_LAYERED_DP",
+      "description": "layer-wise exhaustive enumeration over the semantic quotient (dedup by exact semantics), min-cost representative per semantic value"
+    },
+    {
+      "id": "BEAMLESS_TREE_ENUMERATION",
+      "description": "independent canonical tree enumeration by operation count with a different canonicalization (subtree sort + commutative-ADD argument ordering), no semantic dedup across layers; verifies the DP via a procedure with disjoint implementation mechanics"
+    }
+  ],
+  "presentations": ["TREE_AST", "POSTFIX_STACK_ENCODING"]
+}

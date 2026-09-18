@@ -1,0 +1,67 @@
+{
+  "schema": "GMI833MillionCandidateExecutionProtocolV1",
+  "parent_issue": 833,
+  "source_issue": 1006,
+  "source_pr": null,
+  "registration_source_main": "73309593ef7340c3f616b59bf73d2c9598bc9435",
+  "generator_dependency": {
+    "pull_request": 1003,
+    "exact_head": "05d13723b519d9de94f15b142cca0827d3725d6f",
+    "module": "research/gmi-833-scalable-morphology-sampling-v1/scalable_morphology_sampling_v1.py"
+  },
+  "target_row": "Generate at least 10^6 architecture-neutral candidates.",
+  "grammar": "G0-fin-v1",
+  "budget": {
+    "code_cells": 8,
+    "register_cells": 4
+  },
+  "sample_design": "EXACT_GLOBAL_SRSWOR_FLOYD_VIA_PR_1003",
+  "sample_size": 1000000,
+  "replay_seed_utf8": "gmi-833-f-million-candidate-execution-v1-registered-replay",
+  "semantic_interface": {
+    "input_words": [[], [0], [1]],
+    "step_cap": 6
+  },
+  "semantic_discovery_checkpoints": [1000, 10000, 100000, 1000000],
+  "chunk_size": 10000,
+  "chunk_count": 100,
+  "rank_transcript_format": "SORTED_NEWLINE_DELIMITED_DECIMAL_UTF8",
+  "receipt_schema": "GMI833MillionCandidateExecutionResultV1",
+  "chunk_receipt_schema": "GMI833MillionCandidateChunkReceiptV1",
+  "checkpoint_schema": "GMI833MillionCandidateCheckpointV1",
+  "resource_ceilings": {
+    "wall_seconds": 1800,
+    "peak_rss_bytes": 2147483648,
+    "persistent_run_artifact_bytes": 536870912,
+    "committed_evidence_bytes": 10485760
+  },
+  "metrics": [
+    "generated_and_uniqueness_counts",
+    "validation_and_exact_rank_round_trip_counts",
+    "exact_population_and_presentation_inclusion_probability",
+    "resource_stratum_counts_and_observed_vs_ideal_proportions",
+    "protected_semantic_key_count_and_collapse",
+    "semantic_multiplicity_histogram_singletons_doubletons",
+    "semantic_discovery_checkpoints",
+    "inverse_simpson_effective_semantic_count_sample_statistic",
+    "transcript_and_chunk_chain_hashes",
+    "elapsed_peak_rss_restart_and_entropy_counters"
+  ],
+  "claim_ceiling": "GMI_833_ONE_MILLION_DISTINCT_G0_CANDIDATES_GENERATED_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "HUNDRED_MILLION_SCALE_GENERATION",
+    "EQUIVALENT_10E8_EFFECTIVE_COVERAGE",
+    "UNBOUNDED_GENERATION",
+    "EXHAUSTIVE_COVERAGE",
+    "SEMANTIC_UNIVERSE_COVERAGE",
+    "UNIQUE_OR_UNBIASED_GRAMMAR",
+    "ARCHITECTURE_FREE_IN_ABSOLUTE_SENSE",
+    "PHYSICAL_RANDOMNESS_FROM_FIXED_SEED",
+    "QD_OR_OPEN_ENDED_SEARCH",
+    "KNOWN_FAMILY_RECOVERY",
+    "CAPABILITY_RESULT",
+    "REAL_SCALE_VALIDATION",
+    "COMPLETE_GMI"
+  ],
+  "outcome_status_at_registration": "NOT_RUN"
+}

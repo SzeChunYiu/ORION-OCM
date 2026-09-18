@@ -1,0 +1,101 @@
+{
+  "claim": "Under v1 mechanics, changing only the task from XOR to OR flips the v1 adjudicator verdict from RECOVERED to NOT_RECOVERED: the v1 recovery rode on the XOR task choice (open task-authorship channel), not on a family-blind protocol.",
+  "rows": {
+    "OR_COUNTERFACTUAL": {
+      "first_exact_cost": 2,
+      "minimal_expression": [
+        "pos",
+        [
+          "add",
+          [
+            "x",
+            0
+          ],
+          [
+            "x",
+            1
+          ]
+        ]
+      ],
+      "task_required_outputs": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "v1_adjudicator_checks": {
+        "acyclic_multistage": false,
+        "multiple_numeric_mixing_sites": false,
+        "non_affine_internal_response": true,
+        "protected_io": true,
+        "reused_mix_test_construction": false,
+        "two_incoming_signal_intervention_ready": false
+      },
+      "v1_adjudicator_pass": false,
+      "v1_terminal_would_be": "NOT_RECOVERED_AT_SCOPE"
+    },
+    "XOR_V1_ACTUAL": {
+      "first_exact_cost": 7,
+      "minimal_expression": [
+        "add",
+        [
+          "neg",
+          [
+            "pos",
+            [
+              "add",
+              [
+                "add",
+                [
+                  "c",
+                  -1
+                ],
+                [
+                  "x",
+                  0
+                ]
+              ],
+              [
+                "x",
+                1
+              ]
+            ]
+          ]
+        ],
+        [
+          "pos",
+          [
+            "add",
+            [
+              "x",
+              0
+            ],
+            [
+              "x",
+              1
+            ]
+          ]
+        ]
+      ],
+      "task_required_outputs": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "v1_adjudicator_checks": {
+        "acyclic_multistage": true,
+        "multiple_numeric_mixing_sites": true,
+        "non_affine_internal_response": true,
+        "protected_io": true,
+        "reused_mix_test_construction": true,
+        "two_incoming_signal_intervention_ready": true
+      },
+      "v1_adjudicator_pass": true,
+      "v1_terminal_would_be": "RECOVERED"
+    }
+  },
+  "schema": "V2_MOTIVATION_RECEIPT_V1",
+  "v1_adjudicator_source": "gmi-833-aj9b-k01-blind-recovery-v1/posthoc_adjudicate_v1.py (imported unmodified)",
+  "v1_search_basis": "{atoms x0,x1, consts -1/0/1; unary NEG, POS; binary ADD; guard [-3,3]; max 7 ops} \u2014 v1's frozen SEARCH_CONFIG_V1.json, unchanged"
+}

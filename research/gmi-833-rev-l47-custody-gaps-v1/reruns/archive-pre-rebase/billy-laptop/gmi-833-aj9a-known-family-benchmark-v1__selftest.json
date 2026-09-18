@@ -1,0 +1,25 @@
+{
+  "schema": "REV_L47_RERUN_RECEIPT_V1",
+  "kind": "MECHANICAL_SELFTEST",
+  "host": "billy",
+  "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.29",
+  "python": "3.8.10",
+  "run_commit": "7a9219a6b5247d8baf7043940a9284ec4cf95b2a",
+  "freeze_note": "pre-registered decision rule in research/gmi-833-rev-l47-custody-gaps-v1/REV_FREEZE_V1.md (ancestor commit of run_commit)",
+  "utc_epoch": 1789641782,
+  "package": "gmi-833-aj9a-known-family-benchmark-v1",
+  "script": "check_aj9a.py",
+  "clean_tree_before": true,
+  "clean_tree_after": true,
+  "run": {
+    "cmd": "/usr/bin/python3 check_aj9a.py",
+    "cwd": "/home/billy/rev-l47/ORION-OCM/research/gmi-833-aj9a-known-family-benchmark-v1",
+    "exit": 1,
+    "wall_s": 0.139,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_len": 0,
+    "stderr_tail": "Traceback (most recent call last):\n  File \"check_aj9a.py\", line 122, in <module>\n    if __name__==\"__main__\": main()\n  File \"check_aj9a.py\", line 101, in main\n    assert all(r for r in hostile_results)\nAssertionError\n"
+  },
+  "verdict": "CONTENT_LEG_FAIL__AUDIT_WALKER_LIST_ELEMENT_EVASION",
+  "root_cause": "check_aj9a.audit_config.walk() yields dict values but never string LIST elements, so denylisted tokens inside lists (e.g. {\"ops\":[\"dense_layer\"]}) evade the MACRO_DENY scan; the checker's own 11-hostile battery catches exactly this (assert all(hostile_results) fails on 4 ops-hostiles: dense_layer, self_attention, bayes_update, genetic_algorithm). Single-commit file (6a6ef5ca6) - the defect is present since landing, version-independent (pure dict/list logic). aj-lane package: not editable here; routed to the owning lane with lever = make walk() yield string leaf values from lists."
+}

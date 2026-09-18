@@ -1,0 +1,20 @@
+{
+  "schema": "GMI833MillionCandidateExecutionAttemptLedgerV1",
+  "attempts": [
+    {
+      "attempt": 1,
+      "outcome_receipt_emitted": false,
+      "generated_candidates": 1000000,
+      "completed_chunks": 100,
+      "elapsed_seconds_external": 22.73,
+      "peak_rss_bytes_external": 207110144,
+      "terminal": "IMPLEMENTATION_GATE_MISMATCH",
+      "reason": "The executor incorrectly required all 32 resource strata to be observed although the frozen protocol required only reporting resource-stratum coverage under global SRSWOR.",
+      "observed_resource_strata": 7,
+      "repair": "Remove the unfrozen all-strata terminal gate, retain complete 32-row reporting including zeros, and exact-replay-validate all 100 completed chunks before result acceptance.",
+      "protocol_changed": false,
+      "draw_transcript_changed": false,
+      "candidate_transcript_changed": false
+    }
+  ]
+}

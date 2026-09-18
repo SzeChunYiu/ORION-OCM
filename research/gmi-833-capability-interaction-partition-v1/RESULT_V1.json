@@ -1,0 +1,7132 @@
+{
+  "cip1_partition_grid": {
+    "admissible_triples_checked": 532,
+    "failures": []
+  },
+  "cip1_partition_rational_grid": {
+    "admissible_triples_checked": 287,
+    "failures": []
+  },
+  "cip2_census": {
+    "corrected_counts": {
+      "INDEPENDENT": 8,
+      "INTERFERING": 0,
+      "PARTIAL_SHARING": 56,
+      "REDUNDANT": 287
+    },
+    "def1_shipped_contradicts_section_1_2": 56,
+    "def2_pairs_with_non_unique_1_2_label": 287,
+    "labels_changed": 217,
+    "pairs": 351,
+    "shipped_counts": {
+      "independent": 8,
+      "redundant": 182,
+      "synergistic": 161
+    }
+  },
+  "cip2b_union_accounting_subadditive": {
+    "holds": true,
+    "pairs_checked": 351
+  },
+  "cip3": {
+    "fibres": {
+      "disjoint": {
+        "INDEPENDENT": 8
+      },
+      "equal": {
+        "REDUNDANT": 161
+      },
+      "nested-proper": {
+        "REDUNDANT": 126
+      },
+      "non-nested-overlap": {
+        "PARTIAL_SHARING": 56
+      }
+    },
+    "independent_coincides_with_disjoint": true,
+    "independent_pairs": 8
+  },
+  "cip4_lemma_b": {
+    "counting_measure_iff_nested": true,
+    "null_unit_measure_iff_nested": false
+  },
+  "claim_ceiling": "G2",
+  "controls": {
+    "no_alarm_chain_contract_zero_def1": {
+      "ok": true,
+      "pairs": 6
+    },
+    "no_alarm_disjoint_pairs": {
+      "ok": true,
+      "pairs": 8
+    }
+  },
+  "delta_table": [
+    {
+      "changed": false,
+      "channel_relation": "disjoint",
+      "corrected_class": "INDEPENDENT",
+      "pairs": 8,
+      "shipped_label": "independent"
+    },
+    {
+      "changed": false,
+      "channel_relation": "nested-proper",
+      "corrected_class": "REDUNDANT",
+      "pairs": 126,
+      "shipped_label": "redundant"
+    },
+    {
+      "changed": true,
+      "channel_relation": "non-nested-overlap",
+      "corrected_class": "PARTIAL_SHARING",
+      "pairs": 56,
+      "shipped_label": "redundant"
+    },
+    {
+      "changed": true,
+      "channel_relation": "equal",
+      "corrected_class": "REDUNDANT",
+      "pairs": 161,
+      "shipped_label": "synergistic"
+    }
+  ],
+  "freeze_commit": "c7bb5d099da3b949f10916be65ff1f54ce881eeb",
+  "hostiles_detected": {
+    "a_double_class": {
+      "detail": "A1 guardless-REDUNDANT failures=13; A2 shipped-1.2 multi-label A4 pairs=287",
+      "detected": true
+    },
+    "b_missing_interfering": {
+      "detail": "CE-2 triple B(X)=8 B(Y)=3 joint=13 sum=11: 3-class map places it in 0 classes; CIP-1 places it in ['INTERFERING']",
+      "detected": true
+    },
+    "c_degenerate_zero_burden": {
+      "detail": "zero-burden triple (3,0,3): max=sum=3; guardless map -> ['INDEPENDENT', 'REDUNDANT'] ; CIP-1 -> ['INDEPENDENT']",
+      "detected": true
+    },
+    "d_non_strictly_positive_mu": {
+      "detail": "counting measure: iff holds = True ; measure with mu(u3)=0: iff holds = False, counterexample Qx={u1} Qy={u3}",
+      "detected": true
+    },
+    "e_inadmissible_functional": {
+      "detail": "triple (4,2,3): joint<max; classify raises Inadmissible=True; predicates holding=[]",
+      "detected": true
+    }
+  },
+  "null_random_classifiers_fully_justified": {
+    "good": 0,
+    "trials": 200
+  },
+  "package": "gmi-833-capability-interaction-partition-v1",
+  "per_pair": [
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-selective-attention"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-working-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-episodic-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-semantic-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-procedural-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-perception",
+      "y": "cap-retrieval"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-consolidation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-perception",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-perception",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-perception",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-perception",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-perception",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-perception",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-working-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-episodic-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-semantic-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-procedural-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-selective-attention",
+      "y": "cap-retrieval"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-consolidation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-selective-attention",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-selective-attention",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-selective-attention",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-selective-attention",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-selective-attention",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-selective-attention",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-episodic-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-semantic-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-procedural-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-working-memory",
+      "y": "cap-retrieval"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-consolidation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-working-memory",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-working-memory",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-working-memory",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-working-memory",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-working-memory",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-working-memory",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-semantic-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-procedural-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-episodic-memory",
+      "y": "cap-retrieval"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-consolidation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-episodic-memory",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-episodic-memory",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-episodic-memory",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-episodic-memory",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-episodic-memory",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-episodic-memory",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-procedural-memory"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-semantic-memory",
+      "y": "cap-retrieval"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-consolidation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-semantic-memory",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-semantic-memory",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-semantic-memory",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-semantic-memory",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-semantic-memory",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-semantic-memory",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-procedural-memory",
+      "y": "cap-retrieval"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-consolidation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-procedural-memory",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-procedural-memory",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-procedural-memory",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-procedural-memory",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-procedural-memory",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-procedural-memory",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-consolidation"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 3,
+      "B_y": 1,
+      "channels_x": "MST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-retrieval",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 3,
+      "B_y": 1,
+      "channels_x": "MST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-retrieval",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "MS",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 3,
+      "B_y": 1,
+      "channels_x": "MST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-retrieval",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "MT",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 3,
+      "B_y": 1,
+      "channels_x": "MST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-retrieval",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 3,
+      "B_y": 3,
+      "channels_x": "MST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 6,
+      "x": "cap-retrieval",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "MS",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-retrieval",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-forgetting"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-consolidation",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-consolidation",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-consolidation",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-consolidation",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-consolidation",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-consolidation",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-prediction"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-forgetting",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-forgetting",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-forgetting",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-forgetting",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-forgetting",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-forgetting",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-abstraction-concept"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-prediction",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-prediction",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-prediction",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-prediction",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-prediction",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-prediction",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-compositional-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-abstraction-concept",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-abstraction-concept",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-abstraction-concept",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-abstraction-concept",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-abstraction-concept",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-abstraction-concept",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-hierarchical-skill"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-compositional-reasoning",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-planning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-hierarchical-skill",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-exploration"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-planning",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-planning",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-planning",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-planning",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-planning",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-planning",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-exploration",
+      "y": "cap-causal-inference"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-exploration",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-exploration",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-exploration",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-exploration",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-exploration",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-exploration",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-exploration",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-exploration",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-exploration",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-exploration",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-exploration",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-causal-inference",
+      "y": "cap-counterfactual-reasoning"
+    },
+    {
+      "B_x": 1,
+      "B_y": 1,
+      "channels_x": "T",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 1,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 1,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 2,
+      "x": "cap-causal-inference",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-causal-inference",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MS",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-causal-inference",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 1,
+      "B_y": 1,
+      "channels_x": "T",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 1,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 1,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 2,
+      "x": "cap-causal-inference",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MT",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-causal-inference",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-causal-inference",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-causal-inference",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 1,
+      "B_y": 1,
+      "channels_x": "T",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 1,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 1,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 2,
+      "x": "cap-causal-inference",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 1,
+      "B_y": 3,
+      "channels_x": "T",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-causal-inference",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MS",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-causal-inference",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-metacognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-counterfactual-reasoning",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-metacognition",
+      "y": "cap-social-cognition"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MS",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-metacognition",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 1,
+      "B_y": 1,
+      "channels_x": "T",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 1,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 1,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 2,
+      "x": "cap-metacognition",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MT",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-metacognition",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-metacognition",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-metacognition",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 1,
+      "B_y": 1,
+      "channels_x": "T",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 1,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 1,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 2,
+      "x": "cap-metacognition",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 1,
+      "B_y": 3,
+      "channels_x": "T",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-metacognition",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MS",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-metacognition",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-social-cognition",
+      "y": "cap-communication"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-social-cognition",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-social-cognition",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-social-cognition",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-social-cognition",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-social-cognition",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-social-cognition",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-social-cognition",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "MS",
+      "channels_y": "T",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-communication",
+      "y": "cap-imitation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "MS",
+      "channels_y": "MT",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-communication",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "MS",
+      "channels_y": "ST",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-communication",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "MS",
+      "channels_y": "ST",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-communication",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "MS",
+      "channels_y": "T",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-communication",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "MS",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-communication",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "MS",
+      "channels_y": "MS",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-communication",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MT",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-imitation",
+      "y": "cap-teaching"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-imitation",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-imitation",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 1,
+      "B_y": 1,
+      "channels_x": "T",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 1,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 1,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 2,
+      "x": "cap-imitation",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 1,
+      "B_y": 3,
+      "channels_x": "T",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-imitation",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MS",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-imitation",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "MT",
+      "channels_y": "ST",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-teaching",
+      "y": "cap-cultural-accumulation"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "MT",
+      "channels_y": "ST",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-teaching",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "MT",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-teaching",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "MT",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-teaching",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "MT",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-teaching",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "ST",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "equal",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "synergistic",
+      "sum": 4,
+      "x": "cap-cultural-accumulation",
+      "y": "cap-self-modeling"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-cultural-accumulation",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-cultural-accumulation",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-cultural-accumulation",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 2,
+      "B_y": 1,
+      "channels_x": "ST",
+      "channels_y": "T",
+      "corrected_class": "REDUNDANT",
+      "joint": 2,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 3,
+      "x": "cap-self-modeling",
+      "y": "cap-self-improvement"
+    },
+    {
+      "B_x": 2,
+      "B_y": 3,
+      "channels_x": "ST",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-self-modeling",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 2,
+      "B_y": 2,
+      "channels_x": "ST",
+      "channels_y": "MS",
+      "corrected_class": "PARTIAL_SHARING",
+      "joint": 3,
+      "label_changed": true,
+      "legacy_1_2_labels": [
+        "synergistic"
+      ],
+      "max": 2,
+      "relation": "non-nested-overlap",
+      "shipped_contradicts_1_2": true,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-self-modeling",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 1,
+      "B_y": 3,
+      "channels_x": "T",
+      "channels_y": "MST",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 4,
+      "x": "cap-self-improvement",
+      "y": "cap-tool-use"
+    },
+    {
+      "B_x": 1,
+      "B_y": 2,
+      "channels_x": "T",
+      "channels_y": "MS",
+      "corrected_class": "INDEPENDENT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "independent"
+      ],
+      "max": 2,
+      "relation": "disjoint",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "independent",
+      "sum": 3,
+      "x": "cap-self-improvement",
+      "y": "cap-coordination"
+    },
+    {
+      "B_x": 3,
+      "B_y": 2,
+      "channels_x": "MST",
+      "channels_y": "MS",
+      "corrected_class": "REDUNDANT",
+      "joint": 3,
+      "label_changed": false,
+      "legacy_1_2_labels": [
+        "redundant",
+        "synergistic"
+      ],
+      "max": 3,
+      "relation": "nested-proper",
+      "shipped_contradicts_1_2": false,
+      "shipped_label": "redundant",
+      "sum": 5,
+      "x": "cap-tool-use",
+      "y": "cap-coordination"
+    }
+  ],
+  "result_ids": [
+    "CIP-1",
+    "CIP-2",
+    "CIP-2b",
+    "CIP-3",
+    "CIP-4"
+  ],
+  "route": "A (partition_witness_v1)",
+  "routes": {
+    "A_partition_witness_v1": {
+      "counts": {
+        "INDEPENDENT": 8,
+        "INTERFERING": 0,
+        "PARTIAL_SHARING": 56,
+        "REDUNDANT": 287
+      },
+      "pairs": 351
+    },
+    "B_partition_oracle_v1_enumeration": {
+      "counts": {
+        "INDEPENDENT": 8,
+        "INTERFERING": 0,
+        "PARTIAL_SHARING": 56,
+        "REDUNDANT": 287
+      },
+      "pairs": 351
+    },
+    "C_partition_oracle_v1_closed_form": {
+      "counts": {
+        "INDEPENDENT": 8,
+        "INTERFERING": 0,
+        "PARTIAL_SHARING": 56,
+        "REDUNDANT": 287
+      },
+      "pairs": 351,
+      "relation_counts": {
+        "disjoint": 8,
+        "equal": 161,
+        "nested-proper": 126,
+        "non-nested-overlap": 56
+      },
+      "signature_tally": {
+        "MS": 2,
+        "MST": 2,
+        "MT": 1,
+        "ST": 18,
+        "T": 4
+      }
+    },
+    "agreement": "EXACT (A == B pair-by-pair; A == B == C in aggregate)"
+  },
+  "source_main": "c70dd24eeade46a3afe8322c1a0e0c16a648311e"
+}
