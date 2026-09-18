@@ -128,12 +128,25 @@
   "route": "A",
   "route_agreement": {
     "agree": true,
-    "note": "route B covers only the crosswalk-row subset (140 of 153 required terms); the remaining 13 belong to AB01/AB36/AB37 whose evidence is not a crosswalk row.",
-    "parent_covered": [
-      149,
+    "all_34_rows_route_A_only": {
+      "parent_covered": 149,
+      "required": 153,
+      "total_covered": 153
+    },
+    "per_row_equality": "check_receipt_v1.py asserts parent_covered, total_covered, required, parent_rows_found and extension_rows_found are equal row-by-row across both routes",
+    "shared_parent_covered": [
+      136,
       136
     ],
-    "shared_subset": "the 30 CROSSWALK_ROW rows"
+    "shared_required_terms": [
+      140,
+      140
+    ],
+    "shared_subset": "the 31 CROSSWALK_ROW rows (route B has no evidence path for AB01/AB36/AB37, whose evidence is not a crosswalk row)",
+    "shared_total_covered": [
+      140,
+      140
+    ]
   },
   "routes": {
     "A": "ab_harness_v1.py (9-column table parse, per-cell coverage, regex normalization)",
