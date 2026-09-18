@@ -299,6 +299,8 @@ def loss_of(kind, out, y):
     if kind == "decision":
         return float(np.mean((out > 0.0).astype(np.float64) != y))
     r = out - y
+    if kind == "absolute":
+        return float(np.mean(np.abs(r)))
     return float(np.mean(r * r))
 
 
