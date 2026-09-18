@@ -37,9 +37,12 @@ following results can be read as boundary-mapping rather than as competition.
 
 **Assumptions.** Finite registered dyadic world; variational family containing
 the posterior; generative model equal to the true model; positive evidence.
+
 **Dependencies.** Exact dyadic logarithm; the registered family enumeration.
+
 **Falsifiers.** A registered world and observation at which the minimiser differs
 from the exact posterior, or at which the minimum differs from `-log2 P(o)`.
+
 **Strongest parents.** Variational inference and the evidence lower bound
 (Jordan, Ghahramani, Jaakkola and Saul 1999, doi:10.1023/A:1007665907178; Blei,
 Kucukelbir and McAuliffe 2017, doi:10.1080/01621459.2017.1285773); active
@@ -61,9 +64,13 @@ mean-field restriction therefore costs exactly `1` bit and returns a minimiser
 that is not the posterior. Restricting the family breaks the AE12-1 equality.
 
 **Assumptions.** The registered factorization; the dyadic family with minimum
-atom `1/16`. **Dependencies.** AE12-1 for the unrestricted value.
+atom `1/16`.
+
+**Dependencies.** AE12-1 for the unrestricted value.
+
 **Falsifiers.** A product distribution in the registered subfamily attaining `1`
 bit, or a demonstration that the posterior factorizes.
+
 **Strongest parents.** Mean-field variational inference and its known bias
 (Jordan et al. 1999, doi:10.1023/A:1007665907178); the technical critique of
 unconditional free-energy equivalences (Biehl, Pollock and Kanai 2021,
@@ -84,10 +91,16 @@ inference" requires the generative model to be correct, which is an assumption
 about the world and not a property of the functional.
 
 **Assumptions.** The registered prior and the two registered likelihood tables.
-**Dependencies.** AE12-1. **Falsifiers.** An observation at which the two
+
+**Dependencies.** AE12-1.
+
+**Falsifiers.** An observation at which the two
 posteriors coincide while the likelihoods differ, or a minimiser equal to the
-true posterior under the model held. **Forbidden extrapolation.** This says
+true posterior under the model held.
+
+**Forbidden extrapolation.** This says
 nothing about how large the error is in unregistered worlds.
+
 **Strongest parents.** Model misspecification in Bayesian inference; Biehl,
 Pollock and Kanai 2021, doi:10.3390/e23030293.
 
@@ -121,13 +134,19 @@ detector raises no alarm on the clean registered worlds `W_SPLIT`, `W_TRI` and
 
 **Assumptions.** Horizon `1`; the registered decomposition of expected free
 energy into risk and ambiguity; identical predicted outcome distributions.
+
 **Dependencies.** The exact dyadic entropy; the registered action state
-distributions and utility values. **Falsifiers.** A preference distribution
+distributions and utility values.
+
+**Falsifiers.** A preference distribution
 making the gap other than `1` bit; a pair of actions with identical predicted
 outcomes whose risk terms do not cancel; a permutation census contradicting the
-counts above. **Forbidden extrapolation.** This does not show that active
+counts above.
+
+**Forbidden extrapolation.** This does not show that active
 inference and expected utility disagree in general, only that the ambiguity term
 cannot be absorbed into a preference prior at this scope.
+
 **Strongest parents.** Expected free energy and its risk/ambiguity decomposition
 (Friston et al. 2017, doi:10.1162/NECO_a_00912; Parr, Pezzulo and Friston 2022,
 doi:10.7551/mitpress/12441.001.0001); control as inference (Todorov 2009,
@@ -150,9 +169,14 @@ a system. `FEP_EQUALS_BAYES_UNDER_RESTRICTED_FAMILY` is false by AE12-2 and
 `EFE_RECOVERS_UTILITY_ORDERING` is false by AE12-4.
 
 **Assumptions.** The registered three-variable supports; uniform mass on each
-support. **Dependencies.** AE12-2, AE12-4. **Falsifiers.** A partition of
+support.
+
+**Dependencies.** AE12-2, AE12-4.
+
+**Falsifiers.** A partition of
 `SYS_MB_FAIL` satisfying the conditional independence, or a failure of the
 independence on one of the four partitions of `SYS_MB_OK`.
+
 **Strongest parents.** Aguilera, Millidge, Tschantz and Buckley 2022,
 doi:10.1016/j.plrev.2021.11.001; Bruineberg, Dolega, Dewhurst and Baltieri 2022,
 doi:10.1017/S0140525X21002351; Biehl, Pollock and Kanai 2021,
@@ -182,11 +206,17 @@ comparison procedure.
 
 **Assumptions.** Horizon `1`; codebook cardinality `1`; the registered costs,
 utilities and preference distributions; the frozen lexicographic tie-break.
-**Dependencies.** AE12-4 for the ambiguity term. **Falsifiers.** A weight in the
+
+**Dependencies.** AE12-4 for the ambiguity term.
+
+**Falsifiers.** A weight in the
 grid at which the CPC choice coincides with both comparators on `W_DISC1`; a
 disagreement on `W_AGREE1`; a term-vector computation contradicting the reported
-domination. **Forbidden extrapolation.** Nothing here ranks the three
+domination.
+
+**Forbidden extrapolation.** Nothing here ranks the three
 principles; it locates one world where they differ and one where they do not.
+
 **Strongest parents.** Rate-distortion theory (Shannon 1959; Berger 1971);
 rational inattention (Sims 2003, doi:10.1016/S0304-3932(03)00029-1); expected
 free energy (Friston et al. 2017, doi:10.1162/NECO_a_00912).
@@ -214,9 +244,13 @@ Neither the freeze nor the register was edited. A pre-registration that can only
 ever be confirmed is not a pre-registration.
 
 **Assumptions.** The register's self-digest verifies, and the executor refuses to
-emit on mismatch. **Dependencies.** AE12-1 through AE12-6.
+emit on mismatch.
+
+**Dependencies.** AE12-1 through AE12-6.
+
 **Falsifiers.** A prediction absent from the receipt; a refutation without exact
 values or without an attribution; a receipt emitted under a digest mismatch.
+
 **Strongest parents.** Pre-registration practice in the experimental sciences;
 no technical parent is claimed.
 
@@ -235,8 +269,14 @@ sufficiency is exactly the three assumptions AE12-2, AE12-3 and AE12-4 show to b
 necessary. Marking sufficiency is a success terminal, not a defeat, and the
 manifest carries `GMI_NOVEL_OVER_ACTIVE_INFERENCE` as a forbidden promotion.
 
-**Assumptions.** AE12-1's three assumptions. **Dependencies.** AE12-1, AE12-2,
-AE12-3, AE12-4. **Falsifiers.** A registered scope at which the parent identity
+**Assumptions.** AE12-1's three assumptions.
+
+**Dependencies.** AE12-1, AE12-2,
+AE12-3, AE12-4.
+
+**Falsifiers.** A registered scope at which the parent identity
 fails while the package still claims sufficiency, or a novelty claim anywhere in
-the package's artifacts. **Strongest parents.** Jordan et al. 1999,
+the package's artifacts.
+
+**Strongest parents.** Jordan et al. 1999,
 doi:10.1023/A:1007665907178; Friston et al. 2017, doi:10.1162/NECO_a_00912.

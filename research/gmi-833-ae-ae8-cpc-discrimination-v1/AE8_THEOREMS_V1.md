@@ -38,9 +38,12 @@ among others.
 
 **Assumptions.** The grid, the tie-break and the description-length integers are
 frozen in the register, whose self-digest the executor rechecks.
+
 **Dependencies.** The derived term vectors.
+
 **Falsifiers.** A reported claim that holds at one weight and is stated without
 its region; an argmin that disagrees with an explicit re-sort.
+
 **Strongest parents.** Scalarised multi-objective optimisation; nothing novel.
 
 ---
@@ -71,13 +74,17 @@ chance on the part it does not.
 **Assumptions.** The classifier criteria and null size are frozen; the
 randomized control is a uniformly random model per world, drawn from a
 generator read at its high bits.
+
 **Dependencies.** AE8-1, AE8-4, the null.
+
 **Falsifiers.** A weight reaching `12` of `12` on the unrestricted roster; a
 restricted agreement below `12`; a control distribution with no variance, which
 would mean the sampler, not the result, was being reported.
+
 **Forbidden extrapolation.** `DECOMPOSITION` is a verdict about this roster
 under this preference. It is not a claim that CPC is or is not a theorem in
 general, and `CPC_IS_A_THEOREM` is a registered forbidden promotion.
+
 **Strongest parents.** Minimum description length (Rissanen 1978,
 doi:10.1016/0005-1098(78)90005-5; Grunwald 2007,
 doi:10.7551/mitpress/4643.001.0001); rate-distortion (Shannon 1959; Berger
@@ -100,9 +107,13 @@ reproduces the law's choice on every world the law covers. `AE6_LOCALITY` and
 rather than glossed.
 
 **Assumptions.** The term basis is `(cost, predictive loss, control regret)`.
-**Dependencies.** AE8-1. **Falsifiers.** An objective in the searched space
+
+**Dependencies.** AE8-1.
+
+**Falsifiers.** An objective in the searched space
 reproducing a law marked `NOT_A_COROLLARY`; a law marked `COROLLARY` whose
 witness fails on one of its covered worlds.
+
 **Strongest parents.** No parent is claimed for the search itself; the laws it
 tests are the registered results of the neighbouring AE tranches.
 
@@ -144,15 +155,19 @@ choice, so the impossibility does not depend on which tie-break was frozen.
 
 **Assumptions.** The objective is a function of the term vector; the attributes
 are computed from the model object; the model space is the registered one.
+
 **Dependencies.** The derived cost, predictive loss and control regret.
+
 **Falsifiers.** A colliding pair whose term vectors are not in fact equal; a pair
 differing in more than its own attribute; an objective in the registered basis
 that separates a colliding pair; a collision for `verification` in the
 registered model space, which would move that row from not-proved to proved.
+
 **Forbidden extrapolation.** Irreducibility is claimed at the registered scope
 and for the registered basis only. Nothing here says the phenomenon is
 irreducible to some larger objective, and the receipt names the extra term each
 collision calls for.
+
 **Strongest parents.** The arity argument is elementary. Its content is in the
 computed collisions, not in the observation that a function of `v` cannot
 separate arguments with equal `v`.
@@ -182,10 +197,14 @@ observation about the family, not a ranking.
 optimum and the receipt asserts that constraint is feasible in every world;
 control as inference is the regret minimiser, which is the choice any monotone
 optimality likelihood yields.
+
 **Dependencies.** The exact logarithmic comparisons for predictive information
-and active inference. **Falsifiers.** A world where the cardinality-`1`
+and active inference.
+
+**Falsifiers.** A world where the cardinality-`1`
 constraint is infeasible and the rule was silently relaxed; a disagreement
 between the two routes on any count.
+
 **Strongest parents.** Each principle is its authors'; see
 `PARENT_OWNERSHIP_V1.md`.
 
@@ -210,9 +229,13 @@ measurements rather than as confirmed predictions. Calling a measurement a
 confirmed prediction is the failure mode pre-registration exists to prevent.
 
 **Assumptions.** AE12's register is committed earlier in the same branch.
-**Dependencies.** AE12's receipt. **Falsifiers.** An AE12 register commit that
+
+**Dependencies.** AE12's receipt.
+
+**Falsifiers.** An AE12 register commit that
 does not precede this package's implementation; a disagreement reported as
 preregistered without a register entry.
+
 **Strongest parents.** Pre-registration practice; no technical parent.
 
 ---
@@ -229,8 +252,12 @@ member over the other. `OBSERVATIONAL_EQUIVALENCE_IMPLIES_IDENTITY` is a
 registered forbidden promotion.
 
 **Assumptions.** The roster is finite and registered.
-**Dependencies.** AE8-5. **Falsifiers.** A registered world on which the pair
+
+**Dependencies.** AE8-5.
+
+**Falsifiers.** A registered world on which the pair
 differs; a promotion of either member anywhere in the package.
+
 **Strongest parents.** Underdetermination of theory by finite evidence; no
 technical parent claimed.
 
@@ -272,11 +299,15 @@ could be neither beaten nor missed, and would make this row unfalsifiable.
 
 **Assumptions.** The Pareto decision rule is stated in the receipt; the register
 does not pin one, and that gap is disclosed.
+
 **Dependencies.** AE8-2, AE8-3, AE8-4, AE8-5.
+
 **Falsifiers.** A baseline covering all `12` worlds; a CPC weight Pareto
 dominating the baseline; a world where CPC differs from every parent; a law
 counted in the baseline while refuted on its own coverage.
+
 **Forbidden extrapolation.** The withholding is a statement at the registered
 scope about a registered roster. It does not say CPC is false, nor that some
 other principle is the master law.
+
 **Strongest parents.** Each comparator's authors; see `PARENT_OWNERSHIP_V1.md`.
