@@ -1,0 +1,78 @@
+name: gmi-833-update-law-space-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-update-law-space-v1/**'
+      - '.github/workflows/gmi-833-update-law-space-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-update-law-space-v1/**'
+      - '.github/workflows/gmi-833-update-law-space-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  section-i:
+    runs-on: [self-hosted, Linux, X64, pm-ci]
+    defaults:
+      run:
+        working-directory: research/gmi-833-update-law-space-v1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: custody — the freeze must predate every implementation file
+        working-directory: .
+        run: |
+          set -eu
+          P=research/gmi-833-update-law-space-v1
+          FZ=$(git log --format=%ct -1 -- "$P/FREEZE_V1.md")
+          test -n "$FZ"
+          for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/MANIFEST_V1.json; do
+            T=$(git log --format=%ct -1 -- "$f")
+            test -n "$T"
+            if [ "$T" -lt "$FZ" ]; then
+              echo "CUSTODY FAILURE: $f predates FREEZE_V1.md"; exit 1
+            fi
+          done
+          echo "custody ok: freeze at $FZ predates every implementation artifact"
+
+      - name: route A executor
+        run: python3 -I -B update_law_space_v1.py
+
+      - name: route B independent oracle
+        run: python3 -I -B oracle_update_law_space_v1.py
+
+      - name: tests
+        run: python3 -I -B test_update_law_space_v1.py
+
+      - name: route A executor, optimized mode
+        run: python3 -I -O -B update_law_space_v1.py
+
+      - name: route B independent oracle, optimized mode
+        run: python3 -I -O -B oracle_update_law_space_v1.py
+
+      - name: tests, optimized mode (bare asserts erased)
+        run: python3 -I -O -B test_update_law_space_v1.py
+
+      - name: receipts are deterministic across both modes
+        run: |
+          set -eu
+          python3 -I -B update_law_space_v1.py > /dev/null
+          A=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          python3 -I -O -B update_law_space_v1.py > /dev/null
+          B=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          test "$A" = "$B"
+          echo "deterministic: $A"
+
+      - name: the committed receipt matches the regenerated one
+        run: |
+          set -eu
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json
+
+      - name: route B does not import route A
+        run: |
+          set -eu
+          if grep -q 'update_law_space_v1' oracle_update_law_space_v1.py; then
+            echo "TWO-ROUTE FAILURE: the oracle references the executor"; exit 1
+          fi
+          echo "two-route independence ok"

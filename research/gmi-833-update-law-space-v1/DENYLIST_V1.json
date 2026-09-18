@@ -1,0 +1,68 @@
+{
+  "schema": "GMI833SectionIDenylistV1",
+  "note": "This file stores the screened-for tokens by construction and is therefore the one declared self-exemption of the A1 lexical screen.",
+  "version": "SECTION_I_V1",
+  "banned_mi_primitives": [
+    "NEURON",
+    "LAYER",
+    "ATTENTION",
+    "MEMORY",
+    "PLANNER",
+    "SEARCHER",
+    "WORLD_MODEL",
+    "BACKPROP",
+    "TRANSFORMER",
+    "SYMBOLIC_REASONER"
+  ],
+  "no_smuggling_audit_entries": [
+    "transformer",
+    "self_attention",
+    "SelfAttention",
+    "Conv2D",
+    "lstm_gate",
+    "rag_retriever",
+    "RAG-Retriever"
+  ],
+  "section_i_additions": [
+    "gradient",
+    "backprop",
+    "backpropagation",
+    "optimizer",
+    "autodiff",
+    "automatic_differentiation",
+    "perceptron",
+    "convnet",
+    "recurrent_net"
+  ],
+  "screened_population_glob": "*.py and *.md and *.json inside research/gmi-833-update-law-space-v1/",
+  "declared_exemptions": [
+    {
+      "path": "DENYLIST_V1.json",
+      "reason": "stores the denylist by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "reason": "quotes the four issue rows verbatim (row 3 contains 'gradient', row 4 contains 'backprop') and carries the parent-ownership disclosure"
+    },
+    {
+      "path": "PARENT_OWNERSHIP_V1.md",
+      "reason": "the declared parent-ownership disclosure; the named-algorithm instance may be named only here"
+    },
+    {
+      "path": "ISSUE_833_RECONCILIATION_I_CORE_V1.json",
+      "reason": "carries the four issue rows verbatim"
+    },
+    {
+      "path": "HOSTILE_FIXTURES_V1.json",
+      "reason": "holds the deliberately planted hostile identifiers the screen must detect; screening it would be a self-hit"
+    },
+    {
+      "path": "UPDATE_LAW_SPACE_THEOREMS_V1.md",
+      "reason": "the named theorem note quotes the registered row wording and the parent-ownership summary"
+    },
+    {
+      "path": "MANIFEST_V1.json",
+      "reason": "carries the forbidden-promotion strings verbatim as pre-committed by the freeze, one of which contains a denylisted term by design"
+    }
+  ]
+}
