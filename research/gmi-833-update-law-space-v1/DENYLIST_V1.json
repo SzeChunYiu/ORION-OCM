@@ -1,0 +1,207 @@
+{
+  "schema": "GMI833SectionIDenylistV1",
+  "note": "This file stores the screened-for tokens by construction and is therefore the one declared self-exemption of the A1 lexical screen.",
+  "version": "SECTION_I_V1",
+  "banned_mi_primitives": [
+    "NEURON",
+    "LAYER",
+    "ATTENTION",
+    "MEMORY",
+    "PLANNER",
+    "SEARCHER",
+    "WORLD_MODEL",
+    "BACKPROP",
+    "TRANSFORMER",
+    "SYMBOLIC_REASONER"
+  ],
+  "no_smuggling_audit_entries": [
+    "transformer",
+    "self_attention",
+    "SelfAttention",
+    "Conv2D",
+    "lstm_gate",
+    "rag_retriever",
+    "RAG-Retriever"
+  ],
+  "section_i_additions": [
+    "gradient",
+    "backprop",
+    "backpropagation",
+    "optimizer",
+    "autodiff",
+    "automatic_differentiation",
+    "perceptron",
+    "convnet",
+    "recurrent_net"
+  ],
+  "screened_population_glob": "*.py and *.md and *.json inside research/gmi-833-update-law-space-v1/",
+  "whole_file_exemptions": [
+    {
+      "path": "DENYLIST_V1.json",
+      "reason": "holds the screened vocabulary by construction; screening it against itself is vacuous"
+    },
+    {
+      "path": "HOSTILE_FIXTURES_V1.json",
+      "reason": "holds the deliberately planted hostile identifiers the screen must detect; screening it would turn its own recall test into a self-hit"
+    }
+  ],
+  "occurrence_allowlist": [
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "ATTENTION",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "Conv2D",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "MEMORY",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "RAG-Retriever",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "SelfAttention",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "TRANSFORMER",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "autodiff",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "lstm_gate",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "rag_retriever",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "self_attention",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "transformer",
+      "reason": "the freeze spells out the denylist itself in section 3.1, so the screened vocabulary appears there by construction"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "gradient",
+      "reason": "the freeze quotes the four issue rows verbatim; row 3 contains this term and row 4 contains the named algorithm; also the parent principle named in section 2.1"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "BACKPROP",
+      "reason": "the freeze quotes the four issue rows verbatim; row 3 contains this term and row 4 contains the named algorithm; also the freeze carries the parent-ownership disclosure, where the parent principle and the named algorithm must be named"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "backprop",
+      "reason": "the freeze quotes the four issue rows verbatim; row 3 contains this term and row 4 contains the named algorithm; also the freeze carries the parent-ownership disclosure, where the parent principle and the named algorithm must be named"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "backpropagation",
+      "reason": "the freeze quotes the four issue rows verbatim; row 3 contains this term and row 4 contains the named algorithm; also the freeze carries the parent-ownership disclosure, where the parent principle and the named algorithm must be named"
+    },
+    {
+      "path": "FREEZE_V1.md",
+      "deny_entry": "optimizer",
+      "reason": "used only in the negative, stating that the definition mentions no such thing"
+    },
+    {
+      "path": "PARENT_OWNERSHIP_V1.md",
+      "deny_entry": "gradient",
+      "reason": "this is the declared parent-ownership file, the one place where the parent principle and the named-algorithm instance may be named"
+    },
+    {
+      "path": "PARENT_OWNERSHIP_V1.md",
+      "deny_entry": "BACKPROP",
+      "reason": "this is the declared parent-ownership file, the one place where the parent principle and the named-algorithm instance may be named"
+    },
+    {
+      "path": "PARENT_OWNERSHIP_V1.md",
+      "deny_entry": "backprop",
+      "reason": "this is the declared parent-ownership file, the one place where the parent principle and the named-algorithm instance may be named"
+    },
+    {
+      "path": "PARENT_OWNERSHIP_V1.md",
+      "deny_entry": "backpropagation",
+      "reason": "this is the declared parent-ownership file, the one place where the parent principle and the named-algorithm instance may be named"
+    },
+    {
+      "path": "PARENT_OWNERSHIP_V1.md",
+      "deny_entry": "optimizer",
+      "reason": "used only in the negative, stating that the definition mentions no such thing"
+    },
+    {
+      "path": "UPDATE_LAW_SPACE_THEOREMS_V1.md",
+      "deny_entry": "gradient",
+      "reason": "the theorem note names the parent principle it explicitly disclaims and quotes the forbidden-promotion string containing it"
+    },
+    {
+      "path": "UPDATE_LAW_SPACE_THEOREMS_V1.md",
+      "deny_entry": "MEMORY",
+      "reason": "the theorem note lists the Section I rows this tranche does NOT close, one of which contains this term"
+    },
+    {
+      "path": "UPDATE_LAW_SPACE_THEOREMS_V1.md",
+      "deny_entry": "optimizer",
+      "reason": "used only in the negative, stating that the definition mentions no such thing"
+    },
+    {
+      "path": "MANIFEST_V1.json",
+      "deny_entry": "gradient",
+      "reason": "carries the forbidden-promotion strings verbatim as pre-committed by the freeze, one of which names the parent principle it forbids claiming"
+    },
+    {
+      "path": "ISSUE_833_RECONCILIATION_I_CORE_V1.json",
+      "deny_entry": "gradient",
+      "reason": "quotes issue row 3 and row 4 verbatim, plus the same forbidden-promotion string"
+    },
+    {
+      "path": "ISSUE_833_RECONCILIATION_I_CORE_V1.json",
+      "deny_entry": "backprop",
+      "reason": "quotes issue row 4 verbatim"
+    },
+    {
+      "path": "ISSUE_833_RECONCILIATION_I_CORE_V1.json",
+      "deny_entry": "BACKPROP",
+      "reason": "quotes issue row 4 verbatim"
+    },
+    {
+      "path": "ISSUE_833_RECONCILIATION_I_CORE_V1.json",
+      "deny_entry": "MEMORY",
+      "reason": "lists the Section I rows this tranche does NOT touch, one of which contains this term"
+    }
+  ],
+  "screened_population": "every *.py and *.md in the package is screened by the executor; every *.json is screened by the test suite; only the two whole-file exemptions above are skipped",
+  "strictly_clean_files": {
+    "files": [
+      "update_law_space_v1.py",
+      "oracle_update_law_space_v1.py",
+      "test_update_law_space_v1.py",
+      "CORE.md",
+      "RESULT_V1.json",
+      "ORACLE_RESULT_V1.json"
+    ],
+    "rule": "these carry the definitions, both routes, the tests, the summary and both generated receipts. They must have ZERO denylist hits and no occurrence allowance may name them. Prose and governance files may carry justified occurrences; the definition files, the routes and the receipts may not."
+  }
+}
