@@ -1,0 +1,191 @@
+name: GMI 833 AE3 compression versus learning v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae3-compression-learning-v1/**'
+      - '.github/workflows/gmi-833-ae-ae3-compression-learning-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae3-compression-learning-v1/**'
+      - '.github/workflows/gmi-833-ae-ae3-compression-learning-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=eddae65b3f1b3116a3502b65e916a48b165eae7b
+          pkg=research/gmi-833-ae-ae3-compression-learning-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/ae3_compression_learning_v1.py" \
+            "$pkg/independent_code_oracle_v1.py" \
+            "$pkg/test_ae3_compression_learning_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/AE3_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/CORE.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE3_COMPRESSION_LEARNING_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            test "$actual" = "$2"
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json ceb77f5beac99b5427d1350915b19df546495fb8
+          verify_parent research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json 69aafebec4016f539c46b1f71546f740a8018421
+          verify_parent research/gmi-833-finite-candidate-space-v1/RESULT_V1.json 4086d6bea440d626e48d92eb35d39267a010589e
+      - name: Exact AE3 tests, two routes, hostiles and nulls
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae3-compression-learning-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_ae3_compression_learning_v1.py" -v
+            python -I -O -B "$pkg/ae3_compression_learning_v1.py" > /tmp/ae3.json
+          else
+            python -I -B "$pkg/test_ae3_compression_learning_v1.py" -v
+            python -I -B "$pkg/ae3_compression_learning_v1.py" > /tmp/ae3.json
+          fi
+          cmp /tmp/ae3.json "$pkg/RESULT_V1.json"
+      - name: Check manifest, claim ceiling and named numbers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae3-compression-learning-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          expected = ('GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_'
+                      'ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY')
+          assert m['claim_ceiling'] == r['claim_ceiling'] == expected
+          assert m['source_main'] == r['source_main'] == (
+              '349c2e62c4ae01f52cf66f61e4dacdbdfcf10071')
+          assert m['freeze_commit'] == r['freeze_commit'] == (
+              'eddae65b3f1b3116a3502b65e916a48b165eae7b')
+          assert r['verdict'] == 'GREEN' and all(r['checks'].values())
+          assert r['rows_closed'] == m['rows_closed'] == 8
+          res = r['results']
+          p = res['AE3_1_three_notions']['ordered_pair_census']
+          assert len(p) == 6
+          assert p['A_determines_B']['conflicting_pairs'] == 17406
+          assert p['A_determines_C']['conflicting_pairs'] == 14258
+          assert p['B_determines_A']['conflicting_pairs'] == 2050
+          assert p['B_determines_C']['conflicting_pairs'] == 5568
+          assert p['C_determines_A']['conflicting_pairs'] == 3854
+          assert p['C_determines_B']['conflicting_pairs'] == 10520
+          for k in p:
+              assert p[k]['determines'] is False
+          a2 = res['AE3_2_compresses_but_useless']
+          assert a2['code_length_useless'] == a2['code_length_useful'] == 6
+          assert a2['literal_length'] == 9
+          assert a2['usefulness_useless'] == '1/2'
+          assert a2['usefulness_useful'] == '1'
+          a3 = res['AE3_3_useful_predictor_not_shortest']
+          assert a3['shortest_consistent_length'] == 6
+          assert a3['shortest_consistent_argmin_size'] == 1
+          assert a3['shortest_consistent_best_out_of_sample'] == '0'
+          assert a3['shortest_perfect_generalizer_length'] == 7
+          assert a3['length_excess'] == 1
+          a4 = res['AE3_4_memorization_vs_generalization']
+          assert a4['hypotheses_with_perfect_train_accuracy'] == 16
+          assert a4['train_accuracy_determines_out_of_sample'] is False
+          assert a4['census']['conflicting_pairs'] == 6094848
+          assert a4['census']['equal_value_pairs'] == 8386560
+          a5 = res['AE3_5_mdl_bayes_pacbayes']
+          assert a5['mdl_optimal_code_length'] == 6
+          assert a5['mdl_argmin_size'] == 2
+          assert a5['mdl_worst_out_of_sample'] == '1/2'
+          assert a5['risk_optimal_out_of_sample'] == '1'
+          assert a5['mdl_can_select_a_strictly_worse_hypothesis'] is True
+          assert a5['mdl_argmin_is_a_subset_of_risk_argmax'] is False
+          assert len(a5['crosswalk']) == 4
+          a6 = res['AE3_6_kolmogorov_boundary']
+          assert a6['guard_alarms_on_this_receipt'] == 0
+          assert a6['guard_alarm_paths'] == []
+          assert a6['kolmogorov_complexity_not_computed'] is True
+          a7 = res['AE3_7_computable_surrogates']
+          assert a7['max_abs_difference_L1_L2'] == 1
+          assert a7['difference_histogram_L1_L2'] == {'0': 14, '1': 242}
+          assert a7['strict_order_flips_L1_vs_L2'] == 0
+          assert a7['total_pairs'] == 32640
+          assert a7['max_abs_difference_L1_L3'] == 3
+          a8 = res['AE3_8_remint_invariance']
+          assert a8['kraft_feasible_remints_tested'] == 200
+          assert a8['AE3_2_invariant_count'] == 162
+          assert a8['AE3_2_predicate_is_exact'] is True
+          assert a8['AE3_2_predicate_matches_observation'] == 200
+          assert a8['AE3_3_invariant_count'] == 170
+          assert len(a8['AE3_3_exceptions']) == 30
+          assert a8['universal_invariance_claimed'] is False
+          assert a8['verdict'] == 'INVARIANCE_IS_CONDITIONAL_NOT_UNIVERSAL'
+          b = res['AE3_8_boundary_counterexample']
+          assert b['flips_AE3_3'] is True and b['kraft_feasible'] is False
+          assert len(r['hostiles']) == 5
+          for h in r['hostiles']:
+              assert h['perturbation_moved_its_quantity'], h['id']
+              assert h['detected'], h['id']
+          n = r['null']
+          assert n['fires_on_planted_witness'] is True
+          assert n['known_clean_flagged'] == 0
+          assert n['random_corpora_trials'] == 200
+          assert len(m['parent_pins']) == 5
+          print('AE3 manifest and named numbers OK')
+          PY
+      - name: Check reconciliation rows are byte-exact and unique
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae3-compression-learning-v1')
+          spec = json.loads((
+              root / 'ISSUE_833_RECONCILIATION_AE3_COMPRESSION_LEARNING_V1.json'
+          ).read_text())
+          assert spec['schema'] == 'GMI_ISSUE_RECONCILIATION_V2'
+          assert spec['issue'] == 833
+          assert spec['issue_comment_id'] == 5692689542
+          assert len(spec['replacements']) == 8
+          seen = set()
+          for rep in spec['replacements']:
+              assert rep['old'].startswith('- [ ] ')
+              assert rep['new'].startswith('- [x] ')
+              assert rep['new'][6:].startswith(rep['old'][6:])
+              assert rep['old'] not in seen
+              seen.add(rep['old'])
+              assert rep['anchor'].startswith('### AE3 ')
+          print('AE3 reconciliation spec OK')
+          PY
