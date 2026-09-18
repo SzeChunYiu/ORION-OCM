@@ -237,7 +237,19 @@ Recorded because they bear on whether the met cells are as strong as their count
    its per-requirement loop from a package-level presence profile, and `R04` is the one census
    requirement that is per-row dispositional rather than package-level. Recorded verbatim in
    `ROUTE_RECONCILIATION_ROUND1_V1.json` before resolution.
-4. **Bit-identical on two hosts and two Python versions** (Darwin/CPython 3.13 and
+4. **One row carries two opposite verdicts, both true at their own scope.** `H01`
+   `Finite-state/automata intelligence.` is `neutral_recovery:
+   SUPPORTED_AT_REGISTERED_EXACT_SCOPE` in
+   `gmi-833-h-neutral-four-family-v1/FAMILY_GATE_LEDGER_V1.json` and
+   `IDENTIFIABILITY_OBSTRUCTION` in `gmi-833-h-obstruction-census-v1/RESULT_V1.json`. There is
+   no contradiction and no error: at `SIGMA_4F` the persistent three-class future-response
+   quotient is recovered from obligations that excite the state channel, and at
+   `SIGMA_CENSUS` the registered context probe `x3` is zero on every point of the eight-point
+   ecology, so the target is not identified. This is exactly what `FGS-2` describes, and it is
+   why the ledger refuses a scope-blind cell. A matrix without a scope column would have had
+   to pick one of the two and would have been wrong either way.
+
+5. **Bit-identical on two hosts and two Python versions** (Darwin/CPython 3.13 and
    laptop-billy Linux/CPython 3.8.10; `RESULT_V1.json` md5
    `f2e5a0015a18912c9ca3e42e134a2530`, `LEDGER_V1.json` md5
    `36a48725f2ff02212b5297ee4b712d11`). Per the corpus's own frozen rule this licenses
