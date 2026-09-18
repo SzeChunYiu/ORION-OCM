@@ -33,7 +33,7 @@
   {
    "anchor": "# H. Prior-free derivation of known machine-intelligence families",
    "old": "- [ ] Basis/kernel methods.",
-   "new": "- [x] Basis/kernel methods. — ✅ gmi-833-h-real-scale-revival-v1 RSR-3 RSR-5: one unchanged grammar (6324 pairs, digest 60bc1a6e3b65) blind-chose the lifted per-input basis STEP(ARG) | MUL(BIAS,S) on 438739/87747 fit/held-out rows of the sha256-bound ALSA PCM, held-out exact SSE 406.046x below the affine arm and strictly positive, landmark cost crossover q*=2, all 11 gates at SIGMA_R04B."
+   "new": "- [x] Basis/kernel methods. — ✅ gmi-833-h-real-scale-revival-v1 RSR-3 SIGMA_R04B"
   }
  ],
  "rows_left_open_with_attribution": {
@@ -52,18 +52,22 @@
     {
      "prediction": "Q2a",
      "stage": "prediction",
-     "attribution": "Q2a is a conjunction: BODY semantically MUL(ARG,PARAM), HEAD semantically ADD(S,BIAS), class AFFINE_SCORE, no STATE. The family-blind search chose MUL(ARG,PARAM) | ADD(S,S). The body clause and the class clause held; the head clause did not, because ADD(S,S) is 2S, a linear head with no intercept, a different denotation from ADD(S,BIAS). Diagnosis: the prediction over-specified. The top eight ranked candidates are all AFFINE_SCORE and their out-of-sample squared errors on 26325 ranking-score rows lie within 26489 parts per billion of one another (5.40444, 5.40457, 5.40458), and the fitted intercept was 0 at the registered rationalisation, so this ecology has no intercept to identify. The class is identified and stable across the regeneration and across the V3 ranking correction; the expression within the class is not. The clause that held is reported as a labelled diagnostic and is NOT substituted for the conjunction that failed.",
+     "attribution": "Q2a is a conjunction: BODY semantically MUL(ARG,PARAM), HEAD semantically ADD(S,BIAS), class AFFINE_SCORE, no STATE. The family-blind search chose MUL(ARG,PARAM) | ADD(S,S). The body clause and the class clause held; the head clause did not, because ADD(S,S) is 2S, a linear head with no intercept, a different denotation from ADD(S,BIAS). Diagnosis: the prediction over-specified. The top eight ranked candidates are all AFFINE_SCORE and their out-of-sample squared errors on 26325 ranking-score rows lie within 26489 parts per billion of one another (5.40444, 5.40457, 5.40458) - a float-derived search diagnostic, not one of this packages exact quantities; selection is float, every claimed held-out quantity is exact, and the fitted intercept was 0 at the registered rationalisation, so this ecology has no intercept to identify. The class is identified and stable across the regeneration and across the V3 ranking correction; the expression within the class is not. The clause that held is reported as a labelled diagnostic and is NOT substituted for the conjunction that failed.",
      "detail": {
       "chosen": "MUL(ARG,PARAM) | ADD(S,S)",
       "registered": "MUL(ARG,PARAM) | ADD(S,BIAS)",
-      "top8_out_of_sample_spread_parts_per_billion": 26489
+      "top8_out_of_sample_spread_parts_per_billion__float_derived_diagnostic": 26489
      }
     },
     {
      "prediction": "Q2h",
      "stage": "prediction",
      "attribution": "Q2h asserted that the support-admissibility rule is inert at this scope AND that the chosen program is byte-identical to the first run's. The inertness clause held, 0 of 6324 candidates demoted. The identity clause failed because the V3 ranking correction, registered for an independent defect, moved the chosen head from ADD(BIAS,S) to ADD(S,S).",
-     "detail": {"demoted_on_fit_slice": 0, "enumerated": 6324, "first_run_chosen": "MUL(ARG,PARAM) | ADD(BIAS,S)"}
+     "detail": {
+      "demoted_on_fit_slice": 0,
+      "enumerated": 6324,
+      "first_run_chosen": "MUL(ARG,PARAM) | ADD(BIAS,S)"
+     }
     }
    ],
    "what_held_and_closes_nothing": {
@@ -94,13 +98,22 @@
      "prediction": "Q3a",
      "stage": "recovery criterion",
      "attribution": "The family-blind search chose STEP(ARG) | MUL(BIAS,RECIP(S)), class LIFTED_BASIS, where NONLINEAR_LINK was registered. The single lever of FREEZE_V2_ADDENDUM.md, a generic support-admissibility rule, fired non-vacuously (484 of 6324 demoted) and removed the affine score the first run chose, but did not produce a link. Second attribution: under a generic squared loss on a real over-dispersed count response, non-negativity is cheaper to buy by lifting the INPUT than by bending the LINK, because a per-input indicator makes the fold value non-negative before the head is applied. Identifying the link plausibly needs a loss proper for counts, and a proper scoring rule is exactly the family information the search may not receive. Per FREEZE_V2_ADDENDUM.md section 6 this is not attempted a third time in this package.",
-     "detail": {"chosen": "STEP(ARG) | MUL(BIAS,RECIP(S))", "first_run_chosen": "MUL(ARG,PARAM) | ADD(BIAS,S)", "demoted_on_fit_slice": 484, "enumerated": 6324}
+     "detail": {
+      "chosen": "STEP(ARG) | MUL(BIAS,RECIP(S))",
+      "first_run_chosen": "MUL(ARG,PARAM) | ADD(BIAS,S)",
+      "demoted_on_fit_slice": 484,
+      "enumerated": 6324
+     }
     },
     {
      "prediction": "Q3i",
      "stage": "recovery criterion",
      "attribution": "The regeneration on the disjoint slices chose MUL(ARG,PARAM) | ABS(RECIP(S)), class NONLINEAR_LINK, against the main run's LIFTED_BASIS. The two routes to admissibility are close in loss at this scope, so the recovered class is not stable. Same stage as Q3a.",
-     "detail": {"main_class": "LIFTED_BASIS", "regeneration_class": "NONLINEAR_LINK", "regeneration_rows": 113847}
+     "detail": {
+      "main_class": "LIFTED_BASIS",
+      "regeneration_class": "NONLINEAR_LINK",
+      "regeneration_rows": 113847
+     }
     }
    ],
    "what_held_and_closes_nothing": {
@@ -140,5 +153,10 @@
   "no_gate_carries_a_foreign_sigma": true,
   "route_b_agrees_on_every_scope": true,
   "issue_body_is_never_edited_by_this_package": true
+ },
+ "annotation_budget": {
+  "measured_payload_limit_characters": 48,
+  "how_measured": "210 annotated rows of the issue body carry a trailing L:<12 hex> ledger suffix; eight of them are cut mid-token at exactly 48 characters of payload, including this package parent gmi-833-h-real-scale-classical-v1 whose own reconciliation JSON records the full text. The payload here is 48 characters and ends on a token boundary.",
+  "where_the_numbers_live": "RESULT_V1.json and REAL_SCALE_REVIVAL_THEOREMS_V1.md. No quantity is asserted on the issue body."
  }
 }

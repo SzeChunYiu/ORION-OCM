@@ -107,7 +107,9 @@ separate reason given below — and the row
 are all `AFFINE_SCORE` and all of the form (affine score, linear head), and
 their out-of-sample squared errors on 26,325 ranking-score rows lie within
 26,489 parts per billion of one another — 2.6 parts in 100,000: 5.40444 for
-`ADD(S,S)`, 5.40457 for `ADD(BIAS,S)`, 5.40458 for the bare `S`. The fitted
+`ADD(S,S)`, 5.40457 for `ADD(BIAS,S)`, 5.40458 for the bare `S`. That spread is a
+float-derived diagnostic of the search stage, not one of the exact quantities
+this package claims: ranking is float, every claimed held-out quantity is exact. The fitted
 intercept of the affine head was 0 at the registered rationalisation in the
 first run, so this ecology has no intercept to recover. The **class** is identified and is
 stable — it survives the regeneration on disjoint slices, and it survived the

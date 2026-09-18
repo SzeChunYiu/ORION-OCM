@@ -6,14 +6,16 @@ than one line of Python lives here instead.
 
     python3 -I -B ci_gates_v1.py <gate>
 
-Gates: foreign-sigma, rule-vacuity, closure-consistency, two-route-namespace,
-selftest. Each prints what it checked and exits non-zero when it fails.
+Gates: foreign-sigma, rule-vacuity, closure-consistency, annotation-budget,
+two-route-namespace, selftest. Each prints what it checked and exits non-zero
+when it fails.
 """
 import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+MARKER = u" \u2014 \u2705 "
 OWN_SIGMA = set(["SIGMA_R02", "SIGMA_R03B", "SIGMA_R04B"])
 PRIMARY = ("grammar_s_v1", "run_real_scale_revival_v1", "real_scale_revival_v1")
 
@@ -74,6 +76,32 @@ def closure_consistency(result=None, recon=None):
     return 0
 
 
+def annotation_budget(recon=None):
+    """The issue body truncates a row annotation; an over-long one loses its tail.
+
+    Measured on the target body, not assumed: 210 annotated rows carry a
+    trailing ledger suffix and eight of them are cut mid-token at exactly 48
+    characters of payload, this package's own parent among them. A replacement
+    whose payload exceeds the budget would be published with its tail gone, so
+    the payload carries no quantity, only package, result id and scope.
+    """
+    recon = recon or load("ISSUE_833_RECONCILIATION_H2_V1.json")
+    budget = recon["annotation_budget"]["measured_payload_limit_characters"]
+    bad = []
+    for entry in recon["replacements"]:
+        parts = entry["new"].split(MARKER, 1)
+        if len(parts) != 2:
+            bad.append((entry["old"], "no annotation marker"))
+            continue
+        if len(parts[1]) > budget:
+            bad.append((entry["old"], "%d > %d characters" % (len(parts[1]), budget)))
+    if bad:
+        print("ANNOTATION OVER BUDGET: %r" % (bad[:3],))
+        return 1
+    print("every replacement payload fits the measured %d-character budget" % budget)
+    return 0
+
+
 def two_route_namespace():
     sys.path.insert(0, HERE)
     import independent_oracle_v1  # noqa: F401
@@ -115,6 +143,11 @@ def selftest():
          "old": "- [ ] GLMs.", "new": "- [x] GLMs. — fabricated"})
     checks.append(("closure planted", closure_consistency(clean, dirty_recon) == 1))
 
+    checks.append(("annotation clean", annotation_budget(recon) == 0))
+    dirty_recon = json.loads(json.dumps(recon))
+    dirty_recon["replacements"][0]["new"] += " x" * 40
+    checks.append(("annotation planted", annotation_budget(dirty_recon) == 1))
+
     bad = [name for name, ok in checks if not ok]
     for name, ok in checks:
         print("  %-24s %s" % (name, "ok" if ok else "FAILED"))
@@ -127,6 +160,7 @@ def selftest():
 
 GATES = {"foreign-sigma": foreign_sigma, "rule-vacuity": rule_vacuity,
          "closure-consistency": closure_consistency,
+         "annotation-budget": annotation_budget,
          "two-route-namespace": two_route_namespace, "selftest": selftest}
 
 

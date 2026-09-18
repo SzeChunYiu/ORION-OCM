@@ -328,6 +328,22 @@ class Reconciliation(unittest.TestCase):
                      if self.recon["rows_left_open_with_attribution"][k]["row"] == row]
             self.assertTrue(found, row)
 
+    def test_the_annotation_fits_the_measured_body_budget(self):
+        """An over-long annotation is published with its tail cut off.
+
+        Measured on the target body: eight annotated rows are cut mid-token at
+        exactly 48 characters of payload. The budget is recorded in the
+        reconciliation artifact and the payload carries no quantity.
+        """
+        budget = self.recon["annotation_budget"]["measured_payload_limit_characters"]
+        self.assertEqual(budget, 48)
+        for entry in self.recon["replacements"]:
+            parts = entry["new"].split(u" \u2014 \u2705 ", 1)
+            self.assertEqual(len(parts), 2, entry["new"])
+            self.assertLessEqual(len(parts[1]), budget, parts[1])
+            for ch in "0123456789":
+                self.assertNotIn(ch + "." , parts[1])
+
     def test_no_row_outside_the_freeze_is_touched(self):
         allowed = set(r.replace("- [ ] ", "") for r in ROWS)
         for entry in self.recon["replacements"]:
