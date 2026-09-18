@@ -1,0 +1,53 @@
+{
+  "schema": "GMI_833_AE7_PREDICTION_TO_CONTROL_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE7",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae7-prediction-to-control-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "65b45210b0cca60dba37d36fd556c8846fa3232f",
+  "claim_ceiling": "GMI_833_AE7_PREDICTION_TO_CONTROL_BOUNDARY_EXACTLY_SEPARATED_AND_PRICED_AT_REGISTERED_FINITE_SCOPE",
+  "target_rows": 7,
+  "deferred_rows": 0,
+  "theorems": ["PC-1", "PC-2", "PC-3", "PC-4", "PC-5", "PC-6", "PC-7"],
+  "prospective_predictions": ["R1", "R2", "R3", "R4", "R5"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae7-prediction-to-control-v1/ae7_prediction_to_control_v1.py",
+    "B": "research/gmi-833-ae-ae7-prediction-to-control-v1/independent_control_oracle_v1.py",
+    "independence": "route B has no executable import of route A; the test parses route B's AST and asserts its import set is exactly {fractions, json, sys}. Route A builds sensors as restricted-growth strings and values them by per-block aggregate maximisation over exact Fractions; route B builds sensors by an insert-into-a-block recursion over frozensets and values them by enumerating EVERY deterministic policy measurable with respect to the sensor, in integers scaled by the exact common denominator 32. Route B decides free merges by comparing exact values before and after the merge, never by intersecting optimal-action sets."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; neither reproved nor extended"},
+    {"path": "research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json",
+     "blob_sha": "ceb77f5beac99b5427d1350915b19df546495fb8",
+     "claim_ceiling": "sibling AE1 receipt; AE7 reuses none of its code and earns no AE1 row"},
+    {"path": "research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json",
+     "blob_sha": "69aafebec4016f539c46b1f71546f740a8018421",
+     "claim_ceiling": "sibling AE10 receipt; the priced ladder here is a control price, not AE10's budget lattice, and no AE10 row is earned"}
+  ],
+  "scope": {
+    "latent_states": 8,
+    "sensors_enumerated": 4140,
+    "registered_targets": ["Y_b0", "Y_b1", "Y_xor01", "Y_and01", "Y_or01"],
+    "registered_utilities": ["U_hidden_coordinate", "U_visible_coordinate", "U_helly_triple", "U_graded"],
+    "price_ladder_points": 33,
+    "declared_but_not_instantiated": ["energy", "wall_clock_time"]
+  },
+  "forbidden_promotions": [
+    "PREDICTION_INSUFFICIENT_FOR_INTELLIGENCE_IN_GENERAL",
+    "CONTROL_SUFFICIENCY_IMPLIES_PREDICTIVE_SUFFICIENCY",
+    "PREDICTIVE_SUFFICIENCY_IMPLIES_CONTROL_SUFFICIENCY",
+    "POMDP_BELIEF_SUFFICIENCY_REPROVED",
+    "INFINITE_HORIZON_CONTROL_PROVED",
+    "CONTINUOUS_STATE_EXTENSION_PROVED",
+    "ENERGY_OR_TIME_PRICE_MEASURED",
+    "ARCHITECTURE_SELECTION_LAW",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "COMPLETE_GMI"
+  ]
+}
