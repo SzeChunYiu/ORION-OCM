@@ -112,8 +112,13 @@
   ],
   "missing_reference": {
     "path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
-    "status": "DOES_NOT_EXIST_AT_SOURCE_MAIN",
-    "substitute": "research/gmi-833-foundation-v1/FOUNDATION_THEOREMS_V1.md sections 1, 2, 9, 10, 11"
+    "status": "CORRECTED__EXISTS_AT_SOURCE_MAIN",
+    "prior_incorrect_status": "DOES_NOT_EXIST_AT_SOURCE_MAIN",
+    "correction": "The absence claim was wrong. The file exists at this package's own pinned source_main c70dd24eeade46a3afe8322c1a0e0c16a648311e (12,351 bytes) and on main. Verified two independent ways: git ls-tree -r --name-only <source_main> -- <path> returns the path, and git show <source_main>:<path> returns the content. A repository-wide basename search for BASELINE_V1.md returns exactly this one path. The original search that reported absence was not scope-justified.",
+    "governing_baseline": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+    "baseline_content_at_pin": "assertions A1-A14 with per-assertion evidence paths, the claim ceiling and what the baseline does NOT assert, CI-U at re-earned strength, the OPEN-OBLIGATIONS register, freeze governance, and the component inventory",
+    "substitute_retained_as_supplementary": "research/gmi-833-foundation-v1/FOUNDATION_THEOREMS_V1.md sections 1, 2, 9, 10, 11 - still a correct and relevant source for the realization contract, but supplementary to the baseline rather than a substitute for it",
+    "downstream_effect": "none on any KP result: the substituted sections were used for the realization-contract objects, which the baseline does not redefine. No theorem, census count or gate changes."
   },
   "evidence_classes": {
     "EV1": "analytic finite proofs with explicit quantifiers and falsifiers (KP-1B, KP-1C, KP-2A, KP-2B, KP-2C, KP-3B, KP-3C)",
@@ -182,6 +187,7 @@
     "QUANTITATIVE_RESOURCE_CURVE_PREDICTION",
     "REAL_SYSTEM_CAPABILITY_VALIDATION",
     "UNIVERSAL_CAPABILITY_PREDICTION",
-    "UNIVERSAL_UNCERTAINTY_CALIBRATION"
+    "UNIVERSAL_UNCERTAINTY_CALIBRATION",
+    "BASELINE_ABSENCE_CLAIMED_WITHOUT_SCOPE_JUSTIFIED_SEARCH"
   ]
 }
