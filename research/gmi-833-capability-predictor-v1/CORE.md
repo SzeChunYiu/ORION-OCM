@@ -40,7 +40,10 @@ changes if `UNSATISFIED` is coerced to `0`.
 | H9 | parent result blob mutation | blob sha mismatch |
 
 Null control `NULL_MARGINAL` (emit the modal capability `1/2` always): 51,840 point
-emissions, **51,840 soundness violations**, against `F`'s 10,640 points and 0.
+emissions, **51,840 soundness violations**. Head to head on the 10,640 inputs where
+`F` actually emits a point, the null is unsound on **10,640 of 10,640** and `F` on
+**0**; restricted to the 21,600 inputs with a nonempty survivor set the null is
+unsound on all 21,600.
 
 ## Boundaries, earned by counterexample
 
@@ -73,5 +76,17 @@ python3 -I -O -B research/gmi-833-capability-predictor-v1/test_capability_predic
 ```
 
 Stdlib only, exact `Fraction`/`int` arithmetic, no floats in any claim. The
-executor takes about 15 s and the tests about 36 s on a laptop-class CPU.
-Route A md5: `0eb11da86e0fbd5c2cf05029dd5204aa` (both modes, at the pinned parents).
+executor takes about 15 s and the 37 tests about 35 s on a laptop-class CPU.
+Route A md5: `9f4c0d0c5910fa081fa10dc4e371effc` (both modes, at the pinned parents).
+
+## What the second route does and does not cover
+
+Route B independently reproduces, on all 51,840 inputs: the disposition, the exact
+identified set, the failure mode, and the composed confidence budget — plus the
+144-case semantics sub-census and the aggregate dispositions, mode counts, coverage
+and soundness totals. It is the reason `KP-3B`'s budget number is a two-route
+agreement rather than a self-comparison.
+
+Single-route (route A only, and labelled as such): the 120-order census of KP-2D,
+the null control, the nine hostiles, and the `ast` emit-funnel audit. The KP-2D
+order-sensitivity figures bound a declared limitation rather than support a claim.

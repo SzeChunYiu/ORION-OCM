@@ -80,10 +80,13 @@ class GridAgreement(unittest.TestCase):
             cls.compared += 1
             if (emission.disposition != out["disposition"]
                     or emission.identified_set != ident_b
-                    or mode_a != out["mode"]):
+                    or mode_a != out["mode"]
+                    or emission.uncertainty.coverage_lower != out["coverage_lower"]):
                 if len(cls.disagreements) < 5:
                     cls.disagreements.append((entry, emission.disposition,
-                                              out["disposition"], mode_a, out["mode"]))
+                                              out["disposition"], mode_a, out["mode"],
+                                              emission.uncertainty.coverage_lower,
+                                              out["coverage_lower"]))
             _ = u_by_id
 
     def test_grid_fully_compared(self):
@@ -91,6 +94,12 @@ class GridAgreement(unittest.TestCase):
 
     def test_routes_agree_everywhere(self):
         self.assertEqual(self.disagreements, [])
+
+    def test_failure_budgets_agree_across_routes(self):
+        """KP-3B is a two-route agreement, not a self-comparison inside one module."""
+        self.assertEqual(A.BETA_SUM, B.BETA_TOTAL)
+        self.assertEqual(sorted(A.BETA.values()), sorted(B.BETA_PARTS))
+        self.assertEqual(A.BETA_SUM, Fraction(37, 1000))
 
 
 class Receipt(unittest.TestCase):
@@ -191,6 +200,13 @@ class Receipt(unittest.TestCase):
         self.assertEqual(null["predictor_soundness_violations"], 0)
         self.assertGreater(null["null_soundness_violations"], 0)
         self.assertTrue(null["predictor_strictly_beats_null"])
+
+    def test_kp4_null_beaten_head_to_head(self):
+        """Restricted to the inputs where F actually emits a point."""
+        null = self.receipt["null_control"]
+        self.assertEqual(null["predictor_soundness_violations_on_those_inputs"], 0)
+        self.assertGreater(null["null_soundness_violations_on_those_inputs"], 0)
+        self.assertTrue(null["predictor_strictly_beats_null_head_to_head"])
 
     def test_all_hostiles_detected(self):
         for name, payload in sorted(self.receipt["hostiles"].items()):

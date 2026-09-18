@@ -22,9 +22,18 @@
     "Measure out-of-distribution failure."
   ],
   "theorems": [
-    "KP-1A", "KP-1B", "KP-1C", "KP-1D",
-    "KP-2A", "KP-2B", "KP-2C", "KP-2D",
-    "KP-3A", "KP-3B", "KP-3C", "KP-4"
+    "KP-1A",
+    "KP-1B",
+    "KP-1C",
+    "KP-1D",
+    "KP-2A",
+    "KP-2B",
+    "KP-2C",
+    "KP-2D",
+    "KP-3A",
+    "KP-3B",
+    "KP-3C",
+    "KP-4"
   ],
   "parent_authorities": [
     {
@@ -120,13 +129,27 @@
     "order_census_inputs": 8640,
     "cut_orders": 120,
     "coverage_pairs": 100800,
-    "tests": 35
+    "tests": 37
   },
   "two_routes": {
     "route_a": "capability_predictor_v1.py (bitmask sets, Fraction accumulation, bottom-up first-crossing)",
     "route_b": "oracle_route_b_v1.py (explicit member lists, integer common-denominator arithmetic, sorted-list duplicate counting, top-down deepest-attaining-prefix scan)",
     "shared_surface": "the frozen scope data of SCOPE_V1.md only",
-    "import_independence": "asserted from route B's import lines and from sys.modules"
+    "import_independence": "asserted from route B's import lines and from sys.modules",
+    "route_b_covers": [
+      "disposition",
+      "exact identified set",
+      "failure mode",
+      "composed confidence budget",
+      "semantics sub-census",
+      "aggregate dispositions / mode counts / coverage / soundness"
+    ],
+    "single_route_route_a_only": [
+      "120-order census (KP-2D)",
+      "null control (KP-4)",
+      "the nine hostiles",
+      "the ast emit-funnel audit (KP-3A)"
+    ]
   },
   "artifacts": [
     "FREEZE_V1.md",

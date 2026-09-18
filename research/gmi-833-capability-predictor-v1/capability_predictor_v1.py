@@ -817,6 +817,9 @@ def null_census():
     point, frequency = modal_capability()
     null_points = 0
     null_violations = 0
+    null_violations_nonempty = 0
+    nonempty_inputs = 0
+    null_violations_head_to_head = 0
     true_points = 0
     true_violations = 0
     for entry in main_grid():
@@ -824,10 +827,18 @@ def null_census():
         contract = entry[9]
         indices = bits_of(survivors)
         null_points += 1
-        if not indices or any(verdict(contract, res, i) != point for i in indices):
+        unsound = (not indices
+                   or any(verdict(contract, res, i) != point for i in indices))
+        if unsound:
             null_violations += 1
+        if indices:
+            nonempty_inputs += 1
+            if unsound:
+                null_violations_nonempty += 1
         if emission.disposition == "IDENTIFIED":
             true_points += 1
+            if unsound:
+                null_violations_head_to_head += 1
             if any(verdict(contract, res, i) != emission.value for i in indices):
                 true_violations += 1
     return {
@@ -836,9 +847,16 @@ def null_census():
         "null_point_frequency": frequency,
         "null_point_emissions": null_points,
         "null_soundness_violations": null_violations,
+        "nonempty_survivor_inputs": nonempty_inputs,
+        "null_soundness_violations_on_nonempty_survivors": null_violations_nonempty,
+        "head_to_head_inputs_where_predictor_emits_a_point": true_points,
+        "null_soundness_violations_on_those_inputs": null_violations_head_to_head,
+        "predictor_soundness_violations_on_those_inputs": true_violations,
         "predictor_point_emissions": true_points,
         "predictor_soundness_violations": true_violations,
         "predictor_strictly_beats_null": (true_violations == 0 and null_violations > 0),
+        "predictor_strictly_beats_null_head_to_head":
+            (true_violations == 0 and null_violations_head_to_head > 0),
     }
 
 
@@ -1240,6 +1258,8 @@ def build_receipt():
         "kp3b_feasible_sets_bare": census["feasible_sets_carrying_coverage"] == 0,
         "kp3c_exact_coverage_one": census["coverage_fraction"] == "1",
         "kp4_null_strictly_beaten": null["predictor_strictly_beats_null"],
+        "kp4_null_strictly_beaten_head_to_head":
+            null["predictor_strictly_beats_null_head_to_head"],
         "all_hostiles_detected": all(v.get("detected") for v in hostiles.values()),
         "no_alarm_on_true_taxonomy": hostiles["H3_taxonomy_overlap_and_gap"][
             "no_alarm_on_true_taxonomy"],
