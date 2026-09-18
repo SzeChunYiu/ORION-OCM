@@ -43,11 +43,16 @@ BASELINE = os.path.join(HERE, "TERMINOLOGY_BASELINE_V1.json")
 # gmi-833-aa-finite-universal-harness-v1 on the same criterion; their remaining
 # 22 hits are quotations of row-named legacy terms (15) and text inside
 # committed pre-implementation freezes that may not be edited after the fact (7).
+# gmi-833-aa-fallacy-detectors-v1 is added on the same criterion: its rows name
+# `morphology`, and the frozen parent it instruments exposes `remint_fixture` /
+# `remint_grammar` as its public API, so the package cannot discuss its own
+# subject without them.
 # gmi-833-aa-ledger-gate-v1 is deliberately NOT excluded: it has zero hits.
 EXCLUDED_PACKAGES = ("gmi-833-tranche-ab-ac-lit", "gmi-833-ab-terminology-harness-v1",
                      "gmi-833-terminology-migration-v1", "gmi-833-checklist-mirror-v1",
                      "gmi-833-ac-lanes-harness-v1", "gmi-833-ab-residual-definitions-v1",
-                     "gmi-833-aa-finite-universal-harness-v1")
+                     "gmi-833-aa-finite-universal-harness-v1",
+                     "gmi-833-aa-fallacy-detectors-v1")
 
 
 def load_gate():

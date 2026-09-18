@@ -69,9 +69,11 @@ places a novelty claim *could* live, not three novelty claims.
 **Scope.** `NOVELTY_LADDER_V1.md` and the six levels named in AB25's declared
 antecedent row.
 
-**Statement.** The six level names are **extracted from the antecedent row's
-bolded terms**, in row order, and the ladder's sections match that order
-exactly. All **6** carry all four required fields non-empty — operational
+**Statement.** The six level names — *novel implementation*, *novel
+architecture*, *novel algorithmic mechanism*, *novel model class*, *novel
+computational paradigm/domain*, *novel capability profile* — are **extracted
+from the antecedent row's bolded terms**, in row order, and the ladder's
+sections match that order exactly. All **6** carry all four required fields non-empty — operational
 criterion, falsifier, parent literature, demotion rule — and all **6**
 criteria name the **witness** that must be exhibited. The six criteria are
 **pairwise distinct**. Every demotion rule points **strictly downward**, and the
