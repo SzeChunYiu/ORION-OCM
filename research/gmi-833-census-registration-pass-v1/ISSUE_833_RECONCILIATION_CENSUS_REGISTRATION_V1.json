@@ -1,0 +1,37 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "comment_id": 5684607872,
+  "package": "gmi-833-census-registration-pass-v1",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "freeze_commit": "f54471b8a63865d06b5e3316c4be5433b1b8a552",
+  "claim_ceiling": "SOURCED_PROPAGATION_REGISTER_V1",
+  "no_row_earned": true,
+  "no_row_earned_note": "This package populates the five empty list fields and the two UNKNOWN level fields of the frozen corpus census from evidence already committed on main, and reports per-row decidability for AA16-AA37. It closes no checkbox, earns no neighboring row, and edits no issue body. The replacements list is deliberately empty; the orchestrator writes nothing for this package.",
+  "feeds": {
+    "next_aa_lane": {
+      "register": "research/gmi-833-census-registration-pass-v1/REGISTER_DELTA_V1.json",
+      "gap_graph": "research/gmi-833-census-registration-pass-v1/GAP_GRAPH_V2.json",
+      "decidability": "research/gmi-833-census-registration-pass-v1/DECIDABILITY_V1.json",
+      "rows_with_registered_discriminator": ["AA24", "AA25", "AA26", "AA27", "AA33"],
+      "rows_without": ["AA16", "AA17", "AA18", "AA20", "AA22", "AA23", "AA28", "AA29", "AA30", "AA32", "AA34", "AA35", "AA36"],
+      "binding_sparsity": "assumptions ledger populated on 173 of 22553 objects (173/22553)"
+    },
+    "aa38_aa40_context": "GAP_GRAPH_V2.json carries non-empty descendants on 50 of 1140 gaps (1090 isolated) and a two-valued materiality (847 MATERIAL / 293 CRITICAL); neither row is earned here."
+  },
+  "forbidden_promotions": [
+    "CENSUS_FULLY_REGISTERED",
+    "ALL_OBJECTS_SCORED",
+    "ALL_PARENTS_EXHAUSTED",
+    "DEPENDENCY_GRAPH_COMPLETE",
+    "GMI_GAP_GRAPH_COMPLETE",
+    "ISOLATED_GAP_IS_LEAF",
+    "UNREGISTERED_MEANS_NONE",
+    "POPULATED_MEANS_VERIFIED",
+    "AA_ROW_EARNED",
+    "RECURSION_EXHAUSTED",
+    "ANALYTIC_PROOF",
+    "M4_RESTORED_TO_W4_PARENT"
+  ],
+  "replacements": []
+}
