@@ -146,7 +146,7 @@ CASES = [
  ("5693269426 AF7 r093 future physics -> update S, recompute",   PART,  t_af7_future_physics),
  ("5693954852 AJ15 r098 bounded end-to-end flagship run",        NOEV,  t_aj15),
  ("5693666042 AI0 r002 AG/AH lower-substrate -> GEN",            PART,  t_ai0_agah),
- ("5693954852 AJ9 r097 no smuggling for every holdout",          PART,  t_aj9_auditor),
+ ("5693954852 AJ9 r097 no smuggling for every holdout",          EARN,  t_aj9_auditor),
  ("5693704406 AI8.2 r053 formalize DISCOVER_GMI",                BLOCK, t_ai82_discover),
 ]
 
