@@ -1,0 +1,578 @@
+{
+  "ai2_compile": {
+    "g0": {
+      "compiled_networks": 729,
+      "compiler_style": "finite behavioral compiler into merged G0; lower arithmetic compiler separately preserves compositional construction",
+      "input_evaluations": 2916,
+      "max_program_instructions": 23,
+      "max_runtime_steps": 11,
+      "output_encoding": "signed_pair(pos,neg)",
+      "registers": 4,
+      "semantic_mismatches": 0
+    },
+    "lower": {
+      "lower_arithmetic_mismatches": 0,
+      "max_stack_code_length": 15,
+      "multiplication_repeated_addition_cases": 35,
+      "signed_pair_roundtrip_cases": 13,
+      "stack_presentation_mismatches": 0,
+      "supplied_family_input_evaluations": 2916,
+      "supplied_family_networks": 729,
+      "transcendentals_imported": false,
+      "xor_coefficients": [
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        1
+      ],
+      "xor_outputs": [
+        0,
+        1,
+        1,
+        0
+      ]
+    },
+    "positive_part_checks": 13,
+    "status": "NN_D1_EXPRESSIBLE_AT_SCOPE",
+    "threshold_checks": 13
+  },
+  "ai3_recovery": {
+    "affine_no_go": {
+      "affine_invariant": "f00+f11=f01+f10",
+      "exact_matches": 0,
+      "integer_affine_census": 343,
+      "xor_sides": [
+        0,
+        2
+      ]
+    },
+    "identity_control_sizes": [
+      1,
+      1
+    ],
+    "remint": {
+      "bijection_size": 8,
+      "semantic_preservation": true,
+      "surface_program": [
+        "OP7",
+        "OP6",
+        "OP2",
+        "OP0",
+        "OP1",
+        "OP7",
+        "OP2",
+        "OP6",
+        "OP0",
+        "OP1",
+        "OP0"
+      ]
+    },
+    "stack": {
+      "artifact": [
+        "PX0",
+        "PX1",
+        "NEG",
+        "ADD",
+        "POS",
+        "PX0",
+        "NEG",
+        "PX1",
+        "ADD",
+        "POS",
+        "ADD"
+      ],
+      "length": 11,
+      "states_seen": 44403
+    },
+    "status": "NN_D2_RECOVERED_AT_SCOPE",
+    "tree": {
+      "artifact": "('A', ('P', ('A', ('N', ('X0',)), ('X1',))), ('P', ('A', ('N', ('X1',)), ('X0',))))",
+      "size": 11,
+      "unique_semantics": 420
+    }
+  },
+  "ai4_development": {
+    "chain_rule_parent_owned": true,
+    "cost_vectors": {
+      "EXACT_GRID": {
+        "backward_sweeps": 0,
+        "forward_evals": 729,
+        "parameter_trials": 729,
+        "randomness": 0,
+        "stored_intermediates": 1
+      },
+      "FINITE_DIFFERENCE": {
+        "backward_sweeps": 0,
+        "forward_evals": 12,
+        "parameter_trials": 12,
+        "randomness": 0,
+        "stored_intermediates": 1
+      },
+      "MUTATION_SEARCH": {
+        "backward_sweeps": 0,
+        "forward_evals": 12,
+        "parameter_trials": 12,
+        "randomness": 1,
+        "stored_intermediates": 1
+      },
+      "REVERSE_ACCUMULATION": {
+        "backward_sweeps": 1,
+        "forward_evals": 1,
+        "parameter_trials": 0,
+        "randomness": 0,
+        "stored_intermediates": 24
+      }
+    },
+    "fixed_outputs_with_or_without_gradient": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "gradient_computation_separate_from_update": true,
+    "reverse_cases": [
+      {
+        "finite_difference": [
+          "1",
+          "0",
+          "0",
+          "0",
+          "1",
+          "0"
+        ],
+        "gradient": [
+          "1",
+          "0",
+          "0",
+          "0",
+          "1",
+          "0"
+        ],
+        "loss": "1/2",
+        "nodes": 26,
+        "target": 0,
+        "x": [
+          1,
+          0
+        ],
+        "y": "1"
+      },
+      {
+        "finite_difference": [
+          "0",
+          "0",
+          "0",
+          "1",
+          "0",
+          "1"
+        ],
+        "gradient": [
+          "0",
+          "0",
+          "0",
+          "1",
+          "0",
+          "1"
+        ],
+        "loss": "1/2",
+        "nodes": 26,
+        "target": 0,
+        "x": [
+          0,
+          1
+        ],
+        "y": "1"
+      }
+    ]
+  },
+  "ai5_selection": {
+    "full_regime_counts": {
+      "('COMPOSITION', 'RULE')": 1,
+      "('COMPOSITION', 'TABLE')": 1,
+      "('COMPOSITION',)": 150,
+      "('RULE',)": 9,
+      "('TABLE',)": 40
+    },
+    "heldout": [
+      {
+        "H": 1,
+        "costs": {
+          "COMPOSITION": "21",
+          "RULE": "5",
+          "TABLE": "201/2"
+        },
+        "winners": [
+          "RULE"
+        ]
+      },
+      {
+        "H": 5,
+        "costs": {
+          "COMPOSITION": "25",
+          "RULE": "17",
+          "TABLE": "205/2"
+        },
+        "winners": [
+          "RULE"
+        ]
+      },
+      {
+        "H": 9,
+        "costs": {
+          "COMPOSITION": "29",
+          "RULE": "29",
+          "TABLE": "209/2"
+        },
+        "winners": [
+          "COMPOSITION",
+          "RULE"
+        ]
+      },
+      {
+        "H": 10,
+        "costs": {
+          "COMPOSITION": "30",
+          "RULE": "32",
+          "TABLE": "105"
+        },
+        "winners": [
+          "COMPOSITION"
+        ]
+      },
+      {
+        "H": 50,
+        "costs": {
+          "COMPOSITION": "70",
+          "RULE": "152",
+          "TABLE": "125"
+        },
+        "winners": [
+          "COMPOSITION"
+        ]
+      },
+      {
+        "H": 159,
+        "costs": {
+          "COMPOSITION": "179",
+          "RULE": "479",
+          "TABLE": "359/2"
+        },
+        "winners": [
+          "COMPOSITION"
+        ]
+      },
+      {
+        "H": 160,
+        "costs": {
+          "COMPOSITION": "180",
+          "RULE": "482",
+          "TABLE": "180"
+        },
+        "winners": [
+          "COMPOSITION",
+          "TABLE"
+        ]
+      },
+      {
+        "H": 200,
+        "costs": {
+          "COMPOSITION": "220",
+          "RULE": "602",
+          "TABLE": "200"
+        },
+        "winners": [
+          "TABLE"
+        ]
+      }
+    ],
+    "history_switching_composition_at_7": [
+      "COMPOSITION",
+      "RULE"
+    ],
+    "history_switching_rule_at_11": [
+      "COMPOSITION",
+      "RULE"
+    ],
+    "history_switching_rule_at_12": [
+      "COMPOSITION"
+    ],
+    "pareto_front": [
+      "COMPOSITION",
+      "RULE",
+      "TABLE"
+    ],
+    "price_hostile_composition_wins": 0,
+    "raw_vectors_primary": true
+  },
+  "ai6_subfamilies": {
+    "all_are_structural_pressure_results_not_named_architecture_primitives": true,
+    "content_dependent_routing": {
+      "cases": 8,
+      "conditional_route_errors": 0,
+      "derived_pressure": "content/query-dependent routing",
+      "fixed_route_errors": [
+        2,
+        2
+      ]
+    },
+    "local_shared_transform": {
+      "derived_pressure": "parameter/rule sharing under repeated symmetry",
+      "resources": {
+        "COPIED": {
+          "rule_descriptions": 3,
+          "site_applications": 3
+        },
+        "SHARED": {
+          "rule_descriptions": 1,
+          "site_applications": 3
+        }
+      },
+      "semantic_checks": 8,
+      "shared_description_dominates": true
+    },
+    "memory_augmented": {
+      "derived_pressure": "history retention under partial observability",
+      "no_memory_best_accuracy": 0.5,
+      "one_bit_memory_accuracy": 1.0
+    },
+    "recurrent_stateful": {
+      "derived_pressure": "persistent/recurrent state",
+      "one_bit_persistence_words_checked": 63,
+      "stateless_aliasing_conflict": true
+    },
+    "sparse_modular": {
+      "cases": 4,
+      "conditional_transform_evals": 4,
+      "derived_pressure": "sparse conditional modular execution",
+      "eager_transform_evals": 8,
+      "same_behavior": true
+    }
+  },
+  "ai7_success_gate": {
+    "COMPILATION_D1": true,
+    "DEVELOPMENT_GENERIC_REVERSE_AD": true,
+    "HELDOUT_TRANSITION_NEGATIVE_AND_POSITIVE_REGIMES": true,
+    "INVARIANCE_TWO_PRESENTATIONS_SEARCHES": true,
+    "LOWER_BASIS_NO_FAMILY_MACRO": true,
+    "PARENT_SUBTRACTION_REGISTERED": true,
+    "RECOVERY_D2": true,
+    "SELECTION_D3_HELDOUT": true,
+    "UNKNOWN_CHANNEL": true
+  },
+  "ai8_discovery": {
+    "generated_count": 4,
+    "ladders": {
+      "EVOLUTIONARY_SEARCH_MECHANISM": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED"
+      ],
+      "LOCAL_SHARED": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED",
+        "L4_BLIND_RECOVERED",
+        "L5_PREDICTED"
+      ],
+      "LOOKUP_DIRECT": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED",
+        "L4_BLIND_RECOVERED",
+        "L5_PREDICTED"
+      ],
+      "NEURAL_LIKE": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED",
+        "L4_BLIND_RECOVERED",
+        "L5_PREDICTED",
+        "L6_REPLICATED"
+      ],
+      "RECURRENT_STATEFUL": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED",
+        "L4_BLIND_RECOVERED",
+        "L5_PREDICTED"
+      ],
+      "ROUTING_LIKE": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED",
+        "L4_BLIND_RECOVERED",
+        "L5_PREDICTED"
+      ],
+      "SYMBOLIC_RULE_LIKE": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED",
+        "L4_BLIND_RECOVERED",
+        "L5_PREDICTED"
+      ],
+      "UNKNOWN_CHANNEL_FIXTURE": [
+        "L0_EXPRESSIBLE",
+        "L1_REACHABLE",
+        "L2_FUNCTIONAL",
+        "L3_RESOURCE_EVALUATED"
+      ]
+    },
+    "pareto_mechanism_classes": [
+      "COMPOSITION",
+      "RULE",
+      "TABLE"
+    ],
+    "posthoc": {
+      "classifier_causally_downstream_of_search": true,
+      "fingerprint_audit": "The P1-P6 conjunction is intentionally a narrow post-hoc structural region, not an ontology primitive or reward. It resembles known neural conventions and therefore cannot itself establish leave-family-out historical ignorance; causal separation is provided by the frozen blind protocol.",
+      "identity_posthoc_family": "UNCLASSIFIED_ARITHMETIC",
+      "negative_controls": {
+        "CONDITIONAL_RULE": {
+          "P1": false,
+          "P2": false,
+          "P3": false,
+          "P4": false,
+          "P5": false,
+          "P6": false
+        },
+        "DIRECT_IDENTITY": {
+          "P1": false,
+          "P2": false,
+          "P3": false,
+          "P4": false,
+          "P5": false,
+          "P6": true,
+          "counts": {
+            "ADD": 0,
+            "LEAF": 1,
+            "NEG": 0,
+            "POS": 0
+          },
+          "depth": 1
+        },
+        "FINITE_TABLE": {
+          "P1": false,
+          "P2": false,
+          "P3": false,
+          "P4": false,
+          "P5": false,
+          "P6": false
+        },
+        "PASSIVE_PARAMETER_STORE": {
+          "P1": true,
+          "P2": false,
+          "P3": false,
+          "P4": false,
+          "P5": true,
+          "P6": false
+        },
+        "SINGLE_NONLINEAR_TRANSFORM": {
+          "P1": true,
+          "P2": false,
+          "P3": true,
+          "P4": false,
+          "P5": true,
+          "P6": true
+        }
+      },
+      "universal_programs_trivially_classified": false,
+      "xor_fingerprint": {
+        "P1": true,
+        "P2": true,
+        "P3": true,
+        "P4": true,
+        "P5": true,
+        "P6": true,
+        "counts": {
+          "ADD": 3,
+          "LEAF": 4,
+          "NEG": 2,
+          "POS": 2
+        },
+        "depth": 5
+      },
+      "xor_posthoc_family": "NEURAL_LIKE"
+    },
+    "pre_mapping_dispositions": [
+      "SELECTED_UNKNOWN",
+      "SELECTED_UNKNOWN",
+      "REACHED_NOT_SELECTED",
+      "REACHED_NOT_SELECTED"
+    ],
+    "preferred_mechanism_classes": [
+      "COMPOSITION"
+    ],
+    "verified_count": 4
+  },
+  "bias_ledger_registered": true,
+  "claim_ceiling": "NN_D1_D2_D3_BLIND_RECOVERY_AT_REGISTERED_BINARY_TOY_SCOPE",
+  "derive_levels": {
+    "NN-D1": "COMPILE supplied family only",
+    "NN-D2": "RECOVER without family macros",
+    "NN-D3": "PREDICT/SELECT from frozen external ecology/resources"
+  },
+  "forbidden_promotions": [
+    "NEURAL_NETWORK_DERIVED_UNIVERSALLY",
+    "NEURAL_NETWORKS_INEVITABLE",
+    "REAL_SCALE_NEURAL_OPTIMALITY",
+    "ALL_NEURAL_FAMILIES_DERIVED",
+    "GMI_DISCOVERS_ALL_MI",
+    "COMPLETE_GMI"
+  ],
+  "freeze_commit": "34a6b5644ffe9f60b56d016ccc855cf766ebc9f4",
+  "no_smuggling_source_audit": {
+    "files": [
+      "blind_search_core.py",
+      "compile_core.py",
+      "g0_family_compiler.py",
+      "reverse_ad_core.py",
+      "selection_outcome.py",
+      "subfamily_microscopes.py",
+      "discovery_operator.py"
+    ],
+    "forbidden_token_hits": {},
+    "posthoc_analysis_excluded_by_design": true
+  },
+  "parity_factorization_pressure": [
+    {
+      "generic_block_nodes": 5,
+      "literal_table_rows": 4,
+      "n": 2,
+      "reusable_binary_blocks": 1
+    },
+    {
+      "generic_block_nodes": 10,
+      "literal_table_rows": 8,
+      "n": 3,
+      "reusable_binary_blocks": 2
+    },
+    {
+      "generic_block_nodes": 15,
+      "literal_table_rows": 16,
+      "n": 4,
+      "reusable_binary_blocks": 3
+    },
+    {
+      "generic_block_nodes": 20,
+      "literal_table_rows": 32,
+      "n": 5,
+      "reusable_binary_blocks": 4
+    },
+    {
+      "generic_block_nodes": 25,
+      "literal_table_rows": 64,
+      "n": 6,
+      "reusable_binary_blocks": 5
+    }
+  ],
+  "status": "GREEN"
+}

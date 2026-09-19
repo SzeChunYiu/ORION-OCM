@@ -35,7 +35,7 @@ Two different search procedures then recover the exact target:
 1. bottom-up semantic expression DP ordered by primitive size;
 2. breadth-first search over extensional stack states.
 
-The matched identity task is solved at primitive size one, so nonlinear composition is not universally selected. A bijective surface remint preserves the recovered semantics. The full grammar/search/ecology/resource/evaluator bias ledger is explicit; this is architecture-uncommitted only relative to those disclosed priors.
+The matched identity task is solved at primitive size one, so nonlinear composition is not universally selected. A bijective surface relabeling control preserves the recovered semantics. The full grammar/search/ecology/resource/evaluator bias ledger is explicit; this is architecture-uncommitted only relative to those disclosed priors.
 
 ## AI4 — generic reverse differentiation as DEV
 
@@ -43,7 +43,7 @@ A finite acyclic arithmetic tape implements local derivatives and reverse accumu
 
 Raw method costs remain vectors. Reverse accumulation trades fewer forward evaluations for a backward sweep and stored intermediates; finite differences use more forward evaluations but less stored activation state. Evolutionary mutation and exact grid search are included as other generic update/search references. No universal optimizer winner is claimed.
 
-The fixed XOR computation still computes XOR when gradients are forbidden, separating morphology capability from learning-law availability.
+The fixed XOR computation still computes XOR when gradients are forbidden, separating architecture capability from learning-law availability.
 
 ## AI5 — frozen selection law
 
@@ -76,9 +76,9 @@ At this declared toy scope the strong gate requires simultaneously:
 - no family macro in the causal lower basis;
 - exact D1 compilation;
 - D2 recovery with two searches/presentations;
-- remint/semantic agreement;
-- parent subtraction;
-- D3 frozen positive and negative selection regimes;
+- relabeling-control/semantic agreement;
+- strongest-parent subsumption analysis;
+- D3 frozen positive and negative regimes of the selection law;
 - generic DEV update machinery;
 - held-out crossover predictions;
 - architecture-unclassified UNKNOWN channel.

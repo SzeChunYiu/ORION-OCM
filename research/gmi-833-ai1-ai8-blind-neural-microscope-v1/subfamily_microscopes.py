@@ -2,14 +2,11 @@ from __future__ import annotations
 import itertools
 
 def recurrence_memory():
-    # delayed copy: first output 0, thereafter previous input. Any stateless mapping x_t->y_t conflicts.
-    conflicts=0
-    for prev in (0,1):
-        for x in (0,1):
-            # same current x, desired output differs with prev.
-            if prev==0:
-                alt=1
-                if prev!=alt: conflicts+=1
+    # delayed copy: y_0 = 0, thereafter y_t = x_{t-1}. A stateless map x_t -> y_t must emit ONE
+    # output for x_t = 0, but the target at x_t = 0 is x_{t-1}: prev=0 -> 0, prev=1 -> 1.
+    required_when_x_is_0={prev:prev for prev in (0,1)}
+    conflict=len(set(required_when_x_is_0.values()))>1
+    assert conflict
     # one-bit persistent process solves all binary words through length 5.
     checked=0
     for n in range(6):
@@ -18,7 +15,7 @@ def recurrence_memory():
             for x in word:
                 out.append(s); s=x; target.append(p); p=x
             assert tuple(out)==tuple(target); checked+=1
-    return {'stateless_aliasing_conflict':True,'one_bit_persistence_words_checked':checked,'derived_pressure':'persistent/recurrent state'}
+    return {'stateless_aliasing_conflict':conflict,'one_bit_persistence_words_checked':checked,'derived_pressure':'persistent/recurrent state'}
 
 def local_sharing():
     # 3-site cyclic local rule: y_i = not x_i. One shared transform or 3 copied transforms are behaviorally equal.
@@ -26,7 +23,9 @@ def local_sharing():
     for x in itertools.product((0,1),repeat=3):
         shared=tuple(1-v for v in x); independent=tuple((1-x[i]) for i in range(3)); assert shared==independent;checks+=1
     resources={'SHARED':{'rule_descriptions':1,'site_applications':3},'COPIED':{'rule_descriptions':3,'site_applications':3}}
-    return {'semantic_checks':checks,'resources':resources,'shared_description_dominates':True,'derived_pressure':'parameter/rule sharing under repeated symmetry'}
+    dominates=resources['SHARED']['rule_descriptions']<resources['COPIED']['rule_descriptions'] and resources['SHARED']['site_applications']==resources['COPIED']['site_applications']
+    assert dominates
+    return {'semantic_checks':checks,'resources':resources,'shared_description_dominates':dominates,'derived_pressure':'parameter/rule sharing under repeated symmetry'}
 
 def dynamic_routing():
     # Two keyed values; query chooses matching key. Fixed-index routing cannot solve both query values.

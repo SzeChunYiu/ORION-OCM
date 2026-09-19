@@ -13,7 +13,7 @@ Inputs are two binary coordinates `(x0,x1)`. The arithmetic process presentation
 - positive-part `POS(z)=max(0,z)`;
 - serial/parallel composition.
 
-A second presentation is a stack program with pushes plus the same generic arithmetic semantics. Generic finite tables and equality/conditional rules are allowed only as competing non-arithmetic organizations in the selection stage; they are not labels/rewards for the arithmetic search.
+A second presentation is a stack program with pushes plus the same generic arithmetic semantics. Generic finite tables and equality/conditional rules are allowed only as competing non-arithmetic organizations under the frozen selection law; they are not labels/rewards for the arithmetic search.
 
 Forbidden from generator/search/evaluator source and features:
 
@@ -66,7 +66,7 @@ For expressibility only, test the supplied acyclic family
 
 with all six integer coefficients in `{-1,0,1}` (729 networks; 2,916 input evaluations). Compilation must derive scalar multiplication from repeated `ADD/NEG`, not assume multiply hardware. A second stack presentation must agree.
 
-## Frozen selection/resource model
+## Frozen selection law / resource model
 
 Raw resource vectors `(build, per_use, memory)`:
 

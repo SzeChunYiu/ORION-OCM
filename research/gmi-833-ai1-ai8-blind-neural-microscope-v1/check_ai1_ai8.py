@@ -56,15 +56,22 @@ def parity_pressure():
     return rows
 
 def discovery_ladder(neural_levels):
+    # Only the arithmetic COMPOSITION region was recovered by the two blind searches and
+    # covered by a frozen prediction. RULE/TABLE were SUPPLIED as direct competitors
+    # (reached and resource-evaluated, never blind-recovered), and the AI6 subfamily
+    # microscopes are compiled pressure fixtures (functional, never searched). Ladder
+    # levels are earned by what this package executed, not declared.
+    supplied=['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED']
+    fixture=['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL']
     return {
       'NEURAL_LIKE':neural_levels,
-      'SYMBOLIC_RULE_LIKE':['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED','L4_BLIND_RECOVERED','L5_PREDICTED'],
-      'LOOKUP_DIRECT':['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED','L4_BLIND_RECOVERED','L5_PREDICTED'],
-      'RECURRENT_STATEFUL':['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED','L4_BLIND_RECOVERED','L5_PREDICTED'],
-      'LOCAL_SHARED':['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED','L4_BLIND_RECOVERED','L5_PREDICTED'],
-      'ROUTING_LIKE':['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED','L4_BLIND_RECOVERED','L5_PREDICTED'],
-      'EVOLUTIONARY_SEARCH_MECHANISM':['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED'],
-      'UNKNOWN_CHANNEL_FIXTURE':['L0_EXPRESSIBLE','L1_REACHABLE','L2_FUNCTIONAL','L3_RESOURCE_EVALUATED']
+      'SYMBOLIC_RULE_LIKE':list(supplied),
+      'LOOKUP_DIRECT':list(supplied),
+      'RECURRENT_STATEFUL':list(fixture),
+      'LOCAL_SHARED':list(fixture),
+      'ROUTING_LIKE':list(fixture),
+      'EVOLUTIONARY_SEARCH_MECHANISM':list(supplied),
+      'UNKNOWN_CHANNEL_FIXTURE':list(supplied)
     }
 
 def main():
@@ -84,7 +91,8 @@ def main():
     assert gc['max_program_instructions']<=23 and gc['max_runtime_steps']<=11 and gc['registers']==4
     threshold_checks=0; pos_checks=0
     for z in range(-6,7):
-        threshold=(1 if z>0 else 0); lower=(1 if z>0 else 0); assert threshold==lower;threshold_checks+=1
+        # threshold from aggregation + positive part only: 1[z>0] == POS(z) - POS(z-1) on integers
+        threshold=(1 if z>0 else 0); lower=max(0,z)-max(0,z-1); assert threshold==lower;threshold_checks+=1
         assert max(0,z)==(z if z>0 else 0);pos_checks+=1
 
     # AI3 blind recovery under two search/presentation procedures.
@@ -135,10 +143,10 @@ def main():
       'COMPILATION_D1':cc['lower_arithmetic_mismatches']==0 and gc['semantic_mismatches']==0,
       'RECOVERY_D2':dp['size']==sb['length']==11,
       'INVARIANCE_TWO_PRESENTATIONS_SEARCHES':remint['semantic_preservation'] and tuple(expr_semantics(dp['expr']))==tuple(execute_stack(sb['program'])[0]),
-      'PARENT_SUBTRACTION_REGISTERED':True,
+      'PARENT_SUBTRACTION_REGISTERED':(HERE/'PARENT_LEDGER.md').exists() and 'Residual contribution' in (HERE/'PARENT_LEDGER.md').read_text(),
       'SELECTION_D3_HELDOUT':len(sel['heldout'])==8,
       'DEVELOPMENT_GENERIC_REVERSE_AD':len(ad['reverse_cases'])==2,
-      'HELDOUT_TRANSITION_NEGATIVE_AND_POSITIVE_REGIMES':True,
+      'HELDOUT_TRANSITION_NEGATIVE_AND_POSITIVE_REGIMES':sel['price_hostile_composition_wins']==0 and all(sel['full_regime_counts'].get(k,0)>0 for k in ("('RULE',)","('COMPOSITION',)","('TABLE',)")),
       'UNKNOWN_CHANNEL':disc['unknown_channel_preserved']
     }
     assert all(success.values())
