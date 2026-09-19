@@ -18,7 +18,7 @@
    (`gmi-833-h-obstruction-census-v1/FROZEN_FAMILY_REGISTRY_V1.json`) as the
    post-hoc structural register. The census result itself is not evidence here;
    each of the nine rows carries an obstruction class in the census that is
-   recorded as the row's prior disposition only after selection.
+   recorded as the row's prior disposition only after the class is attached.
 
 ## What is not claimed
 

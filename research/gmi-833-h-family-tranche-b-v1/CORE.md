@@ -36,7 +36,7 @@ requires all eleven coordinates at one scope.
 
 PR #946 (`gmi-833-ai1-ai8-blind-neural-microscope-v1`) remains open and covers
 a binary toy scope with D1–D3 claims that are not this package's scope. The
-`OPEN_GAPS` artifact of that package names real-scale morphology and broad
+`OPEN_GAPS` artifact of that package names real-scale architecture evidence and broad
 CNN/RNN/attention/MoE recovery as outside its tranche. This package records
 those rows as open with their single-stage attribution instead of extending a
 toy certificate, which would be cross-scope composition.
