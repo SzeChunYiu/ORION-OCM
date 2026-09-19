@@ -2,7 +2,7 @@
 
 **Freeze:** `FREEZE_V1.md`, commit `fdd7255e40421db3a6de35622e6fda0a9e6f1150` (committed before every file below).
 **Claim ceiling:** `GMI_833_MTG_ORDERED_MONOID_ENRICHMENT_AND_TOPOLOGY_STABILITY_AT_REGISTERED_FINITE_SCOPE`.
-**Rows:** indices 23 and 24 of `research/gmi-833-mtg-map-v1/MTG_ROWS_V1.json` (MTG-4: stability under remints and resource perturbations; quantale/ordered-monoid enrichment). No neighboring row is earned here.
+**Rows:** indices 23 and 24 of `research/gmi-833-mtg-map-v1/MTG_ROWS_V1.json` (MTG-4: stability under relabeling controls and resource perturbations; quantale/ordered-monoid enrichment). No neighboring row is earned here.
 
 Every number below is read from `RESULT_V1.json` (route A) and agrees with `ORACLE_RESULT_V1.json` (route B) on all 81 shared quantities. All arithmetic is `fractions.Fraction`; floats are rejected.
 
@@ -18,6 +18,10 @@ Finite Pareto antichains over `Q^2_{>=0}` with choice `A (+) B = PF(A ∪ B)`, s
 
 **Numbers.** 20 reflexive checks; 400 dominance pairs (175 related); 8,000 transitivity triples; 400 antisymmetry pairs; 7,000 monotonicity checks; 800 upper-bound and 8,000 least-upper-bound checks; enrichment law on 125/125 triples and identity law on 5/5 nodes; 28 triples where the composite is nonempty and strictly worse than the closure (witness `A→B→C`: composite `{(1,1)}`, closure `{(0,5),(1,1),(5/2,3/4),(5,0)}`) and 8 distinct-node triples where they are equal (witness `B→A→E`, `{(9,15/2)}`).
 
+**Assumptions.** Burdens are exact nonnegative rationals in a fixed dimension `d = 2`; antichains are finite; the closure is over finite walks of a finite graph; `⊑` is read as cost dominance ("at least as good"), so `∅` is the bottom element and `I` the top.
+
+**Depends on.** `P04` (`DIST-1B` Pareto antichain algebra, `TOPO-1A` forward topology) for the objects; `P01` (`DIST-1A`) for the scalar projection that ENR-1 shows to be lossy; nothing from this tranche's other packages.
+
 **Terminal.** `FINITE_ORDERED_MONOID_ENRICHMENT_VERIFIED`. A complete quantale would additionally require the four conditions recorded in the receipt (`complete_quantale_would_additionally_require`): arbitrary infinite joins of antichains, composition preserving them in each argument, the closure as a least fixpoint over infinite path families, and well-defined Pareto minima for infinite subsets of `Q^d_{>=0}`. None is claimed; `quantale_completeness_not_claimed = true`.
 
 **Falsifiers.** Any universe pair violating (i)–(iii); any triple violating (iv); a planted closure entry that passes the enrichment check (hostile `planted_closure_entry_violating_enrichment_detected`: planting `{(6,6)}` at `A→C` produces violating triples `A→B→C`, `A→E→C`).
@@ -30,7 +34,13 @@ Finite Pareto antichains over `Q^2_{>=0}` with choice `A (+) B = PF(A ∪ B)`, s
 
 **Statement.** For every bijection `σ` of the node set, the closure of the relabeled graph transported back along `σ⁻¹` equals `H`, and the generated topology transported back equals the original open-set family.
 
-**Proof.** Every construction (edge burdens, walks, `(+,*)`, balls, unions, intersections) is defined from the labelled graph structure alone and commutes with a relabeling of the carrier; transporting along `σ⁻¹` inverts the relabeling. ∎
+**Proof.** Every construction (edge burdens, walks, `(+,*)`, balls, unions, intersections) is defined from the labelled graph structure alone and commutes with a relabeling of the node set; transporting along `σ⁻¹` inverts the relabeling. ∎
+
+**Assumptions.** Relabelings are bijections of the registered node set; edge burdens and the budget grid are untouched by a relabeling (a relabeling that also changed burdens would be a resource perturbation, handled under STAB-2).
+
+**Depends on.** ENR-1 (the closure object) and `P03` `GAUGE-1A` (relabeling groupoid on presentations); the null's generator is this package's own.
+
+**Falsifiers.** Any of the 120 relabelings whose transported closure or transported open-set family differs from the original; a null draw count of closure equalities above 0; a non-bijective map accepted as a relabeling.
 
 **Numbers.** 120/120 closure equalities, 120/120 topology equalities, open-set count invariant (18). Automorphism group of the registered graph: trivial (1 element). **Null (misaligned transport):** 200 seeded pairs `(σ, τ)` with `τ ≠ σ⁻¹` (the true law is excluded from the pool; draws from a 64-bit LCG reading only the high 31 bits) — closure equalities 0/200; topology equalities 1/200 (one wrong transport reproduces the coarser open-set family by coincidence; recorded, not hidden). The true law's 120/120 beats the null on both quantities.
 
@@ -39,6 +49,14 @@ Finite Pareto antichains over `Q^2_{>=0}` with choice `A (+) B = PF(A ∪ B)`, s
 **Strongest parents.** `P03` (presentation-relabeling groupoid, `GAUGE-1A`); transport of structure along isomorphisms is elementary. **Residual:** the topology, not only the closure, is checked, with an explicit null.
 
 ## STAB-2 — resource-coordinate stability (three exact statements)
+
+**Assumptions.** Rescalings are strictly positive coordinatewise; additive perturbations are bounded by the registered `e = 1/4` per edge per coordinate and clipped at 0; the budget grid is `{1..8}^2`; scalar weights are strictly positive; the graph is the registered 5-node fixture (the counterexample in (b) uses a separate 4-node graph, recorded in the receipt).
+
+**Depends on.** ENR-1 (closure and dominance), STAB-1 (the topology object), `P04` `TOPO-1A` (budget balls), `P01` `DIST-1A` (scalar `d_w`), `P18` `PERTURB-1` (perturbation vocabulary).
+
+**Falsifiers.** A rescaling pair where `H_λ ≠ λ·H` or the alike-rescaled topology differs; a `STABLE_MEMBER` cell (margin `> L·e`) that flips under a registered pattern; a pattern whose membership escapes the `[H_{+e}, H_{−e}]` sandwich; the counterexample cell being classified stable by the box criterion; a finite frontier pair violating the scalar bound, or an empty frontier receiving a finite distance.
+
+**Strongest parents.** Sensitivity of shortest-path and Pareto-frontier solutions to edge-weight perturbation (Gondran & Minoux 2008, doi:10.1007/978-0-387-75450-5; Martins 1984, doi:10.1016/0377-2217(84)90077-8); Lipschitz continuity of a minimum of finitely many linear functionals (elementary); `P04` for balls and topology; `P18` `PERTURB-1` for bounded perturbation controls. **Not claimed novel:** interval/sandwich arguments for monotone path costs. **Residual:** the exact counterexample that maps the boundary of the frozen frontier-margin rule and the proved box criterion that replaces it, both machine-checked on two routes.
 
 ### (a) Positive rescaling
 

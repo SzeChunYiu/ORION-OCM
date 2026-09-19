@@ -1,7 +1,7 @@
 # CORE — `gmi-833-mtg-enriched-geometry-v1` (issue #833, programme comment 5687604615)
 
 **Rows.** Two MTG-4 rows (indices 23, 24 of `research/gmi-833-mtg-map-v1/MTG_ROWS_V1.json`): metric/topology
-stability under remints and resource-coordinate perturbations; quantale/ordered-monoid enrichment keeping the
+stability under relabeling controls and resource-coordinate perturbations; quantale/ordered-monoid enrichment keeping the
 primary geometry resource-vector valued.
 
 **Claim ceiling.** `GMI_833_MTG_ORDERED_MONOID_ENRICHMENT_AND_TOPOLOGY_STABILITY_AT_REGISTERED_FINITE_SCOPE`
