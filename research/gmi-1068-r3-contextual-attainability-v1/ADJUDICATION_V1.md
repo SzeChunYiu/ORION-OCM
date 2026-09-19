@@ -24,7 +24,7 @@ The first finite checker computed Pareto frontiers over history identifiers. Tha
 
 Capability, resource response, frontier/preference, barrier identity, and cross-context regime change do not follow from an unlabelled set alone.
 
-**Disposition:** claim narrowed. `A_kappa(x)` is the master **carrier relative to inherited/declared structure**:
+**Disposition:** claim narrowed. `A_kappa(x)` is the master **attainable-value object relative to inherited/declared structure**:
 - capability needs a success region;
 - frontier needs the context preorder;
 - resource response needs a declared resource projection or a resource-indexed admissibility family;
@@ -41,7 +41,7 @@ Baseline impossibility does not identify which missing process/condition caused 
 
 ## A6 — "phase change" terminology was too strong
 
-A change of scalarized argmax across context parameters is a selection-regime switch. It is not automatically a physical/statistical phase transition or a nonanalyticity theorem.
+A change of scalarized argmax across context parameters is an argmax-regime switch. It is not automatically a physical/statistical phase transition or a nonanalyticity theorem.
 
 **Disposition:** the fixture checks the exact switch point `lambda = 3/2`, including the tie there, and forbids promotion beyond an argmax/frontier regime change without extra topology/regularity.
 
@@ -59,7 +59,7 @@ Removing `Gamma/Pref/SEL` from the universal primitive vocabulary does not prove
 
 ## A9 — finite histories do not close omega/limit semantics
 
-The R3 carrier is generated from finite histories. A target may be approached arbitrarily closely, or may occur only on an infinite trace, without ever being attained by a finite history.
+The R3 attainable-value object is generated from finite histories. A target may be approached arbitrarily closely, or may occur only on an infinite trace, without ever being attained by a finite history.
 
 **Disposition:** the claim ceiling now says registered finite-history scope. Infinite-trace, limit, stationary, almost-sure, or asymptotic claims require explicit completion/topology/measure/convergence structure and are forbidden promotions at R3.
 
