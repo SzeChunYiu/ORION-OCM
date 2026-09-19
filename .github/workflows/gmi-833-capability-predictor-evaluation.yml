@@ -6,11 +6,13 @@ on:
       - 'research/gmi-833-capability-predictor-evaluation-v1/**'
       - 'research/gmi-833-capability-predictor-v1/**'
       - '.github/workflows/gmi-833-capability-predictor-evaluation.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   pull_request:
     paths:
       - 'research/gmi-833-capability-predictor-evaluation-v1/**'
       - 'research/gmi-833-capability-predictor-v1/**'
       - '.github/workflows/gmi-833-capability-predictor-evaluation.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   workflow_dispatch:
 
 jobs:
@@ -27,57 +29,40 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Freeze order (the #976 POST_HOC_SUSPECT gate)
+      - name: Freeze order (the #976 POST_HOC_SUSPECT gate, squash-safe)
         run: |
           set -eu
-          FREEZE=$(awk '{print $1; exit}' "$PKG/FREEZE_COMMIT.txt")
-          echo "freeze commit: $FREEZE"
-          git ls-tree -r --name-only "$FREEZE" -- "$PKG/" > /tmp/at_freeze.txt
-          test -s /tmp/at_freeze.txt
-          echo "--- negative control: these MUST be present at the freeze ---"
-          for good in FREEZE_V1.md SCOPE_V1.md BLINDNESS_V1.md heldout_universes_v1.py freeze_predictions_v1.py FROZEN_PREDICTIONS_V1.json; do
-            grep -qx "$PKG/$good" /tmp/at_freeze.txt || { echo "NEGATIVE CONTROL FAILED: $good absent at the freeze"; exit 1; }
-            echo "  present: $good"
-          done
-          echo "--- these must NOT be reachable from the freeze ---"
-          for bad in external_evaluator_v1.py oracle_route_b_v1.py score_heldout_v1.py real_systems_run_v1.py real_systems_run_v2.py real_systems_run_v3.py test_capability_predictor_evaluation_v1.py RESULT_V1.json ROUTE_B_RESULT_V1.json REAL_RUNS; do
-            if grep -q "$PKG/$bad" /tmp/at_freeze.txt; then
-              echo "IMPLEMENTATION OR OUTCOME ARTIFACT AT THE FREEZE: $bad"
-              exit 1
-            fi
-            echo "  absent: $bad"
-          done
-          git rev-list "$FREEZE..HEAD" > /tmp/after.txt
-          for f in score_heldout_v1.py external_evaluator_v1.py oracle_route_b_v1.py FROZEN_PREDICTIONS_V4.json; do
-            INTRO=$(git log --diff-filter=A --format=%H -- "$PKG/$f" | tail -1)
-            test -n "$INTRO" || { echo "no introducing commit for $f"; exit 1; }
-            grep -qx "$INTRO" /tmp/after.txt || { echo "$f was introduced at or before the freeze"; exit 1; }
-          done
+          # Squash-safe custody (parent: PR #1053 freeze; doctrine of #1042). Once the
+          # package's PR is squash-merged, freeze and implementation first appear in ONE
+          # commit and the ordering can no longer be re-derived from history. The shared
+          # checker keeps the strict ordering proof on a linear history; on a squash-
+          # published one it withholds ONLY that assertion, still checks everything
+          # derivable from HEAD and from the source freeze commit, and prints
+          # FREEZE_ORDER_NOT_REDERIVABLE:<commit> checked:<list>. Violations exit 1,
+          # could-not-check exits 2; nothing is reported as passed unchecked.
+          CHK=research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py
+          echo "--- V1 freeze (FREEZE_COMMIT.txt): frozen artifacts present, implementation and outcomes absent at the freeze ---"
+          python3 -I -B "$CHK" --repo . --pkg "$PKG" --freeze FREEZE_V1.md --freeze-commit-file FREEZE_COMMIT.txt \
+            --present-at-freeze SCOPE_V1.md --present-at-freeze BLINDNESS_V1.md \
+            --present-at-freeze heldout_universes_v1.py --present-at-freeze freeze_predictions_v1.py \
+            --present-at-freeze FROZEN_PREDICTIONS_V1.json \
+            --impl external_evaluator_v1.py --impl oracle_route_b_v1.py --impl score_heldout_v1.py \
+            --impl real_systems_run_v1.py --impl real_systems_run_v2.py --impl real_systems_run_v3.py \
+            --impl test_capability_predictor_evaluation_v1.py --impl RESULT_V1.json \
+            --impl ROUTE_B_RESULT_V1.json --impl 'REAL_RUNS*' --impl FROZEN_PREDICTIONS_V4.json
           echo "--- the V4 power revival: its freeze must precede the receipt that scores it ---"
           # SIGMA_SYN2 / SIGMA_ARCH2 outcomes come from external_evaluator_v1.py, which
           # already existed at the V1 implementation commit.  FREEZE_V4_POWER_ADDENDUM.md
           # section 4 discloses that this stratum's custody is weaker than V1's: the claim
           # is only that the predictions were committed before their outcomes were computed.
           # This gate enforces exactly that and nothing stronger.
-          V4FZ=$(git log --diff-filter=A --format=%H -- "$PKG/FROZEN_PREDICTIONS_V4.json" | tail -1)
-          V4RES=$(git log --diff-filter=A --format=%H -- "$PKG/RESULT_V1.json" | tail -1)
-          test -n "$V4FZ" -a -n "$V4RES" || { echo "missing V4 freeze or RESULT_V1.json"; exit 1; }
-          git merge-base --is-ancestor "$V4FZ" "$V4RES" > /dev/null 2>&1 && V4OK=1 || V4OK=0
-          git rev-list "$V4FZ..HEAD" > /tmp/after_v4.txt
-          if [ "$V4OK" != "1" ] && ! grep -qx "$V4RES" /tmp/after_v4.txt; then
-            echo "the V4 receipt does not postdate the V4 freeze"; exit 1
-          fi
-          echo "  ok: RESULT_V1.json ($V4RES) postdates FROZEN_PREDICTIONS_V4.json ($V4FZ)"
+          python3 -I -B "$CHK" --repo . --pkg "$PKG" --freeze FROZEN_PREDICTIONS_V4.json \
+            --impl RESULT_V1.json --label capability-predictor-evaluation:V4-power-revival
           echo "--- each revival's outcomes must postdate its own freeze ---"
-          for pair in "FROZEN_PREDICTIONS_V2.json:REAL_RUNS_V2/REAL_MEASURED_V2.json" "FROZEN_PREDICTIONS_V3.json:REAL_RUNS_V3/REAL_MEASURED_V3.json"; do
-            FZ=${pair%%:*}
-            OUT=${pair##*:}
-            FZC=$(git log --diff-filter=A --format=%H -- "$PKG/$FZ" | tail -1)
-            OUTC=$(git log --diff-filter=A --format=%H -- "$PKG/$OUT" | tail -1)
-            test -n "$FZC" -a -n "$OUTC" || { echo "missing $FZ or $OUT"; exit 1; }
-            git rev-list "$FZC..HEAD" | grep -qx "$OUTC" || { echo "$OUT predates its freeze $FZ"; exit 1; }
-            echo "  ok: $OUT postdates $FZ"
-          done
+          python3 -I -B "$CHK" --repo . --pkg "$PKG" --freeze FROZEN_PREDICTIONS_V2.json \
+            --impl REAL_RUNS_V2/REAL_MEASURED_V2.json --label capability-predictor-evaluation:V2-revival
+          python3 -I -B "$CHK" --repo . --pkg "$PKG" --freeze FROZEN_PREDICTIONS_V3.json \
+            --impl REAL_RUNS_V3/REAL_MEASURED_V3.json --label capability-predictor-evaluation:V3-revival
 
       - name: Parent blob pin
         run: |

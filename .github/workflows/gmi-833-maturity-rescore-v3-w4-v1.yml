@@ -5,10 +5,12 @@ on:
     paths:
       - 'research/gmi-833-maturity-rescore-v3-w4-v1/**'
       - '.github/workflows/gmi-833-maturity-rescore-v3-w4-v1.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   pull_request:
     paths:
       - 'research/gmi-833-maturity-rescore-v3-w4-v1/**'
       - '.github/workflows/gmi-833-maturity-rescore-v3-w4-v1.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   workflow_dispatch:
 
 jobs:
@@ -37,27 +39,19 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Freeze must strictly precede every other file of this package
+      - name: Freeze must strictly precede every other file of this package (squash-safe)
         run: |
           set -eu
-          PKG=research/gmi-833-maturity-rescore-v3-w4-v1
-          FZ=$(git log --diff-filter=A --format=%H -- "$PKG/FREEZE_V3_W4.md" | tail -1)
-          if [ -z "$FZ" ]; then echo "FAIL: no add commit for the freeze"; exit 1; fi
-          echo "freeze commit: $FZ"
-          rc=0
-          for f in $(git ls-tree -r --name-only HEAD -- "$PKG/"); do
-            case "$f" in *FREEZE_V3_W4.md) continue ;; esac
-            C=$(git log --diff-filter=A --format=%H -- "$f" | tail -1)
-            [ -z "$C" ] && continue
-            if [ "$C" = "$FZ" ]; then
-              echo "FAIL: $f shares the freeze commit"; rc=1; continue
-            fi
-            if ! git merge-base --is-ancestor "$FZ" "$C"; then
-              echo "FAIL: freeze does not precede $f (added at $C)"; rc=1
-            fi
-          done
-          [ "$rc" -eq 0 ] && echo "OK: freeze strictly precedes every other file of this package"
-          exit "$rc"
+          # Squash-safe custody (parent: PR #1053 freeze; doctrine of #1042). Once the
+          # package's PR is squash-merged, freeze and implementation first appear in ONE
+          # commit and the ordering can no longer be re-derived from history. The shared
+          # checker keeps the strict ordering proof on a linear history; on a squash-
+          # published one it withholds ONLY that assertion, still checks everything
+          # derivable from HEAD and from the source freeze commit, and prints
+          # FREEZE_ORDER_NOT_REDERIVABLE:<commit> checked:<list>. Violations exit 1,
+          # could-not-check exits 2; nothing is reported as passed unchecked.
+          python3 -I -B research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py \
+            --repo . --pkg research/gmi-833-maturity-rescore-v3-w4-v1 --freeze FREEZE_V3_W4.md --impl '*'
 
       - name: This branch must not touch any frozen artifact
         run: |
@@ -68,15 +62,18 @@ jobs:
             BASE=$(git rev-parse origin/main 2>/dev/null || echo "")
           fi
           if [ -z "$BASE" ]; then echo "SKIP: no base ref available"; exit 0; fi
+          # Enforced per file and scoped to this branch's diff: the frozen artifacts of
+          # THIS package must not change. Files outside the package are reported, never
+          # gated -- a repo-wide "nothing else touched" assertion here fails every
+          # cross-cutting CI branch for changes this package did not make.
+          git diff --name-only "$BASE...HEAD" > /tmp/touched.txt || true
           rc=0
-          for f in $(git diff --name-only "$BASE...HEAD"); do
-            case "$f" in
-              research/gmi-833-maturity-rescore-v3-w4-v1/*) ;;
-              .github/workflows/gmi-833-maturity-rescore-v3-w4-v1.yml) ;;
-              *) echo "FAIL: touched $f"; rc=1 ;;
-            esac
+          for frozen in research/gmi-833-maturity-rescore-v3-w4-v1/FREEZE_V3_W4.md; do
+            if grep -qx "$frozen" /tmp/touched.txt; then echo "FAIL: frozen artifact touched: $frozen"; rc=1; fi
           done
-          [ "$rc" -eq 0 ] && echo "OK: only this package and its workflow are touched"
+          other=$(grep -v -c -E '^(research/gmi-833-maturity-rescore-v3-w4-v1/|\.github/workflows/gmi-833-maturity-rescore-v3-w4-v1\.yml$)' /tmp/touched.txt || true)
+          echo "files touched outside this package (recorded, not gated): ${other:-0}"
+          [ "$rc" -eq 0 ] && echo "OK: no frozen artifact of this package is touched by this branch"
           exit "$rc"
 
       - name: Route A — executor

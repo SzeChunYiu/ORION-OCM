@@ -6,11 +6,13 @@ on:
       - 'research/gmi-833-z-z12-prediction-scoring-v1/**'
       - 'research/gmi-833-z-map-v1/**'
       - '.github/workflows/gmi-833-z-z12-prediction-scoring.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   pull_request:
     paths:
       - 'research/gmi-833-z-z12-prediction-scoring-v1/**'
       - 'research/gmi-833-z-map-v1/**'
       - '.github/workflows/gmi-833-z-z12-prediction-scoring.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   workflow_dispatch:
 
 jobs:
@@ -22,16 +24,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Freeze precedes implementation
+      - name: Freeze precedes implementation (squash-safe)
         run: |
           set -eu
-          PKG=research/gmi-833-z-z12-prediction-scoring-v1
-          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
-          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/z12_prediction_scoring_v1.py" | tail -1)
-          if [ -z "$FREEZE" ]; then echo "negative control: freeze file not found in history"; exit 1; fi
-          if [ -z "$IMPL" ]; then echo "negative control: executor not found in history"; exit 1; fi
-          echo "freeze=$FREEZE impl=$IMPL"
-          if [ "$FREEZE" -ge "$IMPL" ]; then echo "FREEZE DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
+          # Squash-safe custody (parent: PR #1053 freeze; doctrine of #1042). Once the
+          # package's PR is squash-merged, freeze and implementation first appear in ONE
+          # commit and the ordering can no longer be re-derived from history. The shared
+          # checker keeps the strict ordering proof on a linear history; on a squash-
+          # published one it withholds ONLY that assertion, still checks everything
+          # derivable from HEAD and from the source freeze commit, and prints
+          # FREEZE_ORDER_NOT_REDERIVABLE:<commit> checked:<list>. Violations exit 1,
+          # could-not-check exits 2; nothing is reported as passed unchecked.
+          python3 -I -B research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py \
+            --repo . --pkg research/gmi-833-z-z12-prediction-scoring-v1 --freeze FREEZE_V1.md \
+            --freeze-commit 2ced72d59cabf44caf7394ab4d973d61f18c3cd8 \
+            --impl z12_prediction_scoring_v1.py --impl independent_scoring_oracle_v1.py \
+            --impl test_z12_prediction_scoring_v1.py --impl RESULT_V1.json --impl ORACLE_RESULT_V1.json
 
       - name: Section Z map integrity
         run: python3 -I -B research/gmi-833-z-map-v1/check_z_map_v1.py

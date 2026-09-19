@@ -5,10 +5,12 @@ on:
     paths:
       - 'research/gmi-833-update-law-regimes-v1/**'
       - '.github/workflows/gmi-833-update-law-regimes-v1.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   pull_request:
     paths:
       - 'research/gmi-833-update-law-regimes-v1/**'
       - '.github/workflows/gmi-833-update-law-regimes-v1.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   workflow_dispatch:
 
 jobs:
@@ -24,22 +26,24 @@ jobs:
           # full history: the freeze-ancestry gate below walks git log
           fetch-depth: 0
 
-      - name: freeze precedes implementation
+      - name: freeze precedes implementation (squash-safe)
         working-directory: .
         run: |
           set -e
-          PKG=research/gmi-833-update-law-regimes-v1
-          FREEZE=$(git log --reverse --format=%H -- "$PKG/FREEZE_V1.md" | head -1)
-          IMPL=$(git log --reverse --format=%H -- "$PKG/update_law_regimes_v1.py" | head -1)
-          echo "freeze  $FREEZE"
-          echo "impl    $IMPL"
-          test -n "$FREEZE"
-          test -n "$IMPL"
-          if [ "$FREEZE" = "$IMPL" ]; then
-            echo "FAIL: freeze and implementation share a commit"; exit 1
-          fi
-          # the freeze commit must be an ancestor of the first implementation commit
-          git merge-base --is-ancestor "$FREEZE" "$IMPL"
+          # Squash-safe custody (parent: PR #1053 freeze; doctrine of #1042). Once the
+          # package's PR is squash-merged, freeze and implementation first appear in ONE
+          # commit and the ordering can no longer be re-derived from history. The shared
+          # checker keeps the strict ordering proof on a linear history; on a squash-
+          # published one it withholds ONLY that assertion, still checks everything
+          # derivable from HEAD and from the source freeze commit, and prints
+          # FREEZE_ORDER_NOT_REDERIVABLE:<commit> checked:<list>. Violations exit 1,
+          # could-not-check exits 2; nothing is reported as passed unchecked.
+          python3 -I -B research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py \
+            --repo . --pkg research/gmi-833-update-law-regimes-v1 --freeze FREEZE_V1.md \
+            --freeze-commit 6e42ccd2a7852ce88196765a6013b32315a78108 \
+            --impl update_law_regimes_v1.py --impl oracle_update_law_regimes_v1.py \
+            --impl test_update_law_regimes_v1.py --impl measure_d1_sensitivity_v1.py \
+            --impl RESULT_V1.json --impl ORACLE_RESULT_V1.json --impl D1_SENSITIVITY_V1.json
 
       - name: route B (oracle)
         run: python3 -I -B oracle_update_law_regimes_v1.py

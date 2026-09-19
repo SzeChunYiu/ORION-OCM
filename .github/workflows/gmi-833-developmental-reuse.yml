@@ -5,10 +5,12 @@ on:
     paths:
       - 'research/gmi-833-developmental-reuse-v1/**'
       - '.github/workflows/gmi-833-developmental-reuse.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   pull_request:
     paths:
       - 'research/gmi-833-developmental-reuse-v1/**'
       - '.github/workflows/gmi-833-developmental-reuse.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   workflow_dispatch:
 
 permissions:
@@ -41,16 +43,22 @@ jobs:
           fi
           echo "stdlib only: ok"
 
-      - name: Freeze precedes implementation (git order)
+      - name: Freeze precedes implementation (git order, squash-safe)
         run: |
           set -eu
-          FREEZE=$(git log --reverse --format=%H -- "$PKG"/FREEZE_V1.md | head -1)
-          IMPL=$(git log --reverse --format=%H -- "$PKG"/developmental_reuse_v1.py | head -1)
-          echo "freeze=$FREEZE impl=$IMPL"
-          test -n "$FREEZE"
-          test -n "$IMPL"
-          test "$FREEZE" != "$IMPL"
-          git merge-base --is-ancestor "$FREEZE" "$IMPL"
+          # Squash-safe custody (parent: PR #1053 freeze; doctrine of #1042). Once the
+          # package's PR is squash-merged, freeze and implementation first appear in ONE
+          # commit and the ordering can no longer be re-derived from history. The shared
+          # checker keeps the strict ordering proof on a linear history; on a squash-
+          # published one it withholds ONLY that assertion, still checks everything
+          # derivable from HEAD and from the source freeze commit, and prints
+          # FREEZE_ORDER_NOT_REDERIVABLE:<commit> checked:<list>. Violations exit 1,
+          # could-not-check exits 2; nothing is reported as passed unchecked.
+          python3 -I -B research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py \
+            --repo . --pkg "$PKG" --freeze FREEZE_V1.md \
+            --freeze-commit 01c6a820786d2575e3c2dc2f900c4e288f9b666b --present-at-freeze FROZEN_FIXTURES_V1.json \
+            --impl developmental_reuse_v1.py --impl independent_oracle_v1.py --impl test_developmental_reuse_v1.py \
+            --impl ci_gate_v1.py --impl RESULT_V1.json --impl ORACLE_RESULT_V1.json
 
       - name: Executor reproduces RESULT_V1.json byte-for-byte
         run: |

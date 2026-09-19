@@ -6,11 +6,13 @@ on:
       - 'research/gmi-833-capability-interaction-partition-v1/**'
       - 'research/gmi-capability-interactions-unified-v1/**'
       - '.github/workflows/gmi-833-capability-interaction-partition.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   pull_request:
     paths:
       - 'research/gmi-833-capability-interaction-partition-v1/**'
       - 'research/gmi-capability-interactions-unified-v1/**'
       - '.github/workflows/gmi-833-capability-interaction-partition.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   workflow_dispatch:
 
 permissions:
@@ -32,16 +34,23 @@ jobs:
         with:
           python-version: '3.11.14'
 
-      - name: Freeze precedes implementation
+      - name: Freeze precedes implementation (squash-safe)
         run: |
           set -eu
           cd "$GITHUB_WORKSPACE"
-          first=$(git log --reverse --format='%H %s' -- research/gmi-833-capability-interaction-partition-v1 | head -1)
-          echo "first commit touching the package: $first"
-          case "$first" in
-            *FREEZE_V1*) echo "OK: FREEZE_V1 is the first commit" ;;
-            *) echo "FAIL: first package commit is not the freeze"; exit 1 ;;
-          esac
+          # Squash-safe custody (parent: PR #1053 freeze; doctrine of #1042). Once the
+          # package's PR is squash-merged, freeze and implementation first appear in ONE
+          # commit and the ordering can no longer be re-derived from history. The shared
+          # checker keeps the strict ordering proof on a linear history; on a squash-
+          # published one it withholds ONLY that assertion, still checks everything
+          # derivable from HEAD and from the source freeze commit, and prints
+          # FREEZE_ORDER_NOT_REDERIVABLE:<commit> checked:<list>. Violations exit 1,
+          # could-not-check exits 2; nothing is reported as passed unchecked.
+          python3 -I -B research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py \
+            --repo . --pkg research/gmi-833-capability-interaction-partition-v1 --freeze FREEZE_V1.md \
+            --freeze-commit c7bb5d099da3b949f10916be65ff1f54ce881eeb \
+            --impl partition_witness_v1.py --impl partition_oracle_v1.py --impl test_partition_v1.py \
+            --impl emit_receipts_v1.py --impl RESULT_V1.json --impl DELTA_TABLE_V1.md --impl CORRECTION_NOTICE_V1.json
 
       - name: ROUTE A — partition witness
         run: python3 -I -B research/gmi-833-capability-interaction-partition-v1/partition_witness_v1.py

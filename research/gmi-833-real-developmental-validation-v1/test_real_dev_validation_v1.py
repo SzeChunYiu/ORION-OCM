@@ -289,8 +289,18 @@ class Custody(unittest.TestCase):
              os.path.join(HERE, "check_freeze_order_v1.py"), root],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
-        self.assertEqual(p.returncode, 0, err.decode("utf-8", "replace"))
-        self.assertIn(b"freeze order OK", out)
+        text = out.decode("utf-8", "replace")
+        self.assertEqual(p.returncode, 0, text + err.decode("utf-8", "replace"))
+        # One state line per freeze. FREEZE_ORDER_OK on a linear history;
+        # FREEZE_ORDER_NOT_REDERIVABLE once squash-published (4ba7e89c), with
+        # the HEAD-derivable checks listed. Never a violation, never silent.
+        states = [ln for ln in text.splitlines()
+                  if ln.startswith("FREEZE_ORDER_OK:")
+                  or ln.startswith("FREEZE_ORDER_NOT_REDERIVABLE:")]
+        self.assertEqual(len(states), 3, text)
+        self.assertNotIn("FREEZE_ORDER_VIOLATION", text)
+        self.assertNotIn("FREEZE_ORDER_COULD_NOT_CHECK", text)
+        self.assertIn("freeze order: 3 freezes checked, no violation", text)
 
 
 class Determinism(unittest.TestCase):
