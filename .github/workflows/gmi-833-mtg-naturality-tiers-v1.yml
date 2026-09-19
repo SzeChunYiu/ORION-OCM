@@ -1,0 +1,99 @@
+name: GMI 833 MTG approximate and stochastic naturality tiers v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-mtg-naturality-tiers-v1/**'
+      - '.github/workflows/gmi-833-mtg-naturality-tiers-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-mtg-naturality-tiers-v1/**'
+      - '.github/workflows/gmi-833-mtg-naturality-tiers-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    env:
+      PKG: research/gmi-833-mtg-naturality-tiers-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody (frozen bytes; UNREACHABLE is a distinct state, never a pass)
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=$(python3 -c "import json;print(json.load(open('$PKG/MANIFEST_V1.json'))['freeze_commit'])")
+          if ! git cat-file -e "${freeze}^{commit}" 2>/dev/null; then
+            echo "FREEZE_COMMIT_UNREACHABLE=$freeze (squash or shallow history); falling back to frozen bytes" >&2
+            test -s "$PKG/FREEZE_V1.md"
+            grep -q 'No neighboring row is earned here' "$PKG/FREEZE_V1.md"
+            echo "custody=UNREACHABLE_BYTES_PRESENT"
+            exit 0
+          fi
+          git cat-file -e "${freeze}:$PKG/FREEZE_V1.md"
+          for p in naturality_tiers_v1.py independent_oracle_v1.py test_naturality_tiers_v1.py RESULT_V1.json NATURALITY_TIERS_THEOREMS_V1.md; do
+            if git cat-file -e "${freeze}:$PKG/$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+          echo "custody=FREEZE_PRECEDES_IMPLEMENTATION"
+      - name: Route A executor reproduces the committed receipt byte-exact
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PKG/RESULT_V1.json" /tmp/committed_result.json
+          if [ "${{ matrix.mode }}" = optimized ]; then O=-O; else O=; fi
+          python3 -I $O -B "$PKG/naturality_tiers_v1.py"
+          cmp "$PKG/RESULT_V1.json" /tmp/committed_result.json
+      - name: Route B oracle reproduces its receipt byte-exact
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PKG/ORACLE_RESULT_V1.json" /tmp/committed_oracle.json
+          if [ "${{ matrix.mode }}" = optimized ]; then O=-O; else O=; fi
+          python3 -I $O -B "$PKG/independent_oracle_v1.py" > /tmp/oracle_stdout.json
+          cmp "$PKG/ORACLE_RESULT_V1.json" /tmp/committed_oracle.json
+      - name: Hostiles, null, no-alarm, two-route agreement
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PKG/TEST_RESULT_V1.json" /tmp/committed_test.json
+          if [ "${{ matrix.mode }}" = optimized ]; then O=-O; else O=; fi
+          python3 -I $O -B "$PKG/test_naturality_tiers_v1.py"
+          cmp "$PKG/TEST_RESULT_V1.json" /tmp/committed_test.json
+      - name: Claim ceiling and receipt gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -B - <<'PY'
+          import json
+          pkg = 'research/gmi-833-mtg-naturality-tiers-v1'
+          m = json.load(open(pkg + '/MANIFEST_V1.json'))
+          r = json.load(open(pkg + '/RESULT_V1.json'))
+          o = json.load(open(pkg + '/ORACLE_RESULT_V1.json'))
+          t = json.load(open(pkg + '/TEST_RESULT_V1.json'))
+          ok = (m['claim_ceiling'] == r['claim_ceiling'] and r['status'] == 'GREEN' and o['status'] == 'GREEN'
+                and t['status'] == 'GREEN' and all(r['checks'].values())
+                and all(h['applicable'] and h['detected'] for h in r['hostiles'].values())
+                and r['null']['passing'] == 0 and r['null']['draws'] == 200
+                and r['counts']['nat1_composable_pairs'] == 19683 == r['counts']['nat4_composable_pairs']
+                and r['counts']['nat2_registered_three_state_static_minus_lc'] > 0
+                and 'COMPLETE_GMI' in r['forbidden_promotions'])
+          print('gates', ok)
+          raise SystemExit(0 if ok else 1)
+          PY
