@@ -9,9 +9,9 @@ residual is stated. Nothing below is claimed as novel.
 |---|---|---|
 | `gmi-833-morphology-selection-schema-v1` | the choice correspondence itself: raw nonnegative resource vectors, strictly-positive price scalarization, Pareto frontier, full argmin set with no fabricated tie-break, `NO_VIABLE_MORPHOLOGY` fail-closed, and the affine phase schema (`SEL-1`, `SEL-2`) | `2adeddd2…` |
 | `gmi-833-morphology-selection-v1` | positive-mass niche coexistence and the nonnegative-repricing no-flip law | `6511cba4…` |
-| `gmi-833-global-vs-reachable-morphology-v1` | optimal versus developmentally reachable morphology | `37a0dda5…` |
+| `gmi-833-global-vs-reachable-morphology-v1` | optimal versus developmentally reachable model class | `37a0dda5…` |
 | `gmi-833-finite-candidate-space-v1` | the finite candidate space, semantic quotient and neutral descriptor | `4086d6be…` |
-| `gmi-833-finite-morphology-metrics-v1` | exact semantic / resource / developmental morphology metrics | `b5bafc0a…` |
+| `gmi-833-finite-morphology-metrics-v1` | exact semantic / resource / developmental model-class metrics | `b5bafc0a…` |
 | `gmi-833-ae-ae10-usable-information-v1` | `U(W,T,R)`, the achievability-gap definition of usable information, and its monotonicity and ceiling | `69aafebe…` |
 | `gmi-833-ae-ae1-structure-separation-v1` | task-relative exploitable structure and the accessibility separations | `ceb77f5b…` |
 
@@ -21,7 +21,7 @@ residual is stated. Nothing below is claimed as novel.
   usable information under computational constraints*, ICLR 2020,
   arXiv:2002.10689. `U` at a fixed budget is an instance with `V = H_R` and 0-1
   loss. This tranche adds nothing to that theory; it only feeds it into a
-  selection rule.
+  model selection rule.
 - **Bounded rationality / resource-rational analysis.** Simon 1955,
   doi:10.2307/1884852; Lieder & Griffiths 2020,
   doi:10.1017/S0140525X1900061X. The price vector and the budget lattice are
@@ -52,7 +52,7 @@ residual is stated. Nothing below is claimed as novel.
 
 ## What is NOT claimed novel
 
-The selection correspondence, the usable-information definition, the
+The model selection correspondence, the usable-information definition, the
 causal-state definition, the Walsh identity, Markov equivalence, the
 do-calculus, and the observation that observational data underdetermines
 intervention. Every one of these is a parent result and is used as given.
@@ -66,8 +66,8 @@ Exactly one thing, and it is small:
 > candidate set that the parent choice correspondence consumes.
 
 No parent package on `main` contains any information-theoretic or achievability
-quantity — verified by inspection of all five morphology receipts — so no parent
-can, on its own, answer "which quantity predicts the selected morphology". The
+quantity — verified by inspection of all five parent model-class receipts — so no parent
+can, on its own, answer "which quantity predicts the selected model class". The
 section map's claim that these four rows need "no new mathematics" is therefore
 wrong, and the correction was recorded in `FREEZE_V1.md` before any result
 existed.

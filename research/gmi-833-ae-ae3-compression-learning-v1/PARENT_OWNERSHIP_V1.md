@@ -27,7 +27,7 @@ claimed novel.
 - **Kraft–McMillan inequality.** Kraft 1949; McMillan 1956,
   doi:10.1109/TIT.1956.1056818; Cover & Thomas, *Elements of Information
   Theory*, 2nd ed., Wiley 2006, doi:10.1002/047174882X. The feasibility test
-  that defines the remint family is theirs.
+  that defines the regeneration family is theirs.
 - **The rate–distortion reading of task-relevant compression.** Shannon 1959;
   Tishby, Pereira & Bialek 1999, arXiv:physics/0004057. Notion `B` is their
   rate-at-fixed-distortion idea specialised to coordinate juntas.
@@ -60,7 +60,7 @@ Three things, all small and all finite:
    description" is a decidable object rather than a gesture at `K`;
 2. the **three-notion separation census** on that family — all six ordered
    pairs shown non-determining by exact counts rather than by example alone;
-3. the **measured invariance boundary**: which verdicts survive remints, with an
+3. the **measured invariance boundary**: which verdicts survive independent regenerations, with an
    exact predicate where one exists and an enumerated exception set where it
    does not. The literature's invariance theorem is asymptotic and up to an
    additive constant; at this finite scope the honest answer is that two of the

@@ -117,8 +117,8 @@ run-length `K_L3`. Measured exactly over the 256 targets:
 
 ## 8. AE3-8 — the actually justified invariance boundary
 
-**The unqualified claim is refused.** Over `200` Kraft-feasible remints drawn
-from `[4,12]^4`:
+**The unqualified claim is refused.** Over `200` Kraft-feasible independent regenerations of the
+code-length vector (the row's own word is `remints`) drawn from `[4,12]^4`:
 
 - **AE3-2** holds on exactly `162`, and its boundary is the exact predicate
   `min(rule_len, xor_len) < literal_len`, which matches observation on

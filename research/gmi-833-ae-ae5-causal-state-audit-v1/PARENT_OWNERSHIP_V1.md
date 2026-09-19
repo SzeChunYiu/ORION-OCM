@@ -55,6 +55,6 @@ Two narrow things:
    rationals with no logarithm evaluated, which is what lets the bound and the
    crypticity be *verified* rather than cited.
 
-The resource-priced selection of a predictor — the other thing computational
+The resource-priced model selection of a predictor — the other thing computational
 mechanics does not do — is exercised by `gmi-833-ae-morphology-sweep-v1` in this
 same tranche, and AE5's fifth row is closed there, not here.

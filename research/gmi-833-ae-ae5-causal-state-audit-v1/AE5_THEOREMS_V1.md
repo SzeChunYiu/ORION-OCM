@@ -64,7 +64,7 @@ Observed value sets: `|S| ∈ {3,4,5,6}`, `rank ∈ {1,2}`,
 | state complexity is an entropy of the minimal partition | Crutchfield & Young 1989 | `PARENT_SUFFICIENT` |
 | predictive-information bound | Crutchfield & Feldman 2003; Bialek et al. 2001 | `PARENT_SUFFICIENT` |
 | linear rank is not the state count | Jaeger 2000; Hsu et al. 2012 | `PARENT_SUFFICIENT` |
-| horizon-indexed refinement + resource-priced selection | no parent located | `RESIDUAL` |
+| horizon-indexed refinement + resource-priced model selection | no parent located | `RESIDUAL` |
 
 `PARENT_SUFFICIENT` is a **success terminal**: the right answer to "is this
 already parent-owned?" is often yes, and the receipt records

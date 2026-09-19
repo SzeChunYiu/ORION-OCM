@@ -17,10 +17,11 @@ asserted in prose.
 | `AE3-5` MDL / Bayes | MDL argmin has **2** members at **6** bits with out-of-sample `1/2` and `1`, so MDL selects a strictly worse hypothesis than the risk optimum; four parents mapped with DOIs, Occam's direction left to its parent |
 | `AE3-6` Kolmogorov boundary | three forbidden promotions registered and a guard that alarms **0** times on this receipt while detecting **2 of 2** planted claims |
 | `AE3-7` surrogates | `\|K_L1 − K_L2\| ≤ 1` on **242** of 256 targets, **0** strict order flips of **32,640** pairs; `\|K_L1 − K_L3\| ≤ 3` |
-| `AE3-8` invariance boundary | **refused as unqualified**: over **200** Kraft-feasible remints AE3-2 holds on **162** with the exact predicate `min(rule, xor) < literal` matching **200/200**, AE3-3 holds on only **170** with all **30** exceptions enumerated, AE3-4 is language-independent |
+| `AE3-8` invariance boundary | **refused as unqualified**: over **200** Kraft-feasible independent regenerations of the code-length vector AE3-2 holds on **162** with the exact predicate `min(rule, xor) < literal` matching **200/200**, AE3-3 holds on only **170** with all **30** exceptions enumerated, AE3-4 is language-independent |
 
 **The finding that matters most.** Row 8 asks whether the predictions survive
-remints *up to the actually justified invariance boundary*. They do not survive
+independent regenerations of the coding language (the row's own word is
+`remints`) *up to the actually justified invariance boundary*. They do not survive
 universally. Two of the three verdicts are conditional inside the prefix-code
 family, the conditions are stated exactly where a closed form exists and
 enumerated where it does not, and `UNIVERSAL_MACHINE_INVARIANCE_PROVED` remains

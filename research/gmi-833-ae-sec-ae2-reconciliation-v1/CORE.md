@@ -32,7 +32,7 @@ section at **38 of 122**.
 | tier | rows | reason recorded |
 |---|---:|---|
 | 3 — instrument-blocked | **16** | `INSTRUMENT_REQUIRED` with the specific instrument named: AE16's four-domain corpus (8), AE9's training-time measurement (4), AE11's hardware energy measurement (3), AE6's real-dataset test (1). **Not marked, not narrowed to fit.** |
-| 4 — AE17 ledger | **7** | `LEDGER_SWEEP_PENDING` — obligations *on* the other packages; 3 of the plan's 13 exist so far |
+| 4 — AE17 ledger | **7** | `LEDGER_SWEEP_PENDING` — requirements *on* the other packages; 3 of the plan's 13 exist so far |
 | 1 — finite-exact | **61** | `NOT_ATTEMPTED_IN_THIS_LANE`, with the section-map package that covers each. Recorded as not attempted, never as blocked. |
 
 The honest ceiling for AE remains **106 of 122**; the checker refuses a file that
