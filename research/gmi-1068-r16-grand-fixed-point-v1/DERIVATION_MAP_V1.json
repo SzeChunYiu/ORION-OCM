@@ -1,0 +1,403 @@
+{
+  "schema": "GRAND_GMI_FIXED_POINT_DERIVATION_MAP_V1",
+  "scope": "registered GMI V2 vocabulary",
+  "surviving_gmi_axes": [
+    "PROCESS_CORE",
+    "CONTEXT"
+  ],
+  "concepts": [
+    {
+      "id": "PROCESS_CORE",
+      "status": "FOUNDATIONAL_GMI_AXIS",
+      "depends_on": [],
+      "evidence": "R1 typed category + loss witnesses"
+    },
+    {
+      "id": "CONTEXT",
+      "status": "FOUNDATIONAL_GMI_AXIS",
+      "depends_on": [],
+      "evidence": "R2 context formalization + mutual non-derivability"
+    },
+    {
+      "id": "HISTORY",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE"
+      ],
+      "definition": "finite typed process composition"
+    },
+    {
+      "id": "OBSERVATION_TEST",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "CONTEXT"
+      ],
+      "definition": "context-evaluated continuation/process role"
+    },
+    {
+      "id": "ACTION",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "CONTEXT"
+      ],
+      "definition": "admissible process exposed at an action boundary"
+    },
+    {
+      "id": "BEHAVIOR",
+      "status": "DERIVED",
+      "depends_on": [
+        "HISTORY",
+        "CONTEXT"
+      ],
+      "definition": "context-relevant response of histories"
+    },
+    {
+      "id": "BEHAVIORAL_SPECIFICATION",
+      "status": "DERIVED",
+      "depends_on": [
+        "CONTEXT"
+      ],
+      "definition": "acceptance/value predicate or order supplied by context"
+    },
+    {
+      "id": "ATTAINABILITY",
+      "status": "DERIVED",
+      "depends_on": [
+        "HISTORY",
+        "CONTEXT"
+      ],
+      "definition": "context-value image of admissible histories"
+    },
+    {
+      "id": "REACHABILITY",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "HISTORY"
+      ],
+      "definition": "existence of an admissible history"
+    },
+    {
+      "id": "CAPABILITY",
+      "status": "DERIVED",
+      "depends_on": [
+        "ATTAINABILITY",
+        "BEHAVIORAL_SPECIFICATION"
+      ],
+      "definition": "projection/predicate over attainable values"
+    },
+    {
+      "id": "RESOURCE_RESPONSE",
+      "status": "DERIVED",
+      "depends_on": [
+        "ATTAINABILITY",
+        "CONTEXT"
+      ],
+      "definition": "projection to declared resource coordinates"
+    },
+    {
+      "id": "UNCERTAINTY",
+      "status": "DERIVED_OR_OPTIONAL_ENRICHMENT",
+      "depends_on": [
+        "PROCESS_CORE",
+        "CONTEXT"
+      ],
+      "definition": "probabilistic/set-valued process or contextual result structure"
+    },
+    {
+      "id": "PREFERENCE_FRONTIER",
+      "status": "DERIVED",
+      "depends_on": [
+        "ATTAINABILITY",
+        "CONTEXT"
+      ],
+      "definition": "maximal/Pareto attainable values under context order"
+    },
+    {
+      "id": "SELECTION",
+      "status": "DERIVED",
+      "depends_on": [
+        "PREFERENCE_FRONTIER"
+      ],
+      "definition": "choice among maximal/context-ranked attainable organizations"
+    },
+    {
+      "id": "CONTEXTUAL_EQUIVALENCE",
+      "status": "DERIVED",
+      "depends_on": [
+        "BEHAVIOR",
+        "OBSERVATION_TEST"
+      ],
+      "definition": "equality under all registered continuations/tests"
+    },
+    {
+      "id": "STATE",
+      "status": "DERIVED",
+      "depends_on": [
+        "CONTEXTUAL_EQUIVALENCE"
+      ],
+      "definition": "future-distinguishable history class"
+    },
+    {
+      "id": "REPRESENTATION",
+      "status": "DERIVED",
+      "depends_on": [
+        "CONTEXTUAL_EQUIVALENCE",
+        "RESOURCE_RESPONSE"
+      ],
+      "definition": "sufficient quotient/refinement selected under resource/context constraints"
+    },
+    {
+      "id": "MORPHOLOGY",
+      "status": "DERIVED",
+      "depends_on": [
+        "CONTEXTUAL_EQUIVALENCE",
+        "PROCESS_CORE"
+      ],
+      "definition": "declared quotient class of process organizations"
+    },
+    {
+      "id": "SPECIES",
+      "status": "DERIVED",
+      "depends_on": [
+        "MORPHOLOGY"
+      ],
+      "definition": "morphology equivalence class at declared scope"
+    },
+    {
+      "id": "TRANSFORM_BURDEN",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "RESOURCE_RESPONSE"
+      ],
+      "definition": "Pareto/scalar cost of admissible transforms; infinity if unreachable"
+    },
+    {
+      "id": "DEVELOPMENT",
+      "status": "DERIVED",
+      "depends_on": [
+        "HISTORY",
+        "ATTAINABILITY"
+      ],
+      "definition": "process transformations changing future attainability"
+    },
+    {
+      "id": "LEARNING",
+      "status": "DERIVED",
+      "depends_on": [
+        "DEVELOPMENT",
+        "CONTEXT"
+      ],
+      "definition": "information-conditioned development improving contextual response"
+    },
+    {
+      "id": "MEMORY",
+      "status": "DERIVED",
+      "depends_on": [
+        "STATE",
+        "DEVELOPMENT"
+      ],
+      "definition": "persistence of distinctions required by future contexts"
+    },
+    {
+      "id": "ABSTRACTION_LIBRARY",
+      "status": "DERIVED",
+      "depends_on": [
+        "REPRESENTATION",
+        "RESOURCE_RESPONSE",
+        "DEVELOPMENT"
+      ],
+      "definition": "reusable process description selected after reuse crossover"
+    },
+    {
+      "id": "GRAMMAR",
+      "status": "DERIVED_PRESENTATION",
+      "depends_on": [
+        "PROCESS_CORE",
+        "ABSTRACTION_LIBRARY"
+      ],
+      "definition": "presentation/generative syntax for process descriptions"
+    },
+    {
+      "id": "SEARCH",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "CONTEXT",
+        "RESOURCE_RESPONSE"
+      ],
+      "definition": "process that allocates effort over candidate processes"
+    },
+    {
+      "id": "META_LEARNING",
+      "status": "DERIVED",
+      "depends_on": [
+        "LEARNING",
+        "SEARCH",
+        "DEVELOPMENT"
+      ],
+      "definition": "development of update/search processes"
+    },
+    {
+      "id": "SELF_MODIFICATION",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "DEVELOPMENT"
+      ],
+      "definition": "program descriptions as process objects transformed by admissible modifiers"
+    },
+    {
+      "id": "PLANNING",
+      "status": "DERIVED",
+      "depends_on": [
+        "SEARCH",
+        "ATTAINABILITY",
+        "CONTEXT"
+      ],
+      "definition": "search/composition over predicted future consequences"
+    },
+    {
+      "id": "WORLD_MODEL",
+      "status": "DERIVED",
+      "depends_on": [
+        "REPRESENTATION",
+        "PLANNING",
+        "CONTEXT"
+      ],
+      "definition": "predictive process on a sufficient representation"
+    },
+    {
+      "id": "CAUSAL_RELEVANCE",
+      "status": "DERIVED",
+      "depends_on": [
+        "CONTEXT",
+        "PROCESS_CORE"
+      ],
+      "definition": "distinctions preserved under declared interventions"
+    },
+    {
+      "id": "COMMUNICATION",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "CONTEXT"
+      ],
+      "definition": "information-carrying process between agent boundaries"
+    },
+    {
+      "id": "MULTI_AGENT_INTELLIGENCE",
+      "status": "DERIVED",
+      "depends_on": [
+        "COMMUNICATION",
+        "ATTAINABILITY",
+        "DEVELOPMENT"
+      ],
+      "definition": "joint contextual attainability of composed agents"
+    },
+    {
+      "id": "TOOL_USE",
+      "status": "DERIVED",
+      "depends_on": [
+        "PROCESS_CORE",
+        "SEARCH",
+        "CONTEXT"
+      ],
+      "definition": "delegation to external admissible solver/action processes"
+    },
+    {
+      "id": "ARCHITECTURE",
+      "status": "POSTHOC_DERIVED_CLASSIFICATION",
+      "depends_on": [
+        "MORPHOLOGY",
+        "RESOURCE_RESPONSE"
+      ],
+      "definition": "retrospective structural class of selected process organizations"
+    },
+    {
+      "id": "NEURAL_LIKE",
+      "status": "POSTHOC_DERIVED_CLASSIFICATION",
+      "depends_on": [
+        "ARCHITECTURE",
+        "SELECTION"
+      ],
+      "definition": "family label for a derived property intersection after causal selection"
+    },
+    {
+      "id": "SYMBOLIC_LIKE",
+      "status": "POSTHOC_DERIVED_CLASSIFICATION",
+      "depends_on": [
+        "ARCHITECTURE",
+        "SELECTION"
+      ],
+      "definition": "family label applied after process recovery"
+    },
+    {
+      "id": "GENERATIVE_FAMILY",
+      "status": "POSTHOC_DERIVED_CLASSIFICATION",
+      "depends_on": [
+        "ARCHITECTURE",
+        "CONTEXT"
+      ],
+      "definition": "classification of a distribution-producing process factorization"
+    },
+    {
+      "id": "NOVELTY_UNKNOWN",
+      "status": "DERIVED",
+      "depends_on": [
+        "MORPHOLOGY",
+        "ARCHITECTURE"
+      ],
+      "definition": "selected quotient class unmatched by registered taxonomy"
+    },
+    {
+      "id": "BARRIER",
+      "status": "DERIVED",
+      "depends_on": [
+        "ATTAINABILITY",
+        "PROCESS_CORE",
+        "CONTEXT"
+      ],
+      "definition": "identified missing process/condition blocking a target region"
+    },
+    {
+      "id": "REGIME_PHASE_CHANGE",
+      "status": "DERIVED",
+      "depends_on": [
+        "PREFERENCE_FRONTIER",
+        "CONTEXT"
+      ],
+      "definition": "change of selected/frontier structure as declared parameters vary; physical phase terminology needs extra structure"
+    },
+    {
+      "id": "INTELLIGENCE_RESPONSE",
+      "status": "DERIVED",
+      "depends_on": [
+        "ATTAINABILITY",
+        "DEVELOPMENT",
+        "CONTEXT"
+      ],
+      "definition": "map from information/history/context to attainable response sets/frontiers"
+    },
+    {
+      "id": "EMBODIMENT_PHYSICAL_AI",
+      "status": "DERIVED_SPECIALIZATION",
+      "depends_on": [
+        "PROCESS_CORE",
+        "CONTEXT",
+        "ACTION",
+        "OBSERVATION_TEST"
+      ],
+      "definition": "sensor/action boundaries plus physical substrate process restrictions and physical consequences"
+    },
+    {
+      "id": "EVIDENCE_WARRANT",
+      "status": "OUTSIDE_MACHINE_ONTOLOGY",
+      "depends_on": [],
+      "definition": "scientific warrant about theory claims, not an ontological machine primitive"
+    }
+  ]
+}
