@@ -1,0 +1,227 @@
+name: GMI 833 AE8 CPC master-principle test v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae8-cpc-discrimination-v1/**'
+      - '.github/workflows/gmi-833-ae-ae8-cpc-discrimination-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae8-cpc-discrimination-v1/**'
+      - '.github/workflows/gmi-833-ae-ae8-cpc-discrimination-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    env:
+      PKG: research/gmi-833-ae-ae8-cpc-discrimination-v1
+      FREEZE: bdb89d1c0e4b47dae78a66dd2245f448fa765029
+      REGISTER: 507bea3cf7fb98bb67ffc0806be2583a02f5576d
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze and register custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "$FREEZE^{commit}"
+          git cat-file -e "$FREEZE:$PKG/FREEZE_V1.md"
+          for p in PROSPECTIVE_REGISTER_V1.json ae8_cpc_discrimination_v1.py \
+                   independent_cpc_oracle_v1.py test_ae8_cpc_discrimination_v1.py \
+                   RESULT_V1.json MANIFEST_V1.json CORE.md AE8_THEOREMS_V1.md \
+                   PARENT_OWNERSHIP_V1.md \
+                   ISSUE_833_RECONCILIATION_AE8_CPC_DISCRIMINATION_V1.json; do
+            if git cat-file -e "$FREEZE:$PKG/$p" 2>/dev/null; then
+              echo "artifact already existed at the freeze: $p" >&2; exit 1
+            fi
+          done
+          git cat-file -e "$REGISTER^{commit}"
+          git cat-file -e "$REGISTER:$PKG/PROSPECTIVE_REGISTER_V1.json"
+          git merge-base --is-ancestor "$FREEZE" "$REGISTER"
+          for p in ae8_cpc_discrimination_v1.py independent_cpc_oracle_v1.py \
+                   test_ae8_cpc_discrimination_v1.py RESULT_V1.json; do
+            if git cat-file -e "$REGISTER:$PKG/$p" 2>/dev/null; then
+              echo "implementation blob predates the register: $p" >&2; exit 1
+            fi
+          done
+          echo 'freeze-then-register-then-implementation ordering intact'
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            if [ "$actual" != "$2" ]; then
+              echo "parent pin drifted: $1 $actual != $2" >&2; exit 1
+            fi
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json ceb77f5beac99b5427d1350915b19df546495fb8
+          verify_parent research/gmi-833-ae-ae2-predictive-boundary-v1/RESULT_V1.json cd1e1d5f68342918c0b54583fc5f5b70eabe203c
+          verify_parent research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json 69aafebec4016f539c46b1f71546f740a8018421
+      - name: Executor, oracle and tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$PKG/ae8_cpc_discrimination_v1.py" > /tmp/ae8.json
+            python -I -O -B "$PKG/independent_cpc_oracle_v1.py" > /tmp/ae8_oracle.json
+            python -I -O -B "$PKG/test_ae8_cpc_discrimination_v1.py" -v
+          else
+            python -I -B "$PKG/ae8_cpc_discrimination_v1.py" > /tmp/ae8.json
+            python -I -B "$PKG/independent_cpc_oracle_v1.py" > /tmp/ae8_oracle.json
+            python -I -B "$PKG/test_ae8_cpc_discrimination_v1.py" -v
+          fi
+          cmp /tmp/ae8.json "$PKG/RESULT_V1.json"
+      - name: Named numbers, collisions, bounds, hostiles and the withheld claim
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae8-cpc-discrimination-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          o = json.loads(Path('/tmp/ae8_oracle.json').read_text())
+          def need(c, msg):
+              if not c:
+                  raise SystemExit('FAILED: ' + msg)
+          ceiling = ('GMI_833_AE8_CPC_CLASSIFIED_AND_DISCRIMINATED_AGAINST_REGISTERED_'
+                     'MASTER_PRINCIPLES_ON_A_FINITE_PREREGISTERED_WORLD_ROSTER')
+          need(m['claim_ceiling'] == r['claim_ceiling'] == ceiling, 'claim ceiling')
+          need(m['source_main'] == r['source_main'] ==
+               '0dcdec54fbece041ee2b7cd1f630469ad85d19d3', 'source_main')
+          need(m['freeze_commit'] == r['freeze_commit'] ==
+               'bdb89d1c0e4b47dae78a66dd2245f448fa765029', 'freeze commit')
+          need(r['verdict'] == 'GREEN' and all(r['checks'].values()), 'verdict')
+          res = r['results']
+          need(res['model_space_size'] == 4110, 'model space size')
+          need(res['world_count'] == 12 and res['grid_size'] == 45, 'roster sizes')
+          need(res['classifier_verdict'] == 'DECOMPOSITION', 'classifier verdict')
+          need([x['criterion'] for x in res['classifier_ladder']] ==
+               ['THEOREM', 'VARIATIONAL_PRINCIPLE', 'DECOMPOSITION', 'HEURISTIC',
+                'SLOGAN'], 'ladder order')
+          need(res['classifier_ladder'][0]['holds'] is False, 'not a theorem')
+          need(res['cpc_best_agreement'] == 4, 'cpc best agreement')
+          d = res['decomposition_subscope']
+          need(d['restriction_A_cpc_best_agreement'] == 12, 'restricted agreement')
+          need(d['restriction_A_agreement_is_total'], 'restricted total')
+          need(res['bag_of_laws_worlds_covered'] == 10, 'baseline coverage')
+          need(res['bag_of_laws_agreement'] == 10, 'baseline agreement')
+          need(res['bag_of_laws_worlds_covered'] < res['world_count'],
+               'baseline covers everything, so row 8 would be unfalsifiable')
+          lv = res['law_coverage']
+          need(lv['AE12_AMBIGUITY_INDEPENDENCE']['status'] == 'REFUTED_ON_ROSTER',
+               'refuted law')
+          need(sum(1 for v in lv.values() if v['valid']) == 3, 'valid law count')
+          irr = res['irreducibility']
+          proved = sorted(k for k, v in irr.items()
+                          if v['status'] == 'IRREDUCIBLE_AT_REGISTERED_SCOPE')
+          need(proved == ['communication', 'development', 'history', 'uncertainty'],
+               'irreducible set')
+          need(irr['verification']['status'] == 'NOT_PROVED_IRREDUCIBLE',
+               'verification status')
+          colls = res['term_vector_collisions']
+          need(sorted(colls) == proved, 'collision set')
+          for k, c in sorted(colls.items()):
+              need(c['equality_was_computed'], 'collision computed: %s' % k)
+              need(c['objects_differ'], 'collision objects differ: %s' % k)
+              tv = res['per_world'][c['world']]['term_vectors']
+              a = tv[c['preferred_model']]
+              b = tv[c['other_model']]
+              need(a['cost_bits'] == b['cost_bits']
+                   and a['predictive_loss'] == b['predictive_loss']
+                   and a['control_regret'] == b['control_regret'],
+                   'collision vectors equal: %s' % k)
+          t = res['master_law_test']
+          need(t['master_law_claim'] == 'WITHHELD', 'master law claim')
+          need(t['terminal'] == 'CPC_MASTER_LAW_CLAIM_WITHHELD', 'terminal')
+          need(t['worlds_where_cpc_differs_from_every_parent_principle'] == 0,
+               'parent discrimination')
+          need(t['cpc_description_bits'] == 12
+               and t['bag_of_laws_description_bits'] == 54, 'description bits')
+          need('CPC_IS_THE_GMI_MASTER_LAW' in r['forbidden_promotions'],
+               'forbidden promotion')
+          need(res['observationally_equivalent_pairs'] ==
+               ['BOUNDED_RATIONALITY|RATE_DISTORTION'], 'observational equivalence')
+          n = r['null']
+          need(n['trials'] == 200, 'null trials')
+          need(len(n['agreement_histogram']) > 1,
+               'the null has no variance; the sampler is degenerate')
+          need(n['largest_null_agreement'] == 7, 'largest null')
+          for b in r['bounds']:
+              need(b['vacuous'] is False, 'vacuous bound %s' % b['name'])
+              need(b['status'] == 'FALSIFIABLE', 'unfalsified bound %s' % b['name'])
+              need(bool(b['violated_by']), 'no violated_by %s' % b['name'])
+          for h in r['hostiles']:
+              need(h['potent'], 'hostile not potent %s' % h['name'])
+              need(h['detected'], 'hostile not detected %s' % h['name'])
+              need(h['true_value'] != h['perturbed_value'],
+                   'hostile is inert %s' % h['name'])
+          need(r['predictions_confirmed'] + r['predictions_refuted'] == 6,
+               'prediction count')
+          need(len(r['disclosed_register_gaps']) >= 2, 'disclosed gaps')
+          need(o['cpc_best_agreement'] == res['cpc_best_agreement'], 'routes A')
+          need(o['gmi_preference'] == res['gmi_preference'], 'routes B')
+          need(o['pairwise_agreement_matrix'] == res['pairwise_agreement_matrix'],
+               'routes C')
+          need(sorted(o['term_vector_collisions']) == sorted(colls), 'routes D')
+          print('AE8 named numbers OK')
+          PY
+      - name: Reconciliation rows are byte-exact, unique and well formed
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae8-cpc-discrimination-v1')
+          spec = json.loads((
+              root / 'ISSUE_833_RECONCILIATION_AE8_CPC_DISCRIMINATION_V1.json'
+          ).read_text())
+          if spec['schema'] != 'GMI_ISSUE_RECONCILIATION_V2':
+              raise SystemExit('schema')
+          if spec['issue'] != 833 or spec['issue_comment_id'] != 5692689542:
+              raise SystemExit('identifiers')
+          if len(spec['replacements']) != 8:
+              raise SystemExit('row count')
+          seen = set()
+          for rep in spec['replacements']:
+              if not rep['old'].startswith('- [ ] '):
+                  raise SystemExit('old row not unchecked')
+              if not rep['new'].startswith('- [x] '):
+                  raise SystemExit('new row not checked')
+              if not rep['new'][6:].startswith(rep['old'][6:]):
+                  raise SystemExit('new row does not extend the old verbatim')
+              if rep['old'] in seen:
+                  raise SystemExit('duplicate row')
+              seen.add(rep['old'])
+              if not rep['anchor'].startswith('### AE8 '):
+                  raise SystemExit('anchor')
+          print('AE8 reconciliation spec OK')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ae-ae8-cpc-discrimination-v1-${{ matrix.mode }}
+          path: |
+            /tmp/ae8.json
+            /tmp/ae8_oracle.json
+          if-no-files-found: error
