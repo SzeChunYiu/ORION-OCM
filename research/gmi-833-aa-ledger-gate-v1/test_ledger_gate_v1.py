@@ -318,11 +318,12 @@ def _owned_paths():
 
 def test_gate_is_green_on_the_real_repo():
     owned = _owned_paths()
-    # gate(owned, root, baseline_path): `owned` is the FIRST positional.
-    # Passing it third handed a list where a Path was expected and the
-    # suite died with AttributeError on every pull request, which is the
-    # only context where _owned_paths() returns a list at all.
-    code, rep = A.gate(owned, None, None)
+    # gate(owned, root, baseline_path) -- owned is the FIRST parameter.
+    # Passing it third put a list into baseline_path and crashed the harness
+    # with "'list' object has no attribute 'exists'". The original call was
+    # gate(None, None, None), which is why the position error was invisible:
+    # every argument was None, so no argument was in the wrong place yet.
+    code, rep = A.gate(owned)
     check("real_repo_gate_green", code == 0,
           json.dumps({"owned_scope": "PR diff" if owned is not None else "repo-wide",
                       "violations": rep["violations"][:5]}))
@@ -330,8 +331,18 @@ def test_gate_is_green_on_the_real_repo():
           rep["live_non_compliant"] >= rep["baseline_non_compliant"] - 0
           and rep["baseline_non_compliant"] > 0, json.dumps(
               {k: rep[k] for k in ("baseline_non_compliant", "live_non_compliant")}))
-    check("real_repo_gate_saw_new_results", rep["new_named_results"] > 0,
-          "the tranche's own theorem notes are not being seen as new")
+    # Non-vacuity, stated per scope. Repo-wide the scan must see new results or
+    # it is inspecting nothing. PR-scoped, a branch that adds no theorem note
+    # correctly yields zero, so requiring new results there would fail every
+    # such branch -- the same repo-wide-assertion-in-a-per-PR-gate mistake this
+    # gate has already made twice.
+    if owned is None:
+        check("real_repo_gate_saw_new_results", rep["new_named_results"] > 0,
+              "repo-wide scan sees no new named results; it is inspecting nothing")
+    else:
+        check("real_repo_gate_scope_is_the_pr_diff",
+              isinstance(owned, list),
+              "PR scope did not resolve to a list of owned paths")
     return rep
 
 
