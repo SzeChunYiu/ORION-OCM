@@ -73,3 +73,96 @@ python3 -I -O -B research/gmi-833-checklist-mirror-v1/test_checklist_mirror_v1.p
 ```
 
 Claim ceiling: `GMI_833_CHECKLIST_CUSTODY_MIRROR_AND_SAFE_WRITE_PROTOCOL_AT_OBSERVED_BODY_STATE`.
+
+---
+
+# The other 707 checkboxes
+
+Sections A–M live in the issue **body**. Sections **Z and AA–AJ live in ten issue
+comments**, holding a further **707 rows of which only 51 were marked**. They were
+missed entirely until 2026-09-18, so every "N of 259" figure reported before that
+described the body alone, not the programme.
+
+| location | closed | open | total |
+| --- | --- | --- | --- |
+| body, sections A–M | 195 | 64 | 259 |
+| comments, sections Z and AA–AJ | 51 | 656 | 707 |
+| **total** | **246** | **720** | **966** |
+
+Why the mistake was easy to make and hard to catch: the body ends mid-token in a
+bare `- [`, which looks exactly like truncation. It is not. GitHub retains **52**
+stored revisions of this body and every one of them — including the oldest — ends
+at section M, so nothing was ever lost from it. The later sections were simply
+never in it.
+
+## Custody
+
+`comments/comment_<id>.md` mirrors each comment byte-exact, and
+`COMMENT_LEDGER_V1.json` records per comment: id, sha256, length, sections, and
+checked/unchecked counts.
+
+## Writing to a comment
+
+`comment_safe_write_v1.py` is the mandatory path, with the same contract as the
+body writer: re-fetch the live comment immediately before writing, apply the
+declared replacements to *that* fetch, refuse unless every changed line was
+declared, then read back and compare. Additional to the body writer, it resolves
+each row under its section **anchor** and refuses when the row is ambiguous within
+that section — comment checklists repeat similar row text across subsections far
+more than the body does.
+
+Plans use schema `GMI_ISSUE_COMMENT_RECONCILIATION_V1`, with a `comment_id` on
+every replacement.
+
+```bash
+python3 -I -B research/gmi-833-checklist-mirror-v1/comment_safe_write_v1.py PLAN.json
+python3 -I -B research/gmi-833-checklist-mirror-v1/comment_safe_write_v1.py PLAN.json --apply
+```
+
+Seven hostiles are exercised against the real mirrored AJ comment: stale `old`,
+undeclared collateral edit, un-checking a closed row, over-limit result, wrong
+schema, missing `comment_id`, and the happy path as the no-alarm control.
+
+---
+
+# The trailing `- [` — settled, and nothing was lost
+
+The body's last line is a bare `- [` followed by blank lines. It looks exactly
+like a clobbered write, and it has now been investigated three times by three
+different lanes, twice reaching the wrong conclusion. This section closes it.
+
+**The cut was present at creation.** GitHub retains 52 stored revisions of this
+body. The oldest carries `editedAt` `2026-09-15T16:53:47Z`, which is *equal to*
+the issue's own `created_at`, and that original 17,280-character body already
+ends:
+
+```
+- [ ] Re-audit imitation and teaching.
+- [ ] Re-audit cultural accumulation.
+- [
+```
+
+Its Section M contains 12 checkbox tokens, of which the twelfth is that bare
+fragment. Every subsequent revision ends identically.
+
+So no write destroyed a row. The author's paste was truncated when the issue was
+opened, and the checklist has always held **966 rows**: 259 in the body and 707
+across the ten comment checklists.
+
+## What is therefore true
+
+- There is no twelfth Section M row to recover. It never had text in any stored
+  revision, and **it must not be reconstructed by inference**.
+- The earlier P0 note on this issue, which said content had been destroyed by
+  the 65,536-character ceiling, is **withdrawn on this evidence**. The ceiling
+  pressure was real — headroom reached 421 characters — but it did not cause
+  this fragment.
+- A future lane that finds this fragment should read this section rather than
+  re-deriving it. Recovering the original body costs one GraphQL query:
+
+```bash
+gh api graphql -f query='{repository(owner:"SzeChunYiu",name:"ORION-OCM"){
+  issue(number:833){userContentEdits(first:100){totalCount nodes{editedAt diff}}}}}'
+```
+
+The last node is the creation-time body.

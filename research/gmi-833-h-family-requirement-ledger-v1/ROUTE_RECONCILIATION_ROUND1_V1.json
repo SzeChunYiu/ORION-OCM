@@ -1,0 +1,232 @@
+{
+ "attribution_single_stage": "ROUTE_B_ENUMERATION_STAGE (coverage), not the status-derivation stage: every shared cell agreed.",
+ "cells_only_route_a": [
+  [
+   "Associative memory.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Attention mechanisms.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Autoregressive generative systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Backprop/reverse-mode credit assignment.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Basis/kernel methods.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Bayesian inference/belief-state systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "CNN/equivariant local-weight-sharing systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Cellular/local-field computation.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Continual-learning systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Decision trees/rule systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Diffusion/iterative-refinement systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Distributed/collective intelligence.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Dynamic programming/control.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Energy-based systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Evolutionary/population search.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Feed-forward neural networks.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Finite-state/automata intelligence.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Flow-like transport systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "GLMs.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Graph neural/message-passing systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "LSTM/GRU-like gating.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Latent-variable generative systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Library-learning/program-reuse systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Linear regression / linear classifiers.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Meta-learning systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Mixture-of-experts/routing systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Model-based RL-like learning.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Model-free RL-like learning.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Multi-agent emergent communication systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Nearest-neighbor / exemplar memory.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Neuro-symbolic/statistical-symbolic hybrids.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Particle/population inference.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Planning systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Probabilistic graphical models.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Program synthesis/program induction.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "RNNs.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Retrieval-augmented systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Search/frontier algorithms.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Self-modifying/morphogenetic systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "State-space models.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Symbolic logic systems.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Tool-using/solver-routing intelligence.",
+   "R04",
+   "SIGMA_CENSUS"
+  ],
+  [
+   "Transformer-like dynamic routing/composition.",
+   "R04",
+   "SIGMA_CENSUS"
+  ]
+ ],
+ "cells_only_route_b": [],
+ "cells_route_a": 649,
+ "cells_route_b": 606,
+ "cells_shared": 606,
+ "lesson": "A two-route check earns its keep on coverage, not only on values: the routes agreed on every cell they both produced, and the defect was a cell one route never produced.",
+ "resolution": "Route B now emits R04 at SIGMA_CENSUS for every registry row directly from family_census[h_id].disposition, independently of the presence profile. Route A is unchanged. Round 2 is reported in RESULT_V1.json::reconciliation_two_routes.",
+ "root_cause": "Route B derives SIGMA_CENSUS cells from a package-level presence profile. Neutral recovery (R04) is the one census requirement that is not package-level: it is per-row dispositional (RECOVERED_CONTROL vs the three obstruction classes). Route B built its per-requirement loop from the presence-profile key set, which therefore never contained R04, so its dispositional branch was unreachable. Route A, which enumerates all eleven requirements per row from the frozen rule table, covered it.",
+ "round": 1,
+ "schema": "GMI833HFamilyRequirementRouteReconciliationRound1V1",
+ "status": "DISAGREEMENT_FOUND_AND_RECORDED_BEFORE_RESOLUTION",
+ "status_disagreements": 0,
+ "summary": "Route A emitted 43 (row, R04, SIGMA_CENSUS) cells that Route B did not emit at all. Zero status disagreements on the 606 shared cells."
+}

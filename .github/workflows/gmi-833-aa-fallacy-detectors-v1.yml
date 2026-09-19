@@ -1,0 +1,82 @@
+name: GMI 833 AA19-AA31-AA37 fallacy detectors
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aa-fallacy-detectors-v1/**'
+      - 'research/gmi-833-corpus-census-v1/**'
+      - 'research/gmi-833-g0-grammar-bias-v1/**'
+      - '.github/workflows/gmi-833-aa-fallacy-detectors-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-aa-fallacy-detectors-v1/**'
+      - 'research/gmi-833-corpus-census-v1/**'
+      - 'research/gmi-833-g0-grammar-bias-v1/**'
+      - '.github/workflows/gmi-833-aa-fallacy-detectors-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  aa-fallacy-detectors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-aa-fallacy-detectors-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
+          cat /tmp/firstfiles.txt
+          # Strict form: the freeze is the only thing in the first commit that
+          # ever touched this path. After a squash merge the whole package
+          # arrives in one commit, so fall back to requiring the freeze to be
+          # present in that publishing commit.
+          if [ "$(grep -c . /tmp/firstfiles.txt)" = "1" ]; then
+            grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+            echo 'freeze-first commit ordering intact'
+          else
+            grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+      - name: Route A harness
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/fallacy_detectors_v1.py" | tee /tmp/fd_routeA.json
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_detector_oracle_v1.py" | tee /tmp/fd_routeB.json
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_fallacy_detectors_v1.py" 2>&1 | tee /tmp/fd_tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_fallacy_detectors_v1.py" 2>&1 | tee /tmp/fd_tests-O.txt
+      - name: Receipt matches the live two-route run
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-aa-fallacy-detectors-v1
+          path: |
+            /tmp/fd_routeA.json
+            /tmp/fd_routeB.json
+            /tmp/fd_tests.txt
+            /tmp/fd_tests-O.txt
+          if-no-files-found: error

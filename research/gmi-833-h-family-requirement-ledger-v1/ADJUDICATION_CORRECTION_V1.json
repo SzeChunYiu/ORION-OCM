@@ -1,0 +1,53 @@
+{
+  "schema": "GMI833HFamilyRequirementAdjudicationCorrectionV1",
+  "role": "POST_FREEZE_CORRECTION_APPLIED_OVER_THE_FROZEN_RULE_TABLE",
+  "frozen_table": "ADJUDICATION_RULES_V1.json",
+  "frozen_table_is_unmodified": true,
+  "why_a_correction_and_not_an_edit": "ADJUDICATION_RULES_V1.json was committed in the pre-implementation freeze commit d2a3a4bd17dac4726b8251cb6e7838b9fcbfbdff. Editing it after the fact would destroy the custody the freeze exists to establish. The defect is therefore recorded here and applied as an overlay; the executor reads the frozen table, then this file, and prints both.",
+  "corrections": [
+    {
+      "id": "C1",
+      "cell": {"sigma": "SIGMA_CENSUS", "requirement": "R08"},
+      "was": "MET_AT_NARROWER_SCOPE",
+      "now": "MISSING_BUILDABLE",
+      "defect": "The frozen table gave R01 and R08 at SIGMA_CENSUS one rule with one citation and an explicit shared_evidence_with: [R01, R08], and counted both met. FREEZE_V1.md section 4 forbids exactly this shape: 'where only one citation exists, at most one of the two cells may be non-MISSING'. The freeze caught its own rule table.",
+      "evidence_that_settles_it": [
+        "The census package never asserts a held-out prediction gate: the strings 'heldout' and 'held-out' occur zero times across RESULT_V1.json, OBSTRUCTION_THEOREMS_V1.md, obstruction_census_v1.py and FROZEN_FAMILY_REGISTRY_V1.json. Unlike SIGMA_4F, where FAMILY_GATE_LEDGER_V1.json carries a named heldout_frozen_prediction field its authors set to SUPPORTED_AT_REGISTERED_EXACT_SCOPE, this cell was constructed by this package from R01's evidence rather than read from the artifact.",
+        "The frozen rule's own scope_gap string states the disqualifier: 'the prediction covers exactly the evaluated set, nothing is held out from it'."
+      ],
+      "citation": "absence: zero occurrences of 'heldout' or 'held-out' in research/gmi-833-h-obstruction-census-v1/{RESULT_V1.json,OBSTRUCTION_THEOREMS_V1.md,obstruction_census_v1.py,FROZEN_FAMILY_REGISTRY_V1.json}; the frozen registry's predicted_disposition covers exactly the 11 target contracts the census then evaluates",
+      "build": "freeze a prediction over a contract set DISJOINT from the evaluated one, then evaluate it; the present prediction and the present evaluation have the same domain, so no part of it is held out"
+    },
+    {
+      "id": "C2",
+      "cell": {"sigma": "SIGMA_4F", "requirement": "R01"},
+      "was": "MET_AT_NARROWER_SCOPE",
+      "now": "MET_AT_NARROWER_SCOPE",
+      "defect": "status unchanged; the shared citation string is replaced by the artifact's own named gate field, so that R01 and R08 at SIGMA_4F are each witnessed by a distinct assertion the artifact makes by name.",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/FAMILY_GATE_LEDGER_V1.json::families[].gates.property_prediction_from_ecology = SUPPORTED_AT_REGISTERED_EXACT_SCOPE (evidence key FROZEN)",
+      "scope_gap": "the frozen prediction is a structural-property name for a registered finite obligation over GF(3) at serve cost <= 4, not a property of the historical family named by the row; the underlying evidence key FROZEN is shared with R08, recorded as soundness observation HRL-5.1"
+    },
+    {
+      "id": "C3",
+      "cell": {"sigma": "SIGMA_4F", "requirement": "R08"},
+      "was": "MET_AT_NARROWER_SCOPE",
+      "now": "MET_AT_NARROWER_SCOPE",
+      "defect": "status unchanged; distinct citation, as C2.",
+      "why_this_scope_differs_from_SIGMA_CENSUS": "At SIGMA_4F the primary artifact asserts a held-out-frozen-prediction gate BY NAME and sets its status itself; deferring to the artifact's own adjudication is correct. At SIGMA_CENSUS no such gate is asserted anywhere in the package, so the cell would have been this package's own construction rather than the artifact's assertion. The asymmetry is between what the two artifacts claim, not between two treatments of the same claim.",
+      "citation": "research/gmi-833-h-neutral-four-family-v1/FAMILY_GATE_LEDGER_V1.json::families[].gates.heldout_frozen_prediction = SUPPORTED_AT_REGISTERED_EXACT_SCOPE (evidence key FROZEN); FROZEN_PREDICTIONS_V1.json added at 32566daa, before RESULT_V1.json at 944f85e2",
+      "scope_gap": "the prediction is frozen before the search runs but is a structural-property name for a registered finite obligation over GF(3), not a property of the historical family; the underlying evidence key FROZEN is shared with R01, recorded as soundness observation HRL-5.1"
+    }
+  ],
+  "new_hostile": {
+    "name": "HOSTILE_SHARED_CITATION_DOUBLE_COUNT",
+    "rule": "reject any ledger in which two distinct requirements at the same (row, sigma) carry an identical citation string and both are non-MISSING",
+    "why": "this is the check that would have caught C1 before it shipped"
+  },
+  "effect_on_headline_numbers": {
+    "hrl4_verdict_counts": "unchanged: CLOSABLE_NOW 0, CLOSABLE_AFTER_BUILDABLE_WORK 43, BLOCKED_STRUCTURAL 0",
+    "hrl3_distribution": "10/11 x4, 7/11 x5, 6/11 x34 (was 10/11 x4, 8/11 x5, 7/11 x34)",
+    "hrl3_residual_dominance": "R11 43, R05 39, R07 39, R08 39, R04 34, rest 0 (R08 joins the second tier)",
+    "frozen_predictions": "all five still hold; P4 (R11 missing at 43/43) and P5 (R10 missing at 0/43) are unaffected",
+    "reading": "the residual is BROADER than the tidy expectation, with a three-way second tier at 39 rows each. That is the finding, and it is reported in preference to the tidier number it replaces."
+  }
+}

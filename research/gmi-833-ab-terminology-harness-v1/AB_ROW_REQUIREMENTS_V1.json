@@ -1,0 +1,498 @@
+{
+  "schema": "GMI_AB_ROW_REQUIREMENTS_V1",
+  "issue": 833,
+  "comment_id": 5684607872,
+  "anchor": "### AB. Academic terminology and ontology normalization",
+  "extraction_rule": "Each required comparison term is quoted from the row's own text. A slashed alternation in the row becomes an any_of requirement over its alternatives. test_ab_harness_v1 asserts every required term literally occurs in the verbatim row text.",
+  "rows": [
+    {
+      "row_id": "AB01",
+      "verbatim": "- [ ] Build a living `GMI_TERMINOLOGY_CROSSWALK` with: legacy GMI term, proposed paper term, academic field, canonical term(s), exact match/partial match/non-match, citations, definition, migration rule.",
+      "evidence_kind": "CROSSWALK_COLUMNS",
+      "crosswalk_term": null,
+      "required_terms": [
+        "legacy GMI term",
+        "proposed paper term",
+        "academic field",
+        "canonical term(s)",
+        "match",
+        "citations",
+        "definition",
+        "migration rule"
+      ]
+    },
+    {
+      "row_id": "AB03",
+      "verbatim": "- [ ] Audit `morphology`; compare against **architecture**, **computational architecture**, **model class**, **representation**, **algorithm**, and **computational mechanism**. Keep `morphology` only where structure across heterogeneous computational organizations is genuinely intended.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "morphology",
+      "required_terms": [
+        "architecture",
+        "computational architecture",
+        "model class",
+        "representation",
+        "algorithm",
+        "computational mechanism",
+        "structure across heterogeneous computational organizations"
+      ]
+    },
+    {
+      "row_id": "AB04",
+      "verbatim": "- [ ] Audit `machine species`; compare against **algorithm/configuration class**, **model family**, **architecture family**, **behavioral phenotype**, and **equivalence class**. Treat biological language as analogy unless formally defined.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "machine species",
+      "required_terms": [
+        {
+          "any_of": [
+            "algorithm class",
+            "configuration class"
+          ]
+        },
+        "model family",
+        "architecture family",
+        "behavioral phenotype",
+        "equivalence class"
+      ]
+    },
+    {
+      "row_id": "AB05",
+      "verbatim": "- [ ] Audit `ecology`; compare against **task distribution**, **environment**, **problem distribution**, **instance space**, and **operating regime**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "ecology",
+      "required_terms": [
+        "task distribution",
+        "environment",
+        "problem distribution",
+        "instance space",
+        "operating regime"
+      ]
+    },
+    {
+      "row_id": "AB06",
+      "verbatim": "- [ ] Audit `niche`; compare against **region of instance space**, **operating regime**, **performance region**, and **domain of competence**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "niche",
+      "required_terms": [
+        "region of instance space",
+        "operating regime",
+        "performance region",
+        "domain of competence"
+      ]
+    },
+    {
+      "row_id": "AB07",
+      "verbatim": "- [ ] Audit `selection`; distinguish **algorithm selection**, **model selection**, **architecture search**, **hyperparameter/configuration selection**, and evolutionary selection.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "selection",
+      "required_terms": [
+        "algorithm selection",
+        "model selection",
+        "architecture search",
+        {
+          "any_of": [
+            "hyperparameter selection",
+            "configuration selection"
+          ]
+        },
+        "evolutionary selection"
+      ]
+    },
+    {
+      "row_id": "AB09",
+      "verbatim": "- [ ] Audit `phase law/phase diagram`; use only when there is a well-defined control-parameter space and qualitative regime transition; otherwise use regime map/crossover map.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "phase law / phase diagram",
+      "required_terms": [
+        "phase diagram",
+        "control-parameter space",
+        "regime map",
+        "crossover map"
+      ]
+    },
+    {
+      "row_id": "AB10",
+      "verbatim": "- [ ] Audit `prior-free`; replace with **architecture-agnostic**, **architecture-uncommitted**, **family-agnostic search**, or explicit `architecture-prior-free` only after defining what priors remain.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": [
+        "prior-free",
+        "architecture-prior-free"
+      ],
+      "required_terms": [
+        "architecture-agnostic",
+        "architecture-uncommitted",
+        "family-agnostic search",
+        "architecture-prior-free"
+      ]
+    },
+    {
+      "row_id": "AB11",
+      "verbatim": "- [ ] Use **inductive bias** for representational/search preferences when that is the established ML concept.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "inductive bias",
+      "required_terms": [
+        "inductive bias"
+      ]
+    },
+    {
+      "row_id": "AB12",
+      "verbatim": "- [ ] Use **hypothesis class/search space/program space** rather than vague `possibility space` where appropriate.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "hypothesis class / possibility space",
+      "required_terms": [
+        "hypothesis class",
+        "search space",
+        "program space",
+        "possibility space"
+      ]
+    },
+    {
+      "row_id": "AB13",
+      "verbatim": "- [ ] For synthesis, use **DSL / grammar / primitive set / search space / search strategy** where those are the actual objects; explicitly acknowledge that the DSL itself induces strong bias.",
+      "evidence_kind": "CROSSWALK_ROW+PARENT_PACKAGE",
+      "crosswalk_term": "DSL/grammar",
+      "required_terms": [
+        "DSL",
+        "grammar",
+        "primitive set",
+        "search space",
+        "search strategy",
+        "bias"
+      ]
+    },
+    {
+      "row_id": "AB14",
+      "verbatim": "- [ ] Audit `neutral search`; replace with a precise description such as family-blind enumerative search, architecture-agnostic search, grammar-based synthesis, evolutionary search, etc.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "neutral search",
+      "required_terms": [
+        "family-blind enumerative search",
+        "architecture-agnostic search",
+        "grammar-based synthesis",
+        "evolutionary search"
+      ]
+    },
+    {
+      "row_id": "AB15",
+      "verbatim": "- [ ] Audit `remint`; paper-facing alternatives should normally be **independent regeneration**, **re-randomization**, **relabeling control**, **fresh-instance replication**, or **independent replication**, depending on what was done.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "remint",
+      "required_terms": [
+        "independent regeneration",
+        "re-randomization",
+        "relabeling control",
+        "fresh-instance replication",
+        "independent replication"
+      ]
+    },
+    {
+      "row_id": "AB16",
+      "verbatim": "- [ ] Audit `negative twin`; compare with **matched negative control**, **counterfactual control**, **ablation**, **placebo condition**, or **negative control**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "negative twin",
+      "required_terms": [
+        "matched negative control",
+        "counterfactual control",
+        "ablation",
+        "placebo condition",
+        "negative control"
+      ]
+    },
+    {
+      "row_id": "AB17",
+      "verbatim": "- [ ] Audit `parent subtraction`; paper-facing terminology should normally be **comparison to strongest baselines/parent theories**, **subsumption analysis**, **reduction**, **ablation**, or **novelty analysis**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "parent subtraction",
+      "required_terms": [
+        {
+          "any_of": [
+            "comparison to strongest baselines",
+            "strongest-baseline comparison"
+          ]
+        },
+        "subsumption analysis",
+        "reduction",
+        "ablation",
+        "novelty analysis"
+      ]
+    },
+    {
+      "row_id": "AB18",
+      "verbatim": "- [ ] Audit `carrier`; map where possible to **state representation**, **state space**, **memory substrate**, **computational substrate**, or **representation space**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "carrier",
+      "required_terms": [
+        "state representation",
+        "state space",
+        "memory substrate",
+        "computational substrate",
+        "representation space"
+      ]
+    },
+    {
+      "row_id": "AB19",
+      "verbatim": "- [ ] Audit `quotient`; retain mathematical quotient where exact; otherwise use **equivalence classes**, **state abstraction**, **minimal sufficient representation/state**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "quotient",
+      "required_terms": [
+        "quotient",
+        "equivalence classes",
+        "state abstraction",
+        {
+          "any_of": [
+            "minimal sufficient representation",
+            "minimal sufficient state"
+          ]
+        }
+      ]
+    },
+    {
+      "row_id": "AB20",
+      "verbatim": "- [ ] Audit `capability ceiling`; compare with **upper bound**, **impossibility result**, **capacity bound**, **information-theoretic limit**, **sample/communication/complexity bound**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "capability ceiling",
+      "required_terms": [
+        "upper bound",
+        "impossibility result",
+        "capacity bound",
+        "information-theoretic limit",
+        {
+          "any_of": [
+            "sample bound",
+            "communication bound",
+            "complexity bound"
+          ]
+        }
+      ]
+    },
+    {
+      "row_id": "AB21",
+      "verbatim": "- [ ] Audit `development`; distinguish **online learning**, **continual learning**, **meta-learning**, **self-modification**, **architecture adaptation**, **developmental learning**, and **evolution**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "development",
+      "required_terms": [
+        "online learning",
+        "continual learning",
+        "meta-learning",
+        "self-modification",
+        "architecture adaptation",
+        "developmental learning",
+        "evolution"
+      ]
+    },
+    {
+      "row_id": "AB22",
+      "verbatim": "- [ ] Audit `evolvability`; use the established evolutionary-computation/ALife meaning and avoid using it as a synonym for ordinary adaptability.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "evolvability",
+      "required_terms": [
+        "evolvability",
+        {
+          "any_of": [
+            "evolutionary-computation",
+            "evolutionary computation"
+          ]
+        },
+        "ALife"
+      ]
+    },
+    {
+      "row_id": "AB23",
+      "verbatim": "- [ ] Audit `open-ended`; connect explicitly to **open-ended evolution/open-endedness** literature; do not use it merely to mean a large search space.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "open-ended",
+      "required_terms": [
+        {
+          "any_of": [
+            "open-ended evolution",
+            "open-endedness"
+          ]
+        }
+      ]
+    },
+    {
+      "row_id": "AB24",
+      "verbatim": "- [ ] Audit `novel intelligence`; distinguish **novel implementation**, **novel architecture**, **novel algorithmic mechanism**, **novel model class**, **novel computational paradigm/domain**, and **novel capability profile**.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "novel intelligence",
+      "required_terms": [
+        "novel implementation",
+        "novel architecture",
+        "novel algorithmic mechanism",
+        "novel model class",
+        {
+          "any_of": [
+            "novel computational paradigm",
+            "computational paradigm"
+          ]
+        },
+        "novel capability profile"
+      ]
+    },
+    {
+      "row_id": "AB26",
+      "verbatim": "- [ ] Audit `unseen form`; paper-facing term should specify whether this means held-out architecture, predicted morphology, novel mechanism, or new computational class.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "unseen form",
+      "required_terms": [
+        "held-out architecture",
+        "predicted morphology",
+        "novel mechanism",
+        "new computational class"
+      ]
+    },
+    {
+      "row_id": "AB27",
+      "verbatim": "- [ ] Audit `cognition` terms against cognitive science rather than ML metaphors: working/episodic/semantic/procedural memory, attention, metacognition, theory of mind, etc.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "cognition terms",
+      "required_terms": [
+        "working",
+        "episodic",
+        "semantic",
+        "procedural",
+        "memory",
+        "attention",
+        "metacognition",
+        "theory of mind"
+      ]
+    },
+    {
+      "row_id": "AB28",
+      "verbatim": "- [ ] Require cognitive terms to satisfy operational criteria before claiming correspondence to human/animal constructs.",
+      "evidence_kind": "CROSSWALK_ROW+PARENT_PACKAGE",
+      "crosswalk_term": "cognition terms",
+      "required_terms": [
+        "operational criteria"
+      ]
+    },
+    {
+      "row_id": "AB29",
+      "verbatim": "- [ ] Audit `causal` terminology against SCM/intervention/counterfactual conventions.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "causal terms",
+      "required_terms": [
+        "SCM",
+        "intervention",
+        "counterfactual"
+      ]
+    },
+    {
+      "row_id": "AB30",
+      "verbatim": "- [ ] Audit uncertainty terminology against aleatoric/epistemic, confidence set, credible set, calibration, identifiability, and partial identification conventions.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "uncertainty terms",
+      "required_terms": [
+        "aleatoric",
+        "epistemic",
+        "confidence set",
+        "credible set",
+        "calibration",
+        "identifiability",
+        "partial identification"
+      ]
+    },
+    {
+      "row_id": "AB31",
+      "verbatim": "- [ ] Audit `verification`; distinguish formal verification, empirical validation, evaluation, testing, certification, and verifier feedback.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "verification",
+      "required_terms": [
+        "formal verification",
+        "empirical validation",
+        "evaluation",
+        "testing",
+        "certification",
+        "verifier feedback"
+      ]
+    },
+    {
+      "row_id": "AB32",
+      "verbatim": "- [ ] Audit `proof`; never call exhaustive finite computation a mathematical proof without stating the certificate/computer-assisted status precisely.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": [
+        "proof",
+        "proof (computer-assisted)",
+        "proof (finite enumeration)"
+      ],
+      "required_terms": [
+        "exhaustive finite computation",
+        "certificate",
+        "computer-assisted"
+      ]
+    },
+    {
+      "row_id": "AB33",
+      "verbatim": "- [ ] Audit `derive`; reserve it for a conclusion logically/mathematically obtained from stated premises; otherwise use recover, select, fit, construct, reproduce, or explain.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "derive",
+      "required_terms": [
+        "recover",
+        "select",
+        "fit",
+        "construct",
+        "reproduce",
+        "explain"
+      ]
+    },
+    {
+      "row_id": "AB34",
+      "verbatim": "- [ ] Audit `predict`; require temporal/epistemic separation from the outcome; otherwise use post-hoc explanation or reconstruction.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "predict",
+      "required_terms": [
+        {
+          "any_of": [
+            "temporal/epistemic separation",
+            "temporal",
+            "epistemic"
+          ]
+        },
+        "post-hoc explanation",
+        "reconstruction"
+      ]
+    },
+    {
+      "row_id": "AB35",
+      "verbatim": "- [ ] Audit `discover`; require that the target was not encoded/named/privileged and that novelty survives parent reduction.",
+      "evidence_kind": "CROSSWALK_ROW",
+      "crosswalk_term": "discover",
+      "required_terms": [
+        "encoded",
+        "named",
+        "privileged",
+        "parent reduction"
+      ]
+    },
+    {
+      "row_id": "AB36",
+      "verbatim": "- [ ] Create a banned/avoid list of internally convenient but academically misleading terms for manuscripts.",
+      "evidence_kind": "ARTIFACT",
+      "crosswalk_term": "banned list",
+      "required_terms": [
+        {
+          "any_of": [
+            "banned",
+            "avoid"
+          ]
+        },
+        "misleading",
+        "manuscripts"
+      ]
+    },
+    {
+      "row_id": "AB37",
+      "verbatim": "- [ ] Require terminology review as a CI/checklist gate for flagship documents.",
+      "evidence_kind": "ARTIFACT",
+      "crosswalk_term": "ci gate",
+      "required_terms": [
+        "CI",
+        "gate"
+      ]
+    }
+  ],
+  "rows_not_in_scope": {
+    "AB02": "- [ ] Replace paper-facing `obligation` with `task`, `specification`, or `formal/behavioral specification` according to exact semantics; formal methods uses **formal specification** for a mathematical description of intended system behavior.",
+    "AB08": "- [ ] Explicitly parent-subtract Rice-style **algorithm selection**: problem space, feature space, algorithm space, performance space, selection mapping.",
+    "AB25": "- [ ] Define a novelty ladder using those academically interpretable levels."
+  }
+}

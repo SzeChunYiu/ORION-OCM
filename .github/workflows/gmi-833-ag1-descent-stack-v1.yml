@@ -1,0 +1,63 @@
+name: GMI 833 AG1/AG8 foundation descent stack
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-ag1-descent-stack-v1/**'
+      - '.github/workflows/gmi-833-ag1-descent-stack-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-ag1-descent-stack-v1/**'
+      - '.github/workflows/gmi-833-ag1-descent-stack-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze precedes implementation
+        run: |
+          set -e
+          PKG=research/gmi-833-ag1-descent-stack-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          C=$(git log --diff-filter=A --format=%ct -1 -- $PKG/foundation_dag_v1.py)
+          echo "freeze=$F executor=$C"
+          test -n "$F"
+          test -n "$C"
+          test "$F" -le "$C"
+      - name: Route A -- DFS cycle detection and gates
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ag1-descent-stack-v1/foundation_dag_v1.py
+      - name: Route B -- Kahn peeling and transitive closure
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ag1-descent-stack-v1/independent_oracle_v1.py
+      - name: Hostiles, null and no-alarm case
+        run: python3 -I -O -B research/gmi-833-ag1-descent-stack-v1/test_ag1_v1.py
+      - name: Assert receipt
+        run: |
+          python3 - <<'PY'
+          import json
+          P = 'research/gmi-833-ag1-descent-stack-v1/'
+          r = json.load(open(P + 'RESULT_V1.json'))
+          o = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          t = json.load(open(P + 'TEST_RESULT_V1.json'))
+          assert r['status'] == 'GREEN' and r['failed_gates'] == []
+          assert all(v == 0 for v in r['violations'].values()), r['violations']
+          assert r['nodes'] == o['nodes'] == 32
+          assert r['edges'] == o['edges'] == 37
+          assert r['layers_populated'] == o['layers_populated'] == 10
+          assert r['g0_layer'] == o['g0_layer'] == 'F4'
+          assert o['acyclic_by_kahn'] and o['kahn_nodes_removed'] == 32
+          assert o['g0_reaches_F0_by_transitive_closure']
+          assert r['first_divergence_layer'] == o['first_divergence_layer'] == 'F6'
+          assert r['divergence_consistent_with_aj6_receipt']
+          assert r['divergence_capability']['SYS_FROZEN'] == '1/2'
+          assert r['divergence_capability']['SYS_ONE_EDIT'] == '0'
+          assert r['parent_packages_pinned'] == 21
+          assert r['ag8_obligations'] == 8
+          assert t['hostiles_detected'] == 14 and t['null_passes'] == 0
+          assert 'ABSOLUTE_BOTTOM_LAYER_PROVEN' in r['forbidden_promotions']
+          print('AG1 receipt OK')
+          PY

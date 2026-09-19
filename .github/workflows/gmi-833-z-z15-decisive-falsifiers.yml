@@ -1,0 +1,81 @@
+name: gmi-833-z-z15-decisive-falsifiers
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-z-z15-decisive-falsifiers-v1/**'
+      - '.github/workflows/gmi-833-z-z15-decisive-falsifiers.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z15-decisive-falsifiers-v1/**'
+      - '.github/workflows/gmi-833-z-z15-decisive-falsifiers.yml'
+  workflow_dispatch:
+
+jobs:
+  z15:
+    name: Z15 decisive falsifiers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Freeze precedes implementation
+        run: |
+          set -eu
+          PKG=research/gmi-833-z-z15-decisive-falsifiers-v1
+          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
+          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/z15_decisive_falsifiers_v1.py" | tail -1)
+          if [ -z "$FREEZE" ]; then echo "negative control: freeze file not found in history"; exit 1; fi
+          if [ -z "$IMPL" ]; then echo "negative control: executor not found in history"; exit 1; fi
+          echo "freeze=$FREEZE impl=$IMPL"
+          if [ "$FREEZE" -ge "$IMPL" ]; then echo "FREEZE DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
+
+      - name: Amendment precedes the revived numbers
+        run: |
+          set -eu
+          PKG=research/gmi-833-z-z15-decisive-falsifiers-v1
+          AMEND=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1_AMENDMENT_1.md" | tail -1)
+          RESULT=$(git log --format=%ct --diff-filter=A -- "$PKG/RESULT_V1.json" | tail -1)
+          if [ -z "$AMEND" ]; then echo "negative control: amendment not found in history"; exit 1; fi
+          if [ -z "$RESULT" ]; then echo "negative control: receipt not found in history"; exit 1; fi
+          if [ "$AMEND" -gt "$RESULT" ]; then echo "AMENDMENT POSTDATES THE RECEIPT"; exit 1; fi
+
+      - name: Workflow integrity
+        run: python3 -I -B research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: Route B oracle
+        run: python3 -I -B research/gmi-833-z-z15-decisive-falsifiers-v1/independent_falsifier_oracle_v1.py
+
+      - name: Route A falsifiers
+        run: python3 -I -B research/gmi-833-z-z15-decisive-falsifiers-v1/z15_decisive_falsifiers_v1.py
+
+      - name: Receipts are byte-stable
+        run: |
+          set -eu
+          git diff --exit-code -- research/gmi-833-z-z15-decisive-falsifiers-v1/RESULT_V1.json
+          git diff --exit-code -- research/gmi-833-z-z15-decisive-falsifiers-v1/ORACLE_RESULT_V1.json
+          git diff --exit-code -- research/gmi-833-z-z15-decisive-falsifiers-v1/FAILED_PREDICTION_REGISTER_V1.json
+
+      - name: Tests (normal mode)
+        run: python3 -I -B research/gmi-833-z-z15-decisive-falsifiers-v1/test_z15_decisive_falsifiers_v1.py -v
+
+      - name: Tests (optimized mode)
+        run: python3 -I -O -B research/gmi-833-z-z15-decisive-falsifiers-v1/test_z15_decisive_falsifiers_v1.py -v
+
+      - name: Verdict gate
+        run: |
+          set -eu
+          python3 -I -B - research/gmi-833-z-z15-decisive-falsifiers-v1/RESULT_V1.json <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              r = json.load(fh)
+          bad = [k for k, v in r["gates"].items() if not v]
+          if bad:
+              sys.exit("gates failed: %s" % bad)
+          if r["verdict"] != "GREEN":
+              sys.exit("verdict %s" % r["verdict"])
+          if r["null"]["F1PLUS_survived_undetected"] != 0:
+              sys.exit("F1+ is not decisive")
+          print("Z15 GREEN, gates:", len(r["gates"]))
+          PY

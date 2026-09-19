@@ -1,0 +1,38 @@
+name: gmi-833-h-family-requirement-ledger
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-h-family-requirement-ledger-v1/**'
+      - '.github/workflows/gmi-833-h-family-requirement-ledger.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-h-family-requirement-ledger-v1/**'
+      - '.github/workflows/gmi-833-h-family-requirement-ledger.yml'
+  workflow_dispatch:
+
+jobs:
+  ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show interpreter
+        run: python3 --version
+      - name: Run the executor
+        working-directory: research/gmi-833-h-family-requirement-ledger-v1
+        run: python3 -I -B h_family_requirement_ledger_v1.py
+      - name: Run the tests
+        working-directory: research/gmi-833-h-family-requirement-ledger-v1
+        run: python3 -I -O -B test_h_family_requirement_ledger_v1.py
+      - name: Committed receipts must match a fresh run
+        working-directory: research/gmi-833-h-family-requirement-ledger-v1
+        run: |
+          git diff --exit-code -- RESULT_V1.json LEDGER_V1.json
+      - name: No reconciliation artifact may appear in this package
+        working-directory: research/gmi-833-h-family-requirement-ledger-v1
+        run: |
+          if ls ISSUE_833_RECONCILIATION_* >/dev/null 2>&1; then
+            echo "this tranche must emit no reconciliation artifact"
+            exit 1
+          fi
+          echo "ok: no reconciliation artifact"

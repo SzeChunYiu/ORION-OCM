@@ -1,0 +1,71 @@
+{
+  "schema": "GMI_833_MANIFEST_V1",
+  "package": "gmi-833-ab-residual-definitions-v1",
+  "issue": 833,
+  "comment_id": 5684607872,
+  "rows": ["AB08", "AB25"],
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit_message": "research(#833): freeze gmi-833-ab-residual-definitions-v1 before implementation",
+  "claim_ceiling": "DECLARED_DEFINITION_ARTIFACT_V1",
+  "ab25_antecedent_declared_in_freeze": true,
+  "parent_pins": [
+    {
+      "path": "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md",
+      "blob_sha": "9f4d25a5f59cdf83f86bc484cda7efb46a8bc054",
+      "owns": "crosswalk row 40 (the six novelty-ladder level names and their order) and row 25 (the Rice citation)",
+      "claim_ceiling": "REGISTERED_TERMINOLOGY_AUDIT_VERIFIED_V1",
+      "measured_here": "names the six levels as a sequence and gives none of them a criterion, falsifier or demotion rule; cites Rice without subtracting him"
+    },
+    {
+      "path": "research/gmi-833-tranche-ab-ac-lit/WHAT_IS_ACTUALLY_NEW_TEMPLATE_V1.md",
+      "blob_sha": "e4f1116182d16e6e74f971510b0ef883aaf16d15",
+      "owns": "the six contribution kinds, a DIFFERENT axis deliberately not merged with the novelty ladder",
+      "claim_ceiling": "REGISTERED_TERMINOLOGY_AUDIT_VERIFIED_V1"
+    },
+    {
+      "path": "research/gmi-833-ab-terminology-harness-v1/AB_TERMINOLOGY_THEOREMS_V1.md",
+      "blob_sha": "7d43f04ae0b078263ba3ed2070fba2bbdd773c7b",
+      "owns": "the anti-invention guard pattern reused here",
+      "claim_ceiling": "REGISTERED_TERMINOLOGY_AUDIT_VERIFIED_V1"
+    }
+  ],
+  "external_parents": [
+    {"citation": "Rice, J. R., \"The algorithm selection problem\", Advances in Computers 15, 1976", "doi": "10.1016/S0065-2458(08)60520-3", "owns": "the four-space model and the selection mapping"},
+    {"citation": "Smith-Miles, K., \"Cross-disciplinary perspectives on meta-learning for algorithm selection\", ACM Computing Surveys 41(1), 2008", "doi": "10.1145/1456650.1456656", "owns": "the modern restatement of Rice's model"},
+    {"citation": "Wolpert, D. H. & Macready, W. G., \"No free lunch theorems for optimization\", IEEE TEC 1(1), 1997", "doi": "10.1109/4235.585893", "owns": "the impossibility of a uniformly best selector"},
+    {"citation": "Leroy, X., \"Formal verification of a realistic compiler\", CACM 52(7), 2009", "doi": "10.1145/1538788.1538814", "owns": "program-equivalence, the level-1 parent"},
+    {"citation": "Elsken, T., Metzen, J. H. & Hutter, F., \"Neural architecture search: a survey\", JMLR 20(55), 2019", "doi": null, "owns": "the architecture level"},
+    {"citation": "Lipton, Z. C. & Steinhardt, J., \"Troubling trends in machine learning scholarship\", Queue 17(1), 2019", "doi": "10.1145/3317287.3328534", "owns": "the ablation-as-mechanism-test caution"},
+    {"citation": "Telgarsky, M., \"Benefits of depth in neural networks\", COLT 2016; Vapnik & Chervonenkis 1971", "doi": null, "owns": "expressivity separations, the model-class level"},
+    {"citation": "Baker, T., Gill, J. & Solovay, R., \"Relativizations of the P =? NP question\", SIAM J. Comput. 4(4), 1975", "doi": "10.1137/0204037", "owns": "machine-model relativization, the actual parent of the paradigm level"},
+    {"citation": "Kuhn, T. S., The Structure of Scientific Revolutions, 1962", "doi": null, "owns": "the word 'paradigm' only; cited for provenance and explicitly NOT as a criterion"},
+    {"citation": "Pareto, V., Manuale di economia politica, 1906", "doi": null, "owns": "dominance, the capability-profile level"},
+    {"citation": "Nosek, B. A. et al., \"The preregistration revolution\", PNAS 115(11), 2018", "doi": "10.1073/pnas.1708274114", "owns": "the pre-registered evaluation set requirement"}
+  ],
+  "citation_verification_status": "EVERY citation above is CITE-TF: entered from field knowledge and NOT checked against a live source. AC05 is not earned.",
+  "forbidden_promotions": [
+    "GMI_IS_NOVEL_WRT_RICE",
+    "RICE_SUBSUMED",
+    "PARENT_EXHAUSTED",
+    "LADDER_APPLIED",
+    "CLAIM_IS_AT_LEVEL_N",
+    "ALL_PARENTS_EXHAUSTED",
+    "CITATIONS_VERIFIED",
+    "NOVELTY_ESTABLISHED",
+    "CORPUS_TERMINOLOGY_CLEAN",
+    "MIGRATION_COMPLETE",
+    "ANALYTIC_PROOF"
+  ],
+  "artifacts": {
+    "freeze": "FREEZE_V1.md",
+    "theorems": "AB_RESIDUAL_DEFINITIONS_THEOREMS_V1.md",
+    "ab08_artifact": "RICE_PARENT_SUBTRACTION_V1.md",
+    "ab25_artifact": "NOVELTY_LADDER_V1.md",
+    "route_a": "residual_definitions_v1.py",
+    "route_b": "independent_definitions_oracle_v1.py",
+    "tests": "test_residual_definitions_v1.py",
+    "receipt": "RESULT_V1.json",
+    "receipt_check": "check_receipt_v1.py",
+    "workflow": ".github/workflows/gmi-833-ab-residual-definitions-v1.yml"
+  }
+}
