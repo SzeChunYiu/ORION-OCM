@@ -1,0 +1,57 @@
+{
+  "schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1",
+  "schema_compat": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "comment_id": 5684607872,
+  "package": "gmi-833-aa-logical-form-register-v1",
+  "claim_ceiling": "LOGICAL_FORM_REGISTER_AND_REVIEW_QUEUE_V1",
+  "source_main": "b5193f32db01944774e9527b06e63dec2fac887d",
+  "receipt": "research/gmi-833-aa-logical-form-register-v1/RESULT_V1.json",
+  "coverage": "309/391 named results registered; every discriminator ran over the whole registered set; no line below reaches past it",
+  "forbidden_promotions": [
+    "AA_FALLACY_SWEEP_COMPLETE", "ALL_FALLACIES_DETECTED", "CORPUS_FREE_OF_FALLACY", "NO_CONFUSION_REMAINS",
+    "QUEUED_CLAIM_IS_FALSE", "UNQUEUED_CLAIM_IS_SOUND", "FORM_REGISTER_COMPLETE", "ALL_NAMED_RESULTS_REGISTERED",
+    "GRAMMAR_IS_COMPLETE", "PARSER_IS_SOUND", "EXTRAPOLATE_BEYOND_REGISTERED_SET", "WARRANT_IS_A_PROOF_CHECK",
+    "ROWS_AA23_AA28_AA29_AA30_AA32_AA34_AA35_AA36_EARNED"
+  ],
+  "rows_decided": {
+    "AA16": "POSITIVE",
+    "AA17": "POSITIVE",
+    "AA18": "POSITIVE",
+    "AA20": "POSITIVE",
+    "AA22": "POSITIVE"
+  },
+  "rows_not_decided": ["AA23", "AA28", "AA29", "AA30", "AA32", "AA34", "AA35", "AA36"],
+  "replacements": [
+    {
+      "row_id": "AA16",
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Search for quantifier-order mistakes (`forall/exists` swaps).",
+      "new": "- [x] Search for quantifier-order mistakes (`forall/exists` swaps). — ✅ `gmi-833-aa-logical-form-register-v1 LF-1+LF-2+LF-7`: a **logical-form register** (ordered quantifier prefix, `->`/`<->`/`and`/`or`/`not` matrix, necessary/sufficient roles, scope) now covers **309 of 391** named results of the frozen census population (271 by the frozen grammar, 38 by hand on a seeded sample; 82 `FORM_UNAVAILABLE` with reasons), and a **warrant** column read from bytes outside the statement gives AA16 its first registered discriminator: **5** forms carry a mixed prefix, **4** carry a warranted outermost quantifier (KF-4, ID-3, QS-1, LLS-3; CC-T2 refused `NO_WARRANT_BYTES`), stated and established order agree **4/4**, queue **0**. Planted prefix swaps are queued **4/4** and planted warrant flips **4/4**; own null **0/200**; two routes (route B a regex-free scanner) agree on **391/391** forms and every queue. Coverage is `309/391` and nothing is claimed past it; a queued object is a review item, never a refuted claim."
+    },
+    {
+      "row_id": "AA17",
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Search for converse/inverse fallacies.",
+      "new": "- [x] Search for converse/inverse fallacies. — ✅ `gmi-833-aa-logical-form-register-v1 LF-3+LF-7`: over the same 309-result register, **95** unmarked conditionals are applicable and **11** carry an aligned warrant (a proof's opening assumption, or a hand-read assumption anchored to the antecedent's content); direct and contrapositive proofs agree **11/11**, queue **0**. Planted converses (sides swapped) are queued **11/11** and planted inverses (both sides negated) **11/11**; **0** alarms on the **57**-object hand-verified clean set; own null **0/200**. A first-sentence lexical alignment tried before the receipt raised **6/6 false converse alarms** and was discarded — that inflation is the measured cost of a loose warrant. Routes agree by set equality; coverage `309/391`, evaluable `11/95`, never promoted past."
+    },
+    {
+      "row_id": "AA18",
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Search for necessity-vs-sufficiency confusion.",
+      "new": "- [x] Search for necessity-vs-sufficiency confusion. — ✅ `gmi-833-aa-logical-form-register-v1 LF-4+LF-7`: **57** role-marked conditionals and biconditionals are applicable, **10** carry an aligned warrant, **9** agree and **1** is queued — `DL-3`, an `iff` whose proof block proves the identity and argues neither direction of the equality case; the reader had marked it `QUEUE_EXPECTED` before the run, so real-data recall is **1/1** (a pointer to cite the equality-case parent, not a refutation). Planted `->`→`<->` promotions with a one-direction warrant are queued **12/12** and planted necessary/sufficient swaps **12/12**; **0** alarms on the 57-object clean set; own null **0/200**; two routes agree on the queue by set equality. Coverage `309/391`, evaluable `10/57`."
+    },
+    {
+      "row_id": "AA20",
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Search for optimality-vs-selection confusion.",
+      "new": "- [x] Search for optimality-vs-selection confusion. — ✅ `gmi-833-aa-logical-form-register-v1 LF-5+LF-7`: the register's atom relation classes make the row a metadata predicate (`OPT` atom × evidence mode, the FD-1 shape): **34** registered results assert optimality/minimality, **31** have a known non-protocol evidence mode, all **31** are warranted analytically, mechanically, exhaustively or by a finite certificate and **0** by a run search, queue **0**. Flipping each warrant to `EMPIRICAL_EXPERIMENT` is queued **31/31**; re-classing a run-warranted atom as `OPT` is queued **2/2**; routes agree. Disclosed: the row's **own** shuffled-evidence null is not beaten (**25/200** reach the true count) although the pooled null is (**0/200**, true 60 vs max 38) — the evidence column carries little object-specific signal for this row. Coverage `309/391`, evaluable `31/34`."
+    },
+    {
+      "row_id": "AA22",
+      "anchor": "### AA. Recursive loophole / logic-gap closure",
+      "old": "- [ ] Search for empirical-correlation-to-causal claims.",
+      "new": "- [x] Search for empirical-correlation-to-causal claims. — ✅ `gmi-833-aa-logical-form-register-v1 LF-6+LF-7`: `CAUSAL` atoms (`causes`, `do(`, `intervention`, …) are a registered field: **5** results assert a causal relation (EA-5, EA-6, DC-7, CL-5, EM-2), all **5** have a known evidence mode and none is an observational run without an interventional marker, queue **0**. Flipping each to `STATISTICAL_EXPERIMENT` (and stripping the interventional marker on the 4 that carry one) is queued **5/5**; routes agree. Disclosed: own null **72/200** not beaten (5 objects; pooled null 0/200). Coverage `309/391`, evaluable `5/5`; the row is closed as a validated search over the registered set, not as an absence claim over the corpus."
+    }
+  ]
+}
