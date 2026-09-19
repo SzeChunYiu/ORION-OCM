@@ -65,4 +65,11 @@ python3 -I -O -B research/gmi-833-aa-ledger-gate-v1/test_ledger_gate_v1.py
 python3 -I -B  research/gmi-833-aa-ledger-gate-v1/check_receipt_v1.py
 ```
 
-Stdlib only; every reported quantity is an `int` or an exact `Fraction`. 69 checks, both modes.
+Stdlib only; every reported quantity is an `int` or an exact `Fraction`. 82 checks, both modes.
+
+PR scope is one rule, `owned_paths_from_git`: on a merge checkout (a `pull_request`
+run) `HEAD^1..HEAD`; otherwise `merge-base(PR_BASE_SHA, HEAD)..HEAD`; otherwise
+repo-wide. The workflow reads it through `ledger_gate_v1.py --print-owned`; the
+test calls the function. `PR_BASE_SHA..HEAD` (two-dot) attributed every file main
+gained after the PR's last push to the PR and is kept only as the regression
+witness `stale_two_dot_paths`.

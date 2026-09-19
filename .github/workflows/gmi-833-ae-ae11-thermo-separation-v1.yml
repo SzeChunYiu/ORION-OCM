@@ -1,0 +1,313 @@
+name: GMI 833 AE11 thermo separation v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae11-thermo-separation-v1/**'
+      - '.github/workflows/gmi-833-ae-ae11-thermo-separation-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae11-thermo-separation-v1/**'
+      - '.github/workflows/gmi-833-ae-ae11-thermo-separation-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=68a5bcb7236d14f7c52421f9cd24bf443f37be99
+          pkg=research/gmi-833-ae-ae11-thermo-separation-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/PROSPECTIVE_REGISTER_V1.json" \
+            "$pkg/ae11_thermo_separation_v1.py" \
+            "$pkg/independent_thermo_oracle_v1.py" \
+            "$pkg/test_ae11_thermo_separation_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/CORE.md" \
+            "$pkg/AE11_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE11_THERMO_SEPARATION_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Register custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=68a5bcb7236d14f7c52421f9cd24bf443f37be99
+          register=db1fbc6efa5778c58a4fb31cc5408f01b8845a4a
+          pkg=research/gmi-833-ae-ae11-thermo-separation-v1
+          git cat-file -e "$register^{commit}"
+          git cat-file -e "$register:$pkg/PROSPECTIVE_REGISTER_V1.json"
+          git cat-file -e "$register:$pkg/FREEZE_V1.md"
+          # the freeze precedes the register, and the register precedes HEAD
+          git merge-base --is-ancestor "$freeze" "$register"
+          git merge-base --is-ancestor "$register" HEAD
+          for p in \
+            "$pkg/ae11_thermo_separation_v1.py" \
+            "$pkg/independent_thermo_oracle_v1.py" \
+            "$pkg/test_ae11_thermo_separation_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/AE11_THEOREMS_V1.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE11_THERMO_SEPARATION_V1.json"; do
+            if git cat-file -e "$register:$p" 2>/dev/null; then
+              echo "implementation blob already existed at the register commit: $p" >&2
+              exit 1
+            fi
+          done
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            if ! git cat-file -e "HEAD:$1" 2>/dev/null; then
+              echo "pinned parent path is absent on this ref: $1" >&2
+              exit 1
+            fi
+            actual="$(git rev-parse "HEAD:$1")"
+            if [ "$actual" != "$2" ]; then
+              echo "pinned parent blob moved: $1 is $actual, pinned $2" >&2
+              exit 1
+            fi
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+      - name: Executor, oracle and tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae11-thermo-separation-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_ae11_thermo_separation_v1.py" -v
+            python -I -O -B "$pkg/ae11_thermo_separation_v1.py" > /tmp/ae11.json
+            python -I -O -B "$pkg/independent_thermo_oracle_v1.py" > /tmp/ae11_oracle.json
+          else
+            python -I -B "$pkg/test_ae11_thermo_separation_v1.py" -v
+            python -I -B "$pkg/ae11_thermo_separation_v1.py" > /tmp/ae11.json
+            python -I -B "$pkg/independent_thermo_oracle_v1.py" > /tmp/ae11_oracle.json
+          fi
+          cmp /tmp/ae11.json "$pkg/RESULT_V1.json"
+      - name: Check manifest, claim ceiling and named numbers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from fractions import Fraction as F
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae11-thermo-separation-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text(encoding='utf-8'))
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          reg = json.loads((root / 'PROSPECTIVE_REGISTER_V1.json').read_text())
+          expected = ('GMI_833_AE11_FOUR_ENTROPY_NOTIONS_SEPARATED_AND_LANDAUER_'
+                      'SCOPE_AUDITED_WITHOUT_ANY_ENERGY_MEASUREMENT')
+          assert m['claim_ceiling'] == r['claim_ceiling'] == expected
+          assert m['source_main'] == r['source_main'] == (
+              '0dcdec54fbece041ee2b7cd1f630469ad85d19d3')
+          assert m['freeze_commit'] == r['freeze_commit'] == (
+              '68a5bcb7236d14f7c52421f9cd24bf443f37be99')
+          assert m['register_commit'] == r['register_commit'] == (
+              'db1fbc6efa5778c58a4fb31cc5408f01b8845a4a')
+          assert m['register_digest'] == r['register_digest_sha256'] == (
+              reg['self_digest_sha256'])
+          assert r['issue'] == 833 and r['issue_comment_id'] == 5692689542
+          assert r['verdict'] == 'GREEN' and all(r['checks'].values())
+          assert len(r['checks']) == 32
+          assert m['theorems'] == r['theorems'] == [
+              'AE11-1', 'AE11-2', 'AE11-3', 'AE11-4', 'AE11-5', 'AE11-6', 'AE11-7']
+
+          res = r['results']
+          # row 1 -- the census
+          assert res['census_summary']['witnessed'] == 12
+          assert res['census_summary']['unwitnessed'] == []
+          assert res['census_summary']['derived_witnesses'] == 2
+          assert res['census_summary']['registered_independent_witnesses'] == 10
+          # row 1 -- the classic witness and the frozen machine
+          assert res['classic_witness']['H_shannon_bits'] == '6'
+          assert res['complexity_table']['K_U_histogram'] == {
+              '11': 2, '13': 6, '14': 56}
+          assert res['complexity_table']['K_U_min'] == 11
+          assert res['complexity_table']['K_U_max'] == 14
+          assert res['complexity_table']['strings_over_cap'] == 0
+          assert res['complexity_table']['lexicographically_least_at_max'] == '000010'
+          assert res['machine']['instruction_kraft_sum'] == '1'
+          assert res['machine']['program_kraft_sum_up_to_cap'] == '67/128'
+          # row 2 -- the resource registry
+          rs = res['resource_registry_summary']
+          assert rs['total'] == 24
+          assert rs['logical_computational'] == 12
+          assert rs['physical_energetic_declared'] == 12
+          assert rs['physical_energetic_instantiated'] == 0
+          assert rs['instantiated_physical_resources'] == []
+          # rows 3 and 5 -- erased bits, devices, scope
+          erased = dict((x['id'], x['erased_bits']) for x in res['maps'])
+          assert erased == {'F_AND': 1, 'F_BIJECTION': 0,
+                            'F_ERASE1': 1, 'F_ERASE2': 2}
+          ni = dict((x['map'], x) for x in res['non_inference']['per_map'])
+          assert res['non_inference']['holds_for_every_map'] is True
+          assert ni['F_ERASE2']['total_ops_low'] == 2
+          assert ni['F_ERASE2']['total_ops_high'] == 7
+          assert all(x['operation_count_gap'] == 5 for x in ni.values())
+          assert all(x['erased_bits_equal'] for x in ni.values())
+          assert res['correct_scope']['bijection']['erased_bits'] == 0
+          assert res['correct_scope']['bijection']['registered_total_ops'] == 1
+          assert res['correct_scope']['many_to_one']['erased_bits'] == 2
+          and_row = [x for x in res['maps'] if x['id'] == 'F_AND'][0]
+          assert and_row['drop_bits'] == 'NOT_DECIDED'
+          assert and_row['drop_bracket']['lower'] == '19/16'
+          assert and_row['drop_bracket']['upper'] == '6/5'
+          assert and_row['largest_preimage_size'] == 3
+          assert and_row['log2_largest_preimage'] == 'NOT_A_POWER_OF_TWO'
+          assert F(and_row['drop_bracket']['lower']) > F(and_row['erased_bits'])
+          assert len(res['landauer_assumptions']) == 4
+          # row 4 -- physical systems and the driven-system gate
+          gate = res['nonequilibrium_gate']
+          assert gate['registered_physical_systems'] == 0
+          assert gate['clean_roster_hits'] == []
+          assert gate['no_alarm_holds'] is True
+          assert gate['planted_fixture_flagged'] is True
+          assert len(gate['planted_fixture_hits']) == 3
+          assert len(gate['frozen_terms']) == 10
+          # bounds
+          assert len(r['bounds']) == 16
+          vac = sorted(b['id'] for b in r['bounds'] if b['vacuous'])
+          assert vac == ['B_DROP__F_BIJECTION', 'B_GIBBS__R_PROCESS_B',
+                         'B_GIBBS__R_UNIFORM_BLOCK', 'B_LANDAUER__F_BIJECTION']
+          assert sorted(b['id'] for b in r['bounds']
+                        if b['status'] == 'UNFALSIFIED_BOUND') == vac
+          assert sum(1 for b in r['bounds'] if b['used_for_closure']) == 12
+          for b in r['bounds']:
+              if b['vacuous'] or b['violated_by'] is None:
+                  assert b['used_for_closure'] is False, b['id']
+              lo, hi, val = F(b['range_lo']), F(b['range_hi']), F(b['bound_value'])
+              want = (val >= hi) if b['kind'] == 'upper' else (val <= lo)
+              assert b['vacuous'] == want, b['id']
+          # hostiles: potency then detection
+          assert len(r['hostiles']) == 5
+          assert sorted(h['name'] for h in r['hostiles']) == sorted(
+              h['name'] for h in reg['hostiles'])
+          for h in r['hostiles']:
+              assert h['true_value'] != h['perturbed_value'], h['name']
+              assert h['potent'] is True and h['detected'] is True, h['name']
+          # null
+          n = r['null']
+          assert n['trials'] == 200
+          assert n['largest_null_witnessed_pairs'] == 6
+          assert n['trials_reaching_all_twelve'] == 0
+          assert n['witness_witnessed_pairs'] == 12
+          assert n['witness_exceeds_largest_null'] is True
+          assert n['no_alarm_holds'] is True
+          assert n['histogram'] == {'5': 6, '6': 194}
+          assert sum(n['histogram'].values()) == 200
+          # every registered prediction reported
+          assert sorted(p['id'] for p in r['prospective_predictions']) == sorted(
+              p['id'] for p in reg['prospective_predictions'])
+          for p in r['prospective_predictions']:
+              assert p['status'] in ('CONFIRMED', 'REFUTED')
+          assert all(p['status'] == 'CONFIRMED'
+                     for p in r['prospective_predictions'])
+          # no float anywhere in the receipt
+          def has_float(o):
+              if isinstance(o, float):
+                  return True
+              if isinstance(o, dict):
+                  return any(has_float(k) or has_float(v) for k, v in o.items())
+              if isinstance(o, list):
+                  return any(has_float(v) for v in o)
+              return False
+          assert not has_float(r)
+          assert r['rows_closed'] == 5 and r['rows_left_open'] == 3
+          assert len(m['rows_left_open']) == 3
+          for row in m['rows_left_open']:
+              assert len(row['instrument_required']) > 40
+          print('AE11 manifest and named numbers OK')
+          PY
+      - name: Check reconciliation rows are byte-exact and unique
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae11-thermo-separation-v1')
+          spec = json.loads((
+              root /
+              'ISSUE_833_RECONCILIATION_AE11_THERMO_SEPARATION_V1.json'
+          ).read_text(encoding='utf-8'))
+          assert spec['schema'] == 'GMI_ISSUE_RECONCILIATION_V2'
+          assert spec['issue'] == 833
+          assert spec['issue_comment_id'] == 5692689542
+          assert spec['package'] == 'gmi-833-ae-ae11-thermo-separation-v1'
+          assert len(spec['replacements']) == 5
+          assert len(spec['not_closed']) == 3
+          seen = set()
+          for rep in spec['replacements']:
+              assert rep['anchor'] == (
+                  '### AE11 — Thermodynamics and physical information processing')
+              assert rep['old'].startswith('- [ ] ')
+              assert rep['new'].startswith('- [x] ')
+              assert rep['new'][6:].startswith(rep['old'][6:])
+              assert ' — ✅ `gmi-833-ae-ae11-thermo-separation-v1` ' in rep['new']
+              assert rep['old'] not in seen
+              seen.add(rep['old'])
+          for row in spec['not_closed']:
+              assert row['old'].startswith('- [ ] ')
+              assert row['status'] == 'OPEN'
+              assert len(row['instrument_required']) > 40
+              assert row['old'] not in seen
+              seen.add(row['old'])
+          print('AE11 reconciliation spec OK')
+          PY
+      - name: Terminology and ledger gates on the new markdown
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import glob
+          import importlib.util
+          spec = importlib.util.spec_from_file_location(
+              "g", "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py")
+          mod = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+          files = sorted(glob.glob(
+              "research/gmi-833-ae-ae11-thermo-separation-v1/*.md"))
+          hits = mod.scan_paths(files, context="paper-facing")
+          for h in hits:
+              print(h["file"], h["term"], h.get("text", "")[:120])
+          assert not hits, "%d banned-term hits" % len(hits)
+          print("terminology gate OK")
+          PY
+          printf '%s\n' research/gmi-833-ae-ae11-thermo-separation-v1/*.md > /tmp/ae11_owned.txt
+          python -I -B research/gmi-833-aa-ledger-gate-v1/ledger_gate_v1.py \
+            --gate --owned-files /tmp/ae11_owned.txt > /tmp/ae11_ledger.json
+          python -I -B - <<'PY'
+          import json
+          rep = json.load(open('/tmp/ae11_ledger.json'))
+          assert rep['passed'] is True, rep['violations']
+          assert rep['regressions'] == 0
+          print('ledger gate OK')
+          PY
