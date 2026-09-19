@@ -1,0 +1,38 @@
+name: gmi-1068-r8-civilization-blind-neural-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r8-civilization-blind-neural-v1/**'
+      - '.github/workflows/gmi-1068-r8-civilization-blind-neural-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=50c6a8a5ec49eb46e9a40e7c005a358ef173d5fe
+          P=research/gmi-1068-r8-civilization-blind-neural-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Causal lane and denylist
+        run: |
+          python3 -I -B research/gmi-1068-r8-civilization-blind-neural-v1/causal_derivation_v1.py >/tmp/causal.json
+          python3 -I -B research/gmi-1068-r8-civilization-blind-neural-v1/check_r8.py >/tmp/check.json
+          python3 -I -O -B research/gmi-1068-r8-civilization-blind-neural-v1/check_r8.py >/tmp/check_opt.json
+      - name: Independent source-separated oracle
+        run: |
+          python3 -I -B research/gmi-1068-r8-civilization-blind-neural-v1/independent_oracle_v1.py >/tmp/oracle.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open('/tmp/check.json'));b=json.load(open('/tmp/oracle.json'))
+          assert a['counts']['worlds']==b['worlds']==375
+          assert [a['counts']['k0'],a['counts']['k1'],a['counts']['k2']]==b['jump_distribution']
+          assert a['winners_S_ARITH']==b['winners_S_ARITH']
+          assert a['winners_S_BRANCH']==b['winners_S_BRANCH']
+          assert a['substrate_inversions']==b['substrate_inversions']==360
+          PY
