@@ -1,0 +1,93 @@
+name: GMI 833 census registration pass (sourced propagation register)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-census-registration-pass-v1/**'
+      - 'research/gmi-833-corpus-census-v1/**'
+      - 'research/gmi-833-maturity-rescore-v2-v1/THEOREM_SCORES_V2.json'
+      - 'research/gmi-833-maturity-rescore-v3-w4-v1/SCORES_V3_DELTA.json'
+      - 'research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json'
+      - 'research/gmi-833-depgraph-adjudication-v1/DEPENDENCY_GRAPH_V2.json'
+      - 'research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json'
+      - '.github/workflows/gmi-833-census-registration-pass-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-census-registration-pass-v1/**'
+      - 'research/gmi-833-corpus-census-v1/**'
+      - 'research/gmi-833-maturity-rescore-v2-v1/THEOREM_SCORES_V2.json'
+      - 'research/gmi-833-maturity-rescore-v3-w4-v1/SCORES_V3_DELTA.json'
+      - 'research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json'
+      - 'research/gmi-833-depgraph-adjudication-v1/DEPENDENCY_GRAPH_V2.json'
+      - 'research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json'
+      - '.github/workflows/gmi-833-census-registration-pass-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  census-registration-pass:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-census-registration-pass-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
+          cat /tmp/firstfiles.txt
+          if [ "$(grep -c . /tmp/firstfiles.txt)" = "1" ]; then
+            grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+            echo 'freeze-first commit ordering intact'
+          else
+            grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+      - name: Frozen census untouched (theory-baseline pins)
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json)" = 709159c53c6284366aaf1f05380f5fada8d81a98
+          test "$(git rev-parse HEAD:research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json)" = 61006b756721c748f8dcc797c755abd25cc42956
+          echo 'census blobs match the freeze pins'
+      - name: Route A pass (writes the register delta, gap graph v2, decidability, refusals)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/registration_pass_v1.py" | tee /tmp/crp_routeA.json
+          git diff --exit-code --stat -- "$PKG/REGISTER_DELTA_V1.json" "$PKG/GAP_GRAPH_V2.json" "$PKG/DECIDABILITY_V1.json" "$PKG/REFUSALS_V1.json"
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_registration_oracle_v1.py" | tee /tmp/crp_routeB.json
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_registration_pass_v1.py" 2>&1 | tee /tmp/crp_tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_registration_pass_v1.py" 2>&1 | tee /tmp/crp_tests-O.txt
+      - name: Receipt matches the live two-route run
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-census-registration-pass-v1
+          path: |
+            /tmp/crp_routeA.json
+            /tmp/crp_routeB.json
+            /tmp/crp_tests.txt
+            /tmp/crp_tests-O.txt
+          if-no-files-found: error
