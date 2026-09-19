@@ -1,0 +1,177 @@
+{
+  "schema": "GMI_833_MANIFEST_V1",
+  "package": "gmi-833-census-registration-pass-v1",
+  "issue": 833,
+  "comment_id": 5684607872,
+  "rows": [],
+  "closes_issue_rows": [],
+  "produces_reconciliation_json": "ISSUE_833_RECONCILIATION_CENSUS_REGISTRATION_V1.json (empty replacements list)",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "freeze_commit": "f54471b8a63865d06b5e3316c4be5433b1b8a552",
+  "freeze_commit_message": "research(#833): freeze gmi-833-census-registration-pass-v1 before implementation",
+  "freeze_custody": "committed alone; the freeze commit's tree contains exactly one file of this package. Re-checked by test_registration_pass_v1.py::TestCustody and by the package CI workflow.",
+  "claim_ceiling": "SOURCED_PROPAGATION_REGISTER_V1",
+  "supersedes_by_reference": [
+    {"artifact": "research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json", "by": "REGISTER_DELTA_V1.json", "edited_in_place": false},
+    {"artifact": "research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json", "by": "GAP_GRAPH_V2.json", "edited_in_place": false}
+  ],
+  "parent_pins": [
+    {
+      "path": "research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json",
+      "blob_sha": "709159c53c6284366aaf1f05380f5fada8d81a98",
+      "owns": "the 22553-object corpus, the object schema and every field name populated here",
+      "claim_ceiling": "GMI_CORPUS_CENSUS_AND_DEPENDENCY_AUDIT_AT_FROZEN_MAIN_SCOPE",
+      "role": "SUPERSEDED_BY_REFERENCE"
+    },
+    {
+      "path": "research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json",
+      "blob_sha": "61006b756721c748f8dcc797c755abd25cc42956",
+      "owns": "the 1140 gap records and their nine AA01 fields",
+      "claim_ceiling": "GMI_CORPUS_CENSUS_AND_DEPENDENCY_AUDIT_AT_FROZEN_MAIN_SCOPE",
+      "role": "SUPERSEDED_BY_REFERENCE"
+    },
+    {
+      "path": "research/gmi-833-corpus-census-v1/DEPENDENCY_GRAPH_V1.json",
+      "blob_sha": "3371b3b48a3460cb667d237c3fb642ef783a1e88",
+      "owns": "the census's own (empty) claim_dependency_edges; the emptiness this package fills from #949",
+      "claim_ceiling": "GMI_CORPUS_CENSUS_AND_DEPENDENCY_AUDIT_AT_FROZEN_MAIN_SCOPE",
+      "role": "BASELINE"
+    },
+    {
+      "path": "research/gmi-833-corpus-census-v1/corpus_census_v1.py",
+      "blob_sha": "e35f1ae92ea9d140675e01750252dca0a36d2b6e",
+      "owns": "the object extraction and the field defaults (UNKNOWN / empty lists) this register supersedes",
+      "claim_ceiling": "GMI_CORPUS_CENSUS_AND_DEPENDENCY_AUDIT_AT_FROZEN_MAIN_SCOPE",
+      "role": "SCHEMA_AUTHORITY"
+    },
+    {
+      "path": "research/gmi-833-maturity-rescore-v2-v1/THEOREM_SCORES_V2.json",
+      "blob_sha": "0cfca31894960e24c1c12bb7bf05f9e13e63f4aa",
+      "owns": "every maturity_M / evidence_EV placement copied here (197 rows; 173 bound)",
+      "claim_ceiling": "PR #938 / #948 rescore; corrected by delta only",
+      "role": "VALUE_AUTHORITY"
+    },
+    {
+      "path": "research/gmi-833-maturity-rescore-v3-w4-v1/SCORES_V3_DELTA.json",
+      "blob_sha": "d8f6d02ecb61b83c20a10c5fe0fab67fbcfd5493",
+      "owns": "the W4-C correction (M4/EV3 -> M2/EV2) and the supersede-by-reference convention",
+      "claim_ceiling": "AUDIT_RELABEL_ONLY",
+      "role": "VALUE_AUTHORITY_AND_CONVENTION_PRECEDENT"
+    },
+    {
+      "path": "research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json",
+      "blob_sha": "66c3b7e4ef91e096f0ece2720af4645bebe75238",
+      "owns": "the 235 registered ledgers (assumptions, falsifiers, forbidden_extrapolations, strongest_parents, scope_quantifiers); 173 bound",
+      "claim_ceiling": "GMI833_CLAIM_DISCIPLINE_REGISTRATIONS_V2",
+      "role": "VALUE_AUTHORITY"
+    },
+    {
+      "path": "research/gmi-833-depgraph-adjudication-v1/DEPENDENCY_GRAPH_V2.json",
+      "blob_sha": "41174e0557ac4fa721412e1afc06c72163c34f94",
+      "owns": "the 357 cited edges of PR #949, their layer semantics and review overrides; 153 file_local/pointer_rollup records resolved, 12 refused",
+      "claim_ceiling": "GMI_833_DEPENDENCY_GRAPH_V2_AT_MINED_SCOPE",
+      "role": "VALUE_AUTHORITY"
+    },
+    {
+      "path": "research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json",
+      "blob_sha": "9050c2e01e44347aa2b19710286890be1a5eb21d",
+      "owns": "the severity / evidence / scope ranks and the four materiality grades",
+      "claim_ceiling": "FINITE_EXACT_GOVERNANCE_INSTRUMENT_V1",
+      "role": "RULE_AUTHORITY"
+    },
+    {
+      "path": "research/gmi-833-aa-gap-object-v1/RESULT_V1.json",
+      "blob_sha": "e857a82fe9c30af6466e3be258c724e76c39422c",
+      "owns": "AAG-3: the monotone threshold and the 847/293 partition this package must reproduce",
+      "claim_ceiling": "FINITE_EXACT_GOVERNANCE_INSTRUMENT_V1",
+      "role": "RULE_AUTHORITY"
+    },
+    {
+      "path": "research/gmi-833-aa-fallacy-detectors-v1/RESULT_V1.json",
+      "blob_sha": "ed4045e835ea7b980bb3b04ced00132e4130e830",
+      "owns": "the measured emptiness of the five list fields and the two UNKNOWN level fields on all 22553 objects; the 3-of-22 decidability baseline",
+      "claim_ceiling": "VALIDATED_REVIEW_QUEUE_DETECTOR_V1",
+      "role": "FINDING_THIS_PACKAGE_ANSWERS"
+    },
+    {
+      "path": "research/gmi-833-aa-ledger-gate-v1/ledger_gate_v1.py",
+      "blob_sha": "96c184bf270c05bf178cd19402c1dddf5d5a426b",
+      "owns": "the ledger emission predicate the theorem note of this package satisfies",
+      "claim_ceiling": "RATCHETED_LEDGER_EMISSION_GATE_V1",
+      "role": "GATE"
+    }
+  ],
+  "external_parents": [
+    {"citation": "Fellegi, I. P. & Sunter, A. B., \"A theory for record linkage\", JASA 64(328), 1969", "doi": "10.1080/01621459.1969.10501049", "owns": "exact-key versus similarity record linkage; rule B1/B2 sits on the strict side"},
+    {"citation": "Buneman, P., Khanna, S. & Tan, W.-C., \"Why and where: a characterization of data provenance\", ICDT 2001", "doi": "10.1007/3-540-44503-X_20", "owns": "per-cell provenance pointers"}
+  ],
+  "citation_verification_status": "EVERY external parent is CITE-TF: entered from field knowledge and NOT checked against a live source. AC05 is not earned.",
+  "routes": {
+    "A": "registration_pass_v1.py -- per-row candidate filtering; partition() citations; depth-first descendant closure; sum-and-bucket grade",
+    "B": "independent_registration_oracle_v1.py -- imports nothing from A; linear (package,id) tables; '_'-split id forms; regex citations; fixed-point descendant closure; 256-entry grade lookup",
+    "agreement": "set / dict equality on bound rows, rules, levels, ledger keys and contents, dependency edges, by-name edges, strongest-parent edges, refused edges, descendants (direct and closed), per-gap grades, populated record count"
+  },
+  "hostiles_detected": [
+    "H1 pointer to a result_id absent from the scores file",
+    "H2 pointer to a real result_id whose placement differs from the written value",
+    "H3 similarity plants: real id + _V2, and a strict prefix of a real id -- both refused",
+    "H4 orphan v3 delta record -- refused, counts unchanged",
+    "H5 duplicated census object -- loader aborts",
+    "H6 ambiguous child edges: the real FAC-CTW and CAU-1 records refused; fixture with two objects at one line refused",
+    "H7 grade table dipping to IMMATERIAL at index 7 -- 136 monotonicity violations",
+    "H8 register key with no dependencies planted as a descendant -- flagged"
+  ],
+  "no_alarm_cases": [
+    "pointer verifier: 0 findings over 1895 pointers on the real register",
+    "descendant verifier: 0 findings over 62 entries on the real graph",
+    "binder: 0 refusals over the 173 real legacy rows; loose prefix variant adds 0",
+    "grade table: 0 monotonicity violations over 256 points / 768 comparisons"
+  ],
+  "null": {
+    "design": "200 seeded permutations of the package column over the 197 scored rows, re-bound under B1/B2",
+    "seed": 8330833,
+    "true_bound_rows": 173,
+    "permuted_min": 42,
+    "permuted_max": 69,
+    "permuted_mean": "11787/200",
+    "draws_at_or_above_true": 0,
+    "suffix_null": "random suffix on every result_id and theorem_name binds 0 in all 200 draws; a construction guarantee, not evidence of selectivity"
+  },
+  "forbidden_promotions": [
+    "CENSUS_FULLY_REGISTERED",
+    "ALL_OBJECTS_SCORED",
+    "ALL_PARENTS_EXHAUSTED",
+    "DEPENDENCY_GRAPH_COMPLETE",
+    "GMI_GAP_GRAPH_COMPLETE",
+    "ISOLATED_GAP_IS_LEAF",
+    "UNREGISTERED_MEANS_NONE",
+    "POPULATED_MEANS_VERIFIED",
+    "AA_ROW_EARNED",
+    "RECURSION_EXHAUSTED",
+    "ANALYTIC_PROOF",
+    "M4_RESTORED_TO_W4_PARENT"
+  ],
+  "artifacts": {
+    "freeze": "FREEZE_V1.md",
+    "theorems": "CENSUS_REGISTRATION_THEOREMS_V1.md",
+    "route_a": "registration_pass_v1.py",
+    "route_b": "independent_registration_oracle_v1.py",
+    "tests": "test_registration_pass_v1.py",
+    "receipt": "RESULT_V1.json",
+    "oracle_receipt": "ORACLE_RESULT_V1.json",
+    "receipt_check": "check_receipt_v1.py",
+    "register_delta": "REGISTER_DELTA_V1.json",
+    "gap_graph_v2": "GAP_GRAPH_V2.json",
+    "decidability": "DECIDABILITY_V1.json",
+    "refusals": "REFUSALS_V1.json",
+    "handcheck": "HANDCHECK_V1.md",
+    "reconciliation": "ISSUE_833_RECONCILIATION_CENSUS_REGISTRATION_V1.json",
+    "workflow": ".github/workflows/gmi-833-census-registration-pass-v1.yml"
+  },
+  "disclosures": [
+    "The binding rules were fixed after a read-only look at the input shapes (key names, id forms, layer names) and before any value was written; FREEZE_V1.md section 5 says so.",
+    "Several bound objects are the scoring lane's own identities for prose or manifest lines (e.g. GMI833_V2_LEGACY_001_V0.2 binds a prose line; two B2 rows bind a manifest line and a JSON ledger line). The placement is copied faithfully; the identity is the scoring lane's, not this package's.",
+    "The 40 by-name parents copied from #949 include strings lifted verbatim from prose (a section reference, a file path). They are kept out of claim_dependencies and are not claimed to be parents in any stronger sense.",
+    "Registered ledger content is copied as extracted by the claim-discipline lane; some EXTRACTED entries are thin (e.g. a table caption line). This package does not grade ledger quality."
+  ]
+}

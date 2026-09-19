@@ -1,0 +1,76 @@
+{
+  "schema": "GMI_833_ORCHESTRATOR_VERIFICATION_V1",
+  "purpose": "Independent re-execution of load-bearing claims by the orchestrating lane, on a host other than the one that produced them, recorded with scope so the verification has a stated shelf life instead of living only in a conversation.",
+  "host": "laptop-billy (Linux, CPython 3.8.10), never the Mac",
+  "method": "git archive <branch> <package> | tar -x on the host; run every non-test .py under python3 -I -B and the test file under -I -O -B; read the regenerated RESULT_V1.json fields directly. No package file edited.",
+  "verifications": [
+    {
+      "id": "V1",
+      "claim": "The repaired boundary law lambda* = eta*p*R0 is exact on every registered world; the retired lambda* = eta*p/2 fails on skewed-input worlds; the repaired law is indistinguishable at the property-class readout from the seven declared cost parents.",
+      "package": "research/gmi-833-z-z6-discrimination-v1",
+      "branch": "research/833-sec-z3",
+      "branch_head": "c45c9c96f63d27ad9f381df70fe0a4df8cc3a0c2",
+      "merged_pr": 1039,
+      "date_utc": "2026-09-19",
+      "observed": {
+        "executor_rc": 0,
+        "oracle_rc": 0,
+        "D7_repaired_law_correct_on_every_E_SKEW_world": true,
+        "D6_GMI_incorrect_on_some_E_SKEW_world": true,
+        "D12_repaired_law_R1_equivalent_to_declared_cost_parents": true,
+        "GMI_REPAIRED.first_misses": [],
+        "T01_GMI.first_misses[0]": {
+          "family": "E-SKEW",
+          "p": "2/5",
+          "lam": "2/25",
+          "eta": "1"
+        },
+        "note": "the retired law's first miss is the witness the lane reported (q=1/5, p=2/5)"
+      },
+      "outcome": "CONFIRMED",
+      "scope": "as registered by the package; this is a re-execution, not independent replication (same code, different host) - it licenses reproducibility, never M5"
+    },
+    {
+      "id": "V2",
+      "claim": "IC-1: thresholds are marginal error masses - supporting slopes of the lower convex envelope - never levels; scores 135/135 on the ladder; the unique perfect law in the swept family.",
+      "package": "research/gmi-833-z-z1-master-principle-v1",
+      "branch": "research/833-sec-z4",
+      "branch_head": "cab5058d00decc1c3ce6a076e3e0ec0bca49ef3c",
+      "merged_pr": null,
+      "open_pr": 1052,
+      "date_utc": "2026-09-19",
+      "observed": {
+        "route_a_rc": 0,
+        "route_b_rc": 0,
+        "tests_-O": "OK",
+        "head_to_head.IC_1_on_ladder": "135/135",
+        "head_to_head.Z13P1_two_price_ladder_on_ladder": "27/135",
+        "null.ladder_laws_scoring_perfect": [
+          [
+            "1/2",
+            "3/16"
+          ]
+        ],
+        "null.IC_1_ladder_coefficients": [
+          "1/2",
+          "3/16"
+        ],
+        "hostiles.level_instead_of_marginal": {
+          "detected": true,
+          "level": "5/16",
+          "marginal": "3/16"
+        },
+        "IC_1d_ladder.envelope_vs_interval_disagreements": 0,
+        "self_disclosed_vacuity": "head_to_head.IC_1_two_level = 297/297 TAUTOLOGICAL_AT_TWO_LEVELS - at two levels marginal and level coincide; the package labels this itself"
+      },
+      "outcome": "CONFIRMED",
+      "scope": "same as V1 - re-execution on a second host, not replication"
+    }
+  ],
+  "why_these_two": "Three lanes (Z8/Z11, Z17, Z13->Z16) were building on the repaired law and on IC-1 concurrently. If either were wrong they would be building on sand. Verified before letting them run further.",
+  "forbidden_promotions": [
+    "INDEPENDENT_TEAM_REPLICATION",
+    "M5",
+    "VERIFIED_IMPLIES_UNIVERSAL"
+  ]
+}
