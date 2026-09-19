@@ -1,0 +1,27 @@
+name: gmi-1068-r15-hostile-recursive-closure-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r*-*/**'
+      - '.github/workflows/gmi-1068-r15-hostile-recursive-closure-v1.yml'
+jobs:
+  hostile-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=67fec8cb3a56422aab52f9a3b1ad67c96ff4c223
+          P=research/gmi-1068-r15-hostile-recursive-closure-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Structural hostile route
+        run: python3 -I -B research/gmi-1068-r15-hostile-recursive-closure-v1/structural_static_audit_v1.py
+      - name: Structural hostile route optimized
+        run: python3 -I -O -B research/gmi-1068-r15-hostile-recursive-closure-v1/structural_static_audit_v1.py
+      - name: Independent mutation route
+        run: python3 -I -B research/gmi-1068-r15-hostile-recursive-closure-v1/mutation_oracle_v1.py
