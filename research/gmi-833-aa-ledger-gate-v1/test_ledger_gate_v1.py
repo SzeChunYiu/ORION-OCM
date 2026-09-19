@@ -286,7 +286,7 @@ def test_gate_can_fail():
 
 
 def _owned_paths():
-    """Theorem notes this branch actually added or changed, or None off-PR.
+    """Theorem notes this change actually added or changed, or None off-PR.
 
     `gate(owned=None)` enforces over the whole repository. That is right on push
     to main and wrong in a unit test: it fails this branch for theorem notes
@@ -294,26 +294,176 @@ def _owned_paths():
     for five AG5 results it never touched. The gate's own code says why this
     matters: "A gate that fires on work you did not do is a gate that gets
     switched off."
+
+    The scope rule lives in ONE place, `A.owned_paths_from_git`, and the
+    workflow reads the same rule through `--print-owned`. This test used to
+    compute `PR_BASE_SHA..HEAD` on its own while the workflow computed
+    `origin/<base>...HEAD`; the two disagreed, and the two-dot form attributed
+    every file main gained after the PR's last push to the PR (a ledger-mirror
+    fix was failed for a Z2 theorem note another lane merged). The mechanism
+    test below rebuilds that topology in a scratch repository and keeps the
+    stale rule's wrong answer as the regression witness.
     """
-    # Use the EXACT base sha GitHub provides, not origin/<ref>.
-    #
-    # In a pull_request checkout HEAD is a merge ref and `origin/<base>` is not
-    # a reliable anchor: the three-dot diff then reports files the branch never
-    # authored. It did exactly that here, attributing five AG5 theorem results
-    # to a branch that only edited a test file, while correctly reporting its
-    # scope as "PR diff". A scoped gate that scopes to the wrong set is worse
-    # than an unscoped one, because the label says it is safe.
-    base_sha = os.environ.get("PR_BASE_SHA") or ""
-    if not base_sha:
-        return None
+    return A.owned_paths_from_git()
+
+
+# ---------------------------------------------------------------------------
+# The scope rule, on a scratch repository with the exact topology that failed.
+# ---------------------------------------------------------------------------
+GIT = "/usr/bin/git" if os.path.exists("/usr/bin/git") else "git"
+
+NEW_NOTE_BAD = """# X theorem note
+
+## XN-1 - a new result that omits every ledger
+
+**Statement.** Something.
+"""
+
+
+def _git(repo, *args):
+    env = dict(os.environ)
+    env.update({"GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@x",
+                "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@x",
+                "GIT_CONFIG_NOSYSTEM": "1", "HOME": str(repo)})
+    proc = subprocess.run([GIT, "-C", str(repo)] + list(args),
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+    if proc.returncode != 0:
+        raise RuntimeError("git %s failed: %s" % (args, proc.stderr.decode("utf-8", "replace")))
+    return proc.stdout.decode("utf-8", "replace")
+
+
+def _scratch_repo(tmp, branch_adds):
+    """base --(main)--> +Y.md
+         `--(branch)--> +<branch_adds>   then merge(main, branch) = HEAD.
+
+    Returns (repo, base_sha). `base_sha` plays the part of
+    `github.event.pull_request.base.sha`: the base tip when the branch was
+    cut, which is STALE once main advances.
+    """
+    repo = Path(tmp) / "repo"
+    repo.mkdir()
+    _git(repo, "init", "-q", "-b", "main")
+    (repo / "README.md").write_text("base\n", encoding="utf-8")
+    _git(repo, "add", "README.md")
+    _git(repo, "commit", "-q", "-m", "base")
+    base_sha = _git(repo, "rev-parse", "HEAD").strip()
+    _git(repo, "checkout", "-q", "-b", "branch")
+    for rel, body in branch_adds.items():
+        f = repo / rel
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(body, encoding="utf-8")
+        _git(repo, "add", rel)
+    if branch_adds:
+        _git(repo, "commit", "-q", "-m", "branch work")
+    else:
+        _git(repo, "commit", "-q", "--allow-empty", "-m", "branch work (adds nothing)")
+    _git(repo, "checkout", "-q", "main")
+    y = repo / "research" / "other-pkg" / "Y_THEOREMS_V1.md"
+    y.parent.mkdir(parents=True, exist_ok=True)
+    y.write_text(NEW_NOTE_BAD.replace("XN-1", "YN-1"), encoding="utf-8")
+    _git(repo, "add", str(y.relative_to(repo)))
+    _git(repo, "commit", "-q", "-m", "main advances: +Y.md")
+    # GitHub's pull_request checkout: merge of the PR head into the CURRENT base.
+    _git(repo, "merge", "-q", "--no-ff", "--no-edit", "branch")
+    return repo, base_sha
+
+
+def _empty_baseline(tmp):
+    base_path = Path(tmp) / "baseline.json"
+    base_path.write_text(json.dumps({
+        "schema": "GMI_833_LEDGER_BASELINE_V1",
+        "named_results": 0, "non_compliant_named_results": 0,
+        "identified_non_compliant": 0, "entries": {},
+    }), encoding="utf-8")
+    return base_path
+
+
+def test_owned_paths_rule():
+    x_rel = "research/x-pkg/X.md"
+    y_rel = "research/other-pkg/Y_THEOREMS_V1.md"
+    tmp = tempfile.mkdtemp(prefix="gmi833-scope-")
     try:
-        out = subprocess.run(
-            ["/usr/bin/git", "diff", "--name-only", "--diff-filter=ACMR",
-             base_sha, "HEAD"],
-            capture_output=True, text=True, check=True).stdout
-    except Exception:
-        return None
-    return [p for p in out.split("\n") if p.endswith(".md")]
+        repo, base_sha = _scratch_repo(tmp, {x_rel: "# X\n\nprose only\n"})
+        parents = _git(repo, "rev-list", "--parents", "-n", "1", "HEAD").split()
+        check("scratch_head_is_a_merge", len(parents) == 3, str(parents))
+
+        # (1) merge checkout: the shared rule owns exactly the branch's file.
+        owned = A.owned_paths_from_git(repo, base_sha, GIT)
+        check("merge_checkout_owns_branch_file_only", owned == [x_rel], str(owned))
+        # The stale two-dot rule reports main's file as well: regression witness.
+        stale = A.stale_two_dot_paths(repo, base_sha, GIT)
+        check("stale_two_dot_rule_misattributes_mains_file",
+              y_rel in stale and x_rel in stale, str(stale))
+        check("shared_rule_differs_from_stale_rule", set(stale) != set(owned),
+              "the witness does not witness: both rules agree")
+
+        # (2) non-merge checkout with a base sha: merge-base(base, HEAD)..HEAD.
+        _git(repo, "checkout", "-q", "branch")
+        owned2 = A.owned_paths_from_git(repo, base_sha, GIT)
+        check("linear_checkout_uses_merge_base", owned2 == [x_rel], str(owned2))
+        # (3) no merge, no base sha: no PR scope -> repo-wide.
+        owned3 = A.owned_paths_from_git(repo, "", GIT)
+        check("no_scope_means_repo_wide", owned3 is None, str(owned3))
+        # (4) markdown filter is applied only when asked.
+        (repo / "research" / "x-pkg" / "x.py").write_text("x = 1\n", encoding="utf-8")
+        _git(repo, "add", "research/x-pkg/x.py")
+        _git(repo, "commit", "-q", "-m", "+py")
+        with_py = A.owned_paths_from_git(repo, base_sha, GIT, only_markdown=False)
+        md_only = A.owned_paths_from_git(repo, base_sha, GIT)
+        check("markdown_filter_drops_non_markdown",
+              "research/x-pkg/x.py" in with_py and md_only == [x_rel],
+              "%s / %s" % (with_py, md_only))
+        # (5) the CLI surface the workflow calls prints the same list.
+        env = dict(os.environ)
+        env["PR_BASE_SHA"] = base_sha
+        env.pop("PYTHONPATH", None)
+        proc = subprocess.run([sys.executable, "-I", "-B", str(HERE / "ledger_gate_v1.py"),
+                               "--print-owned"], cwd=str(repo), env=env,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # The CLI runs in the PACKAGE repo, not the scratch one (REPO is fixed
+        # at import), so it exercises the real checkout: it must either print
+        # a list (PR scope) or exit 3 (no scope) -- never crash.
+        check("print_owned_cli_exit_is_0_or_3", proc.returncode in (0, 3),
+              proc.stderr.decode("utf-8", "replace"))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_scoped_gate_no_alarm_and_alarm():
+    """The scope rule feeding the gate: a branch that adds nothing is silent
+    even though main gained a non-compliant note; a branch that adds a
+    non-compliant note fires."""
+    tmp = tempfile.mkdtemp(prefix="gmi833-scope-gate-")
+    try:
+        # no-alarm: branch adds nothing, main gained a bad note.
+        repo, base_sha = _scratch_repo(tmp, {})
+        owned = A.owned_paths_from_git(repo, base_sha, GIT)
+        check("empty_branch_owns_nothing", owned == [], str(owned))
+        code, rep = A.gate(owned, repo, _empty_baseline(tmp))
+        check("scoped_gate_silent_when_branch_adds_nothing",
+              code == 0 and rep["violations"] == [] and rep["scope"] == "owned-files",
+              json.dumps(rep["violations"]))
+        # ... and the same repo enforced repo-wide DOES see main's debt, so the
+        # silence above is scope, not blindness.
+        code_w, rep_w = A.gate(None, repo, _empty_baseline(tmp))
+        check("repo_wide_gate_sees_mains_note", code_w != 0
+              and any(v["path"].endswith("Y_THEOREMS_V1.md") for v in rep_w["violations"]),
+              json.dumps(rep_w["violations"]))
+        shutil.rmtree(str(repo), ignore_errors=True)
+
+        # alarm: branch adds a non-compliant theorem note.
+        bad_rel = "research/x-pkg/X_THEOREMS_V1.md"
+        repo, base_sha = _scratch_repo(tmp, {bad_rel: NEW_NOTE_BAD})
+        owned = A.owned_paths_from_git(repo, base_sha, GIT)
+        check("bad_branch_owns_its_note", owned == [bad_rel], str(owned))
+        code, rep = A.gate(owned, repo, _empty_baseline(tmp))
+        kinds = sorted({v["kind"] for v in rep["violations"]})
+        paths = sorted({v["path"] for v in rep["violations"]})
+        check("scoped_gate_fires_on_branch_note",
+              code != 0 and kinds == ["NEW_RESULT_MISSING_LEDGER"] and paths == [bad_rel],
+              json.dumps(rep["violations"]))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
 
 
 def test_gate_is_green_on_the_real_repo():
@@ -451,6 +601,8 @@ def main():
     a, b = test_routes_agree_per_result()
     test_decoy_is_rejected()
     test_gate_can_fail()
+    test_owned_paths_rule()
+    test_scoped_gate_no_alarm_and_alarm()
     test_gate_is_green_on_the_real_repo()
     test_planted_positives_are_detected(a)
     base = test_baseline_is_a_picture_of_main()

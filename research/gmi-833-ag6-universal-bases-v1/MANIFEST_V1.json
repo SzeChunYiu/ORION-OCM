@@ -1,0 +1,231 @@
+{
+ "bases": {
+  "CEL": {
+   "one_step": "one synchronous radius-1 sweep",
+   "signature": [
+    "cell alphabet Sigma",
+    "local rule d : Sigma^3 -> Sigma"
+   ]
+  },
+  "CMB": {
+   "one_step": [
+    "S x y z -> x z (y z)",
+    "K x y -> x"
+   ],
+   "signature": [
+    "S",
+    "K",
+    "application"
+   ]
+  },
+  "REG": {
+   "one_step": "one labelled instruction fires",
+   "signature": [
+    "READ",
+    "INC",
+    "DECJZ",
+    "EMIT",
+    "HALT"
+   ]
+  }
+ },
+ "bound_classes_used": [
+  "VACUOUS",
+  "ATTAINED",
+  "STRICT_UNATTAINED",
+  "LOWER_BOUND_ONLY"
+ ],
+ "branch": "research/833-derive-bases",
+ "claim_ceiling": "GMI_AG6_THREE_UNIVERSAL_BASES_AT_REGISTERED_FINITE_SCOPE_WITH_BASIS_RELATIVE_COST",
+ "comment_id": 5693520829,
+ "commit_order_proof": "git log --name-status shows FREEZE_V1.md added by 243ec345 and every .py/.json receipt added by the later commit 95347c89; no implementation file existed at freeze time",
+ "declared_out_of_the_two_route_agreement_set": [
+  "CMB step counts: a contraction count is reduction-strategy and representation relative; route B counts beta-steps on lambda terms, a different quantity. Follows AJ5/AG5, which exclude charged instruction counts from transfer."
+ ],
+ "exact_certificates": {
+  "abstraction_algorithm_discordant_pairs": 0,
+  "cap_hits": 0,
+  "cross_basis_discordant_pairs": {
+   "CMB_vs_CEL": 5934,
+   "REG_vs_CEL": 4404,
+   "REG_vs_CMB": 2332
+  },
+  "distinct_behaviours_on_W": 148,
+  "executor_sha256": "90d97910794601cf27e81128f26128ea3d524000f4e82afcf08e69d2f5c01464",
+  "gates_passed": 9,
+  "gates_total": 9,
+  "hostiles_detected": 13,
+  "hostiles_total": 13,
+  "kendall_pairs": 32640,
+  "machines_realized": {
+   "CEL": 256,
+   "CMB": 256,
+   "REG": 256
+  },
+  "mi_recovery_decisive": true,
+  "mi_recovery_verdict": "LAW_DOES_NOT_SURVIVE",
+  "mismatches": 0,
+  "nulls_reproducing_census": 0,
+  "oracle_sha256": "b90cb3db8a033a34bf11874f537483c89941c1ece4055403e19d9c0f8caedeae",
+  "oracle_source_sha256": "61abde8b237e1b94e027c3cdcddab165f6b903bf1d09372d59589530709bff05",
+  "parent_census_agrees": true,
+  "pareto_frontier_sizes_size_coordinate": {
+   "CEL": 16,
+   "CMB": 4,
+   "REG": 4
+  },
+  "result_sha256": "ed82e130892da0dd84c5a484eab90c24d3418e32ad55300231d00446192683af",
+  "tasks": 3840,
+  "test_sha256": "fe1be485f124083e54ae3fac348f6397237d925746a3980f84e976fdc95f7cae",
+  "test_source_sha256": "b10f44852edea3fa6bbedfcbc4056ba1a345c901b48ef97224ddb96f7251a877"
+ },
+ "external_parents_with_verified_dois": [
+  {
+   "doi": "10.1007/BF01448013",
+   "work": "Schoenfinkel 1924, Mathematische Annalen 92:305-316"
+  },
+  {
+   "doi": "10.2307/2370619",
+   "work": "Curry 1930, American Journal of Mathematics 52:509"
+  },
+  {
+   "doi": "10.2307/2273733",
+   "work": "Turner 1979, Journal of Symbolic Logic 44:267-270"
+  },
+  {
+   "doi": "10.1090/S0002-9947-1936-1501858-0",
+   "work": "Church and Rosser 1936, Transactions of the AMS 39:472-482"
+  },
+  {
+   "doi": "10.1007/BF01691062",
+   "work": "Hedlund 1969, Mathematical Systems Theory 3:320-375"
+  },
+  {
+   "doi": "10.1145/321650.321652",
+   "work": "Smith 1971, Journal of the ACM 18:339-353"
+  },
+  {
+   "doi": "10.1016/0167-2789(84)90252-5",
+   "work": "Margolus 1984, Physica D 10:81-95"
+  },
+  {
+   "doi": "10.25088/ComplexSystems.15.1.1",
+   "work": "Cook 2004, Complex Systems 15:1-40"
+  }
+ ],
+ "external_parents_without_dois": [
+  {
+   "reason": "book; no DOI exists and none is invented",
+   "work": "von Neumann (ed. Burks) 1966, Theory of Self-Reproducing Automata"
+  },
+  {
+   "reason": "book; no DOI exists and none is invented",
+   "work": "Codd 1968, Cellular Automata"
+  },
+  {
+   "reason": "book; no DOI exists and none is invented",
+   "work": "Minsky 1967, Computation: Finite and Infinite Machines"
+  }
+ ],
+ "forbidden_promotions": [
+  "UNIVERSAL_SIMPLICITER",
+  "TURING_UNIVERSALITY_PROVED_HERE",
+  "COMBINATORY_BASIS_TURING_UNIVERSAL_PROVED_HERE",
+  "CELLULAR_BASIS_TURING_UNIVERSAL_PROVED_HERE",
+  "REGISTER_BASIS_TURING_UNIVERSAL_PROVED_HERE",
+  "BASIS_INDEPENDENT_DESCRIPTION_SIZE",
+  "CROSS_BASIS_COST_UNIT_COMMENSURABLE",
+  "PARETO_FRONTIER_INVARIANT_UNDER_ARBITRARY_RESOURCE_NORMALIZATION",
+  "SEARCH_BURDEN_BASIS_INDEPENDENT",
+  "UNIFORM_ENUMERATION_SEARCH_BURDEN_MEASURED",
+  "INTELLIGENCE_FROM_UNIVERSALITY",
+  "ALL_COMPUTATIONAL_MODELS_EMBEDDED",
+  "MI_LAW_PROVED_BASIS_INVARIANT",
+  "UNIQUE_MINIMAL_UNIVERSAL_GRAMMAR",
+  "COMPLETE_GMI"
+ ],
+ "freeze_commit": "243ec345f959954343247ce83dcd4e8d266459c2",
+ "held_fixed_across_bases": [
+  "the 3840 (machine, word) tasks",
+  "one step = one application of that basis's own one-step relation",
+  "one size unit = one occurrence of a symbol of that basis's own declared signature in the canonical serialization of the artifact",
+  "the budget rule and the requirement that 0 tasks hit it",
+  "the capability battery Q (IDENTITY, COMPLEMENT, CONST0 over W)",
+  "the Pareto domination rule"
+ ],
+ "implementation_commit": "95347c8902ca9403a73885681c3d828e42dbc541",
+ "issue": 833,
+ "parents": [
+  {
+   "blob_sha": "5d2948b9c04c84a46f6625e043753a489895478f",
+   "claim_ceiling": "GMI_G0_REGISTER_CORE_AND_FINITE_EMBEDDINGS_AT_DECLARED_SCOPE",
+   "owns": "the register/counter basis and the 256x15x3840 Mealy census reproduced here",
+   "path": "research/gmi-833-g0-register-core-v1/RESULT_V1.json"
+  },
+  {
+   "blob_sha": "6c80e7b1ee0cceedb5dc48eaf28bd3011750d80a",
+   "claim_ceiling": "GMI_G0_REGISTER_CORE_AND_FINITE_EMBEDDINGS_AT_DECLARED_SCOPE",
+   "owns": "the parent's census construction (all_binary_words(3), exhaustive_mealy_census)",
+   "path": "research/gmi-833-g0-register-core-v1/g0_register_core_v1.py"
+  },
+  {
+   "blob_sha": "8f115342ab64a9a85306442ab0811e1c564d709c",
+   "claim_ceiling": "AG5_G0_EXTENSION_OPERATOR_STATUS_AT_REGISTERED_FINITE_SCOPE",
+   "owns": "NEIGHBOR_UPDATE structure dependence 680/756 vs POINTWISE and GLOBAL_BROADCAST 0/756",
+   "path": "research/gmi-833-ag5-extension-lowering-v1/RESULT_V1.json"
+  },
+  {
+   "blob_sha": "7e2b6b53bdd96c4243de67581be1626ee309ef04",
+   "claim_ceiling": "AG2_SIGNATURE_BELOW_GRAMMAR_AT_REGISTERED_FINITE_SCOPE",
+   "owns": "signature below grammar; the randomized-semantics null design reused here",
+   "path": "research/gmi-833-ag2-signature-free-syntax-v1/RESULT_V1.json"
+  },
+  {
+   "blob_sha": "530f189a2dac44bf19fe5405f28406365b1a7172",
+   "claim_ceiling": "AG1_LAYER_KEYED_FOUNDATION_DESCENT_AT_REGISTERED_SCOPE",
+   "owns": "the F0..F9 layer DAG, G0 at F4, first divergence at F6",
+   "path": "research/gmi-833-ag1-descent-stack-v1/RESULT_V1.json"
+  },
+  {
+   "blob_sha": "8ae1ed5c051d07d2caff1366eb3bae31bba65862",
+   "claim_ceiling": "AJ12_FOUNDATION_STYLE_AND_COMPUTATIONAL_SUBSTRATE_RELATIVITY_AUDITED_AT_REGISTERED_CORE_SCOPE",
+   "owns": "formalization-style and substrate relativity",
+   "path": "research/gmi-833-aj12-foundation-substrate-relativity-v1/RESULT_V1.json"
+  },
+  {
+   "blob_sha": "45c3069e0bafad79de0b6b4f2572ea4f24a38a13",
+   "claim_ceiling": "MORPHOLOGY_PHASE_LAW_PROGRAMME_SHAPE_ONLY",
+   "owns": "the shape of the capability/resource Pareto frontier law tested in AG6B-7",
+   "path": "research/machine-intelligence-morphogenesis-v1/PHASE_LAW_V1.md"
+  }
+ ],
+ "proof_assistant": {
+  "claimed": false,
+  "reason": "Lean, Coq and Isabelle are not installed in the execution environment; this tranche uses analytic construction, exact exhaustive certificates over the registered scope, and a materially independent oracle."
+ },
+ "python_portability_note": "Python 3.11+ caps int->str conversion at 4300 digits; the executor raises the cap to 20000 because AG6B-6 publishes an exact 7322-digit integer. The receipt is byte-identical with and without the guard (md5 8f606f2f981d464e4a78dbc559146608).",
+ "rows": [
+  "r34",
+  "r35",
+  "r36"
+ ],
+ "schema": "GMI_833_AG6_UNIVERSAL_BASES_MANIFEST_V1",
+ "section": "AG6 \u2014 Universality is a lower-bound null, not intelligence",
+ "source_main": "50f833cc4bc3cadcefd44eca14fa58f73f815587",
+ "theorems": [
+  "AG6B-1",
+  "AG6B-2",
+  "AG6B-3",
+  "AG6B-4",
+  "AG6B-5",
+  "AG6B-6",
+  "AG6B-7"
+ ],
+ "universality_sense": "REGISTERED_FINITE_SCOPE_ONLY",
+ "varies_by_basis_and_is_the_declared_description_bias": [
+  "the signature",
+  "the input/output encoding convention",
+  "the artifact space, and therefore what one edit means"
+ ],
+ "workflow": ".github/workflows/gmi-833-ag6-universal-bases.yml"
+}
