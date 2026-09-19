@@ -1,0 +1,289 @@
+{
+ "anchor": "### AA. Recursive loophole / logic-gap closure",
+ "comment_id": 5684607872,
+ "criterion": "a row has a REGISTERED_DISCRIMINATOR iff a metadata predicate reading only register fields (no statement-prose parse) is evaluable on >= 1 object after the pass",
+ "issue": 833,
+ "package": "gmi-833-census-registration-pass-v1",
+ "rows": [
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "quantifier ORDER of the statement (no register carries a quantifier prefix; quantifier_class is one label)",
+   "row_id": "AA16",
+   "row_text": "Search for quantifier-order mistakes (`forall/exists` swaps).",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "logical form (implication direction) of the statement",
+   "row_id": "AA17",
+   "row_text": "Search for converse/inverse fallacies.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "logical form (necessary vs sufficient condition) of the statement",
+   "row_id": "AA18",
+   "row_text": "Search for necessity-vs-sufficiency confusion.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "decided_by": "gmi-833-aa-fallacy-detectors-v1 FD-1",
+   "discriminator_field": "quantifier_class + proof_evidence_mode / parent receipt / ledger emission",
+   "row_id": "AA19",
+   "row_text": "Search for representability-vs-reachability confusion.",
+   "verdict": "ALREADY_DECIDED"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "whether the claim asserts optimality vs reports a chosen candidate (claim content, not carried by any register field)",
+   "row_id": "AA20",
+   "row_text": "Search for optimality-vs-selection confusion.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "decided_by": "gmi-833-aa-finite-universal-harness-v1 FU-1..FU-4",
+   "discriminator_field": "quantifier_class + proof_evidence_mode / parent receipt / ledger emission",
+   "row_id": "AA21",
+   "row_text": "Search for finite-scope-to-universal extrapolation.",
+   "verdict": "ALREADY_DECIDED"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "whether the claim asserts a causal relation (claim content, not carried by any register field)",
+   "row_id": "AA22",
+   "row_text": "Search for empirical-correlation-to-causal claims.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "identifiability of the model from its interface (a property of the model; no register field)",
+   "row_id": "AA23",
+   "row_text": "Search for identifiability failures.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "binding_sparsity": {
+    "field": "assumptions",
+    "of": 22553,
+    "populated": 173
+   },
+   "discriminator_field": "assumptions",
+   "evaluable_objects_after": 15,
+   "evaluable_objects_before": 0,
+   "measurement_not_queue": {
+    "ledger_names_the_assumption_class": 4,
+    "ledger_silent_on_it": 11,
+    "note": "a silent ledger is a candidate for the next lane's queue, not a finding here",
+    "vocabulary": [
+     "independen",
+     "i.i.d",
+     "iid",
+     "exchangeab",
+     "dependen"
+    ]
+   },
+   "objects_with_registered_ledger": 173,
+   "predicate": "evidence mode is a run experiment (statistical/empirical) AND the registered assumptions ledger does not name a dependence/independence assumption",
+   "row_id": "AA24",
+   "row_text": "Search for hidden dependence/independence assumptions.",
+   "trigger_evidence_modes": [
+    "STATISTICAL_EXPERIMENT",
+    "EMPIRICAL_EXPERIMENT"
+   ],
+   "verdict": "REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "binding_sparsity": {
+    "field": "assumptions",
+    "of": 22553,
+    "populated": 173
+   },
+   "discriminator_field": "assumptions",
+   "evaluable_objects_after": 15,
+   "evaluable_objects_before": 0,
+   "measurement_not_queue": {
+    "ledger_names_the_assumption_class": 0,
+    "ledger_silent_on_it": 15,
+    "note": "a silent ledger is a candidate for the next lane's queue, not a finding here",
+    "vocabulary": [
+     "stationar",
+     "ergodic",
+     "time-invariant",
+     "time invariant"
+    ]
+   },
+   "objects_with_registered_ledger": 173,
+   "predicate": "evidence mode is a run experiment AND the registered assumptions ledger does not name a stationarity/ergodicity assumption",
+   "row_id": "AA25",
+   "row_text": "Search for hidden stationarity/ergodicity assumptions.",
+   "trigger_evidence_modes": [
+    "STATISTICAL_EXPERIMENT",
+    "EMPIRICAL_EXPERIMENT"
+   ],
+   "verdict": "REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "binding_sparsity": {
+    "field": "assumptions",
+    "of": 22553,
+    "populated": 173
+   },
+   "discriminator_field": "assumptions",
+   "evaluable_objects_after": 173,
+   "evaluable_objects_before": 0,
+   "measurement_not_queue": {
+    "ledger_names_the_assumption_class": 8,
+    "ledger_silent_on_it": 165,
+    "note": "a silent ledger is a candidate for the next lane's queue, not a finding here",
+    "vocabulary": [
+     "horizon",
+     "finite budget",
+     "bounded budget",
+     "step budget"
+    ]
+   },
+   "objects_with_registered_ledger": 173,
+   "predicate": "any registered object whose assumptions ledger does not name a horizon/budget bound",
+   "row_id": "AA26",
+   "row_text": "Search for hidden bounded-horizon assumptions.",
+   "trigger_evidence_modes": "ANY",
+   "verdict": "REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "binding_sparsity": {
+    "field": "assumptions",
+    "of": 22553,
+    "populated": 173
+   },
+   "discriminator_field": "assumptions",
+   "evaluable_objects_after": 173,
+   "evaluable_objects_before": 0,
+   "measurement_not_queue": {
+    "ledger_names_the_assumption_class": 61,
+    "ledger_silent_on_it": 112,
+    "note": "a silent ledger is a candidate for the next lane's queue, not a finding here",
+    "vocabulary": [
+     "finite",
+     "compact",
+     "bounded",
+     "closed set"
+    ]
+   },
+   "objects_with_registered_ledger": 173,
+   "predicate": "any registered object whose assumptions ledger does not name a finiteness/compactness bound",
+   "row_id": "AA27",
+   "row_text": "Search for hidden compactness/finiteness assumptions.",
+   "trigger_evidence_modes": "ANY",
+   "verdict": "REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "outcome of an encoding-equivariance test per claim (no register field; gmi-833-remint-equivariance-v1 supplies a test, not a per-object field)",
+   "row_id": "AA28",
+   "row_text": "Search for encoding-dependent conclusions.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "form of the objective / scalarization used (no register field)",
+   "row_id": "AA29",
+   "row_text": "Search for arbitrary unit/scalarization dependence.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "search budget and algorithm that produced the reported form (no register field)",
+   "row_id": "AA30",
+   "row_text": "Search for search-algorithm-induced morphology artifacts.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "decided_by": "gmi-833-aa-fallacy-detectors-v1 FD-2",
+   "discriminator_field": "quantifier_class + proof_evidence_mode / parent receipt / ledger emission",
+   "row_id": "AA31",
+   "row_text": "Search for grammar-induced morphology artifacts.",
+   "verdict": "ALREADY_DECIDED"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "how the benchmark / ecology sample was drawn (no register field; 0 experiment ledgers at the frozen census)",
+   "row_id": "AA32",
+   "row_text": "Search for benchmark/ecology selection bias.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "binding_sparsity": {
+    "field": "assumptions",
+    "of": 22553,
+    "populated": 173
+   },
+   "census_wide_statistical_families_note": "the census-wide family count (39 families, 320 objects) was always computable; only the registered subset carries a ledger to check",
+   "discriminator_field": "assumptions + package family count of registered STATISTICAL_EXPERIMENT claims",
+   "evaluable_objects_after": 10,
+   "evaluable_objects_before": 0,
+   "families_of_size_ge_2_registered": 1,
+   "predicate": "registered statistical claim in a package family of size >= 2 whose assumptions ledger does not name a multiplicity correction",
+   "registered_statistical_families": {
+    "gmi-grand-unification-v1": 1,
+    "machine-intelligence-morphogenesis-v1": 9
+   },
+   "row_id": "AA33",
+   "row_text": "Search for post-selection inference / multiple-testing problems.",
+   "verdict": "REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "leakage ledger per experiment (AA06 artifact class; 0 instances at the frozen census)",
+   "row_id": "AA34",
+   "row_text": "Search for data leakage/remint leakage.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "sample size n per registered negative (no register field carries n as a number)",
+   "row_id": "AA35",
+   "row_text": "Search for underpowered negative results.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "evaluable_objects_after": 0,
+   "evaluable_objects_before": 0,
+   "missing_input": "latent structure of the explanation (no register field)",
+   "row_id": "AA36",
+   "row_text": "Search for non-identifiable latent explanations.",
+   "verdict": "NO_REGISTERED_DISCRIMINATOR"
+  },
+  {
+   "decided_by": "gmi-833-aa-fallacy-detectors-v1 FD-3",
+   "discriminator_field": "quantifier_class + proof_evidence_mode / parent receipt / ledger emission",
+   "row_id": "AA37",
+   "row_text": "Search for alternative known-parent reductions after every new-form claim.",
+   "verdict": "ALREADY_DECIDED"
+  }
+ ],
+ "schema": "GMI_833_AA_DECIDABILITY_V1",
+ "summary": {
+  "already_decided": 4,
+  "binding_field": "assumptions",
+  "binding_field_of": 22553,
+  "binding_field_populated": 173,
+  "binding_fraction": "173/22553",
+  "gained_registered_discriminator": 5,
+  "left_undecidable_by_fallacy_lane": 19,
+  "of_those_already_decided_elsewhere": 1,
+  "rows": 22,
+  "still_no_registered_discriminator": 13
+ }
+}

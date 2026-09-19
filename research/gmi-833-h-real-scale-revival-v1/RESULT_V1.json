@@ -1,0 +1,998 @@
+{
+ "admissibility_rule": {
+  "R02": {
+   "demoted_on_fit_slice": 0,
+   "enumerated": 6324,
+   "inert": true,
+   "non_vacuous": false,
+   "ranked_demoted": 0,
+   "support_floor": null
+  },
+  "R03": {
+   "demoted_on_fit_slice": 484,
+   "enumerated": 6324,
+   "inert": false,
+   "non_vacuous": true,
+   "ranked_demoted": 15,
+   "support_floor": 0
+  },
+  "R04": {
+   "demoted_on_fit_slice": 603,
+   "enumerated": 6324,
+   "inert": false,
+   "non_vacuous": true,
+   "ranked_demoted": 23,
+   "support_floor": 0
+  }
+ },
+ "admissibility_rule_never_vacuous": true,
+ "claim_ceiling": "REAL_SCALE_ELEVEN_GATE_DERIVATION_OF_NAMED_CLASSICAL_FAMILY_AT_REGISTERED_SCOPE",
+ "controls": {
+  "applicable": true,
+  "band_high": "26662995950005141710880413/40960000000000000000000",
+  "band_low": "21815178504549661399811247/40960000000000000000000",
+  "chosen_arm_held_sse": "1160646142985276675269886669/134217728000000000000000000",
+  "chosen_below_band": true,
+  "chosen_over_constant_parts_per_billion": 14612806,
+  "constant_sse": "2423908722727740155534583/4096000000000000000000",
+  "controls": 200,
+  "controls_beating_the_chosen_arm": 0,
+  "in_band": 200,
+  "ratio_max": "7268099492392391205131966495/7220603729667508128777928704",
+  "ratio_max_float": 1.0065778104578342,
+  "ratio_median": "39695528639928869386771302367/39713320513171294708278607872",
+  "ratio_median_float": 0.9995519923035263,
+  "ratio_min": "52444140492469461429899953053/52951094017561726277704810496",
+  "ratio_min_float": 0.9904260047030543,
+  "seed": 20260918
+ },
+ "first_run": {
+  "R02": {
+   "chosen_body": "MUL(ARG,PARAM)",
+   "chosen_class": "AFFINE_SCORE",
+   "chosen_head": "ADD(BIAS,S)",
+   "sigma": "SIGMA_R02"
+  },
+  "R03": {
+   "chosen_body": "MUL(ARG,PARAM)",
+   "chosen_class": "AFFINE_SCORE",
+   "chosen_head": "ADD(BIAS,S)",
+   "sigma": "SIGMA_R03"
+  },
+  "R04": {
+   "chosen_body": "MUL(ARG,PARAM)",
+   "chosen_class": "AFFINE_SCORE",
+   "chosen_head": "ADD(BIAS,S)",
+   "sigma": "SIGMA_R04"
+  }
+ },
+ "forbidden_promotions": [
+  "CROSS_SCOPE_GATE_COMPOSITION",
+  "REGISTERED_CONTROL_SUBSTITUTION",
+  "POST_HOC_FALSIFIER_REPLACEMENT",
+  "ECOLOGY_ITERATION_UNTIL_POSITIVE",
+  "INDEPENDENT_TEAM_REPLICATION",
+  "M5",
+  "EV4",
+  "EV5",
+  "REAL_SCALE_VALIDATION_COMPLETE",
+  "SECTION_H_COMPLETE",
+  "ALL_KNOWN_FORM_RECOVERY",
+  "UNIVERSAL_GRAMMAR_NEUTRALITY",
+  "FRONTIER_SCALE_VALIDATION",
+  "NAMED_FAMILY_ROW_CLOSED_OUTSIDE_THE_THREE",
+  "FINITE_EVIDENCE_IMPLIES_REAL_SCALE",
+  "COMPLETE_GMI"
+ ],
+ "freeze_file": "FREEZE_V1.md",
+ "hostiles": [
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_SOURCE_DIGEST",
+   "no_alarm_on_clean": true,
+   "note": "a flipped source digest must fail the provenance check"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_ARTIFACT_PATH",
+   "no_alarm_on_clean": true,
+   "note": "a wrong artifact path must fail loudly, not silently pass"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_GRAMMAR_EXTENSION",
+   "no_alarm_on_clean": true,
+   "note": "an extra operation must move the grammar digest"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_SLICE_LEAK",
+   "no_alarm_on_clean": true,
+   "note": "moving one row between slices must break the partition arithmetic"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_FOREIGN_SIGMA",
+   "no_alarm_on_clean": true,
+   "note": "a gate certificate stamped with a parent scope must be caught"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_FLOAT_LEAK",
+   "no_alarm_on_clean": true,
+   "note": "a float in a claimed quantity must be caught by the exactness check"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_CONTROL_BAND",
+   "no_alarm_on_clean": true,
+   "note": "a control outside the applicability band must fail the control"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_CLASSIFIER_LABEL",
+   "no_alarm_on_clean": true,
+   "note": "a family label offered to the classifier must be refused"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_PARENT_GATE_IMPORT",
+   "no_alarm_on_clean": true,
+   "note": "a parent certificate offered as evidence must be caught"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_REPLAY_TAMPER",
+   "no_alarm_on_clean": true,
+   "note": "one altered raw row must break the exact replay"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_VACUOUS_ADMISSIBILITY",
+   "no_alarm_on_clean": true,
+   "note": "a filter that demotes nothing must fail the run rather than pass"
+  },
+  {
+   "applicable": true,
+   "detected": true,
+   "hostile": "H_MIXED_RATIONALISER",
+   "no_alarm_on_clean": true,
+   "note": "a value written with a foreign denominator must be caught"
+  }
+ ],
+ "hostiles_all_applicable": true,
+ "hostiles_all_detected": true,
+ "hostiles_no_alarm_on_clean": true,
+ "independent_search": {
+  "agrees": {
+   "R02": true,
+   "R03": true,
+   "R04": true
+  },
+  "detail": {
+   "R02": {
+    "agrees": true,
+    "block_rows": 1500,
+    "class_matches": true,
+    "class_rederived": "AFFINE_SCORE",
+    "crossover_arithmetic_ok": true,
+    "exact_replay_decisions_match": true,
+    "exact_replay_sse_matches": true,
+    "independent_top1": [
+     "MUL(ARG,PARAM)",
+     "S"
+    ],
+    "independent_top1_inadmissible": 0,
+    "independent_top1_matches": true,
+    "primary_top1_on_this_block": [
+     "MUL(ARG,PARAM)",
+     "S"
+    ],
+    "real_scale_thresholds_met": true,
+    "recomputed_partial_decision_errors": 218,
+    "recomputed_partial_sse": "78406383400957838291334791/268435456000000000000000000",
+    "sigma_matches": true,
+    "survivors_reranked": 40
+   },
+   "R03": {
+    "agrees": true,
+    "block_rows": 1500,
+    "class_matches": true,
+    "class_rederived": "LIFTED_BASIS",
+    "crossover_arithmetic_ok": true,
+    "exact_replay_decisions_match": true,
+    "exact_replay_sse_matches": true,
+    "independent_top1": [
+     "MUL(ARG,PARAM)",
+     "ABS(RECIP(S))"
+    ],
+    "independent_top1_inadmissible": 0,
+    "independent_top1_matches": true,
+    "primary_top1_on_this_block": [
+     "MUL(ARG,PARAM)",
+     "ABS(RECIP(S))"
+    ],
+    "real_scale_thresholds_met": true,
+    "recomputed_partial_decision_errors": 0,
+    "recomputed_partial_sse": "707359904630291989424393889281/396900000000000000000000",
+    "sigma_matches": true,
+    "survivors_reranked": 40
+   },
+   "R04": {
+    "agrees": true,
+    "block_rows": 1500,
+    "class_matches": true,
+    "class_rederived": "LIFTED_BASIS",
+    "crossover_arithmetic_ok": true,
+    "exact_replay_decisions_match": true,
+    "exact_replay_sse_matches": true,
+    "independent_top1": [
+     "STEP(ARG)",
+     "MUL(BIAS,S)"
+    ],
+    "independent_top1_inadmissible": 0,
+    "independent_top1_matches": true,
+    "primary_top1_on_this_block": [
+     "STEP(ARG)",
+     "MUL(BIAS,S)"
+    ],
+    "real_scale_thresholds_met": true,
+    "recomputed_partial_decision_errors": 13,
+    "recomputed_partial_sse": "2176731904637987/3906250000000000",
+    "sigma_matches": true,
+    "survivors_reranked": 40
+   }
+  },
+  "oracle": "independent_oracle_v1.py"
+ },
+ "integrity": {
+  "scopes": {
+   "R02": {
+    "committed_partial_sse": "78406383400957838291334791/268435456000000000000000000",
+    "denominator_shape_ok": true,
+    "exact_replay_matches": true,
+    "grammar_digest_matches": true,
+    "n_fit_at_or_above_floor": true,
+    "n_held_at_or_above_floor": true,
+    "recomputed_partial_sse": "78406383400957838291334791/268435456000000000000000000",
+    "replay_rows": 1500,
+    "search_held_disjoint": true,
+    "slice_partition_matches_freeze_rule": true
+   },
+   "R03": {
+    "committed_partial_sse": "707359904630291989424393889281/396900000000000000000000",
+    "denominator_shape_ok": false,
+    "exact_replay_matches": true,
+    "grammar_digest_matches": true,
+    "n_fit_at_or_above_floor": true,
+    "n_held_at_or_above_floor": true,
+    "recomputed_partial_sse": "707359904630291989424393889281/396900000000000000000000",
+    "replay_rows": 1500,
+    "search_held_disjoint": true,
+    "slice_partition_matches_freeze_rule": true
+   },
+   "R04": {
+    "committed_partial_sse": "2176731904637987/3906250000000000",
+    "denominator_shape_ok": true,
+    "exact_replay_matches": true,
+    "grammar_digest_matches": true,
+    "n_fit_at_or_above_floor": true,
+    "n_held_at_or_above_floor": true,
+    "recomputed_partial_sse": "2176731904637987/3906250000000000",
+    "replay_rows": 1500,
+    "search_held_disjoint": true,
+    "slice_partition_matches_freeze_rule": true
+   }
+  },
+  "sources": {
+   "all_bound": true,
+   "d2_digest_matches_freeze": true,
+   "d2_frames": 614266,
+   "d3_digest_matches_freeze": true,
+   "d3_files": 659
+  }
+ },
+ "no_gate_carries_a_foreign_sigma": true,
+ "predictions": {
+  "Q00": {
+   "detail": {
+    "digest": [
+     "60bc1a6e3b657ba6d662a1f3fe7898afe4799805077c9d11e360a6274b41335a"
+    ],
+    "first_run_digest": [
+     "60bc1a6e3b657ba6d662a1f3fe7898afe4799805077c9d11e360a6274b41335a"
+    ],
+    "recomputed": "60bc1a6e3b657ba6d662a1f3fe7898afe4799805077c9d11e360a6274b41335a",
+    "unchanged_after_each_search": true
+   },
+   "held": true
+  },
+  "Q2a": {
+   "detail": {
+    "body": "MUL(ARG,PARAM)",
+    "body_clause_semantically_mul_arg_param": true,
+    "class": "AFFINE_SCORE",
+    "class_clause_affine_score_no_state": true,
+    "head": "ADD(S,S)",
+    "head_clause_semantically_add_s_bias": false,
+    "note": "the clause outcomes are a labelled diagnostic; a clause that held is not substituted for the conjunction that failed",
+    "top8_classes_all_affine_score": true,
+    "top8_out_of_sample_loss_spread_parts_per_billion": 26489
+   },
+   "held": false
+  },
+  "Q2b": {
+   "detail": {
+    "class": "LIFTED_BASIS",
+    "control_ecology": "F04b"
+   },
+   "held": true
+  },
+  "Q2c": {
+   "detail": {
+    "chosen_decision_errors": 12395,
+    "chosen_over_constant_parts_per_billion": 14612806,
+    "chosen_sse": "1160646142985276675269886669/134217728000000000000000000",
+    "constant_sse": "2423908722727740155534583/4096000000000000000000",
+    "majority_decision_errors": 40324,
+    "n_held": 87747
+   },
+   "held": true
+  },
+  "Q2d": {
+   "applicable": true,
+   "detail": {
+    "band_high": "26662995950005141710880413/40960000000000000000000",
+    "band_low": "21815178504549661399811247/40960000000000000000000",
+    "chosen_over_constant_parts_per_billion": 14612806,
+    "controls": 200,
+    "controls_beating_the_chosen_arm": 0,
+    "in_band": 200,
+    "ratio_max": "7268099492392391205131966495/7220603729667508128777928704",
+    "ratio_min": "52444140492469461429899953053/52951094017561726277704810496"
+   },
+   "held": true
+  },
+  "Q2e": {
+   "detail": {
+    "m_star": 5,
+    "program_cost_at_m_star": {
+     "ops": 23,
+     "storage": 6,
+     "total": 29
+    },
+    "program_cost_at_m_star_minus_1": {
+     "ops": 19,
+     "storage": 5,
+     "total": 24
+    },
+    "table_cost_at_m_star": {
+     "ops": 5,
+     "storage": 32,
+     "total": 37
+    },
+    "table_cost_at_m_star_minus_1": {
+     "ops": 4,
+     "storage": 16,
+     "total": 20
+    }
+   },
+   "held": true
+  },
+  "Q2h": {
+   "detail": {
+    "chosen_matches_first_run": false,
+    "first_run_chosen": "MUL(ARG,PARAM) | ADD(BIAS,S)",
+    "rule": {
+     "demoted_on_fit_slice": 0,
+     "enumerated": 6324,
+     "inert": true,
+     "non_vacuous": false,
+     "ranked_demoted": 0,
+     "support_floor": null
+    }
+   },
+   "held": false
+  },
+  "Q3a": {
+   "detail": {
+    "attributes": {
+     "body_affine_in_arg": false,
+     "body_is_arg_times_param": false,
+     "class": "LIFTED_BASIS",
+     "head_affine_in_s": false,
+     "reads_state": false
+    },
+    "body": "STEP(ARG)",
+    "class": "LIFTED_BASIS",
+    "head": "MUL(BIAS,RECIP(S))"
+   },
+   "held": false
+  },
+  "Q3b": {
+   "detail": {
+    "identity_strict_wins": 15670,
+    "log_strict_wins": 22278,
+    "n_held": 37948,
+    "ties": 0
+   },
+   "held": true
+  },
+  "Q3c": {
+   "detail": {
+    "identity_negative_means": 779,
+    "log_negative_means": 0,
+    "n_held": 37948
+   },
+   "held": true
+  },
+  "Q3d": {
+   "detail": {
+    "class": "AFFINE_SCORE",
+    "control_ecology": "F02"
+   },
+   "held": true
+  },
+  "Q3e": {
+   "detail": {
+    "distinct_responses": 333,
+    "max_response": 3649,
+    "min_response": 1,
+    "n_fit": 189745,
+    "variance_over_mean": "4117220017678/54348091115"
+   },
+   "held": true
+  },
+  "Q3f": {
+   "detail": {
+    "m_star": 5,
+    "program_cost_at_m_star": {
+     "ops": 19,
+     "storage": 6,
+     "total": 25
+    },
+    "program_cost_at_m_star_minus_1": {
+     "ops": 16,
+     "storage": 5,
+     "total": 21
+    },
+    "table_cost_at_m_star": {
+     "ops": 5,
+     "storage": 32,
+     "total": 37
+    },
+    "table_cost_at_m_star_minus_1": {
+     "ops": 4,
+     "storage": 16,
+     "total": 20
+    }
+   },
+   "held": true
+  },
+  "Q3g": {
+   "applicable": true,
+   "detail": {
+    "demoted_on_fit_slice": 484,
+    "enumerated": 6324,
+    "support_floor": 0
+   },
+   "held": true
+  },
+  "Q3i": {
+   "detail": {
+    "main_class": "LIFTED_BASIS",
+    "n_rows": 113847,
+    "regeneration_class": "NONLINEAR_LINK"
+   },
+   "held": false
+  },
+  "Q4a": {
+   "detail": {
+    "body": "STEP(ARG)",
+    "class": "LIFTED_BASIS",
+    "head": "MUL(BIAS,S)"
+   },
+   "held": true
+  },
+  "Q4b": {
+   "detail": {
+    "affine_sse": "10409365429879412550444510356147/1073741824000000000000000000",
+    "affine_two_routes_agree": true,
+    "lifted_sse": "93262934797005291/3906250000000000",
+    "n_held": 87747
+   },
+   "held": true
+  },
+  "Q4c": {
+   "detail": {
+    "lifted_sse": "93262934797005291/3906250000000000"
+   },
+   "held": true
+  },
+  "Q4d": {
+   "detail": {
+    "held_sse_at_q_star": "255404867735924132047/31250000000000000",
+    "landmark_cost_at_q_star": {
+     "ops": 132,
+     "storage": 66,
+     "total": 198
+    },
+    "landmark_cost_at_q_star_minus_1": {
+     "ops": 66,
+     "storage": 33,
+     "total": 99
+    },
+    "program_cost": {
+     "ops": 99,
+     "storage": 33,
+     "total": 132
+    },
+    "q_star": 2
+   },
+   "held": true
+  },
+  "Q4e": {
+   "detail": {
+    "class": "AFFINE_SCORE",
+    "control_ecology": "F02"
+   },
+   "held": true
+  },
+  "Q4f": {
+   "detail": {
+    "main_class": "LIFTED_BASIS",
+    "n_rows": 263244,
+    "regeneration_class": "LIFTED_BASIS"
+   },
+   "held": true
+  }
+ },
+ "rows": {
+  "R02": {
+   "chosen_body": "MUL(ARG,PARAM)",
+   "chosen_head": "ADD(S,S)",
+   "complete": false,
+   "crossover": {
+    "m_star": 5,
+    "program_cost_at_m_star": {
+     "ops": 23,
+     "storage": 6,
+     "total": 29
+    },
+    "program_cost_at_m_star_minus_1": {
+     "ops": 19,
+     "storage": 5,
+     "total": 24
+    },
+    "table_cost_at_m_star": {
+     "ops": 5,
+     "storage": 32,
+     "total": 37
+    },
+    "table_cost_at_m_star_minus_1": {
+     "ops": 4,
+     "storage": 16,
+     "total": 20
+    }
+   },
+   "failed_predictions": [
+    "Q2a",
+    "Q2h"
+   ],
+   "gates": [
+    {
+     "evidence": "Q2a",
+     "gate": "R01_property_prediction_from_ecology",
+     "sigma": "SIGMA_R02",
+     "status": "OPEN"
+    },
+    {
+     "evidence": "Q00",
+     "gate": "R02_p3_p4_lower_grammar",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q00+Q2h",
+     "gate": "R03_no_family_macros",
+     "sigma": "SIGMA_R02",
+     "status": "OPEN"
+    },
+    {
+     "evidence": "Q2a",
+     "gate": "R04_family_blind_recovery",
+     "sigma": "SIGMA_R02",
+     "status": "OPEN"
+    },
+    {
+     "evidence": "Q2b+Q2d",
+     "gate": "R05_matched_negative_control",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "EXHAUSTIVE_MINIMALITY",
+     "gate": "R06_lower_bound",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q2e",
+     "gate": "R07_resource_crossover",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q2c",
+     "gate": "R08_heldout_frozen_prediction",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "DISJOINT_SLICE_REDERIVATION",
+     "gate": "R09_independent_regeneration",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "SOURCE_SEPARATED_ORACLE",
+     "gate": "R10_independent_search",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "REGISTERED_REAL_SCALE_THRESHOLDS",
+     "gate": "R11_real_scale_test",
+     "sigma": "SIGMA_R02",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    }
+   ],
+   "lower_bound": {
+    "body_min_nodes": 3,
+    "body_nodes": 3,
+    "body_raw": 116,
+    "head_min_nodes": 3,
+    "head_nodes": 3,
+    "head_raw": 1075,
+    "is_minimal": true
+   },
+   "n_fit": 438739,
+   "n_held": 87747,
+   "open_gates": [
+    "R01_property_prediction_from_ecology",
+    "R03_no_family_macros",
+    "R04_family_blind_recovery"
+   ],
+   "predicted_class": "AFFINE_SCORE",
+   "recovered_class": "AFFINE_SCORE",
+   "regeneration": {
+    "admissibility_rule": {
+     "demoted_on_fit_slice": 0,
+     "enumerated": 6324,
+     "inert": true,
+     "non_vacuous": false,
+     "ranked_demoted": 0,
+     "support_floor": null
+    },
+    "body": "MUL(ARG,PARAM)",
+    "class": "AFFINE_SCORE",
+    "class_matches": true,
+    "expression_matches": true,
+    "head": "ADD(S,S)",
+    "n_rows": 263244
+   },
+   "row": "Linear regression / linear classifiers.",
+   "sigma": "SIGMA_R02",
+   "single_sigma": true,
+   "supported": 8
+  },
+  "R03": {
+   "chosen_body": "STEP(ARG)",
+   "chosen_head": "MUL(BIAS,RECIP(S))",
+   "complete": false,
+   "crossover": {
+    "m_star": 5,
+    "program_cost_at_m_star": {
+     "ops": 19,
+     "storage": 6,
+     "total": 25
+    },
+    "program_cost_at_m_star_minus_1": {
+     "ops": 16,
+     "storage": 5,
+     "total": 21
+    },
+    "table_cost_at_m_star": {
+     "ops": 5,
+     "storage": 32,
+     "total": 37
+    },
+    "table_cost_at_m_star_minus_1": {
+     "ops": 4,
+     "storage": 16,
+     "total": 20
+    }
+   },
+   "failed_predictions": [
+    "Q3a",
+    "Q3i"
+   ],
+   "gates": [
+    {
+     "evidence": "Q3a",
+     "gate": "R01_property_prediction_from_ecology",
+     "sigma": "SIGMA_R03B",
+     "status": "OPEN"
+    },
+    {
+     "evidence": "Q00",
+     "gate": "R02_p3_p4_lower_grammar",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q00",
+     "gate": "R03_no_family_macros",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q3a",
+     "gate": "R04_family_blind_recovery",
+     "sigma": "SIGMA_R03B",
+     "status": "OPEN"
+    },
+    {
+     "evidence": "Q3d",
+     "gate": "R05_matched_negative_control",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "EXHAUSTIVE_MINIMALITY",
+     "gate": "R06_lower_bound",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q3f",
+     "gate": "R07_resource_crossover",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q3b+Q3c+Q3e",
+     "gate": "R08_heldout_frozen_prediction",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "DISJOINT_SLICE_REDERIVATION",
+     "gate": "R09_independent_regeneration",
+     "sigma": "SIGMA_R03B",
+     "status": "OPEN"
+    },
+    {
+     "evidence": "SOURCE_SEPARATED_ORACLE",
+     "gate": "R10_independent_search",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "REGISTERED_REAL_SCALE_THRESHOLDS",
+     "gate": "R11_real_scale_test",
+     "sigma": "SIGMA_R03B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    }
+   ],
+   "lower_bound": {
+    "body_min_nodes": 2,
+    "body_nodes": 2,
+    "body_raw": 116,
+    "head_min_nodes": 4,
+    "head_nodes": 4,
+    "head_raw": 1075,
+    "is_minimal": true
+   },
+   "n_fit": 189745,
+   "n_held": 37948,
+   "open_gates": [
+    "R01_property_prediction_from_ecology",
+    "R04_family_blind_recovery",
+    "R09_independent_regeneration"
+   ],
+   "predicted_class": "NONLINEAR_LINK",
+   "recovered_class": "LIFTED_BASIS",
+   "regeneration": {
+    "admissibility_rule": {
+     "demoted_on_fit_slice": 481,
+     "enumerated": 6324,
+     "inert": false,
+     "non_vacuous": true,
+     "ranked_demoted": 5,
+     "support_floor": 0
+    },
+    "body": "MUL(ARG,PARAM)",
+    "class": "NONLINEAR_LINK",
+    "class_matches": false,
+    "expression_matches": false,
+    "head": "ABS(RECIP(S))",
+    "n_rows": 113847
+   },
+   "row": "GLMs.",
+   "sigma": "SIGMA_R03B",
+   "single_sigma": true,
+   "supported": 8
+  },
+  "R04": {
+   "chosen_body": "STEP(ARG)",
+   "chosen_head": "MUL(BIAS,S)",
+   "complete": true,
+   "crossover": {
+    "m_star": 5,
+    "program_cost_at_m_star": {
+     "ops": 18,
+     "storage": 6,
+     "total": 24
+    },
+    "program_cost_at_m_star_minus_1": {
+     "ops": 15,
+     "storage": 5,
+     "total": 20
+    },
+    "table_cost_at_m_star": {
+     "ops": 5,
+     "storage": 32,
+     "total": 37
+    },
+    "table_cost_at_m_star_minus_1": {
+     "ops": 4,
+     "storage": 16,
+     "total": 20
+    }
+   },
+   "failed_predictions": [],
+   "gates": [
+    {
+     "evidence": "Q4a",
+     "gate": "R01_property_prediction_from_ecology",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q00",
+     "gate": "R02_p3_p4_lower_grammar",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q00",
+     "gate": "R03_no_family_macros",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q4a",
+     "gate": "R04_family_blind_recovery",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q4e",
+     "gate": "R05_matched_negative_control",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "EXHAUSTIVE_MINIMALITY",
+     "gate": "R06_lower_bound",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q4d",
+     "gate": "R07_resource_crossover",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "Q4b+Q4c",
+     "gate": "R08_heldout_frozen_prediction",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "DISJOINT_SLICE_REDERIVATION",
+     "gate": "R09_independent_regeneration",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "SOURCE_SEPARATED_ORACLE",
+     "gate": "R10_independent_search",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    },
+    {
+     "evidence": "REGISTERED_REAL_SCALE_THRESHOLDS",
+     "gate": "R11_real_scale_test",
+     "sigma": "SIGMA_R04B",
+     "status": "SUPPORTED_AT_REGISTERED_REAL_SCALE"
+    }
+   ],
+   "lower_bound": {
+    "body_min_nodes": 2,
+    "body_nodes": 2,
+    "body_raw": 116,
+    "head_min_nodes": 3,
+    "head_nodes": 3,
+    "head_raw": 1075,
+    "is_minimal": true
+   },
+   "n_fit": 438739,
+   "n_held": 87747,
+   "open_gates": [],
+   "predicted_class": "LIFTED_BASIS",
+   "recovered_class": "LIFTED_BASIS",
+   "regeneration": {
+    "admissibility_rule": {
+     "demoted_on_fit_slice": 645,
+     "enumerated": 6324,
+     "inert": false,
+     "non_vacuous": true,
+     "ranked_demoted": 1,
+     "support_floor": 0
+    },
+    "body": "STEP(ARG)",
+    "class": "LIFTED_BASIS",
+    "class_matches": true,
+    "expression_matches": true,
+    "head": "MUL(BIAS,S)",
+    "n_rows": 263244
+   },
+   "row": "Basis/kernel methods.",
+   "sigma": "SIGMA_R04B",
+   "single_sigma": true,
+   "supported": 11
+  }
+ },
+ "rows_closed": [
+  "Basis/kernel methods."
+ ],
+ "rows_open": [
+  "GLMs.",
+  "Linear regression / linear classifiers."
+ ],
+ "scale": {
+  "R02": {
+   "n_fit": 438739,
+   "n_held": 87747,
+   "n_rows": 614233
+  },
+  "R03": {
+   "n_fit": 189745,
+   "n_held": 37948,
+   "n_rows": 265641
+  },
+  "R04": {
+   "n_fit": 438739,
+   "n_held": 87747,
+   "n_rows": 614233
+  }
+ },
+ "schema": "GMI833HRealScaleRevivalResultV1",
+ "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+ "verdict": "GREEN",
+ "verdict_meaning": "GREEN means the package is internally sound: the real sources are bound by the digests the freeze registered, every claimed quantity replays exactly, every hostile fires and is caught, no hostile raises a false alarm on clean input, and no gate certificate carries a scope other than its own. GREEN is NOT a statement that every row closed - rows_closed and rows_open say that, and a row whose registered prediction failed is reported open with its failure named."
+}

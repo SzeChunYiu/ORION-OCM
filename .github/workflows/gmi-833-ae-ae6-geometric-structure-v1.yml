@@ -1,0 +1,358 @@
+name: GMI 833 AE6 geometric structure v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae6-geometric-structure-v1/**'
+      - '.github/workflows/gmi-833-ae-ae6-geometric-structure-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae6-geometric-structure-v1/**'
+      - '.github/workflows/gmi-833-ae-ae6-geometric-structure-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=3c2edcdec42c30f3101b1d294d1144875a25ce91
+          pkg=research/gmi-833-ae-ae6-geometric-structure-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/ae6_geometric_structure_v1.py" \
+            "$pkg/independent_geometry_oracle_v1.py" \
+            "$pkg/test_ae6_geometric_structure_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/CORE.md" \
+            "$pkg/AE6_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/PROSPECTIVE_REGISTER_V1.json" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE6_GEOMETRIC_STRUCTURE_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+          echo "freeze custody OK"
+      - name: Register custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          register=ca674c10e9c0c79e0df46de61d9170cc06435135
+          freeze=3c2edcdec42c30f3101b1d294d1144875a25ce91
+          pkg=research/gmi-833-ae-ae6-geometric-structure-v1
+          git cat-file -e "$register^{commit}"
+          git cat-file -e "$register:$pkg/PROSPECTIVE_REGISTER_V1.json"
+          # the freeze content already existed at the register commit, and the
+          # register precedes every implementation blob of this package
+          git cat-file -e "$register:$pkg/FREEZE_V1.md"
+          test "$(git rev-parse "$freeze:$pkg/FREEZE_V1.md")" = \
+               "$(git rev-parse "$register:$pkg/FREEZE_V1.md")"
+          for p in \
+            "$pkg/ae6_geometric_structure_v1.py" \
+            "$pkg/independent_geometry_oracle_v1.py" \
+            "$pkg/test_ae6_geometric_structure_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/CORE.md" \
+            "$pkg/AE6_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE6_GEOMETRIC_STRUCTURE_V1.json"; do
+            if git cat-file -e "$register:$p" 2>/dev/null; then
+              echo "implementation blob already existed at the register: $p" >&2
+              exit 1
+            fi
+          done
+          # the register's own digest must still reproduce
+          python -I -B - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae6-geometric-structure-v1')
+          reg = json.loads((root / 'PROSPECTIVE_REGISTER_V1.json').read_text())
+          core = dict(reg)
+          core.pop('self_digest_sha256')
+          core.pop('self_digest_note')
+          digest = hashlib.sha256(json.dumps(
+              core, sort_keys=True,
+              separators=(',', ':')).encode('utf-8')).hexdigest()
+          if digest != reg['self_digest_sha256']:
+              raise SystemExit('register digest mismatch')
+          print('register custody OK', digest)
+          PY
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            if git cat-file -e "HEAD:$1" 2>/dev/null; then
+              actual="$(git rev-parse "HEAD:$1")"
+              if [ "$actual" != "$2" ]; then
+                echo "parent pin mismatch for $1: $actual != $2" >&2
+                exit 1
+              fi
+              echo "parent pin OK $1"
+            else
+              echo "parent path not on main, pin skipped: $1"
+            fi
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+      - name: Exact geometry tests, hostiles and two-route agreement
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae6-geometric-structure-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_ae6_geometric_structure_v1.py" -v
+            python -I -O -B "$pkg/ae6_geometric_structure_v1.py" > /tmp/ae6.json
+          else
+            python -I -B "$pkg/test_ae6_geometric_structure_v1.py" -v
+            python -I -B "$pkg/ae6_geometric_structure_v1.py" > /tmp/ae6.json
+          fi
+          cmp /tmp/ae6.json "$pkg/RESULT_V1.json"
+      - name: Check manifest, claim ceiling and named numbers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae6-geometric-structure-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          fail = []
+
+          def need(cond, msg):
+              if not cond:
+                  fail.append(msg)
+
+          expected = ('GMI_833_AE6_GEOMETRIC_STRUCTURE_HIERARCHY_SEPARATED_AND_'
+                      'MORPHOLOGY_CONDITIONS_DERIVED_ON_REGISTERED_FINITE_ROSTER')
+          need(m['claim_ceiling'] == r['claim_ceiling'] == expected,
+               'claim ceiling')
+          need(m['source_main'] == r['source_main'] ==
+               '0dcdec54fbece041ee2b7cd1f630469ad85d19d3', 'source_main')
+          need(m['freeze_commit'] == r['freeze_commit'] ==
+               '3c2edcdec42c30f3101b1d294d1144875a25ce91', 'freeze_commit')
+          need(m['register_digest'] == r['register_digest'], 'register_digest')
+          reg = json.loads((root / 'PROSPECTIVE_REGISTER_V1.json').read_text())
+          need(reg['freeze_commit'] == r['freeze_commit'],
+               'register freeze_commit disagrees with the receipt')
+          need(reg['source_main'] == r['source_main'],
+               'register source_main disagrees with the receipt')
+          need(reg['package'] == r['package'], 'register package')
+          need(r['verdict'] == 'GREEN', 'verdict')
+          need(all(r['checks'].values()), 'checks')
+          need(r['issue'] == 833 and r['issue_comment_id'] == 5692689542,
+               'issue identity')
+
+          res = r['results']
+          c = res['union_predicate_census']
+          need(c['supports_with_dimension_at_least_1'] == 65519, 'census total')
+          need(c['members'] == 65503, 'census members')
+          need(c['non_members'] == 16, 'census non-members')
+          need(c['non_member_size_histogram'] == {'15': 16}, 'census sizes')
+          need(c['every_non_member_has_nontrivial_stabilizer'] is True,
+               'census stabilizers')
+          need(res['strictness_summary'] == {
+              'ordered_pairs': 30, 'separated_with_witness': 23,
+              'not_separated': 7}, 'strictness summary')
+          need(res['registered_scope']['geometric_cycle_ranks']
+               == [0, 1, 5, 17], 'geometric cycle ranks')
+          need(res['sparse_containment_certificate'][
+              'maximum_affine_dimension'] == 2, 'sparse containment')
+
+          row2 = res['row2_nonmanifold_learnable']
+          need(row2['non_manifold_certificates']['degree_sequence']
+               == [1, 2, 2, 2, 3], 'row2 degrees')
+          need(row2['non_manifold_certificates'][
+              'maximal_coset_dimensions'] == [1, 2], 'row2 maxdims')
+          need(row2['learned_exactly']['accuracy'] == '1', 'row2 accuracy')
+          need(row2['learned_exactly']['cost_bits'] == 13, 'row2 cost')
+
+          row3 = res['row3_low_dimension_is_useless']
+          need(row3['literal_witness']['affine_dimension'] == 1, 'row3 dim')
+          need(row3['literal_witness']['mutual_information_bits'] == '0',
+               'row3 mi')
+          need(row3['literal_witness']['interventional_effect'] == '0',
+               'row3 effect')
+          need(row3['impossibility']['dimension_1_exhaustive'][
+              'cases_satisfying_the_full_conjunction'] == 0, 'row3 impossible')
+          need(row3['impossibility']['dimension_1_exhaustive'][
+              'cases_checked'] == 480, 'row3 cases')
+          need(row3['impossibility'][
+              'zero_information_forces_constant_target']['violations'] == 0,
+               'row3 identity')
+          need(row3['impossibility'][
+              'zero_information_forces_constant_target'][
+                  'cases_checked'] == 34112, 'row3 identity cases')
+          cw = row3['composite_witness']
+          need(cw['block1_factor_dimension'] == 1, 'composite factor dim')
+          need(cw['block2_factor_dimension'] == 2, 'composite full dim')
+          need(cw['mutual_information_block1_bits'] == '0', 'composite mi')
+          need(cw['interventional_effect_block1'] == '0', 'composite effect')
+          need(cw['best_accuracy_reading_block1_only'] == '1/2',
+               'composite low-dim accuracy')
+          need(cw['best_accuracy_reading_block2_only'] == '1',
+               'composite full-dim accuracy')
+
+          loc = res['derivation_locality']
+          need(loc['status'] == 'DERIVED', 'locality status')
+          need(loc['integer_cost'] == 13, 'locality cost')
+          need(loc['positive']['named_class_accuracy'] == '1', 'locality pos')
+          need(loc['positive']['comparator_accuracy'] == '7/8',
+               'locality comparator')
+          need(loc['matched_failure']['named_class_accuracy'] == '15/16',
+               'locality failure')
+          need(loc['matched_failure']['accuracy_drop'] == '1/16',
+               'locality drop')
+
+          sym = res['derivation_symmetry']
+          need(sym['status'] == 'DERIVED', 'symmetry status')
+          need(sym['integer_cost'] == 12, 'symmetry cost')
+          need(sym['unshared_cost'] == 23, 'symmetry unshared cost')
+          need(sym['cost_reduction_bits'] == 11, 'symmetry reduction')
+          need(sym['orbit_count_reduction'] == 11, 'symmetry orbit reduction')
+          need(sym['positive']['named_class_accuracy'] == '1', 'symmetry pos')
+          need(sym['positive']['comparator_accuracy'] == '13/16',
+               'symmetry comparator')
+          need(sym['matched_failure']['named_class_accuracy'] == '11/16',
+               'symmetry failure')
+          need(sym['matched_failure']['accuracy_drop'] == '5/16',
+               'symmetry drop')
+
+          comp = res['derivation_compositionality']
+          need(comp['status'] == 'DERIVED', 'compositionality status')
+          need(comp['integer_cost'] == 14, 'compositionality cost')
+          need(comp['positive']['named_class_accuracy'] == '1',
+               'compositionality pos')
+          need(comp['positive']['comparator_accuracy'] == '5/8',
+               'compositionality comparator')
+          need(comp['matched_failure']['named_class_accuracy'] == '7/8',
+               'compositionality failure')
+          need(comp['matched_failure'][
+              'failure_comparator_accuracy'] == '1',
+               'compositionality failure comparator')
+          need(comp['matched_failure']['accuracy_drop'] == '1/8',
+               'compositionality drop')
+          cont = comp['monolithic_comparator_containment']
+          need(cont['all_contained_in_M_modular'] is True, 'containment')
+          need(cont['monolithic_functions_at_that_budget'] == 17,
+               'containment count')
+          need(cont['distinct_modular_functions'] == 520, 'modular count')
+
+          code = res['description_code']
+          need(code['kraft_sum_is_at_most_1'] is True, 'kraft')
+          need(code['relaxed_code_violates_kraft'] is True, 'kraft relaxed')
+
+          need(len(r['bounds']) == 10, 'bound count')
+          for b in r['bounds']:
+              need(b['violated_by'] is not None,
+                   'bound without violated_by: ' + b['name'])
+              need(b['status'] == 'FALSIFIABLE',
+                   'unfalsified bound: ' + b['name'])
+              need(b['vacuous'] is False, 'vacuous bound: ' + b['name'])
+
+          need(len(r['hostiles']) == 5, 'hostile count')
+          for h in r['hostiles']:
+              need(h['true_value'] != h['perturbed_value'],
+                   'impotent hostile: ' + h['name'])
+              need(h['potency'] is True, 'potency: ' + h['name'])
+              need(h['detected'] is True, 'detection: ' + h['name'])
+
+          n = r['null']
+          need(n['trials'] == 200, 'null trials')
+          need(n['planted_positive_flagged'] is True, 'null planted')
+          need(n['planted_positive_magnitude'] == '1/2', 'null magnitude')
+          need(n['no_alarm_case_holds'] is True, 'null no-alarm')
+          need(n['random_worlds_flagged'] == 3, 'null rate')
+          need(len(n['random_worlds_flagged_detail'])
+               == n['random_worlds_flagged'], 'null detail')
+          need(n['firing_trials_are_genuine_instances'] is True,
+               'null genuine')
+
+          verdicts = dict((p['id'], p['verdict'])
+                          for p in r['prospective_predictions'])
+          need(verdicts == {'AE6-P1': 'CONFIRMED', 'AE6-P2': 'CONFIRMED',
+                            'AE6-P3': 'REFUTED', 'AE6-P4': 'CONFIRMED',
+                            'AE6-P5': 'CONFIRMED'}, 'prospective verdicts')
+          need(r['rows_closed'] == 6, 'rows closed')
+          need(len(r['rows_left_open']) == 1, 'rows left open')
+          need(m['theorems'] == r['theorems'], 'theorem ids')
+          need(len(r['theorems']) == 8, 'theorem count')
+
+          if fail:
+              for f in fail:
+                  print('FAIL:', f)
+              raise SystemExit(1)
+          print('AE6 manifest and named numbers OK')
+          PY
+      - name: Check reconciliation rows are byte-exact and unique
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae6-geometric-structure-v1')
+          spec = json.loads((
+              root /
+              'ISSUE_833_RECONCILIATION_AE6_GEOMETRIC_STRUCTURE_V1.json'
+          ).read_text())
+          res = json.loads((root / 'RESULT_V1.json').read_text())
+          fail = []
+          if spec['schema'] != 'GMI_ISSUE_RECONCILIATION_V2':
+              fail.append('schema')
+          if spec['issue'] != 833 or spec['issue_comment_id'] != 5692689542:
+              fail.append('issue identity')
+          if spec['claim_ceiling'] != res['claim_ceiling']:
+              fail.append('claim ceiling')
+          if len(spec['replacements']) != 6:
+              fail.append('replacement count')
+          seen = set()
+          for rep in spec['replacements']:
+              if not rep['old'].startswith('- [ ] '):
+                  fail.append('old prefix')
+              if not rep['new'].startswith('- [x] '):
+                  fail.append('new prefix')
+              if not rep['new'][6:].startswith(rep['old'][6:]):
+                  fail.append('new does not extend old')
+              if rep['old'] in seen:
+                  fail.append('duplicate row')
+              seen.add(rep['old'])
+              if not rep['anchor'].startswith('### AE6 '):
+                  fail.append('anchor')
+          if len(spec['not_closed']) != 1:
+              fail.append('not_closed count')
+          nc = spec['not_closed'][0]
+          if not nc['row'].startswith('- [ ] '):
+              fail.append('not_closed row prefix')
+          if len(nc['instrument_required']) < 120:
+              fail.append('instrument requirement too thin')
+          if fail:
+              for f in fail:
+                  print('FAIL:', f)
+              raise SystemExit(1)
+          print('AE6 reconciliation spec OK')
+          PY
