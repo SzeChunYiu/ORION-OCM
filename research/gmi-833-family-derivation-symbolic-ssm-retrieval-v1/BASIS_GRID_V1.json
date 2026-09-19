@@ -1,0 +1,72 @@
+{
+ "guard_ablations": [
+  2,
+  4
+ ],
+ "guard_primary": 3,
+ "machine_models": {
+  "M_ITER": {
+   "cell_cap": {
+    "B_CONTR": 24
+   },
+   "cells": "k integer cells in D",
+   "cost": "rho*k + total operator nodes",
+   "guard": "checked at every node every step",
+   "init": "cells loaded from task encoding",
+   "output": "designated output cell final value",
+   "rho_primary": 1,
+   "steps": 16,
+   "transition": "cell_i := e_i(s_1..s_k); time-invariant"
+  },
+  "M_STREAM": {
+   "cell_cap": {
+    "B_EP": 8,
+    "B_W2": 3
+   },
+   "cells": "k integer cells in D",
+   "cost": "rho*k + total operator nodes",
+   "guard": "checked at every node every step",
+   "initial_state": "all zero",
+   "rho_ablations": [
+    1,
+    2,
+    4,
+    8,
+    16
+   ],
+   "rho_primary": 1,
+   "transition": "cell_i := e_i(s_1..s_k, x); y := e_y(s_1..s_k, x); same expressions at every position",
+   "v2_link": "k=1 with e_i, e_y = the v2 M_STATE model"
+  }
+ },
+ "parent_basis": {
+  "file": "BASIS_GRID_V1.json",
+  "package": "gmi-833-blind-recovery-v2-v1",
+  "rule": "tier rules inherited verbatim"
+ },
+ "schema": "FDT_BASIS_GRID_V1",
+ "search": {
+  "PROC1": "per-tranche exact certificates: B_W2 pairing DP over M_STREAM(k=1) (e_s,e_y) by total cost + gate-free closure enumeration (k<=2, sum|coef|<=16); B_DELAY subtranche pairing DP k in {1,2} with rho ablation; B_EP order-swap impossibility theorem machine-verified on the bounded affine subspace (k<=8, sum|coef|<=16); B_CONTR exhaustive sparse-affine (<=4 nonzero coefs in {-1,0,1}, bias in D) and single-gate GE_c(sparse affine) readout certificates",
+  "PROC2": "seeded stochastic neutral program search; genomes = per-cell basis-expression tuples + output designation; primitive-edit mutations; lexicographic fitness (errors, cost); (mu,lambda)=(16,64), ablations (8,32),(32,128); seeds 0..199; budget 1e5 genome evaluations per run; B_CONTR fitness on the 2000-task frozen-hash subset with full-battery champion verification",
+  "nulls": "200-seed equal-size random admission; frozen hash ((s+1)*2654435761 mod 2^32); per-tranche statistic families as declared in PRIOR_DISCLOSURE_V1.md CH4"
+ },
+ "tiers": {
+  "atoms": "task input tokens + cells",
+  "binary": [
+   "ADD"
+  ],
+  "constants": [
+   -1,
+   0,
+   1
+  ],
+  "unary_contrast": {
+   "definition": "{NEG, POS}",
+   "name": "U_V1"
+  },
+  "unary_primary": {
+   "definition": "{NEG} U {GE_c : c in D}",
+   "name": "U_ORD"
+  }
+ }
+}

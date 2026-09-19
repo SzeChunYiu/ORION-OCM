@@ -1,0 +1,10 @@
+# Receipts run log
+
+host: billy
+python: 3.8.10
+numpy: 1.24.3
+battery_sha256: 5b385f0edfa035b28940f5dd982e0c69991a2ce6e0175e4c693073add26899f0
+started: 2026-09-17T14:03:27
+
+T1 ok sha256=2b15888f77c617d252420f8fdfeb7f834f1f746117e0457dcca884796e0998b8
+finished: 2026-09-17T15:07:24
