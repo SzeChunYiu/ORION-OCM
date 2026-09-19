@@ -1,0 +1,77 @@
+{
+  "schema": "GMI_833_AE14_GENERALIZATION_TAXONOMY_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE14",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae14-generalization-taxonomy-v1",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "freeze_commit": "6cd9f2924d153ea7f5938eca1a7694f9bf50606b",
+  "register_commit": "9857a838acd2f6f83499cac36de2193348c26d09",
+  "register_digest": "eba39531d2ab867d22a4f23a52d9942cdd20b6ead05725bb20a72fd018732815",
+  "claim_ceiling": "GMI_833_AE14_GENERALIZATION_MODES_OPERATIONALLY_SEPARATED_ON_REGISTERED_FINITE_TASK_ROSTER",
+  "target_rows": 6,
+  "theorems": ["AE14-1", "AE14-2", "AE14-3", "AE14-4", "AE14-5", "AE14-6",
+               "AE14-7", "AE14-8"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae14-generalization-taxonomy-v1/ae14_generalization_taxonomy_v1.py",
+    "B": "research/gmi-833-ae-ae14-generalization-taxonomy-v1/independent_taxonomy_oracle_v1.py",
+    "independence": "route B contains no executable import of route A and recomputes every claimed quantity by a materially different algorithm (spanned subcube by intersecting all 81 subcubes rather than fixing constant coordinates; recombination by a pairwise search over training points; the analogy group by closure under composition; planning targets by a backward breadth-first search; Horn derivation depth by a memoised derivation-tree recursion; class membership by filtering all 65536 functions with definitional tests rather than building the parameterisations; integer code lengths by a doubling loop). The test parses route B's AST and asserts the absence of any import naming route A."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended by this tranche"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; this tranche neither reproves nor extends it"}
+  ],
+  "registered_scope": {
+    "input_space": "X = {0,1}^4, 16 points",
+    "block_decomposition": "{x0,x1} | {x2,x3}",
+    "rule_class_budget": "junta arity 2, decision-tree depth 2",
+    "search_depth_cap": 3,
+    "analogy_group": "the order-4 cyclic coordinate rotation (x0,x1,x2,x3) -> (x1,x2,x3,x0)",
+    "planning_primitives": "p1 = add 1 mod 4 to block 1; p2 = exchange the two blocks",
+    "reason_rules": "four Horn rules over six propositional atoms, target atom 5",
+    "learner_classes": "L0 (constant off the support), L1 (70 depth-2 juntas), L_lin (32 GF(2)-affine functionals), L_mod (520 block-modular compositions), L_search[3] (operator subsets with a transport or derivability readout)",
+    "model_space": "520 models: the 32 affine functionals in (mask, bias) order, then the depth-2 juntas, then the block-modular compositions, deduplicated",
+    "code": "1 + 2*ceil(log2(index+2)) bits, integer arithmetic only, Kraft sum 523273/2097152",
+    "null_trials": 200,
+    "null_seed": "the issue comment id reduced modulo 2^31",
+    "class_priority_order": "L0 < L1 < L_lin < L_mod < L_search, lexicographic by registered name ascending"
+  },
+  "not_instantiated": [
+    "input spaces with n > 4",
+    "budgets other than the registered junta arity 2, tree depth 2 and composition depth cap 3",
+    "block decompositions other than the registered one",
+    "non-binary label spaces",
+    "stochastic learners and optimizers",
+    "sample-complexity and finite-sample statements",
+    "continuous or real-valued description lengths"
+  ],
+  "rows_left_open": [],
+  "forbidden_promotions": [
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ANALOGY_IS_INTERPOLATION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MEMORY_GENERALIZATION_ANALOGY_REASONING_SAME_MECHANISM",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "REASONING_REDUCED_TO_PREDICTION",
+    "SCALE_UNIFIES_GENERALIZATION_MODES",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "WORLD_MODEL_ALWAYS_REQUIRED"
+  ],
+  "reported_refutations": [
+    {"id": "AE14-P1",
+     "status": "REFUTED",
+     "reason": "41 of the 42 ordered mode pairs are separated by a registered witness; INTERPOLATION cannot be separated from SYSTEMATIC_GENERALIZATION at any support because the second constraint set is contained in the first, checked over all 65310 supports on which it is non-empty (AE14-8)"}
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "schema": "GMI_833_AE8_CPC_DISCRIMINATION_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE8",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae8-cpc-discrimination-v1",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "freeze_commit": "bdb89d1c0e4b47dae78a66dd2245f448fa765029",
+  "register_commit": "507bea3cf7fb98bb67ffc0806be2583a02f5576d",
+  "register_digest": "5f3e06c42728ef4ecc228c1a1ff5ac3e1737a63158642950d779faf6e7e264fb",
+  "claim_ceiling": "GMI_833_AE8_CPC_CLASSIFIED_AND_DISCRIMINATED_AGAINST_REGISTERED_MASTER_PRINCIPLES_ON_A_FINITE_PREREGISTERED_WORLD_ROSTER",
+  "target_rows": 8,
+  "rows_left_open": [],
+  "theorems": [
+    "AE8-1",
+    "AE8-2",
+    "AE8-3",
+    "AE8-4",
+    "AE8-5",
+    "AE8-6",
+    "AE8-7",
+    "AE8-8"
+  ],
+  "routes": {
+    "A": "research/gmi-833-ae-ae8-cpc-discrimination-v1/ae8_cpc_discrimination_v1.py",
+    "B": "research/gmi-833-ae-ae8-cpc-discrimination-v1/independent_cpc_oracle_v1.py",
+    "independence": "route B has no executable import of route A and imports only the standard library; the test parses its AST and asserts both. Route A buckets models by term vector, relabels partitions canonically and takes ceiling logarithms with int.bit_length; route B compares every pair directly, builds cells with a dictionary keyed on the code value, and decides the sign of a logarithmic combination by cross-multiplying its positive and negative parts into two integers."
+  },
+  "parent_pins": [
+    {
+      "path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+      "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+      "claim_ceiling": "parent-owned theory baseline; consulted, not extended"
+    },
+    {
+      "path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+      "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+      "claim_ceiling": "parent-owned #833 foundation receipt; neither reproved nor extended"
+    },
+    {
+      "path": "research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json",
+      "blob_sha": "ceb77f5beac99b5427d1350915b19df546495fb8",
+      "claim_ceiling": "AE1's budget-indexed profile object, the parent of the AE1_BUDGET_MONOTONE law tested here"
+    },
+    {
+      "path": "research/gmi-833-ae-ae2-predictive-boundary-v1/RESULT_V1.json",
+      "blob_sha": "cd1e1d5f68342918c0b54583fc5f5b70eabe203c",
+      "claim_ceiling": "AE2's no-predictive-information boundary, the parent of the AE2 law tested here"
+    },
+    {
+      "path": "research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json",
+      "blob_sha": "69aafebec4016f539c46b1f71546f740a8018421",
+      "claim_ceiling": "AE10's usable-information separation, the parent of the AE10 law tested here"
+    }
+  ],
+  "in_flight_dependencies": [
+    {
+      "package": "gmi-833-ae-ae12-fep-audit-v1",
+      "artifact": "PROSPECTIVE_REGISTER_V1.json",
+      "register_digest": "d117030877cd1f8bc264aa22059392cf836ce29ad7b252a86dc3863bb6d36f9d",
+      "why": "AE12's register commit precedes every implementation blob of this package, which is what makes its W_DISC1 disagreement a genuine pre-registration for AE8 row 6. It is pinned by register digest rather than by the blob sha of a receipt, because both packages ship in the same change and a receipt regeneration must not break this workflow."
+    },
+    {
+      "note": "AE3, AE4 and AE7 are reconciled in the live issue comment but their packages are not on main at source_main (open pull requests #1033 and #1038), so they are NOT pinned by blob sha. The boundary facts this package needs from them are re-derived inside its own registered scope, so nothing here depends on an unmerged blob."
+    }
+  ],
+  "registered_scope": {
+    "universe": "the three-bit cube with the uniform measure",
+    "model_space_size": 4110,
+    "world_count": 12,
+    "models_per_world": 4,
+    "weight_grid": "the 45 triples of eighths summing to 1",
+    "description_length_bits": {
+      "J_lambda": 12,
+      "each_law": 9,
+      "bag_of_laws_total": 54
+    },
+    "rate_distortion_cardinality": 1,
+    "null_trials": 200,
+    "exact_arithmetic": "Fraction and int only; irrational information quantities are carried as rational combinations of prime logarithms and compared by one integer product comparison, so no float and no numeric bound appears anywhere"
+  },
+  "not_instantiated": [
+    "universes beyond three bits",
+    "models outside the registered code-map list",
+    "horizons and sequential control",
+    "continuous actions",
+    "real systems of any kind",
+    "any energetic or physical quantity",
+    "objectives outside the registered term basis"
+  ],
+  "disclosed_register_gaps": [
+    "the register names `the frozen predicted disagreement sets` but does not enumerate them per world; the per-world disagreements are therefore reported as measurements, and the one preregistered discriminating world this package can point to is AE12's W_DISC1, whose register commit precedes every implementation blob here",
+    "the register does not pin a decision rule for the word `beats` in the master-law row; the Pareto rule used is stated in the receipt"
+  ],
+  "prospective_predictions": {
+    "confirmed": 6,
+    "refuted": 0
+  },
+  "terminals": [
+    "CPC_MASTER_LAW_CLAIM_WITHHELD",
+    "OBSERVATIONALLY_EQUIVALENT_AT_REGISTERED_SCOPE"
+  ],
+  "forbidden_promotions": [
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "CPC_IS_A_THEOREM",
+    "CPC_IS_THE_GMI_MASTER_LAW",
+    "CPC_MASTER_LAW_CLAIM_WITHHELD_IS_A_NEGATIVE_RESULT_ABOUT_PARENTS",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "OBSERVATIONAL_EQUIVALENCE_IMPLIES_IDENTITY",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "SINGLE_OBJECTIVE_EXPLAINS_ALL_GMI_LAWS",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "WORLD_MODEL_ALWAYS_REQUIRED"
+  ]
+}

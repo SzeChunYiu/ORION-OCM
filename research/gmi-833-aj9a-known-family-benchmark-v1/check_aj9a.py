@@ -33,7 +33,15 @@ def walk(obj,path="$"):
             yield path,k,v
             yield from walk(v,path+"."+str(k))
     elif isinstance(obj,list):
-        for i,v in enumerate(obj): yield from walk(v,path+f"[{i}]")
+        for i,v in enumerate(obj):
+            # Yield the element itself before recursing. Without this, a string
+            # held directly in a list is never surfaced to the audit's
+            # isinstance(v,str) macro check -- and operator lists such as
+            # generic_ops are exactly list-of-string. Four of this file's own
+            # eleven hostiles ({"ops":["dense_layer"]} and siblings) went
+            # undetected for that reason.
+            yield path,i,v
+            yield from walk(v,path+f"[{i}]")
 
 def audit_config(cfg, registry):
     reasons=[]
