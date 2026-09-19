@@ -1,0 +1,43 @@
+name: gmi-1068-r14-formal-proof-bundle-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r14-formal-proof-bundle-v1/**'
+      - 'research/gmi-1068-r1-minimal-process-core-v1/*.lean'
+      - 'research/gmi-1068-r2-context-irreducibility-v1/*.lean'
+      - 'research/gmi-1068-r3-contextual-attainability-v1/*.lean'
+      - 'research/gmi-1068-r4-equivalence-state-quotient-v1/*.lean'
+      - 'research/gmi-1068-r5-resource-transform-geometry-v1/*.lean'
+      - 'research/gmi-1068-r6-blank-computer-genesis-v1/*.lean'
+      - '.github/workflows/gmi-1068-r14-formal-proof-bundle-v1.yml'
+jobs:
+  lean-kernel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=4f7843f8391a47d4ae407c986fd45e2f4a5a4cd1
+          P=research/gmi-1068-r14-formal-proof-bundle-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/GrandGMI.lean" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Install Lean 4.19.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Kernel check canonical bundle
+        run: lean research/gmi-1068-r14-formal-proof-bundle-v1/GrandGMI.lean
+      - name: Re-check earlier round proof artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in             research/gmi-1068-r1-minimal-process-core-v1/ProcessCore.lean             research/gmi-1068-r2-context-irreducibility-v1/ContextIrreducibility.lean             research/gmi-1068-r3-contextual-attainability-v1/Attainability.lean             research/gmi-1068-r4-equivalence-state-quotient-v1/ContextualEquivalence.lean             research/gmi-1068-r5-resource-transform-geometry-v1/ResourceGeometry.lean             research/gmi-1068-r6-blank-computer-genesis-v1/Genesis.lean
+          do
+            lean "$f"
+          done
