@@ -285,6 +285,31 @@ class TestRatchetGate(Moved):
         self.assertEqual(rep["regressions"], [])
         self.assertEqual(rep["new_files_with_hits"], [])
 
+    def test_verbatim_issue_row_quotations_are_exempt(self):
+        """A freeze must quote its issue rows byte-exact and never be edited.
+
+        Those rows contain banned terms, so the ratchet and the closure standard
+        were in direct conflict: a lane could satisfy one only by falsifying a
+        quotation or tampering with custody. Three lanes hit this independently,
+        and 41 already-committed freezes carry the identical hit and were
+        grandfathered into the baseline -- so it was never enforced on them
+        either.
+        """
+        quoted = {"file": "/x/FREEZE_V1.md", "line_no": "27", "term": "obligation",
+                  "text": "- [ ] Replace ambiguous uses of `obligation` in theory."}
+        blockquoted = dict(quoted, text="> - [x] Re-audit the obligation ledger.")
+        prose = dict(quoted, text="This tranche discharges the obligation above.")
+
+        self.assertTrue(R._is_quoted_issue_row(quoted))
+        self.assertTrue(R._is_quoted_issue_row(blockquoted))
+        # no-alarm: the lane's OWN prose is still scanned, in the same file
+        self.assertFalse(R._is_quoted_issue_row(prose))
+
+        # and the exemption actually fires on the real corpus
+        live = R.measure()
+        self.assertGreater(live["quoted_issue_rows_exempt"], 0,
+                           "exemption never fired; the hit shape may have changed")
+
     def test_live_corpus_is_measurable_and_baseline_is_real(self):
         live = R.measure()
         self.assertIsInstance(live["total_hits"], int)
