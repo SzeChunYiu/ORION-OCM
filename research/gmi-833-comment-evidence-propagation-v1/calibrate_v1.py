@@ -2,7 +2,8 @@
 """Calibration: 11 rows hand-adjudicated from the artifacts, then re-derived
 mechanically from the decisive test alone. Agreement is reported."""
 import json, io, os, re, subprocess
-ROOT="/Users/billy/Desktop/projects/ORION-OCM-wt-833/propagate"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 R=lambda p: io.open(os.path.join(ROOT,p),encoding="utf-8").read()
 J=lambda p: json.loads(R(p))
 AI0="research/gmi-833-ai0-convergence-spine-v1/"

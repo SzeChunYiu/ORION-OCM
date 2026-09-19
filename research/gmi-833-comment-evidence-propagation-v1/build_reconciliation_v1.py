@@ -1,10 +1,31 @@
 # -*- coding: utf-8 -*-
+import argparse
 import json, io, os
 
-LIVE = "/tmp/claude-501/prop/live_%s.md"
+HERE = os.path.dirname(os.path.abspath(__file__))
+SNAPSHOTS = os.path.join(HERE, "comment_snapshots")
 AI, AI8, AF, AJ = 5693666042, 5693704406, 5693269426, 5693954852
 
-bodies = {c: io.open(LIVE % c, encoding="utf-8").read() for c in (AI, AI8, AF, AJ)}
+
+def load_bodies(offline=None):
+    """Load fresh comment snapshots from JSON (preferred, ratchet-safe) or md."""
+    root = offline or os.environ.get("GMI833_FETCH") or SNAPSHOTS
+    out = {}
+    for c in (AI, AI8, AF, AJ):
+        jp = os.path.join(root, "c_%d.json" % c)
+        mp = os.path.join(root, "c_%d.md" % c)
+        if os.path.exists(jp):
+            doc = json.load(io.open(jp, encoding="utf-8"))
+            out[c] = doc["body"] if isinstance(doc, dict) else doc
+        else:
+            out[c] = io.open(mp, encoding="utf-8").read()
+    return out
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--offline", metavar="PKGDIR", help="read comment_snapshots/ from this package")
+args = parser.parse_args()
+bodies = load_bodies(os.path.join(args.offline, "comment_snapshots") if args.offline else None)
 lines  = {c: b.split("\n") for c, b in bodies.items()}
 
 def anchor_for(c, n):
@@ -214,9 +235,27 @@ for n in range(257, 264):
 
 # ---------------- emit ----------------
 reps = []
+nots = []
+already_closed = []
+
+def fresh_state(c, n):
+    """Live state of an adjudicated line: open, or closed (possibly with an
+    evidence suffix appended by another lane). Any other line is a defect."""
+    l = lines[c][n]
+    if l.startswith("- [ ] "):
+        return "open", l, None
+    if l.startswith("- [x] "):
+        base = l[6:].split(u" — ✅ `", 1)[0]
+        return "closed", "- [ ] " + base, l
+    raise AssertionError("not a checkbox at %s:%s: %r" % (c, n, l))
+
 for c, n, pkg, ev, sent in MARK:
-    old = lines[c][n]
-    assert old.startswith("- [ ] "), (c, n, old)
+    state, old, live = fresh_state(c, n)
+    if state == "closed":
+        already_closed.append({"comment_id": c, "old_at_round_1": old,
+                               "live_state": live, "round_1_status": "EARNED_BY_MERGED_EVIDENCE",
+                               "note": "Round-1 EARNED row; the live comment already shows it checked (with this package's evidence suffix). Recorded rather than re-emitted."})
+        continue
     cnt = bodies[c].count(old)
     assert cnt == 1, "old not unique (%d) in %s: %r" % (cnt, c, old)
     new = "- [x] " + old[6:] + " — ✅ `" + pkg.split("/")[-1] + "` " + sent + "."
@@ -226,14 +265,18 @@ for c, n, pkg, ev, sent in MARK:
     reps.append({"comment_id": c, "anchor": anc, "old": old, "new": new,
                  "evidence_paths": ev, "status": "EARNED_BY_MERGED_EVIDENCE"})
 
-nots = []
 for c, n, st, reason in SKIP:
-    old = lines[c][n]
-    assert old.startswith("- [ ] "), (c, n, old)
+    state, old, live = fresh_state(c, n)
+    if state == "closed":
+        already_closed.append({"comment_id": c, "old_at_round_1": old,
+                               "live_state": live, "round_1_status": st,
+                               "note": "Round-1 %s row; the live comment already shows it checked (closed upstream by another lane). Recorded rather than re-emitted." % st})
+        continue
     assert bodies[c].count(old) == 1, "skip row not unique in %s: %r" % (c, old)
     nots.append({"comment_id": c, "anchor": anchor_for(c, n), "old": old, "status": st, "reason": reason})
 
-# every open row must be accounted for exactly once
+# every currently-open row must be adjudicated exactly once; every adjudicated
+# line that is no longer open must be a checked row (recorded above), nothing else
 seen = {}
 for c, n, *_ in MARK: seen.setdefault(c, set()).add(n)
 for c, n, *_ in SKIP:
@@ -244,18 +287,21 @@ for c in (AI, AI8, AF, AJ):
     missing = openrows - seen.get(c, set())
     extra = seen.get(c, set()) - openrows
     assert not missing, "unadjudicated rows in %s: %s" % (c, sorted(missing))
-    assert not extra, "phantom rows in %s: %s" % (c, sorted(extra))
+    bad_extra = [i for i in extra if not lines[c][i].startswith("- [x]")]
+    assert not bad_extra, "phantom rows in %s: %s" % (c, sorted(bad_extra))
 
 out = {"schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1", "issue": 833,
-       "replacements": reps, "not_marked": nots}
-dest = "/Users/billy/Desktop/projects/ORION-OCM-wt-833/propagate/research/gmi-833-comment-evidence-propagation-v1/ISSUE_833_COMMENT_RECONCILIATION_V1.json"
+       "replacements": reps, "not_marked": nots,
+       "already_closed_upstream": already_closed}
+dest = os.path.join(HERE, "ISSUE_833_COMMENT_RECONCILIATION_V1.json")
 os.makedirs(os.path.dirname(dest), exist_ok=True)
 io.open(dest, "w", encoding="utf-8").write(json.dumps(out, indent=2, ensure_ascii=False) + "\n")
 
 from collections import Counter
-print("marked", len(reps), "not_marked", len(nots), "total", len(reps) + len(nots))
+print("marked %d  not_marked %d  already_closed_upstream %d" % (len(reps), len(nots), len(already_closed)))
 for c in (AI, AI8, AF, AJ):
     m = sum(1 for r in reps if r["comment_id"] == c)
     h = Counter(x["status"] for x in nots if x["comment_id"] == c)
     print(c, "EARNED=%d" % m, dict(h))
 print("wrote", dest)
+

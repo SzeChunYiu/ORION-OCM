@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import json, io, os, re, sys
-ROOT="/Users/billy/Desktop/projects/ORION-OCM-wt-833/propagate"
-REC=ROOT+"/research/gmi-833-comment-evidence-propagation-v1/ISSUE_833_COMMENT_RECONCILIATION_V1.json"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
+REC = os.path.join(HERE, "ISSUE_833_COMMENT_RECONCILIATION_V1.json")
 d=json.load(io.open(REC,encoding="utf-8"))
 
 def resolve(spec):

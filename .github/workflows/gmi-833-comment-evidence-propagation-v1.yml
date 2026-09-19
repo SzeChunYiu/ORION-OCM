@@ -1,0 +1,38 @@
+name: GMI 833 comment evidence propagation v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-comment-evidence-propagation-v1/**'
+      - '.github/workflows/gmi-833-comment-evidence-propagation-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-comment-evidence-propagation-v1/**'
+      - '.github/workflows/gmi-833-comment-evidence-propagation-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild from committed snapshots and compare
+        run: |
+          set -euo pipefail
+          P=research/gmi-833-comment-evidence-propagation-v1
+          cp "$P/ISSUE_833_COMMENT_RECONCILIATION_V1.json" /tmp/committed.json
+          python3 -I -B "$P/build_reconciliation_v1.py" --offline "$P"
+          cmp /tmp/committed.json "$P/ISSUE_833_COMMENT_RECONCILIATION_V1.json"
+          echo 'the committed reconciliation rebuilds byte-for-byte'
+      - name: Validate citations and calibration
+        run: |
+          set -euo pipefail
+          python3 -I -B research/gmi-833-comment-evidence-propagation-v1/validate_citations_v1.py
+          python3 -I -B research/gmi-833-comment-evidence-propagation-v1/calibrate_v1.py
