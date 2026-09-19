@@ -1,0 +1,98 @@
+{
+  "schema": "GRAND_GMI_V2_R3_INHERITED_AUDIT_V1",
+  "source_issue": 1068,
+  "principle": "A merged ancestor may be sufficient for the next round while still carrying claim/evidence debt that R17 must reopen.",
+  "findings": [
+    {
+      "id": "R0-A1",
+      "ancestor": "R0",
+      "severity": "MATERIAL_CONTROL_PLANE_GAP",
+      "finding": "The frozen V1 programme stops at R16 and lacks reverse-dependency invalidation, exact-head freshness, and recursive fixed-point re-entry semantics.",
+      "current_disposition": "Issue #1068 amended with R17 and two extra merge rules; executable V2 governance artifacts remain required.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R0-A2",
+      "ancestor": "R0",
+      "severity": "EVIDENCE_LEDGER_GAP",
+      "finding": "ATOMIC_CHECKLIST_V1 and THEOREM_STATUS_V1 are frozen baselines and become stale as rounds merge; there is no successor progress ledger yet.",
+      "current_disposition": "R3 adds explicit row reconciliation and theorem supersession rather than editing V1.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R1-A1",
+      "ancestor": "R1",
+      "severity": "CLAIM_WORDING_GAP",
+      "finding": "The categorical identity should be interpreted as a zero-length/interface identity, not as a guarantee that a positive-duration physical 'do nothing' process exists.",
+      "current_disposition": "R3 does not rely on positive-time stasis. R17 must issue an R1 successor interpretation and forbid that promotion.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R1-A2",
+      "ancestor": "R1",
+      "severity": "MINIMALITY_PRESENTATION_GAP",
+      "finding": "An ordinary typed category is a canonical typed presentation, but not proved to be the uniquely weakest encoding: partial-composition/semigroupoid-style presentations can encode comparable composability information.",
+      "current_disposition": "Keep the category as the programme's canonical normal form; narrow 'weakest' to requirement-relative structural content, not representation uniqueness.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R1-A3",
+      "ancestor": "R1",
+      "severity": "HOSTILE_COVERAGE_GAP",
+      "finding": "check_r1.py reports six hostiles but does not separately perturb/remove PROCESS or COMPOSITION; two checks instead police tensor/admissibility non-promotion.",
+      "current_disposition": "PROCESS/COMPOSITION removal arguments are definitional requirement-dependency arguments, not six-for-six finite hostile coverage. R17 must correct the receipt/coverage claim or add successor tests.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R1-A4",
+      "ancestor": "R1",
+      "severity": "RECONCILIATION_GAP",
+      "finding": "R1 merged without a dedicated machine-readable reconciliation of its atomic checklist rows.",
+      "current_disposition": "Reconstruct in the V2 progress ledger from frozen artifacts and exact merge commit.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R2-A1",
+      "ancestor": "R2",
+      "severity": "EXECUTABLE_COVERAGE_GAP",
+      "finding": "R2 declares a partial context evaluator but its finite checker uses only total reward maps.",
+      "current_disposition": "R3 directly repairs downstream semantics with an undefined evaluation in both executable and Lean artifacts.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R2-A2",
+      "ancestor": "R2",
+      "severity": "CONTEXT_SCHEMA_GAP",
+      "finding": "Evaluation-only prose underdescribes contexts that restrict admissible histories or encode interventions. The partial evaluator domain can filter histories, but that ownership needs to be explicit.",
+      "current_disposition": "R3 explicitly distinguishes declared restrictions/intervention families and resource-indexed admissibility; a context-schema successor must make this first-class without adding an undeclared third universal factor.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    },
+    {
+      "id": "R2-A3",
+      "ancestor": "R2",
+      "severity": "FORMALIZATION_BOUNDARY",
+      "finding": "The general positive-scalarization monotonicity statement is stated in theory but the Lean file only mechanizes a finite reversal witness.",
+      "current_disposition": "Treat general scalarization monotonicity as parent-owned order/arithmetic mathematics unless mechanized in R14.",
+      "blocks_r3": false,
+      "must_close_by": "R14_OR_R17"
+    },
+    {
+      "id": "R2-A4",
+      "ancestor": "R2",
+      "severity": "RECONCILIATION_GAP",
+      "finding": "R2 merged without a dedicated machine-readable reconciliation of its atomic checklist rows.",
+      "current_disposition": "Reconstruct in the V2 progress ledger from frozen artifacts and exact merge commit.",
+      "blocks_r3": false,
+      "must_close_by": "R17"
+    }
+  ],
+  "r3_dependency_statement": "R3 consumes only typed sequential composition as a canonical presentation plus R2 partial contextual evaluation/non-derivability. None of the open inherited gaps licenses a stronger R3 claim; all are explicitly carried forward."
+}
