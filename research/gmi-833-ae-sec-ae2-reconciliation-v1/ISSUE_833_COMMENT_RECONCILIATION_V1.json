@@ -1,0 +1,845 @@
+{
+ "schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1",
+ "issue": 833,
+ "comment_id": 5692689542,
+ "section": "AE",
+ "lane": "sec-ae2",
+ "branch": "research/833-sec-ae2",
+ "source_main": "349c2e62c4ae01f52cf66f61e4dacdbdfcf10071",
+ "comment_body_md5_at_extraction": "1ea73d330f495af36b4ba42c02801de7",
+ "packages": [
+  {
+   "package": "research/gmi-833-ae-morphology-sweep-v1",
+   "freeze_commit": "a9b5de6154fb4758523133b6e07255adc4dababc",
+   "rows": 4
+  },
+  {
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "freeze_commit": "eddae65b3f1b3116a3502b65e916a48b165eae7b",
+   "rows": 8
+  },
+  {
+   "package": "research/gmi-833-ae-ae5-causal-state-audit-v1",
+   "freeze_commit": "c69062ee7c7c9bee9aa1534fe5c88de58b7f50d5",
+   "rows": 5
+  }
+ ],
+ "rows_unchecked_before": 101,
+ "rows_closed_here": 17,
+ "rows_left_open": 84,
+ "section_total": 122,
+ "section_checked_after_apply": 38,
+ "honest_ceiling": 106,
+ "replacements": [
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE5 — Predictive-state / causal-state unification audit",
+   "old": "- [ ] Determine which quantity, if any, predicts morphology/resource cost under GMI.",
+   "new": "- [x] Determine which quantity, if any, predicts morphology/resource cost under GMI. — ✅ `gmi-833-ae-morphology-sweep-v1` SWEEP-6/SWEEP-3: over the full **256**-world census on `{0,1}^3` none of AE5's four scalars determines the selected morphology — predictive-state cardinality leaves **8,712** conflicting equal-value world pairs, GF(2) predictive rank **10,172**, registered description length **12,818**, and causal-state entropy at least **2,968** (a certified lower bound: equal exact causal-state probability multiset implies equal entropy, and no logarithm is ever evaluated) — whereas the resource-conditioned achievability vector `(acc(m,W))` has **0** conflicts, compresses 256 worlds to **11** profiles, and has `{m0,m1,m2}` as its unique minimal sufficient subvector at `tau = 3/4`, price `(1,1,1)`.",
+   "package": "research/gmi-833-ae-morphology-sweep-v1",
+   "claim_ceiling": "GMI_833_AE_MORPHOLOGY_SELECTION_PREDICTOR_COMPARISON_AT_REGISTERED_FINITE_SCOPE"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Derive when manifold assumptions fail and another morphology should be selected.",
+   "new": "- [x] Derive when manifold assumptions fail and another morphology should be selected. — ✅ `gmi-833-ae-morphology-sweep-v1` SWEEP-4: locality is defined exactly as `Y` being a.s. determined by some `k`-subset of coordinates; it holds at order **2** for `Y = x0 AND x1` and only at order **3** for `Y = x0 XOR x1 XOR x2`, and the exact rational `tau`-phase map derives the displacement — when locality fails the local classes are pinned at accuracy `1/2`, so for every `tau` in `(1/2, 1]` the non-local GF(2)-affine morphology `m4` is selected at cost `8`, while for `Y = x0 AND x1` the local `m2` is selected for every `tau` in `(3/4, 1]`; at the registered `tau* = 7/8` the two worlds select **different** morphologies and the local class is inactive in the first.",
+   "package": "research/gmi-833-ae-morphology-sweep-v1",
+   "claim_ceiling": "GMI_833_AE_MORPHOLOGY_SELECTION_PREDICTOR_COMPARISON_AT_REGISTERED_FINITE_SCOPE"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE10 — Resource-bounded usable information",
+   "old": "- [ ] Determine whether GMI morphology selection is better predicted by raw information, usable information, or a vector of resource-conditioned sufficient statistics.",
+   "new": "- [x] Determine whether GMI morphology selection is better predicted by raw information, usable information, or a vector of resource-conditioned sufficient statistics. — ✅ `gmi-833-ae-morphology-sweep-v1` SWEEP-1/SWEEP-2/SWEEP-3: the resource-conditioned vector, decisively — over the 256-world census raw `I(X;Y)` leaves **4,348** conflicting equal-value world pairs (equality decided exactly by the symmetric bit-count invariant `min(k, 8-k)`, no float logarithm) and AE10's single-budget `U(W,T,R0) = acc(m2) - acc(m0)` leaves **9,576**, while the achievability profile leaves **0** and is non-vacuous — **11** distinct profiles for **256** distinct worlds, strictly finer than either scalar; repriced at `w = (1,3,1)` the three counts are **3,568 / 9,576 / 0**.",
+   "package": "research/gmi-833-ae-morphology-sweep-v1",
+   "claim_ceiling": "GMI_833_AE_MORPHOLOGY_SELECTION_PREDICTOR_COMPARISON_AT_REGISTERED_FINITE_SCOPE"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE13 — Causality and intervention",
+   "old": "- [ ] Test whether causal structure changes selected morphology relative to observational prediction alone.",
+   "new": "- [x] Test whether causal structure changes selected morphology relative to observational prediction alone. — ✅ `gmi-833-ae-morphology-sweep-v1` SWEEP-5: yes. Two Markov-equivalent worlds (`A -> C` and `C -> A`, `P(C=1|A=1) = 3/4`) have **identical** observational joints cell-by-cell as exact rationals and therefore the identical observational selection `{m1}`; under `do(A)` the profiles separate (`3/4` versus `1/2` at `m1`) and the selection differs — `{m1}` versus the fail-closed `NO_VIABLE_MORPHOLOGY` for every `tau` in `(1/2, 3/4]`. The observational-only hostile, which reads the interventional profile off the observational joint, returns `{m1}` for both worlds and is detected.",
+   "package": "research/gmi-833-ae-morphology-sweep-v1",
+   "claim_ceiling": "GMI_833_AE_MORPHOLOGY_SELECTION_PREDICTOR_COMPARISON_AT_REGISTERED_FINITE_SCOPE"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] Formalize at least three notions separately: lossless description compression, task-relevant lossy compression, and model/generalization compression.",
+   "new": "- [x] Formalize at least three notions separately: lossless description compression, task-relevant lossy compression, and model/generalization compression. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-1: three notions are defined separately and never identified — `A` lossless description compression `K_L(tab f)`, `B` task-relevant lossy compression (minimal junta arity attaining accuracy `>= 3/4`), `C` model/generalization compression (minimal code length of a program with out-of-sample accuracy `1`) — and all **six** ordered pairs are non-determining over the 256-target census: `A→B` **17,406** conflicting pairs of 25,636, `A→C` **14,258**, `B→A` **2,050** of 10,280, `B→C` **5,568**, `C→A` **3,854** of 15,232, `C→B` **10,520**.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] Prove/construct cases where data compresses but the compressed representation is useless for the target task.",
+   "new": "- [x] Prove/construct cases where data compresses but the compressed representation is useless for the target task. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-2: with task `Y = x1 XOR x2`, the corpora `O = x0` and `O = x1 XOR x2` both code to **6** bits in `L1` against a **9**-bit literal — identical compression, both strict — yet the representation each induces gives task accuracy `1/2` (exactly the blind baseline) versus `1`, a separation of `1/2`. Compression therefore carries no task usefulness by itself.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] Prove/construct cases where a useful predictor is not the shortest description under the chosen coding language.",
+   "new": "- [x] Prove/construct cases where a useful predictor is not the shortest description under the chosen coding language. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-3: for the target `01111000` the shortest program consistent with the registered training set `{x : x2 = 0}` is **6** bits with a **unique** argmin — no tie is hidden — and its out-of-sample accuracy is exactly **0**, while the shortest program that generalizes perfectly costs **7** bits. The useful predictor is strictly longer than the shortest description, by 1 bit, at a generalization gap of `1`.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] Distinguish memorization/compression from out-of-sample generalization.",
+   "new": "- [x] Distinguish memorization/compression from out-of-sample generalization. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-4: for `Y = x0 AND x1` all **16** hypotheses with perfect training accuracy realise out-of-sample accuracies `{0, 1/4, 1/2, 3/4, 1}` — the 9-bit memoriser scores `1/2` where a 6-bit rule scores `1` — and over the whole census **6,094,848** of **8,386,560** equal-training-accuracy hypothesis pairs differ out of sample, so training fit does not determine generalization.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] Relate GMI precisely to MDL/Bayesian coding/PAC-Bayes/compression bounds where applicable; subtract parent-owned theorems.",
+   "new": "- [x] Relate GMI precisely to MDL/Bayesian coding/PAC-Bayes/compression bounds where applicable; subtract parent-owned theorems. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-5: an exact two-part MDL and Bayes-MAP crosswalk over the 256-hypothesis class with integer code lengths and exact rational posteriors. On `Y = x0 AND x1` the MDL argmin has **2** members at **6** bits whose out-of-sample accuracies are `1/2` and `1`, so MDL selects a strictly worse hypothesis than the risk optimum `1` and is **not** a subset of the risk argmax; the MAP argmax behaves the same. Four parents are mapped with citations — Rissanen 1978 (doi:10.1016/0005-1098(78)90005-5), MacKay 2003, Blumer et al. 1987 (doi:10.1016/0020-0190(87)90114-1), McAllester 1999 (doi:10.1145/307400.307435) — and the compression-implies-learning direction is left entirely to the Occam's-razor parent.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] State Kolmogorov-complexity uncomputability boundaries explicitly; forbid claims that GMI computes the true shortest program in general.",
+   "new": "- [x] State Kolmogorov-complexity uncomputability boundaries explicitly; forbid claims that GMI computes the true shortest program in general. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-6: the uncomputability of `K` and the machine-dependence of the invariance theorem are stated with citations (Kolmogorov 1965; Li & Vitanyi 4th ed., doi:10.1007/978-3-030-11298-1), `KOLMOGOROV_COMPLEXITY_COMPUTED`, `GMI_COMPUTES_TRUE_SHORTEST_PROGRAM` and `UNIVERSAL_MACHINE_INVARIANCE_PROVED` are registered forbidden promotions, and the prohibition is **enforced** rather than asserted: a guard scans the emitted receipt for any field claiming an uncomputable quantity and reports **0** alarms on this receipt while detecting **2 of 2** planted claims. Every length reported is a code length in a registered finite prefix-free language computed by exhaustive enumeration, never an estimate of `K`.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] Define computable surrogates and quantify their representation-language dependence.",
+   "new": "- [x] Define computable surrogates and quantify their representation-language dependence. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-7: three computable surrogates are registered — `K_L1 = (6,7,11,9)` and `K_L2 = (5,7,11,10)`, both Kraft-tight prefix codes with Kraft sum exactly `1`, and a structurally different run-length code `L3` — and their representation-language dependence is measured exactly: `K_L1` and `K_L2` differ by **1** bit on **242** of the **256** targets and agree on 14, with **0** strict order flips among all **32,640** target pairs, while `K_L1` and `K_L3` differ by up to **3** bits.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE3 — Compression is not automatically learning",
+   "old": "- [ ] Test whether GMI predictions survive multiple coding languages/universal-machine remints up to the actually justified invariance boundary.",
+   "new": "- [x] Test whether GMI predictions survive multiple coding languages/universal-machine remints up to the actually justified invariance boundary. — ✅ `gmi-833-ae-ae3-compression-learning-v1` AE3-8: the unqualified claim is **refused** and the actual boundary is measured. Over **200** Kraft-feasible remints of the code-length tuple, the AE3-2 verdict holds on exactly **162** and is characterised by the exact predicate `min(rule_len, xor_len) < literal_len`, which matches observation on **200 of 200**; the AE3-3 verdict holds on only **170 of 200** and all **30** exceptions are enumerated in the receipt; AE3-4 is language-independent by construction. An extreme non-prefix code `(1,1,1,1)` with Kraft sum **272** destroys AE3-3 outright and is caught by the Kraft guard. `UNIVERSAL_MACHINE_INVARIANCE_PROVED` stays a registered forbidden promotion.",
+   "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+   "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE5 — Predictive-state / causal-state unification audit",
+   "old": "- [ ] Relate GMI predictive equivalence to computational-mechanics causal states / epsilon-machines at the exact applicable scope.",
+   "new": "- [x] Relate GMI predictive equivalence to computational-mechanics causal states / epsilon-machines at the exact applicable scope. — ✅ `gmi-833-ae-ae5-causal-state-audit-v1` AE5-1: GMI horizon-`H` predictive equivalence is defined as equality of the conditional distribution over the next `H` symbols, and at horizon `H` it is **exactly** the Crutchfield–Young causal-state partition truncated to horizon `H`. The refinement is monotone on **all 2,019** members of the registered family; the stabilisation horizon is `1` for **1,863** and `2` for **156**, and a machine-found counterexample (`F F F F F 0 0`) is strictly coarser at `H = 1` (**1** class) than at `H = 2` (**2** classes). The identification is therefore correct **only for `H >= H*`** and must carry its horizon — an unqualified identification at `H = 1` is false.",
+   "package": "research/gmi-833-ae-ae5-causal-state-audit-v1",
+   "claim_ceiling": "GMI_833_AE5_PREDICTIVE_STATE_PARENT_OWNERSHIP_AUDITED_ON_A_REGISTERED_FINITE_DYADIC_PROCESS_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE5 — Predictive-state / causal-state unification audit",
+   "old": "- [ ] Compare GMI minimal sufficient predictive state with statistical complexity and predictive information/excess entropy.",
+   "new": "- [x] Compare GMI minimal sufficient predictive state with statistical complexity and predictive information/excess entropy. — ✅ `gmi-833-ae-ae5-causal-state-audit-v1` AE5-2: on a registered family of **2,019** exactly-dyadic decision-tree processes (of **2,187** enumerated; **168** excluded because their causal-state masses are not exactly dyadic), the GMI minimal sufficient predictive state coincides with the causal-state partition, `C_mu` is the exact rational `sum 2^-a * a` with **no logarithm ever evaluated**, and the parent bound `E <= C_mu` holds on **1,527 of 1,527** members where the excess entropy is exactly computable. Strict crypticity is exhibited — `C_mu = 3/2`, `E = 1/2`, `chi = 1` — and the causal-state masses there are the **non-uniform** dyadic triple `(1/4, 1/4, 1/2)`, so `C_mu` is genuinely an entropy and not a relabelled state count.",
+   "package": "research/gmi-833-ae-ae5-causal-state-audit-v1",
+   "claim_ceiling": "GMI_833_AE5_PREDICTIVE_STATE_PARENT_OWNERSHIP_AUDITED_ON_A_REGISTERED_FINITE_DYADIC_PROCESS_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE5 — Predictive-state / causal-state unification audit",
+   "old": "- [ ] Determine whether existing GMI state-complexity results are already parent-owned by causal-state/minimal-predictor theory.",
+   "new": "- [x] Determine whether existing GMI state-complexity results are already parent-owned by causal-state/minimal-predictor theory. — ✅ `gmi-833-ae-ae5-causal-state-audit-v1` AE5-3: **`PARENT_SUFFICIENT` on 4 of 5 audited statements**, recorded as a success terminal and not as a shortfall. The minimality of the predictive state is Shalizi & Crutchfield 2001 (doi:10.1023/A:1010388907793, Theorems 1 and 3); state complexity as the entropy of the minimal partition is Crutchfield & Young 1989 (doi:10.1103/PhysRevLett.63.105); the predictive-information bound `E <= C_mu` with crypticity is Crutchfield & Feldman 2003 (doi:10.1063/1.1530990); rank-below-state-count is Jaeger 2000 (doi:10.1162/089976600300015411). The receipt records `novelty_claimed_for_gmi_state_complexity: false`. The single **RESIDUAL** is named: the horizon-indexed refinement sequence and the resource-priced selection of a predictor, the latter exercised by `gmi-833-ae-morphology-sweep-v1` in this same tranche.",
+   "package": "research/gmi-833-ae-ae5-causal-state-audit-v1",
+   "claim_ceiling": "GMI_833_AE5_PREDICTIVE_STATE_PARENT_OWNERSHIP_AUDITED_ON_A_REGISTERED_FINITE_DYADIC_PROCESS_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE5 — Predictive-state / causal-state unification audit",
+   "old": "- [ ] Construct processes where predictive-state cardinality, linear predictive rank, entropy of causal state, and description length disagree.",
+   "new": "- [x] Construct processes where predictive-state cardinality, linear predictive rank, entropy of causal state, and description length disagree. — ✅ `gmi-833-ae-ae5-causal-state-audit-v1` AE5-4: over the 2,019-member family, **11 of the 12** ordered quantity pairs disagree — two processes share the first quantity and differ in the second — and **6** pairs additionally admit a strict order reversal, so **every one of the six unordered pairs is non-equivalent**. The single determined direction, `C_mu → rank`, is covered by a **proved** structural bound rather than left unexamined: the Hankel rank at split `k` is at most the number of causal states at prefix length `k` (Carlyle–Paz / Fliess; Jaeger 2000), verified on **all 2,019** members, and at `L = 3` that caps the rank at `2`, so `C_mu = 0` forces `rank = 1`. The reverse direction still disagrees, so the two quantities remain non-equivalent.",
+   "package": "research/gmi-833-ae-ae5-causal-state-audit-v1",
+   "claim_ceiling": "GMI_833_AE5_PREDICTIVE_STATE_PARENT_OWNERSHIP_AUDITED_ON_A_REGISTERED_FINITE_DYADIC_PROCESS_FAMILY"
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE5 — Predictive-state / causal-state unification audit",
+   "old": "- [ ] Extend beyond finite horizon only with explicit measurable/infinite-horizon assumptions; otherwise preserve OPEN gaps.",
+   "new": "- [x] Extend beyond finite horizon only with explicit measurable/infinite-horizon assumptions; otherwise preserve OPEN gaps. — ✅ `gmi-833-ae-ae5-causal-state-audit-v1` AE5-6: the claim is registered as finite-horizon only (`L = 3`), the **five** assumptions an infinite-horizon extension would require are listed explicitly and declared **not assumed** — stationarity, ergodicity, measurability of the semi-infinite future sigma-algebra, existence of the causal-state partition as a measurable partition (Shalizi & Crutchfield 2001, Section 4), and a dominating measure — `INFINITE_HORIZON_EQUIVALENCE_PROVED` is a registered forbidden promotion, and the gap is **enforced**: a guard scans the receipt for any unqualified infinite-horizon field and reports **0** alarms while detecting the planted claim. That truncation genuinely loses information is proved, not assumed: the witness `F F F F F F 0` has **1** class at horizon 1 and **2** at horizon 2.",
+   "package": "research/gmi-833-ae-ae5-causal-state-audit-v1",
+   "claim_ceiling": "GMI_833_AE5_PREDICTIVE_STATE_PARENT_OWNERSHIP_AUDITED_ON_A_REGISTERED_FINITE_DYADIC_PROCESS_FAMILY"
+  }
+ ],
+ "not_closed": [
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Formalize the task-relevant representation problem using established Information Bottleneck / rate-distortion terminology where applicable.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Determine when a GMI minimal behavioral/predictive state is equivalent to, refines, or is incomparable with an IB-optimal representation.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Prove smallest counterexamples preventing unqualified identification.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Distinguish `retain information about Y` from `retain information required for action/control under utility U`.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Derive conditions under which forgetting task-irrelevant information is optimal under resource constraints.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Derive conditions under which apparently irrelevant information must be retained because of future task uncertainty, transfer, revision, causal intervention, or verifier needs.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Quantify representation-capacity vs predictive/control distortion frontiers.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+   "old": "- [ ] Add held-out crossover predictions as memory/compute/precision prices change.",
+   "subsection": "AE4",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae4-information-bottleneck-v1 (section map item 2)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Replace loose `data lie on a manifold` language with a hierarchy: low intrinsic dimension, union/stratification of manifolds, sparse/compositional latent structure, symmetry/orbit structure, graph/topological structure, and non-geometric algorithmic structure.",
+   "subsection": "AE6",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae6-geometric-structure-v1 (item 8)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Construct learnable distributions that violate a smooth-manifold assumption.",
+   "subsection": "AE6",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae6-geometric-structure-v1 (item 8)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Construct low-dimensional manifolds that are statistically/causally useless for the target task.",
+   "subsection": "AE6",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae6-geometric-structure-v1 (item 8)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Derive when locality/smoothness should favor local/shared operators.",
+   "subsection": "AE6",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae6-geometric-structure-v1 (item 8)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Derive when symmetry/equivariance should favor parameter sharing.",
+   "subsection": "AE6",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae6-geometric-structure-v1 (item 8)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Derive when compositional latent factors should favor modular/hierarchical representations.",
+   "subsection": "AE6",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae6-geometric-structure-v1 (item 8)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE6 — Manifold hypothesis and geometric structure",
+   "old": "- [ ] Prospectively test intrinsic-structure -> morphology transitions on synthetic and real datasets.",
+   "subsection": "AE6",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real-dataset intrinsic-structure programme. gmi-833-ae-morphology-sweep-v1 closes the derivation row of AE6 on finite exact synthetic worlds and claims nothing about real data."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE7 — From prediction to control",
+   "old": "- [ ] Prove that prediction alone is insufficient for general intelligence by constructing same-predictive/different-control-relevance examples.",
+   "subsection": "AE7",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae7-prediction-to-control-v1 (item 4)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE7 — From prediction to control",
+   "old": "- [ ] Formalize control-relevant sufficient state / action equivalence under a utility or behavioral specification.",
+   "subsection": "AE7",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae7-prediction-to-control-v1 (item 4)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE7 — From prediction to control",
+   "old": "- [ ] Relate to POMDP belief states, sufficient information states, rate-distortion control and bounded rationality; subtract parent mathematics.",
+   "subsection": "AE7",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae7-prediction-to-control-v1 (item 4)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE7 — From prediction to control",
+   "old": "- [ ] Derive value-of-information conditions for when sensing/remembering/computing additional information is worth its resource cost.",
+   "subsection": "AE7",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae7-prediction-to-control-v1 (item 4)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE7 — From prediction to control",
+   "old": "- [ ] Derive when an agent should compress observations more aggressively because actions are insensitive to distinctions.",
+   "subsection": "AE7",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae7-prediction-to-control-v1 (item 4)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE7 — From prediction to control",
+   "old": "- [ ] Derive when control requires preserving distinctions that pure prediction would discard.",
+   "subsection": "AE7",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae7-prediction-to-control-v1 (item 4)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE7 — From prediction to control",
+   "old": "- [ ] Prospectively predict policy/representation transitions under changing information-processing prices.",
+   "subsection": "AE7",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae7-prediction-to-control-v1 (item 4)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Formalize candidate CPC principle(s) without choosing weights post hoc.",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Determine whether CPC is a theorem, variational principle, decomposition, heuristic, or merely descriptive slogan.",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Search for a minimal objective that reproduces multiple existing GMI laws as corollaries.",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Prove which GMI phenomena cannot be reduced to CPC without additional terms (verification, development, communication, history, uncertainty, etc.).",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Compare CPC against alternative master principles: MDL, rate-distortion, bounded rationality, predictive information, free-energy/active-inference formulations, control-as-inference, algorithm selection and resource-rational computation.",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Construct preregistered worlds where these principles make different predictions.",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Preserve observational equivalence where no discriminating experiment exists.",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE8 — `Compression + Prediction + Control` master-principle test",
+   "old": "- [ ] Do not call CPC the GMI master law unless it beats the bag-of-laws baseline and survives parent discrimination.",
+   "subsection": "AE8",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae8-cpc-discrimination-v1 (item 13)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE9 — Learning as representation restructuring",
+   "old": "- [ ] Define measurable representation-change quantities during learning that do not depend on neural architecture names.",
+   "subsection": "AE9",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae9-transition-markers-v1 (item 11)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE9 — Learning as representation restructuring",
+   "old": "- [ ] For neural systems, measure representational geometry, effective rank/dimension, clustering, linear separability, invariances, circuit/path usage and information flow across training.",
+   "subsection": "AE9",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: training-time representational measurement on real training runs, with prospective marker freezing against observed capability onset. Not obtainable from finite exact constructions."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE9 — Learning as representation restructuring",
+   "old": "- [ ] Distinguish smooth quantitative improvement from genuine qualitative computational transition.",
+   "subsection": "AE9",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae9-transition-markers-v1 (item 11)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE9 — Learning as representation restructuring",
+   "old": "- [ ] Re-audit `emergence` terminology: thresholded metric artifact vs phase-like internal reorganization vs grokking-like delayed generalization.",
+   "subsection": "AE9",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae9-transition-markers-v1 (item 11)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE9 — Learning as representation restructuring",
+   "old": "- [ ] Freeze prospective markers of a representation transition before observing the capability transition.",
+   "subsection": "AE9",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: training-time representational measurement on real training runs, with prospective marker freezing against observed capability onset. Not obtainable from finite exact constructions."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE9 — Learning as representation restructuring",
+   "old": "- [ ] Test whether internal transition markers predict new capability onset better than parameter count/training loss alone.",
+   "subsection": "AE9",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: training-time representational measurement on real training runs, with prospective marker freezing against observed capability onset. Not obtainable from finite exact constructions."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE9 — Learning as representation restructuring",
+   "old": "- [ ] Compare neural transition results with non-neural systems to test whether the law is architecture-general.",
+   "subsection": "AE9",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: training-time representational measurement on real training runs, with prospective marker freezing against observed capability onset. Not obtainable from finite exact constructions."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Keep Shannon entropy, algorithmic complexity, statistical-mechanical entropy and thermodynamic entropy formally distinct.",
+   "subsection": "AE11",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae11-thermo-separation-v1 (item 10)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Define exactly which GMI resource claims are logical/computational and which are physical/energetic.",
+   "subsection": "AE11",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae11-thermo-separation-v1 (item 10)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Audit Landauer-style lower bounds and their assumptions; do not infer whole-system energy from bit erasure alone.",
+   "subsection": "AE11",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae11-thermo-separation-v1 (item 10)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Model nonequilibrium maintenance only where a physical system boundary/dynamics are registered.",
+   "subsection": "AE11",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae11-thermo-separation-v1 (item 10)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Compare logical irreversibility with physical dissipation at the correct scope.",
+   "subsection": "AE11",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae11-thermo-separation-v1 (item 10)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Measure actual energy on real hardware for selected GMI morphology transitions.",
+   "subsection": "AE11",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: energy measurement on real hardware. Nothing energetic may be claimed without it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Test whether information-theoretic savings predict physical energy savings; preserve negative results if hardware overhead dominates.",
+   "subsection": "AE11",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: energy measurement on real hardware. Nothing energetic may be claimed without it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] For biological claims, separate energetic maintenance of life from cognitive information processing.",
+   "subsection": "AE11",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: energy measurement on real hardware. Nothing energetic may be claimed without it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE12 — Free-energy / active-inference strongest-parent audit",
+   "old": "- [ ] Audit Free Energy Principle / active inference as a strongest-parent candidate for perception-learning-action unification.",
+   "subsection": "AE12",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae12-fep-audit-v1 (item 9)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE12 — Free-energy / active-inference strongest-parent audit",
+   "old": "- [ ] State exact assumptions needed for any claimed equivalence with Bayesian inference/predictive coding/control.",
+   "subsection": "AE12",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae12-fep-audit-v1 (item 9)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE12 — Free-energy / active-inference strongest-parent audit",
+   "old": "- [ ] Include published technical counterexamples/criticisms; do not inherit universal FEP claims uncritically.",
+   "subsection": "AE12",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae12-fep-audit-v1 (item 9)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE12 — Free-energy / active-inference strongest-parent audit",
+   "old": "- [ ] Construct finite discriminating tasks where GMI/CPC, rate-distortion control and an active-inference formulation differ.",
+   "subsection": "AE12",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae12-fep-audit-v1 (item 9)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE12 — Free-energy / active-inference strongest-parent audit",
+   "old": "- [ ] Compare predictive and control behavior prospectively.",
+   "subsection": "AE12",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae12-fep-audit-v1 (item 9)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE12 — Free-energy / active-inference strongest-parent audit",
+   "old": "- [ ] If GMI is reducible to an established FEP/active-inference formulation at a scope, mark parent sufficiency rather than novelty.",
+   "subsection": "AE12",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae12-fep-audit-v1 (item 9)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE13 — Causality and intervention",
+   "old": "- [ ] Prove that observational compression/prediction does not generally identify causal structure.",
+   "subsection": "AE13",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae13-causality-intervention-v1 (item 5)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE13 — Causality and intervention",
+   "old": "- [ ] Construct observationally equivalent worlds with different intervention consequences.",
+   "subsection": "AE13",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae13-causality-intervention-v1 (item 5)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE13 — Causality and intervention",
+   "old": "- [ ] Define when interventions are required for the behavioral specification.",
+   "subsection": "AE13",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae13-causality-intervention-v1 (item 5)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE13 — Causality and intervention",
+   "old": "- [ ] Derive the value of intervention under resource cost.",
+   "subsection": "AE13",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae13-causality-intervention-v1 (item 5)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE13 — Causality and intervention",
+   "old": "- [ ] Distinguish predictive state from causal/control state.",
+   "subsection": "AE13",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae13-causality-intervention-v1 (item 5)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE13 — Causality and intervention",
+   "old": "- [ ] Relate to causal-state, causal-representation-learning and causal-inference parents precisely.",
+   "subsection": "AE13",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae13-causality-intervention-v1 (item 5)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+   "old": "- [ ] Give architecture-independent operational definitions of memorization, interpolation, extrapolation, systematic generalization, analogy, planning/inference and reasoning.",
+   "subsection": "AE14",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae14-generalization-taxonomy-v1 (item 7)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+   "old": "- [ ] Determine which are reducible to prediction under a registered specification and which require additional search/composition/control machinery.",
+   "subsection": "AE14",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae14-generalization-taxonomy-v1 (item 7)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+   "old": "- [ ] Construct matched tasks where predictive accuracy is equal but reasoning/compositional capability differs.",
+   "subsection": "AE14",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae14-generalization-taxonomy-v1 (item 7)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+   "old": "- [ ] Construct matched tasks where compression is equal but transfer differs.",
+   "subsection": "AE14",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae14-generalization-taxonomy-v1 (item 7)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+   "old": "- [ ] Test whether GMI predicts which additional computational mechanisms are required.",
+   "subsection": "AE14",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae14-generalization-taxonomy-v1 (item 7)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+   "old": "- [ ] Forbid the blanket claim that memory/generalization/analogy/reasoning are `the same mechanism at different scales` unless a formal reduction theorem is earned.",
+   "subsection": "AE14",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae14-generalization-taxonomy-v1 (item 7)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE15 — World-model necessity boundary",
+   "old": "- [ ] Define `world model` operationally and distinguish explicit generative model, predictive state, value representation, reactive policy and cached skill.",
+   "subsection": "AE15",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae15-world-model-necessity-v1 (item 6)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE15 — World-model necessity boundary",
+   "old": "- [ ] Construct tasks solvable optimally without an explicit world model.",
+   "subsection": "AE15",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae15-world-model-necessity-v1 (item 6)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE15 — World-model necessity boundary",
+   "old": "- [ ] Construct tasks where a model is provably necessary under the registered interface/resource assumptions.",
+   "subsection": "AE15",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae15-world-model-necessity-v1 (item 6)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE15 — World-model necessity boundary",
+   "old": "- [ ] Derive model-based vs model-free/retrieval/reactive phase boundaries.",
+   "subsection": "AE15",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae15-world-model-necessity-v1 (item 6)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE15 — World-model necessity boundary",
+   "old": "- [ ] Test whether latent variables recovered by a model correspond to identifiable world factors or merely predictive coordinates.",
+   "subsection": "AE15",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae15-world-model-necessity-v1 (item 6)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE15 — World-model necessity boundary",
+   "old": "- [ ] Forbid claims that successful intelligence necessarily reconstructs human-interpretable latent variables.",
+   "subsection": "AE15",
+   "tier": 1,
+   "reason": "NOT_ATTEMPTED_IN_THIS_LANE: finite-exact and closable, but outside this lane's declared scope of three packages. Covered by gmi-833-ae-ae15-world-model-necessity-v1 (item 6)."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Choose real datasets/tasks spanning vision, language, sequential control and one scientific/biological domain.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Estimate relevant structure measures without using protected outcomes to choose them.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Freeze GMI predictions linking structure/resource regime to representation/morphology/capability.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Compare against strong architecture-selection and information-theoretic baselines.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Include deliberately structure-destroyed controls preserving marginal statistics where possible.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Include structure-preserving recodings/remints.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Test predicted crossovers as data, compute, memory, precision and energy budgets vary.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE16 — Real-world empirical programme",
+   "old": "- [ ] Report failures and non-identifiability rather than post-hoc redefining `structure`.",
+   "subsection": "AE16",
+   "tier": 3,
+   "reason": "INSTRUMENT_REQUIRED: a real multi-domain dataset programme spanning vision, language, sequential control and a scientific domain. No such corpus is registered in this repository and no finite construction substitutes for it."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+   "old": "- [ ] Every AE theorem/result emits assumptions, strongest parents, counterexamples, falsifiers, prior disclosures and unresolved descendants into the #833 gap graph.",
+   "subsection": "AE17",
+   "tier": 4,
+   "reason": "LEDGER_SWEEP_PENDING: AE17 rows are obligations ON the other AE packages. They close as one sweep over the emitted receipts and only once batching-plan items 1-13 have emitted enough to audit. Three of thirteen exist."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+   "old": "- [ ] Every proposed scalar `structure/intelligence/information` measure must be attacked with at least two non-isomorphic counterexample families.",
+   "subsection": "AE17",
+   "tier": 4,
+   "reason": "LEDGER_SWEEP_PENDING: AE17 rows are obligations ON the other AE packages. They close as one sweep over the emitted receipts and only once batching-plan items 1-13 have emitted enough to audit. Three of thirteen exist."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+   "old": "- [ ] Every positive unification claim must include a nearest negative theorem/counterexample.",
+   "subsection": "AE17",
+   "tier": 4,
+   "reason": "LEDGER_SWEEP_PENDING: AE17 rows are obligations ON the other AE packages. They close as one sweep over the emitted receipts and only once batching-plan items 1-13 have emitted enough to audit. Three of thirteen exist."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+   "old": "- [ ] Every finite theorem must retain explicit finite/sample/horizon tags.",
+   "subsection": "AE17",
+   "tier": 4,
+   "reason": "LEDGER_SWEEP_PENDING: AE17 rows are obligations ON the other AE packages. They close as one sweep over the emitted receipts and only once batching-plan items 1-13 have emitted enough to audit. Three of thirteen exist."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+   "old": "- [ ] Every architecture-selection claim must pass #833 D controls: matched negative twin, semantic remint, alternate search and Pareto/resource sensitivity.",
+   "subsection": "AE17",
+   "tier": 4,
+   "reason": "LEDGER_SWEEP_PENDING: AE17 rows are obligations ON the other AE packages. They close as one sweep over the emitted receipts and only once batching-plan items 1-13 have emitted enough to audit. Three of thirteen exist."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+   "old": "- [ ] Every parent-overlap finding updates the terminology/subsumption ledger.",
+   "subsection": "AE17",
+   "tier": 4,
+   "reason": "LEDGER_SWEEP_PENDING: AE17 rows are obligations ON the other AE packages. They close as one sweep over the emitted receipts and only once batching-plan items 1-13 have emitted enough to audit. Three of thirteen exist."
+  },
+  {
+   "comment_id": 5692689542,
+   "anchor": "### AE17 — Recursive loophole extraction for this addendum",
+   "old": "- [ ] Reopen any green AE row if a material descendant gap is discovered.",
+   "subsection": "AE17",
+   "tier": 4,
+   "reason": "LEDGER_SWEEP_PENDING: AE17 rows are obligations ON the other AE packages. They close as one sweep over the emitted receipts and only once batching-plan items 1-13 have emitted enough to audit. Three of thirteen exist."
+  }
+ ]
+}
