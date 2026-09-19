@@ -1,0 +1,60 @@
+{
+ "schema": "GMI_833_Z6_FAILED_PREDICTION_REGISTER_V1",
+ "issue": 833,
+ "subsection": "Z6",
+ "note": "failures and successes are published side by side; a refuted prediction carries the exact claim text it retires",
+ "pinned_path": "research/gmi-833-z-z6-discrimination-v1/FREEZE_V1.md",
+ "pinned_blob_sha": "799b132ca93bd90751069fa664205c15c54f31b4",
+ "freeze_commit": "bac54dbb4b83f6f067d7d165187c9cd73bb20edc",
+ "entries": [
+  {
+   "id": "DP-1",
+   "label": "[REGISTERED LAW, LITERAL APPLICATION]",
+   "prediction": "T01_GMI: lambda* = eta*p/2 selects the property class correctly in every world",
+   "verdict": "REFUTED",
+   "evidence": "108 of 324 E-SKEW worlds mispredicted; first witness q=1/5, p=2/5, eta=1, lambda=3/25 -> predicted PERSISTENT_STATE, declared accounting selects STATELESS",
+   "claim_ceiling_change": {
+    "retired": "lambda* = eta*p/2 stated without an input-distribution qualifier",
+    "replacement": "lambda* = eta*p*R0 where R0 is the minimum delayed-channel error rate attainable without state under the environment's input law; eta*p/2 is the uniform-input case only",
+    "forbidden_promotion_added": "FLAGSHIP_LAW_VALIDATED_BEYOND_UNIFORM_INPUTS"
+   },
+   "related_independent_finding": "research/gmi-833-z-z5-critical-phenomena-v1 SP-3/SP-4 found the same law is the A=2 case of lambda*(A) = eta*p*(1-1/A) in alphabet size; input skew is a second, independent dimension and both are instances of lambda* = eta*p*R0"
+  },
+  {
+   "id": "DP-2",
+   "label": "[DERIVED-AT-FREEZE]",
+   "prediction": "D7: the repaired law lambda*(q) = eta*p*min(q,1-q) is correct on R1 in every E-SKEW world",
+   "verdict": "CONFIRMED",
+   "evidence": "324 of 324 E-SKEW worlds correct, 12 of them exact ties called as ties; also 60/60 E-LIN and 20/20 E-COD under the same mechanism reading"
+  },
+  {
+   "id": "DP-3",
+   "label": "[FROZEN HYPOTHESIS]",
+   "prediction": "D1: T02..T08 agree with T01_GMI on R1 in all 404 worlds (observational equivalence at the flagship resolution)",
+   "verdict": "REFUTED",
+   "evidence": "108 R1 disagreements each -- exactly the E-SKEW worlds where the registered closed form is wrong and the declared-cost parents are right",
+   "consequence": "the equivalence statement of row 6 attaches to the REPAIRED law, not to the registered closed form; D12 verifies 0 disagreements there across all 404 worlds"
+  },
+  {
+   "id": "DP-4",
+   "label": "[FROZEN HYPOTHESIS]",
+   "prediction": "D2: at least one of T02..T08 disagrees with T01_GMI on the finer readout R2 in at least one world",
+   "verdict": "REFUTED",
+   "evidence": "all seven reproduce the declared-cost argmin set in all 404 worlds; 0 R2 mismatches each. The finer readout does not separate them either."
+  },
+  {
+   "id": "DP-5",
+   "label": "[FROZEN HYPOTHESIS]",
+   "prediction": "D3/D4/D11: MDL, the folk Occam rule and SRM each disagree with the registered law on E-LIN and are adjudicated wrong there",
+   "verdict": "CONFIRMED",
+   "evidence": "each loses exactly 40 of 60 E-LIN worlds; MDL is correct on all 20 E-COD worlds, the control that shows the failure is environment-relative"
+  },
+  {
+   "id": "DP-PARENT-SHIFTED",
+   "label": "[PARENT NEGATIVE CONTROL]",
+   "prediction": "the deliberately shifted boundary 2*lambda*, the registered negative control of the parent transition package",
+   "verdict": "REFUTED",
+   "evidence": "40 of 60 E-LIN worlds and 252 of 324 E-SKEW worlds mispredicted"
+  }
+ ]
+}

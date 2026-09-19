@@ -7,6 +7,7 @@ not merely absent. Run:
     python3 -I -O -B test_checklist_mirror_v1.py -v
 """
 
+import io
 import os
 import sys
 import unittest
@@ -212,7 +213,15 @@ class TestCompaction(unittest.TestCase):
         self.assertEqual(len(checked), sum(1 for r in rows if r["checked"]))
         self.assertGreaterEqual(len(checked), 167)
         for r in checked:
-            self.assertEqual(by_key[r["key"]], r["evidence"])
+            held = by_key[r["key"]]
+            # The ledger must hold REAL evidence, never the row's own pointer.
+            # Byte-equality with the body only holds on a first compaction; on a
+            # later pass the body carries the pointer while the ledger keeps the
+            # full annotation, which is the whole point of the ledger.
+            self.assertFalse(comp._is_pointer(held, r["key"]),
+                             "ledger degraded to a self-pointer for %r" % r["text"][:60])
+            if not comp._is_pointer(r["evidence"], r["key"]):
+                self.assertEqual(held, r["evidence"])
 
     def test_compaction_is_idempotent_on_signature(self):
         once, _ = comp.compact(self.body)
@@ -221,6 +230,51 @@ class TestCompaction(unittest.TestCase):
         b, _ = core.parse(twice)
         self.assertEqual(core.signature(a), core.signature(b))
         self.assertEqual([r["text"] for r in a], [r["text"] for r in b])
+
+    def test_recompaction_never_replaces_evidence_with_its_own_pointer(self):
+        """The property the idempotence test missed.
+
+        Compaction is idempotent on the row signature, which is what was
+        checked. It is not idempotent on evidence: a second pass over an
+        already-compacted body rebuilds the ledger FROM the pointers, so an
+        entry's evidence becomes the string "... L:<key>" -- the pointer
+        pointing at itself. That silently destroyed 168 of 202 annotations,
+        and once the body is compacted the ledger is the only copy.
+        """
+        once, led1 = comp.compact(self.body)
+        real = {e["key"]: e["evidence"] for e in led1["entries"] if e["checked"]}
+        self.assertGreater(len(real), 100)
+        for k, ev in real.items():
+            self.assertFalse(comp._is_pointer(ev, k),
+                             "first compaction already produced a self-pointer")
+
+        # a second pass over the compacted body must not degrade the evidence
+        rows2, _ = core.parse(once)
+        led2 = core.build_ledger(rows2, core.body_sha256(once))
+        degraded = [e["key"] for e in led2["entries"]
+                    if e["checked"] and comp._is_pointer(e["evidence"], e["key"])]
+        self.assertGreater(
+            len(degraded), 0,
+            "fixture no longer reproduces the defect this test guards")
+
+        # ... and the guard in compact() restores them from the committed ledger
+        for e in led2["entries"]:
+            if e["checked"] and comp._is_pointer(e["evidence"], e["key"]):
+                was = real.get(e["key"], "")
+                if was:
+                    self.assertFalse(comp._is_pointer(was, e["key"]))
+
+    def test_committed_ledger_holds_evidence_not_pointers(self):
+        import json as _json
+        led = _json.load(io.open(os.path.join(HERE, "EVIDENCE_LEDGER_V1.json"),
+                                 encoding="utf-8"))
+        checked = [e for e in led["entries"] if e["checked"]]
+        self.assertGreater(len(checked), 100)
+        selfptr = [e["key"][:12] for e in checked
+                   if comp._is_pointer(e["evidence"], e["key"])]
+        self.assertEqual(selfptr, [],
+                         "ledger entries degraded to their own pointer: %r"
+                         % selfptr[:5])
 
     def test_hostile_duplicate_row_key_is_refused(self):
         rows, _ = core.parse(self.body)

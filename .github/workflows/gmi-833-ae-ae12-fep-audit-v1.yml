@@ -1,0 +1,217 @@
+name: GMI 833 AE12 free-energy parent audit v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae12-fep-audit-v1/**'
+      - '.github/workflows/gmi-833-ae-ae12-fep-audit-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae12-fep-audit-v1/**'
+      - '.github/workflows/gmi-833-ae-ae12-fep-audit-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    env:
+      PKG: research/gmi-833-ae-ae12-fep-audit-v1
+      FREEZE: eb9a2ad7df9ff3dd9135413d5907ef35aacaa3ab
+      REGISTER: 669c4263cc88d83932d4cd6dd1cb6e130c3d492d
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze and register custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          # The freeze commit must exist, must carry the freeze, and must carry
+          # nothing else of this package.
+          git cat-file -e "$FREEZE^{commit}"
+          git cat-file -e "$FREEZE:$PKG/FREEZE_V1.md"
+          for p in PROSPECTIVE_REGISTER_V1.json ae12_fep_audit_v1.py \
+                   independent_fep_oracle_v1.py test_ae12_fep_audit_v1.py \
+                   RESULT_V1.json MANIFEST_V1.json CORE.md \
+                   AE12_THEOREMS_V1.md PARENT_OWNERSHIP_V1.md \
+                   ISSUE_833_RECONCILIATION_AE12_FEP_AUDIT_V1.json; do
+            if git cat-file -e "$FREEZE:$PKG/$p" 2>/dev/null; then
+              echo "artifact already existed at the freeze: $p" >&2; exit 1
+            fi
+          done
+          # The register commit must exist, must carry the register, and must
+          # still precede every implementation blob.
+          git cat-file -e "$REGISTER^{commit}"
+          git cat-file -e "$REGISTER:$PKG/PROSPECTIVE_REGISTER_V1.json"
+          git merge-base --is-ancestor "$FREEZE" "$REGISTER"
+          for p in ae12_fep_audit_v1.py independent_fep_oracle_v1.py \
+                   test_ae12_fep_audit_v1.py RESULT_V1.json; do
+            if git cat-file -e "$REGISTER:$PKG/$p" 2>/dev/null; then
+              echo "implementation blob predates the register: $p" >&2; exit 1
+            fi
+          done
+          echo 'freeze-then-register-then-implementation ordering intact'
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            if [ "$actual" != "$2" ]; then
+              echo "parent pin drifted: $1 $actual != $2" >&2; exit 1
+            fi
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json ceb77f5beac99b5427d1350915b19df546495fb8
+          verify_parent research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json 69aafebec4016f539c46b1f71546f740a8018421
+      - name: Executor, oracle and tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$PKG/test_ae12_fep_audit_v1.py" -v
+            python -I -O -B "$PKG/ae12_fep_audit_v1.py" > /tmp/ae12.json
+            python -I -O -B "$PKG/independent_fep_oracle_v1.py" > /tmp/ae12_oracle.json
+          else
+            python -I -B "$PKG/test_ae12_fep_audit_v1.py" -v
+            python -I -B "$PKG/ae12_fep_audit_v1.py" > /tmp/ae12.json
+            python -I -B "$PKG/independent_fep_oracle_v1.py" > /tmp/ae12_oracle.json
+          fi
+          cmp /tmp/ae12.json "$PKG/RESULT_V1.json"
+      - name: Named numbers, bounds, hostiles, null and refutations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae12-fep-audit-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          o = json.loads(Path('/tmp/ae12_oracle.json').read_text())
+          ceiling = ('GMI_833_AE12_FEP_ACTIVE_INFERENCE_PARENT_BOUNDARY_FIXED_'
+                     'ON_REGISTERED_FINITE_DYADIC_ROSTER')
+          def need(cond, msg):
+              if not cond:
+                  raise SystemExit('FAILED: ' + msg)
+          need(m['claim_ceiling'] == r['claim_ceiling'] == ceiling, 'claim ceiling')
+          need(m['source_main'] == r['source_main'] ==
+               '0dcdec54fbece041ee2b7cd1f630469ad85d19d3', 'source_main')
+          need(m['freeze_commit'] == r['freeze_commit'] ==
+               'eb9a2ad7df9ff3dd9135413d5907ef35aacaa3ab', 'freeze commit')
+          need(r['verdict'] == 'GREEN', 'verdict')
+          need(all(r['checks'].values()), 'checks')
+          res = r['results']
+          for w in ('W_SPLIT', 'W_TRI', 'W_CORR'):
+              for ob in res['perception_audit'][w]['per_observation'].values():
+                  need(ob['argmin_equals_posterior'], 'posterior %s' % w)
+                  need(ob['min_equals_surprisal'], 'surprisal %s' % w)
+          need(res['mean_field_restriction']['mean_field_excess_bits'] == '1',
+               'mean-field excess is exactly 1 bit')
+          need(res['mean_field_restriction']['min_free_energy_full_bits'] == '1', 'full min')
+          need(res['mean_field_restriction']['min_free_energy_mean_field_bits'] == '2',
+               'mean-field min')
+          mis = res['misspecification']['per_observation']['o0']
+          need(mis['true_posterior'] == ['1/2', '1/2', '0'], 'true posterior')
+          need(mis['model_posterior'] == ['1/2', '0', '1/2'], 'model posterior')
+          p = res['preference_prior_nonexistence']
+          need(p['predicted_outcomes_identical'], 'identical predicted outcomes')
+          need(p['ambiguity_gap_a0_minus_a1_bits'] == '1', 'ambiguity gap')
+          need(p['efe_difference_a0_minus_a1_over_all_C'] == ['1'], 'EFE gap over C')
+          need(p['registered_utility_difference'] == '0', 'registered utility difference')
+          need(p['utility_orders_no_preference_prior_can_reproduce'] == 4,
+               'unreachable utility orders')
+          need(len(p['strict_contradiction_witnesses']) == 2, 'strict contradictions')
+          d = res['discriminating_task_W_DISC1']
+          need(d['expected_free_energy_bits'] == ['1', '0', '1'], 'W_DISC1 EFE')
+          need(d['expected_free_energy_choice'] == 'a1', 'W_DISC1 EFE choice')
+          need(d['rate_distortion_cardinality_1_choice'] == 'a0', 'W_DISC1 RD choice')
+          need(d['cpc_choices_over_grid'] == ['a0', 'a1'], 'W_DISC1 CPC choices')
+          need(d['grid_size'] == 45, 'grid size')
+          need(d['term_vector_dominations'] == ['a2 dominated by a1'], 'domination')
+          need(d['no_lambda_agrees_with_both_efe_and_rd'], 'no lambda matches both')
+          a = res['agreement_task_W_AGREE1']
+          need(a['expected_free_energy_bits'] == ['1', '3/2', '3'], 'W_AGREE1 EFE')
+          need(a['all_three_agree'], 'W_AGREE1 agreement')
+          need(res['markov_blanket']['SYS_MB_OK']['partition_count'] == 4, 'blanket OK')
+          need(res['markov_blanket']['SYS_MB_FAIL']['partition_count'] == 0, 'blanket FAIL')
+          n = r['null']
+          need(n['trials'] == 200 and n['exhaustive_space_size'] == 27, 'null sizes')
+          need(n['exhaustive_controls_firing'] == 2, 'exhaustive firing')
+          need(n['exhaustive_firing_rate'] == '2/27', 'exhaustive rate')
+          need(n['known_clean_worlds_flagged'] == [] and n['no_alarm_on_clean'],
+               'no-alarm case')
+          need(n['planted_positive_fires'], 'planted positive')
+          for b in r['bounds']:
+              need(b['vacuous'] is False, 'bound vacuous: %s' % b['name'])
+              need(b['status'] == 'FALSIFIABLE', 'bound unfalsified: %s' % b['name'])
+              need(bool(b['violated_by']), 'bound has no violated_by: %s' % b['name'])
+          for h in r['hostiles']:
+              need(h['potent'], 'hostile not potent: %s' % h['name'])
+              need(h['detected'], 'hostile not detected: %s' % h['name'])
+          need(r['predictions_confirmed'] == 6, 'confirmed count')
+          need(r['predictions_refuted'] == 2, 'refuted count')
+          for pr in r['prospective_predictions']:
+              if pr['verdict'] == 'REFUTED':
+                  need(pr['diagnosis']['exact_values'], 'refutation values')
+                  need(pr['diagnosis']['earned_instead'], 'refutation earned_instead')
+          need(o['mean_field']['excess_bits'] ==
+               res['mean_field_restriction']['mean_field_excess_bits'], 'routes agree A')
+          need(o['selectors']['W_DISC1']['cpc_choices'] == d['cpc_choices_over_grid'],
+               'routes agree B')
+          need(o['blanket']['SYS_MB_FAIL'] is False, 'routes agree C')
+          print('AE12 named numbers OK')
+          PY
+      - name: Reconciliation rows are byte-exact, unique and well formed
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae12-fep-audit-v1')
+          spec = json.loads(
+              (root / 'ISSUE_833_RECONCILIATION_AE12_FEP_AUDIT_V1.json').read_text())
+          if spec['schema'] != 'GMI_ISSUE_RECONCILIATION_V2':
+              raise SystemExit('schema')
+          if spec['issue'] != 833 or spec['issue_comment_id'] != 5692689542:
+              raise SystemExit('issue identifiers')
+          if len(spec['replacements']) != 6:
+              raise SystemExit('row count')
+          seen = set()
+          for rep in spec['replacements']:
+              if not rep['old'].startswith('- [ ] '):
+                  raise SystemExit('old row not unchecked')
+              if not rep['new'].startswith('- [x] '):
+                  raise SystemExit('new row not checked')
+              if not rep['new'][6:].startswith(rep['old'][6:]):
+                  raise SystemExit('new row does not extend the old row verbatim')
+              if rep['old'] in seen:
+                  raise SystemExit('duplicate row')
+              seen.add(rep['old'])
+              if not rep['anchor'].startswith('### AE12 '):
+                  raise SystemExit('anchor')
+          print('AE12 reconciliation spec OK')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ae-ae12-fep-audit-v1-${{ matrix.mode }}
+          path: |
+            /tmp/ae12.json
+            /tmp/ae12_oracle.json
+          if-no-files-found: error

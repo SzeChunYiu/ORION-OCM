@@ -1,0 +1,75 @@
+{
+  "schema": "GMI_833_AE12_FEP_AUDIT_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE12",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae12-fep-audit-v1",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "freeze_commit": "eb9a2ad7df9ff3dd9135413d5907ef35aacaa3ab",
+  "register_commit": "669c4263cc88d83932d4cd6dd1cb6e130c3d492d",
+  "register_digest": "see PROSPECTIVE_REGISTER_V1.json self_digest_sha256; the executor rechecks it and refuses to emit on mismatch",
+  "claim_ceiling": "GMI_833_AE12_FEP_ACTIVE_INFERENCE_PARENT_BOUNDARY_FIXED_ON_REGISTERED_FINITE_DYADIC_ROSTER",
+  "target_rows": 6,
+  "rows_left_open": [],
+  "theorems": ["AE12-1", "AE12-2", "AE12-3", "AE12-4", "AE12-5", "AE12-6", "AE12-7", "AE12-8"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae12-fep-audit-v1/ae12_fep_audit_v1.py",
+    "B": "research/gmi-833-ae-ae12-fep-audit-v1/independent_fep_oracle_v1.py",
+    "independence": "route B has no executable import of route A and no reference to its path; the test parses route B's AST and asserts this. Route A computes the free energy as surprisal plus the divergence to the exact posterior and reads the minimiser off that decomposition; route B evaluates the raw definition KL(q||P0) - E_q[log2 L(o|s)] on every member of the registered family and takes a brute-force argmin. Route A takes exact log2 by int.bit_length, route B by an integer halving loop. Route A decides conditional independence by the cross-product identity, route B by comparing conditional distributions."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended by this tranche"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; neither reproved nor extended here"},
+    {"path": "research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json",
+     "blob_sha": "ceb77f5beac99b5427d1350915b19df546495fb8",
+     "claim_ceiling": "AE1's registered finite separation lattice; this package reuses its exact-rational world idiom and claims none of its results"},
+    {"path": "research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json",
+     "blob_sha": "69aafebec4016f539c46b1f71546f740a8018421",
+     "claim_ceiling": "AE10's resource-bounded usable-information receipt; pinned as the neighbouring parent boundary, not extended here"}
+  ],
+  "registered_scope": {
+    "probability_class": "every registered mass is 0 or an integer power of 1/2, so every entropy, divergence, free energy and expected free energy is an exact rational number of bits",
+    "variational_family": "all dyadic distributions on the state set with minimum atom 1/16 (DMAX = 4); sizes 3, 9 and 35 on the registered shapes",
+    "mean_field_subfamily": "the 9 product distributions over the registered factorization of W_CORR",
+    "preference_family": "all strictly positive dyadic distributions on the outcome set; on a two-outcome space that family has exactly one member, and the package therefore also proves the preference-independence of the ambiguity term algebraically, for every preference distribution whatsoever",
+    "horizon": 1,
+    "rate_distortion_form": "cardinality-constrained with codebook cardinality 1; log-free and exactly rational",
+    "cpc_grid": "the 45 triples of eighths summing to 1, the same grid the AE8 package registers",
+    "null_trials": 200,
+    "null_exhaustive_space": 27
+  },
+  "not_instantiated": [
+    "continuous state spaces", "horizons beyond 1", "non-dyadic probabilities",
+    "real neural or biological systems", "any energetic or physical quantity",
+    "Markov blankets of systems outside the registered three-variable roster"
+  ],
+  "prospective_predictions": {
+    "confirmed": 6,
+    "refuted": 2,
+    "refuted_ids": ["AE12-P4", "AE12-P5"],
+    "policy": "a refuted prediction is reported with its exact values, a single-stage attribution and the statement actually earned; neither the freeze nor the register is edited after the fact"
+  },
+  "forbidden_promotions": [
+    "ACTIVE_INFERENCE_EQUALS_BAYESIAN_INFERENCE_UNCONDITIONALLY",
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "FEP_UNIVERSAL_FOR_LIVING_SYSTEMS",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "GMI_NOVEL_OVER_ACTIVE_INFERENCE",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MARKOV_BLANKET_EXISTS_FOR_EVERY_SYSTEM",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "WORLD_MODEL_ALWAYS_REQUIRED"
+  ]
+}

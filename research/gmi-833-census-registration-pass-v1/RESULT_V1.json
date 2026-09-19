@@ -1,0 +1,337 @@
+{
+ "binding": {
+  "bound_objects": 173,
+  "bound_rows": 173,
+  "by_rule": {
+   "B1_RESULT_ID_SUFFIX_EXACT": 145,
+   "B2_THEOREM_NAME_ID_EXACT": 28
+  },
+  "loose_prefix_variant_extra_bindings": 0,
+  "package_level_rows": 25,
+  "package_level_rows_with_census_objects": 0,
+  "registrations": 235,
+  "registrations_bound": 173,
+  "registrations_package_level": 62,
+  "scored_rows": 197,
+  "source_path_in_citation_paths": 173,
+  "v3_delta_applied": [
+   "GMI833_V2_LEGACY_074_W4-C"
+  ],
+  "v3_delta_records": 2
+ },
+ "census_frozen_source_sha": "2fffb14447193cbfbed3224508a077f2d4f5d2dd",
+ "claim_ceiling": "SOURCED_PROPAGATION_REGISTER_V1",
+ "decidability_summary": {
+  "already_decided": 4,
+  "binding_field": "assumptions",
+  "binding_field_of": 22553,
+  "binding_field_populated": 173,
+  "binding_fraction": "173/22553",
+  "gained_registered_discriminator": 5,
+  "left_undecidable_by_fallacy_lane": 19,
+  "of_those_already_decided_elsewhere": 1,
+  "rows": 22,
+  "still_no_registered_discriminator": 13
+ },
+ "descendant_verification": {
+  "descendant_entries_checked": 62,
+  "findings": 0,
+  "no_alarm_on_real_graph": true
+ },
+ "edges": {
+  "child_objects_with_dependencies": 30,
+  "duplicate_records_skipped": 3,
+  "layers": {
+   "corpus_package": 56,
+   "external_literature": 73,
+   "file_local": 140,
+   "parent_family_anchor": 60,
+   "pointer_rollup": 28
+  },
+  "layers_scanned": [
+   "file_local",
+   "pointer_rollup"
+  ],
+  "object_to_id_dependency_edges": 113,
+  "refused": 12,
+  "refused_by_reason": {
+   "AMBIGUOUS_CHILD_IDENTITY": 6,
+   "NO_OBJECT_AT_CITATION": 6
+  },
+  "resolved": 153,
+  "resolved_by": {
+   "CITATION_LINE": 0,
+   "CITATION_PATH": 11,
+   "UNIQUE_ID": 142
+  },
+  "unique_records_scanned": 165
+ },
+ "forbidden_promotions": [
+  "CENSUS_FULLY_REGISTERED",
+  "ALL_OBJECTS_SCORED",
+  "ALL_PARENTS_EXHAUSTED",
+  "DEPENDENCY_GRAPH_COMPLETE",
+  "GMI_GAP_GRAPH_COMPLETE",
+  "ISOLATED_GAP_IS_LEAF",
+  "UNREGISTERED_MEANS_NONE",
+  "POPULATED_MEANS_VERIFIED",
+  "AA_ROW_EARNED",
+  "RECURSION_EXHAUSTED",
+  "ANALYTIC_PROOF",
+  "M4_RESTORED_TO_W4_PARENT"
+ ],
+ "gap_graph": {
+  "descendant_keys_total": 62,
+  "descendant_keys_total_direct": 59,
+  "gaps": 1140,
+  "gaps_isolated": 1090,
+  "gaps_with_nonempty_descendants": 50,
+  "gaps_with_nonempty_descendants_direct": 50,
+  "grade_counts": {
+   "CRITICAL": 293,
+   "IMMATERIAL": 0,
+   "MATERIAL": 847,
+   "MINOR": 0
+  },
+  "materiality_v1_distinct": 1,
+  "materiality_v2_distinct": 2,
+  "monotonicity": {
+   "comparisons": 768,
+   "domain_points": 256,
+   "violations": 0
+  },
+  "unknown_kind": 0
+ },
+ "hostiles": [
+  {
+   "baseline": 0,
+   "detected": true,
+   "id": "H1",
+   "perturbation": "pointer names a result_id absent from the scores file",
+   "perturbed": 1,
+   "quantity": "pointer findings"
+  },
+  {
+   "baseline": 0,
+   "detected": true,
+   "id": "H2",
+   "perturbation": "pointer names a real result_id whose stored placement differs",
+   "perturbed": 1,
+   "quantity": "pointer findings"
+  },
+  {
+   "baseline": 1,
+   "detected": true,
+   "id": "H3",
+   "perturbation": "synthetic rows whose id is a real id with _V2 appended / a strict prefix of a real id",
+   "perturbed": 0,
+   "plants": [
+    "GMI833_V2_LEGACY_998_DT-2A_V2",
+    "GMI833_V2_LEGACY_997_DT-2"
+   ],
+   "quantity": "bindings"
+  },
+  {
+   "baseline": 0,
+   "detected": true,
+   "id": "H4",
+   "perturbation": "v3 delta record naming a result_id not in v2",
+   "perturbed": 1,
+   "quantity": "orphan-delta refusals"
+  },
+  {
+   "baseline": 0,
+   "detected": true,
+   "id": "H5",
+   "perturbation": "one census object duplicated",
+   "perturbed": 1,
+   "quantity": "loader raises"
+  },
+  {
+   "baseline": 0,
+   "detected": true,
+   "id": "H6",
+   "perturbation": "child id declared in several places with no unique object at the citation",
+   "perturbed": 7,
+   "quantity": "edge refusals",
+   "real_refused_children": [
+    "CAU-1",
+    "FAC-CTW"
+   ]
+  },
+  {
+   "baseline": 0,
+   "detected": true,
+   "id": "H7",
+   "perturbation": "grade table dips to IMMATERIAL at index 7",
+   "perturbed": 136,
+   "quantity": "monotonicity violations"
+  },
+  {
+   "baseline": 0,
+   "detected": true,
+   "id": "H8",
+   "perturbation": "a register key with no dependencies planted as a descendant",
+   "perturbed": 1,
+   "quantity": "descendant findings"
+  }
+ ],
+ "issue": 833,
+ "named_results": {
+  "CRP-1": "173 of 197 scored rows bind to exactly one census object by exact identity (145 B1 + 28 B2); the 24 arrivals and the v3 arrival are package-level and bind nothing; a loose prefix variant adds 0",
+  "CRP-2": "the four ledgers of 173 registrations and 113 object-to-id dependency edges are propagated with one pointer per entry; 12 edges refused by reason; 22380 objects are explicitly UNREGISTERED",
+  "CRP-3": "materiality re-graded by AAG-3's threshold reproduces 847/293 and makes the field two-valued; descendants populate 50 of 1140 gaps, 1090 stay isolated",
+  "CRP-4": "5 of the 19 fallacy rows left undecidable gain a registered discriminator, all bound by the assumptions ledger at 173/22553; 13 have no register field to read",
+  "CRP-5": "the pointer verifier raises 0 findings on the real register and detects planted wrong pointers; every hostile H1-H8 is detected and the null is beaten 173 > 69"
+ },
+ "null": {
+  "design": "200 seeded permutations of the package column over the 197 scored rows; rows re-bound under B1/B2",
+  "draws_at_or_above_true": 0,
+  "permuted_max": 69,
+  "permuted_mean": "11787/200",
+  "permuted_min": 42,
+  "seed": 8330833,
+  "suffix_null": {
+   "bound_max": 0,
+   "caveat": "a miss is guaranteed by construction; not evidence of selectivity",
+   "design": "random suffix appended to every result_id and theorem_name",
+   "must_be": 0
+  },
+  "true_beats_every_draw": true,
+  "true_bound_rows": 173
+ },
+ "package": "gmi-833-census-registration-pass-v1",
+ "pointer_verification": {
+  "findings": 0,
+  "no_alarm_on_real_register": true,
+  "pointers_checked": 1895
+ },
+ "population": {
+  "assumptions": {
+   "after_empty_list": 0,
+   "after_populated": 173,
+   "after_unregistered": 22380,
+   "before_empty": 22553,
+   "before_populated": 0
+  },
+  "claim_dependencies": {
+   "after_empty": 22523,
+   "after_populated": 30,
+   "before_empty": 22553,
+   "before_populated": 0,
+   "distinct_parent_ids": 104,
+   "edges": 113
+  },
+  "dependency_parents_by_name": {
+   "after_populated": 3,
+   "edge_records": 40
+  },
+  "evidence_level": {
+   "after_bound_but_scored_unknown": 3,
+   "after_populated": 170,
+   "after_unbound": 22380,
+   "after_unknown": 22383,
+   "before_populated": 0,
+   "before_unknown": 22553
+  },
+  "falsifiers": {
+   "after_empty_list": 0,
+   "after_populated": 173,
+   "after_unregistered": 22380,
+   "before_empty": 22553,
+   "before_populated": 0
+  },
+  "forbidden_extrapolations": {
+   "after_empty_list": 0,
+   "after_populated": 173,
+   "after_unregistered": 22380,
+   "before_empty": 22553,
+   "before_populated": 0
+  },
+  "maturity_level": {
+   "after_bound_but_scored_unknown": 1,
+   "after_populated": 172,
+   "after_unbound": 22380,
+   "after_unknown": 22381,
+   "before_populated": 0,
+   "before_unknown": 22553
+  },
+  "objects": 22553,
+  "populated_records": 202,
+  "strongest_parents": {
+   "after_empty_list": 0,
+   "after_populated": 179,
+   "after_unregistered": 22374,
+   "before_empty": 22553,
+   "before_populated": 0
+  },
+  "strongest_parents_entries_from_edges": 9
+ },
+ "refusals": {
+  "by_kind": {
+   "DEPENDENCY_EDGE": 12
+  },
+  "total": 12
+ },
+ "route": "A",
+ "route_agreement": {
+  "binding_rules_identical": true,
+  "bound_rows_identical": true,
+  "compared_by": "set / dict equality on bound rows, rules, levels, ledger keys, dependency edges, by-name edges, strongest-parent edges, refused edges, descendants (direct and closed), per-gap grades, populated record count",
+  "dependency_edges_identical": true,
+  "descendants_identical": true,
+  "grades_identical": true,
+  "ledger_keys_identical": true,
+  "levels_identical": true,
+  "populated_records_identical": true,
+  "refused_edges_identical": true,
+  "route_b_mechanics": "linear (package,id) tables; '_'-split id forms; regex citations; fixed-point descendants; 256-entry grade lookup"
+ },
+ "route_b": {
+  "bound_rows": 173,
+  "by_rule": {
+   "B1_RESULT_ID_SUFFIX_EXACT": 145,
+   "B2_THEOREM_NAME_ID_EXACT": 28
+  },
+  "byname_edges": 40,
+  "decidability": {
+   "assumptions_populated": 173,
+   "binding_fraction": "173/22553",
+   "registered_statistical_families": {
+    "gmi-grand-unification-v1": 1,
+    "machine-intelligence-morphogenesis-v1": 9
+   },
+   "stat_or_empirical_registered": 15,
+   "statistical_registered": 10
+  },
+  "delta_applied": [
+   "GMI833_V2_LEGACY_074_W4-C"
+  ],
+  "delta_refused": [],
+  "dep_edges": 113,
+  "descendant_keys_total": 62,
+  "duplicate_edge_records": 3,
+  "evidence_populated": 170,
+  "gaps_with_descendants": 50,
+  "gaps_with_direct": 50,
+  "grade_counts": {
+   "CRITICAL": 293,
+   "MATERIAL": 847
+  },
+  "ledger_populated": {
+   "assumptions": 173,
+   "falsifiers": 173,
+   "forbidden_extrapolations": 173,
+   "strongest_parents": 173
+  },
+  "maturity_populated": 172,
+  "objects": 22553,
+  "package_level_rows": 24,
+  "populated_records": 202,
+  "refused_edges": 12,
+  "refused_rows": 0,
+  "registrations_bound": 173,
+  "sp_edges": 9
+ },
+ "schema": "GMI_833_CENSUS_REGISTRATION_PASS_RESULT_V1"
+}

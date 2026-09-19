@@ -1,0 +1,170 @@
+name: GMI 833 Section H successor constructs v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-h-successor-constructs-v1/**'
+      - '.github/workflows/gmi-833-h-successor-constructs-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-h-successor-constructs-v1/**'
+      - '.github/workflows/gmi-833-h-successor-constructs-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody - the freeze must predate every implementation artifact
+        run: |
+          set -eu
+          P=research/gmi-833-h-successor-constructs-v1
+          FZ=$(git log --diff-filter=A --format=%ct -1 -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze commit time"; exit 1; fi
+          rc=0
+          for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json "$P"/MANIFEST_V1.json "$P"/ISSUE_833_RECONCILIATION_H3_V1.json; do
+            [ -e "$f" ] || continue
+            T=$(git log --diff-filter=A --format=%ct -1 -- "$f")
+            [ -n "$T" ] || continue
+            if [ "$T" -lt "$FZ" ]; then
+              echo "POST_HOC_SUSPECT: $f was added before the freeze"; rc=1
+            fi
+          done
+          exit $rc
+
+      - name: no third-party imports
+        run: |
+          set -eu
+          P=research/gmi-833-h-successor-constructs-v1
+          python3 - <<'PY'
+          import ast, os, sys
+          allow = set("fractions hashlib itertools json os sys time ast subprocess".split())
+          own = set("grammar_h_v1 ecologies_v1 search_engine_v1 successor_constructs_v1 independent_oracle_v1".split())
+          bad = []
+          P = "research/gmi-833-h-successor-constructs-v1"
+          for fn in sorted(os.listdir(P)):
+              if not fn.endswith(".py"):
+                  continue
+              tree = ast.parse(open(os.path.join(P, fn)).read())
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      for a in node.names:
+                          m = a.name.split(".")[0]
+                          if m not in allow and m not in own:
+                              bad.append((fn, m))
+                  elif isinstance(node, ast.ImportFrom) and node.module:
+                      m = node.module.split(".")[0]
+                      if m not in allow and m not in own:
+                          bad.append((fn, m))
+          if bad:
+              print("third-party or unexpected imports:", bad)
+              sys.exit(1)
+          print("stdlib only")
+          PY
+
+      - name: route B imports nothing of route A
+        run: |
+          set -eu
+          P=research/gmi-833-h-successor-constructs-v1
+          python3 - <<'PY'
+          import ast, sys
+          P = "research/gmi-833-h-successor-constructs-v1"
+          tree = ast.parse(open(P + "/independent_oracle_v1.py").read())
+          names = set()
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  for a in node.names:
+                      names.add(a.name.split(".")[0])
+              elif isinstance(node, ast.ImportFrom) and node.module:
+                  names.add(node.module.split(".")[0])
+          route_a = {"grammar_h_v1", "ecologies_v1", "search_engine_v1",
+                     "successor_constructs_v1"}
+          if names & route_a:
+              print("route B imports route A:", sorted(names & route_a))
+              sys.exit(1)
+          print("route separation holds")
+          PY
+
+      - name: route A executor
+        run: |
+          set -eu
+          cd research/gmi-833-h-successor-constructs-v1
+          cp RESULT_V1.json /tmp/RESULT_committed.json
+          python3 -I -B successor_constructs_v1.py
+
+      - name: route B oracle
+        run: |
+          set -eu
+          cd research/gmi-833-h-successor-constructs-v1
+          cp ORACLE_RESULT_V1.json /tmp/ORACLE_committed.json
+          python3 -I -B independent_oracle_v1.py
+
+      - name: the committed receipts must be reproduced
+        run: |
+          set -eu
+          cd research/gmi-833-h-successor-constructs-v1
+          python3 - <<'PY'
+          import json, sys
+          def key(d):
+              out = {}
+              for s, r in d["scopes"].items():
+                  rec = r.get("recovered")
+                  out[s] = None if rec is None else (rec["render"], rec["cost"],
+                                                     rec["class"])
+              return out
+          a = json.load(open("RESULT_V1.json"))
+          a0 = json.load(open("/tmp/RESULT_committed.json"))
+          b = json.load(open("ORACLE_RESULT_V1.json"))
+          b0 = json.load(open("/tmp/ORACLE_committed.json"))
+          bad = []
+          if key(a) != key(a0):
+              bad.append("route A drifted from the committed receipt")
+          if key(b) != key(b0):
+              bad.append("route B drifted from the committed receipt")
+          if key(a) != key(b):
+              bad.append("route A and route B disagree")
+          if bad:
+              print("\n".join(bad)); sys.exit(1)
+          print("both routes reproduce and agree")
+          PY
+
+      - name: tests, normal and optimized
+        run: |
+          set -eu
+          cd research/gmi-833-h-successor-constructs-v1
+          python3 -I -B test_successor_constructs_v1.py
+          python3 -I -O -B test_successor_constructs_v1.py
+
+      - name: no row is closed and R11 is never asserted
+        run: |
+          set -eu
+          cd research/gmi-833-h-successor-constructs-v1
+          python3 - <<'PY'
+          import json, sys
+          res = json.load(open("RESULT_V1.json"))
+          rec = json.load(open("ISSUE_833_RECONCILIATION_H3_V1.json"))
+          bad = []
+          for scope, co in res["coordinates"].items():
+              if co.get("row_closed"):
+                  bad.append("row closed at " + scope)
+              if co.get("per_requirement", {}).get("R11"):
+                  bad.append("R11 asserted at " + scope)
+          for r in rec.get("replacements", []):
+              bad.append("replacements is not empty: " + str(r)[:120])
+          if bad:
+              print("\n".join(bad)); sys.exit(1)
+          print("no row closed, R11 not asserted")
+          PY

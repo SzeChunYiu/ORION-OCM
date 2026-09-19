@@ -122,3 +122,47 @@ python3 -I -B research/gmi-833-checklist-mirror-v1/comment_safe_write_v1.py PLAN
 Seven hostiles are exercised against the real mirrored AJ comment: stale `old`,
 undeclared collateral edit, un-checking a closed row, over-limit result, wrong
 schema, missing `comment_id`, and the happy path as the no-alarm control.
+
+---
+
+# The trailing `- [` — settled, and nothing was lost
+
+The body's last line is a bare `- [` followed by blank lines. It looks exactly
+like a clobbered write, and it has now been investigated three times by three
+different lanes, twice reaching the wrong conclusion. This section closes it.
+
+**The cut was present at creation.** GitHub retains 52 stored revisions of this
+body. The oldest carries `editedAt` `2026-09-15T16:53:47Z`, which is *equal to*
+the issue's own `created_at`, and that original 17,280-character body already
+ends:
+
+```
+- [ ] Re-audit imitation and teaching.
+- [ ] Re-audit cultural accumulation.
+- [
+```
+
+Its Section M contains 12 checkbox tokens, of which the twelfth is that bare
+fragment. Every subsequent revision ends identically.
+
+So no write destroyed a row. The author's paste was truncated when the issue was
+opened, and the checklist has always held **966 rows**: 259 in the body and 707
+across the ten comment checklists.
+
+## What is therefore true
+
+- There is no twelfth Section M row to recover. It never had text in any stored
+  revision, and **it must not be reconstructed by inference**.
+- The earlier P0 note on this issue, which said content had been destroyed by
+  the 65,536-character ceiling, is **withdrawn on this evidence**. The ceiling
+  pressure was real — headroom reached 421 characters — but it did not cause
+  this fragment.
+- A future lane that finds this fragment should read this section rather than
+  re-deriving it. Recovering the original body costs one GraphQL query:
+
+```bash
+gh api graphql -f query='{repository(owner:"SzeChunYiu",name:"ORION-OCM"){
+  issue(number:833){userContentEdits(first:100){totalCount nodes{editedAt diff}}}}}'
+```
+
+The last node is the creation-time body.
