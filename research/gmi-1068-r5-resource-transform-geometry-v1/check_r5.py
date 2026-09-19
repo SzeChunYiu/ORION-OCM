@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json,pathlib,sys
 ROOT=pathlib.Path(__file__).resolve().parent
+RESEARCH=ROOT.parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
 edges={
@@ -13,6 +14,9 @@ def pareto(vs):return sorted(v for v in set(vs) if not any(dom(u,v) for u in set
 def paths_ac():return[(2,1),add((1,0),(0,2))]
 def score(w,c):return w[0]*c[0]+w[1]*c[1]
 def main():
+ r4=json.loads((RESEARCH/"gmi-1068-r4-equivalence-state-quotient-v1/RESULT_V1.json").read_text())
+ need(r4["status"]=="GREEN_AT_REGISTERED_QUOTIENT_SCOPE","R4_PARENT_NOT_GREEN")
+ need("UNIQUE_CONTEXT_FREE_STATE_PARTITION" in r4["forbidden_promotions"],"R4_UNIQUENESS_BOUNDARY_MISSING")
  p=pareto(paths_ac());need(p==[(1,2),(2,1)],"PARETO")
  need(("C","A") not in edges,"UNREACHABLE")
  ws=[(1,3),(3,1)];wins=[]
@@ -32,7 +36,7 @@ def main():
  need(all(hostiles),"HOSTILES")
  r=json.loads((ROOT/"RESULT_V1.json").read_text())
  need(r["pareto_costs_A_C"]==[[1,2],[2,1]],"RESULT")
- print(json.dumps({"status":"GREEN","pareto_A_C":[list(x) for x in p],"winners":wins,"unreachable_C_A":True,"hostiles_caught":6},sort_keys=True))
+ print(json.dumps({"status":"GREEN","pareto_A_C":[list(x) for x in p],"winners":wins,"unreachable_C_A":True,"parent_refresh":"R4_MERGED","hostiles_caught":6},sort_keys=True))
 if __name__=="__main__":
  try:main()
  except Exception as e:print("R5_RED:"+repr(e),file=sys.stderr);sys.exit(1)
