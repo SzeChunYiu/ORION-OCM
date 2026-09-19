@@ -1,0 +1,57 @@
+name: GMI 833 AI1-AI8 blind neural microscope v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ai1-ai8-blind-neural-microscope-v1/**'
+      - '.github/workflows/gmi-833-ai1-ai8-blind-neural-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ai1-ai8-blind-neural-microscope-v1/**'
+      - '.github/workflows/gmi-833-ai1-ai8-blind-neural-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=34a6b5644ffe9f60b56d016ccc855cf766ebc9f4
+          git cat-file -e "$F^{commit}"
+          git merge-base --is-ancestor "$F" HEAD
+          test -n "$(git ls-tree -r --name-only "$F" research/gmi-833-ai1-ai8-blind-neural-microscope-v1/FREEZE_V1.md)"
+          test -n "$(git ls-tree -r --name-only "$F" research/gmi-833-ai1-ai8-blind-neural-microscope-v1/BLIND_PROTOCOL_V1.json)"
+          test -z "$(git ls-tree -r --name-only "$F" research/gmi-833-ai1-ai8-blind-neural-microscope-v1/blind_search_core.py)"
+          test -z "$(git ls-tree -r --name-only "$F" research/gmi-833-ai1-ai8-blind-neural-microscope-v1/posthoc_analysis.py)"
+      - name: Normal exact replay
+        run: |
+          cp research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RECEIPT_V1.json /tmp/pinned_receipt.json
+          python3 -I -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/run_isolated.py > /tmp/normal.log
+          cp research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RESULT_V1.json /tmp/normal.json
+          python3 -I -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/receipt_projection.py > /tmp/projection.log
+          cmp /tmp/pinned_receipt.json research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RECEIPT_V1.json
+          tail -1 /tmp/projection.log
+      - name: Optimized exact replay
+        run: |
+          rm research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RESULT_V1.json
+          cp /tmp/pinned_receipt.json research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RECEIPT_V1.json
+          python3 -I -O -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/run_isolated.py > /tmp/optimized.log
+          cmp /tmp/normal.json research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RESULT_V1.json
+          python3 -I -O -B research/gmi-833-ai1-ai8-blind-neural-microscope-v1/receipt_projection.py > /tmp/projection_opt.log
+          cmp /tmp/pinned_receipt.json research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RECEIPT_V1.json
+          tail -1 /tmp/projection_opt.log
+      - name: Claim ceiling
+        run: |
+          python3 - <<'PY'
+          import json
+          p='research/gmi-833-ai1-ai8-blind-neural-microscope-v1/RECEIPT_V1.json'
+          r=json.load(open(p))
+          assert r['status']=='GREEN'
+          assert r['claim_ceiling']=='NN_D1_D2_D3_BLIND_RECOVERY_AT_REGISTERED_BINARY_TOY_SCOPE'
+          assert all(r['strong_gate'].values())
+          assert 'GMI_DISCOVERS_ALL_MI' in r['forbidden_promotions']
+          PY
