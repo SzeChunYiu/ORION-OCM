@@ -1,0 +1,982 @@
+{
+  "schema": "GMI_833_COMMENT_EVIDENCE_LEDGER_V1",
+  "entries": [
+    {
+      "comment_id": 5692689542,
+      "key": "42f58da1acd94d3e7d1a13749947497556ff8bf153620c112bd7d4469b4495a0",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Construct minimal counterexamples for every false equivalence above.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` AE1-8: every separation in rows 2-6 carries an exhaustive minimality certificate. Distributional (rows 2-3): all 16 shapes up to `4×4` on the denominator-8 grid — minimal shape `(2,1)` for nonuniform-without-dependence, `(2,2)` for dependence-without-prediction, and `0` shapes admitting prediction without dependence. Control (row 4): all shapes `(|X|,|Y|,|A|)` up to `(3,3,2)` over denominator-6 joints and every 0/1 utility, 45,748 cases — minimal `(2,2,2)` for prediction-without-control and `(2,3,2)` for control-without-prediction, both matching the shipped witnesses, once single-action worlds are excluded as vacuous. Causal (row 4): minimal `(|Z|,|X|,|Y|) = (2,2,2)`, matching the shipped confounded triple. Accessibility (row 5) and finite-sample (row 6) are reported **against** the shipped witnesses: two coordinates already suffice for the plain accessibility gap and one coordinate for the zero-sample gap, so `W_PARITY3` and the 3-coordinate family are declared non-minimal in the receipt — `W_PARITY3` is minimal for the strictly stronger pattern in which every coordinate is reachable within the depth budget and the rule is still at the base rate, which is what the AE1-5 claim rests on. Route B independently verifies existence at every claimed minimum and absence at every strictly smaller shape."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "dd066b28b8cbf35551b26439d793c9dafedb36dd89c590e442682bb4f08732f6",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Define an architecture-independent `structure available to agent A under resource budget R` object or prove why no single scalar can do this.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` AE1-5: both disjuncts. No *budget-independent* scalar works — `W_PARITY3` scores `1/2` vs `W_NOISY_DICT`'s `3/4` at budget `k1_d1` and `1` vs `3/4` at `k3_d3`, and the three named candidates are refuted individually (full-information gain `1/2` vs `1/4`, L1 dependence `1` vs `1/2`, chi-squared `1` vs `1/4`). The positive object is the architecture-independent profile `S(W): R ↦ max_{h∈H_R} acc(h,W)`, monotone with `0` violations over the 16-cell lattice and bounded by the full-information optimum with `0` violations."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4ec1dbb44d1359c62d71604b5b99d9bb390b64c9acb474af1a46fb58b5597b57",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Define task-relative exploitable structure formally; do not equate it with low entropy, nonuniform marginals, low manifold dimension, or compressibility alone.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` D-AE1/AE1-1..AE1-6: exploitable structure is defined as the achievability gap `U(W,T,R) = max_{h in H_R} score(h) − blind score` over a budget-indexed rule class naming coordinates and branching depth, never an architecture; exact witnesses separate it from each named surrogate — nonuniform marginal `(3/4,1/4)` with L1 dependence exactly `0`, L1 dependence `1/5` with Bayes gain exactly `0`, and full-information accuracy `1` with exactly `1/2` attainable at budget `(k,d)=(2,2)`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "74afff72b4cfa7a67c962d2cb3c25c92b8f5a1dba492c41a20019faeee6492de",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Separate existence of structure from accessibility to a resource-bounded learner.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` AE1-5: `W_PARITY3` has base rate `1/2` and full-information accuracy exactly `1`, yet every rule admissible at `(k,d)=(2,2)` attains exactly `1/2` and so does every rule at `(3,2)` — reading all three coordinates does not help at depth two; only the single top budget `(3,3)` reaches `1`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2d232045021035c9bc4f250f518359c8e39f01e957abaeae69e9d547e55ca87b",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Separate finite-sample discoverability from asymptotic learnability.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` AE1-6: on the 8-secret `GF(2)^3` parity family the Bayes-optimal learner attains expected test accuracy `9/16`, `79/128`, `723/1024`, `6715/8192` at `m = 0,1,2,3` against an asymptotic optimum of `1`; at `m=0` this equals the secret-marginalised base rate `9/16` exactly, and even at `m=3` it is `6715/8192 < 1` because three uniform draws span `GF(2)^3` with probability only `21/64`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "7eae59afd4a6bbe46d5693d8c9fafbfcf387399821be932ac3ff8a16e64345f0",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Separate marginal nonuniformity from dependence.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` AE1-1: `W_IND_SKEW` has `X`-marginal `(3/4,1/4)` and is exactly a product measure (L1 dependence `0`), while `W_DEP_UNIFMARG` has uniform marginals on both coordinates and is maximally dependent; over the exhaustive denominator-8 grid the minimal shapes are `(2,1)` and `(2,2)` respectively."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4be8e209750771f42abb3438b5ef0c9b133096ece0ccaae0897f0c377e62aa96",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Separate predictive dependence from causal/control relevance.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` AE1-3/AE1-4: `W_PRED_NOCTRL` has Bayes gain `1/2` but control gain exactly `0` under a utility that is *not* constant in `Y`, while `W_CTRL_NOPRED` has Bayes gain exactly `0` and control gain `1/4`; and in the confounded model `Z→X`, `Z→Y` the observational gain is `3/20` while `P(y|do(x))` is `1/2` for both `x`, an interventional gain of exactly `0`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "b91e3d465371eee66abf13d8e3b5d9d9b05b57cffccc21182ef41b0c5b2b7630",
+      "section": "### AE1 — Define `exploitable structure` without handwaving",
+      "text": "Separate statistical dependence from predictive dependence.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae1-structure-separation-v1` AE1-2: `W_DEP_NOPRED` = `[[9/20,1/20],[7/20,3/20]]` has L1 dependence `1/5 > 0` yet `acc_obs = acc_base = 4/5`, a Bayes gain of exactly `0`; the converse holds strictly — across all 16 shapes of the exhaustive denominator-8 grid, `0` admit a predictive world that is independent."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "ed0f317c2bdd4a4abc6563d6d69aab254257272b316b324021d06e421b5f00fe",
+      "section": "### AE10 — Resource-bounded usable information",
+      "text": "Add adversarial cryptographic/pseudorandom-style fixtures only at a mathematically defensible scope to separate information existence from feasible extraction.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae10-usable-information-v1` USE-4: the fixture is `Y = x_0⊕x_1⊕x_2`, for which all `7` proper coordinate subsets give an exactly uniform `(x_S, y)` (**0** violations), so `U = 0` at junta arity 2 and `1/2` at arity 3; the separation is **unconditional** — the receipt records `cryptographic_assumption_used: false` and `is_a_complexity_class_separation: false`, so no hardness conjecture is smuggled in."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "d5cd53eadc0ec7b423bf3cf0333ce90677a5c8103d6574715f3c9c3960b96085",
+      "section": "### AE10 — Resource-bounded usable information",
+      "text": "Define `usable information` relative to allowed computation, memory, communication, precision, time and energy budgets.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae10-usable-information-v1` D-AE10: `U(W,T,R)` = best expected score over the rules admissible at budget `R`, minus the best blind score — exact rational, task-relative, defined by the rule class and never by an architecture; the frozen lattice is `(junta arity k, tree depth d, sample budget m, precision p, communication bits c)` with `128` decoder-side cells, and time and energy are **declared but not instantiated**, recorded as a checked receipt field rather than passed off as measured."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "3585c39b54fa0a7ed2e54fb73c491195b2cc477c0e16c2e0df82dc366806f088",
+      "section": "### AE10 — Resource-bounded usable information",
+      "text": "Derive monotonicity/bounds as resource budgets relax.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae10-usable-information-v1` USE-1/USE-2: `U` is monotone on the frozen lattice — **9,000** ordered budget pairs across 3 worlds with **0** violations, with the rule-class inclusion premise itself checked rather than assumed — and is bounded above by the full-information gap with **0** violations, equality attained at the lattice top for every registered world."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "073afe2cda87e3980b62af75079e9b46b4b2196f7df8058d5a2da6f294685e2e",
+      "section": "### AE10 — Resource-bounded usable information",
+      "text": "Determine whether GMI morphology selection is better predicted by raw information, usable information, or a vector of resource-conditioned sufficient statistics.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-morphology-sweep-v1` SWEEP-1/SWEEP-2/SWEEP-3: the resource-conditioned vector, decisively — over the 256-world census raw `I(X;Y)` leaves **4,348** conflicting equal-value world pairs (equality decided exactly by the symmetric bit-count invariant `min(k, 8-k)`, no float logarithm) and AE10's single-budget `U(W,T,R0) = acc(m2) - acc(m0)` leaves **9,576**, while the achievability profile leaves **0** and is non-vacuous — **11** distinct profiles for **256** distinct worlds, strictly finer than either scalar; repriced at `w = (1,3,1)` the three counts are **3,568 / 9,576 / 0**."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "5a1493511bc6edee566662cf93e4319a8f911fc60192d436dfee88b6cb8a9622",
+      "section": "### AE10 — Resource-bounded usable information",
+      "text": "Relate to computationally constrained information measures / bounded rationality literature rather than inventing duplicate terminology.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae10-usable-information-v1` USE-5: a machine-readable crosswalk in the receipt maps `U` onto predictive V-information (Xu et al., ICLR 2020, arXiv:2002.10689) as an instance with `V = H_R` and 0-1 loss, the budget lattice onto bounded rationality and resource-rational analysis (Simon 1955, doi:10.2307/1884852; Lieder & Griffiths 2020, doi:10.1017/S0140525X1900061X), the exists-but-not-extractable phenomenon onto HILL pseudoentropy (Håstad et al. 1999, doi:10.1137/S0097539793244708) and the ceiling onto the data-processing/rate-distortion bound (Cover & Thomas 2006) — all four entries carry citations and no duplicate term is introduced without one."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "cfbfc42478d4e0f0b1ce29348fd71097c9bd9be02c2862ed7255c6fc390b07a9",
+      "section": "### AE10 — Resource-bounded usable information",
+      "text": "Show exact examples where Shannon mutual information is identical but achievable task performance differs because decoding/search cost differs.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae10-usable-information-v1` USE-3: at the identical budget `k3_d2_p3_c2` — where junta arity and precision are unrestricted so only the decoder's branching depth binds — `W_PARITY3` and `W_DICTATOR` both have `Y` determined by `X` with a uniform `Y`-marginal — so `I(X;Y) = 1` bit **exactly** for both — yet `U = 0` versus `U = 1/2`, a difference of `1/2` attributable to decoder branching cost alone; on the search axis a **single fixed** world (`Y = ⟨s,x⟩`, `s` uniform over the 7 nonzero secrets) holds information identical by identity while accuracy moves `5/8 → 43/64 → 383/512 → 3463/4096` as the sample budget goes `0→3`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "bb42b2e5d4f6aa884a27055039b2916d4034aad506a6a7e76bc9ba36b879d4fa",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "Audit Landauer-style lower bounds and their assumptions; do not infer whole-system energy from bit erasure alone.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae11-thermo-separation-v1` AE11-4/AE11-5: each of the 4 registered maps carries a Landauer lower-bound record `W_min = m * k_B T ln 2` with the exact integer coefficients m = 0 (`F_BIJECTION`), 1 (`F_AND`), 1 (`F_ERASE1`) and 2 (`F_ERASE2`), a vacuity classification against the definitional range [0, 2], an `attained_by` quasi-static witness and, for every m > 0, a `violated_by` witness from the explicitly relaxed no-residual-correlation class attaining exactly 0 — the m = 0 record is flagged vacuous and `UNFALSIFIED_BOUND` and closes nothing — while the 4 registered assumptions are each paired with a registered violation (the finite-time relaxation is recorded as breaking ATTAINMENT, not the bound); the non-inference is exact: for every registered map the two device models carry the SAME erased-bit count and registered operation counts differing by exactly 5, e.g. `F_ERASE2` erases 2 bits under both while `DEV_LOW_OVERHEAD` runs 2 operations and `DEV_HIGH_OVERHEAD` runs 7."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2c21072a7f0521bdd363124bb1746927aeb62886ec4484fcbfff7f3b655ff44c",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "Compare logical irreversibility with physical dissipation at the correct scope.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae11-thermo-separation-v1` AE11-7: `F_BIJECTION` has erased-bit count exactly 0 and Landauer bound exactly 0 while its registered operation count is 1, strictly positive, and the many-to-one `F_ERASE2` has erased-bit count exactly 2 — so logical irreversibility and registered implementation cost are not the same quantity; at the correct scope the count-based m = 1 for `F_AND` is STRICTLY below the distributional drop, which is bracketed in (19/16, 6/5) by the integer comparisons 3**12 >= 2**19 and 3**5 <= 2**8 and is reported as `NOT_DECIDED` rather than as a decimal."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "6a6328f9160e8b49352a2cb1431c12d1c340236e9c7dbf8dc07b96f72600eafa",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "Define exactly which GMI resource claims are logical/computational and which are physical/energetic.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae11-thermo-separation-v1` AE11-3: the resource registry classifies all 24 resources this tranche names into the two registered classes — 12 `LOGICAL_COMPUTATIONAL` and 12 `PHYSICAL_ENERGETIC` — and the executor asserts that the count of `PHYSICAL_ENERGETIC` resources INSTANTIATED is exactly 0, with 0 entries carrying a numeric value in physical units and 0 floats anywhere in the receipt, so the row closes on a verified property rather than on prose."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "a5ff207240ffb747a9f731ed85b169bee4a4c643944b575405ceb719f498ed2e",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "For biological claims, separate energetic maintenance of life from cognitive information processing.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "1d5df51211901b853596353ecfd4e3b5dce57744f398d2eff81c056f5f4247f0",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "Keep Shannon entropy, algorithmic complexity, statistical-mechanical entropy and thermodynamic entropy formally distinct.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae11-thermo-separation-v1` AE11-1/AE11-2: all 12 ordered pairs of (Shannon entropy, algorithmic complexity on the frozen prefix-free machine, statistical-mechanical entropy carried as the integer microstate count, thermodynamic entropy carried as the exact rational Q/T) are witnessed NON-functionally-dependent on the 8-object registered roster — 2 witnesses exhibit the slack in the one registered definitional relation `H_shannon <= log2 W` and 10 are registered-independent, 0 pairs unwitnessed — and the classic witness holds exactly: `R_UNIFORM_BLOCK` has the maximal `H_shannon = 6` bits while its 64 members carry `K_U` values 11 (2 strings), 13 (6) and 14 (56), a machine-relative and cap-relative fact that is recorded as such."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "fac595f79d1d67be0e406295fcec920c5b08c006f090d086098284bb5b397784",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "Measure actual energy on real hardware for selected GMI morphology transitions.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "0e09d63dde55ecb793ee9c527d1ab3f40a1f1cc597a869e63f3d4b154fd966d3",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "Model nonequilibrium maintenance only where a physical system boundary/dynamics are registered.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae11-thermo-separation-v1` AE11-6: the count of registered physical systems — the tuple (boundary, dynamics, reservoir, temperature) — is exactly 0, a registered quasi-static process supplying only a temperature symbol; the frozen 10-term driven-system vocabulary produces 0 hits over the 7 registered claims (the no-alarm case) and 3 hits on the planted fixture `FIXTURE_NONEQ_PLANT`, which the gate flags."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "760ea5d2a5c1182aece339f49a22eaa02663e287737233b5d26e7f98632808e2",
+      "section": "### AE11 — Thermodynamics and physical information processing",
+      "text": "Test whether information-theoretic savings predict physical energy savings; preserve negative results if hardware overhead dominates.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "6f7ea9918c19b1aacb1222f6ba26e6bc3e647196e18b88dcac8950b4b1bd11ce",
+      "section": "### AE12 — Free-energy / active-inference strongest-parent audit",
+      "text": "Audit Free Energy Principle / active inference as a strongest-parent candidate for perception-learning-action unification.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae12-fep-audit-v1` AE12-1, AE12-8: on every registered dyadic world and observation the free-energy minimiser equals the exact Bayes posterior and the minimum equals the surprisal `-log2 P(o)` exactly (on `W_SPLIT` every observation has evidence `1/4`, so the minimum is exactly `2` bits), so the receipt emits the terminal `PARENT_SUFFICIENT` naming active inference as the owner of perception, with `novelty_claimed: false`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "43621b3049b8ba0adbcd7fc768ebf88199d9f4a4df180450e027a04740360107",
+      "section": "### AE12 — Free-energy / active-inference strongest-parent audit",
+      "text": "Compare predictive and control behavior prospectively.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae12-fep-audit-v1` AE12-4, AE12-7: the eight predictions were committed in `PROSPECTIVE_REGISTER_V1.json` before any executor blob existed and all eight are reported: `6` confirmed and `2` refuted with exact values, a single-stage attribution and the statement earned instead - the predicted expected-utility difference of `1/2` on `W_AMB` is in fact `0`, and the CPC family reaches `2` of the `3` actions of `W_DISC1` because `a2` is term-vector dominated with equal predictive loss `1/2`, equal control regret `1/2` and cost `2` against `1`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "324f337af351c46a531ed148a8002ec2a9e136117e5865e903bf8cff36d27cb9",
+      "section": "### AE12 — Free-energy / active-inference strongest-parent audit",
+      "text": "Construct finite discriminating tasks where GMI/CPC, rate-distortion control and an active-inference formulation differ.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae12-fep-audit-v1` AE12-6: on `W_DISC1` the expected free energies are `(1, 0, 1)` bits, so expected free energy chooses `a1`, cardinality-`1` rate-distortion control chooses `a0`, and across all `45` registered weight triples the CPC family reproduces neither pair of choices together; on `W_AGREE1` the expected free energies are `(1, 3/2, 3)` bits and all three principles choose `b0`, so the discrimination is a property of the world and not of the comparison."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "a52461554a7613fa9dc6d8db365dee72caa8e7d9a9d3442ff5c8ed2c1d1d9c90",
+      "section": "### AE12 — Free-energy / active-inference strongest-parent audit",
+      "text": "If GMI is reducible to an established FEP/active-inference formulation at a scope, mark parent sufficiency rather than novelty.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae12-fep-audit-v1` AE12-1, AE12-8: the receipt emits `PARENT_SUFFICIENT` for perception as exact Bayesian inference at the registered scope, naming variational inference and active inference as the owners, and the manifest carries `GMI_NOVEL_OVER_ACTIVE_INFERENCE` and `ACTIVE_INFERENCE_EQUALS_BAYESIAN_INFERENCE_UNCONDITIONALLY` as forbidden promotions."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "0d32d5ade90029df6363c4c196a97e057914e61cf5e45e96e2e91424b7070c79",
+      "section": "### AE12 — Free-energy / active-inference strongest-parent audit",
+      "text": "Include published technical counterexamples/criticisms; do not inherit universal FEP claims uncritically.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae12-fep-audit-v1` AE12-5: four published criticisms are each attached to a registered finite predicate that is evaluated exactly rather than cited: `MARKOV_BLANKET_EXISTS` is decided by exhaustive search over every partition into non-empty internal, blanket and external sets, holding on `SYS_MB_OK` with `4` admissible partitions and failing on `SYS_MB_FAIL` with `0`, while `FEP_EQUALS_BAYES_UNDER_RESTRICTED_FAMILY` and `EFE_RECOVERS_UTILITY_ORDERING` both evaluate false."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4a0469d63113e4ad5b0f9e13690121104f558eb0ebb0d0cb6099d235c66a8fe7",
+      "section": "### AE12 — Free-energy / active-inference strongest-parent audit",
+      "text": "State exact assumptions needed for any claimed equivalence with Bayesian inference/predictive coding/control.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae12-fep-audit-v1` AE12-2, AE12-3, AE12-4: each assumption the claimed equivalence needs is paired with a registered world where dropping it breaks the equality: the mean-field restriction on `W_CORR` raises the minimum from `1` bit to `2` bits, an exact price of `1` bit; a swapped likelihood on `W_TRI_MIS` returns `(1/2, 0, 1/2)` where the true posterior is `(1/2, 1/2, 0)`; and on `W_AMB` the ambiguity term never sees the preference prior, so the expected-free-energy gap is exactly `1` bit for every preference distribution."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "933a339d708c3e8fbce62c6afeca43651e2c90cedc51351bd4756bf2b9039364",
+      "section": "### AE13 — Causality and intervention",
+      "text": "Construct observationally equivalent worlds with different intervention consequences.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "19034fe630702f65ba971527a925f220d008757967d1f6ebc61bebb1c99f095a",
+      "section": "### AE13 — Causality and intervention",
+      "text": "Define when interventions are required for the behavioral specification.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "8c01ca675dbb66b519f432dabd3e8942bb3fbde44c1335cc1c2b92676840a6bf",
+      "section": "### AE13 — Causality and intervention",
+      "text": "Derive the value of intervention under resource cost.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "cd06f61dc533da4e736320269ae6efd15262b3480153ba4a70e0b4305dc844da",
+      "section": "### AE13 — Causality and intervention",
+      "text": "Distinguish predictive state from causal/control state.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4bd24f34600907fc841e31009318987df3fddf31929ad220e5b83eff1c1182f5",
+      "section": "### AE13 — Causality and intervention",
+      "text": "Prove that observational compression/prediction does not generally identify causal structure.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "b733dd4d6556038d7766e8ff5de59f1b883dd4c0847dd904f3165f6ce6709809",
+      "section": "### AE13 — Causality and intervention",
+      "text": "Relate to causal-state, causal-representation-learning and causal-inference parents precisely.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "6288cadbe0632efcd933c7b3006c9805cdd1ba2dde162b6797e2a0d20ff15c80",
+      "section": "### AE13 — Causality and intervention",
+      "text": "Test whether causal structure changes selected morphology relative to observational prediction alone.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-morphology-sweep-v1` SWEEP-5: yes. Two Markov-equivalent worlds (`A -> C` and `C -> A`, `P(C=1|A=1) = 3/4`) have **identical** observational joints cell-by-cell as exact rationals and therefore the identical observational selection `{m1}`; under `do(A)` the profiles separate (`3/4` versus `1/2` at `m1`) and the selection differs — `{m1}` versus the fail-closed `NO_VIABLE_MORPHOLOGY` for every `tau` in `(1/2, 3/4]`. The observational-only hostile, which reads the interventional profile off the observational joint, returns `{m1}` for both worlds and is detected."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "bc62bc1e1b79c36dfee4c1ffcdfd37fd018ead4bb8b9cba05ae7ea09ae493bf1",
+      "section": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+      "text": "Construct matched tasks where compression is equal but transfer differs.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae14-generalization-taxonomy-v1` AE14-5: `T_CODE_A` and `T_CODE_B` sit at indices `16` and `20` of the frozen 520-model order and so have exactly equal integer description length `11` bits under the Kraft-compliant code (whole-space Kraft sum `523273/2097152`), while their exact transfer accuracy to the registered target task differs, `3/8` against `3/4`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "62ec2963b2b67e4824d09108715bd0e7ac86ade7f4450200e28bbb4d20b746c1",
+      "section": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+      "text": "Construct matched tasks where predictive accuracy is equal but reasoning/compositional capability differs.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae14-generalization-taxonomy-v1` AE14-4: `T_MATCH_COMPOSITIONAL` and `T_MATCH_LOOKUP` agree on the whole shared training view, so their Bayes predictive accuracy on the registered test distribution is exactly equal at `3/4` and `3/4`, while the shortest-code consistent model (index 0, `3` bits) scores exactly `0` on the compositional task's two held-out block recombinations and exactly `1` on the lookup task's."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "7bb831289f14ef3538df2b7b3de94e35af44b7ed967f92b1d572f7aa6f6c67ba",
+      "section": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+      "text": "Determine which are reducible to prediction under a registered specification and which require additional search/composition/control machinery.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae14-generalization-taxonomy-v1` AE14-2/AE14-3: exhaustive enumeration of every prediction-only learner (every function constant off the support, all 70 depth-2 juntas, all 32 GF(2)-affine functionals, all 520 block-modular compositions) gives best attainable accuracies of exactly `13/15`, `4/5` and `9/10` on the registered analogy, planning and reasoning specifications while an `L_search[3]` learner attains exactly `1` on all three and depth 1 attains at most `14/15`, so memorization, interpolation, extrapolation and systematic generalization reduce to prediction at the registered specification (realized at exactly `13/16`, `1`, `1` and `1`) and analogy, planning/inference and reasoning require the composition machinery, named exactly as the transport members `lookup|pi2+rho|d` and `lookup|pi1+pi2|d` and the derivability readout `atom|tau|5`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "158f9e1a0d1b005d1d21f0bd1bc7c6c3c768f997980b8e1d126340895156631a",
+      "section": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+      "text": "Forbid the blanket claim that memory/generalization/analogy/reasoning are `the same mechanism at different scales` unless a formal reduction theorem is earned.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae14-generalization-taxonomy-v1` AE14-7/AE14-2: the blanket identification is registered as a forbidden promotion and refused: a reduction theorem would need one prediction-only learner realizing every mode, and the exhaustive enumeration exhibits three registered specifications where every member of every prediction-only class falls strictly short (`13/15`, `4/5`, `9/10`) while the composition class is exact at `1`; the executor scans every artifact of the package and reports `0` unguarded assertions, with the checker validated in both directions."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "d05a17d4ec27c8888b2d767c78887152fa06ffcc1b0929288c0490e869f79b83",
+      "section": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+      "text": "Give architecture-independent operational definitions of memorization, interpolation, extrapolation, systematic generalization, analogy, planning/inference and reasoning.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae14-generalization-taxonomy-v1` AE14-1/AE14-8: all seven modes are emitted as exact predicates over `(task, learner class, training support)`, each a property of the realized function and the support alone, and evaluated on the full 7 x 11 x 5 truth cube; 41 of the 42 ordered mode pairs are separated by a registered witness whose second mode has a non-empty structure, and the single unseparated pair carries an implication certificate verified over all 65310 supports."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "7e6adb5c299493c434a640aa4d157df8570567810b8d481167d28339a75806de",
+      "section": "### AE14 — Generalization, analogy, reasoning: do not collapse them by rhetoric",
+      "text": "Test whether GMI predicts which additional computational mechanisms are required.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae14-generalization-taxonomy-v1` AE14-6: the mechanism predictor frozen in `PROSPECTIVE_REGISTER_V1.json` before evaluation names the least realizing class correctly on all `7` registered structure types against a largest null hit count of `4` over the `200` registered uniform trials (rate at or above the predictor `0/200`, threshold-free), scores `6` of `6` on the evidential cells after declaring the structurally guaranteed `LOOKUP_ONLY` cell, and holds over an exhaustive family sweep at rates `1` (10 affine), `1` (48 junta), `1` (432 block-factorized), `1` (2 composition-depth) and `26/27` (54 group-orbit)."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4d2375ae8a1c4268aa59b74148507ea1a1400a623717f15800ae3e47ac3b9537",
+      "section": "### AE15 — World-model necessity boundary",
+      "text": "Construct tasks solvable optimally without an explicit world model.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae15-world-model-necessity-v1` AE15-2: on the registered fully observed task K_REACTIVE_OPT the model-based optimum is exactly 3/4 and the best of all 4 enumerated memoryless maps O -> A attains exactly 3/4, a difference of exactly 0, and the task is not myopically trivial because the greedy reactive policy attains only 7/16."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "be771cdc1886b0c02a5fde7c4648a8a60b8c6e206d7d636363083c61623a4894",
+      "section": "### AE15 — World-model necessity boundary",
+      "text": "Construct tasks where a model is provably necessary under the registered interface/resource assumptions.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae15-world-model-necessity-v1` AE15-3: on the registered aliased POMDP K_MODEL_NEEDED (|S| = 4, |O| = 3, |A| = 3, H = 3, gamma = 1/2, with s0 and s1 both emitting oa and requiring different actions) the model-based optimum is exactly 1/2 while exhaustive enumeration over each finite class -- all 27 memoryless maps, all 27 context-indexed cached skills and every realizable greedy value policy -- gives a best of exactly 1/4 in each of REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION, an exact gap of 1/4; necessity is asserted only at this registered scope and never by an appeal to hardness."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2c723e03607d7eb411883a4c03bc9ce5ca312fa99ba45b7a14b0fd741163a47d",
+      "section": "### AE15 — World-model necessity boundary",
+      "text": "Define `world model` operationally and distinguish explicit generative model, predictive state, value representation, reactive policy and cached skill.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae15-world-model-necessity-v1` AE15-1: `world model` is defined as a stored-object interface rather than an architecture class, and the five registered interfaces REACTIVE_POLICY, CACHED_SKILL, VALUE_REPRESENTATION, PREDICTIVE_STATE and EXPLICIT_GENERATIVE_MODEL are separated by 7 coordinates computed on the registered roster: all 5 coordinate vectors differ, 18 of the 20 ordered pairs carry a strictly separating coordinate and the remaining 2 are recorded as dominated, and under the registered reward-swap probe on K_SWAP only EXPLICIT_GENERATIVE_MODEL re-optimizes (reaching exactly 3/4) while REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION each fall to exactly 0 against a class best of 3/4, an exact shortfall of 3/4 each."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "61471aa1e906a238a803e61f264a2359cfa5378f4c54a3a5360e2a28dd1cec3f",
+      "section": "### AE15 — World-model necessity boundary",
+      "text": "Derive model-based vs model-free/retrieval/reactive phase boundaries.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae15-world-model-necessity-v1` AE15-4: the boundary is the exact rational c*(G) = G/4, taking the values 1/4, 1/2, 3/4 and 1 at G = 1, 2, 3, 4, strictly increasing over the registered range, with the chosen class flipping strictly on both sides -- margin +1/8 at c*(G) - 1/8 where EXPLICIT_GENERATIVE_MODEL is chosen, exactly 0 at c*(G), and -1/8 at c*(G) + 1/8 where the model-free class is chosen -- emitted as bound AE15-B1 (advantage per goal token <= 1/4 over the definitional range [0, 7/4]) with a violating witness at 1/2 from the explicitly relaxed gamma = 1 class."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "151298250dd58f705963ceb5369ef247e729f5f8c06ff2eb37ad3fa705b10812",
+      "section": "### AE15 — World-model necessity boundary",
+      "text": "Forbid claims that successful intelligence necessarily reconstructs human-interpretable latent variables.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae15-world-model-necessity-v1` AE15-6: the registered forbidden promotion LATENTS_ARE_HUMAN_INTERPRETABLE is refused with AE15-5 as its machine-checked evidence -- two latent factorizations of cardinality 2 and 4 reproduce every observational and predictive quantity exactly -- and the executor's scan of all 10 shipped artifacts reports exactly 0 assertions of any registered forbidden promotion, with the scanner validated in both directions."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "7d6ef8b6d327d5048094fa335fc86f96306837fe22cc5269624da842f148b029",
+      "section": "### AE15 — World-model necessity boundary",
+      "text": "Test whether latent variables recovered by a model correspond to identifiable world factors or merely predictive coordinates.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae15-world-model-necessity-v1` AE15-5: SCM_LATENT_A (latent cardinality 2, U -> X and U -> Y) and SCM_LATENT_B (latent cardinality 4, V -> X -> Y) have exactly identical observational and predictive joints -- 1/2 on (x0,y0) and 1/2 on (x1,y1), uniform marginals, and P(Y|X) and P(X|Y) exactly 1 on the matching value -- so the latent is not identifiable from behaviour, while they differ exactly under intervention with P(Y = y1 | do(X = x1)) equal to 1/2 against 1; on the same roster SCM_LATENT_ID has a latent recovered exactly by the exhibited map x0 -> l0, x1 -> l1, x2 -> l2, invariantly across all 6 label permutations."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "5f31cca1cf78bb2df270264f9da4376f33e286d5ddacbe55815dc83eb95178ee",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Choose real datasets/tasks spanning vision, language, sequential control and one scientific/biological domain.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "96245a6df08a9b37d1035faf6b36f3ef78ce88742ad2c3a291ddfa9f8d04c35b",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Compare against strong architecture-selection and information-theoretic baselines.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "b8547ac4f4c36f93e44ca0b8cb7c3fc11ebd41517dc90639562ca4b156162b8a",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Estimate relevant structure measures without using protected outcomes to choose them.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "cc38be8b1b5c1582eaafcfd9db5cd5172a0e5abbf51c491feb1f933f44e4b3f4",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Freeze GMI predictions linking structure/resource regime to representation/morphology/capability.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "0596ec7b8da49edc8cf1a14c96c8922db7e2e3d7754849af952c22560e8627fd",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Include deliberately structure-destroyed controls preserving marginal statistics where possible.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "e968f974577952760fc40314bb9853c18ffd347ff004a2dcc5fbe554ae3a7f31",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Include structure-preserving recodings/remints.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2602f0961c97598e8d256a8d6a5b3a254d7f24f4d717d87e495763ef5536d8c6",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Report failures and non-identifiability rather than post-hoc redefining `structure`.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "f8aa9565b783c511315250d3b7c06364e8f2d90fd71daf509f916e6fd20204a1",
+      "section": "### AE16 — Real-world empirical programme",
+      "text": "Test predicted crossovers as data, compute, memory, precision and energy budgets vary.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "556dbcc174d6161698d818e53d603d627f040b325422535485292e2879c566eb",
+      "section": "### AE17 — Recursive loophole extraction for this addendum",
+      "text": "Every AE theorem/result emits assumptions, strongest parents, counterexamples, falsifiers, prior disclosures and unresolved descendants into the #833 gap graph.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "12f8cf6122bc517ff5214ba83c6014eb0a982f6660957707b728d2b529dfde7d",
+      "section": "### AE17 — Recursive loophole extraction for this addendum",
+      "text": "Every architecture-selection claim must pass #833 D controls: matched negative twin, semantic remint, alternate search and Pareto/resource sensitivity.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "5b2acc9b4b21228fec6a6e7b740d09e4958a2c7a9928a03defca2d0d3672feac",
+      "section": "### AE17 — Recursive loophole extraction for this addendum",
+      "text": "Every finite theorem must retain explicit finite/sample/horizon tags.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4fe43475e78f27bd13f1922be1e957242ca8c6700a7eaf205c05d0c2f47ac7c7",
+      "section": "### AE17 — Recursive loophole extraction for this addendum",
+      "text": "Every parent-overlap finding updates the terminology/subsumption ledger.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2a552b12c6d6f939854b3de8c80982f5e08c93b07c58f8de3aa60e58276d5e30",
+      "section": "### AE17 — Recursive loophole extraction for this addendum",
+      "text": "Every positive unification claim must include a nearest negative theorem/counterexample.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "8f833eb1b6d3ef4722ded1ae06c3a66c8d33d23518c58fcc7fc02d8df50c3b65",
+      "section": "### AE17 — Recursive loophole extraction for this addendum",
+      "text": "Every proposed scalar `structure/intelligence/information` measure must be attacked with at least two non-isomorphic counterexample families.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "b51819a9816054fc7850cb1f253e4e4f6a3f6bb32a55db6462c315864be3f6e9",
+      "section": "### AE17 — Recursive loophole extraction for this addendum",
+      "text": "Reopen any green AE row if a material descendant gap is discovered.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "0b3817096bc77140e35538ca2ba6a77863ef11dc8b9ac5d445414152ffe3cec3",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Add chaotic deterministic systems where microscopic predictability is horizon-limited.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `CHAOS_DOUBLING`: `x_{t+1} = 2x_t (mod 1)` on `8`-bit dyadic states with the top `4` bits observed, all `256` states enumerated — the next symbol is determined with certainty for exactly `4` steps and the Bayes accuracy is exactly `1/2` from step `4` onward."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "aaec461de177cfb28db282ced86ff44f834e9a111435fa82fd20f09cafd7bb8c",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Add nonstationary/drifting sources where historical dependence ceases to be useful.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `DRIFT_INVERT`: phases `Y = X` then `Y = 1 − X`, equiprobable — each phase carries `1` bit, the pooled joint is **exactly** independent (L1 dependence `0`), and the phase-1 rule scores `1` in phase 1 and exactly `0` in phase 2 against a base rate of `1/2`, so historical dependence becomes harmful rather than merely useless."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "b3357a4ef13395aa2fe354796d43b1fe2369db35061057f8ea141c05ffa917b0",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Construct a source with high mutual information but computationally inaccessible dependence and show why Shannon information alone does not guarantee practical intelligence.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-4: the source is `Y = x_0⊕x_1⊕x_2` with full observation of `x`, `I(X;Y) = 1` bit (maximal for a binary target) and exactly base-rate accuracy `1/2` for every decoder of branching depth below 3; the separation is **unconditional** — it rests on the machine-checked fact that for all `7` proper coordinate subsets `(x_S, y)` is exactly uniform (`0` violations), not on any cryptographic hardness assumption."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4722440e233543d57d020bb47e02a8851522e27a6d1395f58d3c1f99ec436e3e",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Construct high-entropy but strongly predictable structured controls.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `HIGHENT_CYCLIC`: `X_t = X_{t−1} + 1 (mod 4)` with `X` uniform on `Z_4` — marginal entropy is `2` bits exactly, the maximum on four letters, while `acc_base = 1/4`, `acc_obs = 1` and the predictive gain is `3/4`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "f149856d188d131a9a1fbbf8c4cbb8d80d6bca5d60e190546a797e28931a8aae",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Construct low-entropy/nonuniform but temporally independent controls.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-5 `LOWENT_IID`: i.i.d. Bernoulli(1/10) — marginal `(9/10, 1/10)` is nonuniform while the pair `(X_{t−1}, X_t)` is exactly a product measure, so L1 dependence, mutual information and predictive gain are all exactly `0`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "033d31cac489110d4625b0ee00c2a3c2bc1b1b2f83298c3631048f9dfc384bfd",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Distinguish mutual information from usable/accessible information under computational/resource constraints.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-4: on `Y = x_0⊕x_1⊕x_2` the learner sees all of `x` and `I(X;Y) = 1` bit exactly, yet the best decision tree attains exactly the base rate `1/2` at depths 0, 1 and 2 and only reaches `1` at depth 3; the dictator `Y = x_0` carries exactly the same one bit and is decoded perfectly at depth 1."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "64565ff93d28571552b1c5979e3074b85dbdb61c787e9b4739f50dd5beb2e1d4",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Generalize from exact independence to bounded predictive information and derive performance bounds where possible.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-2: with `D = Σ|P(x,y) − P_X(x)P_Y(y)|`, `gain ≤ D/2` — verified on **670,396** exhaustive grid cases with **0** violations and **15,328** attaining equality, tight witness `gain = 1/2`, `D = 1`; chaining the parent-owned Csiszár–Kullback–Pinsker inequality `I(X;Y) ≥ D²/2` gives the performance bound `2·gain² ≤ I(X;Y)` in nats, asserted only in exact rational form."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "50b0a59b2a3ecc034a6ed00a62b5ccc418daa73f2b28cb27aa0c6901a76ef789",
+      "section": "### AE2 — Information-theoretic learnability boundary",
+      "text": "Prove a no-predictive-information boundary: if the registered future target is independent of all allowed history/observations, no learner can improve prediction beyond the Bayes/base-rate optimum.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae2-predictive-boundary-v1` PIB-1: proved for every loss and every rule — by independence, `E[L(h(X),Y)] = Σ_x P_X(x) Σ_a h(a|x) Σ_y P_Y(y)L(a,y) ≥ min_a E[L(a,Y)]`, attained by the constant rule, with randomized rules covered by convexity; verified exactly on i.i.d. Bernoulli(3/10) sources whose observation is the whole history at lengths 1 and 2 (4 and 16 deterministic rules enumerated in full), where the improvement is exactly `0` under all three registered losses."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "e511eeb2d5d767de66be078ac4945df5e91d7427a1333d449025b5384118429e",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "Define computable surrogates and quantify their representation-language dependence.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-7: three computable surrogates are registered — `K_L1 = (6,7,11,9)` and `K_L2 = (5,7,11,10)`, both Kraft-tight prefix codes with Kraft sum exactly `1`, and a structurally different run-length code `L3` — and their representation-language dependence is measured exactly: `K_L1` and `K_L2` differ by **1** bit on **242** of the **256** targets and agree on 14, with **0** strict order flips among all **32,640** target pairs, while `K_L1` and `K_L3` differ by up to **3** bits."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "390e088675f8d539c39f9ab5f94ecbaa00b3d515cb6403c9af2bd6a7e5007564",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "Distinguish memorization/compression from out-of-sample generalization.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-4: for `Y = x0 AND x1` all **16** hypotheses with perfect training accuracy realise out-of-sample accuracies `{0, 1/4, 1/2, 3/4, 1}` — the 9-bit memoriser scores `1/2` where a 6-bit rule scores `1` — and over the whole census **6,094,848** of **8,386,560** equal-training-accuracy hypothesis pairs differ out of sample, so training fit does not determine generalization."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2b3070000cc709c632e33d0dbb99647de63a389ab26a7109862cdec439f9e4eb",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "Formalize at least three notions separately: lossless description compression, task-relevant lossy compression, and model/generalization compression.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-1: three notions are defined separately and never identified — `A` lossless description compression `K_L(tab f)`, `B` task-relevant lossy compression (minimal junta arity attaining accuracy `>= 3/4`), `C` model/generalization compression (minimal code length of a program with out-of-sample accuracy `1`) — and all **six** ordered pairs are non-determining over the 256-target census: `A→B` **17,406** conflicting pairs of 25,636, `A→C` **14,258**, `B→A` **2,050** of 10,280, `B→C` **5,568**, `C→A` **3,854** of 15,232, `C→B` **10,520**."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "5bd3341166b2bfcf38f11ebd5065ef56424584ccd7012166fb345fd82b2d2fd2",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "Prove/construct cases where a useful predictor is not the shortest description under the chosen coding language.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-3: for the target `01111000` the shortest program consistent with the registered training set `{x : x2 = 0}` is **6** bits with a **unique** argmin — no tie is hidden — and its out-of-sample accuracy is exactly **0**, while the shortest program that generalizes perfectly costs **7** bits. The useful predictor is strictly longer than the shortest description, by 1 bit, at a generalization gap of `1`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "cc926e55dd2048301081c73676c2fadc7da1b779469c2aa0f644a2cb8e46f25e",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "Prove/construct cases where data compresses but the compressed representation is useless for the target task.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-2: with task `Y = x1 XOR x2`, the corpora `O = x0` and `O = x1 XOR x2` both code to **6** bits in `L1` against a **9**-bit literal — identical compression, both strict — yet the representation each induces gives task accuracy `1/2` (exactly the blind baseline) versus `1`, a separation of `1/2`. Compression therefore carries no task usefulness by itself."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "faffd7c43855d0ab76882e0a92c946db7b3cf5c18cb289c40df185245b542cda",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "Relate GMI precisely to MDL/Bayesian coding/PAC-Bayes/compression bounds where applicable; subtract parent-owned theorems.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-5: an exact two-part MDL and Bayes-MAP crosswalk over the 256-hypothesis class with integer code lengths and exact rational posteriors. On `Y = x0 AND x1` the MDL argmin has **2** members at **6** bits whose out-of-sample accuracies are `1/2` and `1`, so MDL selects a strictly worse hypothesis than the risk optimum `1` and is **not** a subset of the risk argmax; the MAP argmax behaves the same. Four parents are mapped with citations — Rissanen 1978 (doi:10.1016/0005-1098(78)90005-5), MacKay 2003, Blumer et al. 1987 (doi:10.1016/0020-0190(87)90114-1), McAllester 1999 (doi:10.1145/307400.307435) — and the compression-implies-learning direction is left entirely to the Occam's-razor parent."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "d73684bc16045579d4fc0e18f32a95c5a8faa6a4f6b9973927758855521b85fd",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "State Kolmogorov-complexity uncomputability boundaries explicitly; forbid claims that GMI computes the true shortest program in general.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-6: the uncomputability of `K` and the machine-dependence of the invariance theorem are stated with citations (Kolmogorov 1965; Li & Vitanyi 4th ed., doi:10.1007/978-3-030-11298-1), `KOLMOGOROV_COMPLEXITY_COMPUTED`, `GMI_COMPUTES_TRUE_SHORTEST_PROGRAM` and `UNIVERSAL_MACHINE_INVARIANCE_PROVED` are registered forbidden promotions, and the prohibition is **enforced** rather than asserted: a guard scans the emitted receipt for any field claiming an uncomputable quantity and reports **0** alarms on this receipt while detecting **2 of 2** planted claims. Every length reported is a code length in a registered finite prefix-free language computed by exhaustive enumeration, never an estimate of `K`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "24ae1fe80251e3c9f204968aa363a44bcac2dd6bf1960385bc68aa1ea875af6a",
+      "section": "### AE3 — Compression is not automatically learning",
+      "text": "Test whether GMI predictions survive multiple coding languages/universal-machine remints up to the actually justified invariance boundary.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae3-compression-learning-v1` AE3-8: the unqualified claim is **refused** and the actual boundary is measured. Over **200** Kraft-feasible remints of the code-length tuple, the AE3-2 verdict holds on exactly **162** and is characterised by the exact predicate `min(rule_len, xor_len) < literal_len`, which matches observation on **200 of 200**; the AE3-3 verdict holds on only **170 of 200** and all **30** exceptions are enumerated in the receipt; AE3-4 is language-independent by construction. An extreme non-prefix code `(1,1,1,1)` with Kraft sum **272** destroys AE3-3 outright and is caught by the Kraft guard. `UNIVERSAL_MACHINE_INVARIANCE_PROVED` stays a registered forbidden promotion."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "6cbde9079bdef26e346e1bba920e4813ad1fb05a61948bea828e505365262683",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Add held-out crossover predictions as memory/compute/precision prices change.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "84941bf2773635387a2261a24c399ea3004137e31d37c3fe2e1a9130f9038fbe",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Derive conditions under which apparently irrelevant information must be retained because of future task uncertainty, transfer, revision, causal intervention, or verifier needs.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "734d47df760144d1bc4509bbc691d8c190953a061e4fc3283a6fbf3173487cea",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Derive conditions under which forgetting task-irrelevant information is optimal under resource constraints.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "56c55b0b0d79ee7b12adbd3464a9d99960c8afb54ed63fbcca1f6ce0bc686ad2",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Determine when a GMI minimal behavioral/predictive state is equivalent to, refines, or is incomparable with an IB-optimal representation.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "28dca29e1d8ae4e6f090fe0ade5584004e44f4e4e8ef1c155136408d64e99c8a",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Distinguish `retain information about Y` from `retain information required for action/control under utility U`.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "c250d8ad8c5a5fabeaaab5538b8acd6f669cc129605cbee1ebbf83cc3c435174",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Formalize the task-relevant representation problem using established Information Bottleneck / rate-distortion terminology where applicable.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "18960a60bb5aada8fdef7bc64621049617d1327c2a6df9d1a274321e215a65e2",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Prove smallest counterexamples preventing unqualified identification.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "cf223e632437ac0ece962e5082a5cba5656d9870c0e445f6294863a655db95a6",
+      "section": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "text": "Quantify representation-capacity vs predictive/control distortion frontiers.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "949d233b6a64be6887bfd9254ae9982351e43b562960793113d34bbfb1d57c83",
+      "section": "### AE5 — Predictive-state / causal-state unification audit",
+      "text": "Compare GMI minimal sufficient predictive state with statistical complexity and predictive information/excess entropy.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae5-causal-state-audit-v1` AE5-2: on a registered family of **2,019** exactly-dyadic decision-tree processes (of **2,187** enumerated; **168** excluded because their causal-state masses are not exactly dyadic), the GMI minimal sufficient predictive state coincides with the causal-state partition, `C_mu` is the exact rational `sum 2^-a * a` with **no logarithm ever evaluated**, and the parent bound `E <= C_mu` holds on **1,527 of 1,527** members where the excess entropy is exactly computable. Strict crypticity is exhibited — `C_mu = 3/2`, `E = 1/2`, `chi = 1` — and the causal-state masses there are the **non-uniform** dyadic triple `(1/4, 1/4, 1/2)`, so `C_mu` is genuinely an entropy and not a relabelled state count."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "20bbc039707f9dc1a5d6f6dc24fbea753bb4de3534326751e11ea572f2db5c77",
+      "section": "### AE5 — Predictive-state / causal-state unification audit",
+      "text": "Construct processes where predictive-state cardinality, linear predictive rank, entropy of causal state, and description length disagree.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae5-causal-state-audit-v1` AE5-4: over the 2,019-member family, **11 of the 12** ordered quantity pairs disagree — two processes share the first quantity and differ in the second — and **6** pairs additionally admit a strict order reversal, so **every one of the six unordered pairs is non-equivalent**. The single determined direction, `C_mu → rank`, is covered by a **proved** structural bound rather than left unexamined: the Hankel rank at split `k` is at most the number of causal states at prefix length `k` (Carlyle–Paz / Fliess; Jaeger 2000), verified on **all 2,019** members, and at `L = 3` that caps the rank at `2`, so `C_mu = 0` forces `rank = 1`. The reverse direction still disagrees, so the two quantities remain non-equivalent."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "40e85234affac1536e41f3afb100ff873e128bddfe6f6eecbbb963c15e332ea5",
+      "section": "### AE5 — Predictive-state / causal-state unification audit",
+      "text": "Determine whether existing GMI state-complexity results are already parent-owned by causal-state/minimal-predictor theory.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae5-causal-state-audit-v1` AE5-3: **`PARENT_SUFFICIENT` on 4 of 5 audited statements**, recorded as a success terminal and not as a shortfall. The minimality of the predictive state is Shalizi & Crutchfield 2001 (doi:10.1023/A:1010388907793, Theorems 1 and 3); state complexity as the entropy of the minimal partition is Crutchfield & Young 1989 (doi:10.1103/PhysRevLett.63.105); the predictive-information bound `E <= C_mu` with crypticity is Crutchfield & Feldman 2003 (doi:10.1063/1.1530990); rank-below-state-count is Jaeger 2000 (doi:10.1162/089976600300015411). The receipt records `novelty_claimed_for_gmi_state_complexity: false`. The single **RESIDUAL** is named: the horizon-indexed refinement sequence and the resource-priced selection of a predictor, the latter exercised by `gmi-833-ae-morphology-sweep-v1` in this same tranche."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "09ed3323d77bcc5d53b9687cbb959150dcbd436b67e3504cbca07ae6dda3ce84",
+      "section": "### AE5 — Predictive-state / causal-state unification audit",
+      "text": "Determine which quantity, if any, predicts morphology/resource cost under GMI.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-morphology-sweep-v1` SWEEP-6/SWEEP-3: over the full **256**-world census on `{0,1}^3` none of AE5's four scalars determines the selected morphology — predictive-state cardinality leaves **8,712** conflicting equal-value world pairs, GF(2) predictive rank **10,172**, registered description length **12,818**, and causal-state entropy at least **2,968** (a certified lower bound: equal exact causal-state probability multiset implies equal entropy, and no logarithm is ever evaluated) — whereas the resource-conditioned achievability vector `(acc(m,W))` has **0** conflicts, compresses 256 worlds to **11** profiles, and has `{m0,m1,m2}` as its unique minimal sufficient subvector at `tau = 3/4`, price `(1,1,1)`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "a54131cb4088c87bb3c82586c7d1c0d22bc18268c8dfc0e7c2e787cbe74961c6",
+      "section": "### AE5 — Predictive-state / causal-state unification audit",
+      "text": "Extend beyond finite horizon only with explicit measurable/infinite-horizon assumptions; otherwise preserve OPEN gaps.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae5-causal-state-audit-v1` AE5-6: the claim is registered as finite-horizon only (`L = 3`), the **five** assumptions an infinite-horizon extension would require are listed explicitly and declared **not assumed** — stationarity, ergodicity, measurability of the semi-infinite future sigma-algebra, existence of the causal-state partition as a measurable partition (Shalizi & Crutchfield 2001, Section 4), and a dominating measure — `INFINITE_HORIZON_EQUIVALENCE_PROVED` is a registered forbidden promotion, and the gap is **enforced**: a guard scans the receipt for any unqualified infinite-horizon field and reports **0** alarms while detecting the planted claim. That truncation genuinely loses information is proved, not assumed: the witness `F F F F F F 0` has **1** class at horizon 1 and **2** at horizon 2."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "323780172c83c06047cfabe5d37355a6f0100a34966657fbc0239b426d95510c",
+      "section": "### AE5 — Predictive-state / causal-state unification audit",
+      "text": "Relate GMI predictive equivalence to computational-mechanics causal states / epsilon-machines at the exact applicable scope.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae5-causal-state-audit-v1` AE5-1: GMI horizon-`H` predictive equivalence is defined as equality of the conditional distribution over the next `H` symbols, and at horizon `H` it is **exactly** the Crutchfield–Young causal-state partition truncated to horizon `H`. The refinement is monotone on **all 2,019** members of the registered family; the stabilisation horizon is `1` for **1,863** and `2` for **156**, and a machine-found counterexample (`F F F F F 0 0`) is strictly coarser at `H = 1` (**1** class) than at `H = 2` (**2** classes). The identification is therefore correct **only for `H >= H*`** and must carry its horizon — an unqualified identification at `H = 1` is false."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2609e79ed276886dcc7dab3716319cd41e329f1d08031839fc8e0263df82c77b",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Construct learnable distributions that violate a smooth-manifold assumption.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae6-geometric-structure-v1` AE6-3: `S_NONMANIFOLD_LEARNABLE` is a dimension-`2` coset and a dimension-`1` coset meeting in one point, with non-constant Hamming-1 degree sequence `[1, 2, 2, 2, 3]` and maximal-coset dimensions `{1, 2}`, and a member of the registered rule class `M_local[2]` attains exact accuracy `1` on it at integer cost `13` bits."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "68ccc6d02ae66fdbe44594ae02c01e6c227e8b29192ae8477b75ff3734999b31",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Construct low-dimensional manifolds that are statistically/causally useless for the target task.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae6-geometric-structure-v1` AE6-4: a GF(2) factor of dimension `1` has exact mutual information `0` bits with the target and exact interventional effect `0` while the best rule reading it alone scores exactly the base rate `1/2` and a single coordinate of the complementary full-dimension factor scores `1` with interventional effect `1`; the stronger conjunction that put the whole support at dimension `1` is proved unsatisfiable, `0` of `480` dimension-1 cases and `0` violations over `34112` cases, and prediction `AE6-P3` is reported `REFUTED` rather than edited."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2bff51bb9597b7994f4d5d14844bf79d48643f849598fe6144c34b3121fdb957",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Derive when compositional latent factors should favor modular/hierarchical representations.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae6-geometric-structure-v1` AE6-7: if the target factorizes through the registered blocks then `M_modular` attains accuracy `1` at integer cost `14` bits against the monolithic comparator's `5/8`, and on the matched failure world the same class attains `7/8` against `M_shared[SymN]`'s `1` at `12` bits, an exact drop of `1/8`; the monolithic comparator provably cannot expose that failure because all `17` monolithic functions inside the `14`-bit budget already lie in the `520`-member modular class."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "887417b92af833a943f18f95e84726932665a2012e7c90b55f038597e86d5fa4",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Derive when locality/smoothness should favor local/shared operators.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae6-geometric-structure-v1` AE6-5: if some 2-subset of coordinates determines the target exactly then `M_local[2]` attains accuracy `1` at integer cost `13` bits while the monolithic comparator at the same budget attains at most `7/8`, and on the matched failure world where no 2-subset determines the target `M_local[2]` attains `15/16` against the comparator's `1`, an exact drop of `1/16`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "c3e4860b024d96aab85065ae0dd9cc4d85a0cba64d46cd47524d13977405c681",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Derive when manifold assumptions fail and another morphology should be selected.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-morphology-sweep-v1` SWEEP-4: locality is defined exactly as `Y` being a.s. determined by some `k`-subset of coordinates; it holds at order **2** for `Y = x0 AND x1` and only at order **3** for `Y = x0 XOR x1 XOR x2`, and the exact rational `tau`-phase map derives the displacement — when locality fails the local classes are pinned at accuracy `1/2`, so for every `tau` in `(1/2, 1]` the non-local GF(2)-affine morphology `m4` is selected at cost `8`, while for `Y = x0 AND x1` the local `m2` is selected for every `tau` in `(3/4, 1]`; at the registered `tau* = 7/8` the two worlds select **different** morphologies and the local class is inactive in the first."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "918df6fb82a10ad1c74831b51a606cb3c0e26468b0b2b70c574ff316fafea19e",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Derive when symmetry/equivariance should favor parameter sharing.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae6-geometric-structure-v1` AE6-6: if the source measure and the target are invariant under the registered group then `M_shared[SymN]` attains accuracy `1` at integer cost `12` bits against the comparator's `13/16`, with cost reduction exactly `11` bits equal to the orbit-count reduction `16 - 5 = 11`, and on the matched failure world where the target is not invariant the same class attains `11/16` against the comparator's `1`, an exact drop of `5/16`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "5e6aa392588d6083c3beeb4f83b20c083d83cef44ad63c06d568633ed2b16ca6",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Prospectively test intrinsic-structure -> morphology transitions on synthetic and real datasets.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "169807db0d83894f1e37db24c8fbb4dede85b79748fedaa7fedfa04d5e524a0f",
+      "section": "### AE6 — Manifold hypothesis and geometric structure",
+      "text": "Replace loose `data lie on a manifold` language with a hierarchy: low intrinsic dimension, union/stratification of manifolds, sparse/compositional latent structure, symmetry/orbit structure, graph/topological structure, and non-geometric algorithmic structure.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae6-geometric-structure-v1` AE6-1/AE6-2: the six structure classes are evaluated as exact predicates on the Boolean cube `{0,1}^4` and separated by a strictness table over all `30` ordered pairs, `23` carrying a registered witness and `7` reported as not separated with their reasons; the exhaustive census over all `65519` supports of affine dimension at least `1` shows the frozen union-of-cosets predicate holds for `65503` of them and fails only for the `16` supports of size `15`, each with a coordinate-permutation stabilizer of order `4`, `6` or `24`, so no support can be both algorithmic and outside the union class."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "605f943ce588fd0f8b8d1f017cb9256bad7874f06a21f2c5639d8d1e485b2199",
+      "section": "### AE7 — From prediction to control",
+      "text": "Derive value-of-information conditions for when sensing/remembering/computing additional information is worth its resource cost.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "95cc07c3d2bb22494d9ede6411f547637a7048c598a40a0aee6ef906ae0811a5",
+      "section": "### AE7 — From prediction to control",
+      "text": "Derive when an agent should compress observations more aggressively because actions are insensitive to distinctions.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2c0037b73e9758079cd97428b0c6f3704299dfc617f6e53dfcc87e8fecdb294c",
+      "section": "### AE7 — From prediction to control",
+      "text": "Derive when control requires preserving distinctions that pure prediction would discard.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "adbbdd5328c574d989299784ffaa3c1d7763d7aff416bd0ea331585cc931b291",
+      "section": "### AE7 — From prediction to control",
+      "text": "Formalize control-relevant sufficient state / action equivalence under a utility or behavioral specification.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "c4554ea87d1bd4c4e2070286bd1cb778e9bc43efa722e1fba5df35a2af0ac366",
+      "section": "### AE7 — From prediction to control",
+      "text": "Prospectively predict policy/representation transitions under changing information-processing prices.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "f17893cfd7dde8fe75f9da844df81f75194fee09126389436cc0e8ed5daeb8c4",
+      "section": "### AE7 — From prediction to control",
+      "text": "Prove that prediction alone is insufficient for general intelligence by constructing same-predictive/different-control-relevance examples.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "98e8220f87509b0976d2a81e6f6cc0ba260237f341ad720a0ffa20ca1ce3afae",
+      "section": "### AE7 — From prediction to control",
+      "text": "Relate to POMDP belief states, sufficient information states, rate-distortion control and bounded rationality; subtract parent mathematics.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "b912690ebfe68be51142e087866af506231776880d76aff71898b06cbd5c071e",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Compare CPC against alternative master principles: MDL, rate-distortion, bounded rationality, predictive information, free-energy/active-inference formulations, control-as-inference, algorithm selection and resource-rational computation.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-5: all eight alternative principles are implemented as exact choice rules and the full pairwise agreement matrix is reported as exact integer counts over the `12` worlds, with agreement against the registered preference of predictive information `5`, CPC `4`, active inference `3`, algorithm selection `3`, control as inference `3`, resource-rational `3`, MDL `2`, bounded rationality `1` and cardinality-`1` rate-distortion `1`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "9d1e59c154b6b12d4d74a2b416b50cb637c50e0232e03fa53fcfdce73a28f222",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Construct preregistered worlds where these principles make different predictions.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-6: the one genuinely preregistered discriminating world is AE12's `W_DISC1`, whose register commit precedes every implementation blob of this package: expected free energy chooses `a1`, cardinality-`1` rate-distortion control chooses `a0`, and no weight of this same `45`-point grid reproduces both; this package's own per-world disagreements are reported as measurements because its register names but does not enumerate the predicted disagreement sets, and that gap is disclosed in the receipt."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2768cd923f7f6d77b582448845d9e8cf997bfc73c0121b2bfcdb2f9f602aa9bb",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Determine whether CPC is a theorem, variational principle, decomposition, heuristic, or merely descriptive slogan.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-2: the frozen criteria are evaluated in the register's own order and the ladder is published: `THEOREM` false, `VARIATIONAL_PRINCIPLE` false, `DECOMPOSITION` **true**, `HEURISTIC` false, so the verdict is `DECOMPOSITION` - on the unrestricted roster the best weight agrees on `4` of `12` worlds while the randomized control reaches `7` and `74` of `200` draws reach `4` or more, yet once the registered preference is restricted to what the term vector determines a single weight reproduces it on all `12`."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "de5b8c67f434a398eaf2a85a2206fb5a41f6f81f5d74142e0701bd51b9682690",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Do not call CPC the GMI master law unless it beats the bag-of-laws baseline and survives parent discrimination.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-8: both legs of the condition are run and both fail: CPC's best `4` of `12` at `12` description bits neither dominates nor is dominated by the bag-of-laws baseline's `10` of `12` at `54` bits (the baseline uses only the `3` laws valid on their own coverage, one being `REFUTED_ON_ROSTER` at `3` of `4`, and leaves `2` worlds uncovered so it is falsifiable), and the number of worlds on which CPC differs from every registered parent principle is `0`, so the receipt emits the registered terminal `CPC_MASTER_LAW_CLAIM_WITHHELD` and the manifest carries `CPC_IS_THE_GMI_MASTER_LAW` as a forbidden promotion."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "2e56e7b42503d9cf3a6903c6041d31b7414450188071f5403bf94ac411adc4ca",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Formalize candidate CPC principle(s) without choosing weights post hoc.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-1: the objective family `J_lambda = l_C*cost + l_P*predloss + l_K*ctrlloss` is evaluated at every one of the `45` registered weight triples of eighths, with the grid, the tie-break and the integer description lengths frozen in `PROSPECTIVE_REGISTER_V1.json` before any executor blob existed, and every claim is reported over the whole grid rather than at a chosen weight."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "294e95fe39d14c5123be14bc188cadc7e9e973a15f3650a7d70013149270883f",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Preserve observational equivalence where no discriminating experiment exists.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-7: exactly one principle pair agrees on every one of the `12` registered worlds - bounded rationality and cardinality-`1` rate-distortion control - and it is emitted as `OBSERVATIONALLY_EQUIVALENT_AT_REGISTERED_SCOPE` with `OBSERVATIONAL_EQUIVALENCE_IMPLIES_IDENTITY` registered as a forbidden promotion, so neither member is promoted over the other."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "9b81e9d4e5d7b4a55fe066ebbc7cf663588a6331fe2b2b3af55db7aa8cf1bb97",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Prove which GMI phenomena cannot be reduced to CPC without additional terms (verification, development, communication, history, uncertainty, etc.).",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-4: `J_lambda` depends on a model only through its term vector, so any two models with equal vectors receive equal objective value at every weight; searching the `4110`-model space finds, for `4` of the `5` named terms, pairs of structurally different models whose **derived** term vectors are equal element-wise and which differ in exactly one computed attribute - communication at `(29, 0, 1/4)`, development and history at `(16, 1/2, 1/2)` and uncertainty at `(16, 1/4, 1/2)` - each a proof at the registered scope that the phenomenon needs an additional term, while `verification` is reported as NOT PROVED IRREDUCIBLE rather than as reducible."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "71171f6900894a5368d90b1087aa85ea1018de42517cac52b57706851b5ea54b",
+      "section": "### AE8 — `Compression + Prediction + Control` master-principle test",
+      "text": "Search for a minimal objective that reproduces multiple existing GMI laws as corollaries.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae8-cpc-discrimination-v1` AE8-3: an exhaustive search over the `7` non-empty subsets of the term basis crossed with the `45` weights reports, per registered law, the minimum-cardinality objective reproducing it: `AE6_LOCALITY` and `AE15_MODEL_NECESSITY` are corollaries, `AE2_NO_PREDICTIVE_INFORMATION` and `AE12_AMBIGUITY_INDEPENDENCE` are not, and `AE1_BUDGET_MONOTONE` and `AE10_USABLE_SEPARATION` never apply on this roster."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "5c7707e4a8a6da6b0634825e0dad9af5a81c25bf89397203b88d2cc200a1a80c",
+      "section": "### AE9 — Learning as representation restructuring",
+      "text": "Compare neural transition results with non-neural systems to test whether the law is architecture-general.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "ab434109aabb8597008f0f4b4f12cf8c13cea38970de68ace32fb4944ef598d9",
+      "section": "### AE9 — Learning as representation restructuring",
+      "text": "Define measurable representation-change quantities during learning that do not depend on neural architecture names.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae9-transition-markers-v1` D-AE9/AE9-1/AE9-2: The six registered markers CELLS, REFINEMENT, SEPARABILITY, INVARIANCE, READOUT_ARITY and USABLE are defined as functions of the induced partition ker(phi) and the registered readout class (junta arity 2, tree depth 2) alone, never of an architecture, layer or parameter count: the GF2_ELIMINATION and GREEDY_DECISION_LIST learners induce the same partition and return exactly equal marker values (CELLS 2, INVARIANCE 4, READOUT_ARITY 2, SEPARABILITY 1, USABLE 1), an arbitrary injective re-encoding of the code set leaves every marker exactly unchanged at normalized partition distance 0, and all 15 pairs of distinct registered partitions are separated with normalized partition distance strictly above 0."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "4de3c3ed627defc5ae9dc9f3f81c2bc5e5501c0113085de6f8f7caf7b64c3ac5",
+      "section": "### AE9 — Learning as representation restructuring",
+      "text": "Distinguish smooth quantitative improvement from genuine qualitative computational transition.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae9-transition-markers-v1` AE9-3/AE9-4: On TRAJ_SMOOTH the exact rational accuracy over all m-subsets of the registered 8-point pool rises strictly from 1/2 to 3/4 in eight per-step increments that are all exactly 1/32, while the structural triple (CELLS, INVARIANCE, READOUT_ARITY) stays constant at (16, 24, 2); on TRAJ_JUMP the accuracy is exactly the base rate 1/2 at m = 0,1,2,3,4 and then jumps to 11/14 at m* = 5, with READOUT_ARITY moving from NONE to 2 and INVARIANCE from 6 to 4 in that same step, a held-out jump of exactly 2/7."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "53932979e400cee3b7bfa8513b5d4f4940fb2d45238250dbd9d4f9ede62e0b4c",
+      "section": "### AE9 — Learning as representation restructuring",
+      "text": "For neural systems, measure representational geometry, effective rank/dimension, clustering, linear separability, invariances, circuit/path usage and information flow across training.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "1b04aef3eb48cb877c94e3be726d82228e04d5a0ddecde469f8975cbe866868a",
+      "section": "### AE9 — Learning as representation restructuring",
+      "text": "Freeze prospective markers of a representation transition before observing the capability transition.",
+      "checked": false,
+      "evidence": ""
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "c1462bbaecc0259a8f6723098ed3f1fe1fe1e5bd7b27ae139ce6f552f41d7274",
+      "section": "### AE9 — Learning as representation restructuring",
+      "text": "Re-audit `emergence` terminology: thresholded metric artifact vs phase-like internal reorganization vs grokking-like delayed generalization.",
+      "checked": true,
+      "evidence": "`gmi-833-ae-ae9-transition-markers-v1` AE9-5/AE9-6/AE9-7: The three registered non-neural witnesses separate the three readings exactly: TRAJ_SMOOTH is a thresholded metric artifact whose underlying per-step increments are all exactly 1/32 (spread 0) while the registered k = 8 exact-match transform has strictly increasing increments with last-over-first ratio 6352865779/536158029 and the structural triple constant at (16, 24, 2); TRAJ_JUMP is a phase-like internal reorganization at m* = 5; TRAJ_GROK is grokking-like delayed generalization with exact training accuracy 1 from m = 1 while exact held-out accuracy stays at 1/2 until m** = 5. The classifier attains recall 3/3 on the planted positives and raises no genuine-transition alarm on the clean smooth trajectory or on its knee-bearing transformed curve; over 200 randomized balanced-target trials it fires 5 times, 1 of them on a drawn affine target (a diagnosed genuine positive at magnitude 2/7) and 4 false alarms whose largest magnitude is 1/7, strictly below the planted witness magnitude 2/7."
+    },
+    {
+      "comment_id": 5692689542,
+      "key": "746d536a57c769a56f386484883c88f0f0ab861e71dde175182e4c3edd0ae750",
+      "section": "### AE9 — Learning as representation restructuring",
+      "text": "Test whether internal transition markers predict new capability onset better than parameter count/training loss alone.",
+      "checked": false,
+      "evidence": ""
+    }
+  ],
+  "comment_count": 1
+}
