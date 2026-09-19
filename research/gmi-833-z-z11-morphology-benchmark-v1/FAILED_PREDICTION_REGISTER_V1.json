@@ -1,0 +1,79 @@
+{
+ "schema": "GMI_833_Z11_FAILED_PREDICTION_REGISTER_V1",
+ "issue": 833,
+ "subsection": "Z11",
+ "note": "every frozen prediction of FREEZE_V1.md section 6 is listed with its verdict; a MISS is a result and is not repaired into a HIT; every post-hoc form named here was derived AFTER the run and is NOT a scored prediction",
+ "freeze": "research/gmi-833-z-z11-morphology-benchmark-v1/FREEZE_V1.md",
+ "freeze_blob_sha": "97e94532ff6d0ec7ad632412e0a19f714777d442",
+ "freeze_sha256": "1f83b91eb831c76aaed7a5ebc745f5e9458828c5749fd7a772316385851afc95",
+ "amendment_1_sha256": "e20954f02021c0b62ac6abee9440351ae58d267ad0e49714f9aab0220585693f",
+ "receipt": "research/gmi-833-z-z11-morphology-benchmark-v1/RESULT_V1.json",
+ "entries": [
+  {
+   "id": "B1",
+   "label": "[FROZEN PREDICTION, GMI CLASS CHOICE]",
+   "prediction": "T_GMI_IC1 reaches class-choice score 1 on C1, C2, C3, C6(a) and on every C5 two-level case under UNIFORM/IID/PERIOD2; on ladder cases with a non-uniform law it abstains where its delay-2 interval leaves the verdict open and every non-abstained cell is a HIT",
+   "verdict": "HIT",
+   "evidence": "C1 3375/3375, C2 4725/4725, C3 2025/2025, C6 225/225, C5 two-level simple 28/28; C4 973 hits, 0 misses, 152 abstains of 1125; C5 remaining 29 hits, 0 misses, 3 abstains"
+  },
+  {
+   "id": "B2",
+   "label": "[FROZEN PREDICTION, EMPIRICAL STREAMS]",
+   "prediction": "the empirical pair-Bayes error equals the enumerated stateless floor in every (stream, m) cell (9/9) and the b=1 delay-2 interval covers the enumerated floor in 3/3 streams",
+   "verdict": "HIT",
+   "evidence": "9/9 and 3/3; README.md m=1 60333/129754, m=2 59413/129754, b1 delay-2 34945/129754; LICENSE 26023/60574, 39034/90861, 8414/30287; z12 file delay-2 74569/184901, b1 delay-2 99223/369802"
+  },
+  {
+   "id": "B3",
+   "label": "[FROZEN PREDICTION, COMPETITOR THRESHOLD MISSES]",
+   "prediction": "T_HALF misses thresholds on every C2 case with q != 1/2 and every C3 case with A != 2; T_LEVEL misses the upper threshold on every C1 case with p2 > 0 (108 of 135) and is MISCALIBRATED",
+   "verdict": "MISS",
+   "evidence": "T_HALF misses on 144/162 C2 cases with q != 1/2 and 48/54 C3 cases with A != 2; the 18 and 6 remaining cases have p = 0, true threshold 0, and T_HALF predicts 0 there; T_LEVEL upper-threshold misses 108/108 and MISCALIBRATED (C1 gamma=1 coverage 21/25) hold",
+   "attributed_stage": "the frozen sentence quantified over 'every case' and ignored the p = 0 boundary of the eighths grid, where every theory's threshold is 0",
+   "post_hoc_note": "with the quantifier 'every case with p > 0' the counts are 144/144 and 48/48; this reading is derived after the run and is not scored"
+  },
+  {
+   "id": "B4",
+   "label": "[FROZEN PREDICTION, OBSERVATIONAL EQUIVALENCE]",
+   "prediction": "T_DECLARED disagrees with T_GMI_IC1 on 0 cases",
+   "verdict": "HIT",
+   "evidence": "0 disagreements; records byte-identical on every field; reported NON_DISCRIMINATING"
+  },
+  {
+   "id": "B5",
+   "label": "[FROZEN PREDICTION, COMPETITORS BEATEN]",
+   "prediction": "T_MDL, T_SRM, T_SATISFICE, T_OCCAM_HARD each disagree with the truth on a non-empty subset of C1 u C2 class choices and each is beaten by T_GMI_IC1 on class choice",
+   "verdict": "HIT",
+   "evidence": "C1 u C2 misses 5532, 2683, 2943, 2133 of 8100 cells; overall class-choice scores 3471/11535, 7819/11535, 7320/11535, 8341/11535 vs 1"
+  },
+  {
+   "id": "B6",
+   "label": "[FROZEN PREDICTION, NULL BEATEN]",
+   "prediction": "every T_NULL_k scores strictly below T_GMI_IC1 on class choice, thresholds, frontier and failure modes",
+   "verdict": "HIT",
+   "evidence": "best null 3071/11535 (T_NULL_107), 20/731 (T_NULL_118), 157/519 (T_NULL_104), 27/125 (T_NULL_136) vs 1, 1, 1, 1"
+  }
+ ],
+ "misses": [
+  "B3"
+ ],
+ "hits": [
+  "B1",
+  "B2",
+  "B4",
+  "B5",
+  "B6"
+ ],
+ "instrument_defects_recorded": [
+  {
+   "id": "SCRAMBLED_CONTROL_LITERAL_FORM",
+   "finding": "the frozen all-cell scrambled-truth control alarms on 8 of 9 registered theories including the provably clean T_GMI_IC1 (9901/11380 vs best null 204/769); it has no specificity",
+   "disposition": "FREEZE_V1_AMENDMENT_1.md, committed before the first run, makes the informative-cell form govern in exactly this case; s6_instruction_followed=false and audit_shape_disclosed=POST_HOC_SUSPECT are recorded in the receipt"
+  },
+  {
+   "id": "SCRAMBLED_CONTROL_INFORMATIVE_FORM_FALSE_ALARMS",
+   "finding": "T_MDL (151/384) and T_OCCAM_HARD (133/384) exceed the best null (9/32) on the 1536 informative cells; both are price-blind pure functions of the public specification",
+   "disposition": "recorded as FALSE_ALARM_ON_CLEAN_THEORY in the receipt's leakage_alarm_diagnosis; harness leakage is excluded by T_PEEK == T_NULL_0 under the honest harness; the control's specificity is stated as limited to price-sensitive theories"
+  }
+ ]
+}

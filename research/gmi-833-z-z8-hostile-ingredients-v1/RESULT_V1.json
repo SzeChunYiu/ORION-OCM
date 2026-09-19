@@ -1,0 +1,648 @@
+{
+ "base": {
+  "L": 4,
+  "floors": {
+   "b0_m0": "0",
+   "b0_m1": "1/2",
+   "b0_m2": "1/2",
+   "b1_m0": "0",
+   "b1_m1": "0",
+   "b1_m2": "5/16",
+   "b2_m0": "0",
+   "b2_m1": "0",
+   "b2_m2": "0"
+  },
+  "price_grid": [
+   "0",
+   "1/16",
+   "1/8",
+   "3/16",
+   "1/4",
+   "5/16",
+   "3/8",
+   "7/16",
+   "1/2",
+   "9/16",
+   "5/8",
+   "11/16",
+   "3/4",
+   "13/16",
+   "7/8",
+   "15/16",
+   "1",
+   "17/16",
+   "9/8",
+   "19/16",
+   "5/4",
+   "21/16",
+   "11/8",
+   "23/16",
+   "3/2"
+  ],
+  "registered_closed_forms_hold_135": true,
+  "registered_floors_reproduced": true,
+  "window": [
+   2,
+   3
+  ],
+  "worlds": 135
+ },
+ "bounds": [
+  {
+   "bound": "R0(1,2 | window {3}) > 0",
+   "class": "BINDING",
+   "range": "[0,1]",
+   "value": "1/4"
+  },
+  {
+   "bound": "Moore delay-2 floor at b=1 >= Mealy floor 5/16",
+   "class": "BINDING_TIGHT",
+   "range": "[0,1]",
+   "value": "5/16"
+  },
+  {
+   "bound": "greedy floor >= exhaustive floor in every cell",
+   "class": "BINDING",
+   "range": "[0,1]",
+   "strict_cells": 1
+  },
+  {
+   "bound": "moved-verdict counts lie in [0,135]",
+   "class": "VACUOUS_BY_RANGE_NOT_CLAIMED"
+  }
+ ],
+ "every_ingredient_moves_or_is_proved_unable": true,
+ "failed_predictions": [
+  "P1",
+  "P4",
+  "P6"
+ ],
+ "freeze": "research/gmi-833-z-z8-hostile-ingredients-v1/FREEZE_V1.md",
+ "frozen_predictions": {
+  "P1": {
+   "evidence": "tie structure False (1 worlds fail, 1 of them with Delta_1 - Delta_2 exactly equal to the 1/64 probe, so the probe lands on the neighbouring marginal); triple ties 6 (predicted 6), degenerate 3 (predicted 3); V_SEL moved in 132 of 132 non-degenerate worlds",
+   "verdict": "MISS"
+  },
+  "P2": {
+   "evidence": "uniform noise: niche unchanged 135/135 at every eps, affine map verified, strictly-between cells all moved, V_THR moved in every nonzero-marginal world: True; delay-2-only noise at eps=1/4 moved V_NICHE in 12 (predicted 12): True; window {3}: shape True, R0(1,2)=1/4, V_THR moves iff it differs from 5/16: True",
+   "verdict": "HIT"
+  },
+  "P3": {
+   "evidence": "floors True; V_NICHE moved 12 (predicted 12); V_THR moved 108 (predicted 108); law-blind closed form misses 108; IC-1 on the aliased profile 135/135",
+   "verdict": "HIT"
+  },
+  "P4": {
+   "evidence": "(a) literal set-valued reading: strictly-between cells moved 1704/1704, cells moved outside the strict band 908 (predicted 0), complementary pairs moved 0 (predicted 0) -> False; least-element reading -> False; (b) frozen floor formula holds on 31/49 (q,q') pairs, same-side pairs 31/31",
+   "verdict": "MISS"
+  },
+  "P5": {
+   "evidence": "affine: V_NICHE moved 0, V_SEL cells moved 0 (predicted 0, 0); state-count: V_NICHE moved 36 (predicted 36), rule 2*D1 > D2 holds True; concave: V_NICHE moved 24 (predicted 24), rule 8p1 > 7p2 holds True",
+   "verdict": "HIT"
+  },
+  "P6": {
+   "evidence": "(a) common level kept 134907/134907 cells, weighted verdict differs from current optimum on 11264 cells; (b) literal 'exactly on 0 < excess <= kappa': False (moved [2003, 5069] vs band [1138, 4204]; 865/2003 moved cells have zero excess because the incumbent sits inside a current tie set); positive-excess reading: True; monotone True",
+   "verdict": "MISS"
+  },
+  "P7": {
+   "evidence": "Moore floors True (witness 5/16: True), V_NICHE/V_SEL/V_THR moved 0/0/0 (predicted 0), V_FAIL moved in 108 worlds (predicted 108); input-only floors True, V_NICHE moved 12 (12), V_THR moved 108 (108); relabelling invariant on 48 candidates (state True, input True); scramble control changed 2 of 4 optimal candidates",
+   "verdict": "HIT"
+  },
+  "P8": {
+   "evidence": "IC-1 on the greedy profile 135/135; greedy (b=2,d2)=1/8 (predicted 4/32), (b=1,d2)=5/16; antecedent True -> V_NICHE moved 12 (predicted 12 if antecedent); hill-climb attains exhaustive floors in 9/9 cells and moves 0",
+   "verdict": "HIT"
+  },
+  "P9": {
+   "evidence": "hostile world set of 1399 entries, sha256 6350d8f1f2a8fa30; custody is asserted by git order in CI",
+   "verdict": "HIT"
+  }
+ },
+ "gates": {
+  "P4b_post_hoc_form_not_scored": true,
+  "base_floors_reproduced": true,
+  "every_ingredient_earned": true,
+  "hostiles_all_applicable": true,
+  "hostiles_all_detected": true,
+  "no_alarm_holds": true,
+  "null_beaten": true,
+  "registered_closed_forms_hold": true
+ },
+ "hostiles": {
+  "HX1_corrupted_floor": {
+   "applicable": true,
+   "clean": 135,
+   "detected": true,
+   "hostile": 27,
+   "quantity": "worlds where the registered closed forms hold"
+  },
+  "HX2_identity_ingredient": {
+   "applicable": true,
+   "clean": true,
+   "detected": true,
+   "hostile": false,
+   "quantity": "earned flag of an ingredient with 0 moved verdicts and no theorem"
+  },
+  "HX3_null_pool_contains_true_law": {
+   "applicable": true,
+   "clean": "excluded",
+   "detected": true,
+   "hostile": "135/135",
+   "quantity": "best null score when the pool contains IC-1's pair"
+  },
+  "HX4_non_affine_noise_model": {
+   "applicable": true,
+   "clean": 0,
+   "detected": true,
+   "hostile": 36,
+   "quantity": "V_NICHE moved under a non-affine monotone map"
+  },
+  "HX5_vacuous_bound": {
+   "applicable": true,
+   "clean": "BINDING",
+   "detected": true,
+   "hostile": "VACUOUS",
+   "quantity": "vacuity class of 'moved <= 135' over [0,135]"
+  },
+  "HX7_low_bit_lcg_null": {
+   "applicable": true,
+   "clean": "seeded Mersenne Twister draws (>= 2 distinct)",
+   "detected": true,
+   "hostile": 2,
+   "quantity": "distinct values among 200 draws read from the low bit of a power-of-two LCG"
+  }
+ },
+ "hostiles_all_applicable": true,
+ "hostiles_all_detected": true,
+ "ingredients": {
+  "I1_near_tie": {
+   "V_NICHE_moved": 0,
+   "V_SEL_moved_tie_cells": 204,
+   "V_SEL_moved_worlds": 132,
+   "V_THR_moved": 0,
+   "first_failure_witness": {
+    "Delta_1": "17/128",
+    "Delta_2": "15/128",
+    "argmin_at_Delta_1_minus_eps": [
+     1,
+     2
+    ],
+    "eta": 1,
+    "gap": "1/64",
+    "p": [
+     "1/2",
+     "1/8",
+     "3/8"
+    ]
+   },
+   "non_degenerate_worlds": 132,
+   "smallest_positive_gap_Delta1_minus_Delta2": "1/64",
+   "tie_structure_failures": 1,
+   "tie_structure_failures_with_gap_equal_to_probe": 1,
+   "tie_structure_holds": false,
+   "triple_tie_degenerate": 3,
+   "triple_tie_worlds": 6,
+   "unable_reason": "V_NICHE and V_THR do not depend on the price; a price probe cannot move them"
+  },
+  "I2a_uniform_verifier_noise": {
+   "1/16": {
+    "V_FAIL_cells": 3014,
+    "V_FAIL_worlds": 135,
+    "V_NICHE": 0,
+    "V_NICHE_unchanged": "135/135",
+    "V_SEL_cells": 179,
+    "V_SEL_worlds": 114,
+    "V_THR": 132,
+    "affine_map_verified": true,
+    "strictly_between_all_moved": true,
+    "strictly_between_cells": 119,
+    "worlds_with_nonzero_marginal": 132
+   },
+   "1/4": {
+    "V_FAIL_cells": 3014,
+    "V_FAIL_worlds": 135,
+    "V_NICHE": 0,
+    "V_NICHE_unchanged": "135/135",
+    "V_SEL_cells": 637,
+    "V_SEL_worlds": 131,
+    "V_THR": 132,
+    "affine_map_verified": true,
+    "strictly_between_all_moved": true,
+    "strictly_between_cells": 557,
+    "worlds_with_nonzero_marginal": 132
+   },
+   "1/8": {
+    "V_FAIL_cells": 3014,
+    "V_FAIL_worlds": 135,
+    "V_NICHE": 0,
+    "V_NICHE_unchanged": "135/135",
+    "V_SEL_cells": 348,
+    "V_SEL_worlds": 128,
+    "V_THR": 132,
+    "affine_map_verified": true,
+    "strictly_between_all_moved": true,
+    "strictly_between_cells": 279,
+    "worlds_with_nonzero_marginal": 132
+   }
+  },
+  "I2b_delay2_only_verifier_noise": {
+   "1/16": {
+    "V_FAIL_cells": 491,
+    "V_FAIL_worlds": 108,
+    "V_NICHE": 3,
+    "V_SEL_cells": 92,
+    "V_SEL_worlds": 72,
+    "V_THR": 108,
+    "predicted_V_NICHE_moved": 3
+   },
+   "1/4": {
+    "V_FAIL_cells": 517,
+    "V_FAIL_worlds": 108,
+    "V_NICHE": 12,
+    "V_SEL_cells": 296,
+    "V_SEL_worlds": 100,
+    "V_THR": 108,
+    "predicted_V_NICHE_moved": 12
+   },
+   "1/8": {
+    "V_FAIL_cells": 493,
+    "V_FAIL_worlds": 108,
+    "V_NICHE": 6,
+    "V_SEL_cells": 165,
+    "V_SEL_worlds": 98,
+    "V_THR": 108,
+    "predicted_V_NICHE_moved": 6
+   }
+  },
+  "I2c_verifier_failure_window3": {
+   "V_FAIL_cells": 109,
+   "V_FAIL_worlds": 65,
+   "V_NICHE": 12,
+   "V_SEL_cells": 180,
+   "V_SEL_worlds": 81,
+   "V_THR": 108,
+   "V_THR_moves_iff_floor_differs": true,
+   "delay2_b1_floor": "1/4",
+   "differs_from_5_16": true,
+   "floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "1/4",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "0"
+   },
+   "predicted_shape_holds": true
+  },
+  "I3_causal_aliasing_period2": {
+   "IC1_on_aliased_profile_consistent": 135,
+   "V_FAIL_cells": 2338,
+   "V_FAIL_worlds": 108,
+   "V_NICHE": 12,
+   "V_SEL_cells": 625,
+   "V_SEL_worlds": 108,
+   "V_THR": 108,
+   "floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "0",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "0",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "0"
+   },
+   "input_law_blind_closed_form_misses_V_THR": 108,
+   "predicted_floors_hold": true
+  },
+  "I4a_distribution_shift_two_level": {
+   "R0": {
+    "1/2": "1/2",
+    "1/3": "1/3",
+    "1/4": "1/4",
+    "1/5": "1/5",
+    "2/3": "1/3",
+    "3/4": "1/4",
+    "4/5": "1/5"
+   },
+   "R0_closed_form_holds": true,
+   "cells": 33075,
+   "complementary_pair_cells_moved": 0,
+   "moved_least_element": 2004,
+   "moved_set_valued": 2612,
+   "one_bit_floor_zero": true,
+   "outside_strict_band_moved_least": 300,
+   "outside_strict_band_moved_set": 908,
+   "strictly_between_cells": 1704,
+   "strictly_between_moved_least": 1704,
+   "strictly_between_moved_set": 1704
+  },
+  "I4b_nonstationary_in_window": {
+   "floors": {
+    "1/2|1/2": "1/2",
+    "1/2|1/3": "5/12",
+    "1/2|1/4": "3/8",
+    "1/2|1/5": "7/20",
+    "1/2|2/3": "5/12",
+    "1/2|3/4": "3/8",
+    "1/2|4/5": "7/20",
+    "1/3|1/2": "5/12",
+    "1/3|1/3": "1/3",
+    "1/3|1/4": "7/24",
+    "1/3|1/5": "4/15",
+    "1/3|2/3": "1/2",
+    "1/3|3/4": "11/24",
+    "1/3|4/5": "13/30",
+    "1/4|1/2": "3/8",
+    "1/4|1/3": "7/24",
+    "1/4|1/4": "1/4",
+    "1/4|1/5": "9/40",
+    "1/4|2/3": "11/24",
+    "1/4|3/4": "1/2",
+    "1/4|4/5": "19/40",
+    "1/5|1/2": "7/20",
+    "1/5|1/3": "4/15",
+    "1/5|1/4": "9/40",
+    "1/5|1/5": "1/5",
+    "1/5|2/3": "13/30",
+    "1/5|3/4": "19/40",
+    "1/5|4/5": "1/2",
+    "2/3|1/2": "5/12",
+    "2/3|1/3": "1/2",
+    "2/3|1/4": "11/24",
+    "2/3|1/5": "13/30",
+    "2/3|2/3": "1/3",
+    "2/3|3/4": "7/24",
+    "2/3|4/5": "4/15",
+    "3/4|1/2": "3/8",
+    "3/4|1/3": "11/24",
+    "3/4|1/4": "1/2",
+    "3/4|1/5": "19/40",
+    "3/4|2/3": "7/24",
+    "3/4|3/4": "1/4",
+    "3/4|4/5": "9/40",
+    "4/5|1/2": "7/20",
+    "4/5|1/3": "13/30",
+    "4/5|1/4": "19/40",
+    "4/5|1/5": "1/2",
+    "4/5|2/3": "4/15",
+    "4/5|3/4": "9/40",
+    "4/5|4/5": "1/5"
+   },
+   "frozen_formula_holds": 31,
+   "pairs": 49,
+   "post_hoc_form_R0_of_mean_q_holds": 49,
+   "post_hoc_note": "R0((q+q')/2) was derived AFTER the enumeration and is NOT a scored prediction",
+   "same_side_frozen_formula_holds": 31,
+   "same_side_pairs": 31
+  },
+  "I5a_affine_accounting": {
+   "V_FAIL_cells": 0,
+   "V_FAIL_worlds": 0,
+   "V_NICHE": 0,
+   "V_SEL_cells": 0,
+   "V_SEL_worlds": 0,
+   "V_THR": 0,
+   "price_map": "lambda/2",
+   "rho": [
+    1,
+    3,
+    5
+   ],
+   "unable_reason": "rho' = a*rho + c with a > 0 maps the envelope to an affinely equivalent one; the matching price lambda/a restores every argmin"
+  },
+  "I5b_state_count_accounting": {
+   "V_FAIL_cells": 189,
+   "V_FAIL_worlds": 96,
+   "V_NICHE": 36,
+   "V_SEL_cells": 216,
+   "V_SEL_worlds": 100,
+   "V_THR": 0,
+   "predicted_V_NICHE_moved": 36,
+   "rho": [
+    0,
+    1,
+    3
+   ],
+   "vertex_rule_2D1_gt_D2_holds": true
+  },
+  "I5c_concave_accounting": {
+   "V_FAIL_cells": 465,
+   "V_FAIL_worlds": 126,
+   "V_NICHE": 24,
+   "V_SEL_cells": 516,
+   "V_SEL_worlds": 131,
+   "V_THR": 0,
+   "predicted_V_NICHE_moved": 24,
+   "rho": [
+    0,
+    2,
+    3
+   ],
+   "vertex_rule_8p1_gt_7p2_holds": true
+  },
+  "I6a_history_weighted_mixture": {
+   "cells": 151875,
+   "cells_with_a_common_level": 134907,
+   "common_level_kept_by_every_weight": 134907,
+   "history_weighted_differs_from_current_optimum": 11264
+  },
+  "I6b_hysteresis": {
+   "1/32": {
+    "cells": 50625,
+    "cells_with_0_lt_excess_le_kappa": 1138,
+    "moved": 2003,
+    "moved_with_positive_excess": 1138,
+    "moved_with_zero_excess_tie_set": 865
+   },
+   "1/8": {
+    "cells": 50625,
+    "cells_with_0_lt_excess_le_kappa": 4204,
+    "moved": 5069,
+    "moved_with_positive_excess": 4204,
+    "moved_with_zero_excess_tie_set": 865
+   },
+   "monotone_in_kappa": true
+  },
+  "I7a_moore_grammar": {
+   "V_FAIL_cells": 2700,
+   "V_FAIL_worlds": 108,
+   "V_NICHE": 0,
+   "V_SEL_cells": 0,
+   "V_SEL_worlds": 0,
+   "V_THR": 0,
+   "floors": {
+    "b0_m0": "1/2",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "1/2",
+    "b1_m1": "0",
+    "b1_m2": "5/16",
+    "b2_m0": "1/2",
+    "b2_m1": "0",
+    "b2_m2": "0"
+   },
+   "predicted_floors_hold": true,
+   "witness_error": "5/16",
+   "worlds_with_p0_positive": 108
+  },
+  "I7b_input_only_grammar": {
+   "V_FAIL_cells": 596,
+   "V_FAIL_worlds": 108,
+   "V_NICHE": 12,
+   "V_SEL_cells": 625,
+   "V_SEL_worlds": 108,
+   "V_THR": 108,
+   "floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "1/2",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "1/2"
+   },
+   "predicted_floors_hold": true
+  },
+  "I7c_relabelling": {
+   "V_NICHE_moved": 0,
+   "V_SEL_moved": 0,
+   "V_THR_moved": 0,
+   "candidates_checked_at_b1": 48,
+   "control_floor_over_scrambled_optimal_set": "5/16",
+   "control_optimal_set_size": 4,
+   "control_scrambled_changed": 2,
+   "input_relabel_invariant": true,
+   "state_relabel_invariant": true,
+   "true_floor": "5/16",
+   "universe_floor_invariant_under_any_bijection": true
+  },
+  "I8_search_law": {
+   "IC1_on_greedy_profile_consistent": 135,
+   "conditional_antecedent_holds": true,
+   "greedy": {
+    "V_FAIL_cells": 455,
+    "V_FAIL_worlds": 108,
+    "V_NICHE": 12,
+    "V_SEL_cells": 159,
+    "V_SEL_worlds": 86,
+    "V_THR": 108
+   },
+   "greedy_single_start_floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "5/16",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "1/8"
+   },
+   "hillclimb": {
+    "V_FAIL_cells": 0,
+    "V_FAIL_worlds": 0,
+    "V_NICHE": 0,
+    "V_SEL_cells": 0,
+    "V_SEL_worlds": 0,
+    "V_THR": 0
+   },
+   "hillclimb_attains_exhaustive_cells": 9,
+   "hillclimb_floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "5/16",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "0"
+   }
+  },
+  "I9_freeze_before_scoring": {
+   "custody": "asserted by the workflow: the first commit touching this package carries FREEZE_V1.md and no executor",
+   "freeze_file": "research/gmi-833-z-z8-hostile-ingredients-v1/FREEZE_V1.md",
+   "hostile_world_count": 1399,
+   "hostile_world_set_sha256": "6350d8f1f2a8fa30b5b9d2404dc0e5592cfe01c66ff5d135d747c7f1b93bec7f"
+  }
+ },
+ "issue": 833,
+ "null": {
+  "IC1_on_hostile_profile": 249,
+  "base_closed_form_applied_blindly": 33,
+  "best_null": 48,
+  "distinct_draws": 148,
+  "n_laws": 200,
+  "no_alarm_case": "I7c relabelling: 0 moved verdicts, no alarm",
+  "no_alarm_holds": true,
+  "pool": "eta*(a*p1 + b*p2), a,b in k/16, IC-1's pair (1/2, 3/16) excluded",
+  "targets": 249,
+  "true_beats_best_null": true
+ },
+ "route": "A",
+ "schema": "GMI_833_Z8_HOSTILE_INGREDIENTS_RESULT_V1",
+ "source_main": "f1e150ea89d1e3422d5ab18ec9a61d36ff17c3e5",
+ "subsection": "Z8",
+ "verdict": "GREEN",
+ "verdict_matrix": {
+  "I1": {
+   "V_FAIL": "MOVES via V_SEL (132 worlds)",
+   "V_NICHE": "UNABLE (price-independent)",
+   "V_SEL": "MOVES 132/135 worlds",
+   "V_THR": "UNABLE (price-independent)"
+  },
+  "I2": {
+   "V_FAIL": "MOVES (a) 135 worlds (c) 65 worlds",
+   "V_NICHE": "UNABLE under uniform noise (affine theorem, 135/135 at 3 eps); MOVES 12/135 under delay-2-only noise at eps=1/4",
+   "V_SEL": "MOVES (a) 179 cells at eps=1/16 .. (c) 81 worlds",
+   "V_THR": "MOVES (a) 132/135 (b) 108/135 (c) 108/135"
+  },
+  "I3": {
+   "V_FAIL": "MOVES 108/135 worlds",
+   "V_NICHE": "MOVES 12/135",
+   "V_SEL": "MOVES 108/135 worlds",
+   "V_THR": "MOVES 108/135"
+  },
+  "I4": {
+   "V_FAIL": "MOVES via V_SEL",
+   "V_NICHE": "n/a at two levels (level 1 is always a vertex when R0 > 0)",
+   "V_SEL": "MOVES 2612/33075 cells (a); (b) moves the stateless floor on 42/49 pairs",
+   "V_THR": "MOVES on every (q,q') pair with R0(q) != R0(q') (a); (b) see floors"
+  },
+  "I5": {
+   "V_FAIL": "MOVES via V_SEL (96, 126 worlds)",
+   "V_NICHE": "UNABLE affine (0/135, theorem); MOVES 36/135 state count; 24/135 concave",
+   "V_SEL": "UNABLE under affine re-accounting with the matching price (0/135); MOVES 100/135 worlds (state count), 131/135 (concave)",
+   "V_THR": "UNABLE: the raw adjacent marginals are accounting-independent (0/135 in all three)"
+  },
+  "I6": {
+   "V_FAIL": "MOVES via V_SEL",
+   "V_NICHE": "n/a: history acts through the price cell, not the profile shape (mixture keeps every shared vertex: 134907/134907)",
+   "V_SEL": "MOVES 11264/151875 mixture cells; hysteresis moves [2003, 5069] cells at kappa ['1/32', '1/8']",
+   "V_THR": "n/a (price-cell ingredient)"
+  },
+  "I7": {
+   "V_FAIL": "MOVES 108/135 worlds under Moore (the now-channel joins every failure set); 108/135 input-only",
+   "V_NICHE": "UNABLE Moore/relabel; MOVES 12/135 input-only",
+   "V_SEL": "UNABLE under Moore (constant shift, 0/135) and under relabelling (bijection, 0/135); MOVES 108/135 worlds under the input-only grammar",
+   "V_THR": "UNABLE Moore/relabel; MOVES 108/135 input-only"
+  },
+  "I8": {
+   "V_FAIL": "MOVES 108/135 worlds (descent)",
+   "V_NICHE": "MOVES 12/135 (descent); 0/135 (hill-climb)",
+   "V_SEL": "MOVES 86/135 worlds (single-start descent); UNABLE for the seeded hill-climb (attains every floor)",
+   "V_THR": "MOVES 108/135 (descent)"
+  },
+  "I9": {
+   "V_FAIL": "protocol",
+   "V_NICHE": "protocol",
+   "V_SEL": "protocol ingredient: does not act on a world",
+   "V_THR": "protocol"
+  }
+ }
+}

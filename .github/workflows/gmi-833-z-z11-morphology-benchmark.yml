@@ -1,0 +1,84 @@
+name: gmi-833-z-z11-morphology-benchmark
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-z-z11-morphology-benchmark-v1/**'
+      - '.github/workflows/gmi-833-z-z11-morphology-benchmark.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z11-morphology-benchmark-v1/**'
+      - '.github/workflows/gmi-833-z-z11-morphology-benchmark.yml'
+  workflow_dispatch:
+
+jobs:
+  z11:
+    name: Z11 IMB-v1 benchmark
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Freeze and amendment precede implementation (bytes, then git order when reachable)
+        run: |
+          set -eu
+          PKG=research/gmi-833-z-z11-morphology-benchmark-v1
+          SUM=$(sha256sum "$PKG/FREEZE_V1.md" | cut -d' ' -f1)
+          if [ "$SUM" != "1f83b91eb831c76aaed7a5ebc745f5e9458828c5749fd7a772316385851afc95" ]; then echo "FREEZE BYTES DRIFTED: $SUM"; exit 1; fi
+          ASUM=$(sha256sum "$PKG/FREEZE_V1_AMENDMENT_1.md" | cut -d' ' -f1)
+          if [ "$ASUM" != "e20954f02021c0b62ac6abee9440351ae58d267ad0e49714f9aab0220585693f" ]; then echo "AMENDMENT BYTES DRIFTED: $ASUM"; exit 1; fi
+          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
+          AMEND=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1_AMENDMENT_1.md" | tail -1)
+          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/imb_benchmark_v1.py" | tail -1)
+          if [ -z "$FREEZE" ] || [ -z "$IMPL" ] || [ -z "$AMEND" ]; then echo "UNREACHABLE: history does not carry the adds (squash); bytes verified above"; exit 0; fi
+          echo "freeze=$FREEZE amend=$AMEND impl=$IMPL"
+          if [ "$FREEZE" -gt "$IMPL" ] || [ "$AMEND" -gt "$IMPL" ]; then echo "FREEZE/AMENDMENT DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
+
+      - name: Workflow integrity
+        run: python3 -I -B research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: Empirical stream pins
+        run: |
+          set -eu
+          test "$(git hash-object README.md)" = "d7519609d064a4c478696ec6378f23c771a3db20"
+          test "$(git hash-object LICENSE)" = "d645695673349e3947e8e5ae42332d0ac3164cd7"
+          test "$(git hash-object research/gmi-833-z-z12-prediction-scoring-v1/z12_prediction_scoring_v1.py)" = "2825c19583aa7ca0dc3f9f475553fd9ea419ed3c"
+
+      - name: Route A executor
+        run: python3 -I -B research/gmi-833-z-z11-morphology-benchmark-v1/imb_benchmark_v1.py
+
+      - name: Route B oracle
+        run: python3 -I -B research/gmi-833-z-z11-morphology-benchmark-v1/independent_imb_oracle_v1.py
+
+      - name: Receipts are byte-stable
+        run: |
+          set -eu
+          git diff --exit-code -- research/gmi-833-z-z11-morphology-benchmark-v1/CASES_V1.json
+          git diff --exit-code -- research/gmi-833-z-z11-morphology-benchmark-v1/PREDICTIONS_V1.json
+          git diff --exit-code -- research/gmi-833-z-z11-morphology-benchmark-v1/RESULT_V1.json
+          git diff --exit-code -- research/gmi-833-z-z11-morphology-benchmark-v1/ORACLE_RESULT_V1.json
+
+      - name: Tests (normal mode)
+        run: python3 -I -B research/gmi-833-z-z11-morphology-benchmark-v1/test_imb_benchmark_v1.py -v
+
+      - name: Tests (optimized mode)
+        run: python3 -I -O -B research/gmi-833-z-z11-morphology-benchmark-v1/test_imb_benchmark_v1.py -v
+
+      - name: Verdict gate
+        run: |
+          set -eu
+          python3 -I -B - research/gmi-833-z-z11-morphology-benchmark-v1/RESULT_V1.json research/gmi-833-z-z11-morphology-benchmark-v1/ORACLE_RESULT_V1.json <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              a = json.load(fh)
+          with open(sys.argv[2]) as fh:
+              b = json.load(fh)
+          bad = [k for k, v in a["gates"].items() if not v] + [k for k, v in b["checks"].items() if not v]
+          if bad:
+              sys.exit("gates failed: %s" % bad)
+          if a["verdict"] != "GREEN" or b["verdict"] != "GREEN":
+              sys.exit("verdict A=%s B=%s" % (a["verdict"], b["verdict"]))
+          print("Z11 GREEN: gates", len(a["gates"]), "oracle checks", len(b["checks"]), "misses published:", [k for k, v in a["frozen_predictions"].items() if v["verdict"] == "MISS"])
+          PY
