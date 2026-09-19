@@ -1,0 +1,54 @@
+{
+  "claim_ceiling": "GMI_833_AE15_WORLD_MODEL_NECESSITY_BOUNDARY_DERIVED_ON_REGISTERED_FINITE_POMDP_ROSTER",
+  "forbidden_promotions": [
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "LATENTS_ARE_HUMAN_INTERPRETABLE",
+    "MODEL_BASED_DOMINATES_MODEL_FREE",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "WORLD_MODEL_ALWAYS_REQUIRED",
+    "WORLD_MODEL_NEVER_REQUIRED"
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "not_closed": [],
+  "package": "gmi-833-ae-ae15-world-model-necessity-v1",
+  "replacements": [
+    {
+      "anchor": "### AE15 — World-model necessity boundary",
+      "new": "- [x] Define `world model` operationally and distinguish explicit generative model, predictive state, value representation, reactive policy and cached skill. — ✅ `gmi-833-ae-ae15-world-model-necessity-v1` AE15-1: `world model` is defined as a stored-object interface rather than an architecture class, and the five registered interfaces REACTIVE_POLICY, CACHED_SKILL, VALUE_REPRESENTATION, PREDICTIVE_STATE and EXPLICIT_GENERATIVE_MODEL are separated by 7 coordinates computed on the registered roster: all 5 coordinate vectors differ, 18 of the 20 ordered pairs carry a strictly separating coordinate and the remaining 2 are recorded as dominated, and under the registered reward-swap probe on K_SWAP only EXPLICIT_GENERATIVE_MODEL re-optimizes (reaching exactly 3/4) while REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION each fall to exactly 0 against a class best of 3/4, an exact shortfall of 3/4 each.",
+      "old": "- [ ] Define `world model` operationally and distinguish explicit generative model, predictive state, value representation, reactive policy and cached skill.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE15 — World-model necessity boundary",
+      "new": "- [x] Construct tasks solvable optimally without an explicit world model. — ✅ `gmi-833-ae-ae15-world-model-necessity-v1` AE15-2: on the registered fully observed task K_REACTIVE_OPT the model-based optimum is exactly 3/4 and the best of all 4 enumerated memoryless maps O -> A attains exactly 3/4, a difference of exactly 0, and the task is not myopically trivial because the greedy reactive policy attains only 7/16.",
+      "old": "- [ ] Construct tasks solvable optimally without an explicit world model.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE15 — World-model necessity boundary",
+      "new": "- [x] Construct tasks where a model is provably necessary under the registered interface/resource assumptions. — ✅ `gmi-833-ae-ae15-world-model-necessity-v1` AE15-3: on the registered aliased POMDP K_MODEL_NEEDED (|S| = 4, |O| = 3, |A| = 3, H = 3, gamma = 1/2, with s0 and s1 both emitting oa and requiring different actions) the model-based optimum is exactly 1/2 while exhaustive enumeration over each finite class -- all 27 memoryless maps, all 27 context-indexed cached skills and every realizable greedy value policy -- gives a best of exactly 1/4 in each of REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION, an exact gap of 1/4; necessity is asserted only at this registered scope and never by an appeal to hardness.",
+      "old": "- [ ] Construct tasks where a model is provably necessary under the registered interface/resource assumptions.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE15 — World-model necessity boundary",
+      "new": "- [x] Derive model-based vs model-free/retrieval/reactive phase boundaries. — ✅ `gmi-833-ae-ae15-world-model-necessity-v1` AE15-4: the boundary is the exact rational c*(G) = G/4, taking the values 1/4, 1/2, 3/4 and 1 at G = 1, 2, 3, 4, strictly increasing over the registered range, with the chosen class flipping strictly on both sides -- margin +1/8 at c*(G) - 1/8 where EXPLICIT_GENERATIVE_MODEL is chosen, exactly 0 at c*(G), and -1/8 at c*(G) + 1/8 where the model-free class is chosen -- emitted as bound AE15-B1 (advantage per goal token <= 1/4 over the definitional range [0, 7/4]) with a violating witness at 1/2 from the explicitly relaxed gamma = 1 class.",
+      "old": "- [ ] Derive model-based vs model-free/retrieval/reactive phase boundaries.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE15 — World-model necessity boundary",
+      "new": "- [x] Test whether latent variables recovered by a model correspond to identifiable world factors or merely predictive coordinates. — ✅ `gmi-833-ae-ae15-world-model-necessity-v1` AE15-5: SCM_LATENT_A (latent cardinality 2, U -> X and U -> Y) and SCM_LATENT_B (latent cardinality 4, V -> X -> Y) have exactly identical observational and predictive joints -- 1/2 on (x0,y0) and 1/2 on (x1,y1), uniform marginals, and P(Y|X) and P(X|Y) exactly 1 on the matching value -- so the latent is not identifiable from behaviour, while they differ exactly under intervention with P(Y = y1 | do(X = x1)) equal to 1/2 against 1; on the same roster SCM_LATENT_ID has a latent recovered exactly by the exhibited map x0 -> l0, x1 -> l1, x2 -> l2, invariantly across all 6 label permutations.",
+      "old": "- [ ] Test whether latent variables recovered by a model correspond to identifiable world factors or merely predictive coordinates.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE15 — World-model necessity boundary",
+      "new": "- [x] Forbid claims that successful intelligence necessarily reconstructs human-interpretable latent variables. — ✅ `gmi-833-ae-ae15-world-model-necessity-v1` AE15-6: the registered forbidden promotion LATENTS_ARE_HUMAN_INTERPRETABLE is refused with AE15-5 as its machine-checked evidence -- two latent factorizations of cardinality 2 and 4 reproduce every observational and predictive quantity exactly -- and the executor's scan of all 10 shipped artifacts reports exactly 0 assertions of any registered forbidden promotion, with the scanner validated in both directions.",
+      "old": "- [ ] Forbid claims that successful intelligence necessarily reconstructs human-interpretable latent variables.",
+      "status": "EARNED"
+    }
+  ],
+  "schema": "GMI_ISSUE_RECONCILIATION_V2"
+}

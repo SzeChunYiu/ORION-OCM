@@ -1,0 +1,112 @@
+{
+  "derivations": {
+    "compositionality": "if Y factorizes through the registered blocks then M_modular attains exact accuracy 1 at integer cost c1 + c2, and M_monolithic at the same integer budget attains at most a strictly smaller exact accuracy; a non-factorizing target is the matched failure",
+    "locality": "if Y is almost surely determined by some k-subset of coordinates then M_local[k] attains the registered optimum; the exact rational accuracy attainable by M_local[k] when no such k-subset exists is reported and the failure counterexample is registered",
+    "symmetry": "if the source and the target are invariant under a registered subgroup G then M_shared[G] attains the same exact optimum as the unshared class at integer cost reduced by the orbit count; a target that is NOT G-invariant is registered as the matched failure, with the exact accuracy drop"
+  },
+  "freeze_commit": "3c2edcdec42c30f3101b1d294d1144875a25ce91",
+  "hostiles": [
+    {
+      "name": "H_DIM_INFLATE",
+      "perturbs": "the GF(2) rank computation so a full-dimension support is scored as low-dimensional"
+    },
+    {
+      "name": "H_ORBIT_MERGE",
+      "perturbs": "the orbit partition so a non-invariant source is scored as G-invariant"
+    },
+    {
+      "name": "H_BLOCK_LEAK",
+      "perturbs": "the block decomposition so a non-factorizing target is scored as factorizing"
+    },
+    {
+      "name": "H_BUDGET_INFLATE",
+      "perturbs": "the monolithic budget upward so the compositional advantage disappears"
+    },
+    {
+      "name": "H_CYCLE_RANK",
+      "perturbs": "one support point so the Hamming-1 graph cycle rank changes"
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae6-geometric-structure-v1",
+  "prospective_predictions": [
+    {
+      "claim": "the six structure classes form a strictness table in which each ordered pair is either witnessed by a registered source in the first and not the second, or explicitly reported as not separated on the roster",
+      "id": "AE6-P1"
+    },
+    {
+      "claim": "S_NONMANIFOLD_LEARNABLE violates the smooth-manifold assumption at the registered scope and is learned to exact accuracy 1 by a member of the registered rule class",
+      "id": "AE6-P2"
+    },
+    {
+      "claim": "S_LOWDIM_USELESS has GF(2) intrinsic dimension 1, exact mutual information 0 bits with Y and exact interventional effect 0, while a full-dimension coordinate carries Y exactly",
+      "id": "AE6-P3"
+    },
+    {
+      "claim": "each of the three derivations holds with an exact rational condition AND has a registered matched failure counterexample in which the condition fails and the named architecture class is strictly worse; a derivation whose condition never fails on the roster is reported as UNFALSIFIED_CONDITION and does not close its row",
+      "id": "AE6-P4"
+    },
+    {
+      "claim": "every threshold emitted carries a bound record with range_lo and range_hi derived from the definition of the bounded quantity, a vacuous flag, an attained_by witness and a violated_by witness from an explicitly relaxed class",
+      "id": "AE6-P5"
+    }
+  ],
+  "registered_constants": {
+    "architecture_classes": [
+      "M_local",
+      "M_shared",
+      "M_modular",
+      "M_monolithic"
+    ],
+    "block_support_cap": 2,
+    "blocks": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "classes": [
+      "LOW_INTRINSIC_DIMENSION",
+      "UNION_OR_STRATIFICATION",
+      "SPARSE_COMPOSITIONAL",
+      "SYMMETRY_ORBIT",
+      "GRAPH_TOPOLOGICAL",
+      "NON_GEOMETRIC_ALGORITHMIC"
+    ],
+    "code": "Kraft-compliant prefix-free integer code; the registered cost of an architecture class is its integer description length",
+    "dimension_range": [
+      0,
+      4
+    ],
+    "n": 4,
+    "null_trials": 200,
+    "symmetry_group": "subgroups of the symmetric group on the 4 coordinates; the full subgroup lattice is enumerated",
+    "tie_break": "lexicographic by registered name, ascending",
+    "union_rank_cap": 3
+  },
+  "roster": {
+    "S_CYCLE": "support whose Hamming-1 graph is a single cycle: connected with cycle rank exactly 1",
+    "S_LOWDIM_USELESS": "support inside a GF(2) coset of dimension 1 whose exact mutual information with Y is 0 bits and whose exact interventional effect on Y is 0",
+    "S_STRATIFIED": "a union of two GF(2) cosets of DIFFERENT dimensions, hence not a single smooth manifold at the registered scope",
+    "sources": [
+      "S_SUBSPACE",
+      "S_STRATIFIED",
+      "S_BLOCKPROD",
+      "S_ORBIT",
+      "S_CYCLE",
+      "S_ALGORITHMIC",
+      "S_LOWDIM_USELESS",
+      "S_NONMANIFOLD_LEARNABLE"
+    ]
+  },
+  "schema": "GMI_833_PROSPECTIVE_REGISTER_V1",
+  "section": "AE6",
+  "self_digest_note": "sha256 of json.dumps(self without self_digest_sha256 and self_digest_note, sort_keys=True, separators=(\",\",\":\")) encoded utf-8",
+  "self_digest_sha256": "20e6cc7bc0fd1ad5b5d861e1a907e3b991a785a474304cfc5e43126c672ac23b",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3"
+}

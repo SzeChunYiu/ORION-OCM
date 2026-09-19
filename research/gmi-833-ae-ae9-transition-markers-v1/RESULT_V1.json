@@ -1,0 +1,1475 @@
+{
+  "bounds": [
+    {
+      "attained_by": {
+        "object": "every registered representation",
+        "values": [
+          "1/2"
+        ]
+      },
+      "bound_value": "1/2",
+      "id": "AE9-B1",
+      "kind": "upper",
+      "range_derivation": "USABLE is an exact accuracy on the 16-point registered input space, so it lies in [0,1] by definition; the two constant readouts are in every budgeted class and are measurable with respect to every partition, so USABLE is at least the majority-class frequency of the target, which is 1/2 for a balanced target. The range is read off the definition of USABLE and of the readout class, not off the roster.",
+      "range_hi": "1",
+      "range_lo": "1/2",
+      "statement": "USABLE(phi, PARITY4, R) <= 1/2 for every representation phi, at the registered readout budget R",
+      "status": "FALSIFIABLE_BOUND",
+      "used_to_close_a_row": true,
+      "vacuous": false,
+      "violated_by": {
+        "object": "KER_PARITY4 with the arity-4 readout class",
+        "relaxed_class": "junta arity raised from 2 to 4",
+        "value": "1"
+      }
+    },
+    {
+      "attained_by": {
+        "object": "TRAJ_JUMP pre-transition representation",
+        "values": [
+          "4",
+          "6"
+        ]
+      },
+      "bound_value": "6",
+      "id": "AE9-B2",
+      "kind": "upper",
+      "range_derivation": "INVARIANCE is the order of a subgroup of the coordinate-permutation group of {0,1}^4, which has order 4! = 24; the trivial subgroup has order 1. Both endpoints come from the definition of the group, not from the roster.",
+      "range_hi": "24",
+      "range_lo": "1",
+      "statement": "INVARIANCE(phi) <= 6 for every representation arising on TRAJ_JUMP",
+      "status": "FALSIFIABLE_BOUND",
+      "used_to_close_a_row": true,
+      "vacuous": false,
+      "violated_by": {
+        "object": "TRAJ_SMOOTH identity code map",
+        "relaxed_class": "representations anywhere on the registered roster",
+        "value": "24"
+      }
+    },
+    {
+      "attained_by": {
+        "object": "TRAJ_SMOOTH underlying accuracy",
+        "values": [
+          "0"
+        ]
+      },
+      "bound_value": "0",
+      "id": "AE9-B3",
+      "kind": "upper",
+      "range_derivation": "the spread is max increment minus min increment of a non-decreasing sequence of accuracies in [0,1]; each increment lies in [0,1] and the spread of such a sequence therefore lies in [0,1] by definition of an accuracy.",
+      "range_hi": "1",
+      "range_lo": "0",
+      "statement": "the spread of the per-step increments of TRAJ_SMOOTH's underlying accuracy is <= 0",
+      "status": "FALSIFIABLE_BOUND",
+      "used_to_close_a_row": true,
+      "vacuous": false,
+      "violated_by": {
+        "object": "TRAJ_SMOOTH accuracy raised to the registered k",
+        "relaxed_class": "transformed metrics, that is the registered exact-match transform of the same accuracy sequence, instead of the accuracy itself",
+        "value": "14541769375/549755813888"
+      }
+    },
+    {
+      "attained_by": {
+        "object": "TRAJ_SMOOTH held-out accuracy at every m",
+        "values": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2"
+        ]
+      },
+      "bound_value": "1/2",
+      "id": "AE9-B4",
+      "kind": "upper",
+      "range_derivation": "an exact accuracy on the registered 8-point held-out set is a fraction of that set's size and therefore lies in [0,1] by definition.",
+      "range_hi": "1",
+      "range_lo": "0",
+      "statement": "TRAJ_SMOOTH's exact held-out accuracy is <= 1/2 at every registered sample count",
+      "status": "FALSIFIABLE_BOUND",
+      "used_to_close_a_row": true,
+      "vacuous": false,
+      "violated_by": {
+        "object": "TRAJ_GROK held-out accuracy at m = 8",
+        "relaxed_class": "trajectories whose learner also fits the registered affine class, not only the lookup table",
+        "value": "1"
+      }
+    },
+    {
+      "attained_by": {
+        "object": "TRAJ_JUMP structural onset",
+        "values": [
+          "5"
+        ]
+      },
+      "bound_value": "5",
+      "id": "AE9-B5",
+      "kind": "lower",
+      "range_derivation": "the onset is an index of the registered sample range 0..8, so by definition it lies in [0,8].",
+      "range_hi": "8",
+      "range_lo": "0",
+      "statement": "the structural onset on TRAJ_JUMP is >= 5 sample points",
+      "status": "FALSIFIABLE_BOUND",
+      "used_to_close_a_row": true,
+      "vacuous": false,
+      "violated_by": {
+        "object": "lex-least-commitment variant of TRAJ_JUMP",
+        "relaxed_class": "learners that commit to the lexicographically least consistent affine form instead of waiting for a singleton version space",
+        "value": "2"
+      }
+    }
+  ],
+  "checks": {
+    "all_hostiles_potent": true,
+    "all_hostiles_resolved": true,
+    "every_bound_has_violated_by": true,
+    "every_registered_prediction_reported": true,
+    "no_bound_is_vacuous": true,
+    "no_neural_system_on_roster": true,
+    "null_no_alarm_on_clean_witness": true,
+    "null_witness_beats_false_alarms": true,
+    "pool_and_heldout_disjoint": true,
+    "register_digest_recomputed": true,
+    "registered_exact_match_k_used": true,
+    "registered_readout_budget_used": true,
+    "routes_agree": true,
+    "row1_distinct_partitions_move_a_marker": true,
+    "row1_reencoding_leaves_markers_fixed": true,
+    "row1_same_partition_equal_markers": true,
+    "row3_jump_arm": true,
+    "row3_smooth_arm": true,
+    "row4_knee_is_strict": true,
+    "row4_no_alarm_on_smooth": true,
+    "row4_no_alarm_on_transformed_smooth": true,
+    "row4_recall_full": true
+  },
+  "claim_ceiling": "GMI_833_AE9_ARCHITECTURE_INDEPENDENT_TRANSITION_MARKERS_DEFINED_AND_EMERGENCE_CLASSES_SEPARATED_ON_NON_NEURAL_REGISTERED_SYSTEMS",
+  "forbidden_promotions": [
+    {
+      "asserted_absent": true,
+      "name": "ALL_LEARNING_IS_COMPRESSION"
+    },
+    {
+      "asserted_absent": true,
+      "name": "ARCHITECTURE_SELECTION_LAW"
+    },
+    {
+      "asserted_absent": true,
+      "name": "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER"
+    },
+    {
+      "asserted_absent": true,
+      "name": "COMPLETE_GMI"
+    },
+    {
+      "asserted_absent": true,
+      "name": "EMERGENCE_IS_ALWAYS_A_METRIC_ARTIFACT"
+    },
+    {
+      "asserted_absent": true,
+      "name": "EMERGENCE_IS_ALWAYS_A_PHASE_TRANSITION"
+    },
+    {
+      "asserted_absent": true,
+      "name": "FREE_ENERGY_PRINCIPLE_PROVED"
+    },
+    {
+      "asserted_absent": true,
+      "name": "GENERAL_REASONING_REDUCED_TO_PREDICTION"
+    },
+    {
+      "asserted_absent": true,
+      "name": "GMI_MORPHOLOGY_PREDICTION"
+    },
+    {
+      "asserted_absent": true,
+      "name": "INTELLIGENCE_EQUALS_COMPRESSION"
+    },
+    {
+      "asserted_absent": true,
+      "name": "MANIFOLD_HYPOTHESIS_UNIVERSAL"
+    },
+    {
+      "asserted_absent": true,
+      "name": "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE"
+    },
+    {
+      "asserted_absent": true,
+      "name": "NEURAL_RESULT_FROM_NON_NEURAL_ROSTER"
+    },
+    {
+      "asserted_absent": true,
+      "name": "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT"
+    },
+    {
+      "asserted_absent": true,
+      "name": "THERMODYNAMIC_INTELLIGENCE_LAW"
+    },
+    {
+      "asserted_absent": true,
+      "name": "TRANSITION_MARKER_PREDICTS_CAPABILITY_ONSET"
+    },
+    {
+      "asserted_absent": true,
+      "name": "WORLD_MODEL_ALWAYS_REQUIRED"
+    }
+  ],
+  "freeze_commit": "b472903bddaeb78651f7cee32fe5bd3fc3ba4a6e",
+  "hostiles": [
+    {
+      "detected": false,
+      "inverted": true,
+      "name": "H_PARTITION_RELABEL",
+      "perturbed_value": {
+        "CELLS": 2,
+        "INVARIANCE": 4,
+        "READOUT_ARITY": 2,
+        "SEPARABILITY": "1",
+        "USABLE": "1"
+      },
+      "perturbs": "the code set by an injection",
+      "potency": true,
+      "potency_note": "the code map is genuinely a different function; its code set changed under the injection",
+      "silence": true,
+      "true_value": {
+        "CELLS": 2,
+        "INVARIANCE": 4,
+        "READOUT_ARITY": 2,
+        "SEPARABILITY": "1",
+        "USABLE": "1"
+      }
+    },
+    {
+      "detected": true,
+      "inverted": false,
+      "name": "H_INVARIANCE_INFLATE",
+      "perturbed_value": 24,
+      "perturbs": "the subgroup search, scoring size preservation as invariance",
+      "potency": true,
+      "potency_note": "the perturbed subgroup order differs from the true one",
+      "silence": false,
+      "true_value": 6
+    },
+    {
+      "detected": true,
+      "inverted": false,
+      "name": "H_ARITY_CAP",
+      "perturbed_class": "PHASE_LIKE_REORGANIZATION",
+      "perturbed_value": [
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ]
+      ],
+      "perturbs": "the readout arity cap, lowered from 4 to 1",
+      "potency": true,
+      "potency_note": "the READOUT_ARITY sequence of TRAJ_JUMP moved",
+      "silence": false,
+      "true_value": [
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "NONE"
+        ],
+        [
+          "2",
+          "NONE"
+        ],
+        [
+          "2",
+          "NONE"
+        ],
+        [
+          "2"
+        ],
+        [
+          "2"
+        ]
+      ]
+    },
+    {
+      "detected": true,
+      "inverted": false,
+      "name": "H_THRESHOLD_K",
+      "perturbed_value": {
+        "increments": [
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32"
+        ],
+        "knee": false
+      },
+      "perturbs": "the registered exact-match exponent, 8 replaced by 1",
+      "potency": true,
+      "potency_note": "the transformed increment sequence moved",
+      "silence": false,
+      "true_value": {
+        "increments": [
+          "2680790145/1099511627776",
+          "4044203135/1099511627776",
+          "5963602465/1099511627776",
+          "8616436959/1099511627776",
+          "12222859361/1099511627776",
+          "17053014175/1099511627776",
+          "23435111745/1099511627776",
+          "31764328895/1099511627776"
+        ],
+        "knee": true
+      }
+    },
+    {
+      "detected": true,
+      "inverted": false,
+      "leaked_points": [
+        0
+      ],
+      "name": "H_TRAIN_LEAK",
+      "perturbed_value": [
+        "5/8",
+        "5/8",
+        "5/8",
+        "5/8",
+        "5/8",
+        "47/56",
+        "53/56",
+        "1",
+        "1"
+      ],
+      "perturbs": "the held-out set of TRAJ_GROK, a pool point leaks in",
+      "potency": true,
+      "potency_note": "the exact held-out accuracy sequence moved",
+      "silence": false,
+      "true_value": [
+        "1/2",
+        "1/2",
+        "1/2",
+        "1/2",
+        "1/2",
+        "11/14",
+        "13/14",
+        "1",
+        "1"
+      ]
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "null": {
+    "affine_draws": 1,
+    "alarms": 5,
+    "alarms_on_affine_draws": 1,
+    "class_counts": {
+      "GROKKING_DELAYED_GENERALIZATION": 0,
+      "NO_EMERGENCE": 195,
+      "PHASE_LIKE_REORGANIZATION": 5,
+      "THRESHOLDED_METRIC_ARTIFACT": 0
+    },
+    "confusion_over_null": {
+      "false_negative": 0,
+      "false_positive": 4,
+      "positive_class": "trials whose drawn task is affine, the class the registered witness belongs to",
+      "true_negative": 195,
+      "true_positive": 1
+    },
+    "false_alarms_on_non_affine_draws": 4,
+    "firing_trials": [
+      {
+        "class": "PHASE_LIKE_REORGANIZATION",
+        "magnitude": "2/7",
+        "target_is_affine": true,
+        "trial": 5
+      },
+      {
+        "class": "PHASE_LIKE_REORGANIZATION",
+        "magnitude": "1/7",
+        "target_is_affine": false,
+        "trial": 12
+      },
+      {
+        "class": "PHASE_LIKE_REORGANIZATION",
+        "magnitude": "1/7",
+        "target_is_affine": false,
+        "trial": 167
+      },
+      {
+        "class": "PHASE_LIKE_REORGANIZATION",
+        "magnitude": "1/7",
+        "target_is_affine": false,
+        "trial": 168
+      },
+      {
+        "class": "PHASE_LIKE_REORGANIZATION",
+        "magnitude": "1/7",
+        "target_is_affine": false,
+        "trial": 186
+      }
+    ],
+    "known_clean_witnesses_flagged": [],
+    "largest_false_alarm_magnitude": "1/7",
+    "planted_witness_magnitude": "2/7",
+    "sampler": "uniform balanced target of {0,1}^4 by combinatorial unranking from an integer LCG, run through the unchanged TRAJ_JUMP pipeline",
+    "seed": 1397722246,
+    "trials": 200,
+    "witness_exceeds_largest_false_alarm": true
+  },
+  "package": "gmi-833-ae-ae9-transition-markers-v1",
+  "prospective_prediction_summary": {
+    "confirmed": 5,
+    "refuted": 0,
+    "refuted_ids": [],
+    "registered": 5,
+    "reported": 5
+  },
+  "prospective_predictions": [
+    {
+      "id": "AE9-P1",
+      "values": {
+        "distinct_partitions_all_move_REFINEMENT": true,
+        "pairs_tested": 15,
+        "reencoding_leaves_markers_fixed": true,
+        "same_partition_markers_equal": true
+      },
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "AE9-P2",
+      "values": {
+        "jump_accuracy": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "11/14",
+          "13/14",
+          "1",
+          "1"
+        ],
+        "m_star": 5,
+        "readout_arity_at_m_star": [
+          "2",
+          "NONE"
+        ],
+        "readout_arity_before": "NONE",
+        "smooth_increments": [
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32"
+        ]
+      },
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "AE9-P3",
+      "values": {
+        "knee_ratio_last_over_first": "6352865779/536158029",
+        "structural_tuple": [
+          16,
+          24,
+          2
+        ],
+        "underlying_increment": "1/32"
+      },
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "AE9-P4",
+      "values": {
+        "false_alarms_on_non_affine_draws": 4,
+        "no_alarm_on_clean_smooth": true,
+        "null_class_counts": {
+          "GROKKING_DELAYED_GENERALIZATION": 0,
+          "NO_EMERGENCE": 195,
+          "PHASE_LIKE_REORGANIZATION": 5,
+          "THRESHOLDED_METRIC_ARTIFACT": 0
+        },
+        "null_trials": 200,
+        "recall": 3
+      },
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "AE9-P5",
+      "values": {
+        "NEURAL_RESULT_FROM_NON_NEURAL_ROSTER_asserted_absent": true,
+        "learners": [
+          "EXACT_LOOKUP",
+          "GF2_ELIMINATION",
+          "GREEDY_DECISION_LIST"
+        ],
+        "neural_systems_evaluated": 0
+      },
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "register_commit": "fb1edbf03268b2b0140a96a56cb7f656f351d2f5",
+  "register_digest": "9f90dc2ec012b41a26a9fcc3d1e363fb215e456580432ae6bf2c0c2f554cc883",
+  "results": {
+    "architecture_independence": {
+      "distinct_partitions_move_a_marker": {
+        "every_pair_moves_REFINEMENT": true,
+        "pairs": [
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 1,
+            "normalized_partition_distance": "2/5",
+            "some_unary_marker_moves": true,
+            "split": 1
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 1,
+            "normalized_partition_distance": "2/5",
+            "some_unary_marker_moves": true,
+            "split": 1
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": true,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": true,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 16,
+            "merged": 0,
+            "normalized_partition_distance": "3/5",
+            "some_unary_marker_moves": true,
+            "split": 14
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": true,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": false,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": true,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 16,
+            "merged": 0,
+            "normalized_partition_distance": "7/15",
+            "some_unary_marker_moves": true,
+            "split": 14
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": true,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": true,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 16,
+            "merged": 0,
+            "normalized_partition_distance": "7/15",
+            "some_unary_marker_moves": true,
+            "split": 14
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 2,
+            "merged": 2,
+            "normalized_partition_distance": "8/15",
+            "some_unary_marker_moves": true,
+            "split": 2
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 16,
+            "merged": 0,
+            "normalized_partition_distance": "7/15",
+            "some_unary_marker_moves": true,
+            "split": 14
+          },
+          {
+            "cells_left": 2,
+            "cells_right": 16,
+            "merged": 0,
+            "normalized_partition_distance": "7/15",
+            "some_unary_marker_moves": true,
+            "split": 14
+          }
+        ],
+        "pairs_tested": 15,
+        "pairs_with_no_unary_marker_moving": 1
+      },
+      "injective_reencoding": {
+        "code_set_actually_changed": true,
+        "every_marker_unchanged": true,
+        "refinement_to_reencoded": {
+          "merged": 0,
+          "normalized_partition_distance": "0",
+          "split": 0
+        }
+      },
+      "markers": {
+        "IDENTITY__T_PARITY4": {
+          "CELLS": 16,
+          "INVARIANCE": 24,
+          "READOUT_ARITY": 4,
+          "SEPARABILITY": "1",
+          "USABLE": "1/2"
+        },
+        "IDENTITY__T_XOR12": {
+          "CELLS": 16,
+          "INVARIANCE": 24,
+          "READOUT_ARITY": 2,
+          "SEPARABILITY": "1",
+          "USABLE": "1"
+        },
+        "KER_PARITY4__T_PARITY4": {
+          "CELLS": 2,
+          "INVARIANCE": 24,
+          "READOUT_ARITY": 4,
+          "SEPARABILITY": "0",
+          "USABLE": "1/2"
+        },
+        "KER_X4__T_PARITY4": {
+          "CELLS": 2,
+          "INVARIANCE": 6,
+          "READOUT_ARITY": "NONE",
+          "SEPARABILITY": "1/2",
+          "USABLE": "1/2"
+        },
+        "KER_X4__T_XOR12": {
+          "CELLS": 2,
+          "INVARIANCE": 6,
+          "READOUT_ARITY": "NONE",
+          "SEPARABILITY": "1/2",
+          "USABLE": "1/2"
+        },
+        "KER_XOR12__T_XOR12": {
+          "CELLS": 2,
+          "INVARIANCE": 4,
+          "READOUT_ARITY": 2,
+          "SEPARABILITY": "1",
+          "USABLE": "1"
+        }
+      },
+      "same_partition_two_learners": {
+        "induced_partitions_equal": true,
+        "learner_a": "GF2_ELIMINATION",
+        "learner_b": "GREEDY_DECISION_LIST",
+        "markers": {
+          "CELLS": 2,
+          "INVARIANCE": 4,
+          "READOUT_ARITY": 2,
+          "SEPARABILITY": "1",
+          "USABLE": "1"
+        },
+        "markers_exactly_equal": true
+      }
+    },
+    "bounds_note": "every bound carries a definition-derived range and a violated_by witness in an explicitly relaxed class; none is UNFALSIFIED_BOUND",
+    "null": {
+      "affine_draws": 1,
+      "alarms": 5,
+      "alarms_on_affine_draws": 1,
+      "class_counts": {
+        "GROKKING_DELAYED_GENERALIZATION": 0,
+        "NO_EMERGENCE": 195,
+        "PHASE_LIKE_REORGANIZATION": 5,
+        "THRESHOLDED_METRIC_ARTIFACT": 0
+      },
+      "confusion_over_null": {
+        "false_negative": 0,
+        "false_positive": 4,
+        "positive_class": "trials whose drawn task is affine, the class the registered witness belongs to",
+        "true_negative": 195,
+        "true_positive": 1
+      },
+      "false_alarms_on_non_affine_draws": 4,
+      "firing_trials": [
+        {
+          "class": "PHASE_LIKE_REORGANIZATION",
+          "magnitude": "2/7",
+          "target_is_affine": true,
+          "trial": 5
+        },
+        {
+          "class": "PHASE_LIKE_REORGANIZATION",
+          "magnitude": "1/7",
+          "target_is_affine": false,
+          "trial": 12
+        },
+        {
+          "class": "PHASE_LIKE_REORGANIZATION",
+          "magnitude": "1/7",
+          "target_is_affine": false,
+          "trial": 167
+        },
+        {
+          "class": "PHASE_LIKE_REORGANIZATION",
+          "magnitude": "1/7",
+          "target_is_affine": false,
+          "trial": 168
+        },
+        {
+          "class": "PHASE_LIKE_REORGANIZATION",
+          "magnitude": "1/7",
+          "target_is_affine": false,
+          "trial": 186
+        }
+      ],
+      "known_clean_witnesses_flagged": [],
+      "largest_false_alarm_magnitude": "1/7",
+      "planted_witness_magnitude": "2/7",
+      "sampler": "uniform balanced target of {0,1}^4 by combinatorial unranking from an integer LCG, run through the unchanged TRAJ_JUMP pipeline",
+      "seed": 1397722246,
+      "trials": 200,
+      "witness_exceeds_largest_false_alarm": true
+    },
+    "route_b_agreement": {
+      "TRAJ_GROK": {
+        "acc_heldout": true,
+        "acc_overall": true,
+        "acc_train": true,
+        "determined_count": true,
+        "structural_profile": true
+      },
+      "TRAJ_JUMP": {
+        "acc_heldout": true,
+        "acc_overall": true,
+        "acc_train": true,
+        "determined_count": true,
+        "structural_profile": true
+      },
+      "TRAJ_SMOOTH": {
+        "acc_heldout": true,
+        "acc_overall": true,
+        "acc_train": true,
+        "determined_count": true,
+        "structural_profile": true
+      },
+      "independence": "route B contains no executable import of route A; route A imports route B only to certify agreement",
+      "markers": {
+        "IDENTITY__T_PARITY4": true,
+        "IDENTITY__T_XOR12": true,
+        "KER_PARITY4__T_PARITY4": true,
+        "KER_X4__T_PARITY4": true,
+        "KER_X4__T_XOR12": true,
+        "KER_XOR12__T_XOR12": true
+      },
+      "route_b_module": "independent_marker_oracle_v1.py",
+      "spanning_counts": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true,
+        "6": true,
+        "7": true,
+        "8": true
+      }
+    },
+    "row3_smooth_versus_qualitative": {
+      "jump": {
+        "accuracy": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "11/14",
+          "13/14",
+          "1",
+          "1"
+        ],
+        "base_rate": "1/2",
+        "heldout": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "11/14",
+          "13/14",
+          "1",
+          "1"
+        ],
+        "invariance_before": 6,
+        "jump_magnitude_heldout": "2/7",
+        "m_star_accuracy": 5,
+        "m_star_heldout": 5,
+        "m_star_structural": 5,
+        "readout_arity_by_m": [
+          [
+            "NONE"
+          ],
+          [
+            "NONE"
+          ],
+          [
+            "NONE"
+          ],
+          [
+            "NONE"
+          ],
+          [
+            "NONE"
+          ],
+          [
+            "2",
+            "NONE"
+          ],
+          [
+            "2",
+            "NONE"
+          ],
+          [
+            "2"
+          ],
+          [
+            "2"
+          ]
+        ],
+        "same_step": true
+      },
+      "smooth": {
+        "accuracy": [
+          "1/2",
+          "17/32",
+          "9/16",
+          "19/32",
+          "5/8",
+          "21/32",
+          "11/16",
+          "23/32",
+          "3/4"
+        ],
+        "increments_all_equal": true,
+        "per_step_increments": [
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32",
+          "1/32"
+        ],
+        "strictly_increasing": true,
+        "structural_profile_constant": true,
+        "structural_tuple": [
+          16,
+          24,
+          2
+        ]
+      }
+    },
+    "row4_emergence_reaudit": {
+      "classifier_on_transformed_curve_raises_no_alarm": true,
+      "classifier_validation": {
+        "confusion_over_roster": {
+          "GROKKING_DELAYED_GENERALIZATION__TRAJ_GROK": {
+            "GROKKING_DELAYED_GENERALIZATION": 1,
+            "NO_EMERGENCE": 0,
+            "PHASE_LIKE_REORGANIZATION": 0,
+            "THRESHOLDED_METRIC_ARTIFACT": 0
+          },
+          "PHASE_LIKE_REORGANIZATION__TRAJ_JUMP": {
+            "GROKKING_DELAYED_GENERALIZATION": 0,
+            "NO_EMERGENCE": 0,
+            "PHASE_LIKE_REORGANIZATION": 1,
+            "THRESHOLDED_METRIC_ARTIFACT": 0
+          },
+          "THRESHOLDED_METRIC_ARTIFACT__TRAJ_SMOOTH": {
+            "GROKKING_DELAYED_GENERALIZATION": 0,
+            "NO_EMERGENCE": 0,
+            "PHASE_LIKE_REORGANIZATION": 0,
+            "THRESHOLDED_METRIC_ARTIFACT": 1
+          }
+        },
+        "no_alarm_on_clean_smooth_trajectory": true,
+        "planted_positives": 3,
+        "recall": 3
+      },
+      "exact_match_k": 8,
+      "grok_also_shows_phase_like_signature": true,
+      "knee_ratio_last_over_first": "6352865779/536158029",
+      "structural_profile_constant_throughout": true,
+      "transformed_increments": [
+        "2680790145/1099511627776",
+        "4044203135/1099511627776",
+        "5963602465/1099511627776",
+        "8616436959/1099511627776",
+        "12222859361/1099511627776",
+        "17053014175/1099511627776",
+        "23435111745/1099511627776",
+        "31764328895/1099511627776"
+      ],
+      "transformed_increments_strictly_increasing": true,
+      "transformed_metric": [
+        "1/256",
+        "6975757441/1099511627776",
+        "43046721/4294967296",
+        "16983563041/1099511627776",
+        "390625/16777216",
+        "37822859361/1099511627776",
+        "214358881/4294967296",
+        "78310985281/1099511627776",
+        "6561/65536"
+      ],
+      "underlying_accuracy": [
+        "1/2",
+        "17/32",
+        "9/16",
+        "19/32",
+        "5/8",
+        "21/32",
+        "11/16",
+        "23/32",
+        "3/4"
+      ],
+      "underlying_increment_spread": "0",
+      "underlying_increments": [
+        "1/32",
+        "1/32",
+        "1/32",
+        "1/32",
+        "1/32",
+        "1/32",
+        "1/32",
+        "1/32"
+      ],
+      "witness_classes": {
+        "TRAJ_GROK": "GROKKING_DELAYED_GENERALIZATION",
+        "TRAJ_JUMP": "PHASE_LIKE_REORGANIZATION",
+        "TRAJ_SMOOTH": "THRESHOLDED_METRIC_ARTIFACT"
+      }
+    },
+    "trajectories": {
+      "TRAJ_GROK": {
+        "acc_heldout": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "11/14",
+          "13/14",
+          "1",
+          "1"
+        ],
+        "acc_overall": [
+          "1/2",
+          "17/32",
+          "9/16",
+          "19/32",
+          "5/8",
+          "191/224",
+          "107/112",
+          "1",
+          "1"
+        ],
+        "acc_train": [
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1"
+        ],
+        "base_rate": "1/2",
+        "classification": {
+          "alarm_genuine_transition": true,
+          "class": "GROKKING_DELAYED_GENERALIZATION",
+          "distinct_structural_tuples": 2,
+          "heldout_flat_before_onset": true,
+          "heldout_onset": 5,
+          "magnitude": "2/7",
+          "signatures": {
+            "GROKKING_DELAYED_GENERALIZATION": true,
+            "PHASE_LIKE_REORGANIZATION": true,
+            "THRESHOLDED_METRIC_ARTIFACT": false
+          },
+          "structural_onset": 5,
+          "train_saturation": 1,
+          "transform_increments_strictly_increasing": false,
+          "underlying_increment_spread": "51/224"
+        },
+        "determined_subset_count": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          32,
+          24,
+          8,
+          1
+        ],
+        "learner": "GF2_ELIMINATION_WITH_EXACT_LOOKUP",
+        "structural_profile": [
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              24,
+              4
+            ],
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              24,
+              4
+            ],
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              24,
+              4
+            ]
+          ],
+          [
+            [
+              2,
+              24,
+              4
+            ]
+          ]
+        ]
+      },
+      "TRAJ_JUMP": {
+        "acc_heldout": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "11/14",
+          "13/14",
+          "1",
+          "1"
+        ],
+        "acc_overall": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "11/14",
+          "13/14",
+          "1",
+          "1"
+        ],
+        "acc_train": [
+          "1",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "11/14",
+          "13/14",
+          "1",
+          "1"
+        ],
+        "base_rate": "1/2",
+        "classification": {
+          "alarm_genuine_transition": true,
+          "class": "PHASE_LIKE_REORGANIZATION",
+          "distinct_structural_tuples": 2,
+          "heldout_flat_before_onset": true,
+          "heldout_onset": 5,
+          "magnitude": "2/7",
+          "signatures": {
+            "GROKKING_DELAYED_GENERALIZATION": false,
+            "PHASE_LIKE_REORGANIZATION": true,
+            "THRESHOLDED_METRIC_ARTIFACT": false
+          },
+          "structural_onset": 5,
+          "train_saturation": 7,
+          "transform_increments_strictly_increasing": false,
+          "underlying_increment_spread": "2/7"
+        },
+        "determined_subset_count": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          32,
+          24,
+          8,
+          1
+        ],
+        "learner": "GF2_ELIMINATION",
+        "structural_profile": [
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              4,
+              2
+            ],
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              4,
+              2
+            ],
+            [
+              2,
+              6,
+              "NONE"
+            ]
+          ],
+          [
+            [
+              2,
+              4,
+              2
+            ]
+          ],
+          [
+            [
+              2,
+              4,
+              2
+            ]
+          ]
+        ]
+      },
+      "TRAJ_SMOOTH": {
+        "acc_heldout": [
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2",
+          "1/2"
+        ],
+        "acc_overall": [
+          "1/2",
+          "17/32",
+          "9/16",
+          "19/32",
+          "5/8",
+          "21/32",
+          "11/16",
+          "23/32",
+          "3/4"
+        ],
+        "acc_train": [
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1"
+        ],
+        "base_rate": "1/2",
+        "classification": {
+          "alarm_genuine_transition": false,
+          "class": "THRESHOLDED_METRIC_ARTIFACT",
+          "distinct_structural_tuples": 1,
+          "heldout_flat_before_onset": true,
+          "heldout_onset": "NONE",
+          "magnitude": "0",
+          "signatures": {
+            "GROKKING_DELAYED_GENERALIZATION": false,
+            "PHASE_LIKE_REORGANIZATION": false,
+            "THRESHOLDED_METRIC_ARTIFACT": true
+          },
+          "structural_onset": "NONE",
+          "train_saturation": 1,
+          "transform_increments_strictly_increasing": true,
+          "underlying_increment_spread": "0"
+        },
+        "determined_subset_count": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "learner": "EXACT_LOOKUP",
+        "structural_profile": [
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ],
+          [
+            [
+              16,
+              24,
+              2
+            ]
+          ]
+        ]
+      }
+    }
+  },
+  "rows_left_open": [
+    {
+      "instrument_required": "a training run on a real neural system with checkpointed representations, from which the geometry, rank, clustering, separability, invariance and path-usage measurements are read at each checkpoint",
+      "row": "For neural systems, measure representational geometry, effective rank/dimension, clustering, linear separability, invariances, circuit/path usage and information flow across training."
+    },
+    {
+      "instrument_required": "a preregistered marker freeze recorded before the capability onset is observed on a real training run, with the freeze commit preceding the run",
+      "row": "Freeze prospective markers of a representation transition before observing the capability transition."
+    },
+    {
+      "instrument_required": "a predictive comparison against parameter count and training loss on real training runs, scored out of sample on held-out runs",
+      "row": "Test whether internal transition markers predict new capability onset better than parameter count/training loss alone."
+    },
+    {
+      "instrument_required": "a matched neural-versus-non-neural comparison in which the same markers are read on real neural runs and on the non-neural roster under one protocol",
+      "row": "Compare neural transition results with non-neural systems to test whether the law is architecture-general."
+    }
+  ],
+  "schema": "GMI_833_AE9_TRANSITION_MARKERS_RESULT_V1",
+  "section": "AE9",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "theorems": [
+    "AE9-1",
+    "AE9-2",
+    "AE9-3",
+    "AE9-4",
+    "AE9-5",
+    "AE9-6",
+    "AE9-7"
+  ],
+  "verdict": "GREEN"
+}

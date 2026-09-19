@@ -1,0 +1,174 @@
+name: GMI 833 AG6 three universal bases
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-ag6-universal-bases-v1/**'
+      - '.github/workflows/gmi-833-ag6-universal-bases-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-ag6-universal-bases-v1/**'
+      - '.github/workflows/gmi-833-ag6-universal-bases-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze precedes implementation
+        run: |
+          set -e
+          PKG=research/gmi-833-ag6-universal-bases-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          A=$(git log --diff-filter=A --format=%ct -1 -- $PKG/ag6_universal_bases_v1.py)
+          B=$(git log --diff-filter=A --format=%ct -1 -- $PKG/independent_oracle_v1.py)
+          R=$(git log --diff-filter=A --format=%ct -1 -- $PKG/RESULT_V1.json)
+          echo "freeze=$F executor=$A oracle=$B receipt=$R"
+          test -n "$F" && test -n "$A" && test -n "$B" && test -n "$R"
+          test "$F" -le "$A"
+          test "$F" -le "$B"
+          test "$F" -le "$R"
+      - name: Freeze pins the exact rows it may reconcile
+        run: |
+          set -e
+          PKG=research/gmi-833-ag6-universal-bases-v1
+          grep -qF 'radically different universal low-level bases' $PKG/FREEZE_V1.md
+          grep -qF 'reachability geometry and developmental search burden' $PKG/FREEZE_V1.md
+          grep -qF 'survive across these bases after resource normalization' $PKG/FREEZE_V1.md
+          grep -qF 'No neighboring row is earned here.' $PKG/FREEZE_V1.md
+      - name: Route A -- three bases, comparison, MI recovery
+        run: python3 -I -B research/gmi-833-ag6-universal-bases-v1/ag6_universal_bases_v1.py > /dev/null
+      - name: Route B -- direct lambda evaluation, block-map CA, Fenwick, sort-and-sweep
+        run: python3 -I -B research/gmi-833-ag6-universal-bases-v1/independent_oracle_v1.py > /dev/null
+      - name: Tests (normal)
+        run: python3 -I -B research/gmi-833-ag6-universal-bases-v1/test_ag6_universal_bases_v1.py
+      - name: Tests (-O, asserts stripped; the suite must not rely on them)
+        run: python3 -I -O -B research/gmi-833-ag6-universal-bases-v1/test_ag6_universal_bases_v1.py
+      - name: Receipts are byte-stable under re-run
+        run: |
+          set -e
+          PKG=research/gmi-833-ag6-universal-bases-v1
+          git diff --exit-code -- $PKG/RESULT_V1.json $PKG/ORACLE_RESULT_V1.json
+      - name: Assert receipt
+        run: |
+          python3 - <<'PY'
+          import json, re
+          P = 'research/gmi-833-ag6-universal-bases-v1/'
+          raw = open(P + 'RESULT_V1.json').read()
+          r = json.loads(raw)
+          o = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          t = json.load(open(P + 'TEST_RESULT_V1.json'))
+          m = json.load(open(P + 'MANIFEST_V1.json'))
+
+          assert r['terminal'] == 'GMI_833_AG6_UNIVERSAL_BASES_V1_ALL_GREEN', r['terminal']
+          assert r['gates_passed'] == r['gates_total'] == 9
+          assert t['status'] == 'GREEN' and t['checks_failed'] == 0
+
+          # no float anywhere in a published receipt
+          assert re.findall(r':\s*-?\d+\.\d+', raw) == []
+
+          # r34: three bases, registered-universal, two routes agreeing
+          assert r['scope']['tasks'] == 3840 and r['scope']['machines'] == 256
+          for b in ('REG', 'CMB', 'CEL'):
+              assert r['registered_universal'][b] is True, b
+              assert r['realization'][b]['matches'] == 3840
+              assert r['realization'][b]['mismatches'] == 0
+              assert r['realization'][b]['cap_hits'] == 0
+              assert o['machines_realized'][b] == 256
+          assert r['parent_register_census_reproduced']['agrees']
+          assert o['distinct_behaviours_on_W'] == r['scope']['distinct_behaviours_on_W'] == 148
+
+          # r35: four comparisons on one frame
+          for b in ('REG', 'CMB', 'CEL'):
+              assert r['overhead'][b]['attained_bound_class'] == 'ATTAINED'
+              assert r['overhead'][b]['declared_range_bound_class'] == 'VACUOUS'
+          d = r['description_bias']
+          for k in ('size__REG_vs_CMB', 'size__REG_vs_CEL', 'size__CMB_vs_CEL'):
+              assert d[k]['discordant'] > 0, k
+              s = (d[k]['concordant'] + d[k]['discordant'] + d[k]['tied_first_only']
+                   + d[k]['tied_second_only'] + d[k]['tied_both'])
+              assert s == d[k]['pairs'] == 32640, k
+              assert o['kendall'][k]['concordant'] == d[k]['concordant']
+              assert o['kendall'][k]['discordant'] == d[k]['discordant']
+          assert d['size__CMB_optimized_vs_CMB_naive']['discordant'] == 0
+          g = r['reachability_geometry']
+          for probe in ('0', '85', '170', '255'):
+              assert g['REG'][probe]['max_out_degree'] == 1
+              assert g['CEL'][probe]['max_out_degree'] == 1
+              c = g['CMB'][probe]
+              assert c['max_out_degree'] > 1
+              assert c['branching_configurations_with_divergent_normal_forms'] == 0
+              assert (c['branching_configurations_all_successors_share_normal_form']
+                      == c['branching_configurations'])
+              assert c['bounded_reachable_set_class'] in ('EXACT', 'LOWER_BOUND_ONLY')
+          assert o['cmb_geometry']['0']['corridor_length'] == g['CMB']['0']['corridor_length']
+          assert o['cmb_geometry']['0']['max_out_degree'] == g['CMB']['0']['max_out_degree']
+          s = r['developmental_search_burden']
+          assert s['subsample_size'] == 16
+          assert s['CEL']['unused_entry_shortcut_validation']['failures'] == 0
+          obs = s['uniform_enumeration_obstruction']
+          assert obs['cellular_unrestricted_rule_space'].isdigit()
+          assert obs['cellular_unrestricted_rule_space_decimal_digits'] > 1000
+
+          # r36: the MI-recovery verdict, non-vacuous and non-degenerate
+          mi = r['mi_recovery']['size']
+          assert mi['decisive'] is True
+          assert mi['any_vacuous'] is False
+          assert mi['verdict'] in ('LAW_SURVIVES', 'LAW_DOES_NOT_SURVIVE')
+          assert all(mi['frontier_unchanged_under_uniform_monotone_normalization'].values())
+          for b in ('REG', 'CMB', 'CEL'):
+              assert mi[b]['frontier'] == o['pareto_size_coordinate'][b]['frontier'], b
+              assert 1 < mi[b]['frontier_size'] < 256
+
+          # hostiles, nulls, no-alarm
+          assert r['hostiles']['hostiles_detected'] == r['hostiles']['hostiles_total'] == 13
+          excl = r['hostiles']['excluded_inert_perturbation__unsound_eta']
+          assert excl['moves_the_quantity_it_perturbs'] is False
+          assert excl['excluded_from_hostile_count'] is True
+          assert r['nulls']['total_reproduced'] == 0
+          assert r['nulls']['REG_opcode_role_permutations']['exhaustive'] is True
+          assert r['nulls']['CMB_reduction_rule_variants']['exhaustive'] is True
+          na = r['no_alarm']
+          for k in ('realization_mismatches', 'cap_hits', 'cel_closure_violations',
+                    'cel_locality_violations', 'hostiles_undetected',
+                    'nulls_reproducing_target'):
+              assert na[k] == 0, (k, na[k])
+
+          # claim ceiling discipline
+          for f in ('UNIVERSAL_SIMPLICITER',
+                    'COMBINATORY_BASIS_TURING_UNIVERSAL_PROVED_HERE',
+                    'CELLULAR_BASIS_TURING_UNIVERSAL_PROVED_HERE',
+                    'CROSS_BASIS_COST_UNIT_COMMENSURABLE',
+                    'PARETO_FRONTIER_INVARIANT_UNDER_ARBITRARY_RESOURCE_NORMALIZATION',
+                    'UNIFORM_ENUMERATION_SEARCH_BURDEN_MEASURED',
+                    'MI_LAW_PROVED_BASIS_INVARIANT'):
+              assert f in r['forbidden_promotions'], f
+              assert f in m['forbidden_promotions'], f
+          assert m['freeze_commit'].startswith('243ec345')
+          print('AG6 receipt OK: 3 bases x 3840 tasks, verdict %s' % mi['verdict'])
+          PY
+      - name: Reconciliation JSON is well formed and edits nothing
+        run: |
+          python3 - <<'PY'
+          import json
+          P = 'research/gmi-833-ag6-universal-bases-v1/ISSUE_833_COMMENT_RECONCILIATION_V1.json'
+          d = json.load(open(P))
+          assert d['schema'] == 'GMI_ISSUE_COMMENT_RECONCILIATION_V1'
+          assert d['issue'] == 833
+          assert d['do_not_edit'] is True
+          assert len(d['replacements']) == 3
+          assert all(e.get('not_this_tranche_row') for e in d['not_closed'])
+          for e in d['replacements']:
+              assert e['comment_id'] == 5693520829
+              assert e['old'].startswith('- [ ] ')
+              assert e['new'].startswith('- [x] ')
+              assert e['old'][6:] in e['new']
+          for e in d['not_closed']:
+              assert e['comment_id'] == 5693520829
+              assert e['old'].startswith('- [ ] ')
+              assert e['reason']
+          print('reconciliation OK')
+          PY

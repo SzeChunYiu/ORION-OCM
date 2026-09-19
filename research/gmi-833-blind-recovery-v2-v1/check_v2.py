@@ -52,6 +52,42 @@ def main():
 
     # 1. freeze custody
     if FREEZE_COMMIT != "FILLED_AT_OUTCOME_COMMIT":
+        # The freeze commit can become unresolvable without anything about the
+        # custody claim changing: a squash merge drops it from the published
+        # history, and once no ref reaches it a fresh clone never fetches the
+        # object at all. `merge-base --is-ancestor` then exits 128 (no such
+        # commit) rather than 1 (not an ancestor), and the checker crashes.
+        #
+        # Degrade to a DISTINCT state instead of either crashing or pretending
+        # the check passed. "Could not check" is not "checked and fine", so the
+        # ancestry and implementation-absence findings are withheld rather than
+        # asserted when the commit is gone.
+        probe = git("cat-file", "-e", f"{FREEZE_COMMIT}^{{commit}}", check=False)
+        if probe.returncode != 0:
+            present = [f for f in FREEZE_FILES
+                       if git("cat-file", "-e", f"HEAD:{PKG}{f}",
+                              check=False).returncode == 0]
+            results["freeze_custody"] = {
+                "freeze_commit": FREEZE_COMMIT,
+                "status": "FREEZE_COMMIT_UNREACHABLE",
+                "reason": "commit not present in this clone; squash-published "
+                          "history no longer reaches it",
+                "freeze_files_present_at_head": sorted(present),
+                "freeze_files_expected": sorted(FREEZE_FILES),
+                "ancestry_verified": False,
+                "implementation_absent_at_freeze": None}
+            if sorted(present) != sorted(FREEZE_FILES):
+                raise SystemExit(
+                    "freeze files missing at HEAD: %s"
+                    % sorted(set(FREEZE_FILES) - set(present)))
+            _freeze_checked = False
+        else:
+            _freeze_checked = True
+    else:
+        _freeze_checked = False
+        results["freeze_custody"] = {"status": "FREEZE_COMMIT_PLACEHOLDER"}
+
+    if _freeze_checked:
         git("merge-base", "--is-ancestor", FREEZE_COMMIT, "HEAD")
         missing_at_freeze = []
         for f in FREEZE_FILES:
@@ -65,8 +101,6 @@ def main():
             "freeze_files_present": True,
             "implementation_absent_at_freeze": not missing_at_freeze,
             "violations": missing_at_freeze}
-    else:
-        results["freeze_custody"] = {"status": "FREEZE_COMMIT_PLACEHOLDER"}
 
     # 2. battery blob
     bat = (HERE / "NEUTRAL_BATTERY_FREEZE_V1.json").read_bytes()
