@@ -6,7 +6,7 @@
 
 ## 1. Claim boundary
 
-This tranche does **not** claim a unique universal instruction set or a literally architecture/prior-free grammar. `G0-reg-v1` deliberately supplies a register/control representation prior. The defensible statement is relative:
+This tranche does **not** claim a unique universal instruction set or a literally assumption-free grammar. `G0-reg-v1` deliberately supplies a register/control representation prior. The defensible statement is relative:
 
 > Given the frozen operational requirement suite, five instruction classes are individually load-bearing, and the resulting typed language exactly simulates the declared finite Mealy family and its deterministic counter/register-machine sublanguage with explicit finite overhead/resource certificates.
 
@@ -170,7 +170,7 @@ Registers are named static addresses. `READ` and `INC` write them; positive `DEC
 
 ## 10. Grammar/search-bias boundary
 
-The grammar determines expressibility and description syntax and is therefore a disclosed inductive bias. This result does not establish search neutrality. Description length, reachability under a search law, grammar remints, alternate search algorithms, resource scalarizations and morphology selection remain separate #833 obligations.
+The grammar determines expressibility and description syntax and is therefore a disclosed inductive bias. This result does not establish search neutrality. Description length, reachability under a search law, grammar relabelings, alternate search algorithms, resource scalarizations and architecture choice remain separate #833 registered items.
 
 ## 11. Parent/subsumption ledger
 

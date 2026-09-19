@@ -1,8 +1,8 @@
 # gmi-833-heldout-20-transitions-v1
 
-Prospective finite validation of the #833 Section-J morphology phase law.
+Prospective finite validation of the #833 Section-J architecture phase law.
 
-Twenty fresh transition cases were frozen before outcome-search code. Full raw enumeration over 65,552 architecture-name-free binary mechanism semantics and an independently implemented risk-frontier branch-and-bound search must agree on every endpoint. The package also checks complete risk-histogram agreement, candidate-ID remint invariance, exact boundary ties, and a deliberately wrong threshold.
+Twenty fresh transition cases were frozen before outcome-search code. Full raw enumeration over 65,552 architecture-name-free binary mechanism semantics and an independently implemented risk-frontier branch-and-bound search must agree on every endpoint. The package also checks complete risk-histogram agreement, candidate-ID relabeling invariance, exact boundary ties, and a deliberately wrong threshold.
 
 Reproduce:
 
@@ -14,4 +14,4 @@ python -I -B research/gmi-833-heldout-20-transitions-v1/heldout_transition_v1.py
 
 Claim ceiling: `GMI_20_HELDOUT_BINARY_MORPHOLOGY_TRANSITIONS_AND_INDEPENDENT_SEARCH_REPLICATION_AT_REGISTERED_FINITE_SCOPE`.
 
-This does not satisfy the separate requirement for at least five real-system morphology transitions.
+This does not satisfy the separate requirement for at least five real-system architecture transitions.

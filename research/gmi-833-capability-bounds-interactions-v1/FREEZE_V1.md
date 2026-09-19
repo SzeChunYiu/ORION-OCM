@@ -13,10 +13,10 @@ This tranche targets exactly three proof-only rows:
 It does not re-audit every capability definition, re-prove the historical eleven
 ceilings, build a capability predictor, or close any empirical validation row.
 
-## Frozen parent subtraction
+## Frozen strongest-parent subsumption
 
 The implementation must pin and import the merged #837 foundation, #848
-morphology/capability contract, and #854 compact axiom core.  The historical
+mechanism-structure/capability contract, and #854 compact axiom core.  The historical
 finite joint-threshold and shared-budget witnesses in
 `gmi-capability-interactions-v3` may be repaired and lifted into the upgraded
 contract.  The later unified theorem's rule that resource-channel overlap alone
@@ -26,7 +26,7 @@ reuse nor rules out contention.
 Frozen parent blobs:
 
 - foundation result: `c0c574c4ec6e237d5fdafa694eac131399625a70`;
-- morphology/capability result: `bdc5c3cd42e312d8c7af52f7ba84220631a25f8a`;
+- mechanism-structure/capability result: `bdc5c3cd42e312d8c7af52f7ba84220631a25f8a`;
 - axiom-core result: `3366a3bc7236d286f8d123bf53e4e3b2d22ad7b9`;
 - historical interaction-tranche data: `40b24f58069777bcc3a3ccb3c68497d1e1e04d18`;
 - historical unified theorem text: `294898059082ee55377bb0b73c1e55bd6a749847`.
@@ -44,7 +44,7 @@ Frozen parent blobs:
 - a mandatory maintenance charge drawn from the same hard resource budget for
   interference, paired with an old-feasible-set-preserving free-option control.
 
-## Frozen theorem obligations
+## Frozen theorem acceptance items
 
 1. In a finite feasible class, the class-wide floor is the minimum score and the
    ceiling is the maximum score.  Any witnessed score lower-bounds the ceiling;

@@ -1,0 +1,99 @@
+name: GMI 833 AA02-AA06 ledger emission gate (ratcheting, blocking)
+
+on:
+  pull_request:
+    paths:
+      - 'research/**'
+      - '.github/workflows/gmi-833-aa-ledger-gate-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/**'
+      - '.github/workflows/gmi-833-aa-ledger-gate-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+
+jobs:
+  aa-ledger-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-aa-ledger-gate-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
+          cat /tmp/firstfiles.txt
+          if [ "$(grep -c . /tmp/firstfiles.txt)" = "1" ]; then
+            grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+            echo 'freeze-first commit ordering intact'
+          else
+            grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+      - name: Route A census
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/ledger_gate_v1.py" | tee /tmp/ledger_routeA.json
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_ledger_oracle_v1.py" | tee /tmp/ledger_routeB.json
+      - name: Anti-invention guard and null
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/ledger_gate_v1.py" --null | tee /tmp/ledger_null.json
+      - name: Ledger emission gate (BLOCKING, rows AA02-AA06)
+        run: |
+          set -euo pipefail
+          # NOTE: the `|| true` below guards only the enumeration of the PR's
+          # own changed files. It MUST NOT be moved onto the gate command -- the
+          # predecessor terminology gate ran its CHECK under `|| true` and
+          # therefore gated nothing.
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git diff --name-only --diff-filter=ACMR \
+              "origin/${{ github.base_ref }}...HEAD" -- 'research/*.md' > /tmp/owned.txt || true
+            wc -l /tmp/owned.txt
+            python3 -I -B "$PKG/ledger_gate_v1.py" --gate --owned-files /tmp/owned.txt \
+              | tee /tmp/ledger_gate.json
+          else
+            python3 -I -B "$PKG/ledger_gate_v1.py" --gate | tee /tmp/ledger_gate.json
+          fi
+      - name: Tests (normal) - includes the gate-can-fail demonstration
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_ledger_gate_v1.py" 2>&1 | tee /tmp/ledger_tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_ledger_gate_v1.py" 2>&1 | tee /tmp/ledger_tests-O.txt
+      - name: Receipt matches the live two-route run
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-aa-ledger-gate-v1
+          path: |
+            /tmp/ledger_routeA.json
+            /tmp/ledger_routeB.json
+            /tmp/ledger_null.json
+            /tmp/ledger_gate.json
+            /tmp/ledger_tests.txt
+            /tmp/ledger_tests-O.txt
+          if-no-files-found: error

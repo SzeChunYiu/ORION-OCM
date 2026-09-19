@@ -39,7 +39,7 @@ The adjudicated subset is exactly:
 population (22,316 objects at the frozen SHA), stratified by
 `(audit_disposition, object_class)` over the 28 non-empty strata. Allocation:
 proportional with every stratum guaranteed >= 1, largest-remainder adjustment
-to exactly 200. Selection inside a stratum: `random.Random(833200)` over the
+to exactly 200. Sampling inside a stratum: `random.Random(833200)` over the
 stratum's members sorted by `(source_path, source_locator, object_id)` —
 deterministic and reproducible from the census index alone.
 
@@ -56,7 +56,7 @@ Exactly one verdict per adjudicated object:
 | `OVERSTRONG` | name/ceiling language stronger than the registered quantifier/proof actually licenses (incl. universal wording on bounded-only evidence) |
 | `DUPLICATE` | restatement of a parent/other-package result without registered residual (census duplicate-candidate group + textual check) |
 | `COMPUTATION_ONLY` | analytic-sounding claim whose only support is a computation, with no analytic bridge and no independent implementation |
-| `ENUMERATION_SUBSTITUTED` | finite enumeration stands in for an analytic proof that is plausibly available (declared enumeration is fine; undeclared substitution is not) |
+| `ENUMERATION_SUBSTITUTED` | an analytic proof is plausibly available but a finite enumeration stands in for it (declared enumeration is fine; undeclared substitution is not) |
 | `POST_HOC_ASSUMPTION` | freeze/assumption introduced after the outcome was observed, without a typed POST_HOC marker |
 | `UNKNOWN` | cannot be adjudicated from registered artifacts alone (fails open as an explicit gap, never silently) |
 
@@ -66,7 +66,7 @@ possible; COMPUTATION_ONLY → analytic claims supported only by computation and
 computational claims with no independent implementation; POST_HOC_ASSUMPTION →
 assumptions introduced after observing outcomes; DUPLICATE → rediscoveries of
 parent mathematics; the no-smuggling A1–A6 tool outputs over adjudicated
-packages → search grammars encoding target morphology / cost models
+packages → search grammars encoding the target architecture / cost models
 structurally forcing the winner / hidden architecture macros; textual-structural
 scans → hidden independence/iid/stationarity and hidden finite-horizon
 assumptions.

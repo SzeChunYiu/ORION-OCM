@@ -5,7 +5,7 @@
 **Source main:** `e91ab6c799d35453addadf4101fbc9f774472d37`  
 **Status:** pre-implementation theorem/evidence freeze
 
-This file freezes the exact finite cost object, label-remint group, isometric-remint theorem, structural-bias counterexample, hostile controls, exhaustive certificate family, reconciliation wording and claim ceiling **before** any executor, tests, result receipt, manifest, reconciliation specification or dedicated workflow exists on this branch.
+This file freezes the exact finite cost object, label-relabeling group, isometric-relabeling theorem, structural-bias counterexample, hostile controls, exhaustive certificate family, reconciliation wording and claim ceiling **before** any executor, tests, result receipt, manifest, reconciliation specification or dedicated workflow exists on this branch.
 
 ## 1. Scientific question and correction
 
@@ -18,11 +18,11 @@ That wording is stronger than what the already-merged G0 grammar-bias work permi
 This tranche therefore adjudicates the row into two machine-distinct statements:
 
 1. **Narrow positive:** the registered cost is post-hoc-family-label blind and invariant under certified cost/search **isometries**.
-2. **Strong boundary:** same-semantic but non-isometric grammar recodings can reverse class costs/selection, so universal grammar neutrality is false at the registered finite witness scope.
+2. **Strong boundary:** same-semantic but non-isometric grammar recodings can reverse class costs/choice, so universal grammar neutrality is false at the registered finite witness scope.
 
 The intended row-level terminal is therefore conditional/negative, not a claim that `G0` is unbiased.
 
-## 2. Parent subtraction
+## 2. Strongest-parent subsumption
 
 Parent mathematics is not reclaimed here:
 
@@ -77,7 +77,7 @@ P_s = {p : semantic_class(p)=s}
 mincost_w(s) = min_{p in P_s} C_w(p).
 ```
 
-Selection at weight `w` is the set of semantic classes attaining the global minimum class cost. Ties remain sets; no lexical family-label tie break is permitted.
+Choice at weight `w` is the set of semantic classes attaining the global minimum class cost. Ties remain sets; no lexical family-label tie break is permitted.
 
 ## 4. Frozen base fixture
 
@@ -125,7 +125,7 @@ This theorem is intentionally narrow: labels are irrelevant because they are not
 
 ## 6. ISO-1 — certified cost/search isometry
 
-An isometric grammar remint on the registered finite object is a bijection `phi` on presentations satisfying all of:
+An isometric grammar relabeling on the registered finite object is a bijection `phi` on presentations satisfying all of:
 
 1. `semantic_class(phi(p)) = semantic_class(p)`;
 2. `rho(phi(p)) = rho(p)` exactly;
@@ -222,18 +222,18 @@ If tied semantic classes are collapsed by family/presentation name ordering, ret
 LABEL_DEPENDENT_TIE_BREAK
 ```
 
-rather than a singleton selection.
+rather than a singleton choice.
 
-### H4 — incomplete remint certificate
+### H4 — incomplete relabeling certificate
 
-A remint that preserves semantics but not raw `(L,d)` or search adjacency is `NON_ISOMETRIC_REMINT`; it may be used as a bias counterexample but not as positive invariance evidence.
+A relabeling that preserves semantics but not raw `(L,d)` or search adjacency is `NON_ISOMETRIC_REMINT`; it may be used as a bias counterexample but not as positive invariance evidence.
 
 ## 10. Exhaustive and independent machine targets
 
 The implementation must report at least:
 
 - all `3! = 6` family-label permutations × 5 weights × 6 presentations with exact point-cost identity;
-- all class-minimum and selection identities under those permutations;
+- all class-minimum and choice identities under those permutations;
 - all certified base-fixture presentation isometries discovered by independent predicate checking;
 - the frozen GA/GB structural reversal;
 - all raw-vector pairs on `{0,1,2,3,4}^2` × 5 weights for dominance preservation;

@@ -1,0 +1,166 @@
+{
+  "schema": "REV_L47_RERUN_RECEIPT_V1",
+  "kind": "SECTION_D_STAGE_B",
+  "host": "billy-laptop-old",
+  "platform": "Linux-7.0.0-27-generic-x86_64-with-glibc2.43",
+  "python": "3.14.4",
+  "run_commit": "b177bc76b63092496bfda5475910e2ed6b4a9d91",
+  "freeze_note": "pre-registered decision rule in research/gmi-833-rev-l47-custody-gaps-v1/REV_FREEZE_V1.md (ancestor commit of run_commit)",
+  "utc_epoch": 1789641842,
+  "custody_chain": {
+    "freeze_ancestor_of_sample": true,
+    "sample_ancestor_of_fit_freeze": true,
+    "fit_freeze_ancestor_of_run": true,
+    "sample_authority_matches_stage1_freeze": true,
+    "fit_freeze_train_sha_matches_stage_a": true
+  },
+  "stage2_freeze_commit": "b177bc76b63092496bfda5475910e2ed6b4a9d91",
+  "sample_first_add_commit": "b177bc76b63092496bfda5475910e2ed6b4a9d91",
+  "full_sample_boundary": {
+    "n": 16384,
+    "ones": 14309,
+    "epsilon": {
+      "numerator": 1,
+      "denominator": 64
+    },
+    "p_hat": {
+      "numerator": 14309,
+      "denominator": 16384
+    },
+    "p_hat_decimal": "0.873352050781",
+    "p_interval": {
+      "lo": {
+        "numerator": 14053,
+        "denominator": 16384
+      },
+      "hi": {
+        "numerator": 14565,
+        "denominator": 16384
+      }
+    },
+    "delta_interval": {
+      "lo": {
+        "numerator": 17583,
+        "denominator": 8192
+      },
+      "hi": {
+        "numerator": 19119,
+        "denominator": 8192
+      }
+    },
+    "q_interval": {
+      "lo": {
+        "numerator": 65536,
+        "denominator": 19119
+      },
+      "hi": {
+        "numerator": 65536,
+        "denominator": 17583
+      }
+    },
+    "q_interval_decimal": {
+      "lo": "3.427794340708",
+      "hi": "3.727236535290"
+    },
+    "possible_first_strict_integer_switches": [
+      4
+    ],
+    "hoeffding_exponent": {
+      "numerator": 8,
+      "denominator": 1
+    },
+    "failure_bound_symbolic": "2*exp(-8)",
+    "failure_bound_decimal": "0.000670925255805",
+    "coverage_lower_bound_decimal": "0.999329074744195",
+    "failure_bound_lt_0_001": true
+  },
+  "small_sample_control": {
+    "n": 64,
+    "ones": 58,
+    "epsilon": {
+      "numerator": 1,
+      "denominator": 4
+    },
+    "p_hat": {
+      "numerator": 29,
+      "denominator": 32
+    },
+    "p_hat_decimal": "0.906250000000",
+    "p_interval": {
+      "lo": {
+        "numerator": 21,
+        "denominator": 32
+      },
+      "hi": {
+        "numerator": 1,
+        "denominator": 1
+      }
+    },
+    "delta_interval": {
+      "lo": {
+        "numerator": 15,
+        "denominator": 16
+      },
+      "hi": {
+        "numerator": 3,
+        "denominator": 1
+      }
+    },
+    "q_interval": {
+      "lo": {
+        "numerator": 8,
+        "denominator": 3
+      },
+      "hi": {
+        "numerator": 128,
+        "denominator": 15
+      }
+    },
+    "q_interval_decimal": {
+      "lo": "2.666666666667",
+      "hi": "8.533333333333"
+    },
+    "possible_first_strict_integer_switches": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "hoeffding_exponent": {
+      "numerator": 8,
+      "denominator": 1
+    },
+    "failure_bound_symbolic": "2*exp(-8)",
+    "failure_bound_decimal": "0.000670925255805",
+    "coverage_lower_bound_decimal": "0.999329074744195",
+    "failure_bound_lt_0_001": true
+  },
+  "U": {
+    "U1_p_in_interval": true,
+    "U2_q_in_interval": true,
+    "U3_q_strictly_in_3_4": true,
+    "U4_unique_switch_set": true,
+    "U5_bound_reported": "2*exp(-8)",
+    "U6_small_control_not_localizing": true,
+    "U7_sample_reproduces": true
+  },
+  "X": {
+    "X8_exact_n17_remint0": true,
+    "X4X5_n17_remint0_match": true,
+    "X8_exact_n17_remint1": true,
+    "X4X5_n17_remint1_match": true,
+    "X8_exact_n31_remint0": true,
+    "X4X5_n31_remint0_match": true,
+    "X8_exact_n31_remint1": true,
+    "X4X5_n31_remint1_match": true,
+    "X10_hostile_detected": true,
+    "X6X7_crossover_n17": true,
+    "X6X7_crossover_n31": true,
+    "X9_remint_invariance": true
+  },
+  "verdict": "CLEARED_GREEN",
+  "decision_rule": "REV_FREEZE_V1.md section-d: custody chain + mechanical U + all X => green; U1/U2 statistical miss retained honestly"
+}

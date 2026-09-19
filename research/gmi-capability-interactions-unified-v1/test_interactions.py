@@ -1,10 +1,17 @@
 """Tests for capability interactions unified theorem V1.
 
+NOTE (corrected 2026-09-18, gmi-833-capability-interaction-partition-v1): the strings
+asserted below are the return values of interaction_type(), which is a CHANNEL-OVERLAP
+PREDICATE, not a burden classification. The assertions are unchanged and still correct
+as statements about that predicate; the prose has been fixed so it no longer claims they
+are the Section 1.2 burden types. The corrected burden classes are pinned in
+research/gmi-833-capability-interaction-partition-v1/test_partition_v1.py.
+
 10+ unittest controls covering:
-- Shared-nothing independence
-- Full overlap synergy
-- Partial overlap redundancy
-- No interfering pair (PVR-3)
+- Shared-nothing channel signature
+- Equal-channel-set signature
+- Partial-overlap signature
+- The (vacuous) no-interfering check, DEF-3
 - 27x27 matrix symmetry
 - Pairwise Jaccard overlap correctness
 - Interaction type classification correctness
@@ -81,22 +88,27 @@ class InteractionTypeTests(unittest.TestCase):
         self.assertEqual("independent", mod.interaction_type(frozenset({"S"}), frozenset({"M"})))
 
     def test_full_overlap_is_synergistic(self):
-        """Two capabilities using exactly the same channels are synergistic."""
+        """Equal channel sets -> the predicate returns "synergistic".
+        Burden class (CIP-1): REDUNDANT, since joint = max < sum."""
         self.assertEqual("synergistic", mod.interaction_type(frozenset({"S", "T"}), frozenset({"S", "T"})))
 
     def test_partial_overlap_is_redundant(self):
-        """Two capabilities sharing some but not all channels are redundant."""
+        """Intersecting but unequal channel sets -> the predicate returns "redundant".
+        Burden class (CIP-1): {S,T} x {S,M} is NOT nested, so PARTIAL_SHARING
+        (max = 2 < joint = 3 < sum = 4) -- one of the 56 DEF-1 pairs."""
         self.assertEqual("redundant", mod.interaction_type(frozenset({"S", "T"}), frozenset({"S", "M"})))
 
     def test_compute_only_vs_smt_is_redundant(self):
-        """causal-inference ({T}) vs retrieval ({S,T,M}) is redundant."""
+        """causal-inference ({T}) vs retrieval ({S,T,M}): predicate "redundant";
+        nested, so burden class REDUNDANT too (joint = max = 3 < sum = 4)."""
         self.assertEqual(
             "redundant",
             mod.interaction_type(RESOURCE_CHANNELS["cap-causal-inference"], RESOURCE_CHANNELS["cap-retrieval"]),
         )
 
     def test_communication_only_vs_tool_use_is_redundant(self):
-        """communication ({S,M}) vs tool-use ({S,T,M}) is redundant."""
+        """communication ({S,M}) vs tool-use ({S,T,M}): predicate "redundant";
+        nested, so burden class REDUNDANT too (joint = max = 3 < sum = 5)."""
         self.assertEqual(
             "redundant",
             mod.interaction_type(RESOURCE_CHANNELS["cap-communication"], RESOURCE_CHANNELS["cap-tool-use"]),
@@ -123,7 +135,9 @@ class PairwiseMatrixTests(unittest.TestCase):
             self.assertEqual(27, len(row))
 
     def test_diagonal_is_synergistic(self):
-        """Every capability paired with itself is synergistic (full overlap)."""
+        """Every capability paired with itself has equal channel sets, so the predicate
+        returns "synergistic". Burden class (CIP-1): REDUNDANT (joint = max < sum);
+        both readings are pinned in test_partition_v1.py."""
         matrix = mod.pairwise_interaction_matrix()
         for i in range(27):
             self.assertEqual("synergistic", matrix[i][i])
@@ -163,7 +177,8 @@ class SpecificCapabilityTests(unittest.TestCase):
         self.assertEqual(frozenset({"T"}), RESOURCE_CHANNELS["cap-imitation"])
 
     def test_two_compute_only_are_synergistic(self):
-        """causal-inference and metacognition share all channels ({T})."""
+        """causal-inference and metacognition have equal channel sets ({T}), so the
+        predicate returns "synergistic". Burden class (CIP-1): REDUNDANT."""
         self.assertEqual(
             "synergistic",
             mod.interaction_type(

@@ -1,0 +1,105 @@
+{
+  "controls_clean": 10,
+  "findings": [],
+  "hostiles": [
+    {
+      "control_clean": true,
+      "detail": {
+        "datasets_where_first_differs_from_front": 16
+      },
+      "detected": true,
+      "hostile": "first_consistent_instead_of_front"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "datasets_where_the_weak_filter_admits_more": 15
+      },
+      "detected": true,
+      "hostile": "consistency_prefix_only"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "control_datasets_unchanged_on_the_full_space": 20,
+        "datasets_whose_answer_moves_when_it_is_removed": 20
+      },
+      "detected": true,
+      "hostile": "space_omits_the_answer"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "datasets_whose_answer_moves_when_one_pair_is_dropped": 3
+      },
+      "detected": true,
+      "hostile": "drop_one_observation"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "fingerprints_differ": true
+      },
+      "detected": true,
+      "hostile": "space_not_fixed"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "consistent_with_no_data": 260,
+        "front_with_no_data": 1,
+        "space": 260
+      },
+      "detected": true,
+      "hostile": "empty_dataset_admits_everything"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "broken_filters": 5,
+        "clean_extensions": 5
+      },
+      "detected": true,
+      "hostile": "monotonicity_broken"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "arbitrary_unrealizable": 96,
+        "realizable_draws_consistent": 100
+      },
+      "detected": true,
+      "hostile": "arbitrary_label_null"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "moves_with_all_coverages": [
+          "DELAY1",
+          "PARITY"
+        ],
+        "moves_with_one_coverage": 0
+      },
+      "detected": true,
+      "hostile": "single_coverage_only"
+    },
+    {
+      "control_clean": true,
+      "detail": {
+        "order_sensitive_rule_differs": 16,
+        "true_rule_failures": 0
+      },
+      "detected": true,
+      "hostile": "order_dependence"
+    }
+  ],
+  "hostiles_declared": 10,
+  "hostiles_detected": 10,
+  "no_alarm": {
+    "fingerprint_stable": 0,
+    "monotone_failures": 0,
+    "order_invariance_failures": 0
+  },
+  "schema": "GMI833AH7DataVariedChoiceTestReceiptV1",
+  "status": "GREEN"
+}

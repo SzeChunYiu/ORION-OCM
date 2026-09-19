@@ -1,6 +1,6 @@
 # gmi-833-pareto-topology-v1
 
-This tranche lifts morphology transform burden from one scalar back to the primary Pareto frontier of nonnegative semantic/resource vectors. Finite Pareto choice and sequential Minkowski composition form the exact path algebra used for multiobjective transform closure. Frozen positive scalarizations recover directed Lawvere-style pseudometrics but are information-losing projections.
+This tranche lifts architecture transform burden from one scalar back to the primary Pareto frontier of nonnegative semantic/resource vectors. Finite Pareto choice and sequential Minkowski composition form the exact path algebra used for multiobjective transform closure. Frozen positive scalarizations recover directed Lawvere-style pseudometrics but are information-losing projections.
 
 Strict positive vector-budget balls satisfy the forward-basis refinement theorem and generate a topology. A one-way zero-burden transform demonstrates that the topology need not be symmetric, T1, Hausdorff, or manifold-like.
 

@@ -1,0 +1,136 @@
+name: GMI 833 theory baseline v1
+
+on:
+  pull_request:
+    paths:
+      - "research/gmi-833-theory-baseline-v1/**"
+      - ".github/workflows/gmi-833-theory-baseline-v1.yml"
+  push:
+    branches:
+      - "research/833-theory-baseline-v1"
+    paths:
+      - "research/gmi-833-theory-baseline-v1/**"
+      - ".github/workflows/gmi-833-theory-baseline-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tamper-evidence validator (normal and optimized modes)
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-theory-baseline-v1
+          python -I -B "$pkg/test_theory_baseline_v1.py"
+          python -I -O -B "$pkg/test_theory_baseline_v1.py"
+      - name: Manifest integrity anchor and builder determinism
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-theory-baseline-v1
+          # committed manifest must match the pinned sha256 literal below;
+          # any change to the manifest must change this workflow in the same
+          # commit (loud by design - see BASELINE_V1.md §5)
+          echo "31de4041c0b6cb94152debbc4901041fb46626b9866122010a11df5319a62e97  $pkg/BASELINE_MANIFEST_V1.json" | shasum -a 256 -c -
+          # V2 supplement manifest anchor (same loud-change rule: any change
+          # to BASELINE_MANIFEST_V2.json must change this literal in the same
+          # commit). Builder refuses to run if V1 drifted from its anchor.
+          if [ -f "$pkg/BASELINE_MANIFEST_V2.json" ]; then
+            echo "5d7bfcdd313622cf8bc0c53effa33783bac9d4a9d84ef9d7174615a3549ee264  $pkg/BASELINE_MANIFEST_V2.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V2.json (no supplements yet)"
+          fi
+          # V3 supplement manifest anchor (same loud-change rule). Builder
+          # refuses to run if V1 or V2 drifted from their anchors.
+          if [ -f "$pkg/BASELINE_MANIFEST_V3.json" ]; then
+            echo "dbf0a12e0e9927ce6239188fff280131530c66d56ac27b919967cff8c3795900  $pkg/BASELINE_MANIFEST_V3.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V3.json"
+          fi
+          # V4 supplement manifest anchor (same loud-change rule). Builder
+          # refuses to run if V1, V2 or V3 drifted from their anchors.
+          if [ -f "$pkg/BASELINE_MANIFEST_V4.json" ]; then
+            echo "05d35d9fe9fc92a61657d13050601f58b854795d2b318fa1b5998f8732bca736  $pkg/BASELINE_MANIFEST_V4.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V4.json"
+          fi
+          # V5 supplement manifest anchor (same loud-change rule). Builder
+          # determinism: two same-checkout rebuilds byte-identical.
+          if [ -f "$pkg/BASELINE_MANIFEST_V5.json" ]; then
+            echo "2e49df7bf71a7c2946ac9dd6be2b0193a4863234321653dd46c246eecd9cffbf  $pkg/BASELINE_MANIFEST_V5.json" | shasum -a 256 -c -
+          else
+            echo "no BASELINE_MANIFEST_V5.json"
+          fi
+          if [ -f "$pkg/build_manifest_v5.py" ]; then
+            python -I -B "$pkg/build_manifest_v5.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V5.json" /tmp/v5-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V5.json"
+            python -I -O -B "$pkg/build_manifest_v5.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V5.json" /tmp/v5-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V5.json"
+            cmp /tmp/v5-rebuild-a.json /tmp/v5-rebuild-b.json
+            cmp /tmp/v5-rebuild-a.json "$pkg/BASELINE_MANIFEST_V5.json"
+            echo "V5 rebuild determinism + committed-equality: OK"
+          fi
+          if [ -f "$pkg/build_manifest_v4.py" ]; then
+            python -I -B "$pkg/build_manifest_v4.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V4.json" /tmp/v4-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V4.json"
+            python -I -O -B "$pkg/build_manifest_v4.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V4.json" /tmp/v4-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V4.json"
+            cmp /tmp/v4-rebuild-a.json /tmp/v4-rebuild-b.json
+            cmp /tmp/v4-rebuild-a.json "$pkg/BASELINE_MANIFEST_V4.json"
+            echo "V4 rebuild determinism + committed-equality: OK"
+          fi
+          if [ -f "$pkg/build_manifest_v3.py" ]; then
+            python -I -B "$pkg/build_manifest_v3.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V3.json" /tmp/v3-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V3.json"
+            python -I -O -B "$pkg/build_manifest_v3.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V3.json" /tmp/v3-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V3.json"
+            cmp /tmp/v3-rebuild-a.json /tmp/v3-rebuild-b.json
+            cmp /tmp/v3-rebuild-a.json "$pkg/BASELINE_MANIFEST_V3.json"
+            echo "V3 rebuild determinism + committed-equality: OK"
+          fi
+          # V2 builder determinism: two same-checkout rebuilds byte-identical
+          if [ -f "$pkg/build_manifest_v2.py" ]; then
+            python -I -B "$pkg/build_manifest_v2.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V2.json" /tmp/v2-rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V2.json"
+            python -I -O -B "$pkg/build_manifest_v2.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V2.json" /tmp/v2-rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V2.json"
+            cmp /tmp/v2-rebuild-a.json /tmp/v2-rebuild-b.json
+            cmp /tmp/v2-rebuild-a.json "$pkg/BASELINE_MANIFEST_V2.json"
+            echo "V2 rebuild determinism + committed-equality: OK"
+          fi
+          # determinism: two same-checkout rebuilds must be byte-identical
+          # (arrivals_since_pin legitimately evolves with origin/main, so the
+          # rebuild is compared against a second rebuild, not the commit).
+          # Once post-freeze supplements exist the V1 builder no longer
+          # applies (pin-state assertions); then skip - a BASELINE_MANIFEST_V2
+          # carries its own builder.
+          if python -I -B "$pkg/build_manifest_v1.py" >/dev/null 2>&1; then
+            cp "$pkg/BASELINE_MANIFEST_V1.json" /tmp/rebuild-a.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V1.json"
+            python -I -O -B "$pkg/build_manifest_v1.py" >/dev/null
+            cp "$pkg/BASELINE_MANIFEST_V1.json" /tmp/rebuild-b.json
+            /usr/bin/git checkout -- "$pkg/BASELINE_MANIFEST_V1.json"
+            cmp /tmp/rebuild-a.json /tmp/rebuild-b.json
+            echo "rebuild determinism: OK"
+          else
+            echo "V1 pin-state builder not applicable to this tree (post-freeze state); determinism check delegated to the current manifest's builder"
+          fi

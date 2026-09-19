@@ -1,0 +1,51 @@
+{
+  "schema": "GMI833G0GrammarGrowthFrozenFixturesV1",
+  "issue": 897,
+  "parent_issue": 833,
+  "source_main": "aa131e6d65a648754cead0fe3eaa6fde6069147d",
+  "base_tokens": ["a", "b", "c"],
+  "base_token_order": ["a", "b", "c"],
+  "training_corpus": [
+    ["a", "b", "c", "a", "b"],
+    ["a", "b", "a", "b"],
+    ["a", "b", "a", "b"],
+    ["a", "b", "a", "b"],
+    ["a", "b", "a", "b"],
+    ["a", "b"]
+  ],
+  "heldout_reuse_positive": [
+    ["a", "b", "a", "b", "a", "b", "a", "b"],
+    ["a", "b", "a", "b", "a", "b"],
+    ["a", "b", "a", "b", "c"],
+    ["c", "a", "b", "a", "b"],
+    ["b", "a", "b", "a", "b"],
+    ["a", "b", "a", "b", "c", "c"],
+    ["c", "a", "b", "c", "a", "b"],
+    ["a", "b", "a", "b", "c", "a", "b"],
+    ["a", "b", "a", "b", "a", "b", "c"],
+    ["a", "b", "a", "b", "a", "b", "a", "b", "a", "b"],
+    ["a", "a", "b", "a", "b", "a", "b"],
+    ["c", "a", "b", "a", "b", "a", "b"]
+  ],
+  "heldout_unrelated_control": [
+    ["a", "c", "b"],
+    ["c", "c", "a"],
+    ["c", "a", "a"],
+    ["c", "c", "b"],
+    ["b", "b", "c"],
+    ["b", "c", "b"],
+    ["c", "b", "c"],
+    ["c", "a", "c"],
+    ["a", "c", "a"],
+    ["a", "c", "c", "a"],
+    ["c", "a", "a", "c"],
+    ["c", "b", "b", "c"]
+  ],
+  "maintenance_charge_kappa_primary": 1,
+  "maintenance_charge_kappa_grid": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  "kappa_primary_derivation_rule": "kappa_primary = max{kappa in grid : deterministic invention on the frozen training corpus admits at least two generations with second-generation body exactly (m1, m1)}",
+  "null_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199],
+  "null_library_size_rule": "EQUAL_TO_ADMITTED_LIBRARY_CARDINALITY",
+  "null_selection_hash": "combo_index(seed) = ((seed + 1) * 2654435761 mod 2^32) mod C(pool_size, size), over the lexicographically ordered list of size-subsets of the deterministically sorted G0 candidate pool",
+  "depth_limit_derivation_rule": "D_reg = initial training corpus symbol count (each admission strictly reduces corpus symbol count by at least 1 and the count is nonnegative)"
+}

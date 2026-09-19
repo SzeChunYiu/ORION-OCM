@@ -210,7 +210,7 @@ This is exactly the definition of injectivity of the quotient-class coordinate v
 
 Histories `hA` and `hB` agree on the first registered test with probability `1/2`, but differ on the second (`1/2` versus `1/4`). A coordinate representation containing only the first test maps the two distinct predictive classes to the same vector and is therefore not an injective representation of the predictive quotient. The full two-test coordinate separates them.
 
-### Parent subtraction
+### Strongest-parent subsumption
 
 Predictive state representations (PSRs) already represent dynamical state using predictions of tests. The GMI residual here is **not** the idea of predictive state. The only registered contribution is an explicit crosswalk from #833's behavioral/predictive quotient language to the parent object plus a fail-closed condition for when a chosen test-coordinate set is sufficient to represent that quotient. Learning a core test set, linear dimension/rank results, update operators, and scalable PSR estimation remain parent/open work.
 

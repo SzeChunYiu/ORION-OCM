@@ -96,7 +96,7 @@ domains, non-total queries, feasible sets carrying fabricated alpha, malformed
 confidence budgets, incomplete identified sets, parent mutation, and forbidden
 scope promotion.
 
-## 6. Parent subtraction and boundary
+## 6. Strongest-parent subsumption and boundary
 
 This is the capability-specific binding of #851's parent-owned finite
 identified-set/reject rule to #848's external capability functional. The

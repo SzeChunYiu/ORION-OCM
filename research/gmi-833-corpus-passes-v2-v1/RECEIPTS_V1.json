@@ -1,0 +1,79 @@
+{
+ "artifact_sha256": {
+  "FROZEN_PASSES_V1.md": "38044047b54f5fb984cd9533486642968a6af6bd24cf17dfd4957ccaea7cf64d",
+  "P1P2_SCREENS_V1.json": "5a857ecc4141b61e890d19a5cccf914ceb681d41a1b77ac48b7e57ce280a1d26",
+  "P3_SCREENS_V1.json": "e0c804b33ebe853460a061a506c070aaa57b7b1f31af11b38b464de84bd49f23",
+  "RAG_DELTA_V1.json": "3b647bdb938e6d1bcd3e2f98d664a3aa6e9b1c0a7a7eaf8792491ff0037e1afd",
+  "TERM_DUP_CANDIDATES_V1.json": "ad40e030dff573fdfbc2b7d77a2afb16c0442883a1f18daf0e1b36f0e967be16",
+  "VERDICT_REGISTER_V1.json": "752a14b8ae9540895d960d0bb4a270e28902a2fe49d54846e5056e2d2f9e9e32",
+  "detector_l42_v1.py": "1cb727b05ad7472582b5341c88f2334078092ac9192bd84e92d43279eb25ccff",
+  "screen_p1p2_v1.py": "201edf23d05a4bb72be3e1e2ba227e4cd16e030db658b5cc0bb2b30d2407ce4f",
+  "screen_p3_v1.py": "fce14c1e84565f021caa654348079a03fcdb56c40fd72ed5b95698fc0f9a1ef5",
+  "test_detector_l42_v1.py": "87f7abb82909a62091fe5282bd9e6fcc0b4dac27f303b9f2423bbe781dc344a0"
+ },
+ "commands": [
+  "python3 test_detector_l42_v1.py   # 4 plants PASS",
+  "python3 detector_l42_v1.py        # corpus run, anchor 1652==1652",
+  "python3 screen_p1p2_v1.py         # L44/L45/L51/L52 screens, plants pass",
+  "python3 screen_p3_v1.py           # L46/L47/L49/L50/L53/L54/L55/L56 screens, plants pass",
+  "python3 -I -B research/gmi-capability-interactions-unified-v1/test_interactions.py  # 27/27 OK (L58 control)"
+ ],
+ "counts": {
+  "L42_candidate_groups": 1,
+  "L42_class_counts": {
+   "CLASS_A": 1,
+   "CLASS_B": 0
+  },
+  "L44_population": 49,
+  "L44_screen_flagged": 31,
+  "L45_population": 63,
+  "L45_screen_flagged": 1,
+  "L46_status": {
+   "NO_COMPUTATION": 140,
+   "SINGLE_ROUTE": 75,
+   "TWO_ROUTE": 16
+  },
+  "L47_status": {
+   "NO_FREEZE_ARTIFACT": 149,
+   "PROSPECTIVE_ORDERED": 17,
+   "RESULT_PRECEDES_FREEZE": 2,
+   "SINGLE_COMMIT_FREEZE_RESULT": 45,
+   "TIGHT_GAP_EXECUTOR": 18
+  },
+  "L49_flagged_packages": 50,
+  "L50_lexical_hit_packages": 27,
+  "L50_unaudited_operator_surface": 138,
+  "L51_flagged": 7,
+  "L51_population": 7196,
+  "L52_flagged": 3,
+  "L53_flagged_packages": 60,
+  "L54_flagged_packages": 35,
+  "L55_flagged_packages": 35,
+  "L56_named_parent_rows": 24,
+  "L56_no_residual_flags": 6,
+  "verdict_register_sections": [
+   "L42_term_duplicates",
+   "L44_enum_where_analytic",
+   "L45_analytic_comp_only",
+   "L47_post_hoc",
+   "L48_screen_grammar_encodes_target",
+   "L49_L53_cost_accounting",
+   "L50_macros_privileged_operators",
+   "L51_hidden_iid_stationarity",
+   "L52_hidden_finite_horizon",
+   "L54_L55_encoding_search_sensitivity",
+   "L56_parent_rediscovery",
+   "L58_applied_downgrade",
+   "note",
+   "revival_doctrine_note",
+   "schema"
+  ]
+ },
+ "head": "d09eb435e08a8d55a324d8716f1bd40434945f94",
+ "populations": {
+  "P1_census": "frozen 2fffb144 (result blob 861b1ba1)",
+  "P2_rescore": "THEOREM_SCORES_V2.json (merged #948 state)",
+  "P3_packages": "branch base 14276c20 (231 packages incl. morphogenesis)"
+ },
+ "schema": "GMI_833_CORPUS_PASSES_V2_RECEIPTS_V1"
+}

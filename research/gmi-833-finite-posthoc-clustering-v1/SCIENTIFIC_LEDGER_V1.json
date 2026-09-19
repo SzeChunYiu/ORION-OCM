@@ -1,0 +1,67 @@
+{
+  "schema": "GMI_833_FINITE_POSTHOC_CLUSTERING_SCIENTIFIC_LEDGER_V1",
+  "claims": [
+    {
+      "id": "ORDER-1",
+      "statement": "All registered candidates are generated and evaluated before clustering, and every presentation remains in the membership ledger.",
+      "scope": "The complete 576-presentation #966 budget-(2,2) census evaluated through #984.",
+      "assumptions": ["The pinned #966 enumerator and #984 evaluator are authoritative at their registered finite scope.", "Stable presentation IDs and canonical codes identify retention rows."],
+      "dependencies": ["PR #966 finite candidate space", "PR #984 morphology record"],
+      "falsifiers": ["Any cluster input influences generation/evaluation.", "Any generated presentation lacks exactly one membership row."],
+      "strongest_parent": "PR #966 exact finite enumeration",
+      "counterexample_methods": ["Duplicate/drop a candidate row.", "Inject a clustering callback into generation."],
+      "limits": ["No scalable generation or search-law claim.", "Deduplication is used only for the clustering carrier, not candidate deletion."]
+    },
+    {
+      "id": "CLUSTER-1",
+      "statement": "The frozen 15/2 threshold graph gives a deterministic complete connected-component partition with deterministic medoids.",
+      "scope": "The 47 distinct #984 morphology records under base weights (5,3,2).",
+      "assumptions": ["Threshold, weights, canonical serialization, and medoid tie-break were frozen before implementation."],
+      "dependencies": ["PR #984 metric theorem"],
+      "falsifiers": ["Primary traversal disagrees with independent union-find.", "Components overlap or omit a record.", "Input ordering changes output."],
+      "strongest_parent": "PR #984 MORPH-METRIC-1",
+      "counterexample_methods": ["Permute carrier ordering.", "Use a malformed asymmetric distance matrix in the oracle."],
+      "limits": ["One operational clustering, not cluster truth.", "No natural, unique, or unbiased taxonomy claim."]
+    },
+    {
+      "id": "MAP-1",
+      "statement": "Four supplied reference fingerprints are loaded only after taxonomy-blind clustering and mapped by exact medoid fingerprint equality.",
+      "scope": "Protocol blindness relative to the frozen four-entry registry.",
+      "assumptions": ["Module separation and the source-token audit enforce the declared information boundary."],
+      "dependencies": ["ORDER-1", "CLUSTER-1", "Freeze commit 9ae830c4"],
+      "falsifiers": ["A registry token or mapper import appears in causal core.", "A family label changes an edge/component/medoid."],
+      "strongest_parent": "PR #837 P3 post-hoc mapping discipline",
+      "counterexample_methods": ["Move a supplied label into causal code.", "Call the mapper before clusters complete."],
+      "limits": ["Not literal historical ignorance.", "Not family discovery or architecture-prior-free recovery."]
+    },
+    {
+      "id": "UNKNOWN-1",
+      "statement": "Zero or multiple exact reference matches return explicit UNKNOWN, with no nearest-label fallback.",
+      "scope": "The frozen four-reference post-hoc registry and protected medoid fingerprints.",
+      "assumptions": ["Registry rows and medoid fingerprints satisfy the validated schema."],
+      "dependencies": ["MAP-1"],
+      "falsifiers": ["An unmatched fingerprint receives a known label.", "An ambiguous fingerprint receives a known label."],
+      "strongest_parent": "PR #851 global abstention semantics",
+      "counterexample_methods": ["Supply a nonmatching fingerprint.", "Duplicate a matching reference under a second label."],
+      "limits": ["UNKNOWN is registry-relative non-identification, not ontological novelty.", "No claim that all natural families are represented."]
+    },
+    {
+      "id": "STABLE-1",
+      "statement": "The partition is equivariant under all 120 certified surface remints and stable under the frozen #984 metric perturbation; medoids and labels also remain stable by aggregate margins/componentwise ties.",
+      "scope": "The registered 47-record carrier, threshold 15/2, certified remints, and weights (5,3,2) to (501/100,299/100,201/100).",
+      "assumptions": ["PR #984's 9/100 uniform pairwise bound.", "Only certified encode/decode surface remints count."],
+      "dependencies": ["PR #984 REMINT-1", "PR #984 PERTURB-1", "CLUSTER-1"],
+      "falsifiers": ["Any certified remint changes membership.", "Any edge crosses threshold.", "A medoid changes despite the registered certificate."],
+      "strongest_parent": "PR #984 finite remint and perturbation stability",
+      "counterexample_methods": ["Swap decoder semantics.", "Apply the out-of-bound (6,3,2) weight hostile."],
+      "limits": ["No arbitrary remint, metric, threshold, or large-scale robustness.", "The out-of-bound hostile changes the partition."]
+    }
+  ],
+  "open_gaps": [
+    {"id": "F3-GAP-1", "status": "OPEN", "statement": "Large-scale clustering and sampling validity remain untested."},
+    {"id": "F3-GAP-2", "status": "OPEN", "statement": "Alternative clusterers and threshold sensitivity beyond the single registered hostile remain unstudied."},
+    {"id": "F3-GAP-3", "status": "OPEN", "statement": "The supplied four-entry reference registry is not a complete architecture taxonomy."},
+    {"id": "F3-GAP-4", "status": "OPEN", "statement": "Historical architecture recovery and genuine unknown-form validation remain unclaimed."},
+    {"id": "F3-GAP-5", "status": "OPEN", "statement": "Morphology-zoo and real-scale work in #220/#221 is untouched."}
+  ]
+}

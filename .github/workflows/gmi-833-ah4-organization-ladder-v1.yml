@@ -1,0 +1,218 @@
+name: GMI 833 AH4 organization ladder
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-ah4-organization-ladder-v1/**'
+      - '.github/workflows/gmi-833-ah4-organization-ladder-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-ah4-organization-ladder-v1/**'
+      - '.github/workflows/gmi-833-ah4-organization-ladder-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          PKG=research/gmi-833-ah4-organization-ladder-v1
+          F=$(git log --diff-filter=A --format=%ct -1 -- $PKG/FREEZE_V1.md)
+          C=$(git log --diff-filter=A --format=%ct -1 -- $PKG/ah4_organization_ladder_v1.py)
+          echo "freeze=$F executor=$C"
+          test -n "$F"
+          test -n "$C"
+          test "$F" -le "$C"
+          # after a squash merge both arrive together; the freeze must still be present in
+          # the commit that published the package
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
+          grep -q 'FREEZE_V1.md' /tmp/firstfiles.txt
+
+      - name: Parent pins have not drifted
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, subprocess, sys
+          m = json.load(open('research/gmi-833-ah4-organization-ladder-v1/MANIFEST_V1.json'))
+          bad = []
+          for pin in m['parent_pins']:
+              sha = subprocess.check_output(
+                  ['git', 'hash-object', pin['path']]).decode().strip()
+              if sha != pin['blob_sha']:
+                  bad.append(('blob', pin['path'], pin['blob_sha'], sha))
+              if pin['path'].endswith('.json'):
+                  live = json.load(open(pin['path'])).get('claim_ceiling')
+                  if live != pin['claim_ceiling']:
+                      bad.append(('ceiling', pin['path'], pin['claim_ceiling'], live))
+          if bad:
+              print('PARENT PIN DRIFT', bad)
+              sys.exit(1)
+          print('parent pins intact (blob and claim ceiling):', len(m['parent_pins']))
+          PY
+
+      - name: Snapshot the committed receipts before rerunning them
+        run: |
+          set -euo pipefail
+          cp research/gmi-833-ah4-organization-ladder-v1/RESULT_V1.json /tmp/committed_result.json
+          cp research/gmi-833-ah4-organization-ladder-v1/ORACLE_RESULT_V1.json /tmp/committed_oracle.json
+          cp research/gmi-833-ah4-organization-ladder-v1/TEST_RESULT_V1.json /tmp/committed_test.json
+
+      - name: Route A -- ladder invariants measured
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ah4-organization-ladder-v1/ah4_organization_ladder_v1.py
+
+      - name: Route B -- independent oracle
+        run: python3 -I ${{ matrix.opt }} -B research/gmi-833-ah4-organization-ladder-v1/independent_oracle_v1.py
+
+      - name: Hostiles, nulls and the no-alarm case
+        run: python3 -I -O -B research/gmi-833-ah4-organization-ladder-v1/test_ah4_organization_ladder_v1.py
+
+      - name: Terminology gate on this package
+        run: python3 -I -B research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py research/gmi-833-ah4-organization-ladder-v1
+
+      - name: The committed receipts are byte-identical to the live run
+        run: |
+          set -euo pipefail
+          P=research/gmi-833-ah4-organization-ladder-v1
+          cmp /tmp/committed_result.json $P/RESULT_V1.json
+          cmp /tmp/committed_oracle.json $P/ORACLE_RESULT_V1.json
+          cmp /tmp/committed_test.json $P/TEST_RESULT_V1.json
+          echo 'committed receipts reproduce byte-for-byte'
+
+      - name: Receipts agree and say what the checklist says
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-ah4-organization-ladder-v1/'
+          a = json.load(open(P + 'RESULT_V1.json'))
+          b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          t = json.load(open(P + 'TEST_RESULT_V1.json'))
+          fail = []
+
+          compared = [0]
+
+          def eq(name, x, y):
+              compared[0] += 1
+              if x != y:
+                  fail.append('%s: A=%r B=%r' % (name, x, y))
+
+          if a['status'] != 'GREEN' or a['failed_gates']:
+              fail.append('route A not green: %r' % (a['failed_gates'],))
+          if t['status'] != 'GREEN' or t['findings']:
+              fail.append('tests not green: %r' % (t['findings'],))
+          if t['hostiles_detected'] != 13 or t['hostiles_declared'] != 13:
+              fail.append('hostiles: %r/%r' % (t['hostiles_detected'], t['hostiles_declared']))
+          if t['controls_clean'] != 13:
+              fail.append('controls: %r' % (t['controls_clean'],))
+
+          for k in ('base_organizations', 'cell_free', 'one_cell', 'operational_classes',
+                    'class_size_histogram', 'i1_pass', 'i1_fail',
+                    'i1_classes_split_by_description', 'i2_clause_counts', 'i2_pass',
+                    'i2_classes_split_by_description', 'non_cumulative_base_systems',
+                    'composites_total', 'composites_irreducible', 'i4_witness_triples',
+                    'i4_negative_witness_triples', 'i4_collapses_under_absorption',
+                    'i5_growth', 'i5_negative_growth', 'level_capability_inversions'):
+              eq(k, a[k], b[k])
+          eq('i6_differ', a['i6']['outcomes_differ'], b['i6_outcomes_differ'])
+          eq('i6_neg', a['i6_negative']['outcomes_differ'], b['i6_negative_outcomes_differ'])
+          eq('i7_acq', a['i7']['acquired_only_through_channel'],
+             b['i7_acquired_only_through_channel'])
+          eq('i7_neg', a['i7_negative']['acquired_only_through_channel'],
+             b['i7_negative_acquired_only_through_channel'])
+          eq('i8', a['i8'], b['i8'])
+          eq('i8_neg', a['i8_negative'], b['i8_negative'])
+          eq('null_class_constancy', a['nulls']['class_constancy']['class_constant_hits'],
+             b['null_class_constant_hits'])
+
+          # the numbers the checklist lines quote
+          if a['base_organizations'] != 260 or a['operational_classes'] != 148:
+              fail.append('universe: %r %r' % (a['base_organizations'], a['operational_classes']))
+          if a['class_size_histogram'] != {'1': 144, '29': 4}:
+              fail.append('class histogram: %r' % (a['class_size_histogram'],))
+          if not a['length_bound_agrees_with_product_authority']:
+              fail.append('length bound disagrees with the product authority')
+          if a['i2_clause_counts'] != {'both': 144, 'cell_only': 112, 'neither': 4,
+                                       'behaviour_only': 0}:
+              fail.append('clause counts: %r' % (a['i2_clause_counts'],))
+          if a['i2_intermediate_layer_population'] != 112:
+              fail.append('intermediate layer: %r' % (a['i2_intermediate_layer_population'],))
+          if a['non_cumulative_base_systems'] != 14:
+              fail.append('non cumulative: %r' % (a['non_cumulative_base_systems'],))
+          if a['composites_irreducible'] != 15680 or a['composites_total'] != 67600:
+              fail.append('composites: %r/%r' % (a['composites_irreducible'],
+                                                 a['composites_total']))
+          if a['level_capability_inversions'] != 1914:
+              fail.append('inversions: %r' % (a['level_capability_inversions'],))
+          want_verdicts = {
+              'I1_MOTIF_REUSE': 'SEPARATING_ONLY_ON_DESCRIPTION',
+              'I2_HISTORY_DEPENDENCE': 'SEPARATING_ON_VISIBLE_BEHAVIOUR',
+              'I3_IRREDUCIBLE_COMPOSITION': 'SEPARATING_ON_VISIBLE_BEHAVIOUR',
+              'I4_EXPERIENCE_CONDITIONED_UPDATE': 'SEPARATING_ONLY_ON_DESCRIPTION',
+              'I5_OPERATOR_INVENTORY_GROWTH': 'SEPARATING_ONLY_ON_DESCRIPTION',
+              'I6_EXTERNALLY_ADMITTED_SELF_CHANGE':
+                  'SEPARATING_UNDER_DECLARED_EXTERNAL_BOUNDARY',
+              'I7_CROSS_INSTANCE_ACQUISITION':
+                  'SEPARATING_UNDER_DECLARED_EXTERNAL_BOUNDARY',
+              'I8_NEW_EFFECTIVE_UNIT': 'SEPARATING_ONLY_ON_DESCRIPTION'}
+          if a['verdicts'] != want_verdicts:
+              fail.append('verdicts: %r' % (a['verdicts'],))
+          want_counts = {'SEPARATING_ON_VISIBLE_BEHAVIOUR': 2,
+                         'SEPARATING_ONLY_ON_DESCRIPTION': 4,
+                         'SEPARATING_UNDER_DECLARED_EXTERNAL_BOUNDARY': 2}
+          if a['verdict_counts'] != want_counts:
+              fail.append('verdict counts: %r' % (a['verdict_counts'],))
+          want_nn = {'I1_MOTIF_REUSE': 2, 'I2_HISTORY_DEPENDENCE': 1,
+                     'I3_IRREDUCIBLE_COMPOSITION': 1,
+                     'I4_EXPERIENCE_CONDITIONED_UPDATE': 7,
+                     'I5_OPERATOR_INVENTORY_GROWTH': 1,
+                     'I6_EXTERNALLY_ADMITTED_SELF_CHANGE': 1,
+                     'I7_CROSS_INSTANCE_ACQUISITION': 1, 'I8_NEW_EFFECTIVE_UNIT': 1}
+          for k, d in want_nn.items():
+              got = a['nearest_negatives'].get(k)
+              if got is None or got['distance'] != d:
+                  fail.append('nearest negative %s: %r' % (k, got))
+          p = a['prohibition']
+          if (p['trip'] != 'REFUSED__LEVEL_MEMBERSHIP_IS_NOT_INTELLIGENCE'
+                  or p['admit_with_evidence'] != 'ADMITTED_WITH_EVIDENCE'
+                  or p['non_intelligence_claim'] != 'NOT_AN_INTELLIGENCE_CLAIM'):
+              fail.append('prohibition: %r' % (p,))
+          for k in ('LEVEL_MEMBERSHIP_IS_INTELLIGENCE', 'LADDER_IS_TOTAL_ORDER',
+                    'COMPLETE_GMI'):
+              if k not in a['forbidden_promotions']:
+                  fail.append('missing forbidden promotion ' + k)
+
+          if compared[0] != 27:
+              fail.append('cross-route quantities compared: %d, the published figure is 27' % compared[0])
+          if fail:
+              for f in fail:
+                  print('FAIL', f)
+              sys.exit(1)
+          print('AH4 receipts OK; 27 cross-route quantities compared and agreed')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ah4-organization-ladder-v1-${{ matrix.opt && 'opt' || 'normal' }}
+          path: |
+            research/gmi-833-ah4-organization-ladder-v1/RESULT_V1.json
+            research/gmi-833-ah4-organization-ladder-v1/ORACLE_RESULT_V1.json
+            research/gmi-833-ah4-organization-ladder-v1/TEST_RESULT_V1.json
+          if-no-files-found: error

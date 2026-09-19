@@ -1,0 +1,57 @@
+{
+  "schema": "GMI_833_FINITE_REACHABILITY_LAW_REGISTRY_V1",
+  "source_main": "5aaebc5a7bab7825f30c007d9fd5cd4e34f5118e",
+  "parent_issue": 833,
+  "issue": 1000,
+  "universe": {
+    "grammar": "G0-fin-v1",
+    "budget": {"code_cells": 2, "register_cells": 2},
+    "input_words": [[], [0], [1]],
+    "step_cap": 6,
+    "start": {"register_count": 1, "instructions": [["HALT", -1, -1, -1]]}
+  },
+  "successor_primitives": {
+    "REWRITE": "replace exactly one table cell by any well-typed instruction at the current carrier sizes",
+    "GROW_CODE": "append one HALT cell when code_cells < 2; preserve existing cells",
+    "GROW_REGISTER": "add one zero-initialized declared register when register_cells < 2; preserve the table"
+  },
+  "laws": [
+    {
+      "id": "REWRITE_11",
+      "operators": ["REWRITE"],
+      "max_code_cells": 1,
+      "max_register_cells": 1
+    },
+    {
+      "id": "CODE_GROWTH_R1",
+      "operators": ["REWRITE", "GROW_CODE"],
+      "max_code_cells": 2,
+      "max_register_cells": 1
+    },
+    {
+      "id": "REGISTER_GROWTH_N1",
+      "operators": ["REWRITE", "GROW_REGISTER"],
+      "max_code_cells": 1,
+      "max_register_cells": 2
+    },
+    {
+      "id": "JOINT_GROWTH_22",
+      "operators": ["REWRITE", "GROW_CODE", "GROW_REGISTER"],
+      "max_code_cells": 2,
+      "max_register_cells": 2
+    }
+  ],
+  "registry_is_complete_only_for_this_tranche": true,
+  "forbidden_promotions": [
+    "COMPLETE_REGISTRY_OF_ALL_DEVELOPMENTAL_OR_SEARCH_LAWS",
+    "UNIVERSAL_REACHABILITY",
+    "UNBIASED_LAW_ONTOLOGY",
+    "ARBITRARY_BUDGETS",
+    "UNBOUNDED_PROGRAM_EQUIVALENCE",
+    "STOCHASTIC_OR_ADAPTIVE_DYNAMICS",
+    "OPTIMIZER_CONVERGENCE",
+    "ARCHITECTURE_PRIOR_FREE_RECOVERY",
+    "CLUSTERING_OR_KNOWN_FAMILY_RECOVERY",
+    "COMPLETE_GMI"
+  ]
+}

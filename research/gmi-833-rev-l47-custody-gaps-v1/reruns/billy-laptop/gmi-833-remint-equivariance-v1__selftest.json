@@ -1,0 +1,26 @@
+{
+  "schema": "REV_L47_RERUN_RECEIPT_V1",
+  "kind": "MECHANICAL_SELFTEST",
+  "host": "billy",
+  "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.29",
+  "python": "3.8.10",
+  "run_commit": "92197fc420b4d5083478e9d5c6c2bc826ec0a784",
+  "rev_freeze_first_add_commit": "6061e111dc50b7489175d6e73021ad4d0d9b218c",
+  "freeze_ancestor_of_run": true,
+  "freeze_note": "pre-registered decision rule in research/gmi-833-rev-l47-custody-gaps-v1/REV_FREEZE_V1.md (first-add commit must be an ancestor of run_commit - verified above; after any squash merge resolve these SHAs via refs/pull/<N>/head, the #980 custody-pin pattern)",
+  "utc_epoch": 1789642343,
+  "package": "gmi-833-remint-equivariance-v1",
+  "script": "test_remint_equivariance_v1.py",
+  "clean_tree_before": true,
+  "clean_tree_after": true,
+  "run": {
+    "cmd": "/usr/bin/python3 test_remint_equivariance_v1.py",
+    "cwd": "/home/billy/rev-l47/ORION-OCM/research/gmi-833-remint-equivariance-v1",
+    "exit": 1,
+    "wall_s": 0.061,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_len": 0,
+    "stderr_tail": "e 72, in test_receipt_green\n    r = finite_certificate()\n  File \"/home/billy/rev-l47/ORION-OCM/research/gmi-833-remint-equivariance-v1/remint_equivariance_v1.py\", line 292, in finite_certificate\n    rm = dict(zip(a.states, perm, strict=True))\nTypeError: zip() takes no keyword arguments\n\n----------------------------------------------------------------------\nRan 7 tests in 0.003s\n\nFAILED (errors=2)\n"
+  },
+  "verdict": "CONTENT_LEG_FAIL"
+}

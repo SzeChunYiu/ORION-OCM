@@ -2,7 +2,7 @@
 
 Finite architecture-name-free history/switching extension of #893 / #833 Section J.
 
-It defines history-conditioned morphology selection through explicit switching costs, proves the exact two-form hysteresis band, gives origin-additive and strict-margin sufficient conditions for erasing history dependence, and formalizes canonical reset semantics. Exact hostiles preserve boundary ties and reject negative switching costs.
+It defines history-conditioned architecture choice through explicit switching costs, proves the exact two-form hysteresis band, gives origin-additive and strict-margin sufficient conditions for erasing history dependence, and formalizes canonical reset semantics. Exact hostiles preserve boundary ties and reject negative switching costs.
 
 Reproduce:
 

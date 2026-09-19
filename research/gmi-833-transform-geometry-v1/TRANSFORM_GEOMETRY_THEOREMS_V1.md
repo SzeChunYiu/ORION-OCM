@@ -1,12 +1,12 @@
-# GMI #833 morphology transformation geometry v1
+# GMI #833 architecture transformation geometry v1
 
-**Status:** finite exact foundation tranche; not full morphology topology or developmental equivalence.  
+**Status:** finite exact foundation tranche; not full architecture topology or developmental equivalence.  
 **Freeze:** `FREEZE_V1.md`, commit `fea6549a700681c0e830bf53cc53ab4f2dd5535f`.  
 **Claim ceiling:** `GMI_TRANSFORM_CATEGORY_AND_DIRECTED_SCALAR_GEOMETRY_AT_REGISTERED_FINITE_SCOPE`.
 
 ## 1. Scientific object
 
-Fix a registered scientific scope `Omega`. Objects are architecture-name-free morphology/mechanism classes already admitted by the #848 equivalence contract. This tranche does not change that equivalence relation.
+Fix a registered scientific scope `Omega`. Objects are architecture-name-free mechanism classes already admitted by the #848 equivalence contract. This tranche does not change that equivalence relation.
 
 A registered transform is
 
@@ -84,7 +84,7 @@ When there is no directed path from `M` to `N`, the distance is `+infinity`. The
 
 ## 4. Raw vector burden remains primary
 
-The scalar `d_w` exists only after weights are frozen. It is not a universal morphology distance.
+The scalar `d_w` exists only after weights are frozen. It is not a universal architecture distance.
 
 The hostile pair
 
@@ -121,7 +121,7 @@ No novelty is claimed for:
 - Lawvere/generalized directed metric ideas;
 - Pareto order or weighted-sum scalarization.
 
-The residual GMI contribution at this stage is a machine-checkable transform contract that connects those parent objects to architecture-independent morphology classes, evidence, assumptions and lifecycle resource accounting without claiming developmental equivalence.
+The residual GMI contribution at this stage is a machine-checkable transform contract that connects those parent objects to architecture-independent mechanism classes, evidence, assumptions and lifecycle resource accounting without claiming developmental equivalence.
 
 ## 7. Falsifiers
 
@@ -139,6 +139,6 @@ This tranche is RED at its claimed scope if any of the following occurs:
 
 ## 8. Forbidden promotions
 
-This tranche does not establish developmental naturality, stochastic-kernel naturality, grammar/remint invariance, a topology of the unrestricted intelligence space, P3/P4 recovery, known-form closure, held-family prediction, unknown-form discovery, or complete GMI.
+This tranche does not establish developmental naturality, stochastic-kernel naturality, grammar/relabeling invariance, a topology of the unrestricted intelligence space, P3/P4 recovery, known-form closure, held-family prediction, unknown-form discovery, or complete GMI.
 
 The next dependency-ordered theorem target is **TRANS-2: developmental naturality**, including an exact hostile where static behavior preservation succeeds but update trajectories fail to commute.

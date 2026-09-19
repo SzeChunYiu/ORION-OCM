@@ -15,10 +15,10 @@ This tranche targets exactly four proof-only rows:
 It does not claim open-ended evolution, empirical second-order capital, future
 task prediction, recursive primitive invention, or real-system validation.
 
-## Frozen parent subtraction
+## Frozen strongest-parent subsumption
 
 The tranche must pin and import the merged #837 foundation, #848
-morphology/capability objects, #854 compact axiom core, #875 developmental
+mechanism-structure/capability objects, #854 compact axiom core, #875 developmental
 naturality, #779 useful-descendant/evolvability result, the finite development
 amortization law, and the developmental-capital K1/K2 distinction. Parent-owned
 finite reachability, probability mass, geometric first-hit expectation,
@@ -27,7 +27,7 @@ shortest paths, and feasible-set monotonicity are not novelty claims.
 Frozen parent blobs:
 
 - foundation result: `c0c574c4ec6e237d5fdafa694eac131399625a70`;
-- morphology/capability result: `bdc5c3cd42e312d8c7af52f7ba84220631a25f8a`;
+- mechanism-structure/capability result: `bdc5c3cd42e312d8c7af52f7ba84220631a25f8a`;
 - axiom-core result: `3366a3bc7236d286f8d123bf53e4e3b2d22ad7b9`;
 - developmental-naturality result: `04b35a9926cac10d51fe9175e231e943c52b178b`;
 - useful-descendant result: `4cbaa3d2f3d19927c5c678c02581055ade277d80`;
@@ -39,14 +39,14 @@ Frozen parent blobs:
 - a finite developmental graph with an initial state, exact nonnegative vector
   edge costs, and externally scored capability at every state;
 - coordinatewise resource budgets and complete budget-feasible reachability;
-- a finite descendant carrier, exact normalized proposal kernel, registered
+- a finite descendant state set, exact normalized proposal kernel, registered
   useful set, and iid proposal semantics;
 - stored-solution identifiers kept disjoint from a held-out useful set when
   testing search-policy improvement;
 - exact per-proposal raw burden, history-policy overhead, and a preregistered
   nonnegative price vector for any scalar burden comparison.
 
-## Frozen theorem obligations
+## Frozen theorem acceptance items
 
 1. Current capability is the score at the current state. Developmental
    potential is the maximum score over the budget-reachable set; headroom is

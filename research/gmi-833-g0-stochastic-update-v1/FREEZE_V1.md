@@ -5,7 +5,7 @@
 **Source main:** `43102437ebcbf6f818bb58b45470beffaf865029`  
 **Status:** pre-implementation theorem/evidence freeze
 
-This file freezes the finite carrier, exact rational probability constructors, operational update/composition semantics, exhaustive census, symmetry target, resource accounting, hostile cases, parent boundary and claim ceiling before executor/tests/results/reconciliation/workflow.
+This file freezes the finite state set, exact rational probability constructors, operational update/composition semantics, exhaustive census, symmetry target, resource accounting, hostile cases, parent boundary and claim ceiling before executor/tests/results/reconciliation/workflow.
 
 ## Scientific boundary
 
@@ -13,9 +13,9 @@ This tranche adds only an operational finite stochastic-state/update primitive t
 
 Parent mathematics remains parent-owned: finite-state Markov chains, row-stochastic matrices/Markov kernels, matrix multiplication, distribution push-forward and state relabeling.
 
-## Registered carrier and exact types
+## Registered state set and exact types
 
-State carrier:
+State set:
 
 `S=(s0,s1,s2)`.
 
@@ -139,7 +139,7 @@ Reject:
 - wrong kernel dimensions;
 - non-`Fraction` exact-looking integers in probability fields unless explicitly constructed as `Fraction`;
 - non-bijective state relabeling;
-- source/destination state outside the registered carrier;
+- source/destination state outside the registered state set;
 - attempts to coerce this predictive law into a `ConfidenceSet`/latent decomposition without registered latent semantics.
 
 The last boundary is represented as a machine-distinct refusal terminal in the executable adapter, consuming #851 semantics rather than inventing a decomposition.

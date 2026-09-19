@@ -9,7 +9,7 @@ This file freezes the exact syntax, operational semantics, requirement-relative 
 
 ## 1. Scientific boundary
 
-`G0-reg-v1` is an architecture-uncommitted operational core **relative to a disclosed register/control representation prior**. It is not literally prior-free. Its five instruction classes are chosen because they expose external input, protected output, writable storage, data-dependent control and explicit termination in a small exact operational language.
+`G0-reg-v1` is an architecture-uncommitted operational core **relative to a disclosed register/control representation prior**. It is not literally assumption-free. Its five instruction classes are chosen because they expose external input, protected output, writable storage, data-dependent control and explicit termination in a small exact operational language.
 
 Parent mathematics is not novelty here:
 
@@ -242,7 +242,7 @@ If and only if the dedicated PR CI is green, this tranche may reconcile only the
 - Define a minimal architecture-neutral grammar `G0` — wording must state **relative minimality under the frozen five-requirement suite** and disclosed register representation prior.
 - Justify every primitive in `G0` from computation/interaction requirements rather than known architectures.
 - Prove which known computational models `G0` can express — only the finite Mealy family and the corresponding deterministic counter/register fragment are earned here.
-- Add typed state carriers without naming neural/symbolic/probabilistic families.
+- Add typed state representations without naming neural/symbolic/probabilistic families.
 - Add composition.
 - Add recurrence.
 - Add addressable storage/retrieval — static register addressing only.

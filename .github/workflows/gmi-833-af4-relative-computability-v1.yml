@@ -1,0 +1,86 @@
+name: gmi-833-af4-relative-computability-v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-af4-relative-computability-v1/**'
+      - '.github/workflows/gmi-833-af4-relative-computability-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-af4-relative-computability-v1/**'
+      - '.github/workflows/gmi-833-af4-relative-computability-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=3d37a3813ff13085ad5e0e2a7f6374b37bfd2158
+          P=research/gmi-833-af4-relative-computability-v1/FREEZE_V1.md
+          git merge-base --is-ancestor "$F" HEAD
+          test "$(git show --pretty='' --name-only "$F" | sed '/^$/d')" = "$P"
+          for x in af4_relative_computability_v1.py independent_oracle_v1.py test_af4_relative_computability_v1.py RESULT_V1.json ORACLE_RESULT_V1.json FORMALIZATION_V1.md; do
+            ! git cat-file -e "$F:research/gmi-833-af4-relative-computability-v1/$x" 2>/dev/null
+          done
+      - name: Parent repository pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:research/gmi-833-af-barrier-context-v1/GMI_BARRIER_PARENT_LEDGER_V1.json)" = 8089a47975ae6ca0489c5198b6a56c14da8d9b65
+          test "$(git rev-parse HEAD:research/gmi-833-af-barrier-context-v1/FORMALIZATION_V1.md)" = de2f2552bb6d5787317921f9c42c82dab2df1952
+          test "$(git rev-parse HEAD:research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json)" = 5b94d66a8d8d2196a518fd7ac8d1da83663e42a4
+          test "$(git rev-parse HEAD:research/heritable-search-transformation-v1/FREEZE_HST_V1.json)" = 8723baf57ac16878edb4dfff45bd7decfa15b6be
+      - name: Main receipt normal and optimized
+        working-directory: research/gmi-833-af4-relative-computability-v1
+        run: |
+          python3 -I -B af4_relative_computability_v1.py --output /tmp/result.normal.json >/tmp/main.normal.out
+          cmp RESULT_V1.json /tmp/result.normal.json
+          python3 -I -O -B af4_relative_computability_v1.py --output /tmp/result.opt.json >/tmp/main.opt.out
+          cmp RESULT_V1.json /tmp/result.opt.json
+          cmp /tmp/result.normal.json /tmp/result.opt.json
+      - name: Independent oracle normal and optimized
+        working-directory: research/gmi-833-af4-relative-computability-v1
+        run: |
+          python3 -I -B independent_oracle_v1.py --output /tmp/oracle.normal.json >/tmp/oracle.normal.out
+          cmp ORACLE_RESULT_V1.json /tmp/oracle.normal.json
+          python3 -I -O -B independent_oracle_v1.py --output /tmp/oracle.opt.json >/tmp/oracle.opt.out
+          cmp ORACLE_RESULT_V1.json /tmp/oracle.opt.json
+          cmp /tmp/oracle.normal.json /tmp/oracle.opt.json
+      - name: Hostiles normal and optimized
+        working-directory: research/gmi-833-af4-relative-computability-v1
+        run: |
+          python3 -I -B test_af4_relative_computability_v1.py
+          python3 -I -O -B test_af4_relative_computability_v1.py
+      - name: Reconciliation check only
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: research/gmi-833-af4-relative-computability-v1
+        run: |
+          python3 -I -B check_reconciliation_v1.py --mode static-check
+          python3 -I -B check_reconciliation_v1.py --mode remote-check
+      - name: Evidence-role and forbidden-promotion checks
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/gmi-833-af4-relative-computability-v1')
+          r=json.loads((p/'RESULT_V1.json').read_text())
+          o=json.loads((p/'ORACLE_RESULT_V1.json').read_text())
+          assert r['parent_theorem']['ownership']=='PARENT_OWNED_NOT_PROVED_BY_EXECUTOR'
+          assert r['evidence_role']=='REGISTRY_COROLLARY_AND_HOSTILE_VALIDATION_NOT_PARENT_THEOREM_PROOF'
+          assert o['strictness_ownership']=='PARENT_OWNED_NOT_ORACLE_EXECUTOR_PROOF'
+          assert r['base_halting_hostile']['universal_terminal_allowed'] is False
+          assert r['physical_scope']=='NO_PHYSICAL_HYPERCOMPUTATION_CLAIM'
+          PY

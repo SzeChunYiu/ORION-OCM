@@ -1,12 +1,12 @@
-# GMI #833 finite morphology selection and affine phase schema v1
+# GMI #833 finite architecture choice and affine phase schema v1
 
 **Issue:** #893, child of #833 Section J  
 **Freeze:** `FREEZE_V1.md`, commit `e052708a7952e814985dcbe6ef84acf772a4619f`  
 **Claim ceiling:** `GMI_FINITE_MORPHOLOGY_SELECTION_AND_AFFINE_PHASE_SCHEMA_AT_REGISTERED_SCOPE`
 
-This tranche turns several Section-J questions into one bounded architecture-name-free mathematical object. It is a finite exact theorem package, not a universal utility theory or real-world morphology law.
+This tranche turns several Section-J questions into one bounded architecture-name-free mathematical object. It is a finite exact theorem package, not a universal utility theory or real-world architecture law.
 
-## 1. Registered selection context
+## 1. Registered choice context
 
 Let `M` be a finite candidate set of computational-mechanism equivalence classes. A registered context determines which candidates are admissible/viable and, separately, which are developmentally reachable under the frozen development/budget contract.
 
@@ -22,7 +22,7 @@ is frozen, giving
 
 `s_w(m)=w dot r(m)`.
 
-The **selection correspondence** returns, without tie-breaking fabrication:
+The **choice correspondence** returns, without tie-breaking fabrication:
 
 - `NO_VIABLE_MORPHOLOGY` if the registered active set is empty;
 - the full Pareto frontier of the active set;
@@ -46,9 +46,9 @@ If `R subseteq M` is the nonempty reachable active subset, then
 
 `min_{m in M} s_w(m) <= min_{m in R} s_w(m)`.
 
-This is immediate because the right minimization is over a subset. It is consistent with and deliberately subordinate to the stronger current parent result in `gmi-833-global-vs-reachable-morphology-v1`.
+This is immediate because the right minimization is over a subset. It is consistent with and deliberately subordinate to the stronger current parent result in the global-vs-reachable tranche (`global_vs_reachable_v1.py`).
 
-## 3. SEL-2 — sufficient conditions for unique selection
+## 3. SEL-2 — sufficient conditions for unique choice
 
 ### Scalar margin condition
 
@@ -81,9 +81,9 @@ For the witness vectors
 
 `D` is dominated while `A,B,C` are mutually non-dominating. The exact frontier is therefore `{A,B,C}`. Different positive prices select `A`, `B`, or `C`.
 
-A coordinatewise-minimum summary would report `(1,1)` for `A,B`, but no candidate realizes `(1,1)`. Hence coordinatewise minima can fabricate a pseudo-morphology and may not replace the frontier.
+A coordinatewise-minimum summary would report `(1,1)` for `A,B`, but no candidate realizes `(1,1)`. Hence coordinatewise minima can fabricate a pseudo-candidate and may not replace the frontier.
 
-## 5. PHASE-1 — affine morphology phase boundaries
+## 5. PHASE-1 — affine architecture phase boundaries
 
 For this tranche only, fix a closed rational ecology/price interval `I=[L,U]`. Candidate viability is frozen on `I`. Each active candidate has exact affine scalar score
 
@@ -123,7 +123,7 @@ with lower-envelope ties `A=C` at `2/5` and `B=C` at `3/5`; the `A=B` crossing a
 
 The executable certificate also checks all 84 triples drawn from the nine affine functions with intercept/slope in `{-1,0,1}`, sampling three exact rational points in every crossing-free cell: 507 exact cell checks and zero violations.
 
-## 6. PHASE-2 — uncertainty-set selection
+## 6. PHASE-2 — uncertainty-set choice
 
 For an uncertain registered interval `U=[l,u] subseteq I`, partition `U` using all pairwise crossings inside it. Because the argmin is constant on every open cell, the exact **possible-winner set** is obtained by evaluating:
 
@@ -149,7 +149,7 @@ Fix proposed winner `m*`. For every rival `j`, the difference
 
 is affine. If `h_j(l)>0` and `h_j(u)>0`, then every point between the endpoints is a convex combination of endpoint values and is also positive. If this holds for every rival, `m*` is uniquely optimal throughout `U`.
 
-This gives a cheap sufficient certificate for robust unique selection.
+This gives a cheap sufficient certificate for robust unique choice.
 
 ### Midpoint hostile
 
@@ -157,7 +157,7 @@ This gives a cheap sufficient certificate for robust unique selection.
 
 ## 7. Fail-closed boundaries
 
-The kernel rejects negative resource coordinates, mismatched resource dimensions, nonpositive scalar weights, duplicate candidate identifiers, empty affine candidate sets, and reversed uncertainty/phase intervals. Empty viable selection returns the typed terminal `NO_VIABLE_MORPHOLOGY` rather than inventing a fallback winner.
+The kernel rejects negative resource coordinates, mismatched resource dimensions, nonpositive scalar weights, duplicate candidate identifiers, empty affine candidate sets, and reversed uncertainty/phase intervals. Empty viable choice returns the typed terminal `NO_VIABLE_MORPHOLOGY` rather than inventing a fallback winner.
 
 ## 8. Parent ownership
 
@@ -168,7 +168,7 @@ The underlying mathematics is conventional and parent-owned:
 - affine lower envelopes and pairwise crossover arrangements;
 - elementary interval uncertainty.
 
-The GMI residual at this stage is the common architecture-name-free contract that joins those parents to the existing behavioral-specification, reachability, resource, uncertainty and morphology objects while preserving fail-closed claim boundaries.
+The GMI residual at this stage is the common architecture-name-free contract that joins those parents to the existing behavioral-specification, reachability, resource, uncertainty and architecture objects while preserving fail-closed claim boundaries.
 
 ## 9. Forbidden promotions
 
