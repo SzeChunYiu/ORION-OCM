@@ -1,0 +1,50 @@
+{
+  "schema": "GMI_833_AE13_CAUSALITY_INTERVENTION_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE13",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae13-causality-intervention-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "b1413bbe95b4d0de26635d1d026716df93226818",
+  "claim_ceiling": "GMI_833_AE13_OBSERVATIONAL_TO_CAUSAL_NON_IDENTIFICATION_EXACTLY_CENSUSED_AND_PRICED_AT_REGISTERED_FINITE_SCOPE",
+  "target_rows": 6,
+  "deferred_rows": 1,
+  "theorems": ["CI-1", "CI-2", "CI-3", "CI-4", "CI-5", "CI-6"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae13-causality-intervention-v1/ae13_causality_intervention_v1.py",
+    "B": "research/gmi-833-ae-ae13-causality-intervention-v1/independent_causal_oracle_v1.py",
+    "independence": "route B has no executable import of route A; the test parses route B's AST and asserts its import set is exactly {fractions, itertools, json, sys}. Route A enumerates DAGs over directed-edge masks with an acyclicity peel, decides Markov equivalence by (skeleton, v-structures) per Verma & Pearl, and computes interventions by TRUNCATED FACTORISATION on integer numerators. Route B enumerates DAGs over topological orders, decides equivalence by comparing full d-separation CI signatures, and computes interventions by PARENT ADJUSTMENT applied to the observational joint in exact Fractions. Neither the DAG enumeration, the equivalence test, nor the do-operator is shared."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; neither reproved nor extended"},
+    {"path": "research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json",
+     "blob_sha": "ceb77f5beac99b5427d1350915b19df546495fb8",
+     "claim_ceiling": "sibling AE1 receipt; AE13 reuses none of its code and earns no AE1 row"}
+  ],
+  "scope": {
+    "variables": ["A", "B", "C"],
+    "cpt_grid": ["0", "1/4", "1/2", "3/4", "1"],
+    "labelled_dags": 25,
+    "markov_equivalence_classes": 11,
+    "models_enumerated": 547625,
+    "interventions": "single-variable atomic only",
+    "declared_but_not_instantiated": ["latent confounders", "multi-variable interventions", "continuous variables"]
+  },
+  "forbidden_promotions": [
+    "OBSERVATIONAL_DATA_NEVER_IDENTIFIES_CAUSAL_STRUCTURE",
+    "CAUSAL_DISCOVERY_IMPOSSIBILITY_PROVED",
+    "MULTI_VARIABLE_INTERVENTION_PROVED",
+    "LATENT_CONFOUNDER_GENERAL_CASE_PROVED",
+    "CONTINUOUS_VARIABLE_EXTENSION_PROVED",
+    "INTERVENTION_ALWAYS_WORTH_ITS_COST",
+    "COMPUTATIONAL_MECHANICS_CAUSAL_STATE_IS_PEARLIAN_CAUSAL_STATE",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "COMPLETE_GMI"
+  ]
+}

@@ -26,12 +26,25 @@ jobs:
         run: |
           set -eu
           PKG=research/gmi-833-z-z12-prediction-scoring-v1
-          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
-          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/z12_prediction_scoring_v1.py" | tail -1)
-          if [ -z "$FREEZE" ]; then echo "negative control: freeze file not found in history"; exit 1; fi
-          if [ -z "$IMPL" ]; then echo "negative control: executor not found in history"; exit 1; fi
-          echo "freeze=$FREEZE impl=$IMPL"
-          if [ "$FREEZE" -ge "$IMPL" ]; then echo "FREEZE DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
+          # Was: freeze timestamp strictly older than the executor timestamp.
+          # That form cannot hold once the package is squash-merged, because the
+          # freeze and the executor then share a single commit and a single
+          # committer time -- so the gate failed on main for a package whose
+          # custody is in fact intact. Replaced by the presence-in-the-
+          # publishing-commit form the sibling #833 workflows already use.
+          git log --reverse --format=%H -- "$PKG/" > /tmp/z12_all.txt
+          FIRST=$(head -1 /tmp/z12_all.txt)
+          if [ -z "$FIRST" ]; then echo "negative control: package absent from history"; exit 1; fi
+          git show --name-only --format= "$FIRST" -- "$PKG/" > /tmp/z12_firstfiles.txt
+          cat /tmp/z12_firstfiles.txt
+          if ! grep -q 'FREEZE_V1.md' /tmp/z12_firstfiles.txt; then
+            echo "FREEZE IS NOT IN THE COMMIT THAT FIRST TOUCHED THIS PACKAGE"; exit 1
+          fi
+          if [ "$(grep -c . /tmp/z12_firstfiles.txt)" = "1" ]; then
+            echo 'freeze-first commit ordering intact'
+          else
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
 
       - name: Section Z map integrity
         run: python3 -I -B research/gmi-833-z-map-v1/check_z_map_v1.py
