@@ -1,0 +1,61 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "section": "AE7",
+  "package": "gmi-833-ae-ae7-prediction-to-control-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "65b45210b0cca60dba37d36fd556c8846fa3232f",
+  "claim_ceiling": "GMI_833_AE7_PREDICTION_TO_CONTROL_BOUNDARY_EXACTLY_SEPARATED_AND_PRICED_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "PREDICTION_INSUFFICIENT_FOR_INTELLIGENCE_IN_GENERAL",
+    "CONTROL_SUFFICIENCY_IMPLIES_PREDICTIVE_SUFFICIENCY",
+    "PREDICTIVE_SUFFICIENCY_IMPLIES_CONTROL_SUFFICIENCY",
+    "POMDP_BELIEF_SUFFICIENCY_REPROVED",
+    "INFINITE_HORIZON_CONTROL_PROVED",
+    "CONTINUOUS_STATE_EXTENSION_PROVED",
+    "ENERGY_OR_TIME_PRICE_MEASURED",
+    "ARCHITECTURE_SELECTION_LAW",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "### AE7 — From prediction to control",
+      "old": "- [ ] Prove that prediction alone is insufficient for general intelligence by constructing same-predictive/different-control-relevance examples.",
+      "new": "- [x] Prove that prediction alone is insufficient for general intelligence by constructing same-predictive/different-control-relevance examples. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-1: two sensors with **identical predictive content** — equal block masses and equal conditional laws, cell by cell as exact rationals, for **every** one of the 6 registered targets, so no predictor under any loss can tell them apart — have control values `1` and `1/2` under `U_hidden_coordinate`, a gap of exactly `1/2`. Over the full census of **4140** sensors (**712** distinct predictive profiles) there are **10,980** such same-predictive/different-control pairs; the contrast is reported too — under `U_visible_coordinate`, whose optima are measurable in the registered targets, the count is exactly **0**. The claim is scoped to the registered target suite and utility family, and `PREDICTION_INSUFFICIENT_FOR_INTELLIGENCE_IN_GENERAL` is a registered forbidden promotion."
+    },
+    {
+      "anchor": "### AE7 — From prediction to control",
+      "old": "- [ ] Formalize control-relevant sufficient state / action equivalence under a utility or behavioral specification.",
+      "new": "- [x] Formalize control-relevant sufficient state / action equivalence under a utility or behavioral specification. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-2: `T` is control-sufficient iff `V(T) = V_full` with `V` exact rational; **225 / 225 / 208 / 221** of the 4140 sensors are control-sufficient for the four registered utilities, and the **coarsest** such sensor is computed by exhaustive minimisation rather than asserted — it is unique for two utilities and **not** unique for the other two (**3** and **8** minimal elements, all reported). The action-equivalence criterion — a block is free iff its states share an optimal action — matches the exact value function on **every** pairwise merge, **0** mismatches across all four utilities, and is proved **not** to be a pairwise-local property: **1** triple `(0,1,2)` is pairwise compatible yet has empty common optimum, so Helly fails and a pairwise checker is unsound."
+    },
+    {
+      "anchor": "### AE7 — From prediction to control",
+      "old": "- [ ] Relate to POMDP belief states, sufficient information states, rate-distortion control and bounded rationality; subtract parent mathematics.",
+      "new": "- [x] Relate to POMDP belief states, sufficient information states, rate-distortion control and bounded rationality; subtract parent mathematics. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-3: a machine-readable crosswalk of **5** entries, each carrying a DOI — belief-state sufficiency (Åström 1965, doi:10.1016/0022-247X(65)90154-X; Smallwood & Sondik 1973, doi:10.1287/opre.21.5.1071), MDP bisimulation/model minimisation (Givan, Dean & Greig 2003, doi:10.1016/S0004-3702(02)00376-4), rate-distortion control and information-theoretic bounded rationality (Tishby & Polani 2011, doi:10.1007/978-1-4419-1452-1_19; Ortega & Braun 2013, doi:10.1098/rspa.2012.0683), value of information (Howard 1966, doi:10.1109/TSSC.1966.300074) and rational inattention (Sims 2003, doi:10.1016/S0304-3932(03)00029-1). **3** entries terminate `PARENT_SUFFICIENT`, recorded as successes; the named residual is the exhaustive 4140-sensor census with counts in both directions and the priced ladder."
+    },
+    {
+      "anchor": "### AE7 — From prediction to control",
+      "old": "- [ ] Derive value-of-information conditions for when sensing/remembering/computing additional information is worth its resource cost.",
+      "new": "- [x] Derive value-of-information conditions for when sensing/remembering/computing additional information is worth its resource cost. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-4: acquire the finer sensor iff `VoI(T,T') > price · (cost(T) − cost(T'))`. Over **163,754** comparable sensor pairs, **26,790** have value of information exactly `0` and **136,964** strictly positive, and the exact break-even prices form **71** distinct rationals spanning `0` to `9/64`. The full-versus-blind probe has `VoI = 9/64` over a cost increment of `7`, break-even `9/448`: strictly below it the fine sensor wins (`85/128` vs `71/128`), **at** it the two are exactly tied (`71/128` vs `71/128`) — the tie is reported, not skipped — and strictly above it the blind sensor wins (`57/128` vs `71/128`)."
+    },
+    {
+      "anchor": "### AE7 — From prediction to control",
+      "old": "- [ ] Derive when an agent should compress observations more aggressively because actions are insensitive to distinctions.",
+      "new": "- [x] Derive when an agent should compress observations more aggressively because actions are insensitive to distinctions. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-5: merging a set of states costs no control value **iff** the intersection of their optimal-action sets is non-empty. The criterion is verified against the exact value function on every one of the **28** pairwise merges for each utility — **0** mismatches — and is non-vacuous in both directions: **12 / 12 / 13 / 14** free pairs against **16 / 16 / 15 / 14** costly ones for the four registered utilities."
+    },
+    {
+      "anchor": "### AE7 — From prediction to control",
+      "old": "- [ ] Derive when control requires preserving distinctions that pure prediction would discard.",
+      "new": "- [x] Derive when control requires preserving distinctions that pure prediction would discard. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-6, the exact converse of PC-5: **4** state pairs are invisible to **all 6** registered targets, and **4 of 4** of them are strictly control-relevant under `U_hidden_coordinate` — merging `{0,4}` drops `V` from `1` to `7/8` — while under `U_visible_coordinate` the count is exactly **0**. The boundary of the witness is measured rather than hidden: adding `Y_b2` or `Y_parity` destroys the redundancy entirely (**0** surviving pairs), but adding `Y_majority` does **not** — **2** pairs survive, because on the four states with `b0 = b1` the majority is pinned by `b0`."
+    },
+    {
+      "anchor": "### AE7 — From prediction to control",
+      "old": "- [ ] Prospectively predict policy/representation transitions under changing information-processing prices.",
+      "new": "- [x] Prospectively predict policy/representation transitions under changing information-processing prices. — ✅ `gmi-833-ae-ae7-prediction-to-control-v1` PC-7: five predictions `R1`–`R5` were written into `FREEZE_V1.md` at commit `65b45210` **before** any executor, oracle or receipt blob existed, and **all five HELD**. `R1` monotone coarsening: **0** nesting violations over 33 price points × 4 problems. `R2`: **2** problems show ≥3 distinct selected sensors. `R3`: **0** transitions fall outside the **121**-element exact set of difference quotients `(V(T)−V(T'))/(cost(T)−cost(T'))`. `R4`: **0** failures — above the maximal gain the blind sensor is selected everywhere. `R5`: **4 of 4** problems select a control-sufficient sensor that is **not** predictively sufficient for some registered target, so the priced control order is not the predictive order. The ladder is proved non-vacuous (every problem moves, two move three times)."
+    }
+  ],
+  "not_closed": [],
+  "note": "The orchestrator applies all issue-comment writes. This package edits no issue body and no comment."
+}

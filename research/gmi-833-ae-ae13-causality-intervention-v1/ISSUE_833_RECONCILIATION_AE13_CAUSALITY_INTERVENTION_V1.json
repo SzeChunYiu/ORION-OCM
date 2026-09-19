@@ -1,0 +1,61 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "section": "AE13",
+  "package": "gmi-833-ae-ae13-causality-intervention-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "b1413bbe95b4d0de26635d1d026716df93226818",
+  "claim_ceiling": "GMI_833_AE13_OBSERVATIONAL_TO_CAUSAL_NON_IDENTIFICATION_EXACTLY_CENSUSED_AND_PRICED_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "OBSERVATIONAL_DATA_NEVER_IDENTIFIES_CAUSAL_STRUCTURE",
+    "CAUSAL_DISCOVERY_IMPOSSIBILITY_PROVED",
+    "MULTI_VARIABLE_INTERVENTION_PROVED",
+    "LATENT_CONFOUNDER_GENERAL_CASE_PROVED",
+    "CONTINUOUS_VARIABLE_EXTENSION_PROVED",
+    "INTERVENTION_ALWAYS_WORTH_ITS_COST",
+    "COMPUTATIONAL_MECHANICS_CAUSAL_STATE_IS_PEARLIAN_CAUSAL_STATE",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "### AE13 — Causality and intervention",
+      "old": "- [ ] Prove that observational compression/prediction does not generally identify causal structure.",
+      "new": "- [x] Prove that observational compression/prediction does not generally identify causal structure. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-1: over the complete census of **547,625** SCMs — all **25** labelled DAGs on three binary variables, every CPT drawn from the frozen grid `{0, 1/4, 1/2, 3/4, 1}` — the 25 DAGs fall into **11** Markov equivalence classes, and **all 7** classes containing more than one DAG carry an exhibited witness: two parameterisations of **different** DAGs whose observational joints agree on **all 8 atoms** as exact rationals and whose interventional answers differ. **80,788,144** such cross-DAG disagreeing pairs exist over **26,601** joints realised by two or more DAGs of one class. The quantifier is kept: the **4** singleton classes **are** identified, and they are reported with count `0` rather than omitted — the claim is *not generally identified*, never *never identified*."
+    },
+    {
+      "anchor": "### AE13 — Causality and intervention",
+      "old": "- [ ] Construct observationally equivalent worlds with different intervention consequences.",
+      "new": "- [x] Construct observationally equivalent worlds with different intervention consequences. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-2: `A → C` against `C → A` with `B` isolated, `P(A=1) = 1/2`, `P(C=1|A=1) = 3/4`, `P(C=1|A=0) = 1/4`. The observational joint `(3/16, 1/16, 3/16, 1/16, 1/16, 3/16, 1/16, 3/16)` sums exactly to `1` and is reproduced by exactly **1** parameterisation of the other DAG, found by exhaustive search over the frozen grid. The registered answers then separate completely: `ACE_A_on_C` is `1/2` under one member and `0` under the other, `ACE_C_on_A` is `0` and `1/2` — the identification interval of each is the full `[0, 1/2]` while the observational joint is identical cell by cell."
+    },
+    {
+      "anchor": "### AE13 — Causality and intervention",
+      "old": "- [ ] Define when interventions are required for the behavioral specification.",
+      "new": "- [x] Define when interventions are required for the behavioral specification. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-3: interventions are required for a specification `(query, tolerance)` **iff** the half-width of that query's identification interval over the observational equivalence class exceeds the tolerance. The rule is tested on both sides and **at** the boundary: with worst-case half-width `1/2`, at tolerance `31/64` interventions are required, at exactly `1/2` they are **not**, and at `33/64` they are not — the flip is verified at the exact rational threshold rather than sampled around it. Per query, **5,356** of **26,601** joint groups have a non-degenerate interval and **21,245** are identified observationally; the four registered queries give identical counts, as the relabelling symmetry of the full census forces."
+    },
+    {
+      "anchor": "### AE13 — Causality and intervention",
+      "old": "- [ ] Derive the value of intervention under resource cost.",
+      "new": "- [x] Derive the value of intervention under resource cost. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-4: the value of an atomic intervention is exactly half the identification-interval width, since the experiment answers its own query exactly; acquire iff that exceeds the price. The worst case over the census is `1/2`. Intervention is **not** universally worth its cost, and this is exhibited rather than conceded: **84,980** query-group specifications have value of intervention exactly `0`, and a named one is carried in the receipt — `ACE_C_on_A` on a joint realised by all **25** DAGs, identified answer `0`, interval width `0`."
+    },
+    {
+      "anchor": "### AE13 — Causality and intervention",
+      "old": "- [ ] Distinguish predictive state from causal/control state.",
+      "new": "- [x] Distinguish predictive state from causal/control state. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-5: on the registered confounded subfamily `B → A`, `B → C`, `A → C`, the predictive state (the partition of the four `(A,B)` contexts by `p(C=1|A,B)`) and the causal/control state (the partition by the full interventional response vector `(p(C=1|do(A=0)), p(C=1|do(A=1)))` at that context) are different objects: over the **2,187** strictly positive models (**75,938** excluded for a zero atom, reported not dropped) the relation is `INCOMPARABLE` **1,458** times, `PREDICTIVE_STRICTLY_REFINES` **486**, `EQUAL` **243**, and `CAUSAL_STRICTLY_REFINES` **0** — the last a **proved** zero, not an unobserved one: the causal state separates only the two values of the context, so for it to refine the predictive partition strictly the predictive partition would have to be trivial, and then the causal one is trivial too and the relation is `EQUAL`."
+    },
+    {
+      "anchor": "### AE13 — Causality and intervention",
+      "old": "- [ ] Relate to causal-state, causal-representation-learning and causal-inference parents precisely.",
+      "new": "- [x] Relate to causal-state, causal-representation-learning and causal-inference parents precisely. — ✅ `gmi-833-ae-ae13-causality-intervention-v1` CI-6: **6** crosswalk entries, each with a citation — truncated factorisation and do-calculus (Pearl 1995, doi:10.1093/biomet/82.4.669; Pearl 2009, doi:10.1017/CBO9780511803161), Markov equivalence (Verma & Pearl 1990; Andersson, Madigan & Perlman 1997, doi:10.1214/aos/1031833662), partial identification (Balke & Pearl 1997, doi:10.1080/01621459.1997.10474074), experimental design (Hauser & Bühlmann 2014, doi:10.1111/rssb.12071), causal representation learning (Schölkopf et al. 2021, doi:10.1109/JPROC.2021.3058954) — with **3** `PARENT_SUFFICIENT` terminals recorded as successes. The entry that matters most is the sixth: the computational-mechanics `causal state` (Shalizi & Crutchfield 2001, doi:10.1023/A:1010388907793) is a **purely predictive** equivalence class of histories with no interventional content and is **not** the Pearlian causal structure; `COMPUTATIONAL_MECHANICS_CAUSAL_STATE_IS_PEARLIAN_CAUSAL_STATE` is a registered forbidden promotion and CI-5 measures how far apart the two notions actually sit."
+    }
+  ],
+  "not_closed": [
+    {
+      "row": "- [x] Test whether causal structure changes selected morphology relative to observational prediction alone.",
+      "reason": "Tier 2 in AE_ROW_TIER_ASSIGNMENT_V1.json and ALREADY CLOSED by gmi-833-ae-morphology-sweep-v1 SWEEP-5 in a sibling lane. This tranche neither re-closes it nor depends on it; the freeze names it as the row explicitly not closed here."
+    }
+  ],
+  "note": "The orchestrator applies all issue-comment writes. This package edits no issue body and no comment."
+}

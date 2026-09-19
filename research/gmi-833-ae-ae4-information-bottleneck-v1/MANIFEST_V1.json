@@ -1,0 +1,61 @@
+{
+  "schema": "GMI_833_AE4_INFORMATION_BOTTLENECK_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE4",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae4-information-bottleneck-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "c05f8f4ce6e5614993dff1e69177a58b53938f87",
+  "claim_ceiling": "GMI_833_AE4_IB_RELEVANT_INFORMATION_BOUNDARY_EXACTLY_CLASSIFIED_OVER_DETERMINISTIC_ENCODERS_AT_REGISTERED_FINITE_SCOPE",
+  "target_rows": 8,
+  "deferred_rows": 0,
+  "theorems": ["IB-1", "IB-2", "IB-3", "IB-4", "IB-5", "IB-6", "IB-7", "IB-8"],
+  "prospective_predictions": ["Q1", "Q2", "Q3", "Q4", "Q5"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae4-information-bottleneck-v1/ae4_information_bottleneck_v1.py",
+    "B": "research/gmi-833-ae-ae4-information-bottleneck-v1/independent_ib_oracle_v1.py",
+    "independence": "route B has no executable import of route A; the test parses route B's AST and asserts its import set is exactly {fractions, itertools, json, sys}. The two routes do not share an ARITHMETIC, not merely a code path. Route A decomposes every entropy into a rational combination of PRIME LOGARITHMS and orders values by an exact integer power product built from that decomposition. Route B never factorises anything: it carries the EXPONENTIATED entropy (2^H)^M as an exact rational and compares by cross-multiplying integers. Route A builds encoders as restricted-growth strings; route B by an insert-into-a-block recursion over frozensets. Route B additionally self-checks its engine against four hand-computed entropies and asserts that a scale which fails to clear a denominator RAISES rather than rounding."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; neither reproved nor extended"},
+    {"path": "research/gmi-833-ae-ae2-predictive-boundary-v1/RESULT_V1.json",
+     "blob_sha": "cd1e1d5f68342918c0b54583fc5f5b70eabe203c",
+     "claim_ceiling": "sibling AE2 receipt; AE4 reuses none of its code and earns no AE2 row"},
+    {"path": "research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json",
+     "blob_sha": "69aafebec4016f539c46b1f71546f740a8018421",
+     "claim_ceiling": "sibling AE10 receipt; AE4's price is an IB tradeoff, not AE10's budget lattice, and no AE10 row is earned"}
+  ],
+  "scope": {
+    "support_atoms": 8,
+    "encoders": 4140,
+    "encoder_class": "deterministic hard partitions only",
+    "worlds": ["W_dictator", "W_and", "W_parity", "W_pair", "W_skew", "W_noisy", "W_triple"],
+    "beta_ladder_points": 9,
+    "declared_but_not_instantiated": ["stochastic encoders", "continuous variables", "infinite support"]
+  },
+  "map_corrections": [
+    {
+      "claim_in_AE_SECTION_MAP_V1": "the AE4 package needs AE3's coding-language registry",
+      "verdict": "NOT_LOAD_BEARING",
+      "evidence": "all eight AE4 rows are Information-Bottleneck / rate-distortion obligations; none consumes a prefix code, a program length or a description-length registry. This package takes no dependency on gmi-833-ae-ae3-compression-learning-v1, which is in any case not on main at source_main.",
+      "declared_in": "FREEZE_V1.md, before any implementation blob existed"
+    }
+  ],
+  "forbidden_promotions": [
+    "IB_OPTIMUM_OVER_STOCHASTIC_ENCODERS_PROVED",
+    "GMI_PREDICTIVE_STATE_IS_THE_IB_OPTIMUM",
+    "IB_OPTIMAL_IMPLIES_CONTROL_OPTIMAL",
+    "INFINITE_SUPPORT_EXTENSION_PROVED",
+    "CONTINUOUS_VARIABLE_EXTENSION_PROVED",
+    "RATE_DISTORTION_THEOREM_REPROVED",
+    "FORGETTING_IS_ALWAYS_OPTIMAL",
+    "ENERGY_OR_TIME_PRICE_MEASURED",
+    "ARCHITECTURE_SELECTION_LAW",
+    "COMPLETE_GMI"
+  ]
+}

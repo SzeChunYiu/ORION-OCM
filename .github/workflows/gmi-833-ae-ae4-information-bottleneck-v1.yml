@@ -1,0 +1,199 @@
+name: GMI 833 AE4 information bottleneck v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae4-information-bottleneck-v1/**'
+      - '.github/workflows/gmi-833-ae-ae4-information-bottleneck-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae4-information-bottleneck-v1/**'
+      - '.github/workflows/gmi-833-ae-ae4-information-bottleneck-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze custody (the freeze predates every other blob)
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=c05f8f4ce6e5614993dff1e69177a58b53938f87
+          pkg=research/gmi-833-ae-ae4-information-bottleneck-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/ae4_information_bottleneck_v1.py" \
+            "$pkg/independent_ib_oracle_v1.py" \
+            "$pkg/test_ae4_information_bottleneck_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/AE4_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/CORE.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE4_INFORMATION_BOTTLENECK_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+          echo "freeze order proved for $freeze"
+
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            if [ "$actual" != "$2" ]; then
+              echo "parent pin drift on $1: $actual != $2" >&2; exit 1
+            fi
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-ae-ae2-predictive-boundary-v1/RESULT_V1.json cd1e1d5f68342918c0b54583fc5f5b70eabe203c
+          verify_parent research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json 69aafebec4016f539c46b1f71546f740a8018421
+
+      - name: Exact IB census, both routes, hostiles and null
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae4-information-bottleneck-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/ae4_information_bottleneck_v1.py" > /tmp/ae4.json
+            python -I -O -B "$pkg/test_ae4_information_bottleneck_v1.py" -v
+          else
+            python -I -B "$pkg/ae4_information_bottleneck_v1.py" > /tmp/ae4.json
+            python -I -B "$pkg/test_ae4_information_bottleneck_v1.py" -v
+          fi
+          cmp /tmp/ae4.json "$pkg/RESULT_V1.json"
+
+      - name: Check manifest, claim ceiling and every named number
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae4-information-bottleneck-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          rec = json.loads((root /
+              'ISSUE_833_RECONCILIATION_AE4_INFORMATION_BOTTLENECK_V1.json'
+              ).read_text())
+          expected = ('GMI_833_AE4_IB_RELEVANT_INFORMATION_BOUNDARY_EXACTLY_'
+                      'CLASSIFIED_OVER_DETERMINISTIC_ENCODERS_AT_REGISTERED_'
+                      'FINITE_SCOPE')
+          assert m['claim_ceiling'] == r['claim_ceiling'] == rec['claim_ceiling'] == expected
+          assert m['source_main'] == r['source_main'] == (
+              '5e57d4292266bccf435136e1f7d72caa32e920a0')
+          assert m['freeze_commit'] == r['freeze_commit'] == (
+              'c05f8f4ce6e5614993dff1e69177a58b53938f87')
+          assert r['verdict'] == 'GREEN' and all(r['checks'].values())
+          assert r['issue_comment_id'] == 5692689542 == rec['issue_comment_id']
+          res = r['results']
+
+          f1 = res['IB_1_formalisation']
+          assert f1['stochastic_encoders_optimised'] is False
+          assert len(f1['crosswalk']) >= 6
+          assert all(e['citation'].strip() for e in f1['crosswalk'])
+
+          r2 = res['IB_2_relation_over_the_beta_ladder']
+          assert r2['relation_totals'] == {
+              'EQUAL': 44, 'GMI_STRICTLY_REFINES': 41,
+              'IB_STRICTLY_REFINES': 0, 'INCOMPARABLE': 0}
+          pw = r2['per_world']
+          assert pw['W_noisy']['smallest_beta_at_which_T_GMI_is_IB_optimal'] == '6'
+          for w in ('W_dictator', 'W_and', 'W_parity', 'W_pair', 'W_skew',
+                    'W_triple'):
+              assert pw[w]['smallest_beta_at_which_T_GMI_is_IB_optimal'] == '1'
+          assert 'log2(3)' in pw['W_and']['H_Y']
+
+          r3 = res['IB_3_smallest_counterexample']
+          assert r3['minimality_proved'] is True
+          assert r3['smaller_sizes_with_a_counterexample'] == 0
+          pa = r3['proved_absence_of_the_stronger_counterexample']
+          assert pa['instances_found'] == 0
+          assert pa['smallest_support_size_found'] is None
+          assert pa['exhausted_support_sizes'] == [2, 3, 4, 5, 6]
+          cs = r3['channel_search']
+          assert cs['smallest_support_size'] == 2
+          assert cs['minimality_proved'] is True
+          assert 'revival_record' in cs
+
+          r4 = res['IB_4_relevance_versus_control']
+          assert r4['relevance_beats_control_pairs'] == 162242
+          assert r4['control_beats_relevance_pairs'] == 280779
+          assert r4['capacity_classes'] == 8
+
+          r5 = res['IB_5_when_forgetting_is_optimal']
+          assert r5['free_merges'] == 12 and r5['costly_merges'] == 16
+          assert r5['criterion_mismatches'] == 0
+
+          r6 = res['IB_6_when_apparent_irrelevance_must_be_retained']
+          assert len(r6['mechanisms']) == 5
+          assert r6['witnessed'] == 5 and r6['not_witnessed'] == 0
+          ci = [x for x in r6['mechanisms']
+                if x['mechanism'] == 'causal intervention'][0]
+          assert ci['observational_contrast'] != ci['interventional_contrast']
+
+          r7 = res['IB_7_capacity_distortion_frontiers']
+          assert r7['predictive_frontier_size'] == 11
+          assert r7['control_frontier_size'] == 8
+          assert r7['shared_encoders'] == 5
+          assert r7['frontiers_differ'] is True
+          assert r7['sweep_verified_against_quadratic_test_on_slice'] is True
+          assert r7['predictive_frontier_points'] == [
+              [1, '2'], [2, '1'], [3, '1/2'], [4, '0']]
+          assert r7['control_frontier_points'] == [
+              [1, '3/8'], [2, '1/4'], [3, '1/8'], [4, '0']]
+
+          r8 = res['IB_8_priced_crossover_predictions']
+          assert r8['frozen_before_executor'] is True
+          assert r8['freeze_commit'] == m['freeze_commit']
+          assert r8['worlds_evaluated'] == 7
+          preds = r8['predictions']
+          assert len(preds) == 5
+          assert all(v['verdict'] == 'HELD' for v in preds.values())
+          assert preds['Q1_block_count_monotone_non_increasing']['violations'] == 0
+          assert preds['Q3_transition_prices_in_the_exact_set'][
+              'transitions_outside_the_set'] == 0
+          assert preds['Q4_trivial_encoder_above_max_gain']['failures'] == 0
+
+          assert len(r['hostiles']) == 5
+          assert all(h['moves_target_quantity'] and h['detected']
+                     for h in r['hostiles'])
+          h1 = [h for h in r['hostiles']
+                if h['id'] == 'H1_dyadic_only_entropy'][0]
+          assert h1['exact_sign'] == 1 and h1['hostile_sign'] == -1
+          n = r['null']
+          assert n['clean_controls_firing'] == 0
+          assert n['planted_controls_firing'] == n['planted_controls_enumerated']
+
+          assert len(m['map_corrections']) == 1
+          assert m['map_corrections'][0]['verdict'] == 'NOT_LOAD_BEARING'
+          assert rec['schema'] == 'GMI_ISSUE_RECONCILIATION_V2'
+          assert len(rec['replacements']) == 8
+          for rp in rec['replacements']:
+              assert rp['anchor'] == ('### AE4 — Information Bottleneck / '
+                                      'relevant-information boundary')
+              assert rp['new'].startswith(rp['old'].replace('- [ ] ', '- [x] ', 1))
+          print('AE4 receipt, manifest and reconciliation all check out')
+          PY

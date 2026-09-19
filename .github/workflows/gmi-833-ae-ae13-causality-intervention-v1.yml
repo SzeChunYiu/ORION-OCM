@@ -1,0 +1,171 @@
+name: GMI 833 AE13 causality and intervention v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae13-causality-intervention-v1/**'
+      - '.github/workflows/gmi-833-ae-ae13-causality-intervention-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae13-causality-intervention-v1/**'
+      - '.github/workflows/gmi-833-ae-ae13-causality-intervention-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze custody (the freeze predates every other blob)
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=b1413bbe95b4d0de26635d1d026716df93226818
+          pkg=research/gmi-833-ae-ae13-causality-intervention-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/ae13_causality_intervention_v1.py" \
+            "$pkg/independent_causal_oracle_v1.py" \
+            "$pkg/test_ae13_causality_intervention_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/AE13_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/CORE.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE13_CAUSALITY_INTERVENTION_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+          echo "freeze order proved for $freeze"
+
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            if [ "$actual" != "$2" ]; then
+              echo "parent pin drift on $1: $actual != $2" >&2; exit 1
+            fi
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json ceb77f5beac99b5427d1350915b19df546495fb8
+
+      - name: Exhaustive SCM census, both routes, hostiles and null
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae13-causality-intervention-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/ae13_causality_intervention_v1.py" > /tmp/ae13.json
+            python -I -O -B "$pkg/test_ae13_causality_intervention_v1.py" -v
+          else
+            python -I -B "$pkg/ae13_causality_intervention_v1.py" > /tmp/ae13.json
+            python -I -B "$pkg/test_ae13_causality_intervention_v1.py" -v
+          fi
+          cmp /tmp/ae13.json "$pkg/RESULT_V1.json"
+
+      - name: Check manifest, claim ceiling and every named number
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae13-causality-intervention-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          rec = json.loads((root /
+              'ISSUE_833_RECONCILIATION_AE13_CAUSALITY_INTERVENTION_V1.json'
+              ).read_text())
+          expected = ('GMI_833_AE13_OBSERVATIONAL_TO_CAUSAL_NON_IDENTIFICATION_'
+                      'EXACTLY_CENSUSED_AND_PRICED_AT_REGISTERED_FINITE_SCOPE')
+          assert m['claim_ceiling'] == r['claim_ceiling'] == rec['claim_ceiling'] == expected
+          assert m['source_main'] == r['source_main'] == (
+              '5e57d4292266bccf435136e1f7d72caa32e920a0')
+          assert m['freeze_commit'] == r['freeze_commit'] == (
+              'b1413bbe95b4d0de26635d1d026716df93226818')
+          assert r['verdict'] == 'GREEN' and all(r['checks'].values())
+          assert r['issue_comment_id'] == 5692689542 == rec['issue_comment_id']
+          res = r['results']
+
+          c1 = res['CI_1_observational_non_identification']
+          assert c1['labelled_dags'] == 25
+          assert c1['markov_equivalence_classes'] == 11
+          assert c1['classes_with_more_than_one_dag'] == 7
+          assert c1['classes_with_a_non_identification_witness'] == 7
+          assert c1['singleton_classes_which_ARE_identified'] == 4
+          assert c1['models_enumerated'] == 547625
+          assert c1['distinct_observational_joints'] == 99033
+          assert c1['joints_realised_by_two_or_more_dags_of_one_class'] == 26601
+          assert c1['cross_dag_disagreeing_pairs_total'] == 80788144
+
+          c2 = res['CI_2_equivalence_class']
+          assert c2['markov_equivalent'] is True
+          assert c2['joint_sums_to_one'] is True
+          assert c2['members_of_the_other_dag_reproducing_it'] == 1
+          assert c2['interventional_answers_differ'] is True
+          assert c2['fixed_observational_joint'] == [
+              '3/16', '1/16', '3/16', '1/16', '1/16', '3/16', '1/16', '3/16']
+
+          c34 = res['CI_3_CI_4_requirement_and_price']
+          assert c34['required_below_tolerance'] is True
+          assert c34['required_at_tolerance'] is False
+          assert c34['required_above_tolerance'] is False
+          assert c34['flip_verified'] is True
+          assert c34['worst_case_value_of_intervention'] == '1/2'
+          assert c34['groups_with_zero_value_of_intervention'] == 84980
+          assert c34['named_zero_value_specification']['value_of_intervention'] == '0'
+          for name, d in c34['per_query'].items():
+              assert d['joint_groups_examined'] == 26601
+              assert d['groups_with_a_non_degenerate_interval'] == 5356
+              assert d['groups_identified_observationally'] == 21245
+
+          c5 = res['CI_5_predictive_versus_causal_state']
+          assert c5['relation_counts'] == {
+              'EQUAL': 243, 'PREDICTIVE_STRICTLY_REFINES': 486,
+              'CAUSAL_STRICTLY_REFINES': 0, 'INCOMPARABLE': 1458}
+          assert c5['excluded_non_positive'] == 75938
+          assert 'proof_of_the_zero' in c5
+
+          c6 = res['CI_6_parent_crosswalk']
+          assert len(c6['entries']) >= 6
+          assert c6['separates_computational_mechanics_from_pearl'] is True
+          assert c6['parent_sufficient_terminals'] >= 3
+
+          assert len(r['hostiles']) == 5
+          assert all(h['moves_target_quantity'] and h['detected']
+                     for h in r['hostiles'])
+          n = r['null']
+          assert n['clean_controls_firing'] == 0
+          assert n['planted_controls_firing'] == n['planted_controls_enumerated']
+          assert n['planted_controls_whose_twin_was_verified_to_exist'] == (
+              n['planted_controls_enumerated'])
+
+          assert rec['schema'] == 'GMI_ISSUE_RECONCILIATION_V2'
+          assert len(rec['replacements']) == 6
+          assert len(rec['not_closed']) == 1
+          for rp in rec['replacements']:
+              assert rp['anchor'] == '### AE13 — Causality and intervention'
+              assert rp['new'].startswith(rp['old'].replace('- [ ] ', '- [x] ', 1))
+          print('AE13 receipt, manifest and reconciliation all check out')
+          PY
