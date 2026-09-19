@@ -34,7 +34,8 @@ jobs:
       - name: Freeze precedes implementation
         run: |
           set -euo pipefail
-          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/first.txt
+          git log --reverse --format=%H -- "$PKG/" > /tmp/all_commits.txt
+          head -1 /tmp/all_commits.txt > /tmp/first.txt
           git show --name-only --format= "$(cat /tmp/first.txt)" -- "$PKG/" > /tmp/firstfiles.txt
           cat /tmp/firstfiles.txt
           if [ "$(grep -c . /tmp/firstfiles.txt)" = "1" ]; then

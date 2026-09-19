@@ -30,7 +30,7 @@ a verdict.
 | AA16 quantifier order | 5 | 4 | **0** | swap 4/4, warrant flip 4/4 | 0 |
 | AA17 converse/inverse | 95 | 11 | **0** | converse 11/11, inverse 11/11 | 0 |
 | AA18 necessity/sufficiency | 57 | 10 | **1** (`DL-3`, real-data recall 1/1) | iff-promotion 12/12, role swap 12/12 | 0 |
-| AA20 optimality/selection | 34 | 31 | **0** | evidence flip 31/31, atom flip 2/2 | 25 (not beaten, disclosed) |
+| AA20 optimality vs run search | 34 | 31 | **0** | evidence flip 31/31, atom flip 2/2 | 25 (not beaten, disclosed) |
 | AA22 correlation/causal | 5 | 5 | **0** | evidence flip 5/5 | 72 (not beaten, disclosed) |
 
 Pooled null: true agreement **60**, shuffled max **38**, mean `6633/200`,

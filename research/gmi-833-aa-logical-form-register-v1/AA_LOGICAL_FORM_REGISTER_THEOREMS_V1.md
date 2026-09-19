@@ -4,7 +4,7 @@ Status: **FINITE EXACT REGISTER AND REVIEW-QUEUE INSTRUMENT**. Claim ceiling
 `LOGICAL_FORM_REGISTER_AND_REVIEW_QUEUE_V1`. Every number below is an `int`
 or an exact `Fraction` reproduced by `RESULT_V1.json`; the two routes agree
 by canonical-structure equality on every form and by set equality on every
-queue. A queued object is a review obligation, never a refuted claim; an
+queue. A queued object is a review item, never a refuted claim; an
 unqueued object is not thereby sound. No statement here reaches past the
 registered set (`309 / 391`).
 
@@ -140,10 +140,10 @@ taxonomy owns the definitions.
 
 **Scope.** 10 evaluable of 57 applicable.
 
-**Forbidden extrapolations.** `QUEUED_CLAIM_IS_FALSE` (DL-3 is an obligation
+**Forbidden extrapolations.** `QUEUED_CLAIM_IS_FALSE` (DL-3 is a review item
 to cite the equality case, not a refutation), `NO_CONFUSION_REMAINS`.
 
-## LF-5 — AA20 optimality-vs-selection discriminator, evaluable on 31
+## LF-5 — AA20 optimality-vs-run-search discriminator, evaluable on 31
 
 **Statement.** **34** registered forms carry an `OPT` atom; **31** have a
 known, non-protocol evidence mode. All 31 are warranted analytically, by a
