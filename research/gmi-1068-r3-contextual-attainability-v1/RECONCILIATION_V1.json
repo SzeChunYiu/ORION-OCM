@@ -1,0 +1,69 @@
+{
+  "schema": "GRAND_GMI_V2_R3_RECONCILIATION_V1",
+  "source_issue": 1068,
+  "baseline_registry": "research/gmi-1068-grand-unified-v2-r0/ATOMIC_CHECKLIST_V1.json",
+  "merge_semantics": "These rows are reconciled only on merge of this exact PR head after all required CI/review gates are green.",
+  "rows": [
+    {
+      "id": "GMI2-R3-001",
+      "status": "PROVED",
+      "evidence": ["THEORY_V1.md", "Attainability.lean", "check_r3.py"],
+      "boundary": "finite admissible histories; partial evaluator image"
+    },
+    {
+      "id": "GMI2-R3-002",
+      "status": "FINITE_CALIBRATION",
+      "evidence": ["THEORY_V1.md", "check_r3.py"],
+      "boundary": "restriction means an explicitly nested admissible-history subset/family"
+    },
+    {
+      "id": "GMI2-R3-003",
+      "status": "PROVED",
+      "evidence": ["Attainability.lean::attain_mono", "check_r3.py"],
+      "boundary": "conditional on actual history-set inclusion"
+    },
+    {
+      "id": "GMI2-R3-004",
+      "status": "FINITE_CALIBRATION",
+      "evidence": ["THEORY_V1.md", "check_r3.py", "independent_oracle_v1.py"],
+      "boundary": "finite frontier exact; infinite maximal-element existence needs extra assumptions"
+    },
+    {
+      "id": "GMI2-R3-005",
+      "status": "PROVED",
+      "evidence": ["Attainability.lean::TargetPossible", "check_r3.py"],
+      "boundary": "relative to an explicitly declared success region"
+    },
+    {
+      "id": "GMI2-R3-006",
+      "status": "FINITE_CALIBRATION",
+      "evidence": ["THEORY_V1.md", "check_r3.py", "independent_oracle_v1.py"],
+      "boundary": "value-borne cost projection checked; resource-indexed reachability geometry continues in R5"
+    },
+    {
+      "id": "GMI2-R3-007",
+      "status": "FINITE_CALIBRATION",
+      "evidence": ["Attainability.lean::impossible_means_no_target", "check_r3.py"],
+      "boundary": "impossibility plus one-step enabling witnesses; no unique/minimal/causal barrier claim"
+    },
+    {
+      "id": "GMI2-R3-008",
+      "status": "FINITE_CALIBRATION",
+      "evidence": ["check_r3.py", "independent_oracle_v1.py"],
+      "boundary": "exact argmax/frontier regime switch only; no thermodynamic/nonanalytic phase-transition claim"
+    },
+    {
+      "id": "GMI2-R3-009",
+      "status": "PROVED",
+      "evidence": ["THEORY_V1.md", "THEOREM_SUCCESSOR_V1.json"],
+      "boundary": "Gamma/Pref/SEL retired from universal primitive vocabulary; historical theorem transports remain case-by-case"
+    },
+    {
+      "id": "GMI2-R3-010",
+      "status": "PROVED",
+      "evidence": ["Attainability.lean"],
+      "boundary": "kernel verification is a merge gate on the exact PR head"
+    }
+  ],
+  "claim_ceiling": "GRAND_GMI_V2_R3_CONTEXTUAL_ATTAINABILITY_MASTER_CARRIER_AT_REGISTERED_FINITE_HISTORY_SCOPE"
+}
