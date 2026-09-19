@@ -273,7 +273,7 @@ def main() -> Dict[str, object]:
         "crosswalk_rows": len(rows),
         "passing_rows": a["passing"],
         "failing_rows": a["failing_rows"],
-        "per_row": [{k: v for k, v in p.items() if k != "reasons"} | {"reasons": p["reasons"]} for p in a["per_row"]],
+        "per_row": [dict({k: v for k, v in p.items() if k != "reasons"}, reasons=p["reasons"]) for p in a["per_row"]],
         "harel_row1": harel,
         "register": {"date": reg.get("verification_date"), "rows": len(reg.get("rows", {})),
                      "primary_passage_routes": {k: sum(1 for r in reg["rows"].values() if r["primary_passage_route"] == k)
