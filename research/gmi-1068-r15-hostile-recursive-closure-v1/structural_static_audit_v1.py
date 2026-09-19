@@ -73,6 +73,14 @@ if not cov.get("empirical_claims_not_proved_by_kernel"):issues.append(("R14","EM
 # H20
 b=json.loads((pathlib.Path(__file__).resolve().parent/"BOUNDARIES_V1.json").read_text())
 if len(b["preserved_external_boundaries"])<3:issues.append(("R15","EMPIRICAL_BOUNDARIES_DROPPED"))
+# H21: every round checker whose workflow invokes -O must be fail-closed without bare Python asserts.
+for rr in ("R4","R5","R6","R7","R8","R9","R10","R11","R12","R13"):
+ checker=RESEARCH/PKGS[rr]/("check_"+rr.lower()+".py")
+ if checker.exists():
+  for lineno,line in enumerate(checker.read_text().splitlines(),1):
+   stripped=line.strip()
+   if stripped.startswith("assert ") or ";assert " in line:
+    issues.append((rr,f"OPTIMIZED_ASSERT_FAIL_OPEN:{lineno}"))
 if issues:
  print(json.dumps({"status":"RED","issues":issues},sort_keys=True));sys.exit(1)
-print(json.dumps({"status":"GREEN_REGISTERED_HOSTILE_CLASSES","packages":len(PKGS),"registered_checks":20,"issues":[],"external_boundaries":len(b["preserved_external_boundaries"])},sort_keys=True))
+print(json.dumps({"status":"GREEN_REGISTERED_HOSTILE_CLASSES","packages":len(PKGS),"registered_checks":21,"issues":[],"external_boundaries":len(b["preserved_external_boundaries"])},sort_keys=True))
