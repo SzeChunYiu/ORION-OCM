@@ -1,0 +1,31 @@
+name: gmi-1068-r10-information-control-unification-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r10-information-control-unification-v1/**'
+      - '.github/workflows/gmi-1068-r10-information-control-unification-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=5225ba59bfdb02cf56861a30e8f33f75c420727e
+          P=research/gmi-1068-r10-information-control-unification-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Exact dual-route checks
+        run: |
+          python3 -I -B research/gmi-1068-r10-information-control-unification-v1/check_r10.py >/tmp/a
+          python3 -I -O -B research/gmi-1068-r10-information-control-unification-v1/check_r10.py >/tmp/ao
+          python3 -I -B research/gmi-1068-r10-information-control-unification-v1/independent_oracle_v1.py >/tmp/b
+          python3 - <<'PY'
+          import json
+          a=json.load(open('/tmp/a'));b=json.load(open('/tmp/b'))
+          for k in ('best_independent_accuracy','future_store_x','future_store_xz','causal_alias','intervention_separates'):assert a[k]==b[k]
+          PY
