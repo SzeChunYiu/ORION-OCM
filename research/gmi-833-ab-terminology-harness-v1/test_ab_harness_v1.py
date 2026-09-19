@@ -310,6 +310,121 @@ class TestRatchetGate(Moved):
         self.assertGreater(live["quoted_issue_rows_exempt"], 0,
                            "exemption never fired; the hit shape may have changed")
 
+    # ------------------------------------------------------------------
+    # Non-prose exemptions. Each case shows the parent DETECTS the token
+    # (raw hit count moved), the ratchet EXEMPTS it, and a genuine prose hit
+    # in the same file still fires. Five open PRs were failed on these.
+    # ------------------------------------------------------------------
+    def _raw_and_measured(self, body, name="NOTE.md", subdir="gmi-833-x-fixture-v1"):
+        d = tempfile.mkdtemp()
+        pkg = os.path.join(d, "research", subdir)
+        os.makedirs(pkg)
+        path = os.path.join(pkg, name)
+        open(path, "w").write(body)
+        raw = R.load_gate().scan_paths([path], context="paper-facing")
+        live = R.measure(files=[path], root=d)
+        rel = os.path.relpath(path, d)
+        return raw, live, live["counts"].get(rel, {}), rel
+
+    def test_identifier_tokens_and_inline_code_are_not_prose(self):
+        body = ("# Parent ownership -- gmi-833-ae-morphology-sweep-v1\n\n"
+                "| `gmi-833-morphology-selection-v1` | the no-flip law | `6511cba4` |\n\n"
+                "Reproduce: python3 -I -B research/gmi-833-ae-morphology-sweep-v1/"
+                "test_morphology_sweep_v1.py -v\n\n"
+                "The `selection` correspondence is pinned by blob sha.\n")
+        raw, live, counts, _ = self._raw_and_measured(body)
+        raw_terms = sorted({h["term"] for h in raw})
+        self.assert_moved("identifier-detected-by-parent", 0, len(raw),
+                          "bare morphology" in raw_terms and
+                          "bare selection (undisambiguated)" in raw_terms)
+        self.assertEqual(counts, {}, "identifier / code-span hits survived: %r" % counts)
+        self.assertEqual(live["total_hits"], 0)
+        self.assertEqual(live["identifiers_exempt"] + live["code_spans_exempt"], len(raw))
+        self.assertGreater(live["identifiers_exempt"], 0)
+        self.assertGreater(live["code_spans_exempt"], 0)
+
+        # no-alarm for the exemption itself: prose in the SAME file still fires,
+        # and a line mixing a package name with prose keeps exactly the prose hit.
+        body2 = body + ("\nA morphology verdict needs two conventions.\n"
+                        "Under `gmi-833-morphology-selection-v1` every selection "
+                        "threshold is a marginal error mass.\n")
+        raw2, live2, counts2, _ = self._raw_and_measured(body2)
+        self.assertGreater(len(raw2), len(raw))
+        self.assertEqual(counts2, {"bare morphology": 1,
+                                   "bare selection (undisambiguated)": 1}, counts2)
+
+    def test_hyphenated_prose_compound_still_fires(self):
+        """A hyphen alone does not make an identifier."""
+        body = ("The transport onto the morphology-selection correspondence and the "
+                "morphology-sweep lane's correction both need morphology/resource cost.\n")
+        raw, live, counts, _ = self._raw_and_measured(body)
+        self.assertEqual(len(raw), 4, raw)
+        self.assertEqual(counts, {"bare morphology": 3,
+                                  "bare selection (undisambiguated)": 1}, counts)
+        self.assertEqual(live["identifiers_exempt"], 0)
+
+    def test_fenced_code_blocks_are_not_prose(self):
+        body = ("# Reproduce\n\n```bash\ncmp /tmp/sweep.json "
+                "research/x/RESULT.json  # selection receipt\nrun morphology\n```\n\n"
+                "Then a selection threshold is compared.\n")
+        raw, live, counts, _ = self._raw_and_measured(body)
+        self.assert_moved("fenced-detected-by-parent", 0, len(raw), len(raw) == 3)
+        self.assertEqual(counts, {"bare selection (undisambiguated)": 1}, counts)
+        self.assertEqual(live["code_spans_exempt"], 2)
+
+    def test_quoted_rows_by_shape_numbered_and_backticked(self):
+        body = ("# FREEZE\n\n"
+                "3. `- [ ] Construct adversarial recodings designed to flip morphology conclusions.`\n"
+                "`- [x] Test whether causal structure changes selected morphology.`\n"
+                "1. `- [ ] Identify control parameters producing morphology phase transitions.`\n"
+                "> - [ ] Reproduce under grammar remints.\n\n"
+                "This tranche flips a morphology conclusion in its own words.\n")
+        raw, live, counts, _ = self._raw_and_measured(body, name="FREEZE_V1.md")
+        self.assert_moved("quoted-rows-detected-by-parent", 0, len(raw), len(raw) == 5)
+        self.assertEqual(live["quoted_issue_rows_exempt"], 4)
+        self.assertEqual(counts, {"bare morphology": 1}, counts)
+        for t in ("3. `- [ ] a morphology`", "`- [x] a morphology`", "1. `- [ ] x`",
+                  "- [ ] x", "> - [x] x", "2) `- [ ] x`"):
+            self.assertTrue(R._is_quoted_issue_row({"text": t}), t)
+        for t in ("the morphology-selection rule", "row `- [ ]` style is discussed",
+                  "1. a numbered prose line about selection"):
+            self.assertFalse(R._is_quoted_issue_row({"text": t}), t)
+
+    def test_package_directory_heading_is_exempt(self):
+        body = ("# gmi-833-ae-morphology-sweep-v1\n\n"
+                "# FREEZE -- gmi-833-ae-morphology-sweep-v1\n\n"
+                "## Which quantity predicts the selected morphology?\n")
+        raw, live, counts, _ = self._raw_and_measured(body, subdir="gmi-833-ae-morphology-sweep-v1")
+        self.assert_moved("heading-detected-by-parent", 0, len(raw), len(raw) == 3)
+        self.assertEqual(counts, {"bare morphology": 1}, counts)
+        self.assertEqual(live["identifiers_exempt"], 2)
+
+    def test_ratchet_still_fails_on_a_planted_prose_hit_after_rebaseline(self):
+        """The committed baseline was regenerated under the exemption
+        semantics. It must still catch (a) a new owned file with a prose hit
+        and (b) a count regression on a baselined file."""
+        base = json.load(open(R.BASELINE))
+        self.assertIn("count_semantics", base)
+        d = tempfile.mkdtemp()
+        pkg = os.path.join(d, "research", "gmi-833-planted-v1")
+        os.makedirs(pkg)
+        planted = os.path.join(pkg, "PLANTED_THEOREMS_V1.md")
+        open(planted, "w").write("# gmi-833-planted-v1\n\nEvery selection threshold "
+                                 "is a marginal error mass; see `gmi-833-morphology-selection-v1`.\n")
+        live = R.measure(files=[planted], root=d)
+        rel = os.path.relpath(planted, d)
+        self.assertEqual(live["counts"], {rel: {"bare selection (undisambiguated)": 1}})
+        rep = R.check(base, live, [rel])
+        self.assertEqual(rep["new_files_with_hits"], [rel])
+        # (b) a baselined file whose prose count rises by one is a regression
+        some = sorted(base["counts"])[0]
+        term = sorted(base["counts"][some])[0]
+        bumped = {"counts": {some: {term: base["counts"][some][term] + 1}}}
+        self.assertEqual(len(R.check(base, bumped, [])["regressions"]), 1)
+        # no-alarm: the identical baseline counts are silent
+        same = {"counts": {some: dict(base["counts"][some])}}
+        self.assertEqual(R.check(base, same, [])["regressions"], [])
+
     def test_live_corpus_is_measurable_and_baseline_is_real(self):
         live = R.measure()
         self.assertIsInstance(live["total_hits"], int)
