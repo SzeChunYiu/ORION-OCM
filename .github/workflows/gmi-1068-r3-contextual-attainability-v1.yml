@@ -32,12 +32,47 @@ jobs:
           b=json.load(open('/tmp/b.json'))
           if a.get('status') != 'GREEN' or b.get('status') != 'GREEN':
               raise SystemExit('non-GREEN route')
-          keys=('full_frontier','budget_frontier','phase_low','phase_tie','phase_high','relief_witnesses')
+          keys=(
+              'full_frontier','budget_frontier',
+              'full_resources','budget_resources',
+              'phase_low','phase_tie','phase_high',
+              'relief_witnesses'
+          )
           for key in keys:
               if a.get(key) != b.get(key):
                   raise SystemExit(f'route disagreement for {key}: {a.get(key)!r} != {b.get(key)!r}')
-          if a.get('hostiles_caught') != 8:
+          if a.get('hostiles_caught') != 9:
               raise SystemExit('hostile count drift')
+          PY
+      - name: Registry and theory hygiene
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('research/gmi-1068-r3-contextual-attainability-v1')
+          result=json.loads((root/'RESULT_V1.json').read_text())
+          rec=json.loads((root/'RECONCILIATION_V1.json').read_text())
+          succ=json.loads((root/'THEOREM_SUCCESSOR_V1.json').read_text())
+          theory=(root/'THEORY_V1.md').read_text()
+          bad=[(i,ord(ch)) for i,ch in enumerate(theory) if ord(ch)<32 and ch not in '\n\t']
+          if bad:
+              raise SystemExit(f'control characters in theory: {bad[:5]}')
+          ids=[x['id'] for x in rec['rows']]
+          expected=[f'GMI2-R3-{i:03d}' for i in range(1,11)]
+          if ids != expected:
+              raise SystemExit(f'R3 row reconciliation drift: {ids}')
+          allowed={'PROVED','FINITE_CALIBRATION','PARENT_OWNED','CONJECTURE','EMPIRICAL','CANNOT_CHECK','NOT_STARTED'}
+          if any(x['status'] not in allowed for x in rec['rows']):
+              raise SystemExit('unregistered reconciliation status')
+          if rec['claim_ceiling'] != result['claim_ceiling']:
+              raise SystemExit('claim ceiling mismatch')
+          if succ['entries'][0]['prior_id'] != 'T-ATTAIN':
+              raise SystemExit('theorem successor does not bind T-ATTAIN')
+          if result['history_scope'] != 'FINITE_ADMISSIBLE_HISTORIES':
+              raise SystemExit('history-scope promotion')
+          if result['hostiles_caught'] != 9:
+              raise SystemExit('receipt hostile count drift')
           PY
       - name: Install Lean 4.19.0
         shell: bash
