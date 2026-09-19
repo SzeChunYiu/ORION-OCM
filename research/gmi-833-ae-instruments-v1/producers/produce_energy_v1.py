@@ -23,6 +23,7 @@ torch.set_num_threads(1)
 
 FREEZE_COMMIT = "dd9b34cef55ef13d144eb5a9258fbd515c55cd06"
 REGISTER_COMMIT = "527f326ec342a3d3041880c63edc84a2cc46984f"
+AMENDMENT_COMMIT = "212b989bd3e1b632bf256d61eab5139527089ae5"
 DOMAINS = {
     "pkg_msr": "/sys/class/powercap/intel-rapl:0/energy_uj",
     "pkg_mmio": "/sys/class/powercap/intel-rapl-mmio:0/energy_uj",
@@ -159,7 +160,7 @@ def main():
     # resolution probe: 50 rapid consecutive reads
     res = [read_counters() for _ in range(50)]
     rec = {"schema": "GMI_833_AE_INSTRUMENTS_ENERGY_RECORD_V1", "id": cid, "freeze_commit": FREEZE_COMMIT,
-           "register_commit": REGISTER_COMMIT, "domains": DOMAINS, "max_energy_range_uj": max_range,
+           "register_commit": REGISTER_COMMIT, "amendment_commit": AMENDMENT_COMMIT, "domains": DOMAINS, "max_energy_range_uj": max_range,
            "rounds": ROUNDS, "N_steps_per_pass": N, "chunk": CHUNK, "idle_seconds": IDLE_S,
            "blocks_registered": BLOCKS, "weights_sha256": weights, "torch": torch.__version__,
            "threads": torch.get_num_threads(), "coretemp_path": tpath,

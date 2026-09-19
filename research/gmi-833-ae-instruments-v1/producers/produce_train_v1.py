@@ -28,6 +28,7 @@ torch.set_num_threads(1)
 
 FREEZE_COMMIT = "dd9b34cef55ef13d144eb5a9258fbd515c55cd06"
 REGISTER_COMMIT = "527f326ec342a3d3041880c63edc84a2cc46984f"
+AMENDMENT_COMMIT = "212b989bd3e1b632bf256d61eab5139527089ae5"
 CHUNK = 64
 LR = 0.01
 EPOCHS = 3
@@ -322,14 +323,22 @@ def main():
     streams = {k: hex_to_bits(v, T) for k, v in cache["bits"].items()}
     seeds = [seed, seed + 7]
     base_m = corpus["variants"]["base"]
-    in_band = base_m["in_band"]
+    eta_train = Fraction(corpus["realized_eta_train"])
+
+    def in_band_v2(m):
+        # FREEZE_V2_AMENDMENT.md: the parent's A4 band on the whole-stream floor
+        e0_all = eta_train * Fraction(m["E0"])
+        return Fraction(1, 8) < e0_all < Fraction(3, 8)
+
+    in_band = in_band_v2(base_m)
     G = Fraction(base_m["G"])
     plan = {"base": True,
             "bitshuf": in_band and G >= Fraction(1, 64),
             "complement": in_band,
-            "reversal": in_band and corpus["variants"]["reversal"]["in_band"]}
+            "reversal": in_band and in_band_v2(corpus["variants"]["reversal"])}
     results = {"schema": "GMI_833_AE_INSTRUMENTS_TRAIN_RECORD_V1", "id": cid, "freeze_commit": FREEZE_COMMIT,
-               "register_commit": REGISTER_COMMIT, "in_band": in_band, "plan": {k: bool(v) for k, v in plan.items()},
+               "register_commit": REGISTER_COMMIT, "amendment_commit": AMENDMENT_COMMIT,
+               "in_band_v1_rule": base_m["in_band"], "in_band": in_band, "band_rule": "V2: 1/8 < eta_train*E0 < 3/8", "plan": {k: bool(v) for k, v in plan.items()},
                "runs": {}}
     wpath = os.path.join(cache_dir, cid + "_seed1")
     for variant, do in plan.items():
