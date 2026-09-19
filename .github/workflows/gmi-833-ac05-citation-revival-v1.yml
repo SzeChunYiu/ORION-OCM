@@ -1,0 +1,73 @@
+name: GMI 833 AC05 citation revival (structural, no network)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ac05-citation-revival-v1/**'
+      - 'research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md'
+      - '.github/workflows/gmi-833-ac05-citation-revival-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ac05-citation-revival-v1/**'
+      - 'research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md'
+      - '.github/workflows/gmi-833-ac05-citation-revival-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  ac05-structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-ac05-citation-revival-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze present in the publishing commit
+        run: |
+          set -euo pipefail
+          first="$(git log --reverse --format=%H -- "$PKG/" | head -1)"
+          git show --name-only --format= "$first" -- "$PKG/" > "$RUNNER_TEMP/firstfiles.txt"
+          cat "$RUNNER_TEMP/firstfiles.txt"
+          grep -q 'FREEZE_V1.md' "$RUNNER_TEMP/firstfiles.txt"
+      - name: Route A structural check
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/ac05_citation_check_v1.py" > "$RUNNER_TEMP/ac05_routeA.json"
+          python3 -c "import json,sys; a=json.load(open(sys.argv[1])); print('passing', a['passing_rows'], 'failing', a['failing_rows']); sys.exit(0 if a['passing_rows']==48 and not a['failing_rows'] else 1)" "$RUNNER_TEMP/ac05_routeA.json"
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_ac05_oracle_v1.py" > "$RUNNER_TEMP/ac05_routeB.json"
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_ac05_citation_check_v1.py" 2>&1 | tee "$RUNNER_TEMP/ac05_tests.txt"
+          grep -q '^ALL PASS$' "$RUNNER_TEMP/ac05_tests.txt"
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_ac05_citation_check_v1.py" 2>&1 | tee "$RUNNER_TEMP/ac05_tests-O.txt"
+          grep -q '^ALL PASS$' "$RUNNER_TEMP/ac05_tests-O.txt"
+      - name: Receipt matches the live two-route run
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/build_receipt_v1.py"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ac05-citation-revival-v1
+          path: |
+            ${{ runner.temp }}/ac05_routeA.json
+            ${{ runner.temp }}/ac05_routeB.json
+            ${{ runner.temp }}/ac05_tests.txt
+            ${{ runner.temp }}/ac05_tests-O.txt
+          if-no-files-found: error
