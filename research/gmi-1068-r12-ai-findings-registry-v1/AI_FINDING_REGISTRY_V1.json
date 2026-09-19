@@ -1,0 +1,431 @@
+{
+  "schema": "GRAND_GMI_V2_R12_AI_FINDING_REGISTRY_V1",
+  "scope": "52 canonical finding families registered for #1068 R12; living extension allowed; not every publication",
+  "allowed_verdicts": [
+    "DERIVED_AT_REGISTERED_SCOPE",
+    "PROSPECTIVELY_PREDICTED",
+    "CONDITIONALLY_EXPLAINED",
+    "ACCOMMODATED_NOT_DERIVED",
+    "EMPIRICAL_LAW_NOT_DERIVED",
+    "PARENT_OWNED_LIMIT",
+    "UNRESOLVED"
+  ],
+  "rows": [
+    {
+      "id": "F01",
+      "finding": "scaling laws",
+      "source_id": "arxiv:2001.08361",
+      "gmi_translation": "resource/capability response changes systematically with model/data/compute within a fixed training ecology",
+      "verdict": "EMPIRICAL_LAW_NOT_DERIVED",
+      "boundary": "GMI does not derive the observed power-law exponents without empirical assumptions"
+    },
+    {
+      "id": "F02",
+      "finding": "compute-optimal scaling",
+      "source_id": "arxiv:2203.15556",
+      "gmi_translation": "resource allocation selects a frontier over parameters/data/compute",
+      "verdict": "EMPIRICAL_LAW_NOT_DERIVED",
+      "boundary": "optimal ratios are empirical and architecture/data dependent"
+    },
+    {
+      "id": "F03",
+      "finding": "double descent / interpolation",
+      "source_id": "10.1073/pnas.1903070116",
+      "gmi_translation": "generalization can change non-monotonically as capacity and interpolation regime alter reachable predictors/implicit selection",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "not implied by capacity alone"
+    },
+    {
+      "id": "F04",
+      "finding": "grokking",
+      "source_id": "arxiv:2201.02177",
+      "gmi_translation": "developmental trajectory can move from memorizing to more transferable representation after training fit saturates",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "GMI does not derive grokking time or guarantee occurrence"
+    },
+    {
+      "id": "F05",
+      "finding": "in-context learning",
+      "source_id": "arxiv:2005.14165",
+      "gmi_translation": "history/context changes the executable response without parameter update; a within-run developmental response",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "mechanism and scaling remain empirical"
+    },
+    {
+      "id": "F06",
+      "finding": "induction heads / mechanistic circuits",
+      "source_id": "arxiv:2209.11895",
+      "gmi_translation": "a specific implementation morphology realizes a context-dependent sequence-copy algorithm",
+      "verdict": "ACCOMMODATED_NOT_DERIVED",
+      "boundary": "large-model causal generality is not forced by GMI"
+    },
+    {
+      "id": "F07",
+      "finding": "chain-of-thought prompting",
+      "source_id": "arxiv:2201.11903",
+      "gmi_translation": "externalized intermediate histories allocate more sequential process steps and can expose verifiable subresults",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "benefit depends on task/model/verifier and can propagate errors"
+    },
+    {
+      "id": "F08",
+      "finding": "test-time compute",
+      "source_id": "arxiv:2408.03314",
+      "gmi_translation": "additional inference-time search/refinement moves along a performance-resource frontier",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "optimal allocation is empirical/problem-dependent"
+    },
+    {
+      "id": "F09",
+      "finding": "retrieval-augmented generation",
+      "source_id": "arxiv:2005.11401",
+      "gmi_translation": "external information channel expands attainable responses when retrieval gain exceeds call/search cost",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "retrieval can harm under noisy/irrelevant stores"
+    },
+    {
+      "id": "F10",
+      "finding": "tool use / agents",
+      "source_id": "arxiv:2210.03629",
+      "gmi_translation": "external solver/action processes enter the frontier when internal capability is insufficient and tool cost/reliability justify delegation",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "tool access is not always beneficial"
+    },
+    {
+      "id": "F11",
+      "finding": "mixture of experts",
+      "source_id": "arxiv:1701.06538",
+      "gmi_translation": "heterogeneous modes plus expensive universal computation create pressure for sparse conditional execution",
+      "verdict": "DERIVED_AT_REGISTERED_SCOPE",
+      "boundary": "specific MoE architecture/load balancing is not unique"
+    },
+    {
+      "id": "F12",
+      "finding": "sparse modularity / Switch-style routing",
+      "source_id": "arxiv:2101.03961",
+      "gmi_translation": "conditional activation trades capacity against per-example compute and routing cost",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "routing overhead and imbalance can reverse selection"
+    },
+    {
+      "id": "F13",
+      "finding": "lottery ticket / pruning",
+      "source_id": "arxiv:1803.03635",
+      "gmi_translation": "redundant parameterized realizations can contain lower-resource subnetworks preserving a contextual response",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "existence/rewind behavior is empirical and task-dependent"
+    },
+    {
+      "id": "F14",
+      "finding": "feature superposition",
+      "source_id": "https://transformer-circuits.pub/2022/toy_model/index.html",
+      "gmi_translation": "resource-limited representation can encode more context-relevant features than orthogonal dimensions by tolerating interference",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "geometry depends on feature sparsity/importance and training dynamics"
+    },
+    {
+      "id": "F15",
+      "finding": "representation geometry / equivariance",
+      "source_id": "arxiv:2104.13478",
+      "gmi_translation": "symmetry/equivalence in contexts can favor quotient/equivariant representations",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "group/equivariant mathematics is parent-owned"
+    },
+    {
+      "id": "F16",
+      "finding": "contrastive self-supervised learning",
+      "source_id": "arxiv:2002.05709",
+      "gmi_translation": "augmentation-defined equivalence classes reward representations invariant to chosen nuisance transformations",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "augmentation choice imports evaluation priors"
+    },
+    {
+      "id": "F17",
+      "finding": "JEPA / latent predictive learning",
+      "source_id": "10.1109/CVPR52729.2023.01499",
+      "gmi_translation": "predict task-relevant quotient/representation instead of reconstructing all raw detail when sufficient and cheaper",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "R11 hostile twins show raw detail can be necessary"
+    },
+    {
+      "id": "F18",
+      "finding": "world models",
+      "source_id": "arxiv:1803.10122",
+      "gmi_translation": "predictive process over sufficient state can support planning/search over future contextual attainability",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "reactive/model-free alternatives may dominate"
+    },
+    {
+      "id": "F19",
+      "finding": "model-based vs model-free RL",
+      "source_id": "arxiv:1912.01603",
+      "gmi_translation": "explicit predictive state/model trades model-learning/planning cost against direct policy/value learning",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "no universal winner"
+    },
+    {
+      "id": "F20",
+      "finding": "planning / search",
+      "source_id": "arxiv:1712.01815",
+      "gmi_translation": "future action-sequence composition/search is useful when delayed consequences and model/search cost justify it",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "short-horizon reactive worlds are negative controls"
+    },
+    {
+      "id": "F21",
+      "finding": "exploration / curiosity",
+      "source_id": "arxiv:1705.05363",
+      "gmi_translation": "information-gathering actions have value when they improve future attainable outcomes enough to cover exploration cost",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "novelty alone need not be useful"
+    },
+    {
+      "id": "F22",
+      "finding": "transfer / multitask learning",
+      "source_id": "10.1023/A:1007379606734",
+      "gmi_translation": "reusable process abstractions amortize discovery/learning cost across related contexts",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "negative transfer when shared structure is absent"
+    },
+    {
+      "id": "F23",
+      "finding": "catastrophic forgetting / continual learning",
+      "source_id": "arxiv:1612.00796",
+      "gmi_translation": "an update improving a new context can shrink attainability on old contexts under shared-resource/interference constraints",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "specific regularizers remain empirical"
+    },
+    {
+      "id": "F24",
+      "finding": "meta-learning",
+      "source_id": "arxiv:1703.03400",
+      "gmi_translation": "update/search processes themselves are transformable processes; repeated task families can select faster adaptation laws",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "MAML is one realization, not necessary"
+    },
+    {
+      "id": "F25",
+      "finding": "curriculum learning",
+      "source_id": "10.1145/1553374.1553380",
+      "gmi_translation": "path dependence means task order can change reachable developmental states and total search cost",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "not all curricula help"
+    },
+    {
+      "id": "F26",
+      "finding": "knowledge distillation",
+      "source_id": "arxiv:1503.02531",
+      "gmi_translation": "a cheaper process may approximate/preserve teacher contextual responses under a declared test family",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "distillation can discard distinctions outside that family"
+    },
+    {
+      "id": "F27",
+      "finding": "quantization",
+      "source_id": "arxiv:2210.17323",
+      "gmi_translation": "precision restriction changes representation/resource frontier and may preserve or degrade contextual behavior",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "hardware/error regimes determine crossover"
+    },
+    {
+      "id": "F28",
+      "finding": "low-rank adaptation",
+      "source_id": "arxiv:2106.09685",
+      "gmi_translation": "restricting updates to a lower-dimensional process subspace trades adaptation capacity against memory/compute",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "low rank is not universally sufficient"
+    },
+    {
+      "id": "F29",
+      "finding": "adversarial examples",
+      "source_id": "arxiv:1412.6572",
+      "gmi_translation": "training/test contextual equivalence can be too coarse; small input metrics need not imply small response change",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "specific vulnerability magnitudes are empirical"
+    },
+    {
+      "id": "F30",
+      "finding": "distribution shift / OOD",
+      "source_id": "arxiv:2012.07421",
+      "gmi_translation": "changing context/environment invalidates guarantees tied to the training distribution/test family",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "OOD families must be declared"
+    },
+    {
+      "id": "F31",
+      "finding": "calibration",
+      "source_id": "arxiv:1706.04599",
+      "gmi_translation": "probability/confidence outputs are additional contextual claims whose empirical frequency semantics require calibration",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "accuracy does not imply calibration"
+    },
+    {
+      "id": "F32",
+      "finding": "hallucination / truthful generation",
+      "source_id": "arxiv:2109.07958",
+      "gmi_translation": "generation can optimize plausibility without a verifier/warrant channel for factual truth",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "not every factual error shares one cause"
+    },
+    {
+      "id": "F33",
+      "finding": "causal representation learning",
+      "source_id": "arxiv:2102.11107",
+      "gmi_translation": "representations for intervention/control must preserve distinctions relevant under interventions, not merely observations",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "causal identifiability needs assumptions"
+    },
+    {
+      "id": "F34",
+      "finding": "embodiment / physical AI",
+      "source_id": "arxiv:2506.09985",
+      "gmi_translation": "sensor/action interfaces and physical substrate constraints change admissible processes and context values",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "embodiment does not force one world-model architecture"
+    },
+    {
+      "id": "F35",
+      "finding": "multi-agent emergent communication",
+      "source_id": "arxiv:1703.04908",
+      "gmi_translation": "distributed agents with private information can require communication processes for joint contextual goals",
+      "verdict": "DERIVED_AT_REGISTERED_SCOPE",
+      "boundary": "protocol form remains ecology-dependent"
+    },
+    {
+      "id": "F36",
+      "finding": "evolutionary / open-ended systems",
+      "source_id": "arxiv:1901.01753",
+      "gmi_translation": "population variation, environment generation and selection are developmental/search processes that can expand reachable organization space",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "open-endedness is not guaranteed"
+    },
+    {
+      "id": "F37",
+      "finding": "neuro-symbolic / statistical-symbolic hybrids",
+      "source_id": "arxiv:1805.10872",
+      "gmi_translation": "factorized ecologies can select different process specializations in different subproblems, making hybrids Pareto-superior",
+      "verdict": "DERIVED_AT_REGISTERED_SCOPE",
+      "boundary": "named hybrid implementation is not unique"
+    },
+    {
+      "id": "F38",
+      "finding": "diffusion generative models",
+      "source_id": "arxiv:2006.11239",
+      "gmi_translation": "iterative stochastic/noise-conditioned refinement is one process factorization of generation",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "why a particular diffusion schedule wins is empirical"
+    },
+    {
+      "id": "F39",
+      "finding": "flow matching",
+      "source_id": "arxiv:2210.02747",
+      "gmi_translation": "continuous transport from base to target distribution is another generative process factorization",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "transport/ODE mathematics is parent-owned"
+    },
+    {
+      "id": "F40",
+      "finding": "energy-based models",
+      "source_id": "arxiv:2306.02572",
+      "gmi_translation": "generation/inference by minimizing an energy is a context/order specialization over configurations",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "energy is not a universal intelligence primitive"
+    },
+    {
+      "id": "F41",
+      "finding": "state-space models",
+      "source_id": "arxiv:2111.00396",
+      "gmi_translation": "long-range sequential dependence plus favorable convolution/state-update resources can select compact recurrent state dynamics",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "specific SSM parameterization is not forced"
+    },
+    {
+      "id": "F42",
+      "finding": "selective state-space / Mamba",
+      "source_id": "arxiv:2312.00752",
+      "gmi_translation": "input-conditioned state updates/routing add selective retention under sequence-dependent relevance",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "selection mechanism/cost is empirical"
+    },
+    {
+      "id": "F43",
+      "finding": "attention / Transformers",
+      "source_id": "arxiv:1706.03762",
+      "gmi_translation": "variable content-dependent relevance favors dynamic routing/mixing when its compute/memory costs beat fixed alternatives",
+      "verdict": "DERIVED_AT_REGISTERED_SCOPE",
+      "boundary": "Transformer stack is not uniquely implied"
+    },
+    {
+      "id": "F44",
+      "finding": "convolution / equivariance",
+      "source_id": "10.1109/5.726791",
+      "gmi_translation": "locality plus repeated translation symmetry favors shared local transformations",
+      "verdict": "DERIVED_AT_REGISTERED_SCOPE",
+      "boundary": "CNN details and data assumptions remain empirical"
+    },
+    {
+      "id": "F45",
+      "finding": "recurrent / gated systems",
+      "source_id": "10.1162/neco.1997.9.8.1735",
+      "gmi_translation": "temporal aliasing and retention/forgetting tradeoffs favor persistent state and condition-dependent gates",
+      "verdict": "DERIVED_AT_REGISTERED_SCOPE",
+      "boundary": "LSTM/GRU form is not unique"
+    },
+    {
+      "id": "F46",
+      "finding": "program synthesis / library learning",
+      "source_id": "arxiv:2006.08381",
+      "gmi_translation": "exact compositional tasks plus repeated subprograms favor search over programs and reusable abstractions",
+      "verdict": "CONDITIONALLY_EXPLAINED",
+      "boundary": "search language strongly affects discovery"
+    },
+    {
+      "id": "F47",
+      "finding": "nearest-neighbor / exemplar methods",
+      "source_id": "10.1109/TIT.1967.1053964",
+      "gmi_translation": "cheap storage plus local regularity can favor direct exemplar retrieval over global model fitting",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "consistency results are parent-owned"
+    },
+    {
+      "id": "F48",
+      "finding": "kernel / margin methods",
+      "source_id": "10.1007/BF00994018",
+      "gmi_translation": "a fixed feature/kernel geometry plus convex fitting can be favorable under small-data/regularity conditions",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "kernel choice imports prior structure"
+    },
+    {
+      "id": "F49",
+      "finding": "decision trees / rule systems",
+      "source_id": "Quinlan1986-ID3",
+      "gmi_translation": "axis-aligned/conditional partitions and cheap branching can favor explicit rule trees",
+      "verdict": "DERIVED_AT_REGISTERED_SCOPE",
+      "boundary": "specific induction heuristics are parent-owned/empirical"
+    },
+    {
+      "id": "F50",
+      "finding": "Bayesian / probabilistic inference",
+      "source_id": "Bayes1763",
+      "gmi_translation": "uncertainty over hypotheses plus declared prior/likelihood yields conditioning as parent mathematics",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "prior/likelihood are contextual assumptions"
+    },
+    {
+      "id": "F51",
+      "finding": "symbolic logic / theorem proving",
+      "source_id": "Church-Turing-Godel-classical",
+      "gmi_translation": "exact formal constraints and verifiers can favor symbolic proof/search processes",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "logic/computability mathematics is parent-owned"
+    },
+    {
+      "id": "F52",
+      "finding": "no-free-lunch / impossibility limits",
+      "source_id": "10.1109/4235.585893",
+      "gmi_translation": "architecture/search advantages require restrictions on the context/problem family",
+      "verdict": "PARENT_OWNED_LIMIT",
+      "boundary": "prevents universal best-search promotion"
+    }
+  ]
+}
