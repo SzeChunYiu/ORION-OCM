@@ -8,6 +8,8 @@ import copy
 import json
 import os
 import random
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -424,6 +426,142 @@ class TestRatchetGate(Moved):
         # no-alarm: the identical baseline counts are silent
         same = {"counts": {some: dict(base["counts"][some])}}
         self.assertEqual(R.check(base, same, [])["regressions"], [])
+
+    # ------------------------------------------------------------------
+    # Immutable custody files. A freeze may never be edited after its
+    # receipt exists, so a banned term in it cannot be reworded -- but the
+    # exemption is earned by a PIN on the file's bytes, never by its name.
+    # Each case below is tested both ways.
+    # ------------------------------------------------------------------
+    def _custody_repo(self):
+        """Scratch git repo: research/gmi-833-cust-fixture-v1 with a freeze
+        committed FIRST and pinned by `freeze_commit`, a snapshot pinned by
+        hash in RESULT_V1.json, an amendment nobody pinned, and a CORE.md --
+        every one of them carrying the same prose hit."""
+        d = tempfile.mkdtemp()
+        git = shutil.which("git") or "/usr/bin/git"
+
+        def run(*args):
+            r = subprocess.run([git, "-C", d] + list(args), capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            return r.stdout.strip()
+        run("init", "-q")
+        run("config", "user.email", "t@example.invalid")
+        run("config", "user.name", "t")
+        pkg = os.path.join(d, "research", "gmi-833-cust-fixture-v1")
+        os.makedirs(pkg)
+        hit = "This tranche discharges the obligation it names.\n"
+        open(os.path.join(pkg, "FREEZE_V1.md"), "w").write("# FREEZE\n\n" + hit)
+        run("add", "-A")
+        run("commit", "-q", "-m", "freeze")
+        freeze_commit = run("rev-parse", "HEAD")
+        open(os.path.join(pkg, "FREEZE_V1_AMENDMENT_1.md"), "w").write("# AMENDMENT\n\n" + hit)
+        open(os.path.join(pkg, "CORE.md"), "w").write("# CORE\n\n" + hit)
+        snap = "# snapshot\n\n" + hit
+        open(os.path.join(pkg, "SNAPSHOT.md"), "w").write(snap)
+        json.dump({"freeze_commit": freeze_commit, "amendments": ["FREEZE_V1_AMENDMENT_1.md"]},
+                  open(os.path.join(pkg, "MANIFEST_V1.json"), "w"), indent=1)
+        json.dump({"snapshot_blob_sha": R.blob_sha1(snap.encode("utf-8"))},
+                  open(os.path.join(pkg, "RESULT_V1.json"), "w"), indent=1)
+        run("add", "-A")
+        run("commit", "-q", "-m", "implementation")
+        rels = {k: "research/gmi-833-cust-fixture-v1/" + v for k, v in
+                (("freeze", "FREEZE_V1.md"), ("amend", "FREEZE_V1_AMENDMENT_1.md"),
+                 ("core", "CORE.md"), ("snap", "SNAPSHOT.md"))}
+        return d, pkg, rels, freeze_commit
+
+    def test_custody_pin_not_filename_decides_immutability(self):
+        d, pkg, rels, freeze_commit = self._custody_repo()
+        st = {k: R.custody_state(os.path.join(d, v), d) for k, v in rels.items()}
+        self.assertEqual(st["freeze"]["state"], "PINNED_COMMIT")
+        self.assertEqual(st["freeze"]["pinned_by"], freeze_commit)
+        self.assertEqual(st["snap"]["state"], "PINNED_HASH")
+        self.assertTrue(st["snap"]["pinned_by"].endswith("RESULT_V1.json"))
+        # a FREEZE-named file nobody pinned is an ordinary file
+        self.assertEqual(st["amend"]["state"], "UNPINNED")
+        self.assertEqual(st["core"]["state"], "UNPINNED")
+
+        files = [os.path.join(d, v) for v in sorted(rels.values())]
+        live = R.measure(files=files, root=d)
+        self.assertEqual(live["total_hits"], 4, live["counts"])
+        rep = R.check({"counts": {}}, live, sorted(rels.values()), root=d)
+        # pinned-freeze-with-hit and pinned-snapshot-with-hit -> informational
+        self.assertEqual(sorted(e["path"] for e in rep["immutable_files_with_hits"]),
+                         sorted([rels["freeze"], rels["snap"]]))
+        self.assertEqual({e["path"]: e["state"] for e in rep["immutable_files_with_hits"]},
+                         {rels["freeze"]: "PINNED_COMMIT", rels["snap"]: "PINNED_HASH"})
+        # unpinned-freeze-with-hit and mutable CORE with a hit -> still fail
+        self.assertEqual(rep["new_files_with_hits"], sorted([rels["amend"], rels["core"]]))
+        self.assertEqual(rep["custody_states"][rels["amend"]], "UNPINNED")
+        # the same repo with NO custody consulted enforces all four (the pin
+        # is what moved two of them, not the file names)
+        plain = R.check({"counts": {}}, live, sorted(rels.values()),
+                        custody=lambda p: {"state": "UNPINNED", "pinned_by": None})
+        self.assert_moved("custody-pin-moves-enforcement", len(plain["new_files_with_hits"]),
+                          len(rep["new_files_with_hits"]), len(plain["new_files_with_hits"]) == 4)
+        # regressions are never relaxed by a pin
+        base = {"counts": {rels["freeze"]: {"obligation": 0}}}
+        self.assertEqual(len(R.check(base, live, [], root=d)["regressions"]), 1)
+
+    def test_custody_pin_dies_with_the_bytes_it_pins(self):
+        """Editing a pinned file breaks its pin: the exemption cannot outlive
+        the custody it rests on, so a lane cannot edit a freeze AND keep it
+        exempt. An unverifiable pin is reported distinctly and enforced."""
+        d, pkg, rels, freeze_commit = self._custody_repo()
+        fz = os.path.join(d, rels["freeze"])
+        self.assertEqual(R.custody_state(fz, d)["state"], "PINNED_COMMIT")
+        open(fz, "a").write("An obligation added after the freeze.\n")
+        tampered = R.custody_state(fz, d)
+        self.assert_moved("tamper-breaks-pin", 1, 0, tampered["state"] == "UNPINNED")
+        live = R.measure(files=[fz], root=d)
+        rep = R.check({"counts": {}}, live, [rels["freeze"]], root=d)
+        self.assertEqual(rep["new_files_with_hits"], [rels["freeze"]])
+        self.assertEqual(rep["immutable_files_with_hits"], [])
+        # hash pin: same property
+        sn = os.path.join(d, rels["snap"])
+        self.assertEqual(R.custody_state(sn, d)["state"], "PINNED_HASH")
+        open(sn, "a").write("\n")
+        self.assertEqual(R.custody_state(sn, d)["state"], "UNPINNED")
+        # an unreachable custody commit is UNREACHABLE, not PINNED and not UNPINNED
+        open(fz, "w").write("# FREEZE\n\nThis tranche discharges the obligation it names.\n")
+        self.assertEqual(R.custody_state(fz, d)["state"], "PINNED_COMMIT")
+        man = os.path.join(pkg, "MANIFEST_V1.json")
+        json.dump({"freeze_commit": "0" * 40}, open(man, "w"))
+        unreach = R.custody_state(fz, d)
+        self.assertEqual(unreach["state"], "UNREACHABLE")
+        rep = R.check({"counts": {}}, R.measure(files=[fz], root=d), [rels["freeze"]], root=d)
+        self.assertEqual(rep["new_files_with_hits"], [rels["freeze"]])
+        self.assertEqual(rep["custody_states"][rels["freeze"]], "UNREACHABLE")
+        # a commit that exists but carries different bytes does not pin
+        json.dump({"freeze_commit": freeze_commit}, open(man, "w"))
+        open(fz, "w").write("# FREEZE\n\nReworded: this tranche discharges the requirement.\n")
+        self.assertEqual(R.custody_state(fz, d)["state"], "UNPINNED")
+        # no-alarm: a pinned file with no hits appears nowhere
+        clean = os.path.join(pkg, "CLEAN.md")
+        open(clean, "w").write("Architecture-agnostic search only.\n")
+        json.dump({"clean": R.blob_sha1(open(clean, "rb").read())},
+                  open(os.path.join(pkg, "RESULT_V1.json"), "w"))
+        self.assertEqual(R.custody_state(clean, d)["state"], "PINNED_HASH")
+        rep = R.check({"counts": {}}, R.measure(files=[clean], root=d),
+                      ["research/gmi-833-cust-fixture-v1/CLEAN.md"], root=d)
+        self.assertEqual(rep["new_files_with_hits"], [])
+        self.assertEqual(rep["immutable_files_with_hits"], [])
+
+    def test_custody_states_on_the_live_corpus(self):
+        """The rule fires on real receipts: this package's own freeze is
+        pinned by its manifest's `freeze_commit` (or, on a checkout without
+        that commit, reported UNREACHABLE -- never silently UNPINNED), and its
+        CORE.md is pinned by nothing."""
+        fz = R.custody_state(os.path.join(HERE, "FREEZE_V1.md"))
+        self.assertIn(fz["state"], ("PINNED_COMMIT", "PINNED_HASH", "UNREACHABLE"), fz)
+        core = R.custody_state(os.path.join(HERE, "CORE.md"))
+        self.assertEqual(core["state"], "UNPINNED", core)
+        self.assertEqual(R._custody_commit_tokens(
+            {"freeze_commit": "abcdef1234", "parent_pins": [{"blob_sha": "0123456789abcdef"}],
+             "freeze_amendments": {"v1_e46003d5": "x", "A2": "ba5e0552784ed4f5bf98"},
+             "freeze_date": "20260913", "freeze_seq": 12345678,
+             "notes": "commit 1234567 is not custody"}),
+            ["abcdef1234", "e46003d5", "ba5e0552784ed4f5bf98"])
 
     def test_live_corpus_is_measurable_and_baseline_is_real(self):
         live = R.measure()
