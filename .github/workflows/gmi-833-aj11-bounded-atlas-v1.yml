@@ -1,0 +1,33 @@
+name: GMI 833 AJ11 bounded atlas
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj11-bounded-atlas-v1/**'
+      - '.github/workflows/gmi-833-aj11-bounded-atlas-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        opt: ['', '-O']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reproduce AJ11 receipt
+        run: |
+          python3 -I ${{ matrix.opt }} -B research/gmi-833-aj11-bounded-atlas-v1/check_aj11.py > /tmp/aj11.out
+          git diff --exit-code -- research/gmi-833-aj11-bounded-atlas-v1/RESULT_V1.json
+      - name: Assert claim ceiling
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('research/gmi-833-aj11-bounded-atlas-v1/RESULT_V1.json'))
+          assert r['status']=='GREEN'
+          assert r['finite_universe_presentations']==260
+          assert r['operational_classes']==148
+          assert r['finite_terminal']=='COMPLETE_GMI_ATLAS_AT_BOUND_B'
+          assert 'ALL_MACHINE_INTELLIGENCES_COMPLETELY_CLASSIFIED' in r['forbidden_promotions']
+          assert 'COMPLETE_GMI' in r['forbidden_promotions']
+          PY
