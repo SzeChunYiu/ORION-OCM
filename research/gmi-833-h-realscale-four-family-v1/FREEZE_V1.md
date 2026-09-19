@@ -58,7 +58,7 @@ Machine space = the depth/structure-labeled closures (strata) of these tiers:
 | S_CONST | constants | 1 | 0 |
 | S_ADD | ADD-closure of atoms + constant | 1+p | 2p |
 | S_ORD | U_ORD applied to S_ADD | 2+p | 2p+1 |
-| S_MONO | complete monotone unary tier (exact isotonic maps on the score grid) applied to S_ADD | 2+p+link steps | 2p+link steps |
+| S_MONO | complete monotone unary tier on the ENCODED 3-level score grid (exact isotonic fit per level; D-5/D-1) applied to S_ADD | 1+p+3 | 2p+3 |
 | S_LIFT | ADD-closure of atoms, constant, and all pairwise MUL products | 1+p+p(p-1)/2 | 2(p+p(p-1)/2) |
 | S_TABLE | INDEXED_PARAMETER_READ on the encoded lattice | 3^p | 1 |
 | T_c (c=0..D_MAX) | any static stratum over the delay-augmented interface (x_t, x_{t-1}, .. x_{t-c}) | stratum cost + c (one description slot per cell) | stratum serve + c |
@@ -137,17 +137,36 @@ price-ratio lattice (D-7).
 
 ## F5 — Selection rule (frozen; the plateau structure rule)
 
+AMENDMENT A (pre-outcome, before any implementation of selection or any
+outcome; v2-erratum precedent): the fiber is defined with a DERIVED noise
+indifference band, not raw exact-risk equality.  With dyadic Rademacher
+noise +-sigma and n_test held-out rows, the standard error of a risk
+estimate is sqrt(2 sigma^4 / n_test); at the registered n = 2^12 (n_test =
+2^11) this is EXACTLY sigma^2 * 2^-5, and the two-sided 2-se band is
+EXACTLY band = sigma^2 * 2^-4 (dyadic; derived, not tuned).  Binary arms:
+band = 2 * sqrt(eps(1-eps)/n_test), an exact rational at every dyadic eps.
+Noise-free cells (sigma/eps = 0): band = 0, exact ties only.  The FIBER =
+every machine with held-out risk <= minimal risk + band; cost tie-break,
+canonical champion order, and uniform drift then apply WITHIN the fiber.
+Justification: at the registered scale, superset strata compete with true
+strata within O(sigma^2 d / n) — the same order as the estimation noise —
+and raw minimum selection flips on noise fluctuations (a search-order and
+draw artifact, not structure); the 2-se band + parsimony cost is the
+derived, threshold-free resolution.  F7's prediction rule is UNIFIED with
+this band: recovery predicted iff the noise-free gap Delta_min(cell)
+exceeds band (the single derived constant of the tranche).
+
 Risk = exact rational empirical risk on the frozen held-out half (real arm:
 mean squared dyadic residual; binary arm: mean 0-1 error — the carrier's own
 equality). A machine's held-out SEMANTICS is its prediction tuple; the risk
 map fibers partition the machine space. Selection:
 
-1. risk rank: minimal exact held-out risk;
-2. within the minimal-risk fiber: minimal (description, serve) cost;
-3. champion = the cost-minimal element of the minimal-risk fiber —
-   deterministic and enumeration-order-independent BY CONSTRUCTION (the
-   fiber and the cost are order-free functions of the machine space);
-4. neutral drift = the seeded uniform measure on the cost-minimal fiber
+1. fiber: minimal-risk band (AMENDMENT A);
+2. within the fiber: minimal (description, serve) cost;
+3. champion = the cost-minimal element of the fiber — deterministic and
+   enumeration-order-independent BY CONSTRUCTION (the fiber and the cost are
+   order-free functions of the machine space);
+4. neutral drift = the seeded uniform measure on the cost-minimal fiber set
    (maximum entropy = the unique choice-invariant distribution on the
    fiber); the drift mass distribution over strata is a reported outcome.
 
@@ -157,11 +176,11 @@ rule that resolves cost WITHIN an error plateau freezes the first-encountered
 structure whenever cost-increasing partial matches compete with cheap
 champions — the recorded sibling trap — and makes the reachable minimal
 construction enumeration-order-dependent, which the A2 search audit flags as
-ORDER_OR_TRAJECTORY_DEPENDENT_WINNER. Fiber-wise cost minimization with
-uniform drift keeps structure accumulation ON the plateau (drift measures the
-whole cost-minimal fiber) while the champion stays deterministic. Exact
-dyadic arithmetic makes ties exact, so the fiber is well-defined without
-tolerance knobs.
+ORDER_OR_TRAJECTORY_DEPENDENT_WINNER. Band-fiber cost minimization with
+uniform drift keeps structure accumulation ON the plateau (drift measures
+the whole cost-minimal fiber) while the champion stays deterministic. Exact
+dyadic arithmetic makes the band exact, so the fiber is well-defined without
+tuned knobs.
 
 ## F5b — Canonical completion rules (frozen; needed for exactness)
 
@@ -179,9 +198,16 @@ tolerance knobs.
 - S_TABLE on delay-augmented interfaces is admissible only while its
   description cost 3^(c+1) does not exceed the storage budget 3^p = 81
   (c <= 3); beyond that the storage tier's own lattice is exhausted.
-- PROC2 step lattice: +-2^j for j in [-8, 8] (the square of the D-4 octave
-  range: the range covering products of two lattice magnitudes); coordinate
-  sweeps in ascending index order; bound 2^7 sweeps or no exact improvement.
+- PROC2 affine solver: EXACT conjugate gradients on the normal equations
+  from the initialization 0 (the additive identity) — in exact rational
+  arithmetic CG terminates at the unique minimizer in at most d steps
+  (finite termination; d < the 2^7 bound everywhere), a Krylov path
+  materially different from PROC1's direct elimination; the band-pruned
+  best-first tier-growth search is PROC2's second independence axis.
+  Strata whose exact ERM is unique and order-free (S_CONST mean, S_TABLE
+  cell means, S_ORD cut scan, S_MONO 3-level link) share the canonical fit
+  in both procedures; the procedures differ in search mechanics and in the
+  affine solver.
 
 ## F6 — Nulls, tolerances, error bars (frozen)
 
@@ -199,15 +225,17 @@ tolerance knobs.
 ## F7 — Frozen predictions (committed before any noisy run)
 
 For each family and each (noise, conditioning, task class) cell, the
-predicted recovery pattern is derived from the EXACT noise-free risk gaps:
-recovery predicted iff the noise-free gap between the true stratum's fit and
-the best strictly-lower stratum's fit exceeds twice the exact binomial
-standard deviation sqrt(eps(1-eps)/n_test) at the cell's noise point (the
-2-sigma separation identity; eps the flip/scale noise lattice member). The
-prediction table is generated by `freeze_predictions_v1.py` from the
-noise-free battery only, committed at the battery commit, and the noisy
-outcome runs must match it cell-by-cell; every mismatch is reported as a
-boundary finding, never silently dropped.
+predicted recovery pattern is derived from the EXACT noise-free risk gaps
+and the SINGLE derived constant of the tranche — the AMENDMENT A band:
+recovery predicted iff the noise-free gap Delta_min(cell) between the true
+stratum's fit risk and the best strictly-lower stratum's fit risk exceeds
+band (sigma^2 * 2^-4 real arm; 2*sqrt(eps(1-eps)/n_test) binary arm), the
+same quantity the selection itself uses.  One derived rule, one derived
+constant, applied to both prediction and selection — no second threshold
+exists. The prediction table is generated by `freeze_predictions_v1.py`
+from the noise-free battery only, committed at the battery commit, and the
+noisy outcome runs must match it cell-by-cell; every mismatch is reported
+as a boundary finding, never silently dropped.
 
 ## Derivations (every constant in this package; nothing else may appear)
 
