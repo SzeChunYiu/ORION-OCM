@@ -46,3 +46,16 @@ python3 -I -B  research/gmi-833-ab-terminology-harness-v1/check_receipt_v1.py
 ```
 
 Stdlib only; every reported quantity is an int.
+
+## Re-baseline at main `b5193f32` — prose-only count semantics
+
+The ratchet counts **prose** hits. Three non-prose classes are exempt
+(`classify_hits` in `terminology_ratchet_v1.py`): verbatim issue-row
+quotations (checkbox rows, also numbered or backticked), inline code spans and
+fenced blocks, and identifier tokens (paths, `snake_case`, `gmi-<n>-` package
+names, `-v<n>` suffixes, file extensions). A hyphenated or slashed prose
+compound is not an identifier and still fires. On the same tree the old
+semantics counted 9627 sites; the regenerated baseline holds **8797 in 1416 of
+2740** files (10021 raw parent hits: 403 quoted rows, 798 code spans, 23
+identifiers exempt). The frozen `9703 in 1400 of 2572` figure at
+`source_main` is unchanged as a historical measurement.

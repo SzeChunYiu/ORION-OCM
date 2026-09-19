@@ -1,0 +1,205 @@
+{
+ "branch": "research/833-derive-bases",
+ "ci_note": {
+  "cause": "Two #833 contracts are in direct conflict. The closure standard requires a pre-implementation freeze to pin the EXACT issue row text and never to be edited afterwards; the terminology gate bans the word 'morphology' in any markdown file a PR adds. The AG6 row contains that word, so quoting it as required is itself the violation.",
+  "check": "ab-terminology-harness (row AB37 repo-wide ratcheting terminology gate)",
+  "kind": "CROSS_LANE_GATE_CONFLICT_NOT_REPAIRED_HERE",
+  "line": "research/gmi-833-ag6-universal-bases-v1/FREEZE_V1.md line 27, the verbatim issue row '- [ ] Test whether the same higher MI morphology/capability laws survive across these bases after resource normalization.'",
+  "owner": "the AB terminology lane; the fix is an exception for verbatim #833 checklist rows, validated for recall on a planted genuine use and for the no-alarm case.",
+  "status": "RED for this branch, for exactly one line",
+  "systemic": "research/gmi-833-ab-terminology-harness-v1/TERMINOLOGY_BASELINE_V1.json already carries 41 committed FREEZE_V1.md files with the same 'bare morphology' hit; they pass only because they predate the baseline.",
+  "what_this_tranche_deliberately_did_not_do": "Edit the committed freeze, and edit research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CI_GATE_V1.py or research/gmi-833-ab-terminology-harness-v1/TERMINOLOGY_BASELINE_V1.json, which belong to the AB lane and are being actively worked by another lane.",
+  "what_this_tranche_did": "Removed every banned-term hit it could honestly remove from its own prose (AG6_THEOREMS_V1.md 'obligation' -> 'requirement'; CORE.md 'morphology' -> 'architecture'), leaving exactly one hit, which is the unmodifiable quoted row."
+ },
+ "ci_status": {
+  "GMI 833 AG6 three universal bases": "repaired in this branch: Python 3.11+ int->str digit cap raised so the exact 7322-digit obstruction integer can be published",
+  "aa-ledger-gate": "repaired in this branch: all seven AG6B results now emit assumptions/dependency/falsifier/strongest-parent ledgers; the gate passes locally with 0 violations, 0 regressions, corpus_debt_grew false",
+  "ab-terminology-harness": "see ci_note"
+ },
+ "claim_ceilings": {
+  "gmi-833-ag6-universal-bases-v1": "GMI_AG6_THREE_UNIVERSAL_BASES_AT_REGISTERED_FINITE_SCOPE_WITH_BASIS_RELATIVE_COST"
+ },
+ "comments": [
+  5693520829
+ ],
+ "do_not_edit": true,
+ "do_not_edit_note": "This tranche did not edit the issue body or any comment. The orchestrator performs all issue writes. The `old` strings below were taken byte-exact from a fetch of comment 5693520829 made immediately before this file was finalized, and each occurs exactly once in the comment body and exactly once under its `###` anchor.",
+ "forbidden_promotions": [
+  "UNIVERSAL_SIMPLICITER",
+  "TURING_UNIVERSALITY_PROVED_HERE",
+  "COMBINATORY_BASIS_TURING_UNIVERSAL_PROVED_HERE",
+  "CELLULAR_BASIS_TURING_UNIVERSAL_PROVED_HERE",
+  "REGISTER_BASIS_TURING_UNIVERSAL_PROVED_HERE",
+  "BASIS_INDEPENDENT_DESCRIPTION_SIZE",
+  "CROSS_BASIS_COST_UNIT_COMMENSURABLE",
+  "PARETO_FRONTIER_INVARIANT_UNDER_ARBITRARY_RESOURCE_NORMALIZATION",
+  "SEARCH_BURDEN_BASIS_INDEPENDENT",
+  "UNIFORM_ENUMERATION_SEARCH_BURDEN_MEASURED",
+  "INTELLIGENCE_FROM_UNIVERSALITY",
+  "ALL_COMPUTATIONAL_MODELS_EMBEDDED",
+  "MI_LAW_PROVED_BASIS_INVARIANT",
+  "UNIQUE_MINIMAL_UNIVERSAL_GRAMMAR",
+  "COMPLETE_GMI"
+ ],
+ "issue": 833,
+ "never_edited": [
+  "issue body",
+  "comment 5693520829",
+  "any neighboring row"
+ ],
+ "not_closed": [
+  {
+   "anchor": "### AG6 — Universality is a lower-bound null, not intelligence",
+   "bucket": "DISCIPLINE-CONTRACT",
+   "comment_id": 5693520829,
+   "not_this_tranche_row": true,
+   "old": "- [ ] Preserve `UNIVERSAL_COMPUTATION_ONLY` whenever no intelligence-specific predictive residual remains.",
+   "reason": "Not one of this tranche's three rows and not touched here; FREEZE_V1.md states explicitly that no neighboring row is earned. It remains open for the reason the previous AG/AJ reconciliation gave: no #833 package registers UNIVERSAL_COMPUTATION_ONLY as an admissible terminal with a checker that can AWARD it on a real configuration and WITHHOLD it where an intelligence-specific predictive residual remains, and both branches must be exercised. This package supplies the missing input rather than the terminal: AG6B-7 shows that at the registered scope universality is shared by all three bases while the capability/cost frontier is not, which is exactly the situation in which such a terminal would have to be awarded."
+  }
+ ],
+ "packages": [
+  "gmi-833-ag6-universal-bases-v1"
+ ],
+ "replacements": [
+  {
+   "anchor": "### AG6 — Universality is a lower-bound null, not intelligence",
+   "bucket": "NEW-SCIENCE",
+   "cites": [
+    {
+     "package": "gmi-833-ag6-universal-bases-v1",
+     "quoted_fields": {
+      "no_alarm.cap_hits": 0,
+      "no_alarm.cel_alphabet_size_range": [
+       10,
+       18
+      ],
+      "parent_register_census_reproduced.agrees": true,
+      "realization.CEL.matches": 3840,
+      "realization.CEL.steps_max": 4,
+      "realization.CMB.matches": 3840,
+      "realization.CMB.steps_max": 403,
+      "realization.REG.matches": 3840,
+      "realization.REG.steps_max": 22,
+      "scope.machines": 256,
+      "scope.tasks": 3840,
+      "scope.universality_sense": "REGISTERED_FINITE_SCOPE_ONLY"
+     }
+    }
+   ],
+   "comment_id": 5693520829,
+   "new": "- [x] Reconstruct at least three radically different universal low-level bases (e.g. register/counter, combinatory/rewrite, cellular/local) at bounded executable scope. — ✅ `gmi-833-ag6-universal-bases-v1` AG6B-1/AG6B-2: three bases are built and run on one identical 3840-task frame — a register/counter basis (`READ INC DECJZ EMIT HALT`), a combinatory/rewrite basis with generators `S`,`K` and exactly the two rules `S x y z -> x z (y z)` and `K x y -> x`, and a cellular/local basis with one synchronous radius-1 rule `d : Sigma^3 -> Sigma` over alphabets of 10–18 symbols — each realizing all 256 two-state binary Mealy machines on all 15 words of length ≤ 3 with 0 mismatches and 0 budget exhaustions (≤ 22 instructions, ≤ 403 contractions, ≤ 4 sweeps), the register basis reproducing the merged parent's 256×15×3840 census exactly, under two materially independent routes (route B evaluates the source lambda term directly under normal order and runs the automaton as a block map over shifted sequences, importing neither route A nor any parent module); universality here is `REGISTERED_FINITE_SCOPE_ONLY` and `COMBINATORY_BASIS_TURING_UNIVERSAL_PROVED_HERE`/`CELLULAR_BASIS_TURING_UNIVERSAL_PROVED_HERE` are forbidden promotions, the Turing-universality results staying with Schönfinkel/Curry and Cook.",
+   "old": "- [ ] Reconstruct at least three radically different universal low-level bases (e.g. register/counter, combinatory/rewrite, cellular/local) at bounded executable scope.",
+   "row_meaning_token": "THREE_RADICALLY_DIFFERENT_BASES_CONSTRUCTED_AND_REGISTERED_UNIVERSAL_AT_BOUNDED_EXECUTABLE_SCOPE",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AG6 — Universality is a lower-bound null, not intelligence",
+   "bucket": "NEW-SCIENCE",
+   "cites": [
+    {
+     "package": "gmi-833-ag6-universal-bases-v1",
+     "quoted_fields": {
+      "description_bias.size__CMB_optimized_vs_CMB_naive.discordant": 0,
+      "description_bias.size__CMB_vs_CEL.discordant": 5934,
+      "description_bias.size__REG_vs_CEL.discordant": 4404,
+      "description_bias.size__REG_vs_CMB.discordant": 2332,
+      "developmental_search_burden.CEL.preserving_fraction": "286893/290228",
+      "developmental_search_burden.CMB.preserving_fraction": "175/1144",
+      "developmental_search_burden.REG.preserving_fraction": "185/562",
+      "developmental_search_burden.uniform_enumeration_obstruction.cellular_unrestricted_rule_space_decimal_digits": 7321,
+      "overhead.CEL.attained_bound": "1/1",
+      "overhead.CMB.attained_bound": "403/4",
+      "overhead.REG.attained_bound": "11/2",
+      "overhead.REG.declared_range_bound_class": "VACUOUS",
+      "overhead.cross_basis.CEL_over_REG_max": "1/4",
+      "overhead.cross_basis.CMB_over_REG_max": "397/16",
+      "reachability_geometry.CMB.0.bounded_reachable_set_class": "LOWER_BOUND_ONLY",
+      "reachability_geometry.CMB.0.branching_configurations_all_successors_share_normal_form": 342,
+      "reachability_geometry.CMB.0.max_out_degree": 217
+     }
+    }
+   ],
+   "comment_id": 5693520829,
+   "new": "- [x] Compare their compilation overhead, description bias, reachability geometry and developmental search burden. — ✅ `gmi-833-ag6-universal-bases-v1` AG6B-3/AG6B-4/AG6B-5/AG6B-6: compared with the task set, the step definition, the size definition, the budget rule and the capability battery all held fixed and the signature, encoding and artifact space declared as the varying part — overhead: attained per-semantic-unit bounds 11/2, 403/4 and 1/1 (all `ATTAINED`, with the declared-range bound classified `VACUOUS` in every row), worst-task ratios `CMB/REG = 397/16` and `CEL/REG = 1/4`; description bias: of 32,640 size-ranking pairs the discordant counts are 2,332, 4,404 and 5,934 across the three basis pairs while the naive and Curry-optimized bracket abstractions — differing by a factor of ~580 in absolute size — give **0** discordant pairs, so the bias is basis-relative and not abstraction-algorithm-relative; reachability geometry: register and cellular corridors are deterministic (max out-degree 1) against combinatory out-degree 217 with 342/342, 344/344, 346/346 and 348/348 branching configurations whose successors share one normal form and a reachable set published as `LOWER_BOUND_ONLY ≥ 50,000`; developmental search burden: measured as the pre-registered one-edit local-search landscape, preserving fractions 185/562, 175/1144 and 286893/290228, with the uniform-enumeration reading **proved not executable** (the unrestricted cellular rule space is exactly `18**5832`, 7,322 decimal digits) and deliberately not repaired by declaring a restricted rule schema.",
+   "old": "- [ ] Compare their compilation overhead, description bias, reachability geometry and developmental search burden.",
+   "residual": "The developmental-search-burden comparison is delivered in its one-edit local-search reading only. That reading was fixed in FREEZE_V1.md section 2.10 before any measurement, together with the statement that the uniform-enumeration reading is not executable; the obstruction is published as an exact integer rather than repaired by a restricted rule schema, because a restriction chosen to make the measurement possible would narrow the row in order to close it.",
+   "row_meaning_token": "FOUR_COMPARISONS_ON_ONE_CHARGED_FRAME_WITH_THE_SEARCH_MODEL_PRE_REGISTERED_AND_THE_ENUMERATION_READING_PROVED_NOT_EXECUTABLE",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AG6 — Universality is a lower-bound null, not intelligence",
+   "bucket": "NEW-SCIENCE",
+   "cites": [
+    {
+     "package": "gmi-833-ag6-universal-bases-v1",
+     "quoted_fields": {
+      "capability_battery": {
+       "distinct_values": 17,
+       "max": 23,
+       "max_score": 45,
+       "min": 7,
+       "tasks": [
+        "IDENTITY",
+        "COMPLEMENT",
+        "CONST0"
+       ]
+      },
+      "hostiles.H13_machine_dependent_reweighting.reweighted_frontier_size": 1,
+      "mi_recovery.size.CEL.frontier_size": 16,
+      "mi_recovery.size.CMB.frontier": [
+       3,
+       7,
+       11,
+       15
+      ],
+      "mi_recovery.size.CMB_vs_CEL.symmetric_difference": 18,
+      "mi_recovery.size.REG.frontier": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "mi_recovery.size.REG_vs_CEL.symmetric_difference": 12,
+      "mi_recovery.size.REG_vs_CMB.symmetric_difference": 6,
+      "mi_recovery.size.any_vacuous": false,
+      "mi_recovery.size.decisive": true,
+      "mi_recovery.size.frontier_unchanged_under_uniform_monotone_normalization": {
+       "plus_1000": true,
+       "square": true,
+       "times_7": true
+      },
+      "mi_recovery.size.verdict": "LAW_DOES_NOT_SURVIVE"
+     }
+    }
+   ],
+   "comment_id": 5693520829,
+   "new": "- [x] Test whether the same higher MI morphology/capability laws survive across these bases after resource normalization. — ✅ `gmi-833-ag6-universal-bases-v1` AG6B-7: tested, and the law does **not** survive — the capability/resource Pareto frontier of `PHASE_LAW_V1.md`, over the frozen three-task capability battery (integer scores 7–23, 17 distinct values) and charged artifact size, is `{0,1,2,3}` in the register basis, `{3,7,11,15}` in the combinatory basis and a 16-element set in the cellular basis, pairwise symmetric differences 6, 12 and 18, with no frontier of size 1 or 256 and all three cost vectors non-constant so the comparison is marked `decisive`; the verdict is attributable to the basis rather than to the accounting because the frontier depends on cost only through its within-basis ordering and is therefore invariant under every strictly increasing normalization applied uniformly to all 256 machines — verified for `x→7x`, `x→x+1000` and `x→x²`, unchanged in all three bases — while a machine-dependent reweighting (outside that class, and a registered hostile) moves the register frontier from 4 elements to 1; capability itself transfers exactly, so what fails to transfer is which machines sit on the frontier. `MI_LAW_PROVED_BASIS_INVARIANT` and `PARETO_FRONTIER_INVARIANT_UNDER_ARBITRARY_RESOURCE_NORMALIZATION` are forbidden promotions.",
+   "old": "- [ ] Test whether the same higher MI morphology/capability laws survive across these bases after resource normalization.",
+   "residual": "The verdict is a negative about TRANSFER of one law object at one registered scope, not a claim that no MI law transfers. The invariance class of the frontier is uniform strictly increasing normalizations only; machine-dependent reweighting is outside it and is registered as a hostile. On the steps coordinate the cellular cost is constant, so that coordinate is marked DEGENERATE_CONSTANT_COST and does not carry the verdict.",
+   "row_meaning_token": "CAPABILITY_RESOURCE_FRONTIER_LAW_TESTED_ACROSS_THREE_BASES_AND_FOUND_NOT_TO_SURVIVE_AT_REGISTERED_SCOPE",
+   "status": "EARNED"
+  }
+ ],
+ "repository": "SzeChunYiu/ORION-OCM",
+ "schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1",
+ "source_main": "50f833cc4bc3cadcefd44eca14fa58f73f815587",
+ "verification": {
+  "anchor_occurrences_in_body": 1,
+  "comment_body_bytes": 32630,
+  "comment_body_bytes_at_reverification": 32631,
+  "each_old_occurs_in_body": 1,
+  "each_old_occurs_under_anchor": 1,
+  "fetched_comment_sha256_at_authoring": "5d36d3c6fcaad1adc7ae61e7ac3e7e49f01a37b127d8cd2c760f913930bb3a38",
+  "fetched_comment_sha256_at_reverification": "5bf3df9ad8ce77da4466819441c8d5f1d20ae2a29a75f7a8de0143a5e70f5b0f",
+  "freeze_commit": "243ec345f959954343247ce83dcd4e8d266459c2",
+  "freeze_precedes_implementation": true,
+  "gates": "9/9",
+  "hostiles": "13/13 detected",
+  "implementation_commit": "95347c8902ca9403a73885681c3d828e42dbc541",
+  "nulls": "0 reproductions",
+  "oracle_sha256": "b90cb3db8a033a34bf11874f537483c89941c1ece4055403e19d9c0f8caedeae",
+  "receipt_sha256": "ed82e130892da0dd84c5a484eab90c24d3418e32ad55300231d00446192683af",
+  "reverification_note": "The comment body changed between authoring and re-verification because another lane edited a different part of it. Re-checked against the fresh fetch: the anchor still occurs exactly once, and all four AG6 row strings below are still byte-identical and still occur exactly once in the body and exactly once under the anchor. The reconciliation therefore still applies as written. Neither fetch was used to edit anything.",
+  "tests": "98/98 in normal and -O"
+ }
+}
