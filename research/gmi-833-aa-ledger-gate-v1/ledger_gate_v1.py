@@ -102,8 +102,17 @@ def tracked_files(root: Optional[Path] = None) -> List[str]:
         for p in sorted(root.rglob("*.md")):
             out.append(str(p.relative_to(root)))
         return out
+    # git ls-files sees only TRACKED files, so a package that has been written
+    # but not yet committed is invisible: the gate then reports passed with
+    # new_named_results 0, having scanned nothing it was asked about. Three
+    # lanes hit that independently and each had to verify their ledgers by
+    # calling theorem_report directly, because the gate said nothing was there.
+    #
+    # Include untracked-but-not-ignored markdown as well, so the gate reads the
+    # working tree it is actually being run against. Ignored files stay out.
     proc = subprocess.run(
-        ["git", "ls-files", "research/*.md", "research/**/*.md"],
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard",
+         "research/*.md", "research/**/*.md"],
         cwd=str(REPO), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
     if proc.returncode != 0:
