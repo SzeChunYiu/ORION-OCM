@@ -1,0 +1,130 @@
+{
+ "claim_ceiling": "AG3_PRESENTATION_EQUIVALENCE_STRENGTHS_DEFINED_AND_ORDERED_AT_REGISTERED_FINITE_SCOPE",
+ "comment_id": 5693520829,
+ "forbidden_promotions": [
+  "PRESENTATION_EQUIVALENCE_IS_SOLVED",
+  "UNIQUE_PRESENTATION_EQUIVALENCE_STRENGTH",
+  "COMPILER_MAKES_SEARCH_BIAS_INVARIANT",
+  "LATTICE_IS_COMPLETE_FOR_ALL_PRESENTATIONS",
+  "BASIS_INDEPENDENT_OPERATION_THEORY_CLAIMED",
+  "THEORY_INVARIANCE_PROVEN_FOR_GMI",
+  "ALL_PRESENTATIONS_ENUMERATED",
+  "ALL_GMI_EQUIVALENCE_IS_MYHILL_NERODE",
+  "ALL_GRAMMARS_EQUIVALENT",
+  "COMPLETE_GMI"
+ ],
+ "freeze_commit": "cc4444ff",
+ "freeze_path": "research/gmi-833-ag3-presentation-equivalence-v1/FREEZE_V1.md",
+ "issue": 833,
+ "not_claimed_novel": [
+  "term equivalence / clone equality (Birkhoff, Lawvere)",
+  "the Myhill-Nerode theorem (Nerode, Myhill)",
+  "strong bisimulation (Park, Milner)",
+  "compiler correctness up to a simulation relation with a charged cost",
+  "the partition lattice and its meet/join"
+ ],
+ "package": "gmi-833-ag3-presentation-equivalence-v1",
+ "parent_pins": {
+  "gmi-833-ag2-signature-free-syntax-v1": {
+   "blob_sha": "7e2b6b53bdd96c4243de67581be1626ee309ef04",
+   "claim_ceiling": "AG2_G0_GRAMMAR_GENERATED_AS_FREE_TERM_ALGEBRA_OVER_AN_EXPLICIT_MANY_SORTED_SIGNATURE_AT_REGISTERED_FINITE_SCOPE",
+   "forbidden_promotions": [
+    "SIGNATURE_IS_THE_BOTTOM",
+    "UNIQUE_SIGNATURE_FOR_G0",
+    "FREE_ALGEBRA_INVENTED_HERE",
+    "BASIS_INDEPENDENT_OPERATION_THEORY_CLAIMED",
+    "SYNTACTIC_QUOTIENT_EQUALS_SEMANTIC_QUOTIENT",
+    "COMPLETE_GMI"
+   ],
+   "owns": "G = FreeSyntax(Sigma) for the registered setting and the subsumption analysis against Birkhoff / Lawvere / Plotkin that this package inherits rather than repeats",
+   "path": "research/gmi-833-ag2-signature-free-syntax-v1/RESULT_V1.json"
+  },
+  "gmi-833-aj5-g0-lowering-v1": {
+   "blob_sha": "24b62f615f2d61d190d666a4d994dde3be2418f6",
+   "claim_ceiling": "AJ5_G0_LOWERED_TO_OPERATIONAL_ROLES_WITH_TWO_PRESENTATIONS_AT_REGISTERED_SCOPE",
+   "forbidden_promotions": [
+    "G0_IS_THE_OPERATIONAL_BOTTOM",
+    "UNIQUE_LOWEST_INSTRUCTION_BASIS",
+    "COMPILER_MAKES_SEARCH_BIAS_INVARIANT",
+    "ALL_MACHINE_MODELS_COMPILED",
+    "COMPLETE_GMI"
+   ],
+   "owns": "the charged-overhead lowering witness kind and the value k=5 (lower_ops <= 5 * G0_steps); its non-transfer boundary is preserved, not repaired",
+   "path": "research/gmi-833-aj5-g0-lowering-v1/RESULT_V1.json"
+  },
+  "gmi-833-g0-grammar-bias-v1": {
+   "blob_sha": "e903033615946a71f2f0859cda42e5b902e0d693",
+   "claim_ceiling": "GMI_FINITE_GRAMMAR_BIAS_AND_REMINT_BOUNDARY_AT_REGISTERED_G0_SCOPE",
+   "forbidden_promotions": [
+    "UNBIASED_G0",
+    "UNIVERSAL_ALGORITHMIC_PRIOR",
+    "KOLMOGOROV_NEUTRALITY",
+    "GRAMMAR_REPRESENTATION_INVARIANT_UNIVERSALLY",
+    "SEARCH_REACHABILITY_INVARIANT_UNIVERSALLY",
+    "MORPHOLOGY_SELECTION_INVARIANT_UNDER_ARBITRARY_GRAMMAR",
+    "ALL_GRAMMARS_EQUIVALENT",
+    "COMPLETE_GMI"
+   ],
+   "owns": "the relabeling witness kind: 24 certified isometric relabelings, 0 invariant failures",
+   "path": "research/gmi-833-g0-grammar-bias-v1/RESULT_V1.json"
+  },
+  "gmi-833-parent-equivalence-v1": {
+   "blob_sha": "7f6ee1c2d6e3e1bc24e66b192abffcc2d0a23ed3",
+   "claim_ceiling": "GMI_PARENT_EQUIVALENCE_BOUNDARIES_AT_REGISTERED_FINITE_SCOPE",
+   "forbidden_promotions": [
+    "ALL_GMI_EQUIVALENCE_IS_MYHILL_NERODE",
+    "TRACE_EQUIVALENCE_EQUALS_BISIMULATION_UNIVERSALLY",
+    "CLASSICAL_SUFFICIENCY_EQUALS_PREDICTIVE_SUFFICIENCY",
+    "ALL_PSRS_ARE_MINIMAL",
+    "UNIVERSAL_STOCHASTIC_MINIMALITY",
+    "COMPLETE_GMI"
+   ],
+   "owns": "model equivalence: the exact Myhill-Nerode specialization and the output-respecting strong bisimulation identification for deterministic total systems",
+   "path": "research/gmi-833-parent-equivalence-v1/RESULT_V1.json"
+  }
+ },
+ "results": [
+  "AG3L-1",
+  "AG3L-2",
+  "AG3L-3",
+  "AG3L-4",
+  "AG3L-5"
+ ],
+ "routes": {
+  "A": "research/gmi-833-ag3-presentation-equivalence-v1/ag3_presentation_equivalence_v1.py",
+  "B": "research/gmi-833-ag3-presentation-equivalence-v1/independent_oracle_v1.py",
+  "independence": "route B imports neither route A nor any parent module; it repacks state maps as base-n integers, decides L1/L2 pairwise instead of by canonical form, decides model equivalence by Moore minimization instead of by a behaviour table, and derives compile lengths from one BFS distance map"
+ },
+ "row_index": 14,
+ "row_meaning_token": "PRESENTATION_EQUIVALENCE_STRENGTHS_DEFINED_AND_ORDERED",
+ "schema": "GMI_833_PACKAGE_MANIFEST_V1",
+ "section": "AG3",
+ "source_main": "50f833cc4bc3cadcefd44eca14fa58f73f815587",
+ "tests": "research/gmi-833-ag3-presentation-equivalence-v1/test_ag3_v1.py",
+ "withdrawn_claims": [
+  {
+   "claim": "L3*(5) < L4 strictly",
+   "reason": "the executor searched the registered universe for a pair in L4 and in no registered L3(k) and found none; L3*(2) = L4 on this universe is published in its place"
+  }
+ ],
+ "workflow": ".github/workflows/gmi-833-ag3-presentation-equivalence-v1.yml",
+ "frozen_clause_conflicts": [
+  {
+   "id": "AG3-FC-1",
+   "clauses": [
+    "FREEZE_V1.md S1 (The object being presented), final sentence",
+    "FREEZE_V1.md S2 (The four strengths), the L3(k) compiler clause",
+    "FREEZE_V1.md S6 (Falsifiers), third bullet"
+   ],
+   "conflict": "S1 requires every strength to imply equality of the presented semantic object; the S2 L3(k) clause read alone relates 367372 pairs on the registered universe whose behaviours differ. The two frozen clauses are jointly unsatisfiable.",
+   "s6_instruction": "that level's definition is wrong and the level is withdrawn, not repaired after the fact",
+   "s6_instruction_followed": false,
+   "governing_clause": "FREEZE_V1.md S1",
+   "resolution": "L3(k) is published as L3raw(k) intersect L4; the raw clause's failure is published as named result AG3L-2 with a two-state counterexample",
+   "why_s1_outranks_s6": "S6's antecedent is the negation of S1's requirement, so S6 presupposes S1 and cannot be applied against it; the intersection is a subset of the frozen L3raw and adds no relation the freeze did not license, whereas withdrawal would delete a strength S1 itself requires and leave the row's fourth-strength question unanswered.",
+   "not_a_freeze_edit": "FREEZE_V1.md is byte-unmodified since freeze commit cc4444ff",
+   "audit_shape_disclosed": "POST_HOC_SUSPECT",
+   "receipt_field": "RESULT_V1.json frozen_clause_conflicts"
+  }
+ ]
+}
