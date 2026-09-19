@@ -1,0 +1,128 @@
+name: GMI 833 emergence-by-price conditions over a neutral substrate
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-emergence-conditions-v1/**'
+      - '.github/workflows/gmi-833-emergence-conditions-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-emergence-conditions-v1/**'
+      - '.github/workflows/gmi-833-emergence-conditions-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  emergence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-emergence-conditions-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/em_first.txt
+          git show --name-only --format= "$(cat /tmp/em_first.txt)" -- "$PKG/" \
+            > /tmp/em_firstfiles.txt
+          cat /tmp/em_firstfiles.txt
+          grep -q 'FREEZE_V1.md' /tmp/em_firstfiles.txt
+          if [ "$(grep -c . /tmp/em_firstfiles.txt)" = "1" ]; then
+            echo 'freeze-first commit ordering intact'
+          else
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+
+      - name: Snapshot the committed receipts before anything reruns
+        run: |
+          set -euo pipefail
+          cp "$PKG/RESULT_V1.json" /tmp/em_committed_result.json
+          cp "$PKG/ORACLE_RESULT_V1.json" /tmp/em_committed_oracle.json
+
+      - name: No float may enter a claim
+        run: |
+          set -euo pipefail
+          ! grep -nE '\bfloat\(|[0-9]\.[0-9]|/ *[0-9]+\.0' "$PKG"/*.py
+
+      - name: Route A
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/emergence_conditions_v1.py" | tee /tmp/em_routeA.json
+
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_oracle_v1.py" | tee /tmp/em_routeB.json
+
+      - name: Route B imports neither route A nor a parent
+        run: |
+          set -euo pipefail
+          ! grep -nE 'em_presentation_equivalence_v1|gmi-833-(aj5|g0|parent|ag2)' \
+            "$PKG/independent_oracle_v1.py"
+
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_emergence_v1.py" | tee /tmp/em_tests.txt
+
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_emergence_v1.py" | tee /tmp/em_tests-O.txt
+
+      - name: The committed receipts match the live run, and the two routes agree
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-emergence-conditions-v1/'
+          a = json.load(open(P + 'RESULT_V1.json'))
+          b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          old_a = json.load(open('/tmp/em_committed_result.json'))
+          old_b = json.load(open('/tmp/em_committed_oracle.json'))
+          bad = []
+          if a != old_a:
+              bad.append('route A receipt drift')
+          if b != old_b:
+              bad.append('route B receipt drift')
+          if a['status'] != 'GREEN' or a['failed_gates']:
+              bad.append('route A not GREEN')
+          for k in sorted(b['behaviours']):
+              for f in ('verdict', 'delta', 'c_star_M', 'c_star_notM', 'solutions',
+                        'blind_solutions'):
+                  if a['behaviours'][k][f] != b['behaviours'][k][f]:
+                      bad.append('route disagreement: %s.%s' % (k, f))
+          for k in sorted(b['revivals']):
+              for f in ('verdict', 'delta', 'c_star_M', 'c_star_notM', 'solutions'):
+                  if a['revivals'][k][f] != b['revivals'][k][f]:
+                      bad.append('revival disagreement: %s.%s' % (k, f))
+          if len(a['behaviours']) != 13:
+              bad.append('not all thirteen behaviours carry a verdict')
+          if a['ec3_exercised'] != bool(a['emerges_by_price']):
+              bad.append('EC-3 vacuity not declared honestly')
+          print(json.dumps({'problems': bad}, indent=1))
+          sys.exit(1 if bad else 0)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-emergence-conditions-v1
+          path: |
+            /tmp/em_routeA.json
+            /tmp/em_routeB.json
+            /tmp/em_tests.txt
+            /tmp/em_tests-O.txt
+          if-no-files-found: error
