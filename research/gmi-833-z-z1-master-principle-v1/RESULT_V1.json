@@ -1,0 +1,299 @@
+{
+ "IC_1_all_corollaries_hold": true,
+ "W_NOALARM_holds": true,
+ "arbitrary_constants_remaining": [
+  "the 5/16 level in Z13-P1's upper threshold"
+ ],
+ "compressible_laws": [
+  "L_ARGMIN_BUDGET",
+  "L_THRESHOLD"
+ ],
+ "compression": {
+  "IC_1_constants": [],
+  "IC_1_free_theoretical_dof": 0,
+  "bag_free_theoretical_dof": 5,
+  "bag_of_laws_members": 4,
+  "bag_ratio": "567/5",
+  "cell_rule": "one cell per (instance, adjacent-threshold-pair)",
+  "independent_predictions": 567,
+  "ratio_note": "IC-1's dof is 0, so the ratio is not finite; the raw pair is the reported quantity and the ratio is reported only for the bag",
+  "raw_pair_IC_1": [
+   567,
+   0
+  ],
+  "raw_pair_bag": [
+   567,
+   5
+  ]
+ },
+ "constants_classification": {
+  "1 - 1/A in lambda*(A)": "COMPUTED_VALUE_OF_E: the alphabet-A stateless floor, enumerated over A**(2A) tables",
+  "1/2 in lambda* = eta*p/2": "COMPUTED_VALUE_OF_E: the uniform binary stateless delayed floor, enumerated over 16 tables",
+  "R0 in lambda* = eta*p*R0": "COMPUTED_VALUE_OF_E: the stateless floor under the declared input law",
+  "eta, p, lambda, q, A": "ENVIRONMENT_DECLARED",
+  "the 5/16 level in Z13-P1's upper threshold": "ARBITRARY_UNDER_IC_1: it is a level, not a marginal, and IC-1 forbids it"
+ },
+ "corollaries": {
+  "IC_1a_uniform_case_is_eta_p_over_2": {
+   "R0_at_q_half": "1/2",
+   "holds": true
+  },
+  "IC_1b_lambda_star_eq_eta_p_one_minus_one_over_A": {
+   "enumerated_table_counts": {
+    "2": 16,
+    "3": 729,
+    "4": 65536
+   },
+   "floors": {
+    "2": "1/2",
+    "3": "2/3",
+    "4": "3/4"
+   },
+   "holds": true,
+   "violations": []
+  },
+  "IC_1c_lambda_star_eq_eta_p_R0": {
+   "holds": true,
+   "violations": []
+  },
+  "IC_1d_ladder": {
+   "clause3_level_is_not_marginal_witness": "R0(delay2|b=1) = 5/16 but the marginal is 3/16",
+   "envelope_vs_interval_disagreements": 0,
+   "floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "5/16",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "0"
+   },
+   "holds": true,
+   "worlds": 135,
+   "worlds_where_the_bare_level_formula_eta_p2_R0_matches_the_marginal": 6
+  }
+ },
+ "head_to_head": {
+  "IC_1_on_ladder": "135/135",
+  "IC_1_two_level": "297/297 TAUTOLOGICAL_AT_TWO_LEVELS: with E(1)=0 the marginal and the level coincide, so this cell carries no weight; the load-bearing comparison is the ladder below",
+  "Z13P1_two_price_ladder_on_ladder": "27/135",
+  "lambda_star_eq_eta_p_R0": "297/297",
+  "lambda_star_eq_eta_p_one_minus_one_over_A": "153/297",
+  "lambda_star_eq_eta_p_over_2": "105/297"
+ },
+ "hostiles": {
+  "concave_profile_interior_level_dropped": {
+   "detected": true,
+   "hull": [
+    0,
+    2
+   ]
+  },
+  "convex_profile_interior_level_kept": {
+   "detected": true,
+   "hull": [
+    0,
+    1,
+    2
+   ]
+  },
+  "level_instead_of_marginal": {
+   "detected": true,
+   "level": "5/16",
+   "marginal": "3/16"
+  },
+  "planted_compressible_law_does_not_split": {
+   "detected": true
+  },
+  "planted_incompressible_law_splits": {
+   "detected": true
+  },
+  "profile_key_without_eta_overmerges": {
+   "detected": true,
+   "groups_with_eta": 102,
+   "groups_without_eta": 59
+  }
+ },
+ "hostiles_all_detected": true,
+ "incompressibility": {
+  "L_ARGMIN_BUDGET": {
+   "MVP_compressible": true,
+   "n_shared_profile_groups_split": 0,
+   "separation_witness": null
+  },
+  "L_DEGENERACY": {
+   "MVP_compressible": false,
+   "n_shared_profile_groups_split": 24,
+   "separation_witness": {
+    "instance_A": {
+     "A": 2,
+     "eta": 2,
+     "family": "UNIF",
+     "law_value": "16",
+     "p": "1",
+     "q": "1/2"
+    },
+    "instance_B": {
+     "A": 3,
+     "eta": 2,
+     "family": "ALPHA",
+     "law_value": "729",
+     "p": "3/4",
+     "q": "1/2"
+    },
+    "profile": {
+     "E0": "1",
+     "E1": "0",
+     "eta": 2
+    }
+   }
+  },
+  "L_DISTINCT": {
+   "MVP_compressible": false,
+   "n_shared_profile_groups_split": 24,
+   "separation_witness": {
+    "instance_A": {
+     "A": 2,
+     "eta": 2,
+     "family": "UNIF",
+     "law_value": "False",
+     "p": "1",
+     "q": "1/2"
+    },
+    "instance_B": {
+     "A": 3,
+     "eta": 2,
+     "family": "ALPHA",
+     "law_value": "True",
+     "p": "3/4",
+     "q": "1/2"
+    },
+    "profile": {
+     "E0": "1",
+     "E1": "0",
+     "eta": 2
+    }
+   }
+  },
+  "L_MDL": {
+   "MVP_compressible": false,
+   "n_shared_profile_groups_split": 24,
+   "separation_witness": {
+    "instance_A": {
+     "A": 3,
+     "eta": 2,
+     "family": "ALPHA",
+     "law_value": "10",
+     "p": "3/4",
+     "q": "1/2"
+    },
+    "instance_B": {
+     "A": 2,
+     "eta": 2,
+     "family": "UNIF",
+     "law_value": "4",
+     "p": "1",
+     "q": "1/2"
+    },
+    "profile": {
+     "E0": "1",
+     "E1": "0",
+     "eta": 2
+    }
+   }
+  },
+  "L_REACH": {
+   "MVP_compressible": false,
+   "n_shared_profile_groups_split": 24,
+   "separation_witness": {
+    "instance_A": {
+     "A": 2,
+     "eta": 2,
+     "family": "UNIF",
+     "law_value": "1/4",
+     "p": "1",
+     "q": "1/2"
+    },
+    "instance_B": {
+     "A": 3,
+     "eta": 2,
+     "family": "ALPHA",
+     "law_value": "4/243",
+     "p": "3/4",
+     "q": "1/2"
+    },
+    "profile": {
+     "E0": "1",
+     "E1": "0",
+     "eta": 2
+    }
+   }
+  },
+  "L_THRESHOLD": {
+   "MVP_compressible": true,
+   "n_shared_profile_groups_split": 0,
+   "separation_witness": null
+  }
+ },
+ "incompressible_laws": [
+  "L_DEGENERACY",
+  "L_DISTINCT",
+  "L_MDL",
+  "L_REACH"
+ ],
+ "issue": 833,
+ "nonvacuity": {
+  "W_NONVACUITY_holds": true,
+  "full_population_n_profile_groups": 102,
+  "full_population_n_shared_groups": 78,
+  "largest_group": 9,
+  "n_groups_with_more_than_one_instance": 75,
+  "n_instances_all": 297,
+  "n_instances_in_shared_groups": 240,
+  "n_instances_nondegenerate": 264,
+  "n_profile_groups": 99,
+  "separation_population": "non-degenerate instances only (E(0) > E(1)), per FREEZE_V1_AMENDMENT_1"
+ },
+ "null": {
+  "IC_1_ladder_coefficients": [
+   "1/2",
+   "3/16"
+  ],
+  "Z13P1_ladder_coefficients": [
+   "1/2",
+   "5/16"
+  ],
+  "description": "exhaustive over the declared two-parameter law families: eta*p*(a + b*R0) on the 297 two-level instances and eta*(a*p1 + b*p2) on the 135 ladder worlds, a,b in k/16",
+  "identified": true,
+  "ladder_best": "135/135",
+  "ladder_laws_scoring_perfect": [
+   [
+    "1/2",
+    "3/16"
+   ]
+  ],
+  "n_laws_scored": 289,
+  "note": "IC-1 is IDENTIFIED inside each family: exactly one law in each grid reproduces the enumeration, and it is IC-1's marginal pair.",
+  "two_level_best": "297/297",
+  "two_level_laws_scoring_perfect": [
+   [
+    "0",
+    "1"
+   ]
+  ]
+ },
+ "population": {
+  "declared": "eta in {1,2,3} x p in k/8 (k=0..8) x {UNIF} + {SKEW over 7 input laws} + {ALPHA over A in 2,3,4}",
+  "families": [
+   "ALPHA",
+   "SKEW",
+   "UNIF"
+  ],
+  "n_instances": 297
+ },
+ "route": "A",
+ "schema": "GMI_833_Z1_MASTER_PRINCIPLE_RESULT_V1",
+ "subsection": "Z1"
+}
