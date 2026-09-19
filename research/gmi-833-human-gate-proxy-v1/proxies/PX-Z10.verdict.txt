@@ -1,0 +1,84 @@
+# Review — Z10 real-system prospective validation (fresh-session reviewer)
+
+I read only the eight artifacts listed in the brief. I ran no repository code. Below, every objection is quoted to a path and field.
+
+## What the artifact set actually contains
+
+**One task family, five byte sources.** `gmi-833-real-transition-receipts-v1/FREEZE_V1.md` §1 defines the workload for *every* system identically: "a registered REAL byte source `D_s` … is converted to a bit stream by the registered extractor: raw file bytes, MSB-first, truncated to the first `T_s` bits", with target rule "`IMMEDIATE`: `y_t = x_t`; … `DELAYED`: `y_t = x_{t-1}`". The five counted receipts in `RECEIPTS_V1.json` differ only in `x_source` (`/tmp/w6-gutenberg-1342.txt`, `/usr/share/sounds/alsa/Noise.wav`, a concatenated stdlib-json blob, `/tmp/w6-gutenberg-84.txt`, `/etc/dictionaries-common/words`), in `T_s`, `W_s`, `H_s`, `p_s` and seeds. FREEZE_V1 §5 states the distinctness criterion explicitly: "Distictness is by (data source, pool widths, prices, seeds)". That is distinctness by data source for a single task — the exact construction the brief excludes.
+
+The second real package is the same shape. `gmi-833-capability-predictor-evaluation-v1/REAL_RUNS_V3/REAL_MEASURED_V3.json` records one `source`: `/usr/lib/python3.8/argparse.py`, with MLP/GRU heads over bit tasks, `"device": "cpu"`, `"threads": 1`.
+
+The third package's real-sequence work is planted, by its own contract: `gmi-physical-resource-metering-v1/PHYSICAL_METERING_CONTRACT_V1.json` `b19_scope.task_kind` = "planted sequential binary classification with controlled feature overlap", ceiling `REAL_SEQUENCE_WITNESS_AT_PLANTED_SCOPE`, non-claims "no ImageNet / Split-CIFAR transfer".
+
+Across all eight artifacts there is no planning/control task, no multi-agent task, no embodied task, no language or reasoning task (text files appear only as undifferentiated byte streams), and no programmatic-reasoning task (Python source appears only as bytes). Domains a practitioner would call different: one.
+
+## OBJ-1 (material) — the executed λ grid is not the registered λ grid
+
+FREEZE_V1 §3 writes `lambda*_s = p_s * eta_s / (2 * B_s) = p_s / (8 * H_s)`. With the freeze's own `eta = 1/2` and `B_s = 4 H_s`, the substitution yields `p/(16 H)`, not `p/(8 H)`; the second equality is an algebra error. §5 registers the worked numbers from the erroneous form: "e.g. R01: `8/(8*32) = 1/32`; `lambda_low = 1/64`, `lambda_high = 3/64`". The executed run in `RECEIPTS_V1.json` R01 records `lambda_star: 0.015625` (1/64) with `resource_price_lambda` `0.0078125` (1/128) before and `0.0234375` (3/128) after — uniformly half the registered numeric grid. The same halving holds on R04 (`lambda_star: 0.0078125` vs registered 1/64), R05 (`0.020833…` vs `8/(8*24) = 1/24`), R07 and R08. The correction runs toward the stated boundary law and preserves the λ*/2 and 3λ*/2 ratios, so the qualitative prediction is unaffected — but the intervention points actually executed are not the ones numerically registered, and no readable artifact discloses the correction.
+
+## OBJ-2 (material) — no resource measurement distinguishes "before" from "after"
+
+In all five receipts `resources_before` and `resources_after` are byte-identical (R01: `[128, 3489, 180.278]` for both). FREEZE_V1 §5 explains why: "Same trained candidates serve both `lambda` settings (lambda reprices only)." The claimed crossover is therefore arithmetic over one fixed pair of (err, B) numbers evaluated at two λ values, not an observed change in resource consumption.
+
+## OBJ-3 (material) — `resources_after` contradicts `observed_after_property`
+
+R01 records `"observed_after_property": "STATELESS"`, and FREEZE_V1 §2 defines `STATELESS-MLP` as "Carried state bytes `B = 0`". Yet `"resources_after": [128, 3489, 180.278]`, whose first element equals `carried_state_bytes_persistent: 128` and whose parameter count 3489 is the GRU's. The field FREEZE_V1 §6 labels "`resources_before/after = [B, param_count, train_seconds]` (measured)" does not describe the machine named as the observed after-state.
+
+## OBJ-4 (material) — the operative prediction artifact is unpinned and the governing rule changed
+
+Every receipt's `prediction_ref` is `…FREEZE_V1.md@cd6196aa5fd0edcdbcfb535ff2aecf7cd0870754+FREEZE_V2_AMENDMENT.md` — the second component carries no commit pin and is not in the artifact set. The rule the receipts actually apply, `"boundary_law": "lambda*=p*eta/(2B); licensed band 1/8<E0<3/8 (amendment A4)"`, is not the rule in FREEZE_V1 §4 ("`PERSISTENT_STATE` iff `delay_err <= 1/2 - 3 sigma`" with binomial floor `q = 1/2`). `gmi-833-real-transition-receipts-v1/CORE.md` states the trigger: "Machinery smoke exposed the uniform-bit premise failure (real-source stateless floor is data-derived, not `1/2`)."
+
+## OBJ-5 (material) — two of the five counted systems were registered after earlier outcomes
+
+FREEZE_V1 §5's registered table is R01–R06. `R07-frankenstein` and `R08-dict-words` appear nowhere in it; CORE.md attributes them to a later revival — "`FREEZE_V3_ADDENDUM.md` @ `c03eb646e` — registered revival (attribution: system availability, lever: second text-weighted tranche)". The qualifying criterion is itself a measured quantity (`stateless_floor.E0_err_all`: 0.2245, 0.1868, 0.2002, 0.2278, 0.2401 — all inside the amended band), so the population that supplies the count was selected on a data-derived statistic after earlier outcomes were known.
+
+## OBJ-6 (material) — no memory or communication coordinate exists
+
+`PHYSICAL_METERING_CONTRACT_V1.json` `physical_coordinates` enumerates exactly `wall_s`, `cpu_user_s`, `cpu_system_s`, `io_read_bytes`, `io_write_bytes`, `gpu_time_s`, `energy_j`. There is no memory coordinate and no communication coordinate. Energy is `"OPEN_WITHOUT_CALIBRATION_ON_MEASURED_HOSTS"` in `SUMMARY.json`; GPU cannot have been measured on any validation run, since every real run in evidence is CPU-only (`REAL_MEASURED_V3.json` `"torch_version": "2.4.1+cpu"`, `RECEIPTS_V1.json` `"torch": "2.4.1+cpu"`). I credit the contract's honesty policy — "`UNAVAILABLE` is not zero", "never invent GPU seconds" — but honest absence is still absence.
+
+## OBJ-7 (material) — the metering harness is not bound to any validation run
+
+`SUMMARY.json` reports `"hosts_measured": ["local", "billy-old", "billy-laptop"]`, and its CORE.md describes "an executable measurement bridge". Nothing in `RECEIPTS_V1.json` or `REAL_MEASURED_V3.json` carries a physical counter from that harness, a host tag, or a cross-reference to it. The only physical quantity inside a receipt is `train_seconds`.
+
+## OBJ-8 (material) — nothing in the artifacts is a Pareto front
+
+No artifact contains a front, a non-dominated set, or a predicted-vs-observed front comparison. The receipts compare a single `argmin_c J_c(lambda)` winner at two λ points. The nearest object is the predictor package's KE-5, "8 cases × 4 thresholds × 7 universes sweeping `R.budget`; **0 replay mismatches**" — but that is replay agreement on registered universes, not observation on real systems.
+
+## Non-material check that passed
+
+R04's receipt reads `"system_id": "R04-dpkg-log"` while `x_source.path` is `/usr/share/sounds/alsa/Noise.wav` with `"fallback_used": true`. FREEZE_V1 §5 pre-registers exactly that file as R04's fallback, so the substitution is disclosed and legitimate; not material.
+
+## Admissions against interest that I take at face value
+
+`gmi-833-capability-predictor-evaluation-v1/CORE.md` states: "**`Test predictor on real trained systems` is not closed.** … the result is that the *bridge* fails", and KE-3D reports three prospectively frozen registration laws "all three were falsified by their own pre-registered falsifiers". That row is already open; I raise no reopen against it. It does not supply evidence toward Z10-1..Z10-10.
+
+## Reopen demands
+
+I demand reopening of the receipts terminal `REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE` and of the three rows listed in `gmi-physical-resource-metering-v1/SUMMARY.json` `closes`.
+
+VERDICT_BLOCK_BEGIN
+row: Z10-1 | verdict: NOT_SATISFIED | reason: All five counted receipts run one identical task (FREEZE_V1 §1/§3 delayed-vs-immediate bit copy over MSB-first raw bytes) differing only by data source, which FREEZE_V1 §5 itself names as the distinctness criterion.
+row: Z10-2 | verdict: NOT_SATISFIED | reason: Text files appear only as undifferentiated byte streams under the §1 extractor, and no artifact evaluates any language or reasoning capability.
+row: Z10-3 | verdict: NOT_SATISFIED | reason: No planning or control task, environment, policy or action space appears anywhere in the eight artifacts.
+row: Z10-4 | verdict: NOT_SATISFIED | reason: Python source (`/usr/lib/python3.8/json/*`, `/usr/lib/python3.8/argparse.py`) is consumed only as bytes, and no programmatic or scientific reasoning task is posed or scored.
+row: Z10-5 | verdict: NOT_SATISFIED | reason: The only continual-learning-shaped workload is B19, which its own contract scopes as "planted sequential binary classification" at `REAL_SEQUENCE_WITNESS_AT_PLANTED_SCOPE` with "no ImageNet / Split-CIFAR transfer".
+row: Z10-6 | verdict: NOT_SATISFIED | reason: No multi-agent and no embodied interaction task appears in any artifact.
+row: Z10-7 | verdict: NOT_SATISFIED | reason: Two of the five counted receipts (R07, R08) are absent from FREEZE_V1 §5's registered table, the receipts' operative rule ("licensed band 1/8<E0<3/8 (amendment A4)") is not FREEZE_V1 §4's rule, the amendment half of every `prediction_ref` carries no commit pin and is not in evidence, and the executed λ grid is uniformly half the grid registered in §5.
+row: Z10-8 | verdict: NOT_SATISFIED | reason: The metering contract defines no memory and no communication coordinate, energy is `OPEN_WITHOUT_CALIBRATION_ON_MEASURED_HOSTS`, every real run is CPU-only so GPU was never measured, and the only physical quantity inside any receipt is `train_seconds`.
+row: Z10-9 | verdict: NOT_SATISFIED | reason: No artifact contains a Pareto front, predicted or observed; the receipts compare a single `argmin_c J_c(lambda)` winner at two λ points over resource vectors that are byte-identical before and after.
+row: Z10-10 | verdict: NOT_SATISFIED | reason: All real training in evidence is one implementation on CPU with `torch 2.4.1+cpu`, the predictor CORE states "CI replays only the deterministic stage from the committed `REAL_RUNS*/` receipts and never trains", and route B reproduces frozen predictions by sha256 rather than re-running any real system.
+objection: OBJ-1 | material: yes | text: FREEZE_V1 §3's `p_s/(8*H_s)` is algebraically inconsistent with its own `p*eta/(2B)` at `eta=1/2`, `B=4H`, and the executed λ values in RECEIPTS_V1.json are uniformly half the numeric grid registered in §5 with no disclosure in any readable artifact.
+objection: OBJ-2 | material: yes | text: `resources_before` equals `resources_after` byte-for-byte in all five receipts because FREEZE_V1 §5 reuses the same trained candidates at both λ settings, so no resource measurement distinguishes the two sides of the claimed crossover.
+objection: OBJ-3 | material: yes | text: R01 reports `observed_after_property: "STATELESS"` (B=0 by FREEZE_V1 §2) while `resources_after: [128, 3489, 180.278]` carries the persistent candidate's state bytes and parameter count.
+objection: OBJ-4 | material: yes | text: Every `prediction_ref` cites `+FREEZE_V2_AMENDMENT.md` without a commit hash, and the classification rule the receipts apply was introduced after "Machinery smoke exposed the uniform-bit premise failure".
+objection: OBJ-5 | material: yes | text: R07 and R08 were added by a later "second text-weighted tranche" revival and qualify via a measured `E0` band, so the population supplying the count of five was selected after earlier outcomes were known.
+objection: OBJ-6 | material: yes | text: `physical_coordinates` contains no memory and no communication entry, and energy is declared OPEN on all three measured hosts.
+objection: OBJ-7 | material: yes | text: No receipt or measured-run file carries any counter, host tag or reference from the metering harness, so the harness's closure does not attach to the validation evidence.
+objection: OBJ-8 | material: yes | text: No predicted-versus-observed Pareto front exists in any artifact, and KE-5's curve agreement is replay on registered universes rather than observation on real systems.
+objection: OBJ-9 | material: no | text: R04's use of `/usr/share/sounds/alsa/Noise.wav` under `system_id: "R04-dpkg-log"` is the pre-registered fallback from FREEZE_V1 §5 and is disclosed via `fallback_used: true`.
+reopen: REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE | reason: Its five qualifying receipts are one task family over five byte sources, its executed λ grid deviates from the registered grid, and two counted systems were registered after earlier outcomes.
+reopen: N.physical_cpu_gpu_wall_io_counters_at_registered_harness_scope | reason: The coordinate set omits memory and communication entirely and GPU was never measured on any validation run.
+reopen: N.energy_where_feasible_honest_OPEN_without_calibration | reason: It is listed in `closes` while `claim_ceilings.energy` simultaneously reads `OPEN_WITHOUT_CALIBRATION_ON_MEASURED_HOSTS`.
+reopen: B19.test_under_real_task_sequences_planted_scope | reason: A planted sequential classification microworld does not evidence a real task sequence, as the contract's own non-claims concede.
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

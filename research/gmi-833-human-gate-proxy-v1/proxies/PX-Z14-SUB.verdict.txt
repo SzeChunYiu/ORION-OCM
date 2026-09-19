@@ -1,0 +1,57 @@
+## Independent cross-substrate review — Z14-1
+
+I read, in full and only, the six artifacts listed in the brief. I did not open any other file, did not run any repository code, and did not use any in-artifact verdict, "GREEN" row, claim ceiling or receipt self-attestation as evidence. The arithmetic below is my own, applied to fields recorded in `RECEIPTS_V1.json` using the inequality the artifacts themselves state (`FREEZE_V2_AMENDMENT.md` A4).
+
+---
+
+### 1. Substrate inventory
+
+**Substrate A — exhaustively enumerated one-bit transducers** (`gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md`). Exact, no training, no floats: "The outcome oracle enumerates all 65,552 registered finite binary mechanisms". The law is derived in §3: "the best stateless objective is `J0 = eta*p/2`", "`J1 = lambda`", "Thus the property-level boundary is `lambda* = eta*p/2`", and "This derivation predates outcome enumeration." 20 frozen `PERSISTENT_STATE -> STATELESS` transitions, a deliberately shifted boundary `2*lambda*` that fails 20/20, and — crucially — a two-sided pin on the threshold value: "Exact `lambda=lambda*` controls preserve both property classes as ties rather than forcing a winner." This is a genuine prospective test of the closed-form threshold, and I do not challenge it.
+
+**Substrate B — trained torch systems on real byte sources** (`gmi-833-real-transition-receipts-v1/`). Materially distinct medium: "Twelve real systems trained (torch, CPU, registered seeds; sha256-bound real data sources)", `library_versions: {"torch": "2.4.1+cpu"}` in every receipt. Prospectively frozen at `FREEZE_V1.md @ cd6196aa5`, amended at `FREEZE_V2_AMENDMENT.md @ c3fbf5b11`, extended at `FREEZE_V3_ADDENDUM.md @ c03eb646e`.
+
+**Substrate C — the capability-predictor universe** (`gmi-833-capability-predictor-evaluation-v1/`). Having read `CORE.md` and `SCOPE_V1.md` in their entirety, neither document mentions the threshold law, a resource price `lambda`, `lambda*`, price per state bit, or the `PERSISTENT_STATE`/`STATELESS` property at all. Its object is a different one: "the rows that **test** the exact capability predictor `C_hat = F(M,E,R,H,D,U)`", scored as "**hit** — `IDENTIFIED(v)` and `extcap` of the realization equals `v`" (`SCOPE_V1.md` §2). Whether or not its registered machine universe is a distinct medium is therefore moot for this row: **it carries zero tests of the law under review.** (Its own real-system row is additionally open by its own account: "`Test predictor on real trained systems` is not closed", with KE-3D reporting that "three registration laws were frozen prospectively … and all three were falsified by their own pre-registered falsifiers".) Any programme count that treats C as a third substrate for the GMI threshold law is unsupported by these two artifacts.
+
+### 2. Is it the same law?
+
+The closed form is nominally carried across — every receipt records `"boundary_law": "lambda*=p*eta/(2B); licensed band 1/8<E0<3/8 (amendment A4)"`, and substrate A's `lambda* = eta*p/2` is its `B = 1` case. But the numerator of that closed form *is* the analytic stateless floor, and substrate B explicitly retracts the floor:
+
+> `FREEZE_V2_AMENDMENT.md` A1: "Root cause (one stage): V1 Section 4 assumed uniformly distributed bits… The analytic constant `1/2` is therefore not the stateless floor on real data."
+> A5: "the analytic-uniform expectation `1/2` is recorded but NOT asserted on real data (V1's assertion is retracted by this amendment)".
+
+The replacement is per-system measured, not closed-form: A2 "Replace the analytic floor constant with the **empirical stateless floor**". And A4 shows what is left of the formula once the substitution is made: "With `B_persist = 4H`, `lambda_low = p/(32H)`, `lambda_high = 3p/(32H)`, `err_persist -> 0`: the transition … is licensed iff `1/8 < E0 < 3/8`." Both `p` and the state-count `B` cancel out of that condition. So on the frozen grid the *entire* quantitative content of the substrate-B test is a 3× bracket around a measured quantity; the threshold's absolute location — the thing substrate A pins exactly — is not probed.
+
+**Timing.** The amendment is pre-outcome but post-evidence: A1 reports "A machinery smoke run … showed the trained stateless MLP reaching delayed-mode error `0.426` on `R02-alsa-frontcenter`", i.e. the formula's premise was revised after same-substrate data disclosed it was false, and then the revised rule was frozen. That is a registered re-parameterization, not a clean second prospective test of the original form.
+
+### 3. The decisive contradiction at λ = λ\*
+
+`FREEZE_V2_AMENDMENT.md` A4 states the crossing condition: "persistent wins at `lambda_low` iff `lambda_low*B_persist + p*err_persist < p*E0`". Evaluate it at the registered threshold itself. With `eta_registered = 0.5` (recorded in every receipt), `lambda*·B = p·eta/2 = p/4`, so persistent wins at `lambda*` iff `E0 > 1/4 + err_persist`.
+
+Measured `stateless_floor.E0_err_all` in the five receipts: **0.2245, 0.1868, 0.2002, 0.2278, 0.2401** — every one below 1/4, so stateless wins **strictly** at `lambda*` in 5/5, for any `err_persist ≥ 0`. The receipts confirm it directly: `boundary_tie_control: {"counted_as_transition": false, "lambda": <lambda*>, "winners": ["c1"]}` in all five. The winner is identifiable as the stateless machine, not by assumption: A2 defines `floor_del` as the "delayed-mode eval error of the trained `B = 0` candidate", and each receipt records `stateless_floor.candidate_id: "c1"` — so `c1` is the `B = 0` candidate, and it wins alone at `lambda*`.
+
+Substrate A predicts the opposite at the identical test point ("preserve both property classes as ties rather than forcing a winner"). Same closed form, same distinguished point, opposite outcomes — and the deviation is one-sided in all five receipts (the real crossing lies below `lambda*`: from A4's inequality the crossing is at most `p·E0/B`, i.e. 0.75×–0.96× of the recorded `lambda_star`). The `lambda*` row is booked as a "control" rather than as a disagreement with the law it controls.
+
+The falsification control does not cover this direction. Every receipt's `shifted_law_control` uses `shifted_boundary_lambda` = 2·λ\* only, e.g. `{"shifted_boundary_lambda": 0.03125, "shifted_prediction_at_high": "PERSISTENT_STATE", "shifted_prediction_falsified": true}`. A threshold *above* 1.5λ\* is excluded; a threshold *below* λ\* — where the data actually sit — is never probed in either substrate.
+
+### 4. Predicting or fitting?
+
+On licensed systems, once `E0` is measured, a wrong-direction outcome is not available: A4's inequality makes `PERSISTENT_STATE` at `lambda_low` and `STATELESS` at `lambda_high` follow from `1/8 < E0 < 3/8`, which is also the inclusion rule ("Systems measuring `E0` outside `(1/8, 3/8)` are `UNAVAILABLE_BY_AMENDMENT`"). The only other outcome the protocol permits is abstention, via A5's fail-closed `persistent_beats_empirical_floor` ("else the system's persistent form has not demonstrated state use — the receipt fails closed"). So the residual empirical risk in substrate B is that training and selection succeed — not that the law's threshold is right. Correspondingly, `CORE.md`'s claim that the three unlicensed systems were "correctly predicted NOT to transition" is an algebraic consequence of their measured `E0 < 1/8` under the same inequality, and it also overstates the amendment, which says "predictions apply only to licensed systems."
+
+Minor, non-material observations, recorded so they are not lost: (i) the qualifying population was extended after a shortfall — `CORE.md` custody steps 4–6, "qualifying count 3 < 5" then "lever: second text-weighted tranche" — which is optional stopping combined with source selection toward expected licensure, since text-like sources are precisely those whose `E0 ≈ 0.2` falls inside the band; (ii) `CORE.md` names eight sources for nine licensed systems and lists "Noise.wav" among "text-like sources"; (iii) receipt `R04-dpkg-log` records `x_source.path: "/usr/share/sounds/alsa/Noise.wav"` with `"fallback_used": true`, so the receipt's system identity and the data actually used diverge (declared, but worth noting in any custody re-read).
+
+### 5. Answers to the brief's questions
+
+- **Same law?** No — same label and same closed-form string, but a different predicted quantity. The analytic floor that supplies the formula's numerator is retracted for substrate B (A5) and replaced by a per-system measurement (A2), registered after same-substrate smoke data exposed the failure (A1).
+- **How many substrates carry a prospective test?** Of the **closed-form threshold value**: **one** (A). Of the weakened **direction-within-a-3×-bracket** variant: **two** (A, B). Of anything in substrate C: **zero**.
+- **Predicting or fitting?** Substrate A predicts, two-sidedly. Substrate B tests a bracket that coincides with its own inclusion criterion, and its `lambda*` control contradicts the closed form in 5/5 receipts in the same direction.
+
+### 6. Reopen demand
+
+I demand reopening of the substrate-B terminal `REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE` and, with it, any #833 Section-J row recorded as earned by it. Minimum repair to close it as a same-law test: register a two-sided threshold control (at least one shifted boundary **below** λ\*, e.g. λ\*/2 and 3λ\*/4), report the measured crossing location per system against the predicted λ\*, and treat a licensed system whose crossing falls outside a pre-registered tolerance as a falsification rather than as a "boundary tie control". I do **not** demand reopening substrate A; its 20-case held-out test and its exact λ\* ties are the part of this programme that does what it says.
+
+VERDICT_BLOCK_BEGIN
+row: Z14-1 | verdict: NOT_SATISFIED | reason: Only substrate A tests the closed-form law; substrate B tests a re-parameterized variant whose analytic floor was retracted (FREEZE_V2_AMENDMENT A5) and whose surviving quantitative content — `1/8 < E0 < 3/8` per A4, with p and B cancelling — is identical to its own system-inclusion criterion, and substrate C's two artifacts never mention the law at all.
+objection: OBJ-1 | material: yes | text: At the registered threshold itself, A4's inequality gives "persistent wins iff E0 > 1/4 + err_persist" while all five receipts record E0 ≤ 0.2401 and `boundary_tie_control: {"winners": ["c1"]}` with `stateless_floor.candidate_id: "c1"` (the B = 0 candidate per A2), so the stateless machine wins strictly at λ\* in 5/5 — the opposite of substrate A's same-law control that "Exact `lambda=lambda*` controls preserve both property classes as ties rather than forcing a winner" — and the only shifted-law control, `shifted_boundary_lambda` = 2λ\*, never probes below λ\* where the deviation actually lies.
+reopen: REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE | reason: Its five receipts contradict the threshold value of the law they are claimed to validate and its licensing band coincides with its prediction condition, so the terminal cannot stand as cross-substrate evidence for the closed form without a two-sided threshold control and a falsification route for licensed systems.
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

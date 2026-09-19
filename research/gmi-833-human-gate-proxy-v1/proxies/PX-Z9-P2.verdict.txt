@@ -1,0 +1,15 @@
+JSON is valid and complete: 12 environments, all fields present, all values exact reduced-fraction strings.
+
+Summary: I read only the brief and `/tmp/claude-501/revive-gates/z9/batch_2/ENVIRONMENTS.json`, derived closed-form cell-weight formulas for T2 (stateless) and T3 (carry-x_{t-1} one-bit) under the L=3 and L=4 scoring schemes, and applied T1/T4 to every one of the 12 environments by hand arithmetic (no enumeration/search over the 65,552-machine universe). Predictions written to `/tmp/claude-501/revive-gates/z9/batch_2/PREDICTIONS.json`.
+
+Key findings worth flagging:
+- **B2-E07 (marked CONTROL)**: the environment file's own note claims "any prediction of PERSISTENT_STATE here... is a false positive," but exact T1–T4 arithmetic gives E_stateless=1/20, E_onebit=0, lambda*=1/20 — so at the listed cheap price (1/100 < 1/20) the theory predicts PERSISTENT_STATE wins, with no reliance on the doubtful T3 clause (NAND is a pure (a,b) function, exactly solvable). This is flagged as the batch's headline falsification target.
+- **B2-E04, B2-E08, B2-E11**: targets needing x_{t-2} (PREV2, XOR2) collapse to an exact tie between classes, since x_{t-1} carries zero information about the independent x_{t-2} — the carry-x_{t-1} construction buys nothing there.
+- **B2-E05, B2-E06**: genuine b,c-mixture targets (MAJ3, AND2, OR2) where T3's optimality is least certain; a small hand spot-check found no counterexample but wasn't exhaustive — marked MEDIUM confidence.
+- **B2-E10 (CONTROL)**: matches its stated intent exactly — STATELESS wins at both prices.
+
+VERDICT_BLOCK_BEGIN
+row: Z9-3 | verdict: SATISFIED | reason: I read only BRIEF_Z9_PREDICTION_TEAM.md and the descriptor file /tmp/claude-501/revive-gates/z9/batch_2/ENVIRONMENTS.json, applying T1-T4 by hand arithmetic with no enumeration or simulation of candidate machines.
+row: Z9-4 | verdict: SATISFIED | reason: All 12 environments have frozen class-set, capability (E_stateless/E_onebit), crossover (lambda_star), and failure_prediction/confidence fields written verbatim to PREDICTIONS.json before any outcome exists.
+model_self_report: Claude Sonnet 5 (claude-sonnet-5)
+VERDICT_BLOCK_END
