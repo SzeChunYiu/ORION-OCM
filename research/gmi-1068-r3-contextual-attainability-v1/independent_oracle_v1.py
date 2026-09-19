@@ -34,6 +34,10 @@ def win(values, lam):
     return [v for score, v in scores if score == top]
 
 
+def resources(values):
+    return sorted({c for _, c in values})
+
+
 all_names = {r[0] for r in rows}
 budget_names = {"h0", "h1"}
 full = image(all_names)
@@ -49,6 +53,8 @@ print(
             "status": "GREEN",
             "full_frontier": [list(v) for v in front(full)],
             "budget_frontier": [list(v) for v in front(budget)],
+            "full_resources": resources(full),
+            "budget_resources": resources(budget),
             "phase_low": [list(v) for v in win(full, Fraction(1, 1))],
             "phase_tie": [list(v) for v in win(full, Fraction(3, 2))],
             "phase_high": [list(v) for v in win(full, Fraction(3, 1))],
