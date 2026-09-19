@@ -13,6 +13,7 @@ Usage:
                                          ratchet, restricted to the paths in FILE
   ledger_gate_v1.py --write-baseline     freeze the current state as the baseline
   ledger_gate_v1.py --scan-root DIR      scan DIR instead of the repo (fixtures)
+  ledger_gate_v1.py --print-owned        the PR-owned markdown paths (shared scope rule)
 
 stdlib only; exact integer arithmetic; python3.8-compatible.
 
@@ -25,7 +26,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -118,6 +121,82 @@ def tracked_files(root: Optional[Path] = None) -> List[str]:
     if proc.returncode != 0:
         raise GateError("git ls-files failed: %s" % proc.stderr.decode("utf-8", "replace"))
     return sorted(set(proc.stdout.decode("utf-8").split()))
+
+
+# ---------------------------------------------------------------------------
+# PR scope: which files does THIS change own?  One rule, shared by the test
+# (`test_ledger_gate_v1.py::_owned_paths`) and the workflow (`--print-owned`).
+# ---------------------------------------------------------------------------
+GIT = "/usr/bin/git" if os.path.exists("/usr/bin/git") else (shutil.which("git") or "git")
+
+
+def _git(args: Sequence[str], cwd: Path, git: str) -> Optional[str]:
+    """stdout of a git command, or None when it fails. Never raises."""
+    try:
+        proc = subprocess.run([git] + list(args), cwd=str(cwd),
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except OSError:
+        return None
+    if proc.returncode != 0:
+        return None
+    return proc.stdout.decode("utf-8", "replace")
+
+
+def owned_paths_from_git(repo: Optional[Path] = None,
+                         base_sha: Optional[str] = None,
+                         git: Optional[str] = None,
+                         only_markdown: bool = True) -> Optional[List[str]]:
+    """Files this change added or modified, or None when there is no PR scope.
+
+    The rule, in priority order:
+
+      1. HEAD has two parents (a `pull_request` checkout is GitHub's merge of
+         the PR head into the CURRENT base tip) -> `HEAD^1..HEAD`.  The first
+         parent IS the base the PR is being merged into, so this is exactly
+         the PR's own contribution, however far the base has moved since.
+      2. otherwise a base sha is known (`PR_BASE_SHA`, i.e.
+         `github.event.pull_request.base.sha`) -> `merge-base(base, HEAD)..HEAD`.
+      3. otherwise None: the caller enforces repo-wide (push to main).
+
+    Why not `base.sha..HEAD` (two-dot)?  `base.sha` is the base at the PR's
+    LAST synchronize event, while a merge checkout's HEAD contains the base
+    as it is NOW.  Every file main gained in between is then attributed to
+    the PR: a ledger-mirror fix was failed for a theorem note another lane
+    merged (NEW_RESULT_MISSING_LEDGER on a file the PR never touched).  Why
+    not `origin/<base>...HEAD` (three-dot)?  It is a second, different rule
+    for the same question, it needs the remote ref to be present, and the
+    test and the workflow disagreed about which one was in force.
+    """
+    cwd = repo if repo is not None else REPO
+    tool = git or GIT
+    if base_sha is None:
+        base_sha = os.environ.get("PR_BASE_SHA") or ""
+    if _git(["rev-parse", "--verify", "--quiet", "HEAD^2"], cwd, tool) is not None:
+        span = ["HEAD^1", "HEAD"]
+    elif base_sha:
+        mb = _git(["merge-base", base_sha, "HEAD"], cwd, tool)
+        if mb is None or not mb.strip():
+            return None
+        span = [mb.strip(), "HEAD"]
+    else:
+        return None
+    out = _git(["diff", "--name-only", "--diff-filter=ACMR"] + span, cwd, tool)
+    if out is None:
+        return None
+    paths = [p for p in out.split("\n") if p.strip()]
+    if only_markdown:
+        paths = [p for p in paths if p.endswith(".md")]
+    return paths
+
+
+def stale_two_dot_paths(repo: Optional[Path], base_sha: str,
+                        git: Optional[str] = None) -> List[str]:
+    """The rule this package USED to apply (`base_sha..HEAD`), kept only as a
+    regression witness for the test: on a merge checkout whose base moved it
+    reports files the change never authored."""
+    out = _git(["diff", "--name-only", "--diff-filter=ACMR", base_sha, "HEAD"],
+               repo if repo is not None else REPO, git or GIT)
+    return [p for p in (out or "").split("\n") if p.strip()]
 
 
 def is_theorem_artifact(path: str) -> bool:
@@ -551,9 +630,22 @@ def main(argv: Sequence[str]) -> int:
     ap.add_argument("--null", action="store_true")
     ap.add_argument("--full", action="store_true",
                     help="include the per-file detail in the census output")
+    ap.add_argument("--print-owned", action="store_true",
+                    help="print the PR-owned markdown paths (one per line) under "
+                         "the shared scope rule; exit 3 when there is no PR scope")
     args = ap.parse_args(list(argv))
 
     root = Path(args.scan_root).resolve() if args.scan_root else None
+
+    if args.print_owned:
+        owned = owned_paths_from_git()
+        if owned is None:
+            print("no PR scope: HEAD is not a merge and PR_BASE_SHA is unset",
+                  file=sys.stderr)
+            return 3
+        for p in owned:
+            print(p)
+        return 0
 
     if args.write_baseline:
         payload = write_baseline(tuple(args.exclude_prefix))
