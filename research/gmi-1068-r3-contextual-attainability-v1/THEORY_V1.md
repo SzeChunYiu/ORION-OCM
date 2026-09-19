@@ -1,4 +1,4 @@
-# R3 — contextual attainability as the master derived carrier
+# R3 — contextual attainability as the master derived attainable-value object
 
 For a start configuration `x` and a context `kappa`, let `Hist_S(x)` be the substrate-admitted **finite** histories beginning at `x`. R2 permits a partial evaluator:
 
@@ -30,21 +30,21 @@ No existence of maximal elements is asserted for arbitrary infinite preorders wi
 
 ## R3-3 what is and is not derived from attainability
 
-`A_kappa(x)` is a master **carrier relative to the rest of the declared context/process structure**. The bare set alone does not determine all GMI notions.
+`A_kappa(x)` is the master **attainable-value object relative to the rest of the declared context/process structure**. The bare set alone does not determine all GMI notions.
 
 - **Capability.** Given a context-declared success region `G subset W_kappa`, finite-history capability is `A_kappa(x) intersect G != empty`.
 - **Impossibility.** Relative to a declared target `T subset W_kappa`, finite-history impossibility is `A_kappa(x) intersect T = empty`.
-- **Frontier / preference shorthand.** These require the inherited context preorder. The bare carrier does not encode which direction is better.
+- **Frontier / preference shorthand.** These require the inherited context preorder. The bare attainable set does not encode which direction is better.
 - **Resource response, value-borne form.** If contextual values explicitly contain a resource coordinate, a declared projection `rho : W_kappa -> R` may be applied to `A_kappa(x)`. The finite fixture declares its second coordinate to be cost and tests that exact projection.
 - **Resource response, reachability-borne form.** If changing resources changes which histories are admissible, the object is instead a registered family such as `r -> A_kappa^{B_r}(x)`, and monotonicity requires a proved nesting relation on the `B_r`. R3 does not collapse these two resource semantics.
 - **Barrier witness.** A baseline attainable set cannot identify a unique causal barrier. A registered one-step enabling witness is defined only relative to a declared admissibility-relaxation or intervention family `Delta`: a relaxation is enabling when the relaxed attainable set intersects the target. Minimal or causal barrier claims need an additional order, cost, or causal semantics on `Delta`.
 - **Context-family regime change.** Comparing frontiers or selected optima across a family `kappa_theta` requires either a common result space/order or an explicit transport between result spaces. The finite R3 fixture proves an argmax-regime switch, including its tie boundary. It does **not** promote that switch to a thermodynamic, statistical-mechanical, or nonanalytic "phase transition" without additional topology or regularity.
 
-These qualifications preserve the candidate two-factor foundation `G_S = (C_S, K)`: the extra ingredients above are declared inside the process/context presentation or inside explicitly registered comparison/intervention structure. They are not silently manufactured from the unlabelled carrier.
+These qualifications preserve the candidate two-factor foundation `G_S = (C_S, K)`: the extra ingredients above are declared inside the process/context presentation or inside explicitly registered comparison/intervention structure. They are not silently manufactured from the unlabelled attainable set.
 
 ## R3-4 finite-history boundary
 
-The R3 carrier is generated from finite histories. Therefore it does not, by itself, decide claims whose witness exists only as:
+The R3 attainable-value object is generated from finite histories. Therefore it does not, by itself, decide claims whose witness exists only as:
 
 - an infinite trace;
 - a limit point of longer finite traces;
