@@ -1,0 +1,71 @@
+{
+  "schema": "AJ15_FLAGSHIP_SEARCH_CONFIG_V1",
+  "freeze_commit": "793e3548db7b06ee998b374ace49043c14070f67",
+  "registry_access_during_generation_search_evaluation": false,
+  "forbidden": [
+    "family ids",
+    "family names",
+    "post-hoc fingerprint clauses",
+    "family-specific operators or macros",
+    "family-specific score bonus",
+    "taxonomy label supplied to the evaluator",
+    "post-outcome classifier feedback into search",
+    "any read of the adjudicator registry before BLIND_OUTCOME_V1.json exists"
+  ],
+  "B1": {
+    "description": "4 one-symbol maps plus all 256 one-bit-state deterministic step tables over the binary alphabet",
+    "presentations": 260,
+    "seed_presentation": "S00",
+    "evaluation_window_max_word_length": 4,
+    "protected_words": 31,
+    "tasks": ["identity", "not", "delay1", "toggle", "const0"],
+    "raw_resources": ["state_cells", "truth_rows"],
+    "aj11_atlas_sha256_expected": "09a99f29d2d349d7f28855d3a32776667c65cd1a707ea89129fd77c3328a16ed"
+  },
+  "B2": {
+    "description": "all 4-state deterministic step tables over the binary alphabet; 8^8 presentations; NOT enumerated by this package",
+    "states": 4,
+    "presentations": 16777216,
+    "enumerated": false,
+    "evaluation_window_max_word_length": 6,
+    "protected_words": 127,
+    "tasks": ["identity", "delay1", "delay2", "delay3"],
+    "search_S1": {
+      "procedure": "random-restart single-entry mutation hill-climb on the development graph",
+      "objective": "exact mismatch count over all words of length <= 6",
+      "seed": 20260919,
+      "budget_evaluations_per_regime": 300000,
+      "restart_after_non_improving_evaluations": 2000,
+      "sideways_moves_accepted": true
+    },
+    "search_S2": {
+      "procedure": "residual right-congruence construction from the specification over prefixes of length <= 3 and continuations of length <= 3, quotient read off as a step table",
+      "state_cap": 4,
+      "failure_terminal": "NOT_RECOVERED_AT_SCOPE"
+    },
+    "all_words_certification": "product-state comparison against the specification's reference transducer"
+  },
+  "regime_predictions_operational_vocabulary": {
+    "definition": "persistent-state-dependent output := there exist two reachable internal states and one input symbol on which the emitted output differs",
+    "B1": {
+      "identity": {"memoryless_realizable": true, "predicted_exact_solvers_with_state_dependent_output": "NONE"},
+      "not": {"memoryless_realizable": true, "predicted_exact_solvers_with_state_dependent_output": "NONE"},
+      "const0": {"memoryless_realizable": true, "predicted_exact_solvers_with_state_dependent_output": "NONE"},
+      "delay1": {"memoryless_realizable": false, "predicted_exact_solvers_with_state_dependent_output": "ALL"},
+      "toggle": {"memoryless_realizable": false, "predicted_exact_solvers_with_state_dependent_output": "ALL"}
+    },
+    "B2": {
+      "identity": {"memoryless_realizable": true, "predicted_terminal": "RECOVERED", "predicted_state_dependent_output": "NONE"},
+      "delay1": {"memoryless_realizable": false, "predicted_terminal": "RECOVERED", "predicted_state_dependent_output": "ALL"},
+      "delay2": {"memoryless_realizable": false, "predicted_terminal": "RECOVERED", "predicted_state_dependent_output": "ALL"},
+      "delay3": {"memoryless_realizable": false, "predicted_terminal": "NOT_RECOVERED_AT_SCOPE", "reason": "8 residual classes exceed the 4-state universe"}
+    }
+  },
+  "nulls": {
+    "N1": {"draws": 200, "seed": 20260919, "quantity": "state-dependent-output rate over uniformly random B1 step tables"},
+    "N2": {"quantity": "exact count of regime present/absent assignments matching the observed outcome vector: 1 of C(5,2)=10 at B1, 1 of 8 at B2"},
+    "N3": {"draws": 200, "seed": 20260919, "quantity": "exact delay2 solver rate over uniformly random B2 step tables"}
+  },
+  "terminals": ["CONFIRMED", "FALSIFIED", "RECOVERED", "NOT_RECOVERED_AT_SCOPE"],
+  "predicted_selected_claim_enabled": false
+}

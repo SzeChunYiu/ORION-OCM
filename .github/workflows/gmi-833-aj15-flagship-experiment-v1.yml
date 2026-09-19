@@ -1,0 +1,105 @@
+name: GMI 833 AJ15 flagship end-to-end falsification experiment
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aj15-flagship-experiment-v1/**'
+      - '.github/workflows/gmi-833-aj15-flagship-experiment-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-aj15-flagship-experiment-v1/**'
+      - '.github/workflows/gmi-833-aj15-flagship-experiment-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  aj15-flagship:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-aj15-flagship-experiment-v1
+      LIVE: /tmp/aj15-live
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes every implementation and receipt (negative control, UNREACHABLE distinct)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_freeze_order_v1.py" . 2>&1 | tee /tmp/aj15_freeze.txt
+      - name: Route A, blind stage (B1 enumerated, B2 searched by S1, hostiles H3-H6, nulls)
+        run: |
+          set -euo pipefail
+          mkdir -p "$LIVE"
+          python3 -I -B "$PKG/aj15_flagship_v1.py" --out "$LIVE/BLIND_OUTCOME_V1.json" 2>&1 | tee /tmp/aj15_routeA.txt
+      - name: Route B, blind stage (string machines, S2 residual construction, AJ11 oracle)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_oracle_v1.py" --blind "$LIVE/BLIND_OUTCOME_V1.json" \
+            --out "$LIVE/ORACLE_RESULT_V1.json" 2>&1 | tee /tmp/aj15_routeB.txt
+      - name: Post-hoc adjudication (registry read only now; source audit; H1 H2 H8)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/posthoc_adjudicate_v1.py" --blind "$LIVE/BLIND_OUTCOME_V1.json" \
+            --out "$LIVE/POSTHOC_RESULT_V1.json" 2>&1 | tee /tmp/aj15_posthoc.txt
+      - name: AJ13 stopping rule and AJ14 ladder, both routes
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/apply_aj13_aj14_v1.py" --out "$LIVE/LADDER_RESULT_V1.json" 2>&1 | tee /tmp/aj15_ladder.txt
+          python3 -I -B "$PKG/independent_ladder_oracle_v1.py" --out "$LIVE/LADDER_ORACLE_RESULT_V1.json" 2>&1 | tee /tmp/aj15_ladderB.txt
+      - name: Committed receipts equal the live re-derivation and agree across routes
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py" --live "$LIVE" 2>&1 | tee /tmp/aj15_receipt.txt
+          python3 -I -B "$PKG/build_result_v1.py" --check
+          python3 -I -B "$PKG/build_manifest_v1.py" --check
+          python3 -I -B "$PKG/build_reconciliation_v1.py" --check
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_aj15_flagship_v1.py" 2>&1 | tee /tmp/aj15_tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_aj15_flagship_v1.py" 2>&1 | tee /tmp/aj15_tests-O.txt
+      - name: RA-1 citation admissibility of the reconciliation (self-test included)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/ra1_citation_audit_v1.py" --out /tmp/aj15_ra1.json 2>&1 | tee /tmp/aj15_ra1.txt
+          python3 - <<'PY'
+          import json
+          d = json.load(open('research/gmi-833-aj15-flagship-experiment-v1/ISSUE_833_COMMENT_RECONCILIATION_V1.json'))
+          assert d['schema'] == 'GMI_ISSUE_RECONCILIATION_V2', d['schema']
+          assert len(d['replacements']) == 7, len(d['replacements'])
+          assert d['issue_body_edited_by_this_package'] is False
+          assert d['comments_edited_by_this_package'] is False
+          assert d['neighboring_rows_earned'] == []
+          ids = sorted(r['id'] for r in d['replacements'])
+          assert ids == ['AJ15_R%d' % i for i in range(1, 8)], ids
+          print('reconciliation: 7 AJ15 replacements, no issue write by this package')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-aj15-flagship-experiment-v1
+          path: |
+            /tmp/aj15_freeze.txt
+            /tmp/aj15_routeA.txt
+            /tmp/aj15_routeB.txt
+            /tmp/aj15_posthoc.txt
+            /tmp/aj15_ladder.txt
+            /tmp/aj15_ladderB.txt
+            /tmp/aj15_receipt.txt
+            /tmp/aj15_tests.txt
+            /tmp/aj15_tests-O.txt
+            /tmp/aj15_ra1.txt
+            /tmp/aj15_ra1.json
+            /tmp/aj15-live
+          if-no-files-found: error
