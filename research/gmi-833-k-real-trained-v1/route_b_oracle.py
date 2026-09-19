@@ -60,11 +60,9 @@ def route_b_emissions(table, rA, samples_per=1, rng=None):
         if survivors==0: continue
         expected=rA[idx]['image']
         got=set()
-        for t in range(len(adm)):
-            world=[(t//len(adm[i]))%len(adm[i]) for i in range(n)]
-            world=[adm[i][(t// (n*0))+ (idx + t) % len(adm[i])] for i in range(n)]
-            break
-        # value-index worlds: machine i gets its (idx mod |Adm(i)|)-th vector
+        # value-index worlds: world t gives machine i its (Idx+t) mod |Adm(i)|-th
+        # admissible vector, so each admissible vector of each machine appears in
+        # some world (Idx is the grid-row index, kept in [0, 32) via the cycle).
         for t in range(n):
             world=[]
             for i in range(n):
