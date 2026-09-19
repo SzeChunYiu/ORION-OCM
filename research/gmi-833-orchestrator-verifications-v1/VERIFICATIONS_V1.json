@@ -1,76 +1,111 @@
 {
-  "schema": "GMI_833_ORCHESTRATOR_VERIFICATION_V1",
-  "purpose": "Independent re-execution of load-bearing claims by the orchestrating lane, on a host other than the one that produced them, recorded with scope so the verification has a stated shelf life instead of living only in a conversation.",
-  "host": "laptop-billy (Linux, CPython 3.8.10), never the Mac",
-  "method": "git archive <branch> <package> | tar -x on the host; run every non-test .py under python3 -I -B and the test file under -I -O -B; read the regenerated RESULT_V1.json fields directly. No package file edited.",
-  "verifications": [
-    {
-      "id": "V1",
-      "claim": "The repaired boundary law lambda* = eta*p*R0 is exact on every registered world; the retired lambda* = eta*p/2 fails on skewed-input worlds; the repaired law is indistinguishable at the property-class readout from the seven declared cost parents.",
-      "package": "research/gmi-833-z-z6-discrimination-v1",
-      "branch": "research/833-sec-z3",
-      "branch_head": "c45c9c96f63d27ad9f381df70fe0a4df8cc3a0c2",
-      "merged_pr": 1039,
-      "date_utc": "2026-09-19",
-      "observed": {
-        "executor_rc": 0,
-        "oracle_rc": 0,
-        "D7_repaired_law_correct_on_every_E_SKEW_world": true,
-        "D6_GMI_incorrect_on_some_E_SKEW_world": true,
-        "D12_repaired_law_R1_equivalent_to_declared_cost_parents": true,
-        "GMI_REPAIRED.first_misses": [],
-        "T01_GMI.first_misses[0]": {
-          "family": "E-SKEW",
-          "p": "2/5",
-          "lam": "2/25",
-          "eta": "1"
-        },
-        "note": "the retired law's first miss is the witness the lane reported (q=1/5, p=2/5)"
-      },
-      "outcome": "CONFIRMED",
-      "scope": "as registered by the package; this is a re-execution, not independent replication (same code, different host) - it licenses reproducibility, never M5"
+ "schema": "GMI_833_ORCHESTRATOR_VERIFICATION_V1",
+ "purpose": "Independent re-execution of load-bearing claims by the orchestrating lane, on a host other than the one that produced them, recorded with scope so the verification has a stated shelf life instead of living only in a conversation.",
+ "host": "laptop-billy (Linux, CPython 3.8.10), never the Mac",
+ "method": "git archive <branch> <package> | tar -x on the host; run every non-test .py under python3 -I -B and the test file under -I -O -B; read the regenerated RESULT_V1.json fields directly. No package file edited.",
+ "verifications": [
+  {
+   "id": "V1",
+   "claim": "The repaired boundary law lambda* = eta*p*R0 is exact on every registered world; the retired lambda* = eta*p/2 fails on skewed-input worlds; the repaired law is indistinguishable at the property-class readout from the seven declared cost parents.",
+   "package": "research/gmi-833-z-z6-discrimination-v1",
+   "branch": "research/833-sec-z3",
+   "branch_head": "c45c9c96f63d27ad9f381df70fe0a4df8cc3a0c2",
+   "merged_pr": 1039,
+   "date_utc": "2026-09-19",
+   "observed": {
+    "executor_rc": 0,
+    "oracle_rc": 0,
+    "D7_repaired_law_correct_on_every_E_SKEW_world": true,
+    "D6_GMI_incorrect_on_some_E_SKEW_world": true,
+    "D12_repaired_law_R1_equivalent_to_declared_cost_parents": true,
+    "GMI_REPAIRED.first_misses": [],
+    "T01_GMI.first_misses[0]": {
+     "family": "E-SKEW",
+     "p": "2/5",
+     "lam": "2/25",
+     "eta": "1"
     },
-    {
-      "id": "V2",
-      "claim": "IC-1: thresholds are marginal error masses - supporting slopes of the lower convex envelope - never levels; scores 135/135 on the ladder; the unique perfect law in the swept family.",
-      "package": "research/gmi-833-z-z1-master-principle-v1",
-      "branch": "research/833-sec-z4",
-      "branch_head": "cab5058d00decc1c3ce6a076e3e0ec0bca49ef3c",
-      "merged_pr": null,
-      "open_pr": 1052,
-      "date_utc": "2026-09-19",
-      "observed": {
-        "route_a_rc": 0,
-        "route_b_rc": 0,
-        "tests_-O": "OK",
-        "head_to_head.IC_1_on_ladder": "135/135",
-        "head_to_head.Z13P1_two_price_ladder_on_ladder": "27/135",
-        "null.ladder_laws_scoring_perfect": [
-          [
-            "1/2",
-            "3/16"
-          ]
-        ],
-        "null.IC_1_ladder_coefficients": [
-          "1/2",
-          "3/16"
-        ],
-        "hostiles.level_instead_of_marginal": {
-          "detected": true,
-          "level": "5/16",
-          "marginal": "3/16"
-        },
-        "IC_1d_ladder.envelope_vs_interval_disagreements": 0,
-        "self_disclosed_vacuity": "head_to_head.IC_1_two_level = 297/297 TAUTOLOGICAL_AT_TWO_LEVELS - at two levels marginal and level coincide; the package labels this itself"
-      },
-      "outcome": "CONFIRMED",
-      "scope": "same as V1 - re-execution on a second host, not replication"
-    }
-  ],
-  "why_these_two": "Three lanes (Z8/Z11, Z17, Z13->Z16) were building on the repaired law and on IC-1 concurrently. If either were wrong they would be building on sand. Verified before letting them run further.",
-  "forbidden_promotions": [
-    "INDEPENDENT_TEAM_REPLICATION",
-    "M5",
-    "VERIFIED_IMPLIES_UNIVERSAL"
-  ]
+    "note": "the retired law's first miss is the witness the lane reported (q=1/5, p=2/5)"
+   },
+   "outcome": "CONFIRMED",
+   "scope": "as registered by the package; this is a re-execution, not independent replication (same code, different host) - it licenses reproducibility, never M5"
+  },
+  {
+   "id": "V2",
+   "claim": "IC-1: thresholds are marginal error masses - supporting slopes of the lower convex envelope - never levels; scores 135/135 on the ladder; the unique perfect law in the swept family.",
+   "package": "research/gmi-833-z-z1-master-principle-v1",
+   "branch": "research/833-sec-z4",
+   "branch_head": "cab5058d00decc1c3ce6a076e3e0ec0bca49ef3c",
+   "merged_pr": null,
+   "open_pr": 1052,
+   "date_utc": "2026-09-19",
+   "observed": {
+    "route_a_rc": 0,
+    "route_b_rc": 0,
+    "tests_-O": "OK",
+    "head_to_head.IC_1_on_ladder": "135/135",
+    "head_to_head.Z13P1_two_price_ladder_on_ladder": "27/135",
+    "null.ladder_laws_scoring_perfect": [
+     [
+      "1/2",
+      "3/16"
+     ]
+    ],
+    "null.IC_1_ladder_coefficients": [
+     "1/2",
+     "3/16"
+    ],
+    "hostiles.level_instead_of_marginal": {
+     "detected": true,
+     "level": "5/16",
+     "marginal": "3/16"
+    },
+    "IC_1d_ladder.envelope_vs_interval_disagreements": 0,
+    "self_disclosed_vacuity": "head_to_head.IC_1_two_level = 297/297 TAUTOLOGICAL_AT_TWO_LEVELS - at two levels marginal and level coincide; the package labels this itself"
+   },
+   "outcome": "CONFIRMED",
+   "scope": "same as V1 - re-execution on a second host, not replication"
+  },
+  {
+   "id": "V3",
+   "kind": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "row": "AC05",
+   "route": "B (fresh-session model given only the crosswalk artifacts and the row text)",
+   "date_utc": "2026-09-19",
+   "verdict": "NOT_SATISFIED",
+   "reason_verbatim": "8 of 48 crosswalk rows (16, 19, 21, 23, 34, 41, 47, 48) carry no externally checkable citation in the primary artifact itself, and even the separate addendum's rescue citations for row 48 do not actually support that row's specific definition, so not every definition row has an in-place, verified, supporting citation.",
+   "objections": [
+    "OBJ-2: rows 16, 19, 21, 23, 34, 41, 47, 48 carry no externally checkable citation in GMI_TERMINOLOGY_CROSSWALK_V2.md itself",
+    "OBJ-4: AC_CROSSWALK_ADDENDUM_V1.md supplies parents for 7 of the 8 but is unmerged and self-disclaims AC05; row 48's rescue citation does not support its definition",
+    "venue error on the Harel citation"
+   ],
+   "disposition": "row stays OPEN; objections are the targets of lane research/833-revive-ac05 (freeze-first, fresh proxy PX-AC05-C after repair)",
+   "outcome": "RECORDED_NEGATIVE"
+  },
+  {
+   "id": "V4",
+   "kind": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "row": "AG8-R48",
+   "route": "A (independent formal-logic / foundations review, fresh session, final artifact only)",
+   "date_utc": "2026-09-19",
+   "verdict": "NOT_SATISFIED",
+   "reason_verbatim": "The stopping position is defensible and the forbidden terminal is genuinely not claimed, but four material objections remain unresolved — the executable certificate audits a self-authored literal and writes GREEN as a constant, conjunct 6 is never adversarially tested, the F0 MUTUAL_INTERPRETATION label is not established in its technical sense and",
+   "objections": [
+    "check_aj13.py audits a self-authored literal baseline and writes GREEN as a constant",
+    "conjunct 6 of the six-conjunct stopping predicate is never adversarially tested",
+    "F0 label MUTUAL_INTERPRETATION not established in its technical sense; bottom-exposure audit excludes two F0 nodes and includes an F4 node with lowering_status UNKNOWN",
+    "process-algebra commitment presupposed by conjunct 3 is untagged (OPF_PROCESS_FRAME)",
+    "AG8 step 7 (one-assumption-at-a-time smallest counterexample) discharged only by a blob-sha presence check"
+   ],
+   "disposition": "row stays OPEN; objections are the targets of lane research/833-revive-ag8 (freeze-first, fresh proxy PX-AG8-R48-B after repair); any AJ13 row closed on the literal GREEN is to be reopened by that lane's reconciliation",
+   "outcome": "RECORDED_NEGATIVE"
+  }
+ ],
+ "why_these_two": "Three lanes (Z8/Z11, Z17, Z13->Z16) were building on the repaired law and on IC-1 concurrently. If either were wrong they would be building on sand. Verified before letting them run further.",
+ "forbidden_promotions": [
+  "INDEPENDENT_TEAM_REPLICATION",
+  "M5",
+  "VERIFIED_IMPLIES_UNIVERSAL"
+ ],
+ "proxy_policy": "A proxy verdict is recorded verbatim whichever way it goes; NOT_SATISFIED never closes a row and never disappears - its objections become the next revival's frozen targets."
 }
