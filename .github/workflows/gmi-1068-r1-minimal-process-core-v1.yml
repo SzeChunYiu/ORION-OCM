@@ -1,0 +1,42 @@
+name: gmi-1068-r1-minimal-process-core-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r1-minimal-process-core-v1/**'
+      - '.github/workflows/gmi-1068-r1-minimal-process-core-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=b99b1aa7c369ef29b0e7b8fb5ba100a4f62feb4d
+          P=research/gmi-1068-r1-minimal-process-core-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Python exact checks
+        run: |
+          python3 -I -B research/gmi-1068-r1-minimal-process-core-v1/check_r1.py | tee /tmp/r1a.json
+          python3 -I -O -B research/gmi-1068-r1-minimal-process-core-v1/check_r1.py >/tmp/r1opt.json
+          python3 -I -B research/gmi-1068-r1-minimal-process-core-v1/independent_oracle_v1.py | tee /tmp/r1b.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open('/tmp/r1a.json')); b=json.load(open('/tmp/r1b.json'))
+          assert a['preorder']['arrows']==b['preorder_arrows']
+          assert a['preorder']['assoc_triples']==b['preorder_assoc_triples']
+          assert a['c2']['assoc_triples']==b['c2_assoc_triples']
+          PY
+      - name: Install Lean 4.19.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean kernel check
+        run: lean research/gmi-1068-r1-minimal-process-core-v1/ProcessCore.lean
