@@ -1,0 +1,86 @@
+name: GMI 833 Z2 minimal prior
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z2-minimal-prior-v1/**'
+      - '.github/workflows/gmi-833-z-z2-minimal-prior.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-z-z2-minimal-prior-v1/**'
+      - '.github/workflows/gmi-833-z-z2-minimal-prior.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  z2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -eu
+          P=research/gmi-833-z-z2-minimal-prior-v1
+          FIRST=$(git log --format=%H --reverse -- "$P" | head -1)
+          echo "first commit touching the package: $FIRST"
+          FILES=$(git show --pretty=format: --name-only "$FIRST" -- "$P" | sed '/^$/d')
+          echo "$FILES"
+          if [ "$FILES" = "$P/FREEZE_V1.md" ]; then
+            echo "strict: the package was born as a freeze-only commit"
+          else
+            # a squash merge legitimately collapses the branch into one commit;
+            # the guarantee that survives is that the freeze is present in it
+            echo "$FILES" | grep -qx "$P/FREEZE_V1.md" \
+              || { echo "FREEZE_V1.md absent from the publishing commit"; exit 1; }
+            echo "squash-tolerant: the freeze is part of the package the moment it exists"
+          fi
+          # every amendment listed in the manifest must exist AND precede the
+          # first receipt; a missing amendment fails rather than being skipped
+          REC=$(git log --format=%H --reverse -- "$P/RESULT_V1.json" | head -1)
+          [ -n "$REC" ] || { echo "no receipt commit found"; exit 1; }
+          for A in $(seq 1 4); do
+            F="$P/FREEZE_V1_AMENDMENT_$A.md"
+            AC=$(git log --format=%H --reverse -- "$F" | head -1)
+            [ -n "$AC" ] || { echo "$F has no commit"; exit 1; }
+            if [ "$AC" != "$REC" ]; then
+              git merge-base --is-ancestor "$AC" "$REC" \
+                || { echo "amendment $A does not precede the receipt"; exit 1; }
+            fi
+            echo "amendment $A precedes the receipt"
+          done
+          echo "freeze order OK"
+
+      - name: Route B (independent oracle)
+        run: python3 -I -B research/gmi-833-z-z2-minimal-prior-v1/independent_minimal_prior_oracle_v1.py
+
+      - name: Route A (simulation)
+        run: python3 -I -B research/gmi-833-z-z2-minimal-prior-v1/z2_minimal_prior_v1.py
+
+      - name: Row-3 site audit over the live corpus
+        run: python3 -I -B research/gmi-833-z-z2-minimal-prior-v1/prior_free_site_audit_v1.py
+
+      - name: Receipts must be reproducible byte-for-byte
+        run: |
+          set -eu
+          # The site-audit receipt is deliberately NOT byte-checked: it scans
+          # every research/gmi-833-* markdown file, so any other lane adding or
+          # removing a `prior-free` token moves its counts. Its verdict is what
+          # must hold, and that is asserted below.
+          git diff --exit-code -- \
+            research/gmi-833-z-z2-minimal-prior-v1/RESULT_V1.json \
+            research/gmi-833-z-z2-minimal-prior-v1/ORACLE_RESULT_V1.json
+
+      - name: Row-3 verdict must hold on the live corpus, whatever its size
+        run: python3 -I -B research/gmi-833-z-z2-minimal-prior-v1/check_row3_verdict_v1.py
+
+      - name: Tests
+        run: |
+          python3 -I -B research/gmi-833-z-z2-minimal-prior-v1/test_z2_minimal_prior_v1.py -v
+          python3 -I -O -B research/gmi-833-z-z2-minimal-prior-v1/test_z2_minimal_prior_v1.py -v

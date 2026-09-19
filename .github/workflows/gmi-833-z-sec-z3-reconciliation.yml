@@ -1,0 +1,25 @@
+name: GMI 833 Z sec-z3 reconciliation
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-sec-z3-reconciliation-v1/**'
+      - '.github/workflows/gmi-833-z-sec-z3-reconciliation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-z-sec-z3-reconciliation-v1/**'
+      - '.github/workflows/gmi-833-z-sec-z3-reconciliation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reconciliation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Reconciliation is internally consistent against its own snapshot
+        run: python3 -I -B research/gmi-833-z-sec-z3-reconciliation-v1/check_reconciliation_v1.py
