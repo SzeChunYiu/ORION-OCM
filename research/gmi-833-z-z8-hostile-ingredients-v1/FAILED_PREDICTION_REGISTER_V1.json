@@ -1,0 +1,106 @@
+{
+ "schema": "GMI_833_Z8_FAILED_PREDICTION_REGISTER_V1",
+ "issue": 833,
+ "subsection": "Z8",
+ "note": "every frozen prediction of FREEZE_V1.md section 3 is listed with its verdict; a MISS is a result and is not repaired into a HIT; every post-hoc form named here was derived AFTER the enumeration and is NOT a scored prediction",
+ "freeze": "research/gmi-833-z-z8-hostile-ingredients-v1/FREEZE_V1.md",
+ "freeze_blob_sha": "d375de3e077226ffabad28618faa00570dfae252",
+ "freeze_sha256": "651d3cb548df3f29112faae6bed47385ca221919de8c758cfc03b51b2f8bcc10",
+ "receipt": "research/gmi-833-z-z8-hostile-ingredients-v1/RESULT_V1.json",
+ "entries": [
+  {
+   "id": "P1",
+   "label": "[FROZEN PREDICTION, NEAR-TIES]",
+   "prediction": "at lambda = Delta_1 exactly V_SEL contains {0,1}; at Delta_1 - 1/64 it is {1}; at Delta_1 + 1/64 it is {0}; symmetric at Delta_2; exactly 6 triple-tie worlds of which 3 degenerate; I1 moves V_SEL in every non-degenerate world",
+   "verdict": "MISS",
+   "evidence": "triple ties 6/6, degenerate 3/3, V_SEL moved in 132/132 non-degenerate worlds -- but the tie structure fails in exactly 1 world: eta=1, p=(1/2,1/8,3/8), Delta_1=17/128, Delta_2=15/128, gap 1/64; the probe Delta_1 - 1/64 lands exactly on Delta_2 and returns the tie set {1,2} instead of {1}",
+   "attributed_stage": "the probe offset 1/64 was chosen at freeze time without checking the resolution of the gap Delta_1 - Delta_2 = eta*(4*k1 - k2)/64 on the eighths grid, whose smallest positive value is 1/64",
+   "post_hoc_note": "a probe of 1/128 would separate every world; that repair is derived after the enumeration and is not scored",
+   "verdict_matrix_unaffected": true
+  },
+  {
+   "id": "P2",
+   "label": "[FROZEN PREDICTION, VERIFIER NOISE/FAILURE]",
+   "prediction": "uniform flip noise scales every marginal by (1-2eps) and leaves V_NICHE unchanged 135/135; delay-2-only noise at eps=1/4 moves V_NICHE in exactly 12 worlds; dropping the scored moment t=2 leaves the b=0 and b=2 floors and R0(1,1) as registered and makes R0(1,2) > 0, moving V_THR iff R0(1,2) != 5/16",
+   "verdict": "HIT",
+   "evidence": "V_NICHE unchanged 135/135 at eps in {1/16,1/8,1/4}; affine map verified exactly; V_THR moved in 132/132 nonzero-marginal worlds; delay-2-only noise moved V_NICHE in 12 (3 at 1/16, 6 at 1/8); window {3}: R0(1,2) = 1/4 != 5/16 and V_THR moved in 108/108 worlds with p2 > 0"
+  },
+  {
+   "id": "P3",
+   "label": "[FROZEN PREDICTION, CAUSAL ALIASING]",
+   "prediction": "period-2 floors (0,1/2,0),(0,0,0),(0,0,0); V_NICHE moves in 12 worlds, V_THR in 108; the law-blind closed form misses 108; IC-1 on the aliased profile 135/135",
+   "verdict": "HIT",
+   "evidence": "floors as predicted; V_NICHE 12, V_THR 108, blind misses 108, IC-1 135/135"
+  },
+  {
+   "id": "P4a",
+   "label": "[FROZEN PREDICTION, DISTRIBUTION SHIFT]",
+   "prediction": "the train-selected level differs from the test-optimal level exactly on the cells where lambda lies strictly between eta*p*R0(q_train) and eta*p*R0(q_test), and nowhere else; complementary pairs (q, 1-q) move nothing",
+   "verdict": "MISS",
+   "evidence": "strictly-between cells moved 1704/1704 and complementary pairs moved 0 -- but 908 further cells move outside the strict band: every cell where lambda equals exactly one of the two thresholds, so that one side's argmin is the tie set {0,1} and the other side's is a singleton; the same 908 cells move under the least-element tie-break reading",
+   "attributed_stage": "the frozen sentence quantified over open intervals and ignored exact-equality cells, although V_SEL was defined in section 1 as a SET and exact ties are its whole point in Z8",
+   "post_hoc_note": "with closed intervals the count is 1704 + 908 = 2612 = moved_set_valued; this reading is derived after the enumeration and is not scored"
+  },
+  {
+   "id": "P4b",
+   "label": "[FROZEN PREDICTION, NONSTATIONARITY]",
+   "prediction": "under the in-window switch q -> q' the stateless delay-1 floor over the window {2,3} is (R0(q) + R0(q'))/2",
+   "verdict": "MISS",
+   "evidence": "holds on 31/49 ordered pairs -- exactly the 31 pairs with q and q' on the same side of 1/2 -- and fails on all 18 opposite-side pairs; first witness q=1/5, q'=4/5: frozen 1/5, enumerated 1/2",
+   "attributed_stage": "the frozen form averaged two per-moment optima, but one stateless table serves both scored moments and cannot switch its guess when the law crosses 1/2; the pooled Bayes error is R0((q+q')/2), which is linear on each side of 1/2 and equals the frozen form only there",
+   "post_hoc_note": "R0((q+q')/2) reproduces all 49 enumerated floors; it was derived after the enumeration and is recorded, not scored",
+   "claim_ceiling_change": {
+    "retired": "nonstationary stateless floor = (R0(q) + R0(q'))/2 stated without a same-side qualifier",
+    "replacement": "the frozen average is exact only when q and q' lie on the same side of 1/2 (EARNED BY COUNTEREXAMPLE: 18 opposite-side pairs)",
+    "forbidden_promotion_added": "NONSTATIONARY_FLOOR_AVERAGE_STATED_ACROSS_THE_HALF_POINT"
+   }
+  },
+  {
+   "id": "P5",
+   "label": "[FROZEN PREDICTION, RESOURCE ACCOUNTING]",
+   "prediction": "affine rho = 2b+1 moves nothing under the matching price; state-count rho in {0,1,3} moves V_NICHE in exactly 36 worlds; concave rho in {0,2,3} in exactly 24",
+   "verdict": "HIT",
+   "evidence": "0/135 and 0 cells (affine); 36 and 24 as predicted, with the vertex rules 2*Delta_1 > Delta_2 and 8*p1 > 7*p2 holding in 135/135"
+  },
+  {
+   "id": "P6a",
+   "label": "[FROZEN PREDICTION, HISTORY MIXTURE]",
+   "prediction": "a level shared by the history verdict and the current verdict is kept by the history-weighted verdict at every weight; the weighted verdict differs from the current optimum on a non-empty set of cells",
+   "verdict": "HIT",
+   "evidence": "134907/134907 shared-level cells keep the level; 11264/151875 cells differ"
+  },
+  {
+   "id": "P6b",
+   "label": "[FROZEN PREDICTION, HYSTERESIS]",
+   "prediction": "hysteresis moves V_SEL exactly on the cells with 0 < excess cost <= kappa; the count is monotone in kappa and non-zero at kappa = 1/32",
+   "verdict": "MISS",
+   "evidence": "cells with 0 < excess <= kappa: 1138 at 1/32, 4204 at 1/8, and every one of them moves; but 865 further cells move at both kappa values with excess exactly 0: the retained incumbent sits inside a current tie set of size >= 2, so {incumbent} != the current argmin set; monotone yes, non-zero yes",
+   "attributed_stage": "the frozen sentence read 'excess = 0' as 'no conflict', but a zero-excess incumbent inside a current tie set still replaces a set verdict by a singleton",
+   "post_hoc_note": "restricted to positive excess the count is exactly the band (1138, 4204); this reading is derived after the enumeration and is not scored"
+  },
+  {
+   "id": "P7",
+   "label": "[FROZEN PREDICTION, GRAMMAR/ENCODING]",
+   "prediction": "Moore floors (1/2,1/2,1/2),(1/2,0,5/16),(1/2,0,0), unable to move V_NICHE/V_SEL/V_THR, moves V_FAIL in 108 worlds; input-only floors (0,1/2,1/2),(0,0,1/2),(0,0,1/2), moves V_NICHE in 12 and V_THR in 108; relabelling moves nothing; the address scramble changes at least one floor",
+   "verdict": "HIT",
+   "evidence": "all floors as predicted (Moore 5/16 witness verified); 0/0/0 and 108; 12 and 108; relabelling invariant on all 48 (next, majority-output) candidates at b=1 in both routes (256 full pairs per mode in route B); the scramble changes 2 of the 4 optimal delay-2 candidates -- read as 'the floor attained by the scrambled optimal set' since the universe floor is invariant under every bijection"
+  },
+  {
+   "id": "P8",
+   "label": "[FROZEN PREDICTION, SEARCH LAW]",
+   "prediction": "IC-1 on the search-attained profile reproduces the search-observed thresholds 135/135; single-start descent attains 4/32 on (b=2, delay-2); if it attains 5/16 on (b=1, delay-2) then V_NICHE moves in exactly 12 worlds; the seeded hill-climb attains every exhaustive floor and moves nothing",
+   "verdict": "HIT",
+   "evidence": "135/135; greedy floors (b=2,d2) = 1/8 and (b=1,d2) = 5/16 so the antecedent holds and V_NICHE moved in 12; hill-climb 9/9 floors, 0 moved"
+  },
+  {
+   "id": "P9",
+   "label": "[FROZEN PREDICTION, FREEZE BEFORE SCORING]",
+   "prediction": "the first commit touching this package carries the freeze and no executor; the hostile world set sha256 is byte-stable across routes",
+   "verdict": "HIT",
+   "evidence": "freeze commit f7e1e7b1 carries only the two freezes; hostile world set of 1399 entries; custody asserted by the workflow by git order"
+  }
+ ],
+ "misses": ["P1", "P4a", "P4b", "P6b"],
+ "hits": ["P2", "P3", "P5", "P6a", "P7", "P8", "P9"],
+ "verdict_matrix_unaffected_by_any_miss": true
+}
