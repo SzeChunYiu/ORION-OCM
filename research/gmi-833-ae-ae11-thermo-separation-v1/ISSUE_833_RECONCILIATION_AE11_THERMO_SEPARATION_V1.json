@@ -1,0 +1,78 @@
+{
+ "schema": "GMI_ISSUE_RECONCILIATION_V2",
+ "issue": 833,
+ "issue_comment_id": 5692689542,
+ "package": "gmi-833-ae-ae11-thermo-separation-v1",
+ "claim_ceiling": "GMI_833_AE11_FOUR_ENTROPY_NOTIONS_SEPARATED_AND_LANDAUER_SCOPE_AUDITED_WITHOUT_ANY_ENERGY_MEASUREMENT",
+ "forbidden_promotions": [
+  "ALL_LEARNING_IS_COMPRESSION",
+  "ARCHITECTURE_SELECTION_LAW",
+  "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+  "COMPLETE_GMI",
+  "ENERGY_CLAIM_WITHOUT_HARDWARE_MEASUREMENT",
+  "FREE_ENERGY_PRINCIPLE_PROVED",
+  "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+  "GMI_MORPHOLOGY_PREDICTION",
+  "INFORMATION_SAVINGS_IMPLY_ENERGY_SAVINGS",
+  "INTELLIGENCE_EQUALS_COMPRESSION",
+  "LANDAUER_BOUND_DETERMINES_SYSTEM_ENERGY",
+  "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+  "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+  "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+  "SHANNON_ENTROPY_EQUALS_THERMODYNAMIC_ENTROPY",
+  "THERMODYNAMIC_INTELLIGENCE_LAW",
+  "WORLD_MODEL_ALWAYS_REQUIRED"
+ ],
+ "replacements": [
+  {
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Keep Shannon entropy, algorithmic complexity, statistical-mechanical entropy and thermodynamic entropy formally distinct.",
+   "new": "- [x] Keep Shannon entropy, algorithmic complexity, statistical-mechanical entropy and thermodynamic entropy formally distinct. — ✅ `gmi-833-ae-ae11-thermo-separation-v1` AE11-1/AE11-2: all 12 ordered pairs of (Shannon entropy, algorithmic complexity on the frozen prefix-free machine, statistical-mechanical entropy carried as the integer microstate count, thermodynamic entropy carried as the exact rational Q/T) are witnessed NON-functionally-dependent on the 8-object registered roster — 2 witnesses exhibit the slack in the one registered definitional relation `H_shannon <= log2 W` and 10 are registered-independent, 0 pairs unwitnessed — and the classic witness holds exactly: `R_UNIFORM_BLOCK` has the maximal `H_shannon = 6` bits while its 64 members carry `K_U` values 11 (2 strings), 13 (6) and 14 (56), a machine-relative and cap-relative fact that is recorded as such.",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Define exactly which GMI resource claims are logical/computational and which are physical/energetic.",
+   "new": "- [x] Define exactly which GMI resource claims are logical/computational and which are physical/energetic. — ✅ `gmi-833-ae-ae11-thermo-separation-v1` AE11-3: the resource registry classifies all 24 resources this tranche names into the two registered classes — 12 `LOGICAL_COMPUTATIONAL` and 12 `PHYSICAL_ENERGETIC` — and the executor asserts that the count of `PHYSICAL_ENERGETIC` resources INSTANTIATED is exactly 0, with 0 entries carrying a numeric value in physical units and 0 floats anywhere in the receipt, so the row closes on a verified property rather than on prose.",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Audit Landauer-style lower bounds and their assumptions; do not infer whole-system energy from bit erasure alone.",
+   "new": "- [x] Audit Landauer-style lower bounds and their assumptions; do not infer whole-system energy from bit erasure alone. — ✅ `gmi-833-ae-ae11-thermo-separation-v1` AE11-4/AE11-5: each of the 4 registered maps carries a Landauer lower-bound record `W_min = m * k_B T ln 2` with the exact integer coefficients m = 0 (`F_BIJECTION`), 1 (`F_AND`), 1 (`F_ERASE1`) and 2 (`F_ERASE2`), a vacuity classification against the definitional range [0, 2], an `attained_by` quasi-static witness and, for every m > 0, a `violated_by` witness from the explicitly relaxed no-residual-correlation class attaining exactly 0 — the m = 0 record is flagged vacuous and `UNFALSIFIED_BOUND` and closes nothing — while the 4 registered assumptions are each paired with a registered violation (the finite-time relaxation is recorded as breaking ATTAINMENT, not the bound); the non-inference is exact: for every registered map the two device models carry the SAME erased-bit count and registered operation counts differing by exactly 5, e.g. `F_ERASE2` erases 2 bits under both while `DEV_LOW_OVERHEAD` runs 2 operations and `DEV_HIGH_OVERHEAD` runs 7.",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Model nonequilibrium maintenance only where a physical system boundary/dynamics are registered.",
+   "new": "- [x] Model nonequilibrium maintenance only where a physical system boundary/dynamics are registered. — ✅ `gmi-833-ae-ae11-thermo-separation-v1` AE11-6: the count of registered physical systems — the tuple (boundary, dynamics, reservoir, temperature) — is exactly 0, a registered quasi-static process supplying only a temperature symbol; the frozen 10-term driven-system vocabulary produces 0 hits over the 7 registered claims (the no-alarm case) and 3 hits on the planted fixture `FIXTURE_NONEQ_PLANT`, which the gate flags.",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AE11 — Thermodynamics and physical information processing",
+   "old": "- [ ] Compare logical irreversibility with physical dissipation at the correct scope.",
+   "new": "- [x] Compare logical irreversibility with physical dissipation at the correct scope. — ✅ `gmi-833-ae-ae11-thermo-separation-v1` AE11-7: `F_BIJECTION` has erased-bit count exactly 0 and Landauer bound exactly 0 while its registered operation count is 1, strictly positive, and the many-to-one `F_ERASE2` has erased-bit count exactly 2 — so logical irreversibility and registered implementation cost are not the same quantity; at the correct scope the count-based m = 1 for `F_AND` is STRICTLY below the distributional drop, which is bracketed in (19/16, 6/5) by the integer comparisons 3**12 >= 2**19 and 3**5 <= 2**8 and is reported as `NOT_DECIDED` rather than as a decimal.",
+   "status": "EARNED"
+  }
+ ],
+ "not_closed": [
+  {
+   "old": "- [ ] Measure actual energy on real hardware for selected GMI morphology transitions.",
+   "status": "OPEN",
+   "instrument_required": "calibrated hardware power measurement: a wall-plug or on-die power meter (for example a Yokogawa WT series power analyser, or NVIDIA NVML / Intel RAPL energy counters cross-calibrated against it) attached to a named device running the named architecture transition, with a registered physical system (boundary, dynamics, reservoir, temperature) and a stated measurement uncertainty. This package registers 0 physical systems and computes no energy value, so it cannot and does not close this row.",
+   "reason": "instrument-blocked: the row asks for a measured physical quantity and this package registers 0 physical systems and computes no energy value anywhere. No part of it is claimed here."
+  },
+  {
+   "old": "- [ ] Test whether information-theoretic savings predict physical energy savings; preserve negative results if hardware overhead dominates.",
+   "status": "OPEN",
+   "instrument_required": "a matched information-savings/energy-savings experiment on that same calibrated instrument: two implementations whose information-theoretic saving is measured and whose joule cost is measured on identical hardware under identical thermal conditions, with the negative result preserved if hardware overhead dominates. The exact non-inference witness in this package (same erased-bit count, registered operation counts 2 versus 7) is the formal reason such an experiment is REQUIRED; it is not a substitute for it.",
+   "reason": "instrument-blocked: the row asks for a measured physical quantity and this package registers 0 physical systems and computes no energy value anywhere. No part of it is claimed here."
+  },
+  {
+   "old": "- [ ] For biological claims, separate energetic maintenance of life from cognitive information processing.",
+   "status": "OPEN",
+   "instrument_required": "a biological metabolic measurement separating maintenance from information processing: indirect calorimetry or a stable-isotope (doubly labelled water) protocol on a named organism or tissue, paired with a neural-activity measurement, so that basal metabolic upkeep and the energetic cost of information processing are attributed separately. No biological system is registered here.",
+   "reason": "instrument-blocked: the row asks for a measured physical quantity and this package registers 0 physical systems and computes no energy value anywhere. No part of it is claimed here."
+  }
+ ]
+}
