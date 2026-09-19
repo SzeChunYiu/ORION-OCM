@@ -1,0 +1,1288 @@
+{
+ "anti_vacuity": {
+  "L1": {
+   "related_pairs": 1762,
+   "strictly_above_identity": true,
+   "strictly_below_total": true
+  },
+  "L2": {
+   "related_pairs": 29470,
+   "strictly_above_identity": true,
+   "strictly_below_total": true
+  },
+  "L3*(1)": {
+   "related_pairs": 297166,
+   "strictly_above_identity": true,
+   "strictly_below_total": true
+  },
+  "L3*(2)": {
+   "related_pairs": 297358,
+   "strictly_above_identity": true,
+   "strictly_below_total": true
+  },
+  "L3*(3)": {
+   "related_pairs": 297358,
+   "strictly_above_identity": true,
+   "strictly_below_total": true
+  },
+  "L3*(5)": {
+   "related_pairs": 297358,
+   "strictly_above_identity": true,
+   "strictly_below_total": true
+  },
+  "L4": {
+   "related_pairs": 297358,
+   "strictly_above_identity": true,
+   "strictly_below_total": true
+  }
+ },
+ "claim_ceiling": "AG3_PRESENTATION_EQUIVALENCE_STRENGTHS_DEFINED_AND_ORDERED_AT_REGISTERED_FINITE_SCOPE",
+ "comparable_pairs": 1621802,
+ "failed_gates": [],
+ "forbidden_promotions": [
+  "PRESENTATION_EQUIVALENCE_IS_SOLVED",
+  "UNIQUE_PRESENTATION_EQUIVALENCE_STRENGTH",
+  "COMPILER_MAKES_SEARCH_BIAS_INVARIANT",
+  "LATTICE_IS_COMPLETE_FOR_ALL_PRESENTATIONS",
+  "BASIS_INDEPENDENT_OPERATION_THEORY_CLAIMED",
+  "THEORY_INVARIANCE_PROVEN_FOR_GMI",
+  "ALL_PRESENTATIONS_ENUMERATED",
+  "COMPLETE_GMI"
+ ],
+ "frozen_clause_conflicts": [
+  {
+   "audit_shape_disclosed": "POST_HOC_SUSPECT",
+   "clauses": [
+    "FREEZE_V1.md S1 (The object being presented), final sentence",
+    "FREEZE_V1.md S2 (The four strengths), the L3(k) compiler clause",
+    "FREEZE_V1.md S6 (Falsifiers), third bullet"
+   ],
+   "conflict": "S1 requires every strength to imply equality of the presented semantic object. The S2 L3(k) clause, read on its own, relates pairs whose behaviours differ, so S2 as written cannot satisfy S1. The two frozen clauses are jointly unsatisfiable; this was discovered by running the frozen definitions, not assumed.",
+   "governing_clause": "FREEZE_V1.md S1",
+   "id": "AG3-FC-1",
+   "measured_evidence": {
+    "counterexample": [
+     [
+      2,
+      [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      [
+       [],
+       []
+      ],
+      "BINARY"
+     ],
+     [
+      2,
+      [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      [
+       [],
+       [
+        1
+       ]
+      ],
+      "BINARY"
+     ]
+    ],
+    "raw_clause_cross_object_pairs": 367372
+   },
+   "not_a_freeze_edit": "FREEZE_V1.md is unmodified since its freeze commit; the raw S2 clause and its failure are published as named result AG3L-2 with the counterexample above.",
+   "resolution": "L3(k) is published as L3raw(k) intersect L4",
+   "s6_instruction": "that level's definition is wrong and the level is withdrawn, not repaired after the fact",
+   "s6_instruction_followed": false,
+   "why_s1_outranks_s6": "S6 is a conditional instruction whose antecedent is 'any level relates a pair whose behaviours differ'. That antecedent is exactly the negation of the S1 requirement, so S6 presupposes S1 and cannot be applied against it. Withdrawing the level would also withdraw S1's own requirement that a compiler-strength relation exist and imply object equality, leaving the frozen lattice with three of its four registered strengths and no answer to the row's fourth-strength question -- a strictly larger departure from the freeze than intersecting with the clause S1 already mandates. The intersection adds no new relation: it only removes pairs that S1 forbade in advance, so the published L3 is a subset of the frozen L3raw and cannot relate anything the freeze did not already license."
+  }
+ ],
+ "gates": {
+  "all_hostiles_detected": true,
+  "anti_vacuity": true,
+  "every_hostile_moved_its_quantity": true,
+  "every_strict_inclusion_certified": true,
+  "incomparability_certified": true,
+  "l1_below_l2": true,
+  "l1_l2_imply_the_presented_object": true,
+  "l2_and_l31_incomparable": true,
+  "l3_certificates_valid": true,
+  "l3_tolerance_exhibited": true,
+  "lattice_closed": true,
+  "no_alarm_on_true_configuration": true,
+  "null_assignment_clean": true,
+  "null_scramble_clean": true,
+  "window_sufficient": true
+ },
+ "generated_sublattice_new_elements": 1,
+ "generated_sublattice_size": 5,
+ "hasse_edges": [
+  [
+   "L1",
+   "MEET3"
+  ],
+  [
+   "L2",
+   "L4"
+  ],
+  [
+   "L3*(1)",
+   "L4"
+  ],
+  [
+   "MEET3",
+   "L2"
+  ],
+  [
+   "MEET3",
+   "L3*(1)"
+  ]
+ ],
+ "hostiles": [
+  {
+   "control_after": 142786,
+   "control_before": 1762,
+   "control_moved": true,
+   "detected": true,
+   "detector": "l1_l2_imply_the_presented_object",
+   "finding": 101776,
+   "name": "H1_L1_without_program_translation"
+  },
+  {
+   "control_after": 2250,
+   "control_before": 1762,
+   "control_moved": true,
+   "detected": true,
+   "detector": "l1_l2_imply_the_presented_object",
+   "finding": 372,
+   "name": "H2_L1_without_observation_preservation"
+  },
+  {
+   "control_after": 219618,
+   "control_before": 29470,
+   "control_moved": true,
+   "detected": true,
+   "detector": "l1_l2_imply_the_presented_object",
+   "finding": 168900,
+   "name": "H3_L2_without_external_action_condition"
+  },
+  {
+   "control_after": null,
+   "control_before": 1,
+   "control_moved": true,
+   "detected": true,
+   "detector": "incomparability_certified",
+   "finding": "the L2/L3 separating pair is lost",
+   "name": "H4_L3_without_reachability_restriction"
+  },
+  {
+   "control_after": 297358,
+   "control_before": 295542,
+   "control_moved": true,
+   "detected": true,
+   "detector": "l2_and_l31_incomparable",
+   "finding": "L3 collapses so far that L2 falls below it and the incomparability is destroyed",
+   "name": "H6_L3_with_unbounded_overhead"
+  },
+  {
+   "control_after": 8912,
+   "control_before": 0,
+   "control_moved": true,
+   "detected": true,
+   "detector": "l3_certificates_valid",
+   "finding": 3082,
+   "name": "H7_raw_clause_encoding_without_observation_preservation"
+  }
+ ],
+ "inapplicable_perturbations": [
+  {
+   "certificates_rejected": 0,
+   "control_after": 0,
+   "control_before": 0,
+   "control_moved": false,
+   "excluded_reason": "measured and found unable to move its quantity at this scope: inside an L4 class no pair is gained by dropping injectivity, so the perturbation would be a test of nothing and is NOT shipped as a hostile",
+   "name": "P5_L3_encoding_not_required_injective"
+  }
+ ],
+ "incomparable_pairs": {
+  "L2~L3*(1)": {
+   "in_L2_not_L3*(1)": [
+    [
+     3,
+     [
+      [
+       1,
+       2,
+       0
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ],
+    [
+     3,
+     [
+      [
+       2,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ]
+   ],
+   "in_L3*(1)_not_L2": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ]
+   ]
+  }
+ },
+ "issue": 833,
+ "k_star_l2_inside_l3": 2,
+ "l3_certificates_checked": 591084,
+ "l3_certificates_invalid": 0,
+ "l3_nontransitive_triple": {
+  "1": [
+   [
+    3,
+    [
+     [
+      0,
+      1,
+      2
+     ],
+     [
+      1,
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    "BINARY"
+   ],
+   [
+    3,
+    [
+     [
+      1,
+      2,
+      0
+     ],
+     [
+      2,
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "BINARY"
+   ],
+   [
+    3,
+    [
+     [
+      1,
+      2,
+      0
+     ],
+     [
+      2,
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0
+     ],
+     [
+      1
+     ]
+    ],
+    "BINARY"
+   ]
+  ],
+  "2": null,
+  "3": null,
+  "5": null
+ },
+ "l3_raw_clause_counterexample": [
+  [
+   2,
+   [
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     0
+    ]
+   ],
+   [
+    [],
+    []
+   ],
+   "BINARY"
+  ],
+  [
+   2,
+   [
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     0
+    ]
+   ],
+   [
+    [],
+    [
+     1
+    ]
+   ],
+   "BINARY"
+  ]
+ ],
+ "l3_raw_clause_cross_object_pairs": 367372,
+ "l3_tolerance_edges": {
+  "1": 295542,
+  "2": 297358,
+  "3": 297358,
+  "5": 297358
+ },
+ "level_classes": {
+  "L1": 1152,
+  "L2": 219,
+  "L3*(1)": 107,
+  "L3*(2)": 91,
+  "L3*(3)": 91,
+  "L3*(5)": 91,
+  "L4": 91
+ },
+ "level_equalities_on_this_universe": [
+  "L3*(2) == L3*(3)",
+  "L3*(2) == L3*(5)",
+  "L3*(2) == L4",
+  "L3*(3) == L3*(5)",
+  "L3*(3) == L4",
+  "L3*(5) == L4"
+ ],
+ "level_related_pairs": {
+  "L1": 1762,
+  "L2": 29470,
+  "L3*(1)": 297166,
+  "L3*(2)": 297358,
+  "L3*(3)": 297358,
+  "L3*(5)": 297358,
+  "L4": 297358
+ },
+ "null_random_level_assignment": {
+  "draws": 200,
+  "reproduced": 0
+ },
+ "null_scrambled_interpretation": {
+  "draws": 200,
+  "reproduced": 0
+ },
+ "order": {
+  "L1<=L2": true,
+  "L1<=L3*(1)": true,
+  "L1<=L3*(2)": true,
+  "L1<=L3*(3)": true,
+  "L1<=L3*(5)": true,
+  "L1<=L4": true,
+  "L2<=L1": false,
+  "L2<=L3*(1)": false,
+  "L2<=L3*(2)": true,
+  "L2<=L3*(3)": true,
+  "L2<=L3*(5)": true,
+  "L2<=L4": true,
+  "L3*(1)<=L1": false,
+  "L3*(1)<=L2": false,
+  "L3*(1)<=L3*(2)": true,
+  "L3*(1)<=L3*(3)": true,
+  "L3*(1)<=L3*(5)": true,
+  "L3*(1)<=L4": true,
+  "L3*(2)<=L1": false,
+  "L3*(2)<=L2": false,
+  "L3*(2)<=L3*(1)": false,
+  "L3*(2)<=L3*(3)": true,
+  "L3*(2)<=L3*(5)": true,
+  "L3*(2)<=L4": true,
+  "L3*(3)<=L1": false,
+  "L3*(3)<=L2": false,
+  "L3*(3)<=L3*(1)": false,
+  "L3*(3)<=L3*(2)": true,
+  "L3*(3)<=L3*(5)": true,
+  "L3*(3)<=L4": true,
+  "L3*(5)<=L1": false,
+  "L3*(5)<=L2": false,
+  "L3*(5)<=L3*(1)": false,
+  "L3*(5)<=L3*(2)": true,
+  "L3*(5)<=L3*(3)": true,
+  "L3*(5)<=L4": true,
+  "L4<=L1": false,
+  "L4<=L2": false,
+  "L4<=L3*(1)": false,
+  "L4<=L3*(2)": true,
+  "L4<=L3*(3)": true,
+  "L4<=L3*(5)": true
+ },
+ "pair_in_L4_and_in_no_registered_L3": null,
+ "results": [
+  "AG3L-1",
+  "AG3L-2",
+  "AG3L-3",
+  "AG3L-4",
+  "AG3L-5"
+ ],
+ "row_index": 14,
+ "schema": "AG3_PRESENTATION_EQUIVALENCE_RESULT_V1",
+ "scope_note": "The order is computed over one registered finite universe of presentations. No level of this order transfers instruction description length, micro-step cost, mutation distance or search/reachability geometry: gmi-833-aj5-g0-lowering-v1's non-transfer boundary is preserved, and L3 charges an overhead factor exactly because those quantities are not carried.",
+ "section": "AG3",
+ "status": "GREEN",
+ "strict_inclusions": {
+  "L1<L2": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      [
+       0
+      ]
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L1<L3*(1)": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      [
+       0
+      ]
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L1<L3*(2)": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      [
+       0
+      ]
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L1<L3*(3)": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      [
+       0
+      ]
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L1<L3*(5)": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      [
+       0
+      ]
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L1<L4": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      [
+       0
+      ]
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L2<L3*(2)": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L2<L3*(3)": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L2<L3*(5)": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L2<L4": {
+   "certified": true,
+   "separator": [
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ],
+    [
+     2,
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     "BINARY"
+    ]
+   ]
+  },
+  "L3*(1)<L3*(2)": {
+   "certified": true,
+   "separator": [
+    [
+     3,
+     [
+      [
+       1,
+       2,
+       0
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ],
+    [
+     3,
+     [
+      [
+       2,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ]
+   ]
+  },
+  "L3*(1)<L3*(3)": {
+   "certified": true,
+   "separator": [
+    [
+     3,
+     [
+      [
+       1,
+       2,
+       0
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ],
+    [
+     3,
+     [
+      [
+       2,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ]
+   ]
+  },
+  "L3*(1)<L3*(5)": {
+   "certified": true,
+   "separator": [
+    [
+     3,
+     [
+      [
+       1,
+       2,
+       0
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ],
+    [
+     3,
+     [
+      [
+       2,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ]
+   ]
+  },
+  "L3*(1)<L4": {
+   "certified": true,
+   "separator": [
+    [
+     3,
+     [
+      [
+       1,
+       2,
+       0
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ],
+    [
+     3,
+     [
+      [
+       2,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1
+      ]
+     ],
+     "FULL"
+    ]
+   ]
+  }
+ },
+ "universe_size": 2548,
+ "violations_l1_l2": {
+  "L1": 0,
+  "L2": 0
+ },
+ "witnesses": {
+  "PW-COMPILER": {
+   "in_universe": true,
+   "levels": {
+    "L1": false,
+    "L2": false,
+    "L3(1)": true,
+    "L3(2)": true,
+    "L3(3)": true,
+    "L3(5)": true,
+    "L3raw(1)": true,
+    "L3raw(2)": true,
+    "L3raw(3)": true,
+    "L3raw(5)": true,
+    "L4": true,
+    "kmin_raw": 1
+   },
+   "minimal_levels": [
+    "L3(1)"
+   ],
+   "why": "the charged-overhead lowering kind certified by gmi-833-aj5-g0-lowering-v1 (lower_ops <= 5 * G0_steps)"
+  },
+  "PW-RELABEL": {
+   "in_universe": true,
+   "levels": {
+    "L1": true,
+    "L2": true,
+    "L3(1)": true,
+    "L3(2)": true,
+    "L3(3)": true,
+    "L3(5)": true,
+    "L3raw(1)": true,
+    "L3raw(2)": true,
+    "L3raw(3)": true,
+    "L3raw(5)": true,
+    "L4": true,
+    "kmin_raw": 1
+   },
+   "minimal_levels": [
+    "L1"
+   ],
+   "why": "the relabeling kind certified by gmi-833-g0-grammar-bias-v1 (24 certified isometric relabelings, 0 invariant failures)"
+  },
+  "W-OVERHEAD": {
+   "in_universe": true,
+   "levels": {
+    "L1": false,
+    "L2": true,
+    "L3(1)": false,
+    "L3(2)": true,
+    "L3(3)": true,
+    "L3(5)": true,
+    "L3raw(1)": false,
+    "L3raw(2)": true,
+    "L3raw(3)": true,
+    "L3raw(5)": true,
+    "L4": true,
+    "kmin_raw": 2
+   },
+   "minimal_levels": [
+    "L2"
+   ],
+   "why": "under full observation the encoding is forced to the identity and succ costs two pred steps, so overhead 1 does not suffice"
+  },
+  "W-RENAME": {
+   "in_universe": true,
+   "levels": {
+    "L1": false,
+    "L2": true,
+    "L3(1)": false,
+    "L3(2)": true,
+    "L3(3)": true,
+    "L3(5)": true,
+    "L3raw(1)": false,
+    "L3raw(2)": true,
+    "L3raw(3)": true,
+    "L3raw(5)": true,
+    "L4": true,
+    "kmin_raw": 2
+   },
+   "minimal_levels": [
+    "L2"
+   ],
+   "why": "definitional extension: same generated monoid, same external actions, no symbol bijection -- the L2 witness no merged package had"
+  },
+  "W-STATESPACE": {
+   "in_universe": true,
+   "levels": {
+    "L1": false,
+    "L2": false,
+    "L3(1)": true,
+    "L3(2)": true,
+    "L3(3)": true,
+    "L3(5)": true,
+    "L3raw(1)": true,
+    "L3raw(2)": true,
+    "L3raw(3)": true,
+    "L3raw(5)": true,
+    "L4": true,
+    "kmin_raw": 1
+   },
+   "minimal_levels": [
+    "L3(1)"
+   ],
+   "why": "same presented object through a state-space change, so no state bijection exists and term equivalence cannot hold"
+  }
+ }
+}
