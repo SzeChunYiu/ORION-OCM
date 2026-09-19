@@ -24,6 +24,7 @@ from fractions import Fraction
 
 FREEZE_COMMIT = "dd9b34cef55ef13d144eb5a9258fbd515c55cd06"
 REGISTER_COMMIT = "527f326ec342a3d3041880c63edc84a2cc46984f"
+AMENDMENT_COMMIT = "212b989bd3e1b632bf256d61eab5139527089ae5"
 SKLEARN_DATA = os.path.expanduser("~/.local/lib/python3.8/site-packages/sklearn/datasets/data")
 LADDER_M = [16, 64, 256, 1024, 4096]
 CLASS_LADDER_M = [64, 256, 1024, 4096, 16384, 65536]
@@ -351,10 +352,11 @@ def build_dataset(entry, cache_dir, out_dir):
     modes = [rng.getrandbits(1) for _ in range(T)]
     rec = {"schema": "GMI_833_AE_INSTRUMENTS_CORPUS_RECORD_V1", "id": entry["id"], "name": entry["name"],
            "domain": entry["domain"], "freeze_commit": FREEZE_COMMIT, "register_commit": REGISTER_COMMIT,
-           "seed": seed, "T": T, "n_train": ntr, "n_eval": T - ntr, "extract_meta": meta,
+           "amendment_commit": AMENDMENT_COMMIT, "seed": seed, "T": T, "n_train": ntr, "n_eval": T - ntr, "extract_meta": meta,
            "stream_sha256": sha256_bytes(bytes(data[:(T + 7) // 8])),
            "stream_bytes_available": len(data),
            "train_bits_sha256": sha256_bytes(bytes(train)), "eval_bits_sha256": sha256_bytes(bytes(ev)),
+           "train_bits_hex": bits_to_hex(train),
            "eval_bits_hex": bits_to_hex(ev), "eval_mode_hex": bits_to_hex(modes[ntr:]),
            "realized_eta_eval": fr(Fraction(sum(modes[ntr:]), T - ntr)),
            "realized_eta_train": fr(Fraction(sum(modes[:ntr]), ntr)),
