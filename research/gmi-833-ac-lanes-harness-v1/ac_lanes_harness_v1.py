@@ -138,8 +138,31 @@ COLS = ("n", "legacy", "proposed", "field", "canonical", "match",
         "citations", "definition", "migration")
 
 
+def pinned_crosswalk_text() -> str:
+    """AMENDMENT_01 (2026-09-19): read the crosswalk at the blob this package
+    froze (MANIFEST_V1.json parent_pins, parsed value - never a byte
+    substring), because the live parent is a living document whose citations
+    column moved after this package shipped. The blob is content-addressed,
+    so a squash merge cannot break the pin; if git or the blob is unreachable
+    the run degrades to a distinct failure state instead of silently measuring
+    the live file."""
+    import hashlib
+    import subprocess
+    pins = json.loads((HERE / "MANIFEST_V1.json").read_text(encoding="utf-8"))["parent_pins"]
+    sha = next(p["blob_sha"] for p in pins if p["path"].endswith("GMI_TERMINOLOGY_CROSSWALK_V2.md"))
+    try:
+        data = subprocess.run(["git", "-C", str(REPO), "cat-file", "-p", sha],
+                              capture_output=True, check=True).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ACError("PINNED_PARENT_UNREACHABLE: crosswalk blob %s (%s)" % (sha, exc))
+    digest = hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
+    if digest != sha:
+        raise ACError("PINNED_PARENT_MISMATCH: got %s want %s" % (digest, sha))
+    return data.decode("utf-8")
+
+
 def crosswalk_rows() -> List[Dict[str, str]]:
-    text = CROSSWALK.read_text(encoding="utf-8")
+    text = pinned_crosswalk_text()
     out = []
     for line in text.split("\n"):
         if not line.startswith("| ") or line.count("|") < 10:

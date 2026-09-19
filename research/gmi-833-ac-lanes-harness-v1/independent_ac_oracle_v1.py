@@ -108,7 +108,23 @@ def table_cells(line: str) -> Optional[List[str]]:
 
 
 def crosswalk() -> List[List[str]]:
-    text = (LIT / "GMI_TERMINOLOGY_CROSSWALK_V2.md").read_text(encoding="utf-8")
+    # AMENDMENT_01 (2026-09-19): route B reads the crosswalk at the blob sha
+    # written in this package's FREEZE_V1.md addendum pin (independently of
+    # route A, which parses MANIFEST_V1.json); unreachable => distinct failure.
+    import hashlib
+    import subprocess
+    freeze = (HERE / "AC_CROSSWALK_ADDENDUM_V1.md").read_text(encoding="utf-8")
+    start = freeze.index("blob `") + len("blob `")
+    sha = freeze[start:start + 40]
+    if len(sha) != 40 or set(sha) - set("0123456789abcdef"):
+        raise SystemExit("PINNED_PARENT_PIN_UNREADABLE (route B)")
+    proc = subprocess.run(["git", "-C", str(ROOT), "cat-file", "-p", sha], capture_output=True)
+    if proc.returncode != 0:
+        raise SystemExit("PINNED_PARENT_UNREACHABLE (route B): %s" % sha)
+    data = proc.stdout
+    if hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest() != sha:
+        raise SystemExit("PINNED_PARENT_MISMATCH (route B): %s" % sha)
+    text = data.decode("utf-8")
     out = []
     for line in text.split("\n"):
         cells = table_cells(line)
