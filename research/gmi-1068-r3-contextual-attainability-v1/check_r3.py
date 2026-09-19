@@ -27,7 +27,7 @@ def require(condition, message):
 
 
 def attainable(histories):
-    """Contextual image of histories on the evaluator's defined domain."""
+    """Contextual image of finite histories on the evaluator's defined domain."""
     return frozenset(VALUES[h] for h in histories if VALUES[h] is not None)
 
 
@@ -43,11 +43,23 @@ def strictly_dominates(a, b):
 
 
 def frontier(values):
-    return tuple(sorted(v for v in values if not any(strictly_dominates(u, v) for u in values)))
+    return tuple(
+        sorted(v for v in values if not any(strictly_dominates(u, v) for u in values))
+    )
 
 
 def capable(values, threshold):
     return any(performance >= threshold for performance, _ in values)
+
+
+def resource_projection(values):
+    # The second coordinate is explicitly declared as cost/resource in this fixture.
+    return tuple(sorted({cost for _, cost in values}))
+
+
+def performance_projection(values):
+    # A deliberately different projection used only as a hostile witness.
+    return tuple(sorted({performance for performance, _ in values}))
 
 
 def scalar_winner(values, lam):
@@ -92,7 +104,9 @@ def run_hostiles(full_a, budget_a, full_frontier):
     )
 
     # H6: arbitrary missing histories are not enabling witnesses; hU changes nothing.
-    caught.append("hU" not in one_step_relief_witnesses(BUDGET, FULL, TARGET_PERFORMANCE))
+    caught.append(
+        "hU" not in one_step_relief_witnesses(BUDGET, FULL, TARGET_PERFORMANCE)
+    )
 
     # H7: budget monotonicity requires actual set inclusion, not a numeric label.
     nonnested = frozenset({"h1", "h3"})
@@ -101,6 +115,10 @@ def run_hostiles(full_a, budget_a, full_frontier):
     # H8: a context-family switch has a tie point; endpoint changes alone do not
     # establish a stronger physical/statistical phase-transition claim.
     caught.append(len(scalar_winner(full_a, Fraction(3, 2))) == 2)
+
+    # H9: a resource response is not recoverable from an unlabelled coordinate
+    # tuple. Declaring performance instead of cost produces a different response.
+    caught.append(resource_projection(full_a) != performance_projection(full_a))
 
     require(all(caught), f"hostile failure vector={caught}")
     return len(caught)
@@ -113,7 +131,10 @@ def main():
     budget_a = attainable(BUDGET)
     require(budget_a <= full_a, "attainability image monotonicity failed")
     require(len(FULL) == 6, "history fixture drift")
-    require(sum(VALUES[h] is not None for h in FULL) == 5, "defined-domain fixture drift")
+    require(
+        sum(VALUES[h] is not None for h in FULL) == 5,
+        "defined-domain fixture drift",
+    )
     require(len(full_a) == 4, "image must deduplicate equal contextual values")
     require(len(budget_a) == 2, "budget image drift")
 
@@ -122,8 +143,16 @@ def main():
     require(ff == ((0, 0), (1, 2), (2, 3)), f"full frontier drift: {ff}")
     require(fb == ((0, 0), (1, 2)), f"budget frontier drift: {fb}")
 
-    require(not capable(budget_a, 2) and capable(full_a, 2), "capability projection drift")
+    require(
+        not capable(budget_a, 2) and capable(full_a, 2),
+        "capability projection drift",
+    )
     require(not capable(full_a, 3), "impossibility target drift")
+
+    full_resources = resource_projection(full_a)
+    budget_resources = resource_projection(budget_a)
+    require(full_resources == (0, 2, 3, 5), f"full resource response drift: {full_resources}")
+    require(budget_resources == (0, 2), f"budget resource response drift: {budget_resources}")
 
     low = scalar_winner(full_a, Fraction(1, 1))
     tie = scalar_winner(full_a, Fraction(3, 2))
@@ -133,7 +162,10 @@ def main():
     require(high == ((2, 3),), f"high-lambda winner drift: {high}")
 
     relief = one_step_relief_witnesses(BUDGET, FULL, TARGET_PERFORMANCE)
-    require(relief == ("h2", "h3", "h4"), f"one-step relief witness drift: {relief}")
+    require(
+        relief == ("h2", "h3", "h4"),
+        f"one-step relief witness drift: {relief}",
+    )
 
     hostiles = run_hostiles(full_a, budget_a, ff)
 
@@ -145,17 +177,31 @@ def main():
         "budget_attainable_values": len(budget_a),
         "full_frontier_count": len(ff),
         "budget_frontier_count": len(fb),
+        "full_resource_levels": len(full_resources),
+        "budget_resource_levels": len(budget_resources),
         "barrier_relief_witnesses": len(relief),
         "hostiles_caught": hostiles,
     }
     for key, value in expected.items():
-        require(r.get(key) == value, f"RESULT drift for {key}: {r.get(key)!r} != {value!r}")
-    require(r.get("selection_switch_lambda") == "3/2", "selection switch threshold drift")
+        require(
+            r.get(key) == value,
+            f"RESULT drift for {key}: {r.get(key)!r} != {value!r}",
+        )
+    require(
+        r.get("selection_switch_lambda") == "3/2",
+        "selection switch threshold drift",
+    )
+    require(
+        r.get("history_scope") == "FINITE_ADMISSIBLE_HISTORIES",
+        "finite-history scope must be explicit",
+    )
 
     payload = {
         "status": "GREEN",
         "full_frontier": [list(v) for v in ff],
         "budget_frontier": [list(v) for v in fb],
+        "full_resources": list(full_resources),
+        "budget_resources": list(budget_resources),
         "phase_low": [list(v) for v in low],
         "phase_tie": [list(v) for v in tie],
         "phase_high": [list(v) for v in high],
