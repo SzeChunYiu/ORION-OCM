@@ -58,7 +58,7 @@ relabelled twin started at `1`, and it is that pair whose `sigma` is preserved.
 **Strongest parents.** `gmi-833-remint-equivariance-v1` owns finite semantic
 presentation-relabeling equivariance and already proves identity, inverse and
 composition, and canonical fingerprint invariance. Nothing of that is claimed
-here. The residual is the transport of that notion onto the morphology-selection
+here. The residual is the transport of that notion onto the model selection
 verdict over the registered worlds.
 
 **Forbidden extrapolation.** `SEARCH_INVARIANCE_FROM_SEMANTIC_INVARIANCE` —
@@ -102,7 +102,7 @@ the *table-ignores-state* syntactic family is `4096`, so the syntactic
 definition undercounts by exactly `49/16`; `8448` behaviourally stateless
 candidates lie outside it, and `272` of them have a constant next-state table.
 
-**Consequence — the adversarial recoding.** A morphology verdict requires an
+**Consequence — the adversarial recoding.** A model-class verdict requires an
 *accounting* convention (what `lambda` is charged on) and a *labelling*
 convention (what class name is reported). If accounting charges effective state
 while labelling reads declared state, the winner class set changes on exactly
@@ -126,7 +126,7 @@ automaton transformations*, Proc. Amer. Math. Soc. **9** (1958) 541,
 DOI 10.1090/S0002-9939-1958-0135681-9) owns the fact that declared states can be
 redundant. This package does not claim that. The residual is the exact census in
 this registered universe and the demonstration that the redundancy reaches the
-morphology verdict through a convention mismatch.
+model-class verdict through a convention mismatch.
 
 **Forbidden extrapolation.** `DECLARED_STATE_BIT_ACCOUNTING_IS_WRONG`,
 `FLAGSHIP_THEORY_FALSIFIED_BY_RECODING`.

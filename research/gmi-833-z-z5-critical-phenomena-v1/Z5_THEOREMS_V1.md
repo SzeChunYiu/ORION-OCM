@@ -1,4 +1,4 @@
-# Z5 named results — critical phenomena and scaling of the finite morphology transition
+# Z5 named results — critical phenomena and scaling of the finite model-class transition
 
 Scope for every result below: the registered finite universe `U` of
 `65552` architecture-name-free binary mechanisms (`16` stateless output tables
@@ -19,7 +19,7 @@ arithmetic; no float appears in any statement.
 ## `CP-1` — the transition has exactly two control parameters
 
 **Statement.** `J` is homogeneous of degree `1` in `(eta, lambda)`. Consequently
-the argmin set, and therefore the selected morphology, depends on the world only
+the argmin set, and therefore the selected model class (the row's own word is `morphology`), depends on the world only
 through the dimensionless pair `(p, mu)` with `mu = lambda/eta`. `eta` alone is
 not a control parameter.
 

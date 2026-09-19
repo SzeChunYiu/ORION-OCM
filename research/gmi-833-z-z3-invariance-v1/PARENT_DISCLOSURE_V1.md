@@ -28,8 +28,8 @@ residual. Nothing below is claimed novel except the residual.
 1. A **registry** covering all six transformation categories the row names, each
    entry carrying the exact quantity it must or must not move — and a machine
    check that every `DECLARED_RELEVANT` entry actually moves it.
-2. The transport of relabeling invariance onto the **morphology-selection
-   verdict**: `0` alarms over `200` renamings, whole-universe conjugation, and a
+2. The transport of relabeling invariance onto the **model selection
+   verdict** (the row's own word for a model class is `morphology`): `0` alarms over `200` renamings, whole-universe conjugation, and a
    direct full-scan control.
 3. The **equivariance statement in the right coordinates**: the verdict is a
    function of `(p, lambda/eta)` alone, so "transformed resource accounting"
