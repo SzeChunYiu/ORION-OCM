@@ -2,6 +2,7 @@
 import itertools,json,pathlib,sys
 from fractions import Fraction
 ROOT=pathlib.Path(__file__).resolve().parent
+RESEARCH=ROOT.parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
 def delayed():
@@ -33,6 +34,9 @@ def fair_registry():
  for k in range(len(reg)):visited.append(reg[k])
  return len(set(visited))==len(reg)
 def main():
+ r5=json.loads((RESEARCH/"gmi-1068-r5-resource-transform-geometry-v1/RESULT_V1.json").read_text())
+ need(r5["status"]=="GREEN_AT_REGISTERED_RESOURCE_GEOMETRY_SCOPE","R5_PARENT_NOT_GREEN")
+ need("UNIVERSAL_SYMMETRIC_METRIC" in r5["forbidden_promotions"],"R5_ASYMMETRY_BOUNDARY_MISSING")
  nseq,stateless,one=delayed();need((nseq,stateless,one)==(62,0,1),"DELAY")
  perfect,scores=learning();need(perfect==1 and scores.count(2)==1,"LEARNING")
  first,flags=abstraction();need(first==3 and flags[:2]==[False,False] and all(flags[2:]),"ABSTRACTION")
@@ -45,7 +49,7 @@ def main():
  need("neural" in forbidden and ledger["unknown_terminal"] is True,"BLINDNESS")
  r=json.loads((ROOT/"RESULT_V1.json").read_text())
  need(r["one_bit_mealy_solutions"]==one and r["perfect_adaptive_maps"]==perfect,"RESULT")
- print(json.dumps({"status":"GREEN","delayed_sequences":nseq,"stateless_solutions":stateless,"one_bit_solutions":one,"perfect_adaptive_maps":perfect,"first_abstraction_n":first,"fair_registry":True,"search_threshold":"1/2","hostiles_caught":8},sort_keys=True))
+ print(json.dumps({"status":"GREEN","delayed_sequences":nseq,"stateless_solutions":stateless,"one_bit_solutions":one,"perfect_adaptive_maps":perfect,"first_abstraction_n":first,"fair_registry":True,"search_threshold":"1/2","parent_refresh":"R5_MERGED","hostiles_caught":8},sort_keys=True))
 if __name__=="__main__":
  try:main()
  except Exception as e:print("R6_RED:"+repr(e),file=sys.stderr);sys.exit(1)
