@@ -1,0 +1,53 @@
+{
+ "schema": "GMI_833_FAILED_PREDICTION_REGISTER_V1",
+ "package": "research/gmi-833-z-z13-repaired-chain-v1",
+ "issue": 833,
+ "prediction": "Z13-P3",
+ "prediction_verdict": "HIT",
+ "prediction_axes": {
+  "P3-a1": "HIT at L = 5 (5/16) and L = 6 (41/128), both routes",
+  "P3-a2": "HIT: exactly (0,1,0,0) and (1,0,0,0) at both L, both routes",
+  "P3-a3": "HIT: all other floors as frozen, both L, both routes",
+  "P3-b": "HIT: lower and upper endpoints marginal in 135/135 worlds at both L (Route A by differencing, Route B by lambda-grid scan)",
+  "P3-c": "HIT: 96/135 non-empty niches at both L; rule matches 135/135; minimisers copy-then-reset x identity-type, both routes",
+  "P3-d": "HIT: all five probe rows at all three eta at both L, flip world included, both routes",
+  "P3-e": "HIT: copy-then-set (0,1,1,1) at 17/48 at L = 5, strictly above the floor, both routes"
+ },
+ "note": "Nothing in FREEZE_V1.md section 3 failed. The entries below record failures of the package's own controls (section 5), attributed to one stage each, repaired by FREEZE_V1_AMENDMENT_1.md before the receipt commit, and left on the record rather than erased.",
+ "entries": [
+  {
+   "id": "NULL2-UNIQUENESS-CLAUSE",
+   "kind": "NULL_DESIGN_MISS",
+   "frozen_text": "A second null for the collapse rule: 200 seeded coefficients `c in k/64` for `p1 <= c*p2` scored on the union of the eighths grid and the probe worlds; the predicted `9/32` must be the unique perfect scorer at `L = 6`.",
+   "observed_on_frozen_grid": {"trials": 200, "worlds": 150, "perfect": 9, "perfect_coefficients": ["9/32", "19/64", "5/16", "21/64"], "predicted_score": "150/150"},
+   "verdict": "MISS of the uniqueness clause on the frozen grid",
+   "attribution": "the null's world grid: no world has p1/p2 in (9/32, 1/3), so every coefficient in [18/64, 21/64] classifies the 150 worlds identically; the prediction, enumeration and scoring are not implicated",
+   "lever": "two null-discriminating worlds with ratios 18/64 (= the frozen boundary world 9/41, 32/41) and 19/64 (19/83, 64/83), outcomes predicted before enumeration; true coefficient excluded from the draw pool",
+   "retest": {"trials": 200, "worlds": 156, "perfect": 0, "best": "153/156", "predicted_score": "156/156", "discriminating_worlds_as_predicted": true},
+   "receipt_fields": ["null_collapse_rule_L6_as_first_frozen", "null_collapse_rule_L6", "null_discriminating_worlds_prediction_hit"],
+   "status": "RECORDED_MISS_OF_FROZEN_CLAUSE__REPAIRED_BY_AMENDMENT_1_BEFORE_RECEIPT_COMMIT"
+  },
+  {
+   "id": "NULL-POOLS-CONTAIN-TRUE-LAW",
+   "kind": "NULL_DESIGN_DEFECT",
+   "frozen_text": "Null: 200 seeded coefficient pairs `(a, b)`, `a, b in k/128` ... 200 seeded coefficients `c in k/64`",
+   "observed_on_frozen_grid": {"null_1_perfect": 0, "null_1_best": "27/135", "pool_contained_true_law": true},
+   "verdict": "the frozen pools contained the true law (a pool containing the true law is not a null); null 1 was beaten anyway",
+   "attribution": "null design",
+   "lever": "draw from the grid minus the true law; record redraws (0 for null 1, 3 for null 2)",
+   "retest": {"null_1_perfect": 0, "null_2_perfect": 0},
+   "status": "RECORDED_DEFECT__REPAIRED_BY_AMENDMENT_1_BEFORE_RECEIPT_COMMIT"
+  },
+  {
+   "id": "H7-VACUOUS-AT-L5",
+   "kind": "VACUOUS_HOSTILE",
+   "frozen_text": "scoring `L = 5` floors on the `L = 4` window",
+   "observed": {"L5_on_window_2_3": "5/16", "true_L5": "5/16", "moved": false},
+   "verdict": "vacuous at L = 5: the closed form gives (e_2 + e_3)/2 = 5/16 = the L = 5 floor",
+   "attribution": "the L at which the hostile was applied",
+   "lever": "apply at L = 6 as well: 5/16 vs 41/128, moved; the L = 5 cell carries applicable: false and is not counted",
+   "retest": {"L6_on_window_2_3": "5/16", "true_L6": "41/128", "moved": true},
+   "status": "RECORDED_VACUOUS_CELL__APPLICABLE_CELL_ADDED_BY_AMENDMENT_1"
+  }
+ ]
+}

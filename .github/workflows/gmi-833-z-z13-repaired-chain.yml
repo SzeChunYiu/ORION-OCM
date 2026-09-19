@@ -1,0 +1,70 @@
+name: GMI 833 Z13 repaired chain (Z13-P3)
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z13-repaired-chain-v1/**'
+      - '.github/workflows/gmi-833-z-z13-repaired-chain.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-z-z13-repaired-chain-v1/**'
+      - '.github/workflows/gmi-833-z-z13-repaired-chain.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  z13p3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Freeze and amendment precede the receipts (git order)
+        run: |
+          set -eu
+          P=research/gmi-833-z-z13-repaired-chain-v1
+          FIRST=$(git log --format=%H --reverse -- "$P" | head -1)
+          echo "first commit touching the package: $FIRST"
+          FILES=$(git show --pretty=format: --name-only "$FIRST" -- "$P" | sed '/^$/d')
+          echo "$FILES"
+          if [ -z "$(echo "$FILES" | grep -v -x -e "$P/FREEZE_V1.md" -e "$P/FROZEN_ROWS_V1.json")" ]; then
+            echo "strict: the package was born as a freeze-only commit"
+          else
+            echo "$FILES" | grep -qx "$P/FREEZE_V1.md" \
+              || { echo "FREEZE_V1.md absent from the publishing commit"; exit 1; }
+            echo "squash-tolerant: the freeze is part of the package the moment it exists"
+          fi
+          REC=$(git log --format=%H --reverse -- "$P/RESULT_V1.json" | head -1)
+          [ -n "$REC" ] || { echo "no receipt commit found"; exit 1; }
+          F="$P/FREEZE_V1_AMENDMENT_1.md"
+          AC=$(git log --format=%H --reverse -- "$F" | head -1)
+          [ -n "$AC" ] || { echo "$F has no commit"; exit 1; }
+          if [ "$AC" != "$REC" ]; then
+            git merge-base --is-ancestor "$AC" "$REC" \
+              || { echo "amendment 1 does not precede the receipt"; exit 1; }
+          fi
+          echo "freeze order OK"
+
+      - name: Route A (sequence enumeration, per-address majority)
+        run: python3 -I -B research/gmi-833-z-z13-repaired-chain-v1/z13_repaired_chain_v1.py
+
+      - name: Route B (exact Markov propagation, lambda-grid scan)
+        run: python3 -I -B research/gmi-833-z-z13-repaired-chain-v1/independent_z13_oracle_v1.py
+
+      - name: Receipts must be reproducible byte-for-byte
+        run: |
+          set -eu
+          git diff --exit-code -- \
+            research/gmi-833-z-z13-repaired-chain-v1/RESULT_V1.json \
+            research/gmi-833-z-z13-repaired-chain-v1/ORACLE_RESULT_V1.json
+
+      - name: Tests
+        run: |
+          set -eu
+          python3 -I -B research/gmi-833-z-z13-repaired-chain-v1/test_z13_repaired_chain_v1.py -v
+          python3 -I -O -B research/gmi-833-z-z13-repaired-chain-v1/test_z13_repaired_chain_v1.py -v

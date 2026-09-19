@@ -1,0 +1,161 @@
+{
+ "schema": "GMI_833_Z13_REPAIRED_CHAIN_MANIFEST_V1",
+ "package": "research/gmi-833-z-z13-repaired-chain-v1",
+ "issue": 833,
+ "section": "Z",
+ "subsections": [
+  "Z13",
+  "Z16"
+ ],
+ "issue_comment_id": 5684819296,
+ "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+ "freeze_commit": "f9301396",
+ "freeze_amendments": [
+  "FREEZE_V1_AMENDMENT_1.md"
+ ],
+ "freeze_amendment_commits": {
+  "FREEZE_V1_AMENDMENT_1.md": "465f096a"
+ },
+ "claim_ceiling": "GMI_833_Z13_PROSPECTIVE_NICHE_AND_MATCHED_NEGATIVE_ECOLOGY_FROM_THE_MARGINAL_LAW_AT_L5_L6_THREE_MODE_FINITE_STATE_SCOPE__NO_INDEPENDENT_REPLICATION",
+ "prediction": "Z13-P3 (FREEZE_V1.md section 3), verdict HIT on every named axis at L = 5 and L = 6 on both routes",
+ "routes": {
+  "A": "z13_repaired_chain_v1.py",
+  "B": "independent_z13_oracle_v1.py",
+  "independence": "Route B does not import, exec or read Route A. Route A enumerates every sequence and every next-state function (65,536 at b = 2) with per-address majority outputs and locates thresholds by differencing the profile; Route B never enumerates a sequence (exact Markov propagation of the joint law of (state, x_{t-1}, x_{t-2})), re-verifies MAJORITY-OPTIMALITY over every output table and MODE-INDEPENDENCE over the full 256^3 joint product at b = 1, L = 5 before using them, witnesses the b = 2 floors constructively (two-bit shift register) matched by a seeded hill-climb, and locates the niche by scanning an exact lambda grid."
+ },
+ "tests": "test_z13_repaired_chain_v1.py",
+ "workflow": ".github/workflows/gmi-833-z-z13-repaired-chain.yml",
+ "receipts": [
+  "RESULT_V1.json",
+  "ORACLE_RESULT_V1.json",
+  "FAILED_PREDICTION_REGISTER_V1.json"
+ ],
+ "named_results": [
+  "ZP-1",
+  "ZP-2",
+  "ZP-3",
+  "ZP-4",
+  "ZP-5",
+  "ZP-6",
+  "ZP-7"
+ ],
+ "compute_host": "laptop billy (Ubuntu, python 3.8.10); Route A wall 1:35, Route B 0:06; receipts md5-verified on transfer",
+ "parent_pins": [
+  {
+   "path": "research/gmi-833-z-z13-adjudication-v1/FAILED_PREDICTION_REGISTER_V1.json",
+   "blob_sha": "da6aa2811f1e2d83cd5b9c7633a5bd85c22927ba",
+   "blob_location": "branch research/833-sec-z4, PR #1052 (OPEN), NOT on main at source_main; pinned copy in research/gmi-833-z-z17-flagship-robustness-v1/pinned_blobs/",
+   "claim_ceiling": "GMI_833_Z13_ADJUDICATED_VERDICT_ON_FROZEN_PREDICTION_Z13_P1_AT_REGISTERED_THREE_MODE_FINITE_STATE_SCOPE",
+   "owns": "the retirement of Z13-P1 (level-valued upper threshold; negative ecology p2 = 0) and its CORRECTED_TO replacements"
+  },
+  {
+   "path": "research/gmi-833-z-z13-adjudication-v1/REPAIRED_ECOLOGY_FREEZE_V1.md",
+   "blob_sha": "5bc0597a996c8ad1b53b01f37ebcf1e1e17f1d57",
+   "blob_location": "branch research/833-sec-z4, PR #1052 (OPEN), NOT on main at source_main",
+   "claim_ceiling": "GMI_833_Z13_ADJUDICATED_VERDICT_ON_FROZEN_PREDICTION_Z13_P1_AT_REGISTERED_THREE_MODE_FINITE_STATE_SCOPE",
+   "owns": "the repaired ecology 4*p1 <= p2 at L = 4, frozen for a later lane; this package is that lane"
+  },
+  {
+   "path": "research/gmi-833-z-z13-adjudication-v1/Z13_THEOREMS_V1.md",
+   "blob_sha": "0f5fa317024755826f8bb0c5d3b780dae2b71d50",
+   "blob_location": "branch research/833-sec-z4, PR #1052 (OPEN), NOT on main at source_main",
+   "claim_ceiling": "GMI_833_Z13_ADJUDICATED_VERDICT_ON_FROZEN_PREDICTION_Z13_P1_AT_REGISTERED_THREE_MODE_FINITE_STATE_SCOPE",
+   "owns": "ZA-1 (5/16 at L = 4, four attaining functions), ZA-2 (thresholds are marginals at L = 4), ZA-5 (niche width eta*(p1/2 - p2/8)), ZA-6 (minimisers are F_MEALY_PURE)"
+  },
+  {
+   "path": "research/gmi-833-z-z13-adjudication-v1/RESULT_V1.json",
+   "blob_sha": "a0c82c0729f349debe6856bcc4843f92055e9572",
+   "blob_location": "branch research/833-sec-z4, PR #1052 (OPEN), NOT on main at source_main",
+   "claim_ceiling": "GMI_833_Z13_ADJUDICATED_VERDICT_ON_FROZEN_PREDICTION_Z13_P1_AT_REGISTERED_THREE_MODE_FINITE_STATE_SCOPE",
+   "owns": "the L = 4 receipt this package's L = 4 consistency value (5/16) is checked against, never re-earned"
+  },
+  {
+   "path": "research/gmi-833-z-z13-property-prediction-freeze-v1/FREEZE_V1.md",
+   "blob_sha": "25febfa62cbf73f1f239f3de29436ecd043e67d9",
+   "blob_location": "on main (merged in PR #1039, commit 0cc617fc on research/833-sec-z3); not at source_main 0dcdec54",
+   "claim_ceiling": null,
+   "owns": "Z13-P1, the registered expert expectation (collapse at p2 = 0; level-valued threshold); cited, never re-scored",
+   "claim_ceiling_note": "freeze-only package: the file carries no claim-ceiling string (verified by grep on origin/main); its content is the frozen prediction Z13-P1"
+  },
+  {
+   "path": "research/gmi-833-z-z1-master-principle-v1/Z1_THEOREMS_V1.md",
+   "blob_sha": "11012f8f163eec17b1cb8bf9ae55bd53b9d660eb",
+   "blob_location": "branch research/833-sec-z4, PR #1052 (OPEN), NOT on main at source_main",
+   "claim_ceiling": "GMI_833_Z1_MARGINAL_VALUE_PRINCIPLE_AND_EXACT_INCOMPRESSIBILITY_SEPARATIONS_AT_REGISTERED_FINITE_SELECTION_SCOPE",
+   "owns": "IC-1, the envelope-vertex criterion this package's prediction is derived from"
+  },
+  {
+   "path": "research/gmi-833-z-z6-discrimination-v1/Z6_THEOREMS_V1.md",
+   "blob_sha": "35ab5d2bca7749ea752c23352f8c0d35770d0d2f",
+   "blob_location": "on main (merged in PR #1039); not at source_main 0dcdec54",
+   "claim_ceiling": "GMI_833_Z6_PREREGISTERED_PARENT_DISCRIMINATION_AND_PROVED_OBSERVATIONAL_EQUIVALENCE_AT_REGISTERED_BINARY_TRANSDUCER_SCOPE",
+   "owns": "DS-5, lambda* = eta*p*R0, the two-level case of the marginal law"
+  }
+ ],
+ "literature_parents": [
+  {
+   "cite": "Everett, Generalized Lagrange multiplier method for solving problems of optimum allocation of resources, Operations Research 11(3):399-417, 1963",
+   "doi": "10.1287/opre.11.3.399"
+  },
+  {
+   "cite": "Geoffrion, Proper efficiency and the theory of vector maximization, J. Math. Anal. Appl. 22(3):618-630, 1968",
+   "doi": "10.1016/0022-247X(68)90201-1"
+  },
+  {
+   "cite": "Berger, Rate Distortion Theory, Prentice-Hall 1971",
+   "doi": null
+  },
+  {
+   "cite": "Hellman & Cover, Learning with finite memory, Ann. Math. Statist. 41(3):765-782, 1970",
+   "doi": "10.1214/aoms/1177696956"
+  },
+  {
+   "cite": "Mealy, A method for synthesizing sequential circuits, BSTJ 34(5):1045-1079, 1955",
+   "doi": "10.1002/j.1538-7305.1955.tb03788.x"
+  },
+  {
+   "cite": "Moore, Gedanken-experiments on sequential machines, Automata Studies, Princeton 1956",
+   "doi": null
+  },
+  {
+   "cite": "Fisher & Barber, Scaling theory for finite-size effects in the critical region, Phys. Rev. Lett. 28(23):1516-1519, 1972",
+   "doi": "10.1103/PhysRevLett.28.1516"
+  }
+ ],
+ "forbidden_promotions": [
+  "Z13_P1_RESCORED_BY_THIS_LANE",
+  "INDEPENDENT_REPLICATION_CLAIMED",
+  "W4_STATUS_CLAIMED",
+  "NEW_ARCHITECTURE_FAMILY_CLAIMED",
+  "Z16_ROW4_OR_ROW6_CLOSED_BY_THIS_PACKAGE",
+  "RESULT_EXTENDED_BEYOND_L_IN_5_6_OR_b_GREATER_THAN_2_OR_NON_UNIFORM_INPUTS",
+  "ENVELOPE_MATHEMATICS_CLAIMED_AS_NOVEL",
+  "PARTIAL_HIT_CLOSING_A_ROW_ITS_EVIDENCE_DOES_NOT_REACH",
+  "FLOORS_HOLD_AT_OTHER_L_OR_WINDOW_OR_INPUT_LAW",
+  "REPAIRED_LAW_IS_UNIVERSAL"
+ ],
+ "rows_reconciled": {
+  "Z13": [
+   9,
+   10
+  ],
+  "Z16": [
+   1,
+   2,
+   3,
+   5
+  ]
+ },
+ "rows_left_open_by_design": {
+  "Z13": {
+   "11": "independent replication is not self-suppliable: M5 has zero instances in this corpus and same-author routes never license it"
+  },
+  "Z16": {
+   "4": "requires independent replication",
+   "6": "a demonstration of design consequence is an argument, and an argument authored here is not evidence"
+  }
+ },
+ "failed_prediction_register": "FAILED_PREDICTION_REGISTER_V1.json",
+ "s6_instruction_followed": true,
+ "audit_shape_disclosed": "AMENDED_BEFORE_RECEIPT_COMMIT"
+}

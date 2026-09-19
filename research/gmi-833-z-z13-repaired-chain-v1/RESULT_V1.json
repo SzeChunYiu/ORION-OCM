@@ -1,0 +1,718 @@
+{
+ "hit_conditions": {
+  "5": {
+   "P3-a1": true,
+   "P3-a2": true,
+   "P3-a3": true,
+   "P3-b": true,
+   "P3-c": true,
+   "P3-d": true,
+   "P3-d_retired_ecology_width": true,
+   "P3-e": true,
+   "per_t_closed_form": true
+  },
+  "6": {
+   "P3-a1": true,
+   "P3-a2": true,
+   "P3-a3": true,
+   "P3-b": true,
+   "P3-c": true,
+   "P3-d": true,
+   "P3-d_retired_ecology_width": true,
+   "P3-e": true,
+   "per_t_closed_form": true
+  }
+ },
+ "hostiles": {
+  "H1_level_for_marginal": {
+   "applicable": true,
+   "matches": "27/135",
+   "moved": true
+  },
+  "H2_window_shift": {
+   "applicable": true,
+   "d2_b1_floor": "23/64",
+   "moved": true,
+   "true": "5/16"
+  },
+  "H3_skewed_input": {
+   "applicable": true,
+   "d2_b1_floor": "59/243",
+   "moved": true,
+   "true": "5/16"
+  },
+  "H4_template_identity_family": {
+   "applicable": true,
+   "d2_b1_floor": "1/2",
+   "moved": true,
+   "true": "5/16"
+  },
+  "H5_set_for_reset": {
+   "applicable": true,
+   "d2_error": "17/48",
+   "moved": true,
+   "true": "5/16"
+  },
+  "H6_accounting_states_minus_one": {
+   "applicable": true,
+   "lower_endpoint_unchanged": "27/135",
+   "moved": true
+  },
+  "H7_L4_window_on_L5": {
+   "applicable": false,
+   "d2_b1_floor": "5/16",
+   "moved": false,
+   "note": "vacuous at L = 5: (e_2 + e_3)/2 = 5/16 equals the L = 5 floor 5/16 (FREEZE_V1_AMENDMENT_1.md A1.1)",
+   "true": "5/16"
+  },
+  "H7_L4_window_on_L6": {
+   "applicable": true,
+   "d2_b1_floor": "5/16",
+   "moved": true,
+   "note": "applicable; the L = 4 window average 5/16 differs from the L = 6 floor 41/128",
+   "true": "41/128"
+  }
+ },
+ "hostiles_all_moved": true,
+ "hostiles_applicable": [
+  "H1_level_for_marginal",
+  "H2_window_shift",
+  "H3_skewed_input",
+  "H4_template_identity_family",
+  "H5_set_for_reset",
+  "H6_accounting_states_minus_one",
+  "H7_L4_window_on_L6"
+ ],
+ "hostiles_vacuous": [
+  "H7_L4_window_on_L5"
+ ],
+ "issue": 833,
+ "lengths": [
+  5,
+  6
+ ],
+ "no_alarm_control": {
+  "d2_b1_floor": "5/16",
+  "perturbation": "initial state 0 -> 1 at b = 1",
+  "silent_as_required": true,
+  "true": "5/16"
+ },
+ "null_collapse_rule_L6": {
+  "best": "153/156",
+  "coefficient_in_grid": true,
+  "null_discriminating_worlds": [
+   {
+    "by_eta": [
+     {
+      "endpoints": [
+       "1/4",
+       "1/4"
+      ],
+      "eta": "1",
+      "niche_nonempty_L6": false
+     },
+     {
+      "endpoints": [
+       "1/2",
+       "1/2"
+      ],
+      "eta": "2",
+      "niche_nonempty_L6": false
+     },
+     {
+      "endpoints": [
+       "3/4",
+       "3/4"
+      ],
+      "eta": "3",
+      "niche_nonempty_L6": false
+     }
+    ],
+    "name": "null_disc_ratio_18_64",
+    "p": [
+     "0",
+     "9/41",
+     "32/41"
+    ]
+   },
+   {
+    "by_eta": [
+     {
+      "endpoints": [
+       "41/166",
+       "21/83"
+      ],
+      "eta": "1",
+      "niche_nonempty_L6": true
+     },
+     {
+      "endpoints": [
+       "41/83",
+       "42/83"
+      ],
+      "eta": "2",
+      "niche_nonempty_L6": true
+     },
+     {
+      "endpoints": [
+       "123/166",
+       "63/83"
+      ],
+      "eta": "3",
+      "niche_nonempty_L6": true
+     }
+    ],
+    "name": "null_disc_ratio_19_64",
+    "p": [
+     "0",
+     "19/83",
+     "64/83"
+    ]
+   }
+  ],
+  "perfect": 0,
+  "pool": "k/64, k in 0..64, minus the predicted coefficient (AMENDMENT_1 A1.3(1))",
+  "predicted_coefficient": "9/32",
+  "predicted_score": "156/156",
+  "redraws_of_excluded_point": 3,
+  "trials": 200,
+  "worlds": 156
+ },
+ "null_collapse_rule_L6_as_first_frozen": {
+  "best": "150/150",
+  "perfect": 9,
+  "perfect_coefficients": [
+   "9/32",
+   "19/64",
+   "5/16",
+   "21/64"
+  ],
+  "predicted_coefficient": "9/32",
+  "predicted_score": "150/150",
+  "status": "MISS of the FREEZE section 5 uniqueness clause on the frozen grid (recorded, not repaired; see FREEZE_V1_AMENDMENT_1.md)",
+  "trials": 200,
+  "worlds": 150
+ },
+ "null_discriminating_worlds_prediction_hit": true,
+ "null_upper_endpoint_L6": {
+  "best": "27/135",
+  "marginal_pair": [
+   "1/2",
+   "23/128"
+  ],
+  "marginal_score": "135/135",
+  "perfect": 0,
+  "pool": "(k/128, k/128), k in 0..128, minus the marginal pair (AMENDMENT_1 A1.3(1))",
+  "redraws_of_excluded_point": 0,
+  "trials": 200
+ },
+ "per_L": {
+  "5": {
+   "closed_form_R0_d2_b1": "5/16",
+   "collapse_coefficient_4R_minus_1": "1/4",
+   "collapse_rule_matches_enumeration": "135/135",
+   "copy_then_set_d2_error": "17/48",
+   "d2_b1_floor_attaining_next_state_functions": [
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0,
+     0
+    ]
+   ],
+   "floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "5/16",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "0"
+   },
+   "lower_endpoint_is_marginal": "135/135",
+   "mechanism": {
+    "d1_identity_type": true,
+    "d1_next_state_functions": [
+     [
+      0,
+      1,
+      0,
+      1
+     ],
+     [
+      1,
+      0,
+      1,
+      0
+     ]
+    ],
+    "d2_next_state_functions": [
+     [
+      0,
+      1,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      0,
+      0
+     ]
+    ],
+    "d2_uses_copy_reset_pair_only": true,
+    "lambda_probe": "1/4",
+    "world": {
+     "eta": "1",
+     "p": [
+      "0",
+      "1/4",
+      "3/4"
+     ]
+    }
+   },
+   "nonempty_niches": "96/135",
+   "per_t_copy_reset": {
+    "2": "1/4",
+    "3": "3/8",
+    "4": "5/16"
+   },
+   "per_t_predicted": {
+    "2": "1/4",
+    "3": "3/8",
+    "4": "5/16"
+   },
+   "probes": [
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "20/81",
+       "niche_nonempty": true,
+       "upper": "41/162",
+       "width": "1/162"
+      },
+      {
+       "eta": 2,
+       "lower": "40/81",
+       "niche_nonempty": true,
+       "upper": "41/81",
+       "width": "1/81"
+      },
+      {
+       "eta": 3,
+       "lower": "20/27",
+       "niche_nonempty": true,
+       "upper": "41/54",
+       "width": "1/54"
+      }
+     ],
+     "p": [
+      "0",
+      "17/81",
+      "64/81"
+     ],
+     "probe": "flip"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "10/41",
+       "niche_nonempty": true,
+       "upper": "21/82",
+       "width": "1/82"
+      },
+      {
+       "eta": 2,
+       "lower": "20/41",
+       "niche_nonempty": true,
+       "upper": "21/41",
+       "width": "1/41"
+      },
+      {
+       "eta": 3,
+       "lower": "30/41",
+       "niche_nonempty": true,
+       "upper": "63/82",
+       "width": "3/82"
+      }
+     ],
+     "p": [
+      "0",
+      "9/41",
+      "32/41"
+     ],
+     "probe": "boundary"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "15/64",
+       "niche_nonempty": true,
+       "upper": "17/64",
+       "width": "1/32"
+      },
+      {
+       "eta": 2,
+       "lower": "15/32",
+       "niche_nonempty": true,
+       "upper": "17/32",
+       "width": "1/16"
+      },
+      {
+       "eta": 3,
+       "lower": "45/64",
+       "niche_nonempty": true,
+       "upper": "51/64",
+       "width": "3/32"
+      }
+     ],
+     "p": [
+      "0",
+      "1/4",
+      "3/4"
+     ],
+     "probe": "control_never_flips"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "35/128",
+       "niche_nonempty": false,
+       "upper": "29/128",
+       "width": "-3/64"
+      },
+      {
+       "eta": 2,
+       "lower": "35/64",
+       "niche_nonempty": false,
+       "upper": "29/64",
+       "width": "-3/32"
+      },
+      {
+       "eta": 3,
+       "lower": "105/128",
+       "niche_nonempty": false,
+       "upper": "87/128",
+       "width": "-9/64"
+      }
+     ],
+     "p": [
+      "0",
+      "1/8",
+      "7/8"
+     ],
+     "probe": "control_always_empty"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "0",
+       "niche_nonempty": true,
+       "upper": "3/8",
+       "width": "3/8"
+      },
+      {
+       "eta": 2,
+       "lower": "0",
+       "niche_nonempty": true,
+       "upper": "3/4",
+       "width": "3/4"
+      },
+      {
+       "eta": 3,
+       "lower": "0",
+       "niche_nonempty": true,
+       "upper": "9/8",
+       "width": "9/8"
+      }
+     ],
+     "p": [
+      "1/4",
+      "3/4",
+      "0"
+     ],
+     "probe": "retired_ecology_p2_zero"
+    }
+   ],
+   "scored_moments_per_mode": 96,
+   "upper_endpoint_is_marginal": "135/135",
+   "worlds": 135
+  },
+  "6": {
+   "closed_form_R0_d2_b1": "41/128",
+   "collapse_coefficient_4R_minus_1": "9/32",
+   "collapse_rule_matches_enumeration": "135/135",
+   "copy_then_set_d2_error": "49/128",
+   "d2_b1_floor_attaining_next_state_functions": [
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0,
+     0
+    ]
+   ],
+   "floors": {
+    "b0_m0": "0",
+    "b0_m1": "1/2",
+    "b0_m2": "1/2",
+    "b1_m0": "0",
+    "b1_m1": "0",
+    "b1_m2": "41/128",
+    "b2_m0": "0",
+    "b2_m1": "0",
+    "b2_m2": "0"
+   },
+   "lower_endpoint_is_marginal": "135/135",
+   "mechanism": {
+    "d1_identity_type": true,
+    "d1_next_state_functions": [
+     [
+      0,
+      1,
+      0,
+      1
+     ],
+     [
+      1,
+      0,
+      1,
+      0
+     ]
+    ],
+    "d2_next_state_functions": [
+     [
+      0,
+      1,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      0,
+      0
+     ]
+    ],
+    "d2_uses_copy_reset_pair_only": true,
+    "lambda_probe": "1/4",
+    "world": {
+     "eta": "1",
+     "p": [
+      "0",
+      "1/4",
+      "3/4"
+     ]
+    }
+   },
+   "nonempty_niches": "96/135",
+   "per_t_copy_reset": {
+    "2": "1/4",
+    "3": "3/8",
+    "4": "5/16",
+    "5": "11/32"
+   },
+   "per_t_predicted": {
+    "2": "1/4",
+    "3": "3/8",
+    "4": "5/16",
+    "5": "11/32"
+   },
+   "probes": [
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "41/162",
+       "niche_nonempty": false,
+       "upper": "20/81",
+       "width": "-1/162"
+      },
+      {
+       "eta": 2,
+       "lower": "41/81",
+       "niche_nonempty": false,
+       "upper": "40/81",
+       "width": "-1/81"
+      },
+      {
+       "eta": 3,
+       "lower": "41/54",
+       "niche_nonempty": false,
+       "upper": "20/27",
+       "width": "-1/54"
+      }
+     ],
+     "p": [
+      "0",
+      "17/81",
+      "64/81"
+     ],
+     "probe": "flip"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "1/4",
+       "niche_nonempty": false,
+       "upper": "1/4",
+       "width": "0"
+      },
+      {
+       "eta": 2,
+       "lower": "1/2",
+       "niche_nonempty": false,
+       "upper": "1/2",
+       "width": "0"
+      },
+      {
+       "eta": 3,
+       "lower": "3/4",
+       "niche_nonempty": false,
+       "upper": "3/4",
+       "width": "0"
+      }
+     ],
+     "p": [
+      "0",
+      "9/41",
+      "32/41"
+     ],
+     "probe": "boundary"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "123/512",
+       "niche_nonempty": true,
+       "upper": "133/512",
+       "width": "5/256"
+      },
+      {
+       "eta": 2,
+       "lower": "123/256",
+       "niche_nonempty": true,
+       "upper": "133/256",
+       "width": "5/128"
+      },
+      {
+       "eta": 3,
+       "lower": "369/512",
+       "niche_nonempty": true,
+       "upper": "399/512",
+       "width": "15/256"
+      }
+     ],
+     "p": [
+      "0",
+      "1/4",
+      "3/4"
+     ],
+     "probe": "control_never_flips"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "287/1024",
+       "niche_nonempty": false,
+       "upper": "225/1024",
+       "width": "-31/512"
+      },
+      {
+       "eta": 2,
+       "lower": "287/512",
+       "niche_nonempty": false,
+       "upper": "225/512",
+       "width": "-31/256"
+      },
+      {
+       "eta": 3,
+       "lower": "861/1024",
+       "niche_nonempty": false,
+       "upper": "675/1024",
+       "width": "-93/512"
+      }
+     ],
+     "p": [
+      "0",
+      "1/8",
+      "7/8"
+     ],
+     "probe": "control_always_empty"
+    },
+    {
+     "by_eta": [
+      {
+       "eta": 1,
+       "lower": "0",
+       "niche_nonempty": true,
+       "upper": "3/8",
+       "width": "3/8"
+      },
+      {
+       "eta": 2,
+       "lower": "0",
+       "niche_nonempty": true,
+       "upper": "3/4",
+       "width": "3/4"
+      },
+      {
+       "eta": 3,
+       "lower": "0",
+       "niche_nonempty": true,
+       "upper": "9/8",
+       "width": "9/8"
+      }
+     ],
+     "p": [
+      "1/4",
+      "3/4",
+      "0"
+     ],
+     "probe": "retired_ecology_p2_zero"
+    }
+   ],
+   "scored_moments_per_mode": 256,
+   "upper_endpoint_is_marginal": "135/135",
+   "worlds": 135
+  }
+ },
+ "prediction": "Z13-P3 (FREEZE_V1.md section 3)",
+ "route": "A",
+ "schema": "GMI_833_Z13_REPAIRED_CHAIN_RESULT_V1",
+ "subsection": "Z13/Z16",
+ "vacuity": {
+  "L5_nonempty_vs_empty": [
+   "96/135",
+   "39/135"
+  ],
+  "L6_nonempty_vs_empty": [
+   "96/135",
+   "39/135"
+  ],
+  "every_bound_has_both_sides": true,
+  "probes_both_outcomes_each_L": true
+ },
+ "verdict": "HIT"
+}
