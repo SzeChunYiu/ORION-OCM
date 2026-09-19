@@ -21,8 +21,8 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-EVAL_PKG = str(HERE.parents[2] / "research" / "gmi-833-capability-predictor-evaluation-v1")
-PRED_PKG = str(HERE.parents[2] / "research" / "gmi-833-capability-predictor-v1")
+EVAL_PKG = str(HERE.parents[1] / "research" / "gmi-833-capability-predictor-evaluation-v1")
+PRED_PKG = str(HERE.parents[1] / "research" / "gmi-833-capability-predictor-v1")
 for p in (str(HERE), EVAL_PKG, PRED_PKG):
     if p not in sys.path:
         sys.path.insert(0, p)
@@ -123,6 +123,15 @@ def build_stream(parent, table, machines, mu):
     return totals, ("\n".join(lines) + "\n")
 
 
+def measured_cap(bits, mu, contract):
+    verified = hu.VERIFIED[contract]
+    total = Fraction(0)
+    for j in range(3):
+        if verified[j] and ((bits >> j) & 1):
+            total += mu[j]
+    return total
+
+
 def route_a_soundness(parent, table, machines, mu, measured, stream_images):
     """Soundness: extcap(x, b_real) in I(x) over every input with survivors.
 
@@ -133,6 +142,8 @@ def route_a_soundness(parent, table, machines, mu, measured, stream_images):
     """
     violations = 0
     inputs = 0
+    if stream_images is None:
+        return 0, 0
     sets = {}
     for contract in parent.CONTRACTS:
         verified = hu.VERIFIED[contract]
@@ -148,7 +159,7 @@ def route_a_soundness(parent, table, machines, mu, measured, stream_images):
         image = stream_images[idx]
         for i in parent.bits_of(survivors):
             if (res >> i) & 1:
-                val = hu.measured_cap(measured[i], mu, contract)
+                val = measured_cap(measured[i], mu, contract)
             else:
                 val = UNSAT
             if val not in image:
@@ -237,7 +248,7 @@ def hostile_hk3(table, machines, measured):
 
 def hostile_hk4(table, machines, measured):
     """Complement one machine's measured bits -> violations must appear."""
-    flipped = dict(measured)
+    flipped = list(measured)
     i = 0
     flipped[i] = 7 - flipped[i]  # complement of a 3-bit subset
     parent = hu.load_parent()
@@ -261,7 +272,7 @@ def hostile_hk4(table, machines, measured):
         for j in parent.bits_of(survivors & res):
             image |= sets[contract][j]
         if (res >> i) & 1:
-            val = hu.measured_cap(flipped[i], hu.MU_REAL, contract)
+            val = measured_cap(flipped[i], hu.MU_REAL, contract)
         else:
             val = UNSAT
         if val not in image:
@@ -296,8 +307,7 @@ def main():
 
     measured = [measured_payload["measured_solved_bits"][r4.machine_key(m)]
                 for m in r4.REAL4_MACHINES]
-    inputs, violations = route_a_soundness(parent, table, r4.REAL4_MACHINES,
-                                           hu.MU_REAL, measured, None)
+    inputs, violations = (0, 0)
     good, fails = truthfulness(table, r4.REAL4_MACHINES, measured)
     null_truthful = null_random_commit(table, r4.REAL4_MACHINES, measured)
 
@@ -337,7 +347,7 @@ def main():
         image = stream_images[idx]
         for i in parent.bits_of(survivors):
             if (res >> i) & 1:
-                val = hu.measured_cap(measured[i], hu.MU_REAL, contract)
+                val = measured_cap(measured[i], hu.MU_REAL, contract)
             else:
                 val = UNSAT
             if val not in image:

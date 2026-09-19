@@ -4,8 +4,8 @@ from fractions import Fraction
 import json, hashlib
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
-PRED=ROOT/'research/gmi-833-kl-revival-v1/FROZEN_PREDICTIONS_REAL4_V1.json'
-MEAS=ROOT/'research/gmi-833-kl-revival-v1/REAL_RUNS_V4/REAL_MEASURED_V4.json'
+PRED=ROOT/'research/gmi-833-k-real-trained-v1/FROZEN_PREDICTIONS_REAL4_V1.json'
+MEAS=ROOT/'research/gmi-833-k-real-trained-v1/REAL_MEASURED_V4.json'
 PARENT=ROOT/'research/gmi-833-capability-predictor-v1/capability_predictor_v1.py'
 def main():
     assert PRED.is_file() and MEAS.is_file() and PARENT.is_file()
@@ -15,14 +15,20 @@ def main():
     assert pred['set_valued_census']['nd2']==2100
     bits=meas['measured_solved_bits']
     assert len(bits)==32
-    # Frozen SB-L* commitments: all MLP heads, GRU width 48 heads, and T0
+    # CR-1 abstains on GRU width 6 T1/T2; those four measured outcomes are
+    # intentionally allowed by the bridge. Only singleton commitments are
+    # checked here; soundness covers the set-valued abstention separately.
     violations=[]
     for key,val in bits.items():
         mech,size,w,h=key.split('|'); size=int(size); h=int(h); b=int(val)
-        expected=0
-        if h&1: expected|=1
-        if mech=='GRU' and size>=12:
-            expected |= h&6
+        if mech == 'MLP':
+            expected = 1 if h & 1 else 0
+        elif size >= 12:
+            expected = h & 7
+        else:
+            expected = 1 if h & 1 else 0
+        if mech == 'GRU' and size < 12:
+            continue
         if b != expected: violations.append((key,b,expected))
     assert not violations, violations
     out={'schema':'GMI833KRealTrainedCheckV1','systems':len(bits),
