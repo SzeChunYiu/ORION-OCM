@@ -1,0 +1,111 @@
+{
+ "schema": "GMI_833_AE11_THERMO_SEPARATION_MANIFEST_V1",
+ "issue": 833,
+ "section": "AE11",
+ "issue_comment_id": 5692689542,
+ "package": "gmi-833-ae-ae11-thermo-separation-v1",
+ "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+ "freeze_commit": "68a5bcb7236d14f7c52421f9cd24bf443f37be99",
+ "register_commit": "db1fbc6efa5778c58a4fb31cc5408f01b8845a4a",
+ "register_digest": "f5c338ee79bdbc95ef6b28ad14dfa87d7fc84acf8907eaa8de852f3234d73017",
+ "register_declared_freeze_commit": "68a5bcb7236d14f7c52421f9cd24bf443f37be99",
+ "custody_note": "PROSPECTIVE_REGISTER_V1.json declares freeze_commit 68a5bcb7236d14f7c52421f9cd24bf443f37be99 and the lane owner's custody sha for the freeze commit is 68a5bcb7236d14f7c52421f9cd24bf443f37be99; the two agree, and the executor asserts that they agree rather than assuming it.  The register is binding and was not edited by this package: the executor recomputes its canonical self digest and refuses to emit on a mismatch.  Every custody assertion in this package and in its workflow uses 68a5bcb7236d14f7c52421f9cd24bf443f37be99.",
+ "claim_ceiling": "GMI_833_AE11_FOUR_ENTROPY_NOTIONS_SEPARATED_AND_LANDAUER_SCOPE_AUDITED_WITHOUT_ANY_ENERGY_MEASUREMENT",
+ "target_rows": 5,
+ "deferred_rows": 3,
+ "theorems": [
+  "AE11-1",
+  "AE11-2",
+  "AE11-3",
+  "AE11-4",
+  "AE11-5",
+  "AE11-6",
+  "AE11-7"
+ ],
+ "routes": {
+  "A": "research/gmi-833-ae-ae11-thermo-separation-v1/ae11_thermo_separation_v1.py",
+  "B": "research/gmi-833-ae-ae11-thermo-separation-v1/independent_thermo_oracle_v1.py",
+  "independence": "route B contains no executable import of route A; the test parses route B's AST and asserts it. Route A searches the program space by walking bit strings of each length in increasing integer order and decoding each one, computes Shannon entropy by closed-form exponent algebra, takes the microstate count from the registered support tuple, and derives erased bits from the forward image. Route B enumerates instruction sequences depth-first in instruction-table order with no decoder at all, computes Shannon entropy by building the canonical code tree and accumulating integer leaf depths over a common power-of-two denominator, builds the microstate set explicitly, derives erased bits by partitioning the domain into preimage classes, and represents register states as integers under bitwise operations rather than as strings."
+ },
+ "parent_pins": [
+  {
+   "path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+   "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+   "claim_ceiling": "parent-owned theory baseline; consulted, not extended by this tranche"
+  },
+  {
+   "path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+   "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+   "claim_ceiling": "parent-owned #833 foundation receipt; this tranche neither reproves nor extends it"
+  }
+ ],
+ "registered_scope": {
+  "string_length": 6,
+  "alphabet_size": 64,
+  "program_length_cap": 14,
+  "max_output_length": 24,
+  "instruction_set": "EMIT0 (2 bits), EMIT1 (2), HALT (2), REPEAT_LAST_K_N (7), COPY_PREFIX (6); Kraft sum over the instruction codewords exactly 1",
+  "logical_register": "D = {0,1}^2, 4 states",
+  "registered_maps": [
+   "F_AND",
+   "F_BIJECTION",
+   "F_ERASE1",
+   "F_ERASE2"
+  ],
+  "registered_device_models": [
+   "DEV_LOW_OVERHEAD",
+   "DEV_HIGH_OVERHEAD"
+  ],
+  "registered_objects": 8,
+  "registered_physical_systems": 0,
+  "null_trials": 200,
+  "null_seed": 8331111,
+  "bound_records": 16,
+  "landauer_units": "k_B T ln 2 per erased bit, with an exact integer coefficient; no joule value is computed anywhere"
+ },
+ "not_instantiated": [
+  "any energy value in joules",
+  "any power value in watts",
+  "any temperature in kelvin",
+  "any physical system (boundary, dynamics, reservoir, temperature)",
+  "any hardware measurement",
+  "any biological metabolic measurement",
+  "any nonequilibrium term in any registered claim"
+ ],
+ "rows_left_open": [
+  {
+   "row_index": 1,
+   "row": "- [ ] Measure actual energy on real hardware for selected GMI morphology transitions.",
+   "instrument_required": "calibrated hardware power measurement: a wall-plug or on-die power meter (for example a Yokogawa WT series power analyser, or NVIDIA NVML / Intel RAPL energy counters cross-calibrated against it) attached to a named device running the named architecture transition, with a registered physical system (boundary, dynamics, reservoir, temperature) and a stated measurement uncertainty. This package registers 0 physical systems and computes no energy value, so it cannot and does not close this row."
+  },
+  {
+   "row_index": 2,
+   "row": "- [ ] Test whether information-theoretic savings predict physical energy savings; preserve negative results if hardware overhead dominates.",
+   "instrument_required": "a matched information-savings/energy-savings experiment on that same calibrated instrument: two implementations whose information-theoretic saving is measured and whose joule cost is measured on identical hardware under identical thermal conditions, with the negative result preserved if hardware overhead dominates. The exact non-inference witness in this package (same erased-bit count, registered operation counts 2 versus 7) is the formal reason such an experiment is REQUIRED; it is not a substitute for it."
+  },
+  {
+   "row_index": 3,
+   "row": "- [ ] For biological claims, separate energetic maintenance of life from cognitive information processing.",
+   "instrument_required": "a biological metabolic measurement separating maintenance from information processing: indirect calorimetry or a stable-isotope (doubly labelled water) protocol on a named organism or tissue, paired with a neural-activity measurement, so that basal metabolic upkeep and the energetic cost of information processing are attributed separately. No biological system is registered here."
+  }
+ ],
+ "forbidden_promotions": [
+  "ALL_LEARNING_IS_COMPRESSION",
+  "ARCHITECTURE_SELECTION_LAW",
+  "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+  "COMPLETE_GMI",
+  "ENERGY_CLAIM_WITHOUT_HARDWARE_MEASUREMENT",
+  "FREE_ENERGY_PRINCIPLE_PROVED",
+  "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+  "GMI_MORPHOLOGY_PREDICTION",
+  "INFORMATION_SAVINGS_IMPLY_ENERGY_SAVINGS",
+  "INTELLIGENCE_EQUALS_COMPRESSION",
+  "LANDAUER_BOUND_DETERMINES_SYSTEM_ENERGY",
+  "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+  "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+  "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+  "SHANNON_ENTROPY_EQUALS_THERMODYNAMIC_ENTROPY",
+  "THERMODYNAMIC_INTELLIGENCE_LAW",
+  "WORLD_MODEL_ALWAYS_REQUIRED"
+ ]
+}

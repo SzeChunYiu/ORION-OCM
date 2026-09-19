@@ -25,6 +25,7 @@ a gate that gets switched off.
 """
 import importlib.util
 import json
+import io
 import os
 import sys
 
@@ -80,19 +81,48 @@ def flagship_files():
     return sorted(out)
 
 
+# A freeze document must quote its issue rows BYTE-EXACT and must never be
+# edited after its receipt exists -- that is the custody property the whole
+# #833 standard rests on. Those rows contain banned terms. So the ratchet and
+# the closure standard were in direct conflict: a lane could satisfy one only
+# by falsifying a quotation or tampering with custody.
+#
+# Three lanes hit this independently, and 41 already-committed freezes carry
+# the identical hit and were grandfathered into the baseline -- so the rule was
+# never actually being enforced on them either.
+#
+# Resolution: a hit inside a VERBATIM QUOTATION of an issue row does not count.
+# The lane did not choose that wording; the issue did. Prose the lane writes is
+# still scanned normally, including prose in the same file.
+QUOTE_PREFIXES = ("- [ ] ", "- [x] ", "> - [ ] ", "> - [x] ", "> ")
+
+
+def _is_quoted_issue_row(hit):
+    """True when the hit sits on a verbatim checklist row quoted from the issue.
+
+    The scanner already hands us the line text, so this needs no file access.
+    """
+    return str(hit.get("text", "")).lstrip().startswith(QUOTE_PREFIXES)
+
+
 def measure(files=None, root=None):
     gate = load_gate()
     root = root or REPO
     files = files if files is not None else flagship_files()
     hits = gate.scan_paths(files, context="paper-facing")
     counts = {}
+    quoted_exempt = 0
     for h in hits:
+        if _is_quoted_issue_row(h):
+            quoted_exempt += 1
+            continue
         rel = os.path.relpath(h["file"], root)
         counts.setdefault(rel, {})
         counts[rel][h["term"]] = counts[rel].get(h["term"], 0) + 1
     total = sum(sum(v.values()) for v in counts.values())
     return {"files_scanned": len(files), "files_with_hits": len(counts),
-            "total_hits": total, "counts": counts}
+            "total_hits": total, "counts": counts,
+            "quoted_issue_rows_exempt": quoted_exempt}
 
 
 def check(baseline, live, owned_new_files=None):

@@ -1,0 +1,1620 @@
+{
+  "bounds": [
+    {
+      "attained_by": {
+        "attained": false,
+        "attained_value": "NOT_DECIDED",
+        "object": "F_AND__uniform_input",
+        "why": "under the registered uniform input the drop is NOT_DECIDED"
+      },
+      "bound_value": "1",
+      "id": "B_DROP__F_AND",
+      "kind": "lower",
+      "notes": {
+        "drop_bracket": {
+          "certificate": "log2(3) >= 19/12 by 3**12 >= 2**19 and log2(3) <= 8/5 by 3**5 <= 2**8",
+          "expression": "(3/4) * log2(3)",
+          "lower": "19/16",
+          "strictly_above_erased_bits": true,
+          "upper": "6/5"
+        },
+        "drop_is_exact_rational": false
+      },
+      "quantity": "H_shannon(P) - H_shannon(f_*P) in bits for F_AND under the registered uniform input",
+      "range_derivation": "The bounded quantity is H_shannon(P) - H_shannon(f_*P) in bits for a distribution P on the registered 4-state register.  By the definition of Shannon entropy on a 4-point domain, H_shannon lies in [0, log2 4] and the push-forward entropy is non-negative, so the drop lies in [0, 2].  Both endpoints come from the definition of Shannon entropy on D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "0",
+        "input": "uniform on {00, 11}",
+        "object": "RELAXED_INPUT__F_AND",
+        "relaxed_class": "the registered assumption 'the input distribution is uniform on D' is dropped",
+        "why": "under this non-uniform registered input the drop is 0, strictly below the bound value 1"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "0",
+        "object": "F_BIJECTION__uniform_input",
+        "why": "under the registered uniform input the drop is 0"
+      },
+      "bound_value": "0",
+      "id": "B_DROP__F_BIJECTION",
+      "kind": "lower",
+      "notes": {
+        "drop_bracket": null,
+        "drop_is_exact_rational": true
+      },
+      "quantity": "H_shannon(P) - H_shannon(f_*P) in bits for F_BIJECTION under the registered uniform input",
+      "range_derivation": "The bounded quantity is H_shannon(P) - H_shannon(f_*P) in bits for a distribution P on the registered 4-state register.  By the definition of Shannon entropy on a 4-point domain, H_shannon lies in [0, log2 4] and the push-forward entropy is non-negative, so the drop lies in [0, 2].  Both endpoints come from the definition of Shannon entropy on D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "UNFALSIFIED_BOUND",
+      "used_for_closure": false,
+      "vacuous": true,
+      "violated_by": null
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "1",
+        "object": "F_ERASE1__uniform_input",
+        "why": "under the registered uniform input the drop is 1"
+      },
+      "bound_value": "1",
+      "id": "B_DROP__F_ERASE1",
+      "kind": "lower",
+      "notes": {
+        "drop_bracket": null,
+        "drop_is_exact_rational": true
+      },
+      "quantity": "H_shannon(P) - H_shannon(f_*P) in bits for F_ERASE1 under the registered uniform input",
+      "range_derivation": "The bounded quantity is H_shannon(P) - H_shannon(f_*P) in bits for a distribution P on the registered 4-state register.  By the definition of Shannon entropy on a 4-point domain, H_shannon lies in [0, log2 4] and the push-forward entropy is non-negative, so the drop lies in [0, 2].  Both endpoints come from the definition of Shannon entropy on D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "0",
+        "input": "uniform on {00, 10}",
+        "object": "RELAXED_INPUT__F_ERASE1",
+        "relaxed_class": "the registered assumption 'the input distribution is uniform on D' is dropped",
+        "why": "under this non-uniform registered input the drop is 0, strictly below the bound value 1"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "2",
+        "object": "F_ERASE2__uniform_input",
+        "why": "under the registered uniform input the drop is 2"
+      },
+      "bound_value": "2",
+      "id": "B_DROP__F_ERASE2",
+      "kind": "lower",
+      "notes": {
+        "drop_bracket": null,
+        "drop_is_exact_rational": true
+      },
+      "quantity": "H_shannon(P) - H_shannon(f_*P) in bits for F_ERASE2 under the registered uniform input",
+      "range_derivation": "The bounded quantity is H_shannon(P) - H_shannon(f_*P) in bits for a distribution P on the registered 4-state register.  By the definition of Shannon entropy on a 4-point domain, H_shannon lies in [0, log2 4] and the push-forward entropy is non-negative, so the drop lies in [0, 2].  Both endpoints come from the definition of Shannon entropy on D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "0",
+        "input": "point mass on 00",
+        "object": "RELAXED_INPUT__F_ERASE2",
+        "relaxed_class": "the registered assumption 'the input distribution is uniform on D' is dropped",
+        "why": "under this non-uniform registered input the drop is 0, strictly below the bound value 2"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "0",
+        "object": "R_ALTERNATING_STRING",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "0",
+      "id": "B_GIBBS__R_ALTERNATING_STRING",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 1",
+        "holds": true,
+        "log2_certificate": "log2(1) = 0 exactly",
+        "microstate_count": 1
+      },
+      "quantity": "H_shannon(P) in bits for R_ALTERNATING_STRING",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "1",
+        "object": "RELAXED_SUPPORT_MISMATCH__R_ALTERNATING_STRING",
+        "relaxed_class": "the registered requirement that the declared macrostate contain the support of P is dropped",
+        "why": "an object declaring 1 microstates while P is uniform on the first 2**1 registered strings has H_shannon = 1, strictly above the bound value 0"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "2",
+        "object": "R_MACRO_A",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "2",
+      "id": "B_GIBBS__R_MACRO_A",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 4",
+        "holds": true,
+        "log2_certificate": "log2(4) = 2 exactly",
+        "microstate_count": 4
+      },
+      "quantity": "H_shannon(P) in bits for R_MACRO_A",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "3",
+        "object": "RELAXED_SUPPORT_MISMATCH__R_MACRO_A",
+        "relaxed_class": "the registered requirement that the declared macrostate contain the support of P is dropped",
+        "why": "an object declaring 4 microstates while P is uniform on the first 2**3 registered strings has H_shannon = 3, strictly above the bound value 2"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": false,
+        "attained_value": "2",
+        "object": "R_MACRO_B",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "9/4",
+      "id": "B_GIBBS__R_MACRO_B",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 5",
+        "holds": true,
+        "log2_certificate": "log2(5) >= 9/4, certified by the integer comparison 5**4 >= 2**9",
+        "microstate_count": 5
+      },
+      "quantity": "H_shannon(P) in bits for R_MACRO_B",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "3",
+        "object": "RELAXED_SUPPORT_MISMATCH__R_MACRO_B",
+        "relaxed_class": "the registered requirement that the declared macrostate contain the support of P is dropped",
+        "why": "an object declaring 5 microstates while P is uniform on the first 2**3 registered strings has H_shannon = 3, strictly above the bound value 9/4"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "2",
+        "object": "R_PROCESS_A",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "2",
+      "id": "B_GIBBS__R_PROCESS_A",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 4",
+        "holds": true,
+        "log2_certificate": "log2(4) = 2 exactly",
+        "microstate_count": 4
+      },
+      "quantity": "H_shannon(P) in bits for R_PROCESS_A",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "3",
+        "object": "RELAXED_SUPPORT_MISMATCH__R_PROCESS_A",
+        "relaxed_class": "the registered requirement that the declared macrostate contain the support of P is dropped",
+        "why": "an object declaring 4 microstates while P is uniform on the first 2**3 registered strings has H_shannon = 3, strictly above the bound value 2"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "6",
+        "object": "R_PROCESS_B",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "6",
+      "id": "B_GIBBS__R_PROCESS_B",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 64",
+        "holds": true,
+        "log2_certificate": "log2(64) = 6 exactly",
+        "microstate_count": 64
+      },
+      "quantity": "H_shannon(P) in bits for R_PROCESS_B",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "UNFALSIFIED_BOUND",
+      "used_for_closure": false,
+      "vacuous": true,
+      "violated_by": null
+    },
+    {
+      "attained_by": {
+        "attained": false,
+        "attained_value": "7/4",
+        "object": "R_SKEW_DYADIC",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "2",
+      "id": "B_GIBBS__R_SKEW_DYADIC",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 4",
+        "holds": true,
+        "log2_certificate": "log2(4) = 2 exactly",
+        "microstate_count": 4
+      },
+      "quantity": "H_shannon(P) in bits for R_SKEW_DYADIC",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "3",
+        "object": "RELAXED_SUPPORT_MISMATCH__R_SKEW_DYADIC",
+        "relaxed_class": "the registered requirement that the declared macrostate contain the support of P is dropped",
+        "why": "an object declaring 4 microstates while P is uniform on the first 2**3 registered strings has H_shannon = 3, strictly above the bound value 2"
+      }
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "6",
+        "object": "R_UNIFORM_BLOCK",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "6",
+      "id": "B_GIBBS__R_UNIFORM_BLOCK",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 64",
+        "holds": true,
+        "log2_certificate": "log2(64) = 6 exactly",
+        "microstate_count": 64
+      },
+      "quantity": "H_shannon(P) in bits for R_UNIFORM_BLOCK",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "UNFALSIFIED_BOUND",
+      "used_for_closure": false,
+      "vacuous": true,
+      "violated_by": null
+    },
+    {
+      "attained_by": {
+        "attained": true,
+        "attained_value": "0",
+        "object": "R_ZERO_STRING",
+        "why": "equality holds exactly when P is uniform on its support"
+      },
+      "bound_value": "0",
+      "id": "B_GIBBS__R_ZERO_STRING",
+      "kind": "upper",
+      "notes": {
+        "S_stat_statement": "S_stat = k_B ln 1",
+        "holds": true,
+        "log2_certificate": "log2(1) = 0 exactly",
+        "microstate_count": 1
+      },
+      "quantity": "H_shannon(P) in bits for R_ZERO_STRING",
+      "range_derivation": "The bounded quantity is H_shannon(P) in bits for a distribution P on the registered alphabet of 2**6 strings.  By the definition of Shannon entropy on a finite alphabet, H_shannon lies in [0, log2 (2**6)] = [0, 6]. Both endpoints come from the definition of Shannon entropy on the registered alphabet; neither comes from any value observed on the roster.",
+      "range_hi": "6",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "1",
+        "object": "RELAXED_SUPPORT_MISMATCH__R_ZERO_STRING",
+        "relaxed_class": "the registered requirement that the declared macrostate contain the support of P is dropped",
+        "why": "an object declaring 1 microstates while P is uniform on the first 2**1 registered strings has H_shannon = 1, strictly above the bound value 0"
+      }
+    },
+    {
+      "attained_by": {
+        "attained_value": "1",
+        "object": "PROTO_QUASISTATIC_ERASE__F_AND",
+        "why": "the registered idealised quasi-static protocol for this map dissipates exactly m = 1 in units of k_B T ln 2; this is a registered protocol model, not a measurement"
+      },
+      "bound_value": "1",
+      "id": "B_LANDAUER__F_AND",
+      "kind": "lower",
+      "notes": {
+        "erased_bits": 1,
+        "landauer_statement": "W_min = 1 * k_B T ln 2",
+        "no_energy_value_computed": true
+      },
+      "quantity": "dissipation of a protocol in the registered class R_PROTO implementing F_AND, in units of k_B T ln 2",
+      "range_derivation": "The bounded quantity is the dissipation of a protocol of the registered class R_PROTO, in units of k_B T ln 2.  R_PROTO is defined as the class of protocols that act only on the registered logical register D and reset it with the registered reset primitive.  By that definition the dissipation is 0 when the protocol resets nothing, which fixes range_lo = 0, and is at most the full reset of the register, log2|D| = 2, which fixes range_hi. Both endpoints come from the definition of R_PROTO and of D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "0",
+        "conditional_drop_bits": "0",
+        "conditional_image_count": 1,
+        "conditional_state_count": 1,
+        "object": "RELAXED_CORRELATED_RESET__F_AND",
+        "relaxed_class": "the registered assumption 'no residual correlation with the environment' is dropped: the register is perfectly correlated with a registered ancilla, so its conditional distribution is the registered point mass on 11",
+        "why": "conditioned on the ancilla the register has exactly 1 possible state, its image has 1, so the relative erased-bit count is the computed integer 0 and the conditional entropy drop is the computed rational 0; the relaxed protocol attains 0, strictly below the bound value 1"
+      }
+    },
+    {
+      "attained_by": {
+        "attained_value": "0",
+        "object": "PROTO_QUASISTATIC_ERASE__F_BIJECTION",
+        "why": "the registered idealised quasi-static protocol for this map dissipates exactly m = 0 in units of k_B T ln 2; this is a registered protocol model, not a measurement"
+      },
+      "bound_value": "0",
+      "id": "B_LANDAUER__F_BIJECTION",
+      "kind": "lower",
+      "notes": {
+        "erased_bits": 0,
+        "landauer_statement": "W_min = 0 * k_B T ln 2",
+        "no_energy_value_computed": true
+      },
+      "quantity": "dissipation of a protocol in the registered class R_PROTO implementing F_BIJECTION, in units of k_B T ln 2",
+      "range_derivation": "The bounded quantity is the dissipation of a protocol of the registered class R_PROTO, in units of k_B T ln 2.  R_PROTO is defined as the class of protocols that act only on the registered logical register D and reset it with the registered reset primitive.  By that definition the dissipation is 0 when the protocol resets nothing, which fixes range_lo = 0, and is at most the full reset of the register, log2|D| = 2, which fixes range_hi. Both endpoints come from the definition of R_PROTO and of D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "UNFALSIFIED_BOUND",
+      "used_for_closure": false,
+      "vacuous": true,
+      "violated_by": null
+    },
+    {
+      "attained_by": {
+        "attained_value": "1",
+        "object": "PROTO_QUASISTATIC_ERASE__F_ERASE1",
+        "why": "the registered idealised quasi-static protocol for this map dissipates exactly m = 1 in units of k_B T ln 2; this is a registered protocol model, not a measurement"
+      },
+      "bound_value": "1",
+      "id": "B_LANDAUER__F_ERASE1",
+      "kind": "lower",
+      "notes": {
+        "erased_bits": 1,
+        "landauer_statement": "W_min = 1 * k_B T ln 2",
+        "no_energy_value_computed": true
+      },
+      "quantity": "dissipation of a protocol in the registered class R_PROTO implementing F_ERASE1, in units of k_B T ln 2",
+      "range_derivation": "The bounded quantity is the dissipation of a protocol of the registered class R_PROTO, in units of k_B T ln 2.  R_PROTO is defined as the class of protocols that act only on the registered logical register D and reset it with the registered reset primitive.  By that definition the dissipation is 0 when the protocol resets nothing, which fixes range_lo = 0, and is at most the full reset of the register, log2|D| = 2, which fixes range_hi. Both endpoints come from the definition of R_PROTO and of D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "0",
+        "conditional_drop_bits": "0",
+        "conditional_image_count": 1,
+        "conditional_state_count": 1,
+        "object": "RELAXED_CORRELATED_RESET__F_ERASE1",
+        "relaxed_class": "the registered assumption 'no residual correlation with the environment' is dropped: the register is perfectly correlated with a registered ancilla, so its conditional distribution is the registered point mass on 11",
+        "why": "conditioned on the ancilla the register has exactly 1 possible state, its image has 1, so the relative erased-bit count is the computed integer 0 and the conditional entropy drop is the computed rational 0; the relaxed protocol attains 0, strictly below the bound value 1"
+      }
+    },
+    {
+      "attained_by": {
+        "attained_value": "2",
+        "object": "PROTO_QUASISTATIC_ERASE__F_ERASE2",
+        "why": "the registered idealised quasi-static protocol for this map dissipates exactly m = 2 in units of k_B T ln 2; this is a registered protocol model, not a measurement"
+      },
+      "bound_value": "2",
+      "id": "B_LANDAUER__F_ERASE2",
+      "kind": "lower",
+      "notes": {
+        "erased_bits": 2,
+        "landauer_statement": "W_min = 2 * k_B T ln 2",
+        "no_energy_value_computed": true
+      },
+      "quantity": "dissipation of a protocol in the registered class R_PROTO implementing F_ERASE2, in units of k_B T ln 2",
+      "range_derivation": "The bounded quantity is the dissipation of a protocol of the registered class R_PROTO, in units of k_B T ln 2.  R_PROTO is defined as the class of protocols that act only on the registered logical register D and reset it with the registered reset primitive.  By that definition the dissipation is 0 when the protocol resets nothing, which fixes range_lo = 0, and is at most the full reset of the register, log2|D| = 2, which fixes range_hi. Both endpoints come from the definition of R_PROTO and of D; neither comes from any value observed on the roster.",
+      "range_hi": "2",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "used_for_closure": true,
+      "vacuous": false,
+      "violated_by": {
+        "attained_value": "0",
+        "conditional_drop_bits": "0",
+        "conditional_image_count": 1,
+        "conditional_state_count": 1,
+        "object": "RELAXED_CORRELATED_RESET__F_ERASE2",
+        "relaxed_class": "the registered assumption 'no residual correlation with the environment' is dropped: the register is perfectly correlated with a registered ancilla, so its conditional distribution is the registered point mass on 11",
+        "why": "conditioned on the ancilla the register has exactly 1 possible state, its image has 1, so the relative erased-bit count is the computed integer 0 and the conditional entropy drop is the computed rational 0; the relaxed protocol attains 0, strictly below the bound value 2"
+      }
+    }
+  ],
+  "checks": {
+    "all_prospective_predictions_confirmed": true,
+    "and_map_drop_reported_as_not_decided": true,
+    "and_map_drop_strictly_exceeds_erased_bits_by_certificate": true,
+    "bijection_has_zero_erased_bits_and_positive_op_count": true,
+    "census_all_twelve_ordered_pairs_witnessed": true,
+    "classic_witness_equal_entropy_different_complexity": true,
+    "complexity_defined_for_every_registered_string": true,
+    "every_bound_is_either_falsifiable_or_flagged_vacuous": true,
+    "every_hostile_is_detected": true,
+    "every_hostile_is_potent": true,
+    "every_map_carries_a_landauer_bound_record": true,
+    "every_nonvacuous_bound_has_a_violator": true,
+    "every_prospective_prediction_reported": true,
+    "gibbs_bound_vacuous_exactly_at_the_alphabet_ceiling": true,
+    "instruction_code_is_a_complete_prefix_code": true,
+    "landauer_bound_does_not_determine_total_cost": true,
+    "many_to_one_map_has_positive_erased_bits": true,
+    "no_float_in_any_claimed_quantity": true,
+    "no_instantiated_physical_energetic_resource": true,
+    "no_vacuous_or_unfalsified_bound_closes_a_row": true,
+    "noneq_gate_flags_planted_fixture": true,
+    "noneq_gate_silent_on_clean_roster": true,
+    "null_beaten_threshold_free": true,
+    "null_no_alarm_on_clean_roster": true,
+    "program_set_satisfies_kraft": true,
+    "register_digest_matches": true,
+    "register_freeze_commit_matches_custody_sha": true,
+    "register_source_main_matches": true,
+    "registered_hostile_names_match_the_register": true,
+    "registered_physical_systems_is_zero": true,
+    "registered_roster_names_match_the_register": true,
+    "resource_registry_covers_every_named_resource": true
+  },
+  "claim_ceiling": "GMI_833_AE11_FOUR_ENTROPY_NOTIONS_SEPARATED_AND_LANDAUER_SCOPE_AUDITED_WITHOUT_ANY_ENERGY_MEASUREMENT",
+  "custody_note": "PROSPECTIVE_REGISTER_V1.json declares freeze_commit 68a5bcb7236d14f7c52421f9cd24bf443f37be99 and the lane owner's custody sha for the freeze commit is 68a5bcb7236d14f7c52421f9cd24bf443f37be99; the two agree, and the executor asserts that they agree rather than assuming it.  The register is binding and was not edited by this package: the executor recomputes its canonical self digest and refuses to emit on a mismatch.  Every custody assertion in this package and in its workflow uses 68a5bcb7236d14f7c52421f9cd24bf443f37be99.",
+  "forbidden_promotions": [
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "ENERGY_CLAIM_WITHOUT_HARDWARE_MEASUREMENT",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "INFORMATION_SAVINGS_IMPLY_ENERGY_SAVINGS",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "LANDAUER_BOUND_DETERMINES_SYSTEM_ENERGY",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "SHANNON_ENTROPY_EQUALS_THERMODYNAMIC_ENTROPY",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "WORLD_MODEL_ALWAYS_REQUIRED"
+  ],
+  "freeze_commit": "68a5bcb7236d14f7c52421f9cd24bf443f37be99",
+  "hostiles": [
+    {
+      "detected": true,
+      "detector": "the ordered-pair census: the pair (H_shannon, S_stat) loses its witness, so the witnessed count falls below 12",
+      "name": "H_ENTROPY_CONFLATE",
+      "perturbed_value": [
+        "1",
+        "3",
+        "3",
+        "3",
+        "4",
+        "2",
+        "4",
+        "1"
+      ],
+      "perturbs": "the census so S_stat is reported as a function of H_shannon",
+      "potent": true,
+      "true_value": [
+        "1",
+        "4",
+        "5",
+        "4",
+        "64",
+        "4",
+        "64",
+        "1"
+      ],
+      "witnessed_pairs_after": 10
+    },
+    {
+      "detected": true,
+      "detector": "recomputation of m from the image size of the map: log2|D| - log2|image(F_ERASE2)| = 2",
+      "name": "H_ERASED_BITS",
+      "perturbed_value": 1,
+      "perturbs": "the erased-bit count of F_ERASE2",
+      "potent": true,
+      "true_value": 2
+    },
+    {
+      "alphabet_strings_over_cap_after": 56,
+      "detected": true,
+      "detector": "the K_U table gate: at the perturbed cap the registered roster string 000010 has no program of length at most the cap and is reported as '>LCAP', so complexity_defined_for_every_registered_string fails",
+      "name": "H_LCAP",
+      "perturbed_cap": 13,
+      "perturbed_value": ">LCAP",
+      "perturbs": "the program-length cap so a K_U value changes",
+      "potent": true,
+      "probe_string": "000010",
+      "roster_strings_over_cap_after": [
+        "000010"
+      ],
+      "true_value": 14
+    },
+    {
+      "detected": true,
+      "detector": "the non-inference witness: a map whose two device models carry the SAME erased-bit count and DIFFERENT registered operation counts; with the preamble removed the counts coincide and the witness is gone",
+      "name": "H_OVERHEAD_EQUAL",
+      "perturbed_value": [
+        2,
+        2
+      ],
+      "perturbs": "DEV_HIGH_OVERHEAD so the two devices stop differing",
+      "potent": true,
+      "true_value": [
+        2,
+        7
+      ]
+    },
+    {
+      "detected": true,
+      "detector": "the row-2 gate: the count of instantiated PHYSICAL_ENERGETIC resources must be exactly 0",
+      "name": "H_PHYSICAL_CLAIM",
+      "perturbed_value": 1,
+      "perturbs": "the resource registry by planting a PHYSICAL_ENERGETIC instantiation, which the gate must flag",
+      "potent": true,
+      "true_value": 0
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "null": {
+    "detector": "the ordered-pair census: for how many of the 12 ordered pairs (A, B) of the four quantities does the roster contain two objects with A equal and B different",
+    "family": "8 objects per trial; a dyadic distribution built by repeated splitting from a deterministic integer generator, a string drawn uniformly from the 64-string alphabet, and Q/T drawn from the registered rational grid Q in 1..8, T in {1,2,4,8}",
+    "histogram": {
+      "5": 6,
+      "6": 194
+    },
+    "known_clean_rosters_flagged": [],
+    "largest_null_witnessed_pairs": 6,
+    "no_alarm_case": "the conflation detector -- an ordered pair that the roster cannot witness -- does not fire on the registered clean roster: 0 of 12 pairs are unwitnessed",
+    "no_alarm_holds": true,
+    "primary_comparison": "threshold-free: the registered roster witnesses all 12 ordered pairs, strictly more than the largest count any of the 200 random rosters attains",
+    "seed": 8331111,
+    "trials": 200,
+    "trials_reaching_all_twelve": 0,
+    "witness_exceeds_largest_null": true,
+    "witness_witnessed_pairs": 12
+  },
+  "package": "gmi-833-ae-ae11-thermo-separation-v1",
+  "prospective_predictions": [
+    {
+      "caveat": "the registered freeze phrases the classic witness as K_U ranging from a small constant to m bits.  On the frozen machine at string length 6 and cap 14 that numeric phrasing is not attainable: the emit instructions cost 2 bits each and HALT 2, so the ceiling is pinned at 14 and the floor cannot be small. What is witnessed, and all that is claimed, is that one maximal Shannon entropy value of 6 bits coexists with members of 3 distinct K_U values spanning 11 to 14.",
+      "claim": "all twelve ordered pairs of the four quantities are witnessed non-functionally dependent on the registered roster; in particular a uniform distribution over 2**m strings has maximal exact H_shannon while its members have K_U ranging from a small registered constant to m bits",
+      "exact_values": {
+        "K_U_histogram_over_support": {
+          "11": 2,
+          "13": 6,
+          "14": 56
+        },
+        "K_U_max_over_support": 14,
+        "K_U_min_over_support": 11,
+        "R_UNIFORM_BLOCK_H_shannon_bits": "6",
+        "derived_witnesses": 2,
+        "ordered_pairs_total": 12,
+        "ordered_pairs_witnessed": 12,
+        "registered_independent_witnesses": 10
+      },
+      "id": "AE11-P1",
+      "status": "CONFIRMED"
+    },
+    {
+      "claim": "the resource registry classifies every resource named by this Section AE tranche, and the count of PHYSICAL_ENERGETIC resources instantiated by the tranche is exactly 0",
+      "exact_values": {
+        "logical_computational": 12,
+        "physical_energetic_declared": 12,
+        "physical_energetic_instantiated": 0,
+        "resources_classified": 24
+      },
+      "id": "AE11-P2",
+      "status": "CONFIRMED"
+    },
+    {
+      "caveat": "B_LANDAUER__F_BIJECTION has bound value 0 against a definitional floor of 0.  It is reported as vacuous and as an UNFALSIFIED_BOUND, and it closes nothing; a non-negative quantity cannot fall below 0.",
+      "claim": "for every registered map the Landauer statement is emitted as a lower-bound record with an exact integer erased-bit coefficient, a vacuity classification, an attained_by witness and a violated_by witness from an explicitly relaxed class",
+      "exact_values": {
+        "erased_bit_coefficients": {
+          "F_AND": 1,
+          "F_BIJECTION": 0,
+          "F_ERASE1": 1,
+          "F_ERASE2": 2
+        },
+        "landauer_bound_records": 4,
+        "unfalsified_bounds": [
+          "B_DROP__F_BIJECTION",
+          "B_GIBBS__R_PROCESS_B",
+          "B_GIBBS__R_UNIFORM_BLOCK",
+          "B_LANDAUER__F_BIJECTION"
+        ],
+        "vacuous_landauer_records": [
+          "B_LANDAUER__F_BIJECTION"
+        ]
+      },
+      "id": "AE11-P3",
+      "status": "CONFIRMED"
+    },
+    {
+      "claim": "DEV_LOW_OVERHEAD and DEV_HIGH_OVERHEAD have the SAME exact integer erased-bit count and DIFFERENT registered total cost, so the erasure bound provably fails to determine total cost",
+      "exact_values": {
+        "erased_bits_both_devices": 2,
+        "holds_for_every_registered_map": true,
+        "map": "F_ERASE2",
+        "operation_count_gap": 5,
+        "total_ops_DEV_HIGH_OVERHEAD": 7,
+        "total_ops_DEV_LOW_OVERHEAD": 2
+      },
+      "id": "AE11-P4",
+      "status": "CONFIRMED"
+    },
+    {
+      "claim": "registered_physical_systems is exactly 0, no nonequilibrium term appears in any claim of the package, the no-alarm case holds on the clean roster and the planted nonequilibrium fixture is flagged",
+      "exact_values": {
+        "clean_roster_hits": 0,
+        "planted_fixture_hits": 3,
+        "registered_physical_systems": 0
+      },
+      "id": "AE11-P5",
+      "status": "CONFIRMED"
+    },
+    {
+      "claim": "F_BIJECTION has erased-bit count exactly 0 and Landauer lower bound exactly 0 while its registered device cost is strictly positive, so logical irreversibility and physical dissipation are not the same quantity",
+      "exact_values": {
+        "F_BIJECTION_erased_bits": 0,
+        "F_BIJECTION_landauer_bound_in_kT_ln2": 0,
+        "F_BIJECTION_registered_total_ops": 1,
+        "F_ERASE2_erased_bits": 2
+      },
+      "id": "AE11-P6",
+      "status": "CONFIRMED"
+    }
+  ],
+  "register_commit": "db1fbc6efa5778c58a4fb31cc5408f01b8845a4a",
+  "register_declared_freeze_commit": "68a5bcb7236d14f7c52421f9cd24bf443f37be99",
+  "register_digest_sha256": "f5c338ee79bdbc95ef6b28ad14dfa87d7fc84acf8907eaa8de852f3234d73017",
+  "results": {
+    "census": [
+      {
+        "fixed": "H_shannon",
+        "fixed_value": "0",
+        "free": "K_U",
+        "free_values": [
+          "13",
+          "11"
+        ],
+        "witness": [
+          "R_ALTERNATING_STRING",
+          "R_ZERO_STRING"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "H_shannon",
+        "fixed_value": "2",
+        "free": "S_stat",
+        "free_values": [
+          "4",
+          "5"
+        ],
+        "witness": [
+          "R_MACRO_A",
+          "R_MACRO_B"
+        ],
+        "witness_kind": "derived",
+        "witnessed": true
+      },
+      {
+        "fixed": "H_shannon",
+        "fixed_value": "2",
+        "free": "S_thermo",
+        "free_values": [
+          "1/2",
+          "3/2"
+        ],
+        "witness": [
+          "R_MACRO_A",
+          "R_MACRO_B"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "K_U",
+        "fixed_value": "11",
+        "free": "H_shannon",
+        "free_values": [
+          "2",
+          "7/4"
+        ],
+        "witness": [
+          "R_MACRO_A",
+          "R_SKEW_DYADIC"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "K_U",
+        "fixed_value": "11",
+        "free": "S_stat",
+        "free_values": [
+          "4",
+          "5"
+        ],
+        "witness": [
+          "R_MACRO_A",
+          "R_MACRO_B"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "K_U",
+        "fixed_value": "11",
+        "free": "S_thermo",
+        "free_values": [
+          "1/2",
+          "3/2"
+        ],
+        "witness": [
+          "R_MACRO_A",
+          "R_MACRO_B"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "S_stat",
+        "fixed_value": "4",
+        "free": "H_shannon",
+        "free_values": [
+          "2",
+          "7/4"
+        ],
+        "witness": [
+          "R_MACRO_A",
+          "R_SKEW_DYADIC"
+        ],
+        "witness_kind": "derived",
+        "witnessed": true
+      },
+      {
+        "fixed": "S_stat",
+        "fixed_value": "1",
+        "free": "K_U",
+        "free_values": [
+          "13",
+          "11"
+        ],
+        "witness": [
+          "R_ALTERNATING_STRING",
+          "R_ZERO_STRING"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "S_stat",
+        "fixed_value": "4",
+        "free": "S_thermo",
+        "free_values": [
+          "1/2",
+          "5/4"
+        ],
+        "witness": [
+          "R_MACRO_A",
+          "R_PROCESS_A"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "S_thermo",
+        "fixed_value": "1/2",
+        "free": "H_shannon",
+        "free_values": [
+          "0",
+          "2"
+        ],
+        "witness": [
+          "R_ALTERNATING_STRING",
+          "R_MACRO_A"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "S_thermo",
+        "fixed_value": "1/2",
+        "free": "K_U",
+        "free_values": [
+          "13",
+          "11"
+        ],
+        "witness": [
+          "R_ALTERNATING_STRING",
+          "R_MACRO_A"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      },
+      {
+        "fixed": "S_thermo",
+        "fixed_value": "1/2",
+        "free": "S_stat",
+        "free_values": [
+          "1",
+          "4"
+        ],
+        "witness": [
+          "R_ALTERNATING_STRING",
+          "R_MACRO_A"
+        ],
+        "witness_kind": "registered_independent",
+        "witnessed": true
+      }
+    ],
+    "census_summary": {
+      "derived_meaning": "H_shannon and S_stat are linked by the registered definitional relation H_shannon <= log2 W, since W is the size of the support of P; a derived witness exhibits the slack in that relation.  The other ten pairs have no registered definitional relation at all.",
+      "derived_witnesses": 2,
+      "ordered_pairs": 12,
+      "registered_independent_witnesses": 10,
+      "unwitnessed": [],
+      "witnessed": 12
+    },
+    "claims_scanned": {
+      "AE11-1": "all twelve ordered pairs of the four registered quantities are witnessed non-functionally dependent on the registered roster",
+      "AE11-2": "the maximal-entropy registered distribution has members whose algorithmic complexity on the frozen machine takes several different integer values",
+      "AE11-3": "every resource this tranche names is classified, and the count of instantiated physical energetic resources is exactly 0",
+      "AE11-4": "every registered map carries a Landauer lower-bound record with an exact integer erased-bit coefficient, a vacuity classification, an attainment witness and, where the bound is not vacuous, a witness from an explicitly relaxed class that breaks it",
+      "AE11-5": "the two registered device models of each map carry the same exact integer erased-bit count and different registered operation counts",
+      "AE11-6": "the number of registered physical systems is exactly 0 and no registered claim of this package carries a term from the frozen driven-system vocabulary",
+      "AE11-7": "a registered bijection has erased-bit count exactly 0 and Landauer bound exactly 0 while its registered operation count is strictly positive, and a registered many-to-one map has a strictly positive erased-bit count"
+    },
+    "classic_witness": {
+      "H_shannon_bits": "6",
+      "distribution": "R_UNIFORM_BLOCK, uniform on all 2**6 strings",
+      "maximal_for_the_alphabet": true,
+      "member_at_K_U_max": "000010",
+      "member_at_K_U_min": "000000",
+      "members_K_U_histogram": {
+        "11": 2,
+        "13": 6,
+        "14": 56
+      },
+      "paired_object_same_entropy": {
+        "H_shannon_bits": "6",
+        "K_U_a": 11,
+        "K_U_b": 14,
+        "a": "R_UNIFORM_BLOCK",
+        "b": "R_PROCESS_B"
+      }
+    },
+    "complexity_table": {
+      "K_U_histogram": {
+        "11": 2,
+        "13": 6,
+        "14": 56
+      },
+      "K_U_max": 14,
+      "K_U_min": 11,
+      "distinct_K_U_values": 3,
+      "lexicographically_least_at_max": "000010",
+      "lexicographically_least_at_min": "000000",
+      "strings_over_cap": 0
+    },
+    "correct_scope": {
+      "bijection": {
+        "erased_bits": 0,
+        "landauer_bound_in_kT_ln2": 0,
+        "map": "F_BIJECTION",
+        "registered_total_ops": 1,
+        "total_ops_strictly_positive": true
+      },
+      "many_to_one": {
+        "erased_bits": 2,
+        "landauer_bound_in_kT_ln2": 2,
+        "map": "F_ERASE2",
+        "registered_total_ops": [
+          7,
+          2
+        ]
+      },
+      "statement": "logical irreversibility lower-bounds the dissipation ATTRIBUTABLE TO ERASURE under the registered assumptions and nothing more: a bijection has erased-bit count exactly 0 and Landauer bound exactly 0 while its registered operation count is strictly positive, and a many-to-one map has a strictly positive erased-bit count while its registered operation count is not determined by it"
+    },
+    "devices": [
+      {
+        "device": "DEV_HIGH_OVERHEAD",
+        "erased_bits": 1,
+        "implements_registered_map": true,
+        "map": "F_AND",
+        "ops": [
+          "SWAP",
+          "SWAP",
+          "CNOT",
+          "CNOT",
+          "NOOP",
+          "AND_INTO_BIT0",
+          "RESET_BIT1"
+        ],
+        "overhead_ops": 5,
+        "total_ops": 7
+      },
+      {
+        "device": "DEV_LOW_OVERHEAD",
+        "erased_bits": 1,
+        "implements_registered_map": true,
+        "map": "F_AND",
+        "ops": [
+          "AND_INTO_BIT0",
+          "RESET_BIT1"
+        ],
+        "overhead_ops": 0,
+        "total_ops": 2
+      },
+      {
+        "device": "DEV_HIGH_OVERHEAD",
+        "erased_bits": 0,
+        "implements_registered_map": true,
+        "map": "F_BIJECTION",
+        "ops": [
+          "SWAP",
+          "SWAP",
+          "CNOT",
+          "CNOT",
+          "NOOP",
+          "CNOT"
+        ],
+        "overhead_ops": 5,
+        "total_ops": 6
+      },
+      {
+        "device": "DEV_LOW_OVERHEAD",
+        "erased_bits": 0,
+        "implements_registered_map": true,
+        "map": "F_BIJECTION",
+        "ops": [
+          "CNOT"
+        ],
+        "overhead_ops": 0,
+        "total_ops": 1
+      },
+      {
+        "device": "DEV_HIGH_OVERHEAD",
+        "erased_bits": 1,
+        "implements_registered_map": true,
+        "map": "F_ERASE1",
+        "ops": [
+          "SWAP",
+          "SWAP",
+          "CNOT",
+          "CNOT",
+          "NOOP",
+          "RESET_BIT1"
+        ],
+        "overhead_ops": 5,
+        "total_ops": 6
+      },
+      {
+        "device": "DEV_LOW_OVERHEAD",
+        "erased_bits": 1,
+        "implements_registered_map": true,
+        "map": "F_ERASE1",
+        "ops": [
+          "RESET_BIT1"
+        ],
+        "overhead_ops": 0,
+        "total_ops": 1
+      },
+      {
+        "device": "DEV_HIGH_OVERHEAD",
+        "erased_bits": 2,
+        "implements_registered_map": true,
+        "map": "F_ERASE2",
+        "ops": [
+          "SWAP",
+          "SWAP",
+          "CNOT",
+          "CNOT",
+          "NOOP",
+          "RESET_BIT0",
+          "RESET_BIT1"
+        ],
+        "overhead_ops": 5,
+        "total_ops": 7
+      },
+      {
+        "device": "DEV_LOW_OVERHEAD",
+        "erased_bits": 2,
+        "implements_registered_map": true,
+        "map": "F_ERASE2",
+        "ops": [
+          "RESET_BIT0",
+          "RESET_BIT1"
+        ],
+        "overhead_ops": 0,
+        "total_ops": 2
+      }
+    ],
+    "landauer_assumptions": [
+      {
+        "assumption": "thermal equilibrium of the reservoir at a single temperature T",
+        "registered_violation": "RELAXED_TWO_RESERVOIR",
+        "violates_the_bound": true,
+        "violation_effect": "with a second reservoir at a different registered temperature the work referred to the hotter reservoir is no longer bounded below by m in units of k_B T ln 2; the bound is stated at a single T and silently changes meaning when T does"
+      },
+      {
+        "assumption": "quasi-static operation",
+        "registered_violation": "RELAXED_FINITE_TIME",
+        "violates_the_bound": false,
+        "violation_effect": "a finite-time protocol dissipates strictly MORE than m, so relaxing this assumption breaks ATTAINMENT and not the lower bound; recorded as such rather than dressed up as a violation"
+      },
+      {
+        "assumption": "no residual correlation between the erased register and the environment",
+        "registered_violation": "RELAXED_CORRELATED_RESET",
+        "violates_the_bound": true,
+        "violation_effect": "when the register is perfectly correlated with a registered ancilla the conditional logical state count is 1, the relative erased-bit count is the integer 0, and a protocol in the relaxed class attains 0 < m"
+      },
+      {
+        "assumption": "logical irreversibility of the map",
+        "registered_violation": "F_BIJECTION",
+        "violates_the_bound": false,
+        "violation_effect": "a bijection has m = 0, the bound reads W_min >= 0 and is vacuous against the definitional floor of the dissipation, which is 0"
+      }
+    ],
+    "machine": {
+      "instruction_kraft_sum": "1",
+      "instruction_table": [
+        {
+          "bits": 2,
+          "code": "00",
+          "op": "EMIT0",
+          "params": "",
+          "semantics": "append the bit 0 to the output"
+        },
+        {
+          "bits": 2,
+          "code": "01",
+          "op": "EMIT1",
+          "params": "",
+          "semantics": "append the bit 1 to the output"
+        },
+        {
+          "bits": 2,
+          "code": "10",
+          "op": "HALT",
+          "params": "",
+          "semantics": "stop; the program is valid only if no bit is left over"
+        },
+        {
+          "bits": 7,
+          "code": "110",
+          "op": "REPEAT_LAST_K_N",
+          "params": "1 bit k-1 with k in 1..2, then 3 bits n-1 with n in 1..8",
+          "semantics": "append the last k output bits, n times; undefined if the output is shorter than k"
+        },
+        {
+          "bits": 6,
+          "code": "111",
+          "op": "COPY_PREFIX",
+          "params": "3 bits j-1 with j in 1..8",
+          "semantics": "append the first j output bits; undefined if the output is shorter than j"
+        }
+      ],
+      "machine_relative": "K_U is relative to this frozen machine and to the frozen cap.  Both are stated, and every K_U value below is a value on THIS machine, not a machine-independent quantity.",
+      "max_output_length": 24,
+      "program_kraft_sum_up_to_cap": "67/128",
+      "program_length_cap": 14,
+      "programs_by_length": {
+        "10": 18,
+        "11": 16,
+        "12": 44,
+        "13": 96,
+        "14": 112,
+        "2": 1,
+        "4": 2,
+        "6": 4,
+        "8": 8
+      },
+      "search_order": "route A makes a single ordered pass over the bit-string program space -- each length in turn, each length's bit strings in increasing integer order -- decoding each candidate and memoising the first, hence shortest, program per output",
+      "string_length": 6
+    },
+    "maps": [
+      {
+        "bijection": false,
+        "definition": "(a, b) -> (a AND b, 0)",
+        "domain_size": 4,
+        "drop_bits": "NOT_DECIDED",
+        "drop_bracket": {
+          "certificate": "log2(3) >= 19/12 by 3**12 >= 2**19 and log2(3) <= 8/5 by 3**5 <= 2**8",
+          "expression": "(3/4) * log2(3)",
+          "lower": "19/16",
+          "strictly_above_erased_bits": true,
+          "upper": "6/5"
+        },
+        "drop_is_exact": false,
+        "erased_bits": 1,
+        "id": "F_AND",
+        "image": [
+          "00",
+          "10"
+        ],
+        "image_size": 2,
+        "landauer_statement": "W_min = 1 * k_B T ln 2",
+        "largest_preimage_size": 3,
+        "log2_largest_preimage": "NOT_A_POWER_OF_TWO"
+      },
+      {
+        "bijection": true,
+        "definition": "(a, b) -> (a, a XOR b), a bijection of the register",
+        "domain_size": 4,
+        "drop_bits": "0",
+        "drop_bracket": null,
+        "drop_is_exact": true,
+        "erased_bits": 0,
+        "id": "F_BIJECTION",
+        "image": [
+          "00",
+          "01",
+          "10",
+          "11"
+        ],
+        "image_size": 4,
+        "landauer_statement": "W_min = 0 * k_B T ln 2",
+        "largest_preimage_size": 1,
+        "log2_largest_preimage": 0
+      },
+      {
+        "bijection": false,
+        "definition": "(a, b) -> (a, 0)",
+        "domain_size": 4,
+        "drop_bits": "1",
+        "drop_bracket": null,
+        "drop_is_exact": true,
+        "erased_bits": 1,
+        "id": "F_ERASE1",
+        "image": [
+          "00",
+          "10"
+        ],
+        "image_size": 2,
+        "landauer_statement": "W_min = 1 * k_B T ln 2",
+        "largest_preimage_size": 2,
+        "log2_largest_preimage": 1
+      },
+      {
+        "bijection": false,
+        "definition": "(a, b) -> (0, 0)",
+        "domain_size": 4,
+        "drop_bits": "2",
+        "drop_bracket": null,
+        "drop_is_exact": true,
+        "erased_bits": 2,
+        "id": "F_ERASE2",
+        "image": [
+          "00"
+        ],
+        "image_size": 1,
+        "landauer_statement": "W_min = 2 * k_B T ln 2",
+        "largest_preimage_size": 4,
+        "log2_largest_preimage": 2
+      }
+    ],
+    "non_inference": {
+      "holds_for_every_map": true,
+      "per_map": [
+        {
+          "erased_bits": 1,
+          "erased_bits_equal": true,
+          "map": "F_AND",
+          "operation_count_gap": 5,
+          "total_ops_differ": true,
+          "total_ops_high": 7,
+          "total_ops_low": 2
+        },
+        {
+          "erased_bits": 0,
+          "erased_bits_equal": true,
+          "map": "F_BIJECTION",
+          "operation_count_gap": 5,
+          "total_ops_differ": true,
+          "total_ops_high": 6,
+          "total_ops_low": 1
+        },
+        {
+          "erased_bits": 1,
+          "erased_bits_equal": true,
+          "map": "F_ERASE1",
+          "operation_count_gap": 5,
+          "total_ops_differ": true,
+          "total_ops_high": 6,
+          "total_ops_low": 1
+        },
+        {
+          "erased_bits": 2,
+          "erased_bits_equal": true,
+          "map": "F_ERASE2",
+          "operation_count_gap": 5,
+          "total_ops_differ": true,
+          "total_ops_high": 7,
+          "total_ops_low": 2
+        }
+      ],
+      "statement": "the erased-bit count is identical under both registered device models of a map while the registered operation count differs by exactly 5, so the erasure bound does not determine the total registered cost of an implementation, let alone a physical energy, which this package never computes"
+    },
+    "nonequilibrium_gate": {
+      "claims_scanned": [
+        "AE11-1",
+        "AE11-2",
+        "AE11-3",
+        "AE11-4",
+        "AE11-5",
+        "AE11-6",
+        "AE11-7"
+      ],
+      "clean_roster_hits": [],
+      "frozen_terms": [
+        "dissipative structure",
+        "energy harvesting",
+        "entropy production",
+        "far from equilibrium",
+        "housekeeping heat",
+        "maintenance power",
+        "metabolic maintenance",
+        "nonequilibrium",
+        "non-equilibrium",
+        "steady-state flux"
+      ],
+      "no_alarm_holds": true,
+      "physical_system_definition": "(boundary, dynamics, reservoir, temperature); a registered quasi-static process supplies a temperature symbol only, so it is not a physical system",
+      "planted_fixture": "FIXTURE_NONEQ_PLANT",
+      "planted_fixture_flagged": true,
+      "planted_fixture_hits": [
+        {
+          "claim": "FIXTURE_NONEQ_PLANT",
+          "term": "entropy production"
+        },
+        {
+          "claim": "FIXTURE_NONEQ_PLANT",
+          "term": "nonequilibrium"
+        },
+        {
+          "claim": "FIXTURE_NONEQ_PLANT",
+          "term": "steady-state flux"
+        }
+      ],
+      "registered_physical_systems": 0
+    },
+    "resource_registry": [
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "the energetic upkeep of an organism",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "biological_metabolic_rate"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "the physical constant",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "boltzmann_constant_k_B"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "hardware power",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "device_power_draw_watts"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the integer number of registered primitive operations a device model runs",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "device_primitive_operation_count"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "a rate of entropy production in a driven system",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "entropy_production_rate"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the integer m = log2|D| - log2|image(f)|",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "erased_bit_count"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "the Landauer work as a physical magnitude",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "erasure_work_W_min_joules"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "heat a real device sheds",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "hardware_thermal_dissipation"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "the heat of a registered quasi-static process as a physical magnitude",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "heat_Q_joules"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "the energy scale of one erased bit as a physical magnitude",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "landauer_quantum_k_B_T_ln2_joules"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "|D| and |image(f)| as integers",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "logical_state_count"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "power to hold a driven system away from equilibrium",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "maintenance_power"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the integer W of a registered macrostate",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "microstate_count"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the frozen integer number of null trials",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "null_trial_count"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the integer difference between a device model's operation count and the minimal registered sequence for the same map",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "overhead_operation_count"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the integer size of the largest preimage class",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "preimage_count"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the length in bits of a program of U; the quantity K_U minimises",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "program_length_bits"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the frozen integer LCAP",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "program_length_cap"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the frozen integer string length",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "registered_string_length"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "the integer number of registered objects",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "roster_cardinality"
+      },
+      {
+        "class": "LOGICAL_COMPUTATIONAL",
+        "description": "H_shannon of a registered dyadic distribution",
+        "instantiated": true,
+        "numeric_value_in_physical_units": false,
+        "resource": "shannon_entropy_bits"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "the reservoir temperature as a physical magnitude",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "temperature_T_kelvin"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "Q / T as an exact rational in the registered units; Q and T are registered symbols with no physical magnitude, so no value in J/K is produced",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "thermodynamic_entropy_change_registered_units"
+      },
+      {
+        "class": "PHYSICAL_ENERGETIC",
+        "description": "hardware energy per operation",
+        "instantiated": false,
+        "numeric_value_in_physical_units": false,
+        "resource": "wall_clock_energy_per_operation_joules"
+      }
+    ],
+    "resource_registry_summary": {
+      "instantiated_physical_resources": [],
+      "logical_computational": 12,
+      "physical_energetic_declared": 12,
+      "physical_energetic_instantiated": 0,
+      "total": 24
+    },
+    "roster": [
+      {
+        "H_shannon_bits": "0",
+        "K_U_bits": 13,
+        "Q": "1",
+        "S_stat_microstate_count": 1,
+        "S_stat_statement": "S_stat = k_B ln 1",
+        "S_thermo_Q_over_T": "1/2",
+        "T": "2",
+        "id": "R_ALTERNATING_STRING",
+        "note": "point mass on the alternating string; the same H_shannon and the same microstate count as R_ZERO_STRING, a different K_U",
+        "string": "010101"
+      },
+      {
+        "H_shannon_bits": "2",
+        "K_U_bits": 11,
+        "Q": "1",
+        "S_stat_microstate_count": 4,
+        "S_stat_statement": "S_stat = k_B ln 4",
+        "S_thermo_Q_over_T": "1/2",
+        "T": "2",
+        "id": "R_MACRO_A",
+        "note": "uniform macrostate of 4 microstates",
+        "string": "000000"
+      },
+      {
+        "H_shannon_bits": "2",
+        "K_U_bits": 11,
+        "Q": "3",
+        "S_stat_microstate_count": 5,
+        "S_stat_statement": "S_stat = k_B ln 5",
+        "S_thermo_Q_over_T": "3/2",
+        "T": "2",
+        "id": "R_MACRO_B",
+        "note": "5 microstates, H_shannon exactly 2 -- equal Shannon entropy to R_MACRO_A with a strictly larger microstate count",
+        "string": "000000"
+      },
+      {
+        "H_shannon_bits": "2",
+        "K_U_bits": 11,
+        "Q": "5",
+        "S_stat_microstate_count": 4,
+        "S_stat_statement": "S_stat = k_B ln 4",
+        "S_thermo_Q_over_T": "5/4",
+        "T": "4",
+        "id": "R_PROCESS_A",
+        "note": "same distribution and macrostate as R_MACRO_A, a different registered quasi-static process",
+        "string": "000000"
+      },
+      {
+        "H_shannon_bits": "6",
+        "K_U_bits": 14,
+        "Q": "5",
+        "S_stat_microstate_count": 64,
+        "S_stat_statement": "S_stat = k_B ln 64",
+        "S_thermo_Q_over_T": "5/2",
+        "T": "2",
+        "id": "R_PROCESS_B",
+        "note": "the lexicographically least string attaining the maximum K_U over the 64-string alphabet, carried on the maximal-entropy distribution",
+        "string": "000010"
+      },
+      {
+        "H_shannon_bits": "7/4",
+        "K_U_bits": 11,
+        "Q": "3",
+        "S_stat_microstate_count": 4,
+        "S_stat_statement": "S_stat = k_B ln 4",
+        "S_thermo_Q_over_T": "3/4",
+        "T": "4",
+        "id": "R_SKEW_DYADIC",
+        "note": "4 microstates, H_shannon strictly below log2 4",
+        "string": "000000"
+      },
+      {
+        "H_shannon_bits": "6",
+        "K_U_bits": 11,
+        "Q": "1",
+        "S_stat_microstate_count": 64,
+        "S_stat_statement": "S_stat = k_B ln 64",
+        "S_thermo_Q_over_T": "1/2",
+        "T": "2",
+        "id": "R_UNIFORM_BLOCK",
+        "note": "the uniform distribution on all 2**6 strings: maximal H_shannon, members of several different K_U",
+        "string": "000000"
+      },
+      {
+        "H_shannon_bits": "0",
+        "K_U_bits": 11,
+        "Q": "1",
+        "S_stat_microstate_count": 1,
+        "S_stat_statement": "S_stat = k_B ln 1",
+        "S_thermo_Q_over_T": "1/2",
+        "T": "2",
+        "id": "R_ZERO_STRING",
+        "note": "point mass on the all-zero string",
+        "string": "000000"
+      }
+    ]
+  },
+  "rows_closed": 5,
+  "rows_left_open": 3,
+  "schema": "GMI_833_AE11_THERMO_SEPARATION_RESULT_V1",
+  "section": "AE11",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "theorems": [
+    "AE11-1",
+    "AE11-2",
+    "AE11-3",
+    "AE11-4",
+    "AE11-5",
+    "AE11-6",
+    "AE11-7"
+  ],
+  "verdict": "GREEN"
+}
