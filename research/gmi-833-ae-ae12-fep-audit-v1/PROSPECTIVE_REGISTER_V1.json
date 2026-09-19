@@ -1,0 +1,478 @@
+{
+  "C_family": {
+    "description": "all dyadic distributions on O whose atoms are integer powers of 1/2 with minimum atom 1/2**DMAX"
+  },
+  "freeze_commit": "eb9a2ad7df9ff3dd9135413d5907ef35aacaa3ab",
+  "hostiles": [
+    {
+      "expect": "potent then detected",
+      "name": "H_POSTERIOR_OFFSET",
+      "perturbs": "the claimed Bayes posterior on W_TRI"
+    },
+    {
+      "expect": "potent then detected",
+      "name": "H_AMBIGUITY_DROP",
+      "perturbs": "the ambiguity term of W_AMB action a0"
+    },
+    {
+      "expect": "potent then detected",
+      "name": "H_DYADIC_BREAK",
+      "perturbs": "one likelihood entry of W_SPLIT to 1/3"
+    },
+    {
+      "expect": "potent then detected",
+      "name": "H_MEANFIELD_WIDEN",
+      "perturbs": "Q_mf to include a non-product distribution"
+    },
+    {
+      "expect": "potent then detected",
+      "name": "H_BLANKET_RELAX",
+      "perturbs": "the conditional-independence tolerance of the blanket predicate"
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae12-fep-audit-v1",
+  "prospective_predictions": [
+    {
+      "claim": "on every registered world and every observation, with Q = Q_full and a correctly specified model, the F-minimizer equals the exact Bayes posterior and min F equals -log2 P(o) exactly",
+      "id": "AE12-P1"
+    },
+    {
+      "claim": "on W_CORR the mean-field minimum free energy exceeds the unrestricted minimum by exactly 1 bit",
+      "id": "AE12-P2"
+    },
+    {
+      "claim": "on W_TRI_MIS at o0 the model posterior is (1/2,0,1/2) and the true posterior is (1/2,1/2,0); they differ",
+      "id": "AE12-P3"
+    },
+    {
+      "claim": "on W_AMB, for EVERY C in the registered dyadic family, G(a0) - G(a1) = 1 bit exactly while EU(a0) - EU(a1) = 1/2 exactly, so no preference prior makes expected free energy reproduce the utility ordering",
+      "id": "AE12-P4"
+    },
+    {
+      "claim": "on W_DISC1 expected free energy selects a1, cardinality-1 rate-distortion control selects a0, and the CPC family selects all three of a0, a1 and a2 as lambda ranges over the AE8 grid",
+      "id": "AE12-P5"
+    },
+    {
+      "claim": "on W_AGREE1 all three selectors choose b0",
+      "id": "AE12-P6"
+    },
+    {
+      "claim": "MARKOV_BLANKET_EXISTS is True on SYS_MB_OK and False on SYS_MB_FAIL under an exhaustive search over all partitions into non-empty internal, blanket and external sets",
+      "id": "AE12-P7"
+    },
+    {
+      "claim": "the parent-sufficiency terminal fires for perception-as-Bayes at the registered scope, so no novelty is claimed there",
+      "id": "AE12-P8"
+    }
+  ],
+  "registered_constants": {
+    "DMAX": 4,
+    "dyadic_rule": "every probability in every registered table is 0 or 2**-k for an integer k>=0; every row sums to 1",
+    "efe_convention": "G(a) = risk(a) + ambiguity(a); risk(a) = KL(Pa(o)||C); ambiguity(a) = E_{s~Pa}[H(L(.|s))]; horizon H = 1",
+    "free_energy_convention": "F(q,o) = KL(q||P0) - E_q[log2 L(o|s)], in bits; F = INF (the string \"INF\") when q charges a state with L(o|s)=0",
+    "null_sampler": "uniform over dyadic likelihood tables on the registered shape with the per-outcome dyadic-marginal constraint",
+    "null_trials": 200,
+    "rd_cardinality": 1,
+    "tie_break": "lexicographic by the registered action/model name, ascending"
+  },
+  "roster": {
+    "SYS_MB_FAIL": {
+      "note": "parity constraint v0 = v1 XOR v2; every variable is determined by the other two",
+      "support_uniform": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          1
+        ]
+      ],
+      "vars": [
+        "v0",
+        "v1",
+        "v2"
+      ]
+    },
+    "SYS_MB_OK": {
+      "note": "v0 = v1; v2 free; the chain v0 - v1 - v2 admits a blanket",
+      "support_uniform": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "vars": [
+        "v0",
+        "v1",
+        "v2"
+      ]
+    },
+    "W_AGREE1": {
+      "A": [
+        "b0",
+        "b1",
+        "b2"
+      ],
+      "C": [
+        "1/2",
+        "1/4",
+        "1/8",
+        "1/8"
+      ],
+      "L": [
+        [
+          "1/2",
+          "1/2",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1/2",
+          "1/2"
+        ]
+      ],
+      "O": [
+        "o0",
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "S": [
+        "t0",
+        "t1",
+        "t2"
+      ],
+      "U_state": [
+        "1/2",
+        "1",
+        "0"
+      ],
+      "action_state_dist": [
+        [
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "cost_bits": [
+        1,
+        3,
+        5
+      ]
+    },
+    "W_AMB": {
+      "A": [
+        "a0",
+        "a1"
+      ],
+      "L": [
+        [
+          "1/2",
+          "1/2"
+        ],
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "O": [
+        "o0",
+        "o1"
+      ],
+      "S": [
+        "s_amb",
+        "s_d0",
+        "s_d1"
+      ],
+      "U_state": [
+        "1/2",
+        "1",
+        "0"
+      ],
+      "action_state_dist": [
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/2",
+          "1/2"
+        ]
+      ],
+      "note": "both actions induce the identical predicted outcome distribution (1/2,1/2); they differ only in ambiguity"
+    },
+    "W_CORR": {
+      "L": [
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ],
+        [
+          "0",
+          "1"
+        ],
+        [
+          "1",
+          "0"
+        ]
+      ],
+      "O": [
+        "o0",
+        "o1"
+      ],
+      "P0": [
+        "1/4",
+        "1/4",
+        "1/4",
+        "1/4"
+      ],
+      "S": [
+        "s00",
+        "s01",
+        "s10",
+        "s11"
+      ],
+      "factorization": [
+        [
+          "s00",
+          "s01"
+        ],
+        [
+          "s10",
+          "s11"
+        ]
+      ],
+      "note": "L(o0|s)=1 exactly on {s00,s11}; the o0-posterior is perfectly correlated and lies outside every product distribution"
+    },
+    "W_DISC1": {
+      "A": [
+        "a0",
+        "a1",
+        "a2"
+      ],
+      "C": [
+        "1/2",
+        "1/2"
+      ],
+      "L": [
+        [
+          "1/2",
+          "1/2"
+        ],
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "O": [
+        "o0",
+        "o1"
+      ],
+      "S": [
+        "s_amb",
+        "s_d0",
+        "s_d1"
+      ],
+      "U_state": [
+        "1/2",
+        "1",
+        "0"
+      ],
+      "action_state_dist": [
+        [
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1/2",
+          "1/2"
+        ],
+        [
+          "1",
+          "0",
+          "0"
+        ]
+      ],
+      "cost_bits": [
+        4,
+        1,
+        2
+      ]
+    },
+    "W_SPLIT": {
+      "L": [
+        [
+          "1/2",
+          "1/4",
+          "1/4",
+          "0"
+        ],
+        [
+          "0",
+          "1/4",
+          "1/4",
+          "1/2"
+        ]
+      ],
+      "O": [
+        "o0",
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "P0": [
+        "1/2",
+        "1/2"
+      ],
+      "S": [
+        "s0",
+        "s1"
+      ]
+    },
+    "W_TRI": {
+      "L": [
+        [
+          "1/2",
+          "1/2"
+        ],
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "O": [
+        "o0",
+        "o1"
+      ],
+      "P0": [
+        "1/2",
+        "1/4",
+        "1/4"
+      ],
+      "S": [
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    "W_TRI_MIS": {
+      "L_model": [
+        [
+          "1/2",
+          "1/2"
+        ],
+        [
+          "0",
+          "1"
+        ],
+        [
+          "1",
+          "0"
+        ]
+      ],
+      "L_true": [
+        [
+          "1/2",
+          "1/2"
+        ],
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "O": [
+        "o0",
+        "o1"
+      ],
+      "P0": [
+        "1/2",
+        "1/4",
+        "1/4"
+      ],
+      "S": [
+        "s0",
+        "s1",
+        "s2"
+      ],
+      "note": "the agent holds W_TRI with rows s1 and s2 exchanged"
+    }
+  },
+  "schema": "GMI_833_PROSPECTIVE_REGISTER_V1",
+  "section": "AE12",
+  "self_digest_note": "sha256 of json.dumps(self without self_digest_sha256 and self_digest_note, sort_keys=True, separators=(\",\",\":\")) encoded utf-8",
+  "self_digest_sha256": "d117030877cd1f8bc264aa22059392cf836ce29ad7b252a86dc3863bb6d36f9d",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3"
+}
