@@ -73,6 +73,7 @@ for r in d["not_marked"]:
     assert r["status"] in ("PARTIAL", "BLOCKED_ON_OPEN_PR", "NO_EVIDENCE")
     assert r["comment_id"] and r["reason"]
 tot = len(d["replacements"]) + len(d["not_marked"])
-print("structural: OK  (%d replacements + %d not_marked = %d)" % (len(d["replacements"]), len(d["not_marked"]), tot))
-assert tot == 104
+closed = len(d.get("already_closed_upstream", []))
+print("structural: OK  (%d replacements + %d not_marked + %d already_closed_upstream = %d)" % (len(d["replacements"]), len(d["not_marked"]), closed, tot + closed))
+assert tot + closed == 104
 sys.exit(1 if (bad or not allfail) else 0)

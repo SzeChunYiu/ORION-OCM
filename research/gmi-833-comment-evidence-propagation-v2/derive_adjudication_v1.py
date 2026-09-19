@@ -3,7 +3,9 @@
 this round's re-adjudication. Keyed on the exact `old` string, never line number."""
 import json, io, os
 
-R1 = "/Users/billy/Desktop/projects/ORION-OCM-wt-833/propagate/research/gmi-833-comment-evidence-propagation-v1/ISSUE_833_COMMENT_RECONCILIATION_V1.json"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
+R1 = os.path.join(ROOT, "research", "gmi-833-comment-evidence-propagation-v1", "ISSUE_833_COMMENT_RECONCILIATION_V1.json")
 rows = json.load(io.open(R1, encoding="utf-8"))["not_marked"]
 assert len(rows) == 105
 
@@ -166,7 +168,7 @@ for i, r in enumerate(rows):
         e.update({"verdict": r["status"], "reason": REASON.get(i, r["reason"])})
     out.append(e)
 
-dest = "/Users/billy/Desktop/projects/ORION-OCM-wt-833/propagate2/research/gmi-833-comment-evidence-propagation-v2/ADJUDICATION_V2.json"
+dest = os.path.join(HERE, "ADJUDICATION_V2.json")
 payload = {"schema": "GMI_833_COMMENT_ADJUDICATION_V2", "rows": out,
  "already_closed_upstream": [{
    "comment_id": rows[68]["comment_id"],
