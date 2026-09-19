@@ -21,13 +21,23 @@ jobs:
           git merge-base --is-ancestor "$F" HEAD
       - name: Exact dual-route checks
         run: |
+          set -euo pipefail
           python3 -I -B research/gmi-1068-r3-contextual-attainability-v1/check_r3.py >/tmp/a.json
           python3 -I -O -B research/gmi-1068-r3-contextual-attainability-v1/check_r3.py >/tmp/ao.json
           python3 -I -B research/gmi-1068-r3-contextual-attainability-v1/independent_oracle_v1.py >/tmp/b.json
+          cmp /tmp/a.json /tmp/ao.json
           python3 - <<'PY'
           import json
-          a=json.load(open('/tmp/a.json'));b=json.load(open('/tmp/b.json'))
-          for k in ('full_frontier','budget_frontier','phase_low','phase_high'): assert a[k]==b[k]
+          a=json.load(open('/tmp/a.json'))
+          b=json.load(open('/tmp/b.json'))
+          if a.get('status') != 'GREEN' or b.get('status') != 'GREEN':
+              raise SystemExit('non-GREEN route')
+          keys=('full_frontier','budget_frontier','phase_low','phase_tie','phase_high','relief_witnesses')
+          for key in keys:
+              if a.get(key) != b.get(key):
+                  raise SystemExit(f'route disagreement for {key}: {a.get(key)!r} != {b.get(key)!r}')
+          if a.get('hostiles_caught') != 8:
+              raise SystemExit('hostile count drift')
           PY
       - name: Install Lean 4.19.0
         shell: bash
