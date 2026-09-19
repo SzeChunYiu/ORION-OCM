@@ -16,6 +16,9 @@ on:
 permissions:
   contents: read
 
+env:
+  PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+
 jobs:
   ab-terminology-harness:
     runs-on: ubuntu-latest
@@ -64,8 +67,11 @@ jobs:
         run: |
           set -euo pipefail
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            git diff --name-only --diff-filter=ACMR \
-              "origin/${{ github.base_ref }}...HEAD" -- '*.md' > /tmp/owned.txt || true
+            # Same PR-scope rule as the ledger gate (HEAD^1..HEAD on a merge
+            # checkout; see research/gmi-833-aa-ledger-gate-v1/ledger_gate_v1.py
+            # `owned_paths_from_git`). One rule for both per-PR gates.
+            python3 -I -B research/gmi-833-aa-ledger-gate-v1/ledger_gate_v1.py \
+              --print-owned > /tmp/owned.txt
             wc -l /tmp/owned.txt
             python3 -I -B "$PKG/terminology_ratchet_v1.py" --owned-files /tmp/owned.txt 2>&1 | tee /tmp/ab_ratchet.txt
           else

@@ -18,6 +18,11 @@ Usage:
   python3 -I -B terminology_ratchet_v1.py --owned-files LIST    # PR-scoped check
   python3 -I -B terminology_ratchet_v1.py --write               # rewrite baseline
 
+Counted hits are PROSE hits: a hit on a verbatim issue-row quotation, inside
+an inline code span or fenced block, or on an identifier token (a path, a
+package name, snake_case) is exempt -- see `classify_hits`. A reviewer never
+meets those as vocabulary, and five open PRs were failed on them.
+
 On a pull request the gate is run with --owned-files, so a lane is failed only
 for banned terms in files it added or grew. That is what keeps the gate from
 crying wolf on another lane's PR - a gate that fires on work you did not do is
@@ -27,6 +32,7 @@ import importlib.util
 import json
 import io
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -34,6 +40,11 @@ REPO = os.path.abspath(os.path.join(HERE, os.pardir, os.pardir))
 GATE = os.path.join(REPO, "research", "gmi-833-tranche-ab-ac-lit",
                     "GMI_TERMINOLOGY_CI_GATE_V1.py")
 BASELINE = os.path.join(HERE, "TERMINOLOGY_BASELINE_V1.json")
+# The main tip the committed baseline was regenerated at, when the count
+# semantics changed from "every parent hit" to "prose hits only" (the three
+# non-prose exemption classes below). `source_main` in the baseline stays the
+# package freeze's pin; this is the measurement point of the counts.
+REBASELINED_AT_MAIN = "b5193f32"
 
 # Packages whose SUBJECT is the #833 terminology audit itself. They must quote
 # the legacy terms verbatim - a crosswalk row named `machine species`, an AB row
@@ -96,13 +107,171 @@ def flagship_files():
 # still scanned normally, including prose in the same file.
 QUOTE_PREFIXES = ("- [ ] ", "- [x] ", "> - [ ] ", "> - [x] ", "> ")
 
+# A quoted row is also recognised by SHAPE, not only by prefix: freezes number
+# their quoted rows ("3. `- [ ] ...`"), wrap them in inline code
+# ("`- [x] ...`") or both. Any line carrying a checkbox row inside backticks,
+# or opening with a (possibly numbered, possibly block-quoted) checkbox row, is
+# a quotation of the issue. The lane did not choose that wording.
+_QUOTED_ROW_ANYWHERE = re.compile(r"`\s*-\s\[[ xX]\]\s")
+_QUOTED_ROW_LEADING = re.compile(r"^\s*(?:>\s*)*(?:\d+[.)]\s*)?`?\s*-\s\[[ xX]\]\s")
+
 
 def _is_quoted_issue_row(hit):
     """True when the hit sits on a verbatim checklist row quoted from the issue.
 
     The scanner already hands us the line text, so this needs no file access.
     """
-    return str(hit.get("text", "")).lstrip().startswith(QUOTE_PREFIXES)
+    text = str(hit.get("text", ""))
+    if text.lstrip().startswith(QUOTE_PREFIXES):
+        return True
+    return bool(_QUOTED_ROW_ANYWHERE.search(text) or _QUOTED_ROW_LEADING.match(text))
+
+
+# IDENTIFIERS ARE NOT PROSE.  The parent gate matches `\bselection\b` and
+# `\bmorphology\b`; `-`, `/` and `.` are word boundaries, so a package name
+# (`gmi-833-morphology-selection-v1`), a path
+# (`research/gmi-833-ae-morphology-sweep-v1/test_morphology_sweep_v1.py`), an
+# inline code span and a fenced code block all fire as if a sentence had been
+# written. Five open PRs were failed on such tokens -- a heading that is the
+# package's own directory name, a `cmp` command in a reproduce block, a
+# parent-pin table of package names. A reviewer reading the paper never meets
+# them as vocabulary. Three exemption classes, each narrowly shaped:
+#
+#   1. inline code spans (`...`) and fenced code blocks (``` ... ```);
+#   2. identifier tokens: a whitespace-delimited token that contains `/` or `_`,
+#      opens with `gmi-<digits>-`, ends with `-v<digits>`, or carries a file
+#      extension.  A hyphenated PROSE compound ("morphology-selection
+#      correspondence", "the morphology-sweep lane") has none of these marks
+#      and still fires;
+#   3. headings whose only occurrence is the package's own directory name are
+#      class 2 by construction (`# gmi-833-ae-morphology-sweep-v1`,
+#      `# Parent ownership -- gmi-833-...`).
+#
+# The exemption is computed per LINE and per TERM by masking the non-prose
+# spans and re-running the parent's own pattern on what is left: a line that
+# names `gmi-833-morphology-selection-v1` AND says "the selection changes"
+# keeps exactly one prose hit for `selection`.
+_INLINE_CODE = re.compile(r"`[^`\n]*`")
+_TOKEN_PUNCT = "()[]{}<>,;:!?'\"*|"
+_PKG_NAME = re.compile(r"(?:^|/)gmi-\d+-")
+_VERSION_SUFFIX = re.compile(r"-v\d+/?$")
+_FILE_EXT = re.compile(r"\.(?:py|md|json|jsonl|ya?ml|txt|csv|toml|sh|html|pdf|tex)$", re.IGNORECASE)
+_PATH_PREFIXES = ("research/", "papers/", "src/", "tests/", ".github/", "docs/",
+                  "/", "./", "../", "~/")
+
+
+def _is_identifier_token(token):
+    """A whitespace-delimited token that is a name, not a word.
+
+    `_` never occurs inside prose; a file extension, a `gmi-<n>-` package name
+    (bare or path-qualified), a `-v<n>` version suffix and a path rooted at a
+    repository directory are names. A plain slash compound ("morphology/
+    resource cost") and a hyphenated compound ("morphology-selection rule")
+    are prose and are NOT identifiers.
+    """
+    core = token.strip(_TOKEN_PUNCT).rstrip(".")
+    if not core:
+        return False
+    if "_" in core:
+        return True
+    if _FILE_EXT.search(core) or _PKG_NAME.search(core) or _VERSION_SUFFIX.search(core):
+        return True
+    if "/" in core and core.startswith(_PATH_PREFIXES):
+        return True
+    return False
+
+
+def mask_non_prose(line):
+    """Blank inline code spans and identifier tokens, preserving length so the
+    parent's word-boundary patterns see the same prose they would in print."""
+    out = _INLINE_CODE.sub(lambda m: " " * len(m.group(0)), line)
+    pieces = []
+    for tok in re.split(r"(\s+)", out):
+        if tok and not tok.isspace() and _is_identifier_token(tok):
+            pieces.append(" " * len(tok))
+        else:
+            pieces.append(tok)
+    return "".join(pieces)
+
+
+def _fenced_lines(path):
+    """1-based line numbers that sit inside a ``` fence (the fence lines too)."""
+    fenced = set()
+    try:
+        with open(path, encoding="utf-8") as fh:
+            lines = fh.read().split("\n")
+    except (OSError, UnicodeDecodeError):
+        return fenced
+    inside = False
+    for i, ln in enumerate(lines, 1):
+        if ln.lstrip().startswith("```"):
+            inside = not inside
+            fenced.add(i)
+            continue
+        if inside:
+            fenced.add(i)
+    return fenced
+
+
+def _compiled_patterns(gate):
+    pats = {}
+    for name, spec in gate.BANNED_TERMS_DEFAULT.items():
+        if spec.get("active", True):
+            pats[name] = re.compile(spec["pattern"], re.IGNORECASE | re.MULTILINE)
+    return pats
+
+
+def prose_hit_count(term_pattern, line):
+    """How many matches of the parent's pattern survive on the prose of `line`."""
+    return len(term_pattern.findall(mask_non_prose(line)))
+
+
+def classify_hits(hits, gate=None):
+    """Split the parent's hits into (prose_hits, exempt_counts).
+
+    `exempt_counts` is a dict with the three exemption classes:
+      quoted_issue_rows, code_spans (inline + fenced), identifiers.
+    """
+    gate = gate or load_gate()
+    pats = _compiled_patterns(gate)
+    fenced_cache = {}
+    grouped = {}
+    order = []
+    for h in hits:
+        key = (h["file"], h["term"], h["line_no"])
+        if key not in grouped:
+            grouped[key] = []
+            order.append(key)
+        grouped[key].append(h)
+    prose = []
+    exempt = {"quoted_issue_rows": 0, "code_spans": 0, "identifiers": 0}
+    for key in order:
+        group = grouped[key]
+        path, term, line_no = key
+        line = str(group[0].get("text", ""))
+        if _is_quoted_issue_row(group[0]):
+            exempt["quoted_issue_rows"] += len(group)
+            continue
+        if path not in fenced_cache:
+            fenced_cache[path] = _fenced_lines(path)
+        if line_no in fenced_cache[path]:
+            exempt["code_spans"] += len(group)
+            continue
+        pat = pats.get(term)
+        if pat is None:
+            prose.extend(group)
+            continue
+        keep = min(len(group), prose_hit_count(pat, line))
+        dropped = len(group) - keep
+        if dropped:
+            # attribute: was it code or an identifier that carried the match?
+            after_code = len(pat.findall(_INLINE_CODE.sub(
+                lambda m: " " * len(m.group(0)), line)))
+            code_dropped = len(group) - min(len(group), after_code)
+            exempt["code_spans"] += code_dropped
+            exempt["identifiers"] += dropped - code_dropped
+        prose.extend(group[:keep])
+    return prose, exempt
 
 
 def measure(files=None, root=None):
@@ -110,19 +279,28 @@ def measure(files=None, root=None):
     root = root or REPO
     files = files if files is not None else flagship_files()
     hits = gate.scan_paths(files, context="paper-facing")
+    prose, exempt = classify_hits(hits, gate)
     counts = {}
-    quoted_exempt = 0
-    for h in hits:
-        if _is_quoted_issue_row(h):
-            quoted_exempt += 1
-            continue
+    for h in prose:
         rel = os.path.relpath(h["file"], root)
         counts.setdefault(rel, {})
         counts[rel][h["term"]] = counts[rel].get(h["term"], 0) + 1
     total = sum(sum(v.values()) for v in counts.values())
     return {"files_scanned": len(files), "files_with_hits": len(counts),
             "total_hits": total, "counts": counts,
-            "quoted_issue_rows_exempt": quoted_exempt}
+            "raw_hits": len(hits),
+            "quoted_issue_rows_exempt": exempt["quoted_issue_rows"],
+            "code_spans_exempt": exempt["code_spans"],
+            "identifiers_exempt": exempt["identifiers"]}
+
+
+def prose_hits(files, root=None):
+    """The surviving prose hits themselves (file, term, line_no, text), for
+    reporting which lines a lane must actually reword."""
+    gate = load_gate()
+    root = root or REPO
+    prose, _ = classify_hits(gate.scan_paths(files, context="paper-facing"), gate)
+    return [dict(h, file=os.path.relpath(h["file"], root)) for h in prose]
 
 
 def check(baseline, live, owned_new_files=None):
@@ -178,9 +356,20 @@ def main(argv):
                "excluded_reason": "terminology-authority and migration-log packages quote the "
                                   "banned terms definitionally; the parent gate self-skips its "
                                   "own authority docs for the same reason",
+               "count_semantics": (
+                   "prose hits only: hits on verbatim issue-row quotations "
+                   "(checkbox rows, numbered or backticked), inside inline code "
+                   "spans or fenced code blocks, and on identifier tokens "
+                   "(paths, snake_case, gmi-<n>- package names, -v<n> suffixes, "
+                   "file extensions) are exempt; see classify_hits"),
+               "rebaselined_at_main": REBASELINED_AT_MAIN,
                "files_scanned": live["files_scanned"],
                "files_with_hits": live["files_with_hits"],
                "total_hits": live["total_hits"],
+               "raw_hits": live["raw_hits"],
+               "quoted_issue_rows_exempt": live["quoted_issue_rows_exempt"],
+               "code_spans_exempt": live["code_spans_exempt"],
+               "identifiers_exempt": live["identifiers_exempt"],
                "counts": live["counts"]}
         json.dump(doc, open(BASELINE, "w"), indent=1, sort_keys=True)
         print("baseline written: %d hits in %d of %d files"
