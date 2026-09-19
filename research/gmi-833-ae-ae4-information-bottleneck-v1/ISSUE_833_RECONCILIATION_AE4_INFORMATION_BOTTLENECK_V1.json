@@ -1,0 +1,66 @@
+{
+  "schema": "GMI_ISSUE_RECONCILIATION_V2",
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "section": "AE4",
+  "package": "gmi-833-ae-ae4-information-bottleneck-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "c05f8f4ce6e5614993dff1e69177a58b53938f87",
+  "claim_ceiling": "GMI_833_AE4_IB_RELEVANT_INFORMATION_BOUNDARY_EXACTLY_CLASSIFIED_OVER_DETERMINISTIC_ENCODERS_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "IB_OPTIMUM_OVER_STOCHASTIC_ENCODERS_PROVED",
+    "GMI_PREDICTIVE_STATE_IS_THE_IB_OPTIMUM",
+    "IB_OPTIMAL_IMPLIES_CONTROL_OPTIMAL",
+    "INFINITE_SUPPORT_EXTENSION_PROVED",
+    "CONTINUOUS_VARIABLE_EXTENSION_PROVED",
+    "RATE_DISTORTION_THEOREM_REPROVED",
+    "FORGETTING_IS_ALWAYS_OPTIMAL",
+    "ENERGY_OR_TIME_PRICE_MEASURED",
+    "ARCHITECTURE_SELECTION_LAW",
+    "COMPLETE_GMI"
+  ],
+  "replacements": [
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Formalize the task-relevant representation problem using established Information Bottleneck / rate-distortion terminology where applicable.",
+      "new": "- [x] Formalize the task-relevant representation problem using established Information Bottleneck / rate-distortion terminology where applicable. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-1: `L_beta(T) = I(T;X) − beta·I(T;Y)` minimised over **all 4140** deterministic encoders of an 8-atom support, with a machine-readable crosswalk of **6** entries each carrying a citation — the bottleneck itself (Tishby, Pereira & Bialek 1999, arXiv:physics/0004057), its deterministic hard-partition variant (Strouse & Schwab 2017, doi:10.1162/NECO_a_00961), rate-distortion (Shannon 1959; Cover & Thomas 2006), minimal sufficient statistics (Lehmann & Scheffé 1950, doi:10.1214/aoms/1177729695), decisions and actions (Tishby & Polani 2011, doi:10.1007/978-1-4419-1452-1_19) and rational inattention (Sims 2003, doi:10.1016/S0304-3932(03)00029-1). The scope restriction is a checked receipt field, not an implication: `stochastic_encoders_optimised: false`. Every entropy is an exact rational combination of prime logarithms and **no logarithm is ever evaluated** — `H(Y)` for the AND world is reported as `2*log2(2) − 3/4*log2(3)`."
+    },
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Determine when a GMI minimal behavioral/predictive state is equivalent to, refines, or is incomparable with an IB-optimal representation.",
+      "new": "- [x] Determine when a GMI minimal behavioral/predictive state is equivalent to, refines, or is incomparable with an IB-optimal representation. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-2: the relation is classified at **every** point of a 9-point exact rational tradeoff ladder for **7** registered worlds. Two of the four relations occur — `EQUAL` **44** times and `GMI_STRICTLY_REFINES` **41** — and the other two are exactly **0** and are reported as such. The answer is a threshold, not a hedge: `T_GMI` becomes IB-optimal at `beta = 1` for six worlds and only at `beta = 6` for the exactly rational noisy channel, because a channel caps `I(T;Y)` strictly below `H(Y)` so the full predictive state has to be weighted far more heavily before it pays for its own description. Below the threshold the optimum is a **strict coarsening** of `T_GMI`."
+    },
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Prove smallest counterexamples preventing unqualified identification.",
+      "new": "- [x] Prove smallest counterexamples preventing unqualified identification. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-3: the smallest support carrying a counterexample at a **non-degenerate** tradeoff is **2**, witnessed by the registered channel `(0, 1/4)` at `beta = 1`, where `T_GMI = 01` and the IB optimum is the one-block encoder `00`; minimality holds because support size 1 is vacuous, so every strictly smaller size is exhausted by construction. Separately, the **stronger** counterexample kind — an IB optimum *incomparable* with `T_GMI` — is shown **not to exist** at this scope: **0** instances over support sizes 2, 3, 4, 5 and 6 searched exhaustively across all partitions, all deterministic targets and the whole ladder, and **0** over the registered 8-atom worlds. That negative is kept, labelled `EARNED_BY_EXHAUSTION`, and the general statement is recorded as a **conjecture**, not a theorem."
+    },
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Distinguish `retain information about Y` from `retain information required for action/control under utility U`.",
+      "new": "- [x] Distinguish `retain information about Y` from `retain information required for action/control under utility U`. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-4: within a fixed capacity class the encoder carrying strictly **more** information about `Y` — strictly smaller `H(Y|T)`, compared by the exact prime-log sign test — is strictly **worse** for control value under the registered utility in **162,242** encoder pairs, and the ordering **reverses** in **280,779**. Both directions are counted over **8** capacity classes, so the finding is that the two objectives induce genuinely different orderings rather than that one dominates; `IB_OPTIMAL_IMPLIES_CONTROL_OPTIMAL` is a registered forbidden promotion."
+    },
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Derive conditions under which forgetting task-irrelevant information is optimal under resource constraints.",
+      "new": "- [x] Derive conditions under which forgetting task-irrelevant information is optimal under resource constraints. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-5: merging two atoms costs no relevant information **iff** they carry the same conditional law `p(Y|x)`, while capacity `I(T;X)` strictly falls — so under any capacity constraint the merge is optimal. The criterion is checked against the exact conditional entropy on **every** pairwise merge with **0** mismatches, and both sides are non-vacuous: **12** free merges against **16** costly ones. The costly count is what forbids `FORGETTING_IS_ALWAYS_OPTIMAL`."
+    },
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Derive conditions under which apparently irrelevant information must be retained because of future task uncertainty, transfer, revision, causal intervention, or verifier needs.",
+      "new": "- [x] Derive conditions under which apparently irrelevant information must be retained because of future task uncertainty, transfer, revision, causal intervention, or verifier needs. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-6: all **five** named mechanisms are separately instantiated and **all five are WITNESSED**, each by a distinction provably irrelevant to the present target and necessary under that mechanism — a registered future target, a transfer target, a target revised on half the support, a confounded model whose observational and interventional contrasts differ **exactly** so an encoder that keeps the treatment and drops the confounder cannot answer the interventional query, and a verification predicate that reads a coordinate the answer does not. Silence about a mechanism is a package defect; the receipt carries a `WITNESSED` / `NOT_WITNESSED` verdict for each."
+    },
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Quantify representation-capacity vs predictive/control distortion frontiers.",
+      "new": "- [x] Quantify representation-capacity vs predictive/control distortion frontiers. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-7: over all 4140 encoders the predictive frontier (capacity against `H(Y|T)`) has **11** members at the exact points `(1, 2), (2, 1), (3, 1/2), (4, 0)` and the control frontier (capacity against `V_full − V(T)`) has **8** at `(1, 3/8), (2, 1/4), (3, 1/8), (4, 0)`; they **differ**, and exactly **5** encoders lie on both — the overlap is counted rather than assumed. The linear sweep used to build them is verified against the quadratic domination definition on a registered slice, so the speed-up is checked, not asserted."
+    },
+    {
+      "anchor": "### AE4 — Information Bottleneck / relevant-information boundary",
+      "old": "- [ ] Add held-out crossover predictions as memory/compute/precision prices change.",
+      "new": "- [x] Add held-out crossover predictions as memory/compute/precision prices change. — ✅ `gmi-833-ae-ae4-information-bottleneck-v1` IB-8: five predictions `Q1`–`Q5` were written into `FREEZE_V1.md` at commit `c05f8f4c` **before** any executor, oracle or receipt blob of this package existed, and **all five HELD** when evaluated over **every** registered world, as the frozen statements say. `Q1` monotone coarsening: **0** violations. `Q2`: **1** world shows ≥3 distinct selected encoders. `Q3`: **0** transitions fall outside the exact difference-quotient bracket, checked per transition from the two encoders that actually changed. `Q4`: **0** failures above the maximal gain. `Q5`: **2** worlds have an encoder that is IB-optimal at some ladder `beta` and selected at **no** price, so IB-optimality and price-optimality are not the same ordering. The price ladder is the one frozen and was not adjusted after a verdict was seen."
+    }
+  ],
+  "not_closed": [],
+  "note": "The orchestrator applies all issue-comment writes. This package edits no issue body and no comment."
+}
