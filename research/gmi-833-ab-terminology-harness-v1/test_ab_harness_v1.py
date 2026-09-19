@@ -6,6 +6,7 @@ before asserting that the checker flagged it.
 """
 import copy
 import json
+import re
 import os
 import random
 import sys
@@ -389,6 +390,22 @@ class TestRatchetGate(Moved):
         for t in ("the morphology-selection rule", "row `- [ ]` style is discussed",
                   "1. a numbered prose line about selection"):
             self.assertFalse(R._is_quoted_issue_row({"text": t}), t)
+
+    def test_verbatim_issue_subsection_headings_are_not_prose(self):
+        """A freeze title that names the issue's own subsection heading is a
+        quotation (the issue chose the wording); prose on the same line and a
+        planted prose sentence still fire."""
+        gate = R.load_gate()
+        pat = re.compile(gate.BANNED_TERMS_DEFAULT["bare morphology"]["pattern"], re.IGNORECASE)
+        self.assertIn("Z11 \u2014 Intelligence Morphology Benchmark", R.ISSUE_HEADINGS)
+        title = "# GMI #833 Section Z / Z11 \u2014 Intelligence Morphology Benchmark (IMB-v1) freeze"
+        self.assertEqual(R.prose_hit_count(pat, title), 0)
+        mixed = "Z11 \u2014 Intelligence Morphology Benchmark: the morphology of the benchmark"
+        self.assertEqual(R.prose_hit_count(pat, mixed), 1)
+        planted = "the morphology of the benchmark is fixed"
+        self.assertEqual(R.prose_hit_count(pat, planted), 1)
+        # no heading shorter than 12 characters can mask anything
+        self.assertTrue(all(len(h) >= 12 for h in R.ISSUE_HEADINGS))
 
     def test_package_directory_heading_is_exempt(self):
         body = ("# gmi-833-ae-morphology-sweep-v1\n\n"

@@ -181,10 +181,51 @@ def _is_identifier_token(token):
     return False
 
 
+# ISSUE SUBSECTION HEADINGS ARE QUOTATIONS.  A freeze names the subsection it
+# may reconcile by the issue's own heading ("Z11 -- Intelligence Morphology
+# Benchmark"), usually in its title line, and a committed freeze may never be
+# edited. The lane did not choose that wording; the issue did -- the same
+# criterion as the checklist-row exemption above. The headings are read from
+# the committed comment snapshots (`research/*/COMMENT_*_SNAPSHOT_V1.md`, the
+# `### ` lines), so the exemption is exactly as wide as the issue itself. Only
+# the verbatim heading text is masked; prose on the same line is still scanned.
+_SNAPSHOT_GLOB = os.path.join(REPO, "research", "*", "COMMENT_*_SNAPSHOT_V1.md")
+
+
+def issue_subsection_headings():
+    """Verbatim `### ` heading texts of every committed issue-comment snapshot."""
+    import glob
+    heads = set()
+    for path in sorted(glob.glob(_SNAPSHOT_GLOB)):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                for ln in fh:
+                    if ln.startswith("### "):
+                        text = ln[4:].strip()
+                        if len(text) >= 12:
+                            heads.add(text)
+        except (OSError, UnicodeDecodeError):
+            continue
+    return sorted(heads, key=len, reverse=True)
+
+
+ISSUE_HEADINGS = issue_subsection_headings()
+
+
+def mask_issue_headings(line):
+    out = line
+    for head in ISSUE_HEADINGS:
+        if head in out:
+            out = out.replace(head, " " * len(head))
+    return out
+
+
 def mask_non_prose(line):
-    """Blank inline code spans and identifier tokens, preserving length so the
-    parent's word-boundary patterns see the same prose they would in print."""
+    """Blank inline code spans, verbatim issue subsection headings and
+    identifier tokens, preserving length so the parent's word-boundary patterns
+    see the same prose they would in print."""
     out = _INLINE_CODE.sub(lambda m: " " * len(m.group(0)), line)
+    out = mask_issue_headings(out)
     pieces = []
     for tok in re.split(r"(\s+)", out):
         if tok and not tok.isspace() and _is_identifier_token(tok):
@@ -265,8 +306,8 @@ def classify_hits(hits, gate=None):
         dropped = len(group) - keep
         if dropped:
             # attribute: was it code or an identifier that carried the match?
-            after_code = len(pat.findall(_INLINE_CODE.sub(
-                lambda m: " " * len(m.group(0)), line)))
+            after_code = len(pat.findall(mask_issue_headings(_INLINE_CODE.sub(
+                lambda m: " " * len(m.group(0)), line))))
             code_dropped = len(group) - min(len(group), after_code)
             exempt["code_spans"] += code_dropped
             exempt["identifiers"] += dropped - code_dropped
