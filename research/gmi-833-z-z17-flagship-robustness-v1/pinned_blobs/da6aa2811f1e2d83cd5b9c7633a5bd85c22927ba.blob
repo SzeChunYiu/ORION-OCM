@@ -1,0 +1,68 @@
+{
+ "schema": "GMI_833_Z13_FAILED_PREDICTION_REGISTER_V1",
+ "issue": 833,
+ "subsection": "Z13",
+ "note": "the adjudicated verdict on Z13-P1, published whole; a miss is a result and is not repaired into a hit",
+ "pinned_path": "research/gmi-833-z-z13-property-prediction-freeze-v1/FREEZE_V1.md",
+ "pinned_blob_sha": "25febfa62cbf73f1f239f3de29436ecd043e67d9",
+ "freeze_commit": "0cc617fc71334b08a60d476993785a7fd3c04a6f",
+ "adjudicating_freeze": "research/gmi-833-z-z13-adjudication-v1/FREEZE_V1.md",
+ "entries": [
+  {
+   "id": "ZP-1",
+   "label": "[FROZEN PREDICTION, LOWER THRESHOLD]",
+   "prediction": "lambda_2* = eta * p2 * R0(delay2 | b = 1) is the lower endpoint of the niche",
+   "verdict": "CONFIRMED",
+   "evidence": "135 of 135 declared worlds, exact rational equality, both routes"
+  },
+  {
+   "id": "ZP-2",
+   "label": "[FROZEN PREDICTION, UPPER THRESHOLD]",
+   "prediction": "lambda_1* = eta * p2 * R0(delay2 | b = 1) + eta * p1 * R0(delay1 | b = 0) is the upper endpoint of the niche",
+   "verdict": "REFUTED",
+   "evidence": "27 of 135 worlds only -- exactly the p2 = 0 slice. First witness eta=1, p=(0,0,1): frozen 5/16, observed 3/16. The frozen form exceeds the observed endpoint by exactly eta*p2/8 wherever p2 > 0.",
+   "claim_ceiling_change": {
+    "retired": "lambda_1* = eta*p2*R0(delay2|b=1) + eta*p1*R0(delay1|b=0)",
+    "replacement": "lambda_1* = eta*(p1*[R0(d1|b=0) - R0(d1|b=1)] + p2*[R0(d2|b=0) - R0(d2|b=1)]) = eta*(p1/2 + 3*p2/16); a selection threshold is a MARGINAL error mass, never a level",
+    "forbidden_promotion_added": "LEVEL_VALUED_THRESHOLD_USED_ABOVE_TWO_RESOURCE_LEVELS"
+   },
+   "attributed_stage": "the prediction priced the second resource unit with the delay-2 error LEVEL at b=1 instead of the DIFFERENCE between the b=0 and b=1 levels; the two coincide only when the higher level attains zero error, which is why lambda* = eta*p*R0 is correct at two levels"
+  },
+  {
+   "id": "ZP-3",
+   "label": "[FROZEN PREDICTION, PROPERTY BUNDLE]",
+   "prediction": "P-b (next-state function is the current input) and P-c (r_now = r_delay1 = 0 with r_delay2 at the one-bit floor) hold simultaneously of the niche minimiser",
+   "verdict": "REFUTED",
+   "evidence": "the 2 next-state functions attaining r_delay1 = 0 and the 4 attaining r_delay2 = 5/16 are disjoint; under next = cur the delay-2 channel sits at 1/2. The same holds under the pre-registered shared-next-state reading, so the refutation is convention-independent.",
+   "consequence": "P-d quantifies over an empty set and is recorded VACUOUSLY_TRUE; under the adjudication freeze H-4 fails"
+  },
+  {
+   "id": "ZP-4",
+   "label": "[FROZEN PREDICTION, LOGICAL STRUCTURE]",
+   "prediction": "Z13-P1's HIT condition (H-3 and H-4 together) is satisfiable",
+   "verdict": "REFUTED",
+   "evidence": "under the registered family lift, P-b/all holds of a candidate iff that candidate is in F_IDENTITY_STATE; any witness for H-3 is therefore a named-family member and refutes P-d. Unsatisfiable by logic alone, before any enumeration."
+  },
+  {
+   "id": "ZP-5",
+   "label": "[FROZEN PREDICTION, MATCHED NEGATIVE ECOLOGY]",
+   "prediction": "at p2 = 0 the interval (lambda_2*, lambda_1*) collapses and the intermediate morphology loses its advantage everywhere",
+   "verdict": "REFUTED",
+   "evidence": "the exact niche width is eta*(p1/2 - p2/8), so p2 = 0 is where the niche is WIDEST at fixed p1: 24 of the 27 p2 = 0 worlds have a strictly non-empty niche and the 3 that collapse are exactly the p1 = 0 ones.",
+   "claim_ceiling_change": {
+    "retired": "p2 = 0 is the matched negative ecology",
+    "replacement": "the niche is empty exactly when 4*p1 <= p2, i.e. when resource level 1 leaves the lower convex envelope",
+    "forbidden_promotion_added": "REPAIRED_ECOLOGY_PRESENTED_AS_PROSPECTIVELY_CONFIRMED"
+   },
+   "not_prospectively_confirmed": true,
+   "frozen_for_a_later_lane": "research/gmi-833-z-z13-adjudication-v1/REPAIRED_ECOLOGY_FREEZE_V1.md"
+  },
+  {
+   "id": "ZP-6",
+   "label": "[NULL]",
+   "prediction": "the observed upper endpoint is not reproducible by an arbitrary two-parameter threshold law",
+   "verdict": "CONFIRMED",
+   "evidence": "200 seeded laws eta*(a*p1 + b*p2) with a,b from k/16: best 27/135, 0 reaching 135/135; the marginal law scores 135/135 and the frozen Z13-P1 law scores 27/135"
+  }
+ ]
+}
