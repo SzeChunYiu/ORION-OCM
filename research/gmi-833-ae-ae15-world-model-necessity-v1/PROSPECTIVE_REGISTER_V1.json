@@ -1,0 +1,93 @@
+{
+  "freeze_commit": "0f166240f67cce4dc7da8ab5acd1189d67ea1107",
+  "hostiles": [
+    {
+      "name": "H_MEMORY_LEAK",
+      "perturbs": "the reactive class so a policy may read one step of history"
+    },
+    {
+      "name": "H_ALIAS_BREAK",
+      "perturbs": "the observation map of K_MODEL_NEEDED so the aliasing disappears"
+    },
+    {
+      "name": "H_HORIZON",
+      "perturbs": "the horizon so the model-based optimum changes"
+    },
+    {
+      "name": "H_COST_SHIFT",
+      "perturbs": "the planning cost so the phase boundary moves"
+    },
+    {
+      "name": "H_LATENT_RELABEL",
+      "perturbs": "SCM_LATENT_B by a relabelling that should NOT be detected as a difference (an inverted hostile: the checker must stay silent)"
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae15-world-model-necessity-v1",
+  "prospective_predictions": [
+    {
+      "claim": "the five interfaces are pairwise separated on the registered roster, and the reward-swap probe is passed by EXPLICIT_GENERATIVE_MODEL alone",
+      "id": "AE15-P1"
+    },
+    {
+      "claim": "on K_REACTIVE_OPT the exact gap between the best reactive value and the model-based optimum is exactly 0",
+      "id": "AE15-P2"
+    },
+    {
+      "claim": "on K_MODEL_NEEDED the exact gap is strictly positive for every one of REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION, established by exhaustive enumeration of each finite class",
+      "id": "AE15-P3"
+    },
+    {
+      "claim": "the phase boundary c*(G) is an exact rational, is strictly increasing in G over the registered range, and the chosen class flips strictly on both sides of it",
+      "id": "AE15-P4"
+    },
+    {
+      "claim": "SCM_LATENT_A and SCM_LATENT_B have exactly equal observational and predictive joints and different latent factorizations, so the latent is not identifiable from behaviour; SCM_LATENT_ID has an exactly recoverable latent up to relabelling",
+      "id": "AE15-P5"
+    },
+    {
+      "claim": "no artifact of the package asserts LATENTS_ARE_HUMAN_INTERPRETABLE, and AE15-P5 is its machine-checked evidence",
+      "id": "AE15-P6"
+    }
+  ],
+  "registered_constants": {
+    "classes": [
+      "REACTIVE_POLICY",
+      "CACHED_SKILL",
+      "VALUE_REPRESENTATION",
+      "PREDICTIVE_STATE",
+      "EXPLICIT_GENERATIVE_MODEL"
+    ],
+    "gamma": "1/2",
+    "horizon": 3,
+    "max_actions": 3,
+    "max_obs": 3,
+    "max_states": 4,
+    "null_trials": 200,
+    "phase_family": "G in {1,2,3,4} goals; planning cost c an exact rational; boundary c*(G) is the exact c at which V_mb(G) - c equals V_mf(G)",
+    "reward_swap_probe": "the reward table is replaced by the registered alternative R_ALT and each representation is re-queried with no further interaction",
+    "tie_break": "lexicographic by registered name, ascending"
+  },
+  "roster": {
+    "K_MODEL_NEEDED": "a registered POMDP with observation aliasing in which every member of REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION is strictly suboptimal",
+    "K_REACTIVE_OPT": "a fully observed registered MDP (the observation map is the identity), where some memoryless deterministic policy attains the exact optimum",
+    "K_SWAP": "the reward-swap probe world; only EXPLICIT_GENERATIVE_MODEL can be re-optimized under R_ALT without new interaction",
+    "scm_identifiable": "SCM_LATENT_ID",
+    "scm_pair": [
+      "SCM_LATENT_A",
+      "SCM_LATENT_B"
+    ],
+    "tasks": [
+      "K_REACTIVE_OPT",
+      "K_MODEL_NEEDED",
+      "K_SWAP",
+      "K_PHASE[G]"
+    ]
+  },
+  "schema": "GMI_833_PROSPECTIVE_REGISTER_V1",
+  "section": "AE15",
+  "self_digest_note": "sha256 of json.dumps(self without self_digest_sha256 and self_digest_note, sort_keys=True, separators=(\",\",\":\")) encoded utf-8",
+  "self_digest_sha256": "34d35505ea4d0c061df9a8057b5b075cfa832eb572e1c1510af58228ddbb0c8b",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3"
+}

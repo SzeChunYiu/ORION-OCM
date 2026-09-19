@@ -1,0 +1,1860 @@
+{
+  "bounds": [
+    {
+      "attained_by": {
+        "accuracy": "15/16",
+        "object": "the constant-zero member of M_local[2]"
+      },
+      "bound_value": "15/16",
+      "kind": "upper",
+      "name": "B1_local_accuracy_when_condition_fails",
+      "range_derivation": "an accuracy is a probability, so it lies in [0,1] by definition; the lower end is raised to the base rate max_y P(Y=y) because every model class considered here contains the two constant functions, and no endpoint is taken from the roster's observed values",
+      "range_hi": "1",
+      "range_lo": "15/16",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "accuracy": "1",
+        "relaxed_class": "M_local[4] at integer cost 29",
+        "why": "the relaxed class reads every coordinate and attains 1"
+      }
+    },
+    {
+      "attained_by": {
+        "accuracy": "11/16",
+        "object": "the orbit rule that predicts 1 above the weight threshold"
+      },
+      "bound_value": "11/16",
+      "kind": "upper",
+      "name": "B2_shared_accuracy_when_condition_fails",
+      "range_derivation": "an accuracy is a probability, so it lies in [0,1] by definition; the lower end is raised to the base rate max_y P(Y=y) because every model class considered here contains the two constant functions, and no endpoint is taken from the roster's observed values",
+      "range_hi": "1",
+      "range_lo": "1/2",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "accuracy": "1",
+        "relaxed_class": "M_shared[G01_order2_orbits12] at integer cost 19",
+        "why": "a strictly smaller subgroup keeps the target inside the invariant class"
+      }
+    },
+    {
+      "attained_by": {
+        "accuracy": "7/8",
+        "object": "the best one-bit block summary pair"
+      },
+      "bound_value": "7/8",
+      "kind": "upper",
+      "name": "B3_modular_accuracy_when_condition_fails",
+      "range_derivation": "an accuracy is a probability, so it lies in [0,1] by definition; the lower end is raised to the base rate max_y P(Y=y) because every model class considered here contains the two constant functions, and no endpoint is taken from the roster's observed values",
+      "range_hi": "1",
+      "range_lo": "11/16",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "accuracy": "1",
+        "relaxed_class": "modular models with two-bit block summaries",
+        "why": "widening each block summary from one bit to two attains 1"
+      }
+    },
+    {
+      "attained_by": {
+        "kraft_sum": "1",
+        "object": "the complete fixed-length 16-bit truth-table code over all 2^16 functions"
+      },
+      "bound_value": "1",
+      "kind": "upper",
+      "name": "B4_kraft_sum_of_the_registered_code",
+      "note": "the registered code's exact Kraft sum is 1372503309540478908673/2361183241434822606848",
+      "range_derivation": "by definition the Kraft sum of a finite description set is a sum of positive powers of two, hence at least 0, and at most (number of descriptions)/2 because every codeword is at least one bit long; neither endpoint comes from the roster",
+      "range_hi": "116825",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "kraft_sum": "90031258052692244737/73786976294838206464",
+        "relaxed_class": "the same code with the term-count field removed from the monolithic branch",
+        "why": "without the self-delimiting term count the branch is no longer prefix-free and the Kraft sum exceeds 1"
+      }
+    },
+    {
+      "attained_by": {
+        "cycle_rank": "5",
+        "object": "a GF(2) coset of dimension 3"
+      },
+      "bound_value": "5",
+      "kind": "upper",
+      "name": "B5_cycle_rank_of_a_proper_coset",
+      "range_derivation": "the cycle rank of a graph is |E| - |V| + c >= 0 by definition, and the Hamming-1 graph of {0,1}^4 has n*2^(n-1) = 32 edges on 16 vertices, so any connected induced subgraph has cycle rank at most 32 - 16 + 1 = 17; both endpoints come from the definition",
+      "range_hi": "17",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "cycle_rank": "17",
+        "relaxed_class": "cosets of dimension at most 4",
+        "why": "the dimension-4 coset is the whole cube, with cycle rank 17"
+      }
+    },
+    {
+      "attained_by": {
+        "interventional_effect": "0",
+        "object": "S_LOWDIM_USELESS_COMPOSITE"
+      },
+      "bound_value": "0",
+      "kind": "upper",
+      "name": "B6_interventional_effect_of_the_dimension_1_factor",
+      "range_derivation": "the quantity is the largest absolute difference between two probabilities, hence lies in [0,1] by definition of a probability",
+      "range_hi": "1",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "interventional_effect": "1",
+        "object": "C_LOWDIM_RELEVANT",
+        "relaxed_class": "sources on the same support whose dimension-1 factor is allowed to carry the target",
+        "why": "the same maximally low-dimensional factor now moves the target by the full amount"
+      }
+    },
+    {
+      "attained_by": {
+        "mutual_information_bits": "0",
+        "object": "S_LOWDIM_USELESS_COMPOSITE"
+      },
+      "bound_value": "0",
+      "kind": "upper",
+      "name": "B7_information_of_the_dimension_1_factor",
+      "range_derivation": "mutual information is non-negative, and with a binary target it is at most H(Y) <= log2(2) = 1 bit; both endpoints come from the definition of mutual information",
+      "range_hi": "1",
+      "range_lo": "0",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "mutual_information_bits": "1",
+        "object": "C_LOWDIM_RELEVANT",
+        "relaxed_class": "sources on the same support whose dimension-1 factor is allowed to carry the target",
+        "why": "the factor then carries the whole bit of the target"
+      }
+    },
+    {
+      "attained_by": {
+        "accuracy": "7/8",
+        "object": "the best single-term monolithic description"
+      },
+      "bound_value": "7/8",
+      "kind": "upper",
+      "name": "B8_monolithic_comparator_at_the_locality_budget",
+      "range_derivation": "an accuracy is a probability, so it lies in [0,1] by definition; the lower end is raised to the base rate max_y P(Y=y) because every model class considered here contains the two constant functions, and no endpoint is taken from the roster's observed values",
+      "range_hi": "1",
+      "range_lo": "1/2",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "accuracy": "1",
+        "relaxed_class": "M_monolithic at the relaxed budget 15",
+        "why": "one more term buys the exact two-term description"
+      }
+    },
+    {
+      "attained_by": {
+        "accuracy": "13/16",
+        "object": "the best single-term monolithic description"
+      },
+      "bound_value": "13/16",
+      "kind": "upper",
+      "name": "B9_monolithic_comparator_at_the_symmetry_budget",
+      "range_derivation": "an accuracy is a probability, so it lies in [0,1] by definition; the lower end is raised to the base rate max_y P(Y=y) because every model class considered here contains the two constant functions, and no endpoint is taken from the roster's observed values",
+      "range_hi": "1",
+      "range_lo": "11/16",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "accuracy": "1",
+        "relaxed_class": "M_monolithic at the relaxed budget 27",
+        "why": "the exact description of the weight threshold needs five terms and then attains 1"
+      }
+    },
+    {
+      "attained_by": {
+        "accuracy": "5/8",
+        "object": "the best single-term monolithic description"
+      },
+      "bound_value": "5/8",
+      "kind": "upper",
+      "name": "B10_monolithic_comparator_at_the_modular_budget",
+      "range_derivation": "an accuracy is a probability, so it lies in [0,1] by definition; the lower end is raised to the base rate max_y P(Y=y) because every model class considered here contains the two constant functions, and no endpoint is taken from the roster's observed values",
+      "range_hi": "1",
+      "range_lo": "5/8",
+      "status": "FALSIFIABLE",
+      "vacuous": false,
+      "violated_by": {
+        "accuracy": "1",
+        "relaxed_class": "M_monolithic at the relaxed budget 23",
+        "why": "the exact four-term description attains 1"
+      }
+    }
+  ],
+  "checks": {
+    "compositionality_derivation_holds": true,
+    "every_bound_has_a_violated_by_witness": true,
+    "every_hostile_is_detected": true,
+    "every_hostile_is_potent": true,
+    "every_ordered_class_pair_is_resolved": true,
+    "every_prospective_prediction_is_reported": true,
+    "locality_derivation_holds": true,
+    "monolithic_comparator_is_contained_in_the_modular_class": true,
+    "no_bound_is_vacuous": true,
+    "no_support_is_algorithmic_and_outside_the_union_class": true,
+    "null_firing_trials_are_genuine_instances": true,
+    "null_no_alarm_on_clean_witnesses": true,
+    "null_planted_positive_fires": true,
+    "null_witness_attains_the_definitional_maximum": true,
+    "refuted_predictions_are_reported_not_edited": true,
+    "register_digest_reproduced": true,
+    "registered_code_is_kraft_compliant": true,
+    "relaxed_code_violates_kraft": true,
+    "roster_matches_the_registered_source_list": true,
+    "row2_witness_is_learned_exactly": true,
+    "row2_witness_is_not_a_manifold": true,
+    "row3_composite_factor_is_causally_useless": true,
+    "row3_composite_factor_is_dimension_1": true,
+    "row3_composite_factor_is_statistically_useless": true,
+    "row3_full_dimension_factor_determines_the_target": true,
+    "row3_information_identity_verified_exhaustively": true,
+    "row3_literal_conjunction_is_impossible": true,
+    "row3_literal_gloss_is_satisfied": true,
+    "sparse_compositional_is_contained_in_low_dimension": true,
+    "strictness_table_is_complete": true,
+    "symmetry_cost_reduction_equals_orbit_reduction": true,
+    "symmetry_derivation_holds": true,
+    "union_predicate_census_is_exhaustive": true
+  },
+  "claim_ceiling": "GMI_833_AE6_GEOMETRIC_STRUCTURE_HIERARCHY_SEPARATED_AND_MORPHOLOGY_CONDITIONS_DERIVED_ON_REGISTERED_FINITE_ROSTER",
+  "forbidden_promotions": [
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "ALL_LEARNING_IS_COMPRESSION",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "WORLD_MODEL_ALWAYS_REQUIRED",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "COMPLETE_GMI",
+    "ARCHITECTURE_SELECTION_LAW",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "LOW_DIMENSION_IMPLIES_LEARNABILITY",
+    "GEOMETRIC_STRUCTURE_IMPLIES_TASK_RELEVANCE",
+    "SYMMETRY_ALWAYS_JUSTIFIES_PARAMETER_SHARING"
+  ],
+  "freeze_commit": "3c2edcdec42c30f3101b1d294d1144875a25ce91",
+  "hostiles": [
+    {
+      "detected": true,
+      "detector": "route B recomputes the affine dimension by brute-force affine closure and the cross-route comparison fails",
+      "inverted": false,
+      "name": "H_DIM_INFLATE",
+      "object": "S_ALGORITHMIC",
+      "perturbed_value": 2,
+      "perturbs": "the GF(2) rank computation so a full-dimension support is scored as low-dimensional",
+      "potency": true,
+      "true_value": 4
+    },
+    {
+      "detected": true,
+      "detector": "route B checks support invariance and exact mass invariance separately over all 24 permutations",
+      "inverted": false,
+      "name": "H_ORBIT_MERGE",
+      "object": "S_CYCLE",
+      "perturbed_invariance_subgroup_count": 5,
+      "perturbed_value": true,
+      "perturbs": "the orbit partition so a non-invariant source is scored as invariant, by dropping the requirement that the exact masses be invariant too",
+      "potency": true,
+      "true_invariance_subgroup_count": 0,
+      "true_value": false
+    },
+    {
+      "detected": true,
+      "detector": "the checker compares the block decomposition it used against the registered blocks and refuses a mismatch",
+      "inverted": false,
+      "leaked_blocks": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "name": "H_BLOCK_LEAK",
+      "object": "D_BLOCKLEAK",
+      "perturbed_value": "1",
+      "perturbs": "the block decomposition so a non-factorizing target is scored as factorizing",
+      "potency": true,
+      "registered_blocks": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "true_value": "3/4"
+    },
+    {
+      "detected": true,
+      "detector": "the checker asserts the comparator budget equals the registered integer cost of the named class",
+      "inflated_budget": 23,
+      "inverted": false,
+      "name": "H_BUDGET_INFLATE",
+      "object": "D_COMP_POS",
+      "perturbed_value": "1",
+      "perturbs": "the monolithic budget upward so the compositional advantage disappears",
+      "potency": true,
+      "true_budget": 14,
+      "true_value": "5/8"
+    },
+    {
+      "detected": true,
+      "detector": "route B rebuilds the edge list and the component count from scratch and compares the cycle rank",
+      "inverted": false,
+      "moved_support": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "name": "H_CYCLE_RANK",
+      "object": "S_CYCLE",
+      "perturbed_value": 2,
+      "perturbs": "one support point so the Hamming-1 graph cycle rank changes",
+      "potency": true,
+      "true_value": 1
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "null": {
+    "detector": "the support is an exact block product with a dimension-1 factor on block 1 and a full-dimension factor on block 2, the measure is a product measure, the exact mutual information between the dimension-1 factor and the target is 0 bits, the exact interventional effect of that factor on the target is 0, and some coordinate of block 2 determines the target exactly",
+    "finding": "the detector fires on 3 of 200 randomized tasks over random block geometry; every firing trial is a genuine instance of the same phenomenon and is listed individually with its exact values, so the rate is a reproducibility rate and not a false alarm rate",
+    "firing_trials_are_genuine_instances": true,
+    "largest_null_magnitude": "1/2",
+    "lcg": {
+      "increment": 12345,
+      "modulus": 2147483648,
+      "multiplier": 1103515245,
+      "seed": 20260919
+    },
+    "magnitude_definition": "best accuracy reading block 2 only minus best accuracy reading block 1 only",
+    "magnitude_definitional_maximum": "1/2",
+    "no_alarm_case_holds": true,
+    "no_alarm_cases": [
+      {
+        "detector_fires": false,
+        "magnitude": "0",
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "detector_fires": false,
+        "magnitude": "-1/2",
+        "witness": "C_LOWDIM_RELEVANT"
+      },
+      {
+        "detector_fires": false,
+        "magnitude": "-1/2",
+        "witness": "S_SUBSPACE"
+      }
+    ],
+    "planted_positive": "S_LOWDIM_USELESS_COMPOSITE",
+    "planted_positive_flagged": true,
+    "planted_positive_magnitude": "1/2",
+    "primary_comparison": "the exact firing rate of the full conjunction over the registered 200 trials. The magnitude is bounded above by 1 - base rate <= 1/2 by definition, and the planted witness attains that definitional maximum, so a strictly-exceeds comparison on the magnitude is structurally impossible and is reported only for completeness",
+    "random_worlds_flagged": 3,
+    "random_worlds_flagged_detail": [
+      {
+        "best_accuracy_reading_block1_only": "13/16",
+        "best_accuracy_reading_block2_only": "1",
+        "genuine_instance": true,
+        "interventional_effect_block1": "0",
+        "magnitude": "3/16",
+        "mutual_information_block1_bits": "0",
+        "support": [
+          0,
+          1,
+          8,
+          9,
+          12,
+          13
+        ],
+        "trial": 89
+      },
+      {
+        "best_accuracy_reading_block1_only": "5/8",
+        "best_accuracy_reading_block2_only": "1",
+        "genuine_instance": true,
+        "interventional_effect_block1": "0",
+        "magnitude": "3/8",
+        "mutual_information_block1_bits": "0",
+        "support": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14
+        ],
+        "trial": 188
+      },
+      {
+        "best_accuracy_reading_block1_only": "3/4",
+        "best_accuracy_reading_block2_only": "1",
+        "genuine_instance": true,
+        "interventional_effect_block1": "0",
+        "magnitude": "1/4",
+        "mutual_information_block1_bits": "0",
+        "support": [
+          0,
+          1,
+          4,
+          5,
+          8,
+          9
+        ],
+        "trial": 193
+      }
+    ],
+    "sampler": "block supports drawn uniformly from the 15 non-empty subsets of each block's value set, product masses drawn as positive integers summing to 16 per block, target drawn uniformly over all assignments on the support",
+    "sampler_is_an_implementation_constant_outside_the_register": true,
+    "trials": 200,
+    "witness_attains_definitional_maximum": true,
+    "witness_exceeds_largest_null_magnitude": false
+  },
+  "package": "gmi-833-ae-ae6-geometric-structure-v1",
+  "prospective_predictions": [
+    {
+      "claim": "the six structure classes form a strictness table in which each ordered pair is either witnessed by a registered source in the first and not the second, or explicitly reported as not separated on the roster",
+      "explicitly_not_separated": 7,
+      "id": "AE6-P1",
+      "ordered_pairs": 30,
+      "separated_with_witness": 23,
+      "verdict": "CONFIRMED"
+    },
+    {
+      "accuracy_of_the_registered_rule_class": "1",
+      "claim": "S_NONMANIFOLD_LEARNABLE violates the smooth-manifold assumption at the registered scope and is learned to exact accuracy 1 by a member of the registered rule class",
+      "degree_sequence": [
+        1,
+        2,
+        2,
+        2,
+        3
+      ],
+      "id": "AE6-P2",
+      "maximal_coset_dimensions": [
+        1,
+        2
+      ],
+      "rule_class": "M_local[2]",
+      "verdict": "CONFIRMED"
+    },
+    {
+      "claim": "S_LOWDIM_USELESS has GF(2) intrinsic dimension 1, exact mutual information 0 bits with Y and exact interventional effect 0, while a full-dimension coordinate carries Y exactly",
+      "conjuncts": {
+        "a_full_dimension_coordinate_determines_the_target": false,
+        "affine_dimension_is_1": true,
+        "interventional_effect_is_0": true,
+        "mutual_information_is_0_bits": true
+      },
+      "exact_values": {
+        "affine_dimension": 1,
+        "coordinates_determining_the_target": [],
+        "interventional_effect": "0",
+        "mutual_information_bits": "0"
+      },
+      "id": "AE6-P3",
+      "refuted_conjunct": "a_full_dimension_coordinate_determines_the_target",
+      "repaired_witness": {
+        "accuracy_of_the_dimension_1_factor": "1/2",
+        "accuracy_of_the_full_dimension_factor": "1",
+        "factor_dimension": 1,
+        "interventional_effect": "0",
+        "mutual_information_bits": "0",
+        "name": "S_LOWDIM_USELESS_COMPOSITE"
+      },
+      "verdict": "REFUTED",
+      "why": "the conjunction is unsatisfiable on any support: a deterministic target with exact zero mutual information is constant, and a constant target is not determined by any coordinate in the sense of equalling it or its complement while that coordinate varies. The repaired composite witness S_LOWDIM_USELESS_COMPOSITE realizes every conjunct with the dimension-1 object taken as the exact GF(2) factor of the support rather than the whole support, and it is what closes the row."
+    },
+    {
+      "accuracy_drops": {
+        "compositionality": "1/8",
+        "locality": "1/16",
+        "symmetry": "5/16"
+      },
+      "claim": "each of the three derivations holds with an exact rational condition AND has a registered matched failure counterexample in which the condition fails and the named architecture class is strictly worse; a derivation whose condition never fails on the roster is reported as UNFALSIFIED_CONDITION and does not close its row",
+      "id": "AE6-P4",
+      "statuses": {
+        "compositionality": "DERIVED",
+        "locality": "DERIVED",
+        "symmetry": "DERIVED"
+      },
+      "verdict": "CONFIRMED"
+    },
+    {
+      "bounds_emitted": 10,
+      "claim": "every threshold emitted carries a bound record with range_lo and range_hi derived from the definition of the bounded quantity, a vacuous flag, an attained_by witness and a violated_by witness from an explicitly relaxed class",
+      "id": "AE6-P5",
+      "unfalsified_bounds": [],
+      "vacuous_bounds": [],
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "register_commit": "ca674c10e9c0c79e0df46de61d9170cc06435135",
+  "register_digest": "20e6cc7bc0fd1ad5b5d861e1a907e3b991a785a474304cfc5e43126c672ac23b",
+  "results": {
+    "derivation_compositionality": {
+      "comparator": "M_monolithic at the same integer budget",
+      "comparator_max_terms": 1,
+      "condition": "the target factorizes through the registered blocks as g(h1(B1), h2(B2)) with one-bit block summaries",
+      "condition_falsified_on_roster": true,
+      "integer_cost": 14,
+      "matched_failure": {
+        "accuracy_drop": "1/8",
+        "class_profile_at_budget": {
+          "M_local[0]": {
+            "accuracy": "11/16",
+            "coordinates": [],
+            "cost": 6
+          },
+          "M_local[1]": {
+            "accuracy": "11/16",
+            "coordinates": [
+              0
+            ],
+            "cost": 9
+          },
+          "M_local[2]": {
+            "accuracy": "13/16",
+            "coordinates": [
+              0,
+              1
+            ],
+            "cost": 13
+          },
+          "M_modular": {
+            "accuracy": "7/8",
+            "cost": 14,
+            "table_mask": 34944
+          },
+          "M_monolithic": {
+            "accuracy": "13/16",
+            "budget": 14,
+            "max_terms": 1,
+            "table_mask": 32896
+          },
+          "M_shared[SymN]": {
+            "accuracy": "1",
+            "cost": 12,
+            "orbit_count": 5
+          },
+          "M_shared[best_in_budget]": {
+            "accuracy": "1",
+            "cost": 14,
+            "group": "G17_order4_orbits7",
+            "orbit_count": 7
+          }
+        },
+        "condition_holds": false,
+        "failure_comparator": "M_shared[SymN]",
+        "failure_comparator_accuracy": "1",
+        "failure_comparator_cost": 12,
+        "monolithic_comparator_accuracy": "13/16",
+        "monolithic_comparator_can_expose_the_failure": false,
+        "named_class_accuracy": "7/8",
+        "named_class_strictly_worse": true,
+        "world": "D_COMP_NEG"
+      },
+      "monolithic_comparator_containment": {
+        "all_contained_in_M_modular": true,
+        "containment_is_sharp_at_one_more_term": true,
+        "distinct_modular_functions": 520,
+        "modular_budget": 14,
+        "monolithic_functions_at_that_budget": 17,
+        "monolithic_max_terms_at_that_budget": 1,
+        "reason": "a monolithic description of at most one term is a conjunction of literals, and a conjunction factorizes across the registered blocks"
+      },
+      "named_class": "M_modular",
+      "positive": {
+        "advantage": "3/8",
+        "best_shared_SymN_accuracy": "3/4",
+        "class_profile_at_budget": {
+          "M_local[0]": {
+            "accuracy": "5/8",
+            "coordinates": [],
+            "cost": 6
+          },
+          "M_local[1]": {
+            "accuracy": "5/8",
+            "coordinates": [
+              0
+            ],
+            "cost": 9
+          },
+          "M_local[2]": {
+            "accuracy": "3/4",
+            "coordinates": [
+              0,
+              1
+            ],
+            "cost": 13
+          },
+          "M_modular": {
+            "accuracy": "1",
+            "cost": 14,
+            "table_mask": 30584
+          },
+          "M_monolithic": {
+            "accuracy": "5/8",
+            "budget": 14,
+            "max_terms": 1,
+            "table_mask": 61680
+          },
+          "M_shared[SymN]": {
+            "accuracy": "3/4",
+            "cost": 12,
+            "orbit_count": 5
+          },
+          "M_shared[best_in_budget]": {
+            "accuracy": "3/4",
+            "cost": 14,
+            "group": "G17_order4_orbits7",
+            "orbit_count": 7
+          }
+        },
+        "comparator_accuracy": "5/8",
+        "comparator_table_mask": 61680,
+        "condition_holds": true,
+        "named_class_accuracy": "1",
+        "named_class_table_mask": 30584,
+        "world": "D_COMP_POS"
+      },
+      "status": "DERIVED"
+    },
+    "derivation_locality": {
+      "comparator": "M_monolithic at the same integer budget",
+      "comparator_max_terms": 1,
+      "condition": "some 2-subset of coordinates determines the target exactly on the support",
+      "condition_falsified_on_roster": true,
+      "integer_cost": 13,
+      "matched_failure": {
+        "accuracy_drop": "1/16",
+        "class_profile_at_budget": {
+          "M_local[0]": {
+            "accuracy": "15/16",
+            "coordinates": [],
+            "cost": 6
+          },
+          "M_local[1]": {
+            "accuracy": "15/16",
+            "coordinates": [
+              0
+            ],
+            "cost": 9
+          },
+          "M_local[2]": {
+            "accuracy": "15/16",
+            "coordinates": [
+              0,
+              1
+            ],
+            "cost": 13
+          },
+          "M_monolithic": {
+            "accuracy": "1",
+            "budget": 13,
+            "max_terms": 1,
+            "table_mask": 32768
+          },
+          "M_shared[SymN]": {
+            "accuracy": "1",
+            "cost": 12,
+            "orbit_count": 5
+          },
+          "M_shared[best_in_budget]": {
+            "accuracy": "1",
+            "cost": 13,
+            "group": "G18_order4_orbits6",
+            "orbit_count": 6
+          }
+        },
+        "comparator_accuracy": "1",
+        "comparator_table_mask": 32768,
+        "condition_holds": false,
+        "named_class_accuracy": "15/16",
+        "named_class_strictly_worse": true,
+        "world": "D_LOCAL_NEG"
+      },
+      "named_class": "M_local[2]",
+      "positive": {
+        "advantage": "1/8",
+        "class_profile_at_budget": {
+          "M_local[0]": {
+            "accuracy": "1/2",
+            "coordinates": [],
+            "cost": 6
+          },
+          "M_local[1]": {
+            "accuracy": "7/8",
+            "coordinates": [
+              0
+            ],
+            "cost": 9
+          },
+          "M_local[2]": {
+            "accuracy": "1",
+            "coordinates": [
+              0,
+              2
+            ],
+            "cost": 13
+          },
+          "M_monolithic": {
+            "accuracy": "7/8",
+            "budget": 13,
+            "max_terms": 1,
+            "table_mask": 43690
+          },
+          "M_shared[SymN]": {
+            "accuracy": "3/4",
+            "cost": 12,
+            "orbit_count": 5
+          },
+          "M_shared[best_in_budget]": {
+            "accuracy": "3/4",
+            "cost": 13,
+            "group": "G18_order4_orbits6",
+            "orbit_count": 6
+          }
+        },
+        "comparator_accuracy": "7/8",
+        "comparator_table_mask": 43690,
+        "condition_holds": true,
+        "named_class_accuracy": "1",
+        "named_class_coordinates": [
+          0,
+          2
+        ],
+        "world": "S_NONMANIFOLD_LEARNABLE"
+      },
+      "status": "DERIVED"
+    },
+    "derivation_symmetry": {
+      "comparator": "M_monolithic at the same integer budget",
+      "comparator_max_terms": 1,
+      "condition": "the source measure and the target are invariant under the registered subgroup",
+      "condition_falsified_on_roster": true,
+      "cost_reduction_bits": 11,
+      "cost_reduction_equals_orbit_reduction": true,
+      "group": "G29_order24_orbits5",
+      "group_order": 24,
+      "integer_cost": 12,
+      "matched_failure": {
+        "accuracy_drop": "5/16",
+        "class_profile_at_budget": {
+          "M_local[0]": {
+            "accuracy": "1/2",
+            "coordinates": [],
+            "cost": 6
+          },
+          "M_local[1]": {
+            "accuracy": "1",
+            "coordinates": [
+              0
+            ],
+            "cost": 9
+          },
+          "M_monolithic": {
+            "accuracy": "1",
+            "budget": 12,
+            "max_terms": 1,
+            "table_mask": 43690
+          },
+          "M_shared[SymN]": {
+            "accuracy": "11/16",
+            "cost": 12,
+            "orbit_count": 5
+          },
+          "M_shared[best_in_budget]": {
+            "accuracy": "11/16",
+            "cost": 12,
+            "group": "G28_order12_orbits5",
+            "orbit_count": 5
+          }
+        },
+        "comparator_accuracy": "1",
+        "comparator_table_mask": 43690,
+        "condition_detail": "target not invariant",
+        "condition_holds": false,
+        "named_class_accuracy": "11/16",
+        "named_class_strictly_worse": true,
+        "world": "D_SYM_NEG"
+      },
+      "named_class": "M_shared[SymN]",
+      "orbit_count": 5,
+      "orbit_count_reduction": 11,
+      "positive": {
+        "advantage": "3/16",
+        "best_local_within_budget": "11/16",
+        "class_profile_at_budget": {
+          "M_local[0]": {
+            "accuracy": "11/16",
+            "coordinates": [],
+            "cost": 6
+          },
+          "M_local[1]": {
+            "accuracy": "11/16",
+            "coordinates": [
+              0
+            ],
+            "cost": 9
+          },
+          "M_monolithic": {
+            "accuracy": "13/16",
+            "budget": 12,
+            "max_terms": 1,
+            "table_mask": 32896
+          },
+          "M_shared[SymN]": {
+            "accuracy": "1",
+            "cost": 12,
+            "orbit_count": 5
+          },
+          "M_shared[best_in_budget]": {
+            "accuracy": "1",
+            "cost": 12,
+            "group": "G28_order12_orbits5",
+            "orbit_count": 5
+          }
+        },
+        "comparator_accuracy": "13/16",
+        "comparator_table_mask": 32896,
+        "condition_detail": "source and target invariant",
+        "condition_holds": true,
+        "named_class_accuracy": "1",
+        "unshared_class_accuracy": "1",
+        "world": "D_SYM_POS"
+      },
+      "status": "DERIVED",
+      "unshared_class": "G00_order1_orbits16",
+      "unshared_cost": 23
+    },
+    "description_code": {
+      "costs": {
+        "M_local": {
+          "k=0": 6,
+          "k=1": 9,
+          "k=2": 13,
+          "k=3": 19,
+          "k=4": 29
+        },
+        "M_modular": 14,
+        "M_monolithic": {
+          "t=0": 7,
+          "t=1": 11,
+          "t=2": 15,
+          "t=3": 19,
+          "t=4": 23,
+          "t=5": 27
+        },
+        "M_shared[SymN]": 12,
+        "M_shared[trivial]": 23
+      },
+      "kraft_sum": "1372503309540478908673/2361183241434822606848",
+      "kraft_sum_is_at_most_1": true,
+      "registered_description_count": 233650,
+      "relaxed_code_kraft_sum": "90031258052692244737/73786976294838206464",
+      "relaxed_code_violates_kraft": true,
+      "tag_bits": 2
+    },
+    "registered_scope": {
+      "algorithmic_circuit": {
+        "accepting_set": [
+          2,
+          3,
+          4,
+          7,
+          10,
+          11,
+          12,
+          15
+        ],
+        "choice_rule": "lexicographically first tuple in {0..3}^5 whose accepting set satisfies the class predicate with a disconnected Hamming-1 graph",
+        "chosen_tuple": [
+          0,
+          0,
+          1,
+          0,
+          2
+        ],
+        "family": "(x_i AND x_j) XOR x_k XOR (x_l OR x_m)"
+      },
+      "ambient": "X = {0,1}^4 with Hamming distance",
+      "auxiliary_witnesses": [
+        "S_LOWDIM_USELESS_COMPOSITE",
+        "C_LOWDIM_RELEVANT"
+      ],
+      "block_support_cap": 2,
+      "blocks": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "coset_count": 307,
+      "derivation_worlds": [
+        "D_BLOCKLEAK",
+        "D_COMP_NEG",
+        "D_COMP_POS",
+        "D_LOCAL_NEG",
+        "D_LOCAL_POS",
+        "D_SYM_NEG",
+        "D_SYM_POS"
+      ],
+      "derivation_worlds_note": "derivation worlds are distinct from the registered structure roster; the register's derivations block describes them abstractly and they are not roster additions",
+      "dimension_range": [
+        0,
+        4
+      ],
+      "geometric_cycle_rank_derivation": "a GF(2) coset of dimension d induces a d-cube, with d*2^(d-1) edges on 2^d vertices and cycle rank d*2^(d-1) - 2^d + 1",
+      "geometric_cycle_ranks": [
+        0,
+        1,
+        5,
+        17
+      ],
+      "n": 4,
+      "structure_roster": [
+        "S_ALGORITHMIC",
+        "S_BLOCKPROD",
+        "S_CYCLE",
+        "S_LOWDIM_USELESS",
+        "S_NONMANIFOLD_LEARNABLE",
+        "S_ORBIT",
+        "S_STRATIFIED",
+        "S_SUBSPACE"
+      ],
+      "subgroup_lattice_size": 30,
+      "union_rank_cap": 3
+    },
+    "row2_nonmanifold_learnable": {
+      "affine_dimension": 3,
+      "graph": {
+        "components": 1,
+        "connected": true,
+        "cycle_rank": 1,
+        "degree_sequence": [
+          1,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": 5
+      },
+      "learned_exactly": {
+        "accuracy": "1",
+        "class": "M_local[2]",
+        "coordinates": [
+          0,
+          2
+        ],
+        "cost_bits": 13
+      },
+      "name": "S_NONMANIFOLD_LEARNABLE",
+      "non_manifold_certificates": {
+        "degree_sequence": [
+          1,
+          2,
+          2,
+          2,
+          3
+        ],
+        "degree_sequence_is_constant": false,
+        "maximal_coset_dimensions": [
+          1,
+          2
+        ],
+        "maximal_coset_dimensions_are_heterogeneous": true,
+        "pieces_have_distinct_dimensions": true,
+        "pieces_intersect": true
+      },
+      "registered_pieces": {
+        "coset_A": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "coset_B": [
+          0,
+          4
+        ],
+        "dimensions": [
+          1,
+          2
+        ],
+        "intersection": [
+          0
+        ]
+      },
+      "support": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "union_witness": {
+        "k": 2,
+        "pieces": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            1,
+            2,
+            3
+          ]
+        ],
+        "r": 2
+      }
+    },
+    "row3_low_dimension_is_useless": {
+      "composite_witness": {
+        "affine_dimension": 3,
+        "best_accuracy_reading_block1_only": "1/2",
+        "best_accuracy_reading_block2_only": "1",
+        "block1_factor_dimension": 1,
+        "block1_factor_values": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "block2_factor_dimension": 2,
+        "block2_factor_values": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "block2_is_full_dimension_in_its_block": true,
+        "coordinates_of_block2_determining_the_target": [
+          2
+        ],
+        "interventional_effect_block1": "0",
+        "interventional_effect_of_coordinate_2": "1",
+        "mutual_information_block1_bits": "0",
+        "mutual_information_exact": true,
+        "name": "S_LOWDIM_USELESS_COMPOSITE",
+        "product_measure": true,
+        "support": [
+          0,
+          3,
+          4,
+          7,
+          8,
+          11,
+          12,
+          15
+        ]
+      },
+      "impossibility": {
+        "dimension_1_exhaustive": {
+          "cases_checked": 480,
+          "cases_satisfying_the_full_conjunction": 0,
+          "supports_of_dimension_1": 120
+        },
+        "two_independent_obstructions": [
+          "a deterministic target with exact zero mutual information is constant on the support, so no coordinate can equal it or its complement while varying on the support",
+          "affine dimension 1 forces a support of exactly 2 points, on which any coordinate that takes both values determines the target and hence carries strictly positive information"
+        ],
+        "zero_information_forces_constant_target": {
+          "cases_checked": 34112,
+          "statement": "for a deterministic target, exact zero mutual information with the input is equivalent to the target being constant on the support",
+          "violations": 0
+        }
+      },
+      "literal_witness": {
+        "affine_dimension": 1,
+        "coordinates_determining_the_target": [],
+        "interventional_effect": "0",
+        "mutual_information_bits": "0",
+        "name": "S_LOWDIM_USELESS",
+        "register_gloss_satisfied": true,
+        "support": [
+          0,
+          3
+        ],
+        "target_is_constant_on_support": true
+      },
+      "relaxed_companion": {
+        "interventional_effect_block1": "1",
+        "mutual_information_block1_bits": "1",
+        "name": "C_LOWDIM_RELEVANT"
+      }
+    },
+    "sparse_containment_certificate": {
+      "maximum_affine_dimension": 2,
+      "supports_checked": 100,
+      "supports_with_trivial_stabilizer": 0
+    },
+    "strictness_summary": {
+      "not_separated": 7,
+      "ordered_pairs": 30,
+      "separated_with_witness": 23
+    },
+    "strictness_table": [
+      {
+        "in_class": "LOW_INTRINSIC_DIMENSION",
+        "not_in_class": "UNION_OR_STRATIFICATION",
+        "reason": "census: the frozen union predicate holds for all but 16 supports",
+        "separated": false,
+        "witness": null
+      },
+      {
+        "in_class": "LOW_INTRINSIC_DIMENSION",
+        "not_in_class": "SPARSE_COMPOSITIONAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_CYCLE"
+      },
+      {
+        "in_class": "LOW_INTRINSIC_DIMENSION",
+        "not_in_class": "SYMMETRY_ORBIT",
+        "reason": null,
+        "separated": true,
+        "witness": "S_CYCLE"
+      },
+      {
+        "in_class": "LOW_INTRINSIC_DIMENSION",
+        "not_in_class": "GRAPH_TOPOLOGICAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "in_class": "LOW_INTRINSIC_DIMENSION",
+        "not_in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "reason": null,
+        "separated": true,
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "in_class": "UNION_OR_STRATIFICATION",
+        "not_in_class": "LOW_INTRINSIC_DIMENSION",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      },
+      {
+        "in_class": "UNION_OR_STRATIFICATION",
+        "not_in_class": "SPARSE_COMPOSITIONAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      },
+      {
+        "in_class": "UNION_OR_STRATIFICATION",
+        "not_in_class": "SYMMETRY_ORBIT",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      },
+      {
+        "in_class": "UNION_OR_STRATIFICATION",
+        "not_in_class": "GRAPH_TOPOLOGICAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      },
+      {
+        "in_class": "UNION_OR_STRATIFICATION",
+        "not_in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "reason": null,
+        "separated": true,
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "in_class": "SPARSE_COMPOSITIONAL",
+        "not_in_class": "LOW_INTRINSIC_DIMENSION",
+        "reason": "proved containment: a block product with at most 2 values per block has affine dimension at most 2 < 4",
+        "separated": false,
+        "witness": null
+      },
+      {
+        "in_class": "SPARSE_COMPOSITIONAL",
+        "not_in_class": "UNION_OR_STRATIFICATION",
+        "reason": "census: the frozen union predicate holds for all but 16 supports",
+        "separated": false,
+        "witness": null
+      },
+      {
+        "in_class": "SPARSE_COMPOSITIONAL",
+        "not_in_class": "SYMMETRY_ORBIT",
+        "reason": "roster gap: every SPARSE_COMPOSITIONAL support at n=4 has a nontrivial coordinate-permutation stabilizer, and both registered members carry stabilizer-invariant masses",
+        "separated": false,
+        "witness": null
+      },
+      {
+        "in_class": "SPARSE_COMPOSITIONAL",
+        "not_in_class": "GRAPH_TOPOLOGICAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "in_class": "SPARSE_COMPOSITIONAL",
+        "not_in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "reason": null,
+        "separated": true,
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "in_class": "SYMMETRY_ORBIT",
+        "not_in_class": "LOW_INTRINSIC_DIMENSION",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ORBIT"
+      },
+      {
+        "in_class": "SYMMETRY_ORBIT",
+        "not_in_class": "UNION_OR_STRATIFICATION",
+        "reason": "census: the frozen union predicate holds for all but 16 supports",
+        "separated": false,
+        "witness": null
+      },
+      {
+        "in_class": "SYMMETRY_ORBIT",
+        "not_in_class": "SPARSE_COMPOSITIONAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_NONMANIFOLD_LEARNABLE"
+      },
+      {
+        "in_class": "SYMMETRY_ORBIT",
+        "not_in_class": "GRAPH_TOPOLOGICAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "in_class": "SYMMETRY_ORBIT",
+        "not_in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "reason": null,
+        "separated": true,
+        "witness": "S_BLOCKPROD"
+      },
+      {
+        "in_class": "GRAPH_TOPOLOGICAL",
+        "not_in_class": "LOW_INTRINSIC_DIMENSION",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ORBIT"
+      },
+      {
+        "in_class": "GRAPH_TOPOLOGICAL",
+        "not_in_class": "UNION_OR_STRATIFICATION",
+        "reason": "census: the frozen union predicate holds for all but 16 supports",
+        "separated": false,
+        "witness": null
+      },
+      {
+        "in_class": "GRAPH_TOPOLOGICAL",
+        "not_in_class": "SPARSE_COMPOSITIONAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_CYCLE"
+      },
+      {
+        "in_class": "GRAPH_TOPOLOGICAL",
+        "not_in_class": "SYMMETRY_ORBIT",
+        "reason": null,
+        "separated": true,
+        "witness": "S_CYCLE"
+      },
+      {
+        "in_class": "GRAPH_TOPOLOGICAL",
+        "not_in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "reason": null,
+        "separated": true,
+        "witness": "S_CYCLE"
+      },
+      {
+        "in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "not_in_class": "LOW_INTRINSIC_DIMENSION",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      },
+      {
+        "in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "not_in_class": "UNION_OR_STRATIFICATION",
+        "reason": "proved impossible: each of the 16 non-members has a nontrivial stabilizer, which NON_GEOMETRIC_ALGORITHMIC forbids",
+        "separated": false,
+        "witness": null
+      },
+      {
+        "in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "not_in_class": "SPARSE_COMPOSITIONAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      },
+      {
+        "in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "not_in_class": "SYMMETRY_ORBIT",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      },
+      {
+        "in_class": "NON_GEOMETRIC_ALGORITHMIC",
+        "not_in_class": "GRAPH_TOPOLOGICAL",
+        "reason": null,
+        "separated": true,
+        "witness": "S_ALGORITHMIC"
+      }
+    ],
+    "structure_classes": {
+      "S_ALGORITHMIC": {
+        "affine_dimension": 4,
+        "block_support_sizes": [
+          3,
+          4
+        ],
+        "graph": {
+          "components": 2,
+          "connected": false,
+          "cycle_rank": 2,
+          "degree_sequence": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            3
+          ],
+          "edges": 8
+        },
+        "invariance_subgroup_count": 0,
+        "invariance_subgroups": [],
+        "is_block_product": false,
+        "maximal_coset_dimensions": [
+          2
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": false,
+          "LOW_INTRINSIC_DIMENSION": false,
+          "NON_GEOMETRIC_ALGORITHMIC": true,
+          "SPARSE_COMPOSITIONAL": false,
+          "SYMMETRY_ORBIT": false,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 8,
+        "union_witness": {
+          "k": 3,
+          "pieces": [
+            [
+              2,
+              3,
+              10,
+              11
+            ],
+            [
+              4,
+              7,
+              12,
+              15
+            ]
+          ],
+          "r": 2
+        }
+      },
+      "S_BLOCKPROD": {
+        "affine_dimension": 2,
+        "block_support_sizes": [
+          2,
+          2
+        ],
+        "graph": {
+          "components": 4,
+          "connected": false,
+          "cycle_rank": 0,
+          "degree_sequence": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "edges": 0
+        },
+        "invariance_subgroup_count": 9,
+        "invariance_subgroups": [
+          "G01_order2_orbits12",
+          "G04_order2_orbits12",
+          "G05_order2_orbits10",
+          "G07_order2_orbits10",
+          "G09_order2_orbits10",
+          "G14_order4_orbits9",
+          "G17_order4_orbits7",
+          "G18_order4_orbits6",
+          "G25_order8_orbits6"
+        ],
+        "is_block_product": true,
+        "maximal_coset_dimensions": [
+          2
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": false,
+          "LOW_INTRINSIC_DIMENSION": true,
+          "NON_GEOMETRIC_ALGORITHMIC": false,
+          "SPARSE_COMPOSITIONAL": true,
+          "SYMMETRY_ORBIT": true,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 4,
+        "union_witness": {
+          "k": 1,
+          "pieces": [
+            [
+              0,
+              3
+            ],
+            [
+              12,
+              15
+            ]
+          ],
+          "r": 2
+        }
+      },
+      "S_CYCLE": {
+        "affine_dimension": 3,
+        "block_support_sizes": [
+          4,
+          2
+        ],
+        "graph": {
+          "components": 1,
+          "connected": true,
+          "cycle_rank": 1,
+          "degree_sequence": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "edges": 6
+        },
+        "invariance_subgroup_count": 0,
+        "invariance_subgroups": [],
+        "is_block_product": false,
+        "maximal_coset_dimensions": [
+          2
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": true,
+          "LOW_INTRINSIC_DIMENSION": true,
+          "NON_GEOMETRIC_ALGORITHMIC": false,
+          "SPARSE_COMPOSITIONAL": false,
+          "SYMMETRY_ORBIT": false,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 6,
+        "union_witness": {
+          "k": 2,
+          "pieces": [
+            [
+              1,
+              2,
+              5,
+              6
+            ],
+            [
+              1,
+              3,
+              4,
+              6
+            ]
+          ],
+          "r": 2
+        }
+      },
+      "S_LOWDIM_USELESS": {
+        "affine_dimension": 1,
+        "block_support_sizes": [
+          2,
+          1
+        ],
+        "graph": {
+          "components": 2,
+          "connected": false,
+          "cycle_rank": 0,
+          "degree_sequence": [
+            0,
+            0
+          ],
+          "edges": 0
+        },
+        "invariance_subgroup_count": 4,
+        "invariance_subgroups": [
+          "G01_order2_orbits12",
+          "G04_order2_orbits12",
+          "G05_order2_orbits10",
+          "G14_order4_orbits9"
+        ],
+        "is_block_product": true,
+        "maximal_coset_dimensions": [
+          1
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": false,
+          "LOW_INTRINSIC_DIMENSION": true,
+          "NON_GEOMETRIC_ALGORITHMIC": false,
+          "SPARSE_COMPOSITIONAL": true,
+          "SYMMETRY_ORBIT": true,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 2,
+        "union_witness": {
+          "k": 0,
+          "pieces": [
+            [
+              0
+            ],
+            [
+              3
+            ]
+          ],
+          "r": 2
+        }
+      },
+      "S_NONMANIFOLD_LEARNABLE": {
+        "affine_dimension": 3,
+        "block_support_sizes": [
+          4,
+          2
+        ],
+        "graph": {
+          "components": 1,
+          "connected": true,
+          "cycle_rank": 1,
+          "degree_sequence": [
+            1,
+            2,
+            2,
+            2,
+            3
+          ],
+          "edges": 5
+        },
+        "invariance_subgroup_count": 1,
+        "invariance_subgroups": [
+          "G04_order2_orbits12"
+        ],
+        "is_block_product": false,
+        "maximal_coset_dimensions": [
+          1,
+          2
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": true,
+          "LOW_INTRINSIC_DIMENSION": true,
+          "NON_GEOMETRIC_ALGORITHMIC": false,
+          "SPARSE_COMPOSITIONAL": false,
+          "SYMMETRY_ORBIT": true,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 5,
+        "union_witness": {
+          "k": 2,
+          "pieces": [
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ],
+          "r": 2
+        }
+      },
+      "S_ORBIT": {
+        "affine_dimension": 4,
+        "block_support_sizes": [
+          3,
+          3
+        ],
+        "graph": {
+          "components": 1,
+          "connected": true,
+          "cycle_rank": 0,
+          "degree_sequence": [
+            1,
+            1,
+            1,
+            1,
+            4
+          ],
+          "edges": 4
+        },
+        "invariance_subgroup_count": 29,
+        "invariance_subgroups": [
+          "G01_order2_orbits12",
+          "G02_order2_orbits12",
+          "G03_order2_orbits12",
+          "G04_order2_orbits12",
+          "G05_order2_orbits10",
+          "G06_order2_orbits12",
+          "G07_order2_orbits10",
+          "G08_order2_orbits12",
+          "G09_order2_orbits10",
+          "G10_order3_orbits8",
+          "G11_order3_orbits8",
+          "G12_order3_orbits8",
+          "G13_order3_orbits8",
+          "G14_order4_orbits9",
+          "G15_order4_orbits9",
+          "G16_order4_orbits9",
+          "G17_order4_orbits7",
+          "G18_order4_orbits6",
+          "G19_order4_orbits6",
+          "G20_order4_orbits6",
+          "G21_order6_orbits8",
+          "G22_order6_orbits8",
+          "G23_order6_orbits8",
+          "G24_order6_orbits8",
+          "G25_order8_orbits6",
+          "G26_order8_orbits6",
+          "G27_order8_orbits6",
+          "G28_order12_orbits5",
+          "G29_order24_orbits5"
+        ],
+        "is_block_product": false,
+        "maximal_coset_dimensions": [
+          1
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": true,
+          "LOW_INTRINSIC_DIMENSION": false,
+          "NON_GEOMETRIC_ALGORITHMIC": false,
+          "SPARSE_COMPOSITIONAL": false,
+          "SYMMETRY_ORBIT": true,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 5,
+        "union_witness": {
+          "k": 3,
+          "pieces": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "r": 3
+        }
+      },
+      "S_STRATIFIED": {
+        "affine_dimension": 3,
+        "block_support_sizes": [
+          4,
+          2
+        ],
+        "graph": {
+          "components": 2,
+          "connected": false,
+          "cycle_rank": 1,
+          "degree_sequence": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            2
+          ],
+          "edges": 5
+        },
+        "invariance_subgroup_count": 1,
+        "invariance_subgroups": [
+          "G01_order2_orbits12"
+        ],
+        "is_block_product": false,
+        "maximal_coset_dimensions": [
+          2
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": false,
+          "LOW_INTRINSIC_DIMENSION": true,
+          "NON_GEOMETRIC_ALGORITHMIC": false,
+          "SPARSE_COMPOSITIONAL": false,
+          "SYMMETRY_ORBIT": true,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 6,
+        "union_witness": {
+          "k": 2,
+          "pieces": [
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              0,
+              1,
+              12,
+              13
+            ]
+          ],
+          "r": 2
+        }
+      },
+      "S_SUBSPACE": {
+        "affine_dimension": 2,
+        "block_support_sizes": [
+          4,
+          1
+        ],
+        "graph": {
+          "components": 1,
+          "connected": true,
+          "cycle_rank": 1,
+          "degree_sequence": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "edges": 4
+        },
+        "invariance_subgroup_count": 4,
+        "invariance_subgroups": [
+          "G01_order2_orbits12",
+          "G04_order2_orbits12",
+          "G05_order2_orbits10",
+          "G14_order4_orbits9"
+        ],
+        "is_block_product": true,
+        "maximal_coset_dimensions": [
+          2
+        ],
+        "membership": {
+          "GRAPH_TOPOLOGICAL": true,
+          "LOW_INTRINSIC_DIMENSION": true,
+          "NON_GEOMETRIC_ALGORITHMIC": false,
+          "SPARSE_COMPOSITIONAL": false,
+          "SYMMETRY_ORBIT": true,
+          "UNION_OR_STRATIFICATION": true
+        },
+        "support_size": 4,
+        "union_witness": {
+          "k": 1,
+          "pieces": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "r": 2
+        }
+      }
+    },
+    "union_predicate_census": {
+      "every_non_member_has_nontrivial_stabilizer": true,
+      "finding": "the frozen union predicate is satisfied by every support of affine dimension at least 1 except the 16 supports of size 15, each of which has a nontrivial coordinate-permutation stabilizer; no support can therefore be both NON_GEOMETRIC_ALGORITHMIC and outside UNION_OR_STRATIFICATION",
+      "members": 65503,
+      "non_member_size_histogram": {
+        "15": 16
+      },
+      "non_member_stabilizer_orders": [
+        4,
+        6,
+        24
+      ],
+      "non_members": 16,
+      "supports_with_dimension_at_least_1": 65519
+    }
+  },
+  "rows_closed": 6,
+  "rows_left_open": [
+    {
+      "instrument_required": "a pre-registered dataset instrument that (a) names the real corpora and their versioned checksums before any structure estimate is computed, (b) supplies an intrinsic-dimension and orbit-structure estimator with a stated confidence procedure on finite samples, and (c) fixes the held-out split and the decision rule in advance; none of these exist in this repository, and no finite exact roster can stand in for them",
+      "row": "prospective test of intrinsic-structure transitions on synthetic and real datasets"
+    }
+  ],
+  "schema": "GMI_833_AE6_GEOMETRIC_STRUCTURE_RESULT_V1",
+  "section": "AE6",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "theorems": [
+    "AE6-1",
+    "AE6-2",
+    "AE6-3",
+    "AE6-4",
+    "AE6-5",
+    "AE6-6",
+    "AE6-7",
+    "AE6-8"
+  ],
+  "verdict": "GREEN"
+}

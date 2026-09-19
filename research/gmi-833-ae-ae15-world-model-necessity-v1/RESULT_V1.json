@@ -1,0 +1,1233 @@
+{
+  "bounds": [
+    {
+      "attained_by": {
+        "object": "K_PHASE[G] for every G in {1,2,3,4}",
+        "value": [
+          "1/4",
+          "1/4",
+          "1/4",
+          "1/4"
+        ]
+      },
+      "bound_value": "1/4",
+      "has_violated_by_witness": true,
+      "id": "AE15-B1",
+      "kind": "upper",
+      "quantity": "model-based advantage per goal token A(G)/G = (V_mb(G) - V_mf(G))/G on K_PHASE[G]",
+      "range_derivation": "A(G) >= 0 because the model-based optimum maximizes over a superset of the behaviours the three model-free interfaces induce, so A(G)/G >= 0; and A(G) <= 7G/4 because a gamma=1/2, H=3 discounted return with per-step reward in [0,G] is at most G(1 + 1/2 + 1/4) while V_mf(G) >= 0, so A(G)/G <= 7/4",
+      "range_hi": "7/4",
+      "range_lo": "0",
+      "status": "FALSIFIABLE_BOUND",
+      "vacuous": false,
+      "violated_by": {
+        "breaks_bound": true,
+        "object": "K_PHASE[G] under gamma = 1",
+        "relaxation": "the registered gamma = 1/2 is relaxed to gamma = 1; every other registered constant is unchanged",
+        "relaxed_class": "RELAXED_DISCOUNT",
+        "rows": [
+          {
+            "G": 1,
+            "V_mb": "1",
+            "V_mf": "1/2",
+            "advantage_per_goal_token": "1/2"
+          },
+          {
+            "G": 2,
+            "V_mb": "2",
+            "V_mf": "1",
+            "advantage_per_goal_token": "1/2"
+          },
+          {
+            "G": 3,
+            "V_mb": "3",
+            "V_mf": "3/2",
+            "advantage_per_goal_token": "1/2"
+          },
+          {
+            "G": 4,
+            "V_mb": "4",
+            "V_mf": "2",
+            "advantage_per_goal_token": "1/2"
+          }
+        ],
+        "value": "1/2"
+      }
+    },
+    {
+      "attained_by": {
+        "object": "the reactive map {\"oa\": \"a0\", \"ob\": \"a2\", \"oc\": \"a0\"}",
+        "value": "1/4"
+      },
+      "bound_value": "1/4",
+      "has_violated_by_witness": true,
+      "id": "AE15-B2",
+      "kind": "upper",
+      "quantity": "best value attainable on K_MODEL_NEEDED by any member of REACTIVE_POLICY, CACHED_SKILL or VALUE_REPRESENTATION",
+      "range_derivation": "the value is a gamma=1/2 discounted sum of H=3 rewards each in [0,1], so by definition it lies in [0, 1 + 1/2 + 1/4] = [0, 7/4]",
+      "range_hi": "7/4",
+      "range_lo": "0",
+      "status": "FALSIFIABLE_BOUND",
+      "vacuous": false,
+      "violated_by": {
+        "breaks_bound": true,
+        "object": {
+          "-|oa": "a0",
+          "oa|oa": "a1",
+          "oa|ob": "a2",
+          "oa|oc": "a0",
+          "ob|oc": "a0",
+          "oc|oc": "a0"
+        },
+        "relaxation": "REACTIVE_POLICY is relaxed so that a policy may read one step of history (the previous observation) in addition to the current one",
+        "relaxed_class": "RELAXED_ONE_STEP_MEMORY",
+        "value": "1/2"
+      }
+    },
+    {
+      "attained_by": {
+        "object": [
+          "CACHED_SKILL",
+          "REACTIVE_POLICY",
+          "VALUE_REPRESENTATION"
+        ],
+        "value": [
+          "3/4",
+          "3/4",
+          "3/4"
+        ]
+      },
+      "bound_value": "3/4",
+      "has_violated_by_witness": true,
+      "id": "AE15-B3",
+      "kind": "lower",
+      "quantity": "post-probe shortfall on K_SWAP of a model-free interface: its class best under R_ALT minus the value its unchanged stored object attains",
+      "range_derivation": "a shortfall is a difference of two values of the same gamma=1/2, H=3 discounted return with per-step reward in [0,1]; the class best is by definition at least the value the stored object attains, so the shortfall lies in [0, 1 + 1/2 + 1/4] = [0, 7/4]",
+      "range_hi": "7/4",
+      "range_lo": "0",
+      "status": "FALSIFIABLE_BOUND",
+      "vacuous": false,
+      "violated_by": {
+        "breaks_bound": true,
+        "object": "REACTIVE_POLICY re-fitted under R_ALT",
+        "relaxation": "the registered probe condition -- re-queried with no further interaction -- is relaxed to permit a re-fit of the stored object under R_ALT",
+        "relaxed_class": "RELAXED_PROBE_REFIT",
+        "value": "0"
+      }
+    }
+  ],
+  "checks": {
+    "all_prospective_predictions_confirmed": true,
+    "all_prospective_predictions_reported": true,
+    "every_bound_is_falsifiable": true,
+    "every_hostile_is_detected": true,
+    "every_hostile_is_potent": true,
+    "every_ordered_pair_has_a_separating_coordinate": true,
+    "five_interfaces_pairwise_distinct": true,
+    "latent_relabelling_not_flagged": true,
+    "model_needed_all_three_classes_strictly_suboptimal": true,
+    "model_needed_suboptimal_for_any_memoryless_lookahead": true,
+    "model_needed_value_representation_bound_is_exact": true,
+    "no_artifact_asserts_a_forbidden_promotion": true,
+    "no_bound_is_vacuous": true,
+    "null_detector_fires_on_witness": true,
+    "null_no_alarm_on_clean_witnesses": true,
+    "null_positive_gap_requires_an_optimal_action_conflict": true,
+    "null_witness_exceeds_largest_primary_null_magnitude": true,
+    "phase_boundary_flips_strictly_on_both_sides": true,
+    "phase_boundary_matches_closed_form": true,
+    "phase_boundary_strictly_increasing": true,
+    "predictive_state_is_reward_invariant": true,
+    "reactive_optimal_gap_is_exactly_zero": true,
+    "reactive_optimum_enumerated_exhaustively": true,
+    "register_declared_freeze_commit_matches_custody_sha": true,
+    "register_digest_matches": true,
+    "registered_scope_respected": true,
+    "reward_swap_probe_reoptimized_by_explicit_model_alone": true,
+    "scm_identifiable_latent_recovered_up_to_relabelling": true,
+    "scm_pair_interventionally_distinguishable": true,
+    "scm_pair_joints_identical": true,
+    "scm_pair_latent_factorizations_differ": true,
+    "value_representation_cannot_realize_every_memoryless_map": true
+  },
+  "claim_ceiling": "GMI_833_AE15_WORLD_MODEL_NECESSITY_BOUNDARY_DERIVED_ON_REGISTERED_FINITE_POMDP_ROSTER",
+  "forbidden_promotions": [
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "LATENTS_ARE_HUMAN_INTERPRETABLE",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MODEL_BASED_DOMINATES_MODEL_FREE",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "WORLD_MODEL_ALWAYS_REQUIRED",
+    "WORLD_MODEL_NEVER_REQUIRED"
+  ],
+  "freeze_commit": "0f166240f67cce4dc7da8ab5acd1189d67ea1107",
+  "hostiles": [
+    {
+      "checker": "every member of REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION is strictly suboptimal on K_MODEL_NEEDED",
+      "detected": true,
+      "detection_predicate": "strict inequality against the model-based optimum 1/2, not a comparison with the true model-free best",
+      "inverted": false,
+      "name": "H_MEMORY_LEAK",
+      "perturbed_quantity": "1/2",
+      "perturbs": "the reactive class so a policy may read one step of history",
+      "potent": true,
+      "true_quantity": "1/4",
+      "witness": {
+        "-|oa": "a0",
+        "oa|oa": "a1",
+        "oa|ob": "a2",
+        "oa|oc": "a0",
+        "ob|oc": "a0",
+        "oc|oc": "a0"
+      }
+    },
+    {
+      "checker": "the model-necessity gap on K_MODEL_NEEDED is positive",
+      "detected": true,
+      "detection_predicate": "positivity of the perturbed gap, not a comparison with the true gap",
+      "inverted": false,
+      "name": "H_ALIAS_BREAK",
+      "perturbed_quantity": "0",
+      "perturbs": "the observation map of K_MODEL_NEEDED so the aliasing disappears; the perturbed world uses four observations and is deliberately outside the registered |O| <= 3 scope",
+      "potent": true,
+      "true_quantity": "1/4",
+      "witness": {
+        "V_mb": "1/2",
+        "V_mf": "1/2",
+        "Z": {
+          "s0": "oa",
+          "s1": "od",
+          "sD": "oc",
+          "sG": "ob"
+        }
+      }
+    },
+    {
+      "checker": "every registered task's model-based optimum equals its named value: 1/2 on K_MODEL_NEEDED, 3/4 on K_REACTIVE_OPT, 3/4 on K_SWAP",
+      "detected": true,
+      "detection_predicate": "an equality against the named literals, independent of the potency comparison against the recomputed registered values",
+      "inverted": false,
+      "name": "H_HORIZON",
+      "perturbed_quantity": "0",
+      "perturbs": "the horizon so the model-based optimum changes",
+      "potent": true,
+      "true_quantity": "1/2",
+      "witness": [
+        {
+          "V_mb_perturbed": "1/4",
+          "V_mb_registered": "3/4",
+          "task": "K_REACTIVE_OPT"
+        },
+        {
+          "V_mb_perturbed": "0",
+          "V_mb_registered": "1/2",
+          "task": "K_MODEL_NEEDED"
+        },
+        {
+          "V_mb_perturbed": "0",
+          "V_mb_registered": "3/4",
+          "task": "K_SWAP"
+        }
+      ]
+    },
+    {
+      "checker": "at the probe cost handed to it the chosen class is EXPLICIT_GENERATIVE_MODEL for every registered G",
+      "detected": true,
+      "detection_predicate": "evaluated on the perturbed cost alone; it never references the choice made at the registered cost, so detection is not the potency comparison relabelled",
+      "inverted": false,
+      "name": "H_COST_SHIFT",
+      "perturbed_quantity": "CACHED_SKILL",
+      "perturbs": "the planning cost so the phase boundary moves",
+      "potent": true,
+      "true_quantity": "EXPLICIT_GENERATIVE_MODEL",
+      "witness": [
+        {
+          "G": 1,
+          "chosen_at_perturbed_probe_cost": "CACHED_SKILL",
+          "chosen_at_registered_probe_cost": "EXPLICIT_GENERATIVE_MODEL",
+          "perturbed_probe_cost": "3/8",
+          "registered_probe_cost": "1/8"
+        },
+        {
+          "G": 2,
+          "chosen_at_perturbed_probe_cost": "CACHED_SKILL",
+          "chosen_at_registered_probe_cost": "EXPLICIT_GENERATIVE_MODEL",
+          "perturbed_probe_cost": "5/8",
+          "registered_probe_cost": "3/8"
+        },
+        {
+          "G": 3,
+          "chosen_at_perturbed_probe_cost": "CACHED_SKILL",
+          "chosen_at_registered_probe_cost": "EXPLICIT_GENERATIVE_MODEL",
+          "perturbed_probe_cost": "7/8",
+          "registered_probe_cost": "5/8"
+        },
+        {
+          "G": 4,
+          "chosen_at_perturbed_probe_cost": "CACHED_SKILL",
+          "chosen_at_registered_probe_cost": "EXPLICIT_GENERATIVE_MODEL",
+          "perturbed_probe_cost": "9/8",
+          "registered_probe_cost": "7/8"
+        }
+      ]
+    },
+    {
+      "checker": "behaviour_differs compares observable behaviour only",
+      "checker_flagged": false,
+      "detected": true,
+      "detection_predicate": "INVERTED: the assertion is the checker's silence on the relabelled object, while potency is the change in the stored object",
+      "inverted": true,
+      "name": "H_LATENT_RELABEL",
+      "object_changed": true,
+      "perturbed_quantity": "observable profile of the relabelled SCM",
+      "perturbs": "SCM_LATENT_B by a relabelling that must NOT be detected as a difference",
+      "potent": true,
+      "silence_asserted": true,
+      "true_quantity": "observable profile of SCM_LATENT_B",
+      "witness": [
+        "v0->w3",
+        "v1->w2",
+        "v2->w1",
+        "v3->w0"
+      ]
+    }
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "null": {
+    "detector": "the model-based optimum strictly exceeds the best value attainable by REACTIVE_POLICY, CACHED_SKILL or VALUE_REPRESENTATION",
+    "detector_fires_on_witness": true,
+    "known_clean_witnesses": [
+      "K_REACTIVE_OPT",
+      "K_SWAP"
+    ],
+    "known_clean_witnesses_flagged": [],
+    "no_alarm_on_clean": true,
+    "planted_positive": "K_MODEL_NEEDED",
+    "planted_positive_magnitude": "1/4",
+    "primary": {
+      "fired": 90,
+      "largest_null_magnitude": "99/512",
+      "rate": "90/200",
+      "sampler": "registered exact-rational sampler: a 64-bit LCG seeded from the register's own self_digest_sha256, drawing dyadic transition rows with denominator 8, deterministic emissions and rewards in {0,1/4,1/2,3/4,1}",
+      "trials": 200,
+      "witness_exceeds_largest_null_magnitude": true
+    },
+    "structure_matched": {
+      "attribution": "this control does NOT beat the witness: a redrawn observation map frequently rebuilds an aliasing of equal strength, so the largest control magnitude equals the witness magnitude. Its value is mechanism attribution, reported as a two-way confusion table against the structural predicate, not a magnitude comparison",
+      "conflict_predicts_a_positive_gap_exactly": false,
+      "conflict_vs_gap_confusion": {
+        "conflict_and_gap_positive": 86,
+        "conflict_and_gap_zero": 63,
+        "no_conflict_and_gap_positive": 0,
+        "no_conflict_and_gap_zero": 51
+      },
+      "fired": 86,
+      "largest_null_magnitude": "1/4",
+      "largest_null_magnitude_without_a_conflict": "0",
+      "rate": "86/200",
+      "sampler": "K_MODEL_NEEDED with T and R held fixed and only the observation map randomized over the registered three observations",
+      "trials": 200,
+      "trials_at_or_above_witness_magnitude": 86,
+      "trials_at_or_above_witness_magnitude_with_a_conflict": 86,
+      "trials_with_an_optimal_action_conflict": 149,
+      "witness_exceeds_largest_null_magnitude": false
+    }
+  },
+  "package": "gmi-833-ae-ae15-world-model-necessity-v1",
+  "prospective_predictions": [
+    {
+      "claim": "the five interfaces are pairwise separated on the registered roster, and the reward-swap probe is passed by EXPLICIT_GENERATIVE_MODEL alone",
+      "id": "AE15-P1",
+      "status": "CONFIRMED",
+      "values": {
+        "every_unordered_pair_separated": true,
+        "ordered_pairs_dominated": 2,
+        "ordered_pairs_strict": 18,
+        "ordered_pairs_total": 20,
+        "reoptimizing_classes": [
+          "EXPLICIT_GENERATIVE_MODEL"
+        ]
+      }
+    },
+    {
+      "claim": "on K_REACTIVE_OPT the exact gap between the best reactive value and the model-based optimum is exactly 0",
+      "id": "AE15-P2",
+      "status": "CONFIRMED",
+      "values": {
+        "best_reactive_value": "3/4",
+        "gap": "0",
+        "model_based_optimum": "3/4",
+        "reactive_policies_enumerated": 4
+      }
+    },
+    {
+      "claim": "on K_MODEL_NEEDED the exact gap is strictly positive for every one of REACTIVE_POLICY, CACHED_SKILL and VALUE_REPRESENTATION, established by exhaustive enumeration of each finite class",
+      "id": "AE15-P3",
+      "status": "CONFIRMED",
+      "values": {
+        "CACHED_SKILL": "1/4",
+        "REACTIVE_POLICY": "1/4",
+        "VALUE_REPRESENTATION": "1/4",
+        "gap": "1/4",
+        "model_based_optimum": "1/2"
+      }
+    },
+    {
+      "claim": "the phase boundary c*(G) is an exact rational, is strictly increasing in G over the registered range, and the chosen class flips strictly on both sides of it",
+      "id": "AE15-P4",
+      "status": "CONFIRMED",
+      "values": {
+        "c_star": [
+          "1/4",
+          "1/2",
+          "3/4",
+          "1"
+        ],
+        "flips_strictly_on_both_sides": true,
+        "strictly_increasing_in_G": true
+      }
+    },
+    {
+      "claim": "SCM_LATENT_A and SCM_LATENT_B have exactly equal observational and predictive joints and different latent factorizations, so the latent is not identifiable from behaviour; SCM_LATENT_ID has an exactly recoverable latent up to relabelling",
+      "id": "AE15-P5",
+      "status": "CONFIRMED",
+      "values": {
+        "interventionally_distinguishable": true,
+        "joints_identical": true,
+        "latent_cardinalities": [
+          2,
+          4
+        ],
+        "recovered_up_to_relabelling": true,
+        "relabelling_permutations_checked": 6
+      }
+    },
+    {
+      "claim": "no artifact of the package asserts LATENTS_ARE_HUMAN_INTERPRETABLE, and AE15-P5 is its machine-checked evidence",
+      "id": "AE15-P6",
+      "status": "CONFIRMED",
+      "values": {
+        "assertions_found": [],
+        "evidence_result_id": "AE15-5"
+      }
+    }
+  ],
+  "register_commit": "bbba259b86f9fc53402527dd662405422296fb3f",
+  "register_digest": "34d35505ea4d0c061df9a8057b5b075cfa832eb572e1c1510af58228ddbb0c8b",
+  "results": {
+    "bounds_note": "every bound carries a violated_by witness drawn from an explicitly relaxed class; attainment is recorded but is not evidence of non-vacuity",
+    "custody": {
+      "freeze_commit": "0f166240f67cce4dc7da8ab5acd1189d67ea1107",
+      "note": "the register is binding and is never edited; its declared freeze sha is compared with the lane owner's custody sha rather than assumed, and the digest is recomputed from the register's own canonical serialization before any value is emitted",
+      "register_commit": "bbba259b86f9fc53402527dd662405422296fb3f",
+      "register_declared_freeze_commit": "0f166240f67cce4dc7da8ab5acd1189d67ea1107",
+      "register_declared_freeze_commit_equals_lane_owner_sha": true,
+      "register_digest_matches": true,
+      "register_digest_recomputed": "34d35505ea4d0c061df9a8057b5b075cfa832eb572e1c1510af58228ddbb0c8b"
+    },
+    "forbidden_promotion_closure": {
+      "assertions_found": [],
+      "evidence_result_id": "AE15-5",
+      "machine_checked_evidence": "SCM_LATENT_A and SCM_LATENT_B have identical observational and predictive joints under different latent factorizations, so a latent that reproduces behaviour need not be a recoverable world factor",
+      "no_artifact_asserts_a_forbidden_promotion": true,
+      "registered_forbidden_promotion": "LATENTS_ARE_HUMAN_INTERPRETABLE",
+      "scanned_files": [
+        "AE15_THEOREMS_V1.md",
+        "CORE.md",
+        "FREEZE_V1.md",
+        "ISSUE_833_RECONCILIATION_AE15_WORLD_MODEL_NECESSITY_V1.json",
+        "MANIFEST_V1.json",
+        "PARENT_OWNERSHIP_V1.md",
+        "PROSPECTIVE_REGISTER_V1.json",
+        "ae15_world_model_necessity_v1.py",
+        "independent_world_model_oracle_v1.py",
+        "test_ae15_world_model_necessity_v1.py"
+      ]
+    },
+    "identifiability": {
+      "SCM_LATENT_A": {
+        "edges": [
+          "U->X",
+          "U->Y"
+        ],
+        "latent_cardinality": 2,
+        "latent_probabilities": {
+          "u0": "1/2",
+          "u1": "1/2"
+        },
+        "latent_support": [
+          "u0",
+          "u1"
+        ],
+        "latent_symbol": "U"
+      },
+      "SCM_LATENT_B": {
+        "edges": [
+          "V->X",
+          "X->Y"
+        ],
+        "latent_cardinality": 4,
+        "latent_probabilities": {
+          "v0": "1/4",
+          "v1": "1/4",
+          "v2": "1/4",
+          "v3": "1/4"
+        },
+        "latent_support": [
+          "v0",
+          "v1",
+          "v2",
+          "v3"
+        ],
+        "latent_symbol": "V"
+      },
+      "SCM_LATENT_ID": {
+        "edges": [
+          "L->X",
+          "L->Y"
+        ],
+        "latent_cardinality": 3,
+        "latent_probabilities": {
+          "l0": "1/3",
+          "l1": "1/3",
+          "l2": "1/3"
+        },
+        "latent_support": [
+          "l0",
+          "l1",
+          "l2"
+        ],
+        "latent_symbol": "L"
+      },
+      "interventional_profile_A": {
+        "do_X=x0": {
+          "y0": "1/2",
+          "y1": "1/2"
+        },
+        "do_X=x1": {
+          "y0": "1/2",
+          "y1": "1/2"
+        }
+      },
+      "interventional_profile_B": {
+        "do_X=x0": {
+          "y0": "1"
+        },
+        "do_X=x1": {
+          "y1": "1"
+        }
+      },
+      "interventionally_distinguishable": true,
+      "latent_cardinalities": [
+        2,
+        4
+      ],
+      "latent_factorizations_differ": true,
+      "latent_recovered_exactly": true,
+      "observable_profile_A": {
+        "joint_XY": {
+          "x0,y0": "1/2",
+          "x1,y1": "1/2"
+        },
+        "marginal_X": {
+          "x0": "1/2",
+          "x1": "1/2"
+        },
+        "marginal_Y": {
+          "y0": "1/2",
+          "y1": "1/2"
+        },
+        "predictive_X_given_Y": {
+          "x0|y0": "1",
+          "x1|y1": "1"
+        },
+        "predictive_Y_given_X": {
+          "y0|x0": "1",
+          "y1|x1": "1"
+        }
+      },
+      "observable_profile_B": {
+        "joint_XY": {
+          "x0,y0": "1/2",
+          "x1,y1": "1/2"
+        },
+        "marginal_X": {
+          "x0": "1/2",
+          "x1": "1/2"
+        },
+        "marginal_Y": {
+          "y0": "1/2",
+          "y1": "1/2"
+        },
+        "predictive_X_given_Y": {
+          "x0|y0": "1",
+          "x1|y1": "1"
+        },
+        "predictive_Y_given_X": {
+          "y0|x0": "1",
+          "y1|x1": "1"
+        }
+      },
+      "observational_and_predictive_joints_identical": true,
+      "pair": [
+        "SCM_LATENT_A",
+        "SCM_LATENT_B"
+      ],
+      "recovered_up_to_relabelling": true,
+      "recovery_map": {
+        "x0": "l0",
+        "x1": "l1",
+        "x2": "l2"
+      },
+      "relabelled_B_flagged_by_checker": false,
+      "relabelled_B_object_changed": true,
+      "relabelling_permutations_checked": 6,
+      "relabelling_recovery": [
+        {
+          "observable_profile_unchanged": true,
+          "permutation": [
+            "l0->l0",
+            "l1->l1",
+            "l2->l2"
+          ],
+          "recovered_exactly": true
+        },
+        {
+          "observable_profile_unchanged": true,
+          "permutation": [
+            "l0->l0",
+            "l1->l2",
+            "l2->l1"
+          ],
+          "recovered_exactly": true
+        },
+        {
+          "observable_profile_unchanged": true,
+          "permutation": [
+            "l0->l1",
+            "l1->l0",
+            "l2->l2"
+          ],
+          "recovered_exactly": true
+        },
+        {
+          "observable_profile_unchanged": true,
+          "permutation": [
+            "l0->l1",
+            "l1->l2",
+            "l2->l0"
+          ],
+          "recovered_exactly": true
+        },
+        {
+          "observable_profile_unchanged": true,
+          "permutation": [
+            "l0->l2",
+            "l1->l0",
+            "l2->l1"
+          ],
+          "recovered_exactly": true
+        },
+        {
+          "observable_profile_unchanged": true,
+          "permutation": [
+            "l0->l2",
+            "l1->l1",
+            "l2->l0"
+          ],
+          "recovered_exactly": true
+        }
+      ]
+    },
+    "interfaces": {
+      "classes": [
+        "CACHED_SKILL",
+        "EXPLICIT_GENERATIVE_MODEL",
+        "PREDICTIVE_STATE",
+        "REACTIVE_POLICY",
+        "VALUE_REPRESENTATION"
+      ],
+      "coordinate_basis": {
+        "c1_emits_an_action": "computed",
+        "c2_observation_closed_loop": "computed",
+        "c3_time_or_history_varying": "computed",
+        "c4_predicts_future_observations_exactly": "computed",
+        "c5_stores_reward_derived_rationals": "computed",
+        "c6_probe_reoptimizes": "computed",
+        "c7_realizes_every_memoryless_action_map": "computed"
+      },
+      "coordinates": [
+        "c1_emits_an_action",
+        "c2_observation_closed_loop",
+        "c3_time_or_history_varying",
+        "c4_predicts_future_observations_exactly",
+        "c5_stores_reward_derived_rationals",
+        "c6_probe_reoptimizes",
+        "c7_realizes_every_memoryless_action_map"
+      ],
+      "every_unordered_pair_separated": true,
+      "memoryless_action_maps_realized": {
+        "CACHED_SKILL": 3,
+        "EXPLICIT_GENERATIVE_MODEL": 0,
+        "PREDICTIVE_STATE": 0,
+        "REACTIVE_POLICY": 27,
+        "VALUE_REPRESENTATION": 2
+      },
+      "memoryless_action_maps_total": 27,
+      "ordered_pairs_dominated": 2,
+      "ordered_pairs_strict": 18,
+      "ordered_pairs_total": 20,
+      "pairwise_distinctness": [
+        {
+          "direction": "to_strictly_above_from",
+          "dominated": true,
+          "from": "CACHED_SKILL",
+          "separating_coordinate": "c2_observation_closed_loop",
+          "to": "EXPLICIT_GENERATIVE_MODEL",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "CACHED_SKILL",
+          "separating_coordinate": "c1_emits_an_action",
+          "to": "PREDICTIVE_STATE",
+          "witness_task": "K_REACTIVE_OPT"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "CACHED_SKILL",
+          "separating_coordinate": "c3_time_or_history_varying",
+          "to": "REACTIVE_POLICY",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "CACHED_SKILL",
+          "separating_coordinate": "c3_time_or_history_varying",
+          "to": "VALUE_REPRESENTATION",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "EXPLICIT_GENERATIVE_MODEL",
+          "separating_coordinate": "c2_observation_closed_loop",
+          "to": "CACHED_SKILL",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "EXPLICIT_GENERATIVE_MODEL",
+          "separating_coordinate": "c1_emits_an_action",
+          "to": "PREDICTIVE_STATE",
+          "witness_task": "K_REACTIVE_OPT"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "EXPLICIT_GENERATIVE_MODEL",
+          "separating_coordinate": "c3_time_or_history_varying",
+          "to": "REACTIVE_POLICY",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "EXPLICIT_GENERATIVE_MODEL",
+          "separating_coordinate": "c3_time_or_history_varying",
+          "to": "VALUE_REPRESENTATION",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "PREDICTIVE_STATE",
+          "separating_coordinate": "c4_predicts_future_observations_exactly",
+          "to": "CACHED_SKILL",
+          "witness_task": "REGISTERED_ROSTER"
+        },
+        {
+          "direction": "to_strictly_above_from",
+          "dominated": true,
+          "from": "PREDICTIVE_STATE",
+          "separating_coordinate": "c1_emits_an_action",
+          "to": "EXPLICIT_GENERATIVE_MODEL",
+          "witness_task": "K_REACTIVE_OPT"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "PREDICTIVE_STATE",
+          "separating_coordinate": "c4_predicts_future_observations_exactly",
+          "to": "REACTIVE_POLICY",
+          "witness_task": "REGISTERED_ROSTER"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "PREDICTIVE_STATE",
+          "separating_coordinate": "c4_predicts_future_observations_exactly",
+          "to": "VALUE_REPRESENTATION",
+          "witness_task": "REGISTERED_ROSTER"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "REACTIVE_POLICY",
+          "separating_coordinate": "c2_observation_closed_loop",
+          "to": "CACHED_SKILL",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "REACTIVE_POLICY",
+          "separating_coordinate": "c7_realizes_every_memoryless_action_map",
+          "to": "EXPLICIT_GENERATIVE_MODEL",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "REACTIVE_POLICY",
+          "separating_coordinate": "c1_emits_an_action",
+          "to": "PREDICTIVE_STATE",
+          "witness_task": "K_REACTIVE_OPT"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "REACTIVE_POLICY",
+          "separating_coordinate": "c7_realizes_every_memoryless_action_map",
+          "to": "VALUE_REPRESENTATION",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "VALUE_REPRESENTATION",
+          "separating_coordinate": "c2_observation_closed_loop",
+          "to": "CACHED_SKILL",
+          "witness_task": "K_MODEL_NEEDED"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "VALUE_REPRESENTATION",
+          "separating_coordinate": "c5_stores_reward_derived_rationals",
+          "to": "EXPLICIT_GENERATIVE_MODEL",
+          "witness_task": "K_SWAP"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "VALUE_REPRESENTATION",
+          "separating_coordinate": "c1_emits_an_action",
+          "to": "PREDICTIVE_STATE",
+          "witness_task": "K_REACTIVE_OPT"
+        },
+        {
+          "direction": "from_strictly_above_to",
+          "dominated": false,
+          "from": "VALUE_REPRESENTATION",
+          "separating_coordinate": "c5_stores_reward_derived_rationals",
+          "to": "REACTIVE_POLICY",
+          "witness_task": "K_SWAP"
+        }
+      ],
+      "predictive_state_resolves_the_aliased_pair": true,
+      "vectors": {
+        "CACHED_SKILL": {
+          "c1_emits_an_action": true,
+          "c2_observation_closed_loop": false,
+          "c3_time_or_history_varying": true,
+          "c4_predicts_future_observations_exactly": false,
+          "c5_stores_reward_derived_rationals": false,
+          "c6_probe_reoptimizes": false,
+          "c7_realizes_every_memoryless_action_map": false
+        },
+        "EXPLICIT_GENERATIVE_MODEL": {
+          "c1_emits_an_action": true,
+          "c2_observation_closed_loop": true,
+          "c3_time_or_history_varying": true,
+          "c4_predicts_future_observations_exactly": true,
+          "c5_stores_reward_derived_rationals": false,
+          "c6_probe_reoptimizes": true,
+          "c7_realizes_every_memoryless_action_map": false
+        },
+        "PREDICTIVE_STATE": {
+          "c1_emits_an_action": false,
+          "c2_observation_closed_loop": false,
+          "c3_time_or_history_varying": false,
+          "c4_predicts_future_observations_exactly": true,
+          "c5_stores_reward_derived_rationals": false,
+          "c6_probe_reoptimizes": false,
+          "c7_realizes_every_memoryless_action_map": false
+        },
+        "REACTIVE_POLICY": {
+          "c1_emits_an_action": true,
+          "c2_observation_closed_loop": true,
+          "c3_time_or_history_varying": false,
+          "c4_predicts_future_observations_exactly": false,
+          "c5_stores_reward_derived_rationals": false,
+          "c6_probe_reoptimizes": false,
+          "c7_realizes_every_memoryless_action_map": true
+        },
+        "VALUE_REPRESENTATION": {
+          "c1_emits_an_action": true,
+          "c2_observation_closed_loop": true,
+          "c3_time_or_history_varying": false,
+          "c4_predicts_future_observations_exactly": false,
+          "c5_stores_reward_derived_rationals": true,
+          "c6_probe_reoptimizes": false,
+          "c7_realizes_every_memoryless_action_map": false
+        }
+      }
+    },
+    "model_needed_task": {
+      "aliased_observation": "oa",
+      "aliased_states": [
+        "s0",
+        "s1"
+      ],
+      "all_strictly_suboptimal": true,
+      "attaining_cached_skill": {
+        "oa": [
+          "a0",
+          "a1",
+          "a0"
+        ]
+      },
+      "attaining_reactive_policy": {
+        "oa": "a0",
+        "ob": "a2",
+        "oc": "a0"
+      },
+      "attaining_value_function": {
+        "oa": "0",
+        "ob": "3/4",
+        "oc": "0"
+      },
+      "best_value_by_class": {
+        "CACHED_SKILL": "1/4",
+        "REACTIVE_POLICY": "1/4",
+        "VALUE_REPRESENTATION": "1/4"
+      },
+      "class_sizes_enumerated": {
+        "CACHED_SKILL": 27,
+        "REACTIVE_POLICY": 27,
+        "VALUE_REPRESENTATION_realizable_greedy_policies": 2
+      },
+      "gap": "1/4",
+      "gap_by_class": {
+        "CACHED_SKILL": "1/4",
+        "REACTIVE_POLICY": "1/4",
+        "VALUE_REPRESENTATION": "1/4"
+      },
+      "model_based_optimum": "1/2",
+      "optimal_history_dependent_actions": {
+        "oa": "a0",
+        "oa|a0|oa": "a1",
+        "oa|a0|oa|a0|oc": "a0",
+        "oa|a0|oa|a1|oc": "a0",
+        "oa|a0|oa|a2|oc": "a0",
+        "oa|a0|ob": "a2",
+        "oa|a0|ob|a0|oc": "a0",
+        "oa|a0|ob|a1|oc": "a0",
+        "oa|a0|ob|a2|oc": "a0",
+        "oa|a1|oc": "a0",
+        "oa|a1|oc|a0|oc": "a0",
+        "oa|a1|oc|a1|oc": "a0",
+        "oa|a1|oc|a2|oc": "a0",
+        "oa|a2|oc": "a0",
+        "oa|a2|oc|a0|oc": "a0",
+        "oa|a2|oc|a1|oc": "a0",
+        "oa|a2|oc|a2|oc": "a0"
+      },
+      "task": "K_MODEL_NEEDED",
+      "value_representation_best_equals_upper_bound": true,
+      "value_representation_lookahead_action_groups": [
+        [
+          [
+            "a0"
+          ],
+          [
+            "a1"
+          ],
+          [
+            "a2"
+          ]
+        ],
+        [
+          [
+            "a0",
+            "a1"
+          ],
+          [
+            "a2"
+          ]
+        ],
+        [
+          [
+            "a0",
+            "a1",
+            "a2"
+          ]
+        ]
+      ],
+      "value_representation_structural_upper_bound_on_realizable_maps": 6,
+      "value_representation_suboptimal_for_any_memoryless_lookahead": true,
+      "value_representation_upper_bound_is_memoryless_best": "1/4"
+    },
+    "phase_boundary": {
+      "all_exact_rational": true,
+      "family": "K_PHASE[G], G in {1,2,3,4}, G goal tokens each worth 1",
+      "flips_strictly_on_both_sides": true,
+      "identity": "D(c) = (V_mb(G) - c) - V_mf(G) = c*(G) - c, exactly linear in c with slope -1",
+      "linear_by_construction_disclosure": "the registered family scales one goal token linearly, so the registered range does not separate linear from nonlinear growth of the boundary",
+      "probe_offset": "1/8",
+      "rows": [
+        {
+          "G": 1,
+          "V_mb": "1/2",
+          "V_mf": "1/4",
+          "V_mf_attaining_classes": [
+            "CACHED_SKILL",
+            "REACTIVE_POLICY",
+            "VALUE_REPRESENTATION"
+          ],
+          "advantage_per_goal_token": "1/4",
+          "c_star": "1/4",
+          "chosen_above": "CACHED_SKILL",
+          "chosen_at": "CACHED_SKILL",
+          "chosen_below": "EXPLICIT_GENERATIVE_MODEL",
+          "closed_form_c_star": "1/4",
+          "closed_form_matches": true,
+          "margin_above": "-1/8",
+          "margin_at": "0",
+          "margin_below": "1/8"
+        },
+        {
+          "G": 2,
+          "V_mb": "1",
+          "V_mf": "1/2",
+          "V_mf_attaining_classes": [
+            "CACHED_SKILL",
+            "REACTIVE_POLICY",
+            "VALUE_REPRESENTATION"
+          ],
+          "advantage_per_goal_token": "1/4",
+          "c_star": "1/2",
+          "chosen_above": "CACHED_SKILL",
+          "chosen_at": "CACHED_SKILL",
+          "chosen_below": "EXPLICIT_GENERATIVE_MODEL",
+          "closed_form_c_star": "1/2",
+          "closed_form_matches": true,
+          "margin_above": "-1/8",
+          "margin_at": "0",
+          "margin_below": "1/8"
+        },
+        {
+          "G": 3,
+          "V_mb": "3/2",
+          "V_mf": "3/4",
+          "V_mf_attaining_classes": [
+            "CACHED_SKILL",
+            "REACTIVE_POLICY",
+            "VALUE_REPRESENTATION"
+          ],
+          "advantage_per_goal_token": "1/4",
+          "c_star": "3/4",
+          "chosen_above": "CACHED_SKILL",
+          "chosen_at": "CACHED_SKILL",
+          "chosen_below": "EXPLICIT_GENERATIVE_MODEL",
+          "closed_form_c_star": "3/4",
+          "closed_form_matches": true,
+          "margin_above": "-1/8",
+          "margin_at": "0",
+          "margin_below": "1/8"
+        },
+        {
+          "G": 4,
+          "V_mb": "2",
+          "V_mf": "1",
+          "V_mf_attaining_classes": [
+            "CACHED_SKILL",
+            "REACTIVE_POLICY",
+            "VALUE_REPRESENTATION"
+          ],
+          "advantage_per_goal_token": "1/4",
+          "c_star": "1",
+          "chosen_above": "CACHED_SKILL",
+          "chosen_at": "CACHED_SKILL",
+          "chosen_below": "EXPLICIT_GENERATIVE_MODEL",
+          "closed_form_c_star": "1",
+          "closed_form_matches": true,
+          "margin_above": "-1/8",
+          "margin_at": "0",
+          "margin_below": "1/8"
+        }
+      ],
+      "strictly_increasing_in_G": true,
+      "tie_at_c_star_broken_lexicographically": [
+        "CACHED_SKILL",
+        "CACHED_SKILL",
+        "CACHED_SKILL",
+        "CACHED_SKILL"
+      ]
+    },
+    "reactive_optimal_task": {
+      "attaining_reactive_policy": {
+        "o0": "a0",
+        "o1": "a0"
+      },
+      "best_reactive_value": "3/4",
+      "gap": "0",
+      "model_based_optimum": "3/4",
+      "myopically_greedy_action_at_s0_is_not_optimal": true,
+      "observation_map_is_identity": true,
+      "reactive_policies_enumerated": 4,
+      "task": "K_REACTIVE_OPT",
+      "value_of_myopically_greedy_reactive_policy": "7/16"
+    },
+    "registered_scope": {
+      "gamma": "1/2",
+      "horizon": 3,
+      "max_actions": 3,
+      "max_obs": 3,
+      "max_states": 4,
+      "null_trials": 200,
+      "phase_family": "G in {1,2,3,4} goals; planning cost c an exact rational; boundary c*(G) is the exact c at which V_mb(G) - c equals V_mf(G)",
+      "reward_swap_probe": "the reward table is replaced by the registered alternative R_ALT and each representation is re-queried with no further interaction",
+      "scope_respected": true,
+      "tie_break": "lexicographic by registered name, ascending",
+      "worlds": {
+        "K_MODEL_NEEDED": {
+          "actions": [
+            "a0",
+            "a1",
+            "a2"
+          ],
+          "gamma": "1/2",
+          "horizon": 3,
+          "observations": [
+            "oa",
+            "ob",
+            "oc"
+          ],
+          "states": [
+            "s0",
+            "s1",
+            "sD",
+            "sG"
+          ]
+        },
+        "K_REACTIVE_OPT": {
+          "actions": [
+            "a0",
+            "a1"
+          ],
+          "gamma": "1/2",
+          "horizon": 3,
+          "observations": [
+            "o0",
+            "o1"
+          ],
+          "states": [
+            "s0",
+            "s1"
+          ]
+        },
+        "K_SWAP": {
+          "actions": [
+            "a0",
+            "a1"
+          ],
+          "gamma": "1/2",
+          "horizon": 3,
+          "observations": [
+            "o0",
+            "oP",
+            "oQ"
+          ],
+          "states": [
+            "s0",
+            "sP",
+            "sQ"
+          ]
+        }
+      }
+    },
+    "reward_swap_probe": {
+      "CACHED_SKILL": {
+        "class_best_under_R_ALT": "3/4",
+        "reoptimizes_under_probe": false,
+        "shortfall": "3/4",
+        "value_after_probe": "0",
+        "value_under_R": "3/4"
+      },
+      "EXPLICIT_GENERATIVE_MODEL": {
+        "class_best_under_R_ALT": "3/4",
+        "reoptimizes_under_probe": true,
+        "shortfall": "0",
+        "value_after_probe": "3/4",
+        "value_under_R": "3/4"
+      },
+      "PREDICTIVE_STATE": {
+        "class_best_under_R_ALT": null,
+        "predictive_state_invariant_under_reward_swap": true,
+        "reoptimizes_under_probe": false,
+        "shortfall": null,
+        "value_after_probe": null,
+        "value_under_R": null
+      },
+      "REACTIVE_POLICY": {
+        "class_best_under_R_ALT": "3/4",
+        "reoptimizes_under_probe": false,
+        "shortfall": "3/4",
+        "value_after_probe": "0",
+        "value_under_R": "3/4"
+      },
+      "VALUE_REPRESENTATION": {
+        "class_best_under_R_ALT": "3/4",
+        "reoptimizes_under_probe": false,
+        "shortfall": "3/4",
+        "stale_greedy_policy_equals_fitted": true,
+        "value_after_probe": "0",
+        "value_under_R": "3/4"
+      }
+    },
+    "reward_swap_probe_summary": {
+      "explicit_generative_model_alone": true,
+      "reoptimizing_classes": [
+        "EXPLICIT_GENERATIVE_MODEL"
+      ]
+    }
+  },
+  "schema": "GMI_833_AE15_WORLD_MODEL_NECESSITY_RESULT_V1",
+  "section": "AE15",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "theorems": [
+    "AE15-1",
+    "AE15-2",
+    "AE15-3",
+    "AE15-4",
+    "AE15-5",
+    "AE15-6"
+  ],
+  "verdict": "GREEN"
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "GMI_833_AE9_TRANSITION_MARKERS_MANIFEST_V1",
+  "issue": 833,
+  "section": "AE9",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae9-transition-markers-v1",
+  "source_main": "0dcdec54fbece041ee2b7cd1f630469ad85d19d3",
+  "freeze_commit": "b472903bddaeb78651f7cee32fe5bd3fc3ba4a6e",
+  "register_commit": "fb1edbf03268b2b0140a96a56cb7f656f351d2f5",
+  "register_digest": "9f90dc2ec012b41a26a9fcc3d1e363fb215e456580432ae6bf2c0c2f554cc883",
+  "claim_ceiling": "GMI_833_AE9_ARCHITECTURE_INDEPENDENT_TRANSITION_MARKERS_DEFINED_AND_EMERGENCE_CLASSES_SEPARATED_ON_NON_NEURAL_REGISTERED_SYSTEMS",
+  "target_rows": 3,
+  "theorems": ["AE9-1", "AE9-2", "AE9-3", "AE9-4", "AE9-5", "AE9-6", "AE9-7"],
+  "routes": {
+    "A": "research/gmi-833-ae-ae9-transition-markers-v1/ae9_transition_markers_v1.py",
+    "B": "research/gmi-833-ae-ae9-transition-markers-v1/independent_marker_oracle_v1.py",
+    "independence": "route B contains no executable import of route A and recomputes every claimed quantity by a materially different algorithm: explicit equivalence-class closure for partitions, element-by-element coordinate-permutation enumeration with set-wise cell-image checks, brute-force truth-table readout search, unordered-pair enumeration for pair-counting quantities, and exhaustive averaging over every subset of the registered pool, against route A's canonical labelling, refinement algebra over cell-size sums, essential-variable analysis, bitmask/popcount readout algebra and Moebius inclusion-exclusion over the lattice of affine subspaces. Route A imports route B only to certify agreement; the test parses route B's AST and asserts the absence of any import of route A."
+  },
+  "parent_pins": [
+    {"path": "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+     "blob_sha": "201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78",
+     "claim_ceiling": "parent-owned theory baseline; consulted, not extended by this tranche"},
+    {"path": "research/gmi-833-foundation-v1/RESULT_V1.json",
+     "blob_sha": "c0c574c4ec6e237d5fdafa694eac131399625a70",
+     "claim_ceiling": "parent-owned #833 foundation receipt; this tranche neither reproves nor extends it"}
+  ],
+  "registered_scope": {
+    "input_space": "X = {0,1}^4, 16 points, uniform",
+    "training_pool": [0, 1, 2, 4, 8, 9, 10, 12],
+    "held_out_set": [3, 5, 6, 7, 11, 13, 14, 15],
+    "sample_range": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    "accuracy_convention": "exact rational expectation over ALL m-subsets of the registered training pool; no sampled estimate anywhere",
+    "readout_budget": {"junta_arity": 2, "tree_depth": 2},
+    "exact_match_k": 8,
+    "learners": ["GF2_ELIMINATION", "GREEDY_DECISION_LIST", "EXACT_LOOKUP"],
+    "markers": ["CELLS", "REFINEMENT", "SEPARABILITY", "INVARIANCE", "READOUT_ARITY", "USABLE"],
+    "structural_invariants": ["CELLS", "INVARIANCE", "READOUT_ARITY"],
+    "null_trials": 200,
+    "systems": "non-neural only: exact GF(2) Gaussian elimination, greedy decision list, exact lookup"
+  },
+  "not_instantiated": [
+    "any neural system",
+    "any real training run",
+    "representational geometry on continuous activations",
+    "effective rank or intrinsic dimension of a continuous code",
+    "circuit or path usage",
+    "information flow across training steps",
+    "capability onset on a real system"
+  ],
+  "rows_left_open": [
+    {"row": "- [ ] For neural systems, measure representational geometry, effective rank/dimension, clustering, linear separability, invariances, circuit/path usage and information flow across training.",
+     "instrument_required": "a training run on a real neural system with checkpointed representations, from which the geometry, rank, clustering, separability, invariance and path-usage measurements are read at each checkpoint"},
+    {"row": "- [ ] Freeze prospective markers of a representation transition before observing the capability transition.",
+     "instrument_required": "a preregistered marker freeze recorded before the capability onset is observed on a real training run, with the freeze commit preceding the run"},
+    {"row": "- [ ] Test whether internal transition markers predict new capability onset better than parameter count/training loss alone.",
+     "instrument_required": "a predictive comparison against parameter count and training loss on real training runs, scored out of sample on held-out runs"},
+    {"row": "- [ ] Compare neural transition results with non-neural systems to test whether the law is architecture-general.",
+     "instrument_required": "a matched neural-versus-non-neural comparison in which the same markers are read on real neural runs and on the non-neural roster under one protocol"}
+  ],
+  "forbidden_promotions": [
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "EMERGENCE_IS_ALWAYS_A_METRIC_ARTIFACT",
+    "EMERGENCE_IS_ALWAYS_A_PHASE_TRANSITION",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "NEURAL_RESULT_FROM_NON_NEURAL_ROSTER",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "TRANSITION_MARKER_PREDICTS_CAPABILITY_ONSET",
+    "WORLD_MODEL_ALWAYS_REQUIRED"
+  ]
+}
