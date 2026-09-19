@@ -1,0 +1,72 @@
+{
+  "claim_ceiling": "GMI_833_AE9_ARCHITECTURE_INDEPENDENT_TRANSITION_MARKERS_DEFINED_AND_EMERGENCE_CLASSES_SEPARATED_ON_NON_NEURAL_REGISTERED_SYSTEMS",
+  "forbidden_promotions": [
+    "ALL_LEARNING_IS_COMPRESSION",
+    "ARCHITECTURE_SELECTION_LAW",
+    "ASYMPTOTIC_EXTRAPOLATION_FROM_FINITE_ROSTER",
+    "COMPLETE_GMI",
+    "EMERGENCE_IS_ALWAYS_A_METRIC_ARTIFACT",
+    "EMERGENCE_IS_ALWAYS_A_PHASE_TRANSITION",
+    "FREE_ENERGY_PRINCIPLE_PROVED",
+    "GENERAL_REASONING_REDUCED_TO_PREDICTION",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "INTELLIGENCE_EQUALS_COMPRESSION",
+    "MANIFOLD_HYPOTHESIS_UNIVERSAL",
+    "MUTUAL_INFORMATION_SUFFICIENT_FOR_INTELLIGENCE",
+    "NEURAL_RESULT_FROM_NON_NEURAL_ROSTER",
+    "REAL_SYSTEM_CLAIM_WITHOUT_INSTRUMENT",
+    "THERMODYNAMIC_INTELLIGENCE_LAW",
+    "TRANSITION_MARKER_PREDICTS_CAPABILITY_ONSET",
+    "WORLD_MODEL_ALWAYS_REQUIRED"
+  ],
+  "issue": 833,
+  "issue_comment_id": 5692689542,
+  "not_closed": [
+    {
+      "anchor": "### AE9 \u2014 Learning as representation restructuring",
+      "instrument_required": "a training run on a real neural system with checkpointed representations, from which the geometry, rank, clustering, separability, invariance and path-usage measurements are read at each checkpoint",
+      "row": "- [ ] For neural systems, measure representational geometry, effective rank/dimension, clustering, linear separability, invariances, circuit/path usage and information flow across training.",
+      "status": "OPEN"
+    },
+    {
+      "anchor": "### AE9 \u2014 Learning as representation restructuring",
+      "instrument_required": "a preregistered marker freeze recorded before the capability onset is observed on a real training run, with the freeze commit preceding the run",
+      "row": "- [ ] Freeze prospective markers of a representation transition before observing the capability transition.",
+      "status": "OPEN"
+    },
+    {
+      "anchor": "### AE9 \u2014 Learning as representation restructuring",
+      "instrument_required": "a predictive comparison against parameter count and training loss on real training runs, scored out of sample on held-out runs",
+      "row": "- [ ] Test whether internal transition markers predict new capability onset better than parameter count/training loss alone.",
+      "status": "OPEN"
+    },
+    {
+      "anchor": "### AE9 \u2014 Learning as representation restructuring",
+      "instrument_required": "a matched neural-versus-non-neural comparison in which the same markers are read on real neural runs and on the non-neural roster under one protocol",
+      "row": "- [ ] Compare neural transition results with non-neural systems to test whether the law is architecture-general.",
+      "status": "OPEN"
+    }
+  ],
+  "package": "gmi-833-ae-ae9-transition-markers-v1",
+  "replacements": [
+    {
+      "anchor": "### AE9 \u2014 Learning as representation restructuring",
+      "new": "- [x] Define measurable representation-change quantities during learning that do not depend on neural architecture names. \u2014 \u2705 `gmi-833-ae-ae9-transition-markers-v1` D-AE9/AE9-1/AE9-2: The six registered markers CELLS, REFINEMENT, SEPARABILITY, INVARIANCE, READOUT_ARITY and USABLE are defined as functions of the induced partition ker(phi) and the registered readout class (junta arity 2, tree depth 2) alone, never of an architecture, layer or parameter count: the GF2_ELIMINATION and GREEDY_DECISION_LIST learners induce the same partition and return exactly equal marker values (CELLS 2, INVARIANCE 4, READOUT_ARITY 2, SEPARABILITY 1, USABLE 1), an arbitrary injective re-encoding of the code set leaves every marker exactly unchanged at normalized partition distance 0, and all 15 pairs of distinct registered partitions are separated with normalized partition distance strictly above 0.",
+      "old": "- [ ] Define measurable representation-change quantities during learning that do not depend on neural architecture names.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE9 \u2014 Learning as representation restructuring",
+      "new": "- [x] Distinguish smooth quantitative improvement from genuine qualitative computational transition. \u2014 \u2705 `gmi-833-ae-ae9-transition-markers-v1` AE9-3/AE9-4: On TRAJ_SMOOTH the exact rational accuracy over all m-subsets of the registered 8-point pool rises strictly from 1/2 to 3/4 in eight per-step increments that are all exactly 1/32, while the structural triple (CELLS, INVARIANCE, READOUT_ARITY) stays constant at (16, 24, 2); on TRAJ_JUMP the accuracy is exactly the base rate 1/2 at m = 0,1,2,3,4 and then jumps to 11/14 at m* = 5, with READOUT_ARITY moving from NONE to 2 and INVARIANCE from 6 to 4 in that same step, a held-out jump of exactly 2/7.",
+      "old": "- [ ] Distinguish smooth quantitative improvement from genuine qualitative computational transition.",
+      "status": "EARNED"
+    },
+    {
+      "anchor": "### AE9 \u2014 Learning as representation restructuring",
+      "new": "- [x] Re-audit `emergence` terminology: thresholded metric artifact vs phase-like internal reorganization vs grokking-like delayed generalization. \u2014 \u2705 `gmi-833-ae-ae9-transition-markers-v1` AE9-5/AE9-6/AE9-7: The three registered non-neural witnesses separate the three readings exactly: TRAJ_SMOOTH is a thresholded metric artifact whose underlying per-step increments are all exactly 1/32 (spread 0) while the registered k = 8 exact-match transform has strictly increasing increments with last-over-first ratio 6352865779/536158029 and the structural triple constant at (16, 24, 2); TRAJ_JUMP is a phase-like internal reorganization at m* = 5; TRAJ_GROK is grokking-like delayed generalization with exact training accuracy 1 from m = 1 while exact held-out accuracy stays at 1/2 until m** = 5. The classifier attains recall 3/3 on the planted positives and raises no genuine-transition alarm on the clean smooth trajectory or on its knee-bearing transformed curve; over 200 randomized balanced-target trials it fires 5 times, 1 of them on a drawn affine target (a diagnosed genuine positive at magnitude 2/7) and 4 false alarms whose largest magnitude is 1/7, strictly below the planted witness magnitude 2/7.",
+      "old": "- [ ] Re-audit `emergence` terminology: thresholded metric artifact vs phase-like internal reorganization vs grokking-like delayed generalization.",
+      "status": "EARNED"
+    }
+  ],
+  "schema": "GMI_ISSUE_RECONCILIATION_V2"
+}
